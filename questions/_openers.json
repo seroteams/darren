@@ -44,8 +44,20 @@
     "stage": null,
     "axis_effects": { "wellbeing": 2, "engagement": 1 },
     "source": "research",
-    "meeting_types": ["bi_weekly_check_in", "growth_career_plan"],
+    "meeting_types": ["bi_weekly_check_in"],
     "tone": "warm"
+  },
+  {
+    "alias": "q_open_what_matters_now",
+    "label": "What to push on",
+    "name": "What feels worth pushing on right now?",
+    "description": "Growth-fitted opener. Surfaces what the report is actively choosing to develop, not what's drifting.",
+    "purpose": "growth",
+    "stage": null,
+    "axis_effects": { "growth": 2, "engagement": 1 },
+    "source": "research",
+    "meeting_types": ["growth_career_plan"],
+    "tone": "neutral"
   },
   {
     "alias": "q_open_since_last_spoke",
@@ -176,7 +188,7 @@
     "stage": null,
     "axis_effects": { "wellbeing": 3 },
     "source": "research",
-    "meeting_types": ["something_feels_off", "bi_weekly_check_in"],
+    "meeting_types": ["something_feels_off"],
     "tone": "warm"
   },
   {

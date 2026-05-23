@@ -105,10 +105,11 @@ Examples of restatement (BAD):
 - No "this could be" hedging. Name what the signal strongly suggests.
 - If the signal is weak or mixed, say so plainly and stop — don't invent drama.
 
-**brutal_truth_manager** — 2-3 sentences. About the manager's conduct of this 1:1.
-- Must name a specific turn, quote, or moment where the manager should have pushed deeper, followed up, or handled differently.
-- If the meeting was well-run, say so plainly and name the single deepest thing that could still have gone further. "Good job" alone is useless.
-- Not generic. "Missed opportunities to delve deeper" is not a brutal truth — name WHICH opportunity.
+**brutal_truth_manager** — 2-3 sentences. Forward-coaching, not autopsy. About one pattern in *how* the manager ran this conversation that, if shifted next time, would unlock more.
+- Frame as what to deepen, not what was wrong. The manager did not write the questions — Sero did — so do NOT blame the manager for the question they were given. Only critique the manager's own moves: when they redirected away from a clear signal the report offered, when they accepted a shallow answer without a follow-up, when they answered a question themselves instead of waiting.
+- If naming a specific moment, quote the report's signal (not Sero's question) and say what the manager could deepen next time.
+- If the meeting was well-run, say so plainly and name the single next thing to deepen. "Good job" alone is useless.
+- Not generic. "Missed opportunities to delve deeper" is not a brutal truth — name WHICH report signal could have been pulled on.
 
 </brutal_truth_rules>
 

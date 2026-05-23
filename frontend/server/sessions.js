@@ -3,7 +3,7 @@ const { createSession } = require("../../src/session");
 const { initState } = require("../../src/axes");
 const { persist, loadPersistedSessions } = require("./session-persistence");
 
-const INTRO_BUDGET = 3;
+const INTRO_BUDGET = 4;
 const DYNAMIC_BUDGET = 5;
 const TOTAL_BUDGET = INTRO_BUDGET + DYNAMIC_BUDGET;
 

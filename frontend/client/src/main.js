@@ -10,15 +10,16 @@ import { createNotesPanel } from "./ui/notes-panel.js";
 
 // Lazy stage modules — kept in a map so HMR + code-split both work nicely.
 const loaders = {
-  START:         () => import("./stages/start.js"),
-  INTAKE:        () => import("./stages/intake.js"),
-  FOCUS_POINTS:  () => import("./stages/focus-points.js"),
-  PREPARATION:   () => import("./stages/preparation.js"),
-  BANK:          () => import("./stages/bank.js"),
-  QUESTIONING:   () => import("./stages/questioning.js"),
-  EVAL:          () => import("./stages/eval.js"),
-  BRIEFING:      () => import("./stages/briefing.js"),
-  ERROR:         () => import("./stages/error.js"),
+  START:           () => import("./stages/start.js"),
+  INTAKE:          () => import("./stages/intake.js"),
+  FOCUS_POINTS:    () => import("./stages/focus-points.js"),
+  PREPARATION:     () => import("./stages/preparation.js"),
+  BANK:            () => import("./stages/bank.js"),
+  QUESTIONING:     () => import("./stages/questioning.js"),
+  EVAL:            () => import("./stages/eval.js"),
+  BRIEFING:        () => import("./stages/briefing.js"),
+  LEXICON_REVIEW:  () => import("./stages/lexicon-review.js"),
+  ERROR:           () => import("./stages/error.js"),
 };
 
 const root = document.getElementById("root");

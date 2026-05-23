@@ -73,3 +73,13 @@ export async function deleteRun(id) {
   return json(await fetch(`/api/runs/${encodeURIComponent(id)}`, { method: "DELETE" }));
 }
 
+export async function getLexiconCandidates(sessionId) {
+  const res = await fetch(`/api/lexicon/candidates?s=${encodeURIComponent(sessionId)}`);
+  if (res.status === 404) return { candidates: [] };
+  return json(res);
+}
+
+export async function submitLexiconDecisions(sessionId, decisions) {
+  return postJson("/api/lexicon/decisions", { sessionId, decisions });
+}
+

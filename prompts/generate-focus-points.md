@@ -21,7 +21,11 @@ Field rules:
 Avoid poetic, clever, dramatic, or diagnostic labels.
 - `reason` — depends on `source`:
   - If `source: "signal"` — an observation from the notes, then a tentative interpretation using language like "could be", "one possibility", "worth clarifying whether", "might be ___ or ___ or just ___".
-  - If `source: "best_practice"` — name *why* this is best practice for this `meeting_type` + `seniority` + `role`, in a sentence that earns the slot. Do not use the apology pattern "No specific signal — …". Example: "Standard Performance & feedback anchor for a Lead — strategic impact is what gets evaluated at this level, regardless of notes."
+  - If `source: "best_practice"` — say *why this matters* for someone at this seniority in this role, like a senior peer briefing the manager over coffee. Do not use the apology pattern "No specific signal — …".
+    - **Shape rule (hard):** the `reason` MUST start with one of: `Whether `, `How they're `, `What `, `If `. No noun-phrase-as-sentence starters ("Standard X,", "Bi-weekly hygiene,", "The cleanest channel,"). No abstract-concept opener.
+    - **Banned phrases (any case, also banned as paraphrase):** "standard anchor", "standard bi-weekly anchor", "standard ... anchor for", "hygiene", "cleanest channel", "the channel for", "at this seniority", "redirect the relationship", "is what gets evaluated", "crucial for", "essential to", "key to", "important for", "surface what", "space to surface", "ensure alignment", "pulse check".
+    - **Positive examples** (Lead / Performance & feedback): "How they're framing the top three things they're owning right now. Leads quietly drift into operator mode if no one asks." (Senior / Bi-weekly): "Whether they're still on the work that made them senior, or quietly being absorbed into firefighting." (Lead / Bi-weekly): "Whether they're actually shipping the things they said they would two weeks ago, or quietly carrying them forward again." (Lead / Bi-weekly): "What they want from you that they haven't asked for. Leads stop asking when they think you're already stretched."
+    - **Voice check (final pass — do this before returning JSON):** re-read each `reason`. If any line could appear unchanged in a consultancy slide, rewrite it. Read it aloud. If you sound like a deck, fix it.
 - `source` — exactly one of:
   - `"signal"` — driven by something concrete in the manager's notes.
   - `"best_practice"` — not tied to a specific note, but a strong default for this meeting type / seniority / role combination.

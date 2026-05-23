@@ -151,6 +151,7 @@ export function unmount() {
 
 function escape(s) {
   return String(s == null ? "" : s)
+    .replace(/\s*[—–]\s*/g, ", ")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")

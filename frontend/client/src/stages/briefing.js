@@ -54,7 +54,7 @@ export async function mount(root, { store, setState }) {
       </section>
 
       <footer class="pt-6 flex gap-2 items-center">
-        <button class="btn js-restart">Start a new prep</button>
+        <button class="btn js-restart">Complete 1:1</button>
         <button class="btn btn--ghost js-copy-review hidden">Copy review prompt</button>
         <span class="js-copy-confirm text-sm text-ink-mute" style="opacity:0; transition: opacity 0.2s;">Copied</span>
       </footer>
@@ -96,7 +96,7 @@ export async function mount(root, { store, setState }) {
   const axes = createAxesPanel({ celebrate: true });
   root.querySelector(".axes-mount").appendChild(axes.el);
   axes.renderInitial([
-    { id: "wellbeing", score: 0 }, { id: "engagement", score: 0 },
+    { id: "wellbeing", score: -1 }, { id: "engagement", score: -1 },
     { id: "clarity", score: 0 }, { id: "growth", score: 0 },
   ]);
   await sleep(120);
@@ -108,8 +108,9 @@ export async function mount(root, { store, setState }) {
     lastDelta: 0,
   }));
   const known = new Set(axesList.map((a) => a.id));
+  const AXIS_SEED = { wellbeing: -1, engagement: -1, clarity: 0, growth: 0 };
   for (const id of ["wellbeing", "engagement", "clarity", "growth"]) {
-    if (!known.has(id)) axesList.push({ id, label: id, score: 0, lastDelta: 0 });
+    if (!known.has(id)) axesList.push({ id, label: id, score: AXIS_SEED[id], lastDelta: 0 });
   }
   axes.update(axesList, { showDelta: false });
 
@@ -187,8 +188,7 @@ export async function mount(root, { store, setState }) {
   }
 
   root.querySelector(".js-restart").addEventListener("click", () => {
-    try { localStorage.removeItem("seroSessionId"); } catch {}
-    setState({ sessionId: null, sessionDir: null, notes: [], stage: STAGES.INTAKE, substage: "NAME" });
+    setState({ stage: STAGES.LEXICON_REVIEW });
   });
 
   // "Copy review prompt" — only shown when there are notes to discuss.
@@ -227,6 +227,7 @@ function cap(s) {
 
 function escape(s) {
   return String(s == null ? "" : s)
+    .replace(/\s*[—–]\s*/g, ", ")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")

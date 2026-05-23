@@ -12,7 +12,8 @@ function loadAxes() {
 function initState(axes = loadAxes()) {
   const state = {};
   for (const a of axes) {
-    state[a.id] = { id: a.id, label: a.label, score: 0, lastDelta: 0, history: [] };
+    const seed = typeof a.seed === "number" ? a.seed : 0;
+    state[a.id] = { id: a.id, label: a.label, score: seed, lastDelta: 0, history: [] };
   }
   return state;
 }

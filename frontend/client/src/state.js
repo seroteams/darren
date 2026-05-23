@@ -9,6 +9,7 @@ export const STAGES = Object.freeze({
   QUESTIONING: "QUESTIONING",
   EVAL: "EVAL",
   BRIEFING: "BRIEFING",
+  LEXICON_REVIEW: "LEXICON_REVIEW",
   ERROR: "ERROR",
 });
 
@@ -17,7 +18,7 @@ const initial = {
   stage: STAGES.START,
   substage: "NAME",
   turn: 0,
-  totalBudget: 8,
+  totalBudget: 9,
   ctx: { name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" },
   focusPoints: null,
   preparation: null,

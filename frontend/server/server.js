@@ -20,6 +20,7 @@ const evaluation = require("./handlers/evaluation");
 const rehydrate = require("./handlers/rehydrate");
 const notes = require("./handlers/notes");
 const runs = require("./handlers/runs");
+const lexicon = require("./handlers/lexicon");
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
@@ -85,6 +86,11 @@ function main() {
   router.add("DELETE", /^\/api\/runs\/(?<id>[^/]+)$/, (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return runs.del(c);
+  });
+  router.add("GET", "/api/lexicon/candidates", lexicon.candidates);
+  router.add("POST", "/api/lexicon/decisions", (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return lexicon.decisions(c);
   });
   router.add("GET", "/api/focus-points/stream", focusPoints);
   router.add("GET", "/api/preparation/stream", preparation);
