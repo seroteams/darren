@@ -1,0 +1,8 @@
+alias: q_energy_check_in_3
+label: Energy check-in
+name: How is your energy level holding up with your current workload?
+description: Assessing current energy levels and potential for burnout.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

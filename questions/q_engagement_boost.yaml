@@ -1,0 +1,8 @@
+alias: q_engagement_boost
+label: Engagement boost
+name: "What's currently slowing you down, and what part of that is within your control vs needs escalation?"
+description: Identifies obstacles to engagement and differentiates between internal and external factors.
+purpose: competency
+axis_effects:
+  engagement: +3
+source: generated

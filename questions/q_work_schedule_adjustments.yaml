@@ -1,0 +1,8 @@
+alias: q_work_schedule_adjustments
+label: Work schedule adjustments
+name: What specific changes to your work schedule would help align it better with your natural rhythm?
+description: Explores potential adjustments to improve alignment between work schedule and personal rhythm.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: planner_added

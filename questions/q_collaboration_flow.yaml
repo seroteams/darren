@@ -1,0 +1,8 @@
+alias: q_collaboration_flow
+label: Collaboration flow
+name: What could improve the flow of collaboration within the team?
+description: Explores potential improvements in team collaboration.
+purpose: wellbeing
+axis_effects:
+  engagement: +3
+source: generated

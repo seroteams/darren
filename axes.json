@@ -1,0 +1,24 @@
+{
+  "axes": [
+    {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "description": "Energy, sustainability, stress. Positive = sustainable pace, genuine recovery. Negative = running hot, masked fatigue, drift toward burnout."
+    },
+    {
+      "id": "engagement",
+      "label": "Engagement",
+      "description": "Motivation, ownership, investment in the work. Positive = leaning in, proposing ideas, taking initiative. Negative = going through the motions, coasting, quiet disengagement."
+    },
+    {
+      "id": "clarity",
+      "label": "Clarity",
+      "description": "Role clarity, priorities, alignment with the team and manager. Positive = knows what matters this week and why. Negative = vague priorities, unclear expectations, noise."
+    },
+    {
+      "id": "growth",
+      "label": "Growth",
+      "description": "Trajectory, learning, stretch. Positive = stretching, learning fast, getting the right feedback. Negative = plateau, bored, not being invested in."
+    }
+  ]
+}

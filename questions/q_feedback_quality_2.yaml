@@ -1,0 +1,9 @@
+alias: q_feedback_quality_2
+label: Feedback quality
+name: What feedback would actually help you level up fastest?
+description: Surfaces the kind of input that would be most useful for development.
+purpose: competency
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_season_target
+label: Season target
+name: What would make this season feel like a step forward for you?
+description: Clarifies the outcome he is aiming for and what success means to him.
+purpose: topic
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

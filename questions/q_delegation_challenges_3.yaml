@@ -1,0 +1,8 @@
+alias: q_delegation_challenges_3
+label: Delegation challenges
+name: What part of delegation feels most challenging for you right now?
+description: Explores difficulties in delegating tasks effectively.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

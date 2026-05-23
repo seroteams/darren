@@ -1,0 +1,8 @@
+alias: q_priority_alignment_3
+label: Priority alignment
+name: "Do you feel your current priorities align with the team's goals?"
+description: Checks if James sees his work as aligned with the broader team vision.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

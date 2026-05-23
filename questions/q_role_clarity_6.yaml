@@ -1,0 +1,9 @@
+alias: q_role_clarity_6
+label: Role clarity
+name: "Is there anything about your role or expectations that's feeling unclear right now?"
+description: "Surfaces any ambiguity in Taya's role or expectations that might be causing stress."
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: generated

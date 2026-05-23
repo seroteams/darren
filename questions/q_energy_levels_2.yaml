@@ -1,0 +1,8 @@
+alias: q_energy_levels_2
+label: Energy levels
+name: "Where is your energy at right now, and what's influencing it?"
+description: Checks current energy levels and factors affecting them.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: planner_added

@@ -1,0 +1,8 @@
+alias: q_growth_opportunities_8
+label: Growth opportunities
+name: What growth opportunities are you seeing for yourself right now?
+description: "Explores Lesley's perception of her professional growth opportunities."
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

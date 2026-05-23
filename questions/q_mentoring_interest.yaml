@@ -1,0 +1,8 @@
+alias: q_mentoring_interest
+label: Mentoring interest
+name: What kind of mentoring opportunities are you most interested in pursuing right now?
+description: Gathers insight into specific areas for growth and development.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

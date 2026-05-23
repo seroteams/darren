@@ -1,0 +1,8 @@
+alias: q_energy_sustainability
+label: Energy sustainability
+name: What changes would make your workload feel more sustainable?
+description: "Explores potential adjustments to improve Carl's workload sustainability."
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

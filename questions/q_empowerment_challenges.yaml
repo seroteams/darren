@@ -1,0 +1,8 @@
+alias: q_empowerment_challenges
+label: Empowerment challenges
+name: What challenges do you face when trying to empower your team to take on more?
+description: Discusses challenges in delegation and team empowerment.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

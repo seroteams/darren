@@ -1,0 +1,8 @@
+alias: q_team_dynamics_7
+label: Team dynamics
+name: How are you feeling about the current team dynamics?
+description: "Explores Carl's perspective on team fit and any friction."
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

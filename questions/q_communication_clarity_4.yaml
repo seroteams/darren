@@ -1,0 +1,9 @@
+alias: q_communication_clarity_4
+label: Communication clarity
+name: How do you ensure clarity and effectiveness in your team interactions?
+description: Explore how Sarah maintains communication clarity within her team.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,8 @@
+alias: q_current_challenges_2
+label: Current challenges
+name: What feels unclear or heavier than it should right now?
+description: Explores current uncertainties or burdens.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

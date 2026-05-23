@@ -1,0 +1,9 @@
+alias: q_head_of_department
+label: Head of department
+name: Head of department — what is it about that role that pulls you? Is it the scope, the people, the title, or something else?
+description: Explores the specific appeal of the head of department role.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

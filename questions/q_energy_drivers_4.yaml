@@ -1,0 +1,9 @@
+alias: q_energy_drivers_4
+label: Energy drivers
+name: "What's been driving your energy or motivation lately?"
+description: "Examines factors contributing to Taya's current energy levels and motivation."
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+source: generated

@@ -1,0 +1,8 @@
+alias: q_workload_adjustment
+label: Workload adjustment
+name: How is your workload feeling since your injury?
+description: Probes how Bill is managing his workload post-injury and if adjustments are needed.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

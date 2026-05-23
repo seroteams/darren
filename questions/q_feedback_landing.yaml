@@ -1,0 +1,9 @@
+alias: q_feedback_landing
+label: Feedback landing
+name: How does feedback usually land for you?
+description: Surfaces how she receives guidance and whether it helps her improve or gets lost.
+purpose: competency
+axis_effects:
+  growth: +3
+  wellbeing: +1
+source: generated

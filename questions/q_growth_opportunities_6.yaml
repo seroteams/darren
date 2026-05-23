@@ -1,0 +1,8 @@
+alias: q_growth_opportunities_6
+label: Growth opportunities
+name: What area of your role are you looking to grow or stretch in next?
+description: Pinpoints areas where the individual feels they can stretch and grow, revealing engagement and growth opportunities.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

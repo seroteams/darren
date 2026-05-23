@@ -1,0 +1,8 @@
+alias: q_energy_management
+label: Energy management
+name: How does being late to work affect your energy and focus throughout the day?
+description: Explores the impact of punctuality on their overall energy levels and productivity.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

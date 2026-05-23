@@ -1,0 +1,8 @@
+alias: q_billing_rewrite_readiness
+label: Billing rewrite readiness
+name: Where do you think your skills would be most valuable in the billing rewrite?
+description: Encourages Priya to consider her future involvement and how her skills align with upcoming projects.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

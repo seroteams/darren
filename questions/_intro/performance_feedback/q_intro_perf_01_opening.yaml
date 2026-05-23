@@ -1,0 +1,10 @@
+alias: q_intro_perf_01_opening
+label: Self-read opener
+name: "Before I share my view, how do you think the last stretch has gone?"
+description: "Anchors the conversation in their self-assessment first; gap vs manager's view becomes a signal."
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: seed

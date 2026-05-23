@@ -1,0 +1,9 @@
+alias: q_support_from_manager
+label: Support from manager
+name: What would make these check-ins more useful for you?
+description: Identifies what support or structure she actually wants from the manager.
+purpose: topic
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

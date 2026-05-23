@@ -1,0 +1,9 @@
+alias: q_delegation_gap
+label: Delegation Gap
+name: In what areas do you feel your delegation could improve to better manage the CoE?
+description: Identifies gaps in current delegation practices.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +3
+source: generated

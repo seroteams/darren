@@ -1,0 +1,8 @@
+alias: q_clarity_on_priorities
+label: Clarity on priorities
+name: What specific actions do you think we should prioritize as a team after the refactor?
+description: Aims to elicit more detailed thoughts on team priorities.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: "swap_for:q_blockers_check_in"

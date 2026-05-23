@@ -1,0 +1,9 @@
+alias: q_sustainable_load_2
+label: Sustainable load
+name: What part of your week is starting to feel unsustainable?
+description: Looks for hidden load, overcommitment, or a pattern of running hot before it becomes obvious.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

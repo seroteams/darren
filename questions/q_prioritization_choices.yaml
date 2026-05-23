@@ -1,0 +1,8 @@
+alias: q_prioritization_choices
+label: Prioritization choices
+name: Given your current workload, what are you choosing to prioritize over other tasks?
+description: Encourages them to think about their choices in workload management and prioritization.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

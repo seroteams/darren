@@ -1,0 +1,9 @@
+alias: q_stretch_gap
+label: Stretch gap
+name: "Where do you feel like you're not getting enough stretch right now?"
+description: Surfaces plateau, under-challenge, or a mismatch between current tasks and growth needs.
+purpose: competency
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

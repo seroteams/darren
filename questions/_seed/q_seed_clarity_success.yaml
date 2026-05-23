@@ -1,0 +1,9 @@
+alias: q_seed_clarity_success
+label: Success definition
+name: "What would make this quarter clearly successful for you — in one sentence?"
+description: "Tests whether they can name success crisply or only in vague directions."
+purpose: topic
+axis_effects:
+  clarity: +3
+  growth: +1
+source: seed

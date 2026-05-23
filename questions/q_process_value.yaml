@@ -1,0 +1,8 @@
+alias: q_process_value
+label: process_value
+name: What part of our current process is wasting time or not giving you value?
+description: Identifies inefficiencies in current processes that Priya perceives.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

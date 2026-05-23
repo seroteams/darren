@@ -1,0 +1,8 @@
+alias: q_current_workload_clarity
+label: Current workload clarity
+name: What part of your current workload feels the least clear in terms of expectations or priorities?
+description: Identifies areas where role expectations might be vague.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

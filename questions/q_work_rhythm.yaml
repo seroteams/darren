@@ -1,0 +1,8 @@
+alias: q_work_rhythm
+label: Work rhythm
+name: Does your current work schedule fit well with your natural rhythm?
+description: "Investigates if there's a mismatch between work hours and personal energy patterns."
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

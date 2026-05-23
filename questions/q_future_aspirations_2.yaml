@@ -1,0 +1,8 @@
+alias: q_future_aspirations_2
+label: Future aspirations
+name: How do you see your role evolving in the upcoming billing rewrite?
+description: "Explores the employee's vision for their future contributions and responsibilities."
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

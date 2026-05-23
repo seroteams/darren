@@ -1,0 +1,8 @@
+alias: q_session_closer_2
+label: Session closer
+name: "What's the one thing you want to have moved before we next meet?"
+description: Helps Carl focus on a key action or priority for the upcoming period.
+purpose: topic
+axis_effects:
+  clarity: +1
+source: planner_added

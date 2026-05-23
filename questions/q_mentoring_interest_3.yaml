@@ -1,0 +1,8 @@
+alias: q_mentoring_interest_3
+label: Mentoring interest
+name: What would a meaningful mentoring opportunity look like for you right now?
+description: "Probes Priya's interest in mentoring and what she envisions it to be."
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

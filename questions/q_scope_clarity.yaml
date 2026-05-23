@@ -1,0 +1,9 @@
+alias: q_scope_clarity
+label: Scope clarity
+name: What parts of your current role feel unclear or need more definition?
+description: Highlights areas where role expectations are vague.
+purpose: topic
+stage: aspiration
+axis_effects:
+  clarity: +3
+source: generated

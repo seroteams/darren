@@ -1,0 +1,8 @@
+alias: q_session_closure
+label: Session closure
+name: "What's the first concrete thing you want to have moved by our next conversation?"
+description: Encourages Carl to commit to a tangible action or goal before the next meeting.
+purpose: competency
+axis_effects:
+  growth: +1
+source: generated

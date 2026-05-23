@@ -1,0 +1,8 @@
+alias: q_time_management_2
+label: Time management
+name: How are you currently managing your time with your projects?
+description: Examines time management practices and potential issues.
+purpose: competency
+axis_effects:
+  clarity: +3
+source: generated

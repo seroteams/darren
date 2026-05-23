@@ -1,0 +1,8 @@
+alias: q_team_dynamic_post_refactor
+label: Team dynamic post-refactor
+name: How has the team dynamic shifted since the refactor win?
+description: Explores changes in team dynamics post-success.
+purpose: topic
+axis_effects:
+  engagement: +3
+source: generated

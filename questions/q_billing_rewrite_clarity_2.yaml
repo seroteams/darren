@@ -1,0 +1,8 @@
+alias: q_billing_rewrite_clarity_2
+label: Billing rewrite clarity
+name: What specific information do you need about the billing rewrite to feel more engaged and prepared?
+description: Aims to clarify expectations and encourage Priya to express her needs regarding the billing rewrite.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_next_stretch_2
+label: Next stretch
+name: What would feel like a real step up for you over the next few weeks?
+description: Looks for a concrete next stretch rather than vague ambition.
+purpose: competency
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

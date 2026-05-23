@@ -1,0 +1,9 @@
+alias: q_learning_stretch
+label: Learning stretch
+name: Where at school are you getting pushed in a good way?
+description: Checks whether she is stretched enough to be learning, without implying she should be struggling.
+purpose: topic
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

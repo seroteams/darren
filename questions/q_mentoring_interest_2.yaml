@@ -1,0 +1,8 @@
+alias: q_mentoring_interest_2
+label: mentoring_interest
+name: What would you need to make mentoring a fulfilling part of your role?
+description: Explores specific needs for integrating mentoring into the role.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

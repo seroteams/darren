@@ -1,0 +1,17 @@
+{
+  "name": "Priya",
+  "role": "Senior Backend Engineer",
+  "seniority": "Senior",
+  "meeting_type": "Performance & feedback",
+  "manager_notes": "Just shipped the payments refactor on Monday — big win, team noticed. Looks a bit flat this week, quieter than usual in standup. Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet.",
+  "answers": [
+    "Honestly the last stretch has been mixed. Shipping payments was a real high point but since then it's felt slow.",
+    "Genuinely proud of the migration plan I wrote. It was complex and it landed cleanly.",
+    "I think I've been slower to push back when scope creeps. That's where I've let things slide.",
+    "Energy is lower than usual. Post-launch flatness is real and I haven't found the next thing to get excited about.",
+    "Mentoring would be meaningful. I've wanted to do more of it for months but never made it concrete.",
+    "More clarity on what's coming next would help. And hearing about big projects before they're locked in.",
+    "I feel like my growth has plateaued a bit. Not sure if that's temporary or structural.",
+    "Next step for me would be something with more architectural ownership."
+  ]
+}

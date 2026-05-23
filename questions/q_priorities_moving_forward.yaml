@@ -1,0 +1,8 @@
+alias: q_priorities_moving_forward
+label: Priorities moving forward
+name: What are your top priorities for the next quarter?
+description: Clarifies immediate priorities and alignment with goals.
+purpose: competency
+axis_effects:
+  clarity: +1
+source: generated

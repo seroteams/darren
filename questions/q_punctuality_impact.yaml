@@ -1,0 +1,8 @@
+alias: q_punctuality_impact
+label: Punctuality impact
+name: How do you think your punctuality affects the team or project timelines?
+description: Probes the impact of punctuality on team trust and project management.
+purpose: competency
+axis_effects:
+  clarity: +3
+source: generated

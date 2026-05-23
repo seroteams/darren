@@ -1,0 +1,8 @@
+alias: q_support_for_new_projects
+label: Support for new projects
+name: What kind of support do you need from me as new projects start to come into view?
+description: "Identifies Priya's support needs for upcoming projects."
+purpose: topic
+axis_effects:
+  clarity: +1
+source: generated

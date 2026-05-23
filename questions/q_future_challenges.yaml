@@ -1,0 +1,8 @@
+alias: q_future_challenges
+label: Future challenges
+name: What challenges do you anticipate in your growth journey over the next year?
+description: Surfaces potential obstacles and areas for development in her growth path.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

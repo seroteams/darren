@@ -1,0 +1,8 @@
+alias: q_growth_opportunities_9
+label: growth_opportunities
+name: What kind of project would stretch you next?
+description: Explores opportunities for growth through challenging projects.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

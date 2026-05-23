@@ -1,0 +1,8 @@
+alias: q_delegation_strategy
+label: Delegation strategy
+name: How do you decide which tasks to delegate to your team?
+description: "Investigates Carl's approach to delegation and its effectiveness."
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

@@ -1,0 +1,8 @@
+alias: q_growth_opportunities_10
+label: Growth opportunities
+name: What areas do you see as growth opportunities in your current role?
+description: "Explores Priya's perception of growth within her role and where she sees potential for development."
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

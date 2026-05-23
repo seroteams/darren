@@ -1,0 +1,9 @@
+alias: q_current_blockers_2
+label: Current blockers
+name: "What's currently slowing you down, and what part of that is within your control vs needs escalation?"
+description: Identifies current obstacles and distinguishes between internal and external factors.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

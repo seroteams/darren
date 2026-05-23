@@ -1,0 +1,8 @@
+alias: q_mentoring_trade_offs
+label: Mentoring trade-offs
+name: What might you need to drop to make space for mentoring?
+description: Forces consideration of trade-offs required to mentor.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

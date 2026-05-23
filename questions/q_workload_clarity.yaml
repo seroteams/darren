@@ -1,0 +1,8 @@
+alias: q_workload_clarity
+label: Workload clarity
+name: Where do you feel your workload is heaviest right now?
+description: Identifies where workload might be unbalanced or unclear.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

@@ -1,0 +1,8 @@
+alias: q_skill_development
+label: Skill development
+name: What new skills or areas are you interested in developing?
+description: "Probes Carl's interest in growth and skill enhancement."
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

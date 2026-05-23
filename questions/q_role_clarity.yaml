@@ -1,0 +1,8 @@
+alias: q_role_clarity
+label: Role clarity
+name: Is there anything unclear about your role or expectations this week?
+description: Checks if there are any uncertainties in their role or workload expectations.
+purpose: competency
+axis_effects:
+  clarity: +3
+source: generated

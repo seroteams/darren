@@ -1,0 +1,9 @@
+alias: q_support_gap_2
+label: Support gap
+name: What do you need from me that you are not getting yet?
+description: Surfaces missing manager support without assuming there is a problem.
+purpose: topic
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

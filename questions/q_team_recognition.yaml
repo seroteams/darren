@@ -1,0 +1,9 @@
+alias: q_team_recognition
+label: Team recognition
+name: How do you think the team feels about the impact of the payments refactor on our overall goals?
+description: "Aims to understand team sentiment and engagement regarding the project's success."
+purpose: topic
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

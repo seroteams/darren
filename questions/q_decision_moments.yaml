@@ -1,0 +1,9 @@
+alias: q_decision_moments
+label: Decision moments
+name: Where do you want more freedom to make decisions on the pitch?
+description: Surfaces autonomy, judgment, and whether he wants a bigger role in playmaking.
+purpose: competency
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

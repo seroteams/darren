@@ -1,0 +1,8 @@
+alias: q_skill_priorities
+label: Skill priorities
+name: Which skills do you think are most crucial to develop for your upcoming role?
+description: Explores their view on essential skills needed for their new position.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

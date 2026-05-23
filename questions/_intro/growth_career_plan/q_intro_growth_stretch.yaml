@@ -1,0 +1,10 @@
+alias: q_intro_growth_stretch
+label: Stretch now
+name: "Which part of your current work is actually stretching you right now?"
+description: "Distinguishes comfort-zone execution from genuine growth moments."
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  engagement: +1
+source: seed

@@ -1,0 +1,8 @@
+alias: q_work_reflection
+label: Work reflection
+name: How has the last couple of weeks felt from your side at work?
+description: Allows Priya to share her perspective and set the context for the conversation.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

@@ -1,0 +1,8 @@
+alias: q_manager_support_needs_2
+label: Manager support needs
+name: What specific support do you need from me right now to succeed?
+description: Identifies areas where the manager can provide better support.
+purpose: topic
+axis_effects:
+  growth: +1
+source: generated

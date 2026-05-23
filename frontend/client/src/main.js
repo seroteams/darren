@@ -1,0 +1,126 @@
+import "@fontsource-variable/inter";
+import "./styles/tailwind.css";
+import "./styles/design.css";
+
+import { STAGES, store, subscribe, setState, resetSession } from "./state.js";
+import { getSession, listRecentRuns } from "./api.js";
+import { createDevBadge } from "./ui/dev-badge.js";
+import { createSessionTopbar } from "./ui/session-topbar.js";
+import { createNotesPanel } from "./ui/notes-panel.js";
+
+// Lazy stage modules — kept in a map so HMR + code-split both work nicely.
+const loaders = {
+  START:         () => import("./stages/start.js"),
+  INTAKE:        () => import("./stages/intake.js"),
+  FOCUS_POINTS:  () => import("./stages/focus-points.js"),
+  PREPARATION:   () => import("./stages/preparation.js"),
+  BANK:          () => import("./stages/bank.js"),
+  QUESTIONING:   () => import("./stages/questioning.js"),
+  EVAL:          () => import("./stages/eval.js"),
+  BRIEFING:      () => import("./stages/briefing.js"),
+  ERROR:         () => import("./stages/error.js"),
+};
+
+const root = document.getElementById("root");
+let current = { stage: null, mod: null, node: null };
+
+const devBadge = import.meta.env.DEV ? createDevBadge() : null;
+
+const topbar = createSessionTopbar({ store, setState, resetSession });
+document.body.appendChild(topbar.el);
+
+const notesPanel = createNotesPanel({ store, setState });
+document.body.appendChild(notesPanel.el);
+if (devBadge) notesPanel.mountDevBadge(devBadge.el);
+
+async function renderStage(nextStage) {
+  if (!loaders[nextStage]) {
+    console.error("[main] unknown stage:", nextStage);
+    return;
+  }
+  // Unmount previous
+  if (current.mod && typeof current.mod.unmount === "function") {
+    try { await current.mod.unmount(current.node); } catch (e) { console.error(e); }
+  }
+  if (current.node && current.node.parentNode) current.node.remove();
+
+  // Mount next
+  const mod = await loaders[nextStage]();
+  const node = document.createElement("section");
+  node.className = "stage stage-enter";
+  root.appendChild(node);
+  requestAnimationFrame(() => node.classList.add("is-in"));
+  current = { stage: nextStage, mod, node };
+  if (devBadge) devBadge.render(nextStage);
+  await mod.mount(node, { store, setState, resetSession, rehydrateById });
+}
+
+let routedStage = null;
+subscribe((s) => {
+  topbar.render({ ctx: s.ctx, stage: s.stage, sessionId: s.sessionId });
+  notesPanel.render(s);
+  if (s.stage !== routedStage) {
+    routedStage = s.stage;
+    renderStage(s.stage);
+  }
+});
+
+export async function rehydrateById(id) {
+  try {
+    const snap = await getSession(id);
+    if (!snap || !snap.sessionId) return false;
+    try { localStorage.setItem("seroSessionId", id); } catch {}
+    setState({
+      sessionId: snap.sessionId,
+      stage: snap.stage,
+      substage: defaultSubstage(snap.stage),
+      turn: snap.turn || 0,
+      totalBudget: snap.totalBudget || 8,
+      ctx: snap.ctx || store.ctx,
+      focusPoints: snap.focusPoints?.focus_points || null,
+      preparation: snap.preparation?.brief || null,
+      preparationRunId: snap.preparation?.runId || null,
+      axes: snap.axes || [],
+      briefing: snap.briefing || null,
+      notes: snap.notes || [],
+      sessionDir: snap.sessionDir || null,
+    });
+    return true;
+  } catch (e) {
+    console.warn("[rehydrateById] failed:", e);
+    return false;
+  }
+}
+
+async function boot() {
+  let rehydrated = false;
+  try {
+    const id = localStorage.getItem("seroSessionId");
+    if (id) rehydrated = await rehydrateById(id);
+  } catch (e) {
+    console.warn("[boot] rehydrate failed:", e);
+  }
+  if (rehydrated) return;
+
+  // No active session — pick START if past runs exist, else jump to INTAKE.
+  let hasRecent = false;
+  try {
+    const { runs } = await listRecentRuns(3);
+    hasRecent = Array.isArray(runs) && runs.length > 0;
+  } catch (e) {
+    console.warn("[boot] listRecentRuns failed:", e);
+  }
+  if (hasRecent) {
+    setState({ stage: STAGES.START });
+  } else {
+    setState({ stage: STAGES.INTAKE, substage: "NAME" });
+  }
+}
+
+function defaultSubstage(stage) {
+  if (stage === STAGES.INTAKE) return "NAME";
+  if (stage === STAGES.QUESTIONING) return "Q_SHOW";
+  return null;
+}
+
+boot();

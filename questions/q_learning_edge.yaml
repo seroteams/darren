@@ -1,0 +1,9 @@
+alias: q_learning_edge
+label: Learning edge
+name: What feels like the biggest stretch in your work right now?
+description: Finds the current learning edge and whether he is getting enough challenge.
+purpose: competency
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

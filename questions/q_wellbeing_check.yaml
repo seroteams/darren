@@ -1,0 +1,8 @@
+alias: q_wellbeing_check
+label: Wellbeing check
+name: "Is there anything affecting your wellbeing that you'd like to discuss?"
+description: Opens a space for Lesley to share any wellbeing concerns impacting her work.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: planner_added

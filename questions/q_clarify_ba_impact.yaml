@@ -1,0 +1,9 @@
+alias: q_clarify_ba_impact
+label: Clarify BA impact
+name: "When you say 'no idea' — is it more about the uncertainty itself, or something else blocking clarity?"
+description: "Clarifies what 'no idea' means in the context of rushed BA work and its impact."
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

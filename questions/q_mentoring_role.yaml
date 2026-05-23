@@ -1,0 +1,8 @@
+alias: q_mentoring_role
+label: Mentoring role
+name: What kind of mentoring opportunities are you envisioning for yourself now?
+description: Encourages Priya to articulate her thoughts on mentoring and how it fits into her current role.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

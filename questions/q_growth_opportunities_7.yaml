@@ -1,0 +1,8 @@
+alias: q_growth_opportunities_7
+label: Growth opportunities
+name: What kind of projects or skills would push you to grow right now?
+description: Uncovers areas for skill development and growth opportunities.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

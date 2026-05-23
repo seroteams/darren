@@ -1,0 +1,8 @@
+alias: q_growth_opportunities_3
+label: Growth opportunities
+name: What areas do you see yourself wanting to grow in this quarter?
+description: Encourages thoughts on personal or professional growth aspirations.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

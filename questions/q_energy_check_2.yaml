@@ -1,0 +1,8 @@
+alias: q_energy_check_2
+label: Energy check
+name: What might be contributing to feeling a bit flat this week?
+description: "Explores potential reasons behind Priya's quieter energy levels post-launch."
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

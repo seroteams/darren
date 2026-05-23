@@ -1,0 +1,9 @@
+alias: q_current_focus_3
+label: Current focus
+name: How has the last couple of weeks felt from your side?
+description: "Gives Carl a chance to set context and share what's on his mind."
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

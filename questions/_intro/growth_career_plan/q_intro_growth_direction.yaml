@@ -1,0 +1,10 @@
+alias: q_intro_growth_direction
+label: Direction
+name: "When you imagine yourself eighteen months from now, what's actually different?"
+description: "Probes whether they have a real picture of where they want to go."
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: seed

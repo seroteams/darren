@@ -1,0 +1,8 @@
+alias: q_manager_support
+label: Manager support
+name: What support from me would make a difference right now?
+description: Identifies specific needs for manager support.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

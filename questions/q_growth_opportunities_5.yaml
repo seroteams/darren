@@ -1,0 +1,8 @@
+alias: q_growth_opportunities_5
+label: Growth opportunities
+name: Where do you see opportunities for growth in your current role?
+description: Encourages them to identify areas for professional development and learning.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

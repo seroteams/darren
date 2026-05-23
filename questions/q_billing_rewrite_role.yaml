@@ -1,0 +1,8 @@
+alias: q_billing_rewrite_role
+label: Billing rewrite role
+name: How do you feel about potentially joining the billing rewrite next quarter?
+description: Assesses their interest and feelings about the upcoming shift.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

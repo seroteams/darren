@@ -1,0 +1,8 @@
+alias: q_standup_feedback
+label: Standup feedback
+name: What would make the standups more effective for you?
+description: Seeks specific feedback on how to improve the standup meetings.
+purpose: topic
+axis_effects:
+  wellbeing: +1
+source: planner_added

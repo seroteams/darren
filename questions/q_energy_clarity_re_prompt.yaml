@@ -1,0 +1,9 @@
+alias: q_energy_clarity_re_prompt
+label: Energy clarity re-prompt
+name: "When you say 'no clear answer' again — is it that nothing is draining, or is it hard to pinpoint specifics?"
+description: Attempt to clarify the absence of energy drains or difficulty in identifying them.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+source: planner_added

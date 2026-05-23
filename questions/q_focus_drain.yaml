@@ -1,0 +1,9 @@
+alias: q_focus_drain
+label: Focus drain
+name: Where is your attention getting pulled away from the work most often?
+description: Finds recurring interruptions, context switching, or personal drains affecting output and focus.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

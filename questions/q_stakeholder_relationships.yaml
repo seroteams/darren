@@ -1,0 +1,8 @@
+alias: q_stakeholder_relationships
+label: Stakeholder relationships
+name: How are your interactions with doctors and administrative staff going?
+description: Explores her relationships with key stakeholders and any underlying issues.
+purpose: competency
+axis_effects:
+  engagement: +3
+source: generated

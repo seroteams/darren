@@ -1,0 +1,8 @@
+alias: q_upcoming_projects
+label: Upcoming projects
+name: What are your initial thoughts about getting involved in the billing rewrite?
+description: Gauges feelings about future responsibilities and potential contributions.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

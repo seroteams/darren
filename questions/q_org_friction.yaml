@@ -1,0 +1,9 @@
+alias: q_org_friction
+label: Org friction
+name: Where is the organisation getting in the way of the work?
+description: Helps locate structural friction, dependency drag, or process overhead that a CTO feels first.
+purpose: topic
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

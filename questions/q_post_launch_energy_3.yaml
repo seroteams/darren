@@ -1,0 +1,8 @@
+alias: q_post_launch_energy_3
+label: post-launch_energy
+name: "Now that the launch is done, where is your energy actually at — and what's driving that?"
+description: Explores current energy levels after the recent project launch, identifying drivers for their current state.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

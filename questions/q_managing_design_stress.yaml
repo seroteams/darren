@@ -1,0 +1,9 @@
+alias: q_managing_design_stress
+label: Managing Design Stress
+name: How do you manage stress when balancing design quality and deadlines?
+description: Explores stress management strategies related to maintaining design quality under pressure.
+purpose: wellbeing
+stage: cause
+axis_effects:
+  wellbeing: +1
+source: generated

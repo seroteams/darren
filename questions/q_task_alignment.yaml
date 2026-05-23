@@ -1,0 +1,8 @@
+alias: q_task_alignment
+label: Task alignment
+name: "How do you ensure that your daily tasks align with our team's goals?"
+description: Assesses how Carl aligns his work with broader team objectives.
+purpose: competency
+axis_effects:
+  clarity: +3
+source: generated

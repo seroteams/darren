@@ -1,0 +1,9 @@
+alias: q_design_quality_standards
+label: Design Quality Standards
+name: What specific steps have you taken to maintain high design quality and user experience?
+description: Assesses actions taken to uphold design quality and user experience.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: generated

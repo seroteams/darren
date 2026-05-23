@@ -1,0 +1,8 @@
+alias: q_recovery_check
+label: Recovery check
+name: What has made it easier or harder to switch off lately?
+description: Gets beneath generic energy talk to the actual recovery pattern and what is interrupting it.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

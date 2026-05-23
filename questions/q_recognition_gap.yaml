@@ -1,0 +1,9 @@
+alias: q_recognition_gap
+label: Recognition gap
+name: What kind of recognition has felt missing lately?
+description: Checks whether his contributions are being seen in the way that matters to him.
+purpose: topic
+axis_effects:
+  engagement: +1
+  growth: +1
+source: generated

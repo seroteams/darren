@@ -1,0 +1,9 @@
+alias: q_rewrite_role
+label: Rewrite role
+name: What role would make sense for you in the billing rewrite?
+description: Clarifies how they might best fit into the upcoming rewrite without assuming enthusiasm or resistance.
+purpose: topic
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_mentoring_vision_6
+label: Mentoring vision
+name: Who would you want to mentor, and what outcomes do you expect?
+description: Explore interest and intention behind mentoring aspirations.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +3
+source: generated

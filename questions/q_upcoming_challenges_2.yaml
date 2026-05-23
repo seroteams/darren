@@ -1,0 +1,9 @@
+alias: q_upcoming_challenges_2
+label: Upcoming challenges
+name: What concerns do you have about the next big project that could slow us down later?
+description: Helps identify potential issues with future projects before they arise.
+purpose: topic
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

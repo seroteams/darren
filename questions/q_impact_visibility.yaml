@@ -1,0 +1,8 @@
+alias: q_impact_visibility
+label: Impact visibility
+name: How do you track and measure the impact of your work?
+description: "Examines Carl's understanding of the impact his work is having."
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

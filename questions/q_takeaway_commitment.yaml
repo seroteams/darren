@@ -1,0 +1,9 @@
+alias: q_takeaway_commitment
+label: Takeaway Commitment
+name: "What's the first concrete action you'll take based on today's feedback?"
+description: Drives towards a commitment for action based on the conversation.
+purpose: competency
+stage: commit
+axis_effects:
+  clarity: +1
+source: generated

@@ -1,0 +1,8 @@
+alias: q_current_workload_impact
+label: Current workload impact
+name: How is your current workload affecting you?
+description: "Explores the impact of workload on Lesley's wellbeing and performance."
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

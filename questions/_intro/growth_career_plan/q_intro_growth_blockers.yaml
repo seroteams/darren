@@ -1,0 +1,10 @@
+alias: q_intro_growth_blockers
+label: Growth blockers
+name: "What's in your way of getting to the next level — not what's missing, what's actively blocking?"
+description: "Forces specificity about obstacles rather than vague 'more opportunities please'."
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: seed

@@ -1,0 +1,8 @@
+alias: q_stretch_opportunities_2
+label: Stretch opportunities
+name: Where do you see the biggest stretch for your skills in the upcoming months?
+description: Identifies areas where Priya feels she can grow or is challenged.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

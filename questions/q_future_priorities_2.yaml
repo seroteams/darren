@@ -1,0 +1,9 @@
+alias: q_future_priorities_2
+label: Future priorities
+name: What will be your top priority in the first month as Head of Design?
+description: Gains insight into their initial focus and strategic planning for the new role.
+purpose: topic
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

@@ -1,0 +1,268 @@
+{
+  "focus_points": [
+    {
+      "id": "workload",
+      "label": "Workload & capacity",
+      "category": "wellbeing",
+      "description": "Sustainability of pace; signs they're drowning, bored, or protecting their time badly.",
+      "label_examples": [
+        "Calendar control & interrupt load (exec)",
+        "Ramp pacing in the first six months (junior)",
+        "Oncall vs feature work split (senior IC)"
+      ]
+    },
+    {
+      "id": "priorities",
+      "label": "Priorities & goals",
+      "category": "topic",
+      "description": "What they're saying yes and no to; alignment with team and company bets.",
+      "label_examples": [
+        "Quarterly bets vs day-to-day firefighting (exec)",
+        "What 'done' looks like for the current sprint (junior)",
+        "How they're sequencing the top-three initiatives (lead)"
+      ]
+    },
+    {
+      "id": "blockers",
+      "label": "Blockers & dependencies",
+      "category": "topic",
+      "description": "What's slowing them down — technical, organisational, interpersonal, or a decision that's stuck.",
+      "label_examples": [
+        "Decisions waiting on you (manager)",
+        "Where another team is the bottleneck",
+        "Tooling/infra friction on the daily loop"
+      ]
+    },
+    {
+      "id": "energy",
+      "label": "Energy & wellbeing",
+      "category": "wellbeing",
+      "description": "Motivation and stress level; burnout signals; trajectory since last time.",
+      "label_examples": [
+        "Motivation trend vs three months ago",
+        "Burnout signals under release crunch",
+        "Reconnecting with why the work matters"
+      ]
+    },
+    {
+      "id": "team_connection",
+      "label": "Team connection",
+      "category": "wellbeing",
+      "description": "Belonging, trust, and the day-to-day texture of working with teammates.",
+      "label_examples": [
+        "Landing into the team (new hire)",
+        "Peer trust as a new tech lead",
+        "Working across timezones or offices"
+      ]
+    },
+    {
+      "id": "growth",
+      "label": "Growth & development",
+      "category": "topic",
+      "description": "Where they're actively stretching; skills they want to build; what would unlock the next step.",
+      "label_examples": [
+        "Path to Staff IC",
+        "Stretch from IC to tech lead",
+        "Skills gap for the next promotion"
+      ]
+    },
+    {
+      "id": "feedback",
+      "label": "Feedback (given & received)",
+      "category": "topic",
+      "description": "Feedback they've given or received recently; feedback they want but aren't getting.",
+      "label_examples": [
+        "Direct feedback on the last launch",
+        "Peer feedback they're sitting on",
+        "Upward feedback they wish they could give you"
+      ]
+    },
+    {
+      "id": "recognition",
+      "label": "Recognition & achievements",
+      "category": "topic",
+      "description": "Whether their contribution feels seen; wins worth naming out loud.",
+      "label_examples": [
+        "The win from the payments launch",
+        "Quiet contributions the team hasn't noticed",
+        "Public credit for cross-team work"
+      ]
+    },
+    {
+      "id": "role_clarity",
+      "label": "Role clarity",
+      "category": "topic",
+      "description": "How clear the scope, expectations, and bar for 'good' are for their level.",
+      "label_examples": [
+        "Bar for 'good' at L5",
+        "Scope of the new team-lead role",
+        "How success is measured for the CTO this quarter"
+      ]
+    },
+    {
+      "id": "manager_support",
+      "label": "Manager support",
+      "category": "topic",
+      "description": "What they need from you that they aren't currently getting.",
+      "label_examples": [
+        "Air cover on the exec conversation",
+        "More coaching on design reviews",
+        "Simply more time with you each week"
+      ]
+    },
+    {
+      "id": "quality",
+      "label": "Quality",
+      "category": "competency",
+      "description": "Craft and correctness; edge cases, polish, defect rate, and taste.",
+      "label_examples": [
+        "Bug rate on the last three launches",
+        "Design polish and UX taste",
+        "Test coverage and regression discipline"
+      ]
+    },
+    {
+      "id": "speed",
+      "label": "Speed",
+      "category": "competency",
+      "description": "Pace of delivery and responsiveness; how quickly work moves through them.",
+      "label_examples": [
+        "PR review turnaround",
+        "Time-to-first-draft on specs",
+        "Incident response speed"
+      ]
+    },
+    {
+      "id": "ownership",
+      "label": "Ownership",
+      "category": "competency",
+      "description": "End-to-end follow-through on outcomes — not just tasks — without being chased.",
+      "label_examples": [
+        "Owning a launch from scope to post-mortem",
+        "Closing the loop after handoff",
+        "Taking a gnarly legacy area and making it theirs"
+      ]
+    },
+    {
+      "id": "communication",
+      "label": "Communication",
+      "category": "competency",
+      "description": "Clarity of their writing and talking; whether stakeholders feel informed.",
+      "label_examples": [
+        "Exec summaries that land in one read",
+        "Standup signal vs noise",
+        "Written-first for async decisions"
+      ]
+    },
+    {
+      "id": "reliability",
+      "label": "Reliability",
+      "category": "competency",
+      "description": "Consistency against commitments; whether you can count on the date they gave.",
+      "label_examples": [
+        "Hitting the dates they commit to",
+        "Flagging slippage early",
+        "Predictability on multi-week projects"
+      ]
+    },
+    {
+      "id": "judgment",
+      "label": "Judgment",
+      "category": "competency",
+      "description": "Quality of calls on tradeoffs; knowing when to push on and when to escalate.",
+      "label_examples": [
+        "Build-vs-buy calls",
+        "When to ship vs when to polish",
+        "When to raise a flag to you vs handle it"
+      ]
+    },
+    {
+      "id": "collaboration",
+      "label": "Collaboration",
+      "category": "competency",
+      "description": "How they raise the room: help they give, context they share, input they accept.",
+      "label_examples": [
+        "Unblocking juniors without taking over",
+        "Sharing context proactively in design reviews",
+        "Receiving pushback without defensiveness"
+      ]
+    },
+    {
+      "id": "impact",
+      "label": "Impact",
+      "category": "competency",
+      "description": "Size and leverage of what they ship; how much the team or business moved because of them.",
+      "label_examples": [
+        "Revenue-linked projects this quarter",
+        "Leverage via mentoring and design reviews",
+        "Strategic bets owned end-to-end"
+      ]
+    },
+    {
+      "id": "decision_making_speed",
+      "label": "Decision making speed",
+      "category": "competency",
+      "description": "How fast they decide and unblock; whether they get stuck in analysis.",
+      "label_examples": [
+        "Unblocking the team on the routing decision",
+        "Architectural calls under time pressure",
+        "Hiring decisions after the loop"
+      ]
+    },
+    {
+      "id": "technical_problem_solving",
+      "label": "Technical problem solving",
+      "category": "competency",
+      "description": "Depth and rigor on hard technical problems; how they break down what they don't know yet.",
+      "label_examples": [
+        "Debugging the payments latency regression",
+        "Scaling architecture for the next 10x",
+        "Learning a new stack under a deadline"
+      ]
+    },
+    {
+      "id": "stakeholder_engagement",
+      "label": "Stakeholder engagement",
+      "category": "competency",
+      "description": "How they manage relationships beyond the immediate team — trust, expectations, hard news.",
+      "label_examples": [
+        "Working with Product on roadmap tradeoffs",
+        "Board-level communication (CTO)",
+        "Managing a demanding internal customer"
+      ]
+    },
+    {
+      "id": "delegation",
+      "label": "Delegation effectiveness",
+      "category": "competency",
+      "description": "Trusting others with real work; coaching instead of grabbing the keyboard.",
+      "label_examples": [
+        "Letting Staff own the roadmap",
+        "Not jumping on every incident (CTO)",
+        "Coaching mids to run their own specs"
+      ]
+    },
+    {
+      "id": "cross_team_alignment",
+      "label": "Cross-team alignment",
+      "category": "competency",
+      "description": "Reducing friction at team boundaries; keeping other teams in the loop.",
+      "label_examples": [
+        "Platform ↔ product team interface",
+        "Pre-wiring decisions with adjacent leads",
+        "Avoiding last-minute surprises for other teams"
+      ]
+    },
+    {
+      "id": "risk_assessment",
+      "label": "Risk assessment accuracy",
+      "category": "competency",
+      "description": "Flagging real risk early without crying wolf; calibration.",
+      "label_examples": [
+        "Calling the migration risk two weeks out",
+        "Calibration on 'red' vs 'yellow' project status",
+        "Security/compliance risk surfacing"
+      ]
+    }
+  ]
+}

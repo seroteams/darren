@@ -1,0 +1,9 @@
+alias: q_visible_impact
+label: Visible impact
+name: Where do you feel your impact has been most visible recently?
+description: Explores areas where the individual believes they have made a significant impact.
+purpose: competency
+stage: observation
+axis_effects:
+  growth: +1
+source: generated

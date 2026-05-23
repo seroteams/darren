@@ -1,0 +1,8 @@
+alias: q_leadership_growth
+label: Leadership growth
+name: What areas of design leadership do you want to develop further?
+description: Identifies desired growth areas in design leadership.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

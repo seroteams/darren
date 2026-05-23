@@ -1,0 +1,9 @@
+alias: q_support_gap_3
+label: Support gap
+name: What would I be missing if I only looked at your calendar and tickets?
+description: Invites him to name hidden support needs, context switching, or invisible load.
+purpose: topic
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

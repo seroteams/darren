@@ -1,0 +1,8 @@
+alias: q_future_project_interest_3
+label: future_project_interest
+name: What kind of project would you want to take on next, and why?
+description: Gauges interest and readiness for future projects without revealing unannounced plans.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

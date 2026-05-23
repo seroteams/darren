@@ -1,0 +1,8 @@
+alias: q_potential_for_boredom
+label: Potential for boredom
+name: Is there any part of your current work that feels routine or unstimulating?
+description: Identifies areas where Priya may be feeling disengaged or unstimulated.
+purpose: competency
+axis_effects:
+  engagement: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_strategic_tradeoff
+label: Strategic tradeoff
+name: What are you choosing not to do this cycle?
+description: "Reveals explicit deprioritisation and whether the current plan is realistic for a senior leader's bandwidth."
+purpose: topic
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

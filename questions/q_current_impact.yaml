@@ -1,0 +1,9 @@
+alias: q_current_impact
+label: Current impact
+name: Where do you believe your strategic impact is most visible in your current role?
+description: Assesses how Sarah perceives her own strategic contributions.
+purpose: competency
+stage: anchor
+axis_effects:
+  clarity: +3
+source: generated

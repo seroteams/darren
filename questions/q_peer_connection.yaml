@@ -1,0 +1,9 @@
+alias: q_peer_connection
+label: Peer connection
+name: Who at school do you feel most connected to lately?
+description: Looks for the quality of her social support at school without assuming it is good or bad.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

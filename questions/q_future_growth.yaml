@@ -1,0 +1,8 @@
+alias: q_future_growth
+label: Future growth
+name: What skills or experiences are you looking to develop next?
+description: "Explores James's personal growth ambitions and future learning goals."
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

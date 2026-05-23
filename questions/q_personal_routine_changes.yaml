@@ -1,0 +1,8 @@
+alias: q_personal_routine_changes
+label: Personal routine changes
+name: Have there been any changes to your routine outside of work recently?
+description: Explores personal changes that might impact energy or punctuality, providing context.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

@@ -1,0 +1,9 @@
+alias: q_decision_bottleneck
+label: Decision bottleneck
+name: Where do decisions still slow down in practice?
+description: Finds the real operating bottleneck in a senior leadership context.
+purpose: topic
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

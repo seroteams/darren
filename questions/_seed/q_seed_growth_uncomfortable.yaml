@@ -1,0 +1,9 @@
+alias: q_seed_growth_uncomfortable
+label: Uncomfortable work
+name: "What's a piece of work you've been putting off because it would stretch you?"
+description: "Growth usually hides behind discomfort; naming the avoided work names the growth edge."
+purpose: topic
+axis_effects:
+  growth: +3
+  clarity: +1
+source: seed

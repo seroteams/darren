@@ -1,0 +1,8 @@
+alias: q_role_clarity_5
+label: Role clarity
+name: How clear are you on your role and its current priorities?
+description: "Assesses Carl's understanding of his role and whether it aligns with team and company goals."
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

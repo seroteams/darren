@@ -1,0 +1,8 @@
+alias: q_managing_up
+label: Managing up
+name: How do you currently approach managing up with the director?
+description: Explores her strategies and challenges in managing upper management relationships.
+purpose: competency
+axis_effects:
+  engagement: +3
+source: generated

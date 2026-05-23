@@ -1,0 +1,8 @@
+alias: q_current_energy_drivers
+label: Current energy drivers
+name: "What’s currently giving you energy in your work, and what's draining it?"
+description: Explores the balance of positive and negative energy factors.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

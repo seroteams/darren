@@ -1,0 +1,9 @@
+alias: q_ownership_shift
+label: Ownership shift
+name: What parts of the work have you been choosing to lean into lately?
+description: Looks for signs of initiative and ownership without making it a compliment check.
+purpose: competency
+axis_effects:
+  engagement: +3
+  growth: +1
+source: generated

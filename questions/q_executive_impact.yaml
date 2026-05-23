@@ -1,0 +1,9 @@
+alias: q_executive_impact
+label: Executive impact
+name: Which initiative is most likely to move the business in a visible way this quarter?
+description: Surfaces where Darren sees real business leverage, not just activity.
+purpose: competency
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

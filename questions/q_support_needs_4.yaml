@@ -1,0 +1,8 @@
+alias: q_support_needs_4
+label: Support needs
+name: What support would you need to feel ready for upcoming projects?
+description: Identifies resources or assistance Priya might require for future responsibilities.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

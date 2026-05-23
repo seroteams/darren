@@ -1,0 +1,8 @@
+alias: q_feedback_loops
+label: Feedback loops
+name: Can you share a recent instance where feedback significantly changed your approach or perspective?
+description: Aims to uncover how feedback influences their work and collaboration with the team.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

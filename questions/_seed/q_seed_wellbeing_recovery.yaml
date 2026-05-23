@@ -1,0 +1,8 @@
+alias: q_seed_wellbeing_recovery
+label: Recovery
+name: "When you're not working, are you actually recovering — or just not-working?"
+description: "Distinguishes real rest from downtime that doesn't refill the tank."
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: seed

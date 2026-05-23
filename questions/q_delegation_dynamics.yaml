@@ -1,0 +1,9 @@
+alias: q_delegation_dynamics
+label: Delegation dynamics
+name: How are you deciding what to delegate and what to keep on your plate?
+description: Explore their decision-making process around delegation.
+purpose: competency
+stage: anchor
+axis_effects:
+  clarity: +3
+source: generated

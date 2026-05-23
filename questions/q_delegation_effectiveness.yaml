@@ -1,0 +1,8 @@
+alias: q_delegation_effectiveness
+label: Delegation effectiveness
+name: "How do you feel about the way you're delegating tasks to junior nurses?"
+description: Assesses her comfort level and effectiveness in delegating responsibilities.
+purpose: competency
+axis_effects:
+  growth: +1
+source: generated

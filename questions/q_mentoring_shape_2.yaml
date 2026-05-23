@@ -1,0 +1,9 @@
+alias: q_mentoring_shape_2
+label: Mentoring shape
+name: If mentoring is still something you want, what would you want it to look like in practice?
+description: Clarifies the specific mentoring format and whether it is actionable now.
+purpose: topic
+axis_effects:
+  growth: +3
+  engagement: +1
+source: planner_added

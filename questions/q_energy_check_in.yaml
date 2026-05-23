@@ -1,0 +1,8 @@
+alias: q_energy_check_in
+label: Energy check-in
+name: "What has contributed to the quieter vibe you've been experiencing this week?"
+description: Seeks to understand the reasons behind a potential dip in motivation or energy.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

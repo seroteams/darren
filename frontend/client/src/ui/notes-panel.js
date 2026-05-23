@@ -1,0 +1,312 @@
+// Fixed right-rail notes panel. Composer model:
+//   Enter (or "Save note" button) = save. Shift+Enter = newline.
+// Stage is captured at save time, not per line, so a whole paragraph
+// gets tagged with one stage. Saved notes are clickable and become an
+// inline editable textarea (same shortcuts; Esc cancels; Delete removes).
+
+import { STAGES } from "../state.js";
+import { postNote } from "../api.js";
+
+const STAGE_LABEL = {
+  FOCUS_POINTS: "Focus points",
+  PREPARATION: "Preparation",
+  BANK: "Question bank",
+  QUESTIONING: "Questioning",
+  EVAL: "Evaluation",
+  BRIEFING: "Briefing",
+};
+
+const HIDDEN_STAGES = new Set([STAGES.INTAKE, STAGES.ERROR]);
+
+export function createNotesPanel({ store, setState }) {
+  const el = document.createElement("aside");
+  el.className = "notes-panel is-hidden";
+  el.innerHTML = `
+    <div class="notes-panel__head">
+      <div class="notes-panel__ctx"></div>
+      <div class="notes-panel__eyebrow eyebrow">Notes</div>
+      <div class="notes-panel__dev"></div>
+    </div>
+    <div class="notes-panel__list"></div>
+    <div class="notes-panel__compose">
+      <textarea rows="4" placeholder="Type a note about this stage…"></textarea>
+      <div class="notes-panel__compose-row">
+        <span class="notes-panel__hint">Enter to save · Shift+Enter for new line</span>
+        <button type="button" class="btn btn--ghost notes-panel__save">Save note</button>
+      </div>
+    </div>
+  `;
+  const ctxEl = el.querySelector(".notes-panel__ctx");
+  const devSlot = el.querySelector(".notes-panel__dev");
+  const list = el.querySelector(".notes-panel__list");
+  const ta = el.querySelector(".notes-panel__compose textarea");
+  const saveBtn = el.querySelector(".notes-panel__save");
+
+  const resizeComposer = attachAutoGrow(ta);
+  const errorEl = document.createElement("div");
+  errorEl.className = "notes-panel__error is-hidden";
+  el.querySelector(".notes-panel__compose").appendChild(errorEl);
+
+  function showError(msg) {
+    errorEl.textContent = msg;
+    errorEl.classList.remove("is-hidden");
+  }
+  function clearError() {
+    errorEl.textContent = "";
+    errorEl.classList.add("is-hidden");
+  }
+
+  let editingId = null;
+  let saving = false;
+
+  ta.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      e.stopPropagation();
+      commitDraft();
+    } else if (e.key === "Enter") {
+      // Shift+Enter = newline; stop it bubbling to stage-level handlers.
+      e.stopPropagation();
+    } else if (e.key === "Escape") {
+      e.stopPropagation();
+      ta.blur();
+    }
+  });
+  saveBtn.addEventListener("click", () => commitDraft());
+
+  async function commitDraft() {
+    if (saving) return;
+    const text = ta.value.trim();
+    if (!text) return;
+    const note = {
+      id: cryptoId(),
+      stage: store.stage,
+      turn: store.turn || 0,
+      ts: Date.now(),
+      text,
+    };
+    const prevNotes = store.notes || [];
+    const next = [...prevNotes, note];
+    setState({ notes: next });
+    saving = true;
+    saveBtn.disabled = true;
+    clearError();
+    const ok = await persist(note);
+    saving = false;
+    saveBtn.disabled = false;
+    if (ok) {
+      ta.value = "";
+      resizeComposer();
+    } else {
+      setState({ notes: prevNotes });
+      showError("Save failed. Note kept in box — try again.");
+    }
+  }
+
+  async function persist(note, opts = {}) {
+    if (!store.sessionId) return false;
+    try {
+      await postNote(store.sessionId, { ...note, deleted: !!opts.deleted });
+      return true;
+    } catch (e) {
+      console.warn("[notes] save failed:", e.message);
+      return false;
+    }
+  }
+
+  function render(state) {
+    const stage = state?.stage;
+    const hidden = !state?.sessionId || HIDDEN_STAGES.has(stage);
+    el.classList.toggle("is-hidden", hidden);
+    document.body.classList.toggle("has-notes-panel", !hidden);
+    renderCtx(state?.ctx || {});
+    renderList(state?.notes || []);
+  }
+
+  function renderCtx(ctx) {
+    const segments = [ctx.name, ctx.seniority, ctx.role, ctx.meetingType]
+      .map((v) => (v == null ? "" : String(v).trim()))
+      .filter(Boolean);
+    if (!segments.length) {
+      ctxEl.innerHTML = "";
+      ctxEl.classList.add("is-empty");
+      return;
+    }
+    ctxEl.classList.remove("is-empty");
+    ctxEl.innerHTML = segments
+      .map((s, i) => `<span${i === 0 ? ' class="is-strong"' : ""}>${escape(s)}</span>`)
+      .join('<span class="sep">·</span>');
+  }
+
+  function renderList(notes) {
+    if (!notes.length) {
+      list.innerHTML = `<div class="notes-panel__empty">No notes yet. Write one below — paragraphs welcome.</div>`;
+      return;
+    }
+    const groups = groupNotes(notes);
+    list.innerHTML = groups
+      .map(
+        (g) => `
+        <div class="notes-panel__group">
+          <div class="notes-panel__group-head">${escape(g.head)}</div>
+          ${g.items.map((n) => renderItem(n)).join("")}
+        </div>`
+      )
+      .join("");
+    list.querySelectorAll("[data-note-id]").forEach((item) => {
+      const id = item.dataset.noteId;
+      item.addEventListener("click", (e) => {
+        if (item.classList.contains("is-editing")) return;
+        if (e.target.closest("button, a, textarea")) return;
+        beginEdit(id);
+      });
+    });
+    list.scrollTop = list.scrollHeight;
+  }
+
+  function renderItem(n) {
+    return `
+      <div class="notes-panel__item" data-note-id="${escape(n.id)}">
+        <div class="notes-panel__item-head">
+          <span class="notes-panel__ts">${fmtTime(n.ts)}</span>
+        </div>
+        <div class="notes-panel__text">${escape(n.text)}</div>
+      </div>
+    `;
+  }
+
+  function beginEdit(id) {
+    if (editingId && editingId !== id) cancelEdit(editingId);
+    const note = (store.notes || []).find((x) => x.id === id);
+    if (!note) return;
+    const itemEl = list.querySelector(`[data-note-id="${cssEscape(id)}"]`);
+    if (!itemEl) return;
+    editingId = id;
+    itemEl.classList.add("is-editing");
+    itemEl.innerHTML = `
+      <div class="notes-panel__item-head">
+        <span class="notes-panel__ts">${fmtTime(note.ts)}</span>
+        <span class="notes-panel__hint">Enter saves · Shift+Enter for new line · Esc cancels</span>
+      </div>
+      <textarea class="notes-panel__edit" rows="3">${escape(note.text)}</textarea>
+      <div class="notes-panel__edit-actions">
+        <button type="button" class="btn btn--ghost js-save-edit">Save</button>
+        <button type="button" class="notes-panel__delete js-delete">Delete</button>
+      </div>
+    `;
+    const editTa = itemEl.querySelector("textarea");
+    attachAutoGrow(editTa);
+    editTa.focus();
+    editTa.setSelectionRange(editTa.value.length, editTa.value.length);
+
+    editTa.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        e.stopPropagation();
+        saveEdit(id, editTa.value);
+      } else if (e.key === "Enter") {
+        e.stopPropagation();
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+        cancelEdit(id);
+      }
+    });
+    itemEl.querySelector(".js-save-edit").addEventListener("click", () => saveEdit(id, editTa.value));
+    itemEl.querySelector(".js-delete").addEventListener("click", () => deleteNote(id));
+  }
+
+  function cancelEdit(id) {
+    editingId = null;
+    renderList(store.notes || []);
+  }
+
+  async function saveEdit(id, newText) {
+    const text = String(newText || "").trim();
+    if (!text) return deleteNote(id);
+    const prev = store.notes || [];
+    const notes = prev.map((n) => (n.id === id ? { ...n, text } : n));
+    editingId = null;
+    setState({ notes });
+    clearError();
+    const updated = notes.find((n) => n.id === id);
+    const ok = updated ? await persist(updated) : false;
+    if (!ok) {
+      setState({ notes: prev });
+      showError("Edit failed. Reverted — try again.");
+    }
+  }
+
+  async function deleteNote(id) {
+    const prev = store.notes || [];
+    const target = prev.find((n) => n.id === id);
+    const notes = prev.filter((n) => n.id !== id);
+    editingId = null;
+    setState({ notes });
+    clearError();
+    const ok = target ? await persist(target, { deleted: true }) : true;
+    if (!ok) {
+      setState({ notes: prev });
+      showError("Delete failed. Reverted — try again.");
+    }
+  }
+
+  function mountDevBadge(node) {
+    devSlot.appendChild(node);
+  }
+
+  return { el, render, mountDevBadge };
+}
+
+function attachAutoGrow(ta) {
+  const grow = () => {
+    ta.style.height = "auto";
+    const max = 12 * 22; // ~12 rows
+    ta.style.height = Math.min(ta.scrollHeight, max) + "px";
+  };
+  ta.addEventListener("input", grow);
+  requestAnimationFrame(grow);
+  return grow;
+}
+
+function groupNotes(notes) {
+  const out = [];
+  for (const n of notes) {
+    const head =
+      n.stage === STAGES.QUESTIONING && n.turn
+        ? `${STAGE_LABEL.QUESTIONING} — Q${n.turn}`
+        : STAGE_LABEL[n.stage] || n.stage || "—";
+    const last = out[out.length - 1];
+    if (last && last.head === head) last.items.push(n);
+    else out.push({ head, items: [n] });
+  }
+  return out;
+}
+
+function fmtTime(ts) {
+  const d = new Date(ts);
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mm = String(d.getMinutes()).padStart(2, "0");
+  return `${hh}:${mm}`;
+}
+
+function cryptoId() {
+  try {
+    return crypto.randomUUID();
+  } catch {
+    return `n_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+  }
+}
+
+function cssEscape(s) {
+  if (window.CSS && CSS.escape) return CSS.escape(s);
+  return String(s).replace(/[^a-zA-Z0-9_-]/g, "\\$&");
+}
+
+function escape(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}

@@ -1,0 +1,8 @@
+alias: q_role_clarity_2
+label: Role clarity
+name: "Where do you currently feel unclear about what's expected of you?"
+description: Surfaces areas where James might lack clarity in his role or tasks.
+purpose: competency
+axis_effects:
+  clarity: +3
+source: generated

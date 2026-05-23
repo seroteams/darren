@@ -1,0 +1,8 @@
+alias: q_future_project_interest_2
+label: Future project interest
+name: What kind of project would you want to take on next quarter?
+description: "Surfaces Priya's preferences and aspirations for future projects."
+purpose: topic
+axis_effects:
+  growth: +1
+source: generated

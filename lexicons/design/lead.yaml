@@ -1,0 +1,35 @@
+role_family: design
+seniority: lead
+
+meeting_types:
+  growth:
+    prefer_terms:
+      - craft
+      - direction
+      - scope
+      - influence
+      - critique
+      - standards
+      - visibility
+
+    prefer_phrases:
+      - "craft direction"
+      - "named scope"
+      - "stronger design leadership"
+      - "next level of ownership"
+      - "what would you want to be trusted with?"
+      - "where do you want your judgment to carry more weight?"
+      - "what kind of design work would make the next step feel real?"
+
+    avoid_phrases:
+      - phrase: "what steps can you take?"
+        reason: "Too generic and procedural for a growth conversation."
+        better_as: "What would make this next step feel real?"
+
+      - phrase: "how will you delegate this?"
+        reason: "Too operational unless delegation was explicitly raised by the employee."
+        better_as: "What kind of scope would let you create more space for direction?"
+
+      - phrase: "what is the process?"
+        reason: "Makes the conversation feel like task management, not growth."
+        better_as: "Where does the work need more of your judgment?"

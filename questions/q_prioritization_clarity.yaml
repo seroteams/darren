@@ -1,0 +1,9 @@
+alias: q_prioritization_clarity
+label: Prioritization clarity
+name: How clear are you on your top priorities for the next month?
+description: Check clarity on priorities to ensure focus and alignment.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +3
+source: generated

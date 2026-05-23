@@ -1,0 +1,9 @@
+alias: q_future_role_vision
+label: Future role vision
+name: What specific role or responsibilities do you envision for yourself in the future?
+description: Identifies their aspirations and clarity on future roles.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: generated

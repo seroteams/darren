@@ -1,0 +1,9 @@
+alias: q_commitment_to_action_3
+label: Commitment to action
+name: "What's the first concrete thing you want to have moved by our next conversation?"
+description: Establishes a specific goal or action to be achieved before the next meeting.
+purpose: competency
+stage: commitment
+axis_effects:
+  growth: +1
+source: generated

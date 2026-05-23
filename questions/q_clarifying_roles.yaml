@@ -1,0 +1,8 @@
+alias: q_clarifying_roles
+label: Clarifying roles
+name: What are your thoughts on your involvement in the upcoming billing rewrite?
+description: Seeks clarity on expectations and role in future projects.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

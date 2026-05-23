@@ -1,0 +1,8 @@
+alias: q_discussing_growth_opportunities
+label: Discussing growth opportunities
+name: How do you envision your growth trajectory changing in the next few months?
+description: "To explore Priya's feelings of stagnation and identify potential growth opportunities."
+purpose: wellbeing
+axis_effects:
+  growth: +3
+source: planner_added

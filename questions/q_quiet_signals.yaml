@@ -1,0 +1,9 @@
+alias: q_quiet_signals
+label: Quiet signals
+name: "I've noticed you've been quieter in standup this week — what's going on underneath that?"
+description: Gently probes the reason behind the recent drop in visible energy.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

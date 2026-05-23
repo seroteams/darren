@@ -1,0 +1,8 @@
+alias: q_delegation_improvement
+label: Delegation improvement
+name: What would help you plan delegation more proactively, rather than day-to-day?
+description: Seeks to identify what Carl needs to improve his delegation strategy.
+purpose: competency
+axis_effects:
+  growth: +3
+source: planner_added

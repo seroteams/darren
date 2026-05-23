@@ -1,0 +1,9 @@
+alias: q_stretch_edge_3
+label: Stretch edge
+name: What part of your role feels most like a stretch right now?
+description: Identifies current growth pressure and whether the stretch is productive.
+purpose: competency
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

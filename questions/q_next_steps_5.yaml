@@ -1,0 +1,9 @@
+alias: q_next_steps_5
+label: Next steps
+name: "What's the first concrete thing you want to have moved by our next conversation?"
+description: Drives towards actionable steps for the next period.
+purpose: competency
+stage: support
+axis_effects:
+  clarity: +1
+source: generated

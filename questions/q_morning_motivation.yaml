@@ -1,0 +1,8 @@
+alias: q_morning_motivation
+label: Morning motivation
+name: What usually influences your morning motivation and energy levels?
+description: Explores underlying factors affecting their timeliness, whether personal or workload-related.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

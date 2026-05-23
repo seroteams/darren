@@ -1,0 +1,8 @@
+alias: q_energy_assessment
+label: Energy assessment
+name: "Where is your energy actually at after the refactor, and what's driving that?"
+description: Probes for current energy levels and underlying causes.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

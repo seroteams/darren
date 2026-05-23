@@ -1,0 +1,8 @@
+alias: q_team_dynamics_4
+label: Team dynamics
+name: How do you perceive your lateness affecting team interactions?
+description: Examines the effect of lateness on team dynamics and interactions.
+purpose: competency
+axis_effects:
+  engagement: +1
+source: generated

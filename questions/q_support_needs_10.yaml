@@ -1,0 +1,10 @@
+alias: q_support_needs_10
+label: Support Needs
+name: What specific support do you need from me to manage the CoE ux/ui effectively?
+description: Opens dialogue on support needed from the manager.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

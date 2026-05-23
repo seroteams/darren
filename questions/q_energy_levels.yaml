@@ -1,0 +1,9 @@
+alias: q_energy_levels
+label: Energy levels
+name: How do you feel about your energy levels as we move toward the billing rewrite? Any concerns or adjustments needed?
+description: Seeks to assess their energy and motivation levels in light of upcoming changes.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+  growth: -1
+source: generated

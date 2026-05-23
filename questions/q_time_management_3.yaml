@@ -1,0 +1,10 @@
+alias: q_time_management_3
+label: Time management
+name: How are you managing your priorities to ensure timely attendance at meetings?
+description: Investigates her time management and prioritization skills.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

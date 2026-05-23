@@ -1,0 +1,8 @@
+alias: q_support_needs
+label: Support needs
+name: What kind of support would be most helpful for your upcoming design projects?
+description: Opens a dialogue about the type of support they require to succeed.
+purpose: topic
+axis_effects:
+  engagement: +1
+source: generated

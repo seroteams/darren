@@ -1,0 +1,9 @@
+alias: q_stretch_edge_2
+label: Stretch edge
+name: What is stretching you most in the role right now?
+description: "Surfaces the current learning edge, whether it's technical depth, leadership scope, or decision-making."
+purpose: competency
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,8 @@
+alias: q_upcoming_project_role
+label: Upcoming project role
+name: What do you need to know about the billing rewrite to feel prepared for your role?
+description: Clarifies expectations and support needed for the upcoming billing rewrite project.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

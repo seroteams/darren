@@ -1,0 +1,9 @@
+alias: q_seed_growth_feedback
+label: Feedback intake
+name: "What's the last piece of hard feedback you got, and what did you actually do with it?"
+description: "Tests whether they metabolise feedback or just absorb and move on."
+purpose: competency
+axis_effects:
+  growth: +3
+  engagement: +1
+source: seed

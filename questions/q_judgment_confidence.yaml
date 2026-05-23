@@ -1,0 +1,8 @@
+alias: q_judgment_confidence
+label: Judgment confidence
+name: In which areas do you feel most confident making decisions?
+description: Identifies areas of strength in decision-making and potential growth.
+purpose: competency
+axis_effects:
+  clarity: +3
+source: generated

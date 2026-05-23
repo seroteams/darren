@@ -1,0 +1,9 @@
+alias: q_meeting_attendance
+label: Meeting attendance
+name: "I've noticed you've been late to meetings — what's happening there?"
+description: Explores the reasons behind her tardiness to meetings.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: generated

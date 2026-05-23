@@ -1,0 +1,9 @@
+alias: q_energy_management_5
+label: Energy management
+name: "What's draining your energy most in your current workload?"
+description: Identify aspects of the workload that are particularly energy-draining.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+source: generated

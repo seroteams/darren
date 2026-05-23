@@ -1,0 +1,9 @@
+alias: q_cross_functional_alignment
+label: Cross-functional alignment
+name: What would help improve alignment between you and the UX team?
+description: Seeks solutions for better alignment with the UX team.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+source: generated

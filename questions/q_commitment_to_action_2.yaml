@@ -1,0 +1,9 @@
+alias: q_commitment_to_action_2
+label: Commitment to action
+name: "What's one concrete step we can commit to before our next conversation to move you closer to your Head of UX goal?"
+description: Closes the session with a commitment to action.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +3
+source: planner_added

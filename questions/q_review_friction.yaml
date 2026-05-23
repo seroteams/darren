@@ -1,0 +1,9 @@
+alias: q_review_friction
+label: Review friction
+name: I wanted to ask about the design-system PR — what made that one hard to land?
+description: Surfaces the specific source of friction in the rework-heavy PR without assuming fault.
+purpose: topic
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

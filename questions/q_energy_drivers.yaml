@@ -1,0 +1,8 @@
+alias: q_energy_drivers
+label: Energy drivers
+name: What typically boosts your energy levels during a workday?
+description: Identifies factors that positively influence their energy, aiding in sustainability.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

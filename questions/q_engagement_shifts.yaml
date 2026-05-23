@@ -1,0 +1,8 @@
+alias: q_engagement_shifts
+label: Engagement shifts
+name: Have you noticed any shifts in your engagement with work recently?
+description: Explores any recent changes in how James engages with his work.
+purpose: wellbeing
+axis_effects:
+  engagement: +3
+source: generated

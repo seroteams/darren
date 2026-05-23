@@ -1,0 +1,8 @@
+alias: q_energy_fluctuations
+label: Energy fluctuations
+name: What patterns have you noticed in your energy levels throughout the day?
+description: Investigates daily energy patterns that may be contributing to lateness.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

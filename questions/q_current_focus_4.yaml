@@ -1,0 +1,9 @@
+alias: q_current_focus_4
+label: Current focus
+name: How has the last couple of weeks felt from your side?
+description: Allows Taya to set the context for the conversation and surface any immediate concerns or highlights.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: generated

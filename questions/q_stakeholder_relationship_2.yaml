@@ -1,0 +1,10 @@
+alias: q_stakeholder_relationship_2
+label: Stakeholder relationship
+name: What challenges have you faced in engaging with product and engineering stakeholders?
+description: Explores difficulties in her stakeholder engagement.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,8 @@
+alias: q_director_role_clarity
+label: Director role clarity
+name: What aspects of the director role feel most and least clear to you?
+description: Surfaces clarity on director-level expectations.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

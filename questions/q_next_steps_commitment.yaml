@@ -1,0 +1,8 @@
+alias: q_next_steps_commitment
+label: Next steps commitment
+name: "Given what we've discussed, what's the first thing you'll focus on improving?"
+description: Encourages commitment to an action item based on the conversation.
+purpose: competency
+axis_effects:
+  growth: +1
+source: generated

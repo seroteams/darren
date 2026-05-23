@@ -1,0 +1,9 @@
+alias: q_ux_initiative_impact
+label: UX initiative impact
+name: How do you assess the impact of your recent UX initiatives on the product?
+description: Evaluates her perception of the effectiveness of her UX contributions.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +3
+source: generated

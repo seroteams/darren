@@ -1,0 +1,8 @@
+alias: q_recognition_impact
+label: Recognition impact
+name: Did the way we celebrated the payments refactor land well for you?
+description: "Probes into whether the recognition given aligns with Priya's expectations and feelings."
+purpose: topic
+axis_effects:
+  engagement: +1
+source: generated

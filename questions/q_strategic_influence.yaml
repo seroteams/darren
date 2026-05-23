@@ -1,0 +1,9 @@
+alias: q_strategic_influence
+label: Strategic influence
+name: How confident are you in your strategic influence this quarter?
+description: Assesses confidence in strategic decision-making and influence.
+purpose: competency
+stage: underneath
+axis_effects:
+  clarity: +1
+source: generated

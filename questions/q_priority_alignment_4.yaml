@@ -1,0 +1,8 @@
+alias: q_priority_alignment_4
+label: Priority alignment
+name: Given everything on your plate, what are you choosing to prioritise next, and what are you deprioritising?
+description: Explores how they are managing priorities post-refactor.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

@@ -1,0 +1,9 @@
+alias: q_commit_thinning
+label: Commit thinning
+name: "What changed in how you're approaching your work over the last few weeks?"
+description: Invites a narrative about the shift in commit volume and cadence without making it about performance.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

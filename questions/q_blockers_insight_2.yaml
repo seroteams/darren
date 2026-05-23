@@ -1,0 +1,9 @@
+alias: q_blockers_insight_2
+label: Blockers insight
+name: "What's currently blocking your progress on tasks that we haven't discussed yet?"
+description: Encourages a deeper exploration of obstacles that might not have been previously identified.
+purpose: topic
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

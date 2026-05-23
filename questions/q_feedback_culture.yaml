@@ -1,0 +1,9 @@
+alias: q_feedback_culture
+label: Feedback culture
+name: How do you feel about the feedback culture in our team?
+description: "Assesses Carl's view on the team's feedback environment."
+purpose: topic
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

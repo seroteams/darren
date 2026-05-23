@@ -1,0 +1,9 @@
+alias: q_seed_engagement_ownership
+label: Ownership
+name: "What's something you pushed forward recently because you cared — not because anyone asked?"
+description: "Tests whether they're still self-starting or running on instructions."
+purpose: competency
+axis_effects:
+  engagement: +3
+  growth: +1
+source: seed

@@ -1,0 +1,9 @@
+alias: q_workload_bottleneck
+label: Workload bottleneck
+name: What part of your current work is taking longer than it should?
+description: Identifies the specific step or task creating drag in delivery.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+  clarity: +3
+source: generated

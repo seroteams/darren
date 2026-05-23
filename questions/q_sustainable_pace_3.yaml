@@ -1,0 +1,9 @@
+alias: q_sustainable_pace_3
+label: Sustainable pace
+name: If this pace stayed the same for another month, what would be the first thing to crack?
+description: Surfaces whether the current workload is sustainable or already eating into recovery.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

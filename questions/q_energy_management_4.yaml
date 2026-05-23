@@ -1,0 +1,8 @@
+alias: q_energy_management_4
+label: Energy management
+name: What strategies are you using to maintain your energy levels throughout the week?
+description: Probes for personal strategies in place to manage energy and avoid burnout.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

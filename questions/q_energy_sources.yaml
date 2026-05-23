@@ -1,0 +1,8 @@
+alias: q_energy_sources
+label: Energy sources
+name: What activities or moments have helped recharge your energy recently?
+description: Encourages Darren to identify positive energy sources amidst stress.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+source: generated

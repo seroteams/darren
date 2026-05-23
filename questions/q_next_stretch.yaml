@@ -1,0 +1,9 @@
+alias: q_next_stretch
+label: Next stretch
+name: What would actually make this role feel more stretching over the next month or two?
+description: Surfaces a concrete growth lever or change that would reintroduce challenge.
+purpose: topic
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

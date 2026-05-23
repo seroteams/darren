@@ -1,0 +1,8 @@
+alias: q_mentoring_vision
+label: Mentoring vision
+name: What does effective mentoring look like for you?
+description: Explores concrete ideas about their interest in mentoring.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

@@ -1,0 +1,8 @@
+alias: q_team_dynamics_3
+label: Team dynamics
+name: How connected do you feel with the team lately, and what might be influencing that?
+description: Probes their sense of connection within the team, which could reveal underlying issues.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

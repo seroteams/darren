@@ -1,0 +1,9 @@
+alias: q_strategic_risk
+label: Strategic risk
+name: Where do you think we are underestimating risk right now?
+description: Tests strategic judgment and surfaces blind spots in current plans.
+purpose: competency
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

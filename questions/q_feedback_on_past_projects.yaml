@@ -1,0 +1,8 @@
+alias: q_feedback_on_past_projects
+label: Feedback on past projects
+name: How did you find the feedback on your projects before your injury?
+description: Checks how Bill received and processed feedback on past projects.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

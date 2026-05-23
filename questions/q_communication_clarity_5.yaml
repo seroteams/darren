@@ -1,0 +1,9 @@
+alias: q_communication_clarity_5
+label: Communication clarity
+name: How clear do you feel your communication has been in meetings?
+description: Assess self-perception of communication effectiveness.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+source: generated

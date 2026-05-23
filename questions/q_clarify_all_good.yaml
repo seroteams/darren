@@ -1,0 +1,10 @@
+alias: q_clarify_all_good
+label: "Clarify 'all good'"
+name: "When you say 'all good', what specifically went well this week? Any challenges or wins?"
+description: Clarifying re-prompt to surface specifics about their week.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added

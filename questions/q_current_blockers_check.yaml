@@ -1,0 +1,9 @@
+alias: q_current_blockers_check
+label: Current blockers check
+name: "What blockers or dependencies are you currently facing that we haven't discussed?"
+description: Invites a deeper look at any hidden obstacles affecting their work.
+purpose: topic
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

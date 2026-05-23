@@ -1,0 +1,8 @@
+alias: q_personal_growth
+label: Personal growth
+name: Where do you see the biggest gap between where you are now and where you want to be in 12 months?
+description: Encourages Priya to think about her development and growth trajectory.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

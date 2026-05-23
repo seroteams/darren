@@ -1,0 +1,8 @@
+alias: q_manager_feedback
+label: Manager feedback
+name: "Is there any feedback you need from me that you haven't received yet?"
+description: Encourages Bill to express any need for additional feedback from his manager.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

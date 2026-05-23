@@ -1,0 +1,9 @@
+alias: q_team_dynamics
+label: Team dynamics
+name: How connected do you feel with the team at the moment?
+description: "Checks in on Darren's feelings regarding team interactions and dynamics."
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

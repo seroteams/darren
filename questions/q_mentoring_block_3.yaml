@@ -1,0 +1,8 @@
+alias: q_mentoring_block_3
+label: Mentoring block
+name: "What's blocked the mentoring from happening — your time, opportunity, or something else?"
+description: "Explores specific barriers to integrating mentoring into Priya's role."
+purpose: topic
+axis_effects:
+  growth: +3
+source: planner_added

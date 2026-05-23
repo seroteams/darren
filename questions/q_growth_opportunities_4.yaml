@@ -1,0 +1,8 @@
+alias: q_growth_opportunities_4
+label: Growth opportunities
+name: What growth opportunities are you seeking this quarter?
+description: Identifies specific growth opportunities they are interested in.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

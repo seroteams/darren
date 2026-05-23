@@ -1,0 +1,9 @@
+alias: q_alignment_with_team
+label: Alignment with team
+name: "Is there any part of the team's direction that feels unclear or misaligned to you?"
+description: "Checks for any misalignment or lack of clarity with the team's direction."
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: generated

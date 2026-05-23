@@ -1,0 +1,9 @@
+alias: q_future_scope
+label: Future scope
+name: What kind of design work would make the next step toward Head of UX feel real for you?
+description: Explores the type of work Sarah believes will prepare her for a Head of UX role.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: generated

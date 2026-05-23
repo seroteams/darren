@@ -1,0 +1,8 @@
+alias: q_stretch_work
+label: Stretch work
+name: What would a more challenging or stretching task look like right now?
+description: Explores what kind of work could re-energize and engage them.
+purpose: topic
+axis_effects:
+  growth: +3
+source: planner_added

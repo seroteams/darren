@@ -1,0 +1,8 @@
+alias: q_mentoring_trade_offs_2
+label: Mentoring trade-offs
+name: What would you need to deprioritize to make space for mentoring?
+description: Encourages Priya to consider trade-offs involved in taking on mentoring.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

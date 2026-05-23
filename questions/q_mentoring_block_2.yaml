@@ -1,0 +1,8 @@
+alias: q_mentoring_block_2
+label: Mentoring block
+name: "What's blocked the mentoring from happening — your time, opportunity, or something else?"
+description: Investigates the reasons behind the stalled mentoring initiative.
+purpose: topic
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_trust_with_stakeholders
+label: Trust with stakeholders
+name: What do you feel is currently missing in building trust with the UX team?
+description: Probes for missing elements in the relationship with the UX team.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  engagement: +3
+source: generated

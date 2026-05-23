@@ -1,0 +1,9 @@
+alias: q_pacing_tradeoff
+label: Pacing tradeoff
+name: What have you had to drop or slow down to keep up with everything on your plate?
+description: Surfaces hidden workload pressure and the trade-offs they are making to stay afloat.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

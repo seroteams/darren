@@ -1,0 +1,8 @@
+alias: q_impact_of_priorities
+label: Impact of priorities
+name: "How do these priorities align with the outcomes you're aiming for?"
+description: "Assesses whether Carl's stated priorities are aligned with desired outcomes."
+purpose: competency
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_intro_biweekly_pace
+label: Opening pace check
+name: "How's the last two weeks actually felt — energy-wise?"
+description: "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly."
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: seed

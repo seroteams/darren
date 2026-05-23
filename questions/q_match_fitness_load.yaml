@@ -1,0 +1,8 @@
+alias: q_match_fitness_load
+label: Match fitness load
+name: How is your body holding up after matches and training lately?
+description: Surfaces whether the physical load is sustainable or accumulating quietly.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

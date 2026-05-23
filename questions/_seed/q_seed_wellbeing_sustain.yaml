@@ -1,0 +1,9 @@
+alias: q_seed_wellbeing_sustain
+label: Sustainability
+name: "Does your current pace feel like something you could keep up for another three months?"
+description: "Tests whether current effort is a sprint or the new normal."
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+  engagement: -1
+source: seed

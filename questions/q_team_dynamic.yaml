@@ -1,0 +1,9 @@
+alias: q_team_dynamic
+label: Team dynamic
+name: What part of the team dynamic is working well for you?
+description: Identifies positive aspects of the team dynamic, which can highlight areas of strength or potential neglect.
+purpose: competency
+axis_effects:
+  engagement: +1
+  wellbeing: +1
+source: generated

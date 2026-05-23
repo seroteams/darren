@@ -1,0 +1,8 @@
+alias: q_alignment_on_goals
+label: Alignment on goals
+name: "How aligned do you feel with the team's goals this cycle?"
+description: "Probes Darren's sense of alignment and clarity regarding team objectives."
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

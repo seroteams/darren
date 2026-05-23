@@ -1,0 +1,9 @@
+alias: q_role_edges
+label: Role edges
+name: What part of your role feels least settled right now?
+description: Finds ambiguity in responsibilities or expectations that may need tightening.
+purpose: competency
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

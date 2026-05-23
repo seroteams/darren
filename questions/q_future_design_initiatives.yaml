@@ -1,0 +1,9 @@
+alias: q_future_design_initiatives
+label: Future Design Initiatives
+name: What design initiatives do you want to prioritize in the next quarter?
+description: Identifies personal priorities for future design initiatives.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+source: generated

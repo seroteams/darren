@@ -1,0 +1,9 @@
+alias: q_rewrite_risk
+label: Rewrite risk
+name: Where do you expect the billing rewrite to get difficult?
+description: Surfaces anticipated technical or coordination risks before the work starts.
+purpose: competency
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

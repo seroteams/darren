@@ -1,0 +1,9 @@
+alias: q_review_turnaround
+label: Review turnaround
+name: What has been slowing your PR reviews down lately?
+description: Looks for concrete bottlenecks in the review loop and whether they are process, dependency, or confidence related.
+purpose: topic
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

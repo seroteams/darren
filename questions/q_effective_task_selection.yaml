@@ -1,0 +1,8 @@
+alias: q_effective_task_selection
+label: Effective task selection
+name: What criteria do you use to choose which tasks to focus on?
+description: "Probes Carl's judgment in selecting tasks that align with team goals."
+purpose: competency
+axis_effects:
+  clarity: +3
+source: generated

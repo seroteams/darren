@@ -1,0 +1,8 @@
+alias: q_learning_opportunities
+label: Learning opportunities
+name: What new skills or areas are you interested in developing further?
+description: Identifies growth and learning interests for future development.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

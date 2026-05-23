@@ -1,0 +1,8 @@
+alias: q_time_management
+label: Time management
+name: What specific changes could free up time for delegation without compromising delivery?
+description: Seeks to identify actionable steps to improve time management for delegation.
+purpose: competency
+axis_effects:
+  growth: +3
+source: planner_added

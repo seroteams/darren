@@ -1,0 +1,9 @@
+alias: q_team_friction
+label: Team friction
+name: What’s been harder than usual in working with the team?
+description: Gently probes whether interpersonal friction is affecting collaboration or confidence.
+purpose: topic
+axis_effects:
+  engagement: +1
+  wellbeing: +1
+source: generated

@@ -1,0 +1,8 @@
+alias: q_health_concerns
+label: Health concerns
+name: "Can you share more about your health concerns and how they're affecting your work?"
+description: Explores the specific health issues James is worried about and their impact on his work.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: planner_added

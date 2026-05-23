@@ -1,0 +1,9 @@
+alias: q_workshop_support
+label: Workshop support
+name: What kind of support would make workshop planning or execution smoother for you?
+description: Identifies the support or resources Taya might need to improve workshop planning and execution.
+purpose: topic
+stage: underneath
+axis_effects:
+  engagement: +1
+source: generated

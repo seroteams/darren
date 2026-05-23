@@ -1,0 +1,8 @@
+alias: q_understanding_expectations
+label: Understanding expectations
+name: What do you believe are the key expectations for a team lead role?
+description: "Surfaces Carl's clarity on what is expected in a team lead position."
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

@@ -1,0 +1,8 @@
+alias: q_workload_assessment_2
+label: Workload assessment
+name: How manageable does your current workload feel day-to-day?
+description: Assesses if the workload is a contributing factor to stress or lateness.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

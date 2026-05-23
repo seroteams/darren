@@ -1,0 +1,8 @@
+alias: q_future_aspirations
+label: Future aspirations
+name: Where do you see yourself wanting to grow in the next few months?
+description: Encourages them to think about their growth trajectory and aspirations.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

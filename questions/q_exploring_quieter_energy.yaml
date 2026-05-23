@@ -1,0 +1,8 @@
+alias: q_exploring_quieter_energy
+label: Exploring quieter energy
+name: What do you think is behind your quieter energy this week?
+description: Encourages reflection on their current state and any underlying factors.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

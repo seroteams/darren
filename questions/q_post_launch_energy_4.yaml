@@ -1,0 +1,8 @@
+alias: q_post_launch_energy_4
+label: Post-launch energy
+name: "What's contributing to your current energy levels post-launch?"
+description: "Explores the reasons behind Priya's current energy state and any potential factors impacting it."
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

@@ -1,0 +1,8 @@
+alias: q_next_step
+label: Next step
+name: What skill do you want to be sharper at by the end of this quarter?
+description: Makes growth concrete and time-bound, with a chance to connect it to current work.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

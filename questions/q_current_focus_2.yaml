@@ -1,0 +1,8 @@
+alias: q_current_focus_2
+label: Current focus
+name: "What's been most on your mind at work lately?"
+description: Opens up the conversation by allowing Bill to share his current focus or concerns.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

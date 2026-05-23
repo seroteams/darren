@@ -1,0 +1,9 @@
+alias: q_manager_leverage
+label: Manager leverage
+name: What would be most useful for me to take off your plate?
+description: Clarifies what support would create the most leverage from the manager side.
+purpose: topic
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

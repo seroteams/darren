@@ -1,0 +1,8 @@
+alias: q_priority_alignment_5
+label: Priority alignment
+name: "What feels misaligned between your priorities and the team's goals?"
+description: Checks for alignment or misalignment in priorities.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

@@ -1,0 +1,9 @@
+alias: q_stakeholder_engagement_challenges
+label: Stakeholder Engagement Challenges
+name: "What's been the most challenging aspect of engaging with the CoE stakeholders?"
+description: Identifies challenges in engaging with stakeholders effectively.
+purpose: competency
+stage: evidence
+axis_effects:
+  engagement: +3
+source: generated

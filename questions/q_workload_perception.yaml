@@ -1,0 +1,8 @@
+alias: q_workload_perception
+label: Workload perception
+name: What does your current workload look like, and how do you feel about managing it?
+description: Gathers insight into their workload and their feelings about managing it effectively.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

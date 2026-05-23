@@ -1,0 +1,8 @@
+alias: q_motivation_drivers_4
+label: Motivation drivers
+name: "What's currently motivating you in your role?"
+description: Explores sources of motivation or lack thereof.
+purpose: wellbeing
+axis_effects:
+  engagement: +3
+source: generated

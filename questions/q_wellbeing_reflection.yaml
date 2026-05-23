@@ -1,0 +1,8 @@
+alias: q_wellbeing_reflection
+label: Wellbeing reflection
+name: Do you feel the pace of work is sustainable for you after this recent project?
+description: "Tests whether the work rhythm is manageable and if there's a risk of burnout."
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

@@ -1,0 +1,9 @@
+alias: q_adjusting_priorities
+label: Adjusting priorities
+name: Is there anything you feel should be a higher priority than it currently is?
+description: Explores if current priorities align with their perspective.
+purpose: topic
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

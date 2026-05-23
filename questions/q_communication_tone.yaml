@@ -1,0 +1,9 @@
+alias: q_communication_tone
+label: Communication tone
+name: What do you think affects your tone when communicating under pressure?
+description: Investigates how stress impacts communication tone.
+purpose: wellbeing
+stage: cause
+axis_effects:
+  wellbeing: +1
+source: generated

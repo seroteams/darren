@@ -1,0 +1,8 @@
+alias: q_task_overload
+label: Task Overload
+name: "When you say 'my to-do list is just too big', what's on it that's taking the most time right now?"
+description: Drills into specifics of task overload to identify stress points.
+purpose: wellbeing
+axis_effects:
+  wellbeing: -1
+source: planner_added

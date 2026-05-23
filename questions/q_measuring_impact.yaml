@@ -1,0 +1,8 @@
+alias: q_measuring_impact
+label: Measuring impact
+name: How do you currently measure your impact within the design team?
+description: Assesses their awareness of their contributions and influence.
+purpose: competency
+axis_effects:
+  clarity: +3
+source: generated

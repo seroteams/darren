@@ -1,0 +1,8 @@
+alias: q_future_learning_areas
+label: Future learning areas
+name: What new skills or knowledge do you feel you need to develop for the team lead role?
+description: Identifies areas Carl feels he needs to grow in to prepare for a leadership role.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

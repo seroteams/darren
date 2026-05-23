@@ -1,0 +1,9 @@
+alias: q_upcoming_billing_rewrite
+label: Upcoming billing rewrite
+name: What are your initial thoughts on the upcoming billing rewrite? Are there specific challenges or contributions you foresee?
+description: Gathers their insights on upcoming responsibilities and expectations for the billing rewrite.
+purpose: topic
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

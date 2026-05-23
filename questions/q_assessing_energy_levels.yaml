@@ -1,0 +1,8 @@
+alias: q_assessing_energy_levels
+label: Assessing energy levels
+name: What specifically has felt different for you this week compared to previous weeks?
+description: Encourages reflection on changes in energy and engagement levels.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

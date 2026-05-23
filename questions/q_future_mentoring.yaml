@@ -1,0 +1,8 @@
+alias: q_future_mentoring
+label: Future mentoring
+name: How can we support your interest in mentoring moving forward?
+description: "Aims to clarify and support Priya's mentoring aspirations."
+purpose: wellbeing
+axis_effects:
+  growth: +1
+source: planner_added

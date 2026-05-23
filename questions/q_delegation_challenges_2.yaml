@@ -1,0 +1,8 @@
+alias: q_delegation_challenges_2
+label: Delegation challenges
+name: "What's the most challenging part of delegation for you currently?"
+description: Identifies obstacles in effective delegation and team empowerment.
+purpose: competency
+axis_effects:
+  engagement: +3
+source: generated

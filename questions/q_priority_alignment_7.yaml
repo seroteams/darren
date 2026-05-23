@@ -1,0 +1,8 @@
+alias: q_priority_alignment_7
+label: priority_alignment
+name: How confident are you in your current priorities aligning with team goals?
+description: Checks alignment between individual and team priorities.
+purpose: competency
+axis_effects:
+  clarity: +1
+source: generated

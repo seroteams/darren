@@ -1,0 +1,8 @@
+alias: q_current_blockers
+label: Current blockers
+name: Are there any blockers on your current tasks that we should address?
+description: Checks for obstacles that might be hindering progress.
+purpose: topic
+axis_effects:
+  engagement: +1
+source: planner_added

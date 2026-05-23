@@ -1,0 +1,9 @@
+alias: q_next_skill
+label: Next skill
+name: What skill do you want to sharpen over the next quarter?
+description: Opens a practical growth conversation tied to the upcoming work cycle.
+purpose: competency
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

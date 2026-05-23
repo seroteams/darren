@@ -1,0 +1,9 @@
+alias: q_team_feedback_impact
+label: Team feedback impact
+name: How has the feedback from your team shaped your view of your next steps?
+description: Assesses the impact of team feedback on their career plans.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+source: generated

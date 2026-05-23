@@ -1,0 +1,9 @@
+alias: q_stakeholder_feedback_loops
+label: Stakeholder Feedback Loops
+name: How effectively do you think stakeholder feedback has been integrated into your designs?
+description: Evaluates the integration of stakeholder feedback into design work.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +1
+source: generated

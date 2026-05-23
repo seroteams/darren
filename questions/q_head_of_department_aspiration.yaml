@@ -1,0 +1,9 @@
+alias: q_head_of_department_aspiration
+label: Head of department aspiration
+name: Head of department — what is it about that role that pulls you? Is it the scope, the people, the title, or something else?
+description: Drill into what specifically about the head of department role appeals to Carl.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

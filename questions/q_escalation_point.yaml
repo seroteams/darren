@@ -1,0 +1,9 @@
+alias: q_escalation_point
+label: Escalation point
+name: What part of this work needs escalation from me now?
+description: Finds where manager intervention would remove friction or unblock progress.
+purpose: topic
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

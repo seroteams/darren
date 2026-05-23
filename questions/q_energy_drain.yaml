@@ -1,0 +1,9 @@
+alias: q_energy_drain
+label: Energy drain
+name: What part of your week is taking more out of you than it should?
+description: Locates hidden drains on energy that may not show up as explicit blockers.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

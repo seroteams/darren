@@ -1,0 +1,9 @@
+alias: q_mentoring_aspirations
+label: Mentoring aspirations
+name: "You've mentioned wanting to do more mentoring — what specific areas do you feel passionate about sharing with others?"
+description: Explores their mentoring interests to clarify role alignment and growth opportunities.
+purpose: topic
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

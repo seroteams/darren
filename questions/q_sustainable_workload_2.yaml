@@ -1,0 +1,9 @@
+alias: q_sustainable_workload_2
+label: Sustainable workload
+name: Does your current workload feel sustainable for the next few months?
+description: Assesses if the workload is manageable and sustainable.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+source: generated

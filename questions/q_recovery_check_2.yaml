@@ -1,0 +1,8 @@
+alias: q_recovery_check_2
+label: Recovery check
+name: What does recovery actually look like for you between intense stretches?
+description: Checks whether the pace is sustainable and whether recovery is real or theoretical.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

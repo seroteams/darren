@@ -1,0 +1,9 @@
+alias: q_support_needed
+label: Support needed
+name: What kind of support would make the next couple of weeks easier?
+description: Surfaces practical help that could remove friction without turning the meeting into a status check.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

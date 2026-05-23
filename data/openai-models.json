@@ -1,0 +1,113 @@
+{
+  "_meta": {
+    "source": "https://developers.openai.com/api/docs/pricing (with per-model cross-check)",
+    "fetched_at": "2026-04-22",
+    "notes": "Prices are USD per 1M tokens for standard-tier API usage. Batch API halves these; flex matches batch. Cached-input rates apply only when OpenAI reports a cache hit in usage.prompt_tokens_details.cached_tokens. Values of null mean OpenAI's page does not publish that field separately."
+  },
+  "models": {
+    "gpt-5.4": {
+      "family": "gpt-5.4",
+      "input_per_1m_usd": 2.5,
+      "output_per_1m_usd": 15.0,
+      "cached_input_per_1m_usd": 0.25
+    },
+    "gpt-5.4-mini": {
+      "family": "gpt-5.4",
+      "input_per_1m_usd": 0.75,
+      "output_per_1m_usd": 4.5,
+      "cached_input_per_1m_usd": 0.075
+    },
+    "gpt-5.4-nano": {
+      "family": "gpt-5.4",
+      "input_per_1m_usd": 0.2,
+      "output_per_1m_usd": 1.25,
+      "cached_input_per_1m_usd": 0.02
+    },
+    "gpt-5.4-pro": {
+      "family": "gpt-5.4",
+      "input_per_1m_usd": 30.0,
+      "output_per_1m_usd": 180.0,
+      "cached_input_per_1m_usd": null
+    },
+    "gpt-5.3-chat-latest": {
+      "family": "gpt-5.3",
+      "input_per_1m_usd": 1.75,
+      "output_per_1m_usd": 14.0,
+      "cached_input_per_1m_usd": 0.175
+    },
+    "gpt-5.3-codex": {
+      "family": "gpt-5.3",
+      "input_per_1m_usd": 1.75,
+      "output_per_1m_usd": 14.0,
+      "cached_input_per_1m_usd": 0.175
+    },
+    "gpt-4.1": {
+      "family": "gpt-4.1",
+      "input_per_1m_usd": 2.0,
+      "output_per_1m_usd": 8.0,
+      "cached_input_per_1m_usd": 0.5
+    },
+    "gpt-4.1-mini": {
+      "family": "gpt-4.1",
+      "input_per_1m_usd": 0.4,
+      "output_per_1m_usd": 1.6,
+      "cached_input_per_1m_usd": 0.1
+    },
+    "gpt-4.1-nano": {
+      "family": "gpt-4.1",
+      "input_per_1m_usd": 0.1,
+      "output_per_1m_usd": 0.4,
+      "cached_input_per_1m_usd": 0.025
+    },
+    "gpt-4o": {
+      "family": "gpt-4o",
+      "input_per_1m_usd": 2.5,
+      "output_per_1m_usd": 10.0,
+      "cached_input_per_1m_usd": 1.25
+    },
+    "gpt-4o-mini": {
+      "family": "gpt-4o",
+      "input_per_1m_usd": 0.15,
+      "output_per_1m_usd": 0.6,
+      "cached_input_per_1m_usd": 0.075
+    },
+    "o3": {
+      "family": "reasoning",
+      "input_per_1m_usd": 2.0,
+      "output_per_1m_usd": 8.0,
+      "cached_input_per_1m_usd": 0.5
+    },
+    "o4-mini": {
+      "family": "reasoning",
+      "input_per_1m_usd": 1.1,
+      "output_per_1m_usd": 4.4,
+      "cached_input_per_1m_usd": 0.275
+    },
+    "o3-mini": {
+      "family": "reasoning",
+      "input_per_1m_usd": 1.1,
+      "output_per_1m_usd": 4.4,
+      "cached_input_per_1m_usd": 0.55
+    },
+    "computer-use-preview": {
+      "family": "specialised",
+      "input_per_1m_usd": 1.5,
+      "output_per_1m_usd": 6.0,
+      "cached_input_per_1m_usd": null
+    },
+    "gpt-realtime-1.5": {
+      "family": "realtime-audio",
+      "input_per_1m_usd": 32.0,
+      "output_per_1m_usd": 64.0,
+      "cached_input_per_1m_usd": 0.4,
+      "notes": "Audio tokens. Text I/O in realtime sessions is billed separately."
+    },
+    "gpt-realtime-mini": {
+      "family": "realtime-audio",
+      "input_per_1m_usd": 10.0,
+      "output_per_1m_usd": 20.0,
+      "cached_input_per_1m_usd": 0.3,
+      "notes": "Audio tokens."
+    }
+  }
+}

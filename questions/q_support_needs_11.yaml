@@ -1,0 +1,9 @@
+alias: q_support_needs_11
+label: Support needs
+name: What kind of support would make the biggest difference for you right now?
+description: Explores what support the individual feels they need.
+purpose: competency
+stage: support
+axis_effects:
+  engagement: +1
+source: generated

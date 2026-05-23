@@ -1,0 +1,9 @@
+alias: q_team_dynamics_insight
+label: Team dynamics insight
+name: How do you feel about the current team dynamics and your place within the team?
+description: "Explores James's perception of team connection and potential relational issues."
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

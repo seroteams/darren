@@ -1,0 +1,9 @@
+alias: q_head_of_own_pillar
+label: Head of own pillar
+name: Head of your own pillar — what specifically would that entail in terms of scope and responsibilities?
+description: "Drills deeper into Usman's vision of leading his own pillar, clarifying scope and responsibilities."
+purpose: topic
+axis_effects:
+  growth: +3
+  engagement: +1
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_priority_alignment_10
+label: Priority alignment
+name: How aligned do you feel your current tasks are with your priorities?
+description: "Assesses alignment between Taya's tasks and her perceived priorities, highlighting any disconnects."
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: generated

@@ -1,0 +1,9 @@
+alias: q_commitment_to_change
+label: Commitment to change
+name: "What's the first concrete step you'll take to address any gaps we've discussed today?"
+description: "Drives commitment to action based on the meeting's discussion."
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+source: generated

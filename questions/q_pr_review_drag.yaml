@@ -1,0 +1,9 @@
+alias: q_pr_review_drag
+label: PR review drag
+name: Where do PR reviews tend to slow down for you?
+description: Finds the point of friction in the review cycle, whether technical, social, or process-related.
+purpose: topic
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

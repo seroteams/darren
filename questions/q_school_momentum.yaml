@@ -1,0 +1,9 @@
+alias: q_school_momentum
+label: School momentum
+name: What part of school has felt most worth showing up for lately?
+description: Surfaces intrinsic pull and ownership in her day-to-day school experience.
+purpose: topic
+axis_effects:
+  engagement: +3
+  growth: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_team_chemistry
+label: Team chemistry
+name: Where are your connections with teammates feeling strongest right now?
+description: Explores relationship quality and whether he feels integrated in the group.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+  engagement: +3
+source: generated

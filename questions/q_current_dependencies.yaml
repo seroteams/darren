@@ -1,0 +1,8 @@
+alias: q_current_dependencies
+label: Current dependencies
+name: What are you currently waiting on that could stall your progress?
+description: Identifies waiting dependencies that might not be obvious blockers.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

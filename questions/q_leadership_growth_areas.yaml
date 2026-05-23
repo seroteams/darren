@@ -1,0 +1,9 @@
+alias: q_leadership_growth_areas
+label: Leadership Growth Areas
+name: What specific leadership skills do you feel need the most development?
+description: Surfaces perceived gaps in UX leadership skills.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +3
+source: generated

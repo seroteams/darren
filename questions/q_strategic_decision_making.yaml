@@ -1,0 +1,8 @@
+alias: q_strategic_decision_making
+label: Strategic decision-making
+name: Can you share a recent high-stakes decision and how you approached it?
+description: Examines judgment and decision-making processes.
+purpose: competency
+axis_effects:
+  growth: +3
+source: generated

@@ -1,0 +1,8 @@
+alias: q_work_life_balance_3
+label: Work-life balance
+name: How are you managing your work-life balance recently?
+description: "Assesses James's ability to maintain a sustainable balance between work and personal life."
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: generated

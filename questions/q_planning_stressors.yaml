@@ -1,0 +1,9 @@
+alias: q_planning_stressors
+label: Planning stressors
+name: Are there specific stressors in your workload that are impacting your planning?
+description: "Investigates workload-related stressors that might be affecting Taya's planning abilities."
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+source: generated

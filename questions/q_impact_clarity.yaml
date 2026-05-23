@@ -1,0 +1,9 @@
+alias: q_impact_clarity
+label: Impact Clarity
+name: Where do you feel the impact of UX has been most visible this quarter?
+description: Surfaces specific examples of where UX impact has been evident.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+source: generated

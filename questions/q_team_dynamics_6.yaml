@@ -1,0 +1,8 @@
+alias: q_team_dynamics_6
+label: Team dynamics
+name: How are you feeling about the team dynamics right now?
+description: Surfaces any interpersonal issues that might be affecting team performance or personal stress.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+source: generated

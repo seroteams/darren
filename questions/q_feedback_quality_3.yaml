@@ -1,0 +1,9 @@
+alias: q_feedback_quality_3
+label: Feedback quality
+name: "Where is the feedback you're getting actually changing how you work?"
+description: Checks whether feedback is landing as useful learning or just noise.
+purpose: competency
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_support_needed_3
+label: Support needed
+name: What support would make your workshop planning more effective?
+description: Identify specific support needed to improve planning processes.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: generated

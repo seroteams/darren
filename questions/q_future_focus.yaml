@@ -1,0 +1,9 @@
+alias: q_future_focus
+label: Future focus
+name: What do you think should be our next focus area now that the refactor is complete?
+description: Encourages Darren to think about future priorities and team alignment.
+purpose: topic
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

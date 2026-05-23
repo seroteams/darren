@@ -1,0 +1,9 @@
+alias: q_vision_for_growth
+label: Vision for growth
+name: What aspects of design leadership are you eager to develop further?
+description: Identify specific interests in expanding leadership skills.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: generated

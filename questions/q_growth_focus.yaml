@@ -1,0 +1,8 @@
+alias: q_growth_focus
+label: Growth focus
+name: What skill do you want to develop next for your career growth?
+description: Identifying her personal development priorities.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

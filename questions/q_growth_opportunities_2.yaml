@@ -1,0 +1,8 @@
+alias: q_growth_opportunities_2
+label: Growth opportunities
+name: What skills or areas do you want to focus on for your development?
+description: Explores areas for further growth and development.
+purpose: topic
+axis_effects:
+  growth: +3
+source: "swap_for:q_wellbeing_reflection"

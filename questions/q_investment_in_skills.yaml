@@ -1,0 +1,9 @@
+alias: q_investment_in_skills
+label: Investment in skills
+name: What kind of support or resources would accelerate your development towards the Head of UX role?
+description: Explores what Sarah needs from the organization or the manager to support her growth.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+source: generated

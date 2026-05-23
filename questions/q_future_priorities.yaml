@@ -1,0 +1,9 @@
+alias: q_future_priorities
+label: Future priorities
+name: As we look ahead, what do you see as your top priorities for the next month?
+description: Prompts Priya to think about her upcoming goals and how they align with team objectives.
+purpose: topic
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

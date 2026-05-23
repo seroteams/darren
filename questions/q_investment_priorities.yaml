@@ -1,0 +1,9 @@
+alias: q_investment_priorities
+label: Investment priorities
+name: If you could focus on one area for personal development, what would it be and why?
+description: Explores personal development priorities and reasoning.
+purpose: competency
+stage: investment
+axis_effects:
+  growth: +3
+source: generated

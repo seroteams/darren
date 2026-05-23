@@ -1,0 +1,8 @@
+alias: q_current_focus
+label: Current focus
+name: "What's been most on your mind at work lately?"
+description: "Opens the conversation to understand Priya's current focus and concerns."
+purpose: topic
+axis_effects:
+  engagement: +1
+source: generated

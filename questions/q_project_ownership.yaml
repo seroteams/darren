@@ -1,0 +1,8 @@
+alias: q_project_ownership
+label: Project ownership
+name: What does taking full ownership of a design project mean to you?
+description: Explores their understanding and approach to owning projects fully.
+purpose: competency
+axis_effects:
+  growth: +1
+source: generated

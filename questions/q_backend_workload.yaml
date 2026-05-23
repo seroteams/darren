@@ -1,0 +1,8 @@
+alias: q_backend_workload
+label: Backend workload
+name: "When you say 'doing all the tickets for the backend stuff is very hard', what's making it hard — volume, complexity, or something else?"
+description: Drills deeper into the specifics of what makes the backend workload challenging.
+purpose: wellbeing
+axis_effects:
+  wellbeing: -1
+source: planner_added

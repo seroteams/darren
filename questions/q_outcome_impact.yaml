@@ -1,0 +1,9 @@
+alias: q_outcome_impact
+label: Outcome impact
+name: How has your interaction with the UX team impacted recent project outcomes?
+description: Explores the effect of cross-functional interactions on project success.
+purpose: competency
+stage: evidence
+axis_effects:
+  growth: +3
+source: generated

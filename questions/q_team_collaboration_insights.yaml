@@ -1,0 +1,9 @@
+alias: q_team_collaboration_insights
+label: Team collaboration insights
+name: How are you finding collaboration with the team lately?
+description: Explores current team dynamics and any collaboration challenges.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

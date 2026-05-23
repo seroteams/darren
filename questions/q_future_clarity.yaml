@@ -1,0 +1,8 @@
+alias: q_future_clarity
+label: Future clarity
+name: What would help you feel more prepared for the upcoming billing rewrite?
+description: Explores what information or support would enhance clarity and confidence going forward.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

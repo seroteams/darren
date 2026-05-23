@@ -1,0 +1,8 @@
+alias: q_priority_alignment_6
+label: Priority alignment
+name: "Do you feel your priorities are aligned with the team's goals?"
+description: "Checks if Lesley's personal priorities match the team's objectives."
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

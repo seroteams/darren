@@ -1,0 +1,8 @@
+alias: q_support_needs_6
+label: Support needs
+name: What support do you need from me right now?
+description: Directly asks Priya what support she requires, ensuring alignment with her needs.
+purpose: topic
+axis_effects:
+  engagement: +1
+source: generated

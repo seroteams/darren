@@ -1,0 +1,9 @@
+alias: q_ux_impact_assessment
+label: UX impact assessment
+name: How do you evaluate the impact of your UX initiatives this quarter?
+description: Gauge understanding of initiative impact and contribution.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +3
+source: generated

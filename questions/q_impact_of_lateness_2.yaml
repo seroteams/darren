@@ -1,0 +1,8 @@
+alias: q_impact_of_lateness_2
+label: Impact of lateness
+name: How does being late affect your workload or day-to-day priorities?
+description: Explores the potential impact of lateness on workload and daily priorities.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: generated

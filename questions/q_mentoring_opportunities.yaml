@@ -1,0 +1,8 @@
+alias: q_mentoring_opportunities
+label: Mentoring opportunities
+name: What kind of mentoring opportunities are you envisioning for yourself?
+description: Probes their interest and ideas around mentoring.
+purpose: topic
+axis_effects:
+  growth: +3
+source: generated

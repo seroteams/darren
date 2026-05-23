@@ -1,0 +1,9 @@
+alias: q_sustainable_pace
+label: Sustainable pace
+name: What would make this week feel sustainable for you?
+description: Looks for concrete conditions that would support recovery and steady output.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,83 @@
+const { URL } = require("node:url");
+
+function createRouter() {
+  const routes = [];
+
+  function add(method, pattern, handler) {
+    routes.push({ method, pattern, handler });
+  }
+
+  function match(method, pathname) {
+    for (const r of routes) {
+      if (r.method !== method) continue;
+      if (typeof r.pattern === "string") {
+        if (r.pattern === pathname) return { handler: r.handler, params: {} };
+      } else if (r.pattern instanceof RegExp) {
+        const m = pathname.match(r.pattern);
+        if (m) return { handler: r.handler, params: m.groups || {} };
+      }
+    }
+    return null;
+  }
+
+  async function readBody(req) {
+    return new Promise((resolve, reject) => {
+      const chunks = [];
+      req.on("data", (c) => chunks.push(c));
+      req.on("end", () => {
+        const raw = Buffer.concat(chunks).toString("utf8");
+        if (!raw) return resolve({});
+        try {
+          resolve(JSON.parse(raw));
+        } catch (e) {
+          reject(Object.assign(new Error("Invalid JSON body"), { status: 400 }));
+        }
+      });
+      req.on("error", reject);
+    });
+  }
+
+  function sendJson(res, status, data) {
+    const body = JSON.stringify(data);
+    res.writeHead(status, {
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": Buffer.byteLength(body),
+    });
+    res.end(body);
+  }
+
+  function sendError(res, err) {
+    const status = err.status || 500;
+    const msg = err.message || "Internal error";
+    if (status >= 500) console.error("[api]", err);
+    sendJson(res, status, { error: msg });
+  }
+
+  async function handle(req, res, { fallback } = {}) {
+    const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
+    const hit = match(req.method, url.pathname);
+    if (!hit) {
+      if (fallback) return fallback(req, res, url);
+      return sendJson(res, 404, { error: "Not found" });
+    }
+    const ctx = {
+      req,
+      res,
+      url,
+      query: Object.fromEntries(url.searchParams),
+      params: hit.params,
+      readBody: () => readBody(req),
+      json: (status, data) => sendJson(res, status, data),
+      error: (err) => sendError(res, err),
+    };
+    try {
+      await hit.handler(ctx);
+    } catch (e) {
+      sendError(res, e);
+    }
+  }
+
+  return { add, handle, sendJson, sendError };
+}
+
+module.exports = { createRouter };
