@@ -84,7 +84,7 @@ function unitChecks() {
       const srcText = fs.readFileSync(srcFile, "utf8");
       const placeholders = [...promptText.matchAll(/\{\{([A-Z0-9_]+)\}\}/g)].map((m) => m[1]);
       const unique = [...new Set(placeholders)];
-      const missing = unique.filter((p) => !srcText.includes(`"{{${p}}}"`));
+      const missing = unique.filter((p) => !srcText.includes(`"{{${p}}}"`) && !srcText.includes(`\\{\\{${p}\\}\\}`));
       if (missing.length === 0) pass(`prompt placeholders covered: ${path.basename(promptFile)}`);
       else fail(`prompt placeholders covered: ${path.basename(promptFile)}`, `missing .replace for: ${missing.join(", ")}`);
     } catch (e) {
@@ -123,6 +123,7 @@ if (meetingIdx < 0) {
 const answers = scenario.answers || [];
 const BUDGET = TOTAL_BUDGET;
 const inputs = [
+  "n", // Recent-runs start menu: new run
   scenario.name,
   scenario.role,
   scenario.seniority,
@@ -132,7 +133,7 @@ const inputs = [
   ...answers,
 ];
 // Pad with skips so the pipe never runs dry mid-session
-while (inputs.length < 6 + BUDGET + 5) inputs.push("");
+while (inputs.length < 7 + BUDGET + 5) inputs.push("");
 
 // -------------------------------------------------------------- Expectations
 unitChecks();
