@@ -17,7 +17,7 @@ The response must match this exact shape:
 
 ```json
 {
-  "coreIssue": "<one paragraph — what this 1:1 is probably about>",
+  "coreIssue": "<one tight sentence — what this 1:1 is probably about>",
   "openingQuestion": "<one strong, specific question the manager could say verbatim>",
   "listenFor": ["<item 1>", "<item 2>", "<item 3>"],
   "avoid": ["<item 1>", "<item 2>"],
@@ -27,7 +27,7 @@ The response must match this exact shape:
 ```
 
 Field rules:
-- `coreIssue`: 2–3 sentences, strictly under 70 words. Must reference the specific role, seniority level, meeting type, and selected concerns. Cannot be generic filler.
+- `coreIssue`: exactly one sentence, max 28 words. Names the probable centre of the conversation. Must reference the specific role, seniority level, meeting type, or selected concerns — pick the most load-bearing element, do not stack all four. Cannot be generic filler. Do not restate the manager's notes verbatim.
 - `openingQuestion`: max 28 words. A real sentence the manager could say verbatim to open the 1:1. Must be specific to the selected concerns. Prefer "What" or "How" unless a no-oriented question is safer. Must NOT be "How are you?", "Tell me about...", "What do you think?", or any other generic opener. Must invite a concrete, personal response.
 - `listenFor`: exactly 3 items, each starting with "whether" or "if they". Short, specific, observable.
 - `avoid`: exactly 2 items, each starting with "do not". Practical traps for this specific meeting type and seniority.
