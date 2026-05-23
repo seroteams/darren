@@ -1,0 +1,87 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_biweekly_friction",
+    "label": "Friction scan",
+    "name": "What's been slower or harder than it should have been?",
+    "description": "Invites them to name blockers without framing it as complaint.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 3
+    },
+    "source": "seed"
+  },
+  "answer": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "clarity": 1
+    },
+    "note": "Priya reported good energy from the sprint and a clean landing, but also mentioned coasting this week, indicating mild engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_energy_assessment",
+      "label": "Energy assessment",
+      "name": "Where is your energy actually at after the refactor, and what's driving that?"
+    },
+    {
+      "alias": "q_mentoring_vision_4",
+      "label": "Mentoring vision",
+      "name": "What would mentoring actually look like in your week, and what would you need to drop to make space for it?"
+    },
+    {
+      "alias": "q_recognition_feedback",
+      "label": "Recognition feedback",
+      "name": "Did the recognition for the refactor land properly for you, or did anything feel missing?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_support_needs_4",
+      "label": "Support needs",
+      "name": "What support would you need to feel ready for upcoming projects?"
+    },
+    {
+      "alias": "q_personal_growth",
+      "label": "Personal growth",
+      "name": "Where do you see the biggest gap between where you are now and where you want to be in 12 months?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

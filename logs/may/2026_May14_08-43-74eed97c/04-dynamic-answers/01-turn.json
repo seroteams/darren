@@ -1,0 +1,77 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_open_real_version",
+    "label": "The real version",
+    "name": "Tell me about your week — the real version.",
+    "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 2,
+      "engagement": 1
+    },
+    "source": "research"
+  },
+  "answer": "yeah he is ok",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The answer was non-responsive and did not engage with the question's intent."
+  },
+  "new_queue": [
+    {
+      "alias": "q_addressing_negativity",
+      "label": "Addressing negativity",
+      "name": "I've noticed some negativity in your outlook — what's behind that?"
+    },
+    {
+      "alias": "q_current_challenges_3",
+      "label": "Current challenges",
+      "name": "What has been the most challenging aspect of your role recently?"
+    },
+    {
+      "alias": "q_intro_perf_01_opening",
+      "label": "Self-read opener",
+      "name": "Before I share my view, how do you think the last stretch has gone?"
+    },
+    {
+      "alias": "q_stakeholder_relationships",
+      "label": "Stakeholder relationships",
+      "name": "How are your interactions with doctors and administrative staff going?"
+    },
+    {
+      "alias": "q_intro_perf_02_proud",
+      "label": "What they're proud of",
+      "name": "What's something from the last quarter you're genuinely proud of — not what looks good, what actually was good?"
+    },
+    {
+      "alias": "q_communication_clarity_2",
+      "label": "Communication clarity",
+      "name": "What feedback, if any, have you received about your communication style?"
+    },
+    {
+      "alias": "q_growth_opportunities_11",
+      "label": "Growth opportunities",
+      "name": "What areas are you looking to grow or develop in over the next quarter?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

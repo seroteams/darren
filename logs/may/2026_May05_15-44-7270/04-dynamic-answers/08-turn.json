@@ -1,0 +1,46 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_team_dynamics_4",
+    "label": "Team dynamics",
+    "name": "How do you perceive your lateness affecting team interactions?",
+    "description": "Examines the effect of lateness on team dynamics and interactions.",
+    "purpose": "competency",
+    "axis_effects": {
+      "engagement": 1
+    },
+    "source": "generated"
+  },
+  "answer": "sdf",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The answer 'sdf' is non-informative and evasive, providing no signal about engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_long_term_goals",
+      "label": "Long-term goals",
+      "name": "Where do you see your role evolving in the next year?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

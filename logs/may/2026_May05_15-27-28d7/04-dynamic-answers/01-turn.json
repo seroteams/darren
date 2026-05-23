@@ -1,0 +1,87 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_off_connection",
+    "label": "Team connection",
+    "name": "How connected do you feel to the rest of the team right now?",
+    "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "engagement": 3,
+      "wellbeing": 1
+    },
+    "source": "seed"
+  },
+  "answer": "not a lot",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": -3
+    },
+    "note": "The answer 'not a lot' indicates a lack of connection with the team, signaling disengagement and mild wellbeing concern."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_late_arrival_reasons",
+      "label": "Late arrival reasons",
+      "name": "What's been causing your late arrivals to work recently?"
+    },
+    {
+      "alias": "q_workload_assessment_2",
+      "label": "Workload assessment",
+      "name": "How manageable does your current workload feel day-to-day?"
+    },
+    {
+      "alias": "q_feedback_received",
+      "label": "Feedback received",
+      "name": "What feedback have you received recently that’s stuck with you?"
+    },
+    {
+      "alias": "q_manager_support_needs",
+      "label": "Manager support needs",
+      "name": "What specific support would make a difference for you right now?"
+    },
+    {
+      "alias": "q_growth_opportunities_6",
+      "label": "Growth opportunities",
+      "name": "What area of your role are you looking to grow or stretch in next?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "not a lot"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "not a lot"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "James",
+  "role": "Online Personal Coach",
+  "seniority": "Junior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "No",
+  "model": "gpt-4o"
+}

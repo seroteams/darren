@@ -1,0 +1,102 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_growth_blockers",
+    "label": "Growth blockers",
+    "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+    "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+    "purpose": "topic",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1
+    },
+    "source": "seed"
+  },
+  "answer": "dont know",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The answer 'don't know' provides no specific signal about growth blockers or clarity."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_current_work_landscape",
+      "label": "Current work landscape",
+      "name": "What's been most on your mind at work lately?"
+    },
+    {
+      "alias": "q_leadership_readiness",
+      "label": "Leadership readiness",
+      "name": "What about leading a team excites you the most?"
+    },
+    {
+      "alias": "q_delegation_comfort",
+      "label": "Delegation comfort",
+      "name": "How comfortable are you with delegating tasks currently?"
+    },
+    {
+      "alias": "q_communication_for_leadership",
+      "label": "Communication for leadership",
+      "name": "What do you think is key in communicating effectively as a team leader?"
+    },
+    {
+      "alias": "q_understanding_expectations",
+      "label": "Understanding expectations",
+      "name": "What do you believe are the key expectations for a team lead role?"
+    },
+    {
+      "alias": "q_impact_through_leadership",
+      "label": "Impact through leadership",
+      "name": "How would leading the team amplify your impact?"
+    },
+    {
+      "alias": "q_current_priority_clarity",
+      "label": "Current priority clarity",
+      "name": "What are your top priorities this week, and why?"
+    },
+    {
+      "alias": "q_role_stretch",
+      "label": "Role stretch",
+      "name": "What part of the team lead role do you think will stretch you the most?"
+    },
+    {
+      "alias": "q_energy_and_sustainability",
+      "label": "Energy and sustainability",
+      "name": "How's your energy holding up with the current workload?"
+    },
+    {
+      "alias": "q_future_learning_areas",
+      "label": "Future learning areas",
+      "name": "What new skills or knowledge do you feel you need to develop for the team lead role?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

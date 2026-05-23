@@ -1,0 +1,170 @@
+{
+  "ctx": {
+    "name": "Carl",
+    "role": "Senior Product Designer",
+    "seniority": "Senior",
+    "meetingType": "Something feels off",
+    "notes": "They arrive late to work a lot"
+  },
+  "focusPoints": [
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Late arrivals and energy levels",
+      "reason": "Notes mention arriving late to work a lot. Could be a sign of low energy, personal issues, or simply a change in routine — worth exploring what's behind it.",
+      "known": true
+    },
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Current workload balance and stress",
+      "reason": "No specific signal — typical for a senior in this meeting type. Understanding if workload is a factor in lateness could provide clarity.",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Connection with the team recently",
+      "reason": "No specific signal — but worth checking if there's any team dynamic contributing to the 'off' feeling.",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "Recent feedback they've received or given",
+      "reason": "No specific signal — standard check-in point. If there's something off, feedback channels might reveal or clarify it.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Support they need from you now",
+      "reason": "No specific signal — standard check-in hygiene. If lateness relates to needing more support, this opens the door.",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "How connected do you feel to the rest of the team right now?",
+      "alias": "q_intro_off_connection",
+      "answer": "not a lot",
+      "skipped": false
+    },
+    {
+      "question": "How's your energy been lately — separately from how work is going?",
+      "alias": "q_intro_off_energy",
+      "answer": "quite low as i have problems with the kids at home",
+      "skipped": false
+    },
+    {
+      "question": "What's been causing your late arrivals to work recently?",
+      "alias": "q_late_arrival_reasons",
+      "answer": "kids been sick a lot so i had to take care of them",
+      "skipped": false
+    },
+    {
+      "question": "How manageable does your current workload feel day-to-day?",
+      "alias": "q_workload_assessment_2",
+      "answer": "its okay but i feel like i am always behind",
+      "skipped": false
+    },
+    {
+      "question": "What specific support would make a difference for you right now?",
+      "alias": "q_manager_support_needs",
+      "answer": "can I start later in the day and finish later?",
+      "skipped": false
+    },
+    {
+      "question": "What feedback have you received recently that’s stuck with you?",
+      "alias": "q_feedback_received",
+      "answer": "nothing",
+      "skipped": false
+    },
+    {
+      "question": "What would help you balance work and home responsibilities better right now?",
+      "alias": "q_work_life_balance_2",
+      "answer": "not sure",
+      "skipped": false
+    },
+    {
+      "question": "What area of your role are you looking to grow or stretch in next?",
+      "alias": "q_growth_opportunities_6",
+      "answer": "nothing",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "not a lot"
+        },
+        {
+          "q": "q_intro_off_energy",
+          "delta": -3,
+          "answer_excerpt": "quite low as i have problems with the kids at home"
+        },
+        {
+          "q": "q_late_arrival_reasons",
+          "delta": -1,
+          "answer_excerpt": "kids been sick a lot so i had to take care of them"
+        },
+        {
+          "q": "q_workload_assessment_2",
+          "delta": -1,
+          "answer_excerpt": "its okay but i feel like i am always behind"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "not a lot"
+        },
+        {
+          "q": "q_feedback_received",
+          "delta": -1,
+          "answer_excerpt": "nothing"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_manager_support_needs",
+          "delta": 1,
+          "answer_excerpt": "can I start later in the day and finish later?"
+        },
+        {
+          "q": "q_feedback_received",
+          "delta": -1,
+          "answer_excerpt": "nothing"
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_growth_opportunities_6",
+          "delta": -3,
+          "answer_excerpt": "nothing"
+        }
+      ]
+    }
+  },
+  "notes": "They arrive late to work a lot",
+  "model": "gpt-4o"
+}

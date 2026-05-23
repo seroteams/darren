@@ -1,0 +1,8 @@
+{
+  "name": "Bill",
+  "role": "Web Designer",
+  "seniority": "Lead",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "They are doing really well",
+  "model": "gpt-4o"
+}

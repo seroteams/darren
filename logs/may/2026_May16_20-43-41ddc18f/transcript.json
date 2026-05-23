@@ -1,0 +1,163 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_open_bit_of_joy",
+      "label": "Bit of joy",
+      "name": "What's brought you a bit of joy recently?",
+      "description": "'A bit of' removes pressure to perform happiness. PERMA positive emotion — activates openness.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "research"
+    },
+    "answer": "the last lesson at uni was fun",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": 1
+    },
+    "note": "The mention of a fun university lesson indicates a mild positive wellbeing signal."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?",
+      "description": "Separates energy from output; avoids leading with 'is something wrong'.",
+      "purpose": "wellbeing",
+      "stage": "landing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "seed"
+    },
+    "answer": "its been good, i am still excited, just worried about how much work i have and people I need to speak to and work with.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": 1
+    },
+    "note": "Positive energy and excitement signal, but workload concerns suggest potential stressors."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_workshop_timing",
+      "label": "Workshop timing",
+      "name": "I've noticed workshops seem to be planned last minute — what's the situation there?",
+      "description": "Explores the reasons behind last-minute workshop planning to understand underlying issues.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    "answer": "not very, feeling like teh BA's are more the enemy that helping. the lead BA is a dick",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "Strong negative clarity signal — describes conflict with BAs, specifically naming the lead BA as a problem."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_ba_conflict",
+      "label": "BA conflict",
+      "name": "You mentioned feeling like the BAs are more of an enemy — what's driving that tension, and how's it impacting your work?",
+      "description": "Explores the conflict with BAs and its impact on Taya's work.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "escalation calls, calls brining in the head of dev, not wanting to lsite and seems so very very stressed.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "Escalation calls and stress indicate significant tension with BAs, impacting clarity."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_ba_stress_specifics",
+      "label": "BA stress specifics",
+      "name": "When you mention the BAs seem stressed, what's the specific impact on your work or planning?",
+      "description": "Drills into how BA stress specifically affects Taya's work and planning.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "they do thing half, its rushed all teh time.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "Taya describes rushed and incomplete work due to BA stress, indicating a strong lack of clarity in planning."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_ba_rushed_work",
+      "label": "BA rushed work",
+      "name": "When you say things are rushed and half-done, what's the most immediate impact on your planning or execution?",
+      "description": "Explores the direct consequences of rushed work on Taya's planning and execution.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "no idea",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "[SHALLOW] 'no idea' offers no specifics on the impact of rushed work."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_clarify_ba_impact",
+      "label": "Clarify BA impact",
+      "name": "When you say 'no idea' — is it more about the uncertainty itself, or something else blocking clarity?",
+      "description": "Clarifies what 'no idea' means in the context of rushed BA work and its impact.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "Skipped question — no clarity signal realised."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_next_steps_clarity",
+      "label": "Next steps clarity",
+      "name": "What's the first concrete thing you want to tackle to improve your planning process?",
+      "description": "Encourages Taya to identify a specific action to take towards improving her planning process.",
+      "purpose": "topic",
+      "stage": "support",
+      "axis_effects": {
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "Skipped the question, providing no signal on growth axis."
+  }
+]

@@ -1,0 +1,109 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_stretch_edge_4",
+    "label": "Stretch edge",
+    "name": "What kind of work would stretch you in a useful way right now?",
+    "description": "Identifies the next level of challenge that would feel developmental rather than random.",
+    "purpose": "topic",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 1
+    },
+    "source": "generated"
+  },
+  "answer": "doing some design, but no one will let me do it",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "growth": 3
+    },
+    "note": "He wants to do design work but says no one will let him, which is a strong growth signal and a smaller engagement lift."
+  },
+  "new_queue": [
+    {
+      "alias": "q_feedback_loop",
+      "label": "Feedback loop",
+      "name": "Where are you getting the kind of feedback that actually helps you improve?"
+    },
+    {
+      "alias": "q_ownership_signal_2",
+      "label": "Ownership signal",
+      "name": "Where have you been leaning in without being asked lately?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_sustainable_pace_2",
+          "delta": -1,
+          "answer_excerpt": "if more people were off, i'm sick of people having holidays all the time"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "The release, it took over 5 hours to get it out"
+        },
+        {
+          "q": "q_stretch_edge_4",
+          "delta": 1,
+          "answer_excerpt": "doing some design, but no one will let me do it"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "The release, it took over 5 hours to get it out"
+        },
+        {
+          "q": "q_hidden_blockers",
+          "delta": 1,
+          "answer_excerpt": "When bob is not here"
+        },
+        {
+          "q": "q_escalation_point",
+          "delta": 1,
+          "answer_excerpt": "Make sure bob is shadowed when he's away"
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "making sure the next time we release it goes smoother with ci/cd pipelines"
+        },
+        {
+          "q": "q_decision_clarity",
+          "delta": 1,
+          "answer_excerpt": "releasing a month ago would have been better, or releasing after bob it back"
+        },
+        {
+          "q": "q_support_gap_2",
+          "delta": 1,
+          "answer_excerpt": "a promotion"
+        }
+      ]
+    },
+    "growth": {
+      "score": 3,
+      "history": [
+        {
+          "q": "q_stretch_edge_4",
+          "delta": 3,
+          "answer_excerpt": "doing some design, but no one will let me do it"
+        }
+      ]
+    }
+  }
+}

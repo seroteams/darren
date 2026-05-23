@@ -1,0 +1,90 @@
+{
+  "assessment": {
+    "deltas": [
+      {
+        "axis": "engagement",
+        "delta": -1
+      },
+      {
+        "axis": "clarity",
+        "delta": 0
+      }
+    ],
+    "note": "Indicated coasting this week suggests a slight dip in engagement."
+  },
+  "new_queue": [
+    {
+      "ref_alias": "q_exploring_quieter_energy",
+      "label": "Exploring quieter energy",
+      "name": "What do you think is behind your quieter energy this week?",
+      "description": "Encourages reflection on their current state and any underlying factors.",
+      "purpose": "wellbeing",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 3
+        }
+      ]
+    },
+    {
+      "ref_alias": "q_team_recognition_2",
+      "label": "Team recognition",
+      "name": "How did it feel to see the team's response to the payments refactor success?",
+      "description": "Explores their feelings about recognition and impact on the team.",
+      "purpose": "wellbeing",
+      "axis_effects": [
+        {
+          "axis": "engagement",
+          "delta": 3
+        }
+      ]
+    },
+    {
+      "ref_alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?",
+      "description": "Surfaces whether priorities are crisp or vague; whether they match what you thought.",
+      "purpose": "wellbeing",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "ref_alias": "q_current_blockers_check",
+      "label": "Current blockers check",
+      "name": "What blockers or dependencies are you currently facing that we haven't discussed?",
+      "description": "Invites a deeper look at any hidden obstacles affecting their work.",
+      "purpose": "topic",
+      "axis_effects": [
+        {
+          "axis": "engagement",
+          "delta": 1
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "ref_alias": "q_mentoring_opportunities",
+      "label": "Mentoring opportunities",
+      "name": "What kind of mentoring opportunities are you envisioning for yourself?",
+      "description": "Probes their interest and ideas around mentoring.",
+      "purpose": "topic",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        }
+      ]
+    }
+  ]
+}

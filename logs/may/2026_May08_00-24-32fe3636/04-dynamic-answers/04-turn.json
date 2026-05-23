@@ -1,0 +1,61 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_current_energy_drivers",
+    "label": "Current energy drivers",
+    "name": "What’s currently giving you energy in your work, and what's draining it?",
+    "description": "Explores the balance of positive and negative energy factors.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "answer": "4",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "Answer was a single character '4', which provides no meaningful insight into energy drivers."
+  },
+  "new_queue": [
+    {
+      "alias": "q_energy_routine_impact",
+      "label": "Energy routine impact",
+      "name": "How does your daily routine impact your energy levels?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_support_from_manager_2",
+      "label": "Support from manager",
+      "name": "What support would make the biggest difference for you right now?"
+    },
+    {
+      "alias": "q_growth_opportunities_8",
+      "label": "Growth opportunities",
+      "name": "What growth opportunities are you seeing for yourself right now?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

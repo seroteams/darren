@@ -1,0 +1,97 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_stretch_edge",
+    "label": "Stretch edge",
+    "name": "What part of your work right now feels most like a stretch?",
+    "description": "Finds where they are learning, overextended, or under-challenged in a concrete way.",
+    "purpose": "competency",
+    "axis_effects": {
+      "growth": 3,
+      "wellbeing": 1
+    },
+    "source": "generated"
+  },
+  "answer": "Growth-wise I think I'm flat. I'm the most senior IC on the team and there's no one really pushing me.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -3
+    },
+    "note": "They explicitly said growth is flat and nobody is pushing them, signaling strong stagnation; no new wellbeing signal beyond the existing flatness."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_stretch",
+      "label": "Next stretch",
+      "name": "What would actually make this role feel more stretching over the next month or two?"
+    },
+    {
+      "alias": "q_mentoring_shape_2",
+      "label": "Mentoring shape",
+      "name": "If mentoring is still something you want, what would you want it to look like in practice?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_refactor_aftermath",
+          "delta": -1,
+          "answer_excerpt": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+        },
+        {
+          "q": "q_blocker_ownership",
+          "delta": -1,
+          "answer_excerpt": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_rewrite_role",
+          "delta": 1,
+          "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+        },
+        {
+          "q": "q_rewrite_risk",
+          "delta": 1,
+          "answer_excerpt": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_rewrite_role",
+          "delta": 1,
+          "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+        },
+        {
+          "q": "q_rewrite_risk",
+          "delta": 1,
+          "answer_excerpt": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went."
+        },
+        {
+          "q": "q_stretch_edge",
+          "delta": -3,
+          "answer_excerpt": "Growth-wise I think I'm flat. I'm the most senior IC on the team and there's no one really pushing me."
+        }
+      ]
+    }
+  }
+}

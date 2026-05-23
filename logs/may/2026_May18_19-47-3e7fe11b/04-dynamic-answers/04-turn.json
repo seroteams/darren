@@ -1,0 +1,94 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_intro_perf_01_opening",
+    "label": "Self-read opener",
+    "name": "Before I share my view, how do you think the last stretch has gone?",
+    "description": "Anchors the conversation in their self-assessment first; gap vs manager's view becomes a signal.",
+    "purpose": "topic",
+    "stage": "self_read",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "tough",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "clarity": -1
+    },
+    "note": "[SHALLOW] 'tough' lacks specifics on what made the last stretch challenging."
+  },
+  "new_queue": [
+    {
+      "alias": "q_clarify_tough",
+      "label": "Clarify 'tough'",
+      "name": "When you say 'tough', what specifically made it challenging? Was it the workload, team dynamics, or something else?"
+    },
+    {
+      "alias": "q_intro_perf_02_proud",
+      "label": "What they're proud of",
+      "name": "What's something from the last quarter you're genuinely proud of — not what looks good, what actually was good?"
+    },
+    {
+      "alias": "q_specific_feedback",
+      "label": "Specific feedback",
+      "name": "Could you share an instance where communication with the UX team was particularly challenging?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": -1,
+          "answer_excerpt": "there are so many topics to cover and nwith every OE ther eis so much work"
+        },
+        {
+          "q": "q_workload_specifics",
+          "delta": -1,
+          "answer_excerpt": "doing all the tickets for the backend stuff is very hard."
+        },
+        {
+          "q": "q_backend_workload",
+          "delta": -1,
+          "answer_excerpt": "just so many ares, global app, oe x 3 , managing the team and all the POs coming directly to me."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": -1,
+          "answer_excerpt": "there are so many topics to cover and nwith every OE ther eis so much work"
+        },
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "tough"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "tough"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

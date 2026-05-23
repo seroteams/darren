@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "reliability",
+      "type": "Reliability",
+      "category": "competency",
+      "label": "Punctuality and its impact on team trust",
+      "reason": "Notes mention they are always late to work. Worth exploring whether this affects team dynamics or deadlines.",
+      "known": true
+    },
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Design impact on team and projects",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead Web Designer. Understanding the influence of their design work on team success is crucial.",
+      "known": true
+    },
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "Clarity in design communication",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead Web Designer. Effective communication is key to ensuring design intent is understood by all stakeholders.",
+      "known": true
+    },
+    {
+      "id": "ownership",
+      "type": "Ownership",
+      "category": "competency",
+      "label": "Taking full ownership of design projects",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead Web Designer. Discussing their approach to owning projects from start to finish without oversight could be beneficial.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Next steps in design leadership",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead Web Designer. Exploring areas for growth and development in their leadership capabilities could unlock further potential.",
+      "known": true
+    }
+  ],
+  "name": "Carl",
+  "role": "Web Designer",
+  "seniority": "Lead",
+  "meetingType": "Performance & feedback",
+  "notes": "They are always late to work",
+  "model": "gpt-4o"
+}

@@ -1,0 +1,89 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_mentoring_aspirations",
+    "label": "Mentoring aspirations",
+    "name": "You've mentioned wanting to do more mentoring — what specific areas do you feel passionate about sharing with others?",
+    "description": "Explores their mentoring interests to clarify role alignment and growth opportunities.",
+    "purpose": "topic",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "answer": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -3,
+      "clarity": 1
+    },
+    "note": "Priya feels overwhelmed with context-switching, indicating a lack of growth opportunities."
+  },
+  "new_queue": [
+    {
+      "alias": "q_energy_levels",
+      "label": "Energy levels",
+      "name": "How do you feel about your energy levels as we move toward the billing rewrite? Any concerns or adjustments needed?"
+    },
+    {
+      "alias": "q_upcoming_billing_rewrite",
+      "label": "Upcoming billing rewrite",
+      "name": "What are your initial thoughts on the upcoming billing rewrite? Are there specific challenges or contributions you foresee?"
+    },
+    {
+      "alias": "q_recognizing_contributions",
+      "label": "Recognizing contributions",
+      "name": "What aspect of the payments refactor are you most proud of, and how do you think it impacted the team?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_mentoring_aspirations",
+          "delta": 1,
+          "answer_excerpt": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up."
+        }
+      ]
+    },
+    "growth": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_current_mood_check",
+          "delta": -1,
+          "answer_excerpt": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+        },
+        {
+          "q": "q_mentoring_aspirations",
+          "delta": -3,
+          "answer_excerpt": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up."
+        }
+      ]
+    }
+  }
+}

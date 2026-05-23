@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Current priorities and goals alignment",
+      "reason": "No specific signal — standard bi-weekly topic. Important to check if he's aligned with team and company goals this cycle.",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Any current blockers or dependencies",
+      "reason": "No specific signal — routine check-in territory. Useful to understand if there are any obstacles affecting his work.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Energy levels and overall wellbeing",
+      "reason": "No specific signal — typical for this role/meeting. A good opportunity to gauge his motivation and stress levels.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Growth opportunities and skill development",
+      "reason": "No specific signal — common topic for senior developers. Discussing where he wants to stretch can help in career progression.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Support needed from you",
+      "reason": "No specific signal — standard check-in hygiene. Understanding what he needs from you can enhance his effectiveness.",
+      "known": true
+    }
+  ],
+  "name": "Darren",
+  "role": "Senior Developer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Blah",
+  "model": "gpt-5.4-mini"
+}

@@ -1,0 +1,164 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_open_giving_you_energy",
+      "label": "Energy read",
+      "name": "What's been giving you energy lately?",
+      "description": "Strengths-based, not scoped to work. Reveals what genuinely animates the person.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 2,
+        "engagement": 1
+      },
+      "source": "research"
+    },
+    "answer": "helping others",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": 1,
+      "engagement": 1
+    },
+    "note": "Helping others is a positive engagement and wellbeing signal, showing motivation and energy from supporting peers."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_current_focus_3",
+      "label": "Current focus",
+      "name": "How has the last couple of weeks felt from your side?",
+      "description": "Gives Carl a chance to set context and share what's on his mind.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 1,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "Skipped the question, providing no signal on wellbeing or engagement."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_team_dynamics_7",
+      "label": "Team dynamics",
+      "name": "How are you feeling about the current team dynamics?",
+      "description": "Explores Carl's perspective on team fit and any friction.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "they are okay",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The response 'they are okay' is neutral and provides no strong signal about team dynamics."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?",
+      "description": "Probes whether they have a real picture of where they want to go.",
+      "purpose": "topic",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "head of department?",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "growth": 1
+    },
+    "note": "Carl's answer 'head of department?' indicates an aspirational vision for growth and potential engagement."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_role_expectations",
+      "label": "Role expectations",
+      "name": "What parts of your role feel unclear or misaligned right now?",
+      "description": "Explores any confusion or misalignment in Carl's role.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    "answer": "fine, but need more examples",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1
+    },
+    "note": "Carl mentions needing more examples, indicating a lack of clarity in role expectations."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_feedback_received_2",
+      "label": "Feedback received",
+      "name": "How has recent feedback you've received landed with you?",
+      "description": "Understands Carl's perception of feedback and its impact.",
+      "purpose": "topic",
+      "axis_effects": {
+        "engagement": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "ok",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The response 'ok' lacks detail and does not provide insight into engagement or clarity."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_skill_development",
+      "label": "Skill development",
+      "name": "What new skills or areas are you interested in developing?",
+      "description": "Probes Carl's interest in growth and skill enhancement.",
+      "purpose": "topic",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "generated"
+    },
+    "answer": "Leadership",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": 1
+    },
+    "note": "Carl expressed interest in developing leadership skills, indicating a positive growth signal."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_support_needs_9",
+      "label": "Support needs",
+      "name": "What support do you feel you need from me to succeed?",
+      "description": "Identifies areas where Carl feels unsupported or could use help.",
+      "purpose": "topic",
+      "axis_effects": {
+        "engagement": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "More time off",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "clarity": -1
+    },
+    "note": "Deficiency-as-request: 'More time off' indicates current unmet need for rest or balance, affecting engagement and clarity negatively."
+  }
+]

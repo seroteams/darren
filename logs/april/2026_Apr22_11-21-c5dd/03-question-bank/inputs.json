@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Current priorities and team alignment",
+      "reason": "No specific signal — standard bi-weekly topic. It's essential to ensure alignment on what's being prioritized this cycle.",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Any blockers impacting progress",
+      "reason": "No specific signal — routine check-in territory. Identifying blockers helps keep the team moving smoothly.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Energy levels and overall wellbeing",
+      "reason": "No specific signal — typical for this role/meeting. Checking in on energy can reveal insights into team morale.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What support you need from me",
+      "reason": "No specific signal — common check-in area. It's important to understand how I can better support you and the team.",
+      "known": true
+    },
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Strategic impact of your initiatives",
+      "reason": "No specific signal — a key focus for a CTO. Discussing the impact of your work can help align future efforts.",
+      "known": true
+    }
+  ],
+  "name": "Darren",
+  "role": "CTO",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Blah",
+  "model": "gpt-5.4-mini"
+}

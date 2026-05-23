@@ -1,0 +1,57 @@
+{
+  "name": "Priya",
+  "roleTitle": "Senior Backend Engineer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "observedShift": "Just shipped the payments refactor on Monday — big win, team noticed. Looks a bit flat this week, quieter than usual in standup. Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet.",
+  "focusPoints": [
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Celebrating the success of the payments refactor",
+      "reason": "Just shipped the payments refactor on Monday — big win, team noticed. Worth ensuring Priya feels recognized for this achievement.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Checking in on energy and motivation",
+      "reason": "Looks a bit flat this week, quieter than usual in standup. Could be post-launch fatigue, a personal matter, or just a quiet week — worth checking in.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Exploring mentoring opportunities",
+      "reason": "Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Could be a growth area Priya wants to pursue.",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Discussing upcoming involvement in the billing rewrite",
+      "reason": "Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet. Worth discussing to align on upcoming priorities.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What support they need from you right now",
+      "reason": "No specific signal — selected because this is a normal Bi-weekly check-in topic for a Senior Backend Engineer.",
+      "known": true
+    }
+  ],
+  "model": "gpt-4o",
+  "runId": "5e86217b-4587-4eb3-a942-359aaba1cf04",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "output may not reflect the meeting type distinctly"
+    ]
+  }
+}

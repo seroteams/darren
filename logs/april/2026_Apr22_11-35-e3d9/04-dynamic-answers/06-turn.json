@@ -1,0 +1,113 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_peer_connection",
+    "label": "Peer connection",
+    "name": "Who at school do you feel most connected to lately?",
+    "description": "Looks for the quality of her social support at school without assuming it is good or bad.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 1,
+      "engagement": 1
+    },
+    "source": "generated"
+  },
+  "answer": "my teacher, Mr Jobe but also my friends who i play with at lunch time. But Josy hit my arm the other day and it hurt",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": 1
+    },
+    "note": "She named supportive people, but also said Josy hit her arm and it hurt, which slightly dents wellbeing while still showing active connection."
+  },
+  "new_queue": [
+    {
+      "alias": "q_learning_stretch",
+      "label": "Learning stretch",
+      "name": "Where at school are you getting pushed in a good way?"
+    },
+    {
+      "alias": "q_next_stretch_2",
+      "label": "Next stretch",
+      "name": "What would feel like a real step up for you over the next few weeks?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_school_load_balance",
+          "delta": 1,
+          "answer_excerpt": "fine, it's a few hours and there is time after school to do stuff. and i don't have much home work. i'd like more ECA's - i only do mondays"
+        },
+        {
+          "q": "q_school_energy",
+          "delta": 1,
+          "answer_excerpt": "playground and football pitch and playing basket ball"
+        },
+        {
+          "q": "q_support_from_manager",
+          "delta": 1,
+          "answer_excerpt": "if they were more often, sometimes i feel like i've been forgotten"
+        },
+        {
+          "q": "q_peer_connection",
+          "delta": -1,
+          "answer_excerpt": "my teacher, Mr Jobe but also my friends who i play with at lunch time. But Josy hit my arm the other day and it hurt"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Getting to school took a long time, the BTS saw slow and very busy."
+        },
+        {
+          "q": "q_school_energy",
+          "delta": 3,
+          "answer_excerpt": "playground and football pitch and playing basket ball"
+        },
+        {
+          "q": "q_peer_connection",
+          "delta": 1,
+          "answer_excerpt": "my teacher, Mr Jobe but also my friends who i play with at lunch time. But Josy hit my arm the other day and it hurt"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 4,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Getting to school took a long time, the BTS saw slow and very busy."
+        },
+        {
+          "q": "q_school_load_balance",
+          "delta": 1,
+          "answer_excerpt": "fine, it's a few hours and there is time after school to do stuff. and i don't have much home work. i'd like more ECA's - i only do mondays"
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "training for football and basketball, but i hurt my knee"
+        },
+        {
+          "q": "q_support_from_manager",
+          "delta": 1,
+          "answer_excerpt": "if they were more often, sometimes i feel like i've been forgotten"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

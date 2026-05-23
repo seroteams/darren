@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Celebrating the payments refactor win",
+      "reason": "Just shipped the payments refactor and it was a big win. Worth acknowledging their contribution to boost morale.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Checking in on their mood this week",
+      "reason": "Looks a bit flat this week and quieter than usual in standup. Could be fatigue, a temporary dip, or something else — worth exploring.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Interest in mentoring opportunities",
+      "reason": "Mentioned wanting to do more mentoring, which hasn't been discussed in a few months. Could be a good time to explore how that fits into their growth.",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Upcoming billing rewrite involvement",
+      "reason": "Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet. Worth clarifying expectations and alignment.",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Any blockers on current tasks",
+      "reason": "No specific signal — standard check-in topic. It's important to ensure there are no hidden obstacles affecting their work.",
+      "known": true
+    }
+  ],
+  "name": "Priya",
+  "role": "Senior Backend Engineer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Just shipped the payments refactor on Monday — big win, team noticed. Looks a bit flat this week, quieter than usual in standup. Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet.",
+  "model": "gpt-4o-mini"
+}

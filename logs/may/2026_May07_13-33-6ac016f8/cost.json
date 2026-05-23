@@ -1,0 +1,143 @@
+{
+  "call_count": 12,
+  "usd_total": 0.1442475,
+  "unknown_price_calls": 0,
+  "prompt_tokens": 61739,
+  "completion_tokens": 3470,
+  "cached_tokens": 35840,
+  "total_tokens": 65209,
+  "calls": [
+    {
+      "stage": "01-focus-points",
+      "model": "gpt-4o",
+      "prompt_tokens": 4076,
+      "completion_tokens": 216,
+      "cached_tokens": 0,
+      "total_tokens": 4292,
+      "usd_cost": 0.01235,
+      "known_price": true,
+      "at": "2026-05-07T13:33:47.346Z"
+    },
+    {
+      "stage": "01b-preparation",
+      "model": "gpt-4o",
+      "prompt_tokens": 817,
+      "completion_tokens": 229,
+      "cached_tokens": 0,
+      "total_tokens": 1046,
+      "usd_cost": 0.0043325,
+      "known_price": true,
+      "at": "2026-05-07T13:34:17.233Z"
+    },
+    {
+      "stage": "03-question-bank",
+      "model": "gpt-4o",
+      "prompt_tokens": 4111,
+      "completion_tokens": 607,
+      "cached_tokens": 0,
+      "total_tokens": 4718,
+      "usd_cost": 0.0163475,
+      "known_price": true,
+      "at": "2026-05-07T13:34:23.406Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-4o",
+      "prompt_tokens": 6753,
+      "completion_tokens": 447,
+      "cached_tokens": 0,
+      "total_tokens": 7200,
+      "usd_cost": 0.0213525,
+      "known_price": true,
+      "at": "2026-05-07T13:35:23.434Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-4o",
+      "prompt_tokens": 6081,
+      "completion_tokens": 377,
+      "cached_tokens": 5120,
+      "total_tokens": 6458,
+      "usd_cost": 0.0125725,
+      "known_price": true,
+      "at": "2026-05-07T13:35:35.913Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-4o",
+      "prompt_tokens": 6063,
+      "completion_tokens": 307,
+      "cached_tokens": 5120,
+      "total_tokens": 6370,
+      "usd_cost": 0.0118275,
+      "known_price": true,
+      "at": "2026-05-07T13:37:38.933Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-4o",
+      "prompt_tokens": 6008,
+      "completion_tokens": 223,
+      "cached_tokens": 5120,
+      "total_tokens": 6231,
+      "usd_cost": 0.01085,
+      "known_price": true,
+      "at": "2026-05-07T13:38:23.963Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-4o",
+      "prompt_tokens": 5964,
+      "completion_tokens": 227,
+      "cached_tokens": 5120,
+      "total_tokens": 6191,
+      "usd_cost": 0.01078,
+      "known_price": true,
+      "at": "2026-05-07T13:39:09.146Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-4o",
+      "prompt_tokens": 6045,
+      "completion_tokens": 171,
+      "cached_tokens": 5120,
+      "total_tokens": 6216,
+      "usd_cost": 0.0104225,
+      "known_price": true,
+      "at": "2026-05-07T13:39:21.888Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-4o",
+      "prompt_tokens": 5995,
+      "completion_tokens": 105,
+      "cached_tokens": 5120,
+      "total_tokens": 6100,
+      "usd_cost": 0.0096375,
+      "known_price": true,
+      "at": "2026-05-07T13:39:36.198Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-4o",
+      "prompt_tokens": 5955,
+      "completion_tokens": 41,
+      "cached_tokens": 5120,
+      "total_tokens": 5996,
+      "usd_cost": 0.0088975,
+      "known_price": true,
+      "at": "2026-05-07T13:40:41.867Z"
+    },
+    {
+      "stage": "05-evaluation",
+      "model": "gpt-4o",
+      "prompt_tokens": 3871,
+      "completion_tokens": 520,
+      "cached_tokens": 0,
+      "total_tokens": 4391,
+      "usd_cost": 0.0148775,
+      "known_price": true,
+      "at": "2026-05-07T13:40:50.803Z"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_strategic_impact",
+    "label": "Strategic impact",
+    "name": "Where do you see the biggest opportunity to increase your strategic impact?",
+    "description": "Probes areas where she can enhance her influence and contribution.",
+    "purpose": "competency",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "generated"
+  },
+  "answer": "yes",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The answer 'yes' was non-engaged and provided no insight into strategic impact opportunities."
+  },
+  "new_queue": [
+    {
+      "alias": "q_delegation_challenges_2",
+      "label": "Delegation challenges",
+      "name": "What's the most challenging part of delegation for you currently?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_ba_led_delegation",
+    "label": "BA-led delegation",
+    "name": "How does having the BAs decide what to delegate affect your role clarity and leadership?",
+    "description": "Explore the impact of BA-led delegation on their clarity and leadership.",
+    "purpose": "competency",
+    "stage": "anchor",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "its hard, we want to be earlier in the process",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "Describes difficulty with BA-led delegation and a desire to be involved earlier, indicating a clarity issue."
+  },
+  "new_queue": [
+    {
+      "alias": "q_earlier_involvement",
+      "label": "Earlier involvement",
+      "name": "What would being involved earlier in the process look like for you, and how would it change your role?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_vision_for_growth",
+      "label": "Vision for growth",
+      "name": "What aspects of design leadership are you eager to develop further?"
+    },
+    {
+      "alias": "q_intro_growth_blockers",
+      "label": "Growth blockers",
+      "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?"
+    },
+    {
+      "alias": "q_managerial_support",
+      "label": "Managerial support",
+      "name": "What support do you need from me to better manage your workload and priorities?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_most_like_yourself",
+          "delta": 1,
+          "answer_excerpt": "every day"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_current_role_assessment",
+          "delta": 1,
+          "answer_excerpt": "The team is better"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_delegation_dynamics",
+          "delta": -3,
+          "answer_excerpt": "the BA's are telling us."
+        },
+        {
+          "q": "q_ba_led_delegation",
+          "delta": -3,
+          "answer_excerpt": "its hard, we want to be earlier in the process"
+        }
+      ]
+    },
+    "growth": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_most_like_yourself",
+          "delta": 1,
+          "answer_excerpt": "every day"
+        }
+      ]
+    }
+  }
+}

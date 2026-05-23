@@ -1,0 +1,12 @@
+{
+  "assessment": {
+    "deltas": [
+      {
+        "axis": "engagement",
+        "delta": -1
+      }
+    ],
+    "note": "The need for more clarity on scope suggests a lack of engagement with current tasks."
+  },
+  "new_queue": []
+}

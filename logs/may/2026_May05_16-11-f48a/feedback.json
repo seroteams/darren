@@ -1,0 +1,30 @@
+[
+  {
+    "timestamp": "2026-05-05T16:22:06.435Z",
+    "questionAlias": "q_intro_biweekly_friction",
+    "questionLabel": "Friction scan",
+    "questionText": "What's been slower or harder than it should have been?",
+    "reason": "too_generic",
+    "sessionContext": {
+      "name": "Carl Heaton",
+      "role": "UX Lead",
+      "seniority": "Lead",
+      "meetingType": "Bi-weekly check-in",
+      "notes": "They have been fine"
+    }
+  },
+  {
+    "timestamp": "2026-05-05T16:31:32.393Z",
+    "questionAlias": "q_standup_feedback",
+    "questionLabel": "Standup feedback",
+    "questionText": "What would make the standups more effective for you?",
+    "reason": "too_generic",
+    "sessionContext": {
+      "name": "Carl Heaton",
+      "role": "UX Lead",
+      "seniority": "Lead",
+      "meetingType": "Bi-weekly check-in",
+      "notes": "They have been fine"
+    }
+  }
+]

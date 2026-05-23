@@ -1,0 +1,15 @@
+[
+  {
+    "timestamp": "2026-05-14T01:49:00.625Z",
+    "type": "run_rating",
+    "sessionId": "2026_May14_08-43-74eed97c",
+    "rating": 3,
+    "stage": "overall",
+    "note": "2",
+    "files": {
+      "transcript": "logs\\2026_May14_08-43-74eed97c\\transcript.json",
+      "axis_state": "logs\\2026_May14_08-43-74eed97c\\axis-state.json",
+      "evaluation_response": "logs\\2026_May14_08-43-74eed97c\\05-evaluation\\response.json"
+    }
+  }
+]

@@ -1,0 +1,89 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_open_bit_of_joy",
+    "label": "Bit of joy",
+    "name": "What's brought you a bit of joy recently?",
+    "description": "'A bit of' removes pressure to perform happiness. PERMA positive emotion — activates openness.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "research"
+  },
+  "answer": "the last lesson at uni was fun",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": 1
+    },
+    "note": "The mention of a fun university lesson indicates a mild positive wellbeing signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_intro_off_connection",
+      "label": "Team connection",
+      "name": "How connected do you feel to the rest of the team right now?"
+    },
+    {
+      "alias": "q_workshop_timing",
+      "label": "Workshop timing",
+      "name": "I've noticed workshops seem to be planned last minute — what's the situation there?"
+    },
+    {
+      "alias": "q_role_clarity_6",
+      "label": "Role clarity",
+      "name": "Is there anything about your role or expectations that's feeling unclear right now?"
+    },
+    {
+      "alias": "q_energy_drivers_4",
+      "label": "Energy drivers",
+      "name": "What's been driving your energy or motivation lately?"
+    },
+    {
+      "alias": "q_workshop_support",
+      "label": "Workshop support",
+      "name": "What kind of support would make workshop planning or execution smoother for you?"
+    },
+    {
+      "alias": "q_planning_stressors",
+      "label": "Planning stressors",
+      "name": "Are there specific stressors in your workload that are impacting your planning?"
+    },
+    {
+      "alias": "q_priority_alignment_10",
+      "label": "Priority alignment",
+      "name": "How aligned do you feel your current tasks are with your priorities?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_bit_of_joy",
+          "delta": 1,
+          "answer_excerpt": "the last lesson at uni was fun"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

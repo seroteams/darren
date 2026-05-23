@@ -1,0 +1,121 @@
+{
+  "ctx": {
+    "name": "Carl",
+    "role": "Web Designer",
+    "seniority": "Lead",
+    "meetingType": "Performance & feedback",
+    "notes": "They are always late to work"
+  },
+  "focusPoints": [
+    {
+      "id": "reliability",
+      "type": "Reliability",
+      "category": "competency",
+      "label": "Punctuality and its impact on team trust",
+      "reason": "Notes mention they are always late to work. Worth exploring whether this affects team dynamics or deadlines.",
+      "known": true
+    },
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Design impact on team and projects",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead Web Designer. Understanding the influence of their design work on team success is crucial.",
+      "known": true
+    },
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "Clarity in design communication",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead Web Designer. Effective communication is key to ensuring design intent is understood by all stakeholders.",
+      "known": true
+    },
+    {
+      "id": "ownership",
+      "type": "Ownership",
+      "category": "competency",
+      "label": "Taking full ownership of design projects",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead Web Designer. Discussing their approach to owning projects from start to finish without oversight could be beneficial.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Next steps in design leadership",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead Web Designer. Exploring areas for growth and development in their leadership capabilities could unlock further potential.",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "Tell me about your week — the real version.",
+      "alias": "q_open_real_version",
+      "answer": "Yeah its fine",
+      "skipped": false
+    },
+    {
+      "question": "Before I share my view, how do you think the last stretch has gone?",
+      "alias": "q_intro_perf_01_opening",
+      "answer": "Yeah its fine",
+      "skipped": false
+    },
+    {
+      "question": "What feels unclear or heavier than it should right now?",
+      "alias": "q_current_challenges_2",
+      "answer": "Yeah its fine",
+      "skipped": false
+    },
+    {
+      "question": "Does your current workload feel sustainable over the next few months?",
+      "alias": "q_sustainable_workload",
+      "answer": "Yeah its fine",
+      "skipped": false
+    },
+    {
+      "question": "How do you think your punctuality affects the team or project timelines?",
+      "alias": "q_punctuality_impact",
+      "answer": "Yeah its fine",
+      "skipped": false
+    },
+    {
+      "question": "How do you see your design work influencing the team's success?",
+      "alias": "q_design_impact",
+      "answer": "Yeah its fine",
+      "skipped": false
+    },
+    {
+      "question": "Where do you find communication around your design work most challenging?",
+      "alias": "q_communication_clarity",
+      "answer": "Yeah its fine",
+      "skipped": false
+    },
+    {
+      "question": "What's the one thing you want to focus on improving before we next meet?",
+      "alias": "q_session_closer",
+      "answer": "Yeah its fine",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  },
+  "notes": "They are always late to work",
+  "model": "gpt-4o"
+}

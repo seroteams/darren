@@ -1,0 +1,103 @@
+{
+  "ctx": {
+    "name": "Sarah",
+    "role": "UX Lead",
+    "seniority": "Lead",
+    "meetingType": "Performance & feedback",
+    "notes": "We have issues with her not turning up to meetings on time"
+  },
+  "focusPoints": [
+    {
+      "id": "reliability",
+      "type": "Reliability",
+      "category": "competency",
+      "label": "Consistency in attending and participating in meetings.",
+      "reason": "Notes mention issues with her not turning up to meetings on time. This could indicate a time management issue, a prioritization conflict, or an engagement signal — worth discussing to understand the root cause.",
+      "known": true
+    },
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "Clarity and effectiveness in team interactions.",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead UX role. Effective communication is crucial for a UX Lead to ensure alignment and understanding within the team.",
+      "known": true
+    },
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Impact of recent UX initiatives on the product.",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead UX role. Understanding the impact of her work can help in recognizing achievements and setting future goals.",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Engagement with product and engineering stakeholders.",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead UX role. Managing stakeholder relationships is key to successful UX leadership.",
+      "known": true
+    },
+    {
+      "id": "delegation",
+      "type": "Delegation effectiveness",
+      "category": "competency",
+      "label": "Delegation and team empowerment in UX projects.",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead UX role. Effective delegation can enhance team productivity and development.",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "Tell me about your week — the real version.",
+      "alias": "q_open_real_version",
+      "answer": "I am just typing this to be testing the flow.",
+      "skipped": false
+    },
+    {
+      "question": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+      "alias": "q_seed_clarity_priorities",
+      "answer": "(skipped)",
+      "skipped": true
+    },
+    {
+      "question": "I've noticed some issues with meeting attendance — what's been going on there?",
+      "alias": "q_meeting_attendance_2",
+      "answer": "I am just typing this to be testing the flow.",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'I am just typing this to be testing the flow' — what specifically has been affecting your meeting attendance? Is it time management, priorities, or something else?",
+      "alias": "q_meeting_attendance_clarification",
+      "answer": "I am just typing this to be testing the flow.",
+      "skipped": false
+    },
+    {
+      "question": "What would make this quarter clearly successful for you — in one sentence?",
+      "alias": "q_seed_clarity_success",
+      "answer": "I am just typing this to be testing the flow.",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  },
+  "notes": "We have issues with her not turning up to meetings on time",
+  "model": "gpt-4o"
+}

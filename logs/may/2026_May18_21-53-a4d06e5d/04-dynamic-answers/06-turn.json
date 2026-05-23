@@ -1,0 +1,99 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_intro_growth_direction",
+    "label": "Direction",
+    "name": "When you imagine yourself eighteen months from now, what's actually different?",
+    "description": "Probes whether they have a real picture of where they want to go.",
+    "purpose": "topic",
+    "stage": "aspiration",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "id be head of my own pillar",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "growth": 3
+    },
+    "note": "Usman envisions being 'head of my own pillar' in 18 months, indicating a clear growth aspiration and engagement with future leadership."
+  },
+  "new_queue": [
+    {
+      "alias": "q_head_of_own_pillar",
+      "label": "Head of own pillar",
+      "name": "Head of your own pillar — what specifically would that entail in terms of scope and responsibilities?"
+    },
+    {
+      "alias": "q_role_anchor_2",
+      "label": "Role anchor",
+      "name": "What's feeling solid in your role right now, and what's stretching you?"
+    },
+    {
+      "alias": "q_facilitation_skills",
+      "label": "Facilitation skills",
+      "name": "Where are you most eager to stretch your facilitation skills next?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_clarify_most_like_yourself",
+          "delta": -3,
+          "answer_excerpt": "i dont have someone to guide me , it's really just me on my own"
+        },
+        {
+          "q": "q_guidance_and_support",
+          "delta": -3,
+          "answer_excerpt": "well where can I go next in the company?"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "id be head of my own pillar"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_clarify_most_like_yourself",
+          "delta": -1,
+          "answer_excerpt": "i dont have someone to guide me , it's really just me on my own"
+        },
+        {
+          "q": "q_future_roles_2",
+          "delta": -1,
+          "answer_excerpt": "head of something, not sure but wanting to move forward"
+        },
+        {
+          "q": "q_head_of_something",
+          "delta": -1,
+          "answer_excerpt": "The title and the money"
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 3,
+          "answer_excerpt": "id be head of my own pillar"
+        }
+      ]
+    }
+  }
+}

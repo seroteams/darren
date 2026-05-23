@@ -1,0 +1,65 @@
+{
+  "scenario": "logs\\2026_May14_22-38-37a3bfa9",
+  "input": {
+    "lastQuestion": {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?",
+      "description": "Probes whether they have a real picture of where they want to go.",
+      "purpose": "topic",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "seed",
+      "stage": "aspiration"
+    },
+    "lastAnswer": "head of department?",
+    "transcript_len": 4
+  },
+  "captured_first": {
+    "alias": "q_role_expectations",
+    "label": "Role expectations",
+    "name": "What parts of your role feel unclear or misaligned right now?"
+  },
+  "new_first": {
+    "alias": "q_head_of_department",
+    "label": "Head of department",
+    "name": "Head of department — what is it about that role that pulls you? Is it the scope, the people, the title, or something else?",
+    "description": "Explores the specific appeal of the head of department role.",
+    "purpose": "topic",
+    "stage": "aspiration",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "new_queue": [
+    {
+      "alias": "q_head_of_department",
+      "label": "Head of department",
+      "name": "Head of department — what is it about that role that pulls you? Is it the scope, the people, the title, or something else?",
+      "description": "Explores the specific appeal of the head of department role.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    }
+  ],
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "growth": 1
+    },
+    "note": "Expressed aspiration to become 'head of department', indicating a clear growth ambition."
+  },
+  "issues": [
+    "dropped item with empty axis_effects: Skill development",
+    "dropped item with empty axis_effects: Role expectations",
+    "dropped item with empty axis_effects: Feedback received",
+    "dropped item with empty axis_effects: Support needs"
+  ],
+  "cost": 0.0213325
+}

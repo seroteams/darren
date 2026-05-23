@@ -1,0 +1,307 @@
+{
+  "id": "2026_May18_23-27-6ff69b14",
+  "dir": "C:\\Users\\User\\Documents\\Sero\\darren\\logs\\may\\2026_May18_23-27-6ff69b14",
+  "createdAt": 1779121643737,
+  "lastSeenAt": 1779121655742,
+  "ctx": {
+    "name": "Usman",
+    "role": "Lead Scrum Master",
+    "seniority": "Lead",
+    "meetingType": "Growth & career plan",
+    "notes": "They have not passed probation but doing very well"
+  },
+  "introQueue": [
+    {
+      "alias": "q_open_curious_lately",
+      "label": "Curiosity",
+      "name": "What's something you've been curious about lately?",
+      "description": "Positions them as active and alive, not performing. Works as a natural growth-oriented opener.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "engagement": 2,
+        "growth": 1
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_growth_blockers",
+      "label": "Growth blockers",
+      "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+      "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?",
+      "description": "Probes whether they have a real picture of where they want to go.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    }
+  ],
+  "focusPointsResult": {
+    "meeting_type": "Growth & career plan",
+    "focus_points": [
+      {
+        "id": "growth",
+        "type": "Growth & development",
+        "category": "topic",
+        "label": "How they see their growth path as a Lead.",
+        "reason": "Growth & career plan for a Lead — understanding their vision for their own growth helps align support and opportunities.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "feedback",
+        "type": "Feedback (given & received)",
+        "category": "topic",
+        "label": "Feedback they're receiving and giving as a Lead.",
+        "reason": "Feedback is a key growth lever at this level — understanding both directions is crucial for development.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "role_clarity",
+        "type": "Role clarity",
+        "category": "topic",
+        "label": "Clarity on expectations and scope as a Lead.",
+        "reason": "They are still in probation, so ensuring they understand the role's expectations is critical for their success.",
+        "source": "signal",
+        "known": true
+      }
+    ]
+  },
+  "preparationResult": {
+    "brief": {
+      "coreIssue": "Usman is performing well but has not yet passed probation. This meeting focuses on understanding his growth path as a Lead Scrum Master, ensuring clarity on role expectations, and exploring feedback dynamics. Aligning his vision with your support will be key to his continued success.",
+      "openingQuestion": "What does your ideal growth path look like as a Lead Scrum Master, and how can I support you in achieving that vision?",
+      "listenFor": [
+        "whether Usman has a clear vision for his growth",
+        "if they feel confident about role expectations",
+        "whether feedback is effectively exchanged"
+      ],
+      "avoid": [
+        "do not assume Usman knows all role expectations",
+        "do not focus solely on current performance metrics"
+      ],
+      "goodOutcome": "You understand Usman's growth vision and have aligned on role expectations and feedback mechanisms.",
+      "suggestedAction": "Schedule a follow-up in one month to review progress on role clarity and feedback implementation."
+    },
+    "runId": "72e8dd1b-ba71-4078-9f8e-1c9f1312bf2d",
+    "validation": {
+      "passed": true,
+      "issues": []
+    }
+  },
+  "bankReady": {
+    "count": 9
+  },
+  "briefing": null,
+  "queueRef": [
+    {
+      "alias": "q_open_curious_lately",
+      "label": "Curiosity",
+      "name": "What's something you've been curious about lately?",
+      "description": "Positions them as active and alive, not performing. Works as a natural growth-oriented opener.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "engagement": 2,
+        "growth": 1
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_growth_blockers",
+      "label": "Growth blockers",
+      "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+      "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?",
+      "description": "Probes whether they have a real picture of where they want to go.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_role_solidity_check",
+      "label": "Role solidity check",
+      "name": "What's feeling solid in your role right now, and what's stretching you?",
+      "description": "Surfaces current confidence and areas of challenge in their role.",
+      "purpose": "competency",
+      "stage": "anchor",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_feedback_dynamics",
+      "label": "Feedback dynamics",
+      "name": "What's a piece of feedback you've received recently that has impacted you?",
+      "description": "Explores how feedback is influencing their development and role.",
+      "purpose": "topic",
+      "stage": "anchor",
+      "axis_effects": {
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_future_role_vision",
+      "label": "Future role vision",
+      "name": "What specific role or responsibilities do you envision for yourself in the future?",
+      "description": "Identifies their aspirations and clarity on future roles.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_scope_clarity",
+      "label": "Scope clarity",
+      "name": "What parts of your current role feel unclear or need more definition?",
+      "description": "Highlights areas where role expectations are vague.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_skill_gap_identification_2",
+      "label": "Skill gap identification",
+      "name": "What skill do you feel you need to develop to reach your next career milestone?",
+      "description": "Pinpoints skills they believe are necessary for advancement.",
+      "purpose": "competency",
+      "stage": "gap",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_feedback_loop_2",
+      "label": "Feedback loop",
+      "name": "How are you incorporating feedback from your team into your leadership style?",
+      "description": "Examines how they are using feedback to evolve as a leader.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_investment_priorities",
+      "label": "Investment priorities",
+      "name": "If you could focus on one area for personal development, what would it be and why?",
+      "description": "Explores personal development priorities and reasoning.",
+      "purpose": "competency",
+      "stage": "investment",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_trade_offs",
+      "label": "Trade-offs",
+      "name": "What are you willing to deprioritize to focus on your growth goals?",
+      "description": "Identifies what they are willing to trade off to achieve growth.",
+      "purpose": "competency",
+      "stage": "investment",
+      "axis_effects": {
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_commitment_to_action_3",
+      "label": "Commitment to action",
+      "name": "What's the first concrete thing you want to have moved by our next conversation?",
+      "description": "Establishes a specific goal or action to be achieved before the next meeting.",
+      "purpose": "competency",
+      "stage": "commitment",
+      "axis_effects": {
+        "growth": 1
+      },
+      "source": "generated"
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "engagement": {
+      "id": "engagement",
+      "label": "Engagement",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "clarity": {
+      "id": "clarity",
+      "label": "Clarity",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "growth": {
+      "id": "growth",
+      "label": "Growth",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    }
+  },
+  "transcript": [],
+  "turn": 0,
+  "totalBudget": 8,
+  "closer": {
+    "alias": "q_commitment_to_action_3",
+    "label": "Commitment to action",
+    "name": "What's the first concrete thing you want to have moved by our next conversation?",
+    "description": "Establishes a specific goal or action to be achieved before the next meeting.",
+    "purpose": "competency",
+    "stage": "commitment",
+    "axis_effects": {
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "pendingAnswer": null,
+  "notes": []
+}

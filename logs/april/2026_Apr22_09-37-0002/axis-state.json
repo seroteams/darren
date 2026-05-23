@@ -1,0 +1,92 @@
+{
+  "wellbeing": {
+    "score": 1,
+    "history": [
+      {
+        "q": "q_intro_biweekly_friction",
+        "delta": 1,
+        "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+      }
+    ]
+  },
+  "engagement": {
+    "score": -3,
+    "history": [
+      {
+        "q": "q_intro_biweekly_friction",
+        "delta": -1,
+        "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+      },
+      {
+        "q": "q_upcoming_billing_rewrite",
+        "delta": -1,
+        "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+      },
+      {
+        "q": "q_checking_in_on_blockers",
+        "delta": -1,
+        "answer_excerpt": "More clarity on scope would help. And hearing about big projects before they're locked in, not after."
+      }
+    ]
+  },
+  "clarity": {
+    "score": 1,
+    "history": [
+      {
+        "q": "q_mentoring_aspirations",
+        "delta": 1,
+        "answer_excerpt": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up."
+      },
+      {
+        "q": "q_upcoming_billing_rewrite",
+        "delta": -1,
+        "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+      },
+      {
+        "q": "q_checking_in_on_blockers",
+        "delta": 1,
+        "answer_excerpt": "More clarity on scope would help. And hearing about big projects before they're locked in, not after."
+      }
+    ]
+  },
+  "growth": {
+    "score": -15,
+    "history": [
+      {
+        "q": "q_current_mood_check",
+        "delta": -1,
+        "answer_excerpt": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+      },
+      {
+        "q": "q_mentoring_aspirations",
+        "delta": -3,
+        "answer_excerpt": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up."
+      },
+      {
+        "q": "q_energy_levels",
+        "delta": -3,
+        "answer_excerpt": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing."
+      },
+      {
+        "q": "q_upcoming_billing_rewrite",
+        "delta": -3,
+        "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+      },
+      {
+        "q": "q_exploring_mentoring",
+        "delta": 1,
+        "answer_excerpt": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went."
+      },
+      {
+        "q": "q_recognizing_contributions",
+        "delta": -3,
+        "answer_excerpt": "Growth-wise I think I'm flat. I'm the most senior IC on the team and there's no one really pushing me."
+      },
+      {
+        "q": "q_checking_in_on_blockers",
+        "delta": -3,
+        "answer_excerpt": "More clarity on scope would help. And hearing about big projects before they're locked in, not after."
+      }
+    ]
+  }
+}

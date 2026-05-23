@@ -1,0 +1,8 @@
+{
+  "name": "Bill",
+  "role": "Acting Coach",
+  "seniority": "Director",
+  "meetingType": "Performance & feedback",
+  "notes": "Director is not got enough asdexperience.",
+  "model": "gpt-4o"
+}

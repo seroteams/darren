@@ -1,0 +1,116 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_decision_clarity",
+    "label": "Decision clarity",
+    "name": "Which decision do you wish were made sooner?",
+    "description": "Finds ambiguity or waiting that is slowing execution and creating uncertainty.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "generated"
+  },
+  "answer": "releasing a month ago would have been better, or releasing after bob it back",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": 1
+    },
+    "note": "He said the release should have happened earlier or after Bob returned, signaling a clearer sequencing preference but not additional ownership or energy."
+  },
+  "new_queue": [
+    {
+      "alias": "q_sustainable_pace_2",
+      "label": "Sustainable pace",
+      "name": "What would make your current pace hard to sustain for another month?"
+    },
+    {
+      "alias": "q_support_gap_2",
+      "label": "Support gap",
+      "name": "What do you need from me that you are not getting yet?"
+    },
+    {
+      "alias": "q_recovery_pattern",
+      "label": "Recovery pattern",
+      "name": "How are you actually recovering between workdays?"
+    },
+    {
+      "alias": "q_ownership_signal_2",
+      "label": "Ownership signal",
+      "name": "Where have you been leaning in without being asked lately?"
+    },
+    {
+      "alias": "q_stretch_edge_4",
+      "label": "Stretch edge",
+      "name": "What kind of work would stretch you in a useful way right now?"
+    },
+    {
+      "alias": "q_feedback_loop",
+      "label": "Feedback loop",
+      "name": "Where are you getting the kind of feedback that actually helps you improve?"
+    },
+    {
+      "alias": "q_drift_check",
+      "label": "Drift check",
+      "name": "What part of your work has started to feel like maintenance?"
+    },
+    {
+      "alias": "q_learning_edge_2",
+      "label": "Learning edge",
+      "name": "What have you been learning on the job that you want more of?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "The release, it took over 5 hours to get it out"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "The release, it took over 5 hours to get it out"
+        },
+        {
+          "q": "q_hidden_blockers",
+          "delta": 1,
+          "answer_excerpt": "When bob is not here"
+        },
+        {
+          "q": "q_escalation_point",
+          "delta": 1,
+          "answer_excerpt": "Make sure bob is shadowed when he's away"
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "making sure the next time we release it goes smoother with ci/cd pipelines"
+        },
+        {
+          "q": "q_decision_clarity",
+          "delta": 1,
+          "answer_excerpt": "releasing a month ago would have been better, or releasing after bob it back"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

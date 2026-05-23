@@ -1,0 +1,133 @@
+{
+  "ctx": {
+    "name": "Bill",
+    "role": "Acting Coach",
+    "seniority": "Director",
+    "meetingType": "Performance & feedback",
+    "notes": "Director is not got enough asdexperience."
+  },
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Strategic impact at the director level",
+      "reason": "No specific signal — performance & feedback for a director should focus on strategic impact.",
+      "known": true
+    },
+    {
+      "id": "delegation",
+      "type": "Delegation effectiveness",
+      "category": "competency",
+      "label": "Delegation to empower team leads",
+      "reason": "No specific signal — at director level, effective delegation is crucial for scaling impact and team development.",
+      "known": true
+    },
+    {
+      "id": "judgment",
+      "type": "Judgment",
+      "category": "competency",
+      "label": "Judgment on high-stakes decisions",
+      "reason": "No specific signal — directors need to make sound decisions on tradeoffs; this is a core competency to explore.",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Engagement with executive peers and stakeholders",
+      "reason": "No specific signal — directors must manage relationships beyond their immediate team; worth discussing how this is going.",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "Clarity on director-level expectations",
+      "reason": "Notes mention a lack of experience. Worth clarifying if there's any uncertainty about what success looks like at this level.",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "Before I share my view, how do you think the last stretch has gone?",
+      "alias": "q_intro_perf_01_opening",
+      "answer": "yes",
+      "skipped": false
+    },
+    {
+      "question": "What's something from the last quarter you're genuinely proud of — not what looks good, what actually was good?",
+      "alias": "q_intro_perf_02_proud",
+      "answer": "launching the new app",
+      "skipped": false
+    },
+    {
+      "question": "How are your relationships with executive peers evolving?",
+      "alias": "q_stakeholder_relationship",
+      "answer": "yeah they are ok",
+      "skipped": false
+    },
+    {
+      "question": "What part of your current workload feels the least clear in terms of expectations or priorities?",
+      "alias": "q_current_workload_clarity",
+      "answer": "asdom",
+      "skipped": false
+    },
+    {
+      "question": "How sustainable does your current pace feel for you?",
+      "alias": "q_energy_management_3",
+      "answer": "apsod",
+      "skipped": false
+    },
+    {
+      "question": "What aspects of the director role feel most and least clear to you?",
+      "alias": "q_director_role_clarity",
+      "answer": "aspdok",
+      "skipped": false
+    },
+    {
+      "question": "Where do you think you've fallen short of where you want to be?",
+      "alias": "q_intro_perf_03_gap",
+      "answer": "asdopikaas",
+      "skipped": false
+    },
+    {
+      "question": "What part of delegation feels most challenging for you right now?",
+      "alias": "q_delegation_challenges_3",
+      "answer": "asd",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 3,
+      "history": [
+        {
+          "q": "q_intro_perf_02_proud",
+          "delta": 3,
+          "answer_excerpt": "launching the new app"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_perf_02_proud",
+          "delta": 1,
+          "answer_excerpt": "launching the new app"
+        }
+      ]
+    }
+  },
+  "notes": "Director is not got enough asdexperience.",
+  "model": "gpt-4o"
+}

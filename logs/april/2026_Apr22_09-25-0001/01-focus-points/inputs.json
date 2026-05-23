@@ -1,0 +1,8 @@
+{
+  "name": "Darren",
+  "role": "Senior backend engineer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Just shipped the payments refactor on Monday — big win, team noticed.",
+  "model": "gpt-4o-mini"
+}

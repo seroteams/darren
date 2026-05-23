@@ -1,0 +1,82 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_intro_perf_01_opening",
+    "label": "Self-read opener",
+    "name": "Before I share my view, how do you think the last stretch has gone?",
+    "description": "Anchors the conversation in their self-assessment first; gap vs manager's view becomes a signal.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "Yeah its fine",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The response 'Yeah its fine' provides no substantive engagement or clarity signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_current_challenges_2",
+      "label": "Current challenges",
+      "name": "What feels unclear or heavier than it should right now?"
+    },
+    {
+      "alias": "q_punctuality_impact",
+      "label": "Punctuality impact",
+      "name": "How do you think your punctuality affects the team or project timelines?"
+    },
+    {
+      "alias": "q_design_impact",
+      "label": "Design impact",
+      "name": "How do you see your design work influencing the team's success?"
+    },
+    {
+      "alias": "q_communication_clarity",
+      "label": "Communication clarity",
+      "name": "Where do you find communication around your design work most challenging?"
+    },
+    {
+      "alias": "q_project_ownership",
+      "label": "Project ownership",
+      "name": "What does taking full ownership of a design project mean to you?"
+    },
+    {
+      "alias": "q_leadership_growth",
+      "label": "Leadership growth",
+      "name": "What areas of design leadership do you want to develop further?"
+    },
+    {
+      "alias": "q_sustainable_workload",
+      "label": "Sustainable workload",
+      "name": "Does your current workload feel sustainable over the next few months?"
+    },
+    {
+      "alias": "q_engagement_level",
+      "label": "Engagement level",
+      "name": "What aspects of your work are most engaging to you right now?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

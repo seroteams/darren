@@ -1,0 +1,169 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    "answer": "bored not feeling it",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -3
+    },
+    "note": "Carl expressed feeling bored and lacking engagement, indicating a strong disengagement signal."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?",
+      "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "quite low",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -3,
+      "engagement": -1
+    },
+    "note": "The answer 'quite low' indicates a significant drop in energy, signaling both low wellbeing and engagement."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?",
+      "description": "Surfaces whether priorities are crisp or vague; whether they match what you thought.",
+      "purpose": "clarity",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "the new app design",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "clarity": 1
+    },
+    "note": "The focus on 'the new app design' indicates clear priorities and engagement with a specific project."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_team_collaboration_insights",
+      "label": "Team collaboration insights",
+      "name": "How are you finding collaboration with the team lately?",
+      "description": "Explores current team dynamics and any collaboration challenges.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 1,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    "answer": "fine but dont like all the stnadups they are too many",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": -1
+    },
+    "note": "Carl finds the team collaboration fine but is frustrated by the excessive number of standups, indicating a mild negative impact on wellbeing and engagement."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_motivation_drivers_2",
+      "label": "Motivation drivers",
+      "name": "What aspects of your work are most motivating to you currently?",
+      "description": "Identifies what currently drives their engagement and motivation.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "engagement": 3
+      },
+      "source": "generated"
+    },
+    "answer": "noanot",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -3
+    },
+    "note": "The response 'noanot' indicates a lack of motivation, signaling disengagement."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_growth_opportunities_7",
+      "label": "Growth opportunities",
+      "name": "What kind of projects or skills would push you to grow right now?",
+      "description": "Uncovers areas for skill development and growth opportunities.",
+      "purpose": "topic",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "generated"
+    },
+    "answer": "bigger office",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -3
+    },
+    "note": "The answer 'bigger office' does not engage with growth opportunities, indicating a lack of focus on growth."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_standup_feedback",
+      "label": "Standup feedback",
+      "name": "What would make the standups more effective for you?",
+      "description": "Seeks specific feedback on how to improve the standup meetings.",
+      "purpose": "topic",
+      "axis_effects": {
+        "wellbeing": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "shorter",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1
+    },
+    "note": "The response 'shorter' indicates a dissatisfaction with the current length of standups, suggesting a mild negative impact on wellbeing."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_clarify_growth_focus",
+      "label": "Clarify growth focus",
+      "name": "What specifically about the 'bigger office' idea connects to your growth?",
+      "description": "Seeks to understand the connection between the desire for a bigger office and personal growth.",
+      "purpose": "topic",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "i can hold bigger meetings",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": 1
+    },
+    "note": "The answer connects the desire for a bigger office to the ability to hold bigger meetings, indicating a positive growth signal."
+  }
+]

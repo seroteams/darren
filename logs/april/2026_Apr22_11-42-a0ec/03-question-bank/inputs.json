@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Motivation and energy levels",
+      "reason": "Notes highlight his football performance. Could be worth exploring how his energy and motivation are tracking lately.",
+      "known": true
+    },
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Balancing football and personal life",
+      "reason": "No specific signal — standard bi-weekly topic. Checking in on how he balances football with other commitments could be valuable.",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Connection with teammates",
+      "reason": "No specific signal — typical for this role. Understanding how he feels about his relationships with teammates can provide insights.",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Goals for this season",
+      "reason": "No specific signal — common check-in topic. Discussing his goals for the season could help align expectations.",
+      "known": true
+    },
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Celebrating recent achievements",
+      "reason": "No specific signal — standard check-in hygiene. Recognizing any recent successes or contributions can boost morale.",
+      "known": true
+    }
+  ],
+  "name": "Darren",
+  "role": "Football player",
+  "seniority": "Middle",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Plays football very well. Loves chocolate.",
+  "model": "gpt-5.4-mini"
+}

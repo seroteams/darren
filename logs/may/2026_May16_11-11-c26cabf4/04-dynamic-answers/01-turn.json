@@ -1,0 +1,87 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_open_most_like_yourself",
+    "label": "Most like yourself",
+    "name": "When have you felt most like yourself recently?",
+    "description": "Authentic self-concept research. Identity-based, not performance-based. Deep without being intrusive.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 2,
+      "growth": 1
+    },
+    "source": "research"
+  },
+  "answer": "every day",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": 1,
+      "growth": 1
+    },
+    "note": "The response 'every day' suggests a consistent alignment with their authentic self, indicating positive wellbeing and growth."
+  },
+  "new_queue": [
+    {
+      "alias": "q_current_role_assessment",
+      "label": "Current role assessment",
+      "name": "What's feeling solid in your role right now, and what's stretching you?"
+    },
+    {
+      "alias": "q_delegation_dynamics",
+      "label": "Delegation dynamics",
+      "name": "How are you deciding what to delegate and what to keep on your plate?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_vision_for_growth",
+      "label": "Vision for growth",
+      "name": "What aspects of design leadership are you eager to develop further?"
+    },
+    {
+      "alias": "q_intro_growth_blockers",
+      "label": "Growth blockers",
+      "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?"
+    },
+    {
+      "alias": "q_managerial_support",
+      "label": "Managerial support",
+      "name": "What support do you need from me to better manage your workload and priorities?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_most_like_yourself",
+          "delta": 1,
+          "answer_excerpt": "every day"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_most_like_yourself",
+          "delta": 1,
+          "answer_excerpt": "every day"
+        }
+      ]
+    }
+  }
+}

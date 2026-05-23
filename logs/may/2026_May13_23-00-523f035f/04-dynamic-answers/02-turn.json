@@ -1,0 +1,77 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_intro_growth_direction",
+    "label": "Direction",
+    "name": "When you imagine yourself eighteen months from now, what's actually different?",
+    "description": "Probes whether they have a real picture of where they want to go.",
+    "purpose": "topic",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "yesy",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The answer 'yesy' is unintelligible and provides no signal regarding growth or engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_energy_check_in_5",
+      "label": "Energy check-in",
+      "name": "How has your energy been over the past few weeks?"
+    },
+    {
+      "alias": "q_current_work_clarity",
+      "label": "Current work clarity",
+      "name": "What are your top three priorities this month, and why do they matter?"
+    },
+    {
+      "alias": "q_strategic_impact",
+      "label": "Strategic impact",
+      "name": "Where do you see the biggest opportunity to increase your strategic impact?"
+    },
+    {
+      "alias": "q_delegation_challenges_2",
+      "label": "Delegation challenges",
+      "name": "What's the most challenging part of delegation for you currently?"
+    },
+    {
+      "alias": "q_managing_up",
+      "label": "Managing up",
+      "name": "How do you currently approach managing up with the director?"
+    },
+    {
+      "alias": "q_judgment_confidence",
+      "label": "Judgment confidence",
+      "name": "In which areas do you feel most confident making decisions?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

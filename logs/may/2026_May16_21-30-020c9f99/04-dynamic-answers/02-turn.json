@@ -1,0 +1,84 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_intro_biweekly_pace",
+    "label": "Opening pace check",
+    "name": "How's the last two weeks actually felt — energy-wise?",
+    "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+    "purpose": "wellbeing",
+    "stage": "pulse",
+    "axis_effects": {
+      "wellbeing": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "(skipped)",
+  "skipped": true,
+  "assessment": {
+    "deltas": {},
+    "note": "Skipped the question, providing no signal on wellbeing or engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?"
+    },
+    {
+      "alias": "q_workshop_scheduling_issues",
+      "label": "Workshop scheduling issues",
+      "name": "What's been the biggest challenge with planning workshops lately?"
+    },
+    {
+      "alias": "q_energy_management_5",
+      "label": "Energy management",
+      "name": "What's draining your energy most in your current workload?"
+    },
+    {
+      "alias": "q_team_collaboration_dynamics",
+      "label": "Team collaboration dynamics",
+      "name": "How is the team working together on planning and preparation?"
+    },
+    {
+      "alias": "q_support_needed_3",
+      "label": "Support needed",
+      "name": "What support would make your workshop planning more effective?"
+    },
+    {
+      "alias": "q_prioritization_clarity",
+      "label": "Prioritization clarity",
+      "name": "How clear are you on your top priorities for the next month?"
+    },
+    {
+      "alias": "q_next_steps_commitment_4",
+      "label": "Next steps commitment",
+      "name": "What's the first concrete thing you want to have moved by our next conversation?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_nourishing",
+          "delta": 1,
+          "answer_excerpt": "seeing my class finish"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

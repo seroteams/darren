@@ -1,0 +1,103 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_team_collaboration_insights",
+    "label": "Team collaboration insights",
+    "name": "How are you finding collaboration with the team lately?",
+    "description": "Explores current team dynamics and any collaboration challenges.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 1,
+      "engagement": 1
+    },
+    "source": "generated"
+  },
+  "answer": "fine but dont like all the stnadups they are too many",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": -1
+    },
+    "note": "Carl finds the team collaboration fine but is frustrated by the excessive number of standups, indicating a mild negative impact on wellbeing and engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_motivation_drivers_2",
+      "label": "Motivation drivers",
+      "name": "What aspects of your work are most motivating to you currently?"
+    },
+    {
+      "alias": "q_growth_opportunities_7",
+      "label": "Growth opportunities",
+      "name": "What kind of projects or skills would push you to grow right now?"
+    },
+    {
+      "alias": "q_manager_support_needs_2",
+      "label": "Manager support needs",
+      "name": "What specific support do you need from me right now to succeed?"
+    },
+    {
+      "alias": "q_standup_feedback",
+      "label": "Standup feedback",
+      "name": "What would make the standups more effective for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -3,
+          "answer_excerpt": "quite low"
+        },
+        {
+          "q": "q_team_collaboration_insights",
+          "delta": -1,
+          "answer_excerpt": "fine but dont like all the stnadups they are too many"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -3,
+          "answer_excerpt": "bored not feeling it"
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "quite low"
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "the new app design"
+        },
+        {
+          "q": "q_team_collaboration_insights",
+          "delta": -1,
+          "answer_excerpt": "fine but dont like all the stnadups they are too many"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "the new app design"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

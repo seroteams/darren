@@ -1,0 +1,160 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    "answer": "timing with kids",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "clarity": -1
+    },
+    "note": "The answer 'timing with kids' indicates a personal challenge affecting work engagement and clarity."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_lateness_impact",
+      "label": "Lateness impact",
+      "name": "What do you think is contributing to your lateness?",
+      "description": "Explores potential causes behind being consistently late.",
+      "purpose": "competency",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    "answer": "the kids new schedule",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The answer 'the kids new schedule' does not engage with clarity about work priorities or expectations."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?",
+      "description": "Surfaces whether priorities are crisp or vague; whether they match what you thought.",
+      "purpose": "clarity",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "i am focused on the new App Design",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "clarity": 1
+    },
+    "note": "The answer clearly states the focus on 'new App Design', indicating clarity and engagement with current priorities."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_workload_clarity",
+      "label": "Workload clarity",
+      "name": "Where do you feel your workload is heaviest right now?",
+      "description": "Identifies where workload might be unbalanced or unclear.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "the standups",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1
+    },
+    "note": "The answer 'the standups' indicates a specific source of workload heaviness, suggesting a mild negative impact on wellbeing."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_manager_support",
+      "label": "Manager support",
+      "name": "What support from me would make a difference right now?",
+      "description": "Identifies specific needs for manager support.",
+      "purpose": "topic",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "generated"
+    },
+    "answer": "giving me a week off",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -3
+    },
+    "note": "The request for a week off indicates a strong need for recovery and suggests a lack of current growth support."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_standups_workload",
+      "label": "Standups workload",
+      "name": "What about the standups is making your workload feel heavy?",
+      "description": "Explores the specific issues with standups contributing to workload heaviness.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "they are so many people and we have to wait for eveyrone to talk",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1
+    },
+    "note": "The answer indicates frustration with the inefficiency of standups due to waiting for many people to speak, signaling a negative impact on wellbeing."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_energy_levels_2",
+      "label": "Energy levels",
+      "name": "Where is your energy at right now, and what's influencing it?",
+      "description": "Checks current energy levels and factors affecting them.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "don tknow",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The answer 'don't know' indicates a lack of engagement with the question, providing no signal on current energy levels."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_team_interactions",
+      "label": "Team interactions",
+      "name": "How are you finding the team dynamics lately?",
+      "description": "Surfaces issues or positive aspects in team collaboration.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "engagement": 3
+      },
+      "source": "generated"
+    },
+    "answer": "its ok",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The response 'its ok' is neutral and provides no specific signal about team engagement."
+  }
+]

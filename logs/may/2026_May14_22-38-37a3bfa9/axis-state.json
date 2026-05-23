@@ -1,0 +1,62 @@
+{
+  "wellbeing": {
+    "score": 1,
+    "history": [
+      {
+        "q": "q_open_giving_you_energy",
+        "delta": 1,
+        "answer_excerpt": "helping others"
+      }
+    ]
+  },
+  "engagement": {
+    "score": 1,
+    "history": [
+      {
+        "q": "q_open_giving_you_energy",
+        "delta": 1,
+        "answer_excerpt": "helping others"
+      },
+      {
+        "q": "q_intro_growth_direction",
+        "delta": 1,
+        "answer_excerpt": "head of department?"
+      },
+      {
+        "q": "q_support_needs_9",
+        "delta": -1,
+        "answer_excerpt": "More time off"
+      }
+    ]
+  },
+  "clarity": {
+    "score": -2,
+    "history": [
+      {
+        "q": "q_role_expectations",
+        "delta": -1,
+        "answer_excerpt": "fine, but need more examples"
+      },
+      {
+        "q": "q_support_needs_9",
+        "delta": -1,
+        "answer_excerpt": "More time off"
+      }
+    ]
+  },
+  "growth": {
+    "score": 2,
+    "history": [
+      {
+        "q": "q_intro_growth_direction",
+        "delta": 1,
+        "answer_excerpt": "head of department?"
+      },
+      {
+        "q": "q_skill_development",
+        "delta": 1,
+        "answer_excerpt": "Leadership"
+      }
+    ]
+  }
+}

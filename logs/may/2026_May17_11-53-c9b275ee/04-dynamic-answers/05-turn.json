@@ -1,0 +1,47 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_seed_clarity_success",
+    "label": "Success definition",
+    "name": "What would make this quarter clearly successful for you — in one sentence?",
+    "description": "Tests whether they can name success crisply or only in vague directions.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 3,
+      "growth": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I am just typing this to be testing the flow.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "[SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]"
+  },
+  "new_queue": [
+    {
+      "alias": "q_seed_engagement_interest",
+      "label": "Interest",
+      "name": "Which part of your work have you been leaning into — and which part you've been avoiding?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

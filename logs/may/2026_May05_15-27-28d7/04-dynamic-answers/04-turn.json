@@ -1,0 +1,85 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_workload_assessment_2",
+    "label": "Workload assessment",
+    "name": "How manageable does your current workload feel day-to-day?",
+    "description": "Assesses if the workload is a contributing factor to stress or lateness.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "answer": "its okay but i feel like i am always behind",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1
+    },
+    "note": "The feeling of always being behind indicates a mild negative wellbeing state, suggesting stress or pressure."
+  },
+  "new_queue": [
+    {
+      "alias": "q_manager_support_needs",
+      "label": "Manager support needs",
+      "name": "What specific support would make a difference for you right now?"
+    },
+    {
+      "alias": "q_feedback_received",
+      "label": "Feedback received",
+      "name": "What feedback have you received recently that’s stuck with you?"
+    },
+    {
+      "alias": "q_growth_opportunities_6",
+      "label": "Growth opportunities",
+      "name": "What area of your role are you looking to grow or stretch in next?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "not a lot"
+        },
+        {
+          "q": "q_intro_off_energy",
+          "delta": -3,
+          "answer_excerpt": "quite low as i have problems with the kids at home"
+        },
+        {
+          "q": "q_late_arrival_reasons",
+          "delta": -1,
+          "answer_excerpt": "kids been sick a lot so i had to take care of them"
+        },
+        {
+          "q": "q_workload_assessment_2",
+          "delta": -1,
+          "answer_excerpt": "its okay but i feel like i am always behind"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "not a lot"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

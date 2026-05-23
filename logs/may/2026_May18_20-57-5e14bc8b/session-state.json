@@ -1,0 +1,316 @@
+{
+  "id": "2026_May18_20-57-5e14bc8b",
+  "dir": "C:\\Users\\User\\Documents\\Sero\\darren\\logs\\may\\2026_May18_20-57-5e14bc8b",
+  "createdAt": 1779112648005,
+  "lastSeenAt": 1779115058644,
+  "ctx": {
+    "name": "Darren",
+    "role": "CTO",
+    "seniority": "Chief Of",
+    "meetingType": "Something feels off",
+    "notes": "he has bene great, very on the ball"
+  },
+  "introQueue": [
+    {
+      "alias": "q_open_carrying_in",
+      "label": "What you're carrying",
+      "name": "What are you carrying into this conversation?",
+      "description": "Acknowledges people are not clean slates. Non-evaluative — carrying could be burden or gift.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 2
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_off_connection",
+      "label": "Team connection",
+      "name": "How connected do you feel to the rest of the team right now?",
+      "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+      "purpose": "wellbeing",
+      "stage": "observation",
+      "axis_effects": {
+        "engagement": 3,
+        "wellbeing": 1
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?",
+      "description": "Separates energy from output; avoids leading with 'is something wrong'.",
+      "purpose": "wellbeing",
+      "stage": "landing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "seed"
+    }
+  ],
+  "focusPointsResult": {
+    "meeting_type": "Something feels off",
+    "focus_points": [
+      {
+        "id": "energy",
+        "type": "Energy & wellbeing",
+        "category": "wellbeing",
+        "label": "Energy and engagement pulse check.",
+        "reason": "Despite the positive note, the meeting type 'Something feels off' suggests there's an underlying concern worth exploring around his energy and engagement levels.",
+        "source": "signal",
+        "known": true
+      },
+      {
+        "id": "stakeholder_engagement",
+        "type": "Stakeholder engagement",
+        "category": "competency",
+        "label": "Trust with the board and exec peers.",
+        "reason": "Role-driven — board/exec relationships are a core CTO surface and a frequent blind spot, especially when something feels off.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "impact",
+        "type": "Impact",
+        "category": "competency",
+        "label": "Strategic impact & leverage this quarter.",
+        "reason": "At CTO level, impact is a critical area to explore to ensure alignment and effectiveness, especially when something feels off.",
+        "source": "best_practice",
+        "known": true
+      }
+    ]
+  },
+  "preparationResult": {
+    "brief": {
+      "coreIssue": "Darren, as the CTO, has been performing well, but there's an underlying concern that something feels off, particularly regarding his energy and engagement levels. This 1:1 will explore the nuances of his current engagement, his relationships and trust with the board and executive peers, and his strategic impact and alignment with the company's goals this quarter. These areas are crucial for ensuring his effectiveness in the CTO role.",
+      "openingQuestion": "Darren, I've noticed you've been performing exceptionally, but I'm curious about how you're feeling in terms of energy and engagement these days. Can you share your thoughts?",
+      "listenFor": [
+        "whether he feels overextended or fatigued",
+        "if they have any concerns about board or peer relationships",
+        "whether his strategic goals align with the company's objectives"
+      ],
+      "avoid": [
+        "do not assume everything is fine based on past performance",
+        "do not focus solely on technical issues"
+      ],
+      "goodOutcome": "You understand Darren's current energy levels, his perception of executive relationships, and his strategic alignment for the quarter.",
+      "suggestedAction": "Encourage Darren to identify one area for improvement in his board engagement strategy and set a follow-up in two weeks."
+    },
+    "runId": "dbefd79a-f06e-4b4d-a395-ffc9e717deec",
+    "validation": {
+      "passed": false,
+      "issues": [
+        "coreIssue does not reference role or seniority — may be too generic"
+      ]
+    }
+  },
+  "bankReady": {
+    "count": 10
+  },
+  "briefing": null,
+  "queueRef": [
+    {
+      "alias": "q_open_carrying_in",
+      "label": "What you're carrying",
+      "name": "What are you carrying into this conversation?",
+      "description": "Acknowledges people are not clean slates. Non-evaluative — carrying could be burden or gift.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 2
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_off_connection",
+      "label": "Team connection",
+      "name": "How connected do you feel to the rest of the team right now?",
+      "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+      "purpose": "wellbeing",
+      "stage": "observation",
+      "axis_effects": {
+        "engagement": 3,
+        "wellbeing": 1
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?",
+      "description": "Separates energy from output; avoids leading with 'is something wrong'.",
+      "purpose": "wellbeing",
+      "stage": "landing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_current_priorities_2",
+      "label": "Current priorities",
+      "name": "What are you prioritising right now that might not be obvious to others?",
+      "description": "Surfaces the individual's current focus and potential misalignment with perceived priorities.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_visible_impact",
+      "label": "Visible impact",
+      "name": "Where do you feel your impact has been most visible recently?",
+      "description": "Explores areas where the individual believes they have made a significant impact.",
+      "purpose": "competency",
+      "stage": "observation",
+      "axis_effects": {
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_stakeholder_trust",
+      "label": "Stakeholder trust",
+      "name": "How do you feel about your relationship with the board and execs right now?",
+      "description": "Probes the quality of relationships with key stakeholders.",
+      "purpose": "competency",
+      "stage": "underneath",
+      "axis_effects": {
+        "engagement": 3
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_energy_consistency",
+      "label": "Energy consistency",
+      "name": "Has your energy been consistent, or are there peaks and troughs?",
+      "description": "Identifies fluctuations in energy levels that might not be immediately evident.",
+      "purpose": "wellbeing",
+      "stage": "underneath",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_strategic_influence",
+      "label": "Strategic influence",
+      "name": "How confident are you in your strategic influence this quarter?",
+      "description": "Assesses confidence in strategic decision-making and influence.",
+      "purpose": "competency",
+      "stage": "underneath",
+      "axis_effects": {
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_support_needs_11",
+      "label": "Support needs",
+      "name": "What kind of support would make the biggest difference for you right now?",
+      "description": "Explores what support the individual feels they need.",
+      "purpose": "competency",
+      "stage": "support",
+      "axis_effects": {
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_alignment_with_team",
+      "label": "Alignment with team",
+      "name": "Is there any part of the team's direction that feels unclear or misaligned to you?",
+      "description": "Checks for any misalignment or lack of clarity with the team's direction.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_sustainable_workload_2",
+      "label": "Sustainable workload",
+      "name": "Does your current workload feel sustainable for the next few months?",
+      "description": "Assesses if the workload is manageable and sustainable.",
+      "purpose": "wellbeing",
+      "stage": "underneath",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_future_focus_3",
+      "label": "Future focus",
+      "name": "What are you most excited to focus on after current projects wrap up?",
+      "description": "Surfaces areas of future interest and excitement.",
+      "purpose": "competency",
+      "stage": "support",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_next_steps_5",
+      "label": "Next steps",
+      "name": "What's the first concrete thing you want to have moved by our next conversation?",
+      "description": "Drives towards actionable steps for the next period.",
+      "purpose": "competency",
+      "stage": "support",
+      "axis_effects": {
+        "clarity": 1
+      },
+      "source": "generated"
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "engagement": {
+      "id": "engagement",
+      "label": "Engagement",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "clarity": {
+      "id": "clarity",
+      "label": "Clarity",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "growth": {
+      "id": "growth",
+      "label": "Growth",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    }
+  },
+  "transcript": [],
+  "turn": 0,
+  "totalBudget": 8,
+  "closer": {
+    "alias": "q_next_steps_5",
+    "label": "Next steps",
+    "name": "What's the first concrete thing you want to have moved by our next conversation?",
+    "description": "Drives towards actionable steps for the next period.",
+    "purpose": "competency",
+    "stage": "support",
+    "axis_effects": {
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "pendingAnswer": null,
+  "notes": []
+}

@@ -1,0 +1,56 @@
+{
+  "assessment": {
+    "deltas": [
+      {
+        "axis": "engagement",
+        "delta": -1
+      }
+    ],
+    "note": "Response indicates a lack of meaningful recognition and context-switching stress, suggesting disengagement."
+  },
+  "new_queue": [
+    {
+      "ref_alias": "q_billing_rewrite_clarity",
+      "label": "Billing rewrite clarity",
+      "name": "What do you need to know about the billing rewrite to feel prepared for it?",
+      "description": "Seeks clarity on Priya's expectations and needs regarding her involvement in the upcoming project.",
+      "purpose": "topic",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        }
+      ]
+    },
+    {
+      "ref_alias": "q_mentoring_role",
+      "label": "Mentoring role",
+      "name": "What kind of mentoring opportunities are you envisioning for yourself now?",
+      "description": "Encourages Priya to articulate her thoughts on mentoring and how it fits into her current role.",
+      "purpose": "topic",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        }
+      ]
+    },
+    {
+      "ref_alias": "q_blockers_insight_2",
+      "label": "Blockers insight",
+      "name": "What's currently blocking your progress on tasks that we haven't discussed yet?",
+      "description": "Encourages a deeper exploration of obstacles that might not have been previously identified.",
+      "purpose": "topic",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 1
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    }
+  ]
+}

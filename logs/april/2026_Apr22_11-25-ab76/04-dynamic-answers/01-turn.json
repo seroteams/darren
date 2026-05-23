@@ -1,0 +1,117 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_biweekly_friction",
+    "label": "Friction scan",
+    "name": "What's been slower or harder than it should have been?",
+    "description": "Invites them to name blockers without framing it as complaint.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 3
+    },
+    "source": "seed"
+  },
+  "answer": "The release, it took over 5 hours to get it out",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "clarity": 1
+    },
+    "note": "He named a concrete release delay, which signals some execution friction and mild engagement cost, but the answer did not specify cause or stress level."
+  },
+  "new_queue": [
+    {
+      "alias": "q_hidden_blockers",
+      "label": "Hidden blockers",
+      "name": "What dependency is most likely to quietly stall you next?"
+    },
+    {
+      "alias": "q_escalation_point",
+      "label": "Escalation point",
+      "name": "What part of this work needs escalation from me now?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_sustainable_pace_2",
+      "label": "Sustainable pace",
+      "name": "What would make your current pace hard to sustain for another month?"
+    },
+    {
+      "alias": "q_recovery_pattern",
+      "label": "Recovery pattern",
+      "name": "How are you actually recovering between workdays?"
+    },
+    {
+      "alias": "q_ownership_signal_2",
+      "label": "Ownership signal",
+      "name": "Where have you been leaning in without being asked lately?"
+    },
+    {
+      "alias": "q_stretch_edge_4",
+      "label": "Stretch edge",
+      "name": "What kind of work would stretch you in a useful way right now?"
+    },
+    {
+      "alias": "q_drift_check",
+      "label": "Drift check",
+      "name": "What part of your work has started to feel like maintenance?"
+    },
+    {
+      "alias": "q_feedback_loop",
+      "label": "Feedback loop",
+      "name": "Where are you getting the kind of feedback that actually helps you improve?"
+    },
+    {
+      "alias": "q_decision_clarity",
+      "label": "Decision clarity",
+      "name": "Which decision do you wish were made sooner?"
+    },
+    {
+      "alias": "q_support_gap_2",
+      "label": "Support gap",
+      "name": "What do you need from me that you are not getting yet?"
+    },
+    {
+      "alias": "q_learning_edge_2",
+      "label": "Learning edge",
+      "name": "What have you been learning on the job that you want more of?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "The release, it took over 5 hours to get it out"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "The release, it took over 5 hours to get it out"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

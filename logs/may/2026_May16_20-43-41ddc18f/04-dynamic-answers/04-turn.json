@@ -1,0 +1,91 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_ba_conflict",
+    "label": "BA conflict",
+    "name": "You mentioned feeling like the BAs are more of an enemy — what's driving that tension, and how's it impacting your work?",
+    "description": "Explores the conflict with BAs and its impact on Taya's work.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "escalation calls, calls brining in the head of dev, not wanting to lsite and seems so very very stressed.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "Escalation calls and stress indicate significant tension with BAs, impacting clarity."
+  },
+  "new_queue": [
+    {
+      "alias": "q_ba_stress_specifics",
+      "label": "BA stress specifics",
+      "name": "When you mention the BAs seem stressed, what's the specific impact on your work or planning?"
+    },
+    {
+      "alias": "q_energy_drivers_4",
+      "label": "Energy drivers",
+      "name": "What's been driving your energy or motivation lately?"
+    },
+    {
+      "alias": "q_workshop_support",
+      "label": "Workshop support",
+      "name": "What kind of support would make workshop planning or execution smoother for you?"
+    },
+    {
+      "alias": "q_planning_stressors",
+      "label": "Planning stressors",
+      "name": "Are there specific stressors in your workload that are impacting your planning?"
+    },
+    {
+      "alias": "q_priority_alignment_10",
+      "label": "Priority alignment",
+      "name": "How aligned do you feel your current tasks are with your priorities?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_open_bit_of_joy",
+          "delta": 1,
+          "answer_excerpt": "the last lesson at uni was fun"
+        },
+        {
+          "q": "q_intro_off_energy",
+          "delta": 1,
+          "answer_excerpt": "its been good, i am still excited, just worried about how much work i have and people I need to speak to and work with."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_workshop_timing",
+          "delta": -3,
+          "answer_excerpt": "not very, feeling like teh BA's are more the enemy that helping. the lead BA is a dick"
+        },
+        {
+          "q": "q_ba_conflict",
+          "delta": -3,
+          "answer_excerpt": "escalation calls, calls brining in the head of dev, not wanting to lsite and seems so very very stressed."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

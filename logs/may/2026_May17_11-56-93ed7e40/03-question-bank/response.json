@@ -1,0 +1,13 @@
+{
+  "raw": "{\"questions\":[{\"label\":\"Meeting punctuality\",\"name\":\"What do you see as the main reason for not being on time to meetings recently?\",\"description\":\"Explore underlying factors affecting punctuality.\",\"purpose\":\"competency\",\"stage\":\"evidence\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":3}]},{\"label\":\"Communication clarity\",\"name\":\"How clear do you feel your communication has been in meetings?\",\"description\":\"Assess self-perception of communication effectiveness.\",\"purpose\":\"competency\",\"stage\":\"gap_naming\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":3}]},{\"label\":\"UX impact assessment\",\"name\":\"How do you evaluate the impact of your UX initiatives this quarter?\",\"description\":\"Gauge understanding of initiative impact and contribution.\",\"purpose\":\"competency\",\"stage\":\"gap_naming\",\"axis_effects\":[{\"axis\":\"growth\",\"delta\":3}]},{\"label\":\"Collaboration challenges\",\"name\":\"Where have you felt collaboration with product and engineering could be improved?\",\"description\":\"Identify areas of collaboration needing attention.\",\"purpose\":\"competency\",\"stage\":\"cause\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":3}]},{\"label\":\"Growth opportunities\",\"name\":\"What skills or areas do you believe need development for your growth?\",\"description\":\"Identify personal growth and development opportunities.\",\"purpose\":\"topic\",\"stage\":\"cause\",\"axis_effects\":[{\"axis\":\"growth\",\"delta\":3}]},{\"label\":\"Priorities clarity\",\"name\":\"What has been unclear about your priorities in the past weeks?\",\"description\":\"Explore clarity of priorities and alignment.\",\"purpose\":\"competency\",\"stage\":\"evidence\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":3}]},{\"label\":\"Mentoring vision\",\"name\":\"Who would you want to mentor, and what outcomes do you expect?\",\"description\":\"Explore interest and intention behind mentoring aspirations.\",\"purpose\":\"topic\",\"stage\":\"cause\",\"axis_effects\":[{\"axis\":\"growth\",\"delta\":3}]},{\"label\":\"Commitment to change\",\"name\":\"What's the first concrete thing you want to have moved by our next conversation?\",\"description\":\"Drive commitment to actionable change.\",\"purpose\":\"competency\",\"stage\":\"commit\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":1}]}]}",
+  "saved_aliases": [
+    "q_meeting_punctuality",
+    "q_communication_clarity_5",
+    "q_ux_impact_assessment",
+    "q_collaboration_challenges",
+    "q_growth_opportunities_13",
+    "q_priorities_clarity",
+    "q_mentoring_vision_6",
+    "q_commitment_to_change_2"
+  ]
+}

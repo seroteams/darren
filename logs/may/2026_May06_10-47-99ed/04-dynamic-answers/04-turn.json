@@ -1,0 +1,92 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_delegation_strategy",
+    "label": "Delegation strategy",
+    "name": "How do you decide which tasks to delegate to your team?",
+    "description": "Investigates Carl's approach to delegation and its effectiveness.",
+    "purpose": "competency",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "generated"
+  },
+  "answer": "i think of it on on teh day",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -3
+    },
+    "note": "Delegation strategy is reactive rather than planned, indicating a lack of growth in leadership skills."
+  },
+  "new_queue": [
+    {
+      "alias": "q_coe_support",
+      "label": "CoE support",
+      "name": "What's needed to effectively run the CoE with your current resources?"
+    },
+    {
+      "alias": "q_workload_impact",
+      "label": "Workload impact",
+      "name": "How do you feel your workload is affecting your ability to innovate and propose new ideas?"
+    },
+    {
+      "alias": "q_delegation_improvement",
+      "label": "Delegation improvement",
+      "name": "What would help you plan delegation more proactively, rather than day-to-day?"
+    },
+    {
+      "alias": "q_impact_of_priorities",
+      "label": "Impact of priorities",
+      "name": "How do these priorities align with the outcomes you're aiming for?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_current_workload_sustainability",
+          "delta": -3,
+          "answer_excerpt": "its hard with no team to run the CoE with me"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "not great ive been distracted with so many things"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "not great ive been distracted with so many things"
+        },
+        {
+          "q": "q_focus_area_priorities",
+          "delta": 1,
+          "answer_excerpt": "Global App, COE and COP"
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_delegation_strategy",
+          "delta": -3,
+          "answer_excerpt": "i think of it on on teh day"
+        }
+      ]
+    }
+  }
+}

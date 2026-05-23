@@ -1,0 +1,93 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_feedback_texture",
+    "label": "Feedback texture",
+    "name": "How has the feedback on your recent work landed for you?",
+    "description": "Explores whether feedback is useful, discouraging, or unclear in practice.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 1,
+      "growth": 3
+    },
+    "source": "generated"
+  },
+  "answer": "I probably don't ask for enough feedback. I don't want to seem like I don't know what I'm doing.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": 1
+    },
+    "note": "He said he avoids asking for feedback because he doesn't want to seem incompetent, which signals some clarity-seeking but no clear growth uplift from the answer itself."
+  },
+  "new_queue": [
+    {
+      "alias": "q_stretch_gap",
+      "label": "Stretch gap",
+      "name": "Where do you feel like you're not getting enough stretch right now?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": 1,
+          "answer_excerpt": "Honestly kind of drained. I haven't been sleeping well and I'm behind on things."
+        },
+        {
+          "q": "q_pacing_tradeoff",
+          "delta": -1,
+          "answer_excerpt": "A bit disconnected. I don't really know the team outside of tickets, and I missed the last two socials."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "Honestly kind of drained. I haven't been sleeping well and I'm behind on things."
+        },
+        {
+          "q": "q_review_friction",
+          "delta": -1,
+          "answer_excerpt": "I've been putting off the follow-up on that PR. Every time I open it I feel a bit sick."
+        },
+        {
+          "q": "q_ownership_shift_2",
+          "delta": -3,
+          "answer_excerpt": "Not really. I'm usually scrolling at 11pm trying to not think about work."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 4,
+      "history": [
+        {
+          "q": "q_support_needed_2",
+          "delta": 3,
+          "answer_excerpt": "The design-system PR — I got a ton of rework feedback and I'm not sure if I did something wrong or if that's just how reviews go here."
+        },
+        {
+          "q": "q_feedback_texture",
+          "delta": 1,
+          "answer_excerpt": "I probably don't ask for enough feedback. I don't want to seem like I don't know what I'm doing."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_ownership_shift_2",
+          "delta": -1,
+          "answer_excerpt": "Not really. I'm usually scrolling at 11pm trying to not think about work."
+        }
+      ]
+    }
+  }
+}

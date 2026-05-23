@@ -1,0 +1,80 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_recognizing_contributions_2",
+    "label": "Recognizing contributions",
+    "name": "How do you feel the team's recognition of the payments refactor went, from your perspective?",
+    "description": "Surfaces feelings about recognition and its impact.",
+    "purpose": "topic",
+    "axis_effects": {
+      "engagement": 3
+    },
+    "source": "generated"
+  },
+  "answer": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -3
+    },
+    "note": "Priya expressed frustration with the lack of progress on mentoring, indicating disengagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_mentoring_vision_2",
+      "label": "Mentoring vision",
+      "name": "What would you want mentoring to look like if you started doing it here?"
+    },
+    {
+      "alias": "q_mentoring_block_2",
+      "label": "Mentoring block",
+      "name": "What's blocked the mentoring from happening — your time, opportunity, or something else?"
+    },
+    {
+      "alias": "q_billing_rewrite_role_2",
+      "label": "Billing rewrite role",
+      "name": "What role do you see yourself playing in the upcoming billing rewrite?"
+    },
+    {
+      "alias": "q_support_for_new_projects",
+      "label": "Support for new projects",
+      "name": "What kind of support do you need from me as new projects start to come into view?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_recognizing_contributions_2",
+          "delta": -3,
+          "answer_excerpt": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

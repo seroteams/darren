@@ -1,0 +1,40 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_session_closer",
+    "label": "Session closer",
+    "name": "What's the one thing you want to focus on improving before we next meet?",
+    "description": "Encourages reflection and commitment to a specific improvement area before the next meeting.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "Yeah its fine",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The response 'Yeah its fine' is non-specific and does not engage with the question's intent to identify an area for improvement, resulting in no change to the wellbeing axis."
+  },
+  "new_queue": [],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

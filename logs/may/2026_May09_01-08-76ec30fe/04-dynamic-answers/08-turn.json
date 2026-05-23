@@ -1,0 +1,86 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_personal_growth",
+    "label": "Personal growth",
+    "name": "Where do you see the biggest gap between where you are now and where you want to be in 12 months?",
+    "description": "Encourages Priya to think about her development and growth trajectory.",
+    "purpose": "competency",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "generated"
+  },
+  "answer": "More clarity on scope would help. And hearing about big projects before they're locked in, not after.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "(planner failed)"
+  },
+  "new_queue": [],
+  "issues": [
+    "OpenAI 429: {\n    \"error\": {\n        \"message\": \"Rate limit reached for gpt-4o in organization org-EhgtuFX6BtAzIJzGA9aQj8qg on tokens per min (TPM): Limit 30000, Used 26193, Requested 6559. Please try again in 5.504s. Visit https://platform.openai.com/account/rate-limits to learn more.\",\n        \"type\": \"tokens\",\n        \"param\": null,\n        \"code\": \"rate_limit_exceeded\"\n    }\n}\n"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_energy_assessment",
+          "delta": -1,
+          "answer_excerpt": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_recognition_feedback",
+          "delta": -3,
+          "answer_excerpt": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -1,
+          "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -3,
+          "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+        }
+      ]
+    },
+    "growth": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_mentoring_vision_4",
+          "delta": -1,
+          "answer_excerpt": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up."
+        },
+        {
+          "q": "q_mentoring_block_4",
+          "delta": -3,
+          "answer_excerpt": "Growth-wise I think I'm flat. I'm the most senior IC on the team and there's no one really pushing me."
+        }
+      ]
+    }
+  }
+}

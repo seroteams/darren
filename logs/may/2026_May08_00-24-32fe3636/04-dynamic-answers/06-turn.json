@@ -1,0 +1,57 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_intro_biweekly_priorities",
+    "label": "Priority clarity",
+    "name": "What are you actually focused on this week, and why those things?",
+    "description": "Surfaces whether priorities are crisp or vague; whether they match what you thought.",
+    "purpose": "clarity",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "(skipped)",
+  "skipped": true,
+  "assessment": {
+    "deltas": {},
+    "note": "Skipped question — no signal on clarity or engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_support_from_manager_2",
+      "label": "Support from manager",
+      "name": "What support would make the biggest difference for you right now?"
+    },
+    {
+      "alias": "q_growth_opportunities_8",
+      "label": "Growth opportunities",
+      "name": "What growth opportunities are you seeing for yourself right now?"
+    },
+    {
+      "alias": "q_wellbeing_check",
+      "label": "Wellbeing check",
+      "name": "Is there anything affecting your wellbeing that you'd like to discuss?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

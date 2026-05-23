@@ -1,0 +1,78 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_team_dynamics_7",
+    "label": "Team dynamics",
+    "name": "How are you feeling about the current team dynamics?",
+    "description": "Explores Carl's perspective on team fit and any friction.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "answer": "they are okay",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The response 'they are okay' is neutral and provides no strong signal about team dynamics."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_feedback_received_2",
+      "label": "Feedback received",
+      "name": "How has recent feedback you've received landed with you?"
+    },
+    {
+      "alias": "q_role_expectations",
+      "label": "Role expectations",
+      "name": "What parts of your role feel unclear or misaligned right now?"
+    },
+    {
+      "alias": "q_skill_development",
+      "label": "Skill development",
+      "name": "What new skills or areas are you interested in developing?"
+    },
+    {
+      "alias": "q_support_needs_9",
+      "label": "Support needs",
+      "name": "What support do you feel you need from me to succeed?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "helping others"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "helping others"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

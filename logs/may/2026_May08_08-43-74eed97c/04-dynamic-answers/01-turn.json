@@ -1,0 +1,82 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_biweekly_friction",
+    "label": "Friction scan",
+    "name": "What's been slower or harder than it should have been?",
+    "description": "Invites them to name blockers without framing it as complaint.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 3
+    },
+    "source": "seed"
+  },
+  "answer": "kids school closed",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The answer 'kids school closed' was a pivot to a personal context, not engaging with work-related friction."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_current_work_stressors",
+      "label": "Current work stressors",
+      "name": "What part of your workload feels like it's causing you to be late most often?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_team_dynamics_6",
+      "label": "Team dynamics",
+      "name": "How are you feeling about the team dynamics right now?"
+    },
+    {
+      "alias": "q_support_needs_8",
+      "label": "Support needs",
+      "name": "What do you need from me right now to help with your current workload?"
+    },
+    {
+      "alias": "q_energy_management_4",
+      "label": "Energy management",
+      "name": "What strategies are you using to maintain your energy levels throughout the week?"
+    },
+    {
+      "alias": "q_role_clarity_5",
+      "label": "Role clarity",
+      "name": "How clear are you on your role and its current priorities?"
+    },
+    {
+      "alias": "q_growth_opportunities_12",
+      "label": "Growth opportunities",
+      "name": "Where do you see opportunities for growth in your current projects?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

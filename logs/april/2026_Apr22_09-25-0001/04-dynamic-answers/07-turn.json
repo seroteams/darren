@@ -1,0 +1,113 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_clarity_on_priorities",
+    "label": "Clarity on priorities",
+    "name": "What specific actions do you think we should prioritize as a team after the refactor?",
+    "description": "Aims to elicit more detailed thoughts on team priorities.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "swap_for:q_blockers_check_in"
+  },
+  "answer": "weekly retro",
+  "skipped": false,
+  "plan": {
+    "action": "swap",
+    "reason": "The next question on growth opportunities is not aligned with the current focus on clarity.",
+    "new_question": {
+      "alias": "q_team_feedback_mechanisms",
+      "label": "Team feedback mechanisms",
+      "name": "How do you think we can improve our weekly retrospectives?",
+      "description": "Aims to gather thoughts on enhancing team feedback processes.",
+      "purpose": "topic",
+      "axis_effects": {
+        "engagement": 1
+      },
+      "source": "swap_for:q_growth_opportunities"
+    }
+  },
+  "assessment": {
+    "deltas": {
+      "clarity": 1
+    },
+    "note": "The answer suggests a focus on team priorities but lacks detail."
+  },
+  "axis_state": {
+    "wellbeing": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "busy, i felt tired a bit last week because of the crashes on the main systems"
+        },
+        {
+          "q": "q_post_launch_energy",
+          "delta": 3,
+          "answer_excerpt": "confident, strong, up for the next thing"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 3,
+          "answer_excerpt": "quality assurance"
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": 0,
+          "answer_excerpt": "busy, i felt tired a bit last week because of the crashes on the main systems"
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "getting the release out"
+        },
+        {
+          "q": "q_celebrate_the_win",
+          "delta": 1,
+          "answer_excerpt": "probably that it works end to end and test cases are green"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "quality assurance"
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "getting the release out"
+        },
+        {
+          "q": "q_celebrate_the_win",
+          "delta": 0,
+          "answer_excerpt": "probably that it works end to end and test cases are green"
+        },
+        {
+          "q": "q_current_priorities",
+          "delta": -1,
+          "answer_excerpt": "checking the rest of the team are ok"
+        },
+        {
+          "q": "q_clarity_on_priorities",
+          "delta": 1,
+          "answer_excerpt": "weekly retro"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

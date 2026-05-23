@@ -1,0 +1,92 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_open_real_version",
+    "label": "The real version",
+    "name": "Tell me about your week — the real version.",
+    "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 2,
+      "engagement": 1
+    },
+    "source": "research"
+  },
+  "answer": "its all good thanks",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "[SHALLOW] 'its all good thanks' lacks specifics or engagement with the question."
+  },
+  "new_queue": [
+    {
+      "alias": "q_clarify_all_good",
+      "label": "Clarify 'all good'",
+      "name": "When you say 'all good', what specifically went well this week? Any challenges or wins?"
+    },
+    {
+      "alias": "q_intro_perf_01_opening",
+      "label": "Self-read opener",
+      "name": "Before I share my view, how do you think the last stretch has gone?"
+    },
+    {
+      "alias": "q_intro_perf_02_proud",
+      "label": "What they're proud of",
+      "name": "What's something from the last quarter you're genuinely proud of — not what looks good, what actually was good?"
+    },
+    {
+      "alias": "q_ux_design_impact",
+      "label": "UX Design Impact",
+      "name": "How do you see your design work impacting our product goals this quarter?"
+    },
+    {
+      "alias": "q_design_quality_standards",
+      "label": "Design Quality Standards",
+      "name": "What specific steps have you taken to maintain high design quality and user experience?"
+    },
+    {
+      "alias": "q_collaboration_effectiveness",
+      "label": "Collaboration Effectiveness",
+      "name": "Where do you see collaboration with product and engineering teams needing improvement?"
+    },
+    {
+      "alias": "q_stakeholder_feedback_loops",
+      "label": "Stakeholder Feedback Loops",
+      "name": "How effectively do you think stakeholder feedback has been integrated into your designs?"
+    },
+    {
+      "alias": "q_leadership_growth_areas",
+      "label": "Leadership Growth Areas",
+      "name": "What specific leadership skills do you feel need the most development?"
+    },
+    {
+      "alias": "q_managing_design_stress",
+      "label": "Managing Design Stress",
+      "name": "How do you manage stress when balancing design quality and deadlines?"
+    },
+    {
+      "alias": "q_future_design_initiatives",
+      "label": "Future Design Initiatives",
+      "name": "What design initiatives do you want to prioritize in the next quarter?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

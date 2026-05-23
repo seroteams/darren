@@ -1,0 +1,152 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    "answer": "kids school closed",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The answer 'kids school closed' was a pivot to a personal context, not engaging with work-related friction."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?",
+      "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "low",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -3,
+      "engagement": -1
+    },
+    "note": "Carl's energy is low, indicating a significant wellbeing concern and mild disengagement."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_current_work_stressors",
+      "label": "Current work stressors",
+      "name": "What part of your workload feels like it's causing you to be late most often?",
+      "description": "Explores the underlying causes of consistent lateness, potentially revealing workload or time management issues.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "its the school",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The answer 'it's the school' indicates an external factor unrelated to workload, providing no signal about work stressors."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?",
+      "description": "Surfaces whether priorities are crisp or vague; whether they match what you thought.",
+      "purpose": "clarity",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "asd",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The answer 'asd' is unintelligible, providing no clarity or engagement signal."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_support_needs_8",
+      "label": "Support needs",
+      "name": "What do you need from me right now to help with your current workload?",
+      "description": "Opens up for Carl to express any specific support needs from the manager that could aid in managing workload or punctuality.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "asd",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The answer 'asd' is unintelligible and does not provide any clarity on support needs."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_team_dynamics_6",
+      "label": "Team dynamics",
+      "name": "How are you feeling about the team dynamics right now?",
+      "description": "Surfaces any interpersonal issues that might be affecting team performance or personal stress.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 1
+      },
+      "source": "generated"
+    },
+    "answer": "asd",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The answer 'asd' is unintelligible and provides no signal about team dynamics."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_growth_opportunities_12",
+      "label": "Growth opportunities",
+      "name": "Where do you see opportunities for growth in your current projects?",
+      "description": "Encourages Carl to identify areas for personal and professional growth within his current role.",
+      "purpose": "competency",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "generated"
+    },
+    "answer": "1qwe",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The response '1qwe' is unintelligible and provides no signal for growth opportunities."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_session_closer_2",
+      "label": "Session closer",
+      "name": "What's the one thing you want to have moved before we next meet?",
+      "description": "Helps Carl focus on a key action or priority for the upcoming period.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "qwe",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The response 'qwe' is unintelligible and provides no clarity on priorities or actions."
+  }
+]

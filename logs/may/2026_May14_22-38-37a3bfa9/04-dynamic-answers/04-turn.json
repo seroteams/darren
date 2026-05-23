@@ -1,0 +1,88 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_intro_growth_direction",
+    "label": "Direction",
+    "name": "When you imagine yourself eighteen months from now, what's actually different?",
+    "description": "Probes whether they have a real picture of where they want to go.",
+    "purpose": "topic",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "head of department?",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "growth": 1
+    },
+    "note": "Carl's answer 'head of department?' indicates an aspirational vision for growth and potential engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_role_expectations",
+      "label": "Role expectations",
+      "name": "What parts of your role feel unclear or misaligned right now?"
+    },
+    {
+      "alias": "q_feedback_received_2",
+      "label": "Feedback received",
+      "name": "How has recent feedback you've received landed with you?"
+    },
+    {
+      "alias": "q_skill_development",
+      "label": "Skill development",
+      "name": "What new skills or areas are you interested in developing?"
+    },
+    {
+      "alias": "q_support_needs_9",
+      "label": "Support needs",
+      "name": "What support do you feel you need from me to succeed?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "helping others"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "helping others"
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "head of department?"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "head of department?"
+        }
+      ]
+    }
+  }
+}

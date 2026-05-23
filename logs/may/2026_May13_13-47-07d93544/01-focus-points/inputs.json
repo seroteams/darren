@@ -1,0 +1,8 @@
+{
+  "name": "Taya",
+  "role": "Acting Coach",
+  "seniority": "Director",
+  "meetingType": "Performance & feedback",
+  "notes": "having issues with the clients requiremetns",
+  "model": "gpt-4o"
+}

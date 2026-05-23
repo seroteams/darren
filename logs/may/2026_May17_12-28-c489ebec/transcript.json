@@ -1,0 +1,21 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_open_real_version",
+      "label": "The real version",
+      "name": "Tell me about your week — the real version.",
+      "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 2,
+        "engagement": 1
+      },
+      "source": "research"
+    },
+    "answer": "its all good thanks",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "[SHALLOW] 'its all good thanks' lacks specifics or engagement with the question."
+  }
+]

@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Understanding why you're always running late",
+      "reason": "Notes mention Carl is always late. Could be a workload issue, time management challenge, or something personal — worth exploring what might be behind this pattern.",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Current priorities and focus areas",
+      "reason": "No specific signal — selected because this is a normal Bi-weekly check-in topic for a Lead UX Lead. Understanding current priorities ensures alignment with team and company goals.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Checking in on your overall energy levels",
+      "reason": "No specific signal — selected because this is a normal Bi-weekly check-in topic for a Lead UX Lead. Regularly assessing energy levels helps identify potential burnout or motivation dips.",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How you're feeling about team dynamics",
+      "reason": "No specific signal — selected because this is a normal Bi-weekly check-in topic for a Lead UX Lead. Exploring team connection can surface any interpersonal issues affecting performance.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What more you need from me as your manager",
+      "reason": "No specific signal — standard check-in hygiene. This opens the door for Carl to express any support needs that might help with his punctuality or other challenges.",
+      "known": true
+    }
+  ],
+  "name": "Carl",
+  "role": "UX Lead",
+  "seniority": "Lead",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Always late",
+  "model": "gpt-4o"
+}

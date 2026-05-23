@@ -1,0 +1,77 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_mentoring_opportunity_block",
+    "label": "Mentoring opportunity block",
+    "name": "What's blocking the mentoring opportunity from happening — is it time, opportunity, or something else?",
+    "description": "Explores the specific barriers to pursuing mentoring, which was previously mentioned as an interest.",
+    "purpose": "topic",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "More clarity on scope would help. And hearing about big projects before they're locked in, not after.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": 1
+    },
+    "note": "The answer highlights a need for clearer project scope and earlier communication, indicating a strong clarity signal."
+  },
+  "new_queue": [],
+  "issues": [
+    "dropped off-signature delta: clarity +3"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_celebrate_success",
+          "delta": -1,
+          "answer_excerpt": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up."
+        },
+        {
+          "q": "q_blockers_insight_2",
+          "delta": 1,
+          "answer_excerpt": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_blockers_insight_2",
+          "delta": 1,
+          "answer_excerpt": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went."
+        }
+      ]
+    },
+    "growth": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_mentoring_role",
+          "delta": 1,
+          "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+        },
+        {
+          "q": "q_mentoring_opportunity_block",
+          "delta": 1,
+          "answer_excerpt": "More clarity on scope would help. And hearing about big projects before they're locked in, not after."
+        }
+      ]
+    }
+  }
+}

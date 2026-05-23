@@ -1,0 +1,401 @@
+{
+  "id": "2026_May16_20-43-41ddc18f",
+  "dir": "C:\\Users\\User\\Documents\\Sero\\darren\\logs\\2026_May16_20-43-41ddc18f",
+  "createdAt": 1778939014661,
+  "lastSeenAt": 1778941066576,
+  "ctx": {
+    "name": "Taya",
+    "role": "Acting Coach",
+    "seniority": "Senior",
+    "meetingType": "Something feels off",
+    "notes": "Feeling like all her workshops are planned last minute and there is no prethought"
+  },
+  "introQueue": [
+    {
+      "alias": "q_open_bit_of_joy",
+      "label": "Bit of joy",
+      "name": "What's brought you a bit of joy recently?",
+      "description": "'A bit of' removes pressure to perform happiness. PERMA positive emotion — activates openness.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_off_connection",
+      "label": "Team connection",
+      "name": "How connected do you feel to the rest of the team right now?",
+      "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+      "purpose": "wellbeing",
+      "stage": "observation",
+      "axis_effects": {
+        "engagement": 3,
+        "wellbeing": 1
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?",
+      "description": "Separates energy from output; avoids leading with 'is something wrong'.",
+      "purpose": "wellbeing",
+      "stage": "landing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "seed"
+    }
+  ],
+  "focusPointsResult": {
+    "meeting_type": "Something feels off",
+    "focus_points": [
+      {
+        "id": "priorities",
+        "type": "Priorities & goals",
+        "category": "topic",
+        "label": "Workshop planning and lead time clarity.",
+        "reason": "Notes indicate workshops are planned last minute. This could be a symptom of unclear priorities or a lack of foresight in scheduling — worth exploring how planning can be more proactive.",
+        "known": true
+      },
+      {
+        "id": "workload",
+        "type": "Workload & capacity",
+        "category": "wellbeing",
+        "label": "Current workload balance and stressors.",
+        "reason": "Last-minute planning might signal workload mismanagement or external pressures. Could be a capacity issue or a prioritization challenge — worth clarifying.",
+        "known": true
+      },
+      {
+        "id": "energy",
+        "type": "Energy & wellbeing",
+        "category": "wellbeing",
+        "label": "Energy levels and motivation recently.",
+        "reason": "Feeling off about planning might correlate with energy or motivational dips. Could be burnout signals or just a temporary stress — worth checking in.",
+        "known": true
+      },
+      {
+        "id": "manager_support",
+        "type": "Manager support",
+        "category": "topic",
+        "label": "Support needed for smoother workshop execution.",
+        "reason": "If planning is consistently last minute, there might be a need for more support or resources. Understanding what she needs could lead to better outcomes.",
+        "known": true
+      },
+      {
+        "id": "role_clarity",
+        "type": "Role clarity",
+        "category": "topic",
+        "label": "Clarity on her role and expectations.",
+        "reason": "No specific signal — selected because this is a normal Something feels off topic for a Senior Acting Coach. Understanding if there's ambiguity in her role could be insightful.",
+        "known": true
+      }
+    ]
+  },
+  "preparationResult": {
+    "brief": {
+      "coreIssue": "As a Senior Acting Coach, Taya appears to be facing challenges with last-minute workshop planning, which could stem from unclear priorities or a mismanaged workload. This 1:1 aims to explore whether her current planning process is a result of external pressures, capacity issues, or simply a lack of clarity in her role and expectations. Understanding these factors will help determine what support is necessary for more proactive and effective workshop execution.",
+      "openingQuestion": "Taya, can you walk me through how you currently plan your workshops and any challenges that might be affecting your lead time?",
+      "listenFor": [
+        "whether she feels overwhelmed by her current workload",
+        "if they believe additional resources could improve planning",
+        "whether unclear role expectations contribute to last-minute planning"
+      ],
+      "avoid": [
+        "do not assume last-minute planning is due to lack of effort",
+        "do not suggest solutions before understanding her perspective"
+      ],
+      "goodOutcome": "You will understand the root cause of last-minute workshop planning and identify if Taya needs additional support or resources.",
+      "suggestedAction": "Clarify and agree on a structured planning process that allows for more lead time and reduces last-minute stress."
+    },
+    "runId": "8713e677-5a35-4cb5-894e-3f4ae48cdfab",
+    "validation": {
+      "passed": true,
+      "issues": []
+    }
+  },
+  "bankReady": {
+    "count": 8
+  },
+  "briefing": null,
+  "queueRef": [
+    {
+      "alias": "q_next_steps_clarity_2",
+      "label": "Next steps clarity",
+      "name": "What do you see as the next steps to improve the situation with the BAs, if any?",
+      "description": "Closes the session by identifying potential next steps or actions regarding the BA situation.",
+      "purpose": "topic",
+      "stage": "support",
+      "axis_effects": {
+        "clarity": 1
+      },
+      "source": "planner_added"
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "score": 2,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_open_bit_of_joy",
+          "delta": 1,
+          "answer_excerpt": "the last lesson at uni was fun"
+        },
+        {
+          "q": "q_intro_off_energy",
+          "delta": 1,
+          "answer_excerpt": "its been good, i am still excited, just worried about how much work i have and people I need to speak to and work with."
+        }
+      ]
+    },
+    "engagement": {
+      "id": "engagement",
+      "label": "Engagement",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "clarity": {
+      "id": "clarity",
+      "label": "Clarity",
+      "score": -9,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_workshop_timing",
+          "delta": -3,
+          "answer_excerpt": "not very, feeling like teh BA's are more the enemy that helping. the lead BA is a dick"
+        },
+        {
+          "q": "q_ba_conflict",
+          "delta": -3,
+          "answer_excerpt": "escalation calls, calls brining in the head of dev, not wanting to lsite and seems so very very stressed."
+        },
+        {
+          "q": "q_ba_stress_specifics",
+          "delta": -3,
+          "answer_excerpt": "they do thing half, its rushed all teh time."
+        }
+      ]
+    },
+    "growth": {
+      "id": "growth",
+      "label": "Growth",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    }
+  },
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_open_bit_of_joy",
+        "label": "Bit of joy",
+        "name": "What's brought you a bit of joy recently?",
+        "description": "'A bit of' removes pressure to perform happiness. PERMA positive emotion — activates openness.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "research"
+      },
+      "answer": "the last lesson at uni was fun",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": 1
+      },
+      "note": "The mention of a fun university lesson indicates a mild positive wellbeing signal."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_intro_off_energy",
+        "label": "Energy read",
+        "name": "How's your energy been lately — separately from how work is going?",
+        "description": "Separates energy from output; avoids leading with 'is something wrong'.",
+        "purpose": "wellbeing",
+        "stage": "landing",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "seed"
+      },
+      "answer": "its been good, i am still excited, just worried about how much work i have and people I need to speak to and work with.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": 1
+      },
+      "note": "Positive energy and excitement signal, but workload concerns suggest potential stressors."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_workshop_timing",
+        "label": "Workshop timing",
+        "name": "I've noticed workshops seem to be planned last minute — what's the situation there?",
+        "description": "Explores the reasons behind last-minute workshop planning to understand underlying issues.",
+        "purpose": "topic",
+        "stage": "observation",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "generated"
+      },
+      "answer": "not very, feeling like teh BA's are more the enemy that helping. the lead BA is a dick",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -3
+      },
+      "note": "Strong negative clarity signal — describes conflict with BAs, specifically naming the lead BA as a problem."
+    },
+    {
+      "turn": 4,
+      "question": {
+        "alias": "q_ba_conflict",
+        "label": "BA conflict",
+        "name": "You mentioned feeling like the BAs are more of an enemy — what's driving that tension, and how's it impacting your work?",
+        "description": "Explores the conflict with BAs and its impact on Taya's work.",
+        "purpose": "topic",
+        "stage": "observation",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "escalation calls, calls brining in the head of dev, not wanting to lsite and seems so very very stressed.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -3
+      },
+      "note": "Escalation calls and stress indicate significant tension with BAs, impacting clarity."
+    },
+    {
+      "turn": 5,
+      "question": {
+        "alias": "q_ba_stress_specifics",
+        "label": "BA stress specifics",
+        "name": "When you mention the BAs seem stressed, what's the specific impact on your work or planning?",
+        "description": "Drills into how BA stress specifically affects Taya's work and planning.",
+        "purpose": "topic",
+        "stage": "observation",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "they do thing half, its rushed all teh time.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -3
+      },
+      "note": "Taya describes rushed and incomplete work due to BA stress, indicating a strong lack of clarity in planning."
+    },
+    {
+      "turn": 6,
+      "question": {
+        "alias": "q_ba_rushed_work",
+        "label": "BA rushed work",
+        "name": "When you say things are rushed and half-done, what's the most immediate impact on your planning or execution?",
+        "description": "Explores the direct consequences of rushed work on Taya's planning and execution.",
+        "purpose": "topic",
+        "stage": "observation",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "no idea",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'no idea' offers no specifics on the impact of rushed work."
+    },
+    {
+      "turn": 7,
+      "question": {
+        "alias": "q_clarify_ba_impact",
+        "label": "Clarify BA impact",
+        "name": "When you say 'no idea' — is it more about the uncertainty itself, or something else blocking clarity?",
+        "description": "Clarifies what 'no idea' means in the context of rushed BA work and its impact.",
+        "purpose": "topic",
+        "stage": "observation",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "(skipped)",
+      "skipped": true,
+      "realized_deltas": {},
+      "note": "Skipped question — no clarity signal realised."
+    },
+    {
+      "turn": 8,
+      "question": {
+        "alias": "q_next_steps_clarity",
+        "label": "Next steps clarity",
+        "name": "What's the first concrete thing you want to tackle to improve your planning process?",
+        "description": "Encourages Taya to identify a specific action to take towards improving her planning process.",
+        "purpose": "topic",
+        "stage": "support",
+        "axis_effects": {
+          "growth": 1
+        },
+        "source": "generated"
+      },
+      "answer": "(skipped)",
+      "skipped": true,
+      "realized_deltas": {},
+      "note": "Skipped the question, providing no signal on growth axis."
+    }
+  ],
+  "turn": 8,
+  "totalBudget": 8,
+  "closer": {
+    "alias": "q_next_steps_clarity",
+    "label": "Next steps clarity",
+    "name": "What's the first concrete thing you want to tackle to improve your planning process?",
+    "description": "Encourages Taya to identify a specific action to take towards improving her planning process.",
+    "purpose": "topic",
+    "stage": "support",
+    "axis_effects": {
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "pendingAnswer": null,
+  "notes": [
+    {
+      "id": "b76d2521-1ee4-4697-b50f-381f4380da42",
+      "stage": "FOCUS_POINTS",
+      "turn": 0,
+      "ts": 1778939037795,
+      "text": "we dont want them all selected here, they should be selected to choose, not deselected"
+    },
+    {
+      "id": "a18ee36e-9761-4908-bc27-678b25dc82b8",
+      "stage": "PREPARATION",
+      "turn": 0,
+      "ts": 1778939099189,
+      "text": "what this 11 is about the job, as acting coac. really fees \"What this 1:1 is probably about\n\" is standard corporate bullsit."
+    },
+    {
+      "id": "4ba07e80-2fcd-4834-a707-5dd9d4b31eef",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1778939302305,
+      "text": "I see lonng dashes in everythinbg ,we need to compeltely remove that. filter it before anyone sees it. \"How's your energy been lately — separately from how work is going?\n\""
+    },
+    {
+      "id": "01dbbf28-a5ce-4ac9-91c9-e6d6655fb895",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1778939826917,
+      "text": "\"You mentioned feeling like the BAs are more of an enemy — what's driving that tension, and how's it impacting your work?\n\" nice question,"
+    }
+  ]
+}

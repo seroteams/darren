@@ -1,0 +1,70 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_intro_biweekly_pace",
+    "label": "Opening pace check",
+    "name": "How's the last two weeks actually felt — energy-wise?",
+    "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "busy, i felt tired a bit last week because of the crashes on the main systems",
+  "skipped": false,
+  "plan": {
+    "action": "keep",
+    "reason": "The next question about priorities aligns well with the current focus on wellbeing.",
+    "new_question": null
+  },
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": 0
+    },
+    "note": "The tiredness signal indicates a slight dip in wellbeing."
+  },
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "busy, i felt tired a bit last week because of the crashes on the main systems"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 3,
+          "answer_excerpt": "quality assurance"
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": 0,
+          "answer_excerpt": "busy, i felt tired a bit last week because of the crashes on the main systems"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "quality assurance"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_billing_rewrite_role_2",
+    "label": "Billing rewrite role",
+    "name": "What role do you see yourself playing in the upcoming billing rewrite?",
+    "description": "Surfaces Priya's understanding and expectations for the next project.",
+    "purpose": "competency",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "generated"
+  },
+  "answer": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": 1
+    },
+    "note": "Priya expressed pride in her previous role, indicating clarity about her past contributions, but did not directly address the upcoming billing rewrite role."
+  },
+  "new_queue": [
+    {
+      "alias": "q_billing_rewrite_clarity_3",
+      "label": "Billing rewrite clarity",
+      "name": "What specifically have you heard about the billing rewrite, and what's unclear to you?"
+    },
+    {
+      "alias": "q_support_for_new_projects",
+      "label": "Support for new projects",
+      "name": "What kind of support do you need from me as new projects start to come into view?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_recognizing_contributions_2",
+          "delta": -3,
+          "answer_excerpt": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_billing_rewrite_role_2",
+          "delta": 1,
+          "answer_excerpt": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

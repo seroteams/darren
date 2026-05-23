@@ -1,0 +1,66 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_impact_of_lateness_2",
+    "label": "Impact of lateness",
+    "name": "How does being late affect your workload or day-to-day priorities?",
+    "description": "Explores the potential impact of lateness on workload and daily priorities.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "generated"
+  },
+  "answer": "sad",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The response 'sad' is non-informative and does not engage with the question."
+  },
+  "new_queue": [
+    {
+      "alias": "q_energy_fluctuations",
+      "label": "Energy fluctuations",
+      "name": "What patterns have you noticed in your energy levels throughout the day?"
+    },
+    {
+      "alias": "q_support_needs_2",
+      "label": "Support needs",
+      "name": "What support would help you address any challenges with being on time?"
+    },
+    {
+      "alias": "q_motivation_drivers",
+      "label": "Motivation drivers",
+      "name": "What currently motivates you the most in your role?"
+    },
+    {
+      "alias": "q_team_dynamics_4",
+      "label": "Team dynamics",
+      "name": "How do you perceive your lateness affecting team interactions?"
+    },
+    {
+      "alias": "q_long_term_goals",
+      "label": "Long-term goals",
+      "name": "Where do you see your role evolving in the next year?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

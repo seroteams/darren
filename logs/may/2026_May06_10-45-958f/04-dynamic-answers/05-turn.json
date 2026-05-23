@@ -1,0 +1,86 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_mentoring_vision_3",
+    "label": "Mentoring vision",
+    "name": "What would mentoring actually look like in your week, and what would you need to drop to make space for it?",
+    "description": "Explores practical aspects of integrating mentoring into their current role.",
+    "purpose": "topic",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "generated"
+  },
+  "answer": "Mentoring would be meaningful. I've wanted to do more of it for months but never made it concrete.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -3
+    },
+    "note": "Priya describes mentoring as meaningful but hasn't made it concrete for months, indicating a lack of growth progress."
+  },
+  "new_queue": [
+    {
+      "alias": "q_role_clarity_concerns",
+      "label": "Role clarity concerns",
+      "name": "Where are things actually messy, unclear, or at risk right now?"
+    },
+    {
+      "alias": "q_sustainable_pace_4",
+      "label": "Sustainable pace",
+      "name": "Does the current pace feel like something you could keep up for another three months?"
+    },
+    {
+      "alias": "q_mentoring_block_3",
+      "label": "Mentoring block",
+      "name": "What's blocked the mentoring from happening — your time, opportunity, or something else?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "Honestly the last stretch has been mixed. Shipping payments was a real high point but since then it's felt slow."
+        },
+        {
+          "q": "q_post_refactor_reflection_2",
+          "delta": -3,
+          "answer_excerpt": "I think I've been slower to push back when scope creeps. That's where I've let things slide."
+        },
+        {
+          "q": "q_engagement_boost",
+          "delta": -3,
+          "answer_excerpt": "Energy is lower than usual. Post-launch flatness is real and I haven't found the next thing to get excited about."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "Honestly the last stretch has been mixed. Shipping payments was a real high point but since then it's felt slow."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_mentoring_vision_3",
+          "delta": -3,
+          "answer_excerpt": "Mentoring would be meaningful. I've wanted to do more of it for months but never made it concrete."
+        }
+      ]
+    }
+  }
+}

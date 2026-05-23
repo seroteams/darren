@@ -1,0 +1,30 @@
+{
+  "wellbeing": {
+    "score": -1,
+    "history": [
+      {
+        "q": "q_open_real_version",
+        "delta": -1,
+        "answer_excerpt": "its been a lot of delibreation and team people managing rather than progress from me, my todo list is just too big"
+      }
+    ]
+  },
+  "engagement": {
+    "score": -1,
+    "history": [
+      {
+        "q": "q_open_real_version",
+        "delta": -1,
+        "answer_excerpt": "its been a lot of delibreation and team people managing rather than progress from me, my todo list is just too big"
+      }
+    ]
+  },
+  "clarity": {
+    "score": 0,
+    "history": []
+  },
+  "growth": {
+    "score": 0,
+    "history": []
+  }
+}

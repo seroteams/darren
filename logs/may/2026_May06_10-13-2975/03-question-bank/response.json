@@ -1,0 +1,13 @@
+{
+  "raw": "{\"questions\":[{\"label\":\"Energy check-in\",\"name\":\"How is your energy level holding up with your current workload?\",\"description\":\"Assessing current energy levels and potential for burnout.\",\"purpose\":\"wellbeing\",\"axis_effects\":[{\"axis\":\"wellbeing\",\"delta\":3}]},{\"label\":\"Project preferences\",\"name\":\"What type of project excites you most for the next quarter?\",\"description\":\"Understanding her interest in upcoming projects without revealing specifics.\",\"purpose\":\"topic\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":3}]},{\"label\":\"Delegation challenges\",\"name\":\"What's the biggest challenge you've faced when delegating tasks?\",\"description\":\"Exploring difficulties in delegation to identify improvement areas.\",\"purpose\":\"competency\",\"axis_effects\":[{\"axis\":\"growth\",\"delta\":3}]},{\"label\":\"Technical problem-solving\",\"name\":\"Can you share a recent complex problem you solved and how you approached it?\",\"description\":\"Evaluating her methods in handling complex technical issues.\",\"purpose\":\"competency\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":3}]},{\"label\":\"Stakeholder interaction\",\"name\":\"How do you typically engage with cross-functional partners?\",\"description\":\"Exploring her approach to cross-functional collaboration.\",\"purpose\":\"competency\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":3}]},{\"label\":\"Growth focus\",\"name\":\"What skill do you want to develop next for your career growth?\",\"description\":\"Identifying her personal development priorities.\",\"purpose\":\"topic\",\"axis_effects\":[{\"axis\":\"growth\",\"delta\":3}]},{\"label\":\"Leadership opportunities\",\"name\":\"Where do you see opportunities to take on more leadership within the team?\",\"description\":\"Assessing her interest and readiness for leadership roles.\",\"purpose\":\"competency\",\"axis_effects\":[{\"axis\":\"growth\",\"delta\":3}]},{\"label\":\"Complex project readiness\",\"name\":\"How do you feel about taking on more complex projects in the near future?\",\"description\":\"Gauging her confidence and readiness for complex projects without mentioning specifics.\",\"purpose\":\"competency\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":3}]}]}",
+  "saved_aliases": [
+    "q_energy_check_in_3",
+    "q_project_preferences",
+    "q_delegation_challenges",
+    "q_technical_problem_solving",
+    "q_stakeholder_interaction",
+    "q_growth_focus",
+    "q_leadership_opportunities",
+    "q_complex_project_readiness"
+  ]
+}

@@ -1,0 +1,172 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    "answer": "The release, it took over 5 hours to get it out",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "clarity": 1
+    },
+    "note": "He named a concrete release delay, which signals some execution friction and mild engagement cost, but the answer did not specify cause or stress level."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_hidden_blockers",
+      "label": "Hidden blockers",
+      "name": "What dependency is most likely to quietly stall you next?",
+      "description": "Surfaces the next risk that may not be visible in the intro blocker scan.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    "answer": "When bob is not here",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1
+    },
+    "note": "The answer named Bob as the key dependency, which confirms a real clarity issue around single-point-of-failure risk; engagement was mentioned only indirectly."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_escalation_point",
+      "label": "Escalation point",
+      "name": "What part of this work needs escalation from me now?",
+      "description": "Finds where manager intervention would remove friction or unblock progress.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    "answer": "Make sure bob is shadowed when he's away",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1
+    },
+    "note": "The answer gave a concrete support request about shadowing Bob when he's away, which slightly improved clarity; it did not add new engagement signal beyond the existing dependency."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?",
+      "description": "Surfaces whether priorities are crisp or vague; whether they match what you thought.",
+      "purpose": "clarity",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "making sure the next time we release it goes smoother with ci/cd pipelines",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1
+    },
+    "note": "The answer is specific about improving the next release via CI/CD pipelines, which keeps clarity high but adds little new ownership signal beyond the existing focus."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_decision_clarity",
+      "label": "Decision clarity",
+      "name": "Which decision do you wish were made sooner?",
+      "description": "Finds ambiguity or waiting that is slowing execution and creating uncertainty.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    "answer": "releasing a month ago would have been better, or releasing after bob it back",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1
+    },
+    "note": "He said the release should have happened earlier or after Bob returned, signaling a clearer sequencing preference but not additional ownership or energy."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_sustainable_pace_2",
+      "label": "Sustainable pace",
+      "name": "What would make your current pace hard to sustain for another month?",
+      "description": "Tests whether the current load is still sustainable beyond the immediate sprint.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "if more people were off, i'm sick of people having holidays all the time",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1
+    },
+    "note": "He said the pace gets harder when more people are off and sounded fed up with others' holidays, which points to strain and reduced sustainability; the answer didn't add anything new on clarity."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_support_gap_2",
+      "label": "Support gap",
+      "name": "What do you need from me that you are not getting yet?",
+      "description": "Surfaces missing manager support without assuming there is a problem.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 1,
+        "wellbeing": 1
+      },
+      "source": "generated"
+    },
+    "answer": "a promotion",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1
+    },
+    "note": "The promotion ask is a strong growth signal and also indicates he wants clearer advancement expectations."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_stretch_edge_4",
+      "label": "Stretch edge",
+      "name": "What kind of work would stretch you in a useful way right now?",
+      "description": "Identifies the next level of challenge that would feel developmental rather than random.",
+      "purpose": "topic",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    "answer": "doing some design, but no one will let me do it",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "growth": 3
+    },
+    "note": "He wants to do design work but says no one will let him, which is a strong growth signal and a smaller engagement lift."
+  }
+]

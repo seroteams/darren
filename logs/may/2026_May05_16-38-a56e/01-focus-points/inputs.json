@@ -1,0 +1,8 @@
+{
+  "name": "James 2",
+  "role": "Life Coach",
+  "seniority": "Manager",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Seems ok",
+  "model": "gpt-4o"
+}

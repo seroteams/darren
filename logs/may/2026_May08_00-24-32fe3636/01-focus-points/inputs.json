@@ -1,0 +1,8 @@
+{
+  "name": "Lesley",
+  "role": "Manager",
+  "seniority": "Manger",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Shes is late to work every day",
+  "model": "gpt-4o"
+}

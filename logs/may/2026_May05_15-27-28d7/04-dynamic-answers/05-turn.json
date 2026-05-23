@@ -1,0 +1,91 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_manager_support_needs",
+    "label": "Manager support needs",
+    "name": "What specific support would make a difference for you right now?",
+    "description": "Identifies any specific support needed from the manager to address current issues or improve performance.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "generated"
+  },
+  "answer": "can I start later in the day and finish later?",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": 1
+    },
+    "note": "Request to adjust work hours indicates a need for flexibility, providing clarity on managing personal and work commitments."
+  },
+  "new_queue": [
+    {
+      "alias": "q_feedback_received",
+      "label": "Feedback received",
+      "name": "What feedback have you received recently that’s stuck with you?"
+    },
+    {
+      "alias": "q_growth_opportunities_6",
+      "label": "Growth opportunities",
+      "name": "What area of your role are you looking to grow or stretch in next?"
+    },
+    {
+      "alias": "q_work_life_balance_2",
+      "label": "Work-life balance",
+      "name": "What would help you balance work and home responsibilities better right now?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "not a lot"
+        },
+        {
+          "q": "q_intro_off_energy",
+          "delta": -3,
+          "answer_excerpt": "quite low as i have problems with the kids at home"
+        },
+        {
+          "q": "q_late_arrival_reasons",
+          "delta": -1,
+          "answer_excerpt": "kids been sick a lot so i had to take care of them"
+        },
+        {
+          "q": "q_workload_assessment_2",
+          "delta": -1,
+          "answer_excerpt": "its okay but i feel like i am always behind"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "not a lot"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_manager_support_needs",
+          "delta": 1,
+          "answer_excerpt": "can I start later in the day and finish later?"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

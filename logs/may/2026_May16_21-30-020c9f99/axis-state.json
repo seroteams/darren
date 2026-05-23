@@ -1,0 +1,24 @@
+{
+  "wellbeing": {
+    "score": 1,
+    "history": [
+      {
+        "q": "q_open_nourishing",
+        "delta": 1,
+        "answer_excerpt": "seeing my class finish"
+      }
+    ]
+  },
+  "engagement": {
+    "score": 0,
+    "history": []
+  },
+  "clarity": {
+    "score": 0,
+    "history": []
+  },
+  "growth": {
+    "score": 0,
+    "history": []
+  }
+}

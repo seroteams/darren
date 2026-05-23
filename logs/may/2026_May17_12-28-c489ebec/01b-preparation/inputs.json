@@ -1,0 +1,57 @@
+{
+  "name": "yeah",
+  "roleTitle": "UX Lead",
+  "seniority": "Lead",
+  "meetingType": "Performance & feedback",
+  "observedShift": "No",
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Impact of recent UX initiatives",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead UX role.",
+      "known": true
+    },
+    {
+      "id": "quality",
+      "type": "Quality",
+      "category": "competency",
+      "label": "Quality and polish of UX deliverables",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead UX role.",
+      "known": true
+    },
+    {
+      "id": "collaboration",
+      "type": "Collaboration",
+      "category": "competency",
+      "label": "Collaboration with product and engineering teams",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead UX role.",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Engagement with key stakeholders",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead UX role.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Growth areas in UX leadership",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead UX role.",
+      "known": true
+    }
+  ],
+  "model": "gpt-4o",
+  "runId": "bb205776-0c30-498c-99bd-497353861068",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "output may not reflect the meeting type distinctly"
+    ]
+  }
+}

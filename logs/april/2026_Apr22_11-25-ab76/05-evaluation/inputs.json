@@ -1,0 +1,175 @@
+{
+  "ctx": {
+    "name": "Darren",
+    "role": "Senior Developer",
+    "seniority": "Senior",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "Blah"
+  },
+  "focusPoints": [
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Current priorities and goals alignment",
+      "reason": "No specific signal — standard bi-weekly topic. Important to check if he's aligned with team and company goals this cycle.",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Any current blockers or dependencies",
+      "reason": "No specific signal — routine check-in territory. Useful to understand if there are any obstacles affecting his work.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Energy levels and overall wellbeing",
+      "reason": "No specific signal — typical for this role/meeting. A good opportunity to gauge his motivation and stress levels.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Growth opportunities and skill development",
+      "reason": "No specific signal — common topic for senior developers. Discussing where he wants to stretch can help in career progression.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Support needed from you",
+      "reason": "No specific signal — standard check-in hygiene. Understanding what he needs from you can enhance his effectiveness.",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's been slower or harder than it should have been?",
+      "alias": "q_intro_biweekly_friction",
+      "answer": "The release, it took over 5 hours to get it out",
+      "skipped": false
+    },
+    {
+      "question": "What dependency is most likely to quietly stall you next?",
+      "alias": "q_hidden_blockers",
+      "answer": "When bob is not here",
+      "skipped": false
+    },
+    {
+      "question": "What part of this work needs escalation from me now?",
+      "alias": "q_escalation_point",
+      "answer": "Make sure bob is shadowed when he's away",
+      "skipped": false
+    },
+    {
+      "question": "What are you actually focused on this week, and why those things?",
+      "alias": "q_intro_biweekly_priorities",
+      "answer": "making sure the next time we release it goes smoother with ci/cd pipelines",
+      "skipped": false
+    },
+    {
+      "question": "Which decision do you wish were made sooner?",
+      "alias": "q_decision_clarity",
+      "answer": "releasing a month ago would have been better, or releasing after bob it back",
+      "skipped": false
+    },
+    {
+      "question": "What would make your current pace hard to sustain for another month?",
+      "alias": "q_sustainable_pace_2",
+      "answer": "if more people were off, i'm sick of people having holidays all the time",
+      "skipped": false
+    },
+    {
+      "question": "What do you need from me that you are not getting yet?",
+      "alias": "q_support_gap_2",
+      "answer": "a promotion",
+      "skipped": false
+    },
+    {
+      "question": "What kind of work would stretch you in a useful way right now?",
+      "alias": "q_stretch_edge_4",
+      "answer": "doing some design, but no one will let me do it",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_sustainable_pace_2",
+          "delta": -1,
+          "answer_excerpt": "if more people were off, i'm sick of people having holidays all the time"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "The release, it took over 5 hours to get it out"
+        },
+        {
+          "q": "q_stretch_edge_4",
+          "delta": 1,
+          "answer_excerpt": "doing some design, but no one will let me do it"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "The release, it took over 5 hours to get it out"
+        },
+        {
+          "q": "q_hidden_blockers",
+          "delta": 1,
+          "answer_excerpt": "When bob is not here"
+        },
+        {
+          "q": "q_escalation_point",
+          "delta": 1,
+          "answer_excerpt": "Make sure bob is shadowed when he's away"
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "making sure the next time we release it goes smoother with ci/cd pipelines"
+        },
+        {
+          "q": "q_decision_clarity",
+          "delta": 1,
+          "answer_excerpt": "releasing a month ago would have been better, or releasing after bob it back"
+        },
+        {
+          "q": "q_support_gap_2",
+          "delta": 1,
+          "answer_excerpt": "a promotion"
+        }
+      ]
+    },
+    "growth": {
+      "score": 3,
+      "history": [
+        {
+          "q": "q_stretch_edge_4",
+          "delta": 3,
+          "answer_excerpt": "doing some design, but no one will let me do it"
+        }
+      ]
+    }
+  },
+  "notes": "Blah",
+  "model": "gpt-5.4-mini"
+}

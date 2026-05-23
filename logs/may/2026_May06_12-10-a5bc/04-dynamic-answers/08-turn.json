@@ -1,0 +1,80 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_communication_for_leadership",
+    "label": "Communication for leadership",
+    "name": "What do you think is key in communicating effectively as a team leader?",
+    "description": "Probes Carl's understanding of essential communication skills for leadership.",
+    "purpose": "competency",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "generated"
+  },
+  "answer": "trust",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1
+    },
+    "note": "The answer 'trust' is too brief and lacks depth, indicating a lack of clarity on communication skills for leadership."
+  },
+  "new_queue": [],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "in a year and a half its hard to say but they want to be a leader of a team"
+        },
+        {
+          "q": "q_leadership_readiness",
+          "delta": 1,
+          "answer_excerpt": "being able to help others"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_understanding_expectations",
+          "delta": 1,
+          "answer_excerpt": "being able to develop the team"
+        },
+        {
+          "q": "q_developing_the_team",
+          "delta": 1,
+          "answer_excerpt": "they feel more confident and they need less hand holding"
+        },
+        {
+          "q": "q_communication_for_leadership",
+          "delta": -1,
+          "answer_excerpt": "trust"
+        }
+      ]
+    },
+    "growth": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "in a year and a half its hard to say but they want to be a leader of a team"
+        },
+        {
+          "q": "q_role_stretch",
+          "delta": 1,
+          "answer_excerpt": "the 1:1 's"
+        }
+      ]
+    }
+  }
+}

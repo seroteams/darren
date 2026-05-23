@@ -1,0 +1,86 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_energy_drivers",
+    "label": "Energy drivers",
+    "name": "What typically boosts your energy levels during a workday?",
+    "description": "Identifies factors that positively influence their energy, aiding in sustainability.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "answer": "having lunch with colleagues",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": 1
+    },
+    "note": "The answer indicates a positive energy influence from social interactions during lunch, suggesting a mild positive impact on wellbeing."
+  },
+  "new_queue": [
+    {
+      "alias": "q_work_schedule_adjustments",
+      "label": "Work schedule adjustments",
+      "name": "What specific changes to your work schedule would help align it better with your natural rhythm?"
+    },
+    {
+      "alias": "q_task_blockage",
+      "label": "Task blockage",
+      "name": "Is there anything specific that's currently holding up your design tasks?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -3,
+          "answer_excerpt": "quite low"
+        },
+        {
+          "q": "q_morning_motivation",
+          "delta": 1,
+          "answer_excerpt": "having a good manager"
+        },
+        {
+          "q": "q_work_rhythm",
+          "delta": -3,
+          "answer_excerpt": "not really"
+        },
+        {
+          "q": "q_energy_drivers",
+          "delta": 1,
+          "answer_excerpt": "having lunch with colleagues"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -1,
+          "answer_excerpt": "i want to focus on my mental health"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -3,
+          "answer_excerpt": "i want to focus on my mental health"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

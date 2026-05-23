@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "How they're sequencing their initiatives.",
+      "reason": "Notes indicate they're taking on too many things. Could be a prioritization challenge, a scope creep issue, or an opportunity to delegate more effectively.",
+      "known": true
+    },
+    {
+      "id": "delegation",
+      "type": "Delegation effectiveness",
+      "category": "competency",
+      "label": "Delegation effectiveness as workload grows.",
+      "reason": "Taking on too many things might mean they're not delegating effectively. Worth exploring whether they can trust others with some of the workload.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Where they want to stretch their design leadership.",
+      "reason": "No specific signal — selected because this is a normal Growth & career plan topic for a Lead Web Designer.",
+      "known": true
+    },
+    {
+      "id": "collaboration",
+      "type": "Collaboration",
+      "category": "competency",
+      "label": "Collaboration across product and engineering teams.",
+      "reason": "No specific signal — selected because this is a normal Growth & career plan topic for a Lead Web Designer.",
+      "known": true
+    },
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Wins in design leadership that deserve spotlight.",
+      "reason": "No specific signal — selected because this is a normal Growth & career plan topic for a Lead Web Designer.",
+      "known": true
+    }
+  ],
+  "name": "Carl",
+  "role": "Web Designer",
+  "seniority": "Lead",
+  "meetingType": "Growth & career plan",
+  "notes": "They are taking on too many things.",
+  "model": "gpt-4o"
+}

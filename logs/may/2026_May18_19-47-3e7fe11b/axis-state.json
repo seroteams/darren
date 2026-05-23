@@ -1,0 +1,71 @@
+{
+  "wellbeing": {
+    "score": -3,
+    "history": [
+      {
+        "q": "q_open_real_version",
+        "delta": -1,
+        "answer_excerpt": "there are so many topics to cover and nwith every OE ther eis so much work"
+      },
+      {
+        "q": "q_workload_specifics",
+        "delta": -1,
+        "answer_excerpt": "doing all the tickets for the backend stuff is very hard."
+      },
+      {
+        "q": "q_backend_workload",
+        "delta": -1,
+        "answer_excerpt": "just so many ares, global app, oe x 3 , managing the team and all the POs coming directly to me."
+      }
+    ]
+  },
+  "engagement": {
+    "score": -3,
+    "history": [
+      {
+        "q": "q_open_real_version",
+        "delta": -1,
+        "answer_excerpt": "there are so many topics to cover and nwith every OE ther eis so much work"
+      },
+      {
+        "q": "q_intro_perf_01_opening",
+        "delta": -1,
+        "answer_excerpt": "tough"
+      },
+      {
+        "q": "q_clarify_tough",
+        "delta": -1,
+        "answer_excerpt": "workload, the amount of information, delaing with all the requests and tasks, feeling like we are the center of everything."
+      }
+    ]
+  },
+  "clarity": {
+    "score": -10,
+    "history": [
+      {
+        "q": "q_intro_perf_01_opening",
+        "delta": -1,
+        "answer_excerpt": "tough"
+      },
+      {
+        "q": "q_clarify_tough",
+        "delta": -3,
+        "answer_excerpt": "workload, the amount of information, delaing with all the requests and tasks, feeling like we are the center of everything."
+      },
+      {
+        "q": "q_workload_specifics_2",
+        "delta": -3,
+        "answer_excerpt": "to move forward my team has to write all the tickets both dev, backend, all we have to understand all lvels of this massive app"
+      },
+      {
+        "q": "q_specific_feedback",
+        "delta": -3,
+        "answer_excerpt": "too many jira boards, figma files, emails, dm, channles, groups, meetings, notes,"
+      }
+    ]
+  },
+  "growth": {
+    "score": 0,
+    "history": []
+  }
+}

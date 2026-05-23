@@ -1,0 +1,8 @@
+{
+  "name": "Priya",
+  "role": "Senior Backend Engineer",
+  "seniority": "Senior",
+  "meetingType": "Performance & feedback",
+  "notes": "Just shipped the payments refactor on Monday — big win, team noticed. Looks a bit flat this week, quieter than usual in standup. Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet.",
+  "model": "gpt-4o"
+}

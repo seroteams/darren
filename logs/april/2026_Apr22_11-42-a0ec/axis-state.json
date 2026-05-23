@@ -1,0 +1,57 @@
+{
+  "wellbeing": {
+    "score": 2,
+    "history": [
+      {
+        "q": "q_intro_biweekly_pace",
+        "delta": 1,
+        "answer_excerpt": "good, if i eat a lot of chocolate"
+      },
+      {
+        "q": "q_recovery_pattern_2",
+        "delta": 1,
+        "answer_excerpt": "good, as long as i have a chocolate drink. but sometimes i can't find a shop to buy chocolate from."
+      }
+    ]
+  },
+  "engagement": {
+    "score": 2,
+    "history": [
+      {
+        "q": "q_intro_biweekly_priorities",
+        "delta": 1,
+        "answer_excerpt": "finding new types of chocolate, one from every country. oh and football, i want to become the best footballer in the world. and also i want "
+      },
+      {
+        "q": "q_training_lift",
+        "delta": 1,
+        "answer_excerpt": "goalie, and between waiting for the ball to come back to me, how i can consume as much chocolate as possible"
+      }
+    ]
+  },
+  "clarity": {
+    "score": 3,
+    "history": [
+      {
+        "q": "q_intro_biweekly_priorities",
+        "delta": 3,
+        "answer_excerpt": "finding new types of chocolate, one from every country. oh and football, i want to become the best footballer in the world. and also i want "
+      }
+    ]
+  },
+  "growth": {
+    "score": 0,
+    "history": [
+      {
+        "q": "q_training_lift",
+        "delta": 1,
+        "answer_excerpt": "goalie, and between waiting for the ball to come back to me, how i can consume as much chocolate as possible"
+      },
+      {
+        "q": "q_feedback_use_2",
+        "delta": -1,
+        "answer_excerpt": "not much, we don't talk about chocolate enough"
+      }
+    ]
+  }
+}

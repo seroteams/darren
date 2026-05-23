@@ -1,0 +1,161 @@
+{
+  "ctx": {
+    "name": "Usman",
+    "role": "Lead Scrum Master",
+    "seniority": "Lead",
+    "meetingType": "Growth & career plan",
+    "notes": "They have not passed probation but doing very well"
+  },
+  "focusPoints": [
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Where they want to stretch their facilitation skills",
+      "reason": "As a Lead Scrum Master in a Growth & career plan meeting, identifying specific areas for skill development is crucial for career progression.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "Expectations and success criteria for passing probation",
+      "reason": "Given that they have not passed probation yet, clarifying role expectations and success criteria is essential to ensure alignment and support their growth.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "Feedback they've received from the team",
+      "reason": "Understanding feedback from the team can provide insights into their performance and areas for improvement, especially while still in probation.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "When have you felt most like yourself recently?",
+      "alias": "q_open_most_like_yourself",
+      "answer": "yeah i am okay, its a strange question",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'yeah i am okay', what does 'most like yourself' mean to you in your role? Is it about leadership, facilitation, or something else?",
+      "alias": "q_clarify_most_like_yourself",
+      "answer": "i dont have someone to guide me , it's really just me on my own",
+      "skipped": false
+    },
+    {
+      "question": "You mentioned not having someone to guide you — what kind of support or guidance would make a difference for you right now?",
+      "alias": "q_guidance_and_support",
+      "answer": "well where can I go next in the company?",
+      "skipped": false
+    },
+    {
+      "question": "When you ask about where you can go next in the company, what specific roles or paths are you considering?",
+      "alias": "q_future_roles_2",
+      "answer": "head of something, not sure but wanting to move forward",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'head of something', what is it about that role that pulls you? Is it the scope, the people, the title, or something else?",
+      "alias": "q_head_of_something",
+      "answer": "The title and the money",
+      "skipped": false
+    },
+    {
+      "question": "When you imagine yourself eighteen months from now, what's actually different?",
+      "alias": "q_intro_growth_direction",
+      "answer": "id be head of my own pillar",
+      "skipped": false
+    },
+    {
+      "question": "Head of your own pillar — what specifically would that entail in terms of scope and responsibilities?",
+      "alias": "q_head_of_own_pillar",
+      "answer": "manage the teams, finances and projects we take on.",
+      "skipped": false
+    },
+    {
+      "question": "What's the first concrete thing you want to have moved by our next conversation?",
+      "alias": "q_next_steps_commitment_6",
+      "answer": "id like to have a personal learning plan and some KPI's to aim for.",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_clarify_most_like_yourself",
+          "delta": -3,
+          "answer_excerpt": "i dont have someone to guide me , it's really just me on my own"
+        },
+        {
+          "q": "q_guidance_and_support",
+          "delta": -3,
+          "answer_excerpt": "well where can I go next in the company?"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "id be head of my own pillar"
+        },
+        {
+          "q": "q_head_of_own_pillar",
+          "delta": 1,
+          "answer_excerpt": "manage the teams, finances and projects we take on."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 4,
+      "history": [
+        {
+          "q": "q_clarify_most_like_yourself",
+          "delta": -1,
+          "answer_excerpt": "i dont have someone to guide me , it's really just me on my own"
+        },
+        {
+          "q": "q_future_roles_2",
+          "delta": -1,
+          "answer_excerpt": "head of something, not sure but wanting to move forward"
+        },
+        {
+          "q": "q_head_of_something",
+          "delta": -1,
+          "answer_excerpt": "The title and the money"
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 3,
+          "answer_excerpt": "id be head of my own pillar"
+        },
+        {
+          "q": "q_head_of_own_pillar",
+          "delta": 3,
+          "answer_excerpt": "manage the teams, finances and projects we take on."
+        },
+        {
+          "q": "q_next_steps_commitment_6",
+          "delta": 1,
+          "answer_excerpt": "id like to have a personal learning plan and some KPI's to aim for."
+        }
+      ]
+    }
+  },
+  "notes": "They have not passed probation but doing very well",
+  "model": "gpt-4o"
+}

@@ -1,0 +1,121 @@
+{
+  "ctx": {
+    "name": "Sarah",
+    "role": "Acting Coach",
+    "seniority": "Manager",
+    "meetingType": "Growth & career plan",
+    "notes": "The director is not great"
+  },
+  "focusPoints": [
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Sarah's growth trajectory and next steps",
+      "reason": "Notes mention 'the director is not great'. Could be a signal about Sarah's potential to step up or a gap in her current development — worth exploring her ambitions and growth path.",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Managing up and stakeholder relationships",
+      "reason": "Notes about the director suggest a possible challenge in managing upwards. Could be about building better relationships or navigating current dynamics — worth probing.",
+      "known": true
+    },
+    {
+      "id": "delegation",
+      "type": "Delegation effectiveness",
+      "category": "competency",
+      "label": "Delegation and team empowerment",
+      "reason": "No specific signal — standard managerial growth area. Could be a useful topic to discuss how she's empowering her team and where she might want to improve.",
+      "known": true
+    },
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Strategic impact and influence",
+      "reason": "No specific signal — important in a growth context for a manager. Discussing how Sarah can increase her impact and influence might align with her career goals.",
+      "known": true
+    },
+    {
+      "id": "judgment",
+      "type": "Judgment",
+      "category": "competency",
+      "label": "Judgment in decision-making",
+      "reason": "No specific signal — relevant for managerial growth. Exploring how she's handling decision-making and where she feels confident or uncertain could be beneficial.",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+      "alias": "q_intro_growth_blockers",
+      "answer": "yes",
+      "skipped": false
+    },
+    {
+      "question": "When you imagine yourself eighteen months from now, what's actually different?",
+      "alias": "q_intro_growth_direction",
+      "answer": "yesy",
+      "skipped": false
+    },
+    {
+      "question": "Which part of your current work is actually stretching you right now?",
+      "alias": "q_intro_growth_stretch",
+      "answer": "yes",
+      "skipped": false
+    },
+    {
+      "question": "How has your energy been over the past few weeks?",
+      "alias": "q_energy_check_in_5",
+      "answer": "yes",
+      "skipped": false
+    },
+    {
+      "question": "What are your top three priorities this month, and why do they matter?",
+      "alias": "q_current_work_clarity",
+      "answer": "yes",
+      "skipped": false
+    },
+    {
+      "question": "How do you currently approach managing up with the director?",
+      "alias": "q_managing_up",
+      "answer": "yes",
+      "skipped": false
+    },
+    {
+      "question": "Where do you see the biggest opportunity to increase your strategic impact?",
+      "alias": "q_strategic_impact",
+      "answer": "yes",
+      "skipped": false
+    },
+    {
+      "question": "What's the most challenging part of delegation for you currently?",
+      "alias": "q_delegation_challenges_2",
+      "answer": "yes",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  },
+  "notes": "The director is not great",
+  "model": "gpt-4o"
+}

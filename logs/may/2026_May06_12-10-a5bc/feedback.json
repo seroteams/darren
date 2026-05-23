@@ -1,0 +1,72 @@
+[
+  {
+    "timestamp": "2026-05-06T14:09:48.302Z",
+    "questionAlias": "q_intro_growth_blockers",
+    "questionLabel": "Growth blockers",
+    "questionText": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+    "reason": "bad_framing",
+    "sessionContext": {
+      "name": "Carl Heaton",
+      "role": "Senior Graphic Designer",
+      "seniority": "Senior",
+      "meetingType": "Growth & career plan",
+      "notes": "He wants to lead a team for the new App brand"
+    }
+  },
+  {
+    "timestamp": "2026-05-06T14:14:49.328Z",
+    "questionAlias": "q_intro_growth_direction",
+    "questionLabel": "Direction",
+    "questionText": "When you imagine yourself eighteen months from now, what's actually different?",
+    "reason": "too_generic",
+    "sessionContext": {
+      "name": "Carl Heaton",
+      "role": "Senior Graphic Designer",
+      "seniority": "Senior",
+      "meetingType": "Growth & career plan",
+      "notes": "He wants to lead a team for the new App brand"
+    }
+  },
+  {
+    "timestamp": "2026-05-06T14:23:14.526Z",
+    "questionAlias": "q_understanding_expectations",
+    "questionLabel": "Understanding expectations",
+    "questionText": "What do you believe are the key expectations for a team lead role?",
+    "reason": "bad_framing",
+    "sessionContext": {
+      "name": "Carl Heaton",
+      "role": "Senior Graphic Designer",
+      "seniority": "Senior",
+      "meetingType": "Growth & career plan",
+      "notes": "He wants to lead a team for the new App brand"
+    }
+  },
+  {
+    "timestamp": "2026-05-06T14:43:34.839Z",
+    "questionAlias": "q_role_stretch",
+    "questionLabel": "Role stretch",
+    "questionText": "What part of the team lead role do you think will stretch you the most?",
+    "reason": "too_generic",
+    "sessionContext": {
+      "name": "Carl Heaton",
+      "role": "Senior Graphic Designer",
+      "seniority": "Senior",
+      "meetingType": "Growth & career plan",
+      "notes": "He wants to lead a team for the new App brand"
+    }
+  },
+  {
+    "timestamp": "2026-05-06T14:46:17.325Z",
+    "questionAlias": "q_impact_through_leadership",
+    "questionLabel": "Impact through leadership",
+    "questionText": "How would leading the team amplify your impact?",
+    "reason": "bad_framing",
+    "sessionContext": {
+      "name": "Carl Heaton",
+      "role": "Senior Graphic Designer",
+      "seniority": "Senior",
+      "meetingType": "Growth & career plan",
+      "notes": "He wants to lead a team for the new App brand"
+    }
+  }
+]

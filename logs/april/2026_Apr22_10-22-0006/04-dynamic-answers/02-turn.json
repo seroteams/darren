@@ -1,0 +1,69 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_energy_check",
+    "label": "Energy check",
+    "name": "I've noticed you've seemed quieter this week — what's been behind that?",
+    "description": "Invites Priya to share what's affecting her energy and mood without making assumptions.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "answer": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "Priya mentioned a lack of stretching in her work, indicating a slight improvement in engagement but no change in wellbeing."
+  },
+  "new_queue": [
+    {
+      "alias": "q_celebrate_success",
+      "label": "Celebrate success",
+      "name": "How did it feel to see the team's response to the payments refactor success?"
+    },
+    {
+      "alias": "q_billing_rewrite_clarity",
+      "label": "Billing rewrite clarity",
+      "name": "What do you need to know about the billing rewrite to feel prepared for it?"
+    },
+    {
+      "alias": "q_mentoring_role",
+      "label": "Mentoring role",
+      "name": "What kind of mentoring opportunities are you envisioning for yourself now?"
+    },
+    {
+      "alias": "q_blockers_insight_2",
+      "label": "Blockers insight",
+      "name": "What's currently blocking your progress on tasks that we haven't discussed yet?"
+    }
+  ],
+  "issues": [
+    "dropped off-signature delta: engagement +1"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "Carl",
+  "role": "Head Nurse",
+  "seniority": "Junior",
+  "meetingType": "Something feels off",
+  "notes": "They have been seen very upset about something",
+  "model": "gpt-4o"
+}

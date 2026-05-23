@@ -1,0 +1,77 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_open_giving_you_energy",
+    "label": "Energy read",
+    "name": "What's been giving you energy lately?",
+    "description": "Strengths-based, not scoped to work. Reveals what genuinely animates the person.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 2,
+      "engagement": 1
+    },
+    "source": "research"
+  },
+  "answer": "Looking forward to the EMT team coming.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": 1,
+      "engagement": 1
+    },
+    "note": "Looking forward to the EMT team coming indicates positive anticipation and engagement with upcoming work."
+  },
+  "new_queue": [
+    {
+      "alias": "q_role_anchor",
+      "label": "Role anchor",
+      "name": "What's feeling solid in your role right now, and what's stretching you?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_current_impact",
+      "label": "Current impact",
+      "name": "Where do you believe your strategic impact is most visible in your current role?"
+    },
+    {
+      "alias": "q_future_scope",
+      "label": "Future scope",
+      "name": "What kind of design work would make the next step toward Head of UX feel real for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "Looking forward to the EMT team coming."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "Looking forward to the EMT team coming."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

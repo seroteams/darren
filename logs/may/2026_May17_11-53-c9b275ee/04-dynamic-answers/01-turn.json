@@ -1,0 +1,47 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_open_real_version",
+    "label": "The real version",
+    "name": "Tell me about your week — the real version.",
+    "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 2,
+      "engagement": 1
+    },
+    "source": "research"
+  },
+  "answer": "I am just typing this to be testing the flow.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "[SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]"
+  },
+  "new_queue": [
+    {
+      "alias": "q_seed_clarity_priorities",
+      "label": "Priority ranking",
+      "name": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

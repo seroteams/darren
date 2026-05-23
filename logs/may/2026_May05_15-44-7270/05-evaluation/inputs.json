@@ -1,0 +1,121 @@
+{
+  "ctx": {
+    "name": "Carl",
+    "role": "UX Lead",
+    "seniority": "Senior",
+    "meetingType": "Something feels off",
+    "notes": "THey are always late for work"
+  },
+  "focusPoints": [
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Exploring the impact of lateness on workload",
+      "reason": "Notes mention Carl is always late for work. Could be affecting his workload or could be a symptom of something else — worth exploring how this impacts his day.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Energy levels and motivation check-in",
+      "reason": "No specific signal — typical for this role/meeting. Lateness could be related to energy or motivation issues; worth checking in on how he's feeling overall.",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Current priorities and daily structure",
+      "reason": "No specific signal — typical for this role/meeting. Understanding how Carl is structuring his day could reveal if lateness impacts his priorities.",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Impact of lateness on team dynamics",
+      "reason": "No specific signal — typical for this role/meeting. Lateness might affect how Carl connects with his team; worth discussing any friction or misunderstandings.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Support needed to address lateness",
+      "reason": "No specific signal — standard check-in hygiene. If lateness is a symptom of something deeper, understanding what support Carl needs could help.",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "How connected do you feel to the rest of the team right now?",
+      "alias": "q_intro_off_connection",
+      "answer": "(skipped)",
+      "skipped": true
+    },
+    {
+      "question": "How's your energy been lately — separately from how work is going?",
+      "alias": "q_intro_off_energy",
+      "answer": "(skipped)",
+      "skipped": true
+    },
+    {
+      "question": "What's been your biggest challenge in the last few weeks?",
+      "alias": "q_recent_challenges",
+      "answer": "asd",
+      "skipped": false
+    },
+    {
+      "question": "How does being late affect your workload or day-to-day priorities?",
+      "alias": "q_impact_of_lateness_2",
+      "answer": "sad",
+      "skipped": false
+    },
+    {
+      "question": "What patterns have you noticed in your energy levels throughout the day?",
+      "alias": "q_energy_fluctuations",
+      "answer": "asd",
+      "skipped": false
+    },
+    {
+      "question": "What currently motivates you the most in your role?",
+      "alias": "q_motivation_drivers",
+      "answer": "asd",
+      "skipped": false
+    },
+    {
+      "question": "What support would help you address any challenges with being on time?",
+      "alias": "q_support_needs_2",
+      "answer": "sdf",
+      "skipped": false
+    },
+    {
+      "question": "How do you perceive your lateness affecting team interactions?",
+      "alias": "q_team_dynamics_4",
+      "answer": "sdf",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  },
+  "notes": "THey are always late for work",
+  "model": "gpt-4o"
+}

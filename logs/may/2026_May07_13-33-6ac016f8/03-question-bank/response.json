@@ -1,0 +1,17 @@
+{
+  "raw": "{\"questions\":[{\"label\":\"Workload clarity\",\"name\":\"Where do you feel your workload is heaviest right now?\",\"description\":\"Identifies where workload might be unbalanced or unclear.\",\"purpose\":\"wellbeing\",\"axis_effects\":[{\"axis\":\"wellbeing\",\"delta\":3}]},{\"label\":\"Lateness impact\",\"name\":\"What do you think is contributing to your lateness?\",\"description\":\"Explores potential causes behind being consistently late.\",\"purpose\":\"competency\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":3}]},{\"label\":\"Team interactions\",\"name\":\"How are you finding the team dynamics lately?\",\"description\":\"Surfaces issues or positive aspects in team collaboration.\",\"purpose\":\"wellbeing\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":3}]},{\"label\":\"Manager support\",\"name\":\"What support from me would make a difference right now?\",\"description\":\"Identifies specific needs for manager support.\",\"purpose\":\"topic\",\"axis_effects\":[{\"axis\":\"growth\",\"delta\":3}]},{\"label\":\"Priority alignment\",\"name\":\"What feels misaligned between your priorities and the team's goals?\",\"description\":\"Checks for alignment or misalignment in priorities.\",\"purpose\":\"topic\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":3}]},{\"label\":\"Motivation drivers\",\"name\":\"What's currently motivating you in your role?\",\"description\":\"Explores sources of motivation or lack thereof.\",\"purpose\":\"wellbeing\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":3}]},{\"label\":\"Learning opportunities\",\"name\":\"Where do you see the biggest opportunity for your growth right now?\",\"description\":\"Surfaces areas where the person feels they can grow.\",\"purpose\":\"competency\",\"axis_effects\":[{\"axis\":\"growth\",\"delta\":3}]},{\"label\":\"Time management\",\"name\":\"How are you currently managing your time with your projects?\",\"description\":\"Examines time management practices and potential issues.\",\"purpose\":\"competency\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":3}]},{\"label\":\"Stress factors\",\"name\":\"What factors are contributing most to your current stress levels?\",\"description\":\"Identifies specific stressors impacting wellbeing.\",\"purpose\":\"wellbeing\",\"axis_effects\":[{\"axis\":\"wellbeing\",\"delta\":3}]},{\"label\":\"Project enthusiasm\",\"name\":\"Which current project are you most excited about and why?\",\"description\":\"Reveals what projects they are most engaged with.\",\"purpose\":\"topic\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":3}]},{\"label\":\"Role clarity\",\"name\":\"How clear do you feel about your role and its responsibilities?\",\"description\":\"Checks clarity of role expectations and responsibilities.\",\"purpose\":\"competency\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":3}]},{\"label\":\"Collaboration flow\",\"name\":\"What could improve the flow of collaboration within the team?\",\"description\":\"Explores potential improvements in team collaboration.\",\"purpose\":\"wellbeing\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":3}]}]}",
+  "saved_aliases": [
+    "q_workload_clarity",
+    "q_lateness_impact",
+    "q_team_interactions",
+    "q_manager_support",
+    "q_priority_alignment_5",
+    "q_motivation_drivers_4",
+    "q_learning_opportunities_2",
+    "q_time_management_2",
+    "q_stress_factors",
+    "q_project_enthusiasm",
+    "q_role_clarity_3",
+    "q_collaboration_flow"
+  ]
+}

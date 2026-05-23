@@ -1,0 +1,20 @@
+{
+  "assessment": {
+    "deltas": [
+      {
+        "axis": "wellbeing",
+        "delta": -1
+      },
+      {
+        "axis": "engagement",
+        "delta": 0
+      }
+    ],
+    "note": "The tiredness signal indicates a slight dip in wellbeing."
+  },
+  "next_action": {
+    "action": "keep",
+    "reason": "The next question about priorities aligns well with the current focus on wellbeing.",
+    "new_question": null
+  }
+}

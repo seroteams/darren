@@ -1,0 +1,161 @@
+{
+  "ctx": {
+    "name": "Aom",
+    "role": "Lead BA",
+    "seniority": "Lead",
+    "meetingType": "Performance & feedback",
+    "notes": "they have been communicating disrespiectully with the UX team"
+  },
+  "focusPoints": [
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "Respectful communication with the UX team.",
+      "reason": "Notes mention disrespectful communication with the UX team. This could indicate a need to address tone or approach in cross-functional interactions — worth exploring what might be causing this tension.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Building trust with cross-functional teams.",
+      "reason": "Performance & feedback for a Lead BA often involves managing relationships with other teams. Addressing the trust and expectations with the UX team is crucial for effective collaboration.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Impact of cross-functional collaboration on project outcomes.",
+      "reason": "For a Lead, the impact of their work often depends on effective collaboration with other teams. Understanding how this dynamic affects project outcomes is key to performance evaluation.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "Tell me about your week — the real version.",
+      "alias": "q_open_real_version",
+      "answer": "there are so many topics to cover and nwith every OE ther eis so much work",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'so much work', what specifically is taking up the most time right now?",
+      "alias": "q_workload_specifics",
+      "answer": "doing all the tickets for the backend stuff is very hard.",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'doing all the tickets for the backend stuff is very hard', what's making it hard — volume, complexity, or something else?",
+      "alias": "q_backend_workload",
+      "answer": "just so many ares, global app, oe x 3 , managing the team and all the POs coming directly to me.",
+      "skipped": false
+    },
+    {
+      "question": "Before I share my view, how do you think the last stretch has gone?",
+      "alias": "q_intro_perf_01_opening",
+      "answer": "tough",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'tough', what specifically made it challenging? Was it the workload, team dynamics, or something else?",
+      "alias": "q_clarify_tough",
+      "answer": "workload, the amount of information, delaing with all the requests and tasks, feeling like we are the center of everything.",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'we are the center of everything', what does that mean in terms of your workload and priorities?",
+      "alias": "q_workload_specifics_2",
+      "answer": "to move forward my team has to write all the tickets both dev, backend, all we have to understand all lvels of this massive app",
+      "skipped": false
+    },
+    {
+      "question": "Could you share an instance where communication with the UX team was particularly challenging?",
+      "alias": "q_specific_feedback",
+      "answer": "too many jira boards, figma files, emails, dm, channles, groups, meetings, notes,",
+      "skipped": false
+    },
+    {
+      "question": "What's the first concrete thing you want to have moved by our next conversation?",
+      "alias": "q_action_steps",
+      "answer": "i want to have more assistance from the PO's",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": -1,
+          "answer_excerpt": "there are so many topics to cover and nwith every OE ther eis so much work"
+        },
+        {
+          "q": "q_workload_specifics",
+          "delta": -1,
+          "answer_excerpt": "doing all the tickets for the backend stuff is very hard."
+        },
+        {
+          "q": "q_backend_workload",
+          "delta": -1,
+          "answer_excerpt": "just so many ares, global app, oe x 3 , managing the team and all the POs coming directly to me."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": -1,
+          "answer_excerpt": "there are so many topics to cover and nwith every OE ther eis so much work"
+        },
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "tough"
+        },
+        {
+          "q": "q_clarify_tough",
+          "delta": -1,
+          "answer_excerpt": "workload, the amount of information, delaing with all the requests and tasks, feeling like we are the center of everything."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "tough"
+        },
+        {
+          "q": "q_clarify_tough",
+          "delta": -3,
+          "answer_excerpt": "workload, the amount of information, delaing with all the requests and tasks, feeling like we are the center of everything."
+        },
+        {
+          "q": "q_workload_specifics_2",
+          "delta": -3,
+          "answer_excerpt": "to move forward my team has to write all the tickets both dev, backend, all we have to understand all lvels of this massive app"
+        },
+        {
+          "q": "q_specific_feedback",
+          "delta": -3,
+          "answer_excerpt": "too many jira boards, figma files, emails, dm, channles, groups, meetings, notes,"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  },
+  "notes": "they have been communicating disrespiectully with the UX team",
+  "model": "gpt-4o"
+}

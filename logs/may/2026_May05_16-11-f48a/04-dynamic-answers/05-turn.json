@@ -1,0 +1,101 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_motivation_drivers_2",
+    "label": "Motivation drivers",
+    "name": "What aspects of your work are most motivating to you currently?",
+    "description": "Identifies what currently drives their engagement and motivation.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "engagement": 3
+    },
+    "source": "generated"
+  },
+  "answer": "noanot",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -3
+    },
+    "note": "The response 'noanot' indicates a lack of motivation, signaling disengagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_growth_opportunities_7",
+      "label": "Growth opportunities",
+      "name": "What kind of projects or skills would push you to grow right now?"
+    },
+    {
+      "alias": "q_standup_feedback",
+      "label": "Standup feedback",
+      "name": "What would make the standups more effective for you?"
+    },
+    {
+      "alias": "q_manager_support_needs_2",
+      "label": "Manager support needs",
+      "name": "What specific support do you need from me right now to succeed?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -3,
+          "answer_excerpt": "quite low"
+        },
+        {
+          "q": "q_team_collaboration_insights",
+          "delta": -1,
+          "answer_excerpt": "fine but dont like all the stnadups they are too many"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -3,
+          "answer_excerpt": "bored not feeling it"
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "quite low"
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "the new app design"
+        },
+        {
+          "q": "q_team_collaboration_insights",
+          "delta": -1,
+          "answer_excerpt": "fine but dont like all the stnadups they are too many"
+        },
+        {
+          "q": "q_motivation_drivers_2",
+          "delta": -3,
+          "answer_excerpt": "noanot"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "the new app design"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

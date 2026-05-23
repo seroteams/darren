@@ -1,0 +1,110 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_specific_feedback",
+    "label": "Specific feedback",
+    "name": "Could you share an instance where communication with the UX team was particularly challenging?",
+    "description": "Seeks concrete examples of communication challenges with the UX team.",
+    "purpose": "competency",
+    "stage": "evidence",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "generated"
+  },
+  "answer": "too many jira boards, figma files, emails, dm, channles, groups, meetings, notes,",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "The response highlights overwhelming communication channels, indicating a lack of clarity in managing interactions with the UX team."
+  },
+  "new_queue": [
+    {
+      "alias": "q_action_steps",
+      "label": "Action steps",
+      "name": "What's the first concrete thing you want to have moved by our next conversation?"
+    },
+    {
+      "alias": "q_action_steps_2",
+      "label": "Action steps",
+      "name": "What are the concrete steps we can take to improve the communication flow with the UX team, and how can I support you in this?"
+    }
+  ],
+  "issues": [
+    "ref_alias q_action_steps not in remaining queue — treating as new",
+    "closer force-inserted: q_action_steps"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": -1,
+          "answer_excerpt": "there are so many topics to cover and nwith every OE ther eis so much work"
+        },
+        {
+          "q": "q_workload_specifics",
+          "delta": -1,
+          "answer_excerpt": "doing all the tickets for the backend stuff is very hard."
+        },
+        {
+          "q": "q_backend_workload",
+          "delta": -1,
+          "answer_excerpt": "just so many ares, global app, oe x 3 , managing the team and all the POs coming directly to me."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": -1,
+          "answer_excerpt": "there are so many topics to cover and nwith every OE ther eis so much work"
+        },
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "tough"
+        },
+        {
+          "q": "q_clarify_tough",
+          "delta": -1,
+          "answer_excerpt": "workload, the amount of information, delaing with all the requests and tasks, feeling like we are the center of everything."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "tough"
+        },
+        {
+          "q": "q_clarify_tough",
+          "delta": -3,
+          "answer_excerpt": "workload, the amount of information, delaing with all the requests and tasks, feeling like we are the center of everything."
+        },
+        {
+          "q": "q_workload_specifics_2",
+          "delta": -3,
+          "answer_excerpt": "to move forward my team has to write all the tickets both dev, backend, all we have to understand all lvels of this massive app"
+        },
+        {
+          "q": "q_specific_feedback",
+          "delta": -3,
+          "answer_excerpt": "too many jira boards, figma files, emails, dm, channles, groups, meetings, notes,"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

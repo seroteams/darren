@@ -1,0 +1,165 @@
+{
+  "ctx": {
+    "name": "Priya",
+    "role": "Senior Backend Engineer",
+    "seniority": "Senior",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "Just shipped the payments refactor on Monday — big win, team noticed. Looks a bit flat this week, quieter than usual in standup. Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet."
+  },
+  "focusPoints": [
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Celebrating the payments refactor success",
+      "reason": "Noted a big win with the payments refactor. Worth acknowledging the contribution and impact on the team.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Exploring the quieter energy this week",
+      "reason": "Priya seems quieter than usual in standup. Could be a temporary dip, need for engagement, or something else — worth checking in.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Interest in mentoring opportunities",
+      "reason": "They mentioned wanting to do more mentoring. No specific signal — a good moment to explore what that could look like.",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Upcoming billing rewrite involvement",
+      "reason": "Next quarter may involve the billing rewrite. They haven't heard about it yet — worth discussing how to align on expectations.",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Any current blockers or dependencies",
+      "reason": "No specific signal — standard check-in topic. Important to ensure there are no hidden obstacles affecting their work.",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's been slower or harder than it should have been?",
+      "alias": "q_intro_biweekly_friction",
+      "answer": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week.",
+      "skipped": false
+    },
+    {
+      "question": "What do you think is behind your quieter energy this week?",
+      "alias": "q_exploring_quieter_energy",
+      "answer": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now.",
+      "skipped": false
+    },
+    {
+      "question": "How did it feel to see the team's response to the payments refactor success?",
+      "alias": "q_team_recognition_2",
+      "answer": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up.",
+      "skipped": false
+    },
+    {
+      "question": "What are you actually focused on this week, and why those things?",
+      "alias": "q_intro_biweekly_priorities",
+      "answer": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing.",
+      "skipped": false
+    },
+    {
+      "question": "What kind of mentoring opportunities are you envisioning for yourself?",
+      "alias": "q_mentoring_opportunities",
+      "answer": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird.",
+      "skipped": false
+    },
+    {
+      "question": "What blockers or dependencies are you currently facing that we haven't discussed?",
+      "alias": "q_current_blockers_check",
+      "answer": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went.",
+      "skipped": false
+    },
+    {
+      "question": "What are your thoughts on getting involved in the billing rewrite?",
+      "alias": "q_billing_rewrite_involvement",
+      "answer": "Growth-wise I think I'm flat. I'm the most senior IC on the team and there's no one really pushing me.",
+      "skipped": false
+    },
+    {
+      "question": "How can we support your interest in mentoring moving forward?",
+      "alias": "q_future_mentoring",
+      "answer": "More clarity on scope would help. And hearing about big projects before they're locked in, not after.",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_exploring_quieter_energy",
+          "delta": -1,
+          "answer_excerpt": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_team_recognition_2",
+          "delta": -1,
+          "answer_excerpt": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -1,
+          "answer_excerpt": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing."
+        },
+        {
+          "q": "q_current_blockers_check",
+          "delta": 1,
+          "answer_excerpt": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_current_blockers_check",
+          "delta": 1,
+          "answer_excerpt": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went."
+        }
+      ]
+    },
+    "growth": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_mentoring_opportunities",
+          "delta": 1,
+          "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+        },
+        {
+          "q": "q_future_mentoring",
+          "delta": 1,
+          "answer_excerpt": "More clarity on scope would help. And hearing about big projects before they're locked in, not after."
+        }
+      ]
+    }
+  },
+  "notes": "Just shipped the payments refactor on Monday — big win, team noticed. Looks a bit flat this week, quieter than usual in standup. Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet.",
+  "model": "gpt-4o-mini"
+}

@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Celebrating the payments refactor win",
+      "reason": "Just shipped the payments refactor — big win, team noticed. It's important to acknowledge contributions to maintain motivation.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Exploring energy levels this week",
+      "reason": "Looks a bit flat this week, quieter than usual in standup. Could be fatigue, personal matters, or just a quieter stretch — worth checking in.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Interest in mentoring opportunities",
+      "reason": "Mentioned in passing they'd like to do more mentoring. It's been a few months since discussing this — worth exploring how to support that.",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Upcoming billing rewrite involvement",
+      "reason": "Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet. Clarifying expectations and involvement could be beneficial.",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Any blockers on current tasks?",
+      "reason": "No specific signal — standard check-in topic. It's good practice to see if there are any obstacles they're facing.",
+      "known": true
+    }
+  ],
+  "name": "Priya",
+  "role": "Senior Backend Engineer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Just shipped the payments refactor on Monday — big win, team noticed. Looks a bit flat this week, quieter than usual in standup. Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet.",
+  "model": "gpt-4o-mini"
+}

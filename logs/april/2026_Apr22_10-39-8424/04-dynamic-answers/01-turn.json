@@ -1,0 +1,107 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_biweekly_friction",
+    "label": "Friction scan",
+    "name": "What's been slower or harder than it should have been?",
+    "description": "Invites them to name blockers without framing it as complaint.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 3
+    },
+    "source": "seed"
+  },
+  "answer": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1
+    },
+    "note": "They described the sprint as intense but clean, with 'mostly good energy' yet 'coasting a bit this week,' which supports a slight wellbeing lift and a small engagement dip."
+  },
+  "new_queue": [
+    {
+      "alias": "q_refactor_aftermath",
+      "label": "Refactor aftermath",
+      "name": "How did the payments refactor land for you after it shipped?"
+    },
+    {
+      "alias": "q_recognition_fit",
+      "label": "Recognition fit",
+      "name": "What part of the team's reaction felt most real to you?"
+    },
+    {
+      "alias": "q_quiet_signals",
+      "label": "Quiet signals",
+      "name": "I've noticed you've been quieter in standup this week — what's going on underneath that?"
+    },
+    {
+      "alias": "q_mentoring_shape",
+      "label": "Mentoring shape",
+      "name": "What kind of mentoring would actually fit into your week?"
+    },
+    {
+      "alias": "q_mentoring_tradeoff",
+      "label": "Mentoring tradeoff",
+      "name": "What would you need to drop to make room for mentoring?"
+    },
+    {
+      "alias": "q_rewrite_role",
+      "label": "Rewrite role",
+      "name": "What role would make sense for you in the billing rewrite?"
+    },
+    {
+      "alias": "q_rewrite_risk",
+      "label": "Rewrite risk",
+      "name": "Where do you expect the billing rewrite to get difficult?"
+    },
+    {
+      "alias": "q_need_to_know",
+      "label": "Need to know",
+      "name": "What do you need to know before the billing rewrite starts?"
+    },
+    {
+      "alias": "q_blocker_ownership",
+      "label": "Blocker ownership",
+      "name": "What are you waiting on that could quietly stall you?"
+    },
+    {
+      "alias": "q_stretch_edge",
+      "label": "Stretch edge",
+      "name": "What part of your work right now feels most like a stretch?"
+    },
+    {
+      "alias": "q_next_skill",
+      "label": "Next skill",
+      "name": "What skill do you want to sharpen over the next quarter?"
+    }
+  ],
+  "issues": [
+    "dropped off-signature delta: wellbeing +1"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

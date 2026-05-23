@@ -1,0 +1,170 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_open_most_like_yourself",
+      "label": "Most like yourself",
+      "name": "When have you felt most like yourself recently?",
+      "description": "Authentic self-concept research. Identity-based, not performance-based. Deep without being intrusive.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 2,
+        "growth": 1
+      },
+      "source": "research"
+    },
+    "answer": "every day",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": 1,
+      "growth": 1
+    },
+    "note": "The response 'every day' suggests a consistent alignment with their authentic self, indicating positive wellbeing and growth."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_current_role_assessment",
+      "label": "Current role assessment",
+      "name": "What's feeling solid in your role right now, and what's stretching you?",
+      "description": "Identify areas of strength and current challenges in their role.",
+      "purpose": "topic",
+      "stage": "anchor",
+      "axis_effects": {
+        "engagement": 3
+      },
+      "source": "generated"
+    },
+    "answer": "The team is better",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1
+    },
+    "note": "The answer 'The team is better' implies a positive engagement with the team's progress."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_delegation_dynamics",
+      "label": "Delegation dynamics",
+      "name": "How are you deciding what to delegate and what to keep on your plate?",
+      "description": "Explore their decision-making process around delegation.",
+      "purpose": "competency",
+      "stage": "anchor",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    "answer": "the BA's are telling us.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "The answer indicates a lack of personal decision-making in delegation, relying on BAs for direction — strong clarity deficit."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_ba_led_delegation",
+      "label": "BA-led delegation",
+      "name": "How does having the BAs decide what to delegate affect your role clarity and leadership?",
+      "description": "Explore the impact of BA-led delegation on their clarity and leadership.",
+      "purpose": "competency",
+      "stage": "anchor",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "its hard, we want to be earlier in the process",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "Describes difficulty with BA-led delegation and a desire to be involved earlier, indicating a clarity issue."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_earlier_involvement",
+      "label": "Earlier involvement",
+      "name": "What would being involved earlier in the process look like for you, and how would it change your role?",
+      "description": "Explores what earlier involvement in the process would entail and its impact on role clarity.",
+      "purpose": "topic",
+      "stage": null,
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "help us take care of the project better.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1
+    },
+    "note": "Answer indicates that earlier involvement would improve project management, suggesting a positive impact on role clarity."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_involvement_specifics",
+      "label": "Involvement specifics",
+      "name": "What specific steps can you take to ensure earlier involvement in projects?",
+      "description": "Focuses on actionable steps to achieve earlier involvement in projects.",
+      "purpose": "topic",
+      "stage": null,
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "meet with the PO's",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1
+    },
+    "note": "The answer provides a specific action to ensure earlier involvement, indicating clarity on the next step."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?",
+      "description": "Probes whether they have a real picture of where they want to go.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "as a lead",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": 1
+    },
+    "note": "Answer 'as a lead' indicates a general aspiration but lacks specificity about growth direction."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_vision_for_growth",
+      "label": "Vision for growth",
+      "name": "What aspects of design leadership are you eager to develop further?",
+      "description": "Identify specific interests in expanding leadership skills.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "generated"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "Skipped question — no growth signal realized."
+  }
+]

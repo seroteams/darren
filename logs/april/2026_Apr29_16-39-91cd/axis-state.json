@@ -1,0 +1,46 @@
+{
+  "wellbeing": {
+    "score": 0,
+    "history": []
+  },
+  "engagement": {
+    "score": -2,
+    "history": [
+      {
+        "q": "q_intro_biweekly_friction",
+        "delta": 1,
+        "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+      },
+      {
+        "q": "q_recognizing_contributions_2",
+        "delta": -3,
+        "answer_excerpt": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing."
+      }
+    ]
+  },
+  "clarity": {
+    "score": 2,
+    "history": [
+      {
+        "q": "q_intro_biweekly_friction",
+        "delta": 1,
+        "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+      },
+      {
+        "q": "q_billing_rewrite_role_2",
+        "delta": 1,
+        "answer_excerpt": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went."
+      }
+    ]
+  },
+  "growth": {
+    "score": 3,
+    "history": [
+      {
+        "q": "q_growth_stagnation",
+        "delta": 3,
+        "answer_excerpt": "More clarity on scope would help. And hearing about big projects before they're locked in, not after."
+      }
+    ]
+  }
+}

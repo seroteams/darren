@@ -1,0 +1,18 @@
+{
+  "wellbeing": {
+    "score": 0,
+    "history": []
+  },
+  "engagement": {
+    "score": 0,
+    "history": []
+  },
+  "clarity": {
+    "score": 0,
+    "history": []
+  },
+  "growth": {
+    "score": 0,
+    "history": []
+  }
+}

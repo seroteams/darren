@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Balancing school and personal interests",
+      "reason": "Notes mention her love for school. Could be worth exploring how she balances school with her personal interests.",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Connection with peers at school",
+      "reason": "No specific signal — standard check-in topic. Understanding her social dynamics could provide insight into her overall wellbeing.",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Current focus areas in school",
+      "reason": "No specific signal — typical for this role/meeting. It's important to align on what she's prioritizing academically.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Skills she's excited to develop",
+      "reason": "No specific signal — common for seniors; worth discussing what growth areas she's interested in.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Support needed from you",
+      "reason": "No specific signal — standard check-in hygiene. It’s good to understand how you can better support her at this stage.",
+      "known": true
+    }
+  ],
+  "name": "Hannah",
+  "role": "Senior Daughter",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "She likes to pick her nose a lot, but she loves going to school",
+  "model": "gpt-5.4-mini"
+}

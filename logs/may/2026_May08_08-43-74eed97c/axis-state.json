@@ -1,0 +1,30 @@
+{
+  "wellbeing": {
+    "score": -3,
+    "history": [
+      {
+        "q": "q_intro_biweekly_pace",
+        "delta": -3,
+        "answer_excerpt": "low"
+      }
+    ]
+  },
+  "engagement": {
+    "score": -1,
+    "history": [
+      {
+        "q": "q_intro_biweekly_pace",
+        "delta": -1,
+        "answer_excerpt": "low"
+      }
+    ]
+  },
+  "clarity": {
+    "score": 0,
+    "history": []
+  },
+  "growth": {
+    "score": 0,
+    "history": []
+  }
+}

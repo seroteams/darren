@@ -1,0 +1,37 @@
+{
+  "focusPoints": [
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Energy and engagement pulse check.",
+      "reason": "Despite the positive note, the meeting type 'Something feels off' suggests there's an underlying concern worth exploring around his energy and engagement levels.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Trust with the board and exec peers.",
+      "reason": "Role-driven — board/exec relationships are a core CTO surface and a frequent blind spot, especially when something feels off.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Strategic impact & leverage this quarter.",
+      "reason": "At CTO level, impact is a critical area to explore to ensure alignment and effectiveness, especially when something feels off.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Darren",
+  "role": "CTO",
+  "seniority": "Chief Of",
+  "meetingType": "Something feels off",
+  "notes": "he has bene great, very on the ball",
+  "model": "gpt-4o"
+}

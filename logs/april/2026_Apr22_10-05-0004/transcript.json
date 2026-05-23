@@ -1,0 +1,162 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    "answer": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1
+    },
+    "note": "Coasting signal indicates a slight dip in engagement, while clarity remains neutral."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_energy_levels_check",
+      "label": "Energy levels check",
+      "name": "What do you think has contributed to your quieter demeanor this week?",
+      "description": "Encourages reflection on possible causes for low energy and engagement.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now.",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "Indicated a lack of stretching in current tasks, suggesting mild engagement but no significant wellbeing impact."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_celebrating_recent_wins",
+      "label": "Celebrating recent wins",
+      "name": "How did it feel to ship the payments refactor this week?",
+      "description": "Explores the emotional impact of the recent achievement and recognition from the team.",
+      "purpose": "topic",
+      "axis_effects": {
+        "engagement": 3
+      },
+      "source": "generated"
+    },
+    "answer": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -3
+    },
+    "note": "Response indicates a lack of emotional impact from the achievement, reflecting disengagement."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_team_response_to_refactor",
+      "label": "Team response to refactor",
+      "name": "How do you feel the team has responded to the payments refactor?",
+      "description": "Investigates perceptions of team dynamics and recognition of contributions.",
+      "purpose": "topic",
+      "axis_effects": {
+        "engagement": 3
+      },
+      "source": "reworded_from:q_post_refactor_reflection"
+    },
+    "answer": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -3
+    },
+    "note": "Mentoring interest is not being pursued, indicating a strong disengagement signal while also highlighting a desire for growth opportunities."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_mental_space_for_growth",
+      "label": "Mental space for growth",
+      "name": "Do you feel you have the bandwidth right now to take on mentoring responsibilities?",
+      "description": "Assesses current capacity for additional roles in relation to growth and wellbeing.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 1,
+        "growth": 3
+      },
+      "source": "generated"
+    },
+    "answer": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird.",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -1
+    },
+    "note": "Concerns about the billing rewrite indicate a slight growth stagnation and a need for clarity on upcoming responsibilities."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_upcoming_projects",
+      "label": "Upcoming projects",
+      "name": "What are your initial thoughts about getting involved in the billing rewrite?",
+      "description": "Gauges feelings about future responsibilities and potential contributions.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    "answer": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1
+    },
+    "note": "Expressed pride in owning the migration plan but didn't indicate a strong sense of clarity about the billing rewrite."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_future_clarity",
+      "label": "Future clarity",
+      "name": "What would help you feel more prepared for the upcoming billing rewrite?",
+      "description": "Explores what information or support would enhance clarity and confidence going forward.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    "answer": "Growth-wise I think I'm flat. I'm the most senior IC on the team and there's no one really pushing me.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1
+    },
+    "note": "Priya feels flat in growth and lacks external motivation, indicating a significant stagnation signal."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_current_blockers",
+      "label": "Current blockers",
+      "name": "Are there any blockers on your current tasks that we should address?",
+      "description": "Checks for obstacles that might be hindering progress.",
+      "purpose": "topic",
+      "axis_effects": {
+        "engagement": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "More clarity on scope would help. And hearing about big projects before they're locked in, not after.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1
+    },
+    "note": "The need for more clarity on scope suggests a lack of engagement with current tasks."
+  }
+]

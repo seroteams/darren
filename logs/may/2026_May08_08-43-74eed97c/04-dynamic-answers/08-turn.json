@@ -1,0 +1,52 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_session_closer_2",
+    "label": "Session closer",
+    "name": "What's the one thing you want to have moved before we next meet?",
+    "description": "Helps Carl focus on a key action or priority for the upcoming period.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "qwe",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The response 'qwe' is unintelligible and provides no clarity on priorities or actions."
+  },
+  "new_queue": [],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -3,
+          "answer_excerpt": "low"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "low"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

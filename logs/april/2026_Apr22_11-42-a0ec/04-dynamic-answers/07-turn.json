@@ -1,0 +1,109 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_training_lift",
+    "label": "Training lift",
+    "name": "What part of your game are you most trying to sharpen at the moment?",
+    "description": "Surfaces current personal motivation and where he is choosing to invest effort.",
+    "purpose": "topic",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 1
+    },
+    "source": "generated"
+  },
+  "answer": "goalie, and between waiting for the ball to come back to me, how i can consume as much chocolate as possible",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "growth": 1
+    },
+    "note": "He named goalie as the skill he wants to sharpen, showing some growth intent, while the chocolate aside suggests the answer was only partially focused rather than strongly invested."
+  },
+  "new_queue": [
+    {
+      "alias": "q_feedback_use_2",
+      "label": "Feedback use",
+      "name": "How are you using the feedback you have been getting lately?"
+    },
+    {
+      "alias": "q_role_edges",
+      "label": "Role edges",
+      "name": "What part of your role feels least settled right now?"
+    },
+    {
+      "alias": "q_outside_football",
+      "label": "Outside football",
+      "name": "What else is taking up the most energy outside football right now?"
+    },
+    {
+      "alias": "q_recent_win",
+      "label": "Recent win",
+      "name": "What has been landing well in your game recently?"
+    },
+    {
+      "alias": "q_team_chemistry",
+      "label": "Team chemistry",
+      "name": "Where are your connections with teammates feeling strongest right now?"
+    },
+    {
+      "alias": "q_decision_moments",
+      "label": "Decision moments",
+      "name": "Where do you want more freedom to make decisions on the pitch?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": 1,
+          "answer_excerpt": "good, if i eat a lot of chocolate"
+        },
+        {
+          "q": "q_recovery_pattern_2",
+          "delta": 1,
+          "answer_excerpt": "good, as long as i have a chocolate drink. but sometimes i can't find a shop to buy chocolate from."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "finding new types of chocolate, one from every country. oh and football, i want to become the best footballer in the world. and also i want "
+        },
+        {
+          "q": "q_training_lift",
+          "delta": 1,
+          "answer_excerpt": "goalie, and between waiting for the ball to come back to me, how i can consume as much chocolate as possible"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 3,
+          "answer_excerpt": "finding new types of chocolate, one from every country. oh and football, i want to become the best footballer in the world. and also i want "
+        }
+      ]
+    },
+    "growth": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_training_lift",
+          "delta": 1,
+          "answer_excerpt": "goalie, and between waiting for the ball to come back to me, how i can consume as much chocolate as possible"
+        }
+      ]
+    }
+  }
+}

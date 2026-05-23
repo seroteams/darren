@@ -1,0 +1,63 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_director_role_clarity",
+    "label": "Director role clarity",
+    "name": "What aspects of the director role feel most and least clear to you?",
+    "description": "Surfaces clarity on director-level expectations.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "generated"
+  },
+  "answer": "aspdok",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "Response was unintelligible, providing no clarity signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_perf_03_gap",
+      "label": "Gap awareness",
+      "name": "Where do you think you've fallen short of where you want to be?"
+    },
+    {
+      "alias": "q_delegation_challenges_3",
+      "label": "Delegation challenges",
+      "name": "What part of delegation feels most challenging for you right now?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 3,
+      "history": [
+        {
+          "q": "q_intro_perf_02_proud",
+          "delta": 3,
+          "answer_excerpt": "launching the new app"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_perf_02_proud",
+          "delta": 1,
+          "answer_excerpt": "launching the new app"
+        }
+      ]
+    }
+  }
+}

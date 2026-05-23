@@ -1,0 +1,70 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_mentoring_role",
+    "label": "Mentoring role",
+    "name": "What kind of mentoring opportunities are you envisioning for yourself now?",
+    "description": "Encourages Priya to articulate her thoughts on mentoring and how it fits into her current role.",
+    "purpose": "topic",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "generated"
+  },
+  "answer": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": 1
+    },
+    "note": "Priya's interest in mentoring for the billing rewrite indicates a slight growth signal, but the lack of direct communication about it adds to the ambiguity."
+  },
+  "new_queue": [
+    {
+      "alias": "q_blockers_insight_2",
+      "label": "Blockers insight",
+      "name": "What's currently blocking your progress on tasks that we haven't discussed yet?"
+    },
+    {
+      "alias": "q_billing_rewrite_clarity_2",
+      "label": "Billing rewrite clarity",
+      "name": "What specific information do you need about the billing rewrite to feel more engaged and prepared?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_celebrate_success",
+          "delta": -1,
+          "answer_excerpt": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_mentoring_role",
+          "delta": 1,
+          "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+        }
+      ]
+    }
+  }
+}

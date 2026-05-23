@@ -1,0 +1,37 @@
+{
+  "focusPoints": [
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "Respectful communication with the UX team.",
+      "reason": "Notes mention disrespectful communication with the UX team. This could indicate a need to address tone or approach in cross-functional interactions — worth exploring what might be causing this tension.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Building trust with cross-functional teams.",
+      "reason": "Performance & feedback for a Lead BA often involves managing relationships with other teams. Addressing the trust and expectations with the UX team is crucial for effective collaboration.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Impact of cross-functional collaboration on project outcomes.",
+      "reason": "For a Lead, the impact of their work often depends on effective collaboration with other teams. Understanding how this dynamic affects project outcomes is key to performance evaluation.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Aom",
+  "role": "Lead BA",
+  "seniority": "Lead",
+  "meetingType": "Performance & feedback",
+  "notes": "they have been communicating disrespiectully with the UX team",
+  "model": "gpt-4o"
+}

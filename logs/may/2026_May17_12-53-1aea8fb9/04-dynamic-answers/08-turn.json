@@ -1,0 +1,87 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_commitment_to_action",
+    "label": "Commitment to action",
+    "name": "What's the first concrete thing you want to have moved by our next conversation?",
+    "description": "Drives commitment to a specific action item before the next meeting.",
+    "purpose": "competency",
+    "stage": "commitment",
+    "axis_effects": {
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "answer": "i want to know what i need to do to tbe a head of in 6 momths",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": 1
+    },
+    "note": "Expressed a clear desire to understand the steps to become a Head of UX in 6 months, aligning with growth aspirations."
+  },
+  "new_queue": [
+    {
+      "alias": "q_commitment_to_action_2",
+      "label": "Commitment to action",
+      "name": "What's one concrete step we can commit to before our next conversation to move you closer to your Head of UX goal?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "Looking forward to the EMT team coming."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 3,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "Looking forward to the EMT team coming."
+        },
+        {
+          "q": "q_role_anchor",
+          "delta": 1,
+          "answer_excerpt": "i love the discussion with all the team a\nstrretchhing is I am not able to really mange the experience"
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "hard to say, i want ot be head of the UX in allianz"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 3,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "hard to say, i want ot be head of the UX in allianz"
+        },
+        {
+          "q": "q_head_of_ux_specifics",
+          "delta": 1,
+          "answer_excerpt": "i like to help our teams thrive"
+        },
+        {
+          "q": "q_commitment_to_action",
+          "delta": 1,
+          "answer_excerpt": "i want to know what i need to do to tbe a head of in 6 momths"
+        }
+      ]
+    }
+  }
+}

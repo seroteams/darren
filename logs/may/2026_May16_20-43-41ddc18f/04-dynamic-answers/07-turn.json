@@ -1,0 +1,82 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_clarify_ba_impact",
+    "label": "Clarify BA impact",
+    "name": "When you say 'no idea' — is it more about the uncertainty itself, or something else blocking clarity?",
+    "description": "Clarifies what 'no idea' means in the context of rushed BA work and its impact.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "(skipped)",
+  "skipped": true,
+  "assessment": {
+    "deltas": {},
+    "note": "Skipped question — no clarity signal realised."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_steps_clarity",
+      "label": "Next steps clarity",
+      "name": "What's the first concrete thing you want to tackle to improve your planning process?"
+    },
+    {
+      "alias": "q_next_steps_clarity_2",
+      "label": "Next steps clarity",
+      "name": "What do you see as the next steps to improve the situation with the BAs, if any?"
+    }
+  ],
+  "issues": [
+    "ref_alias q_next_steps_clarity not in remaining queue — treating as new",
+    "closer force-inserted: q_next_steps_clarity"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_open_bit_of_joy",
+          "delta": 1,
+          "answer_excerpt": "the last lesson at uni was fun"
+        },
+        {
+          "q": "q_intro_off_energy",
+          "delta": 1,
+          "answer_excerpt": "its been good, i am still excited, just worried about how much work i have and people I need to speak to and work with."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_workshop_timing",
+          "delta": -3,
+          "answer_excerpt": "not very, feeling like teh BA's are more the enemy that helping. the lead BA is a dick"
+        },
+        {
+          "q": "q_ba_conflict",
+          "delta": -3,
+          "answer_excerpt": "escalation calls, calls brining in the head of dev, not wanting to lsite and seems so very very stressed."
+        },
+        {
+          "q": "q_ba_stress_specifics",
+          "delta": -3,
+          "answer_excerpt": "they do thing half, its rushed all teh time."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

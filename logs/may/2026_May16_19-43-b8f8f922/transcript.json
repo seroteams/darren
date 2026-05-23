@@ -1,0 +1,24 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_open_real_version",
+      "label": "The real version",
+      "name": "Tell me about your week — the real version.",
+      "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 2,
+        "engagement": 1
+      },
+      "source": "research"
+    },
+    "answer": "its been a lot of delibreation and team people managing rather than progress from me, my todo list is just too big",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": -1
+    },
+    "note": "Describes being overwhelmed by a large to-do list and lack of personal progress — indicative of stress and disengagement."
+  }
+]

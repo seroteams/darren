@@ -1,0 +1,15 @@
+[
+  {
+    "timestamp": "2026-05-08T16:27:47.611Z",
+    "type": "run_rating",
+    "sessionId": "2026_May08_22-46-487b8dd8",
+    "rating": 3,
+    "stage": "question_bank",
+    "note": "it was okay, just a test.",
+    "files": {
+      "inputs": "logs\\2026_May08_22-46-487b8dd8\\03-question-bank\\inputs.json",
+      "prompt": "logs\\2026_May08_22-46-487b8dd8\\03-question-bank\\prompt.md",
+      "response": "logs\\2026_May08_22-46-487b8dd8\\03-question-bank\\response.json"
+    }
+  }
+]

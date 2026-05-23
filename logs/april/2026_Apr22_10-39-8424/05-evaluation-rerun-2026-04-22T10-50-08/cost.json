@@ -1,0 +1,24 @@
+{
+  "model": "gpt-4o-mini",
+  "duration_s": 8.1,
+  "call_count": 1,
+  "usd_total": 0.0009023999999999998,
+  "unknown_price_calls": 0,
+  "prompt_tokens": 4192,
+  "completion_tokens": 456,
+  "cached_tokens": 0,
+  "total_tokens": 4648,
+  "calls": [
+    {
+      "stage": "05-evaluation",
+      "model": "gpt-4o-mini",
+      "prompt_tokens": 4192,
+      "completion_tokens": 456,
+      "cached_tokens": 0,
+      "total_tokens": 4648,
+      "usd_cost": 0.0009023999999999998,
+      "known_price": true,
+      "at": "2026-04-22T10:50:08.023Z"
+    }
+  ]
+}

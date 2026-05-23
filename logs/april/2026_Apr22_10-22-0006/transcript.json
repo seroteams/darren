@@ -1,0 +1,159 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    "answer": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1
+    },
+    "note": "Priya indicated good energy overall but mentioned coasting, suggesting a slight dip in engagement."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_energy_check",
+      "label": "Energy check",
+      "name": "I've noticed you've seemed quieter this week — what's been behind that?",
+      "description": "Invites Priya to share what's affecting her energy and mood without making assumptions.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now.",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "Priya mentioned a lack of stretching in her work, indicating a slight improvement in engagement but no change in wellbeing."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_celebrate_success",
+      "label": "Celebrate success",
+      "name": "How did it feel to see the team's response to the payments refactor success?",
+      "description": "Explores their feelings about recognition and the team's acknowledgment of their contributions.",
+      "purpose": "topic",
+      "axis_effects": {
+        "engagement": 3
+      },
+      "source": "generated"
+    },
+    "answer": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1
+    },
+    "note": "Response indicates a lack of meaningful recognition and context-switching stress, suggesting disengagement."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_billing_rewrite_clarity",
+      "label": "Billing rewrite clarity",
+      "name": "What do you need to know about the billing rewrite to feel prepared for it?",
+      "description": "Seeks clarity on Priya's expectations and needs regarding her involvement in the upcoming project.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    "answer": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing.",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "Mentoring interest was reiterated but clarity on billing rewrite remains unaddressed."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_mentoring_role",
+      "label": "Mentoring role",
+      "name": "What kind of mentoring opportunities are you envisioning for yourself now?",
+      "description": "Encourages Priya to articulate her thoughts on mentoring and how it fits into her current role.",
+      "purpose": "topic",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "generated"
+    },
+    "answer": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird.",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": 1
+    },
+    "note": "Priya's interest in mentoring for the billing rewrite indicates a slight growth signal, but the lack of direct communication about it adds to the ambiguity."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_blockers_insight_2",
+      "label": "Blockers insight",
+      "name": "What's currently blocking your progress on tasks that we haven't discussed yet?",
+      "description": "Encourages a deeper exploration of obstacles that might not have been previously identified.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    "answer": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "clarity": 1
+    },
+    "note": "Priya expressed pride in owning the migration plan, indicating a positive engagement with her work."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_billing_rewrite_clarity_2",
+      "label": "Billing rewrite clarity",
+      "name": "What specific information do you need about the billing rewrite to feel more engaged and prepared?",
+      "description": "Aims to clarify expectations and encourage Priya to express her needs regarding the billing rewrite.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "Growth-wise I think I'm flat. I'm the most senior IC on the team and there's no one really pushing me.",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "Priya feels flat in growth due to lack of challenges and pushing from others, indicating a strong growth-stagnation signal."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_mentoring_opportunity_block",
+      "label": "Mentoring opportunity block",
+      "name": "What's blocking the mentoring opportunity from happening — is it time, opportunity, or something else?",
+      "description": "Explores the specific barriers to pursuing mentoring, which was previously mentioned as an interest.",
+      "purpose": "topic",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "More clarity on scope would help. And hearing about big projects before they're locked in, not after.",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": 1
+    },
+    "note": "The answer highlights a need for clearer project scope and earlier communication, indicating a strong clarity signal."
+  }
+]

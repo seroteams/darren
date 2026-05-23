@@ -1,0 +1,16 @@
+{
+  "name": "Taya",
+  "roleTitle": "Acting Coach",
+  "seniority": "Director",
+  "meetingType": "Performance & feedback",
+  "observedShift": "having issues with the clients requiremetns",
+  "selectedConcerns": [
+    "Judgment in prioritizing and resolving client issues"
+  ],
+  "model": "gpt-4o",
+  "runId": "4f409d55-6ae7-4b84-ba26-c17b96b2d7e5",
+  "validation": {
+    "passed": true,
+    "issues": []
+  }
+}

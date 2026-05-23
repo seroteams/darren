@@ -1,0 +1,93 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_post_launch_energy",
+    "label": "Post-launch energy",
+    "name": "How are you feeling in terms of energy and motivation after the launch?",
+    "description": "Aims to gauge Darren's wellbeing and motivation following the recent project delivery.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "answer": "confident, strong, up for the next thing",
+  "skipped": false,
+  "plan": {
+    "action": "keep",
+    "reason": "The next question about current priorities aligns well with Darren's positive energy and motivation.",
+    "new_question": null
+  },
+  "assessment": {
+    "deltas": {
+      "wellbeing": 3
+    },
+    "note": "Darren feels confident and strong, indicating a positive state of wellbeing."
+  },
+  "axis_state": {
+    "wellbeing": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "busy, i felt tired a bit last week because of the crashes on the main systems"
+        },
+        {
+          "q": "q_post_launch_energy",
+          "delta": 3,
+          "answer_excerpt": "confident, strong, up for the next thing"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 3,
+          "answer_excerpt": "quality assurance"
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": 0,
+          "answer_excerpt": "busy, i felt tired a bit last week because of the crashes on the main systems"
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "getting the release out"
+        },
+        {
+          "q": "q_celebrate_the_win",
+          "delta": 1,
+          "answer_excerpt": "probably that it works end to end and test cases are green"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "quality assurance"
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "getting the release out"
+        },
+        {
+          "q": "q_celebrate_the_win",
+          "delta": 0,
+          "answer_excerpt": "probably that it works end to end and test cases are green"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

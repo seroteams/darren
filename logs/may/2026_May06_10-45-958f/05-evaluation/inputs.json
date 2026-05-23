@@ -1,0 +1,149 @@
+{
+  "ctx": {
+    "name": "Priya",
+    "role": "Senior Backend Engineer",
+    "seniority": "Senior",
+    "meetingType": "Performance & feedback",
+    "notes": "Just shipped the payments refactor on Monday — big win, team noticed. Looks a bit flat this week, quieter than usual in standup. Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet."
+  },
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Celebrating the payments refactor success",
+      "reason": "Just shipped the payments refactor on Monday — big win, team noticed. Worth acknowledging the achievement and exploring its impact on team morale and motivation.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Current energy level and motivation",
+      "reason": "Looks a bit flat this week, quieter than usual in standup. Could be post-launch fatigue, a temporary dip, or something else — worth checking in on their current energy level.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Opportunities for mentoring and growth",
+      "reason": "Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Could be an area for development and engagement — worth exploring how to support this interest.",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "Upcoming role in the billing rewrite",
+      "reason": "Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet. Important to clarify upcoming changes and expectations to ensure alignment and readiness.",
+      "known": true
+    },
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Ensuring contributions are recognized",
+      "reason": "Just shipped the payments refactor on Monday — big win, team noticed. Ensuring they feel their contributions are recognized is crucial for maintaining motivation and satisfaction.",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "Before I share my view, how do you think the last stretch has gone?",
+      "alias": "q_intro_perf_01_opening",
+      "answer": "Honestly the last stretch has been mixed. Shipping payments was a real high point but since then it's felt slow.",
+      "skipped": false
+    },
+    {
+      "question": "I've noticed you've been quieter — what's going on underneath that?",
+      "alias": "q_energy_check_in_4",
+      "answer": "Genuinely proud of the migration plan I wrote. It was complex and it landed cleanly.",
+      "skipped": false
+    },
+    {
+      "question": "Did the recognition for the payments refactor land properly for you, or did anything feel missing?",
+      "alias": "q_post_refactor_reflection_2",
+      "answer": "I think I've been slower to push back when scope creeps. That's where I've let things slide.",
+      "skipped": false
+    },
+    {
+      "question": "What's currently slowing you down, and what part of that is within your control vs needs escalation?",
+      "alias": "q_engagement_boost",
+      "answer": "Energy is lower than usual. Post-launch flatness is real and I haven't found the next thing to get excited about.",
+      "skipped": false
+    },
+    {
+      "question": "What would mentoring actually look like in your week, and what would you need to drop to make space for it?",
+      "alias": "q_mentoring_vision_3",
+      "answer": "Mentoring would be meaningful. I've wanted to do more of it for months but never made it concrete.",
+      "skipped": false
+    },
+    {
+      "question": "Where are things actually messy, unclear, or at risk right now?",
+      "alias": "q_role_clarity_concerns",
+      "answer": "More clarity on what's coming next would help. And hearing about big projects before they're locked in.",
+      "skipped": false
+    },
+    {
+      "question": "Does the current pace feel like something you could keep up for another three months?",
+      "alias": "q_sustainable_pace_4",
+      "answer": "I feel like my growth has plateaued a bit. Not sure if that's temporary or structural.",
+      "skipped": false
+    },
+    {
+      "question": "What's blocked the mentoring from happening — your time, opportunity, or something else?",
+      "alias": "q_mentoring_block_3",
+      "answer": "Next step for me would be something with more architectural ownership.",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "Honestly the last stretch has been mixed. Shipping payments was a real high point but since then it's felt slow."
+        },
+        {
+          "q": "q_post_refactor_reflection_2",
+          "delta": -3,
+          "answer_excerpt": "I think I've been slower to push back when scope creeps. That's where I've let things slide."
+        },
+        {
+          "q": "q_engagement_boost",
+          "delta": -3,
+          "answer_excerpt": "Energy is lower than usual. Post-launch flatness is real and I haven't found the next thing to get excited about."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "Honestly the last stretch has been mixed. Shipping payments was a real high point but since then it's felt slow."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_mentoring_vision_3",
+          "delta": -3,
+          "answer_excerpt": "Mentoring would be meaningful. I've wanted to do more of it for months but never made it concrete."
+        }
+      ]
+    }
+  },
+  "notes": "Just shipped the payments refactor on Monday — big win, team noticed. Looks a bit flat this week, quieter than usual in standup. Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet.",
+  "model": "gpt-4o"
+}

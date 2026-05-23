@@ -1,0 +1,91 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_future_growth",
+    "label": "Future growth",
+    "name": "What skills or experiences are you looking to develop next?",
+    "description": "Explores James's personal growth ambitions and future learning goals.",
+    "purpose": "competency",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "generated"
+  },
+  "answer": "its okay",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -3
+    },
+    "note": "James's response 'it's okay' indicates a lack of enthusiasm or ambition for growth, suggesting stagnation."
+  },
+  "new_queue": [],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -3,
+          "answer_excerpt": "i am worried about my health"
+        },
+        {
+          "q": "q_energy_fluctuations_2",
+          "delta": -3,
+          "answer_excerpt": "drinking too much after work"
+        },
+        {
+          "q": "q_health_concerns",
+          "delta": -3,
+          "answer_excerpt": "i am a functioning alcoholic"
+        },
+        {
+          "q": "q_team_dynamics_insight",
+          "delta": -1,
+          "answer_excerpt": "not great"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_team_dynamics_insight",
+          "delta": -1,
+          "answer_excerpt": "not great"
+        },
+        {
+          "q": "q_support_needs_3",
+          "delta": -1,
+          "answer_excerpt": "nothing"
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -1,
+          "answer_excerpt": "the report fo later"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -3,
+          "answer_excerpt": "the report fo later"
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_future_growth",
+          "delta": -3,
+          "answer_excerpt": "its okay"
+        }
+      ]
+    }
+  }
+}

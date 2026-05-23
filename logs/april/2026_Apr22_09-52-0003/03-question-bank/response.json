@@ -1,0 +1,13 @@
+{
+  "raw": "{\"questions\":[{\"label\":\"Team recognition\",\"name\":\"How did it feel to see the team's response to the payments refactor success?\",\"description\":\"Explores their feelings about recognition and impact on the team.\",\"purpose\":\"wellbeing\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":3}]},{\"label\":\"Exploring quieter energy\",\"name\":\"What do you think is behind your quieter energy this week?\",\"description\":\"Encourages reflection on their current state and any underlying factors.\",\"purpose\":\"wellbeing\",\"axis_effects\":[{\"axis\":\"wellbeing\",\"delta\":3}]},{\"label\":\"Mentoring opportunities\",\"name\":\"What kind of mentoring opportunities are you envisioning for yourself?\",\"description\":\"Probes their interest and ideas around mentoring.\",\"purpose\":\"topic\",\"axis_effects\":[{\"axis\":\"growth\",\"delta\":3}]},{\"label\":\"Billing rewrite alignment\",\"name\":\"What are your expectations for the billing rewrite, and how can we align on them?\",\"description\":\"Tests clarity on upcoming project involvement and expectations.\",\"purpose\":\"topic\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":3}]},{\"label\":\"Current blockers check\",\"name\":\"What blockers or dependencies are you currently facing that we haven't discussed?\",\"description\":\"Invites a deeper look at any hidden obstacles affecting their work.\",\"purpose\":\"topic\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":1},{\"axis\":\"clarity\",\"delta\":1}]},{\"label\":\"Feedback on projects\",\"name\":\"How do you feel about the feedback you've received on your recent projects?\",\"description\":\"Assesses their perspective on growth and learning through feedback.\",\"purpose\":\"wellbeing\",\"axis_effects\":[{\"axis\":\"growth\",\"delta\":3}]},{\"label\":\"Future aspirations\",\"name\":\"Where do you see yourself wanting to grow in the next few months?\",\"description\":\"Encourages them to think about their growth trajectory and aspirations.\",\"purpose\":\"topic\",\"axis_effects\":[{\"axis\":\"growth\",\"delta\":3}]},{\"label\":\"Team engagement\",\"name\":\"How engaged do you feel with the team right now, and what could enhance that?\",\"description\":\"Probes the current state of their engagement with the team.\",\"purpose\":\"wellbeing\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":3}]}]}",
+  "saved_aliases": [
+    "q_team_recognition_2",
+    "q_exploring_quieter_energy",
+    "q_mentoring_opportunities",
+    "q_billing_rewrite_alignment",
+    "q_current_blockers_check",
+    "q_feedback_on_projects",
+    "q_future_aspirations",
+    "q_team_engagement"
+  ]
+}

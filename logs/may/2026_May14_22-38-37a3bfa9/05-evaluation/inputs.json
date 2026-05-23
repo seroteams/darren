@@ -1,0 +1,165 @@
+{
+  "ctx": {
+    "name": "Carl",
+    "role": "Web Designer",
+    "seniority": "Mid",
+    "meetingType": "Growth & career plan",
+    "notes": "They have been very negative in team meetings recently."
+  },
+  "focusPoints": [
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Growth areas and skills to develop",
+      "reason": "No specific signal — selected because this is a normal Growth & career plan topic for a Mid Web Designer. Exploring skill development might reveal underlying causes for negativity.",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "Feedback culture and recent experiences",
+      "reason": "Notes mention negativity in team meetings. Could be related to feedback they've received or lack thereof — worth exploring their perspective on feedback culture.",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Current team dynamics and fit",
+      "reason": "Negativity in meetings could indicate friction or misalignment within the team. Exploring how Carl feels about team dynamics might uncover areas to address.",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "Clarity on role expectations and scope",
+      "reason": "No specific signal — selected because this is a normal Growth & career plan topic for a Mid Web Designer. Ensuring role clarity could help address negativity if it's stemming from confusion or misalignment.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Support needed from you to succeed",
+      "reason": "No specific signal — standard Growth & career plan topic. If negativity is due to unmet needs, discussing support could be beneficial.",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's been giving you energy lately?",
+      "alias": "q_open_giving_you_energy",
+      "answer": "helping others",
+      "skipped": false
+    },
+    {
+      "question": "How has the last couple of weeks felt from your side?",
+      "alias": "q_current_focus_3",
+      "answer": "(skipped)",
+      "skipped": true
+    },
+    {
+      "question": "How are you feeling about the current team dynamics?",
+      "alias": "q_team_dynamics_7",
+      "answer": "they are okay",
+      "skipped": false
+    },
+    {
+      "question": "When you imagine yourself eighteen months from now, what's actually different?",
+      "alias": "q_intro_growth_direction",
+      "answer": "head of department?",
+      "skipped": false
+    },
+    {
+      "question": "What parts of your role feel unclear or misaligned right now?",
+      "alias": "q_role_expectations",
+      "answer": "fine, but need more examples",
+      "skipped": false
+    },
+    {
+      "question": "How has recent feedback you've received landed with you?",
+      "alias": "q_feedback_received_2",
+      "answer": "ok",
+      "skipped": false
+    },
+    {
+      "question": "What new skills or areas are you interested in developing?",
+      "alias": "q_skill_development",
+      "answer": "Leadership",
+      "skipped": false
+    },
+    {
+      "question": "What support do you feel you need from me to succeed?",
+      "alias": "q_support_needs_9",
+      "answer": "More time off",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "helping others"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "helping others"
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "head of department?"
+        },
+        {
+          "q": "q_support_needs_9",
+          "delta": -1,
+          "answer_excerpt": "More time off"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_role_expectations",
+          "delta": -1,
+          "answer_excerpt": "fine, but need more examples"
+        },
+        {
+          "q": "q_support_needs_9",
+          "delta": -1,
+          "answer_excerpt": "More time off"
+        }
+      ]
+    },
+    "growth": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "head of department?"
+        },
+        {
+          "q": "q_skill_development",
+          "delta": 1,
+          "answer_excerpt": "Leadership"
+        }
+      ]
+    }
+  },
+  "notes": "They have been very negative in team meetings recently.",
+  "model": "gpt-4o"
+}

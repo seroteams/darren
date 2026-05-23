@@ -1,0 +1,174 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_open_most_like_yourself",
+      "label": "Most like yourself",
+      "name": "When have you felt most like yourself recently?",
+      "description": "Authentic self-concept research. Identity-based, not performance-based. Deep without being intrusive.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 2,
+        "growth": 1
+      },
+      "source": "research"
+    },
+    "answer": "yeah i am okay, its a strange question",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "[SHALLOW] 'yeah i am okay' lacks specificity and does not engage with the question's intent."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_clarify_most_like_yourself",
+      "label": "Clarify 'most like yourself'",
+      "name": "When you say 'yeah i am okay', what does 'most like yourself' mean to you in your role? Is it about leadership, facilitation, or something else?",
+      "description": "Seeks specifics about what 'most like yourself' means in their professional context.",
+      "purpose": "wellbeing",
+      "stage": null,
+      "axis_effects": {
+        "wellbeing": 3,
+        "growth": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "i dont have someone to guide me , it's really just me on my own",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -3,
+      "growth": -1
+    },
+    "note": "Negative wellbeing signal — Usman feels unsupported and isolated in his role, lacking guidance."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_guidance_and_support",
+      "label": "Guidance and support",
+      "name": "You mentioned not having someone to guide you — what kind of support or guidance would make a difference for you right now?",
+      "description": "Explores the specific support Usman feels is missing and what would help.",
+      "purpose": "wellbeing",
+      "stage": null,
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "well where can I go next in the company?",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -3
+    },
+    "note": "Deficiency-as-request: Asked about support, answer redirected to future role clarity — indicates lack of current guidance."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_future_roles_2",
+      "label": "Future roles",
+      "name": "When you ask about where you can go next in the company, what specific roles or paths are you considering?",
+      "description": "Drills into Usman's interest in future roles and clarifies his aspirations.",
+      "purpose": "topic",
+      "stage": null,
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "head of something, not sure but wanting to move forward",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -1
+    },
+    "note": "Usman expressed uncertainty about future roles, indicating a lack of clear growth direction."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_head_of_something",
+      "label": "Head of something",
+      "name": "When you say 'head of something', what is it about that role that pulls you? Is it the scope, the people, the title, or something else?",
+      "description": "Drills into Usman's aspiration for a leadership role to clarify what aspects attract him.",
+      "purpose": "topic",
+      "stage": null,
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "The title and the money",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -1
+    },
+    "note": "Usman's focus on 'title and money' indicates a lack of intrinsic growth motivation."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?",
+      "description": "Probes whether they have a real picture of where they want to go.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "id be head of my own pillar",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "growth": 3
+    },
+    "note": "Usman envisions being 'head of my own pillar' in 18 months, indicating a clear growth aspiration and engagement with future leadership."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_head_of_own_pillar",
+      "label": "Head of own pillar",
+      "name": "Head of your own pillar — what specifically would that entail in terms of scope and responsibilities?",
+      "description": "Drills deeper into Usman's vision of leading his own pillar, clarifying scope and responsibilities.",
+      "purpose": "topic",
+      "stage": null,
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "manage the teams, finances and projects we take on.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "growth": 3
+    },
+    "note": "Usman's vision of managing teams, finances, and projects shows strong growth ambition and engagement with leadership aspirations."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_next_steps_commitment_6",
+      "label": "Next steps commitment",
+      "name": "What's the first concrete thing you want to have moved by our next conversation?",
+      "description": "Defines a clear next step to focus on for the coming period.",
+      "purpose": "competency",
+      "stage": "commitment",
+      "axis_effects": {
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    "answer": "id like to have a personal learning plan and some KPI's to aim for.",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": 1
+    },
+    "note": "Usman is committed to developing a personal learning plan and setting KPIs, indicating a proactive step toward growth."
+  }
+]

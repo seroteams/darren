@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Late arrivals — workload or personal rhythm?",
+      "reason": "Notes mention they are always late to work. Could be workload-related, personal scheduling, or something else — worth exploring the underlying reason.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Energy levels and morning motivation",
+      "reason": "Notes about being late might signal energy or motivation issues. Could be fatigue, disengagement, or just a preference for later starts — worth clarifying.",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Current design projects and priorities",
+      "reason": "No specific signal — standard bi-weekly topic. Useful to align on what they're focusing on and any shifting priorities.",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Any design tasks currently blocked",
+      "reason": "No specific signal — routine check-in territory. Identifying blockers can help understand if late starts are related to waiting on others.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Support needed for upcoming design work",
+      "reason": "No specific signal — standard check-in hygiene. Opens the door for them to express any support they need from you.",
+      "known": true
+    }
+  ],
+  "name": "Friday",
+  "role": "Web Designer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "They are always late to work",
+  "model": "gpt-4o"
+}

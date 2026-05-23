@@ -1,0 +1,40 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_delegation_challenges_2",
+    "label": "Delegation challenges",
+    "name": "What's the most challenging part of delegation for you currently?",
+    "description": "Identifies obstacles in effective delegation and team empowerment.",
+    "purpose": "competency",
+    "axis_effects": {
+      "engagement": 3
+    },
+    "source": "generated"
+  },
+  "answer": "yes",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The answer 'yes' is non-informative and does not provide any engagement signal."
+  },
+  "new_queue": [],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

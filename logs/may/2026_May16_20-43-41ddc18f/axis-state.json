@@ -1,0 +1,45 @@
+{
+  "wellbeing": {
+    "score": 2,
+    "history": [
+      {
+        "q": "q_open_bit_of_joy",
+        "delta": 1,
+        "answer_excerpt": "the last lesson at uni was fun"
+      },
+      {
+        "q": "q_intro_off_energy",
+        "delta": 1,
+        "answer_excerpt": "its been good, i am still excited, just worried about how much work i have and people I need to speak to and work with."
+      }
+    ]
+  },
+  "engagement": {
+    "score": 0,
+    "history": []
+  },
+  "clarity": {
+    "score": -9,
+    "history": [
+      {
+        "q": "q_workshop_timing",
+        "delta": -3,
+        "answer_excerpt": "not very, feeling like teh BA's are more the enemy that helping. the lead BA is a dick"
+      },
+      {
+        "q": "q_ba_conflict",
+        "delta": -3,
+        "answer_excerpt": "escalation calls, calls brining in the head of dev, not wanting to lsite and seems so very very stressed."
+      },
+      {
+        "q": "q_ba_stress_specifics",
+        "delta": -3,
+        "answer_excerpt": "they do thing half, its rushed all teh time."
+      }
+    ]
+  },
+  "growth": {
+    "score": 0,
+    "history": []
+  }
+}

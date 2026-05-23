@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "reliability",
+      "type": "Reliability",
+      "category": "competency",
+      "label": "Addressing punctuality and meeting expectations",
+      "reason": "Notes mention they are always late. Could be time management issues, unclear priorities, or external factors — worth exploring the root cause.",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Current design priorities and focus areas",
+      "reason": "No specific signal — standard bi-weekly topic. Ensures alignment on what matters most in the current cycle.",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Team dynamics and collaboration flow",
+      "reason": "No specific signal — typical for a check-in. Understanding team interactions can reveal if lateness impacts team trust or cohesion.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Support they need from you",
+      "reason": "No specific signal — standard check-in hygiene. Opens the door to discussing any blockers or needs that might be causing delays.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Current motivation and stress levels",
+      "reason": "No specific signal — routine wellbeing check. If lateness is stress-related, this can help identify contributing factors.",
+      "known": true
+    }
+  ],
+  "name": "CCarl",
+  "role": "UX Lead",
+  "seniority": "Web Designer",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "They are always late",
+  "model": "gpt-4o"
+}

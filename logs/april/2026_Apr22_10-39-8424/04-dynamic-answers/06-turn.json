@@ -1,0 +1,88 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_rewrite_risk",
+    "label": "Rewrite risk",
+    "name": "Where do you expect the billing rewrite to get difficult?",
+    "description": "Surfaces anticipated technical or coordination risks before the work starts.",
+    "purpose": "competency",
+    "axis_effects": {
+      "clarity": 1,
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "answer": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": 1,
+      "growth": 1
+    },
+    "note": "They reaffirmed ownership of the payments migration plan and dual-write decision, signaling strong clarity and growth from the prior refactor."
+  },
+  "new_queue": [
+    {
+      "alias": "q_stretch_edge",
+      "label": "Stretch edge",
+      "name": "What part of your work right now feels most like a stretch?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_refactor_aftermath",
+          "delta": -1,
+          "answer_excerpt": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+        },
+        {
+          "q": "q_blocker_ownership",
+          "delta": -1,
+          "answer_excerpt": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_rewrite_role",
+          "delta": 1,
+          "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+        },
+        {
+          "q": "q_rewrite_risk",
+          "delta": 1,
+          "answer_excerpt": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went."
+        }
+      ]
+    },
+    "growth": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_rewrite_role",
+          "delta": 1,
+          "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+        },
+        {
+          "q": "q_rewrite_risk",
+          "delta": 1,
+          "answer_excerpt": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went."
+        }
+      ]
+    }
+  }
+}

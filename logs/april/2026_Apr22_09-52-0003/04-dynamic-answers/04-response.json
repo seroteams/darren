@@ -1,0 +1,51 @@
+{
+  "assessment": {
+    "deltas": [
+      {
+        "axis": "engagement",
+        "delta": -1
+      },
+      {
+        "axis": "clarity",
+        "delta": 0
+      },
+      {
+        "axis": "growth",
+        "delta": 3
+      }
+    ],
+    "note": "Mentoring interest is clear but has stalled for three months, indicating a growth opportunity."
+  },
+  "new_queue": [
+    {
+      "ref_alias": "q_mentoring_opportunities",
+      "label": "Mentoring opportunities",
+      "name": "What kind of mentoring opportunities are you envisioning for yourself?",
+      "description": "Probes their interest and ideas around mentoring.",
+      "purpose": "topic",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        }
+      ]
+    },
+    {
+      "ref_alias": "q_current_blockers_check",
+      "label": "Current blockers check",
+      "name": "What blockers or dependencies are you currently facing that we haven't discussed?",
+      "description": "Invites a deeper look at any hidden obstacles affecting their work.",
+      "purpose": "topic",
+      "axis_effects": [
+        {
+          "axis": "engagement",
+          "delta": 1
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    }
+  ]
+}

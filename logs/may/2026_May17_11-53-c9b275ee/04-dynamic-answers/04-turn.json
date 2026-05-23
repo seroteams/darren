@@ -1,0 +1,47 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_meeting_attendance_clarification",
+    "label": "Meeting attendance clarification",
+    "name": "When you say 'I am just typing this to be testing the flow' — what specifically has been affecting your meeting attendance? Is it time management, priorities, or something else?",
+    "description": "Clarify the shallow response regarding meeting attendance issues.",
+    "purpose": "competency",
+    "stage": "self_read",
+    "axis_effects": {
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I am just typing this to be testing the flow.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "[SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]"
+  },
+  "new_queue": [
+    {
+      "alias": "q_seed_clarity_success",
+      "label": "Success definition",
+      "name": "What would make this quarter clearly successful for you — in one sentence?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

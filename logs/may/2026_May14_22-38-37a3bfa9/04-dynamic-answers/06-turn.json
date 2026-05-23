@@ -1,0 +1,81 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_feedback_received_2",
+    "label": "Feedback received",
+    "name": "How has recent feedback you've received landed with you?",
+    "description": "Understands Carl's perception of feedback and its impact.",
+    "purpose": "topic",
+    "axis_effects": {
+      "engagement": 1,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "answer": "ok",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The response 'ok' lacks detail and does not provide insight into engagement or clarity."
+  },
+  "new_queue": [
+    {
+      "alias": "q_skill_development",
+      "label": "Skill development",
+      "name": "What new skills or areas are you interested in developing?"
+    },
+    {
+      "alias": "q_support_needs_9",
+      "label": "Support needs",
+      "name": "What support do you feel you need from me to succeed?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "helping others"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "helping others"
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "head of department?"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_role_expectations",
+          "delta": -1,
+          "answer_excerpt": "fine, but need more examples"
+        }
+      ]
+    },
+    "growth": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "head of department?"
+        }
+      ]
+    }
+  }
+}

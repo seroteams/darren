@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Impact of design work on product goals.",
+      "reason": "No specific signal — at Lead level in a Performance & feedback meeting, impact is a core focus to assess contribution to overall product goals.",
+      "known": true
+    },
+    {
+      "id": "quality",
+      "type": "Quality",
+      "category": "competency",
+      "label": "Design quality and user experience standards.",
+      "reason": "No specific signal — standard Performance & feedback topic for a UX Lead, focusing on ensuring high standards in design quality and user experience.",
+      "known": true
+    },
+    {
+      "id": "collaboration",
+      "type": "Collaboration",
+      "category": "competency",
+      "label": "Collaboration with product and engineering teams.",
+      "reason": "No specific signal — essential for a UX Lead to ensure effective cross-functional collaboration, which is critical for successful product development.",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Engagement with key stakeholders and feedback loops.",
+      "reason": "No specific signal — at this level, managing stakeholder relationships and incorporating feedback is crucial for aligning design with business objectives.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Areas for growth in UX leadership skills.",
+      "reason": "No specific signal — typical for a Performance & feedback meeting to explore growth areas, especially in leadership skills for a UX Lead.",
+      "known": true
+    }
+  ],
+  "name": "yeah",
+  "role": "UX Lead",
+  "seniority": "Lead",
+  "meetingType": "Performance & feedback",
+  "notes": "No",
+  "model": "gpt-4o"
+}

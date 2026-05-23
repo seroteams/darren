@@ -1,0 +1,8 @@
+{
+  "name": "Darren",
+  "role": "Senior Developer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Blah",
+  "model": "gpt-4o-mini"
+}

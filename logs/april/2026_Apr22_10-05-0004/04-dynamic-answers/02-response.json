@@ -1,0 +1,120 @@
+{
+  "assessment": {
+    "deltas": [
+      {
+        "axis": "wellbeing",
+        "delta": 0
+      },
+      {
+        "axis": "engagement",
+        "delta": 1
+      }
+    ],
+    "note": "Indicated a lack of stretching in current tasks, suggesting mild engagement but no significant wellbeing impact."
+  },
+  "new_queue": [
+    {
+      "ref_alias": "q_celebrating_recent_wins",
+      "label": "Celebrating recent wins",
+      "name": "How did it feel to ship the payments refactor this week?",
+      "description": "Explores the emotional impact of the recent achievement and recognition from the team.",
+      "purpose": "topic",
+      "axis_effects": [
+        {
+          "axis": "engagement",
+          "delta": 3
+        }
+      ]
+    },
+    {
+      "ref_alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?",
+      "description": "Surfaces whether priorities are crisp or vague; whether they match what you thought.",
+      "purpose": "wellbeing",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "ref_alias": "q_upcoming_projects",
+      "label": "Upcoming projects",
+      "name": "What are your initial thoughts about getting involved in the billing rewrite?",
+      "description": "Gauges feelings about future responsibilities and potential contributions.",
+      "purpose": "topic",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        }
+      ]
+    },
+    {
+      "ref_alias": "q_blockers_insight",
+      "label": "Blockers insight",
+      "name": "Are there any current tasks where you're facing unexpected challenges?",
+      "description": "Prompts for discussion on specific obstacles that may not have been previously mentioned.",
+      "purpose": "topic",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 1
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "ref_alias": "q_post_refactor_reflection",
+      "label": "Post-refactor reflection",
+      "name": "How do you feel the team has responded to the payments refactor?",
+      "description": "Investigates perceptions of team dynamics and recognition of contributions.",
+      "purpose": "topic",
+      "axis_effects": [
+        {
+          "axis": "engagement",
+          "delta": 3
+        }
+      ]
+    },
+    {
+      "ref_alias": "q_mental_space_for_growth",
+      "label": "Mental space for growth",
+      "name": "Do you feel you have the bandwidth right now to take on mentoring responsibilities?",
+      "description": "Assesses current capacity for additional roles in relation to growth and wellbeing.",
+      "purpose": "wellbeing",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        },
+        {
+          "axis": "growth",
+          "delta": 3
+        }
+      ]
+    },
+    {
+      "ref_alias": "q_future_clarity",
+      "label": "Future clarity",
+      "name": "What would help you feel more prepared for the upcoming billing rewrite?",
+      "description": "Explores what information or support would enhance clarity and confidence going forward.",
+      "purpose": "topic",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        }
+      ]
+    }
+  ]
+}

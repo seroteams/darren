@@ -1,0 +1,51 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_mentoring_vision_5",
+    "label": "Mentoring vision",
+    "name": "What would you want mentoring to look like in your schedule?",
+    "description": "Surfaces Priya's interest and vision for her involvement in mentoring activities.",
+    "purpose": "topic",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "generated"
+  },
+  "answer": "(skipped)",
+  "skipped": true,
+  "assessment": {
+    "deltas": {},
+    "note": "Skipped answer provides no signal for growth."
+  },
+  "new_queue": [
+    {
+      "alias": "q_refactor_success",
+      "label": "Refactor success",
+      "name": "What specifically about the payments refactor are you proud of?"
+    },
+    {
+      "alias": "q_billing_rewrite_readiness",
+      "label": "Billing rewrite readiness",
+      "name": "Where do you think your skills would be most valuable in the billing rewrite?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_energy_fluctuation_causes",
+    "label": "Energy fluctuation causes",
+    "name": "What do you think is causing your quieter energy this week?",
+    "description": "Delves into reasons behind recent energy changes.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "answer": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -3
+    },
+    "note": "The answer indicates a lack of stretching work, leading to a dip in energy and engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_mentoring_vision",
+      "label": "Mentoring vision",
+      "name": "What does effective mentoring look like for you?"
+    },
+    {
+      "alias": "q_stretch_work",
+      "label": "Stretch work",
+      "name": "What would a more challenging or stretching task look like right now?"
+    },
+    {
+      "alias": "q_recognition_landing",
+      "label": "Recognition landing",
+      "name": "Did the recognition for the refactor feel genuine and sufficient to you?"
+    },
+    {
+      "alias": "q_billing_rewrite_role",
+      "label": "Billing rewrite role",
+      "name": "How do you feel about potentially joining the billing rewrite next quarter?"
+    },
+    {
+      "alias": "q_current_dependencies",
+      "label": "Current dependencies",
+      "name": "What are you currently waiting on that could stall your progress?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_energy_fluctuation_causes",
+          "delta": -3,
+          "answer_excerpt": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

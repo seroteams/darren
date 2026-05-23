@@ -1,0 +1,92 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_growth_blockers",
+    "label": "Growth blockers",
+    "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+    "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+    "purpose": "topic",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1
+    },
+    "source": "seed"
+  },
+  "answer": "yes",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "The answer was non-informative ('yes'), providing no specific signal about growth or clarity."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_current_work_clarity",
+      "label": "Current work clarity",
+      "name": "What are your top three priorities this month, and why do they matter?"
+    },
+    {
+      "alias": "q_energy_check_in_5",
+      "label": "Energy check-in",
+      "name": "How has your energy been over the past few weeks?"
+    },
+    {
+      "alias": "q_strategic_impact",
+      "label": "Strategic impact",
+      "name": "Where do you see the biggest opportunity to increase your strategic impact?"
+    },
+    {
+      "alias": "q_delegation_challenges_2",
+      "label": "Delegation challenges",
+      "name": "What's the most challenging part of delegation for you currently?"
+    },
+    {
+      "alias": "q_managing_up",
+      "label": "Managing up",
+      "name": "How do you currently approach managing up with the director?"
+    },
+    {
+      "alias": "q_judgment_confidence",
+      "label": "Judgment confidence",
+      "name": "In which areas do you feel most confident making decisions?"
+    },
+    {
+      "alias": "q_team_empowerment",
+      "label": "Team empowerment",
+      "name": "How do you empower your team to take more initiative in their roles?"
+    },
+    {
+      "alias": "q_future_challenges",
+      "label": "Future challenges",
+      "name": "What challenges do you anticipate in your growth journey over the next year?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

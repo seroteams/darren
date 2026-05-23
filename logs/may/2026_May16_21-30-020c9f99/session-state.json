@@ -1,0 +1,341 @@
+{
+  "id": "2026_May16_21-30-020c9f99",
+  "dir": "C:\\Users\\User\\Documents\\Sero\\darren\\logs\\2026_May16_21-30-020c9f99",
+  "createdAt": 1778941842837,
+  "lastSeenAt": 1778944590547,
+  "ctx": {
+    "name": "Michael",
+    "role": "Acting Coach",
+    "seniority": "Senior",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "Feeling like all her workshops are planned last minute and there is no prethought"
+  },
+  "introQueue": [
+    {
+      "alias": "q_open_nourishing",
+      "label": "What's nourishing",
+      "name": "What's been nourishing in your life recently?",
+      "description": "'Nourishing' invites what is genuinely sustaining — not just pleasant. No work scope.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?",
+      "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    }
+  ],
+  "focusPointsResult": {
+    "meeting_type": "Bi-weekly check-in",
+    "focus_points": [
+      {
+        "id": "priorities",
+        "type": "Priorities & goals",
+        "category": "topic",
+        "label": "Workshop planning and advance preparation",
+        "reason": "Manager notes mention workshops being planned last minute. Could be a lack of time management or needing better systems for planning — worth exploring how she approaches scheduling.",
+        "known": true
+      },
+      {
+        "id": "workload",
+        "type": "Workload & capacity",
+        "category": "wellbeing",
+        "label": "Current workload balance and management",
+        "reason": "Manager notes suggest a reactive pattern in workshop planning. Could be a symptom of an overloaded schedule or prioritization issues — worth understanding her current workload dynamics.",
+        "known": true
+      },
+      {
+        "id": "energy",
+        "type": "Energy & wellbeing",
+        "category": "wellbeing",
+        "label": "Energy levels and stress from last-minute planning",
+        "reason": "Planning workshops last minute might be stressful or draining. Could affect her overall energy and motivation — worth checking how she's feeling about her current pace.",
+        "known": true
+      },
+      {
+        "id": "manager_support",
+        "type": "Manager support",
+        "category": "topic",
+        "label": "Support needed for better planning systems",
+        "reason": "No specific signal — selected because this is a normal Bi-weekly check-in topic for a Senior Acting Coach. If planning is the stress point, understanding what support she needs to improve this is key.",
+        "known": true
+      },
+      {
+        "id": "team_connection",
+        "type": "Team connection",
+        "category": "wellbeing",
+        "label": "Collaboration with team on workshop planning",
+        "reason": "No specific signal — selected because this is a normal Bi-weekly check-in topic for a Senior Acting Coach. If last-minute planning is a team-wide issue, understanding the collaboration dynamics could help.",
+        "known": true
+      }
+    ]
+  },
+  "preparationResult": {
+    "brief": {
+      "coreIssue": "Michael, a Senior Acting Coach, seems to be struggling with last-minute workshop planning, which may be due to inadequate time management or planning systems. This bi-weekly check-in should focus on understanding his approach to scheduling, workload balance, and any stress he might be experiencing due to reactive planning. It's important to explore how these factors might be impacting his energy levels and what support or changes he might need to improve his planning processes.",
+      "openingQuestion": "Michael, can you walk me through your current process for planning workshops and where you think the biggest challenges are coming from?",
+      "listenFor": [
+        "whether he feels overwhelmed with current workload",
+        "if he has a clear system for planning ahead",
+        "if they experience stress from last-minute changes"
+      ],
+      "avoid": [
+        "do not assume the problem is solely time management",
+        "do not suggest solutions before understanding his perspective"
+      ],
+      "goodOutcome": "You will have a clearer understanding of Michael's planning challenges and any support he needs to improve his workflow.",
+      "suggestedAction": "Collaborate with Michael to identify one specific area in his planning process that can be improved immediately, and agree on a small, actionable change."
+    },
+    "runId": "6fbb6d01-70e1-42ab-9f91-0449c6102444",
+    "validation": {
+      "passed": true,
+      "issues": []
+    }
+  },
+  "bankReady": {
+    "count": 8
+  },
+  "briefing": null,
+  "queueRef": [],
+  "axisState": {
+    "wellbeing": {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "score": 1,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_open_nourishing",
+          "delta": 1,
+          "answer_excerpt": "seeing my class finish"
+        }
+      ]
+    },
+    "engagement": {
+      "id": "engagement",
+      "label": "Engagement",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "clarity": {
+      "id": "clarity",
+      "label": "Clarity",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "growth": {
+      "id": "growth",
+      "label": "Growth",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    }
+  },
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_open_nourishing",
+        "label": "What's nourishing",
+        "name": "What's been nourishing in your life recently?",
+        "description": "'Nourishing' invites what is genuinely sustaining — not just pleasant. No work scope.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "research"
+      },
+      "answer": "seeing my class finish",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": 1
+      },
+      "note": "Answer 'seeing my class finish' indicates a positive, albeit mild, wellbeing signal from completion satisfaction."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_intro_biweekly_pace",
+        "label": "Opening pace check",
+        "name": "How's the last two weeks actually felt — energy-wise?",
+        "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+        "purpose": "wellbeing",
+        "stage": "pulse",
+        "axis_effects": {
+          "wellbeing": 3,
+          "engagement": 1
+        },
+        "source": "seed"
+      },
+      "answer": "(skipped)",
+      "skipped": true,
+      "realized_deltas": {},
+      "note": "Skipped the question, providing no signal on wellbeing or engagement."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_intro_biweekly_friction",
+        "label": "Friction scan",
+        "name": "What's been slower or harder than it should have been?",
+        "description": "Invites them to name blockers without framing it as complaint.",
+        "purpose": "topic",
+        "stage": "friction",
+        "axis_effects": {
+          "clarity": 1,
+          "engagement": 3
+        },
+        "source": "seed"
+      },
+      "answer": "no clear answer",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "No clear answer given — lacks engagement or clarity signal."
+    },
+    {
+      "turn": 4,
+      "question": {
+        "alias": "q_workshop_scheduling_issues",
+        "label": "Workshop scheduling issues",
+        "name": "What's been the biggest challenge with planning workshops lately?",
+        "description": "Explore specific challenges in workshop planning to identify underlying issues.",
+        "purpose": "topic",
+        "stage": "friction",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "generated"
+      },
+      "answer": "no clear answer",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "No clear answer given — no signal for clarity axis."
+    },
+    {
+      "turn": 5,
+      "question": {
+        "alias": "q_energy_management_5",
+        "label": "Energy management",
+        "name": "What's draining your energy most in your current workload?",
+        "description": "Identify aspects of the workload that are particularly energy-draining.",
+        "purpose": "wellbeing",
+        "stage": "friction",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "generated"
+      },
+      "answer": "no clear answer",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'no clear answer' provides no specifics on energy drain."
+    },
+    {
+      "turn": 6,
+      "question": {
+        "alias": "q_energy_specifics",
+        "label": "Energy specifics",
+        "name": "When you say 'no clear answer' — is there nothing draining, or is it hard to pinpoint?",
+        "description": "Clarify if the lack of answer is due to absence of issues or difficulty in identifying them.",
+        "purpose": "wellbeing",
+        "stage": "friction",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "no clear answer",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'no clear answer' lacks specificity — does not clarify the absence or difficulty in identifying energy drains."
+    },
+    {
+      "turn": 7,
+      "question": {
+        "alias": "q_energy_clarity_re_prompt",
+        "label": "Energy clarity re-prompt",
+        "name": "When you say 'no clear answer' again — is it that nothing is draining, or is it hard to pinpoint specifics?",
+        "description": "Attempt to clarify the absence of energy drains or difficulty in identifying them.",
+        "purpose": "wellbeing",
+        "stage": "friction",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "no clear answer",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]"
+    },
+    {
+      "turn": 8,
+      "question": {
+        "alias": "q_next_steps_commitment_4",
+        "label": "Next steps commitment",
+        "name": "What's the first concrete thing you want to have moved by our next conversation?",
+        "description": "Encourage commitment to specific actions or goals before the next meeting.",
+        "purpose": "competency",
+        "stage": "lift",
+        "axis_effects": {
+          "growth": 1
+        },
+        "source": "generated"
+      },
+      "answer": "no clear answer",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]"
+    }
+  ],
+  "turn": 8,
+  "totalBudget": 8,
+  "closer": {
+    "alias": "q_next_steps_commitment_4",
+    "label": "Next steps commitment",
+    "name": "What's the first concrete thing you want to have moved by our next conversation?",
+    "description": "Encourage commitment to specific actions or goals before the next meeting.",
+    "purpose": "competency",
+    "stage": "lift",
+    "axis_effects": {
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "pendingAnswer": null,
+  "notes": [
+    {
+      "id": "24777493-a6e1-44cc-85c6-86ac048d9ef2",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1778943349216,
+      "text": "What's been nourishing in your life recently?\nthis is not good, at all really bad question, its cheesy"
+    }
+  ]
+}

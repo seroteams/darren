@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Current focus areas and goals",
+      "reason": "No specific signal — standard bi-weekly topic. Understanding what James is prioritizing helps align with broader team goals.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Energy levels and motivation",
+      "reason": "No specific signal — typical for a manager check-in. It's useful to gauge James's energy and motivation levels to ensure sustained performance.",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Team dynamics and connection",
+      "reason": "No specific signal — routine check-in topic. Exploring how James feels about team dynamics can surface any underlying issues.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Support needs from you",
+      "reason": "No specific signal — standard check-in hygiene. Asking what support James needs can strengthen your working relationship.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Personal growth and development goals",
+      "reason": "No specific signal — relevant for a manager. Discussing growth ensures James is progressing and engaged with his role.",
+      "known": true
+    }
+  ],
+  "name": "James 2",
+  "role": "Life Coach",
+  "seniority": "Manager",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Seems ok",
+  "model": "gpt-4o"
+}

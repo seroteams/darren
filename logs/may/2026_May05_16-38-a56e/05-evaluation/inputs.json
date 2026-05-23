@@ -1,0 +1,170 @@
+{
+  "ctx": {
+    "name": "James 2",
+    "role": "Life Coach",
+    "seniority": "Manager",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "Seems ok"
+  },
+  "focusPoints": [
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Current focus areas and goals",
+      "reason": "No specific signal — standard bi-weekly topic. Understanding what James is prioritizing helps align with broader team goals.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Energy levels and motivation",
+      "reason": "No specific signal — typical for a manager check-in. It's useful to gauge James's energy and motivation levels to ensure sustained performance.",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Team dynamics and connection",
+      "reason": "No specific signal — routine check-in topic. Exploring how James feels about team dynamics can surface any underlying issues.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Support needs from you",
+      "reason": "No specific signal — standard check-in hygiene. Asking what support James needs can strengthen your working relationship.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Personal growth and development goals",
+      "reason": "No specific signal — relevant for a manager. Discussing growth ensures James is progressing and engaged with his role.",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's been slower or harder than it should have been?",
+      "alias": "q_intro_biweekly_friction",
+      "answer": "nothing",
+      "skipped": false
+    },
+    {
+      "question": "How's the last two weeks actually felt — energy-wise?",
+      "alias": "q_intro_biweekly_pace",
+      "answer": "i am worried about my health",
+      "skipped": false
+    },
+    {
+      "question": "What's been impacting your energy levels the most these past weeks?",
+      "alias": "q_energy_fluctuations_2",
+      "answer": "drinking too much after work",
+      "skipped": false
+    },
+    {
+      "question": "Can you share more about your health concerns and how they're affecting your work?",
+      "alias": "q_health_concerns",
+      "answer": "i am a functioning alcoholic",
+      "skipped": false
+    },
+    {
+      "question": "How do you feel about the current team dynamics and your place within the team?",
+      "alias": "q_team_dynamics_insight",
+      "answer": "not great",
+      "skipped": false
+    },
+    {
+      "question": "What support from me would make the biggest difference in your work right now?",
+      "alias": "q_support_needs_3",
+      "answer": "nothing",
+      "skipped": false
+    },
+    {
+      "question": "What are you actually focused on this week, and why those things?",
+      "alias": "q_intro_biweekly_priorities",
+      "answer": "the report fo later",
+      "skipped": false
+    },
+    {
+      "question": "What skills or experiences are you looking to develop next?",
+      "alias": "q_future_growth",
+      "answer": "its okay",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -3,
+          "answer_excerpt": "i am worried about my health"
+        },
+        {
+          "q": "q_energy_fluctuations_2",
+          "delta": -3,
+          "answer_excerpt": "drinking too much after work"
+        },
+        {
+          "q": "q_health_concerns",
+          "delta": -3,
+          "answer_excerpt": "i am a functioning alcoholic"
+        },
+        {
+          "q": "q_team_dynamics_insight",
+          "delta": -1,
+          "answer_excerpt": "not great"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_team_dynamics_insight",
+          "delta": -1,
+          "answer_excerpt": "not great"
+        },
+        {
+          "q": "q_support_needs_3",
+          "delta": -1,
+          "answer_excerpt": "nothing"
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -1,
+          "answer_excerpt": "the report fo later"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -3,
+          "answer_excerpt": "the report fo later"
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_future_growth",
+          "delta": -3,
+          "answer_excerpt": "its okay"
+        }
+      ]
+    }
+  },
+  "notes": "Seems ok",
+  "model": "gpt-4o"
+}

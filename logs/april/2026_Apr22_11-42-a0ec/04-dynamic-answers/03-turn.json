@@ -1,0 +1,104 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_recovery_pattern_2",
+    "label": "Recovery pattern",
+    "name": "What does your recovery look like between sessions?",
+    "description": "Gets concrete about sleep, soreness, and whether he is actually resetting.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "answer": "good, as long as i have a chocolate drink. but sometimes i can't find a shop to buy chocolate from.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": 1
+    },
+    "note": "He says recovery is generally good, with a specific dependency on chocolate drinks and occasional access issues, which is a mild positive with a practical sustainability wrinkle."
+  },
+  "new_queue": [
+    {
+      "alias": "q_match_fitness_load",
+      "label": "Match fitness load",
+      "name": "How is your body holding up after matches and training lately?"
+    },
+    {
+      "alias": "q_outside_football",
+      "label": "Outside football",
+      "name": "What else is taking up the most energy outside football right now?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_recent_win",
+      "label": "Recent win",
+      "name": "What has been landing well in your game recently?"
+    },
+    {
+      "alias": "q_training_lift",
+      "label": "Training lift",
+      "name": "What part of your game are you most trying to sharpen at the moment?"
+    },
+    {
+      "alias": "q_team_chemistry",
+      "label": "Team chemistry",
+      "name": "Where are your connections with teammates feeling strongest right now?"
+    },
+    {
+      "alias": "q_season_target",
+      "label": "Season target",
+      "name": "What would make this season feel like a step forward for you?"
+    },
+    {
+      "alias": "q_feedback_use_2",
+      "label": "Feedback use",
+      "name": "How are you using the feedback you have been getting lately?"
+    },
+    {
+      "alias": "q_decision_moments",
+      "label": "Decision moments",
+      "name": "Where do you want more freedom to make decisions on the pitch?"
+    },
+    {
+      "alias": "q_role_edges",
+      "label": "Role edges",
+      "name": "What part of your role feels least settled right now?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": 1,
+          "answer_excerpt": "good, if i eat a lot of chocolate"
+        },
+        {
+          "q": "q_recovery_pattern_2",
+          "delta": 1,
+          "answer_excerpt": "good, as long as i have a chocolate drink. but sometimes i can't find a shop to buy chocolate from."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

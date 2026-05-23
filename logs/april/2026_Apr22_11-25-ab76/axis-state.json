@@ -1,0 +1,72 @@
+{
+  "wellbeing": {
+    "score": -1,
+    "history": [
+      {
+        "q": "q_sustainable_pace_2",
+        "delta": -1,
+        "answer_excerpt": "if more people were off, i'm sick of people having holidays all the time"
+      }
+    ]
+  },
+  "engagement": {
+    "score": 2,
+    "history": [
+      {
+        "q": "q_intro_biweekly_friction",
+        "delta": 1,
+        "answer_excerpt": "The release, it took over 5 hours to get it out"
+      },
+      {
+        "q": "q_stretch_edge_4",
+        "delta": 1,
+        "answer_excerpt": "doing some design, but no one will let me do it"
+      }
+    ]
+  },
+  "clarity": {
+    "score": 6,
+    "history": [
+      {
+        "q": "q_intro_biweekly_friction",
+        "delta": 1,
+        "answer_excerpt": "The release, it took over 5 hours to get it out"
+      },
+      {
+        "q": "q_hidden_blockers",
+        "delta": 1,
+        "answer_excerpt": "When bob is not here"
+      },
+      {
+        "q": "q_escalation_point",
+        "delta": 1,
+        "answer_excerpt": "Make sure bob is shadowed when he's away"
+      },
+      {
+        "q": "q_intro_biweekly_priorities",
+        "delta": 1,
+        "answer_excerpt": "making sure the next time we release it goes smoother with ci/cd pipelines"
+      },
+      {
+        "q": "q_decision_clarity",
+        "delta": 1,
+        "answer_excerpt": "releasing a month ago would have been better, or releasing after bob it back"
+      },
+      {
+        "q": "q_support_gap_2",
+        "delta": 1,
+        "answer_excerpt": "a promotion"
+      }
+    ]
+  },
+  "growth": {
+    "score": 3,
+    "history": [
+      {
+        "q": "q_stretch_edge_4",
+        "delta": 3,
+        "answer_excerpt": "doing some design, but no one will let me do it"
+      }
+    ]
+  }
+}

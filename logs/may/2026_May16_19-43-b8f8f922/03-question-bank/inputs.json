@@ -1,0 +1,50 @@
+{
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Impact of UX on strategic goals this quarter.",
+      "reason": "Notes mention insufficient management of the CoE ux/ui. Could indicate a need to clarify how UX initiatives align with broader strategic goals.",
+      "known": true
+    },
+    {
+      "id": "delegation",
+      "type": "Delegation effectiveness",
+      "category": "competency",
+      "label": "Delegation of UX/UI tasks within the CoE.",
+      "reason": "Notes suggest he's not managing the CoE ux/ui enough. Might be a sign to explore how effectively he's delegating responsibilities within the team.",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Engagement with CoE stakeholders.",
+      "reason": "Notes point to a lack of management over the CoE ux/ui. This could reflect challenges in stakeholder engagement or expectation management.",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Current UX priorities and alignment with CoE.",
+      "reason": "No specific signal — selected because this is a normal Performance & feedback topic for a Lead UX role. Ensures alignment with CoE objectives.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Support needed to manage CoE ux/ui effectively.",
+      "reason": "No specific signal — standard Performance & feedback hygiene. Opens dialogue on what support he might need from you to manage CoE responsibilities effectively.",
+      "known": true
+    }
+  ],
+  "name": "Carl",
+  "role": "UX Lead",
+  "seniority": "Lead",
+  "meetingType": "Performance & feedback",
+  "notes": "He's not managing the CoE ux/ui enough.",
+  "model": "gpt-4o"
+}

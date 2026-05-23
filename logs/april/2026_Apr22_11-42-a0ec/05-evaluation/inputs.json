@@ -1,0 +1,160 @@
+{
+  "ctx": {
+    "name": "Darren",
+    "role": "Football player",
+    "seniority": "Middle",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "Plays football very well. Loves chocolate."
+  },
+  "focusPoints": [
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Motivation and energy levels",
+      "reason": "Notes highlight his football performance. Could be worth exploring how his energy and motivation are tracking lately.",
+      "known": true
+    },
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Balancing football and personal life",
+      "reason": "No specific signal — standard bi-weekly topic. Checking in on how he balances football with other commitments could be valuable.",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Connection with teammates",
+      "reason": "No specific signal — typical for this role. Understanding how he feels about his relationships with teammates can provide insights.",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Goals for this season",
+      "reason": "No specific signal — common check-in topic. Discussing his goals for the season could help align expectations.",
+      "known": true
+    },
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Celebrating recent achievements",
+      "reason": "No specific signal — standard check-in hygiene. Recognizing any recent successes or contributions can boost morale.",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's been slower or harder than it should have been?",
+      "alias": "q_intro_biweekly_friction",
+      "answer": "It took me a long time to kick a ball after i ate too much chocolate last week",
+      "skipped": false
+    },
+    {
+      "question": "How's the last two weeks actually felt — energy-wise?",
+      "alias": "q_intro_biweekly_pace",
+      "answer": "good, if i eat a lot of chocolate",
+      "skipped": false
+    },
+    {
+      "question": "What does your recovery look like between sessions?",
+      "alias": "q_recovery_pattern_2",
+      "answer": "good, as long as i have a chocolate drink. but sometimes i can't find a shop to buy chocolate from.",
+      "skipped": false
+    },
+    {
+      "question": "How is your body holding up after matches and training lately?",
+      "alias": "q_match_fitness_load",
+      "answer": "all good",
+      "skipped": false
+    },
+    {
+      "question": "What are you actually focused on this week, and why those things?",
+      "alias": "q_intro_biweekly_priorities",
+      "answer": "finding new types of chocolate, one from every country. oh and football, i want to become the best footballer in the world. and also i want mr beast to sponsor me with his delicious chocolate bars, i will happily wear a shirt with his chocolate bars on it",
+      "skipped": false
+    },
+    {
+      "question": "What would make this season feel like a step forward for you?",
+      "alias": "q_season_target",
+      "answer": "if you know where i can find more chocolate, not just food or drinks but other ways to ingest chocolate",
+      "skipped": false
+    },
+    {
+      "question": "What part of your game are you most trying to sharpen at the moment?",
+      "alias": "q_training_lift",
+      "answer": "goalie, and between waiting for the ball to come back to me, how i can consume as much chocolate as possible",
+      "skipped": false
+    },
+    {
+      "question": "How are you using the feedback you have been getting lately?",
+      "alias": "q_feedback_use_2",
+      "answer": "not much, we don't talk about chocolate enough",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": 1,
+          "answer_excerpt": "good, if i eat a lot of chocolate"
+        },
+        {
+          "q": "q_recovery_pattern_2",
+          "delta": 1,
+          "answer_excerpt": "good, as long as i have a chocolate drink. but sometimes i can't find a shop to buy chocolate from."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "finding new types of chocolate, one from every country. oh and football, i want to become the best footballer in the world. and also i want "
+        },
+        {
+          "q": "q_training_lift",
+          "delta": 1,
+          "answer_excerpt": "goalie, and between waiting for the ball to come back to me, how i can consume as much chocolate as possible"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 3,
+          "answer_excerpt": "finding new types of chocolate, one from every country. oh and football, i want to become the best footballer in the world. and also i want "
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_training_lift",
+          "delta": 1,
+          "answer_excerpt": "goalie, and between waiting for the ball to come back to me, how i can consume as much chocolate as possible"
+        },
+        {
+          "q": "q_feedback_use_2",
+          "delta": -1,
+          "answer_excerpt": "not much, we don't talk about chocolate enough"
+        }
+      ]
+    }
+  },
+  "notes": "Plays football very well. Loves chocolate.",
+  "model": "gpt-5.4-mini"
+}

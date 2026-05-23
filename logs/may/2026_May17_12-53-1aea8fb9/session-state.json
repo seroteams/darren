@@ -1,0 +1,526 @@
+{
+  "id": "2026_May17_12-53-1aea8fb9",
+  "dir": "C:\\Users\\User\\Documents\\Sero\\darren\\logs\\may\\2026_May17_12-53-1aea8fb9",
+  "createdAt": 1778997203323,
+  "lastSeenAt": 1778997917429,
+  "ctx": {
+    "name": "Sarah",
+    "role": "UX Lead",
+    "seniority": "Lead",
+    "meetingType": "Growth & career plan",
+    "notes": "they want to move to Head of"
+  },
+  "introQueue": [
+    {
+      "alias": "q_open_giving_you_energy",
+      "label": "Energy read",
+      "name": "What's been giving you energy lately?",
+      "description": "Strengths-based, not scoped to work. Reveals what genuinely animates the person.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 2,
+        "engagement": 1
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_growth_blockers",
+      "label": "Growth blockers",
+      "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+      "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?",
+      "description": "Probes whether they have a real picture of where they want to go.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    }
+  ],
+  "focusPointsResult": {
+    "meeting_type": "Growth & career plan",
+    "focus_points": [
+      {
+        "id": "growth",
+        "type": "Growth & development",
+        "category": "topic",
+        "label": "Path to Head of UX role readiness.",
+        "reason": "Sarah's interest in moving to a Head of UX role makes growth planning crucial. Discussing the skills and experiences she needs to develop will help her prepare for this transition.",
+        "source": "signal",
+        "known": true
+      },
+      {
+        "id": "delegation",
+        "type": "Delegation effectiveness",
+        "category": "competency",
+        "label": "Delegation as a leadership skill for next steps.",
+        "reason": "For a UX Lead aiming for a Head role, effective delegation is critical — it's about scaling impact through others rather than direct contributions.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "stakeholder_engagement",
+        "type": "Stakeholder engagement",
+        "category": "competency",
+        "label": "Building trust with cross-functional leaders.",
+        "reason": "As a future Head of UX, Sarah will need to manage relationships beyond her immediate team. Engaging effectively with cross-functional leaders is essential for this transition.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "impact",
+        "type": "Impact",
+        "category": "competency",
+        "label": "Strategic impact & leverage in current role.",
+        "reason": "For career growth, demonstrating strategic impact and leverage in her current role will be vital. This is what will set her apart as ready for the next step.",
+        "source": "best_practice",
+        "known": true
+      }
+    ]
+  },
+  "preparationResult": {
+    "brief": {
+      "coreIssue": "Sarah, as a UX Lead, is keen on advancing to a Head of UX position, making it essential to map out her growth path. This meeting focuses on identifying required skill enhancements, particularly in delegation and stakeholder engagement, which are crucial for her leadership development. Addressing her ability to make strategic impacts in her current role will also be pivotal. Ensuring she understands these areas will help her prepare for future responsibilities in a Head role.",
+      "openingQuestion": "Sarah, what specific skills or experiences do you feel you need to develop to be ready for a Head of UX role?",
+      "listenFor": [
+        "whether she identifies specific skills she lacks",
+        "if they express confidence in current delegation abilities",
+        "whether she has strategies for engaging with stakeholders"
+      ],
+      "avoid": [
+        "do not assume she knows all the steps to take",
+        "do not focus solely on current role achievements"
+      ],
+      "goodOutcome": "You and Sarah will have a clear understanding of the skills and experiences she needs to develop for the Head of UX role.",
+      "suggestedAction": "Identify one immediate opportunity for Sarah to practice delegation with her team this month."
+    },
+    "runId": "d45a8d37-5c73-45cb-af12-69096cde5d28",
+    "validation": {
+      "passed": true,
+      "issues": []
+    }
+  },
+  "bankReady": {
+    "count": 9
+  },
+  "briefing": {
+    "headline": "Sarah is focused on a Head of UX role, but lacks clarity on the path and responsibilities involved.",
+    "summary_bullets": [
+      "Sarah deflected questions about current UX challenges, indicating a focus on career advancement over current role issues.",
+      "Her motivation for becoming Head of UX is primarily title and financial gain, with less emphasis on specific responsibilities.",
+      "There is a clear gap in understanding the steps required to transition to a Head of UX role."
+    ],
+    "understanding_paragraph": "The session confirmed Sarah's strong interest in moving to a Head of UX role, driven by title and financial incentives. However, she lacks clarity on the specific responsibilities and steps needed to achieve this transition. There was also a noticeable avoidance of discussing current role challenges, suggesting a focus on future aspirations over present issues.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": 1,
+        "meaning": "Weak signal, not actionable on its own; looking forward to the EMT team coming."
+      },
+      {
+        "id": "engagement",
+        "score": 3,
+        "meaning": "Worth noting; Sarah is engaged by team discussions but deflects from current role challenges."
+      },
+      {
+        "id": "clarity",
+        "score": 0,
+        "meaning": "No signal here — not actionable."
+      },
+      {
+        "id": "growth",
+        "score": 3,
+        "meaning": "Worth noting; Sarah is focused on advancing to a Head of UX role but lacks a clear plan."
+      }
+    ],
+    "brutal_truth_employee": "Sarah stated she wants to be Head of UX for the 'Title :) money,' indicating her primary motivation is not aligned with the responsibilities of the role.",
+    "brutal_truth_manager": "When Sarah deflected the question about UX challenges with 'well i am here to talk about my career not this issue,' it was a missed opportunity to explore how current challenges might inform her growth path.",
+    "next_actions": [
+      {
+        "when": "this week",
+        "action": "Provide Sarah with a detailed breakdown of the skills and experiences needed for a Head of UX role."
+      },
+      {
+        "when": "next 1:1",
+        "action": "Revisit the current UX challenges and discuss how addressing them could be a stepping stone to her desired role."
+      },
+      {
+        "when": "next 1:1",
+        "action": "Ask Sarah to identify specific responsibilities she associates with the Head of UX role beyond title and compensation."
+      }
+    ],
+    "watch_for": [
+      "If Sarah continues to deflect discussions about current role challenges, it might indicate a lack of readiness for the Head of UX responsibilities."
+    ]
+  },
+  "queueRef": [
+    {
+      "alias": "q_commitment_to_action_2",
+      "label": "Commitment to action",
+      "name": "What's one concrete step we can commit to before our next conversation to move you closer to your Head of UX goal?",
+      "description": "Closes the session with a commitment to action.",
+      "purpose": "topic",
+      "stage": "commitment",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "score": 1,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "Looking forward to the EMT team coming."
+        }
+      ]
+    },
+    "engagement": {
+      "id": "engagement",
+      "label": "Engagement",
+      "score": 3,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_open_giving_you_energy",
+          "delta": 1,
+          "answer_excerpt": "Looking forward to the EMT team coming."
+        },
+        {
+          "q": "q_role_anchor",
+          "delta": 1,
+          "answer_excerpt": "i love the discussion with all the team a\nstrretchhing is I am not able to really mange the experience"
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "hard to say, i want ot be head of the UX in allianz"
+        }
+      ]
+    },
+    "clarity": {
+      "id": "clarity",
+      "label": "Clarity",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "growth": {
+      "id": "growth",
+      "label": "Growth",
+      "score": 3,
+      "lastDelta": 1,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "hard to say, i want ot be head of the UX in allianz"
+        },
+        {
+          "q": "q_head_of_ux_specifics",
+          "delta": 1,
+          "answer_excerpt": "i like to help our teams thrive"
+        },
+        {
+          "q": "q_commitment_to_action",
+          "delta": 1,
+          "answer_excerpt": "i want to know what i need to do to tbe a head of in 6 momths"
+        }
+      ]
+    }
+  },
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_open_giving_you_energy",
+        "label": "Energy read",
+        "name": "What's been giving you energy lately?",
+        "description": "Strengths-based, not scoped to work. Reveals what genuinely animates the person.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 2,
+          "engagement": 1
+        },
+        "source": "research"
+      },
+      "answer": "Looking forward to the EMT team coming.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": 1,
+        "engagement": 1
+      },
+      "note": "Looking forward to the EMT team coming indicates positive anticipation and engagement with upcoming work."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_role_anchor",
+        "label": "Role anchor",
+        "name": "What's feeling solid in your role right now, and what's stretching you?",
+        "description": "Identifies areas of confidence and areas where Sarah feels challenged.",
+        "purpose": "wellbeing",
+        "stage": "anchor",
+        "axis_effects": {
+          "engagement": 3
+        },
+        "source": "generated"
+      },
+      "answer": "i love the discussion with all the team a\nstrretchhing is I am not able to really mange the experience",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": 1
+      },
+      "note": "Positive engagement signal from enjoying team discussions, but also mentions a stretch in managing the experience."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_managing_experience",
+        "label": "Managing experience",
+        "name": "When you say you're not able to really manage the experience, what specifically is challenging you there?",
+        "description": "Drills into the specific challenges Sarah faces in managing the experience.",
+        "purpose": "topic",
+        "stage": "anchor",
+        "axis_effects": {
+          "engagement": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "the experience of the app, the UX, the UI o the gloibal app",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'the experience of the app, the UX, the UI o the gloibal app' restates the area without naming a specific challenge."
+    },
+    {
+      "turn": 4,
+      "question": {
+        "alias": "q_specific_challenge_in_ux",
+        "label": "Specific challenge in UX",
+        "name": "When you mention 'the experience of the app, the UX, the UI of the global app', what specifically within that is challenging you? Is it a resource issue, alignment, or something else?",
+        "description": "Seeks to clarify the specific challenges Sarah faces in managing the app experience.",
+        "purpose": "topic",
+        "stage": "anchor",
+        "axis_effects": {
+          "engagement": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "well i am here to talk about my career not this issue",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "Pivot/off-topic answer — Sarah redirected to career focus, not UX challenges."
+    },
+    {
+      "turn": 5,
+      "question": {
+        "alias": "q_intro_growth_direction",
+        "label": "Direction",
+        "name": "When you imagine yourself eighteen months from now, what's actually different?",
+        "description": "Probes whether they have a real picture of where they want to go.",
+        "purpose": "topic",
+        "stage": "aspiration",
+        "axis_effects": {
+          "growth": 3,
+          "engagement": 1
+        },
+        "source": "seed"
+      },
+      "answer": "hard to say, i want ot be head of the UX in allianz",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": 1,
+        "growth": 1
+      },
+      "note": "Expressed aspiration to become Head of UX at Allianz — positive growth and engagement signal."
+    },
+    {
+      "turn": 6,
+      "question": {
+        "alias": "q_head_of_ux_pull",
+        "label": "Head of UX pull",
+        "name": "Head of UX at Allianz — what is it about that role that pulls you? Is it the scope, the people, the title, or something else?",
+        "description": "Drills into what specifically attracts Sarah to the Head of UX role.",
+        "purpose": "topic",
+        "stage": "aspiration",
+        "axis_effects": {
+          "growth": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "Title :) money",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'Title :) money' lacks specifics on role attraction beyond superficial aspects."
+    },
+    {
+      "turn": 7,
+      "question": {
+        "alias": "q_head_of_ux_specifics",
+        "label": "Head of UX specifics",
+        "name": "When you say 'Title :) money' — what specific responsibilities or opportunities in the Head of UX role are you excited about?",
+        "description": "Seeks clarity on what aspects of the Head of UX role beyond title and compensation are appealing to Sarah.",
+        "purpose": "topic",
+        "stage": "aspiration",
+        "axis_effects": {
+          "growth": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "i like to help our teams thrive",
+      "skipped": false,
+      "realized_deltas": {
+        "growth": 1
+      },
+      "note": "Sarah's excitement about helping teams thrive signals a positive growth trajectory aligned with leadership aspirations."
+    },
+    {
+      "turn": 8,
+      "question": {
+        "alias": "q_commitment_to_action",
+        "label": "Commitment to action",
+        "name": "What's the first concrete thing you want to have moved by our next conversation?",
+        "description": "Drives commitment to a specific action item before the next meeting.",
+        "purpose": "competency",
+        "stage": "commitment",
+        "axis_effects": {
+          "growth": 1
+        },
+        "source": "generated"
+      },
+      "answer": "i want to know what i need to do to tbe a head of in 6 momths",
+      "skipped": false,
+      "realized_deltas": {
+        "growth": 1
+      },
+      "note": "Expressed a clear desire to understand the steps to become a Head of UX in 6 months, aligning with growth aspirations."
+    }
+  ],
+  "turn": 8,
+  "totalBudget": 8,
+  "closer": {
+    "alias": "q_commitment_to_action",
+    "label": "Commitment to action",
+    "name": "What's the first concrete thing you want to have moved by our next conversation?",
+    "description": "Drives commitment to a specific action item before the next meeting.",
+    "purpose": "competency",
+    "stage": "commitment",
+    "axis_effects": {
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "pendingAnswer": null,
+  "notes": [
+    {
+      "id": "bca258b2-b511-4e0e-b215-52bfd4cc65e3",
+      "stage": "FOCUS_POINTS",
+      "turn": 0,
+      "ts": 1778997412468,
+      "text": "the user should only be selected on or more, not removing slected"
+    },
+    {
+      "id": "68a53ec8-1b1f-46d9-81e6-d9a697b7b90f",
+      "stage": "PREPARATION",
+      "turn": 0,
+      "ts": 1778997510411,
+      "text": "What this 1:1 is probably about\nthis is too long again"
+    },
+    {
+      "id": "c213e3aa-ab43-477a-915c-004fbba4c684",
+      "stage": "PREPARATION",
+      "turn": 0,
+      "ts": 1778997541217,
+      "text": "Good outcome\nthe scope of \"You and Sarah will have a clear understanding of the skills and experiences she needs to develop for the Head of UX role.\n\n\" is too much for one meeting I think, we have to more clever of what is possible in a meeting."
+    },
+    {
+      "id": "bdd8c075-2b9b-42f4-b8df-3c1398fcf79d",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1778997589669,
+      "text": "\"Growth & career plan\"\nEnergy read\nWhat's been giving you energy lately?\n\nthis not really that linked. for me I would be more slightly relevant to the type of meeting"
+    },
+    {
+      "id": "64e319e6-5057-4beb-a53c-42368ff86694",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1778997620964,
+      "text": "good question"
+    },
+    {
+      "id": "c7e0f61a-df1d-4b80-a322-0cfbdeb33bac",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1778997650775,
+      "text": "i do think that we should be asking early as a semi set qwueion, do they have anyhting to cover so we go up to 9 questions"
+    },
+    {
+      "id": "b08abe8c-b479-4b96-8d2c-48e4953df7aa",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1778997724185,
+      "text": "this is too much to go down that ruote as we need to take care of the growth and carer plan"
+    },
+    {
+      "id": "e9f07561-e449-4952-8552-0ca4a0a1daf2",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1778997760135,
+      "text": "yeah i like this quesiton"
+    },
+    {
+      "id": "4877935c-f050-43cc-98ca-636b37245fc4",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1778997787860,
+      "text": "we are on a late question her eand its sitll open , we shoul dbe closeing off more"
+    },
+    {
+      "id": "c385ee67-55ee-47b3-ad4c-07a422c9b2b0",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1778997815554,
+      "text": "yeah this is okay but sounds like a stoep qurestion, not a open queiostn"
+    },
+    {
+      "id": "0dc7aa61-322a-48f9-bd52-9d9bb5c7fd76",
+      "stage": "BRIEFING",
+      "turn": 0,
+      "ts": 1778997841559,
+      "text": "tht brifging is great,"
+    },
+    {
+      "id": "5cbf8ca0-b8fb-4146-a0a1-5134b84449b4",
+      "stage": "BRIEFING",
+      "turn": 0,
+      "ts": 1778997874510,
+      "text": "the about you was strange as its as if its the managers fulat for the AI 's wrong qwuestion"
+    },
+    {
+      "id": "80320732-cede-4607-ba70-b238bfae2aa7",
+      "stage": "BRIEFING",
+      "turn": 0,
+      "ts": 1778997917425,
+      "text": "not start new prop[, but compelte summary. \nthere we look at the lexicaons and the rating of that run"
+    }
+  ]
+}

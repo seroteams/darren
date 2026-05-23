@@ -1,0 +1,288 @@
+{
+  "scenario": "scenarios/001-senior-backend-weekly.json",
+  "focus_points": [
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Highlighting the payments refactor achievement",
+      "reason": "Just shipped the payments refactor on Monday — big win, team noticed. Worth acknowledging explicitly to reinforce positive impact.",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Checking in on current energy levels",
+      "reason": "Looks a bit flat this week, quieter than usual in standup. Could be temporary post-launch fatigue, a personal matter, or something else — worth exploring.",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Exploring mentoring opportunities",
+      "reason": "Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Could be an area for growth and satisfaction.",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Upcoming involvement in the billing rewrite",
+      "reason": "Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet. Important to prepare them and gauge their interest.",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "How you can support them better",
+      "reason": "No specific signal — selected because this is a normal Bi-weekly check-in topic for a Senior Senior Backend Engineer.",
+      "known": true
+    }
+  ],
+  "variant_A": {
+    "bank": [
+      {
+        "alias": "q_current_work_mindset",
+        "label": "current_work_mindset",
+        "name": "What's been most on your mind at work lately?",
+        "description": "Opens up discussion about current thoughts and priorities.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_post_launch_energy_2",
+        "label": "post-launch_energy",
+        "name": "How is your energy now that the payments refactor is done?",
+        "description": "Explores energy levels after a major project completion.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_recognition_impact_2",
+        "label": "recognition_impact",
+        "name": "How did the team's recognition of the payments refactor land for you?",
+        "description": "Surfaces how well recognition was received and its impact.",
+        "purpose": "topic",
+        "axis_effects": {
+          "engagement": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_mentoring_interest_2",
+        "label": "mentoring_interest",
+        "name": "What would you need to make mentoring a fulfilling part of your role?",
+        "description": "Explores specific needs for integrating mentoring into the role.",
+        "purpose": "topic",
+        "axis_effects": {
+          "growth": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_billing_rewrite_concerns",
+        "label": "billing_rewrite_concerns",
+        "name": "What concerns do you have about upcoming projects that could affect your focus?",
+        "description": "Prepares for involvement in future projects by understanding worries.",
+        "purpose": "topic",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_manager_support_needs_3",
+        "label": "manager_support_needs",
+        "name": "What support do you need from me to achieve your current goals?",
+        "description": "Identifies specific support needs from the manager.",
+        "purpose": "topic",
+        "axis_effects": {
+          "engagement": 1
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_task_clarity",
+        "label": "task_clarity",
+        "name": "Where are things unclear in your current responsibilities?",
+        "description": "Identifies areas where role clarity might be lacking.",
+        "purpose": "competency",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_growth_opportunities_9",
+        "label": "growth_opportunities",
+        "name": "What kind of project would stretch you next?",
+        "description": "Explores opportunities for growth through challenging projects.",
+        "purpose": "competency",
+        "axis_effects": {
+          "growth": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_energy_drainers",
+        "label": "energy_drainers",
+        "name": "What's currently draining your energy the most?",
+        "description": "Identifies specific factors contributing to energy drain.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_priority_alignment_7",
+        "label": "priority_alignment",
+        "name": "How confident are you in your current priorities aligning with team goals?",
+        "description": "Checks alignment between individual and team priorities.",
+        "purpose": "competency",
+        "axis_effects": {
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_next_steps_closer",
+        "label": "next_steps_closer",
+        "name": "What's the first concrete thing you want to have moved by our next conversation?",
+        "description": "Drives toward action and commitment for the next period.",
+        "purpose": "topic",
+        "axis_effects": {
+          "growth": 1
+        },
+        "source": "generated"
+      }
+    ],
+    "cost": 0.0164225,
+    "tokens": 4808
+  },
+  "variant_B": {
+    "bank": [
+      {
+        "alias": "q_current_work_mind",
+        "label": "current_work_mind",
+        "name": "How has the last couple of weeks felt from your side?",
+        "description": "Open question to set context and let Priya share any pressing thoughts or experiences.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_post_launch_energy_3",
+        "label": "post-launch_energy",
+        "name": "Now that the launch is done, where is your energy actually at — and what's driving that?",
+        "description": "Explores current energy levels after the recent project launch, identifying drivers for their current state.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_recognition_landing_2",
+        "label": "recognition_landing",
+        "name": "Did the recognition for the payments refactor land properly for you, or did anything feel missing?",
+        "description": "Ensures that the acknowledgement for the recent project was received as intended.",
+        "purpose": "topic",
+        "axis_effects": {
+          "engagement": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_mentoring_space",
+        "label": "mentoring_space",
+        "name": "What would mentoring actually look like in your week, and what would you need to drop to make space for it?",
+        "description": "Explores practical steps for integrating mentoring into their routine.",
+        "purpose": "topic",
+        "axis_effects": {
+          "growth": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_future_project_interest_3",
+        "label": "future_project_interest",
+        "name": "What kind of project would you want to take on next, and why?",
+        "description": "Gauges interest and readiness for future projects without revealing unannounced plans.",
+        "purpose": "topic",
+        "axis_effects": {
+          "growth": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_process_value",
+        "label": "process_value",
+        "name": "What part of our current process is wasting time or not giving you value?",
+        "description": "Identifies inefficiencies in current processes that Priya perceives.",
+        "purpose": "topic",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_manager_support_2",
+        "label": "manager_support",
+        "name": "Where could I better support you in your current role?",
+        "description": "Invites Priya to express areas where manager support could be improved.",
+        "purpose": "topic",
+        "axis_effects": {
+          "engagement": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_billing_rewrite_concerns_2",
+        "label": "billing_rewrite_concerns",
+        "name": "What concerns do you have about joining a new major project like the billing rewrite?",
+        "description": "Probes potential concerns about upcoming projects without revealing unannounced involvement.",
+        "purpose": "topic",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_current_challenges",
+        "label": "current_challenges",
+        "name": "What's currently slowing you down, and what part of that is within your control vs needs escalation?",
+        "description": "Identifies obstacles Priya is facing and distinguishes between what she can manage versus what needs help.",
+        "purpose": "competency",
+        "axis_effects": {
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      {
+        "alias": "q_next_steps_priority",
+        "label": "next_steps_priority",
+        "name": "What's the first concrete thing you want to have moved by our next conversation?",
+        "description": "Drives toward actionable next steps and priorities for Priya before the next check-in.",
+        "purpose": "competency",
+        "axis_effects": {
+          "growth": 1
+        },
+        "source": "generated"
+      }
+    ],
+    "cost": 0.0131925,
+    "tokens": 4938
+  }
+}

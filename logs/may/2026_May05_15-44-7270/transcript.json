@@ -1,0 +1,147 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_off_connection",
+      "label": "Team connection",
+      "name": "How connected do you feel to the rest of the team right now?",
+      "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "engagement": 3,
+        "wellbeing": 1
+      },
+      "source": "seed"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "Carl skipped the question, providing no signal on engagement or wellbeing."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?",
+      "description": "Separates energy from output; avoids leading with 'is something wrong'.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "seed"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "The question was skipped, providing no signal on wellbeing."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_recent_challenges",
+      "label": "Recent challenges",
+      "name": "What's been your biggest challenge in the last few weeks?",
+      "description": "Surfaces immediate challenges that could be affecting performance or wellbeing.",
+      "purpose": "topic",
+      "axis_effects": {
+        "wellbeing": 1
+      },
+      "source": "generated"
+    },
+    "answer": "asd",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The answer 'asd' is nonsensical and provides no signal regarding wellbeing."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_impact_of_lateness_2",
+      "label": "Impact of lateness",
+      "name": "How does being late affect your workload or day-to-day priorities?",
+      "description": "Explores the potential impact of lateness on workload and daily priorities.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    "answer": "sad",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The response 'sad' is non-informative and does not engage with the question."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_energy_fluctuations",
+      "label": "Energy fluctuations",
+      "name": "What patterns have you noticed in your energy levels throughout the day?",
+      "description": "Investigates daily energy patterns that may be contributing to lateness.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "asd",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The answer was non-informative and did not engage with the question, providing no signal about energy patterns."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_motivation_drivers",
+      "label": "Motivation drivers",
+      "name": "What currently motivates you the most in your role?",
+      "description": "Identifies what aspects of the role drive engagement and motivation.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "engagement": 3
+      },
+      "source": "generated"
+    },
+    "answer": "asd",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The answer 'asd' is non-responsive and provides no engagement signal."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_support_needs_2",
+      "label": "Support needs",
+      "name": "What support would help you address any challenges with being on time?",
+      "description": "Identifies specific support needed to address lateness and underlying issues.",
+      "purpose": "topic",
+      "axis_effects": {
+        "wellbeing": 1
+      },
+      "source": "generated"
+    },
+    "answer": "sdf",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The response 'sdf' is evasive and provides no insight into support needs."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_team_dynamics_4",
+      "label": "Team dynamics",
+      "name": "How do you perceive your lateness affecting team interactions?",
+      "description": "Examines the effect of lateness on team dynamics and interactions.",
+      "purpose": "competency",
+      "axis_effects": {
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    "answer": "sdf",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "The answer 'sdf' is non-informative and evasive, providing no signal about engagement."
+  }
+]
