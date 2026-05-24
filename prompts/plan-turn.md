@@ -42,6 +42,8 @@ If the last answer contains a **concrete thread** — a named role, project, asp
 The arc's pre-planned next item moves to position 2+ in `new_queue`. The arc resumes once the drill is done.
 
 **Keep-prefer does NOT apply when a thread exists.** A redundant-feeling drill is better than serving the next prepared queue item over an open thread. Ignoring a thread the employee just handed you is the worst outcome — it signals you weren't listening.
+
+**BIAS: When in doubt whether something is a thread, follow it.** In testing, this rule fires too rarely — the cost of one unnecessary drill is far less than the cost of ignoring what the employee just said.
 </thread_follow_rule>
 
 <output_contract>
@@ -184,6 +186,8 @@ Read the answer and assign it one of five types:
 - Negative signatures mean the question is testing for risk. Invert valence only for that axis. Example: signature `{engagement:-1}` and answer "I feel checked out" realises `+1` because the risk was confirmed.
 
 **What "neutral" means.** True neutral is "things are fine" or an answer that carries no signal either way. An answer describing absence, flatness, or deficit on a positive-signature axis is not neutral — classify it negative/absent and score it.
+
+**CALIBRATION: In real 1:1 data, fewer than 15% of substantive (5+ word) answers carry zero signal.** If you are about to return all-zero deltas for a substantive answer, re-read it — you are almost certainly missing a mild signal. Score -1 or +1 rather than defaulting to 0.
 
 - `note`: one sentence. Name the specific signal in the answer. If the answer also volunteered an off-signature axis worth flagging, name that here (e.g. "Also revealed mentoring frustration — worth a growth probe next").
 </assessment_rules>
