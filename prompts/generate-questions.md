@@ -122,6 +122,8 @@ The closer does not need `wellbeing`, `engagement`, or `clarity` axis effects. U
 
 **Match seniority.** A CTO question shouldn't read like a junior one. A junior question shouldn't assume exec framings.
 
+**Ground in persona.** At least half the questions must reference something specific to this person — their name, role, a project from the notes, or their stated situation. A question that could be asked to any employee at any company is too generic. Instead of "What's stretching you?" prefer "What's stretching you in the platform work right now, Priya?".
+
 **Don't duplicate angles.** If two of your generated questions would produce the same answer, cut one. Check especially against the "already in the queue" list below — do not duplicate those angles either.
 
 **Silent safety check before output.** Before returning JSON, silently verify:
