@@ -38,3 +38,14 @@ Statuses: `planning` | `in-progress` | `blocked` | `review` | `done`
     - N2 (May18_21-53): "When have you felt most like yourself recently?" opener feels strange — review intro question bank for Growth & career plan.
     - N3 (May18_21-53): post-briefing CTA should read "Complete 1:1" → next page lexicon picker (yes/no per term).
     - N4 (May23_13-01): focus-point `reason` copy reads non-human — tighten `prompts/generate-focus-points.md`.
+
+## Adopt batch-run learnings (May 24)
+- **Owner**: heavy-ops
+- **Status**: review
+- **Last touched**: 2026-05-24, light-ops
+- **Next step**: heavy-ops to (a) reconcile applied prompt edits with open feedback items 5 + 6 above (both target `prompts/plan-turn.md` — must layer, not overwrite); (b) decide whether worst-case run scenarios become regression fixtures under `scenarios/regression/`.
+- **Notes**: archive at `logs/may/2026_May24_batch/`. Source was `batch-data.zip` from work-computer eval+self-edit harness (26 runs, $12.61, score 0.820→0.839). `EVOLVED-DIFF.md` shows the three hunks applied:
+  - `generate-questions.md` +persona-grounding rule (targets `question_specificity` 0.094).
+  - `plan-turn.md` +thread-follow bias (targets `plan_thread_follow` 0.308).
+  - `plan-turn.md` +anti-neutral-default calibration (targets `plan_delta_accuracy` 0.595).
+  Worst-case `run_id`s for regression candidates are in `quality-report.json` → `worst_dimensions`. Full per-run corpus in `run-outputs.json`.
