@@ -1,0 +1,10 @@
+alias: q_momentum_drivers
+label: Momentum drivers
+name: "What's driving your current momentum, and what might stall it?"
+description: Examines factors contributing to and potentially hindering momentum.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

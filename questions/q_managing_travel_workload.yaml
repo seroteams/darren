@@ -1,0 +1,10 @@
+alias: q_managing_travel_workload
+label: Managing travel workload
+name: What strategies are you using to manage your workload with all the travel?
+description: Probes how Brian manages his workload given travel demands.
+purpose: topic
+stage: friction
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

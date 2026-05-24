@@ -1,0 +1,9 @@
+alias: q_context_switching_impact
+label: Context-switching impact
+name: How is the context-switching on reviews affecting your work and focus?
+description: "Drills into the impact of context-switching on Priya's engagement and focus."
+purpose: topic
+stage: friction
+axis_effects:
+  engagement: +1
+source: planner_added

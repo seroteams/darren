@@ -1,0 +1,10 @@
+alias: q_punctuality_impact_2
+label: Punctuality impact
+name: "I've noticed you're often late to work — how does that affect your workload and team dynamics?"
+description: Explores how punctuality may be impacting workload management or team dynamics.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_travel_energy_impact
+label: Travel energy impact
+name: How is frequent travel affecting your energy levels and motivation?
+description: "Explores how travel impacts Brian's energy and motivation."
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: generated

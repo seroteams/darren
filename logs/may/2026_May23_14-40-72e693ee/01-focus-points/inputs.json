@@ -1,0 +1,8 @@
+{
+  "name": "Brian",
+  "role": "Food Critic s",
+  "seniority": "Manager",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Brian has been traveling a lot and seems tired",
+  "model": "gpt-4o"
+}

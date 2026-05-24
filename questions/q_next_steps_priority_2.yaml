@@ -1,0 +1,9 @@
+alias: q_next_steps_priority_2
+label: Next steps priority
+name: "Given what we've discussed, what's your priority for the next two weeks?"
+description: Concludes the meeting by establishing short-term priorities.
+purpose: competency
+stage: lift
+axis_effects:
+  clarity: +1
+source: generated

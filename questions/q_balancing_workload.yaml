@@ -1,0 +1,10 @@
+alias: q_balancing_workload
+label: Balancing workload
+name: "How are you balancing your workload with the team's needs?"
+description: Explores strategies for managing workload in relation to team obligations.
+purpose: topic
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

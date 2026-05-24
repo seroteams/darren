@@ -1,0 +1,9 @@
+alias: q_priority_setting
+label: Priority setting
+name: What would make the next two weeks feel more balanced?
+description: Encourages Brian to identify areas for improvement in balance.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+source: generated

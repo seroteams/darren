@@ -1,0 +1,56 @@
+{
+  "wellbeing": {
+    "score": -1,
+    "history": []
+  },
+  "engagement": {
+    "score": -3,
+    "history": [
+      {
+        "q": "q_intro_biweekly_friction",
+        "delta": 1,
+        "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+      },
+      {
+        "q": "q_coasting_this_week",
+        "delta": -1,
+        "answer_excerpt": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+      },
+      {
+        "q": "q_recognition_landing_3",
+        "delta": -1,
+        "answer_excerpt": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up."
+      },
+      {
+        "q": "q_context_switching_impact",
+        "delta": -1,
+        "answer_excerpt": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing."
+      }
+    ]
+  },
+  "clarity": {
+    "score": 1,
+    "history": [
+      {
+        "q": "q_intro_biweekly_friction",
+        "delta": 1,
+        "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+      }
+    ]
+  },
+  "growth": {
+    "score": -6,
+    "history": [
+      {
+        "q": "q_mentoring_block_5",
+        "delta": -3,
+        "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+      },
+      {
+        "q": "q_growth_stagnation_2",
+        "delta": -3,
+        "answer_excerpt": "More clarity on scope would help. And hearing about big projects before they're locked in, not after."
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "raw": "{\"questions\":[{\"label\":\"Current focus\",\"name\":\"What's been most on your mind at work lately?\",\"description\":\"Allows Priya to share her current focus or concerns.\",\"purpose\":\"wellbeing\",\"stage\":\"pulse\",\"axis_effects\":[{\"axis\":\"wellbeing\",\"delta\":1}]},{\"label\":\"Post-refactor energy\",\"name\":\"How's your energy been since the payments refactor shipped?\",\"description\":\"Checks if there's a dip in energy post-refactor.\",\"purpose\":\"wellbeing\",\"stage\":\"pulse\",\"axis_effects\":[{\"axis\":\"wellbeing\",\"delta\":3}]},{\"label\":\"Recognition landing\",\"name\":\"Did the recognition for the refactor feel right for you?\",\"description\":\"Explores if the recognition for the refactor was satisfying.\",\"purpose\":\"topic\",\"stage\":\"friction\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":1}]},{\"label\":\"Mentoring vision\",\"name\":\"What would you like mentoring to look like in your role?\",\"description\":\"Explores Priya's vision for mentoring within her current role.\",\"purpose\":\"topic\",\"stage\":\"momentum\",\"axis_effects\":[{\"axis\":\"growth\",\"delta\":3}]},{\"label\":\"Upcoming shifts\",\"name\":\"How do you feel about the projects coming up next quarter?\",\"description\":\"Gauges Priya's feelings about upcoming project changes.\",\"purpose\":\"topic\",\"stage\":\"momentum\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":1}]},{\"label\":\"Mentoring space\",\"name\":\"What would you need to drop to make space for mentoring?\",\"description\":\"Encourages Priya to think about trade-offs for mentoring.\",\"purpose\":\"topic\",\"stage\":\"friction\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":1}]},{\"label\":\"Post-launch reflection\",\"name\":\"Looking back, what made the payments refactor work well?\",\"description\":\"Encourages reflection on successful elements of the refactor.\",\"purpose\":\"topic\",\"stage\":\"momentum\",\"axis_effects\":[{\"axis\":\"growth\",\"delta\":1}]},{\"label\":\"Energy and engagement\",\"name\":\"What's driving your engagement or lack of it this week?\",\"description\":\"Probes underlying factors affecting current engagement.\",\"purpose\":\"wellbeing\",\"stage\":\"friction\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":3}]},{\"label\":\"Next steps priority\",\"name\":\"Given what we've talked about, what's your priority for the next two weeks?\",\"description\":\"Encourages Priya to clarify her immediate priorities.\",\"purpose\":\"topic\",\"stage\":\"lift\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":1}]}]}",
+  "saved_aliases": [
+    "q_current_focus_5",
+    "q_post_refactor_energy_2",
+    "q_recognition_landing_3",
+    "q_mentoring_vision_7",
+    "q_upcoming_shifts",
+    "q_mentoring_space_2",
+    "q_post_launch_reflection_2",
+    "q_energy_and_engagement",
+    "q_next_steps_priority_3"
+  ]
+}

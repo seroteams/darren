@@ -1,0 +1,9 @@
+alias: q_growth_stagnation_2
+label: Growth stagnation
+name: "When you say 'growth-wise I'm flat', what's missing — challenge, feedback, or something else?"
+description: "Clarifies the specifics of Priya's growth stagnation."
+purpose: topic
+stage: friction
+axis_effects:
+  growth: +3
+source: planner_added

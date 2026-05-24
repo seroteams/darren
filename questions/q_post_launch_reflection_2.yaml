@@ -1,0 +1,9 @@
+alias: q_post_launch_reflection_2
+label: Post-launch reflection
+name: Looking back, what made the payments refactor work well?
+description: Encourages reflection on successful elements of the refactor.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +1
+source: generated

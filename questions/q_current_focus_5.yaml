@@ -1,0 +1,9 @@
+alias: q_current_focus_5
+label: Current focus
+name: "What's been most on your mind at work lately?"
+description: Allows Priya to share her current focus or concerns.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +1
+source: generated

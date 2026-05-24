@@ -1,0 +1,90 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_pride_in_payments",
+    "label": "Pride in payments",
+    "name": "You mentioned owning the migration plan for payments — what specifically made it a success for you?",
+    "description": "Drills into the success factors of the payments refactor Priya is proud of.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Growth-wise I think I'm flat. I'm the most senior IC on the team and there's no one really pushing me.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "[SHALLOW] Answer focused on growth stagnation, not on the clarity of success factors for payments."
+  },
+  "new_queue": [
+    {
+      "alias": "q_growth_stagnation_2",
+      "label": "Growth stagnation",
+      "name": "When you say 'growth-wise I'm flat', what's missing — challenge, feedback, or something else?"
+    },
+    {
+      "alias": "q_mentoring_vision_7",
+      "label": "Mentoring vision",
+      "name": "What would you like mentoring to look like in your role?"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_coasting_this_week",
+          "delta": -1,
+          "answer_excerpt": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+        },
+        {
+          "q": "q_recognition_landing_3",
+          "delta": -1,
+          "answer_excerpt": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up."
+        },
+        {
+          "q": "q_context_switching_impact",
+          "delta": -1,
+          "answer_excerpt": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_mentoring_block_5",
+          "delta": -3,
+          "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+        }
+      ]
+    }
+  }
+}

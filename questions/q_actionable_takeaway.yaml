@@ -1,0 +1,9 @@
+alias: q_actionable_takeaway
+label: Actionable takeaway
+name: "What's the one thing you're taking away from today that you'll actually do differently?"
+description: Encourages commitment to actionable change based on the discussion.
+purpose: competency
+stage: lift
+axis_effects:
+  growth: +1
+source: generated

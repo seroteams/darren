@@ -1,0 +1,9 @@
+alias: q_next_steps_clarity_3
+label: Next steps clarity
+name: What do you need to move forward confidently in the next two weeks?
+description: Clarifies what Brian needs to maintain momentum.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +3
+source: generated

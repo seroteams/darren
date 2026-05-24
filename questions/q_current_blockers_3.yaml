@@ -1,0 +1,9 @@
+alias: q_current_blockers_3
+label: Current blockers
+name: "What's currently slowing you down, and is any of it within your control?"
+description: Identifies current blockers and distinguishes between internal and external factors.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: generated
