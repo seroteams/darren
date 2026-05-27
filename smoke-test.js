@@ -212,8 +212,9 @@ const inputs = [
   "y", // Continue?
   ...answers,
 ];
-// Pad with skips so the pipe never runs dry mid-session
-while (inputs.length < 7 + BUDGET + 5) inputs.push("");
+// Pad with skips so the pipe never runs dry mid-session.
+// +10 covers post-eval prompts: lexicon review (1) + rating prompts (≤3) + headroom.
+while (inputs.length < 7 + BUDGET + 10) inputs.push("");
 
 // -------------------------------------------------------------- Expectations
 unitChecks();
@@ -301,17 +302,42 @@ async function verify(exitCode) {
   const sDir = path.join("logs", session);
   const must = {
     "01-focus-points/response.json": "stage 1 response logged",
+    "01b-preparation/response.json": "stage 1b preparation response logged",
+    "01b-preparation/inputs.json": "stage 1b preparation inputs logged",
     "02-intro-questions/aliases.json": "stage 2 intro aliases logged",
     "03-question-bank/response.json": "stage 3 bank response logged",
     "04-dynamic-answers": "stage 4 per-turn directory",
     "05-evaluation/response.json": "stage 5 evaluation response logged",
     "transcript.json": "transcript.json present",
     "axis-state.json": "axis-state.json present",
+    "pipeline-lock.json": "pipeline-lock.json present",
   };
   for (const [rel, label] of Object.entries(must)) {
     const p = path.join(sDir, rel);
     if (fs.existsSync(p)) pass(label);
     else fail(label, `missing ${p}`);
+  }
+
+  // Preparation stage shape — retry harness + required response keys
+  try {
+    const prepInputs = JSON.parse(fs.readFileSync(path.join(sDir, "01b-preparation/inputs.json"), "utf8"));
+    if (typeof prepInputs.attempts === "number" && prepInputs.attempts >= 1) {
+      pass(`preparation retry harness wired (attempts=${prepInputs.attempts})`);
+    } else {
+      fail("preparation inputs.json has attempts field", `got ${JSON.stringify(prepInputs.attempts)}`);
+    }
+  } catch (e) {
+    fail("preparation inputs.json parses", e.message);
+  }
+
+  try {
+    const prepResp = JSON.parse(fs.readFileSync(path.join(sDir, "01b-preparation/response.json"), "utf8"));
+    const prepRequired = ["coreIssue", "openingQuestion", "listenFor", "avoid", "goodOutcome", "suggestedAction"];
+    const prepMissing = prepRequired.filter((k) => !(k in prepResp));
+    if (prepMissing.length === 0) pass("preparation response JSON has all required keys");
+    else fail("preparation response JSON has all required keys", `missing: ${prepMissing.join(", ")}`);
+  } catch (e) {
+    fail("01b-preparation/response.json parses", e.message);
   }
 
   // Transcript has turns
