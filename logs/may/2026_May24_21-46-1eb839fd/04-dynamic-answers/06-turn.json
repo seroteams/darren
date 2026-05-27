@@ -1,0 +1,92 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_promotion_urgency",
+    "label": "Promotion urgency",
+    "name": "When you say 'not up for promotion', what specifically would make you feel ready for that step?",
+    "description": "Explore Toby's perception of readiness for promotion and what he believes is necessary to achieve it.",
+    "purpose": "topic",
+    "stage": null,
+    "axis_effects": {
+      "engagement": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "hes been leading the design for a while, hes been working with stakeholders and done eccellent work",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1
+    },
+    "note": "Toby describes leading design and stakeholder work as evidence of readiness for promotion, indicating engagement with his current role."
+  },
+  "new_queue": [
+    {
+      "alias": "q_stakeholder_work_specifics",
+      "label": "Stakeholder work specifics",
+      "name": "When you mention working with stakeholders, what specifically has been your biggest win there?"
+    },
+    {
+      "alias": "q_current_role_satisfaction",
+      "label": "Current role satisfaction",
+      "name": "What's feeling solid in your role right now, and what's stretching you?"
+    },
+    {
+      "alias": "q_communication_challenges_2",
+      "label": "Communication challenges",
+      "name": "In what situations do you find your current communication style most effective, and where is it not landing as you'd like?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_clarify_looking_forward",
+          "delta": 1,
+          "answer_excerpt": "where can I go next, how do i get to the lead level and by when?"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -1,
+          "answer_excerpt": "well he is hoping to be a lead or there is a real flight risk"
+        },
+        {
+          "q": "q_lead_role_flight_risk",
+          "delta": 1,
+          "answer_excerpt": "he wants to exceed so if he is not up for promotion he might go elsewhere"
+        },
+        {
+          "q": "q_promotion_urgency",
+          "delta": 1,
+          "answer_excerpt": "hes been leading the design for a while, hes been working with stakeholders and done eccellent work"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 4,
+      "history": [
+        {
+          "q": "q_clarify_looking_forward",
+          "delta": 1,
+          "answer_excerpt": "where can I go next, how do i get to the lead level and by when?"
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 3,
+          "answer_excerpt": "well he is hoping to be a lead or there is a real flight risk"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+alias: q_energy_sustainability_2
+label: Energy sustainability
+name: Is the current workload sustainable for you?
+description: Gauges whether the workload is sustainable and not leading to burnout.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +3
+source: generated

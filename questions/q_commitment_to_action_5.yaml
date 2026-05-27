@@ -1,0 +1,9 @@
+alias: q_commitment_to_action_5
+label: Commitment to action
+name: What one concrete step will you take before our next session to move toward your lead goal?
+description: Identify a specific action Toby will commit to for his leadership transition.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +3
+source: planner_added

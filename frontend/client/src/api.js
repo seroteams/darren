@@ -73,6 +73,14 @@ export async function deleteRun(id) {
   return json(await fetch(`/api/runs/${encodeURIComponent(id)}`, { method: "DELETE" }));
 }
 
+export async function getPipelineStatus(baseline = "latest") {
+  const q =
+    baseline === "latest"
+      ? ""
+      : `?baseline=${encodeURIComponent(baseline)}`;
+  return json(await fetch(`/api/pipeline/status${q}`));
+}
+
 export async function getLexiconCandidates(sessionId) {
   const res = await fetch(`/api/lexicon/candidates?s=${encodeURIComponent(sessionId)}`);
   if (res.status === 404) return { candidates: [] };

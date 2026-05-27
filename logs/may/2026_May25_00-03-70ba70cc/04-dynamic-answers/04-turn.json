@@ -1,0 +1,88 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_context_switching_impact_2",
+    "label": "Context-switching impact",
+    "name": "When you mention context-switching on reviews adding up, what's the main impact on your work or focus?",
+    "description": "Explores the specific impact of context-switching on work and focus.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -3
+    },
+    "note": "Mentoring request has been stalled for three months without pushback — strong growth-stagnation signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_mentoring_block_6",
+      "label": "Mentoring block",
+      "name": "What's blocked the mentoring from happening — your time, opportunity, or something else?"
+    },
+    {
+      "alias": "q_priority_alignment_12",
+      "label": "Priority alignment",
+      "name": "Do you feel aligned with the team’s current priorities?"
+    },
+    {
+      "alias": "q_energy_sustainability_2",
+      "label": "Energy sustainability",
+      "name": "Is the current workload sustainable for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_energy_levels_post_launch",
+          "delta": -1,
+          "answer_excerpt": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "growth": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_stretch_opportunities_3",
+          "delta": -1,
+          "answer_excerpt": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up."
+        },
+        {
+          "q": "q_context_switching_impact_2",
+          "delta": -3,
+          "answer_excerpt": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing."
+        }
+      ]
+    }
+  }
+}

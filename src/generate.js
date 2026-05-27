@@ -46,12 +46,12 @@ function loadFocusPoints() {
 
 function buildMessages({ name, role, seniority, meetingType, notes, focusPoints }) {
   const filled = PROMPT_TEMPLATE
-    .replace("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
-    .replace("{{NAME}}", name || "(not provided)")
-    .replace("{{ROLE}}", role || "(not provided)")
-    .replace("{{SENIORITY}}", seniority || "(not provided)")
-    .replace("{{MEETING_TYPE}}", meetingType)
-    .replace("{{MANAGER_NOTES}}", notes || "(none)");
+    .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
+    .replaceAll("{{NAME}}", name || "(not provided)")
+    .replaceAll("{{ROLE}}", role || "(not provided)")
+    .replaceAll("{{SENIORITY}}", seniority || "(not provided)")
+    .replaceAll("{{MEETING_TYPE}}", meetingType)
+    .replaceAll("{{MANAGER_NOTES}}", notes || "(none)");
 
   const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
   const userMatch = filled.match(/## User\s+([\s\S]*)$/);

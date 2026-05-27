@@ -86,6 +86,56 @@ function computeConsecutiveDrillCount(transcript, lastQuestion) {
   return count;
 }
 
+// D1 — stages whose arc_progress < target_questions, in arc order.
+function computeRemainingStages(transcript, arc) {
+  const progress = computeArcProgress(transcript, arc);
+  return arc.arc
+    .map((stage) => ({
+      id: stage.id,
+      label: stage.label,
+      intent: stage.intent,
+      target_questions: stage.target_questions,
+      arc_progress: progress[stage.id] || 0,
+    }))
+    .filter((s) => s.arc_progress < s.target_questions);
+}
+
+// D3 — most recent prior turn's realized deltas (used for snap-back).
+function computeLastRealizedDeltas(transcript) {
+  const t = transcript || [];
+  for (let i = t.length - 1; i >= 0; i--) {
+    const d = t[i]?.realized_deltas;
+    if (d && Object.keys(d).length > 0) return d;
+  }
+  return {};
+}
+
+// D4 — consecutive trailing planner_added items with purpose=wellbeing.
+function computeConsecutiveWellbeingClarifierCount(transcript) {
+  let count = 0;
+  const t = transcript || [];
+  for (let i = t.length - 1; i >= 0; i--) {
+    const q = t[i]?.question;
+    if (!q) break;
+    if (q.source === "planner_added" && q.purpose === "wellbeing") count += 1;
+    else break;
+  }
+  return count;
+}
+
+// D5 — session-wide count of planner_added items with stage=null
+// (thread-follows that left the arc rather than staying inside it).
+function computeOffArcDrillCount(transcript) {
+  let count = 0;
+  for (const t of transcript || []) {
+    const q = t?.question;
+    if (q?.source === "planner_added" && (q.stage === null || q.stage === undefined)) {
+      count += 1;
+    }
+  }
+  return count;
+}
+
 function buildMessages({
   axes,
   focusPoints,
@@ -120,30 +170,38 @@ function buildMessages({
   const currentStageHint = lastQuestion?.stage || "(unknown)";
   const arcProgress = computeArcProgress(transcript, arc);
   const consecutiveDrillCount = computeConsecutiveDrillCount(transcript, lastQuestion);
+  const remainingStages = computeRemainingStages(transcript, arc);
+  const lastRealizedDeltas = computeLastRealizedDeltas(transcript);
+  const consecutiveWellbeingClarifierCount = computeConsecutiveWellbeingClarifierCount(transcript);
+  const offArcDrillCount = computeOffArcDrillCount(transcript);
   const isFinalTurn = Number(remainingBudget) === 1;
   const filled = template
-    .replace("{{AXES_JSON}}", JSON.stringify(axes, null, 2))
-    .replace("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
-    .replace("{{NAME}}", ctx.name || "(not provided)")
-    .replace("{{ROLE}}", ctx.role || "(not provided)")
-    .replace("{{SENIORITY}}", ctx.seniority || "(not provided)")
-    .replace(/\{\{MEETING_TYPE\}\}/g, ctx.meetingType)
-    .replace("{{TRANSCRIPT_JSON}}", JSON.stringify(transcriptSummary, null, 2))
-    .replace("{{LAST_QUESTION_JSON}}", JSON.stringify(lastQuestion, null, 2))
-    .replace("{{LAST_ANSWER}}", lastAnswer || "(skipped)")
-    .replace("{{AXIS_STATE_JSON}}", JSON.stringify(axisState, null, 2))
-    .replace("{{REMAINING_QUEUE_JSON}}", JSON.stringify(queueSummary, null, 2))
-    .replace("{{REMAINING_BUDGET}}", String(remainingBudget))
-    .replace("{{TURN_NUMBER}}", String(turnNumber ?? "?"))
-    .replace("{{TOTAL_TURNS}}", String(totalTurns ?? "?"))
-    .replace("{{MEETING_ARC_JSON}}", JSON.stringify(arc.arc, null, 2))
-    .replace("{{TONE_REGISTER}}", arc.tone_register)
-    .replace("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc.anti_patterns, null, 2))
-    .replace("{{CURRENT_STAGE_HINT}}", currentStageHint)
-    .replace(/\{\{ARC_PROGRESS_JSON\}\}/g, JSON.stringify(arcProgress, null, 2))
-    .replace(/\{\{CONSECUTIVE_DRILL_COUNT\}\}/g, String(consecutiveDrillCount))
-    .replace(/\{\{IS_FINAL_TURN\}\}/g, isFinalTurn ? "true" : "false")
-    .replace(/\{\{CLOSER_ALIAS\}\}/g, closerAlias || "(none)");
+    .replaceAll("{{AXES_JSON}}", JSON.stringify(axes, null, 2))
+    .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
+    .replaceAll("{{NAME}}", ctx.name || "(not provided)")
+    .replaceAll("{{ROLE}}", ctx.role || "(not provided)")
+    .replaceAll("{{SENIORITY}}", ctx.seniority || "(not provided)")
+    .replaceAll("{{MEETING_TYPE}}", ctx.meetingType)
+    .replaceAll("{{TRANSCRIPT_JSON}}", JSON.stringify(transcriptSummary, null, 2))
+    .replaceAll("{{LAST_QUESTION_JSON}}", JSON.stringify(lastQuestion, null, 2))
+    .replaceAll("{{LAST_ANSWER}}", lastAnswer || "(skipped)")
+    .replaceAll("{{AXIS_STATE_JSON}}", JSON.stringify(axisState, null, 2))
+    .replaceAll("{{REMAINING_QUEUE_JSON}}", JSON.stringify(queueSummary, null, 2))
+    .replaceAll("{{REMAINING_BUDGET}}", String(remainingBudget))
+    .replaceAll("{{TURN_NUMBER}}", String(turnNumber ?? "?"))
+    .replaceAll("{{TOTAL_TURNS}}", String(totalTurns ?? "?"))
+    .replaceAll("{{MEETING_ARC_JSON}}", JSON.stringify(arc.arc, null, 2))
+    .replaceAll("{{TONE_REGISTER}}", arc.tone_register)
+    .replaceAll("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc.anti_patterns, null, 2))
+    .replaceAll("{{CURRENT_STAGE_HINT}}", currentStageHint)
+    .replaceAll("{{ARC_PROGRESS_JSON}}", JSON.stringify(arcProgress, null, 2))
+    .replaceAll("{{CONSECUTIVE_DRILL_COUNT}}", String(consecutiveDrillCount))
+    .replaceAll("{{REMAINING_STAGES_JSON}}", JSON.stringify(remainingStages, null, 2))
+    .replaceAll("{{LAST_REALIZED_DELTAS_JSON}}", JSON.stringify(lastRealizedDeltas, null, 2))
+    .replaceAll("{{CONSECUTIVE_WELLBEING_CLARIFIER_COUNT}}", String(consecutiveWellbeingClarifierCount))
+    .replaceAll("{{OFF_ARC_DRILL_COUNT}}", String(offArcDrillCount))
+    .replaceAll("{{IS_FINAL_TURN}}", isFinalTurn ? "true" : "false")
+    .replaceAll("{{CLOSER_ALIAS}}", closerAlias || "(none)");
 
   const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
   const userMatch = filled.match(/## User\s+([\s\S]*)$/);
@@ -379,4 +437,8 @@ module.exports = {
   isShallowAnswer,
   computeArcProgress,
   computeConsecutiveDrillCount,
+  computeRemainingStages,
+  computeLastRealizedDeltas,
+  computeConsecutiveWellbeingClarifierCount,
+  computeOffArcDrillCount,
 };

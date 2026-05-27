@@ -1,0 +1,8 @@
+alias: q_margin_of_error_specifics
+label: Margin of error specifics
+name: "When you say 'different of what I understand and correct learning' — can you give a specific example of where this margin of error showed up in your work?"
+description: Seeks a concrete example of how self-learning errors have impacted work.
+purpose: topic
+axis_effects:
+  growth: +3
+source: planner_added

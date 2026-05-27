@@ -96,20 +96,20 @@ function buildMessages({
     axis_effects: q.axis_effects,
   }));
   const filled = template
-    .replace("{{AXES_JSON}}", JSON.stringify(axes, null, 2))
-    .replace("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
-    .replace("{{NAME}}", name || "(not provided)")
-    .replace("{{ROLE}}", role || "(not provided)")
-    .replace("{{SENIORITY}}", seniority || "(not provided)")
-    .replace(/\{\{MEETING_TYPE\}\}/g, meetingType)
-    .replace("{{MANAGER_NOTES}}", notes || "(none)")
-    .replace("{{EXISTING_QUEUE_JSON}}", JSON.stringify(queueSummary, null, 2))
-    .replace("{{MEETING_ARC_JSON}}", JSON.stringify(arc.arc, null, 2))
-    .replace("{{TONE_REGISTER}}", arc.tone_register)
-    .replace("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc.anti_patterns, null, 2))
-    .replace("{{CONVERSATION_PREFER_TERMS}}", renderPreferTerms(lexicon.preferTerms))
-    .replace("{{CONVERSATION_PREFER_PHRASES}}", renderPreferPhrases(lexicon.preferPhrases))
-    .replace("{{CONVERSATION_AVOID_PHRASES}}", renderAvoidPhrases(lexicon.avoidPhrases));
+    .replaceAll("{{AXES_JSON}}", JSON.stringify(axes, null, 2))
+    .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
+    .replaceAll("{{NAME}}", name || "(not provided)")
+    .replaceAll("{{ROLE}}", role || "(not provided)")
+    .replaceAll("{{SENIORITY}}", seniority || "(not provided)")
+    .replaceAll("{{MEETING_TYPE}}", meetingType)
+    .replaceAll("{{MANAGER_NOTES}}", notes || "(none)")
+    .replaceAll("{{EXISTING_QUEUE_JSON}}", JSON.stringify(queueSummary, null, 2))
+    .replaceAll("{{MEETING_ARC_JSON}}", JSON.stringify(arc.arc, null, 2))
+    .replaceAll("{{TONE_REGISTER}}", arc.tone_register)
+    .replaceAll("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc.anti_patterns, null, 2))
+    .replaceAll("{{CONVERSATION_PREFER_TERMS}}", renderPreferTerms(lexicon.preferTerms))
+    .replaceAll("{{CONVERSATION_PREFER_PHRASES}}", renderPreferPhrases(lexicon.preferPhrases))
+    .replaceAll("{{CONVERSATION_AVOID_PHRASES}}", renderAvoidPhrases(lexicon.avoidPhrases));
 
   const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
   const userMatch = filled.match(/## User\s+([\s\S]*)$/);

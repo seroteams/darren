@@ -95,6 +95,7 @@ function summarizeAxes(axisState) {
     label: a.label,
     score: a.score,
     lastDelta: a.lastDelta,
+    historyLen: (a.history && a.history.length) || 0,
   }));
 }
 

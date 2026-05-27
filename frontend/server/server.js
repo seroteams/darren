@@ -20,6 +20,7 @@ const evaluation = require("./handlers/evaluation");
 const rehydrate = require("./handlers/rehydrate");
 const notes = require("./handlers/notes");
 const runs = require("./handlers/runs");
+const pipeline = require("./handlers/pipeline");
 const lexicon = require("./handlers/lexicon");
 
 const IS_PROD = process.env.NODE_ENV === "production";
@@ -81,6 +82,8 @@ function main() {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return notes(c);
   });
+  router.add("GET", "/api/pipeline/status", pipeline.status);
+  router.add("GET", "/api/pipeline/manifest", pipeline.manifest);
   router.add("GET", "/api/runs/recent", runs.recent);
   router.add("GET", /^\/api\/runs\/(?<id>[^/]+)\/overview$/, runs.overview);
   router.add("DELETE", /^\/api\/runs\/(?<id>[^/]+)$/, (c) => {

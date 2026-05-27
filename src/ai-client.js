@@ -64,7 +64,20 @@ async function withRetry(fn, label) {
   throw lastErr;
 }
 
+const UNRESOLVED_PLACEHOLDER_RE = /\{\{[A-Z][A-Z0-9_]*\}\}/g;
+
+function assertNoUnresolvedPlaceholders(text, where) {
+  if (typeof text !== "string") return;
+  const hits = text.match(UNRESOLVED_PLACEHOLDER_RE);
+  if (hits && hits.length) {
+    const unique = [...new Set(hits)];
+    throw new Error(`Unresolved prompt placeholders in ${where}: ${unique.join(", ")}`);
+  }
+}
+
 async function callAI({ system, user, schema, schemaName, temperature, model, costLabel }) {
+  assertNoUnresolvedPlaceholders(system, `${costLabel} system prompt`);
+  assertNoUnresolvedPlaceholders(user, `${costLabel} user prompt`);
   if (isGemini(model)) {
     return _callGemini({ system, user, schema, temperature, model, costLabel });
   }
@@ -143,6 +156,21 @@ async function _callGemini({ system, user, schema, temperature, model, costLabel
   }, `Gemini/${costLabel}`);
 }
 
+function findUnresolvedPlaceholderFields(value, path = "") {
+  const hits = [];
+  if (typeof value === "string") {
+    const m = value.match(UNRESOLVED_PLACEHOLDER_RE);
+    if (m) hits.push({ path: path || "(root)", tokens: [...new Set(m)] });
+  } else if (Array.isArray(value)) {
+    value.forEach((v, i) => hits.push(...findUnresolvedPlaceholderFields(v, `${path}[${i}]`)));
+  } else if (value && typeof value === "object") {
+    for (const [k, v] of Object.entries(value)) {
+      hits.push(...findUnresolvedPlaceholderFields(v, path ? `${path}.${k}` : k));
+    }
+  }
+  return hits;
+}
+
 function parseAIJson(raw, label, requiredKeys = []) {
   let parsed;
   try {
@@ -157,7 +185,12 @@ function parseAIJson(raw, label, requiredKeys = []) {
       throw new Error(`${label} returned schema-invalid response — missing fields: ${missing.join(", ")}`);
     }
   }
+  const leaks = findUnresolvedPlaceholderFields(parsed);
+  if (leaks.length) {
+    const summary = leaks.map((l) => `${l.path}=${l.tokens.join(",")}`).join("; ");
+    throw new Error(`${label} response contains unresolved placeholders: ${summary}`);
+  }
   return parsed;
 }
 
-module.exports = { callAI, isGemini, parseAIJson };
+module.exports = { callAI, isGemini, parseAIJson, assertNoUnresolvedPlaceholders };

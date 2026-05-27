@@ -1,0 +1,8 @@
+alias: q_alignment_with_boss
+label: Alignment with boss
+name: "When you say 'I may think this and my boss may think that' — what would alignment look like to you, and how could that change your growth?"
+description: Explore what alignment with his boss would entail and its impact on growth.
+purpose: topic
+axis_effects:
+  growth: +3
+source: planner_added

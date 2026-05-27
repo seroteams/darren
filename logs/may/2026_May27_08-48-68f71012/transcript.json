@@ -1,0 +1,186 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_open_learning_yourself",
+      "label": "Learning about yourself",
+      "name": "What have you been learning about yourself recently?",
+      "description": "Signals interest in them as a human, not just their output. Reflective, non-evaluative.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "growth": 2,
+        "wellbeing": 1
+      },
+      "source": "research"
+    },
+    "answer": "to progress needs a lot of self drive and learning as the infrustratcutre isnt there to get them to the base level",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "growth": -2
+    },
+    "note": "Deficiency-as-request: Machar describes lack of infrastructure as a barrier to progress, indicating a negative growth signal and mild wellbeing concern."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_infrastructure_barrier",
+      "label": "Infrastructure barrier",
+      "name": "When you say the infrastructure isn't there, what specifically is missing or needs improvement?",
+      "description": "Identifies specific infrastructure gaps hindering Machar's progress.",
+      "purpose": "topic",
+      "stage": null,
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "dont have proper training, no training program, its all side by side of teh desk, if you dont raise your hand you dont get",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -3
+    },
+    "note": "Deficiency-as-request: Machar describes lack of training and program as growth barriers."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_training_gap",
+      "label": "Training gap",
+      "name": "What's the impact of not having a proper training program on your growth and daily work?",
+      "description": "Explores how the lack of training affects Machar's growth and work.",
+      "purpose": "topic",
+      "stage": null,
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "gives a margin of erro in the self learning",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -1
+    },
+    "note": "Mentions 'margin of error' in self-learning due to lack of training — implies negative growth impact."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_margin_of_error",
+      "label": "Margin of error",
+      "name": "When you mention 'margin of error' in self-learning, what specifically do you mean, and how does it affect your growth?",
+      "description": "Clarifies the impact of self-learning errors on growth.",
+      "purpose": "topic",
+      "stage": null,
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "different of what i understand and correct learning an dprogression",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -1
+    },
+    "note": "[SHALLOW] 'different of what i understand and correct learning' lacks specifics on margin of error impact."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_margin_of_error_specifics",
+      "label": "Margin of error specifics",
+      "name": "When you say 'different of what I understand and correct learning' — can you give a specific example of where this margin of error showed up in your work?",
+      "description": "Seeks a concrete example of how self-learning errors have impacted work.",
+      "purpose": "topic",
+      "stage": null,
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "i may think this and my boss may think that of what i need to learn",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -3
+    },
+    "note": "Answer highlights a misalignment between Machar's understanding and his boss's expectations, indicating a strong growth-stagnation signal."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_alignment_with_boss",
+      "label": "Alignment with boss",
+      "name": "When you say 'I may think this and my boss may think that' — what would alignment look like to you, and how could that change your growth?",
+      "description": "Explore what alignment with his boss would entail and its impact on growth.",
+      "purpose": "topic",
+      "stage": null,
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "Skipped question — no signal realized for growth."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_current_role_assessment_2",
+      "label": "Current role assessment",
+      "name": "What's feeling solid in your role right now, and what's stretching you?",
+      "description": "Explores Machar's current comfort level and challenges in his role.",
+      "purpose": "competency",
+      "stage": "anchor",
+      "axis_effects": {
+        "engagement": 1,
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "Skipped answer — no engagement or growth signal realized."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?",
+      "description": "Probes whether they have a real picture of where they want to go.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "Skipped answer — no engagement or growth signal realised."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_concrete_next_steps",
+      "label": "Concrete next steps",
+      "name": "What's the first concrete thing you want to have moved by our next conversation?",
+      "description": "Focuses on actionable next steps Machar will take.",
+      "purpose": "competency",
+      "stage": "commitment",
+      "axis_effects": {
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "Skipped the question, providing no signal on growth."
+  }
+]

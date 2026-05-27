@@ -1,0 +1,63 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_clarify_most_like_yourself_2",
+    "label": "Clarify 'most like yourself'",
+    "name": "When you say 'today is fine', what specifically makes you feel most like yourself today?",
+    "description": "Seek specifics about what makes today feel authentic to Toby.",
+    "purpose": "wellbeing",
+    "stage": null,
+    "axis_effects": {
+      "wellbeing": 3,
+      "growth": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "he is good and is looking forward to this session.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "[SHALLOW] 'he is good and is looking forward to this session' lacks specifics about what makes today feel authentic."
+  },
+  "new_queue": [
+    {
+      "alias": "q_clarify_looking_forward",
+      "label": "Clarify 'looking forward'",
+      "name": "When you say 'looking forward to this session', what specifically are you hoping to get out of it?"
+    },
+    {
+      "alias": "q_current_role_satisfaction",
+      "label": "Current role satisfaction",
+      "name": "What's feeling solid in your role right now, and what's stretching you?"
+    },
+    {
+      "alias": "q_communication_challenges_2",
+      "label": "Communication challenges",
+      "name": "In what situations do you find your current communication style most effective, and where is it not landing as you'd like?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

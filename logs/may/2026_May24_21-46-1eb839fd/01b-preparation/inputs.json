@@ -1,0 +1,44 @@
+{
+  "name": "Toby",
+  "roleTitle": "Expert UX Designer",
+  "seniority": "Expert",
+  "meetingType": "Growth & career plan",
+  "observedShift": "He wants to become a lead but his communication methods suck",
+  "focusPoints": [
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "Communication effectiveness for a future lead role.",
+      "reason": "Notes mention communication as a barrier to his goal of becoming a lead. Worth exploring how he currently communicates and what changes might be needed to align with lead-level expectations.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Specific skills to develop for leadership transition.",
+      "reason": "What skills and experiences he believes will bridge the gap to a lead role. Growth & career plan default for an expert aiming to transition into leadership.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "Feedback he's received on his leadership potential.",
+      "reason": "Whether he has received concrete feedback on his readiness for a lead role and how he interprets it. This can guide the growth conversation and identify any blind spots.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-4o",
+  "runId": "bcf03255-7220-4580-814a-8da355ec3c01",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "output may not reflect the meeting type distinctly"
+    ]
+  }
+}

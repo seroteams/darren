@@ -75,15 +75,15 @@ function buildMessages({ ctx, focusPoints, transcript, axisState, notes }) {
   const template = fs.readFileSync(PROMPT_PATH, "utf8");
   const axes = loadAxes();
   const filled = template
-    .replace("{{AXES_JSON}}", JSON.stringify(axes, null, 2))
-    .replace("{{NAME}}", ctx.name || "(not provided)")
-    .replace("{{ROLE}}", ctx.role || "(not provided)")
-    .replace("{{SENIORITY}}", ctx.seniority || "(not provided)")
-    .replace("{{MEETING_TYPE}}", ctx.meetingType)
-    .replace("{{MANAGER_NOTES}}", notes || "(none)")
-    .replace("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
-    .replace("{{TRANSCRIPT_JSON}}", JSON.stringify(transcript, null, 2))
-    .replace("{{AXIS_STATE_JSON}}", JSON.stringify(axisState, null, 2));
+    .replaceAll("{{AXES_JSON}}", JSON.stringify(axes, null, 2))
+    .replaceAll("{{NAME}}", ctx.name || "(not provided)")
+    .replaceAll("{{ROLE}}", ctx.role || "(not provided)")
+    .replaceAll("{{SENIORITY}}", ctx.seniority || "(not provided)")
+    .replaceAll("{{MEETING_TYPE}}", ctx.meetingType)
+    .replaceAll("{{MANAGER_NOTES}}", notes || "(none)")
+    .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
+    .replaceAll("{{TRANSCRIPT_JSON}}", JSON.stringify(transcript, null, 2))
+    .replaceAll("{{AXIS_STATE_JSON}}", JSON.stringify(axisState, null, 2));
 
   const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
   const userMatch = filled.match(/## User\s+([\s\S]*)$/);

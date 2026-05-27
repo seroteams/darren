@@ -1,0 +1,8 @@
+alias: q_nourishing_specifics
+label: Nourishing specifics
+name: "When you say 'food' — what about it has been nourishing? Is it the act of cooking, the meals themselves, or something else?"
+description: Clarifies what specifically about food is nourishing to Darren.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: planner_added

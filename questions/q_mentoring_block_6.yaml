@@ -1,0 +1,9 @@
+alias: q_mentoring_block_6
+label: Mentoring block
+name: "What's blocked the mentoring from happening — your time, opportunity, or something else?"
+description: "Explores what's preventing mentoring opportunities from materializing."
+purpose: topic
+stage: friction
+axis_effects:
+  growth: +3
+source: planner_added

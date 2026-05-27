@@ -35,7 +35,17 @@
       "PowerShell(Get-NetTCPConnection *)",
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\" -Directory)",
       "Bash(Select-Object Name)",
-      "Bash(claude mcp *)"
+      "Bash(claude mcp *)",
+      "Bash(git pull *)",
+      "Bash(node smoke-test.js scenarios/001-senior-backend-weekly.json)",
+      "Bash(git commit -m ' *)",
+      "Bash(sleep 4; cat /c/Users/User/AppData/Local/Temp/claude/C--Users-User-Documents-Sero-darren/aff401e2-05fe-4e8c-81ff-86037efd1c38/tasks/bv6qazqz5.output)",
+      "WebFetch(domain:github.com)",
+      "Bash(grep -E '\\\\.md$|\\\\.json$|^-')",
+      "WebFetch(domain:arxiv.org)",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:www.comet.com)",
+      "Bash(find ~/.claude/projects -name \"memory\" -type d 2>/dev/null)"
     ]
   }
 }

@@ -1,9 +1,0 @@
-alias: q_mentoring_vision_8
-label: Mentoring vision
-name: What would you like mentoring to look like in your role?
-description: "Explores Priya's vision for mentoring within her current role."
-purpose: topic
-stage: momentum
-axis_effects:
-  growth: +3
-source: planner_added

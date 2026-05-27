@@ -212,8 +212,20 @@
     "stage": null,
     "axis_effects": { "wellbeing": 2, "growth": 1 },
     "source": "research",
-    "meeting_types": ["growth_career_plan", "something_feels_off"],
+    "meeting_types": ["something_feels_off"],
     "tone": "reflective"
+  },
+  {
+    "alias": "q_open_growth_lookforward",
+    "label": "Looking forward",
+    "name": "Before we get into specifics, what's been most on your mind about where you're heading?",
+    "description": "Growth-native opener. Forward-leaning, lets the report frame their own trajectory before manager introduces concerns.",
+    "purpose": "topic",
+    "stage": null,
+    "axis_effects": { "growth": 2, "engagement": 1 },
+    "source": "designed",
+    "meeting_types": ["growth_career_plan"],
+    "tone": "forward"
   },
   {
     "alias": "q_open_understand_where_you_are",

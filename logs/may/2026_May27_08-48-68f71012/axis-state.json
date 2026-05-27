@@ -1,0 +1,50 @@
+{
+  "wellbeing": {
+    "score": -2,
+    "history": [
+      {
+        "q": "q_open_learning_yourself",
+        "delta": -1,
+        "answer_excerpt": "to progress needs a lot of self drive and learning as the infrustratcutre isnt there to get them to the base level"
+      }
+    ]
+  },
+  "engagement": {
+    "score": -1,
+    "history": []
+  },
+  "clarity": {
+    "score": 0,
+    "history": []
+  },
+  "growth": {
+    "score": -10,
+    "history": [
+      {
+        "q": "q_open_learning_yourself",
+        "delta": -2,
+        "answer_excerpt": "to progress needs a lot of self drive and learning as the infrustratcutre isnt there to get them to the base level"
+      },
+      {
+        "q": "q_infrastructure_barrier",
+        "delta": -3,
+        "answer_excerpt": "dont have proper training, no training program, its all side by side of teh desk, if you dont raise your hand you dont get"
+      },
+      {
+        "q": "q_training_gap",
+        "delta": -1,
+        "answer_excerpt": "gives a margin of erro in the self learning"
+      },
+      {
+        "q": "q_margin_of_error",
+        "delta": -1,
+        "answer_excerpt": "different of what i understand and correct learning an dprogression"
+      },
+      {
+        "q": "q_margin_of_error_specifics",
+        "delta": -3,
+        "answer_excerpt": "i may think this and my boss may think that of what i need to learn"
+      }
+    ]
+  }
+}

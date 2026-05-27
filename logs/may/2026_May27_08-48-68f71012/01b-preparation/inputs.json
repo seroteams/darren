@@ -1,0 +1,46 @@
+{
+  "name": "Machar",
+  "roleTitle": "Partner alliance manager",
+  "seniority": "Manager",
+  "meetingType": "Growth & career plan",
+  "observedShift": "Things going well. Looking at promoting him soon.",
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Strategic impact and leverage in partnerships.",
+      "reason": "What strategic impact he's having in partner alliances is what gets evaluated for growth — this is where leverage and promotion readiness are visible.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Trust and influence with key partners.",
+      "reason": "Whether he's building trust and influence with key partners matters for his growth — this is the core of an alliance manager's role.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Skills and areas to stretch for promotion.",
+      "reason": "What skills or areas he needs to stretch to be ready for promotion — this is where the growth plan becomes actionable.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-4o",
+  "runId": "c641de0d-4600-41dd-8cff-7abcc9335239",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "openingQuestion may lack forward developmental framing for Growth & career plan",
+      "output may not reflect the meeting type distinctly"
+    ]
+  },
+  "attempts": 2
+}

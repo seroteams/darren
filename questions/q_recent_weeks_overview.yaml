@@ -1,0 +1,9 @@
+alias: q_recent_weeks_overview
+label: Recent weeks overview
+name: How has the last couple of weeks felt from your side, Priya?
+description: Open context-setting question to gauge overall sentiment.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +1
+source: generated

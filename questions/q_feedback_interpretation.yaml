@@ -1,0 +1,9 @@
+alias: q_feedback_interpretation
+label: Feedback interpretation
+name: "How do you interpret the feedback you've received about your leadership potential?"
+description: "Gauge Toby's understanding of feedback on his readiness for leadership."
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+source: generated

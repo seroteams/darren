@@ -1,6 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { randomUUID } = require("node:crypto");
+const { writePipelineLock } = require("./pipeline-lock");
 
 const LOGS_ROOT = path.join(__dirname, "..", "logs");
 
@@ -33,6 +34,7 @@ function createSession() {
   const month = LONG_MONTHS[now.getMonth()];
   const dir = path.join(LOGS_ROOT, month, id);
   fs.mkdirSync(dir, { recursive: true });
+  writePipelineLock(dir);
   return { id, dir };
 }
 

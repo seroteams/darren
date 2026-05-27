@@ -1,0 +1,13 @@
+{
+  "raw": "{\"questions\":[{\"label\":\"Current energy check\",\"name\":\"How are you feeling energy-wise now after your recent illness?\",\"description\":\"Explores current energy levels and any lingering effects from recent illness.\",\"purpose\":\"wellbeing\",\"stage\":\"pulse\",\"axis_effects\":[{\"axis\":\"wellbeing\",\"delta\":3}]},{\"label\":\"UX priorities focus\",\"name\":\"What are the main UX priorities you're focusing on right now?\",\"description\":\"Determines if Carl is still focused on key UX work or getting sidetracked.\",\"purpose\":\"topic\",\"stage\":\"friction\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":3}]},{\"label\":\"Support needs\",\"name\":\"Is there anything specific you need more of from me right now?\",\"description\":\"Surfaces any unspoken needs Carl might have for manager support.\",\"purpose\":\"topic\",\"stage\":\"friction\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":3}]},{\"label\":\"Project clarity\",\"name\":\"Where are you feeling unclear about current project priorities?\",\"description\":\"Identifies any areas where Carl lacks clarity on project priorities.\",\"purpose\":\"competency\",\"stage\":\"friction\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":3}]},{\"label\":\"Momentum blockers\",\"name\":\"What's currently the biggest blocker to your progress?\",\"description\":\"Identifies significant barriers to momentum in Carl's work.\",\"purpose\":\"competency\",\"stage\":\"momentum\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":3}]},{\"label\":\"Team engagement\",\"name\":\"How engaged do you feel with the team's direction right now?\",\"description\":\"Assesses Carl's engagement with the current team direction and projects.\",\"purpose\":\"wellbeing\",\"stage\":\"momentum\",\"axis_effects\":[{\"axis\":\"engagement\",\"delta\":3}]},{\"label\":\"Next steps clarity\",\"name\":\"What do you see as your next step for moving forward on your projects?\",\"description\":\"Clarifies Carl's next steps and priorities for his current projects.\",\"purpose\":\"competency\",\"stage\":\"momentum\",\"axis_effects\":[{\"axis\":\"clarity\",\"delta\":3}]},{\"label\":\"Lightening the load\",\"name\":\"What could make your next two weeks feel lighter or more productive?\",\"description\":\"Explores opportunities to reduce stress or increase productivity for Carl.\",\"purpose\":\"wellbeing\",\"stage\":\"lift\",\"axis_effects\":[{\"axis\":\"wellbeing\",\"delta\":3}]}]}",
+  "saved_aliases": [
+    "q_current_energy_check",
+    "q_ux_priorities_focus",
+    "q_support_needs_13",
+    "q_project_clarity_2",
+    "q_momentum_blockers",
+    "q_team_engagement_2",
+    "q_next_steps_clarity_4",
+    "q_lightening_the_load"
+  ]
+}

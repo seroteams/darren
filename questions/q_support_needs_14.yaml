@@ -1,0 +1,9 @@
+alias: q_support_needs_14
+label: Support needs
+name: What type of support would be most helpful for you now?
+description: Explores what support Darren currently needs from the manager or team.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +3
+source: generated

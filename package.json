@@ -8,7 +8,8 @@
     "build": "vite build",
     "start": "cross-env NODE_ENV=production node frontend/server/server.js",
     "cli": "node cli.js",
-    "smoke": "node smoke-test.js"
+    "smoke": "node smoke-test.js",
+    "rebuild-question-index": "node scripts/rebuild-question-index.js --prune"
   },
   "devDependencies": {
     "@fontsource-variable/inter": "^5.0.21",

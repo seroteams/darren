@@ -1,0 +1,97 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_clarify_urgency",
+    "label": "Clarify urgency",
+    "name": "When you say 'they need to get done' — what's driving that urgency? Is it a deadline, feedback, or something else?",
+    "description": "Seeks to clarify the urgency behind the need to complete the screens.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "i am , the manager, so he's my directr repot",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "Answer lacks clarity and coherence regarding urgency — strong negative clarity signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_lightening_the_load",
+      "label": "Lightening the load",
+      "name": "What could make your next two weeks feel lighter or more productive?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": -1,
+          "answer_excerpt": "yeah its been okay but i am not 100% yet."
+        },
+        {
+          "q": "q_current_energy_check",
+          "delta": 1,
+          "answer_excerpt": "not bad, was just a lot of recovery, sorry about that"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -3,
+          "answer_excerpt": "so many emails to come back to , scared i will forget something"
+        },
+        {
+          "q": "q_emails_backlog_stress",
+          "delta": -1,
+          "answer_excerpt": "just so many of them"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "so many emails to come back to , scared i will forget something"
+        },
+        {
+          "q": "q_ux_priorities_focus",
+          "delta": -1,
+          "answer_excerpt": "the app redesign and the sections on the"
+        },
+        {
+          "q": "q_clarify_ux_priorities",
+          "delta": -1,
+          "answer_excerpt": "he has to ave to get all the screen designed quicklyu"
+        },
+        {
+          "q": "q_clarify_ux_focus",
+          "delta": -3,
+          "answer_excerpt": "they need to get done"
+        },
+        {
+          "q": "q_clarify_urgency",
+          "delta": -3,
+          "answer_excerpt": "i am , the manager, so he's my directr repot"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

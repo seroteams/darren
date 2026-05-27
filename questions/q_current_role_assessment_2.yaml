@@ -1,0 +1,10 @@
+alias: q_current_role_assessment_2
+label: Current role assessment
+name: "What's feeling solid in your role right now, and what's stretching you?"
+description: "Explores Machar's current comfort level and challenges in his role."
+purpose: competency
+stage: anchor
+axis_effects:
+  engagement: +1
+  growth: +1
+source: generated

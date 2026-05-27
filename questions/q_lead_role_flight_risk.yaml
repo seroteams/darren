@@ -1,0 +1,8 @@
+alias: q_lead_role_flight_risk
+label: Lead role flight risk
+name: "When you say 'real flight risk', what's driving that — is it pace, support, or something else?"
+description: "Explore the factors contributing to the flight risk if lead role isn't achieved."
+purpose: topic
+axis_effects:
+  engagement: +1
+source: planner_added

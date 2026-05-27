@@ -1,0 +1,20 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_open_nourishing",
+      "label": "What's nourishing",
+      "name": "What's been nourishing in your life recently?",
+      "description": "'Nourishing' invites what is genuinely sustaining — not just pleasant. No work scope.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "research"
+    },
+    "answer": "Food",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "[SHALLOW] 'Food' lacks specificity on what is nourishing — does not provide insight into wellbeing."
+  }
+]

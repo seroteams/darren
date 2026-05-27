@@ -1,12 +1,20 @@
 // Axis bars. Handles per-turn (live) and briefing (celebrate) modes.
 // Visual scale clamps to ±6; true scores pass through untouched.
 
-const AXIS_ORDER = ["wellbeing", "engagement", "clarity", "growth"];
+export const AXIS_ORDER = ["wellbeing", "engagement", "clarity", "growth"];
 const AXIS_LABELS = {
   wellbeing: "Wellbeing",
   engagement: "Engagement",
   clarity: "Clarity",
   growth: "Growth",
+};
+// Seeded baselines — mirrors backend axes catalogue. Wellbeing/engagement
+// start slightly negative so a session "earns" positive movement.
+export const AXIS_SEED = {
+  wellbeing: -1,
+  engagement: -1,
+  clarity: 0,
+  growth: 0,
 };
 const VISUAL_MAX = 6;
 
@@ -24,12 +32,17 @@ export function createAxesPanel({ celebrate = false } = {}) {
   }
   return { el, update, renderInitial };
 
+  function historyLenFor(axis) {
+    if (typeof axis.historyLen === "number") return axis.historyLen;
+    return celebrate ? 1 : 0;
+  }
+
   // Render with scores but no animation. Used on briefing first paint.
   function renderInitial(axes) {
     for (const a of axes) {
       const row = rows.get(a.id);
       if (!row) continue;
-      row.setScoreInstant(a.score);
+      row.setScoreInstant(a.score, historyLenFor(a));
     }
   }
 
@@ -39,15 +52,20 @@ export function createAxesPanel({ celebrate = false } = {}) {
       const row = rows.get(a.id);
       if (!row) return;
       const delay = i * 60; // --stagger
-      setTimeout(() => row.animateTo(a.score, showDelta ? a.lastDelta : 0), delay);
+      setTimeout(
+        () => row.animateTo(a.score, showDelta ? a.lastDelta : 0, historyLenFor(a)),
+        delay
+      );
     });
   }
 }
 
 function createRow(id, celebrate) {
+  const seed = AXIS_SEED[id] ?? 0;
   const el = document.createElement("div");
   el.className = "axis";
   el.setAttribute("data-axis", id);
+  el.setAttribute("title", `Seeded at ${seed > 0 ? "+" + seed : seed}. Moves with answers.`);
   el.innerHTML = `
     <div class="axis__label">${AXIS_LABELS[id] || id}</div>
     <div class="axis__track" aria-hidden="true">
@@ -64,14 +82,18 @@ function createRow(id, celebrate) {
   let current = 0;
   let offscaleBadge = null;
 
-  function setFill(score) {
+  function isBaseline(score, historyLen) {
+    return score === seed && historyLen === 0;
+  }
+
+  function setFill(score, { baseline = false } = {}) {
     const clamped = Math.max(-VISUAL_MAX, Math.min(VISUAL_MAX, score));
     const ratio = Math.abs(clamped) / VISUAL_MAX;
     // Reset class state
     fill.classList.remove("axis__fill--neutral", "axis__fill--positive", "axis__fill--negative", "axis__fill--celebrate");
     if (celebrate) fill.classList.add("axis__fill--celebrate");
 
-    if (score === 0) {
+    if (baseline) {
       fill.classList.add("axis__fill--neutral");
       fill.style.transform = "scaleX(1)";
       return;
@@ -84,10 +106,11 @@ function createRow(id, celebrate) {
     fill.style.transform = `scaleX(${ratio})`;
   }
 
-  function setValueText(score) {
-    const signed = score > 0 ? `+${score}` : `${score}`;
+  function setValueText(score, { baseline = false } = {}) {
+    value.classList.toggle("axis__value--baseline", !!baseline);
+    const text = baseline ? "—" : (score > 0 ? `+${score}` : `${score}`);
     // Preserve chip
-    value.firstChild.nodeValue = signed;
+    value.firstChild.nodeValue = text;
   }
 
   function showOffscale(score) {
@@ -111,17 +134,20 @@ function createRow(id, celebrate) {
     offscaleBadge = null;
   }
 
-  function setScoreInstant(score) {
+  function setScoreInstant(score, historyLen = 0) {
     current = score;
-    setFill(score);
-    setValueText(score);
-    showOffscale(score);
+    const baseline = isBaseline(score, historyLen);
+    setFill(score, { baseline });
+    setValueText(score, { baseline });
+    if (!baseline) showOffscale(score);
+    else removeOffscaleBadge();
   }
 
-  function animateTo(targetScore, delta) {
+  function animateTo(targetScore, delta, historyLen = 0) {
     const from = current;
     const to = targetScore;
     current = to;
+    const baseline = isBaseline(to, historyLen);
 
     // Chip: show for ~`dur-hero`, then fade
     if (delta && delta !== 0) {
@@ -131,12 +157,13 @@ function createRow(id, celebrate) {
       setTimeout(() => deltaChip.classList.remove("axis__delta--visible"), 1400);
     }
 
-    setFill(to);
-    showOffscale(to);
+    setFill(to, { baseline });
+    if (!baseline) showOffscale(to);
+    else removeOffscaleBadge();
 
     // Count-up
     if (REDUCE_MOTION || from === to) {
-      setValueText(to);
+      setValueText(to, { baseline });
       return;
     }
     const start = performance.now();
@@ -145,9 +172,10 @@ function createRow(id, celebrate) {
       const t = Math.min(1, (now - start) / DUR);
       const eased = 1 - Math.pow(1 - t, 4); // easeOutQuart ≈ ease-out-expo feel
       const n = Math.round(from + (to - from) * eased);
-      setValueText(n);
+      const midBaseline = isBaseline(n, historyLen);
+      setValueText(n, { baseline: midBaseline });
       if (t < 1) requestAnimationFrame(tick);
-      else setValueText(to);
+      else setValueText(to, { baseline });
     }
     requestAnimationFrame(tick);
   }

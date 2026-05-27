@@ -1,0 +1,76 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_infrastructure_barrier",
+    "label": "Infrastructure barrier",
+    "name": "When you say the infrastructure isn't there, what specifically is missing or needs improvement?",
+    "description": "Identifies specific infrastructure gaps hindering Machar's progress.",
+    "purpose": "topic",
+    "stage": null,
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "dont have proper training, no training program, its all side by side of teh desk, if you dont raise your hand you dont get",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -3
+    },
+    "note": "Deficiency-as-request: Machar describes lack of training and program as growth barriers."
+  },
+  "new_queue": [
+    {
+      "alias": "q_training_gap",
+      "label": "Training gap",
+      "name": "What's the impact of not having a proper training program on your growth and daily work?"
+    },
+    {
+      "alias": "q_current_role_assessment_2",
+      "label": "Current role assessment",
+      "name": "What's feeling solid in your role right now, and what's stretching you?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_open_learning_yourself",
+          "delta": -1,
+          "answer_excerpt": "to progress needs a lot of self drive and learning as the infrustratcutre isnt there to get them to the base level"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_open_learning_yourself",
+          "delta": -2,
+          "answer_excerpt": "to progress needs a lot of self drive and learning as the infrustratcutre isnt there to get them to the base level"
+        },
+        {
+          "q": "q_infrastructure_barrier",
+          "delta": -3,
+          "answer_excerpt": "dont have proper training, no training program, its all side by side of teh desk, if you dont raise your hand you dont get"
+        }
+      ]
+    }
+  }
+}

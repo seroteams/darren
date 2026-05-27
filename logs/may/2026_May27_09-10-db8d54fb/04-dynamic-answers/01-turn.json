@@ -1,0 +1,66 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_open_nourishing",
+    "label": "What's nourishing",
+    "name": "What's been nourishing in your life recently?",
+    "description": "'Nourishing' invites what is genuinely sustaining — not just pleasant. No work scope.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "research"
+  },
+  "answer": "Food",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "[SHALLOW] 'Food' lacks specificity on what is nourishing — does not provide insight into wellbeing."
+  },
+  "new_queue": [
+    {
+      "alias": "q_nourishing_specifics",
+      "label": "Nourishing specifics",
+      "name": "When you say 'food' — what about it has been nourishing? Is it the act of cooking, the meals themselves, or something else?"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_intro_agenda_check",
+      "label": "Agenda check",
+      "name": "Before we get into it, anything you want to make sure we cover today?"
+    },
+    {
+      "alias": "q_late_arrival_observation",
+      "label": "Late arrival observation",
+      "name": "I've noticed you've been arriving late — what's the situation there?"
+    },
+    {
+      "alias": "q_board_engagement_status",
+      "label": "Board engagement status",
+      "name": "How are you feeling about your current engagement with the board?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -237,11 +237,31 @@ After dedup, build the new_queue:
 
    **Consecutive drill count at current stage:** `{{CONSECUTIVE_DRILL_COUNT}}` (planner_added turns in a row at this stage — when this reaches 2, the drill cap in `<thread_follow_rule>` blocks further drills).
 
+   **Remaining arc stages** (stages whose `arc_progress` is still below their `target_questions`, in arc order — the closer is the last entry):
+
+   ```json
+   {{REMAINING_STAGES_JSON}}
+   ```
+
+   **Last realized deltas** (from the most recent prior turn — used by the snap-back rule below):
+
+   ```json
+   {{LAST_REALIZED_DELTAS_JSON}}
+   ```
+
+   **Consecutive wellbeing clarifiers in a row:** `{{CONSECUTIVE_WELLBEING_CLARIFIER_COUNT}}` (trailing `planner_added` items with `purpose: "wellbeing"`).
+
+   **Off-arc tangents taken this session:** `{{OFF_ARC_DRILL_COUNT}}` (session-wide count of `planner_added` items emitted with `stage: null`).
+
    Rules:
    - Identify the current stage and the next stage. After dedup + thread-follow, the queue should progress through stages in arc order.
    - **Under-served stages are first-class.** A stage with `target_questions >= 1` and `arc_progress = 0` is under-served. After the thread-follow (if any), the next non-drill item in `new_queue` MUST belong to the most under-served not-yet-covered stage, in arc order. The session must reach the final stage (the closer) before the budget runs out.
    - Skipping a stage is allowed only when the employee has already covered its ground unprompted (and you can point to it in the transcript). Doubling on a stage is allowed only when a thread justifies it AND the drill cap permits.
    - The **tone register OVERRIDES** the generic `<question_craft>` rewrites where they conflict. A "Growth & career plan" question should sound aspirational/forward-leaning even if the sharp-column rewrite would push it toward diagnostic. A "Something feels off" question must be observation-first and opt-in. A "Performance & feedback" question should be direct, adult-to-adult, no softening.
+   - **Arc-stage budget rule (hard).** If `remaining_budget <= length(remaining_stages)`, the next item in `new_queue` MUST come from the first under-served stage in `remaining_stages` — no clarifier, no thread-follow drill, no off-arc tangent. The session is in budget-starvation territory and must cover the rest of the arc. If a thread was unfollowed because of this rule, append `[BUDGET-STARVED]` to `assessment.note`.
+   - **Snap-back after growth/clarity signal.** If `last_realized_deltas` includes `growth >= 1` OR `clarity >= 1`, do NOT add a wellbeing clarifier as the next item. The employee just gave usable arc-relevant signal — progress the arc instead of probing how they feel about it. An on-arc topic or competency drill is fine; a wellbeing probe with `purpose: "wellbeing"` is not.
+   - **Wellbeing clarifier cap (hard).** Max 2 consecutive wellbeing clarifiers (`planner_added` items with `purpose: "wellbeing"`). If `consecutive_wellbeing_clarifier_count >= 2`, the next item MUST advance the arc — no third wellbeing probe, even if the prior answer was shallow. Note any dropped thread with prefix `[WELLBEING-CAP]` in `assessment.note`.
+   - **Off-arc tangent cap.** Max 1 off-arc tangent per session (`planner_added` items with `stage: null`). If `off_arc_drill_count >= 1`, any new thread-follow MUST set `stage` to the current arc stage so the drill stays on-arc — do NOT emit another `stage: null` item unless the manager explicitly signalled to deepen this thread.
    - **Final turn enforcement.** When `is_final_turn` is `true` or `remaining_budget = 1`, the closer wins unless crisis override or broken-session applies.
      - If `{{CLOSER_ALIAS}}` is not `"(none)"`, the first item in `new_queue` MUST have `ref_alias === "{{CLOSER_ALIAS}}"`.
      - Copy that item verbatim from the remaining queue.

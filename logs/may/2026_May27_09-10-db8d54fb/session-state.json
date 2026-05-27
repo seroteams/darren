@@ -1,0 +1,264 @@
+{
+  "id": "2026_May27_09-10-db8d54fb",
+  "dir": "c:\\Users\\User\\Documents\\Sero\\darren\\logs\\may\\2026_May27_09-10-db8d54fb",
+  "createdAt": 1779847807434,
+  "lastSeenAt": 1779848696798,
+  "ctx": {
+    "name": "Darren",
+    "role": "CTO",
+    "seniority": "Chief",
+    "meetingType": "Something feels off",
+    "notes": "He has been arriving late at work"
+  },
+  "introQueue": [
+    {
+      "alias": "q_open_nourishing",
+      "label": "What's nourishing",
+      "name": "What's been nourishing in your life recently?",
+      "description": "'Nourishing' invites what is genuinely sustaining — not just pleasant. No work scope.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_agenda_check",
+      "label": "Agenda check",
+      "name": "Before we get into it, anything you want to make sure we cover today?",
+      "description": "Semi-set early question. Gives the report explicit permission to set the agenda before the manager's plan takes over.",
+      "purpose": "engagement",
+      "stage": "opener",
+      "axis_effects": {
+        "engagement": 1,
+        "clarity": 1
+      },
+      "source": "semi_set"
+    },
+    {
+      "alias": "q_intro_off_connection",
+      "label": "Team connection",
+      "name": "How connected do you feel to the rest of the team right now?",
+      "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+      "purpose": "wellbeing",
+      "stage": "observation",
+      "axis_effects": {
+        "engagement": 3,
+        "wellbeing": 1
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?",
+      "description": "Separates energy from output; avoids leading with 'is something wrong'.",
+      "purpose": "wellbeing",
+      "stage": "landing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "seed"
+    }
+  ],
+  "focusPointsResult": {
+    "meeting_type": "Something feels off",
+    "focus_points": [
+      {
+        "id": "energy",
+        "type": "Energy & wellbeing",
+        "category": "wellbeing",
+        "label": "Arriving late — pattern or anomaly?",
+        "reason": "Notes mention arriving late at work. Could be a sign of disengagement, personal issues, or just a temporary schedule change — worth clarifying before drawing conclusions.",
+        "source": "signal",
+        "known": true
+      },
+      {
+        "id": "stakeholder_engagement",
+        "type": "Stakeholder engagement",
+        "category": "competency",
+        "label": "Trust and alignment with the board.",
+        "reason": "Role-driven — board/exec relationships are a core CTO surface and a frequent blind spot, especially if something feels off.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "judgment",
+        "type": "Judgment",
+        "category": "competency",
+        "label": "Judgment on strategic tradeoffs recently.",
+        "reason": "Performance and feedback for an exec centres on the calls made, not throughput — judgment is the load-bearing competency.",
+        "source": "best_practice",
+        "known": true
+      }
+    ]
+  },
+  "preparationResult": {
+    "brief": {
+      "coreIssue": "The 1:1 is likely about Darren's recent pattern of arriving late at work and its implications for his energy and wellbeing as CTO.",
+      "openingQuestion": "What recent changes in your routine might be affecting your arrival time, and how can I support you in managing these adjustments?",
+      "listenFor": [
+        "whether he mentions a temporary personal situation",
+        "if he deflects to workload or external factors",
+        "whether he volunteers a recent strategic decision as a stress point"
+      ],
+      "avoid": [
+        "do not assume disengagement without evidence",
+        "do not directly question his commitment to the role"
+      ],
+      "goodOutcome": "You and Darren have agreed to monitor his arrival time as an energy signal and to explore flexible arrangements if needed.",
+      "suggestedAction": "During the 1:1, explore whether a flexible start time could help Darren manage his energy better."
+    },
+    "runId": "4f031ee3-0ff0-466c-ad90-1dc5d6645dae",
+    "validation": {
+      "passed": false,
+      "issues": [
+        "goodOutcome may be too generic — add seniority, role, or level-specific artefact (lead scope, ownership, etc.)",
+        "coreIssue does not reference role or seniority — may be too generic",
+        "output may not reflect the meeting type distinctly"
+      ]
+    },
+    "attempts": 2
+  },
+  "bankReady": {
+    "count": 8
+  },
+  "briefing": null,
+  "queueRef": [
+    {
+      "alias": "q_nourishing_specifics",
+      "label": "Nourishing specifics",
+      "name": "When you say 'food' — what about it has been nourishing? Is it the act of cooking, the meals themselves, or something else?",
+      "description": "Clarifies what specifically about food is nourishing to Darren.",
+      "purpose": "wellbeing",
+      "stage": null,
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?",
+      "description": "Separates energy from output; avoids leading with 'is something wrong'.",
+      "purpose": "wellbeing",
+      "stage": "landing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_agenda_check",
+      "label": "Agenda check",
+      "name": "Before we get into it, anything you want to make sure we cover today?",
+      "description": "Semi-set early question. Gives the report explicit permission to set the agenda before the manager's plan takes over.",
+      "purpose": "engagement",
+      "stage": "opener",
+      "axis_effects": {
+        "engagement": 1,
+        "clarity": 1
+      },
+      "source": "semi_set"
+    },
+    {
+      "alias": "q_late_arrival_observation",
+      "label": "Late arrival observation",
+      "name": "I've noticed you've been arriving late — what's the situation there?",
+      "description": "Explores the reason behind the recent pattern of arriving late.",
+      "purpose": "wellbeing",
+      "stage": "observation",
+      "axis_effects": {
+        "wellbeing": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_board_engagement_status",
+      "label": "Board engagement status",
+      "name": "How are you feeling about your current engagement with the board?",
+      "description": "Gauges Darren's alignment and relationship with the board.",
+      "purpose": "competency",
+      "stage": "observation",
+      "axis_effects": {
+        "engagement": 3
+      },
+      "source": "generated"
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "score": -1,
+      "lastDelta": 0,
+      "history": []
+    },
+    "engagement": {
+      "id": "engagement",
+      "label": "Engagement",
+      "score": -1,
+      "lastDelta": 0,
+      "history": []
+    },
+    "clarity": {
+      "id": "clarity",
+      "label": "Clarity",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "growth": {
+      "id": "growth",
+      "label": "Growth",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    }
+  },
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_open_nourishing",
+        "label": "What's nourishing",
+        "name": "What's been nourishing in your life recently?",
+        "description": "'Nourishing' invites what is genuinely sustaining — not just pleasant. No work scope.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "research"
+      },
+      "answer": "Food",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'Food' lacks specificity on what is nourishing — does not provide insight into wellbeing."
+    }
+  ],
+  "turn": 1,
+  "totalBudget": 9,
+  "closer": {
+    "alias": "q_actionable_takeaway_2",
+    "label": "Actionable takeaway",
+    "name": "What's one thing from today's conversation you'll act on?",
+    "description": "Encourages Darren to identify a concrete next step following the meeting.",
+    "purpose": "competency",
+    "stage": "support",
+    "axis_effects": {
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "pendingAnswer": null,
+  "notes": [
+    {
+      "id": "c8088b88-41bb-4268-afe4-b577ea319513",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1779848693557,
+      "text": "What's been nourishing in your life recently?\nthis is strange question, that body would ask"
+    }
+  ]
+}

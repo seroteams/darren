@@ -1,0 +1,9 @@
+alias: q_current_challenges_4
+label: Current challenges
+name: What part of your work is currently causing the most friction or challenge?
+description: Identifies specific areas of work where challenges are present.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: generated

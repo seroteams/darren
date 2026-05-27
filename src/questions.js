@@ -2,6 +2,8 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const QUESTIONS_ROOT = path.join(__dirname, "..", "questions");
+const INDEX_PATH = path.join(QUESTIONS_ROOT, "_index.json");
+const OPENERS_PATH = path.join(QUESTIONS_ROOT, "_openers.json");
 
 const FIELD_ORDER = [
   "alias",
@@ -111,6 +113,83 @@ function parseYaml(text) {
   return out;
 }
 
+function questionFingerprint(q) {
+  return JSON.stringify({
+    name: q.name,
+    description: q.description,
+    purpose: q.purpose,
+    stage: q.stage ?? null,
+    axis_effects: q.axis_effects || {},
+  });
+}
+
+function readOpeners() {
+  try {
+    const raw = JSON.parse(fs.readFileSync(OPENERS_PATH, "utf8"));
+    return Array.isArray(raw) ? raw : [];
+  } catch {
+    return [];
+  }
+}
+
+function scanYamlEntries(dir, subdir = "") {
+  const out = [];
+  if (!fs.existsSync(dir)) return out;
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (e.name === "_index.json") continue;
+    const full = path.join(dir, e.name);
+    if (e.isDirectory()) {
+      if (e.name === "_archive") continue;
+      out.push(...scanYamlEntries(full, subdir ? `${subdir}/${e.name}` : e.name));
+    } else if (e.name.endsWith(".yaml")) {
+      out.push({ alias: e.name.replace(/\.yaml$/, ""), subdir });
+    }
+  }
+  return out;
+}
+
+function readIndex() {
+  try {
+    const doc = JSON.parse(fs.readFileSync(INDEX_PATH, "utf8"));
+    if (Array.isArray(doc.aliases)) return doc;
+  } catch {}
+  return null;
+}
+
+function writeIndex(entries) {
+  const aliases = entries.map((e) => e.alias).sort();
+  const doc = {
+    generated_at: new Date().toISOString(),
+    count: aliases.length,
+    aliases,
+    entries: entries.sort((a, b) => a.alias.localeCompare(b.alias)),
+  };
+  fs.writeFileSync(INDEX_PATH, JSON.stringify(doc, null, 2) + "\n");
+  return doc;
+}
+
+function rebuildQuestionIndex() {
+  const entries = scanYamlEntries(QUESTIONS_ROOT);
+  for (const o of readOpeners()) {
+    if (o?.alias) entries.push({ alias: o.alias, subdir: "_openers.json", kind: "opener" });
+  }
+  return writeIndex(entries);
+}
+
+function registerAlias(alias, { subdir = "" } = {}) {
+  const index = readIndex();
+  if (!index) return rebuildQuestionIndex();
+  if (index.aliases.includes(alias)) return index;
+  index.aliases.push(alias);
+  index.aliases.sort();
+  index.entries.push({ alias, subdir });
+  index.entries.sort((a, b) => a.alias.localeCompare(b.alias));
+  index.count = index.aliases.length;
+  index.generated_at = new Date().toISOString();
+  fs.writeFileSync(INDEX_PATH, JSON.stringify(index, null, 2) + "\n");
+  return index;
+}
+
 // -----------------------------------------------------------------------------
 // Alias + file IO
 // -----------------------------------------------------------------------------
@@ -144,6 +223,7 @@ function saveQuestion(q, { subdir = "" } = {}) {
   const dir = subdir ? path.join(QUESTIONS_ROOT, subdir) : QUESTIONS_ROOT;
   ensureDir(dir);
   fs.writeFileSync(path.join(dir, `${q.alias}.yaml`), stringifyYaml(q));
+  registerAlias(q.alias, { subdir });
   return q.alias;
 }
 
@@ -170,6 +250,12 @@ function listAliases(subdir = "") {
 }
 
 function listAllAliases() {
+  const index = readIndex();
+  if (index) return new Set(index.aliases);
+  return listAllAliasesScan();
+}
+
+function listAllAliasesScan() {
   const set = new Set();
   for (const a of listAliases()) set.add(a);
   if (fs.existsSync(QUESTIONS_ROOT)) {
@@ -179,13 +265,18 @@ function listAllAliases() {
       }
     }
   }
+  for (const o of readOpeners()) {
+    if (o?.alias) set.add(o.alias);
+  }
   return set;
 }
 
 module.exports = {
   QUESTIONS_ROOT,
+  INDEX_PATH,
   stringifyYaml,
   parseYaml,
+  questionFingerprint,
   newAlias,
   slugify,
   saveQuestion,
@@ -193,4 +284,6 @@ module.exports = {
   loadDir,
   listAliases,
   listAllAliases,
+  rebuildQuestionIndex,
+  registerAlias,
 };

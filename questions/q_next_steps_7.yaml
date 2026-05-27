@@ -1,0 +1,9 @@
+alias: q_next_steps_7
+label: Next steps
+name: What would be the next concrete move to improve your growth trajectory?
+description: Identifies actionable steps to address growth stagnation and improve clarity.
+purpose: topic
+stage: lift
+axis_effects:
+  growth: +3
+source: planner_added

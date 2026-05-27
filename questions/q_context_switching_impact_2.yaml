@@ -1,0 +1,9 @@
+alias: q_context_switching_impact_2
+label: Context-switching impact
+name: "When you mention context-switching on reviews adding up, what's the main impact on your work or focus?"
+description: Explores the specific impact of context-switching on work and focus.
+purpose: topic
+stage: friction
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_organizational_support
+label: Organizational support
+name: What support from the organization would help you bridge the gap to your next role?
+description: Determines what organizational support Machar needs for growth.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

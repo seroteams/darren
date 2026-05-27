@@ -1,0 +1,9 @@
+alias: q_clarify_most_like_yourself_2
+label: "Clarify 'most like yourself'"
+name: "When you say 'today is fine', what specifically makes you feel most like yourself today?"
+description: Seek specifics about what makes today feel authentic to Toby.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+  growth: +1
+source: planner_added

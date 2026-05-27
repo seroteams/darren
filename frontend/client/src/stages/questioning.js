@@ -1,7 +1,7 @@
 import { STAGES, resetSession } from "../state.js";
 import { getQuestion, submitAnswer } from "../api.js";
 import { createOrb } from "../ui/orb.js";
-import { createAxesPanel } from "../ui/axes.js";
+import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { openSse } from "../sse.js";
 import { revealOne, revealSequence, sleep } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
@@ -30,10 +30,16 @@ export async function mount(root, { store, setState }) {
   const footerHost = root.querySelector(".footer-host");
 
   const axes = createAxesPanel({ celebrate: false });
-  axes.renderInitial(store.axes?.length ? store.axes : [
-    { id: "wellbeing", score: 0 }, { id: "engagement", score: 0 },
-    { id: "clarity", score: 0 }, { id: "growth", score: 0 },
-  ]);
+  axes.renderInitial(
+    store.axes?.length
+      ? store.axes
+      : AXIS_ORDER.map((id) => ({
+          id,
+          score: AXIS_SEED[id],
+          lastDelta: 0,
+          historyLen: 0,
+        }))
+  );
   axesHost.appendChild(axes.el);
 
   let activeSse = null;

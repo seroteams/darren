@@ -1,0 +1,77 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_energy_levels_post_launch",
+    "label": "Energy levels post-launch",
+    "name": "What do you think is driving your current energy levels after the payments refactor?",
+    "description": "Explores underlying reasons for current energy levels and motivation.",
+    "purpose": "wellbeing",
+    "stage": "friction",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "answer": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1
+    },
+    "note": "Describes a low-stimulus, unstretched state, indicating mild negative wellbeing."
+  },
+  "new_queue": [
+    {
+      "alias": "q_stretch_opportunities_3",
+      "label": "Stretch opportunities",
+      "name": "What would actually stretch you right now — is there a project or area you want to dive into?"
+    },
+    {
+      "alias": "q_priority_alignment_12",
+      "label": "Priority alignment",
+      "name": "Do you feel aligned with the team’s current priorities?"
+    },
+    {
+      "alias": "q_energy_sustainability_2",
+      "label": "Energy sustainability",
+      "name": "Is the current workload sustainable for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_energy_levels_post_launch",
+          "delta": -1,
+          "answer_excerpt": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

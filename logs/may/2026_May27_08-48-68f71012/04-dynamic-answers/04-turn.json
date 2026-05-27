@@ -1,0 +1,86 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_margin_of_error",
+    "label": "Margin of error",
+    "name": "When you mention 'margin of error' in self-learning, what specifically do you mean, and how does it affect your growth?",
+    "description": "Clarifies the impact of self-learning errors on growth.",
+    "purpose": "topic",
+    "stage": null,
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "different of what i understand and correct learning an dprogression",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -1
+    },
+    "note": "[SHALLOW] 'different of what i understand and correct learning' lacks specifics on margin of error impact."
+  },
+  "new_queue": [
+    {
+      "alias": "q_margin_of_error_specifics",
+      "label": "Margin of error specifics",
+      "name": "When you say 'different of what I understand and correct learning' — can you give a specific example of where this margin of error showed up in your work?"
+    },
+    {
+      "alias": "q_current_role_assessment_2",
+      "label": "Current role assessment",
+      "name": "What's feeling solid in your role right now, and what's stretching you?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_open_learning_yourself",
+          "delta": -1,
+          "answer_excerpt": "to progress needs a lot of self drive and learning as the infrustratcutre isnt there to get them to the base level"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_open_learning_yourself",
+          "delta": -2,
+          "answer_excerpt": "to progress needs a lot of self drive and learning as the infrustratcutre isnt there to get them to the base level"
+        },
+        {
+          "q": "q_infrastructure_barrier",
+          "delta": -3,
+          "answer_excerpt": "dont have proper training, no training program, its all side by side of teh desk, if you dont raise your hand you dont get"
+        },
+        {
+          "q": "q_training_gap",
+          "delta": -1,
+          "answer_excerpt": "gives a margin of erro in the self learning"
+        },
+        {
+          "q": "q_margin_of_error",
+          "delta": -1,
+          "answer_excerpt": "different of what i understand and correct learning an dprogression"
+        }
+      ]
+    }
+  }
+}

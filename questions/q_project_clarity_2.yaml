@@ -1,0 +1,9 @@
+alias: q_project_clarity_2
+label: Project clarity
+name: Where are you feeling unclear about current project priorities?
+description: Identifies any areas where Carl lacks clarity on project priorities.
+purpose: competency
+stage: friction
+axis_effects:
+  clarity: +3
+source: generated

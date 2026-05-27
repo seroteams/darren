@@ -1,0 +1,9 @@
+alias: q_trade_offs_for_growth
+label: Trade-offs for growth
+name: What are you willing to trade off to focus on developing your leadership skills?
+description: Discuss potential sacrifices Toby might need to make for growth.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +1
+source: generated

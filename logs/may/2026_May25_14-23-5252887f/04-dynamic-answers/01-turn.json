@@ -1,0 +1,80 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_open_real_version",
+    "label": "The real version",
+    "name": "Tell me about your week — the real version.",
+    "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 2,
+      "engagement": 1
+    },
+    "source": "research"
+  },
+  "answer": "yeah its been okay but i am not 100% yet.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1
+    },
+    "note": "Carl's response indicates he is not fully recovered, signaling mild wellbeing concern."
+  },
+  "new_queue": [
+    {
+      "alias": "q_current_energy_check",
+      "label": "Current energy check",
+      "name": "How are you feeling energy-wise now after your recent illness?"
+    },
+    {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?"
+    },
+    {
+      "alias": "q_ux_priorities_focus",
+      "label": "UX priorities focus",
+      "name": "What are the main UX priorities you're focusing on right now?"
+    },
+    {
+      "alias": "q_support_needs_13",
+      "label": "Support needs",
+      "name": "Is there anything specific you need more of from me right now?"
+    },
+    {
+      "alias": "q_momentum_blockers",
+      "label": "Momentum blockers",
+      "name": "What's currently the biggest blocker to your progress?"
+    },
+    {
+      "alias": "q_lightening_the_load",
+      "label": "Lightening the load",
+      "name": "What could make your next two weeks feel lighter or more productive?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": -1,
+          "answer_excerpt": "yeah its been okay but i am not 100% yet."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

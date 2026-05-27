@@ -1,0 +1,9 @@
+alias: q_personal_growth_focus
+label: Personal growth focus
+name: What area are you looking to grow in over the next quarter?
+description: "Explores Darren's personal growth interests and focus for the future."
+purpose: competency
+stage: underneath
+axis_effects:
+  growth: +3
+source: generated

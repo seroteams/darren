@@ -1,0 +1,618 @@
+{
+  "id": "2026_May24_21-46-1eb839fd",
+  "dir": "c:\\Users\\User\\Documents\\Sero\\darren\\logs\\may\\2026_May24_21-46-1eb839fd",
+  "createdAt": 1779633990321,
+  "lastSeenAt": 1779636551555,
+  "ctx": {
+    "name": "Toby",
+    "role": "Expert UX Designer",
+    "seniority": "Expert",
+    "meetingType": "Growth & career plan",
+    "notes": "He wants to become a lead but his communication methods suck"
+  },
+  "introQueue": [
+    {
+      "alias": "q_open_most_like_yourself",
+      "label": "Most like yourself",
+      "name": "When have you felt most like yourself recently?",
+      "description": "Authentic self-concept research. Identity-based, not performance-based. Deep without being intrusive.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 2,
+        "growth": 1
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_agenda_check",
+      "label": "Agenda check",
+      "name": "Before we get into it, anything you want to make sure we cover today?",
+      "description": "Semi-set early question. Gives the report explicit permission to set the agenda before the manager's plan takes over.",
+      "purpose": "engagement",
+      "stage": "opener",
+      "axis_effects": {
+        "engagement": 1,
+        "clarity": 1
+      },
+      "source": "semi_set"
+    },
+    {
+      "alias": "q_intro_growth_blockers",
+      "label": "Growth blockers",
+      "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+      "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?",
+      "description": "Probes whether they have a real picture of where they want to go.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    }
+  ],
+  "focusPointsResult": {
+    "meeting_type": "Growth & career plan",
+    "focus_points": [
+      {
+        "id": "communication",
+        "type": "Communication",
+        "category": "competency",
+        "label": "Communication effectiveness for a future lead role.",
+        "reason": "Notes mention communication as a barrier to his goal of becoming a lead. Worth exploring how he currently communicates and what changes might be needed to align with lead-level expectations.",
+        "source": "signal",
+        "known": true
+      },
+      {
+        "id": "growth",
+        "type": "Growth & development",
+        "category": "topic",
+        "label": "Specific skills to develop for leadership transition.",
+        "reason": "What skills and experiences he believes will bridge the gap to a lead role. Growth & career plan default for an expert aiming to transition into leadership.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "feedback",
+        "type": "Feedback (given & received)",
+        "category": "topic",
+        "label": "Feedback he's received on his leadership potential.",
+        "reason": "Whether he has received concrete feedback on his readiness for a lead role and how he interprets it. This can guide the growth conversation and identify any blind spots.",
+        "source": "best_practice",
+        "known": true
+      }
+    ]
+  },
+  "preparationResult": {
+    "brief": {
+      "coreIssue": "Discuss the communication skills {{NAME}} needs to develop to transition from Expert UX Designer to a lead role.",
+      "openingQuestion": "What specific communication challenges have you faced recently that might impact your transition to a lead role?",
+      "listenFor": [
+        "whether he acknowledges communication challenges",
+        "if they have a plan to improve communication",
+        "whether he has received feedback on communication"
+      ],
+      "avoid": [
+        "do not focus solely on technical skills",
+        "do not dismiss his current communication methods"
+      ],
+      "goodOutcome": "You and {{NAME}} have agreed on one specific communication skill to focus on improving this quarter.",
+      "suggestedAction": "Set a follow-up meeting in one month to review progress on the agreed communication skill."
+    },
+    "runId": "bcf03255-7220-4580-814a-8da355ec3c01",
+    "validation": {
+      "passed": false,
+      "issues": [
+        "output may not reflect the meeting type distinctly"
+      ]
+    }
+  },
+  "bankReady": {
+    "count": 9
+  },
+  "briefing": {
+    "headline": "Toby is focused on becoming a lead, with a real risk of leaving if not promoted soon.",
+    "summary_bullets": [
+      "Toby's answers indicate a strong desire for promotion to lead, with a risk of leaving if unmet.",
+      "Despite communication being flagged as a barrier, Toby sees himself as effective in documentation and presentations.",
+      "Toby feels he's already performing at a lead level but hasn't received confirmation or promotion."
+    ],
+    "understanding_paragraph": "The session confirmed Toby's strong focus on becoming a lead, with a sense of urgency due to his perceived readiness and contributions. He feels confident in his documentation and presentation skills, though communication was noted as a barrier to leadership. Toby's risk of leaving if not promoted soon is a significant concern that needs addressing.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": 0,
+        "meaning": "No significant wellbeing signal emerged — not actionable."
+      },
+      {
+        "id": "engagement",
+        "score": 1,
+        "meaning": "Slight engagement, but risk of disengagement if promotion is delayed."
+      },
+      {
+        "id": "clarity",
+        "score": 1,
+        "meaning": "Weak clarity signal — Toby feels confident in some aspects but lacks full alignment."
+      },
+      {
+        "id": "growth",
+        "score": 5,
+        "meaning": "Strong growth focus on becoming a lead; a real pattern to act on."
+      }
+    ],
+    "brutal_truth_employee": "Toby expressed a strong desire to become a lead, stating \"if he is not up for promotion he might go elsewhere.\" This indicates urgency in addressing his career path.",
+    "brutal_truth_manager": "When Toby mentioned \"i am good at preparing documentation and presenting to people,\" the conversation didn't explore his communication challenges further. Next time, delve into areas needing improvement.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Discuss with Toby the specific skills and improvements needed for a lead role."
+      },
+      {
+        "when": "this month",
+        "action": "Set up a feedback session for Toby focused on his leadership potential and communication effectiveness."
+      },
+      {
+        "when": "next 1:1",
+        "action": "Revisit Toby's growth plan and provide a clear timeline for potential promotion to a lead role."
+      }
+    ],
+    "watch_for": [
+      "If Toby doesn't bring up lead promotion again, it may indicate resignation to his current role.",
+      "If Toby's communication style doesn't evolve, it could hinder his leadership aspirations."
+    ]
+  },
+  "queueRef": [
+    {
+      "alias": "q_commitment_to_action_5",
+      "label": "Commitment to action",
+      "name": "What one concrete step will you take before our next session to move toward your lead goal?",
+      "description": "Identify a specific action Toby will commit to for his leadership transition.",
+      "purpose": "topic",
+      "stage": "commitment",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "score": 0,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_clarify_looking_forward",
+          "delta": 1,
+          "answer_excerpt": "where can I go next, how do i get to the lead level and by when?"
+        }
+      ]
+    },
+    "engagement": {
+      "id": "engagement",
+      "label": "Engagement",
+      "score": 1,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -1,
+          "answer_excerpt": "well he is hoping to be a lead or there is a real flight risk"
+        },
+        {
+          "q": "q_lead_role_flight_risk",
+          "delta": 1,
+          "answer_excerpt": "he wants to exceed so if he is not up for promotion he might go elsewhere"
+        },
+        {
+          "q": "q_promotion_urgency",
+          "delta": 1,
+          "answer_excerpt": "hes been leading the design for a while, hes been working with stakeholders and done eccellent work"
+        },
+        {
+          "q": "q_stakeholder_work_specifics",
+          "delta": 1,
+          "answer_excerpt": "i was there to discuss all the design decisions with the PO's and the app itself has done really well"
+        }
+      ]
+    },
+    "clarity": {
+      "id": "clarity",
+      "label": "Clarity",
+      "score": 1,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_communication_challenges_2",
+          "delta": 1,
+          "answer_excerpt": "i am good at preparting documetnation and presenting to people"
+        }
+      ]
+    },
+    "growth": {
+      "id": "growth",
+      "label": "Growth",
+      "score": 5,
+      "lastDelta": 1,
+      "history": [
+        {
+          "q": "q_clarify_looking_forward",
+          "delta": 1,
+          "answer_excerpt": "where can I go next, how do i get to the lead level and by when?"
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 3,
+          "answer_excerpt": "well he is hoping to be a lead or there is a real flight risk"
+        },
+        {
+          "q": "q_commitment_to_action_4",
+          "delta": 1,
+          "answer_excerpt": "i want to talk about what I need to do to be a lead"
+        }
+      ]
+    }
+  },
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_open_most_like_yourself",
+        "label": "Most like yourself",
+        "name": "When have you felt most like yourself recently?",
+        "description": "Authentic self-concept research. Identity-based, not performance-based. Deep without being intrusive.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 2,
+          "growth": 1
+        },
+        "source": "research"
+      },
+      "answer": "today is fine",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'today is fine' is a three-token response with no concrete noun or specifics."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_clarify_most_like_yourself_2",
+        "label": "Clarify 'most like yourself'",
+        "name": "When you say 'today is fine', what specifically makes you feel most like yourself today?",
+        "description": "Seek specifics about what makes today feel authentic to Toby.",
+        "purpose": "wellbeing",
+        "stage": null,
+        "axis_effects": {
+          "wellbeing": 3,
+          "growth": 1
+        },
+        "source": "planner_added"
+      },
+      "answer": "he is good and is looking forward to this session.",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'he is good and is looking forward to this session' lacks specifics about what makes today feel authentic."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_clarify_looking_forward",
+        "label": "Clarify 'looking forward'",
+        "name": "When you say 'looking forward to this session', what specifically are you hoping to get out of it?",
+        "description": "Seek specifics about what Toby anticipates from this session.",
+        "purpose": "wellbeing",
+        "stage": null,
+        "axis_effects": {
+          "wellbeing": 3,
+          "growth": 1
+        },
+        "source": "planner_added"
+      },
+      "answer": "where can I go next, how do i get to the lead level and by when?",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": 1,
+        "growth": 1
+      },
+      "note": "Toby is focused on growth and is looking for guidance on achieving a lead role."
+    },
+    {
+      "turn": 4,
+      "question": {
+        "alias": "q_intro_growth_direction",
+        "label": "Direction",
+        "name": "When you imagine yourself eighteen months from now, what's actually different?",
+        "description": "Probes whether they have a real picture of where they want to go.",
+        "purpose": "topic",
+        "stage": "aspiration",
+        "axis_effects": {
+          "growth": 3,
+          "engagement": 1
+        },
+        "source": "seed"
+      },
+      "answer": "well he is hoping to be a lead or there is a real flight risk",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": -1,
+        "growth": 3
+      },
+      "note": "Expresses a strong desire to become a lead, but indicates a flight risk if not achieved — strong growth aspiration but negative engagement signal."
+    },
+    {
+      "turn": 5,
+      "question": {
+        "alias": "q_lead_role_flight_risk",
+        "label": "Lead role flight risk",
+        "name": "When you say 'real flight risk', what's driving that — is it pace, support, or something else?",
+        "description": "Explore the factors contributing to the flight risk if lead role isn't achieved.",
+        "purpose": "topic",
+        "stage": null,
+        "axis_effects": {
+          "engagement": 1
+        },
+        "source": "planner_added"
+      },
+      "answer": "he wants to exceed so if he is not up for promotion he might go elsewhere",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": 1
+      },
+      "note": "Toby expresses a clear desire to exceed and sees promotion as crucial, indicating engagement is contingent on growth opportunities."
+    },
+    {
+      "turn": 6,
+      "question": {
+        "alias": "q_promotion_urgency",
+        "label": "Promotion urgency",
+        "name": "When you say 'not up for promotion', what specifically would make you feel ready for that step?",
+        "description": "Explore Toby's perception of readiness for promotion and what he believes is necessary to achieve it.",
+        "purpose": "topic",
+        "stage": null,
+        "axis_effects": {
+          "engagement": 1
+        },
+        "source": "planner_added"
+      },
+      "answer": "hes been leading the design for a while, hes been working with stakeholders and done eccellent work",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": 1
+      },
+      "note": "Toby describes leading design and stakeholder work as evidence of readiness for promotion, indicating engagement with his current role."
+    },
+    {
+      "turn": 7,
+      "question": {
+        "alias": "q_stakeholder_work_specifics",
+        "label": "Stakeholder work specifics",
+        "name": "When you mention working with stakeholders, what specifically has been your biggest win there?",
+        "description": "Explore Toby's achievements and impact in stakeholder engagement.",
+        "purpose": "topic",
+        "stage": null,
+        "axis_effects": {
+          "engagement": 1
+        },
+        "source": "planner_added"
+      },
+      "answer": "i was there to discuss all the design decisions with the PO's and the app itself has done really well",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": 1
+      },
+      "note": "Toby's engagement with stakeholders led to successful design decisions and app performance."
+    },
+    {
+      "turn": 8,
+      "question": {
+        "alias": "q_communication_challenges_2",
+        "label": "Communication challenges",
+        "name": "In what situations do you find your current communication style most effective, and where is it not landing as you'd like?",
+        "description": "Identify strengths and weaknesses in Toby's communication style.",
+        "purpose": "competency",
+        "stage": "anchor",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "generated"
+      },
+      "answer": "i am good at preparting documetnation and presenting to people",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": 1
+      },
+      "note": "Describes strength in preparing documentation and presenting, indicating clarity in those areas."
+    },
+    {
+      "turn": 9,
+      "question": {
+        "alias": "q_commitment_to_action_4",
+        "label": "Commitment to action",
+        "name": "What's the first concrete thing you want to have moved by our next conversation?",
+        "description": "Encourages Toby to commit to a specific action or goal.",
+        "purpose": "topic",
+        "stage": "commitment",
+        "axis_effects": {
+          "growth": 1
+        },
+        "source": "generated"
+      },
+      "answer": "i want to talk about what I need to do to be a lead",
+      "skipped": false,
+      "realized_deltas": {
+        "growth": 1
+      },
+      "note": "Toby's answer indicates a clear commitment to discussing steps toward a lead role, aligning with growth goals."
+    }
+  ],
+  "turn": 9,
+  "totalBudget": 9,
+  "closer": {
+    "alias": "q_commitment_to_action_4",
+    "label": "Commitment to action",
+    "name": "What's the first concrete thing you want to have moved by our next conversation?",
+    "description": "Encourages Toby to commit to a specific action or goal.",
+    "purpose": "topic",
+    "stage": "commitment",
+    "axis_effects": {
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "pendingAnswer": null,
+  "notes": [
+    {
+      "id": "c8524ec5-b79b-429e-85f2-a68f2890c134",
+      "stage": "PREPARATION",
+      "turn": 0,
+      "ts": 1779634038118,
+      "text": "Discuss the communication skills {{NAME}} needs to develop to transition from Expert UX Designer to a lead role.\n\nis not showing their actual name"
+    },
+    {
+      "id": "9716ca36-3a49-41e8-8619-cf722c4264f8",
+      "stage": "PREPARATION",
+      "turn": 0,
+      "ts": 1779634498512,
+      "text": "\"What specific communication challenges have you faced recently that might impact your transition to a lead role?\n\" as an opener this sucks! how about hello, . This feels lik eits not based onthe Arc we talked about"
+    },
+    {
+      "id": "3a82b834-8877-4730-bedd-cc85b624295e",
+      "stage": "PREPARATION",
+      "turn": 0,
+      "ts": 1779634519309,
+      "text": "Listen for\nwhether he acknowledges communication challenges\nif they have a plan to improve communication\nwhether he has received feedback on communication\n\nthis is stupidly ovvious and not adding value"
+    },
+    {
+      "id": "1d20665b-5ee3-4582-ac7a-13a29167836f",
+      "stage": "PREPARATION",
+      "turn": 0,
+      "ts": 1779634555757,
+      "text": "Good outcome\nYou and {{NAME}} have agreed on one specific communication skill to focus on improving this quarter.\n\nSo general and boring, should be something specificx to the job role and seniority. \n\nIt feels lik ethis prep has not actually reserached the role."
+    },
+    {
+      "id": "13bfc16f-14b3-405b-b96e-1b4180fed2b9",
+      "stage": "PREPARATION",
+      "turn": 0,
+      "ts": 1779634577253,
+      "text": "Suggested action\nSet a follow-up meeting in one month to review progress on the agreed communication skill.\n\ni dont even think this is useful at this stage, we have not done the meerting yet."
+    },
+    {
+      "id": "4a84d9fb-4856-4b5f-a8f7-0327ad80593a",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1779634758796,
+      "text": "Question bank\n\nthis stage is not neede.d"
+    },
+    {
+      "id": "01257caa-f8bb-4e5a-9f08-861c3c786af7",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1779634786260,
+      "text": "When have you felt most like yourself recently?\nthis questino is just creepy and its not the prep question either. There is a clear discounnet"
+    },
+    {
+      "id": "8217851f-9331-42c5-987f-14907d8d1132",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1779634846318,
+      "text": "I said I am fine, and welbing went down \"Wellbeing\n-1\nEngagement\n-1\"\n\nshould not, engagment maybe, but this is strtange as the ratings are being reated to what I am typing not what i am sayhing. \n\nI dont see the value in those yet"
+    },
+    {
+      "id": "e57728c5-8009-431f-879a-5ab7dff0a214",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1779634858498,
+      "text": "When you say 'today is fine', what specifically makes you feel most like yourself today?\ngood follow up!"
+    },
+    {
+      "id": "a91c643a-54e9-4e23-b759-e3b1b70652f2",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1779635037204,
+      "text": "annoyingly going for the same question after being positive and wasting a question \"When you say 'looking forward to this session', what specifically are you hoping to get out of it?\n\""
+    },
+    {
+      "id": "fa4d039d-ee8b-4ec3-a22c-33a40174467b",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1779635183910,
+      "text": "When you imagine yourself eighteen months from now, what's actually different?\n\n\nhard question - feels not suitable, this is a groth and career plan! It should be asking about growth, careers. \n\nreally this ssytem feels dumb as if it has not reseached what a growht and career plan arc would be."
+    },
+    {
+      "id": "25164968-26d8-4b03-b4d9-20763f82a104",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1779635928288,
+      "text": "Question 6 of 9\nWhen you say 'not up for promotion', what specifically would make you feel ready for that step?\nExplore Toby's perception of readiness for promotion and what he believes is necessary to achieve it.\n\n\nthis system is off on a tangent, \nreally this is useless. \n\nits just going from question to question but forgetting the arc of the questions"
+    },
+    {
+      "id": "45ea23cc-8513-458c-ba3b-4fbc40d0a856",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1779636116833,
+      "text": "Question 7 of 9\nWhen you mention working with stakeholders, what specifically has been your biggest win there?\n\n\nand we have not done an y reall planning or grrowth. \n\ni htink this.... \n\nWe need to have next question, which moves through the arck, or a seconcdary button that says \"dig deeper\""
+    },
+    {
+      "id": "bea41cdf-7aba-4c59-9516-5b2dbfe1ef52",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1779636203069,
+      "text": "In what situations do you find your current communication style most effective, and where is it not landing as you'd like?\n\nthis question is okay but long"
+    },
+    {
+      "id": "943a36e3-8d9f-4ee3-a201-733c8e76f561",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1779636458444,
+      "text": "yeah its not a bad last question \n\nWhat's the first concrete thing you want to have moved by our next conversation?"
+    },
+    {
+      "id": "b0aeaec4-d6e3-48b5-b1d9-74a517228258",
+      "stage": "BRIEFING",
+      "turn": 0,
+      "ts": 1779636487091,
+      "text": "this is great\n\nBriefing · For Toby\nToby is focused on becoming a lead, with a real risk of leaving if not promoted soon"
+    },
+    {
+      "id": "898f4f4e-90a6-4edf-be1b-7bc9c1e13bb5",
+      "stage": "BRIEFING",
+      "turn": 0,
+      "ts": 1779636496966,
+      "text": "this repeast the top \"What stood out\n●\nToby's answers indicate a strong desire for promotion to lead, with a risk of leaving if unmet.\""
+    },
+    {
+      "id": "e0af2122-6a97-41b9-a5f3-c22aabc2bc74",
+      "stage": "BRIEFING",
+      "turn": 0,
+      "ts": 1779636508369,
+      "text": "this is great\n\nhat we understood\nThe session confirmed Toby's strong focus on becoming a lead, with a sense of urgency due to his perceived readiness and contributions. He feels confident in his documentation and presentation skills, though communication was noted as a barrier to leadership. Toby's risk of leaving if not promoted soon is a significant concern that needs addressing."
+    },
+    {
+      "id": "53bd6389-de26-4488-b809-d74cd86e722b",
+      "stage": "BRIEFING",
+      "turn": 0,
+      "ts": 1779636533127,
+      "text": "About you\nWhen Toby mentioned \"i am good at preparing documentation and presenting to people,\" the conversation didn't explore his communication challenges further. Next time, delve into areas needing improvement.\n\nnah this mute advise, it should be around making a plan"
+    },
+    {
+      "id": "e9d04b34-a2a4-472b-afcd-7b6d9f3bb684",
+      "stage": "LEXICON_REVIEW",
+      "turn": 0,
+      "ts": 1779636551551,
+      "text": "shame! there was some \n\nLexicon\nAnything worth keeping?\nPhrases and patterns from this 1:1 that might be worth adding to your lexicon. Yes keeps it, no drops it.\nNo lexicon candidates from this run."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+alias: q_momentum_blockers
+label: Momentum blockers
+name: "What's currently the biggest blocker to your progress?"
+description: "Identifies significant barriers to momentum in Carl's work."
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +3
+source: generated

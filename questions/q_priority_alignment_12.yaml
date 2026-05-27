@@ -1,0 +1,9 @@
+alias: q_priority_alignment_12
+label: Priority alignment
+name: Do you feel aligned with the team’s current priorities?
+description: Checks alignment with current team priorities and any potential misalignment.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +3
+source: generated

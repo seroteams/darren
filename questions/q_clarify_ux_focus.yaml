@@ -1,0 +1,9 @@
+alias: q_clarify_ux_focus
+label: Clarify UX focus
+name: "When you say 'get all the screens designed quickly' — which screens specifically, and why the rush?"
+description: Seeks specifics on which screens Carl is focusing on and the urgency behind it.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added

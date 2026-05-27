@@ -1,0 +1,530 @@
+{
+  "id": "2026_May25_14-23-5252887f",
+  "dir": "C:\\Users\\User\\Documents\\Sero\\darren\\logs\\may\\2026_May25_14-23-5252887f",
+  "createdAt": 1779693838250,
+  "lastSeenAt": 1779700545087,
+  "ctx": {
+    "name": "Carl",
+    "role": "UX Lead",
+    "seniority": "Lead",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "They have been sick reacnetly"
+  },
+  "introQueue": [
+    {
+      "alias": "q_open_real_version",
+      "label": "The real version",
+      "name": "Tell me about your week — the real version.",
+      "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 2,
+        "engagement": 1
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_agenda_check",
+      "label": "Agenda check",
+      "name": "Before we get into it, anything you want to make sure we cover today?",
+      "description": "Semi-set early question. Gives the report explicit permission to set the agenda before the manager's plan takes over.",
+      "purpose": "engagement",
+      "stage": "opener",
+      "axis_effects": {
+        "engagement": 1,
+        "clarity": 1
+      },
+      "source": "semi_set"
+    },
+    {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?",
+      "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    }
+  ],
+  "focusPointsResult": {
+    "meeting_type": "Bi-weekly check-in",
+    "focus_points": [
+      {
+        "id": "energy",
+        "type": "Energy & wellbeing",
+        "category": "wellbeing",
+        "label": "Health and energy after recent illness.",
+        "reason": "Notes mention recent sickness. Worth exploring how they're feeling now and if any concerns linger about their energy levels or work capacity.",
+        "source": "signal",
+        "known": true
+      },
+      {
+        "id": "priorities",
+        "type": "Priorities & goals",
+        "category": "topic",
+        "label": "Current UX priorities and focus areas.",
+        "reason": "Whether they're still on the work that made them senior, or quietly being absorbed into firefighting.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "manager_support",
+        "type": "Manager support",
+        "category": "topic",
+        "label": "What Carl would want more of from you.",
+        "reason": "Whether there's something specific Carl needs from you that he hasn't asked for. Leads stop asking when they think you're already stretched.",
+        "source": "best_practice",
+        "known": true
+      }
+    ]
+  },
+  "preparationResult": {
+    "brief": {
+      "coreIssue": "Carl's health and energy levels after a recent illness, and how this impacts his current UX priorities and focus.",
+      "openingQuestion": "How are you feeling about your energy levels now, and are there any concerns about balancing your current UX priorities?",
+      "listenFor": [
+        "whether he mentions specific tasks he's struggling with post-illness",
+        "if he hesitates when discussing current priorities",
+        "whether he expresses a need for more support from you"
+      ],
+      "avoid": [
+        "do not assume his energy is fully restored",
+        "do not overlook subtle hints about needing additional support"
+      ],
+      "goodOutcome": "You and Carl have agreed on a realistic adjustment to his current UX priorities that accommodates his energy levels.",
+      "suggestedAction": "During the 1:1, explore if Carl needs temporary adjustments to his workload to better manage his recovery."
+    },
+    "runId": "9b178730-bb9b-45dd-8a76-a733765225e2",
+    "validation": {
+      "passed": false,
+      "issues": [
+        "listenFor may lack observable behavioural cue: \"whether he expresses a need for more support from you…\"",
+        "goodOutcome may be too generic — add seniority, role, or level-specific artefact (lead scope, ownership, etc.)",
+        "coreIssue does not reference role or seniority — may be too generic",
+        "output may not reflect the meeting type distinctly",
+        "openingQuestion appears generic — should be specific to the selected concerns"
+      ]
+    }
+  },
+  "bankReady": {
+    "count": 8
+  },
+  "briefing": {
+    "headline": "Carl's clarity and engagement are low, driven by email backlog stress and unclear UX priorities.",
+    "summary_bullets": [
+      "Carl's engagement is low due to overwhelming email backlog, causing stress and fear of forgetting tasks.",
+      "Clarity is a concern, with Carl unable to articulate specific UX priorities or urgency reasons.",
+      "Skipped question on lightening the load suggests possible avoidance or overwhelm."
+    ],
+    "understanding_paragraph": "The session confirmed the read from the notes that Carl is not fully recovered from illness. His engagement is low, driven by the overwhelming email backlog. Clarity on UX priorities and urgency is lacking, indicating potential misalignment with team goals.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": -1,
+        "meaning": "Weak signal; Carl is not fully recovered but managing."
+      },
+      {
+        "id": "engagement",
+        "score": -5,
+        "meaning": "A real pattern; email backlog is causing significant stress."
+      },
+      {
+        "id": "clarity",
+        "score": -7,
+        "meaning": "A real pattern; unclear priorities and urgency need addressing."
+      },
+      {
+        "id": "growth",
+        "score": 0,
+        "meaning": "No signal here — not actionable."
+      }
+    ],
+    "brutal_truth_employee": "Carl expressed stress about the email backlog, saying \"scared I will forget something.\" This indicates significant pressure affecting his engagement.",
+    "brutal_truth_manager": "When Carl said \"they need to get done\" about UX priorities, the conversation moved on without digging into the real drivers. This was a missed opportunity to clarify priorities.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Email Carl to help prioritize his email backlog and reduce immediate stress."
+      },
+      {
+        "when": "this week",
+        "action": "Schedule a meeting to clarify the UX priorities and urgency for upcoming projects."
+      },
+      {
+        "when": "next 1:1",
+        "action": "Revisit the skipped question on making the next two weeks lighter, ensuring Carl provides a concrete answer."
+      }
+    ],
+    "watch_for": [
+      "If Carl continues to express stress over emails in the next two weeks, consider additional support.",
+      "If Carl skips questions again in the next 1:1, it may indicate deeper overwhelm."
+    ]
+  },
+  "queueRef": [],
+  "axisState": {
+    "wellbeing": {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "score": -1,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": -1,
+          "answer_excerpt": "yeah its been okay but i am not 100% yet."
+        },
+        {
+          "q": "q_current_energy_check",
+          "delta": 1,
+          "answer_excerpt": "not bad, was just a lot of recovery, sorry about that"
+        }
+      ]
+    },
+    "engagement": {
+      "id": "engagement",
+      "label": "Engagement",
+      "score": -5,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -3,
+          "answer_excerpt": "so many emails to come back to , scared i will forget something"
+        },
+        {
+          "q": "q_emails_backlog_stress",
+          "delta": -1,
+          "answer_excerpt": "just so many of them"
+        }
+      ]
+    },
+    "clarity": {
+      "id": "clarity",
+      "label": "Clarity",
+      "score": -7,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "so many emails to come back to , scared i will forget something"
+        },
+        {
+          "q": "q_ux_priorities_focus",
+          "delta": -1,
+          "answer_excerpt": "the app redesign and the sections on the"
+        },
+        {
+          "q": "q_clarify_ux_priorities",
+          "delta": -1,
+          "answer_excerpt": "he has to ave to get all the screen designed quicklyu"
+        },
+        {
+          "q": "q_clarify_ux_focus",
+          "delta": -3,
+          "answer_excerpt": "they need to get done"
+        },
+        {
+          "q": "q_clarify_urgency",
+          "delta": -3,
+          "answer_excerpt": "i am , the manager, so he's my directr repot"
+        }
+      ]
+    },
+    "growth": {
+      "id": "growth",
+      "label": "Growth",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    }
+  },
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_open_real_version",
+        "label": "The real version",
+        "name": "Tell me about your week — the real version.",
+        "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 2,
+          "engagement": 1
+        },
+        "source": "research"
+      },
+      "answer": "yeah its been okay but i am not 100% yet.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -1
+      },
+      "note": "Carl's response indicates he is not fully recovered, signaling mild wellbeing concern."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_current_energy_check",
+        "label": "Current energy check",
+        "name": "How are you feeling energy-wise now after your recent illness?",
+        "description": "Explores current energy levels and any lingering effects from recent illness.",
+        "purpose": "wellbeing",
+        "stage": "pulse",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "generated"
+      },
+      "answer": "not bad, was just a lot of recovery, sorry about that",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": 1
+      },
+      "note": "Mild positive signal — Carl is recovering, but not fully back to normal."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_intro_biweekly_friction",
+        "label": "Friction scan",
+        "name": "What's been slower or harder than it should have been?",
+        "description": "Invites them to name blockers without framing it as complaint.",
+        "purpose": "topic",
+        "stage": "friction",
+        "axis_effects": {
+          "clarity": 1,
+          "engagement": 3
+        },
+        "source": "seed"
+      },
+      "answer": "so many emails to come back to , scared i will forget something",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": -3,
+        "clarity": 1
+      },
+      "note": "Emails backlog causing stress and fear of forgetting tasks — negative engagement signal."
+    },
+    {
+      "turn": 4,
+      "question": {
+        "alias": "q_emails_backlog_stress",
+        "label": "Emails backlog stress",
+        "name": "What specifically about the email backlog is stressing you — volume, urgency, or something else?",
+        "description": "Drills into the specific stressor within the email backlog.",
+        "purpose": "topic",
+        "stage": "friction",
+        "axis_effects": {
+          "engagement": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "just so many of them",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": -1
+      },
+      "note": "The answer 'just so many of them' indicates stress from email volume, confirming disengagement."
+    },
+    {
+      "turn": 5,
+      "question": {
+        "alias": "q_ux_priorities_focus",
+        "label": "UX priorities focus",
+        "name": "What are the main UX priorities you're focusing on right now?",
+        "description": "Determines if Carl is still focused on key UX work or getting sidetracked.",
+        "purpose": "topic",
+        "stage": "friction",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "generated"
+      },
+      "answer": "the app redesign and the sections on the",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1
+      },
+      "note": "[SHALLOW] Answer 'the app redesign and the sections on the' lacks specifics on UX priorities."
+    },
+    {
+      "turn": 6,
+      "question": {
+        "alias": "q_clarify_ux_priorities",
+        "label": "Clarify UX priorities",
+        "name": "When you say 'the app redesign and the sections on the' — what specifically are you focusing on within those areas?",
+        "description": "Clarifies what Carl is focusing on within the app redesign and sections.",
+        "purpose": "topic",
+        "stage": "friction",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "he has to ave to get all the screen designed quicklyu",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1
+      },
+      "note": "[SHALLOW] Answer 'he has to ave to get all the screen designed quicklyu' lacks specificity about UX priorities."
+    },
+    {
+      "turn": 7,
+      "question": {
+        "alias": "q_clarify_ux_focus",
+        "label": "Clarify UX focus",
+        "name": "When you say 'get all the screens designed quickly' — which screens specifically, and why the rush?",
+        "description": "Seeks specifics on which screens Carl is focusing on and the urgency behind it.",
+        "purpose": "topic",
+        "stage": "friction",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "they need to get done",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -3
+      },
+      "note": "[SHALLOW] 'they need to get done' lacks specifics on which screens and why — no clarity gained."
+    },
+    {
+      "turn": 8,
+      "question": {
+        "alias": "q_clarify_urgency",
+        "label": "Clarify urgency",
+        "name": "When you say 'they need to get done' — what's driving that urgency? Is it a deadline, feedback, or something else?",
+        "description": "Seeks to clarify the urgency behind the need to complete the screens.",
+        "purpose": "topic",
+        "stage": "friction",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "i am , the manager, so he's my directr repot",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -3
+      },
+      "note": "Answer lacks clarity and coherence regarding urgency — strong negative clarity signal."
+    },
+    {
+      "turn": 9,
+      "question": {
+        "alias": "q_lightening_the_load",
+        "label": "Lightening the load",
+        "name": "What could make your next two weeks feel lighter or more productive?",
+        "description": "Explores opportunities to reduce stress or increase productivity for Carl.",
+        "purpose": "wellbeing",
+        "stage": "lift",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "generated"
+      },
+      "answer": "(skipped)",
+      "skipped": true,
+      "realized_deltas": {},
+      "note": "Skipped question without engagement — no signal change."
+    }
+  ],
+  "turn": 9,
+  "totalBudget": 9,
+  "closer": {
+    "alias": "q_lightening_the_load",
+    "label": "Lightening the load",
+    "name": "What could make your next two weeks feel lighter or more productive?",
+    "description": "Explores opportunities to reduce stress or increase productivity for Carl.",
+    "purpose": "wellbeing",
+    "stage": "lift",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "pendingAnswer": null,
+  "notes": [
+    {
+      "id": "b195d476-d999-4c3b-a1c4-0c29e97e9b0f",
+      "stage": "PREPARATION",
+      "turn": 0,
+      "ts": 1779693938795,
+      "text": "this is better \nuggested action\nDuring the 1:1, explore if Carl needs temporary adjustments to his workload to better manage his recovery."
+    },
+    {
+      "id": "0495eda3-d2c4-4bf1-865f-115eaeaaaeb3",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1779694096450,
+      "text": "line1\nline2\nline3\nline4\nline5"
+    },
+    {
+      "id": "56acfa4d-0b13-4993-b41d-ef4352a8248a",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1779695859951,
+      "text": "good qustion \nQuestion 2 of 9\nHow are you feeling energy-wise now after your recent illness?"
+    },
+    {
+      "id": "af5039be-8666-4cc9-886d-80c2871613d0",
+      "stage": "QUESTIONING",
+      "turn": 3,
+      "ts": 1779696319920,
+      "text": "came back quickly, this is good"
+    },
+    {
+      "id": "9d90af69-2418-4288-ac1e-4258a7906fa4",
+      "stage": "QUESTIONING",
+      "turn": 3,
+      "ts": 1779696320854,
+      "text": "Question 5 of 9\nWhat are the main UX priorities you're focusing on right now?"
+    },
+    {
+      "id": "909c3db9-1fe7-45ab-b751-3d91fd41ca62",
+      "stage": "QUESTIONING",
+      "turn": 3,
+      "ts": 1779700162693,
+      "text": "this is digging too deep again \nQuestion 7 of 9\nWhen you say 'get all the screens designed quickly', which screens specifically, and why the rush?"
+    },
+    {
+      "id": "5d125a5a-6401-4a9f-b609-6ab01545cff0",
+      "stage": "QUESTIONING",
+      "turn": 3,
+      "ts": 1779700268487,
+      "text": "i feel at this late stage we should be asking  more questions around how the manager can sup[port if theyhe is sisues. \n\nQuestion 8 of 9\nWhen you say 'they need to get done', what's driving that urgency? Is it a deadline, feedback, or something else?"
+    },
+    {
+      "id": "47e418d1-acea-4afe-838d-3e27658cc79a",
+      "stage": "QUESTIONING",
+      "turn": 3,
+      "ts": 1779700299158,
+      "text": "When you say 'they need to get done', what's driving that urgency? Is it a deadline, feedback, or something else?\nSeeks to clarify the urgency behind the need to complete the screens.\ni am , the manager, so he's my directr repot \n\n\ni am , the manager, so he's my directr report, so its strange to ask this quesiton when you're the reason he is probably doing that"
+    },
+    {
+      "id": "f40a8cb9-5965-4f63-a8f2-caf6d91d7f77",
+      "stage": "LEXICON_REVIEW",
+      "turn": 3,
+      "ts": 1779700545084,
+      "text": "Lexicon\nAnything worth keeping?\nPhrases and patterns from this 1:1 that might be worth adding to your lexicon. Yes keeps it, no drops it.\nNo lexicon candidates from this run.\n\n\nagain this feels like this feature is not working"
+    }
+  ]
+}

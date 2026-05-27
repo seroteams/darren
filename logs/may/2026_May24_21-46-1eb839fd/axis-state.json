@@ -1,0 +1,67 @@
+{
+  "wellbeing": {
+    "score": 0,
+    "history": [
+      {
+        "q": "q_clarify_looking_forward",
+        "delta": 1,
+        "answer_excerpt": "where can I go next, how do i get to the lead level and by when?"
+      }
+    ]
+  },
+  "engagement": {
+    "score": 1,
+    "history": [
+      {
+        "q": "q_intro_growth_direction",
+        "delta": -1,
+        "answer_excerpt": "well he is hoping to be a lead or there is a real flight risk"
+      },
+      {
+        "q": "q_lead_role_flight_risk",
+        "delta": 1,
+        "answer_excerpt": "he wants to exceed so if he is not up for promotion he might go elsewhere"
+      },
+      {
+        "q": "q_promotion_urgency",
+        "delta": 1,
+        "answer_excerpt": "hes been leading the design for a while, hes been working with stakeholders and done eccellent work"
+      },
+      {
+        "q": "q_stakeholder_work_specifics",
+        "delta": 1,
+        "answer_excerpt": "i was there to discuss all the design decisions with the PO's and the app itself has done really well"
+      }
+    ]
+  },
+  "clarity": {
+    "score": 1,
+    "history": [
+      {
+        "q": "q_communication_challenges_2",
+        "delta": 1,
+        "answer_excerpt": "i am good at preparting documetnation and presenting to people"
+      }
+    ]
+  },
+  "growth": {
+    "score": 5,
+    "history": [
+      {
+        "q": "q_clarify_looking_forward",
+        "delta": 1,
+        "answer_excerpt": "where can I go next, how do i get to the lead level and by when?"
+      },
+      {
+        "q": "q_intro_growth_direction",
+        "delta": 3,
+        "answer_excerpt": "well he is hoping to be a lead or there is a real flight risk"
+      },
+      {
+        "q": "q_commitment_to_action_4",
+        "delta": 1,
+        "answer_excerpt": "i want to talk about what I need to do to be a lead"
+      }
+    ]
+  }
+}

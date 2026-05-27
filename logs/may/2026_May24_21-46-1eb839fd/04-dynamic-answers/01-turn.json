@@ -1,0 +1,67 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_open_most_like_yourself",
+    "label": "Most like yourself",
+    "name": "When have you felt most like yourself recently?",
+    "description": "Authentic self-concept research. Identity-based, not performance-based. Deep without being intrusive.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "wellbeing": 2,
+      "growth": 1
+    },
+    "source": "research"
+  },
+  "answer": "today is fine",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "[SHALLOW] 'today is fine' is a three-token response with no concrete noun or specifics."
+  },
+  "new_queue": [
+    {
+      "alias": "q_clarify_most_like_yourself_2",
+      "label": "Clarify 'most like yourself'",
+      "name": "When you say 'today is fine', what specifically makes you feel most like yourself today?"
+    },
+    {
+      "alias": "q_intro_agenda_check",
+      "label": "Agenda check",
+      "name": "Before we get into it, anything you want to make sure we cover today?"
+    },
+    {
+      "alias": "q_current_role_satisfaction",
+      "label": "Current role satisfaction",
+      "name": "What's feeling solid in your role right now, and what's stretching you?"
+    },
+    {
+      "alias": "q_communication_challenges_2",
+      "label": "Communication challenges",
+      "name": "In what situations do you find your current communication style most effective, and where is it not landing as you'd like?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

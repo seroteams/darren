@@ -5,11 +5,7 @@ const { openStream } = require("../sse");
 const { planTurn } = require("../../../src/queue-manager");
 const { applyDeltas, serialize } = require("../../../src/axes");
 const questions = require("../../../src/questions");
-
-function writeJson(filePath, obj) {
-  fs.mkdirSync(path.dirname(filePath), { recursive: true });
-  fs.writeFileSync(filePath, JSON.stringify(obj, null, 2));
-}
+const { writeJson } = require("../../../src/cli/io");
 
 module.exports = async function plan(c) {
   const session = requireSession(c.query.s);

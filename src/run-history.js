@@ -1,6 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { LOGS_ROOT, monthFolderFor } = require("./session");
+const { readPipelineLockFromDir } = require("./pipeline-lock");
 
 const STATE_FILE = "session-state.json";
 const SKIP_DIRS = new Set(["probes"]);
@@ -58,22 +59,63 @@ function findRunDir(id) {
   return hit ? hit.dir : null;
 }
 
+function readPipelineLock(id) {
+  const dir = findRunDir(id);
+  if (!dir) return null;
+  return readPipelineLockFromDir(dir);
+}
+
 function listRecentRuns(limit = 3) {
   const runs = walkRuns();
   runs.sort((a, b) => (b.state.lastSeenAt || 0) - (a.state.lastSeenAt || 0));
-  return runs.slice(0, limit).map(({ id, dir, state }) => ({
+  return runs.slice(0, limit).map(({ id, dir, state }) => {
+    const lock = readPipelineLockFromDir(dir);
+    const pipelineDigest = lock?.aggregates
+      ? { content: lock.aggregates.content, engine: lock.aggregates.engine, all: lock.aggregates.all }
+      : null;
+    return {
+      id,
+      dir,
+      ctx: {
+        name: state.ctx?.name || "",
+        role: state.ctx?.role || "",
+        seniority: state.ctx?.seniority || "",
+        meetingType: state.ctx?.meetingType || "",
+      },
+      lastSeenAt: state.lastSeenAt || 0,
+      stage: inferStage(state),
+      headline: buildHeadline(state.ctx || {}),
+      pipelineDigest,
+    };
+  });
+}
+
+function findLatestRunWithLock() {
+  const runs = walkRuns();
+  runs.sort((a, b) => (b.state.lastSeenAt || 0) - (a.state.lastSeenAt || 0));
+  for (const { id, dir, state } of runs) {
+    const lock = readPipelineLockFromDir(dir);
+    if (lock) {
+      return {
+        id,
+        headline: buildHeadline(state.ctx || {}),
+        lock,
+      };
+    }
+  }
+  return null;
+}
+
+function findLatestRun() {
+  const runs = walkRuns();
+  runs.sort((a, b) => (b.state.lastSeenAt || 0) - (a.state.lastSeenAt || 0));
+  if (runs.length === 0) return null;
+  const { id, dir, state } = runs[0];
+  return {
     id,
-    dir,
-    ctx: {
-      name: state.ctx?.name || "",
-      role: state.ctx?.role || "",
-      seniority: state.ctx?.seniority || "",
-      meetingType: state.ctx?.meetingType || "",
-    },
-    lastSeenAt: state.lastSeenAt || 0,
-    stage: inferStage(state),
     headline: buildHeadline(state.ctx || {}),
-  }));
+    lock: readPipelineLockFromDir(dir),
+  };
 }
 
 function buildHeadline(ctx) {
@@ -120,4 +162,13 @@ function deleteRun(id) {
   return { deleted: true, id, dir };
 }
 
-module.exports = { listRecentRuns, summarizeRun, deleteRun, findRunDir };
+module.exports = {
+  listRecentRuns,
+  summarizeRun,
+  deleteRun,
+  findRunDir,
+  readPipelineLock,
+  findLatestRunWithLock,
+  findLatestRun,
+  buildHeadline,
+};

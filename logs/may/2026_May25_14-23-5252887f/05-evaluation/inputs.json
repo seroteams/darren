@@ -1,0 +1,162 @@
+{
+  "ctx": {
+    "name": "Carl",
+    "role": "UX Lead",
+    "seniority": "Lead",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "They have been sick reacnetly"
+  },
+  "focusPoints": [
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Health and energy after recent illness.",
+      "reason": "Notes mention recent sickness. Worth exploring how they're feeling now and if any concerns linger about their energy levels or work capacity.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Current UX priorities and focus areas.",
+      "reason": "Whether they're still on the work that made them senior, or quietly being absorbed into firefighting.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What Carl would want more of from you.",
+      "reason": "Whether there's something specific Carl needs from you that he hasn't asked for. Leads stop asking when they think you're already stretched.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "Tell me about your week — the real version.",
+      "alias": "q_open_real_version",
+      "answer": "yeah its been okay but i am not 100% yet.",
+      "skipped": false
+    },
+    {
+      "question": "How are you feeling energy-wise now after your recent illness?",
+      "alias": "q_current_energy_check",
+      "answer": "not bad, was just a lot of recovery, sorry about that",
+      "skipped": false
+    },
+    {
+      "question": "What's been slower or harder than it should have been?",
+      "alias": "q_intro_biweekly_friction",
+      "answer": "so many emails to come back to , scared i will forget something",
+      "skipped": false
+    },
+    {
+      "question": "What specifically about the email backlog is stressing you — volume, urgency, or something else?",
+      "alias": "q_emails_backlog_stress",
+      "answer": "just so many of them",
+      "skipped": false
+    },
+    {
+      "question": "What are the main UX priorities you're focusing on right now?",
+      "alias": "q_ux_priorities_focus",
+      "answer": "the app redesign and the sections on the",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'the app redesign and the sections on the' — what specifically are you focusing on within those areas?",
+      "alias": "q_clarify_ux_priorities",
+      "answer": "he has to ave to get all the screen designed quicklyu",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'get all the screens designed quickly' — which screens specifically, and why the rush?",
+      "alias": "q_clarify_ux_focus",
+      "answer": "they need to get done",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'they need to get done' — what's driving that urgency? Is it a deadline, feedback, or something else?",
+      "alias": "q_clarify_urgency",
+      "answer": "i am , the manager, so he's my directr repot",
+      "skipped": false
+    },
+    {
+      "question": "What could make your next two weeks feel lighter or more productive?",
+      "alias": "q_lightening_the_load",
+      "answer": "(skipped)",
+      "skipped": true
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": -1,
+          "answer_excerpt": "yeah its been okay but i am not 100% yet."
+        },
+        {
+          "q": "q_current_energy_check",
+          "delta": 1,
+          "answer_excerpt": "not bad, was just a lot of recovery, sorry about that"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -3,
+          "answer_excerpt": "so many emails to come back to , scared i will forget something"
+        },
+        {
+          "q": "q_emails_backlog_stress",
+          "delta": -1,
+          "answer_excerpt": "just so many of them"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "so many emails to come back to , scared i will forget something"
+        },
+        {
+          "q": "q_ux_priorities_focus",
+          "delta": -1,
+          "answer_excerpt": "the app redesign and the sections on the"
+        },
+        {
+          "q": "q_clarify_ux_priorities",
+          "delta": -1,
+          "answer_excerpt": "he has to ave to get all the screen designed quicklyu"
+        },
+        {
+          "q": "q_clarify_ux_focus",
+          "delta": -3,
+          "answer_excerpt": "they need to get done"
+        },
+        {
+          "q": "q_clarify_urgency",
+          "delta": -3,
+          "answer_excerpt": "i am , the manager, so he's my directr repot"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  },
+  "notes": "They have been sick reacnetly",
+  "model": "gpt-4o"
+}

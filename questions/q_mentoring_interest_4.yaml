@@ -1,0 +1,9 @@
+alias: q_mentoring_interest_4
+label: Mentoring interest
+name: What would mentoring look like for you, and what do you need to make it happen?
+description: Explores specific interest in mentoring and what it would require.
+purpose: topic
+stage: friction
+axis_effects:
+  growth: +3
+source: generated

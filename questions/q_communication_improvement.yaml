@@ -1,0 +1,9 @@
+alias: q_communication_improvement
+label: Communication improvement
+name: What changes do you think are necessary in your communication style to align with lead-level expectations?
+description: Encourage Toby to consider specific changes needed in his communication.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +1
+source: generated

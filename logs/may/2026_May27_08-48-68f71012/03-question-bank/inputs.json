@@ -1,0 +1,37 @@
+{
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Strategic impact and leverage in partnerships.",
+      "reason": "What strategic impact he's having in partner alliances is what gets evaluated for growth — this is where leverage and promotion readiness are visible.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Trust and influence with key partners.",
+      "reason": "Whether he's building trust and influence with key partners matters for his growth — this is the core of an alliance manager's role.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Skills and areas to stretch for promotion.",
+      "reason": "What skills or areas he needs to stretch to be ready for promotion — this is where the growth plan becomes actionable.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Machar",
+  "role": "Partner alliance manager",
+  "seniority": "Manager",
+  "meetingType": "Growth & career plan",
+  "notes": "Things going well. Looking at promoting him soon.",
+  "model": "gpt-4o"
+}

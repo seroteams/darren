@@ -1,0 +1,54 @@
+{
+  "name": "Priya",
+  "roleTitle": "Senior Backend Engineer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "observedShift": "Just shipped the payments refactor on Monday — big win, team noticed. Looks a bit flat this week, quieter than usual in standup. Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet.",
+  "focusPoints": [
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Celebrating the payments refactor win.",
+      "reason": "Just shipped the payments refactor, which was a big win and noticed by the team. Worth acknowledging to reinforce their impact and boost morale.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Motivation and energy levels this week.",
+      "reason": "Looks a bit flat and quieter than usual in standup. Could be post-shipment fatigue, something personal, or just a quieter week — worth exploring.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Exploring mentoring opportunities.",
+      "reason": "Mentioned they'd like to do more mentoring. Discussing this can align their growth interests with team needs and open new development paths.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Work in flight and upcoming shifts.",
+      "reason": "Whether they're still on the work that made them senior, or quietly being absorbed into firefighting. This includes upcoming involvement in the billing rewrite.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-4o",
+  "runId": "023cfdf6-cf2b-4083-bc91-f438b93a58a9",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "coreIssue does not reference role or seniority — may be too generic",
+      "output may not reflect the meeting type distinctly"
+    ]
+  }
+}

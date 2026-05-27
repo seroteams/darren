@@ -1,0 +1,74 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_open_learning_yourself",
+    "label": "Learning about yourself",
+    "name": "What have you been learning about yourself recently?",
+    "description": "Signals interest in them as a human, not just their output. Reflective, non-evaluative.",
+    "purpose": "wellbeing",
+    "axis_effects": {
+      "growth": 2,
+      "wellbeing": 1
+    },
+    "source": "research"
+  },
+  "answer": "to progress needs a lot of self drive and learning as the infrustratcutre isnt there to get them to the base level",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "growth": -2
+    },
+    "note": "Deficiency-as-request: Machar describes lack of infrastructure as a barrier to progress, indicating a negative growth signal and mild wellbeing concern."
+  },
+  "new_queue": [
+    {
+      "alias": "q_infrastructure_barrier",
+      "label": "Infrastructure barrier",
+      "name": "When you say the infrastructure isn't there, what specifically is missing or needs improvement?"
+    },
+    {
+      "alias": "q_current_role_assessment_2",
+      "label": "Current role assessment",
+      "name": "What's feeling solid in your role right now, and what's stretching you?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    }
+  ],
+  "issues": [
+    "clamped growth -3 → -2 (signature magnitude 2)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_open_learning_yourself",
+          "delta": -1,
+          "answer_excerpt": "to progress needs a lot of self drive and learning as the infrustratcutre isnt there to get them to the base level"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_open_learning_yourself",
+          "delta": -2,
+          "answer_excerpt": "to progress needs a lot of self drive and learning as the infrustratcutre isnt there to get them to the base level"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+alias: q_clarify_ux_priorities
+label: Clarify UX priorities
+name: "When you say 'the app redesign and the sections on the' — what specifically are you focusing on within those areas?"
+description: Clarifies what Carl is focusing on within the app redesign and sections.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added

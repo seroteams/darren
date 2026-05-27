@@ -1,15 +1,20 @@
 import { STAGES } from "../state.js";
 import { listRecentRuns, getRunOverview, deleteRun } from "../api.js";
+import { createPipelineChangelog } from "../ui/pipeline-changelog.js";
 
 let keyHandler = null;
 
 export async function mount(root, { setState, rehydrateById }) {
+  const pipeline = createPipelineChangelog();
+
   root.innerHTML = `
     <div class="stage-inner space-y-8">
       <header class="space-y-2">
         <h1 class="h1">Start a run</h1>
         <div class="text-ink-dim text-sm">Pick up where you left off, or start fresh.</div>
       </header>
+
+      <div class="js-pipeline-host"></div>
 
       <section class="space-y-2">
         <div class="text-ink-mute text-xs uppercase tracking-wider">Recent runs</div>
@@ -23,21 +28,31 @@ export async function mount(root, { setState, rehydrateById }) {
     </div>
   `;
 
+  root.querySelector(".js-pipeline-host").appendChild(pipeline.el);
+
   const list = root.querySelector(".js-runs");
   const newBtn = root.querySelector(".js-new");
 
   let runs = [];
   let expandedId = null;
+  let currentAllDigest = null;
 
-  async function load() {
+  async function loadPipelineStatus() {
     try {
-      const res = await listRecentRuns(3);
-      runs = res.runs || [];
+      const s = await pipeline.loadForBaseline("latest");
+      currentAllDigest = s?.current?.aggregates?.all ?? null;
     } catch (e) {
-      runs = [];
-      console.warn("[start] listRecentRuns failed:", e);
+      console.warn("[start] pipeline status failed:", e);
+      currentAllDigest = null;
     }
-    render();
+  }
+
+  function driftDot(run) {
+    if (!currentAllDigest || !run.pipelineDigest?.all) return "";
+    if (run.pipelineDigest.all !== currentAllDigest) {
+      return `<span class="run-row__drift-dot" title="Pipeline config differs from when this run started"></span>`;
+    }
+    return "";
   }
 
   function render() {
@@ -49,12 +64,24 @@ export async function mount(root, { setState, rehydrateById }) {
       <li class="run-row" data-id="${escape(r.id)}">
         <button class="run-row__head js-row" data-id="${escape(r.id)}">
           <span class="run-row__num">[${i + 1}]</span>
-          <span class="run-row__headline">${escape(r.headline || r.id)}</span>
+          <span class="run-row__headline">${escape(r.headline || r.id)}${driftDot(r)}</span>
           <span class="run-row__stage text-ink-mute text-xs">${escape(r.stage || "")}</span>
         </button>
         <div class="run-row__body js-body" data-id="${escape(r.id)}" hidden></div>
       </li>
     `).join("");
+  }
+
+  async function load() {
+    try {
+      const res = await listRecentRuns(3);
+      runs = res.runs || [];
+    } catch (e) {
+      runs = [];
+      console.warn("[start] listRecentRuns failed:", e);
+    }
+    await loadPipelineStatus();
+    render();
   }
 
   async function toggle(id) {
@@ -71,8 +98,16 @@ export async function mount(root, { setState, rehydrateById }) {
     body.innerHTML = `<div class="text-ink-mute text-sm">Loading…</div>`;
     try {
       const o = await getRunOverview(id);
+      let driftHtml = "";
+      try {
+        const drift = await pipeline.loadDriftForRun(id);
+        if (drift.baseline?.hasLock && !drift.unchanged) {
+          driftHtml = `<p class="run-row__drift text-sm">Config changed since this run started — resume uses current engine.</p>`;
+        }
+      } catch {}
       body.innerHTML = `
         <div class="run-row__overview text-ink text-sm">${escape(o.overview || "")}</div>
+        ${driftHtml}
         <div class="run-row__actions">
           <button class="btn js-resume" data-id="${escape(id)}">Resume</button>
           <button class="btn btn--ghost js-delete" data-id="${escape(id)}">Delete</button>

@@ -1,0 +1,8 @@
+alias: q_stakeholder_work_specifics
+label: Stakeholder work specifics
+name: When you mention working with stakeholders, what specifically has been your biggest win there?
+description: "Explore Toby's achievements and impact in stakeholder engagement."
+purpose: topic
+axis_effects:
+  engagement: +1
+source: planner_added

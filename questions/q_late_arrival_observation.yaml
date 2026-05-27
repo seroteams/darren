@@ -1,0 +1,9 @@
+alias: q_late_arrival_observation
+label: Late arrival observation
+name: "I've noticed you've been arriving late — what's the situation there?"
+description: Explores the reason behind the recent pattern of arriving late.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  wellbeing: +1
+source: generated

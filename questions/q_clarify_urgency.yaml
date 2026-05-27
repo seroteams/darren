@@ -1,0 +1,9 @@
+alias: q_clarify_urgency
+label: Clarify urgency
+name: "When you say 'they need to get done' — what's driving that urgency? Is it a deadline, feedback, or something else?"
+description: Seeks to clarify the urgency behind the need to complete the screens.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added

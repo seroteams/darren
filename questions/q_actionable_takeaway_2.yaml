@@ -1,0 +1,9 @@
+alias: q_actionable_takeaway_2
+label: Actionable takeaway
+name: "What's one thing from today's conversation you'll act on?"
+description: Encourages Darren to identify a concrete next step following the meeting.
+purpose: competency
+stage: support
+axis_effects:
+  growth: +1
+source: generated

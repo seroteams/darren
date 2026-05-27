@@ -92,6 +92,86 @@ function unitChecks() {
     }
   }
 
+  const UNRESOLVED_PLACEHOLDER_RE = /\{\{[A-Z][A-Z0-9_]*\}\}/g;
+  const { parseAIJson, assertNoUnresolvedPlaceholders } = require("./src/ai-client");
+  const { buildMessages } = require("./src/preparation");
+
+  // 4. A2 — parseAIJson rejects unresolved placeholders in model output
+  try {
+    parseAIJson('{"coreIssue":"Discuss {{NAME}} needs"}', "Test", []);
+    fail("parseAIJson rejects unresolved placeholders");
+  } catch (e) {
+    if (e.message.includes("coreIssue") && e.message.includes("{{NAME}}"))
+      pass("parseAIJson rejects unresolved placeholders");
+    else fail("parseAIJson rejects unresolved placeholders", e.message);
+  }
+
+  // 5. A3 — send-time guard lists token name
+  try {
+    assertNoUnresolvedPlaceholders("still {{FOO}} here", "test");
+    fail("assertNoUnresolvedPlaceholders rejects leaks");
+  } catch (e) {
+    if (e.message.includes("{{FOO}}"))
+      pass("assertNoUnresolvedPlaceholders rejects leaks");
+    else fail("assertNoUnresolvedPlaceholders rejects leaks", e.message);
+  }
+
+  // 6. Prep validator — C1/C5 fixtures (offline)
+  const { validateBrief } = require("./src/preparation");
+  try {
+    const tobyInputs = {
+      name: "Toby",
+      roleTitle: "Expert UX Designer",
+      seniority: "Expert",
+      meetingType: "Growth & career plan",
+      observedShift: "He wants to become a lead but his communication methods suck",
+      focusPoints: [{ label: "Communication effectiveness for a future lead role." }],
+    };
+    const bad = validateBrief(
+      {
+        openingQuestion:
+          "What specific communication challenges have you faced recently that might impact your transition to a lead role?",
+        listenFor: ["whether he acknowledges communication challenges"],
+        goodOutcome: "You and Toby have agreed on one specific communication skill to focus on improving this quarter.",
+        suggestedAction: "Set a follow-up meeting in one month to review progress.",
+        coreIssue: "Communication for lead.",
+        avoid: ["do not x", "do not y"],
+      },
+      tobyInputs
+    );
+    if (bad.issues.length >= 3) pass("prep validator flags historical bad Toby brief");
+    else fail("prep validator flags historical bad Toby brief", `got ${bad.issues.length} issues`);
+  } catch (e) {
+    fail("prep validator flags historical bad Toby brief", e.message);
+  }
+
+  // 8. Toby prep — all {{TOKEN}} substituted before send
+  try {
+    const tobyInputsPath = path.join(
+      "logs",
+      "may",
+      "2026_May24_21-46-1eb839fd",
+      "01b-preparation",
+      "inputs.json"
+    );
+    const toby = JSON.parse(fs.readFileSync(tobyInputsPath, "utf8"));
+    const messages = buildMessages({
+      name: toby.name,
+      roleTitle: toby.roleTitle,
+      seniority: toby.seniority,
+      meetingType: toby.meetingType,
+      observedShift: toby.observedShift,
+      focusPoints: toby.focusPoints,
+    });
+    const combined = [messages.filled, messages.system, messages.user].join("\n");
+    const leaks = combined.match(UNRESOLVED_PLACEHOLDER_RE);
+    if (leaks && leaks.length)
+      fail("Toby prep prompt substitution", `unresolved: ${[...new Set(leaks)].join(", ")}`);
+    else pass("Toby prep prompt substitution");
+  } catch (e) {
+    fail("Toby prep prompt substitution", e.message);
+  }
+
   const failed = checks.filter((c) => !c.ok);
   const banner = (s) => `\n━━━ ${s} ${"━".repeat(Math.max(3, 60 - s.length))}`;
   console.log(banner("unit checks"));

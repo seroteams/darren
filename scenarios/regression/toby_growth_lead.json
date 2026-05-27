@@ -1,0 +1,99 @@
+{
+  "id": "toby_growth_lead",
+  "description": "Toby · Expert UX Designer · Growth & career plan — regression from 2026_May24_21-46-1eb839fd",
+  "prep": {
+    "name": "Toby",
+    "role": "Expert UX Designer",
+    "seniority": "Expert",
+    "meetingType": "Growth & career plan",
+    "notes": "He wants to become a lead but his communication methods suck",
+    "focusPoints": [
+      {
+        "id": "communication",
+        "label": "Communication effectiveness for a future lead role.",
+        "reason": "Notes mention communication as a barrier to his goal of becoming a lead.",
+        "source": "signal"
+      },
+      {
+        "id": "growth",
+        "label": "Specific skills to develop for leadership transition.",
+        "reason": "What skills and experiences he believes will bridge the gap to a lead role.",
+        "source": "best_practice"
+      },
+      {
+        "id": "feedback",
+        "label": "Feedback he's received on his leadership potential.",
+        "reason": "Whether he has received concrete feedback on his readiness for a lead role.",
+        "source": "best_practice"
+      }
+    ]
+  },
+  "fixtures": [
+    {
+      "label": "historical_bad_opener",
+      "brief": {
+        "coreIssue": "Discuss communication skills Toby needs for a lead role.",
+        "openingQuestion": "What specific communication challenges have you faced recently that might impact your transition to a lead role?",
+        "listenFor": [
+          "whether he acknowledges communication challenges",
+          "if they have a plan to improve communication",
+          "whether he has received feedback on communication"
+        ],
+        "avoid": ["do not focus solely on technical skills", "do not dismiss his current communication methods"],
+        "goodOutcome": "You and Toby have agreed on one specific communication skill to focus on improving this quarter.",
+        "suggestedAction": "Set a follow-up meeting in one month to review progress on the agreed communication skill."
+      },
+      "expectIssueSubstrings": [
+        "accusatory",
+        "challenges",
+        "listenFor",
+        "goodOutcome may be too generic",
+        "post-meeting follow-up"
+      ]
+    },
+    {
+      "label": "good_shape_example",
+      "brief": {
+        "coreIssue": "Toby's path from expert UX to lead hinges on how he wants communication to land at lead scope.",
+        "openingQuestion": "What kind of communication moments would you like to handle with more confidence as you move toward lead-level work?",
+        "listenFor": [
+          "whether he names a specific meeting or stakeholder where communication felt strained",
+          "if he offers a concrete example from the last sprint rather than generalities",
+          "whether he mentions feedback he has actually received on lead readiness"
+        ],
+        "avoid": ["do not treat lead transition as a performance verdict", "do not rush to a development plan before he defines lead scope"],
+        "goodOutcome": "You and Toby have agreed on one end-to-end piece of work he would own as a lead-shaped trial this quarter.",
+        "suggestedAction": "During the 1:1, agree on one stakeholder conversation he will lead before your next check-in."
+      },
+      "expectIssueSubstrings": []
+    }
+  ],
+  "live": {
+    "openingQuestion": {
+      "mustNotMatch": [
+        "what specific .+ have you",
+        "why haven't you",
+        "where have you fallen short",
+        "impact your transition"
+      ],
+      "mustNotContain": ["challenges", "issues", "problems", "weakness", "fallen short", "failing", "impact your transition"],
+      "mustMatchAny": ["\\b(want|land|stretch|move|build|thinking|confidence|handle|forward)\\b"]
+    },
+    "listenFor": {
+      "eachMustMatchAny": ["\\b(deflects|pivots|names|avoids|mentions|redirects|pauses|volunteers|describes|offers|signals|hesitates|concrete|specific|stakeholder|project|meeting|sprint|quarter)\\b"]
+    },
+    "goodOutcome": {
+      "mustMatchAny": ["\\b(expert|lead|end-to-end|ownership|scope|leading|lead-level)\\b"]
+    },
+    "suggestedAction": {
+      "mustNotMatch": ["follow-up meeting", "next month", "next quarter", "schedule"],
+      "mustMatchAny": ["^(Before the 1:1|During the 1:1|Before the meeting|During the meeting)", "^(Ask|Agree|Pick|Name|Surface|Offer|Invite|Explore)\\b"]
+    }
+  },
+  "arc": {
+    "expectStages": ["anchor", "aspiration", "gap", "investment", "commitment"],
+    "maxConsecutiveWellbeingClarifiers": 2,
+    "maxOffArcDrills": 1,
+    "closerStage": "commitment"
+  }
+}

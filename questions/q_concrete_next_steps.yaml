@@ -1,0 +1,9 @@
+alias: q_concrete_next_steps
+label: Concrete next steps
+name: "What's the first concrete thing you want to have moved by our next conversation?"
+description: Focuses on actionable next steps Machar will take.
+purpose: competency
+stage: commitment
+axis_effects:
+  growth: +1
+source: generated
