@@ -2,6 +2,16 @@
   "name": "Carl",
   "role": "Web Designer",
   "seniority": "Mid",
-  "meetingType": "Growth & career plan",
-  "notes": "They have been very negative in team meetings recently."
+  "meeting_type": "Growth & career plan",
+  "manager_notes": "Carl has been noticeably negative in recent team meetings, which is unusual and starting to affect collaboration. I want this growth conversation to uncover whether that shift comes from frustration, unclear direction, or feeling blocked at current scope. I also need to understand what growth path Carl believes is realistic from a mid-level design role and where support from me is missing. The goal is to leave with one concrete growth focus and one behavior reset for team interactions.",
+  "answers": [
+    "I know I have sounded negative lately, and I am not proud of that.",
+    "A lot of it is frustration that feedback loops feel messy and slow.",
+    "I want to grow beyond execution into stronger product influence.",
+    "Right now I am not clear what skills would actually move me forward.",
+    "In meetings I get sharp when I feel design concerns are dismissed.",
+    "I could handle that better, but I also need clearer expectations.",
+    "A concrete growth goal for this quarter would help me refocus.",
+    "If we align on one step and one behavior change, I can commit to it."
+  ]
 }
