@@ -1,6 +1,6 @@
 # Log fix audit — every issue, every status
 
-**Version:** v8
+**Version:** v9
 **Caveman version:** full
 **Plan location note:** harness wrote here at `~/.claude/plans/`; per memory rule should be moved to `darren/plans/` after exit.
 
@@ -13,6 +13,7 @@
 - v6 (2026-05-30): F-batch landed (F1-F4). Added hard 4-gram headline/bullet overlap ban in `prompts/final-evaluation.md` `<summary_bullets_rule>`, tightened growth-specific `brutal_truth_manager` rules with banned generic verbs + required next-move nouns + transcript evidence in `<brutal_truth_rules>`, and added `fourGramOverlap()` warning validator in `src/reviewer.js` (logs `validation.issues` on overlap). Replay fixtures still green. Stats: DONE 51→55, PARTIAL 7→5, OPEN 32→30. (+12/−4 lines)
 - v7 (2026-05-30): openers polish batch (FX-03/04/05/06/07) landed. Removed `q_open_nourishing`, added `q_open_anything_to_cover` (three meeting types), grounded `pickOpener` eligibility to meeting-arc anchor stage, added meeting-type-aware energy-read rule in `prompts/generate-questions.md`, and shipped standalone regression script `scripts/test-opener-routing.js` (including intentional-break fail check). Replay fixtures still green. Stats: DONE 55→60, OPEN 30→25. (+8/−8 lines)
 - v8 (2026-05-30): notes batch (FX-35/36) landed. Notes panel now posts `question_alias` + `question_stem`; notes handler persists both fields; evaluation stage now formats captured notes as `[HH:MM @ alias] stem - text` with legacy-field fallback. FX-36 marked verified (no stale-text bug): submit path reads live textarea value, so browser-accepted spelling corrections flow downstream. Replay fixtures still green. (+5/−5 lines)
+- v9 (2026-05-30): routing + scenarios batch (FX-34/41) landed. FX-34 kept existing `Complete 1:1` -> `LEXICON_REVIEW` routing and added scope-aware skip using `GET /api/lexicon/scope` so out-of-scope sessions finish cleanly to intake. FX-41 added `scenarios/batch/` with 10 reconstructed May-24 persona fixtures plus `_index.json` + `README.md`. Replay fixtures still green. Stats: DONE 62→64, OPEN 23→21. (+4/−4 lines)
 
 ## Context
 User asked: "go through every log, make list of all that needs fixing, check if done, output table with IDs so I can choose what we fix."
@@ -118,7 +119,7 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 | FX-31 | Long em-dashes everywhere — filter before render | May16-20:43 | ✅ DONE | `escape()` strips `[—–]` to `,` in briefing/preparation/questioning/focus-points/lexicon-review stages |
 | FX-32 | Text too small in questioning | May18 | 🟡 PARTIAL (=feedback #10) | typography bump |
 | FX-33 | "What we will cover" header duplicated on focus-points | May18-21:53 | ✅ DONE (=N1) | `frontend/client/src/stages/focus-points.js:11-15` single canonical eyebrow+h1 |
-| FX-34 | Post-briefing CTA "Complete 1:1" → lexicon picker page | May18 | 🔴 OPEN (=N3) | briefing CTA + next route |
+| FX-34 | Post-briefing CTA "Complete 1:1" → lexicon picker page | May18 | ✅ DONE (=N3) | `frontend/client/src/stages/briefing.js` scope-check click handler + `frontend/server/handlers/lexicon.js` scope endpoint + `frontend/server/server.js` route |
 | FX-35 | Notes carry `question_alias`/stem not just timestamp | May18 | ✅ DONE (=feedback #9) | `frontend/client/src/ui/notes-panel.js:75-88`, `frontend/server/handlers/notes.js:25-51,132-147`, `frontend/server/handlers/evaluation.js:7-33` |
 | FX-36 | "Using my notes" — typo/spelling corrections unused | May27-08:48 | ✅ DONE (verified) | `frontend/client/src/ui/notes-panel.js:73` submit reads live `textarea.value.trim()`; no stale-state correction gap found |
 | FX-37 | Dig-deeper button alongside next-question | May24 | 🔴 OPEN deferred (=H1) | UI control |
@@ -146,7 +147,7 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 
 | ID | Issue | Seen in | Status | Pointer |
 |---|---|---|---|---|
-| FX-41 | Persona scenarios not in repo (batch used 26 unsaved personas) | batch | 🔴 OPEN | `scenarios/` |
+| FX-41 | Persona scenarios not in repo (batch used 26 unsaved personas) | batch | ✅ DONE | `scenarios/batch/` (10 persona JSONs + `_index.json` + `README.md`) |
 | FX-42 | Logs tracked in git | — | ✅ DONE | commit `90d7b0d` |
 | FX-43 | Pipeline review workflow output spec | — | 📋 PLANNING | reviewrun skill |
 | FX-44 | Batch-run learnings adoption (EVOLVED-DIFF hunks layered with FX-09/FX-10) | batch | 🧪 REVIEW | `prompts/generate-questions.md`, `prompts/plan-turn.md` |
@@ -158,13 +159,13 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 
 ---
 
-## Quick stats (post v8 notes batch)
+## Quick stats (post v9 routing + scenarios batch)
 - Total IDs: 95
-- ✅ DONE: 62 (incl. 1 OBSOLETE)
+- ✅ DONE: 64 (incl. 1 OBSOLETE)
 - 🟡 PARTIAL: 5
 - 🧪 REVIEW: 1
 - 📋 PLANNING: 4
-- 🔴 OPEN: 23
+- 🔴 OPEN: 21
 
 ## Verification (how to test once items land)
 - Replay last failing run through `scripts/replay-scenario.js` once it exists.
