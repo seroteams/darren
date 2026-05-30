@@ -124,6 +124,13 @@ The closer does not need `wellbeing`, `engagement`, or `clarity` axis effects. U
 
 **Ground in persona.** At least half the questions must reference something specific to this person — their name, role, a project from the notes, or their stated situation. A question that could be asked to any employee at any company is too generic. Instead of "What's stretching you?" prefer "What's stretching you in the platform work right now, Priya?".
 
+**Energy-read framing per meeting type.** The wellbeing/energy probe MUST frame its anchor to the meeting type:
+- Bi-weekly check-in -> "since we last spoke" / "this fortnight".
+- Performance & feedback -> "this review period" / "the work being assessed".
+- Growth & career plan -> "as you think about the next stretch" / "in this growth conversation specifically".
+- Something feels off -> "right now, in this moment, observation-first".
+A meeting-type-neutral "how's your energy" probe is too generic — anchor it.
+
 **Don't duplicate angles.** If two of your generated questions would produce the same answer, cut one. Check especially against the "already in the queue" list below — do not duplicate those angles either.
 
 **Silent safety check before output.** Before returning JSON, silently verify:
