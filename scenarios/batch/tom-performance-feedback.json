@@ -1,0 +1,17 @@
+{
+  "name": "Tom",
+  "role": "Principal Backend Engineer",
+  "seniority": "Principal",
+  "meeting_type": "Performance & feedback",
+  "manager_notes": "Tom moved teams recently and delivery is steady, but Principal-level impact is not visible yet. Previous feedback said he needs early expectation alignment, and he still asks very few questions. I want to test whether he understands what Principal scope means on this team or if he is still operating on old assumptions. I also need to understand whether cross-team trust and judgment calls are developing or whether he is staying in safe execution mode.",
+  "answers": [
+    "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet.",
+    "I can describe Principal impact in general, but this team's bar still feels fuzzy.",
+    "I have mostly stayed in my lane instead of forcing cross-team decisions.",
+    "I have made a few calls independently, but I still over-index on being safe.",
+    "I probably should ask for sharper feedback earlier than I do.",
+    "I have not built enough trust with adjacent teams yet.",
+    "The gap is less technical and more around visible ownership.",
+    "I need explicit expectations for the next cycle so I can calibrate fast."
+  ]
+}

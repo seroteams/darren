@@ -55,6 +55,18 @@ async function candidates(c) {
   }
 }
 
+async function scope(c) {
+  const sessionId = c.query.s;
+  if (!sessionId) {
+    return c.error(Object.assign(new Error("sessionId required"), { status: 400 }));
+  }
+  const session = getSession(sessionId);
+  if (!session) {
+    return c.json(404, { error: "session not found" });
+  }
+  return c.json(200, { eligible: shouldReview(session.ctx) });
+}
+
 async function decisions(c) {
   const body = await c.readBody();
   const { sessionId, decisions: list } = body || {};
@@ -84,4 +96,4 @@ async function decisions(c) {
   c.json(200, { ok: true, count: records.length, committed: commit.accepted?.length || 0 });
 }
 
-module.exports = { candidates, decisions };
+module.exports = { candidates, scope, decisions };

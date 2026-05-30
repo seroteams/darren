@@ -87,6 +87,12 @@ export async function getLexiconCandidates(sessionId) {
   return json(res);
 }
 
+export async function getLexiconScope(sessionId) {
+  const res = await fetch(`/api/lexicon/scope?s=${encodeURIComponent(sessionId)}`);
+  if (res.status === 404) return { eligible: false };
+  return json(res);
+}
+
 export async function submitLexiconDecisions(sessionId, decisions) {
   return postJson("/api/lexicon/decisions", { sessionId, decisions });
 }

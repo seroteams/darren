@@ -91,6 +91,7 @@ function main() {
     return runs.del(c);
   });
   router.add("GET", "/api/lexicon/candidates", lexicon.candidates);
+  router.add("GET", "/api/lexicon/scope", lexicon.scope);
   router.add("POST", "/api/lexicon/decisions", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return lexicon.decisions(c);

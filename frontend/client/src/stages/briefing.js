@@ -1,10 +1,11 @@
 import { STAGES } from "../state.js";
+import { getLexiconScope } from "../api.js";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
 
 const WHEN_ORDER = ["today", "this week", "this month", "next 1:1"];
 
-export async function mount(root, { store, setState }) {
+export async function mount(root, { store, setState, resetSession }) {
   const b = store.briefing;
   if (!b) {
     setState({ stage: STAGES.EVAL });
@@ -53,7 +54,9 @@ export async function mount(root, { store, setState }) {
         <div class="card watch-host"></div>
       </section>
 
-      <footer class="pt-6 flex gap-2 items-center">
+      <div class="run-cost text-sm text-ink-dim pt-6"></div>
+
+      <footer class="pt-2 flex gap-2 items-center">
         <button class="btn js-restart">Complete 1:1</button>
         <button class="btn btn--ghost js-copy-review hidden">Copy review prompt</button>
         <span class="js-copy-confirm text-sm text-ink-mute" style="opacity:0; transition: opacity 0.2s;">Copied</span>
@@ -187,8 +190,30 @@ export async function mount(root, { store, setState }) {
     root.querySelector(".watch-section").remove();
   }
 
-  root.querySelector(".js-restart").addEventListener("click", () => {
-    setState({ stage: STAGES.LEXICON_REVIEW });
+  const costHost = root.querySelector(".run-cost");
+  if (b.cost && costHost) {
+    costHost.textContent = formatRunCost(b.cost);
+  } else if (costHost) {
+    costHost.remove();
+  }
+
+  root.querySelector(".js-restart").addEventListener("click", async () => {
+    let eligible = false;
+    try {
+      const data = await getLexiconScope(store.sessionId);
+      eligible = Boolean(data?.eligible);
+    } catch (e) {
+      console.warn("[briefing] lexicon scope check failed:", e.message);
+    }
+
+    if (eligible) {
+      setState({ stage: STAGES.LEXICON_REVIEW });
+      return;
+    }
+
+    try { localStorage.removeItem("seroSessionId"); } catch {}
+    resetSession();
+    setState({ stage: STAGES.INTAKE, substage: "NAME" });
   });
 
   // "Copy review prompt" — only shown when there are notes to discuss.
@@ -223,6 +248,33 @@ function whenRank(w) {
 
 function cap(s) {
   return s ? s[0].toUpperCase() + s.slice(1) : s;
+}
+
+function formatUsd(usd) {
+  if (usd == null || Number.isNaN(usd)) return "—";
+  if (usd < 0.01) return `$${usd.toFixed(4)}`;
+  if (usd < 1) return `$${usd.toFixed(3)}`;
+  return `$${usd.toFixed(2)}`;
+}
+
+function formatTokens(n) {
+  if (!n) return "0";
+  if (n < 1000) return `${n}`;
+  if (n < 1_000_000) return `${(n / 1000).toFixed(1)}k`;
+  return `${(n / 1_000_000).toFixed(2)}M`;
+}
+
+function formatRunCost(c) {
+  const parts = [
+    `Run cost ${formatUsd(c.usd_total)}`,
+    `${formatTokens(c.total_tokens)} tokens`,
+    `${c.call_count} call${c.call_count === 1 ? "" : "s"}`,
+  ];
+  let line = parts.join(" · ");
+  if (c.unknown_price_calls > 0) {
+    line += ` · ${c.unknown_price_calls} unpriced`;
+  }
+  return line;
 }
 
 function escape(s) {
