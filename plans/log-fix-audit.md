@@ -11,6 +11,7 @@
 - v4 (2026-05-30): prep-batch verification — opened cluster A (C1-C5, FX-19, FX-20, FX-21, FX-22) and confirmed ALL already implemented in `prompts/preparation.md` (`<opening_question_rules>`, `<listen_for_rules>`, `<good_outcome_rules>`, `<suggested_action_rules>`, `<good_outcome_rules>` scope cap) and `prompts/generate-focus-points.md` (Shape rule + Banned phrases + Voice check). FX-21 marked OBSOLETE — `aboutYou` field no longer in output_contract. Zero code/prompt edits needed. Stats: DONE 36→45 (+9), OPEN 49→40. (+9/−9 lines)
 - v5 (2026-05-30): cluster-B + F-series + B1 verification. Cluster B (C6, A2, A3) all ALREADY DONE in `src/preparation.js` (validateBrief regex tables + retry) and `src/ai-client.js` (`assertNoUnresolvedPlaceholders` at callAI + `findUnresolvedPlaceholderFields` in parseAIJson). B1 already done — `bank.js:21-24` auto-advances on `ready`. FX-30 covered by A2. F-series sweep: F1/F2 demoted to PARTIAL (soft rules exist but lack hard 4-gram check / banned-verbs list); F3 still OPEN. Stats: DONE 45→51, OPEN 40→32, PARTIAL 5→7. (+8/−8 lines)
 - v6 (2026-05-30): F-batch landed (F1-F4). Added hard 4-gram headline/bullet overlap ban in `prompts/final-evaluation.md` `<summary_bullets_rule>`, tightened growth-specific `brutal_truth_manager` rules with banned generic verbs + required next-move nouns + transcript evidence in `<brutal_truth_rules>`, and added `fourGramOverlap()` warning validator in `src/reviewer.js` (logs `validation.issues` on overlap). Replay fixtures still green. Stats: DONE 51→55, PARTIAL 7→5, OPEN 32→30. (+12/−4 lines)
+- v7 (2026-05-30): openers polish batch (FX-03/04/05/06/07) landed. Removed `q_open_nourishing`, added `q_open_anything_to_cover` (three meeting types), grounded `pickOpener` eligibility to meeting-arc anchor stage, added meeting-type-aware energy-read rule in `prompts/generate-questions.md`, and shipped standalone regression script `scripts/test-opener-routing.js` (including intentional-break fail check). Replay fixtures still green. Stats: DONE 55→60, OPEN 30→25. (+8/−8 lines)
 
 ## Context
 User asked: "go through every log, make list of all that needs fixing, check if done, output table with IDs so I can choose what we fix."
@@ -43,11 +44,11 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 |---|---|---|---|---|
 | FX-01 | "Most like yourself recently?" opener strange/creepy for Growth&career arc | May18-21:53, May24, May27-09:10 | ✅ DONE (=N2, =E1) | `questions/_openers.json:215` — growth removed from meeting_types |
 | FX-02 | Growth-native opener missing ("Before we get into specifics…") | May24 | ✅ DONE (=E2) | `questions/_openers.json:219` `q_open_growth_lookforward` |
-| FX-03 | "What's been nourishing in your life?" cheesy, no real person asks | May16-21:30, May27-09:10 | 🔴 OPEN | opener bank prune |
-| FX-04 | Opener disconnected from arc — "communication challenges" / "strategic impact REALLY?" | May24, May27-08:48 | 🔴 OPEN | overlaps D1, prompt grounding |
-| FX-05 | Energy-read question not linked to meeting type | May17-12:53 | 🔴 OPEN | `prompts/generate-questions.md` |
-| FX-06 | Early set question "anything to cover" (would push to 9 q's) | May17-12:53 | 🔴 OPEN feature ask | new opener slot |
-| FX-07 | Opener picker regression test | — | 🔴 OPEN (=E3) | `tests/opener-routing.test.js` |
+| FX-03 | "What's been nourishing in your life?" cheesy, no real person asks | May16-21:30, May27-09:10 | ✅ DONE | `questions/_openers.json` (`q_open_nourishing` removed) |
+| FX-04 | Opener disconnected from arc — "communication challenges" / "strategic impact REALLY?" | May24, May27-08:48 | ✅ DONE | `src/opener.js` anchor-stage eligibility filter (`getArc` first-stage gate) |
+| FX-05 | Energy-read question not linked to meeting type | May17-12:53 | ✅ DONE | `prompts/generate-questions.md` "Energy-read framing per meeting type." |
+| FX-06 | Early set question "anything to cover" (would push to 9 q's) | May17-12:53 | ✅ DONE | `questions/_openers.json` `q_open_anything_to_cover` |
+| FX-07 | Opener picker regression test | — | ✅ DONE (=E3) | `scripts/test-opener-routing.js` |
 
 ### B. Prompts — arc / flow / planner
 
@@ -156,13 +157,13 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 
 ---
 
-## Quick stats (post v6 F-batch landing)
+## Quick stats (post v7 openers batch)
 - Total IDs: 95
-- ✅ DONE: 55 (incl. 1 OBSOLETE)
+- ✅ DONE: 60 (incl. 1 OBSOLETE)
 - 🟡 PARTIAL: 5
 - 🧪 REVIEW: 1
 - 📋 PLANNING: 4
-- 🔴 OPEN: 30
+- 🔴 OPEN: 25
 
 ## Verification (how to test once items land)
 - Replay last failing run through `scripts/replay-scenario.js` once it exists.
