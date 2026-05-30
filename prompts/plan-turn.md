@@ -215,43 +215,16 @@ After dedup, build the new_queue:
 6. **Coverage.** If an axis has 0 touches after 3+ turns, tilt the queue toward it.
 7. **Meeting arc.** The session follows a meeting-type-specific arc, not a generic early/middle/late grounding pattern. The current arc is:
 
-   ```json
-   {{MEETING_ARC_JSON}}
-   ```
+   The meeting arc, tone register, and anti-patterns for this session are in `<session_context>` in user input below (static for the session).
 
-   **Tone register:** {{TONE_REGISTER}}
-
-   **Anti-patterns specific to this meeting type:**
-
-   ```json
-   {{ANTI_PATTERNS_JSON}}
-   ```
-
-   The last question's stage was: `{{CURRENT_STAGE_HINT}}`.
-
-   **Arc progress so far** (count of turns spent at each stage; compare to each stage's `target_questions`):
-
-   ```json
-   {{ARC_PROGRESS_JSON}}
-   ```
-
-   **Consecutive drill count at current stage:** `{{CONSECUTIVE_DRILL_COUNT}}` (planner_added turns in a row at this stage — when this reaches 2, the drill cap in `<thread_follow_rule>` blocks further drills).
-
-   **Remaining arc stages** (stages whose `arc_progress` is still below their `target_questions`, in arc order — the closer is the last entry):
-
-   ```json
-   {{REMAINING_STAGES_JSON}}
-   ```
-
-   **Last realized deltas** (from the most recent prior turn — used by the snap-back rule below):
-
-   ```json
-   {{LAST_REALIZED_DELTAS_JSON}}
-   ```
-
-   **Consecutive wellbeing clarifiers in a row:** `{{CONSECUTIVE_WELLBEING_CLARIFIER_COUNT}}` (trailing `planner_added` items with `purpose: "wellbeing"`).
-
-   **Off-arc tangents taken this session:** `{{OFF_ARC_DRILL_COUNT}}` (session-wide count of `planner_added` items emitted with `stage: null`).
+   **Per-turn state you must read from `<turn_state>` in user input below:**
+   - `current_stage_hint` — the last question's stage
+   - `arc_progress` — count of turns spent at each stage; compare to each stage's `target_questions`
+   - `consecutive_drill_count` — planner_added turns in a row at the current stage; when this reaches 2, the drill cap in `<thread_follow_rule>` blocks further drills
+   - `remaining_stages` — stages whose `arc_progress` is still below their `target_questions`, in arc order; the closer is the last entry
+   - `last_realized_deltas` — most recent prior turn's deltas; used by the snap-back rule below
+   - `consecutive_wellbeing_clarifier_count` — trailing `planner_added` items with `purpose: "wellbeing"`
+   - `off_arc_drill_count` — session-wide count of `planner_added` items emitted with `stage: null`
 
    Rules:
    - Identify the current stage and the next stage. After dedup + thread-follow, the queue should progress through stages in arc order.
@@ -263,16 +236,18 @@ After dedup, build the new_queue:
    - **Wellbeing clarifier cap (hard).** Max 2 consecutive wellbeing clarifiers (`planner_added` items with `purpose: "wellbeing"`). If `consecutive_wellbeing_clarifier_count >= 2`, the next item MUST advance the arc — no third wellbeing probe, even if the prior answer was shallow. Note any dropped thread with prefix `[WELLBEING-CAP]` in `assessment.note`.
    - **Off-arc tangent cap.** Max 1 off-arc tangent per session (`planner_added` items with `stage: null`). If `off_arc_drill_count >= 1`, any new thread-follow MUST set `stage` to the current arc stage so the drill stays on-arc — do NOT emit another `stage: null` item unless the manager explicitly signalled to deepen this thread.
    - **Final turn enforcement.** When `is_final_turn` is `true` or `remaining_budget = 1`, the closer wins unless crisis override or broken-session applies.
-     - If `{{CLOSER_ALIAS}}` is not `"(none)"`, the first item in `new_queue` MUST have `ref_alias === "{{CLOSER_ALIAS}}"`.
+     - If `closer_alias` in `<session_context>` is not `"(none)"`, the first item in `new_queue` MUST have `ref_alias` equal to that closer_alias value.
      - Copy that item verbatim from the remaining queue.
      - Do not modify it.
      - Do not add a thread-follow question.
      - Do not open a new concern.
-     - If `{{CLOSER_ALIAS}}` is `"(none)"`, generate one commitment-stage question asking for the next concrete move.
+     - If `closer_alias` is `"(none)"`, generate one commitment-stage question asking for the next concrete move.
    Use `turn_number` and `total_turns` in the input to locate yourself.
 8. **Flow.** The FIRST item in new_queue is what the manager asks next. It must land naturally after the last exchange — not a hard pivot, not a redundant follow-up.
 9. **Emotional load.** If the last answer was distressed or anxious, lead with something softer. Don't plough into whatever was planned.
 10. **Broken session.** Count the last three turns in the transcript. If three or more consecutive turns are skips OR clearly non-engaged answers (single characters, random letters, monosyllabic non-answers with no content, obvious nonsense strings), the session is non-functional. Set `new_queue` to empty or one direct reset question only (e.g. "Is now a good time for this conversation, or would another time work better?"). Append to the `note`: "[SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]" Do not continue serving prepared questions into a broken session.
+11. **Honor open commitments.** Scan the prior questions in the transcript for promises the manager made in-question ("I'll share my view on X", "let me come back to that later", "I'll tell you what I think after you've spoken"). If such a commitment exists AND has not been fulfilled by a later turn AND the current turn is at or after the stage where it was made, the next item in `new_queue` SHOULD fulfil that commitment (a question that invites or transitions into the manager's view-share). Append `[COMMITMENT]` to `assessment.note` naming the open promise. Do not let a side-thread or wellbeing clarifier override a still-open commitment.
+12. **Context-aware urgency.** Do not generate a question that asks the employee about a constraint the manager has already established in the focus-points or notes. Example: if focus-points or notes encode "promotion required within 3 months", do not emit "When do you want to be promoted?" — the timeline is fixed externally. Instead ask about *how* they will use the time, *what* the readiness gap is, or *which* moves matter most given the constraint. The employee's own goal-setting is not signal when the goal has been imposed.
 </planning_rules>
 
 
@@ -290,6 +265,8 @@ When you ADD a new question or MODIFY wording, every question you emit must pass
 - **Anchored in reality** — focus on actual work, behaviour, or decisions, not abstractions.
 - **Surface trade-offs or risks** — good questions force prioritisation or reveal what might go wrong.
 - **Drive toward action** — a useful answer should change something next.
+- **Length cap (hard).** Any `planner_added` question `name` MUST be ≤18 words. Forbid comma-conjunctions joining two probes ("and where…", "or what…"). If you need to ask two things, drop one — the next turn can pick up the other.
+- **Don't echo the stem.** A follow-up must not repeat the prior question's stem wording. If the prior asked "What's stretching you?", do not start the follow-up with "What's stretching you about…". Restate in the employee's own words from their last answer instead.
 
 **Weak vs sharp — rewrites from real transcripts. Left column is what to AVOID; right is what to PREFER.**
 
@@ -399,7 +376,7 @@ Hard boundaries:
 
 ## User
 
-<user_input>
+<session_context>
 
 **Axes catalogue:**
 
@@ -413,6 +390,8 @@ Hard boundaries:
 - Role: {{ROLE}}
 - Seniority: {{SENIORITY}}
 - Meeting type: {{MEETING_TYPE}}
+- Total turns: {{TOTAL_TURNS}}
+- Reserved closer alias: {{CLOSER_ALIAS}}
 
 **Focus points (stage 1):**
 
@@ -420,14 +399,51 @@ Hard boundaries:
 {{FOCUS_POINTS_JSON}}
 ```
 
+**Meeting arc:**
+
+```json
+{{MEETING_ARC_JSON}}
+```
+
+**Tone register:** {{TONE_REGISTER}}
+
+**Anti-patterns specific to this meeting type:**
+
+```json
+{{ANTI_PATTERNS_JSON}}
+```
+
+</session_context>
+
+<turn_state>
+
 **Where we are in the session:**
 
 - Turn just completed: {{TURN_NUMBER}} of {{TOTAL_TURNS}}
 - Remaining budget (turns left after this one): {{REMAINING_BUDGET}}
 - Is final turn: {{IS_FINAL_TURN}}
-- Reserved closer alias: {{CLOSER_ALIAS}}
-- Arc progress (turns spent per stage): see `{{ARC_PROGRESS_JSON}}` above in `<planning_rules>` rule 7
+- Current stage hint (last question's stage): `{{CURRENT_STAGE_HINT}}`
 - Consecutive drills at current stage: {{CONSECUTIVE_DRILL_COUNT}}
+- Consecutive wellbeing clarifiers in a row: {{CONSECUTIVE_WELLBEING_CLARIFIER_COUNT}}
+- Off-arc tangents taken this session: {{OFF_ARC_DRILL_COUNT}}
+
+**Arc progress so far (turns spent per stage):**
+
+```json
+{{ARC_PROGRESS_JSON}}
+```
+
+**Remaining arc stages (under-served, in arc order):**
+
+```json
+{{REMAINING_STAGES_JSON}}
+```
+
+**Last realized deltas (from the most recent prior turn):**
+
+```json
+{{LAST_REALIZED_DELTAS_JSON}}
+```
 
 **Transcript so far (oldest first; do not re-ask any of these):**
 
@@ -461,4 +477,4 @@ Hard boundaries:
 
 Produce the JSON now.
 
-</user_input>
+</turn_state>
