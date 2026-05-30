@@ -1,6 +1,6 @@
 # Log fix audit — every issue, every status
 
-**Version:** v2
+**Version:** v6
 **Caveman version:** full
 **Plan location note:** harness wrote here at `~/.claude/plans/`; per memory rule should be moved to `darren/plans/` after exit.
 
@@ -10,6 +10,7 @@
 - v3 (2026-05-30): cheap-wins batch. FX-31 + FX-33 confirmed already done in current code. FX-09/FX-10/FX-13/FX-14 landed as additions to `prompts/plan-turn.md` — two question_craft bullets ("Length cap (hard)", "Don't echo the stem") and two new planning_rules ("Honor open commitments" #11, "Context-aware urgency" #12). Replay fixtures still green. Stats: DONE 30→36, OPEN 55→49. (+8/−6 lines)
 - v4 (2026-05-30): prep-batch verification — opened cluster A (C1-C5, FX-19, FX-20, FX-21, FX-22) and confirmed ALL already implemented in `prompts/preparation.md` (`<opening_question_rules>`, `<listen_for_rules>`, `<good_outcome_rules>`, `<suggested_action_rules>`, `<good_outcome_rules>` scope cap) and `prompts/generate-focus-points.md` (Shape rule + Banned phrases + Voice check). FX-21 marked OBSOLETE — `aboutYou` field no longer in output_contract. Zero code/prompt edits needed. Stats: DONE 36→45 (+9), OPEN 49→40. (+9/−9 lines)
 - v5 (2026-05-30): cluster-B + F-series + B1 verification. Cluster B (C6, A2, A3) all ALREADY DONE in `src/preparation.js` (validateBrief regex tables + retry) and `src/ai-client.js` (`assertNoUnresolvedPlaceholders` at callAI + `findUnresolvedPlaceholderFields` in parseAIJson). B1 already done — `bank.js:21-24` auto-advances on `ready`. FX-30 covered by A2. F-series sweep: F1/F2 demoted to PARTIAL (soft rules exist but lack hard 4-gram check / banned-verbs list); F3 still OPEN. Stats: DONE 45→51, OPEN 40→32, PARTIAL 5→7. (+8/−8 lines)
+- v6 (2026-05-30): F-batch landed (F1-F4). Added hard 4-gram headline/bullet overlap ban in `prompts/final-evaluation.md` `<summary_bullets_rule>`, tightened growth-specific `brutal_truth_manager` rules with banned generic verbs + required next-move nouns + transcript evidence in `<brutal_truth_rules>`, and added `fourGramOverlap()` warning validator in `src/reviewer.js` (logs `validation.issues` on overlap). Replay fixtures still green. Stats: DONE 51→55, PARTIAL 7→5, OPEN 32→30. (+12/−4 lines)
 
 ## Context
 User asked: "go through every log, make list of all that needs fixing, check if done, output table with IDs so I can choose what we fix."
@@ -90,10 +91,10 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 
 | ID | Issue | Seen in | Status | Pointer |
 |---|---|---|---|---|
-| F1 | Briefing bullet ≠ paraphrase of headline (≥4 word overlap fails) | May24 "stood out repeats" | 🟡 PARTIAL | `prompts/final-evaluation.md:90` "Restatement test" rule exists but no hard 4-gram check |
-| F2 | `brutal_truth_manager` names plan-shaped next move | May24 "about you = mute advice" | 🟡 PARTIAL | `prompts/final-evaluation.md:130-133` softer "what to deepen" rule; no banned-verbs list yet |
-| F3 | Growth-meeting brutal truths name career evidence from transcript | May24 | 🔴 OPEN | `prompts/final-evaluation.md:122-135` needs Growth-specific evidence rule |
-| F4 | N-gram overlap validator on briefing fields | — | 🔴 OPEN | `src/briefing.js` |
+| F1 | Briefing bullet ≠ paraphrase of headline (≥4 word overlap fails) | May24 "stood out repeats" | ✅ DONE | `prompts/final-evaluation.md:92` "4-gram overlap hard rule" in `<summary_bullets_rule>` |
+| F2 | `brutal_truth_manager` names plan-shaped next move | May24 "about you = mute advice" | ✅ DONE | `prompts/final-evaluation.md:136-138` growth/career next-move + forbidden verbs + required nouns |
+| F3 | Growth-meeting brutal truths name career evidence from transcript | May24 | ✅ DONE | `prompts/final-evaluation.md:139` growth-specific evidence requirement in `<brutal_truth_rules>` |
+| F4 | N-gram overlap validator on briefing fields | — | ✅ DONE | `src/reviewer.js:125-166` `fourGramOverlap()` + `validation.issues` warning log |
 | FX-24 | Actions/Reminders over watch_for (copy-pasteable) | May18 | 🟡 PARTIAL (=feedback #11) | label changed; affordance + contract missing |
 | FX-25 | Briefing typography messy; allow 1/2+1/2 layout | May18 | 🟡 PARTIAL (=feedback #10) | UI |
 | FX-26 | Wellbeing/engagement scores reacting to typing not meaning ("fine" → -1) | May24 | 🔴 OPEN | axis classifier sensitivity |
@@ -155,13 +156,13 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 
 ---
 
-## Quick stats (post v5 cluster-B + F-series + B1 verification)
+## Quick stats (post v6 F-batch landing)
 - Total IDs: 95
-- ✅ DONE: 51 (incl. 1 OBSOLETE)
-- 🟡 PARTIAL: 7
+- ✅ DONE: 55 (incl. 1 OBSOLETE)
+- 🟡 PARTIAL: 5
 - 🧪 REVIEW: 1
 - 📋 PLANNING: 4
-- 🔴 OPEN: 32
+- 🔴 OPEN: 30
 
 ## Verification (how to test once items land)
 - Replay last failing run through `scripts/replay-scenario.js` once it exists.
