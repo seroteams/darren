@@ -1,5 +1,6 @@
 const { openStream } = require("../sse");
 const { persist } = require("../session-persistence");
+const cost = require("../../../src/cost");
 
 // runStage(session, stageKey, { thinkingLabel, produce, onResult, resultEvent })
 //
@@ -71,6 +72,8 @@ async function runStage(
     if (i >= 0) entry.subscribers.splice(i, 1);
   });
 
+  const prevTracker = cost.getActive();
+  cost.setActive(session.tracker);
   try {
     const result = await produce(entry.controller.signal);
     setCached(result);
@@ -85,6 +88,7 @@ async function runStage(
     closeAll();
   } finally {
     session.inFlight.delete(stageKey);
+    cost.setActive(prevTracker);
   }
 }
 

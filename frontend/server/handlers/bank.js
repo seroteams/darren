@@ -1,5 +1,5 @@
 const { requireSession } = require("../sessions");
-const { runStage } = require("./_stream-helper");
+const { runStage } = require("./stream-helper");
 const { generateBankWithFallback } = require("../../../src/question-generator");
 const { getArc } = require("../../../src/meeting-arcs");
 

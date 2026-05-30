@@ -1,5 +1,5 @@
 const { requireSession } = require("../sessions");
-const { runStage } = require("./_stream-helper");
+const { runStage } = require("./stream-helper");
 const { evaluate } = require("../../../src/reviewer");
 const { serialize } = require("../../../src/axes");
 

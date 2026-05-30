@@ -1,5 +1,5 @@
 const { requireSession } = require("../sessions");
-const { runStage } = require("./_stream-helper");
+const { runStage } = require("./stream-helper");
 const { generatePreparation } = require("../../../src/preparation");
 
 const IS_DEV = process.env.NODE_ENV !== "production";

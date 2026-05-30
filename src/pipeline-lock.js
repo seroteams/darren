@@ -48,7 +48,7 @@ const PATH_META = {
   "frontend/server/handlers/answer.js": { tier: "engine", stageLabel: "Answer" },
   "frontend/server/handlers/evaluation.js": { tier: "engine", stageLabel: "Evaluation" },
   "frontend/server/handlers/lexicon.js": { tier: "engine", stageLabel: "Lexicon" },
-  "frontend/server/handlers/_stream-helper.js": { tier: "engine", stageLabel: "Streaming" },
+  "frontend/server/handlers/stream-helper.js": { tier: "engine", stageLabel: "Streaming" },
 };
 
 let scanCache = null;
