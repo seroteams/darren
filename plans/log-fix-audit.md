@@ -1,6 +1,6 @@
 # Log fix audit — every issue, every status
 
-**Version:** v6
+**Version:** v8
 **Caveman version:** full
 **Plan location note:** harness wrote here at `~/.claude/plans/`; per memory rule should be moved to `darren/plans/` after exit.
 
@@ -12,6 +12,7 @@
 - v5 (2026-05-30): cluster-B + F-series + B1 verification. Cluster B (C6, A2, A3) all ALREADY DONE in `src/preparation.js` (validateBrief regex tables + retry) and `src/ai-client.js` (`assertNoUnresolvedPlaceholders` at callAI + `findUnresolvedPlaceholderFields` in parseAIJson). B1 already done — `bank.js:21-24` auto-advances on `ready`. FX-30 covered by A2. F-series sweep: F1/F2 demoted to PARTIAL (soft rules exist but lack hard 4-gram check / banned-verbs list); F3 still OPEN. Stats: DONE 45→51, OPEN 40→32, PARTIAL 5→7. (+8/−8 lines)
 - v6 (2026-05-30): F-batch landed (F1-F4). Added hard 4-gram headline/bullet overlap ban in `prompts/final-evaluation.md` `<summary_bullets_rule>`, tightened growth-specific `brutal_truth_manager` rules with banned generic verbs + required next-move nouns + transcript evidence in `<brutal_truth_rules>`, and added `fourGramOverlap()` warning validator in `src/reviewer.js` (logs `validation.issues` on overlap). Replay fixtures still green. Stats: DONE 51→55, PARTIAL 7→5, OPEN 32→30. (+12/−4 lines)
 - v7 (2026-05-30): openers polish batch (FX-03/04/05/06/07) landed. Removed `q_open_nourishing`, added `q_open_anything_to_cover` (three meeting types), grounded `pickOpener` eligibility to meeting-arc anchor stage, added meeting-type-aware energy-read rule in `prompts/generate-questions.md`, and shipped standalone regression script `scripts/test-opener-routing.js` (including intentional-break fail check). Replay fixtures still green. Stats: DONE 55→60, OPEN 30→25. (+8/−8 lines)
+- v8 (2026-05-30): notes batch (FX-35/36) landed. Notes panel now posts `question_alias` + `question_stem`; notes handler persists both fields; evaluation stage now formats captured notes as `[HH:MM @ alias] stem - text` with legacy-field fallback. FX-36 marked verified (no stale-text bug): submit path reads live textarea value, so browser-accepted spelling corrections flow downstream. Replay fixtures still green. (+5/−5 lines)
 
 ## Context
 User asked: "go through every log, make list of all that needs fixing, check if done, output table with IDs so I can choose what we fix."
@@ -118,8 +119,8 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 | FX-32 | Text too small in questioning | May18 | 🟡 PARTIAL (=feedback #10) | typography bump |
 | FX-33 | "What we will cover" header duplicated on focus-points | May18-21:53 | ✅ DONE (=N1) | `frontend/client/src/stages/focus-points.js:11-15` single canonical eyebrow+h1 |
 | FX-34 | Post-briefing CTA "Complete 1:1" → lexicon picker page | May18 | 🔴 OPEN (=N3) | briefing CTA + next route |
-| FX-35 | Notes carry `question_alias`/stem not just timestamp | May18 | 🔴 OPEN (=feedback #9) | `frontend/server/handlers/notes.js` + `frontend/client/src/ui/notes-panel.js` |
-| FX-36 | "Using my notes" — typo/spelling corrections unused | May27-08:48 | 🔴 OPEN | notes pipeline |
+| FX-35 | Notes carry `question_alias`/stem not just timestamp | May18 | ✅ DONE (=feedback #9) | `frontend/client/src/ui/notes-panel.js:75-88`, `frontend/server/handlers/notes.js:25-51,132-147`, `frontend/server/handlers/evaluation.js:7-33` |
+| FX-36 | "Using my notes" — typo/spelling corrections unused | May27-08:48 | ✅ DONE (verified) | `frontend/client/src/ui/notes-panel.js:73` submit reads live `textarea.value.trim()`; no stale-state correction gap found |
 | FX-37 | Dig-deeper button alongside next-question | May24 | 🔴 OPEN deferred (=H1) | UI control |
 | FX-38 | Focus points unselected default (selection inverted) | May16, May17, May18 | ✅ DONE (=feedback #4) | UI |
 | FX-39 | UI consistency canon (eyebrow+h1, sentence-case, "Continue") | — | ✅ DONE (=feedback #14) | UI canon |
@@ -157,13 +158,13 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 
 ---
 
-## Quick stats (post v7 openers batch)
+## Quick stats (post v8 notes batch)
 - Total IDs: 95
-- ✅ DONE: 60 (incl. 1 OBSOLETE)
+- ✅ DONE: 62 (incl. 1 OBSOLETE)
 - 🟡 PARTIAL: 5
 - 🧪 REVIEW: 1
 - 📋 PLANNING: 4
-- 🔴 OPEN: 25
+- 🔴 OPEN: 23
 
 ## Verification (how to test once items land)
 - Replay last failing run through `scripts/replay-scenario.js` once it exists.
