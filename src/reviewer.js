@@ -13,6 +13,10 @@ const { callAI, parseAIJson } = require("./ai-client");
 const getDefaultModel = () => modelFor("evaluation");
 
 const AXIS_IDS = ["wellbeing", "engagement", "clarity", "growth"];
+const OVERLAP_STOP_WORDS = new Set([
+  "a", "an", "the", "and", "or", "but", "of", "in", "on", "to", "for", "with",
+  "is", "are", "was", "were", "be", "been",
+]);
 
 const RESPONSE_SCHEMA = {
   type: "object",
@@ -106,6 +110,55 @@ async function callOpenAI({ system, user, model }) {
   });
 }
 
+function normalizeContentWords(text) {
+  return String(text || "")
+    .toLowerCase()
+    .replaceAll(/[^a-z0-9\s]+/g, " ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .filter((word) => !OVERLAP_STOP_WORDS.has(word));
+}
+
+function fourGrams(words) {
+  const grams = new Set();
+  for (let i = 0; i <= words.length - 4; i += 1) {
+    grams.add(words.slice(i, i + 4).join(" "));
+  }
+  return grams;
+}
+
+function fourGramOverlap(headline, bullet) {
+  const headlineWords = normalizeContentWords(headline);
+  const bulletWords = normalizeContentWords(bullet);
+  if (headlineWords.length < 4 || bulletWords.length < 4) return 0;
+
+  const headlineGrams = fourGrams(headlineWords);
+  const bulletGrams = fourGrams(bulletWords);
+  let overlap = 0;
+
+  for (const gram of bulletGrams) {
+    if (headlineGrams.has(gram)) overlap += 1;
+  }
+  return overlap;
+}
+
+function validateBriefingOverlap(briefing) {
+  const issues = [];
+  const headline = briefing?.headline || "";
+  const bullets = Array.isArray(briefing?.summary_bullets) ? briefing.summary_bullets : [];
+
+  bullets.forEach((bullet, idx) => {
+    const overlap = fourGramOverlap(headline, bullet);
+    if (overlap >= 1) {
+      issues.push(
+        `summary_bullets[${idx}] overlaps headline by ${overlap} four-gram(s)`
+      );
+    }
+  });
+
+  return { passed: issues.length === 0, issues };
+}
+
 async function evaluate(
   { ctx, focusPoints, transcript, axisState, notes },
   { model = getDefaultModel(), session, stage = "05-evaluation" } = {}
@@ -119,7 +172,18 @@ async function evaluate(
     response: raw,
   });
 
-  return parseAIJson(raw, "Evaluator", ["headline", "axes", "next_actions"]);
+  const briefing = parseAIJson(raw, "Evaluator", ["headline", "axes", "next_actions"]);
+  const validation = validateBriefingOverlap(briefing);
+
+  if (!validation.passed) {
+    logStage(session, stage, {
+      inputs: { ctx, focusPoints, transcript, axisState, notes, model, validation },
+      prompt: msgs.filled,
+      response: raw,
+    });
+  }
+
+  return briefing;
 }
 
-module.exports = { evaluate, buildMessages, callOpenAI };
+module.exports = { evaluate, buildMessages, callOpenAI, fourGramOverlap };

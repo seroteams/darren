@@ -89,6 +89,8 @@ Maximum 3 bullets. Each must name one of:
 
 **Restatement test**: could a reader produce this bullet by reading a single answer in the transcript? If yes, it's a restatement — remove it. Fewer real bullets beats more hollow ones. 2 sharp bullets is better than 3 padded ones.
 
+**4-gram overlap hard rule**: no bullet may share 4 or more consecutive content words (stop words excluded) with `headline`. If enforcing this leaves only 1 valid bullet, emit only 1 — fewer real bullets beats restatement of the headline.
+
 Examples of good bullets:
 - "Brings up mentoring in three different turns with no prompt — this is the real ask."
 - "Manager worried about burnout; her actual concern is stagnation — check that the coming weeks don't double down on the wrong thread."
@@ -131,6 +133,10 @@ Examples of restatement (BAD):
 - If naming a specific moment, quote the report's signal (not Sero's question) and say what the manager could deepen next time.
 - If the meeting was well-run, say so plainly and name the single next thing to deepen. "Good job" alone is useless.
 - Not generic. "Missed opportunities to delve deeper" is not a brutal truth — name WHICH report signal could have been pulled on.
+- For `meeting_type = "Growth & career plan"` (and similar growth/career meetings), `brutal_truth_manager` MUST name one specific next-plan move — a competency to demonstrate, a stakeholder to expose to, a project to assign, a scope-stretch to grant, or a decision to escalate.
+- For growth/career meetings, FORBIDDEN generic verbs in `brutal_truth_manager`: `"delve"`, `"explore further"`, `"dig deeper"`, `"follow up"`, `"look into"`, `"investigate"`.
+- For growth/career meetings, required noun set in `brutal_truth_manager` (at least one): `"project"`, `"stakeholder"`, `"scope"`, `"decision"`, `"competency"`, `"ownership"`, `"authority"`.
+- For `meeting_type = "Growth & career plan"` specifically, `brutal_truth_manager` MUST quote (in double quotes) one specific phrase from the transcript OR name one specific artefact / behaviour / moment that constitutes evidence for or against the report's stated next-level claim. Bare opinion without evidence is not acceptable.
 
 </brutal_truth_rules>
 
