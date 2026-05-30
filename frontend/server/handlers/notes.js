@@ -22,6 +22,37 @@ function fmtTime(ts) {
   return `${hh}:${mm}:${ss}`;
 }
 
+function fmtTimeShort(ts) {
+  const d = new Date(ts);
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mm = String(d.getMinutes()).padStart(2, "0");
+  return `${hh}:${mm}`;
+}
+
+function truncate(text, maxLen) {
+  const clean = String(text || "").replace(/\s+/g, " ").trim();
+  if (!clean) return "";
+  if (clean.length <= maxLen) return clean;
+  return `${clean.slice(0, maxLen).trimEnd()}...`;
+}
+
+function formatNotesForEvaluation(notes) {
+  if (!Array.isArray(notes) || notes.length === 0) return "";
+  const lines = [];
+  for (const n of notes) {
+    const text = String(n?.text || "").trim();
+    if (!text) continue;
+    const stamp = fmtTimeShort(Number.isFinite(n?.ts) ? n.ts : Date.now());
+    const alias = String(n?.question_alias || "").trim();
+    const stem = truncate(n?.question_stem, 60);
+    if (alias && stem) lines.push(`[${stamp} @ ${alias}] ${stem} - ${text}`);
+    else if (alias) lines.push(`[${stamp} @ ${alias}] ${text}`);
+    else if (stem) lines.push(`[${stamp}] ${stem} - ${text}`);
+    else lines.push(`[${stamp}] ${text}`);
+  }
+  return lines.join("\n");
+}
+
 function renderMarkdown(session) {
   const ctx = session.ctx || {};
   const headerLine = [ctx.name, ctx.role, ctx.meetingType]
@@ -98,6 +129,19 @@ module.exports = async function notes(c) {
         ? session.notes[existingIdx].ts
         : Date.now(),
       text: String(note.text).slice(0, 4000),
+      question_alias: String(
+        note.question_alias ||
+          (existingIdx >= 0 ? session.notes[existingIdx].question_alias : "")
+      )
+        .trim()
+        .slice(0, 120),
+      question_stem: String(
+        note.question_stem ||
+          (existingIdx >= 0 ? session.notes[existingIdx].question_stem : "")
+      )
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, 80),
     };
     if (existingIdx >= 0) session.notes[existingIdx] = entry;
     else session.notes.push(entry);
@@ -108,3 +152,5 @@ module.exports = async function notes(c) {
 
   c.json(200, { ok: true, count: session.notes.length });
 };
+
+module.exports.formatNotesForEvaluation = formatNotesForEvaluation;

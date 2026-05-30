@@ -72,12 +72,19 @@ export function createNotesPanel({ store, setState }) {
     if (saving) return;
     const text = ta.value.trim();
     if (!text) return;
+    const questionAlias = String(store.currentQuestion?.alias || "").trim();
+    const questionStem = String(store.currentQuestion?.name || "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 80);
     const note = {
       id: cryptoId(),
       stage: store.stage,
       turn: store.turn || 0,
       ts: Date.now(),
       text,
+      question_alias: questionAlias,
+      question_stem: questionStem,
     };
     const prevNotes = store.notes || [];
     const next = [...prevNotes, note];
