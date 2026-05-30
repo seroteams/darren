@@ -12,7 +12,6 @@ const {
 } = require("./ui");
 
 // Renders the final-evaluation JSON to stdout in the same style as cli.js.
-// Reused by cli.js (live session) and scripts/rerun-eval.js (replay).
 function renderBriefing(evalJson, employeeName) {
   const ev = evalJson || {};
 
