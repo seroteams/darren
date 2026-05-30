@@ -8,6 +8,8 @@
 - v1: initial table. Pulled from 13 May `notes.md` + batch `2026_May24_batch/` + feedback memory + `PLAN.md` + `plans/cool-okay-so-peppy-thimble.md` + `plans/lexicon-finish.md`. (+220 lines)
 - v2 (2026-05-30): audit verification pass — flipped 15 items from 🔴 OPEN to ✅ DONE after grep + Read confirmation. Items confirmed done: A1 (no `.replace("{{` left), B2/B3 (axes.js seed+tooltip), D1–D5 (queue-manager compute fns + plan-turn rules), E1/E2 (openers reshuffled), FX-15 (CALIBRATION line 190), FX-16 (persona grounding line 125), FX-17 (replay-scenario.js + scenarios/regression/toby_growth_lead.json), C7 (same fixture). Stats recounted. (+18/−15 lines)
 - v3 (2026-05-30): cheap-wins batch. FX-31 + FX-33 confirmed already done in current code. FX-09/FX-10/FX-13/FX-14 landed as additions to `prompts/plan-turn.md` — two question_craft bullets ("Length cap (hard)", "Don't echo the stem") and two new planning_rules ("Honor open commitments" #11, "Context-aware urgency" #12). Replay fixtures still green. Stats: DONE 30→36, OPEN 55→49. (+8/−6 lines)
+- v4 (2026-05-30): prep-batch verification — opened cluster A (C1-C5, FX-19, FX-20, FX-21, FX-22) and confirmed ALL already implemented in `prompts/preparation.md` (`<opening_question_rules>`, `<listen_for_rules>`, `<good_outcome_rules>`, `<suggested_action_rules>`, `<good_outcome_rules>` scope cap) and `prompts/generate-focus-points.md` (Shape rule + Banned phrases + Voice check). FX-21 marked OBSOLETE — `aboutYou` field no longer in output_contract. Zero code/prompt edits needed. Stats: DONE 36→45 (+9), OPEN 49→40. (+9/−9 lines)
+- v5 (2026-05-30): cluster-B + F-series + B1 verification. Cluster B (C6, A2, A3) all ALREADY DONE in `src/preparation.js` (validateBrief regex tables + retry) and `src/ai-client.js` (`assertNoUnresolvedPlaceholders` at callAI + `findUnresolvedPlaceholderFields` in parseAIJson). B1 already done — `bank.js:21-24` auto-advances on `ready`. FX-30 covered by A2. F-series sweep: F1/F2 demoted to PARTIAL (soft rules exist but lack hard 4-gram check / banned-verbs list); F3 still OPEN. Stats: DONE 45→51, OPEN 40→32, PARTIAL 5→7. (+8/−8 lines)
 
 ## Context
 User asked: "go through every log, make list of all that needs fixing, check if done, output table with IDs so I can choose what we fix."
@@ -70,27 +72,27 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 
 | ID | Issue | Seen in | Status | Pointer |
 |---|---|---|---|---|
-| C1 | Non-accusatory opening rule (forbid "What specific [problem]") | May24 | 🔴 OPEN | `prompts/preparation.md:31` |
-| C2 | Private concern reframe (manager blunt → coaching tone) | May24, May27-08:48 | 🔴 OPEN | `prompts/preparation.md` |
-| C3 | `listenFor` names behavioural tells, not focus labels | May24 stupidly obvious | 🔴 OPEN | `prompts/preparation.md:32` |
-| C4 | `goodOutcome` role/seniority specific | May24, May27-08:48 "badly spoken" | 🔴 OPEN | `prompts/preparation.md:34` |
-| C5 | `suggestedAction` pre-or-in-meeting only, never post | May24 follow-up-in-one-month | 🔴 OPEN | `prompts/preparation.md:35` |
-| C6 | Prep validator enforces C1–C5 | — | 🔴 OPEN | `src/preparation.js:55-122` |
+| C1 | Non-accusatory opening rule (forbid "What specific [problem]") | May24 | ✅ DONE | `prompts/preparation.md:37-61` `<opening_question_rules>` |
+| C2 | Private concern reframe (manager blunt → coaching tone) | May24, May27-08:48 | ✅ DONE | `prompts/preparation.md:48` "Private concern reframe" |
+| C3 | `listenFor` names behavioural tells, not focus labels | May24 stupidly obvious | ✅ DONE | `prompts/preparation.md:63-72` `<listen_for_rules>` |
+| C4 | `goodOutcome` role/seniority specific | May24, May27-08:48 "badly spoken" | ✅ DONE | `prompts/preparation.md:74-82` `<good_outcome_rules>` |
+| C5 | `suggestedAction` pre-or-in-meeting only, never post | May24 follow-up-in-one-month | ✅ DONE | `prompts/preparation.md:84-92` `<suggested_action_rules>` |
+| C6 | Prep validator enforces C1–C5 | — | ✅ DONE | `src/preparation.js:36-207` regex tables (ACCUSATORY/NEGATIVE_EVAL/PARAPHRASE/LEVEL_MARKERS/POST_MEETING) + retry path line 244 |
 | C7 | Toby regression scenario + replay script | — | ✅ DONE | `scenarios/regression/toby_growth_lead.json` |
 | FX-18 | `coreIssue` ≤28 words, one sentence | May17, May18 | ✅ DONE | `prompts/preparation.md` (feedback #5) |
-| FX-19 | Focus-point `reason` non-human, corporate, AI-slop | May23, May27-08:48, May27-15:26 | 🔴 OPEN (=N4) | `prompts/generate-focus-points.md` |
-| FX-20 | Focus-point relevance unclear ("not sure why this is relevant") | May27-15:26 | 🔴 OPEN | overlaps FX-19 |
-| FX-21 | "About you" reads like AI mistake is manager's fault | May17-12:53 | 🔴 OPEN | `prompts/preparation.md` aboutYou tone |
-| FX-22 | Scope of outcomeGoal too big for one meeting | May17-12:53 | 🔴 OPEN | `prompts/preparation.md` outcomeGoal cap |
+| FX-19 | Focus-point `reason` non-human, corporate, AI-slop | May23, May27-08:48, May27-15:26 | ✅ DONE (=N4) | `prompts/generate-focus-points.md:22-28` Shape rule + Banned phrases + Voice check |
+| FX-20 | Focus-point relevance unclear ("not sure why this is relevant") | May27-15:26 | ✅ DONE | same rules as FX-19 |
+| FX-21 | "About you" reads like AI mistake is manager's fault | May17-12:53 | ✅ OBSOLETE | `aboutYou` field no longer exists in output_contract |
+| FX-22 | Scope of outcomeGoal too big for one meeting | May17-12:53 | ✅ DONE | `prompts/preparation.md:34` "Not a multi-meeting arc..." rule |
 | FX-23 | Preparation validator 1x retry on failure | May25 | ✅ DONE | `src/preparation.js` 2026-05-27 |
 
 ### D. Briefing / evaluation
 
 | ID | Issue | Seen in | Status | Pointer |
 |---|---|---|---|---|
-| F1 | Briefing bullet ≠ paraphrase of headline (≥4 word overlap fails) | May24 "stood out repeats" | 🔴 OPEN | `prompts/final-evaluation.md:62-79` |
-| F2 | `brutal_truth_manager` names plan-shaped next move | May24 "about you = mute advice" | 🔴 OPEN | `prompts/final-evaluation.md:101-114` |
-| F3 | Growth-meeting brutal truths name career evidence from transcript | May24 | 🔴 OPEN | `prompts/final-evaluation.md:101-114` |
+| F1 | Briefing bullet ≠ paraphrase of headline (≥4 word overlap fails) | May24 "stood out repeats" | 🟡 PARTIAL | `prompts/final-evaluation.md:90` "Restatement test" rule exists but no hard 4-gram check |
+| F2 | `brutal_truth_manager` names plan-shaped next move | May24 "about you = mute advice" | 🟡 PARTIAL | `prompts/final-evaluation.md:130-133` softer "what to deepen" rule; no banned-verbs list yet |
+| F3 | Growth-meeting brutal truths name career evidence from transcript | May24 | 🔴 OPEN | `prompts/final-evaluation.md:122-135` needs Growth-specific evidence rule |
 | F4 | N-gram overlap validator on briefing fields | — | 🔴 OPEN | `src/briefing.js` |
 | FX-24 | Actions/Reminders over watch_for (copy-pasteable) | May18 | 🟡 PARTIAL (=feedback #11) | label changed; affordance + contract missing |
 | FX-25 | Briefing typography messy; allow 1/2+1/2 layout | May18 | 🟡 PARTIAL (=feedback #10) | UI |
@@ -104,12 +106,12 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 | ID | Issue | Seen in | Status | Pointer |
 |---|---|---|---|---|
 | A1 | `.replace` → `.replaceAll` template substitution (placeholder bug, `{{NAME}}`) | May24 | ✅ DONE | grep `\.replace\("\{\{` returns zero hits in `src/` |
-| A2 | Output guard against unresolved placeholders in parseAIJson | — | 🔴 OPEN | `src/utils/parseAIJson.js` |
-| A3 | Prompt-log assertion for unresolved tokens at send | — | 🔴 OPEN | logging path |
-| B1 | Auto-skip Question bank stage (no click) | May24 | 🔴 OPEN | frontend |
+| A2 | Output guard against unresolved placeholders in parseAIJson | — | ✅ DONE | `src/ai-client.js:159-194` `findUnresolvedPlaceholderFields` throws in `parseAIJson` |
+| A3 | Prompt-log assertion for unresolved tokens at send | — | ✅ DONE | `src/ai-client.js:67-80` `assertNoUnresolvedPlaceholders` called at top of `callAI` |
+| B1 | Auto-skip Question bank stage (no click) | May24 | ✅ DONE | `frontend/client/src/stages/bank.js:21-24` auto-advances on `ready` event |
 | B2 | Axis seed renders neutral at -1, not red | — | ✅ DONE | `frontend/client/src/ui/axes.js:86-97` neutral pill on seed+empty history |
 | B3 | Axis baseline tooltip "Seeded at <N>. Moves with answers." | — | ✅ DONE | `frontend/client/src/ui/axes.js:68` title attr |
-| FX-30 | Formatting garbage "line1 line2 line3 line4 line5" | May25 | 🔴 OPEN | overlaps A2 |
+| FX-30 | Formatting garbage "line1 line2 line3 line4 line5" | May25 | ✅ DONE | covered by A2 placeholder guard in `parseAIJson` |
 | FX-31 | Long em-dashes everywhere — filter before render | May16-20:43 | ✅ DONE | `escape()` strips `[—–]` to `,` in briefing/preparation/questioning/focus-points/lexicon-review stages |
 | FX-32 | Text too small in questioning | May18 | 🟡 PARTIAL (=feedback #10) | typography bump |
 | FX-33 | "What we will cover" header duplicated on focus-points | May18-21:53 | ✅ DONE (=N1) | `frontend/client/src/stages/focus-points.js:11-15` single canonical eyebrow+h1 |
@@ -153,13 +155,13 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 
 ---
 
-## Quick stats (post v3 cheap-wins batch)
+## Quick stats (post v5 cluster-B + F-series + B1 verification)
 - Total IDs: 95
-- ✅ DONE: 36
-- 🟡 PARTIAL: 5
+- ✅ DONE: 51 (incl. 1 OBSOLETE)
+- 🟡 PARTIAL: 7
 - 🧪 REVIEW: 1
 - 📋 PLANNING: 4
-- 🔴 OPEN: 49
+- 🔴 OPEN: 32
 
 ## Verification (how to test once items land)
 - Replay last failing run through `scripts/replay-scenario.js` once it exists.
