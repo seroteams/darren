@@ -198,7 +198,7 @@ Not in audit. Resolve in batch H3 before starting feature work on `main`.
 
 | Batch | Status | Date | Commit |
 |---|---|---|---|
-| H | done | 2026-05-30 | (pending commit) |
+| H | done | 2026-05-30 | 3ff04b2 |
 | I | pending | — | — |
 | J | pending | — | — |
 | K | pending | — | — |
