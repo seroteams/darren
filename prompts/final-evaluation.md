@@ -133,10 +133,6 @@ Examples of restatement (BAD):
 - If naming a specific moment, quote the report's signal (not Sero's question) and say what the manager could deepen next time.
 - If the meeting was well-run, say so plainly and name the single next thing to deepen. "Good job" alone is useless.
 - Not generic. "Missed opportunities to delve deeper" is not a brutal truth — name WHICH report signal could have been pulled on.
-- For `meeting_type = "Growth & career plan"` (and similar growth/career meetings), `brutal_truth_manager` MUST name one specific next-plan move — a competency to demonstrate, a stakeholder to expose to, a project to assign, a scope-stretch to grant, or a decision to escalate.
-- For growth/career meetings, FORBIDDEN generic verbs in `brutal_truth_manager`: `"delve"`, `"explore further"`, `"dig deeper"`, `"follow up"`, `"look into"`, `"investigate"`.
-- For growth/career meetings, required noun set in `brutal_truth_manager` (at least one): `"project"`, `"stakeholder"`, `"scope"`, `"decision"`, `"competency"`, `"ownership"`, `"authority"`.
-- For `meeting_type = "Growth & career plan"` specifically, `brutal_truth_manager` MUST quote (in double quotes) one specific phrase from the transcript OR name one specific artefact / behaviour / moment that constitutes evidence for or against the report's stated next-level claim. Bare opinion without evidence is not acceptable.
 
 </brutal_truth_rules>
 
@@ -178,17 +174,22 @@ Bad actions (rewrite or remove):
 </next_actions_rules>
 
 <watch_for_rules>
-Produce 2–3 items. Each is a **specific, observable tell** that would confirm or deny a read from this session over the coming weeks.
+Produce exactly 2 items. The UI labels this block **Reminders** — each line must paste cleanly into a calendar, task app, or notes field without editing.
 
-Good watch-fors:
-- "If she doesn't bring up mentoring again in the next two 1:1s, she's given up on it — act before that silence."
-- "If he cancels or no-shows on the next 1:1, the disengagement is deeper than he said."
-- "If she says 'fine' to the pace question again next session, the coasting has become the new baseline."
+**Format (copy-paste contract):**
+- One self-contained line per item. No semicolon chains, no bullet sub-points.
+- Open with a timing cue when useful: `Before next 1:1:`, `Within two weeks:`, `If … then …`
+- Write as an imperative check or trigger the manager can schedule or notice — not vague advice.
+- Must be observable — confirms or denies a read from this session.
 
-Bad watch-fors:
-- "Watch her engagement levels." (not observable, not specific)
-- "Check in regularly." (advice, not a tell)
-- "See how things develop." (nothing)
+Good reminders (paste-ready):
+- `Before next 1:1: ask Priya whether mentoring moved — silence twice means she's given up.`
+- `Within two weeks: if Carl cancels or no-shows, treat disengagement as deeper than he said.`
+
+Bad reminders (rewrite):
+- `Watch her engagement levels.` (not observable, not pasteable)
+- `Check in regularly.` (advice, not a tell)
+- `See how things develop.` (empty)
 </watch_for_rules>
 
 <write_economy>

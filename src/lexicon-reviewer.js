@@ -7,6 +7,9 @@ const {
   commitDecisions,
   suggestionId,
   extractBankQuestions,
+  buildPrompt,
+  normalizeTranscriptForReview,
+  normalizeEvaluation,
 } = require("./lexicon/review-core");
 const {
   appendCandidates,
@@ -25,6 +28,10 @@ module.exports = {
   suggestionId,
   readTrace,
   tracePathFor,
+  buildPrompt,
+  normalizeTranscriptForReview,
+  normalizeEvaluation,
+  extractBankQuestions,
   _internals: {
     parseInput,
     partition,

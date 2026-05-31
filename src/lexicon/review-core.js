@@ -3,20 +3,40 @@ const path = require("node:path");
 
 const { callAI, parseAIJson } = require("../ai-client");
 const { modelFor } = require("../models");
-const { loadLexicon, lexiconScopeFor, candidatePath } = require("../lexicon");
+const { loadLexicon, lexiconScopeFor, resolveLexiconScope, isLexiconReviewScope, candidatePath } = require("../lexicon");
 const { RESPONSE_SCHEMA } = require("./schema");
 const { appendCandidates, writeTrace, readTrace, tracePathFor } = require("./candidates-io");
+const { promptFor } = require("../one-on-one-types");
 
-const ROOT = path.join(__dirname, "..", "..");
-const PROMPT_PATH = path.join(ROOT, "prompts", "review-session-for-lexicon.md");
+function shouldReview(ctx) {
+  return isLexiconReviewScope(lexiconScopeFor(ctx));
+}
 
-function shouldReview({ role, seniority, meetingType }) {
-  const scope = lexiconScopeFor({ role, seniority, meetingType });
-  return scope.roleFamily === "design" && scope.seniority === "lead" && scope.meetingType === "growth";
+function normalizeTranscriptForReview(transcript) {
+  return (transcript || []).map((t) => ({
+    turn: t.turn,
+    manager_question: typeof t.question === "object" ? t.question.name || t.question.label || "" : String(t.question || ""),
+    employee_answer: t.skipped ? "(skipped)" : String(t.answer || "").trim(),
+    shallow: typeof t.note === "string" && t.note.includes("[SHALLOW]"),
+    axis_deltas: t.realized_deltas || {},
+  }));
+}
+
+function normalizeEvaluation(evalResp) {
+  if (!evalResp || typeof evalResp !== "object") return {};
+  if (typeof evalResp.raw === "string") {
+    try {
+      const parsed = JSON.parse(evalResp.raw);
+      if (parsed && typeof parsed === "object") return parsed;
+    } catch {}
+  }
+  return evalResp;
 }
 
 function buildPrompt({ scope, ctx, lexicon, transcript, bank, evaluation }) {
-  const template = fs.readFileSync(PROMPT_PATH, "utf8");
+  const template = fs.readFileSync(promptFor(ctx.meetingType, "lexicon"), "utf8");
+  const reviewTranscript = normalizeTranscriptForReview(transcript);
+  const reviewEval = normalizeEvaluation(evaluation);
   const filled = template
     .replaceAll("{{ROLE_FAMILY}}", scope.roleFamily)
     .replaceAll("{{SENIORITY}}", scope.seniority)
@@ -26,9 +46,9 @@ function buildPrompt({ scope, ctx, lexicon, transcript, bank, evaluation }) {
     .replaceAll("{{ROLE}}", ctx.role || "(unknown)")
     .replaceAll("{{MEETING_TYPE_LABEL}}", ctx.meetingType || "(unknown)")
     .replaceAll("{{MANAGER_NOTES}}", ctx.notes || "(none)")
-    .replaceAll("{{TRANSCRIPT_JSON}}", JSON.stringify(transcript || [], null, 2))
+    .replaceAll("{{TRANSCRIPT_JSON}}", JSON.stringify(reviewTranscript, null, 2))
     .replaceAll("{{QUESTION_BANK_JSON}}", JSON.stringify(bank || [], null, 2))
-    .replaceAll("{{EVALUATION_JSON}}", JSON.stringify(evaluation || {}, null, 2));
+    .replaceAll("{{EVALUATION_JSON}}", JSON.stringify(reviewEval, null, 2));
 
   const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
   const userMatch = filled.match(/## User\s+([\s\S]*)$/);
@@ -84,14 +104,18 @@ async function generateSuggestions({ session, ctx, force = false }) {
     }
   }
 
-  const scope = lexiconScopeFor(ctx);
+  const scope = resolveLexiconScope(ctx);
   const sessionDir = session.dir;
 
   const transcript = readJsonSafe(path.join(sessionDir, "transcript.json"));
   const bankResp = readJsonSafe(path.join(sessionDir, "03-question-bank", "response.json"));
   const evalResp = readJsonSafe(path.join(sessionDir, "05-evaluation", "response.json"));
   const bankQuestions = extractBankQuestions(bankResp);
-  const lexicon = loadLexicon(ctx);
+  const lexicon = loadLexicon({
+    meetingType: ctx.meetingType,
+    role: ctx.role,
+    seniority: scope.sourceSeniority === "expert" ? "Lead" : ctx.seniority,
+  });
 
   let response;
   try {
@@ -163,5 +187,6 @@ module.exports = {
   commitDecisions,
   suggestionId,
   extractBankQuestions,
-  PROMPT_PATH,
+  normalizeTranscriptForReview,
+  normalizeEvaluation,
 };

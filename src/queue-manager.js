@@ -1,13 +1,10 @@
 const fs = require("node:fs");
-const path = require("node:path");
 
 const { loadAxes, validateAxisState } = require("./axes");
 const { newAlias, saveQuestion, listAllAliases } = require("./questions");
 const { getArc } = require("./meeting-arcs");
+const { promptFor } = require("./one-on-one-types");
 const cost = require("./cost");
-
-const ROOT = path.join(__dirname, "..");
-const PROMPT_PATH = path.join(ROOT, "prompts", "plan-turn.md");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
@@ -150,7 +147,7 @@ function buildMessages({
   totalTurns,
   closerAlias,
 }) {
-  const template = fs.readFileSync(PROMPT_PATH, "utf8");
+  const template = fs.readFileSync(promptFor(ctx.meetingType, "planTurn"), "utf8");
   const arc = getArc(ctx.meetingType);
   const transcriptSummary = (transcript || []).map((t) => ({
     alias: t.question.alias,
@@ -354,9 +351,81 @@ function isShallowAnswer(answer) {
   if (!answer || typeof answer !== "string") return false;
   const trimmed = answer.trim();
   if (!trimmed) return false;
-  // Skipped/empty answers are handled upstream — this only fires for short non-empty.
+  if (trimmed === "(skipped)") return false;
+
   const tokens = trimmed.split(/\s+/).filter(Boolean);
-  return tokens.length > 0 && tokens.length <= 3;
+  if (tokens.length > 0 && tokens.length <= 3) return true;
+
+  const normalized = trimmed
+    .toLowerCase()
+    .replace(/[^\w\s']/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const FILLER_ONLY =
+    /^(yeah|yes|yep|yup|ok|okay|fine|good|great|sure|cool|thanks|thank you|not bad|doing fine|i am fine|im fine|today is fine|its fine|it's fine|they are okay|every day|every time)$/;
+  return FILLER_ONLY.test(normalized);
+}
+
+function noteMarksShallow(note) {
+  return typeof note === "string" && note.includes("[SHALLOW]");
+}
+
+function detectClarityMisalignment(answer) {
+  if (!answer || typeof answer !== "string") return false;
+  const lower = answer.toLowerCase();
+  if (/\bmay think this\b.*\bmay think that\b/.test(lower)) return true;
+  if (/\b(i|my|me)\b/.test(lower) && /\b(boss|manager|lead)\b/.test(lower)) {
+    if (/\b(think|expects|expected|want|needs|learn|understand|align)\b/.test(lower)) return true;
+  }
+  if (/\b(not aligned|misaligned|on different pages|different expectations)\b/.test(lower)) return true;
+  return false;
+}
+
+function expandSignatureForSignals(signature, answer) {
+  const sig = { ...(signature || {}) };
+  if (detectClarityMisalignment(answer) && sig.clarity == null) {
+    sig.clarity = 3;
+  }
+  return sig;
+}
+
+function applyShallowGate(rawDeltas, { lastAnswer, note, issues }) {
+  const answerIsSkip = !lastAnswer || lastAnswer === "(skipped)";
+  const shallow = !answerIsSkip && (isShallowAnswer(lastAnswer) || noteMarksShallow(note));
+  if (!shallow) return false;
+  for (const axis of Object.keys(rawDeltas)) {
+    if (rawDeltas[axis] !== 0) {
+      issues.push(`shallow answer — zeroed ${axis} (${rawDeltas[axis] > 0 ? "+" : ""}${rawDeltas[axis]})`);
+      rawDeltas[axis] = 0;
+    }
+  }
+  return true;
+}
+
+function applyMisalignmentClarity(rawDeltas, { lastAnswer, signature, issues }) {
+  if (!detectClarityMisalignment(lastAnswer)) return;
+  if (!Object.prototype.hasOwnProperty.call(signature, "clarity")) return;
+  const mag = Math.abs(signature.clarity);
+  const current = rawDeltas.clarity;
+  if (current == null || current >= 0) {
+    const applied = -Math.min(mag, 1);
+    rawDeltas.clarity = applied;
+    issues.push(`misalignment signal — applied clarity ${applied}`);
+  }
+}
+
+function enforceAxisCoverage({ newQueue, axisState, turnNumber, issues }) {
+  if (turnNumber < 4 || !Array.isArray(newQueue) || !newQueue.length) return newQueue;
+  const untouched = AXIS_IDS.filter((id) => (axisState[id]?.history?.length ?? 0) === 0);
+  if (!untouched.length) return newQueue;
+  const priority = ["clarity", "engagement", "wellbeing", "growth"].find((id) => untouched.includes(id));
+  if (!priority) return newQueue;
+  const first = newQueue[0];
+  if (!first || typeof first.axis_effects !== "object") return newQueue;
+  if (first.axis_effects[priority]) return newQueue;
+  first.axis_effects[priority] = 3;
+  issues.push(`coverage: injected ${priority} into next question (0 touches after turn ${turnNumber})`);
+  return newQueue;
 }
 
 async function planTurn({
@@ -374,6 +443,21 @@ async function planTurn({
   model = getDefaultModel(),
 }) {
   validateAxisState(axisState);
+
+  const skipShortcutEligible = (!lastAnswer || lastAnswer === "(skipped)")
+    && Number(remainingBudget) !== 1
+    && Array.isArray(remainingQueue) && remainingQueue.length > 0
+    && (transcript || []).slice(-2).filter((t) => t?.skipped).length < 2;
+  if (skipShortcutEligible) {
+    return {
+      assessment: { deltas: {}, note: "[SKIP] no signal — planner bypassed, queue carried forward" },
+      newQueue: remainingQueue,
+      issues: [],
+      prompt: null,
+      response: null,
+    };
+  }
+
   const axes = loadAxes();
   const msgs = buildMessages({
     axes,
@@ -393,35 +477,42 @@ async function planTurn({
   const parsed = parseAIJson(raw, "Queue planner", ["assessment", "new_queue"]);
 
   const rawDeltas = toAxisObject(parsed.assessment?.deltas);
-  const shallowIssues = [];
-  // Defence in depth: if the answer was shallow (<=3 tokens, non-empty, not a skip),
-  // zero out any positive deltas the planner returned. Tone is not signal — content is.
-  // We leave negative deltas alone: a short "nothing" can legitimately read as absence.
-  const answerIsSkip = !lastAnswer || lastAnswer === "(skipped)";
-  if (!answerIsSkip && isShallowAnswer(lastAnswer)) {
-    for (const axis of Object.keys(rawDeltas)) {
-      if (rawDeltas[axis] > 0) {
-        shallowIssues.push(`shallow answer "${lastAnswer.trim()}" — zeroed positive ${axis} (+${rawDeltas[axis]})`);
-        rawDeltas[axis] = 0;
-      }
-    }
-  }
-  const { deltas, issues: sigIssues } = clampToSignature(rawDeltas, lastQuestion.axis_effects || {});
+  const gateIssues = [];
+  applyShallowGate(rawDeltas, {
+    lastAnswer,
+    note: parsed.assessment?.note || "",
+    issues: gateIssues,
+  });
+
+  const effectiveSignature = expandSignatureForSignals(lastQuestion.axis_effects || {}, lastAnswer);
+  applyMisalignmentClarity(rawDeltas, {
+    lastAnswer,
+    signature: effectiveSignature,
+    issues: gateIssues,
+  });
+
+  const { deltas, issues: sigIssues } = clampToSignature(rawDeltas, effectiveSignature);
   const assessment = {
     deltas,
     note: parsed.assessment?.note || "",
   };
 
   const askedAliases = new Set((transcript || []).map((t) => t.question.alias));
-  const { queue: newQueue, issues: queueIssues } = reconcileQueue(parsed.new_queue, {
+  const { queue: reconciledQueue, issues: queueIssues } = reconcileQueue(parsed.new_queue, {
     remainingQueue,
     askedAliases,
+  });
+  const newQueue = enforceAxisCoverage({
+    newQueue: reconciledQueue,
+    axisState,
+    turnNumber: turnNumber ?? (transcript || []).length,
+    issues: gateIssues,
   });
 
   return {
     assessment,
     newQueue,
-    issues: [...shallowIssues, ...sigIssues, ...queueIssues],
+    issues: [...gateIssues, ...sigIssues, ...queueIssues],
     prompt: msgs.filled,
     response: raw,
   };
@@ -435,6 +526,12 @@ module.exports = {
   reconcileQueue,
   clampToSignature,
   isShallowAnswer,
+  noteMarksShallow,
+  detectClarityMisalignment,
+  expandSignatureForSignals,
+  applyShallowGate,
+  applyMisalignmentClarity,
+  enforceAxisCoverage,
   computeArcProgress,
   computeConsecutiveDrillCount,
   computeRemainingStages,
