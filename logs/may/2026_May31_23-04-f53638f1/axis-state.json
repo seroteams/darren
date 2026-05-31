@@ -1,0 +1,35 @@
+{
+  "wellbeing": {
+    "score": -3,
+    "history": [
+      {
+        "q": "q_open_real_version",
+        "delta": -1,
+        "answer_excerpt": "yeah its okay, the recent team building was fun, but now with the New oe's it will be stressful"
+      },
+      {
+        "q": "q_new_oes_stress",
+        "delta": -1,
+        "answer_excerpt": "the team building was great, but still feel i have issues with the BA team."
+      }
+    ]
+  },
+  "engagement": {
+    "score": 0,
+    "history": [
+      {
+        "q": "q_open_real_version",
+        "delta": 1,
+        "answer_excerpt": "yeah its okay, the recent team building was fun, but now with the New oe's it will be stressful"
+      }
+    ]
+  },
+  "clarity": {
+    "score": 0,
+    "history": []
+  },
+  "growth": {
+    "score": 0,
+    "history": []
+  }
+}

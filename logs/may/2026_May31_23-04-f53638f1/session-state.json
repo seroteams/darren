@@ -1,0 +1,372 @@
+{
+  "id": "2026_May31_23-04-f53638f1",
+  "dir": "C:\\Users\\User\\Documents\\Sero\\darren\\logs\\may\\2026_May31_23-04-f53638f1",
+  "createdAt": 1780243455448,
+  "completedAt": null,
+  "lastSeenAt": 1780244849729,
+  "ctx": {
+    "name": "Carla",
+    "role": "UX Lead",
+    "seniority": "Lead",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "They have been struggling between AZPocket App Design project as UX LEad and the global lead of CoE"
+  },
+  "introQueue": [
+    {
+      "alias": "q_open_real_version",
+      "label": "The real version",
+      "name": "Tell me about your week — the real version.",
+      "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 2,
+        "engagement": 1
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_agenda_check",
+      "label": "Agenda check",
+      "name": "Before we get into it, anything you want to make sure we cover today?",
+      "description": "Semi-set early question. Gives the report explicit permission to set the agenda before the manager's plan takes over.",
+      "purpose": "engagement",
+      "stage": "opener",
+      "axis_effects": {
+        "engagement": 1,
+        "clarity": 1
+      },
+      "source": "semi_set"
+    },
+    {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?",
+      "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    }
+  ],
+  "focusPointsResult": {
+    "meeting_type": "Bi-weekly check-in",
+    "focus_points": [
+      {
+        "id": "priorities",
+        "type": "Priorities & goals",
+        "category": "topic",
+        "label": "Balancing AZPocket work with CoE leadership",
+        "reason": "They’ve been struggling between the AZPocket App Design project and being the global lead of the CoE. One possibility is role-scope conflict—worth clarifying what they’re saying yes/no to on each side and what’s being deprioritized.",
+        "source": "signal",
+        "known": true
+      },
+      {
+        "id": "blockers",
+        "type": "Blockers & dependencies",
+        "category": "topic",
+        "label": "What’s getting stuck between the two roles",
+        "reason": "With two leadership hats, the friction is often a specific dependency, expectation mismatch, or decision that’s waiting. Worth mapping the top 1–2 blockers on each lane so you can help remove the real constraints.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "manager_support",
+        "type": "Manager support",
+        "category": "topic",
+        "label": "What support they need from you right now",
+        "reason": "Whether they need air cover, clearer tradeoffs, or faster decisions from you, a Lead juggling two scopes typically benefits from explicit manager support. Use this check-in to confirm what would unblock them in the next two weeks.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "communication",
+        "type": "Communication",
+        "category": "competency",
+        "label": "How they’re keeping stakeholders aligned",
+        "reason": "Running a CoE while delivering a product design project can create expectation drift unless communication is tight. Worth checking how they’re framing priorities, decisions, and timelines to both the AZPocket stakeholders and the broader CoE network.",
+        "source": "best_practice",
+        "known": true
+      }
+    ]
+  },
+  "preparationResult": {
+    "brief": {
+      "coreIssue": "This bi-weekly check-in is likely about how Carla is handling competing scope between leading AZPocket design delivery and the global CoE.",
+      "openingQuestion": "What tradeoffs are you making right now between AZPocket and the CoE, and where do you most need clearer backing from me?",
+      "listenFor": [
+        "whether they name one concrete task, meeting, or decision they are actively delaying because of the split scope",
+        "whether they volunteer a specific stakeholder or forum where priorities are being framed differently across AZPocket and the CoE",
+        "if they stay high-level instead of naming what they have said no to, paused, or escalated in the last two weeks"
+      ],
+      "avoid": [
+        "do not treat this like a personal time-management problem if the real issue is unclear lead-level scope or competing expectations",
+        "do not jump into solving both lanes at once before you know which decisions or dependencies are actually stuck"
+      ],
+      "goodOutcome": "You and Carla have agreed which lead-level scope she owns end-to-end over the next two weeks, and which AZPocket or CoE work is explicitly deprioritized or escalated.",
+      "suggestedAction": "Before the 1:1, pick one recent example where AZPocket delivery and CoE leadership appeared to compete so you can ground the conversation in a real tradeoff."
+    },
+    "runId": "5a2358bf-851c-4f22-ab86-1e7f37e634b5",
+    "validation": {
+      "passed": false,
+      "issues": [
+        "listenFor may lack observable behavioural cue: \"if they stay high-level instead of naming what they have sai…\""
+      ]
+    },
+    "attempts": 2
+  },
+  "bankReady": {
+    "count": 11
+  },
+  "briefing": null,
+  "queueRef": [
+    {
+      "alias": "q_ba_team_issues",
+      "label": "BA team issues",
+      "name": "With the BA team, where is it breaking down most right now?",
+      "description": "Drills into the specific BA-team friction she just named so the manager can locate the real snag.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    {
+      "alias": "q_role_split_strain",
+      "label": "Role split strain",
+      "name": "Where is the split between AZPocket and the CoE getting hardest to hold?",
+      "description": "Surfaces the specific point where the two leadership hats are colliding.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 3,
+        "wellbeing": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_waiting_on_decisions",
+      "label": "Waiting on decisions",
+      "name": "What are you waiting on that keeps slowing both lanes down?",
+      "description": "Identifies dependencies or decisions that are quietly stalling progress.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_priority_call",
+      "label": "Priority call",
+      "name": "Given the two hats, what needs to stay top priority this fortnight?",
+      "description": "Forces a live prioritisation call for the next stretch.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_air_cover_need",
+      "label": "Air cover need",
+      "name": "What would make the next two weeks lighter for you?",
+      "description": "Finds the most useful manager support without assuming the answer.",
+      "purpose": "wellbeing",
+      "stage": "lift",
+      "axis_effects": {
+        "wellbeing": 3,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_closer_next_steps",
+      "label": "Closer next steps",
+      "name": "Given what we've covered, what should we tackle first in the next two weeks?",
+      "description": "Lands the conversation on a concrete next-step choice without opening a new thread.",
+      "purpose": "topic",
+      "stage": "lift",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "source": "generated"
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "score": -3,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": -1,
+          "answer_excerpt": "yeah its okay, the recent team building was fun, but now with the New oe's it will be stressful"
+        },
+        {
+          "q": "q_new_oes_stress",
+          "delta": -1,
+          "answer_excerpt": "the team building was great, but still feel i have issues with the BA team."
+        }
+      ]
+    },
+    "engagement": {
+      "id": "engagement",
+      "label": "Engagement",
+      "score": 0,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": 1,
+          "answer_excerpt": "yeah its okay, the recent team building was fun, but now with the New oe's it will be stressful"
+        }
+      ]
+    },
+    "clarity": {
+      "id": "clarity",
+      "label": "Clarity",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "growth": {
+      "id": "growth",
+      "label": "Growth",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    }
+  },
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_open_real_version",
+        "label": "The real version",
+        "name": "Tell me about your week — the real version.",
+        "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 2,
+          "engagement": 1
+        },
+        "source": "research"
+      },
+      "answer": "yeah its okay, the recent team building was fun, but now with the New oe's it will be stressful",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -1,
+        "engagement": 1
+      },
+      "note": "She reports a basically okay week with a fun team-building note, but anticipates stress from the new OEs — mild wellbeing drag with some positive engagement signal."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_new_oes_stress",
+        "label": "New OEs stress",
+        "name": "With the new OEs, what looks stressful from your side?",
+        "description": "Drills into the specific upcoming stressor she named so the manager can understand the real source of strain.",
+        "purpose": "wellbeing",
+        "stage": "pulse",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "the team building was great, but still feel i have issues with the BA team.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -1
+      },
+      "note": "She names ongoing friction with the BA team as the stress source, which is a mild negative wellbeing signal; also reveals a concrete cross-team issue worth probing."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_thread_follow_35",
+        "label": "Thread follow",
+        "name": "team building great, — can you say more about what that means for you right now?",
+        "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+        "purpose": "wellbeing",
+        "stage": "pulse",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "getting the BA team to understand that we need to be there with the PO's and then working with them.",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "She pivoted from the wellbeing probe to a concrete BA-team coordination issue with POs; that is off-signature work friction, especially clarity, worth picking up next."
+    }
+  ],
+  "turn": 3,
+  "totalBudget": 9,
+  "closer": {
+    "alias": "q_closer_next_steps",
+    "label": "Closer next steps",
+    "name": "Given what we've covered, what should we tackle first in the next two weeks?",
+    "description": "Lands the conversation on a concrete next-step choice without opening a new thread.",
+    "purpose": "topic",
+    "stage": "lift",
+    "axis_effects": {
+      "clarity": 1,
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "pendingAnswer": null,
+  "notes": [
+    {
+      "id": "176ed9ce-68cb-456a-af85-5c71c4792d56",
+      "stage": "FOCUS_POINTS",
+      "turn": 0,
+      "ts": 1780243512511,
+      "text": "the text on here is too long, header and one sentance is fine",
+      "question_alias": "",
+      "question_stem": ""
+    },
+    {
+      "id": "4f02c5d1-10db-46f6-b3bf-a93da72c03b2",
+      "stage": "PREPARATION",
+      "turn": 0,
+      "ts": 1780243609183,
+      "text": "\"What tradeoffs are you making right now between AZPocket and the CoE, and where do you most need clearer backing from me?\n\"\n\nhaving an opener like this would be strange. \n\nmayube a simple thing like \"open with \" something natural and then \"follow up with \" if its right... \n\nWhat tradeoffs are you making right now between AZPocket and the CoE, and where do you most need clearer backing from me?\n\n\nif you get me",
+      "question_alias": "",
+      "question_stem": ""
+    },
+    {
+      "id": "b3aee3e6-66c3-4ec2-869e-73e9fb040cb9",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1780244124694,
+      "text": "this is not a polite question, not to start with. \"Tell me about your week, the real version.\n\"",
+      "question_alias": "q_open_real_version",
+      "question_stem": "Tell me about your week — the real version."
+    }
+  ]
+}

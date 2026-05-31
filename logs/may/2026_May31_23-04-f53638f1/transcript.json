@@ -1,0 +1,64 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_open_real_version",
+      "label": "The real version",
+      "name": "Tell me about your week — the real version.",
+      "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 2,
+        "engagement": 1
+      },
+      "source": "research"
+    },
+    "answer": "yeah its okay, the recent team building was fun, but now with the New oe's it will be stressful",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": 1
+    },
+    "note": "She reports a basically okay week with a fun team-building note, but anticipates stress from the new OEs — mild wellbeing drag with some positive engagement signal."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_new_oes_stress",
+      "label": "New OEs stress",
+      "name": "With the new OEs, what looks stressful from your side?",
+      "description": "Drills into the specific upcoming stressor she named so the manager can understand the real source of strain.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "the team building was great, but still feel i have issues with the BA team.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1
+    },
+    "note": "She names ongoing friction with the BA team as the stress source, which is a mild negative wellbeing signal; also reveals a concrete cross-team issue worth probing."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_thread_follow_35",
+      "label": "Thread follow",
+      "name": "team building great, — can you say more about what that means for you right now?",
+      "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "getting the BA team to understand that we need to be there with the PO's and then working with them.",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "She pivoted from the wellbeing probe to a concrete BA-team coordination issue with POs; that is off-signature work friction, especially clarity, worth picking up next."
+  }
+]

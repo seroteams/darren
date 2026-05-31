@@ -1,0 +1,10 @@
+alias: q_ownership_split
+label: Ownership split
+name: What part of the AZPocket work do you want to keep owning yourself?
+description: Clarifies what she wants to retain versus hand off or delegate.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

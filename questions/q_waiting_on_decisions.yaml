@@ -1,0 +1,10 @@
+alias: q_waiting_on_decisions
+label: Waiting on decisions
+name: What are you waiting on that keeps slowing both lanes down?
+description: Identifies dependencies or decisions that are quietly stalling progress.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

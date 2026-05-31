@@ -2,7 +2,7 @@ const path = require("node:path");
 const { createSession } = require("../../src/session");
 const { initState } = require("../../src/axes");
 const cost = require("../../src/cost");
-const { persist, loadPersistedSessions } = require("./session-persistence");
+const { persist, loadPersistedSessions, restoreFromDisk } = require("./session-persistence");
 
 const INTRO_BUDGET = 4;
 const DYNAMIC_BUDGET = 5;
@@ -55,7 +55,8 @@ function createWebSession(ctx, introQueue) {
 }
 
 function getSession(id) {
-  const s = sessions.get(id);
+  let s = sessions.get(id);
+  if (!s) s = restoreFromDisk(id, sessions);
   if (s) s.lastSeenAt = Date.now();
   return s;
 }

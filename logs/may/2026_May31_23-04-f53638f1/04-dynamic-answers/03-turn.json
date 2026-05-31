@@ -1,0 +1,89 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_thread_follow_35",
+    "label": "Thread follow",
+    "name": "team building great, — can you say more about what that means for you right now?",
+    "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+    "purpose": "wellbeing",
+    "stage": "pulse",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "getting the BA team to understand that we need to be there with the PO's and then working with them.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "She pivoted from the wellbeing probe to a concrete BA-team coordination issue with POs; that is off-signature work friction, especially clarity, worth picking up next."
+  },
+  "new_queue": [
+    {
+      "alias": "q_ba_team_issues",
+      "label": "BA team issues",
+      "name": "With the BA team, where is it breaking down most right now?"
+    },
+    {
+      "alias": "q_role_split_strain",
+      "label": "Role split strain",
+      "name": "Where is the split between AZPocket and the CoE getting hardest to hold?"
+    },
+    {
+      "alias": "q_waiting_on_decisions",
+      "label": "Waiting on decisions",
+      "name": "What are you waiting on that keeps slowing both lanes down?"
+    },
+    {
+      "alias": "q_priority_call",
+      "label": "Priority call",
+      "name": "Given the two hats, what needs to stay top priority this fortnight?"
+    },
+    {
+      "alias": "q_air_cover_need",
+      "label": "Air cover need",
+      "name": "What would make the next two weeks lighter for you?"
+    },
+    {
+      "alias": "q_closer_next_steps",
+      "label": "Closer next steps",
+      "name": "Given what we've covered, what should we tackle first in the next two weeks?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": -1,
+          "answer_excerpt": "yeah its okay, the recent team building was fun, but now with the New oe's it will be stressful"
+        },
+        {
+          "q": "q_new_oes_stress",
+          "delta": -1,
+          "answer_excerpt": "the team building was great, but still feel i have issues with the BA team."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": 1,
+          "answer_excerpt": "yeah its okay, the recent team building was fun, but now with the New oe's it will be stressful"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

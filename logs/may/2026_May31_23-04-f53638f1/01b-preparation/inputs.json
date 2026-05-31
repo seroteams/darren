@@ -1,0 +1,54 @@
+{
+  "name": "Carla",
+  "roleTitle": "UX Lead",
+  "seniority": "Lead",
+  "meetingType": "Bi-weekly check-in",
+  "observedShift": "They have been struggling between AZPocket App Design project as UX LEad and the global lead of CoE",
+  "focusPoints": [
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Balancing AZPocket work with CoE leadership",
+      "reason": "They’ve been struggling between the AZPocket App Design project and being the global lead of the CoE. One possibility is role-scope conflict—worth clarifying what they’re saying yes/no to on each side and what’s being deprioritized.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "What’s getting stuck between the two roles",
+      "reason": "With two leadership hats, the friction is often a specific dependency, expectation mismatch, or decision that’s waiting. Worth mapping the top 1–2 blockers on each lane so you can help remove the real constraints.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What support they need from you right now",
+      "reason": "Whether they need air cover, clearer tradeoffs, or faster decisions from you, a Lead juggling two scopes typically benefits from explicit manager support. Use this check-in to confirm what would unblock them in the next two weeks.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "How they’re keeping stakeholders aligned",
+      "reason": "Running a CoE while delivering a product design project can create expectation drift unless communication is tight. Worth checking how they’re framing priorities, decisions, and timelines to both the AZPocket stakeholders and the broader CoE network.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "5a2358bf-851c-4f22-ab86-1e7f37e634b5",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "listenFor may lack observable behavioural cue: \"if they stay high-level instead of naming what they have sai…\""
+    ]
+  },
+  "attempts": 2
+}

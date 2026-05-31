@@ -1,0 +1,9 @@
+alias: q_new_oes_stress
+label: New OEs stress
+name: With the new OEs, what looks stressful from your side?
+description: Drills into the specific upcoming stressor she named so the manager can understand the real source of strain.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added
