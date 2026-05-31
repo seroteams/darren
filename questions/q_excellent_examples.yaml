@@ -1,0 +1,9 @@
+alias: q_excellent_examples
+label: Excellent examples
+name: What examples of excellent junior-level work would make the bar clearer for you?
+description: Drills into the specific examples he says are missing so the quality bar becomes concrete.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

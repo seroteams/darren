@@ -1,0 +1,10 @@
+alias: q_mentoring_role_2
+label: Mentoring role
+name: What is mentoring doing for you right now?
+description: Tests whether mentoring is strategic development or a place to park energy.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

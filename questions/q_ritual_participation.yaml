@@ -1,0 +1,10 @@
+alias: q_ritual_participation
+label: Ritual participation
+name: What feels different about the team rituals lately?
+description: Invites a concrete comparison to his previous level of participation and what is driving the change.
+purpose: topic
+stage: observation
+axis_effects:
+  engagement: +3
+  wellbeing: +1
+source: generated

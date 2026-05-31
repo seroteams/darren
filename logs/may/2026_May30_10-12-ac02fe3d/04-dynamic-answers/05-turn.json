@@ -1,0 +1,89 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_confidence_evidence",
+    "label": "Confidence evidence",
+    "name": "You said 'more confident' — what did they do differently that showed that?",
+    "description": "Clarifies the vague outcome by asking for observable learner behaviour as evidence.",
+    "purpose": "competency",
+    "stage": "evidence",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "they didnt wait to be asked to talk , theyu just go up and went for it",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "growth": 3
+    },
+    "note": "She gave concrete behavioural evidence of learner confidence and initiative, indicating strong learner growth and a mild positive engagement signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_student_initiative",
+      "label": "Student initiative",
+      "name": "Those moments where they 'just went for it' — what did you do that caused that?"
+    },
+    {
+      "alias": "q_hidden_friction",
+      "label": "Hidden friction",
+      "name": "Where is the coaching work still taking more effort than it should?"
+    },
+    {
+      "alias": "q_input_quality",
+      "label": "Input quality",
+      "name": "What feedback are you not getting enough of right now?"
+    },
+    {
+      "alias": "q_close_the_loop_2",
+      "label": "Close the loop",
+      "name": "Given what we've covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "i want to now how i can do the marking easier, it took sl long"
+        },
+        {
+          "q": "q_confidence_evidence",
+          "delta": 1,
+          "answer_excerpt": "they didnt wait to be asked to talk , theyu just go up and went for it"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "i want to now how i can do the marking easier, it took sl long"
+        }
+      ]
+    },
+    "growth": {
+      "score": 3,
+      "history": [
+        {
+          "q": "q_confidence_evidence",
+          "delta": 3,
+          "answer_excerpt": "they didnt wait to be asked to talk , theyu just go up and went for it"
+        }
+      ]
+    }
+  }
+}

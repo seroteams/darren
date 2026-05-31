@@ -1,8 +1,8 @@
 {
-  "_comment": "Per-stage OpenAI model selection. Stage env vars (OPENAI_MODEL_FOCUS_POINTS, OPENAI_MODEL_BANK, OPENAI_MODEL_PLANNER, OPENAI_MODEL_EVALUATION) override these at runtime for ad-hoc testing. The fallback order is: stage env → this config → OPENAI_MODEL env → hard-coded default.",
-  "focus_points": "gpt-4o",
-  "preparation": "gpt-4o",
-  "bank": "gpt-4o",
-  "planner": "gpt-4o",
-  "evaluation": "gpt-4o"
+  "_comment": "Per-stage OpenAI model selection. Stage env vars (OPENAI_MODEL_FOCUS_POINTS, OPENAI_MODEL_PREPARATION, OPENAI_MODEL_BANK, OPENAI_MODEL_PLANNER, OPENAI_MODEL_EVALUATION) override these at runtime for ad-hoc testing. The fallback order is: stage env → this config → OPENAI_MODEL env → hard-coded default.",
+  "focus_points": "gpt-5.4-nano",
+  "preparation": "gpt-5.4",
+  "bank": "gpt-5.4-mini",
+  "planner": "gpt-5.4",
+  "evaluation": "gpt-5.4-nano"
 }

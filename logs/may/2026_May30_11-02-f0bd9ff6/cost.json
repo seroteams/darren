@@ -1,0 +1,154 @@
+{
+  "call_count": 13,
+  "usd_total": 0.12436157999999999,
+  "unknown_price_calls": 0,
+  "prompt_tokens": 109079,
+  "completion_tokens": 5116,
+  "cached_tokens": 84224,
+  "total_tokens": 114195,
+  "calls": [
+    {
+      "stage": "01-focus-points",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 6071,
+      "completion_tokens": 242,
+      "cached_tokens": 4864,
+      "total_tokens": 6313,
+      "usd_cost": 0.0006411800000000001,
+      "known_price": true,
+      "at": "2026-05-30T04:02:23.027Z"
+    },
+    {
+      "stage": "01b-preparation",
+      "model": "gpt-5.4",
+      "prompt_tokens": 2205,
+      "completion_tokens": 263,
+      "cached_tokens": 0,
+      "total_tokens": 2468,
+      "usd_cost": 0.0094575,
+      "known_price": true,
+      "at": "2026-05-30T04:02:28.642Z"
+    },
+    {
+      "stage": "01b-preparation-retry",
+      "model": "gpt-5.4",
+      "prompt_tokens": 2253,
+      "completion_tokens": 253,
+      "cached_tokens": 2048,
+      "total_tokens": 2506,
+      "usd_cost": 0.0048195,
+      "known_price": true,
+      "at": "2026-05-30T04:02:33.427Z"
+    },
+    {
+      "stage": "03-question-bank",
+      "model": "gpt-5.4-mini",
+      "prompt_tokens": 5612,
+      "completion_tokens": 646,
+      "cached_tokens": 2816,
+      "total_tokens": 6258,
+      "usd_cost": 0.0052152,
+      "known_price": true,
+      "at": "2026-05-30T04:02:37.967Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11445,
+      "completion_tokens": 692,
+      "cached_tokens": 7936,
+      "total_tokens": 12137,
+      "usd_cost": 0.0211365,
+      "known_price": true,
+      "at": "2026-05-30T04:02:46.665Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11090,
+      "completion_tokens": 523,
+      "cached_tokens": 8960,
+      "total_tokens": 11613,
+      "usd_cost": 0.01541,
+      "known_price": true,
+      "at": "2026-05-30T04:02:52.861Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10911,
+      "completion_tokens": 472,
+      "cached_tokens": 8960,
+      "total_tokens": 11383,
+      "usd_cost": 0.0141975,
+      "known_price": true,
+      "at": "2026-05-30T04:02:58.455Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10829,
+      "completion_tokens": 430,
+      "cached_tokens": 8960,
+      "total_tokens": 11259,
+      "usd_cost": 0.0133625,
+      "known_price": true,
+      "at": "2026-05-30T04:03:03.700Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10899,
+      "completion_tokens": 295,
+      "cached_tokens": 8960,
+      "total_tokens": 11194,
+      "usd_cost": 0.0115125,
+      "known_price": true,
+      "at": "2026-05-30T04:03:08.288Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10714,
+      "completion_tokens": 221,
+      "cached_tokens": 8960,
+      "total_tokens": 10935,
+      "usd_cost": 0.00994,
+      "known_price": true,
+      "at": "2026-05-30T04:03:11.096Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10618,
+      "completion_tokens": 161,
+      "cached_tokens": 8960,
+      "total_tokens": 10779,
+      "usd_cost": 0.0088,
+      "known_price": true,
+      "at": "2026-05-30T04:03:13.623Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10580,
+      "completion_tokens": 142,
+      "cached_tokens": 8960,
+      "total_tokens": 10722,
+      "usd_cost": 0.00842,
+      "known_price": true,
+      "at": "2026-05-30T04:03:16.078Z"
+    },
+    {
+      "stage": "05-evaluation",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 5852,
+      "completion_tokens": 776,
+      "cached_tokens": 3840,
+      "total_tokens": 6628,
+      "usd_cost": 0.0014492,
+      "known_price": true,
+      "at": "2026-05-30T04:03:22.593Z"
+    }
+  ]
+}

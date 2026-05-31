@@ -1,0 +1,10 @@
+alias: q_feedback_plan
+label: Feedback plan
+name: What would you change in the next month to make your impact more visible?
+description: Forces a concrete behaviour change rather than a vague intention.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

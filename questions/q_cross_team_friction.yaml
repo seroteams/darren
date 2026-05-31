@@ -1,0 +1,10 @@
+alias: q_cross_team_friction
+label: Cross-team friction
+name: Where has cross-functional friction been costing you the most time?
+description: Gets specific about boundary pain and rework loops.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

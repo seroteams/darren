@@ -1,0 +1,9 @@
+alias: q_highest_leverage_work
+label: Highest-leverage work
+name: "You said 'highest-leverage work' — what work specifically are you pointing at?"
+description: Pins his self-identified leverage gap to concrete work rather than abstraction.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

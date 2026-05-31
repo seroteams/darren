@@ -1,0 +1,10 @@
+alias: q_support_next_step
+label: Support next step
+name: What would help most from me right now?
+description: Opens the support stage by inviting him to name the most useful help.
+purpose: wellbeing
+stage: support
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: planner_added

@@ -1,0 +1,154 @@
+{
+  "call_count": 13,
+  "usd_total": 0.13917173000000002,
+  "unknown_price_calls": 0,
+  "prompt_tokens": 111046,
+  "completion_tokens": 5805,
+  "cached_tokens": 84992,
+  "total_tokens": 116851,
+  "calls": [
+    {
+      "stage": "01-focus-points",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 6069,
+      "completion_tokens": 218,
+      "cached_tokens": 4864,
+      "total_tokens": 6287,
+      "usd_cost": 0.00061078,
+      "known_price": true,
+      "at": "2026-05-30T04:10:20.826Z"
+    },
+    {
+      "stage": "01b-preparation",
+      "model": "gpt-5.4",
+      "prompt_tokens": 2175,
+      "completion_tokens": 255,
+      "cached_tokens": 0,
+      "total_tokens": 2430,
+      "usd_cost": 0.0092625,
+      "known_price": true,
+      "at": "2026-05-30T04:10:25.800Z"
+    },
+    {
+      "stage": "01b-preparation-retry",
+      "model": "gpt-5.4",
+      "prompt_tokens": 2259,
+      "completion_tokens": 262,
+      "cached_tokens": 1792,
+      "total_tokens": 2521,
+      "usd_cost": 0.0055455,
+      "known_price": true,
+      "at": "2026-05-30T04:10:30.720Z"
+    },
+    {
+      "stage": "03-question-bank",
+      "model": "gpt-5.4-mini",
+      "prompt_tokens": 5659,
+      "completion_tokens": 744,
+      "cached_tokens": 3840,
+      "total_tokens": 6403,
+      "usd_cost": 0.00500025,
+      "known_price": true,
+      "at": "2026-05-30T04:10:36.502Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11662,
+      "completion_tokens": 713,
+      "cached_tokens": 7936,
+      "total_tokens": 12375,
+      "usd_cost": 0.021994,
+      "known_price": true,
+      "at": "2026-05-30T04:10:44.847Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11205,
+      "completion_tokens": 703,
+      "cached_tokens": 8960,
+      "total_tokens": 11908,
+      "usd_cost": 0.0183975,
+      "known_price": true,
+      "at": "2026-05-30T04:10:52.201Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11253,
+      "completion_tokens": 636,
+      "cached_tokens": 8960,
+      "total_tokens": 11889,
+      "usd_cost": 0.0175125,
+      "known_price": true,
+      "at": "2026-05-30T04:10:58.928Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11230,
+      "completion_tokens": 452,
+      "cached_tokens": 8960,
+      "total_tokens": 11682,
+      "usd_cost": 0.014695,
+      "known_price": true,
+      "at": "2026-05-30T04:11:06.431Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11027,
+      "completion_tokens": 384,
+      "cached_tokens": 8960,
+      "total_tokens": 11411,
+      "usd_cost": 0.0131675,
+      "known_price": true,
+      "at": "2026-05-30T04:11:11.572Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10975,
+      "completion_tokens": 297,
+      "cached_tokens": 8960,
+      "total_tokens": 11272,
+      "usd_cost": 0.0117325,
+      "known_price": true,
+      "at": "2026-05-30T04:11:16.100Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10876,
+      "completion_tokens": 234,
+      "cached_tokens": 8960,
+      "total_tokens": 11110,
+      "usd_cost": 0.01054,
+      "known_price": true,
+      "at": "2026-05-30T04:11:19.279Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10844,
+      "completion_tokens": 157,
+      "cached_tokens": 8960,
+      "total_tokens": 11001,
+      "usd_cost": 0.009305,
+      "known_price": true,
+      "at": "2026-05-30T04:11:21.888Z"
+    },
+    {
+      "stage": "05-evaluation",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 5812,
+      "completion_tokens": 750,
+      "cached_tokens": 3840,
+      "total_tokens": 6562,
+      "usd_cost": 0.0014087000000000001,
+      "known_price": true,
+      "at": "2026-05-30T04:11:27.749Z"
+    }
+  ]
+}

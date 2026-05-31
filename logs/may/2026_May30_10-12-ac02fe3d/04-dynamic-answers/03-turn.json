@@ -1,0 +1,79 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_marking_friction",
+    "label": "Marking friction",
+    "name": "Marking took so long — what specifically made it slow?",
+    "description": "Drills into the concrete marking friction she raised so the conversation stays anchored in her actual work.",
+    "purpose": "competency",
+    "stage": "self_read",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "there was a marked improvement in the sutdents",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "Pivot/off-topic: she answered with learner improvement rather than what made marking slow; this also volunteers class impact evidence worth using next."
+  },
+  "new_queue": [
+    {
+      "alias": "q_class_impact_evidence",
+      "label": "Class impact evidence",
+      "name": "What changed for learners because of your work on the new university class?"
+    },
+    {
+      "alias": "q_hidden_friction",
+      "label": "Hidden friction",
+      "name": "Where is the coaching work still taking more effort than it should?"
+    },
+    {
+      "alias": "q_input_quality",
+      "label": "Input quality",
+      "name": "What feedback are you not getting enough of right now?"
+    },
+    {
+      "alias": "q_support_needed_4",
+      "label": "Support needed",
+      "name": "What would make the new university class easier to sustain week to week?"
+    },
+    {
+      "alias": "q_close_the_loop_2",
+      "label": "Close the loop",
+      "name": "Given what we've covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "i want to now how i can do the marking easier, it took sl long"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "i want to now how i can do the marking easier, it took sl long"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -1,0 +1,204 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_growth_blockers",
+      "label": "Growth blockers",
+      "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+      "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1
+      },
+      "source": "seed"
+    },
+    "answer": "I am still thinking about last cycle.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "She is still preoccupied with last cycle rather than naming a concrete blocker, which signals unresolved growth disappointment and unclear readout from that decision."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_last_cycle_impact",
+      "label": "Last cycle impact",
+      "name": "When you say 'last cycle' — what part of it is still sticking with you?",
+      "description": "Clarifies the specific unresolved piece from the prior cycle before progressing the growth conversation.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "The feedback was not specific enough.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "She names vague feedback as the unresolved issue, signalling low clarity on the bar and a strong growth blockage."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_specific_enough",
+      "label": "Specific enough",
+      "name": "What was missing from the feedback, specifically?",
+      "description": "Drills into the vagueness she named so the exact clarity gap is explicit.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I want clearer scope.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "Names a specific absence — clearer scope — as what was missing from feedback, signalling a concrete clarity gap and blocked growth; [THREAD-DEFERRED] 'clearer scope' could be unpacked next session, but drill cap forces arc advance."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?",
+      "description": "Distinguishes comfort-zone execution from genuine growth moments.",
+      "purpose": "topic",
+      "stage": "anchor",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "Mentoring matters to me.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "growth": 1
+    },
+    "note": "She named mentoring as work that matters to her, which is a mild positive signal on growth and engagement; also surfaces mentoring as a concrete thread to deepen."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_mentoring_meaning",
+      "label": "Mentoring meaning",
+      "name": "Mentoring matters to you — what about it feels like growth?",
+      "description": "Clarifies whether mentoring represents real stretch, influence, or a redirected source of energy.",
+      "purpose": "topic",
+      "stage": "anchor",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I do not know what would move the next decision.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "growth": -3
+    },
+    "note": "She cannot connect mentoring to advancement because she does not know what would influence the next decision, which is a strong growth blockage and mild engagement drag; also reveals a clarity issue worth probing next."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?",
+      "description": "Probes whether they have a real picture of where they want to go.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1,
+        "wellbeing": 3
+      },
+      "source": "seed"
+    },
+    "answer": "I am less motivated in team rituals lately.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": -1,
+      "growth": -3
+    },
+    "note": "She pivoted from future direction to a present-state drop in motivation around team rituals, signaling strong growth uncertainty plus mild engagement and wellbeing decline."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_team_rituals_dip",
+      "label": "Team rituals dip",
+      "name": "Team rituals feel less motivating lately — what changed for you there?",
+      "description": "Follows the concrete thread to understand what shifted in her day-to-day connection and motivation.",
+      "purpose": "wellbeing",
+      "stage": "aspiration",
+      "axis_effects": {
+        "engagement": 1,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I want impact at org level, not just strong project work.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1
+    },
+    "note": "She pivoted from team-ritual motivation to a concrete aspiration for org-level impact, which signals some forward pull but not a direct wellbeing read. [THREAD-DEFERRED-WINDDOWN] 'impact at org level' is a concrete thread to pick up next session."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_tradeoffs_ahead",
+      "label": "Tradeoffs ahead",
+      "name": "What would you be willing to trade off to make space for that growth?",
+      "description": "Forces a real investment conversation about time, focus, and priorities.",
+      "purpose": "topic",
+      "stage": "investment",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "Skip on the tradeoff question — no signal realised; final turn so the session should close with commitment."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_next_move_2",
+      "label": "Next move",
+      "name": "What’s the first concrete thing you want to move before we talk again?",
+      "description": "Closes on a specific commitment and turns the conversation into an action.",
+      "purpose": "competency",
+      "stage": "commitment",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "Skipped the commitment question, so this turn adds no growth or clarity signal."
+  }
+]

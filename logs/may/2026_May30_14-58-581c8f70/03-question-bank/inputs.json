@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Next-level stretch in design craft and scope",
+      "reason": "What they want to build next, in concrete design moves, and what would make the next step feel real.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "How critique and feedback are landing",
+      "reason": "Whether feedback they give and receive is improving decisions and quality, or stalling progress — worth clarifying how it’s working in practice.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Stakeholder influence beyond the design team",
+      "reason": "What they’re doing to shape product decisions through trust and clear tradeoffs, not just deliverables.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Where their work is moving the business",
+      "reason": "What outcomes they can point to where their design leadership created measurable leverage this cycle.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Sam",
+  "role": "designer",
+  "seniority": "senior",
+  "meetingType": "Growth & career plan",
+  "notes": "",
+  "model": "gpt-5.4-mini"
+}

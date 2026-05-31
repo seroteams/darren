@@ -1,0 +1,10 @@
+alias: q_open_context
+label: Open context
+name: What’s been most on your mind at work lately?
+description: Safe opener that lets Maria set the agenda before any concern is introduced.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

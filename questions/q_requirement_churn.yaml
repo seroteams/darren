@@ -1,0 +1,10 @@
+alias: q_requirement_churn
+label: Requirement churn
+name: What keeps getting reprioritized in a way that changes your design work?
+description: Surfaces churn from shifting requirements and how it affects his focus.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

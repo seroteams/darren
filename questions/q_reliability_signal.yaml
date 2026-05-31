@@ -1,0 +1,10 @@
+alias: q_reliability_signal
+label: Reliability signal
+name: When a commitment starts to slip, what do you usually notice first?
+description: Probes early warning signs and whether he can spot and surface slippage before it lands badly.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

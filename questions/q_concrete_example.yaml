@@ -1,0 +1,10 @@
+alias: q_concrete_example
+label: Concrete example
+name: Can you walk me through one recent piece where you had to make a quality trade-off?
+description: Looks for a specific decision point that reveals how he applies the quality bar under pressure.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

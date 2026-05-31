@@ -1,0 +1,45 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_open_what_matters_now",
+      "label": "What to push on",
+      "name": "What feels worth pushing on right now?",
+      "description": "Growth-fitted opener. Surfaces what the report is actively choosing to develop, not what's drifting.",
+      "purpose": "growth",
+      "axis_effects": {
+        "growth": 2,
+        "engagement": 1
+      },
+      "source": "research"
+    },
+    "answer": "I want to move from just shipping screens to owning a whole product area. I keep getting pulled into pixel polish when I'd rather be shaping the direction with PM and eng earlier.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "growth": 2
+    },
+    "note": "Sam names a concrete growth direction — owning a whole product area and shaping direction earlier with PM and engineering — showing strong ambition and active investment."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_own_product_area",
+      "label": "Own product area",
+      "name": "Owning a whole product area — what would you be doing differently week to week?",
+      "description": "Drills into Sam's stated aspiration so the next-level scope becomes concrete in day-to-day terms.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I'd be in the early problem-framing meetings, pushing back on scope and tradeoffs, not just executing tickets. I'd own the metric we're moving, not just the Figma file.",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": 3
+    },
+    "note": "Sam described concrete next-level scope—early problem framing, tradeoff influence, and owning metrics—which is a strong positive growth signal."
+  }
+]

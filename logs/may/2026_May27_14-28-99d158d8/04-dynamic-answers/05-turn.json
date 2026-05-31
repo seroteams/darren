@@ -1,0 +1,92 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_mentoring_stalled",
+    "label": "Mentoring stalled",
+    "name": "You said 'more mentoring' — what's kept that from happening so far?",
+    "description": "Drills into the stalled mentoring thread to surface the real blocker.",
+    "purpose": "topic",
+    "stage": "momentum",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -3
+    },
+    "note": "Names a concrete blocker to mentoring — unclear involvement in the billing rewrite and lack of direct communication — which signals stalled growth support."
+  },
+  "new_queue": [
+    {
+      "alias": "q_billing_rewrite_weird",
+      "label": "Billing rewrite weird",
+      "name": "On the billing rewrite — what's weird about how it's being handled from your seat?"
+    },
+    {
+      "alias": "q_mentoring_trade_off",
+      "label": "Mentoring trade-off",
+      "name": "What would you need to drop to make space for mentoring?"
+    },
+    {
+      "alias": "q_next_step_close",
+      "label": "Next-step close",
+      "name": "What's the first concrete thing you want to have moved by our next conversation?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_coasting_this_week_2",
+          "delta": -3,
+          "answer_excerpt": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+        },
+        {
+          "q": "q_stretch_gap_2",
+          "delta": -1,
+          "answer_excerpt": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_mentoring_stalled",
+          "delta": -3,
+          "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+        }
+      ]
+    }
+  }
+}

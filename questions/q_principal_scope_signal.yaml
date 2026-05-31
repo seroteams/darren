@@ -1,0 +1,10 @@
+alias: q_principal_scope_signal
+label: Principal scope signal
+name: What does Principal scope mean on this team in practice?
+description: Checks whether Tom has a current, team-specific model of the bar rather than an old one.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

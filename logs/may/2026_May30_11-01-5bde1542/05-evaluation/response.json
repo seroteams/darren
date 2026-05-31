@@ -1,0 +1,51 @@
+{
+  "headline": "Carlos’s performance feedback isn’t landing as a usable quality bar—his answers stay stuck on examples, criteria, and “what to change first.”",
+  "summary_bullets": [
+    "Carlos can cite wins, but he repeatedly can’t map them to the “team bar” or decide what to change first when reviews are broad.",
+    "Under time pressure, he shifts from message to polish, which directly conflicts with the “core message” he says he risks losing.",
+    "His growth ask is specific (concept rationale), but his practice plan is still conditional on alignment: “If we align on concrete criteria…”."
+  ],
+  "understanding_paragraph": "We learned Carlos defines good work less by outcomes and more by having concrete, junior-level examples and criteria he can apply immediately. He feels feedback helps, but it still doesn’t translate into consistent decisions under time pressure. The session clarified that his main blocker is not effort—it’s turning abstract feedback into an actionable sequence of changes.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -2,
+      "meaning": "Weak signal: stress shows up as time-pressure inconsistency, worth watching as it affects how he executes."
+    },
+    {
+      "id": "engagement",
+      "score": 1,
+      "meaning": "Slight positive: he’s motivated to grow in concept rationale, but he’s not fully confident without clearer criteria."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Defining signal: the quality bar and expectations feel unclear, so feedback risks staying abstract and unusable."
+    },
+    {
+      "id": "growth",
+      "score": -4,
+      "meaning": "Real friction: growth is blocked until concrete criteria are aligned, so the practice loop isn’t yet set."
+    }
+  ],
+  "brutal_truth_employee": "Carlos can name wins, but he’s “not always sure they match the team bar.” He also says, “When reviews are broad, I am not sure what to change first,” which means feedback isn’t converting into specific next steps.",
+  "brutal_truth_manager": "The conversation stayed at the level of criteria and examples, but Carlos never got a concrete “one skill, one artifact, one checklist” decision—his last actionable line was conditional: “If we align on concrete criteria…”. Next time, you need to turn his concept-rationale focus into a specific project scope and an explicit acceptance checklist before the meeting ends.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Draft a one-page “junior excellent” checklist for Carlos: core message vs polish, concept rationale elements, and what “done” looks like."
+    },
+    {
+      "when": "this week",
+      "action": "Assign Carlos one near-term design project with a narrow scope focused on concept rationale, and require him to submit the checklist with the first draft."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Run the 2-week review as a pass/fail on the checklist: ask Carlos to show what changed first, then confirm the next single skill to practice."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: if Carlos still says “not sure what to change first” after receiving concrete examples, the quality bar is still not usable.",
+    "Before the next 1:1: if time pressure again causes him to “lose sight of the core message,” require an explicit message-first checkpoint in his workflow."
+  ]
+}

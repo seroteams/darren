@@ -1,0 +1,10 @@
+alias: q_owning_the_right_things
+label: Owning the right things
+name: What work are you keeping on your own plate that could sit with someone else?
+description: Probes delegation boundaries and whether Lin is holding too much central work.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

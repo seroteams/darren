@@ -20,41 +20,49 @@ export async function mount(root, { store, setState, resetSession }) {
   setTimeout(() => wash.remove(), 1600);
 
   root.innerHTML = `
-    <div class="stage-wide max-w-measure mx-auto space-y-12 relative z-10 py-8">
-      <header class="space-y-4">
+    <div class="stage-wide max-w-wide mx-auto briefing-page relative z-10 py-8">
+      <header class="briefing-block space-y-4">
         <div class="eyebrow reveal">Briefing · For ${escape(store.ctx.name)}</div>
         <h1 class="briefing-headline reveal"></h1>
       </header>
 
-      <section class="space-y-3 bullets-section">
+      <section class="briefing-block bullets-section space-y-3">
         <div class="eyebrow reveal">What stood out</div>
         <div class="card bullets-host"></div>
       </section>
 
-      <section class="space-y-3 paragraph-section reveal-soft">
-        <div class="eyebrow">What we understood</div>
-        <p class="text-ink text-lg leading-relaxed max-w-measure paragraph-body"></p>
-      </section>
+      <div class="briefing-grid briefing-grid--pair">
+        <section class="briefing-block paragraph-section space-y-3 reveal-soft">
+          <div class="eyebrow">What we understood</div>
+          <p class="briefing-prose paragraph-body"></p>
+        </section>
 
-      <section class="space-y-4 axes-section">
-        <div class="eyebrow reveal">Where things sit</div>
-        <div class="card axes-mount"></div>
-        <div class="axis-meanings space-y-2 max-w-measure"></div>
-      </section>
+        <section class="briefing-block axes-section space-y-4">
+          <div class="eyebrow reveal">Where things sit</div>
+          <p class="text-xs text-ink-dim max-w-measure reveal">Final read after the conversation — scores reflect meaning in answers, not word count or typing style.</p>
+          <div class="card axes-mount"></div>
+          <div class="axis-meanings space-y-2"></div>
+        </section>
+      </div>
 
-      <section class="space-y-4 brutal-host"></section>
+      <section class="briefing-block brutal-host"></section>
 
-      <section class="space-y-3 actions-section">
-        <div class="eyebrow reveal">What to do next</div>
-        <div class="card actions-host"></div>
-      </section>
+      <div class="briefing-grid briefing-grid--pair">
+        <section class="briefing-block actions-section space-y-3">
+          <div class="eyebrow reveal">What to do next</div>
+          <div class="card actions-host"></div>
+        </section>
 
-      <section class="space-y-3 watch-section">
-        <div class="eyebrow reveal">Reminders</div>
-        <div class="card watch-host"></div>
-      </section>
+        <section class="briefing-block watch-section space-y-3">
+          <div class="briefing-section-head">
+            <div class="eyebrow reveal">Reminders</div>
+            <button type="button" class="btn btn--ghost btn--sm js-copy-all-reminders hidden">Copy all</button>
+          </div>
+          <div class="card watch-host"></div>
+        </section>
+      </div>
 
-      <div class="run-cost text-sm text-ink-dim pt-6"></div>
+      <div class="run-cost text-sm text-ink-dim pt-2"></div>
 
       <footer class="pt-2 flex gap-2 items-center">
         <button class="btn js-restart">Complete 1:1</button>
@@ -160,12 +168,15 @@ export async function mount(root, { store, setState, resetSession }) {
     const host = root.querySelector(".actions-host");
     const sortedActions = [...actions].sort((a, b) => whenRank(a.when) - whenRank(b.when));
     sortedActions.forEach((a, i) => {
-      const row = document.createElement("div");
-      row.className = "action-group reveal";
-      row.innerHTML = `
-        <div class="action-when">${escape(a.when || "")}</div>
-        <div class="action-body">${escape(a.action || "")}</div>
-      `;
+      const row = createCopyableRow({
+        className: "action-group",
+        mark: "",
+        bodyHtml: `
+          <div class="action-when">${escape(a.when || "")}</div>
+          <div class="action-body">${escape(a.action || "")}</div>
+        `,
+        copyText: formatActionCopy(a),
+      });
       host.appendChild(row);
       revealOne(row, 100 + i * 70);
     });
@@ -179,10 +190,18 @@ export async function mount(root, { store, setState, resetSession }) {
     await sleep(actions.length * 70 + 300);
     revealOne(root.querySelector(".watch-section .eyebrow"), 0);
     const host = root.querySelector(".watch-host");
+    const copyAllBtn = root.querySelector(".js-copy-all-reminders");
+    copyAllBtn.classList.remove("hidden");
+    copyAllBtn.addEventListener("click", () => {
+      copySnippet(watch.join("\n"), copyAllBtn, "Copied all");
+    });
     watch.forEach((text, i) => {
-      const row = document.createElement("div");
-      row.className = "watch-item reveal";
-      row.innerHTML = `<div class="watch-item__mark">◆</div><div>${escape(text)}</div>`;
+      const row = createCopyableRow({
+        className: "watch-item",
+        mark: "◆",
+        bodyHtml: `<div class="watch-item__text">${escape(text)}</div>`,
+        copyText: text,
+      });
       host.appendChild(row);
       revealOne(row, 100 + i * 70);
     });
@@ -244,6 +263,47 @@ export function unmount() { /* nothing */ }
 function whenRank(w) {
   const i = WHEN_ORDER.indexOf(w);
   return i === -1 ? WHEN_ORDER.length : i;
+}
+
+function formatActionCopy(a) {
+  const when = String(a.when || "").trim();
+  const action = String(a.action || "").trim();
+  if (!when) return action;
+  const label = when.charAt(0).toUpperCase() + when.slice(1);
+  return `${label}: ${action}`;
+}
+
+function createCopyableRow({ className, mark, bodyHtml, copyText }) {
+  const row = document.createElement("div");
+  row.className = `${className} copyable-row reveal`;
+  row.innerHTML = `
+    ${mark ? `<div class="copyable-row__mark">${mark}</div>` : ""}
+    <div class="copyable-row__content">${bodyHtml}</div>
+    <button type="button" class="copy-snippet-btn" title="Copy" aria-label="Copy">${COPY_ICON}</button>
+  `;
+  row.querySelector(".copy-snippet-btn").addEventListener("click", (e) => {
+    e.stopPropagation();
+    copySnippet(copyText, e.currentTarget);
+  });
+  return row;
+}
+
+const COPY_ICON = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+
+async function copySnippet(text, btn, doneLabel = "Copied") {
+  if (!text) return;
+  try {
+    await navigator.clipboard.writeText(text);
+    const prev = btn.getAttribute("aria-label");
+    btn.classList.add("is-copied");
+    btn.setAttribute("aria-label", doneLabel);
+    setTimeout(() => {
+      btn.classList.remove("is-copied");
+      btn.setAttribute("aria-label", prev || "Copy");
+    }, 1200);
+  } catch (e) {
+    console.warn("[briefing] clipboard write failed:", e.message);
+  }
 }
 
 function cap(s) {

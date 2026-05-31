@@ -1,0 +1,10 @@
+alias: q_confidence_evidence
+label: Confidence evidence
+name: "You said 'more confident' — what did they do differently that showed that?"
+description: Clarifies the vague outcome by asking for observable learner behaviour as evidence.
+purpose: competency
+stage: evidence
+axis_effects:
+  growth: +3
+  engagement: +1
+source: planner_added

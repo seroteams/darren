@@ -1,0 +1,10 @@
+alias: q_settle_the_context
+label: Settle the context
+name: What feels most important for us to talk through today?
+description: Lets Taya choose the highest-value thread before feedback gets specific.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,106 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_quality_bar",
+    "label": "Quality bar",
+    "name": "When you say a brand design is good, what tells you it's good?",
+    "description": "Surfaces Carlos's current internal quality standard and whether it is concrete enough to guide decisions.",
+    "purpose": "competency",
+    "stage": "evidence",
+    "axis_effects": {
+      "clarity": 3,
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "answer": "I want clearer examples of what excellent junior-level work looks like here.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3,
+      "growth": -1
+    },
+    "note": "He names a specific absence — concrete examples of excellent junior-level work — which is a strong clarity gap and mild growth constraint."
+  },
+  "new_queue": [
+    {
+      "alias": "q_excellent_examples",
+      "label": "Excellent examples",
+      "name": "What examples of excellent junior-level work would make the bar clearer for you?"
+    },
+    {
+      "alias": "q_expectation_gap",
+      "label": "Expectation gap",
+      "name": "Where do my expectations for your work feel different from yours right now?"
+    },
+    {
+      "alias": "q_quality_friction",
+      "label": "Quality friction",
+      "name": "What part of the quality bar feels hardest to apply consistently?"
+    },
+    {
+      "alias": "q_growth_blocker",
+      "label": "Growth blocker",
+      "name": "What is getting in the way of the next skill you want to build?"
+    },
+    {
+      "alias": "q_two_week_focus",
+      "label": "Two-week focus",
+      "name": "What's the first concrete change you want to make before we meet again?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 4)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        },
+        {
+          "q": "q_team_bar_mismatch",
+          "delta": -1,
+          "answer_excerpt": "Feedback has helped, though I still miss consistency under time pressure."
+        },
+        {
+          "q": "q_time_pressure_consistency",
+          "delta": -3,
+          "answer_excerpt": "I sometimes focus on polish and lose sight of the core message."
+        },
+        {
+          "q": "q_quality_bar",
+          "delta": -3,
+          "answer_excerpt": "I want clearer examples of what excellent junior-level work looks like here."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_quality_bar",
+          "delta": -1,
+          "answer_excerpt": "I want clearer examples of what excellent junior-level work looks like here."
+        }
+      ]
+    }
+  }
+}

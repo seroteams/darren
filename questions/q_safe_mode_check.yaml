@@ -1,0 +1,10 @@
+alias: q_safe_mode_check
+label: Safe mode check
+name: What feels safest to stay in, and what would it take to step beyond that?
+description: Gets at whether he is defaulting to reliable execution instead of broader Principal impact.
+purpose: wellbeing
+stage: cause
+axis_effects:
+  engagement: -1
+  growth: +1
+source: generated

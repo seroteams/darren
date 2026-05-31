@@ -1,0 +1,10 @@
+alias: q_tradeoff_calls
+label: Tradeoff calls
+name: Where are you making the tradeoff call yourself instead of pushing it up?
+description: Looks for Principal-level judgment in ambiguous situations rather than safe execution.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,125 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_ownership_boundaries",
+    "label": "Ownership boundaries",
+    "name": "Ownership boundaries — where is default escalation happening most right now?",
+    "description": "Pins down the specific decisions or interfaces where ownership is unclear.",
+    "purpose": "topic",
+    "stage": "momentum",
+    "axis_effects": {
+      "clarity": 3,
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Next I want to hand off one stream end-to-end and stay out of the middle.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": 1,
+      "growth": 1
+    },
+    "note": "She names a concrete next move — handing off one stream end-to-end — which signals some clarity and a growth-oriented shift; [THREAD-DEFERRED-WINDDOWN] 'hand off one stream end-to-end' merits a deeper delegation follow-up next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_support_needed_7",
+      "label": "Support needed",
+      "name": "What would actually be useful from me over the next two weeks?"
+    },
+    {
+      "alias": "q_next_two_weeks_2",
+      "label": "Next-two-weeks",
+      "name": "Given what we've talked about, where do you want to focus first in the next two weeks?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -3,
+          "answer_excerpt": "I am proud of the outcomes, but the pace should not be normal."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -1,
+          "answer_excerpt": "I still do not get enough substantive feedback on key decisions."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The last stretch shipped, but it was heavier than I made it sound."
+        },
+        {
+          "q": "q_heavier_than_sounded",
+          "delta": -3,
+          "answer_excerpt": "Late nights came from carrying decision bottlenecks and final reviews."
+        },
+        {
+          "q": "q_decision_bottlenecks_2",
+          "delta": -1,
+          "answer_excerpt": "Some of that work could have moved to the team sooner."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": 1,
+          "answer_excerpt": "I am proud of the outcomes, but the pace should not be normal."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -1,
+          "answer_excerpt": "I still do not get enough substantive feedback on key decisions."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The last stretch shipped, but it was heavier than I made it sound."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -3,
+          "answer_excerpt": "I still do not get enough substantive feedback on key decisions."
+        },
+        {
+          "q": "q_decision_feedback",
+          "delta": -3,
+          "answer_excerpt": "I want clearer ownership boundaries so I am not default escalation."
+        },
+        {
+          "q": "q_ownership_boundaries",
+          "delta": 1,
+          "answer_excerpt": "Next I want to hand off one stream end-to-end and stay out of the middle."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_decision_feedback",
+          "delta": -1,
+          "answer_excerpt": "I want clearer ownership boundaries so I am not default escalation."
+        },
+        {
+          "q": "q_ownership_boundaries",
+          "delta": 1,
+          "answer_excerpt": "Next I want to hand off one stream end-to-end and stay out of the middle."
+        }
+      ]
+    }
+  }
+}

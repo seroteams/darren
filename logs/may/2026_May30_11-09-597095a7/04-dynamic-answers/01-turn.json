@@ -1,0 +1,88 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_perf_01_opening",
+    "label": "Self-read opener",
+    "name": "Before I share my view, how do you think the last stretch has gone?",
+    "description": "Anchors the conversation in their self-assessment first; gap vs manager's view becomes a signal.",
+    "purpose": "topic",
+    "stage": "self_read",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I think my technical output is solid, but my influence is uneven.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "clarity": 1
+    },
+    "note": "She gave a clear self-assessment and named a specific concern — uneven influence — while staying engaged with the performance question."
+  },
+  "new_queue": [
+    {
+      "alias": "q_uneven_influence",
+      "label": "Uneven influence",
+      "name": "You said 'influence is uneven' — where has that shown up most clearly?"
+    },
+    {
+      "alias": "q_intro_perf_02_proud",
+      "label": "What they're proud of",
+      "name": "What's something from the last quarter you're genuinely proud of — not what looks good, what actually was good?"
+    },
+    {
+      "alias": "q_stakeholder_signal",
+      "label": "Stakeholder signal",
+      "name": "Where did your recent work get the clearest traction with stakeholders?"
+    },
+    {
+      "alias": "q_intro_perf_03_gap",
+      "label": "Gap awareness",
+      "name": "Where do you think you've fallen short of where you want to be?"
+    },
+    {
+      "alias": "q_signal_driver",
+      "label": "Signal driver",
+      "name": "What's making it harder to raise your signal with stakeholders right now?"
+    },
+    {
+      "alias": "q_alignment_move",
+      "label": "Alignment move",
+      "name": "What's the first concrete move you want to make on cross-team alignment before we next meet?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

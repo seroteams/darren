@@ -1,0 +1,9 @@
+alias: q_decision_friction
+label: Decision friction
+name: "What's the one decision or dependency that would most help you move faster?"
+description: Pins down the highest-leverage unblocker without reopening a general blocker scan.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +3
+source: generated

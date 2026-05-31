@@ -1,0 +1,196 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    "answer": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "clarity": 1
+    },
+    "note": "Payments shipped clean, which suggests some situational clarity, but 'coasting a bit this week' is a mild engagement dip; also volunteered a payments thread worth following."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_coasting_this_week_2",
+      "label": "Coasting this week",
+      "name": "You said you're 'coasting a bit this week' — what's driving that?",
+      "description": "Drills into the mild engagement dip she named to find out whether it's recovery, low challenge, or something else.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "engagement": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -3
+    },
+    "note": "She names low-challenge work and says she's 'not much stretching' right now, which is a strong engagement dip; also hints at a growth gap worth picking up next."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_stretch_gap_2",
+      "label": "Stretch gap",
+      "name": "You said 'not much stretching me right now' — what kind of work would feel stretching in a good way?",
+      "description": "Drills into the low-stretch thread she just named to surface what challenge is missing.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "engagement": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1
+    },
+    "note": "She doesn't name a motivating stretch and instead points to review context-switching that is wearing but tolerable, which is a mild negative engagement signal."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?",
+      "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1
+    },
+    "note": "Pivoted away from the energy question into stalled mentoring interest, which still signals mild disengagement through lack of follow-through; also revealed a clear growth thread worth probing next."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_mentoring_stalled",
+      "label": "Mentoring stalled",
+      "name": "You said 'more mentoring' — what's kept that from happening so far?",
+      "description": "Drills into the stalled mentoring thread to surface the real blocker.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird.",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -3
+    },
+    "note": "Names a concrete blocker to mentoring — unclear involvement in the billing rewrite and lack of direct communication — which signals stalled growth support."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_billing_rewrite_weird",
+      "label": "Billing rewrite weird",
+      "name": "On the billing rewrite — what's weird about how it's being handled from your seat?",
+      "description": "Drills into the billing rewrite thread to surface the specific clarity or stakeholder gap behind the concern.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went.",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": 1
+    },
+    "note": "She pivoted from the billing rewrite concern to a concrete win on payments, which still signals positive stretch and ownership on growth; [THREAD-DEFERRED] billing rewrite handling still sounds unresolved, but drill cap and arc budget require advancing."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_mentoring_trade_off",
+      "label": "Mentoring trade-off",
+      "name": "What would you need to drop to make space for mentoring?",
+      "description": "Surfaces the real cost of taking mentoring back up and whether the trade-off feels workable.",
+      "purpose": "competency",
+      "stage": "lift",
+      "axis_effects": {
+        "growth": 3,
+        "wellbeing": 1
+      },
+      "source": "generated"
+    },
+    "answer": "Growth-wise I think I'm flat. I'm the most senior IC on the team and there's no one really pushing me.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "growth": -3
+    },
+    "note": "Says they feel flat growth-wise and unsupported at their level, which is a strong negative growth signal with a mild wellbeing drag."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_next_step_close",
+      "label": "Next-step close",
+      "name": "What's the first concrete thing you want to have moved by our next conversation?",
+      "description": "Closes by turning the check-in into a specific next action or outcome.",
+      "purpose": "competency",
+      "stage": "lift",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "More clarity on scope would help. And hearing about big projects before they're locked in, not after.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "Names two missing conditions — clearer scope and earlier involvement in big projects — which signals both growth support and role clarity are currently lacking; final-turn closer already used, so queue stays empty."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_seed_clarity_priorities",
+      "label": "Priority ranking",
+      "name": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+      "description": "Forces a real priority ranking. Vague answers are a clarity signal.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "Skipped the priority-ranking question, so this turn adds no clarity or engagement signal."
+  }
+]

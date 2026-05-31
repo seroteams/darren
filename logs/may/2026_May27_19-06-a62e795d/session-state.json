@@ -1,0 +1,352 @@
+{
+  "id": "2026_May27_19-06-a62e795d",
+  "dir": "C:\\Users\\User\\Documents\\Sero\\darren\\logs\\may\\2026_May27_19-06-a62e795d",
+  "createdAt": 1779883603596,
+  "lastSeenAt": 1779883628103,
+  "ctx": {
+    "name": "Test",
+    "role": "UX Lead",
+    "seniority": "Lead",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "context switching"
+  },
+  "introQueue": [
+    {
+      "alias": "q_open_bit_of_joy",
+      "label": "Bit of joy",
+      "name": "What's brought you a bit of joy recently?",
+      "description": "'A bit of' removes pressure to perform happiness. PERMA positive emotion — activates openness.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_agenda_check",
+      "label": "Agenda check",
+      "name": "Before we get into it, anything you want to make sure we cover today?",
+      "description": "Semi-set early question. Gives the report explicit permission to set the agenda before the manager's plan takes over.",
+      "purpose": "engagement",
+      "stage": "opener",
+      "axis_effects": {
+        "engagement": 1,
+        "clarity": 1
+      },
+      "source": "semi_set"
+    },
+    {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?",
+      "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    }
+  ],
+  "focusPointsResult": {
+    "meeting_type": "Bi-weekly check-in",
+    "focus_points": [
+      {
+        "id": "priorities",
+        "type": "Priorities & goals",
+        "category": "topic",
+        "label": "What they're saying yes and no to lately.",
+        "reason": "Whether the context switching is coming from shifting priorities, and what the top three outcomes are this cycle—worth clarifying what they’re intentionally deprioritizing.",
+        "source": "signal",
+        "known": true
+      },
+      {
+        "id": "workload",
+        "type": "Workload & capacity",
+        "category": "wellbeing",
+        "label": "Context switching load and calendar control.",
+        "reason": "Whether the pace is sustainable given the context switching—could be too many interrupts, unclear ownership, or just a temporary surge that needs pacing.",
+        "source": "signal",
+        "known": true
+      },
+      {
+        "id": "manager_support",
+        "type": "Manager support",
+        "category": "topic",
+        "label": "What they want more air cover on.",
+        "reason": "What he'd want more of from you when priorities keep moving—air cover, faster decisions, or helping unblock cross-team churn so he can stay in flow.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "communication",
+        "type": "Communication",
+        "category": "competency",
+        "label": "How well updates are landing across stakeholders.",
+        "reason": "How they're communicating tradeoffs and status during churn—UX leads often get pulled into many loops, and crisp written updates prevent rework and misalignment.",
+        "source": "best_practice",
+        "known": true
+      }
+    ]
+  },
+  "preparationResult": {
+    "brief": {
+      "coreIssue": "This bi-weekly check-in is likely about how your UX Lead is handling priority churn without losing focus, sustainability, or stakeholder alignment.",
+      "openingQuestion": "What is pulling you across the most contexts right now, and what would you most want to protect as your top three outcomes this cycle?",
+      "listenFor": [
+        "whether they name specific meetings, channels, or stakeholders that are driving interrupts",
+        "if they hesitate or keep revising what the top priorities are while talking",
+        "if they volunteer one concrete area where your faster decisions or air cover would reduce churn"
+      ],
+      "avoid": [
+        "do not jump straight into solving their calendar before you know which switches are necessary versus avoidable",
+        "do not turn this into a status review; keep the focus on tradeoffs, load, and lead-level ownership"
+      ],
+      "goodOutcome": "You and Test have agreed which lead-level outcomes he will protect this cycle and one kind of cross-team churn you will help absorb so he can keep end-to-end UX ownership.",
+      "suggestedAction": "Before the 1:1, pick one recent example where shifting priorities or stakeholder churn seemed to fragment his focus so you can test it without speaking in generalities."
+    },
+    "runId": "fcacd198-bc5a-4184-9cb9-c88b8a27f539",
+    "validation": {
+      "passed": false,
+      "issues": [
+        "listenFor may lack observable behavioural cue: \"if they hesitate or keep revising what the top priorities ar…\""
+      ]
+    },
+    "attempts": 2
+  },
+  "bankReady": {
+    "count": 9
+  },
+  "briefing": null,
+  "queueRef": [
+    {
+      "alias": "q_open_bit_of_joy",
+      "label": "Bit of joy",
+      "name": "What's brought you a bit of joy recently?",
+      "description": "'A bit of' removes pressure to perform happiness. PERMA positive emotion — activates openness.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_agenda_check",
+      "label": "Agenda check",
+      "name": "Before we get into it, anything you want to make sure we cover today?",
+      "description": "Semi-set early question. Gives the report explicit permission to set the agenda before the manager's plan takes over.",
+      "purpose": "engagement",
+      "stage": "opener",
+      "axis_effects": {
+        "engagement": 1,
+        "clarity": 1
+      },
+      "source": "semi_set"
+    },
+    {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?",
+      "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_set_the_scene",
+      "label": "Set the scene",
+      "name": "What's been most on your mind at work lately?",
+      "description": "Lets Test set context before anything more specific lands.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_switching_cost",
+      "label": "Switching cost",
+      "name": "Where is the context switching hitting you hardest right now?",
+      "description": "Surfaces the specific part of the load that is hardest to absorb.",
+      "purpose": "wellbeing",
+      "stage": "friction",
+      "axis_effects": {
+        "wellbeing": 3,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_noise_source",
+      "label": "Noise source",
+      "name": "What keeps pulling you out of flow most often?",
+      "description": "Finds the main interrupt pattern behind the churn.",
+      "purpose": "wellbeing",
+      "stage": "friction",
+      "axis_effects": {
+        "wellbeing": 1,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_priority_tradeoff",
+      "label": "Priority tradeoff",
+      "name": "What are you choosing not to do this cycle?",
+      "description": "Forces the hidden trade-off behind current priorities.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_decision_support",
+      "label": "Decision support",
+      "name": "Where do you need faster calls from me?",
+      "description": "Surfaces where manager support would reduce churn or unblock progress.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_update_quality",
+      "label": "Update quality",
+      "name": "What part of your updates is hardest to keep crisp when things are moving?",
+      "description": "Checks how communication holds up under shifting priorities and stakeholder pressure.",
+      "purpose": "competency",
+      "stage": "momentum",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_stakeholder_churn",
+      "label": "Stakeholder churn",
+      "name": "Which stakeholder loop is creating the most rework for you?",
+      "description": "Identifies where cross-functional churn is costing time and attention.",
+      "purpose": "competency",
+      "stage": "lift",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_air_cover",
+      "label": "Air cover",
+      "name": "What would make the next two weeks feel more protected?",
+      "description": "Finds the concrete support that would reduce friction without opening a new agenda.",
+      "purpose": "topic",
+      "stage": "lift",
+      "axis_effects": {
+        "wellbeing": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_next_move",
+      "label": "Next move",
+      "name": "What's the first thing you want to get under control before our next check-in?",
+      "description": "Closes by turning the conversation into one concrete next step.",
+      "purpose": "topic",
+      "stage": "lift",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "source": "generated"
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "score": -1,
+      "lastDelta": 0,
+      "history": []
+    },
+    "engagement": {
+      "id": "engagement",
+      "label": "Engagement",
+      "score": -1,
+      "lastDelta": 0,
+      "history": []
+    },
+    "clarity": {
+      "id": "clarity",
+      "label": "Clarity",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "growth": {
+      "id": "growth",
+      "label": "Growth",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    }
+  },
+  "transcript": [],
+  "turn": 0,
+  "totalBudget": 9,
+  "closer": {
+    "alias": "q_next_move",
+    "label": "Next move",
+    "name": "What's the first thing you want to get under control before our next check-in?",
+    "description": "Closes by turning the conversation into one concrete next step.",
+    "purpose": "topic",
+    "stage": "lift",
+    "axis_effects": {
+      "clarity": 1,
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "pendingAnswer": null,
+  "notes": []
+}

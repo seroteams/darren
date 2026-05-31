@@ -1,0 +1,10 @@
+alias: q_mentoring_trade_off
+label: Mentoring trade-off
+name: What would you need to drop to make space for mentoring?
+description: Surfaces the real cost of taking mentoring back up and whether the trade-off feels workable.
+purpose: competency
+stage: lift
+axis_effects:
+  growth: +3
+  wellbeing: +1
+source: generated

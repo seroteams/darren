@@ -1,0 +1,8 @@
+{
+  "name": "Test",
+  "role": "UX Lead",
+  "seniority": "Lead",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "context switching",
+  "model": "gpt-5.4-nano"
+}

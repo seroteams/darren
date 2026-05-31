@@ -1,0 +1,10 @@
+alias: q_decision_bottlenecks
+label: Decision bottlenecks
+name: Where do things still have to come back to you before they can move?
+description: Surfaces hidden dependency points and autonomy bottlenecks in the product org.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

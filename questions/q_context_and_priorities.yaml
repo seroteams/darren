@@ -1,0 +1,10 @@
+alias: q_context_and_priorities
+label: Context and priorities
+name: "What's been most on your mind in this new team context?"
+description: Lets Tom set the frame around what is taking up attention after the move without presuming a problem.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

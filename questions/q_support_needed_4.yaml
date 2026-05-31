@@ -1,0 +1,10 @@
+alias: q_support_needed_4
+label: Support needed
+name: What would make the new university class easier to sustain week to week?
+description: Probes capacity and sustainability without assuming strain.
+purpose: wellbeing
+stage: cause
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

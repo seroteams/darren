@@ -1,0 +1,10 @@
+alias: q_signal_driver
+label: Signal driver
+name: "What's making it harder to raise your signal with stakeholders right now?"
+description: Surfaces whether the constraint is habit, context, or channel choice.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

@@ -1,0 +1,80 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_class_impact_evidence",
+    "label": "Class impact evidence",
+    "name": "What changed for learners because of your work on the new university class?",
+    "description": "Surfaces concrete outcomes and leverage from her work in the class.",
+    "purpose": "competency",
+    "stage": "evidence",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 1
+    },
+    "source": "generated"
+  },
+  "answer": "They are more confident",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "[SHALLOW] 'They are more confident' names a vague outcome with no concrete evidence of what changed."
+  },
+  "new_queue": [
+    {
+      "alias": "q_confidence_evidence",
+      "label": "Confidence evidence",
+      "name": "You said 'more confident' — what did they do differently that showed that?"
+    },
+    {
+      "alias": "q_hidden_friction",
+      "label": "Hidden friction",
+      "name": "Where is the coaching work still taking more effort than it should?"
+    },
+    {
+      "alias": "q_input_quality",
+      "label": "Input quality",
+      "name": "What feedback are you not getting enough of right now?"
+    },
+    {
+      "alias": "q_support_needed_4",
+      "label": "Support needed",
+      "name": "What would make the new university class easier to sustain week to week?"
+    },
+    {
+      "alias": "q_close_the_loop_2",
+      "label": "Close the loop",
+      "name": "Given what we've covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "i want to now how i can do the marking easier, it took sl long"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "i want to now how i can do the marking easier, it took sl long"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

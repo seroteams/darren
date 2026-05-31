@@ -1,0 +1,10 @@
+alias: q_next_scope
+label: Next scope
+name: What kind of design scope would feel meaningfully bigger to you next?
+description: Gets concrete about the shape of the next stretch without jumping straight to a role title.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

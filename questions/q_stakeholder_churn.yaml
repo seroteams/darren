@@ -1,0 +1,10 @@
+alias: q_stakeholder_churn
+label: Stakeholder churn
+name: Which stakeholder loop is creating the most rework for you?
+description: Identifies where cross-functional churn is costing time and attention.
+purpose: competency
+stage: lift
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

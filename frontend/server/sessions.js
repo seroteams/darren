@@ -1,6 +1,7 @@
 const path = require("node:path");
 const { createSession } = require("../../src/session");
 const { initState } = require("../../src/axes");
+const cost = require("../../src/cost");
 const { persist, loadPersistedSessions } = require("./session-persistence");
 
 const INTRO_BUDGET = 4;
@@ -46,6 +47,7 @@ function createWebSession(ctx, introQueue) {
 
     pendingAnswer: null,
     inFlight: new Map(),
+    tracker: cost.createTracker(),
   };
   sessions.set(inner.id, state);
   persist(state);

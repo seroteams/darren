@@ -1,0 +1,10 @@
+alias: q_support_focus
+label: Support focus
+name: What support from me would make the biggest difference on this?
+description: Open closer that lets him shape the most useful next support without turning into a checklist.
+purpose: wellbeing
+stage: support
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: planner_added

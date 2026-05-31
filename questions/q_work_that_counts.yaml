@@ -1,0 +1,10 @@
+alias: q_work_that_counts
+label: Work that counts
+name: Which kinds of outcomes do you want your design work to influence more directly?
+description: Clarifies the business or product outcomes Sam wants to be closer to.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

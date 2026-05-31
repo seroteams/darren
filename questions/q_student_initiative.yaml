@@ -1,0 +1,9 @@
+alias: q_student_initiative
+label: Student initiative
+name: "Those moments where they 'just went for it' — what did you do that caused that?"
+description: Pins the observed learner behaviour back to her specific coaching actions before moving on.
+purpose: competency
+stage: evidence
+axis_effects:
+  growth: +3
+source: planner_added

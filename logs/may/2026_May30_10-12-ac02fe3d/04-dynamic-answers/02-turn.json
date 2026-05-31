@@ -1,0 +1,93 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_intro_perf_01_opening",
+    "label": "Self-read opener",
+    "name": "Before I share my view, how do you think the last stretch has gone?",
+    "description": "Anchors the conversation in their self-assessment first; gap vs manager's view becomes a signal.",
+    "purpose": "topic",
+    "stage": "self_read",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "i want to now how i can do the marking easier, it took sl long",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "clarity": -3
+    },
+    "note": "Pivoted from self-assessment to a specific friction point — marking feels inefficient and time-heavy, signaling low clarity on how to do the work effectively and mild strain on engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_marking_friction",
+      "label": "Marking friction",
+      "name": "Marking took so long — what specifically made it slow?"
+    },
+    {
+      "alias": "q_class_impact_evidence",
+      "label": "Class impact evidence",
+      "name": "What changed for learners because of your work on the new university class?"
+    },
+    {
+      "alias": "q_intro_perf_02_proud",
+      "label": "What they're proud of",
+      "name": "What's something from the last quarter you're genuinely proud of — not what looks good, what actually was good?"
+    },
+    {
+      "alias": "q_hidden_friction",
+      "label": "Hidden friction",
+      "name": "Where is the coaching work still taking more effort than it should?"
+    },
+    {
+      "alias": "q_input_quality",
+      "label": "Input quality",
+      "name": "What feedback are you not getting enough of right now?"
+    },
+    {
+      "alias": "q_support_needed_4",
+      "label": "Support needed",
+      "name": "What would make the new university class easier to sustain week to week?"
+    },
+    {
+      "alias": "q_close_the_loop_2",
+      "label": "Close the loop",
+      "name": "Given what we've covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "i want to now how i can do the marking easier, it took sl long"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "i want to now how i can do the marking easier, it took sl long"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

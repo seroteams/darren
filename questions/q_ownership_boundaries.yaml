@@ -1,0 +1,9 @@
+alias: q_ownership_boundaries
+label: Ownership boundaries
+name: Ownership boundaries — where is default escalation happening most right now?
+description: Pins down the specific decisions or interfaces where ownership is unclear.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

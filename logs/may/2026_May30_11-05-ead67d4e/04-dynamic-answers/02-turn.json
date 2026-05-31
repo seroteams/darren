@@ -1,0 +1,108 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_last_cycle_impact",
+    "label": "Last cycle impact",
+    "name": "When you say 'last cycle' — what part of it is still sticking with you?",
+    "description": "Clarifies the specific unresolved piece from the prior cycle before progressing the growth conversation.",
+    "purpose": "topic",
+    "stage": "gap",
+    "axis_effects": {
+      "clarity": 1,
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "The feedback was not specific enough.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "She names vague feedback as the unresolved issue, signalling low clarity on the bar and a strong growth blockage."
+  },
+  "new_queue": [
+    {
+      "alias": "q_specific_enough",
+      "label": "Specific enough",
+      "name": "What was missing from the feedback, specifically?"
+    },
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_selection_readout",
+      "label": "Selection readout",
+      "name": "What readout did you get on why you weren’t selected?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_current_direction",
+      "label": "Current direction",
+      "name": "What kind of growth are you actually looking for next?"
+    },
+    {
+      "alias": "q_tradeoffs_ahead",
+      "label": "Tradeoffs ahead",
+      "name": "What would you be willing to trade off to make space for that growth?"
+    },
+    {
+      "alias": "q_manager_support_5",
+      "label": "Manager support",
+      "name": "What kind of support from me would actually change the game for you?"
+    },
+    {
+      "alias": "q_next_move_2",
+      "label": "Next move",
+      "name": "What’s the first concrete thing you want to move before we talk again?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_last_cycle_impact",
+          "delta": -1,
+          "answer_excerpt": "The feedback was not specific enough."
+        }
+      ]
+    },
+    "growth": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_last_cycle_impact",
+          "delta": -3,
+          "answer_excerpt": "The feedback was not specific enough."
+        }
+      ]
+    }
+  }
+}

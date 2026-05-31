@@ -1,0 +1,222 @@
+{
+  "generated_at": "2026-05-30T04:11:27.771Z",
+  "batch": "M2",
+  "mode": "live_batch_sweep",
+  "run_count": 10,
+  "baseline_dimensions": {
+    "question_specificity": 0.094,
+    "plan_thread_follow": 0.308,
+    "plan_delta_accuracy": 0.595
+  },
+  "predicted_ranges": {
+    "question_specificity": {
+      "min": 0.4,
+      "max": 0.6
+    },
+    "plan_thread_follow": {
+      "min": 0.55,
+      "max": 0.75
+    },
+    "plan_delta_accuracy": {
+      "min": 0.65,
+      "max": 0.75
+    },
+    "overall_mean": {
+      "min": 0.87,
+      "max": 0.9,
+      "baseline": 0.829
+    }
+  },
+  "runs": [
+    {
+      "label": "Ahmed (ahmed-growth-career-plan.json)",
+      "scenario": "ahmed-growth-career-plan.json",
+      "session": "logs/may/2026_May30_10-59-23b47539",
+      "question_specificity": 1,
+      "plan_thread_follow": 0.5,
+      "plan_delta_accuracy": 1,
+      "mean": 0.833,
+      "evidence": {
+        "question_specificity": "9/9 mention persona",
+        "plan_thread_follow": "4/8 threads followed",
+        "plan_delta_accuracy": "8/8 turns scored non-zero"
+      }
+    },
+    {
+      "label": "Carlos (carlos-performance-feedback.json)",
+      "scenario": "carlos-performance-feedback.json",
+      "session": "logs/may/2026_May30_11-01-5bde1542",
+      "question_specificity": 0.9,
+      "plan_thread_follow": 0.375,
+      "plan_delta_accuracy": 1,
+      "mean": 0.758,
+      "evidence": {
+        "question_specificity": "9/10 mention persona",
+        "plan_thread_follow": "3/8 threads followed",
+        "plan_delta_accuracy": "8/8 turns scored non-zero"
+      }
+    },
+    {
+      "label": "James (james-something-feels-off.json)",
+      "scenario": "james-something-feels-off.json",
+      "session": "logs/may/2026_May30_11-02-f0bd9ff6",
+      "question_specificity": 1,
+      "plan_thread_follow": 0.5,
+      "plan_delta_accuracy": 1,
+      "mean": 0.833,
+      "evidence": {
+        "question_specificity": "9/9 mention persona",
+        "plan_thread_follow": "4/8 threads followed",
+        "plan_delta_accuracy": "8/8 turns scored non-zero"
+      }
+    },
+    {
+      "label": "Kenji (kenji-something-feels-off.json)",
+      "scenario": "kenji-something-feels-off.json",
+      "session": "logs/may/2026_May30_11-03-f1a6d913",
+      "question_specificity": 1,
+      "plan_thread_follow": 0.5,
+      "plan_delta_accuracy": 0.875,
+      "mean": 0.792,
+      "evidence": {
+        "question_specificity": "10/10 mention persona",
+        "plan_thread_follow": "4/8 threads followed",
+        "plan_delta_accuracy": "7/8 turns scored non-zero"
+      }
+    },
+    {
+      "label": "Lin (lin-biweekly-checkin.json)",
+      "scenario": "lin-biweekly-checkin.json",
+      "session": "logs/may/2026_May30_11-04-5be29da9",
+      "question_specificity": 0.909,
+      "plan_thread_follow": 0.5,
+      "plan_delta_accuracy": 1,
+      "mean": 0.803,
+      "evidence": {
+        "question_specificity": "10/11 mention persona",
+        "plan_thread_follow": "4/8 threads followed",
+        "plan_delta_accuracy": "8/8 turns scored non-zero"
+      }
+    },
+    {
+      "label": "Maria (maria-growth-career-plan.json)",
+      "scenario": "maria-growth-career-plan.json",
+      "session": "logs/may/2026_May30_11-05-ead67d4e",
+      "question_specificity": 0.8,
+      "plan_thread_follow": 0.6,
+      "plan_delta_accuracy": 1,
+      "mean": 0.8,
+      "evidence": {
+        "question_specificity": "8/10 mention persona",
+        "plan_thread_follow": "3/5 threads followed",
+        "plan_delta_accuracy": "7/7 turns scored non-zero"
+      }
+    },
+    {
+      "label": "Nina (nina-biweekly-checkin.json)",
+      "scenario": "nina-biweekly-checkin.json",
+      "session": "logs/may/2026_May30_11-07-c34aabe1",
+      "question_specificity": 1,
+      "plan_thread_follow": 0.375,
+      "plan_delta_accuracy": 1,
+      "mean": 0.792,
+      "evidence": {
+        "question_specificity": "10/10 mention persona",
+        "plan_thread_follow": "3/8 threads followed",
+        "plan_delta_accuracy": "8/8 turns scored non-zero"
+      }
+    },
+    {
+      "label": "Priya (priya-biweekly-checkin.json)",
+      "scenario": "priya-biweekly-checkin.json",
+      "session": "logs/may/2026_May30_11-08-01b1df1e",
+      "question_specificity": 1,
+      "plan_thread_follow": 0.375,
+      "plan_delta_accuracy": 1,
+      "mean": 0.792,
+      "evidence": {
+        "question_specificity": "10/10 mention persona",
+        "plan_thread_follow": "3/8 threads followed",
+        "plan_delta_accuracy": "8/8 turns scored non-zero"
+      }
+    },
+    {
+      "label": "Sarah (sarah-performance-feedback.json)",
+      "scenario": "sarah-performance-feedback.json",
+      "session": "logs/may/2026_May30_11-09-597095a7",
+      "question_specificity": 1,
+      "plan_thread_follow": 0.5,
+      "plan_delta_accuracy": 1,
+      "mean": 0.833,
+      "evidence": {
+        "question_specificity": "9/9 mention persona",
+        "plan_thread_follow": "4/8 threads followed",
+        "plan_delta_accuracy": "8/8 turns scored non-zero"
+      }
+    },
+    {
+      "label": "Tom (tom-performance-feedback.json)",
+      "scenario": "tom-performance-feedback.json",
+      "session": "logs/may/2026_May30_11-10-a53cf6c4",
+      "question_specificity": 0.9,
+      "plan_thread_follow": 0.5,
+      "plan_delta_accuracy": 1,
+      "mean": 0.8,
+      "evidence": {
+        "question_specificity": "9/10 mention persona",
+        "plan_thread_follow": "4/8 threads followed",
+        "plan_delta_accuracy": "8/8 turns scored non-zero"
+      }
+    }
+  ],
+  "aggregate": {
+    "question_specificity": 0.951,
+    "plan_thread_follow": 0.473,
+    "plan_delta_accuracy": 0.988,
+    "overall_mean": 0.804
+  },
+  "predicted_checks": [
+    {
+      "dimension": "question_specificity",
+      "mean": 0.951,
+      "baseline": 0.094,
+      "delta": 0.857,
+      "predicted": "0.4–0.6",
+      "ok": true,
+      "in_predicted_range": false,
+      "improved_vs_baseline": true
+    },
+    {
+      "dimension": "plan_thread_follow",
+      "mean": 0.473,
+      "baseline": 0.308,
+      "delta": 0.164,
+      "predicted": "0.55–0.75",
+      "ok": true,
+      "in_predicted_range": false,
+      "improved_vs_baseline": true
+    },
+    {
+      "dimension": "plan_delta_accuracy",
+      "mean": 0.988,
+      "baseline": 0.595,
+      "delta": 0.393,
+      "predicted": "0.65–0.75",
+      "ok": true,
+      "in_predicted_range": false,
+      "improved_vs_baseline": true
+    },
+    {
+      "dimension": "overall_mean",
+      "mean": 0.804,
+      "baseline": 0.829,
+      "delta": -0.025,
+      "predicted": "0.87–0.9",
+      "ok": false,
+      "in_predicted_range": false,
+      "improved_vs_baseline": false
+    }
+  ],
+  "smoke_failures": 0,
+  "verdict": "partial"
+}

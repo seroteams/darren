@@ -1,0 +1,10 @@
+alias: q_feedback_to_action
+label: Feedback to action
+name: What changed in your work after the last round of feedback?
+description: Checks whether feedback translated into a visible behavior change rather than staying abstract.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

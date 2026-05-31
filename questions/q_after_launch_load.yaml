@@ -1,0 +1,10 @@
+alias: q_after_launch_load
+label: After-launch load
+name: Now that those launches are done, where is your workload actually landing?
+description: Checks whether the pace is easing or simply shifting into other work.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

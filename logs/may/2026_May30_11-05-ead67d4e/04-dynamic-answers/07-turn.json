@@ -1,0 +1,129 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_team_rituals_dip",
+    "label": "Team rituals dip",
+    "name": "Team rituals feel less motivating lately — what changed for you there?",
+    "description": "Follows the concrete thread to understand what shifted in her day-to-day connection and motivation.",
+    "purpose": "wellbeing",
+    "stage": "aspiration",
+    "axis_effects": {
+      "engagement": 1,
+      "wellbeing": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I want impact at org level, not just strong project work.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1
+    },
+    "note": "She pivoted from team-ritual motivation to a concrete aspiration for org-level impact, which signals some forward pull but not a direct wellbeing read. [THREAD-DEFERRED-WINDDOWN] 'impact at org level' is a concrete thread to pick up next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_tradeoffs_ahead",
+      "label": "Tradeoffs ahead",
+      "name": "What would you be willing to trade off to make space for that growth?"
+    },
+    {
+      "alias": "q_next_move_3",
+      "label": "Next move",
+      "name": "Where do you want to focus first before we talk again?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -1,
+          "answer_excerpt": "I am less motivated in team rituals lately."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": 1,
+          "answer_excerpt": "Mentoring matters to me."
+        },
+        {
+          "q": "q_mentoring_meaning",
+          "delta": -1,
+          "answer_excerpt": "I do not know what would move the next decision."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -1,
+          "answer_excerpt": "I am less motivated in team rituals lately."
+        },
+        {
+          "q": "q_team_rituals_dip",
+          "delta": 1,
+          "answer_excerpt": "I want impact at org level, not just strong project work."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_last_cycle_impact",
+          "delta": -1,
+          "answer_excerpt": "The feedback was not specific enough."
+        },
+        {
+          "q": "q_specific_enough",
+          "delta": -1,
+          "answer_excerpt": "I want clearer scope."
+        }
+      ]
+    },
+    "growth": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_last_cycle_impact",
+          "delta": -3,
+          "answer_excerpt": "The feedback was not specific enough."
+        },
+        {
+          "q": "q_specific_enough",
+          "delta": -3,
+          "answer_excerpt": "I want clearer scope."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": 1,
+          "answer_excerpt": "Mentoring matters to me."
+        },
+        {
+          "q": "q_mentoring_meaning",
+          "delta": -3,
+          "answer_excerpt": "I do not know what would move the next decision."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -3,
+          "answer_excerpt": "I am less motivated in team rituals lately."
+        }
+      ]
+    }
+  }
+}

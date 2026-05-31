@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Principal-level impact and leverage visibility",
+      "reason": "What Principal-level impact should look like on this team, and whether his current work is showing up in that way yet.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "What “Principal scope” means on this team",
+      "reason": "Whether he understands the Principal bar on this team after moving teams, or if he’s still operating on old assumptions about scope and expectations.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Cross-team trust and expectation management",
+      "reason": "Whether cross-team trust is developing—especially around setting expectations early and handling hard news—versus staying in safe execution mode.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "judgment",
+      "type": "Judgment",
+      "category": "competency",
+      "label": "Judgment calls: when to push vs escalate",
+      "reason": "Whether he’s making and socializing the tradeoff calls that only a Principal should own, or if he’s avoiding questions and escalation when uncertainty is high.",
+      "source": "signal",
+      "known": true
+    }
+  ],
+  "name": "Tom",
+  "role": "Principal Backend Engineer",
+  "seniority": "Principal",
+  "meetingType": "Performance & feedback",
+  "notes": "Tom moved teams recently and delivery is steady, but Principal-level impact is not visible yet. Previous feedback said he needs early expectation alignment, and he still asks very few questions. I want to test whether he understands what Principal scope means on this team or if he is still operating on old assumptions. I also need to understand whether cross-team trust and judgment calls are developing or whether he is staying in safe execution mode.",
+  "model": "gpt-5.4-mini"
+}

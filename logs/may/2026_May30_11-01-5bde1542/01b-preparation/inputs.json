@@ -1,0 +1,54 @@
+{
+  "name": "Carlos",
+  "roleTitle": "Brand Designer",
+  "seniority": "Junior",
+  "meetingType": "Performance & feedback",
+  "observedShift": "For Carlos, this performance conversation needs to make the quality bar concrete and usable. I want to understand whether prior feedback translated into behavior changes or stayed abstract. I also need to hear how he defines good work right now and where he feels blocked in growth. Without that shared baseline, feedback can feel subjective and demotivating. My goal is to align on specific expectations, examples, and one near-term development focus he can practice immediately.",
+  "focusPoints": [
+    {
+      "id": "quality",
+      "type": "Quality",
+      "category": "competency",
+      "label": "Concrete quality bar and what “good” means",
+      "reason": "Whether prior feedback translated into behavior changes or stayed abstract, and what he uses as the definition of good work right now.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "Feedback landing — both directions",
+      "reason": "Whether the feedback he’s receiving is specific enough to act on, and whether he’s able to give you the same level of clarity on what’s working or not.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Near-term growth focus and practice plan",
+      "reason": "What he feels blocked on in growth, and which one skill or workflow change he can practice immediately with clear examples and a short feedback loop.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "reliability",
+      "type": "Reliability",
+      "category": "competency",
+      "label": "Reliability on commitments and early flags",
+      "reason": "For a Junior in Performance & feedback, predictability is a fast way to make feedback feel fair: commitments, early slippage signals, and closing the loop on what was agreed.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "a913c814-ab54-4a55-ac66-fcbb1a692adf",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "listenFor may lack observable behavioural cue: \"whether prior feedback shows up as a changed step in his pro…\""
+    ]
+  },
+  "attempts": 2
+}

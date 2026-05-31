@@ -6,6 +6,7 @@ const { planTurn } = require("../../../src/queue-manager");
 const { applyDeltas, serialize } = require("../../../src/axes");
 const questions = require("../../../src/questions");
 const { writeJson } = require("../../../src/cli/io");
+const cost = require("../../../src/cost");
 
 module.exports = async function plan(c) {
   const session = requireSession(c.query.s);
@@ -54,6 +55,8 @@ module.exports = async function plan(c) {
   const remainingBudget = Math.max(0, session.totalBudget - turn);
 
   let planResult;
+  const prevTracker = cost.getActive();
+  cost.setActive(session.tracker);
   try {
     planResult = await planTurn({
       focusPoints: session.focusPointsResult.focus_points,
@@ -78,6 +81,8 @@ module.exports = async function plan(c) {
       response: "",
     };
     stream.write("note", { note: "The model hiccuped — continuing." });
+  } finally {
+    cost.setActive(prevTracker);
   }
 
   applyDeltas(session.axisState, {

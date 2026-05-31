@@ -19,7 +19,12 @@ export async function mount(root, { store, setState }) {
       </header>
       <div class="question-host"></div>
       <div class="thinking-host min-h-[72px]"></div>
-      <div class="card axes-host"></div>
+      <div class="axes-wrap space-y-2">
+        <div class="axes-explainer text-xs text-ink-dim max-w-measure">
+          Session signals — these bars move on what answers mean, not how long they are. Short filler like "fine" or "ok" won't shift them.
+        </div>
+        <div class="card axes-host"></div>
+      </div>
       <div class="footer-host text-xs text-ink-mute"></div>
     </div>
   `;
@@ -84,11 +89,11 @@ export async function mount(root, { store, setState }) {
     store.currentQuestion = q;
 
     const card = document.createElement("div");
-    card.className = "card space-y-4 reveal";
+    card.className = "card questioning-card space-y-4 reveal";
     card.innerHTML = `
-      <h1 class="h1 leading-snug">${escape(q.name)}</h1>
-      ${q.description ? `<div class="text-ink-dim">${escape(q.description)}</div>` : ""}
-      <textarea class="textarea" rows="5" placeholder="What did they say?"></textarea>
+      <h1 class="question-stem leading-snug">${escape(q.name)}</h1>
+      ${q.description ? `<div class="question-desc">${escape(q.description)}</div>` : ""}
+      <textarea class="textarea textarea--question" rows="5" placeholder="What did they say?"></textarea>
       <div class="field-actions">
         <button class="btn js-submit">Record and continue</button>
         <button class="btn btn--ghost js-skip">Skip</button>

@@ -1,0 +1,10 @@
+alias: q_tradeoffs_ahead
+label: Tradeoffs ahead
+name: What would you be willing to trade off to make space for that growth?
+description: Forces a real investment conversation about time, focus, and priorities.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

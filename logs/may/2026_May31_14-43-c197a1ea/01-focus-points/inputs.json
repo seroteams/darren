@@ -1,0 +1,8 @@
+{
+  "name": "Carl",
+  "role": "UX lead",
+  "seniority": "Lead",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "They have been doing well but letting the CoE go limp",
+  "model": "gpt-5.4-nano"
+}

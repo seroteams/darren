@@ -1,0 +1,10 @@
+alias: q_next_stretch_3
+label: Next stretch
+name: What part of this work do you want to get sharper at next?
+description: Opens a concrete growth conversation about the next area to develop.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

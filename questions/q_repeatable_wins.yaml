@@ -1,0 +1,10 @@
+alias: q_repeatable_wins
+label: Repeatable wins
+name: What should we make sure to repeat from that refactor on the next hard project?
+description: Pulls out the practices worth carrying forward from the recent delivery.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

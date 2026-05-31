@@ -1,0 +1,10 @@
+alias: q_repeatable_moves
+label: Repeatable moves
+name: Which part of the class work feels most repeatable now?
+description: Identifies the practices that are becoming a reliable strength rather than a one-off win.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

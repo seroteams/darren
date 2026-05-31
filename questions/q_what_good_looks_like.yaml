@@ -1,0 +1,9 @@
+alias: q_what_good_looks_like
+label: What good looks like
+name: "When you say 'what good looks like' — what feels most unclear week to week?"
+description: Drills into his exact phrase to surface the specific expectation gap behind the late-change friction.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

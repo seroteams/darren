@@ -1,0 +1,10 @@
+alias: q_first_move_2
+label: First move
+name: "Given what we've covered, where do you want to focus first?"
+description: Ends the conversation with an open, employee-shaped next focus.
+purpose: competency
+stage: support
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_first_move"

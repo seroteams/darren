@@ -1,0 +1,35 @@
+{
+  "wellbeing": {
+    "score": -1,
+    "history": []
+  },
+  "engagement": {
+    "score": 0,
+    "history": [
+      {
+        "q": "q_open_what_matters_now",
+        "delta": 1,
+        "answer_excerpt": "I want to move from just shipping screens to owning a whole product area. I keep getting pulled into pixel polish when I'd rather be shaping"
+      }
+    ]
+  },
+  "clarity": {
+    "score": 0,
+    "history": []
+  },
+  "growth": {
+    "score": 5,
+    "history": [
+      {
+        "q": "q_open_what_matters_now",
+        "delta": 2,
+        "answer_excerpt": "I want to move from just shipping screens to owning a whole product area. I keep getting pulled into pixel polish when I'd rather be shaping"
+      },
+      {
+        "q": "q_own_product_area",
+        "delta": 3,
+        "answer_excerpt": "I'd be in the early problem-framing meetings, pushing back on scope and tradeoffs, not just executing tickets. I'd own the metric we're movi"
+      }
+    ]
+  }
+}

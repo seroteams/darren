@@ -2,7 +2,7 @@
 
 **Version:** v1  
 **Caveman version:** full  
-**Source of truth for IDs:** [`plans/log-fix-audit.md`](log-fix-audit.md) v9 (95 IDs, 64 done)  
+**Source of truth for IDs:** [`plans/log-fix-audit.md`](log-fix-audit.md) v13 (95 IDs, 73 done)  
 **Created:** 2026-05-30 after FX-34/41 landed + full plan sweep
 
 ## Caveman version
@@ -12,18 +12,21 @@ Audit says 21 open, 5 partial, 4 planning, 1 review. This file groups them into 
 ## Changelog
 
 - v1 (2026-05-30): Initial consolidation from audit v9, stale `PLAN.md` diff, `lexicon-finish.md`, Toby phase 6–7, May-24 batch notes, and local uncommitted WIP inventory.
+- v2 (2026-05-30): Batch I landed — FX-11/FX-12 wind-down + closer craft in `prompts/plan-turn.md`. Audit v11 stats.
+- v3 (2026-05-30): Batch J landed — FX-24/25/32 briefing + questioning UI polish. Audit v12 stats.
+- v6 (2026-05-30): Batch M3 regression fixtures. Pinned Priya/Lin/Ahmed May-24 worst runs. Audit v16.
 
 ---
 
-## Status snapshot (audit v9)
+## Status snapshot (audit v13)
 
 | Status | Count |
 |---|---|
-| ✅ DONE | 64 |
-| 🔴 OPEN | 21 |
-| 🟡 PARTIAL | 5 |
+| ✅ DONE | 73 |
+| 🔴 OPEN | 17 |
+| 🟡 PARTIAL | 0 |
 | 📋 PLANNING | 4 |
-| 🧪 REVIEW | 1 |
+| 🧪 REVIEW | 0 |
 
 **Do not duplicate the full ID table here.** Flip rows in `log-fix-audit.md` when batches land; add a changelog line + recount stats.
 
@@ -85,48 +88,41 @@ Audit says 21 open, 5 partial, 4 planning, 1 review. This file groups them into 
 
 ---
 
-## Batch K — Axis cluster (product call required)
+## Batch K — Axis cluster (product call required) ✅ DONE 2026-05-30
 
 **Owner:** heavy-ops · **IDs:** FX-26, FX-27, FX-28
 
-| ID | Issue |
+**FX-27 gate:** path A — explainer copy (not hide/cut UI).
+
+| ID | Fix |
 |---|---|
-| FX-26 🔴 | Scores react to typing not meaning ("fine" → -1) |
-| FX-27 🔴 | User doesn't see value in ratings |
-| FX-28 🔴 | Clarity should have dropped before certain Q |
+| FX-26 | Shallow gate zeros **all** deltas; filler words ("fine", "ok"); prompt shallow-vs-neutral split |
+| FX-27 | Explainer under axis bars (questioning + briefing); tooltip copy |
+| FX-28 | Misalignment → clarity `-1`; signature expand; coverage inject clarity at turn 4+ when untouched |
 
-**Note:** Deferred in [`plans/toby-run-fix/deferred-h.md`](toby-run-fix/deferred-h.md) as "axis scoring model redesign" — treat as one arc, not three one-offs.
-
-**Acceptance:** defined behavior doc + at least one log replay showing improved axis read; FX-27 gate decision recorded in audit.
+**Verify:** `node scripts/batch-k-verify.js` (includes May27 turn-5 proxy).
 
 ---
 
-## Batch L — Lexicon pipeline (Phase 6 + lexicon-finish)
+## Batch L — Lexicon pipeline (Phase 6 + lexicon-finish) ✅ DONE 2026-05-30
 
 **Owner:** heavy-ops · **Plan refs:** [`plans/toby-run-fix/phase-6-g-lexicon.md`](toby-run-fix/phase-6-g-lexicon.md), [`plans/lexicon-finish.md`](lexicon-finish.md)
 
-### Diagnostic first (read-only)
+**Diagnosis:** Zero candidates were mostly scope gating (`shouldReview` required Lead seniority — Toby is Expert) plus bi-weekly sessions correctly out-of-scope. No parser drop-off.
 
-| ID | Task |
-|---|---|
-| G1 🔴 | Diagnose speaker source in `prompts/review-session-for-lexicon.md` |
-| G2 🔴 | Diagnose parser drops in `src/lexicon-reviewer.js` |
+| ID | Task | Status |
+|---|---|---|
+| G1 | Speaker source in prompt | ✅ normalized transcript + `<transcript_reading>` |
+| G2 | Parser drops | ✅ closed — gate was the issue |
+| G3 | Fix from diagnosis | ✅ design+growth+lead\|expert; expert→lead file mapping |
+| G4 | Soften candidate floor | ✅ Quality floor block in prompt |
+| G5 | Toby lexicon fixture | ✅ `toby_lexicon_growth.json` + `scripts/batch-l-verify.js` |
+| LF-1 | Auto-run after eval | ✅ `kickLexiconReview` in `evaluation.js` |
+| FX-40 | Empty-state UX | ✅ path C — clearer copy + `skipped` reason |
 
-### Then fix
+**Verify:** `node scripts/batch-l-verify.js` (offline); `node scripts/batch-l-verify.js --live` (6 suggestions on Toby May24 log).
 
-| ID | Task |
-|---|---|
-| G3 🔴 | Implement fix from G1/G2 findings |
-| G4 🔴 | Soften candidate floor — no filler padding |
-| G5 🔴 | Toby **lexicon** regression fixture (≠ existing prep fixture) |
-| LF-1 🔴 | Auto-run reviewer after stage 05 eval (not only on lexicon screen load) |
-| FX-40 📋 | In-scope zero-candidate UX (after gate) |
-
-**Already landed (verify in H2):** LF-2 candidates endpoint, LF-3 keep → YAML, LF-4 promote script.
-
-**Out of scope for L unless felt need:** LF-6 promote button in app.
-
-**Acceptance:** Design Lead + Growth session → non-empty candidates OR intentional empty with good UX; Keep → candidate yaml; promote script moves to canonical; G5 fixture in replay.
+**LF-5 still open:** design-only vs all roles — current scope = design + growth + (lead \| expert).
 
 ---
 
@@ -134,15 +130,19 @@ Audit says 21 open, 5 partial, 4 planning, 1 review. This file groups them into 
 
 **Owner:** mixed · **Plan ref:** [`plans/toby-run-fix/phase-7-replay.md`](toby-run-fix/phase-7-replay.md)
 
-| # | Task | IDs |
+| # | Task | Status |
 |---|---|---|
-| M1 | Re-run May-24 batch harness on current prompts | FX-44 🧪 REVIEW |
-| M2 | Compare to `logs/may/2026_May24_batch/quality-report.json` predicted ranges | ANALYSIS.md table |
-| M3 | Pin worst-case runs as regression fixtures | Priya `547a1f92-945`, Lin `6ae9ead8-32f`, Ahmed `835c2df0-e23` per ANALYSIS.md |
-| M4 | Wire `scenarios/batch/` into replay harness (optional consumer) | future; personas landed FX-41 ✅ |
-| M5 | Full live Toby replay (not just `--fixtures-only`) | FX-17 follow-through |
+| M1 | Re-run May-24 batch harness on current prompts | ✅ FX-44 |
+| M2 | Compare to quality-report predicted ranges | ✅ 2026-05-30 (live sweep 10/10) |
+| M3 | Pin worst-case runs as regression fixtures | ✅ 2026-05-30 |
+| M4 | Wire `scenarios/batch/` into replay harness | future |
+| M5 | Full live Toby replay | optional |
 
-**Acceptance:** FX-44 → ✅ or explicit fail notes; at least one new regression JSON under `scenarios/regression/`; batch score deltas documented.
+**M3 fixtures:** `priya_biweekly_qspec` (547a1f92-945), `lin_biweekly_thread` (6ae9ead8-32f), `ahmed_growth_delta` (835c2df0-e23)
+
+**Verify:** `node scripts/batch-m3-verify.js` · regenerate: `node scripts/generate-m3-regression.js`
+
+**M2 report:** `logs/may/2026_May24_batch/m2-comparison-report.json` — live sweep 10/10 personas (~12 min). Aggregate: qspec 0.951, thread 0.473, delta 0.988, overall 0.804. All three target dims beat May-24 baseline; thread follow still below predicted 0.55–0.75 band; overall below 0.829 baseline. Verify: `node scripts/batch-m2-verify.js` or `--live`.
 
 ---
 
@@ -199,9 +199,12 @@ Not in audit. Resolve in batch H3 before starting feature work on `main`.
 | Batch | Status | Date | Commit |
 |---|---|---|---|
 | H | done | 2026-05-30 | 3ff04b2 |
-| I | pending | — | — |
-| J | pending | — | — |
-| K | pending | — | — |
-| L | pending | — | — |
-| M | pending | — | — |
+| I | done | 2026-05-30 | — |
+| J | done | 2026-05-30 | — |
+| M1 | done | 2026-05-30 | — |
+| L | done | 2026-05-30 | — |
+| K | done | 2026-05-30 | — |
+| M3 | done | 2026-05-30 | — |
+| M2 | done (live) | 2026-05-30 | — |
+| M | partial (M1–M3 ✅; M5 optional) | 2026-05-30 | — |
 | N | pending | — | — |

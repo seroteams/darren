@@ -1,0 +1,10 @@
+alias: q_stretching_edge
+label: Stretching edge
+name: Where is your design craft stretching you most at the moment?
+description: Surfaces the part of the craft that feels newly demanding rather than routine.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

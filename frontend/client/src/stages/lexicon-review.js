@@ -23,19 +23,28 @@ export async function mount(root, { store, setState }) {
   const resultHost = root.querySelector(".result-host");
 
   let candidates = [];
+  let skipped = null;
   try {
     const data = await getLexiconCandidates(sessionId);
     candidates = Array.isArray(data?.candidates) ? data.candidates : [];
+    skipped = data?.skipped || null;
   } catch (e) {
     console.warn("[lexicon-review] failed to load candidates:", e);
+    skipped = "reviewer-failed";
   }
 
   thinkingHost.remove();
 
   if (!candidates.length) {
+    const emptyCopy =
+      skipped === "reviewer-failed"
+        ? "The lexicon review didn't finish — you can continue without saving phrases."
+        : skipped === "empty" || skipped === null
+          ? "Nothing strong enough to suggest this time. Shorter or shallow sessions often produce no candidates — that's normal."
+          : "No lexicon candidates from this run.";
     resultHost.innerHTML = `
       <div class="card reveal">
-        <div class="text-ink-dim">No lexicon candidates from this run.</div>
+        <div class="text-ink-dim">${escape(emptyCopy)}</div>
       </div>
       <div class="flex gap-2 pt-6 reveal">
         <button class="btn js-done">Continue</button>

@@ -1,0 +1,10 @@
+alias: q_specific_enough
+label: Specific enough
+name: What was missing from the feedback, specifically?
+description: Drills into the vagueness she named so the exact clarity gap is explicit.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +1
+  growth: +3
+source: planner_added

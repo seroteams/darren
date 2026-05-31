@@ -1,0 +1,51 @@
+{
+  "wellbeing": {
+    "score": -1,
+    "history": []
+  },
+  "engagement": {
+    "score": -1,
+    "history": [
+      {
+        "q": "q_intro_perf_01_opening",
+        "delta": -1,
+        "answer_excerpt": "i want to now how i can do the marking easier, it took sl long"
+      },
+      {
+        "q": "q_confidence_evidence",
+        "delta": 1,
+        "answer_excerpt": "they didnt wait to be asked to talk , theyu just go up and went for it"
+      }
+    ]
+  },
+  "clarity": {
+    "score": -2,
+    "history": [
+      {
+        "q": "q_intro_perf_01_opening",
+        "delta": -3,
+        "answer_excerpt": "i want to now how i can do the marking easier, it took sl long"
+      },
+      {
+        "q": "q_close_the_loop",
+        "delta": 1,
+        "answer_excerpt": "i want to have a way to do less marking"
+      }
+    ]
+  },
+  "growth": {
+    "score": 4,
+    "history": [
+      {
+        "q": "q_confidence_evidence",
+        "delta": 3,
+        "answer_excerpt": "they didnt wait to be asked to talk , theyu just go up and went for it"
+      },
+      {
+        "q": "q_close_the_loop",
+        "delta": 1,
+        "answer_excerpt": "i want to have a way to do less marking"
+      }
+    ]
+  }
+}

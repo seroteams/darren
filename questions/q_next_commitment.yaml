@@ -1,0 +1,10 @@
+alias: q_next_commitment
+label: Next commitment
+name: What is the first concrete change you want to make before our next review?
+description: Closes on a specific behavioral commitment with a near-term horizon.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

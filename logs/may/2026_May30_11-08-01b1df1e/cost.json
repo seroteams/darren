@@ -1,0 +1,154 @@
+{
+  "call_count": 13,
+  "usd_total": 0.12425773,
+  "unknown_price_calls": 0,
+  "prompt_tokens": 109044,
+  "completion_tokens": 5226,
+  "cached_tokens": 84992,
+  "total_tokens": 114270,
+  "calls": [
+    {
+      "stage": "01-focus-points",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 6073,
+      "completion_tokens": 230,
+      "cached_tokens": 4864,
+      "total_tokens": 6303,
+      "usd_cost": 0.0006265800000000001,
+      "known_price": true,
+      "at": "2026-05-30T04:08:18.215Z"
+    },
+    {
+      "stage": "01b-preparation",
+      "model": "gpt-5.4",
+      "prompt_tokens": 2190,
+      "completion_tokens": 243,
+      "cached_tokens": 0,
+      "total_tokens": 2433,
+      "usd_cost": 0.00912,
+      "known_price": true,
+      "at": "2026-05-30T04:08:22.944Z"
+    },
+    {
+      "stage": "01b-preparation-retry",
+      "model": "gpt-5.4",
+      "prompt_tokens": 2244,
+      "completion_tokens": 244,
+      "cached_tokens": 1792,
+      "total_tokens": 2488,
+      "usd_cost": 0.005238,
+      "known_price": true,
+      "at": "2026-05-30T04:08:27.648Z"
+    },
+    {
+      "stage": "03-question-bank",
+      "model": "gpt-5.4-mini",
+      "prompt_tokens": 5607,
+      "completion_tokens": 719,
+      "cached_tokens": 3840,
+      "total_tokens": 6326,
+      "usd_cost": 0.00484875,
+      "known_price": true,
+      "at": "2026-05-30T04:08:31.883Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11568,
+      "completion_tokens": 641,
+      "cached_tokens": 7936,
+      "total_tokens": 12209,
+      "usd_cost": 0.020679,
+      "known_price": true,
+      "at": "2026-05-30T04:08:39.376Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10981,
+      "completion_tokens": 550,
+      "cached_tokens": 8960,
+      "total_tokens": 11531,
+      "usd_cost": 0.0155425,
+      "known_price": true,
+      "at": "2026-05-30T04:08:45.420Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10881,
+      "completion_tokens": 471,
+      "cached_tokens": 8960,
+      "total_tokens": 11352,
+      "usd_cost": 0.0141075,
+      "known_price": true,
+      "at": "2026-05-30T04:08:50.749Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10843,
+      "completion_tokens": 399,
+      "cached_tokens": 8960,
+      "total_tokens": 11242,
+      "usd_cost": 0.0129325,
+      "known_price": true,
+      "at": "2026-05-30T04:08:55.731Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10778,
+      "completion_tokens": 316,
+      "cached_tokens": 8960,
+      "total_tokens": 11094,
+      "usd_cost": 0.011525,
+      "known_price": true,
+      "at": "2026-05-30T04:09:00.002Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10728,
+      "completion_tokens": 244,
+      "cached_tokens": 8960,
+      "total_tokens": 10972,
+      "usd_cost": 0.01032,
+      "known_price": true,
+      "at": "2026-05-30T04:09:05.704Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10653,
+      "completion_tokens": 172,
+      "cached_tokens": 8960,
+      "total_tokens": 10825,
+      "usd_cost": 0.0090525,
+      "known_price": true,
+      "at": "2026-05-30T04:09:08.446Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10590,
+      "completion_tokens": 161,
+      "cached_tokens": 8960,
+      "total_tokens": 10751,
+      "usd_cost": 0.00873,
+      "known_price": true,
+      "at": "2026-05-30T04:09:11.720Z"
+    },
+    {
+      "stage": "05-evaluation",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 5908,
+      "completion_tokens": 836,
+      "cached_tokens": 3840,
+      "total_tokens": 6744,
+      "usd_cost": 0.0015354000000000001,
+      "known_price": true,
+      "at": "2026-05-30T04:09:17.853Z"
+    }
+  ]
+}

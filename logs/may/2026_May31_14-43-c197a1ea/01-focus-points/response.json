@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Bi-weekly check-in",
+  "focus_points": [
+    {
+      "id": "priorities",
+      "label": "Keeping the CoE moving with clear bets",
+      "reason": "Notes say they’ve been doing well but letting the CoE go limp. One possibility is the CoE’s priorities and momentum aren’t being actively sequenced or protected—worth clarifying what’s slipped and what they think the CoE should be driving next.",
+      "source": "signal"
+    },
+    {
+      "id": "stakeholder_engagement",
+      "label": "How they’re keeping partners aligned to CoE work",
+      "reason": "If the CoE is losing momentum, it often shows up as weaker pull from product/design partners or unclear expectations. How they’re managing those relationships could be the difference between a CoE that’s used vs one that fades.",
+      "source": "signal"
+    },
+    {
+      "id": "delegation",
+      "label": "Delegating CoE ownership without losing momentum",
+      "reason": "Whether they’re still driving the CoE directly or quietly letting others carry it without enough coaching and follow-through. At Lead level, CoE momentum depends on delegation with real ownership and visible outcomes.",
+      "source": "best_practice"
+    },
+    {
+      "id": "communication",
+      "label": "CoE updates that create pull, not noise",
+      "reason": "Whether their CoE communication is making it easy for others to know what’s happening, what decisions are needed, and how to engage. Leads often lose momentum when updates become status-only instead of decision- and action-oriented.",
+      "source": "best_practice"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "headline": "Ahmed’s growth plan is constrained by confidence and political discomfort, which drives him back into execution and away from strategic ownership.",
+  "summary_bullets": [
+    "Ahmed names a consistent blocker: “I still spend too much time in execution details,” especially when “conversations get political.”",
+    "He links growth confidence to senior visibility: “I do not want to look unprepared in senior forums,” and admits he’s “not been explicit enough about what opportunities I want.”",
+    "His stated next steps are leverage-based (delegate hands-on work) but he still asks for structure (“growth contract with milestones”)—the missing piece is the stakeholder-facing scope and decision rights."
+  ],
+  "understanding_paragraph": "Ahmed wants bigger scope, but he experiences political and cross-org alignment conversations as a trigger to retreat into what he can directly deliver. He also ties confidence in senior forums to preparation and to being explicit about the opportunities he wants. What we didn’t know before is that his growth constraint is not just time allocation—it’s a confidence/visibility gap that changes how he participates in stakeholder trust moments.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -1,
+      "meaning": "Weak signal: wellbeing isn’t the main driver, but there’s slight tension around senior visibility and confidence."
+    },
+    {
+      "id": "engagement",
+      "score": -4,
+      "meaning": "Worth noting: engagement is dampened by confidence and political discomfort, pulling him toward safer delivery work."
+    },
+    {
+      "id": "clarity",
+      "score": 0,
+      "meaning": "No clear signal: he can describe blockers and direction, but the plan needs sharper stakeholder/decision specificity."
+    },
+    {
+      "id": "growth",
+      "score": -9,
+      "meaning": "Defining signal: growth is actively blocked by confidence and stakeholder alignment hesitance, not by lack of ambition."
+    }
+  ],
+  "brutal_truth_employee": "Ahmed is blocking his next-level growth with a retreat pattern: “When conversations get political, I tend to retreat to what I can deliver directly.” He also admits the confidence/visibility gap plainly: “Part of it is confidence, I do not want to look unprepared in senior forums.”",
+  "brutal_truth_manager": "The conversation surfaced a concrete evidence chain—execution retreat during political moments and hesitation with cross-org alignment—but Ahmed’s “growth contract with milestones” needs a stakeholder-facing scope and decision ownership target. Next time, anchor the growth plan on the specific “strategic bet with visible stakeholders” and force a named decision, stakeholder set, and authority boundary so the delegation goal turns into real leverage.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Draft Ahmed’s 18-month growth contract with one strategic bet, named visible stakeholders, and the exact decision he will own."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 30-minute stakeholder mapping session with Ahmed to list 3 political forums and define what he will say/ask in each."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Start the next 1:1 by reviewing his delegation experiment: which hands-on work he handed off, to whom, and what strategic outcome he drove."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks, if Ahmed keeps describing progress as “what I can deliver directly” instead of stakeholder decisions, treat the retreat pattern as unchanged.",
+    "Before next 1:1, if Ahmed cannot name the specific “strategic bet with visible stakeholders” and the decision he owns, confidence and visibility gaps remain unresolved."
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "Carl",
+  "role": "UX Lead",
+  "seniority": "Lead",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Carl is finding it hard to deal with CoE and AZP app moving between two very diffenent ptojects.",
+  "model": "gpt-5.4-nano"
+}

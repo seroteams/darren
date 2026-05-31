@@ -1,0 +1,9 @@
+alias: q_cross_functional_room
+label: Cross-functional room
+name: What would earlier room to lead those cross-functional discussions look like?
+description: Gets concrete on the access, timing, and role she wants in cross-functional work.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

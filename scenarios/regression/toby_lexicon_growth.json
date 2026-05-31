@@ -1,0 +1,42 @@
+{
+  "id": "toby_lexicon_growth",
+  "description": "Lexicon reviewer — Toby Expert UX Designer Growth session (2026_May24_21-46-1eb839fd)",
+  "sessionDir": "logs/may/2026_May24_21-46-1eb839fd",
+  "ctx": {
+    "name": "Toby",
+    "role": "Expert UX Designer",
+    "seniority": "Expert",
+    "meetingType": "Growth & career plan",
+    "notes": "He wants to become a lead but his communication methods suck"
+  },
+  "expect": {
+    "shouldReview": true,
+    "fileSeniority": "lead",
+    "transcriptTurnsMin": 5,
+    "promptContains": [
+      "manager_question",
+      "employee_answer",
+      "brutal_truth_manager",
+      "lead level",
+      "flight risk"
+    ],
+    "liveSuggestionMin": 1,
+    "liveValueSubstrings": ["lead", "communication", "promotion", "growth", "flight"]
+  },
+  "sparse": {
+    "transcript": [
+      {
+        "turn": 1,
+        "question": { "name": "How was your week?" },
+        "answer": "fine",
+        "skipped": false,
+        "note": "[SHALLOW] fine"
+      }
+    ],
+    "evaluation": {
+      "brutal_truth_manager": "No strong signal.",
+      "watch_for": []
+    },
+    "expectSuggestionCountMax": 0
+  }
+}

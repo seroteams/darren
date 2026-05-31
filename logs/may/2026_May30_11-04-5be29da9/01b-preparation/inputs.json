@@ -1,0 +1,54 @@
+{
+  "name": "Lin",
+  "roleTitle": "Head of Product",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "observedShift": "Lin has delivered two major features ahead of schedule but has worked late for about three weeks. I need to understand whether this pace was a temporary push or is becoming a default. Because Lin tends to brush off concern, I should ask directly what is driving the load now that those launches are done. I also want clarity on what work only Lin should own versus what could be delegated, since sustained late nights at this level can hide a distribution or autonomy problem.",
+  "focusPoints": [
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Late nights — temporary push or default?",
+      "reason": "Notes say Lin has worked late for about three weeks. Could be a short runway to finish two major features ahead of schedule, or it might be turning into the new normal—worth clarifying what’s driving the load now that launches are done.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What Lin is saying yes to now",
+      "reason": "Whether the next cycle’s priorities are still the same kind of push work, or if day-to-day firefighting is creeping in after the launches. This helps you understand what she’s optimizing for and whether the sequence of bets is sustainable.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "delegation",
+      "type": "Delegation effectiveness",
+      "category": "competency",
+      "label": "What only Lin should own vs delegate",
+      "reason": "Whether sustained late nights are hiding a distribution or autonomy problem. A head-of-product at this level should be able to move outcomes through others—so you’ll want to get specific about what’s still too central to her, versus what could be owned by leads or partners.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What Lin wants more of from you",
+      "reason": "How she handles concern can make it easy for you to miss what she’s carrying. Use the bi-weekly format to ask directly for the concrete support she wants from you (air cover, decisions, or time), so she doesn’t have to brush things off to keep momentum.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "ae9da8b1-5e60-4cb1-bcd8-9ec00b582c6f",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "listenFor may lack observable behavioural cue: \"whether she distinguishes decisions only she can make from w…\""
+    ]
+  },
+  "attempts": 2
+}

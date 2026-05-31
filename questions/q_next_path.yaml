@@ -1,0 +1,10 @@
+alias: q_next_path
+label: Next path
+name: What concrete path forward do you see for yourself from here?
+description: Gets James to name the direction he believes is real rather than waiting for the manager to define it.
+purpose: topic
+stage: support
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,86 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_early_decisions",
+    "label": "Early decisions",
+    "name": "When did you last miss the chance to shape a decision early?",
+    "description": "Gets a concrete recent example of the late-influence pattern she just named.",
+    "purpose": "competency",
+    "stage": "evidence",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Some feedback has been about being clearer with non-technical partners.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "She did not give a concrete missed moment; instead she named recurring feedback about being clearer with non-technical partners, which is a strong clarity gap and a concrete thread to follow."
+  },
+  "new_queue": [
+    {
+      "alias": "q_partner_clarity",
+      "label": "Partner clarity",
+      "name": "With non-technical partners, where did your message last break down?"
+    },
+    {
+      "alias": "q_intro_perf_03_gap",
+      "label": "Gap awareness",
+      "name": "Where do you think you've fallen short of where you want to be?"
+    },
+    {
+      "alias": "q_signal_driver",
+      "label": "Signal driver",
+      "name": "What's making it harder to raise your signal with stakeholders right now?"
+    },
+    {
+      "alias": "q_alignment_move",
+      "label": "Alignment move",
+      "name": "What's the first concrete move you want to make on cross-team alignment before we next meet?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        },
+        {
+          "q": "q_uneven_influence",
+          "delta": -3,
+          "answer_excerpt": "I get work done, yet I am not consistently shaping decisions early."
+        },
+        {
+          "q": "q_early_decisions",
+          "delta": -3,
+          "answer_excerpt": "Some feedback has been about being clearer with non-technical partners."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

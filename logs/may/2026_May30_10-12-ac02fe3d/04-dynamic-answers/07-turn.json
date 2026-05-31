@@ -1,0 +1,76 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_hidden_friction",
+    "label": "Hidden friction",
+    "name": "Where is the coaching work still taking more effort than it should?",
+    "description": "Finds the specific friction points that are easy to miss when the overall picture looks strong.",
+    "purpose": "competency",
+    "stage": "gap_naming",
+    "axis_effects": {
+      "clarity": 3,
+      "wellbeing": 1
+    },
+    "source": "generated"
+  },
+  "answer": "i never said that",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "[SHALLOW] 'i never said that' disputes the premise but does not name where effort is high or low; [THREAD-DEFERRED-WINDDOWN] denied premise of hidden friction, but wind-down requires advancing to cause/commit."
+  },
+  "new_queue": [
+    {
+      "alias": "q_input_quality",
+      "label": "Input quality",
+      "name": "What feedback are you not getting enough of right now?"
+    },
+    {
+      "alias": "q_close_the_loop_2",
+      "label": "Close the loop",
+      "name": "Given what we've covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -1,
+          "answer_excerpt": "i want to now how i can do the marking easier, it took sl long"
+        },
+        {
+          "q": "q_confidence_evidence",
+          "delta": 1,
+          "answer_excerpt": "they didnt wait to be asked to talk , theyu just go up and went for it"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "i want to now how i can do the marking easier, it took sl long"
+        }
+      ]
+    },
+    "growth": {
+      "score": 3,
+      "history": [
+        {
+          "q": "q_confidence_evidence",
+          "delta": 3,
+          "answer_excerpt": "they didnt wait to be asked to talk , theyu just go up and went for it"
+        }
+      ]
+    }
+  }
+}

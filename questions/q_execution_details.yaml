@@ -1,0 +1,9 @@
+alias: q_execution_details
+label: Execution details
+name: Execution details — what keeps pulling you back into them?
+description: Drills into the specific forces keeping Ahmed in tactical work instead of higher-level scope.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added

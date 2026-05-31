@@ -1,0 +1,312 @@
+{
+  "id": "2026_May30_14-58-581c8f70",
+  "dir": "C:\\Users\\User\\Documents\\Sero\\darren\\logs\\may\\2026_May30_14-58-581c8f70",
+  "createdAt": 1780127932325,
+  "lastSeenAt": 1780128103642,
+  "ctx": {
+    "name": "Sam",
+    "role": "designer",
+    "seniority": "senior",
+    "meetingType": "Growth & career plan",
+    "notes": ""
+  },
+  "introQueue": [
+    {
+      "alias": "q_open_what_matters_now",
+      "label": "What to push on",
+      "name": "What feels worth pushing on right now?",
+      "description": "Growth-fitted opener. Surfaces what the report is actively choosing to develop, not what's drifting.",
+      "purpose": "growth",
+      "axis_effects": {
+        "growth": 2,
+        "engagement": 1
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_agenda_check",
+      "label": "Agenda check",
+      "name": "Before we get into it, anything you want to make sure we cover today?",
+      "description": "Semi-set early question. Gives the report explicit permission to set the agenda before the manager's plan takes over.",
+      "purpose": "engagement",
+      "stage": "opener",
+      "axis_effects": {
+        "engagement": 1,
+        "clarity": 1
+      },
+      "source": "semi_set"
+    },
+    {
+      "alias": "q_intro_growth_blockers",
+      "label": "Growth blockers",
+      "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+      "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?",
+      "description": "Probes whether they have a real picture of where they want to go.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    }
+  ],
+  "focusPointsResult": {
+    "meeting_type": "Growth & career plan",
+    "focus_points": [
+      {
+        "id": "growth",
+        "type": "Growth & development",
+        "category": "topic",
+        "label": "Next-level stretch in design craft and scope",
+        "reason": "What they want to build next, in concrete design moves, and what would make the next step feel real.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "feedback",
+        "type": "Feedback (given & received)",
+        "category": "topic",
+        "label": "How critique and feedback are landing",
+        "reason": "Whether feedback they give and receive is improving decisions and quality, or stalling progress — worth clarifying how it’s working in practice.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "stakeholder_engagement",
+        "type": "Stakeholder engagement",
+        "category": "competency",
+        "label": "Stakeholder influence beyond the design team",
+        "reason": "What they’re doing to shape product decisions through trust and clear tradeoffs, not just deliverables.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "impact",
+        "type": "Impact",
+        "category": "competency",
+        "label": "Where their work is moving the business",
+        "reason": "What outcomes they can point to where their design leadership created measurable leverage this cycle.",
+        "source": "best_practice",
+        "known": true
+      }
+    ]
+  },
+  "preparationResult": {
+    "brief": {
+      "coreIssue": "This growth conversation is likely about what senior-level design growth now means in scope, influence, and visible business impact.",
+      "openingQuestion": "What kind of design scope would feel like a real next stretch for you this cycle, and where do you want more influence beyond the design team?",
+      "listenFor": [
+        "whether they name a specific project where they want broader ownership or decision authority",
+        "whether they volunteer an example of feedback or critique changing a design decision",
+        "if they speak concretely about product, engineering, or business stakeholders rather than only design craft"
+      ],
+      "avoid": [
+        "do not turn the conversation into a vague aspiration chat with no concrete scope or artefact",
+        "do not prescribe a growth path before you hear how Sam defines meaningful senior-level stretch"
+      ],
+      "goodOutcome": "You and Sam have agreed one senior-designer stretch scope to own end-to-end that requires cross-functional influence, not just stronger craft execution.",
+      "suggestedAction": "Before the 1:1, pick one recent project where Sam showed strong craft and one where broader stakeholder influence may have raised the level of impact."
+    },
+    "runId": "29c17f89-e639-453f-bb1f-138e504c11d1",
+    "validation": {
+      "passed": false,
+      "issues": [
+        "listenFor may lack observable behavioural cue: \"whether they volunteer an example of feedback or critique ch…\"",
+        "listenFor may lack observable behavioural cue: \"if they speak concretely about product, engineering, or busi…\""
+      ]
+    },
+    "attempts": 2
+  },
+  "bankReady": {
+    "count": 9
+  },
+  "briefing": null,
+  "queueRef": [
+    {
+      "alias": "q_early_meetings",
+      "label": "Early meetings",
+      "name": "Early problem-framing meetings — what would let you earn a seat there?",
+      "description": "Drills into the specific aspiration thread by surfacing what access, trust, or proof Sam thinks is required.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    {
+      "alias": "q_current_footing",
+      "label": "Current footing",
+      "name": "What's feeling solid in your design work right now, Sam?",
+      "description": "Establishes Sam's present operating base before moving into stretch or change.",
+      "purpose": "wellbeing",
+      "stage": "anchor",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_intro_growth_blockers",
+      "label": "Growth blockers",
+      "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+      "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_tradeoffs_ahead_2",
+      "label": "Tradeoffs ahead",
+      "name": "What would you need to trade off to take on a bigger design scope?",
+      "description": "Forces a real view of time, focus, and competing responsibilities.",
+      "purpose": "topic",
+      "stage": "investment",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_next_move_5",
+      "label": "Next move",
+      "name": "What is the first concrete step you want to take before we talk again?",
+      "description": "Closes on one committed action that advances the growth conversation.",
+      "purpose": "topic",
+      "stage": "commitment",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "score": -1,
+      "lastDelta": 0,
+      "history": []
+    },
+    "engagement": {
+      "id": "engagement",
+      "label": "Engagement",
+      "score": 0,
+      "lastDelta": 0,
+      "history": [
+        {
+          "q": "q_open_what_matters_now",
+          "delta": 1,
+          "answer_excerpt": "I want to move from just shipping screens to owning a whole product area. I keep getting pulled into pixel polish when I'd rather be shaping"
+        }
+      ]
+    },
+    "clarity": {
+      "id": "clarity",
+      "label": "Clarity",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "growth": {
+      "id": "growth",
+      "label": "Growth",
+      "score": 5,
+      "lastDelta": 3,
+      "history": [
+        {
+          "q": "q_open_what_matters_now",
+          "delta": 2,
+          "answer_excerpt": "I want to move from just shipping screens to owning a whole product area. I keep getting pulled into pixel polish when I'd rather be shaping"
+        },
+        {
+          "q": "q_own_product_area",
+          "delta": 3,
+          "answer_excerpt": "I'd be in the early problem-framing meetings, pushing back on scope and tradeoffs, not just executing tickets. I'd own the metric we're movi"
+        }
+      ]
+    }
+  },
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_open_what_matters_now",
+        "label": "What to push on",
+        "name": "What feels worth pushing on right now?",
+        "description": "Growth-fitted opener. Surfaces what the report is actively choosing to develop, not what's drifting.",
+        "purpose": "growth",
+        "axis_effects": {
+          "growth": 2,
+          "engagement": 1
+        },
+        "source": "research"
+      },
+      "answer": "I want to move from just shipping screens to owning a whole product area. I keep getting pulled into pixel polish when I'd rather be shaping the direction with PM and eng earlier.",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": 1,
+        "growth": 2
+      },
+      "note": "Sam names a concrete growth direction — owning a whole product area and shaping direction earlier with PM and engineering — showing strong ambition and active investment."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_own_product_area",
+        "label": "Own product area",
+        "name": "Owning a whole product area — what would you be doing differently week to week?",
+        "description": "Drills into Sam's stated aspiration so the next-level scope becomes concrete in day-to-day terms.",
+        "purpose": "topic",
+        "stage": "aspiration",
+        "axis_effects": {
+          "growth": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "I'd be in the early problem-framing meetings, pushing back on scope and tradeoffs, not just executing tickets. I'd own the metric we're moving, not just the Figma file.",
+      "skipped": false,
+      "realized_deltas": {
+        "growth": 3
+      },
+      "note": "Sam described concrete next-level scope—early problem framing, tradeoff influence, and owning metrics—which is a strong positive growth signal."
+    }
+  ],
+  "turn": 2,
+  "totalBudget": 9,
+  "closer": {
+    "alias": "q_next_move_5",
+    "label": "Next move",
+    "name": "What is the first concrete step you want to take before we talk again?",
+    "description": "Closes on one committed action that advances the growth conversation.",
+    "purpose": "topic",
+    "stage": "commitment",
+    "axis_effects": {
+      "growth": 1,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "pendingAnswer": null,
+  "notes": []
+}

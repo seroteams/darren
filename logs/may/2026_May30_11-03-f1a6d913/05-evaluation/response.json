@@ -1,0 +1,51 @@
+{
+  "headline": "Kenji is running on uncertainty: late requirement shifts make him feel like he’s guessing, and that erodes confidence and wellbeing.",
+  "summary_bullets": [
+    "Repeated pattern: late direction changes drive “feeling like I missed something” and “lose confidence in what to optimize for.”",
+    "Support gap: Kenji wants help but worries about sounding “slow,” so psychological safety and timing of feedback are the real blockers.",
+    "Clarity is unstable week to week: “I am still unsure what good really looks like here week to week” despite asking for help sometimes."
+  ],
+  "understanding_paragraph": "Kenji is not struggling with effort; he’s struggling with decision stability. He experiences a confidence dip when priorities change fast, which turns feedback into either “specific and close to the work” (helpful) or vague/late (guessing). He also wants more ownership, but he needs clearer guardrails and a predictable calibration loop to feel safe asking for help.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -6,
+      "meaning": "Running hot from ambiguity and late shifts; confidence and stress track together and need stabilization."
+    },
+    {
+      "id": "engagement",
+      "score": -5,
+      "meaning": "Motivation is present (“want more ownership”) but ownership is undermined by uncertainty and missed-context fear."
+    },
+    {
+      "id": "clarity",
+      "score": -5,
+      "meaning": "Weak, shifting success criteria: he can’t reliably answer what “good” means week to week."
+    },
+    {
+      "id": "growth",
+      "score": -4,
+      "meaning": "Learning is inconsistent because feedback timing/precision changes; he improves when feedback is close and specific."
+    }
+  ],
+  "brutal_truth_employee": "Kenji’s core signal is uncertainty under churn: “When priorities change fast, I lose confidence in what to optimize for.” He also blocks his own support-seeking—“I worry about sounding slow”—so he doesn’t get the early calibration he needs.",
+  "brutal_truth_manager": "You got the key evidence, but the conversation stayed at themes; the moment to lock in is when he said “A regular calibration loop would make this feel less shaky.” Next time, convert that into a concrete project cadence with a named stakeholder and a definition of “good” for week-to-week decisions.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 20-minute calibration loop with Kenji for the next priority shift: define what “good” means for this week and what triggers a late-direction change."
+    },
+    {
+      "when": "this week",
+      "action": "Set up one recurring feedback checkpoint for Kenji (same day/time) and require feedback to be specific to the work artifact, not general guidance."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Ask Kenji to name one recent moment he felt “like I am guessing” and rewrite the decision path: who decides, what guardrails exist, and what “good” looked like."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: if Kenji still says he feels “useful” only on specific feedback days, the calibration loop isn’t precise or timely enough.",
+    "Before next 1:1: if he continues to say he “worry[ies] about sounding slow” when asking for help, psychological safety is still missing."
+  ]
+}

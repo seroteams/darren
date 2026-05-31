@@ -1,0 +1,10 @@
+alias: q_noise_source
+label: Noise source
+name: What keeps pulling you out of flow most often?
+description: Finds the main interrupt pattern behind the churn.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

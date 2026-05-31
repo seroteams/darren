@@ -1,0 +1,10 @@
+alias: q_quality_friction
+label: Quality friction
+name: What part of the quality bar feels hardest to apply consistently?
+description: Finds the specific place where standards break down in practice.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_tradeoffs_ahead_2
+label: Tradeoffs ahead
+name: What would you need to trade off to take on a bigger design scope?
+description: Forces a real view of time, focus, and competing responsibilities.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

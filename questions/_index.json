@@ -1,13 +1,18 @@
 {
-  "generated_at": "2026-05-27T02:25:00.634Z",
-  "count": 750,
+  "generated_at": "2026-05-30T08:01:49.347Z",
+  "count": 955,
   "aliases": [
     "q_action_steps",
     "q_action_steps_2",
     "q_actionable_takeaway",
     "q_actionable_takeaway_2",
     "q_addressing_negativity",
+    "q_adjacent_team_trust",
     "q_adjusting_priorities",
+    "q_after_launch_load",
+    "q_air_cover",
+    "q_alignment_move",
+    "q_alignment_move_2",
     "q_alignment_on_goals",
     "q_alignment_with_boss",
     "q_alignment_with_team",
@@ -18,6 +23,7 @@
     "q_ba_stress_specifics",
     "q_backend_workload",
     "q_balancing_workload",
+    "q_billing_prep",
     "q_billing_rewrite_alignment",
     "q_billing_rewrite_clarity",
     "q_billing_rewrite_clarity_2",
@@ -31,6 +37,7 @@
     "q_billing_rewrite_readiness",
     "q_billing_rewrite_role",
     "q_billing_rewrite_role_2",
+    "q_billing_rewrite_weird",
     "q_blocker_check_in",
     "q_blocker_ownership",
     "q_blockers_check_in",
@@ -43,6 +50,7 @@
     "q_celebrating_recent_wins",
     "q_celebrating_success",
     "q_celebrating_wins",
+    "q_changing_direction_late",
     "q_checking_in_on_blockers",
     "q_clarify_all_good",
     "q_clarify_ba_impact",
@@ -57,7 +65,11 @@
     "q_clarifying_roles",
     "q_clarity_on_priorities",
     "q_clarity_on_priorities_2",
+    "q_class_impact_evidence",
+    "q_close_the_loop",
+    "q_close_the_loop_2",
     "q_coasting_this_week",
+    "q_coasting_this_week_2",
     "q_coe_support",
     "q_collaboration_challenges",
     "q_collaboration_effectiveness",
@@ -77,18 +89,28 @@
     "q_communication_clarity_3",
     "q_communication_clarity_4",
     "q_communication_clarity_5",
+    "q_communication_feedback",
     "q_communication_for_leadership",
     "q_communication_gap",
     "q_communication_improvement",
     "q_communication_tone",
     "q_complex_project_readiness",
+    "q_concept_rationale",
+    "q_concrete_example",
     "q_concrete_next_steps",
+    "q_confidence_check",
+    "q_confidence_evidence",
     "q_connection_with_design",
+    "q_context_and_priorities",
+    "q_context_check",
+    "q_context_check_2",
     "q_context_switching_impact",
     "q_context_switching_impact_2",
     "q_cross_functional_alignment",
+    "q_cross_functional_room",
     "q_cross_functional_trust",
     "q_cross_team_collaboration",
+    "q_cross_team_friction",
     "q_current_blockers",
     "q_current_blockers_2",
     "q_current_blockers_3",
@@ -98,6 +120,7 @@
     "q_current_challenges_3",
     "q_current_challenges_4",
     "q_current_dependencies",
+    "q_current_direction",
     "q_current_energy_check",
     "q_current_energy_drivers",
     "q_current_focus",
@@ -105,11 +128,14 @@
     "q_current_focus_3",
     "q_current_focus_4",
     "q_current_focus_5",
+    "q_current_focus_6",
     "q_current_focus_areas",
+    "q_current_footing",
     "q_current_impact",
     "q_current_mood_check",
     "q_current_priorities",
     "q_current_priorities_2",
+    "q_current_priorities_3",
     "q_current_priority_clarity",
     "q_current_role_assessment",
     "q_current_role_assessment_2",
@@ -127,10 +153,17 @@
     "q_current_workload_sustainability",
     "q_daily_structure",
     "q_decision_bottleneck",
+    "q_decision_bottlenecks",
+    "q_decision_bottlenecks_2",
     "q_decision_clarity",
+    "q_decision_feedback",
+    "q_decision_friction",
     "q_decision_leverage",
     "q_decision_moments",
     "q_decision_ownership",
+    "q_decision_pressure",
+    "q_decision_support",
+    "q_delegate_more",
     "q_delegation_and_focus",
     "q_delegation_challenge",
     "q_delegation_challenges",
@@ -141,8 +174,10 @@
     "q_delegation_effectiveness",
     "q_delegation_gap",
     "q_delegation_improvement",
+    "q_delegation_next_step",
     "q_delegation_reflection",
     "q_delegation_strategy",
+    "q_dependency_map",
     "q_dependency_risk",
     "q_design_focus",
     "q_design_impact",
@@ -153,6 +188,8 @@
     "q_discussing_growth_opportunities",
     "q_drift_check",
     "q_earlier_involvement",
+    "q_early_decisions",
+    "q_early_meetings",
     "q_effective_delegation",
     "q_effective_task_selection",
     "q_emails_backlog_stress",
@@ -190,6 +227,7 @@
     "q_energy_management_4",
     "q_energy_management_5",
     "q_energy_routine_impact",
+    "q_energy_source",
     "q_energy_sources",
     "q_energy_specifics",
     "q_energy_sustainability",
@@ -199,34 +237,51 @@
     "q_engagement_level",
     "q_engagement_shifts",
     "q_escalation_point",
+    "q_escalation_threshold",
+    "q_evidence_gap",
+    "q_excellent_examples",
+    "q_execution_details",
     "q_executive_alignment",
     "q_executive_impact",
+    "q_expectation_alignment",
+    "q_expectation_gap",
     "q_exploring_mentoring",
     "q_exploring_project_clarity",
     "q_exploring_quieter_energy",
     "q_facilitation_skills",
     "q_feedback_culture",
     "q_feedback_dynamics",
+    "q_feedback_gap",
     "q_feedback_given",
     "q_feedback_interpretation",
     "q_feedback_landing",
+    "q_feedback_landing_2",
     "q_feedback_loop",
     "q_feedback_loop_2",
+    "q_feedback_loop_3",
     "q_feedback_loops",
     "q_feedback_on_current_work",
     "q_feedback_on_growth",
     "q_feedback_on_past_projects",
     "q_feedback_on_projects",
+    "q_feedback_plan",
     "q_feedback_quality",
     "q_feedback_quality_2",
     "q_feedback_quality_3",
     "q_feedback_received",
     "q_feedback_received_2",
+    "q_feedback_seeking_habit",
     "q_feedback_texture",
+    "q_feedback_to_action",
     "q_feedback_use",
     "q_feedback_use_2",
+    "q_feeling_useful",
+    "q_first_move",
+    "q_first_move_2",
+    "q_flatter_than_expected",
     "q_focus_area_priorities",
     "q_focus_drain",
+    "q_fragmented_calendar",
     "q_future_aspirations",
     "q_future_aspirations_2",
     "q_future_challenges",
@@ -251,7 +306,9 @@
     "q_future_roles",
     "q_future_roles_2",
     "q_future_scope",
+    "q_future_scope_2",
     "q_growth_aspirations",
+    "q_growth_blocker",
     "q_growth_feedback",
     "q_growth_focus",
     "q_growth_opportunities",
@@ -278,7 +335,10 @@
     "q_head_of_ux_pull",
     "q_head_of_ux_specifics",
     "q_health_concerns",
+    "q_heavier_than_sounded",
     "q_hidden_blockers",
+    "q_hidden_friction",
+    "q_highest_leverage_work",
     "q_home_friction",
     "q_identifying_blockers",
     "q_identifying_blockers_2",
@@ -289,11 +349,16 @@
     "q_impact_of_priorities",
     "q_impact_on_care",
     "q_impact_signal",
+    "q_impact_story",
     "q_impact_through_leadership",
     "q_impact_visibility",
     "q_improvement_opportunities",
+    "q_influence_gap",
+    "q_influence_habit",
+    "q_influence_point",
     "q_infrastructure_barrier",
     "q_initial_check_in",
+    "q_input_quality",
     "q_interest_in_new_projects",
     "q_intro_biweekly_friction",
     "q_intro_biweekly_pace",
@@ -313,9 +378,13 @@
     "q_judgment_confidence",
     "q_judgment_on_recent_decisions",
     "q_language_skill_improvement",
+    "q_last_cycle_impact",
     "q_late_arrival_observation",
     "q_late_arrival_reasons",
+    "q_late_night_driver",
+    "q_late_night_residue",
     "q_lateness_impact",
+    "q_launch_leverage",
     "q_lead_role_flight_risk",
     "q_leadership_growth",
     "q_leadership_growth_areas",
@@ -328,15 +397,20 @@
     "q_learning_opportunities_2",
     "q_learning_resources",
     "q_learning_stretch",
+    "q_less_present_in_rituals",
     "q_lightening_the_load",
+    "q_load_after_sprint",
     "q_long_term_development",
     "q_long_term_goals",
     "q_long_term_view",
     "q_manager_feedback",
     "q_manager_leverage",
+    "q_manager_leverage_2",
     "q_manager_support",
     "q_manager_support_2",
     "q_manager_support_3",
+    "q_manager_support_4",
+    "q_manager_support_5",
     "q_manager_support_needs",
     "q_manager_support_needs_2",
     "q_manager_support_needs_3",
@@ -350,6 +424,7 @@
     "q_managing_up",
     "q_margin_of_error",
     "q_margin_of_error_specifics",
+    "q_marking_friction",
     "q_match_fitness_load",
     "q_measuring_impact",
     "q_meeting_attendance",
@@ -365,22 +440,31 @@
     "q_mentoring_block_5",
     "q_mentoring_block_6",
     "q_mentoring_discussions",
+    "q_mentoring_intent",
     "q_mentoring_interest",
     "q_mentoring_interest_2",
     "q_mentoring_interest_3",
     "q_mentoring_interest_4",
     "q_mentoring_interests",
+    "q_mentoring_meaning",
     "q_mentoring_opportunities",
     "q_mentoring_opportunity_block",
     "q_mentoring_path",
     "q_mentoring_role",
+    "q_mentoring_role_2",
     "q_mentoring_shape",
     "q_mentoring_shape_2",
+    "q_mentoring_shape_3",
     "q_mentoring_space",
     "q_mentoring_space_2",
+    "q_mentoring_stalled",
+    "q_mentoring_thread",
+    "q_mentoring_trade_off",
     "q_mentoring_trade_offs",
     "q_mentoring_trade_offs_2",
     "q_mentoring_tradeoff",
+    "q_mentoring_tradeoff_2",
+    "q_mentoring_useful",
     "q_mentoring_vision",
     "q_mentoring_vision_2",
     "q_mentoring_vision_3",
@@ -397,11 +481,28 @@
     "q_motivation_drivers_3",
     "q_motivation_drivers_4",
     "q_motivation_post_injury",
+    "q_moving_target",
     "q_need_to_know",
+    "q_needed_to_change",
     "q_new_project_interests",
+    "q_next_commitment",
+    "q_next_commitment_2",
+    "q_next_commitment_3",
+    "q_next_experiment",
+    "q_next_experiment_2",
+    "q_next_move",
+    "q_next_move_2",
+    "q_next_move_3",
+    "q_next_move_4",
+    "q_next_move_5",
+    "q_next_path",
     "q_next_project_focus",
+    "q_next_quarter_ownership",
+    "q_next_quarter_shape",
+    "q_next_scope",
     "q_next_skill",
     "q_next_step",
+    "q_next_step_close",
     "q_next_step_focus",
     "q_next_steps",
     "q_next_steps_2",
@@ -428,11 +529,23 @@
     "q_next_steps_priority_3",
     "q_next_stretch",
     "q_next_stretch_2",
+    "q_next_stretch_3",
+    "q_next_support",
+    "q_next_two_weeks",
+    "q_next_two_weeks_2",
+    "q_next_two_weeks_3",
+    "q_next_two_weeks_4",
+    "q_next_two_weeks_5",
+    "q_next_two_weeks_6",
+    "q_next_two_weeks_7",
+    "q_noise_source",
+    "q_normal_pace",
     "q_nourishing_specifics",
     "q_open_alive_lately",
     "q_open_arriving_today",
     "q_open_bit_of_joy",
     "q_open_carrying_in",
+    "q_open_context",
     "q_open_curious_lately",
     "q_open_giving_you_energy",
     "q_open_growth_lookforward",
@@ -451,28 +564,35 @@
     "q_open_wanting_to_raise",
     "q_open_what_matters_now",
     "q_open_whats_on_mind",
+    "q_opportunities_wanted",
     "q_org_friction",
     "q_organizational_support",
     "q_outcome_impact",
     "q_outside_football",
+    "q_own_product_area",
     "q_own_the_roadmap",
+    "q_ownership_boundaries",
     "q_ownership_shift",
     "q_ownership_shift_2",
     "q_ownership_signal",
     "q_ownership_signal_2",
     "q_ownership_signal_3",
+    "q_owning_the_right_things",
     "q_pacing_tradeoff",
+    "q_partner_clarity",
     "q_peer_connection",
     "q_personal_growth",
     "q_personal_growth_focus",
     "q_personal_routine_changes",
     "q_personal_signals",
     "q_planning_stressors",
+    "q_political_conversations",
     "q_post_launch_energy",
     "q_post_launch_energy_2",
     "q_post_launch_energy_3",
     "q_post_launch_energy_4",
     "q_post_launch_focus",
+    "q_post_launch_recovery",
     "q_post_launch_reflection",
     "q_post_launch_reflection_2",
     "q_post_refactor_energy",
@@ -482,6 +602,8 @@
     "q_potential_for_boredom",
     "q_pr_review_drag",
     "q_pride_in_payments",
+    "q_principal_scope",
+    "q_principal_scope_signal",
     "q_priorities_clarity",
     "q_priorities_moving_forward",
     "q_prioritisation_trade_offs",
@@ -500,6 +622,9 @@
     "q_priority_alignment_8",
     "q_priority_alignment_9",
     "q_priority_setting",
+    "q_priority_trade_off",
+    "q_priority_trade_off_2",
+    "q_priority_tradeoff",
     "q_probation_clarity",
     "q_process_value",
     "q_project_clarity",
@@ -513,8 +638,12 @@
     "q_promotion_urgency",
     "q_punctuality_impact",
     "q_punctuality_impact_2",
+    "q_quality_bar",
+    "q_quality_friction",
+    "q_questioning_habits",
     "q_quiet_signals",
     "q_recent_challenges",
+    "q_recent_friction",
     "q_recent_pace_shift",
     "q_recent_weeks_overview",
     "q_recent_win",
@@ -523,11 +652,14 @@
     "q_recognition_fit",
     "q_recognition_fit_2",
     "q_recognition_gap",
+    "q_recognition_gap_2",
     "q_recognition_impact",
     "q_recognition_impact_2",
     "q_recognition_landing",
     "q_recognition_landing_2",
     "q_recognition_landing_3",
+    "q_recognition_signal",
+    "q_recognized_work",
     "q_recognizing_achievements",
     "q_recognizing_contributions",
     "q_recognizing_contributions_2",
@@ -539,16 +671,23 @@
     "q_refactor_achievement",
     "q_refactor_aftermath",
     "q_refactor_feedback",
+    "q_refactor_landing",
     "q_refactor_recognition",
     "q_refactor_success",
     "q_refactor_success_impact",
     "q_refactor_takeaways",
     "q_reflecting_on_feedback",
+    "q_reliability_signal",
+    "q_repeatable_moves",
+    "q_repeatable_wins",
+    "q_requirement_churn",
     "q_review_friction",
     "q_review_turnaround",
     "q_rewrite_risk",
     "q_rewrite_role",
     "q_risk_in_billing_rewrite",
+    "q_ritual_participation",
+    "q_rituals_shift",
     "q_role_anchor",
     "q_role_anchor_2",
     "q_role_clarity",
@@ -559,11 +698,14 @@
     "q_role_clarity_6",
     "q_role_clarity_concerns",
     "q_role_clarity_specifics",
+    "q_role_definition",
     "q_role_edges",
     "q_role_expectations",
     "q_role_solidity_check",
     "q_role_stretch",
     "q_role_transition_excitement",
+    "q_safe_calls",
+    "q_safe_mode_check",
     "q_school_energy",
     "q_school_load_balance",
     "q_school_momentum",
@@ -577,10 +719,22 @@
     "q_seed_growth_uncomfortable",
     "q_seed_wellbeing_recovery",
     "q_seed_wellbeing_sustain",
+    "q_selection_readout",
+    "q_senior_forums",
+    "q_senior_scope_now",
     "q_session_close",
     "q_session_closer",
     "q_session_closer_2",
     "q_session_closure",
+    "q_set_the_frame",
+    "q_set_the_scene",
+    "q_set_the_scene_2",
+    "q_settle_in",
+    "q_settle_the_context",
+    "q_settle_the_week",
+    "q_sharper_feedback",
+    "q_signal_driver",
+    "q_since_the_decision",
     "q_skill_appetite",
     "q_skill_development",
     "q_skill_development_focus",
@@ -593,7 +747,10 @@
     "q_skill_stretch",
     "q_skills_development_gap",
     "q_specific_challenge_in_ux",
+    "q_specific_enough",
     "q_specific_feedback",
+    "q_specific_feedback_2",
+    "q_stakeholder_churn",
     "q_stakeholder_engagement_challenges",
     "q_stakeholder_feedback_loops",
     "q_stakeholder_interaction",
@@ -601,10 +758,12 @@
     "q_stakeholder_relationship",
     "q_stakeholder_relationship_2",
     "q_stakeholder_relationships",
+    "q_stakeholder_signal",
     "q_stakeholder_trust",
     "q_stakeholder_work_specifics",
     "q_standup_feedback",
     "q_standups_workload",
+    "q_stopped_pushing",
     "q_strategic_decision_making",
     "q_strategic_impact",
     "q_strategic_impact_2",
@@ -620,12 +779,19 @@
     "q_stretch_edge_3",
     "q_stretch_edge_4",
     "q_stretch_gap",
+    "q_stretch_gap_2",
     "q_stretch_next",
     "q_stretch_opportunities",
     "q_stretch_opportunities_2",
     "q_stretch_opportunities_3",
     "q_stretch_work",
     "q_stretch_work_2",
+    "q_stretching_edge",
+    "q_student_initiative",
+    "q_support_access",
+    "q_support_ask",
+    "q_support_asked_for",
+    "q_support_focus",
     "q_support_for_growth",
     "q_support_for_late_starts",
     "q_support_for_new_projects",
@@ -638,6 +804,10 @@
     "q_support_needed",
     "q_support_needed_2",
     "q_support_needed_3",
+    "q_support_needed_4",
+    "q_support_needed_5",
+    "q_support_needed_6",
+    "q_support_needed_7",
     "q_support_needs",
     "q_support_needs_10",
     "q_support_needs_11",
@@ -652,6 +822,9 @@
     "q_support_needs_7",
     "q_support_needs_8",
     "q_support_needs_9",
+    "q_support_next_step",
+    "q_support_shape",
+    "q_surprised_late",
     "q_sustainable_energy",
     "q_sustainable_load",
     "q_sustainable_load_2",
@@ -662,11 +835,15 @@
     "q_sustainable_workload",
     "q_sustainable_workload_2",
     "q_sustaining_energy",
+    "q_switching_cost",
+    "q_takeaway",
     "q_takeaway_commitment",
     "q_task_alignment",
     "q_task_blockage",
     "q_task_clarity",
     "q_task_overload",
+    "q_team_bar_fuzzy",
+    "q_team_bar_mismatch",
     "q_team_chemistry",
     "q_team_collaboration_dynamics",
     "q_team_collaboration_insights",
@@ -692,27 +869,42 @@
     "q_team_impact_assessment",
     "q_team_interactions",
     "q_team_load",
+    "q_team_presence",
     "q_team_recognition",
     "q_team_recognition_2",
+    "q_team_rituals_dip",
+    "q_team_setup",
+    "q_team_visibility",
     "q_technical_problem_solving",
     "q_time_management",
     "q_time_management_2",
     "q_time_management_3",
+    "q_time_pressure_consistency",
+    "q_time_trade_off",
     "q_trade_off_awareness",
     "q_trade_off_call",
     "q_trade_offs",
     "q_trade_offs_and_focus",
     "q_trade_offs_for_growth",
     "q_trade_offs_for_growth_2",
+    "q_tradeoff_calls",
+    "q_tradeoff_narrative",
+    "q_tradeoffs_ahead",
+    "q_tradeoffs_ahead_2",
     "q_training_gap",
     "q_training_lift",
     "q_travel_energy_impact",
     "q_travel_recovery",
+    "q_trust_building",
+    "q_trust_gaps",
     "q_trust_with_stakeholders",
+    "q_two_week_focus",
+    "q_two_week_focus_2",
     "q_unclear_edges",
     "q_unclear_expectations",
     "q_underlying_lateness_causes",
     "q_understanding_expectations",
+    "q_uneven_influence",
     "q_upcoming_billing_rewrite",
     "q_upcoming_challenges",
     "q_upcoming_challenges_2",
@@ -720,25 +912,38 @@
     "q_upcoming_projects",
     "q_upcoming_projects_2",
     "q_upcoming_shifts",
+    "q_update_quality",
     "q_ux_alignment_check",
     "q_ux_design_impact",
     "q_ux_impact_assessment",
     "q_ux_initiative_impact",
     "q_ux_initiative_impact_2",
     "q_ux_priorities_focus",
+    "q_visibility_gap",
+    "q_visibility_gap_2",
+    "q_visibility_moments",
     "q_visible_impact",
+    "q_visible_impact_2",
+    "q_visible_principal_impact",
     "q_vision_alignment",
     "q_vision_for_growth",
     "q_week_reflection",
     "q_week_s_clarity_recap",
     "q_wellbeing_check",
     "q_wellbeing_reflection",
+    "q_what_good_looks_like",
+    "q_what_landed",
+    "q_what_s_on_your_mind",
+    "q_what_s_unresolved",
+    "q_what_to_drop",
+    "q_what_to_protect",
     "q_work_life_balance",
     "q_work_life_balance_2",
     "q_work_life_balance_3",
     "q_work_reflection",
     "q_work_rhythm",
     "q_work_schedule_adjustments",
+    "q_work_that_counts",
     "q_workload_adjustment",
     "q_workload_assessment",
     "q_workload_assessment_2",
@@ -775,7 +980,27 @@
       "subdir": ""
     },
     {
+      "alias": "q_adjacent_team_trust",
+      "subdir": ""
+    },
+    {
       "alias": "q_adjusting_priorities",
+      "subdir": ""
+    },
+    {
+      "alias": "q_after_launch_load",
+      "subdir": ""
+    },
+    {
+      "alias": "q_air_cover",
+      "subdir": ""
+    },
+    {
+      "alias": "q_alignment_move",
+      "subdir": ""
+    },
+    {
+      "alias": "q_alignment_move_2",
       "subdir": ""
     },
     {
@@ -816,6 +1041,10 @@
     },
     {
       "alias": "q_balancing_workload",
+      "subdir": ""
+    },
+    {
+      "alias": "q_billing_prep",
       "subdir": ""
     },
     {
@@ -871,6 +1100,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_billing_rewrite_weird",
+      "subdir": ""
+    },
+    {
       "alias": "q_blocker_check_in",
       "subdir": ""
     },
@@ -916,6 +1149,10 @@
     },
     {
       "alias": "q_celebrating_wins",
+      "subdir": ""
+    },
+    {
+      "alias": "q_changing_direction_late",
       "subdir": ""
     },
     {
@@ -975,7 +1212,23 @@
       "subdir": ""
     },
     {
+      "alias": "q_class_impact_evidence",
+      "subdir": ""
+    },
+    {
+      "alias": "q_close_the_loop",
+      "subdir": ""
+    },
+    {
+      "alias": "q_close_the_loop_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_coasting_this_week",
+      "subdir": ""
+    },
+    {
+      "alias": "q_coasting_this_week_2",
       "subdir": ""
     },
     {
@@ -1055,6 +1308,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_communication_feedback",
+      "subdir": ""
+    },
+    {
       "alias": "q_communication_for_leadership",
       "subdir": ""
     },
@@ -1075,11 +1332,39 @@
       "subdir": ""
     },
     {
+      "alias": "q_concept_rationale",
+      "subdir": ""
+    },
+    {
+      "alias": "q_concrete_example",
+      "subdir": ""
+    },
+    {
       "alias": "q_concrete_next_steps",
       "subdir": ""
     },
     {
+      "alias": "q_confidence_check",
+      "subdir": ""
+    },
+    {
+      "alias": "q_confidence_evidence",
+      "subdir": ""
+    },
+    {
       "alias": "q_connection_with_design",
+      "subdir": ""
+    },
+    {
+      "alias": "q_context_and_priorities",
+      "subdir": ""
+    },
+    {
+      "alias": "q_context_check",
+      "subdir": ""
+    },
+    {
+      "alias": "q_context_check_2",
       "subdir": ""
     },
     {
@@ -1095,11 +1380,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_cross_functional_room",
+      "subdir": ""
+    },
+    {
       "alias": "q_cross_functional_trust",
       "subdir": ""
     },
     {
       "alias": "q_cross_team_collaboration",
+      "subdir": ""
+    },
+    {
+      "alias": "q_cross_team_friction",
       "subdir": ""
     },
     {
@@ -1139,6 +1432,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_current_direction",
+      "subdir": ""
+    },
+    {
       "alias": "q_current_energy_check",
       "subdir": ""
     },
@@ -1167,7 +1464,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_current_focus_6",
+      "subdir": ""
+    },
+    {
       "alias": "q_current_focus_areas",
+      "subdir": ""
+    },
+    {
+      "alias": "q_current_footing",
       "subdir": ""
     },
     {
@@ -1184,6 +1489,10 @@
     },
     {
       "alias": "q_current_priorities_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_current_priorities_3",
       "subdir": ""
     },
     {
@@ -1255,7 +1564,23 @@
       "subdir": ""
     },
     {
+      "alias": "q_decision_bottlenecks",
+      "subdir": ""
+    },
+    {
+      "alias": "q_decision_bottlenecks_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_decision_clarity",
+      "subdir": ""
+    },
+    {
+      "alias": "q_decision_feedback",
+      "subdir": ""
+    },
+    {
+      "alias": "q_decision_friction",
       "subdir": ""
     },
     {
@@ -1268,6 +1593,18 @@
     },
     {
       "alias": "q_decision_ownership",
+      "subdir": ""
+    },
+    {
+      "alias": "q_decision_pressure",
+      "subdir": ""
+    },
+    {
+      "alias": "q_decision_support",
+      "subdir": ""
+    },
+    {
+      "alias": "q_delegate_more",
       "subdir": ""
     },
     {
@@ -1311,11 +1648,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_delegation_next_step",
+      "subdir": ""
+    },
+    {
       "alias": "q_delegation_reflection",
       "subdir": ""
     },
     {
       "alias": "q_delegation_strategy",
+      "subdir": ""
+    },
+    {
+      "alias": "q_dependency_map",
       "subdir": ""
     },
     {
@@ -1356,6 +1701,14 @@
     },
     {
       "alias": "q_earlier_involvement",
+      "subdir": ""
+    },
+    {
+      "alias": "q_early_decisions",
+      "subdir": ""
+    },
+    {
+      "alias": "q_early_meetings",
       "subdir": ""
     },
     {
@@ -1507,6 +1860,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_energy_source",
+      "subdir": ""
+    },
+    {
       "alias": "q_energy_sources",
       "subdir": ""
     },
@@ -1543,11 +1900,35 @@
       "subdir": ""
     },
     {
+      "alias": "q_escalation_threshold",
+      "subdir": ""
+    },
+    {
+      "alias": "q_evidence_gap",
+      "subdir": ""
+    },
+    {
+      "alias": "q_excellent_examples",
+      "subdir": ""
+    },
+    {
+      "alias": "q_execution_details",
+      "subdir": ""
+    },
+    {
       "alias": "q_executive_alignment",
       "subdir": ""
     },
     {
       "alias": "q_executive_impact",
+      "subdir": ""
+    },
+    {
+      "alias": "q_expectation_alignment",
+      "subdir": ""
+    },
+    {
+      "alias": "q_expectation_gap",
       "subdir": ""
     },
     {
@@ -1575,6 +1956,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_feedback_gap",
+      "subdir": ""
+    },
+    {
       "alias": "q_feedback_given",
       "subdir": ""
     },
@@ -1587,11 +1972,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_feedback_landing_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_feedback_loop",
       "subdir": ""
     },
     {
       "alias": "q_feedback_loop_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_loop_3",
       "subdir": ""
     },
     {
@@ -1615,6 +2008,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_feedback_plan",
+      "subdir": ""
+    },
+    {
       "alias": "q_feedback_quality",
       "subdir": ""
     },
@@ -1635,7 +2032,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_feedback_seeking_habit",
+      "subdir": ""
+    },
+    {
       "alias": "q_feedback_texture",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_to_action",
       "subdir": ""
     },
     {
@@ -1647,11 +2052,31 @@
       "subdir": ""
     },
     {
+      "alias": "q_feeling_useful",
+      "subdir": ""
+    },
+    {
+      "alias": "q_first_move",
+      "subdir": ""
+    },
+    {
+      "alias": "q_first_move_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_flatter_than_expected",
+      "subdir": ""
+    },
+    {
       "alias": "q_focus_area_priorities",
       "subdir": ""
     },
     {
       "alias": "q_focus_drain",
+      "subdir": ""
+    },
+    {
+      "alias": "q_fragmented_calendar",
       "subdir": ""
     },
     {
@@ -1751,7 +2176,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_future_scope_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_growth_aspirations",
+      "subdir": ""
+    },
+    {
+      "alias": "q_growth_blocker",
       "subdir": ""
     },
     {
@@ -1859,7 +2292,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_heavier_than_sounded",
+      "subdir": ""
+    },
+    {
       "alias": "q_hidden_blockers",
+      "subdir": ""
+    },
+    {
+      "alias": "q_hidden_friction",
+      "subdir": ""
+    },
+    {
+      "alias": "q_highest_leverage_work",
       "subdir": ""
     },
     {
@@ -1903,6 +2348,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_impact_story",
+      "subdir": ""
+    },
+    {
       "alias": "q_impact_through_leadership",
       "subdir": ""
     },
@@ -1915,11 +2364,27 @@
       "subdir": ""
     },
     {
+      "alias": "q_influence_gap",
+      "subdir": ""
+    },
+    {
+      "alias": "q_influence_habit",
+      "subdir": ""
+    },
+    {
+      "alias": "q_influence_point",
+      "subdir": ""
+    },
+    {
       "alias": "q_infrastructure_barrier",
       "subdir": ""
     },
     {
       "alias": "q_initial_check_in",
+      "subdir": ""
+    },
+    {
+      "alias": "q_input_quality",
       "subdir": ""
     },
     {
@@ -1999,6 +2464,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_last_cycle_impact",
+      "subdir": ""
+    },
+    {
       "alias": "q_late_arrival_observation",
       "subdir": ""
     },
@@ -2007,7 +2476,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_late_night_driver",
+      "subdir": ""
+    },
+    {
+      "alias": "q_late_night_residue",
+      "subdir": ""
+    },
+    {
       "alias": "q_lateness_impact",
+      "subdir": ""
+    },
+    {
+      "alias": "q_launch_leverage",
       "subdir": ""
     },
     {
@@ -2059,7 +2540,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_less_present_in_rituals",
+      "subdir": ""
+    },
+    {
       "alias": "q_lightening_the_load",
+      "subdir": ""
+    },
+    {
+      "alias": "q_load_after_sprint",
       "subdir": ""
     },
     {
@@ -2083,6 +2572,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_manager_leverage_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_manager_support",
       "subdir": ""
     },
@@ -2092,6 +2585,14 @@
     },
     {
       "alias": "q_manager_support_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_manager_support_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_manager_support_5",
       "subdir": ""
     },
     {
@@ -2144,6 +2645,10 @@
     },
     {
       "alias": "q_margin_of_error_specifics",
+      "subdir": ""
+    },
+    {
+      "alias": "q_marking_friction",
       "subdir": ""
     },
     {
@@ -2207,6 +2712,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_mentoring_intent",
+      "subdir": ""
+    },
+    {
       "alias": "q_mentoring_interest",
       "subdir": ""
     },
@@ -2227,6 +2736,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_mentoring_meaning",
+      "subdir": ""
+    },
+    {
       "alias": "q_mentoring_opportunities",
       "subdir": ""
     },
@@ -2243,6 +2756,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_mentoring_role_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_mentoring_shape",
       "subdir": ""
     },
@@ -2251,11 +2768,27 @@
       "subdir": ""
     },
     {
+      "alias": "q_mentoring_shape_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_mentoring_space",
       "subdir": ""
     },
     {
       "alias": "q_mentoring_space_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_stalled",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_thread",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_trade_off",
       "subdir": ""
     },
     {
@@ -2268,6 +2801,14 @@
     },
     {
       "alias": "q_mentoring_tradeoff",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_tradeoff_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_useful",
       "subdir": ""
     },
     {
@@ -2335,7 +2876,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_moving_target",
+      "subdir": ""
+    },
+    {
       "alias": "q_need_to_know",
+      "subdir": ""
+    },
+    {
+      "alias": "q_needed_to_change",
       "subdir": ""
     },
     {
@@ -2343,7 +2892,63 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_commitment",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_commitment_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_commitment_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_experiment",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_experiment_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_5",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_path",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_project_focus",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_quarter_ownership",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_quarter_shape",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_scope",
       "subdir": ""
     },
     {
@@ -2352,6 +2957,10 @@
     },
     {
       "alias": "q_next_step",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_step_close",
       "subdir": ""
     },
     {
@@ -2459,6 +3068,50 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_stretch_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_support",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_5",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_6",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_7",
+      "subdir": ""
+    },
+    {
+      "alias": "q_noise_source",
+      "subdir": ""
+    },
+    {
+      "alias": "q_normal_pace",
+      "subdir": ""
+    },
+    {
       "alias": "q_nourishing_specifics",
       "subdir": ""
     },
@@ -2481,6 +3134,10 @@
       "alias": "q_open_carrying_in",
       "subdir": "_openers.json",
       "kind": "opener"
+    },
+    {
+      "alias": "q_open_context",
+      "subdir": ""
     },
     {
       "alias": "q_open_curious_lately",
@@ -2573,6 +3230,10 @@
       "kind": "opener"
     },
     {
+      "alias": "q_opportunities_wanted",
+      "subdir": ""
+    },
+    {
       "alias": "q_org_friction",
       "subdir": ""
     },
@@ -2589,7 +3250,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_own_product_area",
+      "subdir": ""
+    },
+    {
       "alias": "q_own_the_roadmap",
+      "subdir": ""
+    },
+    {
+      "alias": "q_ownership_boundaries",
       "subdir": ""
     },
     {
@@ -2613,7 +3282,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_owning_the_right_things",
+      "subdir": ""
+    },
+    {
       "alias": "q_pacing_tradeoff",
+      "subdir": ""
+    },
+    {
+      "alias": "q_partner_clarity",
       "subdir": ""
     },
     {
@@ -2641,6 +3318,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_political_conversations",
+      "subdir": ""
+    },
+    {
       "alias": "q_post_launch_energy",
       "subdir": ""
     },
@@ -2658,6 +3339,10 @@
     },
     {
       "alias": "q_post_launch_focus",
+      "subdir": ""
+    },
+    {
+      "alias": "q_post_launch_recovery",
       "subdir": ""
     },
     {
@@ -2694,6 +3379,14 @@
     },
     {
       "alias": "q_pride_in_payments",
+      "subdir": ""
+    },
+    {
+      "alias": "q_principal_scope",
+      "subdir": ""
+    },
+    {
+      "alias": "q_principal_scope_signal",
       "subdir": ""
     },
     {
@@ -2769,6 +3462,18 @@
       "subdir": ""
     },
     {
+      "alias": "q_priority_trade_off",
+      "subdir": ""
+    },
+    {
+      "alias": "q_priority_trade_off_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_priority_tradeoff",
+      "subdir": ""
+    },
+    {
       "alias": "q_probation_clarity",
       "subdir": ""
     },
@@ -2821,11 +3526,27 @@
       "subdir": ""
     },
     {
+      "alias": "q_quality_bar",
+      "subdir": ""
+    },
+    {
+      "alias": "q_quality_friction",
+      "subdir": ""
+    },
+    {
+      "alias": "q_questioning_habits",
+      "subdir": ""
+    },
+    {
       "alias": "q_quiet_signals",
       "subdir": ""
     },
     {
       "alias": "q_recent_challenges",
+      "subdir": ""
+    },
+    {
+      "alias": "q_recent_friction",
       "subdir": ""
     },
     {
@@ -2861,6 +3582,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_recognition_gap_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_recognition_impact",
       "subdir": ""
     },
@@ -2878,6 +3603,14 @@
     },
     {
       "alias": "q_recognition_landing_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_recognition_signal",
+      "subdir": ""
+    },
+    {
+      "alias": "q_recognized_work",
       "subdir": ""
     },
     {
@@ -2925,6 +3658,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_refactor_landing",
+      "subdir": ""
+    },
+    {
       "alias": "q_refactor_recognition",
       "subdir": ""
     },
@@ -2945,6 +3682,22 @@
       "subdir": ""
     },
     {
+      "alias": "q_reliability_signal",
+      "subdir": ""
+    },
+    {
+      "alias": "q_repeatable_moves",
+      "subdir": ""
+    },
+    {
+      "alias": "q_repeatable_wins",
+      "subdir": ""
+    },
+    {
+      "alias": "q_requirement_churn",
+      "subdir": ""
+    },
+    {
       "alias": "q_review_friction",
       "subdir": ""
     },
@@ -2962,6 +3715,14 @@
     },
     {
       "alias": "q_risk_in_billing_rewrite",
+      "subdir": ""
+    },
+    {
+      "alias": "q_ritual_participation",
+      "subdir": ""
+    },
+    {
+      "alias": "q_rituals_shift",
       "subdir": ""
     },
     {
@@ -3005,6 +3766,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_role_definition",
+      "subdir": ""
+    },
+    {
       "alias": "q_role_edges",
       "subdir": ""
     },
@@ -3022,6 +3787,14 @@
     },
     {
       "alias": "q_role_transition_excitement",
+      "subdir": ""
+    },
+    {
+      "alias": "q_safe_calls",
+      "subdir": ""
+    },
+    {
+      "alias": "q_safe_mode_check",
       "subdir": ""
     },
     {
@@ -3077,6 +3850,18 @@
       "subdir": "_seed"
     },
     {
+      "alias": "q_selection_readout",
+      "subdir": ""
+    },
+    {
+      "alias": "q_senior_forums",
+      "subdir": ""
+    },
+    {
+      "alias": "q_senior_scope_now",
+      "subdir": ""
+    },
+    {
       "alias": "q_session_close",
       "subdir": ""
     },
@@ -3090,6 +3875,42 @@
     },
     {
       "alias": "q_session_closure",
+      "subdir": ""
+    },
+    {
+      "alias": "q_set_the_frame",
+      "subdir": ""
+    },
+    {
+      "alias": "q_set_the_scene",
+      "subdir": ""
+    },
+    {
+      "alias": "q_set_the_scene_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_settle_in",
+      "subdir": ""
+    },
+    {
+      "alias": "q_settle_the_context",
+      "subdir": ""
+    },
+    {
+      "alias": "q_settle_the_week",
+      "subdir": ""
+    },
+    {
+      "alias": "q_sharper_feedback",
+      "subdir": ""
+    },
+    {
+      "alias": "q_signal_driver",
+      "subdir": ""
+    },
+    {
+      "alias": "q_since_the_decision",
       "subdir": ""
     },
     {
@@ -3141,7 +3962,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_specific_enough",
+      "subdir": ""
+    },
+    {
       "alias": "q_specific_feedback",
+      "subdir": ""
+    },
+    {
+      "alias": "q_specific_feedback_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_stakeholder_churn",
       "subdir": ""
     },
     {
@@ -3173,6 +4006,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_stakeholder_signal",
+      "subdir": ""
+    },
+    {
       "alias": "q_stakeholder_trust",
       "subdir": ""
     },
@@ -3186,6 +4023,10 @@
     },
     {
       "alias": "q_standups_workload",
+      "subdir": ""
+    },
+    {
+      "alias": "q_stopped_pushing",
       "subdir": ""
     },
     {
@@ -3249,6 +4090,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_stretch_gap_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_stretch_next",
       "subdir": ""
     },
@@ -3270,6 +4115,30 @@
     },
     {
       "alias": "q_stretch_work_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_stretching_edge",
+      "subdir": ""
+    },
+    {
+      "alias": "q_student_initiative",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_access",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_ask",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_asked_for",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_focus",
       "subdir": ""
     },
     {
@@ -3318,6 +4187,22 @@
     },
     {
       "alias": "q_support_needed_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_needed_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_needed_5",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_needed_6",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_needed_7",
       "subdir": ""
     },
     {
@@ -3377,6 +4262,18 @@
       "subdir": ""
     },
     {
+      "alias": "q_support_next_step",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_shape",
+      "subdir": ""
+    },
+    {
+      "alias": "q_surprised_late",
+      "subdir": ""
+    },
+    {
       "alias": "q_sustainable_energy",
       "subdir": ""
     },
@@ -3417,6 +4314,14 @@
       "subdir": ""
     },
     {
+      "alias": "q_switching_cost",
+      "subdir": ""
+    },
+    {
+      "alias": "q_takeaway",
+      "subdir": ""
+    },
+    {
       "alias": "q_takeaway_commitment",
       "subdir": ""
     },
@@ -3434,6 +4339,14 @@
     },
     {
       "alias": "q_task_overload",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_bar_fuzzy",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_bar_mismatch",
       "subdir": ""
     },
     {
@@ -3537,11 +4450,27 @@
       "subdir": ""
     },
     {
+      "alias": "q_team_presence",
+      "subdir": ""
+    },
+    {
       "alias": "q_team_recognition",
       "subdir": ""
     },
     {
       "alias": "q_team_recognition_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_rituals_dip",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_setup",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_visibility",
       "subdir": ""
     },
     {
@@ -3558,6 +4487,14 @@
     },
     {
       "alias": "q_time_management_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_time_pressure_consistency",
+      "subdir": ""
+    },
+    {
+      "alias": "q_time_trade_off",
       "subdir": ""
     },
     {
@@ -3585,6 +4522,22 @@
       "subdir": ""
     },
     {
+      "alias": "q_tradeoff_calls",
+      "subdir": ""
+    },
+    {
+      "alias": "q_tradeoff_narrative",
+      "subdir": ""
+    },
+    {
+      "alias": "q_tradeoffs_ahead",
+      "subdir": ""
+    },
+    {
+      "alias": "q_tradeoffs_ahead_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_training_gap",
       "subdir": ""
     },
@@ -3601,7 +4554,23 @@
       "subdir": ""
     },
     {
+      "alias": "q_trust_building",
+      "subdir": ""
+    },
+    {
+      "alias": "q_trust_gaps",
+      "subdir": ""
+    },
+    {
       "alias": "q_trust_with_stakeholders",
+      "subdir": ""
+    },
+    {
+      "alias": "q_two_week_focus",
+      "subdir": ""
+    },
+    {
+      "alias": "q_two_week_focus_2",
       "subdir": ""
     },
     {
@@ -3618,6 +4587,10 @@
     },
     {
       "alias": "q_understanding_expectations",
+      "subdir": ""
+    },
+    {
+      "alias": "q_uneven_influence",
       "subdir": ""
     },
     {
@@ -3649,6 +4622,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_update_quality",
+      "subdir": ""
+    },
+    {
       "alias": "q_ux_alignment_check",
       "subdir": ""
     },
@@ -3673,7 +4650,27 @@
       "subdir": ""
     },
     {
+      "alias": "q_visibility_gap",
+      "subdir": ""
+    },
+    {
+      "alias": "q_visibility_gap_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_visibility_moments",
+      "subdir": ""
+    },
+    {
       "alias": "q_visible_impact",
+      "subdir": ""
+    },
+    {
+      "alias": "q_visible_impact_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_visible_principal_impact",
       "subdir": ""
     },
     {
@@ -3701,6 +4698,30 @@
       "subdir": ""
     },
     {
+      "alias": "q_what_good_looks_like",
+      "subdir": ""
+    },
+    {
+      "alias": "q_what_landed",
+      "subdir": ""
+    },
+    {
+      "alias": "q_what_s_on_your_mind",
+      "subdir": ""
+    },
+    {
+      "alias": "q_what_s_unresolved",
+      "subdir": ""
+    },
+    {
+      "alias": "q_what_to_drop",
+      "subdir": ""
+    },
+    {
+      "alias": "q_what_to_protect",
+      "subdir": ""
+    },
+    {
       "alias": "q_work_life_balance",
       "subdir": ""
     },
@@ -3722,6 +4743,10 @@
     },
     {
       "alias": "q_work_schedule_adjustments",
+      "subdir": ""
+    },
+    {
+      "alias": "q_work_that_counts",
       "subdir": ""
     },
     {

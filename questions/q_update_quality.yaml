@@ -1,0 +1,10 @@
+alias: q_update_quality
+label: Update quality
+name: What part of your updates is hardest to keep crisp when things are moving?
+description: Checks how communication holds up under shifting priorities and stakeholder pressure.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

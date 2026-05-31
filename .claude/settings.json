@@ -3,7 +3,6 @@
     "allow": [
       "WebSearch",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(node probe-bank-ab.js scenarios/001-senior-backend-weekly.json)",
       "Bash(node -e \"const p = require\\('./package.json'\\); console.log\\(JSON.stringify\\(p.scripts, null, 2\\)\\)\")",
       "Bash(Remove-Item \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\notes\\\\stages.md\")",
       "Bash(Remove-Item \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\notes\\\\whats-new.md\")",
@@ -11,7 +10,6 @@
       "Bash(Remove-Item \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\notes\\\\ai-engine-handoff.md\")",
       "Bash(Remove-Item \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\frontend\\\\server\\\\handlers\\\\feedback.js\" -Force)",
       "Bash(Remove-Item \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\frontend\\\\server\\\\handlers\\\\focus-points-feedback.js\" -Force)",
-      "Bash(node probe-plan-turn-ab.js)",
       "Bash(node -e ' *)",
       "Bash(taskkill /PID 25328 /F)",
       "PowerShell($null = Start-Process -FilePath \"node\" -ArgumentList \"frontend/server/server.js\" -WorkingDirectory \"C:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\" -WindowStyle Hidden -PassThru; Start-Sleep -Seconds 2; $listener = Get-NetTCPConnection -LocalPort 3001 -State Listen -ErrorAction SilentlyContinue; if \\($listener\\) { \"listening on 3001 \\(PID $\\($listener[0].OwningProcess\\)\\)\" } else { \"not yet listening\" })",
@@ -44,7 +42,24 @@
       "PowerShell(Move-Item -Force \"C:\\\\Users\\\\User\\\\.claude\\\\plans\\\\cool-okay-so-peppy-thimble.md\" \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\plans\\\\cool-okay-so-peppy-thimble.md\")",
       "Bash(ls -la \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\plans\\\\cool-okay-so-peppy-thimble.md\" \"C:\\\\Users\\\\User\\\\.claude\\\\plans\\\\\" 2>&1)",
       "Read(//c/Users/User/.claude/**)",
-      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('questions/_openers.json','utf8'\\)\\); console.log\\('valid'\\)\")"
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('questions/_openers.json','utf8'\\)\\); console.log\\('valid'\\)\")",
+      "Bash(node -e \"const {modelFor, allResolved} = require\\('./src/models'\\); console.log\\(JSON.stringify\\(allResolved\\(\\), null, 2\\)\\);\")",
+      "Bash(node -e \"const {buildMessages, planTurn} = require\\('./src/queue-manager'\\); const {loadAxes} = require\\('./src/axes'\\); const msgs = buildMessages\\({axes: loadAxes\\(\\), focusPoints: [{label:'test'}], ctx: {name:'X', role:'Eng', seniority:'Senior', meetingType:'general-1-1'}, transcript: [], lastQuestion: {alias:'q1', stage:'wellbeing-checkin', axis_effects:{wellbeing:3}}, lastAnswer: 'fine', axisState: {}, remainingQueue: [], remainingBudget: 5, turnNumber: 1, totalTurns: 8, closerAlias: 'q_closer'}\\); console.log\\('SYSTEM LEN:', msgs.system.length\\); console.log\\('USER LEN:', msgs.user.length\\); console.log\\('SYSTEM has placeholders:', /\\\\{\\\\{[A-Z_]+\\\\}\\\\}/.test\\(msgs.system\\)\\); console.log\\('USER has placeholders:', /\\\\{\\\\{[A-Z_]+\\\\}\\\\}/.test\\(msgs.user\\)\\); console.log\\(''\\); console.log\\('--- SYSTEM TAIL ---'\\); console.log\\(msgs.system.slice\\(-300\\)\\); console.log\\(''\\); console.log\\('--- USER HEAD ---'\\); console.log\\(msgs.user.slice\\(0, 500\\)\\);\")",
+      "Bash(node -e \"const {buildMessages, planTurn} = require\\('./src/queue-manager'\\); const {loadAxes} = require\\('./src/axes'\\); const msgs = buildMessages\\({axes: loadAxes\\(\\), focusPoints: [{label:'test'}], ctx: {name:'X', role:'Eng', seniority:'Senior', meetingType:'Bi-weekly check-in'}, transcript: [], lastQuestion: {alias:'q1', stage:'wellbeing-checkin', axis_effects:{wellbeing:3}}, lastAnswer: 'fine', axisState: {}, remainingQueue: [], remainingBudget: 5, turnNumber: 1, totalTurns: 8, closerAlias: 'q_closer'}\\); console.log\\('SYSTEM LEN:', msgs.system.length\\); console.log\\('USER LEN:', msgs.user.length\\); console.log\\('SYSTEM placeholders:', \\(msgs.system.match\\(/\\\\{\\\\{[A-Z_]+\\\\}\\\\}/g\\)||[]\\)\\); console.log\\('USER placeholders:', \\(msgs.user.match\\(/\\\\{\\\\{[A-Z_]+\\\\}\\\\}/g\\)||[]\\)\\); console.log\\(''\\); console.log\\('--- USER HEAD 600 ---'\\); console.log\\(msgs.user.slice\\(0, 600\\)\\);\")",
+      "Bash(dir logs\\\\may\\\\2026_May25_14-23-5252887f /b)",
+      "Bash(node -c smoke-test.js)",
+      "Bash(netstat -ano)",
+      "Bash(findstr LISTENING)",
+      "Bash(findstr \":3000 :5173 :4173 :8080\")",
+      "Bash(tasklist /FI \"PID eq 7568\")",
+      "PowerShell(Get-Process -Id 7568)",
+      "PowerShell(Get-CimInstance Win32_Process -Filter \"ProcessId = 7568\")",
+      "PowerShell(Get-CimInstance Win32_Process -Filter \"Name = 'node.exe'\")",
+      "Bash(node -c frontend/server/handlers/plan.js)",
+      "Bash(node -c frontend/server/handlers/evaluation.js)",
+      "Bash(node -c frontend/server/sessions.js)",
+      "Bash(node -c frontend/server/session-persistence.js)",
+      "Bash(node --check frontend/client/src/stages/briefing.js)"
     ],
     "additionalDirectories": [
       "c:\\Users\\User\\Documents\\Sero\\darren\\frontend\\server\\handlers"

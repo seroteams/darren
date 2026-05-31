@@ -1,0 +1,85 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_normal_pace",
+    "label": "Normal pace",
+    "name": "When you say that pace — what specifically made it unsustainable?",
+    "description": "Drills into the pace concern she just named so the manager understands the concrete source of strain.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I am less overloaded now, but my calendar is still fragmented.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1
+    },
+    "note": "She reports the overload has eased but ongoing calendar fragmentation still creates drag, which is a mild negative engagement signal; also flags a likely clarity issue worth probing next."
+  },
+  "new_queue": [
+    {
+      "alias": "q_fragmented_calendar",
+      "label": "Fragmented calendar",
+      "name": "Calendar fragmentation — where is it breaking your week most?"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_recognition_signal",
+      "label": "Recognition signal",
+      "name": "What would make your wins feel properly seen here?"
+    },
+    {
+      "alias": "q_support_asked_for",
+      "label": "Support asked for",
+      "name": "What do you want from me that would actually change your week?"
+    },
+    {
+      "alias": "q_next_two_weeks_3",
+      "label": "Next two weeks",
+      "name": "Given what we've talked about, what's your priority for the next two weeks?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_normal_pace",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

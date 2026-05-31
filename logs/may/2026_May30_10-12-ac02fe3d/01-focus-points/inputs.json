@@ -1,0 +1,8 @@
+{
+  "name": "Taya",
+  "role": "Acting Coach",
+  "seniority": "Senior",
+  "meetingType": "Performance & feedback",
+  "notes": "Shes being doing great with the new university class",
+  "model": "gpt-5.4-nano"
+}

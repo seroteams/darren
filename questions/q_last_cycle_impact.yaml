@@ -1,0 +1,10 @@
+alias: q_last_cycle_impact
+label: Last cycle impact
+name: "When you say 'last cycle' — what part of it is still sticking with you?"
+description: Clarifies the specific unresolved piece from the prior cycle before progressing the growth conversation.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +1
+  growth: +3
+source: planner_added

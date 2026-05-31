@@ -1,0 +1,54 @@
+{
+  "name": "James",
+  "roleTitle": "Head of Product",
+  "seniority": "Director",
+  "meetingType": "Something feels off",
+  "observedShift": "James was passed over for promotion and his engagement in team rituals has dipped since then. He did not bring up the decision himself, which could mean unresolved disappointment or low confidence that raising it will help. He is also running a mentoring program, and I need to understand whether that is healthy stretch or a redirect away from his core path. This meeting should surface what feedback he actually heard and what concrete path forward he believes exists.",
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Engagement in team rituals and belonging",
+      "reason": "Whether his dip in participation since the promotion decision could be about disappointment, confidence, or fit—and worth clarifying what’s driving it for him.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "What feedback he heard and how it landed",
+      "reason": "Whether he has unresolved disappointment or low confidence about raising it—clarify what feedback he actually received and what he believes it means for his next steps.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Mentoring program as stretch or detour",
+      "reason": "What he’s using the mentoring program to build—could be healthy stretch or a redirect away from the core path, so you’ll want to understand his intent and whether it’s strengthening his next-level trajectory.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Concrete path forward after the promotion outcome",
+      "reason": "What he’s saying yes and no to right now, and what concrete next-level path he believes exists—this helps you align on a realistic direction and remove blockers to it.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "50986591-afa9-4864-b4c9-3ee375d29795",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "output may not reflect the meeting type distinctly"
+    ]
+  },
+  "attempts": 2
+}

@@ -1,0 +1,10 @@
+alias: q_post_launch_recovery
+label: Post-launch recovery
+name: "I've noticed you've been quieter this week since the ship — what's that been about?"
+description: Checks whether the quieter week is normal recovery or something else without assuming a problem.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

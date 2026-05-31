@@ -1,0 +1,10 @@
+alias: q_billing_prep
+label: Billing prep
+name: What would help you ramp fastest when the billing rewrite starts?
+description: Lets her name the context, inputs, or setup she would want before a new major project begins.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

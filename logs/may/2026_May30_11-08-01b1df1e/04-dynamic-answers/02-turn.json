@@ -1,0 +1,91 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_flatter_than_expected",
+    "label": "Flatter than expected",
+    "name": "You said 'flatter than I expected' — what's underneath that?",
+    "description": "Drills into her exact phrase to locate whether this is post-launch recovery, disappointment, or something unresolved.",
+    "purpose": "wellbeing",
+    "stage": "friction",
+    "axis_effects": {
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Mostly cleanup and reviews right now, not much that feels new.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -3
+    },
+    "note": "She describes a low-stimulation stretch of cleanup and reviews with little novelty, which is a strong engagement dip; also hints at growth flatness off-signature."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_next_quarter_shape",
+      "label": "Next-quarter shape",
+      "name": "What do you expect to own next quarter?"
+    },
+    {
+      "alias": "q_mentoring_thread",
+      "label": "Mentoring thread",
+      "name": "What would mentoring actually look like in your week?"
+    },
+    {
+      "alias": "q_launch_leverage",
+      "label": "Launch leverage",
+      "name": "What do you want this launch to change for you over the next few months?"
+    },
+    {
+      "alias": "q_next_two_weeks_6",
+      "label": "Next two weeks",
+      "name": "Given all that, where do you want to focus first over the next two weeks?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        },
+        {
+          "q": "q_flatter_than_expected",
+          "delta": -3,
+          "answer_excerpt": "Mostly cleanup and reviews right now, not much that feels new."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

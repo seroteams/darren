@@ -1,0 +1,10 @@
+alias: q_priority_trade_off
+label: Priority trade-off
+name: What feels most worth protecting in the next stretch?
+description: Surfaces what Lin wants to preserve as pressure shifts after the launches.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

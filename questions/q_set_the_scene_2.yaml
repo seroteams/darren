@@ -1,0 +1,10 @@
+alias: q_set_the_scene_2
+label: Set the scene
+name: "What's been most on your mind in your design work lately?"
+description: Safe opener that lets Carlos set context before the review gets specific.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

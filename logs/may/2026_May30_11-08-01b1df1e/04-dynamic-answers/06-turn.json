@@ -1,0 +1,104 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_next_quarter_ownership",
+    "label": "Next-quarter ownership",
+    "name": "You said \"owning next quarter\" — what's most unclear right now?",
+    "description": "Follows the concrete ownership-clarity thread she just raised and locates the specific uncertainty.",
+    "purpose": "topic",
+    "stage": "momentum",
+    "axis_effects": {
+      "clarity": 3,
+      "wellbeing": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I have felt a bit stuck doing similar work for months.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "She answered the ownership-clarity probe with a months-long stuckness signal, implying mild uncertainty about direction and a mildly draining plateau; also reveals an untouched growth concern."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_two_weeks_6",
+      "label": "Next two weeks",
+      "name": "Given all that, where do you want to focus first over the next two weeks?"
+    },
+    {
+      "alias": "q_launch_leverage",
+      "label": "Launch leverage",
+      "name": "What do you want this launch to change for you over the next few months?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_stopped_pushing",
+          "delta": -1,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        },
+        {
+          "q": "q_next_quarter_ownership",
+          "delta": -1,
+          "answer_excerpt": "I have felt a bit stuck doing similar work for months."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        },
+        {
+          "q": "q_flatter_than_expected",
+          "delta": -3,
+          "answer_excerpt": "Mostly cleanup and reviews right now, not much that feels new."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": 1,
+          "answer_excerpt": "I am proud of the migration plan and how we handled the cutover."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -1,
+          "answer_excerpt": "I did mention mentoring before. I still want it, but I stopped pushing."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -3,
+          "answer_excerpt": "I did mention mentoring before. I still want it, but I stopped pushing."
+        },
+        {
+          "q": "q_next_quarter_ownership",
+          "delta": -1,
+          "answer_excerpt": "I have felt a bit stuck doing similar work for months."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

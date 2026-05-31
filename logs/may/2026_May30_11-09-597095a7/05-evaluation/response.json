@@ -1,0 +1,51 @@
+{
+  "headline": "Sarah’s performance signal is strong execution with weak Senior-level influence: she waits for analysis, so stakeholders get surprised late.",
+  "summary_bullets": [
+    "Sarah consistently frames the gap as “influence is uneven” and “not consistently shaping decisions early,” not as delivery quality.",
+    "Her cross-functional failure mode is timing and narrative: she “wait[s] until analysis is complete before socializing direction,” which leads to “stakeholders feel surprised late.”",
+    "Her growth plan is directionally clear but still missing execution detail: she wants “one cross-team decision this cycle, end to end,” yet the concrete “first concrete move” answer was skipped."
+  ],
+  "understanding_paragraph": "We learned Sarah understands the Senior-level bar in behavioral terms: influence comes from shaping decisions early and translating tradeoffs, not just building strong models. We also learned she knows her own failure mode—waiting until analysis is complete—and can name the trust impact (“surprised late”). The session did not produce a specific, scheduled first move for the next cycle, so the plan remains under-specified.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -2,
+      "meaning": "Weak signal: energy may be strained by execution focus, worth watching over the next few weeks."
+    },
+    {
+      "id": "engagement",
+      "score": 0,
+      "meaning": "No clear signal: engagement is not clearly leaning in or coasting from this conversation."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Defining signal: role/priorities for Senior impact are unclear in practice, especially around early influence and stakeholder communication."
+    },
+    {
+      "id": "growth",
+      "score": -5,
+      "meaning": "Real pattern: growth is blocked by missing a practical, concrete plan to change how she socializes direction and tradeoffs."
+    }
+  ],
+  "brutal_truth_employee": "Sarah’s own read is blunt: “I think my technical output is solid, but my influence is uneven.” She also names the mechanism: “I tend to wait until analysis is complete before socializing direction,” which “slows trust because stakeholders feel surprised late.”",
+  "brutal_truth_manager": "Sarah’s answers gave a clear evidence chain from “influence is uneven” to “surprised late,” but the conversation didn’t lock in the next behavior—when asked “What’s the first concrete move,” her answer was skipped. Next time, force a specific ownership decision for the cross-team decision and the exact stakeholder touchpoint cadence before moving on.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Draft a 1-page “Senior influence narrative” for Sarah: decision to shape early, tradeoffs to communicate, and the first stakeholder checkpoint date."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 30-minute stakeholder mapping session with Sarah to pick one cross-team project, name the decision owner, and set two early checkpoints."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Ask Sarah to report the exact first move she made: which decision, which stakeholder, what tradeoff message, and what changed because of it."
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Sarah still waits until analysis is complete to socialize direction, the “surprised late” pattern will repeat.",
+    "Within two weeks: if Sarah can’t name a specific cross-team decision owner and two checkpoint dates, her Senior-level clarity and growth plan remain unformed."
+  ]
+}

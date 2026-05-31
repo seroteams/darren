@@ -1,0 +1,10 @@
+alias: q_surprised_late
+label: Surprised late
+name: "Stakeholders feeling 'surprised late' — what's driving that pattern from your side?"
+description: Drills into the specific trust-eroding pattern she named to surface the cause on her side.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +1
+  growth: +1
+source: planner_added

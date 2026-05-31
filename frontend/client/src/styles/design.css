@@ -748,6 +748,112 @@ textarea { resize: vertical; }
   max-width: var(--measure);
 }
 
+.briefing-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+.briefing-block { width: 100%; }
+.briefing-prose {
+  font-size: 1.125rem;
+  line-height: 1.65;
+  color: var(--color-ink);
+  margin: 0;
+}
+.briefing-grid--pair {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .briefing-grid--pair {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+  .briefing-grid--pair > :only-child {
+    grid-column: 1 / -1;
+    max-width: var(--measure);
+  }
+}
+.briefing-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.bullets-host .bullet {
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+/* Copy-to-clipboard rows (actions + reminders) */
+.copyable-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  align-items: start;
+}
+.watch-item.copyable-row {
+  grid-template-columns: 1.25rem 1fr auto;
+  padding: 0.55rem 0;
+}
+.copyable-row__mark {
+  color: var(--color-ink-mute);
+  line-height: 1.55;
+}
+.copy-snippet-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  background: var(--color-surface);
+  color: var(--color-ink-mute);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color var(--dur-instant) ease-out,
+              border-color var(--dur-instant) ease-out,
+              background-color var(--dur-instant) ease-out;
+}
+.copy-snippet-btn:hover {
+  color: var(--color-accent-dark);
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+.copy-snippet-btn.is-copied {
+  color: var(--color-positive);
+  border-color: var(--color-positive);
+  background: rgba(26, 168, 135, 0.08);
+}
+.watch-item__text {
+  color: var(--color-ink);
+  line-height: 1.55;
+  font-size: 1.0625rem;
+}
+
+/* Questioning — readable stem + answer area */
+.questioning-card .question-stem {
+  font-size: var(--type-h2);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--color-ink);
+}
+.questioning-card .question-desc {
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--color-ink-dim);
+}
+.textarea--question {
+  font-size: 1.125rem;
+  line-height: 1.55;
+  min-height: 7rem;
+}
+
 /* -----------------------------------------------------------------------------
    Brutal truth
 ----------------------------------------------------------------------------- */
@@ -788,11 +894,17 @@ textarea { resize: vertical; }
    Next-actions + watch-for — briefing bottom half
 ----------------------------------------------------------------------------- */
 .action-group {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.action-group.copyable-row {
+  grid-template-columns: 1fr auto;
+  align-items: start;
+}
+.action-group.copyable-row .copyable-row__content {
   display: grid;
   grid-template-columns: 8rem 1fr;
   gap: 1rem;
-  padding: 0.9rem 0;
-  border-bottom: 1px solid var(--color-border);
   align-items: baseline;
 }
 .action-group:last-child { border-bottom: none; }
@@ -806,12 +918,9 @@ textarea { resize: vertical; }
   justify-self: start;
   text-transform: lowercase;
 }
-.action-body { color: var(--color-ink); line-height: 1.5; }
+.action-body { color: var(--color-ink); line-height: 1.55; font-size: 1.0625rem; }
 
 .watch-item {
-  display: grid;
-  grid-template-columns: 1.25rem 1fr;
-  gap: 0.5rem;
   padding: 0.45rem 0;
 }
 .watch-item__mark {

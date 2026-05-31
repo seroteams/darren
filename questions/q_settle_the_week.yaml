@@ -1,0 +1,9 @@
+alias: q_settle_the_week
+label: Settle the week
+name: Before we get into specifics, what feels most worth talking through today?
+description: Safe opener that lets Nina set the agenda without implying a problem.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  clarity: +1
+source: generated

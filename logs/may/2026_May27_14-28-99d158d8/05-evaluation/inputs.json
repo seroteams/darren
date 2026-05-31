@@ -1,0 +1,182 @@
+{
+  "ctx": {
+    "name": "Priya",
+    "role": "Senior Backend Engineer",
+    "seniority": "Senior",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "Just shipped the payments refactor on Monday — big win, team noticed. Looks a bit flat this week, quieter than usual in standup. Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet."
+  },
+  "focusPoints": [
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Payments refactor win and how it landed",
+      "reason": "Whether the big payments refactor win is being felt and credited internally, and what they want repeated or amplified going forward.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How they’re showing up with the team",
+      "reason": "Whether the quieter-than-usual standup is just a normal rhythm shift or something worth clarifying—could be energy, focus on a hard follow-on, or simply less to report this week.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Mentoring plans and what they'd own",
+      "reason": "Whether they're ready to take mentoring back up now that the refactor is out, and what “more mentoring” means in concrete terms (who, how often, and what outcomes).",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Billing rewrite expectations and stakeholder prep",
+      "reason": "Whether they have the information and context they need for next quarter’s billing rewrite so they can ramp quickly and manage expectations across Product/other teams without surprises.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's been slower or harder than it should have been?",
+      "alias": "q_intro_biweekly_friction",
+      "answer": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week.",
+      "skipped": false
+    },
+    {
+      "question": "You said you're 'coasting a bit this week' — what's driving that?",
+      "alias": "q_coasting_this_week_2",
+      "answer": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now.",
+      "skipped": false
+    },
+    {
+      "question": "You said 'not much stretching me right now' — what kind of work would feel stretching in a good way?",
+      "alias": "q_stretch_gap_2",
+      "answer": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up.",
+      "skipped": false
+    },
+    {
+      "question": "How's the last two weeks actually felt — energy-wise?",
+      "alias": "q_intro_biweekly_pace",
+      "answer": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing.",
+      "skipped": false
+    },
+    {
+      "question": "You said 'more mentoring' — what's kept that from happening so far?",
+      "alias": "q_mentoring_stalled",
+      "answer": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird.",
+      "skipped": false
+    },
+    {
+      "question": "On the billing rewrite — what's weird about how it's being handled from your seat?",
+      "alias": "q_billing_rewrite_weird",
+      "answer": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went.",
+      "skipped": false
+    },
+    {
+      "question": "What would you need to drop to make space for mentoring?",
+      "alias": "q_mentoring_trade_off",
+      "answer": "Growth-wise I think I'm flat. I'm the most senior IC on the team and there's no one really pushing me.",
+      "skipped": false
+    },
+    {
+      "question": "What's the first concrete thing you want to have moved by our next conversation?",
+      "alias": "q_next_step_close",
+      "answer": "More clarity on scope would help. And hearing about big projects before they're locked in, not after.",
+      "skipped": false
+    },
+    {
+      "question": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+      "alias": "q_seed_clarity_priorities",
+      "answer": "(skipped)",
+      "skipped": true
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_mentoring_trade_off",
+          "delta": -1,
+          "answer_excerpt": "Growth-wise I think I'm flat. I'm the most senior IC on the team and there's no one really pushing me."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_coasting_this_week_2",
+          "delta": -3,
+          "answer_excerpt": "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+        },
+        {
+          "q": "q_stretch_gap_2",
+          "delta": -1,
+          "answer_excerpt": "Nothing big. A lot of context-switching on reviews — probably fine, but it adds up."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I'd like to do more mentoring. I brought it up maybe three months ago and nothing came of it. I'm not pushing."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": 1,
+          "answer_excerpt": "Last two weeks were intense — shipping payments was a sprint but it landed clean. Mostly good energy but definitely coasting a bit this week"
+        },
+        {
+          "q": "q_next_step_close",
+          "delta": -1,
+          "answer_excerpt": "More clarity on scope would help. And hearing about big projects before they're locked in, not after."
+        }
+      ]
+    },
+    "growth": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_mentoring_stalled",
+          "delta": -3,
+          "answer_excerpt": "Honestly — the billing rewrite. I've heard whispers but nobody's talked to me about it directly. That's a bit weird."
+        },
+        {
+          "q": "q_billing_rewrite_weird",
+          "delta": 1,
+          "answer_excerpt": "Payments was real — I owned the migration plan and made the call on the dual-write window. I'm proud of how that went."
+        },
+        {
+          "q": "q_mentoring_trade_off",
+          "delta": -3,
+          "answer_excerpt": "Growth-wise I think I'm flat. I'm the most senior IC on the team and there's no one really pushing me."
+        },
+        {
+          "q": "q_next_step_close",
+          "delta": -1,
+          "answer_excerpt": "More clarity on scope would help. And hearing about big projects before they're locked in, not after."
+        }
+      ]
+    }
+  },
+  "notes": "Just shipped the payments refactor on Monday — big win, team noticed. Looks a bit flat this week, quieter than usual in standup. Mentioned in passing they'd like to do more mentoring; we haven't talked about that in a few months. Next quarter they'll probably be pulled into the billing rewrite, which they haven't heard about yet.",
+  "model": "gpt-5.4-nano"
+}

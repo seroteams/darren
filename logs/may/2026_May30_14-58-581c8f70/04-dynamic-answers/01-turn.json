@@ -1,0 +1,84 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_open_what_matters_now",
+    "label": "What to push on",
+    "name": "What feels worth pushing on right now?",
+    "description": "Growth-fitted opener. Surfaces what the report is actively choosing to develop, not what's drifting.",
+    "purpose": "growth",
+    "axis_effects": {
+      "growth": 2,
+      "engagement": 1
+    },
+    "source": "research"
+  },
+  "answer": "I want to move from just shipping screens to owning a whole product area. I keep getting pulled into pixel polish when I'd rather be shaping the direction with PM and eng earlier.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "growth": 2
+    },
+    "note": "Sam names a concrete growth direction — owning a whole product area and shaping direction earlier with PM and engineering — showing strong ambition and active investment."
+  },
+  "new_queue": [
+    {
+      "alias": "q_own_product_area",
+      "label": "Own product area",
+      "name": "Owning a whole product area — what would you be doing differently week to week?"
+    },
+    {
+      "alias": "q_current_footing",
+      "label": "Current footing",
+      "name": "What's feeling solid in your design work right now, Sam?"
+    },
+    {
+      "alias": "q_intro_growth_blockers",
+      "label": "Growth blockers",
+      "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?"
+    },
+    {
+      "alias": "q_tradeoffs_ahead_2",
+      "label": "Tradeoffs ahead",
+      "name": "What would you need to trade off to take on a bigger design scope?"
+    },
+    {
+      "alias": "q_next_move_5",
+      "label": "Next move",
+      "name": "What is the first concrete step you want to take before we talk again?"
+    }
+  ],
+  "issues": [
+    "clamped growth 3 → 2 (signature magnitude 2)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_open_what_matters_now",
+          "delta": 1,
+          "answer_excerpt": "I want to move from just shipping screens to owning a whole product area. I keep getting pulled into pixel polish when I'd rather be shaping"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_open_what_matters_now",
+          "delta": 2,
+          "answer_excerpt": "I want to move from just shipping screens to owning a whole product area. I keep getting pulled into pixel polish when I'd rather be shaping"
+        }
+      ]
+    }
+  }
+}

@@ -65,7 +65,7 @@ function createRow(id, celebrate) {
   const el = document.createElement("div");
   el.className = "axis";
   el.setAttribute("data-axis", id);
-  el.setAttribute("title", `Seeded at ${seed > 0 ? "+" + seed : seed}. Moves with answers.`);
+  el.setAttribute("title", `${AXIS_LABELS[id] || id}: seeded at ${seed > 0 ? "+" + seed : seed}. Moves when answers carry real signal — not filler words.`);
   el.innerHTML = `
     <div class="axis__label">${AXIS_LABELS[id] || id}</div>
     <div class="axis__track" aria-hidden="true">

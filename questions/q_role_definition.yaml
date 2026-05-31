@@ -1,0 +1,10 @@
+alias: q_role_definition
+label: Role definition
+name: What does the next-level Head of Product role mean to you?
+description: Gets his own definition of strategic ownership and success before discussing gaps.
+purpose: topic
+stage: aspiration
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

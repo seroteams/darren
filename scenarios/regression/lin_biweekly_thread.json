@@ -1,0 +1,159 @@
+{
+  "id": "lin_biweekly_thread",
+  "description": "Lin · Head of Product · Bi-weekly — May-24 thread-follow regression (6ae9ead8-32f)",
+  "may24": {
+    "run_id": "6ae9ead8-32f",
+    "targetDimension": "plan_thread_follow",
+    "baseline": {
+      "question_specificity": 0,
+      "plan_thread_follow": 0,
+      "plan_delta_accuracy": 0.5555555555555556,
+      "mean": 0.802
+    },
+    "floors": {
+      "question_specificity": 0.4,
+      "plan_thread_follow": 0.55,
+      "plan_delta_accuracy": 0.65
+    }
+  },
+  "prep": {
+    "name": "Lin",
+    "role": "Head of Product",
+    "seniority": "Senior",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "Lin has delivered two major features ahead of schedule but has worked late for about three weeks. I need to understand whether this pace was a temporary push or is becoming a default. Because Lin tends to brush off concern, I should ask directly what is driving the load now that those launches are done. I also want clarity on what work only Lin should own versus what could be delegated, since sustained late nights at this level can hide a distribution or autonomy problem.",
+    "focusPoints": [
+      {
+        "id": "energy",
+        "label": "Three weeks of late nights — pace and what's driving it.",
+        "reason": "Notes flag consistent late nights alongside two ahead-of-schedule deliveries. Could be a personal push through a meaningful stretch, an unsustainable baseline forming, or something outside work bleeding in. Lin brushes off concern, which makes it worth naming plainly rather than asking indirectly.",
+        "source": "signal"
+      },
+      {
+        "id": "priorities",
+        "label": "What's actually in flight now that those two features shipped.",
+        "reason": "Two major features are done. Worth understanding what Lin is moving toward next and whether the pace is being carried forward by default or by a deliberate choice about what comes next.",
+        "source": "signal"
+      },
+      {
+        "id": "delegation",
+        "label": "How much of the load is theirs alone versus the team's.",
+        "reason": "Whether the late nights reflect a distribution problem — work that could sit with others but isn't — or genuine senior-level depth work only Lin can do. At Head of Product, the two look similar from the outside but have very different implications.",
+        "source": "best_practice"
+      }
+    ],
+    "answers": [
+      "The last stretch shipped, but it was heavier than I made it sound.",
+      "Late nights came from carrying decision bottlenecks and final reviews.",
+      "Some of that work could have moved to the team sooner.",
+      "I am proud of the outcomes, but the pace should not be normal.",
+      "I still do not get enough substantive feedback on key decisions.",
+      "I want clearer ownership boundaries so I am not default escalation.",
+      "Next I want to hand off one stream end-to-end and stay out of the middle.",
+      "If we reset scope now, the next month is sustainable."
+    ]
+  },
+  "may24Bank": [
+    {
+      "alias": "q_last_stretch_read_2",
+      "name": "Before we get into specifics, how do you think the last few weeks have actually gone from your side?",
+      "stage": "pulse"
+    },
+    {
+      "alias": "q_late_nights_driver",
+      "name": "I've noticed you've been working late most nights for a few weeks — what's actually driving that?",
+      "stage": "friction"
+    },
+    {
+      "alias": "q_pace_sustainability_2",
+      "name": "If the next three months looked like the last three weeks, what would break first?",
+      "stage": "friction"
+    },
+    {
+      "alias": "q_load_distribution",
+      "name": "Of the work that filled those late nights, how much of it could only you have done?",
+      "stage": "friction"
+    },
+    {
+      "alias": "q_post_ship_momentum",
+      "name": "Now that both features are out, what are you actually moving toward next — and is that a deliberate choice or just what's next in the queue?",
+      "stage": "momentum"
+    },
+    {
+      "alias": "q_team_capacity_read",
+      "name": "Where is the team's capacity right now compared to yours?",
+      "stage": "momentum"
+    },
+    {
+      "alias": "q_recognition_landing_4",
+      "name": "Did the recognition for those two deliveries land properly for you, or did anything feel missing?",
+      "stage": "momentum"
+    },
+    {
+      "alias": "q_what_to_stop_carrying",
+      "name": "What's currently on your plate that you're not sure should still be yours?",
+      "stage": "momentum"
+    },
+    {
+      "alias": "q_next_two_weeks_lighter",
+      "name": "What's the one thing that, if it changed before we next meet, would make the next two weeks noticeably easier?",
+      "stage": "lift"
+    }
+  ],
+  "fixtures": [
+    {
+      "label": "may24_bad_opener",
+      "brief": {
+        "coreIssue": "Lin has specific performance problems with late nights that need to be addressed directly.",
+        "openingQuestion": "What specific issues are causing you to work late every night this week?",
+        "listenFor": [
+          "whether Lin acknowledges the late-night problem",
+          "if Lin takes ownership of the workload"
+        ],
+        "avoid": [
+          "do not praise the deliveries",
+          "do not ignore the pattern"
+        ],
+        "goodOutcome": "Lin agrees to stop working late by next week.",
+        "suggestedAction": "Schedule a check-in next month to confirm Lin is leaving on time."
+      },
+      "expectIssueSubstrings": [
+        "negative-evaluation",
+        "post-meeting",
+        "goodOutcome may be too generic"
+      ]
+    }
+  ],
+  "live": {
+    "openingQuestion": {
+      "mustNotMatch": [
+        "what specific .+ issues",
+        "every night"
+      ],
+      "mustNotContain": [
+        "problems",
+        "performance issues",
+        "weakness"
+      ],
+      "mustMatchAny": [
+        "\\b(pace|prioriti|shipped|features|late|load|team|deliberate)\\b"
+      ]
+    },
+    "goodOutcome": {
+      "mustMatchAny": [
+        "\\b(Lin|pace|weeks|load|team|distributed|2–3|two)\\b"
+      ]
+    }
+  },
+  "arc": {
+    "expectStages": [
+      "pulse",
+      "friction",
+      "momentum",
+      "lift"
+    ],
+    "maxConsecutiveWellbeingClarifiers": 2,
+    "maxOffArcDrills": 1,
+    "closerStage": "lift"
+  }
+}

@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_7
+label: Next two weeks
+name: What support from me would make the biggest difference in the next two weeks?
+description: Open closer that invites her to name the manager support that would make the near-term feel lighter or sharper.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added

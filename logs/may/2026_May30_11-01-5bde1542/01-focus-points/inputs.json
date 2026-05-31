@@ -1,0 +1,8 @@
+{
+  "name": "Carlos",
+  "role": "Brand Designer",
+  "seniority": "Junior",
+  "meetingType": "Performance & feedback",
+  "notes": "For Carlos, this performance conversation needs to make the quality bar concrete and usable. I want to understand whether prior feedback translated into behavior changes or stayed abstract. I also need to hear how he defines good work right now and where he feels blocked in growth. Without that shared baseline, feedback can feel subjective and demotivating. My goal is to align on specific expectations, examples, and one near-term development focus he can practice immediately.",
+  "model": "gpt-5.4-nano"
+}

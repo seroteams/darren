@@ -1,0 +1,10 @@
+alias: q_manager_leverage_2
+label: Manager leverage
+name: What kind of support from me would actually change your trajectory here?
+description: "Surfaces the manager's role in enabling the next step without making it generic."
+purpose: wellbeing
+stage: investment
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

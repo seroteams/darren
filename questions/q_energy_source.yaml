@@ -1,0 +1,10 @@
+alias: q_energy_source
+label: Energy source
+name: What is still giving you energy in the work right now?
+description: Checks for genuine pull and investment beyond the immediate delivery push.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

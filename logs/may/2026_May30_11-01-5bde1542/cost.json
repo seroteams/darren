@@ -1,0 +1,154 @@
+{
+  "call_count": 13,
+  "usd_total": 0.13646323,
+  "unknown_price_calls": 0,
+  "prompt_tokens": 110835,
+  "completion_tokens": 5646,
+  "cached_tokens": 83968,
+  "total_tokens": 116481,
+  "calls": [
+    {
+      "stage": "01-focus-points",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 6072,
+      "completion_tokens": 228,
+      "cached_tokens": 4864,
+      "total_tokens": 6300,
+      "usd_cost": 0.0006238799999999999,
+      "known_price": true,
+      "at": "2026-05-30T04:01:11.263Z"
+    },
+    {
+      "stage": "01b-preparation",
+      "model": "gpt-5.4",
+      "prompt_tokens": 2190,
+      "completion_tokens": 224,
+      "cached_tokens": 0,
+      "total_tokens": 2414,
+      "usd_cost": 0.008835,
+      "known_price": true,
+      "at": "2026-05-30T04:01:18.191Z"
+    },
+    {
+      "stage": "01b-preparation-retry",
+      "model": "gpt-5.4",
+      "prompt_tokens": 2252,
+      "completion_tokens": 269,
+      "cached_tokens": 1792,
+      "total_tokens": 2521,
+      "usd_cost": 0.005633,
+      "known_price": true,
+      "at": "2026-05-30T04:01:24.383Z"
+    },
+    {
+      "stage": "03-question-bank",
+      "model": "gpt-5.4-mini",
+      "prompt_tokens": 5674,
+      "completion_tokens": 737,
+      "cached_tokens": 2816,
+      "total_tokens": 6411,
+      "usd_cost": 0.0056711999999999995,
+      "known_price": true,
+      "at": "2026-05-30T04:01:29.275Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11652,
+      "completion_tokens": 712,
+      "cached_tokens": 7936,
+      "total_tokens": 12364,
+      "usd_cost": 0.021954,
+      "known_price": true,
+      "at": "2026-05-30T04:01:37.862Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11192,
+      "completion_tokens": 605,
+      "cached_tokens": 8960,
+      "total_tokens": 11797,
+      "usd_cost": 0.016895,
+      "known_price": true,
+      "at": "2026-05-30T04:01:44.880Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11128,
+      "completion_tokens": 529,
+      "cached_tokens": 8960,
+      "total_tokens": 11657,
+      "usd_cost": 0.015595,
+      "known_price": true,
+      "at": "2026-05-30T04:01:51.120Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11094,
+      "completion_tokens": 457,
+      "cached_tokens": 8960,
+      "total_tokens": 11551,
+      "usd_cost": 0.01443,
+      "known_price": true,
+      "at": "2026-05-30T04:01:56.902Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11016,
+      "completion_tokens": 406,
+      "cached_tokens": 8960,
+      "total_tokens": 11422,
+      "usd_cost": 0.01347,
+      "known_price": true,
+      "at": "2026-05-30T04:02:02.170Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10981,
+      "completion_tokens": 323,
+      "cached_tokens": 8960,
+      "total_tokens": 11304,
+      "usd_cost": 0.0121375,
+      "known_price": true,
+      "at": "2026-05-30T04:02:06.921Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10879,
+      "completion_tokens": 239,
+      "cached_tokens": 8960,
+      "total_tokens": 11118,
+      "usd_cost": 0.0106225,
+      "known_price": true,
+      "at": "2026-05-30T04:02:10.157Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10837,
+      "completion_tokens": 148,
+      "cached_tokens": 8960,
+      "total_tokens": 10985,
+      "usd_cost": 0.0091525,
+      "known_price": true,
+      "at": "2026-05-30T04:02:12.841Z"
+    },
+    {
+      "stage": "05-evaluation",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 5868,
+      "completion_tokens": 769,
+      "cached_tokens": 3840,
+      "total_tokens": 6637,
+      "usd_cost": 0.00144365,
+      "known_price": true,
+      "at": "2026-05-30T04:02:18.815Z"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Log fix audit — every issue, every status
 
-**Version:** v10
+**Version:** v16
 **Caveman version:** full
 **Plan location note:** harness wrote here at `~/.claude/plans/`; per memory rule should be moved to `darren/plans/` after exit.
 
@@ -15,6 +15,12 @@
 - v8 (2026-05-30): notes batch (FX-35/36) landed. Notes panel now posts `question_alias` + `question_stem`; notes handler persists both fields; evaluation stage now formats captured notes as `[HH:MM @ alias] stem - text` with legacy-field fallback. FX-36 marked verified (no stale-text bug): submit path reads live textarea value, so browser-accepted spelling corrections flow downstream. Replay fixtures still green. (+5/−5 lines)
 - v9 (2026-05-30): routing + scenarios batch (FX-34/41) landed. FX-34 kept existing `Complete 1:1` -> `LEXICON_REVIEW` routing and added scope-aware skip using `GET /api/lexicon/scope` so out-of-scope sessions finish cleanly to intake. FX-41 added `scenarios/batch/` with 10 reconstructed May-24 persona fixtures plus `_index.json` + `README.md`. Replay fixtures still green. Stats: DONE 62→64, OPEN 23→21. (+4/−4 lines)
 - v10 (2026-05-30): Batch H housekeeping pass. Refreshed `PLAN.md` backlog state against audit, flipped LF-2/LF-3/LF-4 to DONE after code verification (`GET /api/lexicon/candidates`, decisions -> candidate YAML, `scripts/promote-candidates.js`), and fixed Carl scenario schema to canonical smoke-test shape. Replay fixtures still green. Stats: DONE 64→67, OPEN 21→18. (+6/−6 lines)
+- v11 (2026-05-30): Batch I planner wind-down. Added `<wind_down_rule>` (2-turn taper at `remaining_budget <= 2`), `<closer_craft>` (open invitational closers), extended thread-follow wind-down limit, and final-turn closer reword allowance. FX-11/FX-12 → DONE. Replay fixtures still green. Stats: DONE 67→69, PARTIAL 5→4, OPEN 18→17. (+38/−8 lines)
+- v12 (2026-05-30): Batch J UI polish. Reminders copy buttons + paste-ready eval contract (`watch_for_rules`), briefing 2-col grid + typography, questioning stem/textarea size bump. FX-24/FX-25/FX-32 → DONE. Replay fixtures still green. Stats: DONE 69→72, PARTIAL 4→0, OPEN 17 unchanged. (+120/−40 lines est.)
+- v13 (2026-05-30): Batch M1 FX-44 verification. Added `scripts/batch-m1-verify.js`; prompt hunks verified; proxy scores on post-adoption Toby log beat May-24 baseline on all 3 target dims. Report: `logs/may/2026_May24_batch/m1-rerun-report.json`. FX-44 → DONE. Stats: DONE 72→73, REVIEW 1→0. (+200 lines est.)
+- v14 (2026-05-30): Batch L lexicon pipeline. G1/G2 diagnosis: zero candidates caused by `shouldReview` excluding Expert seniority (Toby) + bi-weekly out-of-scope (Carl); no parser drop-off. G3: expanded scope to design+growth+lead|expert, expert→lead file mapping, normalized transcript/eval for prompt. G4 quality floor; LF-1 post-eval kick; FX-40 empty-state copy; G5 `toby_lexicon_growth.json` + `scripts/batch-l-verify.js`. Stats: DONE 73→80, OPEN 17→10, PLANNING 4→3. (+400 lines est.)
+- v15 (2026-05-30): Batch K axis cluster. FX-26/27/28 → DONE. Stats: DONE 80→83, OPEN 10→7. (+250 lines est.)
+- v16 (2026-05-30): Batch M3 regression fixtures. Pinned Priya/Lin/Ahmed May-24 worst runs as `scenarios/regression/*.json` + `scripts/batch-m3-verify.js`. Report: `logs/may/2026_May24_batch/m3-regression-report.json`. Stats: OPEN 7 unchanged (infra batch, no new audit IDs). (+600 lines est.)
 
 ## Context
 User asked: "go through every log, make list of all that needs fixing, check if done, output table with IDs so I can choose what we fix."
@@ -65,8 +71,8 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 | FX-08 | Drill cap **runtime** enforcement (strip same-stage planner_added when count≥2) | May25 | 📋 PLANNING | `src/queue-manager.js` (heavy-ops decision) |
 | FX-09 | Honor "I'll share my view" promises | May18 | ✅ DONE (=feedback #7) | `prompts/plan-turn.md` planning_rules #11 "Honor open commitments" |
 | FX-10 | Don't repeat the question stem in follow-up | May18 | ✅ DONE (=feedback #6) | `prompts/plan-turn.md` question_craft "Don't echo the stem" |
-| FX-11 | Winddown taper across last 2 turns (not just budget=1) | May18, May25 Q7 deep, May27 Q6 deep | 🟡 PARTIAL (=feedback #8) | `prompts/plan-turn.md` |
-| FX-12 | Sounds like stop-question not open at late stage | May17-12:53 | 🔴 OPEN | overlaps FX-11 |
+| FX-11 | Winddown taper across last 2 turns (not just budget=1) | May18, May25 Q7 deep, May27 Q6 deep | ✅ DONE (=feedback #8) | `prompts/plan-turn.md` `<wind_down_rule>` |
+| FX-12 | Sounds like stop-question not open at late stage | May17-12:53 | ✅ DONE | `prompts/plan-turn.md` `<closer_craft>` |
 | FX-13 | Context-aware urgency: don't ask report about manager-imposed deadline | May25 | ✅ DONE | `prompts/plan-turn.md` planning_rules #12 "Context-aware urgency" |
 | FX-14 | Length cap on planner-added clarifiers ≤18 words | May27-08:48 long-winded Q, May24 "okay but long" | ✅ DONE (=E4) | `prompts/plan-turn.md` question_craft "Length cap (hard)" |
 | FX-15 | plan_delta_accuracy 0.50 — stop defaulting to neutral | batch | ✅ DONE | `prompts/plan-turn.md:190` CALIBRATION line |
@@ -99,11 +105,11 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 | F2 | `brutal_truth_manager` names plan-shaped next move | May24 "about you = mute advice" | ✅ DONE | `prompts/final-evaluation.md:136-138` growth/career next-move + forbidden verbs + required nouns |
 | F3 | Growth-meeting brutal truths name career evidence from transcript | May24 | ✅ DONE | `prompts/final-evaluation.md:139` growth-specific evidence requirement in `<brutal_truth_rules>` |
 | F4 | N-gram overlap validator on briefing fields | — | ✅ DONE | `src/reviewer.js:125-166` `fourGramOverlap()` + `validation.issues` warning log |
-| FX-24 | Actions/Reminders over watch_for (copy-pasteable) | May18 | 🟡 PARTIAL (=feedback #11) | label changed; affordance + contract missing |
-| FX-25 | Briefing typography messy; allow 1/2+1/2 layout | May18 | 🟡 PARTIAL (=feedback #10) | UI |
-| FX-26 | Wellbeing/engagement scores reacting to typing not meaning ("fine" → -1) | May24 | 🔴 OPEN | axis classifier sensitivity |
-| FX-27 | Don't see value in those ratings | May18, May24 | 🔴 OPEN | axis UI explainer / cut |
-| FX-28 | Missing axis signal (clarity should have dropped before Q) | May27-08:48 | 🔴 OPEN | axis trigger |
+| FX-24 | Actions/Reminders over watch_for (copy-pasteable) | May18 | ✅ DONE (=feedback #11) | `prompts/final-evaluation.md` `<watch_for_rules>` + `briefing.js` copy rows |
+| FX-25 | Briefing typography messy; allow 1/2+1/2 layout | May18 | ✅ DONE (=feedback #10) | `briefing.js` + `design.css` `.briefing-grid--pair` |
+| FX-26 | Wellbeing/engagement scores reacting to typing not meaning ("fine" → -1) | May24 | ✅ DONE | `applyShallowGate` zeros all deltas; filler patterns in `isShallowAnswer`; prompt shallow-vs-neutral |
+| FX-27 | Don't see value in those ratings | May18, May24 | ✅ DONE (=path A) | Questioning + briefing explainer copy; axis tooltips |
+| FX-28 | Missing axis signal (clarity should have dropped before Q) | May27-08:48 | ✅ DONE | `detectClarityMisalignment` + coverage inject + prompt misalignment type |
 | FX-29 | Eval shallow-gate enforcement (`<read_quality_gate>`) | May25 | ✅ DONE | `prompts/final-evaluation.md` 2026-05-27 |
 
 ### E. UI / frontend
@@ -118,7 +124,7 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 | B3 | Axis baseline tooltip "Seeded at <N>. Moves with answers." | — | ✅ DONE | `frontend/client/src/ui/axes.js:68` title attr |
 | FX-30 | Formatting garbage "line1 line2 line3 line4 line5" | May25 | ✅ DONE | covered by A2 placeholder guard in `parseAIJson` |
 | FX-31 | Long em-dashes everywhere — filter before render | May16-20:43 | ✅ DONE | `escape()` strips `[—–]` to `,` in briefing/preparation/questioning/focus-points/lexicon-review stages |
-| FX-32 | Text too small in questioning | May18 | 🟡 PARTIAL (=feedback #10) | typography bump |
+| FX-32 | Text too small in questioning | May18 | ✅ DONE (=feedback #10) | `questioning.js` + `design.css` `.question-stem`, `.textarea--question` |
 | FX-33 | "What we will cover" header duplicated on focus-points | May18-21:53 | ✅ DONE (=N1) | `frontend/client/src/stages/focus-points.js:11-15` single canonical eyebrow+h1 |
 | FX-34 | Post-briefing CTA "Complete 1:1" → lexicon picker page | May18 | ✅ DONE (=N3) | `frontend/client/src/stages/briefing.js` scope-check click handler + `frontend/server/handlers/lexicon.js` scope endpoint + `frontend/server/server.js` route |
 | FX-35 | Notes carry `question_alias`/stem not just timestamp | May18 | ✅ DONE (=feedback #9) | `frontend/client/src/ui/notes-panel.js:75-88`, `frontend/server/handlers/notes.js:25-51,132-147`, `frontend/server/handlers/evaluation.js:7-33` |
@@ -131,13 +137,13 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 
 | ID | Issue | Seen in | Status | Pointer |
 |---|---|---|---|---|
-| G1 | Diagnose speaker source in extraction prompt | May17, May25 | 🔴 OPEN diagnostic | `prompts/review-session-for-lexicon.md` |
-| G2 | Diagnose parser dropping candidates | May17, May25 | 🔴 OPEN diagnostic | `src/lexicon-reviewer.js:243-296` |
-| G3 | Fix based on G1/G2 finding | — | 🔴 OPEN TBD | depends on G1/G2 |
-| G4 | Candidate floor rule softened (don't pad weak runs) | May25 | 🔴 OPEN | `prompts/review-session-for-lexicon.md` |
-| G5 | Toby lexicon regression fixture | — | 🔴 OPEN | `scenarios/regression/` |
-| FX-40 | Lexicon empty-state UX (hide stage OR loosen filter OR fix copy) | May17-12:53, May25 | 📋 PLANNING | `src/lexicon/review-core.js:71` + frontend |
-| LF-1 | Auto-run reviewer at end of session → trace JSON | — | 🔴 OPEN | `lexicons/_suggested/<sessionId>.json` |
+| G1 | Diagnose speaker source in extraction prompt | May17, May25 | ✅ DONE | `normalizeTranscriptForReview` + prompt `<transcript_reading>` in `review-session-for-lexicon.md` |
+| G2 | Diagnose parser dropping candidates | May17, May25 | ✅ DONE | Root cause: `shouldReview` gate (Expert excluded), not parser — see G3 |
+| G3 | Fix based on G1/G2 finding | — | ✅ DONE | `src/lexicon.js` `resolveLexiconScope` + `isLexiconReviewScope`; `review-core.js` |
+| G4 | Candidate floor rule softened (don't pad weak runs) | May25 | ✅ DONE | `prompts/review-session-for-lexicon.md` Quality floor block |
+| G5 | Toby lexicon regression fixture | — | ✅ DONE | `scenarios/regression/toby_lexicon_growth.json` + `scripts/batch-l-verify.js` |
+| FX-40 | Lexicon empty-state UX (hide stage OR loosen filter OR fix copy) | May17-12:53, May25 | ✅ DONE (=path C) | `frontend/client/src/stages/lexicon-review.js` + `skipped` reason from API |
+| LF-1 | Auto-run reviewer at end of session → trace JSON | — | ✅ DONE | `frontend/server/handlers/evaluation.js` `kickLexiconReview` |
 | LF-2 | Web endpoint `GET /lexicon/candidates` reads trace | — | ✅ DONE | `frontend/server/handlers/lexicon.js` (`candidates` -> `generateSuggestions`) |
 | LF-3 | POST keep-click appends to candidates YAML | — | ✅ DONE | `frontend/server/handlers/lexicon.js` (`decisions` -> `commitDecisions`) |
 | LF-4 | `scripts/promote-candidates.js` diff + interactive | — | ✅ DONE | `scripts/promote-candidates.js` |
@@ -151,7 +157,7 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 | FX-41 | Persona scenarios not in repo (batch used 26 unsaved personas) | batch | ✅ DONE | `scenarios/batch/` (10 persona JSONs + `_index.json` + `README.md`) |
 | FX-42 | Logs tracked in git | — | ✅ DONE | commit `90d7b0d` |
 | FX-43 | Pipeline review workflow output spec | — | 📋 PLANNING | reviewrun skill |
-| FX-44 | Batch-run learnings adoption (EVOLVED-DIFF hunks layered with FX-09/FX-10) | batch | 🧪 REVIEW | `prompts/generate-questions.md`, `prompts/plan-turn.md` |
+| FX-44 | Batch-run learnings adoption (EVOLVED-DIFF hunks layered with FX-09/FX-10) | batch | ✅ DONE | `scripts/batch-m1-verify.js` + `logs/may/2026_May24_batch/m1-rerun-report.json` |
 | FX-45 | Axis seeds (-1/-1/0/0) | — | ✅ DONE (=feedback #12) | defaults |
 | FX-46 | Plan format conventions (version/caveman/changelog) | — | ✅ DONE (=feedback #1) | `plans/*` |
 | FX-47 | Plan location convention (`darren/plans/`) | — | ✅ DONE (=feedback #2) | HANDOFF.md |
@@ -160,13 +166,13 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 
 ---
 
-## Quick stats (post v10 Batch H housekeeping)
+## Quick stats (post v15 Batch K axes)
 - Total IDs: 95
-- ✅ DONE: 67 (incl. 1 OBSOLETE)
-- 🟡 PARTIAL: 5
-- 🧪 REVIEW: 1
-- 📋 PLANNING: 4
-- 🔴 OPEN: 18
+- ✅ DONE: 83 (incl. 1 OBSOLETE)
+- 🟡 PARTIAL: 0
+- 🧪 REVIEW: 0
+- 📋 PLANNING: 3
+- 🔴 OPEN: 7
 
 ## Verification (how to test once items land)
 - Replay last failing run through `scripts/replay-scenario.js` once it exists.

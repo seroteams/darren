@@ -1,0 +1,10 @@
+alias: q_expectation_alignment
+label: Expectation alignment
+name: When a cross-team dependency is shaky, how do you set expectations early?
+description: Tests whether he is proactively shaping alignment before issues harden.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,173 @@
+{
+  "id": "ahmed_growth_delta",
+  "description": "Ahmed · Head of Product · Growth — May-24 delta-accuracy regression (835c2df0-e23)",
+  "may24": {
+    "run_id": "835c2df0-e23",
+    "targetDimension": "plan_delta_accuracy",
+    "baseline": {
+      "question_specificity": 0.3333333333333333,
+      "plan_thread_follow": 0,
+      "plan_delta_accuracy": 0.4444444444444444,
+      "mean": 0.817
+    },
+    "floors": {
+      "question_specificity": 0.4,
+      "plan_thread_follow": 0.55,
+      "plan_delta_accuracy": 0.65
+    }
+  },
+  "prep": {
+    "name": "Ahmed",
+    "role": "Head of Product",
+    "seniority": "Senior",
+    "meetingType": "Growth & career plan",
+    "notes": "Ahmed talks about senior scope but often redirects into tactical delivery details. I want to understand whether this is temporary pressure or a deeper confidence gap around visibility and influence at his level. This growth conversation should surface how he defines the next-level role, what stakeholder trust gaps he sees, and where he is still operating as an individual executor. I need him to leave with a concrete growth path tied to strategic ownership, not another vague list of good habits.",
+    "focusPoints": [
+      {
+        "id": "impact",
+        "label": "Where his leverage is highest right now — and whether he feels it.",
+        "reason": "Whether the work he's leading is actually moving the product strategy, or whether he's drifted into execution and coordination. Senior Heads of Product get evaluated on the size of the bets they own, not the quality of their process.",
+        "source": "best_practice"
+      },
+      {
+        "id": "growth",
+        "label": "What the next step looks like and whether he's actively building toward it.",
+        "reason": "How they're thinking about the gap between where they are and where they want to go. Senior PMs at this level often have a clear ceiling in sight but no explicit plan — a Growth & career plan conversation is where that gets named.",
+        "source": "best_practice"
+      },
+      {
+        "id": "stakeholder_engagement",
+        "label": "How he's building trust with the people above and beside him.",
+        "reason": "What his relationships with exec peers and cross-functional leads actually look like right now. At Senior Head of Product, the ceiling on career progression is almost always a stakeholder trust problem before it's a craft problem.",
+        "source": "best_practice"
+      },
+      {
+        "id": "delegation",
+        "label": "Whether he's freeing himself up for the work only he can do.",
+        "reason": "If he's still hands-on in areas his team could own, he's not building the track record a Growth & career plan needs to point to. Worth asking what he's actively let go of in the last quarter.",
+        "source": "best_practice"
+      }
+    ],
+    "answers": [
+      "I know I want bigger scope, but I still spend too much time in execution details.",
+      "When conversations get political, I tend to retreat to what I can deliver directly.",
+      "I can run projects, but shaping cross-org alignment is where I hesitate.",
+      "Part of it is confidence, I do not want to look unprepared in senior forums.",
+      "I also have not been explicit enough about what opportunities I want.",
+      "To grow, I need to own a strategic bet with visible stakeholders.",
+      "I should delegate more of the hands-on work to create room for that.",
+      "A clear growth contract with milestones would keep me accountable."
+    ]
+  },
+  "may24Bank": [
+    {
+      "alias": "q_current_leverage_read",
+      "name": "Where in your current scope do you feel like you're having the most real influence on product direction — not just process?",
+      "stage": "anchor"
+    },
+    {
+      "alias": "q_execution_drift_check",
+      "name": "What's the work that only you can do right now — and how much of your week is actually that?",
+      "stage": "anchor"
+    },
+    {
+      "alias": "q_named_next_role",
+      "name": "Is there a specific role or scope you're aiming at — something you could name — or is it more of a direction right now?",
+      "stage": "aspiration"
+    },
+    {
+      "alias": "q_bet_size_ambition",
+      "name": "What's the size of bet you want to be owning in two years — and what does that look like compared to what you're owning now?",
+      "stage": "aspiration"
+    },
+    {
+      "alias": "q_stakeholder_trust_gap_2",
+      "name": "Which exec peer or cross-functional lead do you feel you haven't fully earned trust with yet — and what's behind that?",
+      "stage": "gap"
+    },
+    {
+      "alias": "q_delegation_track_record",
+      "name": "What have you actively handed off in the last quarter that you would have held onto a year ago?",
+      "stage": "gap"
+    },
+    {
+      "alias": "q_his_investment_required",
+      "name": "What would you have to change about how you're spending your time to actually close the gap you're describing?",
+      "stage": "investment"
+    },
+    {
+      "alias": "q_org_investment_needed",
+      "name": "What would need to be true about this organisation for your next step to actually be possible here?",
+      "stage": "investment"
+    },
+    {
+      "alias": "q_sustainability_of_pace",
+      "name": "Is the way you're working right now something you could sustain while also investing in where you want to go?",
+      "stage": "investment"
+    },
+    {
+      "alias": "q_first_concrete_move",
+      "name": "What's the one thing you're going to do differently before we next meet — and what does done look like?",
+      "stage": "commitment"
+    }
+  ],
+  "fixtures": [
+    {
+      "label": "may24_bad_opener",
+      "brief": {
+        "coreIssue": "Ahmed has specific leadership weaknesses that are blocking his growth to the next level.",
+        "openingQuestion": "What specific leadership challenges have you faced that might impact your promotion?",
+        "listenFor": [
+          "whether Ahmed acknowledges leadership weaknesses",
+          "if he has a development plan"
+        ],
+        "avoid": [
+          "do not focus on tickets",
+          "do not ignore imposter feelings"
+        ],
+        "goodOutcome": "Ahmed agrees to fix his leadership weaknesses this quarter.",
+        "suggestedAction": "Set a follow-up meeting next month to review his leadership development plan."
+      },
+      "expectIssueSubstrings": [
+        "accusatory",
+        "challenges",
+        "post-meeting",
+        "goodOutcome may be too generic"
+      ]
+    }
+  ],
+  "live": {
+    "openingQuestion": {
+      "mustNotMatch": [
+        "what specific .+ (challenges|weaknesses)",
+        "impact your promotion"
+      ],
+      "mustNotContain": [
+        "weakness",
+        "challenges",
+        "problems",
+        "promotion"
+      ],
+      "mustMatchAny": [
+        "\\b(leverage|strategic|scope|influence|bet|week|highest)\\b"
+      ]
+    },
+    "goodOutcome": {
+      "mustMatchAny": [
+        "\\b(Ahmed|leverage|ownership|shift|four weeks|strategic)\\b"
+      ]
+    }
+  },
+  "arc": {
+    "expectStages": [
+      "anchor",
+      "aspiration",
+      "gap",
+      "investment",
+      "commitment"
+    ],
+    "maxConsecutiveWellbeingClarifiers": 2,
+    "maxOffArcDrills": 1,
+    "closerStage": "commitment"
+  }
+}

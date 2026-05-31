@@ -1,0 +1,116 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_expectation_gap",
+    "label": "Expectation gap",
+    "name": "Where do my expectations for your work feel different from yours right now?",
+    "description": "Names alignment gaps without assuming the answer, and makes the mismatch discussable.",
+    "purpose": "topic",
+    "stage": "gap_naming",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1,
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "answer": "I would like to grow faster in concept rationale, not just execution speed.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "clarity": -3
+    },
+    "note": "He names a mismatch in emphasis — wanting faster growth in concept rationale over execution speed — which is a strong expectations-clarity gap and mild positive engagement signal; also reveals a growth thread worth following."
+  },
+  "new_queue": [
+    {
+      "alias": "q_concept_rationale",
+      "label": "Concept rationale",
+      "name": "Concept rationale — what does stronger work there look like to you?"
+    },
+    {
+      "alias": "q_growth_blocker",
+      "label": "Growth blocker",
+      "name": "What is getting in the way of the next skill you want to build?"
+    },
+    {
+      "alias": "q_two_week_focus",
+      "label": "Two-week focus",
+      "name": "What's the first concrete change you want to make before we meet again?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_excellent_examples",
+          "delta": -1,
+          "answer_excerpt": "When reviews are broad, I am not sure what to change first."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        },
+        {
+          "q": "q_expectation_gap",
+          "delta": 1,
+          "answer_excerpt": "I would like to grow faster in concept rationale, not just execution speed."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        },
+        {
+          "q": "q_team_bar_mismatch",
+          "delta": -1,
+          "answer_excerpt": "Feedback has helped, though I still miss consistency under time pressure."
+        },
+        {
+          "q": "q_time_pressure_consistency",
+          "delta": -3,
+          "answer_excerpt": "I sometimes focus on polish and lose sight of the core message."
+        },
+        {
+          "q": "q_quality_bar",
+          "delta": -3,
+          "answer_excerpt": "I want clearer examples of what excellent junior-level work looks like here."
+        },
+        {
+          "q": "q_excellent_examples",
+          "delta": -3,
+          "answer_excerpt": "When reviews are broad, I am not sure what to change first."
+        },
+        {
+          "q": "q_expectation_gap",
+          "delta": -3,
+          "answer_excerpt": "I would like to grow faster in concept rationale, not just execution speed."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_quality_bar",
+          "delta": -1,
+          "answer_excerpt": "I want clearer examples of what excellent junior-level work looks like here."
+        }
+      ]
+    }
+  }
+}

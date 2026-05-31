@@ -1,0 +1,10 @@
+alias: q_next_experiment_2
+label: Next experiment
+name: What would that shift look like in the next few weeks?
+description: Closes on a specific commitment that turns the growth plan into action.
+purpose: competency
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_experiment"

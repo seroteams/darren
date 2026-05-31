@@ -1,0 +1,10 @@
+alias: q_what_s_unresolved
+label: "What's unresolved"
+name: "Is there anything from the launch that's still sitting open for you?"
+description: Surfaces lingering work, decisions, or loose ends after the major feature shipped.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

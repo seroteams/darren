@@ -1,0 +1,10 @@
+alias: q_manager_support_4
+label: Manager support
+name: What would help you spend more time on strategic decisions than delivery details?
+description: Elicits what support or structure would let him shift toward higher-level work.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

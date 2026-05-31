@@ -1,0 +1,10 @@
+alias: q_mentoring_intent
+label: Mentoring intent
+name: What are you hoping the mentoring program builds for you?
+description: Tests whether mentoring is a growth lever, a side path, or something else entirely.
+purpose: competency
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

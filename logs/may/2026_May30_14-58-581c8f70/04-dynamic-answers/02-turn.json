@@ -1,0 +1,86 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_own_product_area",
+    "label": "Own product area",
+    "name": "Owning a whole product area — what would you be doing differently week to week?",
+    "description": "Drills into Sam's stated aspiration so the next-level scope becomes concrete in day-to-day terms.",
+    "purpose": "topic",
+    "stage": "aspiration",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I'd be in the early problem-framing meetings, pushing back on scope and tradeoffs, not just executing tickets. I'd own the metric we're moving, not just the Figma file.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": 3
+    },
+    "note": "Sam described concrete next-level scope—early problem framing, tradeoff influence, and owning metrics—which is a strong positive growth signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_early_meetings",
+      "label": "Early meetings",
+      "name": "Early problem-framing meetings — what would let you earn a seat there?"
+    },
+    {
+      "alias": "q_current_footing",
+      "label": "Current footing",
+      "name": "What's feeling solid in your design work right now, Sam?"
+    },
+    {
+      "alias": "q_intro_growth_blockers",
+      "label": "Growth blockers",
+      "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?"
+    },
+    {
+      "alias": "q_tradeoffs_ahead_2",
+      "label": "Tradeoffs ahead",
+      "name": "What would you need to trade off to take on a bigger design scope?"
+    },
+    {
+      "alias": "q_next_move_5",
+      "label": "Next move",
+      "name": "What is the first concrete step you want to take before we talk again?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_open_what_matters_now",
+          "delta": 1,
+          "answer_excerpt": "I want to move from just shipping screens to owning a whole product area. I keep getting pulled into pixel polish when I'd rather be shaping"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 5,
+      "history": [
+        {
+          "q": "q_open_what_matters_now",
+          "delta": 2,
+          "answer_excerpt": "I want to move from just shipping screens to owning a whole product area. I keep getting pulled into pixel polish when I'd rather be shaping"
+        },
+        {
+          "q": "q_own_product_area",
+          "delta": 3,
+          "answer_excerpt": "I'd be in the early problem-framing meetings, pushing back on scope and tradeoffs, not just executing tickets. I'd own the metric we're movi"
+        }
+      ]
+    }
+  }
+}

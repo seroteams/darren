@@ -1,0 +1,10 @@
+alias: q_future_scope_2
+label: Future scope
+name: Where do you want your scope to be more strategic over the next year?
+description: Makes the aspiration concrete in terms of scope rather than abstract ambition.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

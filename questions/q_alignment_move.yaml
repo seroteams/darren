@@ -1,0 +1,10 @@
+alias: q_alignment_move
+label: Alignment move
+name: "What's the first concrete move you want to make on cross-team alignment before we next meet?"
+description: Ends on a specific action tied to friction reduction and follow-through.
+purpose: topic
+stage: commit
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

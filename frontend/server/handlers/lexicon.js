@@ -47,9 +47,13 @@ async function candidates(c) {
   try {
     const result = await generateSuggestions({ session, ctx: session.ctx });
     if (result.skipped) {
-      return c.json(200, { candidates: [], skipped: result.reason || "skipped" });
+      return c.json(200, { candidates: [], skipped: result.reason || "skipped", error: result.error || null });
     }
-    return c.json(200, { candidates: mapForUi(result.suggestions || []) });
+    return c.json(200, {
+      candidates: mapForUi(result.suggestions || []),
+      skipped: (result.suggestions || []).length ? null : "empty",
+      fromCache: Boolean(result.fromCache),
+    });
   } catch (e) {
     return c.error(Object.assign(new Error(e.message || "lexicon review failed"), { status: 500 }));
   }

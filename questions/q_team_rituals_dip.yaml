@@ -1,0 +1,10 @@
+alias: q_team_rituals_dip
+label: Team rituals dip
+name: Team rituals feel less motivating lately — what changed for you there?
+description: Follows the concrete thread to understand what shifted in her day-to-day connection and motivation.
+purpose: wellbeing
+stage: aspiration
+axis_effects:
+  engagement: +1
+  wellbeing: +3
+source: planner_added

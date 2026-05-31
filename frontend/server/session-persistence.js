@@ -2,6 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { LOGS_ROOT } = require("../../src/session");
 const { initState } = require("../../src/axes");
+const cost = require("../../src/cost");
 
 const STATE_FILE = "session-state.json";
 
@@ -68,6 +69,7 @@ function loadPersistedSessions(sessions, ttlMs) {
         // Restore ephemeral fields that can't be serialised
         s.lastPlanByTurn = new Map();
         s.inFlight = new Map();
+        s.tracker = cost.createTracker();
         // axisState history entries may lack the full slot shape — re-init missing axes
         if (!s.axisState || typeof s.axisState !== "object") s.axisState = initState();
         sessions.set(s.id, s);

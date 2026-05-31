@@ -1,0 +1,9 @@
+alias: q_mentoring_stalled
+label: Mentoring stalled
+name: "You said 'more mentoring' — what's kept that from happening so far?"
+description: Drills into the stalled mentoring thread to surface the real blocker.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added

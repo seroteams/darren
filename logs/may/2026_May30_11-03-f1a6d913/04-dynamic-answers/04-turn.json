@@ -1,0 +1,107 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_recent_friction",
+    "label": "Recent friction",
+    "name": "What has been the most frustrating part of the work lately?",
+    "description": "Lets him name the current friction without assuming the source.",
+    "purpose": "wellbeing",
+    "stage": "underneath",
+    "axis_effects": {
+      "wellbeing": 3,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "answer": "I feel better when feedback is specific and close to the work.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -3,
+      "clarity": 1
+    },
+    "note": "He says specific, in-the-work feedback helps him feel better, which implies that support is currently missing and that clearer feedback improves things."
+  },
+  "new_queue": [
+    {
+      "alias": "q_specific_feedback_2",
+      "label": "Specific feedback",
+      "name": "Specific feedback — where does it usually get too vague or too late?"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_support_access",
+      "label": "Support access",
+      "name": "When you need help, what usually makes it easy or hard to ask for it here?"
+    },
+    {
+      "alias": "q_requirement_churn",
+      "label": "Requirement churn",
+      "name": "What keeps getting reprioritized in a way that changes your design work?"
+    },
+    {
+      "alias": "q_support_next_step",
+      "label": "Support next step",
+      "name": "What would help most from me right now?"
+    }
+  ],
+  "issues": [
+    "coverage: injected growth into next question (0 touches after turn 4)",
+    "ref_alias q_takeaway not in remaining queue — treating as new"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        },
+        {
+          "q": "q_recent_friction",
+          "delta": -3,
+          "answer_excerpt": "I feel better when feedback is specific and close to the work."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        },
+        {
+          "q": "q_changing_direction_late",
+          "delta": -3,
+          "answer_excerpt": "I am still unsure what good really looks like here week to week."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_what_good_looks_like",
+          "delta": -3,
+          "answer_excerpt": "I do ask for help sometimes, but I worry about sounding slow."
+        },
+        {
+          "q": "q_recent_friction",
+          "delta": 1,
+          "answer_excerpt": "I feel better when feedback is specific and close to the work."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

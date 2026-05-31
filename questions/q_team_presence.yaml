@@ -1,0 +1,10 @@
+alias: q_team_presence
+label: Team presence
+name: "I've noticed you've been quieter in standup — what's the story there?"
+description: Checks whether the change in team presence is just rhythm or something else worth understanding.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

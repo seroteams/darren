@@ -1,0 +1,51 @@
+{
+  "headline": "Priya’s answers show a weak, unsettled read: she feels flatter and stuck, with low engagement and clarity after the launch.",
+  "summary_bullets": [
+    "Priya links her post-launch “flatter than I expected” state to “cleanup and reviews” and “not much that feels new,” not to the launch itself.",
+    "Mentoring is a stalled thread: “I did mention mentoring before… I still want it, but I stopped pushing,” and she can’t name next-quarter ownership yet.",
+    "The core gap is decision/ownership: “I am not sure what I am owning next quarter yet” and “that makes me uneasy,” which is driving her to ask for an earlier “bigger scope conversation.”"
+  ],
+  "understanding_paragraph": "Priya is proud of the migration and cutover, but she’s experiencing a dip that she attributes to repetitive cleanup/reviews rather than the ship’s success. She wants mentoring and a clearer next-step path, yet she stopped pushing and can’t define what she owns next quarter. The session clarified that her current risk isn’t workload alone—it’s uncertainty about ownership and what comes next.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -3,
+      "meaning": "Running a bit low on energy and sustainability post-launch; worth watching over the next few weeks."
+    },
+    {
+      "id": "engagement",
+      "score": -6,
+      "meaning": "A real disengagement pattern tied to “not much that feels new” and stalled momentum; act on it."
+    },
+    {
+      "id": "clarity",
+      "score": -6,
+      "meaning": "Ownership ambiguity is driving unease: she can’t name what she’ll own next quarter."
+    },
+    {
+      "id": "growth",
+      "score": -2,
+      "meaning": "Weak signal of growth momentum; she wants a clearer next-step path but hasn’t found it yet."
+    }
+  ],
+  "brutal_truth_employee": "Priya says, “Mostly cleanup and reviews right now, not much that feels new,” and “I have felt a bit stuck doing similar work for months.” She also admits, “I still want [mentoring], but I stopped pushing,” and “I am not sure what I am owning next quarter yet, and that makes me uneasy.”",
+  "brutal_truth_manager": "Priya gave a clear signal on the missing piece—“I am not sure what I am owning next quarter yet”—but the conversation didn’t lock a concrete decision or scope for her next quarter. Next time, treat the stalled mentoring thread as a decision problem: name the project scope and the stakeholder/ownership she needs so she can restart pushing with authority.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute scope/ownership decision with Priya and the billing-rewrite owner; confirm what she owns next quarter and what she explicitly does not."
+    },
+    {
+      "when": "this week",
+      "action": "Assign Priya one concrete mentoring ownership action: pick one named mentee and set a 2-week mentoring plan with a deliverable and check-in time."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Start the 1:1 with: “What is the single next-step path you’ll commit to by next check-in?” Require one project, one stakeholder, and one deadline."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: if Priya still can’t name what she owns next quarter, treat engagement and clarity as unresolved, not “normal post-launch recovery.”",
+    "Before next 1:1: if mentoring remains only a stated desire (“I still want it”) with no named mentee or plan, escalate for an explicit decision and assignment."
+  ]
+}

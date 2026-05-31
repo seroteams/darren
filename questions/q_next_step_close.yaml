@@ -1,0 +1,10 @@
+alias: q_next_step_close
+label: Next-step close
+name: "What's the first concrete thing you want to have moved by our next conversation?"
+description: Closes by turning the check-in into a specific next action or outcome.
+purpose: competency
+stage: lift
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

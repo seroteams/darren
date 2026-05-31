@@ -1,0 +1,9 @@
+alias: q_mentoring_useful
+label: Mentoring useful
+name: Mentoring feels useful — what is it giving you right now?
+description: Explores what mentoring is providing that feels absent elsewhere.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +1
+source: planner_added

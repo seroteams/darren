@@ -1,0 +1,9 @@
+alias: q_uneven_influence
+label: Uneven influence
+name: "You said 'influence is uneven' — where has that shown up most clearly?"
+description: Drills into the specific influence thread she named so the conversation stays grounded in concrete evidence.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

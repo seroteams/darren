@@ -1,0 +1,9 @@
+alias: q_decision_feedback
+label: Decision feedback
+name: "Substantive feedback on key decisions — what's missing from it right now?"
+description: Drills into the feedback gap Lin named to locate whether the issue is speed, quality, or decision alignment.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

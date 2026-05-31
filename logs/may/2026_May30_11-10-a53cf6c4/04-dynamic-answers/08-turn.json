@@ -1,0 +1,117 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_tradeoff_calls",
+    "label": "Tradeoff calls",
+    "name": "Where are you making the tradeoff call yourself instead of pushing it up?",
+    "description": "Looks for Principal-level judgment in ambiguous situations rather than safe execution.",
+    "purpose": "competency",
+    "stage": "cause",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1,
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "answer": "I need explicit expectations for the next cycle so I can calibrate fast.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "Names missing explicit expectations for the next cycle, which is a strong clarity-related growth constraint; no direct wellbeing signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_commitment",
+      "label": "Next commitment",
+      "name": "What is the first concrete change you want to make before our next review?"
+    },
+    {
+      "alias": "q_next_commitment_3",
+      "label": "Next commitment",
+      "name": "Given that, where do you want to change your approach first in the next few weeks?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 8)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_intro_perf_02_proud",
+          "delta": -1,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        },
+        {
+          "q": "q_safe_calls",
+          "delta": -1,
+          "answer_excerpt": "I probably should ask for sharper feedback earlier than I do."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_highest_leverage_work",
+          "delta": -3,
+          "answer_excerpt": "I can describe Principal impact in general, but this team's bar still feels fuzzy."
+        },
+        {
+          "q": "q_team_bar_fuzzy",
+          "delta": -3,
+          "answer_excerpt": "I have mostly stayed in my lane instead of forcing cross-team decisions."
+        },
+        {
+          "q": "q_tradeoff_calls",
+          "delta": -1,
+          "answer_excerpt": "I need explicit expectations for the next cycle so I can calibrate fast."
+        }
+      ]
+    },
+    "growth": {
+      "score": -8,
+      "history": [
+        {
+          "q": "q_intro_perf_02_proud",
+          "delta": -1,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        },
+        {
+          "q": "q_sharper_feedback",
+          "delta": -3,
+          "answer_excerpt": "I have not built enough trust with adjacent teams yet."
+        },
+        {
+          "q": "q_adjacent_team_trust",
+          "delta": -1,
+          "answer_excerpt": "The gap is less technical and more around visible ownership."
+        },
+        {
+          "q": "q_tradeoff_calls",
+          "delta": -3,
+          "answer_excerpt": "I need explicit expectations for the next cycle so I can calibrate fast."
+        }
+      ]
+    }
+  }
+}

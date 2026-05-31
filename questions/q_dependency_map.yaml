@@ -1,0 +1,10 @@
+alias: q_dependency_map
+label: Dependency map
+name: What are you waiting on that could quietly slow the billing rewrite down?
+description: Looks for hidden dependencies or missing context without prematurely naming the rewrite as a concern.
+purpose: competency
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

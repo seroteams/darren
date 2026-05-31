@@ -3,6 +3,14 @@ const { runStage } = require("./stream-helper");
 const { evaluate } = require("../../../src/reviewer");
 const { serialize } = require("../../../src/axes");
 const { formatNotesForEvaluation } = require("./notes");
+const { generateSuggestions, shouldReview } = require("../../../src/lexicon-reviewer");
+
+function kickLexiconReview(session) {
+  if (!shouldReview(session.ctx)) return;
+  generateSuggestions({ session, ctx: session.ctx }).catch((e) => {
+    console.warn("[evaluation] lexicon review failed:", e.message);
+  });
+}
 
 module.exports = async function evaluation(c) {
   const session = requireSession(c.query.s);
@@ -15,6 +23,7 @@ module.exports = async function evaluation(c) {
     getCached: () => session.briefing,
     setCached: (r) => {
       session.briefing = { ...r, cost: session.tracker.summary() };
+      kickLexiconReview(session);
     },
     produce: () =>
       evaluate(

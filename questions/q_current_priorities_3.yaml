@@ -1,0 +1,10 @@
+alias: q_current_priorities_3
+label: Current priorities
+name: "What's been most on your mind in the last stretch of work, Sarah?"
+description: Lets Sarah set the context before the feedback gets specific.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

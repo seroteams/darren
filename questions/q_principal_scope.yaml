@@ -1,0 +1,10 @@
+alias: q_principal_scope
+label: Principal scope
+name: What would you want your scope to look like at the next level?
+description: Surfaces the concrete scope shift she wants, not just the title.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

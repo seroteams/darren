@@ -45,7 +45,9 @@
       "WebFetch(domain:arxiv.org)",
       "WebFetch(domain:medium.com)",
       "WebFetch(domain:www.comet.com)",
-      "Bash(find ~/.claude/projects -name \"memory\" -type d 2>/dev/null)"
+      "Bash(find ~/.claude/projects -name \"memory\" -type d 2>/dev/null)",
+      "Bash(unzip -l batch-data.zip)",
+      "Bash(unzip -l prompts.zip)"
     ]
   }
 }

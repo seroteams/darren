@@ -1,0 +1,9 @@
+alias: q_settle_in
+label: Settle in
+name: Before we get into anything specific, what would be most useful to talk through today?
+description: Gives Kenji control over the agenda before any concern is introduced.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  clarity: +1
+source: generated

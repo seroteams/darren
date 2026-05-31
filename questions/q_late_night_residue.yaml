@@ -1,0 +1,9 @@
+alias: q_late_night_residue
+label: Late-night residue
+name: "What's still carrying over from those late nights?"
+description: Checks whether the intense push has fully cleared or is still affecting her pace.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+source: generated

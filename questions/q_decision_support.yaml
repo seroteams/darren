@@ -1,0 +1,10 @@
+alias: q_decision_support
+label: Decision support
+name: Where do you need faster calls from me?
+description: Surfaces where manager support would reduce churn or unblock progress.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

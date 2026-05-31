@@ -1,0 +1,122 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_support_next_step",
+    "label": "Support next step",
+    "name": "What would help most from me right now?",
+    "description": "Opens the support stage by inviting him to name the most useful help.",
+    "purpose": "wellbeing",
+    "stage": "support",
+    "axis_effects": {
+      "clarity": 1,
+      "wellbeing": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "A regular calibration loop would make this feel less shaky.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "Names a missing support structure — a regular calibration loop — which signals current shakiness and insufficient clarity from the manager."
+  },
+  "new_queue": [
+    {
+      "alias": "q_takeaway",
+      "label": "Takeaway",
+      "name": "What's the first concrete thing you want to have changed by our next conversation?"
+    },
+    {
+      "alias": "q_support_focus",
+      "label": "Support focus",
+      "name": "What support from me would make the biggest difference on this?"
+    }
+  ],
+  "issues": [
+    "ref_alias q_takeaway not in remaining queue — treating as new"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        },
+        {
+          "q": "q_recent_friction",
+          "delta": -3,
+          "answer_excerpt": "I feel better when feedback is specific and close to the work."
+        },
+        {
+          "q": "q_support_next_step",
+          "delta": -1,
+          "answer_excerpt": "A regular calibration loop would make this feel less shaky."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        },
+        {
+          "q": "q_changing_direction_late",
+          "delta": -3,
+          "answer_excerpt": "I am still unsure what good really looks like here week to week."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_what_good_looks_like",
+          "delta": -3,
+          "answer_excerpt": "I do ask for help sometimes, but I worry about sounding slow."
+        },
+        {
+          "q": "q_recent_friction",
+          "delta": 1,
+          "answer_excerpt": "I feel better when feedback is specific and close to the work."
+        },
+        {
+          "q": "q_specific_feedback_2",
+          "delta": -1,
+          "answer_excerpt": "Some days I feel useful, other days I feel like I am guessing."
+        },
+        {
+          "q": "q_feeling_useful",
+          "delta": -1,
+          "answer_excerpt": "When priorities change fast, I lose confidence in what to optimize for."
+        },
+        {
+          "q": "q_support_next_step",
+          "delta": -1,
+          "answer_excerpt": "A regular calibration loop would make this feel less shaky."
+        }
+      ]
+    },
+    "growth": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_specific_feedback_2",
+          "delta": -1,
+          "answer_excerpt": "Some days I feel useful, other days I feel like I am guessing."
+        },
+        {
+          "q": "q_feeling_useful",
+          "delta": -3,
+          "answer_excerpt": "When priorities change fast, I lose confidence in what to optimize for."
+        }
+      ]
+    }
+  }
+}

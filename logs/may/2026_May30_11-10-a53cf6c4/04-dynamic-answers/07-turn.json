@@ -1,0 +1,105 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_adjacent_team_trust",
+    "label": "Adjacent-team trust",
+    "name": "Adjacent teams — where is the trust not there yet?",
+    "description": "Drills into the specific trust gap he named to surface the concrete relationship pattern.",
+    "purpose": "topic",
+    "stage": "gap_naming",
+    "axis_effects": {
+      "growth": 3,
+      "wellbeing": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "The gap is less technical and more around visible ownership.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -1
+    },
+    "note": "He names a non-technical gap in visible ownership, which is a mild negative growth signal; [THREAD-DEFERRED-WINDDOWN] visible ownership thread noted for next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_tradeoff_calls",
+      "label": "Tradeoff calls",
+      "name": "Where are you making the tradeoff call yourself instead of pushing it up?"
+    },
+    {
+      "alias": "q_next_commitment_2",
+      "label": "Next commitment",
+      "name": "What would you want to do differently in the next few weeks?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 7)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_intro_perf_02_proud",
+          "delta": -1,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        },
+        {
+          "q": "q_safe_calls",
+          "delta": -1,
+          "answer_excerpt": "I probably should ask for sharper feedback earlier than I do."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_highest_leverage_work",
+          "delta": -3,
+          "answer_excerpt": "I can describe Principal impact in general, but this team's bar still feels fuzzy."
+        },
+        {
+          "q": "q_team_bar_fuzzy",
+          "delta": -3,
+          "answer_excerpt": "I have mostly stayed in my lane instead of forcing cross-team decisions."
+        }
+      ]
+    },
+    "growth": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_perf_02_proud",
+          "delta": -1,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        },
+        {
+          "q": "q_sharper_feedback",
+          "delta": -3,
+          "answer_excerpt": "I have not built enough trust with adjacent teams yet."
+        },
+        {
+          "q": "q_adjacent_team_trust",
+          "delta": -1,
+          "answer_excerpt": "The gap is less technical and more around visible ownership."
+        }
+      ]
+    }
+  }
+}

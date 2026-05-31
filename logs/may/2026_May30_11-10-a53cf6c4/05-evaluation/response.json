@@ -1,0 +1,51 @@
+{
+  "headline": "Tom’s answers show a performance pattern of staying safe: he ships, but he can’t yet name Principal-level leverage or cross-team ownership clearly.",
+  "summary_bullets": [
+    "Tom frames the core gap as leverage and Principal scope: “this team's bar still feels fuzzy” and he “stayed in my lane instead of forcing cross-team decisions.”",
+    "He links his caution to trust and visibility: “I have not built enough trust with adjacent teams yet” and the gap is “visible ownership,” not technical ability.",
+    "His next-commitment question is skipped, leaving no concrete plan to close the expectation-alignment and stakeholder-trust gaps he named."
+  ],
+  "understanding_paragraph": "Tom understands his execution is steady, but he cannot yet articulate what “Principal” means on this specific team. He avoids cross-team decisions and tradeoff ownership until he has explicit expectations and adjacent-team trust. The session revealed that his current operating model is constrained by unclear bars and low visible ownership, not by technical capability.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -1,
+      "meaning": "Weak signal on wellbeing; not actionable from this session alone."
+    },
+    {
+      "id": "engagement",
+      "score": -2,
+      "meaning": "He ships but under-aims at leverage; worth watching for continued safe execution."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Defining signal: Principal scope and team bar are unclear, driving lane-staying and delayed tradeoffs."
+    },
+    {
+      "id": "growth",
+      "score": -8,
+      "meaning": "Real pattern: growth is blocked by trust/ownership gaps and delayed feedback calibration."
+    }
+  ],
+  "brutal_truth_employee": "Tom’s read is blunt: “I am shipping, but I am not sure I am aiming at the highest-leverage work yet.” He also admits the mechanism: “I have mostly stayed in my lane” and “I have not built enough trust with adjacent teams yet.”",
+  "brutal_truth_manager": "When Tom said “this team's bar still feels fuzzy,” the conversation stayed at diagnosis level instead of forcing a concrete Principal bar definition and examples from the next cycle. The biggest missed moment is the skipped “first concrete change” answer—he left without committing to a specific scope/decision artifact.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute calibration with Tom: define “Principal impact” for this team using 2 recent examples and 3 measurable behaviors."
+    },
+    {
+      "when": "this week",
+      "action": "Assign Tom one cross-team ownership decision for next cycle, with a named stakeholder and an explicit expectation-setting checklist to use before he executes."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-ask for a concrete commitment: “What decision or project will you own end-to-end next cycle, and what feedback will you request by week one?”"
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: Tom can name the team’s Principal bar in concrete terms and tie it to one upcoming decision, not “fuzzy” language.",
+    "Within two cycles: adjacent teams start giving earlier, sharper feedback that Tom can cite; if not, the trust/ownership gap is persisting."
+  ]
+}

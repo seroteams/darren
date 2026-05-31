@@ -1,0 +1,10 @@
+alias: q_confidence_check
+label: Confidence check
+name: Where has your confidence felt strongest or weakest in the last few weeks?
+description: Explores the confidence dip directly without turning it into a diagnosis.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  growth: +1
+source: generated

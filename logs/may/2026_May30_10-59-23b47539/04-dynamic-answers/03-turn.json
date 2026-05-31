@@ -1,0 +1,96 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_political_conversations",
+    "label": "Political conversations",
+    "name": "Political conversations — what makes them hard for you to stay in?",
+    "description": "Drills into the specific dynamic behind his retreat from influence-heavy situations.",
+    "purpose": "topic",
+    "stage": "gap",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I can run projects, but shaping cross-org alignment is where I hesitate.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -3
+    },
+    "note": "Hesitation around shaping cross-org alignment signals a core next-level growth gap; [THREAD-DEFERRED] cross-org alignment hesitation not drilled because drill cap forced stage advance."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_senior_scope_now",
+      "label": "Senior scope now",
+      "name": "Where does your work feel most like Head of Product work right now?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_role_definition",
+      "label": "Role definition",
+      "name": "What does the next-level Head of Product role mean to you?"
+    },
+    {
+      "alias": "q_delegate_more",
+      "label": "Delegate more",
+      "name": "What are you still holding that someone else could own?"
+    },
+    {
+      "alias": "q_next_experiment",
+      "label": "Next experiment",
+      "name": "What's one concrete shift you want to try before our next conversation?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": 1,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        }
+      ]
+    },
+    "growth": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_execution_details",
+          "delta": -3,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        },
+        {
+          "q": "q_political_conversations",
+          "delta": -3,
+          "answer_excerpt": "I can run projects, but shaping cross-org alignment is where I hesitate."
+        }
+      ]
+    }
+  }
+}
