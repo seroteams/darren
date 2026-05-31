@@ -2,14 +2,13 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const { logStage } = require("./session");
+const { promptFor } = require("./one-on-one-types");
 const cost = require("./cost");
 
 const ROOT = path.join(__dirname, "..");
-const PROMPT_PATH = path.join(ROOT, "prompts", "generate-focus-points.md");
 const FOCUS_POINTS_PATH = path.join(ROOT, "focus-points.json");
 
 const CATALOGUE = JSON.parse(fs.readFileSync(FOCUS_POINTS_PATH, "utf8"));
-const PROMPT_TEMPLATE = fs.readFileSync(PROMPT_PATH, "utf8");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
@@ -45,7 +44,8 @@ function loadFocusPoints() {
 }
 
 function buildMessages({ name, role, seniority, meetingType, notes, focusPoints }) {
-  const filled = PROMPT_TEMPLATE
+  const template = fs.readFileSync(promptFor(meetingType, "focusPoints"), "utf8");
+  const filled = template
     .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
     .replaceAll("{{NAME}}", name || "(not provided)")
     .replaceAll("{{ROLE}}", role || "(not provided)")

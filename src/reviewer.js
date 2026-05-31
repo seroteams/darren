@@ -1,12 +1,9 @@
 const fs = require("node:fs");
-const path = require("node:path");
 
 const { logStage } = require("./session");
 const { loadAxes } = require("./axes");
+const { promptFor } = require("./one-on-one-types");
 const cost = require("./cost");
-
-const ROOT = path.join(__dirname, "..");
-const PROMPT_PATH = path.join(ROOT, "prompts", "final-evaluation.md");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
@@ -76,7 +73,7 @@ const RESPONSE_SCHEMA = {
 };
 
 function buildMessages({ ctx, focusPoints, transcript, axisState, notes }) {
-  const template = fs.readFileSync(PROMPT_PATH, "utf8");
+  const template = fs.readFileSync(promptFor(ctx.meetingType, "evaluation"), "utf8");
   const axes = loadAxes();
   const filled = template
     .replaceAll("{{AXES_JSON}}", JSON.stringify(axes, null, 2))
