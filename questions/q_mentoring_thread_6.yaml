@@ -1,0 +1,9 @@
+alias: q_mentoring_thread_6
+label: Mentoring thread
+name: Mentoring matters to you — what about it feels like growth right now?
+description: Drills into why mentoring feels developmental so the conversation can distinguish real stretch from a generic preference.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

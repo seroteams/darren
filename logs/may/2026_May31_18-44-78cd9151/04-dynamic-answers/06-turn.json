@@ -1,0 +1,105 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_escalate_vs_batch_2",
+    "label": "Escalate vs batch",
+    "name": "What would a useful escalate-versus-batch guide need to cover?",
+    "description": "Drills into the specific escalation ambiguity he named so the manager can remove friction fast.",
+    "purpose": "topic",
+    "stage": "orientation",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "The runbook helped, but some practical handoff details only show up during live incidents.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -3,
+      "clarity": -3
+    },
+    "note": "Names a concrete gap: practical incident handoff details are only learned live, signalling strong clarity friction and reduced confidence to engage; [THREAD-DEFERRED] practical handoff details during live incidents."
+  },
+  "new_queue": [
+    {
+      "alias": "q_context_gaps_2",
+      "label": "Context gaps",
+      "name": "What context are you still waiting on before you change a design or make an architecture call?"
+    },
+    {
+      "alias": "q_incident_norms",
+      "label": "Incident norms",
+      "name": "How should you know when to escalate during an incident here?"
+    },
+    {
+      "alias": "q_useful_next_step",
+      "label": "Useful next step",
+      "name": "What would make the next two weeks feel steadier for you, Riley?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 6)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_notes_doc_questions_2",
+          "delta": -3,
+          "answer_excerpt": "I would benefit from a clearer guide for what to escalate quickly versus what to batch."
+        },
+        {
+          "q": "q_escalate_vs_batch_2",
+          "delta": -3,
+          "answer_excerpt": "The runbook helped, but some practical handoff details only show up during live incidents."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_landing_check",
+          "delta": -1,
+          "answer_excerpt": "I am comfortable reading the services, but I am less sure how decisions are really made here."
+        },
+        {
+          "q": "q_decision_making_map_4",
+          "delta": -1,
+          "answer_excerpt": "I can trace most request paths now, though I still miss historical context behind certain tradeoffs."
+        },
+        {
+          "q": "q_thread_follow_34",
+          "delta": -1,
+          "answer_excerpt": "I have not been fully clear on who is on point for each domain when priorities conflict."
+        },
+        {
+          "q": "q_ownership_map",
+          "delta": -3,
+          "answer_excerpt": "I am trying not to interrupt people, so sometimes I keep questions in a notes doc instead of asking."
+        },
+        {
+          "q": "q_notes_doc_questions_2",
+          "delta": -3,
+          "answer_excerpt": "I would benefit from a clearer guide for what to escalate quickly versus what to batch."
+        },
+        {
+          "q": "q_escalate_vs_batch_2",
+          "delta": -3,
+          "answer_excerpt": "The runbook helped, but some practical handoff details only show up during live incidents."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

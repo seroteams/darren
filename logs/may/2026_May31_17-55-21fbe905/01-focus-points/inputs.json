@@ -1,0 +1,8 @@
+{
+  "name": "Nina",
+  "role": "Frontend Engineer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Nina shipped two major features ahead of schedule after several weeks of late nights and has been downplaying concern. I need to separate output from sustainability and understand what is actually driving the current load now that the sprint pressure is over. I also want to hear where she feels blocked in visibility and influence, because strong execution without recognition can quietly drain engagement. This check-in should clarify her near-term priorities and what support she actually wants from me.",
+  "model": "gpt-5.4-nano"
+}

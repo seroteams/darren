@@ -1,0 +1,51 @@
+{
+  "headline": "Carlos can articulate wins, but he can’t reliably translate feedback into team-bar-consistent work under time pressure—clarity and growth are the blockers.",
+  "summary_bullets": [
+    "He repeatedly ties inconsistency to time pressure: “I sometimes focus on polish and lose sight of the core message.”",
+    "He asks for concreteness rather than more feedback: “I want clearer examples of what excellent junior-level work looks like here.”",
+    "His growth plan is real but still conditional on alignment: “If we align on concrete criteria, I can work against them confidently.”"
+  ],
+  "understanding_paragraph": "Carlos defines the problem as a mismatch between his interpretation of “wins” and the team bar, especially when deadlines compress. He’s not asking for more motivation—he’s asking for a usable definition of excellence and a tighter feedback loop on one skill at a time. The session clarified that his next-step is less about speed and more about concept rationale and message-first prioritization.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -1,
+      "meaning": "Weak signal: time pressure shows up as stress-adjacent, but not enough to call it sustained burnout risk."
+    },
+    {
+      "id": "engagement",
+      "score": 1,
+      "meaning": "Slight positive: he’s taking feedback seriously and committing to a specific practice for the next month."
+    },
+    {
+      "id": "clarity",
+      "score": -8,
+      "meaning": "Defining signal: he lacks a concrete, team-aligned bar and doesn’t know what to change first when reviews are broad."
+    },
+    {
+      "id": "growth",
+      "score": -5,
+      "meaning": "Real blocker: he feels stuck on concept rationale and wants a tighter one-skill feedback loop to progress."
+    }
+  ],
+  "brutal_truth_employee": "Carlos is clear that feedback hasn’t fully landed into his day-to-day: “I am not always sure they match the team bar.” Under pressure, he defaults to surface work: “I sometimes focus on polish and lose sight of the core message.”",
+  "brutal_truth_manager": "The biggest unlock is to stop leaving “team bar” implicit. Carlos asked for “clearer examples of what excellent junior-level work looks like here,” and the conversation moved toward a criteria-based loop—next time, push for one concrete artifact and one measurable criterion before you close.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Send Carlos 2 annotated examples of “excellent junior-level work” for concept rationale, each with a short checklist tied to the core message."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 20-minute criteria alignment: pick one concept-rationale criterion and define what “good” looks like vs “not yet” on a real upcoming deliverable."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Review Carlos’s one explicit priority rule from this month and ask for one before/after artifact showing whether the core message stayed intact under time pressure."
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Carlos still says “I am not sure they match the team bar,” treat clarity as unresolved and re-anchor with examples.",
+    "Within two weeks: if his revisions keep drifting to “polish” without preserving “the core message,” the one-skill loop isn’t tight enough—tighten the criteria."
+  ]
+}

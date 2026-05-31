@@ -1,0 +1,10 @@
+alias: q_post_sprint_load
+label: Post-sprint load
+name: Now that the sprint pressure has eased, what’s actually driving your workload right now?
+description: Separates temporary push from a pattern in her current pace.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

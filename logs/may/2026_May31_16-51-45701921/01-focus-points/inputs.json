@@ -1,0 +1,8 @@
+{
+  "name": "Sarah",
+  "role": "Senior Data Scientist",
+  "seniority": "Senior",
+  "meetingType": "Performance & feedback",
+  "notes": "Sarah is delivering, but there are signs she may be over-rotating on execution while underweighting influence and visibility. I want to understand whether she has a clear view of the performance bar at Senior level and where she sees gaps in her current approach. This conversation should test how she frames impact, how she handles cross-functional friction, and whether she has a practical plan to raise signal with stakeholders instead of waiting for good work to be noticed automatically.",
+  "model": "gpt-5.4-nano"
+}

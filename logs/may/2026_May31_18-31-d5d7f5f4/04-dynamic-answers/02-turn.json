@@ -1,0 +1,96 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_highest_leverage_work_6",
+    "label": "Highest-leverage work",
+    "name": "When you say 'highest-leverage work,' what work are you pointing to specifically?",
+    "description": "Pins down the concrete work he believes would count as higher leverage before moving deeper into evidence.",
+    "purpose": "topic",
+    "stage": "self_read",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I can describe Principal impact in general, but this team's bar still feels fuzzy.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "He cannot name team-specific Principal-level work and says the bar feels fuzzy, which is a strong negative clarity signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_team_bar_fuzzy_4",
+      "label": "Team bar fuzzy",
+      "name": "This team's bar feels fuzzy — where does that show up most concretely?"
+    },
+    {
+      "alias": "q_intro_perf_02_proud",
+      "label": "What they're proud of",
+      "name": "What's something from the last quarter you're genuinely proud of — not what looks good, what actually was good?"
+    },
+    {
+      "alias": "q_evidence_of_leverage",
+      "label": "Evidence of leverage",
+      "name": "What recent decision or change best shows the leverage you're creating?"
+    },
+    {
+      "alias": "q_intro_perf_03_gap",
+      "label": "Gap awareness",
+      "name": "Where do you think you've fallen short of where you want to be?"
+    },
+    {
+      "alias": "q_expectation_alignment_4",
+      "label": "Expectation alignment",
+      "name": "Where do you still need earlier alignment on expectations?"
+    },
+    {
+      "alias": "q_questioning_pattern",
+      "label": "Questioning pattern",
+      "name": "What keeps you from asking more questions earlier?"
+    },
+    {
+      "alias": "q_earlier_signals",
+      "label": "Earlier signals",
+      "name": "What would help you spot expectation drift earlier next time?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_highest_leverage_work_6",
+          "delta": -3,
+          "answer_excerpt": "I can describe Principal impact in general, but this team's bar still feels fuzzy."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

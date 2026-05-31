@@ -1,0 +1,93 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_commitments_clarity",
+    "label": "Commitments clarity",
+    "name": "Where do commitments get fuzzy for you in those cross-team conversations?",
+    "description": "Surfaces the specific moments or patterns that make ownership and commitments hard to track.",
+    "purpose": "topic",
+    "stage": "orientation",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Being remote makes it harder to read context that others seem to pick up naturally.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "Remote work is making meeting context harder to read, which is a strong clarity gap around implicit cues and commitments."
+  },
+  "new_queue": [
+    {
+      "alias": "q_remote_context_gap",
+      "label": "Remote context gap",
+      "name": "Being remote — what context do you miss most in those meetings?"
+    },
+    {
+      "alias": "q_first_friction",
+      "label": "First friction",
+      "name": "What is still slowing you down when priorities conflict?"
+    },
+    {
+      "alias": "q_consensus_drag",
+      "label": "Consensus drag",
+      "name": "What part of alignment is creating the most extra cycle for you?"
+    },
+    {
+      "alias": "q_steadier_next_steps",
+      "label": "Steadier next steps",
+      "name": "What support from me would make the next two weeks steadier for you?"
+    }
+  ],
+  "issues": [
+    "coverage: injected engagement into next question (0 touches after turn 4)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_landing_check_in_3",
+          "delta": -1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_landing_check_in_3",
+          "delta": -1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        },
+        {
+          "q": "q_unwritten_rules_2",
+          "delta": -1,
+          "answer_excerpt": "I can draft plans, though I am not always sure when I should decide versus escalate."
+        },
+        {
+          "q": "q_decide_vs_escalate_2",
+          "delta": -1,
+          "answer_excerpt": "Cross-team conversations move fast and I sometimes leave unsure about who committed to what."
+        },
+        {
+          "q": "q_commitments_clarity",
+          "delta": -3,
+          "answer_excerpt": "Being remote makes it harder to read context that others seem to pick up naturally."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

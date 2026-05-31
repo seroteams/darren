@@ -240,7 +240,12 @@ export async function mount(root, { store, setState }) {
       };
       const res = await startSession(payload);
       try { localStorage.setItem("seroSessionId", res.sessionId); } catch {}
-      setState({ sessionId: res.sessionId, sessionDir: res.sessionDir || null, stage: STAGES.FOCUS_POINTS });
+      setState({
+        sessionId: res.sessionId,
+        sessionDir: res.sessionDir || null,
+        createdAt: res.createdAt ?? Date.now(),
+        stage: STAGES.FOCUS_POINTS,
+      });
     } catch (e) {
       setState({ stage: STAGES.ERROR, error: e.message, retryStage: STAGES.INTAKE });
     }

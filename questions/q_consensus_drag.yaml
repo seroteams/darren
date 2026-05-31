@@ -1,0 +1,9 @@
+alias: q_consensus_drag
+label: Consensus drag
+name: What part of alignment is creating the most extra cycle for you?
+description: Finds where consensus-seeking is slowing execution or adding noise.
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +3
+source: generated

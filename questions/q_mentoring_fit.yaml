@@ -1,0 +1,10 @@
+alias: q_mentoring_fit
+label: Mentoring fit
+name: What role is the mentoring program playing in your week right now?
+description: Checks whether mentoring is a deliberate investment or something drifting into the center of his time.
+purpose: topic
+stage: support
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

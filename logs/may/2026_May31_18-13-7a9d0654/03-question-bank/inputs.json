@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "How she frames and proves her impact",
+      "reason": "What she’s using as the performance bar for Senior-level impact, and where she thinks her current framing might be underweighting influence and visibility.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Cross-functional friction and stakeholder trust",
+      "reason": "How she’s handling cross-functional friction right now—whether she’s pre-wiring expectations, escalating hard news early, and building trust when outcomes depend on others.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "Raising visibility with stakeholders",
+      "reason": "Whether she has a practical plan to raise signal with stakeholders (updates, artifacts, asks, and timing) instead of waiting for good work to be noticed automatically.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "judgment",
+      "type": "Judgment",
+      "category": "competency",
+      "label": "When to push vs escalate tradeoffs",
+      "reason": "What calls she’s making on the hardest tradeoffs—when to push through, when to escalate to you, and how quickly she’s calibrating risk at Senior scope.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Sarah",
+  "role": "Senior Data Scientist",
+  "seniority": "Senior",
+  "meetingType": "Performance & feedback",
+  "notes": "Sarah is delivering, but there are signs she may be over-rotating on execution while underweighting influence and visibility. I want to understand whether she has a clear view of the performance bar at Senior level and where she sees gaps in her current approach. This conversation should test how she frames impact, how she handles cross-functional friction, and whether she has a practical plan to raise signal with stakeholders instead of waiting for good work to be noticed automatically.",
+  "model": "gpt-5.4-mini"
+}

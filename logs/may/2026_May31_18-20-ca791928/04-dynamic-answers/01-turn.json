@@ -1,0 +1,98 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_growth_blockers",
+    "label": "Growth blockers",
+    "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+    "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+    "purpose": "topic",
+    "stage": "gap",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "Promotion disappointment has made him more cautious about spending political capital, signaling a strong growth blocker and some reduced clarity on how to advance."
+  },
+  "new_queue": [
+    {
+      "alias": "q_political_capital_3",
+      "label": "Political capital",
+      "name": "Political capital — where are you choosing to hold back right now?"
+    },
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_feels_solid_now",
+      "label": "Feels solid now",
+      "name": "What's feeling most solid in your design lead work right now?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_named_destination",
+      "label": "Named destination",
+      "name": "What kind of design leadership would make the next step feel real for you?"
+    },
+    {
+      "alias": "q_sponsorship_need",
+      "label": "Sponsorship need",
+      "name": "What kind of sponsorship would actually change the way your work lands here?"
+    },
+    {
+      "alias": "q_tradeoff_check_2",
+      "label": "Tradeoff check",
+      "name": "What would you be willing to trade off to create more space for strategic work?"
+    },
+    {
+      "alias": "q_next_two_weeks_24",
+      "label": "Next two weeks",
+      "name": "Given what we've talked through, what would you want to focus on first over the next two weeks?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        }
+      ]
+    }
+  }
+}

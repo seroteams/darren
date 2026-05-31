@@ -1,0 +1,108 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_support_needed_23",
+    "label": "Support needed",
+    "name": "What support from me would make the next couple of weeks steadier for you?",
+    "description": "Closes by identifying concrete support without opening a new topic.",
+    "purpose": "wellbeing",
+    "stage": "support",
+    "axis_effects": {
+      "wellbeing": 1,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "answer": "If we can define the path precisely, I will commit to it.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": 1,
+      "clarity": -1
+    },
+    "note": "He names precise path definition as the needed support, which signals a mild clarity gap alongside willingness to commit once expectations are clear."
+  },
+  "new_queue": [
+    {
+      "alias": "q_seed_clarity_priorities",
+      "label": "Priority ranking",
+      "name": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?"
+    }
+  ],
+  "issues": [
+    "ref_alias q_support_needed_23 not in remaining queue — treating as new",
+    "ref_alias q_support_needed_23 already asked — dropping"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_support_needed_23",
+          "delta": 1,
+          "answer_excerpt": "If we can define the path precisely, I will commit to it."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_thread_follow_27",
+          "delta": -3,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_promotion_feedback",
+          "delta": -3,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        },
+        {
+          "q": "q_controllable_delivery",
+          "delta": -3,
+          "answer_excerpt": "Mentoring has been one place where I still feel useful."
+        },
+        {
+          "q": "q_mentoring_usefulness_2",
+          "delta": -3,
+          "answer_excerpt": "I am not sure the work I am doing is the work that gets recognized."
+        },
+        {
+          "q": "q_clearer_criteria_2",
+          "delta": -3,
+          "answer_excerpt": "I can own bigger direction, but I need real authority to do it."
+        },
+        {
+          "q": "q_support_needed_23",
+          "delta": -1,
+          "answer_excerpt": "If we can define the path precisely, I will commit to it."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_promotion_feedback",
+          "delta": -1,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        }
+      ]
+    }
+  }
+}

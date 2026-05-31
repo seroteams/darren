@@ -1,0 +1,10 @@
+alias: q_protect_the_week
+label: Protect the week
+name: What should we take off your plate first?
+description: Forces a trade-off and reveals what is creating unnecessary load right now.
+purpose: topic
+stage: support
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

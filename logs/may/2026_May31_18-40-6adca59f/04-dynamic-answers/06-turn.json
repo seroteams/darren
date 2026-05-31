@@ -1,0 +1,91 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_intro_off_energy",
+    "label": "Energy read",
+    "name": "How's your energy been lately — separately from how work is going?",
+    "description": "Separates energy from output; avoids leading with 'is something wrong'.",
+    "purpose": "wellbeing",
+    "stage": "landing",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "seed"
+  },
+  "answer": "I want clearer criteria, not reassurance.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "Pivot/off-topic from an energy question into a request for clearer criteria; no wellbeing signal scored, but strong clarity need is evident and worth taking up next."
+  },
+  "new_queue": [
+    {
+      "alias": "q_clearer_criteria_2",
+      "label": "Clearer criteria",
+      "name": "When you say 'clearer criteria,' what specifically feels missing?"
+    },
+    {
+      "alias": "q_support_needed_23",
+      "label": "Support needed",
+      "name": "What support from me would make the next couple of weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_thread_follow_27",
+          "delta": -3,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_promotion_feedback",
+          "delta": -3,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        },
+        {
+          "q": "q_controllable_delivery",
+          "delta": -3,
+          "answer_excerpt": "Mentoring has been one place where I still feel useful."
+        },
+        {
+          "q": "q_mentoring_usefulness_2",
+          "delta": -3,
+          "answer_excerpt": "I am not sure the work I am doing is the work that gets recognized."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_promotion_feedback",
+          "delta": -1,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        }
+      ]
+    }
+  }
+}

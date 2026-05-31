@@ -1,0 +1,9 @@
+alias: q_mentoring_usefulness_2
+label: Mentoring usefulness
+name: "Mentoring feels useful — what is it giving you that other parts of the role aren't?"
+description: Drills into mentoring as the concrete thread to surface what need it is meeting right now.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

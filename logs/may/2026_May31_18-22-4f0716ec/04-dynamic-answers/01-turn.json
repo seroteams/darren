@@ -1,0 +1,88 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_landing_check_in_5",
+    "label": "Landing check-in",
+    "name": "What's felt most useful to get into the flow here so far?",
+    "description": "Opens with a safe, context-setting check-in on how Aisha is landing in week four.",
+    "purpose": "wellbeing",
+    "stage": "settling",
+    "axis_effects": {
+      "wellbeing": 1,
+      "engagement": 1
+    },
+    "source": "generated"
+  },
+  "answer": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": 1
+    },
+    "note": "She sounds generally settling in but is still expending effort decoding 'unwritten rules in every meeting,' which also flags an off-signature clarity issue worth probing next."
+  },
+  "new_queue": [
+    {
+      "alias": "q_unwritten_rules_4",
+      "label": "Unwritten rules",
+      "name": "When you say 'unwritten rules in every meeting,' what are you still trying to read?"
+    },
+    {
+      "alias": "q_decision_boundaries_2",
+      "label": "Decision boundaries",
+      "name": "Where do the decision boundaries still feel fuzzy in your PM scope?"
+    },
+    {
+      "alias": "q_cross_functional_moments",
+      "label": "Cross-functional moments",
+      "name": "Which cross-functional moments still slow you down the most?"
+    },
+    {
+      "alias": "q_alignment_friction",
+      "label": "Alignment friction",
+      "name": "What part of running alignment is taking more effort than it should?"
+    },
+    {
+      "alias": "q_support_from_me_3",
+      "label": "Support from me",
+      "name": "Where would a clearer call from me help you most?"
+    },
+    {
+      "alias": "q_next_support_5",
+      "label": "Next support",
+      "name": "What would make the next two weeks feel steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_landing_check_in_5",
+          "delta": -1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_landing_check_in_5",
+          "delta": 1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

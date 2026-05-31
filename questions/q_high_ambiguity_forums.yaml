@@ -1,0 +1,9 @@
+alias: q_high_ambiguity_forums
+label: High-ambiguity forums
+name: High-ambiguity forums — what feels most risky when you step into them?
+description: Drills into the specific fear or constraint behind avoiding visible strategic settings.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

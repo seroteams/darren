@@ -1,0 +1,8 @@
+{
+  "name": "Priya",
+  "role": "Senior Backend Engineer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Priya shipped a major feature on Monday and the team noticed, but she has been quieter this week. I want to check whether this is normal post-launch recovery or something unresolved. She also mentioned wanting to mentor a few months ago and that thread never moved. I need a clearer read on what she expects to own next quarter before I introduce the billing rewrite, since she may already be forming plans that this will disrupt.",
+  "model": "gpt-5.4-nano"
+}

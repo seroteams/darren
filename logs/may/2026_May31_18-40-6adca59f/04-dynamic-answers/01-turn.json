@@ -1,0 +1,105 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_off_connection",
+    "label": "Team connection",
+    "name": "How connected do you feel to the rest of the team right now?",
+    "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+    "purpose": "wellbeing",
+    "stage": "observation",
+    "axis_effects": {
+      "engagement": 3,
+      "wellbeing": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I have been less present in rituals, yes.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": -3
+    },
+    "note": "He directly confirms reduced participation in team rituals, which is a strong engagement dip and a mild wellbeing concern."
+  },
+  "new_queue": [
+    {
+      "alias": "q_thread_follow_27",
+      "label": "Thread follow",
+      "name": "have been less — can you say more about what that means for you right now?"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_less_present_rituals_5",
+      "label": "Less present rituals",
+      "name": "You said 'less present in rituals' — what's behind that shift?"
+    },
+    {
+      "alias": "q_promotion_feedback",
+      "label": "Promotion feedback",
+      "name": "What feedback from the promotion decision actually stuck with you?"
+    },
+    {
+      "alias": "q_intro_off_openended",
+      "label": "Open invitation",
+      "name": "Is there anything on your mind that we haven't made space to talk about?"
+    },
+    {
+      "alias": "q_team_rituals_value",
+      "label": "Team rituals value",
+      "name": "Which team rituals still feel worth your time?"
+    },
+    {
+      "alias": "q_mentoring_fit_5",
+      "label": "Mentoring fit",
+      "name": "What is the mentoring program doing for your week right now?"
+    },
+    {
+      "alias": "q_path_forward_4",
+      "label": "Path forward",
+      "name": "What concrete path do you think exists for you from here?"
+    },
+    {
+      "alias": "q_support_needed_23",
+      "label": "Support needed",
+      "name": "What support from me would make the next couple of weeks steadier for you?"
+    }
+  ],
+  "issues": [
+    "runtime: injected thread-follow question"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

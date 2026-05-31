@@ -1,0 +1,10 @@
+alias: q_hidden_work
+label: Hidden work
+name: What work is still sitting with you that others may not be seeing?
+description: Finds the invisible tasks or follow-through that can quietly inflate capacity pressure.
+purpose: topic
+stage: friction
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

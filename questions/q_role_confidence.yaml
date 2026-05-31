@@ -1,0 +1,10 @@
+alias: q_role_confidence
+label: Role confidence
+name: Where does this role still feel least settled for you?
+description: Checks for the specific part of the job that still feels uncertain or shaky.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

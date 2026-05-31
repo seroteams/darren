@@ -1,0 +1,10 @@
+alias: q_rituals_shift_2
+label: Rituals shift
+name: "I've noticed you've been quieter in a few team rituals since the promotion decision — what's changed for you there?"
+description: Uses an observable shift to invite his version of what changed without assuming the cause.
+purpose: topic
+stage: observation
+axis_effects:
+  engagement: +3
+  wellbeing: +1
+source: generated

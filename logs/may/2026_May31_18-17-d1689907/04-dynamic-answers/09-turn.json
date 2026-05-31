@@ -1,0 +1,129 @@
+{
+  "turn": 9,
+  "question": {
+    "alias": "q_next_support_4",
+    "label": "Next support",
+    "name": "What would make the next couple of weeks steadier for you?",
+    "description": "Closes by turning the check-in into concrete onboarding support and next-step alignment.",
+    "purpose": "wellbeing",
+    "stage": "connection",
+    "axis_effects": {
+      "wellbeing": 1,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "answer": "I will ask one architecture question in the next incident review instead of keeping it in my notes doc.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": 1,
+      "clarity": 1
+    },
+    "note": "He named a concrete next step that should reduce friction and increase clarity by asking an architecture question live instead of holding it back."
+  },
+  "new_queue": [],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_landing_check_in_4",
+          "delta": 1,
+          "answer_excerpt": "I am comfortable reading the services, but I am less sure how decisions are really made here."
+        },
+        {
+          "q": "q_next_support_4",
+          "delta": 1,
+          "answer_excerpt": "I will ask one architecture question in the next incident review instead of keeping it in my notes doc."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_notes_doc_questions",
+          "delta": -3,
+          "answer_excerpt": "I would benefit from a clearer guide for what to escalate quickly versus what to batch."
+        },
+        {
+          "q": "q_escalation_guide_2",
+          "delta": -1,
+          "answer_excerpt": "The runbook helped, but some practical handoff details only show up during live incidents."
+        },
+        {
+          "q": "q_support_network_2",
+          "delta": -1,
+          "answer_excerpt": "If I know exactly what ownership I should take this month, I can contribute with more confidence."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_landing_check_in_4",
+          "delta": -1,
+          "answer_excerpt": "I am comfortable reading the services, but I am less sure how decisions are really made here."
+        },
+        {
+          "q": "q_decision_making_map_3",
+          "delta": -1,
+          "answer_excerpt": "I can trace most request paths now, though I still miss historical context behind certain tradeoffs."
+        },
+        {
+          "q": "q_tradeoff_context_2",
+          "delta": -1,
+          "answer_excerpt": "I have not been fully clear on who is on point for each domain when priorities conflict."
+        },
+        {
+          "q": "q_ownership_edges_3",
+          "delta": -3,
+          "answer_excerpt": "I am trying not to interrupt people, so sometimes I keep questions in a notes doc instead of asking."
+        },
+        {
+          "q": "q_notes_doc_questions",
+          "delta": -3,
+          "answer_excerpt": "I would benefit from a clearer guide for what to escalate quickly versus what to batch."
+        },
+        {
+          "q": "q_escalation_guide_2",
+          "delta": -3,
+          "answer_excerpt": "The runbook helped, but some practical handoff details only show up during live incidents."
+        },
+        {
+          "q": "q_missing_context",
+          "delta": -3,
+          "answer_excerpt": "A short weekly architecture review with someone senior would help me calibrate faster."
+        },
+        {
+          "q": "q_support_network_2",
+          "delta": -1,
+          "answer_excerpt": "If I know exactly what ownership I should take this month, I can contribute with more confidence."
+        },
+        {
+          "q": "q_next_support_4",
+          "delta": 1,
+          "answer_excerpt": "I will ask one architecture question in the next incident review instead of keeping it in my notes doc."
+        }
+      ]
+    },
+    "growth": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_missing_context",
+          "delta": -1,
+          "answer_excerpt": "A short weekly architecture review with someone senior would help me calibrate faster."
+        },
+        {
+          "q": "q_support_network_2",
+          "delta": -3,
+          "answer_excerpt": "If I know exactly what ownership I should take this month, I can contribute with more confidence."
+        }
+      ]
+    }
+  }
+}

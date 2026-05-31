@@ -1,0 +1,10 @@
+alias: q_incident_picture_2
+label: Incident picture
+name: What’s your understanding of how incidents should be handled here?
+description: Checks whether Riley has the practical incident model he needs for a backend role.
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

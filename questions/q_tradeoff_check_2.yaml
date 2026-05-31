@@ -1,0 +1,10 @@
+alias: q_tradeoff_check_2
+label: Tradeoff check
+name: What would you be willing to trade off to create more space for strategic work?
+description: Forces a real prioritization conversation about what must give if he wants broader influence.
+purpose: competency
+stage: investment
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

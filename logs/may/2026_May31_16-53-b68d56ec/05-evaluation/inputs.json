@@ -1,0 +1,182 @@
+{
+  "ctx": {
+    "name": "Kenji",
+    "role": "Product Designer",
+    "seniority": "Junior",
+    "meetingType": "Something feels off",
+    "notes": "Kenji is around three months in, and this is a common point where uncertainty and confidence dips show up. I need to understand whether he feels clear on expectations, connected to support, and safe asking for help. Notes suggest he may be carrying frustration about shifting requirements while trying to prove himself. This should stay exploratory, not corrective: I want to hear what feels hardest right now and where our team setup is making the role harder than it needs to be."
+  },
+  "focusPoints": [
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "What “good” feels like right now.",
+      "reason": "What expectations and success bar feel most uncertain for him after three months in. Could be shifting requirements, unclear ownership, or just the normal dip—worth clarifying what specifically feels fuzzy.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How safe it feels to ask for help.",
+      "reason": "Whether he feels connected to support and safe raising confusion or frustration. One possibility is he’s trying to prove himself by absorbing uncertainty rather than asking early.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Where the team setup makes it harder.",
+      "reason": "If the role feels harder than it needs to be, this is the fastest way to find the friction points you can remove—process, review patterns, access to context, or how help is requested and received.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What he’s saying yes to versus no to.",
+      "reason": "What’s pulling his attention between proving himself and the actual highest-leverage work. This helps separate “shifted requirements” from a broader mismatch in priorities or sequencing.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "How connected do you feel to the rest of the team right now?",
+      "alias": "q_intro_off_connection",
+      "answer": "The hardest part is changing direction late and feeling like I missed something.",
+      "skipped": false
+    },
+    {
+      "question": "When direction changes late, where does it usually break down for you?",
+      "alias": "q_late_direction_changes",
+      "answer": "I am still unsure what good really looks like here week to week.",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'what good looks like' — what's most unclear week to week?",
+      "alias": "q_what_good_looks_like_2",
+      "answer": "I do ask for help sometimes, but I worry about sounding slow.",
+      "skipped": false
+    },
+    {
+      "question": "How's your energy been lately — separately from how work is going?",
+      "alias": "q_intro_off_energy",
+      "answer": "I feel better when feedback is specific and close to the work.",
+      "skipped": false
+    },
+    {
+      "question": "Specific feedback — what feels too vague or too delayed right now?",
+      "alias": "q_specific_feedback_3",
+      "answer": "Some days I feel useful, other days I feel like I am guessing.",
+      "skipped": false
+    },
+    {
+      "question": "On the days you're guessing, what's usually missing?",
+      "alias": "q_guessing_days",
+      "answer": "When priorities change fast, I lose confidence in what to optimize for.",
+      "skipped": false
+    },
+    {
+      "question": "What's one thing I could change that would remove friction for you?",
+      "alias": "q_manager_leverage_4",
+      "answer": "I want more ownership, but I also want clearer guardrails.",
+      "skipped": false
+    },
+    {
+      "question": "Given what we've talked about, where do you want to focus first?",
+      "alias": "q_next_step_3",
+      "answer": "A regular calibration loop would make this feel less shaky.",
+      "skipped": false
+    },
+    {
+      "question": "Given what we've talked about, what's the first thing you want to shift before we next meet?",
+      "alias": "q_next_step_2",
+      "answer": "(skipped)",
+      "skipped": true
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        },
+        {
+          "q": "q_late_direction_changes",
+          "delta": -1,
+          "answer_excerpt": "I am still unsure what good really looks like here week to week."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_what_good_looks_like_2",
+          "delta": -3,
+          "answer_excerpt": "I do ask for help sometimes, but I worry about sounding slow."
+        },
+        {
+          "q": "q_specific_feedback_3",
+          "delta": -3,
+          "answer_excerpt": "Some days I feel useful, other days I feel like I am guessing."
+        },
+        {
+          "q": "q_guessing_days",
+          "delta": -3,
+          "answer_excerpt": "When priorities change fast, I lose confidence in what to optimize for."
+        },
+        {
+          "q": "q_manager_leverage_4",
+          "delta": -3,
+          "answer_excerpt": "I want more ownership, but I also want clearer guardrails."
+        },
+        {
+          "q": "q_next_step_3",
+          "delta": -1,
+          "answer_excerpt": "A regular calibration loop would make this feel less shaky."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_specific_feedback_3",
+          "delta": -1,
+          "answer_excerpt": "Some days I feel useful, other days I feel like I am guessing."
+        },
+        {
+          "q": "q_guessing_days",
+          "delta": -1,
+          "answer_excerpt": "When priorities change fast, I lose confidence in what to optimize for."
+        },
+        {
+          "q": "q_next_step_3",
+          "delta": -1,
+          "answer_excerpt": "A regular calibration loop would make this feel less shaky."
+        }
+      ]
+    }
+  },
+  "notes": "Kenji is around three months in, and this is a common point where uncertainty and confidence dips show up. I need to understand whether he feels clear on expectations, connected to support, and safe asking for help. Notes suggest he may be carrying frustration about shifting requirements while trying to prove himself. This should stay exploratory, not corrective: I want to hear what feels hardest right now and where our team setup is making the role harder than it needs to be.",
+  "model": "gpt-5.4-nano"
+}

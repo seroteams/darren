@@ -1,0 +1,10 @@
+alias: q_support_needed_12
+label: Support needed
+name: What would be most useful from me over the next two weeks?
+description: Opens the door for air cover, unblocking, or decision support in a concrete way.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

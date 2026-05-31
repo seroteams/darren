@@ -1,0 +1,94 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_decide_vs_escalate_3",
+    "label": "Decide vs escalate",
+    "name": "On decide versus escalate, what feels hardest to judge right now?",
+    "description": "Drills into the specific boundary she named so the manager can remove ambiguity.",
+    "purpose": "topic",
+    "stage": "orientation",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Cross-team conversations move fast and I sometimes leave unsure about who committed to what.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "She names a specific clarity gap in fast cross-team conversations: leaving unsure who committed to what."
+  },
+  "new_queue": [
+    {
+      "alias": "q_thread_follow_22",
+      "label": "Thread follow",
+      "name": "ross-team conversations move — can you say more about what that means for you right now?"
+    },
+    {
+      "alias": "q_committed_to_what_2",
+      "label": "Committed to what",
+      "name": "When that happens, what part gets lost — owners, decisions, or next steps?"
+    },
+    {
+      "alias": "q_alignment_friction",
+      "label": "Alignment friction",
+      "name": "What part of running alignment is taking more effort than it should?"
+    },
+    {
+      "alias": "q_support_from_me_3",
+      "label": "Support from me",
+      "name": "Where would a clearer call from me help you most?"
+    },
+    {
+      "alias": "q_next_support_5",
+      "label": "Next support",
+      "name": "What would make the next two weeks feel steadier for you?"
+    }
+  ],
+  "issues": [
+    "runtime: injected thread-follow question"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_landing_check_in_5",
+          "delta": -1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_landing_check_in_5",
+          "delta": 1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        },
+        {
+          "q": "q_unwritten_rules_4",
+          "delta": 1,
+          "answer_excerpt": "I can draft plans, though I am not always sure when I should decide versus escalate."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_decide_vs_escalate_3",
+          "delta": -3,
+          "answer_excerpt": "Cross-team conversations move fast and I sometimes leave unsure about who committed to what."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

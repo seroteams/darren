@@ -1,0 +1,125 @@
+{
+  "sessionId": "2026_May31_18-01-bc8a53bb",
+  "timestamp": "2026-05-31T11:03:26.859Z",
+  "roleFamily": "design",
+  "seniority": "lead",
+  "meetingType": "growth",
+  "allSuggestions": [
+    {
+      "type": "prefer_phrase",
+      "value": "political capital",
+      "reason": "This phrase captured the real blocker behind his caution and forum avoidance.",
+      "evidence": "“more careful about where I spend political capital.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "high-ambiguity forums",
+      "reason": "It is a concrete, role-relevant trigger for underpreparedness and visibility risk.",
+      "evidence": "“avoid high-ambiguity forums”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "cross-org decision area",
+      "reason": "He named the exact next-level shift: owning a decision area beyond delivering design outcomes.",
+      "evidence": "“own a cross-org decision area”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "sponsorship in rooms where priorities are set",
+      "reason": "This maps sponsorship to the specific forum type that determines org-level influence.",
+      "evidence": "“clearer sponsorship in rooms where priorities are set.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "leadership bet",
+      "reason": "His growth direction is expressed as a bet with commitment conditions and measurable milestones.",
+      "evidence": "“two concrete leadership bets for this half”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "avoid_phrase",
+      "value": "milestones…before the next cycle, not only retrospective feedback",
+      "reason": "If the plan stays retrospective, it won’t convert leadership bets into visible strategic influence.",
+      "evidence": "“milestones…before the next cycle, not only retrospective feedback.”",
+      "better_as": "What pre-cycle proof will show progress in the forum before the next cycle?",
+      "status": "pending"
+    },
+    {
+      "type": "avoid_phrase",
+      "value": "What kind of air cover would let you take a more visible position?",
+      "reason": "It can stay abstract unless it forces decision ownership + sponsorship mapping.",
+      "evidence": "“air cover would let you take a more visible position?”",
+      "better_as": "For the decision you’ll own, who will sponsor you in the priorities-setting room—and what air-cover commitment will they make?",
+      "status": "pending"
+    }
+  ],
+  "acceptedAsCandidates": [
+    {
+      "type": "prefer_phrase",
+      "value": "political capital",
+      "reason": "This phrase captured the real blocker behind his caution and forum avoidance.",
+      "evidence": "“more careful about where I spend political capital.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "high-ambiguity forums",
+      "reason": "It is a concrete, role-relevant trigger for underpreparedness and visibility risk.",
+      "evidence": "“avoid high-ambiguity forums”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "cross-org decision area",
+      "reason": "He named the exact next-level shift: owning a decision area beyond delivering design outcomes.",
+      "evidence": "“own a cross-org decision area”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "sponsorship in rooms where priorities are set",
+      "reason": "This maps sponsorship to the specific forum type that determines org-level influence.",
+      "evidence": "“clearer sponsorship in rooms where priorities are set.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "leadership bet",
+      "reason": "His growth direction is expressed as a bet with commitment conditions and measurable milestones.",
+      "evidence": "“two concrete leadership bets for this half”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "avoid_phrase",
+      "value": "milestones…before the next cycle, not only retrospective feedback",
+      "reason": "If the plan stays retrospective, it won’t convert leadership bets into visible strategic influence.",
+      "evidence": "“milestones…before the next cycle, not only retrospective feedback.”",
+      "better_as": "What pre-cycle proof will show progress in the forum before the next cycle?",
+      "status": "pending"
+    },
+    {
+      "type": "avoid_phrase",
+      "value": "What kind of air cover would let you take a more visible position?",
+      "reason": "It can stay abstract unless it forces decision ownership + sponsorship mapping.",
+      "evidence": "“air cover would let you take a more visible position?”",
+      "better_as": "For the decision you’ll own, who will sponsor you in the priorities-setting room—and what air-cover commitment will they make?",
+      "status": "pending"
+    }
+  ],
+  "rejected": [],
+  "userInput": ""
+}

@@ -1,0 +1,9 @@
+alias: q_good_looks_like
+label: Good looks like
+name: "When you say 'what good looks like' — what's most unclear right now?"
+description: Clarifies the specific expectation gap he just named before moving on.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_fragmented_calendar_4
+label: Fragmented calendar
+name: "Calendar is still fragmented — what's chopping it up most?"
+description: Drills into the specific source of the calendar fragmentation so the manager can see what is creating day-to-day friction.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added

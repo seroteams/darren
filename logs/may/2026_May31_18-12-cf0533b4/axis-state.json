@@ -1,0 +1,87 @@
+{
+  "wellbeing": {
+    "score": -2,
+    "history": [
+      {
+        "q": "q_intro_off_connection",
+        "delta": -1,
+        "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+      }
+    ]
+  },
+  "engagement": {
+    "score": -9,
+    "history": [
+      {
+        "q": "q_intro_off_connection",
+        "delta": -1,
+        "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+      },
+      {
+        "q": "q_missed_something",
+        "delta": -3,
+        "answer_excerpt": "I am still unsure what good really looks like here week to week."
+      },
+      {
+        "q": "q_thread_follow_13",
+        "delta": -3,
+        "answer_excerpt": "I do ask for help sometimes, but I worry about sounding slow."
+      },
+      {
+        "q": "q_seed_clarity_priorities",
+        "delta": -1,
+        "answer_excerpt": "I would start with a short weekly calibration on what good looks like for my current tickets."
+      }
+    ]
+  },
+  "clarity": {
+    "score": -10,
+    "history": [
+      {
+        "q": "q_current_focus_7",
+        "delta": 1,
+        "answer_excerpt": "I feel better when feedback is specific and close to the work."
+      },
+      {
+        "q": "q_specific_feedback_5",
+        "delta": -3,
+        "answer_excerpt": "Some days I feel useful, other days I feel like I am guessing."
+      },
+      {
+        "q": "q_guessing_days_3",
+        "delta": -3,
+        "answer_excerpt": "When priorities change fast, I lose confidence in what to optimize for."
+      },
+      {
+        "q": "q_decision_support_3",
+        "delta": -3,
+        "answer_excerpt": "I want more ownership, but I also want clearer guardrails."
+      },
+      {
+        "q": "q_next_step_focus_6",
+        "delta": -1,
+        "answer_excerpt": "A regular calibration loop would make this feel less shaky."
+      },
+      {
+        "q": "q_seed_clarity_priorities",
+        "delta": -3,
+        "answer_excerpt": "I would start with a short weekly calibration on what good looks like for my current tickets."
+      }
+    ]
+  },
+  "growth": {
+    "score": -4,
+    "history": [
+      {
+        "q": "q_guessing_days_3",
+        "delta": -1,
+        "answer_excerpt": "When priorities change fast, I lose confidence in what to optimize for."
+      },
+      {
+        "q": "q_decision_support_3",
+        "delta": -3,
+        "answer_excerpt": "I want more ownership, but I also want clearer guardrails."
+      }
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "headline": "Sam is shipping real tickets but his biggest friction is unclear approval/quality expectations, which drives second-guessing and late reassurance-seeking.",
+  "summary_bullets": [
+    "Sam second-guesses whether his approach matches team expectations and loses time when design/API details don’t line up.",
+    "Approval ownership is fuzzy: “I am not always sure who should approve what before I push,” and he waits too long to ask because he wants to solve it first.",
+    "He already knows what would unblock him: pairing and explicit “what good looks like” for his next two tickets, plus clearer quality bars for quick fixes vs core flows."
+  ],
+  "understanding_paragraph": "Sam can do the work, but the session clarified that his hesitation is driven less by effort and more by unclear expectations around approval and quality bars. The most actionable gap is where ownership and review steps live when design and API details clash. He also gave a clear preference for support: pairing on the next ticket and defining “good” up front so he can ship with less second-guessing.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -2,
+      "meaning": "Weak signal of stress from second-guessing, worth watching but not enough alone to act on."
+    },
+    {
+      "id": "engagement",
+      "score": -6,
+      "meaning": "A real engagement drag tied to uncertainty; he leans in faster when feedback is specific and fast."
+    },
+    {
+      "id": "clarity",
+      "score": -9,
+      "meaning": "The defining issue: unclear expectations for approvals and quality bars, which directly slows shipping."
+    },
+    {
+      "id": "growth",
+      "score": 0,
+      "meaning": "No clear growth signal from this check-in beyond needing better feedback/standards to progress."
+    }
+  ],
+  "brutal_truth_employee": "Sam’s core friction is expectation clarity: “I can do the tasks, but I still second-guess whether my approach matches team expectations.” He also waits too long to ask, saying “I usually wait too long before asking because I want to solve things myself first,” and he’s missing approval ownership: “I am not always sure who should approve what before I push.”",
+  "brutal_truth_manager": "Sam gave a concrete unblock—“Pairing once or twice a week” and “define what good looks like for my next two tickets”—but the conversation still left the approval-step ownership implicit. Next time, after “who should approve what,” you should name the exact approver(s) and the exact trigger points (e.g., when design/API mismatch happens) instead of stopping at reassurance-seeking patterns.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a pairing session on Sam’s next ticket and set a goal: identify the exact approval step(s) before push and document them in the ticket."
+    },
+    {
+      "when": "this week",
+      "action": "Define “what good looks like” for Sam’s next two tickets in writing: quality bars for quick fixes vs core flows and what evidence to include for review."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Confirm whether Sam’s approval ownership is now clear by asking him to walk through one recent design/API mismatch and who approved what at each step."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: if Sam still “wait[s] too long before asking,” treat it as unresolved approval ownership, not a personal habit.",
+    "Within two weeks: if pairing doesn’t reduce hesitation before push, quality bars and approver triggers are still incomplete—tighten the written “good” definition."
+  ]
+}

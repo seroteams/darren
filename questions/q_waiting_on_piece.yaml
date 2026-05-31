@@ -1,0 +1,9 @@
+alias: q_waiting_on_piece
+label: Waiting on piece
+name: What are you usually waiting on when work starts to feel stuck?
+description: Identifies the missing decision, artifact, or input that slows him down.
+purpose: topic
+stage: blockers
+axis_effects:
+  clarity: +3
+source: generated

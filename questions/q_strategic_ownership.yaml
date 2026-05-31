@@ -1,0 +1,10 @@
+alias: q_strategic_ownership
+label: Strategic ownership
+name: What kind of strategic ownership do you want to be known for next?
+description: Forces a concrete picture of the outcomes he wants to own at Head of Product level.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

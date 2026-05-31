@@ -1,0 +1,207 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_perf_01_opening",
+      "label": "Self-read opener",
+      "name": "Before I share my view, how do you think the last stretch has gone?",
+      "description": "Anchors the conversation in their self-assessment first; gap vs manager's view becomes a signal.",
+      "purpose": "topic",
+      "stage": "self_read",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "I think my technical output is solid, but my influence is uneven.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "clarity": 1
+    },
+    "note": "She gave a clear self-assessment and named a specific thread — 'influence is uneven' — which suggests engaged reflection and should be drilled next."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_uneven_influence_5",
+      "label": "Uneven influence",
+      "name": "You said 'influence is uneven' — where has that shown up most clearly?",
+      "description": "Drills into the specific situations where her influence broke down before moving on.",
+      "purpose": "competency",
+      "stage": "self_read",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I get work done, yet I am not consistently shaping decisions early.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "She names a clear pattern: execution is happening, but she is not shaping decisions early, which is a strong negative clarity signal and points toward stakeholder influence."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_early_decisions_5",
+      "label": "Early decisions",
+      "name": "Where specifically are decisions getting made before you shape them?",
+      "description": "Pins the pattern to a concrete decision point before moving the arc forward.",
+      "purpose": "competency",
+      "stage": "self_read",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "Some feedback has been about being clearer with non-technical partners.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "She cites feedback about being clearer with non-technical partners, confirming a strong clarity gap; [THREAD-DEFERRED] concrete examples of those partner interactions should be picked up next session."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_impact_evidence_3",
+      "label": "Impact evidence",
+      "name": "What piece of work best shows the impact you think you had this quarter?",
+      "description": "Forces a concrete example of impact rather than a general claim.",
+      "purpose": "competency",
+      "stage": "evidence",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "I tend to wait until analysis is complete before socializing direction.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "She named a specific pattern — waiting until analysis is complete before socializing direction — which signals a mild clarity and growth gap around influencing earlier."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_wait_pattern_2",
+      "label": "Wait pattern",
+      "name": "What makes you hold back until the analysis is complete?",
+      "description": "Drills into the specific waiting pattern she named to surface the driver behind late influence.",
+      "purpose": "competency",
+      "stage": "evidence",
+      "axis_effects": {
+        "clarity": 1,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "That slows trust because stakeholders feel surprised late.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1
+    },
+    "note": "She names a concrete consequence of her waiting pattern — late stakeholder surprise and trust erosion — which signals mild clarity risk; wellbeing was not engaged."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_surprised_late_3",
+      "label": "Surprised late",
+      "name": "When stakeholders feel surprised late, what gap does that point to in your approach?",
+      "description": "Turns the evidence she named into a plainly stated performance gap around stakeholder engagement and visibility.",
+      "purpose": "competency",
+      "stage": "gap_naming",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I need a tighter narrative on tradeoffs, not just stronger models.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "clarity": 3
+    },
+    "note": "She names a specific gap — weak tradeoff narrative versus technical strength — which is strong clarity and mild ownership signal."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_tradeoff_narrative_3",
+      "label": "Tradeoff narrative",
+      "name": "What makes the tradeoff narrative hard to state earlier?",
+      "description": "Drills into the specific gap she named to surface the driver from her side.",
+      "purpose": "competency",
+      "stage": "gap_naming",
+      "axis_effects": {
+        "clarity": 3,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I want to lead one cross-team decision this cycle, end to end.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1
+    },
+    "note": "[SHALLOW] 'I want to lead one cross-team decision this cycle, end to end' pivots to an aspiration rather than explaining what makes the tradeoff narrative hard to state earlier; [THREAD-DEFERRED-WINDDOWN] cross-team decision ownership."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_escalation_judgment",
+      "label": "Escalation judgment",
+      "name": "What kind of call did you hold too long before escalating this quarter?",
+      "description": "Probes decision-making under uncertainty and calibration of when to pull in help.",
+      "purpose": "competency",
+      "stage": "cause",
+      "axis_effects": {
+        "clarity": 3,
+        "growth": 1,
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "Specific feedback checkpoints during projects would help me level up faster.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3,
+      "growth": -1
+    },
+    "note": "Names missing feedback checkpoints as the cause of slower leveling, which is a strong clarity deficit and mild growth gap."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_next_quarter_focus",
+      "label": "Next-quarter focus",
+      "name": "Given what we've covered, what do you want to work on first over the next quarter?",
+      "description": "Closes on a concrete priority and commitment without introducing a new thread.",
+      "purpose": "topic",
+      "stage": "commit",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1,
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "I will choose one recurring deliverable and define what good looks like before the next review cycle.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": 1,
+      "clarity": 1,
+      "growth": 1
+    },
+    "note": "She named a specific next-step commitment — picking one recurring deliverable and defining success criteria — which signals forward motion and clearer standards."
+  }
+]

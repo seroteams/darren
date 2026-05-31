@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How he's landing in team rituals right now.",
+      "reason": "Whether his dip in engagement in team rituals is a temporary reaction to the promotion outcome or a longer shift in how connected he feels day to day.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "What feedback he actually heard and internalized.",
+      "reason": "Whether the promotion decision process left him with specific, actionable feedback or more generalized disappointment—worth clarifying what he believes he was told and what he thinks it means for his next step.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Mentoring program — stretch or detour from core path.",
+      "reason": "Whether the mentoring program is building the skills and credibility that match his Head of Product trajectory, or whether it’s quietly redirecting his effort away from the work that would move his career forward.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Concrete path forward he believes exists.",
+      "reason": "What he sees as the realistic next path—what he’s willing to bet on, what he thinks will change, and where he wants you to help unblock it.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "James",
+  "role": "Head of Product",
+  "seniority": "Director",
+  "meetingType": "Something feels off",
+  "notes": "James was passed over for promotion and his engagement in team rituals has dipped since then. He did not bring up the decision himself, which could mean unresolved disappointment or low confidence that raising it will help. He is also running a mentoring program, and I need to understand whether that is healthy stretch or a redirect away from his core path. This meeting should surface what feedback he actually heard and what concrete path forward he believes exists.",
+  "model": "gpt-5.4-mini"
+}

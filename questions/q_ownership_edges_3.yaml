@@ -1,0 +1,9 @@
+alias: q_ownership_edges_3
+label: Ownership edges
+name: Where do the ownership boundaries still feel fuzzy to you?
+description: Checks whether Riley knows where his remit starts and stops before he makes decisions.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: generated

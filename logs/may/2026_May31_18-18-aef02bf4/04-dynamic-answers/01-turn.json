@@ -1,0 +1,100 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_perf_01_opening",
+    "label": "Self-read opener",
+    "name": "Before I share my view, how do you think the last stretch has gone?",
+    "description": "Anchors the conversation in their self-assessment first; gap vs manager's view becomes a signal.",
+    "purpose": "topic",
+    "stage": "self_read",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I can name wins, but I am not always sure they match the team bar.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "clarity": -3
+    },
+    "note": "He can identify wins but explicitly says he is unsure whether they meet the team bar, which is a strong clarity gap with mild engagement signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_thread_follow_19",
+      "label": "Thread follow",
+      "name": "name wins, always — can you say more about what that means for you right now?"
+    },
+    {
+      "alias": "q_team_bar_mismatch_5",
+      "label": "Team bar mismatch",
+      "name": "When your wins miss the team bar, what tells you that?"
+    },
+    {
+      "alias": "q_recent_example_2",
+      "label": "Recent example",
+      "name": "What is one recent piece of your brand work that best shows your current quality bar?"
+    },
+    {
+      "alias": "q_feedback_in_practice",
+      "label": "Feedback in practice",
+      "name": "What changed in your day-to-day work after the last round of feedback?"
+    },
+    {
+      "alias": "q_missed_signal",
+      "label": "Missed signal",
+      "name": "Where do you think your work most often misses the mark?"
+    },
+    {
+      "alias": "q_growth_blocker_2",
+      "label": "Growth blocker",
+      "name": "What is the main thing that is slowing your growth right now?"
+    },
+    {
+      "alias": "q_practice_focus_2",
+      "label": "Practice focus",
+      "name": "What one design habit do you want to practice over the next few weeks?"
+    },
+    {
+      "alias": "q_support_needed_17",
+      "label": "Support needed",
+      "name": "What would help you make that practice stick this month?"
+    }
+  ],
+  "issues": [
+    "runtime: injected thread-follow question"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

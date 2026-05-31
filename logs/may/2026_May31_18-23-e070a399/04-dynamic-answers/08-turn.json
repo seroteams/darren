@@ -1,0 +1,120 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_close_the_loop_4",
+    "label": "Close the loop",
+    "name": "Given what we covered, where do you want to focus first?",
+    "description": "Ends on an open next-step focus without sounding like a checklist stop.",
+    "purpose": "topic",
+    "stage": "lift",
+    "axis_effects": {
+      "clarity": 1,
+      "wellbeing": 3
+    },
+    "source": "reworded_from:q_close_the_loop_3"
+  },
+  "answer": "A clear next-step path would help me reset my energy.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -3,
+      "clarity": -1
+    },
+    "note": "Names the absence of a clear next-step path as the thing blocking her reset, signaling low clarity and strongly negative wellbeing."
+  },
+  "new_queue": [
+    {
+      "alias": "q_close_the_loop_3",
+      "label": "Close the loop",
+      "name": "Given what we covered, what’s the first thing you want to tighten up before we next meet?"
+    },
+    {
+      "alias": "q_support_needed_20",
+      "label": "Support needed",
+      "name": "What support from me would make the biggest difference on that?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_support_ask_6",
+          "delta": -3,
+          "answer_excerpt": "If there is a bigger scope conversation, I want it sooner rather than later."
+        },
+        {
+          "q": "q_close_the_loop_4",
+          "delta": -3,
+          "answer_excerpt": "A clear next-step path would help me reset my energy."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        },
+        {
+          "q": "q_flatter_week",
+          "delta": -3,
+          "answer_excerpt": "Mostly cleanup and reviews right now, not much that feels new."
+        },
+        {
+          "q": "q_nothing_feels_new_4",
+          "delta": 1,
+          "answer_excerpt": "I am proud of the migration plan and how we handled the cutover."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I did mention mentoring before. I still want it, but I stopped pushing."
+        },
+        {
+          "q": "q_support_ask_6",
+          "delta": -1,
+          "answer_excerpt": "If there is a bigger scope conversation, I want it sooner rather than later."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -8,
+      "history": [
+        {
+          "q": "q_stopped_pushing_4",
+          "delta": -3,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        },
+        {
+          "q": "q_next_quarter_ownership_4",
+          "delta": -3,
+          "answer_excerpt": "I have felt a bit stuck doing similar work for months."
+        },
+        {
+          "q": "q_support_ask_6",
+          "delta": -1,
+          "answer_excerpt": "If there is a bigger scope conversation, I want it sooner rather than later."
+        },
+        {
+          "q": "q_close_the_loop_4",
+          "delta": -1,
+          "answer_excerpt": "A clear next-step path would help me reset my energy."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_stopped_pushing_4",
+          "delta": -3,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        }
+      ]
+    }
+  }
+}

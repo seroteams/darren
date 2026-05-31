@@ -1,0 +1,10 @@
+alias: q_scope_fit_4
+label: Scope fit
+name: What part of your current scope feels most natural right now?
+description: Surfaces whether the current shape of the role fits or only partially fits.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

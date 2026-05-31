@@ -1,0 +1,51 @@
+{
+  "headline": "Nina can execute fast, but her calendar fragmentation and reduced visibility are driving a sustained dip in wellbeing, engagement, clarity, and growth signal.",
+  "summary_bullets": [
+    "Nina shipped quickly, but she explicitly rejects making that pace normal: “I do not want that pace to become normal.”",
+    "Her main drag is operational, not effort: “firefighting and context switching” plus a “fragmented” calendar.",
+    "She’s asking for earlier cross-functional leadership and clearer leadership tradeoffs, but the conversation didn’t lock a concrete shift before the next check-in (one answer was skipped)."
+  ],
+  "understanding_paragraph": "We understood that Nina can still ship quickly, but she’s paying a sustainability cost through firefighting, context switching, and a fragmented calendar. The new part is that her engagement problem is tied to impact visibility and cross-functional leadership timing: she wants “more room to lead cross-functional discussions earlier.” We also didn’t get a first concrete change item because the “first concrete thing” answer was skipped.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -3,
+      "meaning": "Sustainability is strained: she can ship quickly but doesn’t want the pace to become normal, with ongoing stress from fragmentation."
+    },
+    {
+      "id": "engagement",
+      "score": -6,
+      "meaning": "Engagement is meaningfully down because she doesn’t feel the impact is visible and reactive work is taking over."
+    },
+    {
+      "id": "clarity",
+      "score": -6,
+      "meaning": "Priorities and decision tradeoffs are unclear enough that she needs “clear priority tradeoffs from leadership” to stabilize."
+    },
+    {
+      "id": "growth",
+      "score": -7,
+      "meaning": "Growth is blocked by process and influence timing; she wants earlier cross-functional leadership to convert feedback into progress."
+    }
+  ],
+  "brutal_truth_employee": "Nina is telling you not to normalize the current grind: “I do not want that pace to become normal.” She also says, “I can ship quickly, but I do not always feel the impact is visible,” and she’s still “processing” communication feedback.",
+  "brutal_truth_manager": "When Nina asked for “Clear priority tradeoffs from leadership,” the conversation still didn’t produce a specific first shift—your “What’s the first concrete thing you want to shift before we next meet?” got a literal skip. Next time, force a concrete commitment and timebox it, because her answers point to reactive work and visibility/influence issues that need an explicit plan.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute priority-tradeoff sync with Nina and leadership to pick the next two weeks’ top 2 outcomes and explicitly cut the rest."
+    },
+    {
+      "when": "this week",
+      "action": "Confirm Nina’s calendar fragmentation sources and agree one rule to reduce context switching (e.g., protected focus blocks or a single firefight intake)."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-ask for a concrete commitment: “Name one change you’ll do in the next 10 business days to reduce reactive work and increase visible impact.”"
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Nina still reports “firefighting and context switching” as the main drag, treat it as an unresolved capacity/priority problem.",
+    "Within two weeks: if Nina still says impact is not visible and she’s still “processing” communication feedback, escalate cross-functional leadership timing changes."
+  ]
+}

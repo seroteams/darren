@@ -1,0 +1,10 @@
+alias: q_influence_gaps
+label: Influence gaps
+name: Where do stakeholder conversations still not land the way you want?
+description: Surfaces trust and influence gaps in a concrete work setting.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

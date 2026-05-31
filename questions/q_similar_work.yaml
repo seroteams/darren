@@ -1,0 +1,9 @@
+alias: q_similar_work
+label: Similar work
+name: Doing similar work for months — what feels too repetitive about it?
+description: Drills into her stated plateau to surface the specific kind of repetition that is draining momentum.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added

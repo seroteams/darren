@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Bi-weekly check-in",
+  "focus_points": [
+    {
+      "id": "workload",
+      "label": "Late nights — temporary push or default?",
+      "reason": "Notes say Lin has worked late for about three weeks; one possibility is a short sprint to finish launches, but it’s worth clarifying whether this is becoming the new baseline pace.",
+      "source": "signal"
+    },
+    {
+      "id": "priorities",
+      "label": "What’s driving current load now that launches are done.",
+      "reason": "Whether the next two weeks’ work still matches the earlier “ahead of schedule” push, or whether new priorities are quietly replacing it.",
+      "source": "signal"
+    },
+    {
+      "id": "delegation",
+      "label": "What only Lin should own vs delegate.",
+      "reason": "Whether the work that requires Lin’s judgment is staying concentrated there, or whether late nights are masking a distribution/autonomy gap that could be fixed by delegating real ownership.",
+      "source": "signal"
+    },
+    {
+      "id": "manager_support",
+      "label": "What Lin would want more of from you.",
+      "reason": "What they need from you that they aren’t currently getting—especially around air cover, decision-making, or removing bottlenecks so the pace can normalize after the launches.",
+      "source": "best_practice"
+    }
+  ]
+}

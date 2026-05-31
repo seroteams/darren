@@ -1,0 +1,92 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_voice_leverage_5",
+    "label": "Voice leverage",
+    "name": "When you say 'where my voice has most leverage', what feels unclear there?",
+    "description": "Clarifies the specific uncertainty behind her quieter presence in leadership meetings.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Part of me is tired from constant context switching, and I have not really said that out loud.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "She shifted from leverage uncertainty to unsaid fatigue from constant context switching, reinforcing strong lack of clarity; also reveals wellbeing strain. [THREAD-DEFERRED] Concrete thread: 'constant context switching'."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_intro_off_openended",
+      "label": "Open invitation",
+      "name": "Is there anything on your mind that we haven't made space to talk about?"
+    },
+    {
+      "alias": "q_support_gap_5",
+      "label": "Support gap",
+      "name": "What support would make the biggest difference for you right now?"
+    },
+    {
+      "alias": "q_next_step_focus_10",
+      "label": "Next step focus",
+      "name": "Given what we have covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_reorg_shift_5",
+          "delta": -1,
+          "answer_excerpt": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_reorg_shift_5",
+          "delta": -3,
+          "answer_excerpt": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage."
+        },
+        {
+          "q": "q_voice_leverage_5",
+          "delta": -3,
+          "answer_excerpt": "Part of me is tired from constant context switching, and I have not really said that out loud."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

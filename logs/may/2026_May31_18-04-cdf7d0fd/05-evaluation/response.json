@@ -1,0 +1,51 @@
+{
+  "headline": "Tom is operating with a fuzzy Principal bar and is choosing safe execution over early cross-team judgment calls.",
+  "summary_bullets": [
+    "Tom can describe Principal impact in general, but on this team “the bar still feels fuzzy,” so he stays “in my lane.”",
+    "He links low question-asking to trust and expectation gaps: “I have not built enough trust with adjacent teams yet” and “I need explicit expectations for the next cycle.”",
+    "His commitment is process-focused (write decision rules) rather than behavior-focused (force cross-team decisions and earlier feedback), so the next cycle may repeat the same pattern."
+  ],
+  "understanding_paragraph": "Tom’s self-read is that he is shipping, but he is not aiming at the highest-leverage work yet. He’s explicit that the missing piece is visible ownership and cross-team decision-making, not technical ability. The new detail is that he attributes the “few questions” pattern to both trust with adjacent teams and a need for explicit cycle expectations to calibrate.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": 0,
+      "meaning": "No wellbeing signal from this session; not actionable on its own."
+    },
+    {
+      "id": "engagement",
+      "score": -6,
+      "meaning": "Active pattern of caution and low initiative: he “over-index[es] on being safe” and asks for fewer inputs."
+    },
+    {
+      "id": "clarity",
+      "score": -9,
+      "meaning": "Principal scope is not well-calibrated: “this team's bar still feels fuzzy” and he needs explicit expectations to calibrate."
+    },
+    {
+      "id": "growth",
+      "score": -4,
+      "meaning": "Learning is constrained by process and timing; he wants feedback earlier but hasn’t built the trust to get it."
+    }
+  ],
+  "brutal_truth_employee": "Tom’s core signal is that the work he’s doing isn’t yet “highest-leverage”: “I am shipping, but I am not sure I am aiming at the highest-leverage work yet.” He also admits the mechanism: “I have mostly stayed in my lane” and “I have not built enough trust with adjacent teams yet,” which is why he doesn’t ask for sharper feedback early.",
+  "brutal_truth_manager": "The conversation got to the right diagnosis, but the commitment stayed inside his comfort zone: “write down the decision rule” is a good reflection step, not the behavioral change of forcing cross-team decisions. Next time, push for a concrete, dated example of the specific adjacent-team decision he will make early, and what he will ask for before he commits.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Email Tom a one-page “Principal bar” for this team with 3 observable outcomes and 2 examples of cross-team judgment calls that count."
+    },
+    {
+      "when": "this week",
+      "action": "Set up a 30-minute calibration session with Tom and one adjacent-team lead to agree on the next-cycle decision points and who must be consulted."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Start with: “Name one cross-team decision you will make by date X—what inputs will you request earlier, and from whom?”"
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Tom still says “the bar still feels fuzzy” or “in my lane,” treat clarity as unresolved and escalate calibration.",
+    "Within two weeks: if Tom does not name at least one adjacent-team input he requested early, his “need explicit expectations” pattern is still driving behavior."
+  ]
+}

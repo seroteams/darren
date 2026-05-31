@@ -1,0 +1,10 @@
+alias: q_what_s_on_top
+label: "What's on top"
+name: "What's been most on your mind at work lately, James?"
+description: Safe opener that lets him set context before anything sensitive is named.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

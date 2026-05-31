@@ -1,0 +1,124 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_intro_growth_direction",
+    "label": "Direction",
+    "name": "When you imagine yourself eighteen months from now, what's actually different?",
+    "description": "Probes whether they have a real picture of where they want to go.",
+    "purpose": "topic",
+    "stage": "aspiration",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 1,
+      "wellbeing": 3
+    },
+    "source": "seed"
+  },
+  "answer": "If we define two concrete leadership bets for this half, I can commit fully.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": 1,
+      "engagement": 1,
+      "growth": -3
+    },
+    "note": "He names a concrete condition for fully committing, which shows motivation but also a strong growth deficit because the path is not yet defined; [THREAD-DEFERRED-WINDDOWN] 'two concrete leadership bets' should be picked up next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_sponsorship_need_2",
+      "label": "Sponsorship need",
+      "name": "What kind of sponsorship would help you take a more visible strategic position?"
+    },
+    {
+      "alias": "q_next_commitment_4",
+      "label": "Next commitment",
+      "name": "What would make the next two weeks a useful test of this growth contract?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 7)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "If we define two concrete leadership bets for this half, I can commit fully."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared."
+        },
+        {
+          "q": "q_ambiguity_forums_2",
+          "delta": 1,
+          "answer_excerpt": "I think I need to own a cross-org decision area, not just deliver strong design outcomes."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "If we define two concrete leadership bets for this half, I can commit fully."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        }
+      ]
+    },
+    "growth": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        },
+        {
+          "q": "q_political_capital_4",
+          "delta": -3,
+          "answer_excerpt": "I can lead major initiatives, but I do not always translate that into visible strategic influence."
+        },
+        {
+          "q": "q_strategic_influence_3",
+          "delta": -3,
+          "answer_excerpt": "I get positive feedback on craft and collaboration, but less clarity on what separates me at the next level."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -3,
+          "answer_excerpt": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared."
+        },
+        {
+          "q": "q_ambiguity_forums_2",
+          "delta": 3,
+          "answer_excerpt": "I think I need to own a cross-org decision area, not just deliver strong design outcomes."
+        },
+        {
+          "q": "q_cross_org_decisions_4",
+          "delta": -3,
+          "answer_excerpt": "I also need clearer sponsorship in rooms where priorities are set."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -3,
+          "answer_excerpt": "If we define two concrete leadership bets for this half, I can commit fully."
+        }
+      ]
+    }
+  }
+}

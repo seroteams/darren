@@ -1,0 +1,101 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_political_conversations_6",
+    "label": "Political conversations",
+    "name": "In those political conversations, what feels hardest to navigate?",
+    "description": "Drills into the specific dynamic that makes him retreat from senior-level influence into execution.",
+    "purpose": "competency",
+    "stage": "gap",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I can run projects, but shaping cross-org alignment is where I hesitate.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "He names a specific senior-level gap: hesitation around shaping cross-org alignment, which is a strong clarity signal; [THREAD-DEFERRED] cross-org alignment hesitation worth picking up next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_role_in_practice",
+      "label": "Role in practice",
+      "name": "What feels most solid in your role right now?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_next_level_meaning_2",
+      "label": "Next-level meaning",
+      "name": "What does senior scope mean to you in practice?"
+    },
+    {
+      "alias": "q_ownership_boundary",
+      "label": "Ownership boundary",
+      "name": "What are you still carrying personally that should live with the team?"
+    },
+    {
+      "alias": "q_manager_leverage_10",
+      "label": "Manager leverage",
+      "name": "Where would a sharper read from me help you move faster?"
+    },
+    {
+      "alias": "q_first_growth_move_3",
+      "label": "First growth move",
+      "name": "What is the first shift you want to make before we meet again?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_execution_details_5",
+          "delta": -3,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        },
+        {
+          "q": "q_political_conversations_6",
+          "delta": -3,
+          "answer_excerpt": "I can run projects, but shaping cross-org alignment is where I hesitate."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        }
+      ]
+    }
+  }
+}

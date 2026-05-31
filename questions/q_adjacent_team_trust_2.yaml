@@ -1,0 +1,9 @@
+alias: q_adjacent_team_trust_2
+label: Adjacent-team trust
+name: Adjacent teams — where is the trust not there yet?
+description: Pins down the specific relationship gaps behind delayed feedback-seeking and cross-team hesitation.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+source: planner_added

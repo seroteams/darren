@@ -1,0 +1,138 @@
+{
+  "turn": 9,
+  "question": {
+    "alias": "q_seed_clarity_priorities",
+    "label": "Priority ranking",
+    "name": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+    "description": "Forces a real priority ranking. Vague answers are a clarity signal.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I want to pick one priority tradeoff to resolve with leadership before the next two weeks get noisier.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "clarity": -3
+    },
+    "note": "She names a specific unresolved priority tradeoff with leadership before work gets noisier, signaling strong clarity risk with some ownership in wanting to resolve it."
+  },
+  "new_queue": [],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I can ship quickly, but I do not always feel the impact is visible."
+        },
+        {
+          "q": "q_visible_impact_7",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        },
+        {
+          "q": "q_communication_feedback_5",
+          "delta": -1,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        },
+        {
+          "q": "q_next_two_weeks_23",
+          "delta": -1,
+          "answer_excerpt": "Clear priority tradeoffs from leadership would help a lot."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_normal_pace_4",
+          "delta": -3,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_fragmented_calendar_5",
+          "delta": -3,
+          "answer_excerpt": "A lot of energy went into firefighting and context switching."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I can ship quickly, but I do not always feel the impact is visible."
+        },
+        {
+          "q": "q_visible_impact_7",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        },
+        {
+          "q": "q_seed_clarity_priorities",
+          "delta": 1,
+          "answer_excerpt": "I want to pick one priority tradeoff to resolve with leadership before the next two weeks get noisier."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_communication_feedback_5",
+          "delta": -1,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        },
+        {
+          "q": "q_next_two_weeks_23",
+          "delta": -1,
+          "answer_excerpt": "Clear priority tradeoffs from leadership would help a lot."
+        },
+        {
+          "q": "q_seed_clarity_priorities",
+          "delta": -3,
+          "answer_excerpt": "I want to pick one priority tradeoff to resolve with leadership before the next two weeks get noisier."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_communication_feedback_5",
+          "delta": 1,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": -1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        }
+      ]
+    }
+  }
+}

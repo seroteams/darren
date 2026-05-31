@@ -1,0 +1,197 @@
+{
+  "ctx": {
+    "name": "Maria",
+    "role": "Principal UX Researcher",
+    "seniority": "Principal",
+    "meetingType": "Growth & career plan",
+    "notes": "Maria was passed over last cycle and has not raised it directly, but her engagement in team rituals has dropped. I suspect she may still be carrying unanswered questions about the decision. I need to clarify whether she got a concrete readout on the gap and whether she wants that now. I also want to understand if her mentoring program is strategic growth work or a place she is parking energy after feeling blocked in the main path."
+  },
+  "focusPoints": [
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "What she learned from last cycle’s decision",
+      "reason": "Whether she got a concrete readout on the gap from last cycle, and whether she wants that conversation now.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How her engagement in team rituals is now",
+      "reason": "Whether the drop in participation is a temporary dip or tied to unanswered questions she hasn’t raised directly.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Whether mentoring is strategic growth work",
+      "reason": "Whether her mentoring program is actively building the next step for her, or a place she’s parking energy after feeling blocked in the main path.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "What 'next level' looks like for her",
+      "reason": "What would make the next step concrete for a Principal—scope, expectations, and the bar for success—so she can aim at something measurable.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+      "alias": "q_intro_growth_blockers",
+      "answer": "I am still thinking about last cycle.",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'last cycle' — what part of it are you still carrying?",
+      "alias": "q_last_cycle_thread_4",
+      "answer": "The feedback was not specific enough.",
+      "skipped": false
+    },
+    {
+      "question": "feedback specific enough — can you say more about what that means for you right now?",
+      "alias": "q_thread_follow_9",
+      "answer": "I want clearer scope.",
+      "skipped": false
+    },
+    {
+      "question": "Which part of your current work is actually stretching you right now?",
+      "alias": "q_intro_growth_stretch",
+      "answer": "Mentoring matters to me.",
+      "skipped": false
+    },
+    {
+      "question": "Mentoring matters to you — what about it feels stretching?",
+      "alias": "q_mentoring_stretch_2",
+      "answer": "I do not know what would move the next decision.",
+      "skipped": false
+    },
+    {
+      "question": "The next decision — what do you think it turns on?",
+      "alias": "q_next_decision_5",
+      "answer": "I am less motivated in team rituals lately.",
+      "skipped": false
+    },
+    {
+      "question": "When you imagine yourself eighteen months from now, what's actually different?",
+      "alias": "q_intro_growth_direction",
+      "answer": "I want impact at org level, not just strong project work.",
+      "skipped": false
+    },
+    {
+      "question": "What should I change in how I'm supporting your growth?",
+      "alias": "q_manager_investment",
+      "answer": "I need a moment to think about that.",
+      "skipped": false
+    },
+    {
+      "question": "Given what we've talked through, what do you want to focus on first over the next two weeks?",
+      "alias": "q_next_two_weeks_19",
+      "answer": "I want to start with one mentoring commitment that has clear scope and a review point next month.",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_mentoring_stretch_2",
+          "delta": -1,
+          "answer_excerpt": "I do not know what would move the next decision."
+        },
+        {
+          "q": "q_next_decision_5",
+          "delta": -1,
+          "answer_excerpt": "I am less motivated in team rituals lately."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_last_cycle_thread_4",
+          "delta": -1,
+          "answer_excerpt": "The feedback was not specific enough."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": 1,
+          "answer_excerpt": "Mentoring matters to me."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "I want impact at org level, not just strong project work."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_last_cycle_thread_4",
+          "delta": -3,
+          "answer_excerpt": "The feedback was not specific enough."
+        },
+        {
+          "q": "q_next_two_weeks_19",
+          "delta": 1,
+          "answer_excerpt": "I want to start with one mentoring commitment that has clear scope and a review point next month."
+        }
+      ]
+    },
+    "growth": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": 1,
+          "answer_excerpt": "Mentoring matters to me."
+        },
+        {
+          "q": "q_mentoring_stretch_2",
+          "delta": -1,
+          "answer_excerpt": "I do not know what would move the next decision."
+        },
+        {
+          "q": "q_next_decision_5",
+          "delta": -1,
+          "answer_excerpt": "I am less motivated in team rituals lately."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 3,
+          "answer_excerpt": "I want impact at org level, not just strong project work."
+        },
+        {
+          "q": "q_next_two_weeks_19",
+          "delta": 1,
+          "answer_excerpt": "I want to start with one mentoring commitment that has clear scope and a review point next month."
+        }
+      ]
+    }
+  },
+  "notes": "Maria was passed over last cycle and has not raised it directly, but her engagement in team rituals has dropped. I suspect she may still be carrying unanswered questions about the decision. I need to clarify whether she got a concrete readout on the gap and whether she wants that now. I also want to understand if her mentoring program is strategic growth work or a place she is parking energy after feeling blocked in the main path.",
+  "model": "gpt-5.4-nano"
+}

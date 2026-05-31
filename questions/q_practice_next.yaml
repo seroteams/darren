@@ -1,0 +1,10 @@
+alias: q_practice_next
+label: Practice next
+name: What one practice do you want to focus on for the next few weeks?
+description: Narrows growth into a single near-term habit or skill to apply immediately.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

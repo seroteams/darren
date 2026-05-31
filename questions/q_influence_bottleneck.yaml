@@ -1,0 +1,10 @@
+alias: q_influence_bottleneck
+label: Influence bottleneck
+name: Where are you getting stuck when you try to move decisions forward?
+description: Maps the specific point where influence breaks down, whether it is people, process, or timing.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

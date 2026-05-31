@@ -1,0 +1,106 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_intro_growth_stretch",
+    "label": "Stretch now",
+    "name": "Which part of your current work is actually stretching you right now?",
+    "description": "Distinguishes comfort-zone execution from genuine growth moments.",
+    "purpose": "topic",
+    "stage": "anchor",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "Mentoring matters to me.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "growth": 1
+    },
+    "note": "She named mentoring as the part of work that matters, which is a mild positive signal for growth energy and engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_mentoring_stretch",
+      "label": "Mentoring stretch",
+      "name": "Mentoring matters to you — what about it feels stretching?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_next_chapter_2",
+      "label": "Next chapter",
+      "name": "What kind of impact do you want your work to have this year?"
+    },
+    {
+      "alias": "q_manager_leverage_7",
+      "label": "Manager leverage",
+      "name": "Where would you want more from me to move this forward?"
+    },
+    {
+      "alias": "q_tradeoffs_now",
+      "label": "Tradeoffs now",
+      "name": "What would you need to stop doing to make room for the next step?"
+    }
+  ],
+  "issues": [
+    "coverage: injected engagement into next question (0 touches after turn 4)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": 1,
+          "answer_excerpt": "Mentoring matters to me."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_last_cycle_thread_3",
+          "delta": -3,
+          "answer_excerpt": "The feedback was not specific enough."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_last_cycle_thread_3",
+          "delta": -1,
+          "answer_excerpt": "The feedback was not specific enough."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": 1,
+          "answer_excerpt": "Mentoring matters to me."
+        }
+      ]
+    }
+  }
+}

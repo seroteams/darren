@@ -1,0 +1,231 @@
+{
+  "ctx": {
+    "name": "Nina",
+    "role": "Frontend Engineer",
+    "seniority": "Senior",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "Nina shipped two major features ahead of schedule after several weeks of late nights and has been downplaying concern. I need to separate output from sustainability and understand what is actually driving the current load now that the sprint pressure is over. I also want to hear where she feels blocked in visibility and influence, because strong execution without recognition can quietly drain engagement. This check-in should clarify her near-term priorities and what support she actually wants from me."
+  },
+  "focusPoints": [
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Late nights vs sustainable pace right now.",
+      "reason": "Notes say she shipped ahead after weeks of late nights and has been downplaying concern. Could be a temporary sprint push, or a longer-term capacity issue, or a preference for working late—worth clarifying what’s driving the current load now that pressure is over.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Near-term priorities now that sprint pressure eased.",
+      "reason": "Whether her top commitments for the next two weeks still match the real bets, or whether she’s carrying forward work because momentum replaced planning.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Recognition and visibility she’s getting (or not).",
+      "reason": "Notes flag strong execution without recognition can drain engagement. Could be she’s not seeing the impact land, or she’s not being credited publicly, or she’s under-communicating her wins—worth clarifying what would make her feel seen.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What support from you would unblock her.",
+      "reason": "Whether she wants more air cover, more decision help, or more direct access to stakeholders—this is the fastest way to convert her execution into influence without adding more personal load.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Where influence feels blocked in practice.",
+      "reason": "Notes ask where she feels blocked in visibility and influence. Could be unclear decision rights, missing stakeholder context, or slow feedback loops—worth mapping the exact bottleneck so you can remove it.",
+      "source": "signal",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's been slower or harder than it should have been?",
+      "alias": "q_intro_biweekly_friction",
+      "answer": "The push worked, but I do not want that pace to become normal.",
+      "skipped": false
+    },
+    {
+      "question": "push worked, want — can you say more about what that means for you right now?",
+      "alias": "q_thread_follow_28",
+      "answer": "I am less overloaded now, but my calendar is still fragmented.",
+      "skipped": false
+    },
+    {
+      "question": "less overloaded now, — can you say more about what that means for you right now?",
+      "alias": "q_thread_follow_29",
+      "answer": "A lot of energy went into firefighting and context switching.",
+      "skipped": false
+    },
+    {
+      "question": "How's the last two weeks actually felt — energy-wise?",
+      "alias": "q_intro_biweekly_pace",
+      "answer": "I can ship quickly, but I do not always feel the impact is visible.",
+      "skipped": false
+    },
+    {
+      "question": "When your impact isn't visible, where does that break down most?",
+      "alias": "q_impact_visible",
+      "answer": "Feedback on communication landed, and I am still processing it.",
+      "skipped": false
+    },
+    {
+      "question": "That communication feedback — what part of it are you still processing?",
+      "alias": "q_communication_feedback_6",
+      "answer": "I want more room to lead cross-functional discussions earlier.",
+      "skipped": false
+    },
+    {
+      "question": "What would make the next two weeks steadier for you?",
+      "alias": "q_steadier_finish",
+      "answer": "The next two weeks should focus on stabilizing and reducing reactive work.",
+      "skipped": false
+    },
+    {
+      "question": "What kind of support from me would actually change your week?",
+      "alias": "q_support_shape_5",
+      "answer": "Clear priority tradeoffs from leadership would help a lot.",
+      "skipped": false
+    },
+    {
+      "question": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+      "alias": "q_seed_clarity_priorities",
+      "answer": "I want to pick one priority tradeoff to resolve with leadership before the next two weeks get noisier.",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_impact_visible",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        },
+        {
+          "q": "q_steadier_finish",
+          "delta": 1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_thread_follow_28",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_thread_follow_29",
+          "delta": -3,
+          "answer_excerpt": "A lot of energy went into firefighting and context switching."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I can ship quickly, but I do not always feel the impact is visible."
+        },
+        {
+          "q": "q_impact_visible",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        },
+        {
+          "q": "q_communication_feedback_6",
+          "delta": -3,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        },
+        {
+          "q": "q_support_shape_5",
+          "delta": -1,
+          "answer_excerpt": "Clear priority tradeoffs from leadership would help a lot."
+        },
+        {
+          "q": "q_seed_clarity_priorities",
+          "delta": 1,
+          "answer_excerpt": "I want to pick one priority tradeoff to resolve with leadership before the next two weeks get noisier."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_thread_follow_28",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_thread_follow_29",
+          "delta": -1,
+          "answer_excerpt": "A lot of energy went into firefighting and context switching."
+        },
+        {
+          "q": "q_impact_visible",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        },
+        {
+          "q": "q_communication_feedback_6",
+          "delta": -1,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        },
+        {
+          "q": "q_steadier_finish",
+          "delta": 1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        },
+        {
+          "q": "q_support_shape_5",
+          "delta": -1,
+          "answer_excerpt": "Clear priority tradeoffs from leadership would help a lot."
+        },
+        {
+          "q": "q_seed_clarity_priorities",
+          "delta": -3,
+          "answer_excerpt": "I want to pick one priority tradeoff to resolve with leadership before the next two weeks get noisier."
+        }
+      ]
+    },
+    "growth": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_steadier_finish",
+          "delta": 1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        },
+        {
+          "q": "q_support_shape_5",
+          "delta": -3,
+          "answer_excerpt": "Clear priority tradeoffs from leadership would help a lot."
+        }
+      ]
+    }
+  },
+  "notes": "Nina shipped two major features ahead of schedule after several weeks of late nights and has been downplaying concern. I need to separate output from sustainability and understand what is actually driving the current load now that the sprint pressure is over. I also want to hear where she feels blocked in visibility and influence, because strong execution without recognition can quietly drain engagement. This check-in should clarify her near-term priorities and what support she actually wants from me.",
+  "model": "gpt-5.4-nano"
+}

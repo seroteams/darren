@@ -1,0 +1,191 @@
+{
+  "ctx": {
+    "name": "Tom",
+    "role": "Principal Backend Engineer",
+    "seniority": "Principal",
+    "meetingType": "Performance & feedback",
+    "notes": "Tom moved teams recently and delivery is steady, but Principal-level impact is not visible yet. Previous feedback said he needs early expectation alignment, and he still asks very few questions. I want to test whether he understands what Principal scope means on this team or if he is still operating on old assumptions. I also need to understand whether cross-team trust and judgment calls are developing or whether he is staying in safe execution mode."
+  },
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Principal-level impact and leverage on this team.",
+      "reason": "Whether they can point to the Principal-sized outcomes they’re driving right now, not just steady delivery—could be that the work is happening but the impact isn’t yet visible or communicated.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "What Principal scope means in this team.",
+      "reason": "Whether they’ve internalized the current team’s expectations for Principal scope, or if they’re still operating on old assumptions from the prior team—worth clarifying explicitly so feedback can land precisely.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Cross-team trust and hard-call judgment.",
+      "reason": "Whether their cross-team relationships are building in both directions and whether they’re making the tradeoff calls early enough, or staying in safe execution mode and waiting for others.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "Early expectation alignment in how they engage.",
+      "reason": "What they’re doing in this meeting cycle to align expectations early—Principal work often fails quietly when context and assumptions aren’t surfaced early enough for stakeholders to steer.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "Before I share my view, how do you think the last stretch has gone?",
+      "alias": "q_intro_perf_01_opening",
+      "answer": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet.",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'highest-leverage work,' what work are you thinking of specifically?",
+      "alias": "q_highest_leverage_work_5",
+      "answer": "I can describe Principal impact in general, but this team's bar still feels fuzzy.",
+      "skipped": false
+    },
+    {
+      "question": "This team's bar feels fuzzy — where does that show up most in your work?",
+      "alias": "q_team_s_bar_fuzzy",
+      "answer": "I have mostly stayed in my lane instead of forcing cross-team decisions.",
+      "skipped": false
+    },
+    {
+      "question": "Where do you think you've fallen short of where you want to be?",
+      "alias": "q_intro_perf_03_gap",
+      "answer": "I have made a few calls independently, but I still over-index on being safe.",
+      "skipped": false
+    },
+    {
+      "question": "You said 'being safe' — what does that look like in practice?",
+      "alias": "q_safe_execution",
+      "answer": "I probably should ask for sharper feedback earlier than I do.",
+      "skipped": false
+    },
+    {
+      "question": "Sharper feedback earlier — what stops you doing that in the moment?",
+      "alias": "q_sharper_feedback_5",
+      "answer": "I have not built enough trust with adjacent teams yet.",
+      "skipped": false
+    },
+    {
+      "question": "Adjacent teams — where is the trust not there yet?",
+      "alias": "q_adjacent_team_trust_2",
+      "answer": "The gap is less technical and more around visible ownership.",
+      "skipped": false
+    },
+    {
+      "question": "Given this, where do you want to change your early alignment first?",
+      "alias": "q_commitment_closer_2",
+      "answer": "I need explicit expectations for the next cycle so I can calibrate fast.",
+      "skipped": false
+    },
+    {
+      "question": "What will you do differently on early alignment before we next meet?",
+      "alias": "q_commitment_closer",
+      "answer": "I will pick one recent deliverable and write down the decision rule I used before our next check-in.",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_highest_leverage_work_5",
+          "delta": -3,
+          "answer_excerpt": "I can describe Principal impact in general, but this team's bar still feels fuzzy."
+        },
+        {
+          "q": "q_team_s_bar_fuzzy",
+          "delta": -3,
+          "answer_excerpt": "I have mostly stayed in my lane instead of forcing cross-team decisions."
+        },
+        {
+          "q": "q_intro_perf_03_gap",
+          "delta": 1,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        },
+        {
+          "q": "q_commitment_closer_2",
+          "delta": -3,
+          "answer_excerpt": "I need explicit expectations for the next cycle so I can calibrate fast."
+        },
+        {
+          "q": "q_commitment_closer",
+          "delta": 3,
+          "answer_excerpt": "I will pick one recent deliverable and write down the decision rule I used before our next check-in."
+        }
+      ]
+    },
+    "growth": {
+      "score": -8,
+      "history": [
+        {
+          "q": "q_intro_perf_03_gap",
+          "delta": -3,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        },
+        {
+          "q": "q_safe_execution",
+          "delta": -1,
+          "answer_excerpt": "I probably should ask for sharper feedback earlier than I do."
+        },
+        {
+          "q": "q_sharper_feedback_5",
+          "delta": -3,
+          "answer_excerpt": "I have not built enough trust with adjacent teams yet."
+        },
+        {
+          "q": "q_adjacent_team_trust_2",
+          "delta": -1,
+          "answer_excerpt": "The gap is less technical and more around visible ownership."
+        },
+        {
+          "q": "q_commitment_closer_2",
+          "delta": -1,
+          "answer_excerpt": "I need explicit expectations for the next cycle so I can calibrate fast."
+        },
+        {
+          "q": "q_commitment_closer",
+          "delta": 1,
+          "answer_excerpt": "I will pick one recent deliverable and write down the decision rule I used before our next check-in."
+        }
+      ]
+    }
+  },
+  "notes": "Tom moved teams recently and delivery is steady, but Principal-level impact is not visible yet. Previous feedback said he needs early expectation alignment, and he still asks very few questions. I want to test whether he understands what Principal scope means on this team or if he is still operating on old assumptions. I also need to understand whether cross-team trust and judgment calls are developing or whether he is staying in safe execution mode.",
+  "model": "gpt-5.4-nano"
+}

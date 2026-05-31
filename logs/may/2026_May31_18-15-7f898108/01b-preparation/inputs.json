@@ -1,0 +1,52 @@
+{
+  "name": "Carlos",
+  "roleTitle": "Brand Designer",
+  "seniority": "Junior",
+  "meetingType": "Performance & feedback",
+  "observedShift": "For Carlos, this performance conversation needs to make the quality bar concrete and usable. I want to understand whether prior feedback translated into behavior changes or stayed abstract. I also need to hear how he defines good work right now and where he feels blocked in growth. Without that shared baseline, feedback can feel subjective and demotivating. My goal is to align on specific expectations, examples, and one near-term development focus he can practice immediately.",
+  "focusPoints": [
+    {
+      "id": "quality",
+      "type": "Quality",
+      "category": "competency",
+      "label": "Making the quality bar concrete with examples",
+      "reason": "What “good” looks like in practice for Carlos right now, using concrete examples so feedback doesn’t stay abstract.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "Whether prior feedback changed his behavior",
+      "reason": "What prior feedback he actually translated into new habits or outputs, and where it stayed at the level of ideas.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "His definition of good work at this level",
+      "reason": "What he thinks the bar is for his junior role, so you can calibrate expectations against his current mental model.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Near-term growth focus and what blocks it",
+      "reason": "How to turn growth into one specific practice for the next cycle, and what feels blocked so the plan is actionable.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "eebe71ce-0dd9-4873-9f50-7b2e532d4924",
+  "validation": {
+    "passed": true,
+    "issues": []
+  },
+  "attempts": 2
+}

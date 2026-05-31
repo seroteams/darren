@@ -1,0 +1,123 @@
+{
+  "ctx": {
+    "name": "Test",
+    "role": "Engineer",
+    "seniority": "Senior",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "note"
+  },
+  "focusPoints": [
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What they're saying yes and no to",
+      "reason": "Whether their current work still matches the team’s bets, or if they’ve drifted into firefighting.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Blockers and dependencies slowing delivery",
+      "reason": "What’s most likely to be stuck between teams or decisions, so you can remove it before it turns into schedule risk.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "How their updates land with stakeholders",
+      "reason": "Whether stakeholders feel informed and decisions are getting made with the right context, not just status.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Workload and capacity over the last two weeks",
+      "reason": "How sustainable their pace is right now, including interrupt load and whether they’re protecting their focus time effectively.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's been slower or harder than it should have been?",
+      "alias": "q_intro_biweekly_friction",
+      "answer": "(skipped)",
+      "skipped": true
+    },
+    {
+      "question": "How's the last two weeks actually felt — energy-wise?",
+      "alias": "q_intro_biweekly_pace",
+      "answer": "(skipped)",
+      "skipped": true
+    },
+    {
+      "question": "What decision are you waiting on that is slowing things down?",
+      "alias": "q_decision_lag",
+      "answer": "(skipped)",
+      "skipped": true
+    },
+    {
+      "question": "Is now a good time for this, or should we pick it up later?",
+      "alias": "q_reset_timing",
+      "answer": "(skipped)",
+      "skipped": true
+    },
+    {
+      "question": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+      "alias": "q_seed_clarity_priorities",
+      "answer": "(skipped)",
+      "skipped": true
+    },
+    {
+      "question": "Is now a good time for this conversation, or should we reschedule?",
+      "alias": "q_reset_timing_2",
+      "answer": "(skipped)",
+      "skipped": true
+    },
+    {
+      "question": "What would make this quarter clearly successful for you — in one sentence?",
+      "alias": "q_seed_clarity_success",
+      "answer": "(skipped)",
+      "skipped": true
+    },
+    {
+      "question": "Is now a good time for this conversation, or should we reschedule?",
+      "alias": "q_reset_timing_3",
+      "answer": "(skipped)",
+      "skipped": true
+    },
+    {
+      "question": "What would make the next two weeks feel steadier for you?",
+      "alias": "q_sharper_next_step",
+      "answer": "(skipped)",
+      "skipped": true
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  },
+  "notes": "note",
+  "model": "gpt-5.4-nano"
+}

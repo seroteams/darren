@@ -1,0 +1,9 @@
+alias: q_deprioritised_work_2
+label: Deprioritised work
+name: What have you intentionally put lower on the list lately?
+description: Surfaces what has been dropped or deferred so the manager can see the real tradeoffs.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: generated

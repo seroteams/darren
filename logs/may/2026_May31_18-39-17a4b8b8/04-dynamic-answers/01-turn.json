@@ -1,0 +1,93 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_off_connection",
+    "label": "Team connection",
+    "name": "How connected do you feel to the rest of the team right now?",
+    "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+    "purpose": "wellbeing",
+    "stage": "observation",
+    "axis_effects": {
+      "engagement": 3,
+      "wellbeing": 1
+    },
+    "source": "seed"
+  },
+  "answer": "The hardest part is changing direction late and feeling like I missed something.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": -1
+    },
+    "note": "He names late direction changes and feeling like he missed something, which signals mild strain and some disengaging friction; also reveals a likely clarity issue worth probing next."
+  },
+  "new_queue": [
+    {
+      "alias": "q_late_direction_changes_2",
+      "label": "Late direction changes",
+      "name": "When direction changes late, where do you usually get left out or lose the thread?"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_expectation_drift",
+      "label": "Expectation drift",
+      "name": "Where have expectations felt the least clear for you so far?"
+    },
+    {
+      "alias": "q_intro_off_openended",
+      "label": "Open invitation",
+      "name": "Is there anything on your mind that we haven't made space to talk about?"
+    },
+    {
+      "alias": "q_proving_yourself",
+      "label": "Proving yourself",
+      "name": "Where do you feel the most pressure to prove yourself right now?"
+    },
+    {
+      "alias": "q_support_that_helps",
+      "label": "Support that helps",
+      "name": "What kind of support from me would make the biggest difference right now?"
+    },
+    {
+      "alias": "q_next_two_weeks_29",
+      "label": "Next two weeks",
+      "name": "What would make the next two weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

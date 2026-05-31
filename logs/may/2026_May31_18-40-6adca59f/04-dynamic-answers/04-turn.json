@@ -1,0 +1,98 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_controllable_delivery",
+    "label": "Controllable delivery",
+    "name": "When delivery felt controllable, what felt unclear or out of reach?",
+    "description": "Drills into his 'delivery felt controllable' comment to surface what the promotion feedback left vague.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Mentoring has been one place where I still feel useful.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "He answered a clarity probe by locating usefulness in mentoring instead of naming what became clear, which signals the path still feels vague; also surfaced mentoring as a concrete growth thread."
+  },
+  "new_queue": [
+    {
+      "alias": "q_mentoring_usefulness_2",
+      "label": "Mentoring usefulness",
+      "name": "Mentoring feels useful — what is it giving you that other parts of the role aren't?"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_path_forward_4",
+      "label": "Path forward",
+      "name": "What concrete path do you think exists for you from here?"
+    },
+    {
+      "alias": "q_support_needed_23",
+      "label": "Support needed",
+      "name": "What support from me would make the next couple of weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_thread_follow_27",
+          "delta": -3,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_promotion_feedback",
+          "delta": -3,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        },
+        {
+          "q": "q_controllable_delivery",
+          "delta": -3,
+          "answer_excerpt": "Mentoring has been one place where I still feel useful."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_promotion_feedback",
+          "delta": -1,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        }
+      ]
+    }
+  }
+}

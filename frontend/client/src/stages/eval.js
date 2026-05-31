@@ -23,7 +23,11 @@ export async function mount(root, { store, setState }) {
     .on("briefing", async (d) => {
       await orb.exit();
       store.briefing = d;
-      setState({ briefing: d, stage: STAGES.BRIEFING });
+      setState({
+        briefing: d,
+        stage: STAGES.BRIEFING,
+        completedAt: d.completedAt ?? store.completedAt ?? null,
+      });
     })
     .on("error", (d) => {
       setState({

@@ -1,0 +1,107 @@
+{
+  "turn": 9,
+  "question": {
+    "alias": "q_seed_clarity_priorities",
+    "label": "Priority ranking",
+    "name": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+    "description": "Forces a real priority ranking. Vague answers are a clarity signal.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I want to start by getting clarity on next quarter ownership before the billing rewrite lands on me.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "clarity": -3
+    },
+    "note": "She names lack of next-quarter ownership clarity as the key priority before the billing rewrite, showing strong clarity risk with some active ownership in naming the priority."
+  },
+  "new_queue": [],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_support_needed_21",
+          "delta": -1,
+          "answer_excerpt": "If there is a bigger scope conversation, I want it sooner rather than later."
+        },
+        {
+          "q": "q_next_two_weeks_focus",
+          "delta": -1,
+          "answer_excerpt": "A clear next-step path would help me reset my energy."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        },
+        {
+          "q": "q_flatter_after_launch",
+          "delta": -3,
+          "answer_excerpt": "Mostly cleanup and reviews right now, not much that feels new."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I did mention mentoring before. I still want it, but I stopped pushing."
+        },
+        {
+          "q": "q_stopped_pushing_5",
+          "delta": -1,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        },
+        {
+          "q": "q_seed_clarity_priorities",
+          "delta": 1,
+          "answer_excerpt": "I want to start by getting clarity on next quarter ownership before the billing rewrite lands on me."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_stopped_pushing_5",
+          "delta": -3,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        },
+        {
+          "q": "q_next_quarter_ownership_5",
+          "delta": -3,
+          "answer_excerpt": "I have felt a bit stuck doing similar work for months."
+        },
+        {
+          "q": "q_support_needed_21",
+          "delta": -1,
+          "answer_excerpt": "If there is a bigger scope conversation, I want it sooner rather than later."
+        },
+        {
+          "q": "q_next_two_weeks_focus",
+          "delta": -1,
+          "answer_excerpt": "A clear next-step path would help me reset my energy."
+        },
+        {
+          "q": "q_seed_clarity_priorities",
+          "delta": -3,
+          "answer_excerpt": "I want to start by getting clarity on next quarter ownership before the billing rewrite lands on me."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

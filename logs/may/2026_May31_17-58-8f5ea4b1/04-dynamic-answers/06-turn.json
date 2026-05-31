@@ -1,0 +1,105 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_escalation_guide",
+    "label": "Escalation guide",
+    "name": "What would a useful escalate-versus-batch guide need to cover?",
+    "description": "Turns the missing escalation guide into concrete criteria the manager can help provide.",
+    "purpose": "topic",
+    "stage": "blockers",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "The runbook helped, but some practical handoff details only show up during live incidents.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "clarity": -3
+    },
+    "note": "He names a specific missing context source — practical handoff details only visible in live incidents — which is a strong clarity gap and mild drag on engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_live_incidents",
+      "label": "Live incidents",
+      "name": "Which handoff details only become visible during live incidents?"
+    },
+    {
+      "alias": "q_useful_introductions",
+      "label": "Useful introductions",
+      "name": "Who would be most useful for you to spend live time with next?"
+    },
+    {
+      "alias": "q_steady_next_steps",
+      "label": "Steady next steps",
+      "name": "What should we line up before our next check-in?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 6)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_context_moments",
+          "delta": -3,
+          "answer_excerpt": "I would benefit from a clearer guide for what to escalate quickly versus what to batch."
+        },
+        {
+          "q": "q_escalation_guide",
+          "delta": -1,
+          "answer_excerpt": "The runbook helped, but some practical handoff details only show up during live incidents."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_landing_check_in_2",
+          "delta": -1,
+          "answer_excerpt": "I am comfortable reading the services, but I am less sure how decisions are really made here."
+        },
+        {
+          "q": "q_decision_making_map_2",
+          "delta": -1,
+          "answer_excerpt": "I can trace most request paths now, though I still miss historical context behind certain tradeoffs."
+        },
+        {
+          "q": "q_historical_tradeoffs",
+          "delta": -3,
+          "answer_excerpt": "I have not been fully clear on who is on point for each domain when priorities conflict."
+        },
+        {
+          "q": "q_domain_ownership",
+          "delta": -3,
+          "answer_excerpt": "I am trying not to interrupt people, so sometimes I keep questions in a notes doc instead of asking."
+        },
+        {
+          "q": "q_context_moments",
+          "delta": -3,
+          "answer_excerpt": "I would benefit from a clearer guide for what to escalate quickly versus what to batch."
+        },
+        {
+          "q": "q_escalation_guide",
+          "delta": -3,
+          "answer_excerpt": "The runbook helped, but some practical handoff details only show up during live incidents."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

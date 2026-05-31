@@ -1,0 +1,10 @@
+alias: q_team_signal
+label: Team signal
+name: How has the team response to that feature landed for you?
+description: Checks whether recognition, pressure, or something else is shaping her state after the launch.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  engagement: +1
+  wellbeing: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_11
+label: Next two weeks
+name: What would make the next two weeks feel lighter or sharper?
+description: Open closer to help her shape the most useful focus and support for the near term.
+purpose: topic
+stage: lift
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: planner_added

@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "reliability",
+      "type": "Reliability",
+      "category": "competency",
+      "label": "Confidence before shipping and commitment timing.",
+      "reason": "Sam hesitates before shipping and asks for reassurance late. One possibility is a normal confidence dip in week three; another is a tooling or expectation gap that makes the “ready to ship” bar unclear—worth clarifying which so you can fix it quickly.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Onboarding handoffs that still feel fuzzy.",
+      "reason": "Notes ask for clarity on where onboarding handoffs are still unclear. This could be missing context in ticket intake, unclear ownership boundaries, or dependencies that aren’t explained yet—map the exact handoff points so he’s not compensating quietly.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Support touchpoints for the next two weeks.",
+      "reason": "Whether he’s getting enough lightweight reassurance and fast answers during onboarding is what will determine whether he ramps smoothly or keeps stalling. As a junior in an onboarding check-in, you want to line up specific, time-boxed support moments you can actually deliver.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "What “done” means for his current tickets.",
+      "reason": "At junior level, onboarding success often hinges on the concrete definition of “good to ship” (tests, review expectations, edge cases, and who signs off). Making that explicit reduces the need for last-minute reassurance and helps him move independently sooner.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Sam",
+  "role": "Frontend Engineer",
+  "seniority": "Junior",
+  "meetingType": "Onboarding check-in",
+  "notes": "Sam is in week three and has started picking up real tickets, but he still hesitates before shipping and asks for reassurance late. I need to understand whether this is a normal confidence dip or a tooling and expectation gap we can fix quickly. I also want clarity on where onboarding handoffs are still fuzzy so he is not quietly compensating. This should stay practical and supportive: map what is unclear, unblock him, and line up the right support touchpoints for the next two weeks.",
+  "model": "gpt-5.4-mini"
+}

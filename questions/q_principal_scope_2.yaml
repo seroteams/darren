@@ -1,0 +1,10 @@
+alias: q_principal_scope_2
+label: Principal scope
+name: What does Principal scope mean to you on this team?
+description: "Surfaces his current model of the role and whether it matches the team's expectations."
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

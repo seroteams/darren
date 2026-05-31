@@ -1,0 +1,869 @@
+{
+  "generated_at": "2026-05-31T11:04:43.439Z",
+  "run_count": 14,
+  "failures": [
+    {
+      "scenario_file": "elena-something-feels-off.json",
+      "name": "Elena",
+      "meeting_type": "Something feels off",
+      "reason": "smoke failed exit=1"
+    }
+  ],
+  "verdict_tiers": {
+    "pass": 0,
+    "watch": 14,
+    "fail": 0
+  },
+  "prior_sweep": "2026-05-31T10:02:48.634Z",
+  "aggregate_heuristics": {
+    "question_specificity": 0.941,
+    "plan_thread_follow": 0.53,
+    "plan_delta_accuracy": 0.976,
+    "overall_mean": 0.816
+  },
+  "by_type": [
+    {
+      "type": "Bi-weekly check-in",
+      "total": 3,
+      "pass": 0,
+      "watch": 3,
+      "fail": 0,
+      "heuristic_mean": 0.821,
+      "judge_mean": 3
+    },
+    {
+      "type": "Performance & feedback",
+      "total": 3,
+      "pass": 0,
+      "watch": 3,
+      "fail": 0,
+      "heuristic_mean": 0.825,
+      "judge_mean": 3
+    },
+    {
+      "type": "Growth & career plan",
+      "total": 3,
+      "pass": 0,
+      "watch": 3,
+      "fail": 0,
+      "heuristic_mean": 0.806,
+      "judge_mean": 3
+    },
+    {
+      "type": "Something feels off",
+      "total": 2,
+      "pass": 0,
+      "watch": 2,
+      "fail": 0,
+      "heuristic_mean": 0.775,
+      "judge_mean": 3
+    },
+    {
+      "type": "Onboarding check-in",
+      "total": 3,
+      "pass": 0,
+      "watch": 3,
+      "fail": 0,
+      "heuristic_mean": 0.838,
+      "judge_mean": 3
+    }
+  ],
+  "runs": [
+    {
+      "scenario_file": "priya-biweekly-checkin.json",
+      "name": "Priya",
+      "meeting_type": "Bi-weekly check-in",
+      "session": "logs/may/2026_May31_17-45-3e3a8ca2",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 1,
+            "evidence": "10/10 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.5,
+            "evidence": "4/8 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 1,
+            "evidence": "9/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.8333333333333334
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "All four stages are present (pulse/friction/momentum/lift) and the conversation lands on next-quarter ownership clarity, but the lift/closer doesn’t fully convert into an employee-shaped support ask beyond “clarity,” and one question is malformed.",
+        "tone_fit": "Mostly casual and peer-tempered with short, plain questions. However, there’s a noticeable wording glitch (“ostly cleanup reviews…”) and the final closer reads like a manager prompt rather than a negotiated next focus/support request.",
+        "evidence": "- Pulse: energy check captured (“flatter than I expected”; “energy-wise”).\n- Friction: identified cleanup/reviews as current work mode.\n- Momentum: surfaced core blocker (“not sure what I am owning next quarter yet… makes me uneasy”; “stuck doing similar work for months”).\n- Lift/closer: asks for next two weeks lighter/sharper and ends with a non-negotiable tied to billing rewrite timing (“before the billing rewrite lands on me”).\n- Anti-pattern risk: mentoring thread is mentioned but not located (no concrete trigger for “stopped pushing,” no mentee/cadence/dependency details extracted).",
+        "flags": [
+          "Malformed question/typo in turn 3: “ostly cleanup reviews — can you say more…” reduces clarity and casual fluency.",
+          "Mentoring thread is not properly progressed: Priya says she stopped pushing, but the transcript doesn’t ask what specifically caused the back-off (person, cadence, dependency, decision rights) or convert it into a concrete next step.",
+          "Closer is framed as a manager-driven cut-in-half prompt; the resulting ask is still somewhat manager-assigned (“clarity before billing rewrite”) rather than a fully employee-shaped next focus plus specific support needed from the manager."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "",
+          "question": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+          "answer": "I want to start by getting clarity on next quarter ownership before the billing rewrite lands on me."
+        },
+        "stage_coverage": {
+          "expected_count": 4,
+          "matched_count": 4,
+          "missing_stage_ids": [],
+          "matched_stage_ids": [
+            "pulse",
+            "friction",
+            "momentum",
+            "lift"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    },
+    {
+      "scenario_file": "tom-performance-feedback.json",
+      "name": "Tom",
+      "meeting_type": "Performance & feedback",
+      "session": "logs/may/2026_May31_17-46-9f4c7159",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 1,
+            "evidence": "9/9 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.5,
+            "evidence": "4/8 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 1,
+            "evidence": "9/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.8333333333333334
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "Missing self_read stage coverage (target 1, matched 0). Other stages present: evidence, gap_naming, cause, commit (4/5).",
+        "tone_fit": "Mostly direct and adult-to-adult; manager questions are pointed and not cushioned. However, the transcript includes a malformed prompt (“describe rincipal impact”) and the manager’s final closer asks for an artifact but not a fully concrete Principal behavioral change with a date.",
+        "evidence": "Tom gives some self-assessment (“shipping… not aiming at highest-leverage,” “bar still feels fuzzy,” “stayed in my lane”). He anchors evidence with leverage/safety and trust (“over-index on being safe,” “not built enough trust with adjacent teams”). Gap/cause are named (“visible ownership,” “need explicit expectations”). Commitment is concrete but not fully Principal-specific and lacks a date (“write down the decision rule… before our next check-in”).",
+        "flags": [
+          "Stage coverage miss: self_read intent not met—Tom’s first three answers are still self-read, but the transcript marks them as self_read while the stage_coverage says self_read missing; additionally, the manager never lands on a clear “last stretch read” summary before sharing view.",
+          "Principal scope clarity remains fuzzy: Tom repeatedly says the bar is fuzzy and relies on explicit expectations; no concrete recent cross-team decision example is elicited.",
+          "Commitment not fully compliant: no explicit date and the commitment is an artifact (“decision rule”) rather than a behavioral change with an observable cross-team judgment outcome.",
+          "One question has a quality issue: “describe rincipal impact — can you say more…” (typo) which slightly undermines directness/clarity."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "commit",
+          "question": "What would you want me to see differently by our next check-in?",
+          "answer": "I will pick one recent deliverable and write down the decision rule I used before our next check-in."
+        },
+        "stage_coverage": {
+          "expected_count": 5,
+          "matched_count": 4,
+          "missing_stage_ids": [
+            "self_read"
+          ],
+          "matched_stage_ids": [
+            "evidence",
+            "gap_naming",
+            "cause",
+            "commit"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    },
+    {
+      "scenario_file": "maria-growth-career-plan.json",
+      "name": "Maria",
+      "meeting_type": "Growth & career plan",
+      "session": "logs/may/2026_May31_17-47-6f7082c8",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 0.7,
+            "evidence": "7/10 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.6666666666666666,
+            "evidence": "4/6 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 0.8888888888888888,
+            "evidence": "8/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.7518518518518519
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "All 5 stages are present (anchor/aspiration/gap/investment/commitment) and the final turn is a commitment, but the gap→investment→commitment thread never fully resolves the missing “last-cycle readout” specifics or the decision criteria she needs.",
+        "tone_fit": "Mostly aspirational/forward-leaning and coach-like, but it slips into a somewhat HR-ish “next actions” framing in the evaluation rather than staying tightly generative in the questions themselves. The questions do use future-oriented language, but the conversation doesn’t earn clarity on the promotion decision before moving to mentoring.",
+        "evidence": "Gap is explored (“feedback was not specific enough,” “want clearer scope”), and aspiration ties to org-level impact. However, the key missing piece for the growth plan—what would “move the next decision” (named criteria/evidence/scope)—is not actually elicited. The investment stage is underdeveloped (“I need a moment to think about that”), and the commitment becomes a generic mentoring commitment with a review point next month rather than a concrete, decision-linked scope/outcome.",
+        "flags": [
+          "Gap resolution is incomplete: Maria never names the specific scope elements/evidence/criteria needed to change the next promotion decision (she says “I do not know what would move the next decision”).",
+          "Investment stage lacks depth: no trade-offs or concrete constraints are surfaced beyond “I need a moment to think about that.”",
+          "Commitment is not fully decision-linked: “one mentoring commitment that has clear scope and a review point next month” is still vague and doesn’t specify the org-level outcome/evidence that would address the last-cycle specificity gap.",
+          "Anti-pattern risk: the conversation pivots to mentoring without fully earning the gap (last-cycle readout specificity) and translating it into actionable decision criteria."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "commitment",
+          "question": "Given what we've covered, what is the next step you want to take before we meet again?",
+          "answer": "I want to start with one mentoring commitment that has clear scope and a review point next month."
+        },
+        "stage_coverage": {
+          "expected_count": 5,
+          "matched_count": 5,
+          "missing_stage_ids": [],
+          "matched_stage_ids": [
+            "anchor",
+            "aspiration",
+            "gap",
+            "investment",
+            "commitment"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    },
+    {
+      "scenario_file": "james-something-feels-off.json",
+      "name": "James",
+      "meeting_type": "Something feels off",
+      "session": "logs/may/2026_May31_17-49-86550893",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 1,
+            "evidence": "9/9 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.375,
+            "evidence": "3/8 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 0.8888888888888888,
+            "evidence": "8/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.7546296296296297
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "All four stages are present (landing/observation/underneath/support) and the closer is employee-shaped, but the session under-delivers on the “concrete path forward” mechanics and leaves key specifics (promotion feedback/authority mechanics) unpinned.",
+        "tone_fit": "Mostly observation-first and opt-in (no diagnosis). However, the manager’s questions drift into higher-pressure “cut your work in half” and the transcript lacks the required low-pressure landing/opt-out feel in later probing; also the session doesn’t fully avoid performance-review framing (it asks for success criteria and cuts work without confirming comfort).",
+        "evidence": "James links reduced ritual presence to the promotion decision (“After the promotion decision, I was not clear on what really needed to change.”). He provides concrete needs (“clearer criteria, not reassurance”; “need real authority”). Final closer captures a next focus (“start by naming one forum where I want clearer criteria, and what support I need to show up there.”). But he never names the actual promotion feedback he heard, nor the specific forum/decision points beyond a generic “one forum,” and the “authority” mechanics remain undefined. The “cut your work in half tomorrow” question is a notable pressure/probing mismatch for this meeting type.",
+        "flags": [
+          "Missing required specificity: no concrete promotion feedback content and no named forum/decision owners (only “one forum”).",
+          "Concrete path forward not fully surfaced/translated into mechanics (authority/criteria still abstract).",
+          "Anti-pattern risk: the “cut your work in half tomorrow” question adds pressure and doesn’t clearly preserve the low-pressure opt-out intent."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "",
+          "question": "What would make this quarter clearly successful for you — in one sentence?",
+          "answer": "I would start by naming one forum where I want clearer criteria, and what support I need to show up there."
+        },
+        "stage_coverage": {
+          "expected_count": 4,
+          "matched_count": 4,
+          "missing_stage_ids": [],
+          "matched_stage_ids": [
+            "landing",
+            "observation",
+            "underneath",
+            "support"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    },
+    {
+      "scenario_file": "lin-biweekly-checkin.json",
+      "name": "Lin",
+      "meeting_type": "Bi-weekly check-in",
+      "session": "logs/may/2026_May31_17-50-bcac7706",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 0.8888888888888888,
+            "evidence": "8/9 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.5,
+            "evidence": "4/8 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 1,
+            "evidence": "9/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.7962962962962963
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "All four stages are present (pulse, friction, momentum, lift) and the questions generally match the intended intents.",
+        "tone_fit": "Mostly casual/peer-tempered and not agenda-heavy. However, the manager’s questions drift into somewhat leading/diagnostic territory (“Which decisions are still sticking with you that shouldn't be?”) and the closer doesn’t explicitly land on the requested “next two weeks lighter or sharper” support/ask; it stays generic about unblocking a dependency.",
+        "evidence": "Lin directly answers the core issue: late nights from “carrying decision bottlenecks and final reviews,” plus a recurring feedback gap (“not enough substantive feedback on key decisions”) and a delegation intent (“hand off one stream end-to-end and stay out of the middle”). Final turn is substantive but not clearly tied to a concrete support/ownership boundary agreement for the next two weeks.",
+        "flags": [
+          "Closer/commitment not fully satisfied: final answer names an action focus (unblock dependency) but does not capture an employee-shaped next focus + explicit support/ask (e.g., what you will do differently / what manager will provide) to make the next two weeks lighter.",
+          "Missing concrete anchoring example: despite the brief suggesting using a specific late-night example, the transcript stays at a mechanism level (bottlenecks/final reviews/feedback gap) without a specific project/decision step.",
+          "Some questions are slightly leading/abstract rather than locating specific friction points (e.g., “Which decisions are still sticking with you that shouldn't be?”) without follow-up to map owners/decision steps in the transcript."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "",
+          "question": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+          "answer": "I want to focus first on unblocking the one dependency that is slowing the team the most this week."
+        },
+        "stage_coverage": {
+          "expected_count": 4,
+          "matched_count": 4,
+          "missing_stage_ids": [],
+          "matched_stage_ids": [
+            "pulse",
+            "friction",
+            "momentum",
+            "lift"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    },
+    {
+      "scenario_file": "sarah-performance-feedback.json",
+      "name": "Sarah",
+      "meeting_type": "Performance & feedback",
+      "session": "logs/may/2026_May31_17-51-2cec8109",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 0.9,
+            "evidence": "9/10 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.5,
+            "evidence": "4/8 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 1,
+            "evidence": "9/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.7999999999999999
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "All 5 stages are present (self-read, evidence, gap naming, cause, commit), but the commit/closer is not sufficiently concrete for the performance & feedback intent.",
+        "tone_fit": "Mostly direct and adult-to-adult; however, the employee’s responses stay abstract at the end (“define what good looks like”) and don’t reconcile the manager’s influence/visibility concern with observable behaviors.",
+        "evidence": "Sarah identifies the pattern (“wait until analysis is complete before socializing direction”) and names a consequence (“stakeholders feel surprised late”). But she does not anchor to a specific recent project/observable moment, and her commitment remains process-level rather than a concrete early influence action (who/what/when).",
+        "flags": [
+          "Commitment lacks required specificity: no named audience, decision point, artifact, or date; “next two weeks” is vague and “define what good looks like” is not an employee-shaped influence behavior.",
+          "Evidence is impressionistic/behavioral but not anchored to a concrete example of a specific project and measurable stakeholder decision impact.",
+          "Cause/gap are somewhat repetitive (late socializing) without exploring alternative drivers (clarity, context, capacity) beyond “feedback checkpoints,” which risks staying execution-timeline centric.",
+          "Manager-style reconciliation is missing in the transcript: no explicit forcing question to pin down early stakeholder-visible actions (tradeoffs narrative, pre-wire, decision checkpoint)."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "commit",
+          "question": "What is one change you will make in the next two weeks to raise your visibility?",
+          "answer": "I will choose one recurring deliverable and define what good looks like before the next review cycle."
+        },
+        "stage_coverage": {
+          "expected_count": 5,
+          "matched_count": 5,
+          "missing_stage_ids": [],
+          "matched_stage_ids": [
+            "self_read",
+            "evidence",
+            "gap_naming",
+            "cause",
+            "commit"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    },
+    {
+      "scenario_file": "ahmed-growth-career-plan.json",
+      "name": "Ahmed",
+      "meeting_type": "Growth & career plan",
+      "session": "logs/may/2026_May31_17-52-adbe940e",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 1,
+            "evidence": "9/9 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.5,
+            "evidence": "4/8 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 1,
+            "evidence": "9/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.8333333333333334
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "All five stages are present (anchor→aspiration→gap→investment→commitment) with questions aligned to each stage, but the conversation under-specifies the senior Head of Product ownership mechanism.",
+        "tone_fit": "Mostly aspirational and future-oriented (e.g., “eighteen months from now”), but it drifts into confidence/structure requests (“growth contract with milestones”) without the generative, role-protagonist framing that forces concrete strategic ownership.",
+        "evidence": "- Gap thread is strong and specific to behavior: “I still spend too much time in execution details” and “When conversations get political, I tend to retreat to what I can deliver directly.”\n- Aspiration is present but still behavioral/indirect: “delegate more of the hands-on work.”\n- Investment/commitment lacks the required senior-scope specificity: the plan ends with “own one strategic bet end-to-end and set a milestone check-in with stakeholders in two weeks,” but the transcript never pins the stakeholder forum/decision authority or the exact “ask + tradeoff” he will practice in political rooms.",
+        "flags": [
+          "Commitment is not sufficiently concrete for growth_career_plan: no named strategic bet scope/outcome, no named stakeholder forum, and no explicit decision authority/ownership mechanism—only delegation + a milestone check-in.",
+          "Investment stage is framed as accountability structure (“growth contract with milestones”) rather than explicit tradeoffs and what changes from Ahmed/manager/org to enable lead-level strategic ownership.",
+          "Anti-pattern risk: the session stays at the level of intentions and confidence/visibility framing; it doesn’t deepen one thread into a single, testable senior-ownership example (e.g., a specific recent tactical moment converted into what senior ownership would have looked like)."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "commitment",
+          "question": "Given what we've covered, where do you want to start first?",
+          "answer": "I want to own one strategic bet end-to-end and set a milestone check-in with stakeholders in two weeks."
+        },
+        "stage_coverage": {
+          "expected_count": 5,
+          "matched_count": 5,
+          "missing_stage_ids": [],
+          "matched_stage_ids": [
+            "anchor",
+            "aspiration",
+            "gap",
+            "investment",
+            "commitment"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    },
+    {
+      "scenario_file": "kenji-something-feels-off.json",
+      "name": "Kenji",
+      "meeting_type": "Something feels off",
+      "session": "logs/may/2026_May31_17-53-9da025f6",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 1,
+            "evidence": "10/10 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.5,
+            "evidence": "4/8 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 0.8888888888888888,
+            "evidence": "8/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.7962962962962963
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "All four stages are present (landing/observation/underneath/support), but the arc doesn’t fully land the intended exploratory “underneath” depth into concrete team-setup mechanics; it stays somewhat at loop-level.",
+        "tone_fit": "Mostly observation-first and opt-in (manager asks about feelings/clarity without diagnosing). However, the manager’s later evaluation/next actions read more corrective/manager-assigned than the meeting constraints, and the transcript includes a somewhat leading framing (“How connected do you feel…”) rather than a pure landing question.",
+        "evidence": "Transcript hits 4/4 stages, with employee naming the core loop: late changes → missed things → “unsure what good really looks like” and “worry about sounding slow.” Support ask is present (“more ownership… clearer guardrails” and “regular calibration loop”). But the final closer question is a performance-style tradeoff prompt (“cut your work in half…”) and the conversation doesn’t concretize calibration mechanics (cadence/participants/artifacts) despite the employee offering the lever.",
+        "flags": [
+          "Final closer question is not aligned to the required support-closer intent (it’s a productivity/priority tradeoff prompt rather than “what would help, if anything, right now”).",
+          "Underneath stage doesn’t fully follow the employee’s door-opening detail into concrete team-setup causes/mechanics; it remains at general loop descriptions.",
+          "Manager’s provided “next_actions” are manager-assigned deadlines/scheduling rather than a pure employee-shaped next focus/support ask (conflicts with exploratory/no-pressure constraint)."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "",
+          "question": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+          "answer": "I would start with a short weekly calibration on what good looks like for my current tickets."
+        },
+        "stage_coverage": {
+          "expected_count": 4,
+          "matched_count": 4,
+          "missing_stage_ids": [],
+          "matched_stage_ids": [
+            "landing",
+            "observation",
+            "underneath",
+            "support"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    },
+    {
+      "scenario_file": "nina-biweekly-checkin.json",
+      "name": "Nina",
+      "meeting_type": "Bi-weekly check-in",
+      "session": "logs/may/2026_May31_17-55-21fbe905",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 1,
+            "evidence": "9/9 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.5,
+            "evidence": "4/8 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 1,
+            "evidence": "9/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.8333333333333334
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "All four stages are present (pulse, friction, momentum, lift) and the transcript hits each with at least one substantive exchange, but the lift/closer doesn’t translate into a concrete next support/decision ask from the manager.",
+        "tone_fit": "Mostly casual and peer-tempered with short, plain questions. However, the manager’s questions lean slightly generic in places (“What’s been slower or harder…”, “How’s the last two weeks…”) and the closer remains an employee statement rather than a clear manager support/commitment capture.",
+        "evidence": "Stage coverage matches expected_count=4. Employee signals: sustainability concern (“pace to become normal”, “firefighting and context switching”), visibility/impact friction (“I do not always feel the impact is visible”), and influence need (“more room to lead cross-functional discussions earlier”). Momentum/lift: she asks for “clear priority tradeoffs from leadership” and “pick one priority tradeoff to resolve with leadership,” but the transcript ends without the manager extracting the specific tradeoff/owner or confirming the support she wants in the next two weeks.",
+        "flags": [
+          "Closer/commitment not fully satisfied: final turn captures Nina’s desire (“pick one priority tradeoff…”) but does not include a manager-shaped next focus/support ask (e.g., which tradeoff, who owns it, and what the manager will do to unblock).",
+          "Friction-to-support linkage is still somewhat abstract: “clear priority tradeoffs” and “more room” are concrete-ish, but the transcript doesn’t lock to a specific stakeholder/forum/decision path as required by the manager notes.",
+          "A couple of questions are slightly generic rather than locating the friction with a concrete example (e.g., no explicit “which communication feedback / which stakeholder / which decision”)."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "momentum",
+          "question": "What tends to slow decisions down when you need buy-in?",
+          "answer": "I want to pick one priority tradeoff to resolve with leadership before the next two weeks get noisier."
+        },
+        "stage_coverage": {
+          "expected_count": 4,
+          "matched_count": 4,
+          "missing_stage_ids": [],
+          "matched_stage_ids": [
+            "pulse",
+            "friction",
+            "momentum",
+            "lift"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    },
+    {
+      "scenario_file": "carlos-performance-feedback.json",
+      "name": "Carlos",
+      "meeting_type": "Performance & feedback",
+      "session": "logs/may/2026_May31_17-56-73ec6f76",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 0.9,
+            "evidence": "9/10 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.625,
+            "evidence": "5/8 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 1,
+            "evidence": "9/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.8416666666666667
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "All 5 stages are present (self_read, evidence, gap_naming, cause, commit), but the commit is not fully manager-anchored into a concrete, testable behavioral change with a date as required.",
+        "tone_fit": "Mostly direct and adult-to-adult in content (clarity, time pressure, concrete needs). However, the closer/commit does not meet the “concrete behavioural change with a date” constraint; it’s framed as a general rule “this month” without specifying the exact next deliverable or measurable outcome.",
+        "evidence": "Carlos provides observable specifics: under time pressure he “focus[es] on polish” and “lose[s] sight of the core message,” and when reviews are broad he’s “not sure what to change first.” He also articulates the growth driver: wants “clearer examples” and “concrete criteria.”",
+        "flags": [
+          "Commit/closer not compliant: no explicit date and no clearly defined next deliverable or measurable first change; it’s “one explicit priority rule… this month,” which is closer to a plan than a testable behavioral commitment.",
+          "Gap naming/cause are present but not reconciled into a single concrete quality bar dimension (e.g., 1–2 criteria tied to an artifact). The transcript ends with alignment intent rather than locked criteria.",
+          "Manager view is not actually shown in the transcript (only questions and Carlos answers). For a performance & feedback reconciliation, the manager’s concrete view/quality bar should be explicitly stated and then agreed against."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "commit",
+          "question": "What should we agree you will do before we next meet?",
+          "answer": "I will start by writing one explicit priority rule I will use when time pressure hits this month."
+        },
+        "stage_coverage": {
+          "expected_count": 5,
+          "matched_count": 5,
+          "missing_stage_ids": [],
+          "matched_stage_ids": [
+            "self_read",
+            "evidence",
+            "gap_naming",
+            "cause",
+            "commit"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    },
+    {
+      "scenario_file": "sam-onboarding-checkin.json",
+      "name": "Sam",
+      "meeting_type": "Onboarding check-in",
+      "session": "logs/may/2026_May31_17-57-61efefdb",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 0.8888888888888888,
+            "evidence": "8/9 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.5,
+            "evidence": "4/8 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 1,
+            "evidence": "9/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.7962962962962963
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "Meets the expected 4 stages (settling, orientation, blockers, connection) with questions aligned to each, but the blockers→connection transition stays a bit abstract (pairing/cheat sheet) rather than locking concrete handoff points.",
+        "tone_fit": "Generally welcoming and low-bar (safe to admit uncertainty; focuses on unblocking). However, the manager-facing evaluation/next actions drift toward assigning specific deliverables (cheat sheet, scheduling) rather than keeping the manager role as a friction remover in the conversation itself.",
+        "evidence": "Sam clearly identifies the friction: mismatch between design/API details and uncertainty about approval/quality bars (“not always sure who should approve what before I push”; “fuzzy on where quality bars differ”). He also names a coping pattern (“wait too long before asking”). Connection/closer captures a support ask: pairing on his next ticket to see the approval bar in practice.",
+        "flags": [
+          "Final closer question is present, but the response is more of a general support preference (“pairing”) than a concrete next focus tied to a specific handoff/approval step (e.g., who/when/checklist).",
+          "The transcript includes a potentially confusing/duplicated question at turn 6 (“feedback specific fast, — can you say more…”), which slightly harms clarity and flow.",
+          "Connection stage support is not fully specified in the transcript (no explicit mapping of who to go to for which approval/quality-bar decision, despite that being the core gap).",
+          "Manager next_actions include manager-assigned homework-like deliverables (cheat sheet, scheduling) rather than only capturing an employee-shaped next focus/support ask; this is a mild mismatch with the meeting-type constraint."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "",
+          "question": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+          "answer": "I want to start by pairing on my next ticket so I can see the approval bar in practice."
+        },
+        "stage_coverage": {
+          "expected_count": 4,
+          "matched_count": 4,
+          "missing_stage_ids": [],
+          "matched_stage_ids": [
+            "settling",
+            "orientation",
+            "blockers",
+            "connection"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    },
+    {
+      "scenario_file": "riley-onboarding-checkin.json",
+      "name": "Riley",
+      "meeting_type": "Onboarding check-in",
+      "session": "logs/may/2026_May31_17-58-8f5ea4b1",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 0.9,
+            "evidence": "9/10 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.625,
+            "evidence": "5/8 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 1,
+            "evidence": "9/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.8416666666666667
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "All four stages are present (settling, orientation, blockers, connection) and the questions generally follow the intended onboarding arc.",
+        "tone_fit": "Mostly welcoming and low-bar (no performance evaluation). However, the manager-side intent to remove friction is only partially realized because the transcript doesn’t convert the key friction into named owners/escalation norms; it stays at the level of suggestions.",
+        "evidence": "Riley clearly surfaces onboarding gaps: decision-making visibility (“less sure how decisions are really made”), ownership under conflict (“who is on point for each domain when priorities conflict”), and escalation norms (“escalate quickly versus what to batch”). He also admits a key anti-pattern risk: he self-suppresses questions (“keep questions in a notes doc instead of asking”). The closer is employee-shaped but not fully concrete for the manager’s goal: “ask one architecture question in the next incident review” lacks who/what/response-time expectations.",
+        "flags": [
+          "Connection/closer lacks concrete support details: no named teammate/meeting/channel, no explicit escalation path or expected response time (manager notes wanted ownership boundaries + incident expectations).",
+          "The transcript doesn’t fully test the docs-vs-people mapping with a concrete recent example of a mis-assumption or a paused/asked moment; it stays conceptual.",
+          "No explicit agreement on next onboarding support beyond a general intent to ask a question; manager’s friction-removal goal isn’t fully locked in."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "connection",
+          "question": "What should we line up before our next check-in?",
+          "answer": "I will ask one architecture question in the next incident review instead of keeping it in my notes doc."
+        },
+        "stage_coverage": {
+          "expected_count": 4,
+          "matched_count": 4,
+          "missing_stage_ids": [],
+          "matched_stage_ids": [
+            "settling",
+            "orientation",
+            "blockers",
+            "connection"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    },
+    {
+      "scenario_file": "aisha-onboarding-checkin.json",
+      "name": "Aisha",
+      "meeting_type": "Onboarding check-in",
+      "session": "logs/may/2026_May31_18-00-72661087",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 1,
+            "evidence": "10/10 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.625,
+            "evidence": "5/8 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 1,
+            "evidence": "9/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.875
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "All four stages are present (settling, orientation, blockers, connection), but the orientation/blockers sections stay somewhat abstract and don’t fully elicit a concrete recent conflict example.",
+        "tone_fit": "Generally welcoming and low-bar (“unwritten rules,” “what’s slowing you down,” “support from me”), safe to admit confusion. However, the manager-side guidance in the transcript/summary pushes toward action planning rather than first extracting one concrete friction instance.",
+        "evidence": "Aisha clearly names the core friction: deciding vs escalating and unclear commitment ownership in cross-team conversations; she also cites remote context as a specific blocker. Her closer asks for explicit decision boundaries and a planning thread with boundaries.",
+        "flags": [
+          "Final/closer turn is a manager-assigned framing (“before our next check-in”) rather than a clearly employee-shaped next focus/support ask; it reads like a plan the manager will drive.",
+          "No concrete recent meeting/planning thread is elicited or mapped (who had final call, where boundary broke, what extra alignment rounds happened), despite the brief emphasizing one example.",
+          "Stage coverage count matches, but orientation/blockers questions don’t reach the “practical support and clearer boundaries” level during the conversation—she requests boundaries, but the transcript doesn’t operationalize them with specifics."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "",
+          "question": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+          "answer": "I want to run one planning thread with explicit decision boundaries before our next check-in."
+        },
+        "stage_coverage": {
+          "expected_count": 4,
+          "matched_count": 4,
+          "missing_stage_ids": [],
+          "matched_stage_ids": [
+            "settling",
+            "orientation",
+            "blockers",
+            "connection"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    },
+    {
+      "scenario_file": "toby-growth-career-plan.json",
+      "name": "Toby",
+      "meeting_type": "Growth & career plan",
+      "session": "logs/may/2026_May31_18-01-bc8a53bb",
+      "heuristics": {
+        "dimensions": {
+          "question_specificity": {
+            "score": 1,
+            "evidence": "9/9 mention persona"
+          },
+          "plan_thread_follow": {
+            "score": 0.5,
+            "evidence": "4/8 threads followed"
+          },
+          "plan_delta_accuracy": {
+            "score": 1,
+            "evidence": "9/9 turns scored non-zero"
+          }
+        },
+        "mean": 0.8333333333333334
+      },
+      "judge": {
+        "pass": false,
+        "score": 3,
+        "arc_coverage": "All 5 stages are present (anchor→aspiration→gap→investment→commitment) and the questions generally track the intended arc, but the investment/commitment are not fully converted into a concrete growth contract (named decision ownership + sponsorship mapping + measurable cadence).",
+        "tone_fit": "Mostly aspirational and forward-leaning (future-tense, “imagine… eighteen months,” “leadership bets,” “air cover”), but the manager’s coaching voice is not evidenced in the transcript—questions are present, yet there’s no visible generative reframing or explicit investment tradeoffs/sponsorship commitments captured from the manager side.",
+        "evidence": "- Gap thread is strong and specific: political capital caution, avoidance of high-ambiguity forums, and “less clarity on what separates me at the next level.”\n- Aspiration is partially concrete: “two concrete leadership bets for this half.”\n- Investment is vague/soft: “milestones that show progress before the next cycle, not only retrospective feedback.” No explicit sponsorship/air-cover plan, decision forum mapping, or tradeoffs.\n- Commitment is employee-shaped but still not a fully specified growth contract: “one leadership bet where I drive the decision” (no named decision, stakeholders, or milestone cadence captured in the final turn).",
+        "flags": [
+          "Commitment/closer not fully satisfied as a concrete growth contract: no named decision area, stakeholder set, or measurable pre-cycle milestone cadence captured before the meeting ends.",
+          "Investment stage lacks the required specificity on what changes from the manager/org (sponsorship mapping/air-cover commitment) and what gets traded off.",
+          "Manager coaching/generative reframing is not evidenced in the transcript—only employee answers are shown; no explicit alignment/contracting language from the manager side is captured."
+        ],
+        "verdict_tier": "watch",
+        "final_turn_check": {
+          "has_final_turn": true,
+          "substantive": true,
+          "skipped": false,
+          "stage": "commitment",
+          "question": "What is the one growth move you want to make before we meet again?",
+          "answer": "I want to start with one leadership bet where I drive the decision, not just the design output."
+        },
+        "stage_coverage": {
+          "expected_count": 5,
+          "matched_count": 5,
+          "missing_stage_ids": [],
+          "matched_stage_ids": [
+            "anchor",
+            "aspiration",
+            "gap",
+            "investment",
+            "commitment"
+          ]
+        },
+        "model": "gpt-5.4-nano"
+      }
+    }
+  ],
+  "verdict": "partial"
+}

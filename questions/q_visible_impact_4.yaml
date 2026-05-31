@@ -1,0 +1,9 @@
+alias: q_visible_impact_4
+label: Visible impact
+name: Impact not visible — where does that happen most right now?
+description: Drills into the specific place her work is not landing visibly before moving on.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added

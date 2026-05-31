@@ -1,0 +1,88 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_intro_biweekly_pace",
+    "label": "Opening pace check",
+    "name": "How's the last two weeks actually felt — energy-wise?",
+    "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+    "purpose": "wellbeing",
+    "stage": "pulse",
+    "axis_effects": {
+      "wellbeing": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I did mention mentoring before. I still want it, but I stopped pushing.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1
+    },
+    "note": "Pivoted from energy into the stalled mentoring thread; that signals mild disengagement, and also surfaces a growth topic to pick up next."
+  },
+  "new_queue": [
+    {
+      "alias": "q_stopped_pushing_4",
+      "label": "Stopped pushing",
+      "name": "What made you stop pushing on mentoring?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_support_ask_6",
+      "label": "Support ask",
+      "name": "What do you need from me to keep the next two weeks moving cleanly?"
+    },
+    {
+      "alias": "q_close_the_loop_3",
+      "label": "Close the loop",
+      "name": "Given what we covered, what’s the first thing you want to tighten up before we next meet?"
+    }
+  ],
+  "issues": [
+    "coverage: injected clarity into next question (0 touches after turn 4)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        },
+        {
+          "q": "q_flatter_week",
+          "delta": -3,
+          "answer_excerpt": "Mostly cleanup and reviews right now, not much that feels new."
+        },
+        {
+          "q": "q_nothing_feels_new_4",
+          "delta": 1,
+          "answer_excerpt": "I am proud of the migration plan and how we handled the cutover."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I did mention mentoring before. I still want it, but I stopped pushing."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

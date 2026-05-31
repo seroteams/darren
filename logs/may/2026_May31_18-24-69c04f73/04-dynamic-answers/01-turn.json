@@ -1,0 +1,103 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_biweekly_friction",
+    "label": "Friction scan",
+    "name": "What's been slower or harder than it should have been?",
+    "description": "Invites them to name blockers without framing it as complaint.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 3
+    },
+    "source": "seed"
+  },
+  "answer": "(skipped)",
+  "skipped": true,
+  "assessment": {
+    "deltas": {},
+    "note": "[SKIP] no signal — planner bypassed, queue carried forward"
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_open_context_2",
+      "label": "Open context",
+      "name": "Before we get into specifics, what's been most on your mind at work lately?"
+    },
+    {
+      "alias": "q_scope_tradeoff_2",
+      "label": "Scope tradeoff",
+      "name": "What have you said no to this fortnight?"
+    },
+    {
+      "alias": "q_attention_drift",
+      "label": "Attention drift",
+      "name": "Where is your attention getting pulled that isn't part of the main work?"
+    },
+    {
+      "alias": "q_decision_lag",
+      "label": "Decision lag",
+      "name": "What decision are you waiting on that is slowing things down?"
+    },
+    {
+      "alias": "q_stakeholder_signal_4",
+      "label": "Stakeholder signal",
+      "name": "How are your updates landing with the people who need them?"
+    },
+    {
+      "alias": "q_follow_up_gap",
+      "label": "Follow-up gap",
+      "name": "What tends to get lost after you share an update?"
+    },
+    {
+      "alias": "q_sustainable_load_3",
+      "label": "Sustainable load",
+      "name": "What part of your load feels hardest to sustain right now?"
+    },
+    {
+      "alias": "q_momentum_source",
+      "label": "Momentum source",
+      "name": "What part of the work is still pulling you in?"
+    },
+    {
+      "alias": "q_focus_friction",
+      "label": "Focus friction",
+      "name": "What is making it hard to protect focus time?"
+    },
+    {
+      "alias": "q_sharper_next_step",
+      "label": "Sharper next step",
+      "name": "What would make the next two weeks feel steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -1,0 +1,10 @@
+alias: q_missing_context
+label: Missing context
+name: What are you still waiting to understand before you change an architecture assumption?
+description: Finds the specific context gaps that could lead to wrong technical decisions.
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

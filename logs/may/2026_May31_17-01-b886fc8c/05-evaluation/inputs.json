@@ -1,0 +1,207 @@
+{
+  "ctx": {
+    "name": "Elena",
+    "role": "Engineering Manager",
+    "seniority": "Senior",
+    "meetingType": "Something feels off",
+    "notes": "Since the reorg, Elena is still delivering but has pulled back in leadership forums and appears less connected in team interactions. I want to check in without over-interpreting, and understand whether this is temporary transition load or a deeper mismatch in scope and support. She has not asked for help directly, which can hide meaningful strain. This should remain observation-first and low-pressure: make space for her perspective, then identify what support would actually help right now."
+  },
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How she's landing with the team right now",
+      "reason": "Since the reorg, notes say she pulled back in leadership forums and appears less connected in team interactions. One possibility is temporary transition load, but it's worth clarifying whether it feels like a fit issue, a bandwidth issue, or just a different working pattern.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Whether her scope changed after the reorg",
+      "reason": "Notes suggest a possible mismatch in scope and support. It could be that her current priorities shifted in a way that makes leadership forums feel less relevant, or it could be that expectations are unclear—worth getting her framing of what she thinks she owns now.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What she'd want more of from you",
+      "reason": "If she hasn't asked for help directly, the manager needs a low-pressure way to surface what support would actually reduce friction. At Engineering Manager level, this is the fastest route to turning vague “something feels off” into concrete, actionable support.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Workload and capacity after the reorg",
+      "reason": "Reorg transitions often change interrupt load, meeting load, and the split between delivery and leadership presence. Whether it's temporary overload or a longer-term mismatch, checking capacity and calendar control helps distinguish “transition” from “stuck.”",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "How connected do you feel to the rest of the team right now?",
+      "alias": "q_intro_off_connection",
+      "answer": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team.",
+      "skipped": false
+    },
+    {
+      "question": "You mentioned 'the shift since the reorg' — what feels most different now?",
+      "alias": "q_reorg_shift_2",
+      "answer": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage.",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'where my voice has most leverage' — what feels unclear there?",
+      "alias": "q_voice_leverage",
+      "answer": "Part of me is tired from constant context switching, and I have not really said that out loud.",
+      "skipped": false
+    },
+    {
+      "question": "What's been most on your mind at work lately?",
+      "alias": "q_arrival_context",
+      "answer": "I do not think anything is broken, but I do feel less grounded than I did before.",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'less grounded' — what feels less steady day to day?",
+      "alias": "q_less_grounded",
+      "answer": "I have been protecting my team from noise, which means I am carrying more ambiguity myself.",
+      "skipped": false
+    },
+    {
+      "question": "Where is that ambiguity landing hardest for you right now?",
+      "alias": "q_carrying_ambiguity",
+      "answer": "I am not fully clear yet on how success is being measured in this new setup.",
+      "skipped": false
+    },
+    {
+      "question": "What feels most undefined about how success is being measured now?",
+      "alias": "q_success_measures",
+      "answer": "What would help most is clearer prioritization and a little more air cover in cross-team decisions.",
+      "skipped": false
+    },
+    {
+      "question": "Where would a bit more support make the biggest difference right now?",
+      "alias": "q_support_gap_4",
+      "answer": "I want to re-engage more visibly, but I need a steadier footing first.",
+      "skipped": false
+    },
+    {
+      "question": "What's the first concrete thing you want to have changed by our next conversation?",
+      "alias": "q_next_step_6",
+      "answer": "(skipped)",
+      "skipped": true
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_reorg_shift_2",
+          "delta": -1,
+          "answer_excerpt": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage."
+        },
+        {
+          "q": "q_arrival_context",
+          "delta": -1,
+          "answer_excerpt": "I do not think anything is broken, but I do feel less grounded than I did before."
+        },
+        {
+          "q": "q_less_grounded",
+          "delta": -1,
+          "answer_excerpt": "I have been protecting my team from noise, which means I am carrying more ambiguity myself."
+        },
+        {
+          "q": "q_carrying_ambiguity",
+          "delta": -1,
+          "answer_excerpt": "I am not fully clear yet on how success is being measured in this new setup."
+        },
+        {
+          "q": "q_support_gap_4",
+          "delta": -1,
+          "answer_excerpt": "I want to re-engage more visibly, but I need a steadier footing first."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_reorg_shift_2",
+          "delta": -3,
+          "answer_excerpt": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage."
+        },
+        {
+          "q": "q_voice_leverage",
+          "delta": -3,
+          "answer_excerpt": "Part of me is tired from constant context switching, and I have not really said that out loud."
+        },
+        {
+          "q": "q_arrival_context",
+          "delta": -1,
+          "answer_excerpt": "I do not think anything is broken, but I do feel less grounded than I did before."
+        },
+        {
+          "q": "q_less_grounded",
+          "delta": -1,
+          "answer_excerpt": "I have been protecting my team from noise, which means I am carrying more ambiguity myself."
+        },
+        {
+          "q": "q_carrying_ambiguity",
+          "delta": -3,
+          "answer_excerpt": "I am not fully clear yet on how success is being measured in this new setup."
+        },
+        {
+          "q": "q_success_measures",
+          "delta": -3,
+          "answer_excerpt": "What would help most is clearer prioritization and a little more air cover in cross-team decisions."
+        },
+        {
+          "q": "q_support_gap_4",
+          "delta": -3,
+          "answer_excerpt": "I want to re-engage more visibly, but I need a steadier footing first."
+        }
+      ]
+    },
+    "growth": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_less_grounded",
+          "delta": -1,
+          "answer_excerpt": "I have been protecting my team from noise, which means I am carrying more ambiguity myself."
+        },
+        {
+          "q": "q_carrying_ambiguity",
+          "delta": -1,
+          "answer_excerpt": "I am not fully clear yet on how success is being measured in this new setup."
+        }
+      ]
+    }
+  },
+  "notes": "Since the reorg, Elena is still delivering but has pulled back in leadership forums and appears less connected in team interactions. I want to check in without over-interpreting, and understand whether this is temporary transition load or a deeper mismatch in scope and support. She has not asked for help directly, which can hide meaningful strain. This should remain observation-first and low-pressure: make space for her perspective, then identify what support would actually help right now.",
+  "model": "gpt-5.4-nano"
+}

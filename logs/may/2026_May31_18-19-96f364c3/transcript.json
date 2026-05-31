@@ -1,0 +1,199 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_settling_check",
+      "label": "Settling check",
+      "name": "What’s felt most settled for you in week four, Aisha?",
+      "description": "Lets Aisha name what is already working in the new role before moving into friction.",
+      "purpose": "wellbeing",
+      "stage": "settling",
+      "axis_effects": {
+        "wellbeing": 1,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    "answer": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": 1,
+      "engagement": 1
+    },
+    "note": "She says she is settling in, which is a mild positive on landing and investment; the unwritten-rules concern is a clarity signal worth probing next."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_unwritten_rules_3",
+      "label": "Unwritten rules",
+      "name": "You mentioned 'unwritten rules' — what feels hardest to read in those meetings?",
+      "description": "Drills into the specific meeting norms or expectations that still feel opaque.",
+      "purpose": "topic",
+      "stage": "settling",
+      "axis_effects": {
+        "engagement": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "I can draft plans, though I am not always sure when I should decide versus escalate.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1
+    },
+    "note": "She is leaning in by drafting plans, but the answer mainly reveals a clarity gap around deciding versus escalating, which is off-signature and should be probed next."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_thread_follow_20",
+      "label": "Thread follow",
+      "name": "draft plans, though — can you say more about what that means for you right now?",
+      "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+      "purpose": "topic",
+      "stage": "settling",
+      "axis_effects": {
+        "engagement": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "Cross-team conversations move fast and I sometimes leave unsure about who committed to what.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1
+    },
+    "note": "She describes leaving cross-team conversations without clear commitments, which signals mild disengagement risk; also reveals a strong clarity gap that should be probed next. [THREAD-DEFERRED] Concrete thread on unclear commitments in fast cross-team conversations deferred due to drill cap."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_decision_boundaries",
+      "label": "Decision boundaries",
+      "name": "Where are the decision rights still fuzzy for you?",
+      "description": "Surfaces which choices she can make directly versus where she still needs to escalate.",
+      "purpose": "topic",
+      "stage": "orientation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    "answer": "Being remote makes it harder to read context that others seem to pick up naturally.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "Remote work is making meeting context and implicit cues harder to read, which is a strong clarity gap around decision boundaries."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_remote_context",
+      "label": "Remote context",
+      "name": "When you're remote, which cues feel easiest to miss in those meetings?",
+      "description": "Drills into the remote-specific context gap she named so the manager can make implicit signals more explicit.",
+      "purpose": "topic",
+      "stage": "orientation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I want to drive alignment, but I do not want to create noise by over-communicating.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "She describes uncertainty about how visible to be in meetings, which signals a strong clarity gap around communication norms and alignment expectations."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_over_communicating_risk_2",
+      "label": "Over-communicating risk",
+      "name": "What feels like 'noise' to you in those meetings?",
+      "description": "Clarifies the specific communication behavior she is worried will be seen as too much.",
+      "purpose": "topic",
+      "stage": "orientation",
+      "axis_effects": {
+        "clarity": 3,
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I still need a clearer picture of how roadmap tradeoffs are finalized here.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3,
+      "growth": -1
+    },
+    "note": "She names a specific missing map for how roadmap tradeoffs get finalized here, which is a strong clarity gap and mild growth constraint; [THREAD-DEFERRED] 'how roadmap tradeoffs are finalized here' not followed because drill cap forces stage advance."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_alignment_move_3",
+      "label": "Alignment move",
+      "name": "How are you handling alignment when priorities collide?",
+      "description": "Explores the concrete approach she uses to pre-wire decisions and move conflicting stakeholders forward.",
+      "purpose": "competency",
+      "stage": "blockers",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    "answer": "A consistent partner check-in cadence would help me validate assumptions earlier.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "Names a missing structure — consistent partner check-ins — as what would help her validate assumptions earlier, signaling current clarity and growth support are lacking."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_next_step_focus_8",
+      "label": "Next-step focus",
+      "name": "Given what we covered, where do you want to focus first?",
+      "description": "Closes by turning the discussion into a concrete priority for the next stretch.",
+      "purpose": "topic",
+      "stage": "connection",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    "answer": "If I have explicit decision boundaries for this quarter, I can lead much more confidently.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "Names missing explicit decision boundaries as the condition for leading confidently, signaling ongoing clarity and growth friction."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_norms_support",
+      "label": "Norms support",
+      "name": "What would help you decode our norms faster?",
+      "description": "Opens the door for practical manager support around examples, decision paths, and feedback loops.",
+      "purpose": "topic",
+      "stage": "connection",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    "answer": "I want to run one planning thread with explicit decision boundaries before our next check-in.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "Deficiency-as-request: she names explicit decision boundaries as the missing support she needs to navigate norms, a strong clarity gap."
+  }
+]

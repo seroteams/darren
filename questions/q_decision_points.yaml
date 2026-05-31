@@ -1,0 +1,10 @@
+alias: q_decision_points
+label: Decision points
+name: What choices are you making when the work gets less polished?
+description: Surfaces whether the issue is taste, time trade-offs, or a lack of criteria when quality slips.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

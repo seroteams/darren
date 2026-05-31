@@ -1,0 +1,202 @@
+{
+  "ctx": {
+    "name": "Toby",
+    "role": "Design Lead",
+    "seniority": "Lead",
+    "meetingType": "Growth & career plan",
+    "notes": "Toby has strong execution and team trust, but after being passed over last cycle he has become cautious about taking visible strategic positions. He keeps shipping, yet he is not consistently converting design leadership into org-level influence. I need this conversation to clarify whether the gap is confidence, sponsorship, or unclear expectations at the next level. He should leave with a concrete growth contract tied to decision ownership and cross-functional impact, not a generic development list."
+  },
+  "focusPoints": [
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Turning design leadership into org influence",
+      "reason": "What’s changed in his willingness to take visible strategic positions after being passed over last cycle, and whether he’s still building the relationships that translate execution into sponsorship.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "judgment",
+      "type": "Judgment",
+      "category": "competency",
+      "label": "Decision ownership at the next level",
+      "reason": "Whether he’s clear on the tradeoffs he’s expected to own (and when to escalate), so his leadership shows up as decisions—not just shipped work.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "cross_team_alignment",
+      "type": "Cross-team alignment",
+      "category": "competency",
+      "label": "Cross-functional impact and decision outcomes",
+      "reason": "What he can point to where design leadership changed another team’s plan or decisions, since Lead growth is usually proven through boundary-spanning outcomes.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What sponsorship Toby wants from you",
+      "reason": "How they want you to help create the sponsorship and visibility they’re not taking on their own right now, so the growth contract includes concrete air cover and introductions.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+      "alias": "q_intro_growth_blockers",
+      "answer": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital.",
+      "skipped": false
+    },
+    {
+      "question": "Political capital — where are you holding back right now?",
+      "alias": "q_political_capital",
+      "answer": "I can lead major initiatives, but I do not always translate that into visible strategic influence.",
+      "skipped": false
+    },
+    {
+      "question": "Where specifically does your influence stop short of the strategic level?",
+      "alias": "q_strategic_influence_gap",
+      "answer": "I get positive feedback on craft and collaboration, but less clarity on what separates me at the next level.",
+      "skipped": false
+    },
+    {
+      "question": "Which part of your current work is actually stretching you right now?",
+      "alias": "q_intro_growth_stretch",
+      "answer": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared.",
+      "skipped": false
+    },
+    {
+      "question": "High-ambiguity forums — what feels most risky when you step into them?",
+      "alias": "q_high_ambiguity_forums",
+      "answer": "I think I need to own a cross-org decision area, not just deliver strong design outcomes.",
+      "skipped": false
+    },
+    {
+      "question": "Cross-org decision area — which decisions do you want your name attached to?",
+      "alias": "q_cross_org_decisions",
+      "answer": "I also need clearer sponsorship in rooms where priorities are set.",
+      "skipped": false
+    },
+    {
+      "question": "When you imagine yourself eighteen months from now, what's actually different?",
+      "alias": "q_intro_growth_direction",
+      "answer": "If we define two concrete leadership bets for this half, I can commit fully.",
+      "skipped": false
+    },
+    {
+      "question": "What kind of sponsorship would actually move the needle for you here?",
+      "alias": "q_sponsorship_shape",
+      "answer": "I want milestones that show progress before the next cycle, not only retrospective feedback.",
+      "skipped": false
+    },
+    {
+      "question": "What's the first concrete thing you want to do before we next meet?",
+      "alias": "q_first_move_3",
+      "answer": "(skipped)",
+      "skipped": true
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -1,
+          "answer_excerpt": "If we define two concrete leadership bets for this half, I can commit fully."
+        },
+        {
+          "q": "q_sponsorship_shape",
+          "delta": -1,
+          "answer_excerpt": "I want milestones that show progress before the next cycle, not only retrospective feedback."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared."
+        },
+        {
+          "q": "q_high_ambiguity_forums",
+          "delta": 1,
+          "answer_excerpt": "I think I need to own a cross-org decision area, not just deliver strong design outcomes."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -1,
+          "answer_excerpt": "If we define two concrete leadership bets for this half, I can commit fully."
+        },
+        {
+          "q": "q_sponsorship_shape",
+          "delta": -1,
+          "answer_excerpt": "I want milestones that show progress before the next cycle, not only retrospective feedback."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        },
+        {
+          "q": "q_sponsorship_shape",
+          "delta": -3,
+          "answer_excerpt": "I want milestones that show progress before the next cycle, not only retrospective feedback."
+        }
+      ]
+    },
+    "growth": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        },
+        {
+          "q": "q_political_capital",
+          "delta": -3,
+          "answer_excerpt": "I can lead major initiatives, but I do not always translate that into visible strategic influence."
+        },
+        {
+          "q": "q_strategic_influence_gap",
+          "delta": -3,
+          "answer_excerpt": "I get positive feedback on craft and collaboration, but less clarity on what separates me at the next level."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -3,
+          "answer_excerpt": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared."
+        },
+        {
+          "q": "q_high_ambiguity_forums",
+          "delta": 3,
+          "answer_excerpt": "I think I need to own a cross-org decision area, not just deliver strong design outcomes."
+        },
+        {
+          "q": "q_cross_org_decisions",
+          "delta": -3,
+          "answer_excerpt": "I also need clearer sponsorship in rooms where priorities are set."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -3,
+          "answer_excerpt": "If we define two concrete leadership bets for this half, I can commit fully."
+        }
+      ]
+    }
+  },
+  "notes": "Toby has strong execution and team trust, but after being passed over last cycle he has become cautious about taking visible strategic positions. He keeps shipping, yet he is not consistently converting design leadership into org-level influence. I need this conversation to clarify whether the gap is confidence, sponsorship, or unclear expectations at the next level. He should leave with a concrete growth contract tied to decision ownership and cross-functional impact, not a generic development list.",
+  "model": "gpt-5.4-nano"
+}

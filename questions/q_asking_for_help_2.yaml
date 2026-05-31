@@ -1,0 +1,10 @@
+alias: q_asking_for_help_2
+label: Asking for help
+name: What makes it easiest for you to ask for help here?
+description: Explores how safe and natural support-seeking feels in the team setup.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

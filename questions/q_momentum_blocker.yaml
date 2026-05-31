@@ -1,0 +1,10 @@
+alias: q_momentum_blocker
+label: Momentum blocker
+name: What is keeping that from moving faster?
+description: Gets at the one constraint holding the chosen CoE bet back.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

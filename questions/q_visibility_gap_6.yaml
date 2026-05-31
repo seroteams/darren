@@ -1,0 +1,10 @@
+alias: q_visibility_gap_6
+label: Visibility gap
+name: Where do you think your current approach is least visible to the people who matter?
+description: Surfaces the specific visibility gap without framing it as a failure.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  engagement: +1
+  clarity: +3
+source: generated

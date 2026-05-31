@@ -1,0 +1,10 @@
+alias: q_support_style
+label: Support style
+name: What kind of feedback loop would be most useful from me right now?
+description: Finds the cadence and format of manager support that would reduce guesswork without adding noise.
+purpose: topic
+stage: connection
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_executor_mode
+label: Executor mode
+name: Where are you still operating more like an executor than a strategic owner?
+description: Identifies the parts of his work that remain tactical when they may need broader ownership.
+purpose: competency
+stage: investment
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

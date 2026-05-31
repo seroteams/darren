@@ -1,0 +1,9 @@
+alias: q_calm_context_opener
+label: Calm context opener
+name: What feels most important to talk through today, Carlos?
+description: Lets Carlos set the agenda before any feedback lands.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  clarity: +3
+source: generated

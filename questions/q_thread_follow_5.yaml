@@ -1,0 +1,10 @@
+alias: q_thread_follow_5
+label: Thread follow
+name: push worked, want — can you say more about what that means for you right now?
+description: Runtime thread-follow injected because planner did not follow substantive answer.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added

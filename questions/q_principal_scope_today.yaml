@@ -1,0 +1,10 @@
+alias: q_principal_scope_today
+label: Principal scope today
+name: What does Principal scope mean on this team to you right now?
+description: Surfaces whether Tom is operating from current expectations or old assumptions.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

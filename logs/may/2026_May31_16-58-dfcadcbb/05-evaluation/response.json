@@ -1,0 +1,51 @@
+{
+  "headline": "Riley’s onboarding signal is weak on clarity: he’s moving fast in code, but he lacks the decision/ownership context that prevents wrong assumptions.",
+  "summary_bullets": [
+    "Riley can trace request paths, but he still misses “historical context behind certain tradeoffs,” which is the core gap behind his uncertainty.",
+    "Ownership boundaries are unclear when priorities conflict: “I have not been fully clear on who is on point for each domain.”",
+    "He avoids interrupting by using a notes doc—“sometimes I keep questions in a notes doc instead of asking”—and asks for a concrete escalation/batching guide."
+  ],
+  "understanding_paragraph": "We learned that Riley’s current onboarding strength is technical navigation (he can trace request paths), but his confidence is constrained by how decisions and priorities actually get resolved. He’s actively trying to be considerate (“not to interrupt people”), which is turning into delayed clarification and reliance on docs. The biggest missing piece is a crisp, operational guide for ownership, escalation timing, and where to get live incident handoff context.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -4,
+      "meaning": "Stress shows up as friction in how he asks for help—he’s trying to batch questions and needs clearer escalation guidance."
+    },
+    {
+      "id": "engagement",
+      "score": -1,
+      "meaning": "Weak signal: he’s motivated to contribute, but his initiative is constrained by uncertainty about ownership and decision-making."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Defining signal: role/ownership and decision context are not clear, especially when priorities conflict."
+    },
+    {
+      "id": "growth",
+      "score": -1,
+      "meaning": "Weak signal: he wants faster calibration via a senior touchpoint, but he hasn’t yet found a reliable learning loop."
+    }
+  ],
+  "brutal_truth_employee": "Riley is productive in code reading, but he’s not confident in how the org decides: “I am less sure how decisions are really made here.” He also admits a process gap that slows learning: “sometimes I keep questions in a notes doc instead of asking.”",
+  "brutal_truth_manager": "When Riley said “I am trying not to interrupt people,” that was the moment to immediately convert his notes-doc habit into a concrete escalation rule and a named person/team to ask. Next time, push for a specific example tradeoff he’s stuck on and map exactly who owns resolution when priorities conflict.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute ownership mapping session with Riley to name the on-point owner per domain and the escalation path when priorities conflict."
+    },
+    {
+      "when": "this week",
+      "action": "Create and share a one-page “escalate vs batch” guide for Riley, including examples and the exact channel/people to contact for each category."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-run the onboarding question with a concrete prompt: “Give one recent tradeoff you couldn’t contextualize—who should you have asked, and what would you do differently?”"
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Riley still keeps questions in a notes doc instead of asking, treat it as unresolved escalation friction.",
+    "Within two weeks: if Riley can’t name the on-point owner for each domain during a conflict scenario, clarity remains blocked."
+  ]
+}

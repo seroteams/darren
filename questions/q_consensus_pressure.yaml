@@ -1,0 +1,10 @@
+alias: q_consensus_pressure
+label: Consensus pressure
+name: When priorities conflict, what makes it hardest to move the conversation forward?
+description: Surfaces the communication pattern that slows alignment in the moment.
+purpose: competency
+stage: orientation
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

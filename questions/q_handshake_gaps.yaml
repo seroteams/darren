@@ -1,0 +1,10 @@
+alias: q_handshake_gaps
+label: Handshake gaps
+name: Where do handoffs still leave you missing context?
+description: Finds specific points in the workflow where ownership or information drops away.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

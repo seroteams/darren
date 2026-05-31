@@ -1,0 +1,101 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_intro_perf_03_gap",
+    "label": "Gap awareness",
+    "name": "Where do you think you've fallen short of where you want to be?",
+    "description": "Tests whether they can name their own gaps before the manager does.",
+    "purpose": "topic",
+    "stage": "gap_naming",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I have made a few calls independently, but I still over-index on being safe.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": 1,
+      "growth": -3
+    },
+    "note": "He names a real growth gap — defaulting to safe execution despite some independent calls — while showing clear self-awareness about the pattern."
+  },
+  "new_queue": [
+    {
+      "alias": "q_safe_execution",
+      "label": "Safe execution",
+      "name": "You said 'being safe' — what does that look like in practice?"
+    },
+    {
+      "alias": "q_safety_mode",
+      "label": "Safety mode",
+      "name": "What makes it easier to stay in execution mode rather than push the decision earlier?"
+    },
+    {
+      "alias": "q_early_alignment",
+      "label": "Early alignment",
+      "name": "What do you usually want to have settled before you bring others in?"
+    },
+    {
+      "alias": "q_commitment_closer",
+      "label": "Commitment closer",
+      "name": "What will you do differently on early alignment before we next meet?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 4)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -8,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_highest_leverage_work_5",
+          "delta": -3,
+          "answer_excerpt": "I can describe Principal impact in general, but this team's bar still feels fuzzy."
+        },
+        {
+          "q": "q_team_s_bar_fuzzy",
+          "delta": -3,
+          "answer_excerpt": "I have mostly stayed in my lane instead of forcing cross-team decisions."
+        },
+        {
+          "q": "q_intro_perf_03_gap",
+          "delta": 1,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_perf_03_gap",
+          "delta": -3,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+alias: q_specific_feedback_7
+label: Specific feedback
+name: Specific feedback — what part feels most missing right now?
+description: Drills into the feedback thread they just named to surface what is absent underneath.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,51 @@
+{
+  "headline": "Sarah gave a clear self-diagnosis: her technical output is solid, but low clarity on tradeoffs and late socialization are undermining Senior-level influence.",
+  "summary_bullets": [
+    "Repeated pattern: Sarah “wait[s] until analysis is complete before socializing direction,” which directly causes stakeholders to feel “surprised late.”",
+    "She frames the fix as narrative/decision leadership (“tighter narrative on tradeoffs” and “lead one cross-team decision… end to end”), but her plan is still deliverable-based, not stakeholder/decision-based.",
+    "Role clarity at Senior level is weak: clarity score is -9 while she can name the gap (influence, tradeoffs) but not the performance bar specifics beyond one cycle goal."
+  ],
+  "understanding_paragraph": "We understood that Sarah already knows the mechanism of her underperformance: execution is happening, but she is not shaping decisions early. We also learned she connects the impact directly to stakeholder experience (“slows trust” and “surprised late”), which is actionable context. The missing piece is a concrete definition of the Senior performance bar and how she will raise visibility before analysis is complete.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -1,
+      "meaning": "Weak signal—no evidence of burnout or sustained stress; not actionable on its own."
+    },
+    {
+      "id": "engagement",
+      "score": 0,
+      "meaning": "Neutral—she states goals and intent, but no consistent evidence of ownership beyond execution."
+    },
+    {
+      "id": "clarity",
+      "score": -9,
+      "meaning": "Defining signal—she lacks clear Senior-level framing on tradeoffs, narrative, and decision timing; this is driving the influence gap."
+    },
+    {
+      "id": "growth",
+      "score": 0,
+      "meaning": "No clear growth trajectory—she names feedback checkpoints, but hasn’t translated them into a measurable learning loop."
+    }
+  ],
+  "brutal_truth_employee": "Sarah’s core admission is: “I tend to wait until analysis is complete before socializing direction.” She also names the consequence plainly: “That slows trust because stakeholders feel surprised late.” Her Senior-level gap is not effort—it’s decision influence timing and tradeoff narrative.",
+  "brutal_truth_manager": "Sarah’s answers were consistent, but the conversation ended with a deliverable-based commitment (“choose one recurring deliverable… before the next review cycle”) rather than forcing a stakeholder/decision-timing commitment. The moment to deepen was when she said she needs “a tighter narrative on tradeoffs”—that’s where you should have locked a specific early-visibility behavior and owner.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Email Sarah with a one-page template: decision to shape, stakeholder list, first socialization date, tradeoffs narrative bullets, and what “good” looks like."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 30-minute working session to pick the exact cross-team decision and define the first “early direction” checkpoint before analysis completes."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Open next 1:1 by asking Sarah to report: one decision she influenced early, what she socialized, and which stakeholder reaction changed."
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Sarah still describes socializing direction only after analysis completes, treat it as unchanged behavior—not a one-off slip.",
+    "Within two weeks: if Sarah cannot name the specific stakeholders and first tradeoff narrative checkpoint for the chosen decision, clarity remains the blocker."
+  ]
+}

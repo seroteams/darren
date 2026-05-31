@@ -1,0 +1,9 @@
+alias: q_thread_follow_20
+label: Thread follow
+name: draft plans, though — can you say more about what that means for you right now?
+description: Runtime thread-follow injected because planner did not follow substantive answer.
+purpose: topic
+stage: settling
+axis_effects:
+  engagement: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_leverage_shape
+label: Leverage shape
+name: Where do you want to delegate more this quarter?
+description: Explores how she wants to increase leverage without assuming a management track.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

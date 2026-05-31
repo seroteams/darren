@@ -1,0 +1,52 @@
+{
+  "name": "Maria",
+  "roleTitle": "Principal UX Researcher",
+  "seniority": "Principal",
+  "meetingType": "Growth & career plan",
+  "observedShift": "Maria was passed over last cycle and has not raised it directly, but her engagement in team rituals has dropped. I suspect she may still be carrying unanswered questions about the decision. I need to clarify whether she got a concrete readout on the gap and whether she wants that now. I also want to understand if her mentoring program is strategic growth work or a place she is parking energy after feeling blocked in the main path.",
+  "focusPoints": [
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "Feedback readout from last cycle and next steps",
+      "reason": "Whether she got a concrete readout on why she was passed over and what to do differently next cycle. Could be she has unanswered questions she hasn’t brought to you yet, so it’s worth clarifying what she knows and what she still needs.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Engagement in team rituals and belonging right now",
+      "reason": "How they're landing in the day-to-day team texture after being passed over. One possibility is she’s protecting her energy or disengaging quietly while she waits for clarity, so it’s worth understanding what changed and what would help her re-engage.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Whether mentoring is strategic growth work",
+      "reason": "What she wants to build next as a Principal—and whether her mentoring program is advancing that growth or functioning as a parking spot after feeling blocked in the main path. This matters because at Principal level your career plan should connect effort to the next step, not just keep you busy.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What she wants more of from you",
+      "reason": "What she’d want more of from you to make the next cycle feel actionable—clarity, coaching, introductions, or air cover. At Principal level, the manager’s role is often to remove ambiguity and translate feedback into a concrete plan she can execute.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "cadf06e5-31aa-4c44-bca0-35746f56b068",
+  "validation": {
+    "passed": true,
+    "issues": []
+  },
+  "attempts": 2
+}

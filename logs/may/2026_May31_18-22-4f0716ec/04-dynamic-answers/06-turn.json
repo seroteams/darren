@@ -1,0 +1,115 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_over_communicating_risk_3",
+    "label": "Over-communicating risk",
+    "name": "What tells you you've crossed into noise in those alignment updates?",
+    "description": "Clarifies the specific signal or norm she is using to judge when communication becomes too much.",
+    "purpose": "topic",
+    "stage": "blockers",
+    "axis_effects": {
+      "clarity": 1,
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I still need a clearer picture of how roadmap tradeoffs are finalized here.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "Names a specific missing map for how roadmap tradeoffs are finalized, which is a strong growth blocker and mild clarity deficit."
+  },
+  "new_queue": [
+    {
+      "alias": "q_tradeoff_process_3",
+      "label": "Tradeoff process",
+      "name": "How are roadmap tradeoffs getting finalized from what you've seen so far?"
+    },
+    {
+      "alias": "q_support_from_me_3",
+      "label": "Support from me",
+      "name": "Where would a clearer call from me help you most?"
+    },
+    {
+      "alias": "q_next_support_5",
+      "label": "Next support",
+      "name": "What would make the next two weeks feel steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_landing_check_in_5",
+          "delta": -1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        },
+        {
+          "q": "q_alignment_friction",
+          "delta": -1,
+          "answer_excerpt": "I want to drive alignment, but I do not want to create noise by over-communicating."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_landing_check_in_5",
+          "delta": 1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        },
+        {
+          "q": "q_unwritten_rules_4",
+          "delta": 1,
+          "answer_excerpt": "I can draft plans, though I am not always sure when I should decide versus escalate."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -8,
+      "history": [
+        {
+          "q": "q_decide_vs_escalate_3",
+          "delta": -3,
+          "answer_excerpt": "Cross-team conversations move fast and I sometimes leave unsure about who committed to what."
+        },
+        {
+          "q": "q_thread_follow_22",
+          "delta": -3,
+          "answer_excerpt": "Being remote makes it harder to read context that others seem to pick up naturally."
+        },
+        {
+          "q": "q_alignment_friction",
+          "delta": -1,
+          "answer_excerpt": "I want to drive alignment, but I do not want to create noise by over-communicating."
+        },
+        {
+          "q": "q_over_communicating_risk_3",
+          "delta": -1,
+          "answer_excerpt": "I still need a clearer picture of how roadmap tradeoffs are finalized here."
+        }
+      ]
+    },
+    "growth": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_alignment_friction",
+          "delta": -1,
+          "answer_excerpt": "I want to drive alignment, but I do not want to create noise by over-communicating."
+        },
+        {
+          "q": "q_over_communicating_risk_3",
+          "delta": -3,
+          "answer_excerpt": "I still need a clearer picture of how roadmap tradeoffs are finalized here."
+        }
+      ]
+    }
+  }
+}

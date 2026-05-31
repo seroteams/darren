@@ -1,0 +1,10 @@
+alias: q_ownership_tradeoff
+label: Ownership tradeoff
+name: What would you want to keep out of your plate next quarter?
+description: Forces a real trade-off around what she wants to protect as priorities shift.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

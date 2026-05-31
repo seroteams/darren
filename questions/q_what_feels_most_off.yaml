@@ -1,0 +1,9 @@
+alias: q_what_feels_most_off
+label: What feels most off
+name: What feels most off in your work right now, James?
+description: Lets him name the part of work that feels misaligned without presuming the cause.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: generated

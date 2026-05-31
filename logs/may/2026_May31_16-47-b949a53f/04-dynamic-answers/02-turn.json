@@ -1,0 +1,86 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_highest_leverage_work_2",
+    "label": "Highest-leverage work",
+    "name": "You said 'highest-leverage work' — what work do you think should have had more of you?",
+    "description": "Drills into his own leverage example so the conversation moves from self-read into concrete evidence.",
+    "purpose": "topic",
+    "stage": "self_read",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I can describe Principal impact in general, but this team's bar still feels fuzzy.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "He names a clear role-expectation problem: he can define Principal impact abstractly, but not this team's actual bar."
+  },
+  "new_queue": [
+    {
+      "alias": "q_team_bar_fuzzy_2",
+      "label": "Team bar fuzzy",
+      "name": "What specifically feels fuzzy about this team's Principal bar?"
+    },
+    {
+      "alias": "q_principal_impact_evidence",
+      "label": "Principal impact evidence",
+      "name": "What have you done recently that best shows Principal-level leverage on this team?"
+    },
+    {
+      "alias": "q_intro_perf_03_gap",
+      "label": "Gap awareness",
+      "name": "Where do you think you've fallen short of where you want to be?"
+    },
+    {
+      "alias": "q_question_asking_pattern",
+      "label": "Question-asking pattern",
+      "name": "What makes you hold back from asking questions early?"
+    },
+    {
+      "alias": "q_next_behavior_change",
+      "label": "Next behavior change",
+      "name": "What is the first change you want to make before our next check-in?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_highest_leverage_work_2",
+          "delta": -3,
+          "answer_excerpt": "I can describe Principal impact in general, but this team's bar still feels fuzzy."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "headline": "Sam’s week-three onboarding is dominated by low clarity on approvals and quality bars, which makes him hesitate to ship and ask for reassurance late.",
+  "summary_bullets": [
+    "Sam can do the tasks, but he “second-guess[es]” whether his approach matches team expectations, especially when design and API details don’t align.",
+    "The first unclear point in mismatches is ownership: “not always sure who should approve what before I push.”",
+    "He delays asking because he wants to solve it himself first, and only speeds up with “specific and fast” feedback—so the gap is process/expectations, not effort."
+  ],
+  "understanding_paragraph": "We learned Sam’s hesitation isn’t about inability; it’s about uncertainty in the handoff boundaries and “done enough to ship” quality criteria. When he gets fast, specific feedback, he moves quicker, which means the bottleneck is timing and clarity of approval/quality bars. The session also showed he’s actively trying to self-resolve, which increases the chance of late reassurance instead of early help.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -5,
+      "meaning": "Running hot enough to create stress around shipping confidence; a steadier support rhythm is needed to prevent silent getting-stuck."
+    },
+    {
+      "id": "engagement",
+      "score": -1,
+      "meaning": "Weak signal: engagement is mostly intact, but uncertainty makes him hold back rather than fully lean in."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Defining signal: approvals and quality bars are unclear, directly driving second-guessing and late asking."
+    },
+    {
+      "id": "growth",
+      "score": -1,
+      "meaning": "Weak signal: he benefits from feedback cadence, but growth direction isn’t the core issue yet."
+    }
+  ],
+  "brutal_truth_employee": "Sam says, “I can do the tasks, but I still second-guess whether my approach matches team expectations.” He also admits, “I usually wait too long before asking because I want to solve things myself first.” This is a process-clarity problem that makes him hesitate before shipping.",
+  "brutal_truth_manager": "Sam’s clearest read is ownership and timing: “not always sure who should approve what before I push” and “I usually wait too long before asking.” The moment to deepen next time is after he names the approval/quality uncertainty—push for a concrete map of who approves what and what “done enough” looks like for quick fixes vs core flows.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Define and write down the approval chain for Sam’s next two tickets: who approves design vs API details, and the exact point before he pushes."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule one pairing/check-in per week with a named reviewer for Sam’s current work, and set the prompt: “what decision do you need before you push?”"
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-run the “one thing to change by our next check-in” question and require a specific outcome tied to quality bars or approval timing for his next two tickets."
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Sam still says he’s “not always sure who should approve what before I push,” the approval map isn’t landing.",
+    "Within two weeks: if Sam continues “wait[ing] too long before asking,” then the support cadence and “done enough to ship” definition aren’t specific enough."
+  ]
+}

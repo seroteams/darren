@@ -1,0 +1,10 @@
+alias: q_scope_tradeoff_2
+label: Scope tradeoff
+name: What have you said no to this fortnight?
+description: Surfaces real prioritization choices and what got pushed out.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

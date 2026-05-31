@@ -1,0 +1,103 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_growth_blockers",
+    "label": "Growth blockers",
+    "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+    "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+    "purpose": "topic",
+    "stage": "gap",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "Promotion disappointment has made him more cautious about spending political capital, signalling a strong growth blocker and mild uncertainty about how to advance."
+  },
+  "new_queue": [
+    {
+      "alias": "q_political_capital",
+      "label": "Political capital",
+      "name": "Political capital — where are you holding back right now?"
+    },
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_current_footing_3",
+      "label": "Current footing",
+      "name": "What's feeling solid in your role right now, Toby?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_next_role_picture",
+      "label": "Next role picture",
+      "name": "What kind of design work would make the next step feel real for you?"
+    },
+    {
+      "alias": "q_decision_ownership_2",
+      "label": "Decision ownership",
+      "name": "What decisions are you already making that should be explicitly yours?"
+    },
+    {
+      "alias": "q_sponsorship_shape",
+      "label": "Sponsorship shape",
+      "name": "What kind of sponsorship would actually move the needle for you here?"
+    },
+    {
+      "alias": "q_tradeoff_choice",
+      "label": "Tradeoff choice",
+      "name": "What would you be willing to trade off to make more room for strategic influence?"
+    },
+    {
+      "alias": "q_first_move_3",
+      "label": "First move",
+      "name": "What's the first concrete thing you want to do before we next meet?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        }
+      ]
+    }
+  }
+}

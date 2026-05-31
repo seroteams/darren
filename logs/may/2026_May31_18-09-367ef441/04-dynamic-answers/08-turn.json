@@ -1,0 +1,117 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_manager_investment",
+    "label": "Manager investment",
+    "name": "What should I change in how I'm supporting your growth?",
+    "description": "Opens the manager's side of the investment conversation before asking for the employee's trade-offs.",
+    "purpose": "topic",
+    "stage": "investment",
+    "axis_effects": {
+      "growth": 1,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "answer": "I need a moment to think about that.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "She asked for time to think rather than naming any change in support, so this answer gives no clear growth or clarity signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_two_weeks_19",
+      "label": "Next two weeks",
+      "name": "Given what we've talked through, what do you want to focus on first over the next two weeks?"
+    },
+    {
+      "alias": "q_next_weeks_focus_2",
+      "label": "Next weeks focus",
+      "name": "Given what we've covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_mentoring_stretch_2",
+          "delta": -1,
+          "answer_excerpt": "I do not know what would move the next decision."
+        },
+        {
+          "q": "q_next_decision_5",
+          "delta": -1,
+          "answer_excerpt": "I am less motivated in team rituals lately."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_last_cycle_thread_4",
+          "delta": -1,
+          "answer_excerpt": "The feedback was not specific enough."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": 1,
+          "answer_excerpt": "Mentoring matters to me."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "I want impact at org level, not just strong project work."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_last_cycle_thread_4",
+          "delta": -3,
+          "answer_excerpt": "The feedback was not specific enough."
+        }
+      ]
+    },
+    "growth": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": 1,
+          "answer_excerpt": "Mentoring matters to me."
+        },
+        {
+          "q": "q_mentoring_stretch_2",
+          "delta": -1,
+          "answer_excerpt": "I do not know what would move the next decision."
+        },
+        {
+          "q": "q_next_decision_5",
+          "delta": -1,
+          "answer_excerpt": "I am less motivated in team rituals lately."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 3,
+          "answer_excerpt": "I want impact at org level, not just strong project work."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+alias: q_questioning_pattern
+label: Questioning pattern
+name: What keeps you from asking more questions earlier?
+description: Surfaces the barrier behind the low-question pattern without assuming the cause.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

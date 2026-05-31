@@ -1,0 +1,9 @@
+alias: q_team_s_bar_fuzzy
+label: "Team's bar fuzzy"
+name: "This team's bar feels fuzzy — where does that show up most in your work?"
+description: Drills into the specific situations where role expectations feel unclear.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

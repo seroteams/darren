@@ -1,0 +1,10 @@
+alias: q_cross_team_leverage
+label: Cross-team leverage
+name: Where do you still need more leverage with product or engineering?
+description: Finds the cross-functional interfaces where influence is still thin or dependent.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

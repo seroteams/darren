@@ -1,0 +1,10 @@
+alias: q_hand_off_friction
+label: Hand-off friction
+name: What makes it hard to hand more of this off?
+description: Surfaces whether the bottleneck is trust, process, or team capability.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +1
+  growth: +3
+source: generated

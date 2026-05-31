@@ -1,0 +1,91 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_design_api_mismatch_5",
+    "label": "Design API mismatch",
+    "name": "When design and API details do not match, what is usually unclear first?",
+    "description": "Drills into the mismatch he named so the manager can identify the exact ambiguity to remove.",
+    "purpose": "topic",
+    "stage": "settling",
+    "axis_effects": {
+      "clarity": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "I am not always sure who should approve what before I push.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1
+    },
+    "note": "He names approval ownership before pushing as the specific ambiguity, which is a mild negative clarity signal; [THREAD-DEFERRED] 'who should approve what before I push' not drilled because drill cap requires advancing the arc."
+  },
+  "new_queue": [
+    {
+      "alias": "q_done_definition",
+      "label": "Done definition",
+      "name": "What does “done” mean to you on your current tickets?"
+    },
+    {
+      "alias": "q_handoff_gaps_2",
+      "label": "Handoff gaps",
+      "name": "Where do the handoffs still feel fuzzy?"
+    },
+    {
+      "alias": "q_shipping_hesitation_3",
+      "label": "Shipping hesitation",
+      "name": "What feels uncertain right before you ship?"
+    },
+    {
+      "alias": "q_support_cadence_3",
+      "label": "Support cadence",
+      "name": "What kind of check-in from me would help you most over the next two weeks?"
+    },
+    {
+      "alias": "q_fastest_unblock",
+      "label": "Fastest unblock",
+      "name": "What would make the next two weeks feel steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_settling_in_2",
+          "delta": -1,
+          "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_settling_in_2",
+          "delta": -1,
+          "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+        },
+        {
+          "q": "q_team_expectations_5",
+          "delta": -1,
+          "answer_excerpt": "Local setup is better now, but I still lose time when the design and API details do not match."
+        },
+        {
+          "q": "q_design_api_mismatch_5",
+          "delta": -1,
+          "answer_excerpt": "I am not always sure who should approve what before I push."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

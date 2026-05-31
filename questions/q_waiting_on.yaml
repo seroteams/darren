@@ -1,0 +1,10 @@
+alias: q_waiting_on
+label: Waiting on
+name: What are you waiting on most often before you can move a ticket forward?
+description: Identifies hidden dependency points that slow him down.
+purpose: topic
+stage: blockers
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

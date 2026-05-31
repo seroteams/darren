@@ -1,0 +1,154 @@
+{
+  "call_count": 13,
+  "usd_total": 0.13082525,
+  "unknown_price_calls": 0,
+  "prompt_tokens": 119282,
+  "completion_tokens": 5091,
+  "cached_tokens": 91136,
+  "total_tokens": 124373,
+  "calls": [
+    {
+      "stage": "01-focus-points",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 6076,
+      "completion_tokens": 354,
+      "cached_tokens": 4864,
+      "total_tokens": 6430,
+      "usd_cost": 0.00078218,
+      "known_price": true,
+      "at": "2026-05-31T09:55:05.450Z"
+    },
+    {
+      "stage": "01b-preparation",
+      "model": "gpt-5.4",
+      "prompt_tokens": 2358,
+      "completion_tokens": 254,
+      "cached_tokens": 0,
+      "total_tokens": 2612,
+      "usd_cost": 0.009705,
+      "known_price": true,
+      "at": "2026-05-31T09:55:10.397Z"
+    },
+    {
+      "stage": "03-question-bank",
+      "model": "gpt-5.4-mini",
+      "prompt_tokens": 5776,
+      "completion_tokens": 669,
+      "cached_tokens": 3840,
+      "total_tokens": 6445,
+      "usd_cost": 0.0047505,
+      "known_price": true,
+      "at": "2026-05-31T09:55:14.572Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11639,
+      "completion_tokens": 570,
+      "cached_tokens": 7936,
+      "total_tokens": 12209,
+      "usd_cost": 0.0197915,
+      "known_price": true,
+      "at": "2026-05-31T09:55:21.507Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11052,
+      "completion_tokens": 556,
+      "cached_tokens": 8960,
+      "total_tokens": 11608,
+      "usd_cost": 0.01581,
+      "known_price": true,
+      "at": "2026-05-31T09:55:28.496Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11100,
+      "completion_tokens": 492,
+      "cached_tokens": 8960,
+      "total_tokens": 11592,
+      "usd_cost": 0.01497,
+      "known_price": true,
+      "at": "2026-05-31T09:55:34.787Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11011,
+      "completion_tokens": 469,
+      "cached_tokens": 8960,
+      "total_tokens": 11480,
+      "usd_cost": 0.0144025,
+      "known_price": true,
+      "at": "2026-05-31T09:55:40.390Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11073,
+      "completion_tokens": 394,
+      "cached_tokens": 8960,
+      "total_tokens": 11467,
+      "usd_cost": 0.0134325,
+      "known_price": true,
+      "at": "2026-05-31T09:55:45.259Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10982,
+      "completion_tokens": 230,
+      "cached_tokens": 8960,
+      "total_tokens": 11212,
+      "usd_cost": 0.010745,
+      "known_price": true,
+      "at": "2026-05-31T09:55:48.325Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10781,
+      "completion_tokens": 186,
+      "cached_tokens": 8960,
+      "total_tokens": 10967,
+      "usd_cost": 0.0095825,
+      "known_price": true,
+      "at": "2026-05-31T09:55:51.321Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10744,
+      "completion_tokens": 62,
+      "cached_tokens": 8960,
+      "total_tokens": 10806,
+      "usd_cost": 0.00763,
+      "known_price": true,
+      "at": "2026-05-31T09:55:53.096Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10769,
+      "completion_tokens": 52,
+      "cached_tokens": 8960,
+      "total_tokens": 10821,
+      "usd_cost": 0.0075425,
+      "known_price": true,
+      "at": "2026-05-31T09:55:54.835Z"
+    },
+    {
+      "stage": "05-evaluation",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 5921,
+      "completion_tokens": 803,
+      "cached_tokens": 2816,
+      "total_tokens": 6724,
+      "usd_cost": 0.0016810700000000002,
+      "known_price": true,
+      "at": "2026-05-31T09:56:00.387Z"
+    }
+  ]
+}

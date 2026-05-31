@@ -1,0 +1,51 @@
+{
+  "headline": "Priya is experiencing low energy and disengagement because next-quarter ownership is unclear, and mentoring stalled until that’s resolved.",
+  "summary_bullets": [
+    "Priya’s “flatter than I expected” is driven by cleanup/reviews and a lack of new work, not by the launch itself.",
+    "Mentoring didn’t move because she “stopped pushing” after realizing she’s “not sure what [she’s] owning next quarter yet.”",
+    "She’s explicitly asking for earlier scope alignment: “bigger scope conversation… sooner rather than later” and “clarity… before the billing rewrite lands on me.”"
+  ],
+  "understanding_paragraph": "We learned Priya’s quiet week is a downstream effect of uncertainty, not post-launch recovery alone. She’s proud of the migration plan and cutover, but she’s been stuck in “similar work for months,” which is draining her. The session also connected mentoring to ownership clarity: she wants it, but she stopped pushing until next-quarter plans are settled.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -7,
+      "meaning": "Energy is meaningfully low, and she’s asking for earlier clarity to reset her energy."
+    },
+    {
+      "id": "engagement",
+      "score": -6,
+      "meaning": "Engagement is down because the work feels repetitive and she stopped pushing on mentoring."
+    },
+    {
+      "id": "clarity",
+      "score": -7,
+      "meaning": "Role/priorities for next quarter are unclear, creating unease and delaying her commitments."
+    },
+    {
+      "id": "growth",
+      "score": -3,
+      "meaning": "Growth signal is weak; she reports being stuck in similar work for months."
+    }
+  ],
+  "brutal_truth_employee": "Priya says, “Mostly cleanup and reviews right now, not much that feels new,” and “I am not sure what I am owning next quarter yet, and that makes me uneasy.” She also admits the mentoring thread stalled because, “I still want it, but I stopped pushing.”",
+  "brutal_truth_manager": "The conversation surfaced a concrete dependency—next-quarter ownership clarity before the billing rewrite—but the manager didn’t lock a specific timeline or decision point in the discussion. Next time, after hearing “sooner rather than later,” push for an explicit owner/scope call date and a mentoring next-step that’s contingent on that decision.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute scope/ownership decision with Priya and key stakeholders for next quarter, and send the proposed date/time immediately."
+    },
+    {
+      "when": "this week",
+      "action": "Confirm Priya’s next-quarter ownership boundaries in writing, including what is explicitly in/out before the billing rewrite lands on her."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-open mentoring with a concrete plan: ask Priya to name the mentee(s), cadence, and the first mentoring deliverable for the next two weeks."
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Priya still can’t name next-quarter ownership after the scope call, treat it as a continuing clarity failure, not a temporary wobble.",
+    "Within two weeks: if mentoring remains “stopped” (no named mentee, no first deliverable), escalate the dependency and re-time the mentoring kickoff."
+  ]
+}

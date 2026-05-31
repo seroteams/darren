@@ -1,0 +1,10 @@
+alias: q_blocked_practice_2
+label: Blocked practice
+name: What part of concept rationale feels hardest to improve right now?
+description: Surfaces the specific growth block inside concept rationale rather than a vague development wish.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_blocked_practice"

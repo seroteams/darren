@@ -1,0 +1,10 @@
+alias: q_under_the_surface
+label: Under the surface
+name: "What's been harder to put into words about work lately?"
+description: Gives James room to name whatever is underneath the visible shift without forcing a diagnosis.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

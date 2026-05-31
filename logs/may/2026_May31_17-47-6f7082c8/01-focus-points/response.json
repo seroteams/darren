@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Growth & career plan",
+  "focus_points": [
+    {
+      "id": "feedback",
+      "label": "The readout from last cycle’s decision gap",
+      "reason": "Whether she got a concrete readout on why she was passed over, and whether she wants you to help close that loop now.",
+      "source": "signal"
+    },
+    {
+      "id": "team_connection",
+      "label": "How her engagement is landing in rituals",
+      "reason": "Whether the drop in participation is tied to unresolved questions about the decision, or just a temporary dip she can name and course-correct.",
+      "source": "signal"
+    },
+    {
+      "id": "growth",
+      "label": "Mentoring as growth work or parked energy",
+      "reason": "Whether her mentoring program is actively building the next step she wants, or whether it’s becoming a place she parks energy after feeling blocked in the main path.",
+      "source": "signal"
+    },
+    {
+      "id": "role_clarity",
+      "label": "What “next level” looks like for Principal",
+      "reason": "What she needs to see clearly to steer her next 6–12 months: the specific bar, outcomes, and evidence that would change the outcome next cycle.",
+      "source": "best_practice"
+    }
+  ]
+}

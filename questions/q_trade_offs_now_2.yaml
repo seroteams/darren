@@ -1,0 +1,10 @@
+alias: q_trade_offs_now_2
+label: Trade-offs now
+name: What are you choosing not to do right now?
+description: Forces the real priority trade-off behind the current workload.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

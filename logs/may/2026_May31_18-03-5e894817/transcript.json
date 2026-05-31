@@ -1,0 +1,207 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_off_connection",
+      "label": "Team connection",
+      "name": "How connected do you feel to the rest of the team right now?",
+      "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+      "purpose": "wellbeing",
+      "stage": "observation",
+      "axis_effects": {
+        "engagement": 3,
+        "wellbeing": 1
+      },
+      "source": "seed"
+    },
+    "answer": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": -1
+    },
+    "note": "She names a felt shift after the reorg while still trying to hold stability for the team, suggesting mild disconnection and transition strain."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_shift_since_reorg",
+      "label": "Shift since reorg",
+      "name": "You said 'the shift since the reorg' — what feels most different about it?",
+      "description": "Drills into the specific change she is noticing so the manager understands the nature of the disconnect.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": {
+        "engagement": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -3
+    },
+    "note": "She is holding back in leadership meetings while she figures out where her voice has leverage — strong engagement drop, with an off-signature clarity question worth probing next."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_voice_leverage_2",
+      "label": "Voice leverage",
+      "name": "In those leadership meetings, what feels unclear about where your voice has leverage?",
+      "description": "Drills into the specific uncertainty behind her quieter participation in leadership forums.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "Part of me is tired from constant context switching, and I have not really said that out loud.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1
+    },
+    "note": "She links her quieter participation to unspoken fatigue from constant context switching, suggesting mild lack of clarity about where to focus her voice; also reveals a wellbeing strain worth probing next. [THREAD-DEFERRED] constant context switching/tiredness surfaced but drill cap requires stage advance."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_arrival_check_in",
+      "label": "Arrival check-in",
+      "name": "What's been most on your mind at work lately?",
+      "description": "Lets Elena set the frame before any observation or concern is introduced.",
+      "purpose": "wellbeing",
+      "stage": "landing",
+      "axis_effects": {
+        "wellbeing": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "I do not think anything is broken, but I do feel less grounded than I did before.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "She says nothing is broken but feels less grounded than before, which signals mild strain and reduced clarity; also names a concrete thread around feeling 'less grounded'."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_less_grounded_2",
+      "label": "Less grounded",
+      "name": "When you say 'less grounded' — what feels less steady day to day?",
+      "description": "Drills into her 'less grounded' phrasing to surface what has actually shifted underneath.",
+      "purpose": "wellbeing",
+      "stage": "landing",
+      "axis_effects": {
+        "wellbeing": 1,
+        "clarity": 1,
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I have been protecting my team from noise, which means I am carrying more ambiguity myself.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "She is absorbing ambiguity to shield her team, which signals mild strain, reduced role clarity, and little room for her own stretch."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_carrying_ambiguity_2",
+      "label": "Carrying ambiguity",
+      "name": "Carrying more ambiguity yourself — where is that showing up most right now?",
+      "description": "Follows her specific thread to locate where the ambiguity is landing operationally.",
+      "purpose": "topic",
+      "stage": "underneath",
+      "axis_effects": {
+        "clarity": 3,
+        "wellbeing": 1,
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I am not fully clear yet on how success is being measured in this new setup.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "clarity": -3,
+      "growth": -1
+    },
+    "note": "She names a specific clarity gap around how success is measured in the new setup, with mild strain and stalled growth implied by operating without that definition."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_success_measures_2",
+      "label": "Success measures",
+      "name": "What feels most undefined about how success is measured now?",
+      "description": "Drills into her specific concern so the ambiguity becomes concrete enough to address.",
+      "purpose": "topic",
+      "stage": "underneath",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "What would help most is clearer prioritization and a little more air cover in cross-team decisions.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "Names two specific absences — clearer prioritization and more air cover in cross-team decisions — which is a strong clarity deficit; [THREAD-DEFERRED-WINDDOWN] 'air cover in cross-team decisions' could be worth unpacking next session."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_support_needed_14",
+      "label": "Support needed",
+      "name": "What kind of support would actually make this week easier for you?",
+      "description": "Invites a concrete ask so the manager can respond to the real constraint instead of guessing.",
+      "purpose": "wellbeing",
+      "stage": "support",
+      "axis_effects": {
+        "wellbeing": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "I want to re-engage more visibly, but I need a steadier footing first.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "She wants to re-engage but says she lacks a steadier footing first, signaling mild strain and unresolved clarity about her footing."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_next_focus_2",
+      "label": "Next focus",
+      "name": "Given what we've covered, what do you want to tackle first?",
+      "description": "Closes by turning the discussion into a clear next step without opening a new thread.",
+      "purpose": "topic",
+      "stage": "support",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    "answer": "I would start by naming one cross-team decision where clearer air cover would help me re-engage.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1,
+      "growth": 1
+    },
+    "note": "She identified a concrete first move and linked it to re-engagement, showing mild clarity and forward motion."
+  }
+]

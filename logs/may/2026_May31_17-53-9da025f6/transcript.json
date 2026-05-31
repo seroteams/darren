@@ -1,0 +1,200 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_off_connection",
+      "label": "Team connection",
+      "name": "How connected do you feel to the rest of the team right now?",
+      "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+      "purpose": "wellbeing",
+      "stage": "observation",
+      "axis_effects": {
+        "engagement": 3,
+        "wellbeing": 1
+      },
+      "source": "seed"
+    },
+    "answer": "The hardest part is changing direction late and feeling like I missed something.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": -1
+    },
+    "note": "Late direction changes and feeling like he missed something signal mild strain and reduced engagement; also points to a likely clarity issue worth probing next."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_late_changes",
+      "label": "Late changes",
+      "name": "When direction changes late, what usually got missed from your side?",
+      "description": "Drills into the specific thread he named to surface the concrete failure point behind the frustration.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": {
+        "engagement": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I am still unsure what good really looks like here week to week.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -3
+    },
+    "note": "He names a clear lack of week-to-week success criteria, which reads as strong disengagement risk on the axis this question tested; also reveals an unscored clarity gap worth addressing next."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_good_looks_like",
+      "label": "Good looks like",
+      "name": "When you say 'what good looks like' — what's most unclear right now?",
+      "description": "Clarifies the specific expectation gap he just named before moving on.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I do ask for help sometimes, but I worry about sounding slow.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "He links asking for help with fear of sounding slow, which signals a strong clarity/safety gap around expectations and how help-seeking is perceived; [THREAD-DEFERRED] 'sounding slow' concern should be picked up next session."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?",
+      "description": "Separates energy from output; avoids leading with 'is something wrong'.",
+      "purpose": "wellbeing",
+      "stage": "landing",
+      "axis_effects": {
+        "wellbeing": 3
+      },
+      "source": "seed"
+    },
+    "answer": "I feel better when feedback is specific and close to the work.",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "Pivoted away from energy and volunteered that specific, in-the-moment feedback improves things; no wellbeing signal scored, but it points to a clarity/support thread."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_specific_feedback_4",
+      "label": "Specific feedback",
+      "name": "Specific feedback — what makes it land better for you?",
+      "description": "Drills into his point about feedback to surface what kind of guidance reduces uncertainty.",
+      "purpose": "topic",
+      "stage": "underneath",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "Some days I feel useful, other days I feel like I am guessing.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "He describes inconsistency and guessing, which signals mild lack of clarity and insufficiently grounded growth support."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_guessing_days_2",
+      "label": "Guessing days",
+      "name": "On the days you're guessing, what's usually missing?",
+      "description": "Follows his 'guessing' thread to surface the specific gap driving uncertainty.",
+      "purpose": "topic",
+      "stage": "underneath",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "When priorities change fast, I lose confidence in what to optimize for.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "Fast-changing priorities are leaving him unsure what to optimize for, a mild clarity problem and strong growth-stagnation signal."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_support_shape_2",
+      "label": "Support shape",
+      "name": "What kind of support from me would actually change the week for you?",
+      "description": "Identifies the manager behavior that would be most useful without jumping to fixes.",
+      "purpose": "topic",
+      "stage": "support",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    "answer": "I want more ownership, but I also want clearer guardrails.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "Names two missing conditions from the manager — clearer guardrails and more ownership — which signals mild deficits in both clarity and growth support."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_next_two_weeks_16",
+      "label": "Next two weeks",
+      "name": "What would make the next two weeks steadier for you?",
+      "description": "Closes on concrete support and next-step stability without opening new threads.",
+      "purpose": "wellbeing",
+      "stage": "support",
+      "axis_effects": {
+        "wellbeing": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "A regular calibration loop would make this feel less shaky.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "Names a missing regular calibration loop as the support needed to feel less shaky, signaling mild instability and low clarity."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_seed_clarity_priorities",
+      "label": "Priority ranking",
+      "name": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+      "description": "Forces a real priority ranking. Vague answers are a clarity signal.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "I would start with a short weekly calibration on what good looks like for my current tickets.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "clarity": -3
+    },
+    "note": "He answered a priority-ranking question by asking for weekly calibration on 'what good looks like,' signaling strong clarity deficit and mild reduced agency/engagement."
+  }
+]

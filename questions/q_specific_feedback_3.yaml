@@ -1,0 +1,9 @@
+alias: q_specific_feedback_3
+label: Specific feedback
+name: Specific feedback — what feels too vague or too delayed right now?
+description: Follows his feedback thread to surface the concrete gap underneath the recent wobble.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

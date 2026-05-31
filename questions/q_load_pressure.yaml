@@ -1,0 +1,10 @@
+alias: q_load_pressure
+label: Load pressure
+name: What part of your current load is hardest to keep in balance?
+description: Checks whether the strain is coming from calendar load, context switching, or something else in the setup.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

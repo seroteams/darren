@@ -1,0 +1,10 @@
+alias: q_time_allocation
+label: Time allocation
+name: What are you saying yes to that you would not have chosen six months ago?
+description: Reveals whether his energy is shifting toward lower-stakes or safer work.
+purpose: topic
+stage: underneath
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

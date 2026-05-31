@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_27
+label: Next two weeks
+name: "Given what we've covered, what do you want to do differently in the next two weeks?"
+description: Closes on a concrete behavior change and near-term commitment.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_tooling_friction
+label: Tooling friction
+name: What part of your workflow is slowing you down most right now?
+description: Surfaces process or tooling friction that may be masquerading as confidence issues.
+purpose: topic
+stage: blockers
+axis_effects:
+  clarity: +3
+source: generated

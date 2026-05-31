@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Performance & feedback",
+  "focus_points": [
+    {
+      "id": "quality",
+      "label": "Making the quality bar concrete with examples",
+      "reason": "What “good” looks like in practice for Carlos right now, using concrete examples so feedback doesn’t stay abstract.",
+      "source": "signal"
+    },
+    {
+      "id": "feedback",
+      "label": "Whether prior feedback changed his behavior",
+      "reason": "What prior feedback he actually translated into new habits or outputs, and where it stayed at the level of ideas.",
+      "source": "signal"
+    },
+    {
+      "id": "role_clarity",
+      "label": "His definition of good work at this level",
+      "reason": "What he thinks the bar is for his junior role, so you can calibrate expectations against his current mental model.",
+      "source": "best_practice"
+    },
+    {
+      "id": "growth",
+      "label": "Near-term growth focus and what blocks it",
+      "reason": "How to turn growth into one specific practice for the next cycle, and what feels blocked so the plan is actionable.",
+      "source": "best_practice"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+alias: q_pressure_source
+label: Pressure source
+name: Where do the shifting requirements make the work hardest to plan?
+description: Gets specific about how changing inputs affect his ability to organize and deliver.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

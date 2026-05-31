@@ -1,0 +1,9 @@
+alias: q_specific_feedback_4
+label: Specific feedback
+name: Specific feedback — what makes it land better for you?
+description: Drills into his point about feedback to surface what kind of guidance reduces uncertainty.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +1
+source: planner_added

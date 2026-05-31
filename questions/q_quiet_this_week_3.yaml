@@ -1,0 +1,10 @@
+alias: q_quiet_this_week_3
+label: Quiet this week
+name: I’ve noticed you’ve been quieter this week, what’s behind that?
+description: Uses an observable team signal to check whether the quieter week is recovery or something else.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

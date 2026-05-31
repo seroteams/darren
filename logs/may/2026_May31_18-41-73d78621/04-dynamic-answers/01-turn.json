@@ -1,0 +1,93 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_off_connection",
+    "label": "Team connection",
+    "name": "How connected do you feel to the rest of the team right now?",
+    "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+    "purpose": "wellbeing",
+    "stage": "observation",
+    "axis_effects": {
+      "engagement": 3,
+      "wellbeing": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I have been less present in rituals, yes.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": -1
+    },
+    "note": "Less present in rituals signals a mild drop in engagement and connection, with no new clarity or growth signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_rituals_since_then_2",
+      "label": "Rituals since then",
+      "name": "I've noticed you've been quieter in a few team rituals since the promotion decision — what's changed there?"
+    },
+    {
+      "alias": "q_what_landed_3",
+      "label": "What landed",
+      "name": "What part of the feedback from that decision actually landed with you?"
+    },
+    {
+      "alias": "q_unsaid_reaction",
+      "label": "Unsaid reaction",
+      "name": "What did you choose not to say after that decision?"
+    },
+    {
+      "alias": "q_next_step_picture",
+      "label": "Next-step picture",
+      "name": "What concrete path forward feels real to you right now?"
+    },
+    {
+      "alias": "q_mentoring_shape_8",
+      "label": "Mentoring shape",
+      "name": "What is the mentoring program taking space for in your week?"
+    },
+    {
+      "alias": "q_core_path_tradeoff",
+      "label": "Core path tradeoff",
+      "name": "What are you choosing not to spend time on because of the mentoring program?"
+    },
+    {
+      "alias": "q_support_needed_24",
+      "label": "Support needed",
+      "name": "What would help make the next couple of weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

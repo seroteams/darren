@@ -1,0 +1,9 @@
+alias: q_expectation_drift
+label: Expectation drift
+name: Where have expectations felt the least clear for you so far?
+description: Surfaces which parts of the role are still fuzzy without assuming failure.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: generated

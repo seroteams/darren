@@ -1,0 +1,10 @@
+alias: q_late_nights_source_2
+label: Late nights source
+name: What’s driving the late nights now that the launches are done?
+description: Surfaces whether the pace is still a temporary push or something else.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

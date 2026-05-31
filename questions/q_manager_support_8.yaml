@@ -1,0 +1,10 @@
+alias: q_manager_support_8
+label: Manager support
+name: What kind of support from me would help you stay at the strategic level?
+description: "Opens the manager's role in protecting focus and reinforcing the growth path."
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

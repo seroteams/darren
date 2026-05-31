@@ -1,0 +1,9 @@
+alias: q_wanted_opportunities_3
+label: Wanted opportunities
+name: What opportunities have you wanted but not said out loud?
+description: Drills into the self-advocacy thread by naming the specific opportunities he has not been explicit about.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,98 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_growth_blockers",
+    "label": "Growth blockers",
+    "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+    "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+    "purpose": "topic",
+    "stage": "gap",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I am still thinking about last cycle.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "She is still preoccupied with last cycle, which signals a mild growth blockage and unresolved clarity about what happened."
+  },
+  "new_queue": [
+    {
+      "alias": "q_last_cycle_thread_3",
+      "label": "Last cycle thread",
+      "name": "When you say 'last cycle' — what part are you still turning over?"
+    },
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_current_footing_6",
+      "label": "Current footing",
+      "name": "What's feeling solid in your role right now, Maria?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_next_chapter_2",
+      "label": "Next chapter",
+      "name": "What kind of impact do you want your work to have this year?"
+    },
+    {
+      "alias": "q_manager_leverage_7",
+      "label": "Manager leverage",
+      "name": "Where would you want more from me to move this forward?"
+    },
+    {
+      "alias": "q_tradeoffs_now",
+      "label": "Tradeoffs now",
+      "name": "What would you need to stop doing to make room for the next step?"
+    },
+    {
+      "alias": "q_next_move_12",
+      "label": "Next move",
+      "name": "Given what we've covered, what do you want to take on first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_biweekly_friction",
+    "label": "Friction scan",
+    "name": "What's been slower or harder than it should have been?",
+    "description": "Invites them to name blockers without framing it as complaint.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 3
+    },
+    "source": "seed"
+  },
+  "answer": "The push worked, but I do not want that pace to become normal.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "clarity": -1
+    },
+    "note": "She says the push was effective but unsustainable, which signals friction around how work is being done and some drag on engagement; also flags a wellbeing concern worth probing next."
+  },
+  "new_queue": [
+    {
+      "alias": "q_pace_becoming_normal",
+      "label": "Pace becoming normal",
+      "name": "What would make that pace start becoming normal from your read?"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_influence_bottleneck",
+      "label": "Influence bottleneck",
+      "name": "Where are you getting stuck when you try to move decisions forward?"
+    },
+    {
+      "alias": "q_support_needed_9",
+      "label": "Support needed",
+      "name": "What kind of support from me would actually change your week right now?"
+    },
+    {
+      "alias": "q_next_step_move",
+      "label": "Next-step move",
+      "name": "What’s the first concrete thing you want to shift before we next meet?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -1,0 +1,10 @@
+alias: q_concrete_takeaway
+label: Concrete takeaway
+name: "What's the first thing you'll change before we talk again?"
+description: Ends on a specific commitment the manager can revisit next time.
+purpose: competency
+stage: lift
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

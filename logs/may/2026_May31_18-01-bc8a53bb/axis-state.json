@@ -1,0 +1,107 @@
+{
+  "wellbeing": {
+    "score": -5,
+    "history": [
+      {
+        "q": "q_intro_growth_direction",
+        "delta": -1,
+        "answer_excerpt": "If we define two concrete leadership bets for this half, I can commit fully."
+      },
+      {
+        "q": "q_air_cover_needed",
+        "delta": -3,
+        "answer_excerpt": "I want milestones that show progress before the next cycle, not only retrospective feedback."
+      }
+    ]
+  },
+  "engagement": {
+    "score": -3,
+    "history": [
+      {
+        "q": "q_intro_growth_stretch",
+        "delta": -1,
+        "answer_excerpt": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared."
+      },
+      {
+        "q": "q_ambiguity_forums",
+        "delta": 1,
+        "answer_excerpt": "I think I need to own a cross-org decision area, not just deliver strong design outcomes."
+      },
+      {
+        "q": "q_intro_growth_direction",
+        "delta": -1,
+        "answer_excerpt": "If we define two concrete leadership bets for this half, I can commit fully."
+      },
+      {
+        "q": "q_air_cover_needed",
+        "delta": -1,
+        "answer_excerpt": "I want milestones that show progress before the next cycle, not only retrospective feedback."
+      }
+    ]
+  },
+  "clarity": {
+    "score": 0,
+    "history": [
+      {
+        "q": "q_intro_growth_blockers",
+        "delta": -1,
+        "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+      },
+      {
+        "q": "q_first_commitment",
+        "delta": 1,
+        "answer_excerpt": "I want to start with one leadership bet where I drive the decision, not just the design output."
+      }
+    ]
+  },
+  "growth": {
+    "score": -9,
+    "history": [
+      {
+        "q": "q_intro_growth_blockers",
+        "delta": -3,
+        "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+      },
+      {
+        "q": "q_political_capital_2",
+        "delta": -3,
+        "answer_excerpt": "I can lead major initiatives, but I do not always translate that into visible strategic influence."
+      },
+      {
+        "q": "q_strategic_influence_gap_2",
+        "delta": -3,
+        "answer_excerpt": "I get positive feedback on craft and collaboration, but less clarity on what separates me at the next level."
+      },
+      {
+        "q": "q_intro_growth_stretch",
+        "delta": -3,
+        "answer_excerpt": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared."
+      },
+      {
+        "q": "q_ambiguity_forums",
+        "delta": 3,
+        "answer_excerpt": "I think I need to own a cross-org decision area, not just deliver strong design outcomes."
+      },
+      {
+        "q": "q_cross_org_decisions_2",
+        "delta": -3,
+        "answer_excerpt": "I also need clearer sponsorship in rooms where priorities are set."
+      },
+      {
+        "q": "q_intro_growth_direction",
+        "delta": -3,
+        "answer_excerpt": "If we define two concrete leadership bets for this half, I can commit fully."
+      },
+      {
+        "q": "q_air_cover_needed",
+        "delta": -1,
+        "answer_excerpt": "I want milestones that show progress before the next cycle, not only retrospective feedback."
+      },
+      {
+        "q": "q_first_commitment",
+        "delta": 1,
+        "answer_excerpt": "I want to start with one leadership bet where I drive the decision, not just the design output."
+      }
+    ]
+  }
+}

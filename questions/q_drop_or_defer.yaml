@@ -1,0 +1,9 @@
+alias: q_drop_or_defer
+label: Drop or defer
+name: What is easiest to defer without hurting either stream?
+description: Surfaces a real tradeoff and what can safely slip.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: generated

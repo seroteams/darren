@@ -1,0 +1,88 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_stopped_pushing_5",
+    "label": "Stopped pushing",
+    "name": "You said you stopped pushing — what made you back off?",
+    "description": "Drills into the mentoring thread to surface whether the stall is about time, clarity, confidence, or support.",
+    "purpose": "topic",
+    "stage": "momentum",
+    "axis_effects": {
+      "engagement": 1,
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I am not sure what I am owning next quarter yet, and that makes me uneasy.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "clarity": -3
+    },
+    "note": "She names uncertainty about next-quarter ownership and unease, which is a strong clarity gap and mild pullback in engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_quarter_ownership_5",
+      "label": "Next quarter ownership",
+      "name": "You said 'owning next quarter' feels unclear — what feels most uncertain there?"
+    },
+    {
+      "alias": "q_support_needed_21",
+      "label": "Support needed",
+      "name": "What would you want more of from me right now?"
+    },
+    {
+      "alias": "q_next_two_weeks_focus",
+      "label": "Next-two-weeks focus",
+      "name": "What would make the next two weeks feel smoother for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        },
+        {
+          "q": "q_flatter_after_launch",
+          "delta": -3,
+          "answer_excerpt": "Mostly cleanup and reviews right now, not much that feels new."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I did mention mentoring before. I still want it, but I stopped pushing."
+        },
+        {
+          "q": "q_stopped_pushing_5",
+          "delta": -1,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_stopped_pushing_5",
+          "delta": -3,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

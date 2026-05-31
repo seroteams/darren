@@ -1,0 +1,10 @@
+alias: q_next_focus_2
+label: Next focus
+name: "Given what we've covered, what do you want to tackle first?"
+description: Closes by turning the discussion into a clear next step without opening a new thread.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

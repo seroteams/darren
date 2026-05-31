@@ -1,0 +1,10 @@
+alias: q_context_check_in_4
+label: Context check-in
+name: "What's been most on your mind in the last couple of weeks at work?"
+description: Lets Tom set the agenda without introducing any manager judgment.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

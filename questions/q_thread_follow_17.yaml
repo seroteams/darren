@@ -1,0 +1,11 @@
+alias: q_thread_follow_17
+label: Thread follow
+name: reviews broad, sure — can you say more about what that means for you right now?
+description: Runtime thread-follow injected because planner did not follow substantive answer.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+  wellbeing: +3
+source: planner_added

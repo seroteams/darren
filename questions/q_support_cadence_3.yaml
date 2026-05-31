@@ -1,0 +1,10 @@
+alias: q_support_cadence_3
+label: Support cadence
+name: What kind of check-in from me would help you most over the next two weeks?
+description: Clarifies the support rhythm that would help him move faster without waiting too long for reassurance.
+purpose: topic
+stage: connection
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

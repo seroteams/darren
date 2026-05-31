@@ -1,0 +1,10 @@
+alias: q_next_focus
+label: Next focus
+name: "Given what we've covered, where do you want to focus first?"
+description: Open closer that helps Lin choose the most important near-term focus for the next two weeks.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: planner_added

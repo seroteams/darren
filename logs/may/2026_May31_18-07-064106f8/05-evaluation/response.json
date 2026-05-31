@@ -1,0 +1,51 @@
+{
+  "headline": "James gave mostly short, directive answers and anchored the whole conversation on unclear recognition criteria after the promotion decision.",
+  "summary_bullets": [
+    "James tied his dip in team rituals to the promotion decision: “After the promotion decision, I was not clear on what really needed to change.”",
+    "His engagement and clarity collapse around recognition: “I am not sure the work I am doing is the work that gets recognized” and “I want clearer criteria, not reassurance.”",
+    "Mentoring is his current source of usefulness, but he still doubts it maps to what gets recognized—so it’s both a stabilizer and a possible misalignment."
+  ],
+  "understanding_paragraph": "James is less present in team rituals because the promotion outcome left him without a clear sense of what “needs to change.” He is staying focused on delivery because it feels controllable, but he’s not confident his current work is the work that gets recognized. His through-line is concrete: he wants precise criteria and real authority to own bigger direction, not emotional reassurance.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -5,
+      "meaning": "Energy is strained and not sustainable, with a clear dependency on having authority and steadier direction."
+    },
+    {
+      "id": "engagement",
+      "score": -10,
+      "meaning": "Engagement is deeply low because he doubts his work will be recognized and he lacks confidence in what to change."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Clarity is at a breaking point: he needs explicit criteria and a defined path to commit."
+    },
+    {
+      "id": "growth",
+      "score": -4,
+      "meaning": "Growth is constrained by recognition uncertainty; mentoring helps him feel useful but doesn’t resolve the mapping to recognized work."
+    }
+  ],
+  "brutal_truth_employee": "James is not asking for reassurance—he’s asking for a defined system of recognition: “I want clearer criteria, not reassurance.” He also ties his disengagement to the promotion decision: “After the promotion decision, I was not clear on what really needed to change.”",
+  "brutal_truth_manager": "When James said, “I am not clear on what really needed to change,” the conversation moved quickly into criteria and support needs; that was the moment to slow down and explore what feedback he actually received and what he believed it meant. Next time, keep the mic on James for one more turn before pivoting to mentoring—specifically, ask what “clear criteria” looks like in the forum he named.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Confirm the exact promotion-feedback sources and summarize what James heard back to him in writing, then ask him to correct any gaps."
+    },
+    {
+      "when": "this week",
+      "action": "Set up one working session with James to define the recognition criteria for one named forum, including who decides and what evidence counts."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Start with: “Which forum did you name, what criteria did we define, and what authority did you get to act on it?” Then stop talking and let him answer."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks, if James still says he’s “not sure the work…gets recognized” after criteria are defined, treat it as a deeper misalignment than understanding.",
+    "Before the next 1:1, if James increases ritual presence only after authority is granted (not after reassurance), the pattern is clarity/authority-driven."
+  ]
+}

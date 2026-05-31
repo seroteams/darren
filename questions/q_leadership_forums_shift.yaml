@@ -1,0 +1,10 @@
+alias: q_leadership_forums_shift
+label: Leadership forums shift
+name: "I've noticed you've been quieter in leadership forums since the reorg — what's changed there?"
+description: Invites her to explain the observable shift in external forums without over-reading it.
+purpose: topic
+stage: observation
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_cross_team_friction_5
+label: Cross-team friction
+name: Where does cross-functional alignment slow your design recommendations down most?
+description: Surfaces the exact handoff or alignment point that weakens org-level impact.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

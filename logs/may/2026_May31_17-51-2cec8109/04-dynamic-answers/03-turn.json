@@ -1,0 +1,96 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_early_decisions_3",
+    "label": "Early decisions",
+    "name": "When did you last miss the chance to shape a decision early?",
+    "description": "Anchors her self-read in a specific recent example of late influence.",
+    "purpose": "topic",
+    "stage": "self_read",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Some feedback has been about being clearer with non-technical partners.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "She did not name a specific missed moment; instead she surfaced recurring feedback about being unclear with non-technical partners, a strong clarity gap. [THREAD-DEFERRED] 'non-technical partners' feedback could be drilled next session, but drill cap forces stage advance."
+  },
+  "new_queue": [
+    {
+      "alias": "q_impact_in_practice",
+      "label": "Impact in practice",
+      "name": "What changed because of your work that would not have happened otherwise?"
+    },
+    {
+      "alias": "q_signal_to_stakeholders",
+      "label": "Signal to stakeholders",
+      "name": "How did you make your work visible to the people who needed to see it?"
+    },
+    {
+      "alias": "q_intro_perf_03_gap",
+      "label": "Gap awareness",
+      "name": "Where do you think you've fallen short of where you want to be?"
+    },
+    {
+      "alias": "q_visibility_gap_4",
+      "label": "Visibility gap",
+      "name": "What part of your contribution is easiest for others to miss?"
+    },
+    {
+      "alias": "q_leverage_choices",
+      "label": "Leverage choices",
+      "name": "Where do you choose to go deep instead of pulling others in earlier?"
+    },
+    {
+      "alias": "q_next_step_commitment",
+      "label": "Next-step commitment",
+      "name": "What is one change you will make in the next two weeks to raise your visibility?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        },
+        {
+          "q": "q_uneven_influence_3",
+          "delta": -3,
+          "answer_excerpt": "I get work done, yet I am not consistently shaping decisions early."
+        },
+        {
+          "q": "q_early_decisions_3",
+          "delta": -3,
+          "answer_excerpt": "Some feedback has been about being clearer with non-technical partners."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

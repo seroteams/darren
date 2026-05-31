@@ -1,0 +1,10 @@
+alias: q_deprioritised_work
+label: Deprioritised work
+name: What have you been saying no to more often since the reorg?
+description: Surfaces what has been dropped or crowded out by the current scope.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

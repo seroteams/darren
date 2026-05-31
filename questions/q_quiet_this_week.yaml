@@ -1,0 +1,10 @@
+alias: q_quiet_this_week
+label: Quiet this week
+name: "I've noticed you've been quieter this week, what's underneath that?"
+description: Uses the observed change to invite a direct but non-accusatory explanation.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

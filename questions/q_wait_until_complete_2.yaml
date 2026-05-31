@@ -1,0 +1,9 @@
+alias: q_wait_until_complete_2
+label: Wait-until-complete
+name: When you wait until analysis is complete, what are you trying to avoid?
+description: Drills into the stated pattern to surface the driver behind delayed stakeholder engagement.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

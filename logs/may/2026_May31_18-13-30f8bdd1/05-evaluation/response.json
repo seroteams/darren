@@ -1,0 +1,51 @@
+{
+  "headline": "Nina is trying to avoid sprint pace becoming normal, but her engagement is being drained by fragmented time and low visibility of impact.",
+  "summary_bullets": [
+    "She explicitly rejects the “push” pace as a new baseline and reports a fragmented calendar from firefighting and context switching.",
+    "Her work output is fast, but she doesn’t feel the impact is visible, and she’s still processing communication feedback.",
+    "The clearest near-term need is leadership-driven priority tradeoffs so she can reduce reactive work before the next two weeks get noisier."
+  ],
+  "understanding_paragraph": "We understood that Nina’s capacity is improving (“less overloaded now”), but the system around her still creates fragmentation through firefighting and context switching. She links her motivation to visibility and cross-functional leadership opportunities, not just shipping speed. The new signal is that the remaining friction is less about workload volume and more about leadership alignment and how her impact lands publicly.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -3,
+      "meaning": "Energy is being spent on firefighting and context switching, and the sprint pace is not sustainable for her."
+    },
+    {
+      "id": "engagement",
+      "score": -7,
+      "meaning": "Engagement is materially dampened because she doesn’t feel the impact is visible and communication feedback is still landing."
+    },
+    {
+      "id": "clarity",
+      "score": 0,
+      "meaning": "Near-term direction exists (stabilize and reduce reactive work), but she still needs leadership tradeoffs to make it actionable."
+    },
+    {
+      "id": "growth",
+      "score": 1,
+      "meaning": "She wants more room to lead cross-functional discussions earlier, a small but real growth lever."
+    }
+  ],
+  "brutal_truth_employee": "Nina says, “I do not want that pace to become normal,” and “I can ship quickly, but I do not always feel the impact is visible.” She also reports she’s “still processing” communication feedback and wants “more room to lead cross-functional discussions earlier.”",
+  "brutal_truth_manager": "When Nina tied the problem to visibility and leadership tradeoffs (“Clear priority tradeoffs from leadership would help a lot”), the conversation moved to next-two-weeks steadiness without locking the specific tradeoff, owner, and decision date. Next time, push for the exact tradeoff and schedule the leadership resolution immediately so the calendar fragmentation can actually drop.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Email Nina a 1-page recap: the single priority tradeoff to resolve, what “steadier” means, and propose a leadership meeting time to decide before the next two weeks get noisier."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule and run a 30-minute leadership decision meeting focused on Nina’s requested tradeoff, with explicit outcomes: what gets cut, what gets prioritized, and who owns each piece."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Open with: “What changed in your calendar since we resolved that tradeoff?” and “Did you get earlier cross-functional leading room?” then adjust support based on the answers."
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Nina’s calendar stays fragmented despite “less overloaded,” treat it as a process/priority failure, not a personal capacity issue.",
+    "Within two weeks: if leadership tradeoffs aren’t resolved and reactive work rises again, Nina’s engagement will keep dropping—confirm by asking about “impact visible” and communication feedback processing."
+  ]
+}

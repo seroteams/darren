@@ -1,0 +1,10 @@
+alias: q_execution_details_3
+label: Execution details
+name: Which execution details are hardest for you to let go of?
+description: Drills into the specific work he is still holding so the growth blocker becomes concrete.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

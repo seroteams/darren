@@ -1,0 +1,51 @@
+{
+  "headline": "Toby is highly motivated but growth is blocked by political caution and a lack of decision-area ownership plus sponsorship.",
+  "summary_bullets": [
+    "Toby’s promotion outcome made him “more careful about where I spend political capital,” so he leads initiatives without consistently converting them into visible strategic influence.",
+    "He can name the gap: “less clarity on what separates me at the next level,” and he links it to avoiding “high-ambiguity forums” to avoid sounding underprepared.",
+    "His growth direction is conditional and concrete: “If we define two concrete leadership bets for this half, I can commit fully,” plus “milestones…before the next cycle,” not retrospective feedback."
+  ],
+  "understanding_paragraph": "We learned Toby’s caution is not disengagement; it’s a deliberate risk-management response to being passed over. He wants a growth plan that changes his decision ownership and sponsorship exposure, not just more coaching or feedback. The session also clarified that his “next level” uncertainty is operational: what to own, where to show up, and how progress will be measured before the next cycle.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -5,
+      "meaning": "Running hot under uncertainty and political risk; recovery and pacing need attention because it affects forum participation."
+    },
+    {
+      "id": "engagement",
+      "score": -3,
+      "meaning": "Motivation is present, but investment is constrained by political caution and avoidance of ambiguous visibility."
+    },
+    {
+      "id": "clarity",
+      "score": 0,
+      "meaning": "Mixed clarity: he can articulate blockers and a concrete bet, but the differentiator for “next level” still isn’t crisp."
+    },
+    {
+      "id": "growth",
+      "score": -9,
+      "meaning": "A defining growth block: he lacks decision-area ownership and sponsorship, so progress stalls without a structured leadership bet."
+    }
+  ],
+  "brutal_truth_employee": "Toby is not coasting—he says, “I am still motivated”—but the promotion outcome changed his behavior: “made me more careful about where I spend political capital.” He also avoids visibility on purpose: “Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared.”",
+  "brutal_truth_manager": "When Toby asked for “clearer sponsorship in rooms where priorities are set,” the conversation still needs a concrete decision-area and sponsorship mapping, not just goals. The moment to tighten next time is after “If we define two concrete leadership bets for this half, I can commit fully”—you should lock the specific decision ownership, the stakeholder set, and the milestone cadence before the meeting ends.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Draft two named leadership bets with Toby: each bet must include the decision he drives, the cross-org stakeholder group, and the measurable milestone before the next cycle."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule one sponsorship intro for Toby into a priorities-setting room and confirm the sponsor’s air-cover commitment for the bet’s decision ownership."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Review bet progress against pre-cycle milestones and ask Toby to name what decision he owned, what changed, and what forum he attended to reduce underpreparedness risk."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: if Toby continues avoiding high-ambiguity forums, treat it as active political-caution behavior, not normal preference.",
+    "Before next 1:1: if milestones remain retrospective-only (no pre-cycle progress proof), Toby will not convert leadership bets into visible strategic influence."
+  ]
+}

@@ -1,0 +1,9 @@
+alias: q_specific_fast_feedback
+label: Specific fast feedback
+name: Specific and fast feedback — where is that missing most right now?
+description: Drills into the exact point in his workflow where feedback speed or specificity is breaking down.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

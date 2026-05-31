@@ -1,0 +1,10 @@
+alias: q_decision_rights
+label: Decision rights
+name: Where do you feel least able to steer the work yourself?
+description: Surfaces where decision-making authority or influence is thin in practice.
+purpose: topic
+stage: friction
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,144 @@
+{
+  "turn": 9,
+  "question": {
+    "alias": "q_first_growth_move",
+    "label": "First growth move",
+    "name": "Given what we’ve covered, what do you want to change first?",
+    "description": "Closes the conversation by turning the discussion into one concrete next move.",
+    "purpose": "topic",
+    "stage": "commitment",
+    "axis_effects": {
+      "growth": 1,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "answer": "I want to own one strategic bet end-to-end and set a milestone check-in with stakeholders in two weeks.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": 1,
+      "growth": 1
+    },
+    "note": "He named a specific next-step growth move and a concrete stakeholder milestone, indicating positive direction on both growth and clarity."
+  },
+  "new_queue": [],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_wanted_opportunities_2",
+          "delta": 1,
+          "answer_excerpt": "To grow, I need to own a strategic bet with visible stakeholders."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -1,
+          "answer_excerpt": "I should delegate more of the hands-on work to create room for that."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "Part of it is confidence, I do not want to look unprepared in senior forums."
+        },
+        {
+          "q": "q_senior_forums_3",
+          "delta": -1,
+          "answer_excerpt": "I also have not been explicit enough about what opportunities I want."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "I should delegate more of the hands-on work to create room for that."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 3,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": 1,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_execution_details_3",
+          "delta": 1,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        },
+        {
+          "q": "q_political_conversations_4",
+          "delta": 1,
+          "answer_excerpt": "I can run projects, but shaping cross-org alignment is where I hesitate."
+        },
+        {
+          "q": "q_delegation_boundary_2",
+          "delta": -1,
+          "answer_excerpt": "A clear growth contract with milestones would keep me accountable."
+        },
+        {
+          "q": "q_first_growth_move",
+          "delta": 1,
+          "answer_excerpt": "I want to own one strategic bet end-to-end and set a milestone check-in with stakeholders in two weeks."
+        }
+      ]
+    },
+    "growth": {
+      "score": -8,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_execution_details_3",
+          "delta": -3,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        },
+        {
+          "q": "q_political_conversations_4",
+          "delta": -3,
+          "answer_excerpt": "I can run projects, but shaping cross-org alignment is where I hesitate."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "Part of it is confidence, I do not want to look unprepared in senior forums."
+        },
+        {
+          "q": "q_senior_forums_3",
+          "delta": -3,
+          "answer_excerpt": "I also have not been explicit enough about what opportunities I want."
+        },
+        {
+          "q": "q_wanted_opportunities_2",
+          "delta": 3,
+          "answer_excerpt": "To grow, I need to own a strategic bet with visible stakeholders."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "I should delegate more of the hands-on work to create room for that."
+        },
+        {
+          "q": "q_delegation_boundary_2",
+          "delta": -3,
+          "answer_excerpt": "A clear growth contract with milestones would keep me accountable."
+        },
+        {
+          "q": "q_first_growth_move",
+          "delta": 1,
+          "answer_excerpt": "I want to own one strategic bet end-to-end and set a milestone check-in with stakeholders in two weeks."
+        }
+      ]
+    }
+  }
+}

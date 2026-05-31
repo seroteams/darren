@@ -1,0 +1,10 @@
+alias: q_saying_yes
+label: Saying yes
+name: What are you saying yes to that you would rather not keep carrying?
+description: Surfaces priority drift and obligations that may be crowding out better use of time.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

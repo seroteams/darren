@@ -1,0 +1,10 @@
+alias: q_forward_view
+label: Forward view
+name: What concrete path forward makes sense to you from here?
+description: Asks James to articulate the next step he believes in, rather than waiting for the manager to define it.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

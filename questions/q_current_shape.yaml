@@ -1,0 +1,10 @@
+alias: q_current_shape
+label: Current shape
+name: "What's feeling solid in your role right now, and what's still pulling you back into the weeds?"
+description: "Establishes Ahmed's current operating mode without assuming a problem, while surfacing where tactical pull is strongest."
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

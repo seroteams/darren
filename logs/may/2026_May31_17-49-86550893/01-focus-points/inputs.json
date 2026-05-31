@@ -1,0 +1,8 @@
+{
+  "name": "James",
+  "role": "Head of Product",
+  "seniority": "Director",
+  "meetingType": "Something feels off",
+  "notes": "James was passed over for promotion and his engagement in team rituals has dipped since then. He did not bring up the decision himself, which could mean unresolved disappointment or low confidence that raising it will help. He is also running a mentoring program, and I need to understand whether that is healthy stretch or a redirect away from his core path. This meeting should surface what feedback he actually heard and what concrete path forward he believes exists.",
+  "model": "gpt-5.4-nano"
+}

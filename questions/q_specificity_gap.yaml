@@ -1,0 +1,9 @@
+alias: q_specificity_gap
+label: Specificity gap
+name: What specifically was missing from that feedback for you?
+description: Clarifies the exact kind of specificity she needed so the gap can later translate into a forward plan.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+source: planner_added

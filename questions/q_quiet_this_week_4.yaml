@@ -1,0 +1,10 @@
+alias: q_quiet_this_week_4
+label: Quiet this week
+name: I noticed you’ve been quieter this week, what’s behind that?
+description: Uses an observation-first check to distinguish recovery from something unresolved.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

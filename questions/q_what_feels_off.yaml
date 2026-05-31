@@ -1,0 +1,9 @@
+alias: q_what_feels_off
+label: What feels off
+name: What feels a little off for you right now, Kenji?
+description: Safe opener that lets him name the issue in his own terms before any manager framing.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +1
+source: generated

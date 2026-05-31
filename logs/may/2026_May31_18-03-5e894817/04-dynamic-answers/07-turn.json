@@ -1,0 +1,123 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_success_measures_2",
+    "label": "Success measures",
+    "name": "What feels most undefined about how success is measured now?",
+    "description": "Drills into her specific concern so the ambiguity becomes concrete enough to address.",
+    "purpose": "topic",
+    "stage": "underneath",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "What would help most is clearer prioritization and a little more air cover in cross-team decisions.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "Names two specific absences — clearer prioritization and more air cover in cross-team decisions — which is a strong clarity deficit; [THREAD-DEFERRED-WINDDOWN] 'air cover in cross-team decisions' could be worth unpacking next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_support_needed_14",
+      "label": "Support needed",
+      "name": "What kind of support would actually make this week easier for you?"
+    },
+    {
+      "alias": "q_next_focus_2",
+      "label": "Next focus",
+      "name": "Given what we've covered, what do you want to tackle first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_arrival_check_in",
+          "delta": -1,
+          "answer_excerpt": "I do not think anything is broken, but I do feel less grounded than I did before."
+        },
+        {
+          "q": "q_less_grounded_2",
+          "delta": -1,
+          "answer_excerpt": "I have been protecting my team from noise, which means I am carrying more ambiguity myself."
+        },
+        {
+          "q": "q_carrying_ambiguity_2",
+          "delta": -1,
+          "answer_excerpt": "I am not fully clear yet on how success is being measured in this new setup."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_shift_since_reorg",
+          "delta": -3,
+          "answer_excerpt": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_voice_leverage_2",
+          "delta": -1,
+          "answer_excerpt": "Part of me is tired from constant context switching, and I have not really said that out loud."
+        },
+        {
+          "q": "q_arrival_check_in",
+          "delta": -1,
+          "answer_excerpt": "I do not think anything is broken, but I do feel less grounded than I did before."
+        },
+        {
+          "q": "q_less_grounded_2",
+          "delta": -1,
+          "answer_excerpt": "I have been protecting my team from noise, which means I am carrying more ambiguity myself."
+        },
+        {
+          "q": "q_carrying_ambiguity_2",
+          "delta": -3,
+          "answer_excerpt": "I am not fully clear yet on how success is being measured in this new setup."
+        },
+        {
+          "q": "q_success_measures_2",
+          "delta": -3,
+          "answer_excerpt": "What would help most is clearer prioritization and a little more air cover in cross-team decisions."
+        }
+      ]
+    },
+    "growth": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_less_grounded_2",
+          "delta": -1,
+          "answer_excerpt": "I have been protecting my team from noise, which means I am carrying more ambiguity myself."
+        },
+        {
+          "q": "q_carrying_ambiguity_2",
+          "delta": -1,
+          "answer_excerpt": "I am not fully clear yet on how success is being measured in this new setup."
+        }
+      ]
+    }
+  }
+}

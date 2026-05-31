@@ -53,6 +53,7 @@ module.exports = async function start(c) {
   c.json(201, {
     sessionId: session.id,
     sessionDir: session.dir,
+    createdAt: session.createdAt,
     introQueueLen: introQueue.length,
   });
 };

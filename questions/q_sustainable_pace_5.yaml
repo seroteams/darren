@@ -1,0 +1,9 @@
+alias: q_sustainable_pace_5
+label: Sustainable pace
+name: Does this pace feel sustainable for the next month?
+description: Surfaces whether the current tempo is still acceptable or quietly too high.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+source: generated

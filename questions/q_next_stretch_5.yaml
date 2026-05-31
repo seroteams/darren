@@ -1,0 +1,10 @@
+alias: q_next_stretch_5
+label: Next stretch
+name: As you think about the next stretch, what would help you feel more settled in the role?
+description: Anchors growth in the current moment while pointing toward steadier footing.
+purpose: competency
+stage: underneath
+axis_effects:
+  growth: +1
+  wellbeing: +1
+source: generated

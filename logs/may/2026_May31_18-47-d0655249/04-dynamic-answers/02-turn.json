@@ -1,0 +1,101 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_political_capital_5",
+    "label": "Political capital",
+    "name": "Political capital — where are you holding back right now?",
+    "description": "Drills into the specific arenas where the promotion outcome made him more cautious.",
+    "purpose": "topic",
+    "stage": "gap",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I can lead major initiatives, but I do not always translate that into visible strategic influence.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -3
+    },
+    "note": "He names a clear growth gap: strong initiative leadership is not converting into visible strategic influence."
+  },
+  "new_queue": [
+    {
+      "alias": "q_strategic_influence_4",
+      "label": "Strategic influence",
+      "name": "Visible strategic influence — what would that look like in practice for you?"
+    },
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_where_you_stand",
+      "label": "Where you stand",
+      "name": "What's feeling solid in your role right now, and what's stretching you?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_next_chapter_4",
+      "label": "Next chapter",
+      "name": "What kind of design work would make the next step feel real for you?"
+    },
+    {
+      "alias": "q_sponsorship_picture",
+      "label": "Sponsorship picture",
+      "name": "Who is already backing your strategic work, and who is not yet there?"
+    },
+    {
+      "alias": "q_trade_off_check_6",
+      "label": "Trade-off check",
+      "name": "What would you have to stop doing to create more room for strategic influence?"
+    },
+    {
+      "alias": "q_next_commitment_5",
+      "label": "Next commitment",
+      "name": "What is the one move you want to make before we next meet?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        }
+      ]
+    },
+    "growth": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        },
+        {
+          "q": "q_political_capital_5",
+          "delta": -3,
+          "answer_excerpt": "I can lead major initiatives, but I do not always translate that into visible strategic influence."
+        }
+      ]
+    }
+  }
+}

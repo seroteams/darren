@@ -1,0 +1,98 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_biweekly_friction",
+    "label": "Friction scan",
+    "name": "What's been slower or harder than it should have been?",
+    "description": "Invites them to name blockers without framing it as complaint.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 3
+    },
+    "source": "seed"
+  },
+  "answer": "(skipped)",
+  "skipped": true,
+  "assessment": {
+    "deltas": {},
+    "note": "[SKIP] no signal — planner bypassed, queue carried forward"
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_what_s_on_your_mind_10",
+      "label": "What’s on your mind",
+      "name": "What’s been most on your mind at work lately?"
+    },
+    {
+      "alias": "q_hidden_drag",
+      "label": "Hidden drag",
+      "name": "What’s taking more effort than it should right now?"
+    },
+    {
+      "alias": "q_waiting_on_others",
+      "label": "Waiting on others",
+      "name": "What are you waiting on that could quietly stall you?"
+    },
+    {
+      "alias": "q_stakeholder_visibility",
+      "label": "Stakeholder visibility",
+      "name": "Who needs a clearer read on where things stand?"
+    },
+    {
+      "alias": "q_tradeoff_call_2",
+      "label": "Tradeoff call",
+      "name": "What are you choosing not to do this fortnight?"
+    },
+    {
+      "alias": "q_work_that_moves",
+      "label": "Work that moves",
+      "name": "Which piece of work feels like the best use of your time right now?"
+    },
+    {
+      "alias": "q_early_slippage",
+      "label": "Early slippage",
+      "name": "Where do you see something slipping before it becomes a problem?"
+    },
+    {
+      "alias": "q_status_handoff",
+      "label": "Status handoff",
+      "name": "What would make your next update easier to give?"
+    },
+    {
+      "alias": "q_next_two_weeks_25",
+      "label": "Next two weeks",
+      "name": "What would make the next two weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

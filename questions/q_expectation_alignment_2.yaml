@@ -1,0 +1,10 @@
+alias: q_expectation_alignment_2
+label: Expectation alignment
+name: What do you do before work starts to make sure expectations are aligned?
+description: Probes the habits that prevent avoidable drift and rework.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

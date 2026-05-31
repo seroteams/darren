@@ -1,0 +1,154 @@
+{
+  "call_count": 13,
+  "usd_total": 0.1359962,
+  "unknown_price_calls": 0,
+  "prompt_tokens": 111317,
+  "completion_tokens": 5486,
+  "cached_tokens": 83968,
+  "total_tokens": 116803,
+  "calls": [
+    {
+      "stage": "01-focus-points",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 6077,
+      "completion_tokens": 261,
+      "cached_tokens": 4864,
+      "total_tokens": 6338,
+      "usd_cost": 0.00066613,
+      "known_price": true,
+      "at": "2026-05-31T09:51:41.708Z"
+    },
+    {
+      "stage": "01b-preparation",
+      "model": "gpt-5.4",
+      "prompt_tokens": 2264,
+      "completion_tokens": 241,
+      "cached_tokens": 0,
+      "total_tokens": 2505,
+      "usd_cost": 0.009275,
+      "known_price": true,
+      "at": "2026-05-31T09:51:46.012Z"
+    },
+    {
+      "stage": "01b-preparation-retry",
+      "model": "gpt-5.4",
+      "prompt_tokens": 2293,
+      "completion_tokens": 245,
+      "cached_tokens": 1792,
+      "total_tokens": 2538,
+      "usd_cost": 0.0053755,
+      "known_price": true,
+      "at": "2026-05-31T09:51:50.837Z"
+    },
+    {
+      "stage": "03-question-bank",
+      "model": "gpt-5.4-mini",
+      "prompt_tokens": 5748,
+      "completion_tokens": 710,
+      "cached_tokens": 3840,
+      "total_tokens": 6458,
+      "usd_cost": 0.004914,
+      "known_price": true,
+      "at": "2026-05-31T09:51:55.519Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11701,
+      "completion_tokens": 616,
+      "cached_tokens": 7936,
+      "total_tokens": 12317,
+      "usd_cost": 0.0206365,
+      "known_price": true,
+      "at": "2026-05-31T09:52:02.826Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11164,
+      "completion_tokens": 609,
+      "cached_tokens": 8960,
+      "total_tokens": 11773,
+      "usd_cost": 0.016885,
+      "known_price": true,
+      "at": "2026-05-31T09:52:09.799Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11209,
+      "completion_tokens": 535,
+      "cached_tokens": 8960,
+      "total_tokens": 11744,
+      "usd_cost": 0.0158875,
+      "known_price": true,
+      "at": "2026-05-31T09:52:15.921Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11169,
+      "completion_tokens": 468,
+      "cached_tokens": 8960,
+      "total_tokens": 11637,
+      "usd_cost": 0.0147825,
+      "known_price": true,
+      "at": "2026-05-31T09:52:22.010Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11088,
+      "completion_tokens": 401,
+      "cached_tokens": 8960,
+      "total_tokens": 11489,
+      "usd_cost": 0.013575,
+      "known_price": true,
+      "at": "2026-05-31T09:52:27.265Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11052,
+      "completion_tokens": 314,
+      "cached_tokens": 8960,
+      "total_tokens": 11366,
+      "usd_cost": 0.01218,
+      "known_price": true,
+      "at": "2026-05-31T09:52:31.622Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10964,
+      "completion_tokens": 239,
+      "cached_tokens": 8960,
+      "total_tokens": 11203,
+      "usd_cost": 0.010835,
+      "known_price": true,
+      "at": "2026-05-31T09:52:34.645Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10902,
+      "completion_tokens": 160,
+      "cached_tokens": 8960,
+      "total_tokens": 11062,
+      "usd_cost": 0.009495,
+      "known_price": true,
+      "at": "2026-05-31T09:52:37.383Z"
+    },
+    {
+      "stage": "05-evaluation",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 5686,
+      "completion_tokens": 687,
+      "cached_tokens": 2816,
+      "total_tokens": 6373,
+      "usd_cost": 0.00148907,
+      "known_price": true,
+      "at": "2026-05-31T09:52:42.561Z"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+alias: q_uneven_influence_6
+label: Uneven influence
+name: You said your influence is uneven — where has that shown up most clearly?
+description: Drills into the specific situations where her influence breaks down so the discussion stays grounded in evidence.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

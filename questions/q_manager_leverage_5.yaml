@@ -1,0 +1,10 @@
+alias: q_manager_leverage_5
+label: Manager leverage
+name: What should I be doing more of to help you build that scope?
+description: "Surfaces the manager's role in increasing Ahmed's strategic reach without turning the conversation into generic support."
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_expectation_picture_2
+label: Expectation picture
+name: What feels clearest about what good looks like in your role right now?
+description: Surfaces where expectations are already solid so the conversation can narrow to the unclear parts.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: generated

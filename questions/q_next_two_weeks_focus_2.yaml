@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_focus_2
+label: Next-two-weeks focus
+name: Given what’s on your plate, what do you want to protect over the next two weeks?
+description: Forces a real trade-off around priorities and what should not get crowded out.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

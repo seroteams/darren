@@ -1,0 +1,10 @@
+alias: q_alignment_pressure
+label: Alignment pressure
+name: What part of cross-functional alignment is taking more energy than it should?
+description: Finds the moments where she is spending effort decoding or smoothing instead of moving work forward.
+purpose: wellbeing
+stage: orientation
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

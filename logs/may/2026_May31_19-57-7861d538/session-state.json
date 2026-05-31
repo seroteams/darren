@@ -1,0 +1,343 @@
+{
+  "id": "2026_May31_19-57-7861d538",
+  "dir": "C:\\Users\\User\\Documents\\Sero\\darren\\logs\\may\\2026_May31_19-57-7861d538",
+  "createdAt": 1780232225289,
+  "lastSeenAt": 1780233023079,
+  "ctx": {
+    "name": "Carl",
+    "role": "UX Lead",
+    "seniority": "Lead",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "They are being pulled into two different directions. AZPocket App and the CoE UX/UI"
+  },
+  "introQueue": [
+    {
+      "alias": "q_open_real_version",
+      "label": "The real version",
+      "name": "Tell me about your week — the real version.",
+      "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+      "purpose": "wellbeing",
+      "axis_effects": {
+        "wellbeing": 2,
+        "engagement": 1
+      },
+      "source": "research"
+    },
+    {
+      "alias": "q_intro_agenda_check",
+      "label": "Agenda check",
+      "name": "Before we get into it, anything you want to make sure we cover today?",
+      "description": "Semi-set early question. Gives the report explicit permission to set the agenda before the manager's plan takes over.",
+      "purpose": "engagement",
+      "stage": "opener",
+      "axis_effects": {
+        "engagement": 1,
+        "clarity": 1
+      },
+      "source": "semi_set"
+    },
+    {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?",
+      "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    }
+  ],
+  "focusPointsResult": {
+    "meeting_type": "Bi-weekly check-in",
+    "focus_points": [
+      {
+        "id": "priorities",
+        "type": "Priorities & goals",
+        "category": "topic",
+        "label": "Choosing between AZPocket and CoE UX/UI priorities.",
+        "reason": "Notes say Carl is being pulled into two different directions. One possibility is competing priorities across AZPocket App and the CoE UX/UI workstream—worth clarifying what he’s saying yes to, what’s slipping, and what tradeoff he wants to make.",
+        "source": "signal",
+        "known": true
+      },
+      {
+        "id": "blockers",
+        "type": "Blockers & dependencies",
+        "category": "topic",
+        "label": "What’s stuck between the two workstreams.",
+        "reason": "Notes imply a split focus; could be dependencies or unclear decision ownership between AZPocket App and the CoE UX/UI. Worth identifying the specific dependency, decision, or coordination friction that keeps him from moving both forward cleanly.",
+        "source": "signal",
+        "known": true
+      },
+      {
+        "id": "manager_support",
+        "type": "Manager support",
+        "category": "topic",
+        "label": "What he wants more of from you.",
+        "reason": "Whether he needs air cover, faster decisions, or clearer prioritization from you so he can stop context-switching and protect time for the work that matters most right now.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "cross_team_alignment",
+        "type": "Cross-team alignment",
+        "category": "competency",
+        "label": "How he’s keeping stakeholders in sync.",
+        "reason": "At UX Lead in a bi-weekly check-in, stakeholder alignment is the default risk reducer: making sure both the AZPocket App stakeholders and the CoE UX/UI stakeholders understand timelines, tradeoffs, and what’s changing—so surprises don’t accumulate between meetings.",
+        "source": "best_practice",
+        "known": true
+      }
+    ]
+  },
+  "preparationResult": {
+    "brief": {
+      "coreIssue": "This bi-weekly check-in is likely about helping a UX Lead make explicit tradeoffs between AZPocket App and CoE UX/UI demands.",
+      "openingQuestion": "What tradeoff between AZPocket and CoE UX/UI feels most important to make explicit right now so you can lead both responsibly?",
+      "listenFor": [
+        "whether he names one workstream first and treats the other as reactive or vague",
+        "whether he points to a specific decision owner, stakeholder, or dependency that is slowing both sides",
+        "if they describe what they need from you in concrete terms like priority calls, air cover, or stakeholder alignment"
+      ],
+      "avoid": [
+        "do not treat this like a personal time-management problem if the real issue is unclear ownership or competing asks",
+        "do not leave the meeting with both workstreams still framed as equally urgent without naming the tradeoff"
+      ],
+      "goodOutcome": "You and Carl have agreed which workstream gets lead-level attention first and what decision or stakeholder boundary you will reinforce so he can protect that scope.",
+      "suggestedAction": "Before the 1:1, pick one recent example where AZPocket and CoE UX/UI competed for Carl’s time so you can test the tradeoff with something concrete."
+    },
+    "runId": "11c76f84-99fd-4164-8dfb-9f5f7016b54a",
+    "validation": {
+      "passed": true,
+      "issues": []
+    },
+    "attempts": 1
+  },
+  "bankReady": {
+    "count": 8
+  },
+  "briefing": null,
+  "queueRef": [
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?",
+      "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    {
+      "alias": "q_decision_pressure_4",
+      "label": "Decision pressure",
+      "name": "Where are the two workstreams asking you to make the hardest tradeoff?",
+      "description": "Surfaces the specific point where split focus is forcing a choice.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_stakeholder_sync",
+      "label": "Stakeholder sync",
+      "name": "Who needs the clearest update from you this week?",
+      "description": "Checks where stakeholder alignment matters most and whether anyone is at risk of being surprised.",
+      "purpose": "competency",
+      "stage": "momentum",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_protect_the_work",
+      "label": "Protect the work",
+      "name": "What are you choosing to protect time for next?",
+      "description": "Forces a prioritization call and reveals what he is intentionally keeping alive.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": {
+        "clarity": 3,
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_next_two_weeks_31",
+      "label": "Next two weeks",
+      "name": "What would make the next two weeks feel cleaner for you?",
+      "description": "Closes on practical relief and a near-term adjustment rather than a new topic.",
+      "purpose": "wellbeing",
+      "stage": "lift",
+      "axis_effects": {
+        "wellbeing": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "score": 0,
+      "lastDelta": 1,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": 1,
+          "answer_excerpt": "Its been okay, we had team building and now new OE's are coming on board its great"
+        }
+      ]
+    },
+    "engagement": {
+      "id": "engagement",
+      "label": "Engagement",
+      "score": 0,
+      "lastDelta": 1,
+      "history": [
+        {
+          "q": "q_open_real_version",
+          "delta": 1,
+          "answer_excerpt": "Its been okay, we had team building and now new OE's are coming on board its great"
+        }
+      ]
+    },
+    "clarity": {
+      "id": "clarity",
+      "label": "Clarity",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    },
+    "growth": {
+      "id": "growth",
+      "label": "Growth",
+      "score": 0,
+      "lastDelta": 0,
+      "history": []
+    }
+  },
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_open_real_version",
+        "label": "The real version",
+        "name": "Tell me about your week — the real version.",
+        "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 2,
+          "engagement": 1
+        },
+        "source": "research"
+      },
+      "answer": "Its been okay, we had team building and now new OE's are coming on board its great",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": 1,
+        "engagement": 1
+      },
+      "note": "Describes the week as okay-to-good with team building and new joiners landing positively, which is mild positive wellbeing and engagement."
+    }
+  ],
+  "turn": 1,
+  "totalBudget": 9,
+  "closer": {
+    "alias": "q_next_two_weeks_31",
+    "label": "Next two weeks",
+    "name": "What would make the next two weeks feel cleaner for you?",
+    "description": "Closes on practical relief and a near-term adjustment rather than a new topic.",
+    "purpose": "wellbeing",
+    "stage": "lift",
+    "axis_effects": {
+      "wellbeing": 1,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "pendingAnswer": null,
+  "notes": [
+    {
+      "id": "9d4ea98c-9d8a-4f70-84a6-ec8597599cee",
+      "stage": "FOCUS_POINTS",
+      "turn": 0,
+      "ts": 1780232722546,
+      "text": "this is too much text, should be one title, 1 sentance \n\n1\nChoosing between AZPocket and CoE UX/UI priorities.\nNotes say Carl is being pulled into two different directions. One possibility is competing priorities across AZPocket App and the CoE UX/UI workstream, worth clarifying what he’s saying yes to, what’s slipping, and what tradeoff he wants to make.\n✓\n\n2\nWhat’s stuck between the two workstreams.\nNotes imply a split focus; could be dependencies or unclear decision ownership between AZPocket App and the CoE UX/UI. Worth identifying the specific dependency, decision, or coordination friction that keeps him from moving both forward cleanly.\n✓\n\n3\nWhat he wants more of from you.\nWhether he needs air cover, faster decisions, or clearer prioritization from you so he can stop context-switching and protect time for the work that matters most right now.\n✓\n\n4\nHow he’s keeping stakeholders in sync.\nAt UX Lead in a bi-weekly check-in, stakeholder alignment is the default risk reducer: making sure both the AZPocket App stakeholders and the CoE UX/UI stakeholders understand timelines, tradeoffs, and what’s changing, so surprises don’t accumulate between meetings.\n✓",
+      "question_alias": "",
+      "question_stem": ""
+    },
+    {
+      "id": "9047c1fa-2076-4323-bcf8-c6f4deeb72c7",
+      "stage": "PREPARATION",
+      "turn": 0,
+      "ts": 1780232758248,
+      "text": "\"This bi-weekly check-in is likely about helping a UX Lead make explicit tradeoffs between AZPocket App and CoE UX/UI demands.\n\n\"\n\nNO\n\n\"This bi-weekly check-in is likely about helping Carl make explicit tradeoffs between AZPocket App and CoE UX/UI demands.\n\"",
+      "question_alias": "",
+      "question_stem": ""
+    },
+    {
+      "id": "ce4db1a8-99f0-489f-9cc8-8345cdc12679",
+      "stage": "PREPARATION",
+      "turn": 0,
+      "ts": 1780232971743,
+      "text": "\"Opener\nWhat tradeoff between AZPocket and CoE UX/UI feels most important to make explicit right now so you can lead both responsibly?\"\n\n\nthis is a bad opener, openers should be friendly and disarming. \n\ni think this shoul dbe an overview maybe? either way w eneed to change it",
+      "question_alias": "",
+      "question_stem": ""
+    },
+    {
+      "id": "9459e2d9-dd2f-41a6-96b1-809d9cf22027",
+      "stage": "PREPARATION",
+      "turn": 0,
+      "ts": 1780232974897,
+      "text": "these are good \n\nGood outcome\nYou and Carl have agreed which workstream gets lead-level attention first and what decision or stakeholder boundary you will reinforce so he can protect that scope.\n\nSuggested action\nBefore the 1:1, pick one recent example where AZPocket and CoE UX/UI competed for Carl’s time so you can test the tradeoff with something concrete.",
+      "question_alias": "",
+      "question_stem": ""
+    },
+    {
+      "id": "931ba864-d008-4cbd-80f1-6f48cb3bed7a",
+      "stage": "QUESTIONING",
+      "turn": 0,
+      "ts": 1780233012712,
+      "text": "Tell me about your week, the real version.\n\nthis is a strange question, more familiar than would be useful.",
+      "question_alias": "q_open_real_version",
+      "question_stem": "Tell me about your week — the real version."
+    }
+  ]
+}

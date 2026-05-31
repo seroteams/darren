@@ -1,0 +1,10 @@
+alias: q_decision_takeaway
+label: Decision takeaway
+name: What did you take away from the promotion feedback that still feels true today?
+description: "Surfaces what he actually heard and believed, rather than the manager's interpretation."
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

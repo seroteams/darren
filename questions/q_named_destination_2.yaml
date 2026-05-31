@@ -1,0 +1,10 @@
+alias: q_named_destination_2
+label: Named destination
+name: What kind of design work would make the next step feel real for you?
+description: Gets beyond abstract ambition into the concrete scope Toby wants next.
+purpose: competency
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

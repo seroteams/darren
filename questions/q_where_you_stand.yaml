@@ -1,0 +1,10 @@
+alias: q_where_you_stand
+label: Where you stand
+name: "What's feeling solid in your role right now, and what's stretching you?"
+description: "Sets a calm baseline on Toby's current footing without re-asking the intro stretch question."
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

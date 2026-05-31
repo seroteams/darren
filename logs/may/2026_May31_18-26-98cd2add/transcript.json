@@ -1,0 +1,22 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "[SKIP] no signal — planner bypassed, queue carried forward"
+  }
+]

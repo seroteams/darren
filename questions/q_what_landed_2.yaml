@@ -1,0 +1,10 @@
+alias: q_what_landed_2
+label: What landed
+name: What did you take from the promotion decision?
+description: Surfaces the meaning James assigned to the outcome and whether the message was clear or muddled.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,105 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_carrying_ambiguity_3",
+    "label": "Carrying ambiguity",
+    "name": "Where is that ambiguity landing hardest for you right now?",
+    "description": "Drills into the specific burden she is carrying so the underlying strain becomes concrete.",
+    "purpose": "wellbeing",
+    "stage": "underneath",
+    "axis_effects": {
+      "wellbeing": 3,
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I am not fully clear yet on how success is being measured in this new setup.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -3,
+      "growth": -1
+    },
+    "note": "Unclear success measures in the new setup make the ambiguity concrete and signal strong strain, with a mild growth-risk undertone; [THREAD-DEFERRED] 'how success is being measured' should be picked up next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_support_ask_5",
+      "label": "Support ask",
+      "name": "What support from me would actually make a difference right now?"
+    },
+    {
+      "alias": "q_next_step_focus_2",
+      "label": "Next-step focus",
+      "name": "Given what we've covered, where do you want to focus first over the next two weeks?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_intro_off_energy",
+          "delta": -1,
+          "answer_excerpt": "I do not think anything is broken, but I do feel less grounded than I did before."
+        },
+        {
+          "q": "q_less_grounded_3",
+          "delta": -3,
+          "answer_excerpt": "I have been protecting my team from noise, which means I am carrying more ambiguity myself."
+        },
+        {
+          "q": "q_carrying_ambiguity_3",
+          "delta": -3,
+          "answer_excerpt": "I am not fully clear yet on how success is being measured in this new setup."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_reorg_shift_3",
+          "delta": -1,
+          "answer_excerpt": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_voice_leverage_3",
+          "delta": -1,
+          "answer_excerpt": "Part of me is tired from constant context switching, and I have not really said that out loud."
+        }
+      ]
+    },
+    "growth": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_less_grounded_3",
+          "delta": -1,
+          "answer_excerpt": "I have been protecting my team from noise, which means I am carrying more ambiguity myself."
+        },
+        {
+          "q": "q_carrying_ambiguity_3",
+          "delta": -1,
+          "answer_excerpt": "I am not fully clear yet on how success is being measured in this new setup."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+alias: q_late_direction_changes
+label: Late direction changes
+name: When direction changes late, where does it usually break down for you?
+description: Drills into the specific friction he named so the manager can understand the pattern.
+purpose: topic
+stage: observation
+axis_effects:
+  wellbeing: +1
+source: planner_added

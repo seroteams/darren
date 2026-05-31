@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Performance & feedback",
+  "focus_points": [
+    {
+      "id": "impact",
+      "label": "Principal-level impact and leverage showing up",
+      "reason": "Whether the Principal scope is translating into visible outcomes on this team, or if delivery is steady while impact is still not landing publicly.",
+      "source": "signal"
+    },
+    {
+      "id": "role_clarity",
+      "label": "Early expectation alignment for Principal scope",
+      "reason": "Whether he understands what “good” looks like at Principal on this team right now, especially given prior feedback about needing earlier expectation alignment.",
+      "source": "signal"
+    },
+    {
+      "id": "stakeholder_engagement",
+      "label": "Cross-team trust and hard calls developing",
+      "reason": "What you need to see at Principal level is growing judgment in ambiguous situations and stronger relationships beyond the immediate team.",
+      "source": "best_practice"
+    },
+    {
+      "id": "judgment",
+      "label": "Judgment calls on tradeoffs vs safe execution",
+      "reason": "Whether he’s making and escalating the right tradeoffs for Principal scope, or staying in safe execution mode by asking fewer questions and waiting for direction.",
+      "source": "signal"
+    }
+  ]
+}

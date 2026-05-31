@@ -1,0 +1,9 @@
+alias: q_less_grounded_4
+label: Less grounded
+name: "When you say 'less grounded,' what has changed underneath that?"
+description: Follows her own wording to surface what is driving the loss of grounding.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_ownership_edges
+label: Ownership edges
+name: Where are the ownership boundaries still fuzzy for you, Riley?
+description: Finds the places where scope and decision rights are still not fully mapped.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: generated

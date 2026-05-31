@@ -1,0 +1,9 @@
+alias: q_priority_tradeoff_2
+label: Priority tradeoff
+name: What are you choosing not to do right now?
+description: Forces the real tradeoff behind her current focus and whether the load is being consciously managed.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: generated

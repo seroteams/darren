@@ -1,0 +1,10 @@
+alias: q_open_context_2
+label: Open context
+name: "Before we get into specifics, what's been most on your mind at work lately?"
+description: Safe opener that lets Test set the agenda and surface what feels most present.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

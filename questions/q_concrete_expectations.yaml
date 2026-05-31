@@ -1,0 +1,10 @@
+alias: q_concrete_expectations
+label: Concrete expectations
+name: What do you think the bar is for a junior brand designer here?
+description: Surfaces his own read of expectations and success criteria at his level.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

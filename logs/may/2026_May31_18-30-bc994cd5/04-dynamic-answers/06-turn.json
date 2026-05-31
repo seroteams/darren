@@ -1,0 +1,86 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_next_quarter_ownership_5",
+    "label": "Next quarter ownership",
+    "name": "You said 'owning next quarter' feels unclear — what feels most uncertain there?",
+    "description": "Drills into the ownership uncertainty she just named to locate the specific clarity gap.",
+    "purpose": "topic",
+    "stage": "momentum",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I have felt a bit stuck doing similar work for months.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "She answered an ownership-uncertainty probe with a months-long sense of being stuck in similar work, which signals a strong unresolved clarity gap about what comes next."
+  },
+  "new_queue": [
+    {
+      "alias": "q_support_needed_21",
+      "label": "Support needed",
+      "name": "What would you want more of from me right now?"
+    },
+    {
+      "alias": "q_next_two_weeks_focus",
+      "label": "Next-two-weeks focus",
+      "name": "What would make the next two weeks feel smoother for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        },
+        {
+          "q": "q_flatter_after_launch",
+          "delta": -3,
+          "answer_excerpt": "Mostly cleanup and reviews right now, not much that feels new."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I did mention mentoring before. I still want it, but I stopped pushing."
+        },
+        {
+          "q": "q_stopped_pushing_5",
+          "delta": -1,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_stopped_pushing_5",
+          "delta": -3,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        },
+        {
+          "q": "q_next_quarter_ownership_5",
+          "delta": -3,
+          "answer_excerpt": "I have felt a bit stuck doing similar work for months."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

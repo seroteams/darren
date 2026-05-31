@@ -1,0 +1,208 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_perf_01_opening",
+      "label": "Self-read opener",
+      "name": "Before I share my view, how do you think the last stretch has gone?",
+      "description": "Anchors the conversation in their self-assessment first; gap vs manager's view becomes a signal.",
+      "purpose": "topic",
+      "stage": "self_read",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "I can name wins, but I am not always sure they match the team bar.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "clarity": -3
+    },
+    "note": "He can identify wins but explicitly says he is unsure whether they meet the team bar, which is a strong clarity gap with mild engagement signal."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_team_bar_mismatch_3",
+      "label": "Team bar mismatch",
+      "name": "When your wins miss the team bar, where does the mismatch usually show up?",
+      "description": "Drills into his stated uncertainty about the team bar by locating the recurring mismatch in concrete work.",
+      "purpose": "topic",
+      "stage": "self_read",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "Feedback has helped, though I still miss consistency under time pressure.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "He names a recurring quality gap — inconsistency under time pressure — which confirms a strong clarity shortfall around the team bar in practice."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_time_pressure_consistency_3",
+      "label": "Time pressure consistency",
+      "name": "Under time pressure, what usually slips first in your work?",
+      "description": "Drills into the specific failure mode behind his inconsistency so feedback can anchor on observable evidence.",
+      "purpose": "topic",
+      "stage": "evidence",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I sometimes focus on polish and lose sight of the core message.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "He names a specific clarity failure mode: under pressure he optimizes polish over the core message."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_core_message_miss",
+      "label": "Core message miss",
+      "name": "When the core message gets lost, what are you not clear on in that moment?",
+      "description": "Drills into the specific clarity breakdown he just named so the evidence is concrete.",
+      "purpose": "topic",
+      "stage": "evidence",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I want clearer examples of what excellent junior-level work looks like here.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "He names a specific absence — concrete examples of excellent junior-level work — as the clarity gap behind the miss; [THREAD-DEFERRED] Wants clearer examples of excellent junior-level work."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_feedback_changed_what",
+      "label": "Feedback changed what",
+      "name": "What changed in your work after the last round of feedback?",
+      "description": "Checks whether prior feedback translated into behavior, not just agreement.",
+      "purpose": "competency",
+      "stage": "gap_naming",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1,
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "When reviews are broad, I am not sure what to change first.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "He says broad feedback leaves him unsure what to change first — strong growth blockage with a clear clarity problem."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_broad_reviews_gap_2",
+      "label": "Broad reviews gap",
+      "name": "When reviews are broad, what guidance is missing most for you?",
+      "description": "Pins down the specific gap in feedback so the performance issue is named concretely.",
+      "purpose": "topic",
+      "stage": "gap_naming",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 3,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I would like to grow faster in concept rationale, not just execution speed.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1,
+      "growth": -3
+    },
+    "note": "Names a specific missing development area — concept rationale over execution speed — which is a strong growth-gap signal and mild clarity signal."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_concept_rationale_block",
+      "label": "Concept rationale block",
+      "name": "Concept rationale — what makes that harder for you right now?",
+      "description": "Gets at the cause behind the stated growth gap in concept rationale.",
+      "purpose": "topic",
+      "stage": "cause",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "A tighter loop on one skill at a time would help me improve.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "Names a missing improvement structure — a tighter one-skill feedback loop — which is a strong growth deficit and mild clarity gap in how to improve."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_next_step_agreement_2",
+      "label": "Next step agreement",
+      "name": "Given what we've covered, where do you want to focus first?",
+      "description": "Closes on a concrete commitment without reopening new topics.",
+      "purpose": "topic",
+      "stage": "commit",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1,
+        "wellbeing": 3
+      },
+      "source": "reworded_from:q_next_step_agreement"
+    },
+    "answer": "If we align on concrete criteria, I can work against them confidently.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": 1,
+      "clarity": 1,
+      "growth": 1
+    },
+    "note": "He names concrete criteria as the lever for moving forward, signalling improved clarity and a constructive, confident next-step orientation."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_next_step_agreement",
+      "label": "Next step agreement",
+      "name": "What should we agree you will do before we next meet?",
+      "description": "Closes on a concrete commitment without reopening new topics.",
+      "purpose": "topic",
+      "stage": "commit",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "I will start by writing one explicit priority rule I will use when time pressure hits this month.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1,
+      "growth": 1
+    },
+    "note": "He named a specific behavioural commitment under time pressure, indicating clearer focus and forward movement."
+  }
+]

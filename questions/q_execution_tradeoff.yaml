@@ -1,0 +1,10 @@
+alias: q_execution_tradeoff
+label: Execution tradeoff
+name: What are you deliberately not spending time on so you can raise your influence?
+description: Forces a concrete tradeoff between execution load and stakeholder-facing work.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

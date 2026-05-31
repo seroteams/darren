@@ -1,0 +1,92 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_what_good_looks_like_2",
+    "label": "What good looks like",
+    "name": "When you say 'what good looks like' — what's most unclear week to week?",
+    "description": "Clarifies the specific success-bar uncertainty he just named.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I do ask for help sometimes, but I worry about sounding slow.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "Worrying that asking for help will make him sound slow signals a strong clarity/safety gap around expectations; [THREAD-DEFERRED] concrete thread: 'sounding slow' concern not drilled because drill cap requires stage advance."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_asking_for_help",
+      "label": "Asking for help",
+      "name": "What makes it easier or harder to ask for help here?"
+    },
+    {
+      "alias": "q_team_setup_friction",
+      "label": "Team setup friction",
+      "name": "What's making the role harder than it needs to be?"
+    },
+    {
+      "alias": "q_manager_leverage_4",
+      "label": "Manager leverage",
+      "name": "What's one thing I could change that would remove friction for you?"
+    },
+    {
+      "alias": "q_next_step_2",
+      "label": "Next step",
+      "name": "Given what we've talked about, what's the first thing you want to shift before we next meet?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        },
+        {
+          "q": "q_late_direction_changes",
+          "delta": -1,
+          "answer_excerpt": "I am still unsure what good really looks like here week to week."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_what_good_looks_like_2",
+          "delta": -3,
+          "answer_excerpt": "I do ask for help sometimes, but I worry about sounding slow."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

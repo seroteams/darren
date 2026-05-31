@@ -1,0 +1,9 @@
+alias: q_decision_support_3
+label: Decision support
+name: What decision would help you move faster this week?
+description: Finds the manager intervention that would reduce uncertainty and unblock progress.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+source: generated

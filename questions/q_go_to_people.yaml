@@ -1,0 +1,10 @@
+alias: q_go_to_people
+label: Go-to people
+name: Who have you found easiest to go to when you get stuck?
+description: Surfaces which relationships are already working and where support can be routed.
+purpose: topic
+stage: connection
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

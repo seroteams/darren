@@ -1,0 +1,8 @@
+alias: q_reset_timing_6
+label: Reset timing
+name: Is now a good time for this conversation, or would another time work better?
+description: Directly reset a non-functional session and check whether to continue or reschedule.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+source: planner_added

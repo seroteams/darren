@@ -1,0 +1,10 @@
+alias: q_visible_leadership
+label: Visible leadership
+name: Where are you already acting like a design lead beyond the craft itself?
+description: Surfaces concrete examples of org-level leadership that may not be getting enough visibility.
+purpose: competency
+stage: anchor
+axis_effects:
+  engagement: +1
+  growth: +1
+source: generated

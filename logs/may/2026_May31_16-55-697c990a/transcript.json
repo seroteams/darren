@@ -1,0 +1,206 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    "answer": "The push worked, but I do not want that pace to become normal.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "clarity": -1
+    },
+    "note": "She says the push was effective but unsustainable, which signals friction around how work is being done and some drag on engagement; also flags a wellbeing concern worth probing next."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_pace_becoming_normal",
+      "label": "Pace becoming normal",
+      "name": "What would make that pace start becoming normal from your read?",
+      "description": "Drills into the specific risk behind the unsustainable push she just named.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "engagement": 3,
+        "clarity": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "I am less overloaded now, but my calendar is still fragmented.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "clarity": -1
+    },
+    "note": "She reports reduced overload but ongoing calendar fragmentation, which signals lingering drag and unclear working shape; also reveals a wellbeing risk worth probing next."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_fragmented_calendar_2",
+      "label": "Fragmented calendar",
+      "name": "Calendar fragmentation — where is it breaking your week most?",
+      "description": "Drills into the specific way her fragmented calendar is creating friction so the risk is concrete.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "A lot of energy went into firefighting and context switching.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1
+    },
+    "note": "She names reactive firefighting and context switching as the main drain, which signals mild priority fragmentation rather than clear focus; [THREAD-DEFERRED] firefighting/context switching thread not followed because drill cap requires stage advance."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?",
+      "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "I can ship quickly, but I do not always feel the impact is visible.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": -1
+    },
+    "note": "She can still deliver, but feeling her impact is not visible signals mild strain and lowered engagement; also surfaces a recognition thread worth following."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_visible_impact_3",
+      "label": "Visible impact",
+      "name": "When your impact feels less visible, where does that happen most?",
+      "description": "Drills into the recognition thread to locate where visibility is breaking down.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": {
+        "engagement": 1,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "Feedback on communication landed, and I am still processing it.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": -1
+    },
+    "note": "Communication feedback is still sitting with her, suggesting a mild hit to confidence/energy; also flags a likely clarity thread around what the feedback means."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_communication_feedback_2",
+      "label": "Communication feedback",
+      "name": "That communication feedback — what part of it are you still processing?",
+      "description": "Drills into the feedback thread to locate the specific issue and whether it is about expectations, delivery, or confidence.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": {
+        "wellbeing": 3,
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I want more room to lead cross-functional discussions earlier.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "Wants earlier room to lead cross-functional discussions, which signals a clear growth opportunity she is currently not getting; wellbeing not addressed."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_support_needed_9",
+      "label": "Support needed",
+      "name": "What kind of support from me would actually change your week right now?",
+      "description": "Gets concrete about the help Nina wants, rather than generic support language.",
+      "purpose": "topic",
+      "stage": "lift",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 1,
+        "growth": 3
+      },
+      "source": "generated"
+    },
+    "answer": "The next two weeks should focus on stabilizing and reducing reactive work.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "She redirected support toward stabilization and less reactive work, signaling unclear focus, reduced momentum, and a strong absence of growth stretch; [THREAD-DEFERRED-WINDDOWN] 'stabilizing and reducing reactive work' could be unpacked next session."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_next_step_move_2",
+      "label": "Next-step move",
+      "name": "What would you most like to have moving differently by our next check-in?",
+      "description": "Closes by turning the conversation into an open next move without sounding checklist-driven.",
+      "purpose": "competency",
+      "stage": "lift",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1
+      },
+      "source": "reworded_from:q_next_step_move"
+    },
+    "answer": "Clear priority tradeoffs from leadership would help a lot.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "Names missing priority tradeoffs from leadership as the change needed next, signaling mild growth drag and clarity deficit."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_next_step_move",
+      "label": "Next-step move",
+      "name": "What’s the first concrete thing you want to shift before we next meet?",
+      "description": "Closes by turning the conversation into a specific next move without opening a new thread.",
+      "purpose": "competency",
+      "stage": "lift",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "Skip on the final closer question — no additional signal to realise."
+  }
+]

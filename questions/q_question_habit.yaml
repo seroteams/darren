@@ -1,0 +1,11 @@
+alias: q_question_habit
+label: Question habit
+name: What stops you from asking more questions earlier?
+description: Gets at the behavior behind low question volume without assuming the cause.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+  engagement: +1
+  growth: +1
+source: generated

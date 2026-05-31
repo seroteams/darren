@@ -1,0 +1,9 @@
+alias: q_set_the_bar
+label: Set the bar
+name: What does good brand design look like at your level right now, Carlos?
+description: Surfaces his current mental model of quality and the standard he is using to judge his own work.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: generated

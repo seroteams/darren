@@ -1,0 +1,109 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_next_two_weeks_10",
+    "label": "Next two weeks",
+    "name": "What would make the next two weeks feel lighter or sharper?",
+    "description": "Closes by surfacing the support, focus, or change that would most improve the next stretch.",
+    "purpose": "topic",
+    "stage": "lift",
+    "axis_effects": {
+      "clarity": 1,
+      "growth": 1,
+      "wellbeing": 3
+    },
+    "source": "reworded_from:q_next_two_weeks_9"
+  },
+  "answer": "If there is a bigger scope conversation, I want it sooner rather than later.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "Names a missing bigger-scope conversation as the thing that would help soon, which signals mild uncertainty about scope and trajectory; [THREAD-DEFERRED-WINDDOWN] 'bigger scope conversation'."
+  },
+  "new_queue": [
+    {
+      "alias": "q_scope_conversation",
+      "label": "Scope conversation",
+      "name": "What support from me would make the biggest difference on the scope conversation?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 7)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_next_two_weeks_10",
+          "delta": -1,
+          "answer_excerpt": "If there is a bigger scope conversation, I want it sooner rather than later."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        },
+        {
+          "q": "q_flatter_than_expected_2",
+          "delta": -3,
+          "answer_excerpt": "Mostly cleanup and reviews right now, not much that feels new."
+        },
+        {
+          "q": "q_nothing_feels_new",
+          "delta": 1,
+          "answer_excerpt": "I am proud of the migration plan and how we handled the cutover."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I did mention mentoring before. I still want it, but I stopped pushing."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_mentoring_stall",
+          "delta": -3,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        },
+        {
+          "q": "q_next_quarter_ownership_2",
+          "delta": -3,
+          "answer_excerpt": "I have felt a bit stuck doing similar work for months."
+        },
+        {
+          "q": "q_next_two_weeks_10",
+          "delta": -1,
+          "answer_excerpt": "If there is a bigger scope conversation, I want it sooner rather than later."
+        }
+      ]
+    },
+    "growth": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_mentoring_stall",
+          "delta": -3,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        },
+        {
+          "q": "q_next_two_weeks_10",
+          "delta": -1,
+          "answer_excerpt": "If there is a bigger scope conversation, I want it sooner rather than later."
+        }
+      ]
+    }
+  }
+}

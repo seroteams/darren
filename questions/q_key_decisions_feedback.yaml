@@ -1,0 +1,9 @@
+alias: q_key_decisions_feedback
+label: Key decisions feedback
+name: On those key decisions, what feedback are you not getting that would help most?
+description: Drills into the missing feedback Lin named so the manager can understand the specific support gap.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added

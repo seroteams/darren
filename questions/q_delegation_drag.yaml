@@ -1,0 +1,10 @@
+alias: q_delegation_drag
+label: Delegation drag
+name: What’s making delegation harder than it should be on your team?
+description: Gets at trust, decision rights, or team shape issues that can quietly keep a senior leader overloaded.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

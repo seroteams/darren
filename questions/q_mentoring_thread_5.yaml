@@ -1,0 +1,10 @@
+alias: q_mentoring_thread_5
+label: Mentoring thread
+name: What stopped the mentoring idea from moving forward?
+description: Surfaces the real blocker on the stalled mentoring thread without assuming it was lack of interest.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

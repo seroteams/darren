@@ -1,0 +1,9 @@
+alias: q_team_bar_mismatch_5
+label: Team bar mismatch
+name: When your wins miss the team bar, what tells you that?
+description: Drills into his phrase about the team bar to get concrete evidence of the mismatch.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

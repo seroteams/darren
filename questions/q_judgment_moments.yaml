@@ -1,0 +1,10 @@
+alias: q_judgment_moments
+label: Judgment moments
+name: Where have you had to make a hard tradeoff call with another team recently?
+description: Looks for cross-team judgment and whether he is shaping outcomes or only executing within them.
+purpose: competency
+stage: cause
+axis_effects:
+  engagement: +1
+  growth: +1
+source: generated

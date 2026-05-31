@@ -1,0 +1,10 @@
+alias: q_current_footing_2
+label: Current footing
+name: What feels most solid in your role right now?
+description: Surfaces the parts of her current Principal work that are working well enough to build from.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

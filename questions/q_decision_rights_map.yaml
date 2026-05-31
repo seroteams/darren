@@ -1,0 +1,10 @@
+alias: q_decision_rights_map
+label: Decision rights map
+name: "Where are decision rights still fuzzy for you in the work you're doing?"
+description: Surfaces the specific situations where she is still unsure who decides versus who advises.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_load_after_pressure
+label: Load after pressure
+name: Now that the sprint pressure has eased, what’s still keeping your load high?
+description: Separates temporary push from a workload pattern that may have stuck around.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

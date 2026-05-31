@@ -1,0 +1,10 @@
+alias: q_team_interaction_texture
+label: Team interaction texture
+name: What part of team interaction has felt harder to stay connected to?
+description: Looks for the specific interaction pattern that may be draining connection.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  engagement: +1
+  wellbeing: +3
+source: generated

@@ -1,0 +1,10 @@
+alias: q_mentoring_shape_7
+label: Mentoring shape
+name: What is mentoring giving you right now?
+description: Checks whether mentoring is active development work or a holding pattern without presuming either.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

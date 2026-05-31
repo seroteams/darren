@@ -1,0 +1,9 @@
+alias: q_stuck_handoff
+label: Stuck handoff
+name: What is getting stuck in the handoff between the two groups?
+description: Looks for the coordination break that is slowing progress across AZPocket and CoE UX/UI.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: generated

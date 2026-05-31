@@ -1,0 +1,10 @@
+alias: q_decision_ownership_5
+label: Decision ownership
+name: Which decisions do you want to own end to end in the next stretch?
+description: Makes the decision-ownership gap concrete by asking for specific accountable decisions.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

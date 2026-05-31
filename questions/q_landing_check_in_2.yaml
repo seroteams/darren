@@ -1,0 +1,10 @@
+alias: q_landing_check_in_2
+label: Landing check-in
+name: "What's felt most clear or unclear for you in week two, Riley?"
+description: Lets Riley set the current onboarding picture before the conversation gets specific.
+purpose: wellbeing
+stage: settling
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_friction_response
+label: Friction response
+name: When a cross-team issue comes up, what is your first move?
+description: Reveals whether she escalates, pre-wires, or absorbs the issue herself.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

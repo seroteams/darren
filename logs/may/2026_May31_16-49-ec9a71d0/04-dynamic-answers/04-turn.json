@@ -1,0 +1,104 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_intro_off_energy",
+    "label": "Energy read",
+    "name": "How's your energy been lately — separately from how work is going?",
+    "description": "Separates energy from output; avoids leading with 'is something wrong'.",
+    "purpose": "wellbeing",
+    "stage": "landing",
+    "axis_effects": {
+      "wellbeing": 3
+    },
+    "source": "seed"
+  },
+  "answer": "Mentoring has been one place where I still feel useful.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1
+    },
+    "note": "He answered an energy question by locating usefulness in mentoring, which suggests energy is uneven and tied to a specific outlet; also reveals a mentoring thread worth following and an untouched growth axis."
+  },
+  "new_queue": [
+    {
+      "alias": "q_mentoring_usefulness",
+      "label": "Mentoring usefulness",
+      "name": "You said mentoring is where you still feel useful — what is it giving you?"
+    },
+    {
+      "alias": "q_feedback_heard",
+      "label": "Feedback heard",
+      "name": "What feedback did you actually take in from that process?"
+    },
+    {
+      "alias": "q_feedback_meaning",
+      "label": "Feedback meaning",
+      "name": "What does that feedback mean to you now?"
+    },
+    {
+      "alias": "q_support_needed_8",
+      "label": "Support needed",
+      "name": "What would help you make the next few weeks feel more deliberate?"
+    },
+    {
+      "alias": "q_concrete_next_move",
+      "label": "Concrete next move",
+      "name": "Given what we've covered, what's the first concrete thing you want to move by our next conversation?"
+    }
+  ],
+  "issues": [
+    "coverage: injected growth into next question (0 touches after turn 4)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_intro_off_energy",
+          "delta": -1,
+          "answer_excerpt": "Mentoring has been one place where I still feel useful."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_less_present_rituals",
+          "delta": -3,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_less_present_rituals",
+          "delta": -1,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        },
+        {
+          "q": "q_needed_change_clarity",
+          "delta": -1,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

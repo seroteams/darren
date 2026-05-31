@@ -1,0 +1,10 @@
+alias: q_next_decision_2
+label: Next decision
+name: What would you like to feel clearer on first over the next couple of weeks?
+description: Closes by inviting her to name the first area of clarity to build next.
+purpose: competency
+stage: connection
+axis_effects:
+  clarity: +1
+  growth: +1
+source: "reworded_from:q_next_decision"

@@ -1,0 +1,197 @@
+{
+  "ctx": {
+    "name": "Riley",
+    "role": "Backend Engineer",
+    "seniority": "Mid-level",
+    "meetingType": "Onboarding check-in",
+    "notes": "Riley is in week two and is moving quickly through codebase orientation, but he has mostly learned from docs and async notes rather than direct team contact. I want to check whether he feels clear on ownership boundaries, incident expectations, and where to ask for context before making architecture assumptions. There is a risk he looks productive while building an internal map that differs from how the team actually operates. This check-in should identify missing context early and convert it into concrete onboarding support."
+  },
+  "focusPoints": [
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "Ownership boundaries and what “good” means here.",
+      "reason": "Whether he feels clear on ownership boundaries and expectations for his level, especially around what he should drive vs what he should escalate or coordinate.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Where to ask for context before assumptions.",
+      "reason": "Whether he knows the right places to get team-specific context so he doesn’t build an internal map that differs from how the team actually operates.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Incident expectations and escalation norms.",
+      "reason": "Whether he understands incident expectations and who he should loop in early, so he can act correctly under pressure rather than relying on docs.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Concrete onboarding support you can add now.",
+      "reason": "What he would want more of from you during onboarding—fast feedback loops, clearer decision context, and explicit introductions—so missing context gets filled early instead of later.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's been most on your mind at work this week, Riley?",
+      "alias": "q_week_two_pulse",
+      "answer": "I am comfortable reading the services, but I am less sure how decisions are really made here.",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'how decisions are really made here,' what feels least clear?",
+      "alias": "q_decision_making_gap",
+      "answer": "I can trace most request paths now, though I still miss historical context behind certain tradeoffs.",
+      "skipped": false
+    },
+    {
+      "question": "Which tradeoffs feel hardest to understand the history behind?",
+      "alias": "q_tradeoff_context_3",
+      "answer": "I have not been fully clear on who is on point for each domain when priorities conflict.",
+      "skipped": false
+    },
+    {
+      "question": "What context are you still missing before you make bigger calls, Riley?",
+      "alias": "q_context_gaps",
+      "answer": "I am trying not to interrupt people, so sometimes I keep questions in a notes doc instead of asking.",
+      "skipped": false
+    },
+    {
+      "question": "That notes doc habit — what makes it hard to ask in the moment?",
+      "alias": "q_notes_doc_habit_2",
+      "answer": "I would benefit from a clearer guide for what to escalate quickly versus what to batch.",
+      "skipped": false
+    },
+    {
+      "question": "What would a useful escalate-versus-batch guide need to cover?",
+      "alias": "q_escalate_vs_batch",
+      "answer": "The runbook helped, but some practical handoff details only show up during live incidents.",
+      "skipped": false
+    },
+    {
+      "question": "Who have you had the most useful direct contact with so far, Riley?",
+      "alias": "q_team_contact_2",
+      "answer": "A short weekly architecture review with someone senior would help me calibrate faster.",
+      "skipped": false
+    },
+    {
+      "question": "What would be most useful from me over the next couple of weeks, Riley?",
+      "alias": "q_support_needed_19",
+      "answer": "If I know exactly what ownership I should take this month, I can contribute with more confidence.",
+      "skipped": false
+    },
+    {
+      "question": "Given what we've covered, what should we tighten up before our next check-in?",
+      "alias": "q_next_step_landing",
+      "answer": "I will ask one architecture question in the next incident review instead of keeping it in my notes doc.",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_escalate_vs_batch",
+          "delta": -1,
+          "answer_excerpt": "The runbook helped, but some practical handoff details only show up during live incidents."
+        },
+        {
+          "q": "q_team_contact_2",
+          "delta": -3,
+          "answer_excerpt": "A short weekly architecture review with someone senior would help me calibrate faster."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_week_two_pulse",
+          "delta": 1,
+          "answer_excerpt": "I am comfortable reading the services, but I am less sure how decisions are really made here."
+        },
+        {
+          "q": "q_team_contact_2",
+          "delta": -1,
+          "answer_excerpt": "A short weekly architecture review with someone senior would help me calibrate faster."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_decision_making_gap",
+          "delta": -1,
+          "answer_excerpt": "I can trace most request paths now, though I still miss historical context behind certain tradeoffs."
+        },
+        {
+          "q": "q_tradeoff_context_3",
+          "delta": -3,
+          "answer_excerpt": "I have not been fully clear on who is on point for each domain when priorities conflict."
+        },
+        {
+          "q": "q_context_gaps",
+          "delta": -3,
+          "answer_excerpt": "I am trying not to interrupt people, so sometimes I keep questions in a notes doc instead of asking."
+        },
+        {
+          "q": "q_notes_doc_habit_2",
+          "delta": -3,
+          "answer_excerpt": "I would benefit from a clearer guide for what to escalate quickly versus what to batch."
+        },
+        {
+          "q": "q_escalate_vs_batch",
+          "delta": -3,
+          "answer_excerpt": "The runbook helped, but some practical handoff details only show up during live incidents."
+        },
+        {
+          "q": "q_team_contact_2",
+          "delta": -1,
+          "answer_excerpt": "A short weekly architecture review with someone senior would help me calibrate faster."
+        },
+        {
+          "q": "q_support_needed_19",
+          "delta": -1,
+          "answer_excerpt": "If I know exactly what ownership I should take this month, I can contribute with more confidence."
+        },
+        {
+          "q": "q_next_step_landing",
+          "delta": 1,
+          "answer_excerpt": "I will ask one architecture question in the next incident review instead of keeping it in my notes doc."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_support_needed_19",
+          "delta": -1,
+          "answer_excerpt": "If I know exactly what ownership I should take this month, I can contribute with more confidence."
+        },
+        {
+          "q": "q_next_step_landing",
+          "delta": 1,
+          "answer_excerpt": "I will ask one architecture question in the next incident review instead of keeping it in my notes doc."
+        }
+      ]
+    }
+  },
+  "notes": "Riley is in week two and is moving quickly through codebase orientation, but he has mostly learned from docs and async notes rather than direct team contact. I want to check whether he feels clear on ownership boundaries, incident expectations, and where to ask for context before making architecture assumptions. There is a risk he looks productive while building an internal map that differs from how the team actually operates. This check-in should identify missing context early and convert it into concrete onboarding support.",
+  "model": "gpt-5.4-nano"
+}

@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Turning design leadership into org-level influence",
+      "reason": "Whether he’s translating his execution and team trust into sponsorship and hard-to-ignore stakeholder relationships at the org level.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "decision_making_speed",
+      "type": "Decision making speed",
+      "category": "competency",
+      "label": "Decision ownership at the next level",
+      "reason": "What “good” looks like for a Lead in this growth plan is owning the decisions, not just driving the work—so you’ll want to get specific about which decisions he will be accountable for and how quickly he can unblock them.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "cross_team_alignment",
+      "type": "Cross-team alignment",
+      "category": "competency",
+      "label": "Cross-functional impact beyond the design team",
+      "reason": "Whether he’s getting enough clarity and alignment on who the decision-makers are across Product/Engineering and how design’s recommendations become tradeoffs that other teams actually adopt.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What he’d want more of from you",
+      "reason": "If the growth contract is about decision ownership and cross-functional impact, you’ll want to name the specific sponsorship, introductions, and air cover he needs from you to take visible strategic positions without getting stuck in caution.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Toby",
+  "role": "Design Lead",
+  "seniority": "Lead",
+  "meetingType": "Growth & career plan",
+  "notes": "Toby has strong execution and team trust, but after being passed over last cycle he has become cautious about taking visible strategic positions. He keeps shipping, yet he is not consistently converting design leadership into org-level influence. I need this conversation to clarify whether the gap is confidence, sponsorship, or unclear expectations at the next level. He should leave with a concrete growth contract tied to decision ownership and cross-functional impact, not a generic development list.",
+  "model": "gpt-5.4-mini"
+}

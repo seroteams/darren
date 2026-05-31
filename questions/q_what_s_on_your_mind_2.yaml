@@ -1,0 +1,10 @@
+alias: q_what_s_on_your_mind_2
+label: "What's on your mind"
+name: "What's been most on your mind at work lately, James?"
+description: A safe opener that lets James set context before anything specific is raised.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

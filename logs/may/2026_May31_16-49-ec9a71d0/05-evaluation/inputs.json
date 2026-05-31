@@ -1,0 +1,187 @@
+{
+  "ctx": {
+    "name": "James",
+    "role": "Head of Product",
+    "seniority": "Director",
+    "meetingType": "Something feels off",
+    "notes": "James was passed over for promotion and his engagement in team rituals has dipped since then. He did not bring up the decision himself, which could mean unresolved disappointment or low confidence that raising it will help. He is also running a mentoring program, and I need to understand whether that is healthy stretch or a redirect away from his core path. This meeting should surface what feedback he actually heard and what concrete path forward he believes exists."
+  },
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Engagement in team rituals since the promotion",
+      "reason": "Notes say his participation in team rituals has dipped since being passed over. One possibility is unresolved disappointment; another is a confidence or motivation shift; worth clarifying what changed for him and how it’s showing up day to day.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "What feedback he actually heard and internalized",
+      "reason": "Notes say he didn’t bring up the decision himself. Whether he heard specific, actionable feedback or only a vague signal could be a big driver of his current stance—worth getting the exact themes and what he believes they mean.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Whether mentoring is healthy stretch or detour",
+      "reason": "What he’s choosing to invest in matters because, at Director level, development should compound toward the next step—not quietly redirect away from the path that got him here. This helps you distinguish growth from avoidance and agree on a concrete next move.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "His concrete path forward for the next quarter",
+      "reason": "Whether he can name a realistic plan for what changes next is the fastest way to tell if this is a temporary dip or a longer-term disengagement risk. At this seniority, you want a clear set of bets and what “better” looks like by the end of the quarter.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "How connected do you feel to the rest of the team right now?",
+      "alias": "q_intro_off_connection",
+      "answer": "I have been less present in rituals, yes.",
+      "skipped": false
+    },
+    {
+      "question": "You said 'less present in rituals' — what changed there for you?",
+      "alias": "q_less_present_rituals",
+      "answer": "After the promotion decision, I was not clear on what really needed to change.",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'what needed to change' — what felt unclear to you?",
+      "alias": "q_needed_change_clarity",
+      "answer": "I stayed focused on delivery because that felt controllable.",
+      "skipped": false
+    },
+    {
+      "question": "How's your energy been lately — separately from how work is going?",
+      "alias": "q_intro_off_energy",
+      "answer": "Mentoring has been one place where I still feel useful.",
+      "skipped": false
+    },
+    {
+      "question": "You said mentoring is where you still feel useful — what is it giving you?",
+      "alias": "q_mentoring_usefulness",
+      "answer": "I am not sure the work I am doing is the work that gets recognized.",
+      "skipped": false
+    },
+    {
+      "question": "When you say 'gets recognized' — what kind of work do you mean?",
+      "alias": "q_recognition_gap_3",
+      "answer": "I want clearer criteria, not reassurance.",
+      "skipped": false
+    },
+    {
+      "question": "What would clearer criteria look like to you in practice?",
+      "alias": "q_clearer_criteria",
+      "answer": "I can own bigger direction, but I need real authority to do it.",
+      "skipped": false
+    },
+    {
+      "question": "What would help you make the next few weeks feel more deliberate?",
+      "alias": "q_support_needed_8",
+      "answer": "If we can define the path precisely, I will commit to it.",
+      "skipped": false
+    },
+    {
+      "question": "Given what we've covered, what's the first concrete thing you want to move by our next conversation?",
+      "alias": "q_concrete_next_move",
+      "answer": "(skipped)",
+      "skipped": true
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_intro_off_energy",
+          "delta": -1,
+          "answer_excerpt": "Mentoring has been one place where I still feel useful."
+        },
+        {
+          "q": "q_mentoring_usefulness",
+          "delta": -1,
+          "answer_excerpt": "I am not sure the work I am doing is the work that gets recognized."
+        },
+        {
+          "q": "q_support_needed_8",
+          "delta": -1,
+          "answer_excerpt": "If we can define the path precisely, I will commit to it."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_less_present_rituals",
+          "delta": -3,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_less_present_rituals",
+          "delta": -1,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        },
+        {
+          "q": "q_needed_change_clarity",
+          "delta": -1,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        },
+        {
+          "q": "q_support_needed_8",
+          "delta": -1,
+          "answer_excerpt": "If we can define the path precisely, I will commit to it."
+        }
+      ]
+    },
+    "growth": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_mentoring_usefulness",
+          "delta": -1,
+          "answer_excerpt": "I am not sure the work I am doing is the work that gets recognized."
+        },
+        {
+          "q": "q_recognition_gap_3",
+          "delta": -3,
+          "answer_excerpt": "I want clearer criteria, not reassurance."
+        },
+        {
+          "q": "q_clearer_criteria",
+          "delta": -3,
+          "answer_excerpt": "I can own bigger direction, but I need real authority to do it."
+        }
+      ]
+    }
+  },
+  "notes": "James was passed over for promotion and his engagement in team rituals has dipped since then. He did not bring up the decision himself, which could mean unresolved disappointment or low confidence that raising it will help. He is also running a mentoring program, and I need to understand whether that is healthy stretch or a redirect away from his core path. This meeting should surface what feedback he actually heard and what concrete path forward he believes exists.",
+  "model": "gpt-5.4-nano"
+}

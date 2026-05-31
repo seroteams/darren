@@ -1,0 +1,111 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_thread_follow_25",
+    "label": "Thread follow",
+    "name": "proud outcomes, pace — can you say more about what that means for you right now?",
+    "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+    "purpose": "wellbeing",
+    "stage": "pulse",
+    "axis_effects": {
+      "wellbeing": 3,
+      "engagement": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "I still do not get enough substantive feedback on key decisions.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -3,
+      "engagement": -1
+    },
+    "note": "Names a lack of substantive feedback on key decisions, which signals unsupported strain and mild disengagement; also reveals a clarity/support issue worth probing next."
+  },
+  "new_queue": [
+    {
+      "alias": "q_key_decisions_feedback",
+      "label": "Key decisions feedback",
+      "name": "On those key decisions, what feedback are you not getting that would help most?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_what_needs_air_cover",
+      "label": "What needs air cover",
+      "name": "What would you want more air cover on from me right now?"
+    },
+    {
+      "alias": "q_next_two_weeks_steadier",
+      "label": "Next two weeks steadier",
+      "name": "What would make the next two weeks feel steadier for you?"
+    }
+  ],
+  "issues": [
+    "coverage: injected growth into next question (0 touches after turn 5)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -3,
+          "answer_excerpt": "I am proud of the outcomes, but the pace should not be normal."
+        },
+        {
+          "q": "q_thread_follow_25",
+          "delta": -3,
+          "answer_excerpt": "I still do not get enough substantive feedback on key decisions."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The last stretch shipped, but it was heavier than I made it sound."
+        },
+        {
+          "q": "q_heavier_than_sounded_3",
+          "delta": -3,
+          "answer_excerpt": "Late nights came from carrying decision bottlenecks and final reviews."
+        },
+        {
+          "q": "q_decision_bottlenecks_8",
+          "delta": -1,
+          "answer_excerpt": "Some of that work could have moved to the team sooner."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": 1,
+          "answer_excerpt": "I am proud of the outcomes, but the pace should not be normal."
+        },
+        {
+          "q": "q_thread_follow_25",
+          "delta": -1,
+          "answer_excerpt": "I still do not get enough substantive feedback on key decisions."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The last stretch shipped, but it was heavier than I made it sound."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

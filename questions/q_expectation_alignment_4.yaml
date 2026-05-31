@@ -1,0 +1,10 @@
+alias: q_expectation_alignment_4
+label: Expectation alignment
+name: Where do you still need earlier alignment on expectations?
+description: Tests whether he is proactively clarifying scope before work is underway.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

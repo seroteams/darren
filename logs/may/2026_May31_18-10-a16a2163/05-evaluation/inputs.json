@@ -1,0 +1,196 @@
+{
+  "ctx": {
+    "name": "Sarah",
+    "role": "Senior Data Scientist",
+    "seniority": "Senior",
+    "meetingType": "Performance & feedback",
+    "notes": "Sarah is delivering, but there are signs she may be over-rotating on execution while underweighting influence and visibility. I want to understand whether she has a clear view of the performance bar at Senior level and where she sees gaps in her current approach. This conversation should test how she frames impact, how she handles cross-functional friction, and whether she has a practical plan to raise signal with stakeholders instead of waiting for good work to be noticed automatically."
+  },
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Impact framing beyond delivered work",
+      "reason": "Whether she’s framing her Senior-level impact in terms of business outcomes and leverage, not just what shipped, and where she might be underweighting influence and visibility.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Raising signal with stakeholders proactively",
+      "reason": "What she wants to be known for with cross-functional partners, and how she’s planning to communicate early so stakeholders have enough context to notice and support the work.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "cross_team_alignment",
+      "type": "Cross-team alignment",
+      "category": "competency",
+      "label": "Handling cross-functional friction and tradeoffs",
+      "reason": "How she’s navigating moments where other teams disagree on priorities or timelines, and whether she’s using the right escalation and coordination moves for a Senior scope.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "Senior performance bar and where she sees gaps",
+      "reason": "What she believes “good” looks like at Senior level for her role, and which parts of that bar she thinks her current approach is meeting vs missing.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "Before I share my view, how do you think the last stretch has gone?",
+      "alias": "q_intro_perf_01_opening",
+      "answer": "I think my technical output is solid, but my influence is uneven.",
+      "skipped": false
+    },
+    {
+      "question": "You said 'influence is uneven' — where has that shown up most clearly?",
+      "alias": "q_uneven_influence_4",
+      "answer": "I get work done, yet I am not consistently shaping decisions early.",
+      "skipped": false
+    },
+    {
+      "question": "When did you miss the chance to shape a decision early?",
+      "alias": "q_early_decisions_4",
+      "answer": "Some feedback has been about being clearer with non-technical partners.",
+      "skipped": false
+    },
+    {
+      "question": "When you look at the last quarter, where did your work change a decision or outcome beyond the analysis itself?",
+      "alias": "q_impact_beyond_shipping",
+      "answer": "I tend to wait until analysis is complete before socializing direction.",
+      "skipped": false
+    },
+    {
+      "question": "You said you wait until analysis is complete — what makes you hold back then?",
+      "alias": "q_wait_until_complete",
+      "answer": "That slows trust because stakeholders feel surprised late.",
+      "skipped": false
+    },
+    {
+      "question": "slows trust because — can you say more about what that means for you right now?",
+      "alias": "q_thread_follow_10",
+      "answer": "I need a tighter narrative on tradeoffs, not just stronger models.",
+      "skipped": false
+    },
+    {
+      "question": "Where do you think you've fallen short of where you want to be?",
+      "alias": "q_intro_perf_03_gap",
+      "answer": "I want to lead one cross-team decision this cycle, end to end.",
+      "skipped": false
+    },
+    {
+      "question": "What do you think pulls you toward execution over influence in the moment?",
+      "alias": "q_execution_bias",
+      "answer": "Specific feedback checkpoints during projects would help me level up faster.",
+      "skipped": false
+    },
+    {
+      "question": "Given what we’ve covered, what is the one change you want to make first?",
+      "alias": "q_next_step_focus_4",
+      "answer": "I will choose one recurring deliverable and define what good looks like before the next review cycle.",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        },
+        {
+          "q": "q_uneven_influence_4",
+          "delta": -3,
+          "answer_excerpt": "I get work done, yet I am not consistently shaping decisions early."
+        },
+        {
+          "q": "q_early_decisions_4",
+          "delta": -3,
+          "answer_excerpt": "Some feedback has been about being clearer with non-technical partners."
+        },
+        {
+          "q": "q_impact_beyond_shipping",
+          "delta": -1,
+          "answer_excerpt": "I tend to wait until analysis is complete before socializing direction."
+        },
+        {
+          "q": "q_wait_until_complete",
+          "delta": -1,
+          "answer_excerpt": "That slows trust because stakeholders feel surprised late."
+        },
+        {
+          "q": "q_thread_follow_10",
+          "delta": -1,
+          "answer_excerpt": "I need a tighter narrative on tradeoffs, not just stronger models."
+        },
+        {
+          "q": "q_intro_perf_03_gap",
+          "delta": -1,
+          "answer_excerpt": "I want to lead one cross-team decision this cycle, end to end."
+        },
+        {
+          "q": "q_execution_bias",
+          "delta": -1,
+          "answer_excerpt": "Specific feedback checkpoints during projects would help me level up faster."
+        },
+        {
+          "q": "q_next_step_focus_4",
+          "delta": 1,
+          "answer_excerpt": "I will choose one recurring deliverable and define what good looks like before the next review cycle."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_impact_beyond_shipping",
+          "delta": -1,
+          "answer_excerpt": "I tend to wait until analysis is complete before socializing direction."
+        },
+        {
+          "q": "q_intro_perf_03_gap",
+          "delta": 1,
+          "answer_excerpt": "I want to lead one cross-team decision this cycle, end to end."
+        },
+        {
+          "q": "q_execution_bias",
+          "delta": -1,
+          "answer_excerpt": "Specific feedback checkpoints during projects would help me level up faster."
+        },
+        {
+          "q": "q_next_step_focus_4",
+          "delta": 1,
+          "answer_excerpt": "I will choose one recurring deliverable and define what good looks like before the next review cycle."
+        }
+      ]
+    }
+  },
+  "notes": "Sarah is delivering, but there are signs she may be over-rotating on execution while underweighting influence and visibility. I want to understand whether she has a clear view of the performance bar at Senior level and where she sees gaps in her current approach. This conversation should test how she frames impact, how she handles cross-functional friction, and whether she has a practical plan to raise signal with stakeholders instead of waiting for good work to be noticed automatically.",
+  "model": "gpt-5.4-nano"
+}

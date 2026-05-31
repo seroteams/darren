@@ -1,0 +1,102 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_carrying_ambiguity_4",
+    "label": "Carrying ambiguity",
+    "name": "Where is that ambiguity landing hardest for you right now?",
+    "description": "Drills into the specific area where she is carrying ambiguity so the underlying issue becomes actionable.",
+    "purpose": "topic",
+    "stage": "underneath",
+    "axis_effects": {
+      "clarity": 3,
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I am not fully clear yet on how success is being measured in this new setup.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3,
+      "growth": -1
+    },
+    "note": "She names a concrete clarity gap around how success is measured in the new setup, with a mild implied growth constraint; [THREAD-DEFERRED] success is being measured in this new setup."
+  },
+  "new_queue": [
+    {
+      "alias": "q_manager_support_10",
+      "label": "Manager support",
+      "name": "What would you want more of from me right now?"
+    },
+    {
+      "alias": "q_next_step_focus_9",
+      "label": "Next-step focus",
+      "name": "Given what we've covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [
+    "coverage: injected growth into next question (0 touches after turn 6)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_reorg_shift_4",
+          "delta": -1,
+          "answer_excerpt": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage."
+        },
+        {
+          "q": "q_voice_leverage_4",
+          "delta": -3,
+          "answer_excerpt": "Part of me is tired from constant context switching, and I have not really said that out loud."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_landing_context_2",
+          "delta": -1,
+          "answer_excerpt": "I do not think anything is broken, but I do feel less grounded than I did before."
+        },
+        {
+          "q": "q_less_grounded_4",
+          "delta": -3,
+          "answer_excerpt": "I have been protecting my team from noise, which means I am carrying more ambiguity myself."
+        },
+        {
+          "q": "q_carrying_ambiguity_4",
+          "delta": -3,
+          "answer_excerpt": "I am not fully clear yet on how success is being measured in this new setup."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_carrying_ambiguity_4",
+          "delta": -1,
+          "answer_excerpt": "I am not fully clear yet on how success is being measured in this new setup."
+        }
+      ]
+    }
+  }
+}

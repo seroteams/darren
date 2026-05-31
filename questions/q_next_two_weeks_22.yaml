@@ -1,0 +1,9 @@
+alias: q_next_two_weeks_22
+label: Next two weeks
+name: Given this, where do you want to focus first over the next two weeks?
+description: Closes on a specific commitment for the next cycle without opening a new topic.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+source: "reworded_from:q_next_two_weeks_21"

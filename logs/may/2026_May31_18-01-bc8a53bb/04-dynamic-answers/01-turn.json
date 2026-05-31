@@ -1,0 +1,98 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_growth_blockers",
+    "label": "Growth blockers",
+    "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+    "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+    "purpose": "topic",
+    "stage": "gap",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "Promotion disappointment has made him more guarded about spending political capital, signalling a strong growth blocker and some reduced clarity on how to advance."
+  },
+  "new_queue": [
+    {
+      "alias": "q_political_capital_2",
+      "label": "Political capital",
+      "name": "Political capital — where are you holding back right now?"
+    },
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_current_footing_5",
+      "label": "Current footing",
+      "name": "What's feeling solid in your role right now, Toby?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_named_ambition",
+      "label": "Named ambition",
+      "name": "What kind of design work would make the next step feel real for you?"
+    },
+    {
+      "alias": "q_air_cover_needed",
+      "label": "Air cover needed",
+      "name": "What kind of air cover would let you take a more visible position?"
+    },
+    {
+      "alias": "q_tradeoff_check",
+      "label": "Tradeoff check",
+      "name": "What would you need to stop doing to make room for stronger design leadership?"
+    },
+    {
+      "alias": "q_first_commitment",
+      "label": "First commitment",
+      "name": "What is the one growth move you want to make before we meet again?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        }
+      ]
+    }
+  }
+}

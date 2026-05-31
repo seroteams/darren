@@ -1,0 +1,98 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_growth_blockers",
+    "label": "Growth blockers",
+    "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+    "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+    "purpose": "topic",
+    "stage": "gap",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I know I want bigger scope, but I still spend too much time in execution details.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": 1,
+      "growth": -3
+    },
+    "note": "He names a specific blocker to next-level scope: staying in execution details is strongly limiting growth, while his self-diagnosis shows some clarity about the gap."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_current_scope_check",
+      "label": "Current scope check",
+      "name": "What's feeling most solid in your role right now, Ahmed?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_next_level_definition",
+      "label": "Next-level definition",
+      "name": "What does senior scope mean to you in practice?"
+    },
+    {
+      "alias": "q_trust_gap_2",
+      "label": "Trust gap",
+      "name": "Where does stakeholder trust feel thinnest for you right now?"
+    },
+    {
+      "alias": "q_executor_mode",
+      "label": "Executor mode",
+      "name": "Where are you still operating more like an executor than a strategic owner?"
+    },
+    {
+      "alias": "q_leverage_tradeoff",
+      "label": "Leverage tradeoff",
+      "name": "What would you have to stop doing to create more leverage in your week?"
+    },
+    {
+      "alias": "q_next_move_6",
+      "label": "Next move",
+      "name": "What is the first concrete move you want to make before we next meet?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": 1,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+alias: q_commit_next_move
+label: Commit next move
+name: What is the first concrete thing you want to have moved by our next conversation?
+description: "Closes on a specific action or decision she is committing to before the next 1:1."
+purpose: competency
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

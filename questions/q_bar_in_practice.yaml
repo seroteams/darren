@@ -1,0 +1,9 @@
+alias: q_bar_in_practice
+label: Bar in practice
+name: What does meeting the bar look like in the work you hand over?
+description: Forces a concrete description of observable quality, not abstract intent.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+source: generated

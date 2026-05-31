@@ -1,0 +1,10 @@
+alias: q_support_needed_11
+label: Support needed
+name: What would help make the next couple of weeks steadier for you?
+description: Closes on concrete support and next-step stability without opening a new issue.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

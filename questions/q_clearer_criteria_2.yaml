@@ -1,0 +1,9 @@
+alias: q_clearer_criteria_2
+label: Clearer criteria
+name: "When you say 'clearer criteria,' what specifically feels missing?"
+description: Follows his stated need without diagnosing emotion; surfaces the concrete clarity gap underneath the frustration.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

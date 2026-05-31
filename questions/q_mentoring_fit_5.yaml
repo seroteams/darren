@@ -1,0 +1,10 @@
+alias: q_mentoring_fit_5
+label: Mentoring fit
+name: What is the mentoring program doing for your week right now?
+description: Checks whether mentoring is energizing, neutral, or crowding out core work.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

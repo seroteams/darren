@@ -1,0 +1,209 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_perf_01_opening",
+      "label": "Self-read opener",
+      "name": "Before I share my view, how do you think the last stretch has gone?",
+      "description": "Anchors the conversation in their self-assessment first; gap vs manager's view becomes a signal.",
+      "purpose": "topic",
+      "stage": "self_read",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "clarity": -3
+    },
+    "note": "He can see a specific leverage problem in his current work, which is strong negative clarity but mild positive engagement because he is still shipping and self-assessing honestly."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_highest_leverage_work_6",
+      "label": "Highest-leverage work",
+      "name": "When you say 'highest-leverage work,' what work are you pointing to specifically?",
+      "description": "Pins down the concrete work he believes would count as higher leverage before moving deeper into evidence.",
+      "purpose": "topic",
+      "stage": "self_read",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I can describe Principal impact in general, but this team's bar still feels fuzzy.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "He cannot name team-specific Principal-level work and says the bar feels fuzzy, which is a strong negative clarity signal."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_team_bar_fuzzy_4",
+      "label": "Team bar fuzzy",
+      "name": "This team's bar feels fuzzy — where does that show up most concretely?",
+      "description": "Drills into the specific place expectation fuzziness is showing up before moving on.",
+      "purpose": "topic",
+      "stage": "self_read",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I have mostly stayed in my lane instead of forcing cross-team decisions.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "He names a concrete clarity failure: staying in his lane rather than stepping into cross-team decisions, which strongly signals unclear Principal expectations."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_intro_perf_02_proud",
+      "label": "What they're proud of",
+      "name": "What's something from the last quarter you're genuinely proud of — not what looks good, what actually was good?",
+      "description": "Separates real wins from performative ones; calibrates their sense of impact.",
+      "purpose": "topic",
+      "stage": "evidence",
+      "axis_effects": {
+        "engagement": 3,
+        "growth": 1
+      },
+      "source": "seed"
+    },
+    "answer": "I have made a few calls independently, but I still over-index on being safe.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "growth": -1
+    },
+    "note": "He names some independent judgment, but 'over-index on being safe' signals cautious, lower-leverage execution rather than strong ownership."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_thread_follow_23",
+      "label": "Thread follow",
+      "name": "have made calls — can you say more about what that means for you right now?",
+      "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+      "purpose": "topic",
+      "stage": "evidence",
+      "axis_effects": {
+        "engagement": 3,
+        "growth": 1,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I probably should ask for sharper feedback earlier than I do.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "growth": -1
+    },
+    "note": "He names a specific missing behavior — asking for sharper feedback earlier — which signals mild under-engagement and missed growth input; also reinforces an expectation-alignment thread."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_sharper_feedback_6",
+      "label": "Sharper feedback",
+      "name": "Sharper feedback earlier — what has stopped you doing that sooner?",
+      "description": "Drills into the barrier behind delaying sharper feedback while staying on the live thread.",
+      "purpose": "competency",
+      "stage": "evidence",
+      "axis_effects": {
+        "growth": 1,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I have not built enough trust with adjacent teams yet.",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -1
+    },
+    "note": "Says delayed feedback-seeking is due to insufficient trust with adjacent teams, which mildly signals a growth barrier; wellbeing is not engaged by the answer. [THREAD-DEFERRED] 'trust with adjacent teams' could be picked up next session, but drill cap requires advancing the arc."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_intro_perf_03_gap",
+      "label": "Gap awareness",
+      "name": "Where do you think you've fallen short of where you want to be?",
+      "description": "Tests whether they can name their own gaps before the manager does.",
+      "purpose": "topic",
+      "stage": "gap_naming",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1,
+        "wellbeing": 3
+      },
+      "source": "seed"
+    },
+    "answer": "The gap is less technical and more around visible ownership.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1,
+      "growth": -3
+    },
+    "note": "He names a specific non-technical gap in visible ownership, showing clear self-awareness of the performance issue."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_questioning_pattern",
+      "label": "Questioning pattern",
+      "name": "What keeps you from asking more questions earlier?",
+      "description": "Surfaces the barrier behind the low-question pattern without assuming the cause.",
+      "purpose": "competency",
+      "stage": "cause",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 1,
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "I need explicit expectations for the next cycle so I can calibrate fast.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "clarity": -1
+    },
+    "note": "Names missing explicit expectations as the barrier to calibrating early — a mild clarity and engagement deficit rather than a wellbeing issue."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_earlier_signals",
+      "label": "Earlier signals",
+      "name": "What would help you spot expectation drift earlier next time?",
+      "description": "Moves toward a practical change in how he reads and surfaces alignment issues.",
+      "purpose": "topic",
+      "stage": "commit",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 1,
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "I will pick one recent deliverable and write down the decision rule I used before our next check-in.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": 1,
+      "clarity": 1,
+      "growth": 1
+    },
+    "note": "He named a concrete next-step habit to surface his decision logic earlier, which is a mild positive signal on clarity and growth; the proactive, bounded plan also suggests stable enough capacity to act."
+  }
+]

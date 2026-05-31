@@ -1,0 +1,51 @@
+{
+  "headline": "Lin answered with a consistent pattern of late-night load and unclear decision ownership—what’s broken is feedback/ownership flow, not effort.",
+  "summary_bullets": [
+    "Lin links the last three weeks of late nights to “carrying decision bottlenecks and final reviews,” and calls the pace “should not be normal.”",
+    "Lin reports a feedback gap on key decisions: “I still do not get enough substantive feedback on key decisions,” which keeps him in escalation mode.",
+    "Lin has a concrete fix in mind—“hand off one stream end-to-end and stay out of the middle”—but the meeting skipped the “first concrete thing to change” follow-through."
+  ],
+  "understanding_paragraph": "We learned that Lin’s current strain is tied to decision bottlenecks and final review loops, not to the work itself—he’s proud of outcomes but rejects the pace. Lin is actively trying to move from default escalation to clearer ownership boundaries by planning an end-to-end handoff. The main missing piece is a specific, scheduled change for the next two weeks, since the final “first concrete thing” prompt was skipped.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -8,
+      "meaning": "Strong negative signal: late-night pace is explicitly “not… normal,” and sustainability depends on resetting scope."
+    },
+    {
+      "id": "engagement",
+      "score": -6,
+      "meaning": "Negative signal: engagement is dampened by being pulled into bottlenecks and final reviews instead of operating with autonomy."
+    },
+    {
+      "id": "clarity",
+      "score": -7,
+      "meaning": "Negative signal: Lin lacks clear ownership boundaries and is “not default escalation” by design, not by current reality."
+    },
+    {
+      "id": "growth",
+      "score": 0,
+      "meaning": "No clear growth signal: the conversation focused on load relief and ownership, not learning or stretch goals."
+    }
+  ],
+  "brutal_truth_employee": "Lin is clear that the pace is unsustainable: “I am proud of the outcomes, but the pace should not be normal.” He ties the late nights directly to process load: “Late nights came from carrying decision bottlenecks and final reviews,” and he wants “clearer ownership boundaries so I am not default escalation.”",
+  "brutal_truth_manager": "When Lin said “Next I want to hand off one stream end-to-end and stay out of the middle,” that was the moment to lock a specific, time-bound handoff plan. The conversation then ended with the “first concrete thing you want to change before we meet again” prompt being skipped—so the key commitment never got converted into an action.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Draft a one-page decision/ownership map for Lin’s next end-to-end stream (who decides, who reviews, SLA for feedback) and send it for confirmation."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 30-minute scope reset with Lin to define what gets cut or moved so “the next month is sustainable” is measurable."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-ask the commitment question with structure: “Name the single stream, the owner, and the first decision you will stop escalating next.”"
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Lin still reports “default escalation” or “final reviews” driving late nights, treat the ownership reset as not happening.",
+    "Within two weeks: if Lin cannot name a concrete stream handoff owner and first decision boundary, the scope reset is slipping."
+  ]
+}

@@ -428,6 +428,98 @@ function enforceAxisCoverage({ newQueue, axisState, turnNumber, issues }) {
   return newQueue;
 }
 
+function answerHasThread(answer) {
+  if (!answer || answer === "(skipped)") return false;
+  if (isShallowAnswer(answer)) return false;
+  return answer.trim().split(/\s+/).filter(Boolean).length >= 5;
+}
+
+function followReferencesAnswer(answer, questionName) {
+  const words = String(answer || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter((w) => w.length > 4);
+  const q = String(questionName || "").toLowerCase();
+  if (!words.length) return false;
+  return words.filter((w) => q.includes(w)).length >= 1;
+}
+
+function firstQueueFollowsThread(queue, answer) {
+  if (!Array.isArray(queue) || !queue.length) return false;
+  return followReferencesAnswer(answer, queue[0]?.name);
+}
+
+function pickThreadPhrase(answer) {
+  const words = String(answer || "")
+    .replace(/[^a-z0-9\s,'-]/g, " ")
+    .split(/\s+/)
+    .filter((w) => w.length >= 4);
+  return words.slice(0, 3).join(" ") || "that";
+}
+
+function buildThreadFollowQuestion(lastQuestion, lastAnswer) {
+  const phrase = pickThreadPhrase(lastAnswer);
+  const alias = newAlias("thread follow", listAllAliases());
+  return {
+    alias,
+    label: "Thread follow",
+    name: `${phrase} — can you say more about what that means for you right now?`,
+    description: "Runtime thread-follow injected because planner did not follow substantive answer.",
+    purpose: lastQuestion?.purpose || "topic",
+    stage: lastQuestion?.stage ?? null,
+    axis_effects: { ...(lastQuestion?.axis_effects || { engagement: 1 }) },
+    source: "planner_added",
+  };
+}
+
+function enforceThreadFollow({
+  newQueue,
+  lastAnswer,
+  lastQuestion,
+  remainingBudget,
+  consecutiveDrillCount,
+  issues,
+}) {
+  if (Number(remainingBudget) <= 2) return newQueue;
+  if (consecutiveDrillCount >= 2) return newQueue;
+  if (!answerHasThread(lastAnswer)) return newQueue;
+  if (firstQueueFollowsThread(newQueue, lastAnswer)) return newQueue;
+  const follow = buildThreadFollowQuestion(lastQuestion, lastAnswer);
+  saveQuestion(follow);
+  issues.push("runtime: injected thread-follow question");
+  return [follow, ...(newQueue || [])];
+}
+
+function enforceDrillCap({
+  newQueue,
+  lastQuestion,
+  remainingQueue,
+  consecutiveDrillCount,
+  transcript,
+  arc,
+  issues,
+}) {
+  let queue = [...(newQueue || [])];
+  if (consecutiveDrillCount < 2 || !queue.length) return queue;
+  const lastStage = lastQuestion?.stage;
+  const first = queue[0];
+  if (first?.source === "planner_added" && first?.stage && first.stage === lastStage) {
+    issues.push(`drill cap: removed same-stage drill at ${lastStage}`);
+    queue = queue.slice(1);
+  }
+  const remainingStages = computeRemainingStages(transcript, arc);
+  if (!remainingStages.length) return queue;
+  const targetStage = remainingStages[0].id;
+  const pool = [...(remainingQueue || []), ...queue];
+  const candidate = pool.find((q) => q.stage === targetStage);
+  if (candidate && queue[0]?.alias !== candidate.alias) {
+    queue = [candidate, ...queue.filter((q) => q.alias !== candidate.alias)];
+    issues.push(`drill cap: advanced queue toward stage ${targetStage}`);
+  }
+  return queue;
+}
+
 async function planTurn({
   focusPoints,
   ctx,
@@ -498,12 +590,31 @@ async function planTurn({
   };
 
   const askedAliases = new Set((transcript || []).map((t) => t.question.alias));
+  const arc = getArc(ctx.meetingType);
+  const consecutiveDrillCount = computeConsecutiveDrillCount(transcript, lastQuestion);
   const { queue: reconciledQueue, issues: queueIssues } = reconcileQueue(parsed.new_queue, {
     remainingQueue,
     askedAliases,
   });
-  const newQueue = enforceAxisCoverage({
+  let newQueue = enforceDrillCap({
     newQueue: reconciledQueue,
+    lastQuestion,
+    remainingQueue,
+    consecutiveDrillCount,
+    transcript,
+    arc,
+    issues: gateIssues,
+  });
+  newQueue = enforceThreadFollow({
+    newQueue,
+    lastAnswer,
+    lastQuestion,
+    remainingBudget,
+    consecutiveDrillCount,
+    issues: gateIssues,
+  });
+  newQueue = enforceAxisCoverage({
+    newQueue,
     axisState,
     turnNumber: turnNumber ?? (transcript || []).length,
     issues: gateIssues,
@@ -532,6 +643,10 @@ module.exports = {
   applyShallowGate,
   applyMisalignmentClarity,
   enforceAxisCoverage,
+  enforceThreadFollow,
+  enforceDrillCap,
+  answerHasThread,
+  followReferencesAnswer,
   computeArcProgress,
   computeConsecutiveDrillCount,
   computeRemainingStages,

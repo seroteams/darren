@@ -1,0 +1,10 @@
+alias: q_settling_check
+label: Settling check
+name: What’s felt most settled for you in week four, Aisha?
+description: Lets Aisha name what is already working in the new role before moving into friction.
+purpose: wellbeing
+stage: settling
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

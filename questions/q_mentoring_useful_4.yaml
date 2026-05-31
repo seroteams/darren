@@ -1,0 +1,9 @@
+alias: q_mentoring_useful_4
+label: Mentoring useful
+name: You said mentoring is where you still feel useful — what is it giving you?
+description: Follows the mentoring thread to surface what need it is meeting and what sits underneath the dip.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,51 @@
+{
+  "headline": "James’s answers show a post-promotion dip driven by unclear criteria and recognition, with engagement and growth both trending down.",
+  "summary_bullets": [
+    "James tied the ritual drop directly to the promotion decision: “After the promotion decision, I was not clear on what really needed to change.”",
+    "He is not asking for reassurance; he wants measurable criteria and authority: “I want clearer criteria, not reassurance” and “I need real authority to do it.”",
+    "Mentoring is currently his only “useful” outlet, but it’s also where he feels misaligned with what gets recognized: “Mentoring has been one place where I still feel useful.”"
+  ],
+  "understanding_paragraph": "We learned James is deliberately focusing on controllable delivery because he lacks a clear, agreed path for what should change after the promotion decision. He’s using mentoring as a pocket of usefulness, while doubting whether his current work matches what gets recognized. The core need isn’t motivation alone—it’s clarity on criteria plus real authority to own direction.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -5,
+      "meaning": "Energy and sustainability are under strain, with stress showing up as a reliance on “useful” pockets rather than steady connection."
+    },
+    {
+      "id": "engagement",
+      "score": -7,
+      "meaning": "Engagement is actively down since the promotion decision, shown by reduced ritual presence and a disengagement from team alignment."
+    },
+    {
+      "id": "clarity",
+      "score": -3,
+      "meaning": "Clarity is weak but specific: James can’t see what needs to change and defaults to controllable delivery."
+    },
+    {
+      "id": "growth",
+      "score": -7,
+      "meaning": "Growth is stalled because he doesn’t believe his current work is the work that gets recognized, and he needs authority to own direction."
+    }
+  ],
+  "brutal_truth_employee": "James is not “going through the motions”; he’s withholding commitment because he’s missing the mechanism for success. He said, “I want clearer criteria, not reassurance,” and “I can own bigger direction, but I need real authority to do it.” His mentoring feels useful, but he still doubts recognition alignment: “I am not sure the work I am doing is the work that gets recognized.”",
+  "brutal_truth_manager": "When you asked for a concrete next move—“Given what we've covered, what's the first concrete thing you want to move by our next conversation?”—James skipped it. That’s the moment to force specificity: get him to name the exact decision, authority boundary, and deliverable he wants in the next quarter, not just the conditions.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute follow-up with James to translate “clear criteria” into 3 explicit, measurable recognition criteria for the next quarter."
+    },
+    {
+      "when": "this week",
+      "action": "Define and document the authority boundaries you will grant James for “bigger direction,” then confirm which decisions he can own end-to-end."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-ask for a concrete next move with a forced-choice prompt: “Pick one: own X decision, lead Y initiative, or change Z ritual behavior—what will you do by next month?”"
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if James still can’t name a concrete next move, treat it as continued low confidence that clarity/authority will change outcomes.",
+    "Within two weeks: if mentoring remains his only “useful” outlet while ritual presence stays low, the problem is recognition alignment, not effort."
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_next_step_agreement_2",
+    "label": "Next step agreement",
+    "name": "Given what we've covered, where do you want to focus first?",
+    "description": "Closes on a concrete commitment without reopening new topics.",
+    "purpose": "topic",
+    "stage": "commit",
+    "axis_effects": {
+      "growth": 1,
+      "clarity": 1,
+      "wellbeing": 3
+    },
+    "source": "reworded_from:q_next_step_agreement"
+  },
+  "answer": "If we align on concrete criteria, I can work against them confidently.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": 1,
+      "clarity": 1,
+      "growth": 1
+    },
+    "note": "He names concrete criteria as the lever for moving forward, signalling improved clarity and a constructive, confident next-step orientation."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_step_agreement",
+      "label": "Next step agreement",
+      "name": "What should we agree you will do before we next meet?"
+    },
+    {
+      "alias": "q_next_step_agreement_3",
+      "label": "Next step agreement",
+      "name": "What support from me would make the biggest difference on that?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 8)",
+    "ref_alias q_next_step_agreement not in remaining queue — treating as new"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_next_step_agreement_2",
+          "delta": 1,
+          "answer_excerpt": "If we align on concrete criteria, I can work against them confidently."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        },
+        {
+          "q": "q_team_bar_mismatch_3",
+          "delta": -3,
+          "answer_excerpt": "Feedback has helped, though I still miss consistency under time pressure."
+        },
+        {
+          "q": "q_time_pressure_consistency_3",
+          "delta": -3,
+          "answer_excerpt": "I sometimes focus on polish and lose sight of the core message."
+        },
+        {
+          "q": "q_core_message_miss",
+          "delta": -3,
+          "answer_excerpt": "I want clearer examples of what excellent junior-level work looks like here."
+        },
+        {
+          "q": "q_feedback_changed_what",
+          "delta": -1,
+          "answer_excerpt": "When reviews are broad, I am not sure what to change first."
+        },
+        {
+          "q": "q_broad_reviews_gap_2",
+          "delta": 1,
+          "answer_excerpt": "I would like to grow faster in concept rationale, not just execution speed."
+        },
+        {
+          "q": "q_concept_rationale_block",
+          "delta": -1,
+          "answer_excerpt": "A tighter loop on one skill at a time would help me improve."
+        },
+        {
+          "q": "q_next_step_agreement_2",
+          "delta": 1,
+          "answer_excerpt": "If we align on concrete criteria, I can work against them confidently."
+        }
+      ]
+    },
+    "growth": {
+      "score": -8,
+      "history": [
+        {
+          "q": "q_feedback_changed_what",
+          "delta": -3,
+          "answer_excerpt": "When reviews are broad, I am not sure what to change first."
+        },
+        {
+          "q": "q_broad_reviews_gap_2",
+          "delta": -3,
+          "answer_excerpt": "I would like to grow faster in concept rationale, not just execution speed."
+        },
+        {
+          "q": "q_concept_rationale_block",
+          "delta": -3,
+          "answer_excerpt": "A tighter loop on one skill at a time would help me improve."
+        },
+        {
+          "q": "q_next_step_agreement_2",
+          "delta": 1,
+          "answer_excerpt": "If we align on concrete criteria, I can work against them confidently."
+        }
+      ]
+    }
+  }
+}

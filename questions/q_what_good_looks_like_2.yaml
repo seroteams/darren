@@ -1,0 +1,9 @@
+alias: q_what_good_looks_like_2
+label: What good looks like
+name: "When you say 'what good looks like' — what's most unclear week to week?"
+description: Clarifies the specific success-bar uncertainty he just named.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

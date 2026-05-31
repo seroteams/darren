@@ -1,0 +1,10 @@
+alias: q_manager_leverage_10
+label: Manager leverage
+name: Where would a sharper read from me help you move faster?
+description: Opens a concrete ask of the manager without defaulting to generic support.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

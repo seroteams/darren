@@ -1,0 +1,51 @@
+{
+  "headline": "Lin is running at an unsustainable pace because decision bottlenecks and final reviews keep landing on him.",
+  "summary_bullets": [
+    "Lin linked the last stretch’s heaviness directly to “carrying decision bottlenecks and final reviews,” and said “the pace should not be normal.”",
+    "He reported a consistent feedback gap: “I still do not get enough substantive feedback on key decisions.”",
+    "He’s already trying to fix the pattern by shifting work: “hand off one stream end-to-end and stay out of the middle.”"
+  ],
+  "understanding_paragraph": "Lin is proud of the outcomes, but he’s clear that the way they got there is not sustainable. The core friction isn’t execution quality—it’s decision flow: bottlenecks, final reviews, and not getting enough substantive feedback on key decisions. He wants clearer ownership boundaries so he isn’t “default escalation,” and he’s actively planning to delegate one stream end-to-end.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -9,
+      "meaning": "Defining signal: late-night load is unsustainable and tied to decision bottlenecks and final reviews."
+    },
+    {
+      "id": "engagement",
+      "score": -3,
+      "meaning": "Weak-to-moderate signal: motivation is intact, but the current decision/feedback setup is draining."
+    },
+    {
+      "id": "clarity",
+      "score": 3,
+      "meaning": "Worth noting: Lin has a concrete plan to hand off one stream and avoid being in the middle."
+    },
+    {
+      "id": "growth",
+      "score": 0,
+      "meaning": "No clear signal: growth isn’t discussed beyond changing ownership and delegation mechanics."
+    }
+  ],
+  "brutal_truth_employee": "Lin is telling you the pace is already broken: “I am proud of the outcomes, but the pace should not be normal.” He also names the mechanism: “Late nights came from carrying decision bottlenecks and final reviews,” plus “I still do not get enough substantive feedback on key decisions.”",
+  "brutal_truth_manager": "When Lin said, “I still do not get enough substantive feedback on key decisions,” the conversation should have immediately drilled into who owns that feedback and what process gap blocks it. The next step is to turn “default escalation” into a specific ownership map and decision SLA, not just a general boundary request.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Confirm the exact decision bottleneck(s) and final-review steps that create late nights, then list the owner for each step in writing."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 30-minute delegation working session to define the “one stream end-to-end” handoff with success criteria and an explicit “no default escalation” rule."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-run the last-two-weeks check with a forced prompt: “What decision did you not escalate, and what changed in the feedback/ownership path?”"
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if late nights continue without a change in decision ownership, treat it as default pace, not a temporary push.",
+    "Within two weeks: if Lin still reports “not enough substantive feedback on key decisions,” escalate the feedback process owner and add a decision-SLA."
+  ]
+}

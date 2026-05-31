@@ -1,0 +1,108 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_political_conversations_3",
+    "label": "Political conversations",
+    "name": "Political conversations — what makes those moments hardest for you to stay in?",
+    "description": "Drills into the specific dynamic that makes Ahmed retreat from influence into execution.",
+    "purpose": "topic",
+    "stage": "gap",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "I can run projects, but shaping cross-org alignment is where I hesitate.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "He names a specific gap in senior-level work — hesitation around cross-org alignment — which signals a strong growth gap and mild role/influence clarity weakness. [THREAD-DEFERRED] 'cross-org alignment' is a concrete thread, but drill cap requires advancing stages."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_scope_definition",
+      "label": "Scope definition",
+      "name": "When you think about the next-level Head of Product role, what does good actually look like to you?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_influence_target",
+      "label": "Influence target",
+      "name": "Which stakeholder forum matters most for your influence at this level?"
+    },
+    {
+      "alias": "q_tradeoff_ask",
+      "label": "Tradeoff ask",
+      "name": "What would you stop doing if you wanted to spend more time on strategic ownership?"
+    },
+    {
+      "alias": "q_first_move_5",
+      "label": "First move",
+      "name": "Given what we've covered, where do you want to start first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": 1,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_execution_details_2",
+          "delta": -1,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        },
+        {
+          "q": "q_political_conversations_3",
+          "delta": -1,
+          "answer_excerpt": "I can run projects, but shaping cross-org alignment is where I hesitate."
+        }
+      ]
+    },
+    "growth": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_execution_details_2",
+          "delta": -3,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        },
+        {
+          "q": "q_political_conversations_3",
+          "delta": -3,
+          "answer_excerpt": "I can run projects, but shaping cross-org alignment is where I hesitate."
+        }
+      ]
+    }
+  }
+}

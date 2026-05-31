@@ -1,0 +1,10 @@
+alias: q_manager_leverage_8
+label: Manager leverage
+name: What would make the next two weeks easier from my side?
+description: Opens concrete asks for support, air cover, decisions, or context.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

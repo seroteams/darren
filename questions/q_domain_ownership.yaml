@@ -1,0 +1,9 @@
+alias: q_domain_ownership
+label: Domain ownership
+name: When priorities conflict, where does domain ownership get murky for you?
+description: Drills into the specific ownership-conflict gap he named so the manager can map the unclear domains.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

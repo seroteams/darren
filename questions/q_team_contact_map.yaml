@@ -1,0 +1,10 @@
+alias: q_team_contact_map
+label: Team contact map
+name: Who have you been getting the most live context from so far?
+description: Surfaces whether Riley is building the real team map through direct contact or mostly through docs.
+purpose: topic
+stage: settling
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

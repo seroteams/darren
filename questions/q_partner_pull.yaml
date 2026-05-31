@@ -1,0 +1,10 @@
+alias: q_partner_pull
+label: Partner pull
+name: Which partner relationship is doing the most to slow the CoE down?
+description: Finds the external dependency or misalignment that is weakening pull on the work.
+purpose: competency
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

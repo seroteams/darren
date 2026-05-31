@@ -1,0 +1,10 @@
+alias: q_context_first_2
+label: Context first
+name: "Before we get into specifics, what's been most on your mind at work lately?"
+description: Lets Nina set the frame before the manager narrows in on load, priorities, or support.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Something feels off",
+  "focus_points": [
+    {
+      "id": "team_connection",
+      "label": "How Elena is landing with the team",
+      "reason": "Notes say she’s pulled back in leadership forums and appears less connected in team interactions. One possibility is a temporary transition load after the reorg, but it’s also worth clarifying whether it’s a scope/support mismatch or just a short adjustment period.",
+      "source": "signal"
+    },
+    {
+      "id": "priorities",
+      "label": "What she’s saying yes to since the reorg",
+      "reason": "Notes say she’s still delivering, but the leadership-forum pullback suggests her current focus might have shifted. Could be prioritizing delivery over visibility, or it might reflect something she hasn’t surfaced yet—worth clarifying what’s driving the tradeoff.",
+      "source": "signal"
+    },
+    {
+      "id": "manager_support",
+      "label": "What support she’d want from you",
+      "reason": "What she wants from you that she hasn’t asked for. Senior leaders often protect their time and may not request help directly, so making it easy to name the real friction helps you support her without over-interpreting the change.",
+      "source": "best_practice"
+    },
+    {
+      "id": "blockers",
+      "label": "Any hidden blockers or stuck dependencies",
+      "reason": "If she hasn’t asked for help, the most actionable conversation is usually about what’s slowing her down—decisions, dependencies, or unclear expectations—so you can remove the specific constraint rather than guess at the cause.",
+      "source": "best_practice"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+alias: q_good_looks_like_2
+label: Good looks like
+name: What does good look like for your part of the backend work right now?
+description: Checks whether he has a usable picture of expectations and outcomes for his current scope.
+purpose: competency
+stage: orientation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

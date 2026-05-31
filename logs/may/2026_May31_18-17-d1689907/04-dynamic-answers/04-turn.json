@@ -1,0 +1,93 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_ownership_edges_3",
+    "label": "Ownership edges",
+    "name": "Where do the ownership boundaries still feel fuzzy to you?",
+    "description": "Checks whether Riley knows where his remit starts and stops before he makes decisions.",
+    "purpose": "topic",
+    "stage": "orientation",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "generated"
+  },
+  "answer": "I am trying not to interrupt people, so sometimes I keep questions in a notes doc instead of asking.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "He is withholding questions to avoid interrupting people, which strongly signals unclear norms for when and how to ask for context."
+  },
+  "new_queue": [
+    {
+      "alias": "q_notes_doc_questions",
+      "label": "Notes doc questions",
+      "name": "What kinds of questions are sitting in that notes doc right now?"
+    },
+    {
+      "alias": "q_missing_context",
+      "label": "Missing context",
+      "name": "What are you still waiting to understand before you change an architecture assumption?"
+    },
+    {
+      "alias": "q_support_network_2",
+      "label": "Support network",
+      "name": "Who would you want to pull in first when you need context fast?"
+    },
+    {
+      "alias": "q_next_support_4",
+      "label": "Next support",
+      "name": "What would make the next couple of weeks steadier for you?"
+    }
+  ],
+  "issues": [
+    "coverage: injected engagement into next question (0 touches after turn 4)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_landing_check_in_4",
+          "delta": 1,
+          "answer_excerpt": "I am comfortable reading the services, but I am less sure how decisions are really made here."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_landing_check_in_4",
+          "delta": -1,
+          "answer_excerpt": "I am comfortable reading the services, but I am less sure how decisions are really made here."
+        },
+        {
+          "q": "q_decision_making_map_3",
+          "delta": -1,
+          "answer_excerpt": "I can trace most request paths now, though I still miss historical context behind certain tradeoffs."
+        },
+        {
+          "q": "q_tradeoff_context_2",
+          "delta": -1,
+          "answer_excerpt": "I have not been fully clear on who is on point for each domain when priorities conflict."
+        },
+        {
+          "q": "q_ownership_edges_3",
+          "delta": -3,
+          "answer_excerpt": "I am trying not to interrupt people, so sometimes I keep questions in a notes doc instead of asking."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -1,0 +1,10 @@
+alias: q_quality_habits
+label: Quality habits
+name: What part of your process most affects the quality of the final output?
+description: Identifies the leverage point in his day-to-day design workflow.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

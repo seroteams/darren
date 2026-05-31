@@ -1,0 +1,9 @@
+alias: q_execution_details_5
+label: Execution details
+name: Which execution details are still taking too much of your time?
+description: Drills into the specific tactical work keeping him below the scope he wants.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+source: planner_added

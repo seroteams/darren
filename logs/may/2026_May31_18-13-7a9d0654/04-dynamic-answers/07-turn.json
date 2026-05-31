@@ -1,0 +1,111 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_tradeoff_narrative_3",
+    "label": "Tradeoff narrative",
+    "name": "What makes the tradeoff narrative hard to state earlier?",
+    "description": "Drills into the specific gap she named to surface the driver from her side.",
+    "purpose": "competency",
+    "stage": "gap_naming",
+    "axis_effects": {
+      "clarity": 3,
+      "wellbeing": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I want to lead one cross-team decision this cycle, end to end.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1
+    },
+    "note": "[SHALLOW] 'I want to lead one cross-team decision this cycle, end to end' pivots to an aspiration rather than explaining what makes the tradeoff narrative hard to state earlier; [THREAD-DEFERRED-WINDDOWN] cross-team decision ownership."
+  },
+  "new_queue": [
+    {
+      "alias": "q_escalation_judgment",
+      "label": "Escalation judgment",
+      "name": "What kind of call did you hold too long before escalating this quarter?"
+    },
+    {
+      "alias": "q_next_quarter_focus",
+      "label": "Next-quarter focus",
+      "name": "Given what we've covered, what do you want to work on first over the next quarter?"
+    }
+  ],
+  "issues": [
+    "misalignment signal — applied clarity -1",
+    "coverage: injected wellbeing into next question (0 touches after turn 7)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        },
+        {
+          "q": "q_surprised_late_3",
+          "delta": 1,
+          "answer_excerpt": "I need a tighter narrative on tradeoffs, not just stronger models."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        },
+        {
+          "q": "q_uneven_influence_5",
+          "delta": -3,
+          "answer_excerpt": "I get work done, yet I am not consistently shaping decisions early."
+        },
+        {
+          "q": "q_early_decisions_5",
+          "delta": -3,
+          "answer_excerpt": "Some feedback has been about being clearer with non-technical partners."
+        },
+        {
+          "q": "q_impact_evidence_3",
+          "delta": -1,
+          "answer_excerpt": "I tend to wait until analysis is complete before socializing direction."
+        },
+        {
+          "q": "q_wait_pattern_2",
+          "delta": -1,
+          "answer_excerpt": "That slows trust because stakeholders feel surprised late."
+        },
+        {
+          "q": "q_surprised_late_3",
+          "delta": 3,
+          "answer_excerpt": "I need a tighter narrative on tradeoffs, not just stronger models."
+        },
+        {
+          "q": "q_tradeoff_narrative_3",
+          "delta": -1,
+          "answer_excerpt": "I want to lead one cross-team decision this cycle, end to end."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_impact_evidence_3",
+          "delta": -1,
+          "answer_excerpt": "I tend to wait until analysis is complete before socializing direction."
+        }
+      ]
+    }
+  }
+}

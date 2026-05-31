@@ -1,0 +1,10 @@
+alias: q_current_footing_4
+label: Current footing
+name: "What's been most on your mind at work lately, Maria?"
+description: Safe opener that lets Maria set context before any growth topic is introduced.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

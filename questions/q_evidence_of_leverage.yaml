@@ -1,0 +1,10 @@
+alias: q_evidence_of_leverage
+label: Evidence of leverage
+name: "What recent decision or change best shows the leverage you're creating?"
+description: Forces a concrete example of Principal-level impact rather than general claims.
+purpose: competency
+stage: evidence
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

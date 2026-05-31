@@ -1,0 +1,9 @@
+alias: q_design_api_mismatch_4
+label: Design API mismatch
+name: When design and API details clash, what usually ends up unclear to you?
+description: Drills into the specific mismatch he mentioned so the manager can remove that expectation gap.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,51 @@
+{
+  "headline": "Kenji gave consistent, specific signals that shifting priorities are undermining clarity and confidence, not motivation alone.",
+  "summary_bullets": [
+    "Kenji’s core loop is “changing direction late” → “feeling like I missed something,” which maps directly to his clarity collapse week-to-week.",
+    "He wants ownership, but he’s explicitly asking for “clearer guardrails” and a “regular calibration loop,” meaning the problem is process/feedback timing.",
+    "He wants to ask for help, but he self-censors: “I worry about sounding slow,” so safety to raise uncertainty is a real constraint."
+  ],
+  "understanding_paragraph": "Kenji is not struggling because he lacks effort; he’s struggling because fast-changing priorities make it hard to know what “good” is week to week. He connects late direction changes to missing context and then to guessing, which reduces confidence in optimizing. He also wants feedback close to the work and fears that asking for help will be perceived as slowness.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -2,
+      "meaning": "Weak-but-present strain tied to late direction changes and feeling like he missed something."
+    },
+    {
+      "id": "engagement",
+      "score": -9,
+      "meaning": "Strong disengagement signal driven by uncertainty and guessing, not by lack of interest in the work."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Defining signal: he’s “still unsure what good really looks like” week to week."
+    },
+    {
+      "id": "growth",
+      "score": -4,
+      "meaning": "Worth acting on: he wants ownership, but needs guardrails and calibration to regain confidence."
+    }
+  ],
+  "brutal_truth_employee": "Kenji’s answers center on clarity failure: “I am still unsure what good really looks like here week to week.” He also ties help-seeking to social risk: “I worry about sounding slow,” which blocks the very conversations that would reduce guessing.",
+  "brutal_truth_manager": "You stayed exploratory and let him name the pattern, but you didn’t lock in the concrete mechanism he offered: “A regular calibration loop would make this feel less shaky.” Next time, after he names the loop, go one level deeper on what cadence, who’s in it, and what “good” artifacts look like so the uncertainty loop actually gets reduced.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Confirm with Kenji the exact calibration cadence he wants (weekly vs. per-ticket) and the concrete input/output for “what good looks like.”"
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 20-minute calibration slot for Kenji’s current tickets and bring one example of specific, close-to-work feedback to model the standard."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Ask Kenji to rate this week’s clarity and guessing on a 1–5 scale, then ask what changed and what guardrail to adjust."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks, if Kenji still says he’s “guessing” on most days, treat the calibration loop as not yet effective or not frequent enough.",
+    "Before next 1:1, if Kenji stops bringing up missed-context moments, check whether “sounding slow” concerns are increasing and he’s self-censoring."
+  ]
+}

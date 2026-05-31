@@ -1,0 +1,52 @@
+{
+  "name": "Priya",
+  "roleTitle": "Senior Backend Engineer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "observedShift": "Priya shipped a major feature on Monday and the team noticed, but she has been quieter this week. I want to check whether this is normal post-launch recovery or something unresolved. She also mentioned wanting to mentor a few months ago and that thread never moved. I need a clearer read on what she expects to own next quarter before I introduce the billing rewrite, since she may already be forming plans that this will disrupt.",
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How she's landing with the team this week.",
+      "reason": "Notes say she shipped a major feature on Monday and the team noticed, but she’s been quieter this week. One possibility is normal post-launch recovery; another is something unresolved. Worth clarifying what “quiet” means for her and whether the team has noticed anything different.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What she expects to own next quarter.",
+      "reason": "You need a clearer read on what she expects to own next quarter so you can introduce the billing rewrite without stepping on plans she may already be forming. This helps you align on sequencing and ownership before the disruption starts.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "delegation",
+      "type": "Delegation effectiveness",
+      "category": "competency",
+      "label": "Mentoring plan and who owns it next.",
+      "reason": "She mentioned wanting to mentor a few months ago and that thread never moved. Could be a timing issue, unclear scope, or competing priorities—worth clarifying what she wants to mentor, what support she needs, and what “done” looks like for you to re-activate it.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "cross_team_alignment",
+      "type": "Cross-team alignment",
+      "category": "competency",
+      "label": "How the billing rewrite affects her scope.",
+      "reason": "Whether she’s already building plans that the billing rewrite will disrupt is a common senior-leadership risk: if boundaries and interfaces aren’t pre-wired, work can stall or get duplicated. Use this check-in to confirm the interfaces, handoffs, and expectations across teams before the rewrite ramps.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "955cb70d-51ba-4533-bfac-965c5e5aeaf9",
+  "validation": {
+    "passed": true,
+    "issues": []
+  },
+  "attempts": 1
+}

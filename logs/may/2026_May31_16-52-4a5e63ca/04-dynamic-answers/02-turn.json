@@ -1,0 +1,109 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_intro_growth_stretch",
+    "label": "Stretch now",
+    "name": "Which part of your current work is actually stretching you right now?",
+    "description": "Distinguishes comfort-zone execution from genuine growth moments.",
+    "purpose": "topic",
+    "stage": "anchor",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "When conversations get political, I tend to retreat to what I can deliver directly.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "growth": -3
+    },
+    "note": "He names a specific stretch point — political conversations — and describes retreating into direct delivery, signaling a strong growth constraint and mild disengagement under influence-heavy conditions."
+  },
+  "new_queue": [
+    {
+      "alias": "q_political_conversations_2",
+      "label": "Political conversations",
+      "name": "In those political conversations, what makes you pull back from the room?"
+    },
+    {
+      "alias": "q_current_scope_check",
+      "label": "Current scope check",
+      "name": "What's feeling most solid in your role right now, Ahmed?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_next_level_definition",
+      "label": "Next-level definition",
+      "name": "What does senior scope mean to you in practice?"
+    },
+    {
+      "alias": "q_trust_gap_2",
+      "label": "Trust gap",
+      "name": "Where does stakeholder trust feel thinnest for you right now?"
+    },
+    {
+      "alias": "q_executor_mode",
+      "label": "Executor mode",
+      "name": "Where are you still operating more like an executor than a strategic owner?"
+    },
+    {
+      "alias": "q_leverage_tradeoff",
+      "label": "Leverage tradeoff",
+      "name": "What would you have to stop doing to create more leverage in your week?"
+    },
+    {
+      "alias": "q_next_move_6",
+      "label": "Next move",
+      "name": "What is the first concrete move you want to make before we next meet?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": 1,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        }
+      ]
+    },
+    "growth": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -3,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        }
+      ]
+    }
+  }
+}

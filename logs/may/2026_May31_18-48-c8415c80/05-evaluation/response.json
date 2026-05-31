@@ -1,0 +1,51 @@
+{
+  "headline": "Elena gave concrete, repeated signals of being less grounded after the reorg—engagement and clarity dropped because she’s carrying ambiguity alone.",
+  "summary_bullets": [
+    "Elena described a sustained pattern: “quieter in leadership meetings” and “carrying more ambiguity myself,” not a one-off dip.",
+    "The clearest gap is priorities and success metrics: “not fully clear yet on how success is being measured in this new setup.”",
+    "Her support ask is specific and near-term: “clearer prioritization” plus “a little more air cover in cross-team decisions.”"
+  ],
+  "understanding_paragraph": "Elena is trying to keep her team stable, but the reorg changed how grounded she feels day to day. She’s holding ambiguity privately—protecting the team from noise—while she’s still figuring out where her voice has leverage and how success is measured. The session clarified that her main friction is not effort, it’s missing prioritization/metrics and insufficient cross-team decision air cover.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -5,
+      "meaning": "Energy and steadiness are down; she’s absorbing ambiguity and context switching without recovery."
+    },
+    {
+      "id": "engagement",
+      "score": -9,
+      "meaning": "Engagement is strongly suppressed; she’s quieter and not re-engaging visibly yet."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Role/goal clarity is severely weak; she lacks a clear definition of success in the new setup."
+    },
+    {
+      "id": "growth",
+      "score": -4,
+      "meaning": "Learning/stretch is constrained by unclear measures and priorities; watch for progress once footing stabilizes."
+    }
+  ],
+  "brutal_truth_employee": "Elena said, “I have been quieter in leadership meetings” and “Part of me is tired from constant context switching.” She also named the core constraint directly: “I am not fully clear yet on how success is being measured in this new setup.”",
+  "brutal_truth_manager": "You stayed observation-first and let Elena name the thread, which worked. The next deepen is to follow her specificity: when she said “clearer prioritization” and “air cover in cross-team decisions,” you could have asked her to name one concrete decision and what “air cover” looks like in practice (what you’d do, with whom, and by when).",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Loop Elena on one concrete cross-team decision: confirm the decision owner, the next meeting date, and what “air cover” you will provide in that forum."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 30-minute prioritization alignment with the relevant leads to define success metrics for the new setup and share the agreed measures back to Elena."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Start by asking Elena to rate whether her footing is steadier now, then ask what changed (priorities, metrics, or air cover) and what still blocks re-engagement."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks, Elena re-engages visibly in leadership meetings; if she stays “quieter,” the missing prioritization/air-cover fix isn’t landing.",
+    "If Elena still says she’s “not fully clear” on success measurement after the alignment, the clarity gap persists and needs escalation."
+  ]
+}

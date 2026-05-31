@@ -1,0 +1,88 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_recognized_work_2",
+    "label": "Recognized work",
+    "name": "What work do you think gets recognized here instead?",
+    "description": "Drills into his recognition model to surface the specific gap between his current work and what he believes matters.",
+    "purpose": "topic",
+    "stage": "underneath",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I want clearer criteria, not reassurance.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -3
+    },
+    "note": "Names a missing condition — clear criteria for recognized work — which is a strong negative growth signal; also reveals a clarity gap but clarity was off-signature."
+  },
+  "new_queue": [
+    {
+      "alias": "q_support_needed_11",
+      "label": "Support needed",
+      "name": "What would help make the next couple of weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_thread_follow_3",
+          "delta": -3,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_needed_change",
+          "delta": -3,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        }
+      ]
+    },
+    "growth": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_needed_change",
+          "delta": -1,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        },
+        {
+          "q": "q_mentoring_useful_2",
+          "delta": -3,
+          "answer_excerpt": "I am not sure the work I am doing is the work that gets recognized."
+        },
+        {
+          "q": "q_recognized_work_2",
+          "delta": -3,
+          "answer_excerpt": "I want clearer criteria, not reassurance."
+        }
+      ]
+    }
+  }
+}

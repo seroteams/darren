@@ -1,0 +1,10 @@
+alias: q_cross_functional_moments
+label: Cross-functional moments
+name: Which cross-functional moments still slow you down the most?
+description: Finds the specific meeting or interaction patterns where uncertainty shows up.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

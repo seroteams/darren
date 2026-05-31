@@ -1,0 +1,10 @@
+alias: q_next_step_commitment_2
+label: Next-step commitment
+name: What would raising your visibility look like in the next two weeks?
+description: Closes on a concrete behavioural commitment with a near-term date.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_step_commitment"

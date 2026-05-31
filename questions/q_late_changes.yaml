@@ -1,0 +1,9 @@
+alias: q_late_changes
+label: Late changes
+name: When direction changes late, what usually got missed from your side?
+description: Drills into the specific thread he named to surface the concrete failure point behind the frustration.
+purpose: topic
+stage: observation
+axis_effects:
+  engagement: +3
+source: planner_added

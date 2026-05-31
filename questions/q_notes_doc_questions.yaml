@@ -1,0 +1,9 @@
+alias: q_notes_doc_questions
+label: Notes doc questions
+name: What kinds of questions are sitting in that notes doc right now?
+description: Drills into the specific unanswered questions Riley is holding back so the manager can remove friction.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

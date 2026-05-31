@@ -1,0 +1,54 @@
+{
+  "name": "Riley",
+  "roleTitle": "Backend Engineer",
+  "seniority": "Mid-level",
+  "meetingType": "Onboarding check-in",
+  "observedShift": "Riley is in week two and is moving quickly through codebase orientation, but he has mostly learned from docs and async notes rather than direct team contact. I want to check whether he feels clear on ownership boundaries, incident expectations, and where to ask for context before making architecture assumptions. There is a risk he looks productive while building an internal map that differs from how the team actually operates. This check-in should identify missing context early and convert it into concrete onboarding support.",
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How he’s landing with the team day-to-day.",
+      "reason": "In week two, he’s learned mostly via docs and async notes rather than direct contact. One possibility is he’s moving fast but missing the real operating texture—worth clarifying who he’s been working with, how often he’s getting live feedback, and what context he’s still not hearing.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "Ownership boundaries and what “good” means.",
+      "reason": "He may be building an internal map that differs from how the team actually operates. Whether his ownership boundaries and expectations are explicit enough for him to make safe calls without overstepping is worth clarifying early.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Where he needs context before assumptions.",
+      "reason": "He’s at the stage where architecture assumptions can be made quickly from incomplete information. Ask what questions are still unanswered, which decisions feel risky, and where he’s currently waiting on clarity—so you can convert missing context into concrete onboarding support.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Incident expectations and escalation paths.",
+      "reason": "Onboarding for a Mid backend engineer should include how incidents are handled in practice—what to monitor, when to escalate, and how to communicate hard news. Whether he knows the expectation for incident ownership and escalation early prevents “looks productive” drift into the wrong mental model.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "e7b51b6e-bc4e-4e66-adf7-94b9f54edcbd",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "listenFor may lack observable behavioural cue: \"if they describe docs confidently but pause or hedge when as…\""
+    ]
+  },
+  "attempts": 2
+}

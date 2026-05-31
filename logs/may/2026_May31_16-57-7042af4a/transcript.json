@@ -1,0 +1,201 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_settling_check_in",
+      "label": "Settling check-in",
+      "name": "What’s been most on your mind at work this week, Sam?",
+      "description": "Gives Sam room to set the context before any friction is explored.",
+      "purpose": "wellbeing",
+      "stage": "settling",
+      "axis_effects": {
+        "wellbeing": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "I can do the tasks, but I still second-guess whether my approach matches team expectations.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1
+    },
+    "note": "He can do the tasks but is unsure whether his approach matches team expectations, which is a mild clarity gap."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_team_expectations",
+      "label": "Team expectations",
+      "name": "When you second-guess your approach, what feels hardest to read about team expectations?",
+      "description": "Drills into the specific expectation gap he just named so the manager can remove friction.",
+      "purpose": "topic",
+      "stage": "settling",
+      "axis_effects": {
+        "clarity": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "Local setup is better now, but I still lose time when the design and API details do not match.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1
+    },
+    "note": "Mismatch between design and API details is still costing him time, which signals a mild ongoing clarity gap in how work boundaries line up."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_design_api_mismatch",
+      "label": "Design API mismatch",
+      "name": "When design and API details do not match, what is usually unclear first?",
+      "description": "Drills into the specific mismatch he named so the manager can remove the most common source of confusion.",
+      "purpose": "topic",
+      "stage": "settling",
+      "axis_effects": {
+        "clarity": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "I am not always sure who should approve what before I push.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1
+    },
+    "note": "He names an approval-path gap before pushing, which is a mild negative clarity signal; [THREAD-DEFERRED] 'who should approve what before I push' not drilled because drill cap requires advancing the arc."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_ticket_expectations",
+      "label": "Ticket expectations",
+      "name": "What feels clear or unclear about what “done enough to ship” means here?",
+      "description": "Checks whether his hesitation is coming from expectations rather than ability.",
+      "purpose": "topic",
+      "stage": "orientation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    "answer": "I usually wait too long before asking because I want to solve things myself first.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "He describes delaying help-seeking because he is trying to solve things alone first, which strongly signals unclear shipping expectations and escalation norms."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_ask_earlier",
+      "label": "Ask earlier",
+      "name": "When you hold off asking, what tells you it is time to pull someone in?",
+      "description": "Drills into his help-seeking threshold so the manager can make escalation expectations explicit.",
+      "purpose": "competency",
+      "stage": "orientation",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "When feedback is specific and fast, I move much quicker.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "clarity": -3
+    },
+    "note": "He names specific, fast feedback as the condition that unlocks progress, which signals a strong clarity gap and some willingness to move once guidance is concrete."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_specific_and_fast",
+      "label": "Specific and fast",
+      "name": "What kind of feedback helps most in those moments?",
+      "description": "Drills into what 'specific and fast' means so support can be made concrete.",
+      "purpose": "topic",
+      "stage": "orientation",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I still feel fuzzy on where quality bars differ between quick fixes and core flows.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "clarity": -3
+    },
+    "note": "He names a specific clarity gap around differing quality bars for quick fixes versus core flows, with mild drag on momentum from the uncertainty. [THREAD-DEFERRED] 'quality bars differ between quick fixes and core flows' not drilled because drill cap reached and blockers stage is under-served."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_confidence_trigger",
+      "label": "Confidence trigger",
+      "name": "What tends to make you pause before shipping a ticket?",
+      "description": "Surfaces the concrete trigger behind late reassurance-seeking.",
+      "purpose": "competency",
+      "stage": "blockers",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 1,
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "Pairing once or twice a week would probably prevent me from getting stuck silently.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -3,
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "Names missing pairing as the thing that would prevent getting stuck silently, which signals current friction and support gaps; [THREAD-DEFERRED-WINDDOWN] pairing once or twice a week is a concrete support thread to pick up next session."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_support_cadence",
+      "label": "Support cadence",
+      "name": "What kind of check-in from me would be most useful over the next two weeks?",
+      "description": "Helps line up a lightweight support rhythm without over-managing.",
+      "purpose": "topic",
+      "stage": "connection",
+      "axis_effects": {
+        "clarity": 1,
+        "wellbeing": 1
+      },
+      "source": "generated"
+    },
+    "answer": "If we define what good looks like for my next two tickets, I will feel much steadier.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "Names a specific missing support need — defining what good looks like on the next two tickets — which signals mild clarity and steadiness gaps during onboarding."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_two_week_takeaway",
+      "label": "Two-week takeaway",
+      "name": "What’s the one thing you want to have changed by our next check-in?",
+      "description": "Closes on a concrete commitment for the next two weeks.",
+      "purpose": "topic",
+      "stage": "connection",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "[SKIP] no signal — planner bypassed, queue carried forward"
+  }
+]

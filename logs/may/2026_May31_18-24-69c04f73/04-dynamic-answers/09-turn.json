@@ -1,0 +1,42 @@
+{
+  "turn": 9,
+  "question": {
+    "alias": "q_sharper_next_step",
+    "label": "Sharper next step",
+    "name": "What would make the next two weeks feel steadier for you?",
+    "description": "Closes by turning the conversation into concrete support and next-step adjustments.",
+    "purpose": "wellbeing",
+    "stage": "lift",
+    "axis_effects": {
+      "wellbeing": 1,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "answer": "(skipped)",
+  "skipped": true,
+  "assessment": {
+    "deltas": {},
+    "note": "Skipped again; no signal on wellbeing or clarity. [SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]"
+  },
+  "new_queue": [],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

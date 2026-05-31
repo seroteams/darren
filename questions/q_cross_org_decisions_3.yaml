@@ -1,0 +1,9 @@
+alias: q_cross_org_decisions_3
+label: Cross-org decisions
+name: Cross-org decision area — which decisions do you want your name attached to?
+description: Turns his stated aspiration into a concrete picture of the scope and decisions he wants to own.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

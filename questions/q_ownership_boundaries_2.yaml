@@ -1,0 +1,9 @@
+alias: q_ownership_boundaries_2
+label: Ownership boundaries
+name: Where are the ownership boundaries most blurred right now?
+description: Pins down the specific decisions or interfaces where Lin becomes the default escalation.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

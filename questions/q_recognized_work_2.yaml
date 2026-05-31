@@ -1,0 +1,9 @@
+alias: q_recognized_work_2
+label: Recognized work
+name: What work do you think gets recognized here instead?
+description: Drills into his recognition model to surface the specific gap between his current work and what he believes matters.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+source: planner_added

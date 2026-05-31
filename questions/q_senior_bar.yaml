@@ -1,0 +1,10 @@
+alias: q_senior_bar
+label: Senior bar
+name: What does good look like at Senior level in your view?
+description: Checks her internal model of the performance bar she is being judged against.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

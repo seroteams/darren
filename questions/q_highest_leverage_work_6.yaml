@@ -1,0 +1,9 @@
+alias: q_highest_leverage_work_6
+label: Highest-leverage work
+name: "When you say 'highest-leverage work,' what work are you pointing to specifically?"
+description: Pins down the concrete work he believes would count as higher leverage before moving deeper into evidence.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

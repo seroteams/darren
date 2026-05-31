@@ -1,0 +1,10 @@
+alias: q_next_step_agreement_3
+label: Next step agreement
+name: What support from me would make the biggest difference on that?
+description: Final closer that invites the employee to shape the manager support needed for the agreed focus.
+purpose: topic
+stage: commit
+axis_effects:
+  clarity: +1
+  growth: +1
+source: planner_added

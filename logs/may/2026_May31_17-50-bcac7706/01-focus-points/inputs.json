@@ -1,0 +1,8 @@
+{
+  "name": "Lin",
+  "role": "Head of Product",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Lin has delivered two major features ahead of schedule but has worked late for about three weeks. I need to understand whether this pace was a temporary push or is becoming a default. Because Lin tends to brush off concern, I should ask directly what is driving the load now that those launches are done. I also want clarity on what work only Lin should own versus what could be delegated, since sustained late nights at this level can hide a distribution or autonomy problem.",
+  "model": "gpt-5.4-nano"
+}

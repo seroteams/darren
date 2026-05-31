@@ -1,0 +1,10 @@
+alias: q_influence_bottleneck_2
+label: Influence bottleneck
+name: What tends to slow decisions down when you need buy-in?
+description: Pinpoints the recurring dependency or interface problem that limits her influence.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

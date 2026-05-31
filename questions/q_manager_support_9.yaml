@@ -1,0 +1,10 @@
+alias: q_manager_support_9
+label: Manager support
+name: What would you want more of from me in the day-to-day loop?
+description: Finds the concrete support change that would reduce friction for him.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

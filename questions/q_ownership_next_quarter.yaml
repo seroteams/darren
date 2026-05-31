@@ -1,0 +1,10 @@
+alias: q_ownership_next_quarter
+label: Ownership next quarter
+name: What do you expect to own next quarter?
+description: Clarifies her own mental model of upcoming ownership before new work is introduced.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

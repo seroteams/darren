@@ -28,6 +28,8 @@ const initial = {
   briefing: null,
   notes: [],
   sessionDir: null,
+  createdAt: null,
+  completedAt: null,
   error: null,
   retryStage: null,
 };

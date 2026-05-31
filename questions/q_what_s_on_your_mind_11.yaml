@@ -1,0 +1,10 @@
+alias: q_what_s_on_your_mind_11
+label: What’s on your mind
+name: What’s been most on your mind at work lately, Lin?
+description: Safe opener that lets Lin set the context before the conversation narrows.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

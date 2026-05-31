@@ -1,0 +1,10 @@
+alias: q_support_cadence
+label: Support cadence
+name: What kind of check-in from me would be most useful over the next two weeks?
+description: Helps line up a lightweight support rhythm without over-managing.
+purpose: topic
+stage: connection
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

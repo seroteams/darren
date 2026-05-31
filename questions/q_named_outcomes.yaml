@@ -1,0 +1,10 @@
+alias: q_named_outcomes
+label: Named outcomes
+name: What outcomes would make the next six months feel meaningfully different for you?
+description: Surfaces the outcomes she wants to own so the growth plan has a real target.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

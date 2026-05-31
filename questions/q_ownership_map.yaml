@@ -1,0 +1,9 @@
+alias: q_ownership_map
+label: Ownership map
+name: What feels clearest to you about what you own right now?
+description: Checks whether he has a usable map of boundaries and decision space.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: generated

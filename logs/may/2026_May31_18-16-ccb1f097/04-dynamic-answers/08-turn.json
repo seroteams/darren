@@ -1,0 +1,117 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_seed_clarity_priorities",
+    "label": "Priority ranking",
+    "name": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+    "description": "Forces a real priority ranking. Vague answers are a clarity signal.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "A regular calibration loop would make this feel less shaky.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "clarity": -3
+    },
+    "note": "Names a missing regular calibration loop as what would reduce shakiness — a strong clarity deficit and mild engagement drag from instability."
+  },
+  "new_queue": [
+    {
+      "alias": "q_seed_clarity_success",
+      "label": "Success definition",
+      "name": "What would make this quarter clearly successful for you — in one sentence?"
+    }
+  ],
+  "issues": [
+    "ref_alias q_steadier_next_two_weeks not in remaining queue — treating as new",
+    "ref_alias q_steadier_next_two_weeks already asked — dropping"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        },
+        {
+          "q": "q_steadier_next_two_weeks",
+          "delta": -1,
+          "answer_excerpt": "I want more ownership, but I also want clearer guardrails."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        },
+        {
+          "q": "q_missed_something_2",
+          "delta": -3,
+          "answer_excerpt": "I am still unsure what good really looks like here week to week."
+        },
+        {
+          "q": "q_seed_clarity_priorities",
+          "delta": -1,
+          "answer_excerpt": "A regular calibration loop would make this feel less shaky."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_what_good_looks_like_4",
+          "delta": -3,
+          "answer_excerpt": "I do ask for help sometimes, but I worry about sounding slow."
+        },
+        {
+          "q": "q_specific_feedback_6",
+          "delta": -3,
+          "answer_excerpt": "Some days I feel useful, other days I feel like I am guessing."
+        },
+        {
+          "q": "q_guessing_days_4",
+          "delta": -3,
+          "answer_excerpt": "When priorities change fast, I lose confidence in what to optimize for."
+        },
+        {
+          "q": "q_steadier_next_two_weeks",
+          "delta": -1,
+          "answer_excerpt": "I want more ownership, but I also want clearer guardrails."
+        },
+        {
+          "q": "q_seed_clarity_priorities",
+          "delta": -3,
+          "answer_excerpt": "A regular calibration loop would make this feel less shaky."
+        }
+      ]
+    },
+    "growth": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_specific_feedback_6",
+          "delta": -1,
+          "answer_excerpt": "Some days I feel useful, other days I feel like I am guessing."
+        },
+        {
+          "q": "q_guessing_days_4",
+          "delta": -1,
+          "answer_excerpt": "When priorities change fast, I lose confidence in what to optimize for."
+        }
+      ]
+    }
+  }
+}

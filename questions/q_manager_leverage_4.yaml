@@ -1,0 +1,9 @@
+alias: q_manager_leverage_4
+label: Manager leverage
+name: "What's one thing I could change that would remove friction for you?"
+description: Directs the conversation toward actionable manager support and team setup changes.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+source: generated

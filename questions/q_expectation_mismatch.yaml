@@ -1,0 +1,10 @@
+alias: q_expectation_mismatch
+label: Expectation mismatch
+name: Where do your standards for good work differ from mine right now?
+description: Names a likely source of misalignment without softening the gap.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_late_nights_source_3
+label: Late nights source
+name: What is driving the late nights now that the launches are done?
+description: Gets at the current source of load without assuming it is still launch-related.
+purpose: topic
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

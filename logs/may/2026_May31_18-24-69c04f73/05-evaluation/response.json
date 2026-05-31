@@ -1,0 +1,51 @@
+{
+  "headline": "Test’s 1:1 had no substantive answers—this is a partial read driven by skipped responses, not a verdict on wellbeing, engagement, clarity, or growth.",
+  "summary_bullets": [
+    "Every question in the check-in arc was skipped, so there’s no signal on what’s slower, what’s draining energy, or what decisions are lagging.",
+    "No stakeholder communication, blockers, or capacity details were provided—so nothing can be actioned from the conversation itself.",
+    "The session produced only axis baseline scores (wellbeing -1, engagement -1) without any supporting content, so treat this as “no data,” not “low performance.”"
+  ],
+  "understanding_paragraph": "We did not learn what Test is experiencing in the last two weeks because all prompts were skipped. We also did not get any specifics on priorities, blockers, decision lags, or what would make the next two weeks steadier. The only reliable takeaway is that this conversation did not surface usable information.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -1,
+      "meaning": "Weak signal, not actionable on its own; the session skipped all workload/energy questions."
+    },
+    {
+      "id": "engagement",
+      "score": -1,
+      "meaning": "Weak signal, not actionable on its own; there was no content on ownership or motivation."
+    },
+    {
+      "id": "clarity",
+      "score": 0,
+      "meaning": "No signal; priorities and success criteria were not answered."
+    },
+    {
+      "id": "growth",
+      "score": 0,
+      "meaning": "No signal; there was no discussion of learning, stretch, or feedback."
+    }
+  ],
+  "brutal_truth_employee": "Test skipped every question, including “What's been slower or harder than it should have been?” and “What would make the next two weeks feel steadier for you?” This provides no evidence of what’s actually going on, so there’s nothing concrete to improve from their side based on this session.",
+  "brutal_truth_manager": "This 1:1 didn’t extract any signal because the conversation never recovered after the first skipped answers. The moment to deepen was immediately after the first skip—switch to a single, low-effort prompt (pick one project and one pain) instead of continuing the full arc.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Send Test a short follow-up: “Reply with 1 thing slower + 1 thing draining energy + 1 decision you’re waiting on.” Keep it to three bullets."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 15-minute mini-check-in with Test and start with one forced-choice question: “Is the bottleneck decisions, dependencies, or unclear priorities?”"
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-run the check-in arc but cap each question to a 10-second answer: “one sentence” or “one item,” then ask only one follow-up if they give content."
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Test continues to skip prompts or replies with zero specifics, treat this as communication friction, not a temporary busy period.",
+    "Within two weeks: if no decision lag or blocker is named after the forced-choice mini-check-in, escalate by pairing with the relevant owner to unblock."
+  ]
+}

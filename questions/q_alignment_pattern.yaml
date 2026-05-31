@@ -1,0 +1,10 @@
+alias: q_alignment_pattern
+label: Alignment pattern
+name: How are you choosing to align people before a decision?
+description: Reveals the current alignment method and whether it is lightweight enough for the work.
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

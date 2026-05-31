@@ -1,0 +1,9 @@
+alias: q_team_rituals_drop
+label: Team rituals drop
+name: Team rituals feel less motivating lately — what changed for you there?
+description: Drills into the named disengagement thread before returning to the growth arc.
+purpose: wellbeing
+stage: aspiration
+axis_effects:
+  engagement: +1
+source: planner_added

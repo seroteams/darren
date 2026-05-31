@@ -1,0 +1,10 @@
+alias: q_arrival_check_in
+label: Arrival check-in
+name: "What's been most on your mind at work lately?"
+description: Lets Elena set the frame before any observation or concern is introduced.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

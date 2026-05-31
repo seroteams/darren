@@ -1,0 +1,10 @@
+alias: q_context_and_priorities_2
+label: Context and priorities
+name: What feels most important to get into today, Tom?
+description: Lets Tom set the agenda before the feedback lands.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

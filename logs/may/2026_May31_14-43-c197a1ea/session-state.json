@@ -2,7 +2,7 @@
   "id": "2026_May31_14-43-c197a1ea",
   "dir": "C:\\Users\\User\\Documents\\Sero\\darren\\logs\\may\\2026_May31_14-43-c197a1ea",
   "createdAt": 1780213387705,
-  "lastSeenAt": 1780213421712,
+  "lastSeenAt": 1780220499036,
   "ctx": {
     "name": "Carl",
     "role": "UX lead",
@@ -129,7 +129,9 @@
     },
     "attempts": 2
   },
-  "bankReady": false,
+  "bankReady": {
+    "count": 10
+  },
   "briefing": null,
   "queueRef": [
     {
@@ -182,6 +184,136 @@
         "engagement": 1
       },
       "source": "seed"
+    },
+    {
+      "alias": "q_context_check_3",
+      "label": "Context check",
+      "name": "What feels most important to talk through today, Carl?",
+      "description": "Lets Carl set the frame before the manager goes deeper.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_coe_limp_point",
+      "label": "CoE limp point",
+      "name": "Where has the CoE lost the most momentum lately?",
+      "description": "Surfaces the specific place the CoE has gone soft rather than treating it as a general issue.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_partner_pull",
+      "label": "Partner pull",
+      "name": "Which partner relationship is doing the most to slow the CoE down?",
+      "description": "Finds the external dependency or misalignment that is weakening pull on the work.",
+      "purpose": "competency",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_ownership_handoff",
+      "label": "Ownership handoff",
+      "name": "What are you still holding on to that could move through someone else?",
+      "description": "Tests whether Carl is over-owning CoE execution instead of building distributed ownership.",
+      "purpose": "competency",
+      "stage": "friction",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_priority_bet",
+      "label": "Priority bet",
+      "name": "What is the CoE's next real bet?",
+      "description": "Forces a concrete priority choice rather than a vague list of work.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_momentum_blocker",
+      "label": "Momentum blocker",
+      "name": "What is keeping that from moving faster?",
+      "description": "Gets at the one constraint holding the chosen CoE bet back.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_update_usefulness",
+      "label": "Update usefulness",
+      "name": "How are your CoE updates landing with the people you need?",
+      "description": "Checks whether his communication is creating pull and action or just visibility.",
+      "purpose": "competency",
+      "stage": "momentum",
+      "axis_effects": {
+        "engagement": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_decision_signal",
+      "label": "Decision signal",
+      "name": "What decision do you want to force in the next update?",
+      "description": "Surfaces whether the next communication is built to drive action, not just report status.",
+      "purpose": "competency",
+      "stage": "momentum",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_next_two_weeks_8",
+      "label": "Next two weeks",
+      "name": "What would make the next two weeks feel sharper for you?",
+      "description": "Closes by turning the check-in into a concrete near-term adjustment.",
+      "purpose": "wellbeing",
+      "stage": "lift",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    {
+      "alias": "q_concrete_takeaway",
+      "label": "Concrete takeaway",
+      "name": "What's the first thing you'll change before we talk again?",
+      "description": "Ends on a specific commitment the manager can revisit next time.",
+      "purpose": "competency",
+      "stage": "lift",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1
+      },
+      "source": "generated"
     }
   ],
   "axisState": {
@@ -217,7 +349,19 @@
   "transcript": [],
   "turn": 0,
   "totalBudget": 9,
-  "closer": null,
+  "closer": {
+    "alias": "q_concrete_takeaway",
+    "label": "Concrete takeaway",
+    "name": "What's the first thing you'll change before we talk again?",
+    "description": "Ends on a specific commitment the manager can revisit next time.",
+    "purpose": "competency",
+    "stage": "lift",
+    "axis_effects": {
+      "growth": 1,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
   "pendingAnswer": null,
   "notes": [
     {

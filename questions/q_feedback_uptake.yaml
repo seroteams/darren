@@ -1,0 +1,10 @@
+alias: q_feedback_uptake
+label: Feedback uptake
+name: What kind of feedback turns into action for you fastest?
+description: Surfaces how he best converts input into behavior change.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

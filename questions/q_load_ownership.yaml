@@ -1,0 +1,10 @@
+alias: q_load_ownership
+label: Load ownership
+name: What part of the load is still yours to carry?
+description: Helps distinguish legitimate ownership from work that has stayed with Lin by default.
+purpose: competency
+stage: friction
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

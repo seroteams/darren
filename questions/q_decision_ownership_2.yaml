@@ -1,0 +1,10 @@
+alias: q_decision_ownership_2
+label: Decision ownership
+name: What decisions are you already making that should be explicitly yours?
+description: Identifies where he is acting at the next level without yet owning the authority or framing.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

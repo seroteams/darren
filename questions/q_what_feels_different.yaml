@@ -1,0 +1,10 @@
+alias: q_what_feels_different
+label: What feels different
+name: What feels different about your week-to-week work since then?
+description: Looks for a broader change in how he is showing up without naming the promotion directly.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,48 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_decision_lag",
+    "label": "Decision lag",
+    "name": "What decision are you waiting on that is slowing things down?",
+    "description": "Finds dependency risk and whether progress is being held up by external calls.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "generated"
+  },
+  "answer": "(skipped)",
+  "skipped": true,
+  "assessment": {
+    "deltas": {},
+    "note": "Skip on a dependency-risk question gives no signal on clarity or engagement; [SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]"
+  },
+  "new_queue": [
+    {
+      "alias": "q_reset_timing",
+      "label": "Reset timing",
+      "name": "Is now a good time for this, or should we pick it up later?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

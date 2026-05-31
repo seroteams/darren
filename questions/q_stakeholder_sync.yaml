@@ -1,0 +1,10 @@
+alias: q_stakeholder_sync
+label: Stakeholder sync
+name: Who needs the clearest update from you this week?
+description: Checks where stakeholder alignment matters most and whether anyone is at risk of being surprised.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_consensus_tradeoff
+label: Consensus tradeoff
+name: What do you tend to give up when you try to get everyone aligned?
+description: Surfaces whether she is over-indexing on consensus and what it costs in speed or decisiveness.
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

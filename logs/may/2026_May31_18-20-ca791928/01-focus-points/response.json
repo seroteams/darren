@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Growth & career plan",
+  "focus_points": [
+    {
+      "id": "stakeholder_engagement",
+      "label": "Turning design leadership into org influence",
+      "reason": "What seems to be limiting Toby’s visible strategic positioning after being passed over last cycle — could be sponsorship, confidence, or unclear expectations — worth clarifying so the growth plan targets the real constraint.",
+      "source": "signal"
+    },
+    {
+      "id": "decision_making_speed",
+      "label": "Decision ownership at the next level",
+      "reason": "What a Lead should demonstrate in a Growth & career plan is concrete decision ownership — the calls they make, the tradeoffs they drive, and how they unblock others without waiting for permission.",
+      "source": "best_practice"
+    },
+    {
+      "id": "cross_team_alignment",
+      "label": "Cross-functional impact and shared outcomes",
+      "reason": "What “next-level” looks like for a Design Lead is reducing last-minute surprises and getting adjacent teams bought in early — so their work moves beyond their immediate scope.",
+      "source": "best_practice"
+    },
+    {
+      "id": "growth",
+      "label": "A concrete growth contract, not a list",
+      "reason": "How to make the conversation actionable is to leave with a specific growth contract tied to outcomes (decision ownership + cross-functional impact), not a generic development checklist.",
+      "source": "best_practice"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "wellbeing": {
+    "score": 0,
+    "history": [
+      {
+        "q": "q_next_behavior",
+        "delta": 1,
+        "answer_excerpt": "I will pick one recent deliverable and write down the decision rule I used before our next check-in."
+      }
+    ]
+  },
+  "engagement": {
+    "score": -6,
+    "history": [
+      {
+        "q": "q_intro_perf_01_opening",
+        "delta": 1,
+        "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+      },
+      {
+        "q": "q_intro_perf_02_proud",
+        "delta": -1,
+        "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+      },
+      {
+        "q": "q_safe_calls_2",
+        "delta": -1,
+        "answer_excerpt": "I probably should ask for sharper feedback earlier than I do."
+      },
+      {
+        "q": "q_sharper_feedback_4",
+        "delta": -3,
+        "answer_excerpt": "I have not built enough trust with adjacent teams yet."
+      },
+      {
+        "q": "q_question_habit",
+        "delta": -1,
+        "answer_excerpt": "I need explicit expectations for the next cycle so I can calibrate fast."
+      }
+    ]
+  },
+  "clarity": {
+    "score": -9,
+    "history": [
+      {
+        "q": "q_intro_perf_01_opening",
+        "delta": -3,
+        "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+      },
+      {
+        "q": "q_highest_leverage_work_4",
+        "delta": -3,
+        "answer_excerpt": "I can describe Principal impact in general, but this team's bar still feels fuzzy."
+      },
+      {
+        "q": "q_team_bar_fuzzy_3",
+        "delta": -3,
+        "answer_excerpt": "I have mostly stayed in my lane instead of forcing cross-team decisions."
+      },
+      {
+        "q": "q_intro_perf_03_gap",
+        "delta": -1,
+        "answer_excerpt": "The gap is less technical and more around visible ownership."
+      },
+      {
+        "q": "q_question_habit",
+        "delta": -1,
+        "answer_excerpt": "I need explicit expectations for the next cycle so I can calibrate fast."
+      },
+      {
+        "q": "q_next_behavior",
+        "delta": 1,
+        "answer_excerpt": "I will pick one recent deliverable and write down the decision rule I used before our next check-in."
+      }
+    ]
+  },
+  "growth": {
+    "score": -4,
+    "history": [
+      {
+        "q": "q_intro_perf_02_proud",
+        "delta": -1,
+        "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+      },
+      {
+        "q": "q_intro_perf_03_gap",
+        "delta": -3,
+        "answer_excerpt": "The gap is less technical and more around visible ownership."
+      },
+      {
+        "q": "q_question_habit",
+        "delta": -1,
+        "answer_excerpt": "I need explicit expectations for the next cycle so I can calibrate fast."
+      },
+      {
+        "q": "q_next_behavior",
+        "delta": 1,
+        "answer_excerpt": "I will pick one recent deliverable and write down the decision rule I used before our next check-in."
+      }
+    ]
+  }
+}

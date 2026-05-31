@@ -1,0 +1,92 @@
+{
+  "wellbeing": {
+    "score": -4,
+    "history": [
+      {
+        "q": "q_intro_off_connection",
+        "delta": -1,
+        "answer_excerpt": "I have been less present in rituals, yes."
+      },
+      {
+        "q": "q_arrive_here",
+        "delta": -1,
+        "answer_excerpt": "I can own bigger direction, but I need real authority to do it."
+      },
+      {
+        "q": "q_support_needed_22",
+        "delta": -1,
+        "answer_excerpt": "If we can define the path precisely, I will commit to it."
+      }
+    ]
+  },
+  "engagement": {
+    "score": -6,
+    "history": [
+      {
+        "q": "q_intro_off_connection",
+        "delta": -3,
+        "answer_excerpt": "I have been less present in rituals, yes."
+      },
+      {
+        "q": "q_less_present_rituals_4",
+        "delta": -3,
+        "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+      },
+      {
+        "q": "q_seed_clarity_priorities",
+        "delta": 1,
+        "answer_excerpt": "I would start by naming one forum where I want clearer criteria, and what support I need to show up there."
+      }
+    ]
+  },
+  "clarity": {
+    "score": -10,
+    "history": [
+      {
+        "q": "q_needed_to_change_4",
+        "delta": -3,
+        "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+      },
+      {
+        "q": "q_decision_meaning_2",
+        "delta": -3,
+        "answer_excerpt": "Mentoring has been one place where I still feel useful."
+      },
+      {
+        "q": "q_arrive_here",
+        "delta": -1,
+        "answer_excerpt": "I can own bigger direction, but I need real authority to do it."
+      },
+      {
+        "q": "q_support_needed_22",
+        "delta": -1,
+        "answer_excerpt": "If we can define the path precisely, I will commit to it."
+      },
+      {
+        "q": "q_seed_clarity_priorities",
+        "delta": -3,
+        "answer_excerpt": "I would start by naming one forum where I want clearer criteria, and what support I need to show up there."
+      }
+    ]
+  },
+  "growth": {
+    "score": -3,
+    "history": [
+      {
+        "q": "q_decision_meaning_2",
+        "delta": -1,
+        "answer_excerpt": "Mentoring has been one place where I still feel useful."
+      },
+      {
+        "q": "q_mentoring_useful_5",
+        "delta": -1,
+        "answer_excerpt": "I am not sure the work I am doing is the work that gets recognized."
+      },
+      {
+        "q": "q_recognized_work_5",
+        "delta": -1,
+        "answer_excerpt": "I want clearer criteria, not reassurance."
+      }
+    ]
+  }
+}

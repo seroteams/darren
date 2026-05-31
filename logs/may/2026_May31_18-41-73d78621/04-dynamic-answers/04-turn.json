@@ -1,0 +1,89 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_thread_follow_30",
+    "label": "Thread follow",
+    "name": "stayed focused delivery — can you say more about what that means for you right now?",
+    "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "clarity": 3,
+      "growth": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "Mentoring has been one place where I still feel useful.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": 1
+    },
+    "note": "Mentoring still feels useful, which adds a small growth-positive signal; it also introduces a concrete mentoring thread worth following."
+  },
+  "new_queue": [
+    {
+      "alias": "q_mentoring_useful_6",
+      "label": "Mentoring useful",
+      "name": "What makes mentoring feel useful for you right now?"
+    },
+    {
+      "alias": "q_next_step_picture",
+      "label": "Next-step picture",
+      "name": "What concrete path forward feels real to you right now?"
+    },
+    {
+      "alias": "q_support_needed_24",
+      "label": "Support needed",
+      "name": "What would help make the next couple of weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_what_landed_3",
+          "delta": 1,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_what_landed_3",
+          "delta": -1,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        },
+        {
+          "q": "q_thread_follow_30",
+          "delta": 1,
+          "answer_excerpt": "Mentoring has been one place where I still feel useful."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+alias: q_next_move_13
+label: Next move
+name: "Given what we've covered, where do you want to focus first?"
+description: Open closer that lets her name the first area to act on before the next conversation.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added

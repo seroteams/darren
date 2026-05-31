@@ -1,0 +1,96 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_team_bar_fuzzy_4",
+    "label": "Team bar fuzzy",
+    "name": "This team's bar feels fuzzy — where does that show up most concretely?",
+    "description": "Drills into the specific place expectation fuzziness is showing up before moving on.",
+    "purpose": "topic",
+    "stage": "self_read",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I have mostly stayed in my lane instead of forcing cross-team decisions.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "He names a concrete clarity failure: staying in his lane rather than stepping into cross-team decisions, which strongly signals unclear Principal expectations."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_perf_02_proud",
+      "label": "What they're proud of",
+      "name": "What's something from the last quarter you're genuinely proud of — not what looks good, what actually was good?"
+    },
+    {
+      "alias": "q_evidence_of_leverage",
+      "label": "Evidence of leverage",
+      "name": "What recent decision or change best shows the leverage you're creating?"
+    },
+    {
+      "alias": "q_intro_perf_03_gap",
+      "label": "Gap awareness",
+      "name": "Where do you think you've fallen short of where you want to be?"
+    },
+    {
+      "alias": "q_expectation_alignment_4",
+      "label": "Expectation alignment",
+      "name": "Where do you still need earlier alignment on expectations?"
+    },
+    {
+      "alias": "q_questioning_pattern",
+      "label": "Questioning pattern",
+      "name": "What keeps you from asking more questions earlier?"
+    },
+    {
+      "alias": "q_earlier_signals",
+      "label": "Earlier signals",
+      "name": "What would help you spot expectation drift earlier next time?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_highest_leverage_work_6",
+          "delta": -3,
+          "answer_excerpt": "I can describe Principal impact in general, but this team's bar still feels fuzzy."
+        },
+        {
+          "q": "q_team_bar_fuzzy_4",
+          "delta": -3,
+          "answer_excerpt": "I have mostly stayed in my lane instead of forcing cross-team decisions."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

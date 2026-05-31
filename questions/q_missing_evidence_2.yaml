@@ -1,0 +1,10 @@
+alias: q_missing_evidence_2
+label: Missing evidence
+name: What evidence do you feel is still missing for the path you want?
+description: Surfaces whether she lacks a readout, a sponsor signal, or a clearer benchmark.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,78 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_intro_biweekly_pace",
+    "label": "Opening pace check",
+    "name": "How's the last two weeks actually felt — energy-wise?",
+    "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+    "purpose": "wellbeing",
+    "stage": "pulse",
+    "axis_effects": {
+      "wellbeing": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "(skipped)",
+  "skipped": true,
+  "assessment": {
+    "deltas": {},
+    "note": "Skip/evasion on the pace check; no usable signal yet, and clarity remains untouched after two turns."
+  },
+  "new_queue": [
+    {
+      "alias": "q_decision_drag_2",
+      "label": "Decision drag",
+      "name": "Where are decisions still hanging around longer than they should?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_hidden_rework",
+      "label": "Hidden rework",
+      "name": "What part of the work is creating extra churn for you?"
+    },
+    {
+      "alias": "q_tradeoff_call",
+      "label": "Tradeoff call",
+      "name": "What are you choosing not to do this cycle?"
+    },
+    {
+      "alias": "q_update_landing",
+      "label": "Update landing",
+      "name": "How are your updates landing with the people who rely on them?"
+    },
+    {
+      "alias": "q_manager_leverage_8",
+      "label": "Manager leverage",
+      "name": "What would make the next two weeks easier from my side?"
+    },
+    {
+      "alias": "q_close_on_next_step",
+      "label": "Close on next step",
+      "name": "Given what we covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

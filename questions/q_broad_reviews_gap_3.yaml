@@ -1,0 +1,9 @@
+alias: q_broad_reviews_gap_3
+label: Broad reviews gap
+name: When feedback is broad, what part of your work gets missed most often?
+description: Turns his complaint about broad reviews into a concrete recurring gap in the work.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

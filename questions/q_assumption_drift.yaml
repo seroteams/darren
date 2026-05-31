@@ -1,0 +1,9 @@
+alias: q_assumption_drift
+label: Assumption drift
+name: What assumptions from your previous team are you still carrying here?
+description: Checks for old operating models that may not fit this team’s expectations.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+source: generated

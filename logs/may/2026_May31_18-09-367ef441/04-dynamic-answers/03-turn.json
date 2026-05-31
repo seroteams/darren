@@ -1,0 +1,98 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_thread_follow_9",
+    "label": "Thread follow",
+    "name": "feedback specific enough — can you say more about what that means for you right now?",
+    "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+    "purpose": "topic",
+    "stage": "gap",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "I want clearer scope.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {},
+    "note": "[SHALLOW] 'I want clearer scope' names a need but not what scope is unclear — role, decision rights, or expected outcomes; [THREAD-DEFERRED] clearer scope thread not drilled because drill cap reached and anchor stage is still uncovered."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_what_s_on_your_mind_5",
+      "label": "What's on your mind",
+      "name": "What's been most on your mind at work lately, Maria?"
+    },
+    {
+      "alias": "q_team_rituals",
+      "label": "Team rituals",
+      "name": "How has your participation in team rituals felt lately?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_next_level_concrete",
+      "label": "Next level concrete",
+      "name": "What would make the next level feel concrete for you?"
+    },
+    {
+      "alias": "q_manager_investment",
+      "label": "Manager investment",
+      "name": "What should I change in how I'm supporting your growth?"
+    }
+  ],
+  "issues": [
+    "drill cap: removed same-stage drill at gap"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_last_cycle_thread_4",
+          "delta": -1,
+          "answer_excerpt": "The feedback was not specific enough."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_last_cycle_thread_4",
+          "delta": -3,
+          "answer_excerpt": "The feedback was not specific enough."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        }
+      ]
+    }
+  }
+}

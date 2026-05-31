@@ -1,0 +1,9 @@
+alias: q_steadier_next_steps
+label: Steadier next steps
+name: What support from me would make the next two weeks steadier for you?
+description: Closes by turning the discussion into concrete support and next-step commitment.
+purpose: wellbeing
+stage: connection
+axis_effects:
+  clarity: +1
+source: generated

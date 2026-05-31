@@ -1,0 +1,10 @@
+alias: q_current_baseline
+label: Current baseline
+name: What feels most important to get right in your brand design work right now, Carlos?
+description: Surfaces his current working definition of success before specifics land.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

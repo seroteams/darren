@@ -1,0 +1,9 @@
+alias: q_next_step_focus_3
+label: Next-step focus
+name: Given what we’ve covered, where do you want to focus first over the next two weeks?
+description: Closes by narrowing to a concrete next focus without opening a new thread.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: generated

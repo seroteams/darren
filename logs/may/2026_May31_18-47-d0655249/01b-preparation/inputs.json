@@ -1,0 +1,52 @@
+{
+  "name": "Toby",
+  "roleTitle": "Design Lead",
+  "seniority": "Lead",
+  "meetingType": "Growth & career plan",
+  "observedShift": "Toby has strong execution and team trust, but after being passed over last cycle he has become cautious about taking visible strategic positions. He keeps shipping, yet he is not consistently converting design leadership into org-level influence. I need this conversation to clarify whether the gap is confidence, sponsorship, or unclear expectations at the next level. He should leave with a concrete growth contract tied to decision ownership and cross-functional impact, not a generic development list.",
+  "focusPoints": [
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Turning design leadership into org influence",
+      "reason": "Whether he’s getting the right sponsorship and visibility for the strategic work he’s doing, or staying in a safer lane after being passed over last cycle.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "decision_making_speed",
+      "type": "Decision making speed",
+      "category": "competency",
+      "label": "Decision ownership at the next level",
+      "reason": "What “good” looks like for a Lead in Growth & career plan is owning decisions end-to-end—so you can turn his execution into clear accountability and faster unblocking.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "cross_team_alignment",
+      "type": "Cross-team alignment",
+      "category": "competency",
+      "label": "Cross-functional impact and decision leverage",
+      "reason": "What he can point to as measurable cross-functional outcomes—could be fewer last-minute surprises, more shared decisions, or stronger buy-in from product/engineering.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "A concrete growth contract for the next cycle",
+      "reason": "What he wants from this conversation should translate into a specific set of decision and influence commitments, not a generic development list.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "b5ea36bb-435e-4c32-a358-1bed5e3a6e1b",
+  "validation": {
+    "passed": true,
+    "issues": []
+  },
+  "attempts": 2
+}

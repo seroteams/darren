@@ -1,0 +1,9 @@
+alias: q_unwritten_rules_3
+label: Unwritten rules
+name: "You mentioned 'unwritten rules' — what feels hardest to read in those meetings?"
+description: Drills into the specific meeting norms or expectations that still feel opaque.
+purpose: topic
+stage: settling
+axis_effects:
+  engagement: +1
+source: planner_added

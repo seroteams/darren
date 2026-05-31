@@ -1,0 +1,9 @@
+alias: q_unwritten_rules
+label: Unwritten rules
+name: "When you say 'unwritten rules,' what are you still having to decode?"
+description: Drills into the specific norms or meeting dynamics that still feel opaque.
+purpose: topic
+stage: settling
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_handoff_gaps_2
+label: Handoff gaps
+name: Where do the handoffs still feel fuzzy?
+description: Maps the exact points in the onboarding flow where ownership or next steps are unclear.
+purpose: topic
+stage: blockers
+axis_effects:
+  clarity: +3
+source: generated

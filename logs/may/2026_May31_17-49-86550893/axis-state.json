@@ -1,0 +1,87 @@
+{
+  "wellbeing": {
+    "score": -3,
+    "history": [
+      {
+        "q": "q_intro_off_connection",
+        "delta": -1,
+        "answer_excerpt": "I have been less present in rituals, yes."
+      },
+      {
+        "q": "q_support_needed_11",
+        "delta": -1,
+        "answer_excerpt": "I can own bigger direction, but I need real authority to do it."
+      }
+    ]
+  },
+  "engagement": {
+    "score": -8,
+    "history": [
+      {
+        "q": "q_intro_off_connection",
+        "delta": -3,
+        "answer_excerpt": "I have been less present in rituals, yes."
+      },
+      {
+        "q": "q_thread_follow_3",
+        "delta": -3,
+        "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+      },
+      {
+        "q": "q_seed_clarity_priorities",
+        "delta": -1,
+        "answer_excerpt": "If we can define the path precisely, I will commit to it."
+      }
+    ]
+  },
+  "clarity": {
+    "score": -10,
+    "history": [
+      {
+        "q": "q_needed_change",
+        "delta": -3,
+        "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+      },
+      {
+        "q": "q_support_needed_11",
+        "delta": -1,
+        "answer_excerpt": "I can own bigger direction, but I need real authority to do it."
+      },
+      {
+        "q": "q_seed_clarity_priorities",
+        "delta": -3,
+        "answer_excerpt": "If we can define the path precisely, I will commit to it."
+      },
+      {
+        "q": "q_seed_clarity_success",
+        "delta": -3,
+        "answer_excerpt": "I would start by naming one forum where I want clearer criteria, and what support I need to show up there."
+      }
+    ]
+  },
+  "growth": {
+    "score": -8,
+    "history": [
+      {
+        "q": "q_needed_change",
+        "delta": -1,
+        "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+      },
+      {
+        "q": "q_mentoring_useful_2",
+        "delta": -3,
+        "answer_excerpt": "I am not sure the work I am doing is the work that gets recognized."
+      },
+      {
+        "q": "q_recognized_work_2",
+        "delta": -3,
+        "answer_excerpt": "I want clearer criteria, not reassurance."
+      },
+      {
+        "q": "q_seed_clarity_success",
+        "delta": -1,
+        "answer_excerpt": "I would start by naming one forum where I want clearer criteria, and what support I need to show up there."
+      }
+    ]
+  }
+}

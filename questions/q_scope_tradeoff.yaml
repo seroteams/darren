@@ -1,0 +1,10 @@
+alias: q_scope_tradeoff
+label: Scope tradeoff
+name: What would you want to leave off your plate if that next-quarter shape holds?
+description: Forces a concrete trade-off around capacity and protects against hidden overcommitment.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

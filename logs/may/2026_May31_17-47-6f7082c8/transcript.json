@@ -1,0 +1,207 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_growth_blockers",
+      "label": "Growth blockers",
+      "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+      "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1
+      },
+      "source": "seed"
+    },
+    "answer": "I am still thinking about last cycle.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "She names last cycle as still occupying her thinking, which signals an unresolved setback mildly blocking growth and clarity."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_last_cycle_thread_2",
+      "label": "Last cycle thread",
+      "name": "When you say 'last cycle' — what part of it is still sticking with you?",
+      "description": "Drills into the unresolved piece of last cycle that is still blocking her.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "The feedback was not specific enough.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "She names a concrete blocker: the feedback lacked specificity, which is a mild clarity problem and a strong growth impediment."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_specific_enough_2",
+      "label": "Specific enough",
+      "name": "What was missing from that feedback that would have helped you act on it?",
+      "description": "Drills into the specific gap in the feedback so the blocker becomes actionable.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I want clearer scope.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "Names missing scope clarity as the absent ingredient that would make feedback actionable — strong growth blocker and mild clarity deficit; [THREAD-DEFERRED] clearer scope."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?",
+      "description": "Distinguishes comfort-zone execution from genuine growth moments.",
+      "purpose": "topic",
+      "stage": "anchor",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "Mentoring matters to me.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "growth": 1
+    },
+    "note": "She named mentoring as work that matters to her, which is a mild positive signal for growth and engagement, though the specific stretch is still unclear."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_mentoring_thread_4",
+      "label": "Mentoring thread",
+      "name": "Mentoring matters to you — what about it feels most important right now?",
+      "description": "Drills into mentoring as the concrete thread she just named to surface what it represents for her growth.",
+      "purpose": "topic",
+      "stage": "anchor",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I do not know what would move the next decision.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "growth": -3
+    },
+    "note": "She cannot see what would change the next decision, which is a strong growth-stall signal; also reveals off-signature clarity confusion worth picking up next."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_next_decision_3",
+      "label": "Next decision",
+      "name": "The next decision feels pivotal — what outcome are you actually aiming for?",
+      "description": "Follows her concrete thread by getting her to name the specific future outcome she wants, in aspiration terms.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I am less motivated in team rituals lately.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": -1,
+      "growth": -3
+    },
+    "note": "She did not name an aspiration outcome; instead she reported a recent drop in motivation in team rituals, signaling strong growth blockage plus mild disengagement and lower energy."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_team_rituals_dip_2",
+      "label": "Team rituals dip",
+      "name": "Team rituals feel harder lately — what changed for you there?",
+      "description": "Follows her concrete thread to understand what is driving the drop in participation.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "engagement": 1,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I want impact at org level, not just strong project work.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1
+    },
+    "note": "She named a concrete aspiration toward org-level impact, which signals active ambition rather than a wellbeing issue; [THREAD-DEFERRED-WINDDOWN] 'impact at org level' should be picked up next session."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_tradeoffs_ahead_3",
+      "label": "Tradeoffs ahead",
+      "name": "What would you be willing to trade off to make room for the next step?",
+      "description": "Forces a real investment conversation about what has to give for growth to happen.",
+      "purpose": "topic",
+      "stage": "investment",
+      "axis_effects": {
+        "clarity": 3,
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    "answer": "I need a moment to think about that.",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "[SHALLOW] 'I need a moment to think about that.' does not name any tradeoff; final turn so advancing to the closer."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_next_move_9",
+      "label": "Next move",
+      "name": "Given what we've covered, what is the next step you want to take before we meet again?",
+      "description": "Closes on one concrete commitment that lands the conversation in action.",
+      "purpose": "topic",
+      "stage": "commitment",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "I want to start with one mentoring commitment that has clear scope and a review point next month.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1,
+      "growth": 1
+    },
+    "note": "She named a specific next move around mentoring with defined scope and a review point, signaling forward motion and clearer structure."
+  }
+]

@@ -1,0 +1,10 @@
+alias: q_wait_pattern
+label: Wait pattern
+name: What makes you hold back until the analysis is complete?
+description: Drills into the specific habit she named to surface what is driving the delayed stakeholder engagement.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added

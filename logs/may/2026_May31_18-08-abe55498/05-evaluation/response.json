@@ -1,0 +1,51 @@
+{
+  "headline": "Tom is operating with fuzzy Principal expectations and staying safe execution-mode, so Principal-level impact and cross-team judgment aren’t yet visible.",
+  "summary_bullets": [
+    "Tom can’t name a concrete “highest-leverage work” bar on this team; he says “this team’s bar still feels fuzzy.”",
+    "His Principal gap shows up as behavior: “mostly stayed in my lane instead of forcing cross-team decisions” and “over-index on being safe.”",
+    "His stated blocker is trust and visible ownership: “I have not built enough trust with adjacent teams yet,” which he ties to needing sharper feedback earlier."
+  ],
+  "understanding_paragraph": "We understood that Tom’s self-assessment isn’t about effort—he is shipping—but about leverage and decision-making scope. The session clarified that his Principal-level issue is expectation calibration: he experiences the team’s bar as fuzzy and wants explicit next-cycle expectations to calibrate fast. He also links his safe execution mode to insufficient cross-team trust, not technical capability.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -1,
+      "meaning": "Weak signal only: wellbeing isn’t the core issue in this session, and there’s no sustained stress/fatigue pattern."
+    },
+    {
+      "id": "engagement",
+      "score": 0,
+      "meaning": "No strong engagement signal: Tom is shipping, but he doesn’t show clear ownership of highest-leverage work."
+    },
+    {
+      "id": "clarity",
+      "score": -7,
+      "meaning": "A real clarity problem: the Principal bar is “fuzzy,” and he needs explicit expectations to calibrate for the next cycle."
+    },
+    {
+      "id": "growth",
+      "score": -8,
+      "meaning": "A defining growth gap: he’s not building the cross-team trust and early feedback loop needed to make hard calls."
+    }
+  ],
+  "brutal_truth_employee": "Tom’s read is blunt: “I am shipping, but I am not sure I am aiming at the highest-leverage work yet.” He ties the gap to behavior and trust: “I have mostly stayed in my lane” and “I have not built enough trust with adjacent teams yet.”",
+  "brutal_truth_manager": "The conversation stayed on high-level labels (“highest-leverage,” “bar,” “safe”) and never forced a concrete, team-specific definition beyond “feels fuzzy.” The moment to deepen was when Tom said “this team’s bar still feels fuzzy” and “mostly stayed in my lane”—that’s where you needed to extract one explicit Principal decision he should own next cycle, with the decision rule and the stakeholder set.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Write down one-page “Principal bar for this team” with 3 observable outcomes and 2 non-goals, then send it to Tom for calibration."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 30-minute working session where Tom selects one recent deliverable and drafts the decision rule plus the cross-team stakeholder list he should have engaged."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Start next 1:1 by asking Tom to show the written decision rule and name one cross-team call he forced early, including what changed because of it."
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Tom still says the team’s bar “feels fuzzy,” treat it as unchanged clarity and re-calibrate with explicit examples.",
+    "Within two weeks: if Tom’s “decision rule” write-up doesn’t include adjacent-team stakeholders and a forced tradeoff, safe execution is persisting."
+  ]
+}

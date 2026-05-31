@@ -1,0 +1,116 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_mentoring_stretch",
+    "label": "Mentoring stretch",
+    "name": "Mentoring matters to you — what about it feels stretching?",
+    "description": "Drills into mentoring to see whether it is genuine stretch, energy, or a proxy for something missing.",
+    "purpose": "topic",
+    "stage": "anchor",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I do not know what would move the next decision.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "growth": -3
+    },
+    "note": "She cannot connect mentoring to what would influence the next decision, which signals strong growth blockage and some reduced engagement around the path forward."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_decision_4",
+      "label": "Next decision",
+      "name": "What decision are you trying to influence with mentoring?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_manager_leverage_7",
+      "label": "Manager leverage",
+      "name": "Where would you want more from me to move this forward?"
+    },
+    {
+      "alias": "q_tradeoffs_now",
+      "label": "Tradeoffs now",
+      "name": "What would you need to stop doing to make room for the next step?"
+    },
+    {
+      "alias": "q_next_move_13",
+      "label": "Next move",
+      "name": "Given what we've covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 5)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": 1,
+          "answer_excerpt": "Mentoring matters to me."
+        },
+        {
+          "q": "q_mentoring_stretch",
+          "delta": -1,
+          "answer_excerpt": "I do not know what would move the next decision."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_last_cycle_thread_3",
+          "delta": -3,
+          "answer_excerpt": "The feedback was not specific enough."
+        }
+      ]
+    },
+    "growth": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_last_cycle_thread_3",
+          "delta": -1,
+          "answer_excerpt": "The feedback was not specific enough."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": 1,
+          "answer_excerpt": "Mentoring matters to me."
+        },
+        {
+          "q": "q_mentoring_stretch",
+          "delta": -3,
+          "answer_excerpt": "I do not know what would move the next decision."
+        }
+      ]
+    }
+  }
+}

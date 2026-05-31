@@ -1,0 +1,10 @@
+alias: q_trust_gaps_2
+label: Trust gaps
+name: Where does stakeholder trust feel thinnest right now?
+description: Identifies the specific relationships or moments where influence is not landing cleanly.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

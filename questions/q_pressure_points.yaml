@@ -1,0 +1,10 @@
+alias: q_pressure_points
+label: Pressure points
+name: What part of the work has been hardest to keep up with?
+description: Finds the concrete friction point in his current workload or pace.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_fastest_unblock
+label: Fastest unblock
+name: What would make the next two weeks feel steadier for you?
+description: Ends by narrowing to the most useful support or change to carry forward from the conversation.
+purpose: wellbeing
+stage: connection
+axis_effects:
+  wellbeing: +1
+  growth: +1
+source: generated

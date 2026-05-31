@@ -1,0 +1,10 @@
+alias: q_thread_follow_4
+label: Thread follow
+name: proud outcomes, pace — can you say more about what that means for you right now?
+description: Runtime thread-follow injected because planner did not follow substantive answer.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added

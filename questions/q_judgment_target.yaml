@@ -1,0 +1,10 @@
+alias: q_judgment_target
+label: Judgment target
+name: Where do you want your judgment to carry more weight?
+description: Elicits the specific decisions or tradeoffs he wants to own at the next level.
+purpose: competency
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

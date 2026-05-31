@@ -1,0 +1,9 @@
+alias: q_ambiguity_forums_2
+label: Ambiguity forums
+name: High-ambiguity forums — what makes those rooms feel risky for you?
+description: Drills into the specific avoidance pattern he named to surface the real blocker behind strategic visibility.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

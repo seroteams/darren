@@ -1,0 +1,9 @@
+alias: q_wanted_opportunities_2
+label: Wanted opportunities
+name: What opportunities have you wanted but not said out loud?
+description: Turns his admission into a concrete aspiration so the conversation names the roles, scope, or exposure he actually wants.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

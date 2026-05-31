@@ -1,0 +1,10 @@
+alias: q_stakeholder_plan
+label: Stakeholder plan
+name: What is your plan for keeping stakeholders informed on the work that matters most?
+description: Checks whether she has a deliberate communication cadence instead of ad hoc updates.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

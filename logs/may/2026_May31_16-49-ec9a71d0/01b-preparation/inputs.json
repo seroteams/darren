@@ -1,0 +1,54 @@
+{
+  "name": "James",
+  "roleTitle": "Head of Product",
+  "seniority": "Director",
+  "meetingType": "Something feels off",
+  "observedShift": "James was passed over for promotion and his engagement in team rituals has dipped since then. He did not bring up the decision himself, which could mean unresolved disappointment or low confidence that raising it will help. He is also running a mentoring program, and I need to understand whether that is healthy stretch or a redirect away from his core path. This meeting should surface what feedback he actually heard and what concrete path forward he believes exists.",
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Engagement in team rituals since the promotion",
+      "reason": "Notes say his participation in team rituals has dipped since being passed over. One possibility is unresolved disappointment; another is a confidence or motivation shift; worth clarifying what changed for him and how it’s showing up day to day.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "What feedback he actually heard and internalized",
+      "reason": "Notes say he didn’t bring up the decision himself. Whether he heard specific, actionable feedback or only a vague signal could be a big driver of his current stance—worth getting the exact themes and what he believes they mean.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Whether mentoring is healthy stretch or detour",
+      "reason": "What he’s choosing to invest in matters because, at Director level, development should compound toward the next step—not quietly redirect away from the path that got him here. This helps you distinguish growth from avoidance and agree on a concrete next move.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "His concrete path forward for the next quarter",
+      "reason": "Whether he can name a realistic plan for what changes next is the fastest way to tell if this is a temporary dip or a longer-term disengagement risk. At this seniority, you want a clear set of bets and what “better” looks like by the end of the quarter.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "5450d6ec-fe7c-4b31-90fb-bc0bf39e0b67",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "output may not reflect the meeting type distinctly"
+    ]
+  },
+  "attempts": 2
+}

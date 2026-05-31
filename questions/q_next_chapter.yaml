@@ -1,0 +1,10 @@
+alias: q_next_chapter
+label: Next chapter
+name: What kind of impact do you want your next chapter to have?
+description: Gets beyond title-chasing toward the kind of contribution she wants to be known for.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

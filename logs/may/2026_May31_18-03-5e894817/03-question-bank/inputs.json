@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How Elena is landing in the team post-reorg",
+      "reason": "Since the reorg, Elena has pulled back in leadership forums and appears less connected in team interactions. One possibility is temporary transition load, but it’s worth clarifying what “less connected” means to her and whether it’s a short-term adjustment or something else.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What she’s saying yes and no to now",
+      "reason": "If her engagement is shifting after a reorg, it could be because her focus and tradeoffs changed. Worth clarifying what she’s prioritizing, what she’s intentionally deprioritizing, and whether her current scope matches what she thinks she owns.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What support she’d want from you right now",
+      "reason": "Whether she’s feeling strain or just in a transition, senior managers often won’t ask directly. Make it easy to name what support would actually help—air cover, decisions, introductions, or time—so you can respond to the real constraint rather than guessing.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Workload and capacity during this transition",
+      "reason": "Whether this is temporary transition load or a deeper mismatch, pace and interrupt load are usually the fastest way to distinguish “busy but okay” from “quietly stretched.” Use this to understand sustainability without assuming burnout.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Elena",
+  "role": "Engineering Manager",
+  "seniority": "Senior",
+  "meetingType": "Something feels off",
+  "notes": "Since the reorg, Elena is still delivering but has pulled back in leadership forums and appears less connected in team interactions. I want to check in without over-interpreting, and understand whether this is temporary transition load or a deeper mismatch in scope and support. She has not asked for help directly, which can hide meaningful strain. This should remain observation-first and low-pressure: make space for her perspective, then identify what support would actually help right now.",
+  "model": "gpt-5.4-mini"
+}

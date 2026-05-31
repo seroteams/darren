@@ -1,0 +1,10 @@
+alias: q_influence_target
+label: Influence target
+name: Which stakeholder forum matters most for your influence at this level?
+description: Identifies where Ahmed believes visibility and trust are won, rather than asking generally about stakeholders.
+purpose: competency
+stage: aspiration
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

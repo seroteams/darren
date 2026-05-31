@@ -1,0 +1,117 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_support_gap_8",
+    "label": "Support gap",
+    "name": "What support would actually take friction out of the next two weeks?",
+    "description": "Moves from concern to concrete support Elena can use immediately.",
+    "purpose": "topic",
+    "stage": "support",
+    "axis_effects": {
+      "clarity": 3,
+      "wellbeing": 1,
+      "growth": 3
+    },
+    "source": "generated"
+  },
+  "answer": "What would help most is clearer prioritization and a little more air cover in cross-team decisions.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "clarity": -3,
+      "growth": -3
+    },
+    "note": "Names two specific absences — clearer prioritization and more air cover in cross-team decisions — so this is a deficiency-as-request; current support is not reducing friction."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_two_weeks_30",
+      "label": "Next two weeks",
+      "name": "What would make the next two weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_less_grounded_6",
+          "delta": -1,
+          "answer_excerpt": "I have been protecting my team from noise, which means I am carrying more ambiguity myself."
+        },
+        {
+          "q": "q_support_gap_8",
+          "delta": -1,
+          "answer_excerpt": "What would help most is clearer prioritization and a little more air cover in cross-team decisions."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -8,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_reorg_shift_6",
+          "delta": -3,
+          "answer_excerpt": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage."
+        },
+        {
+          "q": "q_voice_leverage_6",
+          "delta": -3,
+          "answer_excerpt": "Part of me is tired from constant context switching, and I have not really said that out loud."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_where_things_stand",
+          "delta": -1,
+          "answer_excerpt": "I do not think anything is broken, but I do feel less grounded than I did before."
+        },
+        {
+          "q": "q_less_grounded_6",
+          "delta": -1,
+          "answer_excerpt": "I have been protecting my team from noise, which means I am carrying more ambiguity myself."
+        },
+        {
+          "q": "q_carrying_ambiguity_6",
+          "delta": -1,
+          "answer_excerpt": "I am not fully clear yet on how success is being measured in this new setup."
+        },
+        {
+          "q": "q_support_gap_8",
+          "delta": -3,
+          "answer_excerpt": "What would help most is clearer prioritization and a little more air cover in cross-team decisions."
+        }
+      ]
+    },
+    "growth": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_carrying_ambiguity_6",
+          "delta": -1,
+          "answer_excerpt": "I am not fully clear yet on how success is being measured in this new setup."
+        },
+        {
+          "q": "q_support_gap_8",
+          "delta": -3,
+          "answer_excerpt": "What would help most is clearer prioritization and a little more air cover in cross-team decisions."
+        }
+      ]
+    }
+  }
+}

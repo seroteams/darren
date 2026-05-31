@@ -1,0 +1,10 @@
+alias: q_concept_rationale_2
+label: Concept rationale
+name: Concept rationale — what makes that harder for you right now?
+description: Drills into the specific growth gap he named to surface the underlying cause.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

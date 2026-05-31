@@ -1,0 +1,9 @@
+alias: q_senior_forums_5
+label: Senior forums
+name: In senior forums, what makes you feel most unprepared?
+description: Drills into the confidence thread to surface the specific gap underneath his hesitation.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

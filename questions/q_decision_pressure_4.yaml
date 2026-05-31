@@ -1,0 +1,10 @@
+alias: q_decision_pressure_4
+label: Decision pressure
+name: Where are the two workstreams asking you to make the hardest tradeoff?
+description: Surfaces the specific point where split focus is forcing a choice.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

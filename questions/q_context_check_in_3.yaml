@@ -1,0 +1,10 @@
+alias: q_context_check_in_3
+label: Context check-in
+name: "What's been most on your mind in the last couple of weeks at work?"
+description: Safe opener that lets Tom set context before any feedback lands.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

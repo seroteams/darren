@@ -1,0 +1,99 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_less_present_rituals",
+    "label": "Less present rituals",
+    "name": "You said 'less present in rituals' — what changed there for you?",
+    "description": "Drills into his own phrasing to surface the specific shift behind reduced participation.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "engagement": 3,
+      "clarity": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "After the promotion decision, I was not clear on what really needed to change.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -3,
+      "clarity": -1
+    },
+    "note": "He links reduced participation to the promotion decision and says he lacked clarity on what needed to change, signaling strong disengagement and mild role-direction confusion."
+  },
+  "new_queue": [
+    {
+      "alias": "q_needed_change_clarity",
+      "label": "Needed change clarity",
+      "name": "When you say 'what needed to change' — what felt unclear to you?"
+    },
+    {
+      "alias": "q_feedback_heard",
+      "label": "Feedback heard",
+      "name": "What feedback did you actually take in from that process?"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_feedback_meaning",
+      "label": "Feedback meaning",
+      "name": "What does that feedback mean to you now?"
+    },
+    {
+      "alias": "q_support_needed_8",
+      "label": "Support needed",
+      "name": "What would help you make the next few weeks feel more deliberate?"
+    },
+    {
+      "alias": "q_concrete_next_move",
+      "label": "Concrete next move",
+      "name": "Given what we've covered, what's the first concrete thing you want to move by our next conversation?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_less_present_rituals",
+          "delta": -3,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_less_present_rituals",
+          "delta": -1,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

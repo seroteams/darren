@@ -1,0 +1,10 @@
+alias: q_next_behavior_change
+label: Next behavior change
+name: What is the first change you want to make before our next check-in?
+description: Closes on one concrete behaviour shift with a near-term commitment.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

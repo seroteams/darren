@@ -1,0 +1,90 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_flatter_this_week",
+    "label": "Flatter this week",
+    "name": "You said 'flatter than I expected' — what's driving that?",
+    "description": "Drills into the specific post-launch flatness she named to locate whether it's recovery, disappointment, or something unresolved.",
+    "purpose": "wellbeing",
+    "stage": "friction",
+    "axis_effects": {
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Mostly cleanup and reviews right now, not much that feels new.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -3
+    },
+    "note": "She describes low-novelty cleanup and review work with little that feels new, which is a strong flat-engagement signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_nothing_feels_new_2",
+      "label": "Nothing feels new",
+      "name": "What kind of work feels missing right now?"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_mentoring_thread_5",
+      "label": "Mentoring thread",
+      "name": "What stopped the mentoring idea from moving forward?"
+    },
+    {
+      "alias": "q_ownership_next_quarter",
+      "label": "Ownership next quarter",
+      "name": "What do you expect to own next quarter?"
+    },
+    {
+      "alias": "q_scope_tradeoff",
+      "label": "Scope tradeoff",
+      "name": "What would you want to leave off your plate if that next-quarter shape holds?"
+    },
+    {
+      "alias": "q_next_two_weeks_18",
+      "label": "Next two weeks",
+      "name": "What would make the next two weeks feel steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        },
+        {
+          "q": "q_flatter_this_week",
+          "delta": -3,
+          "answer_excerpt": "Mostly cleanup and reviews right now, not much that feels new."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

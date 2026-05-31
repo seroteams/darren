@@ -1,0 +1,10 @@
+alias: q_specific_enough_4
+label: Specific enough
+name: What was missing from the feedback, specifically?
+description: Clarifies the exact gap in the readout so the growth blocker is concrete.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +1
+  growth: +3
+source: planner_added

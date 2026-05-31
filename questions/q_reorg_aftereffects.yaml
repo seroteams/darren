@@ -1,0 +1,10 @@
+alias: q_reorg_aftereffects
+label: Reorg aftereffects
+name: "What's felt different in your day-to-day since the reorg?"
+description: Surfaces the concrete ways the transition has changed her experience without assuming the cause.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

@@ -1,0 +1,102 @@
+{
+  "wellbeing": {
+    "score": -2,
+    "history": [
+      {
+        "q": "q_next_decision_3",
+        "delta": -1,
+        "answer_excerpt": "I am less motivated in team rituals lately."
+      }
+    ]
+  },
+  "engagement": {
+    "score": -1,
+    "history": [
+      {
+        "q": "q_intro_growth_stretch",
+        "delta": 1,
+        "answer_excerpt": "Mentoring matters to me."
+      },
+      {
+        "q": "q_mentoring_thread_4",
+        "delta": -1,
+        "answer_excerpt": "I do not know what would move the next decision."
+      },
+      {
+        "q": "q_next_decision_3",
+        "delta": -1,
+        "answer_excerpt": "I am less motivated in team rituals lately."
+      },
+      {
+        "q": "q_team_rituals_dip_2",
+        "delta": 1,
+        "answer_excerpt": "I want impact at org level, not just strong project work."
+      }
+    ]
+  },
+  "clarity": {
+    "score": -2,
+    "history": [
+      {
+        "q": "q_intro_growth_blockers",
+        "delta": -1,
+        "answer_excerpt": "I am still thinking about last cycle."
+      },
+      {
+        "q": "q_last_cycle_thread_2",
+        "delta": -1,
+        "answer_excerpt": "The feedback was not specific enough."
+      },
+      {
+        "q": "q_specific_enough_2",
+        "delta": -1,
+        "answer_excerpt": "I want clearer scope."
+      },
+      {
+        "q": "q_next_move_9",
+        "delta": 1,
+        "answer_excerpt": "I want to start with one mentoring commitment that has clear scope and a review point next month."
+      }
+    ]
+  },
+  "growth": {
+    "score": -9,
+    "history": [
+      {
+        "q": "q_intro_growth_blockers",
+        "delta": -1,
+        "answer_excerpt": "I am still thinking about last cycle."
+      },
+      {
+        "q": "q_last_cycle_thread_2",
+        "delta": -3,
+        "answer_excerpt": "The feedback was not specific enough."
+      },
+      {
+        "q": "q_specific_enough_2",
+        "delta": -3,
+        "answer_excerpt": "I want clearer scope."
+      },
+      {
+        "q": "q_intro_growth_stretch",
+        "delta": 1,
+        "answer_excerpt": "Mentoring matters to me."
+      },
+      {
+        "q": "q_mentoring_thread_4",
+        "delta": -3,
+        "answer_excerpt": "I do not know what would move the next decision."
+      },
+      {
+        "q": "q_next_decision_3",
+        "delta": -3,
+        "answer_excerpt": "I am less motivated in team rituals lately."
+      },
+      {
+        "q": "q_next_move_9",
+        "delta": 1,
+        "answer_excerpt": "I want to start with one mentoring commitment that has clear scope and a review point next month."
+      }
+    ]
+  }
+}

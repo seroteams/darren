@@ -1,0 +1,51 @@
+{
+  "headline": "Kenji is stuck in a “late-changing priorities → guessing” loop, and clarity/feedback cadence is the lever that will stabilize him.",
+  "summary_bullets": [
+    "Kenji ties his uncertainty to late direction changes: “The hardest part is changing direction late and feeling like I missed something.”",
+    "He wants help and ownership, but blocks himself on perception: “I do ask for help sometimes, but I worry about sounding slow.”",
+    "He experiences feedback as a switch: “I feel better when feedback is specific and close to the work,” versus days he feels like he’s guessing."
+  ],
+  "understanding_paragraph": "Kenji’s main friction isn’t motivation—it’s confidence under shifting requirements. He’s clear that specific, close feedback and a regular calibration loop make the work feel steadier, while fast priority changes make him lose confidence in what to optimize for. He also hesitates to ask for help because he worries it will signal slowness.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -3,
+      "meaning": "Energy dips with uncertainty, and a steadier calibration cadence would help him feel less shaky."
+    },
+    {
+      "id": "engagement",
+      "score": -6,
+      "meaning": "Engagement is undermined by guessing; he wants ownership but needs guardrails to stay invested."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Role clarity is very low week-to-week; he can’t reliably tell what “good” looks like."
+    },
+    {
+      "id": "growth",
+      "score": -5,
+      "meaning": "Learning and stretch are constrained by unstable priorities; he needs a feedback loop to convert work into confidence."
+    }
+  ],
+  "brutal_truth_employee": "Kenji’s clarity is collapsing when priorities change late: “I am still unsure what good really looks like here week to week.” He also holds back help because of how it might be perceived: “I worry about sounding slow.”",
+  "brutal_truth_manager": "You got strong signals, but the conversation still stayed at the “name the loop” level rather than pulling on the concrete mechanics of “calibration.” The moment to deepen was when Kenji said, “A regular calibration loop would make this feel less shaky”—push for what cadence, participants, and artifacts would make it feel specific and close to the work.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Confirm with Kenji what “weekly calibration” should include (cadence, agenda, and who joins) and what “good” means for his current tickets."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule one 20-minute calibration with Kenji before the next priority shift, and bring a short “guardrails + tradeoffs” note for his current work."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Ask Kenji to rate the last week on “feedback specificity” and “confidence in what to optimize,” then pick one change to try for the next two weeks."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: if Kenji still says “I feel like I am guessing” after specific, close feedback, the loop design is wrong.",
+    "Before next 1:1: if Kenji stops mentioning help requests or keeps framing them as “sounding slow,” psychological safety is not improving."
+  ]
+}

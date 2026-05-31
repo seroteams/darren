@@ -1,0 +1,110 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_opportunity_ask",
+    "label": "Opportunity ask",
+    "name": "What opportunities have you wanted but not named out loud?",
+    "description": "Drills into the specific opportunities he has not been explicit about so aspiration becomes concrete.",
+    "purpose": "topic",
+    "stage": "aspiration",
+    "axis_effects": {
+      "growth": 3,
+      "wellbeing": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "To grow, I need to own a strategic bet with visible stakeholders.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": 3
+    },
+    "note": "He names a concrete aspiration — owning a strategic bet with visible stakeholders — which is a strong positive growth signal; no wellbeing signal was given."
+  },
+  "new_queue": [
+    {
+      "alias": "q_strategic_bet_gap",
+      "label": "Strategic bet gap",
+      "name": "What stands between you and owning a strategic bet today?"
+    },
+    {
+      "alias": "q_executor_mode",
+      "label": "Executor mode",
+      "name": "Where are you still operating more like an executor than a strategic owner?"
+    },
+    {
+      "alias": "q_next_move_7",
+      "label": "Next move",
+      "name": "What would your next move look like before we next meet?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 6)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -1,
+          "answer_excerpt": "I also have not been explicit enough about what opportunities I want."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": 1,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        }
+      ]
+    },
+    "growth": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -3,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        },
+        {
+          "q": "q_political_conversations_2",
+          "delta": -3,
+          "answer_excerpt": "I can run projects, but shaping cross-org alignment is where I hesitate."
+        },
+        {
+          "q": "q_cross_org_alignment",
+          "delta": -3,
+          "answer_excerpt": "Part of it is confidence, I do not want to look unprepared in senior forums."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -3,
+          "answer_excerpt": "I also have not been explicit enough about what opportunities I want."
+        },
+        {
+          "q": "q_opportunity_ask",
+          "delta": 3,
+          "answer_excerpt": "To grow, I need to own a strategic bet with visible stakeholders."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+alias: q_first_commitment
+label: First commitment
+name: What is the one growth move you want to make before we meet again?
+description: Closes on a concrete commitment without introducing a new thread.
+purpose: competency
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

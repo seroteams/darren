@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Late nights — temporary push or default pace?",
+      "reason": "Notes say Lin worked late for about three weeks after delivering two major features ahead of schedule. Could be a short sprint to close launches, or it might be becoming the new operating rhythm — worth clarifying before assuming it will naturally fade.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "What’s driving the load right now?",
+      "reason": "Manager notes say Lin tends to brush off concern. One possibility is there’s an ongoing dependency, decision bottleneck, or un-delegated work continuing after the launches — worth asking directly what’s actually keeping the workload high now.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "delegation",
+      "type": "Delegation effectiveness",
+      "category": "competency",
+      "label": "Work only Lin should own vs delegate",
+      "reason": "Whether a Head of Product is delegating effectively is a common failure mode when senior leaders keep late hours — the conversation should separate truly non-delegable responsibilities from work that could be owned by others to restore sustainable pace.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What Lin is saying yes to now",
+      "reason": "Bi-weekly check-ins are where senior leaders can quietly drift from the few bets that matter into ongoing firefighting. Whether the current focus is the right mix of priorities vs carryover from the last launches is worth re-checking.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Lin",
+  "role": "Head of Product",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Lin has delivered two major features ahead of schedule but has worked late for about three weeks. I need to understand whether this pace was a temporary push or is becoming a default. Because Lin tends to brush off concern, I should ask directly what is driving the load now that those launches are done. I also want clarity on what work only Lin should own versus what could be delegated, since sustained late nights at this level can hide a distribution or autonomy problem.",
+  "model": "gpt-5.4-mini"
+}

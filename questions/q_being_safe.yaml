@@ -1,0 +1,9 @@
+alias: q_being_safe
+label: Being safe
+name: "When you say 'being safe,' what do you hold back from doing?"
+description: Drills into his own phrase to surface the specific behaviour he avoids in cross-team decisions.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

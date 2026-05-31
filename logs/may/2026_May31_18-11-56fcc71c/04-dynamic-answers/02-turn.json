@@ -1,0 +1,108 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_execution_details_3",
+    "label": "Execution details",
+    "name": "Which execution details are hardest for you to let go of?",
+    "description": "Drills into the specific work he is still holding so the growth blocker becomes concrete.",
+    "purpose": "competency",
+    "stage": "gap",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "When conversations get political, I tend to retreat to what I can deliver directly.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": 1,
+      "growth": -3
+    },
+    "note": "He names political conversations as the trigger that pulls him back into direct execution — a strong growth blocker with some self-awareness about the pattern."
+  },
+  "new_queue": [
+    {
+      "alias": "q_political_conversations_4",
+      "label": "Political conversations",
+      "name": "In those political conversations, what makes you step back instead of lead through them?"
+    },
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_current_scope",
+      "label": "Current scope",
+      "name": "Before we go further, what feels most solid in your role right now?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_next_level_meaning",
+      "label": "Next-level meaning",
+      "name": "What does senior scope mean to you in practice?"
+    },
+    {
+      "alias": "q_delegation_boundary_2",
+      "label": "Delegation boundary",
+      "name": "What work are you still holding that should probably sit with others?"
+    },
+    {
+      "alias": "q_visibility_tradeoff",
+      "label": "Visibility tradeoff",
+      "name": "What would you need to stop doing to make more room for visibility and influence?"
+    },
+    {
+      "alias": "q_first_growth_move",
+      "label": "First growth move",
+      "name": "Given what we’ve covered, what do you want to change first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 2,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": 1,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_execution_details_3",
+          "delta": 1,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        }
+      ]
+    },
+    "growth": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_execution_details_3",
+          "delta": -3,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        }
+      ]
+    }
+  }
+}

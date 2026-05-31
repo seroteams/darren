@@ -1,0 +1,10 @@
+alias: q_first_growth_move_3
+label: First growth move
+name: What is the first shift you want to make before we meet again?
+description: Closes by turning the conversation into one concrete next move he owns.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

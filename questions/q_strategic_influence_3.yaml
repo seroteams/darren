@@ -1,0 +1,9 @@
+alias: q_strategic_influence_3
+label: Strategic influence
+name: Visible strategic influence — where does that break down for you today?
+description: "Drills into the specific point where Toby's initiative leadership stops becoming org-level influence."
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added

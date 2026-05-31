@@ -1,0 +1,10 @@
+alias: q_set_the_frame_3
+label: Set the frame
+name: What feels most important to sort out between AZPocket and CoE UX/UI right now?
+description: Lets Carl name the main tension and choose the frame before digging into details.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

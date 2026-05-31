@@ -1,0 +1,10 @@
+alias: q_readout_needed
+label: Readout needed
+name: What do you still want a clearer readout on from last cycle?
+description: Opens the unanswered-question thread without assuming she wants to revisit it.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

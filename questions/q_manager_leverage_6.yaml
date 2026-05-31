@@ -1,0 +1,10 @@
+alias: q_manager_leverage_6
+label: Manager leverage
+name: Where would you want me to step in more directly?
+description: Clarifies whether she needs air cover, decisions, introductions, or time from the manager.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

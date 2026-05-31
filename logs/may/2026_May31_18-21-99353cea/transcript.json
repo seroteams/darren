@@ -1,0 +1,203 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_week_two_pulse",
+      "label": "Week-two pulse",
+      "name": "What's been most on your mind at work this week, Riley?",
+      "description": "Gives Riley room to set the agenda before any onboarding friction is named.",
+      "purpose": "wellbeing",
+      "stage": "settling",
+      "axis_effects": {
+        "wellbeing": 1,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    "answer": "I am comfortable reading the services, but I am less sure how decisions are really made here.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1
+    },
+    "note": "He sounds engaged with the technical material but volunteered a clarity gap about how decisions get made here; worth probing next."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_decision_making_gap",
+      "label": "Decision-making gap",
+      "name": "When you say 'how decisions are really made here,' what feels least clear?",
+      "description": "Drills into his specific uncertainty about team decision-making norms.",
+      "purpose": "topic",
+      "stage": "orientation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I can trace most request paths now, though I still miss historical context behind certain tradeoffs.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1
+    },
+    "note": "He can follow current request paths, but missing historical context behind tradeoffs signals a mild remaining clarity gap."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_tradeoff_context_3",
+      "label": "Tradeoff context",
+      "name": "Which tradeoffs feel hardest to understand the history behind?",
+      "description": "Drills into the specific missing historical context he just named.",
+      "purpose": "topic",
+      "stage": "orientation",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I have not been fully clear on who is on point for each domain when priorities conflict.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "He names a specific clarity gap: unclear domain ownership when priorities conflict; [THREAD-DEFERRED] ownership boundaries under conflict worth picking up next session."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_context_gaps",
+      "label": "Context gaps",
+      "name": "What context are you still missing before you make bigger calls, Riley?",
+      "description": "Finds the places where he may be filling in gaps from docs instead of team norms.",
+      "purpose": "topic",
+      "stage": "blockers",
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "generated"
+    },
+    "answer": "I am trying not to interrupt people, so sometimes I keep questions in a notes doc instead of asking.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "He is withholding questions to avoid interrupting people, which is a strong clarity blocker and suggests he lacks a safe path to ask for context."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_notes_doc_habit_2",
+      "label": "Notes doc habit",
+      "name": "That notes doc habit — what makes it hard to ask in the moment?",
+      "description": "Drills into the hesitation to ask so the manager can remove the specific friction.",
+      "purpose": "topic",
+      "stage": "blockers",
+      "axis_effects": {
+        "clarity": 3,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I would benefit from a clearer guide for what to escalate quickly versus what to batch.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "Deficiency-as-request: he names a missing escalation guide, which is a strong clarity gap; no direct wellbeing signal."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_escalate_vs_batch",
+      "label": "Escalate vs batch",
+      "name": "What would a useful escalate-versus-batch guide need to cover?",
+      "description": "Turns the missing escalation guide into concrete onboarding support the manager can provide.",
+      "purpose": "topic",
+      "stage": "blockers",
+      "axis_effects": {
+        "clarity": 3,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "The runbook helped, but some practical handoff details only show up during live incidents.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "clarity": -3
+    },
+    "note": "He names a specific onboarding gap: practical incident handoff details are missing from docs and only learned live, which is strong clarity risk and mild wellbeing strain; [THREAD-DEFERRED] practical handoff details during live incidents."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_team_contact_2",
+      "label": "Team contact",
+      "name": "Who have you had the most useful direct contact with so far, Riley?",
+      "description": "Shows whether his onboarding is still too doc-heavy and where relationships are thin.",
+      "purpose": "topic",
+      "stage": "connection",
+      "axis_effects": {
+        "engagement": 1,
+        "clarity": 1,
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "A short weekly architecture review with someone senior would help me calibrate faster.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -3,
+      "engagement": -1,
+      "clarity": -1
+    },
+    "note": "Names a specific missing support structure — regular senior architecture review to calibrate faster — which signals ongoing clarity friction and onboarding strain."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_support_needed_19",
+      "label": "Support needed",
+      "name": "What would be most useful from me over the next couple of weeks, Riley?",
+      "description": "Converts missing context into a concrete manager support plan.",
+      "purpose": "topic",
+      "stage": "connection",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    "answer": "If I know exactly what ownership I should take this month, I can contribute with more confidence.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "Names missing ownership clarity as the support he lacks right now; that is a mild negative signal on clarity and growth."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_next_step_landing",
+      "label": "Next-step landing",
+      "name": "Given what we've covered, what should we tighten up before our next check-in?",
+      "description": "Closes on concrete follow-up and keeps the meeting moving toward action.",
+      "purpose": "topic",
+      "stage": "connection",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    "answer": "I will ask one architecture question in the next incident review instead of keeping it in my notes doc.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": 1,
+      "growth": 1
+    },
+    "note": "He named a specific next behavior change—asking an architecture question in the incident review—which signals slightly improved clarity and learning orientation."
+  }
+]

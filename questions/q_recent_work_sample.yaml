@@ -1,0 +1,9 @@
+alias: q_recent_work_sample
+label: Recent work sample
+name: Which recent piece of work best shows your current standard?
+description: Pulls out a specific example that can be used to anchor feedback.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: generated

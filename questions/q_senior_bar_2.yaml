@@ -1,0 +1,10 @@
+alias: q_senior_bar_2
+label: Senior bar
+name: What does strong Senior-level performance look like in your role right now?
+description: Checks her mental model of the performance bar for her level.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

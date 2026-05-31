@@ -1,0 +1,202 @@
+{
+  "ctx": {
+    "name": "Aisha",
+    "role": "Product Manager",
+    "seniority": "Mid-level",
+    "meetingType": "Onboarding check-in",
+    "notes": "Aisha is in week four, remote, and has started driving planning threads, but she still looks uncertain in cross-functional meetings when priorities conflict. I need to understand what is still unclear around decision rights, partner expectations, and how to run alignment without over-indexing on consensus. She has good energy, but I do not want her spending it decoding unspoken norms. This meeting should surface the specific friction points and translate them into practical support and clearer boundaries."
+  },
+  "focusPoints": [
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "Decision rights and what you own end-to-end.",
+      "reason": "Whether the scope of her planning threads and decision authority is still fuzzy—especially when priorities conflict across teams—so you can clarify what “good” looks like for her role.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Partner expectations when priorities conflict.",
+      "reason": "How she’s handling partner pushback and competing asks in cross-functional meetings—whether she’s getting clear expectations up front or still guessing what others need from her.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "Running alignment without over-indexing consensus.",
+      "reason": "What she’s using today to align teams (updates, drafts, decision memos, escalation paths) and where it’s causing extra cycles—so you can help her choose a lighter-weight alignment pattern that still lands decisions.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What support and boundaries you’ll provide.",
+      "reason": "What she would want more of from you to reduce decoding unspoken norms—e.g., explicit escalation rules, example decisions, and a clear “when to decide vs when to align” boundary for her first quarter.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's been most on your mind at work lately, Aisha?",
+      "alias": "q_landing_check_in_3",
+      "answer": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting.",
+      "skipped": false
+    },
+    {
+      "question": "These 'unwritten rules' — where do they show up most for you right now?",
+      "alias": "q_unwritten_rules_2",
+      "answer": "I can draft plans, though I am not always sure when I should decide versus escalate.",
+      "skipped": false
+    },
+    {
+      "question": "Decide versus escalate — what makes that line hard to read right now?",
+      "alias": "q_decide_vs_escalate_2",
+      "answer": "Cross-team conversations move fast and I sometimes leave unsure about who committed to what.",
+      "skipped": false
+    },
+    {
+      "question": "Where do commitments get fuzzy for you in those cross-team conversations?",
+      "alias": "q_commitments_clarity",
+      "answer": "Being remote makes it harder to read context that others seem to pick up naturally.",
+      "skipped": false
+    },
+    {
+      "question": "Being remote — what context do you miss most in those meetings?",
+      "alias": "q_remote_context_gap",
+      "answer": "I want to drive alignment, but I do not want to create noise by over-communicating.",
+      "skipped": false
+    },
+    {
+      "question": "What is still slowing you down when priorities conflict?",
+      "alias": "q_first_friction",
+      "answer": "I still need a clearer picture of how roadmap tradeoffs are finalized here.",
+      "skipped": false
+    },
+    {
+      "question": "Roadmap tradeoffs — who actually makes the call when teams disagree?",
+      "alias": "q_tradeoff_process_2",
+      "answer": "A consistent partner check-in cadence would help me validate assumptions earlier.",
+      "skipped": false
+    },
+    {
+      "question": "What support from me would make the next two weeks steadier for you?",
+      "alias": "q_steadier_next_steps",
+      "answer": "If I have explicit decision boundaries for this quarter, I can lead much more confidently.",
+      "skipped": false
+    },
+    {
+      "question": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+      "alias": "q_seed_clarity_priorities",
+      "answer": "I want to run one planning thread with explicit decision boundaries before our next check-in.",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_landing_check_in_3",
+          "delta": -1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_remote_context_gap",
+          "delta": 1,
+          "answer_excerpt": "I want to drive alignment, but I do not want to create noise by over-communicating."
+        },
+        {
+          "q": "q_first_friction",
+          "delta": -1,
+          "answer_excerpt": "I still need a clearer picture of how roadmap tradeoffs are finalized here."
+        },
+        {
+          "q": "q_seed_clarity_priorities",
+          "delta": 1,
+          "answer_excerpt": "I want to run one planning thread with explicit decision boundaries before our next check-in."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_landing_check_in_3",
+          "delta": -1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        },
+        {
+          "q": "q_unwritten_rules_2",
+          "delta": -1,
+          "answer_excerpt": "I can draft plans, though I am not always sure when I should decide versus escalate."
+        },
+        {
+          "q": "q_decide_vs_escalate_2",
+          "delta": -1,
+          "answer_excerpt": "Cross-team conversations move fast and I sometimes leave unsure about who committed to what."
+        },
+        {
+          "q": "q_commitments_clarity",
+          "delta": -3,
+          "answer_excerpt": "Being remote makes it harder to read context that others seem to pick up naturally."
+        },
+        {
+          "q": "q_remote_context_gap",
+          "delta": -1,
+          "answer_excerpt": "I want to drive alignment, but I do not want to create noise by over-communicating."
+        },
+        {
+          "q": "q_first_friction",
+          "delta": -3,
+          "answer_excerpt": "I still need a clearer picture of how roadmap tradeoffs are finalized here."
+        },
+        {
+          "q": "q_tradeoff_process_2",
+          "delta": -3,
+          "answer_excerpt": "A consistent partner check-in cadence would help me validate assumptions earlier."
+        },
+        {
+          "q": "q_steadier_next_steps",
+          "delta": -1,
+          "answer_excerpt": "If I have explicit decision boundaries for this quarter, I can lead much more confidently."
+        },
+        {
+          "q": "q_seed_clarity_priorities",
+          "delta": 1,
+          "answer_excerpt": "I want to run one planning thread with explicit decision boundaries before our next check-in."
+        }
+      ]
+    },
+    "growth": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_tradeoff_process_2",
+          "delta": -3,
+          "answer_excerpt": "A consistent partner check-in cadence would help me validate assumptions earlier."
+        },
+        {
+          "q": "q_steadier_next_steps",
+          "delta": -3,
+          "answer_excerpt": "If I have explicit decision boundaries for this quarter, I can lead much more confidently."
+        }
+      ]
+    }
+  },
+  "notes": "Aisha is in week four, remote, and has started driving planning threads, but she still looks uncertain in cross-functional meetings when priorities conflict. I need to understand what is still unclear around decision rights, partner expectations, and how to run alignment without over-indexing on consensus. She has good energy, but I do not want her spending it decoding unspoken norms. This meeting should surface the specific friction points and translate them into practical support and clearer boundaries.",
+  "model": "gpt-5.4-nano"
+}

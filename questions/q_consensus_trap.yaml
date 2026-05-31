@@ -1,0 +1,10 @@
+alias: q_consensus_trap
+label: Consensus trap
+name: Where are you still waiting for consensus when you probably need a decision?
+description: Surfaces hesitation to move from alignment-seeking into decisive action.
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

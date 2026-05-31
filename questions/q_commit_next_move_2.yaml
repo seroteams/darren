@@ -1,0 +1,10 @@
+alias: q_commit_next_move_2
+label: Commit next move
+name: What would you want to have moved first in the next few weeks?
+description: Closes on the first area she wants to advance before the next conversation.
+purpose: competency
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_commit_next_move"

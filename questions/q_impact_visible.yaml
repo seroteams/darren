@@ -1,0 +1,10 @@
+alias: q_impact_visible
+label: Impact visible
+name: "When your impact isn't visible, where does that break down most?"
+description: Drills into the specific visibility gap she just named before moving on.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: planner_added

@@ -1,0 +1,106 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_thread_follow_7",
+    "label": "Thread follow",
+    "name": "mention mentoring before — can you say more about what that means for you right now?",
+    "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+    "purpose": "wellbeing",
+    "stage": "pulse",
+    "axis_effects": {
+      "wellbeing": 3,
+      "engagement": 1,
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I am not sure what I am owning next quarter yet, and that makes me uneasy.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": -1,
+      "clarity": -3
+    },
+    "note": "She explicitly lacks confidence about next-quarter ownership and says it makes her uneasy — strong clarity gap with mild wellbeing and engagement drag."
+  },
+  "new_queue": [
+    {
+      "alias": "q_owning_next_quarter",
+      "label": "Owning next quarter",
+      "name": "You said 'owning next quarter' feels unclear — what are you expecting to own?"
+    },
+    {
+      "alias": "q_scope_tradeoff",
+      "label": "Scope tradeoff",
+      "name": "What would you want to leave off your plate if that next-quarter shape holds?"
+    },
+    {
+      "alias": "q_mentoring_thread_5",
+      "label": "Mentoring thread",
+      "name": "What stopped the mentoring idea from moving forward?"
+    },
+    {
+      "alias": "q_next_two_weeks_18",
+      "label": "Next two weeks",
+      "name": "What would make the next two weeks feel steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_thread_follow_7",
+          "delta": -1,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        },
+        {
+          "q": "q_flatter_this_week",
+          "delta": -3,
+          "answer_excerpt": "Mostly cleanup and reviews right now, not much that feels new."
+        },
+        {
+          "q": "q_nothing_feels_new_2",
+          "delta": 1,
+          "answer_excerpt": "I am proud of the migration plan and how we handled the cutover."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I did mention mentoring before. I still want it, but I stopped pushing."
+        },
+        {
+          "q": "q_thread_follow_7",
+          "delta": -1,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_thread_follow_7",
+          "delta": -3,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

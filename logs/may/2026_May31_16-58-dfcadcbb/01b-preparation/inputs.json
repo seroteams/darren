@@ -1,0 +1,52 @@
+{
+  "name": "Riley",
+  "roleTitle": "Backend Engineer",
+  "seniority": "Mid-level",
+  "meetingType": "Onboarding check-in",
+  "observedShift": "Riley is in week two and is moving quickly through codebase orientation, but he has mostly learned from docs and async notes rather than direct team contact. I want to check whether he feels clear on ownership boundaries, incident expectations, and where to ask for context before making architecture assumptions. There is a risk he looks productive while building an internal map that differs from how the team actually operates. This check-in should identify missing context early and convert it into concrete onboarding support.",
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How he's building real team context",
+      "reason": "Riley is week two and has mostly learned via docs and async notes rather than direct team contact. One possibility is he’s moving fast but missing the day-to-day texture of how the team actually operates—worth clarifying what direct conversations he’s had so far and what he’s still not plugged into.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "Ownership boundaries and what 'good' means",
+      "reason": "Whether he’s clear on ownership boundaries is a common onboarding make-or-break for Mid backend engineers—without it, they can appear productive while optimizing for the wrong outcomes or stepping on others’ scope.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Where to ask before making architecture assumptions",
+      "reason": "Riley could be building an internal map that differs from the team’s operating reality. This is worth clarifying early by mapping which decisions need context first, who he should ask, and what signals tell him he’s about to assume the wrong thing.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "reliability",
+      "type": "Reliability",
+      "category": "competency",
+      "label": "Incident expectations and escalation habits",
+      "reason": "Whether he understands incident expectations and when to escalate is critical in onboarding for backend roles—so he can respond correctly under pressure and flag uncertainty early rather than learning it during an incident.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "0ae437a6-c219-4908-b971-654d916c6913",
+  "validation": {
+    "passed": true,
+    "issues": []
+  },
+  "attempts": 2
+}

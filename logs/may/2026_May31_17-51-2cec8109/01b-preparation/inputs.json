@@ -1,0 +1,52 @@
+{
+  "name": "Sarah",
+  "roleTitle": "Senior Data Scientist",
+  "seniority": "Senior",
+  "meetingType": "Performance & feedback",
+  "observedShift": "Sarah is delivering, but there are signs she may be over-rotating on execution while underweighting influence and visibility. I want to understand whether she has a clear view of the performance bar at Senior level and where she sees gaps in her current approach. This conversation should test how she frames impact, how she handles cross-functional friction, and whether she has a practical plan to raise signal with stakeholders instead of waiting for good work to be noticed automatically.",
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "How she frames Senior-level impact and leverage",
+      "reason": "Whether she can clearly articulate what moved because of her work, not just what she delivered, and where her leverage is coming from.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Influence and visibility with cross-functional stakeholders",
+      "reason": "What she’s doing to build trust and raise signal with stakeholders, especially when results aren’t automatically noticed.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "cross_team_alignment",
+      "type": "Cross-team alignment",
+      "category": "competency",
+      "label": "Handling cross-functional friction without stalling",
+      "reason": "How she reduces friction at team boundaries—what she escalates, what she pre-wires, and how she keeps other teams in the loop.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "judgment",
+      "type": "Judgment",
+      "category": "competency",
+      "label": "Tradeoffs: execution depth vs strategic calls",
+      "reason": "What calls she’s making on where to go deep in execution versus where to invest in influence, visibility, and early alignment for higher leverage.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "4d1515c6-f43d-4ce3-bf57-34a84bdb65b3",
+  "validation": {
+    "passed": true,
+    "issues": []
+  },
+  "attempts": 2
+}

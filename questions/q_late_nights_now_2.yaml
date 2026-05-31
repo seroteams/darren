@@ -1,0 +1,10 @@
+alias: q_late_nights_now_2
+label: Late nights now
+name: What is driving the late nights now that the sprint pressure has eased?
+description: Separates a temporary push from a longer-running load and surfaces the real cause of the current pace.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

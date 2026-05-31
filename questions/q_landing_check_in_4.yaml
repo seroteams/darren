@@ -1,0 +1,10 @@
+alias: q_landing_check_in_4
+label: Landing check-in
+name: What’s been most on your mind at work lately, Riley?
+description: Opens with a safe context-setting check-in so Riley can name what feels most salient in week two.
+purpose: wellbeing
+stage: settling
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

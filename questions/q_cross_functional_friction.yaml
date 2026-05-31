@@ -1,0 +1,10 @@
+alias: q_cross_functional_friction
+label: Cross-functional friction
+name: Where does cross-functional friction slow you down most?
+description: Finds the specific situations where she may be choosing execution over alignment.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

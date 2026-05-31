@@ -1,0 +1,10 @@
+alias: q_influence_gap_2
+label: Influence gap
+name: Where do you think your influence was weaker than your execution?
+description: Tests whether she sees the gap between doing the work and shaping outcomes.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

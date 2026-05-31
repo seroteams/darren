@@ -1,0 +1,51 @@
+{
+  "headline": "James is disengaging from team rituals while seeking precise authority and recognition criteria after the promotion decision—clarity is the bottleneck, not effort.",
+  "summary_bullets": [
+    "James links his lower ritual presence to the promotion decision: “After the promotion decision, I was not clear on what really needed to change.”",
+    "His engagement drop is paired with a concrete clarity ask: “I want clearer criteria, not reassurance” and “define the path precisely.”",
+    "He’s trying to stay useful via mentoring, but doubts it maps to recognition: “I am not sure the work I am doing is the work that gets recognized.”"
+  ],
+  "understanding_paragraph": "James feels less connected because the promotion decision left him unclear on what needed to change, so he defaulted to delivery work that felt controllable. He’s not asking for comfort; he’s asking for explicit criteria and real authority to own bigger direction. Mentoring is currently his most reliable source of usefulness, but he still can’t see whether it’s the work that will be recognized.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -4,
+      "meaning": "Running low on sustainable energy because uncertainty about authority and direction is draining focus."
+    },
+    {
+      "id": "engagement",
+      "score": -6,
+      "meaning": "A real engagement dip tied to the promotion decision, with reduced ritual presence and more “controllable” work."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "The defining constraint: he lacks clear criteria and authority, so priorities and expectations feel unworkable."
+    },
+    {
+      "id": "growth",
+      "score": -3,
+      "meaning": "Weak growth signal because he can’t connect his current work (including mentoring) to what gets recognized."
+    }
+  ],
+  "brutal_truth_employee": "James is clear that the problem isn’t motivation alone: “I have been less present in rituals, yes.” He’s also explicit about what he needs to commit: “If we can define the path precisely, I will commit to it.”",
+  "brutal_truth_manager": "When James said, “After the promotion decision, I was not clear on what really needed to change,” the conversation moved quickly into criteria and authority asks without first drilling into what specific change he expected to see. Next time, deepen the “what needed to change” thread with exploratory listening: ask him to name the exact mismatch (what was promised vs what happened) before you jump to solutions.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute follow-up with James to co-write one-page “criteria + authority” for his next 4–6 weeks, using his exact language: clearer criteria, real authority, precise path."
+    },
+    {
+      "when": "this week",
+      "action": "Confirm one named forum James will own and define the success criteria for it, then share what “recognized work” looks like in observable terms."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-ask James to compare mentoring vs core-role recognition: “Which specific outcomes will make mentoring count toward what gets recognized?”"
+    }
+  ],
+  "watch_for": [
+    "Within two weeks, if James’s ritual presence stays low without new clarity artifacts (forum, criteria, authority), treat this as unresolved decision fallout.",
+    "Before the next 1:1, if James cannot name concrete “recognized work” outcomes (not reassurance), clarity remains the blocker and engagement will keep slipping."
+  ]
+}

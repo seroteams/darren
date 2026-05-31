@@ -1,0 +1,10 @@
+alias: q_delegate_or_keep
+label: Delegate or keep
+name: "What work are you keeping close that you'd rather hand off?"
+description: Gets at delegation friction and whether she has bandwidth to mentor or coach others.
+purpose: competency
+stage: friction
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

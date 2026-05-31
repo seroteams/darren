@@ -1,0 +1,51 @@
+{
+  "headline": "Carlos gave consistent, specific answers about missing team-bar alignment under time pressure—this is a clarity + growth problem, not a motivation problem.",
+  "summary_bullets": [
+    "Across multiple turns, Carlos ties misses to time pressure: he “focus[es] on polish” and “lose[s] sight of the core message.”",
+    "He wants concrete calibration: “clearer examples of what excellent junior-level work looks like here” and “concrete criteria” to know what to change first.",
+    "When feedback is “broad,” he can’t translate it into action: “I am not sure what to change first,” which blocks faster growth in concept rationale."
+  ],
+  "understanding_paragraph": "Carlos can articulate wins, but he doesn’t trust they match the team bar. He knows exactly what slips under time pressure (core message first, polish second) and asks for examples plus prioritization rules. The new thing is his repeatable mechanism for growth: he needs narrower, sequenced feedback loops that tell him what to change first, not generalized review notes.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": 0,
+      "meaning": "No actionable wellbeing signal; the focus stayed on performance mechanics, not stress load or recovery."
+    },
+    {
+      "id": "engagement",
+      "score": 0,
+      "meaning": "Weak signal; Carlos shows ownership through commitments, but doesn’t describe sustained motivation or initiative beyond that."
+    },
+    {
+      "id": "clarity",
+      "score": -8,
+      "meaning": "Strong clarity gap: under time pressure and broad reviews, he can’t determine what to change first or how his work matches the team bar."
+    },
+    {
+      "id": "growth",
+      "score": -7,
+      "meaning": "Real growth block: he wants faster improvement in concept rationale, but broad feedback and unclear sequencing prevent progress."
+    }
+  ],
+  "brutal_truth_employee": "Carlos is not failing because he can’t do the work—he’s failing to translate feedback into action. He said, “When reviews are broad, I am not sure what to change first,” and under pressure he “lose[s] sight of the core message.”",
+  "brutal_truth_manager": "When Carlos asked for “clearer examples” and said broad reviews leave him unsure what to change first, the conversation still needs the next step: turn that into a single, testable criteria set for the next deliverable. Next time, don’t stop at alignment—lock the criteria to one concrete artifact and a first-change rule before you end.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Write and send Carlos a one-page “junior brand design team bar” checklist with 3 concrete criteria and 2 example references for each."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 20-minute calibration session where Carlos brings one recent concept draft and you mark only the core-message vs polish decision points."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Confirm Carlos’s time-pressure priority rule by asking him to show the rule applied to a specific deliverable and name the exact first change he made."
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Carlos still says “broad reviews” leave him unsure what to change first, treat clarity and sequencing as unresolved.",
+    "Within two weeks: if his next drafts still drift toward polish over core message, the priority rule isn’t being executed or the criteria aren’t concrete enough."
+  ]
+}

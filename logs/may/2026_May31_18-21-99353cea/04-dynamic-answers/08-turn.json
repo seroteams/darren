@@ -1,0 +1,115 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_support_needed_19",
+    "label": "Support needed",
+    "name": "What would be most useful from me over the next couple of weeks, Riley?",
+    "description": "Converts missing context into a concrete manager support plan.",
+    "purpose": "topic",
+    "stage": "connection",
+    "axis_effects": {
+      "clarity": 1,
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "answer": "If I know exactly what ownership I should take this month, I can contribute with more confidence.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "Names missing ownership clarity as the support he lacks right now; that is a mild negative signal on clarity and growth."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_step_landing",
+      "label": "Next-step landing",
+      "name": "Given what we've covered, what should we tighten up before our next check-in?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_escalate_vs_batch",
+          "delta": -1,
+          "answer_excerpt": "The runbook helped, but some practical handoff details only show up during live incidents."
+        },
+        {
+          "q": "q_team_contact_2",
+          "delta": -3,
+          "answer_excerpt": "A short weekly architecture review with someone senior would help me calibrate faster."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_week_two_pulse",
+          "delta": 1,
+          "answer_excerpt": "I am comfortable reading the services, but I am less sure how decisions are really made here."
+        },
+        {
+          "q": "q_team_contact_2",
+          "delta": -1,
+          "answer_excerpt": "A short weekly architecture review with someone senior would help me calibrate faster."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_decision_making_gap",
+          "delta": -1,
+          "answer_excerpt": "I can trace most request paths now, though I still miss historical context behind certain tradeoffs."
+        },
+        {
+          "q": "q_tradeoff_context_3",
+          "delta": -3,
+          "answer_excerpt": "I have not been fully clear on who is on point for each domain when priorities conflict."
+        },
+        {
+          "q": "q_context_gaps",
+          "delta": -3,
+          "answer_excerpt": "I am trying not to interrupt people, so sometimes I keep questions in a notes doc instead of asking."
+        },
+        {
+          "q": "q_notes_doc_habit_2",
+          "delta": -3,
+          "answer_excerpt": "I would benefit from a clearer guide for what to escalate quickly versus what to batch."
+        },
+        {
+          "q": "q_escalate_vs_batch",
+          "delta": -3,
+          "answer_excerpt": "The runbook helped, but some practical handoff details only show up during live incidents."
+        },
+        {
+          "q": "q_team_contact_2",
+          "delta": -1,
+          "answer_excerpt": "A short weekly architecture review with someone senior would help me calibrate faster."
+        },
+        {
+          "q": "q_support_needed_19",
+          "delta": -1,
+          "answer_excerpt": "If I know exactly what ownership I should take this month, I can contribute with more confidence."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_support_needed_19",
+          "delta": -1,
+          "answer_excerpt": "If I know exactly what ownership I should take this month, I can contribute with more confidence."
+        }
+      ]
+    }
+  }
+}

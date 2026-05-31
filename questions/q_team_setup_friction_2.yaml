@@ -1,0 +1,10 @@
+alias: q_team_setup_friction_2
+label: Team setup friction
+name: What part of our team setup is making your work harder than it needs to be?
+description: Surfaces process or ownership issues that are adding avoidable drag.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

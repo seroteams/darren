@@ -1,0 +1,9 @@
+alias: q_update_landing
+label: Update landing
+name: How are your updates landing with the people who rely on them?
+description: Probes whether communication is creating alignment or still leaving others unsure.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +3
+source: generated

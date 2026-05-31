@@ -1,0 +1,10 @@
+alias: q_support_ask_6
+label: Support ask
+name: What do you need from me to keep the next two weeks moving cleanly?
+description: Identifies the specific support or decision she needs from her manager to stay unblocked.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

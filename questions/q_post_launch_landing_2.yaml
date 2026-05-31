@@ -1,0 +1,10 @@
+alias: q_post_launch_landing_2
+label: Post-launch landing
+name: Since Monday, where has your energy actually landed?
+description: Checks whether the quieter week looks like normal recovery or something heavier.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

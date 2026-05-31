@@ -1,0 +1,61 @@
+{
+  "name": "Nina",
+  "roleTitle": "Frontend Engineer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "observedShift": "Nina shipped two major features ahead of schedule after several weeks of late nights and has been downplaying concern. I need to separate output from sustainability and understand what is actually driving the current load now that the sprint pressure is over. I also want to hear where she feels blocked in visibility and influence, because strong execution without recognition can quietly drain engagement. This check-in should clarify her near-term priorities and what support she actually wants from me.",
+  "focusPoints": [
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Late-night load — what’s driving it now",
+      "reason": "Notes say she shipped ahead after weeks of late nights and has been downplaying concern. Could be a temporary sprint crunch, a lingering habit, or extra hidden work now that pressure is over—worth clarifying what’s actually creating the current load.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What she’s saying yes and no to",
+      "reason": "Whether her near-term priorities match the real post-sprint reality, or whether she’s still carrying urgency forward. This helps you separate output from sustainability and get her sequencing straight for the next cycle.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Recognition and credit she’s not getting",
+      "reason": "Notes mention strong execution without recognition can quietly drain engagement. Could be that wins aren’t landing publicly, or that she wants different kinds of acknowledgment—worth clarifying what “seen” looks like for her right now.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Visibility and influence bottlenecks",
+      "reason": "Where she feels blocked in visibility and influence is the likely driver of stalled decisions or rerouted work. Clarifying the specific dependency or information gap will tell you what to intervene on and what to unblock.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What she wants more from you",
+      "reason": "Bi-weekly check-ins for a Senior IC work best when you explicitly ask what support she wants from you (air cover, decisions, introductions, or coaching) so she can keep momentum without silently absorbing friction.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "bdb32384-1b7b-4b4e-abb4-aca4f25ac135",
+  "validation": {
+    "passed": true,
+    "issues": []
+  },
+  "attempts": 1
+}

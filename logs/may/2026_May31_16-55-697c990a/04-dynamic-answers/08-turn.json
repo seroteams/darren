@@ -1,0 +1,135 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_next_step_move_2",
+    "label": "Next-step move",
+    "name": "What would you most like to have moving differently by our next check-in?",
+    "description": "Closes by turning the conversation into an open next move without sounding checklist-driven.",
+    "purpose": "competency",
+    "stage": "lift",
+    "axis_effects": {
+      "growth": 1,
+      "clarity": 1
+    },
+    "source": "reworded_from:q_next_step_move"
+  },
+  "answer": "Clear priority tradeoffs from leadership would help a lot.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "Names missing priority tradeoffs from leadership as the change needed next, signaling mild growth drag and clarity deficit."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_step_move",
+      "label": "Next-step move",
+      "name": "What’s the first concrete thing you want to shift before we next meet?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I can ship quickly, but I do not always feel the impact is visible."
+        },
+        {
+          "q": "q_visible_impact_3",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_pace_becoming_normal",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I can ship quickly, but I do not always feel the impact is visible."
+        },
+        {
+          "q": "q_visible_impact_3",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        },
+        {
+          "q": "q_support_needed_9",
+          "delta": -1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_pace_becoming_normal",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_fragmented_calendar_2",
+          "delta": -1,
+          "answer_excerpt": "A lot of energy went into firefighting and context switching."
+        },
+        {
+          "q": "q_communication_feedback_2",
+          "delta": -1,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        },
+        {
+          "q": "q_support_needed_9",
+          "delta": -1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        },
+        {
+          "q": "q_next_step_move_2",
+          "delta": -1,
+          "answer_excerpt": "Clear priority tradeoffs from leadership would help a lot."
+        }
+      ]
+    },
+    "growth": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_communication_feedback_2",
+          "delta": -3,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        },
+        {
+          "q": "q_support_needed_9",
+          "delta": -3,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        },
+        {
+          "q": "q_next_step_move_2",
+          "delta": -1,
+          "answer_excerpt": "Clear priority tradeoffs from leadership would help a lot."
+        }
+      ]
+    }
+  }
+}

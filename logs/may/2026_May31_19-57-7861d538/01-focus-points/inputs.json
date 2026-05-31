@@ -1,0 +1,8 @@
+{
+  "name": "Carl",
+  "role": "UX Lead",
+  "seniority": "Lead",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "They are being pulled into two different directions. AZPocket App and the CoE UX/UI",
+  "model": "gpt-5.4-nano"
+}

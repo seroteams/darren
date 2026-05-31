@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "reliability",
+      "type": "Reliability",
+      "category": "competency",
+      "label": "Shipping confidence and reassurance timing.",
+      "reason": "Week three signal: he hesitates before shipping and asks for reassurance late. Could be a normal confidence dip, or a tooling/expectation gap we can fix quickly—worth clarifying what specifically makes shipping feel risky right now.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "What 'done' means in his onboarding handoffs.",
+      "reason": "Onboarding handoffs still feel fuzzy in places. One possibility is he’s compensating by over-checking because the success bar and acceptance steps aren’t crisp yet—map the exact handoff points that are unclear so you can tighten them for the next two weeks.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Right support touchpoints for the next two weeks.",
+      "reason": "Whether he’s a junior or not, onboarding succeeds when the manager and team make support predictable: who to ask, when to review, and what kind of reassurance is available before work reaches the “late” stage.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Tooling or process friction slowing his loop.",
+      "reason": "Junior engineers often stall when the daily loop isn’t smooth—CI/review tooling, unclear steps, or missing context. Worth identifying the specific friction points so you can remove them quickly rather than treating it as confidence alone.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Sam",
+  "role": "Frontend Engineer",
+  "seniority": "Junior",
+  "meetingType": "Onboarding check-in",
+  "notes": "Sam is in week three and has started picking up real tickets, but he still hesitates before shipping and asks for reassurance late. I need to understand whether this is a normal confidence dip or a tooling and expectation gap we can fix quickly. I also want clarity on where onboarding handoffs are still fuzzy so he is not quietly compensating. This should stay practical and supportive: map what is unclear, unblock him, and line up the right support touchpoints for the next two weeks.",
+  "model": "gpt-5.4-mini"
+}

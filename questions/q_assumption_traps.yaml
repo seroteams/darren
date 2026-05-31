@@ -1,0 +1,10 @@
+alias: q_assumption_traps
+label: Assumption traps
+name: What kind of situation makes you feel like you might be assuming the wrong thing?
+description: "Surfaces the signals he uses to notice when his mental model may diverge from the team's reality."
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

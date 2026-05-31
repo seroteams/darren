@@ -1,0 +1,10 @@
+alias: q_quality_bar_2
+label: Quality bar
+name: What made that piece feel up to standard to you?
+description: Gets at the criteria he is using to judge quality in practice.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

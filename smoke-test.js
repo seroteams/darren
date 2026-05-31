@@ -29,6 +29,7 @@ const { loadEnv } = require("./src/env");
 const { MEETING_TYPES } = require("./src/meeting-types");
 const { allResolved } = require("./src/models");
 const { TOTAL_BUDGET } = require("./frontend/server/sessions");
+const { monthFolderFor } = require("./src/session");
 const { stringifyYaml, parseYaml } = require("./src/questions");
 
 loadEnv();
@@ -202,6 +203,16 @@ if (meetingIdx < 0) {
 
 const answers = scenario.answers || [];
 const BUDGET = TOTAL_BUDGET;
+const substantiveAnswers = answers.filter((a) => {
+  const t = String(a || "").trim();
+  return t && t !== "(skipped)";
+});
+if (substantiveAnswers.length < BUDGET) {
+  console.error(
+    `Scenario ${scenarioPath} has ${substantiveAnswers.length} substantive answer(s) but TOTAL_BUDGET is ${BUDGET}. Add ${BUDGET - substantiveAnswers.length} more.`
+  );
+  process.exit(2);
+}
 const inputs = [
   "n", // Recent-runs start menu: new run
   scenario.name,
@@ -255,6 +266,26 @@ function scanSessions() {
   }
   return out;
 }
+
+const SESSION_ID_RE = /session (\d{4}_[A-Z][a-z]{2}\d{2}_\d{2}-\d{2}-[a-f0-9]{8})/;
+
+function resolveNewSession(stdout, logsBefore) {
+  const idMatch = stdout.match(SESSION_ID_RE);
+  if (idMatch) {
+    const month = monthFolderFor(idMatch[1]);
+    if (month) {
+      const rel = path.join(month, idMatch[1]);
+      if (fs.existsSync(path.join("logs", rel))) return rel;
+    }
+  }
+  const newSessions = scanSessions().filter((d) => !logsBefore.has(d));
+  const completed = newSessions
+    .filter((rel) => fs.existsSync(path.join("logs", rel, "transcript.json")))
+    .sort();
+  if (completed.length) return completed[completed.length - 1];
+  return newSessions.sort()[newSessions.length - 1] || null;
+}
+
 const logsBefore = new Set(scanSessions());
 const startedAt = Date.now();
 
@@ -278,11 +309,12 @@ child.stdout.on("data", (chunk) => {
 child.on("exit", (code) => {
   const duration = ((Date.now() - startedAt) / 1000).toFixed(1);
   console.log(banner(`child exited (code ${code}, ${duration}s)`));
-  verify(code).then((ok) => process.exit(ok ? 0 : 1));
+  const stdout = Buffer.concat(stdoutChunks).toString();
+  verify(code, stdout).then((ok) => process.exit(ok ? 0 : 1));
 });
 
 // ---------------------------------------------------------------- Verify
-async function verify(exitCode) {
+async function verify(exitCode, stdout) {
   const checks = [];
   const pass = (label) => checks.push({ ok: true, label });
   const fail = (label, detail) => checks.push({ ok: false, label, detail });
@@ -290,9 +322,7 @@ async function verify(exitCode) {
   if (exitCode === 0) pass("child exited 0");
   else fail("child exited 0", `got code ${exitCode}`);
 
-  const logsAfter = scanSessions();
-  const newSessions = logsAfter.filter((d) => !logsBefore.has(d)).sort();
-  const session = newSessions[newSessions.length - 1];
+  const session = resolveNewSession(stdout, logsBefore);
   if (!session) {
     fail("new session directory created", "no new dir in logs/");
     return report(checks);

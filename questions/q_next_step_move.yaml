@@ -1,0 +1,10 @@
+alias: q_next_step_move
+label: Next-step move
+name: What’s the first concrete thing you want to shift before we next meet?
+description: Closes by turning the conversation into a specific next move without opening a new thread.
+purpose: competency
+stage: lift
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

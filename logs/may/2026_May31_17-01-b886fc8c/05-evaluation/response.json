@@ -1,0 +1,51 @@
+{
+  "headline": "Elena is carrying post-reorg ambiguity and context-switch fatigue, and her clarity and grounding dropped faster than her engagement recovered.",
+  "summary_bullets": [
+    "Elena reports being quieter in leadership meetings because she is “still figuring out where my voice has most leverage,” tying reduced visibility to uncertainty, not disengagement.",
+    "Her biggest concrete need is clarity plus decision protection: “clearer prioritization and a little more air cover in cross-team decisions.”",
+    "She is protecting the team from noise while “carrying more ambiguity myself,” and she still hasn’t articulated a first concrete change for the next conversation (last answer was skipped)."
+  ],
+  "understanding_paragraph": "We understood that Elena’s pullback is a transition pattern driven by uncertainty: she feels “less grounded” and is “carrying more ambiguity” to shield her team. We also learned she wants to “re-engage more visibly,” but she needs “a steadier footing first,” specifically clearer success measures and cross-team decision support. The session did not surface a specific next change she wants from you, which is a gap to close quickly.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -7,
+      "meaning": "Sustained negative signal: context switching and ambiguity are leaving Elena less grounded and carrying more than she’s saying out loud."
+    },
+    {
+      "id": "engagement",
+      "score": -2,
+      "meaning": "Weak negative signal: Elena is not coasting, but her visible leadership engagement is down until she gets steadier footing."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Defining signal: Elena is not clear on how success is measured in the new setup, and prioritization is not sufficiently defined."
+    },
+    {
+      "id": "growth",
+      "score": -2,
+      "meaning": "Weak negative signal: growth is constrained by ambiguity rather than by lack of interest."
+    }
+  ],
+  "brutal_truth_employee": "Elena is explicitly not grounded: “I do feel less grounded than I did before,” and she’s tired from “constant context switching.” She also says the core blocker is clarity and protection: “I am not fully clear yet on how success is being measured” and “a little more air cover in cross-team decisions.”",
+  "brutal_truth_manager": "When you asked for the “first concrete thing” she wanted changed by the next conversation, Elena skipped it—this is the moment to slow down and force specificity. Next time, don’t let “steadier footing first” stay abstract; ask for one measurable change (success metric, decision owner, or meeting cadence) you can directly enable.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute follow-up with Elena to translate “clearer prioritization” into 3 explicit priorities and 1 success metric for the new setup."
+    },
+    {
+      "when": "this week",
+      "action": "Set up an air-cover mechanism for Elena’s cross-team decisions: identify decision owners and define escalation path for ambiguity."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-ask the concrete-change question with a forced choice: “Pick one: success metric, cross-team escalation, or meeting visibility—what changes first?”"
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Elena still cannot name a concrete change after being offered forced choices, treat it as a deeper clarity/support gap.",
+    "Within two weeks: if cross-team decisions keep stalling without a clear escalation owner, Elena’s “carrying more ambiguity myself” will likely worsen."
+  ]
+}

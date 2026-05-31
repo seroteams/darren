@@ -1,0 +1,116 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_visible_impact_4",
+    "label": "Visible impact",
+    "name": "Impact not visible — where does that happen most right now?",
+    "description": "Drills into the specific place her work is not landing visibly before moving on.",
+    "purpose": "topic",
+    "stage": "pulse",
+    "axis_effects": {
+      "engagement": 1,
+      "wellbeing": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Feedback on communication landed, and I am still processing it.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": -1
+    },
+    "note": "She surfaced a specific concern — communication feedback that is still sitting with her — which suggests the visibility issue is weighing on her and dampening momentum."
+  },
+  "new_queue": [
+    {
+      "alias": "q_communication_feedback_3",
+      "label": "Communication feedback",
+      "name": "Communication feedback — what about it are you still working through?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_influence_bottleneck_2",
+      "label": "Influence bottleneck",
+      "name": "What tends to slow decisions down when you need buy-in?"
+    },
+    {
+      "alias": "q_next_two_weeks_17",
+      "label": "Next two weeks",
+      "name": "What would make the next two weeks feel steadier for you?"
+    }
+  ],
+  "issues": [
+    "coverage: injected growth into next question (0 touches after turn 5)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I can ship quickly, but I do not always feel the impact is visible."
+        },
+        {
+          "q": "q_visible_impact_4",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_thread_follow_5",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I can ship quickly, but I do not always feel the impact is visible."
+        },
+        {
+          "q": "q_visible_impact_4",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_thread_follow_5",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_fragmented_calendar_3",
+          "delta": -1,
+          "answer_excerpt": "A lot of energy went into firefighting and context switching."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

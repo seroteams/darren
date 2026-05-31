@@ -1,0 +1,9 @@
+alias: q_political_capital_5
+label: Political capital
+name: Political capital — where are you holding back right now?
+description: Drills into the specific arenas where the promotion outcome made him more cautious.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,98 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_growth_blockers",
+    "label": "Growth blockers",
+    "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+    "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+    "purpose": "topic",
+    "stage": "gap",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I know I want bigger scope, but I still spend too much time in execution details.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": 1,
+      "growth": -3
+    },
+    "note": "He names a concrete growth blocker — being pulled into execution details despite wanting bigger scope — which signals strong growth constraint with some self-awareness about the gap."
+  },
+  "new_queue": [
+    {
+      "alias": "q_execution_details_2",
+      "label": "Execution details",
+      "name": "Execution details — where are you still getting pulled in most often?"
+    },
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_scope_definition",
+      "label": "Scope definition",
+      "name": "When you think about the next-level Head of Product role, what does good actually look like to you?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_influence_target",
+      "label": "Influence target",
+      "name": "Which stakeholder forum matters most for your influence at this level?"
+    },
+    {
+      "alias": "q_tradeoff_ask",
+      "label": "Tradeoff ask",
+      "name": "What would you stop doing if you wanted to spend more time on strategic ownership?"
+    },
+    {
+      "alias": "q_manager_leverage_5",
+      "label": "Manager leverage",
+      "name": "What should I be doing more of to help you build that scope?"
+    },
+    {
+      "alias": "q_first_move_5",
+      "label": "First move",
+      "name": "Given what we've covered, where do you want to start first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": 1,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        }
+      ]
+    }
+  }
+}

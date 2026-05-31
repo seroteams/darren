@@ -1,0 +1,93 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_biweekly_friction",
+    "label": "Friction scan",
+    "name": "What's been slower or harder than it should have been?",
+    "description": "Invites them to name blockers without framing it as complaint.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 3
+    },
+    "source": "seed"
+  },
+  "answer": "The last stretch shipped, but it was heavier than I made it sound.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "clarity": -1
+    },
+    "note": "Says the stretch was heavier than presented, which signals hidden friction and some mismatch between apparent and actual load."
+  },
+  "new_queue": [
+    {
+      "alias": "q_heavier_stretch",
+      "label": "Heavier stretch",
+      "name": "When you say it was heavier, what was making it heavy?"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_keep_or_delegate",
+      "label": "Keep or delegate",
+      "name": "What do you think only you should own right now?"
+    },
+    {
+      "alias": "q_team_leverage_2",
+      "label": "Team leverage",
+      "name": "Where are you still the bottleneck?"
+    },
+    {
+      "alias": "q_decision_support_2",
+      "label": "Decision support",
+      "name": "What do you need from me to make the next two weeks easier?"
+    },
+    {
+      "alias": "q_closer_next_step",
+      "label": "Closer next step",
+      "name": "Given what we’ve covered, what’s the first thing you want to change before we meet again?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The last stretch shipped, but it was heavier than I made it sound."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The last stretch shipped, but it was heavier than I made it sound."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

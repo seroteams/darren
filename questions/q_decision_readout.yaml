@@ -1,0 +1,10 @@
+alias: q_decision_readout
+label: Decision readout
+name: "Did you get a concrete readout on last cycle's decision?"
+description: Surfaces whether she has the specific feedback she needs to make sense of the outcome.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

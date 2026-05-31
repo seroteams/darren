@@ -22,7 +22,13 @@ module.exports = async function evaluation(c) {
     thinkingLabel: "Final evaluation",
     getCached: () => session.briefing,
     setCached: (r) => {
-      session.briefing = { ...r, cost: session.tracker.summary() };
+      const completedAt = Date.now();
+      session.completedAt = completedAt;
+      session.briefing = {
+        ...r,
+        cost: session.tracker.summary(),
+        completedAt,
+      };
       kickLexiconReview(session);
     },
     produce: () =>

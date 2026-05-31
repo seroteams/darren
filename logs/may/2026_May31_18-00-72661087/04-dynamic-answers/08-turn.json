@@ -1,0 +1,120 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_steadier_next_steps",
+    "label": "Steadier next steps",
+    "name": "What support from me would make the next two weeks steadier for you?",
+    "description": "Closes by turning the discussion into concrete support and next-step commitment.",
+    "purpose": "wellbeing",
+    "stage": "connection",
+    "axis_effects": {
+      "clarity": 1,
+      "growth": 3
+    },
+    "source": "generated"
+  },
+  "answer": "If I have explicit decision boundaries for this quarter, I can lead much more confidently.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "Names missing explicit decision boundaries as the support she lacks, signaling strong growth friction and mild clarity deficit."
+  },
+  "new_queue": [
+    {
+      "alias": "q_seed_clarity_priorities",
+      "label": "Priority ranking",
+      "name": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_landing_check_in_3",
+          "delta": -1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_remote_context_gap",
+          "delta": 1,
+          "answer_excerpt": "I want to drive alignment, but I do not want to create noise by over-communicating."
+        },
+        {
+          "q": "q_first_friction",
+          "delta": -1,
+          "answer_excerpt": "I still need a clearer picture of how roadmap tradeoffs are finalized here."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_landing_check_in_3",
+          "delta": -1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        },
+        {
+          "q": "q_unwritten_rules_2",
+          "delta": -1,
+          "answer_excerpt": "I can draft plans, though I am not always sure when I should decide versus escalate."
+        },
+        {
+          "q": "q_decide_vs_escalate_2",
+          "delta": -1,
+          "answer_excerpt": "Cross-team conversations move fast and I sometimes leave unsure about who committed to what."
+        },
+        {
+          "q": "q_commitments_clarity",
+          "delta": -3,
+          "answer_excerpt": "Being remote makes it harder to read context that others seem to pick up naturally."
+        },
+        {
+          "q": "q_remote_context_gap",
+          "delta": -1,
+          "answer_excerpt": "I want to drive alignment, but I do not want to create noise by over-communicating."
+        },
+        {
+          "q": "q_first_friction",
+          "delta": -3,
+          "answer_excerpt": "I still need a clearer picture of how roadmap tradeoffs are finalized here."
+        },
+        {
+          "q": "q_tradeoff_process_2",
+          "delta": -3,
+          "answer_excerpt": "A consistent partner check-in cadence would help me validate assumptions earlier."
+        },
+        {
+          "q": "q_steadier_next_steps",
+          "delta": -1,
+          "answer_excerpt": "If I have explicit decision boundaries for this quarter, I can lead much more confidently."
+        }
+      ]
+    },
+    "growth": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_tradeoff_process_2",
+          "delta": -3,
+          "answer_excerpt": "A consistent partner check-in cadence would help me validate assumptions earlier."
+        },
+        {
+          "q": "q_steadier_next_steps",
+          "delta": -3,
+          "answer_excerpt": "If I have explicit decision boundaries for this quarter, I can lead much more confidently."
+        }
+      ]
+    }
+  }
+}

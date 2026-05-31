@@ -1,0 +1,9 @@
+alias: q_team_expectations_2
+label: Team expectations
+name: When you second-guess your approach, what expectations feel hardest to read?
+description: Drills into the specific expectation gap he just named so the manager can remove ambiguity quickly.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

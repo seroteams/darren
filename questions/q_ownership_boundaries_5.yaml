@@ -1,0 +1,9 @@
+alias: q_ownership_boundaries_5
+label: Ownership boundaries
+name: Where are ownership boundaries still fuzzy this week?
+description: Pinpoints the specific work areas where Lin is still becoming the default escalation.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

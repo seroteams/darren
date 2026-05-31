@@ -58,5 +58,35 @@
     "name": "Carlos",
     "meeting_type": "Performance & feedback",
     "run_id": "c298ae75-f50"
+  },
+  {
+    "file": "sam-onboarding-checkin.json",
+    "name": "Sam",
+    "meeting_type": "Onboarding check-in",
+    "run_id": "synthetic-2026-05-31-sam"
+  },
+  {
+    "file": "riley-onboarding-checkin.json",
+    "name": "Riley",
+    "meeting_type": "Onboarding check-in",
+    "run_id": "synthetic-2026-05-31-riley"
+  },
+  {
+    "file": "aisha-onboarding-checkin.json",
+    "name": "Aisha",
+    "meeting_type": "Onboarding check-in",
+    "run_id": "synthetic-2026-05-31-aisha"
+  },
+  {
+    "file": "toby-growth-career-plan.json",
+    "name": "Toby",
+    "meeting_type": "Growth & career plan",
+    "run_id": "synthetic-2026-05-31-toby"
+  },
+  {
+    "file": "elena-something-feels-off.json",
+    "name": "Elena",
+    "meeting_type": "Something feels off",
+    "run_id": "synthetic-2026-05-31-elena"
   }
 ]

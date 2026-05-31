@@ -1,0 +1,10 @@
+alias: q_current_headspace
+label: Current headspace
+name: "What's been most on your mind at work lately, Ahmed?"
+description: Lets Ahmed set context in his own terms before the conversation turns to scope or growth.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

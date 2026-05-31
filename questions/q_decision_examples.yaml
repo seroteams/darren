@@ -1,0 +1,10 @@
+alias: q_decision_examples
+label: Decision examples
+name: Can you walk me through one recent decision where you had to infer the team norm?
+description: Reveals how he is translating docs into actual operating practice.
+purpose: competency
+stage: orientation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

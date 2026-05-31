@@ -1,0 +1,10 @@
+alias: q_team_interactions_shift
+label: Team interactions shift
+name: "I've noticed you seem a bit less present in team interactions lately — what's the story from your side?"
+description: Gives her room to explain the change in day-to-day connection without framing it as a deficit.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  engagement: +1
+  wellbeing: +1
+source: generated

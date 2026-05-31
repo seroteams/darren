@@ -1,0 +1,10 @@
+alias: q_decision_readout_2
+label: Decision readout
+name: "What did you take from last cycle's decision?"
+description: Surfaces whether she has a concrete read on the gap or is still carrying ambiguity.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

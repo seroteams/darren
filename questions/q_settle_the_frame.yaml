@@ -1,0 +1,9 @@
+alias: q_settle_the_frame
+label: Settle the frame
+name: Before we get specific, what would be most useful to talk through today?
+description: Lets Maria set the agenda and surface the thread she most wants to work on.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  clarity: +1
+source: generated

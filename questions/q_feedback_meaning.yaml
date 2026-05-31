@@ -1,0 +1,10 @@
+alias: q_feedback_meaning
+label: Feedback meaning
+name: What does that feedback mean to you now?
+description: Surfaces his current interpretation and whether it is shaping his choices.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +1
+  growth: +3
+source: generated

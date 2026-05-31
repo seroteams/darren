@@ -1,0 +1,10 @@
+alias: q_influence_bottleneck_3
+label: Influence bottleneck
+name: What’s getting in the way when you try to move things with stakeholders?
+description: Maps the practical blocker to influence rather than staying at the level of frustration.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

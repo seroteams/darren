@@ -1,0 +1,10 @@
+alias: q_ownership_boundary
+label: Ownership boundary
+name: What are you still carrying personally that should live with the team?
+description: Tests whether he is holding onto executor work that should be delegated or systematized.
+purpose: competency
+stage: investment
+axis_effects:
+  engagement: +1
+  clarity: +3
+source: generated

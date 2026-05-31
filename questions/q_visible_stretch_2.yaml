@@ -1,0 +1,10 @@
+alias: q_visible_stretch_2
+label: Visible stretch
+name: Where is your judgment carrying the most weight right now, Toby?
+description: Surfaces the parts of his current scope that already resemble next-level ownership.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

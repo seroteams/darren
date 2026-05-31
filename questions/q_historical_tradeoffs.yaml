@@ -1,0 +1,9 @@
+alias: q_historical_tradeoffs
+label: Historical tradeoffs
+name: Which tradeoffs feel hardest to place without the backstory?
+description: Drills into the specific missing historical context he named so the manager can target the gap.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

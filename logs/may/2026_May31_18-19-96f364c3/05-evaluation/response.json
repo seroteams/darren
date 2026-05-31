@@ -1,0 +1,51 @@
+{
+  "headline": "Aisha is settling in, but decision rights and roadmap tradeoff finalization are still unclear—especially in remote cross-team alignment.",
+  "summary_bullets": [
+    "Aisha can draft plans, but she’s unsure when to decide vs escalate, and she often leaves cross-team conversations unsure about commitments.",
+    "Remote context cues are the main friction: she wants to drive alignment without creating noise, which turns into unclear “who committed to what.”",
+    "Her concrete ask is specific and actionable: run one planning thread with explicit decision boundaries before the next check-in."
+  ],
+  "understanding_paragraph": "Aisha is landing and has started driving planning threads, but the session showed her biggest uncertainty is not the work—it’s the decision-path rules. She’s missing how roadmap tradeoffs get finalized and what “committed” means across partners, especially while remote. The clearest new insight is that she already knows what support looks like: explicit decision boundaries applied to one planning thread.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": 0,
+      "meaning": "Weak signal—she reports settling in, but wellbeing isn’t a primary driver of the friction."
+    },
+    {
+      "id": "engagement",
+      "score": 0,
+      "meaning": "No strong signal—she’s motivated to lead, but engagement is being consumed by norm-decoding."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "The defining signal: decision rights and tradeoff finalization are unclear, which directly blocks confident planning."
+    },
+    {
+      "id": "growth",
+      "score": -3,
+      "meaning": "Worth noting: she’s not stuck on learning the job, but on learning the decision system; watch over the next few weeks."
+    }
+  ],
+  "brutal_truth_employee": "Aisha said, \"I am settling in, but I still feel like I am learning the unwritten rules in every meeting.\" She also shared, \"I am not always sure when I should decide versus escalate\" and \"I sometimes leave unsure about who committed to what.\" Her request is direct: \"explicit decision boundaries for this quarter\" and a planning thread with those boundaries.",
+  "brutal_truth_manager": "You got to the core friction quickly, but the conversation still stayed at the level of needs (“explicit decision boundaries”) rather than locking the exact decision path. The moment to deepen is when Aisha said, \"I sometimes leave unsure about who committed to what\"—next time, pin down the concrete artifact (who decides, who signs off, and what gets recorded) so it turns into a repeatable norm.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute decision-path mapping with Aisha and the key cross-functional partners for this quarter’s roadmap tradeoffs."
+    },
+    {
+      "when": "this week",
+      "action": "Create and share a one-page decision-boundary doc for Aisha: what she can decide, what escalates, and what “commitment” means in meetings."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Run a retro on the single planning thread: confirm which decisions were made, who committed, and what still felt ambiguous."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks, if Aisha still leaves meetings unsure about \"who committed to what,\" the decision boundaries aren’t operational yet.",
+    "Before next 1:1, if she avoids deciding or keeps requesting escalation guidance instead of using the explicit boundaries, the norms still aren’t clear."
+  ]
+}

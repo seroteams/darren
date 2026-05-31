@@ -1,0 +1,10 @@
+alias: q_last_cycle_meaning
+label: Last cycle meaning
+name: "When you say 'last cycle' — what part of it are you still carrying?"
+description: Drills into the specific unresolved piece from last cycle that is still shaping her growth picture.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +1
+  growth: +3
+source: planner_added

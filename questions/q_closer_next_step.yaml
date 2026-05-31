@@ -1,0 +1,10 @@
+alias: q_closer_next_step
+label: Closer next step
+name: Given what we’ve covered, what’s the first thing you want to change before we meet again?
+description: Ends on a concrete next step without opening a new topic.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

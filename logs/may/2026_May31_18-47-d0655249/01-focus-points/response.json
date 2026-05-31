@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Growth & career plan",
+  "focus_points": [
+    {
+      "id": "stakeholder_engagement",
+      "label": "Turning design leadership into org influence",
+      "reason": "Whether he’s getting the right sponsorship and visibility for the strategic work he’s doing, or staying in a safer lane after being passed over last cycle.",
+      "source": "signal"
+    },
+    {
+      "id": "decision_making_speed",
+      "label": "Decision ownership at the next level",
+      "reason": "What “good” looks like for a Lead in Growth & career plan is owning decisions end-to-end—so you can turn his execution into clear accountability and faster unblocking.",
+      "source": "best_practice"
+    },
+    {
+      "id": "cross_team_alignment",
+      "label": "Cross-functional impact and decision leverage",
+      "reason": "What he can point to as measurable cross-functional outcomes—could be fewer last-minute surprises, more shared decisions, or stronger buy-in from product/engineering.",
+      "source": "signal"
+    },
+    {
+      "id": "growth",
+      "label": "A concrete growth contract for the next cycle",
+      "reason": "What he wants from this conversation should translate into a specific set of decision and influence commitments, not a generic development list.",
+      "source": "best_practice"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_last_cycle_thread_4",
+    "label": "Last cycle thread",
+    "name": "When you say 'last cycle' — what part of it are you still carrying?",
+    "description": "Drills into the unresolved last-cycle thread to surface the specific blocker she means.",
+    "purpose": "topic",
+    "stage": "gap",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "The feedback was not specific enough.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "clarity": -3
+    },
+    "note": "She names a clear blocker: last cycle's feedback lacked specificity, signaling strong role/growth-path ambiguity and mild disengagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_thread_follow_9",
+      "label": "Thread follow",
+      "name": "feedback specific enough — can you say more about what that means for you right now?"
+    },
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_what_s_on_your_mind_5",
+      "label": "What's on your mind",
+      "name": "What's been most on your mind at work lately, Maria?"
+    },
+    {
+      "alias": "q_team_rituals",
+      "label": "Team rituals",
+      "name": "How has your participation in team rituals felt lately?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_next_level_concrete",
+      "label": "Next level concrete",
+      "name": "What would make the next level feel concrete for you?"
+    },
+    {
+      "alias": "q_manager_investment",
+      "label": "Manager investment",
+      "name": "What should I change in how I'm supporting your growth?"
+    },
+    {
+      "alias": "q_trade_off_check_4",
+      "label": "Trade-off check",
+      "name": "What would you need to stop doing to make room for the next step?"
+    },
+    {
+      "alias": "q_next_two_weeks_19",
+      "label": "Next two weeks",
+      "name": "Given what we've talked through, what do you want to focus on first over the next two weeks?"
+    }
+  ],
+  "issues": [
+    "runtime: injected thread-follow question"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_last_cycle_thread_4",
+          "delta": -1,
+          "answer_excerpt": "The feedback was not specific enough."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_last_cycle_thread_4",
+          "delta": -3,
+          "answer_excerpt": "The feedback was not specific enough."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        }
+      ]
+    }
+  }
+}

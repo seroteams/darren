@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Turning design leadership into org influence",
+      "reason": "What’s changed in his willingness to take visible strategic positions after being passed over last cycle, and whether he’s still building the relationships that translate execution into sponsorship.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "judgment",
+      "type": "Judgment",
+      "category": "competency",
+      "label": "Decision ownership at the next level",
+      "reason": "Whether he’s clear on the tradeoffs he’s expected to own (and when to escalate), so his leadership shows up as decisions—not just shipped work.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "cross_team_alignment",
+      "type": "Cross-team alignment",
+      "category": "competency",
+      "label": "Cross-functional impact and decision outcomes",
+      "reason": "What he can point to where design leadership changed another team’s plan or decisions, since Lead growth is usually proven through boundary-spanning outcomes.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What sponsorship Toby wants from you",
+      "reason": "How they want you to help create the sponsorship and visibility they’re not taking on their own right now, so the growth contract includes concrete air cover and introductions.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Toby",
+  "role": "Design Lead",
+  "seniority": "Lead",
+  "meetingType": "Growth & career plan",
+  "notes": "Toby has strong execution and team trust, but after being passed over last cycle he has become cautious about taking visible strategic positions. He keeps shipping, yet he is not consistently converting design leadership into org-level influence. I need this conversation to clarify whether the gap is confidence, sponsorship, or unclear expectations at the next level. He should leave with a concrete growth contract tied to decision ownership and cross-functional impact, not a generic development list.",
+  "model": "gpt-5.4-mini"
+}

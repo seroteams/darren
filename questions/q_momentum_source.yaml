@@ -1,0 +1,10 @@
+alias: q_momentum_source
+label: Momentum source
+name: What part of the work is still pulling you in?
+description: Looks for genuine pull and ownership beyond the current priority list.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +3
+  growth: +1
+source: generated

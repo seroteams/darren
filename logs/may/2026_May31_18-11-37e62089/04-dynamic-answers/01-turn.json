@@ -1,0 +1,98 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_off_connection",
+    "label": "Team connection",
+    "name": "How connected do you feel to the rest of the team right now?",
+    "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+    "purpose": "wellbeing",
+    "stage": "observation",
+    "axis_effects": {
+      "engagement": 3,
+      "wellbeing": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I have been less present in rituals, yes.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": -3
+    },
+    "note": "He confirms reduced participation in team rituals, which is a strong engagement dip and a mild wellbeing concern."
+  },
+  "new_queue": [
+    {
+      "alias": "q_less_present_rituals_3",
+      "label": "Less present rituals",
+      "name": "You said 'less present in rituals' — what shifted there for you?"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_intro_off_openended",
+      "label": "Open invitation",
+      "name": "Is there anything on your mind that we haven't made space to talk about?"
+    },
+    {
+      "alias": "q_feedback_he_got",
+      "label": "Feedback he got",
+      "name": "What feedback do you remember actually hearing from that process?"
+    },
+    {
+      "alias": "q_feedback_that_stuck",
+      "label": "Feedback that stuck",
+      "name": "What part of that feedback has stayed with you?"
+    },
+    {
+      "alias": "q_mentoring_fit_3",
+      "label": "Mentoring fit",
+      "name": "What is mentoring giving you that your core product work is not?"
+    },
+    {
+      "alias": "q_concrete_path",
+      "label": "Concrete path",
+      "name": "What concrete path forward feels real to you right now?"
+    },
+    {
+      "alias": "q_next_step_from_me",
+      "label": "Next step from me",
+      "name": "What do you need from me to make the next couple of weeks steadier?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

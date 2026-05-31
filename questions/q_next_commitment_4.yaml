@@ -1,0 +1,10 @@
+alias: q_next_commitment_4
+label: Next commitment
+name: What would make the next two weeks a useful test of this growth contract?
+description: Closes on a concrete near-term experiment that makes the conversation actionable.
+purpose: competency
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

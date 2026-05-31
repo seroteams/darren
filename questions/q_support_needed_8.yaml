@@ -1,0 +1,10 @@
+alias: q_support_needed_8
+label: Support needed
+name: What would help you make the next few weeks feel more deliberate?
+description: Finds the smallest useful support without reopening diagnosis or blame.
+purpose: wellbeing
+stage: support
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

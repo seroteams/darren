@@ -1,0 +1,9 @@
+alias: q_political_capital_4
+label: Political capital
+name: What about that promotion outcome made you more careful with political capital?
+description: Drills into the specific promotion experience that changed how Toby is navigating influence and advancement.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added

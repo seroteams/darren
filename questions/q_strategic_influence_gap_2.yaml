@@ -1,0 +1,9 @@
+alias: q_strategic_influence_gap_2
+label: Strategic influence gap
+name: Visible strategic influence — where does that translation break down for you?
+description: Drills into the specific point where strong initiative leadership stops becoming visible strategic influence.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added

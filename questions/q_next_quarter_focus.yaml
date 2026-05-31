@@ -1,0 +1,10 @@
+alias: q_next_quarter_focus
+label: Next-quarter focus
+name: "Given what we've covered, what do you want to work on first over the next quarter?"
+description: Closes on a concrete priority and commitment without introducing a new thread.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

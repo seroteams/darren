@@ -1,0 +1,10 @@
+alias: q_incident_expectations
+label: Incident expectations
+name: What have you picked up so far about how incidents are handled here?
+description: Checks understanding of incident norms in a low-pressure way before pressure tests arrive.
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

@@ -1,0 +1,140 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_visible_ownership",
+    "label": "Visible ownership",
+    "name": "Where do you want more visible ownership on the frontend work?",
+    "description": "Gets at recognition and influence without asking whether she feels appreciated.",
+    "purpose": "topic",
+    "stage": "momentum",
+    "axis_effects": {
+      "engagement": 3,
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "answer": "Clear priority tradeoffs from leadership would help a lot.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -3,
+      "growth": -1
+    },
+    "note": "Names missing leadership priority tradeoffs as the condition for visible ownership — a strong engagement deficit and mild growth constraint."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_two_weeks_20",
+      "label": "Next two weeks",
+      "name": "Given what we've covered, what would make the next two weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I can ship quickly, but I do not always feel the impact is visible."
+        },
+        {
+          "q": "q_visible_impact_6",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        },
+        {
+          "q": "q_communication_feedback_4",
+          "delta": -1,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_thread_follow_14",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I can ship quickly, but I do not always feel the impact is visible."
+        },
+        {
+          "q": "q_visible_impact_6",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        },
+        {
+          "q": "q_visible_ownership",
+          "delta": -3,
+          "answer_excerpt": "Clear priority tradeoffs from leadership would help a lot."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_thread_follow_14",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_fragmented_calendar_4",
+          "delta": -1,
+          "answer_excerpt": "A lot of energy went into firefighting and context switching."
+        },
+        {
+          "q": "q_communication_feedback_4",
+          "delta": -1,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 3,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        }
+      ]
+    },
+    "growth": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_communication_feedback_4",
+          "delta": 1,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        },
+        {
+          "q": "q_visible_ownership",
+          "delta": -1,
+          "answer_excerpt": "Clear priority tradeoffs from leadership would help a lot."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+alias: q_early_decisions_6
+label: Early decisions
+name: Where did you miss the chance to shape a decision early?
+description: Pins the discussion to one concrete moment so the influence pattern is grounded in evidence.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

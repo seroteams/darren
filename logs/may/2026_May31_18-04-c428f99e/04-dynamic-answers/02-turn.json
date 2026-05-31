@@ -1,0 +1,91 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_reorg_shift_3",
+    "label": "Reorg shift",
+    "name": "When you say 'the shift' since the reorg, what changed most for you?",
+    "description": "Drills into the specific change Elena is feeling after the reorg before moving on.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1
+    },
+    "note": "She names a specific pullback in leadership meetings while she works out where she can have leverage — mild engagement dip, with an off-signature clarity thread worth probing next."
+  },
+  "new_queue": [
+    {
+      "alias": "q_voice_leverage_3",
+      "label": "Voice leverage",
+      "name": "Where does it feel unclear how to use your voice right now?"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_reorg_tradeoff",
+      "label": "Reorg tradeoff",
+      "name": "Since the reorg, what have you chosen to say yes to most often?"
+    },
+    {
+      "alias": "q_hidden_friction_2",
+      "label": "Hidden friction",
+      "name": "What is slowing you down that I may not be seeing?"
+    },
+    {
+      "alias": "q_support_ask_5",
+      "label": "Support ask",
+      "name": "What support from me would actually make a difference right now?"
+    },
+    {
+      "alias": "q_next_step_focus_2",
+      "label": "Next-step focus",
+      "name": "Given what we've covered, where do you want to focus first over the next two weeks?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_reorg_shift_3",
+          "delta": -1,
+          "answer_excerpt": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

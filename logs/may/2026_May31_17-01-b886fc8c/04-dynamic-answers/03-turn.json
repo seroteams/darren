@@ -1,0 +1,97 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_voice_leverage",
+    "label": "Voice leverage",
+    "name": "When you say 'where my voice has most leverage' — what feels unclear there?",
+    "description": "Clarifies the specific uncertainty she named about where and how to contribute after the reorg.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Part of me is tired from constant context switching, and I have not really said that out loud.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "She answered an observation-stage clarity probe with a concrete strain signal: constant context switching is leaving her unsure where to contribute; also reveals wellbeing pressure. [THREAD-DEFERRED] 'constant context switching' could be worth unpacking next session, but drill cap requires stage advance."
+  },
+  "new_queue": [
+    {
+      "alias": "q_arrival_context",
+      "label": "Arrival context",
+      "name": "What's been most on your mind at work lately?"
+    },
+    {
+      "alias": "q_load_pressure",
+      "label": "Load pressure",
+      "name": "What part of your current load is hardest to keep in balance?"
+    },
+    {
+      "alias": "q_intro_off_openended",
+      "label": "Open invitation",
+      "name": "Is there anything on your mind that we haven't made space to talk about?"
+    },
+    {
+      "alias": "q_support_gap_4",
+      "label": "Support gap",
+      "name": "Where would a bit more support make the biggest difference right now?"
+    },
+    {
+      "alias": "q_next_step_6",
+      "label": "Next step",
+      "name": "What's the first concrete thing you want to have changed by our next conversation?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_reorg_shift_2",
+          "delta": -1,
+          "answer_excerpt": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_reorg_shift_2",
+          "delta": -3,
+          "answer_excerpt": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage."
+        },
+        {
+          "q": "q_voice_leverage",
+          "delta": -3,
+          "answer_excerpt": "Part of me is tired from constant context switching, and I have not really said that out loud."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

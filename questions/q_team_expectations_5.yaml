@@ -1,0 +1,9 @@
+alias: q_team_expectations_5
+label: Team expectations
+name: "When you say 'team expectations,' what part feels hardest to read?"
+description: Drills into the specific expectation gap he named so the manager can remove ambiguity.
+purpose: topic
+stage: settling
+axis_effects:
+  clarity: +1
+source: planner_added

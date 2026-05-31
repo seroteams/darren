@@ -1,0 +1,10 @@
+alias: q_decision_meaning_2
+label: Decision meaning
+name: What did you take away from the conversation about the promotion decision?
+description: Finds out what feedback he actually heard and believed, without assuming he received it clearly.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

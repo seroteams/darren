@@ -1,0 +1,99 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_less_grounded_4",
+    "label": "Less grounded",
+    "name": "When you say 'less grounded,' what has changed underneath that?",
+    "description": "Follows her own wording to surface what is driving the loss of grounding.",
+    "purpose": "topic",
+    "stage": "underneath",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I have been protecting my team from noise, which means I am carrying more ambiguity myself.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "She is absorbing ambiguity to shield her team, which is a strong negative clarity signal about her own role and decision context."
+  },
+  "new_queue": [
+    {
+      "alias": "q_carrying_ambiguity_4",
+      "label": "Carrying ambiguity",
+      "name": "Where is that ambiguity landing hardest for you right now?"
+    },
+    {
+      "alias": "q_manager_support_10",
+      "label": "Manager support",
+      "name": "What would you want more of from me right now?"
+    },
+    {
+      "alias": "q_next_step_focus_9",
+      "label": "Next-step focus",
+      "name": "Given what we've covered, where do you want to focus first?"
+    },
+    {
+      "alias": "q_scope_strain",
+      "label": "Scope strain",
+      "name": "What part of your current scope feels heaviest right now?"
+    }
+  ],
+  "issues": [
+    "coverage: injected growth into next question (0 touches after turn 5)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_reorg_shift_4",
+          "delta": -1,
+          "answer_excerpt": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage."
+        },
+        {
+          "q": "q_voice_leverage_4",
+          "delta": -3,
+          "answer_excerpt": "Part of me is tired from constant context switching, and I have not really said that out loud."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_landing_context_2",
+          "delta": -1,
+          "answer_excerpt": "I do not think anything is broken, but I do feel less grounded than I did before."
+        },
+        {
+          "q": "q_less_grounded_4",
+          "delta": -3,
+          "answer_excerpt": "I have been protecting my team from noise, which means I am carrying more ambiguity myself."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

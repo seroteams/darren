@@ -1,0 +1,129 @@
+{
+  "turn": 9,
+  "question": {
+    "alias": "q_fastest_unblock",
+    "label": "Fastest unblock",
+    "name": "What would make the next two weeks feel steadier for you?",
+    "description": "Ends by narrowing to the most useful support or change to carry forward from the conversation.",
+    "purpose": "wellbeing",
+    "stage": "connection",
+    "axis_effects": {
+      "wellbeing": 1,
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "answer": "I want to start by pairing on my next ticket so I can see the approval bar in practice.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": 1,
+      "growth": 1
+    },
+    "note": "He names a concrete support move — pairing on the next ticket to see the approval bar in practice — which signals a constructive path to steadier work and learning."
+  },
+  "new_queue": [],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_settling_in_2",
+          "delta": -1,
+          "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+        },
+        {
+          "q": "q_support_cadence_3",
+          "delta": -1,
+          "answer_excerpt": "If we define what good looks like for my next two tickets, I will feel much steadier."
+        },
+        {
+          "q": "q_fastest_unblock",
+          "delta": 1,
+          "answer_excerpt": "I want to start by pairing on my next ticket so I can see the approval bar in practice."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_wait_too_long_2",
+          "delta": 1,
+          "answer_excerpt": "When feedback is specific and fast, I move much quicker."
+        },
+        {
+          "q": "q_thread_follow_33",
+          "delta": -1,
+          "answer_excerpt": "I still feel fuzzy on where quality bars differ between quick fixes and core flows."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_settling_in_2",
+          "delta": -1,
+          "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+        },
+        {
+          "q": "q_team_expectations_5",
+          "delta": -1,
+          "answer_excerpt": "Local setup is better now, but I still lose time when the design and API details do not match."
+        },
+        {
+          "q": "q_design_api_mismatch_5",
+          "delta": -1,
+          "answer_excerpt": "I am not always sure who should approve what before I push."
+        },
+        {
+          "q": "q_done_definition",
+          "delta": -3,
+          "answer_excerpt": "I usually wait too long before asking because I want to solve things myself first."
+        },
+        {
+          "q": "q_wait_too_long_2",
+          "delta": -3,
+          "answer_excerpt": "When feedback is specific and fast, I move much quicker."
+        },
+        {
+          "q": "q_thread_follow_33",
+          "delta": -3,
+          "answer_excerpt": "I still feel fuzzy on where quality bars differ between quick fixes and core flows."
+        },
+        {
+          "q": "q_handoff_gaps_2",
+          "delta": -3,
+          "answer_excerpt": "Pairing once or twice a week would probably prevent me from getting stuck silently."
+        },
+        {
+          "q": "q_support_cadence_3",
+          "delta": -1,
+          "answer_excerpt": "If we define what good looks like for my next two tickets, I will feel much steadier."
+        }
+      ]
+    },
+    "growth": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_handoff_gaps_2",
+          "delta": -3,
+          "answer_excerpt": "Pairing once or twice a week would probably prevent me from getting stuck silently."
+        },
+        {
+          "q": "q_support_cadence_3",
+          "delta": -3,
+          "answer_excerpt": "If we define what good looks like for my next two tickets, I will feel much steadier."
+        },
+        {
+          "q": "q_fastest_unblock",
+          "delta": 1,
+          "answer_excerpt": "I want to start by pairing on my next ticket so I can see the approval bar in practice."
+        }
+      ]
+    }
+  }
+}

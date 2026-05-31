@@ -1,0 +1,86 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_heavier_than_said_2",
+    "label": "Heavier than said",
+    "name": "When you say it was 'heavier' — what was making it heavy?",
+    "description": "Drills into Lin's own phrasing to surface the concrete source of load or friction.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Late nights came from carrying decision bottlenecks and final reviews.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -3
+    },
+    "note": "Lin named concrete drag factors — carrying decision bottlenecks and final reviews — which signals heavy, load-bearing work reducing engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_decision_bottlenecks_6",
+      "label": "Decision bottlenecks",
+      "name": "Decision bottlenecks — where are they stacking up most right now?"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_delegation_boundary_3",
+      "label": "Delegation boundary",
+      "name": "What work are you still holding that someone else could own?"
+    },
+    {
+      "alias": "q_steadier_rhythm",
+      "label": "Steadier rhythm",
+      "name": "What would make the next two weeks feel more sustainable?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The last stretch shipped, but it was heavier than I made it sound."
+        },
+        {
+          "q": "q_heavier_than_said_2",
+          "delta": -3,
+          "answer_excerpt": "Late nights came from carrying decision bottlenecks and final reviews."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The last stretch shipped, but it was heavier than I made it sound."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

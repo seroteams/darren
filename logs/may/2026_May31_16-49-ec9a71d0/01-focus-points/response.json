@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Something feels off",
+  "focus_points": [
+    {
+      "id": "team_connection",
+      "label": "Engagement in team rituals since the promotion",
+      "reason": "Notes say his participation in team rituals has dipped since being passed over. One possibility is unresolved disappointment; another is a confidence or motivation shift; worth clarifying what changed for him and how it’s showing up day to day.",
+      "source": "signal"
+    },
+    {
+      "id": "feedback",
+      "label": "What feedback he actually heard and internalized",
+      "reason": "Notes say he didn’t bring up the decision himself. Whether he heard specific, actionable feedback or only a vague signal could be a big driver of his current stance—worth getting the exact themes and what he believes they mean.",
+      "source": "signal"
+    },
+    {
+      "id": "growth",
+      "label": "Whether mentoring is healthy stretch or detour",
+      "reason": "What he’s choosing to invest in matters because, at Director level, development should compound toward the next step—not quietly redirect away from the path that got him here. This helps you distinguish growth from avoidance and agree on a concrete next move.",
+      "source": "best_practice"
+    },
+    {
+      "id": "priorities",
+      "label": "His concrete path forward for the next quarter",
+      "reason": "Whether he can name a realistic plan for what changes next is the fastest way to tell if this is a temporary dip or a longer-term disengagement risk. At this seniority, you want a clear set of bets and what “better” looks like by the end of the quarter.",
+      "source": "best_practice"
+    }
+  ]
+}

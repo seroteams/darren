@@ -1,0 +1,9 @@
+alias: q_specific_and_fast
+label: Specific and fast
+name: What kind of feedback helps most in those moments?
+description: "Drills into what 'specific and fast' means so support can be made concrete."
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

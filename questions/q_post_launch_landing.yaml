@@ -1,0 +1,10 @@
+alias: q_post_launch_landing
+label: Post-launch landing
+name: What feels different for you after the feature shipped on Monday?
+description: Opens a safe read on whether the quieter week is just post-launch decompression or something else.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

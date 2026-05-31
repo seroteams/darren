@@ -1,0 +1,10 @@
+alias: q_quiet_stretch_2
+label: Quiet stretch
+name: "I've noticed you've been quieter this week — what's going on underneath that?"
+description: Observation-first probe into whether the quieter signal is just post-launch decompression or an unresolved issue.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

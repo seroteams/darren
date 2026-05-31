@@ -1,0 +1,103 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_settling_check",
+    "label": "Settling check",
+    "name": "What’s felt most settled for you in week four, Aisha?",
+    "description": "Lets Aisha name what is already working in the new role before moving into friction.",
+    "purpose": "wellbeing",
+    "stage": "settling",
+    "axis_effects": {
+      "wellbeing": 1,
+      "engagement": 1
+    },
+    "source": "generated"
+  },
+  "answer": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": 1,
+      "engagement": 1
+    },
+    "note": "She says she is settling in, which is a mild positive on landing and investment; the unwritten-rules concern is a clarity signal worth probing next."
+  },
+  "new_queue": [
+    {
+      "alias": "q_unwritten_rules_3",
+      "label": "Unwritten rules",
+      "name": "You mentioned 'unwritten rules' — what feels hardest to read in those meetings?"
+    },
+    {
+      "alias": "q_decision_boundaries",
+      "label": "Decision boundaries",
+      "name": "Where are the decision rights still fuzzy for you?"
+    },
+    {
+      "alias": "q_partner_expectations_3",
+      "label": "Partner expectations",
+      "name": "What expectations from partners are still hardest to read?"
+    },
+    {
+      "alias": "q_alignment_move_3",
+      "label": "Alignment move",
+      "name": "How are you handling alignment when priorities collide?"
+    },
+    {
+      "alias": "q_consensus_tradeoff",
+      "label": "Consensus tradeoff",
+      "name": "What do you tend to give up when you try to get everyone aligned?"
+    },
+    {
+      "alias": "q_meeting_signal",
+      "label": "Meeting signal",
+      "name": "What do you want your cross-functional updates to signal more clearly?"
+    },
+    {
+      "alias": "q_norms_support",
+      "label": "Norms support",
+      "name": "What would help you decode our norms faster?"
+    },
+    {
+      "alias": "q_next_step_focus_8",
+      "label": "Next-step focus",
+      "name": "Given what we covered, where do you want to focus first?"
+    },
+    {
+      "alias": "q_support_style",
+      "label": "Support style",
+      "name": "What kind of feedback loop would be most useful from me right now?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_settling_check",
+          "delta": 1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_settling_check",
+          "delta": 1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

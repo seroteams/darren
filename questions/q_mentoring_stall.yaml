@@ -1,0 +1,9 @@
+alias: q_mentoring_stall
+label: Mentoring stall
+name: "You said mentoring 'stopped pushing' — what made it stall?"
+description: Drills into the stalled mentoring thread to surface whether the block is time, scope, opportunity, or motivation.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added

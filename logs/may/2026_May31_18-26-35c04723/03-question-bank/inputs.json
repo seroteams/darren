@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What they're saying yes and no to lately",
+      "reason": "What they're prioritizing right now versus day-to-day firefighting, and whether the sequencing still matches team bets.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Blockers and dependencies slowing delivery",
+      "reason": "Where work is getting stuck—decisions, other teams, or technical friction—and what you can unblock quickly.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "How their updates land with stakeholders",
+      "reason": "Whether stakeholders feel informed and decisions move forward smoothly based on how Test communicates in writing and meetings.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What they'd want more of from you",
+      "reason": "How they experience your support right now—coaching, air cover, or time—and what would make the next two weeks easier.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Test",
+  "role": "Engineer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "note",
+  "model": "gpt-5.4-mini"
+}

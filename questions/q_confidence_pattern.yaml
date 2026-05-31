@@ -1,0 +1,10 @@
+alias: q_confidence_pattern
+label: Confidence pattern
+name: When do you feel most certain about a change being ready?
+description: Looks for conditions that build confidence so the manager can reinforce them.
+purpose: competency
+stage: blockers
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

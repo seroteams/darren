@@ -1,0 +1,10 @@
+alias: q_support_shape_4
+label: Support shape
+name: What kind of support would actually make the next couple of weeks steadier?
+description: Translates a vague off-feeling into practical support Elena can accept or reject.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

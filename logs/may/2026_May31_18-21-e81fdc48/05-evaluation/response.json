@@ -1,0 +1,51 @@
+{
+  "headline": "Elena is delivering but is less grounded after the reorg, with engagement and clarity dropping because she’s carrying ambiguity and context switching alone.",
+  "summary_bullets": [
+    "Elena is quieter in leadership forums because she’s “still figuring out where my voice has most leverage,” and she wants steadier footing before re-engaging visibly.",
+    "The clearest gap is success definition: “I am not fully clear yet on how success is being measured in this new setup,” plus she’s “carrying more ambiguity” to protect her team from noise.",
+    "Her main ask is concrete support, not reassurance: “clearer prioritization and a little more air cover in cross-team decisions.”"
+  ],
+  "understanding_paragraph": "Elena’s shift since the reorg isn’t about disengagement from the work; it’s about carrying ambiguity privately to protect her team. She’s actively trying to keep things stable, but she’s not fully clear on how success is measured in the new setup, which is driving lower engagement and less visible leadership. The session clarified that her “something feels off” is primarily a clarity + air-cover problem, not a broken situation.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -3,
+      "meaning": "Not burned out, but energy is being spent on context switching and ambiguity-carrying; worth monitoring over the next few weeks."
+    },
+    {
+      "id": "engagement",
+      "score": -7,
+      "meaning": "A real engagement dip driven by uncertainty about impact; she’s holding back visibility until footing improves."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Defining signal of the session: success metrics and priorities in the new setup are unclear, creating noise she absorbs herself."
+    },
+    {
+      "id": "growth",
+      "score": -4,
+      "meaning": "Learning/stretch is constrained by unclear success criteria; she needs the framework before she can re-leverage her voice."
+    }
+  ],
+  "brutal_truth_employee": "Elena says, “I have been protecting my team from noise, which means I am carrying more ambiguity myself,” and she’s “not fully clear yet on how success is being measured in this new setup.” That combination points to a sustained clarity problem that’s already reducing her visible leadership and engagement.",
+  "brutal_truth_manager": "You got the key signals, but the conversation stayed at the “what” level (clarity + air cover) without locking down the “where” and “who” for cross-team decisions. The moment to deepen was when Elena asked for “a little more air cover in cross-team decisions”—that’s where you could have asked for one specific decision and what outcome would make her feel grounded enough to re-engage.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Confirm with Elena one specific cross-team decision to provide air cover for, and ask what “success” looks like in measurable terms for this new setup."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 30-minute alignment with the relevant cross-team partners to agree on prioritization and success metrics, then share the agreed notes back to Elena."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Start by asking Elena to name one leadership forum where she can re-engage this week, and what steadier footing she needs to feel safe doing it."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: if Elena stays “quieter in leadership meetings” without naming a concrete success metric, treat the clarity gap as unresolved.",
+    "Before next 1:1: if Elena stops asking for “air cover in cross-team decisions” and instead only reports stability, check whether she’s absorbing ambiguity alone again."
+  ]
+}

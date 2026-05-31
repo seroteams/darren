@@ -1,0 +1,10 @@
+alias: q_next_quarter_shape_5
+label: Next quarter shape
+name: What do you see yourself owning next quarter?
+description: Gets her to name the shape of her upcoming scope before any new work is introduced.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

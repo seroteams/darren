@@ -1,0 +1,9 @@
+alias: q_decision_pressure_2
+label: Decision pressure
+name: What decisions are still fuzzy enough to slow you down?
+description: Finds the specific ambiguity that could create drag in the next stretch of work.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: generated

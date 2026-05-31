@@ -1,0 +1,10 @@
+alias: q_want_the_loop
+label: Want the loop
+name: Do you want to unpack that decision now?
+description: Lets her opt in to a deeper conversation about the passed-over outcome without assuming she wants it.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,42 @@
+{
+  "turn": 9,
+  "question": {
+    "alias": "q_close_on_next_step",
+    "label": "Close on next step",
+    "name": "Given what we covered, where do you want to focus first?",
+    "description": "Leaves the meeting with a clear next focus and no new topic introduced.",
+    "purpose": "topic",
+    "stage": "lift",
+    "axis_effects": {
+      "clarity": 1,
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "answer": "(skipped)",
+  "skipped": true,
+  "assessment": {
+    "deltas": {},
+    "note": "Skip on the closer; [SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]"
+  },
+  "new_queue": [],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "ctx": {
+    "name": "Carlos",
+    "role": "Brand Designer",
+    "seniority": "Junior",
+    "meetingType": "Performance & feedback",
+    "notes": "For Carlos, this performance conversation needs to make the quality bar concrete and usable. I want to understand whether prior feedback translated into behavior changes or stayed abstract. I also need to hear how he defines good work right now and where he feels blocked in growth. Without that shared baseline, feedback can feel subjective and demotivating. My goal is to align on specific expectations, examples, and one near-term development focus he can practice immediately."
+  },
+  "focusPoints": [
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "What 'good' means for Carlos right now.",
+      "reason": "What Carlos defines as good work right now, so feedback can be concrete instead of subjective.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "quality",
+      "type": "Quality",
+      "category": "competency",
+      "label": "Quality bar — turning feedback into behavior.",
+      "reason": "Whether prior feedback translated into specific behavior changes, or stayed abstract, so you can calibrate the quality bar with examples.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Where Carlos feels blocked in growth.",
+      "reason": "Where Carlos feels blocked in growth, so you can pick a near-term practice that removes the bottleneck.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "Feedback landing — both directions.",
+      "reason": "How feedback has been landing for him, and what kind of feedback he wants more of, so the next cycle is easier to act on.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "Before I share my view, how do you think the last stretch has gone?",
+      "alias": "q_intro_perf_01_opening",
+      "answer": "I can name wins, but I am not always sure they match the team bar.",
+      "skipped": false
+    },
+    {
+      "question": "name wins, always — can you say more about what that means for you right now?",
+      "alias": "q_thread_follow_19",
+      "answer": "Feedback has helped, though I still miss consistency under time pressure.",
+      "skipped": false
+    },
+    {
+      "question": "Under time pressure, what specifically starts to slip in your work?",
+      "alias": "q_time_pressure_consistency_4",
+      "answer": "I sometimes focus on polish and lose sight of the core message.",
+      "skipped": false
+    },
+    {
+      "question": "What is one recent piece of your brand work that best shows your current quality bar?",
+      "alias": "q_recent_example_2",
+      "answer": "I want clearer examples of what excellent junior-level work looks like here.",
+      "skipped": false
+    },
+    {
+      "question": "What examples of excellent junior-level work feel missing to you right now?",
+      "alias": "q_excellent_work_examples",
+      "answer": "When reviews are broad, I am not sure what to change first.",
+      "skipped": false
+    },
+    {
+      "question": "When feedback is broad, what part of your work gets missed most often?",
+      "alias": "q_broad_reviews_gap_3",
+      "answer": "I would like to grow faster in concept rationale, not just execution speed.",
+      "skipped": false
+    },
+    {
+      "question": "Where do you think your work most often misses the mark?",
+      "alias": "q_missed_signal",
+      "answer": "A tighter loop on one skill at a time would help me improve.",
+      "skipped": false
+    },
+    {
+      "question": "What is the main thing that is slowing your growth right now?",
+      "alias": "q_growth_blocker_2",
+      "answer": "If we align on concrete criteria, I can work against them confidently.",
+      "skipped": false
+    },
+    {
+      "question": "What would help you make that practice stick this month?",
+      "alias": "q_support_needed_17",
+      "answer": "I will start by writing one explicit priority rule I will use when time pressure hits this month.",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_excellent_work_examples",
+          "delta": -1,
+          "answer_excerpt": "When reviews are broad, I am not sure what to change first."
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        },
+        {
+          "q": "q_thread_follow_19",
+          "delta": 1,
+          "answer_excerpt": "Feedback has helped, though I still miss consistency under time pressure."
+        },
+        {
+          "q": "q_recent_example_2",
+          "delta": -1,
+          "answer_excerpt": "I want clearer examples of what excellent junior-level work looks like here."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        },
+        {
+          "q": "q_thread_follow_19",
+          "delta": -3,
+          "answer_excerpt": "Feedback has helped, though I still miss consistency under time pressure."
+        },
+        {
+          "q": "q_time_pressure_consistency_4",
+          "delta": -3,
+          "answer_excerpt": "I sometimes focus on polish and lose sight of the core message."
+        },
+        {
+          "q": "q_recent_example_2",
+          "delta": -3,
+          "answer_excerpt": "I want clearer examples of what excellent junior-level work looks like here."
+        },
+        {
+          "q": "q_excellent_work_examples",
+          "delta": -3,
+          "answer_excerpt": "When reviews are broad, I am not sure what to change first."
+        },
+        {
+          "q": "q_broad_reviews_gap_3",
+          "delta": -3,
+          "answer_excerpt": "I would like to grow faster in concept rationale, not just execution speed."
+        },
+        {
+          "q": "q_missed_signal",
+          "delta": -3,
+          "answer_excerpt": "A tighter loop on one skill at a time would help me improve."
+        },
+        {
+          "q": "q_growth_blocker_2",
+          "delta": -1,
+          "answer_excerpt": "If we align on concrete criteria, I can work against them confidently."
+        },
+        {
+          "q": "q_support_needed_17",
+          "delta": 1,
+          "answer_excerpt": "I will start by writing one explicit priority rule I will use when time pressure hits this month."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_missed_signal",
+          "delta": -1,
+          "answer_excerpt": "A tighter loop on one skill at a time would help me improve."
+        },
+        {
+          "q": "q_growth_blocker_2",
+          "delta": -3,
+          "answer_excerpt": "If we align on concrete criteria, I can work against them confidently."
+        },
+        {
+          "q": "q_support_needed_17",
+          "delta": 1,
+          "answer_excerpt": "I will start by writing one explicit priority rule I will use when time pressure hits this month."
+        }
+      ]
+    }
+  },
+  "notes": "For Carlos, this performance conversation needs to make the quality bar concrete and usable. I want to understand whether prior feedback translated into behavior changes or stayed abstract. I also need to hear how he defines good work right now and where he feels blocked in growth. Without that shared baseline, feedback can feel subjective and demotivating. My goal is to align on specific expectations, examples, and one near-term development focus he can practice immediately.",
+  "model": "gpt-5.4-nano"
+}

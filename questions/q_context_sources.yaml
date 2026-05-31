@@ -1,0 +1,10 @@
+alias: q_context_sources
+label: Context sources
+name: When you need context before making a code decision, where do you go first?
+description: Shows whether he knows the right people and channels for architecture context.
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

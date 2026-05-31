@@ -1,0 +1,10 @@
+alias: q_context_gaps_2
+label: Context gaps
+name: What context are you still waiting on before you change a design or make an architecture call?
+description: Surfaces missing information that could quietly lead to rework or wrong assumptions.
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

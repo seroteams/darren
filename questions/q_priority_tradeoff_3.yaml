@@ -1,0 +1,10 @@
+alias: q_priority_tradeoff_3
+label: Priority tradeoff
+name: What are you choosing to deprioritise right now?
+description: Surfaces the tradeoff behind her current focus and what is getting less attention.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

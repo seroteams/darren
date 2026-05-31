@@ -1,0 +1,10 @@
+alias: q_rituals_and_energy
+label: Rituals and energy
+name: What has changed for you in the team rituals lately?
+description: Surfaces whether the drop in participation is about the rituals themselves, the team dynamic, or something else.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  engagement: +3
+  wellbeing: +1
+source: generated

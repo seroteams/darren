@@ -1,0 +1,55 @@
+{
+  "name": "James",
+  "roleTitle": "Head of Product",
+  "seniority": "Director",
+  "meetingType": "Something feels off",
+  "observedShift": "James was passed over for promotion and his engagement in team rituals has dipped since then. He did not bring up the decision himself, which could mean unresolved disappointment or low confidence that raising it will help. He is also running a mentoring program, and I need to understand whether that is healthy stretch or a redirect away from his core path. This meeting should surface what feedback he actually heard and what concrete path forward he believes exists.",
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Engagement in team rituals since promotion decision",
+      "reason": "Notes say his engagement in team rituals has dipped since he was passed over. One possibility is unresolved disappointment, or simply a confidence dip that changed how he shows up—worth clarifying what he’s experiencing and what he wants to do about it.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "What feedback he actually heard and believed",
+      "reason": "Notes say he didn’t bring up the decision himself. One possibility is unresolved disappointment or low confidence that raising it helps—so it’s worth getting his account of what feedback he heard, what he took away, and what he thinks is still true.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Mentoring program: healthy stretch or detour",
+      "reason": "What matters for a Head of Product director is whether his current commitments build the next level of influence and capability, or quietly pull him away from the path that would make him promotable. This is a strong default topic for a 'something feels off' 1:1 because it connects his current energy to a concrete forward path.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Concrete path forward he believes exists",
+      "reason": "Whether he can name a credible, specific path forward is the hinge for engagement after a setback. In this meeting type, it helps you understand what he’s aiming at next, what he’s saying yes/no to, and what would make the next step feel real.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "a3282827-86fe-45f3-ab1d-9d3cee4397e5",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "listenFor may lack observable behavioural cue: \"if they describe the mentoring program as energising leaders…\"",
+      "output may not reflect the meeting type distinctly"
+    ]
+  },
+  "attempts": 2
+}

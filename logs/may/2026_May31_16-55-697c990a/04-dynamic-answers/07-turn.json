@@ -1,0 +1,127 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_support_needed_9",
+    "label": "Support needed",
+    "name": "What kind of support from me would actually change your week right now?",
+    "description": "Gets concrete about the help Nina wants, rather than generic support language.",
+    "purpose": "topic",
+    "stage": "lift",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 1,
+      "growth": 3
+    },
+    "source": "generated"
+  },
+  "answer": "The next two weeks should focus on stabilizing and reducing reactive work.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "She redirected support toward stabilization and less reactive work, signaling unclear focus, reduced momentum, and a strong absence of growth stretch; [THREAD-DEFERRED-WINDDOWN] 'stabilizing and reducing reactive work' could be unpacked next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_step_move_2",
+      "label": "Next-step move",
+      "name": "What would you most like to have moving differently by our next check-in?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I can ship quickly, but I do not always feel the impact is visible."
+        },
+        {
+          "q": "q_visible_impact_3",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_pace_becoming_normal",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I can ship quickly, but I do not always feel the impact is visible."
+        },
+        {
+          "q": "q_visible_impact_3",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        },
+        {
+          "q": "q_support_needed_9",
+          "delta": -1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_pace_becoming_normal",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_fragmented_calendar_2",
+          "delta": -1,
+          "answer_excerpt": "A lot of energy went into firefighting and context switching."
+        },
+        {
+          "q": "q_communication_feedback_2",
+          "delta": -1,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        },
+        {
+          "q": "q_support_needed_9",
+          "delta": -1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        }
+      ]
+    },
+    "growth": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_communication_feedback_2",
+          "delta": -3,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        },
+        {
+          "q": "q_support_needed_9",
+          "delta": -3,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        }
+      ]
+    }
+  }
+}

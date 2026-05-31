@@ -1,0 +1,51 @@
+{
+  "headline": "Elena described a post-reorg drift toward low grounding: she’s quieter in leadership forums, carrying ambiguity, and asking for clearer prioritization and cross-team air cover.",
+  "summary_bullets": [
+    "Elena links reduced team connection to a specific behavior shift: “I have been quieter in leadership meetings” while she figures out her leverage.",
+    "The clearest gap is not motivation—it’s decision mechanics: she’s “not fully clear yet on how success is being measured” and asks for “clearer prioritization.”",
+    "She’s protecting the team by absorbing uncertainty herself: “protecting my team from noise” while “carrying more ambiguity myself.”"
+  ],
+  "understanding_paragraph": "Elena is not reporting broken work; she’s reporting a grounding problem after the reorg tied to ambiguity and measurement. She’s staying stable for her team, but that protection cost shows up as less visible leadership and less clarity on how success is judged. The conversation clarified that her primary need is decision-level support (priorities + cross-team air cover), not a generic morale boost.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -10,
+      "meaning": "Strong negative signal: she feels “less grounded,” carrying ambiguity, and context switching is draining her."
+    },
+    {
+      "id": "engagement",
+      "score": -3,
+      "meaning": "Weak-to-moderate negative signal: she wants to re-engage, but only after getting steadier footing."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Strong negative signal: she’s “not fully clear yet on how success is being measured” in the new setup."
+    },
+    {
+      "id": "growth",
+      "score": -1,
+      "meaning": "Weak negative signal: growth isn’t the headline; the blocker is understanding and air cover, not learning motivation."
+    }
+  ],
+  "brutal_truth_employee": "Elena said, “I have been protecting my team from noise, which means I am carrying more ambiguity myself,” and that she’s “not fully clear yet on how success is being measured.” Her ask is concrete: “clearer prioritization and a little more air cover in cross-team decisions.”",
+  "brutal_truth_manager": "When Elena offered the key mechanism—“carrying more ambiguity myself”—the conversation stayed aligned to support and didn’t drift into fixing her behavior. The next step to deepen next time is to turn “clearer prioritization” into one named decision and one measurable success definition, then confirm what air cover you can provide for that specific cross-team moment.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Confirm the single cross-team decision Elena named for “clearer air cover” and write down who decides, by when, and what success looks like."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule one 30-minute “air cover” slot with the relevant cross-team leads and Elena to align on priorities and success measures for the new setup."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Start next 1:1 by asking Elena what changed after the air-cover alignment: “Where is success measurement clearer now?”"
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: if Elena’s “quieter in leadership meetings” pattern continues unchanged, treat it as unresolved ambiguity rather than normal transition.",
+    "Before next 1:1: if Elena stops naming specific cross-team decisions and only says “things feel off,” the clarity gap is widening."
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_being_safe",
+    "label": "Being safe",
+    "name": "When you say 'being safe,' what do you hold back from doing?",
+    "description": "Drills into his own phrase to surface the specific behaviour he avoids in cross-team decisions.",
+    "purpose": "competency",
+    "stage": "evidence",
+    "axis_effects": {
+      "clarity": 1,
+      "wellbeing": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I probably should ask for sharper feedback earlier than I do.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "He names a specific avoided behaviour—asking for sharper feedback earlier—which signals mild lack of early alignment; also suggests cautious, self-protective operating rather than sustainable confidence."
+  },
+  "new_queue": [
+    {
+      "alias": "q_sharper_feedback_3",
+      "label": "Sharper feedback",
+      "name": "Sharper feedback earlier — what are you usually waiting for before you ask?"
+    },
+    {
+      "alias": "q_intro_perf_03_gap",
+      "label": "Gap awareness",
+      "name": "Where do you think you've fallen short of where you want to be?"
+    },
+    {
+      "alias": "q_questioning_cadence",
+      "label": "Questioning cadence",
+      "name": "What tends to stop you from asking a question early?"
+    },
+    {
+      "alias": "q_next_signal",
+      "label": "Next signal",
+      "name": "What would you want me to see differently by our next check-in?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 5)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_being_safe",
+          "delta": -1,
+          "answer_excerpt": "I probably should ask for sharper feedback earlier than I do."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_visible_leverage_2",
+          "delta": -1,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_highest_leverage_work_3",
+          "delta": -3,
+          "answer_excerpt": "I can describe Principal impact in general, but this team's bar still feels fuzzy."
+        },
+        {
+          "q": "q_thread_follow_2",
+          "delta": -3,
+          "answer_excerpt": "I have mostly stayed in my lane instead of forcing cross-team decisions."
+        },
+        {
+          "q": "q_visible_leverage_2",
+          "delta": -1,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        },
+        {
+          "q": "q_being_safe",
+          "delta": -1,
+          "answer_excerpt": "I probably should ask for sharper feedback earlier than I do."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

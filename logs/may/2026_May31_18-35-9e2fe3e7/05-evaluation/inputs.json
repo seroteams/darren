@@ -1,0 +1,213 @@
+{
+  "ctx": {
+    "name": "Lin",
+    "role": "Head of Product",
+    "seniority": "Senior",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "Lin has delivered two major features ahead of schedule but has worked late for about three weeks. I need to understand whether this pace was a temporary push or is becoming a default. Because Lin tends to brush off concern, I should ask directly what is driving the load now that those launches are done. I also want clarity on what work only Lin should own versus what could be delegated, since sustained late nights at this level can hide a distribution or autonomy problem."
+  },
+  "focusPoints": [
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Late nights — temporary push or default?",
+      "reason": "Notes say Lin has worked late for about three weeks; one possibility is a short sprint to finish launches, but it’s worth clarifying whether this is becoming the new baseline pace.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What’s driving current load now that launches are done.",
+      "reason": "Whether the next two weeks’ work still matches the earlier “ahead of schedule” push, or whether new priorities are quietly replacing it.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "delegation",
+      "type": "Delegation effectiveness",
+      "category": "competency",
+      "label": "What only Lin should own vs delegate.",
+      "reason": "Whether the work that requires Lin’s judgment is staying concentrated there, or whether late nights are masking a distribution/autonomy gap that could be fixed by delegating real ownership.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What Lin would want more of from you.",
+      "reason": "What they need from you that they aren’t currently getting—especially around air cover, decision-making, or removing bottlenecks so the pace can normalize after the launches.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's been slower or harder than it should have been?",
+      "alias": "q_intro_biweekly_friction",
+      "answer": "The last stretch shipped, but it was heavier than I made it sound.",
+      "skipped": false
+    },
+    {
+      "question": "When you say it was 'heavier' — what was adding the weight?",
+      "alias": "q_heavier_than_sounded_3",
+      "answer": "Late nights came from carrying decision bottlenecks and final reviews.",
+      "skipped": false
+    },
+    {
+      "question": "Those decision bottlenecks — where are they still sticking on you?",
+      "alias": "q_decision_bottlenecks_8",
+      "answer": "Some of that work could have moved to the team sooner.",
+      "skipped": false
+    },
+    {
+      "question": "How's the last two weeks actually felt — energy-wise?",
+      "alias": "q_intro_biweekly_pace",
+      "answer": "I am proud of the outcomes, but the pace should not be normal.",
+      "skipped": false
+    },
+    {
+      "question": "proud outcomes, pace — can you say more about what that means for you right now?",
+      "alias": "q_thread_follow_25",
+      "answer": "I still do not get enough substantive feedback on key decisions.",
+      "skipped": false
+    },
+    {
+      "question": "On those key decisions, what feedback are you not getting that would help most?",
+      "alias": "q_key_decisions_feedback",
+      "answer": "I want clearer ownership boundaries so I am not default escalation.",
+      "skipped": false
+    },
+    {
+      "question": "What are you actually focused on this week, and why those things?",
+      "alias": "q_intro_biweekly_priorities",
+      "answer": "Next I want to hand off one stream end-to-end and stay out of the middle.",
+      "skipped": false
+    },
+    {
+      "question": "Where are ownership boundaries still fuzzy this week?",
+      "alias": "q_ownership_boundaries_5",
+      "answer": "If we reset scope now, the next month is sustainable.",
+      "skipped": false
+    },
+    {
+      "question": "What would make the next two weeks feel steadier for you?",
+      "alias": "q_next_two_weeks_steadier",
+      "answer": "I want to focus first on unblocking the one dependency that is slowing the team the most this week.",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -3,
+          "answer_excerpt": "I am proud of the outcomes, but the pace should not be normal."
+        },
+        {
+          "q": "q_thread_follow_25",
+          "delta": -3,
+          "answer_excerpt": "I still do not get enough substantive feedback on key decisions."
+        },
+        {
+          "q": "q_next_two_weeks_steadier",
+          "delta": 1,
+          "answer_excerpt": "I want to focus first on unblocking the one dependency that is slowing the team the most this week."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The last stretch shipped, but it was heavier than I made it sound."
+        },
+        {
+          "q": "q_heavier_than_sounded_3",
+          "delta": -3,
+          "answer_excerpt": "Late nights came from carrying decision bottlenecks and final reviews."
+        },
+        {
+          "q": "q_decision_bottlenecks_8",
+          "delta": -1,
+          "answer_excerpt": "Some of that work could have moved to the team sooner."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": 1,
+          "answer_excerpt": "I am proud of the outcomes, but the pace should not be normal."
+        },
+        {
+          "q": "q_thread_follow_25",
+          "delta": -1,
+          "answer_excerpt": "I still do not get enough substantive feedback on key decisions."
+        },
+        {
+          "q": "q_key_decisions_feedback",
+          "delta": -1,
+          "answer_excerpt": "I want clearer ownership boundaries so I am not default escalation."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 1,
+          "answer_excerpt": "Next I want to hand off one stream end-to-end and stay out of the middle."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 4,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The last stretch shipped, but it was heavier than I made it sound."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 3,
+          "answer_excerpt": "Next I want to hand off one stream end-to-end and stay out of the middle."
+        },
+        {
+          "q": "q_ownership_boundaries_5",
+          "delta": 1,
+          "answer_excerpt": "If we reset scope now, the next month is sustainable."
+        },
+        {
+          "q": "q_next_two_weeks_steadier",
+          "delta": 1,
+          "answer_excerpt": "I want to focus first on unblocking the one dependency that is slowing the team the most this week."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_key_decisions_feedback",
+          "delta": -3,
+          "answer_excerpt": "I want clearer ownership boundaries so I am not default escalation."
+        },
+        {
+          "q": "q_intro_biweekly_priorities",
+          "delta": 3,
+          "answer_excerpt": "Next I want to hand off one stream end-to-end and stay out of the middle."
+        }
+      ]
+    }
+  },
+  "notes": "Lin has delivered two major features ahead of schedule but has worked late for about three weeks. I need to understand whether this pace was a temporary push or is becoming a default. Because Lin tends to brush off concern, I should ask directly what is driving the load now that those launches are done. I also want clarity on what work only Lin should own versus what could be delegated, since sustained late nights at this level can hide a distribution or autonomy problem.",
+  "model": "gpt-5.4-nano",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "summary_bullets[0] overlaps headline by 1 four-gram(s)"
+    ]
+  }
+}

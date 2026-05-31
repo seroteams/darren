@@ -1,0 +1,10 @@
+alias: q_judgment_calls
+label: Judgment calls
+name: What judgment call have you made recently that affected other teams?
+description: Probes whether he is making the kind of calls that unblock beyond his immediate lane.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  engagement: +1
+  growth: +3
+source: generated

@@ -1,0 +1,106 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_arrival_check_in",
+    "label": "Arrival check-in",
+    "name": "What's been most on your mind at work lately?",
+    "description": "Lets Elena set the frame before any observation or concern is introduced.",
+    "purpose": "wellbeing",
+    "stage": "landing",
+    "axis_effects": {
+      "wellbeing": 1,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "answer": "I do not think anything is broken, but I do feel less grounded than I did before.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "She says nothing is broken but feels less grounded than before, which signals mild strain and reduced clarity; also names a concrete thread around feeling 'less grounded'."
+  },
+  "new_queue": [
+    {
+      "alias": "q_less_grounded_2",
+      "label": "Less grounded",
+      "name": "When you say 'less grounded' — what feels less steady day to day?"
+    },
+    {
+      "alias": "q_transition_load",
+      "label": "Transition load",
+      "name": "Where is the reorg adding the most load for you right now?"
+    },
+    {
+      "alias": "q_tradeoff_reset",
+      "label": "Tradeoff reset",
+      "name": "What have you been saying no to since the reorg?"
+    },
+    {
+      "alias": "q_support_needed_14",
+      "label": "Support needed",
+      "name": "What kind of support would actually make this week easier for you?"
+    },
+    {
+      "alias": "q_next_focus_2",
+      "label": "Next focus",
+      "name": "Given what we've covered, what do you want to tackle first?"
+    }
+  ],
+  "issues": [
+    "coverage: injected growth into next question (0 touches after turn 4)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_arrival_check_in",
+          "delta": -1,
+          "answer_excerpt": "I do not think anything is broken, but I do feel less grounded than I did before."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        },
+        {
+          "q": "q_shift_since_reorg",
+          "delta": -3,
+          "answer_excerpt": "I have been quieter in leadership meetings because I am still figuring out where my voice has most leverage."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_voice_leverage_2",
+          "delta": -1,
+          "answer_excerpt": "Part of me is tired from constant context switching, and I have not really said that out loud."
+        },
+        {
+          "q": "q_arrival_check_in",
+          "delta": -1,
+          "answer_excerpt": "I do not think anything is broken, but I do feel less grounded than I did before."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

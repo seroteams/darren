@@ -1,0 +1,10 @@
+alias: q_ownership_edge
+label: Ownership edge
+name: Where are you taking the lead more than you were a month ago?
+description: Looks for initiative and ownership beyond the baseline work.
+purpose: competency
+stage: momentum
+axis_effects:
+  engagement: +3
+  growth: +1
+source: generated

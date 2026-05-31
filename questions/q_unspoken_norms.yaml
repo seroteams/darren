@@ -1,0 +1,10 @@
+alias: q_unspoken_norms
+label: Unspoken norms
+name: What unspoken norm here has been hardest to decode?
+description: Probes the hidden rules she is spending energy figuring out.
+purpose: topic
+stage: blockers
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

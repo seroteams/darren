@@ -1,0 +1,10 @@
+alias: q_saying_no
+label: Saying no
+name: What have you been saying no to lately?
+description: Checks whether she is protecting focus or still carrying too much old urgency forward.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

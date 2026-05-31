@@ -1,0 +1,10 @@
+alias: q_sponsorship_shape
+label: Sponsorship shape
+name: What kind of sponsorship would actually move the needle for you here?
+description: Surfaces the specific air cover, introductions, or backing he needs instead of generic support.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

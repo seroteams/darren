@@ -1,0 +1,10 @@
+alias: q_context_check_in
+label: Context check-in
+name: Before we get into specifics, what feels most worth talking through today?
+description: Lets Kenji set the agenda before the conversation narrows onto any concern.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

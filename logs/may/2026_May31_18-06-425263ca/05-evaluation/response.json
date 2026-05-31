@@ -1,0 +1,51 @@
+{
+  "headline": "Maria gave consistently non-specific answers about last cycle feedback and her next mentoring decision—this is a low-clarity, low-growth-signal session.",
+  "summary_bullets": [
+    "Maria’s blocker is resolution quality: “The feedback was not specific enough” and she needs “clearer scope” to make the next-level gap actionable.",
+    "Mentoring is her stated growth lever, but she can’t name the decision it’s meant to change: “I do not know what would move the next decision.”",
+    "Her engagement dip shows up as ritual withdrawal: “I am less motivated in team rituals lately,” but she didn’t connect it to the last-cycle readout in a concrete way."
+  ],
+  "understanding_paragraph": "We learned that Maria’s main friction isn’t effort—it’s that the last-cycle feedback and scope didn’t give her a usable path forward. She wants org-level impact, and she’s choosing mentoring as the vehicle, but she can’t yet define the specific decision mentoring is supposed to influence. The session confirmed a clarity gap that’s also leaking into participation in team rituals.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -1,
+      "meaning": "Weak signal: a small engagement dip in rituals, not enough to call it burnout or recovery."
+    },
+    {
+      "id": "engagement",
+      "score": 0,
+      "meaning": "Mixed/neutral: mentoring matters to her, but she reports low motivation in rituals and can’t name next-step leverage."
+    },
+    {
+      "id": "clarity",
+      "score": -3,
+      "meaning": "Real clarity gap: last-cycle feedback wasn’t specific enough and she needs clearer scope to act."
+    },
+    {
+      "id": "growth",
+      "score": -3,
+      "meaning": "A real growth stall: she wants org-level impact, but can’t articulate the decision change mentoring should drive."
+    }
+  ],
+  "brutal_truth_employee": "Maria is stuck on unusable inputs: “The feedback was not specific enough” and “I want clearer scope.” She also can’t connect mentoring to an outcome: “I do not know what would move the next decision.” That combination means she can’t yet translate growth intent into an executable plan.",
+  "brutal_truth_manager": "When Maria said “I do not know what would move the next decision,” the conversation moved to “one mentoring commitment” without forcing a concrete decision target and success criteria. Next time, anchor the scope and the decision with a specific stakeholder and an explicit definition of “move the next decision,” then convert her mentoring choice into an ownership/scope statement with a review date.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute follow-up with Maria to restate the last-cycle readout in concrete scope terms and confirm exactly what she still needs to know."
+    },
+    {
+      "when": "this week",
+      "action": "Confirm Maria’s mentoring project scope by writing a one-page charter: target mentee, expected artifacts, and a single decision it must influence by next month."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Run the 18-month prompt again, but require Maria to name one org-level decision, the stakeholder, and the measurable change mentoring will drive."
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Maria still can’t name the specific decision mentoring is meant to influence, treat clarity as unresolved rather than “thinking time.”",
+    "Within two weeks: if ritual participation doesn’t rebound after a concrete scope readout, engagement is becoming a durable disengagement pattern."
+  ]
+}

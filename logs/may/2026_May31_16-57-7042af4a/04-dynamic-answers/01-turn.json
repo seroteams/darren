@@ -1,0 +1,86 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_settling_check_in",
+    "label": "Settling check-in",
+    "name": "What’s been most on your mind at work this week, Sam?",
+    "description": "Gives Sam room to set the context before any friction is explored.",
+    "purpose": "wellbeing",
+    "stage": "settling",
+    "axis_effects": {
+      "wellbeing": 1,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "answer": "I can do the tasks, but I still second-guess whether my approach matches team expectations.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1
+    },
+    "note": "He can do the tasks but is unsure whether his approach matches team expectations, which is a mild clarity gap."
+  },
+  "new_queue": [
+    {
+      "alias": "q_team_expectations",
+      "label": "Team expectations",
+      "name": "When you second-guess your approach, what feels hardest to read about team expectations?"
+    },
+    {
+      "alias": "q_ticket_expectations",
+      "label": "Ticket expectations",
+      "name": "What feels clear or unclear about what “done enough to ship” means here?"
+    },
+    {
+      "alias": "q_handoff_map",
+      "label": "Handoff map",
+      "name": "Where are the onboarding handoffs still fuzzy for you?"
+    },
+    {
+      "alias": "q_confidence_trigger",
+      "label": "Confidence trigger",
+      "name": "What tends to make you pause before shipping a ticket?"
+    },
+    {
+      "alias": "q_waiting_on_piece",
+      "label": "Waiting on piece",
+      "name": "What are you usually waiting on when work starts to feel stuck?"
+    },
+    {
+      "alias": "q_support_cadence",
+      "label": "Support cadence",
+      "name": "What kind of check-in from me would be most useful over the next two weeks?"
+    },
+    {
+      "alias": "q_two_week_takeaway",
+      "label": "Two-week takeaway",
+      "name": "What’s the one thing you want to have changed by our next check-in?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_settling_check_in",
+          "delta": -1,
+          "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

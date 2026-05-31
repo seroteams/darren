@@ -1,0 +1,10 @@
+alias: q_first_week_rhythm
+label: First-week rhythm
+name: How has week three felt compared with your first two weeks?
+description: Surfaces whether the onboarding pace is settling or still feels noisy.
+purpose: wellbeing
+stage: settling
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

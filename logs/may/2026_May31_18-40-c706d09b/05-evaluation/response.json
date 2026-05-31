@@ -1,0 +1,51 @@
+{
+  "headline": "Nina is stabilizing after a sprint push, but her engagement and clarity are low because impact isn’t visible and her calendar is still fragmented.",
+  "summary_bullets": [
+    "Nina explicitly rejects making the sprint pace normal: “I do not want that pace to become normal,” yet she’s still carrying firefighting energy and context switching.",
+    "Her main friction isn’t workload alone; it’s visibility and influence: “I do not always feel the impact is visible” and she’s “still processing” communication feedback.",
+    "She wants leadership to resolve one concrete priority tradeoff soon: “pick one priority tradeoff to resolve with leadership before the next two weeks get noisier.”"
+  ],
+  "understanding_paragraph": "We learned that Nina’s current issue is not just being busy—she’s trying to prevent the sprint-driven pace from becoming her baseline. Her engagement drops when outcomes don’t land visibly, and she’s seeking earlier cross-functional leadership to turn her execution into influence. The clearest near-term lever she offered is leadership-led priority tradeoffs for the next two weeks.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -1,
+      "meaning": "Weak signal: she says she’s less overloaded, but the remaining firefighting/context-switching energy is still taking a toll."
+    },
+    {
+      "id": "engagement",
+      "score": -9,
+      "meaning": "A real pattern: she can ship quickly but engagement is draining because she doesn’t feel the impact is visible."
+    },
+    {
+      "id": "clarity",
+      "score": -7,
+      "meaning": "A real pattern: fragmented calendar and reactive work indicate unclear priorities and unresolved tradeoffs."
+    },
+    {
+      "id": "growth",
+      "score": -2,
+      "meaning": "Worth noting, watch: she wants more room to lead cross-functional discussions earlier, but growth direction is tied to priority decisions."
+    }
+  ],
+  "brutal_truth_employee": "Nina says, “The push worked, but I do not want that pace to become normal,” and she’s still carrying “firefighting and context switching.” She also flags the engagement killer directly: “I can ship quickly, but I do not always feel the impact is visible.”",
+  "brutal_truth_manager": "Nina gave you the concrete lever: “Clear priority tradeoffs from leadership would help a lot,” plus the timing constraint about the next two weeks getting noisier. The next time, don’t stop at naming support—push for the exact tradeoff to resolve and which stakeholders must be in the room so she can lead cross-functionally earlier.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute leadership tradeoff call with Nina to pick one priority tradeoff for the next two weeks and confirm what gets cut."
+    },
+    {
+      "when": "this week",
+      "action": "Set up a cross-functional discussion slot for Nina earlier in the cycle, with a clear agenda and decision owner so her impact lands visibly."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Start next 1:1 by asking Nina: “What exact reactive work did we reduce, and what tradeoff did leadership resolve?”"
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Nina’s calendar stays “fragmented” and reactive work continues, treat the -9 engagement signal as worsening.",
+    "Within two weeks: if leadership doesn’t resolve the “one priority tradeoff,” Nina’s “next two weeks get noisier” warning will show up in her answers."
+  ]
+}

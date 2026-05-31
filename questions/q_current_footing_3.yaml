@@ -1,0 +1,10 @@
+alias: q_current_footing_3
+label: Current footing
+name: "What's feeling solid in your role right now, Toby?"
+description: Lets Toby set context on what is working before the conversation turns to growth gaps.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_requirement_shifts
+label: Requirement shifts
+name: What changes in requirements have been hardest to work with?
+description: Gets specific about the shifting-input problem and how it affects his work.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

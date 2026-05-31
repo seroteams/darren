@@ -1,0 +1,54 @@
+{
+  "name": "Tom",
+  "roleTitle": "Principal Backend Engineer",
+  "seniority": "Principal",
+  "meetingType": "Performance & feedback",
+  "observedShift": "Tom moved teams recently and delivery is steady, but Principal-level impact is not visible yet. Previous feedback said he needs early expectation alignment, and he still asks very few questions. I want to test whether he understands what Principal scope means on this team or if he is still operating on old assumptions. I also need to understand whether cross-team trust and judgment calls are developing or whether he is staying in safe execution mode.",
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Principal-level impact and leverage on this team.",
+      "reason": "Whether they can point to the Principal-sized outcomes they’re driving right now, not just steady delivery—could be that the work is happening but the impact isn’t yet visible or communicated.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "What Principal scope means in this team.",
+      "reason": "Whether they’ve internalized the current team’s expectations for Principal scope, or if they’re still operating on old assumptions from the prior team—worth clarifying explicitly so feedback can land precisely.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Cross-team trust and hard-call judgment.",
+      "reason": "Whether their cross-team relationships are building in both directions and whether they’re making the tradeoff calls early enough, or staying in safe execution mode and waiting for others.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "Early expectation alignment in how they engage.",
+      "reason": "What they’re doing in this meeting cycle to align expectations early—Principal work often fails quietly when context and assumptions aren’t surfaced early enough for stakeholders to steer.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "6dccc7e7-76ca-44d7-9db4-26126be77dc3",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "listenFor may lack observable behavioural cue: \"if they mention waiting for direction, late alignment, or av…\""
+    ]
+  },
+  "attempts": 2
+}

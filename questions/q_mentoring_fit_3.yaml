@@ -1,0 +1,10 @@
+alias: q_mentoring_fit_3
+label: Mentoring fit
+name: What is mentoring giving you that your core product work is not?
+description: Tests whether the mentoring program is additive or pulling energy away from his main path.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

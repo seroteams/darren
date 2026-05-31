@@ -1,0 +1,10 @@
+alias: q_asking_for_help
+label: Asking for help
+name: What makes it easier or harder to ask for help here?
+description: Explores whether he feels safe raising confusion or frustration early.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

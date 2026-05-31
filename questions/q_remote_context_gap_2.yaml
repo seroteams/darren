@@ -1,0 +1,10 @@
+alias: q_remote_context_gap_2
+label: Remote context gap
+name: Where does being remote create the most confusion for you?
+description: Surfaces the specific moments where remote context loss slows her down.
+purpose: topic
+stage: blockers
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: planner_added

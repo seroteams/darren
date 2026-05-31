@@ -1,0 +1,10 @@
+alias: q_readout_quality
+label: Readout quality
+name: What kind of readout would actually answer your questions about last cycle?
+description: Gets specific about the feedback she wants, without assuming she wants the whole conversation reopened.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

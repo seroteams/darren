@@ -1,0 +1,10 @@
+alias: q_feedback_specificity
+label: Feedback specificity
+name: What kind of feedback is hardest for you to use?
+description: Finds where critique stays vague, late, or hard to apply.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

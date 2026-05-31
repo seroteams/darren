@@ -1,0 +1,10 @@
+alias: q_quality_examples
+label: Quality examples
+name: What specific work has made the quality bar feel clearest to you lately?
+description: Surfaces concrete examples he is using to judge quality.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

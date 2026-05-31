@@ -1,0 +1,9 @@
+alias: q_handoff_map
+label: Handoff map
+name: Where are the onboarding handoffs still fuzzy for you?
+description: Finds the specific boundary points where he is still compensating.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: generated

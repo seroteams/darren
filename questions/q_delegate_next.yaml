@@ -1,0 +1,10 @@
+alias: q_delegate_next
+label: Delegate next
+name: What could move off your plate without losing quality?
+description: Surfaces delegation candidates and tests whether the team can absorb more ownership.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

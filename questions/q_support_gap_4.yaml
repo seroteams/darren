@@ -1,0 +1,10 @@
+alias: q_support_gap_4
+label: Support gap
+name: Where would a bit more support make the biggest difference right now?
+description: Surfaces the most useful form of manager help without forcing her to frame it as a complaint.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_time_pressure_misses
+label: Time pressure misses
+name: Under time pressure, what specifically starts to slip in your work?
+description: Drills into his stated consistency issue so the quality gap is named in observable terms.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

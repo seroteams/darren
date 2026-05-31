@@ -1,0 +1,106 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_intro_growth_stretch",
+    "label": "Stretch now",
+    "name": "Which part of your current work is actually stretching you right now?",
+    "description": "Distinguishes comfort-zone execution from genuine growth moments.",
+    "purpose": "topic",
+    "stage": "anchor",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "growth": -3
+    },
+    "note": "Avoiding high-ambiguity forums to avoid sounding underprepared signals a strong growth constraint and mild pullback from visible engagement."
+  },
+  "new_queue": [
+    {
+      "alias": "q_ambiguity_forums_2",
+      "label": "Ambiguity forums",
+      "name": "High-ambiguity forums — what makes those rooms feel risky for you?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_named_destination_2",
+      "label": "Named destination",
+      "name": "What kind of design work would make the next step feel real for you?"
+    },
+    {
+      "alias": "q_sponsorship_need_2",
+      "label": "Sponsorship need",
+      "name": "What kind of sponsorship would help you take a more visible strategic position?"
+    },
+    {
+      "alias": "q_next_commitment_4",
+      "label": "Next commitment",
+      "name": "What would make the next two weeks a useful test of this growth contract?"
+    }
+  ],
+  "issues": [
+    "coverage: injected engagement into next question (0 touches after turn 4)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        }
+      ]
+    },
+    "growth": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        },
+        {
+          "q": "q_political_capital_4",
+          "delta": -3,
+          "answer_excerpt": "I can lead major initiatives, but I do not always translate that into visible strategic influence."
+        },
+        {
+          "q": "q_strategic_influence_3",
+          "delta": -3,
+          "answer_excerpt": "I get positive feedback on craft and collaboration, but less clarity on what separates me at the next level."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -3,
+          "answer_excerpt": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared."
+        }
+      ]
+    }
+  }
+}

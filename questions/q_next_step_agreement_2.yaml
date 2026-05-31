@@ -1,0 +1,10 @@
+alias: q_next_step_agreement_2
+label: Next step agreement
+name: "Given what we've covered, where do you want to focus first?"
+description: Closes on a concrete commitment without reopening new topics.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_step_agreement"

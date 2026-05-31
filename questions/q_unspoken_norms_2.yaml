@@ -1,0 +1,9 @@
+alias: q_unspoken_norms_2
+label: Unspoken norms
+name: What are you still having to infer instead of just knowing?
+description: Surfaces hidden norms and expectations that are consuming attention.
+purpose: topic
+stage: blockers
+axis_effects:
+  clarity: +3
+source: generated

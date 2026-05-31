@@ -1,0 +1,87 @@
+{
+  "wellbeing": {
+    "score": -5,
+    "history": [
+      {
+        "q": "q_next_step_focus_3",
+        "delta": -1,
+        "answer_excerpt": "If there is a bigger scope conversation, I want it sooner rather than later."
+      },
+      {
+        "q": "q_scope_conversation_2",
+        "delta": -3,
+        "answer_excerpt": "A clear next-step path would help me reset my energy."
+      }
+    ]
+  },
+  "engagement": {
+    "score": -4,
+    "history": [
+      {
+        "q": "q_intro_biweekly_friction",
+        "delta": -1,
+        "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+      },
+      {
+        "q": "q_flatter_than_expected_4",
+        "delta": -3,
+        "answer_excerpt": "Mostly cleanup and reviews right now, not much that feels new."
+      },
+      {
+        "q": "q_nothing_feels_new_3",
+        "delta": 1,
+        "answer_excerpt": "I am proud of the migration plan and how we handled the cutover."
+      },
+      {
+        "q": "q_intro_biweekly_pace",
+        "delta": -1,
+        "answer_excerpt": "I did mention mentoring before. I still want it, but I stopped pushing."
+      },
+      {
+        "q": "q_seed_clarity_priorities",
+        "delta": 1,
+        "answer_excerpt": "I want to start by getting clarity on next quarter ownership before the billing rewrite lands on me."
+      }
+    ]
+  },
+  "clarity": {
+    "score": -9,
+    "history": [
+      {
+        "q": "q_stopped_pushing_3",
+        "delta": -3,
+        "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+      },
+      {
+        "q": "q_next_quarter_ownership_3",
+        "delta": -1,
+        "answer_excerpt": "I have felt a bit stuck doing similar work for months."
+      },
+      {
+        "q": "q_next_step_focus_3",
+        "delta": -1,
+        "answer_excerpt": "If there is a bigger scope conversation, I want it sooner rather than later."
+      },
+      {
+        "q": "q_scope_conversation_2",
+        "delta": -1,
+        "answer_excerpt": "A clear next-step path would help me reset my energy."
+      },
+      {
+        "q": "q_seed_clarity_priorities",
+        "delta": -3,
+        "answer_excerpt": "I want to start by getting clarity on next quarter ownership before the billing rewrite lands on me."
+      }
+    ]
+  },
+  "growth": {
+    "score": -1,
+    "history": [
+      {
+        "q": "q_stopped_pushing_3",
+        "delta": -1,
+        "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+      }
+    ]
+  }
+}

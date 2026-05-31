@@ -1,0 +1,10 @@
+alias: q_thread_follow_32
+label: Thread follow
+name: name wins, always — can you say more about what that means for you right now?
+description: Runtime thread-follow injected because planner did not follow substantive answer.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added

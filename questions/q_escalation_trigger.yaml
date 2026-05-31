@@ -1,0 +1,10 @@
+alias: q_escalation_trigger
+label: Escalation trigger
+name: What makes you decide to escalate versus keep pushing on your own?
+description: Reveals her threshold for broadening visibility instead of staying in execution mode.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

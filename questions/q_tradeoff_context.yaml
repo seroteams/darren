@@ -1,0 +1,9 @@
+alias: q_tradeoff_context
+label: Tradeoff context
+name: Which tradeoffs feel hardest to understand without the backstory?
+description: Drills into the specific missing historical context so the manager can remove that orientation gap.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

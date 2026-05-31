@@ -1,0 +1,93 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_biweekly_friction",
+    "label": "Friction scan",
+    "name": "What's been slower or harder than it should have been?",
+    "description": "Invites them to name blockers without framing it as complaint.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 3
+    },
+    "source": "seed"
+  },
+  "answer": "The push worked, but I do not want that pace to become normal.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1
+    },
+    "note": "She says the push succeeded but rejects that pace becoming normal, which signals mild strain around sustaining the work even though wellbeing was off-signature."
+  },
+  "new_queue": [
+    {
+      "alias": "q_thread_follow_28",
+      "label": "Thread follow",
+      "name": "push worked, want — can you say more about what that means for you right now?"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_post_sprint_load",
+      "label": "Post-sprint load",
+      "name": "Now that the sprint pressure has eased, what’s actually driving your workload right now?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_visibility_gap_8",
+      "label": "Visibility gap",
+      "name": "Where does your work feel least visible right now, Nina?"
+    },
+    {
+      "alias": "q_influence_bottleneck_3",
+      "label": "Influence bottleneck",
+      "name": "What’s getting in the way when you try to move things with stakeholders?"
+    },
+    {
+      "alias": "q_support_shape_5",
+      "label": "Support shape",
+      "name": "What kind of support from me would actually change your week?"
+    },
+    {
+      "alias": "q_steadier_finish",
+      "label": "Steadier finish",
+      "name": "What would make the next two weeks steadier for you?"
+    }
+  ],
+  "issues": [
+    "runtime: injected thread-follow question"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

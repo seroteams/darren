@@ -1,0 +1,10 @@
+alias: q_role_markers
+label: Role markers
+name: "What would make it obvious to you that you're operating at the next level?"
+description: Gets specific signals, outcomes, and behaviors that define the destination.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

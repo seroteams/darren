@@ -1,0 +1,10 @@
+alias: q_week_three_map
+label: Week three map
+name: How has week three felt from your side?
+description: Surfaces how he is actually landing in the role without implying a problem.
+purpose: wellbeing
+stage: settling
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

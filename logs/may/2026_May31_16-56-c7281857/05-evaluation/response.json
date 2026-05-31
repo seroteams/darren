@@ -1,0 +1,51 @@
+{
+  "headline": "Carlos gave mostly non-committal, short answers about the bar—what we have is a low-signal read on clarity and growth, not a shared standard yet.",
+  "summary_bullets": [
+    "Carlos can’t reliably map wins to the team bar: “I can name wins, but I am not always sure they match the team bar.”",
+    "Under time pressure, his process shifts to polish over message: “I sometimes focus on polish and lose sight of the core message.”",
+    "When feedback is broad, he stalls on prioritization: “I am not sure what to change first,” and asks for “concept rationale” growth plus “one skill at a time.”"
+  ],
+  "understanding_paragraph": "We understood that Carlos defines progress as having concrete, criteria-based feedback that tells him what to change first. The session showed his main failure mode isn’t effort—it’s prioritization and decision rules under time pressure. He also didn’t commit to a specific next change before the next meeting, leaving the development plan unanchored.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -2,
+      "meaning": "Weak signal: stress shows up as time-pressure inconsistency, worth watching but not enough to act on alone."
+    },
+    {
+      "id": "engagement",
+      "score": -2,
+      "meaning": "Weak signal: he’s trying to improve, but uncertainty about the bar reduces ownership and follow-through."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Defining signal: the team bar and feedback translation are unclear, so expectations feel subjective and unusable."
+    },
+    {
+      "id": "growth",
+      "score": -6,
+      "meaning": "Real pattern: he’s blocked on concept rationale because feedback isn’t concrete enough to practice consistently."
+    }
+  ],
+  "brutal_truth_employee": "Carlos is not getting a usable standard: “I can name wins, but I am not always sure they match the team bar.” He also admits the process breaks under pressure: “I sometimes focus on polish and lose sight of the core message.”",
+  "brutal_truth_manager": "Carlos’s clarity signal is blunt across multiple turns (“team bar” mismatch, broad reviews, not knowing what to change first). The moment to deepen was after “When reviews are broad, I am not sure what to change first”—that’s where you should force a concrete priority rule and an example, not stay at “concept rationale” at a high level.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Draft a one-page “team bar for junior brand design” with 3 criteria for concept rationale and 3 for execution, each with a do/don’t."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 30-minute calibration session with Carlos to review one recent project and score it against the new criteria, deciding what changes first."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-ask the next-step question with a forced choice: “Pick one criterion to practice for 2 weeks—what will you change on your next deliverable?”"
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Carlos still can’t name what to change first after seeing concrete criteria, treat clarity as unresolved.",
+    "Within two weeks: if time-pressure work still drifts to “polish” over “core message,” the development focus needs a new decision rule."
+  ]
+}

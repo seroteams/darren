@@ -1,0 +1,10 @@
+alias: q_protect_the_work
+label: Protect the work
+name: What are you choosing to protect time for next?
+description: Forces a prioritization call and reveals what he is intentionally keeping alive.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

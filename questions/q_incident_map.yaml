@@ -1,0 +1,10 @@
+alias: q_incident_map
+label: Incident map
+name: How clear are you on who to loop in during an incident, Riley?
+description: Checks his read on escalation norms under pressure without turning it into a test.
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

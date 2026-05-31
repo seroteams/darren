@@ -1,0 +1,10 @@
+alias: q_reorg_shift
+label: Reorg shift
+name: Since the reorg, what feels most different in your day-to-day?
+description: Surfaces the concrete ways the reorg has changed her work without assuming the change is negative.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

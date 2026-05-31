@@ -1,0 +1,9 @@
+alias: q_focus_reset
+label: Focus reset
+name: What should we take off the table for now?
+description: Forces a trade-off and helps narrow the load after a heavy stretch.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +3
+source: generated

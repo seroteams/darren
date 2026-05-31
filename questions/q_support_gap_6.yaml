@@ -1,0 +1,10 @@
+alias: q_support_gap_6
+label: Support gap
+name: What support are you not getting enough of right now?
+description: Surfaces missing support without presuming the answer is a problem with the work itself.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

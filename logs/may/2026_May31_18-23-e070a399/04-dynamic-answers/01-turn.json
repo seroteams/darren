@@ -1,0 +1,81 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_biweekly_friction",
+    "label": "Friction scan",
+    "name": "What's been slower or harder than it should have been?",
+    "description": "Invites them to name blockers without framing it as complaint.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 3
+    },
+    "source": "seed"
+  },
+  "answer": "The launch went well, but this week I feel flatter than I expected.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1
+    },
+    "note": "She reports a flatter-than-expected week after the launch, which is a mild negative engagement signal; wellbeing is implied but off-signature."
+  },
+  "new_queue": [
+    {
+      "alias": "q_flatter_week",
+      "label": "Flatter week",
+      "name": "You said 'flatter than I expected' — what's behind that?"
+    },
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_mentoring_follow_through",
+      "label": "Mentoring follow-through",
+      "name": "What would mentoring actually look like in your week?"
+    },
+    {
+      "alias": "q_support_ask_6",
+      "label": "Support ask",
+      "name": "What do you need from me to keep the next two weeks moving cleanly?"
+    },
+    {
+      "alias": "q_close_the_loop_3",
+      "label": "Close the loop",
+      "name": "Given what we covered, what’s the first thing you want to tighten up before we next meet?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

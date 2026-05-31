@@ -1,0 +1,51 @@
+{
+  "headline": "Priya is running on post-launch flattening plus months of repetitive work, and the missing next-quarter ownership plan is what’s draining her.",
+  "summary_bullets": [
+    "Priya links her low energy directly to uncertainty: “I am not sure what I am owning next quarter yet, and that makes me uneasy.”",
+    "Her work is stuck in a loop: “I have felt a bit stuck doing similar work for months,” with “cleanup and reviews” replacing new momentum.",
+    "The mentoring thread is stalled by her own back-off: “I still want it, but I stopped pushing.”"
+  ],
+  "understanding_paragraph": "Priya is not just “tired after launch”; she’s actively uneasy because she can’t see what she owns next quarter. She’s been doing cleanup/reviews and similar work for months, which is flattening her energy and reducing her willingness to push. The clearest new signal is that mentoring desire exists, but her behavior changed—she stopped pushing—because ownership and scope aren’t clarified.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -7,
+      "meaning": "Strong negative signal: energy is meaningfully low, and she’s explicitly asking for a reset via clearer next steps."
+    },
+    {
+      "id": "engagement",
+      "score": -6,
+      "meaning": "Negative engagement pattern: she’s gone quiet and stopped pushing on mentoring, tied to uncertainty and lack of newness."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Defining clarity gap: she doesn’t know next-quarter ownership, and that uncertainty is driving unease and stagnation."
+    },
+    {
+      "id": "growth",
+      "score": -3,
+      "meaning": "Weak-to-moderate negative growth signal: she reports months of similar work, but the main blocker is clarity, not learning."
+    }
+  ],
+  "brutal_truth_employee": "Priya is uneasy because she can’t see her next-quarter ownership: “I am not sure what I am owning next quarter yet, and that makes me uneasy.” She also admits she stopped pushing on mentoring: “I still want it, but I stopped pushing.”",
+  "brutal_truth_manager": "When Priya said “I still want it, but I stopped pushing,” the conversation moved on instead of extracting what specifically caused her to back off (scope, dependencies, decision rights, or lack of follow-through). Next time, push for the exact trigger and the smallest concrete commitment you can make to unblock her.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute scope alignment with Priya to define next-quarter ownership boundaries and decision rights before the billing rewrite starts."
+    },
+    {
+      "when": "this week",
+      "action": "Confirm the mentoring plan with Priya: pick the first mentee, set the cadence, and assign an owner for any dependency that stalled it."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Open the next 1:1 with: “What is your exact next-step path for the next 2 weeks?” and require a named deliverable plus the one risk to remove."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: if Priya’s answers still center on “not sure what I am owning next quarter,” treat it as unresolved scope—not temporary post-launch flattening.",
+    "Before next 1:1: if mentoring remains “I still want it, but I stopped pushing” with no concrete first step, escalation is warranted."
+  ]
+}

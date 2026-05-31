@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Late nights — temporary push or default pace?",
+      "reason": "Notes mention working late for about three weeks after delivering two major features ahead of schedule. Could be a short-term sprint, or the team may be relying on Lin to carry the load—worth clarifying which is true now that the launches are done.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What Lin is driving now that launches are done",
+      "reason": "Whether the next cycle’s top work is truly the highest-leverage use of Lin’s time, or whether priorities are drifting into ongoing firefighting once the initial wins are over.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "delegation",
+      "type": "Delegation effectiveness",
+      "category": "competency",
+      "label": "What Lin should delegate vs keep personally",
+      "reason": "Whether sustained late nights are hiding a distribution or autonomy gap—worth getting explicit on which parts only Lin should own and which could move to others without losing quality or speed.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What he’d want more of from you",
+      "reason": "How they want you to provide air cover and unblock decisions once the big launches are behind them—especially if they tend to brush off concern and need a clearer way to ask for help.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Lin",
+  "role": "Head of Product",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "notes": "Lin has delivered two major features ahead of schedule but has worked late for about three weeks. I need to understand whether this pace was a temporary push or is becoming a default. Because Lin tends to brush off concern, I should ask directly what is driving the load now that those launches are done. I also want clarity on what work only Lin should own versus what could be delegated, since sustained late nights at this level can hide a distribution or autonomy problem.",
+  "model": "gpt-5.4-mini"
+}

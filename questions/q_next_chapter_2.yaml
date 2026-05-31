@@ -1,0 +1,10 @@
+alias: q_next_chapter_2
+label: Next chapter
+name: What kind of impact do you want your work to have this year?
+description: Moves from vague ambition to the kind of contribution she wants to be known for.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

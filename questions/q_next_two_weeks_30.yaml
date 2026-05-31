@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_30
+label: Next two weeks
+name: What would make the next two weeks steadier for you?
+description: Designated closer that lands on immediate action and support.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

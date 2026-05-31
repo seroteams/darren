@@ -1,0 +1,10 @@
+alias: q_context_check_in_5
+label: Context check-in
+name: What feels most worth talking through today, Carlos?
+description: Lets Carlos set the agenda before feedback lands.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

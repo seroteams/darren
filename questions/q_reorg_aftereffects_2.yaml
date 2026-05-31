@@ -1,0 +1,10 @@
+alias: q_reorg_aftereffects_2
+label: Reorg aftereffects
+name: Since the reorg, what has changed most in your day-to-day work?
+description: Surfaces concrete shifts in operating rhythm without assuming the cause.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

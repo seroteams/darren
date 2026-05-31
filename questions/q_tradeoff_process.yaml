@@ -1,0 +1,9 @@
+alias: q_tradeoff_process
+label: Tradeoff process
+name: "How do roadmap tradeoffs seem to get finalized from what you've seen so far?"
+description: Drills into her specific confusion about the tradeoff process before moving to support.
+purpose: topic
+stage: blockers
+axis_effects:
+  clarity: +3
+source: planner_added

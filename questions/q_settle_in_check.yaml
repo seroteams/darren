@@ -1,0 +1,10 @@
+alias: q_settle_in_check
+label: Settle-in check
+name: What’s been most on your mind at work lately?
+description: Safe opener that lets Priya set context before anything more pointed.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

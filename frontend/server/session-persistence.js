@@ -12,6 +12,7 @@ function serialize(s) {
     id: s.id,
     dir: s.dir,
     createdAt: s.createdAt,
+    completedAt: s.completedAt ?? null,
     lastSeenAt: s.lastSeenAt,
     ctx: s.ctx,
     introQueue: s.introQueue,

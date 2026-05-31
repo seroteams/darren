@@ -1,0 +1,9 @@
+alias: q_carrying_ambiguity_3
+label: Carrying ambiguity
+name: Where is that ambiguity landing hardest for you right now?
+description: Drills into the specific burden she is carrying so the underlying strain becomes concrete.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+source: planner_added

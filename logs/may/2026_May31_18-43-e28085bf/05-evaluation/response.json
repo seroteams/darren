@@ -1,0 +1,51 @@
+{
+  "headline": "Sam’s onboarding is blocked less by ability and more by unclear approval/quality bars, which makes him stall before shipping.",
+  "summary_bullets": [
+    "Sam can do the tasks, but he second-guesses whether his approach matches team expectations and loses time when design and API details don’t align.",
+    "The biggest friction point is knowing “who should approve what before I push,” plus fuzzy quality bars between quick fixes and core flows.",
+    "He waits too long to ask because he wants to solve things himself first; he accelerates when feedback is specific and fast and wants pairing on his next ticket."
+  ],
+  "understanding_paragraph": "Sam is not struggling with execution—he’s struggling with decision points: approval ownership, the definition of “done,” and how quality bars differ across work types. He’s already signaling a clear fix: fast, specific feedback plus hands-on pairing to show the approval bar in practice. The session clarified that the onboarding gap is primarily expectation/hand-off clarity, not tooling alone.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -2,
+      "meaning": "Mild stress from uncertainty and late reassurance loops; watch over the next few weeks."
+    },
+    {
+      "id": "engagement",
+      "score": -1,
+      "meaning": "Weak signal of engagement tied to speed/specificity of feedback; not enough alone to act on."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Defining signal: approval ownership and quality bars are unclear, which directly stalls shipping."
+    },
+    {
+      "id": "growth",
+      "score": -5,
+      "meaning": "Real growth lever: pairing and explicit “what good looks like” will likely change his trajectory quickly."
+    }
+  ],
+  "brutal_truth_employee": "Sam said, “I am not always sure who should approve what before I push,” and “I usually wait too long before asking because I want to solve things myself first.” That combination points to a predictable stall pattern: he delays escalation until after uncertainty has already cost him time.",
+  "brutal_truth_manager": "When Sam offered a concrete mechanism—“Pairing once or twice a week would probably prevent me from getting stuck silently”—the conversation moved straight to cadence and definition of “good looks like,” but it didn’t lock in the exact approval chain for his specific next tickets. Next time, go from the ask to a concrete map: who approves which step, what artifact proves it, and what he should do if the approver isn’t available.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute pairing session with Sam on his next ticket and explicitly walk the approval bar step-by-step before he pushes."
+    },
+    {
+      "when": "this week",
+      "action": "Define “done” for Sam’s next two tickets in writing: quality bar differences (quick fixes vs core flows) and the exact who/when for approvals."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Confirm the handoff map worked by asking Sam to recount the approval chain he used and where he still felt fuzzy, then adjust the pairing cadence."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks, if Sam still waits to ask until after he’s already stuck, treat the approval/quality-bar definition as incomplete.",
+    "Before next 1:1, check whether Sam can name who approves what for his next ticket without hesitation; if not, clarity is still missing."
+  ]
+}

@@ -1,0 +1,10 @@
+alias: q_forum_pullback
+label: Forum pullback
+name: What changed for you in the leadership forums?
+description: Lets her explain the shift in visible participation without framing it as a problem.
+purpose: topic
+stage: observation
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

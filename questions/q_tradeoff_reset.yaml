@@ -1,0 +1,10 @@
+alias: q_tradeoff_reset
+label: Tradeoff reset
+name: What have you been saying no to since the reorg?
+description: Surfaces deliberate deprioritisation and whether the tradeoffs are clear or too costly.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

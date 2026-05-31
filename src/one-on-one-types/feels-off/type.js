@@ -1,3 +1,4 @@
+const path = require("node:path");
 const { SHARED_PROMPTS } = require("../_shared/prompts");
 
 // 1:1 Type — Something feels off
@@ -38,6 +39,9 @@ module.exports = {
     "Stacking 'what's wrong' probes without giving them an opt-out.",
     "Treating the meeting like a performance review.",
   ],
-  // Prompt set: inherits the shared house prompts. Override a slot to fork.
-  prompts: { ...SHARED_PROMPTS },
+  // Prompt set: inherits the shared house prompts. Override evaluation for feels-off tone.
+  prompts: {
+    ...SHARED_PROMPTS,
+    evaluation: path.join(__dirname, "prompts", "final-evaluation.md"),
+  },
 };

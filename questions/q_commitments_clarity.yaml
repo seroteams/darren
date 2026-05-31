@@ -1,0 +1,9 @@
+alias: q_commitments_clarity
+label: Commitments clarity
+name: Where do commitments get fuzzy for you in those cross-team conversations?
+description: Surfaces the specific moments or patterns that make ownership and commitments hard to track.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

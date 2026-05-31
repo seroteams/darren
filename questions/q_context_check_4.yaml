@@ -1,0 +1,10 @@
+alias: q_context_check_4
+label: Context check
+name: "What's been most on your mind at work lately?"
+description: Safe opener that lets Lin set the context before any concern is introduced.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

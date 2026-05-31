@@ -1,0 +1,9 @@
+alias: q_escalate_vs_batch
+label: Escalate vs batch
+name: What would a useful escalate-versus-batch guide need to cover?
+description: Turns the missing escalation guide into concrete onboarding support the manager can provide.
+purpose: topic
+stage: blockers
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,51 @@
+{
+  "headline": "Tom answered with consistent “fuzzy bar / being safe” themes and gave no concrete next change—this is a partial-read, not a performance verdict.",
+  "summary_bullets": [
+    "Tom links Principal impact to visible ownership and cross-team decisions, and he reports he is “over-index on being safe.”",
+    "He explicitly wants “explicit expectations for the next cycle” to calibrate, which means the team’s Principal bar is not yet operational for him.",
+    "He did not name a first change (“What is the first change you want to make before our next check-in?” was skipped), so accountability is missing."
+  ],
+  "understanding_paragraph": "Tom understands the gap is not technical; he frames it as visible ownership and leverage. He is delivering steadily but holding back on cross-team decisions and earlier question-asking because he lacks trust and wants explicit cycle expectations to calibrate fast. What we didn’t learn: a specific, near-term behavior change he will execute before the next check-in.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -1,
+      "meaning": "Weak signal on sustainability; nothing in the session points to burnout or recovery needs."
+    },
+    {
+      "id": "engagement",
+      "score": -8,
+      "meaning": "Strong pattern of coasting into safe execution rather than leaning into highest-leverage work."
+    },
+    {
+      "id": "clarity",
+      "score": -9,
+      "meaning": "Principal scope is not crisp for this team; the bar feels “fuzzy” and he needs explicit next-cycle expectations."
+    },
+    {
+      "id": "growth",
+      "score": -4,
+      "meaning": "Learning is constrained by avoidance of earlier feedback and trust-building, so stretch is not yet converting into leverage."
+    }
+  ],
+  "brutal_truth_employee": "Tom says, “I have mostly stayed in my lane instead of forcing cross-team decisions,” and “I still over-index on being safe.” He also admits, “I need explicit expectations for the next cycle so I can calibrate fast,” and he never commits to “the first change…before our next check-in” because that answer was skipped.",
+  "brutal_truth_manager": "When Tom said, “this team's bar still feels fuzzy,” the conversation should have converted that into a concrete, testable definition of Principal impact for this team. Also, the moment to press was when he said, “I need explicit expectations for the next cycle”—that’s where you should lock the expectations and require a specific behavior change, not leave it for later.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Define Tom’s Principal bar for this team in writing: 3 observable outcomes and 2 cross-team decision examples, then send it for alignment."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 30-minute “adjacent trust” pairing with one named adjacent team lead and set a single hard-news topic Tom must raise early."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-ask for one concrete commitment: “What exact behavior will you change before next check-in—what will you do differently on day 1?”"
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Tom still says the bar is “fuzzy” after receiving written expectations, treat it as misalignment not a knowledge gap.",
+    "Within two weeks: if Tom does not initiate earlier feedback or cross-team questions, confirm the “being safe” pattern is persisting."
+  ]
+}

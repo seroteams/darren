@@ -1,0 +1,9 @@
+alias: q_remote_context
+label: Remote context
+name: "When you're remote, which cues feel easiest to miss in those meetings?"
+description: Drills into the remote-specific context gap she named so the manager can make implicit signals more explicit.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

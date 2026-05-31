@@ -1,0 +1,10 @@
+alias: q_scope_fit_5
+label: Scope fit
+name: Where does your current scope feel the best fit right now?
+description: Checks whether the current shape of the role still fits what she is trying to do.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

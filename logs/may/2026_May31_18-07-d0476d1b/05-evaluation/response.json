@@ -1,0 +1,51 @@
+{
+  "headline": "Priya is running on post-launch cleanup and reviews, but the real story is her uncertainty about next-quarter ownership—it's draining energy and stalling mentoring.",
+  "summary_bullets": [
+    "Priya’s “flatter than I expected” is driven by “cleanup and reviews… not much that feels new,” followed by “stuck doing similar work for months.”",
+    "She explicitly paused mentoring momentum: “I did mention mentoring before… I still want it, but I stopped pushing,” and she ties the stall to ownership ambiguity.",
+    "The biggest gap is sequencing: she wants “clarity on next quarter ownership before the billing rewrite lands on me,” so introducing billing without a plan will hit her unease."
+  ],
+  "understanding_paragraph": "Priya is not upset about the launch; she’s experiencing a sustained dip because her next steps feel unclear and repetitive. She wants mentoring and a bigger-scope reset, but she stopped pushing because she doesn’t know what she owns next quarter. This session clarified that the billing rewrite is not just a project—it’s a timing risk to her energy and focus.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -5,
+      "meaning": "Energy is meaningfully low after the launch, and she’s using “reset my energy” as the key need."
+    },
+    {
+      "id": "engagement",
+      "score": -4,
+      "meaning": "Motivation is down because work doesn’t feel new and she has stopped pushing on mentoring."
+    },
+    {
+      "id": "clarity",
+      "score": -9,
+      "meaning": "Next-quarter ownership is unclear enough to make her “uneasy,” and it’s blocking her ability to plan."
+    },
+    {
+      "id": "growth",
+      "score": -1,
+      "meaning": "Weak signal: she’s not asking for stretch learning, but she is asking for a clearer path that would restore momentum."
+    }
+  ],
+  "brutal_truth_employee": "Priya said, “I still want it, but I stopped pushing,” and the reason is direct: “I am not sure what I am owning next quarter yet, and that makes me uneasy.” She’s also tying the next two weeks to sequencing: “clarity on next quarter ownership before the billing rewrite lands on me.”",
+  "brutal_truth_manager": "When Priya gave the core signal—“I still want it, but I stopped pushing”—the conversation needed a concrete follow-up on what she’s waiting for (owner, timing, and first mentoring action). Instead, the thread stayed at the level of uncertainty, and the key moment to lock next-quarter ownership into a plan wasn’t forced into specifics.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Schedule a 30-minute scope alignment with Priya and confirm her exact next-quarter ownership boundaries before the billing rewrite timing is communicated."
+    },
+    {
+      "when": "this week",
+      "action": "Loop Priya into a mentoring restart: pick one mentee, set the first session date, and define what “mentoring” means in deliverables for the next 4 weeks."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Open with: “What is the one next-quarter ownership decision you now have, and what work will you drop or stop?” then verify it matches the billing rewrite plan."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: if Priya still says she feels “stuck doing similar work for months,” treat the ownership plan as not landing.",
+    "Before the billing rewrite starts: if Priya’s unease (“uneasy”) persists after you confirm ownership sequencing, escalate the scope conversation earlier than planned."
+  ]
+}

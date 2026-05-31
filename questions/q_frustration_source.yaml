@@ -1,0 +1,10 @@
+alias: q_frustration_source
+label: Frustration source
+name: "What's been most frustrating about the way the work is changing?"
+description: Lets him name the specific friction without assuming the root cause.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_live_incidents_gap
+label: Live incidents gap
+name: Those live incidents — which handoff details are still hardest to see ahead of time?
+description: Drills into the specific incident handoff gaps so support can be made concrete.
+purpose: topic
+stage: connection
+axis_effects:
+  clarity: +1
+source: planner_added

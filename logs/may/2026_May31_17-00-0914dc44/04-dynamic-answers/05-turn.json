@@ -1,0 +1,111 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_high_ambiguity_forums",
+    "label": "High-ambiguity forums",
+    "name": "High-ambiguity forums — what feels most risky when you step into them?",
+    "description": "Drills into the specific fear or constraint behind avoiding visible strategic settings.",
+    "purpose": "topic",
+    "stage": "anchor",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I think I need to own a cross-org decision area, not just deliver strong design outcomes.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "growth": 3
+    },
+    "note": "He names a concrete next-level aspiration — owning a cross-org decision area — which signals strong growth direction and some continued ambition."
+  },
+  "new_queue": [
+    {
+      "alias": "q_cross_org_decisions",
+      "label": "Cross-org decisions",
+      "name": "Cross-org decision area — which decisions do you want your name attached to?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_sponsorship_shape",
+      "label": "Sponsorship shape",
+      "name": "What kind of sponsorship would actually move the needle for you here?"
+    },
+    {
+      "alias": "q_first_move_3",
+      "label": "First move",
+      "name": "What's the first concrete thing you want to do before we next meet?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 5)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared."
+        },
+        {
+          "q": "q_high_ambiguity_forums",
+          "delta": 1,
+          "answer_excerpt": "I think I need to own a cross-org decision area, not just deliver strong design outcomes."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        }
+      ]
+    },
+    "growth": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        },
+        {
+          "q": "q_political_capital",
+          "delta": -3,
+          "answer_excerpt": "I can lead major initiatives, but I do not always translate that into visible strategic influence."
+        },
+        {
+          "q": "q_strategic_influence_gap",
+          "delta": -3,
+          "answer_excerpt": "I get positive feedback on craft and collaboration, but less clarity on what separates me at the next level."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -3,
+          "answer_excerpt": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared."
+        },
+        {
+          "q": "q_high_ambiguity_forums",
+          "delta": 3,
+          "answer_excerpt": "I think I need to own a cross-org decision area, not just deliver strong design outcomes."
+        }
+      ]
+    }
+  }
+}

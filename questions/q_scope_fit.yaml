@@ -1,0 +1,10 @@
+alias: q_scope_fit
+label: Scope fit
+name: What part of your current scope feels most solid to you?
+description: Helps separate what is working from what may be misaligned after the reorg.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

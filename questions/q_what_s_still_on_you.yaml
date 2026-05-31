@@ -1,0 +1,10 @@
+alias: q_what_s_still_on_you
+label: What’s still on you
+name: What work is still sitting on your plate that you expected to hand off by now?
+description: Checks whether Lin is carrying ownership that could be distributed.
+purpose: competency
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

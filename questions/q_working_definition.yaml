@@ -1,0 +1,9 @@
+alias: q_working_definition
+label: Working definition
+name: How do you decide when a design is ready to ship?
+description: "Reveals his internal threshold for done and whether it matches the team's expectation."
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+source: generated

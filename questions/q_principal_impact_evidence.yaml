@@ -1,0 +1,10 @@
+alias: q_principal_impact_evidence
+label: Principal impact evidence
+name: What have you done recently that best shows Principal-level leverage on this team?
+description: Surfaces concrete examples of visible leverage rather than steady execution.
+purpose: competency
+stage: evidence
+axis_effects:
+  growth: +1
+  engagement: +3
+source: generated

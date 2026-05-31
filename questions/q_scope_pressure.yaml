@@ -1,0 +1,10 @@
+alias: q_scope_pressure
+label: Scope pressure
+name: What feels most crowded in your plate right now?
+description: Surfaces overload and what is compressing the week.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

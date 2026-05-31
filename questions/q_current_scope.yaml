@@ -1,0 +1,10 @@
+alias: q_current_scope
+label: Current scope
+name: Before we go further, what feels most solid in your role right now?
+description: Lets Ahmed set context by naming the parts of the role that feel stable before any growth pressure enters.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

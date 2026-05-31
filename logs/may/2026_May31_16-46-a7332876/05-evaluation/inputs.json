@@ -1,0 +1,192 @@
+{
+  "ctx": {
+    "name": "Priya",
+    "role": "Senior Backend Engineer",
+    "seniority": "Senior",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "Priya shipped a major feature on Monday and the team noticed, but she has been quieter this week. I want to check whether this is normal post-launch recovery or something unresolved. She also mentioned wanting to mentor a few months ago and that thread never moved. I need a clearer read on what she expects to own next quarter before I introduce the billing rewrite, since she may already be forming plans that this will disrupt."
+  },
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How she's landing with the team this week.",
+      "reason": "Notes say she shipped a major feature on Monday and the team noticed, but she’s been quieter this week. One possibility is normal post-launch recovery; another is something unresolved. Worth clarifying what “quiet” means for her and whether the team has noticed anything different.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What she expects to own next quarter.",
+      "reason": "You need a clearer read on what she expects to own next quarter so you can introduce the billing rewrite without stepping on plans she may already be forming. This helps you align on sequencing and ownership before the disruption starts.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "delegation",
+      "type": "Delegation effectiveness",
+      "category": "competency",
+      "label": "Mentoring plan and who owns it next.",
+      "reason": "She mentioned wanting to mentor a few months ago and that thread never moved. Could be a timing issue, unclear scope, or competing priorities—worth clarifying what she wants to mentor, what support she needs, and what “done” looks like for you to re-activate it.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "cross_team_alignment",
+      "type": "Cross-team alignment",
+      "category": "competency",
+      "label": "How the billing rewrite affects her scope.",
+      "reason": "Whether she’s already building plans that the billing rewrite will disrupt is a common senior-leadership risk: if boundaries and interfaces aren’t pre-wired, work can stall or get duplicated. Use this check-in to confirm the interfaces, handoffs, and expectations across teams before the rewrite ramps.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's been slower or harder than it should have been?",
+      "alias": "q_intro_biweekly_friction",
+      "answer": "The launch went well, but this week I feel flatter than I expected.",
+      "skipped": false
+    },
+    {
+      "question": "You said 'flatter than I expected' — what's driving that, from your read?",
+      "alias": "q_flatter_than_expected_2",
+      "answer": "Mostly cleanup and reviews right now, not much that feels new.",
+      "skipped": false
+    },
+    {
+      "question": "What kind of work feels missing right now?",
+      "alias": "q_nothing_feels_new",
+      "answer": "I am proud of the migration plan and how we handled the cutover.",
+      "skipped": false
+    },
+    {
+      "question": "How's the last two weeks actually felt — energy-wise?",
+      "alias": "q_intro_biweekly_pace",
+      "answer": "I did mention mentoring before. I still want it, but I stopped pushing.",
+      "skipped": false
+    },
+    {
+      "question": "You said mentoring 'stopped pushing' — what made it stall?",
+      "alias": "q_mentoring_stall",
+      "answer": "I am not sure what I am owning next quarter yet, and that makes me uneasy.",
+      "skipped": false
+    },
+    {
+      "question": "You said 'owning next quarter' feels unclear — what's most uncertain there?",
+      "alias": "q_next_quarter_ownership_2",
+      "answer": "I have felt a bit stuck doing similar work for months.",
+      "skipped": false
+    },
+    {
+      "question": "What would make the next two weeks feel lighter or sharper?",
+      "alias": "q_next_two_weeks_10",
+      "answer": "If there is a bigger scope conversation, I want it sooner rather than later.",
+      "skipped": false
+    },
+    {
+      "question": "What support from me would make the biggest difference on the scope conversation?",
+      "alias": "q_scope_conversation",
+      "answer": "A clear next-step path would help me reset my energy.",
+      "skipped": false
+    },
+    {
+      "question": "Given all that, what's the first concrete thing you want to move by our next check-in?",
+      "alias": "q_next_two_weeks_9",
+      "answer": "(skipped)",
+      "skipped": true
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_next_two_weeks_10",
+          "delta": -1,
+          "answer_excerpt": "If there is a bigger scope conversation, I want it sooner rather than later."
+        },
+        {
+          "q": "q_scope_conversation",
+          "delta": -3,
+          "answer_excerpt": "A clear next-step path would help me reset my energy."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        },
+        {
+          "q": "q_flatter_than_expected_2",
+          "delta": -3,
+          "answer_excerpt": "Mostly cleanup and reviews right now, not much that feels new."
+        },
+        {
+          "q": "q_nothing_feels_new",
+          "delta": 1,
+          "answer_excerpt": "I am proud of the migration plan and how we handled the cutover."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I did mention mentoring before. I still want it, but I stopped pushing."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -8,
+      "history": [
+        {
+          "q": "q_mentoring_stall",
+          "delta": -3,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        },
+        {
+          "q": "q_next_quarter_ownership_2",
+          "delta": -3,
+          "answer_excerpt": "I have felt a bit stuck doing similar work for months."
+        },
+        {
+          "q": "q_next_two_weeks_10",
+          "delta": -1,
+          "answer_excerpt": "If there is a bigger scope conversation, I want it sooner rather than later."
+        },
+        {
+          "q": "q_scope_conversation",
+          "delta": -1,
+          "answer_excerpt": "A clear next-step path would help me reset my energy."
+        }
+      ]
+    },
+    "growth": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_mentoring_stall",
+          "delta": -3,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        },
+        {
+          "q": "q_next_two_weeks_10",
+          "delta": -1,
+          "answer_excerpt": "If there is a bigger scope conversation, I want it sooner rather than later."
+        },
+        {
+          "q": "q_scope_conversation",
+          "delta": -1,
+          "answer_excerpt": "A clear next-step path would help me reset my energy."
+        }
+      ]
+    }
+  },
+  "notes": "Priya shipped a major feature on Monday and the team noticed, but she has been quieter this week. I want to check whether this is normal post-launch recovery or something unresolved. She also mentioned wanting to mentor a few months ago and that thread never moved. I need a clearer read on what she expects to own next quarter before I introduce the billing rewrite, since she may already be forming plans that this will disrupt.",
+  "model": "gpt-5.4-nano"
+}

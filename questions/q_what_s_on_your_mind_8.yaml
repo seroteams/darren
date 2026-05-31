@@ -1,0 +1,10 @@
+alias: q_what_s_on_your_mind_8
+label: What’s on your mind
+name: What’s been most on your mind at work lately, Nina?
+description: Safe opener that lets Nina set context before any concern is introduced.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

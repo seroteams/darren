@@ -1,0 +1,10 @@
+alias: q_current_footing_7
+label: Current footing
+name: "What's feeling solid in your role right now, Toby?"
+description: Opens with a calm read on where Toby feels grounded before moving into stretch.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

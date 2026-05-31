@@ -1,0 +1,10 @@
+alias: q_escalation_threshold_2
+label: Escalation threshold
+name: What would make you escalate something sooner rather than later?
+description: Probes his judgment for when to raise uncertainty or risk instead of carrying it alone.
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

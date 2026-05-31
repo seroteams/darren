@@ -1,0 +1,102 @@
+{
+  "wellbeing": {
+    "score": 0,
+    "history": [
+      {
+        "q": "q_next_step_agreement_2",
+        "delta": 1,
+        "answer_excerpt": "If we align on concrete criteria, I can work against them confidently."
+      }
+    ]
+  },
+  "engagement": {
+    "score": 0,
+    "history": [
+      {
+        "q": "q_intro_perf_01_opening",
+        "delta": 1,
+        "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+      }
+    ]
+  },
+  "clarity": {
+    "score": -8,
+    "history": [
+      {
+        "q": "q_intro_perf_01_opening",
+        "delta": -3,
+        "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+      },
+      {
+        "q": "q_team_bar_mismatch_3",
+        "delta": -3,
+        "answer_excerpt": "Feedback has helped, though I still miss consistency under time pressure."
+      },
+      {
+        "q": "q_time_pressure_consistency_3",
+        "delta": -3,
+        "answer_excerpt": "I sometimes focus on polish and lose sight of the core message."
+      },
+      {
+        "q": "q_core_message_miss",
+        "delta": -3,
+        "answer_excerpt": "I want clearer examples of what excellent junior-level work looks like here."
+      },
+      {
+        "q": "q_feedback_changed_what",
+        "delta": -1,
+        "answer_excerpt": "When reviews are broad, I am not sure what to change first."
+      },
+      {
+        "q": "q_broad_reviews_gap_2",
+        "delta": 1,
+        "answer_excerpt": "I would like to grow faster in concept rationale, not just execution speed."
+      },
+      {
+        "q": "q_concept_rationale_block",
+        "delta": -1,
+        "answer_excerpt": "A tighter loop on one skill at a time would help me improve."
+      },
+      {
+        "q": "q_next_step_agreement_2",
+        "delta": 1,
+        "answer_excerpt": "If we align on concrete criteria, I can work against them confidently."
+      },
+      {
+        "q": "q_next_step_agreement",
+        "delta": 1,
+        "answer_excerpt": "I will start by writing one explicit priority rule I will use when time pressure hits this month."
+      }
+    ]
+  },
+  "growth": {
+    "score": -7,
+    "history": [
+      {
+        "q": "q_feedback_changed_what",
+        "delta": -3,
+        "answer_excerpt": "When reviews are broad, I am not sure what to change first."
+      },
+      {
+        "q": "q_broad_reviews_gap_2",
+        "delta": -3,
+        "answer_excerpt": "I would like to grow faster in concept rationale, not just execution speed."
+      },
+      {
+        "q": "q_concept_rationale_block",
+        "delta": -3,
+        "answer_excerpt": "A tighter loop on one skill at a time would help me improve."
+      },
+      {
+        "q": "q_next_step_agreement_2",
+        "delta": 1,
+        "answer_excerpt": "If we align on concrete criteria, I can work against them confidently."
+      },
+      {
+        "q": "q_next_step_agreement",
+        "delta": 1,
+        "answer_excerpt": "I will start by writing one explicit priority rule I will use when time pressure hits this month."
+      }
+    ]
+  }
+}

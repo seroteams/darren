@@ -1,0 +1,9 @@
+alias: q_political_capital_2
+label: Political capital
+name: Political capital — where are you holding back right now?
+description: Drills into the specific arenas where the promotion outcome changed his willingness to push or sponsor ideas.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_manager_leverage_11
+label: Manager leverage
+name: What would you want more of from me right now?
+description: Surfaces the specific manager behavior that would help most without assuming she has asked already.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

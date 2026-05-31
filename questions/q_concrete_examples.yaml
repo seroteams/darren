@@ -1,0 +1,10 @@
+alias: q_concrete_examples
+label: Concrete examples
+name: Which recent piece of work best shows your current quality bar?
+description: Forces a specific artifact into view so the feedback can be grounded in real work rather than abstractions.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

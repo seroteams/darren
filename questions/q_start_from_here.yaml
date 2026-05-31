@@ -1,0 +1,10 @@
+alias: q_start_from_here
+label: Start from here
+name: Before we get into specifics, what feels most important to talk through today, Maria?
+description: Safe opener that lets Maria set the agenda and reveal what is most live for her now.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

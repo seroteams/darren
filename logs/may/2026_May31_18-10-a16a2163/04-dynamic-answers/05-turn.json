@@ -1,0 +1,105 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_wait_until_complete",
+    "label": "Wait until complete",
+    "name": "You said you wait until analysis is complete — what makes you hold back then?",
+    "description": "Drills into the specific habit she named before moving on, to surface whether the delay is caution, uncertainty, or context.",
+    "purpose": "competency",
+    "stage": "evidence",
+    "axis_effects": {
+      "clarity": 1,
+      "wellbeing": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "That slows trust because stakeholders feel surprised late.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1
+    },
+    "note": "She names a specific consequence of holding back — stakeholders are surprised late and trust erodes — which signals a mild clarity gap rather than a wellbeing issue."
+  },
+  "new_queue": [
+    {
+      "alias": "q_thread_follow_10",
+      "label": "Thread follow",
+      "name": "slows trust because — can you say more about what that means for you right now?"
+    },
+    {
+      "alias": "q_intro_perf_03_gap",
+      "label": "Gap awareness",
+      "name": "Where do you think you've fallen short of where you want to be?"
+    },
+    {
+      "alias": "q_execution_bias",
+      "label": "Execution bias",
+      "name": "What do you think pulls you toward execution over influence in the moment?"
+    },
+    {
+      "alias": "q_next_step_focus_4",
+      "label": "Next-step focus",
+      "name": "Given what we’ve covered, what is the one change you want to make first?"
+    }
+  ],
+  "issues": [
+    "runtime: injected thread-follow question"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        },
+        {
+          "q": "q_uneven_influence_4",
+          "delta": -3,
+          "answer_excerpt": "I get work done, yet I am not consistently shaping decisions early."
+        },
+        {
+          "q": "q_early_decisions_4",
+          "delta": -3,
+          "answer_excerpt": "Some feedback has been about being clearer with non-technical partners."
+        },
+        {
+          "q": "q_impact_beyond_shipping",
+          "delta": -1,
+          "answer_excerpt": "I tend to wait until analysis is complete before socializing direction."
+        },
+        {
+          "q": "q_wait_until_complete",
+          "delta": -1,
+          "answer_excerpt": "That slows trust because stakeholders feel surprised late."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_impact_beyond_shipping",
+          "delta": -1,
+          "answer_excerpt": "I tend to wait until analysis is complete before socializing direction."
+        }
+      ]
+    }
+  }
+}

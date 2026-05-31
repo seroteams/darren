@@ -1,0 +1,96 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_fragmented_calendar_2",
+    "label": "Fragmented calendar",
+    "name": "Calendar fragmentation — where is it breaking your week most?",
+    "description": "Drills into the specific way her fragmented calendar is creating friction so the risk is concrete.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "clarity": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "A lot of energy went into firefighting and context switching.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1
+    },
+    "note": "She names reactive firefighting and context switching as the main drain, which signals mild priority fragmentation rather than clear focus; [THREAD-DEFERRED] firefighting/context switching thread not followed because drill cap requires stage advance."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_influence_bottleneck",
+      "label": "Influence bottleneck",
+      "name": "Where are you getting stuck when you try to move decisions forward?"
+    },
+    {
+      "alias": "q_support_needed_9",
+      "label": "Support needed",
+      "name": "What kind of support from me would actually change your week right now?"
+    },
+    {
+      "alias": "q_next_step_move",
+      "label": "Next-step move",
+      "name": "What’s the first concrete thing you want to shift before we next meet?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_pace_becoming_normal",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_pace_becoming_normal",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_fragmented_calendar_2",
+          "delta": -1,
+          "answer_excerpt": "A lot of energy went into firefighting and context switching."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -1,0 +1,9 @@
+alias: q_socializing_direction
+label: Socializing direction
+name: What makes you hold direction until the analysis feels complete?
+description: Drills into the specific habit she named to surface the driver behind delayed alignment.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_tool_friction
+label: Tool friction
+name: Which part of the toolchain slows you down most right now?
+description: Identifies practical friction that may be creating avoidable hesitation or rework.
+purpose: topic
+stage: blockers
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

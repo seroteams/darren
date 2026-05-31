@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "Engagement in team rituals since the promotion",
+      "reason": "Notes say his engagement in team rituals has dipped since being passed over. One possibility is unresolved disappointment, or it could be a confidence/visibility shift rather than disengagement—worth clarifying what he’s experiencing and what’s changed day to day.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "What feedback he actually heard and believed",
+      "reason": "Notes say he didn’t bring up the decision himself. Whether he heard clear, actionable feedback or left with uncertainty is worth clarifying so you can understand what he thinks the path forward is and what he might be waiting to see.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Mentoring program as stretch or detour",
+      "reason": "What he’s doing with mentoring should be tested against the next step he wants—whether it’s healthy stretch that builds the skills for his core path, or a redirect that reduces exposure to the work that would move his trajectory.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Where he’s focusing energy right now",
+      "reason": "If engagement has dipped, the most useful thread is what he’s saying yes and no to since the promotion decision—whether he’s still prioritizing the bets that matter most for his role, or quietly reallocating time to lower-stakes work.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "James",
+  "role": "Head of Product",
+  "seniority": "Director",
+  "meetingType": "Something feels off",
+  "notes": "James was passed over for promotion and his engagement in team rituals has dipped since then. He did not bring up the decision himself, which could mean unresolved disappointment or low confidence that raising it will help. He is also running a mentoring program, and I need to understand whether that is healthy stretch or a redirect away from his core path. This meeting should surface what feedback he actually heard and what concrete path forward he believes exists.",
+  "model": "gpt-5.4-mini"
+}

@@ -1,0 +1,9 @@
+alias: q_opportunity_ask
+label: Opportunity ask
+name: What opportunities have you wanted but not named out loud?
+description: Drills into the specific opportunities he has not been explicit about so aspiration becomes concrete.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,120 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_independence_support",
+    "label": "Independence support",
+    "name": "What support from me would help you ship with less second-guessing?",
+    "description": "Surfaces the manager touchpoint that would reduce reassurance dependence over the next two weeks.",
+    "purpose": "topic",
+    "stage": "connection",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 1
+    },
+    "source": "generated"
+  },
+  "answer": "If we define what good looks like for my next two tickets, I will feel much steadier.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "clarity": -1
+    },
+    "note": "Names a specific missing support — defining what good looks like on the next two tickets — which signals current clarity is lacking and confidence to act is dampened."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_focus_3",
+      "label": "Next focus",
+      "name": "Given what we covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_week_three_check_in_2",
+          "delta": -1,
+          "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_shipping_hesitation_2",
+          "delta": -3,
+          "answer_excerpt": "When feedback is specific and fast, I move much quicker."
+        },
+        {
+          "q": "q_fast_feedback",
+          "delta": -1,
+          "answer_excerpt": "I still feel fuzzy on where quality bars differ between quick fixes and core flows."
+        },
+        {
+          "q": "q_independence_support",
+          "delta": -1,
+          "answer_excerpt": "If we define what good looks like for my next two tickets, I will feel much steadier."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_week_three_check_in_2",
+          "delta": -1,
+          "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+        },
+        {
+          "q": "q_team_expectations_4",
+          "delta": -1,
+          "answer_excerpt": "Local setup is better now, but I still lose time when the design and API details do not match."
+        },
+        {
+          "q": "q_design_api_mismatch_4",
+          "delta": -3,
+          "answer_excerpt": "I am not always sure who should approve what before I push."
+        },
+        {
+          "q": "q_thread_follow_21",
+          "delta": -3,
+          "answer_excerpt": "I usually wait too long before asking because I want to solve things myself first."
+        },
+        {
+          "q": "q_shipping_hesitation_2",
+          "delta": -1,
+          "answer_excerpt": "When feedback is specific and fast, I move much quicker."
+        },
+        {
+          "q": "q_fast_feedback",
+          "delta": -3,
+          "answer_excerpt": "I still feel fuzzy on where quality bars differ between quick fixes and core flows."
+        },
+        {
+          "q": "q_quality_bars_gap",
+          "delta": -3,
+          "answer_excerpt": "Pairing once or twice a week would probably prevent me from getting stuck silently."
+        },
+        {
+          "q": "q_independence_support",
+          "delta": -1,
+          "answer_excerpt": "If we define what good looks like for my next two tickets, I will feel much steadier."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_shipping_hesitation_2",
+          "delta": -1,
+          "answer_excerpt": "When feedback is specific and fast, I move much quicker."
+        }
+      ]
+    }
+  }
+}

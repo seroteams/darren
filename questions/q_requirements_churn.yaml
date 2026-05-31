@@ -1,0 +1,10 @@
+alias: q_requirements_churn
+label: Requirements churn
+name: What part of the shifting requirements has been hardest to work with?
+description: Separates the churn itself from decision ownership or tradeoff problems.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

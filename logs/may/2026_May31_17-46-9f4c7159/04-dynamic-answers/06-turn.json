@@ -1,0 +1,114 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_sharper_feedback_3",
+    "label": "Sharper feedback",
+    "name": "Sharper feedback earlier — what are you usually waiting for before you ask?",
+    "description": "Drills into his stated hesitation to surface the decision rule or caution behind delayed feedback-seeking.",
+    "purpose": "competency",
+    "stage": "evidence",
+    "axis_effects": {
+      "clarity": 1,
+      "wellbeing": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I have not built enough trust with adjacent teams yet.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "He names low trust with adjacent teams as the reason he delays asking early, signaling mild misalignment risk and some drag from caution; [THREAD-DEFERRED] 'trust with adjacent teams' could be worth picking up next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_perf_03_gap",
+      "label": "Gap awareness",
+      "name": "Where do you think you've fallen short of where you want to be?"
+    },
+    {
+      "alias": "q_questioning_cadence",
+      "label": "Questioning cadence",
+      "name": "What tends to stop you from asking a question early?"
+    },
+    {
+      "alias": "q_next_signal",
+      "label": "Next signal",
+      "name": "What would you want me to see differently by our next check-in?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_being_safe",
+          "delta": -1,
+          "answer_excerpt": "I probably should ask for sharper feedback earlier than I do."
+        },
+        {
+          "q": "q_sharper_feedback_3",
+          "delta": -1,
+          "answer_excerpt": "I have not built enough trust with adjacent teams yet."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_visible_leverage_2",
+          "delta": -1,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_highest_leverage_work_3",
+          "delta": -3,
+          "answer_excerpt": "I can describe Principal impact in general, but this team's bar still feels fuzzy."
+        },
+        {
+          "q": "q_thread_follow_2",
+          "delta": -3,
+          "answer_excerpt": "I have mostly stayed in my lane instead of forcing cross-team decisions."
+        },
+        {
+          "q": "q_visible_leverage_2",
+          "delta": -1,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        },
+        {
+          "q": "q_being_safe",
+          "delta": -1,
+          "answer_excerpt": "I probably should ask for sharper feedback earlier than I do."
+        },
+        {
+          "q": "q_sharper_feedback_3",
+          "delta": -1,
+          "answer_excerpt": "I have not built enough trust with adjacent teams yet."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

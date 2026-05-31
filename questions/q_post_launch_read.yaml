@@ -1,0 +1,10 @@
+alias: q_post_launch_read
+label: Post-launch read
+name: "Since Monday, what's felt different in your day-to-day?"
+description: Surfaces whether the quieter week is normal post-launch recovery or something more persistent.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

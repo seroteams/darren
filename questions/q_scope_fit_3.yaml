@@ -1,0 +1,10 @@
+alias: q_scope_fit_3
+label: Scope fit
+name: Where does your current scope feel like the best fit for how you want to spend your time?
+description: Explores whether the current shape of work still matches her preferences and energy.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

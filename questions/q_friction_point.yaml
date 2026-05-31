@@ -1,0 +1,10 @@
+alias: q_friction_point
+label: Friction point
+name: Where did cross-functional friction slow you down most this quarter?
+description: Identifies the specific collaboration point where execution met resistance.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

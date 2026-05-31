@@ -1,0 +1,10 @@
+alias: q_growth_blocker_2
+label: Growth blocker
+name: What is the main thing that is slowing your growth right now?
+description: Identifies the bottleneck he experiences so the next development focus can be practical.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,51 @@
+{
+  "headline": "Test’s 1:1 answers were all skipped, so this is a partial read driven by missing signal rather than a verdict on wellbeing, engagement, clarity, or growth.",
+  "summary_bullets": [
+    "Every prompt received a skipped response, so there’s no observable signal on pace, friction, priorities, or momentum.",
+    "The conversation never reached the manager-support or next-two-weeks focus points, leaving the core action loop unclosed.",
+    "With no content from Test, clarity and growth stayed at seed/neutral scores, which is “no signal,” not “stable.”"
+  ],
+  "understanding_paragraph": "We didn’t learn anything specific about Test’s current workload, energy, blockers, or priorities because every question was skipped. The session produced no new information on how Test experiences the work or what support would help. The only reliable takeaway is that communication during this check-in failed to surface signal.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -1,
+      "meaning": "Weak signal, not actionable on its own; the check-in provided no energy/pace data from Test."
+    },
+    {
+      "id": "engagement",
+      "score": -1,
+      "meaning": "Weak signal, not actionable on its own; there was no ownership or motivation content to evaluate."
+    },
+    {
+      "id": "clarity",
+      "score": 0,
+      "meaning": "No signal on priorities or expectations; the conversation never captured what Test would drop or keep."
+    },
+    {
+      "id": "growth",
+      "score": 0,
+      "meaning": "No signal on stretch or learning; no feedback loops or growth direction were discussed."
+    }
+  ],
+  "brutal_truth_employee": "Test skipped every question, including “What would make this quarter clearly successful for you — in one sentence?” That means there is zero direct signal about what’s hard, what’s working, or what support is needed. Treat this as a communication failure, not as “everything’s fine.”",
+  "brutal_truth_manager": "All nine prompts were skipped, so the conversation never got to actionable topics like “blockers and dependencies” or “what would make the next two weeks lighter or sharper.” The moment to change course was the first skipped answer—push for a minimal-choice response (pick 1–2 items, or reschedule immediately) instead of continuing the same structure.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Email Test with two multiple-choice options for the next two weeks (top priority vs top risk) and ask for a 3-bullet reply."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 15-minute follow-up with Test and start with: “What’s one thing to drop and one thing to protect?”"
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-run the check-in using forced prompts: pace (high/medium/low), blocker (none/one/urgent), and success sentence; stop after each gets an answer."
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Test skips again or replies with only short fragments, treat it as a real engagement/communication issue and escalate the format change immediately.",
+    "Within two weeks: if you still can’t identify one priority and one blocker from Test, assume the work alignment loop is broken and schedule a targeted working session."
+  ]
+}

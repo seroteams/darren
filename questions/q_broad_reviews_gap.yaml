@@ -1,0 +1,9 @@
+alias: q_broad_reviews_gap
+label: Broad reviews gap
+name: When feedback is broad, what kind of direction is missing most?
+description: Names the specific gap inside review feedback before moving on in the arc.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

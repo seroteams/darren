@@ -1,0 +1,10 @@
+alias: q_mentor_support
+label: Mentor support
+name: What would you need from me to make mentoring real?
+description: Surfaces the support, constraint, or permission needed to restart the mentoring thread.
+purpose: competency
+stage: lift
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

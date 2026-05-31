@@ -1,0 +1,9 @@
+alias: q_ask_threshold
+label: Ask threshold
+name: "What tells you it's time to ask instead of keep pushing alone?"
+description: Clarifies his decision rule for when to seek help so the manager can make expectations explicit.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

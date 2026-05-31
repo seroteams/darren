@@ -1,0 +1,10 @@
+alias: q_visibility_pattern
+label: Visibility pattern
+name: What part of your visibility feels least consistent right now?
+description: Explores whether the issue is exposure, messaging, or follow-through without diagnosing it upfront.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

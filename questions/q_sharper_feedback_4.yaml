@@ -1,0 +1,9 @@
+alias: q_sharper_feedback_4
+label: Sharper feedback
+name: What makes you wait to ask for sharper feedback?
+description: Drills into the specific hesitation he named before moving on, to surface the driver behind the delay.
+purpose: competency
+stage: evidence
+axis_effects:
+  engagement: +3
+source: planner_added

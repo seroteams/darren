@@ -1,0 +1,10 @@
+alias: q_what_to_stop
+label: What to stop
+name: What should we stop doing to keep this pace sustainable?
+description: Forces a trade-off and identifies work that is no longer worth the cost.
+purpose: topic
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +3
+source: generated

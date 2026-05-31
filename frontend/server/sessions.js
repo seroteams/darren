@@ -88,6 +88,8 @@ function snapshot(s) {
     axes: summarizeAxes(s.axisState),
     briefing: s.briefing,
     notes: s.notes || [],
+    createdAt: s.createdAt,
+    completedAt: s.completedAt ?? null,
   };
 }
 

@@ -1,0 +1,10 @@
+alias: q_done_means_what
+label: Done means what
+name: "What does 'done' mean to you on a ticket right now?"
+description: Checks whether Sam has a usable internal bar for shipping and review.
+purpose: competency
+stage: orientation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

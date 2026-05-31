@@ -1,0 +1,212 @@
+{
+  "ctx": {
+    "name": "Ahmed",
+    "role": "Head of Product",
+    "seniority": "Senior",
+    "meetingType": "Growth & career plan",
+    "notes": "Ahmed talks about senior scope but often redirects into tactical delivery details. I want to understand whether this is temporary pressure or a deeper confidence gap around visibility and influence at his level. This growth conversation should surface how he defines the next-level role, what stakeholder trust gaps he sees, and where he is still operating as an individual executor. I need him to leave with a concrete growth path tied to strategic ownership, not another vague list of good habits."
+  },
+  "focusPoints": [
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "What the next-level scope actually means",
+      "reason": "What Ahmed thinks “senior” should look like in practice, and where he’s currently measuring himself against that bar, could be the core gap worth clarifying.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Stakeholder trust gaps and visibility needs",
+      "reason": "Whether his stakeholder trust is strong enough to move decisions without pulling in tactical details, or whether he’s missing visibility/influence at his level, is worth unpacking explicitly.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "ownership",
+      "type": "Ownership",
+      "category": "competency",
+      "label": "Strategic ownership vs individual executor mode",
+      "reason": "What Ahmed is treating as “his” work end-to-end versus what he’s still executing personally could be the difference between a temporary pressure response and a deeper confidence gap.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "A concrete next-step growth path",
+      "reason": "What a Head of Product needs from a Growth & career plan is a specific, strategic set of outcomes to own next—so the conversation turns into a measurable path, not a vague list of habits.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "question": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+      "alias": "q_intro_growth_blockers",
+      "answer": "I know I want bigger scope, but I still spend too much time in execution details.",
+      "skipped": false
+    },
+    {
+      "question": "Which execution details are still taking too much of your time?",
+      "alias": "q_execution_details_5",
+      "answer": "When conversations get political, I tend to retreat to what I can deliver directly.",
+      "skipped": false
+    },
+    {
+      "question": "In those political conversations, what feels hardest to navigate?",
+      "alias": "q_political_conversations_6",
+      "answer": "I can run projects, but shaping cross-org alignment is where I hesitate.",
+      "skipped": false
+    },
+    {
+      "question": "Which part of your current work is actually stretching you right now?",
+      "alias": "q_intro_growth_stretch",
+      "answer": "Part of it is confidence, I do not want to look unprepared in senior forums.",
+      "skipped": false
+    },
+    {
+      "question": "In senior forums, what makes you feel most unprepared?",
+      "alias": "q_senior_forums_5",
+      "answer": "I also have not been explicit enough about what opportunities I want.",
+      "skipped": false
+    },
+    {
+      "question": "What opportunities have you not been explicit about wanting?",
+      "alias": "q_wanted_opportunities_4",
+      "answer": "To grow, I need to own a strategic bet with visible stakeholders.",
+      "skipped": false
+    },
+    {
+      "question": "When you imagine yourself eighteen months from now, what's actually different?",
+      "alias": "q_intro_growth_direction",
+      "answer": "I should delegate more of the hands-on work to create room for that.",
+      "skipped": false
+    },
+    {
+      "question": "What are you still carrying personally that should live with the team?",
+      "alias": "q_ownership_boundary",
+      "answer": "A clear growth contract with milestones would keep me accountable.",
+      "skipped": false
+    },
+    {
+      "question": "What is the first shift you want to make before we meet again?",
+      "alias": "q_first_growth_move_3",
+      "answer": "I want to own one strategic bet end-to-end and set a milestone check-in with stakeholders in two weeks.",
+      "skipped": false
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_wanted_opportunities_4",
+          "delta": 1,
+          "answer_excerpt": "To grow, I need to own a strategic bet with visible stakeholders."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "I should delegate more of the hands-on work to create room for that."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "Part of it is confidence, I do not want to look unprepared in senior forums."
+        },
+        {
+          "q": "q_senior_forums_5",
+          "delta": -1,
+          "answer_excerpt": "I also have not been explicit enough about what opportunities I want."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "I should delegate more of the hands-on work to create room for that."
+        },
+        {
+          "q": "q_ownership_boundary",
+          "delta": -1,
+          "answer_excerpt": "A clear growth contract with milestones would keep me accountable."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_execution_details_5",
+          "delta": -3,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        },
+        {
+          "q": "q_political_conversations_6",
+          "delta": -3,
+          "answer_excerpt": "I can run projects, but shaping cross-org alignment is where I hesitate."
+        },
+        {
+          "q": "q_ownership_boundary",
+          "delta": -3,
+          "answer_excerpt": "A clear growth contract with milestones would keep me accountable."
+        },
+        {
+          "q": "q_first_growth_move_3",
+          "delta": 1,
+          "answer_excerpt": "I want to own one strategic bet end-to-end and set a milestone check-in with stakeholders in two weeks."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "Part of it is confidence, I do not want to look unprepared in senior forums."
+        },
+        {
+          "q": "q_senior_forums_5",
+          "delta": -1,
+          "answer_excerpt": "I also have not been explicit enough about what opportunities I want."
+        },
+        {
+          "q": "q_wanted_opportunities_4",
+          "delta": 3,
+          "answer_excerpt": "To grow, I need to own a strategic bet with visible stakeholders."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "I should delegate more of the hands-on work to create room for that."
+        },
+        {
+          "q": "q_first_growth_move_3",
+          "delta": 1,
+          "answer_excerpt": "I want to own one strategic bet end-to-end and set a milestone check-in with stakeholders in two weeks."
+        }
+      ]
+    }
+  },
+  "notes": "Ahmed talks about senior scope but often redirects into tactical delivery details. I want to understand whether this is temporary pressure or a deeper confidence gap around visibility and influence at his level. This growth conversation should surface how he defines the next-level role, what stakeholder trust gaps he sees, and where he is still operating as an individual executor. I need him to leave with a concrete growth path tied to strategic ownership, not another vague list of good habits.",
+  "model": "gpt-5.4-nano"
+}

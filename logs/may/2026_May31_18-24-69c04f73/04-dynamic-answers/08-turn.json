@@ -1,0 +1,48 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_reset_timing_3",
+    "label": "Reset timing",
+    "name": "Is now a good time for this conversation, or should we reschedule?",
+    "description": "Direct reset to confirm whether to continue or stop a non-functional session.",
+    "purpose": "wellbeing",
+    "stage": "lift",
+    "axis_effects": {
+      "wellbeing": 1,
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "(skipped)",
+  "skipped": true,
+  "assessment": {
+    "deltas": {},
+    "note": "Skip on a direct reset confirms the session is non-functional; no signal on wellbeing or clarity. [SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]"
+  },
+  "new_queue": [
+    {
+      "alias": "q_sharper_next_step",
+      "label": "Sharper next step",
+      "name": "What would make the next two weeks feel steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

@@ -1,0 +1,10 @@
+alias: q_delegation_pattern
+label: Delegation pattern
+name: Where are you still the default executor when you want to be driving through others?
+description: Tests the executor-to-leverage shift and reveals which work he still retains by habit or comfort.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

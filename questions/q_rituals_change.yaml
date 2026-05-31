@@ -1,0 +1,10 @@
+alias: q_rituals_change
+label: Rituals change
+name: "I've noticed you've been less present in some team rituals since then — what's changed for you?"
+description: Uses an observable shift to invite his account without assuming the cause.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  engagement: +3
+  wellbeing: +1
+source: generated

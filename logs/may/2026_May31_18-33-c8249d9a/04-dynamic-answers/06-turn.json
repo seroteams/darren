@@ -1,0 +1,98 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_recognized_work_5",
+    "label": "Recognized work",
+    "name": "What kind of work do you think gets recognized here?",
+    "description": "Clarifies his model of what the organisation values so the underlying mismatch is more concrete.",
+    "purpose": "topic",
+    "stage": "underneath",
+    "axis_effects": {
+      "growth": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "I want clearer criteria, not reassurance.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -1
+    },
+    "note": "He names the absence of clear recognition criteria rather than reassurance, signaling a mild negative growth signal; also reveals a strong clarity issue, but clarity was off-signature."
+  },
+  "new_queue": [
+    {
+      "alias": "q_arrive_here",
+      "label": "Arrive here",
+      "name": "Before we go further, what feels most important to put on the table today?"
+    },
+    {
+      "alias": "q_support_needed_22",
+      "label": "Support needed",
+      "name": "What would help this feel more workable over the next couple of weeks?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_less_present_rituals_4",
+          "delta": -3,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_needed_to_change_4",
+          "delta": -3,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        },
+        {
+          "q": "q_decision_meaning_2",
+          "delta": -3,
+          "answer_excerpt": "Mentoring has been one place where I still feel useful."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_decision_meaning_2",
+          "delta": -1,
+          "answer_excerpt": "Mentoring has been one place where I still feel useful."
+        },
+        {
+          "q": "q_mentoring_useful_5",
+          "delta": -1,
+          "answer_excerpt": "I am not sure the work I am doing is the work that gets recognized."
+        },
+        {
+          "q": "q_recognized_work_5",
+          "delta": -1,
+          "answer_excerpt": "I want clearer criteria, not reassurance."
+        }
+      ]
+    }
+  }
+}

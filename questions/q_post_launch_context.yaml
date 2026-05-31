@@ -1,0 +1,10 @@
+alias: q_post_launch_context
+label: Post-launch context
+name: Before we get into specifics, what’s been most on your mind since the feature shipped?
+description: Lets Priya set the frame after launch without presuming a problem.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

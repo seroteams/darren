@@ -1,0 +1,10 @@
+alias: q_load_after_push
+label: Load after push
+name: Now that the sprint pressure has eased, where is your load actually sitting?
+description: Separates a temporary push from a continuing capacity problem without assuming burnout.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

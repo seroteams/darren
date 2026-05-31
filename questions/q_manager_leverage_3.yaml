@@ -1,0 +1,10 @@
+alias: q_manager_leverage_3
+label: Manager leverage
+name: What would you want more of from me to make your next step feel more concrete?
+description: Finds the specific kind of manager support that would turn ambition into an executable plan.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

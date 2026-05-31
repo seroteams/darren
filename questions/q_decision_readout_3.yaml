@@ -1,0 +1,10 @@
+alias: q_decision_readout_3
+label: Decision readout
+name: "What did you take from last cycle's decision?"
+description: Checks whether she got a concrete interpretation of the pass-over and what meaning she made of it.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Performance & feedback",
+  "focus_points": [
+    {
+      "id": "quality",
+      "label": "Concrete quality bar and what 'good' means",
+      "reason": "What 'good' looks like in his day-to-day brand design work, so feedback isn’t abstract or subjective.",
+      "source": "best_practice"
+    },
+    {
+      "id": "feedback",
+      "label": "Whether prior feedback changed his behavior",
+      "reason": "Manager wants to know if earlier feedback translated into observable behavior changes or stayed at the level of general advice.",
+      "source": "signal"
+    },
+    {
+      "id": "role_clarity",
+      "label": "How he defines good work right now",
+      "reason": "What he thinks is expected of a junior brand designer today, so you can calibrate expectations together.",
+      "source": "signal"
+    },
+    {
+      "id": "growth",
+      "label": "Growth blocks and the next practice focus",
+      "reason": "Where he feels blocked in growth, and which near-term development focus he can practice immediately.",
+      "source": "signal"
+    }
+  ]
+}

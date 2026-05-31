@@ -1,0 +1,10 @@
+alias: q_help_seeking_safety
+label: Help-seeking safety
+name: What makes it easiest or hardest to ask for help here?
+description: Explores whether he feels safe surfacing questions or blockers without making it a complaint.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_hidden_drag
+label: Hidden drag
+name: What’s taking more effort than it should right now?
+description: Surfaces friction the intro blocker scan may not catch, especially around load or process.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

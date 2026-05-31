@@ -1,0 +1,9 @@
+alias: q_sharper_feedback_5
+label: Sharper feedback
+name: Sharper feedback earlier — what stops you doing that in the moment?
+description: Drills into the immediate blocker behind delaying sharper feedback so the cause is explicit.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +3
+source: planner_added

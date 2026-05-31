@@ -1,0 +1,10 @@
+alias: q_scope_boundaries
+label: Scope boundaries
+name: Where does your current scope still feel too small for the role you want?
+description: Surfaces the boundary between his present remit and the next-level scope he has in mind.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

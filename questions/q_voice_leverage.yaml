@@ -1,0 +1,9 @@
+alias: q_voice_leverage
+label: Voice leverage
+name: "When you say 'where my voice has most leverage' — what feels unclear there?"
+description: Clarifies the specific uncertainty she named about where and how to contribute after the reorg.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

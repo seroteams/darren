@@ -97,17 +97,24 @@ A closer must:
 - Feel earned — reference the kind of thing this meeting type normally surfaces, not a generic sign-off.
 
 Acceptable closer patterns:
-- "What's the one thing you're taking away from today that you'll actually do differently?"
+- "What would make the next two weeks steadier for you?"
 - "What do you need from me before we next meet?"
-- "What's the first concrete thing you want to have moved by our next conversation?"
-- "Given what we've talked about, what's your priority for the next two weeks?"
+- "Given what we've covered, where do you want to focus first?"
+- "What support from me would make the biggest difference on that?"
+- "What's the piece of this you're most unsure about right now?"
 
 Forbidden closer patterns:
 - Opening a new concern: "I also want to ask about your communication with the team..."
 - Vague open-ended check-in: "How are you feeling about everything we discussed?"
+- Deliverable homework framing: "What's the first concrete thing you want to have moved by our next conversation?"
 - A full wellbeing or topic question that could run for 10 more minutes.
 
 The closer does not need `wellbeing`, `engagement`, or `clarity` axis effects. Use `growth` or `clarity` at low magnitude (delta `1`). The point is landing the session, not scoring a new axis.
+
+Type-specific closer examples:
+- Onboarding check-in: "What would make the next two weeks steadier for you?" / "Who else should you connect with this week?"
+- Something feels off: "What would help, if anything, right now?" / "Where do you want to focus first?"
+- Growth & career plan: "What would that next step look like in the next few weeks — and where would you start?"
 </closing_question_rule>
 
 <quality_rules>

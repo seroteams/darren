@@ -1,0 +1,212 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_biweekly_friction",
+      "label": "Friction scan",
+      "name": "What's been slower or harder than it should have been?",
+      "description": "Invites them to name blockers without framing it as complaint.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "seed"
+    },
+    "answer": "The push worked, but I do not want that pace to become normal.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "clarity": -1
+    },
+    "note": "She says the push succeeded but rejects that pace becoming normal, which signals strain around how work is being run and a mild pullback in willingness to sustain it."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_thread_follow_5",
+      "label": "Thread follow",
+      "name": "push worked, want — can you say more about what that means for you right now?",
+      "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1,
+        "engagement": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I am less overloaded now, but my calendar is still fragmented.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "clarity": -1
+    },
+    "note": "She reports less overload but a still-fragmented calendar, signalling mild ongoing friction in focus and momentum; also implies a wellbeing issue worth covering next."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_fragmented_calendar_3",
+      "label": "Fragmented calendar",
+      "name": "Calendar is still fragmented — what's breaking it up most?",
+      "description": "Drills into the specific source of fragmentation so the friction is concrete and actionable.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "A lot of energy went into firefighting and context switching.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1
+    },
+    "note": "She names reactive firefighting and context switching as the source of fragmentation, which signals mild lack of clarity in how work is being shaped."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?",
+      "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "I can ship quickly, but I do not always feel the impact is visible.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": -1
+    },
+    "note": "She can still deliver, but the lack of visible impact signals mild disengagement more than an energy problem."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_visible_impact_4",
+      "label": "Visible impact",
+      "name": "Impact not visible — where does that happen most right now?",
+      "description": "Drills into the specific place her work is not landing visibly before moving on.",
+      "purpose": "topic",
+      "stage": "pulse",
+      "axis_effects": {
+        "engagement": 1,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "Feedback on communication landed, and I am still processing it.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": -1
+    },
+    "note": "She surfaced a specific concern — communication feedback that is still sitting with her — which suggests the visibility issue is weighing on her and dampening momentum."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_communication_feedback_3",
+      "label": "Communication feedback",
+      "name": "Communication feedback — what about it are you still working through?",
+      "description": "Drills into the specific feedback thread she raised before moving the arc on.",
+      "purpose": "topic",
+      "stage": "pulse",
+      "axis_effects": {
+        "engagement": 1,
+        "wellbeing": 3,
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I want more room to lead cross-functional discussions earlier.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": 1,
+      "clarity": -1,
+      "growth": 3
+    },
+    "note": "She wants earlier cross-functional leadership room, which is a strong growth signal with some frustration about current influence and only mild residual strain. [THREAD-DEFERRED] Earlier cross-functional discussions thread noted, but drill cap forces stage advance."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?",
+      "description": "Surfaces whether priorities are crisp or vague; whether they match what you thought.",
+      "purpose": "clarity",
+      "stage": "momentum",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1,
+        "growth": 3
+      },
+      "source": "seed"
+    },
+    "answer": "The next two weeks should focus on stabilizing and reducing reactive work.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "clarity": 3,
+      "growth": 1
+    },
+    "note": "She named a concrete near-term focus—stabilizing and reducing reactive work—which signals clear priorities and some forward intent; [THREAD-DEFERRED-WINDDOWN] 'stabilizing and reducing reactive work' could be unpacked next session."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_next_two_weeks_17",
+      "label": "Next two weeks",
+      "name": "What would make the next two weeks feel steadier for you?",
+      "description": "Closes by turning the conversation into practical adjustments and support.",
+      "purpose": "wellbeing",
+      "stage": "lift",
+      "axis_effects": {
+        "wellbeing": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "Clear priority tradeoffs from leadership would help a lot.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "Names a missing condition for steadier work — clear priority tradeoffs from leadership — which signals mild strain and reduced clarity."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_influence_bottleneck_2",
+      "label": "Influence bottleneck",
+      "name": "What tends to slow decisions down when you need buy-in?",
+      "description": "Pinpoints the recurring dependency or interface problem that limits her influence.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    "answer": "I want to pick one priority tradeoff to resolve with leadership before the next two weeks get noisier.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "clarity": -1
+    },
+    "note": "She names a specific unresolved priority tradeoff with leadership, signaling some clarity friction alongside proactive ownership."
+  }
+]

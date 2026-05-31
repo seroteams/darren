@@ -1,0 +1,10 @@
+alias: q_practice_focus_2
+label: Practice focus
+name: What one design habit do you want to practice over the next few weeks?
+description: Moves from diagnosis to a near-term development focus he can actually rehearse.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

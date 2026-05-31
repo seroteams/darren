@@ -1,0 +1,10 @@
+alias: q_decision_framing
+label: Decision framing
+name: What tends to get lost when you brief execs on a product decision?
+description: Surfaces weaknesses in narrative clarity, tradeoff framing, or the level of detail he defaults to.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

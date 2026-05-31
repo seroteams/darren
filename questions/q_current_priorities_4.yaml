@@ -1,0 +1,10 @@
+alias: q_current_priorities_4
+label: Current priorities
+name: What feels most important for you to get right in this role right now, Tom?
+description: Surfaces his current internal map of what Principal scope means on this team.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

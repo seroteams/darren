@@ -1,0 +1,95 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_mentoring_useful_6",
+    "label": "Mentoring useful",
+    "name": "What makes mentoring feel useful for you right now?",
+    "description": "Drills into why mentoring still feels worthwhile and what need it is meeting.",
+    "purpose": "topic",
+    "stage": "underneath",
+    "axis_effects": {
+      "growth": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I am not sure the work I am doing is the work that gets recognized.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "growth": -3
+    },
+    "note": "He named a recognition gap — uncertainty that his current work is the work that gets recognized — which is a strong growth deficit signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_thread_follow_31",
+      "label": "Thread follow",
+      "name": "sure work doing — can you say more about what that means for you right now?"
+    },
+    {
+      "alias": "q_next_step_picture",
+      "label": "Next-step picture",
+      "name": "What concrete path forward feels real to you right now?"
+    },
+    {
+      "alias": "q_support_needed_24",
+      "label": "Support needed",
+      "name": "What would help make the next couple of weeks steadier for you?"
+    }
+  ],
+  "issues": [
+    "runtime: injected thread-follow question"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_what_landed_3",
+          "delta": 1,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_what_landed_3",
+          "delta": -1,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        },
+        {
+          "q": "q_thread_follow_30",
+          "delta": 1,
+          "answer_excerpt": "Mentoring has been one place where I still feel useful."
+        },
+        {
+          "q": "q_mentoring_useful_6",
+          "delta": -3,
+          "answer_excerpt": "I am not sure the work I am doing is the work that gets recognized."
+        }
+      ]
+    }
+  }
+}

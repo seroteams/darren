@@ -1,0 +1,55 @@
+{
+  "name": "Tom",
+  "roleTitle": "Principal Backend Engineer",
+  "seniority": "Principal",
+  "meetingType": "Performance & feedback",
+  "observedShift": "Tom moved teams recently and delivery is steady, but Principal-level impact is not visible yet. Previous feedback said he needs early expectation alignment, and he still asks very few questions. I want to test whether he understands what Principal scope means on this team or if he is still operating on old assumptions. I also need to understand whether cross-team trust and judgment calls are developing or whether he is staying in safe execution mode.",
+  "focusPoints": [
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Principal-level impact and leverage on this team",
+      "reason": "Whether his delivery is still steady but his Principal scope isn’t yet showing up in outcomes that move the business or team, which is worth clarifying with concrete examples from this cycle.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "Principal scope and expectations on this team",
+      "reason": "Previous feedback pointed to early expectation alignment, and his current pattern could be coming from old assumptions about what “Principal” means here—worth testing what he believes the bar is and how he’s applying it.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Cross-team trust and hard judgment calls",
+      "reason": "What you need to see at Principal level is whether he’s building trust beyond his immediate team and making the judgment calls that unblock others—rather than staying in safe execution.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "When he escalates and what he asks for",
+      "reason": "If he asks very few questions, the performance risk is that issues surface late or others don’t get the context they need; this is a useful feedback lens to understand whether his communication is proactive enough for Principal scope.",
+      "source": "signal",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "734426dc-8b14-4fdd-96d7-10d8c2bfd70b",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "listenFor may lack observable behavioural cue: \"whether he stays in execution details or asks clarifying que…\"",
+      "openingQuestion appears generic — should be specific to the selected concerns"
+    ]
+  },
+  "attempts": 2
+}

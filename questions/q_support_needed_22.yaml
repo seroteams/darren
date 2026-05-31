@@ -1,0 +1,10 @@
+alias: q_support_needed_22
+label: Support needed
+name: What would help this feel more workable over the next couple of weeks?
+description: Closes by moving toward concrete support or adjustments without opening a new thread.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

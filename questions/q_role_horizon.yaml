@@ -1,0 +1,10 @@
+alias: q_role_horizon
+label: Role horizon
+name: What scope do you want your work to have over the next year?
+description: Clarifies the scale and shape of the work she is aiming toward.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

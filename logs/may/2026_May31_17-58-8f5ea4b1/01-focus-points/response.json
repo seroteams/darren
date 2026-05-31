@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Onboarding check-in",
+  "focus_points": [
+    {
+      "id": "team_connection",
+      "label": "How he's landing with the team day-to-day.",
+      "reason": "In week two, the notes say he’s learned mostly from docs and async notes rather than direct team contact. One possibility is he’s moving fast but missing the “how we actually operate” texture that only shows up in conversations, so it’s worth clarifying what contact he’s getting and what he’s still not hearing.",
+      "source": "signal"
+    },
+    {
+      "id": "role_clarity",
+      "label": "Ownership boundaries and what 'good' looks like.",
+      "reason": "The notes explicitly call out checking ownership boundaries and where to ask for context before making architecture assumptions. Whether his scope is clear enough to avoid accidental overreach or under-ownership is something onboarding should make concrete early.",
+      "source": "signal"
+    },
+    {
+      "id": "blockers",
+      "label": "Where he should ask for context early.",
+      "reason": "The onboarding risk described is that he could build an internal map that differs from how the team actually operates. This is often a dependency on timely context (people, decisions, norms), so it’s worth identifying the specific moments where he’s unsure and what inputs would unblock him.",
+      "source": "signal"
+    },
+    {
+      "id": "manager_support",
+      "label": "Onboarding support you can give this month.",
+      "reason": "What he wants from you that he hasn’t asked for yet is the fastest way to convert “moving quickly” into “moving correctly.” For an onboarding check-in, it’s the right place to turn missing context into concrete support (who to pair with, what to read, and how incident expectations work).",
+      "source": "best_practice"
+    }
+  ]
+}

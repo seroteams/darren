@@ -1,0 +1,116 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_senior_forums_5",
+    "label": "Senior forums",
+    "name": "In senior forums, what makes you feel most unprepared?",
+    "description": "Drills into the confidence thread to surface the specific gap underneath his hesitation.",
+    "purpose": "topic",
+    "stage": "anchor",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I also have not been explicit enough about what opportunities I want.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "growth": -1
+    },
+    "note": "He names a specific self-limiting pattern — not being explicit about desired opportunities — which signals mild growth and engagement drag; this also hints at a clarity issue off-signature."
+  },
+  "new_queue": [
+    {
+      "alias": "q_wanted_opportunities_4",
+      "label": "Wanted opportunities",
+      "name": "What opportunities have you not been explicit about wanting?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_next_level_meaning_2",
+      "label": "Next-level meaning",
+      "name": "What does senior scope mean to you in practice?"
+    },
+    {
+      "alias": "q_ownership_boundary",
+      "label": "Ownership boundary",
+      "name": "What are you still carrying personally that should live with the team?"
+    },
+    {
+      "alias": "q_first_growth_move_3",
+      "label": "First growth move",
+      "name": "What is the first shift you want to make before we meet again?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 5)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "Part of it is confidence, I do not want to look unprepared in senior forums."
+        },
+        {
+          "q": "q_senior_forums_5",
+          "delta": -1,
+          "answer_excerpt": "I also have not been explicit enough about what opportunities I want."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_execution_details_5",
+          "delta": -3,
+          "answer_excerpt": "When conversations get political, I tend to retreat to what I can deliver directly."
+        },
+        {
+          "q": "q_political_conversations_6",
+          "delta": -3,
+          "answer_excerpt": "I can run projects, but shaping cross-org alignment is where I hesitate."
+        }
+      ]
+    },
+    "growth": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "Part of it is confidence, I do not want to look unprepared in senior forums."
+        },
+        {
+          "q": "q_senior_forums_5",
+          "delta": -1,
+          "answer_excerpt": "I also have not been explicit enough about what opportunities I want."
+        }
+      ]
+    }
+  }
+}

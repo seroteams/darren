@@ -85,6 +85,8 @@ export async function rehydrateById(id) {
       briefing: snap.briefing || null,
       notes: snap.notes || [],
       sessionDir: snap.sessionDir || null,
+      createdAt: snap.createdAt ?? null,
+      completedAt: snap.completedAt ?? snap.briefing?.completedAt ?? null,
     });
     return true;
   } catch (e) {

@@ -1,0 +1,9 @@
+alias: q_design_api_mismatch_5
+label: Design API mismatch
+name: When design and API details do not match, what is usually unclear first?
+description: Drills into the mismatch he named so the manager can identify the exact ambiguity to remove.
+purpose: topic
+stage: settling
+axis_effects:
+  clarity: +1
+source: planner_added

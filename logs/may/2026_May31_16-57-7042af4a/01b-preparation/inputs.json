@@ -1,0 +1,54 @@
+{
+  "name": "Sam",
+  "roleTitle": "Frontend Engineer",
+  "seniority": "Junior",
+  "meetingType": "Onboarding check-in",
+  "observedShift": "Sam is in week three and has started picking up real tickets, but he still hesitates before shipping and asks for reassurance late. I need to understand whether this is a normal confidence dip or a tooling and expectation gap we can fix quickly. I also want clarity on where onboarding handoffs are still fuzzy so he is not quietly compensating. This should stay practical and supportive: map what is unclear, unblock him, and line up the right support touchpoints for the next two weeks.",
+  "focusPoints": [
+    {
+      "id": "reliability",
+      "type": "Reliability",
+      "category": "competency",
+      "label": "Shipping confidence and commitment timing.",
+      "reason": "Sam hesitates before shipping and asks for reassurance late. Could be a normal confidence dip in week three, or a tooling/expectation gap about what “ready” means—worth clarifying what specifically triggers the delay.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Onboarding handoffs that still feel fuzzy.",
+      "reason": "Notes point to unclear onboarding handoffs that Sam might be compensating for. One possibility is missing context at the boundaries; worth mapping which handoffs are unclear and what decision or artifact he’s waiting on.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Support touchpoints for the next two weeks.",
+      "reason": "What he would want more of from you during onboarding is a concrete, lightweight support rhythm (who to ask, when to ask, and what “done enough to ship” looks like) so he doesn’t burn time seeking reassurance late.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "communication",
+      "type": "Communication",
+      "category": "competency",
+      "label": "Asking for help earlier, with the right context.",
+      "reason": "How he communicates when he’s stuck is a fast onboarding lever for juniors—getting him to share what he tried, what looks uncertain, and what decision he needs can reduce late reassurance requests without lowering quality.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "80c9b515-4b6c-4a34-9e22-37d6a702da60",
+  "validation": {
+    "passed": false,
+    "issues": [
+      "listenFor may lack observable behavioural cue: \"if they can point to one onboarding handoff or artifact that…\""
+    ]
+  },
+  "attempts": 2
+}

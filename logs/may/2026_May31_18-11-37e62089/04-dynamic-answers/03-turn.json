@@ -1,0 +1,96 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_needed_to_change_3",
+    "label": "Needed to change",
+    "name": "When you say 'what needed to change' — what felt unclear to you?",
+    "description": "Clarifies the specific expectations gap he named after the promotion decision.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I stayed focused on delivery because that felt controllable.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -3
+    },
+    "note": "He narrowed his response to controllable delivery work, which signals strong disengagement from the broader question of what to change; [THREAD-DEFERRED] 'delivery because that felt controllable' could be worth unpacking next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_feedback_he_got",
+      "label": "Feedback he got",
+      "name": "What feedback do you remember actually hearing from that process?"
+    },
+    {
+      "alias": "q_feedback_that_stuck",
+      "label": "Feedback that stuck",
+      "name": "What part of that feedback has stayed with you?"
+    },
+    {
+      "alias": "q_mentoring_fit_3",
+      "label": "Mentoring fit",
+      "name": "What is mentoring giving you that your core product work is not?"
+    },
+    {
+      "alias": "q_concrete_path",
+      "label": "Concrete path",
+      "name": "What concrete path forward feels real to you right now?"
+    },
+    {
+      "alias": "q_next_step_from_me",
+      "label": "Next step from me",
+      "name": "What do you need from me to make the next couple of weeks steadier?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_less_present_rituals_3",
+          "delta": -3,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        },
+        {
+          "q": "q_needed_to_change_3",
+          "delta": -3,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

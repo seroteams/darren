@@ -250,6 +250,22 @@ No confidence beyond the evidence.
 - Seniority: {{SENIORITY}}
 - Meeting type: {{MEETING_TYPE}}
 
+**Tone register for this meeting type:**
+
+{{TONE_REGISTER}}
+
+**Anti-patterns for this meeting type (do not write briefing copy that violates these):**
+
+```json
+{{ANTI_PATTERNS_JSON}}
+```
+
+**Meeting arc (for context on what this conversation should have covered):**
+
+```json
+{{MEETING_ARC_JSON}}
+```
+
 **Manager's original notes:**
 
 ```

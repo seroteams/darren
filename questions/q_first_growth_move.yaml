@@ -1,0 +1,10 @@
+alias: q_first_growth_move
+label: First growth move
+name: Given what we’ve covered, what do you want to change first?
+description: Closes the conversation by turning the discussion into one concrete next move.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

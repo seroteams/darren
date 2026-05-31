@@ -1,0 +1,9 @@
+alias: q_mentoring_stretch
+label: Mentoring stretch
+name: Mentoring matters to you — what about it feels stretching?
+description: Drills into mentoring to see whether it is genuine stretch, energy, or a proxy for something missing.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

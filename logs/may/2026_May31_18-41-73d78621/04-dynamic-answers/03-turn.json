@@ -1,0 +1,102 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_what_landed_3",
+    "label": "What landed",
+    "name": "What part of the feedback from that decision actually landed with you?",
+    "description": "Surfaces what he absorbed versus what may have bounced off or been misunderstood.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "clarity": 3,
+      "growth": 1
+    },
+    "source": "generated"
+  },
+  "answer": "I stayed focused on delivery because that felt controllable.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": 1,
+      "growth": -1
+    },
+    "note": "He signaled a controllable-focus response to the promotion feedback, which suggests some clarity but also a growth stall around avoiding less controllable work."
+  },
+  "new_queue": [
+    {
+      "alias": "q_thread_follow_30",
+      "label": "Thread follow",
+      "name": "stayed focused delivery — can you say more about what that means for you right now?"
+    },
+    {
+      "alias": "q_unsaid_reaction",
+      "label": "Unsaid reaction",
+      "name": "What did you choose not to say after that decision?"
+    },
+    {
+      "alias": "q_next_step_picture",
+      "label": "Next-step picture",
+      "name": "What concrete path forward feels real to you right now?"
+    },
+    {
+      "alias": "q_mentoring_shape_8",
+      "label": "Mentoring shape",
+      "name": "What is the mentoring program taking space for in your week?"
+    },
+    {
+      "alias": "q_core_path_tradeoff",
+      "label": "Core path tradeoff",
+      "name": "What are you choosing not to spend time on because of the mentoring program?"
+    },
+    {
+      "alias": "q_support_needed_24",
+      "label": "Support needed",
+      "name": "What would help make the next couple of weeks steadier for you?"
+    }
+  ],
+  "issues": [
+    "runtime: injected thread-follow question"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_what_landed_3",
+          "delta": 1,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_what_landed_3",
+          "delta": -1,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        }
+      ]
+    }
+  }
+}

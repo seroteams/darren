@@ -1,0 +1,10 @@
+alias: q_hardest_ask
+label: Hardest ask
+name: What feels hardest to raise early with the team?
+description: Explores whether he feels safe asking for help before issues compound.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

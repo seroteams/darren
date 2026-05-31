@@ -1,0 +1,10 @@
+alias: q_decision_lag
+label: Decision lag
+name: What decision are you waiting on that is slowing things down?
+description: Finds dependency risk and whether progress is being held up by external calls.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

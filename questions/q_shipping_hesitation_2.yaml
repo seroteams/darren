@@ -1,0 +1,10 @@
+alias: q_shipping_hesitation_2
+label: Shipping hesitation
+name: What usually makes you pause before shipping?
+description: Distinguishes confidence, tooling, and process reasons behind late reassurance-seeking.
+purpose: competency
+stage: blockers
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

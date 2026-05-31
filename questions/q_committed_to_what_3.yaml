@@ -1,0 +1,9 @@
+alias: q_committed_to_what_3
+label: Committed to what
+name: What makes it hard to tell who committed to what in those conversations?
+description: Drills into the specific source of ambiguity in fast cross-team discussions so the manager can remove it.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

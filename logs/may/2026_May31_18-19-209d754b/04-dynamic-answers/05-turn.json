@@ -1,0 +1,109 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_shipping_hesitation_2",
+    "label": "Shipping hesitation",
+    "name": "What usually makes you pause before shipping?",
+    "description": "Distinguishes confidence, tooling, and process reasons behind late reassurance-seeking.",
+    "purpose": "competency",
+    "stage": "blockers",
+    "axis_effects": {
+      "growth": 1,
+      "clarity": 1,
+      "engagement": 3
+    },
+    "source": "generated"
+  },
+  "answer": "When feedback is specific and fast, I move much quicker.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -3,
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "Names a specific missing condition — fast, specific feedback — implying current hesitation is driven by low confidence and unclear expectations around shipping."
+  },
+  "new_queue": [
+    {
+      "alias": "q_fast_feedback",
+      "label": "Fast feedback",
+      "name": "What kind of feedback helps you move quicker here?"
+    },
+    {
+      "alias": "q_independence_support",
+      "label": "Independence support",
+      "name": "What support from me would help you ship with less second-guessing?"
+    },
+    {
+      "alias": "q_next_focus_3",
+      "label": "Next focus",
+      "name": "Given what we covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [
+    "coverage: injected engagement into next question (0 touches after turn 5)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_week_three_check_in_2",
+          "delta": -1,
+          "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_shipping_hesitation_2",
+          "delta": -3,
+          "answer_excerpt": "When feedback is specific and fast, I move much quicker."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_week_three_check_in_2",
+          "delta": -1,
+          "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+        },
+        {
+          "q": "q_team_expectations_4",
+          "delta": -1,
+          "answer_excerpt": "Local setup is better now, but I still lose time when the design and API details do not match."
+        },
+        {
+          "q": "q_design_api_mismatch_4",
+          "delta": -3,
+          "answer_excerpt": "I am not always sure who should approve what before I push."
+        },
+        {
+          "q": "q_thread_follow_21",
+          "delta": -3,
+          "answer_excerpt": "I usually wait too long before asking because I want to solve things myself first."
+        },
+        {
+          "q": "q_shipping_hesitation_2",
+          "delta": -1,
+          "answer_excerpt": "When feedback is specific and fast, I move much quicker."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_shipping_hesitation_2",
+          "delta": -1,
+          "answer_excerpt": "When feedback is specific and fast, I move much quicker."
+        }
+      ]
+    }
+  }
+}

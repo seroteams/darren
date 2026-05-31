@@ -1,0 +1,10 @@
+alias: q_what_s_on_your_mind_5
+label: "What's on your mind"
+name: "What's been most on your mind at work lately, Maria?"
+description: Safe opener that lets Maria set the frame before any growth topic is introduced.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

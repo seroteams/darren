@@ -1,0 +1,86 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_decision_bottlenecks_3",
+    "label": "Decision bottlenecks",
+    "name": "Where are those decision bottlenecks actually sitting?",
+    "description": "Drills into the specific bottlenecks Lin is carrying so the friction is concrete.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "Some of that work could have moved to the team sooner.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1
+    },
+    "note": "He indicates work was held too centrally and could have moved sooner, a mild negative engagement signal; also points to delegation/growth territory. [THREAD-DEFERRED] 'could have moved to the team sooner' not drilled because drill cap requires stage advance."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_hand_off_friction",
+      "label": "Hand-off friction",
+      "name": "What makes it hard to hand more of this off?"
+    },
+    {
+      "alias": "q_load_relief",
+      "label": "Load relief",
+      "name": "What would make the next two weeks lighter for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The last stretch shipped, but it was heavier than I made it sound."
+        },
+        {
+          "q": "q_heavier_than_sounded_2",
+          "delta": -3,
+          "answer_excerpt": "Late nights came from carrying decision bottlenecks and final reviews."
+        },
+        {
+          "q": "q_decision_bottlenecks_3",
+          "delta": -1,
+          "answer_excerpt": "Some of that work could have moved to the team sooner."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The last stretch shipped, but it was heavier than I made it sound."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

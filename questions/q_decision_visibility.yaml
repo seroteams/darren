@@ -1,0 +1,10 @@
+alias: q_decision_visibility
+label: Decision visibility
+name: How visible are your tradeoffs to the people around you?
+description: Checks whether his judgment is legible to stakeholders or staying implicit.
+purpose: competency
+stage: cause
+axis_effects:
+  engagement: +1
+  clarity: +3
+source: generated

@@ -1,0 +1,9 @@
+alias: q_next_support_step
+label: Next support step
+name: What’s the first thing you want us to tighten up before we meet again?
+description: Turns the conversation into one concrete support action for the next cycle.
+purpose: topic
+stage: connection
+axis_effects:
+  clarity: +1
+source: generated

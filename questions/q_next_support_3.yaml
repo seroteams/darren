@@ -1,0 +1,10 @@
+alias: q_next_support_3
+label: Next support
+name: What support from me would help you move faster this fortnight?
+description: Closes on a concrete manager action for the next stretch of onboarding.
+purpose: topic
+stage: connection
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

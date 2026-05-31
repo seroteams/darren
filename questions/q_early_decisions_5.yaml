@@ -1,0 +1,9 @@
+alias: q_early_decisions_5
+label: Early decisions
+name: Where specifically are decisions getting made before you shape them?
+description: Pins the pattern to a concrete decision point before moving the arc forward.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

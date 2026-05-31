@@ -1,0 +1,10 @@
+alias: q_mentoring_shape_4
+label: Mentoring shape
+name: What would make the mentoring program feel like real growth work for you?
+description: Tests whether mentoring is strategically advancing her trajectory or just filling time.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

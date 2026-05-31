@@ -1,0 +1,87 @@
+{
+  "wellbeing": {
+    "score": -5,
+    "history": [
+      {
+        "q": "q_confidence_trigger",
+        "delta": -3,
+        "answer_excerpt": "Pairing once or twice a week would probably prevent me from getting stuck silently."
+      },
+      {
+        "q": "q_support_cadence",
+        "delta": -1,
+        "answer_excerpt": "If we define what good looks like for my next two tickets, I will feel much steadier."
+      }
+    ]
+  },
+  "engagement": {
+    "score": -1,
+    "history": [
+      {
+        "q": "q_ask_earlier",
+        "delta": 1,
+        "answer_excerpt": "When feedback is specific and fast, I move much quicker."
+      },
+      {
+        "q": "q_specific_and_fast",
+        "delta": -1,
+        "answer_excerpt": "I still feel fuzzy on where quality bars differ between quick fixes and core flows."
+      }
+    ]
+  },
+  "clarity": {
+    "score": -10,
+    "history": [
+      {
+        "q": "q_settling_check_in",
+        "delta": -1,
+        "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+      },
+      {
+        "q": "q_team_expectations",
+        "delta": -1,
+        "answer_excerpt": "Local setup is better now, but I still lose time when the design and API details do not match."
+      },
+      {
+        "q": "q_design_api_mismatch",
+        "delta": -1,
+        "answer_excerpt": "I am not always sure who should approve what before I push."
+      },
+      {
+        "q": "q_ticket_expectations",
+        "delta": -3,
+        "answer_excerpt": "I usually wait too long before asking because I want to solve things myself first."
+      },
+      {
+        "q": "q_ask_earlier",
+        "delta": -3,
+        "answer_excerpt": "When feedback is specific and fast, I move much quicker."
+      },
+      {
+        "q": "q_specific_and_fast",
+        "delta": -3,
+        "answer_excerpt": "I still feel fuzzy on where quality bars differ between quick fixes and core flows."
+      },
+      {
+        "q": "q_confidence_trigger",
+        "delta": -1,
+        "answer_excerpt": "Pairing once or twice a week would probably prevent me from getting stuck silently."
+      },
+      {
+        "q": "q_support_cadence",
+        "delta": -1,
+        "answer_excerpt": "If we define what good looks like for my next two tickets, I will feel much steadier."
+      }
+    ]
+  },
+  "growth": {
+    "score": -1,
+    "history": [
+      {
+        "q": "q_confidence_trigger",
+        "delta": -1,
+        "answer_excerpt": "Pairing once or twice a week would probably prevent me from getting stuck silently."
+      }
+    ]
+  }
+}

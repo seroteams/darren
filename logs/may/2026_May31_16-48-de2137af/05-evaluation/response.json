@@ -1,0 +1,51 @@
+{
+  "headline": "Maria’s clarity and growth are low because she still lacks specific scope and a decision path from last cycle.",
+  "summary_bullets": [
+    "Maria’s core blocker is feedback specificity: “The feedback was not specific enough” and “I want clearer scope.”",
+    "Her growth direction is fuzzy: “I do not know what would move the next decision,” so mentoring is currently stretching without a next-decision mechanism.",
+    "She’s disengaging from team rituals as a signal of misalignment: “I am less motivated in team rituals lately.”"
+  ],
+  "understanding_paragraph": "Maria is still processing last cycle and is not satisfied with the actionable detail she received. She cares about mentoring, but she can’t name what would change the next decision in her growth trajectory. Her lower motivation in team rituals reads like a response to unclear scope and unclear org-level impact path.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -2,
+      "meaning": "Weak signal of strain via reduced ritual motivation; worth watching over the next few weeks."
+    },
+    {
+      "id": "engagement",
+      "score": -1,
+      "meaning": "Slight disengagement pattern: she wants org-level impact and feels less motivated in rituals."
+    },
+    {
+      "id": "clarity",
+      "score": -7,
+      "meaning": "Defining signal: she lacks specific scope and actionable feedback from last cycle."
+    },
+    {
+      "id": "growth",
+      "score": -6,
+      "meaning": "Real pattern: she can’t identify what would move the next decision, so growth lacks a concrete step."
+    }
+  ],
+  "brutal_truth_employee": "Maria is not buying the last-cycle feedback: “The feedback was not specific enough” and “I want clearer scope.” She also can’t see what would change her trajectory: “I do not know what would move the next decision.”",
+  "brutal_truth_manager": "When Maria said “The feedback was not specific enough” and “I want clearer scope,” the conversation still didn’t land on a concrete scope/decision artifact. The moment to shift was after “I do not know what would move the next decision” to force an explicit next-decision definition and mentoring scope/ownership; the later questions were skipped.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Email Maria a one-page “last-cycle decision readout” with the exact gap, the expected scope, and what changes next cycle."
+    },
+    {
+      "when": "this week",
+      "action": "Set up a 45-minute working session to define mentoring scope: pick one org-level outcome, one stakeholder, and the decision it should influence."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Start with: “What decision will be different after this mentoring project?” Require Maria to name the decision-maker and the observable deliverable."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: if Maria still can’t name “what would move the next decision,” treat clarity as unresolved, not a temporary mood shift.",
+    "Before next 1:1: if Maria’s participation in team rituals stays low, confirm whether it tracks to scope/impact ambiguity rather than workload."
+  ]
+}

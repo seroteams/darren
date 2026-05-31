@@ -1,0 +1,10 @@
+alias: q_next_step_4
+label: Next step
+name: What is the first concrete change you want to make before we meet again?
+description: Ends on an actionable commitment tied to the discussion.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

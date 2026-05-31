@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "cross_team_alignment",
+      "type": "Cross-team alignment",
+      "category": "competency",
+      "label": "Alignment when priorities conflict across teams",
+      "reason": "She’s started driving planning threads, but still looks uncertain in cross-functional meetings when priorities conflict. One possibility is unclear decision rights or partner expectations; worth clarifying the exact moments that feel ambiguous and what she needs to handle them confidently.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "Decision rights and expectations for her scope",
+      "reason": "Whether her uncertainty is coming from unclear decision rights, partner expectations, or the bar for “good” in conflict situations. This helps you translate her onboarding friction into specific boundaries and operating rules she can follow.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "Practical support to avoid consensus overreach",
+      "reason": "What she’d want more of from you. At mid-level during onboarding, the fastest path is usually concrete guidance on how to run alignment (what to decide vs discuss), plus clear escalation and boundary-setting so she doesn’t spend energy decoding norms.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How she’s landing with cross-functional partners",
+      "reason": "How she’s landing in the team right now, especially in cross-functional settings. If she’s remote and early in the role, small trust gaps or unclear relationships can show up as hesitation when tradeoffs appear.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Aisha",
+  "role": "Product Manager",
+  "seniority": "Mid-level",
+  "meetingType": "Onboarding check-in",
+  "notes": "Aisha is in week four, remote, and has started driving planning threads, but she still looks uncertain in cross-functional meetings when priorities conflict. I need to understand what is still unclear around decision rights, partner expectations, and how to run alignment without over-indexing on consensus. She has good energy, but I do not want her spending it decoding unspoken norms. This meeting should surface the specific friction points and translate them into practical support and clearer boundaries.",
+  "model": "gpt-5.4-mini"
+}

@@ -1,0 +1,10 @@
+alias: q_mentoring_support
+label: Mentoring support
+name: What kind of support would make mentoring feel workable for you?
+description: Finds the conditions that would let her take up mentoring without making assumptions.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

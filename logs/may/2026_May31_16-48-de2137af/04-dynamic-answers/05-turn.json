@@ -1,0 +1,106 @@
+{
+  "turn": 5,
+  "question": {
+    "alias": "q_mentoring_thread_2",
+    "label": "Mentoring thread",
+    "name": "Mentoring matters to you — what about it feels stretching?",
+    "description": "Drills into why mentoring feels like growth so the session can distinguish real stretch from valued work.",
+    "purpose": "topic",
+    "stage": "anchor",
+    "axis_effects": {
+      "growth": 3,
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I do not know what would move the next decision.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "growth": -3
+    },
+    "note": "She could not connect mentoring to what would influence the next promotion decision, signaling strong growth uncertainty and mild disengagement from the current path."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_mentoring_shape_4",
+      "label": "Mentoring shape",
+      "name": "What would make the mentoring program feel like real growth work for you?"
+    },
+    {
+      "alias": "q_commit_next_move_2",
+      "label": "Commit next move",
+      "name": "What would you want to have moved first in the next few weeks?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 5)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": 1,
+          "answer_excerpt": "Mentoring matters to me."
+        },
+        {
+          "q": "q_mentoring_thread_2",
+          "delta": -1,
+          "answer_excerpt": "I do not know what would move the next decision."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_last_cycle_thread",
+          "delta": -3,
+          "answer_excerpt": "The feedback was not specific enough."
+        },
+        {
+          "q": "q_specificity_gap",
+          "delta": -3,
+          "answer_excerpt": "I want clearer scope."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still thinking about last cycle."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": 1,
+          "answer_excerpt": "Mentoring matters to me."
+        },
+        {
+          "q": "q_mentoring_thread_2",
+          "delta": -3,
+          "answer_excerpt": "I do not know what would move the next decision."
+        }
+      ]
+    }
+  }
+}

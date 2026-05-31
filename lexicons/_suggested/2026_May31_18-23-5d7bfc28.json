@@ -1,0 +1,125 @@
+{
+  "sessionId": "2026_May31_18-23-5d7bfc28",
+  "timestamp": "2026-05-31T11:24:48.279Z",
+  "roleFamily": "design",
+  "seniority": "lead",
+  "meetingType": "growth",
+  "allSuggestions": [
+    {
+      "type": "prefer_phrase",
+      "value": "political capital",
+      "reason": "The employee used this phrase to explain the real behavioral shift after being passed over.",
+      "evidence": "“more careful about where I spend political capital.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "visible strategic influence",
+      "reason": "This is the employee’s stated translation of design leadership into org-level impact.",
+      "evidence": "“translate that into visible strategic influence.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "cross-org decision area",
+      "reason": "It captures the specific scope Toby needs to own beyond delivering design outcomes.",
+      "evidence": "“own a cross-org decision area”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "two concrete leadership bets",
+      "reason": "Toby anchored his commitment to a specific contract format that should recur in future sessions.",
+      "evidence": "“define two concrete leadership bets for this half”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "milestones that show progress before the next cycle",
+      "reason": "He explicitly rejected retrospective-only feedback and named the proof mechanism he wants.",
+      "evidence": "“milestones that show progress before the next cycle”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "avoid_phrase",
+      "value": "retrospective feedback",
+      "reason": "Toby contrasted it with what he wants, signaling it won’t move growth forward.",
+      "evidence": "“not only retrospective feedback.”",
+      "better_as": "What forward milestones will prove your decision ownership by end of this half?",
+      "status": "pending"
+    },
+    {
+      "type": "avoid_phrase",
+      "value": "high-ambiguity forums",
+      "reason": "The employee framed these rooms as risky due to underpreparedness; keep the focus on sponsorship/decision ownership, not just forum avoidance.",
+      "evidence": "“avoid high-ambiguity forums”",
+      "better_as": "Which specific priority-setting rooms will you attend with sponsorship/air-cover, and what decision will you drive there?",
+      "status": "pending"
+    }
+  ],
+  "acceptedAsCandidates": [
+    {
+      "type": "prefer_phrase",
+      "value": "political capital",
+      "reason": "The employee used this phrase to explain the real behavioral shift after being passed over.",
+      "evidence": "“more careful about where I spend political capital.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "visible strategic influence",
+      "reason": "This is the employee’s stated translation of design leadership into org-level impact.",
+      "evidence": "“translate that into visible strategic influence.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "cross-org decision area",
+      "reason": "It captures the specific scope Toby needs to own beyond delivering design outcomes.",
+      "evidence": "“own a cross-org decision area”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "two concrete leadership bets",
+      "reason": "Toby anchored his commitment to a specific contract format that should recur in future sessions.",
+      "evidence": "“define two concrete leadership bets for this half”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "milestones that show progress before the next cycle",
+      "reason": "He explicitly rejected retrospective-only feedback and named the proof mechanism he wants.",
+      "evidence": "“milestones that show progress before the next cycle”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "avoid_phrase",
+      "value": "retrospective feedback",
+      "reason": "Toby contrasted it with what he wants, signaling it won’t move growth forward.",
+      "evidence": "“not only retrospective feedback.”",
+      "better_as": "What forward milestones will prove your decision ownership by end of this half?",
+      "status": "pending"
+    },
+    {
+      "type": "avoid_phrase",
+      "value": "high-ambiguity forums",
+      "reason": "The employee framed these rooms as risky due to underpreparedness; keep the focus on sponsorship/decision ownership, not just forum avoidance.",
+      "evidence": "“avoid high-ambiguity forums”",
+      "better_as": "Which specific priority-setting rooms will you attend with sponsorship/air-cover, and what decision will you drive there?",
+      "status": "pending"
+    }
+  ],
+  "rejected": [],
+  "userInput": ""
+}

@@ -1,0 +1,9 @@
+alias: q_decision_making_map_3
+label: Decision-making map
+name: "When you say 'how decisions are really made here,' what feels most unclear?"
+description: Drills into the specific decision-making gap Riley just named so the manager can remove the right friction.
+purpose: topic
+stage: settling
+axis_effects:
+  clarity: +1
+source: planner_added

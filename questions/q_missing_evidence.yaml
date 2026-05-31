@@ -1,0 +1,10 @@
+alias: q_missing_evidence
+label: Missing evidence
+name: What part of that decision still feels incomplete to you?
+description: Invites the unresolved question to surface without forcing a confrontation frame.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

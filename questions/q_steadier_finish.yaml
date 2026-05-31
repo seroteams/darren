@@ -1,0 +1,10 @@
+alias: q_steadier_finish
+label: Steadier finish
+name: What would make the next two weeks steadier for you?
+description: Closes on concrete changes that would reduce load or friction without opening new topics.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

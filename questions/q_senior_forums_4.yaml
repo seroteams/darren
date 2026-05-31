@@ -1,0 +1,9 @@
+alias: q_senior_forums_4
+label: Senior forums
+name: Senior forums — what would help you show up there with more confidence?
+description: Drills into the specific confidence thread he named to surface the practical gap behind his hesitation.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

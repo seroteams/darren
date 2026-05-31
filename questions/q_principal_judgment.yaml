@@ -1,0 +1,10 @@
+alias: q_principal_judgment
+label: Principal judgment
+name: What tradeoff do you think you should be making sooner than you currently do?
+description: Probes whether he is staying in safe execution instead of making hard calls early.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

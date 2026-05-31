@@ -1,0 +1,10 @@
+alias: q_decision_bottleneck_2
+label: Decision bottleneck
+name: What are you waiting on that is keeping things heavy?
+description: Looks for dependencies or decisions that are quietly extending the workload.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

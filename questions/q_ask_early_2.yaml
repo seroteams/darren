@@ -1,0 +1,10 @@
+alias: q_ask_early_2
+label: Ask early
+name: What questions do you think you should ask earlier here?
+description: Reveals where he may be holding back from asking for context soon enough.
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

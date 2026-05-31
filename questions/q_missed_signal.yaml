@@ -1,0 +1,10 @@
+alias: q_missed_signal
+label: Missed signal
+name: Where do you think your work most often misses the mark?
+description: Names the recurring failure mode without softening it into vague self-critique.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

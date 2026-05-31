@@ -1,0 +1,125 @@
+{
+  "sessionId": "2026_May31_18-47-d0655249",
+  "timestamp": "2026-05-31T11:48:27.606Z",
+  "roleFamily": "design",
+  "seniority": "lead",
+  "meetingType": "growth",
+  "allSuggestions": [
+    {
+      "type": "prefer_phrase",
+      "value": "political capital",
+      "reason": "This phrase captured the real post-promotion blocker and should recur in lead growth conversations.",
+      "evidence": "“more careful about where I spend political capital.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "visible strategic influence",
+      "reason": "It directly names the next-level outcome Toby is missing and links craft to org impact.",
+      "evidence": "“translate that into visible strategic influence.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "leadership bet",
+      "reason": "Toby’s commitment condition was framed as concrete leadership bets, making it a strong growth-contract unit.",
+      "evidence": "“define two concrete leadership bets for this half”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "cross-org decision area",
+      "reason": "It’s the specific scope Toby says he needs to own to progress beyond execution.",
+      "evidence": "“I need to own a cross-org decision area”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "priorities are set",
+      "reason": "It’s the concrete sponsorship context Toby referenced (priority-setting rooms), not generic sponsorship.",
+      "evidence": "“rooms where priorities are set.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "avoid_phrase",
+      "value": "high-ambiguity forums — what about them makes you feel underprepared?",
+      "reason": "It risks staying in feelings/avoidance; the conversation needed an immediate conversion to a specific forum scope and authority ask.",
+      "evidence": "“avoid high-ambiguity forums because I do not want to sound underprepared.”",
+      "better_as": "Which specific forum do you want to own, and what decision authority + milestone will prove you’re ready?",
+      "status": "pending"
+    },
+    {
+      "type": "avoid_phrase",
+      "value": "Who is already backing your strategic work, and who is not yet there?",
+      "reason": "It can stay at sponsorship mapping; Toby needed named sponsorship tied to decision ownership and forward milestones.",
+      "evidence": "“I want milestones that show progress before the next cycle”",
+      "better_as": "Who will sponsor the decision in the room, and what forward milestone will show your influence before the next cycle?",
+      "status": "pending"
+    }
+  ],
+  "acceptedAsCandidates": [
+    {
+      "type": "prefer_phrase",
+      "value": "political capital",
+      "reason": "This phrase captured the real post-promotion blocker and should recur in lead growth conversations.",
+      "evidence": "“more careful about where I spend political capital.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "visible strategic influence",
+      "reason": "It directly names the next-level outcome Toby is missing and links craft to org impact.",
+      "evidence": "“translate that into visible strategic influence.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "leadership bet",
+      "reason": "Toby’s commitment condition was framed as concrete leadership bets, making it a strong growth-contract unit.",
+      "evidence": "“define two concrete leadership bets for this half”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "cross-org decision area",
+      "reason": "It’s the specific scope Toby says he needs to own to progress beyond execution.",
+      "evidence": "“I need to own a cross-org decision area”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "prefer_phrase",
+      "value": "priorities are set",
+      "reason": "It’s the concrete sponsorship context Toby referenced (priority-setting rooms), not generic sponsorship.",
+      "evidence": "“rooms where priorities are set.”",
+      "better_as": null,
+      "status": "pending"
+    },
+    {
+      "type": "avoid_phrase",
+      "value": "high-ambiguity forums — what about them makes you feel underprepared?",
+      "reason": "It risks staying in feelings/avoidance; the conversation needed an immediate conversion to a specific forum scope and authority ask.",
+      "evidence": "“avoid high-ambiguity forums because I do not want to sound underprepared.”",
+      "better_as": "Which specific forum do you want to own, and what decision authority + milestone will prove you’re ready?",
+      "status": "pending"
+    },
+    {
+      "type": "avoid_phrase",
+      "value": "Who is already backing your strategic work, and who is not yet there?",
+      "reason": "It can stay at sponsorship mapping; Toby needed named sponsorship tied to decision ownership and forward milestones.",
+      "evidence": "“I want milestones that show progress before the next cycle”",
+      "better_as": "Who will sponsor the decision in the room, and what forward milestone will show your influence before the next cycle?",
+      "status": "pending"
+    }
+  ],
+  "rejected": [],
+  "userInput": ""
+}

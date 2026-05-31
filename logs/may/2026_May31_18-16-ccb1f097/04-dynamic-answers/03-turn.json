@@ -1,0 +1,87 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_what_good_looks_like_4",
+    "label": "What good looks like",
+    "name": "When you say 'what good looks like' — what's most unclear?",
+    "description": "Drills into his exact phrase to surface the specific expectation gap behind the uncertainty.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I do ask for help sometimes, but I worry about sounding slow.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "He links uncertainty to help-seeking risk — worrying about sounding slow suggests a strong clarity gap around expectations and safety asking questions."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_help_seeking_safety",
+      "label": "Help-seeking safety",
+      "name": "What makes it easiest or hardest to ask for help here?"
+    },
+    {
+      "alias": "q_requirements_churn",
+      "label": "Requirements churn",
+      "name": "What part of the shifting requirements has been hardest to work with?"
+    },
+    {
+      "alias": "q_steadier_next_two_weeks",
+      "label": "Steadier next two weeks",
+      "name": "What would make the next two weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        },
+        {
+          "q": "q_missed_something_2",
+          "delta": -3,
+          "answer_excerpt": "I am still unsure what good really looks like here week to week."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_what_good_looks_like_4",
+          "delta": -3,
+          "answer_excerpt": "I do ask for help sometimes, but I worry about sounding slow."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

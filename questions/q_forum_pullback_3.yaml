@@ -1,0 +1,10 @@
+alias: q_forum_pullback_3
+label: Forum pullback
+name: What changed about the leadership forums for you?
+description: Opens the shift in forum participation without framing it as a problem.
+purpose: topic
+stage: observation
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

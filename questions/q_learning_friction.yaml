@@ -1,0 +1,10 @@
+alias: q_learning_friction
+label: Learning friction
+name: What part of your growth feels blocked right now?
+description: Identifies the specific constraint on his near-term development so the next step can be practical.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_live_incidents
+label: Live incidents
+name: Which handoff details only become visible during live incidents?
+description: Drills into the specific incident handoff gaps so the manager can make tacit operating norms explicit.
+purpose: topic
+stage: blockers
+axis_effects:
+  clarity: +3
+source: planner_added

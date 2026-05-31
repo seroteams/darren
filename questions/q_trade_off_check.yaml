@@ -1,0 +1,10 @@
+alias: q_trade_off_check
+label: Trade-off check
+name: What are you choosing not to spend time on right now?
+description: Surfaces prioritization and what he is intentionally de-emphasizing.
+purpose: competency
+stage: support
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

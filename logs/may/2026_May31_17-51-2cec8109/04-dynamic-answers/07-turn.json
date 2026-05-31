@@ -1,0 +1,113 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_intro_perf_03_gap",
+    "label": "Gap awareness",
+    "name": "Where do you think you've fallen short of where you want to be?",
+    "description": "Tests whether they can name their own gaps before the manager does.",
+    "purpose": "topic",
+    "stage": "gap_naming",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1,
+      "wellbeing": 3
+    },
+    "source": "seed"
+  },
+  "answer": "I want to lead one cross-team decision this cycle, end to end.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1,
+      "growth": 1
+    },
+    "note": "She names a specific forward goal to lead one cross-team decision end to end, showing ambition and some clarity, but not a wellbeing signal. [THREAD-DEFERRED-WINDDOWN] 'lead one cross-team decision' could be drilled next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_leverage_choices",
+      "label": "Leverage choices",
+      "name": "Where do you choose to go deep instead of pulling others in earlier?"
+    },
+    {
+      "alias": "q_next_step_commitment_2",
+      "label": "Next-step commitment",
+      "name": "What would raising your visibility look like in the next two weeks?"
+    }
+  ],
+  "issues": [
+    "misalignment signal — applied clarity -1",
+    "coverage: injected wellbeing into next question (0 touches after turn 7)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think my technical output is solid, but my influence is uneven."
+        },
+        {
+          "q": "q_uneven_influence_3",
+          "delta": -3,
+          "answer_excerpt": "I get work done, yet I am not consistently shaping decisions early."
+        },
+        {
+          "q": "q_early_decisions_3",
+          "delta": -3,
+          "answer_excerpt": "Some feedback has been about being clearer with non-technical partners."
+        },
+        {
+          "q": "q_impact_in_practice",
+          "delta": -3,
+          "answer_excerpt": "I tend to wait until analysis is complete before socializing direction."
+        },
+        {
+          "q": "q_socializing_direction",
+          "delta": -3,
+          "answer_excerpt": "That slows trust because stakeholders feel surprised late."
+        },
+        {
+          "q": "q_surprised_late_2",
+          "delta": -3,
+          "answer_excerpt": "I need a tighter narrative on tradeoffs, not just stronger models."
+        },
+        {
+          "q": "q_intro_perf_03_gap",
+          "delta": -1,
+          "answer_excerpt": "I want to lead one cross-team decision this cycle, end to end."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_impact_in_practice",
+          "delta": -1,
+          "answer_excerpt": "I tend to wait until analysis is complete before socializing direction."
+        },
+        {
+          "q": "q_intro_perf_03_gap",
+          "delta": 1,
+          "answer_excerpt": "I want to lead one cross-team decision this cycle, end to end."
+        }
+      ]
+    }
+  }
+}

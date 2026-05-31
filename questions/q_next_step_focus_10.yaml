@@ -1,0 +1,10 @@
+alias: q_next_step_focus_10
+label: Next step focus
+name: Given what we have covered, where do you want to focus first?
+description: Closes by turning the conversation into a near-term choice without opening new threads.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

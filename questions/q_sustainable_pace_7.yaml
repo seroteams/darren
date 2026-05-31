@@ -1,0 +1,9 @@
+alias: q_sustainable_pace_7
+label: Sustainable pace
+name: Does this pace feel sustainable for the next couple of weeks?
+description: Checks whether the current cadence is holdable without overdriving the check-in into a burnout conversation.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: generated

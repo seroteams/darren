@@ -1,0 +1,154 @@
+{
+  "call_count": 13,
+  "usd_total": 0.12056705,
+  "unknown_price_calls": 0,
+  "prompt_tokens": 108830,
+  "completion_tokens": 4906,
+  "cached_tokens": 83968,
+  "total_tokens": 113736,
+  "calls": [
+    {
+      "stage": "01-focus-points",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 6078,
+      "completion_tokens": 256,
+      "cached_tokens": 4864,
+      "total_tokens": 6334,
+      "usd_cost": 0.0006600800000000001,
+      "known_price": true,
+      "at": "2026-05-31T09:53:56.833Z"
+    },
+    {
+      "stage": "01b-preparation",
+      "model": "gpt-5.4",
+      "prompt_tokens": 2223,
+      "completion_tokens": 221,
+      "cached_tokens": 0,
+      "total_tokens": 2444,
+      "usd_cost": 0.0088725,
+      "known_price": true,
+      "at": "2026-05-31T09:54:01.661Z"
+    },
+    {
+      "stage": "01b-preparation-retry",
+      "model": "gpt-5.4",
+      "prompt_tokens": 2264,
+      "completion_tokens": 221,
+      "cached_tokens": 1792,
+      "total_tokens": 2485,
+      "usd_cost": 0.004943,
+      "known_price": true,
+      "at": "2026-05-31T09:54:05.848Z"
+    },
+    {
+      "stage": "03-question-bank",
+      "model": "gpt-5.4-mini",
+      "prompt_tokens": 5629,
+      "completion_tokens": 692,
+      "cached_tokens": 3840,
+      "total_tokens": 6321,
+      "usd_cost": 0.00474375,
+      "known_price": true,
+      "at": "2026-05-31T09:54:11.446Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 11552,
+      "completion_tokens": 594,
+      "cached_tokens": 7936,
+      "total_tokens": 12146,
+      "usd_cost": 0.019934,
+      "known_price": true,
+      "at": "2026-05-31T09:54:18.444Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10968,
+      "completion_tokens": 509,
+      "cached_tokens": 8960,
+      "total_tokens": 11477,
+      "usd_cost": 0.014895,
+      "known_price": true,
+      "at": "2026-05-31T09:54:25.347Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10937,
+      "completion_tokens": 458,
+      "cached_tokens": 8960,
+      "total_tokens": 11395,
+      "usd_cost": 0.0140525,
+      "known_price": true,
+      "at": "2026-05-31T09:54:31.052Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10846,
+      "completion_tokens": 359,
+      "cached_tokens": 8960,
+      "total_tokens": 11205,
+      "usd_cost": 0.01234,
+      "known_price": true,
+      "at": "2026-05-31T09:54:36.526Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10818,
+      "completion_tokens": 278,
+      "cached_tokens": 8960,
+      "total_tokens": 11096,
+      "usd_cost": 0.011055,
+      "known_price": true,
+      "at": "2026-05-31T09:54:40.845Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10721,
+      "completion_tokens": 235,
+      "cached_tokens": 8960,
+      "total_tokens": 10956,
+      "usd_cost": 0.0101675,
+      "known_price": true,
+      "at": "2026-05-31T09:54:44.363Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10626,
+      "completion_tokens": 163,
+      "cached_tokens": 8960,
+      "total_tokens": 10789,
+      "usd_cost": 0.00885,
+      "known_price": true,
+      "at": "2026-05-31T09:54:47.342Z"
+    },
+    {
+      "stage": "04-plan-turn",
+      "model": "gpt-5.4",
+      "prompt_tokens": 10590,
+      "completion_tokens": 144,
+      "cached_tokens": 8960,
+      "total_tokens": 10734,
+      "usd_cost": 0.008475,
+      "known_price": true,
+      "at": "2026-05-31T09:54:49.815Z"
+    },
+    {
+      "stage": "05-evaluation",
+      "model": "gpt-5.4-nano",
+      "prompt_tokens": 5578,
+      "completion_tokens": 776,
+      "cached_tokens": 2816,
+      "total_tokens": 6354,
+      "usd_cost": 0.00157872,
+      "known_price": true,
+      "at": "2026-05-31T09:54:55.890Z"
+    }
+  ]
+}

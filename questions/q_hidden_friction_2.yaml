@@ -1,0 +1,10 @@
+alias: q_hidden_friction_2
+label: Hidden friction
+name: What is slowing you down that I may not be seeing?
+description: Invites a concrete blocker or dependency that has not been surfaced directly.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

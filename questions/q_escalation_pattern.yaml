@@ -1,0 +1,10 @@
+alias: q_escalation_pattern
+label: Escalation pattern
+name: How do you decide when to escalate a cross-functional disagreement?
+description: Probes judgment around coordination moves at Senior scope.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

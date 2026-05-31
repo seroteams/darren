@@ -1,0 +1,9 @@
+alias: q_time_pressure_consistency_4
+label: Time pressure consistency
+name: Under time pressure, what specifically starts to slip in your work?
+description: Drills into his named failure mode to get concrete evidence of what breaks first.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,52 @@
+{
+  "name": "Priya",
+  "roleTitle": "Senior Backend Engineer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "observedShift": "Priya shipped a major feature on Monday and the team noticed, but she has been quieter this week. I want to check whether this is normal post-launch recovery or something unresolved. She also mentioned wanting to mentor a few months ago and that thread never moved. I need a clearer read on what she expects to own next quarter before I introduce the billing rewrite, since she may already be forming plans that this will disrupt.",
+  "focusPoints": [
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What she expects to own next quarter",
+      "reason": "What she expects to own next quarter, especially ahead of the billing rewrite, could be shifting from what you’re about to introduce—worth clarifying so you don’t accidentally step on her plans or miss a dependency.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How she’s landing with the team this week",
+      "reason": "Notes say she shipped Monday and the team noticed, but she’s been quieter this week—one possibility is normal post-launch recovery, but it’s worth clarifying whether something is unresolved or whether she’s just in a different mode.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "delegation",
+      "type": "Delegation effectiveness",
+      "category": "competency",
+      "label": "Mentoring plan that never moved",
+      "reason": "Whether her mentoring thread is still active and what she wants to delegate/coach next is a common senior-lead lever—if it’s stalled, it’s usually because of clarity, bandwidth, or a missing decision, and bi-weekly is the right cadence to unblock it.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "How she’s handling the billing rewrite impact",
+      "reason": "What she’s doing to manage expectations with Product/other backend partners around the billing rewrite matters for a Senior Backend Engineer because it reduces last-minute surprises and keeps her influence intact while plans change.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "5d4d71e8-18e8-4683-9c7c-2f213ed09e7f",
+  "validation": {
+    "passed": true,
+    "issues": []
+  },
+  "attempts": 2
+}

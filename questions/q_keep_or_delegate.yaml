@@ -1,0 +1,10 @@
+alias: q_keep_or_delegate
+label: Keep or delegate
+name: What do you think only you should own right now?
+description: Gets at ownership boundaries and the rationale for keeping work close.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

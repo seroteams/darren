@@ -1,0 +1,10 @@
+alias: q_trade_offs_ahead
+label: Trade-offs ahead
+name: What are you choosing not to own over the next six to twelve weeks?
+description: Forces a real prioritisation conversation around strategic ownership and trade-offs.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

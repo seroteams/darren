@@ -1,0 +1,10 @@
+alias: q_landing_check
+label: Landing check
+name: What has been most on your mind in your first two weeks here, Riley?
+description: Gives Riley room to set the agenda and surface what feels most present before narrowing in.
+purpose: wellbeing
+stage: settling
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,91 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_thread_follow_26",
+    "label": "Thread follow",
+    "name": "still unsure what — can you say more about what that means for you right now?",
+    "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I do ask for help sometimes, but I worry about sounding slow.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -3
+    },
+    "note": "Worrying that asking for help will make them sound slow signals strong inhibition and disengaging risk around seeking support; also reveals a clarity/trust issue worth probing next. [THREAD-DEFERRED] Concrete thread not followed because drill cap reached at observation stage."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_intro_off_openended",
+      "label": "Open invitation",
+      "name": "Is there anything on your mind that we haven't made space to talk about?"
+    },
+    {
+      "alias": "q_proving_yourself",
+      "label": "Proving yourself",
+      "name": "Where do you feel the most pressure to prove yourself right now?"
+    },
+    {
+      "alias": "q_support_that_helps",
+      "label": "Support that helps",
+      "name": "What kind of support from me would make the biggest difference right now?"
+    },
+    {
+      "alias": "q_next_two_weeks_29",
+      "label": "Next two weeks",
+      "name": "What would make the next two weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -8,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "The hardest part is changing direction late and feeling like I missed something."
+        },
+        {
+          "q": "q_late_direction_changes_2",
+          "delta": -3,
+          "answer_excerpt": "I am still unsure what good really looks like here week to week."
+        },
+        {
+          "q": "q_thread_follow_26",
+          "delta": -3,
+          "answer_excerpt": "I do ask for help sometimes, but I worry about sounding slow."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

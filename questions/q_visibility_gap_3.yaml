@@ -1,0 +1,10 @@
+alias: q_visibility_gap_3
+label: Visibility gap
+name: Where do you think your work is easiest to miss?
+description: Surfaces the parts of her approach that may not be visible enough to busy stakeholders.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

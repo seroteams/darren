@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_20
+label: Next two weeks
+name: "Given what we've covered, what would make the next two weeks steadier for you?"
+description: Closes on practical next steps that reduce load or friction without opening a new topic.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_settling_check_in
+label: Settling check-in
+name: What’s been most on your mind at work this week, Sam?
+description: Gives Sam room to set the context before any friction is explored.
+purpose: wellbeing
+stage: settling
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

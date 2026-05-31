@@ -1,0 +1,122 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_question_asking_pattern",
+    "label": "Question-asking pattern",
+    "name": "What makes you hold back from asking questions early?",
+    "description": "Explores whether low question volume is confidence, habit, or a working style issue.",
+    "purpose": "competency",
+    "stage": "cause",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 1,
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "answer": "I need explicit expectations for the next cycle so I can calibrate fast.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -1,
+      "clarity": -1
+    },
+    "note": "He names missing explicit expectations as the reason he holds back, signalling mild clarity and engagement deficit; wellbeing not evidenced."
+  },
+  "new_queue": [
+    {
+      "alias": "q_next_behavior_change",
+      "label": "Next behavior change",
+      "name": "What is the first change you want to make before our next check-in?"
+    },
+    {
+      "alias": "q_next_behavior_change_2",
+      "label": "Next behavior change",
+      "name": "Given what we've covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 8)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -8,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_principal_impact_evidence",
+          "delta": -3,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        },
+        {
+          "q": "q_playing_safe",
+          "delta": -1,
+          "answer_excerpt": "I probably should ask for sharper feedback earlier than I do."
+        },
+        {
+          "q": "q_sharper_feedback_2",
+          "delta": -3,
+          "answer_excerpt": "I have not built enough trust with adjacent teams yet."
+        },
+        {
+          "q": "q_question_asking_pattern",
+          "delta": -1,
+          "answer_excerpt": "I need explicit expectations for the next cycle so I can calibrate fast."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_highest_leverage_work_2",
+          "delta": -3,
+          "answer_excerpt": "I can describe Principal impact in general, but this team's bar still feels fuzzy."
+        },
+        {
+          "q": "q_team_bar_fuzzy_2",
+          "delta": -3,
+          "answer_excerpt": "I have mostly stayed in my lane instead of forcing cross-team decisions."
+        },
+        {
+          "q": "q_intro_perf_03_gap",
+          "delta": 1,
+          "answer_excerpt": "The gap is less technical and more around visible ownership."
+        },
+        {
+          "q": "q_question_asking_pattern",
+          "delta": -1,
+          "answer_excerpt": "I need explicit expectations for the next cycle so I can calibrate fast."
+        }
+      ]
+    },
+    "growth": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_principal_impact_evidence",
+          "delta": -1,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        },
+        {
+          "q": "q_intro_perf_03_gap",
+          "delta": -3,
+          "answer_excerpt": "The gap is less technical and more around visible ownership."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_commitment_closer_2",
+    "label": "Commitment closer",
+    "name": "Given this, where do you want to change your early alignment first?",
+    "description": "Closes on a specific behavioral commitment tied to the feedback theme.",
+    "purpose": "competency",
+    "stage": "commit",
+    "axis_effects": {
+      "clarity": 3,
+      "growth": 1,
+      "wellbeing": 3
+    },
+    "source": "reworded_from:q_commitment_closer"
+  },
+  "answer": "I need explicit expectations for the next cycle so I can calibrate fast.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3,
+      "growth": -1
+    },
+    "note": "Names missing explicit expectations for the next cycle as the key absence, signaling strong clarity deficit and mild growth constraint."
+  },
+  "new_queue": [
+    {
+      "alias": "q_commitment_closer",
+      "label": "Commitment closer",
+      "name": "What will you do differently on early alignment before we next meet?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I think I am shipping, but I am not sure I am aiming at the highest-leverage work yet."
+        },
+        {
+          "q": "q_highest_leverage_work_5",
+          "delta": -3,
+          "answer_excerpt": "I can describe Principal impact in general, but this team's bar still feels fuzzy."
+        },
+        {
+          "q": "q_team_s_bar_fuzzy",
+          "delta": -3,
+          "answer_excerpt": "I have mostly stayed in my lane instead of forcing cross-team decisions."
+        },
+        {
+          "q": "q_intro_perf_03_gap",
+          "delta": 1,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        },
+        {
+          "q": "q_commitment_closer_2",
+          "delta": -3,
+          "answer_excerpt": "I need explicit expectations for the next cycle so I can calibrate fast."
+        }
+      ]
+    },
+    "growth": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_perf_03_gap",
+          "delta": -3,
+          "answer_excerpt": "I have made a few calls independently, but I still over-index on being safe."
+        },
+        {
+          "q": "q_safe_execution",
+          "delta": -1,
+          "answer_excerpt": "I probably should ask for sharper feedback earlier than I do."
+        },
+        {
+          "q": "q_sharper_feedback_5",
+          "delta": -3,
+          "answer_excerpt": "I have not built enough trust with adjacent teams yet."
+        },
+        {
+          "q": "q_adjacent_team_trust_2",
+          "delta": -1,
+          "answer_excerpt": "The gap is less technical and more around visible ownership."
+        },
+        {
+          "q": "q_commitment_closer_2",
+          "delta": -1,
+          "answer_excerpt": "I need explicit expectations for the next cycle so I can calibrate fast."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+alias: q_what_s_on_you
+label: What’s on you
+name: What work is still sitting squarely on your desk that doesn’t need to be?
+description: Gets at delegation and ownership boundaries without assuming the answer.
+purpose: competency
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_strategic_influence_gap
+label: Strategic influence gap
+name: Where specifically does your influence stop short of the strategic level?
+description: Drills into the exact boundary between leading initiatives and shaping broader decisions.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added

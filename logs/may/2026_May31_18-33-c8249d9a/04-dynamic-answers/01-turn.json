@@ -1,0 +1,88 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_off_connection",
+    "label": "Team connection",
+    "name": "How connected do you feel to the rest of the team right now?",
+    "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+    "purpose": "wellbeing",
+    "stage": "observation",
+    "axis_effects": {
+      "engagement": 3,
+      "wellbeing": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I have been less present in rituals, yes.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": -3
+    },
+    "note": "He confirms reduced presence in team rituals, which is a strong engagement dip and a mild wellbeing concern."
+  },
+  "new_queue": [
+    {
+      "alias": "q_less_present_rituals_4",
+      "label": "Less present rituals",
+      "name": "You said 'less present in rituals' — what has that looked like lately?"
+    },
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_what_feels_different_2",
+      "label": "What feels different",
+      "name": "What feels different in your week-to-week work since the promotion decision?"
+    },
+    {
+      "alias": "q_decision_meaning_2",
+      "label": "Decision meaning",
+      "name": "What did you take away from the conversation about the promotion decision?"
+    },
+    {
+      "alias": "q_path_forward_3",
+      "label": "Path forward",
+      "name": "What path forward feels real to you from here?"
+    },
+    {
+      "alias": "q_support_needed_22",
+      "label": "Support needed",
+      "name": "What would help this feel more workable over the next couple of weeks?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

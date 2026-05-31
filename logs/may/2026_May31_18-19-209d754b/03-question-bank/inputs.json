@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "reliability",
+      "type": "Reliability",
+      "category": "competency",
+      "label": "Shipping confidence and commitment consistency",
+      "reason": "Whether his hesitation before shipping is a normal confidence dip or a tooling/expectation gap we can fix quickly, and how often he’s asking for reassurance late.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "Handoffs that feel fuzzy or missing",
+      "reason": "Where onboarding handoffs are still unclear, so he isn’t quietly compensating—worth mapping the specific moments where context or ownership drops.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "The support touchpoints he needs next",
+      "reason": "What he wants more of from you in the next two weeks so he can move from reassurance-seeking to independent shipping.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "What 'good' looks like for his tickets",
+      "reason": "How clear the scope and bar for 'good' are on his current tickets, since juniors often hesitate when expectations are implicit rather than explicit.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Sam",
+  "role": "Frontend Engineer",
+  "seniority": "Junior",
+  "meetingType": "Onboarding check-in",
+  "notes": "Sam is in week three and has started picking up real tickets, but he still hesitates before shipping and asks for reassurance late. I need to understand whether this is a normal confidence dip or a tooling and expectation gap we can fix quickly. I also want clarity on where onboarding handoffs are still fuzzy so he is not quietly compensating. This should stay practical and supportive: map what is unclear, unblock him, and line up the right support touchpoints for the next two weeks.",
+  "model": "gpt-5.4-mini"
+}

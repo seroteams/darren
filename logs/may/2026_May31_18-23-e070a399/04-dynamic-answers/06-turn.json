@@ -1,0 +1,94 @@
+{
+  "turn": 6,
+  "question": {
+    "alias": "q_next_quarter_ownership_4",
+    "label": "Next quarter ownership",
+    "name": "What feels most unclear about what you'll own next quarter?",
+    "description": "Drills into the ownership uncertainty she named to locate the specific clarity gap blocking momentum.",
+    "purpose": "topic",
+    "stage": "momentum",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I have felt a bit stuck doing similar work for months.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "Describes a months-long plateau doing similar work, which signals strong uncertainty about future ownership and direction; also reveals a growth stall worth carrying into next session. [THREAD-DEFERRED] 'similar work for months' plateau not drilled because drill cap requires advancing the arc."
+  },
+  "new_queue": [
+    {
+      "alias": "q_support_ask_6",
+      "label": "Support ask",
+      "name": "What do you need from me to keep the next two weeks moving cleanly?"
+    },
+    {
+      "alias": "q_close_the_loop_4",
+      "label": "Close the loop",
+      "name": "Given what we covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [
+    "coverage: injected wellbeing into next question (0 touches after turn 6)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The launch went well, but this week I feel flatter than I expected."
+        },
+        {
+          "q": "q_flatter_week",
+          "delta": -3,
+          "answer_excerpt": "Mostly cleanup and reviews right now, not much that feels new."
+        },
+        {
+          "q": "q_nothing_feels_new_4",
+          "delta": 1,
+          "answer_excerpt": "I am proud of the migration plan and how we handled the cutover."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I did mention mentoring before. I still want it, but I stopped pushing."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_stopped_pushing_4",
+          "delta": -3,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        },
+        {
+          "q": "q_next_quarter_ownership_4",
+          "delta": -3,
+          "answer_excerpt": "I have felt a bit stuck doing similar work for months."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_stopped_pushing_4",
+          "delta": -3,
+          "answer_excerpt": "I am not sure what I am owning next quarter yet, and that makes me uneasy."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "turn": 7,
+  "question": {
+    "alias": "q_steadier_finish",
+    "label": "Steadier finish",
+    "name": "What would make the next two weeks steadier for you?",
+    "description": "Closes on concrete changes that would reduce load or friction without opening new topics.",
+    "purpose": "wellbeing",
+    "stage": "lift",
+    "axis_effects": {
+      "wellbeing": 1,
+      "clarity": 1,
+      "growth": 3
+    },
+    "source": "generated"
+  },
+  "answer": "The next two weeks should focus on stabilizing and reducing reactive work.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": 1,
+      "clarity": 1,
+      "growth": 1
+    },
+    "note": "She names a concrete near-term focus—stabilizing and reducing reactive work—which signals some clarity and a modestly steadier path; [THREAD-DEFERRED-WINDDOWN] 'stabilizing and reducing reactive work' could be unpacked next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_support_shape_5",
+      "label": "Support shape",
+      "name": "What kind of support from me would actually change your week?"
+    }
+  ],
+  "issues": [
+    "coverage: injected growth into next question (0 touches after turn 7)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_impact_visible",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        },
+        {
+          "q": "q_steadier_finish",
+          "delta": 1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_thread_follow_28",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_thread_follow_29",
+          "delta": -3,
+          "answer_excerpt": "A lot of energy went into firefighting and context switching."
+        },
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "I can ship quickly, but I do not always feel the impact is visible."
+        },
+        {
+          "q": "q_impact_visible",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        },
+        {
+          "q": "q_communication_feedback_6",
+          "delta": -3,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_thread_follow_28",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_thread_follow_29",
+          "delta": -1,
+          "answer_excerpt": "A lot of energy went into firefighting and context switching."
+        },
+        {
+          "q": "q_impact_visible",
+          "delta": -1,
+          "answer_excerpt": "Feedback on communication landed, and I am still processing it."
+        },
+        {
+          "q": "q_communication_feedback_6",
+          "delta": -1,
+          "answer_excerpt": "I want more room to lead cross-functional discussions earlier."
+        },
+        {
+          "q": "q_steadier_finish",
+          "delta": 1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        }
+      ]
+    },
+    "growth": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_steadier_finish",
+          "delta": 1,
+          "answer_excerpt": "The next two weeks should focus on stabilizing and reducing reactive work."
+        }
+      ]
+    }
+  }
+}

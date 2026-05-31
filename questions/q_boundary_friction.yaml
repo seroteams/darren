@@ -1,0 +1,10 @@
+alias: q_boundary_friction
+label: Boundary friction
+name: Where did cross-functional friction slow you down most?
+description: Looks for the specific boundary where coordination or alignment cost time.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

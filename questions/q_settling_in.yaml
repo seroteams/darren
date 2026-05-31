@@ -1,0 +1,10 @@
+alias: q_settling_in
+label: Settling in
+name: How has week three felt from your side, Sam?
+description: Safe opener that lets Sam set context before anything specific is raised.
+purpose: wellbeing
+stage: settling
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

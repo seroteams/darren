@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Growth & career plan",
+  "focus_points": [
+    {
+      "id": "feedback",
+      "label": "What she learned from last cycle’s decision",
+      "reason": "Whether she got a concrete readout on what the gap was, and whether she wants you to help interpret it now.",
+      "source": "signal"
+    },
+    {
+      "id": "team_connection",
+      "label": "How her engagement in team rituals is landing",
+      "reason": "Notes say her engagement in team rituals has dropped; one possibility is she’s still carrying unanswered questions, worth clarifying what changed and what she needs to feel steady again.",
+      "source": "signal"
+    },
+    {
+      "id": "growth",
+      "label": "Whether mentoring is her strategic growth path",
+      "reason": "What she wants to build next as a Principal often shows up in which growth work she chooses to invest in—whether mentoring is accelerating her next step or parking energy after feeling blocked.",
+      "source": "best_practice"
+    },
+    {
+      "id": "manager_support",
+      "label": "What she wants more of from you",
+      "reason": "At Principal level, the fastest career momentum usually comes from removing ambiguity—what she wants from you (readouts, advocacy, coaching, or sponsorship) so she can commit to the right next moves.",
+      "source": "best_practice"
+    }
+  ]
+}

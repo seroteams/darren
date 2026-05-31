@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_13
+label: Next two weeks
+name: What is the first concrete thing you want to move by our next conversation?
+description: Closes on a specific action and timeline without opening a new topic.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

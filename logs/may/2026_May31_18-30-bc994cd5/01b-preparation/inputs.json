@@ -1,0 +1,52 @@
+{
+  "name": "Priya",
+  "roleTitle": "Senior Backend Engineer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "observedShift": "Priya shipped a major feature on Monday and the team noticed, but she has been quieter this week. I want to check whether this is normal post-launch recovery or something unresolved. She also mentioned wanting to mentor a few months ago and that thread never moved. I need a clearer read on what she expects to own next quarter before I introduce the billing rewrite, since she may already be forming plans that this will disrupt.",
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How she’s landing with the team this week",
+      "reason": "Notes say the team noticed her major feature shipped Monday, but she’s been quieter this week. One possibility is normal post-launch recovery; another is something unresolved. Worth clarifying what’s driving the change and whether it’s affecting how she’s showing up with the team.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What she expects to own next quarter",
+      "reason": "Manager needs a clearer read on what Priya expects to own next quarter before the billing rewrite. Whether her plans are already forming (and how much the rewrite would disrupt) is worth aligning on explicitly so decisions don’t surprise either side.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "delegation",
+      "type": "Delegation effectiveness",
+      "category": "competency",
+      "label": "Mentoring plans and what’s stalled",
+      "reason": "Priya mentioned wanting to mentor a few months ago, but that thread never moved. Could be a timing issue, unclear scope, or something blocking implementation—worth getting her current intent and the smallest next step that would make it real.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What she wants more of from you",
+      "reason": "Whether she’s quieter post-launch and whether mentoring needs unblockers, a bi-weekly check-in is a good time to ask what she’d want more of from you so she can keep momentum and avoid quietly carrying things alone.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "eeef2280-60e2-4fcd-b7a8-49f0fa8dca72",
+  "validation": {
+    "passed": true,
+    "issues": []
+  },
+  "attempts": 1
+}

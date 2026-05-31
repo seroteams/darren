@@ -1,0 +1,10 @@
+alias: q_operating_assumptions
+label: Operating assumptions
+name: What assumptions are you still carrying from your last team?
+description: Checks for old patterns that may be shaping how he shows up here.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

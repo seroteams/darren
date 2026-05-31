@@ -1,0 +1,10 @@
+alias: q_next_focus_4
+label: Next focus
+name: Given all this, where do you want to focus first in the next few weeks?
+description: Closes by inviting Ahmed to name the first area he wants to move on his growth path.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added

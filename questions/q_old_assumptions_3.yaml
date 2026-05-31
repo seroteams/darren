@@ -1,0 +1,10 @@
+alias: q_old_assumptions_3
+label: Old assumptions
+name: What assumptions from your last team are you still carrying here?
+description: Checks whether old operating models are shaping his choices on this team.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,93 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_off_connection",
+    "label": "Team connection",
+    "name": "How connected do you feel to the rest of the team right now?",
+    "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+    "purpose": "wellbeing",
+    "stage": "observation",
+    "axis_effects": {
+      "engagement": 3,
+      "wellbeing": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": -1
+    },
+    "note": "She names a felt shift after the reorg while still trying to hold stability for the team, suggesting mild disconnection and transition strain."
+  },
+  "new_queue": [
+    {
+      "alias": "q_shift_since_reorg",
+      "label": "Shift since reorg",
+      "name": "You said 'the shift since the reorg' — what feels most different about it?"
+    },
+    {
+      "alias": "q_arrival_check_in",
+      "label": "Arrival check-in",
+      "name": "What's been most on your mind at work lately?"
+    },
+    {
+      "alias": "q_reorg_aftereffects",
+      "label": "Reorg aftereffects",
+      "name": "What's felt different in your day-to-day since the reorg?"
+    },
+    {
+      "alias": "q_transition_load",
+      "label": "Transition load",
+      "name": "Where is the reorg adding the most load for you right now?"
+    },
+    {
+      "alias": "q_tradeoff_reset",
+      "label": "Tradeoff reset",
+      "name": "What have you been saying no to since the reorg?"
+    },
+    {
+      "alias": "q_support_needed_14",
+      "label": "Support needed",
+      "name": "What kind of support would actually make this week easier for you?"
+    },
+    {
+      "alias": "q_next_focus_2",
+      "label": "Next focus",
+      "name": "Given what we've covered, what do you want to tackle first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I can feel the shift since the reorg, even though I am trying to keep things stable for the team."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

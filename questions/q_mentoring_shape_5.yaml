@@ -1,0 +1,10 @@
+alias: q_mentoring_shape_5
+label: Mentoring shape
+name: What would mentoring actually look like in your week if you made space for it?
+description: Turns the mentoring thread into a concrete ownership and time question.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

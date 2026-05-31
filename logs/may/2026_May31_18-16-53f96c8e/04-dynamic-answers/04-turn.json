@@ -1,0 +1,104 @@
+{
+  "turn": 4,
+  "question": {
+    "alias": "q_done_means_what_2",
+    "label": "Done means what",
+    "name": "What does 'done' mean to you on the tickets you've picked up so far?",
+    "description": "Checks whether his mental model of completion matches the handoff expectations.",
+    "purpose": "topic",
+    "stage": "orientation",
+    "axis_effects": {
+      "clarity": 3
+    },
+    "source": "generated"
+  },
+  "answer": "I usually wait too long before asking because I want to solve things myself first.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -3
+    },
+    "note": "He describes delaying asks because he is trying to self-solve first, which signals an unclear threshold for when to seek help."
+  },
+  "new_queue": [
+    {
+      "alias": "q_thread_follow_18",
+      "label": "Thread follow",
+      "name": "usually wait long — can you say more about what that means for you right now?"
+    },
+    {
+      "alias": "q_ask_threshold",
+      "label": "Ask threshold",
+      "name": "What tells you it's time to ask instead of keep pushing alone?"
+    },
+    {
+      "alias": "q_ship_time_hesitation",
+      "label": "Ship-time hesitation",
+      "name": "What tends to make shipping feel risky right before you send it?"
+    },
+    {
+      "alias": "q_tooling_friction",
+      "label": "Tooling friction",
+      "name": "What part of your workflow is slowing you down most right now?"
+    },
+    {
+      "alias": "q_go_to_people_2",
+      "label": "Go-to people",
+      "name": "Who do you already feel comfortable going to when you get stuck?"
+    },
+    {
+      "alias": "q_next_step_focus_7",
+      "label": "Next-step focus",
+      "name": "Given what we've covered, what would you want to tighten up first?"
+    }
+  ],
+  "issues": [
+    "runtime: injected thread-follow question",
+    "coverage: injected engagement into next question (0 touches after turn 4)"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_week_three_check_in",
+          "delta": -1,
+          "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_week_three_check_in",
+          "delta": -1,
+          "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+        },
+        {
+          "q": "q_team_expectations_3",
+          "delta": -1,
+          "answer_excerpt": "Local setup is better now, but I still lose time when the design and API details do not match."
+        },
+        {
+          "q": "q_design_api_mismatch_3",
+          "delta": -1,
+          "answer_excerpt": "I am not always sure who should approve what before I push."
+        },
+        {
+          "q": "q_done_means_what_2",
+          "delta": -3,
+          "answer_excerpt": "I usually wait too long before asking because I want to solve things myself first."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

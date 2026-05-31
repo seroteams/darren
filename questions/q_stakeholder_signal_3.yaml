@@ -1,0 +1,10 @@
+alias: q_stakeholder_signal_3
+label: Stakeholder signal
+name: How did you decide when to bring stakeholders into the loop on the work?
+description: Tests whether she is raising signal proactively instead of waiting for others to notice.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

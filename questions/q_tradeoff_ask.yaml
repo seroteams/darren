@@ -1,0 +1,10 @@
+alias: q_tradeoff_ask
+label: Tradeoff ask
+name: What would you stop doing if you wanted to spend more time on strategic ownership?
+description: Forces a real tradeoff between tactical delivery and senior-level work, making the cost of change explicit.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

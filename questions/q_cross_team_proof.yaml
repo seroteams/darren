@@ -1,0 +1,10 @@
+alias: q_cross_team_proof
+label: Cross-team proof
+name: "Where have you changed another team's plan or decision through your design leadership?"
+description: Looks for concrete examples of org-level influence rather than internal execution alone.
+purpose: competency
+stage: gap
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

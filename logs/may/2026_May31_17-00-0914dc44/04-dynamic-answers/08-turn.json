@@ -1,0 +1,137 @@
+{
+  "turn": 8,
+  "question": {
+    "alias": "q_sponsorship_shape",
+    "label": "Sponsorship shape",
+    "name": "What kind of sponsorship would actually move the needle for you here?",
+    "description": "Surfaces the specific air cover, introductions, or backing he needs instead of generic support.",
+    "purpose": "topic",
+    "stage": "investment",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1,
+      "wellbeing": 3
+    },
+    "source": "generated"
+  },
+  "answer": "I want milestones that show progress before the next cycle, not only retrospective feedback.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "engagement": -1,
+      "clarity": -3
+    },
+    "note": "Names a specific missing structure — forward milestones instead of retrospective feedback — which signals low clarity and mildly reduced engagement; [THREAD-DEFERRED-WINDDOWN] milestones before the next cycle."
+  },
+  "new_queue": [
+    {
+      "alias": "q_first_move_3",
+      "label": "First move",
+      "name": "What's the first concrete thing you want to do before we next meet?"
+    },
+    {
+      "alias": "q_first_focus",
+      "label": "First focus",
+      "name": "Given what we've covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -1,
+          "answer_excerpt": "If we define two concrete leadership bets for this half, I can commit fully."
+        },
+        {
+          "q": "q_sponsorship_shape",
+          "delta": -1,
+          "answer_excerpt": "I want milestones that show progress before the next cycle, not only retrospective feedback."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared."
+        },
+        {
+          "q": "q_high_ambiguity_forums",
+          "delta": 1,
+          "answer_excerpt": "I think I need to own a cross-org decision area, not just deliver strong design outcomes."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -1,
+          "answer_excerpt": "If we define two concrete leadership bets for this half, I can commit fully."
+        },
+        {
+          "q": "q_sponsorship_shape",
+          "delta": -1,
+          "answer_excerpt": "I want milestones that show progress before the next cycle, not only retrospective feedback."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        },
+        {
+          "q": "q_sponsorship_shape",
+          "delta": -3,
+          "answer_excerpt": "I want milestones that show progress before the next cycle, not only retrospective feedback."
+        }
+      ]
+    },
+    "growth": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital."
+        },
+        {
+          "q": "q_political_capital",
+          "delta": -3,
+          "answer_excerpt": "I can lead major initiatives, but I do not always translate that into visible strategic influence."
+        },
+        {
+          "q": "q_strategic_influence_gap",
+          "delta": -3,
+          "answer_excerpt": "I get positive feedback on craft and collaboration, but less clarity on what separates me at the next level."
+        },
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -3,
+          "answer_excerpt": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared."
+        },
+        {
+          "q": "q_high_ambiguity_forums",
+          "delta": 3,
+          "answer_excerpt": "I think I need to own a cross-org decision area, not just deliver strong design outcomes."
+        },
+        {
+          "q": "q_cross_org_decisions",
+          "delta": -3,
+          "answer_excerpt": "I also need clearer sponsorship in rooms where priorities are set."
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": -3,
+          "answer_excerpt": "If we define two concrete leadership bets for this half, I can commit fully."
+        }
+      ]
+    }
+  }
+}

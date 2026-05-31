@@ -1,0 +1,9 @@
+alias: q_political_conversations_6
+label: Political conversations
+name: In those political conversations, what feels hardest to navigate?
+description: Drills into the specific dynamic that makes him retreat from senior-level influence into execution.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+source: planner_added

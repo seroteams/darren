@@ -1,0 +1,9 @@
+alias: q_wait_pattern_2
+label: Wait pattern
+name: What makes you hold back until the analysis is complete?
+description: Drills into the specific waiting pattern she named to surface the driver behind late influence.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

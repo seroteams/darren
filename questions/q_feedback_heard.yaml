@@ -1,0 +1,10 @@
+alias: q_feedback_heard
+label: Feedback heard
+name: What feedback did you actually take in from that process?
+description: Gets at the concrete message he internalized, rather than the formal outcome.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

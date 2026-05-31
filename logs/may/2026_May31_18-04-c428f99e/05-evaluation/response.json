@@ -1,0 +1,51 @@
+{
+  "headline": "Elena described a post-reorg shift where she’s carrying more ambiguity, feeling less grounded, and pulling back in visible leadership until success measures and air cover are clearer.",
+  "summary_bullets": [
+    "Elena’s answers tie the reorg to quieter leadership presence: “I have been quieter in leadership meetings” because she’s “figuring out where my voice has most leverage.”",
+    "The core constraint is clarity and decision support: she wants “clearer prioritization” and “a little more air cover in cross-team decisions.”",
+    "She’s protecting the team from noise while absorbing ambiguity herself: “I am carrying more ambiguity myself,” which maps to both low groundedness and unclear success measures."
+  ],
+  "understanding_paragraph": "Elena is not reporting a broken situation, but she is less grounded than before and is absorbing ambiguity to protect her team. The session clarified that her pullback in leadership forums is an adaptation to unclear leverage and unclear success metrics in the new setup. She also named specific support she wants: clearer prioritization plus air cover in cross-team decisions.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -10,
+      "meaning": "Strong negative signal: she feels less grounded and is carrying ambiguity herself, which is not sustainable without changes."
+    },
+    {
+      "id": "engagement",
+      "score": -4,
+      "meaning": "Worth noting: she’s quieter and wants to re-engage visibly, but only after steadier footing is in place."
+    },
+    {
+      "id": "clarity",
+      "score": -6,
+      "meaning": "Real pattern: success measurement and prioritization are unclear, and that uncertainty is driving her day-to-day stress."
+    },
+    {
+      "id": "growth",
+      "score": -2,
+      "meaning": "Weak-to-moderate signal: she’s still calibrating how to use her voice and where leverage is, so growth is gated by clarity."
+    }
+  ],
+  "brutal_truth_employee": "Elena says, “I do feel less grounded than I did before,” and connects it directly to how she’s working: “I am carrying more ambiguity myself.” She also names the blocker to re-engaging: “I am not fully clear yet on how success is being measured in this new setup.”",
+  "brutal_truth_manager": "You got Elena to name concrete support (“clearer prioritization” and “air cover in cross-team decisions”), but you didn’t lock it into a specific, near-term decision target beyond “focus first over the next two weeks.” The next time, after she names one cross-team decision, keep the mic on her until you have the exact decision, owner, and what “air cover” looks like in that moment.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Confirm the single cross-team decision Elena named and write down the owner, deadline, and what “air cover” means for that decision."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 30-minute alignment with the relevant cross-team stakeholders to agree clearer prioritization and success-measurement criteria for Elena’s new setup."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Ask Elena whether she re-engaged more visibly, and if not, what specific ambiguity or missing measurement still blocks her."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: Elena reports less groundedness or continued “carrying more ambiguity myself” despite clearer prioritization and air cover.",
+    "Before next 1:1: Elena can name the success-measurement criteria for the new setup without prompting, not just “still figuring it out.”"
+  ]
+}

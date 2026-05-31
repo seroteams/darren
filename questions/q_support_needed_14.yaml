@@ -1,0 +1,10 @@
+alias: q_support_needed_14
+label: Support needed
+name: What kind of support would actually make this week easier for you?
+description: Invites a concrete ask so the manager can respond to the real constraint instead of guessing.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

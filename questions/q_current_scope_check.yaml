@@ -1,0 +1,10 @@
+alias: q_current_scope_check
+label: Current scope check
+name: "What's feeling most solid in your role right now, Ahmed?"
+description: Opens with a calm read on where he feels grounded before moving into growth or concern.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

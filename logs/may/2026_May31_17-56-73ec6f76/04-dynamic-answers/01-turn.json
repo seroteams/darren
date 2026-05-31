@@ -1,0 +1,88 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_perf_01_opening",
+    "label": "Self-read opener",
+    "name": "Before I share my view, how do you think the last stretch has gone?",
+    "description": "Anchors the conversation in their self-assessment first; gap vs manager's view becomes a signal.",
+    "purpose": "topic",
+    "stage": "self_read",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I can name wins, but I am not always sure they match the team bar.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "clarity": -3
+    },
+    "note": "He can identify wins but explicitly says he is unsure whether they meet the team bar, which is a strong clarity gap with mild engagement signal."
+  },
+  "new_queue": [
+    {
+      "alias": "q_team_bar_mismatch_3",
+      "label": "Team bar mismatch",
+      "name": "When your wins miss the team bar, where does the mismatch usually show up?"
+    },
+    {
+      "alias": "q_quality_in_examples",
+      "label": "Quality in examples",
+      "name": "What does good brand design look like in your work right now?"
+    },
+    {
+      "alias": "q_recent_work_sample",
+      "label": "Recent work sample",
+      "name": "Which recent piece of work best shows your current standard?"
+    },
+    {
+      "alias": "q_feedback_changed_what",
+      "label": "Feedback changed what",
+      "name": "What changed in your work after the last round of feedback?"
+    },
+    {
+      "alias": "q_work_slowing_you_down",
+      "label": "Work slowing you down",
+      "name": "What part of your growth feels most blocked right now?"
+    },
+    {
+      "alias": "q_next_step_agreement",
+      "label": "Next step agreement",
+      "name": "What should we agree you will do before we next meet?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

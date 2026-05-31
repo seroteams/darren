@@ -1,0 +1,9 @@
+alias: q_decision_feedback_2
+label: Decision feedback
+name: On key decisions, what feedback are you not getting that you need?
+description: Drills into the missing feedback so the manager can see whether the gap is quality, speed, or alignment.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

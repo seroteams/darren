@@ -1,0 +1,10 @@
+alias: q_team_friction_2
+label: Team friction
+name: What part of the team setup is making your work harder than it needs to be?
+description: Looks for process or structure friction he may be absorbing silently.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

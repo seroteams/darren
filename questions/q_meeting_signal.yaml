@@ -1,0 +1,10 @@
+alias: q_meeting_signal
+label: Meeting signal
+name: What do you want your cross-functional updates to signal more clearly?
+description: Tests how she frames plans, tradeoffs, and ownership in meetings so partners read her intent correctly.
+purpose: competency
+stage: blockers
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

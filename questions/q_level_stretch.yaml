@@ -1,0 +1,10 @@
+alias: q_level_stretch
+label: Level stretch
+name: What part of your role feels most like senior scope today?
+description: Surfaces where he is already operating at the next level rather than only talking about it.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

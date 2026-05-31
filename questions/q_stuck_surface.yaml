@@ -1,0 +1,10 @@
+alias: q_stuck_surface
+label: Stuck surface
+name: What feels unresolved for you right now?
+description: Gets at the specific open loop that may be sitting behind reduced visibility or momentum.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

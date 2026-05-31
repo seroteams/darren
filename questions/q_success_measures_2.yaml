@@ -1,0 +1,9 @@
+alias: q_success_measures_2
+label: Success measures
+name: What feels most undefined about how success is measured now?
+description: Drills into her specific concern so the ambiguity becomes concrete enough to address.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

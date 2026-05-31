@@ -1,0 +1,10 @@
+alias: q_next_step_landing
+label: Next-step landing
+name: "Given what we've covered, what should we tighten up before our next check-in?"
+description: Closes on concrete follow-up and keeps the meeting moving toward action.
+purpose: topic
+stage: connection
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_last_cycle_thread
+label: Last cycle thread
+name: When you think about last cycle, what still feels unresolved for you?
+description: Drills into the specific unresolved part of last cycle that is still blocking forward movement.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+source: planner_added

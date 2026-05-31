@@ -1,0 +1,10 @@
+alias: q_need_from_me
+label: Need from me
+name: What do you want me to do differently for you in the next couple of weeks?
+description: Invites a concrete ask for manager support that can be acted on quickly.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

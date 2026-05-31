@@ -1,0 +1,9 @@
+alias: q_decide_vs_escalate_3
+label: Decide vs escalate
+name: On decide versus escalate, what feels hardest to judge right now?
+description: Drills into the specific boundary she named so the manager can remove ambiguity.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

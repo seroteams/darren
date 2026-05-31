@@ -1,0 +1,10 @@
+alias: q_manager_investment
+label: Manager investment
+name: "What should I change in how I'm supporting your growth?"
+description: "Opens the manager's side of the investment conversation before asking for the employee's trade-offs."
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

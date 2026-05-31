@@ -1,0 +1,93 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_week_three_check_in_2",
+    "label": "Week three check-in",
+    "name": "What's been most on your mind at work this week, Sam?",
+    "description": "Safe opener that lets Sam set context before any friction is introduced.",
+    "purpose": "wellbeing",
+    "stage": "settling",
+    "axis_effects": {
+      "wellbeing": 1,
+      "clarity": 1
+    },
+    "source": "generated"
+  },
+  "answer": "I can do the tasks, but I still second-guess whether my approach matches team expectations.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "He can execute tasks but is second-guessing whether his approach matches team expectations, signaling mild strain and a clear expectations gap."
+  },
+  "new_queue": [
+    {
+      "alias": "q_team_expectations_4",
+      "label": "Team expectations",
+      "name": "When you second-guess, what team expectation feels hardest to read?"
+    },
+    {
+      "alias": "q_unclear_expectations_3",
+      "label": "Unclear expectations",
+      "name": "What part of the bar for a good ticket is still fuzzy?"
+    },
+    {
+      "alias": "q_handshake_gaps",
+      "label": "Handshake gaps",
+      "name": "Where do handoffs still leave you missing context?"
+    },
+    {
+      "alias": "q_shipping_hesitation_2",
+      "label": "Shipping hesitation",
+      "name": "What usually makes you pause before shipping?"
+    },
+    {
+      "alias": "q_tool_friction",
+      "label": "Tool friction",
+      "name": "Which part of the toolchain slows you down most right now?"
+    },
+    {
+      "alias": "q_independence_support",
+      "label": "Independence support",
+      "name": "What support from me would help you ship with less second-guessing?"
+    },
+    {
+      "alias": "q_next_focus_3",
+      "label": "Next focus",
+      "name": "Given what we covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_week_three_check_in_2",
+          "delta": -1,
+          "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_week_three_check_in_2",
+          "delta": -1,
+          "answer_excerpt": "I can do the tasks, but I still second-guess whether my approach matches team expectations."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

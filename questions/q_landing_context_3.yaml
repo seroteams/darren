@@ -1,0 +1,9 @@
+alias: q_landing_context_3
+label: Landing context
+name: Before we get specific, what would be most useful to talk through today?
+description: Gives James control over the agenda and surfaces the issue he most wants to address.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  clarity: +1
+source: generated

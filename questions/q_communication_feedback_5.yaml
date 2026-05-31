@@ -1,0 +1,9 @@
+alias: q_communication_feedback_5
+label: Communication feedback
+name: That communication feedback — what part of it are you still processing?
+description: Drills into the specific feedback thread to locate the friction and what is still unsettled.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

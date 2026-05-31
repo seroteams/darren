@@ -1,0 +1,10 @@
+alias: q_promotion_feedback
+label: Promotion feedback
+name: What feedback from the promotion decision actually stuck with you?
+description: Surfaces what he heard versus what was intended, and whether it became usable.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

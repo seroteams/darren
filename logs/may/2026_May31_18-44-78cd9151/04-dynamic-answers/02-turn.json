@@ -1,0 +1,92 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_decision_making_map_4",
+    "label": "Decision-making map",
+    "name": "When you say 'how decisions are really made' — what part is least clear?",
+    "description": "Drills into the specific decision-making gap he named so the manager can remove that friction.",
+    "purpose": "topic",
+    "stage": "settling",
+    "axis_effects": {
+      "clarity": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "I can trace most request paths now, though I still miss historical context behind certain tradeoffs.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1
+    },
+    "note": "He has a workable technical map but still lacks historical context behind tradeoffs, which is a mild remaining clarity gap."
+  },
+  "new_queue": [
+    {
+      "alias": "q_thread_follow_34",
+      "label": "Thread follow",
+      "name": "trace most request — can you say more about what that means for you right now?"
+    },
+    {
+      "alias": "q_ownership_map",
+      "label": "Ownership map",
+      "name": "What feels clearest to you about what you own right now?"
+    },
+    {
+      "alias": "q_gray_areas",
+      "label": "Gray areas",
+      "name": "Where are the ownership boundaries still fuzzy for you?"
+    },
+    {
+      "alias": "q_context_gaps_2",
+      "label": "Context gaps",
+      "name": "What context are you still waiting on before you change a design or make an architecture call?"
+    },
+    {
+      "alias": "q_incident_norms",
+      "label": "Incident norms",
+      "name": "How should you know when to escalate during an incident here?"
+    },
+    {
+      "alias": "q_support_network_3",
+      "label": "Support network",
+      "name": "Who do you want to lean on first when you hit something unclear?"
+    },
+    {
+      "alias": "q_useful_next_step",
+      "label": "Useful next step",
+      "name": "What would make the next two weeks feel steadier for you, Riley?"
+    }
+  ],
+  "issues": [
+    "runtime: injected thread-follow question"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_landing_check",
+          "delta": -1,
+          "answer_excerpt": "I am comfortable reading the services, but I am less sure how decisions are really made here."
+        },
+        {
+          "q": "q_decision_making_map_4",
+          "delta": -1,
+          "answer_excerpt": "I can trace most request paths now, though I still miss historical context behind certain tradeoffs."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

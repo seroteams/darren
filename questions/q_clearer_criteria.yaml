@@ -1,0 +1,9 @@
+alias: q_clearer_criteria
+label: Clearer criteria
+name: What would clearer criteria look like to you in practice?
+description: Drills into the specific criteria he feels are missing so the recognition gap becomes concrete.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+source: planner_added

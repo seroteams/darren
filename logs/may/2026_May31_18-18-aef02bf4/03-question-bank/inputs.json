@@ -1,0 +1,46 @@
+{
+  "focusPoints": [
+    {
+      "id": "role_clarity",
+      "type": "Role clarity",
+      "category": "topic",
+      "label": "What 'good' means for Carlos right now.",
+      "reason": "What Carlos defines as good work right now, so feedback can be concrete instead of subjective.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "quality",
+      "type": "Quality",
+      "category": "competency",
+      "label": "Quality bar — turning feedback into behavior.",
+      "reason": "Whether prior feedback translated into specific behavior changes, or stayed abstract, so you can calibrate the quality bar with examples.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Where Carlos feels blocked in growth.",
+      "reason": "Where Carlos feels blocked in growth, so you can pick a near-term practice that removes the bottleneck.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "Feedback landing — both directions.",
+      "reason": "How feedback has been landing for him, and what kind of feedback he wants more of, so the next cycle is easier to act on.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "name": "Carlos",
+  "role": "Brand Designer",
+  "seniority": "Junior",
+  "meetingType": "Performance & feedback",
+  "notes": "For Carlos, this performance conversation needs to make the quality bar concrete and usable. I want to understand whether prior feedback translated into behavior changes or stayed abstract. I also need to hear how he defines good work right now and where he feels blocked in growth. Without that shared baseline, feedback can feel subjective and demotivating. My goal is to align on specific expectations, examples, and one near-term development focus he can practice immediately.",
+  "model": "gpt-5.4-mini"
+}

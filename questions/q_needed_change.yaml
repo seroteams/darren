@@ -1,0 +1,10 @@
+alias: q_needed_change
+label: Needed change
+name: "When you say 'what needed to change' — what felt unclear to you?"
+description: Clarifies the specific expectations or gaps he felt he was left to infer after the decision.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added

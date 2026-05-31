@@ -1,0 +1,9 @@
+alias: q_team_bar_mismatch_2
+label: Team bar mismatch
+name: "When you say 'team bar' — what feels unclear about it?"
+description: Drills into the specific source of his uncertainty about standards before moving on.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

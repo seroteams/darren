@@ -1,0 +1,9 @@
+alias: q_decision_rights_2
+label: Decision rights
+name: Where do you need a faster call from me?
+description: Surfaces places where delay or ambiguity is slowing her down and where manager action would help.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +3
+source: generated

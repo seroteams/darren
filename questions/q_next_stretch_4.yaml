@@ -1,0 +1,10 @@
+alias: q_next_stretch_4
+label: Next stretch
+name: What would you want to change in how you work over the next month?
+description: Gets a concrete commitment on one behavior to shift without opening a new topic.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

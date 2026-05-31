@@ -1,0 +1,52 @@
+{
+  "name": "Nina",
+  "roleTitle": "Frontend Engineer",
+  "seniority": "Senior",
+  "meetingType": "Bi-weekly check-in",
+  "observedShift": "Nina shipped two major features ahead of schedule after several weeks of late nights and has been downplaying concern. I need to separate output from sustainability and understand what is actually driving the current load now that the sprint pressure is over. I also want to hear where she feels blocked in visibility and influence, because strong execution without recognition can quietly drain engagement. This check-in should clarify her near-term priorities and what support she actually wants from me.",
+  "focusPoints": [
+    {
+      "id": "workload",
+      "type": "Workload & capacity",
+      "category": "wellbeing",
+      "label": "Late nights — what’s driving the current load now?",
+      "reason": "Notes say she shipped ahead after several weeks of late nights and has been downplaying concern. Could be a temporary sprint push, or a longer-term capacity/visibility issue — worth clarifying what’s driving the load now that sprint pressure is over.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "Near-term priorities now that pressure eased",
+      "reason": "Whether her top-three initiatives are still the right bets, or if she’s carrying forward sprint habits without the same urgency.",
+      "source": "best_practice",
+      "known": true
+    },
+    {
+      "id": "recognition",
+      "type": "Recognition & achievements",
+      "category": "topic",
+      "label": "Recognition and whether wins are landing",
+      "reason": "Notes flag strong execution without recognition can quietly drain engagement. Could be she’s not getting credit, or she’s not sure how to translate wins into visibility — worth clarifying what “seen” would look like for her.",
+      "source": "signal",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What support she wants from you right now",
+      "reason": "Whether she needs air cover, clearer decision rights, or more time with you to unblock visibility and influence — bi-weekly is a good cadence to make that explicit.",
+      "source": "best_practice",
+      "known": true
+    }
+  ],
+  "model": "gpt-5.4",
+  "runId": "1c0524a3-2e1f-4fef-b155-51d5eb56325e",
+  "validation": {
+    "passed": true,
+    "issues": []
+  },
+  "attempts": 1
+}

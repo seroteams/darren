@@ -1,0 +1,9 @@
+alias: q_reset_timing_4
+label: Reset timing
+name: Is now a bad time for this, or should we pick it up later?
+description: Directly resets a non-functional session after repeated skips.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added

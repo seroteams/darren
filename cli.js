@@ -17,6 +17,7 @@ const { runQuestionBankStage } = require("./src/cli/stages/question-bank");
 const { runQuestioningLoop } = require("./src/cli/stages/questioning");
 const { runEvaluationStage, writeSessionCost } = require("./src/cli/stages/evaluation");
 const { collectRunRating } = require("./src/cli/run-rating");
+const { buildRunDebriefPayload, printRunDebrief } = require("./src/run-debrief");
 const {
   bold,
   dim,
@@ -141,6 +142,7 @@ async function main() {
   }
 
   const session = createSession();
+  session.createdAt = Date.now();
   const tracker = cost.createTracker();
   cost.setActive(tracker);
 
@@ -228,11 +230,24 @@ async function main() {
   });
 
   writeSessionCost(session, tracker);
+  session.completedAt = Date.now();
 
   console.log();
   console.log(HR);
   console.log("  " + dim(`Log: ${path.relative(__dirname, session.dir).replace(/\\/g, "/")}/`));
   console.log();
+
+  const debriefPayload = buildRunDebriefPayload({
+    sessionId: session.id,
+    sessionDir: session.dir,
+    notes,
+    cost: tracker.summary(),
+    createdAt: session.createdAt,
+    completedAt: session.completedAt,
+    meetingType: ctx.meetingType,
+    surface: "cli",
+  });
+  printRunDebrief(debriefPayload, { dim, cyan, HR });
 
   try {
     await reviewLexiconSession({ session, ctx, ask });

@@ -1,0 +1,10 @@
+alias: q_decision_pressure_3
+label: Decision pressure
+name: Where do you want more decision-making room right now?
+description: Surfaces where she is over-constrained and wants more autonomy or air cover.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

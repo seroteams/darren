@@ -2,7 +2,7 @@ const fs = require("node:fs");
 
 const { logStage } = require("./session");
 const { loadAxes } = require("./axes");
-const { promptFor } = require("./one-on-one-types");
+const { promptFor, getArc } = require("./one-on-one-types");
 const cost = require("./cost");
 
 const { modelFor } = require("./models");
@@ -75,12 +75,16 @@ const RESPONSE_SCHEMA = {
 function buildMessages({ ctx, focusPoints, transcript, axisState, notes }) {
   const template = fs.readFileSync(promptFor(ctx.meetingType, "evaluation"), "utf8");
   const axes = loadAxes();
+  const arc = getArc(ctx.meetingType);
   const filled = template
     .replaceAll("{{AXES_JSON}}", JSON.stringify(axes, null, 2))
     .replaceAll("{{NAME}}", ctx.name || "(not provided)")
     .replaceAll("{{ROLE}}", ctx.role || "(not provided)")
     .replaceAll("{{SENIORITY}}", ctx.seniority || "(not provided)")
     .replaceAll("{{MEETING_TYPE}}", ctx.meetingType)
+    .replaceAll("{{TONE_REGISTER}}", arc.tone_register)
+    .replaceAll("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc.anti_patterns, null, 2))
+    .replaceAll("{{MEETING_ARC_JSON}}", JSON.stringify(arc.arc, null, 2))
     .replaceAll("{{MANAGER_NOTES}}", notes || "(none)")
     .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
     .replaceAll("{{TRANSCRIPT_JSON}}", JSON.stringify(transcript, null, 2))

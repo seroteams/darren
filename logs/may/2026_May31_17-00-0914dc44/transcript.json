@@ -1,0 +1,205 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_intro_growth_blockers",
+      "label": "Growth blockers",
+      "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+      "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "growth": 3,
+        "clarity": 1
+      },
+      "source": "seed"
+    },
+    "answer": "I am still motivated, but the promotion outcome made me more careful about where I spend political capital.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "Promotion disappointment has made him more cautious about spending political capital, signalling a strong growth blocker and mild uncertainty about how to advance."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_political_capital",
+      "label": "Political capital",
+      "name": "Political capital — where are you holding back right now?",
+      "description": "Drills into the specific arenas where the promotion outcome made him less willing to take visible positions.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I can lead major initiatives, but I do not always translate that into visible strategic influence.",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -3
+    },
+    "note": "He names a clear growth gap: strong initiative leadership is not yet turning into visible strategic influence."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_strategic_influence_gap",
+      "label": "Strategic influence gap",
+      "name": "Where specifically does your influence stop short of the strategic level?",
+      "description": "Drills into the exact boundary between leading initiatives and shaping broader decisions.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": {
+        "growth": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I get positive feedback on craft and collaboration, but less clarity on what separates me at the next level.",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -3
+    },
+    "note": "He names a clear growth gap: positive feedback on craft and collaboration, but unclear differentiation for the next level; also reveals a clarity issue worth probing later."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?",
+      "description": "Distinguishes comfort-zone execution from genuine growth moments.",
+      "purpose": "topic",
+      "stage": "anchor",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1
+      },
+      "source": "seed"
+    },
+    "answer": "Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "growth": -3
+    },
+    "note": "Avoiding high-ambiguity forums to avoid sounding underprepared signals a strong growth constraint and mild pullback from visible engagement."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_high_ambiguity_forums",
+      "label": "High-ambiguity forums",
+      "name": "High-ambiguity forums — what feels most risky when you step into them?",
+      "description": "Drills into the specific fear or constraint behind avoiding visible strategic settings.",
+      "purpose": "topic",
+      "stage": "anchor",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I think I need to own a cross-org decision area, not just deliver strong design outcomes.",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": 1,
+      "growth": 3
+    },
+    "note": "He names a concrete next-level aspiration — owning a cross-org decision area — which signals strong growth direction and some continued ambition."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_cross_org_decisions",
+      "label": "Cross-org decisions",
+      "name": "Cross-org decision area — which decisions do you want your name attached to?",
+      "description": "Turns his stated aspiration into a concrete picture of the scope and outcomes he wants to own.",
+      "purpose": "topic",
+      "stage": "anchor",
+      "axis_effects": {
+        "growth": 3,
+        "wellbeing": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "I also need clearer sponsorship in rooms where priorities are set.",
+    "skipped": false,
+    "realized_deltas": {
+      "growth": -3
+    },
+    "note": "Names missing sponsorship in priority-setting rooms as a concrete growth blocker; also hints at clarity/alignment, but clarity is off-signature. [THREAD-DEFERRED] 'clearer sponsorship in rooms where priorities are set' not drilled because drill cap requires stage advance."
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?",
+      "description": "Probes whether they have a real picture of where they want to go.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": {
+        "growth": 3,
+        "engagement": 1,
+        "wellbeing": 3
+      },
+      "source": "seed"
+    },
+    "answer": "If we define two concrete leadership bets for this half, I can commit fully.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": -1,
+      "growth": -3
+    },
+    "note": "Names a missing condition for committing fully — two concrete leadership bets — which signals stalled growth direction and some hesitancy; [THREAD-DEFERRED-WINDDOWN] 'two concrete leadership bets for this half'."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_sponsorship_shape",
+      "label": "Sponsorship shape",
+      "name": "What kind of sponsorship would actually move the needle for you here?",
+      "description": "Surfaces the specific air cover, introductions, or backing he needs instead of generic support.",
+      "purpose": "topic",
+      "stage": "investment",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1,
+        "wellbeing": 3
+      },
+      "source": "generated"
+    },
+    "answer": "I want milestones that show progress before the next cycle, not only retrospective feedback.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "engagement": -1,
+      "clarity": -3
+    },
+    "note": "Names a specific missing structure — forward milestones instead of retrospective feedback — which signals low clarity and mildly reduced engagement; [THREAD-DEFERRED-WINDDOWN] milestones before the next cycle."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_first_move_3",
+      "label": "First move",
+      "name": "What's the first concrete thing you want to do before we next meet?",
+      "description": "Closes on a specific commitment that turns the growth conversation into an action plan.",
+      "purpose": "competency",
+      "stage": "commitment",
+      "axis_effects": {
+        "growth": 1,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "[SKIP] no signal — planner bypassed, queue carried forward"
+  }
+]

@@ -1,0 +1,10 @@
+alias: q_quality_in_examples
+label: Quality in examples
+name: What does good brand design look like in your work right now?
+description: Surfaces his current quality bar in concrete terms rather than abstractions.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

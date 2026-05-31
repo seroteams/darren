@@ -1,0 +1,95 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_perf_01_opening",
+    "label": "Self-read opener",
+    "name": "Before I share my view, how do you think the last stretch has gone?",
+    "description": "Anchors the conversation in their self-assessment first; gap vs manager's view becomes a signal.",
+    "purpose": "topic",
+    "stage": "self_read",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I can name wins, but I am not always sure they match the team bar.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "clarity": -3
+    },
+    "note": "He can identify wins but explicitly says he is unsure whether they meet the team bar, which is a strong clarity gap with mild engagement still present."
+  },
+  "new_queue": [
+    {
+      "alias": "q_thread_follow_15",
+      "label": "Thread follow",
+      "name": "name wins, always — can you say more about what that means for you right now?"
+    },
+    {
+      "alias": "q_team_bar_mismatch_4",
+      "label": "Team bar mismatch",
+      "name": "When your wins miss the team bar, what tends to be off?"
+    },
+    {
+      "alias": "q_concrete_examples",
+      "label": "Concrete examples",
+      "name": "Which recent piece of work best shows your current quality bar?"
+    },
+    {
+      "alias": "q_feedback_translated",
+      "label": "Feedback translated",
+      "name": "What changed in your day-to-day after the last round of feedback?"
+    },
+    {
+      "alias": "q_quality_misses",
+      "label": "Quality misses",
+      "name": "Where do you think your work most often misses the bar?"
+    },
+    {
+      "alias": "q_working_definition",
+      "label": "Working definition",
+      "name": "How do you decide when a design is ready to ship?"
+    },
+    {
+      "alias": "q_next_two_weeks_21",
+      "label": "Next two weeks",
+      "name": "What would you like to have changed by our next check-in?"
+    }
+  ],
+  "issues": [
+    "runtime: injected thread-follow question"
+  ],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": 1,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_perf_01_opening",
+          "delta": -3,
+          "answer_excerpt": "I can name wins, but I am not always sure they match the team bar."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

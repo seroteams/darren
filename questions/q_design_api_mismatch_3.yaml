@@ -1,0 +1,9 @@
+alias: q_design_api_mismatch_3
+label: Design/API mismatch
+name: When design and API details do not match, where does it usually break first?
+description: Drills into the specific mismatch he named so the manager can locate the unclear handoff.
+purpose: topic
+stage: settling
+axis_effects:
+  clarity: +1
+source: planner_added

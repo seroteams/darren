@@ -1,0 +1,10 @@
+alias: q_political_conversations_4
+label: Political conversations
+name: In those political conversations, what makes you step back instead of lead through them?
+description: Drills into the specific stakeholder dynamic behind his retreat to execution.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

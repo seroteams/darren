@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Onboarding check-in",
+  "focus_points": [
+    {
+      "id": "team_connection",
+      "label": "How he’s landing with the team day-to-day.",
+      "reason": "Riley is in week two and has mostly learned from docs and async notes rather than direct team contact. One possibility is he’s moving fast but missing tacit norms and how decisions really get made, so it’s worth clarifying what direct interactions he’s had so far.",
+      "source": "signal"
+    },
+    {
+      "id": "role_clarity",
+      "label": "Ownership boundaries and what “good” means.",
+      "reason": "Riley’s onboarding focus should include clear ownership boundaries so he doesn’t build an internal map that differs from how the team actually operates. For a Mid backend engineer, role clarity prevents wasted effort and reduces the chance of late rework when expectations surface.",
+      "source": "best_practice"
+    },
+    {
+      "id": "blockers",
+      "label": "Where he should ask for context early.",
+      "reason": "Riley could be at risk of making architecture assumptions without the right context. Clarifying which questions he should ask, and when, can turn missing context into concrete onboarding support before it compounds.",
+      "source": "signal"
+    },
+    {
+      "id": "stakeholder_engagement",
+      "label": "Incident expectations and escalation norms.",
+      "reason": "Riley’s manager specifically wants to check incident expectations. At Mid level, getting escalation and expectations right early is what keeps him productive while still protecting the team during incidents.",
+      "source": "best_practice"
+    }
+  ]
+}

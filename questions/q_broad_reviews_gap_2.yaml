@@ -1,0 +1,10 @@
+alias: q_broad_reviews_gap_2
+label: Broad reviews gap
+name: When reviews are broad, what guidance is missing most for you?
+description: Pins down the specific gap in feedback so the performance issue is named concretely.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +1
+  growth: +3
+source: planner_added

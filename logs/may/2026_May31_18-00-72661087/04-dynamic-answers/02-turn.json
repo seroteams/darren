@@ -1,0 +1,81 @@
+{
+  "turn": 2,
+  "question": {
+    "alias": "q_unwritten_rules_2",
+    "label": "Unwritten rules",
+    "name": "These 'unwritten rules' — where do they show up most for you right now?",
+    "description": "Drills into the specific meetings or situations where hidden norms are creating confusion.",
+    "purpose": "topic",
+    "stage": "settling",
+    "axis_effects": {
+      "clarity": 1
+    },
+    "source": "planner_added"
+  },
+  "answer": "I can draft plans, though I am not always sure when I should decide versus escalate.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1
+    },
+    "note": "She can do the planning work but is unsure about the decide-versus-escalate boundary, which is a clear mild role-clarity gap."
+  },
+  "new_queue": [
+    {
+      "alias": "q_decide_vs_escalate_2",
+      "label": "Decide vs escalate",
+      "name": "Decide versus escalate — what makes that line hard to read right now?"
+    },
+    {
+      "alias": "q_first_friction",
+      "label": "First friction",
+      "name": "What is still slowing you down when priorities conflict?"
+    },
+    {
+      "alias": "q_consensus_drag",
+      "label": "Consensus drag",
+      "name": "What part of alignment is creating the most extra cycle for you?"
+    },
+    {
+      "alias": "q_steadier_next_steps",
+      "label": "Steadier next steps",
+      "name": "What support from me would make the next two weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_landing_check_in_3",
+          "delta": -1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_landing_check_in_3",
+          "delta": -1,
+          "answer_excerpt": "I am settling in, but I still feel like I am learning the unwritten rules in every meeting."
+        },
+        {
+          "q": "q_unwritten_rules_2",
+          "delta": -1,
+          "answer_excerpt": "I can draft plans, though I am not always sure when I should decide versus escalate."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

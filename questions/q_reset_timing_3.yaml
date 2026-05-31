@@ -1,0 +1,9 @@
+alias: q_reset_timing_3
+label: Reset timing
+name: Is now a good time for this conversation, or should we reschedule?
+description: Direct reset to confirm whether to continue or stop a non-functional session.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+source: planner_added

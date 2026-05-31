@@ -1,0 +1,9 @@
+alias: q_cross_org_ownership
+label: Cross-org ownership
+name: Cross-org decision area — which one would you want to own?
+description: Turns his stated aspiration into a concrete scope rather than a generic next-level idea.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

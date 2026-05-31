@@ -1,0 +1,10 @@
+alias: q_support_needs_15
+label: Support needs
+name: What would make the next couple of weeks easier for you?
+description: Moves toward concrete support without opening a new diagnosis.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

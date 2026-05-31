@@ -1,0 +1,10 @@
+alias: q_feedback_changed_what
+label: Feedback changed what
+name: What changed in your work after the last round of feedback?
+description: Checks whether prior feedback translated into behavior, not just agreement.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

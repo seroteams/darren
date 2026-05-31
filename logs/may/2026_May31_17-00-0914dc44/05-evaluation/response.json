@@ -1,0 +1,51 @@
+{
+  "headline": "Toby is motivated but blocked by post-promotion caution, with unclear next-level criteria and avoidance of high-ambiguity forums.",
+  "summary_bullets": [
+    "Promotion outcome shifted Toby’s political behavior: “more careful about where I spend political capital.”",
+    "He can describe the gap (“less clarity on what separates me at the next level”) but can’t yet name the decision ownership mechanics that would prove it.",
+    "He wants sponsorship and measurable progress upfront (“milestones that show progress before the next cycle”), not retrospective feedback."
+  ],
+  "understanding_paragraph": "We learned Toby’s main blocker is not effort or craft: he’s actively managing risk after being passed over. The session clarified that “next level” for him means decision ownership plus cross-org sponsorship, not just leading initiatives. The missing piece is a concrete definition of which decisions he owns and how sponsorship will be made visible before the next cycle.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -3,
+      "meaning": "Running cool but constrained by caution after the promotion outcome; worth watching for sustained stress from political risk management."
+    },
+    {
+      "id": "engagement",
+      "score": -3,
+      "meaning": "Motivation is present, but investment is dampened by avoidance of high-ambiguity forums and a focus on risk control."
+    },
+    {
+      "id": "clarity",
+      "score": -4,
+      "meaning": "He lacks a crisp next-level bar; he can name the gap but not the separating expectations or criteria."
+    },
+    {
+      "id": "growth",
+      "score": -10,
+      "meaning": "Growth direction is tightly conditional on getting two concrete leadership bets and clear sponsorship; without that, he won’t commit."
+    }
+  ],
+  "brutal_truth_employee": "Toby tied his caution directly to outcomes: “the promotion outcome made me more careful about where I spend political capital.” He also admits the core problem is definition, not ability: “less clarity on what separates me at the next level.”",
+  "brutal_truth_manager": "Toby gave you the exact contract shape he needs—“two concrete leadership bets for this half” and “milestones that show progress before the next cycle.” The moment to sharpen next time is when he said “Sometimes I avoid high-ambiguity forums because I do not want to sound underprepared”—you should convert that into a specific scope/decision-area and a sponsorship plan with an explicit decision owner and room access.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Draft Toby’s growth contract as two named leadership bets with decision ownership, success metrics, and the exact cross-org rooms where priorities are set."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule 30 minutes with Toby to pick one cross-org decision area and write the escalation/authority boundary for when he owns vs. when he requests air cover."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Ask Toby to name the next two high-ambiguity forums he will attend and what “underprepared” looks like in observable terms; then assign sponsorship for each."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks, if Toby continues to describe progress only as “retrospective feedback” rather than forward milestones, the contract isn’t landing.",
+    "Before next 1:1, if Toby avoids naming a specific cross-org decision area he will own, his growth plan will stay conditional."
+  ]
+}

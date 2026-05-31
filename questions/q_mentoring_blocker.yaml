@@ -1,0 +1,10 @@
+alias: q_mentoring_blocker
+label: Mentoring blocker
+name: What has kept the mentoring thread from moving?
+description: Surfaces the practical reason that a stated interest never turned into action.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

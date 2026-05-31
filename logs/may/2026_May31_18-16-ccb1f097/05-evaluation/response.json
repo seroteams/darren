@@ -1,0 +1,51 @@
+{
+  "headline": "Kenji’s confidence drops when priorities shift late, and he lacks a clear, week-to-week definition of “good.”",
+  "summary_bullets": [
+    "Kenji ties his uncertainty to late direction changes: “changing direction late and feeling like I missed something.”",
+    "He wants a calibration mechanism because he can’t consistently tell what to optimize for: “I lose confidence in what to optimize for.”",
+    "He reports uneven feedback quality as the lever for steadiness: “I feel better when feedback is specific and close to the work.”"
+  ],
+  "understanding_paragraph": "Kenji is not asking for more work; he’s asking for a more reliable way to know what “good” means week to week. He feels safer when feedback is specific and close to the work, and he gets into “guessing” when priorities change fast. The most actionable gap is a missing calibration/guardrails loop that turns shifting requirements into clear weekly targets.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -3,
+      "meaning": "Energy dips when direction changes late and he feels like he missed something; watch over the next few weeks."
+    },
+    {
+      "id": "engagement",
+      "score": -6,
+      "meaning": "Engagement is fragile because he alternates between feeling useful and guessing what to do next."
+    },
+    {
+      "id": "clarity",
+      "score": -10,
+      "meaning": "Clarity is the defining problem: he is unsure what “good” looks like week to week."
+    },
+    {
+      "id": "growth",
+      "score": -3,
+      "meaning": "Growth signal is weak because he can’t translate feedback into consistent confidence under fast-changing priorities."
+    }
+  ],
+  "brutal_truth_employee": "Kenji’s core signal is clarity, not effort: “I am still unsure what good really looks like here week to week.” He also links the work setup to his confidence: “When priorities change fast, I lose confidence in what to optimize for.”",
+  "brutal_truth_manager": "You got the key read out of Kenji (“week to week” “what good looks like” and “calibration loop”), but the conversation stayed at the level of needs rather than locking a concrete cadence. The moment to deepen was when he offered the mechanism: “A regular calibration loop would make this feel less shaky.” Next time, ask for the smallest version of that loop (who attends, what artifacts, and how fast you’ll turn it around).",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Propose a weekly 20-minute calibration for Kenji’s current tickets and confirm the day/time plus what “good” outputs he’ll bring."
+    },
+    {
+      "when": "this week",
+      "action": "Set a lightweight guardrails rule for late priority changes: define who decides, how Kenji gets notified, and what changes in his weekly “optimize for.”"
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-ask Kenji for one sentence of “good” for his current tickets and close by confirming whether the calibration reduced guessing on those days."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: if Kenji still says “I am guessing” on many days, the calibration cadence or artifacts are not landing.",
+    "Before next 1:1: if late direction changes happen without a clear weekly “optimize for” update, clarity will keep collapsing."
+  ]
+}

@@ -1,0 +1,9 @@
+alias: q_core_message_miss_2
+label: Core message miss
+name: When you lose the core message, what are you missing in the brief?
+description: Drills into the specific clarity failure he named before moving on.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

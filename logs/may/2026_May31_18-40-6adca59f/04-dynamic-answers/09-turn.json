@@ -1,0 +1,108 @@
+{
+  "turn": 9,
+  "question": {
+    "alias": "q_seed_clarity_priorities",
+    "label": "Priority ranking",
+    "name": "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?",
+    "description": "Forces a real priority ranking. Vague answers are a clarity signal.",
+    "purpose": "topic",
+    "axis_effects": {
+      "clarity": 3,
+      "engagement": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I would start by naming one forum where I want clearer criteria, and what support I need to show up there.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": 1,
+      "clarity": -1
+    },
+    "note": "He identifies a concrete next step around a forum needing clearer criteria, which shows some initiative but ongoing lack of role/expectation clarity."
+  },
+  "new_queue": [],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_support_needed_23",
+          "delta": 1,
+          "answer_excerpt": "If we can define the path precisely, I will commit to it."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_thread_follow_27",
+          "delta": -3,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        },
+        {
+          "q": "q_seed_clarity_priorities",
+          "delta": 1,
+          "answer_excerpt": "I would start by naming one forum where I want clearer criteria, and what support I need to show up there."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_promotion_feedback",
+          "delta": -3,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        },
+        {
+          "q": "q_controllable_delivery",
+          "delta": -3,
+          "answer_excerpt": "Mentoring has been one place where I still feel useful."
+        },
+        {
+          "q": "q_mentoring_usefulness_2",
+          "delta": -3,
+          "answer_excerpt": "I am not sure the work I am doing is the work that gets recognized."
+        },
+        {
+          "q": "q_clearer_criteria_2",
+          "delta": -3,
+          "answer_excerpt": "I can own bigger direction, but I need real authority to do it."
+        },
+        {
+          "q": "q_support_needed_23",
+          "delta": -1,
+          "answer_excerpt": "If we can define the path precisely, I will commit to it."
+        },
+        {
+          "q": "q_seed_clarity_priorities",
+          "delta": -1,
+          "answer_excerpt": "I would start by naming one forum where I want clearer criteria, and what support I need to show up there."
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_promotion_feedback",
+          "delta": -1,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        }
+      ]
+    }
+  }
+}

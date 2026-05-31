@@ -1,0 +1,103 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_thread_follow_29",
+    "label": "Thread follow",
+    "name": "less overloaded now, — can you say more about what that means for you right now?",
+    "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+    "purpose": "topic",
+    "stage": "friction",
+    "axis_effects": {
+      "clarity": 1,
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "A lot of energy went into firefighting and context switching.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -3,
+      "clarity": -1
+    },
+    "note": "Describes work being consumed by firefighting and context switching, which signals low focus and drained engagement; [THREAD-DEFERRED] 'firefighting and context switching' could be worth unpacking next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_biweekly_pace",
+      "label": "Opening pace check",
+      "name": "How's the last two weeks actually felt — energy-wise?"
+    },
+    {
+      "alias": "q_intro_biweekly_priorities",
+      "label": "Priority clarity",
+      "name": "What are you actually focused on this week, and why those things?"
+    },
+    {
+      "alias": "q_visibility_gap_8",
+      "label": "Visibility gap",
+      "name": "Where does your work feel least visible right now, Nina?"
+    },
+    {
+      "alias": "q_influence_bottleneck_3",
+      "label": "Influence bottleneck",
+      "name": "What’s getting in the way when you try to move things with stakeholders?"
+    },
+    {
+      "alias": "q_support_shape_5",
+      "label": "Support shape",
+      "name": "What kind of support from me would actually change your week?"
+    },
+    {
+      "alias": "q_steadier_finish",
+      "label": "Steadier finish",
+      "name": "What would make the next two weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_intro_biweekly_friction",
+          "delta": -1,
+          "answer_excerpt": "The push worked, but I do not want that pace to become normal."
+        },
+        {
+          "q": "q_thread_follow_28",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_thread_follow_29",
+          "delta": -3,
+          "answer_excerpt": "A lot of energy went into firefighting and context switching."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_thread_follow_28",
+          "delta": -1,
+          "answer_excerpt": "I am less overloaded now, but my calendar is still fragmented."
+        },
+        {
+          "q": "q_thread_follow_29",
+          "delta": -1,
+          "answer_excerpt": "A lot of energy went into firefighting and context switching."
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

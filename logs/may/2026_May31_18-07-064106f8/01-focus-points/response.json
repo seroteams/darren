@@ -1,0 +1,29 @@
+{
+  "meeting_type": "Something feels off",
+  "focus_points": [
+    {
+      "id": "team_connection",
+      "label": "How he's landing in team rituals right now.",
+      "reason": "Notes say his engagement in team rituals has dipped since being passed over for promotion. One possibility is unresolved disappointment, but it could also be a confidence or focus shift—worth clarifying what’s driving the change without assuming.",
+      "source": "signal"
+    },
+    {
+      "id": "feedback",
+      "label": "What feedback he actually heard after promotion.",
+      "reason": "Notes say he didn’t bring up the decision himself. Whether the feedback landed clearly or left him uncertain, this is worth surfacing so you can understand what he took away and what he still wants to believe or challenge.",
+      "source": "signal"
+    },
+    {
+      "id": "growth",
+      "label": "Whether mentoring is stretch or diversion.",
+      "reason": "What he’s doing with mentoring as a Director-level lever matters because it can either build the next layer of capability or quietly pull him away from the work path that makes him promotable—so you’ll want to understand which it is.",
+      "source": "best_practice"
+    },
+    {
+      "id": "priorities",
+      "label": "His current bets and what 'forward' means.",
+      "reason": "If the promotion outcome changed his confidence, his priorities may have shifted too. This is the right place to understand what he’s saying yes and no to now and what concrete path forward he believes exists.",
+      "source": "best_practice"
+    }
+  ]
+}

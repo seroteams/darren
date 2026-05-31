@@ -1,0 +1,103 @@
+{
+  "turn": 1,
+  "question": {
+    "alias": "q_intro_growth_blockers",
+    "label": "Growth blockers",
+    "name": "What's in your way of getting to the next level — not what's missing, what's actively blocking?",
+    "description": "Forces specificity about obstacles rather than vague 'more opportunities please'.",
+    "purpose": "topic",
+    "stage": "gap",
+    "axis_effects": {
+      "growth": 3,
+      "clarity": 1
+    },
+    "source": "seed"
+  },
+  "answer": "I know I want bigger scope, but I still spend too much time in execution details.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "clarity": -1,
+      "growth": -3
+    },
+    "note": "He names a concrete blocker to next-level growth: being pulled into execution details instead of operating at bigger scope."
+  },
+  "new_queue": [
+    {
+      "alias": "q_execution_details_4",
+      "label": "Execution details",
+      "name": "Execution details — where do you get pulled in most often?"
+    },
+    {
+      "alias": "q_intro_growth_stretch",
+      "label": "Stretch now",
+      "name": "Which part of your current work is actually stretching you right now?"
+    },
+    {
+      "alias": "q_current_scope_2",
+      "label": "Current scope",
+      "name": "What's feeling most solid in your role right now, Ahmed?"
+    },
+    {
+      "alias": "q_intro_growth_direction",
+      "label": "Direction",
+      "name": "When you imagine yourself eighteen months from now, what's actually different?"
+    },
+    {
+      "alias": "q_next_level_scope",
+      "label": "Next-level scope",
+      "name": "What does senior scope mean to you in practice?"
+    },
+    {
+      "alias": "q_influence_gaps",
+      "label": "Influence gaps",
+      "name": "Where do stakeholder conversations still not land the way you want?"
+    },
+    {
+      "alias": "q_trade_offs_ahead",
+      "label": "Trade-offs ahead",
+      "name": "What are you choosing not to own over the next six to twelve weeks?"
+    },
+    {
+      "alias": "q_manager_support_8",
+      "label": "Manager support",
+      "name": "What kind of support from me would help you stay at the strategic level?"
+    },
+    {
+      "alias": "q_first_move_6",
+      "label": "First move",
+      "name": "Given what we've covered, where do you want to focus first?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -1,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        }
+      ]
+    },
+    "growth": {
+      "score": -3,
+      "history": [
+        {
+          "q": "q_intro_growth_blockers",
+          "delta": -3,
+          "answer_excerpt": "I know I want bigger scope, but I still spend too much time in execution details."
+        }
+      ]
+    }
+  }
+}

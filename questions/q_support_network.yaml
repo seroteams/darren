@@ -1,0 +1,10 @@
+alias: q_support_network
+label: Support network
+name: Who should be part of your go-to support circle here?
+description: Identifies the relationships that should be intentionally built next to keep onboarding moving.
+purpose: topic
+stage: connection
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

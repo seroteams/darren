@@ -1,0 +1,51 @@
+{
+  "headline": "Ahmed is stuck in execution mode when politics and cross-org alignment rise, and his growth plan hasn’t turned into a concrete strategic-bet commitment.",
+  "summary_bullets": [
+    "Ahmed names a consistent blocker: he retreats to what he can deliver directly when conversations get political.",
+    "He wants strategic ownership (“own a strategic bet with visible stakeholders”) but the plan stays conditional (“delegate more” and “a clear growth contract with milestones”).",
+    "The conversation didn’t land on a first concrete move—his “What is the first concrete move you want to make before we next meet?” answer was skipped."
+  ],
+  "understanding_paragraph": "We learned that Ahmed’s hesitation is not about the work itself; it’s about how he expects to show up in senior forums when alignment gets political. He can run projects, but cross-org alignment triggers confidence concerns and pushes him back into execution. The missing piece is that his next-level direction hasn’t been translated into a specific strategic bet with immediate ownership actions.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -2,
+      "meaning": "Weak signal: he describes confidence and forum readiness pressure, with some stress around political moments."
+    },
+    {
+      "id": "engagement",
+      "score": -3,
+      "meaning": "Worth noting: he invests in delivery work but pulls back from political and cross-org influence."
+    },
+    {
+      "id": "clarity",
+      "score": 3,
+      "meaning": "Positive signal: he can articulate what blocks him and what would keep him accountable via a growth contract."
+    },
+    {
+      "id": "growth",
+      "score": -10,
+      "meaning": "Defining signal: his growth trajectory is not converting into concrete strategic ownership commitments yet."
+    }
+  ],
+  "brutal_truth_employee": "Ahmed’s blocker is explicit: “When conversations get political, I tend to retreat to what I can deliver directly.” He also admits the gap is confidence and visibility: “Part of it is confidence, I do not want to look unprepared in senior forums.”",
+  "brutal_truth_manager": "When Ahmed said “A clear growth contract with milestones would keep me accountable,” the conversation still didn’t produce a concrete next step—his final “first concrete move… before we next meet” was skipped. Next time, turn his strategic-bet language into an ownership decision and a specific project/stakeholder commitment with an agreed milestone for the next cycle.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Draft Ahmed a 1-page growth contract that defines his strategic bet, the visible stakeholders, and 2 milestones for the next 30 days."
+    },
+    {
+      "when": "this week",
+      "action": "Set up one stakeholder introduction for Ahmed tied to the strategic bet and confirm the meeting goal: alignment ask, decision needed, and who owns follow-through."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Re-run the final question with a forced choice: “Pick one strategic bet project and name the exact milestone you’ll deliver before the next 1:1.”"
+    }
+  ],
+  "watch_for": [
+    "Before next 1:1: if Ahmed still frames the plan as “delegate more” or “a clear growth contract” without naming a strategic bet and stakeholders, treat it as unresolved growth blockage.",
+    "Within two weeks: if Ahmed avoids cross-org political rooms or doesn’t request an explicit senior-forum role, his confidence/visibility gap is driving behavior."
+  ]
+}

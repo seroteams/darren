@@ -1,0 +1,51 @@
+{
+  "headline": "Riley is learning the codebase quickly, but decision-making and ownership boundaries are still unclear, so he’s defaulting to notes instead of asking in real time.",
+  "summary_bullets": [
+    "Riley can trace request paths, but he’s missing the historical context behind tradeoffs and how decisions are actually made.",
+    "When priorities conflict, he doesn’t know who owns each domain, which pushes him toward “keep questions in a notes doc instead of asking.”",
+    "He wants incident-ready escalation norms and live handoff details that the runbook doesn’t fully cover."
+  ],
+  "understanding_paragraph": "Riley is progressing fast through service/codebase orientation, but the missing piece is the human decision layer: who decides, why tradeoffs were made, and who’s on point when priorities collide. He’s actively trying not to interrupt, which turns “questions” into deferred notes rather than timely context-seeking. The onboarding opportunity is to convert his questions into a clear escalation-vs-batch guide plus structured senior touchpoints.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -5,
+      "meaning": "Stress shows up as friction from unclear incident/ownership expectations; weak recovery signal, worth addressing early."
+    },
+    {
+      "id": "engagement",
+      "score": -1,
+      "meaning": "Mild disengagement signal: he’s trying to contribute, but uncertainty is dampening confidence more than motivation."
+    },
+    {
+      "id": "clarity",
+      "score": -9,
+      "meaning": "Strong clarity gap: decision-making, ownership boundaries, and escalation-vs-batch norms are not yet reliable."
+    },
+    {
+      "id": "growth",
+      "score": 0,
+      "meaning": "No clear growth signal yet; he’s asking for calibration support, but learning trajectory isn’t established."
+    }
+  ],
+  "brutal_truth_employee": "Riley said, “I am comfortable reading the services, but I am less sure how decisions are really made here.” He also shared, “I am trying not to interrupt people, so sometimes I keep questions in a notes doc instead of asking,” which means key context is getting delayed until later.",
+  "brutal_truth_manager": "Riley gave a concrete friction moment: “keep questions in a notes doc instead of asking.” The next time, deepen by turning that into an explicit “in-the-moment” protocol—what to ask, who to ask, and when—rather than letting it stay as a habit description.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Create and send Riley a one-page “escalate vs batch” guide with 3 examples and named domain owners for conflicts."
+    },
+    {
+      "when": "this week",
+      "action": "Schedule a 30-minute weekly architecture calibration session for Riley with a senior owner; set a standing agenda: tradeoff history + decision criteria."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Confirm Riley used the guide in the last incident review: ask which question he would have deferred to notes and what changed."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks, if Riley still says he “keeps questions in a notes doc,” treat it as the guide not being actionable enough.",
+    "Before next 1:1, if Riley can name the “on point” owner for each domain during a conflict, clarity is improving."
+  ]
+}

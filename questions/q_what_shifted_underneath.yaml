@@ -1,0 +1,10 @@
+alias: q_what_shifted_underneath
+label: What shifted underneath
+name: What do you think has shifted underneath that?
+description: Invites her interpretation of the change without forcing a diagnosis.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

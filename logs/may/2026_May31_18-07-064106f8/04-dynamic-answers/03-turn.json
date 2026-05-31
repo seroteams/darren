@@ -1,0 +1,81 @@
+{
+  "turn": 3,
+  "question": {
+    "alias": "q_needed_to_change_2",
+    "label": "Needed to change",
+    "name": "What felt unclear about what needed to change after the promotion decision?",
+    "description": "Drills into the specific uncertainty he named so you can understand the missing message.",
+    "purpose": "topic",
+    "stage": "observation",
+    "axis_effects": {
+      "engagement": 3
+    },
+    "source": "planner_added"
+  },
+  "answer": "I stayed focused on delivery because that felt controllable.",
+  "skipped": false,
+  "assessment": {
+    "deltas": {
+      "engagement": -3
+    },
+    "note": "He narrowed his focus to delivery because it felt controllable, signalling strong disengagement from broader team participation; also reveals a clarity gap worth probing next. [THREAD-DEFERRED] 'delivery felt controllable' could be explored next session."
+  },
+  "new_queue": [
+    {
+      "alias": "q_intro_off_energy",
+      "label": "Energy read",
+      "name": "How's your energy been lately — separately from how work is going?"
+    },
+    {
+      "alias": "q_under_the_surface",
+      "label": "Under the surface",
+      "name": "What's been harder to put into words about work lately?"
+    },
+    {
+      "alias": "q_support_needed_15",
+      "label": "Support needed",
+      "name": "What would make the next two weeks steadier for you?"
+    }
+  ],
+  "issues": [],
+  "axis_state": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -3,
+          "answer_excerpt": "I have been less present in rituals, yes."
+        },
+        {
+          "q": "q_less_present_rituals_2",
+          "delta": -3,
+          "answer_excerpt": "After the promotion decision, I was not clear on what really needed to change."
+        },
+        {
+          "q": "q_needed_to_change_2",
+          "delta": -3,
+          "answer_excerpt": "I stayed focused on delivery because that felt controllable."
+        }
+      ]
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  }
+}

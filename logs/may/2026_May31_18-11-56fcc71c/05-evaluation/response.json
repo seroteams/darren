@@ -1,0 +1,51 @@
+{
+  "headline": "Ahmed is clear on what “bigger scope” means, but growth is blocked by confidence and hesitation to shape cross-org alignment.",
+  "summary_bullets": [
+    "Ahmed repeatedly ties next-level growth to strategic ownership with visible stakeholders, but his day-to-day behavior still pulls him into execution details.",
+    "His main blocker isn’t lack of projects; it’s confidence—he retreats in political conversations and avoids shaping cross-org alignment.",
+    "He wants a concrete growth contract (milestones, end-to-end bet), yet he also admits he “has not been explicit enough” about the opportunities he wants."
+  ],
+  "understanding_paragraph": "Ahmed’s growth story is consistent: he wants a senior scope shift that creates room to lead strategically, not just deliver tactically. The new detail is that his hesitation shows up specifically in political, cross-org alignment moments, driven by fear of looking unprepared in senior forums. He also has a concrete first move ready—one strategic bet end-to-end with a stakeholder milestone check-in in two weeks.",
+  "axes": [
+    {
+      "id": "wellbeing",
+      "score": -1,
+      "meaning": "Weak signal: confidence pressure shows up, but there’s no clear evidence of sustained burnout risk."
+    },
+    {
+      "id": "engagement",
+      "score": -2,
+      "meaning": "Worth noting: confidence and political hesitation reduce investment in influence work, even while he’s committed to growth."
+    },
+    {
+      "id": "clarity",
+      "score": 3,
+      "meaning": "Actionable clarity: Ahmed can name the blocker (execution pull) and the first growth move (strategic bet with milestones)."
+    },
+    {
+      "id": "growth",
+      "score": -8,
+      "meaning": "Defining constraint: growth is actively blocked by confidence and reluctance to shape cross-org alignment and senior-forum positioning."
+    }
+  ],
+  "brutal_truth_employee": "Ahmed’s growth is constrained by confidence in influence moments: “When conversations get political, I tend to retreat to what I can deliver directly.” He also names the senior-forum risk directly: “I do not want to look unprepared in senior forums.”",
+  "brutal_truth_manager": "Ahmed gave a concrete growth contract and a stakeholder milestone (“own one strategic bet end-to-end and set a milestone check-in with stakeholders in two weeks”), but the conversation still didn’t force a crisp “who/what decision/what authority” definition for that bet. Next time, anchor the growth path to a specific decision and stakeholder set so the ownership he wants doesn’t stay trapped at the “I hesitate” level.",
+  "next_actions": [
+    {
+      "when": "today",
+      "action": "Confirm the strategic bet’s decision owner, success metric, and the exact stakeholder list for Ahmed’s two-week milestone check-in."
+    },
+    {
+      "when": "this week",
+      "action": "Set up a 30-minute prep session where Ahmed drafts the senior-forum narrative for the bet (problem, tradeoff, ask) and you red-team it for “unprepared” gaps."
+    },
+    {
+      "when": "next 1:1",
+      "action": "Review the milestone check-in outcome with Ahmed: what commitments were gained, what alignment moved, and what he delegated to create room for ownership."
+    }
+  ],
+  "watch_for": [
+    "Within two weeks: if Ahmed’s “strategic bet” check-in produces no stakeholder commitments, treat it as a confidence-driven stall, not a scheduling issue.",
+    "Before next 1:1: if Ahmed keeps describing progress as “execution details” instead of cross-org alignment decisions, the growth plan is drifting."
+  ]
+}

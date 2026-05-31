@@ -1,0 +1,10 @@
+alias: q_rewrite_timing
+label: Rewrite timing
+name: What feels most important to protect in your plans over the next few weeks?
+description: Surfaces what she wants to preserve before larger changes enter the mix.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

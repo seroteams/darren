@@ -1,0 +1,9 @@
+alias: q_escalation_guide_2
+label: Escalation guide
+name: What would make the escalation line clearer in practice for you?
+description: Surfaces the concrete cues or examples Riley needs to know when to escalate versus batch questions.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

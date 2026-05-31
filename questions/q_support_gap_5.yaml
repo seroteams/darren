@@ -1,0 +1,10 @@
+alias: q_support_gap_5
+label: Support gap
+name: What support would make the biggest difference for you right now?
+description: Gives her an easy way to name help she has not asked for yet.
+purpose: topic
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_mentoring_shape_8
+label: Mentoring shape
+name: What is the mentoring program taking space for in your week?
+description: Tests whether mentoring is healthy stretch or crowding out core product work.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

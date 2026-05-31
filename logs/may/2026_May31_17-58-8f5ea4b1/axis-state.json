@@ -1,0 +1,97 @@
+{
+  "wellbeing": {
+    "score": -5,
+    "history": [
+      {
+        "q": "q_live_incidents",
+        "delta": -3,
+        "answer_excerpt": "A short weekly architecture review with someone senior would help me calibrate faster."
+      },
+      {
+        "q": "q_useful_introductions",
+        "delta": -1,
+        "answer_excerpt": "If I know exactly what ownership I should take this month, I can contribute with more confidence."
+      }
+    ]
+  },
+  "engagement": {
+    "score": -6,
+    "history": [
+      {
+        "q": "q_context_moments",
+        "delta": -3,
+        "answer_excerpt": "I would benefit from a clearer guide for what to escalate quickly versus what to batch."
+      },
+      {
+        "q": "q_escalation_guide",
+        "delta": -1,
+        "answer_excerpt": "The runbook helped, but some practical handoff details only show up during live incidents."
+      },
+      {
+        "q": "q_useful_introductions",
+        "delta": -1,
+        "answer_excerpt": "If I know exactly what ownership I should take this month, I can contribute with more confidence."
+      }
+    ]
+  },
+  "clarity": {
+    "score": -9,
+    "history": [
+      {
+        "q": "q_landing_check_in_2",
+        "delta": -1,
+        "answer_excerpt": "I am comfortable reading the services, but I am less sure how decisions are really made here."
+      },
+      {
+        "q": "q_decision_making_map_2",
+        "delta": -1,
+        "answer_excerpt": "I can trace most request paths now, though I still miss historical context behind certain tradeoffs."
+      },
+      {
+        "q": "q_historical_tradeoffs",
+        "delta": -3,
+        "answer_excerpt": "I have not been fully clear on who is on point for each domain when priorities conflict."
+      },
+      {
+        "q": "q_domain_ownership",
+        "delta": -3,
+        "answer_excerpt": "I am trying not to interrupt people, so sometimes I keep questions in a notes doc instead of asking."
+      },
+      {
+        "q": "q_context_moments",
+        "delta": -3,
+        "answer_excerpt": "I would benefit from a clearer guide for what to escalate quickly versus what to batch."
+      },
+      {
+        "q": "q_escalation_guide",
+        "delta": -3,
+        "answer_excerpt": "The runbook helped, but some practical handoff details only show up during live incidents."
+      },
+      {
+        "q": "q_live_incidents",
+        "delta": -3,
+        "answer_excerpt": "A short weekly architecture review with someone senior would help me calibrate faster."
+      },
+      {
+        "q": "q_useful_introductions",
+        "delta": -1,
+        "answer_excerpt": "If I know exactly what ownership I should take this month, I can contribute with more confidence."
+      },
+      {
+        "q": "q_steady_next_steps",
+        "delta": 1,
+        "answer_excerpt": "I will ask one architecture question in the next incident review instead of keeping it in my notes doc."
+      }
+    ]
+  },
+  "growth": {
+    "score": 1,
+    "history": [
+      {
+        "q": "q_steady_next_steps",
+        "delta": 1,
+        "answer_excerpt": "I will ask one architecture question in the next incident review instead of keeping it in my notes doc."
+      }
+    ]
+  }
+}
