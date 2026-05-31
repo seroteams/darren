@@ -6,6 +6,13 @@ frontend/client/dist
 *.zip
 .playwright-mcp/
 
+# Local / runtime agent & tool artifacts
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+.impeccable/
+lexicons/_suggested/
+frontend/client/node_modules/.vite/
+
 # Runtime logs (keep-set only)
 logs/**
 !logs/may/
