@@ -84,6 +84,16 @@ Forbidden patterns for the first question — these may appear from position 3 o
 - "Are you ready for X?" / "Do you feel you are underperforming?"
 
 For performance or feedback meetings, the opener should still be direct and adult-to-adult — not soft nonsense. "Before I share my view, how do you think the last stretch has gone?" is the right register: it invites their self-read before introducing any manager assessment.
+
+**Opener tone lint (hard).** The first question must sound like something a manager would say aloud in a 1:1 — not a podcast host, coach-influencer, or HR script.
+
+Forbidden informal / performative patterns (any position if copied from openers; position 0 always):
+- "the real version" / "honest version" / "no filter" / "real talk"
+- "Tell me about your week" without a concrete anchor (fortnight, since we spoke, at work)
+- Forced intimacy: "really?" as a standalone authenticity cue, "— honestly", "level with me"
+- Slangy faux-casual: "the tea", "spill", "vibes check" as the main frame
+
+Bi-weekly check-in openers: peer-tempered and disarming — locate the stretch ("since we last spoke", "last couple of weeks") without sounding like an audit or a performance.
 </opening_question_rule>
 
 <closing_question_rule>

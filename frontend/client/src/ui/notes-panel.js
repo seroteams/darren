@@ -13,13 +13,20 @@ import {
 } from "./notes-panel-utils.js";
 import { createNotesListController, cssEscape, mountEditMode } from "./notes-list.js";
 
+const NARROW_MQ = window.matchMedia("(max-width: 1024px)");
+
 export function createNotesPanel({ store, setState }) {
   const el = document.createElement("aside");
   el.className = "notes-panel is-hidden";
   el.innerHTML = `
     <div class="notes-panel__head">
-      <div class="notes-panel__ctx"></div>
-      <div class="notes-panel__eyebrow eyebrow">Notes</div>
+      <div class="notes-panel__head-row">
+        <div class="notes-panel__head-main">
+          <div class="notes-panel__ctx"></div>
+          <div class="notes-panel__eyebrow eyebrow">Notes</div>
+        </div>
+        <button type="button" class="notes-panel__close btn btn--ghost btn--sm" aria-label="Close notes">Close</button>
+      </div>
       <div class="notes-panel__dev"></div>
     </div>
     <div class="notes-panel__list"></div>
@@ -36,6 +43,19 @@ export function createNotesPanel({ store, setState }) {
   const list = el.querySelector(".notes-panel__list");
   const ta = el.querySelector(".notes-panel__compose textarea");
   const saveBtn = el.querySelector(".notes-panel__save");
+  const closeBtn = el.querySelector(".notes-panel__close");
+
+  const toggleBtn = document.createElement("button");
+  toggleBtn.type = "button";
+  toggleBtn.className = "notes-panel__toggle";
+  toggleBtn.textContent = "Notes";
+  toggleBtn.setAttribute("aria-expanded", "false");
+  toggleBtn.setAttribute("aria-controls", "sero-notes-panel");
+  toggleBtn.hidden = true;
+  document.body.appendChild(toggleBtn);
+  el.id = "sero-notes-panel";
+
+  let panelOpen = false;
 
   const resizeComposer = attachAutoGrow(ta);
   const errorEl = document.createElement("div");
@@ -50,6 +70,52 @@ export function createNotesPanel({ store, setState }) {
     errorEl.textContent = "";
     errorEl.classList.add("is-hidden");
   }
+
+  function syncLayout(hidden) {
+    const narrow = NARROW_MQ.matches;
+    if (hidden) {
+      toggleBtn.hidden = true;
+      el.classList.add("is-hidden");
+      el.classList.remove("notes-panel--open");
+      document.body.classList.remove("has-notes-panel", "notes-panel-open");
+      toggleBtn.setAttribute("aria-expanded", "false");
+      panelOpen = false;
+      return;
+    }
+
+    el.classList.remove("is-hidden");
+
+    if (narrow) {
+      toggleBtn.hidden = false;
+      el.classList.toggle("notes-panel--open", panelOpen);
+      document.body.classList.toggle("notes-panel-open", panelOpen);
+      document.body.classList.toggle("has-notes-panel", panelOpen);
+      toggleBtn.setAttribute("aria-expanded", panelOpen ? "true" : "false");
+    } else {
+      toggleBtn.hidden = true;
+      panelOpen = false;
+      el.classList.add("notes-panel--open");
+      document.body.classList.add("has-notes-panel");
+      document.body.classList.remove("notes-panel-open");
+      toggleBtn.setAttribute("aria-expanded", "true");
+    }
+  }
+
+  toggleBtn.addEventListener("click", () => {
+    panelOpen = !panelOpen;
+    syncLayout(false);
+    if (panelOpen) ta.focus({ preventScroll: true });
+  });
+
+  closeBtn.addEventListener("click", () => {
+    panelOpen = false;
+    syncLayout(false);
+    toggleBtn.focus({ preventScroll: true });
+  });
+
+  NARROW_MQ.addEventListener("change", () => {
+    if (!el.classList.contains("is-hidden")) syncLayout(false);
+  });
 
   let editingId = null;
   let saving = false;
@@ -123,10 +189,11 @@ export function createNotesPanel({ store, setState }) {
   function render(state) {
     const stage = state?.stage;
     const hidden = !state?.sessionId || HIDDEN_STAGES.has(stage);
-    el.classList.toggle("is-hidden", hidden);
-    document.body.classList.toggle("has-notes-panel", !hidden);
-    renderCtxSegments(ctxEl, state?.ctx || {});
-    listController.renderList(state?.notes || []);
+    syncLayout(hidden);
+    if (!hidden) {
+      renderCtxSegments(ctxEl, state?.ctx || {});
+      listController.renderList(state?.notes || []);
+    }
   }
 
   function beginEdit(id) {

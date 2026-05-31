@@ -13,15 +13,15 @@ Statuses: `planning` | `in-progress` | `blocked` | `review` | `done`
 - **Notes**: commit `90d7b0d` — dropped `logs/` from `.gitignore`, committed 1347 files.
 
 ## Pipeline run review workflow
-- **Status**: planning
-- **Last touched**: 2026-05-23 (seeded)
-- **Next step**: define what `reviewrun` skill should produce + how it shapes next iteration.
-- **Notes**: skill exists; needs intent + output format spec.
+- **Status**: done
+- **Last touched**: 2026-06-01 (FX-43)
+- **Next step**: —
+- **Notes**: Output spec at [`plans/reviewrun-output-spec.md`](plans/reviewrun-output-spec.md). Skill: `.claude/skills/reviewrun/SKILL.md`. Phase 1 = payload dump + gate; phase 2 = digest + audit crosswalk + 2–3 sharpening questions.
 
 ## Feedback backlog → ready for next test run
-- **Status**: review
-- **Last touched**: 2026-05-30 (Batch H refresh vs audit v9)
-- **Next step**: Batch N (deferred) or optional M5 live replay.
+- **Status**: done
+- **Last touched**: 2026-06-01 (audit v19 — all FX/LF items landed)
+- **Next step**: optional M5 live replay or manual QA pass.
 - **Notes**: Full audit of 13 memory feedback items + 4 new log comments in this conversation's review.
   - ✅ Done this turn: item 4 (coreIssue → one sentence ≤28 words, `prompts/preparation.md`).
   - 🟢 Already in place: items 1, 3, 5, 6, 8, 11, 13 (plan format, focus-points unselected default, no-restate-question, promise/snap-back, notes alias+stem, axis seeds, UI canon).
@@ -40,10 +40,10 @@ Statuses: `planning` | `in-progress` | `blocked` | `review` | `done`
 - **Notes**: M1 verified via `scripts/batch-m1-verify.js`. Prompt hunks present; proxy Toby run (May24) beat baseline on qspec (0.778 vs 0.094), thread (0.571 vs 0.308), delta (0.875 vs 0.595). Full 10-scenario `--live` sweep optional follow-up when API key available. Report: `logs/may/2026_May24_batch/m1-rerun-report.json`.
 
 ## Drill cap runtime enforcement (May 25 run finding)
-- **Status**: planning
-- **Last touched**: 2026-05-27 (seeded from `/reviewrun logs/may/2026_May25_14-23-5252887f`)
-- **Next step**: decide whether `src/queue-manager.js` should hard-enforce drill cap (strip planner_added+same-stage items from `new_queue` when `consecutive_drill_count >= 2`) or just keep relying on prompt rule.
-- **Notes**: run 2026_May25_14-23 had 4 consecutive `planner_added` friction probes (turns 4,6,7,8). Cap rule exists in `prompts/plan-turn.md` (line 18 `Drill cap (hard)` + line 263 wellbeing-cap) and `computeConsecutiveDrillCount` in `src/queue-manager.js:73` is correct. Model ignored the hard rule. Prompt-side reinforcement alone may not be enough — runtime guardrail would be definitive.
+- **Status**: done
+- **Last touched**: 2026-06-01 (FX-08)
+- **Next step**: —
+- **Notes**: `enforceDrillCap` in `src/queue-manager.js` strips same-stage `planner_added`/`reworded_from:*` when count ≥ 2; runs after thread-follow reconcile. Verify: `node scripts/test-drill-cap.js`.
 
 ## Lexicon-review empty-state fix
 - **Status**: done
@@ -63,11 +63,11 @@ Statuses: `planning` | `in-progress` | `blocked` | `review` | `done`
 - **Next step**: —
 - **Notes**: `src/preparation.js` now retries 1x with validation issues injected into the user prompt when `validation.passed === false`. Takes the retry if it passes OR reduces issue count. Logs `attempts` in stage inputs. Cost: 1 extra `gpt-4o` preparation call on failure path only. Triggered by run 2026_May25_14-23 where briefing shipped with 5 validation issues unaddressed.
 
-## Remaining backlog (post audit v16 / M2)
-- **Status**: in-progress
-- **Last touched**: 2026-05-30 (Batch M2 live sweep)
-- **Next step**: Batch N (deferred) or optional M5 live replay.
-- **Notes**: Master ID table stays in `plans/log-fix-audit.md` (v16: 83 done, 7 open). M2 live: 10/10 personas; qspec 0.951, thread 0.473, delta 0.988, overall 0.804 — target dims beat baseline, thread follow still the gap vs predicted ranges. Report: `logs/may/2026_May24_batch/m2-comparison-report.json`.
+## Remaining backlog (post audit v20 / engine loop)
+- **Status**: done
+- **Last touched**: 2026-06-01 (engine loop + M5 offline verify)
+- **Next step**: optional live Toby `--live` sweep when API key available.
+- **Notes**: Audit v20 (100 IDs, 93 done). `npm run eval` runs prompt notes + batch replay + pinned briefing rules. Verify: `node scripts/batch-m5-verify.js`, `node scripts/manual-qa-verify.js`.
 
 ## Split 1:1 Types into self-contained folders (refactor)
 - **Status**: done

@@ -9,6 +9,7 @@
     "start": "cross-env NODE_ENV=production node frontend/server/server.js",
     "cli": "node cli.js",
     "smoke": "node smoke-test.js",
+    "eval": "node scripts/eval.js",
     "rebuild-question-index": "node scripts/rebuild-question-index.js --prune",
     "sweep": "node scripts/sweep.js"
   },

@@ -5,6 +5,7 @@ const { logStage } = require("./session");
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
 const { promptFor } = require("./one-on-one-types");
+const { withPromptVersion } = require("./prompt-version");
 
 const getDefaultModel = () => modelFor("preparation");
 
@@ -39,6 +40,9 @@ const ACCUSATORY_OPENER_PATTERNS = [
 
 const OPENER_NEGATIVE_EVAL = /\b(challenges|issues|problems|weakness|deficit|fallen short|failing|suck|bad at)\b/i;
 const OPENER_FORWARD_VERBS = /\b(want|land|stretch|move|build|thinking|toward|towards|forward|confidence|handle)\b/i;
+const BIWEEKLY_HARD_EDGE =
+  /\b(what specific|what's not working|where are you strugg|why haven't you|what problems|what issues have you|what's going wrong|what has gone wrong)\b/i;
+const OPENER_PERFORMATIVE = /\b(the real version|honest version|no filter|real talk|level with me)\b/i;
 
 const LISTENFOR_PARAPHRASE = /\b(acknowledges|has a plan to|has received)\b/i;
 const LISTENFOR_BEHAVIORAL = /\b(deflects|pivots|names|avoids|mentions|redirects|interrupts|pauses|volunteers|describes|offers|signals|hesitates|concrete|specific|last week|this quarter|this sprint|stakeholder|project|meeting)\b/i;
@@ -81,6 +85,7 @@ function validateBrief(brief, inputs) {
   const openerLower = opener.toLowerCase();
   const meetingType = (inputs.meetingType || "").toLowerCase();
   const isGrowth = meetingType.includes("growth");
+  const isBiweekly = /bi[- ]?weekly|check-?in/.test(meetingType);
 
   // C1 — non-accusatory opening
   for (const { re, msg } of ACCUSATORY_OPENER_PATTERNS) {
@@ -98,6 +103,12 @@ function validateBrief(brief, inputs) {
   }
   if (isGrowth && opener.length > 10 && !OPENER_FORWARD_VERBS.test(opener)) {
     issues.push("openingQuestion may lack forward developmental framing for Growth & career plan");
+  }
+  if (isBiweekly && BIWEEKLY_HARD_EDGE.test(opener)) {
+    issues.push("openingQuestion is too hard-edged for a bi-weekly check-in — open with pace or bandwidth first");
+  }
+  if (OPENER_PERFORMATIVE.test(openerLower)) {
+    issues.push("openingQuestion uses performative intimacy phrasing — use plain manager language");
   }
   const fpLabels = focusPointLabels(inputs.focusPoints);
   for (const label of fpLabels) {
@@ -263,8 +274,13 @@ async function generatePreparation(
     }
   }
 
+  const prepPromptPath = promptFor(prepInput.meetingType, "preparation");
+
   logStage(session, "01b-preparation", {
-    inputs: { ...prepInput, model, runId, validation, attempts },
+    inputs: withPromptVersion(
+      { ...prepInput, model, runId, validation, attempts },
+      prepPromptPath
+    ),
     prompt: messages.filled,
     response: raw,
   });

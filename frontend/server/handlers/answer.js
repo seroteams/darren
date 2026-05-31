@@ -9,7 +9,7 @@ function isSkip(input) {
 
 module.exports = async function answer(c) {
   const body = await c.readBody();
-  const { sessionId, answer } = body;
+  const { sessionId, answer, goDeeper } = body;
   const session = requireSession(sessionId);
 
   if (session.turn >= session.totalBudget || session.queueRef.length === 0)
@@ -20,5 +20,6 @@ module.exports = async function answer(c) {
   const text = raw.slice(0, MAX_ANSWER_CHARS);
   const skipped = isSkip(text);
   session.pendingAnswer = { raw: text, skipped, text: skipped ? "(skipped)" : text };
-  c.json(202, { turn: session.turn + 1, skipped, truncated });
+  if (goDeeper === true && !skipped) session.pendingDrillRequest = true;
+  c.json(202, { turn: session.turn + 1, skipped, truncated, goDeeper: goDeeper === true && !skipped });
 };

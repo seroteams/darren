@@ -1,8 +1,0 @@
-{
-  "name": "Aisha",
-  "role": "Product Manager",
-  "seniority": "Mid-level",
-  "meetingType": "Onboarding check-in",
-  "notes": "Aisha is in week four, remote, and has started driving planning threads, but she still looks uncertain in cross-functional meetings when priorities conflict. I need to understand what is still unclear around decision rights, partner expectations, and how to run alignment without over-indexing on consensus. She has good energy, but I do not want her spending it decoding unspoken norms. This meeting should surface the specific friction points and translate them into practical support and clearer boundaries.",
-  "model": "gpt-5.4-nano"
-}

@@ -54,6 +54,9 @@ module.exports = async function plan(c) {
 
   const remainingBudget = Math.max(0, session.totalBudget - turn);
 
+  const userDrillRequest = Boolean(session.pendingDrillRequest);
+  session.pendingDrillRequest = false;
+
   let planResult;
   const prevTracker = cost.getActive();
   cost.setActive(session.tracker);
@@ -70,6 +73,7 @@ module.exports = async function plan(c) {
       turnNumber: turn,
       totalTurns: session.totalBudget,
       closerAlias: session.closer ? session.closer.alias : null,
+      userDrillRequest,
     });
   } catch (e) {
     console.warn("[plan] planner failed:", e.message);
@@ -96,6 +100,8 @@ module.exports = async function plan(c) {
   current.note = planResult.assessment.note;
 
   session.queueRef = planResult.newQueue.slice();
+
+  if (userDrillRequest) session.showReturningToArcHint = true;
 
   // Force-insert the reserved closer when the next turn IS the last.
   // The planner gets veto-proof: regardless of what it returned, the closer runs last.
@@ -142,6 +148,7 @@ module.exports = async function plan(c) {
       assessment: planResult.assessment,
       new_queue: session.queueRef.map((x) => ({ alias: x.alias, label: x.label, name: x.name })),
       issues: planResult.issues || [],
+      userDrillRequest,
       axis_state: serialize(session.axisState),
     }
   );

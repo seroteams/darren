@@ -32,6 +32,8 @@ const initial = {
   completedAt: null,
   error: null,
   retryStage: null,
+  stageTick: 0,
+  regenerateFocusPoints: false,
 };
 
 export const store = { ...initial };

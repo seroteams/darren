@@ -29,6 +29,8 @@ function serialize(s) {
     totalBudget: s.totalBudget,
     closer: s.closer,
     pendingAnswer: s.pendingAnswer,
+    pendingDrillRequest: Boolean(s.pendingDrillRequest),
+    showReturningToArcHint: Boolean(s.showReturningToArcHint),
     notes: s.notes || [],
   };
 }
@@ -51,6 +53,8 @@ function hydrateSession(s, sessionDir) {
   s.lastPlanByTurn = new Map();
   s.inFlight = new Map();
   s.tracker = cost.createTracker();
+  if (s.pendingDrillRequest == null) s.pendingDrillRequest = false;
+  if (s.showReturningToArcHint == null) s.showReturningToArcHint = false;
   if (!s.axisState || typeof s.axisState !== "object") s.axisState = initState();
   return s;
 }

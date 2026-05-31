@@ -1,8 +1,0 @@
-{
-  "name": "Test",
-  "role": "Engineer",
-  "seniority": "Senior",
-  "meetingType": "Bi-weekly check-in",
-  "notes": "note",
-  "model": "gpt-5.4-nano"
-}

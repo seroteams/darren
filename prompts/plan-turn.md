@@ -34,6 +34,7 @@ If the last answer contains a **concrete thread** — a named role, project, asp
 
 **Construction of the thread-follow item:**
 - `ref_alias: null` (it's a new, answer-specific question).
+- **Mirror the answer (hard).** `name` MUST reuse at least one substantive word (4+ letters) from the employee's last answer — a named project, role, person, or decision. Generic follow-ups that could apply to any answer fail this rule.
 - `name` MUST name the specific thing the employee said, in their words (e.g. include "head of department" verbatim).
 - One focused follow-up — not a compound question.
 - `axis_effects` mirrors the most relevant axis from the last question's signature, or the axis the thread implies.
@@ -45,6 +46,24 @@ The arc's pre-planned next item moves to position 2+ in `new_queue`. The arc res
 
 **BIAS: When in doubt whether something is a thread, follow it.** In testing, this rule fires too rarely — the cost of one unnecessary drill is far less than the cost of ignoring what the employee just said.
 </thread_follow_rule>
+
+<user_drill_request>
+**Manager explicitly asked to go deeper on the answer they just gave.**
+
+`user_drill_request`: {{USER_DRILL_REQUEST}}
+
+When `true`, this overrides arc-advancement priority for **this turn only** (unless `<wind_down_rule>` or broken-session applies):
+
+- Emit **one** off-arc thread-follow on the just-answered thread.
+- Set `stage: null` (excursion — does not consume arc `target_questions`).
+- `ref_alias: null`, `source` will become `planner_added`, `purpose` carries from the parent question.
+- `name` MUST quote the specific thing the employee said.
+- Do **not** advance the arc this turn — queue arc items from position 2 onward.
+- Off-arc tangent cap still applies: if `off_arc_drill_count >= 1` and this is another `stage: null` drill, only honour it because the manager explicitly requested depth.
+- Drill cap at same stage does not block this — this is an intentional off-arc excursion.
+
+When `false`, ignore this block and plan normally.
+</user_drill_request>
 
 <output_contract>
 Return one valid JSON object only.
@@ -469,6 +488,7 @@ Hard boundaries:
 - Consecutive drills at current stage: {{CONSECUTIVE_DRILL_COUNT}}
 - Consecutive wellbeing clarifiers in a row: {{CONSECUTIVE_WELLBEING_CLARIFIER_COUNT}}
 - Off-arc tangents taken this session: {{OFF_ARC_DRILL_COUNT}}
+- Manager asked to go deeper this turn: {{USER_DRILL_REQUEST}}
 
 **Arc progress so far (turns spent per stage):**
 

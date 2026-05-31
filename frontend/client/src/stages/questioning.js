@@ -59,14 +59,23 @@ export async function mount(root, { store, setState }) {
   }
 
   root.querySelector(".js-save-exit").addEventListener("click", async () => {
-    const ok = await confirmAction({ message: "Are you sure?" });
+    const ok = await confirmAction({
+      message: "Skip the remaining questions and open the briefing now? Any unanswered questions will be dropped.",
+      confirmLabel: "Open briefing",
+      cancelLabel: "Keep questioning",
+    });
     if (!ok) return;
     teardown();
     setState({ stage: STAGES.BRIEFING });
   });
 
   root.querySelector(".js-start-fresh").addEventListener("click", async () => {
-    const ok = await confirmAction({ message: "Are you sure?" });
+    const ok = await confirmAction({
+      message: "Start over? This session will be cleared and you'll return to the start screen.",
+      confirmLabel: "Start over",
+      cancelLabel: "Cancel",
+      destructive: true,
+    });
     if (!ok) return;
     teardown();
     resetSession();
@@ -91,21 +100,38 @@ export async function mount(root, { store, setState }) {
     const card = document.createElement("div");
     card.className = "card questioning-card space-y-4 reveal";
     card.innerHTML = `
+      ${res.returningToArc ? `<div class="question-drill-hint text-xs text-ink-dim">Returning to the meeting arc — next question follows the planned flow.</div>` : ""}
       <h1 class="question-stem leading-snug">${escape(q.name)}</h1>
       ${q.description ? `<div class="question-desc">${escape(q.description)}</div>` : ""}
-      <textarea class="textarea textarea--question" rows="5" placeholder="What did they say?"></textarea>
+      <label class="block">
+        <span class="sr-only">What did they say?</span>
+        <textarea class="textarea textarea--question" rows="5" placeholder="What did they say?" aria-label="What did they say?"></textarea>
+      </label>
       <div class="field-actions">
         <button class="btn js-submit">Record and continue</button>
+        <button class="btn btn--ghost js-deeper" type="button" disabled>Go deeper</button>
         <button class="btn btn--ghost js-skip">Skip</button>
       </div>
-      <div class="text-xs text-ink-mute"><span class="kbd">Enter</span> to continue · <span class="kbd">Esc</span> to skip</div>
+      <div class="text-xs text-ink-mute"><span class="kbd">Enter</span> to continue · <span class="kbd">Shift+Enter</span> to go deeper · <span class="kbd">Esc</span> to skip</div>
     `;
     qHost.appendChild(card);
     revealOne(card, 40);
-    setTimeout(() => card.querySelector("textarea").focus({ preventScroll: true }), 260);
-
     const ta = card.querySelector("textarea");
+    setTimeout(() => ta.focus({ preventScroll: true }), 260);
+
+    const deeperBtn = card.querySelector(".js-deeper");
+    function syncDeeper() {
+      deeperBtn.disabled = ta.value.trim().length === 0;
+    }
+    ta.addEventListener("input", syncDeeper);
+    syncDeeper();
+
     ta.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && e.shiftKey) {
+        e.preventDefault();
+        if (!deeperBtn.disabled) onSubmit(ta.value, { goDeeper: true });
+        return;
+      }
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         onSubmit(ta.value);
@@ -121,13 +147,15 @@ export async function mount(root, { store, setState }) {
     };
     document.addEventListener("keydown", activeEscListener);
     card.querySelector(".js-submit").addEventListener("click", () => onSubmit(ta.value));
+    deeperBtn.addEventListener("click", () => onSubmit(ta.value, { goDeeper: true }));
     card.querySelector(".js-skip").addEventListener("click", () => onSubmit(""));
 
-    async function onSubmit(text) {
+    async function onSubmit(text, { goDeeper = false } = {}) {
       const val = text.trim();
+      if (goDeeper && !val) return;
       let result;
       try {
-        result = await submitAnswer(store.sessionId, val);
+        result = await submitAnswer(store.sessionId, val, { goDeeper });
       } catch (e) {
         setState({ stage: STAGES.ERROR, error: e.message, retryStage: STAGES.QUESTIONING });
         return;
@@ -139,7 +167,7 @@ export async function mount(root, { store, setState }) {
         warn.textContent = "Answer was too long — trimmed to 4000 characters.";
         footerHost.appendChild(warn);
       }
-      await runPlanStream(val);
+      await runPlanStream(val, { goDeeper: Boolean(result?.goDeeper) });
     }
   }
 
@@ -154,11 +182,15 @@ export async function mount(root, { store, setState }) {
     card.remove();
   }
 
-  async function runPlanStream(submittedText) {
+  async function runPlanStream(submittedText, { goDeeper = false } = {}) {
     const skipped = submittedText.trim() === "";
-    const orb = createOrb(skipped
-      ? "Choosing the next question…"
-      : "Listening…");
+    const orb = createOrb(
+      goDeeper
+        ? "Going deeper on that thread…"
+        : skipped
+          ? "Choosing the next question…"
+          : "Listening…"
+    );
     thinkingHost.appendChild(orb.el);
 
     const sse = openSse(`/api/plan/stream?s=${encodeURIComponent(store.sessionId)}`);

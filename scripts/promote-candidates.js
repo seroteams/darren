@@ -9,9 +9,13 @@ const fs = require("node:fs");
 const path = require("node:path");
 const readline = require("node:readline");
 const YAML = require("yaml");
+const {
+  listCandidateFiles,
+  netNewForMeeting,
+  describePromotionItem,
+} = require("../src/lexicon/promote-core");
 
 const ROOT = path.join(__dirname, "..");
-const CAND_DIR = path.join(ROOT, "lexicons", "_candidates");
 const LEX_DIR = path.join(ROOT, "lexicons");
 
 function readYaml(filePath) {
@@ -28,11 +32,7 @@ function writeYaml(filePath, doc) {
 }
 
 function ensureCanonical(roleFamily, seniority) {
-  return {
-    role_family: roleFamily,
-    seniority,
-    meeting_types: {},
-  };
+  return { role_family: roleFamily, seniority, meeting_types: {} };
 }
 
 function ensureMeetingType(doc, meetingType) {
@@ -45,51 +45,6 @@ function ensureMeetingType(doc, meetingType) {
   if (!Array.isArray(m.prefer_phrases)) m.prefer_phrases = [];
   if (!Array.isArray(m.avoid_phrases)) m.avoid_phrases = [];
   return m;
-}
-
-function listCandidateFiles() {
-  if (!fs.existsSync(CAND_DIR)) return [];
-  const out = [];
-  for (const role of fs.readdirSync(CAND_DIR)) {
-    const roleDir = path.join(CAND_DIR, role);
-    if (!fs.statSync(roleDir).isDirectory()) continue;
-    for (const file of fs.readdirSync(roleDir)) {
-      if (!file.endsWith(".yaml")) continue;
-      const seniority = file.replace(/\.yaml$/, "");
-      out.push({ roleFamily: role, seniority, path: path.join(roleDir, file) });
-    }
-  }
-  return out;
-}
-
-function netNewForMeeting(candM, canonM) {
-  const seenTerms = new Set((canonM.prefer_terms || []).map((x) => String(x).toLowerCase()));
-  const seenPhrases = new Set((canonM.prefer_phrases || []).map((x) => String(x).toLowerCase()));
-  const seenAvoids = new Set((canonM.avoid_phrases || []).map((x) => String(x?.phrase || "").toLowerCase()));
-
-  const items = [];
-  for (const v of candM.prefer_terms || []) {
-    if (!seenTerms.has(String(v).toLowerCase())) items.push({ kind: "prefer_term", value: v });
-  }
-  for (const v of candM.prefer_phrases || []) {
-    if (!seenPhrases.has(String(v).toLowerCase())) items.push({ kind: "prefer_phrase", value: v });
-  }
-  for (const a of candM.avoid_phrases || []) {
-    if (!seenAvoids.has(String(a?.phrase || "").toLowerCase())) items.push({ kind: "avoid_phrase", value: a });
-  }
-  return items;
-}
-
-function describe(item) {
-  if (item.kind === "prefer_term") return `[term ]  "${item.value}"`;
-  if (item.kind === "prefer_phrase") return `[phrase] "${item.value}"`;
-  if (item.kind === "avoid_phrase") {
-    const a = item.value;
-    const better = a.better_as ? `  →  "${a.better_as}"` : "";
-    const reason = a.reason ? `\n          reason: ${a.reason}` : "";
-    return `[avoid ] "${a.phrase}"${better}${reason}`;
-  }
-  return JSON.stringify(item);
 }
 
 function applyKeep(canonM, item) {
@@ -109,6 +64,14 @@ function removeFromCandidate(candM, item) {
   }
 }
 
+function describe(item) {
+  const line = describePromotionItem(item);
+  if (item.kind === "avoid_phrase" && item.value?.reason) {
+    return `${line}\n          reason: ${item.value.reason}`;
+  }
+  return line;
+}
+
 function ask(rl, q) {
   return new Promise((resolve) => rl.question(q, (a) => resolve(a)));
 }
@@ -121,7 +84,7 @@ async function main() {
   }
 
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-
+  const batchDecisions = [];
   let promotedTotal = 0;
   let droppedTotal = 0;
 

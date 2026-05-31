@@ -100,4 +100,18 @@ async function decisions(c) {
   c.json(200, { ok: true, count: records.length, committed: commit.accepted?.length || 0 });
 }
 
-module.exports = { candidates, scope, decisions };
+async function promotePending(c) {
+  const { listPendingPromotions } = require("../../../src/lexicon/promote-core");
+  const items = listPendingPromotions();
+  return c.json(200, { items, count: items.length });
+}
+
+async function promoteApply(c) {
+  const body = await c.readBody();
+  const { decisions: list } = body || {};
+  const { applyPromotionDecisions } = require("../../../src/lexicon/promote-core");
+  const result = applyPromotionDecisions(Array.isArray(list) ? list : []);
+  return c.json(200, { ok: true, ...result });
+}
+
+module.exports = { candidates, scope, decisions, promotePending, promoteApply };

@@ -1,8 +1,0 @@
-{
-  "name": "Tom",
-  "role": "Principal Backend Engineer",
-  "seniority": "Principal",
-  "meetingType": "Performance & feedback",
-  "notes": "Tom moved teams recently and delivery is steady, but Principal-level impact is not visible yet. Previous feedback said he needs early expectation alignment, and he still asks very few questions. I want to test whether he understands what Principal scope means on this team or if he is still operating on old assumptions. I also need to understand whether cross-team trust and judgment calls are developing or whether he is staying in safe execution mode.",
-  "model": "gpt-5.4-nano"
-}

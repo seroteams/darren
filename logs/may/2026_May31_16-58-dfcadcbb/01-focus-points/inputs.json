@@ -1,8 +1,0 @@
-{
-  "name": "Riley",
-  "role": "Backend Engineer",
-  "seniority": "Mid-level",
-  "meetingType": "Onboarding check-in",
-  "notes": "Riley is in week two and is moving quickly through codebase orientation, but he has mostly learned from docs and async notes rather than direct team contact. I want to check whether he feels clear on ownership boundaries, incident expectations, and where to ask for context before making architecture assumptions. There is a risk he looks productive while building an internal map that differs from how the team actually operates. This check-in should identify missing context early and convert it into concrete onboarding support.",
-  "model": "gpt-5.4-nano"
-}

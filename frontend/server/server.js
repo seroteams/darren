@@ -96,6 +96,11 @@ function main() {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return lexicon.decisions(c);
   });
+  router.add("GET", "/api/lexicon/promote/pending", lexicon.promotePending);
+  router.add("POST", "/api/lexicon/promote", (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return lexicon.promoteApply(c);
+  });
   router.add("GET", "/api/focus-points/stream", focusPoints);
   router.add("GET", "/api/preparation/stream", preparation);
   router.add("GET", "/api/bank/stream", bank);

@@ -35,6 +35,7 @@ module.exports = {
   ],
   anti_patterns: [
     "Agenda-heavy openers that read like a HR form.",
+    "Performative intimacy ('the real version', 'no filter', 'real talk') — sounds like an audition, not a check-in.",
     "Pivoting to growth/career framing in a routine check-in.",
     "Generic 'how do you feel about X' instead of locating the friction.",
   ],

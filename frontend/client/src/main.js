@@ -7,6 +7,7 @@ import { getSession, listRecentRuns } from "./api.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
 import { createNotesPanel } from "./ui/notes-panel.js";
+import { createShortcutsOverlay } from "./ui/shortcuts.js";
 
 // Lazy stage modules — kept in a map so HMR + code-split both work nicely.
 const loaders = {
@@ -24,6 +25,7 @@ const loaders = {
 
 const root = document.getElementById("root");
 let current = { stage: null, mod: null, node: null };
+let renderChain = Promise.resolve();
 
 const devBadge = import.meta.env.DEV ? createDevBadge() : null;
 
@@ -56,13 +58,21 @@ async function renderStage(nextStage) {
   await mod.mount(node, { store, setState, resetSession, rehydrateById });
 }
 
+function enqueueRender(nextStage) {
+  renderChain = renderChain
+    .then(() => renderStage(nextStage))
+    .catch((e) => console.error("[main] render failed:", e));
+}
+
 let routedStage = null;
+let routedTick = null;
 subscribe((s) => {
   topbar.render({ ctx: s.ctx, stage: s.stage, sessionId: s.sessionId });
   notesPanel.render(s);
-  if (s.stage !== routedStage) {
+  if (s.stage !== routedStage || s.stageTick !== routedTick) {
     routedStage = s.stage;
-    renderStage(s.stage);
+    routedTick = s.stageTick;
+    enqueueRender(s.stage);
   }
 });
 
@@ -87,6 +97,7 @@ export async function rehydrateById(id) {
       sessionDir: snap.sessionDir || null,
       createdAt: snap.createdAt ?? null,
       completedAt: snap.completedAt ?? snap.briefing?.completedAt ?? null,
+      skipBriefingAnimation: snap.stage === STAGES.BRIEFING && !!snap.briefing,
     });
     return true;
   } catch (e) {
@@ -127,3 +138,25 @@ function defaultSubstage(stage) {
 }
 
 boot();
+
+let shortcutsOverlay = null;
+window.addEventListener("keydown", (e) => {
+  if (e.key !== "?" || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.target && /^(input|textarea|select)$/i.test(e.target.tagName)) return;
+  e.preventDefault();
+  if (shortcutsOverlay) {
+    shortcutsOverlay.destroy();
+    shortcutsOverlay = null;
+    return;
+  }
+  shortcutsOverlay = createShortcutsOverlay([
+    { key: "Enter", label: "Continue / submit" },
+    { key: "Esc", label: "Cancel / skip" },
+    { key: "?", label: "Toggle this help overlay" },
+  ]);
+  const prev = shortcutsOverlay.destroy.bind(shortcutsOverlay);
+  shortcutsOverlay.destroy = () => {
+    prev();
+    shortcutsOverlay = null;
+  };
+});

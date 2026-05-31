@@ -1,6 +1,7 @@
 import { STAGES } from "../state.js";
 import { listRecentRuns, getRunOverview, deleteRun } from "../api.js";
 import { createPipelineChangelog } from "../ui/pipeline-changelog.js";
+import { confirmAction, alertAction } from "../ui/confirm.js";
 
 let keyHandler = null;
 
@@ -29,6 +30,9 @@ export async function mount(root, { setState, rehydrateById }) {
   `;
 
   root.querySelector(".js-pipeline-host").appendChild(pipeline.el);
+  if (!import.meta.env.DEV) {
+    root.querySelector(".js-pipeline-host").hidden = true;
+  }
 
   const list = root.querySelector(".js-runs");
   const newBtn = root.querySelector(".js-new");
@@ -130,16 +134,22 @@ export async function mount(root, { setState, rehydrateById }) {
   async function resume(id) {
     const ok = await rehydrateById(id);
     if (!ok) {
-      alert("Could not resume that run.");
+      await alertAction({ message: "Could not resume that run. It may have been deleted or expired." });
     }
   }
 
   async function del(id) {
-    if (!confirm("Delete this run permanently? This cannot be undone.")) return;
+    const ok = await confirmAction({
+      message: "Delete this run permanently? This cannot be undone.",
+      confirmLabel: "Delete run",
+      cancelLabel: "Keep run",
+      destructive: true,
+    });
+    if (!ok) return;
     try {
       await deleteRun(id);
     } catch (e) {
-      alert("Delete failed: " + (e.message || e));
+      await alertAction({ message: "Delete failed: " + (e.message || e) });
       return;
     }
     if (expandedId === id) expandedId = null;

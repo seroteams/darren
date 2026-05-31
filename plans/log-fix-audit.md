@@ -1,6 +1,6 @@
 # Log fix audit — every issue, every status
 
-**Version:** v16
+**Version:** v20
 **Caveman version:** full
 **Plan location note:** harness wrote here at `~/.claude/plans/`; per memory rule should be moved to `darren/plans/` after exit.
 
@@ -21,6 +21,10 @@
 - v14 (2026-05-30): Batch L lexicon pipeline. G1/G2 diagnosis: zero candidates caused by `shouldReview` excluding Expert seniority (Toby) + bi-weekly out-of-scope (Carl); no parser drop-off. G3: expanded scope to design+growth+lead|expert, expert→lead file mapping, normalized transcript/eval for prompt. G4 quality floor; LF-1 post-eval kick; FX-40 empty-state copy; G5 `toby_lexicon_growth.json` + `scripts/batch-l-verify.js`. Stats: DONE 73→80, OPEN 17→10, PLANNING 4→3. (+400 lines est.)
 - v15 (2026-05-30): Batch K axis cluster. FX-26/27/28 → DONE. Stats: DONE 80→83, OPEN 10→7. (+250 lines est.)
 - v16 (2026-05-30): Batch M3 regression fixtures. Pinned Priya/Lin/Ahmed May-24 worst runs as `scenarios/regression/*.json` + `scripts/batch-m3-verify.js`. Report: `logs/may/2026_May24_batch/m3-regression-report.json`. Stats: OPEN 7 unchanged (infra batch, no new audit IDs). (+600 lines est.)
+- v17 (2026-06-01): Old-log open-issue pass before log prune. Merged `OLD-LOG-OPEN-ISSUES.md` NEW-A..D → FX-50..FX-53. Evidence from May31 Carl runs (+ `14-43-c197a1ea` regenerate). Stats: Total 95→99, OPEN 7→11. (+4 rows)
+- v18 (2026-06-01): FX-43 done — `plans/reviewrun-output-spec.md` + skill audit crosswalk. Stats: PLANNING 3→2, DONE 83→84.
+- v20 (2026-06-01): FX-54 thread-follow mirror rule + engine loop foundation (`prompt-version`, `rules`, `npm run eval`). Stats: Total 99→100, DONE 92→93.
+- v19 (2026-06-01): Session backlog landed — FX-08, FX-37, FX-50–53, LF-5, LF-6 → DONE. Stats: DONE 84→92, OPEN 11→0, PLANNING 2→0.
 
 ## Context
 User asked: "go through every log, make list of all that needs fixing, check if done, output table with IDs so I can choose what we fix."
@@ -58,6 +62,7 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 | FX-05 | Energy-read question not linked to meeting type | May17-12:53 | ✅ DONE | `prompts/generate-questions.md` "Energy-read framing per meeting type." |
 | FX-06 | Early set question "anything to cover" (would push to 9 q's) | May17-12:53 | ✅ DONE | `questions/_openers.json` `q_open_anything_to_cover` |
 | FX-07 | Opener picker regression test | — | ✅ DONE (=E3) | `scripts/test-opener-routing.js` |
+| FX-52 | Questioning opener too informal ("Tell me about your week, the real version") | May31 | ✅ DONE | `questions/_openers.json`, `prompts/generate-questions.md` tone lint |
 
 ### B. Prompts — arc / flow / planner
 
@@ -68,7 +73,7 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 | D3 | Snap-back rule after strong growth/clarity (no re-queue seed openers) | May18 (= feedback_questioning_flow_breaks) | ✅ DONE | `prompts/plan-turn.md:235` "Snap-back after growth/clarity signal" |
 | D4 | Same axis-purpose clarifier capped at 2 turns | May24 (annoying same Q after positive) | ✅ DONE | `prompts/plan-turn.md:236` "Wellbeing clarifier cap (hard)" |
 | D5 | Off-arc drill capped 1 turn unless hint=deepen | May25 4-drill streak, May24 Q6 promotion tangent | ✅ DONE | `prompts/plan-turn.md:237` "Off-arc tangent cap" |
-| FX-08 | Drill cap **runtime** enforcement (strip same-stage planner_added when count≥2) | May25 | 📋 PLANNING | `src/queue-manager.js` (heavy-ops decision) |
+| FX-08 | Drill cap **runtime** enforcement (strip same-stage planner_added when count≥2) | May25 | ✅ DONE | `src/queue-manager.js` `enforceDrillCap` + `scripts/test-drill-cap.js` |
 | FX-09 | Honor "I'll share my view" promises | May18 | ✅ DONE (=feedback #7) | `prompts/plan-turn.md` planning_rules #11 "Honor open commitments" |
 | FX-10 | Don't repeat the question stem in follow-up | May18 | ✅ DONE (=feedback #6) | `prompts/plan-turn.md` question_craft "Don't echo the stem" |
 | FX-11 | Winddown taper across last 2 turns (not just budget=1) | May18, May25 Q7 deep, May27 Q6 deep | ✅ DONE (=feedback #8) | `prompts/plan-turn.md` `<wind_down_rule>` |
@@ -96,6 +101,8 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 | FX-21 | "About you" reads like AI mistake is manager's fault | May17-12:53 | ✅ OBSOLETE | `aboutYou` field no longer exists in output_contract |
 | FX-22 | Scope of outcomeGoal too big for one meeting | May17-12:53 | ✅ DONE | `prompts/preparation.md:34` "Not a multi-meeting arc..." rule |
 | FX-23 | Preparation validator 1x retry on failure | May25 | ✅ DONE | `src/preparation.js` 2026-05-27 |
+| FX-50 | Focus-point cards too verbose (want title + one sentence) | May31 | ✅ DONE | `prompts/generate-focus-points.md`, `src/generate.js`, `focus-points.js` |
+| FX-51 | Prep opener too hard-edged for bi-weekly (need disarming tone) | May31 | ✅ DONE | `prompts/preparation.md`, `src/preparation.js` bi-weekly rules |
 
 ### D. Briefing / evaluation
 
@@ -129,9 +136,11 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 | FX-34 | Post-briefing CTA "Complete 1:1" → lexicon picker page | May18 | ✅ DONE (=N3) | `frontend/client/src/stages/briefing.js` scope-check click handler + `frontend/server/handlers/lexicon.js` scope endpoint + `frontend/server/server.js` route |
 | FX-35 | Notes carry `question_alias`/stem not just timestamp | May18 | ✅ DONE (=feedback #9) | `frontend/client/src/ui/notes-panel.js:75-88`, `frontend/server/handlers/notes.js:25-51,132-147`, `frontend/server/handlers/evaluation.js:7-33` |
 | FX-36 | "Using my notes" — typo/spelling corrections unused | May27-08:48 | ✅ DONE (verified) | `frontend/client/src/ui/notes-panel.js:73` submit reads live `textarea.value.trim()`; no stale-state correction gap found |
-| FX-37 | Dig-deeper button alongside next-question | May24 | 🔴 OPEN deferred (=H1) | UI control |
+| FX-37 | Dig-deeper button alongside next-question | May24 | ✅ DONE | `questioning.js`, `plan-turn.md` `<user_drill_request>`, `answer.js`/`plan.js` |
 | FX-38 | Focus points unselected default (selection inverted) | May16, May17, May18 | ✅ DONE (=feedback #4) | UI |
 | FX-39 | UI consistency canon (eyebrow+h1, sentence-case, "Continue") | — | ✅ DONE (=feedback #14) | UI canon |
+| FX-54 | Thread-follow too weak in live sweep (0.473 vs 0.55–0.75 band) | M2 | ✅ DONE | `plan-turn.md` mirror-the-answer hard rule; verify via `npm run eval` + next live sweep |
+| FX-53 | Focus-points Regenerate broken / unreliable | May31-14:43 | ✅ DONE | `focus-points.js` stageTick + `handlers/focus-points.js?regenerate=1` |
 
 ### F. Lexicon
 
@@ -147,8 +156,8 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 | LF-2 | Web endpoint `GET /lexicon/candidates` reads trace | — | ✅ DONE | `frontend/server/handlers/lexicon.js` (`candidates` -> `generateSuggestions`) |
 | LF-3 | POST keep-click appends to candidates YAML | — | ✅ DONE | `frontend/server/handlers/lexicon.js` (`decisions` -> `commitDecisions`) |
 | LF-4 | `scripts/promote-candidates.js` diff + interactive | — | ✅ DONE | `scripts/promote-candidates.js` |
-| LF-5 | Scope decision: design-only vs all roles | — | 🔴 OPEN design call | recommend B |
-| LF-6 | Promote button in app | — | 🔴 OPEN optional | UI |
+| LF-5 | Scope decision: design-only vs all roles | — | ✅ DONE | path B — all role families on growth + lead/expert (`src/lexicon.js`) |
+| LF-6 | Promote button in app | — | ✅ DONE | `lexicon-review.js`, `promote-core.js`, `/api/lexicon/promote` |
 
 ### G. Infra / ops
 
@@ -156,7 +165,7 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 |---|---|---|---|---|
 | FX-41 | Persona scenarios not in repo (batch used 26 unsaved personas) | batch | ✅ DONE | `scenarios/batch/` (10 persona JSONs + `_index.json` + `README.md`) |
 | FX-42 | Logs tracked in git | — | ✅ DONE | commit `90d7b0d` |
-| FX-43 | Pipeline review workflow output spec | — | 📋 PLANNING | reviewrun skill |
+| FX-43 | Pipeline review workflow output spec | — | ✅ DONE | `plans/reviewrun-output-spec.md`, `.claude/skills/reviewrun/SKILL.md` |
 | FX-44 | Batch-run learnings adoption (EVOLVED-DIFF hunks layered with FX-09/FX-10) | batch | ✅ DONE | `scripts/batch-m1-verify.js` + `logs/may/2026_May24_batch/m1-rerun-report.json` |
 | FX-45 | Axis seeds (-1/-1/0/0) | — | ✅ DONE (=feedback #12) | defaults |
 | FX-46 | Plan format conventions (version/caveman/changelog) | — | ✅ DONE (=feedback #1) | `plans/*` |
@@ -166,13 +175,13 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 
 ---
 
-## Quick stats (post v15 Batch K axes)
-- Total IDs: 95
-- ✅ DONE: 83 (incl. 1 OBSOLETE)
+## Quick stats (post v20 engine loop)
+- Total IDs: 100
+- ✅ DONE: 93 (incl. 1 OBSOLETE)
 - 🟡 PARTIAL: 0
 - 🧪 REVIEW: 0
-- 📋 PLANNING: 3
-- 🔴 OPEN: 7
+- 📋 PLANNING: 0
+- 🔴 OPEN: 0
 
 ## Verification (how to test once items land)
 - Replay last failing run through `scripts/replay-scenario.js` once it exists.

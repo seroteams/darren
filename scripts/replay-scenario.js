@@ -3,6 +3,10 @@
 // Run: node scripts/replay-scenario.js toby_growth_lead
 //      node scripts/replay-scenario.js toby_growth_lead --fixtures-only  (no API)
 //      node scripts/replay-scenario.js toby_growth_lead --check-transcript <path>  (offline arc checks)
+//      node scripts/replay-scenario.js priya-biweekly-checkin --fixtures-only  (batch persona)
+//      node scripts/replay-scenario.js --list
+//      node scripts/replay-scenario.js --batch-all --fixtures-only
+//      node scripts/replay-scenario.js --regression-all --fixtures-only
 
 const fs = require("node:fs");
 const path = require("node:path");
@@ -11,14 +15,181 @@ const ROOT = path.join(__dirname, "..");
 const { loadEnv } = require("../src/env");
 loadEnv();
 
+const { MEETING_TYPES } = require("../src/meeting-types");
+const { TOTAL_BUDGET } = require("../frontend/server/sessions");
 const { validateBrief, generatePreparation } = require("../src/preparation");
 
-function loadScenario(id) {
-  const file = path.join(ROOT, "scenarios", "regression", `${id}.json`);
-  if (!fs.existsSync(file)) {
-    throw new Error(`Scenario not found: ${file}`);
-  }
+const REGRESSION_DIR = path.join(ROOT, "scenarios/regression");
+const BATCH_DIR = path.join(ROOT, "scenarios/batch");
+const SCENARIOS_DIR = path.join(ROOT, "scenarios");
+
+function loadJson(file) {
   return JSON.parse(fs.readFileSync(file, "utf8"));
+}
+
+function resolveScenarioPath(id) {
+  const raw = String(id || "").trim();
+  if (!raw) return null;
+
+  const withJson = raw.endsWith(".json") ? raw : `${raw}.json`;
+  const base = withJson.replace(/\.json$/, "");
+
+  const candidates = [];
+  if (path.isAbsolute(raw) && fs.existsSync(raw)) candidates.push(raw);
+  if (raw.startsWith("batch/")) {
+    candidates.push(path.join(BATCH_DIR, raw.slice("batch/".length).replace(/\.json$/, "") + ".json"));
+  }
+  candidates.push(
+    path.join(REGRESSION_DIR, `${base}.json`),
+    path.join(BATCH_DIR, `${base}.json`),
+    path.join(SCENARIOS_DIR, `${base}.json`),
+    path.join(ROOT, withJson)
+  );
+
+  const seen = new Set();
+  for (const file of candidates) {
+    if (!file || seen.has(file)) continue;
+    seen.add(file);
+    if (fs.existsSync(file)) {
+      let kind = "scenario";
+      if (file.startsWith(REGRESSION_DIR + path.sep)) kind = "regression";
+      else if (file.startsWith(BATCH_DIR + path.sep)) kind = "batch";
+      return { path: file, kind, id: path.basename(file, ".json") };
+    }
+  }
+  return null;
+}
+
+function isSmokeShape(data) {
+  return Boolean(
+    data?.name &&
+    data?.meeting_type &&
+    !data?.prep &&
+    !data?.ctx &&
+    !data?.fixtures &&
+    !data?.expect &&
+    !data?.sessionDir
+  );
+}
+
+function normalizeScenario(data, meta) {
+  if (data.prep) {
+    return {
+      ...data,
+      id: data.id || meta.id,
+      _kind: meta.kind,
+      _path: meta.path,
+    };
+  }
+  if (isSmokeShape(data)) {
+    return {
+      id: meta.id,
+      description: `${data.name} · ${data.role} · ${data.meeting_type}`,
+      prep: {
+        name: data.name,
+        role: data.role,
+        seniority: data.seniority,
+        meetingType: data.meeting_type,
+        notes: data.manager_notes || "",
+        focusPoints: data.focusPoints || [],
+      },
+      fixtures: [],
+      _kind: meta.kind,
+      _path: meta.path,
+      _smoke: data,
+    };
+  }
+  return {
+    ...data,
+    id: data.id || meta.id,
+    _kind: meta.kind,
+    _path: meta.path,
+  };
+}
+
+function loadScenario(id) {
+  const resolved = resolveScenarioPath(id);
+  if (!resolved) {
+    throw new Error(`Scenario not found: ${id}`);
+  }
+  const data = loadJson(resolved.path);
+  return normalizeScenario(data, resolved);
+}
+
+function listScenarios() {
+  const out = { regression: [], batch: [], scenario: [] };
+  const regressionIndex = path.join(REGRESSION_DIR, "_index.json");
+  if (fs.existsSync(regressionIndex)) {
+    for (const id of loadJson(regressionIndex)) {
+      out.regression.push({ id, path: path.relative(ROOT, path.join(REGRESSION_DIR, `${id}.json`)) });
+    }
+  }
+  const batchIndex = path.join(BATCH_DIR, "_index.json");
+  if (fs.existsSync(batchIndex)) {
+    for (const entry of loadJson(batchIndex)) {
+      out.batch.push({
+        id: entry.file.replace(/\.json$/, ""),
+        name: entry.name,
+        meeting_type: entry.meeting_type,
+        path: path.relative(ROOT, path.join(BATCH_DIR, entry.file)),
+      });
+    }
+  }
+  for (const file of fs.readdirSync(SCENARIOS_DIR)) {
+    if (!file.endsWith(".json")) continue;
+    const full = path.join(SCENARIOS_DIR, file);
+    out.scenario.push({ id: file.replace(/\.json$/, ""), path: path.relative(ROOT, full) });
+  }
+  return out;
+}
+
+function isSubstantiveAnswer(answer) {
+  const a = String(answer || "").trim();
+  if (!a) return false;
+  return a.split(/\s+/).filter(Boolean).length > 3;
+}
+
+function runSmokeSchemaChecks(scenario) {
+  const raw = scenario._smoke;
+  if (!raw) return 0;
+  let failed = 0;
+  const label = scenario.id;
+
+  const required = ["name", "role", "seniority", "meeting_type", "manager_notes", "answers"];
+  for (const key of required) {
+    if (raw[key] == null || (key !== "manager_notes" && raw[key] === "")) {
+      console.error(`  FAIL  ${label} — missing required field: ${key}`);
+      failed += 1;
+    }
+  }
+
+  const meetingIdx = MEETING_TYPES.findIndex((m) => m.label === raw.meeting_type);
+  if (meetingIdx < 0) {
+    console.error(`  FAIL  ${label} — unknown meeting_type: ${raw.meeting_type}`);
+    failed += 1;
+  } else {
+    console.log(`  PASS  ${label} — meeting_type resolves (${raw.meeting_type})`);
+  }
+
+  const answers = Array.isArray(raw.answers) ? raw.answers : [];
+  const substantive = answers.filter(isSubstantiveAnswer).length;
+  if (substantive < TOTAL_BUDGET) {
+    console.error(
+      `  FAIL  ${label} — ${substantive} substantive answer(s), need >= ${TOTAL_BUDGET} for smoke-test budget`
+    );
+    failed += 1;
+  } else {
+    console.log(`  PASS  ${label} — ${substantive} substantive answers (budget ${TOTAL_BUDGET})`);
+  }
+
+  if (typeof raw.manager_notes === "string" && raw.manager_notes.trim().length >= 20) {
+    console.log(`  PASS  ${label} — manager_notes present`);
+  } else {
+    console.error(`  FAIL  ${label} — manager_notes too short or missing`);
+    failed += 1;
+  }
+
+  return failed;
 }
 
 function prepInputs(scenario) {
@@ -77,9 +248,6 @@ function checkField(label, text, rules) {
   return failures;
 }
 
-// D6 — offline arc-coverage checks against a recorded transcript.json.
-// Reads `scenario.arc` and asserts the transcript hits each expected stage,
-// never exceeds the wellbeing-clarifier cap, and reaches the closer stage.
 function runTranscriptArcChecks(scenario, transcriptPath) {
   const expect = scenario.arc;
   if (!expect) {
@@ -92,7 +260,7 @@ function runTranscriptArcChecks(scenario, transcriptPath) {
   }
   let transcript;
   try {
-    transcript = JSON.parse(fs.readFileSync(transcriptPath, "utf8"));
+    transcript = loadJson(transcriptPath);
   } catch (e) {
     console.error(`  FAIL  transcript parse: ${e.message}`);
     return 1;
@@ -183,43 +351,45 @@ function runLiveChecks(brief, scenario) {
   return failures;
 }
 
-async function main() {
-  const id = process.argv[2];
-  const fixturesOnly = process.argv.includes("--fixtures-only");
-  const transcriptFlagIdx = process.argv.indexOf("--check-transcript");
-  const transcriptPath = transcriptFlagIdx > 0 ? process.argv[transcriptFlagIdx + 1] : null;
-  if (!id) {
-    console.error("Usage: node scripts/replay-scenario.js <scenario-id> [--fixtures-only] [--check-transcript <path>]");
-    process.exit(2);
+async function replayOne(id, { fixturesOnly, transcriptPath }) {
+  const scenario = loadScenario(id);
+  console.log(`\nReplay: ${scenario.id} — ${scenario.description || ""} [${scenario._kind}]\n`);
+
+  let failed = 0;
+
+  if (scenario._smoke) {
+    console.log("─── Batch schema checks (offline) ───");
+    failed += runSmokeSchemaChecks(scenario);
   }
 
-  const scenario = loadScenario(id);
-  console.log(`\nReplay: ${scenario.id} — ${scenario.description || ""}\n`);
-
-  console.log("─── Validator fixtures (offline) ───");
-  const fixtureFails = runFixtureChecks(scenario);
-  if (fixtureFails > 0) {
-    console.log(`\n${fixtureFails} fixture check(s) failed.\n`);
-    process.exit(1);
+  if ((scenario.fixtures || []).length > 0) {
+    console.log("─── Validator fixtures (offline) ───");
+    failed += runFixtureChecks(scenario);
+  } else if (!scenario._smoke) {
+    console.log("  (no prep fixtures — skipping validator fixtures)");
   }
 
   if (transcriptPath) {
     console.log("\n─── Transcript arc checks (offline) ───");
-    const arcFails = runTranscriptArcChecks(scenario, transcriptPath);
-    if (arcFails > 0) {
-      console.log(`\n${arcFails} arc check(s) failed.\n`);
-      process.exit(1);
-    }
+    failed += runTranscriptArcChecks(scenario, transcriptPath);
   }
 
   if (fixturesOnly) {
-    console.log("\n✓ Fixtures passed (--fixtures-only, skipping live prep).\n");
-    process.exit(0);
+    if (failed > 0) {
+      console.log(`\n${failed} check(s) failed.\n`);
+      return 1;
+    }
+    console.log("\n✓ Offline checks passed (--fixtures-only, skipping live prep).\n");
+    return 0;
   }
 
   if (!process.env.OPENAI_API_KEY) {
-    console.warn("OPENAI_API_KEY not set — skipping live prep (fixtures passed).\n");
-    process.exit(0);
+    if (failed > 0) {
+      console.log(`\n${failed} check(s) failed.\n`);
+      return 1;
+    }
+    console.warn("OPENAI_API_KEY not set — skipping live prep (offline checks passed).\n");
+    return 0;
   }
 
   console.log("─── Live prep generation ───");
@@ -232,11 +402,112 @@ async function main() {
   if (liveFails.length) {
     liveFails.forEach((f) => console.error(`  FAIL  ${f}`));
     console.log();
-    process.exit(1);
+    return 1;
+  }
+
+  if (failed > 0) {
+    console.log(`\n${failed} offline check(s) failed.\n`);
+    return 1;
   }
 
   console.log("\n✓ Live prep passed scenario assertions.\n");
-  process.exit(0);
+  return 0;
+}
+
+async function replayBatchAll(fixturesOnly) {
+  const indexPath = path.join(BATCH_DIR, "_index.json");
+  if (!fs.existsSync(indexPath)) {
+    console.error(`Batch index not found: ${indexPath}`);
+    return 2;
+  }
+  const index = loadJson(indexPath);
+  console.log(`\n─── Batch replay (${index.length} personas) ───\n`);
+  let failed = 0;
+  for (const entry of index) {
+    const id = entry.file.replace(/\.json$/, "");
+    const code = await replayOne(id, { fixturesOnly, transcriptPath: null });
+    if (code !== 0) failed += 1;
+  }
+  if (failed) {
+    console.error(`\n${failed} batch scenario(s) failed.\n`);
+    return 1;
+  }
+  console.log(`\n✓ All ${index.length} batch scenarios passed offline checks.\n`);
+  return 0;
+}
+
+async function replayRegressionAll(fixturesOnly) {
+  const indexPath = path.join(REGRESSION_DIR, "_index.json");
+  if (!fs.existsSync(indexPath)) {
+    console.error(`Regression index not found: ${indexPath}`);
+    return 2;
+  }
+  const ids = loadJson(indexPath);
+  console.log(`\n─── Regression replay (${ids.length} fixtures) ───\n`);
+  let failed = 0;
+  for (const id of ids) {
+    const code = await replayOne(id, { fixturesOnly, transcriptPath: null });
+    if (code !== 0) failed += 1;
+  }
+  if (failed) {
+    console.error(`\n${failed} regression fixture(s) failed.\n`);
+    return 1;
+  }
+  console.log(`\n✓ All ${ids.length} regression fixtures passed.\n`);
+  return 0;
+}
+
+function printList() {
+  const lists = listScenarios();
+  console.log("\nAvailable scenarios:\n");
+  console.log("Regression:");
+  for (const s of lists.regression) console.log(`  ${s.id}  (${s.path})`);
+  console.log("\nBatch:");
+  for (const s of lists.batch) console.log(`  ${s.id}  ${s.name} · ${s.meeting_type}`);
+  console.log("\nRoot scenarios:");
+  for (const s of lists.scenario) console.log(`  ${s.id}  (${s.path})`);
+  console.log("\nExamples:");
+  console.log("  node scripts/replay-scenario.js toby_growth_lead --fixtures-only");
+  console.log("  node scripts/replay-scenario.js priya-biweekly-checkin --fixtures-only");
+  console.log("  node scripts/replay-scenario.js --batch-all --fixtures-only");
+  console.log();
+}
+
+async function main() {
+  const args = process.argv.slice(2);
+  const fixturesOnly = args.includes("--fixtures-only");
+  const transcriptFlagIdx = args.indexOf("--check-transcript");
+  const transcriptPath = transcriptFlagIdx >= 0 ? args[transcriptFlagIdx + 1] : null;
+
+  if (args.includes("--list")) {
+    printList();
+    process.exit(0);
+  }
+
+  if (args.includes("--batch-all")) {
+    process.exit(await replayBatchAll(fixturesOnly));
+  }
+
+  if (args.includes("--regression-all")) {
+    process.exit(await replayRegressionAll(fixturesOnly));
+  }
+
+  const id = args.find((a, i) => {
+    if (a.startsWith("--")) return false;
+    if (transcriptFlagIdx >= 0 && i === transcriptFlagIdx + 1) return false;
+    return true;
+  });
+  if (!id) {
+    console.error(
+      "Usage: node scripts/replay-scenario.js <scenario-id> [--fixtures-only] [--check-transcript <path>]\n" +
+        "       node scripts/replay-scenario.js --list\n" +
+        "       node scripts/replay-scenario.js --batch-all [--fixtures-only]\n" +
+        "       node scripts/replay-scenario.js --regression-all [--fixtures-only]"
+    );
+    process.exit(2);
+  }
+
+  process.exit(await replayOne(id, { fixturesOnly, transcriptPath }));
 }
 
 main().catch((err) => {

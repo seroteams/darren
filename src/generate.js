@@ -43,6 +43,15 @@ function loadFocusPoints() {
   return CATALOGUE;
 }
 
+function oneSentenceReason(text, maxWords = 22) {
+  const trimmed = String(text || "").trim();
+  if (!trimmed) return trimmed;
+  const first = trimmed.match(/^(.+?[.!?])(?:\s|$)/)?.[1] || trimmed.split(/\s*;\s*/)[0] || trimmed;
+  const words = first.split(/\s+/).filter(Boolean);
+  if (words.length <= maxWords) return first;
+  return `${words.slice(0, maxWords).join(" ").replace(/[,;:—–-]+$/, "")}.`;
+}
+
 function buildMessages({ name, role, seniority, meetingType, notes, focusPoints }) {
   const template = fs.readFileSync(promptFor(meetingType, "focusPoints"), "utf8");
   const filled = template
@@ -102,7 +111,7 @@ async function generateFocusPoints(
         type: entry ? entry.label : null,
         category: entry ? entry.category : null,
         label: fp.label,
-        reason: fp.reason,
+        reason: oneSentenceReason(fp.reason),
         source: fp.source,
         known: !!entry,
       };

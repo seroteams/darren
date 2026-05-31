@@ -23,7 +23,12 @@ export async function mount(root, { store, setState }) {
   const resultHost = root.querySelector(".result-host");
 
   root.querySelector(".js-start-fresh").addEventListener("click", async () => {
-    const ok = await confirmAction({ message: "Are you sure?" });
+    const ok = await confirmAction({
+      message: "Start over? This session will be cleared.",
+      confirmLabel: "Start over",
+      cancelLabel: "Cancel",
+      destructive: true,
+    });
     if (!ok) return;
     resetSession();
     setState({ stage: STAGES.START });
@@ -32,7 +37,12 @@ export async function mount(root, { store, setState }) {
   const orb = createOrb("Choosing focus points…");
   thinkingHost.appendChild(orb.el);
 
-  const sse = openSse(`/api/focus-points/stream?s=${encodeURIComponent(sessionId)}`);
+  const regenerate = store.regenerateFocusPoints;
+  if (regenerate) setState({ regenerateFocusPoints: false });
+
+  const streamQs = new URLSearchParams({ s: sessionId });
+  if (regenerate) streamQs.set("regenerate", "1");
+  const sse = openSse(`/api/focus-points/stream?${streamQs}`);
   sse
     .on("thinking", (d) => orb.setLabel(d.label))
     .on("result", async (d) => {
@@ -80,7 +90,7 @@ export async function mount(root, { store, setState }) {
               <div class="focus-point__num">${i + 1}</div>
               <div class="focus-point__body">
                 <div class="focus-point__label">${escape(fp.label || fp.type || fp.id)}</div>
-                ${fp.reason ? `<div class="focus-point__reason">${escape(fp.reason)}</div>` : ""}
+                ${fp.reason ? `<div class="focus-point__reason">${escape(focusReason(fp.reason))}</div>` : ""}
               </div>
               <div class="focus-point__check">✓</div>
             </button>
@@ -136,7 +146,13 @@ export async function mount(root, { store, setState }) {
 
     resultHost.querySelector(".js-regen").addEventListener("click", () => {
       sse.close();
-      setState({ stage: STAGES.FOCUS_POINTS });
+      setState({
+        regenerateFocusPoints: true,
+        stageTick: store.stageTick + 1,
+        focusPoints: null,
+        preparation: null,
+        preparationRunId: null,
+      });
     });
   }
 
@@ -147,6 +163,13 @@ let unmountFn = null;
 export function unmount() {
   if (unmountFn) unmountFn();
   unmountFn = null;
+}
+
+function focusReason(text) {
+  const trimmed = String(text == null ? "" : text).trim();
+  if (!trimmed) return "";
+  const first = trimmed.match(/^(.+?[.!?])(?:\s|$)/)?.[1];
+  return first || trimmed;
 }
 
 function escape(s) {

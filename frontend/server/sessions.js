@@ -46,6 +46,8 @@ function createWebSession(ctx, introQueue) {
     lastPlanByTurn: new Map(),
 
     pendingAnswer: null,
+    pendingDrillRequest: false,
+    showReturningToArcHint: false,
     inFlight: new Map(),
     tracker: cost.createTracker(),
   };

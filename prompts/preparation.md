@@ -58,6 +58,14 @@ For **Growth & career plan** (especially Expert → lead transitions):
 - May reference the growth area indirectly; do not name a weakness as a fixed flaw
 - Example — bad: "What communication challenges have you faced recently?"
 - Example — better: "What kind of communication moments would you like to handle with more confidence as you move toward lead-level work?"
+
+For **Bi-weekly check-in**:
+- Warm and disarming — this is a routine catch-up, not a performance review or intervention
+- Open on pace, bandwidth, or what's in flight before zeroing in on any concern from the notes
+- Prefer locating the stretch: "since we last spoke", "last couple of weeks", "this fortnight"
+- Avoid hard-edged first sentences: no struggle framing, no "what's not working", no problem-first probes unless notes demand it — and even then, soften the entry ("I wanted to check in on…" not "What's going wrong with…")
+- Example — bad: "What specific issues have you run into with the design handoff this sprint?"
+- Example — better: "Before we get into specifics, how has the last couple of weeks felt from your side?"
 </opening_question_rules>
 
 <listen_for_rules>

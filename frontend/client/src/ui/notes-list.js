@@ -22,7 +22,7 @@ function noteItemHtml(n) {
 export function createNotesListController({ listEl, onBeginEdit }) {
   function renderList(notes) {
     if (!notes.length) {
-      listEl.innerHTML = `<div class="notes-panel__empty">No notes yet. Write one below � paragraphs welcome.</div>`;
+      listEl.innerHTML = `<div class="notes-panel__empty">No notes yet. Write one below — paragraphs welcome.</div>`;
       return;
     }
     const groups = groupNotes(notes);
@@ -54,7 +54,7 @@ export function mountEditMode({ itemEl, note, onSave, onDelete, onCancel }) {
   itemEl.innerHTML = `
     <div class="notes-panel__item-head">
       <span class="notes-panel__ts">${fmtTime(note.ts)}</span>
-      <span class="notes-panel__hint">Enter saves � Shift+Enter for new line � Esc cancels</span>
+      <span class="notes-panel__hint">Enter saves · Shift+Enter for new line · Esc cancels</span>
     </div>
     <textarea class="notes-panel__edit" rows="3">${escapeHtml(note.text)}</textarea>
     <div class="notes-panel__edit-actions">

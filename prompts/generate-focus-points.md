@@ -19,12 +19,12 @@ Field rules:
 - `id` — catalogue id, verbatim.
 - `label` — one phrase, roughly 4–10 words, written for *this* person. Never a copy of the catalogue's own `label` (the UI prints that alongside yours as the "type"). The label should sound like a plain conversation topic a manager could comfortably say out loud.
 Avoid poetic, clever, dramatic, or diagnostic labels.
-- `reason` — depends on `source`:
+- `reason` — **exactly one sentence, max 22 words.** The UI shows label + reason only — no room for a second sentence or trailing clause. Depends on `source`:
   - If `source: "signal"` — an observation from the notes, then a tentative interpretation using language like "could be", "one possibility", "worth clarifying whether", "might be ___ or ___ or just ___".
   - If `source: "best_practice"` — say *why this matters* for someone at this seniority in this role, like a senior peer briefing the manager over coffee. Do not use the apology pattern "No specific signal — …".
     - **Shape rule (hard):** the `reason` MUST start with one of: `Whether `, `How they're `, `What `, `If `. No noun-phrase-as-sentence starters ("Standard X,", "Bi-weekly hygiene,", "The cleanest channel,"). No abstract-concept opener.
     - **Banned phrases (any case, also banned as paraphrase):** "standard anchor", "standard bi-weekly anchor", "standard ... anchor for", "hygiene", "cleanest channel", "the channel for", "at this seniority", "redirect the relationship", "is what gets evaluated", "crucial for", "essential to", "key to", "important for", "surface what", "space to surface", "ensure alignment", "pulse check".
-    - **Positive examples** (Lead / Performance & feedback): "How they're framing the top three things they're owning right now. Leads quietly drift into operator mode if no one asks." (Senior / Bi-weekly): "Whether they're still on the work that made them senior, or quietly being absorbed into firefighting." (Lead / Bi-weekly): "Whether they're actually shipping the things they said they would two weeks ago, or quietly carrying them forward again." (Lead / Bi-weekly): "What they want from you that they haven't asked for. Leads stop asking when they think you're already stretched."
+    - **Positive examples** (Lead / Performance & feedback): "How they're framing the top three things they're owning right now." (Senior / Bi-weekly): "Whether they're still on the work that made them senior, or quietly being absorbed into firefighting." (Lead / Bi-weekly): "Whether they're actually shipping what they said they would two weeks ago." (Lead / Bi-weekly): "What they want from you that they haven't asked for yet."
     - **Voice check (final pass — do this before returning JSON):** re-read each `reason`. If any line could appear unchanged in a consultancy slide, rewrite it. Read it aloud. If you sound like a deck, fix it.
 - `source` — exactly one of:
   - `"signal"` — driven by something concrete in the manager's notes.
@@ -133,6 +133,9 @@ Did you emit only points that carry value? If any point would be cut from a 15-m
 
 6. Hedge control:
 Use only one hedge per reason. Do not stack "could be", "might be", "possibly", and "worth clarifying" in the same reason.
+
+7. Reason length (hard):
+Each `reason` is one sentence, max 22 words. If you wrote two sentences or a semicolon chain, cut to the load-bearing clause.
 </quality_gate>
 
 <rules>

@@ -1,8 +1,0 @@
-{
-  "name": "Sam",
-  "role": "Frontend Engineer",
-  "seniority": "Junior",
-  "meetingType": "Onboarding check-in",
-  "notes": "Sam is in week three and has started picking up real tickets, but he still hesitates before shipping and asks for reassurance late. I need to understand whether this is a normal confidence dip or a tooling and expectation gap we can fix quickly. I also want clarity on where onboarding handoffs are still fuzzy so he is not quietly compensating. This should stay practical and supportive: map what is unclear, unblock him, and line up the right support touchpoints for the next two weeks.",
-  "model": "gpt-5.4-nano"
-}

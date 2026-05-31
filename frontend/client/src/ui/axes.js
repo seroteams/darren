@@ -65,10 +65,11 @@ function createRow(id, celebrate) {
   const el = document.createElement("div");
   el.className = "axis";
   el.setAttribute("data-axis", id);
-  el.setAttribute("title", `${AXIS_LABELS[id] || id}: seeded at ${seed > 0 ? "+" + seed : seed}. Moves when answers carry real signal — not filler words.`);
+  el.setAttribute("role", "group");
+  el.setAttribute("aria-label", `${AXIS_LABELS[id] || id}: seeded at ${seed > 0 ? "+" + seed : seed}`);
   el.innerHTML = `
     <div class="axis__label">${AXIS_LABELS[id] || id}</div>
-    <div class="axis__track" aria-hidden="true">
+    <div class="axis__track" role="meter" aria-valuemin="-6" aria-valuemax="6" aria-valuenow="0" aria-label="${AXIS_LABELS[id] || id} score">
       <div class="axis__midline"></div>
       <div class="axis__fill axis__fill--neutral"></div>
     </div>
@@ -139,6 +140,7 @@ function createRow(id, celebrate) {
     const baseline = isBaseline(score, historyLen);
     setFill(score, { baseline });
     setValueText(score, { baseline });
+    track.setAttribute("aria-valuenow", String(baseline ? seed : score));
     if (!baseline) showOffscale(score);
     else removeOffscaleBadge();
   }
@@ -164,6 +166,7 @@ function createRow(id, celebrate) {
     // Count-up
     if (REDUCE_MOTION || from === to) {
       setValueText(to, { baseline });
+      track.setAttribute("aria-valuenow", String(baseline ? seed : to));
       return;
     }
     const start = performance.now();
@@ -175,8 +178,12 @@ function createRow(id, celebrate) {
       const midBaseline = isBaseline(n, historyLen);
       setValueText(n, { baseline: midBaseline });
       if (t < 1) requestAnimationFrame(tick);
-      else setValueText(to, { baseline });
+      else {
+        setValueText(to, { baseline });
+        track.setAttribute("aria-valuenow", String(baseline ? seed : to));
+      }
     }
+    track.setAttribute("aria-valuenow", String(baseline ? seed : to));
     requestAnimationFrame(tick);
   }
 

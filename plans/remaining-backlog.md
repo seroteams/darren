@@ -14,18 +14,18 @@ Audit says 21 open, 5 partial, 4 planning, 1 review. This file groups them into 
 - v1 (2026-05-30): Initial consolidation from audit v9, stale `PLAN.md` diff, `lexicon-finish.md`, Toby phase 6–7, May-24 batch notes, and local uncommitted WIP inventory.
 - v2 (2026-05-30): Batch I landed — FX-11/FX-12 wind-down + closer craft in `prompts/plan-turn.md`. Audit v11 stats.
 - v3 (2026-05-30): Batch J landed — FX-24/25/32 briefing + questioning UI polish. Audit v12 stats.
-- v6 (2026-05-30): Batch M3 regression fixtures. Pinned Priya/Lin/Ahmed May-24 worst runs. Audit v16.
+- v6 (2026-06-01): Everything-not-done plan — git commit, pricing verified, M5 + manual QA scripts, FX-54 thread mirror, engine loop (`npm run eval`).
 
 ---
 
-## Status snapshot (audit v13)
+## Status snapshot (audit v19)
 
 | Status | Count |
 |---|---|
-| ✅ DONE | 73 |
-| 🔴 OPEN | 17 |
+| ✅ DONE | 92 |
+| 🔴 OPEN | 0 |
 | 🟡 PARTIAL | 0 |
-| 📋 PLANNING | 4 |
+| 📋 PLANNING | 0 |
 | 🧪 REVIEW | 0 |
 
 **Do not duplicate the full ID table here.** Flip rows in `log-fix-audit.md` when batches land; add a changelog line + recount stats.
@@ -36,11 +36,11 @@ Audit says 21 open, 5 partial, 4 planning, 1 review. This file groups them into 
 
 | Gate | IDs | Options | Owner |
 |---|---|---|---|
-| Drill cap | FX-08 | (A) prompt-only keep relying on `plan-turn.md` (B) runtime strip in `queue-manager.js` when `consecutive_drill_count >= 2` | heavy-ops |
+| Drill cap | FX-08 | ✅ runtime strip in `queue-manager.js` | heavy-ops |
 | Lexicon in-scope empty state | FX-40 | (A) hide stage when zero candidates (B) loosen reviewer filter (C) fix copy only | heavy-ops |
-| Lexicon scope | LF-5 | (A) stay design/lead/growth-only (B) open `shouldReview` to all roles | heavy-ops |
+| Lexicon scope | LF-5 | ✅ path B — all role families | heavy-ops |
 | Axis ratings | FX-27 | (A) add explainer copy (B) hide/cut axis UI (C) leave, fix scoring only | product + heavy-ops |
-| reviewrun output | FX-43 | Define skill deliverable: summary template, sharpening questions, link to audit IDs | work-machine |
+| reviewrun output | FX-43 | Define skill deliverable: summary template, sharpening questions, link to audit IDs | work-machine | ✅ `plans/reviewrun-output-spec.md` |
 
 ---
 
@@ -52,7 +52,7 @@ Audit says 21 open, 5 partial, 4 planning, 1 review. This file groups them into 
 |---|---|---|
 | H1 | Refresh [`PLAN.md`](../PLAN.md) feedback backlog vs audit v9 | N1–N4, items 5/6/8 marked open there but done in audit |
 | H2 | Audit hygiene pass: flip **LF-2, LF-3, LF-4** to ✅ if still accurate | Code appears landed: `GET /api/lexicon/candidates`, `POST /api/lexicon/decisions`, `scripts/promote-candidates.js` |
-| H3 | Commit or discard local WIP (see § Uncommitted WIP below) | Do not mix with feature batches |
+| H3 | Commit or discard local WIP | ✅ 2026-06-01 — session work committed |
 | H4 | Fix [`scenarios/003-carl-mid-design-growth.json`](../scenarios/003-carl-mid-design-growth.json) schema | Wrong shape: `meetingType`/`notes`, missing `answers[]` — smoke-test incompatible |
 
 **Acceptance:** PLAN.md matches audit; audit LF rows accurate; WIP either committed on named branch or reverted; Carl scenario parses + resolves `meeting_type`.
@@ -122,7 +122,7 @@ Audit says 21 open, 5 partial, 4 planning, 1 review. This file groups them into 
 
 **Verify:** `node scripts/batch-l-verify.js` (offline); `node scripts/batch-l-verify.js --live` (6 suggestions on Toby May24 log).
 
-**LF-5 still open:** design-only vs all roles — current scope = design + growth + (lead \| expert).
+**LF-5:** ✅ path B — all role families on growth + lead/expert.
 
 ---
 
@@ -135,8 +135,8 @@ Audit says 21 open, 5 partial, 4 planning, 1 review. This file groups them into 
 | M1 | Re-run May-24 batch harness on current prompts | ✅ FX-44 |
 | M2 | Compare to quality-report predicted ranges | ✅ 2026-05-30 (live sweep 10/10) |
 | M3 | Pin worst-case runs as regression fixtures | ✅ 2026-05-30 |
-| M4 | Wire `scenarios/batch/` into replay harness | future |
-| M5 | Full live Toby replay | optional |
+| M4 | Wire `scenarios/batch/` into replay harness | ✅ 2026-06-01 |
+| M5 | Full live Toby replay | ✅ 2026-06-01 offline (`batch-m5-verify.js`; `--live` when API key set) |
 
 **M3 fixtures:** `priya_biweekly_qspec` (547a1f92-945), `lin_biweekly_thread` (6ae9ead8-32f), `ahmed_growth_delta` (835c2df0-e23)
 
@@ -152,9 +152,9 @@ Audit says 21 open, 5 partial, 4 planning, 1 review. This file groups them into 
 
 | ID | Task |
 |---|---|
-| FX-43 📋 | `reviewrun` skill output spec |
-| FX-37 🔴 | Dig-deeper button (deferred H1) |
-| Pricing WIP | Land [`plans/update-openai-pricing-2026-05-27.md`](update-openai-pricing-2026-05-27.md) if models.json drift intentional |
+| FX-43 📋 | `reviewrun` skill output spec | ✅ `plans/reviewrun-output-spec.md` |
+| FX-37 🔴 | Dig-deeper button | ✅ Go deeper + Shift+Enter in questioning |
+| Pricing WIP | Land [`plans/update-openai-pricing-2026-05-27.md`](update-openai-pricing-2026-05-27.md) | ✅ verified in tree (`config/models.json` tiered gpt-5.4) |
 
 ---
 
@@ -206,5 +206,5 @@ Not in audit. Resolve in batch H3 before starting feature work on `main`.
 | K | done | 2026-05-30 | — |
 | M3 | done | 2026-05-30 | — |
 | M2 | done (live) | 2026-05-30 | — |
-| M | partial (M1–M3 ✅; M5 optional) | 2026-05-30 | — |
-| N | pending | — | — |
+| M | done | 2026-06-01 | — |
+| N | done | 2026-06-01 | — |

@@ -4,6 +4,15 @@ const { generateFocusPoints } = require("../../../src/generate");
 
 module.exports = async function focusPoints(c) {
   const session = requireSession(c.query.s);
+  const force = c.query.regenerate === "1" || c.query.regenerate === "true";
+  if (force) {
+    session.focusPointsResult = null;
+    const inFlight = session.inFlight.get("focus-points");
+    if (inFlight) {
+      inFlight.controller.abort();
+      session.inFlight.delete("focus-points");
+    }
+  }
 
   await runStage(c, session, "focus-points", {
     thinkingLabel: "Choosing focus points",

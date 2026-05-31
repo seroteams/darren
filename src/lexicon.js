@@ -18,7 +18,28 @@ function roleFamilyOf(role) {
   ) {
     return "design";
   }
-  return null;
+  if (
+    r.includes("engineer") ||
+    r.includes("developer") ||
+    r.includes("backend") ||
+    r.includes("frontend") ||
+    r.includes("fullstack") ||
+    r.includes("full-stack") ||
+    r.includes("software") ||
+    r.includes("platform") ||
+    r.includes("infra") ||
+    r.includes("sre") ||
+    r.includes("devops")
+  ) {
+    return "engineering";
+  }
+  if (r.includes("product")) return "product";
+  if (r.includes("data") || r.includes("analytics")) return "data";
+  if (r.includes("marketing")) return "marketing";
+  if (r.includes("sales")) return "sales";
+  if (r.includes("research")) return "research";
+  // LF-5 path B: unmapped titles still review — candidates bootstrap under general/.
+  return "general";
 }
 
 function meetingTypeKey(meetingType) {
@@ -95,22 +116,23 @@ function lexiconScopeFor({ meetingType, role, seniority }) {
   };
 }
 
-// Expert designers on growth paths share the design/lead lexicon file.
+// Expert ICs on growth paths share the lead lexicon file for their role family.
 function resolveLexiconScope(ctx) {
   const base = lexiconScopeFor(ctx);
-  if (base.roleFamily === "design" && base.meetingType === "growth" && base.seniority === "expert") {
+  if (base.roleFamily && base.meetingType === "growth" && base.seniority === "expert") {
     return { ...base, seniority: "lead", sourceSeniority: "expert" };
   }
   return base;
 }
 
-const DESIGN_GROWTH_SENIORITIES = new Set(["lead", "expert"]);
+const REVIEW_SENIORITIES = new Set(["lead", "expert"]);
 
+// LF-5 path B: all role families; still growth + lead|expert (bi-weekly stays out-of-scope).
 function isLexiconReviewScope(scope) {
   return (
-    scope.roleFamily === "design" &&
+    Boolean(scope.roleFamily) &&
     scope.meetingType === "growth" &&
-    DESIGN_GROWTH_SENIORITIES.has(scope.seniority)
+    REVIEW_SENIORITIES.has(scope.seniority)
   );
 }
 

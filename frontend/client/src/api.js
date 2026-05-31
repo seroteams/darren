@@ -41,12 +41,12 @@ export async function getQuestion(sessionId) {
   return json(await fetch(`/api/question?s=${encodeURIComponent(sessionId)}`));
 }
 
-export async function submitAnswer(sessionId, answer) {
+export async function submitAnswer(sessionId, answer, { goDeeper = false } = {}) {
   return json(
     await fetch("/api/answer", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId, answer }),
+      body: JSON.stringify({ sessionId, answer, goDeeper }),
     })
   );
 }
@@ -95,5 +95,13 @@ export async function getLexiconScope(sessionId) {
 
 export async function submitLexiconDecisions(sessionId, decisions) {
   return postJson("/api/lexicon/decisions", { sessionId, decisions });
+}
+
+export async function getLexiconPromotePending() {
+  return json(await fetch("/api/lexicon/promote/pending"));
+}
+
+export async function submitLexiconPromote(decisions) {
+  return postJson("/api/lexicon/promote", { decisions });
 }
 

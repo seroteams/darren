@@ -67,6 +67,15 @@ function computeArcProgress(transcript, arc) {
   return progress;
 }
 
+function isPlannerOriginated(source) {
+  return source === "planner_added" || (typeof source === "string" && source.startsWith("reworded_from:"));
+}
+
+function isSameStagePlannerDrill(question, stage) {
+  if (!question || stage == null || stage === undefined) return false;
+  return question.stage === stage && isPlannerOriginated(question.source);
+}
+
 function computeConsecutiveDrillCount(transcript, lastQuestion) {
   if (!lastQuestion?.stage) return 0;
   let count = 0;
@@ -74,7 +83,7 @@ function computeConsecutiveDrillCount(transcript, lastQuestion) {
   for (let i = t.length - 1; i >= 0; i--) {
     const q = t[i]?.question;
     if (!q) break;
-    if (q.source === "planner_added" && q.stage === lastQuestion.stage) {
+    if (isSameStagePlannerDrill(q, lastQuestion.stage)) {
       count += 1;
     } else {
       break;
@@ -146,6 +155,7 @@ function buildMessages({
   turnNumber,
   totalTurns,
   closerAlias,
+  userDrillRequest = false,
 }) {
   const template = fs.readFileSync(promptFor(ctx.meetingType, "planTurn"), "utf8");
   const arc = getArc(ctx.meetingType);
@@ -198,7 +208,8 @@ function buildMessages({
     .replaceAll("{{CONSECUTIVE_WELLBEING_CLARIFIER_COUNT}}", String(consecutiveWellbeingClarifierCount))
     .replaceAll("{{OFF_ARC_DRILL_COUNT}}", String(offArcDrillCount))
     .replaceAll("{{IS_FINAL_TURN}}", isFinalTurn ? "true" : "false")
-    .replaceAll("{{CLOSER_ALIAS}}", closerAlias || "(none)");
+    .replaceAll("{{CLOSER_ALIAS}}", closerAlias || "(none)")
+    .replaceAll("{{USER_DRILL_REQUEST}}", userDrillRequest ? "true" : "false");
 
   const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
   const userMatch = filled.match(/## User\s+([\s\S]*)$/);
@@ -501,13 +512,17 @@ function enforceDrillCap({
   issues,
 }) {
   let queue = [...(newQueue || [])];
-  if (consecutiveDrillCount < 2 || !queue.length) return queue;
   const lastStage = lastQuestion?.stage;
-  const first = queue[0];
-  if (first?.source === "planner_added" && first?.stage && first.stage === lastStage) {
-    issues.push(`drill cap: removed same-stage drill at ${lastStage}`);
+  if (lastStage == null || lastStage === undefined || consecutiveDrillCount < 2) {
+    return queue;
+  }
+
+  while (queue.length && isSameStagePlannerDrill(queue[0], lastStage)) {
+    const dropped = queue[0];
+    issues.push(`drill cap: removed same-stage drill at ${lastStage} (${dropped.alias || dropped.label})`);
     queue = queue.slice(1);
   }
+
   const remainingStages = computeRemainingStages(transcript, arc);
   if (!remainingStages.length) return queue;
   const targetStage = remainingStages[0].id;
@@ -533,6 +548,7 @@ async function planTurn({
   totalTurns,
   closerAlias,
   model = getDefaultModel(),
+  userDrillRequest = false,
 }) {
   validateAxisState(axisState);
 
@@ -564,6 +580,7 @@ async function planTurn({
     turnNumber,
     totalTurns,
     closerAlias,
+    userDrillRequest,
   });
   const raw = await callOpenAI({ ...msgs, model });
   const parsed = parseAIJson(raw, "Queue planner", ["assessment", "new_queue"]);
@@ -591,26 +608,26 @@ async function planTurn({
 
   const askedAliases = new Set((transcript || []).map((t) => t.question.alias));
   const arc = getArc(ctx.meetingType);
-  const consecutiveDrillCount = computeConsecutiveDrillCount(transcript, lastQuestion);
   const { queue: reconciledQueue, issues: queueIssues } = reconcileQueue(parsed.new_queue, {
     remainingQueue,
     askedAliases,
   });
-  let newQueue = enforceDrillCap({
+  const consecutiveDrillCount = computeConsecutiveDrillCount(transcript, lastQuestion);
+  let newQueue = enforceThreadFollow({
     newQueue: reconciledQueue,
+    lastAnswer,
+    lastQuestion,
+    remainingBudget,
+    consecutiveDrillCount,
+    issues: gateIssues,
+  });
+  newQueue = enforceDrillCap({
+    newQueue,
     lastQuestion,
     remainingQueue,
     consecutiveDrillCount,
     transcript,
     arc,
-    issues: gateIssues,
-  });
-  newQueue = enforceThreadFollow({
-    newQueue,
-    lastAnswer,
-    lastQuestion,
-    remainingBudget,
-    consecutiveDrillCount,
     issues: gateIssues,
   });
   newQueue = enforceAxisCoverage({
@@ -645,6 +662,8 @@ module.exports = {
   enforceAxisCoverage,
   enforceThreadFollow,
   enforceDrillCap,
+  isPlannerOriginated,
+  isSameStagePlannerDrill,
   answerHasThread,
   followReferencesAnswer,
   computeArcProgress,

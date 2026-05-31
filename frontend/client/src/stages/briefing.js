@@ -8,17 +8,40 @@ const WHEN_ORDER = ["today", "this week", "this month", "next 1:1"];
 
 export async function mount(root, { store, setState, resetSession }) {
   const b = store.briefing;
+  const fastPath = !!store.skipBriefingAnimation;
+  if (fastPath) setState({ skipBriefingAnimation: false });
+
   if (!b) {
-    setState({ stage: STAGES.EVAL });
+    root.innerHTML = `
+      <div class="stage-inner space-y-6">
+        <h1 class="h1">Briefing not available</h1>
+        <div class="error-card">
+          <div class="text-ink-dim">This session has no saved briefing. You can restart evaluation or begin a new run.</div>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn js-retry-eval" type="button">Run evaluation again</button>
+          <button class="btn btn--ghost js-restart" type="button">Start over</button>
+        </div>
+      </div>
+    `;
+    root.querySelector(".js-retry-eval").addEventListener("click", () => {
+      setState({ stage: STAGES.EVAL, error: null });
+    });
+    root.querySelector(".js-restart").addEventListener("click", () => {
+      try { localStorage.removeItem("seroSessionId"); } catch {}
+      resetSession();
+      setState({ stage: STAGES.INTAKE, substage: "NAME" });
+    });
     return;
   }
 
-  // Celebration wash (fixed-position overlay, fades once)
-  const wash = document.createElement("div");
-  wash.className = "celebration-wash";
-  document.body.appendChild(wash);
-  requestAnimationFrame(() => wash.classList.add("is-active"));
-  setTimeout(() => wash.remove(), 1600);
+  if (!fastPath) {
+    const wash = document.createElement("div");
+    wash.className = "celebration-wash";
+    document.body.appendChild(wash);
+    requestAnimationFrame(() => wash.classList.add("is-active"));
+    setTimeout(() => wash.remove(), 1600);
+  }
 
   root.innerHTML = `
     <div class="stage-wide max-w-wide mx-auto briefing-page relative z-10 py-8">
@@ -74,19 +97,22 @@ export async function mount(root, { store, setState, resetSession }) {
     </div>
   `;
 
-  // --- 1) Eyebrow + hero headline (t = 0 → 400ms)
-  const initialReveals = Array.from(root.querySelectorAll("header .reveal"));
-  revealSequence(initialReveals, { stagger: 80, initialDelay: 80 });
+  const pause = (ms) => (fastPath ? Promise.resolve() : sleep(ms));
 
-  // Headline: typeset the string cleanly; subtle reveal (blur-in rather than split-letters — feels editorial, not gimmicky)
+  // --- 1) Eyebrow + hero headline
+  const initialReveals = Array.from(root.querySelectorAll("header .reveal"));
+  if (fastPath) initialReveals.forEach((el) => el.classList.add("is-in"));
+  else revealSequence(initialReveals, { stagger: 80, initialDelay: 80 });
+
   const headline = root.querySelector(".briefing-headline");
   headline.textContent = b.headline || "Briefing";
 
-  await sleep(400);
+  await pause(400);
 
   // --- 2) Bullets (t ≈ 400ms+)
   const bulletsEyebrow = root.querySelector(".bullets-section .eyebrow");
-  revealOne(bulletsEyebrow, 0);
+  if (fastPath) bulletsEyebrow.classList.add("is-in");
+  else revealOne(bulletsEyebrow, 0);
   const bulletsHost = root.querySelector(".bullets-host");
   const bullets = (b.summary_bullets || []).map((text) => {
     const row = document.createElement("div");
@@ -95,24 +121,25 @@ export async function mount(root, { store, setState, resetSession }) {
     bulletsHost.appendChild(row);
     return row;
   });
-  revealSequence(bullets, { stagger: 70, initialDelay: 100 });
+  if (fastPath) bullets.forEach((el) => el.classList.add("is-in"));
+  else revealSequence(bullets, { stagger: 70, initialDelay: 100 });
 
-  // --- 3) Understanding paragraph
-  await sleep(bullets.length * 70 + 300);
+  await pause(fastPath ? 0 : bullets.length * 70 + 300);
   const para = root.querySelector(".paragraph-body");
   para.textContent = b.understanding_paragraph || "";
   root.querySelector(".paragraph-section").classList.add("is-in");
 
-  // --- 4) Axes with celebratory spring settle
-  await sleep(500);
-  revealOne(root.querySelector(".axes-section .eyebrow"), 0);
+  await pause(fastPath ? 0 : 500);
+  const axesEyebrow = root.querySelector(".axes-section .eyebrow");
+  if (fastPath) axesEyebrow.classList.add("is-in");
+  else revealOne(axesEyebrow, 0);
   const axes = createAxesPanel({ celebrate: true });
   root.querySelector(".axes-mount").appendChild(axes.el);
   axes.renderInitial([
     { id: "wellbeing", score: -1 }, { id: "engagement", score: -1 },
     { id: "clarity", score: 0 }, { id: "growth", score: 0 },
   ]);
-  await sleep(120);
+  await pause(fastPath ? 0 : 120);
 
   const axesList = (b.axes || []).map((a) => ({
     id: a.id,
@@ -137,13 +164,16 @@ export async function mount(root, { store, setState, resetSession }) {
           <span class="eyebrow mr-2" style="color: var(--color-accent-dark);">${escape(cap(a.id))}</span>${escape(a.meaning)}
         </div>
       `).join("");
-    setTimeout(() => {
+    if (fastPath) {
       mwrap.querySelectorAll(".reveal-soft").forEach((el) => el.classList.add("is-in"));
-    }, 900);
+    } else {
+      setTimeout(() => {
+        mwrap.querySelectorAll(".reveal-soft").forEach((el) => el.classList.add("is-in"));
+      }, 900);
+    }
   }
 
-  // --- 5) Brutal truths, one at a time
-  await sleep(1400);
+  await pause(fastPath ? 0 : 1400);
   const brutalHost = root.querySelector(".brutal-host");
   const truths = [
     { eyebrow: `About ${escape(store.ctx.name || "them")}`, text: b.brutal_truth_employee || "" },
@@ -158,15 +188,20 @@ export async function mount(root, { store, setState, resetSession }) {
       <div class="brutal__body">${escape(t.text)}</div>
     `;
     brutalHost.appendChild(card);
-    revealOne(card, 50);
-    await sleep(420);
+    if (fastPath) card.classList.add("is-in");
+    else {
+      revealOne(card, 50);
+      await pause(420);
+    }
   }
 
   // --- 6) Next actions, grouped by `when`
   const actions = b.next_actions || [];
   if (actions.length) {
-    await sleep(400);
-    revealOne(root.querySelector(".actions-section .eyebrow"), 0);
+    await pause(fastPath ? 0 : 400);
+    const actionsEyebrow = root.querySelector(".actions-section .eyebrow");
+    if (fastPath) actionsEyebrow.classList.add("is-in");
+    else revealOne(actionsEyebrow, 0);
     const host = root.querySelector(".actions-host");
     const sortedActions = [...actions].sort((a, b) => whenRank(a.when) - whenRank(b.when));
     sortedActions.forEach((a, i) => {
@@ -180,7 +215,8 @@ export async function mount(root, { store, setState, resetSession }) {
         copyText: formatActionCopy(a),
       });
       host.appendChild(row);
-      revealOne(row, 100 + i * 70);
+      if (fastPath) row.classList.add("is-in");
+      else revealOne(row, 100 + i * 70);
     });
   } else {
     root.querySelector(".actions-section").remove();
@@ -189,8 +225,10 @@ export async function mount(root, { store, setState, resetSession }) {
   // --- 7) Watch-for items
   const watch = b.watch_for || [];
   if (watch.length) {
-    await sleep(actions.length * 70 + 300);
-    revealOne(root.querySelector(".watch-section .eyebrow"), 0);
+    await pause(fastPath ? 0 : actions.length * 70 + 300);
+    const watchEyebrow = root.querySelector(".watch-section .eyebrow");
+    if (fastPath) watchEyebrow.classList.add("is-in");
+    else revealOne(watchEyebrow, 0);
     const host = root.querySelector(".watch-host");
     const copyAllBtn = root.querySelector(".js-copy-all-reminders");
     copyAllBtn.classList.remove("hidden");
@@ -205,7 +243,8 @@ export async function mount(root, { store, setState, resetSession }) {
         copyText: text,
       });
       host.appendChild(row);
-      revealOne(row, 100 + i * 70);
+      if (fastPath) row.classList.add("is-in");
+      else revealOne(row, 100 + i * 70);
     });
   } else {
     root.querySelector(".watch-section").remove();
@@ -219,8 +258,10 @@ export async function mount(root, { store, setState, resetSession }) {
   }
 
   const runLogMount = root.querySelector(".run-log-mount");
-  if (runLogMount) {
+  if (runLogMount && import.meta.env.DEV) {
     mountRunDebrief(runLogMount, buildPayloadFromStore(store, b));
+  } else if (runLogMount) {
+    runLogMount.remove();
   }
 
   root.querySelector(".js-restart").addEventListener("click", async () => {

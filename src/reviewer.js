@@ -3,6 +3,7 @@ const fs = require("node:fs");
 const { logStage } = require("./session");
 const { loadAxes } = require("./axes");
 const { promptFor, getArc } = require("./one-on-one-types");
+const { withPromptVersion } = require("./prompt-version");
 const cost = require("./cost");
 
 const { modelFor } = require("./models");
@@ -166,9 +167,13 @@ async function evaluate(
 ) {
   const msgs = buildMessages({ ctx, focusPoints, transcript, axisState, notes });
   const raw = await callOpenAI({ ...msgs, model });
+  const evalPromptPath = promptFor(ctx.meetingType, "evaluation");
 
   logStage(session, stage, {
-    inputs: { ctx, focusPoints, transcript, axisState, notes, model },
+    inputs: withPromptVersion(
+      { ctx, focusPoints, transcript, axisState, notes, model },
+      evalPromptPath
+    ),
     prompt: msgs.filled,
     response: raw,
   });

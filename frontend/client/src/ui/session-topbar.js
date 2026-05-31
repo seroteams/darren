@@ -6,15 +6,16 @@
 
 import { STAGES } from "../state.js";
 import { deleteRun } from "../api.js";
+import { confirmAction } from "./confirm.js";
 
 const STAGE_ORDER = [
-  ["INTAKE", "Intake"],
-  ["FOCUS_POINTS", "Focus points"],
-  ["PREPARATION", "Preparation"],
-  ["BANK", "Question bank"],
-  ["QUESTIONING", "Questioning"],
-  ["EVAL", "Evaluation"],
-  ["BRIEFING", "Briefing"],
+  ["INTAKE", "Intake", "Intake"],
+  ["FOCUS_POINTS", "Focus points", "Focus"],
+  ["PREPARATION", "Preparation", "Prep"],
+  ["BANK", "Question bank", "Bank"],
+  ["QUESTIONING", "Questioning", "Q&A"],
+  ["EVAL", "Evaluation", "Eval"],
+  ["BRIEFING", "Briefing", "Brief"],
 ];
 
 export function createSessionTopbar({ store, setState, resetSession } = {}) {
@@ -29,10 +30,13 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   startBtn.className = "session-topbar__start";
   startBtn.type = "button";
   startBtn.textContent = "Start";
+  startBtn.setAttribute("aria-haspopup", "menu");
+  startBtn.setAttribute("aria-expanded", "false");
   row.appendChild(startBtn);
 
   const stages = document.createElement("div");
   stages.className = "session-topbar__stages";
+  stages.setAttribute("aria-label", "Run progress");
   row.appendChild(stages);
 
   document.body.classList.add("has-session-topbar");
@@ -45,17 +49,20 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     if (popover) { popover.remove(); popover = null; }
     if (outsideHandler) { document.removeEventListener("mousedown", outsideHandler); outsideHandler = null; }
     if (escHandler) { document.removeEventListener("keydown", escHandler); escHandler = null; }
+    startBtn.setAttribute("aria-expanded", "false");
   }
 
   function openPopover() {
     closePopover();
     popover = document.createElement("div");
     popover.className = "start-popover";
+    popover.setAttribute("role", "menu");
     popover.innerHTML = `
-      <button class="js-save" type="button">Save and exit</button>
-      <button class="js-delete is-danger" type="button">Exit and delete session</button>
+      <button class="js-save" type="button" role="menuitem">Save and exit</button>
+      <button class="js-delete is-danger" type="button" role="menuitem">Exit and delete session</button>
     `;
     document.body.appendChild(popover);
+    startBtn.setAttribute("aria-expanded", "true");
 
     const rect = startBtn.getBoundingClientRect();
     popover.style.left = `${Math.round(rect.left)}px`;
@@ -86,7 +93,13 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   }
 
   async function deleteAndExit() {
-    if (!confirm("Delete this session permanently? This cannot be undone.")) return;
+    const ok = await confirmAction({
+      message: "Delete this session permanently? This cannot be undone.",
+      confirmLabel: "Delete session",
+      cancelLabel: "Keep session",
+      destructive: true,
+    });
+    if (!ok) return;
     const id = store && store.sessionId;
     if (id) {
       try { await deleteRun(id); } catch (e) { console.warn("[topbar] delete failed:", e); }
@@ -106,8 +119,8 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     const current = String(stage || "");
     stages.innerHTML = STAGE_ORDER
       .map(
-        ([key, label], i) =>
-          `${i > 0 ? '<span class="sep">·</span>' : ""}<span class="${key === current ? "is-current" : ""}">${label}</span>`
+        ([key, fullLabel, shortLabel], i) =>
+          `${i > 0 ? '<span class="sep" aria-hidden="true">·</span>' : ""}<span class="${key === current ? "is-current" : ""}" title="${fullLabel}">${shortLabel}</span>`
       )
       .join("");
     el.classList.remove("is-hidden");

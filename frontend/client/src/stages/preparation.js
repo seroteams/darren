@@ -24,7 +24,12 @@ export async function mount(root, { store, setState }) {
   const resultHost   = root.querySelector(".result-host");
 
   root.querySelector(".js-start-fresh").addEventListener("click", async () => {
-    const ok = await confirmAction({ message: "Are you sure?" });
+    const ok = await confirmAction({
+      message: "Start over? This session will be cleared.",
+      confirmLabel: "Start over",
+      cancelLabel: "Cancel",
+      destructive: true,
+    });
     if (!ok) return;
     resetSession();
     setState({ stage: STAGES.START });
