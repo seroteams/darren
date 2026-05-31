@@ -1,4 +1,14 @@
-﻿# Runtime logs — exclude from Cursor index (keep-set un-ignored below)
+﻿# Cursor index — mirrors .gitignore log keep-set and runtime artifacts
+
+# Build / deps
+node_modules/
+frontend/client/dist/
+
+# Runtime artifacts (local only)
+lexicons/_suggested/
+.impeccable/
+
+# Runtime logs — exclude from index (keep-set un-ignored below)
 logs/**
 
 !logs/may/
