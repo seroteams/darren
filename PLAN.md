@@ -80,3 +80,14 @@ Statuses: `planning` | `in-progress` | `blocked` | `review` | `done`
 - **Last touched**: 2026-05-30, light-ops (Batch H execution)
 - **Next step**: finish Batch H checklist (LF-2/3/4 audit flips, Carl schema fix, housekeeping-only commit), then move to Batch I or M.
 - **Notes**: Master ID table stays in `plans/log-fix-audit.md` (v9: 64 done, 21 open). Consolidated sequence + batches in **`plans/remaining-backlog.md`**. Suggested order: H → I/J → M (FX-44 verify) → L (lexicon) → K (axes) → M (regression) → N (deferred).
+
+## Split 1:1 Types into self-contained folders (refactor)
+- **Owner**: heavy-ops
+- **Status**: review
+- **Last touched**: 2026-05-31, light-ops
+- **Next step**: heavy-ops — review PR #1; when you commit your in-flight WIP in the 3 files below, KEEP the light-ops `promptFor` wiring (don't revert). That closes Phase 2 (all 6 runners resolve prompts per-Type).
+- **Notes**: PR #1 · branch `refactor/one-on-one-types` · commit `e7f821e`. New `src/one-on-one-types/` registry (`getType`/`listTypes`/`promptFor`, shared-prompt fallback); each Type owns `<slug>/type.js`; `meeting-arcs.js` now a back-compat shim; Growth forks its own `final-evaluation.md`; added 5th Type "Onboarding check-in". `getArc`/`listStageIds`/`MEETING_ARCS` preserved; `test-opener-routing` PASS. Full phase log: `plans/split-arcs-into-flows.md` (v7).
+  - ⚠️ Light-ops `promptFor` wiring sits in 3 files that already held YOUR uncommitted WIP — entangled, so excluded from PR #1; it lands when you commit those files:
+    - `src/queue-manager.js` — `promptFor` import + `promptFor(ctx.meetingType, "planTurn")` template line (separate hunks from your `applyShallowGate` block). NOTE: this crossed the "contested file" line flagged in the Drill-cap entry above.
+    - `src/lexicon/review-core.js` — `promptFor(ctx.meetingType, "lexicon")` + import, fused inside your `normalizeTranscriptForReview`/`resolveLexiconScope` hunks (cannot cleanly split).
+    - `prompts/final-evaluation.md` — removed 4 Growth `brutal_truth_manager` bullets (now baked unconditional in the Growth fork); separate hunk from your `watch_for` rewrite.
