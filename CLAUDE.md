@@ -2,11 +2,6 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
-## Multi-machine workflow
-
-Before any non-trivial work, read `HANDOFF.md` and `PLAN.md` at repo root.
-Defer scope flagged in `HANDOFF.md` to the other machine.
-
 ## 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**

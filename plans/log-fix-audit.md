@@ -1,6 +1,6 @@
 # Log fix audit — every issue, every status
 
-**Version:** v9
+**Version:** v10
 **Caveman version:** full
 **Plan location note:** harness wrote here at `~/.claude/plans/`; per memory rule should be moved to `darren/plans/` after exit.
 
@@ -14,6 +14,7 @@
 - v7 (2026-05-30): openers polish batch (FX-03/04/05/06/07) landed. Removed `q_open_nourishing`, added `q_open_anything_to_cover` (three meeting types), grounded `pickOpener` eligibility to meeting-arc anchor stage, added meeting-type-aware energy-read rule in `prompts/generate-questions.md`, and shipped standalone regression script `scripts/test-opener-routing.js` (including intentional-break fail check). Replay fixtures still green. Stats: DONE 55→60, OPEN 30→25. (+8/−8 lines)
 - v8 (2026-05-30): notes batch (FX-35/36) landed. Notes panel now posts `question_alias` + `question_stem`; notes handler persists both fields; evaluation stage now formats captured notes as `[HH:MM @ alias] stem - text` with legacy-field fallback. FX-36 marked verified (no stale-text bug): submit path reads live textarea value, so browser-accepted spelling corrections flow downstream. Replay fixtures still green. (+5/−5 lines)
 - v9 (2026-05-30): routing + scenarios batch (FX-34/41) landed. FX-34 kept existing `Complete 1:1` -> `LEXICON_REVIEW` routing and added scope-aware skip using `GET /api/lexicon/scope` so out-of-scope sessions finish cleanly to intake. FX-41 added `scenarios/batch/` with 10 reconstructed May-24 persona fixtures plus `_index.json` + `README.md`. Replay fixtures still green. Stats: DONE 62→64, OPEN 23→21. (+4/−4 lines)
+- v10 (2026-05-30): Batch H housekeeping pass. Refreshed `PLAN.md` backlog state against audit, flipped LF-2/LF-3/LF-4 to DONE after code verification (`GET /api/lexicon/candidates`, decisions -> candidate YAML, `scripts/promote-candidates.js`), and fixed Carl scenario schema to canonical smoke-test shape. Replay fixtures still green. Stats: DONE 64→67, OPEN 21→18. (+6/−6 lines)
 
 ## Context
 User asked: "go through every log, make list of all that needs fixing, check if done, output table with IDs so I can choose what we fix."
@@ -137,9 +138,9 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 | G5 | Toby lexicon regression fixture | — | 🔴 OPEN | `scenarios/regression/` |
 | FX-40 | Lexicon empty-state UX (hide stage OR loosen filter OR fix copy) | May17-12:53, May25 | 📋 PLANNING | `src/lexicon/review-core.js:71` + frontend |
 | LF-1 | Auto-run reviewer at end of session → trace JSON | — | 🔴 OPEN | `lexicons/_suggested/<sessionId>.json` |
-| LF-2 | Web endpoint `GET /lexicon/candidates` reads trace | — | 🔴 OPEN | backend |
-| LF-3 | POST keep-click appends to candidates YAML | — | 🔴 OPEN | backend |
-| LF-4 | `scripts/promote-candidates.js` diff + interactive | — | 🔴 OPEN | CLI |
+| LF-2 | Web endpoint `GET /lexicon/candidates` reads trace | — | ✅ DONE | `frontend/server/handlers/lexicon.js` (`candidates` -> `generateSuggestions`) |
+| LF-3 | POST keep-click appends to candidates YAML | — | ✅ DONE | `frontend/server/handlers/lexicon.js` (`decisions` -> `commitDecisions`) |
+| LF-4 | `scripts/promote-candidates.js` diff + interactive | — | ✅ DONE | `scripts/promote-candidates.js` |
 | LF-5 | Scope decision: design-only vs all roles | — | 🔴 OPEN design call | recommend B |
 | LF-6 | Promote button in app | — | 🔴 OPEN optional | UI |
 
@@ -159,13 +160,13 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 
 ---
 
-## Quick stats (post v9 routing + scenarios batch)
+## Quick stats (post v10 Batch H housekeeping)
 - Total IDs: 95
-- ✅ DONE: 64 (incl. 1 OBSOLETE)
+- ✅ DONE: 67 (incl. 1 OBSOLETE)
 - 🟡 PARTIAL: 5
 - 🧪 REVIEW: 1
 - 📋 PLANNING: 4
-- 🔴 OPEN: 21
+- 🔴 OPEN: 18
 
 ## Verification (how to test once items land)
 - Replay last failing run through `scripts/replay-scenario.js` once it exists.
@@ -175,3 +176,5 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 
 ## Next move (for user)
 Pick IDs from this table. User decides scope; this plan does not pre-commit to a sequence.
+
+**Execution sequence:** see [`plans/remaining-backlog.md`](remaining-backlog.md) (batches H–N, post audit v9).

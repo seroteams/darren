@@ -1,15 +1,12 @@
 const fs = require("node:fs");
-const path = require("node:path");
 
 const { logStage } = require("./session");
 const { loadAxes } = require("./axes");
 const { newAlias, saveQuestion, listAllAliases } = require("./questions");
 const { getArc } = require("./meeting-arcs");
+const { promptFor } = require("./one-on-one-types");
 const { loadLexicon } = require("./lexicon");
 const cost = require("./cost");
-
-const ROOT = path.join(__dirname, "..");
-const PROMPT_PATH = path.join(ROOT, "prompts", "generate-questions.md");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
@@ -84,7 +81,7 @@ function buildMessages({
   notes,
   existingQueue,
 }) {
-  const template = fs.readFileSync(PROMPT_PATH, "utf8");
+  const template = fs.readFileSync(promptFor(meetingType, "questionBank"), "utf8");
   const arc = getArc(meetingType);
   const lexicon = loadLexicon({ meetingType, role, seniority });
   const queueSummary = (existingQueue || []).map((q) => ({

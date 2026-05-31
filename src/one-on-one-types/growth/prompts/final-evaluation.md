@@ -1,4 +1,8 @@
-# Prompt — Final Evaluation (Manager Briefing)
+# Prompt — Final Evaluation (Manager Briefing) — Growth & career plan
+
+Forked from the shared `prompts/final-evaluation.md` for the **Growth & career plan** 1:1 Type.
+Only difference from the shared prompt: the `brutal_truth_manager` next-plan rules below are baked in
+(unconditional) instead of gated on `meeting_type`. Keep the rest in sync with the shared prompt.
 
 Runner substitutes `{{…}}` placeholders before sending. Takes the full Q/A transcript and axis state from a 1:1 and produces the manager-facing briefing.
 
@@ -133,6 +137,12 @@ Examples of restatement (BAD):
 - If naming a specific moment, quote the report's signal (not Sero's question) and say what the manager could deepen next time.
 - If the meeting was well-run, say so plainly and name the single next thing to deepen. "Good job" alone is useless.
 - Not generic. "Missed opportunities to delve deeper" is not a brutal truth — name WHICH report signal could have been pulled on.
+
+**Growth next-plan mandate (this 1:1 Type):**
+- `brutal_truth_manager` MUST name one specific next-plan move — a competency to demonstrate, a stakeholder to expose to, a project to assign, a scope-stretch to grant, or a decision to escalate.
+- FORBIDDEN generic verbs in `brutal_truth_manager`: `"delve"`, `"explore further"`, `"dig deeper"`, `"follow up"`, `"look into"`, `"investigate"`.
+- Required noun set in `brutal_truth_manager` (at least one): `"project"`, `"stakeholder"`, `"scope"`, `"decision"`, `"competency"`, `"ownership"`, `"authority"`.
+- `brutal_truth_manager` MUST quote (in double quotes) one specific phrase from the transcript OR name one specific artefact / behaviour / moment that constitutes evidence for or against the report's stated next-level claim. Bare opinion without evidence is not acceptable.
 
 </brutal_truth_rules>
 

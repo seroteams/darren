@@ -95,9 +95,30 @@ function lexiconScopeFor({ meetingType, role, seniority }) {
   };
 }
 
+// Expert designers on growth paths share the design/lead lexicon file.
+function resolveLexiconScope(ctx) {
+  const base = lexiconScopeFor(ctx);
+  if (base.roleFamily === "design" && base.meetingType === "growth" && base.seniority === "expert") {
+    return { ...base, seniority: "lead", sourceSeniority: "expert" };
+  }
+  return base;
+}
+
+const DESIGN_GROWTH_SENIORITIES = new Set(["lead", "expert"]);
+
+function isLexiconReviewScope(scope) {
+  return (
+    scope.roleFamily === "design" &&
+    scope.meetingType === "growth" &&
+    DESIGN_GROWTH_SENIORITIES.has(scope.seniority)
+  );
+}
+
 module.exports = {
   loadLexicon,
   lexiconScopeFor,
+  resolveLexiconScope,
+  isLexiconReviewScope,
   canonicalPath,
   candidatePath,
   roleFamilyOf,

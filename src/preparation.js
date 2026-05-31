@@ -1,13 +1,10 @@
 const fs = require("node:fs");
-const path = require("node:path");
 const { randomUUID } = require("node:crypto");
 
 const { logStage } = require("./session");
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
-
-const ROOT = path.join(__dirname, "..");
-const PROMPT_PATH = path.join(ROOT, "prompts", "preparation.md");
+const { promptFor } = require("./one-on-one-types");
 
 const getDefaultModel = () => modelFor("preparation");
 
@@ -60,7 +57,7 @@ function focusPointLabels(focusPoints) {
 }
 
 function buildMessages({ name, roleTitle, seniority, meetingType, observedShift, focusPoints }) {
-  const template = fs.readFileSync(PROMPT_PATH, "utf8");
+  const template = fs.readFileSync(promptFor(meetingType, "preparation"), "utf8");
   const filled = template
     .replaceAll("{{NAME}}", name || "(not provided)")
     .replaceAll("{{ROLE_TITLE}}", roleTitle || "(not provided)")
