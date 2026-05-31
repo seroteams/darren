@@ -3,6 +3,7 @@ const path = require("node:path");
 
 const questions = require("../../questions");
 const { planTurn } = require("../../queue-manager");
+const { isForbiddenCloser, pickSeedOverflow } = require("../../closer");
 const { initState, applyDeltas, summarize, serialize } = require("../../axes");
 const cost = require("../../cost");
 const { writeJson, sessionFile, isSkip } = require("../io");
@@ -123,7 +124,7 @@ async function runQuestioningLoop({
     queueRef = plan.newQueue.slice();
 
     const askedAliases = new Set(transcript.map((t) => t.question.alias));
-    if (turn + 1 === totalBudget && closer && !askedAliases.has(closer.alias)) {
+    if (turn + 1 === totalBudget && closer && !askedAliases.has(closer.alias) && !isForbiddenCloser(closer)) {
       if (queueRef[0]?.alias !== closer.alias) {
         queueRef = queueRef.filter((x) => x.alias !== closer.alias);
         queueRef.unshift(closer);
@@ -144,8 +145,8 @@ async function runQuestioningLoop({
     if (queueRef.length === 0 && turn < totalBudget) {
       const seeds = questions.loadDir("_seed");
       const seen = new Set(transcript.map((t) => t.question.alias));
-      const fresh = seeds.filter((s) => !seen.has(s.alias));
-      if (fresh.length) queueRef.push(fresh[0]);
+      const seed = pickSeedOverflow(seeds, seen);
+      if (seed) queueRef.push(seed);
     }
 
     writeJson(path.join(dynamicAnswersDir, `${String(turn).padStart(2, "0")}-turn.json`), {

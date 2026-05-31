@@ -4,6 +4,7 @@ const { requireSession, summarizeAxes, persistSession } = require("../sessions")
 const { openStream } = require("../sse");
 const { planTurn } = require("../../../src/queue-manager");
 const { applyDeltas, serialize } = require("../../../src/axes");
+const { isForbiddenCloser, pickSeedOverflow } = require("../../../src/closer");
 const questions = require("../../../src/questions");
 const { writeJson } = require("../../../src/cli/io");
 const cost = require("../../../src/cost");
@@ -109,7 +110,8 @@ module.exports = async function plan(c) {
   if (
     turn + 1 === session.totalBudget &&
     session.closer &&
-    !askedAliases.has(session.closer.alias)
+    !askedAliases.has(session.closer.alias) &&
+    !isForbiddenCloser(session.closer)
   ) {
     if (session.queueRef[0]?.alias !== session.closer.alias) {
       session.queueRef = session.queueRef.filter((x) => x.alias !== session.closer.alias);
@@ -125,8 +127,8 @@ module.exports = async function plan(c) {
   if (session.queueRef.length === 0 && turn < session.totalBudget) {
     const seeds = questions.loadDir("_seed");
     const seen = new Set(session.transcript.map((t) => t.question.alias));
-    const fresh = seeds.filter((s) => !seen.has(s.alias));
-    if (fresh.length) session.queueRef.push(fresh[0]);
+    const seed = pickSeedOverflow(seeds, seen);
+    if (seed) session.queueRef.push(seed);
   }
 
   const axes = summarizeAxes(session.axisState);

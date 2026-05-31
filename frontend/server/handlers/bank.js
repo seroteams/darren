@@ -1,7 +1,7 @@
 const { requireSession } = require("../sessions");
 const { runStage } = require("./stream-helper");
 const { generateBankWithFallback } = require("../../../src/question-generator");
-const { getArc } = require("../../../src/meeting-arcs");
+const { selectReservedCloser } = require("../../../src/closer");
 
 module.exports = async function bank(c) {
   const session = requireSession(c.query.s);
@@ -30,10 +30,7 @@ module.exports = async function bank(c) {
       // Reserve the closer: last bank item tagged with the arc's final stage.
       // plan.js force-inserts this at queueRef[0] when turn + 1 === totalBudget,
       // so the planner can't accidentally drop or rewrite it.
-      const arc = getArc(session.ctx.meetingType);
-      const finalStageId = arc.arc[arc.arc.length - 1].id;
-      const closerCandidates = bankItems.filter((q) => q.stage === finalStageId);
-      session.closer = closerCandidates.length ? closerCandidates[closerCandidates.length - 1] : null;
+      session.closer = selectReservedCloser(bankItems, session.ctx.meetingType);
 
       return { count: bankItems.length };
     },

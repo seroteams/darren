@@ -14,6 +14,7 @@ This file is **historical** — it recorded batches H–N while the May sprint l
 |---|---|
 | Engine loop | `npm run eval` |
 | Opener routing | `node scripts/test-opener-routing.js` |
+| Intro arc order + closer safety | `node scripts/test-intro-order.js` |
 | Drill cap | `node scripts/test-drill-cap.js` |
 | Lexicon pipeline | `node scripts/test-lexicon.js` |
 | Lexicon batch | `node scripts/batch-l-verify.js` |
