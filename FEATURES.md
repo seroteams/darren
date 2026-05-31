@@ -1,6 +1,6 @@
 # Sero — Feature Inventory
 
-> **Snapshot date:** 2026-05-27
+> **Snapshot date:** 2026-06-01
 > **Repo:** `darren` (private, Node.js)
 > **Scope of this doc:** Every shipped feature, content asset, and code module of Sero — a 1:1 prep assistant for managers. CLI + web app, shared core. Written to be readable by an LLM (Gemini, etc.) reasoning about the system end-to-end.
 
@@ -33,7 +33,7 @@ Run: `npm run cli` or `node cli.js`.
 - State persistence (`frontend/server/session-persistence.js`) — sessions survive restarts.
 - Rate limiting: 5 new sessions per IP per 60 s; max 50 concurrent sessions.
 - Same-origin guard on POSTs (localhost-only).
-- Stages rendered as discrete pages: intake → focus-points → briefing → bank → questioning → eval → lexicon-review.
+- Stages rendered as discrete pages: intake → focus-points → preparation → bank → questioning → eval → briefing → lexicon-review.
 - Live notes panel during questioning (capture observations tied to question alias + stem).
 - Dev badge (`frontend/client/src/ui/dev-badge.js`) shown in non-prod.
 - Session topbar (`session-topbar.js`) — name / meeting type / progress.
@@ -46,7 +46,7 @@ Run: `npm run cli` or `node cli.js`.
 Every run goes through these in order. Each stage logs `inputs.json`, `prompt.md`, `response.json` to its own subdir under `logs/<month>/<run-id>/`.
 
 ### Stage 0 — Intake
-- Inputs: name, role, seniority, meeting type (4 choices), free-text manager notes.
+- Inputs: name, role, seniority, meeting type (5 one-on-one types), free-text manager notes.
 - No AI call. Just collected and threaded forward.
 
 ### Stage 1 — Focus points (`src/generate.js`, `prompts/generate-focus-points.md`)

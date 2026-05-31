@@ -85,4 +85,4 @@ Fix A and B and most of the 3s should move toward 4.
 - `config/models.json` (+`judge` key)
 - `scripts/eval-judge.js` (model, gate, prompt)
 - `scripts/sweep.js` (trail label; session-resolver fix was yours/linter)
-- `SWEEP-REPORT.md` (this file)
+- `plans/done/sweep-report-2026-05-31.md` (this file; moved from repo root 2026-06-01)
