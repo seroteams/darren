@@ -300,24 +300,23 @@ styles/
 ## 12. Skills and workflow (developer-facing)
 
 - `.claude/skills/reviewrun/SKILL.md` — `/reviewrun <run-dir>` command. Loads a single run log, dumps every stage's inputs/prompt/response verbatim, then primes a refinement discussion with per-note fixes, cross-stage signals, hypotheses, and sharpening questions.
-- `HANDOFF.md` — two-machine workflow (this `$20 plan` light-ops + a heavy-ops work machine). Red-flag triggers route 3+-file refactors to heavy-ops.
-- `PLAN.md` — shared workstream board at repo root.
+- `PLAN.md` — workstream board at repo root.
 
 ---
 
 ## 13. Recent improvements (May 2026)
 
 - **2026-05-23** — Logs tracked in git, full pipeline-lock manifesting.
-- **2026-05-24** — Batch eval+self-edit run on work-machine (26 runs, $12.61, score 0.820 → 0.839). Three prompt hunks applied: persona-grounding in `generate-questions.md`, thread-follow bias in `plan-turn.md`, anti-neutral-default in `plan-turn.md`.
-- **2026-05-27** — `<read_quality_gate>` added at top of `final-evaluation.md` (forces shallow-count computation before any field). Preparation stage now retries once when validator fails. PLAN.md updated with deferred heavy-ops items.
+- **2026-05-24** — Batch eval+self-edit run (26 runs, $12.61, score 0.820 → 0.839). Three prompt hunks applied: persona-grounding in `generate-questions.md`, thread-follow bias in `plan-turn.md`, anti-neutral-default in `plan-turn.md`.
+- **2026-05-27** — `<read_quality_gate>` added at top of `final-evaluation.md` (forces shallow-count computation before any field). Preparation stage now retries once when validator fails.
 
 ---
 
 ## 14. Known open work (in `PLAN.md`)
 
-- **Drill cap runtime enforcement** — `prompts/plan-turn.md` cap rule exists and runtime computes `consecutive_drill_count`, but the model has been ignoring the hard cap. Pending heavy-ops decision on whether to enforce in `src/queue-manager.js`.
-- **Lexicon empty-state UI** — when reviewer returns 0 candidates, the UI still shows the stage with "No lexicon candidates from this run." copy. User flagged this twice. Pending heavy-ops decision: hide stage vs loosen filter vs copy fix.
-- **Pipeline run review workflow** — `reviewrun` skill needs intent + output-format spec (work-machine planning).
+- **Drill cap runtime enforcement** — `prompts/plan-turn.md` cap rule exists and runtime computes `consecutive_drill_count`, but the model has been ignoring the hard cap. Open decision on whether to enforce in `src/queue-manager.js`.
+- **Lexicon empty-state UI** — when reviewer returns 0 candidates, the UI still shows the stage with "No lexicon candidates from this run." copy. User flagged this twice. Open decision: hide stage vs loosen filter vs copy fix.
+- **Pipeline run review workflow** — `reviewrun` skill needs intent + output-format spec.
 
 ---
 
@@ -411,4 +410,3 @@ npm run smoke
 - **Plans are suggestions, not directives** — write options + tradeoffs + open questions, not checklists.
 - **Notes link to question content** — `question_alias` is the join key.
 - **Briefing**: actions ("what to do next"), not "what to watch for" framings.
-- **Multi-machine workflow** — read `HANDOFF.md` before non-trivial work; 3+-file refactors go to heavy-ops.
