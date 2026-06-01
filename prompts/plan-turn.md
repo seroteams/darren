@@ -28,14 +28,12 @@ If the last answer contains a **concrete thread** — a named role, project, asp
 - Answer "I'm not sure I want to manage" → drill: "What's making you uncertain, and what's the alternative you're imagining?"
 
 **NOT a concrete thread (arc proceeds normally):**
-- "fine", "ok", "yeah good", "not much", "they are okay" → no thread.
-- A generic complaint the prior question already targeted, with no new specific → no new thread.
+- Vague non-answers ("fine", "ok", "not much") or a generic complaint with no new specific → no thread.
 - A pivot to a non-work topic → covered by the pivot rule.
 
 **Construction of the thread-follow item:**
 - `ref_alias: null` (it's a new, answer-specific question).
-- **Mirror the answer (hard).** `name` MUST reuse at least one substantive word (4+ letters) from the employee's last answer — a named project, role, person, or decision. Generic follow-ups that could apply to any answer fail this rule.
-- `name` MUST name the specific thing the employee said, in their words (e.g. include "head of department" verbatim).
+- **Mirror the answer (hard).** `name` MUST name the specific thing said in the employee's words, reusing at least one substantive word verbatim (e.g. "head of department"). Generic follow-ups that could apply to any answer fail this rule.
 - One focused follow-up — not a compound question.
 - `axis_effects` mirrors the most relevant axis from the last question's signature, or the axis the thread implies.
 - `stage` SHOULD equal the last question's stage (we're staying inside the same arc stage to drill deeper). If unclear, leave as `null`.
@@ -144,11 +142,9 @@ Late-stage and commitment questions (last 2 turns, or `stage: commitment`) must 
 
 **Avoid — sounds like "we're done now" or homework:**
 - "What's the first concrete thing you want to have moved by…"
-- "Anything else you want to cover?"
-- "Before we wrap up…"
 - "Is there anything I can do to help?"
 - Yes/no gates: "Are you clear on…", "Do you feel ready to…"
-- Deliverable framing that closes thinking: "commit to", "have moved by", "deliver by our next conversation"
+- Deliverable framing: "commit to", "have moved by", "deliver by our next conversation"
 
 **Prefer — still drive action, keep thinking open:**
 - "What would [their stated goal] look like in the next few weeks — and where would you start?"
@@ -211,10 +207,7 @@ Trigger: the question contains any of these constructions:
 
 When triggered: score negative at full magnitude. The answer's constructive or polite tone is not the signal — the content is. Naming what's absent IS the deficit stated plainly.
 
-**Common failure modes (do not do these):**
-- "She answered clearly and constructively → positive delta." Wrong. She named what's missing. That is the negative signal.
-- "She asked for changes → neutral." Describing the absence of something is not a non-answer. Score it.
-- "The tone was positive → positive delta." Tone is irrelevant. Content is the signal.
+**Common failure modes:** constructive tone or polite phrasing does not mean positive delta — content is the signal. "She asked for changes → neutral" is wrong; named absences are deficits, score them negative.
 
 ---
 
@@ -336,19 +329,12 @@ When you ADD a new question or MODIFY wording, every question you emit must pass
 |----|----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
 | 1  | How are you feeling in terms of energy and motivation after the launch?                      | Now that the launch is done, where is your energy actually at — and what's driving that?                        |
 | 2  | What do you see as our top priorities moving forward after the refactor?                     | Given everything on your plate, what are *you* choosing to prioritise next, and what are you deprioritising?     |
-| 3  | What specific actions do you think we should prioritize as a team after the refactor?        | What's the one thing we should *not* be doing right now as a team, even if it feels important?                  |
-| 4  | How do you think we can improve our weekly retrospectives?                                   | What part of our current process is wasting time or not giving you value?                                       |
-| 5  | Do you feel like you're in a good place with your projects?                                  | Where are things actually messy, unclear, or at risk right now?                                                 |
-| 6  | How do you feel about your energy levels as we move toward the billing rewrite?              | What concerns do you have about the billing rewrite *before* we start that could slow us down later?            |
-| 7  | What are your initial thoughts on the upcoming billing rewrite?                              | Where do you expect the billing rewrite to get difficult or go wrong?                                           |
-| 8  | How can we better support your interest in mentoring?                                        | What would mentoring actually look like in your week, and what would you need to drop to make space for it?     |
-| 9  | What aspect of the payments refactor are you most proud of?                                  | What specifically made the refactor land well, and what should we repeat next time?                             |
-| 10 | Are there any blockers or challenges you're currently facing?                                | What's currently slowing you down, and what part of that is within your control vs needs escalation?            |
-| 11 | What do you think is behind your quieter energy this week?                                   | I've noticed you've been quieter — what's going on underneath that?                                             |
-| 12 | How did it feel to see the team's response to the payments refactor success?                 | Did the recognition land properly for you, or did anything feel missing?                                        |
-| 13 | What kind of mentoring opportunities are you envisioning for yourself?                       | Who specifically would you mentor, and what outcomes would you want from it?                                    |
-| 14 | What blockers or dependencies are you currently facing that we haven't discussed?            | What are you currently waiting on that could quietly stall your progress?                                       |
-| 15 | What are your thoughts on getting involved in the billing rewrite?                           | Do you want to be involved in the billing rewrite — and if yes, what role would actually make sense for you?    |
+| 3  | How do you think we can improve our weekly retrospectives?                                   | What part of our current process is wasting time or not giving you value?                                       |
+| 4  | Do you feel like you're in a good place with your projects?                                  | Where are things actually messy, unclear, or at risk right now?                                                 |
+| 5  | How can we better support your interest in mentoring?                                        | What would mentoring actually look like in your week, and what would you need to drop to make space for it?     |
+| 6  | Are there any blockers or challenges you're currently facing?                                | What's currently slowing you down, and what part of that is within your control vs needs escalation?            |
+| 7  | What do you think is behind your quieter energy this week?                                   | I've noticed you've been quieter — what's going on underneath that?                                             |
+| 8  | What are your thoughts on getting involved in the billing rewrite?                           | Do you want to be involved in the billing rewrite — and if yes, what role would actually make sense for you?    |
 
 Patterns distilled from the rewrites:
 
@@ -367,35 +353,6 @@ Before you emit a new or modified question, read it once and ask: does it look l
 </question_craft>
 
 <worked_examples>
-
-**Example — dedup + signature binding**
-
-Context: Turn 3. Last question signature was `{growth: 3, clarity: 1}`. Answer: "I'd like to do more mentoring. Brought it up three months ago, nothing came of it. I'm not pushing." Remaining queue includes `q_explore_mentoring` ("How can we support your mentoring interest?").
-
-Correct response (abbreviated):
-Example object:
-{
-  "assessment": {
-    "deltas": [{"axis": "growth", "delta": -3}, {"axis": "clarity", "delta": 1}],
-    "note": "Mentoring request has been stalled for three months without pushback — strong growth-stagnation signal."
-  },
-  "new_queue": [
-    { "ref_alias": null, "label": "Mentoring block",
-      "name": "What's blocked the mentoring from happening — your time, opportunity, or something else?",
-      "description": "...",
-      "purpose": "topic",
-      "axis_effects": [{"axis": "growth", "delta": 3}] }
-  ]
-}
-
-Notes on the above:
-- `q_explore_mentoring` was DROPPED from the new_queue because the answer already surfaced the mentoring frustration. A new question goes deeper (what's blocking it) rather than repeating.
-- Realised deltas are only `growth` and `clarity` — both in the signature. Even though the answer also revealed a clarity/autonomy issue ("I'm not pushing"), it didn't touch wellbeing or engagement so those aren't scored.
-- The assessment note names the signal specifically rather than generically.
-
-**Example — redundant item that MUST be dropped**
-
-If the transcript already contains an answer describing pride in the payments refactor, and the queue still has `q_refactor_pride` ("What are you most proud of from the refactor?"), that item must be dropped. Asking it would feel like the manager wasn't listening.
 
 **Example — deficiency-as-request (common failure mode)**
 
