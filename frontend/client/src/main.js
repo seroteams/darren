@@ -79,7 +79,10 @@ subscribe((s) => {
 export async function rehydrateById(id) {
   try {
     const snap = await getSession(id);
-    if (!snap || !snap.sessionId) return false;
+    if (!snap || !snap.sessionId) {
+      try { localStorage.removeItem("seroSessionId"); } catch {}
+      return false;
+    }
     try { localStorage.setItem("seroSessionId", id); } catch {}
     setState({
       sessionId: snap.sessionId,
