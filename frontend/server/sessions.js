@@ -2,11 +2,8 @@ const path = require("node:path");
 const { createSession } = require("../../src/session");
 const { initState } = require("../../src/axes");
 const cost = require("../../src/cost");
+const { INTRO_BUDGET, DYNAMIC_BUDGET, TOTAL_BUDGET } = require("../../src/budgets");
 const { persist, loadPersistedSessions, restoreFromDisk } = require("./session-persistence");
-
-const INTRO_BUDGET = 4;
-const DYNAMIC_BUDGET = 5;
-const TOTAL_BUDGET = INTRO_BUDGET + DYNAMIC_BUDGET;
 
 const SESSION_TTL_MS = Number(process.env.SESSION_TTL_MS) || 2 * 60 * 60 * 1000;
 const SWEEP_INTERVAL_MS = 5 * 60 * 1000;

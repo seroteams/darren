@@ -16,7 +16,7 @@ const { loadEnv } = require("../src/env");
 loadEnv();
 
 const { MEETING_TYPES } = require("../src/meeting-types");
-const { TOTAL_BUDGET } = require("../frontend/server/sessions");
+const { TOTAL_BUDGET } = require("../src/budgets");
 const { validateBrief, generatePreparation } = require("../src/preparation");
 
 const REGRESSION_DIR = path.join(ROOT, "scenarios/regression");

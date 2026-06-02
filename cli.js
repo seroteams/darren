@@ -3,11 +3,10 @@ const path = require("node:path");
 
 const { loadEnv } = require("./src/env");
 const { createAsker } = require("./src/ask");
-const { MEETING_TYPES } = require("./src/meeting-types");
+const { MEETING_TYPES, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./src");
 const { createSession } = require("./src/session");
 const { listRecentRuns, summarizeRun, deleteRun, findLatestRunWithLock } = require("./src/run-history");
 const { buildPipelineStatus } = require("./src/pipeline-lock");
-const { INTRO_BUDGET, DYNAMIC_BUDGET } = require("./frontend/server/sessions");
 const { reviewSession: reviewLexiconSession } = require("./src/lexicon-reviewer");
 const { loadIntroQueue } = require("./src/intro-queue");
 const cost = require("./src/cost");

@@ -28,7 +28,7 @@ const { spawn } = require("node:child_process");
 const { loadEnv } = require("./src/env");
 const { MEETING_TYPES } = require("./src/meeting-types");
 const { allResolved } = require("./src/models");
-const { TOTAL_BUDGET } = require("./frontend/server/sessions");
+const { TOTAL_BUDGET, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./src/budgets");
 const { monthFolderFor } = require("./src/session");
 const { stringifyYaml, parseYaml } = require("./src/questions");
 
@@ -66,7 +66,6 @@ function unitChecks() {
   }
 
   // 2. Budget constant consistency
-  const { INTRO_BUDGET, DYNAMIC_BUDGET } = require("./frontend/server/sessions");
   if (TOTAL_BUDGET === INTRO_BUDGET + DYNAMIC_BUDGET)
     pass(`budget constants consistent: ${INTRO_BUDGET} + ${DYNAMIC_BUDGET} = ${TOTAL_BUDGET}`);
   else fail("budget constants consistent", `TOTAL_BUDGET ${TOTAL_BUDGET} ≠ ${INTRO_BUDGET} + ${DYNAMIC_BUDGET}`);
