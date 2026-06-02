@@ -1,8 +1,0 @@
-alias: q_support_needs_8
-label: Support needs
-name: What do you need from me right now to help with your current workload?
-description: Opens up for Carl to express any specific support needs from the manager that could aid in managing workload or punctuality.
-purpose: topic
-axis_effects:
-  clarity: +1
-source: generated

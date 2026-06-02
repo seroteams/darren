@@ -1,8 +1,0 @@
-alias: q_task_clarity
-label: task_clarity
-name: Where are things unclear in your current responsibilities?
-description: Identifies areas where role clarity might be lacking.
-purpose: competency
-axis_effects:
-  clarity: +3
-source: generated

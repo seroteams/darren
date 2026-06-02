@@ -1,8 +1,0 @@
-alias: q_current_work_stressors
-label: Current work stressors
-name: "What part of your workload feels like it's causing you to be late most often?"
-description: Explores the underlying causes of consistent lateness, potentially revealing workload or time management issues.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

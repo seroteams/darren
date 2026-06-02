@@ -1,9 +1,0 @@
-alias: q_excellent_examples_2
-label: Excellent examples
-name: What examples of excellent junior-level work would make the bar clearer for you?
-description: Drills into the specific examples he says are missing so the evidence-stage ambiguity is concrete.
-purpose: topic
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

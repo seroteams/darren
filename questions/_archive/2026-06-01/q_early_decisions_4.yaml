@@ -1,9 +1,0 @@
-alias: q_early_decisions_4
-label: Early decisions
-name: When did you miss the chance to shape a decision early?
-description: Anchors her pattern in a specific recent moment so the discussion moves from self-read to evidence.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

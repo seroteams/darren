@@ -1,9 +1,0 @@
-alias: q_decision_bottlenecks_4
-label: Decision bottlenecks
-name: "Which decisions are still sticking with you that shouldn't be?"
-description: Drills into the specific decision bottlenecks Lin is still carrying so ownership gaps become concrete.
-purpose: competency
-stage: friction
-axis_effects:
-  clarity: +3
-source: planner_added

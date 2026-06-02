@@ -1,9 +1,0 @@
-alias: q_recognizing_contributions
-label: Recognizing contributions
-name: What aspect of the payments refactor are you most proud of, and how do you think it impacted the team?
-description: Encourages them to reflect on their personal contributions and the effect on team dynamics.
-purpose: topic
-axis_effects:
-  engagement: +3
-  clarity: +1
-source: generated

@@ -1,8 +1,0 @@
-alias: q_role_clarity_specifics
-label: Role clarity specifics
-name: What does success look like to you in the Head of Design role, especially considering the language aspect?
-description: Probes their understanding of role expectations and how language skills fit into that.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: generated

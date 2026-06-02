@@ -1,8 +1,0 @@
-alias: q_mentoring_vision_5
-label: Mentoring vision
-name: What would you want mentoring to look like in your schedule?
-description: "Surfaces Priya's interest and vision for her involvement in mentoring activities."
-purpose: topic
-axis_effects:
-  growth: +3
-source: generated

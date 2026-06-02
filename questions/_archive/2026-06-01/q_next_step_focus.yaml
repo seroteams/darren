@@ -1,9 +1,0 @@
-alias: q_next_step_focus
-label: Next step focus
-name: What do you want to get back to feeling steady on first?
-description: Gets at the most immediate priority for recovery or re-engagement from their point of view.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-  engagement: +1
-source: generated

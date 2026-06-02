@@ -1,8 +1,0 @@
-alias: q_current_work_mindset
-label: current_work_mindset
-name: "What's been most on your mind at work lately?"
-description: Opens up discussion about current thoughts and priorities.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

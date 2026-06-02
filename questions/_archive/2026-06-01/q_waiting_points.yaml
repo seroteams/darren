@@ -1,9 +1,0 @@
-alias: q_waiting_points
-label: Waiting points
-name: What are you waiting on before you can move the current tickets forward?
-description: Surfaces hidden dependencies and stalled decisions that may not show up as formal blockers.
-purpose: topic
-stage: blockers
-axis_effects:
-  clarity: +3
-source: generated

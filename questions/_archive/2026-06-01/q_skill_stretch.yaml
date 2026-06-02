@@ -1,9 +1,0 @@
-alias: q_skill_stretch
-label: Skill stretch
-name: What skills do you think you need to stretch to be ready for promotion?
-description: Identifies specific skills Machar needs to develop for promotion readiness.
-purpose: competency
-stage: gap
-axis_effects:
-  growth: +3
-source: generated

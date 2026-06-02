@@ -1,8 +1,0 @@
-alias: q_late_arrival_reasons
-label: Late arrival reasons
-name: "What's been causing your late arrivals to work recently?"
-description: Explores the underlying reasons behind late arrivals, which could be linked to energy, routine, or external factors.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

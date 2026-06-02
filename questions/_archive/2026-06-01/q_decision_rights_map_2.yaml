@@ -1,9 +1,0 @@
-alias: q_decision_rights_map_2
-label: Decision rights map
-name: Where do the decision rights still feel fuzzy for you?
-description: Identifies where she is spending energy decoding who decides versus who advises.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: generated

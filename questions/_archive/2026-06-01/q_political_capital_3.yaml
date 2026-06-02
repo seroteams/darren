@@ -1,9 +1,0 @@
-alias: q_political_capital_3
-label: Political capital
-name: Political capital — where are you choosing to hold back right now?
-description: Drills into the specific arenas where the promotion outcome made Toby more cautious.
-purpose: topic
-stage: gap
-axis_effects:
-  growth: +3
-source: planner_added

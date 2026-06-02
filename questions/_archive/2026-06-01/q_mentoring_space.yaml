@@ -1,8 +1,0 @@
-alias: q_mentoring_space
-label: mentoring_space
-name: What would mentoring actually look like in your week, and what would you need to drop to make space for it?
-description: Explores practical steps for integrating mentoring into their routine.
-purpose: topic
-axis_effects:
-  growth: +3
-source: generated

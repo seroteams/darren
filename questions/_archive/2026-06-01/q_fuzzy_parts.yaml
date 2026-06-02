@@ -1,9 +1,0 @@
-alias: q_fuzzy_parts
-label: Fuzzy parts
-name: What still feels fuzzy about expectations this week?
-description: Gets him to name the most uncertain piece of the role without turning it into a performance check.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

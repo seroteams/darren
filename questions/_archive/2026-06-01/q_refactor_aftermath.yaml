@@ -1,9 +1,0 @@
-alias: q_refactor_aftermath
-label: Refactor aftermath
-name: How did the payments refactor land for you after it shipped?
-description: Surfaces whether the recent win actually felt rewarding or just like another delivery.
-purpose: topic
-axis_effects:
-  wellbeing: +1
-  engagement: +1
-source: generated

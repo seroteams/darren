@@ -1,9 +1,0 @@
-alias: q_what_matters_now
-label: What matters now
-name: What feels most important to get into today, Sarah?
-description: Lets Sarah set the agenda before the manager narrows in on specific concerns.
-purpose: wellbeing
-stage: self_read
-axis_effects:
-  clarity: +1
-source: generated

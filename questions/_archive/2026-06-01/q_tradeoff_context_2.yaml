@@ -1,9 +1,0 @@
-alias: q_tradeoff_context_2
-label: Tradeoff context
-name: Which tradeoffs feel hardest to read without the backstory?
-description: Drills into the missing historical context he named so the manager can target the right orientation support.
-purpose: topic
-stage: settling
-axis_effects:
-  clarity: +1
-source: planner_added

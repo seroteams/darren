@@ -1,9 +1,0 @@
-alias: q_facilitation_skills
-label: Facilitation skills
-name: Where are you most eager to stretch your facilitation skills next?
-description: Identifies specific areas for development in facilitation skills.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: generated

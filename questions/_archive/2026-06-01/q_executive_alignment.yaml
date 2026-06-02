@@ -1,8 +1,0 @@
-alias: q_executive_alignment
-label: Executive alignment
-name: "Where do you see opportunities to better align with our executive team's goals?"
-description: Checks alignment with broader executive goals.
-purpose: competency
-axis_effects:
-  clarity: +3
-source: generated

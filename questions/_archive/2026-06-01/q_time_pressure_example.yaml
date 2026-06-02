@@ -1,9 +1,0 @@
-alias: q_time_pressure_example
-label: Time pressure example
-name: Under time pressure, where does the consistency slip show up most clearly?
-description: Gets a concrete example of the quality inconsistency he named so the conversation can move into evidence.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

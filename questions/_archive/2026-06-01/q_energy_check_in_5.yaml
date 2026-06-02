@@ -1,8 +1,0 @@
-alias: q_energy_check_in_5
-label: Energy check-in
-name: How has your energy been over the past few weeks?
-description: Surfaces any ongoing issues with workload or stress.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

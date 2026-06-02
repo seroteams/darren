@@ -1,9 +1,0 @@
-alias: q_default_pace_check
-label: Default pace check
-name: What part of your current pace feels sustainable to you?
-description: Tests whether the current rhythm is workable without sounding accusatory.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_on_your_plate
-label: On your plate
-name: What feels most important on your plate right now, Sarah?
-description: Lets Sarah set the current work context before the review gets more pointed.
-purpose: wellbeing
-stage: self_read
-axis_effects:
-  clarity: +3
-source: generated

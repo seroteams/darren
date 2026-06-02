@@ -1,9 +1,0 @@
-alias: q_senior_forums_2
-label: Senior forums
-name: Senior forums — what about those rooms makes you feel unprepared?
-description: Drills into the specific confidence thread to surface the real gap underneath his hesitation.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

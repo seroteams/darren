@@ -1,9 +1,0 @@
-alias: q_design_api_mismatch_2
-label: Design/API mismatch
-name: When design and API details do not match, where does it usually break first?
-description: Pins down the exact mismatch point so the manager can remove a concrete onboarding ambiguity.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: planner_added

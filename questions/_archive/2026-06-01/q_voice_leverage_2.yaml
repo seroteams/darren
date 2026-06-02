@@ -1,9 +1,0 @@
-alias: q_voice_leverage_2
-label: Voice leverage
-name: In those leadership meetings, what feels unclear about where your voice has leverage?
-description: Drills into the specific uncertainty behind her quieter participation in leadership forums.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: planner_added

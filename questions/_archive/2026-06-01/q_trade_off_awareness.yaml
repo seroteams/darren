@@ -1,9 +1,0 @@
-alias: q_trade_off_awareness
-label: Trade-off awareness
-name: "What would you need to deprioritize to make space for the growth you're aiming for?"
-description: Identifies what Sarah may need to let go of to focus on her growth.
-purpose: competency
-stage: investment
-axis_effects:
-  clarity: +3
-source: generated

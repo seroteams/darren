@@ -1,8 +1,0 @@
-alias: q_impact_through_leadership
-label: Impact through leadership
-name: How would leading the team amplify your impact?
-description: Explores how Carl envisions increasing his influence through leadership.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

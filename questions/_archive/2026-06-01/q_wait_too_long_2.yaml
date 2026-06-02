@@ -1,9 +1,0 @@
-alias: q_wait_too_long_2
-label: Wait too long
-name: When you wait too long to ask, what are you usually waiting to know first?
-description: "Drills into his 'wait too long' pattern to surface the specific uncertainty he is trying to resolve alone."
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: planner_added

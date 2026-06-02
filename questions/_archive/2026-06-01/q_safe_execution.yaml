@@ -1,9 +1,0 @@
-alias: q_safe_execution
-label: Safe execution
-name: "You said 'being safe' — what does that look like in practice?"
-description: "Drills into the specific behaviour behind his 'safe' pattern before moving on."
-purpose: topic
-stage: gap_naming
-axis_effects:
-  growth: +3
-source: planner_added

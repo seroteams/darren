@@ -1,9 +1,0 @@
-alias: q_energy_drain_2
-label: Energy drain
-name: What part of your week is taking more out of you than it should?
-description: Finds the specific work pattern or task that is draining energy and investment.
-purpose: topic
-axis_effects:
-  wellbeing: +1
-  engagement: +3
-source: generated

@@ -1,8 +1,0 @@
-alias: q_energy_management_2
-label: Energy management
-name: How are you managing your energy and stress levels with this potential promotion on the horizon?
-description: Investigates their current wellbeing and ability to sustain energy levels.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

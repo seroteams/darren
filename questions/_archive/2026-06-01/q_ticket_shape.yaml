@@ -1,9 +1,0 @@
-alias: q_ticket_shape
-label: Ticket shape
-name: What feels clearest about your current tickets?
-description: Surfaces what parts of the work and expectations have already clicked.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +1
-source: generated

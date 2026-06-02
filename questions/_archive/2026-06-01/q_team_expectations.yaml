@@ -1,9 +1,0 @@
-alias: q_team_expectations
-label: Team expectations
-name: When you second-guess your approach, what feels hardest to read about team expectations?
-description: Drills into the specific expectation gap he just named so the manager can remove friction.
-purpose: topic
-stage: settling
-axis_effects:
-  clarity: +1
-source: planner_added

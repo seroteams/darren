@@ -1,9 +1,0 @@
-alias: q_underlying_lateness_causes
-label: Underlying lateness causes
-name: What factors are contributing to your late arrivals?
-description: Aims to uncover root causes of punctuality issues.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-  clarity: +1
-source: generated

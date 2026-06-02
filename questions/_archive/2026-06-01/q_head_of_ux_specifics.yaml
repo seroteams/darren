@@ -1,9 +1,0 @@
-alias: q_head_of_ux_specifics
-label: Head of UX specifics
-name: "When you say 'Title :) money' — what specific responsibilities or opportunities in the Head of UX role are you excited about?"
-description: Seeks clarity on what aspects of the Head of UX role beyond title and compensation are appealing to Sarah.
-purpose: topic
-stage: aspiration
-axis_effects:
-  growth: +3
-source: planner_added

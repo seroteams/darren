@@ -1,8 +1,0 @@
-alias: q_stress_factors
-label: Stress factors
-name: What factors are contributing most to your current stress levels?
-description: Identifies specific stressors impacting wellbeing.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_guessing_days
-label: Guessing days
-name: "On the days you're guessing, what's usually missing?"
-description: "Drills into the specific missing input or context behind his 'guessing' days."
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: planner_added

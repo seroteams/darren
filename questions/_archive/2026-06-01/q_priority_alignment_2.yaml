@@ -1,8 +1,0 @@
-alias: q_priority_alignment_2
-label: Priority alignment
-name: Which priorities feel most unclear or conflicting for you right now?
-description: Surfaces areas where priority misalignment may be causing confusion.
-purpose: competency
-axis_effects:
-  clarity: +3
-source: generated

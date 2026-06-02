@@ -1,9 +1,0 @@
-alias: q_ownership_boundaries_3
-label: Ownership boundaries
-name: Where are ownership boundaries still fuzzy right now?
-description: Turns the ownership-boundaries signal into a concrete momentum probe on current work that is getting stuck.
-purpose: topic
-stage: momentum
-axis_effects:
-  clarity: +3
-source: planner_added

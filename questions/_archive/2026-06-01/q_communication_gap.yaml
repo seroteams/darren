@@ -1,9 +1,0 @@
-alias: q_communication_gap
-label: Communication gap
-name: What specific aspects of your communication with the UX team do you think could improve?
-description: Identifies areas needing improvement in communication with the UX team.
-purpose: competency
-stage: gap_naming
-axis_effects:
-  clarity: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_mentoring_useful_5
-label: Mentoring useful
-name: "Mentoring feels useful — what is it giving you right now that the core role isn't?"
-description: Drills into why mentoring has become the place he feels useful, to surface what feels missing elsewhere.
-purpose: topic
-stage: underneath
-axis_effects:
-  growth: +1
-source: planner_added

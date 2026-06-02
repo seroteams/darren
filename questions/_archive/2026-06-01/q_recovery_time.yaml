@@ -1,8 +1,0 @@
-alias: q_recovery_time
-label: Recovery time
-name: What has actually helped you recover outside work lately?
-description: Checks whether he has real recovery time or is just pushing through fatigue.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

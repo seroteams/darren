@@ -1,8 +1,0 @@
-alias: q_next_steps_3
-label: Next steps
-name: "What's the first concrete thing you want to have moved by our next conversation?"
-description: Drives toward actionable steps following the discussion.
-purpose: competency
-axis_effects:
-  growth: +1
-source: generated

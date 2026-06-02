@@ -1,9 +1,0 @@
-alias: q_unclear_handoffs
-label: Unclear handoffs
-name: Where are the handoffs still fuzzy for you?
-description: Finds the exact transition points that are creating uncertainty in onboarding.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_unclear_expectations_3
-label: Unclear expectations
-name: What part of the bar for a good ticket is still fuzzy?
-description: Gets at expectation gaps without sounding evaluative or abstract.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: generated

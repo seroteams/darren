@@ -1,9 +1,0 @@
-alias: q_unwritten_rules_2
-label: Unwritten rules
-name: "These 'unwritten rules' — where do they show up most for you right now?"
-description: Drills into the specific meetings or situations where hidden norms are creating confusion.
-purpose: topic
-stage: settling
-axis_effects:
-  clarity: +1
-source: planner_added

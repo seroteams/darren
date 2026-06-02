@@ -1,9 +1,0 @@
-alias: q_specific_feedback
-label: Specific feedback
-name: Could you share an instance where communication with the UX team was particularly challenging?
-description: Seeks concrete examples of communication challenges with the UX team.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: generated

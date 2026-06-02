@@ -1,9 +1,0 @@
-alias: q_sustainable_load
-label: Sustainable load
-name: What would make this workload feel sustainable for you right now?
-description: Surfaces what needs to change to keep pace healthy over time.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-  clarity: +1
-source: generated

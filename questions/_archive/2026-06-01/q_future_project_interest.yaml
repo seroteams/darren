@@ -1,8 +1,0 @@
-alias: q_future_project_interest
-label: Future project interest
-name: What kind of project would you want to take on next quarter?
-description: Gauges interest in future projects without revealing unannounced plans.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

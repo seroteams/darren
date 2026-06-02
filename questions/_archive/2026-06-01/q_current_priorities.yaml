@@ -1,8 +1,0 @@
-alias: q_current_priorities
-label: Current priorities
-name: What do you see as our top priorities moving forward after the refactor?
-description: "Tests Darren's clarity on upcoming goals and alignment with the team's direction."
-purpose: topic
-axis_effects:
-  clarity: +3
-source: generated

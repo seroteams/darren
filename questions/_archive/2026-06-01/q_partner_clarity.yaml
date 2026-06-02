@@ -1,9 +1,0 @@
-alias: q_partner_clarity
-label: Partner clarity
-name: With non-technical partners, where did your message last break down?
-description: Turns her volunteered feedback into a concrete example of the communication gap.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

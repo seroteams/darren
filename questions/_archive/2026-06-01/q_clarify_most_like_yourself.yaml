@@ -1,9 +1,0 @@
-alias: q_clarify_most_like_yourself
-label: "Clarify 'most like yourself'"
-name: "When you say 'yeah i am okay', what does 'most like yourself' mean to you in your role? Is it about leadership, facilitation, or something else?"
-description: "Seeks specifics about what 'most like yourself' means in their professional context."
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-  growth: +1
-source: planner_added

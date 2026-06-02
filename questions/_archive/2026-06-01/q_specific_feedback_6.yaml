@@ -1,9 +1,0 @@
-alias: q_specific_feedback_6
-label: Specific feedback
-name: You said specific feedback close to the work helps — where is that missing most?
-description: Drills into the feedback-timing thread to surface the main friction point underneath.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: planner_added

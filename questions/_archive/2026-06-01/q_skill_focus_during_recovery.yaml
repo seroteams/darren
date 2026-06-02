@@ -1,8 +1,0 @@
-alias: q_skill_focus_during_recovery
-label: Skill focus during recovery
-name: What skills do you feel you can focus on while recovering?
-description: "Explores areas for skills development during Bill's recovery period."
-purpose: topic
-axis_effects:
-  growth: +3
-source: generated

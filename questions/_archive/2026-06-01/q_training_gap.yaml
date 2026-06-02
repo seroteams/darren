@@ -1,8 +1,0 @@
-alias: q_training_gap
-label: Training gap
-name: "What's the impact of not having a proper training program on your growth and daily work?"
-description: "Explores how the lack of training affects Machar's growth and work."
-purpose: topic
-axis_effects:
-  growth: +3
-source: planner_added

@@ -1,8 +1,0 @@
-alias: q_promotion_urgency
-label: Promotion urgency
-name: "When you say 'not up for promotion', what specifically would make you feel ready for that step?"
-description: "Explore Toby's perception of readiness for promotion and what he believes is necessary to achieve it."
-purpose: topic
-axis_effects:
-  engagement: +1
-source: planner_added

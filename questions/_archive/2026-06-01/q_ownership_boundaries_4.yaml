@@ -1,9 +1,0 @@
-alias: q_ownership_boundaries_4
-label: Ownership boundaries
-name: Where do the ownership boundaries still feel fuzzy for you, Riley?
-description: Surfaces where he may be unsure what he should drive versus escalate or coordinate.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: generated

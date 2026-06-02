@@ -1,9 +1,0 @@
-alias: q_team_bar_fuzzy
-label: Team bar fuzzy
-name: "This team's bar feels fuzzy — what specifically is still unclear to you?"
-description: Drills into the concrete parts of the Principal bar that feel undefined before moving on.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_notes_doc_habit_2
-label: Notes doc habit
-name: That notes doc habit — what makes it hard to ask in the moment?
-description: Drills into the hesitation to ask so the manager can remove the specific friction.
-purpose: topic
-stage: blockers
-axis_effects:
-  clarity: +3
-source: planner_added

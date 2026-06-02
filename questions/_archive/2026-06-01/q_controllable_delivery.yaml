@@ -1,9 +1,0 @@
-alias: q_controllable_delivery
-label: Controllable delivery
-name: When delivery felt controllable, what felt unclear or out of reach?
-description: "Drills into his 'delivery felt controllable' comment to surface what the promotion feedback left vague."
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: planner_added

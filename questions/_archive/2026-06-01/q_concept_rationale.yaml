@@ -1,9 +1,0 @@
-alias: q_concept_rationale
-label: Concept rationale
-name: Concept rationale — what does stronger work there look like to you?
-description: Drills into the specific growth area he named so the gap becomes concrete and discussable.
-purpose: topic
-stage: gap_naming
-axis_effects:
-  clarity: +3
-source: planner_added

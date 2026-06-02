@@ -1,9 +1,0 @@
-alias: q_norms_support
-label: Norms support
-name: What would help you decode our norms faster?
-description: Opens the door for practical manager support around examples, decision paths, and feedback loops.
-purpose: topic
-stage: connection
-axis_effects:
-  clarity: +3
-source: generated

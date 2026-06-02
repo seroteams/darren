@@ -1,9 +1,0 @@
-alias: q_time_pressure_consistency
-label: Time pressure consistency
-name: Under time pressure, what part slips first for you?
-description: Drills into the specific inconsistency he named so the evidence stays concrete.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

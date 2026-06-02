@@ -1,9 +1,0 @@
-alias: q_wait_until_complete
-label: Wait until complete
-name: You said you wait until analysis is complete — what makes you hold back then?
-description: Drills into the specific habit she named before moving on, to surface whether the delay is caution, uncertainty, or context.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: planner_added

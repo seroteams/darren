@@ -1,9 +1,0 @@
-alias: q_over_communicating_risk_4
-label: Over-communicating risk
-name: What makes something feel like noise in those cross-team updates?
-description: Clarifies the specific situations where she hesitates to communicate so the manager can remove ambiguity.
-purpose: topic
-stage: blockers
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_notes_doc_habit
-label: Notes doc habit
-name: That notes doc habit — what makes a question feel interruptive to ask?
-description: Drills into the specific hesitation that is stopping him from asking for context in real time.
-purpose: competency
-stage: blockers
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_landing_context
-label: Landing context
-name: Before we get into specifics, what feels most useful to talk through today?
-description: Lets Elena set the agenda without implying a problem to solve.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  clarity: +1
-source: generated

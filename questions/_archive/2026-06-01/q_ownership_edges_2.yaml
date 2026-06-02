@@ -1,9 +1,0 @@
-alias: q_ownership_edges_2
-label: Ownership edges
-name: Where do the ownership boundaries still feel fuzzy?
-description: Finds the places where he could accidentally overstep or hold back because the boundary is not concrete yet.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: generated

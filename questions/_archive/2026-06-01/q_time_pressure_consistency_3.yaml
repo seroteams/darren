@@ -1,9 +1,0 @@
-alias: q_time_pressure_consistency_3
-label: Time pressure consistency
-name: Under time pressure, what usually slips first in your work?
-description: Drills into the specific failure mode behind his inconsistency so feedback can anchor on observable evidence.
-purpose: topic
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

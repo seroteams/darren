@@ -1,9 +1,0 @@
-alias: q_team_expectations_4
-label: Team expectations
-name: When you second-guess, what team expectation feels hardest to read?
-description: Drills into the specific expectation gap behind his second-guessing.
-purpose: topic
-stage: settling
-axis_effects:
-  clarity: +1
-source: planner_added

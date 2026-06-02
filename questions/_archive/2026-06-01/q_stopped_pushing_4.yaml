@@ -1,9 +1,0 @@
-alias: q_stopped_pushing_4
-label: Stopped pushing
-name: What made you stop pushing on mentoring?
-description: Drills into the stalled mentoring thread to surface whether the blocker is time, clarity, or follow-through.
-purpose: topic
-stage: momentum
-axis_effects:
-  growth: +3
-source: planner_added

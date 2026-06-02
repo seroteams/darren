@@ -1,9 +1,0 @@
-alias: q_mentoring_useful_3
-label: Mentoring useful
-name: Mentoring feels useful — what is it giving you right now?
-description: Follows the mentoring thread to surface what need or gap it is meeting underneath the recent shift.
-purpose: topic
-stage: underneath
-axis_effects:
-  growth: +3
-source: planner_added

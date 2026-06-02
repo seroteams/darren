@@ -1,9 +1,0 @@
-alias: q_decision_making_map_2
-label: Decision-making map
-name: "When you say 'how decisions are really made' — what part is least visible?"
-description: Drills into the specific decision-making gap he named so the manager can remove that onboarding ambiguity.
-purpose: topic
-stage: settling
-axis_effects:
-  clarity: +1
-source: planner_added

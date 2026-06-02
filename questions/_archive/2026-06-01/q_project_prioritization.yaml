@@ -1,9 +1,0 @@
-alias: q_project_prioritization
-label: Project prioritization
-name: What are you prioritizing right now, and what are you choosing to deprioritize?
-description: Surfaces her current focus and decision-making in project management.
-purpose: competency
-stage: cause
-axis_effects:
-  clarity: +3
-source: generated

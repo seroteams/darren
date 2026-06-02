@@ -1,9 +1,0 @@
-alias: q_mentoring_thread_2
-label: Mentoring thread
-name: Mentoring matters to you — what about it feels stretching?
-description: Drills into why mentoring feels like growth so the session can distinguish real stretch from valued work.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

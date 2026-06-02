@@ -1,9 +1,0 @@
-alias: q_strategic_influence_4
-label: Strategic influence
-name: Visible strategic influence — what would that look like in practice for you?
-description: Drills into the specific kind of influence he feels is missing so the gap becomes concrete.
-purpose: topic
-stage: gap
-axis_effects:
-  growth: +3
-source: planner_added

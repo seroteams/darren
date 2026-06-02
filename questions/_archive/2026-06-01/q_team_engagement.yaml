@@ -1,8 +1,0 @@
-alias: q_team_engagement
-label: Team engagement
-name: How engaged do you feel with the team right now, and what could enhance that?
-description: Probes the current state of their engagement with the team.
-purpose: wellbeing
-axis_effects:
-  engagement: +3
-source: generated

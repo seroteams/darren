@@ -1,9 +1,0 @@
-alias: q_school_load_balance
-label: School load balance
-name: How is school fitting around your other interests right now?
-description: Surfaces whether school is crowding out the rest of her life or leaving room for what she cares about.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-  clarity: +1
-source: generated

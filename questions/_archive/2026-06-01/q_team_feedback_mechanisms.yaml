@@ -1,8 +1,0 @@
-alias: q_team_feedback_mechanisms
-label: Team feedback mechanisms
-name: How do you think we can improve our weekly retrospectives?
-description: Aims to gather thoughts on enhancing team feedback processes.
-purpose: topic
-axis_effects:
-  engagement: +1
-source: "swap_for:q_growth_opportunities"

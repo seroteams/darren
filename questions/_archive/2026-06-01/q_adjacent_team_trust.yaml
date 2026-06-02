@@ -1,9 +1,0 @@
-alias: q_adjacent_team_trust
-label: Adjacent-team trust
-name: Adjacent teams — where is the trust not there yet?
-description: Drills into the specific trust gap he named to surface the concrete relationship pattern.
-purpose: topic
-stage: gap_naming
-axis_effects:
-  growth: +3
-source: planner_added

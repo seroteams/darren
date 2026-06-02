@@ -1,8 +1,0 @@
-alias: q_manager_support_needs_3
-label: manager_support_needs
-name: What support do you need from me to achieve your current goals?
-description: Identifies specific support needs from the manager.
-purpose: topic
-axis_effects:
-  engagement: +1
-source: generated

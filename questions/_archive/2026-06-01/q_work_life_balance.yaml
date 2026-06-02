@@ -1,8 +1,0 @@
-alias: q_work_life_balance
-label: Work-life balance
-name: How do you feel about your work-life balance right now?
-description: "Explores Darren's perspective on his balance between work demands and personal time."
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

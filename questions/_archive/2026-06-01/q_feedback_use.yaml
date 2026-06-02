@@ -1,9 +1,0 @@
-alias: q_feedback_use
-label: Feedback use
-name: What did you take from the feedback on that PR?
-description: Surfaces how he processes review feedback and whether it is helping him improve.
-purpose: competency
-axis_effects:
-  growth: +3
-  clarity: +1
-source: generated

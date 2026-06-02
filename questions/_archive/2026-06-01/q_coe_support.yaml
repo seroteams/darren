@@ -1,8 +1,0 @@
-alias: q_coe_support
-label: CoE support
-name: "What's needed to effectively run the CoE with your current resources?"
-description: Explores what support or resources Carl needs to manage the CoE effectively.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: planner_added

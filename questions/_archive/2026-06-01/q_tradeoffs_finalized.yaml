@@ -1,9 +1,0 @@
-alias: q_tradeoffs_finalized
-label: Tradeoffs finalized
-name: "How are roadmap tradeoffs actually getting finalized from what you've seen?"
-description: Drills into her specific confusion about roadmap tradeoff decisions before moving to the closer stage.
-purpose: topic
-stage: blockers
-axis_effects:
-  clarity: +3
-source: planner_added

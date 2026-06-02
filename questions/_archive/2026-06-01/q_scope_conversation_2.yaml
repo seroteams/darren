@@ -1,9 +1,0 @@
-alias: q_scope_conversation_2
-label: Scope conversation
-name: What would you want covered in that bigger scope conversation?
-description: Surfaces the specific decisions or expectations she wants clarified so the session lands on a useful final focus.
-purpose: topic
-stage: lift
-axis_effects:
-  clarity: +1
-source: planner_added

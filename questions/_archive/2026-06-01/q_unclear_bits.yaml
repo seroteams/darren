@@ -1,9 +1,0 @@
-alias: q_unclear_bits
-label: Unclear bits
-name: What part of your current work still feels least clear?
-description: Finds the specific ambiguity he is carrying on day-to-day tasks.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: generated

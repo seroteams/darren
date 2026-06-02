@@ -1,9 +1,0 @@
-alias: q_stopped_pushing_3
-label: Stopped pushing
-name: You said you stopped pushing — what made you back off?
-description: Drills into the stalled mentoring thread to surface whether the block is time, confidence, or expectations.
-purpose: topic
-stage: momentum
-axis_effects:
-  growth: +3
-source: planner_added

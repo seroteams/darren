@@ -1,9 +1,0 @@
-alias: q_highest_leverage_work_3
-label: Highest-leverage work
-name: "When you say 'highest-leverage work,' what work do you think that is here?"
-description: Drills into his own definition of higher-leverage Principal work before moving on.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

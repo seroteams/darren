@@ -1,9 +1,0 @@
-alias: q_normal_pace_2
-label: Normal pace
-name: When you say that pace — what specifically made it unsustainable?
-description: Drills into the exact part of the recent push that felt unsustainable so the friction is concrete.
-purpose: topic
-stage: friction
-axis_effects:
-  engagement: +3
-source: planner_added

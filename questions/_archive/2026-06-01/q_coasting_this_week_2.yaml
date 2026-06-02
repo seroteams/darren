@@ -1,9 +1,0 @@
-alias: q_coasting_this_week_2
-label: Coasting this week
-name: "You said you're 'coasting a bit this week' — what's driving that?"
-description: "Drills into the mild engagement dip she named to find out whether it's recovery, low challenge, or something else."
-purpose: topic
-stage: friction
-axis_effects:
-  engagement: +3
-source: planner_added

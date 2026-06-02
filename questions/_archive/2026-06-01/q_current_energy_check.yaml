@@ -1,9 +1,0 @@
-alias: q_current_energy_check
-label: Current energy check
-name: How are you feeling energy-wise now after your recent illness?
-description: Explores current energy levels and any lingering effects from recent illness.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: generated

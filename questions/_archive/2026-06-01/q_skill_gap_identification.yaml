@@ -1,9 +1,0 @@
-alias: q_skill_gap_identification
-label: Skill gap identification
-name: What specific skills do you feel need strengthening to prepare for a Head of UX role?
-description: Identifies skills Sarah feels are necessary for her career progression.
-purpose: topic
-stage: gap
-axis_effects:
-  growth: +3
-source: generated

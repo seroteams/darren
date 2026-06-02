@@ -1,9 +1,0 @@
-alias: q_next_two_weeks_21
-label: Next two weeks
-name: What would you like to have changed by our next check-in?
-description: Closes on a specific commitment for the next cycle without opening a new topic.
-purpose: topic
-stage: commit
-axis_effects:
-  growth: +1
-source: generated

@@ -1,9 +1,0 @@
-alias: q_senior_forums
-label: Senior forums
-name: Senior forums — what would help you show up there with more confidence?
-description: Drills into the specific confidence gap he named in visible senior settings.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

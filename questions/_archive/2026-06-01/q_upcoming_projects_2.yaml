@@ -1,8 +1,0 @@
-alias: q_upcoming_projects_2
-label: Upcoming projects
-name: What kind of project would you want to take on next quarter?
-description: Allows Priya to express her preferences for future project involvement.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: generated

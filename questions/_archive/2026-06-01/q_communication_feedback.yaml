@@ -1,9 +1,0 @@
-alias: q_communication_feedback
-label: Communication feedback
-name: That communication feedback — what part of it are you still processing?
-description: Clarifies the specific feedback thread she introduced and where the uncertainty sits.
-purpose: topic
-stage: pulse
-axis_effects:
-  clarity: +3
-source: planner_added

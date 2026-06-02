@@ -1,9 +1,0 @@
-alias: q_status_handoff
-label: Status handoff
-name: What would make your next update easier to give?
-description: Looks for practical changes that would improve communication and reduce reporting friction.
-purpose: competency
-stage: lift
-axis_effects:
-  clarity: +1
-source: generated

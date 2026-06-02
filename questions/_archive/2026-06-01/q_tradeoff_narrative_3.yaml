@@ -1,9 +1,0 @@
-alias: q_tradeoff_narrative_3
-label: Tradeoff narrative
-name: What makes the tradeoff narrative hard to state earlier?
-description: Drills into the specific gap she named to surface the driver from her side.
-purpose: competency
-stage: gap_naming
-axis_effects:
-  clarity: +3
-source: planner_added

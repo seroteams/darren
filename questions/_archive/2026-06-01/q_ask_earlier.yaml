@@ -1,9 +1,0 @@
-alias: q_ask_earlier
-label: Ask earlier
-name: When you hold off asking, what tells you it is time to pull someone in?
-description: Drills into his help-seeking threshold so the manager can make escalation expectations explicit.
-purpose: competency
-stage: orientation
-axis_effects:
-  clarity: +3
-source: planner_added

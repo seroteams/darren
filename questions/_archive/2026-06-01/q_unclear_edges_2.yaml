@@ -1,9 +1,0 @@
-alias: q_unclear_edges_2
-label: Unclear edges
-name: Where does the boundary of your role still feel fuzzy?
-description: Surfaces the parts of scope that are still ambiguous in practice.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: generated

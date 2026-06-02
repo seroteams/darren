@@ -1,9 +1,0 @@
-alias: q_early_decisions
-label: Early decisions
-name: When did you last miss the chance to shape a decision early?
-description: Gets a concrete recent example of the late-influence pattern she just named.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

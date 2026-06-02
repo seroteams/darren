@@ -1,9 +1,0 @@
-alias: q_done_definition
-label: Done definition
-name: What does “done” mean to you on your current tickets?
-description: Checks whether his working definition of completion matches the team’s expectation.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_decision_making_gap
-label: Decision-making gap
-name: "When you say 'how decisions are really made here,' what feels least clear?"
-description: Drills into his specific uncertainty about team decision-making norms.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: planner_added

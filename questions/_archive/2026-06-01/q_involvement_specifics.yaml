@@ -1,8 +1,0 @@
-alias: q_involvement_specifics
-label: Involvement specifics
-name: What specific steps can you take to ensure earlier involvement in projects?
-description: Focuses on actionable steps to achieve earlier involvement in projects.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,8 +1,0 @@
-alias: q_earlier_involvement
-label: Earlier involvement
-name: What would being involved earlier in the process look like for you, and how would it change your role?
-description: Explores what earlier involvement in the process would entail and its impact on role clarity.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: planner_added

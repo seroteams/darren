@@ -1,8 +1,0 @@
-alias: q_role_clarity_4
-label: Role clarity
-name: What part of your role or expectations feels unclear right now?
-description: Identifies areas where Bill might need more clarity in his role.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: generated

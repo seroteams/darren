@@ -1,9 +1,0 @@
-alias: q_expectation_fuzziness
-label: Expectation fuzziness
-name: "What's feeling unclear about what good looks like in your role?"
-description: Surfaces uncertainty about the success bar and role expectations without sounding corrective.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

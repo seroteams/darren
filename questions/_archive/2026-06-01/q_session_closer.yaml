@@ -1,8 +1,0 @@
-alias: q_session_closer
-label: Session closer
-name: "What's the one thing you want to focus on improving before we next meet?"
-description: Encourages reflection and commitment to a specific improvement area before the next meeting.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +1
-source: planner_added

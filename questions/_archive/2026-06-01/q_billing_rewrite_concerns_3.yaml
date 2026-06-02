@@ -1,8 +1,0 @@
-alias: q_billing_rewrite_concerns_3
-label: Billing rewrite concerns
-name: What concerns do you have about any upcoming projects that could slow us down later?
-description: Surfaces potential issues or concerns Priya might have regarding future projects.
-purpose: topic
-axis_effects:
-  clarity: +1
-source: generated

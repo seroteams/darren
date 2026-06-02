@@ -1,9 +1,0 @@
-alias: q_visible_impact_6
-label: Visible impact
-name: Impact not visible — where is that breaking down most for you?
-description: Drills into the visibility gap she just named so you can locate the specific bottleneck.
-purpose: topic
-stage: pulse
-axis_effects:
-  engagement: +1
-source: planner_added

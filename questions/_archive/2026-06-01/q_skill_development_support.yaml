@@ -1,8 +1,0 @@
-alias: q_skill_development_support
-label: Skill development support
-name: What kind of support would help you bridge any skill gaps for the Head of Design role?
-description: Assesses what support they need for their growth and development.
-purpose: topic
-axis_effects:
-  growth: +3
-source: generated

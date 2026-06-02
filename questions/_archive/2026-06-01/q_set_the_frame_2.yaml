@@ -1,9 +1,0 @@
-alias: q_set_the_frame_2
-label: Set the frame
-name: Before we get specific, what would be most useful to talk through today?
-description: A calm opener that lets James set context before the conversation turns toward any concern.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  clarity: +1
-source: generated

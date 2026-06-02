@@ -1,8 +1,0 @@
-alias: q_energy_drivers_3
-label: Energy drivers
-name: "What's been driving your motivation recently?"
-description: Identifies factors that are currently motivating Priya, providing insight into her engagement levels.
-purpose: wellbeing
-axis_effects:
-  engagement: +3
-source: generated

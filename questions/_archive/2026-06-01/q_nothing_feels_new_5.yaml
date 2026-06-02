@@ -1,9 +1,0 @@
-alias: q_nothing_feels_new_5
-label: Nothing feels new
-name: What kind of work feels missing right now?
-description: Drills into the lack of novelty she named to surface what would re-engage her.
-purpose: topic
-stage: friction
-axis_effects:
-  engagement: +3
-source: planner_added

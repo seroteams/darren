@@ -1,9 +1,0 @@
-alias: q_sustainable_load_3
-label: Sustainable load
-name: What part of your load feels hardest to sustain right now?
-description: Probes whether the current pace is manageable without turning into a generic energy check.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +3
-source: generated

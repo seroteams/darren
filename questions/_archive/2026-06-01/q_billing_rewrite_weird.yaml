@@ -1,9 +1,0 @@
-alias: q_billing_rewrite_weird
-label: Billing rewrite weird
-name: "On the billing rewrite — what's weird about how it's being handled from your seat?"
-description: Drills into the billing rewrite thread to surface the specific clarity or stakeholder gap behind the concern.
-purpose: topic
-stage: momentum
-axis_effects:
-  growth: +3
-source: planner_added

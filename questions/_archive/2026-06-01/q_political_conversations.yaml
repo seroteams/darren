@@ -1,9 +1,0 @@
-alias: q_political_conversations
-label: Political conversations
-name: Political conversations — what makes them hard for you to stay in?
-description: Drills into the specific dynamic behind his retreat from influence-heavy situations.
-purpose: topic
-stage: gap
-axis_effects:
-  growth: +3
-source: planner_added

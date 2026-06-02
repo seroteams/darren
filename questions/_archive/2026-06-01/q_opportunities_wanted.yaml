@@ -1,9 +1,0 @@
-alias: q_opportunities_wanted
-label: Opportunities wanted
-name: What opportunities do you actually want to be explicit about?
-description: Turns his self-advocacy thread into a concrete picture of the scope and opportunities he wants next.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

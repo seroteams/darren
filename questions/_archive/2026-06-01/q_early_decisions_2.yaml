@@ -1,9 +1,0 @@
-alias: q_early_decisions_2
-label: Early decisions
-name: Where specifically are decisions getting made before you are in the room?
-description: Pins the pattern to concrete moments so the discussion moves from self-read into evidence.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

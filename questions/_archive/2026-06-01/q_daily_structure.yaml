@@ -1,8 +1,0 @@
-alias: q_daily_structure
-label: Daily structure
-name: How are you currently structuring your day to manage your workload?
-description: Examines how Carl organizes his day, especially in light of being late.
-purpose: competency
-axis_effects:
-  clarity: +1
-source: generated

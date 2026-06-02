@@ -1,9 +1,0 @@
-alias: q_core_message_miss
-label: Core message miss
-name: When the core message gets lost, what are you not clear on in that moment?
-description: Drills into the specific clarity breakdown he just named so the evidence is concrete.
-purpose: topic
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

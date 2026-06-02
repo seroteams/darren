@@ -1,9 +1,0 @@
-alias: q_moving_target
-label: Moving target
-name: What part of the expectations for your role still feels like a moving target?
-description: Surfaces where the bar is unclear or keeps shifting in practice.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

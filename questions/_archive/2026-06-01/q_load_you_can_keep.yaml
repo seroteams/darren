@@ -1,9 +1,0 @@
-alias: q_load_you_can_keep
-label: Load you can keep
-name: Does this pace feel sustainable for the next few weeks?
-description: Checks whether the current workload is still a sprint or has become the default.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +3
-source: generated

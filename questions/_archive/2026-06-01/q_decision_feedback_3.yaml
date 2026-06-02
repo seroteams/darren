@@ -1,9 +1,0 @@
-alias: q_decision_feedback_3
-label: Decision feedback
-name: On key decisions, what feedback are you not getting that would help most?
-description: Drills into the missing feedback thread to surface the specific gap and what better support would look like.
-purpose: topic
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

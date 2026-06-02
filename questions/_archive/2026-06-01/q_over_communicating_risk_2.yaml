@@ -1,9 +1,0 @@
-alias: q_over_communicating_risk_2
-label: Over-communicating risk
-name: "What feels like 'noise' to you in those meetings?"
-description: Clarifies the specific communication behavior she is worried will be seen as too much.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: planner_added

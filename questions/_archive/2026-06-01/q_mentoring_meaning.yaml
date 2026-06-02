@@ -1,9 +1,0 @@
-alias: q_mentoring_meaning
-label: Mentoring meaning
-name: Mentoring matters to you — what about it feels like growth?
-description: Clarifies whether mentoring represents real stretch, influence, or a redirected source of energy.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

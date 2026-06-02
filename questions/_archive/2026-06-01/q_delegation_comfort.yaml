@@ -1,8 +1,0 @@
-alias: q_delegation_comfort
-label: Delegation comfort
-name: How comfortable are you with delegating tasks currently?
-description: "Assesses Carl's readiness and comfort with delegating work effectively."
-purpose: competency
-axis_effects:
-  growth: +1
-source: generated

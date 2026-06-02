@@ -1,9 +1,0 @@
-alias: q_stretch_edge
-label: Stretch edge
-name: What part of your work right now feels most like a stretch?
-description: Finds where they are learning, overextended, or under-challenged in a concrete way.
-purpose: competency
-axis_effects:
-  growth: +3
-  wellbeing: +1
-source: generated

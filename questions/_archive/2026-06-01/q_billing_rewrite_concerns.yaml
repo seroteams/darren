@@ -1,8 +1,0 @@
-alias: q_billing_rewrite_concerns
-label: billing_rewrite_concerns
-name: What concerns do you have about upcoming projects that could affect your focus?
-description: Prepares for involvement in future projects by understanding worries.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_unclear_expectations_2
-label: Unclear expectations
-name: What feels most unclear about expectations right now?
-description: Gets specific about the parts of the role definition that are still fuzzy at the three-month mark.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_fragmented_calendar_3
-label: Fragmented calendar
-name: "Calendar is still fragmented — what's breaking it up most?"
-description: Drills into the specific source of fragmentation so the friction is concrete and actionable.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +1
-source: planner_added

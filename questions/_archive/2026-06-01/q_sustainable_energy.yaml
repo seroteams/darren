@@ -1,8 +1,0 @@
-alias: q_sustainable_energy
-label: Sustainable energy
-name: What would help you maintain your energy levels over the next few weeks?
-description: Focuses on identifying ways to sustain energy and prevent burnout.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

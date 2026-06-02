@@ -1,9 +1,0 @@
-alias: q_thread_follow_22
-label: Thread follow
-name: ross-team conversations move — can you say more about what that means for you right now?
-description: Runtime thread-follow injected because planner did not follow substantive answer.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: planner_added

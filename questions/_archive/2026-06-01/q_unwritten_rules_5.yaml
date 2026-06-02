@@ -1,9 +1,0 @@
-alias: q_unwritten_rules_5
-label: Unwritten rules
-name: "When you say 'unwritten rules,' what are you having to decode in meetings?"
-description: Drills into the specific norms or expectations she feels she is inferring so the manager can remove ambiguity.
-purpose: topic
-stage: settling
-axis_effects:
-  wellbeing: +1
-source: planner_added

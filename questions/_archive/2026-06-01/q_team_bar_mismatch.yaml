@@ -1,9 +1,0 @@
-alias: q_team_bar_mismatch
-label: Team bar mismatch
-name: "You said 'team bar' — what feels unclear about it right now?"
-description: Drills into the specific mismatch he named so the conversation stays anchored in his words.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

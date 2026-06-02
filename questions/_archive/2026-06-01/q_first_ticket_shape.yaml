@@ -1,9 +1,0 @@
-alias: q_first_ticket_shape
-label: First-ticket shape
-name: What has felt clearest about your current tickets?
-description: Surfaces which parts of the work map are already forming and where the onboarding picture is solid.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: generated

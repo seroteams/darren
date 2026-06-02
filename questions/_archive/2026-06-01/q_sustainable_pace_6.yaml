@@ -1,9 +1,0 @@
-alias: q_sustainable_pace_6
-label: Sustainable pace
-name: Since the reorg, what has felt most sustainable for you to keep doing?
-description: Checks whether the current rhythm is steady or being held together by effort.
-purpose: wellbeing
-stage: support
-axis_effects:
-  wellbeing: +3
-source: generated

@@ -1,8 +1,0 @@
-alias: q_new_project_interests
-label: New project interests
-name: What kind of project would you want to take on next?
-description: "Probes Carl's interest in new projects and directions."
-purpose: topic
-axis_effects:
-  growth: +1
-source: generated

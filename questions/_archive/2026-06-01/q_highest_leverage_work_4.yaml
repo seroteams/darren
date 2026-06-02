@@ -1,9 +1,0 @@
-alias: q_highest_leverage_work_4
-label: Highest-leverage work
-name: "When you say 'highest-leverage work,' what work do you think you're missing or avoiding?"
-description: Drills into his own leverage diagnosis so the conversation stays anchored in his words before broadening out.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

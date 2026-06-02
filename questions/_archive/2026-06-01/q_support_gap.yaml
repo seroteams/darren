@@ -1,9 +1,0 @@
-alias: q_support_gap
-label: Support gap
-name: What do you want from me that you are not getting?
-description: Surfaces missing manager support in a way that can turn into a concrete change.
-purpose: topic
-axis_effects:
-  clarity: +3
-  engagement: +1
-source: generated

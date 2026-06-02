@@ -1,8 +1,0 @@
-alias: q_current_work_clarity
-label: Current work clarity
-name: What are your top three priorities this month, and why do they matter?
-description: Explores her understanding and alignment with current priorities.
-purpose: competency
-axis_effects:
-  clarity: +3
-source: generated

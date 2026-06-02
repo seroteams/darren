@@ -1,9 +1,0 @@
-alias: q_context_moments
-label: Context moments
-name: When do you find yourself needing more context before you move?
-description: Identifies the decision points where he should slow down and ask instead of filling gaps himself.
-purpose: topic
-stage: blockers
-axis_effects:
-  clarity: +3
-source: generated

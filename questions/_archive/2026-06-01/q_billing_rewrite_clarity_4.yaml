@@ -1,9 +1,0 @@
-alias: q_billing_rewrite_clarity_4
-label: Billing rewrite clarity
-name: "You've heard whispers about the billing rewrite — what's missing in terms of clarity or communication for you?"
-description: Identifies gaps in communication and clarity about the billing rewrite.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: planner_added

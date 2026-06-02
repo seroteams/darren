@@ -1,9 +1,0 @@
-alias: q_training_lift
-label: Training lift
-name: What part of your game are you most trying to sharpen at the moment?
-description: Surfaces current personal motivation and where he is choosing to invest effort.
-purpose: topic
-axis_effects:
-  growth: +3
-  engagement: +1
-source: generated

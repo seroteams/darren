@@ -1,8 +1,0 @@
-alias: q_personal_signals
-label: Personal signals
-name: "What signals do you notice in yourself when you're running hot or starting to burn out?"
-description: "Explores Priya's self-awareness around burnout signals."
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

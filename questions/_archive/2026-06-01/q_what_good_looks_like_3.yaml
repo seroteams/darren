@@ -1,9 +1,0 @@
-alias: q_what_good_looks_like_3
-label: What good looks like
-name: "When you say 'what good looks like' feels unclear, what's most unclear about it?"
-description: Drills into his phrase to surface the specific expectation gap behind the uncertainty.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: planner_added

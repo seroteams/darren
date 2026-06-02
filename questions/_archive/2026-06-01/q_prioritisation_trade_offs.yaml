@@ -1,8 +1,0 @@
-alias: q_prioritisation_trade_offs
-label: Prioritisation trade-offs
-name: What are you choosing to deprioritise to focus on current goals?
-description: Identifies areas Priya is consciously deprioritising, revealing her prioritisation process.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: generated

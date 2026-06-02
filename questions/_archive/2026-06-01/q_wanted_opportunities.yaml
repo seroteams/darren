@@ -1,9 +1,0 @@
-alias: q_wanted_opportunities
-label: Wanted opportunities
-name: What opportunities have you not been explicit about wanting?
-description: Turns his self-identified pattern into a concrete aspiration he can name clearly.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_waiting_on_others
-label: Waiting on others
-name: What are you waiting on that could quietly stall you?
-description: Gets at dependencies and hidden delay without using generic blocker language.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: generated

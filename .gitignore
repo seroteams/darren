@@ -4,6 +4,7 @@ frontend/client/dist
 .env.local
 .DS_Store
 *.zip
+!archives/**/*.zip
 .playwright-mcp/
 
 # Local / runtime agent & tool artifacts

@@ -1,9 +1,0 @@
-alias: q_feedback_loop_2
-label: Feedback loop
-name: How are you incorporating feedback from your team into your leadership style?
-description: Examines how they are using feedback to evolve as a leader.
-purpose: topic
-stage: gap
-axis_effects:
-  growth: +1
-source: generated

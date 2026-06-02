@@ -1,9 +1,0 @@
-alias: q_close_the_loop_3
-label: Close the loop
-name: Given what we covered, what’s the first thing you want to tighten up before we next meet?
-description: Ends on a concrete next step without opening a new thread.
-purpose: topic
-stage: lift
-axis_effects:
-  clarity: +1
-source: generated

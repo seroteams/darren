@@ -1,9 +1,0 @@
-alias: q_guessing_days_2
-label: Guessing days
-name: "On the days you're guessing, what's usually missing?"
-description: "Follows his 'guessing' thread to surface the specific gap driving uncertainty."
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +1
-source: planner_added

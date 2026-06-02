@@ -1,9 +1,0 @@
-alias: q_notes_doc_questions_2
-label: Notes doc questions
-name: What kinds of questions are sitting in that notes doc right now?
-description: Turns the notes-doc habit into concrete unclear areas so the manager can remove friction fast.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: planner_added

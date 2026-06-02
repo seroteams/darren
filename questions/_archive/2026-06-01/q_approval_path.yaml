@@ -1,9 +1,0 @@
-alias: q_approval_path
-label: Approval path
-name: Who feels ambiguous in that approval path right now?
-description: Pins down the specific handoff or owner that is unclear before he pushes code.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_specific_feedback_2
-label: Specific feedback
-name: Specific feedback — where does it usually get too vague or too late?
-description: Drills into the feedback thread to locate the point where support stops being useful.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +1
-source: planner_added

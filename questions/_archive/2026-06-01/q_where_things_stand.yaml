@@ -1,9 +1,0 @@
-alias: q_where_things_stand
-label: Where things stand
-name: Before we get into specifics, what feels most worth talking through today?
-description: Safe opener that lets Elena set the agenda without priming a problem.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  clarity: +1
-source: generated

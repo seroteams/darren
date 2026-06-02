@@ -1,9 +1,0 @@
-alias: q_decide_vs_escalate_2
-label: Decide vs escalate
-name: Decide versus escalate — what makes that line hard to read right now?
-description: Drills into the specific cues or situations that make decision authority unclear.
-purpose: topic
-stage: settling
-axis_effects:
-  clarity: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_blocker_ownership
-label: Blocker ownership
-name: What are you waiting on that could quietly stall you?
-description: Identifies dependencies that are not yet being escalated or managed.
-purpose: topic
-axis_effects:
-  clarity: +3
-  engagement: +1
-source: generated

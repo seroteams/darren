@@ -1,8 +1,0 @@
-alias: q_clarity_on_priorities_2
-label: Clarity on priorities
-name: Are your current priorities clear and aligned with team goals?
-description: Checks if the individual has clear and aligned priorities, impacting performance and focus.
-purpose: competency
-axis_effects:
-  clarity: +3
-source: generated

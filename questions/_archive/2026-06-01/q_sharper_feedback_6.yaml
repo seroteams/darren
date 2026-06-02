@@ -1,9 +1,0 @@
-alias: q_sharper_feedback_6
-label: Sharper feedback
-name: Sharper feedback earlier — what has stopped you doing that sooner?
-description: Drills into the barrier behind delaying sharper feedback while staying on the live thread.
-purpose: competency
-stage: evidence
-axis_effects:
-  growth: +1
-source: planner_added

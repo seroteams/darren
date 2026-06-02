@@ -1,8 +1,0 @@
-alias: q_post_launch_focus
-label: Post-launch focus
-name: After the payments refactor, where do you personally want to direct your energy next?
-description: "Explores Priya's personal priorities and interest post-refactor."
-purpose: topic
-axis_effects:
-  engagement: +1
-source: generated

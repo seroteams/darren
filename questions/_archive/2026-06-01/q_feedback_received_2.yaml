@@ -1,9 +1,0 @@
-alias: q_feedback_received_2
-label: Feedback received
-name: "How has recent feedback you've received landed with you?"
-description: "Understands Carl's perception of feedback and its impact."
-purpose: topic
-axis_effects:
-  engagement: +1
-  clarity: +1
-source: generated

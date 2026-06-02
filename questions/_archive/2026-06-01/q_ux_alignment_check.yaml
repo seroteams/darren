@@ -1,9 +1,0 @@
-alias: q_ux_alignment_check
-label: UX Alignment Check
-name: "How do your current UX initiatives align with the CoE's strategic goals?"
-description: Explores alignment between UX initiatives and strategic goals.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: generated

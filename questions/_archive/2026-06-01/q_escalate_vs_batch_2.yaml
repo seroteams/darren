@@ -1,9 +1,0 @@
-alias: q_escalate_vs_batch_2
-label: Escalate vs batch
-name: What would a useful escalate-versus-batch guide need to cover?
-description: Drills into the specific escalation ambiguity he named so the manager can remove friction fast.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: planner_added

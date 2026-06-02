@@ -1,9 +1,0 @@
-alias: q_current_priorities_2
-label: Current priorities
-name: What are you prioritising right now that might not be obvious to others?
-description: "Surfaces the individual's current focus and potential misalignment with perceived priorities."
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

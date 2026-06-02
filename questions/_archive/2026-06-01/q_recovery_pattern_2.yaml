@@ -1,8 +1,0 @@
-alias: q_recovery_pattern_2
-label: Recovery pattern
-name: What does your recovery look like between sessions?
-description: Gets concrete about sleep, soreness, and whether he is actually resetting.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

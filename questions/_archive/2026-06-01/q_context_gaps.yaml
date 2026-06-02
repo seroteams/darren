@@ -1,9 +1,0 @@
-alias: q_context_gaps
-label: Context gaps
-name: What context are you still missing before you make bigger calls, Riley?
-description: Finds the places where he may be filling in gaps from docs instead of team norms.
-purpose: topic
-stage: blockers
-axis_effects:
-  clarity: +3
-source: generated

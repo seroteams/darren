@@ -1,9 +1,0 @@
-alias: q_done_means_what_2
-label: Done means what
-name: "What does 'done' mean to you on the tickets you've picked up so far?"
-description: Checks whether his mental model of completion matches the handoff expectations.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: generated

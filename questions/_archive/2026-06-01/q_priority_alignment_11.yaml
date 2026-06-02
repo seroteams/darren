@@ -1,9 +1,0 @@
-alias: q_priority_alignment_11
-label: Priority alignment
-name: Which of your current priorities feels most critical right now?
-description: Identifies which priorities Brian sees as most important.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: generated

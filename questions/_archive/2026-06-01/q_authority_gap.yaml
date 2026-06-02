@@ -1,9 +1,0 @@
-alias: q_authority_gap
-label: Authority gap
-name: What authority do you need to own bigger direction well?
-description: Surfaces the specific decision rights or scope he feels are missing.
-purpose: topic
-stage: landing
-axis_effects:
-  clarity: +1
-source: planner_added

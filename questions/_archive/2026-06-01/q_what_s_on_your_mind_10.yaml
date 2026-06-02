@@ -1,9 +1,0 @@
-alias: q_what_s_on_your_mind_10
-label: What’s on your mind
-name: What’s been most on your mind at work lately?
-description: Safe opener that lets Test set context before the check-in gets specific.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  clarity: +1
-source: generated

@@ -1,9 +1,0 @@
-alias: q_specific_enough_3
-label: Specific enough
-name: What was missing from the feedback that would have made it usable?
-description: Drills into the exact gap in the feedback so the blocker becomes concrete and actionable.
-purpose: topic
-stage: gap
-axis_effects:
-  clarity: +3
-source: planner_added

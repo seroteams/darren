@@ -1,9 +1,0 @@
-alias: q_blocker_check_in
-label: Blocker check-in
-name: "What are the biggest obstacles you're currently facing on your projects, if any?"
-description: Encourages a deeper discussion on challenges that could impact their work satisfaction and output.
-purpose: topic
-axis_effects:
-  engagement: +3
-  clarity: -1
-source: generated

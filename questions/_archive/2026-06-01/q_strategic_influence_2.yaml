@@ -1,9 +1,0 @@
-alias: q_strategic_influence_2
-label: Strategic influence
-name: "Visible strategic influence — what would that look like when you're operating at your best?"
-description: Drills into his own definition of the missing strategic influence before the arc progresses.
-purpose: topic
-stage: gap
-axis_effects:
-  growth: +3
-source: planner_added

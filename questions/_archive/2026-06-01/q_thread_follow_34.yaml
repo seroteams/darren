@@ -1,9 +1,0 @@
-alias: q_thread_follow_34
-label: Thread follow
-name: trace most request — can you say more about what that means for you right now?
-description: Runtime thread-follow injected because planner did not follow substantive answer.
-purpose: topic
-stage: settling
-axis_effects:
-  clarity: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_tradeoff_process_2
-label: Tradeoff process
-name: Roadmap tradeoffs — who actually makes the call when teams disagree?
-description: Pins down the specific decision path she cannot yet see so the manager can clarify it.
-purpose: topic
-stage: blockers
-axis_effects:
-  clarity: +3
-source: planner_added

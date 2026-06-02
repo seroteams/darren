@@ -1,8 +1,0 @@
-alias: q_energy_and_sustainability
-label: Energy and sustainability
-name: "How's your energy holding up with the current workload?"
-description: "Evaluates Carl's current energy levels and workload sustainability."
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

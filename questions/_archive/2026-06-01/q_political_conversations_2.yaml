@@ -1,9 +1,0 @@
-alias: q_political_conversations_2
-label: Political conversations
-name: In those political conversations, what makes you pull back from the room?
-description: Drills into the specific dynamic behind his retreat from influence-heavy situations.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

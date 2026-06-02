@@ -1,8 +1,0 @@
-alias: q_energy_check_in_4
-label: Energy check-in
-name: "I've noticed you've been quieter — what's going on underneath that?"
-description: Probes for underlying reasons behind observed lower energy and engagement.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

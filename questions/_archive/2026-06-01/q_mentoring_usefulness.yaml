@@ -1,9 +1,0 @@
-alias: q_mentoring_usefulness
-label: Mentoring usefulness
-name: You said mentoring is where you still feel useful — what is it giving you?
-description: Drills into why mentoring stands out as the place he still feels useful, to surface what is missing elsewhere.
-purpose: topic
-stage: landing
-axis_effects:
-  wellbeing: +3
-source: planner_added

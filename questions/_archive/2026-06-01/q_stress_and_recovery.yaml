@@ -1,8 +1,0 @@
-alias: q_stress_and_recovery
-label: Stress and recovery
-name: What helps you recover from stress at work?
-description: Identifies strategies for managing stress and maintaining wellbeing.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

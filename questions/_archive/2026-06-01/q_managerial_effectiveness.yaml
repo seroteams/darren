@@ -1,8 +1,0 @@
-alias: q_managerial_effectiveness
-label: Managerial effectiveness
-name: "What's one thing I could do differently to support your work better?"
-description: Invites feedback on management style and support effectiveness.
-purpose: topic
-axis_effects:
-  clarity: +1
-source: generated

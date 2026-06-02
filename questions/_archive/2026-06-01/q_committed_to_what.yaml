@@ -1,9 +1,0 @@
-alias: q_committed_to_what
-label: Committed to what
-name: Who is usually unclear in those moments — owners, approvers, or next steps?
-description: Drills into the specific ambiguity in cross-team conversations so the manager can remove the right friction.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_normal_pace_4
-label: Normal pace
-name: What would make that pace start feeling normal from your read?
-description: Drills into her concern about the push becoming the default and surfaces the pattern or signals she is worried about.
-purpose: topic
-stage: friction
-axis_effects:
-  engagement: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_feedback_he_got
-label: Feedback he got
-name: What feedback do you remember actually hearing from that process?
-description: Checks what he believes was said versus what may have been inferred.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: generated

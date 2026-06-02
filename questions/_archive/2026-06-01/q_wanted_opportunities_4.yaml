@@ -1,9 +1,0 @@
-alias: q_wanted_opportunities_4
-label: Wanted opportunities
-name: What opportunities have you not been explicit about wanting?
-description: Drills into the named opportunities thread to make his aspiration concrete before the arc progresses.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

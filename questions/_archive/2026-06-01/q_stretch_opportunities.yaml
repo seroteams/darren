@@ -1,8 +1,0 @@
-alias: q_stretch_opportunities
-label: Stretch opportunities
-name: Where do you see the biggest gap between where you are now and where you want to be in 12 months?
-description: Encourages self-assessment of growth and development trajectory.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

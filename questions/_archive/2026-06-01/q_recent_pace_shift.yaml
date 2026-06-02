@@ -1,9 +1,0 @@
-alias: q_recent_pace_shift
-label: Recent pace shift
-name: What’s changed in your day-to-day over the last few weeks that’s affecting your pace?
-description: Surfaces concrete changes behind slower reviews and thinner commits without assuming the cause.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-  clarity: +1
-source: generated

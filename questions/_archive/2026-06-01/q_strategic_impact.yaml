@@ -1,8 +1,0 @@
-alias: q_strategic_impact
-label: Strategic impact
-name: Where do you see the biggest opportunity to increase your strategic impact?
-description: Probes areas where she can enhance her influence and contribution.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

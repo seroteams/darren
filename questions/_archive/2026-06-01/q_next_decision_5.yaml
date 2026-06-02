@@ -1,9 +1,0 @@
-alias: q_next_decision_5
-label: Next decision
-name: The next decision — what do you think it turns on?
-description: Drills into her uncertainty about advancement criteria before moving the arc forward.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

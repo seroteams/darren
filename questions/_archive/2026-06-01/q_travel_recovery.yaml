@@ -1,9 +1,0 @@
-alias: q_travel_recovery
-label: Travel recovery
-name: How are you managing recovery after trips?
-description: Explores how Brian recovers from the fatigue of traveling.
-purpose: wellbeing
-stage: momentum
-axis_effects:
-  wellbeing: +3
-source: generated

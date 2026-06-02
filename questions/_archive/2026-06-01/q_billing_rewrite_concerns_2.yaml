@@ -1,8 +1,0 @@
-alias: q_billing_rewrite_concerns_2
-label: billing_rewrite_concerns
-name: What concerns do you have about joining a new major project like the billing rewrite?
-description: Probes potential concerns about upcoming projects without revealing unannounced involvement.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: generated

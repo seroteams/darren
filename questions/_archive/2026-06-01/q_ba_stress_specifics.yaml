@@ -1,9 +1,0 @@
-alias: q_ba_stress_specifics
-label: BA stress specifics
-name: "When you mention the BAs seem stressed, what's the specific impact on your work or planning?"
-description: "Drills into how BA stress specifically affects Taya's work and planning."
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: planner_added

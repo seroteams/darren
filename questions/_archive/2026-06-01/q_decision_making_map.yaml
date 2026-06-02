@@ -1,9 +1,0 @@
-alias: q_decision_making_map
-label: Decision-making map
-name: "When you say 'how decisions are really made here,' what feels least clear?"
-description: Drills into his specific uncertainty about decision-making norms before moving on.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: planner_added

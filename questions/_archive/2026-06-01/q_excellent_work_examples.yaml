@@ -1,9 +1,0 @@
-alias: q_excellent_work_examples
-label: Excellent work examples
-name: What examples of excellent junior-level work feel missing to you right now?
-description: Drills into his request for clearer examples so the missing standard becomes concrete.
-purpose: topic
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

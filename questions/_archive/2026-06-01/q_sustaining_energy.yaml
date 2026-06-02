@@ -1,8 +1,0 @@
-alias: q_sustaining_energy
-label: Sustaining energy
-name: What tends to drain or sustain your energy during the workweek?
-description: Surfaces factors affecting their energy levels.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

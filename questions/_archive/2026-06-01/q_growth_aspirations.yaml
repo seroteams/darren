@@ -1,8 +1,0 @@
-alias: q_growth_aspirations
-label: Growth aspirations
-name: What specific skills or areas are you looking to develop further in your role?
-description: Identifies their aspirations for professional growth and development.
-purpose: topic
-axis_effects:
-  growth: +3
-source: generated

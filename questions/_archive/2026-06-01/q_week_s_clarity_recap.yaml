@@ -1,9 +1,0 @@
-alias: q_week_s_clarity_recap
-label: "Week's clarity recap"
-name: "What feels clear about your priorities right now, and what's still murky?"
-description: Surfaces areas of clarity and confusion in current priorities.
-purpose: topic
-stage: pulse
-axis_effects:
-  clarity: +3
-source: generated

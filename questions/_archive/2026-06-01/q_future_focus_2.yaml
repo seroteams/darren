@@ -1,9 +1,0 @@
-alias: q_future_focus_2
-label: Future focus
-name: What are you most excited to tackle next after your current projects?
-description: Identifies what Carl is looking forward to, shedding light on engagement and motivation.
-purpose: competency
-axis_effects:
-  growth: +1
-  engagement: +3
-source: generated

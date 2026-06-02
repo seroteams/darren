@@ -1,9 +1,0 @@
-alias: q_early_meetings
-label: Early meetings
-name: Early problem-framing meetings — what would let you earn a seat there?
-description: Drills into the specific aspiration thread by surfacing what access, trust, or proof Sam thinks is required.
-purpose: topic
-stage: aspiration
-axis_effects:
-  growth: +3
-source: planner_added

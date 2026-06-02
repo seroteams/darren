@@ -1,9 +1,0 @@
-alias: q_delegation_challenge
-label: Delegation challenge
-name: What part of delegation feels most challenging as you step into more leadership responsibilities?
-description: Surfaces difficulties Sarah might be facing with delegation as a leadership skill.
-purpose: competency
-stage: gap
-axis_effects:
-  clarity: +3
-source: generated

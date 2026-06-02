@@ -1,9 +1,0 @@
-alias: q_energy_levels_post_launch
-label: Energy levels post-launch
-name: What do you think is driving your current energy levels after the payments refactor?
-description: Explores underlying reasons for current energy levels and motivation.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +3
-source: generated

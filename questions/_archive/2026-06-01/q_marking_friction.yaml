@@ -1,9 +1,0 @@
-alias: q_marking_friction
-label: Marking friction
-name: Marking took so long — what specifically made it slow?
-description: Drills into the concrete marking friction she raised so the conversation stays anchored in her actual work.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,8 +1,0 @@
-alias: q_interest_in_new_projects
-label: Interest in new projects
-name: What types of projects are you interested in taking on next?
-description: "Identifies areas of interest for Lesley's future involvement."
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

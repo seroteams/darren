@@ -1,9 +1,0 @@
-alias: q_next_steps_clarity_2
-label: Next steps clarity
-name: What do you see as the next steps to improve the situation with the BAs, if any?
-description: Closes the session by identifying potential next steps or actions regarding the BA situation.
-purpose: topic
-stage: support
-axis_effects:
-  clarity: +1
-source: planner_added

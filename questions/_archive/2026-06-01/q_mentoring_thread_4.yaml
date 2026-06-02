@@ -1,9 +1,0 @@
-alias: q_mentoring_thread_4
-label: Mentoring thread
-name: Mentoring matters to you — what about it feels most important right now?
-description: Drills into mentoring as the concrete thread she just named to surface what it represents for her growth.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

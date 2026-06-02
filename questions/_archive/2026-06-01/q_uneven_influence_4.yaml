@@ -1,9 +1,0 @@
-alias: q_uneven_influence_4
-label: Uneven influence
-name: "You said 'influence is uneven' — where has that shown up most clearly?"
-description: Drills into the specific pattern she named so the conversation stays grounded in observable moments.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

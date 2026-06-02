@@ -1,9 +1,0 @@
-alias: q_specific_feedback_5
-label: Specific feedback
-name: Specific feedback — what tends to feel too vague or too late?
-description: Drills into his stated need for specific, close-to-the-work feedback to surface the underlying friction.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: planner_added

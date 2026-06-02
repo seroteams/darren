@@ -1,9 +1,0 @@
-alias: q_recognized_work_5
-label: Recognized work
-name: What kind of work do you think gets recognized here?
-description: Clarifies his model of what the organisation values so the underlying mismatch is more concrete.
-purpose: topic
-stage: underneath
-axis_effects:
-  growth: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_team_bar_mismatch_4
-label: Team bar mismatch
-name: When your wins miss the team bar, what tends to be off?
-description: Drills into his stated uncertainty about the team bar so the gap can be named concretely.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_recognized_work
-label: Recognized work
-name: "When you say 'gets recognized' — what kind of work do you mean?"
-description: Clarifies the specific work he believes is valued so the ambiguity can be named directly.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: planner_added

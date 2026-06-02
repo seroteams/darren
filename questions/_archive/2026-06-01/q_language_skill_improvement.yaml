@@ -1,8 +1,0 @@
-alias: q_language_skill_improvement
-label: Language skill improvement
-name: What steps are you considering to improve your German language skills?
-description: Explores their proactive steps or plans to address language proficiency.
-purpose: wellbeing
-axis_effects:
-  growth: +1
-source: generated

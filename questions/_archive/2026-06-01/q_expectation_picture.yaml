@@ -1,9 +1,0 @@
-alias: q_expectation_picture
-label: Expectation picture
-name: What feels clear about what good looks like in your role right now?
-description: Surfaces where his bar for success is solid versus still fuzzy after the first few months.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

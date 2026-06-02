@@ -1,9 +1,0 @@
-alias: q_reset_timing_7
-label: Reset timing
-name: Is now a good time for this conversation, or would another time work better?
-description: Direct reset to confirm whether to continue or reschedule in a non-functional session.
-purpose: topic
-stage: lift
-axis_effects:
-  clarity: +3
-source: planner_added

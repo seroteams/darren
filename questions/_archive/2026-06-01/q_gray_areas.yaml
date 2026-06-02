@@ -1,9 +1,0 @@
-alias: q_gray_areas
-label: Gray areas
-name: Where are the ownership boundaries still fuzzy for you?
-description: Finds the places where he may be guessing at scope or decision rights.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: generated

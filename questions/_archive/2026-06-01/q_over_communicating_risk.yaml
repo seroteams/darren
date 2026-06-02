@@ -1,9 +1,0 @@
-alias: q_over_communicating_risk
-label: Over-communicating risk
-name: What would count as over-communicating in your mind there?
-description: Clarifies the specific norm or consequence she is trying to avoid when holding back.
-purpose: topic
-stage: blockers
-axis_effects:
-  clarity: +3
-source: planner_added

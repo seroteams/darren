@@ -1,9 +1,0 @@
-alias: q_remote_context_gap
-label: Remote context gap
-name: Being remote — what context do you miss most in those meetings?
-description: Drills into the specific missing cues that make commitments and ownership harder to read.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: planner_added

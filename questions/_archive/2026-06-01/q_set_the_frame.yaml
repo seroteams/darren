@@ -1,9 +1,0 @@
-alias: q_set_the_frame
-label: Set the frame
-name: Before we get into specifics, what would be most useful to talk through today?
-description: Gives James control over the agenda and establishes a low-pressure starting point.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  clarity: +1
-source: generated

@@ -1,9 +1,0 @@
-alias: q_recognition_gap_3
-label: Recognition gap
-name: "When you say 'gets recognized' — what kind of work do you mean?"
-description: Clarifies what work he believes is valued so you can get underneath the recognition gap he named.
-purpose: topic
-stage: underneath
-axis_effects:
-  growth: +3
-source: planner_added

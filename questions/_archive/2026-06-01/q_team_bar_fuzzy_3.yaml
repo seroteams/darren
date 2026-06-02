@@ -1,9 +1,0 @@
-alias: q_team_bar_fuzzy_3
-label: Team bar fuzzy
-name: "What specifically feels fuzzy about this team's Principal bar?"
-description: Pins down where his model of Principal expectations is unclear in concrete terms.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

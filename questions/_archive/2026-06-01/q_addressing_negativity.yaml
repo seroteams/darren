@@ -1,8 +1,0 @@
-alias: q_addressing_negativity
-label: Addressing negativity
-name: "I've noticed some negativity in your outlook — what's behind that?"
-description: Directly addresses the noted negativity to understand its root cause.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +1
-source: generated

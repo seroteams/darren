@@ -1,9 +1,0 @@
-alias: q_next_quarter_owning
-label: Next-quarter owning
-name: "You said 'not sure what I am owning next quarter' — what's most unclear?"
-description: Drills into the ownership uncertainty she just named so the specific clarity gap is visible.
-purpose: topic
-stage: momentum
-axis_effects:
-  clarity: +3
-source: planner_added

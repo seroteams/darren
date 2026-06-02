@@ -1,8 +1,0 @@
-alias: q_post_launch_energy_2
-label: post-launch_energy
-name: How is your energy now that the payments refactor is done?
-description: Explores energy levels after a major project completion.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

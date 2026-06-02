@@ -1,9 +1,0 @@
-alias: q_define_scope
-label: Define scope
-name: "When you say 'clearer scope' — what specifically was unclear to you?"
-description: "Clarifies what 'scope' means so the feedback gap becomes concrete."
-purpose: topic
-stage: gap
-axis_effects:
-  clarity: +3
-source: planner_added

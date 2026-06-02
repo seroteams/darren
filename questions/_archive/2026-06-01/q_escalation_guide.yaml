@@ -1,9 +1,0 @@
-alias: q_escalation_guide
-label: Escalation guide
-name: What would a useful escalate-versus-batch guide need to cover?
-description: Turns the missing escalation guide into concrete criteria the manager can help provide.
-purpose: topic
-stage: blockers
-axis_effects:
-  clarity: +3
-source: planner_added

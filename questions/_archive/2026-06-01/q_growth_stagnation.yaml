@@ -1,8 +1,0 @@
-alias: q_growth_stagnation
-label: Growth stagnation
-name: What would actually push your growth here, and what would need to change to make that happen?
-description: Explores what Priya needs for growth and what changes are required.
-purpose: topic
-axis_effects:
-  growth: +3
-source: planner_added

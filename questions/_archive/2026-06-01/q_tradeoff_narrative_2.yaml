@@ -1,9 +1,0 @@
-alias: q_tradeoff_narrative_2
-label: Tradeoff narrative
-name: What makes tradeoff conversations harder for you than the modeling itself?
-description: Drills into the specific tradeoff-narrative gap she named before moving the arc forward.
-purpose: competency
-stage: gap_naming
-axis_effects:
-  clarity: +3
-source: planner_added

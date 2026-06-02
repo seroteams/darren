@@ -1,9 +1,0 @@
-alias: q_own_product_area
-label: Own product area
-name: Owning a whole product area — what would you be doing differently week to week?
-description: "Drills into Sam's stated aspiration so the next-level scope becomes concrete in day-to-day terms."
-purpose: topic
-stage: aspiration
-axis_effects:
-  growth: +3
-source: planner_added

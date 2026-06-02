@@ -1,9 +1,0 @@
-alias: q_communication_feedback_2
-label: Communication feedback
-name: That communication feedback — what part of it are you still processing?
-description: Drills into the feedback thread to locate the specific issue and whether it is about expectations, delivery, or confidence.
-purpose: topic
-stage: momentum
-axis_effects:
-  wellbeing: +3
-source: planner_added

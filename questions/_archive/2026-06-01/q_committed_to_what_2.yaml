@@ -1,9 +1,0 @@
-alias: q_committed_to_what_2
-label: Committed to what
-name: When that happens, what part gets lost — owners, decisions, or next steps?
-description: Drills into the exact ambiguity in cross-team meetings so the manager can tighten operating rules.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: planner_added

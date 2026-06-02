@@ -1,9 +1,0 @@
-alias: q_carrying_ambiguity_6
-label: Carrying ambiguity
-name: Carrying more ambiguity yourself — where is that showing up most right now?
-description: Drills into the specific place the ambiguity is landing before moving to support.
-purpose: wellbeing
-stage: underneath
-axis_effects:
-  clarity: +1
-source: planner_added

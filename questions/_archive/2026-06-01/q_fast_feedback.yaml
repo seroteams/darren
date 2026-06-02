@@ -1,9 +1,0 @@
-alias: q_fast_feedback
-label: Fast feedback
-name: What kind of feedback helps you move quicker here?
-description: Clarifies the exact feedback Sam needs so shipping hesitation can be reduced.
-purpose: topic
-stage: blockers
-axis_effects:
-  clarity: +3
-source: planner_added

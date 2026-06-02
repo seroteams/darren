@@ -1,9 +1,0 @@
-alias: q_highest_leverage_work_2
-label: Highest-leverage work
-name: "You said 'highest-leverage work' — what work do you think should have had more of you?"
-description: Drills into his own leverage example so the conversation moves from self-read into concrete evidence.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

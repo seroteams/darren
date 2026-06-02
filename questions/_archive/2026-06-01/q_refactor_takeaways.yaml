@@ -1,8 +1,0 @@
-alias: q_refactor_takeaways
-label: Refactor takeaways
-name: What specific lessons or takeaways from the payments refactor should we apply next time?
-description: Encourages reflection on the recent project and learning opportunities.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

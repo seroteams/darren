@@ -1,9 +1,0 @@
-alias: q_voice_leverage_3
-label: Voice leverage
-name: Where does it feel unclear how to use your voice right now?
-description: Drills into her stated uncertainty about where her voice has leverage after the reorg.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +1
-source: planner_added

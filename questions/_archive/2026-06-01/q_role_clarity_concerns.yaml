@@ -1,8 +1,0 @@
-alias: q_role_clarity_concerns
-label: Role clarity concerns
-name: Where are things actually messy, unclear, or at risk right now?
-description: Identifies current role clarity issues or risks that need addressing.
-purpose: competency
-axis_effects:
-  clarity: +3
-source: generated

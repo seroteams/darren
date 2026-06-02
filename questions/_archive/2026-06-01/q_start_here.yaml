@@ -1,9 +1,0 @@
-alias: q_start_here
-label: Start here
-name: What feels most worth talking through today?
-description: A calm opener that lets Elena set the agenda before any concern is introduced.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  clarity: +1
-source: generated

@@ -1,8 +1,0 @@
-alias: q_stress_factors_2
-label: Stress factors
-name: "What's currently causing you the most stress, and is it within your control?"
-description: Identifies sources of stress and her ability to manage them.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

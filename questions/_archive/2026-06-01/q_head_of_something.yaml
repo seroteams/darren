@@ -1,8 +1,0 @@
-alias: q_head_of_something
-label: Head of something
-name: "When you say 'head of something', what is it about that role that pulls you? Is it the scope, the people, the title, or something else?"
-description: "Drills into Usman's aspiration for a leadership role to clarify what aspects attract him."
-purpose: topic
-axis_effects:
-  growth: +3
-source: planner_added

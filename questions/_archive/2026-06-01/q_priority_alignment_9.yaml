@@ -1,9 +1,0 @@
-alias: q_priority_alignment_9
-label: Priority Alignment
-name: How confident are you that your current priorities are aligned with what the CoE needs?
-description: Checks confidence in current priority alignment with CoE needs.
-purpose: topic
-stage: cause
-axis_effects:
-  clarity: +3
-source: generated

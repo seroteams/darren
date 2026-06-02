@@ -1,9 +1,0 @@
-alias: q_communication_feedback_4
-label: Communication feedback
-name: Communication feedback — what part of it are you still working through?
-description: Drills into the feedback she named so you can locate the specific friction before moving on.
-purpose: topic
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

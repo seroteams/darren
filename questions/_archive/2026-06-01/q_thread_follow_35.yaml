@@ -1,9 +1,0 @@
-alias: q_thread_follow_35
-label: Thread follow
-name: team building great, — can you say more about what that means for you right now?
-description: Runtime thread-follow injected because planner did not follow substantive answer.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

@@ -1,8 +1,0 @@
-alias: q_refactor_success_impact
-label: Refactor success impact
-name: How did the payments refactor impact your work and the team dynamic?
-description: Explores the personal and team impact of the refactor success.
-purpose: topic
-axis_effects:
-  engagement: +3
-source: generated

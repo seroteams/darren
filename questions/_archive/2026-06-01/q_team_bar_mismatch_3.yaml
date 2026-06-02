@@ -1,9 +1,0 @@
-alias: q_team_bar_mismatch_3
-label: Team bar mismatch
-name: When your wins miss the team bar, where does the mismatch usually show up?
-description: Drills into his stated uncertainty about the team bar by locating the recurring mismatch in concrete work.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_outside_football
-label: Outside football
-name: What else is taking up the most energy outside football right now?
-description: Finds external demands that may be affecting capacity or focus.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-  clarity: +1
-source: generated

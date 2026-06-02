@@ -1,9 +1,0 @@
-alias: q_next_decision_4
-label: Next decision
-name: What decision are you trying to influence with mentoring?
-description: Clarifies the specific career decision she believes mentoring should affect before moving the arc forward.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_normal_pace_3
-label: Normal pace
-name: "You said 'that pace' — what made it unsustainable for you?"
-description: Drills into the specific cost of the recent push so the manager can distinguish temporary effort from a real capacity problem.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  engagement: +3
-source: planner_added

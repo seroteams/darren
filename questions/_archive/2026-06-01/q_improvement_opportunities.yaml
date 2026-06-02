@@ -1,8 +1,0 @@
-alias: q_improvement_opportunities
-label: Improvement opportunities
-name: Where do you see opportunities for improving your impact on the team?
-description: Encourages Carl to identify areas for development in his role.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

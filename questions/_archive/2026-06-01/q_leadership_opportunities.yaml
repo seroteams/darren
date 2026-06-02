@@ -1,8 +1,0 @@
-alias: q_leadership_opportunities
-label: Leadership opportunities
-name: Where do you see opportunities to take on more leadership within the team?
-description: Assessing her interest and readiness for leadership roles.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

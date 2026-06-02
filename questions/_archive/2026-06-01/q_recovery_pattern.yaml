@@ -1,8 +1,0 @@
-alias: q_recovery_pattern
-label: Recovery pattern
-name: How are you actually recovering between workdays?
-description: Checks whether energy is being restored or just carried forward on momentum.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_ambiguity_forums_3
-label: Ambiguity forums
-name: High-ambiguity forums — what about them makes you feel underprepared?
-description: Drills into the specific situations he avoids to surface the real gap behind the hesitation.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

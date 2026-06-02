@@ -1,9 +1,0 @@
-alias: q_cross_org_decisions_2
-label: Cross-org decisions
-name: Cross-org decision area — which decisions do you want to own?
-description: Turns his stated aspiration into a concrete target area of ownership.
-purpose: competency
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

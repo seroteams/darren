@@ -1,8 +1,0 @@
-alias: q_growth_opportunities_11
-label: Growth opportunities
-name: What areas are you looking to grow or develop in over the next quarter?
-description: Identifies her focus areas for personal and professional development.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

@@ -1,8 +1,0 @@
-alias: q_current_priority_clarity
-label: Current priority clarity
-name: What are your top priorities this week, and why?
-description: "Checks Carl's alignment on current work priorities."
-purpose: competency
-axis_effects:
-  clarity: +3
-source: generated

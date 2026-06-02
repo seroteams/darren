@@ -1,8 +1,0 @@
-alias: q_learning_resources
-label: Learning resources
-name: Are there any learning resources you think would help your growth right now?
-description: "Identifies resources that could aid Bill's development during recovery."
-purpose: topic
-axis_effects:
-  growth: +3
-source: generated
