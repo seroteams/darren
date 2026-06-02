@@ -2,7 +2,7 @@ const fs = require("node:fs");
 
 const { logStage } = require("./session");
 const { loadAxes } = require("./axes");
-const { promptFor, getArc } = require("./one-on-one-types");
+const { promptFor, getArc, getType } = require("./one-on-one-types");
 const { withPromptVersion } = require("./prompt-version");
 const cost = require("./cost");
 
@@ -77,12 +77,19 @@ function buildMessages({ ctx, focusPoints, transcript, axisState, notes }) {
   const template = fs.readFileSync(promptFor(ctx.meetingType, "evaluation"), "utf8");
   const axes = loadAxes();
   const arc = getArc(ctx.meetingType);
+  let typeEvalRules = "";
+  try {
+    typeEvalRules = getType(ctx.meetingType).eval_rules || "";
+  } catch {
+    typeEvalRules = "";
+  }
   const filled = template
     .replaceAll("{{AXES_JSON}}", JSON.stringify(axes, null, 2))
     .replaceAll("{{NAME}}", ctx.name || "(not provided)")
     .replaceAll("{{ROLE}}", ctx.role || "(not provided)")
     .replaceAll("{{SENIORITY}}", ctx.seniority || "(not provided)")
     .replaceAll("{{MEETING_TYPE}}", ctx.meetingType)
+    .replaceAll("{{TYPE_EVAL_RULES}}", typeEvalRules)
     .replaceAll("{{TONE_REGISTER}}", arc.tone_register)
     .replaceAll("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc.anti_patterns, null, 2))
     .replaceAll("{{MEETING_ARC_JSON}}", JSON.stringify(arc.arc, null, 2))

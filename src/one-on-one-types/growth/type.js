@@ -1,4 +1,3 @@
-const path = require("node:path");
 const { SHARED_PROMPTS } = require("../_shared/prompts");
 
 // 1:1 Type — Growth & career plan
@@ -46,10 +45,17 @@ module.exports = {
     "Closing on 'what support do you need from me' without first earning the gap and the investment.",
     "Reframing growth questions as role-clarity or feedback questions — that's a different meeting type.",
   ],
-  // Prompt set: inherits the shared house prompts, except evaluation which is
-  // forked here so the Growth next-plan mandate is baked in (not gated in-prompt).
-  prompts: {
-    ...SHARED_PROMPTS,
-    evaluation: path.join(__dirname, "prompts", "final-evaluation.md"),
-  },
+  // Eval rules injected into the shared eval prompt via {{TYPE_EVAL_RULES}}.
+  // Was a 289-line forked final-evaluation.md; this is the only part that differed.
+  eval_rules: [
+    "<type_eval_rules>",
+    "Growth & career plan — next-plan mandate:",
+    "- `brutal_truth_manager` MUST name one specific next-plan move — a competency to demonstrate, a stakeholder to expose to, a project to assign, a scope-stretch to grant, or a decision to escalate.",
+    '- FORBIDDEN generic verbs in `brutal_truth_manager`: `"delve"`, `"explore further"`, `"dig deeper"`, `"follow up"`, `"look into"`, `"investigate"`.',
+    '- Required noun set in `brutal_truth_manager` (at least one): `"project"`, `"stakeholder"`, `"scope"`, `"decision"`, `"competency"`, `"ownership"`, `"authority"`.',
+    "- `brutal_truth_manager` MUST quote (in double quotes) one specific phrase from the transcript OR name one specific artefact / behaviour / moment that constitutes evidence for or against the report's stated next-level claim. Bare opinion without evidence is not acceptable.",
+    "</type_eval_rules>",
+  ].join("\n"),
+  // Prompt set: inherits the shared house prompts.
+  prompts: { ...SHARED_PROMPTS },
 };

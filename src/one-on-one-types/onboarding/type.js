@@ -1,4 +1,3 @@
-const path = require("node:path");
 const { SHARED_PROMPTS } = require("../_shared/prompts");
 
 // 1:1 Type — Onboarding check-in
@@ -39,9 +38,17 @@ module.exports = {
     "Assuming silence means things are fine — new joiners under-report blockers.",
     "Overloading them with information instead of surfacing what they actually need next.",
   ],
-  // Prompt set: inherits the shared house prompts. Override evaluation for onboarding tone.
-  prompts: {
-    ...SHARED_PROMPTS,
-    evaluation: path.join(__dirname, "prompts", "final-evaluation.md"),
-  },
+  // Eval rules injected into the shared eval prompt via {{TYPE_EVAL_RULES}}.
+  // Was a forked final-evaluation.md; this is the only part that differed.
+  eval_rules: [
+    "<type_eval_rules>",
+    "Onboarding check-in briefing rules:",
+    "- Friction-removal tone only; never performance assessment or deficit verdict language.",
+    "- brutal_truth fields should name confusion/blockers, not competency gaps.",
+    "- next_actions must be support touchpoints (pairing, docs, intros, escalation paths).",
+    "- Avoid harsh negative axis framing unless transcript shows clear distress.",
+    "</type_eval_rules>",
+  ].join("\n"),
+  // Prompt set: inherits the shared house prompts.
+  prompts: { ...SHARED_PROMPTS },
 };

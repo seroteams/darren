@@ -1,4 +1,3 @@
-const path = require("node:path");
 const { SHARED_PROMPTS } = require("../_shared/prompts");
 
 // 1:1 Type — Something feels off
@@ -39,9 +38,17 @@ module.exports = {
     "Stacking 'what's wrong' probes without giving them an opt-out.",
     "Treating the meeting like a performance review.",
   ],
-  // Prompt set: inherits the shared house prompts. Override evaluation for feels-off tone.
-  prompts: {
-    ...SHARED_PROMPTS,
-    evaluation: path.join(__dirname, "prompts", "final-evaluation.md"),
-  },
+  // Eval rules injected into the shared eval prompt via {{TYPE_EVAL_RULES}}.
+  // Was a forked final-evaluation.md; this is the only part that differed.
+  eval_rules: [
+    "<type_eval_rules>",
+    "Something feels off briefing rules:",
+    "- Observation-first, opt-in tone; no diagnosis the employee did not name.",
+    "- brutal_truth_manager should coach exploratory listening, not corrective performance coaching.",
+    "- next_actions should be optional support offers, not prescriptive homework.",
+    "- Do not treat exploratory sessions as failed performance conversations.",
+    "</type_eval_rules>",
+  ].join("\n"),
+  // Prompt set: inherits the shared house prompts.
+  prompts: { ...SHARED_PROMPTS },
 };
