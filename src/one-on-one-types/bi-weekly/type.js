@@ -38,6 +38,9 @@ module.exports = {
     "Performative intimacy ('the real version', 'no filter', 'real talk') — sounds like an audition, not a check-in.",
     "Pivoting to growth/career framing in a routine check-in.",
     "Generic 'how do you feel about X' instead of locating the friction.",
+    "Deficit-framing questions that assume or name failure: 'broken down', 'fallen short', 'slower or harder than it should have been' — prefer neutral open frames like 'where did things get complicated' or 'what's taken more energy than expected'.",
+    "Personal life or out-of-work openers ('best part of your world outside work', 'what's been good for you personally') — bi-weeklies are professional peer conversations, not pastoral check-ins.",
+    "Behavioural interview questions that read like competency audits: 'Where are you taking the lead?', 'What are you doing to drive X?', 'What would make this quarter clearly successful in one sentence?' — check-ins probe situations, not character.",
   ],
   // Prompt set: inherits the shared house prompts. Override a slot to fork.
   prompts: { ...SHARED_PROMPTS },

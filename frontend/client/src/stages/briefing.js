@@ -1,8 +1,6 @@
 import { STAGES } from "../state.js";
-import { getLexiconScope } from "../api.js";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
-import { buildPayloadFromStore, mountRunDebrief } from "../ui/run-debrief.js";
 
 const WHEN_ORDER = ["today", "this week", "this month", "next 1:1"];
 
@@ -87,7 +85,6 @@ export async function mount(root, { store, setState, resetSession }) {
       </div>
 
       <div class="run-cost text-sm text-ink-dim pt-2"></div>
-      <div class="run-log-mount"></div>
 
       <footer class="pt-2 flex gap-2 items-center">
         <button class="btn js-restart">Complete 1:1</button>
@@ -257,30 +254,8 @@ export async function mount(root, { store, setState, resetSession }) {
     costHost.remove();
   }
 
-  const runLogMount = root.querySelector(".run-log-mount");
-  if (runLogMount && import.meta.env.DEV) {
-    mountRunDebrief(runLogMount, buildPayloadFromStore(store, b));
-  } else if (runLogMount) {
-    runLogMount.remove();
-  }
-
-  root.querySelector(".js-restart").addEventListener("click", async () => {
-    let eligible = false;
-    try {
-      const data = await getLexiconScope(store.sessionId);
-      eligible = Boolean(data?.eligible);
-    } catch (e) {
-      console.warn("[briefing] lexicon scope check failed:", e.message);
-    }
-
-    if (eligible) {
-      setState({ stage: STAGES.LEXICON_REVIEW });
-      return;
-    }
-
-    try { localStorage.removeItem("seroSessionId"); } catch {}
-    resetSession();
-    setState({ stage: STAGES.INTAKE, substage: "NAME" });
+  root.querySelector(".js-restart").addEventListener("click", () => {
+    setState({ stage: STAGES.RUN_DEBRIEF });
   });
 
   // "Copy review prompt" — only shown when there are notes to discuss.

@@ -1,0 +1,10 @@
+alias: q_refactor_carryover
+label: Refactor carryover
+name: "What's still hanging around from the payments refactor now that it's out the door?"
+description: Looks for residual cleanup, decisions, or mental load after a major ship.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

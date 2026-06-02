@@ -20,6 +20,7 @@ const loaders = {
   EVAL:            () => import("./stages/eval.js"),
   BRIEFING:        () => import("./stages/briefing.js"),
   LEXICON_REVIEW:  () => import("./stages/lexicon-review.js"),
+  RUN_DEBRIEF:     () => import("./stages/run-debrief.js"),
   ERROR:           () => import("./stages/error.js"),
 };
 

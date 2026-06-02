@@ -10,6 +10,7 @@ export const STAGES = Object.freeze({
   EVAL: "EVAL",
   BRIEFING: "BRIEFING",
   LEXICON_REVIEW: "LEXICON_REVIEW",
+  RUN_DEBRIEF: "RUN_DEBRIEF",
   ERROR: "ERROR",
 });
 

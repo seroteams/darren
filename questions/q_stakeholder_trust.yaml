@@ -1,0 +1,10 @@
+alias: q_stakeholder_trust
+label: Stakeholder trust
+name: Which partner is hardest to keep aligned right now?
+description: Looks for the specific relationship where trust or expectation management is weakest.
+purpose: competency
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

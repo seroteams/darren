@@ -1,0 +1,10 @@
+alias: q_mentoring_tradeoff
+label: Mentoring tradeoff
+name: What would you need to drop to make space for mentoring?
+description: Forces the trade-off behind taking mentoring seriously without assuming the answer.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated
