@@ -11,7 +11,7 @@ function buildAgendaCheck(anchorStageId) {
     label: "Agenda check",
     name: "Before we get into it, anything you want to make sure we cover today?",
     description:
-      "Semi-set early question. Gives the report explicit permission to set the agenda before the manager's plan takes over.",
+      "Semi-set early question. Gives the team member explicit permission to set the agenda before the manager's plan takes over.",
     purpose: "engagement",
     stage: anchorStageId,
     axis_effects: { engagement: 1, clarity: 1 },

@@ -20,7 +20,7 @@ Field rules:
 - `label` — one phrase, roughly 4–10 words, written for *this* person. Never a copy of the catalogue's own `label` (the UI prints that alongside yours as the "type"). The label should sound like a plain conversation topic a manager could comfortably say out loud.
 Avoid poetic, clever, dramatic, or diagnostic labels.
 - `reason` — **exactly one sentence, max 22 words.** The UI shows label + reason only — no room for a second sentence or trailing clause. Depends on `source`:
-  - If `source: "signal"` — an observation from the notes, then a tentative interpretation using language like "could be", "one possibility", "worth clarifying whether", "might be ___ or ___ or just ___".
+  - If `source: "signal"` — an observation from the notes, then a tentative interpretation using language like "could be", "one possibility", "worth clarifying whether", "might be ___ or ___ or just ___". **Name the observable in the manager's own plain terms** (e.g. "review rounds before it feels ready"), not an abstraction that re-labels it ("a shippable bar", "craft", "polish level"). If a reader could not point back to the exact words in the notes, the reason is too abstract — rewrite it.
   - If `source: "best_practice"` — say *why this matters* for someone at this seniority in this role, like a senior peer briefing the manager over coffee. Do not use the apology pattern "No specific signal — …".
     - **Shape rule (hard):** the `reason` MUST start with one of: `Whether `, `How they're `, `What `, `If `. No noun-phrase-as-sentence starters ("Standard X,", "Bi-weekly hygiene,", "The cleanest channel,"). No abstract-concept opener.
     - **Banned phrases (any case, also banned as paraphrase):** "standard anchor", "standard bi-weekly anchor", "standard ... anchor for", "hygiene", "cleanest channel", "the channel for", "at this seniority", "redirect the relationship", "is what gets evaluated", "crucial for", "essential to", "key to", "important for", "surface what", "space to surface", "ensure alignment", "pulse check".
@@ -98,6 +98,7 @@ Per meeting type, mix `signal` and `best_practice` points and lean on appropriat
   - Mid: `quality`, `communication`, `ownership`, `collaboration`, plus `impact` scaled to their scope, plus one growth-relevant `topic` such as `growth` or `feedback`.
   - Junior: `quality`, `communication`, `ownership`, `reliability`.
 - Sparse or empty notes → 0 `signal`, 2–4 `best_practice`. Do not stretch a thin note to invent signal.
+- **Dominant-signal adjacency (hard).** When the notes carry **one sharp dominant signal** (a single concrete concern, e.g. "too many review rounds before it feels ready"), every `best_practice` point must stay **adjacent to that signal's theme** — it should deepen or surround the same concern, not import an orthogonal competency the notes give no cue for. Concretely: a "review rounds / quality of the work" note supports `quality`, `feedback`, `growth` adjacent to craft — it does NOT support `reliability` (dates/slippage/predictability) unless the notes mention timing. The catalogue examples for a competency are not a licence to introduce its dimension; if the notes are silent on dates, do not add a dates point. Prefer capping `best_practice` to 1 when a single strong signal dominates.
 - **Signal honesty.** When the manager's notes contain a concrete observation (anything other than "n/a", "fine", "nothing flagged", or empty), at least 1 point should be `source: "signal"`. If you cannot find a real observation, every point should be `source: "best_practice"` — that is correct, not a failure.
 </proportioning>
 
@@ -126,7 +127,7 @@ Avoid poetic, clever, dramatic, diagnostic, or private-assessment language.
 **Shape gate (hard):** the label must not begin with a question word addressed to the report (see `<label_shape>` for the list). Question-to-report labels like "What's affecting your energy levels lately?" or "How's your connection with the team?" fail this check and must be rewritten as topic phrases ("Motivation and pace vs three months ago.", "How they're landing in the team right now.") before output.
 
 4. Source honesty:
-Tag each point's `source` correctly. `signal` ⇔ tied to a concrete thing in the notes. `best_practice` ⇔ default for this meeting type + seniority + role. A `best_practice` reason must earn the slot by naming *why* it's a default — never the apology pattern "No specific signal — …".
+Tag each point's `source` correctly. `signal` ⇔ tied to a concrete thing in the notes. `best_practice` ⇔ default for this meeting type + seniority + role. A `best_practice` reason must earn the slot by naming *why* it's a default — never the apology pattern "No specific signal — …". When one sharp signal dominates the notes, drop any `best_practice` point whose dimension is orthogonal to that signal (see Dominant-signal adjacency in `<proportioning>`).
 
 5. Count discipline:
 Did you emit only points that carry value? If any point would be cut from a 15-minute meeting without loss, drop it. 2 strong points > 5 dilute ones.

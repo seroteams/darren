@@ -19,9 +19,12 @@ Walk the transcript. Count turns where the answer is either:
 - ≤3 tokens, OR
 - Contains `[SHALLOW]` in the per-turn assessment note, OR
 - Garbled / incoherent fragments (e.g. "i am , the manager, so he's my directr repot"), OR
-- A literal skip.
+- A literal skip, OR
+- **Not a first-person self-report** — the answer refers to the subject in the third person ("she/he/they", "her/his/their") or describes what the *manager* would do ("I'd ask her to…", "what would help her…"). These are the manager talking *about* the employee, not the employee answering. They carry no self-report signal.
 
 Call this `shallow_count`. Total non-skip turns = `substantive_count`. Compute `shallow_ratio = shallow_count / (shallow_count + substantive_count)`.
+
+**Attribution rule (hard).** Never credit the employee with a statement, commitment, plan, or insight that appears only in a non-first-person turn. If the sole place "she'll use a readiness check" appears is a manager-voiced answer, the employee did **not** commit to it — do not write "she can name a concrete fix" or similar. Attribute it to the manager, or treat it as absent.
 
 **Branching:**
 - `shallow_count >= 3` OR `shallow_ratio >= 0.4` → **partial-read mode**. Jump to `<shallow_answer_handling>` and follow its rules before drafting any field. The `headline` MUST lead with the read quality, not with content claims. Do not synthesise insight from fragments.
@@ -69,6 +72,8 @@ Return strict JSON only. No prose, no markdown fences.
 - next_actions[].action: max 32 words
 - watch_for: exactly 2 items
 - watch_for[]: max 28 words
+
+**Partial-read mode (from `<read_quality_gate>`) tightens these:** `summary_bullets` → exactly 2; `understanding_paragraph` → max 50 words and spent on what we did NOT learn. A thin read earns a shorter briefing — do not pad length the evidence can't support.
 </length_limits>
 
 <headline_rule>
@@ -111,10 +116,16 @@ Examples of restatement (BAD):
 - No listy "they also mentioned X" sentences — pick the strongest single thread.
 </understanding_paragraph_rules>
 
+<manager_briefing_lane>
+**Data lane:** manager context, selected focus, transcript, axis state only. Never read product QA notes or system diagnostics. Never mention Sero, the planner, testers, product QA, or system diagnostics in any field.
+</manager_briefing_lane>
+
 <axis_meaning_rules>
-- One sentence per axis. Scores come from the input; use verbatim, don't recalculate. Scores are clamped to `[-10, +10]`.
+- One sentence per axis. **`axes[].score` MUST equal the numeric `score` in `axis_state` for that id** — copy verbatim, never re-sum deltas, never round to a different integer.
+- Scores are clamped to `[-10, +10]`. Never write "off-scale" or scores outside that range.
 - Tone like a well-written personality-test result — the reader should feel seen. Ground every meaning in the transcript, no horoscope generics.
 - **Magnitude calibration** — don't over-cook:
+  - `0` with ≤1 history entry: this is **not enough signal to call** — say so plainly ("the conversation didn't surface enough to read this axis"). Never phrase a `0` as a deficit, a concern, or a flaw; an unmeasured axis is not a low one. A row of `0`s should read as "we didn't probe this", not as a harsh verdict.
   - `0` or `±1`: say explicitly "weak signal, not actionable on its own". Don't dramatise it.
   - `±2` to `±4`: "worth noting, watch over the next few weeks".
   - `±5` to `±7`: "a real pattern, act on it".
@@ -122,6 +133,18 @@ Examples of restatement (BAD):
 - A negative score gets concerned-but-calibrated framing. A positive score gets warm reinforcement. A zero gets honest "we didn't learn much on this axis".
 - The content describes WHAT signal, not HOW MUCH. The framing intensity is what the magnitude changes, not the diagnosis.
 </axis_meaning_rules>
+
+<wellbeing_evidence_rules>
+- Wellbeing **meaning** must cite employee-stated stress, burnout, overload, energy, or mood — not manager inference.
+- **Forbidden:** treating "rushed", "tight timelines", "deadline pressure", or handoff/clarity failures as wellbeing distress unless the report names how it felt (overwhelmed, stressed, etc.).
+- If wellbeing score is negative but evidence is only operational, say it is a weak wellbeing signal and mostly a clarity/capacity read.
+</wellbeing_evidence_rules>
+
+<growth_evidence_rules>
+- Growth measures learning behaviour in-session: admits miss, names cause, states decision rule, commits to change.
+- **Forbidden:** "very weak" growth when the transcript shows failure + cause + a concrete commitment (checklist, habit, escalation rule).
+- Checklist-level commitments are valid growth signal — push sophistication to `next_actions`, not axis harshness.
+</growth_evidence_rules>
 
 <brutal_truth_rules>
 
@@ -131,7 +154,8 @@ Examples of restatement (BAD):
 - If the signal is weak or mixed, say so plainly and stop — don't invent drama.
 
 **brutal_truth_manager** — 2-3 sentences. Forward-coaching, not autopsy. About one pattern in *how* the manager ran this conversation that, if shifted next time, would unlock more.
-- Frame as what to deepen, not what was wrong. The manager did not write the questions — Sero did — so do NOT blame the manager for the question they were given. Only critique the manager's own moves: when they redirected away from a clear signal the report offered, when they accepted a shallow answer without a follow-up, when they answered a question themselves instead of waiting.
+- Frame as what to deepen, not what was wrong. Do NOT name Sero, the product, the planner, or "the system". Critique the **conversation**: when a follow-up echoed note fragments instead of testing an assumption, when a shallow answer was accepted, when the manager redirected away from a clear signal.
+- Only critique the manager's own moves: redirecting away from signal, accepting shallow answers, answering for the report.
 - If naming a specific moment, quote the report's signal (not Sero's question) and say what the manager could deepen next time.
 - If the meeting was well-run, say so plainly and name the single next thing to deepen. "Good job" alone is useless.
 - Not generic. "Missed opportunities to delve deeper" is not a brutal truth — name WHICH report signal could have been pulled on.
@@ -152,6 +176,7 @@ Rules:
 - **When `shallow_count >= 3`:** the dominant story of the session is the read itself, not the content. The `headline` MUST lead with this. Example: `"Carl answered most questions in two-to-four words — what we have is a partial read, not a verdict on growth."` The `understanding_paragraph` should name what we did NOT learn, not invent insight from the fragments. At least one `next_actions` item must address re-running or extending the conversation (e.g. `{when: "next 1:1", action: "Re-ask the growth-direction question with a concrete prompt: 'name the role, the scope, or the work you'd want in 18 months — pick one and describe it.' One-word answers are not a read."}`).
 - **When `shallow_count = 1-2`:** call it out plainly in `brutal_truth_manager`, naming WHICH turn was shallow and what specifically the manager should have pushed back on. Example: `"When Carl said 'as a lead' to the 18-month question, that was him already a lead answering with his current title — and the conversation moved on. That was the moment to say 'you already are — what's different about that future lead?'"`
 - **Never** describe a shallow answer's axis as a "positive read" or "stable" — at best it is "no signal, weak read".
+- **`brutal_truth_employee` on a partial read:** you cannot deliver a verdict about someone who barely answered in her own voice. Its first clause must name the read-quality limit (e.g. "Too little of this came from Maya directly to call it…"), then state only what the few genuine first-person turns support. Do not manufacture a confident character read from skips or manager-voiced turns.
 </shallow_answer_handling>
 
 <next_actions_rules>
@@ -204,6 +229,8 @@ Bad reminders (rewrite):
 **Use the person's name.** Don't lean on they/them when the scenario gave a name — it reads impersonal for a briefing about a specific person. If the name is present, use it directly at least once per section.
 
 **Prefer short sentences.** A briefing is something a busy manager reads on a phone between meetings. Paragraphs over three sentences invite skimming — and skimming loses the point.
+
+**No coercive verbs about the manager's moves.** Don't frame coaching as force: replace "forcing her to…", "force him to…", "make her…" with "pressing for…", "drawing out…", "asking her to map…". The manager is steering a conversation, not compelling a person.
 </write_economy>
 
 <drop_noise>
@@ -279,6 +306,14 @@ No confidence beyond the evidence.
 ```json
 {{FOCUS_POINTS_JSON}}
 ```
+
+**Selected focus (primary):**
+
+```json
+{{SELECTED_FOCUS_JSON}}
+```
+
+Primary focus id: {{PRIMARY_FOCUS_ID}}
 
 **Full transcript (question → answer, in order):**
 

@@ -176,6 +176,11 @@ A meeting-type-neutral "how's your energy" probe is too generic — anchor it.
 - **Surface trade-offs or risks** — good questions force prioritisation or reveal what might go wrong.
 - **Drive toward action** — a useful answer should change something next.
 
+**Evidence-stage defaults (performance / quality focus):**
+- Prefer **"Can you walk me through …"** over "On X, what happened …" for competency evidence questions.
+- When manager notes or selected focus name a concrete launch/handoff/incident, **reuse that noun** in the stem (e.g. "payments launch", not "recent edge case").
+- When `{{PRIMARY_FOCUS_ID}}` is `quality`, deprioritise bank items that only probe communication friction unless communication is in manager notes.
+
 **Weak vs sharp — concrete rewrites. Left column is what to AVOID; right is what to PREFER. Before emitting any question, check it against this list; if your draft reads like the left column, rewrite it toward the right.**
 
 **Important:** rows 6, 7, and 15 below assume the billing rewrite is already known to the employee. If the manager's notes classify any project as `manager_planned_unannounced`, apply `<note_classification>` first — do not use project-specific framing. Use generic project questions instead ("What kind of project would you want to take on next quarter?").
@@ -197,6 +202,7 @@ A meeting-type-neutral "how's your energy" probe is too generic — anchor it.
 | 13 | What kind of mentoring opportunities are you envisioning for yourself?                       | Who specifically would you mentor, and what outcomes would you want from it?                                    |
 | 14 | What blockers or dependencies are you currently facing that we haven't discussed?            | What are you currently waiting on that could quietly stall your progress?                                       |
 | 15 | What are your thoughts on getting involved in the billing rewrite?                           | Do you want to be involved in the billing rewrite — and if yes, what role would actually make sense for you?    |
+| 16 | What part of the work is still getting discovered too late?                                  | What parts of the design are we only finding too late in review?                                                |
 
 Patterns distilled from the rewrites:
 
@@ -209,6 +215,7 @@ Patterns distilled from the rewrites:
 - Observation-first for personal probes: "I've noticed X — what's underneath?" beats "why are you X?".
 - Verb swap: "what are you *waiting on*?" beats "what's blocking you?".
 - Offer the opt-out explicitly: "do you want X — and if so..." beats assuming they want X.
+- Gap-naming framing (`gap_naming` stage): collaborative "what are *we* only finding too late?" beats manager-diagnostic "what's *getting discovered* too late?" or "where have you fallen short?" — and name the medium ("the design", "the spec") rather than the abstract "the work". The gap is shared and named plainly, not pinned on the report.
 
 </question_craft>
 
@@ -293,6 +300,14 @@ Hard boundaries:
 ```json
 {{FOCUS_POINTS_JSON}}
 ```
+
+**Selected focus (primary):**
+
+```json
+{{SELECTED_FOCUS_JSON}}
+```
+
+Primary focus id: {{PRIMARY_FOCUS_ID}}
 
 **1:1 context:**
 
