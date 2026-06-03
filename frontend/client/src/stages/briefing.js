@@ -1,6 +1,7 @@
 import { STAGES } from "../state.js";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
+import { postVerdict } from "../api.js";
 
 const WHEN_ORDER = ["today", "this week", "this month", "next 1:1"];
 
@@ -18,7 +19,7 @@ export async function mount(root, { store, setState, resetSession }) {
         </div>
         <div class="flex gap-2">
           <button class="btn js-retry-eval" type="button">Run evaluation again</button>
-          <button class="btn btn--ghost js-restart" type="button">Start over</button>
+          <button class="btn btn--ghost js-restart" type="button">New session</button>
         </div>
       </div>
     `;
@@ -44,7 +45,10 @@ export async function mount(root, { store, setState, resetSession }) {
   root.innerHTML = `
     <div class="stage-wide max-w-wide mx-auto briefing-page relative z-10 py-8">
       <header class="briefing-block space-y-4">
-        <div class="eyebrow reveal">Briefing · For ${escape(store.ctx.name)}</div>
+        <div class="briefing-section-head">
+          <div class="eyebrow reveal">Briefing · For ${escape(store.ctx.name)}</div>
+          <button type="button" class="btn btn--ghost btn--sm js-copy-all-briefing">Copy all</button>
+        </div>
         <h1 class="briefing-headline reveal"></h1>
       </header>
 
@@ -60,8 +64,8 @@ export async function mount(root, { store, setState, resetSession }) {
         </section>
 
         <section class="briefing-block axes-section space-y-4">
-          <div class="eyebrow reveal">Where things sit</div>
-          <p class="text-xs text-ink-dim max-w-measure reveal">Final read after the conversation — scores reflect meaning in answers, not word count or typing style.</p>
+          <div class="eyebrow reveal">Final read</div>
+          <p class="text-xs text-ink-dim max-w-measure reveal">Scores reflect meaning in answers, not word count or typing style.</p>
           <div class="card axes-mount"></div>
           <div class="axis-meanings space-y-2"></div>
         </section>
@@ -84,11 +88,36 @@ export async function mount(root, { store, setState, resetSession }) {
         </section>
       </div>
 
-      <div class="run-cost text-sm text-ink-dim pt-2"></div>
+      ${store.scripted ? `
+      <section class="briefing-block verdict-block card space-y-3">
+        <div class="eyebrow">Test lane · verdict</div>
+        <div class="verdict-row">
+          <button type="button" class="btn btn--ghost js-verdict" data-v="keep">Keep</button>
+          <button type="button" class="btn btn--ghost js-verdict" data-v="fix">Fix</button>
+          <button type="button" class="btn btn--ghost js-verdict" data-v="block">Block</button>
+        </div>
+        <label class="block">
+          <span class="eyebrow">Issue type</span>
+          <select class="bench-select js-issue-type">
+            <option value="">(none)</option>
+            <option value="too_generic">too generic</option>
+            <option value="wrong_level">wrong level</option>
+            <option value="bad_tone">bad tone</option>
+            <option value="over_inferred">over inferred</option>
+            <option value="missed_focus">missed focus</option>
+            <option value="weak_action">weak action</option>
+          </select>
+        </label>
+        <label class="block">
+          <span class="eyebrow">Note</span>
+          <input class="input js-verdict-note" type="text" autocomplete="off" placeholder="what's wrong, in one line" />
+        </label>
+        <span class="js-verdict-confirm text-sm text-ink-mute" style="opacity:0; transition: opacity 0.2s;">Saved</span>
+      </section>` : ""}
 
       <footer class="pt-2 flex gap-2 items-center">
-        <button class="btn js-restart">Complete 1:1</button>
-        <button class="btn btn--ghost js-copy-review hidden">Copy review prompt</button>
+        <button class="btn js-restart">Review this session</button>
+        <button class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>
         <span class="js-copy-confirm text-sm text-ink-mute" style="opacity:0; transition: opacity 0.2s;">Copied</span>
       </footer>
     </div>
@@ -132,9 +161,12 @@ export async function mount(root, { store, setState, resetSession }) {
   else revealOne(axesEyebrow, 0);
   const axes = createAxesPanel({ celebrate: true });
   root.querySelector(".axes-mount").appendChild(axes.el);
+  // A score of 0 means "not enough signal to read this axis" (final-evaluation
+  // axis_meaning_rules) — render it as an unread baseline, not a measured 0, so
+  // a quiet session doesn't look like a flat verdict.
   axes.renderInitial([
     { id: "wellbeing", score: -1 }, { id: "engagement", score: -1 },
-    { id: "clarity", score: 0 }, { id: "growth", score: 0 },
+    { id: "clarity", score: 0, noRead: true }, { id: "growth", score: 0, noRead: true },
   ]);
   await pause(fastPath ? 0 : 120);
 
@@ -143,24 +175,39 @@ export async function mount(root, { store, setState, resetSession }) {
     label: a.id,
     score: a.score,
     lastDelta: 0,
+    noRead: a.score === 0,
   }));
   const known = new Set(axesList.map((a) => a.id));
   const AXIS_SEED = { wellbeing: -1, engagement: -1, clarity: 0, growth: 0 };
   for (const id of ["wellbeing", "engagement", "clarity", "growth"]) {
-    if (!known.has(id)) axesList.push({ id, label: id, score: AXIS_SEED[id], lastDelta: 0 });
+    // An axis the evaluator omitted was not read — never fabricate a measured bar.
+    if (!known.has(id)) axesList.push({ id, label: id, score: AXIS_SEED[id], lastDelta: 0, noRead: true });
   }
   axes.update(axesList, { showDelta: false });
 
-  // Axis meanings (subtle, under the card)
-  const meanings = (b.axes || []).filter((a) => a.meaning);
-  if (meanings.length) {
+  // Axis meanings (subtle, under the card). Only axes we actually read get a
+  // line; the score-0 "not read" axes are collapsed into one quiet caption so
+  // the panel doesn't repeat "didn't surface enough" at full weight.
+  const readAxes = (b.axes || []).filter((a) => a.meaning && a.score !== 0);
+  const unreadAxes = (b.axes || []).filter((a) => a.score === 0);
+  if (readAxes.length || unreadAxes.length) {
     const mwrap = root.querySelector(".axis-meanings");
-    mwrap.innerHTML = meanings
+    const meaningRows = readAxes
       .map((a) => `
         <div class="text-sm text-ink-dim reveal-soft">
           <span class="eyebrow mr-2" style="color: var(--color-accent-dark);">${escape(cap(a.id))}</span>${escape(a.meaning)}
         </div>
-      `).join("");
+      `);
+    if (unreadAxes.length) {
+      const names = unreadAxes.map((a) => cap(a.id));
+      const list = names.length > 1
+        ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`
+        : names[0];
+      meaningRows.push(`
+        <div class="text-sm text-ink-mute reveal-soft">${escape(list)} — not enough signal to read this session.</div>
+      `);
+    }
+    mwrap.innerHTML = meaningRows.join("");
     if (fastPath) {
       mwrap.querySelectorAll(".reveal-soft").forEach((el) => el.classList.add("is-in"));
     } else {
@@ -173,8 +220,8 @@ export async function mount(root, { store, setState, resetSession }) {
   await pause(fastPath ? 0 : 1400);
   const brutalHost = root.querySelector(".brutal-host");
   const truths = [
-    { eyebrow: `About ${escape(store.ctx.name || "them")}`, text: b.brutal_truth_employee || "" },
-    { eyebrow: "About you", text: b.brutal_truth_manager || "" },
+    { eyebrow: `Honest read — ${escape(store.ctx.name || "them")}`, text: b.brutal_truth_employee || "" },
+    { eyebrow: "Honest read — you", text: b.brutal_truth_manager || "" },
   ];
   for (const t of truths) {
     if (!t.text) continue;
@@ -206,7 +253,7 @@ export async function mount(root, { store, setState, resetSession }) {
         className: "action-group",
         mark: "",
         bodyHtml: `
-          <div class="action-when">${escape(a.when || "")}</div>
+          <div class="action-when">${escape(capWhen(a.when))}</div>
           <div class="action-body">${escape(a.action || "")}</div>
         `,
         copyText: formatActionCopy(a),
@@ -235,7 +282,7 @@ export async function mount(root, { store, setState, resetSession }) {
     watch.forEach((text, i) => {
       const row = createCopyableRow({
         className: "watch-item",
-        mark: "◆",
+        mark: "●",
         bodyHtml: `<div class="watch-item__text">${escape(text)}</div>`,
         copyText: text,
       });
@@ -247,16 +294,43 @@ export async function mount(root, { store, setState, resetSession }) {
     root.querySelector(".watch-section").remove();
   }
 
-  const costHost = root.querySelector(".run-cost");
-  if (b.cost && costHost) {
-    costHost.textContent = formatRunCost(b.cost);
-  } else if (costHost) {
-    costHost.remove();
-  }
+  root.querySelector(".js-copy-all-briefing").addEventListener("click", () => {
+    copyFullBriefing(b, store.ctx, root.querySelector(".js-copy-all-briefing"));
+  });
 
   root.querySelector(".js-restart").addEventListener("click", () => {
     setState({ stage: STAGES.RUN_DEBRIEF });
   });
+
+  // Scripted test lane: capture the structured verdict (ground truth for Suggest-fix).
+  if (store.scripted) {
+    const verdictBtns = [...root.querySelectorAll(".js-verdict")];
+    const issueSel = root.querySelector(".js-issue-type");
+    const noteInput = root.querySelector(".js-verdict-note");
+    const confirm = root.querySelector(".js-verdict-confirm");
+    let chosen = null;
+    async function save() {
+      if (!chosen) return;
+      try {
+        await postVerdict(store.sessionId, {
+          verdict: chosen,
+          issue_type: issueSel.value || null,
+          note: noteInput.value || null,
+        });
+        confirm.style.opacity = "1";
+        setTimeout(() => { confirm.style.opacity = "0"; }, 1500);
+      } catch (e) {
+        console.warn("[briefing] verdict save failed:", e.message);
+      }
+    }
+    verdictBtns.forEach((b) => b.addEventListener("click", () => {
+      chosen = b.dataset.v;
+      verdictBtns.forEach((x) => x.classList.toggle("is-active", x === b));
+      save();
+    }));
+    issueSel.addEventListener("change", save);
+    noteInput.addEventListener("change", save);
+  }
 
   // "Copy review prompt" — only shown when there are notes to discuss.
   const copyBtn = root.querySelector(".js-copy-review");
@@ -264,9 +338,9 @@ export async function mount(root, { store, setState, resetSession }) {
   if ((store.notes || []).length && store.sessionDir) {
     copyBtn.classList.remove("hidden");
     copyBtn.addEventListener("click", async () => {
-      const notesPath = `${store.sessionDir}\\notes.md`;
+      const notesPath = `${String(store.sessionDir).replace(/\\/g, "/")}/notes.md`;
       const prompt = [
-        `Read ${notesPath}.`,
+        `Open notes.md in the session folder (${notesPath}).`,
         "",
         "These are my notes from a Sero run, tagged by stage. Save the key recurring themes to memory (treat them as feedback about the app, not about me). Then ask me one focused question at a time about the issues I raised so we can decide what changes to make to the prompts and copy.",
       ].join("\n");
@@ -283,6 +357,13 @@ export async function mount(root, { store, setState, resetSession }) {
 
 export function unmount() { /* nothing */ }
 
+function capWhen(w) {
+  const s = String(w || "").trim();
+  if (!s) return "";
+  if (s === "next 1:1") return "Next 1:1";
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
 function whenRank(w) {
   const i = WHEN_ORDER.indexOf(w);
   return i === -1 ? WHEN_ORDER.length : i;
@@ -292,8 +373,83 @@ function formatActionCopy(a) {
   const when = String(a.when || "").trim();
   const action = String(a.action || "").trim();
   if (!when) return action;
-  const label = when.charAt(0).toUpperCase() + when.slice(1);
-  return `${label}: ${action}`;
+  return `${capWhen(when)}: ${action}`;
+}
+
+function formatBriefingForCopy(b, ctx) {
+  const lines = [];
+  const name = (ctx?.name || "").trim();
+  lines.push(name ? `Briefing · For ${name}` : "Briefing");
+
+  const headline = String(b.headline || "").trim();
+  if (headline) {
+    lines.push("", headline);
+  }
+
+  const bullets = b.summary_bullets || [];
+  if (bullets.length) {
+    lines.push("", "What stood out");
+    bullets.forEach((item) => lines.push(`- ${item}`));
+  }
+
+  const para = String(b.understanding_paragraph || "").trim();
+  if (para) {
+    lines.push("", "What we understood", para);
+  }
+
+  const axes = b.axes || [];
+  if (axes.length) {
+    lines.push("", "Final read");
+    for (const a of axes) {
+      const label = cap(a.id);
+      if (a.score === 0) {
+        lines.push(`${label} (not read — not enough signal)`);
+        continue;
+      }
+      const score = a.score != null ? ` (${a.score})` : "";
+      lines.push(`${label}${score}`);
+      if (a.meaning) lines.push(String(a.meaning).trim());
+    }
+  }
+
+  const empTruth = String(b.brutal_truth_employee || "").trim();
+  if (empTruth) {
+    lines.push("", `Honest read — ${name || "them"}`, empTruth);
+  }
+
+  const mgrTruth = String(b.brutal_truth_manager || "").trim();
+  if (mgrTruth) {
+    lines.push("", "Honest read — you", mgrTruth);
+  }
+
+  const actions = b.next_actions || [];
+  if (actions.length) {
+    lines.push("", "What to do next");
+    [...actions]
+      .sort((x, y) => whenRank(x.when) - whenRank(y.when))
+      .forEach((a) => lines.push(`- ${formatActionCopy(a)}`));
+  }
+
+  const watch = b.watch_for || [];
+  if (watch.length) {
+    lines.push("", "Reminders");
+    watch.forEach((item) => lines.push(`- ${item}`));
+  }
+
+  return lines.join("\n").trim();
+}
+
+async function copyFullBriefing(briefing, ctx, btn) {
+  const text = formatBriefingForCopy(briefing, ctx);
+  if (!text) return;
+  try {
+    await navigator.clipboard.writeText(text);
+    const prev = btn.textContent;
+    btn.textContent = "Copied ✓";
+    setTimeout(() => { btn.textContent = prev; }, 1500);
+  } catch (e) {
+    console.warn("[briefing] clipboard write failed:", e.message);
+  }
 }
 
 function createCopyableRow({ className, mark, bodyHtml, copyText }) {
@@ -331,33 +487,6 @@ async function copySnippet(text, btn, doneLabel = "Copied") {
 
 function cap(s) {
   return s ? s[0].toUpperCase() + s.slice(1) : s;
-}
-
-function formatUsd(usd) {
-  if (usd == null || Number.isNaN(usd)) return "—";
-  if (usd < 0.01) return `$${usd.toFixed(4)}`;
-  if (usd < 1) return `$${usd.toFixed(3)}`;
-  return `$${usd.toFixed(2)}`;
-}
-
-function formatTokens(n) {
-  if (!n) return "0";
-  if (n < 1000) return `${n}`;
-  if (n < 1_000_000) return `${(n / 1000).toFixed(1)}k`;
-  return `${(n / 1_000_000).toFixed(2)}M`;
-}
-
-function formatRunCost(c) {
-  const parts = [
-    `Run cost ${formatUsd(c.usd_total)}`,
-    `${formatTokens(c.total_tokens)} tokens`,
-    `${c.call_count} call${c.call_count === 1 ? "" : "s"}`,
-  ];
-  let line = parts.join(" · ");
-  if (c.unknown_price_calls > 0) {
-    line += ` · ${c.unknown_price_calls} unpriced`;
-  }
-  return line;
 }
 
 function escape(s) {

@@ -1,0 +1,9 @@
+alias: q_ready_to_share_3
+label: Ready to share
+name: "When you say 'ready to share,' what tells you a design is ready?"
+description: Surface her criteria for sharing work so the discussion can anchor on concrete evidence.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added

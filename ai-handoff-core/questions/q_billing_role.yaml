@@ -1,0 +1,10 @@
+alias: q_billing_role
+label: Billing role
+name: Where do you expect to fit into the billing rewrite?
+description: Surfaces her expected role and whether ownership feels energizing or ambiguous.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  growth: +1
+source: planner_added

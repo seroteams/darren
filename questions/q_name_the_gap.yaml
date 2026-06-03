@@ -1,0 +1,9 @@
+alias: q_name_the_gap
+label: Name the gap
+name: What is the recurring gap in your first-pass work, from your read?
+description: Get her to name the underlying pattern plainly before moving into causes.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +1
+source: planner_added

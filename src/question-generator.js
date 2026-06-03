@@ -5,6 +5,7 @@ const { loadAxes } = require("./axes");
 const { newAlias, saveQuestion, listAllAliases } = require("./questions");
 const { getArc } = require("./meeting-arcs");
 const { promptFor } = require("./one-on-one-types");
+const { resolveSelectedFocus } = require("./selected-focus");
 const { loadLexicon } = require("./lexicon");
 const cost = require("./cost");
 
@@ -80,9 +81,13 @@ function buildMessages({
   meetingType,
   notes,
   existingQueue,
+  selectedFocus,
 }) {
   const template = fs.readFileSync(promptFor(meetingType, "questionBank"), "utf8");
   const arc = getArc(meetingType);
+  const sf =
+    selectedFocus ||
+    resolveSelectedFocus({ notes, focusPoints });
   const lexicon = loadLexicon({ meetingType, role, seniority });
   const queueSummary = (existingQueue || []).map((q) => ({
     alias: q.alias,
@@ -100,6 +105,8 @@ function buildMessages({
     .replaceAll("{{SENIORITY}}", seniority || "(not provided)")
     .replaceAll("{{MEETING_TYPE}}", meetingType)
     .replaceAll("{{MANAGER_NOTES}}", notes || "(none)")
+    .replaceAll("{{SELECTED_FOCUS_JSON}}", JSON.stringify(sf || {}, null, 2))
+    .replaceAll("{{PRIMARY_FOCUS_ID}}", sf?.id || "(none)")
     .replaceAll("{{EXISTING_QUEUE_JSON}}", JSON.stringify(queueSummary, null, 2))
     .replaceAll("{{MEETING_ARC_JSON}}", JSON.stringify(arc.arc, null, 2))
     .replaceAll("{{TONE_REGISTER}}", arc.tone_register)
@@ -144,10 +151,23 @@ function toAxisObject(effects) {
 }
 
 async function generateBank(
-  { focusPoints, name, role, seniority, meetingType, notes, existingQueue },
+  {
+    focusPoints,
+    name,
+    role,
+    seniority,
+    meetingType,
+    notes,
+    existingQueue,
+    selectedFocus,
+    primaryFocusId,
+  },
   { model = getDefaultModel(), session, stage = "03-question-bank" } = {}
 ) {
   const axes = loadAxes();
+  const sf =
+    selectedFocus ||
+    resolveSelectedFocus({ notes, focusPoints, primaryFocusId });
   const messages = buildMessages({
     axes,
     focusPoints,
@@ -157,6 +177,7 @@ async function generateBank(
     meetingType,
     notes,
     existingQueue,
+    selectedFocus: sf,
   });
   const raw = await callOpenAI({ ...messages, model });
   const parsed = parseAIJson(raw, "Question generator", ["questions"]);

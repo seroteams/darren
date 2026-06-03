@@ -12,6 +12,7 @@ const SHARED_PROMPTS = {
   questionBank: path.join(PROMPTS_DIR, "generate-questions.md"),
   planTurn: path.join(PROMPTS_DIR, "plan-turn.md"),
   evaluation: path.join(PROMPTS_DIR, "final-evaluation.md"),
+  productQa: path.join(PROMPTS_DIR, "product-qa-report.md"),
   lexicon: path.join(PROMPTS_DIR, "review-session-for-lexicon.md"),
 };
 

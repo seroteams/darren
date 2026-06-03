@@ -1,0 +1,9 @@
+alias: q_brief_omission
+label: Brief omission
+name: You said the brief only had the success mock — what should have been explicit upfront?
+description: Drill into the concrete missing inputs so the evidence is specific before naming the gap.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

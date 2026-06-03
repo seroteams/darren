@@ -1,22 +1,14 @@
 // Fixed top-bar showing the run's stage progression. The current stage is
 // bolded; the rest are muted. Stages are visual indicators only — not
 // clickable navigation (the run is intentionally one-way).
-// Left-anchored "Start" button opens a popover to save & exit or delete.
+// Left-anchored Session button opens a popover to save & exit or delete.
 // Mounted once in main.js, kept in sync by the store subscribe callback.
 
 import { STAGES } from "../state.js";
 import { deleteRun } from "../api.js";
 import { confirmAction } from "./confirm.js";
-
-const STAGE_ORDER = [
-  ["INTAKE", "Intake", "Intake"],
-  ["FOCUS_POINTS", "Focus points", "Focus"],
-  ["PREPARATION", "Preparation", "Prep"],
-  ["BANK", "Question bank", "Bank"],
-  ["QUESTIONING", "Questioning", "Q&A"],
-  ["EVAL", "Evaluation", "Eval"],
-  ["BRIEFING", "Briefing", "Brief"],
-];
+import { TOPBAR_STAGES } from "./stage-labels.js";
+import { createGlossaryButton } from "./glossary.js";
 
 export function createSessionTopbar({ store, setState, resetSession } = {}) {
   const el = document.createElement("div");
@@ -26,18 +18,21 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   row.className = "session-topbar__row session-topbar__row--main";
   el.appendChild(row);
 
-  const startBtn = document.createElement("button");
-  startBtn.className = "session-topbar__start";
-  startBtn.type = "button";
-  startBtn.textContent = "Start";
-  startBtn.setAttribute("aria-haspopup", "menu");
-  startBtn.setAttribute("aria-expanded", "false");
-  row.appendChild(startBtn);
+  const sessionBtn = document.createElement("button");
+  sessionBtn.className = "session-topbar__start";
+  sessionBtn.type = "button";
+  sessionBtn.textContent = "Session";
+  sessionBtn.setAttribute("aria-haspopup", "menu");
+  sessionBtn.setAttribute("aria-expanded", "false");
+  row.appendChild(sessionBtn);
 
   const stages = document.createElement("div");
   stages.className = "session-topbar__stages";
   stages.setAttribute("aria-label", "Run progress");
   row.appendChild(stages);
+
+  const glossaryBtn = createGlossaryButton();
+  row.appendChild(glossaryBtn);
 
   document.body.classList.add("has-session-topbar");
 
@@ -49,7 +44,7 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     if (popover) { popover.remove(); popover = null; }
     if (outsideHandler) { document.removeEventListener("mousedown", outsideHandler); outsideHandler = null; }
     if (escHandler) { document.removeEventListener("keydown", escHandler); escHandler = null; }
-    startBtn.setAttribute("aria-expanded", "false");
+    sessionBtn.setAttribute("aria-expanded", "false");
   }
 
   function openPopover() {
@@ -59,12 +54,12 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     popover.setAttribute("role", "menu");
     popover.innerHTML = `
       <button class="js-save" type="button" role="menuitem">Save and exit</button>
-      <button class="js-delete is-danger" type="button" role="menuitem">Exit and delete session</button>
+      <button class="js-delete is-danger" type="button" role="menuitem">Delete session and logs</button>
     `;
     document.body.appendChild(popover);
-    startBtn.setAttribute("aria-expanded", "true");
+    sessionBtn.setAttribute("aria-expanded", "true");
 
-    const rect = startBtn.getBoundingClientRect();
+    const rect = sessionBtn.getBoundingClientRect();
     popover.style.left = `${Math.round(rect.left)}px`;
 
     popover.querySelector(".js-save").addEventListener("click", () => {
@@ -77,7 +72,7 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     });
 
     outsideHandler = (e) => {
-      if (popover && !popover.contains(e.target) && e.target !== startBtn) closePopover();
+      if (popover && !popover.contains(e.target) && e.target !== sessionBtn) closePopover();
     };
     escHandler = (e) => { if (e.key === "Escape") closePopover(); };
     setTimeout(() => {
@@ -109,27 +104,38 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     setState && setState({ stage: STAGES.START });
   }
 
-  startBtn.addEventListener("click", (e) => {
+  sessionBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    if (startBtn.disabled) return;
+    if (sessionBtn.disabled) return;
     if (popover) closePopover(); else openPopover();
   });
 
   function render({ stage, sessionId } = {}) {
     const current = String(stage || "");
-    stages.innerHTML = STAGE_ORDER
+    const onStart = current === STAGES.START;
+
+    if (onStart) {
+      el.classList.add("is-hidden");
+      document.body.classList.remove("has-session-topbar");
+      if (popover) closePopover();
+      return;
+    }
+
+    stages.innerHTML = TOPBAR_STAGES
       .map(
-        ([key, fullLabel, shortLabel], i) =>
-          `${i > 0 ? '<span class="sep" aria-hidden="true">·</span>' : ""}<span class="${key === current ? "is-current" : ""}" title="${fullLabel}">${shortLabel}</span>`
+        ([key, fullLabel, shortLabel], i) => {
+          const label = window.matchMedia("(min-width: 768px)").matches ? fullLabel : shortLabel;
+          return `${i > 0 ? '<span class="sep" aria-hidden="true">·</span>' : ""}<span class="${key === current ? "is-current" : ""}" title="${fullLabel}">${label}</span>`;
+        }
       )
       .join("");
     el.classList.remove("is-hidden");
     document.body.classList.add("has-session-topbar");
 
-    const onStart = current === STAGES.START;
     const noSession = !sessionId;
-    startBtn.disabled = onStart || noSession;
-    if (popover && (onStart || noSession)) closePopover();
+    sessionBtn.disabled = noSession;
+    glossaryBtn.hidden = false;
+    if (popover && noSession) closePopover();
   }
 
   return { el, render };

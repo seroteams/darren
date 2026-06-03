@@ -1,0 +1,10 @@
+alias: q_current_work_pulse
+label: Current work pulse
+name: "What's been most on your mind at work lately?"
+description: Safe opener that lets Maya set context before any quality concern is introduced.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

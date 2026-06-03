@@ -8,7 +8,7 @@
 
 ## 1. Product, one paragraph
 
-Sero is a manager-facing tool that turns a sparse pre-meeting note ("they've been quiet lately", "we have a perf review") into a structured 1:1: it picks focus points, drafts a briefing, generates a question bank, asks the questions live (CLI or web), scores each answer against a four-axis state model, replans the queue after every turn, then produces a post-meeting briefing the manager can act on. Two surfaces — a Node CLI and a Vite/React web app — share the same core pipeline (`src/*`), prompts (`prompts/*`), question content (`questions/*`), and run logs (`logs/<month>/<run-id>/`).
+Sero is a manager-facing tool that turns a sparse pre-meeting note ("they've been quiet lately", "we have a perf review") into a structured 1:1: it picks focus points, drafts a briefing, generates a question bank, asks the questions live (CLI or web), scores each answer against a four-axis state model, replans the queue after every turn, then produces a post-meeting briefing the manager can act on. The manager asks each question aloud and captures the reply as their own **shorthand note** — terse, third-person ("Checks main screens, skips edge cases"), not a verbatim transcript. The scorer and briefing read these notes as the report's signal, recorded by the manager. Two surfaces — a Node CLI and a Vite/React web app — share the same core pipeline (`src/*`), prompts (`prompts/*`), question content (`questions/*`), and run logs (`logs/<month>/<run-id>/`).
 
 ---
 
@@ -82,7 +82,7 @@ Every run goes through these in order. Each stage logs `inputs.json`, `prompt.md
 - Rules baked into the planner prompt (in `<decision_order>`): crisis override → broken session → final-turn enforcement → shallow-answer gate → deficiency-as-request → signature-bound scoring → dedup → thread-follow → arc planning → question craft.
 - **Runtime computed signals** (passed into prompt by `queue-manager.js`): `consecutive_drill_count`, `arc_progress`, `remaining_stages`, `last_realized_deltas`, `consecutive_wellbeing_clarifier_count`, `off_arc_drill_count`, `is_final_turn`, `closer_alias`.
 - **Hard caps in prompt:** drill cap (≥2 consecutive `planner_added` at same stage blocks more), wellbeing-clarifier cap (max 2 consecutive), off-arc tangent cap (max 1 per session), arc-stage budget rule (when `remaining_budget ≤ length(remaining_stages)`, must advance arc).
-- **Defence in depth** in code: if answer is ≤3 tokens and non-empty, planner zeroes any positive axis deltas (`isShallowAnswer` in `queue-manager.js`).
+- **Defence in depth** in code: if answer is ≤2 tokens and non-empty, planner zeroes any positive axis deltas (`isShallowAnswer` in `queue-manager.js`). Floor is ≤2 (not ≤3) because notes are terse by design — a 3-token note still carries signal.
 - Each turn logs `04-dynamic-answers/NN-turn.json` (question + answer + assessment + new_queue + axis_state snapshot).
 
 ### Stage 4 — Final evaluation (`src/reviewer.js`, `prompts/final-evaluation.md`)

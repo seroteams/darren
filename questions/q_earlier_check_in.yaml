@@ -1,0 +1,10 @@
+alias: q_earlier_check_in
+label: Earlier check-in
+name: What would make it easier to surface uncertainty earlier in the process?
+description: Surfaces what she needs from the process or manager to bring issues forward sooner.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

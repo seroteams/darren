@@ -5,9 +5,11 @@ const { openStream } = require("../sse");
 const { planTurn } = require("../../../src/queue-manager");
 const { applyDeltas, serialize } = require("../../../src/axes");
 const { isForbiddenCloser, pickSeedOverflow } = require("../../../src/closer");
+const { summarizeAgenda, buildCarryForwardQuestion } = require("../../../src/agenda");
 const questions = require("../../../src/questions");
 const { writeJson } = require("../../../src/cli/io");
 const cost = require("../../../src/cost");
+const { getSessionSelectedFocus } = require("../selected-focus");
 
 module.exports = async function plan(c) {
   const session = requireSession(c.query.s);
@@ -62,8 +64,10 @@ module.exports = async function plan(c) {
   const prevTracker = cost.getActive();
   cost.setActive(session.tracker);
   try {
+    const selectedFocus = getSessionSelectedFocus(session);
     planResult = await planTurn({
       focusPoints: session.focusPointsResult.focus_points,
+      selectedFocus,
       ctx: session.ctx,
       transcript: session.transcript,
       lastQuestion: q,
@@ -100,7 +104,30 @@ module.exports = async function plan(c) {
   current.realized_deltas = planResult.assessment.deltas;
   current.note = planResult.assessment.note;
 
-  session.queueRef = planResult.newQueue.slice();
+  // Scripted test lane: keep the planner's scoring (deltas + note) but ignore its
+  // re-plan, agenda carry-forward, closer force-insert and seed overflow — the
+  // fixed script (already shifted at the top of this turn) IS the path, so the
+  // questions stay identical across runs. Manual mode keeps all dynamic behaviour.
+  const scripted = session.mode === "scripted";
+
+  if (!scripted) session.queueRef = planResult.newQueue.slice();
+
+  // Agenda carry-forward: when the agenda-check answer is real, re-ask it as
+  // the immediate next question so the topic the report raised can't be dropped.
+  if (
+    !scripted &&
+    !session.agendaInjected &&
+    q.alias === "q_intro_agenda_check" &&
+    !pending.skipped &&
+    pending.text.trim()
+  ) {
+    const summary = summarizeAgenda(pending.text);
+    session.agendaInput = { raw: pending.text, summary };
+    const stageId = session.queueRef[0]?.stage ?? session.introQueue[0]?.stage ?? null;
+    session.queueRef.unshift(buildCarryForwardQuestion(summary, stageId));
+    session.totalBudget += 1;
+    session.agendaInjected = true;
+  }
 
   if (userDrillRequest) session.showReturningToArcHint = true;
 
@@ -108,6 +135,7 @@ module.exports = async function plan(c) {
   // The planner gets veto-proof: regardless of what it returned, the closer runs last.
   const askedAliases = new Set(session.transcript.map((t) => t.question.alias));
   if (
+    !scripted &&
     turn + 1 === session.totalBudget &&
     session.closer &&
     !askedAliases.has(session.closer.alias) &&
@@ -124,7 +152,7 @@ module.exports = async function plan(c) {
   }
 
   // Overflow from _seed if planner emptied the queue but we still have budget
-  if (session.queueRef.length === 0 && turn < session.totalBudget) {
+  if (!scripted && session.queueRef.length === 0 && turn < session.totalBudget) {
     const seeds = questions.loadDir("_seed");
     const seen = new Set(session.transcript.map((t) => t.question.alias));
     const seed = pickSeedOverflow(seeds, seen);
@@ -132,7 +160,9 @@ module.exports = async function plan(c) {
   }
 
   const axes = summarizeAxes(session.axisState);
-  const issues = planResult.issues?.length ? planResult.issues : undefined;
+  // In scripted mode the planner's queue complaints (thread-follow injects, ref
+  // not in queue) are moot — its re-plan is discarded — so don't surface them.
+  const issues = !scripted && planResult.issues?.length ? planResult.issues : undefined;
   stream.write("axes", { axes, issues });
   if (planResult.assessment.note) {
     stream.write("note", { note: planResult.assessment.note });

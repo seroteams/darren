@@ -1,0 +1,10 @@
+alias: q_critique_handling
+label: Critique handling
+name: What happens for you when you get critique on a design?
+description: Explores her response to feedback and whether it speeds up or slows down the next pass.
+purpose: topic
+stage: cause
+axis_effects:
+  engagement: +1
+  growth: +1
+source: generated

@@ -2,8 +2,10 @@ const { MEETING_TYPES } = require("../../../src/meeting-types");
 const { pickOpener } = require("../../../src/opener");
 const { loadIntroQueue } = require("../../../src/intro-queue");
 const { getArc } = require("../../../src/meeting-arcs");
-const { createWebSession, INTRO_BUDGET } = require("../sessions");
+const { createWebSession, persistSession, INTRO_BUDGET } = require("../sessions");
 const { generateFocusPoints } = require("../../../src/generate");
+const { buildFingerprint } = require("../../../src/run-fingerprint");
+const { loadPersona, scriptAnswers } = require("../persona-script");
 
 function buildAgendaCheck(anchorStageId) {
   return Object.freeze({
@@ -21,7 +23,7 @@ function buildAgendaCheck(anchorStageId) {
 
 module.exports = async function start(c) {
   const body = await c.readBody();
-  const { name, role, seniority, meetingTypeIndex, notes } = body;
+  const { name, role, seniority, meetingTypeIndex, notes, mode, runLabel, personaId } = body;
 
   if (typeof name !== "string" || !name.trim())
     return c.error(Object.assign(new Error("name required"), { status: 400 }));
@@ -49,6 +51,25 @@ module.exports = async function start(c) {
   const introRest = loadIntroQueue(meetingType.label, INTRO_BUDGET - 1);
   const introQueue = [opener, buildAgendaCheck(anchorStageId), ...introRest].slice(0, INTRO_BUDGET);
   const session = createWebSession(ctx, introQueue);
+
+  // Scripted test lane: stamp the run fingerprint + load the persona's fixed
+  // script so the bank/planner can freeze the question path (manual mode skips all this).
+  const isScripted = mode === "scripted";
+  const persona = isScripted ? loadPersona(personaId) : null;
+  session.mode = isScripted ? "scripted" : "manual";
+  session.runLabel = typeof runLabel === "string" ? runLabel.trim() || null : null;
+  session.fingerprint = buildFingerprint({
+    mode: session.mode,
+    runLabel: session.runLabel,
+    personaId: persona ? persona.id : null,
+    scriptVersion: persona ? persona.script_version : null,
+  });
+  if (persona) {
+    session.scriptAnswers = scriptAnswers(persona);
+    session.scriptedFallback = persona.scripted_fallback || null;
+    session.scriptCoverage = { aliases_answered_by_script: [], aliases_missing_script: [], fallback_count: 0 };
+  }
+  persistSession(session);
 
   // Pre-warm focus points while the user answers intro questions
   generateFocusPoints(ctx, { session: { id: session.id, dir: session.dir } })

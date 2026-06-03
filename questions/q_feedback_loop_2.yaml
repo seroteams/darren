@@ -1,0 +1,10 @@
+alias: q_feedback_loop_2
+label: Feedback loop
+name: "How is the critique you're getting changing the next version of the work?"
+description: Checks whether feedback is translating into clearer action or just more iteration.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

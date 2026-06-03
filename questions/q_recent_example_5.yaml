@@ -1,0 +1,9 @@
+alias: q_recent_example_5
+label: Recent example
+name: Take the onboarding dashboard — what specifically came back in round one?
+description: Anchor the conversation in one concrete review round and the observable feedback she received.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_recent_review_example
+label: Recent review example
+name: Can you walk me through one recent design that took more review rounds than you expected?
+description: Gets a concrete example of where the work started needing repeated feedback.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

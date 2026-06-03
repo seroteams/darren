@@ -32,6 +32,16 @@ function serialize(s) {
     pendingDrillRequest: Boolean(s.pendingDrillRequest),
     showReturningToArcHint: Boolean(s.showReturningToArcHint),
     notes: s.notes || [],
+    agendaInput: s.agendaInput ?? null,
+    agendaInjected: Boolean(s.agendaInjected),
+    agendaCovered: s.agendaCovered ?? null,
+    mode: s.mode || "manual",
+    runLabel: s.runLabel ?? null,
+    fingerprint: s.fingerprint ?? null,
+    scriptAnswers: s.scriptAnswers ?? null,
+    scriptedFallback: s.scriptedFallback ?? null,
+    scriptCoverage: s.scriptCoverage ?? null,
+    verdict: s.verdict ?? null,
   };
 }
 
@@ -55,6 +65,9 @@ function hydrateSession(s, sessionDir) {
   s.tracker = cost.createTracker();
   if (s.pendingDrillRequest == null) s.pendingDrillRequest = false;
   if (s.showReturningToArcHint == null) s.showReturningToArcHint = false;
+  if (s.agendaInjected == null) s.agendaInjected = false;
+  if (s.agendaCovered === undefined) s.agendaCovered = null;
+  if (s.agendaInput === undefined) s.agendaInput = null;
   if (!s.axisState || typeof s.axisState !== "object") s.axisState = initState();
   return s;
 }

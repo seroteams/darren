@@ -1,0 +1,10 @@
+alias: q_recovery_or_residue
+label: Recovery or residue
+name: What feels like normal post-launch recovery for you right now?
+description: Separates expected decompression from unresolved friction after shipping.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

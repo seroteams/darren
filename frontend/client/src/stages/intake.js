@@ -2,8 +2,17 @@ import { STAGES, resetSession } from "../state.js";
 import { getMeetingTypes, startSession } from "../api.js";
 import { swapField, focusField } from "../ui/field.js";
 import { confirmAction } from "../ui/confirm.js";
+import { confirmResetSession } from "../ui/session-reset.js";
 
 const SUBSTAGES = ["NAME", "ROLE", "SENIORITY", "MEETING_TYPE", "NOTES"];
+
+const STEP_NAMES = {
+  NAME: "Name",
+  ROLE: "Role",
+  SENIORITY: "Seniority",
+  MEETING_TYPE: "Meeting type",
+  NOTES: "Context notes",
+};
 
 const COPY = {
   NAME: {
@@ -26,7 +35,6 @@ const COPY = {
   },
   NOTES: {
     question: "Anything Sero should know?",
-    hint: "Optional. A line or two on what's been on your mind lately.",
     placeholder: "e.g. They've been working late. Something feels off.",
     key: "notes",
   },
@@ -35,29 +43,29 @@ const COPY = {
 export async function mount(root, { store, setState }) {
   root.innerHTML = `
     <div class="stage-inner space-y-10">
-      <header class="flex items-baseline justify-between">
-        <div class="space-y-1">
-          <div class="eyebrow">Let's set the scene</div>
-          <div class="stage-step text-sm text-ink-mute"></div>
+      <header class="space-y-3">
+        <div class="intake-header__row">
+          <div class="space-y-1 min-w-0">
+            <div class="eyebrow">Setup</div>
+            <div class="stage-step text-sm text-ink-mute"></div>
+          </div>
+          <button class="btn btn--ghost js-start-fresh flex-shrink-0" type="button">Cancel setup</button>
         </div>
-        <button class="btn btn--ghost js-start-fresh" type="button">Start over</button>
+        <p class="text-ink-dim text-sm max-w-measure">Sero prepares and runs a 1:1 interview, then writes a manager briefing.</p>
+        <div class="intake-progress" role="progressbar" aria-valuemin="1" aria-valuemax="${SUBSTAGES.length}" aria-valuenow="1">
+          <div class="intake-progress__fill"></div>
+        </div>
       </header>
       <div class="field-host"></div>
-      <footer class="text-sm text-ink-mute flex items-center gap-2">
-        <span><span class="kbd">Enter</span> to continue</span>
-      </footer>
     </div>
   `;
   const host = root.querySelector(".field-host");
   const stepLabel = root.querySelector(".stage-step");
+  const progressBar = root.querySelector(".intake-progress");
+  const progressFill = root.querySelector(".intake-progress__fill");
 
   root.querySelector(".js-start-fresh").addEventListener("click", async () => {
-    const ok = await confirmAction({
-      message: "Start over? Your answers so far will be cleared.",
-      confirmLabel: "Start over",
-      cancelLabel: "Cancel",
-      destructive: true,
-    });
+    const ok = await confirmResetSession(confirmAction, { to: STAGES.START });
     if (!ok) return;
     resetSession();
     setState({ stage: STAGES.START });
@@ -67,7 +75,10 @@ export async function mount(root, { store, setState }) {
   let currentSub = store.substage || "NAME";
 
   function refreshStep() {
-    stepLabel.textContent = `${SUBSTAGES.indexOf(currentSub) + 1} of ${SUBSTAGES.length}`;
+    const idx = SUBSTAGES.indexOf(currentSub) + 1;
+    stepLabel.textContent = `Step ${idx} of ${SUBSTAGES.length} — ${STEP_NAMES[currentSub]}`;
+    progressBar.setAttribute("aria-valuenow", String(idx));
+    progressFill.style.width = `${(idx / SUBSTAGES.length) * 100}%`;
   }
 
   refreshStep();
@@ -109,7 +120,7 @@ export async function mount(root, { store, setState }) {
       const val = input.value.trim();
       const err = wrap.querySelector(".error-msg");
       if (!val) {
-        err.textContent = "Needs a value to continue.";
+        err.textContent = "Add a value to continue.";
         err.hidden = false;
         return;
       }
@@ -129,10 +140,9 @@ export async function mount(root, { store, setState }) {
         <h1 class="h1 mb-4">${cfg.question}</h1>
         <textarea class="textarea" rows="4" placeholder="${cfg.placeholder}" data-autofocus></textarea>
       </label>
-      <div class="hint">${cfg.hint} <span class="kbd">Enter</span> to continue · <span class="kbd">Shift</span>+<span class="kbd">Enter</span> for a new line.</div>
       <div class="field-actions">
         <button class="btn js-submit">Continue</button>
-        <button class="btn btn--ghost js-skip">Skip</button>
+        <button class="btn btn--ghost js-skip">Skip (optional)</button>
       </div>
     `;
     const ta = wrap.querySelector("textarea");
@@ -162,7 +172,7 @@ export async function mount(root, { store, setState }) {
     wrap.setAttribute("data-autofocus", "");
     wrap.innerHTML = `
       <h1 class="h1 mb-2">What kind of meeting?</h1>
-      <div class="hint mb-3">Pick the shape that fits today. You can explain nuance in the notes next.</div>
+      <div class="hint mb-3">Pick the shape that fits today. Click a card to continue — you can add nuance in the notes step.</div>
       <div class="grid gap-3 js-cards"></div>
     `;
     const cards = wrap.querySelector(".js-cards");

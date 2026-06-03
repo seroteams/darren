@@ -133,6 +133,112 @@ export function formatDebriefNotes(notes) {
     });
 }
 
+const QA_REVIEW_INSTRUCTIONS = `Go.
+
+Review this session as a prompt-engine QA pass, not as product strategy.
+
+Use ONLY the loaded run evidence:
+- focus points
+- preparation output
+- question bank
+- transcript
+- final evaluation
+- my live testing notes and concerns
+
+Goal:
+Find prompt/engine fixes that make future Sero runs more realistic, grounded, and useful.
+
+Pay special attention to these issues from the run:
+
+1. Test input realism
+The manager answers were too polished because ChatGPT helped generate them. Assume real managers type shorter, rougher, less complete notes. Identify where the prompts over-reward polished answers or fail when answers are sparse.
+
+2. Skipped / weak answers
+The final briefing said "Maya's answers were mostly skips" but still made strong claims. Fix this. Strong conclusions must reduce confidence when evidence is skipped, thin, or manager-supplied.
+
+3. Evidence ownership
+Separate:
+- what Maya actually said
+- what the manager inferred
+- what Sero suggested
+Do not claim Maya "named" or "proposed" something if it came from the manager input or Sero.
+
+4. Briefing length
+The final briefing is too long for a manager. Reduce by 30–40%. Keep only what helps the next action.
+
+5. Tone
+Remove harsh/internal wording:
+- "forcing her"
+- "checklist non-adoption"
+- anything that sounds like prompt/system language
+Use normal manager language.
+
+6. Scores
+Check whether wellbeing/engagement/clarity/growth scoring is useful here. If evidence is weak, prefer "not enough signal" over numeric-looking confidence.
+
+Output format:
+
+A. Confirmed issues from this run
+Only list issues grounded in the run.
+
+B. Prompt fixes
+For each issue:
+- file/stage likely affected
+- exact rule to add/change
+- why it fixes the issue
+
+C. Engine/data fixes
+Only include if prompt changes are not enough.
+
+D. What NOT to change
+Protect anything that worked well.
+
+E. Final recommendation
+Give me the smallest safe fix set for the next run.`;
+
+function buildRunContextBlock({ ctx, payload, sessionDir }) {
+  const lines = ["## Run context", ""];
+  const name = String(ctx?.name || "").trim();
+  const role = String(ctx?.role || "").trim();
+  const seniority = String(ctx?.seniority || "").trim();
+  const meetingType = String(ctx?.meetingType || "").trim();
+  if (name) lines.push(`**Report:** ${name}`);
+  if (role) lines.push(`**Role:** ${role}`);
+  if (seniority) lines.push(`**Seniority:** ${seniority}`);
+  if (meetingType) lines.push(`**Meeting type:** ${meetingType}`);
+  if (payload.sessionId) lines.push(`**Session ID:** ${payload.sessionId}`);
+  if (sessionDir) lines.push(`**Log folder (absolute):** ${sessionDir}`);
+  if (payload.logDirCopy) lines.push(`**Log folder (relative):** ${payload.logDirCopy}`);
+  if (payload.reviewrunTip) lines.push(`**Review command:** ${payload.reviewrunTip}`);
+  lines.push("");
+  lines.push("**Pipeline on disk:**");
+  lines.push(payload.tree?.root || payload.logDir || "");
+  for (const line of payload.tree?.lines || []) {
+    lines.push(`${line.prefix} ${line.text}`);
+  }
+  lines.push("");
+  const api = payload.apiDuration || {};
+  const apiLine = `**API time:** ${api.label || "—"}`;
+  lines.push(api.callCount ? `${apiLine} (${api.callCount} call${api.callCount === 1 ? "" : "s"})` : apiLine);
+  if (payload.hasWallClock && payload.wallDuration?.label) {
+    lines.push(`**Wall clock:** ${payload.wallDuration.label}`);
+  }
+  if (payload.noteCount > 0) {
+    lines.push("");
+    lines.push("**Testing notes captured during run:**");
+    for (const n of payload.notes || []) {
+      lines.push(`- [${n.time}] ${n.stageLabel}: ${n.text}`);
+    }
+    if (payload.notesMdPath) lines.push(`**Notes file:** ${payload.notesMdPath}`);
+  }
+  lines.push("");
+  return lines.join("\n");
+}
+
+export function buildQaReviewPrompt({ ctx, payload, sessionDir }) {
+  return `${buildRunContextBlock({ ctx, payload, sessionDir })}\n${QA_REVIEW_INSTRUCTIONS}`;
+}
+
 export function buildRunDebriefPayload({
   sessionId,
   sessionDir,
@@ -170,5 +276,6 @@ export function buildRunDebriefPayload({
     reviewrunTip: `/reviewrun ${relDirSlash.replace(/\/$/, "")}`,
     notesMdPath: `${relDirSlash}notes.md`,
     surface,
+    cost: cost || null,
   };
 }

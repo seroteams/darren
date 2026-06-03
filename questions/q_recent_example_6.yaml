@@ -1,0 +1,9 @@
+alias: q_recent_example_6
+label: Recent example
+name: What recent design best shows this pattern of unresolved edge cases and flow?
+description: Anchor the conversation in one observable example before naming the gap.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

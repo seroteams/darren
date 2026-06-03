@@ -1,0 +1,10 @@
+alias: q_repeat_rounds
+label: Repeat rounds
+name: What part of the work is still getting discovered too late?
+description: Names the pattern behind repeated review rounds and where the miss is happening.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

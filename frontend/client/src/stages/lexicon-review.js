@@ -13,13 +13,13 @@ export async function mount(root, { store, setState }) {
   root.innerHTML = `
     <div class="stage-inner space-y-8">
       <header class="space-y-1">
-        <div class="eyebrow">Lexicon</div>
+        <div class="eyebrow">Phrase library</div>
         <h1 class="h1 js-stage-title">Anything worth keeping?</h1>
         <div class="text-ink-dim text-sm max-w-measure js-stage-lede">
-          Phrases and patterns from this 1:1 that might be worth adding to your lexicon. Yes keeps it, no drops it.
+          Terms worth saving from this conversation for future runs. Keep adds it; drop removes it.
         </div>
       </header>
-      <div class="thinking-host min-h-[60px] flex items-center text-ink-mute">Loading candidates,</div>
+      <div class="thinking-host min-h-[60px] flex items-center text-ink-mute">Loading candidates…</div>
       <div class="result-host"></div>
     </div>
   `;
@@ -49,15 +49,14 @@ export async function mount(root, { store, setState }) {
   thinkingHost.remove();
 
   function finish() {
-    try { localStorage.removeItem("seroSessionId"); } catch {}
     resetSession();
-    setState({ stage: STAGES.INTAKE, substage: "NAME" });
+    setState({ stage: STAGES.START });
   }
 
   function footerHtml({ showPromote, promoteCount, doneDisabled = false, doneLabel = "Continue" }) {
     const promoteBtn =
       showPromote && promoteCount > 0
-        ? `<button type="button" class="btn btn--ghost js-promote">Promote to live lexicon (${promoteCount})</button>`
+        ? `<button type="button" class="btn btn--ghost js-promote">Promote to production lexicon (${promoteCount})</button>`
         : "";
     return `
       <div class="flex flex-wrap gap-2 pt-6 reveal">
@@ -78,7 +77,7 @@ export async function mount(root, { store, setState }) {
   }
 
   function renderPromotePanel() {
-    titleEl.textContent = "Promote to live lexicon";
+    titleEl.textContent = "Promote to production lexicon";
     ledeEl.textContent =
       "These phrases are in your candidate pile but not yet in the live lexicon questions pull from. Promote moves them into the canonical file; drop removes them from candidates.";
 

@@ -1,0 +1,9 @@
+alias: q_happy_path_only
+label: Happy path only
+name: You said you polish the happy path first — what usually gets missed at that point?
+description: Drill into the specific omissions created by her current readiness heuristic.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added

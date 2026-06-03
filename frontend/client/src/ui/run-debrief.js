@@ -1,6 +1,6 @@
 import * as runDebrief from "@sero/run-debrief";
 
-const { buildRunDebriefPayload } = runDebrief;
+const { buildRunDebriefPayload, buildQaReviewPrompt } = runDebrief;
 
 function escapeHtml(s) {
   return String(s == null ? "" : s)
@@ -60,6 +60,15 @@ export function buildPayloadFromStore(store, briefing) {
   });
 }
 
+export function buildQaReviewPromptFromStore(store, briefing) {
+  const payload = buildPayloadFromStore(store, briefing);
+  return buildQaReviewPrompt({
+    ctx: store.ctx,
+    payload,
+    sessionDir: store.sessionDir,
+  });
+}
+
 export function mountRunDebrief(host, payload) {
   if (!host || !payload) return;
 
@@ -70,7 +79,7 @@ export function mountRunDebrief(host, payload) {
   section.innerHTML = `
     <header class="run-log__head">
       <div class="run-log__head-left">
-        <div id="run-log-title" class="eyebrow">Run log</div>
+        <div id="run-log-title" class="eyebrow">Session review</div>
         <div class="run-log__id num-tabular"></div>
       </div>
       <div class="run-log__actions"></div>
@@ -78,7 +87,7 @@ export function mountRunDebrief(host, payload) {
     <div class="run-log__stats"></div>
     <div class="run-log__grid">
       <div class="run-log__block run-log__block--retest">
-        <div class="run-log__block-label">Re-test</div>
+        <div class="run-log__block-label">CLI replay</div>
         <p class="run-log__disclaimer">Replays a scenario file through the CLI — not this session's live answers.</p>
         <div class="run-log__commands" role="group" aria-label="Smoke test commands"></div>
         <div class="run-log__scenario-pill caption"></div>
@@ -86,6 +95,7 @@ export function mountRunDebrief(host, payload) {
       <div class="run-log__block run-log__block--folder">
         <div class="run-log__block-label">Log on disk</div>
         <button type="button" class="run-log__path num-tabular"></button>
+        <p class="caption text-ink-mute">Click path to copy — open in your file manager</p>
         <div class="run-log__tree" aria-label="Log folder structure"></div>
       </div>
     </div>
@@ -126,6 +136,16 @@ export function mountRunDebrief(host, payload) {
       payload.noteCount ? "notes.md" : "none"
     )
   );
+
+  if (payload.cost) {
+    stats.appendChild(
+      makeStat(
+        "Session cost (dev)",
+        formatUsd(payload.cost.usd_total),
+        `${formatTokens(payload.cost.total_tokens)} tokens · ${payload.cost.call_count} call${payload.cost.call_count === 1 ? "" : "s"}`
+      )
+    );
+  }
 
   const cmdHost = section.querySelector(".run-log__commands");
   const line1 = document.createElement("div");
@@ -192,4 +212,18 @@ export function mountRunDebrief(host, payload) {
 
   host.appendChild(section);
   requestAnimationFrame(() => section.classList.add("is-in"));
+}
+
+function formatUsd(usd) {
+  if (usd == null || Number.isNaN(usd)) return "—";
+  if (usd < 0.01) return `$${usd.toFixed(4)}`;
+  if (usd < 1) return `$${usd.toFixed(3)}`;
+  return `$${usd.toFixed(2)}`;
+}
+
+function formatTokens(n) {
+  if (!n) return "0";
+  if (n < 1000) return `${n}`;
+  if (n < 1_000_000) return `${(n / 1000).toFixed(1)}k`;
+  return `${(n / 1_000_000).toFixed(2)}M`;
 }

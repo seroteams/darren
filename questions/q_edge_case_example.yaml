@@ -1,0 +1,10 @@
+alias: q_edge_case_example
+label: Edge case example
+name: Can you walk me through a recent edge case where the first pass was not enough?
+description: Surfaces a concrete quality miss or near-miss in recent backend work.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

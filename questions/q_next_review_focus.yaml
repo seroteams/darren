@@ -1,0 +1,10 @@
+alias: q_next_review_focus
+label: Next review focus
+name: What do you want to focus on before the next review round?
+description: Closes on a specific next step without opening a new topic.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

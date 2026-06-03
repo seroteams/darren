@@ -1,0 +1,10 @@
+alias: q_support_needed_2
+label: Support needed
+name: What do you want more of from me right now?
+description: Surfaces the most useful manager support without presuming the answer.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_drafting_friction
+label: Drafting friction
+name: Where does the work slow down most for you before review?
+description: Surfaces whether the drag is in exploration, decision-making, polish, or confidence.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

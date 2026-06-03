@@ -1,0 +1,10 @@
+alias: q_support_needed_3
+label: Support needed
+name: What kind of feedback would help you tighten designs faster?
+description: Identifies the form of guidance that would reduce review cycles without overdirecting her.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

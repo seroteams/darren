@@ -5,14 +5,14 @@
   "meeting_type": "Bi-weekly check-in",
   "manager_notes": "Lin has delivered two major features ahead of schedule but has worked late for about three weeks. I need to understand whether this pace was a temporary push or is becoming a default. Because Lin tends to brush off concern, I should ask directly what is driving the load now that those launches are done. I also want clarity on what work only Lin should own versus what could be delegated, since sustained late nights at this level can hide a distribution or autonomy problem.",
   "answers": [
-    "The last stretch shipped, but it was heavier than I made it sound.",
+    "Last stretch shipped, but heavier than she made it sound.",
     "Late nights came from carrying decision bottlenecks and final reviews.",
     "Some of that work could have moved to the team sooner.",
-    "I am proud of the outcomes, but the pace should not be normal.",
-    "I still do not get enough substantive feedback on key decisions.",
-    "I want clearer ownership boundaries so I am not default escalation.",
-    "Next I want to hand off one stream end-to-end and stay out of the middle.",
-    "If we reset scope now, the next month is sustainable.",
-    "I want to focus first on unblocking the one dependency that is slowing the team the most this week."
+    "Proud of the outcomes, but the pace shouldn't be normal.",
+    "Still doesn't get enough substantive feedback on key decisions.",
+    "Wants clearer ownership boundaries so she isn't default escalation.",
+    "Next wants to hand off one stream end-to-end and stay out of the middle.",
+    "If scope resets now, the next month is sustainable.",
+    "Wants to focus first on unblocking the one dependency slowing the team most this week."
   ]
 }

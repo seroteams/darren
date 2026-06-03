@@ -1,0 +1,9 @@
+alias: q_next_change_3
+label: Next change
+name: Given this pattern, what will you change before your next review?
+description: "Land the conversation on the employee's first concrete behaviour change."
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +3
+source: planner_added

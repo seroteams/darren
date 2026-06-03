@@ -94,56 +94,38 @@ function transcriptText(transcript) {
     .join("\n");
 }
 
-const FIRST_PERSON_RE =
-  /\b(i|i'm|i've|i'd|i'll|my|me|mine|myself|we|we're|we've|we'd|our|ours|us)\b/i;
-const THIRD_PERSON_SUBJECT_RE =
-  /\b(she|he|they|her|his|their|theirs|them|him|hers)\b/i;
-
-function escapeRegExp(s) {
-  return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
 function tokenCount(s) {
   return String(s || "").trim().split(/\s+/).filter(Boolean).length;
-}
-
-// Manager-voiced = the manager paraphrasing the report in the third person, not
-// the report self-reporting. Flagged only when there is NO first-person pronoun
-// AND a third-person subject reference (the report's name or she/he/they). This
-// avoids misflagging genuine first-person answers that simply omit a pronoun
-// ("Usually the flow and edge cases.").
-function isManagerVoiced(answer, name) {
-  const a = String(answer || "");
-  if (!a.trim()) return false;
-  if (FIRST_PERSON_RE.test(a)) return false;
-  const hasName = name
-    ? new RegExp(`\\b${escapeRegExp(name)}\\b`, "i").test(a)
-    : false;
-  return hasName || THIRD_PERSON_SUBJECT_RE.test(a);
 }
 
 // Precompute the read-quality gate the evaluation prompt consumes, so the
 // determination does not depend on a weak model reasoning it out at generation
 // time. Mirrors <read_quality_gate> in prompts/final-evaluation.md.
-function computeReadQuality(transcript, name) {
+//
+// The transcript answer field holds the MANAGER's shorthand note of the report's
+// reply — third-person, terse, fragment-OK. That is the expected, primary signal,
+// NOT a sign of a thin read. A turn is "shallow" only when the note carries no
+// signal at all: a skip, an empty jot, or a ≤2-token non-answer ("fine", "ok").
+// `is_note` flags a turn that holds a real note worth reading.
+function computeReadQuality(transcript) {
   const turns = (transcript || []).map((t, i) => {
     const answer = typeof t === "string" ? t : t?.answer || "";
     const skipped = t?.skipped === true;
-    const managerVoiced = isManagerVoiced(answer, name);
-    const shortAns = tokenCount(answer) <= 3;
-    const first_person = !managerVoiced && !skipped && answer.trim().length > 0;
-    const shallow = skipped || shortAns || managerVoiced;
-    return { index: i + 1, alias: t?.alias || null, first_person, shallow };
+    const empty = answer.trim().length === 0;
+    const tooShort = tokenCount(answer) <= 2;
+    const shallow = skipped || empty || tooShort;
+    const is_note = !shallow;
+    return { index: i + 1, alias: t?.alias || null, is_note, shallow };
   });
   const total_turns = turns.length;
   const shallow_count = turns.filter((t) => t.shallow).length;
-  const first_person_turns = turns.filter((t) => t.first_person).length;
+  const note_turns = turns.filter((t) => t.is_note).length;
   const shallow_ratio = total_turns
     ? Number((shallow_count / total_turns).toFixed(2))
     : 0;
   const partial_read = shallow_count >= 3 || shallow_ratio >= 0.4;
   return {
-    first_person_turns,
+    note_turns,
     total_turns,
     shallow_count,
     shallow_ratio,
@@ -345,7 +327,7 @@ function buildMessages({
     .replaceAll("{{AXIS_STATE_JSON}}", JSON.stringify(axisState, null, 2))
     .replaceAll(
       "{{READ_QUALITY_JSON}}",
-      JSON.stringify(computeReadQuality(transcript, ctx.name), null, 2)
+      JSON.stringify(computeReadQuality(transcript), null, 2)
     )
     .replaceAll("{{AGENDA_CARRY_FORWARD}}", formatAgendaCarryForward(agenda));
 

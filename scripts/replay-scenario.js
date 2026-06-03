@@ -18,6 +18,12 @@ loadEnv();
 const { MEETING_TYPES } = require("../src/meeting-types");
 const { TOTAL_BUDGET } = require("../src/budgets");
 const { validateBrief, generatePreparation } = require("../src/preparation");
+const { resolveSelectedFocus } = require("../src/selected-focus");
+const {
+  runGoldenScenarioChecks,
+  runQualityPrepListenFor,
+} = require("../src/golden-checks");
+const { validateQuestionBeforeShow } = require("../src/question-validator");
 
 const REGRESSION_DIR = path.join(ROOT, "scenarios/regression");
 const BATCH_DIR = path.join(ROOT, "scenarios/batch");
@@ -194,13 +200,19 @@ function runSmokeSchemaChecks(scenario) {
 
 function prepInputs(scenario) {
   const p = scenario.prep;
+  const focusPoints = p.focusPoints || [];
+  const selectedFocus =
+    p.selectedFocus ||
+    resolveSelectedFocus({ notes: p.notes, observedShift: p.notes, focusPoints });
   return {
     name: p.name,
     roleTitle: p.role,
     seniority: p.seniority,
     meetingType: p.meetingType,
     observedShift: p.notes || "",
-    focusPoints: p.focusPoints || [],
+    focusPoints,
+    selectedFocus,
+    primaryFocusId: selectedFocus?.id,
   };
 }
 
@@ -374,6 +386,16 @@ async function replayOne(id, { fixturesOnly, transcriptPath }) {
     failed += runTranscriptArcChecks(scenario, transcriptPath);
   }
 
+  if (scenario.golden) {
+    console.log("\n─── Golden regression checks (offline) ───");
+    const { failures: gFails, passes: gPasses } = runGoldenScenarioChecks(scenario);
+    for (const p of gPasses) console.log(`  PASS  ${p}`);
+    for (const f of gFails) {
+      console.error(`  FAIL  ${f}`);
+      failed += 1;
+    }
+  }
+
   if (fixturesOnly) {
     if (failed > 0) {
       console.log(`\n${failed} check(s) failed.\n`);
@@ -399,6 +421,12 @@ async function replayOne(id, { fixturesOnly, transcriptPath }) {
   console.log("  validator issues:", validation.issues.length ? validation.issues.join("; ") : "(none)");
 
   const liveFails = runLiveChecks(brief, scenario);
+  const sf = inputs.selectedFocus;
+  if (sf?.id === "quality") {
+    for (const f of runQualityPrepListenFor(brief, sf)) {
+      liveFails.push(f);
+    }
+  }
   if (liveFails.length) {
     liveFails.forEach((f) => console.error(`  FAIL  ${f}`));
     console.log();

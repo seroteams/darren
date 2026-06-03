@@ -1,0 +1,10 @@
+alias: q_kitchen_rhythm
+label: Kitchen rhythm
+name: What part of the kitchen rhythm is already feeling natural to you?
+description: Surfaces where he is settling in smoothly across people, pace, and routines.
+purpose: wellbeing
+stage: settling
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

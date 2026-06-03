@@ -4,6 +4,7 @@
   "preparation": "gpt-5.4",
   "bank": "gpt-5.4-mini",
   "planner": "gpt-5.4",
-  "evaluation": "gpt-5.4-nano",
-  "judge": "gpt-5.4"
+  "evaluation": "gpt-5.4-mini",
+  "judge": "gpt-5.4",
+  "fixer": "gpt-5.4"
 }

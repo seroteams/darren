@@ -44,6 +44,13 @@ module.exports = {
     "Leading the employee toward the manager's prewritten conclusion.",
     "Closing on 'how do you feel about that' instead of a concrete commitment.",
   ],
-  // Prompt set: inherits the shared house prompts. Override a slot to fork.
+  eval_rules: [
+    "<type_eval_rules>",
+    "Performance & feedback — manager briefing:",
+    "- Anchor headline and summary on observable quality bar: edge cases, handoff completeness, escalation triggers, release/payment risk.",
+    "- Do not treat communication as the primary story unless the transcript has explicit reviewer/stakeholder confusion.",
+    "- When selected focus is quality, keep diagnosis on defect prevention and handoff — not generic communication themes.",
+    "</type_eval_rules>",
+  ].join("\n"),
   prompts: { ...SHARED_PROMPTS },
 };

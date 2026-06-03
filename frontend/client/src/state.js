@@ -11,6 +11,7 @@ export const STAGES = Object.freeze({
   BRIEFING: "BRIEFING",
   LEXICON_REVIEW: "LEXICON_REVIEW",
   RUN_DEBRIEF: "RUN_DEBRIEF",
+  COMPARE: "COMPARE",
   ERROR: "ERROR",
 });
 
@@ -35,6 +36,7 @@ const initial = {
   retryStage: null,
   stageTick: 0,
   regenerateFocusPoints: false,
+  scripted: null,
 };
 
 export const store = { ...initial };

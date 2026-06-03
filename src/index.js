@@ -4,7 +4,9 @@ const { generateFocusPoints } = require("./generate");
 const { generatePreparation } = require("./preparation");
 const { generateBankWithFallback } = require("./question-generator");
 const { planTurn } = require("./queue-manager");
-const { evaluate } = require("./reviewer");
+const { evaluate, evaluateProductQa, applyManagerBriefingPostProcess } = require("./reviewer");
+const { resolveSelectedFocus } = require("./selected-focus");
+const { validateQuestionBeforeShow } = require("./question-validator");
 const budgets = require("./budgets");
 
 module.exports = {
@@ -19,5 +21,9 @@ module.exports = {
   generateBankWithFallback,
   planTurn,
   evaluate,
+  evaluateProductQa,
+  applyManagerBriefingPostProcess,
+  resolveSelectedFocus,
+  validateQuestionBeforeShow,
   ...budgets,
 };

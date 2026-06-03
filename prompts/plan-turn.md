@@ -30,8 +30,8 @@ If the last answer contains a **concrete thread** — a named role, project, asp
 **Concrete thread examples:**
 - Answer "head of department?" → drill: "Head of department — what is it about that role that pulls you? Is it the scope, the people, the title, or something else?"
 - Answer "the billing rewrite is going sideways" → drill: "Where specifically is it going sideways, from your read?"
-- Answer "I want to mentor more" → drill: "Mentoring — who specifically would you mentor, and what would have to drop to make room?"
-- Answer "I'm not sure I want to manage" → drill: "What's making you uncertain, and what's the alternative you're imagining?"
+- Note "wants to mentor more" → drill: "Mentoring — who specifically would you mentor, and what would have to drop to make room?"
+- Note "unsure about wanting to manage" → drill: "What's making you uncertain, and what's the alternative you're imagining?"
 
 **NOT a concrete thread (arc proceeds normally):**
 - Vague non-answers ("fine", "ok", "not much") or a generic complaint with no new specific → no thread.
@@ -39,8 +39,7 @@ If the last answer contains a **concrete thread** — a named role, project, asp
 
 **Construction of the thread-follow item:**
 - `ref_alias: null` (it's a new, answer-specific question).
-- **Mirror the answer (hard)** when the answer is spoken employee voice. `name` MUST be a full sentence with clear subject and verb.
-- **Telegraphic / note-style answers:** If the answer reads like manager scratch notes (fragment sentences, no "I/she said", telegraphic clauses), do NOT paste fragments into `name`. Rephrase as a spoken question about the underlying assumption (e.g. "When you assumed retry logic covered it, what did you expect the system to do?"). Never start with a broken fragment (e.g. "hought retry logic").
+- **The answer is the manager's shorthand note** of what the report said — terse, third-person, fragment-OK. Do NOT paste note fragments into `name`. Rephrase the note into a clean spoken question the manager asks the report next, about the thread or assumption the note surfaced (e.g. note "assumed retry logic covered it" → "When you assumed retry logic covered it, what did you expect the system to do?"). `name` MUST be a full sentence with clear subject and verb. Never start with a broken fragment (e.g. "hought retry logic").
 - If the substantive content is already clear (miss named + cause stated), skip thread-follow and advance the arc; note `[THREAD-CLEAR]` in `assessment.note`.
 - One focused follow-up — not a compound question.
 - `axis_effects` mirrors the most relevant axis from the last question's signature, or the axis the thread implies.
@@ -225,7 +224,7 @@ When triggered: score negative at full magnitude. The answer's constructive or p
 
 **Signature binding — this is the core scoring rule.**
 
-**Competency vs wellbeing:** On `purpose: competency` questions about judgment, handoff, or edge cases, do NOT score `wellbeing` negative for deadline mentions, "rushed", or time pressure unless the report describes emotional strain (stressed, overwhelmed, burned out). Route time-pressure signal to `clarity` or note off-signature in `note`.
+**Competency vs wellbeing:** On `purpose: competency` questions about judgment, handoff, or edge cases, do NOT score `wellbeing` negative for deadline mentions, "rushed", or time pressure unless the note records emotional strain (stressed, overwhelmed, burned out). Route time-pressure signal to `clarity` or note off-signature in `note`.
 
 Realise deltas ONLY for axes that appear in the question's `axis_effects`. If the answer volunteers signal about a different axis, name that in the `note` but do not score it here — the next question can pick it up.
 
@@ -239,7 +238,7 @@ Read the answer and assign it one of five types:
 - **Pivot / off-topic** — answer doesn't engage with the axis at all (employee answered a different question entirely) → 0.
 - **Skip / evasion** — "skip", "pass", one-word, genuinely evasive, or unintelligible/garbled strings (random characters, obvious typos with no recoverable meaning) → 0.
 - **Misalignment** — employee contrasts their understanding with the manager's ("I think X, boss thinks Y", "we're not aligned on what I need to learn") → negative on `clarity` when clarity is in the signature (typically `-1` or `-3`). This is a clarity signal, not growth — do not score it only on growth unless clarity is absent from the signature.
-- **Manager-voiced / not first-person** — the answer refers to the employee in the third person ("she", "her", "they", "Maya should…") or is the manager's own paraphrase/inference rather than the employee's own words. This is the manager talking *about* the report, not the report self-reporting → **0 deltas**. The `note` MUST start with `[NOT-SELF-REPORT]`. Do not generate a content-driven thread-follow from it (treat like pivot per `<planning_rules>` rule 5).
+- **Manager's own plan, not the report's reply** — the answer is the manager's shorthand note, and that is normal: a third-person note of what the report said ("checks main screens, skips edge cases") IS the signal — score it on content. The ONLY no-signal case here is when the note records the *manager's own* intent or next step rather than what the report said ("ask her to add a checklist", "follow up on scope next time") → **0 deltas**. The `note` MUST start with `[NO-REPORT-SIGNAL]`. Do not generate a content-driven thread-follow from it (treat like pivot per `<planning_rules>` rule 5).
 
 **Step 2 — realise the delta.**
 
@@ -250,14 +249,14 @@ Read the answer and assign it one of five types:
 - Deficiency-as-request → negative delta, typically at full magnitude. A clear, articulate list of what's missing is a strong signal.
 - Pivot / off-topic → 0.
 - Skip / evasion → 0.
-- Manager-voiced / not first-person → 0.
+- Manager's own plan, not the report's reply → 0.
 - Negative signatures mean the question is testing for risk. Invert valence only for that axis. Example: signature `{engagement:-1}` and answer "I feel checked out" realises `+1` because the risk was confirmed.
 
 **What "neutral" means.** True neutral is an answer that carries no signal either way — substantive but neither positive nor negative on the axis being tested. An answer describing absence, flatness, or deficit on a positive-signature axis is not neutral — classify it negative/absent and score it.
 
 **Shallow vs neutral.** Answers classified shallow in Step 0 ("fine", "ok", "good", ≤3 tokens with no concrete noun) are NOT neutral — they carry zero signal. Do not score them negative; return `deltas: []`. Do not treat brevity as evidence of distress.
 
-**CALIBRATION: In real 1:1 data, fewer than 15% of substantive (5+ word) answers carry zero signal.** If you are about to return all-zero deltas for a substantive answer, re-read it — you are almost certainly missing a mild signal. Score -1 or +1 rather than defaulting to 0. This calibration assumes a genuine first-person answer. Manager-voiced / not-first-person, third-person, or sparse rough-note answers are NOT "substantive answers" for this rule — never manufacture a `-1`/`+1` from them; return `deltas: []`.
+**CALIBRATION: In real 1:1 data, fewer than 15% of substantive (5+ word) notes carry zero signal.** If you are about to return all-zero deltas for a substantive note, re-read it — you are almost certainly missing a mild signal. Score -1 or +1 rather than defaulting to 0. A terse third-person manager note ("checks main screens, skips edge cases") IS a substantive answer for this rule. Only skips, empty jots, ≤2-token non-answers, or notes recording the manager's own plan are NOT substantive — never manufacture a `-1`/`+1` from them; return `deltas: []`.
 
 - `note`: one sentence. Name the specific signal in the answer. If the answer also volunteered an off-signature axis worth flagging, name that here (e.g. "Also revealed mentoring frustration — worth a growth probe next").
 </assessment_rules>
@@ -374,7 +373,7 @@ Before you emit a new or modified question, read it once and ask: does it look l
 
 **Example — deficiency-as-request (common failure mode)**
 
-Context: Turn 8. Last question: "What would actually push your growth here, and what would need to change to make that happen?" Signature: `{growth: 3}`. Answer: "More clarity on scope would help. And hearing about big projects before they're locked in, not after."
+Context: Turn 8. Last question: "What would actually push your growth here, and what would need to change to make that happen?" Signature: `{growth: 3}`. Answer (manager's note): "Wants more scope clarity, and to hear about big projects before they're locked in — not after."
 
 Correct response (abbreviated example object):
 {
@@ -391,7 +390,7 @@ Notes on the above:
 
 **Example — flat/absent answer**
 
-Context: Turn 2. Last question: "Where is your energy at right now, and what's influencing it?" Signature: `{wellbeing: 3}`. Answer: "Cleanup and docs for payments, reviewing PRs for the new team members. Not much stretching me right now."
+Context: Turn 2. Last question: "Where is your energy at right now, and what's influencing it?" Signature: `{wellbeing: 3}`. Answer (manager's note): "Cleanup and docs for payments, reviewing PRs for new team members — nothing stretching right now."
 
 Correct delta: `wellbeing: -1` — mild negative. Describes a low-stimulus, unstretched state, not a crisis.
 

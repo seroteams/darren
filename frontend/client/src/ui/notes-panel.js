@@ -5,6 +5,7 @@
 // inline editable textarea (same shortcuts; Esc cancels; Delete removes).
 
 import { postNote } from "../api.js";
+import { STAGES } from "../state.js";
 import {
   attachAutoGrow,
   cryptoId,
@@ -22,8 +23,9 @@ export function createNotesPanel({ store, setState }) {
     <div class="notes-panel__head">
       <div class="notes-panel__head-row">
         <div class="notes-panel__head-main">
-          <div class="notes-panel__ctx"></div>
-          <div class="notes-panel__eyebrow eyebrow">Notes</div>
+          <div class="notes-panel__ctx ctx-segments"></div>
+          <div class="notes-panel__eyebrow eyebrow">Test notes</div>
+          <p class="notes-panel__helper text-ink-dim text-xs">Your QA notes about this run. Manager context is shown in the main flow.</p>
         </div>
         <button type="button" class="notes-panel__close btn btn--ghost btn--sm" aria-label="Close notes">Close</button>
       </div>
@@ -31,9 +33,8 @@ export function createNotesPanel({ store, setState }) {
     </div>
     <div class="notes-panel__list"></div>
     <div class="notes-panel__compose">
-      <textarea rows="4" placeholder="Type a note about this stage…"></textarea>
+      <textarea rows="4" placeholder="Type a test note about this stage…"></textarea>
       <div class="notes-panel__compose-row">
-        <span class="notes-panel__hint">Enter to save · Shift+Enter for new line</span>
         <button type="button" class="btn btn--ghost notes-panel__save">Save note</button>
       </div>
     </div>
@@ -48,7 +49,7 @@ export function createNotesPanel({ store, setState }) {
   const toggleBtn = document.createElement("button");
   toggleBtn.type = "button";
   toggleBtn.className = "notes-panel__toggle";
-  toggleBtn.textContent = "Notes";
+  toggleBtn.textContent = "Test notes";
   toggleBtn.setAttribute("aria-expanded", "false");
   toggleBtn.setAttribute("aria-controls", "sero-notes-panel");
   toggleBtn.hidden = true;
@@ -56,6 +57,9 @@ export function createNotesPanel({ store, setState }) {
   el.id = "sero-notes-panel";
 
   let panelOpen = false;
+  // On the briefing (the manager-facing payoff), the QA rail starts collapsed
+  // at any width so the briefing reads clean; the toggle keeps it one click away.
+  let railCollapsed = false;
 
   const resizeComposer = attachAutoGrow(ta);
   const errorEl = document.createElement("div");
@@ -72,12 +76,14 @@ export function createNotesPanel({ store, setState }) {
   }
 
   function syncLayout(hidden) {
-    const narrow = NARROW_MQ.matches;
+    // A collapsed rail behaves like the narrow (toggle-driven) layout at any width.
+    const narrow = NARROW_MQ.matches || railCollapsed;
+    document.body.classList.toggle("notes-rail-collapsed", !hidden && railCollapsed);
     if (hidden) {
       toggleBtn.hidden = true;
       el.classList.add("is-hidden");
       el.classList.remove("notes-panel--open");
-      document.body.classList.remove("has-notes-panel", "notes-panel-open");
+      document.body.classList.remove("has-notes-panel", "notes-panel-open", "notes-rail-collapsed");
       toggleBtn.setAttribute("aria-expanded", "false");
       panelOpen = false;
       return;
@@ -189,9 +195,15 @@ export function createNotesPanel({ store, setState }) {
   function render(state) {
     const stage = state?.stage;
     const hidden = !state?.sessionId || HIDDEN_STAGES.has(stage);
+    railCollapsed = stage === STAGES.BRIEFING;
     syncLayout(hidden);
     if (!hidden) {
-      renderCtxSegments(ctxEl, state?.ctx || {});
+      if (stage === STAGES.QUESTIONING) {
+        ctxEl.innerHTML = "";
+        ctxEl.classList.add("is-empty");
+      } else {
+        renderCtxSegments(ctxEl, state?.ctx || {});
+      }
       listController.renderList(state?.notes || []);
     }
   }

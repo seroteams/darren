@@ -1,0 +1,9 @@
+alias: q_menu_ownership
+label: Menu ownership
+name: "You said 'the new menu' — what decisions do you expect to own there?"
+description: Drills into the specific ownership he wants around the menu before moving on.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

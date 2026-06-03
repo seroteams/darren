@@ -1,0 +1,9 @@
+alias: q_next_change_2
+label: Next change
+name: Given what we covered, what will you change in your next draft?
+description: Close by getting one concrete behavioural change she will make on the next piece of work.
+purpose: competency
+stage: commit
+axis_effects:
+  clarity: +3
+source: planner_added

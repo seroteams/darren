@@ -1,0 +1,10 @@
+alias: q_feedback_uptake
+label: Feedback uptake
+name: What kind of feedback changes your work fastest?
+description: Explores which critique lands and translates into action versus getting processed slowly.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

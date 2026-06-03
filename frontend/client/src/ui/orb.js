@@ -1,9 +1,5 @@
 // Renders the thinking orb + label + animated dots wave.
-// Usage:
-//   const orb = createOrb("Choosing focus points");
-//   root.appendChild(orb.el);
-//   orb.setLabel("Generating question bank");
-//   await orb.exit();        // animates out; resolves when done
+// When a subline is set, the generic prefix is hidden.
 
 export function createOrb(initialLabel = "") {
   const el = document.createElement("div");
@@ -14,16 +10,18 @@ export function createOrb(initialLabel = "") {
       <div class="orb__ring"></div>
     </div>
     <div class="thinking-label" aria-live="polite">
-      <span class="prefix">Thinking</span><span class="subline"></span><span class="dots" aria-hidden="true"><span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
+      <span class="prefix">Working</span><span class="subline"></span><span class="dots" aria-hidden="true"><span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
     </div>
   `;
+  const prefix = el.querySelector(".prefix");
   const subline = el.querySelector(".subline");
 
   function setLabel(text) {
-    // Remove & re-add the enter class so the blur-in replays
     el.classList.remove("thinking-enter");
     void el.offsetWidth;
-    subline.textContent = text ? `  ${text}` : "";
+    const hasSub = Boolean(text);
+    subline.textContent = hasSub ? `\u00a0\u00a0${text}` : "";
+    prefix.hidden = hasSub;
     el.classList.add("thinking-enter");
   }
   setLabel(initialLabel);

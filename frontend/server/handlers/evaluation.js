@@ -1,6 +1,7 @@
 const { requireSession } = require("../sessions");
 const { runStage } = require("./stream-helper");
 const { evaluate } = require("../../../src/reviewer");
+const { getSessionSelectedFocus } = require("../selected-focus");
 const { serialize } = require("../../../src/axes");
 const { formatNotesForEvaluation } = require("./notes");
 const { generateSuggestions, shouldReview } = require("../../../src/lexicon-reviewer");
@@ -31,11 +32,13 @@ module.exports = async function evaluation(c) {
       };
       kickLexiconReview(session);
     },
-    produce: () =>
-      evaluate(
+    produce: () => {
+      const selectedFocus = getSessionSelectedFocus(session);
+      return evaluate(
         {
           ctx: session.ctx,
           focusPoints: session.focusPointsResult.focus_points,
+          selectedFocus,
           transcript: session.transcript.map((t) => ({
             question: t.question.name,
             alias: t.question.alias,
@@ -44,9 +47,14 @@ module.exports = async function evaluation(c) {
           })),
           axisState: serialize(session.axisState),
           notes: notesForEvaluation,
+          agenda: {
+            summary: session.agendaInput?.summary ?? null,
+            covered: session.agendaCovered ?? null,
+          },
         },
         { session: { id: session.id, dir: session.dir } }
-      ),
+      );
+    },
     resultEvent: "briefing",
     buildPayload: (r) => session.briefing || r,
   });

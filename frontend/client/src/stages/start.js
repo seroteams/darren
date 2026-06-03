@@ -1,7 +1,8 @@
-import { STAGES } from "../state.js";
-import { listRecentRuns, getRunOverview, deleteRun } from "../api.js";
+import { STAGES, store } from "../state.js";
+import { listRecentRuns, getRunOverview, deleteRun, getPersonaBench, startSession } from "../api.js";
 import { createPipelineChangelog } from "../ui/pipeline-changelog.js";
 import { confirmAction, alertAction } from "../ui/confirm.js";
+import { stageLabel } from "../ui/stage-labels.js";
 
 let keyHandler = null;
 
@@ -11,20 +12,73 @@ export async function mount(root, { setState, rehydrateById }) {
   root.innerHTML = `
     <div class="stage-inner space-y-8">
       <header class="space-y-2">
-        <h1 class="h1">Start a run</h1>
-        <div class="text-ink-dim text-sm">Pick up where you left off, or start fresh.</div>
+        <h1 class="h1">Start a 1:1 prep session</h1>
+        <div class="text-ink-dim text-sm">Resume a session or start a new one.</div>
       </header>
 
       <div class="js-pipeline-host"></div>
 
+      <section class="js-bench" hidden>
+        <div class="card-flat space-y-3">
+          <div>
+            <div class="eyebrow">Demo persona</div>
+            <p class="text-ink-dim text-sm mt-1">Loads sample employee context. Leave unselected to enter your own setup.</p>
+          </div>
+          <div class="bench-select-wrap">
+            <select class="bench-select js-bench-select" disabled>
+            <option value="">Select a persona…</option>
+            </select>
+          </div>
+          <div class="space-y-2">
+            <div class="eyebrow">How to run</div>
+            <p class="text-ink-dim text-sm">Pick a flow — each demo persona can run either way.</p>
+          </div>
+          <div class="bench-flows" role="radiogroup" aria-label="Demo run flow">
+            <button type="button" class="bench-flow js-mode is-active" data-mode="manual" role="radio" aria-checked="true">
+              <span class="bench-flow__pick" aria-hidden="true"></span>
+              <span class="bench-flow__head">
+                <span class="bench-flow__title">Manual</span>
+                <span class="bench-flow__tag">You drive</span>
+              </span>
+              <span class="bench-flow__desc">Answer each question yourself, like a real 1:1 prep session.</span>
+              <span class="bench-flow__meta">No persona? Continue to setup and fill everything in yourself.</span>
+            </button>
+            <button type="button" class="bench-flow js-mode" data-mode="scripted" role="radio" aria-checked="false">
+              <span class="bench-flow__pick" aria-hidden="true"></span>
+              <span class="bench-flow__head">
+                <span class="bench-flow__title">Replay test run</span>
+                <span class="bench-flow__tag">Fixed script</span>
+              </span>
+              <span class="bench-flow__desc">Uses fixed questions and fixed answers so prompt changes are comparable.</span>
+              <span class="bench-flow__meta">Focus, prep, and final briefing still run live.</span>
+            </button>
+          </div>
+          <div class="js-persona-review card-flat space-y-2" hidden>
+            <div class="eyebrow js-persona-review-title">Session setup</div>
+            <div class="text-sm text-ink js-persona-summary"></div>
+            <div>
+              <div class="eyebrow">What Sero should know</div>
+              <p class="text-sm text-ink-dim js-persona-notes"></p>
+            </div>
+            <p class="text-xs text-ink-mute js-persona-footer"></p>
+          </div>
+          <label class="js-runlabel-wrap" hidden>
+            <span class="eyebrow">What are you testing? <span class="text-ink-mute">(optional label)</span></span>
+            <input class="input js-runlabel" type="text" autocomplete="off" placeholder="e.g. baseline — no Neutral Cause Rule" />
+          </label>
+          <button type="button" class="btn js-bench-start" disabled>Start demo session</button>
+          <p class="js-bench-err text-negative text-sm" hidden></p>
+        </div>
+      </section>
+
       <section class="space-y-2">
-        <div class="text-ink-mute text-xs uppercase tracking-wider">Recent runs</div>
+        <div class="eyebrow">Recent sessions</div>
         <ul class="js-runs space-y-2"></ul>
       </section>
 
-      <div>
-        <button class="btn js-new">Start new run</button>
-        <span class="text-ink-mute text-sm ml-3"><span class="kbd">Enter</span> to start</span>
+      <div class="start-cta">
+        <button type="button" class="btn js-new">New session</button>
+        <button type="button" class="btn btn--ghost js-compare">Compare runs</button>
       </div>
     </div>
   `;
@@ -36,6 +90,21 @@ export async function mount(root, { setState, rehydrateById }) {
 
   const list = root.querySelector(".js-runs");
   const newBtn = root.querySelector(".js-new");
+  const benchSection = root.querySelector(".js-bench");
+  const benchSelect = root.querySelector(".js-bench-select");
+  const benchStartBtn = root.querySelector(".js-bench-start");
+  const benchErr = root.querySelector(".js-bench-err");
+  const modeBtns = [...root.querySelectorAll(".js-mode")];
+  const runLabelWrap = root.querySelector(".js-runlabel-wrap");
+  const runLabelInput = root.querySelector(".js-runlabel");
+  const personaReview = root.querySelector(".js-persona-review");
+  const personaReviewTitle = root.querySelector(".js-persona-review-title");
+  const personaSummary = root.querySelector(".js-persona-summary");
+  const personaNotes = root.querySelector(".js-persona-notes");
+  const personaFooter = root.querySelector(".js-persona-footer");
+  let benchMode = "manual";
+
+  let personas = [];
 
   let runs = [];
   let expandedId = null;
@@ -54,26 +123,29 @@ export async function mount(root, { setState, rehydrateById }) {
   function driftDot(run) {
     if (!currentAllDigest || !run.pipelineDigest?.all) return "";
     if (run.pipelineDigest.all !== currentAllDigest) {
-      return `<span class="run-row__drift-dot" title="Pipeline config differs from when this run started"></span>`;
+      return `<span class="run-row__drift-dot" title="Engine config changed since this run"></span>`;
     }
     return "";
   }
 
   function render() {
     if (runs.length === 0) {
-      list.innerHTML = `<li class="text-ink-mute text-sm italic">No past runs yet.</li>`;
+      list.innerHTML = `<li class="text-ink-mute text-sm">No past sessions yet. Press <kbd class="kbd">Enter</kbd> or click <strong>New session</strong> to start.</li>`;
       return;
     }
-    list.innerHTML = runs.map((r, i) => `
+    list.innerHTML = runs.map((r) => {
+      const isOpen = expandedId === r.id;
+      return `
       <li class="run-row" data-id="${escape(r.id)}">
-        <button class="run-row__head js-row" data-id="${escape(r.id)}">
-          <span class="run-row__num">[${i + 1}]</span>
+        <button class="run-row__head js-row" data-id="${escape(r.id)}" aria-expanded="${isOpen}">
+          <span class="run-row__chevron" aria-hidden="true">${isOpen ? "▼" : "▶"}</span>
           <span class="run-row__headline">${escape(r.headline || r.id)}${driftDot(r)}</span>
-          <span class="run-row__stage text-ink-mute text-xs">${escape(r.stage || "")}</span>
+          <span class="run-row__meta text-ink-mute text-xs">${escape(formatRelativeTime(r.lastSeenAt))} · ${escape(stageLabel(r.stage))}</span>
         </button>
         <div class="run-row__body js-body" data-id="${escape(r.id)}" hidden></div>
       </li>
-    `).join("");
+    `;
+    }).join("");
   }
 
   async function load() {
@@ -92,10 +164,12 @@ export async function mount(root, { setState, rehydrateById }) {
     if (expandedId === id) {
       collapse(id);
       expandedId = null;
+      render();
       return;
     }
     if (expandedId) collapse(expandedId);
     expandedId = id;
+    render();
     const body = list.querySelector(`.js-body[data-id="${cssEscape(id)}"]`);
     if (!body) return;
     body.hidden = false;
@@ -106,7 +180,7 @@ export async function mount(root, { setState, rehydrateById }) {
       try {
         const drift = await pipeline.loadDriftForRun(id);
         if (drift.baseline?.hasLock && !drift.unchanged) {
-          driftHtml = `<p class="run-row__drift text-sm">Config changed since this run started — resume uses current engine.</p>`;
+          driftHtml = `<p class="run-row__drift text-sm">Engine config changed since this run — resume uses current engine.</p>`;
         }
       } catch {}
       body.innerHTML = `
@@ -115,7 +189,6 @@ export async function mount(root, { setState, rehydrateById }) {
         <div class="run-row__actions">
           <button class="btn js-resume" data-id="${escape(id)}">Resume</button>
           <button class="btn btn--ghost js-delete" data-id="${escape(id)}">Delete</button>
-          <span class="text-ink-mute text-xs ml-2">R · D · Esc</span>
         </div>
       `;
     } catch (e) {
@@ -134,15 +207,15 @@ export async function mount(root, { setState, rehydrateById }) {
   async function resume(id) {
     const ok = await rehydrateById(id);
     if (!ok) {
-      await alertAction({ message: "Could not resume that run. It may have been deleted or expired." });
+      await alertAction({ message: "Could not resume that session. It may have been deleted or expired." });
     }
   }
 
   async function del(id) {
     const ok = await confirmAction({
-      message: "Delete this run permanently? This cannot be undone.",
-      confirmLabel: "Delete run",
-      cancelLabel: "Keep run",
+      message: "Delete this session permanently? This cannot be undone.",
+      confirmLabel: "Delete session",
+      cancelLabel: "Keep session",
       destructive: true,
     });
     if (!ok) return;
@@ -156,9 +229,147 @@ export async function mount(root, { setState, rehydrateById }) {
     await load();
   }
 
-  function startNew() {
+  const emptyCtx = () => ({
+    name: "",
+    role: "",
+    seniority: "",
+    meetingType: "",
+    meetingTypeIndex: null,
+    notes: "",
+  });
+
+  function beginCleanSetup() {
+    store.scripted = null;
+    Object.assign(store.ctx, emptyCtx());
     setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
   }
+
+  function startNew() {
+    beginCleanSetup();
+  }
+
+  function personaOptionLabel(p) {
+    return `${p.displayName} · ${p.issue}`;
+  }
+
+  function personaOptionTitle(p) {
+    return `${p.displayName} · ${p.seniority} · ${p.meeting_type} · ${p.issue}`;
+  }
+
+  function updateBenchStartEnabled() {
+    const hasPersona = Boolean(benchSelect.value);
+    const benchReady = personas.length > 0;
+    if (benchMode === "scripted") {
+      benchStartBtn.disabled = !hasPersona || !benchReady;
+      benchStartBtn.textContent = "Start replay test";
+    } else {
+      benchStartBtn.disabled = !benchReady;
+      benchStartBtn.textContent = hasPersona ? "Start demo session" : "Continue to setup";
+    }
+    renderPersonaReview();
+  }
+
+  function renderPersonaReview() {
+    const p = personas.find((x) => x.id === benchSelect.value);
+    const show = Boolean(p);
+    personaReview.hidden = !show;
+    if (!show || !p) return;
+    personaReviewTitle.textContent = benchMode === "scripted" ? "Replay setup" : "Session setup";
+    personaSummary.textContent = `${p.displayName} · ${p.seniority} · ${p.role} · ${p.meeting_type}`;
+    personaNotes.textContent = p.notes || "(no manager context provided)";
+    personaFooter.textContent = benchMode === "scripted"
+      ? "This locks the interview questions and scripted answers. You will still review focus areas, prep, and the final briefing."
+      : "Setup context is pre-filled. You'll answer each question yourself.";
+  }
+
+  async function loadPersonas() {
+    try {
+      const res = await getPersonaBench();
+      personas = res.personas || [];
+      benchSelect.innerHTML = `<option value="">Select a persona…</option>` +
+        personas.map((p) =>
+          `<option value="${escape(p.id)}" title="${escape(personaOptionTitle(p))}">${escape(personaOptionLabel(p))}</option>`
+        ).join("");
+      benchSelect.disabled = personas.length === 0;
+      benchSection.hidden = false;
+      benchErr.hidden = true;
+      updateBenchStartEnabled();
+    } catch (e) {
+      console.warn("[start] getPersonaBench failed:", e);
+      benchErr.textContent = "Couldn't load demo personas.";
+      benchErr.hidden = false;
+      benchSection.hidden = false;
+    }
+  }
+
+  async function startWithPersona() {
+    const p = personas.find((x) => x.id === benchSelect.value);
+    if (!p || p.meetingTypeIndex < 0) return;
+
+    benchStartBtn.disabled = true;
+    try {
+      store.ctx.name = p.name;
+      store.ctx.role = p.role;
+      store.ctx.seniority = p.seniority;
+      store.ctx.meetingTypeIndex = p.meetingTypeIndex;
+      store.ctx.meetingType = p.meeting_type;
+      store.ctx.notes = p.notes;
+
+      store.scripted = benchMode === "scripted"
+        ? {
+            mode: "scripted",
+            personaId: p.id,
+            fallback: p.scripted_fallback || "",
+            answers: Object.fromEntries((p.script || []).map((s) => [s.alias, s.answer])),
+          }
+        : null;
+
+      const res = await startSession({
+        name: p.name,
+        role: p.role,
+        seniority: p.seniority,
+        meetingTypeIndex: p.meetingTypeIndex,
+        notes: p.notes,
+        mode: benchMode,
+        runLabel: benchMode === "scripted" ? runLabelInput.value : null,
+        personaId: p.id,
+      });
+      try { localStorage.setItem("seroSessionId", res.sessionId); } catch {}
+      setState({
+        sessionId: res.sessionId,
+        sessionDir: res.sessionDir || null,
+        createdAt: res.createdAt ?? Date.now(),
+        stage: STAGES.FOCUS_POINTS,
+      });
+    } catch (e) {
+      await alertAction({ message: "Could not start session: " + (e.message || e) });
+    } finally {
+      updateBenchStartEnabled();
+    }
+  }
+
+  function setMode(mode) {
+    benchMode = mode === "scripted" ? "scripted" : "manual";
+    modeBtns.forEach((b) => {
+      const on = b.dataset.mode === benchMode;
+      b.classList.toggle("is-active", on);
+      b.setAttribute("aria-checked", String(on));
+    });
+    runLabelWrap.hidden = benchMode !== "scripted";
+    updateBenchStartEnabled();
+  }
+
+  async function onBenchStart() {
+    if (benchMode === "manual" && !benchSelect.value) {
+      beginCleanSetup();
+      return;
+    }
+    await startWithPersona();
+  }
+
+  benchSelect.addEventListener("change", updateBenchStartEnabled);
+  benchStartBtn.addEventListener("click", onBenchStart);
+  modeBtns.forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
 
   list.addEventListener("click", (e) => {
     const headBtn = e.target.closest(".js-row");
@@ -170,12 +381,13 @@ export async function mount(root, { setState, rehydrateById }) {
   });
 
   newBtn.addEventListener("click", startNew);
+  root.querySelector(".js-compare").addEventListener("click", () => setState({ stage: STAGES.COMPARE }));
 
   keyHandler = (e) => {
     if (e.target && /^(input|textarea|select)$/i.test(e.target.tagName)) return;
     if (e.key === "Enter") { e.preventDefault(); startNew(); return; }
     if (e.key === "Escape") {
-      if (expandedId) { collapse(expandedId); expandedId = null; }
+      if (expandedId) { collapse(expandedId); expandedId = null; render(); }
       return;
     }
     if (/^[1-9]$/.test(e.key)) {
@@ -189,7 +401,7 @@ export async function mount(root, { setState, rehydrateById }) {
   };
   window.addEventListener("keydown", keyHandler);
 
-  await load();
+  await Promise.all([load(), loadPersonas()]);
 }
 
 export function unmount() {
@@ -197,6 +409,19 @@ export function unmount() {
     window.removeEventListener("keydown", keyHandler);
     keyHandler = null;
   }
+}
+
+function formatRelativeTime(ts) {
+  if (!ts) return "";
+  const diff = Date.now() - Number(ts);
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  if (days < 7) return `${days}d ago`;
+  return new Date(ts).toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
 function escape(s) {

@@ -1,35 +1,44 @@
 import { STAGES, resetSession } from "../state.js";
-import { getQuestion, submitAnswer } from "../api.js";
+import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered } from "../api.js";
 import { createOrb } from "../ui/orb.js";
 import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { openSse } from "../sse.js";
-import { revealOne, revealSequence, sleep } from "../ui/reveal.js";
+import { revealOne, sleep } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
+import { confirmResetSession } from "../ui/session-reset.js";
+import { renderCtxSegments } from "../ui/notes-panel-utils.js";
+
 let unmountFn = null;
 
 export async function mount(root, { store, setState }) {
   root.innerHTML = `
     <div class="stage-inner space-y-6">
-      <header class="flex items-baseline justify-between">
-        <div class="eyebrow turn-label"></div>
-        <div class="flex gap-2">
-          <button class="btn btn--ghost js-save-exit" type="button">Save and exit</button>
-          <button class="btn btn--ghost js-start-fresh" type="button">Start over</button>
+      <header class="flex items-baseline justify-between gap-4">
+        <div class="questioning-head min-w-0 space-y-1">
+          <div class="eyebrow">Live interview</div>
+          <div class="turn-label text-sm text-ink-mute"></div>
+          <div class="question-session-ctx ctx-segments" aria-label="Session context"></div>
+        </div>
+        <div class="flex shrink-0 gap-2">
+          <button class="btn btn--ghost js-save-exit" type="button">Skip to briefing</button>
+          <button class="btn btn--ghost js-start-fresh" type="button">Reset session</button>
         </div>
       </header>
       <div class="question-host"></div>
       <div class="thinking-host min-h-[72px]"></div>
       <div class="axes-wrap space-y-2">
-        <div class="axes-explainer text-xs text-ink-dim max-w-measure">
-          Session signals — these bars move on what answers mean, not how long they are. Short filler like "fine" or "ok" won't shift them.
-        </div>
+        <div class="eyebrow">Live scores</div>
+        <p class="text-xs text-ink-dim">Updates after each answer — not the final briefing read. <span class="text-ink-mute">— = no signal yet</span></p>
         <div class="card axes-host"></div>
       </div>
-      <div class="footer-host text-xs text-ink-mute"></div>
+      <div class="footer-host text-sm text-ink-mute"></div>
     </div>
   `;
   const turnLabel = root.querySelector(".turn-label");
+  const sessionCtxEl = root.querySelector(".question-session-ctx");
   const qHost = root.querySelector(".question-host");
+
+  renderCtxSegments(sessionCtxEl, store.ctx || {});
   const thinkingHost = root.querySelector(".thinking-host");
   const axesHost = root.querySelector(".axes-host");
   const footerHost = root.querySelector(".footer-host");
@@ -70,12 +79,7 @@ export async function mount(root, { store, setState }) {
   });
 
   root.querySelector(".js-start-fresh").addEventListener("click", async () => {
-    const ok = await confirmAction({
-      message: "Start over? This session will be cleared and you'll return to the start screen.",
-      confirmLabel: "Start over",
-      cancelLabel: "Cancel",
-      destructive: true,
-    });
+    const ok = await confirmResetSession(confirmAction);
     if (!ok) return;
     teardown();
     resetSession();
@@ -89,6 +93,10 @@ export async function mount(root, { store, setState }) {
 
     const res = await getQuestion(store.sessionId);
     if (res.done) {
+      if (res.agenda?.summary && res.agenda.covered == null) {
+        showAgendaClosingCheck(res.agenda);
+        return;
+      }
       setState({ stage: STAGES.EVAL });
       return;
     }
@@ -97,25 +105,57 @@ export async function mount(root, { store, setState }) {
     const q = res.question;
     store.currentQuestion = q;
 
+    // Replay test lane: prefer the server's current scripted answer so refreshes
+    // and resumed sessions do not silently fall back to manual/dev controls.
+    const scripted = res.scripted || store.scripted || null;
+    const scriptAnswer = res.scripted
+      ? res.scripted.answer
+      : scripted
+        ? scripted.answers[q.alias]
+        : undefined;
+    const hasScript = Boolean(scripted) && scriptAnswer != null;
+
     const card = document.createElement("div");
     card.className = "card questioning-card space-y-4 reveal";
     card.innerHTML = `
-      ${res.returningToArc ? `<div class="question-drill-hint text-xs text-ink-dim">Returning to the meeting arc — next question follows the planned flow.</div>` : ""}
-      <h1 class="question-stem leading-snug">${escape(q.name)}</h1>
-      ${q.description ? `<div class="question-desc">${escape(q.description)}</div>` : ""}
+      ${res.returningToArc ? `<div class="question-drill-hint text-sm text-ink-dim">Back on the main agenda — next question follows the planned flow.</div>` : ""}
+      ${scripted ? `<div class="script-meta text-xs">
+        <span class="script-alias">${escape(q.alias)}</span>
+        <span class="script-state ${hasScript ? "script-state--matched" : "script-state--missing"}">${hasScript ? "replay answer ready" : "no replay answer — fallback available"}</span>
+      </div>` : ""}
+      <div class="question-card-head">
+        <div class="question-card-head__text space-y-2">
+          <h1 class="question-stem leading-snug">${escape(q.name)}</h1>
+          ${q.description ? `<div class="question-desc"><span class="text-ink-mute">Context:</span> ${escape(q.description)}</div>` : ""}
+        </div>
+        <button type="button" class="copy-snippet-btn js-copy-question" title="Copy question" aria-label="Copy question">
+          <span class="copy-snippet-btn__label">Copy</span>${COPY_ICON}
+        </button>
+      </div>
       <label class="block">
-        <span class="sr-only">What did they say?</span>
-        <textarea class="textarea textarea--question" rows="5" placeholder="What did they say?" aria-label="What did they say?"></textarea>
+        <span class="sr-only">Your notes</span>
+        <textarea class="textarea textarea--question" rows="5" placeholder="Jot what they said — your shorthand, not a transcript" aria-label="Your notes"></textarea>
       </label>
       <div class="field-actions">
-        <button class="btn js-submit">Record and continue</button>
+        <button class="btn js-submit">Submit answer</button>
         <button class="btn btn--ghost js-deeper" type="button" disabled>Go deeper</button>
         <button class="btn btn--ghost js-skip">Skip</button>
+        ${scripted ? `<button class="btn btn--ghost js-play" type="button">Insert scripted answer</button><button class="btn btn--ghost js-play-submit" type="button">Insert & submit</button>` : ""}
+        ${!scripted && import.meta.env.DEV ? `<button class="btn btn--ghost js-suggest" type="button">Suggest notes (dev)</button>` : ""}
       </div>
-      <div class="text-xs text-ink-mute"><span class="kbd">Enter</span> to continue · <span class="kbd">Shift+Enter</span> to go deeper · <span class="kbd">Esc</span> to skip</div>
+      <p class="hint text-xs text-ink-mute">Shift+Enter — follow this thread · Skip · Esc</p>
+      ${import.meta.env.DEV ? `<div class="answer-suggestions" hidden></div>` : ""}
     `;
     qHost.appendChild(card);
     revealOne(card, 40);
+
+    card.querySelector(".js-copy-question").addEventListener("click", (e) => {
+      const lines = [`Question ${res.turn}`];
+      if (q.name) lines.push(String(q.name).trim());
+      if (q.description) lines.push(String(q.description).trim());
+      copySnippet(lines.join("\n\n"), e.currentTarget);
+    });
+
     const ta = card.querySelector("textarea");
     setTimeout(() => ta.focus({ preventScroll: true }), 260);
 
@@ -150,12 +190,79 @@ export async function mount(root, { store, setState }) {
     deeperBtn.addEventListener("click", () => onSubmit(ta.value, { goDeeper: true }));
     card.querySelector(".js-skip").addEventListener("click", () => onSubmit(""));
 
+    // Default source is manual; the Play button promotes it to scripted/fallback.
+    let answerSource = "manual";
+
+    function insertScriptedAnswer() {
+      const text = hasScript ? scriptAnswer : (scripted.fallback || "");
+      answerSource = hasScript ? "scripted" : "fallback";
+      ta.value = text;
+      ta.focus({ preventScroll: true });
+      syncDeeper();
+      if (!hasScript) {
+        const meta = card.querySelector(".script-state");
+        if (meta) { meta.classList.add("script-state--fallback"); meta.textContent = "fallback answer used"; }
+      }
+      return text;
+    }
+
+    const playBtn = card.querySelector(".js-play");
+    if (playBtn) {
+      playBtn.addEventListener("click", insertScriptedAnswer);
+    }
+    const playSubmitBtn = card.querySelector(".js-play-submit");
+    if (playSubmitBtn) {
+      playSubmitBtn.addEventListener("click", () => {
+        const text = insertScriptedAnswer();
+        onSubmit(text);
+      });
+    }
+    // If the tester edits after playing, it's no longer a clean scripted answer.
+    ta.addEventListener("input", () => { if (answerSource !== "manual") answerSource = "manual"; });
+
+    const suggestBtn = card.querySelector(".js-suggest");
+    if (suggestBtn) {
+      const sugHost = card.querySelector(".answer-suggestions");
+      suggestBtn.addEventListener("click", async () => {
+        suggestBtn.disabled = true;
+        const original = suggestBtn.textContent;
+        suggestBtn.textContent = "Thinking…";
+        sugHost.hidden = false;
+        sugHost.innerHTML = `<div class="hint">Drafting sample notes…</div>`;
+        let answers = [];
+        try {
+          ({ answers = [] } = await suggestAnswers(store.sessionId));
+        } catch {
+          answers = [];
+        }
+        suggestBtn.disabled = false;
+        suggestBtn.textContent = original;
+        if (!answers.length) {
+          sugHost.innerHTML = `<div class="hint">No suggestions came back — write your own or try again.</div>`;
+          return;
+        }
+        sugHost.innerHTML = `<div class="hint">Dev only — sample notes to speed up test runs.</div>`;
+        answers.forEach((text) => {
+          const row = document.createElement("button");
+          row.type = "button";
+          row.className = "suggest-row";
+          row.textContent = text;
+          row.addEventListener("click", () => {
+            ta.value = text;
+            ta.focus({ preventScroll: true });
+            syncDeeper();
+          });
+          sugHost.appendChild(row);
+        });
+      });
+    }
+
     async function onSubmit(text, { goDeeper = false } = {}) {
       const val = text.trim();
       if (goDeeper && !val) return;
       let result;
       try {
-        result = await submitAnswer(store.sessionId, val, { goDeeper });
+        result = await submitAnswer(store.sessionId, val, { goDeeper, answerSource, alias: q.alias });
       } catch (e) {
         setState({ stage: STAGES.ERROR, error: e.message, retryStage: STAGES.QUESTIONING });
         return;
@@ -169,6 +276,38 @@ export async function mount(root, { store, setState }) {
       }
       await runPlanStream(val, { goDeeper: Boolean(result?.goDeeper) });
     }
+  }
+
+  function showAgendaClosingCheck(agenda) {
+    qHost.innerHTML = "";
+    thinkingHost.innerHTML = "";
+    footerHost.innerHTML = "";
+    turnLabel.textContent = "Before we wrap";
+
+    const card = document.createElement("div");
+    card.className = "card questioning-card space-y-4 reveal";
+    card.innerHTML = `
+      <div class="question-card-head__text space-y-2">
+        <h1 class="question-stem leading-snug">Earlier they wanted to cover ${escape(agenda.summary)}. Did you get to it?</h1>
+      </div>
+      <div class="field-actions">
+        <button class="btn js-agenda-yes" type="button">Yes, covered</button>
+        <button class="btn btn--ghost js-agenda-no" type="button">Not yet</button>
+      </div>
+    `;
+    qHost.appendChild(card);
+    revealOne(card, 40);
+
+    async function resolve(covered) {
+      try {
+        await setAgendaCovered(store.sessionId, covered);
+      } catch (e) {
+        console.warn("[questioning] agenda cover failed:", e.message);
+      }
+      setState({ stage: STAGES.EVAL });
+    }
+    card.querySelector(".js-agenda-yes").addEventListener("click", () => resolve(true));
+    card.querySelector(".js-agenda-no").addEventListener("click", () => resolve(false));
   }
 
   async function exitQuestion(card) {
@@ -189,7 +328,7 @@ export async function mount(root, { store, setState }) {
         ? "Going deeper on that thread…"
         : skipped
           ? "Choosing the next question…"
-          : "Listening…"
+          : "Scoring your answer…"
     );
     thinkingHost.appendChild(orb.el);
 
@@ -235,9 +374,7 @@ export async function mount(root, { store, setState }) {
       })
       .open();
 
-    // Wait for axis reveal animation + a breath, then advance
     await sleep(1600);
-    // If the SSE emitted terminal, navigate; else wait a bit more
     const started = Date.now();
     while (!terminal && Date.now() - started < 5000) await sleep(100);
 
@@ -265,4 +402,22 @@ function escape(s) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+const COPY_ICON = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+
+async function copySnippet(text, btn, doneLabel = "Copied") {
+  if (!text) return;
+  try {
+    await navigator.clipboard.writeText(text);
+    const prev = btn.getAttribute("aria-label");
+    btn.classList.add("is-copied");
+    btn.setAttribute("aria-label", doneLabel);
+    setTimeout(() => {
+      btn.classList.remove("is-copied");
+      btn.setAttribute("aria-label", prev || "Copy question");
+    }, 1200);
+  } catch (e) {
+    console.warn("[questioning] clipboard write failed:", e.message);
+  }
 }

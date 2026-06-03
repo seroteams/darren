@@ -3,6 +3,7 @@ import { createOrb } from "../ui/orb.js";
 import { openSse } from "../sse.js";
 import { revealSequence } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
+import { confirmResetSession } from "../ui/session-reset.js";
 
 export async function mount(root, { store, setState }) {
   const sessionId = store.sessionId;
@@ -11,10 +12,10 @@ export async function mount(root, { store, setState }) {
     <div class="stage-inner space-y-8">
       <header class="flex items-baseline justify-between">
         <div class="space-y-1">
-          <div class="eyebrow">Preparation</div>
-          <div class="text-ink-dim text-sm">Your briefing for ${escape(store.ctx.name || "this 1:1")}.</div>
+          <div class="eyebrow">Pre-meeting brief</div>
+          <div class="text-ink-dim text-sm">What to open with, listen for, and avoid before you sit down.</div>
         </div>
-        <button class="btn btn--ghost js-start-fresh" type="button">Start over</button>
+        <button class="btn btn--ghost js-start-fresh" type="button">Reset session</button>
       </header>
       <div class="thinking-host min-h-[120px] flex items-center"></div>
       <div class="result-host"></div>
@@ -24,18 +25,13 @@ export async function mount(root, { store, setState }) {
   const resultHost   = root.querySelector(".result-host");
 
   root.querySelector(".js-start-fresh").addEventListener("click", async () => {
-    const ok = await confirmAction({
-      message: "Start over? This session will be cleared.",
-      confirmLabel: "Start over",
-      cancelLabel: "Cancel",
-      destructive: true,
-    });
+    const ok = await confirmResetSession(confirmAction);
     if (!ok) return;
     resetSession();
     setState({ stage: STAGES.START });
   });
 
-  const orb = createOrb("Preparing your briefing…");
+  const orb = createOrb("Preparing your prep brief…");
   thinkingHost.appendChild(orb.el);
 
   const sse = openSse(`/api/preparation/stream?s=${encodeURIComponent(sessionId)}`);
@@ -57,7 +53,7 @@ export async function mount(root, { store, setState }) {
     .onError(() => {
       setState({
         stage: STAGES.ERROR,
-        error: "Lost connection while generating the preparation briefing.",
+        error: "Lost connection while generating the prep brief.",
         retryStage: STAGES.PREPARATION,
       });
     })
@@ -65,11 +61,11 @@ export async function mount(root, { store, setState }) {
 
   function renderResult(brief) {
     const sections = [
-      { label: "Probable theme",   key: "coreIssue",       type: "paragraph" },
-      { label: "Opener",           key: "openingQuestion", type: "callout" },
+      { label: "Likely theme",     key: "coreIssue",       type: "paragraph" },
+      { label: "Say this first",   key: "openingQuestion", type: "callout" },
       { label: "Listen for",       key: "listenFor",       type: "bullets" },
       { label: "Avoid",            key: "avoid",           type: "bullets" },
-      { label: "Good outcome",     key: "goodOutcome",     type: "paragraph" },
+      { label: "Success looks like", key: "goodOutcome",   type: "paragraph" },
       { label: "Suggested action", key: "suggestedAction", type: "paragraph" },
     ];
 
@@ -85,6 +81,10 @@ export async function mount(root, { store, setState }) {
 
     resultHost.innerHTML = `
       <div class="space-y-6">
+        <div class="briefing-section-head reveal">
+          <div class="eyebrow">Prep brief ready</div>
+          <button type="button" class="btn btn--ghost btn--sm js-copy-all-prep">Copy all</button>
+        </div>
         ${sections.map((s) => `
           <div class="reveal">
             <div class="eyebrow mb-2">${s.label}</div>
@@ -94,8 +94,8 @@ export async function mount(root, { store, setState }) {
           </div>
         `).join("")}
         <div class="flex gap-2 pt-2 reveal">
-          <button class="btn js-continue">Build question bank</button>
-          <button class="btn btn--ghost js-restart">Start over</button>
+          <button class="btn js-continue">Generate interview questions</button>
+          <button class="btn btn--ghost js-restart">New session</button>
         </div>
       </div>
     `;
@@ -103,12 +103,19 @@ export async function mount(root, { store, setState }) {
     const reveals = Array.from(resultHost.querySelectorAll(".reveal"));
     revealSequence(reveals, { stagger: 80, initialDelay: 80 });
 
+    resultHost.querySelector(".js-copy-all-prep").addEventListener("click", () => {
+      copyPrepBrief(brief, store.ctx, resultHost.querySelector(".js-copy-all-prep"));
+    });
+
     resultHost.querySelector(".js-continue").addEventListener("click", () => {
       setState({ stage: STAGES.BANK });
     });
 
-    resultHost.querySelector(".js-restart").addEventListener("click", () => {
+    resultHost.querySelector(".js-restart").addEventListener("click", async () => {
+      const ok = await confirmResetSession(confirmAction, { to: STAGES.INTAKE });
+      if (!ok) return;
       try { localStorage.removeItem("seroSessionId"); } catch {}
+      resetSession();
       setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
     });
   }
@@ -129,4 +136,51 @@ function escape(s) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+const PREP_SECTIONS = [
+  { label: "Likely theme", key: "coreIssue" },
+  { label: "Say this first", key: "openingQuestion" },
+  { label: "Listen for", key: "listenFor" },
+  { label: "Avoid", key: "avoid" },
+  { label: "Success looks like", key: "goodOutcome" },
+  { label: "Suggested action", key: "suggestedAction" },
+];
+
+function formatPrepBriefForCopy(brief, ctx) {
+  const lines = ["Pre-meeting brief"];
+  const who = [ctx?.name, ctx?.role, ctx?.seniority, ctx?.meetingType].filter(Boolean).join(" · ");
+  if (who) lines.push(who);
+  const notes = (ctx?.notes || "").trim();
+  if (notes) {
+    lines.push("", "Context notes", notes);
+  }
+  lines.push("");
+  for (const { label, key } of PREP_SECTIONS) {
+    const value = brief[key];
+    if (value == null) continue;
+    if (Array.isArray(value) && !value.length) continue;
+    if (!Array.isArray(value) && !String(value).trim()) continue;
+    lines.push(label);
+    if (Array.isArray(value)) {
+      value.forEach((item) => lines.push(`- ${item}`));
+    } else {
+      lines.push(String(value).trim());
+    }
+    lines.push("");
+  }
+  return lines.join("\n").trim();
+}
+
+async function copyPrepBrief(brief, ctx, btn) {
+  const text = formatPrepBriefForCopy(brief, ctx);
+  if (!text) return;
+  try {
+    await navigator.clipboard.writeText(text);
+    const prev = btn.textContent;
+    btn.textContent = "Copied ✓";
+    setTimeout(() => { btn.textContent = prev; }, 1500);
+  } catch (e) {
+    console.warn("[preparation] clipboard write failed:", e.message);
+  }
 }

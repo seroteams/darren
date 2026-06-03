@@ -54,7 +54,6 @@ export function mountEditMode({ itemEl, note, onSave, onDelete, onCancel }) {
   itemEl.innerHTML = `
     <div class="notes-panel__item-head">
       <span class="notes-panel__ts">${fmtTime(note.ts)}</span>
-      <span class="notes-panel__hint">Enter saves · Shift+Enter for new line · Esc cancels</span>
     </div>
     <textarea class="notes-panel__edit" rows="3">${escapeHtml(note.text)}</textarea>
     <div class="notes-panel__edit-actions">

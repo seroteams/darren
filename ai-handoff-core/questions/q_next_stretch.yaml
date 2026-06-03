@@ -1,0 +1,10 @@
+alias: q_next_stretch
+label: Next stretch
+name: What part of the leader role feels like the biggest stretch for you right now?
+description: "Lets him name the real gap in stepping toward leadership without using the manager's private view."
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

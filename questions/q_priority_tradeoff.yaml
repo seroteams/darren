@@ -1,0 +1,10 @@
+alias: q_priority_tradeoff
+label: Priority tradeoff
+name: What are you choosing to prioritise in your calls right now?
+description: Surfaces whether her time is being spent on activity that actually advances the pipeline.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

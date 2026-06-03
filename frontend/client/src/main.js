@@ -7,8 +7,6 @@ import { getSession, listRecentRuns } from "./api.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
 import { createNotesPanel } from "./ui/notes-panel.js";
-import { createShortcutsOverlay } from "./ui/shortcuts.js";
-
 // Lazy stage modules — kept in a map so HMR + code-split both work nicely.
 const loaders = {
   START:           () => import("./stages/start.js"),
@@ -21,6 +19,7 @@ const loaders = {
   BRIEFING:        () => import("./stages/briefing.js"),
   LEXICON_REVIEW:  () => import("./stages/lexicon-review.js"),
   RUN_DEBRIEF:     () => import("./stages/run-debrief.js"),
+  COMPARE:         () => import("./stages/compare.js"),
   ERROR:           () => import("./stages/error.js"),
 };
 
@@ -102,6 +101,7 @@ export async function rehydrateById(id) {
       createdAt: snap.createdAt ?? null,
       completedAt: snap.completedAt ?? snap.briefing?.completedAt ?? null,
       skipBriefingAnimation: snap.stage === STAGES.BRIEFING && !!snap.briefing,
+      scripted: snap.scripted || null,
     });
     return true;
   } catch (e) {
@@ -142,25 +142,3 @@ function defaultSubstage(stage) {
 }
 
 boot();
-
-let shortcutsOverlay = null;
-window.addEventListener("keydown", (e) => {
-  if (e.key !== "?" || e.metaKey || e.ctrlKey || e.altKey) return;
-  if (e.target && /^(input|textarea|select)$/i.test(e.target.tagName)) return;
-  e.preventDefault();
-  if (shortcutsOverlay) {
-    shortcutsOverlay.destroy();
-    shortcutsOverlay = null;
-    return;
-  }
-  shortcutsOverlay = createShortcutsOverlay([
-    { key: "Enter", label: "Continue / submit" },
-    { key: "Esc", label: "Cancel / skip" },
-    { key: "?", label: "Toggle this help overlay" },
-  ]);
-  const prev = shortcutsOverlay.destroy.bind(shortcutsOverlay);
-  shortcutsOverlay.destroy = () => {
-    prev();
-    shortcutsOverlay = null;
-  };
-});

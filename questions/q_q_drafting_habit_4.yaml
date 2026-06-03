@@ -1,0 +1,9 @@
+alias: q_q_drafting_habit_4
+label: q_drafting_habit
+name: What part of your drafting process most affects how ready the design feels on first pass?
+description: ""
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +1
+source: "reworded_from:q_drafting_habit"

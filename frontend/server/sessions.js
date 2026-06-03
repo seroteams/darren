@@ -40,6 +40,10 @@ function createWebSession(ctx, introQueue) {
     closer: null,
     notes: [],
 
+    agendaInput: null,
+    agendaInjected: false,
+    agendaCovered: null,
+
     lastPlanByTurn: new Map(),
 
     pendingAnswer: null,
@@ -88,6 +92,17 @@ function snapshot(s) {
     axes: summarizeAxes(s.axisState),
     briefing: s.briefing,
     notes: s.notes || [],
+    agenda: { summary: s.agendaInput?.summary ?? null, covered: s.agendaCovered ?? null },
+    mode: s.mode || "manual",
+    runLabel: s.runLabel ?? null,
+    scripted: s.mode === "scripted"
+      ? {
+          mode: "scripted",
+          personaId: s.fingerprint?.personaId ?? null,
+          fallback: s.scriptedFallback || "",
+          answers: s.scriptAnswers || {},
+        }
+      : null,
     createdAt: s.createdAt,
     completedAt: s.completedAt ?? null,
   };
