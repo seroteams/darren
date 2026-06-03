@@ -1,9 +1,0 @@
-alias: q_upcoming_shifts
-label: Upcoming shifts
-name: How do you feel about the projects coming up next quarter?
-description: "Gauges Priya's feelings about upcoming project changes."
-purpose: topic
-stage: momentum
-axis_effects:
-  clarity: +1
-source: generated

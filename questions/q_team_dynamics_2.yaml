@@ -1,8 +1,0 @@
-alias: q_team_dynamics_2
-label: Team dynamics
-name: How do you feel the team is responding to the recent changes and wins?
-description: Explores team morale and engagement in light of the recent project completion.
-purpose: topic
-axis_effects:
-  engagement: +3
-source: generated

@@ -1,8 +1,0 @@
-alias: q_learning_and_growth
-label: Learning and growth
-name: What new skills or knowledge are you focusing on developing at the moment?
-description: Explores personal growth and learning priorities.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

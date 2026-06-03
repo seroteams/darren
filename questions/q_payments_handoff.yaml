@@ -1,0 +1,9 @@
+alias: q_payments_handoff
+label: Payments handoff
+name: On the payments handoff, what happened from your point of view?
+description: Drills into the specific handoff Priya raised so the conversation starts from a concrete shared event.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

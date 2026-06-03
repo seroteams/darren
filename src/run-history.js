@@ -155,6 +155,47 @@ function summarizeRun(id) {
   };
 }
 
+function readJsonAt(dir, ...parts) {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(dir, ...parts), "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+// Rich read for the Compare view: questions asked, briefing, notes, structured
+// verdict, fingerprint, and script coverage for a single run.
+function compareRun(id) {
+  const dir = findRunDir(id);
+  if (!dir) return null;
+  const state = readState(path.join(dir, STATE_FILE));
+  if (!state) return null;
+  const transcript = readJsonAt(dir, "transcript.json") || [];
+  const focus = readJsonAt(dir, "01-focus-points", "response.json");
+  const coverage = readJsonAt(dir, "script-coverage.json");
+  return {
+    id,
+    headline: buildHeadline(state.ctx || {}),
+    ctx: state.ctx || {},
+    mode: state.mode || "manual",
+    runLabel: state.runLabel ?? null,
+    fingerprint: state.fingerprint ?? null,
+    verdict: state.verdict ?? null,
+    notes: state.notes || [],
+    stage: inferStage(state),
+    turns: transcript.map((t) => ({
+      alias: t.question?.alias ?? null,
+      name: t.question?.name ?? null,
+      answer: t.answer ?? null,
+      skipped: Boolean(t.skipped),
+      note: t.note ?? null,
+    })),
+    focusPoints: focus?.focus_points || focus || null,
+    briefing: state.briefing || null,
+    scriptCoverage: coverage,
+  };
+}
+
 function deleteRun(id) {
   const dir = findRunDir(id);
   if (!dir) return { deleted: false, id, reason: "not_found" };
@@ -165,6 +206,7 @@ function deleteRun(id) {
 module.exports = {
   listRecentRuns,
   summarizeRun,
+  compareRun,
   deleteRun,
   findRunDir,
   readPipelineLock,

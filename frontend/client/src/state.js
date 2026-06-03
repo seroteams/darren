@@ -10,6 +10,8 @@ export const STAGES = Object.freeze({
   EVAL: "EVAL",
   BRIEFING: "BRIEFING",
   LEXICON_REVIEW: "LEXICON_REVIEW",
+  RUN_DEBRIEF: "RUN_DEBRIEF",
+  COMPARE: "COMPARE",
   ERROR: "ERROR",
 });
 
@@ -28,8 +30,13 @@ const initial = {
   briefing: null,
   notes: [],
   sessionDir: null,
+  createdAt: null,
+  completedAt: null,
   error: null,
   retryStage: null,
+  stageTick: 0,
+  regenerateFocusPoints: false,
+  scripted: null,
 };
 
 export const store = { ...initial };

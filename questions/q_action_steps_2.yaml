@@ -1,9 +1,0 @@
-alias: q_action_steps_2
-label: Action steps
-name: What are the concrete steps we can take to improve the communication flow with the UX team, and how can I support you in this?
-description: Focuses on actionable changes to enhance communication clarity and effectiveness.
-purpose: competency
-stage: commit
-axis_effects:
-  clarity: +3
-source: planner_added

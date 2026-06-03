@@ -1,9 +1,0 @@
-alias: q_sustainable_pace_2
-label: Sustainable pace
-name: What would make your current pace hard to sustain for another month?
-description: Tests whether the current load is still sustainable beyond the immediate sprint.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-  clarity: +1
-source: generated

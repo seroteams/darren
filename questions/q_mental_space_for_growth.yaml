@@ -1,9 +1,0 @@
-alias: q_mental_space_for_growth
-label: Mental space for growth
-name: Do you feel you have the bandwidth right now to take on mentoring responsibilities?
-description: Assesses current capacity for additional roles in relation to growth and wellbeing.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +1
-  growth: +3
-source: generated

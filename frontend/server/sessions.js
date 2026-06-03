@@ -1,11 +1,9 @@
 const path = require("node:path");
 const { createSession } = require("../../src/session");
 const { initState } = require("../../src/axes");
-const { persist, loadPersistedSessions } = require("./session-persistence");
-
-const INTRO_BUDGET = 4;
-const DYNAMIC_BUDGET = 5;
-const TOTAL_BUDGET = INTRO_BUDGET + DYNAMIC_BUDGET;
+const cost = require("../../src/cost");
+const { INTRO_BUDGET, DYNAMIC_BUDGET, TOTAL_BUDGET } = require("../../src/budgets");
+const { persist, loadPersistedSessions, restoreFromDisk } = require("./session-persistence");
 
 const SESSION_TTL_MS = Number(process.env.SESSION_TTL_MS) || 2 * 60 * 60 * 1000;
 const SWEEP_INTERVAL_MS = 5 * 60 * 1000;
@@ -42,10 +40,17 @@ function createWebSession(ctx, introQueue) {
     closer: null,
     notes: [],
 
+    agendaInput: null,
+    agendaInjected: false,
+    agendaCovered: null,
+
     lastPlanByTurn: new Map(),
 
     pendingAnswer: null,
+    pendingDrillRequest: false,
+    showReturningToArcHint: false,
     inFlight: new Map(),
+    tracker: cost.createTracker(),
   };
   sessions.set(inner.id, state);
   persist(state);
@@ -53,7 +58,8 @@ function createWebSession(ctx, introQueue) {
 }
 
 function getSession(id) {
-  const s = sessions.get(id);
+  let s = sessions.get(id);
+  if (!s) s = restoreFromDisk(id, sessions);
   if (s) s.lastSeenAt = Date.now();
   return s;
 }
@@ -86,6 +92,19 @@ function snapshot(s) {
     axes: summarizeAxes(s.axisState),
     briefing: s.briefing,
     notes: s.notes || [],
+    agenda: { summary: s.agendaInput?.summary ?? null, covered: s.agendaCovered ?? null },
+    mode: s.mode || "manual",
+    runLabel: s.runLabel ?? null,
+    scripted: s.mode === "scripted"
+      ? {
+          mode: "scripted",
+          personaId: s.fingerprint?.personaId ?? null,
+          fallback: s.scriptedFallback || "",
+          answers: s.scriptAnswers || {},
+        }
+      : null,
+    createdAt: s.createdAt,
+    completedAt: s.completedAt ?? null,
   };
 }
 

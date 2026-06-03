@@ -1,9 +1,0 @@
-alias: q_hidden_blockers
-label: Hidden blockers
-name: What dependency is most likely to quietly stall you next?
-description: Surfaces the next risk that may not be visible in the intro blocker scan.
-purpose: topic
-axis_effects:
-  clarity: +3
-  engagement: +1
-source: generated

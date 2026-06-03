@@ -1,9 +1,0 @@
-alias: q_pride_in_payments
-label: Pride in payments
-name: You mentioned owning the migration plan for payments — what specifically made it a success for you?
-description: Drills into the success factors of the payments refactor Priya is proud of.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: planner_added

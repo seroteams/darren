@@ -1,9 +1,0 @@
-alias: q_probation_clarity
-label: Probation clarity
-name: Do you feel clear about the expectations for passing your probation?
-description: Checks clarity on role expectations and success criteria for probation.
-purpose: topic
-stage: gap
-axis_effects:
-  clarity: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_next_project_focus
-label: Next project focus
-name: What kind of project are you hoping to focus on next?
-description: Probes for project preferences and aspirations.
-purpose: topic
-stage: momentum
-axis_effects:
-  growth: +1
-source: generated

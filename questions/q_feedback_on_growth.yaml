@@ -1,8 +1,0 @@
-alias: q_feedback_on_growth
-label: Feedback on growth
-name: What feedback have you received that has helped you in your growth recently?
-description: Encourages reflection on recent feedback that has influenced their development.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

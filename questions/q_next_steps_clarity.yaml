@@ -1,9 +1,0 @@
-alias: q_next_steps_clarity
-label: Next steps clarity
-name: "What's the first concrete thing you want to tackle to improve your planning process?"
-description: Encourages Taya to identify a specific action to take towards improving her planning process.
-purpose: topic
-stage: support
-axis_effects:
-  growth: +1
-source: generated

@@ -1,8 +1,0 @@
-alias: q_growth_feedback
-label: Growth feedback
-name: What feedback are you looking for to help you grow in your current role?
-description: Encourages Priya to express her needs for feedback to support her growth trajectory.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

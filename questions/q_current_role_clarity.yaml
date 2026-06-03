@@ -1,8 +1,0 @@
-alias: q_current_role_clarity
-label: Current role clarity
-name: Do you feel clear about your role and expectations right now?
-description: Checks for clarity in their role and expectations.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: generated

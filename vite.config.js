@@ -6,6 +6,11 @@ const API_PORT = process.env.API_PORT || 3001;
 export default defineConfig({
   root: resolve(__dirname, "frontend/client"),
   base: "/",
+  resolve: {
+    alias: {
+      "@sero/run-debrief": resolve(__dirname, "src/run-debrief.esm.js"),
+    },
+  },
   server: {
     port: 3000,
     strictPort: true,

@@ -1,9 +1,0 @@
-alias: q_feedback_received
-label: Feedback received
-name: What feedback have you received recently that’s stuck with you?
-description: Surfaces any impactful feedback that might be affecting current mood or performance.
-purpose: topic
-axis_effects:
-  engagement: +1
-  clarity: +1
-source: generated

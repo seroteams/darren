@@ -1,0 +1,10 @@
+alias: q_readiness_bar
+label: Readiness bar
+name: "What does 'ready' mean in your head before a design comes to review?"
+description: "Reveals her internal bar for shipping work and where it may differ from the team's."
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

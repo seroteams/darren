@@ -1,8 +1,0 @@
-alias: q_margin_of_error
-label: Margin of error
-name: "When you mention 'margin of error' in self-learning, what specifically do you mean, and how does it affect your growth?"
-description: Clarifies the impact of self-learning errors on growth.
-purpose: topic
-axis_effects:
-  growth: +3
-source: planner_added

@@ -1,6 +1,7 @@
 const { requireSession } = require("../sessions");
 const { runStage } = require("./stream-helper");
 const { generatePreparation } = require("../../../src/preparation");
+const { getSessionSelectedFocus } = require("../selected-focus");
 
 const IS_DEV = process.env.NODE_ENV !== "production";
 
@@ -15,13 +16,18 @@ module.exports = async function preparation(c) {
     thinkingLabel: "Preparing your briefing",
     getCached:  () => session.preparationResult,
     setCached:  (r) => { session.preparationResult = r; },
-    produce: () => generatePreparation(
+    produce: () => {
+      const selectedFocus = getSessionSelectedFocus(session);
+      return generatePreparation(
       {
         ...session.ctx,
         focusPoints: session.focusPointsResult.focus_points,
+        selectedFocus,
+        primaryFocusId: selectedFocus?.id,
       },
       { session: { id: session.id, dir: session.dir } }
-    ),
+      );
+    },
     resultEvent: "result",
     buildPayload: (r) => IS_DEV
       ? { brief: r.brief, runId: r.runId, validation: r.validation }

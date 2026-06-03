@@ -1,0 +1,10 @@
+alias: q_thread_follow_4
+label: Thread follow
+name: tell will working — can you say more about what that means for you right now?
+description: Runtime thread-follow injected because planner did not follow substantive answer.
+purpose: wellbeing
+stage: settling
+axis_effects:
+  wellbeing: +1
+  engagement: +2
+source: planner_added

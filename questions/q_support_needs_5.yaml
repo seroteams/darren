@@ -1,9 +1,0 @@
-alias: q_support_needs_5
-label: Support needs
-name: What support do you think you need from me during your recovery?
-description: Opens a discussion on how the manager can support Bill during his recovery.
-purpose: topic
-axis_effects:
-  clarity: +1
-  engagement: +3
-source: generated

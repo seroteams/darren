@@ -1,11 +1,11 @@
 import { STAGES } from "../state.js";
 
 export const STAGE_LABEL = {
-  FOCUS_POINTS: "Focus points",
-  PREPARATION: "Preparation",
-  BANK: "Question bank",
-  QUESTIONING: "Questioning",
-  EVAL: "Evaluation",
+  FOCUS_POINTS: "Focus areas",
+  PREPARATION: "Prep brief",
+  BANK: "Questions",
+  QUESTIONING: "Live Q&A",
+  EVAL: "Synthesis",
   BRIEFING: "Briefing",
 };
 

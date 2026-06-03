@@ -1,8 +1,0 @@
-alias: q_delegation_challenges
-label: Delegation challenges
-name: "What's the biggest challenge you've faced when delegating tasks?"
-description: Exploring difficulties in delegation to identify improvement areas.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

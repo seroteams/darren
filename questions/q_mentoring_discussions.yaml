@@ -1,8 +1,0 @@
-alias: q_mentoring_discussions
-label: Mentoring discussions
-name: What specific areas of mentoring are you most interested in pursuing right now?
-description: "Probes the employee's current interests in mentoring and how they envision contributing."
-purpose: topic
-axis_effects:
-  growth: +3
-source: generated

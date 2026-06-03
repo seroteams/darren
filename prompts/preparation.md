@@ -58,6 +58,14 @@ For **Growth & career plan** (especially Expert → lead transitions):
 - May reference the growth area indirectly; do not name a weakness as a fixed flaw
 - Example — bad: "What communication challenges have you faced recently?"
 - Example — better: "What kind of communication moments would you like to handle with more confidence as you move toward lead-level work?"
+
+For **Bi-weekly check-in**:
+- Warm and disarming — this is a routine catch-up, not a performance review or intervention
+- Open on pace, bandwidth, or what's in flight before zeroing in on any concern from the notes
+- Prefer locating the stretch: "since we last spoke", "last couple of weeks", "this fortnight"
+- Avoid hard-edged first sentences: no struggle framing, no "what's not working", no problem-first probes unless notes demand it — and even then, soften the entry ("I wanted to check in on…" not "What's going wrong with…")
+- Example — bad: "What specific issues have you run into with the design handoff this sprint?"
+- Example — better: "Before we get into specifics, how has the last couple of weeks felt from your side?"
 </opening_question_rules>
 
 <listen_for_rules>
@@ -116,6 +124,15 @@ Do not turn sparse notes into confident diagnosis.
 If notes are empty, say what the conversation should test, not what is true.
 </evidence_rules>
 
+<primary_focus_rules>
+**Data lane:** manager context + `selectedFocus` + focus points only. No transcript, axis state, or product QA notes.
+
+When `{{PRIMARY_FOCUS_ID}}` is set (not `(none)`), that focus is **primary** for `coreIssue`, `openingQuestion`, `listenFor`, and `goodOutcome`.
+
+- Secondary catalogue focus points may appear only in `avoid` or `suggestedAction` — not as parallel `listenFor` bullets unless the manager's notes explicitly name them.
+- When primary is `quality` on a backend/senior IC: `listenFor` MUST use concrete quality tells — handoff completeness, edge cases, dependency notes, review depth, release/payment risk, escalation timing — not generic stakeholder confusion unless notes say so.
+</primary_focus_rules>
+
 ---
 
 ## User
@@ -140,6 +157,14 @@ If notes are empty, say what the conversation should test, not what is true.
 ```json
 {{FOCUS_POINTS_JSON}}
 ```
+
+**Selected focus (primary for this 1:1):**
+
+```json
+{{SELECTED_FOCUS_JSON}}
+```
+
+Primary focus id: {{PRIMARY_FOCUS_ID}}
 
 Produce the JSON now.
 

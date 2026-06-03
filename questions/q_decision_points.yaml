@@ -1,0 +1,10 @@
+alias: q_decision_points
+label: Decision points
+name: At what point do you decide a design is ready to share?
+description: Surfaces her decision rule for when to stop iterating and move the work forward.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

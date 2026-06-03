@@ -1,8 +1,0 @@
-alias: q_stress_levels
-label: Stress levels
-name: What do you think is contributing most to your stress lately?
-description: Invites Darren to reflect on his stressors and overall energy levels.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

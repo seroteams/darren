@@ -1,6 +1,6 @@
 # Sero — Feature Inventory
 
-> **Snapshot date:** 2026-05-27
+> **Snapshot date:** 2026-06-01
 > **Repo:** `darren` (private, Node.js)
 > **Scope of this doc:** Every shipped feature, content asset, and code module of Sero — a 1:1 prep assistant for managers. CLI + web app, shared core. Written to be readable by an LLM (Gemini, etc.) reasoning about the system end-to-end.
 
@@ -8,7 +8,7 @@
 
 ## 1. Product, one paragraph
 
-Sero is a manager-facing tool that turns a sparse pre-meeting note ("they've been quiet lately", "we have a perf review") into a structured 1:1: it picks focus points, drafts a briefing, generates a question bank, asks the questions live (CLI or web), scores each answer against a four-axis state model, replans the queue after every turn, then produces a post-meeting briefing the manager can act on. Two surfaces — a Node CLI and a Vite/React web app — share the same core pipeline (`src/*`), prompts (`prompts/*`), question content (`questions/*`), and run logs (`logs/<month>/<run-id>/`).
+Sero is a manager-facing tool that turns a sparse pre-meeting note ("they've been quiet lately", "we have a perf review") into a structured 1:1: it picks focus points, drafts a briefing, generates a question bank, asks the questions live (CLI or web), scores each answer against a four-axis state model, replans the queue after every turn, then produces a post-meeting briefing the manager can act on. The manager asks each question aloud and captures the reply as their own **shorthand note** — terse, third-person ("Checks main screens, skips edge cases"), not a verbatim transcript. The scorer and briefing read these notes as the report's signal, recorded by the manager. Two surfaces — a Node CLI and a Vite/React web app — share the same core pipeline (`src/*`), prompts (`prompts/*`), question content (`questions/*`), and run logs (`logs/<month>/<run-id>/`).
 
 ---
 
@@ -33,7 +33,7 @@ Run: `npm run cli` or `node cli.js`.
 - State persistence (`frontend/server/session-persistence.js`) — sessions survive restarts.
 - Rate limiting: 5 new sessions per IP per 60 s; max 50 concurrent sessions.
 - Same-origin guard on POSTs (localhost-only).
-- Stages rendered as discrete pages: intake → focus-points → briefing → bank → questioning → eval → lexicon-review.
+- Stages rendered as discrete pages: intake → focus-points → preparation → bank → questioning → eval → briefing → lexicon-review.
 - Live notes panel during questioning (capture observations tied to question alias + stem).
 - Dev badge (`frontend/client/src/ui/dev-badge.js`) shown in non-prod.
 - Session topbar (`session-topbar.js`) — name / meeting type / progress.
@@ -46,7 +46,7 @@ Run: `npm run cli` or `node cli.js`.
 Every run goes through these in order. Each stage logs `inputs.json`, `prompt.md`, `response.json` to its own subdir under `logs/<month>/<run-id>/`.
 
 ### Stage 0 — Intake
-- Inputs: name, role, seniority, meeting type (4 choices), free-text manager notes.
+- Inputs: name, role, seniority, meeting type (5 one-on-one types), free-text manager notes.
 - No AI call. Just collected and threaded forward.
 
 ### Stage 1 — Focus points (`src/generate.js`, `prompts/generate-focus-points.md`)
@@ -82,7 +82,7 @@ Every run goes through these in order. Each stage logs `inputs.json`, `prompt.md
 - Rules baked into the planner prompt (in `<decision_order>`): crisis override → broken session → final-turn enforcement → shallow-answer gate → deficiency-as-request → signature-bound scoring → dedup → thread-follow → arc planning → question craft.
 - **Runtime computed signals** (passed into prompt by `queue-manager.js`): `consecutive_drill_count`, `arc_progress`, `remaining_stages`, `last_realized_deltas`, `consecutive_wellbeing_clarifier_count`, `off_arc_drill_count`, `is_final_turn`, `closer_alias`.
 - **Hard caps in prompt:** drill cap (≥2 consecutive `planner_added` at same stage blocks more), wellbeing-clarifier cap (max 2 consecutive), off-arc tangent cap (max 1 per session), arc-stage budget rule (when `remaining_budget ≤ length(remaining_stages)`, must advance arc).
-- **Defence in depth** in code: if answer is ≤3 tokens and non-empty, planner zeroes any positive axis deltas (`isShallowAnswer` in `queue-manager.js`).
+- **Defence in depth** in code: if answer is ≤2 tokens and non-empty, planner zeroes any positive axis deltas (`isShallowAnswer` in `queue-manager.js`). Floor is ≤2 (not ≤3) because notes are terse by design — a 3-token note still carries signal.
 - Each turn logs `04-dynamic-answers/NN-turn.json` (question + answer + assessment + new_queue + axis_state snapshot).
 
 ### Stage 4 — Final evaluation (`src/reviewer.js`, `prompts/final-evaluation.md`)
@@ -300,24 +300,23 @@ styles/
 ## 12. Skills and workflow (developer-facing)
 
 - `.claude/skills/reviewrun/SKILL.md` — `/reviewrun <run-dir>` command. Loads a single run log, dumps every stage's inputs/prompt/response verbatim, then primes a refinement discussion with per-note fixes, cross-stage signals, hypotheses, and sharpening questions.
-- `HANDOFF.md` — two-machine workflow (this `$20 plan` light-ops + a heavy-ops work machine). Red-flag triggers route 3+-file refactors to heavy-ops.
-- `PLAN.md` — shared workstream board at repo root.
+- `PLAN.md` — workstream board at repo root.
 
 ---
 
 ## 13. Recent improvements (May 2026)
 
 - **2026-05-23** — Logs tracked in git, full pipeline-lock manifesting.
-- **2026-05-24** — Batch eval+self-edit run on work-machine (26 runs, $12.61, score 0.820 → 0.839). Three prompt hunks applied: persona-grounding in `generate-questions.md`, thread-follow bias in `plan-turn.md`, anti-neutral-default in `plan-turn.md`.
-- **2026-05-27** — `<read_quality_gate>` added at top of `final-evaluation.md` (forces shallow-count computation before any field). Preparation stage now retries once when validator fails. PLAN.md updated with deferred heavy-ops items.
+- **2026-05-24** — Batch eval+self-edit run (26 runs, $12.61, score 0.820 → 0.839). Three prompt hunks applied: persona-grounding in `generate-questions.md`, thread-follow bias in `plan-turn.md`, anti-neutral-default in `plan-turn.md`.
+- **2026-05-27** — `<read_quality_gate>` added at top of `final-evaluation.md` (forces shallow-count computation before any field). Preparation stage now retries once when validator fails.
 
 ---
 
 ## 14. Known open work (in `PLAN.md`)
 
-- **Drill cap runtime enforcement** — `prompts/plan-turn.md` cap rule exists and runtime computes `consecutive_drill_count`, but the model has been ignoring the hard cap. Pending heavy-ops decision on whether to enforce in `src/queue-manager.js`.
-- **Lexicon empty-state UI** — when reviewer returns 0 candidates, the UI still shows the stage with "No lexicon candidates from this run." copy. User flagged this twice. Pending heavy-ops decision: hide stage vs loosen filter vs copy fix.
-- **Pipeline run review workflow** — `reviewrun` skill needs intent + output-format spec (work-machine planning).
+- **Drill cap runtime enforcement** — `prompts/plan-turn.md` cap rule exists and runtime computes `consecutive_drill_count`, but the model has been ignoring the hard cap. Open decision on whether to enforce in `src/queue-manager.js`.
+- **Lexicon empty-state UI** — when reviewer returns 0 candidates, the UI still shows the stage with "No lexicon candidates from this run." copy. User flagged this twice. Open decision: hide stage vs loosen filter vs copy fix.
+- **Pipeline run review workflow** — `reviewrun` skill needs intent + output-format spec.
 
 ---
 
@@ -411,4 +410,3 @@ npm run smoke
 - **Plans are suggestions, not directives** — write options + tradeoffs + open questions, not checklists.
 - **Notes link to question content** — `question_alias` is the join key.
 - **Briefing**: actions ("what to do next"), not "what to watch for" framings.
-- **Multi-machine workflow** — read `HANDOFF.md` before non-trivial work; 3+-file refactors go to heavy-ops.

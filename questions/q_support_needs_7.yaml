@@ -1,8 +1,0 @@
-alias: q_support_needs_7
-label: Support needs
-name: What support do you need from me to succeed in your role?
-description: Identifies any additional support she might require from her manager.
-purpose: competency
-axis_effects:
-  growth: +1
-source: generated

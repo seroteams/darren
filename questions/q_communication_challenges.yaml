@@ -1,9 +1,0 @@
-alias: q_communication_challenges
-label: Communication challenges
-name: How do you handle communication challenges that arise from language differences?
-description: Investigates their strategies for effective communication across language barriers.
-purpose: competency
-axis_effects:
-  clarity: +1
-  engagement: +1
-source: generated

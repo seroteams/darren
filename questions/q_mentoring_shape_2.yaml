@@ -1,9 +1,10 @@
 alias: q_mentoring_shape_2
 label: Mentoring shape
-name: If mentoring is still something you want, what would you want it to look like in practice?
-description: Clarifies the specific mentoring format and whether it is actionable now.
+name: What would mentoring look like in your week if it were actually happening?
+description: Gets concrete about mentoring appetite, format, and the trade-off it would require.
 purpose: topic
+stage: friction
 axis_effects:
   growth: +3
-  engagement: +1
-source: planner_added
+  clarity: +1
+source: generated

@@ -1,9 +1,0 @@
-alias: q_stretch_edge_4
-label: Stretch edge
-name: What kind of work would stretch you in a useful way right now?
-description: Identifies the next level of challenge that would feel developmental rather than random.
-purpose: topic
-axis_effects:
-  growth: +3
-  engagement: +1
-source: generated

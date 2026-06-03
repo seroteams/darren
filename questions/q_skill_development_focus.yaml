@@ -1,9 +1,0 @@
-alias: q_skill_development_focus
-label: Skill development focus
-name: Which specific skills do you believe are crucial for transitioning into a lead role?
-description: Explore the skills Toby thinks are necessary for leadership.
-purpose: competency
-stage: aspiration
-axis_effects:
-  growth: +3
-source: generated

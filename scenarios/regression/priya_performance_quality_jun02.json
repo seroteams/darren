@@ -1,0 +1,476 @@
+{
+  "id": "priya_performance_quality_jun02",
+  "description": "Priya · Performance & feedback · Quality focus — golden replay from 2026_Jun02_18-33-9d198b3c",
+  "source_run_id": "2026_Jun02_18-33-9d198b3c",
+  "prep": {
+    "name": "Priya",
+    "role": "Senior Backend Engineer",
+    "seniority": "Senior",
+    "meetingType": "Performance & feedback",
+    "notes": "Quality",
+    "selectedFocus": {
+      "id": "quality",
+      "label": "Quality and correctness on recent launches."
+    },
+    "focusPoints": [
+      {
+        "id": "quality",
+        "type": "Quality",
+        "category": "competency",
+        "label": "Quality and correctness on recent launches.",
+        "reason": "Whether their backend changes are meeting the bar on edge cases, polish, and defect rate.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "judgment",
+        "type": "Judgment",
+        "category": "competency",
+        "label": "Judgment on hard tradeoffs and escalation timing.",
+        "reason": "Whether they’re making the right calls on when to push through vs escalate to you.",
+        "source": "best_practice",
+        "known": true
+      },
+      {
+        "id": "communication",
+        "type": "Communication",
+        "category": "competency",
+        "label": "Communication clarity with reviewers and stakeholders.",
+        "reason": "Whether their updates and decisions are landing in one read and reducing review churn.",
+        "source": "best_practice",
+        "known": true
+      }
+    ]
+  },
+  "golden": {
+    "transcript": [
+      {
+        "turn": 1,
+        "question": {
+          "alias": "q_open_anything_to_cover",
+          "label": "Anything to cover",
+          "name": "Before we start, is there anything specific you want to make sure we cover today?",
+          "description": "Manager-led check that the report has agenda input before the prepared questions begin.",
+          "purpose": "topic",
+          "stage": "self_read",
+          "axis_effects": {
+            "engagement": 1,
+            "clarity": 1
+          },
+          "source": "designed"
+        },
+        "answer": "Priya said she wants to make sure we cover the recent payments handoff and how to avoid similar issues next time. She also wants clarity on when I expect her to escalate risks versus make the call herself.",
+        "skipped": false,
+        "realized_deltas": {
+          "engagement": 1,
+          "clarity": 1
+        },
+        "note": "She proactively named two concrete topics to work through — the payments handoff and escalation expectations — which signals engagement and a clear need for alignment."
+      },
+      {
+        "turn": 2,
+        "question": {
+          "alias": "q_payments_handoff",
+          "label": "Payments handoff",
+          "name": "On the payments handoff, what happened from your point of view?",
+          "description": "Drills into the specific handoff Priya raised so the conversation starts from a concrete shared event.",
+          "purpose": "competency",
+          "stage": "self_read",
+          "axis_effects": {
+            "clarity": 3
+          },
+          "source": "planner_added"
+        },
+        "answer": "Priya said the handoff felt rushed. She believed the main dependency notes were already clear from previous Slack threads, but she can see now that they were not explicit enough for QA and release testing. She said she made the call to move forward because the team was under deadline pressure.",
+        "skipped": false,
+        "realized_deltas": {
+          "clarity": -3
+        },
+        "note": "She names a clear communication miss — dependency notes were assumed clear in Slack but were not explicit enough for QA and release testing."
+      },
+      {
+        "turn": 3,
+        "question": {
+          "alias": "q_slack_threads_clarity",
+          "label": "Slack threads clarity",
+          "name": "On those Slack threads, what exactly was missing for QA and release testing?",
+          "description": "Drills into the specific communication gap she named so the evidence is concrete.",
+          "purpose": "competency",
+          "stage": "self_read",
+          "axis_effects": {
+            "clarity": 3
+          },
+          "source": "planner_added"
+        },
+        "answer": "Priya mentioned an edge case around retry behaviour when the payment provider timed out but later returned a success response. The first pass handled the normal failure path, but not the delayed success case. QA found it late, which caused extra rework before release.",
+        "skipped": false,
+        "realized_deltas": {
+          "clarity": -3
+        },
+        "note": "She named a specific communication miss: the delayed-success retry edge case was not made explicit for QA, creating late rework before release. [THREAD-DEFERRED] Concrete delayed-success edge case noted, but drill cap forces arc advance to evidence."
+      },
+      {
+        "turn": 4,
+        "question": {
+          "alias": "q_edge_case_example",
+          "label": "Edge case example",
+          "name": "Can you walk me through a recent edge case where the first pass was not enough?",
+          "description": "Surfaces a concrete quality miss or near-miss in recent backend work.",
+          "purpose": "competency",
+          "stage": "evidence",
+          "axis_effects": {
+            "clarity": 3,
+            "growth": 1
+          },
+          "source": "generated"
+        },
+        "answer": "Priya said the first pass missed a payment retry edge case. If the provider timed out but later confirmed success, the system could show the wrong state. She said she focused on the main failure path and did not fully test the delayed success path before handoff.",
+        "skipped": false,
+        "realized_deltas": {
+          "clarity": -3,
+          "growth": -1
+        },
+        "note": "She names a specific miss in test coverage and handoff judgment — focused on the main failure path, missed delayed success, and did not fully test before handoff."
+      },
+      {
+        "turn": 5,
+        "question": {
+          "alias": "q_delayed_success_path",
+          "label": "Delayed success path",
+          "name": "On the delayed success path, what made it feel safe enough to hand off?",
+          "description": "Drills into the specific decision point behind the missed edge case before advancing the arc.",
+          "purpose": "competency",
+          "stage": "evidence",
+          "axis_effects": {
+            "clarity": 3,
+            "wellbeing": 3
+          },
+          "source": "planner_added"
+        },
+        "answer": "Thought retry logic covered it. Missed delayed success state. Main paths passed so she felt ok to hand off.",
+        "skipped": false,
+        "realized_deltas": {
+          "wellbeing": -1,
+          "clarity": -3
+        },
+        "note": "She names a specific decision error — assuming retry logic covered the delayed-success case because main paths passed — which is a strong clarity miss with mild deadline-pressure/rushed-judgment signal."
+      },
+      {
+        "turn": 6,
+        "question": {
+          "alias": "q_thread_follow_6",
+          "label": "Thread follow",
+          "name": "hought retry logic — can you say more about what that means for you right now?",
+          "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+          "purpose": "competency",
+          "stage": "evidence",
+          "axis_effects": {
+            "clarity": 3,
+            "wellbeing": 3
+          },
+          "source": "planner_added"
+        },
+        "answer": "She meant the existing retry system should catch it. She now sees that assumption was wrong because nobody checked the delayed success case.",
+        "skipped": false,
+        "realized_deltas": {
+          "clarity": -3
+        },
+        "note": "She names a specific faulty assumption and an unchecked case, which is a strong clarity gap; no meaningful wellbeing signal in the answer. [THREAD-DEFERRED] Existing retry system assumption and ownership of checking the delayed success case could be picked up next session."
+      },
+      {
+        "turn": 7,
+        "question": {
+          "alias": "q_escalation_timing",
+          "label": "Escalation timing",
+          "name": "What makes you decide to escalate a technical call to me?",
+          "description": "Surfaces judgment around when she pushes through versus asks for help.",
+          "purpose": "competency",
+          "stage": "gap_naming",
+          "axis_effects": {
+            "clarity": 3,
+            "engagement": 1
+          },
+          "source": "generated"
+        },
+        "answer": "Escalates when risk affects release, data, money, or another team. Did not escalate this one because she thought it was covered by existing logic.",
+        "skipped": false,
+        "realized_deltas": {
+          "engagement": 1,
+          "clarity": 1
+        },
+        "note": "She names a clear escalation rule and a specific misread on this case, indicating usable decision criteria and ownership of the call; [THREAD-DEFERRED-WINDDOWN] existing logic coverage assumption could be worth unpacking next session."
+      },
+      {
+        "turn": 8,
+        "question": {
+          "alias": "q_quality_pressure",
+          "label": "Quality pressure",
+          "name": "Where is quality hardest to hold the line on in your current work?",
+          "description": "Finds the conditions that make defects or polish issues more likely.",
+          "purpose": "competency",
+          "stage": "cause",
+          "axis_effects": {
+            "clarity": 3,
+            "wellbeing": 1
+          },
+          "source": "generated"
+        },
+        "answer": "Hardest when timelines are tight and there are several edge cases across teams. She tends to focus on main path first and trusts existing systems too much.",
+        "skipped": false,
+        "realized_deltas": {
+          "wellbeing": -1,
+          "clarity": -3
+        },
+        "note": "She names specific conditions that degrade judgment — tight timelines, cross-team edge cases, and over-trusting existing systems — which is a strong clarity risk and mild capacity strain."
+      },
+      {
+        "turn": 9,
+        "question": {
+          "alias": "q_next_step_commitment",
+          "label": "Next-step commitment",
+          "name": "What are you going to do differently on quality before we next meet?",
+          "description": "Closes on a specific commitment tied to the quality theme already in play.",
+          "purpose": "competency",
+          "stage": "commit",
+          "axis_effects": {
+            "growth": 1,
+            "clarity": 1
+          },
+          "source": "generated"
+        },
+        "answer": "Before handoff she will add edge-case checklist, call out assumptions, and escalate if payment state, release risk, or cross-team dependency is unclear.",
+        "skipped": false,
+        "realized_deltas": {
+          "clarity": 1,
+          "growth": 1
+        },
+        "note": "Names three specific behaviour changes — edge-case checklist, explicit assumptions, and clearer escalation triggers — which is a concrete positive commitment on growth and clarity."
+      }
+    ],
+    "axis_state": {
+      "wellbeing": {
+        "score": -3,
+        "history": [
+          {
+            "q": "q_delayed_success_path",
+            "delta": -1,
+            "answer_excerpt": "Thought retry logic covered it. Missed delayed success state. Main paths passed so she felt ok to hand off."
+          },
+          {
+            "q": "q_quality_pressure",
+            "delta": -1,
+            "answer_excerpt": "Hardest when timelines are tight and there are several edge cases across teams. She tends to focus on main path first and trusts existing sy"
+          }
+        ]
+      },
+      "engagement": {
+        "score": 1,
+        "history": [
+          {
+            "q": "q_open_anything_to_cover",
+            "delta": 1,
+            "answer_excerpt": "Priya said she wants to make sure we cover the recent payments handoff and how to avoid similar issues next time. She also wants clarity on "
+          },
+          {
+            "q": "q_escalation_timing",
+            "delta": 1,
+            "answer_excerpt": "Escalates when risk affects release, data, money, or another team. Did not escalate this one because she thought it was covered by existing "
+          }
+        ]
+      },
+      "clarity": {
+        "score": -9,
+        "history": [
+          {
+            "q": "q_open_anything_to_cover",
+            "delta": 1,
+            "answer_excerpt": "Priya said she wants to make sure we cover the recent payments handoff and how to avoid similar issues next time. She also wants clarity on "
+          },
+          {
+            "q": "q_payments_handoff",
+            "delta": -3,
+            "answer_excerpt": "Priya said the handoff felt rushed. She believed the main dependency notes were already clear from previous Slack threads, but she can see n"
+          },
+          {
+            "q": "q_slack_threads_clarity",
+            "delta": -3,
+            "answer_excerpt": "Priya mentioned an edge case around retry behaviour when the payment provider timed out but later returned a success response. The first pas"
+          },
+          {
+            "q": "q_edge_case_example",
+            "delta": -3,
+            "answer_excerpt": "Priya said the first pass missed a payment retry edge case. If the provider timed out but later confirmed success, the system could show the"
+          },
+          {
+            "q": "q_delayed_success_path",
+            "delta": -3,
+            "answer_excerpt": "Thought retry logic covered it. Missed delayed success state. Main paths passed so she felt ok to hand off."
+          },
+          {
+            "q": "q_thread_follow_6",
+            "delta": -3,
+            "answer_excerpt": "She meant the existing retry system should catch it. She now sees that assumption was wrong because nobody checked the delayed success case."
+          },
+          {
+            "q": "q_escalation_timing",
+            "delta": 1,
+            "answer_excerpt": "Escalates when risk affects release, data, money, or another team. Did not escalate this one because she thought it was covered by existing "
+          },
+          {
+            "q": "q_quality_pressure",
+            "delta": -3,
+            "answer_excerpt": "Hardest when timelines are tight and there are several edge cases across teams. She tends to focus on main path first and trusts existing sy"
+          },
+          {
+            "q": "q_next_step_commitment",
+            "delta": 1,
+            "answer_excerpt": "Before handoff she will add edge-case checklist, call out assumptions, and escalate if payment state, release risk, or cross-team dependency"
+          }
+        ]
+      },
+      "growth": {
+        "score": 0,
+        "history": [
+          {
+            "q": "q_edge_case_example",
+            "delta": -1,
+            "answer_excerpt": "Priya said the first pass missed a payment retry edge case. If the provider timed out but later confirmed success, the system could show the"
+          },
+          {
+            "q": "q_next_step_commitment",
+            "delta": 1,
+            "answer_excerpt": "Before handoff she will add edge-case checklist, call out assumptions, and escalate if payment state, release risk, or cross-team dependency"
+          }
+        ]
+      }
+    },
+    "telegraphic_answer": "Thought retry logic covered it. Missed delayed success state. Main paths passed so she felt ok to hand off.",
+    "golden_eval_bad": {
+      "headline": "Priya’s clarity and quality bar slipped on a rushed payments handoff because she trusted retry logic and under-specified delayed-success edge cases.",
+      "summary_bullets": [
+        "Priya repeatedly anchored the failure to a specific gap: “Missed delayed success state” after assuming “Thought retry logic covered it.”",
+        "The handoff felt “rushed,” and dependency/assumption notes from Slack were “not explicit enough for QA and release testing,” creating late QA discovery.",
+        "Her escalation rule is clear in principle (“Escalates when risk affects release, data, money, or another team”) but she didn’t escalate because she believed existing logic already covered it."
+      ],
+      "understanding_paragraph": "Priya’s read is that the payments handoff broke down on one edge-case class: delayed success after a provider timeout. She understands the cause as an assumption failure—she focused on the main failure path and didn’t fully test or make explicit the delayed-success path. The session also shows she can name a senior-level escalation rule, but she needs a tighter decision trigger when assumptions are doing the safety work.",
+      "axes": [
+        {
+          "id": "wellbeing",
+          "score": -3,
+          "meaning": "Weak-to-moderate stress signal: tight timelines correlate with her tendency to prioritize main paths over edge cases."
+        },
+        {
+          "id": "engagement",
+          "score": 1,
+          "meaning": "Slight positive engagement: she’s thinking in terms of prevention and escalation boundaries, not just recounting incidents."
+        },
+        {
+          "id": "clarity",
+          "score": -10,
+          "meaning": "Defining signal: handoff clarity failed—dependency notes weren’t explicit enough for QA and release testing."
+        },
+        {
+          "id": "growth",
+          "score": -1,
+          "meaning": "Very weak growth signal: she identified what was missed, but the plan stays at checklist-level rather than changing the underlying testing/escalation behavior."
+        }
+      ],
+      "brutal_truth_employee": "Priya said, “Thought retry logic covered it. Missed delayed success state.” She also admitted, “She tends to focus on main path first and trusts existing systems too much,” which is why QA found the issue late and rework happened before release.",
+      "brutal_truth_manager": "When Priya said “Thought retry logic covered it,” the conversation should have drilled into the exact assumption and the concrete trigger for when that assumption is invalid. The follow-up stayed too close to the note-language (“hought retry logic”) and didn’t force a crisp, testable rule for delayed-success coverage and escalation.",
+      "next_actions": [
+        {
+          "when": "today",
+          "action": "Confirm the exact delayed-success test cases Priya will add to the edge-case checklist and who will run them in QA before the next handoff."
+        },
+        {
+          "when": "this week",
+          "action": "Schedule a 30-minute review of the payments handoff write-up to rewrite dependency/assumption notes so they’re explicit for QA and release testing."
+        },
+        {
+          "when": "next 1:1",
+          "action": "Re-ask for one concrete escalation trigger: when delayed-success assumptions fail, what exact signal makes Priya escalate to you."
+        }
+      ],
+      "watch_for": [
+        "Before the next handoff, does Priya explicitly document delayed-success assumptions and test coverage, or does she keep relying on “existing retry logic” without QA-ready detail?",
+        "If timelines tighten, does Priya still say quality is hardest “when timelines are tight,” and do edge cases across teams get caught in first-pass QA instead of late rework?"
+      ]
+    },
+    "golden_eval_good": {
+      "headline": "Priya missed a delayed-success edge case on the payments handoff because she trusted existing retry logic without explicit QA coverage.",
+      "summary_bullets": [
+        "She named the gap: missed delayed success after assuming retry logic covered it.",
+        "Handoff notes from Slack were not explicit enough for QA and release testing.",
+        "She stated a clear escalation rule but did not apply it when assumptions carried payment risk."
+      ],
+      "understanding_paragraph": "Priya understands the failure as an assumption on retry coverage and incomplete handoff detail for QA. She named when she escalates and committed to an edge-case checklist before the next handoff.",
+      "axes": [
+        {
+          "id": "wellbeing",
+          "score": -3,
+          "meaning": "Weak signal: timelines were tight; no direct evidence she reported stress or burnout."
+        },
+        {
+          "id": "engagement",
+          "score": 1,
+          "meaning": "She engaged on prevention and escalation boundaries."
+        },
+        {
+          "id": "clarity",
+          "score": -9,
+          "meaning": "Handoff and edge-case clarity failed on the payments launch."
+        },
+        {
+          "id": "growth",
+          "score": 0,
+          "meaning": "She named the miss, the cause, and concrete habits to change before the next handoff."
+        }
+      ],
+      "brutal_truth_employee": "She said she trusted retry logic and missed the delayed-success path; QA found it late.",
+      "brutal_truth_manager": "When she gave a telegraphic answer about retry logic, the next question should have tested the assumption with a full sentence, not echoed her note fragments.",
+      "next_actions": [
+        {
+          "when": "next 1:1",
+          "action": "Confirm delayed-success test cases are on her edge-case checklist and run in QA before handoff."
+        }
+      ],
+      "watch_for": [
+        "Before the next handoff: are delayed-success assumptions written and tested, not assumed from existing retry logic?"
+      ]
+    },
+    "productQaNotes": [
+      "Prep 4/5: drifted to communication in listenFor despite Quality focus.",
+      "Turn 6: runtime thread-follow echoed note fragment (hought retry logic).",
+      "Briefing: clarity -10 vs axis_state -9; wellbeing over-read; growth very weak."
+    ],
+    "expectTranscriptStemFailures": true,
+    "expectPostProcessedPass": true
+  },
+  "live": {
+    "listenFor": {
+      "eachMustMatchAny": [
+        "handoff",
+        "edge case",
+        "escalat",
+        "release",
+        "review",
+        "dependency",
+        "defect",
+        "QA",
+        "payment",
+        "launch"
+      ]
+    }
+  },
+  "arc": {
+    "expectStages": [
+      "self_read",
+      "evidence",
+      "gap_naming",
+      "cause",
+      "commit"
+    ],
+    "closerStage": "commit",
+    "maxConsecutiveWellbeingClarifiers": 2
+  }
+}

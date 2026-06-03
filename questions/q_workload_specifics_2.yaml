@@ -1,9 +1,0 @@
-alias: q_workload_specifics_2
-label: Workload specifics
-name: "When you say 'we are the center of everything', what does that mean in terms of your workload and priorities?"
-description: Seeks to understand the impact of being central to everything on workload and clarity.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

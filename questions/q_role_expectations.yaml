@@ -1,8 +1,0 @@
-alias: q_role_expectations
-label: Role expectations
-name: What parts of your role feel unclear or misaligned right now?
-description: "Explores any confusion or misalignment in Carl's role."
-purpose: topic
-axis_effects:
-  clarity: +3
-source: generated

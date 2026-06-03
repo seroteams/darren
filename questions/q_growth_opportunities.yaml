@@ -1,8 +1,0 @@
-alias: q_growth_opportunities
-label: Growth opportunities
-name: What skills or areas do you feel you want to grow in right now?
-description: Encourages reflection on personal growth and development aspirations.
-purpose: topic
-axis_effects:
-  growth: +3
-source: generated

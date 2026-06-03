@@ -1,8 +1,0 @@
-alias: q_priority_alignment
-label: Priority alignment
-name: Do your current project priorities align with your personal career goals?
-description: Explores alignment between their work and personal career objectives.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

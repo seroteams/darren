@@ -1,0 +1,10 @@
+alias: q_quiet_in_standup_2
+label: Quiet in standup
+name: "I've noticed you've been quieter in standup this week — what's behind that?"
+description: Observation-first check on whether the quieter presence is about energy, focus, or something else.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

@@ -1,9 +1,0 @@
-alias: q_ux_design_impact
-label: UX Design Impact
-name: How do you see your design work impacting our product goals this quarter?
-description: Explores the perceived impact of their design work on product goals.
-purpose: competency
-stage: self_read
-axis_effects:
-  growth: +3
-source: generated

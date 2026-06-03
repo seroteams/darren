@@ -3,6 +3,7 @@ label: Priority ranking
 name: "If you had to cut your work in half tomorrow, what would you drop first — and what's non-negotiable?"
 description: "Forces a real priority ranking. Vague answers are a clarity signal."
 purpose: topic
+stage: gap
 axis_effects:
   clarity: +3
   engagement: +1

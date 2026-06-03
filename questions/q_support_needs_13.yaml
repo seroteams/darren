@@ -1,9 +1,0 @@
-alias: q_support_needs_13
-label: Support needs
-name: Is there anything specific you need more of from me right now?
-description: Surfaces any unspoken needs Carl might have for manager support.
-purpose: topic
-stage: friction
-axis_effects:
-  engagement: +3
-source: generated

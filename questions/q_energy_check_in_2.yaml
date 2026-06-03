@@ -1,8 +1,0 @@
-alias: q_energy_check_in_2
-label: Energy check-in
-name: "Where's your energy at after the payments push, and what's helping or hindering it?"
-description: Assesses current energy levels post-project and identifies factors affecting them.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: planner_added

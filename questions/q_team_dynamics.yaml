@@ -1,8 +1,9 @@
 alias: q_team_dynamics
 label: Team dynamics
-name: How connected do you feel with the team at the moment?
-description: "Checks in on Darren's feelings regarding team interactions and dynamics."
+name: What has been easiest or hardest about working with the kitchen team so far?
+description: Checks how he is landing with cooks and support staff without assuming the answer.
 purpose: wellbeing
+stage: blockers
 axis_effects:
   wellbeing: +1
   engagement: +1

@@ -1,8 +1,0 @@
-{
-  "name": "Bill",
-  "role": "Acting Coach",
-  "seniority": "Director",
-  "meetingType": "Growth & career plan",
-  "notes": "Director is not got enough experience.",
-  "model": "gpt-4o"
-}

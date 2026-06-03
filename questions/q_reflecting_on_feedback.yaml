@@ -1,9 +1,0 @@
-alias: q_reflecting_on_feedback
-label: Reflecting on feedback
-name: What feedback from your peers or team members has resonated with you lately, and how are you planning to apply it?
-description: Looks for engagement with feedback and their approach to personal growth.
-purpose: competency
-axis_effects:
-  growth: +3
-  engagement: +1
-source: generated

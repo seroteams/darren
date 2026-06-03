@@ -1,8 +1,0 @@
-alias: q_project_prioritisation
-label: Project prioritisation
-name: What would you drop if you had to cut something from your workload this week?
-description: Surfaces what Carl sees as low priority, which can help with workload management and focus.
-purpose: topic
-axis_effects:
-  clarity: +1
-source: generated

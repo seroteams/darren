@@ -1,9 +1,0 @@
-alias: q_commitment_to_action_4
-label: Commitment to action
-name: "What's the first concrete thing you want to have moved by our next conversation?"
-description: Encourages Toby to commit to a specific action or goal.
-purpose: topic
-stage: commitment
-axis_effects:
-  growth: +1
-source: generated

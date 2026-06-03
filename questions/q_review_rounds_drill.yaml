@@ -1,0 +1,9 @@
+alias: q_review_rounds_drill
+label: Review rounds drill
+name: You mentioned review rounds — where are they stacking up most often?
+description: Drills into the employee-named thread to locate the point in the process where review cycles accumulate.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added

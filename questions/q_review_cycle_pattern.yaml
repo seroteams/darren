@@ -1,0 +1,9 @@
+alias: q_review_cycle_pattern
+label: Review cycle pattern
+name: Where do the extra review rounds usually start?
+description: Finds the stage in the process where iteration is getting added.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+source: generated

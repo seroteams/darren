@@ -1,8 +1,0 @@
-alias: q_guidance_and_support
-label: Guidance and support
-name: You mentioned not having someone to guide you — what kind of support or guidance would make a difference for you right now?
-description: Explores the specific support Usman feels is missing and what would help.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: planner_added

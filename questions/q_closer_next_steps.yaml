@@ -1,0 +1,9 @@
+alias: q_closer_next_steps
+label: Closer next steps
+name: What support from me would make the next two weeks more useful?
+description: Ends by turning the conversation into a concrete ask for support.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  clarity: +1
+source: generated

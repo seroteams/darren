@@ -1,8 +1,0 @@
-alias: q_exploring_mentoring
-label: Exploring mentoring
-name: How can we better support your interest in mentoring? What steps would you like to see taken?
-description: "Aims to uncover ways to facilitate Priya's mentoring aspirations and address her concerns."
-purpose: wellbeing
-axis_effects:
-  growth: +3
-source: planner_added

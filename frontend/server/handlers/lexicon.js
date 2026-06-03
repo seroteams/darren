@@ -47,9 +47,13 @@ async function candidates(c) {
   try {
     const result = await generateSuggestions({ session, ctx: session.ctx });
     if (result.skipped) {
-      return c.json(200, { candidates: [], skipped: result.reason || "skipped" });
+      return c.json(200, { candidates: [], skipped: result.reason || "skipped", error: result.error || null });
     }
-    return c.json(200, { candidates: mapForUi(result.suggestions || []) });
+    return c.json(200, {
+      candidates: mapForUi(result.suggestions || []),
+      skipped: (result.suggestions || []).length ? null : "empty",
+      fromCache: Boolean(result.fromCache),
+    });
   } catch (e) {
     return c.error(Object.assign(new Error(e.message || "lexicon review failed"), { status: 500 }));
   }
@@ -96,4 +100,18 @@ async function decisions(c) {
   c.json(200, { ok: true, count: records.length, committed: commit.accepted?.length || 0 });
 }
 
-module.exports = { candidates, scope, decisions };
+async function promotePending(c) {
+  const { listPendingPromotions } = require("../../../src/lexicon/promote-core");
+  const items = listPendingPromotions();
+  return c.json(200, { items, count: items.length });
+}
+
+async function promoteApply(c) {
+  const body = await c.readBody();
+  const { decisions: list } = body || {};
+  const { applyPromotionDecisions } = require("../../../src/lexicon/promote-core");
+  const result = applyPromotionDecisions(Array.isArray(list) ? list : []);
+  return c.json(200, { ok: true, ...result });
+}
+
+module.exports = { candidates, scope, decisions, promotePending, promoteApply };

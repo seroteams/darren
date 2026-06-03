@@ -1,0 +1,9 @@
+alias: q_recent_example_4
+label: Recent example
+name: Take a recent review round—what specifically came back on the work?
+description: Anchor the conversation in one observable example before naming the pattern and closing.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

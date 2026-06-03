@@ -1,8 +1,0 @@
-{
-  "name": "Tom",
-  "role": "Frontend Engineer",
-  "seniority": "Junior",
-  "meetingType": "Something feels off",
-  "notes": "PR reviews have been taking longer than usual and commits have thinned out over the last 2-3 weeks. Was very energetic when they joined 8 months ago. Missed the last two team socials. One teammate hinted there was friction over a design-system PR that got reworked heavily. I don't want this to be a performance conversation — I want to understand what's going on.",
-  "model": "gpt-4o-mini"
-}

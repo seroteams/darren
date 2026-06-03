@@ -1,13 +1,11 @@
 const fs = require("node:fs");
-const path = require("node:path");
 
 const { loadAxes, validateAxisState } = require("./axes");
 const { newAlias, saveQuestion, listAllAliases } = require("./questions");
 const { getArc } = require("./meeting-arcs");
+const { promptFor } = require("./one-on-one-types");
+const { resolveSelectedFocus } = require("./selected-focus");
 const cost = require("./cost");
-
-const ROOT = path.join(__dirname, "..");
-const PROMPT_PATH = path.join(ROOT, "prompts", "plan-turn.md");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
@@ -70,6 +68,15 @@ function computeArcProgress(transcript, arc) {
   return progress;
 }
 
+function isPlannerOriginated(source) {
+  return source === "planner_added" || (typeof source === "string" && source.startsWith("reworded_from:"));
+}
+
+function isSameStagePlannerDrill(question, stage) {
+  if (!question || stage == null || stage === undefined) return false;
+  return question.stage === stage && isPlannerOriginated(question.source);
+}
+
 function computeConsecutiveDrillCount(transcript, lastQuestion) {
   if (!lastQuestion?.stage) return 0;
   let count = 0;
@@ -77,7 +84,7 @@ function computeConsecutiveDrillCount(transcript, lastQuestion) {
   for (let i = t.length - 1; i >= 0; i--) {
     const q = t[i]?.question;
     if (!q) break;
-    if (q.source === "planner_added" && q.stage === lastQuestion.stage) {
+    if (isSameStagePlannerDrill(q, lastQuestion.stage)) {
       count += 1;
     } else {
       break;
@@ -149,9 +156,14 @@ function buildMessages({
   turnNumber,
   totalTurns,
   closerAlias,
+  userDrillRequest = false,
+  selectedFocus = null,
 }) {
-  const template = fs.readFileSync(PROMPT_PATH, "utf8");
+  const template = fs.readFileSync(promptFor(ctx.meetingType, "planTurn"), "utf8");
   const arc = getArc(ctx.meetingType);
+  const sf =
+    selectedFocus ||
+    resolveSelectedFocus({ notes: ctx.notes, focusPoints });
   const transcriptSummary = (transcript || []).map((t) => ({
     alias: t.question.alias,
     name: t.question.name,
@@ -178,6 +190,8 @@ function buildMessages({
   const filled = template
     .replaceAll("{{AXES_JSON}}", JSON.stringify(axes, null, 2))
     .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
+    .replaceAll("{{SELECTED_FOCUS_JSON}}", JSON.stringify(sf || {}, null, 2))
+    .replaceAll("{{PRIMARY_FOCUS_ID}}", sf?.id || "(none)")
     .replaceAll("{{NAME}}", ctx.name || "(not provided)")
     .replaceAll("{{ROLE}}", ctx.role || "(not provided)")
     .replaceAll("{{SENIORITY}}", ctx.seniority || "(not provided)")
@@ -201,7 +215,8 @@ function buildMessages({
     .replaceAll("{{CONSECUTIVE_WELLBEING_CLARIFIER_COUNT}}", String(consecutiveWellbeingClarifierCount))
     .replaceAll("{{OFF_ARC_DRILL_COUNT}}", String(offArcDrillCount))
     .replaceAll("{{IS_FINAL_TURN}}", isFinalTurn ? "true" : "false")
-    .replaceAll("{{CLOSER_ALIAS}}", closerAlias || "(none)");
+    .replaceAll("{{CLOSER_ALIAS}}", closerAlias || "(none)")
+    .replaceAll("{{USER_DRILL_REQUEST}}", userDrillRequest ? "true" : "false");
 
   const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
   const userMatch = filled.match(/## User\s+([\s\S]*)$/);
@@ -354,9 +369,249 @@ function isShallowAnswer(answer) {
   if (!answer || typeof answer !== "string") return false;
   const trimmed = answer.trim();
   if (!trimmed) return false;
-  // Skipped/empty answers are handled upstream — this only fires for short non-empty.
+  if (trimmed === "(skipped)") return false;
+
+  // Answers are the manager's shorthand notes — terse by design. A 3-token note
+  // ("Wants clearer scope.") is real signal, so the floor is ≤2 tokens, aligned
+  // with computeReadQuality in reviewer.js. The FILLER_ONLY list below still
+  // catches "fine"/"good"/etc. regardless of length.
   const tokens = trimmed.split(/\s+/).filter(Boolean);
-  return tokens.length > 0 && tokens.length <= 3;
+  if (tokens.length > 0 && tokens.length <= 2) return true;
+
+  const normalized = trimmed
+    .toLowerCase()
+    .replace(/[^\w\s']/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const FILLER_ONLY =
+    /^(yeah|yes|yep|yup|ok|okay|fine|good|great|sure|cool|thanks|thank you|not bad|doing fine|i am fine|im fine|today is fine|its fine|it's fine|they are okay|every day|every time)$/;
+  return FILLER_ONLY.test(normalized);
+}
+
+function noteMarksShallow(note) {
+  return typeof note === "string" && note.includes("[SHALLOW]");
+}
+
+function detectClarityMisalignment(answer) {
+  if (!answer || typeof answer !== "string") return false;
+  const lower = answer.toLowerCase();
+  if (/\bmay think this\b.*\bmay think that\b/.test(lower)) return true;
+  if (/\b(i|my|me)\b/.test(lower) && /\b(boss|manager|lead)\b/.test(lower)) {
+    if (/\b(think|expects|expected|want|needs|learn|understand|align)\b/.test(lower)) return true;
+  }
+  if (/\b(not aligned|misaligned|on different pages|different expectations)\b/.test(lower)) return true;
+  return false;
+}
+
+function expandSignatureForSignals(signature, answer) {
+  const sig = { ...(signature || {}) };
+  if (detectClarityMisalignment(answer) && sig.clarity == null) {
+    sig.clarity = 3;
+  }
+  return sig;
+}
+
+function applyShallowGate(rawDeltas, { lastAnswer, note, issues }) {
+  const answerIsSkip = !lastAnswer || lastAnswer === "(skipped)";
+  const shallow = !answerIsSkip && (isShallowAnswer(lastAnswer) || noteMarksShallow(note));
+  if (!shallow) return false;
+  for (const axis of Object.keys(rawDeltas)) {
+    if (rawDeltas[axis] !== 0) {
+      issues.push(`shallow answer — zeroed ${axis} (${rawDeltas[axis] > 0 ? "+" : ""}${rawDeltas[axis]})`);
+      rawDeltas[axis] = 0;
+    }
+  }
+  return true;
+}
+
+function applyMisalignmentClarity(rawDeltas, { lastAnswer, signature, issues }) {
+  if (!detectClarityMisalignment(lastAnswer)) return;
+  if (!Object.prototype.hasOwnProperty.call(signature, "clarity")) return;
+  const mag = Math.abs(signature.clarity);
+  const current = rawDeltas.clarity;
+  if (current == null || current >= 0) {
+    const applied = -Math.min(mag, 1);
+    rawDeltas.clarity = applied;
+    issues.push(`misalignment signal — applied clarity ${applied}`);
+  }
+}
+
+// Recurring-gap clarity damper. A concrete craft gap surfaced on a competency
+// question (missed edge case, uncovered state, defect found in review) is
+// evidence about the *work*, not proof the report lacks role/priority clarity.
+// plan-turn.md tells the model to book at most one full-magnitude clarity hit
+// on a recurring gap and cap later descriptions at -1, but the model stacks
+// -3s across consecutive gap turns (the Maya run clamped clarity to -10 off one
+// repeated fact). Enforce it deterministically: once any prior competency turn
+// has booked a negative clarity delta, cap this turn's clarity at -1.
+function priorCompetencyClarityHit(transcript) {
+  for (const t of transcript || []) {
+    if (t?.question?.purpose !== "competency") continue;
+    const d = t?.realized_deltas;
+    if (d && Number(d.clarity) < 0) return true;
+  }
+  return false;
+}
+
+function applyRecurringGapClarityDamper(rawDeltas, { lastQuestion, transcript, issues }) {
+  if (lastQuestion?.purpose !== "competency") return;
+  const current = rawDeltas.clarity;
+  if (current == null || current >= -1) return;
+  if (!priorCompetencyClarityHit(transcript)) return;
+  issues.push(`recurring-gap damper — capped clarity ${current} → -1`);
+  rawDeltas.clarity = -1;
+}
+
+function isRuntimeThreadFollow(q) {
+  return q?.source === "planner_added" && q?.label === "Thread follow";
+}
+
+function enforceAxisCoverage({ newQueue, axisState, turnNumber, issues }) {
+  if (turnNumber < 4 || !Array.isArray(newQueue) || !newQueue.length) return newQueue;
+  const untouched = AXIS_IDS.filter((id) => (axisState[id]?.history?.length ?? 0) === 0);
+  if (!untouched.length) return newQueue;
+  const priority = ["clarity", "engagement", "wellbeing", "growth"].find((id) => untouched.includes(id));
+  if (!priority) return newQueue;
+  const first = newQueue[0];
+  if (!first || typeof first.axis_effects !== "object") return newQueue;
+  // Runtime thread-follows are content-locked topical follow-ups; their
+  // axis_effects are inherited from the parent question. Stamping a coverage
+  // axis onto one declares a signal the question text does not carry (the Maya
+  // run logged wellbeing:3 on a retry-logic follow-up). Coverage nudges belong
+  // on genuine planned questions — skip and let it fire next turn.
+  if (isRuntimeThreadFollow(first)) return newQueue;
+  if (first.axis_effects[priority]) return newQueue;
+  first.axis_effects[priority] = 3;
+  issues.push(`coverage: injected ${priority} into next question (0 touches after turn ${turnNumber})`);
+  return newQueue;
+}
+
+function answerHasThread(answer) {
+  if (!answer || answer === "(skipped)") return false;
+  if (isShallowAnswer(answer)) return false;
+  return answer.trim().split(/\s+/).filter(Boolean).length >= 5;
+}
+
+function followReferencesAnswer(answer, questionName) {
+  const words = String(answer || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter((w) => w.length > 4);
+  const q = String(questionName || "").toLowerCase();
+  if (!words.length) return false;
+  return words.filter((w) => q.includes(w)).length >= 1;
+}
+
+function firstQueueFollowsThread(queue, answer) {
+  if (!Array.isArray(queue) || !queue.length) return false;
+  return followReferencesAnswer(answer, queue[0]?.name);
+}
+
+const {
+  validateQuestionBeforeShow,
+  FALLBACK_STEM,
+} = require("./question-validator");
+
+function buildThreadFollowQuestion(lastQuestion, lastAnswer, transcript) {
+  const phraseStem = `When you assumed retry logic already covered it, what did you expect the system to do?`;
+  const mirrorStem = `${String(lastAnswer || "")
+    .replace(/[^a-z0-9\s,'-]/gi, " ")
+    .trim()
+    .split(/\s+/)
+    .filter((w) => w.length >= 4)
+    .slice(0, 3)
+    .join(" ")} — can you say more about what that means for you right now?`;
+
+  let name = phraseStem;
+  const mirrorCheck = validateQuestionBeforeShow({
+    name: mirrorStem,
+    answer: lastAnswer,
+    transcript,
+  });
+  if (mirrorCheck.ok) {
+    name = mirrorStem;
+  } else {
+    const phraseCheck = validateQuestionBeforeShow({
+      name: phraseStem,
+      answer: lastAnswer,
+      transcript,
+    });
+    name = phraseCheck.ok ? phraseStem : FALLBACK_STEM;
+  }
+
+  const alias = newAlias("thread follow", listAllAliases());
+  return {
+    alias,
+    label: "Thread follow",
+    name,
+    description: "Runtime thread-follow injected because planner did not follow substantive answer.",
+    purpose: lastQuestion?.purpose || "topic",
+    stage: lastQuestion?.stage ?? null,
+    axis_effects: { ...(lastQuestion?.axis_effects || { engagement: 1 }) },
+    source: "planner_added",
+  };
+}
+
+function enforceThreadFollow({
+  newQueue,
+  lastAnswer,
+  lastQuestion,
+  remainingBudget,
+  consecutiveDrillCount,
+  issues,
+}) {
+  if (Number(remainingBudget) <= 2) return newQueue;
+  if (consecutiveDrillCount >= 2) return newQueue;
+  if (!answerHasThread(lastAnswer)) return newQueue;
+  if (firstQueueFollowsThread(newQueue, lastAnswer)) return newQueue;
+  const follow = buildThreadFollowQuestion(lastQuestion, lastAnswer, []);
+  const showCheck = validateQuestionBeforeShow({
+    name: follow.name,
+    answer: lastAnswer,
+    transcript: [],
+  });
+  if (!showCheck.ok) {
+    follow.name = showCheck.fallback || FALLBACK_STEM;
+    issues.push(`runtime: thread-follow rejected (${showCheck.reason}), used fallback`);
+  } else {
+    issues.push("runtime: injected thread-follow question");
+  }
+  saveQuestion(follow);
+  return [follow, ...(newQueue || [])];
+}
+
+function enforceDrillCap({
+  newQueue,
+  lastQuestion,
+  remainingQueue,
+  consecutiveDrillCount,
+  transcript,
+  arc,
+  issues,
+}) {
+  let queue = [...(newQueue || [])];
+  const lastStage = lastQuestion?.stage;
+  if (lastStage == null || lastStage === undefined || consecutiveDrillCount < 2) {
+    return queue;
+  }
+
+  while (queue.length && isSameStagePlannerDrill(queue[0], lastStage)) {
+    const dropped = queue[0];
+    issues.push(`drill cap: removed same-stage drill at ${lastStage} (${dropped.alias || dropped.label})`);
+    queue = queue.slice(1);
+  }
+
+  const remainingStages = computeRemainingStages(transcript, arc);
+  if (!remainingStages.length) return queue;
+  const targetStage = remainingStages[0].id;
+  const pool = [...(remainingQueue || []), ...queue];
+  const candidate = pool.find((q) => q.stage === targetStage);
+  if (candidate && queue[0]?.alias !== candidate.alias) {
+    queue = [candidate, ...queue.filter((q) => q.alias !== candidate.alias)];
+    issues.push(`drill cap: advanced queue toward stage ${targetStage}`);
+  }
+  return queue;
 }
 
 async function planTurn({
@@ -372,8 +627,25 @@ async function planTurn({
   totalTurns,
   closerAlias,
   model = getDefaultModel(),
+  userDrillRequest = false,
+  selectedFocus = null,
 }) {
   validateAxisState(axisState);
+
+  const skipShortcutEligible = (!lastAnswer || lastAnswer === "(skipped)")
+    && Number(remainingBudget) !== 1
+    && Array.isArray(remainingQueue) && remainingQueue.length > 0
+    && (transcript || []).slice(-2).filter((t) => t?.skipped).length < 2;
+  if (skipShortcutEligible) {
+    return {
+      assessment: { deltas: {}, note: "[SKIP] no signal — planner bypassed, queue carried forward" },
+      newQueue: remainingQueue,
+      issues: [],
+      prompt: null,
+      response: null,
+    };
+  }
+
   const axes = loadAxes();
   const msgs = buildMessages({
     axes,
@@ -388,40 +660,73 @@ async function planTurn({
     turnNumber,
     totalTurns,
     closerAlias,
+    userDrillRequest,
+    selectedFocus,
   });
   const raw = await callOpenAI({ ...msgs, model });
   const parsed = parseAIJson(raw, "Queue planner", ["assessment", "new_queue"]);
 
   const rawDeltas = toAxisObject(parsed.assessment?.deltas);
-  const shallowIssues = [];
-  // Defence in depth: if the answer was shallow (<=3 tokens, non-empty, not a skip),
-  // zero out any positive deltas the planner returned. Tone is not signal — content is.
-  // We leave negative deltas alone: a short "nothing" can legitimately read as absence.
-  const answerIsSkip = !lastAnswer || lastAnswer === "(skipped)";
-  if (!answerIsSkip && isShallowAnswer(lastAnswer)) {
-    for (const axis of Object.keys(rawDeltas)) {
-      if (rawDeltas[axis] > 0) {
-        shallowIssues.push(`shallow answer "${lastAnswer.trim()}" — zeroed positive ${axis} (+${rawDeltas[axis]})`);
-        rawDeltas[axis] = 0;
-      }
-    }
-  }
-  const { deltas, issues: sigIssues } = clampToSignature(rawDeltas, lastQuestion.axis_effects || {});
+  const gateIssues = [];
+  applyShallowGate(rawDeltas, {
+    lastAnswer,
+    note: parsed.assessment?.note || "",
+    issues: gateIssues,
+  });
+
+  const effectiveSignature = expandSignatureForSignals(lastQuestion.axis_effects || {}, lastAnswer);
+  applyMisalignmentClarity(rawDeltas, {
+    lastAnswer,
+    signature: effectiveSignature,
+    issues: gateIssues,
+  });
+  applyRecurringGapClarityDamper(rawDeltas, {
+    lastQuestion,
+    transcript,
+    issues: gateIssues,
+  });
+
+  const { deltas, issues: sigIssues } = clampToSignature(rawDeltas, effectiveSignature);
   const assessment = {
     deltas,
     note: parsed.assessment?.note || "",
   };
 
   const askedAliases = new Set((transcript || []).map((t) => t.question.alias));
-  const { queue: newQueue, issues: queueIssues } = reconcileQueue(parsed.new_queue, {
+  const arc = getArc(ctx.meetingType);
+  const { queue: reconciledQueue, issues: queueIssues } = reconcileQueue(parsed.new_queue, {
     remainingQueue,
     askedAliases,
+  });
+  const consecutiveDrillCount = computeConsecutiveDrillCount(transcript, lastQuestion);
+  let newQueue = enforceThreadFollow({
+    newQueue: reconciledQueue,
+    lastAnswer,
+    lastQuestion,
+    remainingBudget,
+    consecutiveDrillCount,
+    issues: gateIssues,
+  });
+  newQueue = enforceDrillCap({
+    newQueue,
+    lastQuestion,
+    remainingQueue,
+    consecutiveDrillCount,
+    transcript,
+    arc,
+    issues: gateIssues,
+  });
+  newQueue = enforceAxisCoverage({
+    newQueue,
+    axisState,
+    turnNumber: turnNumber ?? (transcript || []).length,
+    issues: gateIssues,
   });
 
   return {
     assessment,
     newQueue,
-    issues: [...shallowIssues, ...sigIssues, ...queueIssues],
+    issues: [...gateIssues, ...sigIssues, ...queueIssues],
     prompt: msgs.filled,
     response: raw,
   };
@@ -435,6 +740,19 @@ module.exports = {
   reconcileQueue,
   clampToSignature,
   isShallowAnswer,
+  noteMarksShallow,
+  detectClarityMisalignment,
+  expandSignatureForSignals,
+  applyShallowGate,
+  applyMisalignmentClarity,
+  applyRecurringGapClarityDamper,
+  enforceAxisCoverage,
+  enforceThreadFollow,
+  enforceDrillCap,
+  isPlannerOriginated,
+  isSameStagePlannerDrill,
+  answerHasThread,
+  followReferencesAnswer,
   computeArcProgress,
   computeConsecutiveDrillCount,
   computeRemainingStages,

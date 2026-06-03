@@ -1,9 +1,0 @@
-alias: q_stretch_next
-label: Stretch next
-name: What is the next level of performance you want to be known for?
-description: Gets at ambition and the specific stretch he is aiming toward.
-purpose: competency
-axis_effects:
-  growth: +3
-  clarity: +1
-source: generated

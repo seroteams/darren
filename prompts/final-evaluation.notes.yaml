@@ -1,0 +1,13 @@
+# Intent rules for final-evaluation output (offline checks via scripts/eval.js)
+rules:
+  - id: headline_not_generic
+    type: regex_not
+    field: headline
+    pattern: "^(Great|Good|Productive) (chat|meeting|1:1)"
+    reason: Headline must be specific, not boilerplate
+
+  - id: action_count
+    type: count_range
+    field: next_actions
+    min: 2
+    max: 5

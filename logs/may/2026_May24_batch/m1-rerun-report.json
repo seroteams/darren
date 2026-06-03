@@ -1,0 +1,90 @@
+{
+  "generated_at": "2026-05-30T03:19:35.116Z",
+  "batch": "M1",
+  "mode": "proxy_offline",
+  "fx44": "pass_proxy",
+  "note": "Prompt hunks verified. Proxy scores from post-adoption session logs. Full --live batch sweep requires OPENAI_API_KEY.",
+  "prompt_adoption": [
+    {
+      "id": "persona-grounding",
+      "file": "prompts/generate-questions.md",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "thread-follow-bias",
+      "file": "prompts/plan-turn.md",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "anti-neutral-calibration",
+      "file": "prompts/plan-turn.md",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "honor-commitments-fx09",
+      "file": "prompts/plan-turn.md",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "dont-echo-stem-fx10",
+      "file": "prompts/plan-turn.md",
+      "ok": true,
+      "missing": []
+    }
+  ],
+  "baseline_dimensions": {
+    "question_specificity": 0.094,
+    "plan_thread_follow": 0.308,
+    "plan_delta_accuracy": 0.595
+  },
+  "proxy_runs": [
+    {
+      "label": "Toby post-adoption (May24)",
+      "scenario": "toby_growth_lead.json",
+      "session": "logs/may/2026_May24_21-46-1eb839fd",
+      "question_specificity": 0.778,
+      "plan_thread_follow": 0.571,
+      "plan_delta_accuracy": 0.875,
+      "mean": 0.741,
+      "evidence": {
+        "question_specificity": "7/9 mention persona",
+        "plan_thread_follow": "4/7 threads followed",
+        "plan_delta_accuracy": "7/8 turns scored non-zero"
+      }
+    }
+  ],
+  "aggregate": {
+    "question_specificity": 0.778,
+    "plan_thread_follow": 0.571,
+    "plan_delta_accuracy": 0.875,
+    "overall_mean": 0.741
+  },
+  "predicted_checks": [
+    {
+      "dimension": "question_specificity",
+      "mean": 0.778,
+      "baseline": 0.094,
+      "predicted": "0.4–0.6",
+      "ok": true
+    },
+    {
+      "dimension": "plan_thread_follow",
+      "mean": 0.571,
+      "baseline": 0.308,
+      "predicted": "0.55–0.75",
+      "ok": true
+    },
+    {
+      "dimension": "plan_delta_accuracy",
+      "mean": 0.875,
+      "baseline": 0.595,
+      "predicted": "0.65–0.75",
+      "ok": true
+    }
+  ],
+  "live_command": "node scripts/batch-m1-verify.js --live"
+}

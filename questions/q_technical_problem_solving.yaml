@@ -1,8 +1,0 @@
-alias: q_technical_problem_solving
-label: Technical problem-solving
-name: Can you share a recent complex problem you solved and how you approached it?
-description: Evaluating her methods in handling complex technical issues.
-purpose: competency
-axis_effects:
-  clarity: +3
-source: generated

@@ -1,8 +1,9 @@
 alias: q_feedback_loop
 label: Feedback loop
-name: Where are you getting the kind of feedback that actually helps you improve?
-description: Checks whether he is receiving usable developmental feedback in the flow of work.
+name: What kind of feedback changes how you work fastest?
+description: Explores whether Priya is getting the right kind of learning signal.
 purpose: competency
+stage: cause
 axis_effects:
   growth: +3
   clarity: +1

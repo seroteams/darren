@@ -9,19 +9,25 @@ const { createStaticHandler } = require("./static");
 const { startSweep } = require("./sessions");
 
 const meetingTypes = require("./handlers/meeting-types");
+const personaBench = require("./handlers/persona-bench");
 const start = require("./handlers/start");
 const question = require("./handlers/question");
+const suggestAnswers = require("./handlers/suggest-answers");
 const answer = require("./handlers/answer");
 const focusPoints = require("./handlers/focus-points");
+const selectedFocus = require("./handlers/selected-focus");
 const preparation = require("./handlers/preparation");
 const bank = require("./handlers/bank");
 const plan = require("./handlers/plan");
 const evaluation = require("./handlers/evaluation");
 const rehydrate = require("./handlers/rehydrate");
 const notes = require("./handlers/notes");
+const agendaCover = require("./handlers/agenda");
 const runs = require("./handlers/runs");
 const pipeline = require("./handlers/pipeline");
 const lexicon = require("./handlers/lexicon");
+const verdict = require("./handlers/verdict");
+const suggestFix = require("./handlers/suggest-fix");
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
@@ -67,6 +73,24 @@ function main() {
   const router = createRouter();
 
   router.add("GET", "/api/meeting-types", meetingTypes);
+  router.add("GET", "/api/persona-bench", personaBench);
+  // #region agent log
+  try {
+    const fs = require("node:fs");
+    const logPath = path.join(__dirname, "..", "..", "debug-be19bb.log");
+    fs.appendFileSync(
+      logPath,
+      JSON.stringify({
+        sessionId: "be19bb",
+        location: "server.js:main",
+        message: "API server started with persona-bench route",
+        data: { port: PORT, isProd: IS_PROD },
+        timestamp: Date.now(),
+        hypothesisId: "A",
+      }) + "\n"
+    );
+  } catch (_) {}
+  // #endregion
   router.add("POST", "/api/start", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     if (rateLimitIp(c.req)) return c.error(Object.assign(new Error("Rate limit exceeded"), { status: 429 }));
@@ -74,6 +98,7 @@ function main() {
   });
   router.add("GET", "/api/session", rehydrate);
   router.add("GET", "/api/question", question);
+  router.add("GET", "/api/suggest-answers", suggestAnswers);
   router.add("POST", "/api/answer", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return answer(c);
@@ -82,9 +107,22 @@ function main() {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return notes(c);
   });
+  router.add("POST", "/api/agenda/cover", (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return agendaCover(c);
+  });
+  router.add("POST", "/api/verdict", (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return verdict(c);
+  });
+  router.add("POST", "/api/suggest-fix", (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return suggestFix(c);
+  });
   router.add("GET", "/api/pipeline/status", pipeline.status);
   router.add("GET", "/api/pipeline/manifest", pipeline.manifest);
   router.add("GET", "/api/runs/recent", runs.recent);
+  router.add("GET", /^\/api\/runs\/(?<id>[^/]+)\/full$/, runs.full);
   router.add("GET", /^\/api\/runs\/(?<id>[^/]+)\/overview$/, runs.overview);
   router.add("DELETE", /^\/api\/runs\/(?<id>[^/]+)$/, (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
@@ -96,7 +134,16 @@ function main() {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return lexicon.decisions(c);
   });
+  router.add("GET", "/api/lexicon/promote/pending", lexicon.promotePending);
+  router.add("POST", "/api/lexicon/promote", (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return lexicon.promoteApply(c);
+  });
   router.add("GET", "/api/focus-points/stream", focusPoints);
+  router.add("POST", "/api/focus-points/select", (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return selectedFocus(c);
+  });
   router.add("GET", "/api/preparation/stream", preparation);
   router.add("GET", "/api/bank/stream", bank);
   router.add("GET", "/api/plan/stream", plan);

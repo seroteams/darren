@@ -7,7 +7,6 @@ import { getSession, listRecentRuns } from "./api.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
 import { createNotesPanel } from "./ui/notes-panel.js";
-
 // Lazy stage modules — kept in a map so HMR + code-split both work nicely.
 const loaders = {
   START:           () => import("./stages/start.js"),
@@ -19,11 +18,14 @@ const loaders = {
   EVAL:            () => import("./stages/eval.js"),
   BRIEFING:        () => import("./stages/briefing.js"),
   LEXICON_REVIEW:  () => import("./stages/lexicon-review.js"),
+  RUN_DEBRIEF:     () => import("./stages/run-debrief.js"),
+  COMPARE:         () => import("./stages/compare.js"),
   ERROR:           () => import("./stages/error.js"),
 };
 
 const root = document.getElementById("root");
 let current = { stage: null, mod: null, node: null };
+let renderChain = Promise.resolve();
 
 const devBadge = import.meta.env.DEV ? createDevBadge() : null;
 
@@ -56,20 +58,31 @@ async function renderStage(nextStage) {
   await mod.mount(node, { store, setState, resetSession, rehydrateById });
 }
 
+function enqueueRender(nextStage) {
+  renderChain = renderChain
+    .then(() => renderStage(nextStage))
+    .catch((e) => console.error("[main] render failed:", e));
+}
+
 let routedStage = null;
+let routedTick = null;
 subscribe((s) => {
   topbar.render({ ctx: s.ctx, stage: s.stage, sessionId: s.sessionId });
   notesPanel.render(s);
-  if (s.stage !== routedStage) {
+  if (s.stage !== routedStage || s.stageTick !== routedTick) {
     routedStage = s.stage;
-    renderStage(s.stage);
+    routedTick = s.stageTick;
+    enqueueRender(s.stage);
   }
 });
 
 export async function rehydrateById(id) {
   try {
     const snap = await getSession(id);
-    if (!snap || !snap.sessionId) return false;
+    if (!snap || !snap.sessionId) {
+      try { localStorage.removeItem("seroSessionId"); } catch {}
+      return false;
+    }
     try { localStorage.setItem("seroSessionId", id); } catch {}
     setState({
       sessionId: snap.sessionId,
@@ -85,6 +98,10 @@ export async function rehydrateById(id) {
       briefing: snap.briefing || null,
       notes: snap.notes || [],
       sessionDir: snap.sessionDir || null,
+      createdAt: snap.createdAt ?? null,
+      completedAt: snap.completedAt ?? snap.briefing?.completedAt ?? null,
+      skipBriefingAnimation: snap.stage === STAGES.BRIEFING && !!snap.briefing,
+      scripted: snap.scripted || null,
     });
     return true;
   } catch (e) {

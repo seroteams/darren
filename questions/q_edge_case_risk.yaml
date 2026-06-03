@@ -1,0 +1,10 @@
+alias: q_edge_case_risk
+label: Edge-case risk
+name: Where does the delayed-success path still feel fragile?
+description: Names the part of the quality surface that could still regress or surprise the team.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

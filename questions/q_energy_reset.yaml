@@ -1,0 +1,10 @@
+alias: q_energy_reset
+label: Energy reset
+name: What would make the next two weeks feel more sustainable for you?
+description: Ends on a practical support ask that lands the check-in and invites a concrete adjustment.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

@@ -1,8 +1,0 @@
-alias: q_identifying_blockers
-label: Identifying blockers
-name: Are there any current obstacles that you feel are slowing down your work?
-description: Encourages the employee to identify and discuss potential blockers affecting progress.
-purpose: topic
-axis_effects:
-  engagement: +1
-source: generated

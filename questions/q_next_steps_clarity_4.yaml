@@ -1,9 +1,0 @@
-alias: q_next_steps_clarity_4
-label: Next steps clarity
-name: What do you see as your next step for moving forward on your projects?
-description: "Clarifies Carl's next steps and priorities for his current projects."
-purpose: competency
-stage: momentum
-axis_effects:
-  clarity: +3
-source: generated

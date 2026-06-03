@@ -1,9 +1,0 @@
-alias: q_workshop_timing
-label: Workshop timing
-name: "I've noticed workshops seem to be planned last minute — what's the situation there?"
-description: Explores the reasons behind last-minute workshop planning to understand underlying issues.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

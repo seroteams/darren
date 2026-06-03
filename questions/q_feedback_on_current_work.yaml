@@ -1,8 +1,0 @@
-alias: q_feedback_on_current_work
-label: Feedback on current work
-name: What feedback have you received on your recent work that stood out to you?
-description: Encourages discussion of feedback received post-refactor.
-purpose: competency
-axis_effects:
-  growth: +1
-source: generated

@@ -1,8 +1,0 @@
-alias: q_long_term_development
-label: Long-term development
-name: Where do you see your role evolving in the next year?
-description: Gauges their vision for their role and career trajectory.
-purpose: topic
-axis_effects:
-  growth: +3
-source: generated

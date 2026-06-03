@@ -4,3 +4,21 @@ frontend/client/dist
 .env.local
 .DS_Store
 *.zip
+!archives/**/*.zip
+.playwright-mcp/
+
+# Local / runtime agent & tool artifacts
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+.impeccable/
+lexicons/_suggested/
+frontend/client/node_modules/.vite/
+
+# Runtime logs (keep-set only)
+logs/**
+!logs/may/
+!logs/may/2026_May24_batch/
+!logs/may/2026_May24_21-46-1eb839fd/
+!logs/may/2026_May25_14-23-5252887f/
+!logs/sweeps/
+!logs/sweeps/2026-05-31T11-49-46-826Z/

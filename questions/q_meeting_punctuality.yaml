@@ -1,9 +1,0 @@
-alias: q_meeting_punctuality
-label: Meeting punctuality
-name: What do you see as the main reason for not being on time to meetings recently?
-description: Explore underlying factors affecting punctuality.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: generated

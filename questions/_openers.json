@@ -97,15 +97,15 @@
   },
   {
     "alias": "q_open_real_version",
-    "label": "The real version",
-    "name": "Tell me about your week — the real version.",
-    "description": "Kim Scott's 'care personally' made concrete. Signals that a performed answer won't cut it.",
+    "label": "Last couple of weeks",
+    "name": "How has the last couple of weeks felt from your side?",
+    "description": "Bi-weekly pulse without performative intimacy. Invites an honest read without 'the real version' audition framing.",
     "purpose": "wellbeing",
     "stage": null,
     "axis_effects": { "wellbeing": 2, "engagement": 1 },
     "source": "research",
-    "meeting_types": ["bi_weekly_check_in", "performance_feedback"],
-    "tone": "warm"
+    "meeting_types": ["bi_weekly_check_in"],
+    "tone": "neutral"
   },
   {
     "alias": "q_open_bit_of_joy",

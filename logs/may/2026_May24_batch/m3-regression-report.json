@@ -1,0 +1,70 @@
+{
+  "generatedAt": "2026-05-31T17:11:51.854Z",
+  "fixtures": [
+    "priya_biweekly_qspec",
+    "lin_biweekly_thread",
+    "ahmed_growth_delta"
+  ],
+  "results": [
+    {
+      "failed": 0,
+      "scenario": "priya_biweekly_qspec",
+      "run_id": "547a1f92-945",
+      "targetDimension": "question_specificity",
+      "baseline": {
+        "question_specificity": 0,
+        "plan_thread_follow": 0,
+        "plan_delta_accuracy": 0.5,
+        "mean": 0.726
+      },
+      "may24BankQspec": 1,
+      "proxyThread": 0,
+      "proxyDelta": 0,
+      "floors": {
+        "question_specificity": 0.4,
+        "plan_thread_follow": 0.55,
+        "plan_delta_accuracy": 0.65
+      }
+    },
+    {
+      "failed": 0,
+      "scenario": "lin_biweekly_thread",
+      "run_id": "6ae9ead8-32f",
+      "targetDimension": "plan_thread_follow",
+      "baseline": {
+        "question_specificity": 0,
+        "plan_thread_follow": 0,
+        "plan_delta_accuracy": 0.5555555555555556,
+        "mean": 0.802
+      },
+      "may24BankQspec": 0.8888888888888888,
+      "proxyThread": 0.125,
+      "proxyDelta": 0,
+      "floors": {
+        "question_specificity": 0.4,
+        "plan_thread_follow": 0.55,
+        "plan_delta_accuracy": 0.65
+      }
+    },
+    {
+      "failed": 0,
+      "scenario": "ahmed_growth_delta",
+      "run_id": "835c2df0-e23",
+      "targetDimension": "plan_delta_accuracy",
+      "baseline": {
+        "question_specificity": 0.3333333333333333,
+        "plan_thread_follow": 0,
+        "plan_delta_accuracy": 0.4444444444444444,
+        "mean": 0.817
+      },
+      "may24BankQspec": 1,
+      "proxyThread": 0,
+      "proxyDelta": 0,
+      "floors": {
+        "question_specificity": 0.4,
+        "plan_thread_follow": 0.55,
+        "plan_delta_accuracy": 0.65
+      }
+    }
+  ]
+}

@@ -1,9 +1,0 @@
-alias: q_unclear_expectations
-label: Unclear expectations
-name: Where are expectations currently unclear for you?
-description: Identifies any areas with unclear expectations affecting performance.
-purpose: competency
-stage: underneath
-axis_effects:
-  clarity: +3
-source: generated

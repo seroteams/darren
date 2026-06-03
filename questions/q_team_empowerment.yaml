@@ -1,8 +1,0 @@
-alias: q_team_empowerment
-label: Team empowerment
-name: How do you empower your team to take more initiative in their roles?
-description: Examines her effectiveness in fostering team independence and initiative.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

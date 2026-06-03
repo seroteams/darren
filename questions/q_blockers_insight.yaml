@@ -1,9 +1,0 @@
-alias: q_blockers_insight
-label: Blockers insight
-name: "Are there any current tasks where you're facing unexpected challenges?"
-description: Prompts for discussion on specific obstacles that may not have been previously mentioned.
-purpose: topic
-axis_effects:
-  clarity: +1
-  engagement: +1
-source: generated

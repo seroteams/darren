@@ -1,9 +1,0 @@
-alias: q_decision_clarity
-label: Decision clarity
-name: Which decision do you wish were made sooner?
-description: Finds ambiguity or waiting that is slowing execution and creating uncertainty.
-purpose: topic
-axis_effects:
-  clarity: +3
-  engagement: +1
-source: generated

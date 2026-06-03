@@ -1,9 +1,0 @@
-alias: q_clarify_looking_forward
-label: "Clarify 'looking forward'"
-name: "When you say 'looking forward to this session', what specifically are you hoping to get out of it?"
-description: Seek specifics about what Toby anticipates from this session.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-  growth: +1
-source: planner_added

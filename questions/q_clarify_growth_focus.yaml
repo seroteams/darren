@@ -1,8 +1,0 @@
-alias: q_clarify_growth_focus
-label: Clarify growth focus
-name: "What specifically about the 'bigger office' idea connects to your growth?"
-description: Seeks to understand the connection between the desire for a bigger office and personal growth.
-purpose: topic
-axis_effects:
-  growth: +3
-source: planner_added

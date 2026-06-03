@@ -162,6 +162,11 @@ export default {
         slow: "720ms",
         hero: "1200ms",
       },
+      fontSize: {
+        xs: ["var(--type-small)", { lineHeight: "1.5" }],
+        sm: ["var(--type-small)", { lineHeight: "1.5" }],
+        base: ["var(--type-body)", { lineHeight: "1.55" }],
+      },
     },
   },
   plugins: [],

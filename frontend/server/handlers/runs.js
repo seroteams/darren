@@ -1,4 +1,4 @@
-const { listRecentRuns, summarizeRun, deleteRun } = require("../../../src/run-history");
+const { listRecentRuns, summarizeRun, compareRun, deleteRun } = require("../../../src/run-history");
 const { dropSession } = require("../sessions");
 
 function recent(c) {
@@ -21,6 +21,14 @@ function overview(c) {
   c.json(200, summary);
 }
 
+function full(c) {
+  const id = c.params.id;
+  if (!id) return c.error(Object.assign(new Error("id required"), { status: 400 }));
+  const data = compareRun(id);
+  if (!data) return c.error(Object.assign(new Error("unknown run"), { status: 404 }));
+  c.json(200, data);
+}
+
 function del(c) {
   const id = c.params.id;
   if (!id) return c.error(Object.assign(new Error("id required"), { status: 400 }));
@@ -30,4 +38,4 @@ function del(c) {
   c.json(200, { deleted: true, id });
 }
 
-module.exports = { recent, overview, del };
+module.exports = { recent, overview, full, del };

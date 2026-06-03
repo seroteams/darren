@@ -1,8 +1,0 @@
-alias: q_billing_rewrite_role_2
-label: Billing rewrite role
-name: What role do you see yourself playing in the upcoming billing rewrite?
-description: "Surfaces Priya's understanding and expectations for the next project."
-purpose: competency
-axis_effects:
-  clarity: +3
-source: generated

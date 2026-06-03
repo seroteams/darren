@@ -1,8 +1,0 @@
-alias: q_refactor_success
-label: Refactor success
-name: What specifically about the payments refactor are you proud of?
-description: Encourages Priya to reflect on her achievements and what made the project successful.
-purpose: topic
-axis_effects:
-  engagement: +3
-source: generated

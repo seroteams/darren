@@ -1,9 +1,0 @@
-alias: q_feedback_given
-label: Feedback given
-name: How have you been able to give feedback to others lately?
-description: Explores opportunities and experiences in giving feedback, reflecting on team dynamics and personal role.
-purpose: topic
-axis_effects:
-  engagement: +1
-  growth: +1
-source: generated

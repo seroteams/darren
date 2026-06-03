@@ -1,0 +1,9 @@
+alias: q_next_change
+label: Next change
+name: Given that, what will you change in your next design review?
+description: Land on a concrete behavioural shift to carry into the next cycle.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+source: planner_added

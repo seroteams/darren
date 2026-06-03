@@ -1,9 +1,0 @@
-alias: q_ux_initiative_impact_2
-label: UX initiative impact
-name: What impact have your recent UX initiatives had on the product?
-description: "Understand the impact of Sarah's work to recognize achievements and set future goals."
-purpose: competency
-stage: evidence
-axis_effects:
-  growth: +3
-source: planner_added

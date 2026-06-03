@@ -1,0 +1,10 @@
+alias: q_craft_stretch
+label: Craft stretch
+name: What part of your design craft feels most worth stretching next?
+description: Brings out her own growth target without presuming a deficit.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

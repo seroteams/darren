@@ -1,8 +1,0 @@
-alias: q_billing_rewrite_alignment
-label: Billing rewrite alignment
-name: What are your expectations for the billing rewrite, and how can we align on them?
-description: Tests clarity on upcoming project involvement and expectations.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: generated

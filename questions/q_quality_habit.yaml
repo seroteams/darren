@@ -1,0 +1,10 @@
+alias: q_quality_habit
+label: Quality habit
+name: What habit would most improve the defect rate on your next launch?
+description: Moves from diagnosis to one concrete behaviour change on quality.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

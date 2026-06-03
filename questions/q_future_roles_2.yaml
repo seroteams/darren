@@ -1,8 +1,0 @@
-alias: q_future_roles_2
-label: Future roles
-name: When you ask about where you can go next in the company, what specific roles or paths are you considering?
-description: "Drills into Usman's interest in future roles and clarifies his aspirations."
-purpose: topic
-axis_effects:
-  growth: +3
-source: planner_added

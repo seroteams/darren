@@ -1,8 +1,0 @@
-alias: q_connection_with_design
-label: Connection with design
-name: How do you feel about the current design processes we have in place?
-description: Seeks their perspective on design processes and potential areas for improvement.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: generated

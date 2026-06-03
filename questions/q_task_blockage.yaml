@@ -1,8 +1,0 @@
-alias: q_task_blockage
-label: Task blockage
-name: "Is there anything specific that's currently holding up your design tasks?"
-description: Identifies specific blockers impacting their workflow and progress.
-purpose: topic
-axis_effects:
-  clarity: +1
-source: generated

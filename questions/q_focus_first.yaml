@@ -1,0 +1,9 @@
+alias: q_focus_first
+label: Focus first
+name: "Given what we've covered, where do you want to focus first in your drafting process?"
+description: Land the conversation on the first behaviour she wants to change next.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +3
+source: planner_added

@@ -123,8 +123,11 @@ try {
 console.log("\n--- shouldReview gating: out-of-scope sessions skipped ---");
 const { shouldReview } = require("../src/lexicon-reviewer");
 ok("design / lead / growth → reviewed", shouldReview({ role: "Lead Web Designer", seniority: "Lead", meetingType: "Growth & career plan" }));
-ok("backend / lead / growth → skipped", !shouldReview({ role: "Backend Engineer", seniority: "Lead", meetingType: "Growth & career plan" }));
+ok("design / expert / growth → reviewed", shouldReview({ role: "Expert UX Designer", seniority: "Expert", meetingType: "Growth & career plan" }));
+ok("engineering / lead / growth → reviewed (LF-5)", shouldReview({ role: "Backend Engineer", seniority: "Lead", meetingType: "Growth & career plan" }));
+ok("general / lead / growth → reviewed (LF-5)", shouldReview({ role: "Customer Success Manager", seniority: "Lead", meetingType: "Growth & career plan" }));
 ok("design / senior / growth → skipped", !shouldReview({ role: "Web Designer", seniority: "Senior", meetingType: "Growth & career plan" }));
+ok("design / lead / biweekly → skipped", !shouldReview({ role: "UX Lead", seniority: "Lead", meetingType: "Bi-weekly check-in" }));
 ok("design / lead / performance → skipped", !shouldReview({ role: "UX Designer", seniority: "Lead", meetingType: "Performance & feedback" }));
 
 console.log("\n--- AC2 / AC15 / AC16  appendCandidates writes only to candidate file ---");

@@ -1,9 +1,0 @@
-alias: q_stretch_opportunities_3
-label: Stretch opportunities
-name: What would actually stretch you right now — is there a project or area you want to dive into?
-description: Identifies potential areas for growth and engagement that could address current lack of stretch.
-purpose: topic
-stage: friction
-axis_effects:
-  growth: +3
-source: planner_added

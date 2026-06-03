@@ -1,8 +1,0 @@
-alias: q_developing_the_team
-label: Developing the team
-name: "What does 'developing the team' look like to you in practice?"
-description: "Seeks to understand Carl's vision of team development as a leader."
-purpose: topic
-axis_effects:
-  clarity: +3
-source: planner_added

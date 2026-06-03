@@ -1,7 +1,9 @@
 const { requireSession } = require("../sessions");
 const { runStage } = require("./stream-helper");
 const { generateBankWithFallback } = require("../../../src/question-generator");
-const { getArc } = require("../../../src/meeting-arcs");
+const { selectReservedCloser } = require("../../../src/closer");
+const { getSessionSelectedFocus } = require("../selected-focus");
+const { loadPersona, scriptedQuestions } = require("../persona-script");
 
 module.exports = async function bank(c) {
   const session = requireSession(c.query.s);
@@ -10,16 +12,34 @@ module.exports = async function bank(c) {
   }
 
   await runStage(c, session, "bank", {
-    thinkingLabel: "Generating question bank",
+    thinkingLabel: session.mode === "scripted" ? "Loading scripted question path" : "Generating question bank",
     getCached: () => (session.bankReady ? { count: session.bankReady.count } : null),
     setCached: (payload) => {
       session.bankReady = payload;
     },
     produce: async () => {
+      // Scripted test lane: freeze the question path. Skip live bank generation
+      // and load the persona's fixed script as the entire queue, so the only
+      // variable between runs is the prompt stage under test. No closer to
+      // force-insert — the script defines the exact, ordered path.
+      if (session.mode === "scripted") {
+        const persona = loadPersona(session.fingerprint?.personaId);
+        const scripted = persona ? scriptedQuestions(persona) : [];
+        if (scripted.length) {
+          session.queueRef = scripted;
+          session.totalBudget = scripted.length;
+          session.closer = null;
+          return { count: scripted.length };
+        }
+      }
+
+      const selectedFocus = getSessionSelectedFocus(session);
       const bankItems = await generateBankWithFallback(
         {
           focusPoints: session.focusPointsResult.focus_points,
           ...session.ctx,
+          selectedFocus,
+          primaryFocusId: selectedFocus?.id,
           existingQueue: session.introQueue,
         },
         { session: { id: session.id, dir: session.dir } },
@@ -30,10 +50,7 @@ module.exports = async function bank(c) {
       // Reserve the closer: last bank item tagged with the arc's final stage.
       // plan.js force-inserts this at queueRef[0] when turn + 1 === totalBudget,
       // so the planner can't accidentally drop or rewrite it.
-      const arc = getArc(session.ctx.meetingType);
-      const finalStageId = arc.arc[arc.arc.length - 1].id;
-      const closerCandidates = bankItems.filter((q) => q.stage === finalStageId);
-      session.closer = closerCandidates.length ? closerCandidates[closerCandidates.length - 1] : null;
+      session.closer = selectReservedCloser(bankItems, session.ctx.meetingType);
 
       return { count: bankItems.length };
     },

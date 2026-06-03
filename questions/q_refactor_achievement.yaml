@@ -1,9 +1,0 @@
-alias: q_refactor_achievement
-label: Refactor achievement
-name: How did the recognition for the payments refactor land with you?
-description: Surfaces whether recognition was felt and appreciated.
-purpose: competency
-stage: momentum
-axis_effects:
-  engagement: +3
-source: generated

@@ -1,0 +1,9 @@
+alias: q_delayed_success_path
+label: Delayed success path
+name: On the delayed success path, what made it feel safe enough to hand off?
+description: Drills into the specific decision point behind the missed edge case before advancing the arc.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

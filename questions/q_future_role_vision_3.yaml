@@ -1,9 +1,0 @@
-alias: q_future_role_vision_3
-label: Future role vision
-name: What specific role or scope are you aiming for next?
-description: "Identifies Machar's concrete aspirations for future roles or scopes."
-purpose: topic
-stage: aspiration
-axis_effects:
-  growth: +3
-source: generated

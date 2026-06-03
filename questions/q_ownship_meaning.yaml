@@ -1,0 +1,9 @@
+alias: q_ownship_meaning
+label: Ownship meaning
+name: "You said 'ownship' — what would you want to be owning day to day?"
+description: Clarifies what responsibility and scope he expects in the role.
+purpose: topic
+stage: orientation
+axis_effects:
+  clarity: +3
+source: planner_added

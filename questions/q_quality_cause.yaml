@@ -1,0 +1,10 @@
+alias: q_quality_cause
+label: Quality cause
+name: What tends to make those edge cases harder to catch earlier?
+description: Explores whether the driver is technical complexity, timing, or lack of signal.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

@@ -1,8 +1,0 @@
-alias: q_energy_check
-label: Energy check
-name: "I've noticed you've seemed quieter this week — what's been behind that?"
-description: "Invites Priya to share what's affecting her energy and mood without making assumptions."
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

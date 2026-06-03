@@ -5,13 +5,14 @@
   "meeting_type": "Something feels off",
   "manager_notes": "Kenji is around three months in, and this is a common point where uncertainty and confidence dips show up. I need to understand whether he feels clear on expectations, connected to support, and safe asking for help. Notes suggest he may be carrying frustration about shifting requirements while trying to prove himself. This should stay exploratory, not corrective: I want to hear what feels hardest right now and where our team setup is making the role harder than it needs to be.",
   "answers": [
-    "The hardest part is changing direction late and feeling like I missed something.",
-    "I am still unsure what good really looks like here week to week.",
-    "I do ask for help sometimes, but I worry about sounding slow.",
-    "I feel better when feedback is specific and close to the work.",
-    "Some days I feel useful, other days I feel like I am guessing.",
-    "When priorities change fast, I lose confidence in what to optimize for.",
-    "I want more ownership, but I also want clearer guardrails.",
-    "A regular calibration loop would make this feel less shaky."
+    "Hardest part is changing direction late and feeling like he missed something.",
+    "Still unsure what good really looks like here week to week.",
+    "Asks for help sometimes, but worries about sounding slow.",
+    "Feels better when feedback is specific and close to the work.",
+    "Some days feels useful, other days feels like guessing.",
+    "When priorities change fast, loses confidence in what to optimize for.",
+    "Wants more ownership, but also clearer guardrails.",
+    "A regular calibration loop would make this feel less shaky.",
+    "Would start with a short weekly calibration on what good looks like for current tickets."
   ]
 }

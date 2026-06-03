@@ -1,8 +1,0 @@
-alias: q_energy_fluctuations_2
-label: Energy fluctuations
-name: "What's been impacting your energy levels the most these past weeks?"
-description: "Identifies factors affecting James's energy, beyond surface-level check-ins."
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

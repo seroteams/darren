@@ -1,0 +1,8 @@
+alias: q_reset_check_2
+label: Reset check
+name: Is now a good time for this conversation, or should we reschedule it?
+description: Directly tests whether the session can continue productively after repeated non-answers.
+purpose: topic
+axis_effects:
+  clarity: +1
+source: planner_added

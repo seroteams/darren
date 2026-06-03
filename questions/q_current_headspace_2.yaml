@@ -1,0 +1,10 @@
+alias: q_current_headspace_2
+label: Current headspace
+name: "What's been most on your mind at work lately?"
+description: Safe opener that lets Maya set context before any feedback lands.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

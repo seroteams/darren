@@ -1,8 +1,0 @@
-alias: q_risk_in_billing_rewrite
-label: Risk in billing rewrite
-name: Where do you anticipate the biggest challenges might arise in the billing rewrite?
-description: Encourages Priya to think ahead about potential risks in the next project.
-purpose: competency
-axis_effects:
-  clarity: +3
-source: generated

@@ -43,6 +43,12 @@ Return strict JSON only. No prose, no markdown fences.
 - Mark every suggestion `status: "pending"`. Never claim approval.
 - `evidence` must be short — under 100 characters. A quote, not a paraphrase.
 
+**Reading the transcript:**
+- Each turn has `manager_question` (what the manager asked) and `employee_answer` (what the employee said).
+- Treat `employee_answer` as the employee's own words — use these for `prefer_*` when they surfaced real domain vocabulary.
+- Treat `manager_question` as wording to critique for `avoid_phrase` when the answer was skipped, shallow (`shallow: true`), or weak.
+- Use `brutal_truth_manager` and `watch_for` from the evaluation JSON for additional avoid signals.
+
 **How to choose `prefer_*` suggestions:**
 - A word/phrase from a question whose answer landed real signal (positive axis delta in the evaluation, or named a concrete thread in the transcript) is a prefer candidate.
 - Role-native vocabulary the employee used unprompted is a strong prefer candidate.
@@ -53,6 +59,11 @@ Return strict JSON only. No prose, no markdown fences.
 - Always include `better_as` for an avoid: name what the manager could have asked instead.
 
 If the session gives no useful signal — short transcript, all shallow answers, no clear domain vocabulary — return `"suggestions": []` rather than padding.
+
+**Quality floor (no filler):**
+- Do not invent weak candidates to hit a count.
+- When strong phrases about promotion, lead, growth, stretch, readiness, next-level, flight-risk, or role-transition appear in the transcript or evaluation, surface up to 3 strong candidates — prefer fewer high-quality suggestions over filler.
+- If fewer than 3 strong candidates exist, return fewer. Never pad with generic business vocabulary.
 </rules>
 
 ---

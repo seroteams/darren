@@ -1,8 +1,0 @@
-alias: q_energy_fluctuation_causes
-label: Energy fluctuation causes
-name: What do you think is causing your quieter energy this week?
-description: Delves into reasons behind recent energy changes.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

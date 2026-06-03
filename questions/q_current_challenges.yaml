@@ -1,8 +1,0 @@
-alias: q_current_challenges
-label: current_challenges
-name: "What's currently slowing you down, and what part of that is within your control vs needs escalation?"
-description: Identifies obstacles Priya is facing and distinguishes between what she can manage versus what needs help.
-purpose: competency
-axis_effects:
-  clarity: +1
-source: generated

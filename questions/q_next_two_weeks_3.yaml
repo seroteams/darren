@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_3
+label: Next two weeks
+name: What would make the next two weeks smoother for you on the design side?
+description: Closes on a practical support need and near-term action without opening new topics.
+purpose: wellbeing
+stage: commit
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

@@ -1,0 +1,14 @@
+# Offline checks for planner prompt intent (grep-based presence in plan-turn.md)
+rules:
+  - id: thread_follow_bias
+    type: must_contain_any
+    field: _prompt_text
+    terms:
+      - "BIAS: When in doubt whether something is a thread, follow it"
+      - "Mirror the answer"
+
+  - id: drill_cap_hard
+    type: must_contain_any
+    field: _prompt_text
+    terms:
+      - "Drill cap (hard)"

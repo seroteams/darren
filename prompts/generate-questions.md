@@ -84,6 +84,16 @@ Forbidden patterns for the first question — these may appear from position 3 o
 - "Are you ready for X?" / "Do you feel you are underperforming?"
 
 For performance or feedback meetings, the opener should still be direct and adult-to-adult — not soft nonsense. "Before I share my view, how do you think the last stretch has gone?" is the right register: it invites their self-read before introducing any manager assessment.
+
+**Opener tone lint (hard).** The first question must sound like something a manager would say aloud in a 1:1 — not a podcast host, coach-influencer, or HR script.
+
+Forbidden informal / performative patterns (any position if copied from openers; position 0 always):
+- "the real version" / "honest version" / "no filter" / "real talk"
+- "Tell me about your week" without a concrete anchor (fortnight, since we spoke, at work)
+- Forced intimacy: "really?" as a standalone authenticity cue, "— honestly", "level with me"
+- Slangy faux-casual: "the tea", "spill", "vibes check" as the main frame
+
+Bi-weekly check-in openers: peer-tempered and disarming — locate the stretch ("since we last spoke", "last couple of weeks") without sounding like an audit or a performance.
 </opening_question_rule>
 
 <closing_question_rule>
@@ -97,17 +107,24 @@ A closer must:
 - Feel earned — reference the kind of thing this meeting type normally surfaces, not a generic sign-off.
 
 Acceptable closer patterns:
-- "What's the one thing you're taking away from today that you'll actually do differently?"
+- "What would make the next two weeks steadier for you?"
 - "What do you need from me before we next meet?"
-- "What's the first concrete thing you want to have moved by our next conversation?"
-- "Given what we've talked about, what's your priority for the next two weeks?"
+- "Given what we've covered, where do you want to focus first?"
+- "What support from me would make the biggest difference on that?"
+- "What's the piece of this you're most unsure about right now?"
 
 Forbidden closer patterns:
 - Opening a new concern: "I also want to ask about your communication with the team..."
 - Vague open-ended check-in: "How are you feeling about everything we discussed?"
+- Deliverable homework framing: "What's the first concrete thing you want to have moved by our next conversation?"
 - A full wellbeing or topic question that could run for 10 more minutes.
 
 The closer does not need `wellbeing`, `engagement`, or `clarity` axis effects. Use `growth` or `clarity` at low magnitude (delta `1`). The point is landing the session, not scoring a new axis.
+
+Type-specific closer examples:
+- Onboarding check-in: "What would make the next two weeks steadier for you?" / "Who else should you connect with this week?"
+- Something feels off: "What would help, if anything, right now?" / "Where do you want to focus first?"
+- Growth & career plan: "What would that next step look like in the next few weeks — and where would you start?"
 </closing_question_rule>
 
 <quality_rules>
@@ -159,6 +176,11 @@ A meeting-type-neutral "how's your energy" probe is too generic — anchor it.
 - **Surface trade-offs or risks** — good questions force prioritisation or reveal what might go wrong.
 - **Drive toward action** — a useful answer should change something next.
 
+**Evidence-stage defaults (performance / quality focus):**
+- Prefer **"Can you walk me through …"** over "On X, what happened …" for competency evidence questions.
+- When manager notes or selected focus name a concrete launch/handoff/incident, **reuse that noun** in the stem (e.g. "payments launch", not "recent edge case").
+- When `{{PRIMARY_FOCUS_ID}}` is `quality`, deprioritise bank items that only probe communication friction unless communication is in manager notes.
+
 **Weak vs sharp — concrete rewrites. Left column is what to AVOID; right is what to PREFER. Before emitting any question, check it against this list; if your draft reads like the left column, rewrite it toward the right.**
 
 **Important:** rows 6, 7, and 15 below assume the billing rewrite is already known to the employee. If the manager's notes classify any project as `manager_planned_unannounced`, apply `<note_classification>` first — do not use project-specific framing. Use generic project questions instead ("What kind of project would you want to take on next quarter?").
@@ -180,6 +202,7 @@ A meeting-type-neutral "how's your energy" probe is too generic — anchor it.
 | 13 | What kind of mentoring opportunities are you envisioning for yourself?                       | Who specifically would you mentor, and what outcomes would you want from it?                                    |
 | 14 | What blockers or dependencies are you currently facing that we haven't discussed?            | What are you currently waiting on that could quietly stall your progress?                                       |
 | 15 | What are your thoughts on getting involved in the billing rewrite?                           | Do you want to be involved in the billing rewrite — and if yes, what role would actually make sense for you?    |
+| 16 | What part of the work is still getting discovered too late?                                  | What parts of the design are we only finding too late in review?                                                |
 
 Patterns distilled from the rewrites:
 
@@ -192,6 +215,7 @@ Patterns distilled from the rewrites:
 - Observation-first for personal probes: "I've noticed X — what's underneath?" beats "why are you X?".
 - Verb swap: "what are you *waiting on*?" beats "what's blocking you?".
 - Offer the opt-out explicitly: "do you want X — and if so..." beats assuming they want X.
+- Gap-naming framing (`gap_naming` stage): collaborative "what are *we* only finding too late?" beats manager-diagnostic "what's *getting discovered* too late?" or "where have you fallen short?" — and name the medium ("the design", "the spec") rather than the abstract "the work". The gap is shared and named plainly, not pinned on the report.
 
 </question_craft>
 
@@ -276,6 +300,14 @@ Hard boundaries:
 ```json
 {{FOCUS_POINTS_JSON}}
 ```
+
+**Selected focus (primary):**
+
+```json
+{{SELECTED_FOCUS_JSON}}
+```
+
+Primary focus id: {{PRIMARY_FOCUS_ID}}
 
 **1:1 context:**
 

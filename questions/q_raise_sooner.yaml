@@ -1,0 +1,10 @@
+alias: q_raise_sooner
+label: Raise sooner
+name: What would help you flag slippage earlier?
+description: Checks whether she can surface risk sooner instead of letting review cycles absorb it late.
+purpose: competency
+stage: commit
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

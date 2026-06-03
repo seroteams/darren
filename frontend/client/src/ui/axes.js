@@ -8,6 +8,12 @@ const AXIS_LABELS = {
   clarity: "Clarity",
   growth: "Growth",
 };
+const AXIS_DESCRIPTIONS = {
+  wellbeing: "Energy, stress, and whether they seem okay",
+  engagement: "Motivation, connection, and interest in the work",
+  clarity: "How clear priorities, expectations, and direction feel",
+  growth: "Learning, stretch, and career momentum",
+};
 // Seeded baselines — mirrors backend axes catalogue. Wellbeing/engagement
 // start slightly negative so a session "earns" positive movement.
 export const AXIS_SEED = {
@@ -42,7 +48,7 @@ export function createAxesPanel({ celebrate = false } = {}) {
     for (const a of axes) {
       const row = rows.get(a.id);
       if (!row) continue;
-      row.setScoreInstant(a.score, historyLenFor(a));
+      row.setScoreInstant(a.score, historyLenFor(a), { noRead: !!a.noRead });
     }
   }
 
@@ -53,7 +59,7 @@ export function createAxesPanel({ celebrate = false } = {}) {
       if (!row) return;
       const delay = i * 60; // --stagger
       setTimeout(
-        () => row.animateTo(a.score, showDelta ? a.lastDelta : 0, historyLenFor(a)),
+        () => row.animateTo(a.score, showDelta ? a.lastDelta : 0, historyLenFor(a), { noRead: !!a.noRead }),
         delay
       );
     });
@@ -65,10 +71,11 @@ function createRow(id, celebrate) {
   const el = document.createElement("div");
   el.className = "axis";
   el.setAttribute("data-axis", id);
-  el.setAttribute("title", `Seeded at ${seed > 0 ? "+" + seed : seed}. Moves with answers.`);
+  el.setAttribute("role", "group");
+  el.setAttribute("aria-label", `${AXIS_LABELS[id] || id}: seeded at ${seed > 0 ? "+" + seed : seed}`);
   el.innerHTML = `
-    <div class="axis__label">${AXIS_LABELS[id] || id}</div>
-    <div class="axis__track" aria-hidden="true">
+    <div class="axis__label" title="${AXIS_DESCRIPTIONS[id] || ""}">${AXIS_LABELS[id] || id}</div>
+    <div class="axis__track" role="meter" aria-valuemin="-6" aria-valuemax="6" aria-valuenow="0" aria-label="${AXIS_LABELS[id] || id} score">
       <div class="axis__midline"></div>
       <div class="axis__fill axis__fill--neutral"></div>
     </div>
@@ -134,20 +141,21 @@ function createRow(id, celebrate) {
     offscaleBadge = null;
   }
 
-  function setScoreInstant(score, historyLen = 0) {
+  function setScoreInstant(score, historyLen = 0, { noRead = false } = {}) {
     current = score;
-    const baseline = isBaseline(score, historyLen);
+    const baseline = noRead || isBaseline(score, historyLen);
     setFill(score, { baseline });
     setValueText(score, { baseline });
+    track.setAttribute("aria-valuenow", String(baseline ? seed : score));
     if (!baseline) showOffscale(score);
     else removeOffscaleBadge();
   }
 
-  function animateTo(targetScore, delta, historyLen = 0) {
+  function animateTo(targetScore, delta, historyLen = 0, { noRead = false } = {}) {
     const from = current;
     const to = targetScore;
     current = to;
-    const baseline = isBaseline(to, historyLen);
+    const baseline = noRead || isBaseline(to, historyLen);
 
     // Chip: show for ~`dur-hero`, then fade
     if (delta && delta !== 0) {
@@ -164,6 +172,7 @@ function createRow(id, celebrate) {
     // Count-up
     if (REDUCE_MOTION || from === to) {
       setValueText(to, { baseline });
+      track.setAttribute("aria-valuenow", String(baseline ? seed : to));
       return;
     }
     const start = performance.now();
@@ -175,8 +184,12 @@ function createRow(id, celebrate) {
       const midBaseline = isBaseline(n, historyLen);
       setValueText(n, { baseline: midBaseline });
       if (t < 1) requestAnimationFrame(tick);
-      else setValueText(to, { baseline });
+      else {
+        setValueText(to, { baseline });
+        track.setAttribute("aria-valuenow", String(baseline ? seed : to));
+      }
     }
+    track.setAttribute("aria-valuenow", String(baseline ? seed : to));
     requestAnimationFrame(tick);
   }
 

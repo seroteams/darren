@@ -1,8 +1,0 @@
-alias: q_project_clarity
-label: Project clarity
-name: Is there any project where you feel unclear about your role or goals?
-description: Identifies specific projects where Carl might lack clarity.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: generated

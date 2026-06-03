@@ -1,8 +1,0 @@
-alias: q_energy_levels_3
-label: Energy levels
-name: "How's your energy at work on a typical day lately?"
-description: "Evaluates Bill's energy levels to ensure he is not overexerting himself post-injury."
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

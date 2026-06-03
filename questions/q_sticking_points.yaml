@@ -1,0 +1,9 @@
+alias: q_sticking_points
+label: Sticking points
+name: Where are you still waiting on people or information to move the work forward?
+description: Finds concrete onboarding friction that could quietly slow execution.
+purpose: topic
+stage: blockers
+axis_effects:
+  clarity: +3
+source: generated

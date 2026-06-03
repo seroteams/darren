@@ -1,0 +1,204 @@
+{
+  "id": "priya_biweekly_qspec",
+  "description": "Priya · Senior Backend Engineer · Bi-weekly — May-24 qspec regression (547a1f92-945)",
+  "may24": {
+    "run_id": "547a1f92-945",
+    "targetDimension": "question_specificity",
+    "baseline": {
+      "question_specificity": 0,
+      "plan_thread_follow": 0,
+      "plan_delta_accuracy": 0.5,
+      "mean": 0.726
+    },
+    "floors": {
+      "question_specificity": 0.4,
+      "plan_thread_follow": 0.55,
+      "plan_delta_accuracy": 0.65
+    }
+  },
+  "prep": {
+    "name": "Priya",
+    "role": "Senior Backend Engineer",
+    "seniority": "Senior",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "Priya shipped a major feature on Monday and the team noticed, but she has been quieter this week. I want to check whether this is normal post-launch recovery or something unresolved. She also mentioned wanting to mentor a few months ago and that thread never moved. I need a clearer read on what she expects to own next quarter before I introduce the billing rewrite, since she may already be forming plans that this will disrupt.",
+    "focusPoints": [
+      {
+        "id": "energy",
+        "label": "Pace and headspace after Monday's ship.",
+        "reason": "Notes say she's quieter than usual this week, right after a major feature landed. Could be a normal post-launch exhale, could be something else — worth asking how she's actually feeling before moving on.",
+        "source": "signal"
+      },
+      {
+        "id": "recognition",
+        "label": "The Monday launch — making sure it landed for her.",
+        "reason": "Team noticed the work, but that's not the same as Priya feeling seen. Worth naming it directly and hearing what she's proud of, not just confirming the team clapped.",
+        "source": "signal"
+      },
+      {
+        "id": "growth",
+        "label": "The mentoring interest she floated three months ago.",
+        "reason": "She mentioned wanting to mentor in passing and it hasn't come up since. That's easy to let drift. A bi-weekly is a good moment to ask whether that's still something she wants to pursue and what would make it real.",
+        "source": "signal"
+      },
+      {
+        "id": "priorities",
+        "label": "What she's expecting to own next quarter.",
+        "reason": "Whether she's already forming ideas about what comes next matters — she's about to be pulled into a rewrite she doesn't know about yet, and understanding her current expectations will shape how that conversation lands when you have it.",
+        "source": "best_practice"
+      }
+    ],
+    "answers": [
+      "The launch went well, but this week I feel flatter than I expected.",
+      "Mostly cleanup and reviews right now, not much that feels new.",
+      "I am proud of the migration plan and how we handled the cutover.",
+      "I did mention mentoring before. I still want it, but I stopped pushing.",
+      "I am not sure what I am owning next quarter yet, and that makes me uneasy.",
+      "I have felt a bit stuck doing similar work for months.",
+      "If there is a bigger scope conversation, I want it sooner rather than later.",
+      "A clear next-step path would help me reset my energy."
+    ]
+  },
+  "may24Bank": [
+    {
+      "alias": "q_post_launch_exhale",
+      "name": "Now that Monday's ship is behind you, where is your head actually at?",
+      "stage": "pulse"
+    },
+    {
+      "alias": "q_recognition_landing_3",
+      "name": "Did the recognition from Monday land the way you'd have wanted, or did anything feel missing?",
+      "stage": "friction"
+    },
+    {
+      "alias": "q_what_to_repeat",
+      "name": "What specifically made this launch go well that you'd want to carry into the next piece of work?",
+      "stage": "friction"
+    },
+    {
+      "alias": "q_current_stall_points",
+      "name": "What are you currently waiting on that could quietly stall your progress in the next few weeks?",
+      "stage": "friction"
+    },
+    {
+      "alias": "q_next_quarter_ownership",
+      "name": "What are you expecting to own next quarter — and what's shaping that expectation?",
+      "stage": "momentum"
+    },
+    {
+      "alias": "q_what_s_actually_moving",
+      "name": "What's the one thing that feels like it's genuinely moving forward right now?",
+      "stage": "momentum"
+    },
+    {
+      "alias": "q_mentoring_still_live",
+      "name": "You mentioned wanting to mentor a while back — is that still something you want to pursue, or has that shifted?",
+      "stage": "momentum"
+    },
+    {
+      "alias": "q_mentoring_trade_off",
+      "name": "What would you need to drop or reduce to actually make space for mentoring in your week?",
+      "stage": "momentum"
+    },
+    {
+      "alias": "q_sustainable_pace_check",
+      "name": "Does the current pace feel like something you could keep up for another couple of months without it costing you?",
+      "stage": "lift"
+    },
+    {
+      "alias": "q_next_two_weeks_focus",
+      "name": "Given everything we've talked about, what's the one thing you want to have moved by the time we next meet?",
+      "stage": "lift"
+    }
+  ],
+  "fixtures": [
+    {
+      "label": "may24_bad_bank_shape",
+      "brief": {
+        "coreIssue": "Priya needs to discuss what specific challenges she faces after the launch and how those challenges might impact her performance going forward.",
+        "openingQuestion": "What specific post-launch challenges have you faced that might impact your transition to the next level?",
+        "listenFor": [
+          "whether she acknowledges post-launch challenges",
+          "if she has a plan to address performance issues",
+          "whether she mentions mentoring interest"
+        ],
+        "avoid": [
+          "do not ignore the launch",
+          "do not skip mentoring"
+        ],
+        "goodOutcome": "You and Priya have agreed on one specific skill to improve this quarter.",
+        "suggestedAction": "Schedule a follow-up meeting next month to review progress on the agreed skill."
+      },
+      "expectIssueSubstrings": [
+        "accusatory",
+        "challenges",
+        "post-meeting follow-up",
+        "goodOutcome may be too generic"
+      ]
+    },
+    {
+      "label": "may24_good_prep_snapshot",
+      "brief": {
+        "coreIssue": "Priya shipped a major backend feature and is quieter this week — check post-launch energy before next-quarter ownership and the mentoring thread.",
+        "openingQuestion": "What's it actually felt like this week, now that Monday's ship is behind you?",
+        "listenFor": [
+          "whether she names depletion, relief, or something unresolved about the launch",
+          "if she volunteers the mentoring thread or lights up when you raise it",
+          "whether she names concrete expectations for next quarter's ownership"
+        ],
+        "avoid": [
+          "do not introduce the billing rewrite in this meeting",
+          "do not let recognition become a quick checkbox"
+        ],
+        "goodOutcome": "You and Priya agree on one concrete mentoring step for a Senior Backend Engineer — a named pairing, guild slot, or timeline — before the next bi-weekly.",
+        "suggestedAction": "During the 1:1, ask Priya to name one person she would mentor if bandwidth opened up, then agree whether you bring a specific opportunity next time."
+      },
+      "expectIssueSubstrings": []
+    }
+  ],
+  "live": {
+    "openingQuestion": {
+      "mustNotMatch": [
+        "what specific .+ have you",
+        "impact your transition",
+        "performance issues"
+      ],
+      "mustNotContain": [
+        "challenges",
+        "problems",
+        "weakness",
+        "impact your"
+      ],
+      "mustMatchAny": [
+        "\\b(ship|launch|week|quieter|felt|mentor|quarter|monday)\\b"
+      ]
+    },
+    "goodOutcome": {
+      "mustMatchAny": [
+        "\\b(Priya|mentor|quarter|next step|concrete|ship|launch)\\b"
+      ]
+    },
+    "suggestedAction": {
+      "mustNotMatch": [
+        "follow-up meeting",
+        "next month",
+        "schedule a follow"
+      ],
+      "mustMatchAny": [
+        "^(Before|During|Ask|Agree|Identify|Bring)",
+        "\\b(bi-weekly|1:1|mentor)\\b"
+      ]
+    }
+  },
+  "arc": {
+    "expectStages": [
+      "pulse",
+      "friction",
+      "momentum",
+      "lift"
+    ],
+    "maxConsecutiveWellbeingClarifiers": 2,
+    "maxOffArcDrills": 1,
+    "closerStage": "lift"
+  }
+}

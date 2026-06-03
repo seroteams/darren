@@ -1,9 +1,0 @@
-alias: q_ux_priorities_focus
-label: UX priorities focus
-name: "What are the main UX priorities you're focusing on right now?"
-description: Determines if Carl is still focused on key UX work or getting sidetracked.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: generated

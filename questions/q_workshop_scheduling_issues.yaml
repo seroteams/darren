@@ -1,9 +1,0 @@
-alias: q_workshop_scheduling_issues
-label: Workshop scheduling issues
-name: "What's been the biggest challenge with planning workshops lately?"
-description: Explore specific challenges in workshop planning to identify underlying issues.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: generated

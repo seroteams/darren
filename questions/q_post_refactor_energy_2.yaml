@@ -1,9 +1,0 @@
-alias: q_post_refactor_energy_2
-label: Post-refactor energy
-name: "How's your energy been since the payments refactor shipped?"
-description: "Checks if there's a dip in energy post-refactor."
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: generated

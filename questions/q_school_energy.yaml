@@ -1,9 +1,0 @@
-alias: q_school_energy
-label: School energy
-name: What part of school has been giving you the most energy lately?
-description: Finds the work or moments that are genuinely motivating, beyond a generic check-in.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +1
-  engagement: +3
-source: generated

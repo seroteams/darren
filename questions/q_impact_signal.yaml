@@ -1,9 +1,0 @@
-alias: q_impact_signal
-label: Impact signal
-name: Which initiative is creating the most real impact?
-description: Forces a concrete read on strategic impact rather than a generic status update.
-purpose: topic
-axis_effects:
-  engagement: +3
-  growth: +1
-source: generated

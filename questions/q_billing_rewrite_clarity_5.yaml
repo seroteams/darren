@@ -1,9 +1,0 @@
-alias: q_billing_rewrite_clarity_5
-label: Billing rewrite clarity
-name: "When you say 'whispers about the billing rewrite' — what specifically do you need to know to feel clear about your role in it?"
-description: Clarifies what information is missing about the billing rewrite, impacting growth.
-purpose: topic
-stage: friction
-axis_effects:
-  growth: +3
-source: planner_added

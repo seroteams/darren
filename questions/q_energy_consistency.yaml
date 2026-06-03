@@ -1,9 +1,0 @@
-alias: q_energy_consistency
-label: Energy consistency
-name: Has your energy been consistent, or are there peaks and troughs?
-description: Identifies fluctuations in energy levels that might not be immediately evident.
-purpose: wellbeing
-stage: underneath
-axis_effects:
-  wellbeing: +3
-source: generated

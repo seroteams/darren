@@ -1,0 +1,9 @@
+alias: q_missing_cases_example
+label: Missing cases example
+name: Take one recent missing case — when should it have been surfaced?
+description: Anchor the pattern in a specific review miss and locate the point it should have been caught.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

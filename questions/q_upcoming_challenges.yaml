@@ -1,8 +1,0 @@
-alias: q_upcoming_challenges
-label: Upcoming challenges
-name: What challenges do you foresee in your upcoming design work?
-description: Encourages them to anticipate and articulate potential obstacles.
-purpose: topic
-axis_effects:
-  clarity: +1
-source: generated

@@ -1,9 +1,0 @@
-alias: q_work_life_balance_2
-label: Work-life balance
-name: What would help you balance work and home responsibilities better right now?
-description: Explores potential adjustments to improve work-life balance, addressing wellbeing and clarity.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-  clarity: +1
-source: planner_added

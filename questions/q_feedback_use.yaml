@@ -1,9 +1,10 @@
 alias: q_feedback_use
 label: Feedback use
-name: What did you take from the feedback on that PR?
-description: Surfaces how he processes review feedback and whether it is helping him improve.
-purpose: competency
+name: What makes feedback easy or hard to use in the next pass?
+description: Finds the conditions that help or block fast improvement after critique.
+purpose: topic
+stage: cause
 axis_effects:
-  growth: +3
   clarity: +1
+  growth: +3
 source: generated

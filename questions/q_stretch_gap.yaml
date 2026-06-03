@@ -1,9 +1,9 @@
 alias: q_stretch_gap
 label: Stretch gap
-name: "Where do you feel like you're not getting enough stretch right now?"
-description: Surfaces plateau, under-challenge, or a mismatch between current tasks and growth needs.
-purpose: competency
+name: You said nothing is stretching you right now — where are you feeling that most?
+description: Drills into the low-stretch thread to locate whether the dip is in task mix, ownership, or challenge.
+purpose: wellbeing
+stage: pulse
 axis_effects:
-  growth: +3
   engagement: +1
-source: generated
+source: planner_added

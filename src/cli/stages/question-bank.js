@@ -1,5 +1,5 @@
 const { generateBankWithFallback } = require("../../question-generator");
-const { getArc } = require("../../meeting-arcs");
+const { selectReservedCloser } = require("../../closer");
 const { writeJson, sessionFile } = require("../io");
 const { dim, red, HR, withThinking } = require("../../ui");
 
@@ -26,18 +26,13 @@ async function runQuestionBankStage({ ctx, focusPoints, meetingTypeLabel, introQ
 
   const queue = [...introQueue, ...bank];
 
-  const arc = getArc(meetingTypeLabel);
-  const finalStageId = arc.arc[arc.arc.length - 1].id;
-  const closerCandidates = bank.filter((q) => q.stage === finalStageId);
-  const closer = closerCandidates.length ? closerCandidates[closerCandidates.length - 1] : null;
+  const closer = selectReservedCloser(bank, meetingTypeLabel);
   if (closer) {
-    console.log("  " + dim(`closer reserved: ${closer.alias} (stage: ${finalStageId})`));
+    console.log("  " + dim(`closer reserved: ${closer.alias} (stage: ${closer.stage})`));
   } else {
     console.log(
       "  " +
-        dim(
-          `closer reserved: (none — bank had no '${finalStageId}' question; planner will generate one)`
-        )
+        dim("closer reserved: (none — no valid final-stage question; planner will generate one)")
     );
   }
 

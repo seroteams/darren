@@ -1,8 +1,9 @@
 alias: q_support_needed
 label: Support needed
-name: What kind of support would make the next couple of weeks easier?
-description: Surfaces practical help that could remove friction without turning the meeting into a status check.
+name: What would make the next two weeks steadier for you?
+description: Closes on concrete support, pacing, or decisions that would smooth the ramp.
 purpose: wellbeing
+stage: connection
 axis_effects:
   wellbeing: +1
   clarity: +1

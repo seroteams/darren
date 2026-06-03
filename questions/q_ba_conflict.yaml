@@ -1,9 +1,0 @@
-alias: q_ba_conflict
-label: BA conflict
-name: "You mentioned feeling like the BAs are more of an enemy — what's driving that tension, and how's it impacting your work?"
-description: "Explores the conflict with BAs and its impact on Taya's work."
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: planner_added

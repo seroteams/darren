@@ -5,13 +5,14 @@
   "meeting_type": "Bi-weekly check-in",
   "manager_notes": "Priya shipped a major feature on Monday and the team noticed, but she has been quieter this week. I want to check whether this is normal post-launch recovery or something unresolved. She also mentioned wanting to mentor a few months ago and that thread never moved. I need a clearer read on what she expects to own next quarter before I introduce the billing rewrite, since she may already be forming plans that this will disrupt.",
   "answers": [
-    "The launch went well, but this week I feel flatter than I expected.",
+    "Launch went well, but feels flatter this week than expected.",
     "Mostly cleanup and reviews right now, not much that feels new.",
-    "I am proud of the migration plan and how we handled the cutover.",
-    "I did mention mentoring before. I still want it, but I stopped pushing.",
-    "I am not sure what I am owning next quarter yet, and that makes me uneasy.",
-    "I have felt a bit stuck doing similar work for months.",
-    "If there is a bigger scope conversation, I want it sooner rather than later.",
-    "A clear next-step path would help me reset my energy."
+    "Proud of the migration plan and how the cutover was handled.",
+    "Mentioned mentoring before — still wants it, but stopped pushing.",
+    "Unsure what she's owning next quarter, and that makes her uneasy.",
+    "Felt a bit stuck doing similar work for months.",
+    "Wants the bigger scope conversation sooner rather than later.",
+    "A clear next-step path would help her reset her energy.",
+    "Wants to start by getting clarity on next-quarter ownership before the billing rewrite lands on her."
   ]
 }

@@ -1,0 +1,18 @@
+{
+  "name": "Sam",
+  "role": "Frontend Engineer",
+  "seniority": "Junior",
+  "meeting_type": "Onboarding check-in",
+  "manager_notes": "Sam is in week three and has started picking up real tickets, but he still hesitates before shipping and asks for reassurance late. I need to understand whether this is a normal confidence dip or a tooling and expectation gap we can fix quickly. I also want clarity on where onboarding handoffs are still fuzzy so he is not quietly compensating. This should stay practical and supportive: map what is unclear, unblock him, and line up the right support touchpoints for the next two weeks.",
+  "answers": [
+    "Can do the tasks, but second-guesses whether the approach matches team expectations.",
+    "Local setup better now, but loses time when design and API details don't match.",
+    "Not always sure who should approve what before pushing.",
+    "Usually waits too long before asking — wants to solve things himself first.",
+    "When feedback is specific and fast, moves much quicker.",
+    "Still fuzzy on where quality bars differ between quick fixes and core flows.",
+    "Pairing once or twice a week would probably prevent getting stuck silently.",
+    "With good defined for the next two tickets, would feel much steadier.",
+    "Wants to start by pairing on the next ticket to see the approval bar in practice."
+  ]
+}

@@ -1,8 +1,0 @@
-alias: q_support_for_late_starts
-label: Support for late starts
-name: What support would you need to make a later start work effectively for you?
-description: Explores what assistance or adjustments are needed to implement a later start time.
-purpose: topic
-axis_effects:
-  wellbeing: +1
-source: planner_added

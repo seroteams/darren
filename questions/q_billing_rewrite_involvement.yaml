@@ -1,8 +1,0 @@
-alias: q_billing_rewrite_involvement
-label: Billing rewrite involvement
-name: What are your thoughts on getting involved in the billing rewrite?
-description: "Explores Priya's interest and expectations regarding the upcoming billing rewrite."
-purpose: topic
-axis_effects:
-  clarity: +1
-source: planner_added

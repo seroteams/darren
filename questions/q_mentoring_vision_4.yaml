@@ -1,8 +1,0 @@
-alias: q_mentoring_vision_4
-label: Mentoring vision
-name: What would mentoring actually look like in your week, and what would you need to drop to make space for it?
-description: "Explores Priya's interest in mentoring and how it fits into her schedule."
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

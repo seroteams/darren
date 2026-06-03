@@ -1,9 +1,0 @@
-alias: q_delegation_and_focus
-label: Delegation and focus
-name: What tasks could you delegate to maintain focus on your priorities?
-description: Encourages Brian to consider delegation to focus on priorities.
-purpose: competency
-stage: momentum
-axis_effects:
-  growth: +1
-source: generated

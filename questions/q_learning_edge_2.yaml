@@ -1,9 +1,0 @@
-alias: q_learning_edge_2
-label: Learning edge
-name: What have you been learning on the job that you want more of?
-description: Explores growth momentum and whether the current work is teaching the right things.
-purpose: competency
-axis_effects:
-  growth: +3
-  engagement: +1
-source: generated

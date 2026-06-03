@@ -3,29 +3,7 @@
     "allow": [
       "WebSearch",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(node probe-bank-ab.js scenarios/001-senior-backend-weekly.json)",
-      "Bash(node -e \"const p = require\\('./package.json'\\); console.log\\(JSON.stringify\\(p.scripts, null, 2\\)\\)\")",
-      "Bash(Remove-Item \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\notes\\\\stages.md\")",
-      "Bash(Remove-Item \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\notes\\\\whats-new.md\")",
-      "Bash(Remove-Item \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\notes\\\\plan-2.md\")",
-      "Bash(Remove-Item \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\notes\\\\ai-engine-handoff.md\")",
-      "Bash(Remove-Item \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\frontend\\\\server\\\\handlers\\\\feedback.js\" -Force)",
-      "Bash(Remove-Item \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\frontend\\\\server\\\\handlers\\\\focus-points-feedback.js\" -Force)",
-      "Bash(node probe-plan-turn-ab.js)",
-      "Bash(node -e ' *)",
-      "Bash(taskkill /PID 25328 /F)",
-      "PowerShell($null = Start-Process -FilePath \"node\" -ArgumentList \"frontend/server/server.js\" -WorkingDirectory \"C:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\" -WindowStyle Hidden -PassThru; Start-Sleep -Seconds 2; $listener = Get-NetTCPConnection -LocalPort 3001 -State Listen -ErrorAction SilentlyContinue; if \\($listener\\) { \"listening on 3001 \\(PID $\\($listener[0].OwningProcess\\)\\)\" } else { \"not yet listening\" })",
       "Bash(npm install *)",
-      "Bash(node scripts/test-lexicon.js)",
-      "PowerShell(npx -y claudepluginhub juliusbrussee/caveman --plugin caveman)",
-      "PowerShell(Get-Command claude -ErrorAction SilentlyContinue | Select-Object Source; Test-Path \"$env:USERPROFILE\\\\.claude\\\\plugins\"; Get-ChildItem \"$env:USERPROFILE\\\\.claude\" -Directory -ErrorAction SilentlyContinue | Select-Object Name)",
-      "PowerShell(Write-Output \"=== claude CLI ===\"; try { \\(Get-Command claude -ErrorAction Stop\\).Source } catch { \"not installed\" }; Write-Output \"=== .claude contents ===\"; Get-ChildItem \"$env:USERPROFILE\\\\.claude\" -Force | Select-Object Name, Mode | Format-Table -AutoSize)",
-      "PowerShell(npm install -g @anthropic-ai/claude-code)",
-      "PowerShell(\\(Get-Command claude\\).Source; claude --version)",
-      "PowerShell(Get-ChildItem \"$env:USERPROFILE\\\\.claude\" -Force -Directory | Select-Object Name | Format-Table -AutoSize; Write-Output \"=== plugins dir ===\"; if \\(Test-Path \"$env:USERPROFILE\\\\.claude\\\\plugins\"\\) { Get-ChildItem \"$env:USERPROFILE\\\\.claude\\\\plugins\" -Recurse -Depth 2 | Select-Object FullName } else { \"no plugins dir\" })",
-      "PowerShell(Write-Output \"=== plugins tree ===\"; Get-ChildItem \"$env:USERPROFILE\\\\.claude\\\\plugins\" -Recurse -Force | Select-Object FullName | Format-Table -AutoSize; Write-Output \"=== settings.json ===\"; Get-Content \"$env:USERPROFILE\\\\.claude\\\\settings.json\" -Raw)",
-      "Read(//c/Users/User/.claude/plugins/**)",
-      "Edit(/.claude/skills/reviewrun/**)",
       "Bash(gh --version)",
       "Bash(git --version)",
       "Bash(git init *)",
@@ -37,20 +15,16 @@
       "Bash(grep -iE \"\\\\.env$|\\\\.env\\\\..*|secret|credential|api.?key|\\\\.pem$|\\\\.key$\")",
       "Bash(git check-ignore *)",
       "Bash(git commit -m ' *)",
-      "PowerShell($nodeProcs = Get-Process node -ErrorAction SilentlyContinue | Select-Object Id, StartTime, @{Name='UptimeSec';Expression={[int]\\(\\(Get-Date\\) - $_.StartTime\\).TotalSeconds}}; $nodeProcs | Format-Table -AutoSize; \"---\"; $f = Get-Item \"C:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\prompts\\\\generate-focus-points.md\"; \"PromptMtime: $\\($f.LastWriteTime\\)\"; \"PromptSecAgo: $\\([int]\\(\\(Get-Date\\) - $f.LastWriteTime\\).TotalSeconds\\)\")",
-      "PowerShell(Get-Process node -ErrorAction SilentlyContinue)",
-      "PowerShell(Stop-Process -Force)",
-      "PowerShell(Move-Item \"C:\\\\Users\\\\User\\\\.claude\\\\plans\\\\cool-okay-so-peppy-thimble.md\" \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\plans\\\\cool-okay-so-peppy-thimble.md\")",
-      "PowerShell(Move-Item -Force \"C:\\\\Users\\\\User\\\\.claude\\\\plans\\\\cool-okay-so-peppy-thimble.md\" \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\plans\\\\cool-okay-so-peppy-thimble.md\")",
-      "Bash(ls -la \"c:\\\\Users\\\\User\\\\Documents\\\\Sero\\\\darren\\\\plans\\\\cool-okay-so-peppy-thimble.md\" \"C:\\\\Users\\\\User\\\\.claude\\\\plans\\\\\" 2>&1)",
       "Read(//c/Users/User/.claude/**)",
-      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('questions/_openers.json','utf8'\\)\\); console.log\\('valid'\\)\")"
+      "Bash(node -c frontend/server/handlers/plan.js)",
+      "Bash(node -c frontend/server/handlers/evaluation.js)",
+      "Bash(node -c frontend/server/sessions.js)",
+      "Bash(node -c frontend/server/session-persistence.js)",
+      "Bash(node --check frontend/client/src/stages/briefing.js)"
     ],
     "additionalDirectories": [
       "c:\\Users\\User\\Documents\\Sero\\darren\\frontend\\server\\handlers"
     ]
   },
-  "enabledPlugins": {
-    "caveman@caveman": true
-  }
+  "enabledPlugins": {}
 }

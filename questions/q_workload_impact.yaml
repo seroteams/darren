@@ -1,8 +1,0 @@
-alias: q_workload_impact
-label: Workload impact
-name: How do you feel your workload is affecting your ability to innovate and propose new ideas?
-description: "Explores the impact of workload on Carl's creativity and initiative."
-purpose: wellbeing
-axis_effects:
-  engagement: +3
-source: generated

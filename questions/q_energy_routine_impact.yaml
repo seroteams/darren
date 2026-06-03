@@ -1,8 +1,0 @@
-alias: q_energy_routine_impact
-label: Energy routine impact
-name: How does your daily routine impact your energy levels?
-description: "Examines the effect of Lesley's routine on her energy and performance."
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

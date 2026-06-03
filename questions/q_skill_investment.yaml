@@ -1,9 +1,0 @@
-alias: q_skill_investment
-label: Skill investment
-name: What skill, if mastered, would significantly impact your career trajectory?
-description: Identifies key skills that could accelerate career growth.
-purpose: competency
-stage: investment
-axis_effects:
-  growth: +3
-source: generated

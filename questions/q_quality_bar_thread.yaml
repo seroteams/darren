@@ -1,0 +1,9 @@
+alias: q_quality_bar_thread
+label: Quality bar thread
+name: You mentioned the payments quality bar — where did it feel lower than it should have been?
+description: Drills into the concrete quality concern she just named before moving on.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added

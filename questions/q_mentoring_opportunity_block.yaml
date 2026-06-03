@@ -1,8 +1,0 @@
-alias: q_mentoring_opportunity_block
-label: Mentoring opportunity block
-name: "What's blocking the mentoring opportunity from happening — is it time, opportunity, or something else?"
-description: Explores the specific barriers to pursuing mentoring, which was previously mentioned as an interest.
-purpose: topic
-axis_effects:
-  growth: +3
-source: planner_added

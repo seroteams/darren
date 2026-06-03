@@ -8,6 +8,13 @@ export function createPipelineChangelog() {
   let status = null;
   let expandedGroups = new Set();
   let expandAll = false;
+  let panelCollapsed = true;
+
+  try {
+    const stored = sessionStorage.getItem("pipeline-changelog-collapsed");
+    if (stored === "0") panelCollapsed = false;
+    else if (stored === "1") panelCollapsed = true;
+  } catch {}
 
   function escape(s) {
     return String(s == null ? "" : s)
@@ -45,17 +52,55 @@ export function createPipelineChangelog() {
     const parts = [];
     const c = contentChangeCount(summary);
     const e = engineChangeCount(summary);
-    if (c) parts.push(`${c} content`);
-    if (e) parts.push(`${e} engine`);
+    if (c) parts.push(`${c} prompt file${c === 1 ? "" : "s"}`);
+    if (e) parts.push(`${e} engine file${e === 1 ? "" : "s"}`);
     if (summary.modelsChanged?.length) {
       parts.push(
         summary.modelsChanged.length === 1
-          ? `${summary.modelsChanged[0]} model`
-          : `${summary.modelsChanged.length} models`
+          ? `${summary.modelsChanged[0]} model change`
+          : `${summary.modelsChanged.length} model changes`
       );
     }
-    if (summary.gitChanged) parts.push("git");
+    if (summary.gitChanged) parts.push("uncommitted git");
     return parts;
+  }
+
+  function wrapPanel(headExtra, bodyHtml) {
+    const chevron = panelCollapsed ? "▶" : "▼";
+    return `
+      <button
+        type="button"
+        class="pipeline-changelog__panel-head js-panel-toggle"
+        aria-expanded="${!panelCollapsed}"
+        aria-controls="pipeline-changelog-body"
+      >
+        <span class="pipeline-changelog__chevron" aria-hidden="true">${chevron}</span>
+        <span class="pipeline-changelog__label text-ink-mute text-xs uppercase tracking-wider">Engine changelog</span>
+        <span class="pipeline-changelog__dev-badge" aria-hidden="true">DEV</span>
+        ${
+          headExtra && panelCollapsed
+            ? `<span class="pipeline-changelog__head-extra text-sm">${headExtra}</span>`
+            : ""
+        }
+      </button>
+      <div
+        id="pipeline-changelog-body"
+        class="pipeline-changelog__body"
+        ${panelCollapsed ? "hidden" : ""}
+      >
+        ${bodyHtml}
+      </div>
+    `;
+  }
+
+  function wirePanelToggle() {
+    el.querySelector(".js-panel-toggle")?.addEventListener("click", () => {
+      panelCollapsed = !panelCollapsed;
+      try {
+        sessionStorage.setItem("pipeline-changelog-collapsed", panelCollapsed ? "1" : "0");
+      } catch {}
+      render();
+    });
   }
 
   function renderGroupChanges(group) {
@@ -106,22 +151,25 @@ export function createPipelineChangelog() {
 
     if (!hasBaseline || !baseline?.hasLock) {
       const mc = counts || {};
-      el.className = "pipeline-changelog pipeline-changelog--legacy";
-      el.innerHTML = `
-        <div class="pipeline-changelog__label text-ink-mute text-xs uppercase tracking-wider">Pipeline</div>
-        <p class="pipeline-changelog__message text-sm">
-          ${
-            baseline?.runId && !baseline?.hasLock
-              ? "Last run has no pipeline lock (predates this feature). Showing current manifest only."
-              : "No baseline yet. Starting a run will record the pipeline lock for future comparisons."
-          }
-        </p>
+      el.className = `pipeline-changelog pipeline-changelog--legacy${
+        panelCollapsed ? " pipeline-changelog--collapsed" : ""
+      }`;
+      const legacyMsg =
+        baseline?.runId && !baseline?.hasLock
+          ? "Last run has no pipeline lock (predates this feature). Showing current manifest only."
+          : "No baseline yet. Starting a run will record the pipeline lock for future comparisons.";
+      el.innerHTML = wrapPanel(
+        escape(legacyMsg),
+        `
+        <p class="pipeline-changelog__message text-sm">${escape(legacyMsg)}</p>
         ${
           mc.total
             ? `<p class="text-ink-dim text-xs">Tracking: ${mc.content} content · ${mc.engine} engine files</p>`
             : ""
         }
-      `;
+      `
+      );
+      wirePanelToggle();
       return;
     }
 
@@ -130,13 +178,15 @@ export function createPipelineChangelog() {
       : formatDate(baseline.capturedAt) || "last run";
 
     if (unchanged) {
-      el.className = "pipeline-changelog pipeline-changelog--ok";
-      el.innerHTML = `
-        <div class="pipeline-changelog__label text-ink-mute text-xs uppercase tracking-wider">Pipeline</div>
-        <p class="pipeline-changelog__message pipeline-changelog__message--ok text-sm">
-          Matches last run (${baselineLabel}) — content, engine, models, git
-        </p>
-      `;
+      const okMsg = `Matches last run (${baselineLabel}) — content, engine, models, git`;
+      el.className = `pipeline-changelog pipeline-changelog--ok${
+        panelCollapsed ? " pipeline-changelog--collapsed" : ""
+      }`;
+      el.innerHTML = wrapPanel(
+        `<span class="pipeline-changelog__message--ok">${okMsg}</span>`,
+        `<p class="pipeline-changelog__message pipeline-changelog__message--ok text-sm">${okMsg}</p>`
+      );
+      wirePanelToggle();
       return;
     }
 
@@ -147,7 +197,9 @@ export function createPipelineChangelog() {
       (summary.modelsChanged?.length || 0) +
       (summary.gitChanged ? 1 : 0);
 
-    el.className = "pipeline-changelog pipeline-changelog--warn";
+    el.className = `pipeline-changelog pipeline-changelog--warn${
+      panelCollapsed ? " pipeline-changelog--collapsed" : ""
+    }`;
 
     const groupsHtml = (groups || [])
       .map((g) => {
@@ -164,7 +216,11 @@ export function createPipelineChangelog() {
               <span class="pipeline-changelog__chevron">${open ? "▼" : "▶"}</span>
               <span>${escape(g.title)} (${n})</span>
             </button>
-            ${g.subtitle ? `<div class="pipeline-changelog__group-sub text-ink-mute text-xs">${escape(g.subtitle)}</div>` : ""}
+            ${
+              g.subtitle && open
+                ? `<div class="pipeline-changelog__group-sub text-ink-mute text-xs">${escape(g.subtitle)}</div>`
+                : ""
+            }
             <ul class="pipeline-changelog__list" ${open ? "" : "hidden"}>
               ${renderGroupChanges(g)}
             </ul>
@@ -173,8 +229,13 @@ export function createPipelineChangelog() {
       })
       .join("");
 
-    el.innerHTML = `
-      <div class="pipeline-changelog__label text-ink-mute text-xs uppercase tracking-wider">Pipeline</div>
+    const warnHead = `<span class="pipeline-changelog__warn-mark">⚠</span> ${totalChanges} change${
+      totalChanges === 1 ? "" : "s"
+    } since that run · ${escape(parts.join(" · "))}`;
+
+    el.innerHTML = wrapPanel(
+      warnHead,
+      `
       <p class="pipeline-changelog__compare text-ink-dim text-xs">Compared to last run: ${baselineLabel}</p>
       <p class="pipeline-changelog__message text-sm">
         <span class="pipeline-changelog__warn-mark">⚠</span>
@@ -186,7 +247,10 @@ export function createPipelineChangelog() {
         <button type="button" class="btn btn--ghost btn--sm js-expand-all">${expandAll ? "Collapse all" : "Expand all"}</button>
         <button type="button" class="btn btn--ghost btn--sm js-copy">Copy changelog</button>
       </div>
-    `;
+    `
+    );
+
+    wirePanelToggle();
 
     el.querySelectorAll(".js-group-toggle").forEach((btn) => {
       btn.addEventListener("click", () => {

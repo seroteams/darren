@@ -1,9 +1,10 @@
 alias: q_review_friction
 label: Review friction
-name: I wanted to ask about the design-system PR — what made that one hard to land?
-description: Surfaces the specific source of friction in the rework-heavy PR without assuming fault.
+name: Where in your review process are you getting the most useful correction?
+description: Identifies which feedback moments improve the work versus just adding cycles.
 purpose: topic
+stage: evidence
 axis_effects:
-  clarity: +3
-  engagement: +1
+  clarity: +1
+  growth: +1
 source: generated

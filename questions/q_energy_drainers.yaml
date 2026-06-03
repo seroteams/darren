@@ -1,8 +1,0 @@
-alias: q_energy_drainers
-label: energy_drainers
-name: "What's currently draining your energy the most?"
-description: Identifies specific factors contributing to energy drain.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

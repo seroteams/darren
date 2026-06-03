@@ -1,8 +1,0 @@
-alias: q_current_challenges_3
-label: Current challenges
-name: What has been the most challenging aspect of your role recently?
-description: Identifies specific areas causing difficulty or frustration in her role.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +3
-source: generated

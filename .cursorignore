@@ -1,0 +1,20 @@
+﻿# Cursor index — mirrors .gitignore log keep-set and runtime artifacts
+
+# Build / deps
+node_modules/
+frontend/client/dist/
+
+# Runtime artifacts (local only)
+lexicons/_suggested/
+.impeccable/
+
+# Runtime logs — exclude from index (keep-set un-ignored below)
+logs/**
+
+!logs/may/
+!logs/may/2026_May24_batch/
+!logs/may/2026_May24_21-46-1eb839fd/
+!logs/may/2026_May25_14-23-5252887f/
+
+!logs/sweeps/
+!logs/sweeps/2026-05-31T11-49-46-826Z/

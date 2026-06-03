@@ -1,8 +1,0 @@
-alias: q_infrastructure_barrier
-label: Infrastructure barrier
-name: "When you say the infrastructure isn't there, what specifically is missing or needs improvement?"
-description: "Identifies specific infrastructure gaps hindering Machar's progress."
-purpose: topic
-axis_effects:
-  growth: +3
-source: planner_added

@@ -1,8 +1,0 @@
-{
-  "name": "Darren",
-  "role": "Football player",
-  "seniority": "Middle",
-  "meetingType": "Bi-weekly check-in",
-  "notes": "Plays football very well. Loves chocolate.",
-  "model": "gpt-4o-mini"
-}

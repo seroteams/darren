@@ -1,0 +1,10 @@
+alias: q_quality_habit_2
+label: Quality habit
+name: What change in your review or handoff habit would prevent the same miss from recurring?
+description: Moves from diagnosis to a concrete behavioural adjustment she can own.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

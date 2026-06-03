@@ -1,9 +1,10 @@
 alias: q_support_needed_2
 label: Support needed
-name: What kind of support would make the next couple of weeks easier for you?
-description: Opens up practical support needs without presuming the problem is personal or performance-related.
-purpose: wellbeing
+name: What do you want more of from me right now?
+description: Surfaces the most useful manager support without presuming the answer.
+purpose: topic
+stage: lift
 axis_effects:
-  wellbeing: +1
-  clarity: +3
+  clarity: +1
+  engagement: +1
 source: generated

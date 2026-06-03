@@ -1,0 +1,10 @@
+alias: q_feedback_taken_in
+label: Feedback taken in
+name: What part of the last critique did you actually change in the next draft?
+description: Checks whether feedback is being translated into action or just acknowledged.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

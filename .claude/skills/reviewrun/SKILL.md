@@ -7,6 +7,8 @@ user-invocable: true
 
 Loads a single run for review. Output primes discussion — does not propose fixes unprompted.
 
+**Canonical spec:** [`plans/reviewrun-output-spec.md`](../../plans/reviewrun-output-spec.md) (FX-43). Master audit IDs: [`plans/log-fix-audit.md`](../../plans/log-fix-audit.md).
+
 ## Inputs
 
 One arg: absolute path to a run directory (e.g. `C:\Users\User\Documents\Sero\darren\logs\may\2026_May01_07-47-cdfe`).
@@ -70,7 +72,8 @@ Stage dirs may vary. Discover by listing the run dir. Treat any `NN-*` subdir as
      - Anything else → try substring match on section name vs stage dir name. If no match, bucket under `(unmapped)`.
    - For each note, hold a reference to the matched stage's `prompt.md` + `response.json` so the Fix line can quote/target a specific prompt rule or output.
    - If `notes.md` is absent, skip this step entirely — the `## User notes` section in the output template is omitted.
-8. **Output template** (below). Stop after. Wait for user to pick thread.
+8. **Audit crosswalk.** Read [`plans/log-fix-audit.md`](../../plans/log-fix-audit.md) (grep by symptom if needed). For each signal, hypothesis, and note-fix that matches a known issue, append `` `→ FX-NN` `` (or `D1`, `C1`, `LF-1`, etc.). Novel gaps → `` `→ (new)` ``. Emit the `## Audit crosswalk` table in phase 2 (see spec). If a ✅ DONE item clearly regressed in this run, mark **regression** in the Match column.
+9. **Output template** (below). Stop after. Wait for user to pick thread.
 
 ## Output template
 
@@ -109,12 +112,20 @@ Stage dirs may vary. Discover by listing the run dir. Treat any `NN-*` subdir as
 - <signal 3>
 
 ## Hypotheses
-1. <where the run weakened, with stage reference>
+1. <where the run weakened, with stage reference> `→ FX-NN` or `→ (new)`
 2. <...>
 
+## Audit crosswalk
+| ID | Status | Match |
+|---|---|---|
+| <FX-NN or D1 etc.> | ✅ / 🔴 / 📋 | <one line — why this run touched it; say **regression** if DONE but broken> |
+
+*(Only rows with a match. Full table: `plans/log-fix-audit.md`.)*
+
 ## Questions to sharpen next iteration
-1. <specific, answerable question>
+1. <specific, answerable question — cite turn/alias/eval field when possible>
 2. <...>
+3. <optional; max 3 total>
 ```
 
 **Fix-line rules:**
@@ -122,6 +133,11 @@ Stage dirs may vary. Discover by listing the run dir. Treat any `NN-*` subdir as
 - If note quotes specific output text, target the prompt rule or default that produced it.
 - If note is praise ("nice question", "all this is good"), replace `**Fix:**` with `**Keep:** <what to preserve / lock in>`.
 - Keep each Fix to 1–2 lines. Caveman mode → fragments fine.
+- Append audit tag when matched: `` `→ FX-NN` `` or `` `→ (new)` ``.
+
+**Sharpening questions rules:**
+- 2 required, 3 max. At least one must reference a specific turn, question alias, or eval field.
+- Questions only — no embedded fixes.
 
 ## Rules
 

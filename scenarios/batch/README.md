@@ -16,6 +16,11 @@ These scenarios reconstruct the first-run persona inputs from:
 - `kenji-something-feels-off.json` - Kenji - Something feels off - `9a49991f-3e8`
 - `nina-biweekly-checkin.json` - Nina - Bi-weekly check-in - `704418bf-e72`
 - `carlos-performance-feedback.json` - Carlos - Performance & feedback - `c298ae75-f50`
+- `sam-onboarding-checkin.json` - Sam - Onboarding check-in - `synthetic-2026-05-31-sam`
+- `riley-onboarding-checkin.json` - Riley - Onboarding check-in - `synthetic-2026-05-31-riley`
+- `aisha-onboarding-checkin.json` - Aisha - Onboarding check-in - `synthetic-2026-05-31-aisha`
+- `toby-growth-career-plan.json` - Toby - Growth & career plan - `synthetic-2026-05-31-toby`
+- `elena-something-feels-off.json` - Elena - Something feels off - `synthetic-2026-05-31-elena`
 
 ## Reconstruction notes
 

@@ -1,8 +1,0 @@
-alias: q_current_stretch
-label: Current stretch
-name: What part of your work is stretching you the most right now?
-description: Identifies areas where Priya is experiencing growth or challenge.
-purpose: competency
-axis_effects:
-  growth: +3
-source: generated

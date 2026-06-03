@@ -31,7 +31,7 @@ export function createDevBadge() {
 
   const copyBtn = document.createElement("button");
   copyBtn.type = "button";
-  copyBtn.title = "Copy for prompt";
+  copyBtn.title = "Copy stage debug info";
   copyBtn.style.cssText = [
     "position:absolute",
     "top:4px",
@@ -67,9 +67,9 @@ export function createDevBadge() {
   function render(stage) {
     const meta = STAGE_META[stage] || { file: "?", data: "?" };
     const stageStr = stage || "—";
-    plainText = `stage ${stageStr}\nfile ${meta.file}\ndata ${meta.data}`;
+    plainText = `[DEV] stage ${stageStr}\nfile ${meta.file}\ndata ${meta.data}`;
     el.innerHTML = `
-      <div><span style="color:#94a3b8">stage</span> <span style="color:#fbbf24">${stageStr}</span></div>
+      <div><span style="color:#94a3b8">DEV</span> <span style="color:#fbbf24">${stageStr}</span></div>
       <div><span style="color:#94a3b8">file</span>  <span style="color:#e2e8f0">${meta.file}</span></div>
       <div><span style="color:#94a3b8">data</span>  <span style="color:#a7f3d0">${meta.data}</span></div>
     `;
