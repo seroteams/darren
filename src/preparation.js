@@ -6,6 +6,7 @@ const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
 const { promptFor } = require("./one-on-one-types");
 const { withPromptVersion } = require("./prompt-version");
+const { resolveSelectedFocus } = require("./selected-focus");
 
 const getDefaultModel = () => modelFor("preparation");
 
@@ -60,15 +61,28 @@ function focusPointLabels(focusPoints) {
     .filter(Boolean);
 }
 
-function buildMessages({ name, roleTitle, seniority, meetingType, observedShift, focusPoints }) {
+function buildMessages({
+  name,
+  roleTitle,
+  seniority,
+  meetingType,
+  observedShift,
+  focusPoints,
+  selectedFocus,
+}) {
   const template = fs.readFileSync(promptFor(meetingType, "preparation"), "utf8");
+  const sf =
+    selectedFocus ||
+    resolveSelectedFocus({ notes: observedShift, observedShift, focusPoints });
   const filled = template
     .replaceAll("{{NAME}}", name || "(not provided)")
     .replaceAll("{{ROLE_TITLE}}", roleTitle || "(not provided)")
     .replaceAll("{{SENIORITY}}", seniority || "(not provided)")
     .replaceAll("{{MEETING_TYPE}}", meetingType || "(not provided)")
     .replaceAll("{{OBSERVED_SHIFT}}", observedShift || "(none)")
-    .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints || [], null, 2));
+    .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints || [], null, 2))
+    .replaceAll("{{SELECTED_FOCUS_JSON}}", JSON.stringify(sf || {}, null, 2))
+    .replaceAll("{{PRIMARY_FOCUS_ID}}", sf?.id || "(none)");
 
   const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
   const userMatch   = filled.match(/## User\s+([\s\S]*)$/);
@@ -224,13 +238,24 @@ async function generatePreparation(
 ) {
   const runId = randomUUID();
 
+  const focusPoints = inputs.focusPoints || [];
+  const selectedFocus =
+    inputs.selectedFocus ||
+    resolveSelectedFocus({
+      notes: inputs.notes || inputs.observedShift,
+      observedShift: inputs.notes || inputs.observedShift,
+      focusPoints,
+      primaryFocusId: inputs.primaryFocusId,
+    });
   const prepInput = {
-    name:             inputs.name,
-    roleTitle:        inputs.role || inputs.roleTitle,
-    seniority:        inputs.seniority,
-    meetingType:      inputs.meetingType,
-    observedShift:    inputs.notes || inputs.observedShift || "",
-    focusPoints:      inputs.focusPoints || [],
+    name: inputs.name,
+    roleTitle: inputs.role || inputs.roleTitle,
+    seniority: inputs.seniority,
+    meetingType: inputs.meetingType,
+    observedShift: inputs.notes || inputs.observedShift || "",
+    focusPoints,
+    selectedFocus,
+    primaryFocusId: selectedFocus?.id,
   };
 
   const messages = buildMessages(prepInput);

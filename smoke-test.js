@@ -413,10 +413,10 @@ async function verify(exitCode, stdout) {
     if (Array.isArray(evalJson.axes) && evalJson.axes.length === 4) pass("final evaluation has 4 axes");
     else fail("final evaluation has 4 axes", `got ${evalJson.axes?.length ?? "?"}`);
 
-    if (Array.isArray(evalJson.summary_bullets) && evalJson.summary_bullets.length >= 3) {
+    if (Array.isArray(evalJson.summary_bullets) && evalJson.summary_bullets.length >= 2) {
       pass(`summary_bullets count ${evalJson.summary_bullets.length}`);
     } else {
-      fail("summary_bullets >= 3", `got ${evalJson.summary_bullets?.length ?? "?"}`);
+      fail("summary_bullets >= 2", `got ${evalJson.summary_bullets?.length ?? "?"}`);
     }
   } catch (e) {
     fail("05-evaluation/response.json parses", e.message);

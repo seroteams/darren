@@ -124,6 +124,15 @@ Do not turn sparse notes into confident diagnosis.
 If notes are empty, say what the conversation should test, not what is true.
 </evidence_rules>
 
+<primary_focus_rules>
+**Data lane:** manager context + `selectedFocus` + focus points only. No transcript, axis state, or product QA notes.
+
+When `{{PRIMARY_FOCUS_ID}}` is set (not `(none)`), that focus is **primary** for `coreIssue`, `openingQuestion`, `listenFor`, and `goodOutcome`.
+
+- Secondary catalogue focus points may appear only in `avoid` or `suggestedAction` — not as parallel `listenFor` bullets unless the manager's notes explicitly name them.
+- When primary is `quality` on a backend/senior IC: `listenFor` MUST use concrete quality tells — handoff completeness, edge cases, dependency notes, review depth, release/payment risk, escalation timing — not generic stakeholder confusion unless notes say so.
+</primary_focus_rules>
+
 ---
 
 ## User
@@ -148,6 +157,14 @@ If notes are empty, say what the conversation should test, not what is true.
 ```json
 {{FOCUS_POINTS_JSON}}
 ```
+
+**Selected focus (primary for this 1:1):**
+
+```json
+{{SELECTED_FOCUS_JSON}}
+```
+
+Primary focus id: {{PRIMARY_FOCUS_ID}}
 
 Produce the JSON now.
 

@@ -39,7 +39,9 @@ If the last answer contains a **concrete thread** — a named role, project, asp
 
 **Construction of the thread-follow item:**
 - `ref_alias: null` (it's a new, answer-specific question).
-- **Mirror the answer (hard).** `name` MUST name the specific thing said in the employee's words, reusing at least one substantive word verbatim (e.g. "head of department"). Generic follow-ups that could apply to any answer fail this rule.
+- **Mirror the answer (hard)** when the answer is spoken employee voice. `name` MUST be a full sentence with clear subject and verb.
+- **Telegraphic / note-style answers:** If the answer reads like manager scratch notes (fragment sentences, no "I/she said", telegraphic clauses), do NOT paste fragments into `name`. Rephrase as a spoken question about the underlying assumption (e.g. "When you assumed retry logic covered it, what did you expect the system to do?"). Never start with a broken fragment (e.g. "hought retry logic").
+- If the substantive content is already clear (miss named + cause stated), skip thread-follow and advance the arc; note `[THREAD-CLEAR]` in `assessment.note`.
 - One focused follow-up — not a compound question.
 - `axis_effects` mirrors the most relevant axis from the last question's signature, or the axis the thread implies.
 - `stage` SHOULD equal the last question's stage (we're staying inside the same arc stage to drill deeper). If unclear, leave as `null`.
@@ -217,7 +219,13 @@ When triggered: score negative at full magnitude. The answer's constructive or p
 
 ---
 
+**Work-quality gaps are competency evidence, not low role-clarity.** When a competency question surfaces a concrete craft gap (a missed edge case, an uncovered state, a defect found in review), that is evidence about the *work*, not proof the employee lacks role/priority clarity. Do not stack full-magnitude (`-3`) clarity negatives across consecutive gap-naming turns. After one clarity hit on a recurring gap, additional descriptions of the same gap are at most `-1`, or route the signal to `note` off-signature. The `clarity` axis tests whether they know what matters and why — not whether the work had defects.
+
+---
+
 **Signature binding — this is the core scoring rule.**
+
+**Competency vs wellbeing:** On `purpose: competency` questions about judgment, handoff, or edge cases, do NOT score `wellbeing` negative for deadline mentions, "rushed", or time pressure unless the report describes emotional strain (stressed, overwhelmed, burned out). Route time-pressure signal to `clarity` or note off-signature in `note`.
 
 Realise deltas ONLY for axes that appear in the question's `axis_effects`. If the answer volunteers signal about a different axis, name that in the `note` but do not score it here — the next question can pick it up.
 
@@ -231,6 +239,7 @@ Read the answer and assign it one of five types:
 - **Pivot / off-topic** — answer doesn't engage with the axis at all (employee answered a different question entirely) → 0.
 - **Skip / evasion** — "skip", "pass", one-word, genuinely evasive, or unintelligible/garbled strings (random characters, obvious typos with no recoverable meaning) → 0.
 - **Misalignment** — employee contrasts their understanding with the manager's ("I think X, boss thinks Y", "we're not aligned on what I need to learn") → negative on `clarity` when clarity is in the signature (typically `-1` or `-3`). This is a clarity signal, not growth — do not score it only on growth unless clarity is absent from the signature.
+- **Manager-voiced / not first-person** — the answer refers to the employee in the third person ("she", "her", "they", "Maya should…") or is the manager's own paraphrase/inference rather than the employee's own words. This is the manager talking *about* the report, not the report self-reporting → **0 deltas**. The `note` MUST start with `[NOT-SELF-REPORT]`. Do not generate a content-driven thread-follow from it (treat like pivot per `<planning_rules>` rule 5).
 
 **Step 2 — realise the delta.**
 
@@ -241,13 +250,14 @@ Read the answer and assign it one of five types:
 - Deficiency-as-request → negative delta, typically at full magnitude. A clear, articulate list of what's missing is a strong signal.
 - Pivot / off-topic → 0.
 - Skip / evasion → 0.
+- Manager-voiced / not first-person → 0.
 - Negative signatures mean the question is testing for risk. Invert valence only for that axis. Example: signature `{engagement:-1}` and answer "I feel checked out" realises `+1` because the risk was confirmed.
 
 **What "neutral" means.** True neutral is an answer that carries no signal either way — substantive but neither positive nor negative on the axis being tested. An answer describing absence, flatness, or deficit on a positive-signature axis is not neutral — classify it negative/absent and score it.
 
 **Shallow vs neutral.** Answers classified shallow in Step 0 ("fine", "ok", "good", ≤3 tokens with no concrete noun) are NOT neutral — they carry zero signal. Do not score them negative; return `deltas: []`. Do not treat brevity as evidence of distress.
 
-**CALIBRATION: In real 1:1 data, fewer than 15% of substantive (5+ word) answers carry zero signal.** If you are about to return all-zero deltas for a substantive answer, re-read it — you are almost certainly missing a mild signal. Score -1 or +1 rather than defaulting to 0.
+**CALIBRATION: In real 1:1 data, fewer than 15% of substantive (5+ word) answers carry zero signal.** If you are about to return all-zero deltas for a substantive answer, re-read it — you are almost certainly missing a mild signal. Score -1 or +1 rather than defaulting to 0. This calibration assumes a genuine first-person answer. Manager-voiced / not-first-person, third-person, or sparse rough-note answers are NOT "substantive answers" for this rule — never manufacture a `-1`/`+1` from them; return `deltas: []`.
 
 - `note`: one sentence. Name the specific signal in the answer. If the answer also volunteered an off-signature axis worth flagging, name that here (e.g. "Also revealed mentoring frustration — worth a growth probe next").
 </assessment_rules>
@@ -424,6 +434,14 @@ Hard boundaries:
 ```json
 {{FOCUS_POINTS_JSON}}
 ```
+
+**Selected focus (primary):**
+
+```json
+{{SELECTED_FOCUS_JSON}}
+```
+
+Primary focus id: {{PRIMARY_FOCUS_ID}}
 
 **Meeting arc:**
 
