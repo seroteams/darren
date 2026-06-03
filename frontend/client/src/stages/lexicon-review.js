@@ -11,8 +11,8 @@ export async function mount(root, { store, setState }) {
   const sessionId = store.sessionId;
 
   root.innerHTML = `
-    <div class="stage-inner space-y-8">
-      <header class="space-y-1">
+    <div class="stage-inner l-stack l-stack--8">
+      <header class="page-header">
         <div class="eyebrow">Phrase library</div>
         <h1 class="h1 js-stage-title">Anything worth keeping?</h1>
         <div class="text-ink-dim text-sm max-w-measure js-stage-lede">
@@ -59,7 +59,7 @@ export async function mount(root, { store, setState }) {
         ? `<button type="button" class="btn btn--ghost js-promote">Promote to production lexicon (${promoteCount})</button>`
         : "";
     return `
-      <div class="flex flex-wrap gap-2 pt-6 reveal">
+      <div class="l-cluster l-cluster--2 pt-6 reveal">
         <button type="button" class="btn js-done"${doneDisabled ? " disabled" : ""}>${escape(doneLabel)}</button>
         ${promoteBtn}
       </div>

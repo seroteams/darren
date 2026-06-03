@@ -4,7 +4,7 @@ export async function mount(root, { store, setState }) {
   const retryTo = store.retryStage || STAGES.INTAKE;
   const technical = store.error || "Unknown error";
   root.innerHTML = `
-    <div class="stage-inner space-y-6">
+    <div class="stage-inner l-stack l-stack--6">
       <h1 class="h1">We hit a snag.</h1>
       <div class="error-card">
         <div class="text-ink">Something went wrong on this step. You can retry or start a new session.</div>
@@ -15,7 +15,7 @@ export async function mount(root, { store, setState }) {
       </div>
       <div class="space-y-2">
         <div class="text-ink-mute text-sm">What you can do:</div>
-        <div class="flex gap-2">
+        <div class="l-cluster l-cluster--2">
           <button class="btn js-retry">Retry this step</button>
           <button class="btn btn--ghost js-restart">New session</button>
         </div>

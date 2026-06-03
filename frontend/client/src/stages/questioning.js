@@ -1,34 +1,30 @@
-import { STAGES, resetSession } from "../state.js";
+import { STAGES } from "../state.js";
 import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered } from "../api.js";
 import { createOrb } from "../ui/orb.js";
 import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { openSse } from "../sse.js";
 import { revealOne, sleep } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
-import { confirmResetSession } from "../ui/session-reset.js";
 import { renderCtxSegments } from "../ui/notes-panel-utils.js";
 
 let unmountFn = null;
 
 export async function mount(root, { store, setState }) {
   root.innerHTML = `
-    <div class="stage-inner space-y-6">
-      <header class="flex items-baseline justify-between gap-4">
-        <div class="questioning-head min-w-0 space-y-1">
-          <div class="eyebrow">Live interview</div>
-          <div class="turn-label text-sm text-ink-mute"></div>
-          <div class="question-session-ctx ctx-segments" aria-label="Session context"></div>
-        </div>
-        <div class="flex shrink-0 gap-2">
-          <button class="btn btn--ghost js-save-exit" type="button">Skip to briefing</button>
-          <button class="btn btn--ghost js-start-fresh" type="button">Reset session</button>
+    <div class="stage-inner l-stack l-stack--6">
+      <header class="page-header">
+        <div class="page-header__row">
+          <div class="questioning-head min-w-0 space-y-1">
+            <p class="turn-label page-header__step"></p>
+            <div class="question-session-ctx ctx-segments" aria-label="Session context"></div>
+          </div>
+          <button class="btn btn--ghost js-save-exit shrink-0" type="button">Skip to briefing</button>
         </div>
       </header>
       <div class="question-host"></div>
       <div class="thinking-host min-h-[72px]"></div>
-      <div class="axes-wrap space-y-2">
-        <div class="eyebrow">Live scores</div>
-        <p class="text-xs text-ink-dim">Updates after each answer — not the final briefing read. <span class="text-ink-mute">— = no signal yet</span></p>
+      <div class="axes-wrap space-y-2" aria-label="Live scores — updated each answer, not the final briefing">
+        <div class="eyebrow" title="Live scores — updated each answer, not the final briefing">Live scores</div>
         <div class="card axes-host"></div>
       </div>
       <div class="footer-host text-sm text-ink-mute"></div>
@@ -38,7 +34,7 @@ export async function mount(root, { store, setState }) {
   const sessionCtxEl = root.querySelector(".question-session-ctx");
   const qHost = root.querySelector(".question-host");
 
-  renderCtxSegments(sessionCtxEl, store.ctx || {});
+  renderCtxSegments(sessionCtxEl, store.ctx || {}, { compact: true });
   const thinkingHost = root.querySelector(".thinking-host");
   const axesHost = root.querySelector(".axes-host");
   const footerHost = root.querySelector(".footer-host");
@@ -76,14 +72,6 @@ export async function mount(root, { store, setState }) {
     if (!ok) return;
     teardown();
     setState({ stage: STAGES.BRIEFING });
-  });
-
-  root.querySelector(".js-start-fresh").addEventListener("click", async () => {
-    const ok = await confirmResetSession(confirmAction);
-    if (!ok) return;
-    teardown();
-    resetSession();
-    setState({ stage: STAGES.START });
   });
 
   async function showNextQuestion() {
@@ -126,7 +114,7 @@ export async function mount(root, { store, setState }) {
       <div class="question-card-head">
         <div class="question-card-head__text space-y-2">
           <h1 class="question-stem leading-snug">${escape(q.name)}</h1>
-          ${q.description ? `<div class="question-desc"><span class="text-ink-mute">Context:</span> ${escape(q.description)}</div>` : ""}
+          ${q.description ? `<div class="question-desc">${escape(q.description)}</div>` : ""}
         </div>
         <button type="button" class="copy-snippet-btn js-copy-question" title="Copy question" aria-label="Copy question">
           <span class="copy-snippet-btn__label">Copy</span>${COPY_ICON}
@@ -136,14 +124,14 @@ export async function mount(root, { store, setState }) {
         <span class="sr-only">Your notes</span>
         <textarea class="textarea textarea--question" rows="5" placeholder="Jot what they said — your shorthand, not a transcript" aria-label="Your notes"></textarea>
       </label>
-      <div class="field-actions">
+      <div class="field__actions">
         <button class="btn js-submit">Submit answer</button>
         <button class="btn btn--ghost js-deeper" type="button" disabled>Go deeper</button>
         <button class="btn btn--ghost js-skip">Skip</button>
         ${scripted ? `<button class="btn btn--ghost js-play" type="button">Insert scripted answer</button><button class="btn btn--ghost js-play-submit" type="button">Insert & submit</button>` : ""}
         ${!scripted && import.meta.env.DEV ? `<button class="btn btn--ghost js-suggest" type="button">Suggest notes (dev)</button>` : ""}
       </div>
-      <p class="hint text-xs text-ink-mute">Shift+Enter — follow this thread · Skip · Esc</p>
+      <p class="hint hint--kbd text-xs text-ink-mute">Shift+Enter · Skip · Esc</p>
       ${import.meta.env.DEV ? `<div class="answer-suggestions" hidden></div>` : ""}
     `;
     qHost.appendChild(card);
@@ -290,7 +278,7 @@ export async function mount(root, { store, setState }) {
       <div class="question-card-head__text space-y-2">
         <h1 class="question-stem leading-snug">Earlier they wanted to cover ${escape(agenda.summary)}. Did you get to it?</h1>
       </div>
-      <div class="field-actions">
+      <div class="field__actions">
         <button class="btn js-agenda-yes" type="button">Yes, covered</button>
         <button class="btn btn--ghost js-agenda-no" type="button">Not yet</button>
       </div>
@@ -325,10 +313,10 @@ export async function mount(root, { store, setState }) {
     const skipped = submittedText.trim() === "";
     const orb = createOrb(
       goDeeper
-        ? "Going deeper on that thread…"
+        ? "Going deeper…"
         : skipped
-          ? "Choosing the next question…"
-          : "Scoring your answer…"
+          ? "Next question…"
+          : "Scoring answer…"
     );
     thinkingHost.appendChild(orb.el);
 

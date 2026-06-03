@@ -6,14 +6,6 @@ import { confirmResetSession } from "../ui/session-reset.js";
 
 const SUBSTAGES = ["NAME", "ROLE", "SENIORITY", "MEETING_TYPE", "NOTES"];
 
-const STEP_NAMES = {
-  NAME: "Name",
-  ROLE: "Role",
-  SENIORITY: "Seniority",
-  MEETING_TYPE: "Meeting type",
-  NOTES: "Context notes",
-};
-
 const COPY = {
   NAME: {
     question: "Who are you prepping for?",
@@ -42,7 +34,7 @@ const COPY = {
 
 export async function mount(root, { store, setState }) {
   root.innerHTML = `
-    <div class="stage-inner space-y-10">
+    <div class="stage-inner l-stack l-stack--10">
       <header class="space-y-3">
         <div class="intake-header__row">
           <div class="space-y-1 min-w-0">
@@ -51,7 +43,7 @@ export async function mount(root, { store, setState }) {
           </div>
           <button class="btn btn--ghost js-start-fresh flex-shrink-0" type="button">Cancel setup</button>
         </div>
-        <p class="text-ink-dim text-sm max-w-measure">Sero prepares and runs a 1:1 interview, then writes a manager briefing.</p>
+        <p class="text-ink-dim text-sm max-w-measure js-intake-lede">Sero prepares and runs a 1:1 interview, then writes a manager briefing.</p>
         <div class="intake-progress" role="progressbar" aria-valuemin="1" aria-valuemax="${SUBSTAGES.length}" aria-valuenow="1">
           <div class="intake-progress__fill"></div>
         </div>
@@ -61,6 +53,7 @@ export async function mount(root, { store, setState }) {
   `;
   const host = root.querySelector(".field-host");
   const stepLabel = root.querySelector(".stage-step");
+  const intakeLede = root.querySelector(".js-intake-lede");
   const progressBar = root.querySelector(".intake-progress");
   const progressFill = root.querySelector(".intake-progress__fill");
 
@@ -76,7 +69,8 @@ export async function mount(root, { store, setState }) {
 
   function refreshStep() {
     const idx = SUBSTAGES.indexOf(currentSub) + 1;
-    stepLabel.textContent = `Step ${idx} of ${SUBSTAGES.length} — ${STEP_NAMES[currentSub]}`;
+    stepLabel.textContent = `Step ${idx} of ${SUBSTAGES.length}`;
+    if (intakeLede) intakeLede.hidden = currentSub !== "NAME";
     progressBar.setAttribute("aria-valuenow", String(idx));
     progressFill.style.width = `${(idx / SUBSTAGES.length) * 100}%`;
   }
@@ -97,11 +91,12 @@ export async function mount(root, { store, setState }) {
       <label class="block">
         <h1 class="h1 mb-4">${cfg.question}</h1>
         <input class="input" type="text" autocomplete="off"
-               spellcheck="false" placeholder="${cfg.placeholder}" data-autofocus />
+               spellcheck="false" placeholder="${cfg.placeholder}"
+               aria-describedby="hint-${cfg.key} err-${cfg.key}" data-autofocus />
       </label>
-      <div class="hint">${cfg.hint}</div>
-      <div class="error-msg text-negative text-sm" hidden></div>
-      <div class="field-actions">
+      <div class="hint" id="hint-${cfg.key}">${cfg.hint}</div>
+      <div class="field__error" id="err-${cfg.key}" hidden></div>
+      <div class="field__actions">
         <button class="btn js-next">Continue</button>
       </div>
     `;
@@ -118,13 +113,15 @@ export async function mount(root, { store, setState }) {
 
     function submitInput() {
       const val = input.value.trim();
-      const err = wrap.querySelector(".error-msg");
+      const err = wrap.querySelector(".field__error");
       if (!val) {
         err.textContent = "Add a value to continue.";
         err.hidden = false;
+        input.setAttribute("aria-invalid", "true");
         return;
       }
       err.hidden = true;
+      input.removeAttribute("aria-invalid");
       store.ctx[cfg.key] = val;
       advance();
     }
@@ -140,7 +137,7 @@ export async function mount(root, { store, setState }) {
         <h1 class="h1 mb-4">${cfg.question}</h1>
         <textarea class="textarea" rows="4" placeholder="${cfg.placeholder}" data-autofocus></textarea>
       </label>
-      <div class="field-actions">
+      <div class="field__actions">
         <button class="btn js-submit">Continue</button>
         <button class="btn btn--ghost js-skip">Skip (optional)</button>
       </div>

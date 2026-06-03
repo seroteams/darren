@@ -5,8 +5,8 @@ const FIX_STAGES = ["focus_points", "preparation", "bank", "questioning", "evalu
 
 export async function mount(root, { setState }) {
   root.innerHTML = `
-    <div class="stage-inner space-y-5">
-      <header class="space-y-1">
+    <div class="stage-inner l-stack l-stack--5">
+      <header class="page-header">
         <div class="eyebrow">Test lane</div>
         <h1 class="h1">Compare runs</h1>
         <p class="text-ink-dim text-sm">Same persona, two runs — see what your prompt change moved.</p>
