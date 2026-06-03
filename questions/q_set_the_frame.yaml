@@ -1,0 +1,10 @@
+alias: q_set_the_frame
+label: Set the frame
+name: "What's most on your mind at work right now?"
+description: Safe opener that lets Samira set context before any prioritization or concern.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-03T13:56:00.915Z",
-  "count": 344,
+  "generated_at": "2026-06-03T16:47:18.983Z",
+  "count": 354,
   "aliases": [
     "q_another_review_miss",
     "q_ba_friction",
@@ -26,6 +26,7 @@
     "q_current_work_state",
     "q_current_work_state_2",
     "q_decision_gap",
+    "q_decision_lag",
     "q_decision_ownership",
     "q_decision_point",
     "q_decision_points",
@@ -45,6 +46,7 @@
     "q_edge_cases_missed",
     "q_empty_states_miss",
     "q_empty_states_miss_2",
+    "q_energy_drain",
     "q_energy_reset",
     "q_escalation_timing",
     "q_feedback_filter",
@@ -59,6 +61,7 @@
     "q_first_priorities",
     "q_focus_choice",
     "q_focus_first",
+    "q_focus_shift",
     "q_follow_up_driver",
     "q_friction_scan",
     "q_gap_pattern",
@@ -83,6 +86,7 @@
     "q_late_discovery_2",
     "q_late_rationale",
     "q_late_requirements",
+    "q_manager_leverage",
     "q_mentor_shape",
     "q_mentoring_shape",
     "q_mentoring_shape_2",
@@ -296,6 +300,7 @@
     "q_rework_trigger",
     "q_rewrite_expectations",
     "q_root_cause",
+    "q_scatter_source",
     "q_second_example",
     "q_seed_clarity_priorities",
     "q_seed_clarity_success",
@@ -305,6 +310,8 @@
     "q_seed_growth_uncomfortable",
     "q_seed_wellbeing_recovery",
     "q_seed_wellbeing_sustain",
+    "q_sequence_next",
+    "q_set_the_frame",
     "q_settle_in_context",
     "q_signal_before_review",
     "q_signal_vs_noise",
@@ -312,6 +319,7 @@
     "q_specific_example",
     "q_stakeholder_trust",
     "q_steadier_next_stretch",
+    "q_steadier_pace",
     "q_sticking_points",
     "q_stretch_gap",
     "q_strong_next_step_call",
@@ -326,6 +334,7 @@
     "q_thread_follow_10",
     "q_thread_follow_11",
     "q_thread_follow_12",
+    "q_thread_follow_13",
     "q_thread_follow_2",
     "q_thread_follow_3",
     "q_thread_follow_4",
@@ -342,6 +351,7 @@
     "q_what_feels_heavy",
     "q_what_helps",
     "q_what_s_driving_it",
+    "q_what_to_drop",
     "q_who_to_lean_on",
     "q_win_landing",
     "q_work_context",
@@ -445,6 +455,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_decision_lag",
+      "subdir": ""
+    },
+    {
       "alias": "q_decision_ownership",
       "subdir": ""
     },
@@ -521,6 +535,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_energy_drain",
+      "subdir": ""
+    },
+    {
       "alias": "q_energy_reset",
       "subdir": ""
     },
@@ -574,6 +592,10 @@
     },
     {
       "alias": "q_focus_first",
+      "subdir": ""
+    },
+    {
+      "alias": "q_focus_shift",
       "subdir": ""
     },
     {
@@ -670,6 +692,10 @@
     },
     {
       "alias": "q_late_requirements",
+      "subdir": ""
+    },
+    {
+      "alias": "q_manager_leverage",
       "subdir": ""
     },
     {
@@ -1547,6 +1573,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_scatter_source",
+      "subdir": ""
+    },
+    {
       "alias": "q_second_example",
       "subdir": ""
     },
@@ -1583,6 +1613,14 @@
       "subdir": "_seed"
     },
     {
+      "alias": "q_sequence_next",
+      "subdir": ""
+    },
+    {
+      "alias": "q_set_the_frame",
+      "subdir": ""
+    },
+    {
       "alias": "q_settle_in_context",
       "subdir": ""
     },
@@ -1608,6 +1646,10 @@
     },
     {
       "alias": "q_steadier_next_stretch",
+      "subdir": ""
+    },
+    {
+      "alias": "q_steadier_pace",
       "subdir": ""
     },
     {
@@ -1664,6 +1706,10 @@
     },
     {
       "alias": "q_thread_follow_12",
+      "subdir": ""
+    },
+    {
+      "alias": "q_thread_follow_13",
       "subdir": ""
     },
     {
@@ -1728,6 +1774,10 @@
     },
     {
       "alias": "q_what_s_driving_it",
+      "subdir": ""
+    },
+    {
+      "alias": "q_what_to_drop",
       "subdir": ""
     },
     {
