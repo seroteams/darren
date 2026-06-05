@@ -1,37 +1,41 @@
 import { STAGES, store } from "../state.js";
-import { listRecentRuns, getRunOverview, deleteRun, getPersonaBench, startSession } from "../api.js";
-import { createPipelineChangelog } from "../ui/pipeline-changelog.js";
+import { listRecentRuns, getRunOverview, deleteRun, getPersonaBench, startSession, getPipelineStatus } from "../api.js";
 import { confirmAction, alertAction } from "../ui/confirm.js";
 import { stageLabel } from "../ui/stage-labels.js";
 
 let keyHandler = null;
 
 export async function mount(root, { setState, rehydrateById }) {
-  const pipeline = createPipelineChangelog();
-
   root.innerHTML = `
-    <div class="stage-inner space-y-8">
-      <header class="space-y-2">
+    <div class="stage-inner l-stack l-stack--8">
+      <header class="page-header">
         <h1 class="h1">Start a 1:1 prep session</h1>
         <div class="text-ink-dim text-sm">Resume a session or start a new one.</div>
       </header>
-
-      <div class="js-pipeline-host"></div>
 
       <section class="js-bench" hidden>
         <div class="card-flat space-y-3">
           <div>
             <div class="eyebrow">Demo persona</div>
-            <p class="text-ink-dim text-sm mt-1">Loads sample employee context. Leave unselected to enter your own setup.</p>
+            <p class="text-ink-dim text-sm mt-1">Sample employee context — or leave blank for your own setup.</p>
           </div>
           <div class="bench-select-wrap">
             <select class="bench-select js-bench-select" disabled>
             <option value="">Select a persona…</option>
             </select>
           </div>
+          <div class="js-persona-review card-flat space-y-2" hidden>
+            <div class="eyebrow js-persona-review-title">Session setup</div>
+            <div class="text-sm text-ink js-persona-summary"></div>
+            <div>
+              <div class="eyebrow">What Sero should know</div>
+              <p class="text-sm text-ink-dim js-persona-notes"></p>
+            </div>
+            <p class="text-xs text-ink-mute js-persona-footer"></p>
+          </div>
           <div class="space-y-2">
             <div class="eyebrow">How to run</div>
-            <p class="text-ink-dim text-sm">Pick a flow — each demo persona can run either way.</p>
+            <p class="text-ink-dim text-sm">Manual or scripted replay — each persona supports both.</p>
           </div>
           <div class="bench-flows" role="radiogroup" aria-label="Demo run flow">
             <button type="button" class="bench-flow js-mode is-active" data-mode="manual" role="radio" aria-checked="true">
@@ -53,15 +57,6 @@ export async function mount(root, { setState, rehydrateById }) {
               <span class="bench-flow__meta">Focus, prep, and final briefing still run live.</span>
             </button>
           </div>
-          <div class="js-persona-review card-flat space-y-2" hidden>
-            <div class="eyebrow js-persona-review-title">Session setup</div>
-            <div class="text-sm text-ink js-persona-summary"></div>
-            <div>
-              <div class="eyebrow">What Sero should know</div>
-              <p class="text-sm text-ink-dim js-persona-notes"></p>
-            </div>
-            <p class="text-xs text-ink-mute js-persona-footer"></p>
-          </div>
           <label class="js-runlabel-wrap" hidden>
             <span class="eyebrow">What are you testing? <span class="text-ink-mute">(optional label)</span></span>
             <input class="input js-runlabel" type="text" autocomplete="off" placeholder="e.g. baseline — no Neutral Cause Rule" />
@@ -82,11 +77,6 @@ export async function mount(root, { setState, rehydrateById }) {
       </div>
     </div>
   `;
-
-  root.querySelector(".js-pipeline-host").appendChild(pipeline.el);
-  if (!import.meta.env.DEV) {
-    root.querySelector(".js-pipeline-host").hidden = true;
-  }
 
   const list = root.querySelector(".js-runs");
   const newBtn = root.querySelector(".js-new");
@@ -112,7 +102,7 @@ export async function mount(root, { setState, rehydrateById }) {
 
   async function loadPipelineStatus() {
     try {
-      const s = await pipeline.loadForBaseline("latest");
+      const s = await getPipelineStatus("latest");
       currentAllDigest = s?.current?.aggregates?.all ?? null;
     } catch (e) {
       console.warn("[start] pipeline status failed:", e);
@@ -178,7 +168,7 @@ export async function mount(root, { setState, rehydrateById }) {
       const o = await getRunOverview(id);
       let driftHtml = "";
       try {
-        const drift = await pipeline.loadDriftForRun(id);
+        const drift = await getPipelineStatus(id);
         if (drift.baseline?.hasLock && !drift.unchanged) {
           driftHtml = `<p class="run-row__drift text-sm">Engine config changed since this run — resume uses current engine.</p>`;
         }

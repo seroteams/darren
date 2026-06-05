@@ -12,12 +12,12 @@ export async function mount(root, { store, setState, resetSession }) {
 
   if (!b) {
     root.innerHTML = `
-      <div class="stage-inner space-y-6">
+      <div class="stage-inner l-stack l-stack--6">
         <h1 class="h1">Briefing not available</h1>
         <div class="error-card">
           <div class="text-ink-dim">This session has no saved briefing. You can restart evaluation or begin a new run.</div>
         </div>
-        <div class="flex gap-2">
+        <div class="l-cluster l-cluster--2">
           <button class="btn js-retry-eval" type="button">Run evaluation again</button>
           <button class="btn btn--ghost js-restart" type="button">New session</button>
         </div>
@@ -64,8 +64,7 @@ export async function mount(root, { store, setState, resetSession }) {
         </section>
 
         <section class="briefing-block axes-section space-y-4">
-          <div class="eyebrow reveal">Final read</div>
-          <p class="text-xs text-ink-dim max-w-measure reveal">Scores reflect meaning in answers, not word count or typing style.</p>
+          <div class="eyebrow reveal" title="Scores reflect meaning in answers, not word count or typing style">Final read</div>
           <div class="card axes-mount"></div>
           <div class="axis-meanings space-y-2"></div>
         </section>
@@ -115,7 +114,7 @@ export async function mount(root, { store, setState, resetSession }) {
         <span class="js-verdict-confirm text-sm text-ink-mute" style="opacity:0; transition: opacity 0.2s;">Saved</span>
       </section>` : ""}
 
-      <footer class="pt-2 flex gap-2 items-center">
+      <footer class="pt-2 l-cluster l-cluster--2 items-center">
         <button class="btn js-restart">Review this session</button>
         <button class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>
         <span class="js-copy-confirm text-sm text-ink-mute" style="opacity:0; transition: opacity 0.2s;">Copied</span>

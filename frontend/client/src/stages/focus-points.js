@@ -10,13 +10,12 @@ import { setSelectedFocus } from "../api.js";
 export async function mount(root, { store, setState }) {
   const sessionId = store.sessionId;
   root.innerHTML = `
-    <div class="stage-inner space-y-8">
-      <header class="flex items-baseline justify-between">
-        <div class="space-y-1">
-          <div class="eyebrow">Focus areas</div>
+    <div class="stage-inner l-stack l-stack--8">
+      <header class="page-header">
+        <div class="page-header__row">
           <h1 class="h1">What we'll cover</h1>
+          <button class="btn btn--ghost js-start-fresh" type="button">Reset session</button>
         </div>
-        <button class="btn btn--ghost js-start-fresh" type="button">Reset session</button>
       </header>
       <div class="thinking-host min-h-[120px] flex items-center"></div>
       <div class="result-host"></div>
@@ -94,7 +93,7 @@ export async function mount(root, { store, setState }) {
           </div>
         `).join("")}
       </div>
-      <div class="flex gap-2 pt-6 reveal">
+      <div class="l-cluster l-cluster--2 pt-6 reveal">
         <button class="btn js-continue">Continue to prep brief</button>
         <button type="button" class="btn btn--ghost js-copy-focus">Copy focus areas</button>
         <button class="btn btn--ghost js-regen">Regenerate focus areas</button>

@@ -9,18 +9,13 @@ export async function mount(root, { store, setState }) {
   const mountedAt = Date.now();
 
   root.innerHTML = `
-    <div class="stage-inner space-y-8">
-      <header class="space-y-1">
-        <div class="eyebrow">Questions</div>
-        <h1 class="h1">Building your question set</h1>
-        <p class="text-ink-dim text-sm">Tailoring interview questions from your prep brief…</p>
-      </header>
+    <div class="stage-inner l-stack l-stack--8">
       <div class="thinking-host min-h-[120px] flex items-center"></div>
     </div>
   `;
   const thinkingHost = root.querySelector(".thinking-host");
 
-  const orb = createOrb("Building interview questions…");
+  const orb = createOrb("Building questions…");
   thinkingHost.appendChild(orb.el);
 
   const sse = openSse(`/api/bank/stream?s=${encodeURIComponent(store.sessionId)}`);

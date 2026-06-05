@@ -9,13 +9,12 @@ export async function mount(root, { store, setState }) {
   const sessionId = store.sessionId;
 
   root.innerHTML = `
-    <div class="stage-inner space-y-8">
-      <header class="flex items-baseline justify-between">
-        <div class="space-y-1">
+    <div class="stage-inner l-stack l-stack--8">
+      <header class="page-header">
+        <div class="page-header__row">
           <div class="eyebrow">Pre-meeting brief</div>
-          <div class="text-ink-dim text-sm">What to open with, listen for, and avoid before you sit down.</div>
+          <button class="btn btn--ghost js-start-fresh" type="button">Reset session</button>
         </div>
-        <button class="btn btn--ghost js-start-fresh" type="button">Reset session</button>
       </header>
       <div class="thinking-host min-h-[120px] flex items-center"></div>
       <div class="result-host"></div>
@@ -93,7 +92,7 @@ export async function mount(root, { store, setState }) {
             </div>
           </div>
         `).join("")}
-        <div class="flex gap-2 pt-2 reveal">
+        <div class="l-cluster l-cluster--2 pt-2 reveal">
           <button class="btn js-continue">Generate interview questions</button>
           <button class="btn btn--ghost js-restart">New session</button>
         </div>
