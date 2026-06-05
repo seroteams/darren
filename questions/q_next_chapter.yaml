@@ -1,0 +1,10 @@
+alias: q_next_chapter
+label: Next chapter
+name: If you could shape your next chapter here, what would you want it to be known for?
+description: Gets beyond abstract ambition into the kind of impact and reputation she wants.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

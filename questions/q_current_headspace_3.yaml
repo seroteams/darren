@@ -1,0 +1,10 @@
+alias: q_current_headspace_3
+label: Current headspace
+name: "What's been most on your mind at work lately, Maria?"
+description: Safe opener that lets Maria set context before any growth or career topic is introduced.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

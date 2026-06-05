@@ -1,0 +1,10 @@
+alias: q_readiness_gap
+label: Readiness gap
+name: What still stands between you and that clearer product-design path?
+description: "Names the main gap between Carl's desired direction and his current role so the conversation can move into investment."
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_decision_boundaries
+label: Decision boundaries
+name: Where do you need clearer decision rights to do your best work?
+description: "Explores whether ambiguity in ownership is diluting Carl's effectiveness."
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

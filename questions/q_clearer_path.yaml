@@ -1,0 +1,9 @@
+alias: q_clearer_path
+label: Clearer path
+name: When you say a clearer product/design path, what path are you hoping for?
+description: Drills into the specific future direction he has in mind behind the desire for less scattered work.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+source: planner_added

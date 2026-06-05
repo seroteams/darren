@@ -1,0 +1,10 @@
+alias: q_decision_signal
+label: Decision signal
+name: What would tell you that the promotion decision has been fully processed?
+description: Surfaces what closure would look like and whether it has happened yet.
+purpose: topic
+stage: underneath
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

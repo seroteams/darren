@@ -1,0 +1,10 @@
+alias: q_next_scope
+label: Next scope
+name: What kind of scope would make the next step in your growth feel real?
+description: Gets specific about the shape of future stretch rather than abstract ambition.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

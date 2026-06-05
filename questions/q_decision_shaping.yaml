@@ -1,0 +1,9 @@
+alias: q_decision_shaping
+label: Decision shaping
+name: What decisions are you usually arriving too late to shape?
+description: Pins the pattern to specific decision points so the conversation moves into observable evidence.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

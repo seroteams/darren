@@ -1,0 +1,10 @@
+alias: q_billing_rewrite_shape
+label: Billing rewrite shape
+name: What kind of role would make sense for you in the next big backend project?
+description: Lets Priya surface appetite and fit for the next project without naming the unannounced billing rewrite.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_steady_pace
+label: Steady pace
+name: Since the team move, where is your energy at in the work?
+description: Checks whether the transition is sustainable or quietly draining.
+purpose: wellbeing
+stage: cause
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

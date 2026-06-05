@@ -1,0 +1,10 @@
+alias: q_impact_story
+label: Impact story
+name: Can you walk me through a recent piece of work where you changed a decision or outcome?
+description: Surfaces how Sarah frames impact in terms of leverage rather than delivery.
+purpose: competency
+stage: evidence
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

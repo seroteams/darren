@@ -1,0 +1,10 @@
+alias: q_focus_tradeoff
+label: Focus tradeoff
+name: What would you be willing to stop doing to make room for deeper ownership?
+description: Forces a real tradeoff between breadth and the growth work he wants next.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_late_nights_driver
+label: Late nights driver
+name: What is driving the late nights now that those features are out?
+description: Gets at the current source of load without assuming it is still launch pressure.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

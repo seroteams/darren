@@ -1,0 +1,10 @@
+alias: q_career_picture
+label: Career picture
+name: When you picture the next chapter, what role or scope do you want most?
+description: Returns to aspiration and asks for a concrete future role or scope so later gap and investment questions have a target.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_friction_scan_2
+label: Friction scan
+name: "What's currently taking more energy than expected?"
+description: Invites her to locate current friction in the work without sounding accusatory.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_intro_biweekly_friction"

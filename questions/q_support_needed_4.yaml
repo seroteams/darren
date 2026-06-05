@@ -1,0 +1,10 @@
+alias: q_support_needed_4
+label: Support needed
+name: What would be most useful from me while you sort this out?
+description: Moves toward support without introducing a new issue.
+purpose: wellbeing
+stage: support
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_safe_mode
+label: Safe mode
+name: What is keeping you in the safer execution lane right now?
+description: Explores whether caution is driven by context, confidence, or unclear scope.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_specific_feedback
+label: Specific feedback
+name: What specificity were you hoping for in that feedback?
+description: Clarifies the concrete guidance she feels was missing from the last-cycle readout.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

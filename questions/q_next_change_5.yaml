@@ -1,0 +1,9 @@
+alias: q_next_change_5
+label: Next change
+name: What will you do differently in your next draft?
+description: Land on a concrete behavior change for the next cycle.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+source: planner_added

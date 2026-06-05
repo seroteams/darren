@@ -1,0 +1,10 @@
+alias: q_support_that_helps
+label: Support that helps
+name: What would actually reduce the load for you over the next two weeks?
+description: Gets concrete about manager support that would change the immediate situation.
+purpose: topic
+stage: lift
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_missing_exposure
+label: Missing exposure
+name: What experience do you think you still need before that next step feels earned?
+description: Identifies the concrete gaps between current role and desired trajectory.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

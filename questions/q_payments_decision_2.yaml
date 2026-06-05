@@ -1,0 +1,9 @@
+alias: q_payments_decision_2
+label: Payments decision
+name: On the dual-write window, what made that call yours to make?
+description: Drills into the concrete decision she named to surface scope, judgment, and how she is operating at senior level.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

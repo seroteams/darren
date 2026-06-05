@@ -1,0 +1,10 @@
+alias: q_rewrite_coordination
+label: Rewrite coordination
+name: What would you need from other teams to keep the billing rewrite smooth?
+description: Checks coordination needs and dependencies without assuming the rewrite is already in motion for her.
+purpose: competency
+stage: lift
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

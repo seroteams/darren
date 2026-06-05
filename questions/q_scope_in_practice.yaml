@@ -1,0 +1,10 @@
+alias: q_scope_in_practice
+label: Scope in practice
+name: What does Principal scope mean to you on this team?
+description: Checks whether he has an active, current model of the role or is running on old assumptions.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

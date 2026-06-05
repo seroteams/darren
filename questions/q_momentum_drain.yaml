@@ -1,0 +1,10 @@
+alias: q_momentum_drain
+label: Momentum drain
+name: "What's taken more energy than you expected since Monday?"
+description: Surfaces hidden drag after the feature ship without assuming a problem.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

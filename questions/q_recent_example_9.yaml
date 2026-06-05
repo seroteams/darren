@@ -1,0 +1,9 @@
+alias: q_recent_example_9
+label: Recent example
+name: Take the onboarding dashboard — where did review first show the direction was weak?
+description: Anchor the conversation in a concrete review moment before moving to commitment.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added
