@@ -1,6 +1,7 @@
 // Fixed top-bar showing the run's stage progression. The current stage is
-// bolded; the rest are muted. Stages are visual indicators only — not
-// clickable navigation (the run is intentionally one-way).
+// bolded; the rest are muted. Completed stages are clickable — they open a
+// read-only review overlay (the live run itself stays one-way; reviewing never
+// navigates back).
 // Left-anchored Session button opens a popover to save & exit or delete.
 // Mounted once in main.js, kept in sync by the store subscribe callback.
 
@@ -9,8 +10,10 @@ import { deleteRun } from "../api.js";
 import { confirmAction } from "./confirm.js";
 import { TOPBAR_STAGES } from "./stage-labels.js";
 import { createGlossaryButton } from "./glossary.js";
+import { createStageReview } from "./stage-review.js";
 
 export function createSessionTopbar({ store, setState, resetSession } = {}) {
+  const stageReview = createStageReview({ store });
   const el = document.createElement("div");
   el.className = "session-topbar";
 
@@ -118,17 +121,34 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
       el.classList.add("is-hidden");
       document.body.classList.remove("has-session-topbar");
       if (popover) closePopover();
+      stageReview.close();
       return;
     }
+
+    const order = TOPBAR_STAGES.map(([key]) => key);
+    const curIdx = order.indexOf(current);
 
     stages.innerHTML = TOPBAR_STAGES
       .map(
         ([key, fullLabel, shortLabel], i) => {
           const label = window.matchMedia("(min-width: 768px)").matches ? fullLabel : shortLabel;
-          return `${i > 0 ? '<span class="sep" aria-hidden="true">·</span>' : ""}<span class="${key === current ? "is-current" : ""}" title="${fullLabel}">${label}</span>`;
+          // Stages before the current one are "done" (reviewable); the current
+          // stage is "current"; anything after is "upcoming". When the run has
+          // moved past the board (curIdx === -1, e.g. session review), every
+          // stage is done.
+          const status = curIdx === -1 || i < curIdx ? "done" : i === curIdx ? "current" : "upcoming";
+          const sep = i > 0 ? '<span class="sep" aria-hidden="true">·</span>' : "";
+          if (status === "done") {
+            return `${sep}<button type="button" class="stage-step--clickable is-done" data-stage="${key}" title="${fullLabel}">${label}</button>`;
+          }
+          return `${sep}<span class="is-${status}" title="${fullLabel}">${label}</span>`;
         }
       )
       .join("");
+
+    stages.querySelectorAll(".stage-step--clickable").forEach((btn) => {
+      btn.addEventListener("click", () => stageReview.open(btn.dataset.stage));
+    });
     el.classList.remove("is-hidden");
     document.body.classList.add("has-session-topbar");
 
