@@ -1,0 +1,10 @@
+alias: q_help_seeking_safety
+label: Help-seeking safety
+name: What makes it easy or hard to ask for help here?
+description: Surfaces whether the team feels safe and practical to lean on.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

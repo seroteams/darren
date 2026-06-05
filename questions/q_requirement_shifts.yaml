@@ -1,0 +1,10 @@
+alias: q_requirement_shifts
+label: Requirement shifts
+name: Where are the shifting requirements creating the most friction for you?
+description: Gets specific about where changing direction is making the work harder.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

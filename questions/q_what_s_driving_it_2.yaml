@@ -1,0 +1,10 @@
+alias: q_what_s_driving_it_2
+label: "What's driving it"
+name: What makes that judgment hard to make before review?
+description: Surface whether the driver is capability, clarity, or process.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added

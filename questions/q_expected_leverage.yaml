@@ -1,0 +1,10 @@
+alias: q_expected_leverage
+label: Expected leverage
+name: Where do you think the team should be leaning on you more than it is today?
+description: Probes whether he sees the leverage points that come with Principal scope.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_what_to_drop_2
+label: What to drop
+name: What are you willing to stop doing to keep this pace sustainable?
+description: Forces a trade-off and reveals what is crowding out recovery or focus.
+purpose: topic
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

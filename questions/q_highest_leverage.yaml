@@ -1,0 +1,9 @@
+alias: q_highest_leverage
+label: Highest leverage
+name: What work do you think would count as higher-leverage here right now?
+description: Drills on his own leverage concern to surface the concrete work he believes matters more.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

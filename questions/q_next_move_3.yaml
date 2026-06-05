@@ -1,0 +1,10 @@
+alias: q_next_move_3
+label: Next move
+name: "Given what we've covered, what do you want to do first before we next meet?"
+description: Closes on a concrete commitment and turns the conversation into an action.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

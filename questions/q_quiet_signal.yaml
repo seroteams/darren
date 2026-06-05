@@ -1,0 +1,10 @@
+alias: q_quiet_signal
+label: Quiet signal
+name: "I've noticed you've been quieter this week — what's going on there?"
+description: Uses the observed change to open a careful read on energy or context.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

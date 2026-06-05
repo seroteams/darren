@@ -1,0 +1,10 @@
+alias: q_mentoring_shape_3
+label: Mentoring shape
+name: If mentoring is still interesting, what would make it realistic in your week?
+description: Surfaces the practical conditions needed for mentoring to move from intent to action.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  wellbeing: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_capacity_pressure
+label: Capacity pressure
+name: Where is your current workload starting to crowd out the work you want to do?
+description: Tests whether too many parallel demands are squeezing out higher-value focus time.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

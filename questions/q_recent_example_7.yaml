@@ -1,0 +1,9 @@
+alias: q_recent_example_7
+label: Recent example
+name: What other recent design showed the same pattern?
+description: Surface a second observable example to anchor the pattern in evidence.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

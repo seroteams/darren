@@ -1,0 +1,10 @@
+alias: q_friction_scan_3
+label: Friction scan
+name: Where have things gotten messy or slow lately?
+description: Invites them to name current snags without deficit framing.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_intro_biweekly_friction"

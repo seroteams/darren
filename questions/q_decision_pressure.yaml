@@ -1,0 +1,10 @@
+alias: q_decision_pressure
+label: Decision pressure
+name: Where are you still carrying decisions that could sit with someone else?
+description: Tests whether late nights come from decision bottlenecks rather than raw volume.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_recent_example_8
+label: Recent example
+name: Take the onboarding dashboard — where did the flow break down in review?
+description: Anchor the pattern in one concrete review moment before naming the gap.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

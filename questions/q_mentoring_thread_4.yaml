@@ -1,0 +1,9 @@
+alias: q_mentoring_thread_4
+label: Mentoring thread
+name: What is it about mentoring that pulls you most?
+description: Clarifies whether mentoring represents influence, craft leadership, people development, or something else in her future path.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

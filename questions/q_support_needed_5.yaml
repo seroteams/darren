@@ -1,0 +1,10 @@
+alias: q_support_needed_5
+label: Support needed
+name: What part of this work would be easier with more support from me?
+description: Invites him to name the manager behavior or decision that would reduce strain.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

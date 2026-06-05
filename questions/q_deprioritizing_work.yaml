@@ -1,0 +1,10 @@
+alias: q_deprioritizing_work
+label: Deprioritizing work
+name: What are you intentionally not spending time on right now?
+description: Checks whether he is protecting focus or carrying too much at once.
+purpose: competency
+stage: support
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

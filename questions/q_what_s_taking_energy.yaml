@@ -1,0 +1,10 @@
+alias: q_what_s_taking_energy
+label: What’s taking energy
+name: What’s taken more energy than expected for you this fortnight?
+description: Finds the specific drain without assuming it is a blocker or a personal issue.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_current_read
+label: Current read
+name: Before I share anything, what feels most important for me to understand about how things have been lately?
+description: Gives James room to set the frame before the manager introduces any observations.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

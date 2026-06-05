@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_5
+label: Next two weeks
+name: What would you want to change first over the next two weeks?
+description: Closes on a concrete next step without opening a new thread.
+purpose: topic
+stage: commit
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

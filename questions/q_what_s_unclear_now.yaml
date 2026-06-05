@@ -1,0 +1,9 @@
+alias: q_what_s_unclear_now
+label: What’s unclear now
+name: What feels least clear about what good looks like in your role right now?
+description: Surfaces where expectations have become fuzzy since onboarding.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: generated

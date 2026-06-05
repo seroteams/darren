@@ -1,0 +1,10 @@
+alias: q_manager_leverage_2
+label: Manager leverage
+name: What kind of air cover from me would help you protect your focus?
+description: Surfaces the manager support needed to reduce fragmentation and preserve momentum.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated
