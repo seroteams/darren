@@ -35,7 +35,7 @@ export async function mount(root, { setState }) {
   try {
     ({ runs = [] } = await listRecentRuns(20));
   } catch {
-    err.textContent = "Couldn't load recent runs.";
+    err.textContent = "Couldn't load recent runs — is the API server running? (npm run dev)";
     err.hidden = false;
   }
   const opts = `<option value="">Select a run…</option>` +
