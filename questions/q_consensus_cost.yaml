@@ -1,0 +1,9 @@
+alias: q_consensus_cost
+label: Consensus cost
+name: What happens when you wait for consensus that never comes?
+description: Surface the concrete cost of her delay pattern before moving into future-state growth.
+purpose: competency
+stage: anchor
+axis_effects:
+  clarity: +3
+source: planner_added

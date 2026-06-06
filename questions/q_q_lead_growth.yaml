@@ -1,0 +1,9 @@
+alias: q_q_lead_growth
+label: q_lead_growth
+name: "As a lead, what feels like the next level of judgment you're reaching for?"
+description: ""
+purpose: topic
+stage: self_read
+axis_effects:
+  growth: +3
+source: "reworded_from:q_lead_growth"

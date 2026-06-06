@@ -1,0 +1,9 @@
+alias: q_stakeholder_requests
+label: Stakeholder requests
+name: Which stakeholder requests are eating the most time right now?
+description: Pin down the main source of fragmentation so the next question can target the real dependency.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added

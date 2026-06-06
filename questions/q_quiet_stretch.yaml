@@ -1,0 +1,10 @@
+alias: q_quiet_stretch
+label: Quiet stretch
+name: I’ve noticed you’ve been quieter than usual in standup — what’s going on there?
+description: Observation-first probe to open up whether the quieter energy is about focus, load, or something else.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

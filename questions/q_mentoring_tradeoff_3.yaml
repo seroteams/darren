@@ -1,0 +1,10 @@
+alias: q_mentoring_tradeoff_3
+label: Mentoring tradeoff
+name: What would you need to drop to make room for mentoring?
+description: Surfaces the real trade-off required before mentoring can become part of the routine.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_q_support_needed_5
+label: q_support_needed
+name: What would make it feel more worth speaking up again?
+description: ""
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_support_needed"

@@ -1,7 +1,7 @@
 alias: q_recent_example_7
 label: Recent example
-name: What other recent design showed the same pattern?
-description: Surface a second observable example to anchor the pattern in evidence.
+name: Take the onboarding dashboard — where did review first expose the missing states?
+description: Anchor the pattern in one observable moment before naming the gap more explicitly.
 purpose: competency
 stage: evidence
 axis_effects:

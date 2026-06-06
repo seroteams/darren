@@ -3,12 +3,13 @@ const { dropSession } = require("../sessions");
 
 function recent(c) {
   const limit = Math.max(1, Math.min(20, Number(c.query.limit) || 3));
-  const runs = listRecentRuns(limit).map(({ id, headline, lastSeenAt, stage, pipelineDigest }) => ({
+  const runs = listRecentRuns(limit).map(({ id, headline, lastSeenAt, stage, pipelineDigest, reviewStatus }) => ({
     id,
     headline,
     lastSeenAt,
     stage,
     pipelineDigest,
+    reviewStatus,
   }));
   c.json(200, { runs });
 }

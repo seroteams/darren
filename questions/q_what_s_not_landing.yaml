@@ -1,0 +1,9 @@
+alias: q_what_s_not_landing
+label: "What's not landing"
+name: Of those four things, which one keeps getting pushed back most?
+description: Drill into the concrete thread to locate the work item most affected by the context switching.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added

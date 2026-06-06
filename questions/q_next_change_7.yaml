@@ -1,0 +1,10 @@
+alias: q_next_change_7
+label: Next change
+name: What will you do differently before your next design review?
+description: Close on the specific behaviour she will change to reduce avoidable review-round rework.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added

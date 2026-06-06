@@ -1,0 +1,10 @@
+alias: q_q_ownership_step
+label: q_ownership_step
+name: Where could you take a bit more ownership of something end to end?
+description: ""
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_ownership_step"

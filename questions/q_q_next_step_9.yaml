@@ -1,0 +1,9 @@
+alias: q_q_next_step_9
+label: q_next_step
+name: What would moving toward that next level look like in the next few weeks?
+description: Surface an open, near-term move that starts turning ambition into action.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+source: "reworded_from:q_next_step"

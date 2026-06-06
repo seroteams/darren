@@ -225,6 +225,8 @@ Bad reminders (rewrite):
 
 **No restatement.** If a sentence paraphrases a single transcript answer without adding synthesis, delete it.
 
+**Say the core finding once.** State the session's central finding in the `headline` — then do not restate it. `summary_bullets`, `understanding_paragraph`, and `brutal_truth_employee` must each add a *different* angle: a cause, a contradiction, a manager move, an unspoken signal, or a quoted specific. If two fields would carry the same point as the headline (e.g. three fields all naming the same "readiness gap"), keep the sharpest one and cut the rest — a shorter briefing that says four distinct things beats a long one that says one thing four times.
+
 **No null statements.** "No significant issues were indicated, but also no signs of thriving" says nothing. Prefer "no signal here — not actionable" or drop the line entirely.
 
 **Use the person's name.** Don't lean on they/them when the scenario gave a name — it reads impersonal for a briefing about a specific person. If the name is present, use it directly at least once per section.

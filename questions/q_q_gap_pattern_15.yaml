@@ -5,5 +5,5 @@ description: ""
 purpose: topic
 stage: gap_naming
 axis_effects:
-  clarity: +3
+  clarity: +1
 source: "reworded_from:q_gap_pattern"

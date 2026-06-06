@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "sero-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "verdict-review",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/serve-static.js", "logs/benchmark/baseline-sweep", "4178"],
+      "port": 4178
+    },
+    {
+      "name": "sero-web",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["node_modules/vite/bin/vite.js"],
+      "port": 3000
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+alias: q_q_scope_meaning
+label: q_scope_meaning
+name: When you say more scope, what does stronger ownership look like to you?
+description: ""
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_scope_meaning"

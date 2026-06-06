@@ -98,28 +98,77 @@ function tokenCount(s) {
   return String(s || "").trim().split(/\s+/).filter(Boolean).length;
 }
 
+// Fixed agenda openers. These are self-read intros, not signal probes — they
+// only count toward read-quality when they carry real signal (see below).
+const INTRO_ALIASES = new Set([
+  "q_open_anything_to_cover",
+  "q_intro_agenda_check",
+]);
+
+// Tight, multi-word decline / agenda-neutral phrases, matched as normalized
+// substrings. Each is distinctive enough not to fire on real signal — never a
+// bare "nothing" ("nothing has improved" is a real answer, not a decline).
+const DECLINE_PHRASES = [
+  "nothing to add",
+  "nothing extra",
+  "nothing specific",
+  "nothing else",
+  "nothing on my end",
+  "nothing from me",
+  "no nothing",
+  "okay to start",
+  "fine to start",
+  "happy to start",
+];
+
+// Normalize a note before phrase-matching: lowercase, drop punctuation, collapse
+// whitespace. Keeps matching safe and exact-ish rather than broad.
+function normalizeAnswer(s) {
+  return String(s || "")
+    .toLowerCase()
+    .replace(/[^\w\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isDecline(answer) {
+  const norm = normalizeAnswer(answer);
+  if (!norm) return false;
+  return DECLINE_PHRASES.some((p) => norm.includes(p));
+}
+
 // Precompute the read-quality gate the evaluation prompt consumes, so the
 // determination does not depend on a weak model reasoning it out at generation
 // time. Mirrors <read_quality_gate> in prompts/final-evaluation.md.
 //
 // The transcript answer field holds the MANAGER's shorthand note of the report's
 // reply — third-person, terse, fragment-OK. That is the expected, primary signal,
-// NOT a sign of a thin read. A turn is "shallow" only when the note carries no
-// signal at all: a skip, an empty jot, or a ≤2-token non-answer ("fine", "ok").
-// `is_note` flags a turn that holds a real note worth reading.
+// NOT a sign of a thin read. A turn carries no signal when it is a skip, an empty
+// jot, a ≤2-token non-answer ("fine", "ok"), or a decline ("nothing to add").
+//
+// Arc-awareness: a self-read / agenda-opener turn is excluded from the tally
+// ONLY when it carries no signal — it is an opener, not a probe. If the opener
+// holds real signal (a named concern, blocker, workload, risk, growth intent) it
+// counts like any substantive turn. Non-intro turns always count.
 function computeReadQuality(transcript) {
   const turns = (transcript || []).map((t, i) => {
     const answer = typeof t === "string" ? t : t?.answer || "";
+    const alias = t?.alias || null;
+    const stage = t?.stage || null;
     const skipped = t?.skipped === true;
     const empty = answer.trim().length === 0;
     const tooShort = tokenCount(answer) <= 2;
-    const shallow = skipped || empty || tooShort;
+    const decline = isDecline(answer);
+    const shallow = skipped || empty || tooShort || decline;
     const is_note = !shallow;
-    return { index: i + 1, alias: t?.alias || null, is_note, shallow };
+    const isIntro = stage === "self_read" || INTRO_ALIASES.has(alias);
+    const counted = !(isIntro && shallow);
+    return { index: i + 1, alias, stage, is_note, shallow, counted };
   });
-  const total_turns = turns.length;
-  const shallow_count = turns.filter((t) => t.shallow).length;
-  const note_turns = turns.filter((t) => t.is_note).length;
+  const counted = turns.filter((t) => t.counted);
+  const total_turns = counted.length;
+  const shallow_count = counted.filter((t) => t.shallow).length;
+  const note_turns = counted.filter((t) => t.is_note).length;
   const shallow_ratio = total_turns
     ? Number((shallow_count / total_turns).toFixed(2))
     : 0;
@@ -185,7 +234,27 @@ function applyAxisConfidence(briefing, axisState, transcript) {
 
   for (const ax of briefing.axes) {
     const stateScore = axisState?.[ax.id]?.score;
+    const history = axisState?.[ax.id]?.history;
     const magnitude = Math.abs(typeof stateScore === "number" ? stateScore : ax.score);
+
+    // Explicit read-status — the backend decides, the UI renders it. An axis is
+    // "not_read" when nothing in the meeting moved it (no_history), it landed at a
+    // measured zero (zero_score), or it was scored on inference without supporting
+    // signal (insufficient_signal). The UI collapses on this, not on a magic 0.
+    const noHistory = !Array.isArray(history) || history.length === 0;
+    const zeroScore = stateScore === 0;
+    let read_status = "read";
+    let not_read_reason;
+    if (noHistory) {
+      read_status = "not_read";
+      not_read_reason = "no_history";
+    } else if (zeroScore) {
+      read_status = "not_read";
+      not_read_reason = "zero_score";
+    } else if (ax.id === "wellbeing" && !hasWellbeingEvidence && magnitude <= 1) {
+      read_status = "not_read";
+      not_read_reason = "insufficient_signal";
+    }
 
     let confidence = "medium";
     let evidence_basis = "mixed";
@@ -220,6 +289,16 @@ function applyAxisConfidence(briefing, axisState, transcript) {
       }
     }
 
+    // A not_read axis carries no finding — replace any inferred meaning with a
+    // plain "didn't come up" caption so it never reads as a verdict.
+    if (read_status === "not_read") {
+      ax.meaning = "This didn't come up in the conversation — not enough signal to read.";
+      confidence = "low";
+      evidence_basis = "axis_state_only";
+    }
+
+    ax.read_status = read_status;
+    if (not_read_reason) ax.not_read_reason = not_read_reason;
     ax.confidence = confidence;
     ax.evidence_basis = evidence_basis;
   }

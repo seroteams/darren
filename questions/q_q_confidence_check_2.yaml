@@ -1,0 +1,9 @@
+alias: q_q_confidence_check_2
+label: q_confidence_check
+name: How are you feeling about the work itself — not the volume, the work?
+description: ""
+purpose: topic
+stage: friction
+axis_effects:
+  engagement: +1
+source: "reworded_from:q_confidence_check"

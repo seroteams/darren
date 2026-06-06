@@ -1,0 +1,9 @@
+alias: q_q_overscope_example
+label: q_overscope_example
+name: Walk me through a recent one that got more complicated than it needed to.
+description: ""
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+source: "reworded_from:q_overscope_example"

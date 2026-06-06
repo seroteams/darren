@@ -1,0 +1,9 @@
+alias: q_q_current_energy
+label: q_current_energy
+name: "How's your energy been over the last couple of weeks?"
+description: ""
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: "reworded_from:q_current_energy"

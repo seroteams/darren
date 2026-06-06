@@ -1,0 +1,9 @@
+alias: q_billing_rewrite
+label: Billing rewrite
+name: What have you heard about the billing rewrite so far?
+description: Drills into the billing rewrite thread to surface what she knows and where the gap starts.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_next_move_8
+label: Next move
+name: Given that pattern, where do you want to change your approach first?
+description: Land on an open commitment about the first behavioural shift to make.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+source: planner_added

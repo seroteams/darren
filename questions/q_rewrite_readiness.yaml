@@ -1,0 +1,10 @@
+alias: q_rewrite_readiness
+label: Rewrite readiness
+name: What kind of project would you want to take on next quarter?
+description: Gives Priya room to raise or avoid the upcoming billing rewrite without naming it prematurely.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

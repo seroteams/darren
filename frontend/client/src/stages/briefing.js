@@ -169,12 +169,16 @@ export async function mount(root, { store, setState, resetSession }) {
   ]);
   await pause(fastPath ? 0 : 120);
 
+  // The backend declares read-status per axis; trust it. Fall back to the old
+  // score-0 heuristic only for briefings produced before read_status existed.
+  const isNotRead = (a) =>
+    a.read_status ? a.read_status === "not_read" : a.score === 0;
   const axesList = (b.axes || []).map((a) => ({
     id: a.id,
     label: a.id,
     score: a.score,
     lastDelta: 0,
-    noRead: a.score === 0,
+    noRead: isNotRead(a),
   }));
   const known = new Set(axesList.map((a) => a.id));
   const AXIS_SEED = { wellbeing: -1, engagement: -1, clarity: 0, growth: 0 };
@@ -187,8 +191,8 @@ export async function mount(root, { store, setState, resetSession }) {
   // Axis meanings (subtle, under the card). Only axes we actually read get a
   // line; the score-0 "not read" axes are collapsed into one quiet caption so
   // the panel doesn't repeat "didn't surface enough" at full weight.
-  const readAxes = (b.axes || []).filter((a) => a.meaning && a.score !== 0);
-  const unreadAxes = (b.axes || []).filter((a) => a.score === 0);
+  const readAxes = (b.axes || []).filter((a) => a.meaning && !isNotRead(a));
+  const unreadAxes = (b.axes || []).filter((a) => isNotRead(a));
   if (readAxes.length || unreadAxes.length) {
     const mwrap = root.querySelector(".axis-meanings");
     const meaningRows = readAxes
@@ -401,7 +405,8 @@ function formatBriefingForCopy(b, ctx) {
     lines.push("", "Final read");
     for (const a of axes) {
       const label = cap(a.id);
-      if (a.score === 0) {
+      const notRead = a.read_status ? a.read_status === "not_read" : a.score === 0;
+      if (notRead) {
         lines.push(`${label} (not read — not enough signal)`);
         continue;
       }

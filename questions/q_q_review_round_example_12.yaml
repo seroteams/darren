@@ -2,7 +2,7 @@ alias: q_q_review_round_example_12
 label: q_review_round_example
 name: Can you walk me through a recent design that took more review rounds than you expected?
 description: ""
-purpose: topic
+purpose: competency
 stage: evidence
 axis_effects:
   clarity: +1

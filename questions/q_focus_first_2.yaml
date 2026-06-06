@@ -1,0 +1,9 @@
+alias: q_focus_first_2
+label: Focus first
+name: Given that pattern, what do you want to change first in how you prepare work?
+description: Land the session on an open commitment about the first behavioural change she will make.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+source: planner_added

@@ -330,6 +330,7 @@ When you ADD a new question or MODIFY wording, every question you emit must pass
 - **Open-ended** — avoid yes/no, aim for real insight.
 - **"What" and "how"** over "why" — opens thinking without sounding accusatory.
 - **Neutral** — don't lead the person toward your preferred answer.
+- **No invented-cause premise.** Never build a question on a cause the transcript hasn't established. If the report said "the work needs several review rounds" but never said *why*, do not ask "what assumption made you skip the full-flow check?" — that smuggles an unproven cause in as fact and manufactures false evidence. Ask the open form instead: "where does the work most often need another round?" Name the pattern; let them name the cause.
 - **Anchored in reality** — focus on actual work, behaviour, or decisions, not abstractions.
 - **Surface trade-offs or risks** — good questions force prioritisation or reveal what might go wrong.
 - **Drive toward action** — a useful answer should change something next.

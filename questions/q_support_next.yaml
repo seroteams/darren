@@ -1,0 +1,9 @@
+alias: q_support_next
+label: Support next
+name: What support from me would make the biggest difference on that?
+description: Invite a concrete, open-ended support ask to close the conversation.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_focus_first_3
+label: Focus first
+name: Given this pattern, where do you want to focus first in how you close decisions?
+description: Open closer that turns the discussion into a first behavioural focus.
+purpose: competency
+stage: commit
+axis_effects:
+  clarity: +3
+source: planner_added

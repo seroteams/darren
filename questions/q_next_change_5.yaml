@@ -1,9 +1,10 @@
 alias: q_next_change_5
 label: Next change
-name: What will you do differently in your next draft?
-description: Land on a concrete behavior change for the next cycle.
+name: What will you change before your next review to catch those paths earlier?
+description: Land on a concrete behaviour change for the next design review.
 purpose: competency
 stage: commit
 axis_effects:
-  growth: +1
+  growth: +3
+  clarity: +1
 source: planner_added

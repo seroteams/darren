@@ -1,0 +1,9 @@
+alias: q_recent_stalled_call_2
+label: Recent stalled call
+name: Walk me through one stalled call from start to finish.
+description: Surface the observable sequence of the call so the gap is grounded in a concrete example.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

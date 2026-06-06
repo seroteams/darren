@@ -118,6 +118,12 @@ export async function mount(root, { setState, rehydrateById }) {
     return "";
   }
 
+  function reviewChip(run) {
+    if (run.reviewStatus === "complete") return ` <span class="run-row__review run-row__review--done" title="Reviewed">Reviewed ✓</span>`;
+    if (run.reviewStatus === "partial") return ` <span class="run-row__review run-row__review--partial" title="Review in progress">Review · partial</span>`;
+    return "";
+  }
+
   function render() {
     if (runs.length === 0) {
       list.innerHTML = `<li class="text-ink-mute text-sm">No past sessions yet. Press <kbd class="kbd">Enter</kbd> or click <strong>New session</strong> to start.</li>`;
@@ -129,7 +135,7 @@ export async function mount(root, { setState, rehydrateById }) {
       <li class="run-row" data-id="${escape(r.id)}">
         <button class="run-row__head js-row" data-id="${escape(r.id)}" aria-expanded="${isOpen}">
           <span class="run-row__chevron" aria-hidden="true">${isOpen ? "▼" : "▶"}</span>
-          <span class="run-row__headline">${escape(r.headline || r.id)}${driftDot(r)}</span>
+          <span class="run-row__headline">${escape(r.headline || r.id)}${driftDot(r)}${reviewChip(r)}</span>
           <span class="run-row__meta text-ink-mute text-xs">${escape(formatRelativeTime(r.lastSeenAt))} · ${escape(stageLabel(r.stage))}</span>
         </button>
         <div class="run-row__body js-body" data-id="${escape(r.id)}" hidden></div>
@@ -173,11 +179,15 @@ export async function mount(root, { setState, rehydrateById }) {
           driftHtml = `<p class="run-row__drift text-sm">Engine config changed since this run — resume uses current engine.</p>`;
         }
       } catch {}
+      const run = runs.find((x) => x.id === id);
+      const finished = run?.stage === "BRIEFING";
       body.innerHTML = `
         <div class="run-row__overview text-ink text-sm">${escape(o.overview || "")}</div>
         ${driftHtml}
         <div class="run-row__actions">
-          <button class="btn js-resume" data-id="${escape(id)}">Resume</button>
+          ${finished
+            ? `<button class="btn js-review" data-id="${escape(id)}">Review</button>`
+            : `<button class="btn js-resume" data-id="${escape(id)}">Resume</button>`}
           <button class="btn btn--ghost js-delete" data-id="${escape(id)}">Delete</button>
         </div>
       `;
@@ -199,6 +209,10 @@ export async function mount(root, { setState, rehydrateById }) {
     if (!ok) {
       await alertAction({ message: "Could not resume that session. It may have been deleted or expired." });
     }
+  }
+
+  function review(id) {
+    setState({ reviewRunId: id, stage: STAGES.REVIEW_RUN });
   }
 
   async function del(id) {
@@ -366,6 +380,8 @@ export async function mount(root, { setState, rehydrateById }) {
     if (headBtn) { toggle(headBtn.dataset.id); return; }
     const resumeBtn = e.target.closest(".js-resume");
     if (resumeBtn) { resume(resumeBtn.dataset.id); return; }
+    const reviewBtn = e.target.closest(".js-review");
+    if (reviewBtn) { review(reviewBtn.dataset.id); return; }
     const delBtn = e.target.closest(".js-delete");
     if (delBtn) { del(delBtn.dataset.id); return; }
   });
@@ -386,7 +402,11 @@ export async function mount(root, { setState, rehydrateById }) {
       return;
     }
     if (!expandedId) return;
-    if (e.key.toLowerCase() === "r") { resume(expandedId); }
+    if (e.key.toLowerCase() === "r") {
+      const run = runs.find((x) => x.id === expandedId);
+      if (run?.stage === "BRIEFING") review(expandedId);
+      else resume(expandedId);
+    }
     else if (e.key.toLowerCase() === "d") { del(expandedId); }
   };
   window.addEventListener("keydown", keyHandler);

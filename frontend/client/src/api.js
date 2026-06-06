@@ -22,11 +22,7 @@ export async function getMeetingTypes() {
 }
 
 export async function getPersonaBench() {
-  const res = await fetch("/api/persona-bench");
-  // #region agent log
-  fetch('http://127.0.0.1:7925/ingest/e673dfbc-6f65-48a9-97ae-e3c6f92777f0',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'be19bb'},body:JSON.stringify({sessionId:'be19bb',location:'api.js:getPersonaBench',message:'persona-bench response',data:{ok:res.ok,status:res.status,url:res.url},timestamp:Date.now(),hypothesisId:'A,B,C'})}).catch(()=>{});
-  // #endregion
-  return json(res);
+  return json(await fetch("/api/persona-bench"));
 }
 
 export async function startSession(payload) {
@@ -91,6 +87,10 @@ export async function getRunOverview(id) {
 
 export async function getRunFull(id) {
   return json(await fetch(`/api/runs/${encodeURIComponent(id)}/full`));
+}
+
+export async function saveReview(id, review) {
+  return postJson(`/api/runs/${encodeURIComponent(id)}/review`, review);
 }
 
 export async function postVerdict(sessionId, { verdict, issue_type, note }) {

@@ -1,9 +1,9 @@
 alias: q_recent_example_8
 label: Recent example
-name: Take the onboarding dashboard — where did the flow break down in review?
-description: Anchor the pattern in one concrete review moment before naming the gap.
+name: Take the onboarding dashboard — where did review first show the work was not ready?
+description: Anchor the conversation in a concrete recent example before naming the broader gap.
 purpose: competency
 stage: evidence
 axis_effects:
-  clarity: +3
+  clarity: +1
 source: planner_added

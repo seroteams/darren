@@ -24,6 +24,7 @@ const rehydrate = require("./handlers/rehydrate");
 const notes = require("./handlers/notes");
 const agendaCover = require("./handlers/agenda");
 const runs = require("./handlers/runs");
+const runReview = require("./handlers/review");
 const pipeline = require("./handlers/pipeline");
 const lexicon = require("./handlers/lexicon");
 const verdict = require("./handlers/verdict");
@@ -127,6 +128,10 @@ function main() {
   router.add("DELETE", /^\/api\/runs\/(?<id>[^/]+)$/, (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return runs.del(c);
+  });
+  router.add("POST", /^\/api\/runs\/(?<id>[^/]+)\/review$/, (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return runReview.review(c);
   });
   router.add("GET", "/api/lexicon/candidates", lexicon.candidates);
   router.add("GET", "/api/lexicon/scope", lexicon.scope);

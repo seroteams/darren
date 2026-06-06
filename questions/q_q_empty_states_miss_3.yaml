@@ -5,5 +5,5 @@ description: ""
 purpose: topic
 stage: evidence
 axis_effects:
-  clarity: +3
+  clarity: +1
 source: "reworded_from:q_empty_states_miss"

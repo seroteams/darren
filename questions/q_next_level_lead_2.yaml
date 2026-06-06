@@ -1,0 +1,9 @@
+alias: q_next_level_lead_2
+label: Next-level lead
+name: If this goes well, what would next-level lead look like for you in a year?
+description: Move from current pattern into a concrete future picture of the role and scope she wants.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

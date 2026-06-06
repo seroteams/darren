@@ -1,0 +1,9 @@
+alias: q_q_definition_of_ready_4
+label: q_definition_of_ready
+name: What does a complete handoff need to include for the team to run with it?
+description: ""
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+source: "reworded_from:q_definition_of_ready"

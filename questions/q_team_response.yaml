@@ -1,0 +1,10 @@
+alias: q_team_response
+label: Team response
+name: What part of the team’s response to the refactor mattered most to you?
+description: Explores what recognition actually registered and what kind of feedback resonates.
+purpose: topic
+stage: friction
+axis_effects:
+  engagement: +1
+  growth: +1
+source: generated

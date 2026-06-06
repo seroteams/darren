@@ -1,10 +1,9 @@
 alias: q_readiness_gap
 label: Readiness gap
-name: What still stands between you and that clearer product-design path?
-description: "Names the main gap between Carl's desired direction and his current role so the conversation can move into investment."
+name: What would you need to get better at to lead that way?
+description: Identify the main gap between her current pattern and desired next-level leadership.
 purpose: topic
 stage: gap
 axis_effects:
   growth: +3
-  clarity: +1
 source: planner_added

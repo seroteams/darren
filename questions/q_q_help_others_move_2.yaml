@@ -1,0 +1,10 @@
+alias: q_q_help_others_move_2
+label: q_help_others_move
+name: How does that pace affect the people working with you?
+description: ""
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: "reworded_from:q_help_others_move"

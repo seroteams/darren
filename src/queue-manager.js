@@ -302,13 +302,56 @@ function isUnchanged(refOriginal, incoming) {
   return true;
 }
 
+// Words stripped before comparing question wording — scaffolding shared by
+// most questions, so they carry no signal about whether two questions match.
+const REPEAT_STOP = new Set([
+  "a", "an", "the", "is", "are", "was", "were", "be", "been", "being",
+  "do", "does", "did", "to", "of", "in", "on", "for", "with", "at", "by",
+  "from", "about", "as", "into", "and", "or", "but", "if", "then", "that",
+  "this", "these", "those", "what", "whats", "how", "when", "where", "which",
+  "who", "why", "you", "your", "youre", "yours", "i", "we", "they", "it",
+  "its", "me", "my", "our", "us", "them", "their", "can", "could", "would",
+  "should", "will", "feel", "feels", "like", "one", "any", "right", "now",
+]);
+
+// Reduce a question to its set of content words (lowercased, punctuation and
+// stop words removed). Used to detect within-session repeats.
+function contentTokens(text) {
+  return new Set(
+    (text || "")
+      .toLowerCase()
+      .replace(/[^\w\s]/g, " ")
+      .split(/\s+/)
+      .filter((w) => w && !REPEAT_STOP.has(w)),
+  );
+}
+
+// True when `candidate` repeats a question already asked this session — an
+// exact content match or heavy word overlap (Jaccard >= REPEAT_JACCARD).
+// Conservative on purpose: catches near-identical repeats without dropping
+// genuine follow-ups that merely reuse a topic word.
+const REPEAT_JACCARD = 0.7;
+function isRepeatOfAsked(candidate, askedTokenSets) {
+  const c = contentTokens(candidate);
+  if (c.size === 0) return false;
+  for (const asked of askedTokenSets) {
+    if (asked.size === 0) continue;
+    let inter = 0;
+    for (const w of c) if (asked.has(w)) inter++;
+    const union = c.size + asked.size - inter;
+    if (union > 0 && inter / union >= REPEAT_JACCARD) return true;
+  }
+  return false;
+}
+
 // Reconcile AI-returned items against the existing remaining queue +
 // transcript. Produces the materialised queue of question objects.
-function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases }) {
+function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames = [] }) {
   const byAlias = new Map(remainingQueue.map((q) => [q.alias, q]));
   const existingAliases = listAllAliases();
   for (const q of remainingQueue) existingAliases.add(q.alias);
   for (const a of askedAliases) existingAliases.add(a);
+  const askedTokenSets = askedNames.map(contentTokens);
   const out = [];
   const issues = [];
   const usedAliases = new Set();
@@ -334,6 +377,11 @@ function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases }) {
       }
       usedAliases.add(ref.alias);
       out.push(ref);
+      continue;
+    }
+
+    if (isRepeatOfAsked(item.name, askedTokenSets)) {
+      issues.push(`dropped repeat of already-asked question: ${item.name}`);
       continue;
     }
 
@@ -693,10 +741,12 @@ async function planTurn({
   };
 
   const askedAliases = new Set((transcript || []).map((t) => t.question.alias));
+  const askedNames = (transcript || []).map((t) => t.question.name);
   const arc = getArc(ctx.meetingType);
   const { queue: reconciledQueue, issues: queueIssues } = reconcileQueue(parsed.new_queue, {
     remainingQueue,
     askedAliases,
+    askedNames,
   });
   const consecutiveDrillCount = computeConsecutiveDrillCount(transcript, lastQuestion);
   let newQueue = enforceThreadFollow({

@@ -6,6 +6,7 @@ import { STAGES, store, subscribe, setState, resetSession } from "./state.js";
 import { getSession, listRecentRuns } from "./api.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
+import { createAppNav } from "./ui/app-nav.js";
 import { createNotesPanel } from "./ui/notes-panel.js";
 // Lazy stage modules — kept in a map so HMR + code-split both work nicely.
 const loaders = {
@@ -20,6 +21,7 @@ const loaders = {
   LEXICON_REVIEW:  () => import("./stages/lexicon-review.js"),
   RUN_DEBRIEF:     () => import("./stages/run-debrief.js"),
   COMPARE:         () => import("./stages/compare.js"),
+  REVIEW_RUN:      () => import("./stages/review-run.js"),
   ERROR:           () => import("./stages/error.js"),
 };
 
@@ -31,6 +33,9 @@ const devBadge = import.meta.env.DEV ? createDevBadge() : null;
 
 const topbar = createSessionTopbar({ store, setState, resetSession });
 document.body.appendChild(topbar.el);
+
+const appNav = createAppNav({ setState, resetSession });
+document.body.appendChild(appNav.el);
 
 const notesPanel = createNotesPanel({ store, setState });
 document.body.appendChild(notesPanel.el);
@@ -68,6 +73,7 @@ let routedStage = null;
 let routedTick = null;
 subscribe((s) => {
   topbar.render({ ctx: s.ctx, stage: s.stage, sessionId: s.sessionId });
+  appNav.render({ stage: s.stage });
   notesPanel.render(s);
   if (s.stage !== routedStage || s.stageTick !== routedTick) {
     routedStage = s.stage;

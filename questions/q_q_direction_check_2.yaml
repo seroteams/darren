@@ -1,0 +1,9 @@
+alias: q_q_direction_check_2
+label: q_direction_check
+name: If you looked six months ahead, what kind of work would you want more of?
+description: Move into aspiration by naming the kind of future work he wants to grow toward.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: "reworded_from:q_direction_check"

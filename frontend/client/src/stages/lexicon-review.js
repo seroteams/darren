@@ -33,6 +33,21 @@ export async function mount(root, { store, setState }) {
   let skipped = null;
   let promotePending = [];
 
+  // Standalone entry (opened from the top nav, no active session): the per-run
+  // candidate pile doesn't apply, so go straight to the global production
+  // lexicon — the one part of this screen that isn't session-scoped.
+  if (!sessionId) {
+    try {
+      const promoteData = await getLexiconPromotePending().catch(() => ({ items: [] }));
+      promotePending = Array.isArray(promoteData?.items) ? promoteData.items : [];
+    } catch (e) {
+      console.warn("[lexicon-review] standalone promote-pending failed:", e);
+    }
+    thinkingHost.remove();
+    renderPromotePanel();
+    return;
+  }
+
   try {
     const [candData, promoteData] = await Promise.all([
       getLexiconCandidates(sessionId),

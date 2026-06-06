@@ -23,6 +23,20 @@ function inferStage(s) {
   return "FOCUS_POINTS";
 }
 
+// In-app run review (QA tooling) writes review.json into the run folder.
+// reviewStatus is always derived from marks — never stored as a separate truth.
+// REVIEW_DIM_KEYS is the single source of truth for the 8 verdict dimensions on
+// the server; the review handler imports it. (The client UI keeps its own
+// DIMENSIONS list with labels/hints — keep the keys in sync.)
+const REVIEW_DIM_KEYS = ["role_aware", "grounded", "useful", "trust", "arc", "adapt", "next_q", "briefing"];
+function reviewStatusOf(review) {
+  const marks = review && typeof review.marks === "object" && review.marks ? review.marks : {};
+  const decided = REVIEW_DIM_KEYS.filter((k) => marks[k] === "pass" || marks[k] === "fail").length;
+  if (decided === 0) return "none";
+  if (decided >= REVIEW_DIM_KEYS.length) return "complete";
+  return "partial";
+}
+
 function walkRuns() {
   if (!fs.existsSync(LOGS_ROOT)) return [];
   const out = [];
@@ -50,6 +64,9 @@ function walkRuns() {
 }
 
 function findRunDir(id) {
+  // Defense-in-depth: a real run id never contains a path separator or "..", so
+  // reject anything that could escape LOGS_ROOT before it reaches path.join.
+  if (typeof id !== "string" || /[\\/]|\.\./.test(id)) return null;
   const monthName = monthFolderFor(id);
   if (monthName) {
     const guess = path.join(LOGS_ROOT, monthName, id);
@@ -86,6 +103,7 @@ function listRecentRuns(limit = 3) {
       stage: inferStage(state),
       headline: buildHeadline(state.ctx || {}),
       pipelineDigest,
+      reviewStatus: reviewStatusOf(readJsonAt(dir, "review.json")),
     };
   });
 }
@@ -173,6 +191,9 @@ function compareRun(id) {
   const transcript = readJsonAt(dir, "transcript.json") || [];
   const focus = readJsonAt(dir, "01-focus-points", "response.json");
   const coverage = readJsonAt(dir, "script-coverage.json");
+  const prepRaw = readJsonAt(dir, "01b-preparation", "response.json");
+  const prep = prepRaw ? prepRaw.brief || prepRaw : null;
+  const review = readJsonAt(dir, "review.json");
   return {
     id,
     headline: buildHeadline(state.ctx || {}),
@@ -191,7 +212,9 @@ function compareRun(id) {
       note: t.note ?? null,
     })),
     focusPoints: focus?.focus_points || focus || null,
+    prep,
     briefing: state.briefing || null,
+    review: review || null,
     scriptCoverage: coverage,
   };
 }
@@ -213,4 +236,6 @@ module.exports = {
   findLatestRunWithLock,
   findLatestRun,
   buildHeadline,
+  reviewStatusOf,
+  REVIEW_DIM_KEYS,
 };

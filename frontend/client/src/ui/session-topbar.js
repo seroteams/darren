@@ -115,9 +115,11 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
 
   function render({ stage, sessionId } = {}) {
     const current = String(stage || "");
-    const onStart = current === STAGES.START;
+    // START and the library Run Review are home-like (no live run), so the
+    // in-session stage breadcrumb is hidden for both.
+    const noRun = current === STAGES.START || current === STAGES.REVIEW_RUN;
 
-    if (onStart) {
+    if (noRun) {
       el.classList.add("is-hidden");
       document.body.classList.remove("has-session-topbar");
       if (popover) closePopover();

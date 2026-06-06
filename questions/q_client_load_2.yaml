@@ -1,0 +1,9 @@
+alias: q_client_load_2
+label: Client load
+name: When you say less in the tank, where is that showing up most with clients?
+description: Drill into the concrete impact of his reduced capacity in the client work he named.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  wellbeing: +3
+source: planner_added

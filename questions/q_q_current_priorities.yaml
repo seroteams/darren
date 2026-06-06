@@ -1,0 +1,9 @@
+alias: q_q_current_priorities
+label: q_current_priorities
+name: If you had to name your top priority right now, what is it?
+description: ""
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: "reworded_from:q_current_priorities"

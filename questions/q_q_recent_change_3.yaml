@@ -1,0 +1,9 @@
+alias: q_q_recent_change_3
+label: q_recent_change
+name: "You've seemed a bit more drained lately — does that match how it feels?"
+description: ""
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: "reworded_from:q_recent_change"

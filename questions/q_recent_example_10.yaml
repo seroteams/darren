@@ -1,0 +1,9 @@
+alias: q_recent_example_10
+label: Recent example
+name: Take me through one handoff where those state questions came back.
+description: Surface a concrete recent example of the handoff gap in observable detail.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

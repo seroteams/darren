@@ -12,6 +12,7 @@ export const STAGES = Object.freeze({
   LEXICON_REVIEW: "LEXICON_REVIEW",
   RUN_DEBRIEF: "RUN_DEBRIEF",
   COMPARE: "COMPARE",
+  REVIEW_RUN: "REVIEW_RUN",
   ERROR: "ERROR",
 });
 
@@ -25,6 +26,7 @@ const initial = {
   focusPoints: null,
   preparation: null,
   preparationRunId: null,
+  reviewRunId: null,
   currentQuestion: null,
   axes: [],
   briefing: null,

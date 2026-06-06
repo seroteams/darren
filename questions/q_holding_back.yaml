@@ -1,0 +1,9 @@
+alias: q_holding_back
+label: holding back
+name: What has you holding back more than usual lately?
+description: Surface what is driving her quieter participation without naming a cause for her.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  engagement: +1
+source: planner_added

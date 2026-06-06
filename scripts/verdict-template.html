@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sero — run review</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1d2129; --line:#2a2f3a;
+    --ink:#e7e9ee; --dim:#9aa3b2; --faint:#6b7280;
+    --accent:#6ea8fe; --pass:#37d399; --fail:#f87171; --warn:#fbbf24;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .app{display:grid;grid-template-columns:300px 1fr;height:100vh;}
+  /* sidebar */
+  aside{border-right:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;min-height:0}
+  .head{padding:18px 18px 12px;border-bottom:1px solid var(--line)}
+  .head h1{font-size:15px;margin:0 0 4px;letter-spacing:.2px}
+  .progress{font-size:12px;color:var(--dim)}
+  .bar{height:6px;border-radius:6px;background:var(--panel2);margin-top:8px;overflow:hidden}
+  .bar > i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+  .list{overflow:auto;flex:1;padding:8px}
+  .item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;color:var(--ink)}
+  .item:hover{background:var(--panel2)}
+  .item.active{background:var(--panel2);outline:1px solid var(--line)}
+  .item .dot{width:9px;height:9px;border-radius:50%;background:var(--faint);flex:none}
+  .item.done .dot{background:var(--pass)}
+  .item.partial .dot{background:var(--warn)}
+  .item .nm{flex:1;min-width:0}
+  .item .nm b{font-weight:600;font-size:14px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .item .nm span{font-size:12px;color:var(--dim)}
+  .item .cnt{font-size:11px;color:var(--faint)}
+  .foot{padding:12px;border-top:1px solid var(--line);display:flex;gap:8px}
+  button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--ink);padding:8px 12px;border-radius:9px}
+  button:hover{border-color:var(--accent)}
+  .foot button{flex:1}
+  /* main */
+  main{overflow:auto;min-height:0}
+  .wrap{max-width:880px;margin:0 auto;padding:28px 32px 80px}
+  .crumb{font-size:12px;color:var(--faint);margin-bottom:6px}
+  h2.title{margin:0 0 2px;font-size:22px}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:20px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin:14px 0}
+  .card h3{margin:0 0 12px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+  .note-in{background:#13243b;border:1px solid #244468;border-radius:10px;padding:12px 14px;color:#cfe0f7;font-size:14px}
+  .kv{margin:10px 0}
+  .kv .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:3px}
+  .kv .v{font-size:15px}
+  .quote{border-left:3px solid var(--accent);padding:6px 0 6px 14px;color:#dfe6f2;font-size:16px;font-style:italic}
+  ul.tidy{margin:6px 0 0;padding-left:18px} ul.tidy li{margin:3px 0}
+  table.q{width:100%;border-collapse:collapse;font-size:14px}
+  table.q td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.q td.n{color:var(--faint);width:26px} table.q td.st{color:var(--dim);width:120px;font-size:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .chip{font-size:12px;padding:4px 10px;border-radius:20px;background:var(--panel2);border:1px solid var(--line);color:var(--dim)}
+  .chip.ok{color:var(--pass);border-color:#1f5d47} .chip.bad{color:var(--fail);border-color:#5d2222}
+  /* verdict */
+  .vrow{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .vrow:last-child{border-bottom:0}
+  .vrow .lbl{flex:1;font-size:14px}
+  .vrow .hint{font-size:11px;color:var(--faint);display:block;margin-top:1px}
+  .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .seg button{border:0;border-radius:0;background:transparent;padding:7px 14px;color:var(--dim)}
+  .seg button + button{border-left:1px solid var(--line)}
+  .seg button.on.pass{background:var(--pass);color:#04200f}
+  .seg button.on.fail{background:var(--fail);color:#2a0606}
+  textarea{width:100%;margin-top:12px;min-height:64px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:10px 12px;font:inherit;resize:vertical}
+  .nav{display:flex;justify-content:space-between;margin-top:22px}
+  .empty{color:var(--dim);text-align:center;margin-top:30vh}
+  a.dl{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="head">
+      <h1>Sero — run review</h1>
+      <div class="progress" id="prog">0 of 0 fully judged</div>
+      <div class="bar"><i id="progbar"></i></div>
+    </div>
+    <div class="list" id="list"></div>
+    <div class="foot">
+      <button id="export">⤓ Export verdicts</button>
+      <button id="reset" title="Clear all your marks">Reset</button>
+    </div>
+  </aside>
+  <main><div class="wrap" id="main"><div class="empty">Pick a run on the left.</div></div></main>
+</div>
+
+<script>
+const RUNS = /*__RUNS__*/[];
+const DIMENSIONS = [
+  {key:"role_aware", label:"Role / seniority / meeting awareness", hint:"Is the prep specific to THIS person & meeting, or generic?"},
+  {key:"grounded", label:"Grounded / no over-inference", hint:"Every claim traces to the short note; nothing invented."},
+  {key:"useful", label:"Useful & short enough", hint:"Would a real manager walk in more prepared?"},
+  {key:"trust", label:"Trust boundary", hint:"No private manager judgement leaked into output."},
+  {key:"arc", label:"Right arc for the meeting", hint:"Followed the correct shape for this meeting type."},
+  {key:"adapt", label:"Adapts to the person", hint:"Questions shift with role/seniority/notes/answers."},
+  {key:"next_q", label:"Questions are useful", hint:"Each question earns its place; not filler."},
+  {key:"briefing", label:"Final briefing is evidence-based", hint:"Conclusions backed by what was actually said."},
+];
+const LS = "sero_verdicts_v1";
+let store = {};
+try{ store = JSON.parse(localStorage.getItem(LS)||"{}"); }catch(e){ store={}; }
+let current = null;
+
+function vget(id){ return store[id] || (store[id]={marks:{},note:""}); }
+function save(){ localStorage.setItem(LS, JSON.stringify(store)); renderList(); }
+function judgedCount(id){ const v=store[id]; return v?Object.values(v.marks).filter(Boolean).length:0; }
+function statusOf(id){ const c=judgedCount(id); return c===0?"":(c>=DIMENSIONS.length?"done":"partial"); }
+
+function el(tag, props={}, kids=[]){ const e=document.createElement(tag); Object.assign(e,props); for(const k of [].concat(kids)) if(k!=null) e.append(k); return e; }
+function esc(s){ return String(s==null?"":s); }
+
+function renderList(){
+  const list = document.getElementById("list"); list.innerHTML="";
+  let done=0;
+  RUNS.forEach(r=>{
+    const st = statusOf(r.id); if(st==="done") done++;
+    const item = el("div",{className:"item "+(st)+(current===r.id?" active":"")});
+    item.onclick=()=>select(r.id);
+    item.append(el("span",{className:"dot"}));
+    const nm = el("div",{className:"nm"});
+    nm.append(el("b",{textContent:r.name}), el("span",{textContent:r.meeting}));
+    item.append(nm, el("span",{className:"cnt",textContent:judgedCount(r.id)+"/"+DIMENSIONS.length}));
+    list.append(item);
+  });
+  document.getElementById("prog").textContent = done+" of "+RUNS.length+" fully judged";
+  document.getElementById("progbar").style.width = (RUNS.length?Math.round(done/RUNS.length*100):0)+"%";
+}
+
+function bulletList(arr){ const ul=el("ul",{className:"tidy"}); (arr||[]).forEach(x=>ul.append(el("li",{textContent:typeof x==="string"?x:(x.action||JSON.stringify(x))}))); return ul; }
+
+function kv(k,v){ const d=el("div",{className:"kv"}); d.append(el("div",{className:"k",textContent:k}), el("div",{className:"v",textContent:v||"—"})); return d; }
+
+function select(id){
+  const sameRun = (current===id);
+  const mainEl = document.querySelector("main");
+  const keepScroll = sameRun ? mainEl.scrollTop : 0; // re-rendering the same run never jumps
+  current=id; renderList();
+  const r = RUNS.find(x=>x.id===id); const v=vget(id);
+  const m = document.getElementById("main"); m.innerHTML="";
+  const w = el("div");
+  w.append(el("div",{className:"crumb",textContent:"Run "+(RUNS.indexOf(r)+1)+" of "+RUNS.length}));
+  w.append(el("h2",{className:"title",textContent:r.name+" · "+r.role}));
+  w.append(el("div",{className:"sub",textContent:r.seniority+" · "+r.meeting}));
+
+  // sparse note
+  let c = el("div",{className:"card"});
+  c.append(el("h3",{textContent:"What the manager typed in"}));
+  c.append(el("div",{className:"note-in",textContent:r.notes||"(nothing)"}));
+  w.append(c);
+
+  // PREP BRIEF
+  c = el("div",{className:"card"});
+  c.append(el("h3",{textContent:"Prep brief — the main thing to judge"}));
+  c.append(kv("Core issue", r.brief.coreIssue));
+  const oq=el("div",{className:"kv"}); oq.append(el("div",{className:"k",textContent:"Opening question"}), el("div",{className:"quote",textContent:r.brief.openingQuestion||"—"})); c.append(oq);
+  let kk=el("div",{className:"kv"}); kk.append(el("div",{className:"k",textContent:"Listen for"}), bulletList(r.brief.listenFor)); c.append(kk);
+  kk=el("div",{className:"kv"}); kk.append(el("div",{className:"k",textContent:"Avoid"}), bulletList(r.brief.avoid)); c.append(kk);
+  c.append(kv("Good outcome", r.brief.goodOutcome));
+  c.append(kv("Suggested action", r.brief.suggestedAction));
+  if((r.prepIssues||[]).length){ const ch=el("div",{className:"chips"}); r.prepIssues.forEach(i=>ch.append(el("span",{className:"chip bad",textContent:i}))); c.append(ch); }
+  w.append(c);
+
+  // questions
+  c = el("div",{className:"card"});
+  c.append(el("h3",{textContent:"Questions it asked"}));
+  const tb=el("table",{className:"q"});
+  (r.questions||[]).forEach((q,i)=>{ const tr=el("tr"); tr.append(el("td",{className:"n",textContent:(i+1)}), el("td",{className:"st",textContent:q.stage||"—"}), el("td",{textContent:q.name})); tb.append(tr); });
+  c.append(tb);
+  const ch=el("div",{className:"chips"});
+  ch.append(el("span",{className:"chip",textContent:"arc covered "+r.arc.covered+"/"+r.arc.total}));
+  if(r.servedLint.yesno) ch.append(el("span",{className:"chip bad",textContent:r.servedLint.yesno+" yes/no"}));
+  if(r.servedLint.presup) ch.append(el("span",{className:"chip bad",textContent:r.servedLint.presup+" presupposed"}));
+  c.append(ch);
+  w.append(c);
+
+  // briefing
+  c = el("div",{className:"card"});
+  c.append(el("h3",{textContent:"Final briefing"}));
+  c.append(kv("Headline", r.briefing && r.briefing.headline));
+  if(r.briefing && r.briefing.next_actions){ const k=el("div",{className:"kv"}); k.append(el("div",{className:"k",textContent:"Next actions"}), bulletList(r.briefing.next_actions.map(a=>(a.when?a.when+": ":"")+(a.action||a)))); c.append(k); }
+  const tc=el("div",{className:"chips"}); tc.append(el("span",{className:"chip "+(r.trust.pass?"ok":"bad"),textContent:r.trust.pass?"trust ok":"trust FLAG"})); c.append(tc);
+  w.append(c);
+
+  // VERDICT
+  c = el("div",{className:"card"});
+  c.append(el("h3",{textContent:"Your verdict"}));
+  DIMENSIONS.forEach(d=>{
+    const row=el("div",{className:"vrow"});
+    const lbl=el("div",{className:"lbl"}); lbl.append(el("span",{textContent:d.label}), el("span",{className:"hint",textContent:d.hint})); row.append(lbl);
+    const seg=el("div",{className:"seg"});
+    ["pass","fail"].forEach(val=>{
+      const b=el("button",{textContent:val==="pass"?"Pass":"Fail"});
+      b.dataset.val=val;
+      b.className = (v.marks[d.key]===val?"on "+val:"");
+      b.onclick=()=>{
+        v.marks[d.key]= (v.marks[d.key]===val?null:val);
+        save(); // updates sidebar progress only — does NOT redraw the run, so scroll stays put
+        seg.querySelectorAll("button").forEach(btn=>{ btn.className = (v.marks[d.key]===btn.dataset.val?"on "+btn.dataset.val:""); });
+      };
+      seg.append(b);
+    });
+    row.append(seg);
+    c.append(row);
+  });
+  const ta=el("textarea",{placeholder:"Notes on this run (optional)…",value:v.note||""});
+  ta.oninput=()=>{ v.note=ta.value; localStorage.setItem(LS,JSON.stringify(store)); };
+  c.append(ta);
+  w.append(c);
+
+  // nav
+  const nav=el("div",{className:"nav"});
+  const i=RUNS.indexOf(r);
+  const prev=el("button",{textContent:"← Prev",disabled:i===0}); prev.onclick=()=>select(RUNS[i-1].id);
+  const next=el("button",{textContent:"Next →",disabled:i===RUNS.length-1}); next.onclick=()=>select(RUNS[i+1].id);
+  nav.append(prev,next); w.append(nav);
+
+  m.append(w); mainEl.scrollTop=keepScroll;
+}
+
+document.getElementById("export").onclick=()=>{
+  const rows=[["run","persona","meeting",...DIMENSIONS.map(d=>d.key),"note"]];
+  RUNS.forEach(r=>{ const v=store[r.id]||{marks:{},note:""}; rows.push([r.id,r.name,r.meeting,...DIMENSIONS.map(d=>v.marks[d.key]||""),(v.note||"").replace(/\n/g," ")]); });
+  const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(",")).join("\n");
+  const blob=new Blob([csv],{type:"text/csv"}); const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download="sero-verdicts.csv"; a.click();
+};
+document.getElementById("reset").onclick=()=>{ if(confirm("Clear all your marks?")){ store={}; localStorage.removeItem(LS); renderList(); if(current) select(current); } };
+
+renderList();
+if(RUNS.length) select(RUNS[0].id);
+</script>
+</body>
+</html>

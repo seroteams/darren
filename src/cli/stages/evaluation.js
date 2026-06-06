@@ -15,6 +15,7 @@ async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, not
         transcript: transcript.map((t) => ({
           question: t.question.name,
           alias: t.question.alias,
+          stage: t.question.stage,
           answer: t.answer,
           skipped: t.skipped,
         })),

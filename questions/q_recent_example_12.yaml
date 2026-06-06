@@ -1,0 +1,9 @@
+alias: q_recent_example_12
+label: Recent example
+name: Walk me through the last call where this happened.
+description: Surface a concrete example of the vague next-step pattern.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

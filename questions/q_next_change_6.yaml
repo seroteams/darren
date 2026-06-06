@@ -1,9 +1,10 @@
 alias: q_next_change_6
 label: Next change
-name: What will you do differently before your next design review?
-description: Close on the specific behavior she will change to reduce missed states and cleaner first drafts.
+name: What will you change in your next design review prep?
+description: Land on a concrete behaviour change for the next cycle.
 purpose: competency
 stage: commit
 axis_effects:
-  growth: +3
+  growth: +1
+  clarity: +1
 source: planner_added

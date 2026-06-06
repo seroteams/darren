@@ -1,0 +1,9 @@
+alias: q_missed_in_review_2
+label: Missed in review
+name: In those empty states, what specifically was missing before review?
+description: Surface the concrete missing cases in the cited example before moving on.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added
