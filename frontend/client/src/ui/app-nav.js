@@ -28,6 +28,7 @@ export function createAppNav({ setState, resetSession } = {}) {
         <button type="button" class="app-nav__link js-nav-new">New session</button>
         <button type="button" class="app-nav__link js-nav-compare">Compare runs</button>
         <button type="button" class="app-nav__link js-nav-lexicon">Phrase library</button>
+        ${import.meta.env.DEV ? `<button type="button" class="app-nav__link js-nav-guide">Guide</button>` : ""}
       </nav>
     </div>
   `;
@@ -41,6 +42,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   });
   el.querySelector(".js-nav-compare").addEventListener("click", () => setState && setState({ stage: STAGES.COMPARE }));
   el.querySelector(".js-nav-lexicon").addEventListener("click", () => setState && setState({ stage: STAGES.LEXICON_REVIEW }));
+  el.querySelector(".js-nav-guide")?.addEventListener("click", () => setState && setState({ stage: STAGES.GUIDE }));
 
   // Persistent across every screen — it stacks above the in-session breadcrumb,
   // so there's no per-stage visibility logic. render() is kept for parity with

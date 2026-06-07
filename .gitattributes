@@ -1,0 +1,4 @@
+# Normalize line endings: store text as LF in the repo and check it out as LF
+# everywhere, including Windows. Stops the "LF will be replaced by CRLF" warnings.
+# Binary files are auto-detected by `text=auto` and left untouched.
+* text=auto eol=lf

@@ -76,6 +76,7 @@ export async function mount(root, { setState, rehydrateById }) {
         <button type="button" class="btn js-new">New session</button>
         <button type="button" class="btn btn--ghost js-library">Library</button>
         <button type="button" class="btn btn--ghost js-compare">Compare runs</button>
+        ${import.meta.env.DEV ? `<button type="button" class="btn btn--ghost js-guide">Guide</button>` : ""}
       </div>
     </div>
   `;
@@ -391,6 +392,7 @@ export async function mount(root, { setState, rehydrateById }) {
   newBtn.addEventListener("click", startNew);
   root.querySelector(".js-library").addEventListener("click", () => setState({ stage: STAGES.LIBRARY }));
   root.querySelector(".js-compare").addEventListener("click", () => setState({ stage: STAGES.COMPARE }));
+  root.querySelector(".js-guide")?.addEventListener("click", () => setState({ stage: STAGES.GUIDE }));
 
   keyHandler = (e) => {
     if (e.target && /^(input|textarea|select)$/i.test(e.target.tagName)) return;
