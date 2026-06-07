@@ -6,7 +6,7 @@ let unmountFn = null;
 
 export async function mount(root, { store, setState }) {
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--8">
+    <div class="stage-medium l-stack l-stack--8">
       <div class="flex items-center justify-center min-h-[40dvh]">
         <div class="thinking-host flex items-center justify-center"></div>
       </div>

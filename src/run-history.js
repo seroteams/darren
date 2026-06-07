@@ -28,13 +28,28 @@ function inferStage(s) {
 // REVIEW_DIM_KEYS is the single source of truth for the 8 verdict dimensions on
 // the server; the review handler imports it. (The client UI keeps its own
 // DIMENSIONS list with labels/hints — keep the keys in sync.)
-const REVIEW_DIM_KEYS = ["role_aware", "grounded", "useful", "trust", "arc", "adapt", "next_q", "briefing"];
+const REVIEW_DIM_KEYS = ["role_aware", "meeting_aware", "grounded", "evidence", "no_overreach", "trust", "next_actions", "briefing_usable"];
 function reviewStatusOf(review) {
   const marks = review && typeof review.marks === "object" && review.marks ? review.marks : {};
   const decided = REVIEW_DIM_KEYS.filter((k) => marks[k] === "pass" || marks[k] === "fail").length;
   if (decided === 0) return "none";
   if (decided >= REVIEW_DIM_KEYS.length) return "complete";
   return "partial";
+}
+
+// Library badge inputs derived from a run's review.json: completeness, the
+// manual overall verdict (keep/fix/block), and how many dimensions failed.
+function reviewSummaryOf(dir) {
+  const review = readJsonAt(dir, "review.json");
+  const marks = review && typeof review.marks === "object" && review.marks ? review.marks : {};
+  const overall =
+    review && ["keep", "fix", "block"].includes(review.overall) ? review.overall : null;
+  return {
+    reviewStatus: reviewStatusOf(review),
+    overall,
+    failedCount: REVIEW_DIM_KEYS.filter((k) => marks[k] === "fail").length,
+    decided: REVIEW_DIM_KEYS.filter((k) => marks[k] === "pass" || marks[k] === "fail").length,
+  };
 }
 
 function walkRuns() {
@@ -104,6 +119,29 @@ function listRecentRuns(limit = 3) {
       headline: buildHeadline(state.ctx || {}),
       pipelineDigest,
       reviewStatus: reviewStatusOf(readJsonAt(dir, "review.json")),
+    };
+  });
+}
+
+// Library (QA tooling): every FINISHED run (has a briefing), newest first, no
+// limit. Each row carries review badge inputs so the Library can show verdict +
+// failed count without opening the run.
+function listFinishedRuns() {
+  const runs = walkRuns().filter(({ state }) => state && state.briefing);
+  runs.sort((a, b) => (b.state.lastSeenAt || 0) - (a.state.lastSeenAt || 0));
+  return runs.map(({ id, dir, state }) => {
+    const ctx = state.ctx || {};
+    return {
+      id,
+      headline: buildHeadline(ctx),
+      ctx: {
+        name: ctx.name || "",
+        role: ctx.role || "",
+        seniority: ctx.seniority || "",
+        meetingType: ctx.meetingType || "",
+      },
+      lastSeenAt: state.lastSeenAt || 0,
+      ...reviewSummaryOf(dir),
     };
   });
 }
@@ -228,6 +266,7 @@ function deleteRun(id) {
 
 module.exports = {
   listRecentRuns,
+  listFinishedRuns,
   summarizeRun,
   compareRun,
   deleteRun,

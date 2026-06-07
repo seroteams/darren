@@ -1,4 +1,5 @@
 import { STAGES } from "../state.js";
+import { escapeHtml } from "./html.js";
 
 export const STAGE_LABEL = {
   FOCUS_POINTS: "Focus areas",
@@ -45,13 +46,7 @@ export function cssEscape(s) {
   return String(s).replace(/[^a-zA-Z0-9_-]/g, "\\$&");
 }
 
-export function escapeHtml(s) {
-  return String(s == null ? "" : s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
+export { escapeHtml };
 
 export function attachAutoGrow(ta) {
   const grow = () => {

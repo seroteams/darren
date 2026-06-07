@@ -6,12 +6,13 @@ import {
   submitLexiconPromote,
 } from "../api.js";
 import { revealSequence } from "../ui/reveal.js";
+import { escapeCopy as escape, escapeHtml } from "../ui/html.js";
 
 export async function mount(root, { store, setState }) {
   const sessionId = store.sessionId;
 
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--8">
+    <div class="stage-medium l-stack l-stack--8">
       <header class="page-header">
         <div class="eyebrow">Phrase library</div>
         <h1 class="h1 js-stage-title">Anything worth keeping?</h1>
@@ -112,7 +113,7 @@ export async function mount(root, { store, setState }) {
     resultHost.innerHTML = `
       <div class="card reveal">
         ${promotePending.map((item, i) => `
-          <div class="lex-row" data-id="${escape(item.id)}">
+          <div class="lex-row" data-id="${escapeHtml(item.id)}">
             <div class="lex-row__num">${i + 1}</div>
             <div class="lex-row__body">
               <div class="text-ink-mute text-xs mb-1">${escape(item.scopeLabel || "")}</div>
@@ -120,8 +121,8 @@ export async function mount(root, { store, setState }) {
               ${item.context ? `<div class="lex-row__context text-ink-dim text-sm">${escape(item.context)}</div>` : ""}
             </div>
             <div class="lex-row__actions">
-              <button type="button" class="btn btn--sm js-promote-yes" data-id="${escape(item.id)}">Promote</button>
-              <button type="button" class="btn btn--sm btn--ghost js-promote-no" data-id="${escape(item.id)}">Drop</button>
+              <button type="button" class="btn btn--sm js-promote-yes" data-id="${escapeHtml(item.id)}">Promote</button>
+              <button type="button" class="btn btn--sm btn--ghost js-promote-no" data-id="${escapeHtml(item.id)}">Drop</button>
             </div>
           </div>
         `).join("")}
@@ -159,9 +160,30 @@ export async function mount(root, { store, setState }) {
         const result = await submitLexiconPromote(
           Array.from(decisions, ([id, keep]) => ({ id, keep }))
         );
+        const promoted = result.promoted || 0;
+        const dropped = result.dropped || 0;
+        const skipped = result.skipped || 0;
+
+        if (promoted + dropped === 0) {
+          // Every decision was skipped — the phrases were already saved or the
+          // list went stale since it loaded. Don't claim success.
+          titleEl.textContent = "Nothing to apply";
+          ledeEl.textContent = "These phrases were already saved, or the list changed since you opened it.";
+          resultHost.innerHTML = `
+            <div class="card reveal">
+              <div class="text-ink-dim">No changes were made to the live lexicon. Reload to see what's still waiting.</div>
+            </div>
+            ${footerHtml({ showPromote: false, doneLabel: "Done" })}
+          `;
+          wireFooter({ onDone: finish });
+          revealSequence(Array.from(resultHost.querySelectorAll(".reveal")), { stagger: 60, initialDelay: 60 });
+          return;
+        }
+
         promotePending = [];
         titleEl.textContent = "Promotions applied";
-        ledeEl.textContent = `Promoted ${result.promoted || 0}, dropped ${result.dropped || 0}.`;
+        const skipNote = skipped > 0 ? ` ${skipped} couldn't be applied.` : "";
+        ledeEl.textContent = `Promoted ${promoted}, dropped ${dropped}.${skipNote}`;
         resultHost.innerHTML = `
           <div class="card reveal">
             <div class="text-ink-dim">Live lexicon updated. Future 1:1s can pull these phrases.</div>
@@ -270,11 +292,3 @@ export async function mount(root, { store, setState }) {
 
 export function unmount() {}
 
-function escape(s) {
-  return String(s == null ? "" : s)
-    .replace(/\s*[—–]\s*/g, ", ")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}

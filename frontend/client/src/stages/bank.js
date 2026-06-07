@@ -9,7 +9,7 @@ export async function mount(root, { store, setState }) {
   const mountedAt = Date.now();
 
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--8">
+    <div class="stage-medium l-stack l-stack--8">
       <div class="thinking-host min-h-[120px] flex items-center"></div>
     </div>
   `;

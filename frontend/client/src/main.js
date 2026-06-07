@@ -4,6 +4,7 @@ import "./styles/design.css";
 
 import { STAGES, store, subscribe, setState, resetSession } from "./state.js";
 import { getSession, listRecentRuns } from "./api.js";
+import { syncUrl, parseLocation, startPopstate, isFlowStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
 import { createAppNav } from "./ui/app-nav.js";
@@ -21,7 +22,9 @@ const loaders = {
   LEXICON_REVIEW:  () => import("./stages/lexicon-review.js"),
   RUN_DEBRIEF:     () => import("./stages/run-debrief.js"),
   COMPARE:         () => import("./stages/compare.js"),
+  LIBRARY:         () => import("./stages/library.js"),
   REVIEW_RUN:      () => import("./stages/review-run.js"),
+  GUIDE:           () => import("./stages/guide.js"),
   ERROR:           () => import("./stages/error.js"),
 };
 
@@ -78,8 +81,24 @@ subscribe((s) => {
   if (s.stage !== routedStage || s.stageTick !== routedTick) {
     routedStage = s.stage;
     routedTick = s.stageTick;
+    syncUrl(s);
     enqueueRender(s.stage);
   }
+});
+
+startPopstate((parsed) => {
+  if (parsed.stage === STAGES.REVIEW_RUN) {
+    if (parsed.params?.reviewRunId) setState({ reviewRunId: parsed.params.reviewRunId, stage: STAGES.REVIEW_RUN });
+    else setState({ stage: STAGES.START });
+    return;
+  }
+  if (isFlowStage(parsed.stage)) {                 // only valid with a live session
+    if (store.sessionId) setState({ stage: parsed.stage, stageTick: store.stageTick + 1 });
+    else setState({ stage: STAGES.START });
+    return;
+  }
+  if (parsed.stage === STAGES.INTAKE) { setState({ stage: STAGES.INTAKE, substage: "NAME" }); return; }
+  setState({ stage: parsed.stage });               // START / COMPARE / LEXICON_REVIEW
 });
 
 export async function rehydrateById(id) {
@@ -117,6 +136,14 @@ export async function rehydrateById(id) {
 }
 
 async function boot() {
+  const route = parseLocation();
+
+  // /run/:id deep link — id comes from URL, no session needed.
+  if (route?.stage === STAGES.REVIEW_RUN) {
+    if (route.params?.reviewRunId) { setState({ reviewRunId: route.params.reviewRunId, stage: STAGES.REVIEW_RUN }); return; }
+    history.replaceState(null, "", "/"); setState({ stage: STAGES.START }); return;
+  }
+
   let rehydrated = false;
   try {
     const id = localStorage.getItem("seroSessionId");
@@ -124,6 +151,21 @@ async function boot() {
   } catch (e) {
     console.warn("[boot] rehydrate failed:", e);
   }
+
+  // Flow paths require a live session; rehydrate decides the real stage.
+  if (route && isFlowStage(route.stage)) {
+    if (rehydrated) return;                          // syncUrl will correct URL to the true stage
+    history.replaceState(null, "", "/"); setState({ stage: STAGES.START }); return;
+  }
+
+  // Explicit standalone path wins over a non-flow default (compare / lexicon / new).
+  if (route && route.stage && route.stage !== STAGES.START) {
+    if (route.stage === STAGES.INTAKE) setState({ stage: STAGES.INTAKE, substage: "NAME" });
+    else setState({ stage: route.stage });
+    return;
+  }
+
+  // Path is "/" (or unknown): live session resumes; else existing default.
   if (rehydrated) return;
 
   // No active session — pick START if past runs exist, else jump to INTAKE.

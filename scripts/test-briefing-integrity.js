@@ -29,12 +29,15 @@ for (const f of runEvalIntegrityChecks(processed, axis_state, transcript, {
 }
 if (!failed) console.log("  PASS  post-processed Jun02 bad eval matches axis_state");
 
+// Post-processing intentionally no longer scrubs banned phrases from the model's
+// text (that silently masked real output). A deliberately-bad eval must therefore
+// STILL trip the ban detector after post-process — we surface garbage, not rewrite it.
 const bans = runManagerBriefingBans(processed);
-if (bans.length) {
-  console.error("  FAIL  processed briefing bans:", bans.join("; "));
+if (bans.length === 0) {
+  console.error("  FAIL  expected golden_eval_bad to still trip manager bans after post-process (masking should be gone)");
   failed += 1;
 } else {
-  console.log("  PASS  processed briefing passes manager bans");
+  console.log(`  PASS  post-process surfaces (does not mask) ${bans.length} manager-ban issue(s)`);
 }
 
 if (failed) process.exit(1);

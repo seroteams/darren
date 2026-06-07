@@ -22,7 +22,7 @@ function main() {
 
   const focus = read("frontend/client/src/stages/focus-points.js");
   failed += ok("FX-53 Regenerate bumps stageTick", /regenerateFocusPoints|stageTick/.test(focus));
-  failed += ok("FX-53 regenerate query param", /set\(\"regenerate\",\s*\"1\"\)/.test(focus));
+  failed += ok("FX-53 regenerate query param", /set\("regenerate",\s*"1"\)/.test(focus));
 
   const questioning = read("frontend/client/src/stages/questioning.js");
   failed += ok("FX-37 Go deeper button", /go deeper|goDeeper|js-go-deeper/i.test(questioning));

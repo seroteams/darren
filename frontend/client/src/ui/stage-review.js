@@ -6,14 +6,7 @@
 
 import { getRunFull } from "../api.js";
 import { TOPBAR_STAGES } from "./stage-labels.js";
-
-function esc(s) {
-  return String(s == null ? "" : s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
+import { escapeHtml as esc } from "./html.js";
 
 export function createStageReview({ store } = {}) {
   let overlay = null;

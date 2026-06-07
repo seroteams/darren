@@ -56,7 +56,10 @@ async function withRetry(fn, label) {
     } catch (err) {
       lastErr = err;
       const isAbort = err.name === "AbortError";
-      const isRetryable = isAbort || RETRY_STATUSES.has(err.status);
+      // A status-less error means we never got an HTTP response — a network drop
+      // (ECONNRESET, DNS failure, fetch TypeError). Those are transient: retry them.
+      const isNetworkError = err.status == null;
+      const isRetryable = isAbort || isNetworkError || RETRY_STATUSES.has(err.status);
       if (!isRetryable) throw err;
       console.warn(`[ai-client] ${label} attempt ${attempt + 1} failed (${err.message}), retrying…`);
     }

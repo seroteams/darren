@@ -2,6 +2,7 @@ import { STAGES, store } from "../state.js";
 import { listRecentRuns, getRunOverview, deleteRun, getPersonaBench, startSession, getPipelineStatus } from "../api.js";
 import { confirmAction, alertAction } from "../ui/confirm.js";
 import { stageLabel } from "../ui/stage-labels.js";
+import { escapeHtml as escape } from "../ui/html.js";
 
 let keyHandler = null;
 
@@ -73,6 +74,7 @@ export async function mount(root, { setState, rehydrateById }) {
 
       <div class="start-cta">
         <button type="button" class="btn js-new">New session</button>
+        <button type="button" class="btn btn--ghost js-library">Library</button>
         <button type="button" class="btn btn--ghost js-compare">Compare runs</button>
       </div>
     </div>
@@ -387,6 +389,7 @@ export async function mount(root, { setState, rehydrateById }) {
   });
 
   newBtn.addEventListener("click", startNew);
+  root.querySelector(".js-library").addEventListener("click", () => setState({ stage: STAGES.LIBRARY }));
   root.querySelector(".js-compare").addEventListener("click", () => setState({ stage: STAGES.COMPARE }));
 
   keyHandler = (e) => {
@@ -432,14 +435,6 @@ function formatRelativeTime(ts) {
   const days = Math.floor(hrs / 24);
   if (days < 7) return `${days}d ago`;
   return new Date(ts).toLocaleDateString(undefined, { month: "short", day: "numeric" });
-}
-
-function escape(s) {
-  return String(s == null ? "" : s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
 }
 
 function cssEscape(s) {

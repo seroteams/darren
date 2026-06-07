@@ -5,7 +5,6 @@ const { loadAxes } = require("./axes");
 const { promptFor, getArc, getType } = require("./one-on-one-types");
 const { withPromptVersion } = require("./prompt-version");
 const { resolveSelectedFocus } = require("./selected-focus");
-const cost = require("./cost");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
@@ -22,8 +21,6 @@ const OVERLAP_STOP_WORDS = new Set([
 
 const WELLBEING_TRANSCRIPT_EVIDENCE =
   /\b(stress|stressed|burnout|burned out|overwhelmed|anxious|exhausted|can't cope|struggling emotionally)\b/i;
-
-const GROWTH_VERY_WEAK = /\bvery weak\b/i;
 
 const RESPONSE_SCHEMA = {
   type: "object",
@@ -159,26 +156,47 @@ function computeReadQuality(transcript) {
     const empty = answer.trim().length === 0;
     const tooShort = tokenCount(answer) <= 2;
     const decline = isDecline(answer);
-    const shallow = skipped || empty || tooShort || decline;
+    // A skip or empty jot is a *refusal* — the manager captured no note (no
+    // data). A two-token answer or a decline is a *thin* note (weak data). Both
+    // carry no real signal, but they are different failures: the first must not
+    // be framed as "the report answered in 2-4 words".
+    let reason = null;
+    if (skipped || empty) reason = "skip";
+    else if (decline) reason = "decline";
+    else if (tooShort) reason = "thin";
+    const shallow = reason !== null;
     const is_note = !shallow;
     const isIntro = stage === "self_read" || INTRO_ALIASES.has(alias);
     const counted = !(isIntro && shallow);
-    return { index: i + 1, alias, stage, is_note, shallow, counted };
+    return { index: i + 1, alias, stage, reason, is_note, shallow, counted };
   });
   const counted = turns.filter((t) => t.counted);
   const total_turns = counted.length;
-  const shallow_count = counted.filter((t) => t.shallow).length;
+  const skipped_count = counted.filter((t) => t.reason === "skip").length;
+  const thin_count = counted.filter((t) => t.reason === "thin" || t.reason === "decline").length;
+  const shallow_count = skipped_count + thin_count;
   const note_turns = counted.filter((t) => t.is_note).length;
   const shallow_ratio = total_turns
     ? Number((shallow_count / total_turns).toFixed(2))
     : 0;
-  const partial_read = shallow_count >= 3 || shallow_ratio >= 0.4;
+  // Trigger on thin *coverage* (too few real notes), not on raw shallow count —
+  // so a few refused questions in an otherwise well-answered session does not
+  // flip the briefing into partial-read mode.
+  const partial_read =
+    note_turns < 3 || (total_turns > 0 && note_turns / total_turns < 0.6);
+  let partial_reason = null;
+  if (partial_read) {
+    partial_reason = skipped_count >= thin_count ? "mostly_skipped" : "mostly_thin";
+  }
   return {
     note_turns,
     total_turns,
+    skipped_count,
+    thin_count,
     shallow_count,
     shallow_ratio,
     partial_read,
+    partial_reason,
     turns,
   };
 }
@@ -203,27 +221,6 @@ function applyAxisScoresFromState(briefing, axisState) {
     }
   }
   return briefing;
-}
-
-function softenWellbeingMeaning(meaning, transcript) {
-  const answers = transcriptText(transcript);
-  if (WELLBEING_TRANSCRIPT_EVIDENCE.test(answers)) return meaning;
-  const distress =
-    /\b(stress|burnout|overload|overwhelmed|distress)\b/i.test(meaning || "");
-  if (!distress) return meaning;
-  return (
-    "Weak wellbeing signal — mostly a clarity and capacity read from rushed handoffs and timelines; " +
-    "not enough direct evidence of distress to treat as a wellbeing issue on its own."
-  );
-}
-
-function softenGrowthMeaning(meaning, transcript) {
-  if (!GROWTH_VERY_WEAK.test(meaning || "")) return meaning;
-  if (!transcriptShowsLearningCommitment(transcript)) return meaning;
-  return meaning.replace(
-    /\bvery weak growth signal\b/i,
-    "Mixed growth signal: she named the miss and committed to concrete habit changes"
-  ).replace(/\bvery weak\b/i, "mixed");
 }
 
 function applyAxisConfidence(briefing, axisState, transcript) {
@@ -270,12 +267,10 @@ function applyAxisConfidence(briefing, axisState, transcript) {
     if (ax.id === "wellbeing" && !hasWellbeingEvidence) {
       confidence = "low";
       evidence_basis = "axis_state_only";
-      ax.meaning = softenWellbeingMeaning(ax.meaning, transcript);
     }
 
     if (ax.id === "growth" && learning) {
       if (confidence === "low") confidence = "medium";
-      ax.meaning = softenGrowthMeaning(ax.meaning, transcript);
     }
 
     if (confidence === "low" && ax.meaning) {
@@ -305,49 +300,10 @@ function applyAxisConfidence(briefing, axisState, transcript) {
   return briefing;
 }
 
-function sanitizeManagerBriefingText(text) {
-  return String(text || "")
-    .replace(/\bhought retry logic/gi, "the retry-logic assumption")
-    .replace(/\bSero\b/gi, "the conversation")
-    .replace(/\bproduct QA\b/gi, "")
-    .replace(/\bsystem diagnostics\b/gi, "");
-}
-
-function sanitizeManagerBriefing(briefing) {
-  if (!briefing) return briefing;
-  const scalar = [
-    "headline",
-    "understanding_paragraph",
-    "brutal_truth_employee",
-    "brutal_truth_manager",
-  ];
-  for (const key of scalar) {
-    if (briefing[key]) briefing[key] = sanitizeManagerBriefingText(briefing[key]);
-  }
-  if (Array.isArray(briefing.summary_bullets)) {
-    briefing.summary_bullets = briefing.summary_bullets.map(sanitizeManagerBriefingText);
-  }
-  if (Array.isArray(briefing.watch_for)) {
-    briefing.watch_for = briefing.watch_for.map(sanitizeManagerBriefingText);
-  }
-  if (Array.isArray(briefing.next_actions)) {
-    for (const item of briefing.next_actions) {
-      if (item?.action) item.action = sanitizeManagerBriefingText(item.action);
-    }
-  }
-  if (Array.isArray(briefing.axes)) {
-    for (const ax of briefing.axes) {
-      if (ax?.meaning) ax.meaning = sanitizeManagerBriefingText(ax.meaning);
-    }
-  }
-  return briefing;
-}
-
 function applyManagerBriefingPostProcess(briefing, axisState, transcript) {
   let b = briefing;
   b = applyAxisScoresFromState(b, axisState);
   b = applyAxisConfidence(b, axisState, transcript);
-  b = sanitizeManagerBriefing(b);
   return b;
 }
 
@@ -553,13 +509,8 @@ async function evaluate(
   briefing = applyManagerBriefingPostProcess(briefing, axisState, transcript);
 
   const validation = validateBriefingOverlap(briefing);
-
   if (!validation.passed) {
-    logStage(session, stage, {
-      inputs: { ctx, focusPoints, transcript, axisState, notes, model, validation },
-      prompt: msgs.filled,
-      response: raw,
-    });
+    console.warn(`[evaluator] briefing overlap check: ${validation.issues.join("; ")}`);
   }
 
   return briefing;
@@ -644,7 +595,6 @@ module.exports = {
   fourGramOverlap,
   applyManagerBriefingPostProcess,
   applyAxisScoresFromState,
-  sanitizeManagerBriefing,
   clampScore,
   computeReadQuality,
 };

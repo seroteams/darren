@@ -96,7 +96,7 @@ This system explicitly rejects the generic AI-tool look (dark mode, purple/neon 
 A near-monochrome ink-on-paper palette with a single sky-blue accent and a coral reserved for warnings.
 
 ### Primary
-- **Sky Action Blue** (`#5aa9e6`): the one accent. Primary buttons, selected radio/option states, links, the axis-slider fill. Carries the "do this / this is active" meaning. *Note: at white-on-accent it currently measures ≈2.5:1; darken toward `#2b7fc4` (or use ink text) to clear WCAG AA — see Do's and Don'ts.*
+- **Sky Action Blue** (`#5aa9e6`, `--color-accent`): the one accent. Primary buttons, selected radio/option states, links, the axis-slider fill. Carries the "do this / this is active" meaning. (`--color-accent-dark` #1b5d91 is the hover/pressed tone.)
 
 ### Tertiary
 - **Signal Coral** (`#f76b5e`): warnings and negative deltas only ("Engine config changed…", low axis reads). Never decorative. Must reach ≥4.5:1 as text (darken for small copy).
@@ -145,7 +145,7 @@ Flat by default. Depth comes from the tonal step between page (`#f5fafd`) and su
 
 ### Buttons
 - **Shape:** gently rounded (8px, `--sero-radius-md` / `--radius-button`).
-- **Primary:** sky-blue fill, surface-white text, 8px 16px padding. The single highlighted action.
+- **Primary:** sky-blue fill (`--color-accent` #5aa9e6), surface-white text, 8px 16px padding. The single highlighted action.
 - **Ghost:** transparent/surface background, ink text, used for secondary actions ("Copy QA prompt", "Delete", "New session").
 - **Hover / Focus:** subtle background shift; `:active` nudges down ~1px; every button shows a `:focus-visible` ring (`--sero-shadow-focus`). No bounce.
 
@@ -175,7 +175,7 @@ A labelled horizontal track per axis (Wellbeing / Engagement / Clarity / Growth)
 - **Do** keep the page on tinted off-white (`#f5fafd`) and cards on `#fdfefe`. Never pure `#fff` or `#000`.
 - **Do** limit sky-blue (`#5aa9e6`) to one primary action per screen.
 - **Do** always show an axis number next to the prose that justifies it.
-- **Do** darken the accent (toward `#2b7fc4`) or use ink text whenever white-on-accent text appears, to reach WCAG AA 4.5:1.
+- **Do** keep the single sky-blue accent (`#5aa9e6`) for the one primary action per screen.
 - **Do** keep a `:focus-visible` ring on every interactive element and a static fallback under `prefers-reduced-motion`.
 
 ### Don't:

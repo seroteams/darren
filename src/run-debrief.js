@@ -276,6 +276,7 @@ function buildRunDebriefPayload({
     reviewrunTip: `/reviewrun ${relDirSlash.replace(/\/$/, "")}`,
     notesMdPath: `${relDirSlash}notes.md`,
     surface,
+    cost: cost || null,
   };
 }
 

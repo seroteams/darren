@@ -6,6 +6,7 @@ import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";
 import { renderCtxSegments } from "../ui/notes-panel-utils.js";
 import { setSelectedFocus } from "../api.js";
+import { escapeCopy as escape } from "../ui/html.js";
 
 export async function mount(root, { store, setState }) {
   const sessionId = store.sessionId;
@@ -216,11 +217,3 @@ async function copyFocusPoints(focusPoints, ctx, btn) {
   }
 }
 
-function escape(s) {
-  return String(s == null ? "" : s)
-    .replace(/\s*[—–]\s*/g, ", ")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}

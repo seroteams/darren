@@ -19,23 +19,6 @@ function loadBench() {
 }
 
 module.exports = function personaBench(c) {
-  // #region agent log
-  try {
-    const fs = require("node:fs");
-    const logPath = path.join(__dirname, "..", "..", "..", "debug-be19bb.log");
-    fs.appendFileSync(
-      logPath,
-      JSON.stringify({
-        sessionId: "be19bb",
-        location: "persona-bench.js:handler",
-        message: "persona-bench handler invoked",
-        data: { benchPath: BENCH_PATH, exists: fs.existsSync(BENCH_PATH) },
-        timestamp: Date.now(),
-        hypothesisId: "A,C",
-      }) + "\n"
-    );
-  } catch (_) {}
-  // #endregion
   const personas = loadBench()
     .map((p) => {
       const meetingTypeIndex = MEETING_TYPES.findIndex((t) => t.label === p.meeting_type);

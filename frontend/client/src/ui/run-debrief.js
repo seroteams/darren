@@ -1,14 +1,7 @@
 import * as runDebrief from "@sero/run-debrief";
+import { escapeHtml } from "./html.js";
 
 const { buildRunDebriefPayload, buildQaReviewPrompt } = runDebrief;
-
-function escapeHtml(s) {
-  return String(s == null ? "" : s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
 
 async function copyText(text, btn) {
   try {

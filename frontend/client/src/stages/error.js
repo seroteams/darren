@@ -1,4 +1,5 @@
 import { STAGES } from "../state.js";
+import { escapeHtml as escape } from "../ui/html.js";
 
 export async function mount(root, { store, setState }) {
   const retryTo = store.retryStage || STAGES.INTAKE;
@@ -32,11 +33,3 @@ export async function mount(root, { store, setState }) {
 }
 
 export function unmount() { /* nothing */ }
-
-function escape(s) {
-  return String(s == null ? "" : s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}

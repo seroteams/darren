@@ -75,23 +75,6 @@ function main() {
 
   router.add("GET", "/api/meeting-types", meetingTypes);
   router.add("GET", "/api/persona-bench", personaBench);
-  // #region agent log
-  try {
-    const fs = require("node:fs");
-    const logPath = path.join(__dirname, "..", "..", "debug-be19bb.log");
-    fs.appendFileSync(
-      logPath,
-      JSON.stringify({
-        sessionId: "be19bb",
-        location: "server.js:main",
-        message: "API server started with persona-bench route",
-        data: { port: PORT, isProd: IS_PROD },
-        timestamp: Date.now(),
-        hypothesisId: "A",
-      }) + "\n"
-    );
-  } catch (_) {}
-  // #endregion
   router.add("POST", "/api/start", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     if (rateLimitIp(c.req)) return c.error(Object.assign(new Error("Rate limit exceeded"), { status: 429 }));
@@ -123,6 +106,7 @@ function main() {
   router.add("GET", "/api/pipeline/status", pipeline.status);
   router.add("GET", "/api/pipeline/manifest", pipeline.manifest);
   router.add("GET", "/api/runs/recent", runs.recent);
+  router.add("GET", "/api/runs/finished", runs.finished);
   router.add("GET", /^\/api\/runs\/(?<id>[^/]+)\/full$/, runs.full);
   router.add("GET", /^\/api\/runs\/(?<id>[^/]+)\/overview$/, runs.overview);
   router.add("DELETE", /^\/api\/runs\/(?<id>[^/]+)$/, (c) => {
@@ -190,5 +174,13 @@ function main() {
   process.on("SIGINT", () => shutdown("SIGINT"));
   process.on("SIGTERM", () => shutdown("SIGTERM"));
 }
+
+// Keep the long-lived server alive on stray errors instead of crashing the process.
+process.on("unhandledRejection", (reason) => {
+  console.error("[unhandledRejection]", reason);
+});
+process.on("uncaughtException", (err) => {
+  console.error("[uncaughtException]", err);
+});
 
 main();

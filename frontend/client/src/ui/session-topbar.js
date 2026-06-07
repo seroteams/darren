@@ -12,6 +12,15 @@ import { TOPBAR_STAGES } from "./stage-labels.js";
 import { createGlossaryButton } from "./glossary.js";
 import { createStageReview } from "./stage-review.js";
 
+// The stage breadcrumb is meaningful only while a run is in progress or just
+// finished. Everything else — home, the standalone tools/library, errors —
+// shows just the app nav. Allowlist by design: new standalone screens stay
+// single-bar without needing to be enumerated here.
+const RUN_STAGES = new Set([
+  ...TOPBAR_STAGES.map(([key]) => key), // INTAKE … BRIEFING
+  STAGES.RUN_DEBRIEF,                   // post-run review
+]);
+
 export function createSessionTopbar({ store, setState, resetSession } = {}) {
   const stageReview = createStageReview({ store });
   const el = document.createElement("div");
@@ -115,11 +124,12 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
 
   function render({ stage, sessionId } = {}) {
     const current = String(stage || "");
-    // START and the library Run Review are home-like (no live run), so the
-    // in-session stage breadcrumb is hidden for both.
-    const noRun = current === STAGES.START || current === STAGES.REVIEW_RUN;
+    // The Phrase library is dual-use: part of the run when there's a live
+    // session, a standalone tool when opened from the nav. Only the in-run case
+    // gets the breadcrumb.
+    const inRun = RUN_STAGES.has(current) || (current === STAGES.LEXICON_REVIEW && !!sessionId);
 
-    if (noRun) {
+    if (!inRun) {
       el.classList.add("is-hidden");
       document.body.classList.remove("has-session-topbar");
       if (popover) closePopover();

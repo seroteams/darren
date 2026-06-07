@@ -58,4 +58,14 @@ assert.ok(
   "coverage injection logged for planned question"
 );
 
+// Regression: the coverage axis is stamped onto a COPY, not the shared question
+// object. A carried-forward item is the same object held by remainingQueue and
+// the question store, so an in-place mutation would leak wellbeing:3 into the
+// same question on later turns.
+assert.equal(
+  planned.axis_effects.wellbeing,
+  undefined,
+  "original question object not mutated by coverage injection"
+);
+
 console.log("PASS test-axis-coverage");

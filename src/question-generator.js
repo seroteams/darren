@@ -7,7 +7,6 @@ const { getArc } = require("./meeting-arcs");
 const { promptFor } = require("./one-on-one-types");
 const { resolveSelectedFocus } = require("./selected-focus");
 const { loadLexicon } = require("./lexicon");
-const cost = require("./cost");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");

@@ -1,5 +1,7 @@
 const { URL } = require("node:url");
 
+const MAX_BODY_BYTES = 1_000_000; // 1 MB cap on request bodies to prevent memory exhaustion
+
 function createRouter() {
   const routes = [];
 
@@ -23,8 +25,19 @@ function createRouter() {
   async function readBody(req) {
     return new Promise((resolve, reject) => {
       const chunks = [];
-      req.on("data", (c) => chunks.push(c));
+      let size = 0;
+      let aborted = false;
+      req.on("data", (c) => {
+        if (aborted) return; // over the cap — stop buffering, let the handler reply 413
+        size += c.length;
+        if (size > MAX_BODY_BYTES) {
+          aborted = true;
+          return reject(Object.assign(new Error("Request body too large"), { status: 413 }));
+        }
+        chunks.push(c);
+      });
       req.on("end", () => {
+        if (aborted) return;
         const raw = Buffer.concat(chunks).toString("utf8");
         if (!raw) return resolve({});
         try {

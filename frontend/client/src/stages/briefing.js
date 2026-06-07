@@ -2,6 +2,7 @@ import { STAGES } from "../state.js";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
 import { postVerdict } from "../api.js";
+import { escapeCopy as escape } from "../ui/html.js";
 
 const WHEN_ORDER = ["today", "this week", "this month", "next 1:1"];
 
@@ -493,11 +494,3 @@ function cap(s) {
   return s ? s[0].toUpperCase() + s.slice(1) : s;
 }
 
-function escape(s) {
-  return String(s == null ? "" : s)
-    .replace(/\s*[—–]\s*/g, ", ")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}

@@ -5,7 +5,6 @@ const { newAlias, saveQuestion, listAllAliases } = require("./questions");
 const { getArc } = require("./meeting-arcs");
 const { promptFor } = require("./one-on-one-types");
 const { resolveSelectedFocus } = require("./selected-focus");
-const cost = require("./cost");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
@@ -242,7 +241,15 @@ async function callOpenAI({ system, user, model }) {
 function snapToAllowedDelta(raw) {
   const n = Number(raw);
   if (!Number.isFinite(n)) return 0;
-  return ALLOWED_DELTAS.reduce((best, d) => (Math.abs(d - n) < Math.abs(best - n) ? d : best));
+  return ALLOWED_DELTAS.reduce((best, d) => {
+    const dd = Math.abs(d - n);
+    const bd = Math.abs(best - n);
+    if (dd < bd) return d;
+    // Equal distance: snap toward zero (lower magnitude), deterministically for
+    // both signs — not by accident of array order.
+    if (dd === bd && Math.abs(d) < Math.abs(best)) return d;
+    return best;
+  });
 }
 
 function toAxisObject(effects) {
@@ -260,6 +267,14 @@ function clampToSignature(rawDeltas, signature) {
   const sigKeys = Object.keys(signature || {});
   const deltas = {};
   const issues = [];
+  // A question with no signature drops every delta as "off-signature" and books
+  // nothing for the turn. That is sometimes legitimate, but it must not vanish
+  // silently — surface it loudly so a missing axis_effects is debuggable.
+  if (sigKeys.length === 0 && AXIS_IDS.some((a) => rawDeltas[a])) {
+    const msg = "EMPTY-SIGNATURE: scored question has no axis_effects — all deltas dropped, turn booked nothing";
+    issues.push(msg);
+    console.warn(`[plan-turn] ${msg}`);
+  }
   for (const axis of AXIS_IDS) {
     const rawDelta = rawDeltas[axis];
     if (rawDelta === undefined || rawDelta === null) continue;
@@ -529,7 +544,10 @@ function enforceAxisCoverage({ newQueue, axisState, turnNumber, issues }) {
   // on genuine planned questions — skip and let it fire next turn.
   if (isRuntimeThreadFollow(first)) return newQueue;
   if (first.axis_effects[priority]) return newQueue;
-  first.axis_effects[priority] = 3;
+  // Carried-forward items are shared by reference with remainingQueue and the
+  // question store, so stamp a copy — mutating `first` in place would leak this
+  // coverage axis into the same question on later turns.
+  newQueue[0] = { ...first, axis_effects: { ...first.axis_effects, [priority]: 3 } };
   issues.push(`coverage: injected ${priority} into next question (0 touches after turn ${turnNumber})`);
   return newQueue;
 }
@@ -789,6 +807,7 @@ module.exports = {
   axisCoverage,
   reconcileQueue,
   clampToSignature,
+  snapToAllowedDelta,
   isShallowAnswer,
   noteMarksShallow,
   detectClarityMisalignment,

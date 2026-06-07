@@ -3,7 +3,6 @@ const path = require("node:path");
 
 const { logStage } = require("./session");
 const { promptFor } = require("./one-on-one-types");
-const cost = require("./cost");
 
 const ROOT = path.join(__dirname, "..");
 const FOCUS_POINTS_PATH = path.join(ROOT, "focus-points.json");

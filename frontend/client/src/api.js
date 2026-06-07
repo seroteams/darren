@@ -81,6 +81,10 @@ export async function listRecentRuns(limit = 3) {
   return json(await fetch(`/api/runs/recent?limit=${limit}`));
 }
 
+export async function getFinishedRuns() {
+  return json(await fetch("/api/runs/finished"));
+}
+
 export async function getRunOverview(id) {
   return json(await fetch(`/api/runs/${encodeURIComponent(id)}/overview`));
 }

@@ -1,4 +1,4 @@
-const { listRecentRuns, summarizeRun, compareRun, deleteRun } = require("../../../src/run-history");
+const { listRecentRuns, listFinishedRuns, summarizeRun, compareRun, deleteRun } = require("../../../src/run-history");
 const { dropSession } = require("../sessions");
 
 function recent(c) {
@@ -12,6 +12,12 @@ function recent(c) {
     reviewStatus,
   }));
   c.json(200, { runs });
+}
+
+// Library: all finished runs with review badge inputs (reviewStatus, overall,
+// failedCount). Read-only, no limit.
+function finished(c) {
+  c.json(200, { runs: listFinishedRuns() });
 }
 
 function overview(c) {
@@ -39,4 +45,4 @@ function del(c) {
   c.json(200, { deleted: true, id });
 }
 
-module.exports = { recent, overview, full, del };
+module.exports = { recent, finished, overview, full, del };

@@ -4,12 +4,13 @@ import { openSse } from "../sse.js";
 import { revealSequence } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";
+import { escapeCopy as escape } from "../ui/html.js";
 
 export async function mount(root, { store, setState }) {
   const sessionId = store.sessionId;
 
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--8">
+    <div class="stage-medium l-stack l-stack--8">
       <header class="page-header">
         <div class="page-header__row">
           <div class="eyebrow">Pre-meeting brief</div>
@@ -128,14 +129,6 @@ export function unmount() {
   unmountFn = null;
 }
 
-function escape(s) {
-  return String(s == null ? "" : s)
-    .replace(/\s*[—–]\s*/g, ", ")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
 
 const PREP_SECTIONS = [
   { label: "Likely theme", key: "coreIssue" },

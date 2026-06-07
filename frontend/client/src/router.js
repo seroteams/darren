@@ -1,0 +1,69 @@
+// Path-based routing for the SPA. Maps store.stage <-> location.pathname so every
+// screen has its own URL (/, /compare, /run/:id, /interview, ...). No deps on the
+// store: main.js injects behavior via the exported helpers. Two guards prevent a
+// setState<->popstate loop — a suppress flag and a compare-before-write in syncUrl.
+
+import { STAGES } from "./state.js";
+
+// stage -> path
+const PATH_FOR = {
+  [STAGES.START]:          () => "/",
+  [STAGES.INTAKE]:         () => "/new",
+  [STAGES.FOCUS_POINTS]:   () => "/focus",
+  [STAGES.PREPARATION]:    () => "/prepare",
+  [STAGES.BANK]:           () => "/bank",
+  [STAGES.QUESTIONING]:    () => "/interview",
+  [STAGES.EVAL]:           () => "/evaluate",
+  [STAGES.BRIEFING]:       () => "/briefing",
+  [STAGES.RUN_DEBRIEF]:    () => "/debrief",
+  [STAGES.LEXICON_REVIEW]: () => "/lexicon",
+  [STAGES.COMPARE]:        () => "/compare",
+  [STAGES.LIBRARY]:        () => "/library",
+  [STAGES.GUIDE]:          () => "/guide",
+  [STAGES.REVIEW_RUN]:     (s) => (s.reviewRunId ? `/run/${encodeURIComponent(s.reviewRunId)}` : "/run"),
+  // ERROR intentionally absent -> urlForState returns null -> no URL write
+};
+
+// path -> stage (exact paths). /run/:id handled separately.
+const STAGE_FOR = {
+  "/": STAGES.START, "/new": STAGES.INTAKE, "/focus": STAGES.FOCUS_POINTS,
+  "/prepare": STAGES.PREPARATION, "/bank": STAGES.BANK, "/interview": STAGES.QUESTIONING,
+  "/evaluate": STAGES.EVAL, "/briefing": STAGES.BRIEFING, "/debrief": STAGES.RUN_DEBRIEF,
+  "/lexicon": STAGES.LEXICON_REVIEW, "/compare": STAGES.COMPARE, "/library": STAGES.LIBRARY,
+  "/guide": STAGES.GUIDE,
+};
+
+const FLOW = new Set([STAGES.FOCUS_POINTS, STAGES.PREPARATION, STAGES.BANK,
+  STAGES.QUESTIONING, STAGES.EVAL, STAGES.BRIEFING, STAGES.RUN_DEBRIEF]);
+export const isFlowStage = (stage) => FLOW.has(stage);
+
+export function parseLocation() {
+  const p = window.location.pathname.replace(/\/+$/, "") || "/";
+  if (STAGE_FOR[p]) return { stage: STAGE_FOR[p] };
+  const m = p.match(/^\/run\/([^/]+)$/);
+  if (m) return { stage: STAGES.REVIEW_RUN, params: { reviewRunId: decodeURIComponent(m[1]) } };
+  if (p === "/run") return { stage: STAGES.REVIEW_RUN }; // no id -> caller redirects
+  return null; // unknown -> caller treats as home
+}
+
+export function urlForState(s) {
+  const build = PATH_FOR[s.stage];
+  return build ? build(s) : null;
+}
+
+let suppress = false;
+export function syncUrl(s) {
+  if (suppress) return;                            // don't echo a popstate-driven change
+  const next = urlForState(s);
+  if (next == null) return;                        // ERROR etc. -> leave URL as-is
+  if (next === window.location.pathname) return;   // compare-before-write: no dup entry / no loop
+  window.history.pushState(null, "", next);
+}
+
+export function startPopstate(apply) {
+  window.addEventListener("popstate", () => {
+    const parsed = parseLocation() || { stage: STAGES.START };
+    suppress = true;
+    try { apply(parsed); } finally { suppress = false; }
+  });
+}
