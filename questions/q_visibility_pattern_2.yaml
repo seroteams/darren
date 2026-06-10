@@ -1,0 +1,10 @@
+alias: q_visibility_pattern_2
+label: Visibility pattern
+name: "What are you noticing about where your influence lands easily and where it doesn't?"
+description: Surfaces patterns in visibility and influence across different partners or settings.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

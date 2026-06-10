@@ -1,0 +1,9 @@
+alias: q_alignment_hesitation_2
+label: Alignment hesitation
+name: What makes cross-org alignment harder for you than running the project itself?
+description: Drills into the specific barrier behind his hesitation to shape alignment.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+source: planner_added

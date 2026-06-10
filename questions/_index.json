@@ -1,16 +1,18 @@
 {
-  "generated_at": "2026-06-10T16:05:27.697Z",
-  "count": 1848,
+  "generated_at": "2026-06-10T16:07:18.903Z",
+  "count": 1882,
   "aliases": [
     "q_adjacent_problems",
     "q_after_the_push",
     "q_air_cover_needed",
     "q_alignment_hesitation",
+    "q_alignment_hesitation_2",
     "q_another_review_miss",
     "q_architecture_review",
     "q_architecture_review_2",
     "q_architecture_review_3",
     "q_architecture_review_4",
+    "q_ask_explicitly",
     "q_ba_blocking",
     "q_ba_dynamic_now",
     "q_ba_friction",
@@ -27,6 +29,7 @@
     "q_billing_role",
     "q_billing_weirdness",
     "q_blocked_decisions",
+    "q_blocked_decisions_2",
     "q_brief_omission",
     "q_buyer_alignment",
     "q_bypassing_ux",
@@ -161,7 +164,9 @@
     "q_define_fine_2",
     "q_define_fine_3",
     "q_define_fine_4",
+    "q_define_fine_5",
     "q_define_ok",
+    "q_define_ok_2",
     "q_delay_driver",
     "q_delayed_success_detail",
     "q_delayed_success_path",
@@ -186,6 +191,7 @@
     "q_earlier_check_in",
     "q_earlier_feedback",
     "q_earlier_feedback_2",
+    "q_earlier_feedback_3",
     "q_earlier_flag",
     "q_early_alignment",
     "q_early_alignment_2",
@@ -242,6 +248,7 @@
     "q_execution_pull_2",
     "q_execution_pull_3",
     "q_execution_pull_4",
+    "q_execution_pull_5",
     "q_executor_drift",
     "q_expectation_alignment",
     "q_expected_leverage",
@@ -335,6 +342,7 @@
     "q_friction_specifics_4",
     "q_friction_specifics_5",
     "q_future_direction",
+    "q_future_forum",
     "q_future_pull",
     "q_future_role_picture",
     "q_gap_awareness",
@@ -380,6 +388,7 @@
     "q_intro_perf_02_proud",
     "q_intro_perf_03_gap",
     "q_judgment_calls",
+    "q_kept_moving",
     "q_kitchen_rhythm",
     "q_last_cycle_thread",
     "q_last_fortnight_shape",
@@ -422,8 +431,10 @@
     "q_manager_investment_4",
     "q_manager_leverage",
     "q_manager_leverage_2",
+    "q_manager_leverage_3",
     "q_manager_support",
     "q_manager_support_2",
+    "q_meeting_load",
     "q_mentor_shape",
     "q_mentor_shape_2",
     "q_mentoring_energy",
@@ -559,6 +570,7 @@
     "q_next_focus_7",
     "q_next_focus_8",
     "q_next_focus_9",
+    "q_next_fortnight",
     "q_next_handoff_change",
     "q_next_handoff_change_2",
     "q_next_level_definition",
@@ -582,6 +594,12 @@
     "q_next_move_2",
     "q_next_move_20",
     "q_next_move_21",
+    "q_next_move_22",
+    "q_next_move_23",
+    "q_next_move_24",
+    "q_next_move_25",
+    "q_next_move_26",
+    "q_next_move_27",
     "q_next_move_3",
     "q_next_move_4",
     "q_next_move_5",
@@ -700,6 +718,7 @@
     "q_ownership_signal",
     "q_ownership_tradeoff",
     "q_ownership_tradeoff_2",
+    "q_ownership_tradeoff_3",
     "q_ownership_uncertainty",
     "q_ownership_unclear",
     "q_owning_the_load",
@@ -725,6 +744,7 @@
     "q_political_moments_2",
     "q_political_moments_3",
     "q_political_moments_4",
+    "q_political_moments_5",
     "q_post_launch_flatness",
     "q_post_launch_read",
     "q_post_launch_read_2",
@@ -754,6 +774,8 @@
     "q_prep_opener_25",
     "q_prep_opener_26",
     "q_prep_opener_27",
+    "q_prep_opener_28",
+    "q_prep_opener_29",
     "q_prep_opener_3",
     "q_prep_opener_4",
     "q_prep_opener_5",
@@ -1306,6 +1328,7 @@
     "q_quietness_check",
     "q_raise_sooner",
     "q_raise_the_bar",
+    "q_reactive_pull",
     "q_reactive_work",
     "q_readiness_bar",
     "q_readiness_criteria",
@@ -1388,6 +1411,7 @@
     "q_reset_check_22",
     "q_reset_check_23",
     "q_reset_check_24",
+    "q_reset_check_25",
     "q_reset_check_3",
     "q_reset_check_4",
     "q_reset_check_5",
@@ -1401,6 +1425,7 @@
     "q_reset_timing",
     "q_reset_timing_2",
     "q_reset_timing_3",
+    "q_reset_timing_4",
     "q_review_bar_change",
     "q_review_churn_source",
     "q_review_cycle_drag",
@@ -1441,6 +1466,7 @@
     "q_rituals_that_fit",
     "q_roadmap_access",
     "q_roadmap_access_2",
+    "q_role_definition",
     "q_role_energy",
     "q_role_horizon",
     "q_role_in_practice",
@@ -1452,6 +1478,7 @@
     "q_safe_calls_3",
     "q_safe_execution",
     "q_safe_mode",
+    "q_say_no_moments",
     "q_scatter_source",
     "q_scope_assumptions",
     "q_scope_changes",
@@ -1462,6 +1489,7 @@
     "q_scope_on_this_team",
     "q_scope_on_this_team_2",
     "q_scope_signal",
+    "q_scope_trade_off",
     "q_second_example",
     "q_seed_clarity_priorities",
     "q_seed_clarity_success",
@@ -1475,6 +1503,7 @@
     "q_senior_forums",
     "q_senior_forums_2",
     "q_senior_forums_3",
+    "q_senior_scope_signals",
     "q_sequence_next",
     "q_sequence_trade_off",
     "q_sequencing_work",
@@ -1609,6 +1638,7 @@
     "q_team_dynamics",
     "q_team_edges",
     "q_team_fit",
+    "q_team_fit_2",
     "q_team_handoff",
     "q_team_handoff_2",
     "q_team_handoffs",
@@ -1640,6 +1670,7 @@
     "q_thread_follow_105",
     "q_thread_follow_106",
     "q_thread_follow_107",
+    "q_thread_follow_108",
     "q_thread_follow_11",
     "q_thread_follow_12",
     "q_thread_follow_13",
@@ -1767,6 +1798,8 @@
     "q_trust_gap",
     "q_trust_gap_2",
     "q_trust_gap_3",
+    "q_trust_gap_4",
+    "q_trust_gap_5",
     "q_trust_gap_map",
     "q_trust_impact",
     "q_trust_with_teams",
@@ -1785,6 +1818,7 @@
     "q_visibility_gap_3",
     "q_visibility_habits",
     "q_visibility_pattern",
+    "q_visibility_pattern_2",
     "q_visibility_thread",
     "q_visible_impact",
     "q_visible_leverage",
@@ -1869,6 +1903,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_alignment_hesitation_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_another_review_miss",
       "subdir": ""
     },
@@ -1886,6 +1924,10 @@
     },
     {
       "alias": "q_architecture_review_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_ask_explicitly",
       "subdir": ""
     },
     {
@@ -1950,6 +1992,10 @@
     },
     {
       "alias": "q_blocked_decisions",
+      "subdir": ""
+    },
+    {
+      "alias": "q_blocked_decisions_2",
       "subdir": ""
     },
     {
@@ -2489,7 +2535,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_define_fine_5",
+      "subdir": ""
+    },
+    {
       "alias": "q_define_ok",
+      "subdir": ""
+    },
+    {
+      "alias": "q_define_ok_2",
       "subdir": ""
     },
     {
@@ -2586,6 +2640,10 @@
     },
     {
       "alias": "q_earlier_feedback_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_earlier_feedback_3",
       "subdir": ""
     },
     {
@@ -2810,6 +2868,10 @@
     },
     {
       "alias": "q_execution_pull_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_execution_pull_5",
       "subdir": ""
     },
     {
@@ -3185,6 +3247,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_future_forum",
+      "subdir": ""
+    },
+    {
       "alias": "q_future_pull",
       "subdir": ""
     },
@@ -3365,6 +3431,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_kept_moving",
+      "subdir": ""
+    },
+    {
       "alias": "q_kitchen_rhythm",
       "subdir": ""
     },
@@ -3533,11 +3603,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_manager_leverage_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_manager_support",
       "subdir": ""
     },
     {
       "alias": "q_manager_support_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_meeting_load",
       "subdir": ""
     },
     {
@@ -4081,6 +4159,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_fortnight",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_handoff_change",
       "subdir": ""
     },
@@ -4170,6 +4252,30 @@
     },
     {
       "alias": "q_next_move_21",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_22",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_23",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_24",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_25",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_26",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_27",
       "subdir": ""
     },
     {
@@ -4667,6 +4773,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_ownership_tradeoff_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_ownership_uncertainty",
       "subdir": ""
     },
@@ -4764,6 +4874,10 @@
     },
     {
       "alias": "q_political_moments_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_political_moments_5",
       "subdir": ""
     },
     {
@@ -4880,6 +4994,14 @@
     },
     {
       "alias": "q_prep_opener_27",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_28",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_29",
       "subdir": ""
     },
     {
@@ -7091,6 +7213,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_reactive_pull",
+      "subdir": ""
+    },
+    {
       "alias": "q_reactive_work",
       "subdir": ""
     },
@@ -7419,6 +7545,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_reset_check_25",
+      "subdir": ""
+    },
+    {
       "alias": "q_reset_check_3",
       "subdir": ""
     },
@@ -7468,6 +7598,10 @@
     },
     {
       "alias": "q_reset_timing_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_reset_timing_4",
       "subdir": ""
     },
     {
@@ -7631,6 +7765,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_role_definition",
+      "subdir": ""
+    },
+    {
       "alias": "q_role_energy",
       "subdir": ""
     },
@@ -7675,6 +7813,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_say_no_moments",
+      "subdir": ""
+    },
+    {
       "alias": "q_scatter_source",
       "subdir": ""
     },
@@ -7712,6 +7854,10 @@
     },
     {
       "alias": "q_scope_signal",
+      "subdir": ""
+    },
+    {
+      "alias": "q_scope_trade_off",
       "subdir": ""
     },
     {
@@ -7764,6 +7910,10 @@
     },
     {
       "alias": "q_senior_forums_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_senior_scope_signals",
       "subdir": ""
     },
     {
@@ -8303,6 +8453,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_team_fit_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_team_handoff",
       "subdir": ""
     },
@@ -8424,6 +8578,10 @@
     },
     {
       "alias": "q_thread_follow_107",
+      "subdir": ""
+    },
+    {
+      "alias": "q_thread_follow_108",
       "subdir": ""
     },
     {
@@ -8935,6 +9093,14 @@
       "subdir": ""
     },
     {
+      "alias": "q_trust_gap_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_trust_gap_5",
+      "subdir": ""
+    },
+    {
       "alias": "q_trust_gap_map",
       "subdir": ""
     },
@@ -9004,6 +9170,10 @@
     },
     {
       "alias": "q_visibility_pattern",
+      "subdir": ""
+    },
+    {
+      "alias": "q_visibility_pattern_2",
       "subdir": ""
     },
     {

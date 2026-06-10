@@ -1,0 +1,9 @@
+alias: q_trust_gap_4
+label: Trust gap
+name: Where has the trust gap with adjacent teams shown up most clearly?
+description: Anchors the newly surfaced trust issue in a specific recent moment.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+source: planner_added

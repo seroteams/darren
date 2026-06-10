@@ -1,0 +1,10 @@
+alias: q_manager_leverage_3
+label: Manager leverage
+name: Where could I be more useful in clearing the path for you to operate at that level?
+description: Opens a concrete ask of the manager around coaching, air cover, or decision support.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

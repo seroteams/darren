@@ -1,0 +1,9 @@
+alias: q_ask_explicitly
+label: Ask explicitly
+name: What opportunities has he wanted but not said out loud?
+description: Drills into the specific senior-scope opportunities he has not been explicit about wanting.
+purpose: competency
+stage: investment
+axis_effects:
+  growth: +3
+source: planner_added

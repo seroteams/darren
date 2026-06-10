@@ -1,0 +1,10 @@
+alias: q_prep_opener_29
+label: Prep opener
+name: How do you define the next-level version of a Head of Product role, and where does that feel most stretching for you right now?
+description: Anchors Ahmed on his own definition of senior scope before narrowing into the stretch point.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated
