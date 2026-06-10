@@ -1,0 +1,10 @@
+alias: q_support_needed_9
+label: Support needed
+name: What would help you stay ahead of the next deadline?
+description: Moves toward concrete support the manager can provide now.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

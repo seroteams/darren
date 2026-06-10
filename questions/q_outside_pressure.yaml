@@ -1,0 +1,9 @@
+alias: q_outside_pressure
+label: Outside pressure
+name: What outside of work has been taking up more of your attention lately?
+description: Creates room for personal context that may be affecting pace or focus.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +1
+source: generated

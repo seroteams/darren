@@ -1,0 +1,10 @@
+alias: q_next_stretch_2
+label: Next stretch
+name: What feels like the next meaningful stretch in your design work?
+description: Opens a forward-looking growth thread without turning the check-in into a career chat.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_ownership_friction
+label: Ownership friction
+name: What part of the work has felt least under your control lately?
+description: Surfaces dependency, ambiguity, or hidden blockers that may be reducing ownership.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

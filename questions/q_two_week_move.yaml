@@ -1,0 +1,10 @@
+alias: q_two_week_move
+label: Two-week move
+name: What is the first concrete move you want to make before we meet again?
+description: Closes on a specific next step that advances the growth path without opening new threads.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

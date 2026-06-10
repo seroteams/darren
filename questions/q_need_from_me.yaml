@@ -1,0 +1,9 @@
+alias: q_need_from_me
+label: Need from me
+name: What would help most from me before we next meet?
+description: Closes by turning the conversation into concrete support or follow-up.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+source: generated

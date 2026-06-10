@@ -1,0 +1,10 @@
+alias: q_motivation_check
+label: Motivation check
+name: What part of your work feels most worth putting energy into right now?
+description: Checks whether Reyes still feels ownership and pull toward the work, without assuming disengagement.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  engagement: +3
+  growth: +1
+source: generated

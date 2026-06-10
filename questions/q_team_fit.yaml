@@ -1,0 +1,10 @@
+alias: q_team_fit
+label: Team fit
+name: Where has collaboration with the team felt smooth or awkward lately?
+description: Checks the day-to-day team connection and whether any working relationships need attention.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

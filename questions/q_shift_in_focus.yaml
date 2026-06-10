@@ -1,0 +1,10 @@
+alias: q_shift_in_focus
+label: Shift in focus
+name: What ended up taking more of your time than you expected?
+description: Finds hidden drift from planned work into reactive work.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

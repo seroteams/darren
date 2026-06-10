@@ -1,0 +1,18 @@
+{
+  "name": "Omar",
+  "role": "Frontend Engineer",
+  "seniority": "Mid-level",
+  "meeting_type": "Bi-weekly check-in",
+  "manager_notes": "Omar hits everything I give him and the quality is solid, but the spark has gone. He used to jump into design discussions; lately he's quiet, does the ticket, moves on. Nothing is wrong with his work so I almost didn't flag it. I want to understand whether he's gone quiet because he's bored, checked out, or just heads-down — and whether there's something more stretching he actually wants.",
+  "answers": [
+    "Work's fine, I'm getting through everything no problem.",
+    "I guess I've stopped putting my hand up for the bigger discussions.",
+    "It's not that I'm unhappy, it's just kind of routine now.",
+    "The tickets feel samey, I could do them in my sleep.",
+    "I haven't really thought about what I'd want instead.",
+    "Maybe something I haven't done before would help, yeah.",
+    "I don't need more work, I'd want different work.",
+    "A stretch project would probably wake me back up.",
+    "Even owning one new area would change how this feels."
+  ]
+}

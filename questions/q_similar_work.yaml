@@ -1,0 +1,9 @@
+alias: q_similar_work
+label: Similar work
+name: What kind of work has started to feel too similar?
+description: Drills into the repeated-work thread to surface where the plateau is coming from.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

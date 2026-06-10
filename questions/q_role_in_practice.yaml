@@ -1,0 +1,10 @@
+alias: q_role_in_practice
+label: Role in practice
+name: Where does your day-to-day still look more like hands-on execution than the role you want to be in?
+description: Surfaces the places he is still operating as the doer rather than at strategic altitude.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

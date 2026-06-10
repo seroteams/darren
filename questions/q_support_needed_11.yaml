@@ -1,0 +1,10 @@
+alias: q_support_needed_11
+label: Support needed
+name: What would help you surface risk earlier next time?
+description: Looks for a concrete support or process change that would reduce silent slips.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

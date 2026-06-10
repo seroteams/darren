@@ -1,0 +1,9 @@
+alias: q_flatter_week_2
+label: Flatter week
+name: "What's making this week feel flatter than you expected?"
+description: Drills into the post-launch dip to locate whether the friction is energy, workload, or team-related.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

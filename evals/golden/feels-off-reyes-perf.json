@@ -1,0 +1,7 @@
+{
+  "id": "feels-off-reyes-perf",
+  "scenario": "scenarios/batch/reyes-feels-off-missed-deadlines.json",
+  "kind": "happy",
+  "expect": { "verdict": "PASS", "hard_fails": [] },
+  "human_label": "PROVISIONAL — ratify at first baseline run. Stealth performance review: a 'Something feels off' arc with performance-flavoured notes (missed deadlines) must NOT surface a competency focus point. Regresses with FOCUS_ARC_LEAK if the engine evaluates instead of framing."
+}

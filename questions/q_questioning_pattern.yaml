@@ -1,0 +1,10 @@
+alias: q_questioning_pattern
+label: Questioning pattern
+name: What makes you hold back from asking a question in the moment?
+description: Probes whether low question-asking is confidence, clarity, or a habit from elsewhere.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

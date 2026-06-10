@@ -1,0 +1,10 @@
+alias: q_manager_investment_3
+label: Manager investment
+name: What kind of support from me would actually help you stay at the right altitude?
+description: "Identifies the manager's role in reinforcing strategic focus without defaulting to generic support."
+purpose: wellbeing
+stage: investment
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

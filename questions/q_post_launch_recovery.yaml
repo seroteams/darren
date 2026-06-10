@@ -1,0 +1,10 @@
+alias: q_post_launch_recovery
+label: Post-launch recovery
+name: "What has this week felt like after Monday's ship?"
+description: Checks whether the quieter stretch is normal recovery or something else without assuming a problem.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

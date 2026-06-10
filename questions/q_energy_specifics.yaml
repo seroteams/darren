@@ -1,0 +1,10 @@
+alias: q_energy_specifics
+label: Energy specifics
+name: "When you say 'fine', what has the last two weeks actually looked like?"
+description: Clarifies the shallow opener so Sam names concrete signal about recent energy and pace.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added

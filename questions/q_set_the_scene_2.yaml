@@ -1,0 +1,9 @@
+alias: q_set_the_scene_2
+label: Set the scene
+name: Before we get into specifics, what feels most worth talking through today?
+description: Safe opener that lets Sam set context and choose the most relevant thread.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: generated

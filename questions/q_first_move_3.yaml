@@ -1,0 +1,10 @@
+alias: q_first_move_3
+label: First move
+name: What is the first step you want to take before we meet again?
+description: Closes on a concrete commitment that follows from the growth conversation.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

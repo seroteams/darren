@@ -109,7 +109,7 @@ function renderRun({ id, dir, scenario, brief, prepIssues, transcript, arc, cove
   return L.join("\n");
 }
 
-async function processRun(dir, judgeOn) {
+async function processRun(dir, judgeOn, suggestOn) {
   const ss = loadJson(path.join(dir, "session-state.json"), {});
   const ctx = ss.ctx || {};
   const scenario = { name: ctx.name, role: ctx.role, seniority: ctx.seniority, meeting_type: ctx.meetingType, manager_notes: ctx.notes };
@@ -146,6 +146,7 @@ async function processRun(dir, judgeOn) {
 
   const id = path.basename(dir);
   const md = renderRun({ id, dir, scenario, brief, prepIssues, transcript, arc, coverage, servedLint, briefing, trust, judge });
+  let suggest = null;
   const data = {
     id,
     name: scenario.name, role: scenario.role, seniority: scenario.seniority, meeting: scenario.meeting_type,
@@ -156,13 +157,18 @@ async function processRun(dir, judgeOn) {
       goodOutcome: brief.goodOutcome, suggestedAction: brief.suggestedAction,
     },
     prepIssues,
-    questions: (transcript || []).map((t, i) => ({ turn: i + 1, stage: t?.question?.stage || "", name: t?.question?.name || "" })),
+    questions: (transcript || []).map((t, i) => ({ turn: i + 1, stage: t?.question?.stage || "", name: t?.question?.name || "", note: t?.answer || "" })),
     arc: { expected: arc.arc.map((s) => s.id), covered: coverage.matched_count, total: coverage.expected_count, missing: coverage.missing_stage_ids },
     servedLint,
     briefing: briefing ? { headline: briefing.headline, next_actions: (briefing.next_actions || []).map((a) => ({ when: a.when, action: a.action })) } : null,
     trust: { pass: trust.pass, privatePhrases: trust.privatePhrases, leaks: trust.leaks },
     judge,
   };
+  if (suggestOn) {
+    try { suggest = await require("./suggest-judge").judgeDimensions(data); }
+    catch (e) { console.error(`suggest failed for ${id}: ${e.message}`); }
+    data.suggest = suggest;
+  }
   return { id, scenario, prepIssues, coverage, servedLint, trust, judge, md, data };
 }
 
@@ -179,6 +185,7 @@ function writeHtml(outDir, rows) {
 async function main() {
   const args = process.argv.slice(2);
   const judgeOn = args.includes("--judge");
+  const suggestOn = args.includes("--suggest");
   let label = "baseline";
   const li = args.indexOf("--label"); if (li >= 0) label = args[li + 1];
   let dirs = [];
@@ -195,7 +202,7 @@ async function main() {
   for (const d of dirs) {
     const abs = path.isAbsolute(d) ? d : path.join(ROOT, d);
     if (!fs.existsSync(path.join(abs, "session-state.json"))) { console.error(`skip (no session-state): ${d}`); continue; }
-    const r = await processRun(abs, judgeOn);
+    const r = await processRun(abs, judgeOn, suggestOn);
     fs.writeFileSync(path.join(outDir, `${r.id}.md`), r.md);
     rows.push(r);
     console.error(`rendered ${r.id} — ${r.scenario.name} (${r.scenario.meeting_type})`);

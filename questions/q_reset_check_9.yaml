@@ -1,0 +1,9 @@
+alias: q_reset_check_9
+label: Reset check
+name: Is now a good time for this conversation, or should we pick another time?
+description: Directly resets a non-functional session and checks whether to continue.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +1
+source: planner_added

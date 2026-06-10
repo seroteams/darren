@@ -1,0 +1,18 @@
+{
+  "name": "Reyes",
+  "role": "Backend Engineer",
+  "seniority": "Mid-level",
+  "meeting_type": "Something feels off",
+  "manager_notes": "Reyes missed two deadlines this month, and the second one slipped without a heads-up. Rather than walking in and framing it as a reliability problem — last time I came down hard it backfired and he went quiet for weeks — I want to understand what is going on underneath the slips. It could be workload, unclear ownership, motivation, or something outside work. I would like to explore that before treating this as a performance issue.",
+  "answers": [
+    "Yeah, the deadlines got away from me, I know.",
+    "The second one I should have flagged earlier, that's on me.",
+    "Honestly there's been a lot landing on me at once.",
+    "Some of it I wasn't even sure who actually owned.",
+    "It hasn't been a great few weeks outside work either, if I'm honest.",
+    "I don't think I'm in over my head, it just piled up.",
+    "Clearer priorities would help me not drop things.",
+    "I want to get back to being someone you can count on.",
+    "Knowing you're not writing me off would honestly take the pressure down."
+  ]
+}

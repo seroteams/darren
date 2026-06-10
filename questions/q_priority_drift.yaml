@@ -1,0 +1,10 @@
+alias: q_priority_drift
+label: Priority drift
+name: What pulled your attention away from your planned priorities this fortnight?
+description: "Surfaces where Sam's focus shifted and whether that shift was intentional or reactive."
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

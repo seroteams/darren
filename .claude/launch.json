@@ -10,7 +10,7 @@
     {
       "name": "verdict-review",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["scripts/serve-static.js", "logs/benchmark/baseline-sweep", "4178"],
+      "runtimeArgs": ["scripts/serve-static.js", "logs/benchmark/messy-12", "4178"],
       "port": 4178
     },
     {

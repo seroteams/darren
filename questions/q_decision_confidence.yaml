@@ -1,0 +1,10 @@
+alias: q_decision_confidence
+label: Decision confidence
+name: When a cross-team decision is fuzzy, how do you decide whether to push, wait, or escalate?
+description: Surfaces his decision rule for ambiguous coordination moments.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

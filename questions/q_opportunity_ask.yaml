@@ -1,0 +1,10 @@
+alias: q_opportunity_ask
+label: Opportunity ask
+name: Which opportunities does he want clearly enough to ask for them directly?
+description: Turns his blocker into a concrete articulation of the opportunities he wants.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +1
+  growth: +3
+source: planner_added

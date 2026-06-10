@@ -1,0 +1,10 @@
+alias: q_two_week_move_2
+label: Two-week move
+name: "Given what we've covered, where do you want to focus first before we meet again?"
+description: Closes on a specific next step that advances the growth path without opening new threads.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_two_week_move"

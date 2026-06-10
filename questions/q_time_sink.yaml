@@ -1,0 +1,10 @@
+alias: q_time_sink
+label: Time sink
+name: What kept taking more time than it should have in the last two weeks?
+description: Looks for hidden time drains without assuming a blocker label.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_pressure_source
+label: Pressure source
+name: What has felt most heavy in the last couple of weeks of work?
+description: Gently probes stress, load, or outside pressure without naming a diagnosis.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+source: generated

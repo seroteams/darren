@@ -1,0 +1,9 @@
+alias: q_support_needed_13
+label: Support needed
+name: What support from me would make the biggest difference over the next two weeks?
+description: Open closer that lands the session on practical manager support for the next stretch.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: planner_added

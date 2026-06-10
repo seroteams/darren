@@ -1,0 +1,9 @@
+alias: q_hidden_dependency
+label: Hidden dependency
+name: What was the part of those deadlines that was waiting on someone or something else?
+description: Gets at dependencies that may not have been visible when dates moved.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: generated

@@ -1,0 +1,10 @@
+alias: q_feedback_received
+label: Feedback received
+name: What feedback did you actually take away from that promotion conversation?
+description: Surfaces the message he heard versus what may have been intended.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

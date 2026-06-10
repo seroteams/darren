@@ -1,0 +1,9 @@
+alias: q_recognition_mismatch
+label: Recognition mismatch
+name: What work do you think actually gets recognized here?
+description: Clarifies the recognition model he believes the organization rewards.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

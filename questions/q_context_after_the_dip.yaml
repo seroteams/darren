@@ -1,0 +1,10 @@
+alias: q_context_after_the_dip
+label: Context after the dip
+name: Since we last spoke, what has felt most different in your work life?
+description: Gives James room to name the shift in his own terms before any specific topic is introduced.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

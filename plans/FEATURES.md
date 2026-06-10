@@ -51,8 +51,9 @@ Every run goes through these in order. Each stage logs `inputs.json`, `prompt.md
 
 ### Stage 1 — Focus points (`src/generate.js`, `prompts/generate-focus-points.md`)
 - Model: `gpt-4o`.
-- Input: intake + a 24-entry focus-point **catalogue** (workload, priorities, blockers, energy, team_connection, growth, feedback, recognition, role_clarity, manager_support, quality, speed, ownership, communication, reliability, judgment, collaboration, impact, decision_making_speed, technical_problem_solving, stakeholder_engagement, delegation, cross_team_alignment, risk_assessment).
+- Input: intake + a 21-entry focus-point **catalogue** — 3 `wellbeing` (workload, energy, team_connection), 7 `topic` (priorities, blockers, growth, feedback, recognition, role_clarity, manager_support), 11 `competency` (quality, speed, ownership, communication, reliability, judgment, impact, decision_making_speed, technical_problem_solving, stakeholder_engagement, delegation).
 - Output: 2–5 focus points with `id`, tailored `label` (topic phrase, never a question), `reason` (different shape rules for `signal` vs `best_practice`), `source` (`signal` | `best_practice`).
+- **Relational-arc gate:** Bi-weekly check-in and "Something feels off" draw only from `wellbeing`/`topic` entries — never a `competency` entry (those read as a hidden performance review). Enforced in the prompt and by `runFocusArcGate` (`src/golden-checks.js`), surfaced as the `FOCUS_ARC_LEAK` hard-fail in the trust gate.
 - Rules enforced in prompt: label-shape gate (no question-word starts), banned-phrase list ("standard anchor", "hygiene", "pulse check", etc.), reason-shape rule (best_practice reasons must start with `Whether `, `How they're `, `What `, or `If `), signal-honesty (notes with content must produce ≥1 signal point).
 
 ### Stage 1b — Preparation briefing (`src/preparation.js`, `prompts/preparation.md`)

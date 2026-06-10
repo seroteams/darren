@@ -71,6 +71,11 @@ function loadBriefing(sessionDir) {
   }
 }
 
+function loadFocusPoints(sessionDir) {
+  const fp = loadJson(path.join(sessionDir, "01-focus-points", "response.json"), null);
+  return fp?.focus_points || [];
+}
+
 function loadTranscript(sessionDir) {
   return loadJson(path.join(sessionDir, "transcript.json"), []);
 }
@@ -95,6 +100,7 @@ async function runOneCase(def, args) {
   const briefing = loadBriefing(smoke.sessionDir);
   const transcript = loadTranscript(smoke.sessionDir);
   const bankQuestions = loadBankQuestions(smoke.sessionDir);
+  const focusPoints = loadFocusPoints(smoke.sessionDir);
   let metrics = null;
   try {
     const s = scoreSessionDir(smoke.sessionDir, scenario);
@@ -111,6 +117,7 @@ async function runOneCase(def, args) {
     transcript,
     managerNotes: scenario.manager_notes || "",
     bankQuestions,
+    focusPoints,
     meetingType: scenario.meeting_type,
     metrics,
   });

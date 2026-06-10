@@ -1,0 +1,10 @@
+alias: q_sequence_trade_off
+label: Sequence trade-off
+name: What are you choosing not to take on next quarter?
+description: Forces a real prioritisation trade-off and reveals what she is protecting.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

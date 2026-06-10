@@ -1,7 +1,37 @@
 // Offline pass/fail gates for golden regression scenarios (Priya Jun02+).
 
+const fs = require("node:fs");
+const path = require("node:path");
 const { validateQuestionBeforeShow, startsWithBrokenFragment } = require("./question-validator");
 const { applyManagerBriefingPostProcess } = require("./reviewer");
+const { isRelationalArc } = require("./relational-arcs");
+
+// Focus catalogue category lookup (id -> category) for the relational-arc gate.
+const FOCUS_CATALOGUE = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "..", "focus-points.json"), "utf8")
+);
+const FOCUS_CATEGORY_BY_ID = new Map(
+  (FOCUS_CATALOGUE.focus_points || []).map((fp) => [fp.id, fp.category])
+);
+
+// runFocusArcGate — for Bi-weekly check-in and Something feels off, every focus
+// point must be a `wellbeing`/`topic` entry; a `competency` entry is a hard fail.
+// Category is resolved from the catalogue by id (never trusting a passed-in
+// field). Detection only: it never edits the model output. Returns a failures
+// array (mirrors runManagerBriefingBans).
+function runFocusArcGate(focusPoints, meetingType) {
+  const failures = [];
+  if (!isRelationalArc(meetingType)) return failures;
+  const points = Array.isArray(focusPoints) ? focusPoints : [];
+  for (const fp of points) {
+    const id = fp && fp.id;
+    if (!id) continue;
+    if (FOCUS_CATEGORY_BY_ID.get(id) === "competency") {
+      failures.push(`relational arc "${meetingType}" emitted competency focus point: ${id}`);
+    }
+  }
+  return failures;
+}
 
 const AXIS_MIN = -10;
 const AXIS_MAX = 10;
@@ -268,6 +298,7 @@ module.exports = {
   MANAGER_BRIEFING_BANS,
   collectBriefingText,
   runManagerBriefingBans,
+  runFocusArcGate,
   runEvalIntegrityChecks,
   runQuestionStemChecks,
   runQualityPrepListenFor,

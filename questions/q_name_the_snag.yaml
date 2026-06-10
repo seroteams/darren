@@ -1,0 +1,10 @@
+alias: q_name_the_snag
+label: Name the snag
+name: "When you say 'I guess' — what specifically has felt snaggy lately?"
+description: One-shot re-prompt to get a concrete friction example after a non-answer.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added

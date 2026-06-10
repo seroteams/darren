@@ -176,5 +176,29 @@ console.log("\n─── trust-checks unit ───");
   check("employeeFacingText excludes brutal_truth_manager", !text.includes("privately doubts"), text.slice(0, 80));
 }
 
+// 11. Competency focus point in a relational arc → FOCUS_ARC_LEAK
+{
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript: healthyTranscript,
+    bankQuestions: COVERING_BANK,
+    focusPoints: [{ id: "workload" }, { id: "reliability" }],
+    meetingType: "Bi-weekly check-in",
+  });
+  check("competency in relational arc → FOCUS_ARC_LEAK", r.hard_fails.includes("FOCUS_ARC_LEAK"), JSON.stringify(r.hard_fails));
+}
+
+// 12. Clean wellbeing/topic focus in a relational arc → no FOCUS_ARC_LEAK
+{
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript: healthyTranscript,
+    bankQuestions: COVERING_BANK,
+    focusPoints: [{ id: "workload" }, { id: "priorities" }, { id: "team_connection" }],
+    meetingType: "Something feels off",
+  });
+  check("clean relational focus → no FOCUS_ARC_LEAK", !r.hard_fails.includes("FOCUS_ARC_LEAK"), JSON.stringify(r.hard_fails));
+}
+
 console.log(`\n  ${failed === 0 ? "all trust-checks passed" : `${failed} trust-check(s) failed`}\n`);
 process.exit(failed ? 1 : 0);

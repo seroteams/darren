@@ -1,0 +1,10 @@
+alias: q_role_horizon
+label: Role horizon
+name: What would feel like a meaningful step up for you in the next year?
+description: Makes the target horizon concrete enough to discuss trajectory, not just abstract ambition.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

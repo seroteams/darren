@@ -1,0 +1,9 @@
+alias: q_architecture_review
+label: Architecture review
+name: What would presenting there let you show that you cannot show today?
+description: Drills into the architecture review thread to surface the specific capability or visibility he believes it would unlock.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added

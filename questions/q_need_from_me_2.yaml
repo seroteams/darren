@@ -1,0 +1,9 @@
+alias: q_need_from_me_2
+label: Need from me
+name: What support from me would make the biggest difference right now?
+description: Closes by turning the conversation into concrete support or follow-up.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+source: "reworded_from:q_need_from_me"

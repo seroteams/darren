@@ -1,0 +1,9 @@
+alias: q_leverage_example
+label: Leverage example
+name: Where have you recently aimed too low on leverage?
+description: Drills into his own leverage concern with a concrete recent example.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -93,12 +93,13 @@ Behaviour:
 
 <proportioning>
 Per meeting type, mix `signal` and `best_practice` points and lean on appropriate catalogue categories:
-- Bi-weekly check-in + freeform note → 1–2 `signal` + 1–2 `best_practice` (what's in flight, team mood, decisions, feedback either way). Lean on `wellbeing` and `topic` entries.
-- Something feels off → mostly `signal` — the note is why the meeting exists. 1 `best_practice` at most. Lean on `wellbeing` and `topic` entries; keep it human.
+- Bi-weekly check-in + freeform note → 1–2 `signal` + 1–2 `best_practice` (what's in flight, team mood, decisions, feedback either way). **Draw only from `wellbeing` and `topic` entries — never a `competency` entry** (see Relational-arc gate below).
+- Something feels off → mostly `signal` — the note is why the meeting exists. 1 `best_practice` at most. **Draw only from `wellbeing` and `topic` entries — never a `competency` entry** (see Relational-arc gate below); keep it human.
 - Performance & feedback / Growth & career plan → meeting type drives; expect mostly `best_practice` unless notes carry concrete signal. Lean on `competency` entries suited to the level.
-  - Senior/exec: `impact`, `delegation`, `judgment`, `stakeholder_engagement`, `decision_making_speed`, `cross_team_alignment`.
-  - Mid: `quality`, `communication`, `ownership`, `collaboration`, plus `impact` scaled to their scope, plus one growth-relevant `topic` such as `growth` or `feedback`.
+  - Senior/exec: `impact`, `delegation`, `judgment`, `stakeholder_engagement`, `decision_making_speed`.
+  - Mid: `quality`, `communication`, `ownership`, plus `impact` scaled to their scope, plus one growth-relevant `topic` such as `growth` or `feedback`.
   - Junior: `quality`, `communication`, `ownership`, `reliability`.
+- **Relational-arc gate (hard).** For **Bi-weekly check-in** and **Something feels off**, every focus point MUST come from a `wellbeing` or `topic` catalogue entry. Never emit a `competency` entry (`quality`, `speed`, `ownership`, `communication`, `reliability`, `judgment`, `impact`, `decision_making_speed`, `technical_problem_solving`, `stakeholder_engagement`, `delegation`) in these two arcs — a competency label reads as a hidden performance review and breaks the relational frame. For these arcs, focus labels must frame the conversation, not evaluate the person.
 - Sparse or empty notes → 0 `signal`, 2–4 `best_practice`. Do not stretch a thin note to invent signal.
 - **Dominant-signal adjacency (hard).** When the notes carry **one sharp dominant signal** (a single concrete concern, e.g. "too many review rounds before it feels ready"), every `best_practice` point must stay **adjacent to that signal's theme** — it should deepen or surround the same concern, not import an orthogonal competency the notes give no cue for. Concretely: a "review rounds / quality of the work" note supports `quality`, `feedback`, `growth` adjacent to craft — it does NOT support `reliability` (dates/slippage/predictability) unless the notes mention timing. The catalogue examples for a competency are not a licence to introduce its dimension; if the notes are silent on dates, do not add a dates point. Prefer capping `best_practice` to 1 when a single strong signal dominates.
 - **Signal honesty.** When the manager's notes contain a concrete observation (anything other than "n/a", "fine", "nothing flagged", or empty), at least 1 point should be `source: "signal"`. If you cannot find a real observation, every point should be `source: "best_practice"` — that is correct, not a failure.
@@ -139,6 +140,9 @@ Use only one hedge per reason. Do not stack "could be", "might be", "possibly", 
 
 7. Reason length (hard):
 Each `reason` is one sentence, max 22 words. If you wrote two sentences or a semicolon chain, cut to the load-bearing clause.
+
+8. Relational-arc gate (hard):
+For **Bi-weekly check-in** and **Something feels off**, confirm no focus point is a `competency` entry. If one slipped in, replace it with the nearest `wellbeing`/`topic` entry before output (see Relational-arc gate in `<proportioning>`).
 </quality_gate>
 
 <rules>
@@ -151,6 +155,11 @@ Hard boundaries (not negotiable):
 </rules>
 
 <examples>
+
+<!-- Curation discipline (for maintainers promoting real outputs via scripts/focus-example.js):
+keep 1–2 diverse examples PER meeting type; REPLACE a weak example rather than appending;
+keep meeting-type coverage balanced. Piling in many similar examples makes the model copy
+them and produces the same focus points every run — the opposite of what these examples are for. -->
 
 Each example shows `id · label · reason · source`.
 

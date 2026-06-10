@@ -1,0 +1,10 @@
+alias: q_context_check_in_3
+label: Context check-in
+name: What feels most important to talk through today, Tom?
+description: Gives Tom room to set the agenda before any feedback is introduced.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

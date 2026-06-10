@@ -1,0 +1,8 @@
+alias: q_reset_timing_2
+label: Reset timing
+name: Is now a better time to pause and pick this up later?
+description: Direct reset to check whether the conversation should continue at all.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+source: planner_added

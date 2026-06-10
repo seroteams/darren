@@ -12,13 +12,14 @@
 // boundary fast-follow.
 
 const { computeReadQuality } = require("../src/reviewer");
-const { runManagerBriefingBans, runEvalIntegrityChecks } = require("../src/golden-checks");
+const { runManagerBriefingBans, runFocusArcGate, runEvalIntegrityChecks } = require("../src/golden-checks");
 
 const HARD_FAIL = {
   PRIVATE_NOTE_LEAK: "PRIVATE_NOTE_LEAK",
   OVERDIAGNOSIS_ON_THIN: "OVERDIAGNOSIS_ON_THIN",
   WRONG_MEETING_TYPE: "WRONG_MEETING_TYPE",
   ENGINE_VOCAB_LEAK: "ENGINE_VOCAB_LEAK",
+  FOCUS_ARC_LEAK: "FOCUS_ARC_LEAK",
   SCHEMA_INVALID: "SCHEMA_INVALID",
 };
 
@@ -202,7 +203,7 @@ function checkSchemaInvalid(briefing, transcript) {
 
 // Run all deterministic checks. `metrics` (from scripts/lib/session-scores) is
 // optional context that gets logged as a trend, never gated.
-function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQuestions = [], meetingType, metrics = null } = {}) {
+function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQuestions = [], focusPoints = [], meetingType, metrics = null } = {}) {
   const hard_fails = [];
   const warnings = [];
   const details = [];
@@ -238,6 +239,12 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   if (vocab.length) {
     hard_fails.push(HARD_FAIL.ENGINE_VOCAB_LEAK);
     details.push(...vocab);
+  }
+
+  const focusArc = runFocusArcGate(focusPoints, meetingType);
+  if (focusArc.length) {
+    hard_fails.push(HARD_FAIL.FOCUS_ARC_LEAK);
+    details.push(...focusArc);
   }
 
   return finalize({ hard_fails, warnings, details, metrics, read_quality: over.rq });

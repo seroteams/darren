@@ -1,0 +1,10 @@
+alias: q_decision_help
+label: Decision help
+name: "Where did you need a call from me that you didn't get?"
+description: Surfaces missing manager support or decision latency in a concrete way.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

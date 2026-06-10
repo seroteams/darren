@@ -1,0 +1,9 @@
+alias: q_feedback_timing
+label: Feedback timing
+name: What keeps you from getting that feedback earlier?
+description: Turns his stated pattern into a concrete cause rather than staying at the level of self-critique.
+purpose: competency
+stage: evidence
+axis_effects:
+  growth: +3
+source: planner_added

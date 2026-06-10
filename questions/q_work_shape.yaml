@@ -1,0 +1,10 @@
+alias: q_work_shape
+label: Work shape
+name: If you could change one thing about how your work is flowing, what would it be?
+description: Opens a path to adjust workload shape, sequencing, or dependencies.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

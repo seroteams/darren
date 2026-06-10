@@ -1,0 +1,10 @@
+alias: q_mentoring_thread_5
+label: Mentoring thread
+name: What has kept the mentoring thread from moving?
+description: Surfaces the specific blocker or missing condition behind the stalled mentoring plan.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_where_it_got_messy
+label: Where it got messy
+name: Where did the work get messier than you expected over the last two weeks?
+description: Surfaces concrete friction points in the recent work without re-asking the generic slowdown question.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

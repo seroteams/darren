@@ -88,5 +88,35 @@
     "name": "Elena",
     "meeting_type": "Something feels off",
     "run_id": "synthetic-2026-05-31-elena"
+  },
+  {
+    "file": "bea-biweekly-overloaded.json",
+    "name": "Bea",
+    "meeting_type": "Bi-weekly check-in",
+    "run_id": "synthetic-2026-06-10-bea"
+  },
+  {
+    "file": "omar-biweekly-bored.json",
+    "name": "Omar",
+    "meeting_type": "Bi-weekly check-in",
+    "run_id": "synthetic-2026-06-10-omar"
+  },
+  {
+    "file": "hana-growth-frozen-promo.json",
+    "name": "Hana",
+    "meeting_type": "Growth & career plan",
+    "run_id": "synthetic-2026-06-10-hana"
+  },
+  {
+    "file": "wes-feels-off-new-manager.json",
+    "name": "Wes",
+    "meeting_type": "Something feels off",
+    "run_id": "synthetic-2026-06-10-wes"
+  },
+  {
+    "file": "reyes-feels-off-missed-deadlines.json",
+    "name": "Reyes",
+    "meeting_type": "Something feels off",
+    "run_id": "synthetic-2026-06-10-reyes"
   }
 ]

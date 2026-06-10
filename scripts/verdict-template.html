@@ -41,8 +41,9 @@
   main{overflow:auto;min-height:0}
   .wrap{max-width:880px;margin:0 auto;padding:28px 32px 80px}
   .crumb{font-size:12px;color:var(--faint);margin-bottom:6px}
+  .titlerow{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:20px}
   h2.title{margin:0 0 2px;font-size:22px}
-  .sub{color:var(--dim);font-size:13px;margin-bottom:20px}
+  .sub{color:var(--dim);font-size:13px}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin:14px 0}
   .card h3{margin:0 0 12px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
   .note-in{background:#13243b;border:1px solid #244468;border-radius:10px;padding:12px 14px;color:#cfe0f7;font-size:14px}
@@ -54,14 +55,22 @@
   table.q{width:100%;border-collapse:collapse;font-size:14px}
   table.q td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
   table.q td.n{color:var(--faint);width:26px} table.q td.st{color:var(--dim);width:120px;font-size:12px}
+  table.q .qnote{color:var(--dim);font-size:13px;margin-top:3px;font-style:italic}
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
   .chip{font-size:12px;padding:4px 10px;border-radius:20px;background:var(--panel2);border:1px solid var(--line);color:var(--dim)}
   .chip.ok{color:var(--pass);border-color:#1f5d47} .chip.bad{color:var(--fail);border-color:#5d2222}
   /* verdict */
+  .vblock{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+  .vlabel{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
   .vrow{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
   .vrow:last-child{border-bottom:0}
   .vrow .lbl{flex:1;font-size:14px}
   .vrow .hint{font-size:11px;color:var(--faint);display:block;margin-top:1px}
+  .btn-suggest{font-size:13px;padding:6px 12px;border-color:var(--accent);color:var(--accent);white-space:nowrap;flex:none}
+  .sugg{font-size:12px;margin-top:5px;display:none}
+  .sugg--pass{color:var(--pass);display:block} .sugg--fail{color:var(--fail);display:block}
+  .seg button.sugg-pass{box-shadow:inset 0 0 0 1.5px var(--pass)}
+  .seg button.sugg-fail{box-shadow:inset 0 0 0 1.5px var(--fail)}
   .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
   .seg button{border:0;border-radius:0;background:transparent;padding:7px 14px;color:var(--dim)}
   .seg button + button{border-left:1px solid var(--line)}
@@ -93,14 +102,14 @@
 <script>
 const RUNS = /*__RUNS__*/[];
 const DIMENSIONS = [
-  {key:"role_aware", label:"Role / seniority / meeting awareness", hint:"Is the prep specific to THIS person & meeting, or generic?"},
-  {key:"grounded", label:"Grounded / no over-inference", hint:"Every claim traces to the short note; nothing invented."},
-  {key:"useful", label:"Useful & short enough", hint:"Would a real manager walk in more prepared?"},
-  {key:"trust", label:"Trust boundary", hint:"No private manager judgement leaked into output."},
-  {key:"arc", label:"Right arc for the meeting", hint:"Followed the correct shape for this meeting type."},
-  {key:"adapt", label:"Adapts to the person", hint:"Questions shift with role/seniority/notes/answers."},
-  {key:"next_q", label:"Questions are useful", hint:"Each question earns its place; not filler."},
-  {key:"briefing", label:"Final briefing is evidence-based", hint:"Conclusions backed by what was actually said."},
+  {key:"role_aware", section:"brief", label:"Role / seniority / meeting awareness", hint:"Is the prep specific to THIS person & meeting, or generic?"},
+  {key:"grounded", section:"brief", label:"Grounded / no over-inference", hint:"Every claim traces to the short note; nothing invented."},
+  {key:"useful", section:"brief", label:"Useful & short enough", hint:"Would a real manager walk in more prepared?"},
+  {key:"trust", section:"brief", label:"Trust boundary", hint:"No private manager judgement leaked into output."},
+  {key:"arc", section:"questions", label:"Right arc for the meeting", hint:"Followed the correct shape for this meeting type."},
+  {key:"adapt", section:"questions", label:"Adapts to the person", hint:"Questions shift with role/seniority/notes/answers."},
+  {key:"next_q", section:"questions", label:"Questions are useful", hint:"Each question earns its place; not filler."},
+  {key:"briefing", section:"briefing", label:"Final briefing is evidence-based", hint:"Conclusions backed by what was actually said."},
 ];
 const LS = "sero_verdicts_v1";
 let store = {};
@@ -136,6 +145,39 @@ function bulletList(arr){ const ul=el("ul",{className:"tidy"}); (arr||[]).forEac
 
 function kv(k,v){ const d=el("div",{className:"kv"}); d.append(el("div",{className:"k",textContent:k}), el("div",{className:"v",textContent:v||"—"})); return d; }
 
+// Build the inline Pass/Fail rows for one section's dimensions.
+// Returns the DOM rows (wrapped under a "Your call" label) plus the dimRows
+// tracking array the Suggest toggle drives. Marking only re-renders the sidebar,
+// never the run, so scroll stays put.
+function buildDimRows(dims, r, v){
+  const wrap=el("div",{className:"vblock"});
+  wrap.append(el("div",{className:"vlabel",textContent:"Your call"}));
+  const dimRows=[];
+  dims.forEach(d=>{
+    const row=el("div",{className:"vrow"});
+    const lbl=el("div",{className:"lbl"});
+    lbl.append(el("span",{textContent:d.label}), el("span",{className:"hint",textContent:d.hint}));
+    const suggEl=el("div",{className:"sugg"}); lbl.append(suggEl);
+    row.append(lbl);
+    const seg=el("div",{className:"seg"});
+    ["pass","fail"].forEach(val=>{
+      const b=el("button",{textContent:val==="pass"?"Pass":"Fail"});
+      b.dataset.val=val;
+      b.className = (v.marks[d.key]===val?"on "+val:"");
+      b.onclick=()=>{
+        v.marks[d.key]= (v.marks[d.key]===val?null:val);
+        save(); // updates sidebar progress only — does NOT redraw the run, so scroll stays put
+        seg.querySelectorAll("button").forEach(btn=>{ btn.className = (v.marks[d.key]===btn.dataset.val?"on "+btn.dataset.val:""); });
+      };
+      seg.append(b);
+    });
+    row.append(seg);
+    wrap.append(row);
+    dimRows.push({key:d.key, seg, suggEl});
+  });
+  return {wrap, dimRows};
+}
+
 function select(id){
   const sameRun = (current===id);
   const mainEl = document.querySelector("main");
@@ -145,8 +187,15 @@ function select(id){
   const m = document.getElementById("main"); m.innerHTML="";
   const w = el("div");
   w.append(el("div",{className:"crumb",textContent:"Run "+(RUNS.indexOf(r)+1)+" of "+RUNS.length}));
-  w.append(el("h2",{className:"title",textContent:r.name+" · "+r.role}));
-  w.append(el("div",{className:"sub",textContent:r.seniority+" · "+r.meeting}));
+  const titleRow=el("div",{className:"titlerow"});
+  const titleBox=el("div");
+  titleBox.append(el("h2",{className:"title",textContent:r.name+" · "+r.role}));
+  titleBox.append(el("div",{className:"sub",textContent:r.seniority+" · "+r.meeting}));
+  titleRow.append(titleBox);
+  let suggestBtn=null;
+  if(r.suggest){ suggestBtn=el("button",{className:"btn-suggest",textContent:"💡 Suggest"}); titleRow.append(suggestBtn); }
+  w.append(titleRow);
+  const allDimRows=[];
 
   // sparse note
   let c = el("div",{className:"card"});
@@ -164,19 +213,21 @@ function select(id){
   c.append(kv("Good outcome", r.brief.goodOutcome));
   c.append(kv("Suggested action", r.brief.suggestedAction));
   if((r.prepIssues||[]).length){ const ch=el("div",{className:"chips"}); r.prepIssues.forEach(i=>ch.append(el("span",{className:"chip bad",textContent:i}))); c.append(ch); }
+  { const b=buildDimRows(DIMENSIONS.filter(d=>d.section==="brief"), r, v); c.append(b.wrap); allDimRows.push(...b.dimRows); }
   w.append(c);
 
   // questions
   c = el("div",{className:"card"});
   c.append(el("h3",{textContent:"Questions it asked"}));
   const tb=el("table",{className:"q"});
-  (r.questions||[]).forEach((q,i)=>{ const tr=el("tr"); tr.append(el("td",{className:"n",textContent:(i+1)}), el("td",{className:"st",textContent:q.stage||"—"}), el("td",{textContent:q.name})); tb.append(tr); });
+  (r.questions||[]).forEach((q,i)=>{ const tr=el("tr"); const qcell=el("td"); qcell.append(el("div",{textContent:q.name})); if(q.note){ qcell.append(el("div",{className:"qnote",textContent:"— "+q.note})); } tr.append(el("td",{className:"n",textContent:(i+1)}), el("td",{className:"st",textContent:q.stage||"—"}), qcell); tb.append(tr); });
   c.append(tb);
   const ch=el("div",{className:"chips"});
   ch.append(el("span",{className:"chip",textContent:"arc covered "+r.arc.covered+"/"+r.arc.total}));
   if(r.servedLint.yesno) ch.append(el("span",{className:"chip bad",textContent:r.servedLint.yesno+" yes/no"}));
   if(r.servedLint.presup) ch.append(el("span",{className:"chip bad",textContent:r.servedLint.presup+" presupposed"}));
   c.append(ch);
+  { const b=buildDimRows(DIMENSIONS.filter(d=>d.section==="questions"), r, v); c.append(b.wrap); allDimRows.push(...b.dimRows); }
   w.append(c);
 
   // briefing
@@ -185,29 +236,30 @@ function select(id){
   c.append(kv("Headline", r.briefing && r.briefing.headline));
   if(r.briefing && r.briefing.next_actions){ const k=el("div",{className:"kv"}); k.append(el("div",{className:"k",textContent:"Next actions"}), bulletList(r.briefing.next_actions.map(a=>(a.when?a.when+": ":"")+(a.action||a)))); c.append(k); }
   const tc=el("div",{className:"chips"}); tc.append(el("span",{className:"chip "+(r.trust.pass?"ok":"bad"),textContent:r.trust.pass?"trust ok":"trust FLAG"})); c.append(tc);
+  { const b=buildDimRows(DIMENSIONS.filter(d=>d.section==="briefing"), r, v); c.append(b.wrap); allDimRows.push(...b.dimRows); }
   w.append(c);
 
-  // VERDICT
+  // single Suggest toggle drives every inline row
+  if(suggestBtn){
+    let shown=false;
+    suggestBtn.onclick=()=>{
+      shown=!shown;
+      allDimRows.forEach(dr=>{
+        const s=(r.suggest||{})[dr.key];
+        if(!s){ dr.suggEl.className="sugg"; return; }
+        if(shown){
+          dr.suggEl.textContent="💡 suggests "+(s.verdict==="pass"?"Pass":"Fail")+" — "+s.reason;
+          dr.suggEl.className="sugg sugg--"+s.verdict;
+        } else { dr.suggEl.className="sugg"; }
+        dr.seg.querySelectorAll("button").forEach(btn=>{ btn.classList.toggle("sugg-"+s.verdict, shown && btn.dataset.val===s.verdict); });
+      });
+      suggestBtn.textContent = shown ? "💡 Hide suggestions" : "💡 Suggest";
+    };
+  }
+
+  // notes
   c = el("div",{className:"card"});
-  c.append(el("h3",{textContent:"Your verdict"}));
-  DIMENSIONS.forEach(d=>{
-    const row=el("div",{className:"vrow"});
-    const lbl=el("div",{className:"lbl"}); lbl.append(el("span",{textContent:d.label}), el("span",{className:"hint",textContent:d.hint})); row.append(lbl);
-    const seg=el("div",{className:"seg"});
-    ["pass","fail"].forEach(val=>{
-      const b=el("button",{textContent:val==="pass"?"Pass":"Fail"});
-      b.dataset.val=val;
-      b.className = (v.marks[d.key]===val?"on "+val:"");
-      b.onclick=()=>{
-        v.marks[d.key]= (v.marks[d.key]===val?null:val);
-        save(); // updates sidebar progress only — does NOT redraw the run, so scroll stays put
-        seg.querySelectorAll("button").forEach(btn=>{ btn.className = (v.marks[d.key]===btn.dataset.val?"on "+btn.dataset.val:""); });
-      };
-      seg.append(b);
-    });
-    row.append(seg);
-    c.append(row);
-  });
+  c.append(el("h3",{textContent:"Notes on this run"}));
   const ta=el("textarea",{placeholder:"Notes on this run (optional)…",value:v.note||""});
   ta.oninput=()=>{ v.note=ta.value; localStorage.setItem(LS,JSON.stringify(store)); };
   c.append(ta);

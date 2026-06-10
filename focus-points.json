@@ -177,17 +177,6 @@
       ]
     },
     {
-      "id": "collaboration",
-      "label": "Collaboration",
-      "category": "competency",
-      "description": "How they raise the room: help they give, context they share, input they accept.",
-      "label_examples": [
-        "Unblocking juniors without taking over",
-        "Sharing context proactively in design reviews",
-        "Receiving pushback without defensiveness"
-      ]
-    },
-    {
       "id": "impact",
       "label": "Impact",
       "category": "competency",
@@ -224,11 +213,11 @@
       "id": "stakeholder_engagement",
       "label": "Stakeholder engagement",
       "category": "competency",
-      "description": "How they manage relationships beyond the immediate team — trust, expectations, hard news.",
+      "description": "Trust and alignment with the people and teams needed to move the work forward — exec peers, cross-functional leads, adjacent teams.",
       "label_examples": [
         "Working with Product on roadmap tradeoffs",
-        "Board-level communication (CTO)",
-        "Managing a demanding internal customer"
+        "Pre-wiring decisions with adjacent leads",
+        "Board-level communication (CTO)"
       ]
     },
     {
@@ -240,28 +229,6 @@
         "Letting Staff own the roadmap",
         "Not jumping on every incident (CTO)",
         "Coaching mids to run their own specs"
-      ]
-    },
-    {
-      "id": "cross_team_alignment",
-      "label": "Cross-team alignment",
-      "category": "competency",
-      "description": "Reducing friction at team boundaries; keeping other teams in the loop.",
-      "label_examples": [
-        "Platform ↔ product team interface",
-        "Pre-wiring decisions with adjacent leads",
-        "Avoiding last-minute surprises for other teams"
-      ]
-    },
-    {
-      "id": "risk_assessment",
-      "label": "Risk assessment accuracy",
-      "category": "competency",
-      "description": "Flagging real risk early without crying wolf; calibration.",
-      "label_examples": [
-        "Calling the migration risk two weeks out",
-        "Calibration on 'red' vs 'yellow' project status",
-        "Security/compliance risk surfacing"
       ]
     }
   ]

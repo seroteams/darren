@@ -11,7 +11,19 @@ const CATALOGUE = JSON.parse(fs.readFileSync(FOCUS_POINTS_PATH, "utf8"));
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
+const { isRelationalArc } = require("./relational-arcs");
 const getDefaultModel = () => modelFor("focus_points");
+
+// Relational arcs (Bi-weekly check-in, Something feels off) must never surface a
+// competency focus point — it reads as a hidden performance review. The model
+// can't pick what it isn't given, so we drop competency entries from the menu it
+// sees for these arcs. The trust gate (FOCUS_ARC_LEAK) stays as a backstop.
+function catalogueForArc(catalogue, meetingType) {
+  if (!isRelationalArc(meetingType)) return catalogue;
+  return {
+    focus_points: (catalogue.focus_points || []).filter((fp) => fp.category !== "competency"),
+  };
+}
 
 const RESPONSE_SCHEMA = {
   type: "object",
@@ -88,7 +100,8 @@ async function generateFocusPoints(
   { model = getDefaultModel(), session, stage = "01-focus-points" } = {}
 ) {
   const catalogue = loadFocusPoints();
-  const messages = buildMessages({ ...inputs, focusPoints: catalogue });
+  const offered = catalogueForArc(catalogue, inputs.meetingType);
+  const messages = buildMessages({ ...inputs, focusPoints: offered });
   const raw = await callOpenAI({ ...messages, model });
 
   logStage(session, stage, {

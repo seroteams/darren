@@ -1,0 +1,9 @@
+alias: q_context_check_in_2
+label: Context check-in
+name: Before we get into specifics, what feels most worth talking through today?
+description: Safe opener that lets Priya set the agenda before any concern is introduced.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  clarity: +1
+source: generated

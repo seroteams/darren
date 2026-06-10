@@ -1,0 +1,10 @@
+alias: q_friction_scan_5
+label: Friction scan
+name: Where have things gotten complicated lately?
+description: Invites them to name blockers or snags in a neutral, concrete way.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_intro_biweekly_friction"

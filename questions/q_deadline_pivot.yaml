@@ -1,0 +1,9 @@
+alias: q_deadline_pivot
+label: Deadline pivot
+name: When you say the deadlines got away from you, what happened there?
+description: Follows his pivot into the missed deadlines and lets him describe the situation in his own terms.
+purpose: topic
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

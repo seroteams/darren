@@ -1,0 +1,10 @@
+alias: q_mentoring_tradeoff_4
+label: Mentoring tradeoff
+name: What does the mentoring program let you do that your core work does not?
+description: Tests whether the program is serving a real development need or pulling him sideways.
+purpose: competency
+stage: underneath
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated
