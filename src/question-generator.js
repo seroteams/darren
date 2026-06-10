@@ -79,22 +79,58 @@ function renderPrepListenFor(items) {
   return Array.isArray(items) && items.length ? JSON.stringify(items, null, 2) : "(none)";
 }
 
-// Place the prep-anchored opener (the bank item labeled "Prep opener") right
-// after the warm self-read intro questions, so the prep opening question is the
-// first substantive question — not buried after the fixed intro probes. No-op
-// when there's no prep brief or no tagged opener (e.g. the seed-bank fallback).
+// The bank item the model tagged as the prep-anchored opener (or null).
+function findPrepOpener(items) {
+  return (items || []).find((q) => /prep opener/i.test(q.label || "")) || null;
+}
+
+// A warm question is a pre-written opener/intro: the meeting's first arc stage
+// (or self_read) AND a seed/semi_set source. The prep opener (source
+// "generated") and planner thread-follows are never warm, so they don't get
+// counted into the leading warm run.
+function warmIntroFilter(meetingType) {
+  const anchorStageId = getArc(meetingType).arc[0]?.id || null;
+  const warmStages = new Set(["self_read", anchorStageId].filter(Boolean));
+  return (q) =>
+    warmStages.has(q.stage) &&
+    (q.source === "seed" || q.source === "semi_set" || /^q_(intro|open)/.test(q.alias || ""));
+}
+
+// Place the prep opener right after the leading run of warm intro questions, so
+// it's the first SUBSTANTIVE question — not buried behind the fixed intro probes
+// or a planner thread-follow. minIndex keeps it from ever being literally first
+// during initial assembly (when the warm opener sits at position 0).
+function placePrepOpener(queue, prepOpener, meetingType, minIndex = 0) {
+  if (!prepOpener) return queue;
+  const isWarm = warmIntroFilter(meetingType);
+  const rest = (queue || []).filter((q) => q.alias !== prepOpener.alias);
+  let insertAt = 0;
+  while (insertAt < rest.length && isWarm(rest[insertAt])) insertAt += 1;
+  if (insertAt < minIndex) insertAt = minIndex;
+  return [...rest.slice(0, insertAt), prepOpener, ...rest.slice(insertAt)];
+}
+
+// Initial queue assembly: intro questions + bank, with the prep opener moved up
+// to just after the warm opener. No-op without a prep brief or tagged opener
+// (e.g. the seed-bank fallback).
 function assembleQueueWithPrepOpener(introQueue, bank, prep, meetingType) {
   const base = [...(introQueue || []), ...(bank || [])];
   if (!prep?.openingQuestion || !bank?.length || !introQueue?.length) return base;
-  const opener = bank.find((q) => /prep opener/i.test(q.label || ""));
+  const opener = findPrepOpener(bank);
   if (!opener) return base;
-  const restBank = bank.filter((q) => q !== opener);
-  const anchorStageId = getArc(meetingType).arc[0]?.id || null;
-  const warm = new Set(["self_read", anchorStageId].filter(Boolean));
-  let insertAt = 0;
-  while (insertAt < introQueue.length && warm.has(introQueue[insertAt].stage)) insertAt += 1;
-  if (insertAt === 0) insertAt = 1; // never literally first
-  return [...introQueue.slice(0, insertAt), opener, ...introQueue.slice(insertAt), ...restBank];
+  return placePrepOpener(base, opener, meetingType, 1);
+}
+
+// Per-turn pin: keep the prep opener as the first substantive question until it
+// has been asked. The live planner re-plans the whole queue each turn and will
+// otherwise bury or drop it (it doesn't know the opener is special). Re-inserts
+// it if the planner dropped it. No-op once it's been asked.
+function pinPrepOpenerEarly(queue, prepOpener, askedAliases, meetingType) {
+  if (!prepOpener) return queue;
+  if (askedAliases && typeof askedAliases.has === "function" && askedAliases.has(prepOpener.alias)) {
+    return queue;
+  }
+  return placePrepOpener(queue, prepOpener, meetingType, 0);
 }
 
 function buildMessages({
@@ -257,4 +293,6 @@ module.exports = {
   buildMessages,
   callOpenAI,
   assembleQueueWithPrepOpener,
+  findPrepOpener,
+  pinPrepOpenerEarly,
 };

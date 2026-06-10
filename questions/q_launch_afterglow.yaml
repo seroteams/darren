@@ -1,0 +1,9 @@
+alias: q_launch_afterglow
+label: Launch afterglow
+name: What has felt most settled since the launch landed?
+description: Surfaces whether the post-launch state is genuinely calm or still carrying residual tension.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +1
+source: generated

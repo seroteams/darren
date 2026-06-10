@@ -1,0 +1,10 @@
+alias: q_closer_next_steps_3
+label: Closer next steps
+name: What would make the next two weeks feel steadier for you?
+description: Ends the check-in by landing on practical support and near-term steadiness.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

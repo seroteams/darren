@@ -1,0 +1,10 @@
+alias: q_after_the_push
+label: After the push
+name: Where is your energy sitting now that the payments refactor is out the door?
+description: Checks for post-delivery fatigue or relief without assuming either.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

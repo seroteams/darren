@@ -1,6 +1,6 @@
 const { requireSession } = require("../sessions");
 const { runStage } = require("./stream-helper");
-const { generateBankWithFallback } = require("../../../src/question-generator");
+const { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener } = require("../../../src/question-generator");
 const { selectReservedCloser } = require("../../../src/closer");
 const { getSessionSelectedFocus } = require("../selected-focus");
 const { loadPersona, scriptedQuestions } = require("../persona-script");
@@ -34,6 +34,7 @@ module.exports = async function bank(c) {
       }
 
       const selectedFocus = getSessionSelectedFocus(session);
+      const prep = session.preparationResult?.brief || null;
       const bankItems = await generateBankWithFallback(
         {
           focusPoints: session.focusPointsResult.focus_points,
@@ -41,11 +42,13 @@ module.exports = async function bank(c) {
           selectedFocus,
           primaryFocusId: selectedFocus?.id,
           existingQueue: session.introQueue,
+          prep,
         },
         { session: { id: session.id, dir: session.dir } },
         { onFallback: (e) => console.warn("[bank] generation failed, falling back to _seed:", e.message) }
       );
-      session.queueRef = [...session.introQueue, ...bankItems];
+      session.queueRef = assembleQueueWithPrepOpener(session.introQueue, bankItems, prep, session.ctx.meetingType);
+      session.prepOpener = prep ? findPrepOpener(bankItems) : null;
 
       // Reserve the closer: last bank item tagged with the arc's final stage.
       // plan.js force-inserts this at queueRef[0] when turn + 1 === totalBudget,

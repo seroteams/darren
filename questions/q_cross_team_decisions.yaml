@@ -1,0 +1,9 @@
+alias: q_cross_team_decisions
+label: Cross-team decisions
+name: Which cross-team decisions did you hold back from making?
+description: Anchors the issue in specific moments where he stayed in lane instead of stepping into Principal-level judgment.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -28,6 +28,7 @@ function serialize(s) {
     turn: s.turn,
     totalBudget: s.totalBudget,
     closer: s.closer,
+    prepOpener: s.prepOpener ?? null,
     pendingAnswer: s.pendingAnswer,
     pendingDrillRequest: Boolean(s.pendingDrillRequest),
     showReturningToArcHint: Boolean(s.showReturningToArcHint),

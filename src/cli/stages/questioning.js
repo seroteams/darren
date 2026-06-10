@@ -3,6 +3,7 @@ const path = require("node:path");
 
 const questions = require("../../questions");
 const { planTurn } = require("../../queue-manager");
+const { pinPrepOpenerEarly } = require("../../question-generator");
 const { isForbiddenCloser, pickSeedOverflow } = require("../../closer");
 const { initState, applyDeltas, summarize, serialize } = require("../../axes");
 const cost = require("../../cost");
@@ -26,6 +27,7 @@ async function runQuestioningLoop({
   focusPoints,
   queue,
   closer,
+  prepOpener,
   totalBudget,
   session,
   tracker,
@@ -125,6 +127,12 @@ async function runQuestioningLoop({
     queueRef = plan.newQueue.slice();
 
     const askedAliases = new Set(transcript.map((t) => t.question.alias));
+
+    // Pin the prep opener as the first substantive question until it's asked —
+    // the planner re-plans freely and would otherwise bury it. Runs before the
+    // closer force-insert so the closer still wins on the final turn.
+    queueRef = pinPrepOpenerEarly(queueRef, prepOpener, askedAliases, ctx.meetingType);
+
     if (turn + 1 === totalBudget && closer && !askedAliases.has(closer.alias) && !isForbiddenCloser(closer)) {
       if (queueRef[0]?.alias !== closer.alias) {
         queueRef = queueRef.filter((x) => x.alias !== closer.alias);

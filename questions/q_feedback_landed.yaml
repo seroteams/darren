@@ -1,0 +1,10 @@
+alias: q_feedback_landed
+label: Feedback landed
+name: What feedback from the process actually landed with you?
+description: Tests what he heard, accepted, or discounted from the promotion process.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

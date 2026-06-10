@@ -1,0 +1,10 @@
+alias: q_reactive_work
+label: Reactive work
+name: What reactive work kept showing up more than you wanted?
+description: Surfaces repeated interruptions or last-minute asks that crowded out planned work.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: generated

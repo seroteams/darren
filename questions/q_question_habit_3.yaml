@@ -1,0 +1,10 @@
+alias: q_question_habit_3
+label: Question habit
+name: What stops you from asking more questions earlier when expectations are still forming?
+description: Explores the barrier behind his low question-asking and whether it is habit, confidence, or context.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

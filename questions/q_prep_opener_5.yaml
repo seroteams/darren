@@ -1,0 +1,10 @@
+alias: q_prep_opener_5
+label: Prep opener
+name: How has this week felt since the payments refactor shipped, and did the way it landed match the effort you put in?
+description: "Restates the prep brief opener in fresh words while inviting Priya to frame the week and the refactor's reception."
+purpose: topic
+stage: self_read
+axis_effects:
+  engagement: +3
+  growth: +1
+source: generated

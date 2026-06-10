@@ -1,0 +1,10 @@
+alias: q_earned_influence
+label: Earned influence
+name: What would make stakeholders start treating your judgment as the default on the biggest product calls?
+description: Surfaces what earns influence and trust at his level.
+purpose: competency
+stage: aspiration
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

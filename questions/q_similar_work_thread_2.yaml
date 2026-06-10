@@ -1,0 +1,9 @@
+alias: q_similar_work_thread_2
+label: Similar work thread
+name: What kind of work has started to feel too similar lately?
+description: Turns her plateau comment into a concrete thread so you can locate where momentum is stalling.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added

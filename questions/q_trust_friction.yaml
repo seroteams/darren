@@ -1,0 +1,10 @@
+alias: q_trust_friction
+label: Trust friction
+name: Where do you think stakeholder trust is still thinner than it should be for your level?
+description: Surfaces the trust gaps he sees and how they may limit influence.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

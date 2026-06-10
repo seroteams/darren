@@ -1,0 +1,10 @@
+alias: q_energy_specifics_4
+label: Energy specifics
+name: "When you say 'fine', what has the last two weeks actually looked like?"
+description: One-shot re-prompt to get concrete signal on energy before moving on.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added

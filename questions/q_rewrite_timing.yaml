@@ -1,0 +1,10 @@
+alias: q_rewrite_timing
+label: Rewrite timing
+name: What would you want to know before the billing rewrite starts changing your priorities?
+description: Surfaces what heads-up or context she needs before the next quarter shifts her load.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

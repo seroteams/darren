@@ -1,0 +1,10 @@
+alias: q_future_pull
+label: Future pull
+name: What kind of project would you want to take on next quarter?
+description: Lets Priya surface the kind of stretch she wants without referencing the unannounced billing rewrite.
+purpose: topic
+stage: lift
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_priority_drift_2
+label: Priority drift
+name: Where did your time drift away from the priorities you wanted to hold?
+description: Looks for reactive work or scope creep that pulled attention off course.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

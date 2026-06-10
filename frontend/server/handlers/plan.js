@@ -5,6 +5,7 @@ const { openStream } = require("../sse");
 const { planTurn } = require("../../../src/queue-manager");
 const { applyDeltas, serialize } = require("../../../src/axes");
 const { isForbiddenCloser, pickSeedOverflow } = require("../../../src/closer");
+const { pinPrepOpenerEarly } = require("../../../src/question-generator");
 const { summarizeAgenda, buildCarryForwardQuestion } = require("../../../src/agenda");
 const questions = require("../../../src/questions");
 const { writeJson } = require("../../../src/cli/io");
@@ -112,6 +113,19 @@ module.exports = async function plan(c) {
   const scripted = session.mode === "scripted";
 
   if (!scripted) session.queueRef = planResult.newQueue.slice();
+
+  // Pin the prep opener as the first substantive question until it's asked — the
+  // planner re-plans freely and would otherwise bury it. Scripted runs keep their
+  // frozen path.
+  if (!scripted) {
+    const askedAliases = new Set(session.transcript.map((t) => t.question.alias));
+    session.queueRef = pinPrepOpenerEarly(
+      session.queueRef,
+      session.prepOpener,
+      askedAliases,
+      session.ctx.meetingType
+    );
+  }
 
   // Agenda carry-forward: when the agenda-check answer is real, re-ask it as
   // the immediate next question so the topic the report raised can't be dropped.

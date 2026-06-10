@@ -1,0 +1,10 @@
+alias: q_support_needed_22
+label: Support needed
+name: What would make the next two weeks easier from my side?
+description: Identifies concrete manager support that could reduce friction before plans shift.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

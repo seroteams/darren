@@ -1,0 +1,10 @@
+alias: q_where_you_help
+label: Where you help
+name: Where do you think you could be most useful if you took on more mentoring?
+description: Gets specific about the kind of support Priya could offer and what that would draw on.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

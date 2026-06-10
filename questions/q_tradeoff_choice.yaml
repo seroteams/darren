@@ -1,0 +1,10 @@
+alias: q_tradeoff_choice
+label: Tradeoff choice
+name: What did you choose not to do so you could stay on the important work?
+description: Surfaces prioritisation tradeoffs and what Sam consciously deprioritised.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

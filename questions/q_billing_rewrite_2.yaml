@@ -1,0 +1,9 @@
+alias: q_billing_rewrite_2
+label: Billing rewrite
+name: What feels unclear about your role in the billing rewrite?
+description: Drills into the billing rewrite thread to surface the specific clarity gap.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added

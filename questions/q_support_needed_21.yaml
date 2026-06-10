@@ -1,0 +1,10 @@
+alias: q_support_needed_21
+label: Support needed
+name: What would make mentoring easier to fit without crowding out your core work?
+description: Finds the trade-off between mentoring ambition and current workload.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

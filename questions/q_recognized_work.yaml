@@ -1,0 +1,9 @@
+alias: q_recognized_work
+label: Recognized work
+name: What work do you think gets recognized here instead?
+description: Clarifies his model of what the organisation values and where he sees the mismatch.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -195,14 +195,15 @@ async function main() {
     return;
   }
 
-  await runPreparationStage({ ctx, focusPoints: result.focus_points, session });
+  const prepResult = await runPreparationStage({ ctx, focusPoints: result.focus_points, session });
 
   const introQueue = loadIntroQueue(meetingType.label, INTRO_BUDGET);
-  const { queue, closer } = await runQuestionBankStage({
+  const { queue, closer, prepOpener } = await runQuestionBankStage({
     ctx,
     focusPoints: result.focus_points,
     meetingTypeLabel: meetingType.label,
     introQueue,
+    prep: prepResult?.brief || null,
     session,
   });
 
@@ -212,6 +213,7 @@ async function main() {
     focusPoints: result.focus_points,
     queue,
     closer,
+    prepOpener,
     totalBudget,
     session,
     tracker,

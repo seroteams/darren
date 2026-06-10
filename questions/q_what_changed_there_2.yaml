@@ -1,0 +1,10 @@
+alias: q_what_changed_there_2
+label: What changed there
+name: What changed for you in that moment?
+description: Surfaces the immediate meaning of a specific ritual or interaction without forcing a diagnosis.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

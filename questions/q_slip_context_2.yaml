@@ -1,0 +1,10 @@
+alias: q_slip_context_2
+label: Slip context
+name: Can you walk me through the two deadline misses from your side?
+description: Surfaces the sequence of events and Reyes’s own read on where the slips started.
+purpose: competency
+stage: observation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

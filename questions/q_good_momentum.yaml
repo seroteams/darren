@@ -1,0 +1,10 @@
+alias: q_good_momentum
+label: Good momentum
+name: Which piece of design work moved cleanly for you?
+description: Identifies where Sam had traction and what conditions supported it.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

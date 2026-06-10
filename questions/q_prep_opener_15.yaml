@@ -1,0 +1,10 @@
+alias: q_prep_opener_15
+label: Prep opener
+name: Before we get into the missed dates, how has the last couple of weeks felt from your side in terms of pace and capacity?
+description: "Anchors the conversation in Reyes's recent workload and lets him describe the pace in his own terms."
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

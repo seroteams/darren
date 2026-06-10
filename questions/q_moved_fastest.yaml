@@ -1,0 +1,10 @@
+alias: q_moved_fastest
+label: Moved fastest
+name: Which part of the design moved fastest once you got into it?
+description: Identifies where momentum is strongest and what conditions helped it.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +1
+  growth: +1
+source: generated

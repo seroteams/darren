@@ -1,0 +1,10 @@
+alias: q_early_alignment_2
+label: Early alignment
+name: Where did you bring partners in early enough to shape expectations before the work was underway?
+description: Checks for the early expectation alignment behaviour he has been asked to strengthen.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

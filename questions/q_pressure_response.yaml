@@ -1,0 +1,10 @@
+alias: q_pressure_response
+label: Pressure response
+name: What happened for you after the last time the pace got pushed?
+description: Explores whether past pressure changed how Reyes communicates or asks for help.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

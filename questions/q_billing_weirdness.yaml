@@ -1,0 +1,9 @@
+alias: q_billing_weirdness
+label: Billing weirdness
+name: What feels weird about hearing it that way?
+description: Drills into the billing-rewrite alignment gap she just named.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

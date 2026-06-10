@@ -38,6 +38,7 @@ function createWebSession(ctx, introQueue) {
     turn: 0,
     totalBudget: TOTAL_BUDGET,
     closer: null,
+    prepOpener: null,
     notes: [],
 
     agendaInput: null,

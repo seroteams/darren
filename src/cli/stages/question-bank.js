@@ -1,9 +1,9 @@
-const { generateBankWithFallback } = require("../../question-generator");
+const { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener } = require("../../question-generator");
 const { selectReservedCloser } = require("../../closer");
 const { writeJson, sessionFile } = require("../io");
 const { dim, red, HR, withThinking } = require("../../ui");
 
-async function runQuestionBankStage({ ctx, focusPoints, meetingTypeLabel, introQueue, session }) {
+async function runQuestionBankStage({ ctx, focusPoints, meetingTypeLabel, introQueue, prep, session }) {
   writeJson(sessionFile(session, "02-intro-questions/aliases.json"), {
     meeting_type: meetingTypeLabel,
     aliases: introQueue.map((q) => q.alias),
@@ -13,7 +13,7 @@ async function runQuestionBankStage({ ctx, focusPoints, meetingTypeLabel, introQ
   console.log(HR);
   const bank = await withThinking("Generating question bank", () =>
     generateBankWithFallback(
-      { focusPoints, ...ctx, existingQueue: introQueue },
+      { focusPoints, ...ctx, existingQueue: introQueue, prep },
       { session },
       {
         onFallback: (e) => {
@@ -24,7 +24,8 @@ async function runQuestionBankStage({ ctx, focusPoints, meetingTypeLabel, introQ
     )
   );
 
-  const queue = [...introQueue, ...bank];
+  const queue = assembleQueueWithPrepOpener(introQueue, bank, prep, ctx.meetingType);
+  const prepOpener = prep ? findPrepOpener(bank) : null;
 
   const closer = selectReservedCloser(bank, meetingTypeLabel);
   if (closer) {
@@ -36,7 +37,11 @@ async function runQuestionBankStage({ ctx, focusPoints, meetingTypeLabel, introQ
     );
   }
 
-  return { queue, closer, bank };
+  if (prepOpener) {
+    console.log("  " + dim(`prep opener reserved: ${prepOpener.alias}`));
+  }
+
+  return { queue, closer, bank, prepOpener };
 }
 
 module.exports = { runQuestionBankStage };

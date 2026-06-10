@@ -1,0 +1,10 @@
+alias: q_next_move_15
+label: Next move
+name: What is the first concrete step you want to take before we next meet to move toward that bigger scope?
+description: Closes the conversation with one immediate action tied to strategic growth.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

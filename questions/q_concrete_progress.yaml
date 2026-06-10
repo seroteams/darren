@@ -1,0 +1,10 @@
+alias: q_concrete_progress
+label: Concrete progress
+name: What did you actually get across the line in the last two weeks, Sam?
+description: Surfaces concrete deliverables or decisions advanced, not just activity.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

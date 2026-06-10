@@ -1,9 +1,9 @@
 alias: q_focus_tradeoff
 label: Focus tradeoff
-name: What would you be willing to stop doing to make room for deeper ownership?
-description: Forces a real tradeoff between breadth and the growth work he wants next.
-purpose: topic
-stage: gap
+name: What would you want to put aside to make room for that?
+description: Surfaces the trade-off required to commit to a next step instead of keeping everything in play.
+purpose: competency
+stage: support
 axis_effects:
   clarity: +3
   growth: +1

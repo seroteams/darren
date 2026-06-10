@@ -1,0 +1,10 @@
+alias: q_leverage_gap_2
+label: Leverage gap
+name: Where do you think your work is still stopping at delivery instead of changing an outcome?
+description: Names the gap between steady execution and broader leverage without pinning a conclusion on him.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_support_gap
+label: Support gap
+name: What would have made the last two weeks easier from me?
+description: Surfaces the manager support Sam wants more of, in concrete terms.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

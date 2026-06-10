@@ -1,0 +1,10 @@
+alias: q_incoming_pull
+label: Incoming pull
+name: What pulled you off your plan most often?
+description: Finds the recurring requests or interrupts that redirected his attention.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

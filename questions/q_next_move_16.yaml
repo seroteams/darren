@@ -1,0 +1,10 @@
+alias: q_next_move_16
+label: Next move
+name: What would moving toward that bigger scope look like first for you?
+description: Closes the conversation with one immediate action tied to strategic growth.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_move_15"

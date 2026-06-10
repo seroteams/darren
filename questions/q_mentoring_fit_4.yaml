@@ -1,0 +1,10 @@
+alias: q_mentoring_fit_4
+label: Mentoring fit
+name: How is the mentoring program fitting with your Head of Product role right now?
+description: Checks whether mentoring is healthy stretch or a pull away from core responsibilities.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

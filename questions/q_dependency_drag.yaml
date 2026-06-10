@@ -1,0 +1,10 @@
+alias: q_dependency_drag
+label: Dependency drag
+name: What was waiting on someone else when the timeline started to slip?
+description: Looks for review waits, dependencies, or ownership gaps that slowed delivery.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

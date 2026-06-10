@@ -1,0 +1,9 @@
+alias: q_migration_scope
+label: Migration scope
+name: On that migration, which part feels most like tech lead work to you?
+description: Drills into the named project to surface what tech-lead work means in practice for him.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

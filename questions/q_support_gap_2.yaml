@@ -1,0 +1,10 @@
+alias: q_support_gap_2
+label: Support gap
+name: What support would make the next couple of weeks feel steadier?
+description: Looks for a practical adjustment that would improve pace and reduce friction.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

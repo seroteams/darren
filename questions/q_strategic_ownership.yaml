@@ -1,0 +1,10 @@
+alias: q_strategic_ownership
+label: Strategic ownership
+name: Where do you want to be the person making the call, rather than carrying out the call, in your current scope?
+description: Surfaces the specific decisions he wants to own at a more senior level.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

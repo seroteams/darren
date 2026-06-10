@@ -1,0 +1,10 @@
+alias: q_friction_points
+label: Friction points
+name: Where has the team dynamic felt more draining than useful lately?
+description: Looks for specific collaboration patterns that may be reducing his sense of connection.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated
