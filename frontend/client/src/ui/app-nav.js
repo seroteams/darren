@@ -26,6 +26,7 @@ export function createAppNav({ setState, resetSession } = {}) {
       <nav class="app-nav__links" aria-label="Primary">
         <button type="button" class="app-nav__link js-nav-home">Home</button>
         <button type="button" class="app-nav__link js-nav-new">New session</button>
+        <button type="button" class="app-nav__link js-nav-library">Library</button>
         <button type="button" class="app-nav__link js-nav-compare">Compare runs</button>
         <button type="button" class="app-nav__link js-nav-lexicon">Phrase library</button>
         ${import.meta.env.DEV ? `<button type="button" class="app-nav__link js-nav-guide">Guide</button>` : ""}
@@ -40,6 +41,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     if (resetSession) resetSession();
     setState && setState({ stage: STAGES.INTAKE, substage: "NAME" });
   });
+  el.querySelector(".js-nav-library").addEventListener("click", () => setState && setState({ stage: STAGES.LIBRARY }));
   el.querySelector(".js-nav-compare").addEventListener("click", () => setState && setState({ stage: STAGES.COMPARE }));
   el.querySelector(".js-nav-lexicon").addEventListener("click", () => setState && setState({ stage: STAGES.LEXICON_REVIEW }));
   el.querySelector(".js-nav-guide")?.addEventListener("click", () => setState && setState({ stage: STAGES.GUIDE }));

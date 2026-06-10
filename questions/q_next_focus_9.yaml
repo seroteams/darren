@@ -1,0 +1,9 @@
+alias: q_next_focus_9
+label: next focus
+name: Given this, where do you want to focus first next cycle?
+description: Close by having Jordan name the first growth move they want to make.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +3
+source: planner_added

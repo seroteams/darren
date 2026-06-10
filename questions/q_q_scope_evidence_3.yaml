@@ -1,0 +1,10 @@
+alias: q_q_scope_evidence_3
+label: q_scope_evidence
+name: Where have you already been driving a decision rather than running the process?
+description: ""
+purpose: competency
+stage: anchor
+axis_effects:
+  engagement: +1
+  growth: +1
+source: "reworded_from:q_scope_evidence"

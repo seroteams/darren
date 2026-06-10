@@ -1,0 +1,10 @@
+alias: q_protecting_momentum
+label: Protecting momentum
+name: What have you had to work around to keep the UX work moving?
+description: Surfaces the hidden costs and trade-offs he is absorbing to maintain progress.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +1
+  wellbeing: +1
+source: generated

@@ -319,7 +319,7 @@ function printRunDebrief(payload, ui) {
   console.log();
 }
 
-module.exports = {
+export {
   STAGE_LABEL,
   durationFromCost,
   wallDuration,

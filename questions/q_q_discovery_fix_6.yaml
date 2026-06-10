@@ -1,0 +1,9 @@
+alias: q_q_discovery_fix_6
+label: q_discovery_fix
+name: What changes on the call when you book the next meeting there and then?
+description: Surface the observable difference between vague follow-up and securing a concrete next step.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: "reworded_from:q_discovery_fix"

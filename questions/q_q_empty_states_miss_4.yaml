@@ -2,8 +2,8 @@ alias: q_q_empty_states_miss_4
 label: q_empty_states_miss
 name: In those empty states, what did you not see until review?
 description: ""
-purpose: topic
+purpose: competency
 stage: evidence
 axis_effects:
-  clarity: +3
+  clarity: -1
 source: "reworded_from:q_empty_states_miss"

@@ -1,0 +1,10 @@
+alias: q_what_is_stuck
+label: What is stuck
+name: What feels most stuck in the work with the BA team right now?
+description: Identifies the concrete bottleneck rather than the general atmosphere.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

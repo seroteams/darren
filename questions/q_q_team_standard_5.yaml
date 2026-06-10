@@ -1,0 +1,10 @@
+alias: q_q_team_standard_5
+label: q_team_standard
+name: What does the team lose when those decisions wait?
+description: ""
+purpose: topic
+stage: self_read
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: "reworded_from:q_team_standard"

@@ -1,0 +1,9 @@
+alias: q_review_example
+label: Review example
+name: Take that onboarding dashboard — what exactly did review send back?
+description: Surface the concrete review feedback on a real example before naming the broader pattern.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

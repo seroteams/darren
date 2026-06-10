@@ -1,0 +1,9 @@
+alias: q_pricing_versions
+label: pricing versions
+name: What did sales and finance each think had been decided?
+description: Surface the concrete mismatch in understanding from the pricing decision.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

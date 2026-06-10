@@ -1,0 +1,10 @@
+alias: q_q_readiness_gap_8
+label: q_readiness_gap
+name: "What's the gap between where you are and owning that area fully?"
+description: ""
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +3
+source: "reworded_from:q_readiness_gap"

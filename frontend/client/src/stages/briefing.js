@@ -125,6 +125,12 @@ export async function mount(root, { store, setState, resetSession }) {
 
   const pause = (ms) => (fastPath ? Promise.resolve() : sleep(ms));
 
+  // The whole briefing is hidden behind reveal animations (opacity:0 until
+  // `.is-in`). If any beat below throws, fail open: reveal everything and drop
+  // the wash so the user is never stranded on a blank screen — and crucially so
+  // the handler wiring further down still runs and the footer stays usable.
+  try {
+
   // --- 1) Eyebrow + hero headline
   const initialReveals = Array.from(root.querySelectorAll("header .reveal"));
   if (fastPath) initialReveals.forEach((el) => el.classList.add("is-in"));
@@ -296,6 +302,14 @@ export async function mount(root, { store, setState, resetSession }) {
     });
   } else {
     root.querySelector(".watch-section").remove();
+  }
+
+  } catch (e) {
+    console.error("[briefing] reveal failed; showing full briefing:", e);
+    // Reveal whatever rendered and clear the wash so content + footer are usable.
+    root.querySelectorAll(".reveal, .reveal-soft, .brutal").forEach((el) => el.classList.add("is-in"));
+    root.querySelector(".paragraph-section")?.classList.add("is-in");
+    document.querySelectorAll(".celebration-wash").forEach((el) => el.remove());
   }
 
   root.querySelector(".js-copy-all-briefing").addEventListener("click", () => {

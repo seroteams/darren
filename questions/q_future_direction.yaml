@@ -1,0 +1,9 @@
+alias: q_future_direction
+label: future direction
+name: Where do you want your leadership scope to grow next?
+description: Move into aspiration by naming the next scope or leadership shape she wants.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

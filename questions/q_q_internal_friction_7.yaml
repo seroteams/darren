@@ -1,0 +1,9 @@
+alias: q_q_internal_friction_7
+label: q_internal_friction
+name: Outside the clients, is anything internally adding to it?
+description: ""
+purpose: topic
+stage: self_read
+axis_effects:
+  engagement: +1
+source: "reworded_from:q_internal_friction"

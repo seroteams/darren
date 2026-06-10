@@ -1,0 +1,9 @@
+alias: q_q_next_step_76
+label: q_next_step
+name: Where would you want to start changing this?
+description: Invite Marcus to shape the first practical move from the conversation.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+source: "reworded_from:q_next_step"

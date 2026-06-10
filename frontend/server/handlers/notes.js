@@ -64,10 +64,16 @@ function renderMarkdown(session) {
 
   const groups = [];
   for (const n of session.notes || []) {
-    const head =
+    const stem = String(n.question_stem || "").trim();
+    const alias = String(n.question_alias || "").trim();
+    const base =
       n.stage === "QUESTIONING" && n.turn
         ? `${STAGE_LABEL.QUESTIONING} — Q${n.turn}`
         : STAGE_LABEL[n.stage] || n.stage || "—";
+    const head =
+      n.stage === "QUESTIONING" && (stem || alias)
+        ? [base, stem, alias].filter(Boolean).join(" · ")
+        : base;
     const last = groups[groups.length - 1];
     if (last && last.head === head) last.items.push(n);
     else groups.push({ head, items: [n] });

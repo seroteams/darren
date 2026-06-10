@@ -1,0 +1,10 @@
+alias: q_q_skill_gap_7
+label: q_skill_gap
+name: What would you need to learn to run something like that end to end?
+description: Identify the gap between current exposure and full ownership.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_skill_gap"

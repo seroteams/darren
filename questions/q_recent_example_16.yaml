@@ -1,0 +1,9 @@
+alias: q_recent_example_16
+label: Recent example
+name: Give me a recent meeting where people left with different takeaways.
+description: Surface a concrete example to anchor the feedback in observable evidence.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

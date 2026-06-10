@@ -1,0 +1,10 @@
+alias: q_what_holding_back
+label: What holding back
+name: "When you say 'holding back' — what are you holding back on specifically?"
+description: Clarify what quieter participation looks like in practice before moving deeper.
+purpose: topic
+stage: self_read
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: planner_added

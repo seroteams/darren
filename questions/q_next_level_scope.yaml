@@ -1,0 +1,9 @@
+alias: q_next_level_scope
+label: next-level scope
+name: What kind of leadership scope do you want to be trusted with next?
+description: Make her aspiration concrete in terms of future scope and responsibility.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

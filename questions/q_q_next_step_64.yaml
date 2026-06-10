@@ -1,0 +1,10 @@
+alias: q_q_next_step_64
+label: q_next_step
+name: What would you want to start doing first to grow into that next level?
+description: ""
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_next_step"

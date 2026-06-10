@@ -1,0 +1,9 @@
+alias: q_q_next_step_65
+label: q_next_step
+name: "What's one hard call you'll commit to making sooner?"
+description: ""
+purpose: topic
+stage: self_read
+axis_effects:
+  growth: +1
+source: "reworded_from:q_next_step"

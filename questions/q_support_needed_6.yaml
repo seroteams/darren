@@ -1,10 +1,10 @@
 alias: q_support_needed_6
 label: Support needed
-name: What would make the next two weeks steadier for you?
-description: Closes on practical support and near-term adjustments rather than opening new topics.
-purpose: wellbeing
+name: What support from me would make the biggest difference here?
+description: Clarifies whether he needs air cover, intervention, or help shaping the conversation.
+purpose: topic
 stage: lift
 axis_effects:
-  wellbeing: +1
   clarity: +1
+  engagement: +1
 source: generated

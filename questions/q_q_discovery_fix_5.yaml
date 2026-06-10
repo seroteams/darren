@@ -1,0 +1,9 @@
+alias: q_q_discovery_fix_5
+label: q_discovery_fix
+name: What changes between calls that move and calls that drift?
+description: Surface the observable difference in call execution between progressing and stalled deals.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+source: "reworded_from:q_discovery_fix"

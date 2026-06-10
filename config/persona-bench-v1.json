@@ -10,17 +10,17 @@
       "meeting_type": "Performance & feedback",
       "issue": "Review-loop drag",
       "notes": "Maya is talented, but her recent design work has needed too many review rounds before it feels ready.",
-      "script_version": "v1",
-      "scripted_fallback": "Comes back to checking the full flow before sharing, not just the main screens.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "comes back to checking the full flow before sharing, not just the main screens",
       "script": [
-        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "Wants to dig into how she judges 'ready to share' — thinks that's where rework starts." },
-        { "alias": "q_ready_to_share", "name": "When you say 'ready to share,' what are you looking for before you bring work in?", "answer": "Checks main screens look right. Doesn't check edge cases / empty states before showing it." },
-        { "alias": "q_review_round_example", "name": "Can you walk me through a recent design that took more review rounds than you expected?", "answer": "Onboarding dashboard — 3 review rounds. Missed edge cases in the empty states." },
-        { "alias": "q_empty_states_miss", "name": "In those empty states, what did you not see until review?", "answer": "Missed the zero-data path for new users → empty state read as too generic." },
-        { "alias": "q_ready_sooner", "name": "What part of the design usually gets discovered too late for first review?", "answer": "Flow and edge cases surface late. Screens look fine, but review finds missing states or unclear rationale." },
-        { "alias": "q_gap_pattern", "name": "When rationale is unclear in review, what were you still deciding as you shared it?", "answer": "Still working out why one direction beats another — especially around edge cases and flow." },
-        { "alias": "q_drafting_habit", "name": "What part of your drafting process most affects how ready the design feels on first pass?", "answer": "Depends how much of the whole flow she checks before sharing. Main-screens-only → gaps show in review." },
-        { "alias": "q_next_review_focus", "name": "What do you want to focus on before the next review round?", "answer": "Wants to check the full flow before review — empty states, edge cases, and explain the direction." }
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "wants to dig into how she judges 'ready to share' — thinks that's where the rework starts" },
+        { "alias": "q_ready_to_share", "name": "When you say 'ready to share,' what are you looking for before you bring work in?", "answer": "checks main screens. doesn't check edge cases / empty states before sharing" },
+        { "alias": "q_review_round_example", "name": "Can you walk me through a recent design that took more review rounds than you expected?", "answer": "onboarding dashboard. 3 review rounds. missed the edge cases in the empty states" },
+        { "alias": "q_empty_states_miss", "name": "In those empty states, what did you not see until review?", "answer": "missed the zero-data path for new users. empty state read as too generic" },
+        { "alias": "q_ready_sooner", "name": "What part of the design usually gets discovered too late for first review?", "answer": "flow and edge cases surface late. screens look fine, review finds missing states / unclear rationale" },
+        { "alias": "q_gap_pattern", "name": "When rationale is unclear in review, what were you still deciding as you shared it?", "answer": "still working out why one direction beats another. mostly edge cases and flow" },
+        { "alias": "q_drafting_habit", "name": "What part of your drafting process most affects how ready the design feels on first pass?", "answer": "depends how much of the flow she checks before sharing. main screens only → gaps in review" },
+        { "alias": "q_next_review_focus", "name": "What do you want to focus on before the next review round?", "answer": "wants to check the full flow before review. empty states, edge cases, explain the direction" }
       ]
     },
     {
@@ -33,16 +33,16 @@
       "meeting_type": "Something feels off",
       "issue": "Quieter in meetings",
       "notes": "Rachel is usually thoughtful, but she has been much quieter in team conversations recently.",
-      "script_version": "v1",
-      "scripted_fallback": "Not sure it's one thing — just less lately that felt worth interrupting for.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "not sure it's one thing. just less lately that felt worth interrupting for",
       "script": [
-        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "No specific thing. Happy to just talk through how the last few weeks have felt." },
-        { "alias": "q_recent_change", "name": "I've noticed you've been a bit quieter in team conversations lately — does that match how it feels to you?", "answer": "Agrees — been holding back more than usual." },
-        { "alias": "q_what_shifted", "name": "When did that start to shift for you?", "answer": "Shifted when research got pushed later in the cycle. By the time findings land, decisions feel made." },
-        { "alias": "q_safe_to_share", "name": "When you do have something to say, what makes it feel worth raising or not?", "answer": "Raises things if it'll actually change a decision. Lately the timing hasn't felt there." },
-        { "alias": "q_workload_check", "name": "How has the workload itself been sitting with you?", "answer": "Volume's fine. It's more that the work feels less connected to what gets decided." },
-        { "alias": "q_support_needed", "name": "What would make it feel more worth speaking up again?", "answer": "Wants research in earlier, before the direction is set, so it can actually shape things." },
-        { "alias": "q_next_step", "name": "What's one thing we could try in the next couple of weeks?", "answer": "Pull her into the framing stage on the next project instead of just the validation stage." }
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "nothing specific. happy to just talk through how the last few weeks have felt" },
+        { "alias": "q_recent_change", "name": "I've noticed you've been a bit quieter in team conversations lately — does that match how it feels to you?", "answer": "agrees. been holding back more than usual" },
+        { "alias": "q_what_shifted", "name": "When did that start to shift for you?", "answer": "shifted when research got pushed later in the cycle. findings land, decisions already feel made" },
+        { "alias": "q_safe_to_share", "name": "When you do have something to say, what makes it feel worth raising or not?", "answer": "raises things if it'll actually change a decision. lately the timing hasn't felt there" },
+        { "alias": "q_workload_check", "name": "How has the workload itself been sitting with you?", "answer": "volume's fine. more that the work feels less connected to what gets decided" },
+        { "alias": "q_support_needed", "name": "What would make it feel more worth speaking up again?", "answer": "wants research in earlier, before the direction's set, so it can actually shape things" },
+        { "alias": "q_next_step", "name": "What's one thing we could try in the next couple of weeks?", "answer": "pull her into the framing stage on the next project, not just validation" }
       ]
     },
     {
@@ -55,16 +55,16 @@
       "meeting_type": "Growth & career plan",
       "issue": "Wants more scope",
       "notes": "Jordan wants more scope, but we need to define what stronger ownership actually means.",
-      "script_version": "v1",
-      "scripted_fallback": "Sees ownership as driving the decision, not just running the process around it.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "sees ownership as driving the decision, not just running the process around it",
       "script": [
-        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "Wants to talk about taking on more scope, and what that actually needs to look like." },
-        { "alias": "q_scope_meaning", "name": "When you say more scope, what does stronger ownership look like to you?", "answer": "Ownership = owning a problem area end to end, not just shipping features someone else has scoped." },
-        { "alias": "q_scope_evidence", "name": "Where have you already been driving a decision rather than running the process?", "answer": "Billing flow — set the direction and brought the team along, not waiting for sign-off on each step." },
-        { "alias": "q_stakeholder_trust", "name": "Where do stakeholders already come to you directly, and where do they still go around you?", "answer": "Eng comes to her directly now. Roadmap calls still tend to go to her lead first." },
-        { "alias": "q_readiness_gap", "name": "What's the gap between where you are and owning that area fully?", "answer": "Gap = being trusted to make the trade-off calls without checking first, and being clearer when she disagrees." },
-        { "alias": "q_ownership_example", "name": "What's a recent call you'd have made differently if it were fully yours?", "answer": "Would've cut the second integration sooner — kept it alive to avoid the stakeholder pushback." },
-        { "alias": "q_next_step", "name": "What's a concrete step toward that in the next cycle?", "answer": "Wants to own the trade-off decisions on one area outright — bring the reasoning, not the question." }
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "wants to talk about taking on more scope, and what that actually needs to look like" },
+        { "alias": "q_scope_meaning", "name": "When you say more scope, what does stronger ownership look like to you?", "answer": "ownership = owning a problem area end to end, not just shipping features someone else scoped" },
+        { "alias": "q_scope_evidence", "name": "Where have you already been driving a decision rather than running the process?", "answer": "billing flow. set the direction, brought the team along, didn't wait for sign-off each step" },
+        { "alias": "q_stakeholder_trust", "name": "Where do stakeholders already come to you directly, and where do they still go around you?", "answer": "eng comes to her direct now. roadmap calls still go to her lead first" },
+        { "alias": "q_readiness_gap", "name": "What's the gap between where you are and owning that area fully?", "answer": "gap = trusted to make the trade-off calls without checking first. clearer when she disagrees" },
+        { "alias": "q_ownership_example", "name": "What's a recent call you'd have made differently if it were fully yours?", "answer": "would've cut the second integration sooner. kept it alive to avoid stakeholder pushback" },
+        { "alias": "q_next_step", "name": "What's a concrete step toward that in the next cycle?", "answer": "wants to own the trade-off decisions on one area outright. bring the reasoning, not the question" }
       ]
     },
     {
@@ -77,16 +77,16 @@
       "meeting_type": "Performance & feedback",
       "issue": "Stakeholder alignment weak",
       "notes": "Liam works hard, but stakeholders still seem unclear on decisions and next steps.",
-      "script_version": "v1",
-      "scripted_fallback": "Decisions clear in his head — just not closing the loop with everyone in writing.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "decisions clear in his head, just not closing the loop with everyone in writing",
       "script": [
-        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "Happy to talk the stakeholder side. Knows there's been confusion on where things land." },
-        { "alias": "q_alignment_observed", "name": "After a decision, stakeholders still seem unclear on what was decided. Does that match what you see?", "answer": "Agrees — happens more than he'd like. People leave the room thinking different things." },
-        { "alias": "q_decision_clarity", "name": "Walk me through a recent decision where the alignment didn't hold.", "answer": "Pricing change — thought it was agreed, but sales and finance each had a different version a week later." },
-        { "alias": "q_communication_gap", "name": "Between the decision and people acting on it, where does the clarity get lost?", "answer": "Decides in the meeting but doesn't always send the written summary → everyone fills the gaps themselves." },
-        { "alias": "q_ownership_alignment", "name": "Whose job is it to make sure that decision is understood afterward?", "answer": "Owns it. Been treating the meeting as the end point when it's really the start of getting everyone aligned." },
-        { "alias": "q_tradeoff_clarity", "name": "When there's a trade-off, how clearly are you naming what you're giving up?", "answer": "Not clearly enough. Presents the choice as obvious instead of showing the cost of the other option." },
-        { "alias": "q_next_step", "name": "What's one change you'd make on the next big decision?", "answer": "Will send a short written decision + owners + next steps within a day, and confirm each stakeholder agrees." }
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "happy to talk the stakeholder side. knows there's been confusion on where things land" },
+        { "alias": "q_alignment_observed", "name": "After a decision, stakeholders still seem unclear on what was decided. Does that match what you see?", "answer": "agrees. happens more than he'd like. people leave the room thinking different things" },
+        { "alias": "q_decision_clarity", "name": "Walk me through a recent decision where the alignment didn't hold.", "answer": "pricing change. thought it was agreed, but sales and finance each had a different version a week later" },
+        { "alias": "q_communication_gap", "name": "Between the decision and people acting on it, where does the clarity get lost?", "answer": "decides in the meeting, doesn't always send the written summary → everyone fills the gaps themselves" },
+        { "alias": "q_ownership_alignment", "name": "Whose job is it to make sure that decision is understood afterward?", "answer": "owns it. treating the meeting as the end point when it's really the start of getting everyone aligned" },
+        { "alias": "q_tradeoff_clarity", "name": "When there's a trade-off, how clearly are you naming what you're giving up?", "answer": "not clearly enough. presents the choice as obvious, doesn't show the cost of the other option" },
+        { "alias": "q_next_step", "name": "What's one change you'd make on the next big decision?", "answer": "will send a short written decision + owners + next steps within a day, confirm each stakeholder agrees" }
       ]
     },
     {
@@ -99,16 +99,16 @@
       "meeting_type": "Bi-weekly check-in",
       "issue": "Energy lower than usual",
       "notes": "Sofia is usually engaged, but lately her energy in reviews feels lower than normal.",
-      "script_version": "v1",
-      "scripted_fallback": "Not a big thing — running a bit flat, and the work feels heavier than usual.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "not a big thing. running a bit flat, work feels heavier than usual",
       "script": [
-        { "alias": "q_open_anything_to_cover", "name": "Before we get into it, anything you want to make sure we cover today?", "answer": "Nothing urgent. Maybe just how the current workload is feeling." },
-        { "alias": "q_current_energy", "name": "How's your energy been over the last couple of weeks?", "answer": "Lower than usual. Getting through things but with less momentum." },
-        { "alias": "q_workload_scan", "name": "What's been taking the most out of you lately?", "answer": "The redesign has lots of small stakeholder revisions — death by a thousand tweaks." },
-        { "alias": "q_blocker_check", "name": "Is there anything getting in your way that we could clear?", "answer": "Feedback comes scattered across three channels → spends a lot of time chasing what's actually wanted." },
-        { "alias": "q_confidence_check", "name": "How are you feeling about the work itself — not the volume, the work?", "answer": "Work itself is fine, still likes it. It's the churn around it wearing her down." },
-        { "alias": "q_support_needed", "name": "What would make the next two weeks feel lighter?", "answer": "Wants the feedback consolidated into one round per milestone instead of a constant drip." },
-        { "alias": "q_next_step", "name": "What's one thing we could change starting this cycle?", "answer": "Set one review checkpoint per milestone and hold revisions to that — stop the all-day context-switching." }
+        { "alias": "q_open_anything_to_cover", "name": "Before we get into it, anything you want to make sure we cover today?", "answer": "nothing urgent. maybe just how the current workload's feeling" },
+        { "alias": "q_current_energy", "name": "How's your energy been over the last couple of weeks?", "answer": "lower than usual. getting through things but with less momentum" },
+        { "alias": "q_workload_scan", "name": "What's been taking the most out of you lately?", "answer": "the redesign has lots of small stakeholder revisions. death by a thousand tweaks" },
+        { "alias": "q_blocker_check", "name": "Is there anything getting in your way that we could clear?", "answer": "feedback comes scattered across three channels → spends a lot of time chasing what's actually wanted" },
+        { "alias": "q_confidence_check", "name": "How are you feeling about the work itself — not the volume, the work?", "answer": "work itself's fine, still likes it. it's the churn around it wearing her down" },
+        { "alias": "q_support_needed", "name": "What would make the next two weeks feel lighter?", "answer": "wants the feedback consolidated into one round per milestone, not a constant drip" },
+        { "alias": "q_next_step", "name": "What's one thing we could change starting this cycle?", "answer": "set one review checkpoint per milestone, hold revisions to that. stop the all-day context-switching" }
       ]
     },
     {
@@ -121,16 +121,16 @@
       "meeting_type": "Growth & career plan",
       "issue": "Avoids hard team decisions",
       "notes": "Grace wants to grow as a lead, but she still avoids some harder team decisions.",
-      "script_version": "v1",
-      "scripted_fallback": "Delays the hard calls — doesn't want to be the one who upsets the team's balance.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "delays the hard calls. doesn't want to be the one who upsets the team's balance",
       "script": [
-        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "Wants to talk about growing as a lead — specifically the parts she finds harder." },
-        { "alias": "q_lead_growth", "name": "As a lead, what feels like the next level of judgment you're reaching for?", "answer": "Next level = making the harder team calls earlier instead of letting them resolve themselves." },
-        { "alias": "q_hard_call_example", "name": "What's a recent hard call you held off on?", "answer": "Knew two designers overlapped on the same surface for weeks — didn't reassign until it got tense." },
-        { "alias": "q_avoidance_pattern", "name": "When you delay those calls, what's usually holding you back?", "answer": "Holds back to avoid disrupting team harmony → waits for a consensus that never quite comes." },
-        { "alias": "q_team_standard", "name": "What does the team lose when those decisions wait?", "answer": "Team loses momentum and clarity. People keep working without knowing who actually owns what." },
-        { "alias": "q_influence_beyond_craft", "name": "Where do you have influence you're not fully using yet?", "answer": "Underusing influence on how the team makes calls — defaults to facilitating when they need her to decide." },
-        { "alias": "q_next_step", "name": "What's one hard call you'll commit to making sooner?", "answer": "Will set ownership on the shared surface this week instead of waiting for everyone to agree." }
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "wants to talk about growing as a lead. specifically the parts she finds harder" },
+        { "alias": "q_lead_growth", "name": "As a lead, what feels like the next level of judgment you're reaching for?", "answer": "next level = making the harder team calls earlier, not letting them resolve themselves" },
+        { "alias": "q_hard_call_example", "name": "What's a recent hard call you held off on?", "answer": "knew two designers overlapped on the same surface for weeks. didn't reassign until it got tense" },
+        { "alias": "q_avoidance_pattern", "name": "When you delay those calls, what's usually holding you back?", "answer": "holds back to avoid disrupting team harmony → waits for a consensus that never quite comes" },
+        { "alias": "q_team_standard", "name": "What does the team lose when those decisions wait?", "answer": "team loses momentum and clarity. people keep working without knowing who owns what" },
+        { "alias": "q_influence_beyond_craft", "name": "Where do you have influence you're not fully using yet?", "answer": "underusing influence on how the team makes calls. defaults to facilitating when they need her to decide" },
+        { "alias": "q_next_step", "name": "What's one hard call you'll commit to making sooner?", "answer": "will set ownership on the shared surface this week, not wait for everyone to agree" }
       ]
     },
     {
@@ -143,16 +143,16 @@
       "meeting_type": "Performance & feedback",
       "issue": "Handoff detail",
       "notes": "Nina's content work is good, but recent handoffs have missed details the team needed.",
-      "script_version": "v1",
-      "scripted_fallback": "Writing's solid — it's the context around it at handoff she's not fully passing on.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "writing's solid. it's the context around it at handoff she's not fully passing on",
       "script": [
-        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "Happy to talk handoffs. Knows a couple have come back with gaps." },
-        { "alias": "q_handoff_observed", "name": "Recent handoffs have missed some details the team needed. Does that line up with what you've seen?", "answer": "Agrees. Copy's been fine, but engineering comes back asking about states she didn't document." },
-        { "alias": "q_handoff_example", "name": "Walk me through a recent handoff that came back with questions.", "answer": "Error messaging — wrote the strings but didn't note which map to which state, so eng had to guess." },
-        { "alias": "q_missing_context", "name": "What context were you holding in your head that didn't make it into the handoff?", "answer": "Held the logic for when each message shows in her head — obvious to her, so didn't write it down." },
-        { "alias": "q_definition_of_ready", "name": "What does a complete handoff need to include for the team to run with it?", "answer": "Complete handoff = strings, the state each maps to, char limits, and fallback for empty or error cases." },
-        { "alias": "q_standard_check", "name": "What would make that consistent rather than case-by-case?", "answer": "Wants a short handoff checklist run every time, not relying on remembering it in the moment." },
-        { "alias": "q_next_step", "name": "What's one thing you'll change on the next handoff?", "answer": "Will attach a states-to-strings map and the edge cases every time, not just the copy." }
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "happy to talk handoffs. knows a couple have come back with gaps" },
+        { "alias": "q_handoff_observed", "name": "Recent handoffs have missed some details the team needed. Does that line up with what you've seen?", "answer": "agrees. copy's been fine, but eng comes back asking about states she didn't document" },
+        { "alias": "q_handoff_example", "name": "Walk me through a recent handoff that came back with questions.", "answer": "error messaging. wrote the strings but didn't note which maps to which state, so eng had to guess" },
+        { "alias": "q_missing_context", "name": "What context were you holding in your head that didn't make it into the handoff?", "answer": "held the logic for when each message shows in her head. obvious to her, so didn't write it down" },
+        { "alias": "q_definition_of_ready", "name": "What does a complete handoff need to include for the team to run with it?", "answer": "complete handoff = strings, the state each maps to, char limits, fallback for empty/error cases" },
+        { "alias": "q_standard_check", "name": "What would make that consistent rather than case-by-case?", "answer": "wants a short handoff checklist run every time, not relying on remembering it in the moment" },
+        { "alias": "q_next_step", "name": "What's one thing you'll change on the next handoff?", "answer": "will attach a states-to-strings map and the edge cases every time, not just the copy" }
       ]
     },
     {
@@ -165,16 +165,16 @@
       "meeting_type": "Bi-weekly check-in",
       "issue": "Scattered workload",
       "notes": "Samira seems busy all the time, but the work feels scattered and hard to prioritize.",
-      "script_version": "v1",
-      "scripted_fallback": "Busy constantly, but honestly couldn't say which of it actually matters most right now.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "busy constantly, but honestly couldn't say which of it actually matters most right now",
       "script": [
-        { "alias": "q_open_anything_to_cover", "name": "Before we get into it, anything you want to make sure we cover today?", "answer": "Probably priorities. Busy all the time but it feels scattered." },
-        { "alias": "q_current_priorities", "name": "If you had to name your top priority right now, what is it?", "answer": "Can't name one — four things all feel equally urgent." },
-        { "alias": "q_friction_scan", "name": "Where's most of your time actually going this week?", "answer": "Jumping between the onboarding map, two stakeholder requests, and a research readout. None finishing." },
-        { "alias": "q_what_to_cut", "name": "If one thing dropped off your plate, what would free up the most?", "answer": "Dropping the ad-hoc stakeholder requests would free the most — constant, and they fragment the bigger work." },
-        { "alias": "q_unblock_check", "name": "Where could I help clear a path or make a call?", "answer": "Wants help saying no, or 'later,' to the side requests so she can actually land the onboarding map." },
-        { "alias": "q_prioritization_gap", "name": "What's making it hard to prioritize on your own?", "answer": "Everything comes in as urgent — no clear signal on what's actually most important." },
-        { "alias": "q_next_step", "name": "What's one change for the next two weeks?", "answer": "Agree her top one or two, and route new requests through manager so she can protect that focus." }
+        { "alias": "q_open_anything_to_cover", "name": "Before we get into it, anything you want to make sure we cover today?", "answer": "probably priorities. busy all the time but it feels scattered" },
+        { "alias": "q_current_priorities", "name": "If you had to name your top priority right now, what is it?", "answer": "can't name one. four things all feel equally urgent" },
+        { "alias": "q_friction_scan", "name": "Where's most of your time actually going this week?", "answer": "jumping between the onboarding map, two stakeholder requests, a research readout. none finishing" },
+        { "alias": "q_what_to_cut", "name": "If one thing dropped off your plate, what would free up the most?", "answer": "dropping the ad-hoc stakeholder requests would free the most. constant, fragments the bigger work" },
+        { "alias": "q_unblock_check", "name": "Where could I help clear a path or make a call?", "answer": "wants help saying no, or 'later', to the side requests so she can land the onboarding map" },
+        { "alias": "q_prioritization_gap", "name": "What's making it hard to prioritize on your own?", "answer": "everything comes in as urgent. no clear signal on what's actually most important" },
+        { "alias": "q_next_step", "name": "What's one change for the next two weeks?", "answer": "agree her top one or two, route new requests through manager so she can protect that focus" }
       ]
     },
     {
@@ -187,16 +187,16 @@
       "meeting_type": "Something feels off",
       "issue": "Burnout masked by client work",
       "notes": "Marcus is still handling clients, but he seems more drained and less present than usual.",
-      "script_version": "v1",
-      "scripted_fallback": "Client work still gets done — it's everything around it he's got less left for right now.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "client work still gets done. it's everything around it he's got less left for right now",
       "script": [
-        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "Nothing on the agenda. Happy to just talk through how things are going." },
-        { "alias": "q_recent_change", "name": "You've seemed a bit more drained lately — does that match how it feels?", "answer": "Agrees — keeping up with clients but less in the tank than usual." },
-        { "alias": "q_client_load", "name": "How's the client load itself been sitting?", "answer": "Heavy. Picked up two of the bigger accounts after the team change and hasn't set them down." },
-        { "alias": "q_emotional_load", "name": "Is any of it weighing on you beyond the hours?", "answer": "A couple are tense renewals → carrying that emotional side most of the day too." },
-        { "alias": "q_internal_friction", "name": "Outside the clients, is anything internally adding to it?", "answer": "Handoffs to support have been rocky → re-absorbs things he thought he'd passed on." },
-        { "alias": "q_support_plan", "name": "What would actually take some of the weight off?", "answer": "Wants one of the two big accounts rebalanced, and a cleaner handoff path so things don't bounce back." },
-        { "alias": "q_next_step", "name": "What's one thing we put in place this week?", "answer": "Move one tense account off him and fix the support handoff so he's not the fallback for everything." }
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "nothing on the agenda. happy to just talk through how things are going" },
+        { "alias": "q_recent_change", "name": "You've seemed a bit more drained lately — does that match how it feels?", "answer": "agrees. keeping up with clients but less in the tank than usual" },
+        { "alias": "q_client_load", "name": "How's the client load itself been sitting?", "answer": "heavy. took two of the bigger accounts after the team change, hasn't put them down" },
+        { "alias": "q_emotional_load", "name": "Is any of it weighing on you beyond the hours?", "answer": "couple are tense renewals → carrying that side of it most of the day too" },
+        { "alias": "q_internal_friction", "name": "Outside the clients, is anything internally adding to it?", "answer": "handoffs to support have been rocky → keeps re-absorbing stuff he thought he'd passed on" },
+        { "alias": "q_support_plan", "name": "What would actually take some of the weight off?", "answer": "wants one of the two big accounts rebalanced, and a cleaner handoff path so things don't bounce back" },
+        { "alias": "q_next_step", "name": "What's one thing we put in place this week?", "answer": "move one tense account off him, fix the support handoff so he's not the fallback for everything" }
       ]
     },
     {
@@ -209,16 +209,16 @@
       "meeting_type": "Performance & feedback",
       "issue": "Sales coaching vs pipeline interrogation",
       "notes": "Aisha has pipeline activity, but recent calls are not turning into strong next steps.",
-      "script_version": "v1",
-      "scripted_fallback": "Activity's there — it's the close of the call, locking a real next step, where she keeps losing it.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "activity's there. it's the close of the call, locking a real next step, where she keeps losing it",
       "script": [
-        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "Wants to look at her calls. Lots of activity but it's not converting into next steps." },
-        { "alias": "q_call_quality", "name": "Think about a recent call that didn't move forward — how did it actually go?", "answer": "Good energy, decent rapport, but ended on a vague 'they'd think about it' and no firm next step."},
-        { "alias": "q_discovery_depth", "name": "How deep did you get on what's actually driving their decision?", "answer": "Not deep enough. Covered the product well but didn't pin down their real pain or timeline." },
-        { "alias": "q_next_step_clarity", "name": "When you close a call, how clear is the next step you're setting?", "answer": "Vague, usually. Says she'll follow up rather than booking the specific next meeting on the spot." },
-        { "alias": "q_behaviour_pattern", "name": "What's the pattern across the calls that stall?", "answer": "Talks more than she asks → leaves without a clear picture of what they need to say yes." },
-        { "alias": "q_discovery_fix", "name": "What would change if discovery were tighter?", "answer": "Tighter discovery → she'd know the real blocker and tie the next step to it, not a generic follow-up." },
-        { "alias": "q_next_step", "name": "What's one thing you'll do differently on the next call?", "answer": "Will lead with discovery, confirm decision criteria, and book the specific next meeting before hanging up." }
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "wants to look at her calls. lots of activity but it's not converting into next steps" },
+        { "alias": "q_call_quality", "name": "Think about a recent call that didn't move forward — how did it actually go?", "answer": "good energy, decent rapport. ended vague — 'they'll think about it', no next step booked"},
+        { "alias": "q_discovery_depth", "name": "How deep did you get on what's actually driving their decision?", "answer": "not deep enough. covered the product well, didn't pin down their real pain or timeline" },
+        { "alias": "q_next_step_clarity", "name": "When you close a call, how clear is the next step you're setting?", "answer": "vague usually. says she'll follow up rather than booking the specific next meeting on the spot" },
+        { "alias": "q_behaviour_pattern", "name": "What's the pattern across the calls that stall?", "answer": "talks more than she asks → leaves without a clear read on what they need to say yes" },
+        { "alias": "q_discovery_fix", "name": "What would change if discovery were tighter?", "answer": "tighter discovery → she'd know the real blocker, tie the next step to it, not a generic follow-up" },
+        { "alias": "q_next_step", "name": "What's one thing you'll do differently on the next call?", "answer": "will lead with discovery, confirm decision criteria, book the specific next meeting before hanging up" }
       ]
     },
     {
@@ -231,16 +231,16 @@
       "meeting_type": "Growth & career plan",
       "issue": "Stuck / unclear path",
       "notes": "Ben is doing the work, but he seems unsure where he is trying to grow next.",
-      "script_version": "v1",
-      "scripted_fallback": "Not sure what he's aiming at yet — just wants it to feel like it's going somewhere.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "not sure what he's aiming at yet. just wants it to feel like it's going somewhere",
       "script": [
-        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "Wants help figuring out where he's trying to grow. Feels a bit stuck on direction." },
-        { "alias": "q_energy_source", "name": "What kind of work gives you the most energy right now?", "answer": "Most energy from fixing a broken process — seeing it run smoother afterward feels good." },
-        { "alias": "q_drains_check", "name": "And what tends to drain you or feel like a slog?", "answer": "Repetitive data entry drains him — fine, but no real challenge or end to it." },
-        { "alias": "q_ownership_step", "name": "Where could you take a bit more ownership of something end to end?", "answer": "Could own the vendor onboarding process — touches parts of it but no one really runs the whole thing." },
-        { "alias": "q_skill_gap", "name": "What skill would help you take that on?", "answer": "Wants more confidence with the reporting side to show the process is actually improving." },
-        { "alias": "q_direction_check", "name": "When you picture six months out, what would feel like progress?", "answer": "Six months out = owning one process properly and being the go-to for it, not doing bits of everything." },
-        { "alias": "q_next_step", "name": "What's one small step we could set up now?", "answer": "Take the lead on vendor onboarding, and pair him with someone on the reporting side to build that up." }
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "wants help figuring out where he's trying to grow. feels a bit stuck on direction" },
+        { "alias": "q_energy_source", "name": "What kind of work gives you the most energy right now?", "answer": "most energy from fixing a broken process. seeing it run smoother afterward feels good" },
+        { "alias": "q_drains_check", "name": "And what tends to drain you or feel like a slog?", "answer": "repetitive data entry drains him. fine, but no real challenge or end to it" },
+        { "alias": "q_ownership_step", "name": "Where could you take a bit more ownership of something end to end?", "answer": "could own the vendor onboarding process. touches parts of it but no one runs the whole thing" },
+        { "alias": "q_skill_gap", "name": "What skill would help you take that on?", "answer": "wants more confidence with the reporting side, to show the process is actually improving" },
+        { "alias": "q_direction_check", "name": "When you picture six months out, what would feel like progress?", "answer": "six months out = owning one process properly, being the go-to for it, not bits of everything" },
+        { "alias": "q_next_step", "name": "What's one small step we could set up now?", "answer": "take the lead on vendor onboarding, pair him with someone on reporting to build that up" }
       ]
     },
     {
@@ -253,16 +253,16 @@
       "meeting_type": "Performance & feedback",
       "issue": "Slow decisions / over-scoping",
       "notes": "Daniel is strong, but recent design decisions have felt slower and more complicated than they needed to be.",
-      "script_version": "v1",
-      "scripted_fallback": "Over-scopes because he's trying to solve the whole problem at once instead of the next decision.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "over-scopes because he's trying to solve the whole problem at once instead of the next decision",
       "script": [
-        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "Happy to talk decision speed. Knows a few recent calls dragged longer than they should have." },
-        { "alias": "q_decision_observed", "name": "Recent decisions have felt slower and more complex than needed. Does that match your read?", "answer": "Agrees — expanding the scope of decisions instead of just making the call in front of him." },
-        { "alias": "q_overscope_example", "name": "Walk me through a recent one that got more complicated than it needed to.", "answer": "Settings redesign — turned a small layout call into a full rethink of the information architecture." },
-        { "alias": "q_scope_control", "name": "What made it grow rather than stay contained?", "answer": "Kept pulling in adjacent problems because they felt connected, instead of shipping the small fix first." },
-        { "alias": "q_tradeoff_quality", "name": "How are you weighing 'good enough now' against 'complete later'?", "answer": "Leans too hard toward complete — wants it fully right, so delays decisions that were fine to make quickly." },
-        { "alias": "q_help_others_move", "name": "How does that pace affect the people working with you?", "answer": "Slows the team — they wait on him, and start over-scoping too because that's the standard he's modelling." },
-        { "alias": "q_next_step", "name": "What's one change you'll make on the next decision?", "answer": "Make the smallest call that unblocks the team now, and explicitly defer the bigger rethink to its own track." }
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "answer": "happy to talk decision speed. knows a few recent calls dragged longer than they should have" },
+        { "alias": "q_decision_observed", "name": "Recent decisions have felt slower and more complex than needed. Does that match your read?", "answer": "agrees. expanding the scope of decisions instead of just making the call in front of him" },
+        { "alias": "q_overscope_example", "name": "Walk me through a recent one that got more complicated than it needed to.", "answer": "settings redesign. small layout call turned into a full rethink of the information architecture" },
+        { "alias": "q_scope_control", "name": "What made it grow rather than stay contained?", "answer": "kept pulling in adjacent problems because they felt connected, instead of shipping the small fix first" },
+        { "alias": "q_tradeoff_quality", "name": "How are you weighing 'good enough now' against 'complete later'?", "answer": "leans too hard toward complete. wants it fully right, so delays decisions that were fine to make quickly" },
+        { "alias": "q_help_others_move", "name": "How does that pace affect the people working with you?", "answer": "slows the team. they wait on him, start over-scoping too because that's the standard he's modelling" },
+        { "alias": "q_next_step", "name": "What's one change you'll make on the next decision?", "answer": "make the smallest call that unblocks the team now, defer the bigger rethink to its own track" }
       ]
     }
   ]

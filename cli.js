@@ -16,7 +16,7 @@ const { runQuestionBankStage } = require("./src/cli/stages/question-bank");
 const { runQuestioningLoop } = require("./src/cli/stages/questioning");
 const { runEvaluationStage, writeSessionCost } = require("./src/cli/stages/evaluation");
 const { collectRunRating } = require("./src/cli/run-rating");
-const { buildRunDebriefPayload, printRunDebrief } = require("./src/run-debrief");
+// run-debrief is an ES module (shared with the Vite browser build); loaded lazily in main().
 const {
   bold,
   dim,
@@ -236,6 +236,7 @@ async function main() {
   console.log("  " + dim(`Log: ${path.relative(__dirname, session.dir).replace(/\\/g, "/")}/`));
   console.log();
 
+  const { buildRunDebriefPayload, printRunDebrief } = await import("./src/run-debrief.mjs");
   const debriefPayload = buildRunDebriefPayload({
     sessionId: session.id,
     sessionDir: session.dir,

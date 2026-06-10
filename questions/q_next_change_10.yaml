@@ -1,0 +1,9 @@
+alias: q_next_change_10
+label: next change
+name: What will you do differently in your next decision update?
+description: Land on the specific behaviour he will change immediately in how he communicates decisions.
+purpose: competency
+stage: commit
+axis_effects:
+  clarity: +3
+source: planner_added

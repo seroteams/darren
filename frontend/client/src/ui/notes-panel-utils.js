@@ -15,10 +15,13 @@ export const HIDDEN_STAGES = new Set([STAGES.INTAKE, STAGES.ERROR]);
 export function groupNotes(notes) {
   const out = [];
   for (const n of notes) {
-    const head =
+    const stem = String(n.question_stem || "").trim();
+    const base =
       n.stage === STAGES.QUESTIONING && n.turn
         ? `${STAGE_LABEL.QUESTIONING} — Q${n.turn}`
         : STAGE_LABEL[n.stage] || n.stage || "—";
+    const head =
+      n.stage === STAGES.QUESTIONING && stem ? `${base} · ${stem}` : base;
     const last = out[out.length - 1];
     if (last && last.head === head) last.items.push(n);
     else out.push({ head, items: [n] });

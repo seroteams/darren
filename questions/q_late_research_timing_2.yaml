@@ -1,0 +1,9 @@
+alias: q_late_research_timing_2
+label: Late research timing
+name: What changes when research comes in that late?
+description: Surface the practical effect of late research timing on her participation and influence.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

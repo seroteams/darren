@@ -1,0 +1,9 @@
+alias: q_focus_first_5
+label: focus first
+name: Given this pattern, what will you do differently on the next decision?
+description: Close on the specific behaviour he will change in the next comparable decision.
+purpose: competency
+stage: commit
+axis_effects:
+  clarity: +3
+source: planner_added

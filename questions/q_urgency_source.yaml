@@ -1,0 +1,9 @@
+alias: q_urgency_source
+label: Urgency source
+name: What makes those four feel equally urgent?
+description: Surface whether the prioritization problem comes from deadlines, stakeholders, ambiguity, or competing expectations.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

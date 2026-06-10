@@ -1,0 +1,9 @@
+alias: q_q_hard_call_example_2
+label: q_hard_call_example
+name: "What's a recent hard call you held off on?"
+description: ""
+purpose: competency
+stage: anchor
+axis_effects:
+  clarity: +3
+source: "reworded_from:q_hard_call_example"

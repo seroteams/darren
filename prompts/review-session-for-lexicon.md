@@ -26,7 +26,7 @@ Return strict JSON only. No prose, no markdown fences.
       "value": "<the word, phrase, or pattern>",
       "reason": "<one short sentence explaining why this belongs in the lexicon>",
       "evidence": "<short quote from the transcript or the question bank, or 'inferred from <where>'>",
-      "better_as": "<for avoid_phrase only: a sharper rewrite. For prefer types: null>",
+      "better_as": "<for avoid_phrase only: a plain, spoken rewrite a real manager would say out loud (see rules below); null if no natural rewrite exists. For prefer types: null>",
       "status": "pending"
     }
   ]
@@ -56,7 +56,19 @@ Return strict JSON only. No prose, no markdown fences.
 **How to choose `avoid_phrase` suggestions:**
 - A question whose answer was skipped, shallow, or scored negative is an avoid candidate — quote the question wording.
 - A pattern the final evaluation's `brutal_truth_manager` calls out is an avoid candidate.
-- Always include `better_as` for an avoid: name what the manager could have asked instead.
+- Include `better_as` only when you can phrase it the way a real manager actually talks (see "How to write `better_as`" below). If you can't, leave it null.
+
+**How to write `better_as` (a real manager in a 1:1, not a consultant or an HR doc):**
+- Write it the way a manager would actually say it out loud — plain, spoken, short, specific.
+- Banned wording: "priority-setting forum", "named sponsor", "decision ownership end-to-end", "cross-org decision area", "leadership bets", and any abstract consultant/HR jargon like these.
+- Don't hide a real thing behind an abstract noun. Say the actual person, decision, or work — not "forum", "sponsor", "ownership scope", or "forward-state".
+- One sentence. Specific beats generic.
+- If you can't write a natural, spoken rewrite, omit `better_as` (set it to null). A flagged avoid with no rewrite is fine; a jargon rewrite is not.
+
+Examples (bad → better):
+- "Which priority-setting forum will you enter, and who will be your named sponsor there?" → "Who needs to see this work for it to matter, and how can I help you get in front of them?"
+- "What exact decision will you own end-to-end?" → "What decision do you want to take more ownership of next?"
+- "What forum will you enter despite ambiguity?" → "Where do you need to be more visible, even if the situation is still messy?"
 
 If the session gives no useful signal — short transcript, all shallow answers, no clear domain vocabulary — return `"suggestions": []` rather than padding.
 

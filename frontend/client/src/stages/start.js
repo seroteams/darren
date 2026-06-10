@@ -71,18 +71,10 @@ export async function mount(root, { setState, rehydrateById }) {
         <div class="eyebrow">Recent sessions</div>
         <ul class="js-runs space-y-2"></ul>
       </section>
-
-      <div class="start-cta">
-        <button type="button" class="btn js-new">New session</button>
-        <button type="button" class="btn btn--ghost js-library">Library</button>
-        <button type="button" class="btn btn--ghost js-compare">Compare runs</button>
-        ${import.meta.env.DEV ? `<button type="button" class="btn btn--ghost js-guide">Guide</button>` : ""}
-      </div>
     </div>
   `;
 
   const list = root.querySelector(".js-runs");
-  const newBtn = root.querySelector(".js-new");
   const benchSection = root.querySelector(".js-bench");
   const benchSelect = root.querySelector(".js-bench-select");
   const benchStartBtn = root.querySelector(".js-bench-start");
@@ -388,11 +380,6 @@ export async function mount(root, { setState, rehydrateById }) {
     const delBtn = e.target.closest(".js-delete");
     if (delBtn) { del(delBtn.dataset.id); return; }
   });
-
-  newBtn.addEventListener("click", startNew);
-  root.querySelector(".js-library").addEventListener("click", () => setState({ stage: STAGES.LIBRARY }));
-  root.querySelector(".js-compare").addEventListener("click", () => setState({ stage: STAGES.COMPARE }));
-  root.querySelector(".js-guide")?.addEventListener("click", () => setState({ stage: STAGES.GUIDE }));
 
   keyHandler = (e) => {
     if (e.target && /^(input|textarea|select)$/i.test(e.target.tagName)) return;

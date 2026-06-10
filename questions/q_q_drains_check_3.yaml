@@ -1,0 +1,9 @@
+alias: q_q_drains_check_3
+label: q_drains_check
+name: And what tends to drain you or feel like a slog?
+description: ""
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +3
+source: "reworded_from:q_drains_check"

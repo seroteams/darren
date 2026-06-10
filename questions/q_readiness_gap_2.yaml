@@ -1,0 +1,10 @@
+alias: q_readiness_gap_2
+label: readiness gap
+name: What would need to change for you to feel ready for that scope?
+description: Identify the gap between current behavior and the next level she wants.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added
