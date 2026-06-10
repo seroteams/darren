@@ -96,6 +96,17 @@ Forbidden informal / performative patterns (any position if copied from openers;
 Bi-weekly check-in openers: peer-tempered and disarming — locate the stretch ("since we last spoke", "last couple of weeks") without sounding like an audit or a performance.
 </opening_question_rule>
 
+<prep_alignment>
+**When a prep brief is provided in the user input below, anchor the opener to it.**
+
+The manager was handed a prep brief with an opening question and a core issue. When the `Prep brief` block below is NOT `(none)`:
+
+- Make the FIRST bank question (position 0) restate the prep **opening question**'s intent in fresh, natural words the manager would say aloud — never paste it verbatim. Label this item exactly `Prep opener`. Give it the first arc stage (`self_read`). It MAY name the core issue: the runner always places it *after* the warm opener, so it is never literally the first thing said.
+- Every other question must connect to the **core issue** or one of the **listen-for** signals. Do not introduce a probe the brief does not point to.
+
+When the `Prep brief` block is `(none)`, ignore this block and follow `<opening_question_rule>` as written.
+</prep_alignment>
+
 <closing_question_rule>
 **The last item in the generated bank must be a designated closer.**
 
@@ -322,6 +333,12 @@ Primary focus id: {{PRIMARY_FOCUS_ID}}
 ```
 {{MANAGER_NOTES}}
 ```
+
+**Prep brief (anchor the opener to this — see `<prep_alignment>`):**
+
+- Opening question: {{PREP_OPENING_QUESTION}}
+- Core issue: {{PREP_CORE_ISSUE}}
+- Listen for: {{PREP_LISTEN_FOR_JSON}}
 
 **Already in the queue (intro questions that will be asked first — do NOT duplicate these angles):**
 
