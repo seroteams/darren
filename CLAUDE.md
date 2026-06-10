@@ -57,4 +57,15 @@ For any change big enough to need a plan, use the **Darren Method** (the `darren
 
 ---
 
+## 6. This Project's Standing Rules
+
+These are recurring corrections, promoted from memory so they hold every session:
+
+- **Engine honesty — no silent masking.** Surface raw model output. Detect problems and flag them; never hardcode text rewrites to hide them.
+- **Focus arc gate.** Bi-weekly and "feels-off" meeting types exclude competencies. Respect the input filter and the `FOCUS_ARC_LEAK` gate.
+- **Plain language.** User-facing copy and my own replies stay short and jargon-free.
+- **Verify before "done".** For any prompt or engine change, run `npm run gate` (and `npm run smoke` / `npm run eval` as relevant) and report the result — don't self-certify.
+
+---
+
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and fewer interruptions mid-task.
