@@ -1,0 +1,10 @@
+alias: q_first_move_5
+label: First move
+name: "Given what we've covered, what is the first growth move you want to make before we next meet?"
+description: Closes on one concrete commitment that advances his growth path.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

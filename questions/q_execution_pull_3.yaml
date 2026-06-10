@@ -1,0 +1,9 @@
+alias: q_execution_pull_3
+label: Execution pull
+name: Where do execution details pull you in most right now?
+description: Drills into the specific situations where he drops from strategic scope into tactical execution.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

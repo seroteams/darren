@@ -1,0 +1,10 @@
+alias: q_next_step_path
+label: Next step path
+name: What does a credible next step look like for you from here?
+description: Surfaces the path forward he believes in, in his own terms.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

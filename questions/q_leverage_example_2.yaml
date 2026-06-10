@@ -1,0 +1,9 @@
+alias: q_leverage_example_2
+label: Leverage example
+name: Where did you most suspect you were solving the wrong-level problem?
+description: Drills into his stated concern about not aiming at the highest-leverage work with a concrete example.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

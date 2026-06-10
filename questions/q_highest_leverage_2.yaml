@@ -1,0 +1,9 @@
+alias: q_highest_leverage_2
+label: Highest leverage
+name: What work do you think would be higher leverage right now?
+description: Pins down what he means by higher-leverage work before moving on.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

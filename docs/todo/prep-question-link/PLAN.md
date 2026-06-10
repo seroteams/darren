@@ -18,5 +18,9 @@
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
+## Good to know before building
+- This changes **which** questions get asked, so it only shows in a **manual** run. Scripted persona runs (the "Run 4 of 12" reviews) freeze the question list on purpose and won't reflect it.
+- The prep opener is placed *early* (right after the warm opener), not left to surface around question 5.
+
 ## Current state
-Phase 1 is next. Folder just set up — waiting for the product owner to confirm the split before any work starts.
+Phase 1 is next. Plan and phase files are build-ready — waiting for the go-ahead to start Phase 1 (manual-run QA after).

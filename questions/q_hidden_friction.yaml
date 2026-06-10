@@ -1,0 +1,10 @@
+alias: q_hidden_friction
+label: Hidden friction
+name: Where is work getting harder to surface early than it should?
+description: Looks for the point where issues stop being visible soon enough to act on.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

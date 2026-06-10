@@ -1,0 +1,10 @@
+alias: q_support_needed_17
+label: Support needed
+name: What would make it easier for you to flag a risk earlier next time?
+description: Identifies the support or process change that would help him raise issues sooner.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

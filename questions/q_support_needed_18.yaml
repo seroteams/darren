@@ -1,0 +1,10 @@
+alias: q_support_needed_18
+label: Support needed
+name: What kind of support from me would actually move this forward for you?
+description: Finds the manager investment that would make the biggest difference.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

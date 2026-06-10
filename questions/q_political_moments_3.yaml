@@ -1,0 +1,9 @@
+alias: q_political_moments_3
+label: Political moments
+name: What gets hardest for you when those conversations turn political?
+description: Drills into the specific pressure or risk that makes him drop from strategic influence into execution.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

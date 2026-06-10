@@ -1,0 +1,9 @@
+alias: q_rituals_shift_3
+label: Rituals shift
+name: You mentioned being less present in rituals — what has changed there for you?
+description: Drills into the specific shift he just acknowledged before moving on.
+purpose: topic
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

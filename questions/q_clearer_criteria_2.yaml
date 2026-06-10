@@ -1,0 +1,9 @@
+alias: q_clearer_criteria_2
+label: Clearer criteria
+name: What would clearer criteria actually need to include for you?
+description: Drills into what specific signals or expectations he feels are missing from the promotion feedback.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

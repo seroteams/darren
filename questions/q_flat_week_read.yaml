@@ -1,0 +1,9 @@
+alias: q_flat_week_read
+label: Flat week read
+name: "You said this week feels flatter than expected — what's behind that?"
+description: Drills into the post-launch flatness to distinguish normal recovery from a specific drag.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

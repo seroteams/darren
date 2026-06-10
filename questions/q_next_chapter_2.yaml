@@ -1,0 +1,10 @@
+alias: q_next_chapter_2
+label: Next chapter
+name: What kind of work do you want more of over the next year?
+description: Makes his desired future scope concrete enough to compare against current work.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

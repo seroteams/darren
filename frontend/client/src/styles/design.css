@@ -3016,6 +3016,23 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
 }
 
 /* Library (QA tooling) ----------------------------------------------------- */
+.lib-progress { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.5rem; }
+.lib-progress__row { display: flex; align-items: baseline; gap: 0.6rem; }
+.lib-progress__count { font-weight: 600; color: var(--color-ink); }
+.lib-progress__bar {
+  height: 3px;
+  background: var(--color-border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.lib-progress__bar > i {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: 999px;
+  transition: width var(--dur-medium) var(--ease-out-expo);
+}
+
 .lib-controls {
   display: flex;
   align-items: center;

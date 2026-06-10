@@ -1,0 +1,10 @@
+alias: q_executor_drift
+label: Executor drift
+name: In what situations do you still end up pulling the work back into your own hands?
+description: Checks for executor habits that undercut strategic delegation.
+purpose: competency
+stage: investment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

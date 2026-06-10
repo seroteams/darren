@@ -1,0 +1,10 @@
+alias: q_pre_wire_example
+label: Pre-wire example
+name: Can you walk me through a cross-team conversation you started before it became urgent?
+description: Looks for evidence of early stakeholder engagement and pre-wiring decisions.
+purpose: competency
+stage: evidence
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

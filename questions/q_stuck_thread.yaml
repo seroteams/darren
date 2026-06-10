@@ -1,0 +1,9 @@
+alias: q_stuck_thread
+label: Stuck thread
+name: What kind of work has started to feel too familiar lately?
+description: Drills into the plateau she named so the manager can locate the specific work pattern behind feeling stuck.
+purpose: topic
+stage: lift
+axis_effects:
+  growth: +1
+source: planner_added

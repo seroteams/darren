@@ -1,0 +1,10 @@
+alias: q_mentoring_thread_6
+label: Mentoring thread
+name: What would mentoring need to look like in your week for it to actually happen?
+description: Tests whether the mentoring idea is still real and what trade-off it would require.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

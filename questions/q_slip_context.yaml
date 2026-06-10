@@ -1,0 +1,9 @@
+alias: q_slip_context
+label: Slip context
+name: When the deadlines got away from you, where did things start to slip?
+description: Follows his deadline-slip thread and surfaces the first point where the work became hard to hold.
+purpose: competency
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

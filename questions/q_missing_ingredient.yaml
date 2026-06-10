@@ -1,0 +1,10 @@
+alias: q_missing_ingredient
+label: Missing ingredient
+name: "What do you want more of in the work that you're not getting enough of now?"
+description: Surfaces the missing ingredient between current work and desired trajectory.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

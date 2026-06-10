@@ -23,7 +23,7 @@ Files: `src/cli/stages/questioning.js`, `frontend/server/handlers/plan.js`, `src
 - [ ] Product owner has tested the scenarios below and said go.
 
 ## Test scenarios — for the product owner
-Walk through these yourself.
+Walk through these yourself, in a **manual** run (scripted persona runs freeze the question list, so they won't show this).
 
 1. **No more wandering** — re-run the Liam-style scenario from Phase 1. Confirm there's **no off-topic question** like "how clearly are you naming trade-offs?" unless the report's own answer raised it. Every question should trace back to the decision-clarity brief.
 

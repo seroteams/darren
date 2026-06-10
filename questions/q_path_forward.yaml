@@ -1,0 +1,10 @@
+alias: q_path_forward
+label: Path forward
+name: What concrete path forward feels real to you from here?
+description: Asks him to name the next direction he believes in, if any.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +3
+source: generated

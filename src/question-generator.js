@@ -71,6 +71,32 @@ function renderAvoidPhrases(items) {
     .join("\n");
 }
 
+function renderPrepText(value) {
+  return value && String(value).trim() ? String(value).trim() : "(none)";
+}
+
+function renderPrepListenFor(items) {
+  return Array.isArray(items) && items.length ? JSON.stringify(items, null, 2) : "(none)";
+}
+
+// Place the prep-anchored opener (the bank item labeled "Prep opener") right
+// after the warm self-read intro questions, so the prep opening question is the
+// first substantive question — not buried after the fixed intro probes. No-op
+// when there's no prep brief or no tagged opener (e.g. the seed-bank fallback).
+function assembleQueueWithPrepOpener(introQueue, bank, prep, meetingType) {
+  const base = [...(introQueue || []), ...(bank || [])];
+  if (!prep?.openingQuestion || !bank?.length || !introQueue?.length) return base;
+  const opener = bank.find((q) => /prep opener/i.test(q.label || ""));
+  if (!opener) return base;
+  const restBank = bank.filter((q) => q !== opener);
+  const anchorStageId = getArc(meetingType).arc[0]?.id || null;
+  const warm = new Set(["self_read", anchorStageId].filter(Boolean));
+  let insertAt = 0;
+  while (insertAt < introQueue.length && warm.has(introQueue[insertAt].stage)) insertAt += 1;
+  if (insertAt === 0) insertAt = 1; // never literally first
+  return [...introQueue.slice(0, insertAt), opener, ...introQueue.slice(insertAt), ...restBank];
+}
+
 function buildMessages({
   axes,
   focusPoints,
@@ -81,6 +107,7 @@ function buildMessages({
   notes,
   existingQueue,
   selectedFocus,
+  prep,
 }) {
   const template = fs.readFileSync(promptFor(meetingType, "questionBank"), "utf8");
   const arc = getArc(meetingType);
@@ -112,7 +139,10 @@ function buildMessages({
     .replaceAll("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc.anti_patterns, null, 2))
     .replaceAll("{{CONVERSATION_PREFER_TERMS}}", renderPreferTerms(lexicon.preferTerms))
     .replaceAll("{{CONVERSATION_PREFER_PHRASES}}", renderPreferPhrases(lexicon.preferPhrases))
-    .replaceAll("{{CONVERSATION_AVOID_PHRASES}}", renderAvoidPhrases(lexicon.avoidPhrases));
+    .replaceAll("{{CONVERSATION_AVOID_PHRASES}}", renderAvoidPhrases(lexicon.avoidPhrases))
+    .replaceAll("{{PREP_OPENING_QUESTION}}", renderPrepText(prep?.openingQuestion))
+    .replaceAll("{{PREP_CORE_ISSUE}}", renderPrepText(prep?.coreIssue))
+    .replaceAll("{{PREP_LISTEN_FOR_JSON}}", renderPrepListenFor(prep?.listenFor));
 
   const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
   const userMatch = filled.match(/## User\s+([\s\S]*)$/);
@@ -160,6 +190,7 @@ async function generateBank(
     existingQueue,
     selectedFocus,
     primaryFocusId,
+    prep,
   },
   { model = getDefaultModel(), session, stage = "03-question-bank" } = {}
 ) {
@@ -177,6 +208,7 @@ async function generateBank(
     notes,
     existingQueue,
     selectedFocus: sf,
+    prep,
   });
   const raw = await callOpenAI({ ...messages, model });
   const parsed = parseAIJson(raw, "Question generator", ["questions"]);
@@ -219,4 +251,10 @@ async function generateBankWithFallback(args, opts, { onFallback } = {}) {
   }
 }
 
-module.exports = { generateBank, generateBankWithFallback, buildMessages, callOpenAI };
+module.exports = {
+  generateBank,
+  generateBankWithFallback,
+  buildMessages,
+  callOpenAI,
+  assembleQueueWithPrepOpener,
+};

@@ -1,0 +1,9 @@
+alias: q_name_opportunities_2
+label: Name opportunities
+name: Which opportunities have you wanted but not said out loud yet?
+description: Drills into the named blocker by making him specify the opportunities he has not explicitly asked for.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added

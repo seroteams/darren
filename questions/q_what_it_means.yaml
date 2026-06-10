@@ -1,0 +1,10 @@
+alias: q_what_it_means
+label: What it means
+name: What does the mentoring program mean for you right now?
+description: Tests whether mentoring feels like a stretch, a distraction, or something else in his current path.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

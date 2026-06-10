@@ -1,0 +1,9 @@
+alias: q_strategic_bet_2
+label: Strategic bet
+name: What kind of strategic bet does he want to own?
+description: Makes the named growth opportunity concrete enough to understand the scope and visibility he is aiming for.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+source: planner_added

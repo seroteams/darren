@@ -1,0 +1,10 @@
+alias: q_org_tradeoff
+label: Org tradeoff
+name: What would need to change around your workload for that growth path to be realistic?
+description: Surfaces the organizational trade-off required to create room for growth.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_pairing_plan_2
+label: Pairing plan
+name: What would you want to learn from pairing with the staff engineer?
+description: Turns his proposed support move into a specific investment target and clarifies the capability he wants to build.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_earlier_feedback
+label: Earlier feedback
+name: What makes you wait to get sharper feedback earlier?
+description: Drills into the barrier behind delayed feedback-seeking before moving the arc forward.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+source: planner_added

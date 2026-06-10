@@ -55,7 +55,11 @@
   table.q{width:100%;border-collapse:collapse;font-size:14px}
   table.q td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
   table.q td.n{color:var(--faint);width:26px} table.q td.st{color:var(--dim);width:120px;font-size:12px}
+  table.q td.kd{width:84px}
   table.q .qnote{color:var(--dim);font-size:13px;margin-top:3px;font-style:italic}
+  .kbadge{display:inline-block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:20px;border:1px solid var(--line);white-space:nowrap}
+  .kbadge--arc{color:var(--accent);border-color:#33507e;background:rgba(110,168,254,.10)}
+  .kbadge--deeper{color:var(--warn);border-color:#5c4a1f;background:rgba(251,191,36,.10)}
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
   .chip{font-size:12px;padding:4px 10px;border-radius:20px;background:var(--panel2);border:1px solid var(--line);color:var(--dim)}
   .chip.ok{color:var(--pass);border-color:#1f5d47} .chip.bad{color:var(--fail);border-color:#5d2222}
@@ -220,10 +224,11 @@ function select(id){
   c = el("div",{className:"card"});
   c.append(el("h3",{textContent:"Questions it asked"}));
   const tb=el("table",{className:"q"});
-  (r.questions||[]).forEach((q,i)=>{ const tr=el("tr"); const qcell=el("td"); qcell.append(el("div",{textContent:q.name})); if(q.note){ qcell.append(el("div",{className:"qnote",textContent:"— "+q.note})); } tr.append(el("td",{className:"n",textContent:(i+1)}), el("td",{className:"st",textContent:q.stage||"—"}), qcell); tb.append(tr); });
+  (r.questions||[]).forEach((q,i)=>{ const tr=el("tr"); const qcell=el("td"); qcell.append(el("div",{textContent:q.name})); if(q.note){ qcell.append(el("div",{className:"qnote",textContent:"— "+q.note})); } const deeper=q.kind==="deeper"; const kd=el("td",{className:"kd"}); kd.append(el("span",{className:"kbadge kbadge--"+(deeper?"deeper":"arc"),textContent:deeper?"deeper":"on-arc"})); tr.append(el("td",{className:"n",textContent:(i+1)}), el("td",{className:"st",textContent:q.stage||"—"}), kd, qcell); tb.append(tr); });
   c.append(tb);
   const ch=el("div",{className:"chips"});
   ch.append(el("span",{className:"chip",textContent:"arc covered "+r.arc.covered+"/"+r.arc.total}));
+  { const deep=(r.questions||[]).filter(q=>q.kind==="deeper").length; const onarc=(r.questions||[]).length-deep; ch.append(el("span",{className:"chip",textContent:onarc+" on-arc · "+deep+" deeper"})); }
   if(r.servedLint.yesno) ch.append(el("span",{className:"chip bad",textContent:r.servedLint.yesno+" yes/no"}));
   if(r.servedLint.presup) ch.append(el("span",{className:"chip bad",textContent:r.servedLint.presup+" presupposed"}));
   c.append(ch);

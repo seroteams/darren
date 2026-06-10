@@ -1,0 +1,10 @@
+alias: q_missed_feedback
+label: Missed feedback
+name: What feedback do you think you did not get enough of?
+description: Surfaces the missing signal he wishes he had received and what would have been useful.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

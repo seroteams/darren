@@ -1,0 +1,9 @@
+alias: q_trust_gap_2
+label: Trust gap
+name: Where does low trust show up most with adjacent teams?
+description: Turns the named cause into a concrete gap pattern before moving on.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+source: planner_added

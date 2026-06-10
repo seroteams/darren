@@ -1,0 +1,10 @@
+alias: q_trust_gap_map
+label: Trust gap map
+name: Which stakeholder relationship feels most important to strengthen first?
+description: Identifies the highest-leverage trust gap without asking for a generic stakeholder audit.
+purpose: competency
+stage: gap
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

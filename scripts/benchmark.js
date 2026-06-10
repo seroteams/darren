@@ -16,6 +16,7 @@ loadEnv();
 const { getArc } = require("../src/one-on-one-types");
 const { validateBrief } = require("../src/preparation");
 const { resolveSelectedFocus } = require("../src/selected-focus");
+const { isSameStagePlannerDrill } = require("../src/queue-manager");
 const { stageCoverageSummary } = require("./eval-judge");
 const { isYesNoDeadEnd, isPresupposed, isMultiProbe, isTrustRisk } = require("./lint-bank");
 
@@ -47,7 +48,29 @@ function trustCheck(notes, servedTexts) {
 
 function bullets(arr) { return (arr || []).map((x) => `  - ${typeof x === "string" ? x : x?.action || JSON.stringify(x)}`).join("\n") || "  - (none)"; }
 
+// Classify each turn as "arc" (advances/serves the planned arc) vs "deeper"
+// (the engine chose to drill on the just-given answer). Mirrors the engine's own
+// definitions in src/queue-manager.js — does not re-judge, just reads the signals.
+// Deeper when ANY of: off-arc excursion (stage null — see computeOffArcDrillCount),
+// runtime thread-follow (mirrors isRuntimeThreadFollow), or a planner drill at a
+// stage already opened earlier in the transcript (isSameStagePlannerDrill).
+function classifyArcKinds(transcript) {
+  const seenStages = new Set();
+  return (transcript || []).map((t) => {
+    const q = t?.question || {};
+    const stage = q.stage ?? null;
+    const hasStage = stage != null && stage !== "";
+    const firstOfStage = hasStage && !seenStages.has(stage);
+    if (hasStage) seenStages.add(stage);
+    const offArc = !hasStage;
+    const runtimeThreadFollow = q.source === "planner_added" && q.label === "Thread follow";
+    const sameStageDrill = !firstOfStage && isSameStagePlannerDrill(q, stage);
+    return offArc || runtimeThreadFollow || sameStageDrill ? "deeper" : "arc";
+  });
+}
+
 function renderRun({ id, dir, scenario, brief, prepIssues, transcript, arc, coverage, servedLint, briefing, trust, judge }) {
+  const kinds = classifyArcKinds(transcript);
   const L = [];
   L.push(`# Verdict — ${scenario.name} · ${scenario.role} · ${scenario.seniority} · ${scenario.meeting_type}`);
   L.push(`Run: \`${path.relative(ROOT, dir)}\``);
@@ -66,9 +89,9 @@ function renderRun({ id, dir, scenario, brief, prepIssues, transcript, arc, cove
   L.push(`_Deterministic prep checks (validateBrief):_ ${prepIssues.length ? prepIssues.map((i) => `\`${i}\``).join("; ") : "no issues"}`);
   L.push("");
   L.push("## Questions asked (arc)");
-  L.push("| # | stage | question |");
-  L.push("|---|---|---|");
-  (transcript || []).forEach((t, i) => L.push(`| ${i + 1} | ${t?.question?.stage || "—"} | ${(t?.question?.name || "").replace(/\|/g, "\\|")} |`));
+  L.push("| # | stage | on-arc? | question |");
+  L.push("|---|---|---|---|");
+  (transcript || []).forEach((t, i) => L.push(`| ${i + 1} | ${t?.question?.stage || "—"} | ${kinds[i] === "deeper" ? "deeper" : "on-arc"} | ${(t?.question?.name || "").replace(/\|/g, "\\|")} |`));
   const expected = arc.arc.map((s) => s.id);
   L.push("");
   L.push(`_Arc fidelity:_ covered ${coverage.matched_count}/${coverage.expected_count} stages (expected: ${expected.join(" → ")}; missing: ${coverage.missing_stage_ids.join(", ") || "none"})`);
@@ -157,7 +180,7 @@ async function processRun(dir, judgeOn, suggestOn) {
       goodOutcome: brief.goodOutcome, suggestedAction: brief.suggestedAction,
     },
     prepIssues,
-    questions: (transcript || []).map((t, i) => ({ turn: i + 1, stage: t?.question?.stage || "", name: t?.question?.name || "", note: t?.answer || "" })),
+    questions: (() => { const kinds = classifyArcKinds(transcript); return (transcript || []).map((t, i) => ({ turn: i + 1, stage: t?.question?.stage || "", kind: kinds[i], name: t?.question?.name || "", note: t?.answer || "" })); })(),
     arc: { expected: arc.arc.map((s) => s.id), covered: coverage.matched_count, total: coverage.expected_count, missing: coverage.missing_stage_ids },
     servedLint,
     briefing: briefing ? { headline: briefing.headline, next_actions: (briefing.next_actions || []).map((a) => ({ when: a.when, action: a.action })) } : null,

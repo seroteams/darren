@@ -1,0 +1,9 @@
+alias: q_ownership_edges
+label: Ownership edges
+name: What parts of your work feel least clearly owned right now?
+description: Finds ambiguity in ownership or handoffs that can delay escalation.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: generated

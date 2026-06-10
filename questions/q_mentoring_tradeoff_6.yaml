@@ -1,0 +1,10 @@
+alias: q_mentoring_tradeoff_6
+label: Mentoring tradeoff
+name: What are you choosing to make room for with the mentoring program?
+description: Surfaces what gets displaced by the program and whether that tradeoff is intentional.
+purpose: competency
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

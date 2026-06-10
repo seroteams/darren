@@ -45,6 +45,30 @@ function matchesSearch(run, q) {
   return hay.includes(q);
 }
 
+// Inbox progress across all loaded runs: how many are fully reviewed, and how
+// many are still marked Fix / Block (the open work). Reviewed === complete.
+function progressOf(runs) {
+  const total = runs.length;
+  const reviewed = runs.filter((r) => r.reviewStatus === "complete").length;
+  const fix = runs.filter((r) => r.overall === "fix").length;
+  const block = runs.filter((r) => r.overall === "block").length;
+  const pct = total ? Math.round((reviewed / total) * 100) : 0;
+  return { total, reviewed, fix, block, pct };
+}
+
+function renderProgress(el, runs) {
+  if (!runs.length) { el.innerHTML = ""; return; }
+  const p = progressOf(runs);
+  const open = [p.fix ? `Fix ${p.fix}` : "", p.block ? `Block ${p.block}` : ""].filter(Boolean).join(" · ");
+  el.innerHTML = `
+    <div class="lib-progress__row">
+      <span class="lib-progress__count">${p.reviewed} of ${p.total} reviewed</span>
+      ${open ? `<span class="lib-progress__open text-ink-dim text-sm">${esc(open)}</span>` : ""}
+    </div>
+    <div class="lib-progress__bar"><i style="width:${p.pct}%"></i></div>
+  `;
+}
+
 export async function mount(root) {
   root.innerHTML = `
     <div class="stage-medium l-stack l-stack--8">
@@ -54,6 +78,7 @@ export async function mount(root) {
           <button class="btn btn--ghost js-back" type="button">Back</button>
         </div>
         <div class="text-ink-dim text-sm">Review past prep runs.</div>
+        <div class="lib-progress js-progress"></div>
       </header>
 
       <div class="lib-controls">
@@ -70,6 +95,7 @@ export async function mount(root) {
   const listEl = root.querySelector(".js-list");
   const searchEl = root.querySelector(".lib-search");
   const backBtn = root.querySelector(".js-back");
+  const progressEl = root.querySelector(".js-progress");
 
   let runs = [];
   let filter = "all";
@@ -156,6 +182,7 @@ export async function mount(root) {
     runs = [];
     console.warn("[library] getFinishedRuns failed:", e);
   }
+  renderProgress(progressEl, runs);
   render();
 }
 
