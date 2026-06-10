@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-10T16:05:17.781Z",
-  "count": 1845,
+  "generated_at": "2026-06-10T16:05:27.697Z",
+  "count": 1848,
   "aliases": [
     "q_adjacent_problems",
     "q_after_the_push",
@@ -48,6 +48,7 @@
     "q_clarify_ok_4",
     "q_clarify_ok_5",
     "q_clarify_ok_6",
+    "q_clarify_ok_7",
     "q_clearer_criteria",
     "q_clearer_criteria_2",
     "q_client_load_2",
@@ -1317,6 +1318,7 @@
     "q_ready_to_share_2",
     "q_ready_to_share_3",
     "q_recent_change",
+    "q_recent_decision",
     "q_recent_evidence",
     "q_recent_example",
     "q_recent_example_10",
@@ -1385,6 +1387,7 @@
     "q_reset_check_21",
     "q_reset_check_22",
     "q_reset_check_23",
+    "q_reset_check_24",
     "q_reset_check_3",
     "q_reset_check_4",
     "q_reset_check_5",
@@ -2031,6 +2034,10 @@
     },
     {
       "alias": "q_clarify_ok_6",
+      "subdir": ""
+    },
+    {
+      "alias": "q_clarify_ok_7",
       "subdir": ""
     },
     {
@@ -7132,6 +7139,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_recent_decision",
+      "subdir": ""
+    },
+    {
       "alias": "q_recent_evidence",
       "subdir": ""
     },
@@ -7401,6 +7412,10 @@
     },
     {
       "alias": "q_reset_check_23",
+      "subdir": ""
+    },
+    {
+      "alias": "q_reset_check_24",
       "subdir": ""
     },
     {

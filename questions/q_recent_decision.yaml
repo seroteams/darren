@@ -1,0 +1,9 @@
+alias: q_recent_decision
+label: Recent decision
+name: "What's a recent cross-team decision you stayed out of?"
+description: Anchors the newly named pattern in one concrete example before moving deeper into the arc.
+purpose: competency
+stage: self_read
+axis_effects:
+  growth: +1
+source: planner_added
