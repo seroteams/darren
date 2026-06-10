@@ -1,0 +1,10 @@
+alias: q_mentoring_lift
+label: Mentoring lift
+name: What part of the mentoring program is giving you energy right now?
+description: Finds whether the program is genuinely stretching him or becoming a source of investment.
+purpose: competency
+stage: underneath
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

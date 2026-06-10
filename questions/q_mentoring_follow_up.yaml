@@ -1,7 +1,7 @@
 alias: q_mentoring_follow_up
 label: Mentoring follow-up
-name: When mentoring went nowhere, what did you expect to happen next?
-description: Drills into the stalled mentoring request to surface the missing handoff or assumption.
+name: When mentoring went nowhere, what were you hoping would happen next?
+description: Drills into the mentoring thread to surface the missed expectation or support gap.
 purpose: topic
 stage: friction
 axis_effects:

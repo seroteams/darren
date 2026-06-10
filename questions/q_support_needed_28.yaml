@@ -1,0 +1,10 @@
+alias: q_support_needed_28
+label: Support needed
+name: What would make it easier to flag risk earlier on backend work?
+description: Ends by identifying practical support that could change the pattern next cycle.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

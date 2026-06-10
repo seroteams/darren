@@ -1,0 +1,10 @@
+alias: q_quiet_stretch_3
+label: Quiet stretch
+name: "I've noticed you've been quieter in standup this week — what's behind that?"
+description: Uses an observation-first frame to understand whether the quieter energy is workload, mood, or something else.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_define_ok_3
+label: Define ok
+name: "When you say 'ok', what was actually going on over the last two weeks?"
+description: Clarifies the shallow answer with enough detail to locate what the fortnight was like.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added

@@ -13,7 +13,7 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Opener link | First real question carries the prep opening question | ⬜ |
+| 1 | Opener link | First real question carries the prep opening question | 🔨 |
 | 2 | Stay-on-brief + diagnostics | Later questions stay on-brief; link is measured | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -23,4 +23,4 @@
 - The prep opener is placed *early* (right after the warm opener), not left to surface around question 5.
 
 ## Current state
-Phase 1 is next. Plan and phase files are build-ready — waiting for the go-ahead to start Phase 1 (manual-run QA after).
+Phase 1 is **built and self-checked** (smoke green; gate's 5 happy cases + leak sentinel green). Waiting for the product owner to walk the Phase 1 scenarios in a manual run and give the green light before Phase 2 starts.

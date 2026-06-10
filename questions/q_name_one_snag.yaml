@@ -1,0 +1,10 @@
+alias: q_name_one_snag
+label: Name one snag
+name: "When you say 'not sure', what got snaggy or messy this week?"
+description: One-shot re-prompt to surface a concrete friction point before moving on.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added

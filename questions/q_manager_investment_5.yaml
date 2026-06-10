@@ -1,0 +1,10 @@
+alias: q_manager_investment_5
+label: Manager investment
+name: What support from me would make that next stretch easier to take on?
+description: Identifies the manager actions that could unlock the next step without turning into a generic support ask.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_prep_opener_34
+label: Prep opener
+name: What would feel like the right stretch for your next few months if we aimed them at stronger Senior Engineer ownership?
+description: Sets the growth conversation by asking Devon to define the kind of stretch he wants next.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

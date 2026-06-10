@@ -213,7 +213,7 @@
       "scripted_fallback": "activity's there. it's the close of the call, locking a real next step, where she keeps losing it",
       "script": [
         { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "stage": "self_read", "answer": "wants to look at her calls. lots of activity but it's not converting into next steps" },
-        { "alias": "q_call_quality", "name": "Think about a recent call that didn't move forward — how did it actually go?", "answer": "good energy, decent rapport. ended vague — 'they'll think about it', no next step booked"},
+        { "alias": "q_call_quality", "name": "Think about a recent call that didn't move forward — how did it actually go?", "stage": "evidence", "answer": "good energy, decent rapport. ended vague — 'they'll think about it', no next step booked" },
         { "alias": "q_discovery_depth", "name": "How deep did you get on what's actually driving their decision?", "stage": "evidence", "answer": "not deep enough. covered the product well, didn't pin down their real pain or timeline" },
         { "alias": "q_next_step_clarity", "name": "When you close a call, how clear is the next step you're setting?", "stage": "gap_naming", "answer": "vague usually. says she'll follow up rather than booking the specific next meeting on the spot" },
         { "alias": "q_behaviour_pattern", "name": "What's the pattern across the calls that stall?", "stage": "gap_naming", "answer": "talks more than she asks → leaves without a clear read on what they need to say yes" },

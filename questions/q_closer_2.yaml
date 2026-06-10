@@ -1,0 +1,10 @@
+alias: q_closer_2
+label: Closer
+name: "Given what we've covered, what should we focus on first before we next meet?"
+description: Lands the conversation on a next-step choice without introducing a new thread.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

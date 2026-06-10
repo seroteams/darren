@@ -1,0 +1,10 @@
+alias: q_mentoring_shape_9
+label: Mentoring shape
+name: What kind of mentoring would actually feel worth making room for right now?
+description: Clarifies what mentoring means to Priya in practice, not as a vague aspiration.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

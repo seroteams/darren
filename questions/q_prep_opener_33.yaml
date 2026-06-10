@@ -1,0 +1,10 @@
+alias: q_prep_opener_33
+label: Prep opener
+name: How connected to the team and the work have you felt lately, and what has felt most energizing or flat from your side?
+description: Opens by letting Devon set the current context around connection and energy.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

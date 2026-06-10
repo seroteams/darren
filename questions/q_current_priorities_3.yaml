@@ -1,0 +1,10 @@
+alias: q_current_priorities_3
+label: Current priorities
+name: What are you choosing to put most of your energy into right now?
+description: Surfaces the actual priority stack Devon is operating with today.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

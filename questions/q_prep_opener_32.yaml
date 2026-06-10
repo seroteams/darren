@@ -1,0 +1,10 @@
+alias: q_prep_opener_32
+label: Prep opener
+name: How has your workload actually felt across the last two deadlines, and where did it become harder to flag risk early?
+description: Reframes the prep opener to surface how capacity and risk signaling played out across the recent slips.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

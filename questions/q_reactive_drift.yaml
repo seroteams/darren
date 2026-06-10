@@ -1,0 +1,10 @@
+alias: q_reactive_drift
+label: Reactive drift
+name: Where did reactive work pull you off course most in the last fortnight?
+description: Looks for the biggest source of drift away from intended priorities without assuming failure.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

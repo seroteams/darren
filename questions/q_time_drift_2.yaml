@@ -1,0 +1,10 @@
+alias: q_time_drift_2
+label: Time drift
+name: What took more of your time than you expected over the last two weeks?
+description: Surfaces specific work that pulled Sam away from planned priorities without assuming it was a problem.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

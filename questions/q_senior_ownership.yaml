@@ -1,0 +1,10 @@
+alias: q_senior_ownership
+label: Senior ownership
+name: Where are you already operating with Senior Engineer ownership today?
+description: Finds concrete evidence of senior-level scope and responsibility in his current work.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_architecture_review_5
+label: Architecture review
+name: What would presenting there let people see about you?
+description: Drills into the architecture review thread to surface the specific capability or signal he wants to demonstrate.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added

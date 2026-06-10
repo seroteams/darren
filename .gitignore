@@ -20,6 +20,9 @@ frontend/client/node_modules/.vite/
 REPORT-*.md
 CHEATSHEET-*.md
 
+# Per-person profiles (derived from logs/ — rebuild with scripts/rebuild-profiles.js)
+data/people/
+
 # Runtime logs (keep-set only)
 debug-be19bb.log
 .cursor/debug-*.log

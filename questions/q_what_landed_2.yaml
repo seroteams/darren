@@ -1,0 +1,9 @@
+alias: q_what_landed_2
+label: What landed
+name: What was landing on you all at once?
+description: Gets specific about the competing work or demands behind the late flag.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: planner_added

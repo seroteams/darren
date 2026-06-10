@@ -1,0 +1,10 @@
+alias: q_support_needed_30
+label: Support needed
+name: What would you want more of from me before we next meet?
+description: Surfaces the specific manager support that would unblock the next stretch of work.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

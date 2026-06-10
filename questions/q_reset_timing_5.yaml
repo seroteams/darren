@@ -1,0 +1,9 @@
+alias: q_reset_timing_5
+label: Reset timing
+name: Would it be better to pause here and pick this up another time?
+description: Offers a simple reset path in a non-functional session without pushing the agenda forward.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_cross_team_visibility
+label: Cross-team visibility
+name: What kind of visibility with other teams are you actually looking for?
+description: Clarifies the specific cross-team exposure he sees as part of his growth path.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

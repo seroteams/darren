@@ -1,0 +1,10 @@
+alias: q_manager_support_ask
+label: Manager support ask
+name: What would have made the last two weeks easier from my side?
+description: Invites a concrete request for support, direction, or faster decisions.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

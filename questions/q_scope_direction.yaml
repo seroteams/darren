@@ -1,0 +1,10 @@
+alias: q_scope_direction
+label: Scope direction
+name: What scope do you want your role to have a year from now?
+description: Tests whether he is aiming for broader ownership, influence, or end-to-end responsibility.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

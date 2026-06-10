@@ -1,0 +1,10 @@
+alias: q_prep_opener_31
+label: Prep opener
+name: How has shipping the payments refactor on Monday actually felt from your side over the last few days?
+description: Anchors the check-in on the recent delivery win and invites Priya to set the tone.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+  wellbeing: +1
+source: generated

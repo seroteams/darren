@@ -265,6 +265,7 @@ function deleteRun(id) {
 }
 
 module.exports = {
+  walkRuns,
   listRecentRuns,
   listFinishedRuns,
   summarizeRun,
@@ -276,5 +277,6 @@ module.exports = {
   findLatestRun,
   buildHeadline,
   reviewStatusOf,
+  reviewSummaryOf,
   REVIEW_DIM_KEYS,
 };

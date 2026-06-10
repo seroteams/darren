@@ -1,0 +1,10 @@
+alias: q_feedback_heard
+label: Feedback heard
+name: What feedback from the promotion conversation do you actually remember hearing?
+description: Checks whether he can restate the message concretely or only has a vague impression.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

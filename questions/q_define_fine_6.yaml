@@ -1,0 +1,10 @@
+alias: q_define_fine_6
+label: Define fine
+name: "When you say 'fine', what does that actually look like day to day?"
+description: Clarifies the shallow energy answer with concrete specifics before moving on.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added
