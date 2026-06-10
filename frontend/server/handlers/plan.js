@@ -103,6 +103,7 @@ module.exports = async function plan(c) {
   const current = session.transcript[session.transcript.length - 1];
   current.realized_deltas = planResult.assessment.deltas;
   current.note = planResult.assessment.note;
+  if (planResult.unbooked_signal?.length) current.unbooked_signal = planResult.unbooked_signal;
 
   // Scripted test lane: keep the planner's scoring (deltas + note) but ignore its
   // re-plan, agenda carry-forward, closer force-insert and seed overflow — the
@@ -180,6 +181,7 @@ module.exports = async function plan(c) {
       assessment: planResult.assessment,
       new_queue: session.queueRef.map((x) => ({ alias: x.alias, label: x.label, name: x.name })),
       issues: planResult.issues || [],
+      unbooked_signal: planResult.unbooked_signal || [],
       userDrillRequest,
       axis_state: serialize(session.axisState),
     }

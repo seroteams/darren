@@ -45,6 +45,7 @@ module.exports = async function evaluation(c) {
             stage: t.question.stage,
             answer: t.answer,
             skipped: t.skipped,
+            unbooked_signal: t.unbooked_signal || [],
           })),
           axisState: serialize(session.axisState),
           notes: notesForEvaluation,

@@ -260,6 +260,10 @@ No unsupported psychological diagnosis.
 No confidence beyond the evidence.
 </evidence_rule>
 
+<unbooked_signal_rule>
+Some transcript turns carry `unbooked_signal` — axis movement the report surfaced that scoring discipline did not book (the answer carried more than the question's signature allowed, or signal on an axis the question wasn't testing). Use it only as hedged directional context in `axes[].meaning` or `watch_for` (e.g. "a stronger clarity signal surfaced here than the score shows — worth confirming directly"). Never adjust `axes[].score` with it — scores copy `axis_state` verbatim. Never present unbooked signal as a confirmed read.
+</unbooked_signal_rule>
+
 <rules>
 - Emit the four axes in order: wellbeing, engagement, clarity, growth.
 - Scores come from `axis_state`; copy them, don't recalculate.

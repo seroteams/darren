@@ -180,6 +180,7 @@ A meeting-type-neutral "how's your energy" probe is too generic — anchor it.
 - Prefer **"Can you walk me through …"** over "On X, what happened …" for competency evidence questions.
 - When manager notes or selected focus name a concrete launch/handoff/incident, **reuse that noun** in the stem (e.g. "payments launch", not "recent edge case").
 - When `{{PRIMARY_FOCUS_ID}}` is `quality`, deprioritise bank items that only probe communication friction unless communication is in manager notes.
+- When the selected focus carries a `selected` array, every entry in it was explicitly picked by the manager: ensure at least one question serves each selected point, with the first (primary) getting the deepest coverage.
 
 **Weak vs sharp — concrete rewrites. Left column is what to AVOID; right is what to PREFER. Before emitting any question, check it against this list; if your draft reads like the left column, rewrite it toward the right.**
 

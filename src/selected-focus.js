@@ -29,14 +29,18 @@ function resolveSelectedFocus(inputs = {}) {
         return { id, label: fp.label || fp.type || id };
       }
     }
-    if (/quality/i.test(notes)) return { id: "quality", label: "Quality" };
-    if (/communication/i.test(notes)) return { id: "communication", label: "Communication" };
-    if (/growth/i.test(notes)) return { id: "growth", label: "Growth" };
-    if (/judgment/i.test(notes)) return { id: "judgment", label: "Judgment" };
   }
-  const first = (inputs.focusPoints || [])[0];
+  // No explicit selection and no exact match: fall back honestly — prefer a
+  // note-driven (source: "signal") focus point over the first listed one, and
+  // tag the result so downstream consumers can see it was a fallback. Never
+  // guess a focus from keywords in the notes (a note about "growth of the
+  // codebase" is not a Growth focus).
+  const points = inputs.focusPoints || [];
+  const first = points.find((fp) => fp.source === "signal") || points[0];
   if (first?.id) {
-    return { id: normalizeId(first.id), label: first.label || first.type || first.id };
+    const id = normalizeId(first.id);
+    console.warn(`[selected-focus] no explicit selection — fell back to ${id}`);
+    return { id, label: first.label || first.type || first.id, fallback: true };
   }
   return null;
 }

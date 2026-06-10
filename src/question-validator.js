@@ -1,7 +1,10 @@
 // Reject broken or note-mirrored question stems before they reach the manager UI.
 
+// Context-free fallback — must fit ANY conversation. Never a stem tied to a
+// specific scenario (the old "before handoff?" stem leaked test-case context
+// into unrelated sessions).
 const FALLBACK_STEM =
-  "What would have helped catch that before handoff?";
+  "What did you expect would happen there?";
 
 const VAGUE_MORE = /can you say more about what that means/i;
 const SUBJECT_VERB =

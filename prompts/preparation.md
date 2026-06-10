@@ -131,7 +131,8 @@ If notes are empty, say what the conversation should test, not what is true.
 
 When `{{PRIMARY_FOCUS_ID}}` is set (not `(none)`), that focus is **primary** for `coreIssue`, `openingQuestion`, `listenFor`, and `goodOutcome`.
 
-- Secondary catalogue focus points may appear only in `avoid` or `suggestedAction` — not as parallel `listenFor` bullets unless the manager's notes explicitly name them.
+- When `selectedFocus` carries a `selected` array, every entry in it was explicitly picked by the manager: the first stays primary; the others are first-class secondary concerns and may each shape one `listenFor` item.
+- Secondary catalogue focus points NOT in `selected` may appear only in `avoid` or `suggestedAction` — not as parallel `listenFor` bullets unless the manager's notes explicitly name them.
 - When primary is `quality` on a backend/senior IC: `listenFor` MUST use concrete quality tells — handoff completeness, edge cases, dependency notes, review depth, release/payment risk, escalation timing — not generic stakeholder confusion unless notes say so.
 </primary_focus_rules>
 

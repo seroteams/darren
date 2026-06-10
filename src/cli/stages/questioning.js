@@ -106,6 +106,7 @@ async function runQuestioningLoop({
     const current = transcript[transcript.length - 1];
     current.realized_deltas = plan.assessment.deltas;
     current.note = plan.assessment.note;
+    if (plan.unbooked_signal?.length) current.unbooked_signal = plan.unbooked_signal;
 
     const axesSummary = summarize(axisState);
     console.log();
@@ -157,6 +158,7 @@ async function runQuestioningLoop({
       assessment: plan.assessment,
       new_queue: queueRef.map((x) => ({ alias: x.alias, label: x.label, name: x.name })),
       issues: plan.issues || [],
+      unbooked_signal: plan.unbooked_signal || [],
       axis_state: serialize(axisState),
     });
     writeJson(sessionFile(session, "transcript.json"), transcript);

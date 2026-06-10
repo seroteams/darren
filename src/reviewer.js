@@ -474,6 +474,50 @@ function validateBriefingOverlap(briefing) {
   return { passed: issues.length === 0, issues };
 }
 
+// Checks that the briefing kept two promises the prompt makes but nothing
+// previously verified: (1) a present agenda carry-forward is acknowledged in
+// exactly one place; (2) a partial read includes a next_action about
+// re-running/extending the conversation. Warn-don't-reject in production
+// (mirrors validateBriefingOverlap); the offline test hard-fails on these.
+const PARTIAL_READ_RERUN =
+  /\b(re-?ask|re-?run|rerun|revisit|extend|another (conversation|session)|follow up)\b/i;
+
+function validateBriefingPromptRules(briefing, { agenda, readQuality } = {}) {
+  const issues = [];
+
+  const summary = agenda?.summary;
+  if (summary) {
+    const agendaWords = new Set(normalizeContentWords(summary));
+    const entries = [
+      ...(Array.isArray(briefing?.summary_bullets) ? briefing.summary_bullets : []),
+      ...(Array.isArray(briefing?.next_actions)
+        ? briefing.next_actions.map((a) => a?.action)
+        : []),
+    ];
+    const hits = entries.filter((entry) => {
+      const words = normalizeContentWords(entry);
+      let shared = 0;
+      for (const w of words) if (agendaWords.has(w)) shared += 1;
+      return shared >= 2;
+    }).length;
+    if (hits === 0) {
+      issues.push("agenda carry-forward present but not acknowledged in summary_bullets or next_actions");
+    } else if (hits > 1) {
+      issues.push(`agenda carry-forward acknowledged in ${hits} places (rule says exactly one)`);
+    }
+  }
+
+  if (readQuality?.partial_read) {
+    const actions = Array.isArray(briefing?.next_actions) ? briefing.next_actions : [];
+    const hasRerun = actions.some((a) => PARTIAL_READ_RERUN.test(a?.action || ""));
+    if (!hasRerun) {
+      issues.push("partial_read=true but no next_action addresses re-running the conversation");
+    }
+  }
+
+  return { passed: issues.length === 0, issues };
+}
+
 async function evaluate(
   { ctx, focusPoints, transcript, axisState, notes, selectedFocus, agenda },
   { model = getDefaultModel(), session, stage = "05-evaluation" } = {}
@@ -511,6 +555,14 @@ async function evaluate(
   const validation = validateBriefingOverlap(briefing);
   if (!validation.passed) {
     console.warn(`[evaluator] briefing overlap check: ${validation.issues.join("; ")}`);
+  }
+
+  const ruleCheck = validateBriefingPromptRules(briefing, {
+    agenda,
+    readQuality: computeReadQuality(transcript),
+  });
+  if (!ruleCheck.passed) {
+    console.warn(`[evaluator] briefing rule check: ${ruleCheck.issues.join("; ")}`);
   }
 
   return briefing;
@@ -597,4 +649,5 @@ module.exports = {
   applyAxisScoresFromState,
   clampScore,
   computeReadQuality,
+  validateBriefingPromptRules,
 };

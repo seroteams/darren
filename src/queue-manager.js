@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 
 const { loadAxes, validateAxisState } = require("./axes");
-const { newAlias, saveQuestion, listAllAliases } = require("./questions");
+const { newAlias, saveQuestion, listAllAliases, loadDir } = require("./questions");
 const { getArc } = require("./meeting-arcs");
 const { promptFor } = require("./one-on-one-types");
 const { resolveSelectedFocus } = require("./selected-focus");
@@ -261,12 +261,16 @@ function toAxisObject(effects) {
 }
 
 // Enforce the question's signature: drop axes not in signature, clamp
-// magnitude to the signature's magnitude. Returns the clamped delta object
-// plus a list of violations for logging.
+// magnitude to the signature's magnitude. Returns the clamped delta object,
+// a list of violations for logging, and the structured overflow (signal the
+// clamp held back) so it can be preserved as unbooked_signal instead of lost.
+// Privacy: overflow entries hold ONLY axis/raw/booked/reason — never answer
+// text, note fragments, or model explanations.
 function clampToSignature(rawDeltas, signature) {
   const sigKeys = Object.keys(signature || {});
   const deltas = {};
   const issues = [];
+  const overflow = [];
   // A question with no signature drops every delta as "off-signature" and books
   // nothing for the turn. That is sometimes legitimate, but it must not vanish
   // silently — surface it loudly so a missing axis_effects is debuggable.
@@ -280,16 +284,25 @@ function clampToSignature(rawDeltas, signature) {
     if (rawDelta === undefined || rawDelta === null) continue;
     if (!sigKeys.includes(axis)) {
       issues.push(`dropped off-signature delta: ${axis} ${rawDelta > 0 ? "+" : ""}${rawDelta}`);
+      if (rawDelta !== 0) {
+        overflow.push({
+          axis,
+          raw: rawDelta,
+          booked: 0,
+          reason: sigKeys.length === 0 ? "empty_signature" : "off_signature",
+        });
+      }
       continue;
     }
     const mag = Math.abs(signature[axis]);
     const clamped = Math.max(-mag, Math.min(mag, rawDelta));
     if (clamped !== rawDelta) {
       issues.push(`clamped ${axis} ${rawDelta} → ${clamped} (signature magnitude ${mag})`);
+      overflow.push({ axis, raw: rawDelta, booked: clamped, reason: "clamped" });
     }
     if (clamped !== 0) deltas[axis] = clamped;
   }
-  return { deltas, issues };
+  return { deltas, issues, overflow };
 }
 
 function axisCoverage(axisState) {
@@ -529,26 +542,86 @@ function isRuntimeThreadFollow(q) {
   return q?.source === "planner_added" && q?.label === "Thread follow";
 }
 
-function enforceAxisCoverage({ newQueue, axisState, turnNumber, issues }) {
+// Coverage must be honest: an untouched axis gets a REAL question that probes
+// it — never an axis label stamped onto a question whose text doesn't carry it
+// (the Maya run logged wellbeing:3 on a retry-logic follow-up). Order: promote
+// an axis-carrying item already in the queue; else pull a bank/seed question
+// that fits the current arc; else leave the queue alone and log it — the
+// briefing already degrades honestly (untouched axis → "not read").
+function enforceAxisCoverage({
+  newQueue,
+  axisState,
+  turnNumber,
+  issues,
+  askedAliases = new Set(),
+  askedNames = [],
+  arc = null,
+  transcript = [],
+  bankLoader = () => [...loadDir(""), ...loadDir("_seed")],
+}) {
   if (turnNumber < 4 || !Array.isArray(newQueue) || !newQueue.length) return newQueue;
   const untouched = AXIS_IDS.filter((id) => (axisState[id]?.history?.length ?? 0) === 0);
   if (!untouched.length) return newQueue;
   const priority = ["clarity", "engagement", "wellbeing", "growth"].find((id) => untouched.includes(id));
   if (!priority) return newQueue;
-  const first = newQueue[0];
-  if (!first || typeof first.axis_effects !== "object") return newQueue;
-  // Runtime thread-follows are content-locked topical follow-ups; their
-  // axis_effects are inherited from the parent question. Stamping a coverage
-  // axis onto one declares a signal the question text does not carry (the Maya
-  // run logged wellbeing:3 on a retry-logic follow-up). Coverage nudges belong
-  // on genuine planned questions — skip and let it fire next turn.
-  if (isRuntimeThreadFollow(first)) return newQueue;
-  if (first.axis_effects[priority]) return newQueue;
-  // Carried-forward items are shared by reference with remainingQueue and the
-  // question store, so stamp a copy — mutating `first` in place would leak this
-  // coverage axis into the same question on later turns.
-  newQueue[0] = { ...first, axis_effects: { ...first.axis_effects, [priority]: 3 } };
-  issues.push(`coverage: injected ${priority} into next question (0 touches after turn ${turnNumber})`);
+  // Runtime thread-follows are content-locked topical follow-ups — never
+  // displace one; the coverage question slots in right after it.
+  const insertAt = isRuntimeThreadFollow(newQueue[0]) ? 1 : 0;
+  const target = newQueue[insertAt];
+  if (target?.axis_effects?.[priority]) return newQueue;
+
+  // Step 1 — promote a later queue item that already carries the axis.
+  for (let i = insertAt + 1; i < newQueue.length; i++) {
+    const q = newQueue[i];
+    if (q?.axis_effects?.[priority]) {
+      const queue = [...newQueue];
+      queue.splice(i, 1);
+      queue.splice(insertAt, 0, q);
+      issues.push(
+        `coverage: promoted ${q.alias || q.label} (carries ${priority}, 0 touches after turn ${turnNumber})`
+      );
+      return queue;
+    }
+  }
+
+  // Step 2 — pull a real bank/seed question that probes the axis AND fits the
+  // conversation: its stage must be null or belong to this meeting's arc
+  // (axis-correct but conversation-wrong is the same dishonesty in new clothes).
+  const arcStageIds = new Set((arc?.arc || []).map((s) => s.id));
+  const underServed = new Set(
+    arc ? computeRemainingStages(transcript, arc).map((s) => s.id) : []
+  );
+  const queuedAliases = new Set(newQueue.map((q) => q.alias));
+  const askedTokenSets = askedNames.map(contentTokens);
+  const candidates = (bankLoader() || []).filter((c) => {
+    if (!c?.alias || !c?.name) return false;
+    if (!c.axis_effects?.[priority]) return false;
+    if (askedAliases.has(c.alias) || queuedAliases.has(c.alias)) return false;
+    if (c.stage != null && arc && !arcStageIds.has(c.stage)) return false;
+    if (isRepeatOfAsked(c.name, askedTokenSets)) return false;
+    return true;
+  });
+  const pick =
+    candidates.find((c) => c.stage != null && underServed.has(c.stage)) ||
+    candidates.find((c) => c.stage == null) ||
+    candidates[0];
+  if (pick) {
+    const queue = [...newQueue];
+    queue.splice(insertAt, 0, pick);
+    if (queue.length > MAX_QUEUE) {
+      issues.push(`truncated queue from ${queue.length} to ${MAX_QUEUE}`);
+      queue.length = MAX_QUEUE;
+    }
+    issues.push(
+      `coverage: inserted ${pick.alias} from bank (probes ${priority}, 0 touches after turn ${turnNumber})`
+    );
+    return queue;
+  }
+
+  // Step 3 — nothing honest available; say so and move on.
+  issues.push(
+    `coverage: ${priority} untouched after turn ${turnNumber} — no real question carries it; queue unchanged`
+  );
   return newQueue;
 }
 
@@ -580,7 +653,9 @@ const {
 } = require("./question-validator");
 
 function buildThreadFollowQuestion(lastQuestion, lastAnswer, transcript) {
-  const phraseStem = `When you assumed retry logic already covered it, what did you expect the system to do?`;
+  // Context-free stem — must fit ANY conversation (the old "retry logic" stem
+  // leaked a specific test scenario into unrelated sessions).
+  const phraseStem = `What made you read the situation that way at the time?`;
   const mirrorStem = `${String(lastAnswer || "")
     .replace(/[^a-z0-9\s,'-]/gi, " ")
     .trim()
@@ -707,6 +782,7 @@ async function planTurn({
       assessment: { deltas: {}, note: "[SKIP] no signal — planner bypassed, queue carried forward" },
       newQueue: remainingQueue,
       issues: [],
+      unbooked_signal: [],
       prompt: null,
       response: null,
     };
@@ -752,7 +828,7 @@ async function planTurn({
     issues: gateIssues,
   });
 
-  const { deltas, issues: sigIssues } = clampToSignature(rawDeltas, effectiveSignature);
+  const { deltas, issues: sigIssues, overflow } = clampToSignature(rawDeltas, effectiveSignature);
   const assessment = {
     deltas,
     note: parsed.assessment?.note || "",
@@ -789,12 +865,17 @@ async function planTurn({
     axisState,
     turnNumber: turnNumber ?? (transcript || []).length,
     issues: gateIssues,
+    askedAliases,
+    askedNames,
+    arc,
+    transcript,
   });
 
   return {
     assessment,
     newQueue,
     issues: [...gateIssues, ...sigIssues, ...queueIssues],
+    unbooked_signal: overflow,
     prompt: msgs.filled,
     response: raw,
   };

@@ -7,11 +7,19 @@ const assert = require("node:assert/strict");
 const { clampToSignature } = require("../src/queue-manager");
 
 // Empty signature + non-zero deltas → all dropped, one loud EMPTY-SIGNATURE issue.
-const { deltas, issues } = clampToSignature({ clarity: 3, growth: 1 }, {});
+const { deltas, issues, overflow } = clampToSignature({ clarity: 3, growth: 1 }, {});
 assert.deepEqual(deltas, {}, "all deltas dropped when signature is empty");
 assert.ok(
   issues.some((i) => i.includes("EMPTY-SIGNATURE")),
   "empty-signature drop is logged loudly"
+);
+assert.deepEqual(
+  overflow,
+  [
+    { axis: "clarity", raw: 3, booked: 0, reason: "empty_signature" },
+    { axis: "growth", raw: 1, booked: 0, reason: "empty_signature" },
+  ],
+  "dropped deltas are preserved as unbooked overflow, not lost"
 );
 
 // Empty signature + no deltas → nothing to warn about (a true no-op turn).
@@ -30,6 +38,14 @@ assert.equal(
   ok.issues.some((i) => i.includes("EMPTY-SIGNATURE")),
   false,
   "no empty-signature warning when a signature is present"
+);
+assert.deepEqual(
+  ok.overflow,
+  [
+    { axis: "wellbeing", raw: 2, booked: 0, reason: "off_signature" },
+    { axis: "clarity", raw: 3, booked: 1, reason: "clamped" },
+  ],
+  "clamped and off-signature signal preserved as overflow (axis/raw/booked/reason only)"
 );
 
 console.log("PASS test-empty-signature");
