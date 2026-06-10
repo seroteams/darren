@@ -1,0 +1,10 @@
+alias: q_ownership_tradeoff_5
+label: Ownership tradeoff
+name: What would you want to take on next quarter, and what would you rather not add?
+description: Forces a real prioritisation view on future scope and trade-offs.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

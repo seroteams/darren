@@ -214,6 +214,7 @@ async function main() {
     queue,
     closer,
     prepOpener,
+    prep: prepResult?.brief || null,
     totalBudget,
     session,
     tracker,

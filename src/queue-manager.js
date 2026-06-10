@@ -1,16 +1,16 @@
 const fs = require("node:fs");
 
-const { loadAxes, validateAxisState } = require("./axes");
+const { loadAxes, validateAxisState, AXIS_IDS } = require("./axes");
 const { newAlias, saveQuestion, listAllAliases, loadDir } = require("./questions");
 const { getArc } = require("./meeting-arcs");
 const { promptFor } = require("./one-on-one-types");
 const { resolveSelectedFocus } = require("./selected-focus");
+const { splitSystemUser } = require("./prompt-utils");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
 const getDefaultModel = () => modelFor("planner");
 
-const AXIS_IDS = ["wellbeing", "engagement", "clarity", "growth"];
 const ALLOWED_DELTAS = [-3, -1, 0, 1, 3];
 const MAX_QUEUE = 12;
 
@@ -157,6 +157,7 @@ function buildMessages({
   closerAlias,
   userDrillRequest = false,
   selectedFocus = null,
+  prep = null,
 }) {
   const template = fs.readFileSync(promptFor(ctx.meetingType, "planTurn"), "utf8");
   const arc = getArc(ctx.meetingType);
@@ -215,15 +216,16 @@ function buildMessages({
     .replaceAll("{{OFF_ARC_DRILL_COUNT}}", String(offArcDrillCount))
     .replaceAll("{{IS_FINAL_TURN}}", isFinalTurn ? "true" : "false")
     .replaceAll("{{CLOSER_ALIAS}}", closerAlias || "(none)")
-    .replaceAll("{{USER_DRILL_REQUEST}}", userDrillRequest ? "true" : "false");
+    .replaceAll("{{USER_DRILL_REQUEST}}", userDrillRequest ? "true" : "false")
+    .replaceAll("{{PREP_CORE_ISSUE}}", prep?.coreIssue?.trim() ? prep.coreIssue.trim() : "(none)")
+    .replaceAll(
+      "{{PREP_LISTEN_FOR_JSON}}",
+      Array.isArray(prep?.listenFor) && prep.listenFor.length
+        ? JSON.stringify(prep.listenFor, null, 2)
+        : "(none)"
+    );
 
-  const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
-  const userMatch = filled.match(/## User\s+([\s\S]*)$/);
-  return {
-    filled,
-    system: systemMatch ? systemMatch[1].trim() : "",
-    user: userMatch ? userMatch[1].trim() : filled,
-  };
+  return splitSystemUser(filled);
 }
 
 async function callOpenAI({ system, user, model }) {
@@ -770,6 +772,7 @@ async function planTurn({
   model = getDefaultModel(),
   userDrillRequest = false,
   selectedFocus = null,
+  prep = null,
 }) {
   validateAxisState(axisState);
 
@@ -804,6 +807,7 @@ async function planTurn({
     closerAlias,
     userDrillRequest,
     selectedFocus,
+    prep,
   });
   const raw = await callOpenAI({ ...msgs, model });
   const parsed = parseAIJson(raw, "Queue planner", ["assessment", "new_queue"]);

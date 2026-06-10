@@ -7,6 +7,7 @@ const { callAI, parseAIJson } = require("./ai-client");
 const { promptFor } = require("./one-on-one-types");
 const { withPromptVersion } = require("./prompt-version");
 const { resolveSelectedFocus } = require("./selected-focus");
+const { splitSystemUser } = require("./prompt-utils");
 
 const getDefaultModel = () => modelFor("preparation");
 
@@ -86,13 +87,7 @@ function buildMessages({
     .replaceAll("{{SELECTED_FOCUS_JSON}}", JSON.stringify(sf || {}, null, 2))
     .replaceAll("{{PRIMARY_FOCUS_ID}}", sf?.id || "(none)");
 
-  const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
-  const userMatch   = filled.match(/## User\s+([\s\S]*)$/);
-  return {
-    filled,
-    system: systemMatch ? systemMatch[1].trim() : "",
-    user:   userMatch   ? userMatch[1].trim()   : filled,
-  };
+  return splitSystemUser(filled);
 }
 
 function validateBrief(brief, inputs) {

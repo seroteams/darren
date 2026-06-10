@@ -1,0 +1,9 @@
+alias: q_routine_week
+label: Routine week
+name: Cleanup and reviews — where has that felt most draining this week?
+description: Drills into the routine post-launch work to locate the main source of drag.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

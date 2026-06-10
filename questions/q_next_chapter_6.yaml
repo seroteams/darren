@@ -1,0 +1,10 @@
+alias: q_next_chapter_6
+label: Next chapter
+name: Where do you want to be a year from now?
+description: Moves into aspiration by naming the role, scope, or outcomes he wants next.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

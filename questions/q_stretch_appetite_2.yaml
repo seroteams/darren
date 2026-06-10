@@ -1,0 +1,10 @@
+alias: q_stretch_appetite_2
+label: Stretch appetite
+name: Where are you looking for more stretch in the next quarter?
+description: Checks whether she wants growth or is trying to consolidate after the launch.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

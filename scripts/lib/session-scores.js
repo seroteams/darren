@@ -86,6 +86,80 @@ function scoreDeltaAccuracy(transcript) {
   return { score: substantive ? scored / substantive : 1, evidence: `${scored}/${substantive} turns scored non-zero` };
 }
 
+// --- Prep → question link diagnostics (Phase 2) -------------------------------
+
+const BRIEF_STOP = new Set(
+  ("the a an and or but to of in on for with at by from about is are was were be been do does did " +
+    "you your our we they it this that what how when where which who why can could would should i me my " +
+    "have has had not no yes get got make made feel feels like right now still just any one")
+    .split(" ")
+);
+
+function contentWords(text) {
+  return new Set(
+    String(text || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, " ")
+      .split(/\s+/)
+      .filter((w) => w.length > 3 && !BRIEF_STOP.has(w))
+  );
+}
+
+function shareWord(a, b) {
+  for (const w of a) if (b.has(w)) return true;
+  return false;
+}
+
+function loadBrief(sessionDir) {
+  const p = path.join(sessionDir, "01b-preparation/response.json");
+  if (!fs.existsSync(p)) return null;
+  try {
+    let b = loadJson(p);
+    if (b && typeof b.raw === "string") b = JSON.parse(b.raw);
+    if (b && b.brief) b = b.brief;
+    return b && (b.openingQuestion || b.coreIssue) ? b : null;
+  } catch {
+    return null;
+  }
+}
+
+// A pre-written warm intro/opener (not a substantive question).
+function isWarmIntro(q) {
+  return q && (q.source === "seed" || q.source === "semi_set");
+}
+
+// Did the first substantive question carry the prep opening question / core
+// issue? 1 if yes, 0 if no. Neutral (1) when there's no brief.
+function scoreOpenerLink(transcript, brief) {
+  if (!brief) return { score: 1, evidence: "(no brief)" };
+  const briefWords = new Set([...contentWords(brief.openingQuestion), ...contentWords(brief.coreIssue)]);
+  const firstSub = (transcript || []).map((t) => t.question).find((q) => q && !isWarmIntro(q));
+  if (!firstSub) return { score: 0, evidence: "no substantive question asked" };
+  const linked = shareWord(contentWords(firstSub.name), briefWords);
+  return {
+    score: linked ? 1 : 0,
+    evidence: linked
+      ? `first substantive Q ("${firstSub.label || ""}") links to brief`
+      : `first substantive Q ("${firstSub.label || ""}") not linked to brief`,
+  };
+}
+
+// What fraction of substantive questions (excluding live thread-follows and warm
+// intros) trace to the core issue or a listen-for signal? Neutral (1) with no brief.
+function scoreOnBrief(transcript, brief) {
+  if (!brief) return { score: 1, evidence: "(no brief)" };
+  const briefWords = new Set([
+    ...contentWords(brief.coreIssue),
+    ...(Array.isArray(brief.listenFor) ? brief.listenFor : []).flatMap((s) => [...contentWords(s)]),
+  ]);
+  const qs = (transcript || [])
+    .map((t) => t.question)
+    .filter((q) => q && !isWarmIntro(q) && q.label !== "Thread follow");
+  if (!qs.length) return { score: 1, evidence: "0 substantive questions" };
+  const onBrief = qs.filter((q) => shareWord(contentWords(q.name), briefWords)).length;
+  return { score: onBrief / qs.length, evidence: `${onBrief}/${qs.length} on-brief` };
+}
+
 function loadBankQuestions(sessionDir) {
   const bankPath = path.join(sessionDir, "03-question-bank/response.json");
   if (!fs.existsSync(bankPath)) return [];
@@ -109,8 +183,22 @@ function scoreSessionDir(sessionDir, scenario) {
   const qspec = scoreQuestionSpecificity(bankQuestions, scenario);
   const thread = scoreThreadFollow(transcript);
   const delta = scoreDeltaAccuracy(transcript);
+  const brief = loadBrief(sessionDir);
+  const openerLink = scoreOpenerLink(transcript, brief);
+  const onBrief = scoreOnBrief(transcript, brief);
+  // opener_link / on_brief are diagnostics only — kept OUT of `mean` so the
+  // existing baseline for the three core dimensions is unchanged.
   const mean = (qspec.score + thread.score + delta.score) / 3;
-  return { dimensions: { question_specificity: qspec, plan_thread_follow: thread, plan_delta_accuracy: delta }, mean };
+  return {
+    dimensions: {
+      question_specificity: qspec,
+      plan_thread_follow: thread,
+      plan_delta_accuracy: delta,
+      opener_link: openerLink,
+      on_brief: onBrief,
+    },
+    mean,
+  };
 }
 
 function aggregateRuns(runs) {

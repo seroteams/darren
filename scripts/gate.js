@@ -80,6 +80,20 @@ function loadTranscript(sessionDir) {
   return loadJson(path.join(sessionDir, "transcript.json"), []);
 }
 
+// A run is usable by the gate once the pipeline has written a complete session
+// (transcript + final evaluation). We judge on that, NOT on smoke-test.js's exit
+// code: smoke's code reflects ITS own quality assertions (e.g. "some turn moved
+// the axes"), which legitimately fail on adversarial scenarios like thin-answers
+// — where the honest behaviour is to NOT move the read. Letting that disable the
+// gate would silently retire the trust checks (incl. the honesty sentinel).
+function sessionComplete(sessionDir) {
+  if (!sessionDir) return false;
+  return (
+    fs.existsSync(path.join(sessionDir, "transcript.json")) &&
+    fs.existsSync(path.join(sessionDir, "05-evaluation", "response.json"))
+  );
+}
+
 async function runOneCase(def, args) {
   const scenarioPath = path.join(ROOT, def.scenario);
   const scenario = loadJson(scenarioPath);
@@ -90,11 +104,11 @@ async function runOneCase(def, args) {
   // Run pipeline; retry once on an infra failure so a flaky API call is not read
   // as a quality regression.
   let smoke = await runSmoke(scenarioPath);
-  if (smoke.code !== 0 || !smoke.sessionDir) {
+  if (!sessionComplete(smoke.sessionDir)) {
     smoke = await runSmoke(scenarioPath);
   }
-  if (smoke.code !== 0 || !smoke.sessionDir) {
-    return { id: def.id, kind: def.kind, status: "error", error: `pipeline exit ${smoke.code}` };
+  if (!sessionComplete(smoke.sessionDir)) {
+    return { id: def.id, kind: def.kind, status: "error", error: `pipeline incomplete (exit ${smoke.code})` };
   }
 
   const briefing = loadBriefing(smoke.sessionDir);
@@ -108,6 +122,8 @@ async function runOneCase(def, args) {
       question_specificity: s.dimensions.question_specificity.score,
       plan_thread_follow: s.dimensions.plan_thread_follow.score,
       plan_delta_accuracy: s.dimensions.plan_delta_accuracy.score,
+      opener_link: s.dimensions.opener_link.score,
+      on_brief: s.dimensions.on_brief.score,
       mean: s.mean,
     };
   } catch { /* metrics are diagnostic only */ }

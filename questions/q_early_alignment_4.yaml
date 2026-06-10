@@ -1,0 +1,10 @@
+alias: q_early_alignment_4
+label: Early alignment
+name: Where have you been getting ahead of expectations by aligning early?
+description: Checks whether he is proactively clarifying scope and expectations before work is underway.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

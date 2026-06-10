@@ -63,7 +63,9 @@
         ],
         "avoid": ["do not treat lead transition as a performance verdict", "do not rush to a development plan before he defines lead scope"],
         "goodOutcome": "You and Toby have agreed on one end-to-end piece of work he would own as a lead-shaped trial this quarter.",
-        "suggestedAction": "During the 1:1, agree on one stakeholder conversation he will lead before your next check-in."
+        "suggestedAction": "During the 1:1, agree on one stakeholder conversation he will lead before your next check-in.",
+        "confidence": "Medium — based on your note about his communication and the expert-to-lead step he is weighing.",
+        "dontAssume": "Do not assume Toby has decided he wants the lead path — the notes show interest, not a stated choice."
       },
       "expectIssueSubstrings": []
     }

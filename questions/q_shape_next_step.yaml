@@ -1,0 +1,10 @@
+alias: q_shape_next_step
+label: Shape next step
+name: What part of your scope do you want to shape more directly over the next month?
+description: Moves from diagnosis to a concrete area of ownership and stretch.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

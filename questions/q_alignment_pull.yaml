@@ -1,0 +1,9 @@
+alias: q_alignment_pull
+label: Alignment pull
+name: What makes cross-org alignment harder for you than running projects?
+description: Drills into the specific barrier behind his hesitation before moving on.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+source: planner_added

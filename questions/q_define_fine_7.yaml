@@ -1,0 +1,10 @@
+alias: q_define_fine_7
+label: Define fine
+name: "When you say 'fine', what does that look like in practice lately?"
+description: One-shot clarifier to turn the shallow energy answer into something specific enough to read.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_prep_opener_40
+label: Prep opener
+name: Before we get into specifics, how has this week felt from your side after shipping Monday’s feature?
+description: Anchors the check-in to the post-launch week and invites Priya to set context before anything gets more pointed.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

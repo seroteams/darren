@@ -1,0 +1,10 @@
+alias: q_prep_opener_47
+label: Prep opener
+name: How have the last couple of weeks felt from your side, and what actually landed versus what you expected to focus on?
+description: Sets context around the recent stretch and invites Sam to name what matched or diverged from plan.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

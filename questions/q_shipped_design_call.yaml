@@ -1,0 +1,10 @@
+alias: q_shipped_design_call
+label: Shipped design call
+name: What specific design decision or deliverable from the last two weeks feels most worth unpacking?
+description: Surfaces a concrete piece of shipped work so the conversation can anchor in reality.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

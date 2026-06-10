@@ -1,0 +1,10 @@
+alias: q_feedback_loop_7
+label: Feedback loop
+name: What feedback are you still working through from the last review?
+description: Probes whether critique has been absorbed, disputed, or is creating extra cycles.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

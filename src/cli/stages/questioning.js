@@ -28,6 +28,7 @@ async function runQuestioningLoop({
   queue,
   closer,
   prepOpener,
+  prep,
   totalBudget,
   session,
   tracker,
@@ -85,6 +86,7 @@ async function runQuestioningLoop({
             turnNumber: turn,
             totalTurns: totalBudget,
             closerAlias: closer ? closer.alias : null,
+            prep,
           })
       );
     } catch (e) {

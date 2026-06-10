@@ -1,0 +1,9 @@
+alias: q_review_switching_4
+label: Review switching
+name: Where is the review switching coming from most right now?
+description: Drills into the concrete source of the context-switching she just named.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

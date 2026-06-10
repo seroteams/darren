@@ -1,0 +1,9 @@
+alias: q_launch_residue
+label: Launch residue
+name: "What from the launch week is still taking up more energy than you'd like?"
+description: Surfaces lingering load from the feature ship without assuming a problem.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+source: generated

@@ -192,4 +192,4 @@ Deduplication: collapsed repeats across runs into one row; "Seen in" column show
 ## Next move (for user)
 Pick IDs from this table. User decides scope; this plan does not pre-commit to a sequence.
 
-**Execution sequence (archived):** batches H–N completed 2026-06-01; see [`plans/remaining-backlog.md`](remaining-backlog.md) for verify commands only.
+**Execution sequence (archived):** batches H–N completed 2026-06-01; see [`plans/done/remaining-backlog.md`](done/remaining-backlog.md) for verify commands only.

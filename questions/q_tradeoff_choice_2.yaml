@@ -1,0 +1,10 @@
+alias: q_tradeoff_choice_2
+label: Tradeoff choice
+name: What would you need to stop carrying yourself to make room for more strategic ownership?
+description: Forces a trade-off between hands-on delivery and higher-leverage leadership work.
+purpose: competency
+stage: investment
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_change_unclear
+label: Change unclear
+name: "When you say 'what needed to change' — what felt unclear exactly?"
+description: Clarifies what kind of change felt undefined after the promotion decision before moving on.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +1
+source: planner_added

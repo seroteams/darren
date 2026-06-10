@@ -1,0 +1,9 @@
+alias: q_sustainable_pace_2
+label: Sustainable pace
+name: Does the pace of the last two weeks feel sustainable for the next two?
+description: Tests whether the current load is manageable without overdriving the next stretch.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: generated

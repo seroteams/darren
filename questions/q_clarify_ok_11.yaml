@@ -1,0 +1,10 @@
+alias: q_clarify_ok_11
+label: "Clarify 'ok'"
+name: "When you say 'ok', what actually landed in the last two weeks?"
+description: One-shot re-prompt to get a concrete deliverable or decision from the recent stretch.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added

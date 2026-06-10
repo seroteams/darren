@@ -1,0 +1,10 @@
+alias: q_review_impact_2
+label: Review impact
+name: What kind of review or critique has most changed how you moved on the work?
+description: Checks how feedback is affecting speed, direction, or rework on recent design tasks.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

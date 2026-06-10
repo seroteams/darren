@@ -1,18 +1,18 @@
 const fs = require("node:fs");
 
 const { logStage } = require("./session");
-const { loadAxes } = require("./axes");
+const { loadAxes, AXIS_IDS } = require("./axes");
 const { newAlias, saveQuestion, listAllAliases } = require("./questions");
 const { getArc } = require("./meeting-arcs");
 const { promptFor } = require("./one-on-one-types");
 const { resolveSelectedFocus } = require("./selected-focus");
 const { loadLexicon } = require("./lexicon");
+const { splitSystemUser } = require("./prompt-utils");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
 const getDefaultModel = () => modelFor("bank");
 
-const AXIS_IDS = ["wellbeing", "engagement", "clarity", "growth"];
 const ALLOWED_DELTAS = [3, 1, -1, -3];
 
 const RESPONSE_SCHEMA = {
@@ -180,13 +180,7 @@ function buildMessages({
     .replaceAll("{{PREP_CORE_ISSUE}}", renderPrepText(prep?.coreIssue))
     .replaceAll("{{PREP_LISTEN_FOR_JSON}}", renderPrepListenFor(prep?.listenFor));
 
-  const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
-  const userMatch = filled.match(/## User\s+([\s\S]*)$/);
-  return {
-    filled,
-    system: systemMatch ? systemMatch[1].trim() : "",
-    user: userMatch ? userMatch[1].trim() : filled,
-  };
+  return splitSystemUser(filled);
 }
 
 async function callOpenAI({ system, user, model }) {

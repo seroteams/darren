@@ -5,6 +5,7 @@ const path = require("node:path");
 const { validateQuestionBeforeShow, startsWithBrokenFragment } = require("./question-validator");
 const { applyManagerBriefingPostProcess } = require("./reviewer");
 const { isRelationalArc } = require("./relational-arcs");
+const { AXIS_IDS, AXIS_MIN, AXIS_MAX } = require("./axes");
 
 // Focus catalogue category lookup (id -> category) for the relational-arc gate.
 const FOCUS_CATALOGUE = JSON.parse(
@@ -32,10 +33,6 @@ function runFocusArcGate(focusPoints, meetingType) {
   }
   return failures;
 }
-
-const AXIS_MIN = -10;
-const AXIS_MAX = 10;
-const AXIS_IDS = ["wellbeing", "engagement", "clarity", "growth"];
 
 const MANAGER_BRIEFING_BANS = [
   "bad follow-up",

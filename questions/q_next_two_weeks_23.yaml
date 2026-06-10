@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_23
+label: Next two weeks
+name: What would make the next two weeks feel steadier for you?
+description: Closes by turning the conversation into a concrete support or pacing adjustment.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

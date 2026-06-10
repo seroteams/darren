@@ -151,7 +151,9 @@
           "do not let recognition become a quick checkbox"
         ],
         "goodOutcome": "You and Priya agree on one concrete mentoring step for a Senior Backend Engineer — a named pairing, guild slot, or timeline — before the next bi-weekly.",
-        "suggestedAction": "During the 1:1, ask Priya to name one person she would mentor if bandwidth opened up, then agree whether you bring a specific opportunity next time."
+        "suggestedAction": "During the 1:1, ask Priya to name one person she would mentor if bandwidth opened up, then agree whether you bring a specific opportunity next time.",
+        "confidence": "Medium — based on your note about her quieter week and the launch she just shipped.",
+        "dontAssume": "Do not assume the quiet means depletion — it could be relief or something unresolved she has not named."
       },
       "expectIssueSubstrings": []
     }

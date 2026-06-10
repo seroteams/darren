@@ -229,6 +229,19 @@ Patterns distilled from the rewrites:
 - Offer the opt-out explicitly: "do you want X — and if so..." beats assuming they want X.
 - Gap-naming framing (`gap_naming` stage): collaborative "what are *we* only finding too late?" beats manager-diagnostic "what's *getting discovered* too late?" or "where have you fallen short?" — and name the medium ("the design", "the spec") rather than the abstract "the work". The gap is shared and named plainly, not pinned on the report.
 
+**Plain-speech lint (hard) — sound like a manager, not a coach or a journal prompt.** Real questions were rejected by the product owner as "nobody talks like this". Avoid the abstract self-improvement register; ask the plain spoken version a manager would actually say in the room. Left is what to AVOID; right is what to PREFER.
+
+| Avoid (coach-speak / journal prompt)                                            | Prefer (plain manager)                                                       |
+|----------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| "what does stronger ownership look like to you?"                                 | "what would you actually be running that you don't now?"                     |
+| "a concrete step toward that in the next cycle?"                                  | "what's one thing you could take on next quarter to head that way?"          |
+| "the next level of judgment you're reaching for"                                 | "what kind of call do you want to get better at making?"                     |
+| "where do you have influence you're not fully using yet?"                        | "where could you be steering the team more than you do now?"                 |
+| "one hard call you'll commit to making sooner"                                   | "is there a decision you've been putting off you could make this week?"      |
+| "what context were you holding in your head that didn't make it into the handoff?" | "what did you know about it that the team didn't get told?"                |
+
+Tells of the bad register, in any question: "stronger / next-level X", "reaching for", "not fully using yet", "holding in your head", "commit to … sooner", "the judgment you're …". If the person would never say the phrase aloud about their own work, rewrite it to the plain version.
+
 </question_craft>
 
 <meeting_arc>

@@ -13,8 +13,8 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Opener link | First real question carries the prep opening question | 🔨 |
-| 2 | Stay-on-brief + diagnostics | Later questions stay on-brief; link is measured | ⬜ |
+| 1 | Opener link | First real question carries the prep opening question | ✅ |
+| 2 | Stay-on-brief + diagnostics | Later questions stay on-brief; link is measured | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -23,4 +23,4 @@
 - The prep opener is placed *early* (right after the warm opener), not left to surface around question 5.
 
 ## Current state
-Phase 1 is **built and self-checked** (smoke green; gate's 5 happy cases + leak sentinel green). Waiting for the product owner to walk the Phase 1 scenarios in a manual run and give the green light before Phase 2 starts.
+Both phases **built and verified live**. See [handoff.md](handoff.md). Latest checks: smoke 13/13 + 22/22; gate 7/7 ok (all happy cases + both adversarial sentinels). `opener_link = 1` across all 7 meeting types; `on_brief` = 1.00 on Performance, 0.75–0.80 on bi-weekly/growth, 0.40–0.43 on the wide-ranging "feels-off" arcs. Optional: a manual Performance run to eyeball the wording yourself.

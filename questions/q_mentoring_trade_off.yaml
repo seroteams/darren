@@ -1,10 +1,10 @@
 alias: q_mentoring_trade_off
 label: Mentoring trade-off
-name: What would you need to drop to make room for more mentoring?
-description: Surfaces the cost of adding mentoring and whether it is realistic in the current load.
+name: What would you need to make space for if mentoring became more regular?
+description: Surfaces the real trade-off behind wanting more mentoring support.
 purpose: topic
 stage: momentum
 axis_effects:
-  growth: +3
-  wellbeing: +1
+  clarity: +3
+  growth: +1
 source: generated

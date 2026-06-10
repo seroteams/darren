@@ -1,0 +1,10 @@
+alias: q_question_habit_6
+label: Question habit
+name: What makes you hold back from asking questions sooner?
+description: Gets at the personal or contextual reasons he is not surfacing uncertainty early.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

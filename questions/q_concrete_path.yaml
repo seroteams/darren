@@ -1,0 +1,10 @@
+alias: q_concrete_path
+label: Concrete path
+name: What path forward feels most real to you right now?
+description: Surfaces whether he can name a credible next step after the setback.
+purpose: topic
+stage: support
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

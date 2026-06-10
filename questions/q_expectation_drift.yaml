@@ -1,0 +1,10 @@
+alias: q_expectation_drift
+label: Expectation drift
+name: Where are expectations getting set too late in your current work?
+description: Tests whether he is aligning early enough before direction hardens.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

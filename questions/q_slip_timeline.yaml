@@ -1,0 +1,9 @@
+alias: q_slip_timeline
+label: Slip timeline
+name: When did the first deadline start to feel at risk?
+description: Pins down the point where the work began slipping so the manager can map the timeline.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: generated

@@ -1,6 +1,6 @@
 alias: q_q_missing_context
 label: q_missing_context
-name: "What context were you holding in your head that didn't make it into the handoff?"
+name: "What did you know about it that the team didn't get told?"
 description: ""
 purpose: competency
 stage: gap_naming

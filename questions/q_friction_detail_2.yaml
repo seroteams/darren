@@ -1,0 +1,10 @@
+alias: q_friction_detail_2
+label: Friction detail
+name: "When you say 'not sure', what got messy in the last two weeks?"
+description: Re-prompts for one concrete example of friction from the last fortnight.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added

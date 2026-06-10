@@ -1,0 +1,9 @@
+alias: q_outside_work_strain_4
+label: Outside work strain
+name: What feels most important for me to understand about that right now?
+description: Gives him room to say as much or as little as he wants about the outside-work strain he just named.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  wellbeing: +1
+source: planner_added

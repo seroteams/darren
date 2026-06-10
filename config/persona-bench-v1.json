@@ -55,16 +55,16 @@
       "meeting_type": "Growth & career plan",
       "issue": "Wants more scope",
       "notes": "Jordan wants more scope, but we need to define what stronger ownership actually means.",
-      "script_version": "v1-messy",
+      "script_version": "v2-plain",
       "scripted_fallback": "sees ownership as driving the decision, not just running the process around it",
       "script": [
         { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "stage": "anchor", "answer": "wants to talk about taking on more scope, and what that actually needs to look like" },
-        { "alias": "q_scope_meaning", "name": "When you say more scope, what does stronger ownership look like to you?", "stage": "aspiration", "answer": "ownership = owning a problem area end to end, not just shipping features someone else scoped" },
+        { "alias": "q_scope_meaning", "name": "When you say more scope, what would you actually be running that you don't now?", "stage": "aspiration", "answer": "running a problem area end to end, not just shipping features someone else scoped" },
         { "alias": "q_scope_evidence", "name": "Where have you already been driving a decision rather than running the process?", "stage": "anchor", "answer": "billing flow. set the direction, brought the team along, didn't wait for sign-off each step" },
         { "alias": "q_stakeholder_trust", "name": "Where do stakeholders already come to you directly, and where do they still go around you?", "stage": "gap", "answer": "eng comes to her direct now. roadmap calls still go to her lead first" },
         { "alias": "q_readiness_gap", "name": "What's the gap between where you are and owning that area fully?", "stage": "gap", "answer": "gap = trusted to make the trade-off calls without checking first. clearer when she disagrees" },
         { "alias": "q_ownership_example", "name": "What's a recent call you'd have made differently if it were fully yours?", "stage": "investment", "answer": "would've cut the second integration sooner. kept it alive to avoid stakeholder pushback" },
-        { "alias": "q_next_step", "name": "What's a concrete step toward that in the next cycle?", "stage": "commitment", "answer": "wants to own the trade-off decisions on one area outright. bring the reasoning, not the question" }
+        { "alias": "q_next_step", "name": "What's one thing you could take on next quarter to start heading that way?", "stage": "commitment", "answer": "wants to own the trade-off decisions on one area outright. bring the reasoning, not the question" }
       ]
     },
     {
@@ -121,16 +121,16 @@
       "meeting_type": "Growth & career plan",
       "issue": "Avoids hard team decisions",
       "notes": "Grace wants to grow as a lead, but she still avoids some harder team decisions.",
-      "script_version": "v1-messy",
+      "script_version": "v2-plain",
       "scripted_fallback": "delays the hard calls. doesn't want to be the one who upsets the team's balance",
       "script": [
         { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "stage": "anchor", "answer": "wants to talk about growing as a lead. specifically the parts she finds harder" },
-        { "alias": "q_lead_growth", "name": "As a lead, what feels like the next level of judgment you're reaching for?", "stage": "aspiration", "answer": "next level = making the harder team calls earlier, not letting them resolve themselves" },
+        { "alias": "q_lead_growth", "name": "As a lead, what kind of call do you want to get better at making?", "stage": "aspiration", "answer": "the harder team calls — making them earlier, not letting them resolve themselves" },
         { "alias": "q_hard_call_example", "name": "What's a recent hard call you held off on?", "stage": "anchor", "answer": "knew two designers overlapped on the same surface for weeks. didn't reassign until it got tense" },
         { "alias": "q_avoidance_pattern", "name": "When you delay those calls, what's usually holding you back?", "stage": "gap", "answer": "holds back to avoid disrupting team harmony → waits for a consensus that never quite comes" },
         { "alias": "q_team_standard", "name": "What does the team lose when those decisions wait?", "stage": "gap", "answer": "team loses momentum and clarity. people keep working without knowing who owns what" },
-        { "alias": "q_influence_beyond_craft", "name": "Where do you have influence you're not fully using yet?", "stage": "investment", "answer": "underusing influence on how the team makes calls. defaults to facilitating when they need her to decide" },
-        { "alias": "q_next_step", "name": "What's one hard call you'll commit to making sooner?", "stage": "commitment", "answer": "will set ownership on the shared surface this week, not wait for everyone to agree" }
+        { "alias": "q_influence_beyond_craft", "name": "Where could you be steering the team more than you are now?", "stage": "investment", "answer": "could push harder on how the team makes calls. defaults to facilitating when they need her to decide" },
+        { "alias": "q_next_step", "name": "Is there a decision you've been putting off that you could make this week?", "stage": "commitment", "answer": "will set ownership on the shared surface this week, not wait for everyone to agree" }
       ]
     },
     {
@@ -143,13 +143,13 @@
       "meeting_type": "Performance & feedback",
       "issue": "Handoff detail",
       "notes": "Nina's content work is good, but recent handoffs have missed details the team needed.",
-      "script_version": "v1-messy",
+      "script_version": "v2-plain",
       "scripted_fallback": "writing's solid. it's the context around it at handoff she's not fully passing on",
       "script": [
         { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "stage": "self_read", "answer": "happy to talk handoffs. knows a couple have come back with gaps" },
         { "alias": "q_handoff_observed", "name": "Recent handoffs have missed some details the team needed. Does that line up with what you've seen?", "stage": "self_read", "answer": "agrees. copy's been fine, but eng comes back asking about states she didn't document" },
         { "alias": "q_handoff_example", "name": "Walk me through a recent handoff that came back with questions.", "stage": "evidence", "answer": "error messaging. wrote the strings but didn't note which maps to which state, so eng had to guess" },
-        { "alias": "q_missing_context", "name": "What context were you holding in your head that didn't make it into the handoff?", "stage": "cause", "answer": "held the logic for when each message shows in her head. obvious to her, so didn't write it down" },
+        { "alias": "q_missing_context", "name": "What did you know about it that the team didn't get told?", "stage": "cause", "answer": "knew the logic for when each message shows. obvious to her, so didn't write it down" },
         { "alias": "q_definition_of_ready", "name": "What does a complete handoff need to include for the team to run with it?", "stage": "gap_naming", "answer": "complete handoff = strings, the state each maps to, char limits, fallback for empty/error cases" },
         { "alias": "q_standard_check", "name": "What would make that consistent rather than case-by-case?", "stage": "cause", "answer": "wants a short handoff checklist run every time, not relying on remembering it in the moment" },
         { "alias": "q_next_step", "name": "What's one thing you'll change on the next handoff?", "stage": "commit", "answer": "will attach a states-to-strings map and the edge cases every time, not just the copy" }

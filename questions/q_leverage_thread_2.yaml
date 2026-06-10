@@ -1,0 +1,9 @@
+alias: q_leverage_thread_2
+label: Leverage thread
+name: Where have you seen yourself default to delivery over leverage most clearly?
+description: Drills into his named leverage concern with a concrete recent pattern.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

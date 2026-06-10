@@ -1,0 +1,10 @@
+alias: q_dropped_work
+label: Dropped work
+name: What did you decide not to do in order to keep the main work moving?
+description: Surfaces trade-offs and what got consciously deprioritised.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

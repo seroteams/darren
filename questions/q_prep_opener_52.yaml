@@ -1,0 +1,10 @@
+alias: q_prep_opener_52
+label: Prep opener
+name: What would feel genuinely energizing and stretching for you over the next few months as a Senior Engineer?
+description: Anchors the conversation in Devon’s next stretch without assuming a problem.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

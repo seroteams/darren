@@ -1,0 +1,8 @@
+alias: q_reset_check_30
+label: Reset check
+name: Is now a bad time for this, or should we pick it up later?
+description: Direct reset to test whether the conversation is workable before continuing.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+source: planner_added

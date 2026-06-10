@@ -317,6 +317,7 @@ After dedup, build the new_queue:
 10. **Broken session.** Count the last three turns in the transcript. If three or more consecutive turns are skips OR clearly non-engaged answers (single characters, random letters, monosyllabic non-answers with no content, obvious nonsense strings), the session is non-functional. Set `new_queue` to empty or one direct reset question only (e.g. "Is now a good time for this conversation, or would another time work better?"). Append to the `note`: "[SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]" Do not continue serving prepared questions into a broken session.
 11. **Honor open commitments.** Scan the prior questions in the transcript for promises the manager made in-question ("I'll share my view on X", "let me come back to that later", "I'll tell you what I think after you've spoken"). If such a commitment exists AND has not been fulfilled by a later turn AND the current turn is at or after the stage where it was made, the next item in `new_queue` SHOULD fulfil that commitment (a question that invites or transitions into the manager's view-share). Append `[COMMITMENT]` to `assessment.note` naming the open promise. Do not let a side-thread or wellbeing clarifier override a still-open commitment.
 12. **Context-aware urgency.** Do not generate a question that asks the employee about a constraint the manager has already established in the focus-points or notes. Example: if focus-points or notes encode "promotion required within 3 months", do not emit "When do you want to be promoted?" — the timeline is fixed externally. Instead ask about *how* they will use the time, *what* the readiness gap is, or *which* moves matter most given the constraint. The employee's own goal-setting is not signal when the goal has been imposed.
+13. **On-brief grounding (soft).** When the prep brief block in `<session_context>` is not `(none)`, any question you ADD (`ref_alias: null`) must connect to the brief's **core issue** or one of its **listen-for** signals. The one exception is a live thread-follow that drills on what the report just said — `<thread_follow_rule>` always wins over this rule, because following the employee's own words is the priority. Outside a thread-follow, do not invent a fresh angle the brief and the transcript don't support (e.g. an unrelated trade-off probe). Carrying an existing queued item forward is always fine. This rule never blocks the closer, crisis override, or wind-down.
 </planning_rules>
 
 
@@ -442,6 +443,11 @@ Hard boundaries:
 ```
 
 Primary focus id: {{PRIMARY_FOCUS_ID}}
+
+**Prep brief (the manager's intended focus — see planning rule 13):**
+
+- Core issue: {{PREP_CORE_ISSUE}}
+- Listen for: {{PREP_LISTEN_FOR_JSON}}
 
 **Meeting arc:**
 

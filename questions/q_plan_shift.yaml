@@ -1,0 +1,9 @@
+alias: q_plan_shift
+label: Plan shift
+name: What changed the plan most over the last two weeks?
+description: "Surfaces the specific shift that altered Sam's design priorities."
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: generated

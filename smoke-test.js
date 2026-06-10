@@ -29,7 +29,7 @@ const { loadEnv } = require("./src/env");
 const { MEETING_TYPES } = require("./src/meeting-types");
 const { allResolved } = require("./src/models");
 const { TOTAL_BUDGET, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./src/budgets");
-const { monthFolderFor } = require("./src/session");
+const { scanSessions, resolveNewSession } = require("./scripts/lib/session-fs");
 const { stringifyYaml, parseYaml } = require("./src/questions");
 
 loadEnv();
@@ -206,6 +206,12 @@ const substantiveAnswers = answers.filter((a) => {
   const t = String(a || "").trim();
   return t && t !== "(skipped)";
 });
+// Adversarial "thin answer" scenarios (e.g. scenarios/adversarial/thin-answers.json)
+// deliberately give non-answers, so the engine CORRECTLY scores zero axis deltas.
+// For these, "no turn moved the read" is the honest outcome, not a failure.
+const expectNoDeltas =
+  scenario.expect_no_deltas === true ||
+  scenarioPath.replace(/\\/g, "/").includes("scenarios/adversarial/");
 if (substantiveAnswers.length < BUDGET) {
   console.error(
     `Scenario ${scenarioPath} has ${substantiveAnswers.length} substantive answer(s) but TOTAL_BUDGET is ${BUDGET}. Add ${BUDGET - substantiveAnswers.length} more.`
@@ -252,40 +258,7 @@ if (!process.env.OPENAI_API_KEY) {
 }
 
 // ------------------------------------------------------------------- Spawn
-// Sessions live at logs/<month>/<id>/. Walk two levels so we can detect a
-// freshly-created session regardless of which month folder it lands in.
-function scanSessions() {
-  if (!fs.existsSync("logs")) return [];
-  const out = [];
-  for (const month of fs.readdirSync("logs")) {
-    const monthDir = path.join("logs", month);
-    let entries;
-    try { entries = fs.readdirSync(monthDir); } catch { continue; }
-    for (const id of entries) out.push(path.join(month, id));
-  }
-  return out;
-}
-
-const SESSION_ID_RE = /session (\d{4}_[A-Z][a-z]{2}\d{2}_\d{2}-\d{2}-[a-f0-9]{8})/;
-
-function resolveNewSession(stdout, logsBefore) {
-  const idMatch = stdout.match(SESSION_ID_RE);
-  if (idMatch) {
-    const month = monthFolderFor(idMatch[1]);
-    if (month) {
-      const rel = path.join(month, idMatch[1]);
-      if (fs.existsSync(path.join("logs", rel))) return rel;
-    }
-  }
-  const newSessions = scanSessions().filter((d) => !logsBefore.has(d));
-  const completed = newSessions
-    .filter((rel) => fs.existsSync(path.join("logs", rel, "transcript.json")))
-    .sort();
-  if (completed.length) return completed[completed.length - 1];
-  return newSessions.sort()[newSessions.length - 1] || null;
-}
-
-const logsBefore = new Set(scanSessions());
+const logsBefore = new Set(scanSessions(__dirname));
 const startedAt = Date.now();
 
 const child = spawn(process.execPath, ["cli.js"], {
@@ -321,7 +294,7 @@ async function verify(exitCode, stdout) {
   if (exitCode === 0) pass("child exited 0");
   else fail("child exited 0", `got code ${exitCode}`);
 
-  const session = resolveNewSession(stdout, logsBefore);
+  const session = resolveNewSession(stdout, logsBefore, __dirname);
   if (!session) {
     fail("new session directory created", "no new dir in logs/");
     return report(checks);
@@ -376,6 +349,7 @@ async function verify(exitCode, stdout) {
       pass(`transcript has ${transcript.length} turns`);
       const withDeltas = transcript.filter((t) => t.realized_deltas && Object.keys(t.realized_deltas).length > 0);
       if (withDeltas.length >= 1) pass(`${withDeltas.length} turns scored axis deltas`);
+      else if (expectNoDeltas) pass(`0 turns scored axis deltas (expected — adversarial/thin-answer scenario)`);
       else fail("at least one turn produced axis deltas", `0 of ${transcript.length} turns had deltas`);
     } else {
       fail("transcript has >=1 turn", `got ${JSON.stringify(transcript).slice(0, 120)}`);

@@ -1,0 +1,9 @@
+alias: q_architecture_review_role
+label: Architecture review role
+name: What role do you want to play in architecture review?
+description: Drills into the specific aspiration he named so the desired scope and visibility are concrete.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

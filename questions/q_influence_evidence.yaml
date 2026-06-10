@@ -1,0 +1,10 @@
+alias: q_influence_evidence
+label: Influence evidence
+name: Where would you want your influence to show up more clearly over the next quarter?
+description: Makes the desired future state concrete in terms of visible influence, not abstract ambition.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +1
+  engagement: +3
+source: generated

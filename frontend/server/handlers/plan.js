@@ -80,6 +80,7 @@ module.exports = async function plan(c) {
       totalTurns: session.totalBudget,
       closerAlias: session.closer ? session.closer.alias : null,
       userDrillRequest,
+      prep: session.preparationResult?.brief || null,
     });
   } catch (e) {
     console.warn("[plan] planner failed:", e.message);

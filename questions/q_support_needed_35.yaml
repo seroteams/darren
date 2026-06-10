@@ -1,0 +1,10 @@
+alias: q_support_needed_35
+label: Support needed
+name: What would make the next two weeks feel steadier for you?
+description: Closes by moving toward practical support and a lighter near-term plan.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

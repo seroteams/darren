@@ -1,0 +1,8 @@
+alias: q_reset_or_reschedule_2
+label: Reset or reschedule
+name: Is now a better time to pause and pick this up another time?
+description: Direct reset to confirm whether the conversation should continue at all.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+source: planner_added

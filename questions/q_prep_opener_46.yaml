@@ -1,0 +1,9 @@
+alias: q_prep_opener_46
+label: Prep opener
+name: After Monday’s launch, what has this week felt like from your side?
+description: Restates the prep opener in fresh words and lets Priya set context before any concern is introduced.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: generated

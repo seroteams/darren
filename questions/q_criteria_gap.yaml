@@ -1,0 +1,9 @@
+alias: q_criteria_gap
+label: Criteria gap
+name: What criteria do you feel are missing right now?
+description: Drills into the specific recognition criteria he feels are absent.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

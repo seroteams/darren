@@ -1,0 +1,9 @@
+alias: q_outside_work_strain_3
+label: Outside work strain
+name: "You mentioned it's been a rough few weeks outside work — what feels most relevant here?"
+description: Gives space to share what is affecting work without diagnosing or forcing disclosure.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  wellbeing: +3
+source: planner_added

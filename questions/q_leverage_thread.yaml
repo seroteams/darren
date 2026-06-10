@@ -1,0 +1,9 @@
+alias: q_leverage_thread
+label: Leverage thread
+name: Where specifically have you been shipping without enough leverage?
+description: Drills into his own leverage concern with a concrete recent example before moving on.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -4,10 +4,16 @@ const path = require("node:path");
 const AXES_PATH = path.join(__dirname, "..", "axes.json");
 
 const SCORE_CLAMP = 10;
+const AXIS_MIN = -SCORE_CLAMP;
+const AXIS_MAX = SCORE_CLAMP;
 
 function loadAxes() {
   return JSON.parse(fs.readFileSync(AXES_PATH, "utf8")).axes;
 }
+
+// The canonical ordered list of axis ids, derived from axes.json so there is a
+// single source of truth instead of a hardcoded array repeated per stage.
+const AXIS_IDS = loadAxes().map((a) => a.id);
 
 function initState(axes = loadAxes()) {
   const state = {};
@@ -77,4 +83,4 @@ function validateAxisState(state) {
   }
 }
 
-module.exports = { loadAxes, initState, applyDeltas, summarize, serialize, coverageGap, validateAxisState, SCORE_CLAMP };
+module.exports = { loadAxes, initState, applyDeltas, summarize, serialize, coverageGap, validateAxisState, SCORE_CLAMP, AXIS_IDS, AXIS_MIN, AXIS_MAX };

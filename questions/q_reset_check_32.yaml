@@ -1,0 +1,8 @@
+alias: q_reset_check_32
+label: Reset check
+name: Is now a good time for this conversation, or should we pick it up later?
+description: Directly resets a non-functional check-in after repeated non-answers.
+purpose: topic
+axis_effects:
+  clarity: +1
+source: planner_added

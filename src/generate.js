@@ -3,6 +3,7 @@ const path = require("node:path");
 
 const { logStage } = require("./session");
 const { promptFor } = require("./one-on-one-types");
+const { splitSystemUser } = require("./prompt-utils");
 
 const ROOT = path.join(__dirname, "..");
 const FOCUS_POINTS_PATH = path.join(ROOT, "focus-points.json");
@@ -74,13 +75,7 @@ function buildMessages({ name, role, seniority, meetingType, notes, focusPoints 
     .replaceAll("{{MEETING_TYPE}}", meetingType)
     .replaceAll("{{MANAGER_NOTES}}", notes || "(none)");
 
-  const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
-  const userMatch = filled.match(/## User\s+([\s\S]*)$/);
-  return {
-    filled,
-    system: systemMatch ? systemMatch[1].trim() : "",
-    user: userMatch ? userMatch[1].trim() : filled,
-  };
+  return splitSystemUser(filled);
 }
 
 async function callOpenAI({ system, user, model = getDefaultModel() }) {

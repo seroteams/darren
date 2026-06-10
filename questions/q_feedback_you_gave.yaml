@@ -1,0 +1,10 @@
+alias: q_feedback_you_gave
+label: Feedback you gave
+name: Where have you had to be most direct in feedback yourself?
+description: Checks how Sam is handling critique and influence in the designer role.
+purpose: competency
+stage: momentum
+axis_effects:
+  engagement: +1
+  growth: +1
+source: generated

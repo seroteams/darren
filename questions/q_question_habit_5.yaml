@@ -1,0 +1,10 @@
+alias: q_question_habit_5
+label: Question habit
+name: What tends to be behind the moments when you do not ask the early question?
+description: Explores the habit or context that keeps him from surfacing uncertainty sooner.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_safe_mode_2
+label: Safe mode
+name: Where do you think you are still playing it safest on this team?
+description: Names the pattern of staying in execution mode instead of exercising broader Principal scope.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

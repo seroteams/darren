@@ -1,0 +1,10 @@
+alias: q_redirected_time
+label: Redirected time
+name: What pulled your attention away from the plan most often?
+description: Surfaces the specific dependency, stakeholder, or decision that rerouted the week.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

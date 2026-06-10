@@ -1,0 +1,10 @@
+alias: q_prep_opener_49
+label: Prep opener
+name: How are you thinking about stakeholder trust at Head of Product level, and where do you most want stronger visibility or influence right now?
+description: "Anchors the conversation in Ahmed's current visibility and influence challenge without jumping straight to diagnosis."
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

@@ -1,18 +1,15 @@
 const fs = require("node:fs");
 
 const { logStage } = require("./session");
-const { loadAxes } = require("./axes");
+const { loadAxes, AXIS_IDS, AXIS_MIN, AXIS_MAX } = require("./axes");
 const { promptFor, getArc, getType } = require("./one-on-one-types");
 const { withPromptVersion } = require("./prompt-version");
 const { resolveSelectedFocus } = require("./selected-focus");
+const { splitSystemUser } = require("./prompt-utils");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
 const getDefaultModel = () => modelFor("evaluation");
-
-const AXIS_IDS = ["wellbeing", "engagement", "clarity", "growth"];
-const AXIS_MIN = -10;
-const AXIS_MAX = 10;
 
 const OVERLAP_STOP_WORDS = new Set([
   "a", "an", "the", "and", "or", "but", "of", "in", "on", "to", "for", "with",
@@ -411,51 +408,7 @@ function buildMessages({
     )
     .replaceAll("{{AGENDA_CARRY_FORWARD}}", formatAgendaCarryForward(agenda));
 
-  const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
-  const userMatch = filled.match(/## User\s+([\s\S]*)$/);
-  return {
-    filled,
-    system: systemMatch ? systemMatch[1].trim() : "",
-    user: userMatch ? userMatch[1].trim() : filled,
-  };
-}
-
-function buildProductQaMessages({
-  ctx,
-  focusPoints,
-  transcript,
-  axisState,
-  notes,
-  selectedFocus,
-  productQaNotes,
-  systemDiagnostics,
-}) {
-  const qaPath = promptFor(ctx.meetingType, "productQa");
-  const template = fs.readFileSync(qaPath, "utf8");
-  const sf =
-    selectedFocus ||
-    resolveSelectedFocus({ notes, focusPoints });
-  const filled = template
-    .replaceAll("{{NAME}}", ctx.name || "(not provided)")
-    .replaceAll("{{MEETING_TYPE}}", ctx.meetingType)
-    .replaceAll("{{MANAGER_NOTES}}", notes || "(none)")
-    .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
-    .replaceAll("{{SELECTED_FOCUS_JSON}}", JSON.stringify(sf || {}, null, 2))
-    .replaceAll("{{TRANSCRIPT_JSON}}", JSON.stringify(transcript, null, 2))
-    .replaceAll("{{AXIS_STATE_JSON}}", JSON.stringify(axisState, null, 2))
-    .replaceAll("{{PRODUCT_QA_NOTES}}", productQaNotes || "(none)")
-    .replaceAll(
-      "{{SYSTEM_DIAGNOSTICS_JSON}}",
-      JSON.stringify(systemDiagnostics || [], null, 2)
-    );
-
-  const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
-  const userMatch = filled.match(/## User\s+([\s\S]*)$/);
-  return {
-    filled,
-    system: systemMatch ? systemMatch[1].trim() : "",
-    user: userMatch ? userMatch[1].trim() : filled,
-  };
+  return splitSystemUser(filled);
 }
 
 async function callOpenAI({ system, user, model, schemaName }) {
@@ -613,81 +566,9 @@ async function evaluate(
   return briefing;
 }
 
-async function evaluateProductQa(
-  {
-    ctx,
-    focusPoints,
-    transcript,
-    axisState,
-    notes,
-    selectedFocus,
-    productQaNotes,
-    systemDiagnostics,
-  },
-  { model = getDefaultModel(), session, stage = "05-product-qa" } = {}
-) {
-  const msgs = buildProductQaMessages({
-    ctx,
-    focusPoints,
-    transcript,
-    axisState,
-    notes,
-    selectedFocus,
-    productQaNotes,
-    systemDiagnostics,
-  });
-  const qaPath = promptFor(ctx.meetingType, "productQa");
-  const raw = await callAI({
-    system: msgs.system,
-    user: msgs.user,
-    schema: {
-      type: "object",
-      properties: {
-        defects: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              turn: { type: "integer" },
-              alias: { type: "string" },
-              symptom: { type: "string" },
-              likely_cause: {
-                type: "string",
-                enum: ["planner", "runtime", "eval", "prep"],
-              },
-            },
-            required: ["symptom", "likely_cause"],
-            additionalProperties: false,
-          },
-        },
-        summary: { type: "string" },
-      },
-      required: ["defects", "summary"],
-      additionalProperties: false,
-    },
-    schemaName: "product_qa_report",
-    temperature: 0.3,
-    model,
-    costLabel: stage,
-  });
-
-  logStage(session, stage, {
-    inputs: withPromptVersion(
-      { ctx, productQaNotes, systemDiagnostics, model },
-      qaPath
-    ),
-    prompt: msgs.filled,
-    response: raw,
-  });
-
-  return parseAIJson(raw, "Product QA", ["defects", "summary"]);
-}
-
 module.exports = {
   evaluate,
-  evaluateProductQa,
   buildMessages,
-  buildProductQaMessages,
   callOpenAI,
   fourGramOverlap,
   applyManagerBriefingPostProcess,

@@ -1,0 +1,10 @@
+alias: q_support_need_4
+label: Support need
+name: What would make the next two weeks more workable for you?
+description: Closes by turning the discussion toward concrete support and near-term adjustments.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_launch_aftermath_2
+label: Launch aftermath
+name: Since the feature shipped, what has taken more out of you than you expected?
+description: Surfaces the specific post-launch drain without assuming it is a problem.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+source: generated

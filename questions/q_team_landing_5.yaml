@@ -1,0 +1,10 @@
+alias: q_team_landing_5
+label: Team landing
+name: How have your interactions with the team felt since the launch?
+description: Checks whether her quieter week is just recovery or reflects a shift in team connection.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  engagement: +1
+  wellbeing: +1
+source: generated

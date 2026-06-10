@@ -1,0 +1,10 @@
+alias: q_priority_tradeoff_4
+label: Priority tradeoff
+name: What did you have to say yes to that crowded out the deadlines?
+description: Finds the competing commitments that may have displaced the missed work.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

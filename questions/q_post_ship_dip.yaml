@@ -1,0 +1,9 @@
+alias: q_post_ship_dip
+label: Post-ship dip
+name: "You said you're coasting a bit this week — what's behind that?"
+description: Drills into the post-ship dip to locate whether the quieter week is recovery, disengagement, or something else.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added
