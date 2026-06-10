@@ -1,0 +1,9 @@
+alias: q_scope_expansion_2
+label: Scope expansion
+name: When you widened the decision, what got pulled in unnecessarily?
+description: Surface the concrete elements that turned a bounded design call into a broader one.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

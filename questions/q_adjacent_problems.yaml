@@ -1,0 +1,9 @@
+alias: q_adjacent_problems
+label: Adjacent problems
+name: Which adjacent problems did you pull into that settings decision?
+description: Surface the specific scope expansion in one concrete case.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

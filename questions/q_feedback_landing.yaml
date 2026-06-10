@@ -1,0 +1,10 @@
+alias: q_feedback_landing
+label: Feedback landing
+name: When you get critique, what tends to stick and what tends to bounce off?
+description: Surfaces how feedback is received without making it sound like a performance audit.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

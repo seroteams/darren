@@ -1,0 +1,10 @@
+alias: q_quality_bar_tradeoff
+label: Quality bar tradeoff
+name: Where are you being more careful than usual in the design system work?
+description: Finds whether extra caution is intentional quality control or hidden uncertainty.
+purpose: competency
+stage: friction
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

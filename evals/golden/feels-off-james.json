@@ -1,0 +1,7 @@
+{
+  "id": "feels-off-james",
+  "scenario": "scenarios/batch/james-something-feels-off.json",
+  "kind": "happy",
+  "expect": { "verdict": "PASS", "hard_fails": [] },
+  "human_label": "PROVISIONAL — ratify at first baseline run. A 'something feels off' read should pass clean."
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Sam",
+  "role": "Product Designer",
+  "seniority": "Mid",
+  "meeting_type": "Bi-weekly check-in",
+  "manager_notes": "Regular fortnightly check-in. Want to see how the last two weeks have landed.",
+  "_intent": "Honesty sentinel. Every answer is thin or a decline (non-empty so smoke-test accepts it, but <=2 tokens / decline so the read is partial). The briefing must NOT diagnose Sam confidently from this. Regresses if OVERDIAGNOSIS_ON_THIN fires.",
+  "answers": [
+    "fine",
+    "ok",
+    "i guess",
+    "not sure",
+    "dunno",
+    "nothing to add",
+    "no",
+    "same",
+    "fine"
+  ]
+}

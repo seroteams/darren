@@ -1,0 +1,10 @@
+alias: q_feedback_loop_4
+label: Feedback loop
+name: What part of critique feedback has been most useful to you lately?
+description: Checks whether feedback is actually changing the work and how she is using it.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

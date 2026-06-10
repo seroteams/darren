@@ -1,10 +1,10 @@
 alias: q_mentoring_tradeoff_3
 label: Mentoring tradeoff
-name: What would you need to drop to make room for mentoring?
-description: Surfaces the real trade-off required before mentoring can become part of the routine.
+name: What would need to move off your plate to make mentoring realistic?
+description: Surfaces the capacity and prioritisation cost of adding mentoring.
 purpose: topic
 stage: momentum
 axis_effects:
   clarity: +3
-  growth: +1
+  wellbeing: +1
 source: generated

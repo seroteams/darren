@@ -1,0 +1,10 @@
+alias: q_quiet_week
+label: Quiet week
+name: I noticed you were quieter than usual in standup this week, what was going on there?
+description: Observation-first check on whether the quieter signal is fatigue, focus, or something else.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

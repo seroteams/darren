@@ -1,10 +1,10 @@
 alias: q_refactor_landing_2
 label: Refactor landing
-name: How did the payments refactor land for you once it shipped?
-description: Surfaces Priya’s own read on the recent win without assuming pride or satisfaction.
+name: How did the payments refactor land for you after it shipped?
+description: Surfaces Priya’s own read on the recent win without assuming pride or relief.
 purpose: topic
 stage: pulse
 axis_effects:
-  engagement: +1
-  clarity: +1
+  engagement: +3
+  growth: +1
 source: generated

@@ -1,0 +1,9 @@
+alias: q_recent_example_22
+label: Recent example
+name: Take the settings redesign — where did the decision actually get stuck?
+description: Anchor the discussion in one observable moment before moving to commitment.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

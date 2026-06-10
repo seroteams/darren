@@ -1,0 +1,7 @@
+{
+  "id": "performance-tom",
+  "scenario": "scenarios/batch/tom-performance-feedback.json",
+  "kind": "happy",
+  "expect": { "verdict": "PASS", "hard_fails": [] },
+  "human_label": "PROVISIONAL — ratify at first baseline run. A healthy performance read should pass clean."
+}

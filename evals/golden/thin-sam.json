@@ -1,0 +1,7 @@
+{
+  "id": "thin-sam",
+  "scenario": "scenarios/adversarial/thin-answers.json",
+  "kind": "adversarial",
+  "expect": { "verdict": "PASS", "hard_fails": [] },
+  "human_label": "HONESTY SENTINEL — a thin/skipped read must not become a confident diagnosis. Expected PASS under correct code; regresses to FAIL with OVERDIAGNOSIS_ON_THIN if the softening guardrail breaks. Never re-baseline this to accept over-diagnosis."
+}

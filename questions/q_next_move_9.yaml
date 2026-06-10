@@ -1,0 +1,9 @@
+alias: q_next_move_9
+label: Next move
+name: Given this pattern, what will you do differently on the next call?
+description: Land on the behavioural change he wants to make next.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+source: planner_added

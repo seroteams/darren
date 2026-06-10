@@ -1,0 +1,9 @@
+alias: q_backlog_first
+label: Backlog first
+name: What about the design review backlog feels most urgent right now?
+description: Drills into the concrete thread she raised so the manager follows what she put on the table first.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added

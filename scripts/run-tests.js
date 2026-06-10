@@ -28,6 +28,7 @@ const OFFLINE_TESTS = [
   "test-question-validator.js",
   "test-read-quality.js",
   "test-recurring-gap-damper.js",
+  "test-trust-checks.js",
 ];
 
 let failed = 0;

@@ -1,0 +1,7 @@
+{
+  "id": "biweekly-priya",
+  "scenario": "scenarios/batch/priya-biweekly-checkin.json",
+  "kind": "happy",
+  "expect": { "verdict": "PASS", "hard_fails": [] },
+  "human_label": "PROVISIONAL — ratify at first baseline run. A healthy bi-weekly read should pass clean."
+}

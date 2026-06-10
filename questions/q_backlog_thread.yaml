@@ -1,0 +1,9 @@
+alias: q_backlog_thread
+label: Backlog thread
+name: What about the design review backlog feels most pressing right now?
+description: Opens the specific thread she raised and locates the immediate source of friction.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added

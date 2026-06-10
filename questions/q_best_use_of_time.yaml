@@ -1,0 +1,10 @@
+alias: q_best_use_of_time
+label: Best use of time
+name: What part of the design-system work feels most worth your time right now?
+description: Gets at prioritisation and where she wants to lean in next.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

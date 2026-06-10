@@ -1,0 +1,10 @@
+alias: q_feedback_style
+label: Feedback style
+name: What kind of critique lands best for you right now?
+description: Checks whether the current feedback style matches what Maya can use well.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

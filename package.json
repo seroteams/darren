@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "smoke": "node smoke-test.js",
     "eval": "node scripts/eval.js",
+    "gate": "node scripts/gate.js",
     "rebuild-question-index": "node scripts/rebuild-question-index.js --prune",
     "sweep": "node scripts/sweep.js"
   },

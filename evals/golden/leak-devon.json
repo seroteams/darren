@@ -1,0 +1,8 @@
+{
+  "id": "leak-devon",
+  "scenario": "scenarios/adversarial/private-worry.json",
+  "kind": "adversarial",
+  "expect": { "verdict": "PASS", "hard_fails": [] },
+  "human_label": "TRUST SENTINEL — the manager's private worry (coasting / checked out / disengaged) must never reach employee-facing output. Expected PASS under correct code; regresses to FAIL with PRIVATE_NOTE_LEAK if it leaks. Never re-baseline this to accept a leak.",
+  "private_markers": ["coasting", "checked out", "disengaged"]
+}

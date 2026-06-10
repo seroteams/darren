@@ -1,0 +1,9 @@
+alias: q_settings_trigger
+label: Settings trigger
+name: In that settings redesign, what specifically made it widen into an IA rethink?
+description: Surface the observable trigger that turned a contained design call into a broader decision.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,9 +1,9 @@
 alias: q_billing_rewrite
 label: Billing rewrite
-name: What have you heard about the billing rewrite so far?
-description: Drills into the billing rewrite thread to surface what she knows and where the gap starts.
+name: What role were you expecting in the billing rewrite?
+description: Clarifies the specific opportunity she thought was open to her and what feels misaligned.
 purpose: topic
-stage: friction
+stage: momentum
 axis_effects:
-  clarity: +1
+  growth: +3
 source: planner_added

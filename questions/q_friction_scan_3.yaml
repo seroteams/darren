@@ -1,7 +1,7 @@
 alias: q_friction_scan_3
 label: Friction scan
-name: Where have things gotten messy or slow lately?
-description: Invites them to name current snags without deficit framing.
+name: Where is work getting snaggy right now?
+description: Invites them to name current blockers or drag without assuming failure.
 purpose: topic
 stage: friction
 axis_effects:

@@ -1,10 +1,10 @@
 alias: q_support_needed_7
 label: Support needed
 name: What would make the next two weeks steadier for you?
-description: Closes on practical support and near-term adjustments rather than opening new topics.
+description: Ends by turning the conversation into a practical support ask.
 purpose: wellbeing
 stage: lift
 axis_effects:
   wellbeing: +1
   clarity: +1
-source: planner_added
+source: generated
