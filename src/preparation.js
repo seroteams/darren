@@ -19,8 +19,10 @@ const RESPONSE_SCHEMA = {
     avoid:           { type: "array", items: { type: "string" }, maxItems: 2 },
     goodOutcome:     { type: "string" },
     suggestedAction: { type: "string" },
+    confidence:      { type: "string" },
+    dontAssume:      { type: "string" },
   },
-  required: ["coreIssue", "openingQuestion", "listenFor", "avoid", "goodOutcome", "suggestedAction"],
+  required: ["coreIssue", "openingQuestion", "listenFor", "avoid", "goodOutcome", "suggestedAction", "confidence", "dontAssume"],
   additionalProperties: false,
 };
 
@@ -211,6 +213,19 @@ function validateBrief(brief, inputs) {
 
   if (!action || action.split(/\s+/).length < 5) {
     issues.push("suggestedAction is missing or too short");
+  }
+
+  // Evidence honesty — confidence must name its level and basis; dontAssume
+  // must be a real sentence, not filler.
+  const confidence = (brief.confidence || "").trim();
+  if (!/^(low|medium|high)\b/i.test(confidence)) {
+    issues.push('confidence must start with "Low", "Medium", or "High"');
+  } else if (confidence.split(/\s+/).length < 4) {
+    issues.push("confidence must name what the level rests on (e.g. \"Medium — based on your note and her seniority\")");
+  }
+  const dontAssume = (brief.dontAssume || "").trim();
+  if (dontAssume.split(/\s+/).filter(Boolean).length < 4) {
+    issues.push("dontAssume is missing or too short — name the one thing the data does not yet support");
   }
 
   // Unsafe interpretation — word-boundary checks with negative lookaheads for common safe-use phrases

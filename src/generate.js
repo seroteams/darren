@@ -28,8 +28,9 @@ const RESPONSE_SCHEMA = {
           label: { type: "string" },
           reason: { type: "string" },
           source: { type: "string", enum: ["signal", "best_practice"] },
+          confidence: { type: "string", enum: ["low", "medium", "high"] },
         },
-        required: ["id", "label", "reason", "source"],
+        required: ["id", "label", "reason", "source", "confidence"],
         additionalProperties: false,
       },
     },
@@ -112,6 +113,7 @@ async function generateFocusPoints(
         label: fp.label,
         reason: oneSentenceReason(fp.reason),
         source: fp.source,
+        confidence: fp.confidence || "low",
         known: !!entry,
       };
     }),

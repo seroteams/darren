@@ -22,7 +22,9 @@ The response must match this exact shape:
   "listenFor": ["<item 1>", "<item 2>", "<item 3>"],
   "avoid": ["<item 1>", "<item 2>"],
   "goodOutcome": "<one sentence>",
-  "suggestedAction": "<one practical action>"
+  "suggestedAction": "<one practical action>",
+  "confidence": "<Low | Medium | High — one clause naming what it rests on>",
+  "dontAssume": "<one sentence — the thing the data does NOT yet support>"
 }
 ```
 
@@ -33,6 +35,8 @@ Field rules:
 - `avoid`: exactly 2 items, each starting with "do not". Practical traps for this specific meeting type and seniority.
 - `goodOutcome`: one sentence. The single observable agreement, decision, or shared frame reachable in *this* 30–60 minute meeting. Not a multi-meeting arc, not "a clear understanding of X" (that's a quarter's worth of work). Format: "You and {{NAME}} have agreed [one concrete next step or shared frame]." If the topic genuinely takes more than one meeting, narrow to the first agreement that unlocks the rest. See good_outcome_rules below.
 - `suggestedAction`: one practical action for the manager — prep before the 1:1 or a move during it. See suggested_action_rules below.
+- `confidence`: starts with "Low", "Medium", or "High", then one clause naming exactly what the read rests on — e.g. "Medium — based on your note and her seniority" or "Low — role and meeting-type defaults only, no notes". Confidence describes the evidence behind `coreIssue`, not how important the topic is. Empty or vague notes → "Low". A concrete, specific note observation → "Medium". "High" only when the notes state the issue plainly.
+- `dontAssume`: exactly one sentence naming the most tempting conclusion the data does NOT yet support — e.g. "That she's checked out: a quiet week and slower reviews can have a dozen mundane causes." Plain words, no clinical or diagnostic language. This is the line that stops the manager walking in with a verdict.
 
 <opening_question_rules>
 The opener MAY target the manager's concern (including competency or growth gaps) but must NOT sound accusatory, diagnostic, or like a performance judgement.

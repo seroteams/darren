@@ -62,12 +62,17 @@ export async function mount(root, { store, setState }) {
   function renderResult(brief) {
     const sections = [
       { label: "Likely theme",     key: "coreIssue",       type: "paragraph" },
+      { label: "How sure is this", key: "confidence",      type: "paragraph" },
+      { label: "Don't assume yet", key: "dontAssume",      type: "paragraph" },
       { label: "Say this first",   key: "openingQuestion", type: "callout" },
       { label: "Listen for",       key: "listenFor",       type: "bullets" },
       { label: "Avoid",            key: "avoid",           type: "bullets" },
       { label: "Success looks like", key: "goodOutcome",   type: "paragraph" },
       { label: "Suggested action", key: "suggestedAction", type: "paragraph" },
-    ];
+    ].filter((s) => {
+      const v = brief[s.key];
+      return Array.isArray(v) ? v.length : v && String(v).trim();
+    });
 
     function renderField(type, value) {
       if (type === "bullets" && Array.isArray(value)) {
@@ -132,6 +137,8 @@ export function unmount() {
 
 const PREP_SECTIONS = [
   { label: "Likely theme", key: "coreIssue" },
+  { label: "How sure is this", key: "confidence" },
+  { label: "Don't assume yet", key: "dontAssume" },
   { label: "Say this first", key: "openingQuestion" },
   { label: "Listen for", key: "listenFor" },
   { label: "Avoid", key: "avoid" },

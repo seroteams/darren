@@ -88,6 +88,7 @@ export async function mount(root, { store, setState }) {
               <div class="focus-point__body">
                 <div class="focus-point__label">${escape(fp.label || fp.type || fp.id)}</div>
                 ${fp.reason ? `<div class="focus-point__reason">${escape(focusReason(fp.reason))}</div>` : ""}
+                ${evidenceTag(fp)}
               </div>
               <div class="focus-point__check" aria-hidden="true"></div>
             </button>
@@ -189,6 +190,19 @@ function focusReason(text) {
   if (!trimmed) return "";
   const first = trimmed.match(/^(.+?[.!?])(?:\s|$)/)?.[1];
   return first || trimmed;
+}
+
+// Plain-language evidence tag: where this point came from, so the manager
+// knows how much weight to put on it. Quiet text, no badge chrome.
+function evidenceTag(fp) {
+  if (!fp || !fp.source) return "";
+  const text =
+    fp.source === "signal"
+      ? fp.confidence === "high"
+        ? "from your note, clearly stated"
+        : "from your note"
+      : "common for this level";
+  return `<div class="focus-point__evidence text-xs text-ink-mute">${text}</div>`;
 }
 
 function formatFocusPointsForCopy(focusPoints, ctx) {
