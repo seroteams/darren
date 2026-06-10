@@ -1,0 +1,10 @@
+alias: q_deepest_drag
+label: Deepest drag
+name: What piece of the design work took the most energy to keep moving?
+description: Identifies where effort was disproportionate to progress in the last two weeks.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

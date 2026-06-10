@@ -1,0 +1,10 @@
+alias: q_define_fine_4
+label: Define fine
+name: "When you say 'fine,' what has the last two weeks actually looked like?"
+description: "One-shot re-prompt to turn the vague opener into concrete signal about Sam's recent work rhythm."
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added

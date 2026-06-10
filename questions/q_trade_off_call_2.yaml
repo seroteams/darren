@@ -1,0 +1,10 @@
+alias: q_trade_off_call_2
+label: Trade-off call
+name: What did you decide not to do so you could keep the important work moving?
+description: Surfaces deliberate trade-offs and what got pushed aside when priorities tightened.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_workload_shape_3
+label: Workload shape
+name: What part of the work has been taking more out of you than it should lately?
+description: Surfaces hidden strain in the current workload and whether it is tied to a specific kind of task.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

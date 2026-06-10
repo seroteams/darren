@@ -1,0 +1,10 @@
+alias: q_decision_risk
+label: Decision risk
+name: Where is the design still too open for you to move fast?
+description: Surfaces unclear decisions or scope that are slowing momentum.
+purpose: competency
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

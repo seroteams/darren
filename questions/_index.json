@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-10T15:58:27.104Z",
-  "count": 1687,
+  "generated_at": "2026-06-10T16:05:17.781Z",
+  "count": 1845,
   "aliases": [
     "q_adjacent_problems",
     "q_after_the_push",
@@ -10,6 +10,7 @@
     "q_architecture_review",
     "q_architecture_review_2",
     "q_architecture_review_3",
+    "q_architecture_review_4",
     "q_ba_blocking",
     "q_ba_dynamic_now",
     "q_ba_friction",
@@ -37,7 +38,16 @@
     "q_cause_check",
     "q_change_visibility",
     "q_clarify_agenda",
+    "q_clarify_fine",
+    "q_clarify_friction",
+    "q_clarify_friction_2",
+    "q_clarify_friction_3",
     "q_clarify_ok",
+    "q_clarify_ok_2",
+    "q_clarify_ok_3",
+    "q_clarify_ok_4",
+    "q_clarify_ok_5",
+    "q_clarify_ok_6",
     "q_clearer_criteria",
     "q_clearer_criteria_2",
     "q_client_load_2",
@@ -87,6 +97,7 @@
     "q_crits_lately",
     "q_cross_team_call",
     "q_cross_team_decisions",
+    "q_cross_team_leverage",
     "q_cross_team_trust",
     "q_current_dependency",
     "q_current_fit",
@@ -106,6 +117,7 @@
     "q_current_push",
     "q_current_read",
     "q_current_read_2",
+    "q_current_tradeoffs",
     "q_current_work_feel",
     "q_current_work_lens",
     "q_current_work_pulse",
@@ -125,31 +137,47 @@
     "q_decision_latitude",
     "q_decision_need",
     "q_decision_ownership",
+    "q_decision_ownership_2",
     "q_decision_point",
     "q_decision_points",
     "q_decision_points_2",
     "q_decision_pressure",
     "q_decision_pressure_2",
+    "q_decision_pressure_3",
+    "q_decision_pressure_4",
+    "q_decision_risk",
     "q_decision_shaping",
     "q_decision_signal",
     "q_decision_speed",
     "q_decision_state",
     "q_decision_support",
+    "q_decision_support_2",
     "q_decision_timing",
     "q_decision_wait",
+    "q_deepest_drag",
     "q_define_done",
     "q_define_fine",
     "q_define_fine_2",
+    "q_define_fine_3",
+    "q_define_fine_4",
+    "q_define_ok",
     "q_delay_driver",
     "q_delayed_success_detail",
     "q_delayed_success_path",
     "q_delegateable_work",
+    "q_dependency_check",
     "q_dependency_drag",
+    "q_dependency_drag_2",
+    "q_dependency_drag_3",
     "q_dependency_shift",
+    "q_dependency_shift_2",
+    "q_dependency_shift_3",
     "q_deprioritised_work",
     "q_deprioritizing_work",
     "q_design_momentum",
+    "q_design_momentum_2",
     "q_design_system_slowdowns",
+    "q_design_work_detail",
     "q_drafting_friction",
     "q_drafting_habit",
     "q_drafting_habit_2",
@@ -160,6 +188,7 @@
     "q_earlier_flag",
     "q_early_alignment",
     "q_early_alignment_2",
+    "q_early_alignment_3",
     "q_early_signal",
     "q_early_warning",
     "q_earned_influence",
@@ -178,16 +207,23 @@
     "q_energy_check_2",
     "q_energy_clarify",
     "q_energy_clarify_2",
+    "q_energy_detail",
     "q_energy_drag",
     "q_energy_drain",
     "q_energy_drain_2",
     "q_energy_drain_3",
     "q_energy_drain_4",
+    "q_energy_drain_5",
     "q_energy_drains",
+    "q_energy_drift",
+    "q_energy_drift_2",
     "q_energy_driver",
     "q_energy_reset",
     "q_energy_source",
     "q_energy_specifics",
+    "q_energy_specifics_10",
+    "q_energy_specifics_11",
+    "q_energy_specifics_12",
     "q_energy_specifics_2",
     "q_energy_specifics_3",
     "q_energy_specifics_4",
@@ -195,6 +231,7 @@
     "q_energy_specifics_6",
     "q_energy_specifics_7",
     "q_energy_specifics_8",
+    "q_energy_specifics_9",
     "q_energy_tradeoff",
     "q_escalation_habit",
     "q_escalation_timing",
@@ -208,6 +245,7 @@
     "q_expectation_alignment",
     "q_expected_leverage",
     "q_feedback_channels",
+    "q_feedback_drag",
     "q_feedback_filter",
     "q_feedback_gap",
     "q_feedback_gap_2",
@@ -216,18 +254,23 @@
     "q_feedback_landed",
     "q_feedback_landing",
     "q_feedback_landing_2",
+    "q_feedback_landing_3",
+    "q_feedback_landing_4",
     "q_feedback_loop",
     "q_feedback_loop_2",
     "q_feedback_loop_3",
     "q_feedback_loop_4",
     "q_feedback_loop_5",
+    "q_feedback_loop_6",
     "q_feedback_received",
+    "q_feedback_stall",
     "q_feedback_style",
     "q_feedback_taken_in",
     "q_feedback_that_stuck",
     "q_feedback_timing",
     "q_feedback_timing_2",
     "q_feedback_translation",
+    "q_feedback_turn",
     "q_feedback_uptake",
     "q_feedback_use",
     "q_firm_next_step",
@@ -248,6 +291,7 @@
     "q_flag_earlier_2",
     "q_flag_earlier_3",
     "q_flat_week",
+    "q_flat_week_2",
     "q_flat_week_follow_up",
     "q_flat_week_read",
     "q_flatter_week",
@@ -263,6 +307,7 @@
     "q_focus_first_shift",
     "q_focus_reset",
     "q_focus_reset_2",
+    "q_focus_reset_3",
     "q_focus_shift",
     "q_focus_trade_offs",
     "q_focus_tradeoff",
@@ -273,6 +318,8 @@
     "q_friction_points",
     "q_friction_scan",
     "q_friction_scan_10",
+    "q_friction_scan_11",
+    "q_friction_scan_12",
     "q_friction_scan_2",
     "q_friction_scan_3",
     "q_friction_scan_4",
@@ -288,6 +335,7 @@
     "q_friction_specifics_5",
     "q_future_direction",
     "q_future_pull",
+    "q_future_role_picture",
     "q_gap_awareness",
     "q_gap_pattern",
     "q_gap_specifics",
@@ -304,6 +352,7 @@
     "q_heads_up_point",
     "q_heavier_than_sounded",
     "q_help_seeking_safety",
+    "q_hidden_assumptions",
     "q_hidden_dependency",
     "q_hidden_drag",
     "q_hidden_friction",
@@ -311,6 +360,7 @@
     "q_highest_leverage_2",
     "q_highest_leverage_3",
     "q_holding_back",
+    "q_impact_signal",
     "q_impact_story",
     "q_incoming_load",
     "q_incoming_pull",
@@ -342,6 +392,7 @@
     "q_late_research_timing",
     "q_late_research_timing_2",
     "q_launch_afterglow",
+    "q_launch_aftermath",
     "q_launch_recovery_read",
     "q_leadership_tradeoff",
     "q_learning_edge",
@@ -349,6 +400,7 @@
     "q_leverage_example",
     "q_leverage_example_2",
     "q_leverage_example_3",
+    "q_leverage_example_4",
     "q_leverage_gap",
     "q_leverage_gap_2",
     "q_lingering_weight",
@@ -358,6 +410,7 @@
     "q_locked_changes",
     "q_low_energy",
     "q_low_energy_thread",
+    "q_low_novelty",
     "q_manager_asks",
     "q_manager_asks_2",
     "q_manager_help",
@@ -367,6 +420,7 @@
     "q_manager_investment_3",
     "q_manager_investment_4",
     "q_manager_leverage",
+    "q_manager_leverage_2",
     "q_manager_support",
     "q_manager_support_2",
     "q_mentor_shape",
@@ -377,8 +431,10 @@
     "q_mentoring_fit_3",
     "q_mentoring_fit_4",
     "q_mentoring_meaning",
+    "q_mentoring_pause",
     "q_mentoring_pull",
     "q_mentoring_pull_2",
+    "q_mentoring_pull_3",
     "q_mentoring_role",
     "q_mentoring_role_2",
     "q_mentoring_shape",
@@ -388,6 +444,7 @@
     "q_mentoring_shape_5",
     "q_mentoring_shape_6",
     "q_mentoring_shape_7",
+    "q_mentoring_shape_8",
     "q_mentoring_stall",
     "q_mentoring_stall_2",
     "q_mentoring_stall_3",
@@ -434,14 +491,17 @@
     "q_missing_ingredient",
     "q_missing_logic",
     "q_missing_states",
+    "q_missing_stretch",
     "q_missing_summary",
     "q_momentum_drain",
+    "q_momentum_kept",
     "q_momentum_source",
     "q_most_leverage",
     "q_motivation_check",
     "q_motivation_drift",
     "q_motivation_drift_2",
     "q_moved_fastest",
+    "q_moved_work",
     "q_name_opportunities",
     "q_name_opportunities_2",
     "q_name_opportunities_3",
@@ -451,6 +511,8 @@
     "q_name_the_snag",
     "q_name_the_snag_2",
     "q_name_the_snag_3",
+    "q_name_the_snag_4",
+    "q_name_the_snag_5",
     "q_need_from_me",
     "q_need_from_me_2",
     "q_need_from_me_3",
@@ -487,6 +549,7 @@
     "q_next_focus_12",
     "q_next_focus_13",
     "q_next_focus_14",
+    "q_next_focus_15",
     "q_next_focus_2",
     "q_next_focus_3",
     "q_next_focus_4",
@@ -512,7 +575,12 @@
     "q_next_move_14",
     "q_next_move_15",
     "q_next_move_16",
+    "q_next_move_17",
+    "q_next_move_18",
+    "q_next_move_19",
     "q_next_move_2",
+    "q_next_move_20",
+    "q_next_move_21",
     "q_next_move_3",
     "q_next_move_4",
     "q_next_move_5",
@@ -524,6 +592,8 @@
     "q_next_quarter_ownership",
     "q_next_quarter_ownership_2",
     "q_next_quarter_ownership_3",
+    "q_next_quarter_ownership_4",
+    "q_next_quarter_ownership_5",
     "q_next_quarter_pull",
     "q_next_quarter_shape",
     "q_next_quarter_shape_2",
@@ -549,12 +619,14 @@
     "q_next_step_focus_3",
     "q_next_step_focus_4",
     "q_next_step_landing",
+    "q_next_step_landing_2",
     "q_next_step_path",
     "q_next_step_picture",
     "q_next_step_shift",
     "q_next_stretch",
     "q_next_stretch_2",
     "q_next_stretch_3",
+    "q_next_stretch_4",
     "q_next_support",
     "q_next_two_weeks",
     "q_next_two_weeks_10",
@@ -564,7 +636,11 @@
     "q_next_two_weeks_14",
     "q_next_two_weeks_15",
     "q_next_two_weeks_16",
+    "q_next_two_weeks_17",
+    "q_next_two_weeks_18",
+    "q_next_two_weeks_19",
     "q_next_two_weeks_2",
+    "q_next_two_weeks_20",
     "q_next_two_weeks_3",
     "q_next_two_weeks_4",
     "q_next_two_weeks_5",
@@ -589,6 +665,7 @@
     "q_open_giving_you_energy",
     "q_open_growth_lookforward",
     "q_open_how_are_you_really",
+    "q_open_launch_thread",
     "q_open_learning_yourself",
     "q_open_most_like_to_talk",
     "q_open_most_like_yourself",
@@ -606,6 +683,7 @@
     "q_org_tradeoff",
     "q_outside_load",
     "q_outside_pressure",
+    "q_outside_pressure_2",
     "q_outside_work",
     "q_outside_work_2",
     "q_outside_work_strain",
@@ -629,6 +707,7 @@
     "q_pairing_plan",
     "q_pairing_plan_2",
     "q_pairing_plan_3",
+    "q_pairing_plan_4",
     "q_path_forward",
     "q_pattern_gap",
     "q_pattern_gap_2",
@@ -637,6 +716,8 @@
     "q_payments_handoff",
     "q_payments_sprint",
     "q_piled_up_how",
+    "q_plan_vs_reality",
+    "q_plan_vs_reality_2",
     "q_planned_progress",
     "q_polish_threshold",
     "q_political_moments",
@@ -660,7 +741,18 @@
     "q_prep_opener_14",
     "q_prep_opener_15",
     "q_prep_opener_16",
+    "q_prep_opener_17",
+    "q_prep_opener_18",
+    "q_prep_opener_19",
     "q_prep_opener_2",
+    "q_prep_opener_20",
+    "q_prep_opener_21",
+    "q_prep_opener_22",
+    "q_prep_opener_23",
+    "q_prep_opener_24",
+    "q_prep_opener_25",
+    "q_prep_opener_26",
+    "q_prep_opener_27",
     "q_prep_opener_3",
     "q_prep_opener_4",
     "q_prep_opener_5",
@@ -676,14 +768,23 @@
     "q_pricing_versions",
     "q_principal_evidence",
     "q_principal_impact_example",
+    "q_principal_scope",
     "q_priority_drift",
     "q_priority_drift_2",
     "q_priority_drift_3",
+    "q_priority_drift_4",
     "q_priority_mismatch",
+    "q_priority_reset",
+    "q_priority_shift",
+    "q_priority_shift_2",
+    "q_priority_shift_detail",
+    "q_priority_specifics",
+    "q_priority_swap",
     "q_priority_tangle",
     "q_priority_trade_off",
     "q_priority_tradeoff",
     "q_priority_tradeoff_2",
+    "q_priority_tradeoff_3",
     "q_priority_tradeoffs",
     "q_priority_tradeoffs_2",
     "q_priority_tradeoffs_3",
@@ -693,6 +794,7 @@
     "q_process_tighten",
     "q_promotion_feedback",
     "q_promotion_feedback_2",
+    "q_protected_time",
     "q_protected_work",
     "q_protecting_focus",
     "q_protecting_momentum",
@@ -1185,6 +1287,7 @@
     "q_question_habit",
     "q_question_habit_2",
     "q_question_habit_3",
+    "q_question_habit_4",
     "q_questioning_pattern",
     "q_questions_asked",
     "q_quiet_in_standup",
@@ -1197,6 +1300,7 @@
     "q_quiet_week",
     "q_quiet_week_2",
     "q_quiet_week_context",
+    "q_quiet_week_shift",
     "q_quiet_week_source",
     "q_quietness_check",
     "q_raise_sooner",
@@ -1262,7 +1366,9 @@
     "q_repeat_rounds",
     "q_reporting_lines",
     "q_requirement_shifts",
+    "q_reschedule_check",
     "q_research_time",
+    "q_reset_again",
     "q_reset_check",
     "q_reset_check_10",
     "q_reset_check_11",
@@ -1270,7 +1376,15 @@
     "q_reset_check_13",
     "q_reset_check_14",
     "q_reset_check_15",
+    "q_reset_check_16",
+    "q_reset_check_17",
+    "q_reset_check_18",
+    "q_reset_check_19",
     "q_reset_check_2",
+    "q_reset_check_20",
+    "q_reset_check_21",
+    "q_reset_check_22",
+    "q_reset_check_23",
     "q_reset_check_3",
     "q_reset_check_4",
     "q_reset_check_5",
@@ -1280,8 +1394,10 @@
     "q_reset_check_9",
     "q_reset_gently",
     "q_reset_next_time",
+    "q_reset_or_reschedule",
     "q_reset_timing",
     "q_reset_timing_2",
+    "q_reset_timing_3",
     "q_review_bar_change",
     "q_review_churn_source",
     "q_review_cycle_drag",
@@ -1293,7 +1409,9 @@
     "q_review_friction",
     "q_review_friction_2",
     "q_review_friction_3",
+    "q_review_friction_4",
     "q_review_habit_change",
+    "q_review_impact",
     "q_review_round_example",
     "q_review_round_example_2",
     "q_review_rounds_drill",
@@ -1325,6 +1443,7 @@
     "q_role_in_practice",
     "q_role_load_today",
     "q_root_cause",
+    "q_routine_vs_stretch",
     "q_safe_calls",
     "q_safe_calls_2",
     "q_safe_calls_3",
@@ -1369,8 +1488,10 @@
     "q_ship_and_miss",
     "q_shipped_and_slipped",
     "q_shipped_work",
+    "q_shipped_work_2",
     "q_show_your_work",
     "q_signal_before_review",
+    "q_signal_from_review",
     "q_signal_plan",
     "q_signal_vs_noise",
     "q_similar_work",
@@ -1381,6 +1502,7 @@
     "q_slip_context",
     "q_slip_context_2",
     "q_socializing_timing",
+    "q_speaking_early",
     "q_specific_example",
     "q_specific_example_2",
     "q_specific_feedback",
@@ -1389,6 +1511,7 @@
     "q_stakeholder_signal",
     "q_stakeholder_trust",
     "q_stalled_handoff",
+    "q_stalled_handoff_2",
     "q_stalled_work",
     "q_standup_quiet",
     "q_start_from_here",
@@ -1398,6 +1521,7 @@
     "q_staying_power",
     "q_steadier_next_stretch",
     "q_steadier_next_stretch_2",
+    "q_steadier_next_stretch_3",
     "q_steadier_next_two_weeks",
     "q_steadier_next_two_weeks_2",
     "q_steadier_pace",
@@ -1416,6 +1540,7 @@
     "q_stretch_shape",
     "q_strong_next_step_call",
     "q_stuck_point",
+    "q_stuck_point_2",
     "q_stuck_points",
     "q_stuck_thread",
     "q_stuck_work",
@@ -1428,6 +1553,8 @@
     "q_support_gap",
     "q_support_gap_2",
     "q_support_gap_3",
+    "q_support_gap_4",
+    "q_support_gap_5",
     "q_support_need",
     "q_support_need_2",
     "q_support_needed",
@@ -1445,6 +1572,10 @@
     "q_support_needed_20",
     "q_support_needed_21",
     "q_support_needed_22",
+    "q_support_needed_23",
+    "q_support_needed_24",
+    "q_support_needed_25",
+    "q_support_needed_26",
     "q_support_needed_3",
     "q_support_needed_4",
     "q_support_needed_5",
@@ -1457,6 +1588,7 @@
     "q_support_next_3",
     "q_support_next_step",
     "q_support_request",
+    "q_support_shift",
     "q_support_specifics",
     "q_support_that_helps",
     "q_support_to_move",
@@ -1464,19 +1596,24 @@
     "q_sustainable_pace",
     "q_switching_pattern",
     "q_team_bar",
+    "q_team_bar_2",
     "q_team_bar_fuzziness",
     "q_team_change_impact",
     "q_team_connection",
     "q_team_connection_2",
     "q_team_connection_3",
+    "q_team_connection_4",
     "q_team_dynamics",
     "q_team_edges",
     "q_team_fit",
+    "q_team_handoff",
+    "q_team_handoff_2",
     "q_team_handoffs",
     "q_team_interactions",
     "q_team_landing",
     "q_team_landing_2",
     "q_team_landing_3",
+    "q_team_landing_4",
     "q_team_moments",
     "q_team_reaction",
     "q_team_reaction_2",
@@ -1488,12 +1625,18 @@
     "q_tech_lead_pull",
     "q_tech_lead_pull_2",
     "q_tech_lead_pull_3",
+    "q_tech_lead_pull_4",
     "q_tense_renewals",
     "q_thread_follow",
     "q_thread_follow_10",
     "q_thread_follow_100",
     "q_thread_follow_101",
     "q_thread_follow_102",
+    "q_thread_follow_103",
+    "q_thread_follow_104",
+    "q_thread_follow_105",
+    "q_thread_follow_106",
+    "q_thread_follow_107",
     "q_thread_follow_11",
     "q_thread_follow_12",
     "q_thread_follow_13",
@@ -1591,17 +1734,24 @@
     "q_thread_follow_97",
     "q_thread_follow_98",
     "q_thread_follow_99",
+    "q_time_drift",
     "q_time_pressure",
     "q_time_pulled_away",
     "q_time_sink",
+    "q_time_tradeoff",
+    "q_trade_off_call",
+    "q_trade_off_call_2",
+    "q_trade_off_call_3",
     "q_trade_off_check",
     "q_trade_offs_made",
     "q_tradeoff_call",
+    "q_tradeoff_call_2",
     "q_tradeoff_check",
     "q_tradeoff_check_2",
     "q_tradeoff_check_3",
     "q_tradeoff_choice",
     "q_tradeoff_line",
+    "q_tradeoff_made",
     "q_tradeoff_needed",
     "q_tradeoff_scan",
     "q_tradeoffs",
@@ -1623,6 +1773,7 @@
     "q_unclear_parts",
     "q_unexpected_drift",
     "q_urgency_source",
+    "q_useful_support",
     "q_vague_ending",
     "q_vendor_onboarding",
     "q_vendor_onboarding_2",
@@ -1631,12 +1782,16 @@
     "q_visibility_gap_3",
     "q_visibility_habits",
     "q_visibility_pattern",
+    "q_visibility_thread",
     "q_visible_impact",
     "q_visible_leverage",
+    "q_visible_leverage_2",
     "q_waiting_on_decisions",
+    "q_waiting_on_input",
     "q_waiting_on_others",
     "q_waiting_on_others_2",
     "q_waiting_on_others_3",
+    "q_waiting_on_others_4",
     "q_what_changed",
     "q_what_changed_lately",
     "q_what_changed_next",
@@ -1678,11 +1833,14 @@
     "q_work_context",
     "q_work_shape",
     "q_work_that_dragged",
+    "q_work_that_matters",
     "q_work_that_moved",
     "q_work_that_stuck",
+    "q_workload_pressure",
     "q_workload_reality",
     "q_workload_shape",
     "q_workload_shape_2",
+    "q_workload_shape_3",
     "q_workload_shift",
     "q_workload_thread",
     "q_workload_tradeoffs",
@@ -1721,6 +1879,10 @@
     },
     {
       "alias": "q_architecture_review_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_architecture_review_4",
       "subdir": ""
     },
     {
@@ -1832,7 +1994,43 @@
       "subdir": ""
     },
     {
+      "alias": "q_clarify_fine",
+      "subdir": ""
+    },
+    {
+      "alias": "q_clarify_friction",
+      "subdir": ""
+    },
+    {
+      "alias": "q_clarify_friction_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_clarify_friction_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_clarify_ok",
+      "subdir": ""
+    },
+    {
+      "alias": "q_clarify_ok_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_clarify_ok_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_clarify_ok_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_clarify_ok_5",
+      "subdir": ""
+    },
+    {
+      "alias": "q_clarify_ok_6",
       "subdir": ""
     },
     {
@@ -2032,6 +2230,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_cross_team_leverage",
+      "subdir": ""
+    },
+    {
       "alias": "q_cross_team_trust",
       "subdir": ""
     },
@@ -2105,6 +2307,10 @@
     },
     {
       "alias": "q_current_read_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_current_tradeoffs",
       "subdir": ""
     },
     {
@@ -2184,6 +2390,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_decision_ownership_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_decision_point",
       "subdir": ""
     },
@@ -2201,6 +2411,18 @@
     },
     {
       "alias": "q_decision_pressure_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_decision_pressure_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_decision_pressure_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_decision_risk",
       "subdir": ""
     },
     {
@@ -2224,11 +2446,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_decision_support_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_decision_timing",
       "subdir": ""
     },
     {
       "alias": "q_decision_wait",
+      "subdir": ""
+    },
+    {
+      "alias": "q_deepest_drag",
       "subdir": ""
     },
     {
@@ -2241,6 +2471,18 @@
     },
     {
       "alias": "q_define_fine_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_define_fine_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_define_fine_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_define_ok",
       "subdir": ""
     },
     {
@@ -2260,11 +2502,31 @@
       "subdir": ""
     },
     {
+      "alias": "q_dependency_check",
+      "subdir": ""
+    },
+    {
       "alias": "q_dependency_drag",
       "subdir": ""
     },
     {
+      "alias": "q_dependency_drag_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_dependency_drag_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_dependency_shift",
+      "subdir": ""
+    },
+    {
+      "alias": "q_dependency_shift_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_dependency_shift_3",
       "subdir": ""
     },
     {
@@ -2280,7 +2542,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_design_momentum_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_design_system_slowdowns",
+      "subdir": ""
+    },
+    {
+      "alias": "q_design_work_detail",
       "subdir": ""
     },
     {
@@ -2321,6 +2591,10 @@
     },
     {
       "alias": "q_early_alignment_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_early_alignment_3",
       "subdir": ""
     },
     {
@@ -2396,6 +2670,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_energy_detail",
+      "subdir": ""
+    },
+    {
       "alias": "q_energy_drag",
       "subdir": ""
     },
@@ -2416,7 +2694,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_energy_drain_5",
+      "subdir": ""
+    },
+    {
       "alias": "q_energy_drains",
+      "subdir": ""
+    },
+    {
+      "alias": "q_energy_drift",
+      "subdir": ""
+    },
+    {
+      "alias": "q_energy_drift_2",
       "subdir": ""
     },
     {
@@ -2433,6 +2723,18 @@
     },
     {
       "alias": "q_energy_specifics",
+      "subdir": ""
+    },
+    {
+      "alias": "q_energy_specifics_10",
+      "subdir": ""
+    },
+    {
+      "alias": "q_energy_specifics_11",
+      "subdir": ""
+    },
+    {
+      "alias": "q_energy_specifics_12",
       "subdir": ""
     },
     {
@@ -2461,6 +2763,10 @@
     },
     {
       "alias": "q_energy_specifics_8",
+      "subdir": ""
+    },
+    {
+      "alias": "q_energy_specifics_9",
       "subdir": ""
     },
     {
@@ -2516,6 +2822,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_feedback_drag",
+      "subdir": ""
+    },
+    {
       "alias": "q_feedback_filter",
       "subdir": ""
     },
@@ -2548,6 +2858,14 @@
       "subdir": ""
     },
     {
+      "alias": "q_feedback_landing_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_landing_4",
+      "subdir": ""
+    },
+    {
       "alias": "q_feedback_loop",
       "subdir": ""
     },
@@ -2568,7 +2886,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_feedback_loop_6",
+      "subdir": ""
+    },
+    {
       "alias": "q_feedback_received",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_stall",
       "subdir": ""
     },
     {
@@ -2593,6 +2919,10 @@
     },
     {
       "alias": "q_feedback_translation",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_turn",
       "subdir": ""
     },
     {
@@ -2676,6 +3006,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_flat_week_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_flat_week_follow_up",
       "subdir": ""
     },
@@ -2736,6 +3070,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_focus_reset_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_focus_shift",
       "subdir": ""
     },
@@ -2773,6 +3111,14 @@
     },
     {
       "alias": "q_friction_scan_10",
+      "subdir": ""
+    },
+    {
+      "alias": "q_friction_scan_11",
+      "subdir": ""
+    },
+    {
+      "alias": "q_friction_scan_12",
       "subdir": ""
     },
     {
@@ -2833,6 +3179,10 @@
     },
     {
       "alias": "q_future_pull",
+      "subdir": ""
+    },
+    {
+      "alias": "q_future_role_picture",
       "subdir": ""
     },
     {
@@ -2900,6 +3250,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_hidden_assumptions",
+      "subdir": ""
+    },
+    {
       "alias": "q_hidden_dependency",
       "subdir": ""
     },
@@ -2925,6 +3279,10 @@
     },
     {
       "alias": "q_holding_back",
+      "subdir": ""
+    },
+    {
+      "alias": "q_impact_signal",
       "subdir": ""
     },
     {
@@ -3052,6 +3410,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_launch_aftermath",
+      "subdir": ""
+    },
+    {
       "alias": "q_launch_recovery_read",
       "subdir": ""
     },
@@ -3077,6 +3439,10 @@
     },
     {
       "alias": "q_leverage_example_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_leverage_example_4",
       "subdir": ""
     },
     {
@@ -3116,6 +3482,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_low_novelty",
+      "subdir": ""
+    },
+    {
       "alias": "q_manager_asks",
       "subdir": ""
     },
@@ -3149,6 +3519,10 @@
     },
     {
       "alias": "q_manager_leverage",
+      "subdir": ""
+    },
+    {
+      "alias": "q_manager_leverage_2",
       "subdir": ""
     },
     {
@@ -3192,11 +3566,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_mentoring_pause",
+      "subdir": ""
+    },
+    {
       "alias": "q_mentoring_pull",
       "subdir": ""
     },
     {
       "alias": "q_mentoring_pull_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_pull_3",
       "subdir": ""
     },
     {
@@ -3233,6 +3615,10 @@
     },
     {
       "alias": "q_mentoring_shape_7",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_shape_8",
       "subdir": ""
     },
     {
@@ -3420,11 +3806,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_missing_stretch",
+      "subdir": ""
+    },
+    {
       "alias": "q_missing_summary",
       "subdir": ""
     },
     {
       "alias": "q_momentum_drain",
+      "subdir": ""
+    },
+    {
+      "alias": "q_momentum_kept",
       "subdir": ""
     },
     {
@@ -3449,6 +3843,10 @@
     },
     {
       "alias": "q_moved_fastest",
+      "subdir": ""
+    },
+    {
+      "alias": "q_moved_work",
       "subdir": ""
     },
     {
@@ -3485,6 +3883,14 @@
     },
     {
       "alias": "q_name_the_snag_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_name_the_snag_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_name_the_snag_5",
       "subdir": ""
     },
     {
@@ -3632,6 +4038,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_focus_15",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_focus_2",
       "subdir": ""
     },
@@ -3732,7 +4142,27 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_move_17",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_18",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_19",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_move_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_20",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_move_21",
       "subdir": ""
     },
     {
@@ -3777,6 +4207,14 @@
     },
     {
       "alias": "q_next_quarter_ownership_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_quarter_ownership_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_quarter_ownership_5",
       "subdir": ""
     },
     {
@@ -3880,6 +4318,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_step_landing_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_step_path",
       "subdir": ""
     },
@@ -3901,6 +4343,10 @@
     },
     {
       "alias": "q_next_stretch_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_stretch_4",
       "subdir": ""
     },
     {
@@ -3940,7 +4386,23 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_two_weeks_17",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_18",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_19",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_two_weeks_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_20",
       "subdir": ""
     },
     {
@@ -4049,6 +4511,10 @@
       "kind": "opener"
     },
     {
+      "alias": "q_open_launch_thread",
+      "subdir": ""
+    },
+    {
       "alias": "q_open_learning_yourself",
       "subdir": "_openers.json",
       "kind": "opener"
@@ -4127,6 +4593,10 @@
     },
     {
       "alias": "q_outside_pressure",
+      "subdir": ""
+    },
+    {
+      "alias": "q_outside_pressure_2",
       "subdir": ""
     },
     {
@@ -4222,6 +4692,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_pairing_plan_4",
+      "subdir": ""
+    },
+    {
       "alias": "q_path_forward",
       "subdir": ""
     },
@@ -4251,6 +4725,14 @@
     },
     {
       "alias": "q_piled_up_how",
+      "subdir": ""
+    },
+    {
+      "alias": "q_plan_vs_reality",
+      "subdir": ""
+    },
+    {
+      "alias": "q_plan_vs_reality_2",
       "subdir": ""
     },
     {
@@ -4346,7 +4828,51 @@
       "subdir": ""
     },
     {
+      "alias": "q_prep_opener_17",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_18",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_19",
+      "subdir": ""
+    },
+    {
       "alias": "q_prep_opener_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_20",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_21",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_22",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_23",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_24",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_25",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_26",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_27",
       "subdir": ""
     },
     {
@@ -4410,6 +4936,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_principal_scope",
+      "subdir": ""
+    },
+    {
       "alias": "q_priority_drift",
       "subdir": ""
     },
@@ -4422,7 +4952,35 @@
       "subdir": ""
     },
     {
+      "alias": "q_priority_drift_4",
+      "subdir": ""
+    },
+    {
       "alias": "q_priority_mismatch",
+      "subdir": ""
+    },
+    {
+      "alias": "q_priority_reset",
+      "subdir": ""
+    },
+    {
+      "alias": "q_priority_shift",
+      "subdir": ""
+    },
+    {
+      "alias": "q_priority_shift_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_priority_shift_detail",
+      "subdir": ""
+    },
+    {
+      "alias": "q_priority_specifics",
+      "subdir": ""
+    },
+    {
+      "alias": "q_priority_swap",
       "subdir": ""
     },
     {
@@ -4439,6 +4997,10 @@
     },
     {
       "alias": "q_priority_tradeoff_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_priority_tradeoff_3",
       "subdir": ""
     },
     {
@@ -4475,6 +5037,10 @@
     },
     {
       "alias": "q_promotion_feedback_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_protected_time",
       "subdir": ""
     },
     {
@@ -6446,6 +7012,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_question_habit_4",
+      "subdir": ""
+    },
+    {
       "alias": "q_questioning_pattern",
       "subdir": ""
     },
@@ -6491,6 +7061,10 @@
     },
     {
       "alias": "q_quiet_week_context",
+      "subdir": ""
+    },
+    {
+      "alias": "q_quiet_week_shift",
       "subdir": ""
     },
     {
@@ -6754,7 +7328,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_reschedule_check",
+      "subdir": ""
+    },
+    {
       "alias": "q_research_time",
+      "subdir": ""
+    },
+    {
+      "alias": "q_reset_again",
       "subdir": ""
     },
     {
@@ -6786,7 +7368,39 @@
       "subdir": ""
     },
     {
+      "alias": "q_reset_check_16",
+      "subdir": ""
+    },
+    {
+      "alias": "q_reset_check_17",
+      "subdir": ""
+    },
+    {
+      "alias": "q_reset_check_18",
+      "subdir": ""
+    },
+    {
+      "alias": "q_reset_check_19",
+      "subdir": ""
+    },
+    {
       "alias": "q_reset_check_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_reset_check_20",
+      "subdir": ""
+    },
+    {
+      "alias": "q_reset_check_21",
+      "subdir": ""
+    },
+    {
+      "alias": "q_reset_check_22",
+      "subdir": ""
+    },
+    {
+      "alias": "q_reset_check_23",
       "subdir": ""
     },
     {
@@ -6826,11 +7440,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_reset_or_reschedule",
+      "subdir": ""
+    },
+    {
       "alias": "q_reset_timing",
       "subdir": ""
     },
     {
       "alias": "q_reset_timing_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_reset_timing_3",
       "subdir": ""
     },
     {
@@ -6878,7 +7500,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_review_friction_4",
+      "subdir": ""
+    },
+    {
       "alias": "q_review_habit_change",
+      "subdir": ""
+    },
+    {
+      "alias": "q_review_impact",
       "subdir": ""
     },
     {
@@ -7003,6 +7633,10 @@
     },
     {
       "alias": "q_root_cause",
+      "subdir": ""
+    },
+    {
+      "alias": "q_routine_vs_stretch",
       "subdir": ""
     },
     {
@@ -7182,11 +7816,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_shipped_work_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_show_your_work",
       "subdir": ""
     },
     {
       "alias": "q_signal_before_review",
+      "subdir": ""
+    },
+    {
+      "alias": "q_signal_from_review",
       "subdir": ""
     },
     {
@@ -7230,6 +7872,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_speaking_early",
+      "subdir": ""
+    },
+    {
       "alias": "q_specific_example",
       "subdir": ""
     },
@@ -7259,6 +7905,10 @@
     },
     {
       "alias": "q_stalled_handoff",
+      "subdir": ""
+    },
+    {
+      "alias": "q_stalled_handoff_2",
       "subdir": ""
     },
     {
@@ -7295,6 +7945,10 @@
     },
     {
       "alias": "q_steadier_next_stretch_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_steadier_next_stretch_3",
       "subdir": ""
     },
     {
@@ -7370,6 +8024,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_stuck_point_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_stuck_points",
       "subdir": ""
     },
@@ -7415,6 +8073,14 @@
     },
     {
       "alias": "q_support_gap_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_gap_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_gap_5",
       "subdir": ""
     },
     {
@@ -7486,6 +8152,22 @@
       "subdir": ""
     },
     {
+      "alias": "q_support_needed_23",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_needed_24",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_needed_25",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_needed_26",
+      "subdir": ""
+    },
+    {
       "alias": "q_support_needed_3",
       "subdir": ""
     },
@@ -7534,6 +8216,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_support_shift",
+      "subdir": ""
+    },
+    {
       "alias": "q_support_specifics",
       "subdir": ""
     },
@@ -7562,6 +8248,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_team_bar_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_team_bar_fuzziness",
       "subdir": ""
     },
@@ -7582,6 +8272,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_team_connection_4",
+      "subdir": ""
+    },
+    {
       "alias": "q_team_dynamics",
       "subdir": ""
     },
@@ -7591,6 +8285,14 @@
     },
     {
       "alias": "q_team_fit",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_handoff",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_handoff_2",
       "subdir": ""
     },
     {
@@ -7611,6 +8313,10 @@
     },
     {
       "alias": "q_team_landing_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_landing_4",
       "subdir": ""
     },
     {
@@ -7658,6 +8364,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_tech_lead_pull_4",
+      "subdir": ""
+    },
+    {
       "alias": "q_tense_renewals",
       "subdir": ""
     },
@@ -7679,6 +8389,26 @@
     },
     {
       "alias": "q_thread_follow_102",
+      "subdir": ""
+    },
+    {
+      "alias": "q_thread_follow_103",
+      "subdir": ""
+    },
+    {
+      "alias": "q_thread_follow_104",
+      "subdir": ""
+    },
+    {
+      "alias": "q_thread_follow_105",
+      "subdir": ""
+    },
+    {
+      "alias": "q_thread_follow_106",
+      "subdir": ""
+    },
+    {
+      "alias": "q_thread_follow_107",
       "subdir": ""
     },
     {
@@ -8070,6 +8800,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_time_drift",
+      "subdir": ""
+    },
+    {
       "alias": "q_time_pressure",
       "subdir": ""
     },
@@ -8082,6 +8816,22 @@
       "subdir": ""
     },
     {
+      "alias": "q_time_tradeoff",
+      "subdir": ""
+    },
+    {
+      "alias": "q_trade_off_call",
+      "subdir": ""
+    },
+    {
+      "alias": "q_trade_off_call_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_trade_off_call_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_trade_off_check",
       "subdir": ""
     },
@@ -8091,6 +8841,10 @@
     },
     {
       "alias": "q_tradeoff_call",
+      "subdir": ""
+    },
+    {
+      "alias": "q_tradeoff_call_2",
       "subdir": ""
     },
     {
@@ -8111,6 +8865,10 @@
     },
     {
       "alias": "q_tradeoff_line",
+      "subdir": ""
+    },
+    {
+      "alias": "q_tradeoff_made",
       "subdir": ""
     },
     {
@@ -8198,6 +8956,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_useful_support",
+      "subdir": ""
+    },
+    {
       "alias": "q_vague_ending",
       "subdir": ""
     },
@@ -8230,6 +8992,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_visibility_thread",
+      "subdir": ""
+    },
+    {
       "alias": "q_visible_impact",
       "subdir": ""
     },
@@ -8238,7 +9004,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_visible_leverage_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_waiting_on_decisions",
+      "subdir": ""
+    },
+    {
+      "alias": "q_waiting_on_input",
       "subdir": ""
     },
     {
@@ -8251,6 +9025,10 @@
     },
     {
       "alias": "q_waiting_on_others_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_waiting_on_others_4",
       "subdir": ""
     },
     {
@@ -8418,11 +9196,19 @@
       "subdir": ""
     },
     {
+      "alias": "q_work_that_matters",
+      "subdir": ""
+    },
+    {
       "alias": "q_work_that_moved",
       "subdir": ""
     },
     {
       "alias": "q_work_that_stuck",
+      "subdir": ""
+    },
+    {
+      "alias": "q_workload_pressure",
       "subdir": ""
     },
     {
@@ -8435,6 +9221,10 @@
     },
     {
       "alias": "q_workload_shape_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_workload_shape_3",
       "subdir": ""
     },
     {

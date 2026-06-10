@@ -1,0 +1,10 @@
+alias: q_review_impact
+label: Review impact
+name: Which review or stakeholder input changed the work most?
+description: Finds the specific feedback source that altered direction or scope.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

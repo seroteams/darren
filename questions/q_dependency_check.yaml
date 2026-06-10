@@ -1,0 +1,9 @@
+alias: q_dependency_check
+label: Dependency check
+name: What were you waiting on that changed the timing?
+description: Gets at external dependencies or decisions that slowed the work down.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: generated

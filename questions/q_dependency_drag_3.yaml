@@ -1,0 +1,10 @@
+alias: q_dependency_drag_3
+label: Dependency drag
+name: What did you end up waiting on this cycle?
+description: Finds the specific dependency or decision that quietly slowed progress.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: generated

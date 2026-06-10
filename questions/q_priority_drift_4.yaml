@@ -1,0 +1,10 @@
+alias: q_priority_drift_4
+label: Priority drift
+name: "What got pulled in that wasn't part of the design plan?"
+description: "Surfaces unplanned work that displaced the cycle's intended design priorities."
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

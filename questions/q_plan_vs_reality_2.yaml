@@ -1,0 +1,9 @@
+alias: q_plan_vs_reality_2
+label: Plan vs reality
+name: Where did the work you planned run into something different?
+description: Looks for the point where the intended plan got displaced by real-world demands.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: generated

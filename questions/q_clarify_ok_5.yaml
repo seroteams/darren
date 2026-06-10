@@ -1,0 +1,10 @@
+alias: q_clarify_ok_5
+label: "Clarify 'ok'"
+name: "When you say 'ok', what did the last two weeks actually look like?"
+description: One-shot re-prompt to turn the shallow answer into something specific about the fortnight.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added

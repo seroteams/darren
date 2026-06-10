@@ -1,0 +1,10 @@
+alias: q_prep_opener_21
+label: Prep opener
+name: How have the last couple of weeks felt from your side, and what moved to the top of your list as things changed?
+description: Restates the prep opener in fresh words and lets Sam set context around recent shifts.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

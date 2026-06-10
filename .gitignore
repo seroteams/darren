@@ -8,6 +8,8 @@ frontend/client/dist
 .playwright-mcp/
 
 # Local / runtime agent & tool artifacts
+.*.out
+.inspect.js
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
 .impeccable/

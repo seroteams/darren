@@ -1,0 +1,9 @@
+alias: q_leverage_example_4
+label: Leverage example
+name: What recent work felt highest-leverage to you, specifically?
+description: Drills on his stated uncertainty by anchoring it in one concrete example of work he considered high leverage.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -27,7 +27,7 @@ function scriptedQuestions(persona) {
     name: item.name,
     description: "",
     purpose: "scripted",
-    stage: "self_read",
+    stage: item.stage ?? null,
     axis_effects: {},
     source: "scripted",
   }));

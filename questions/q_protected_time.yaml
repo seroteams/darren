@@ -1,0 +1,10 @@
+alias: q_protected_time
+label: Protected time
+name: What did you protect time for this fortnight?
+description: Surfaces what Sam actively defended versus what got crowded out.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

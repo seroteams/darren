@@ -1,0 +1,9 @@
+alias: q_low_novelty
+label: Low novelty
+name: What part of the week has felt most flat?
+description: Drills into the low-novelty thread to locate whether the flatness is about the work, pace, or something unresolved.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

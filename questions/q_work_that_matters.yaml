@@ -1,0 +1,10 @@
+alias: q_work_that_matters
+label: Work that matters
+name: What kind of problems do you want to spend more of your time on from here?
+description: Surfaces the classes of work he wants more exposure to as part of his trajectory.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

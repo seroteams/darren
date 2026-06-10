@@ -1,0 +1,9 @@
+alias: q_team_bar_2
+label: Team bar
+name: "When you say this team's bar feels fuzzy, what specifically is unclear?"
+description: Clarifies the specific expectation gap he just named before moving on.
+purpose: topic
+stage: self_read
+axis_effects:
+  growth: +1
+source: planner_added

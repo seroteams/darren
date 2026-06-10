@@ -1,0 +1,10 @@
+alias: q_time_tradeoff
+label: Time tradeoff
+name: What did you end up protecting, and what got pushed out?
+description: Gets at the real trade-offs behind how Sam spent the fortnight.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

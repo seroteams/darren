@@ -1,0 +1,10 @@
+alias: q_decision_pressure_3
+label: Decision pressure
+name: Which decision point took the most energy to move past?
+description: Reveals where ambiguity or indecision slowed momentum in the work.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

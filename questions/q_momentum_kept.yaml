@@ -1,0 +1,10 @@
+alias: q_momentum_kept
+label: Momentum kept
+name: What part of the cycle stayed on track despite the interruptions?
+description: Finds the work that kept moving and what made that possible.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

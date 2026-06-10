@@ -1,0 +1,10 @@
+alias: q_priority_swap
+label: Priority swap
+name: What moved up or down in your design work over the last two weeks?
+description: Surfaces concrete priority changes rather than general status.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_team_handoff_2
+label: Team handoff
+name: Where did collaboration with the team feel smooth or rough this fortnight?
+description: Checks the quality of day-to-day working relationships without turning personal.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

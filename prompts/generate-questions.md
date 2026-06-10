@@ -101,7 +101,7 @@ Bi-weekly check-in openers: peer-tempered and disarming — locate the stretch (
 
 The manager was handed a prep brief with an opening question and a core issue. When the `Prep brief` block below is NOT `(none)`:
 
-- Make the FIRST bank question (position 0) restate the prep **opening question**'s intent in fresh, natural words the manager would say aloud — never paste it verbatim. Label this item exactly `Prep opener`. Give it the first arc stage (`self_read`). It MAY name the core issue: the runner always places it *after* the warm opener, so it is never literally the first thing said.
+- Make the FIRST bank question (position 0) restate the prep **opening question**'s intent in fresh, natural words the manager would say aloud — never paste it verbatim. Label this item exactly `Prep opener`. Give it the **first** stage of the meeting arc above (the first stage `id` in the arc JSON — e.g. `self_read` for Performance, `pulse` for Bi-weekly, `anchor` for Growth, `landing` for Something feels off). It MAY name the core issue: the runner always places it *after* the warm opener, so it is never literally the first thing said.
 - Every other question must connect to the **core issue** or one of the **listen-for** signals. Do not introduce a probe the brief does not point to.
 
 When the `Prep brief` block is `(none)`, ignore this block and follow `<opening_question_rule>` as written.
