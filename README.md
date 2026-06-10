@@ -30,10 +30,10 @@ Requires `OPENAI_API_KEY` in `.env` for live AI stages.
 | `scripts/` | Verify, replay, sweep, promote helpers |
 | `logs/` | Run artifacts (git keep-set only — see `.gitignore`) |
 | `notes/` | Optional CLI banner copy (`whats-new.md`) |
-| `plans/` | Audit tracker (`log-fix-audit.md`), specs, archived plans |
+| `plans/` | Audit tracker, specs, feature inventory, archived plans |
 | `.claude/skills/reviewrun/` | `/reviewrun` skill for log review |
 
-Deep inventory: [`FEATURES.md`](FEATURES.md). Active workstreams: [`PLAN.md`](PLAN.md).
+Deep inventory: [`plans/FEATURES.md`](plans/FEATURES.md). Active workstreams: [`PLAN.md`](PLAN.md).
 
 ## Verify after prompt changes
 

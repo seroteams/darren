@@ -214,7 +214,7 @@ export function mount(root) {
 
       <section class="guide-section" id="g-gaps">
         <h2 class="h2">Known gaps</h2>
-        <p class="text-ink-dim text-sm">From <code>AUDIT.md</code> — what to keep an eye on.</p>
+        <p class="text-ink-dim text-sm">From <code>plans/AUDIT.md</code> — what to keep an eye on.</p>
         <div class="card-flat"><ul class="guide-gaps">${GAPS.map((g) => `<li>${esc(g)}</li>`).join("")}</ul></div>
       </section>
     </div>

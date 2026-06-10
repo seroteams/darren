@@ -14,8 +14,13 @@ frontend/client/dist
 lexicons/_suggested/
 frontend/client/node_modules/.vite/
 
+# Daily work reports
+REPORT-*.md
+CHEATSHEET-*.md
+
 # Runtime logs (keep-set only)
 debug-be19bb.log
+.cursor/debug-*.log
 logs/**
 !logs/may/
 !logs/may/2026_May24_batch/
