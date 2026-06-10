@@ -58,7 +58,14 @@ Return strict JSON only. No prose, no markdown fences.
   ],
   "watch_for": [
     "<a specific, observable tell that, if it happens or doesn't happen in the coming weeks, would confirm or deny a read from this session>"
-  ]
+  ],
+  "engagement_read": {
+    "level": "inconclusive | no_clear_concern | worth_checking | clear_concern",
+    "evidence": [ "<a quoted phrase or named moment from the transcript that earns this level>" ],
+    "missing_evidence": "<what you would need to see to confirm or rule this out>",
+    "recommended_action": "<one concrete move the manager controls>",
+    "watch_next": "<one observable tell to notice in the next 1:1>"
+  }
 }
 ```
 </output_contract>
@@ -263,6 +270,20 @@ No confidence beyond the evidence.
 <unbooked_signal_rule>
 Some transcript turns carry `unbooked_signal` — axis movement the report surfaced that scoring discipline did not book (the answer carried more than the question's signature allowed, or signal on an axis the question wasn't testing). Use it only as hedged directional context in `axes[].meaning` or `watch_for` (e.g. "a stronger clarity signal surfaced here than the score shows — worth confirming directly"). Never adjust `axes[].score` with it — scores copy `axis_state` verbatim. Never present unbooked signal as a confirmed read.
 </unbooked_signal_rule>
+
+<engagement_read_rule>
+`engagement_read` is a plain, honest read of how engaged this person seems right now — NOT an HR risk score. The mission is to spot disengagement early, but a wrong early label is worse than no label.
+
+**Level — pick the lowest one the evidence actually earns:**
+- `inconclusive` — too little real signal to say. Use this whenever the session was thin, mostly skipped, or the engagement/wellbeing axes barely moved. When in doubt, this is the answer.
+- `no_clear_concern` — the person engaged normally; nothing points to pulling away.
+- `worth_checking` — one or two real signs worth watching, but not a pattern yet.
+- `clear_concern` — a genuine pattern across **2+ distinct turns** (not the same fact repeated). Never assign this off a single remark.
+
+**Evidence discipline:** `evidence` must quote or name specific moments from the transcript. `missing_evidence` names what you'd need to see to confirm or rule it out — this is what keeps the read honest. `recommended_action` is one move the manager controls. `watch_next` is one observable tell for next time.
+
+**Language — never clinical or accusatory.** Banned as flat labels: "disengaged", "burned out", "doesn't care", "checked out", "flight risk". Prefer: "an early engagement concern", "worth checking directly", "may reflect unclear support rather than low motivation". You may quote the employee's own words even if they used a stronger term — that is evidence, not your label.
+</engagement_read_rule>
 
 <rules>
 - Emit the four axes in order: wellbeing, engagement, clarity, growth.

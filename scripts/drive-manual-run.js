@@ -14,6 +14,9 @@ const SCRIPTED_PERSONA = (() => {
   return i > -1 ? process.argv[i + 1] : null;
 })();
 
+// --thin: skip / one-word most turns, to exercise the partial-read path.
+const THIN = process.argv.includes("--thin");
+
 const ANSWERS = [
   // Substantive, varied answers designed to exercise scoring paths:
   // strong signal, deficiency-as-request, misalignment, and a concrete thread.
@@ -139,7 +142,9 @@ async function main() {
     askedAliases.push(q.question.alias);
     const answer = SCRIPTED_PERSONA
       ? q.scripted?.answer ?? q.scripted?.fallback ?? "(skipped)"
-      : ANSWERS[i] || ANSWERS[ANSWERS.length - 1];
+      : THIN
+        ? (i % 2 === 0 ? "" : "fine")
+        : ANSWERS[i] || ANSWERS[ANSWERS.length - 1];
     console.log(`turn ${q.turn}/${q.total}: [${q.question.alias}] ${q.question.name}`);
     console.log(`   answer: ${answer}`);
     await post("/api/answer", {

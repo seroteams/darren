@@ -15,6 +15,12 @@ const MANAGER_BRIEFING_BANS = [
   "product qa",
   "system diagnostics",
   "hought",
+  // Flat HR labels — only the unambiguous ones. "burned out"/"disengaged" are
+  // NOT banned: they are legitimate when quoting transcript evidence. These
+  // three only ever read as a verdict, never as a quote, in briefing prose.
+  "flight risk",
+  "doesn't care",
+  "does not care",
 ];
 
 const WELLBEING_DISTRESS_MEANING =

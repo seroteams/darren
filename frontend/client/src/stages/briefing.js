@@ -73,6 +73,11 @@ export async function mount(root, { store, setState, resetSession }) {
 
       <section class="briefing-block brutal-host"></section>
 
+      <section class="briefing-block engagement-section space-y-3 reveal-soft hidden">
+        <div class="eyebrow">How engaged they seem</div>
+        <div class="card engagement-host"></div>
+      </section>
+
       <div class="briefing-grid briefing-grid--pair">
         <section class="briefing-block actions-section space-y-3">
           <div class="eyebrow reveal">What to do next</div>
@@ -247,6 +252,34 @@ export async function mount(root, { store, setState, resetSession }) {
       revealOne(card, 50);
       await pause(420);
     }
+  }
+
+  // --- 5b) Engagement read (plain prose, sentence-first; no badge chrome)
+  const er = b.engagement_read;
+  if (er && er.level) {
+    await pause(fastPath ? 0 : 300);
+    const section = root.querySelector(".engagement-section");
+    section.classList.remove("hidden");
+    const host = root.querySelector(".engagement-host");
+    const evidence = (er.evidence || []).filter(Boolean);
+    const rows = [
+      `<div class="engagement-read__lead">${escape(engagementReadLabel(er.level))}</div>`,
+    ];
+    if (evidence.length) {
+      rows.push(`<div class="engagement-read__line"><span class="eyebrow mr-2">Why</span>${evidence.map(escape).join("; ")}</div>`);
+    }
+    if (er.missing_evidence) {
+      rows.push(`<div class="engagement-read__line text-ink-dim"><span class="eyebrow mr-2">Still missing</span>${escape(er.missing_evidence)}</div>`);
+    }
+    if (er.recommended_action) {
+      rows.push(`<div class="engagement-read__line"><span class="eyebrow mr-2">Your move</span>${escape(er.recommended_action)}</div>`);
+    }
+    if (er.watch_next) {
+      rows.push(`<div class="engagement-read__line text-ink-dim"><span class="eyebrow mr-2">Watch next</span>${escape(er.watch_next)}</div>`);
+    }
+    host.innerHTML = rows.join("");
+    if (fastPath) section.classList.add("is-in");
+    else revealOne(section, 80);
   }
 
   // --- 6) Next actions, grouped by `when`
@@ -506,5 +539,20 @@ async function copySnippet(text, btn, doneLabel = "Copied") {
 
 function cap(s) {
   return s ? s[0].toUpperCase() + s.slice(1) : s;
+}
+
+// Plain-language lead line for the engagement read — human, never an HR score.
+function engagementReadLabel(level) {
+  switch (level) {
+    case "clear_concern":
+      return "There's a clear engagement concern here, worth acting on.";
+    case "worth_checking":
+      return "One or two signs worth checking directly — not a pattern yet.";
+    case "no_clear_concern":
+      return "Nothing here points to them pulling away.";
+    case "inconclusive":
+    default:
+      return "Not enough from this conversation to read engagement — treat it as a partial read.";
+  }
 }
 

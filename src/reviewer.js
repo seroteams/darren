@@ -65,6 +65,21 @@ const RESPONSE_SCHEMA = {
       type: "array",
       items: { type: "string" },
     },
+    engagement_read: {
+      type: "object",
+      properties: {
+        level: {
+          type: "string",
+          enum: ["inconclusive", "no_clear_concern", "worth_checking", "clear_concern"],
+        },
+        evidence: { type: "array", items: { type: "string" } },
+        missing_evidence: { type: "string" },
+        recommended_action: { type: "string" },
+        watch_next: { type: "string" },
+      },
+      required: ["level", "evidence", "missing_evidence", "recommended_action", "watch_next"],
+      additionalProperties: false,
+    },
   },
   required: [
     "headline",
@@ -75,6 +90,7 @@ const RESPONSE_SCHEMA = {
     "brutal_truth_manager",
     "next_actions",
     "watch_for",
+    "engagement_read",
   ],
   additionalProperties: false,
 };
@@ -300,10 +316,39 @@ function applyAxisConfidence(briefing, axisState, transcript) {
   return briefing;
 }
 
+// Deterministic floor on the engagement read: the model is never trusted to
+// name a concern off thin data. If the read was partial, or the engagement and
+// wellbeing axes barely registered (combined touches < 2), force
+// "inconclusive" regardless of what the model returned. Disengagement is the
+// one call where a wrong early label is worse than no label.
+function applyEngagementReadGuard(briefing, axisState, transcript) {
+  const read = briefing?.engagement_read;
+  if (!read || typeof read !== "object") return briefing;
+  if (read.level === "inconclusive") return briefing;
+
+  const { partial_read } = computeReadQuality(transcript);
+  const engagementTouches = axisState?.engagement?.history?.length ?? 0;
+  const wellbeingTouches = axisState?.wellbeing?.history?.length ?? 0;
+  const thin = engagementTouches + wellbeingTouches < 2;
+
+  if (partial_read || thin) {
+    const reason = partial_read ? "partial read" : "engagement/wellbeing barely registered";
+    console.warn(
+      `[evaluator] engagement_read forced to inconclusive (${reason}; model returned "${read.level}")`
+    );
+    read.level = "inconclusive";
+    read.missing_evidence =
+      read.missing_evidence ||
+      "The conversation was too thin to read engagement — a fuller next session is needed.";
+  }
+  return briefing;
+}
+
 function applyManagerBriefingPostProcess(briefing, axisState, transcript) {
   let b = briefing;
   b = applyAxisScoresFromState(b, axisState);
   b = applyAxisConfidence(b, axisState, transcript);
+  b = applyEngagementReadGuard(b, axisState, transcript);
   return b;
 }
 
@@ -647,6 +692,7 @@ module.exports = {
   fourGramOverlap,
   applyManagerBriefingPostProcess,
   applyAxisScoresFromState,
+  applyEngagementReadGuard,
   clampScore,
   computeReadQuality,
   validateBriefingPromptRules,
