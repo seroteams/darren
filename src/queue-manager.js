@@ -463,7 +463,27 @@ function isShallowAnswer(answer) {
     .trim();
   const FILLER_ONLY =
     /^(yeah|yes|yep|yup|ok|okay|fine|good|great|sure|cool|thanks|thank you|not bad|doing fine|i am fine|im fine|today is fine|its fine|it's fine|they are okay|every day|every time)$/;
-  return FILLER_ONLY.test(normalized);
+  if (FILLER_ONLY.test(normalized)) return true;
+
+  // A reporting wrapper ("yeah he said things have been ok") can clear the
+  // 2-token floor while carrying no signal. Strip the wrapper; if nothing
+  // concrete is left, it is shallow. Kept aligned with isLowContentNote in
+  // reviewer.js.
+  const REPORTING_PREFIX =
+    /^(yeah|yes|yep|ok|okay)?[\s,]*\b(he|she|they)?\s*(said|says|told me|mentioned|noted|reckons|feels|felt|thinks)\b[\s,]*(that|it)?\s*/i;
+  const LOW_SIGNAL_WORDS = new Set([
+    "things", "stuff", "it", "that", "everything", "work", "the", "a",
+    "have", "has", "had", "are", "is", "was", "were", "be", "been", "being",
+    "feel", "feels", "felt", "seem", "seems", "going",
+    "ok", "okay", "fine", "good", "great", "alright", "steady", "same",
+    "grand", "really", "just", "pretty", "quite", "bit", "so", "far",
+  ]);
+  const remainder = normalized.replace(REPORTING_PREFIX, "").trim();
+  if (remainder && remainder !== normalized) {
+    const content = remainder.split(/\s+/).filter((w) => w && !LOW_SIGNAL_WORDS.has(w));
+    if (content.length === 0) return true;
+  }
+  return false;
 }
 
 function noteMarksShallow(note) {
@@ -688,7 +708,7 @@ function buildThreadFollowQuestion(lastQuestion, lastAnswer, transcript) {
     alias,
     label: "Thread follow",
     name,
-    description: "Runtime thread-follow injected because planner did not follow substantive answer.",
+    description: "Following up on what they just said.",
     purpose: lastQuestion?.purpose || "topic",
     stage: lastQuestion?.stage ?? null,
     axis_effects: { ...(lastQuestion?.axis_effects || { engagement: 1 }) },
@@ -702,6 +722,7 @@ function enforceThreadFollow({
   lastQuestion,
   remainingBudget,
   consecutiveDrillCount,
+  askedNames = [],
   issues,
 }) {
   if (Number(remainingBudget) <= 2) return newQueue;
@@ -714,8 +735,19 @@ function enforceThreadFollow({
     answer: lastAnswer,
     transcript: [],
   });
+  let usedFallback = false;
   if (!showCheck.ok) {
     follow.name = showCheck.fallback || FALLBACK_STEM;
+    usedFallback = true;
+  }
+  // Don't inject a thread-follow that repeats a question already asked — the
+  // generic stem can fire on consecutive turns and read as a duplicate.
+  const askedTokenSets = (askedNames || []).map(contentTokens);
+  if (isRepeatOfAsked(follow.name, askedTokenSets)) {
+    issues.push("runtime: thread-follow skipped (would repeat an already-asked question)");
+    return newQueue;
+  }
+  if (usedFallback) {
     issues.push(`runtime: thread-follow rejected (${showCheck.reason}), used fallback`);
   } else {
     issues.push("runtime: injected thread-follow question");
@@ -773,6 +805,7 @@ async function planTurn({
   userDrillRequest = false,
   selectedFocus = null,
   prep = null,
+  sessionBank = null,
 }) {
   validateAxisState(axisState);
 
@@ -853,6 +886,7 @@ async function planTurn({
     lastQuestion,
     remainingBudget,
     consecutiveDrillCount,
+    askedNames,
     issues: gateIssues,
   });
   newQueue = enforceDrillCap({
@@ -873,6 +907,13 @@ async function planTurn({
     askedNames,
     arc,
     transcript,
+    // Scope coverage to THIS session's pool so it can't surface another
+    // persona's saved question from the global bank. Falls back to the
+    // global default when no session bank is supplied (tests / other callers).
+    bankLoader:
+      Array.isArray(sessionBank) && sessionBank.length
+        ? () => [...sessionBank, ...loadDir("_seed")]
+        : undefined,
   });
 
   return {

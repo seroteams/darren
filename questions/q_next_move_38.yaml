@@ -1,0 +1,10 @@
+alias: q_next_move_38
+label: Next move
+name: What feels like the right next move for you from here?
+description: Helps you land on a decision or direction without pushing a diagnosis.
+purpose: topic
+stage: support
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

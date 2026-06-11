@@ -1,0 +1,10 @@
+alias: q_what_it_meant
+label: What it meant
+name: How did that feedback land for you?
+description: Lets him name the part that mattered without you guessing at the reaction.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_execution_detail
+label: Execution detail
+name: Where are execution details still pulling you in most right now?
+description: Drills into the specific area where he is still operating too tactically instead of at senior scope.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

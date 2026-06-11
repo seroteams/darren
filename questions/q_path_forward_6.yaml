@@ -1,0 +1,10 @@
+alias: q_path_forward_6
+label: Path forward
+name: What path forward do you see for yourself from here?
+description: Helps you hear whether he sees a real next step or feels stuck after the decision.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_internal_snag
+label: Internal snag
+name: Where is the internal conversation getting stuck most right now?
+description: Drills into the internal stall point he just named so the manager understands the main friction clearly.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added

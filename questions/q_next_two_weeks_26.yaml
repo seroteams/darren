@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_26
+label: Next two weeks
+name: What would make the next two weeks feel steadier for you?
+description: Lands the check-in on a practical ask without opening a new thread.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

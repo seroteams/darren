@@ -1,0 +1,10 @@
+alias: q_current_scope_2
+label: Current scope
+name: Where does your role still feel too tied to delivery detail?
+description: Helps you hear where he’s still spending senior energy on work that should be delegated or reframed.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

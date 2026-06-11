@@ -1,0 +1,8 @@
+alias: q_reset_check_35
+label: Reset check
+name: Is now a better time for this, or should we pick it up later?
+description: Directly checks whether to continue or reschedule a non-functional session.
+purpose: topic
+axis_effects:
+  clarity: +1
+source: planner_added

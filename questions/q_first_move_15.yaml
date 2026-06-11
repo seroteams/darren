@@ -1,0 +1,10 @@
+alias: q_first_move_15
+label: First move
+name: What would be the first concrete step you want to take before we meet again?
+description: Leaves the conversation with one move he owns, not a loose intention.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

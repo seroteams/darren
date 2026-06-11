@@ -1,0 +1,10 @@
+alias: q_visible_outcomes
+label: Visible outcomes
+name: What would you want to be known for in that bigger scope?
+description: Pulls the conversation toward named outcomes instead of generic ambition.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

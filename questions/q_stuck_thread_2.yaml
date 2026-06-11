@@ -1,0 +1,9 @@
+alias: q_stuck_thread_2
+label: Stuck thread
+name: What kind of work has felt too similar lately?
+description: Drills into the plateau she just named so the manager can locate the specific stuck pattern.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added

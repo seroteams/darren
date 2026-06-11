@@ -1,0 +1,10 @@
+alias: q_pairing_plan_6
+label: Pairing plan
+name: What would you want to learn from that pairing specifically?
+description: Drills into the concrete capability he believes will help him move toward the next level.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

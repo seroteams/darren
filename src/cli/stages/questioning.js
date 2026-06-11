@@ -41,6 +41,20 @@ async function runQuestioningLoop({
 
   let turn = 0;
   let queueRef = queue;
+  let plannerFailures = 0;
+  let scoredTurns = 0;
+
+  // The legitimate question pool for THIS session: the assembled queue plus the
+  // reserved prep-opener and closer. Coverage pulls from here instead of the
+  // whole global bank, so it can't surface another persona's saved question.
+  const sessionBank = [];
+  const seenBankAliases = new Set();
+  for (const item of [...queue, prepOpener, closer]) {
+    if (item?.alias && !seenBankAliases.has(item.alias)) {
+      seenBankAliases.add(item.alias);
+      sessionBank.push(item);
+    }
+  }
 
   console.log();
   console.log(HR);
@@ -70,6 +84,7 @@ async function runQuestioningLoop({
     });
 
     let plan;
+    if (!skipped) scoredTurns += 1;
     try {
       plan = await withThinking(
         skipped ? "Recording skip & re-planning queue" : "Scoring answer & re-planning queue",
@@ -87,9 +102,11 @@ async function runQuestioningLoop({
             totalTurns: totalBudget,
             closerAlias: closer ? closer.alias : null,
             prep,
+            sessionBank,
           })
       );
     } catch (e) {
+      if (!skipped) plannerFailures += 1;
       console.log("  " + red("Planner failed — keeping queue as-is and moving on."));
       console.log("  " + dim(e.message));
       plan = {
@@ -188,7 +205,16 @@ async function runQuestioningLoop({
     console.log();
   }
 
-  return { transcript, axisState };
+  if (plannerFailures > 0) {
+    console.log(
+      "  " +
+        red(
+          `⚠ scoring engine failed on ${plannerFailures} of ${scoredTurns} scored turns — axis scores are unreliable; the briefing will lead with low confidence.`
+        )
+    );
+  }
+
+  return { transcript, axisState, scoring: { failures: plannerFailures, scoredTurns } };
 }
 
 module.exports = { runQuestioningLoop };

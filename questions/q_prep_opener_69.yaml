@@ -1,0 +1,11 @@
+alias: q_prep_opener_69
+label: Prep opener
+name: What would stronger stakeholder trust look like for you over the next six months, and where would that change the level you can operate at?
+description: Sets the frame in his own terms before you get into the deeper growth conversation.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+  growth: +1
+  engagement: +1
+source: generated

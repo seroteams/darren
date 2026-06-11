@@ -1,0 +1,10 @@
+alias: q_decision_drag_3
+label: Decision drag
+name: What decision slowed you down most these last two weeks?
+description: Helps you spot where pace was waiting on a call rather than effort.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

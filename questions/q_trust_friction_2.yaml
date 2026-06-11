@@ -1,0 +1,10 @@
+alias: q_trust_friction_2
+label: Trust friction
+name: Which stakeholder relationship feels least solid to you right now?
+description: Gives him room to name where influence is weaker without making it a blame conversation.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

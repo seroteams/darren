@@ -1,0 +1,9 @@
+alias: q_earlier_feedback_7
+label: Earlier feedback
+name: What stops you asking for sharper feedback earlier?
+description: Drills into the specific reason he delays early feedback so the cause is explicit.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+source: planner_added

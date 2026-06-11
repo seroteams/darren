@@ -1,0 +1,9 @@
+alias: q_political_moments_8
+label: Political moments
+name: In those political conversations, what makes you step back into delivery mode?
+description: Drills into the specific trigger behind his retreat from influence into execution.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+source: planner_added

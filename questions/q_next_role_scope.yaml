@@ -1,0 +1,10 @@
+alias: q_next_role_scope
+label: Next role scope
+name: What would the next-level Head of Product role actually have you owning end to end?
+description: Gets him to name the real scope shift he wants, not just the title.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

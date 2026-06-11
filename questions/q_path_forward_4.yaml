@@ -1,0 +1,10 @@
+alias: q_path_forward_4
+label: Path forward
+name: What would make the path to your next step feel real to you?
+description: Gets to the concrete signal he needs in order to believe the path is still open.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

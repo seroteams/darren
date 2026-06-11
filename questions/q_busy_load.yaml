@@ -1,0 +1,10 @@
+alias: q_busy_load
+label: Busy load
+name: What’s getting crowded out as the partnership selling gets busier?
+description: Shows what’s being squeezed so you can judge whether the pace is still workable.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

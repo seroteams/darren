@@ -1,0 +1,10 @@
+alias: q_next_quarter_ownership_10
+label: Next-quarter ownership
+name: What do you expect to own next quarter?
+description: Gets her own read on where she thinks her lane is headed before anything else shifts.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

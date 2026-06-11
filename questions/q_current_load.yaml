@@ -1,0 +1,10 @@
+alias: q_current_load
+label: Current load
+name: What part of your current load feels most worth your time right now?
+description: Helps you hear what he thinks deserves attention versus what is just filling the calendar.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

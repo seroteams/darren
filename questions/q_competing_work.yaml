@@ -1,0 +1,10 @@
+alias: q_competing_work
+label: Competing work
+name: What else was competing for your attention when those deadlines moved?
+description: Surfaces trade-offs and whether the issue is really prioritization or overload.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_earlier_feedback_8
+label: Earlier feedback
+name: What makes you wait to ask for sharper feedback?
+description: Drills on his stated delay in seeking feedback to surface the live pattern behind early misalignment.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  engagement: +3
+source: planner_added

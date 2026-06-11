@@ -1,0 +1,10 @@
+alias: q_define_ok_5
+label: Define ok
+name: "When you say 'ok', what does that mean specifically for the last two weeks?"
+description: One-shot re-prompt to turn the shallow answer into something concrete about the fortnight.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added

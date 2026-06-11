@@ -18,7 +18,7 @@ Return strict JSON only. No prose, no markdown fences.
 Field rules:
 - `label` — 2–5 words, internal title.
 - `name` — the question as the manager would ask it verbally. **One single probe. One sentence. No compound "A? Any B?" questions.**
-- `description` — one line on what this question is designed to surface.
+- `description` — one short line, **written for the manager to read in the room**, plain and warm: why this question helps *them* right now. NOT internal test language. Avoid "tests whether", "forces", "surfaces a signal", "vague answers are a clarity signal" — that reads like a system rationale, not a coaching note. Prefer "Helps you hear what he'd protect under pressure" over "Forces a priority ranking; vague answers are a clarity signal."
 - `purpose` — one of `wellbeing`, `topic`, `competency`.
 - `stage` — the `id` of one of the meeting-arc stages below. Tells the planner where in the arc this question lives.
 - `axis_effects` — array of `{axis, delta}`. Include only the 1–2 axes this question meaningfully probes; never more than 3. Each delta is `3`, `1`, `-1`, or `-3`. This is the question's *signature*: the runtime scorer can only score axes you list here, bounded by the magnitude you set.
@@ -29,7 +29,7 @@ Field rules:
     {
       "label": "Sustainable pace",
       "name": "Does the current pace feel like something you could keep up for another three months?",
-      "description": "Tests whether late hours are a sprint or the new normal.",
+      "description": "Tells you whether the current pace is a short push or quietly becoming the norm.",
       "purpose": "wellbeing",
       "stage": "pulse",
       "axis_effects": [ { "axis": "wellbeing", "delta": 3 } ]

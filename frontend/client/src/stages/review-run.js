@@ -190,7 +190,10 @@ export async function mount(root, { setState }) {
         <div class="card-flat l-stack l-stack--4">
           <div class="run-review__verdict-head">
             <h2 class="h2">Your verdict</h2>
-            <span class="rv-status" data-state="idle"></span>
+            <div class="run-review__verdict-actions">
+              <span class="rv-status" data-state="idle"></span>
+              <button type="button" class="btn btn--sm js-save">Save</button>
+            </div>
           </div>
           <div class="rv-rows">${verdictRows(marks)}</div>
           <div class="rv-overall">
@@ -204,6 +207,7 @@ export async function mount(root, { setState }) {
   `;
 
   const statusEl = host.querySelector(".rv-status");
+  const saveBtn = host.querySelector(".js-save");
   const noteEl = host.querySelector(".rv-note");
   const copyBtn = root.querySelector(".js-copy-all");
   const metaEl = root.querySelector(".js-meta");
@@ -304,6 +308,12 @@ export async function mount(root, { setState }) {
 
   statusEl.addEventListener("click", (e) => {
     if (e.target.closest(".js-retry")) doSave();
+  });
+
+  // Manual save: flush immediately, cancelling the pending autosave debounce.
+  saveBtn.addEventListener("click", () => {
+    clearTimeout(saveTimer);
+    doSave();
   });
 
   async function copyAll() {

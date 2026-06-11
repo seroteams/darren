@@ -1,0 +1,10 @@
+alias: q_judgment_calls_3
+label: Judgment calls
+name: What judgment calls have you made recently that shaped the work beyond your own tasks?
+description: Surfaces whether he is making decisions that unblock others or staying inside assigned execution.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_path_forward_2
+label: Path forward
+name: What concrete path forward feels possible to you right now?
+description: Keeps the focus on the next move he believes exists, not on a manager-drawn plan.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

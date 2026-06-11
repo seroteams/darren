@@ -39,8 +39,16 @@ function renderBriefing(evalJson, employeeName) {
   if (Array.isArray(ev.axes) && ev.axes.length) {
     console.log("  " + bold("Axes"));
     for (const a of ev.axes) {
+      // An unread axis shows "not read", never a seed number — a score of -1
+      // that nothing moved is no-data, not a faint negative read.
       const scoreStr =
-        a.score > 0 ? green(`+${a.score}`) : a.score < 0 ? red(`${a.score}`) : dim(`${a.score}`);
+        a.read_status === "not_read"
+          ? dim("not read")
+          : a.score > 0
+            ? green(`+${a.score}`)
+            : a.score < 0
+              ? red(`${a.score}`)
+              : dim(`${a.score}`);
       console.log(`    ${pad(a.id, 12)} ${scoreStr}  ${dim("—")} ${a.meaning}`);
     }
     console.log();

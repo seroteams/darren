@@ -1,0 +1,10 @@
+alias: q_manager_support_8
+label: Manager support
+name: What do you need from me before we next meet?
+description: Closes on support and next steps, not on another diagnosis.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

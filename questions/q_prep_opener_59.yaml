@@ -1,0 +1,10 @@
+alias: q_prep_opener_59
+label: Prep opener
+name: How have team rituals been feeling from your side lately, and is there anything in how you’re showing up there that you want to talk through?
+description: Brings the conversation onto his experience of team rituals without jumping straight to conclusions.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  engagement: +3
+  wellbeing: +1
+source: generated

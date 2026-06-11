@@ -1,0 +1,10 @@
+alias: q_need_from_me_9
+label: Need from me
+name: What do you need more of from me to protect the design time?
+description: Makes it easy for Sam to ask for help in plain terms.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

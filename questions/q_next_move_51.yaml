@@ -1,0 +1,10 @@
+alias: q_next_move_51
+label: Next move
+name: "Given what we've covered, where do you want to focus first?"
+description: Leaves the conversation with one move that points toward strategic ownership.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added

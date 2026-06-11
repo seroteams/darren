@@ -1,0 +1,10 @@
+alias: q_quarter_check_in
+label: Quarter check-in
+name: "What's been most on your mind in your work this quarter, Devon?"
+description: Gives him space to set the frame before you narrow in on priorities or stretch.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_priority_trade_offs
+label: Priority trade-offs
+name: What did you choose not to do this fortnight?
+description: Helps you hear what Sam protected, and what got pushed out to make room.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

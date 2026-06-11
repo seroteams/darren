@@ -1,0 +1,10 @@
+alias: q_next_move_33
+label: Next move
+name: What is the first strategic move you want to make from this conversation?
+description: Closes by turning the discussion into one clear step he owns next.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

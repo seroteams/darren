@@ -1,0 +1,10 @@
+alias: q_prep_opener_58
+label: Prep opener
+name: What does Principal-level impact look like on this team right now, and where do you think your work is already showing that?
+description: Gets his own read on Principal scope before you add yours.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

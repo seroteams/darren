@@ -1,0 +1,10 @@
+alias: q_question_asked
+label: Question asked
+name: What questions did you ask up front in that situation?
+description: Shows whether he is actually probing early or just moving faster on execution.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

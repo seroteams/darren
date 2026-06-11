@@ -1,0 +1,10 @@
+alias: q_leverage_gap_7
+label: Leverage gap
+name: Where do you think the biggest gap is between solid execution and Principal impact?
+description: Puts the missing step in plain terms so you can talk about the real shift needed.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

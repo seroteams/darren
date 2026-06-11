@@ -1,0 +1,10 @@
+alias: q_judgment_calls_2
+label: Judgment calls
+name: What cross-team judgment call have you made yourself recently?
+description: Lets you hear whether he is stepping into broader calls or waiting for narrower direction.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

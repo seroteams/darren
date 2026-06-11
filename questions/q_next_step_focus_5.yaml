@@ -1,0 +1,10 @@
+alias: q_next_step_focus_5
+label: Next step focus
+name: Given what we’ve talked through, what do you want to tackle first?
+description: Ends by turning the conversation into a clear next move.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_path_forward_5
+label: Path forward
+name: What concrete path forward do you think exists from here?
+description: Gets him to name the next move he actually believes in.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

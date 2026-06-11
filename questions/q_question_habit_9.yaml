@@ -1,0 +1,10 @@
+alias: q_question_habit_9
+label: Question habit
+name: What keeps you from asking more questions early?
+description: Helps you hear whether this is habit, confidence, context, or something else in the way.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

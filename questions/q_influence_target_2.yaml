@@ -1,0 +1,10 @@
+alias: q_influence_target_2
+label: Influence target
+name: Which stakeholder relationship matters most for the influence you want next?
+description: Focuses the conversation on where visibility and trust need to deepen first.
+purpose: competency
+stage: aspiration
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

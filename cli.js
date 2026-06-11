@@ -208,7 +208,7 @@ async function main() {
   });
 
   const totalBudget = INTRO_BUDGET + DYNAMIC_BUDGET;
-  const { transcript, axisState } = await runQuestioningLoop({
+  const { transcript, axisState, scoring } = await runQuestioningLoop({
     ctx,
     focusPoints: result.focus_points,
     queue,
@@ -227,6 +227,7 @@ async function main() {
     transcript,
     axisState,
     notes,
+    scoring,
     session,
     name,
   });

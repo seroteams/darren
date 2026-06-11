@@ -1,0 +1,10 @@
+alias: q_prep_opener_65
+label: Prep opener
+name: Since we last spoke, what’s felt different in this stretch of work for you?
+description: Gives him room to set the frame before you go into the harder parts.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

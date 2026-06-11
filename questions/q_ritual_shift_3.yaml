@@ -1,0 +1,9 @@
+alias: q_ritual_shift_3
+label: Ritual shift
+name: Which rituals have you been less present in lately?
+description: Follows his own wording to surface the specific behavior shift he is noticing.
+purpose: topic
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

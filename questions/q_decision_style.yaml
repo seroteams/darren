@@ -1,0 +1,10 @@
+alias: q_decision_style
+label: Decision style
+name: When do you decide on your own, and when do you pull others in sooner?
+description: Helps you understand how he is balancing independence with early alignment.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

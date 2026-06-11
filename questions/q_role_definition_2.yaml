@@ -1,0 +1,10 @@
+alias: q_role_definition_2
+label: Role definition
+name: What decisions do you think a Head of Product at the next level should be making?
+description: Gets him to name the actual judgment and scope he wants to own.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

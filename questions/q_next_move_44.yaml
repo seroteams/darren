@@ -1,0 +1,10 @@
+alias: q_next_move_44
+label: Next move
+name: "Given what we've covered, where do you want to focus first?"
+description: Leaves the meeting with one concrete step he owns, without overloading the close.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added

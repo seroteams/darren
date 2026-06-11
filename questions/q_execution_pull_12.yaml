@@ -1,0 +1,10 @@
+alias: q_execution_pull_12
+label: Execution pull
+name: What pulls you back into delivery details when you want to stay at a higher level?
+description: Shows you what keeps dragging him out of strategic work and into the weeds.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

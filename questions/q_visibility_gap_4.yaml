@@ -1,0 +1,10 @@
+alias: q_visibility_gap_4
+label: Visibility gap
+name: Where do you think your visibility is still thinner than it should be?
+description: Surfaces the parts of the org that need more of his presence and signal.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -5,7 +5,7 @@ const { renderBriefing } = require("../../briefing");
 const { writeJson, sessionFile } = require("../io");
 const { bold, dim, yellow, HR, pad, withThinking } = require("../../ui");
 
-async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, notes, session, name }) {
+async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, notes, scoring, session, name }) {
   console.log(HR);
   const finalEval = await withThinking("Final evaluation", () =>
     evaluate(
@@ -22,6 +22,7 @@ async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, not
         })),
         axisState: serialize(axisState),
         notes,
+        scoring,
       },
       { session }
     )

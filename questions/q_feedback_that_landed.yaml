@@ -1,0 +1,10 @@
+alias: q_feedback_that_landed
+label: Feedback that landed
+name: What feedback from that decision actually stuck with you?
+description: Helps you hear what he took in, not just what was said out loud.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

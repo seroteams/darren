@@ -1,0 +1,9 @@
+alias: q_energy_after_push_2
+label: Energy after push
+name: Where is your energy at after these two weeks of work?
+description: Helps you hear whether the pace is still sustainable or starting to cost more than it should.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: generated

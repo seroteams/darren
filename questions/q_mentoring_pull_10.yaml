@@ -1,0 +1,9 @@
+alias: q_mentoring_pull_10
+label: Mentoring pull
+name: What is it about mentoring those two juniors that feels important to you?
+description: Drills into the mentoring thread to surface the kind of leadership pull he wants.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+source: planner_added

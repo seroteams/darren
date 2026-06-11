@@ -15,6 +15,43 @@ const FILTERS = [
   { key: "block", label: "Block" },
 ];
 
+const SORTS = [
+  { key: "date", label: "Date" },
+  { key: "name", label: "Name" },
+  { key: "title", label: "Title" },
+  { key: "completeness", label: "Done" },
+];
+
+// Direction a sort uses the first time you pick it. Date newest-first and
+// completeness most-done-first; name and title read A→Z.
+const SORT_DEFAULT_DIR = { date: "desc", name: "asc", title: "asc", completeness: "desc" };
+
+const STATUS_RANK = { complete: 2, partial: 1, none: 0 };
+
+// Ascending comparison between two runs for the given sort key. The render()
+// caller flips the sign for descending.
+function compareRuns(a, b, key) {
+  if (key === "name") {
+    const an = a.ctx?.name || a.headline || a.id || "";
+    const bn = b.ctx?.name || b.headline || b.id || "";
+    return an.localeCompare(bn, undefined, { sensitivity: "base" });
+  }
+  if (key === "title") {
+    const at = a.ctx?.role || "";
+    const bt = b.ctx?.role || "";
+    return at.localeCompare(bt, undefined, { sensitivity: "base" });
+  }
+  if (key === "completeness") {
+    const byDecided = (a.decided || 0) - (b.decided || 0);
+    if (byDecided) return byDecided;
+    const byStatus = (STATUS_RANK[a.reviewStatus] || 0) - (STATUS_RANK[b.reviewStatus] || 0);
+    if (byStatus) return byStatus;
+    return (a.lastSeenAt || 0) - (b.lastSeenAt || 0);
+  }
+  // date
+  return (a.lastSeenAt || 0) - (b.lastSeenAt || 0);
+}
+
 let keyHandler = null;
 
 function esc(s) {
@@ -28,6 +65,32 @@ function esc(s) {
 function fmtDate(ts) {
   if (!ts) return "";
   return new Date(Number(ts)).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+}
+
+// Job title → group heading, lightly pluralised ("Content Designer" →
+// "Content Designers"). Good enough for the common roles; not a grammar engine.
+function pluralize(role) {
+  const r = String(role || "").trim();
+  if (!r) return "No title";
+  if (/s$/i.test(r)) return r;
+  if (/[^aeiou]y$/i.test(r)) return r.replace(/y$/i, "ies");
+  return r + "s";
+}
+
+// The category heading a run falls under for the active sort. Runs sit grouped
+// because the list is already sorted by the same key.
+function groupLabel(r, key) {
+  if (key === "name") {
+    const c = String(r.ctx?.name || r.headline || r.id || "").trim().charAt(0).toUpperCase();
+    return /[A-Z]/.test(c) ? c : "#";
+  }
+  if (key === "title") return pluralize(r.ctx?.role);
+  if (key === "completeness") {
+    if (r.reviewStatus === "complete") return "Reviewed";
+    if (r.reviewStatus === "partial") return "In progress";
+    return "Not started";
+  }
+  return fmtDate(r.lastSeenAt) || "No date";
 }
 
 function matchesFilter(run, filter) {
@@ -85,6 +148,9 @@ export async function mount(root) {
         <div class="lib-filters" role="tablist">
           ${FILTERS.map((f, i) => `<button type="button" class="lib-filter${i === 0 ? " is-active" : ""}" data-filter="${f.key}">${f.label}</button>`).join("")}
         </div>
+        <div class="lib-sort">
+          ${SORTS.map((s) => `<button type="button" class="lib-filter" data-sort="${s.key}">${s.label}</button>`).join("")}
+        </div>
         <input class="input lib-search" type="search" placeholder="Search name, role, meeting…" autocomplete="off" />
       </div>
 
@@ -97,12 +163,27 @@ export async function mount(root) {
   const backBtn = root.querySelector(".js-back");
   const progressEl = root.querySelector(".js-progress");
 
+  const sortEl = root.querySelector(".lib-sort");
+
   let runs = [];
   let filter = "all";
   let query = "";
+  let sortKey = "date";
+  let sortDir = "desc";
+
+  function renderSortButtons() {
+    sortEl.querySelectorAll(".lib-filter").forEach((b) => {
+      const active = b.dataset.sort === sortKey;
+      b.classList.toggle("is-active", active);
+      const base = SORTS.find((s) => s.key === b.dataset.sort)?.label || "";
+      b.textContent = active ? `${base} ${sortDir === "desc" ? "▼" : "▲"}` : base;
+    });
+  }
 
   function render() {
     const shown = runs.filter((r) => matchesFilter(r, filter) && matchesSearch(r, query));
+    shown.sort((a, b) => (sortDir === "desc" ? -1 : 1) * compareRuns(a, b, sortKey));
+    renderSortButtons();
     if (!runs.length) {
       listEl.innerHTML = `<li class="text-ink-mute text-sm">No finished runs yet.</li>`;
       return;
@@ -111,12 +192,18 @@ export async function mount(root) {
       listEl.innerHTML = `<li class="text-ink-mute text-sm">No runs match this filter.</li>`;
       return;
     }
+    // Rows are already sorted by the active key, so same-category runs sit
+    // together — slot a heading above each new group.
+    let lastGroup = null;
     listEl.innerHTML = shown
       .map((r) => {
         const badge = libraryBadge(r.reviewStatus, r.overall);
         const sub = [r.ctx?.role, r.ctx?.meetingType].map((s) => String(s || "").trim()).filter(Boolean).join(" · ");
         const fails = r.failedCount > 0 ? ` · ${r.failedCount} failed` : "";
-        return `
+        const g = groupLabel(r, sortKey);
+        let head = "";
+        if (g !== lastGroup) { lastGroup = g; head = `<li class="lib-group">${esc(g)}</li>`; }
+        return head + `
           <li class="lib-row" data-id="${esc(r.id)}">
             <button class="lib-row__main js-open" data-id="${esc(r.id)}">
               <span class="lib-row__title">${esc(r.ctx?.name || r.headline || r.id)}</span>
@@ -162,7 +249,20 @@ export async function mount(root) {
     const btn = e.target.closest(".lib-filter");
     if (!btn) return;
     filter = btn.dataset.filter;
-    root.querySelectorAll(".lib-filter").forEach((b) => b.classList.toggle("is-active", b === btn));
+    root.querySelectorAll(".lib-filters .lib-filter").forEach((b) => b.classList.toggle("is-active", b === btn));
+    render();
+  });
+
+  sortEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".lib-filter");
+    if (!btn) return;
+    const key = btn.dataset.sort;
+    if (key === sortKey) {
+      sortDir = sortDir === "desc" ? "asc" : "desc";
+    } else {
+      sortKey = key;
+      sortDir = SORT_DEFAULT_DIR[key] || "desc";
+    }
     render();
   });
 

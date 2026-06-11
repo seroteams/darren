@@ -1,0 +1,10 @@
+alias: q_prep_opener_89
+label: Prep opener
+name: I’ve noticed two deadlines slipped this month; how has the work felt to carry from your side, and where has it been hardest to see slippage early?
+description: Gives him room to set the frame before you get into what changed.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

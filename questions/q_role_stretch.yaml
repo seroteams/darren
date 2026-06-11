@@ -1,0 +1,10 @@
+alias: q_role_stretch
+label: Role stretch
+name: What kind of scope would make this next step feel meaningfully bigger for you?
+description: Clarifies the shape of stretch he wants, not just the title or level.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

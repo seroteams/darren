@@ -75,6 +75,8 @@ For **Bi-weekly check-in**:
 <listen_for_rules>
 Each item must name a **behavioural tell** the manager could notice live — not a paraphrase of a focus point.
 
+**Match the tone register.** The injected tone register overrides the generic shape of these cues. For an observation-first, opt-in meeting ("Something feels off"), the tells must be low-pressure — what the report volunteers, avoids, or where their energy sits — NOT performance-review demands ("whether he names a specific project", "whether he can point to feedback that changed a decision"). Those read as evidence the manager is auditing them, which the register forbids. For a direct performance/feedback meeting, sharper evidence-seeking tells are fine.
+
 Good cues: deflects, pivots, names a specific project/person, avoids a topic, mentions a time window ("last sprint", "this quarter"), pauses, volunteers an example, redirects, signals uncertainty.
 
 Forbidden verbs/phrases in listenFor items: "acknowledges", "has a plan to", "has received", "communication challenges", "leadership potential" (label-only paraphrase).
@@ -91,6 +93,8 @@ Include either the seniority level, role title, or a level-distinguishing artefa
 For Expert → lead transitions: name a leadership-shaped outcome (e.g. one end-to-end scope he'd own, or a shared definition of lead-level design leadership) — not a generic "skill to improve this quarter" with no level signal.
 
 Bad: "agreed on one specific communication skill to focus on improving this quarter" (could be any level)
+
+**Carry a commitment, not just an agreement.** "Agreed an example" is a shared understanding, not an outcome. The good outcome must name what the report will *do* with it — a next step they own and a light time anchor ("by your next 1:1", "this fortnight"). Prefer "...agreed one above-target example and the one feedback source he'll use to judge it before your next 1:1" over "...have agreed one concrete example."
 </good_outcome_rules>
 
 <suggested_action_rules>
@@ -152,6 +156,14 @@ When `{{PRIMARY_FOCUS_ID}}` is set (not `(none)`), that focus is **primary** for
 - Their role: {{ROLE_TITLE}}
 - Seniority: {{SENIORITY}}
 - Meeting type: {{MEETING_TYPE}}
+
+**Tone register for this meeting type (overrides any generic instinct):** {{TONE_REGISTER}}
+
+**Anti-patterns for this meeting type (do not produce a brief that violates these):**
+
+```json
+{{ANTI_PATTERNS_JSON}}
+```
 
 **Manager's notes (what Sero should know):**
 

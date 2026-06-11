@@ -1,0 +1,9 @@
+alias: q_closer_3
+label: Closer
+name: What do you want to leave with from this conversation?
+description: Lands the check-in by turning the discussion into a clear next step or request.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: generated

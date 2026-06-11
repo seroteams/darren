@@ -1,0 +1,10 @@
+alias: q_trust_gap_8
+label: Trust gap
+name: Where does stakeholder trust feel thinnest right now?
+description: Helps you hear the relationship that is making strategic work harder than it should be.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

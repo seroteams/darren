@@ -1,0 +1,9 @@
+alias: q_what_landed_5
+label: What landed
+name: What was landing on you at once?
+description: Drills on the overload thread to surface the specific work or demands that stacked up.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +1
+source: planner_added

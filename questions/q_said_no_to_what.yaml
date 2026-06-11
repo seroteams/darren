@@ -1,0 +1,10 @@
+alias: q_said_no_to_what
+label: Said no to what
+name: What did you deliberately say no to over the last two weeks?
+description: Helps you hear what Sam protected when the week got crowded.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

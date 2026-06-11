@@ -1,0 +1,10 @@
+alias: q_feedback_he_trusts
+label: Feedback he trusts
+name: What part of that feedback did you believe?
+description: Shows whether he can separate useful signal from the rest and act on it.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

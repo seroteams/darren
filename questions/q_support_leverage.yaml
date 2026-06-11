@@ -1,0 +1,10 @@
+alias: q_support_leverage
+label: Support leverage
+name: What would make my support more useful to you here?
+description: Opens up what he wants from you without jumping straight to advice.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

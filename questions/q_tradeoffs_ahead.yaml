@@ -1,0 +1,10 @@
+alias: q_tradeoffs_ahead
+label: Tradeoffs ahead
+name: What would you have to stop carrying yourself to make room for that level of ownership?
+description: Helps you hear what he needs to trade away to move up a level.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+  wellbeing: +1
+source: generated

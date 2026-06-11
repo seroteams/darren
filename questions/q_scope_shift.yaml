@@ -1,0 +1,10 @@
+alias: q_scope_shift
+label: Scope shift
+name: What feels like the biggest shift in how you need to operate at Principal on this team?
+description: Lets him name the real adjustment without you handing him the answer.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

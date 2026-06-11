@@ -1,0 +1,9 @@
+alias: q_architecture_review_7
+label: Architecture review
+name: What about architecture review pulls you specifically?
+description: Drills into what presenting there represents for his next-step aspiration.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_scope_in_practice_3
+label: Scope in practice
+name: What would you be leading end-to-end through other people that you do not personally drive today?
+description: Helps you hear where he sees real strategic ownership, not just more work.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_team_specific_scope
+label: Team-specific scope
+name: "What does Principal scope here ask of you that wasn't as true on your last team?"
+description: Helps you hear whether he has recalibrated to this team or is still using old assumptions.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_next_stretch_5
+label: Next stretch
+name: What would make the next two weeks feel more straightforward?
+description: Ends on what would actually help Sam move cleaner from here.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

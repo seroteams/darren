@@ -1,0 +1,10 @@
+alias: q_prep_opener_82
+label: Prep opener
+name: I noticed two deadlines moved this month, and one slipped without a heads-up; how has the workload felt from your side as you were trying to land them?
+description: Helps you hear how the pace felt to him before you draw any conclusions.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

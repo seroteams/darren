@@ -1,0 +1,10 @@
+alias: q_concrete_next_step_2
+label: Concrete next step
+name: What kind of scope would you want more of next if you were shaping this role?
+description: Gets past abstract ambition and toward the kind of work he wants to own.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_question_habit_7
+label: Question habit
+name: What stops you from asking more questions earlier?
+description: Helps you hear what he protects when he stays quiet too long.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

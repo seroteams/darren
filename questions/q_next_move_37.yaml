@@ -1,0 +1,10 @@
+alias: q_next_move_37
+label: Next move
+name: Given that, where do you want to start first with delegation?
+description: Final closer that turns the named habit into an open first focus without opening a new thread.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added

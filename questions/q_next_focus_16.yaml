@@ -1,0 +1,9 @@
+alias: q_next_focus_16
+label: Next focus
+name: Given all that, where do you want to focus first?
+description: Final open closer that lets her choose the most useful next step.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: planner_added

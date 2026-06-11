@@ -1,0 +1,10 @@
+alias: q_prep_opener_76
+label: Prep opener
+name: "How have the last couple of weeks felt from your side, and where did your time go somewhere you didn't expect?"
+description: Gives Sam room to set the scene before you get into what pulled the work off track.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

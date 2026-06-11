@@ -1,0 +1,10 @@
+alias: q_cross_team_handoff
+label: Cross-team handoff
+name: Where did a handoff change the shape of the work?
+description: Gets at how outside input altered the path without turning into a blame check.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

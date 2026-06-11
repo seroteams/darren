@@ -1,0 +1,10 @@
+alias: q_scope_in_practice_4
+label: Scope in practice
+name: "What does strategic ownership look like in your week when you're not in the weeds?"
+description: Helps you hear how he translates senior scope into actual operating choices.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

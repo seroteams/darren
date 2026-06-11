@@ -1,0 +1,10 @@
+alias: q_clarify_no_to
+label: Clarify no-to
+name: "When you say 'not sure', what did you consciously leave for later?"
+description: Re-prompts for one concrete thing Sam deferred so you can test priority clarity.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_prep_opener_67
+label: Prep opener
+name: What kind of stretch would feel worth it to you over the next six to twelve months?
+description: Lets Devon set the frame in his own words before you get more specific.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_support_from_me_4
+label: Support from me
+name: What support from me would make the biggest difference right now?
+description: Helps you leave with something concrete you can do, not just a good conversation.
+purpose: wellbeing
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: "reworded_from:q_support_from_me_3"

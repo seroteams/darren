@@ -1,0 +1,10 @@
+alias: q_pulled_sideways
+label: Pulled sideways
+name: What pulled you away from the design work most often?
+description: Gets at the real interrupts without turning the conversation into a blocker audit.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_flag_earlier_4
+label: Flag earlier
+name: What got in the way of flagging it earlier?
+description: Drills on the specific missed heads-up to surface what blocked earlier risk signalling.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +1
+source: planner_added

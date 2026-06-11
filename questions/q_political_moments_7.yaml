@@ -1,0 +1,9 @@
+alias: q_political_moments_7
+label: Political moments
+name: What gets hardest for you when those conversations turn political?
+description: Drills into the specific dynamic that makes him retreat from strategic ownership.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

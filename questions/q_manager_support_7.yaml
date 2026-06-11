@@ -1,0 +1,10 @@
+alias: q_manager_support_7
+label: Manager support
+name: Where would you want me to push, protect, or open doors for you?
+description: Clarifies what support would actually move the needle, instead of generic help.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

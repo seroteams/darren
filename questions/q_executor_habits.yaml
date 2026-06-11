@@ -1,0 +1,10 @@
+alias: q_executor_habits
+label: Executor habits
+name: Where do you still find yourself jumping in as the executor instead of setting direction?
+description: Helps you spot the habits that keep him in the weeds.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

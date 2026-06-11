@@ -1,0 +1,10 @@
+alias: q_next_support_8
+label: Next support
+name: What support from me would make the biggest difference as you make that shift?
+description: Leaves the meeting with a practical support ask and a clear next step.
+purpose: wellbeing
+stage: commit
+axis_effects:
+  clarity: +1
+  growth: +1
+source: "reworded_from:q_next_support_7"

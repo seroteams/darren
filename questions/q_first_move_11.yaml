@@ -1,0 +1,10 @@
+alias: q_first_move_11
+label: First move
+name: What do you want to take on first before we meet again?
+description: Lands the conversation on one concrete move he can own next.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

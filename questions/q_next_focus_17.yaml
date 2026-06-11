@@ -1,0 +1,9 @@
+alias: q_next_focus_17
+label: Next focus
+name: Given this, where do you want to focus first next cycle?
+description: Closes by having Tom name the first behavioural focus for the next cycle.
+purpose: topic
+stage: commit
+axis_effects:
+  clarity: +1
+source: planner_added

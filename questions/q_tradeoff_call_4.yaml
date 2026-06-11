@@ -1,0 +1,10 @@
+alias: q_tradeoff_call_4
+label: Tradeoff call
+name: "What's a recent tradeoff you made that others had to rely on your judgment for?"
+description: "Helps you hear whether he's making calls that create trust across the team."
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

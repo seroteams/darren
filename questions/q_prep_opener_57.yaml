@@ -1,0 +1,10 @@
+alias: q_prep_opener_57
+label: Prep opener
+name: "How has this week felt after Monday's launch — more like a breather, or is anything still hanging on you?"
+description: Gives her room to set the tone after the launch before you go deeper.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

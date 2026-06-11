@@ -4,7 +4,7 @@ const { randomUUID } = require("node:crypto");
 const { logStage } = require("./session");
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
-const { promptFor } = require("./one-on-one-types");
+const { promptFor, getArc } = require("./one-on-one-types");
 const { withPromptVersion } = require("./prompt-version");
 const { resolveSelectedFocus } = require("./selected-focus");
 const { splitSystemUser } = require("./prompt-utils");
@@ -74,6 +74,7 @@ function buildMessages({
   selectedFocus,
 }) {
   const template = fs.readFileSync(promptFor(meetingType, "preparation"), "utf8");
+  const arc = getArc(meetingType);
   const sf =
     selectedFocus ||
     resolveSelectedFocus({ notes: observedShift, observedShift, focusPoints });
@@ -82,6 +83,8 @@ function buildMessages({
     .replaceAll("{{ROLE_TITLE}}", roleTitle || "(not provided)")
     .replaceAll("{{SENIORITY}}", seniority || "(not provided)")
     .replaceAll("{{MEETING_TYPE}}", meetingType || "(not provided)")
+    .replaceAll("{{TONE_REGISTER}}", arc?.tone_register || "(none)")
+    .replaceAll("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc?.anti_patterns || [], null, 2))
     .replaceAll("{{OBSERVED_SHIFT}}", observedShift || "(none)")
     .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints || [], null, 2))
     .replaceAll("{{SELECTED_FOCUS_JSON}}", JSON.stringify(sf || {}, null, 2))

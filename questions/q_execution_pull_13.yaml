@@ -1,0 +1,9 @@
+alias: q_execution_pull_13
+label: Execution pull
+name: Where are execution details pulling you in most right now?
+description: Drills into the specific work that keeps his scope anchored in tactical delivery.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

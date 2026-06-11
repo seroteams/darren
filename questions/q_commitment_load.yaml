@@ -1,0 +1,10 @@
+alias: q_commitment_load
+label: Commitment load
+name: What commitments are you carrying that feel most at risk right now?
+description: Helps you hear which pieces of work are crowding the others out.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

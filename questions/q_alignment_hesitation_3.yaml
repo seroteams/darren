@@ -1,0 +1,9 @@
+alias: q_alignment_hesitation_3
+label: Alignment hesitation
+name: What feels hardest about shaping cross-org alignment for you right now?
+description: Drills into the specific barrier behind his hesitation in influence-heavy situations.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+source: planner_added

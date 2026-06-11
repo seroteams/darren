@@ -1,0 +1,9 @@
+alias: q_visibility_thread_4
+label: Visibility thread
+name: What kind of visibility with other teams would move you forward most?
+description: Drills into the cross-team visibility thread so he names the specific exposure or ownership he wants.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

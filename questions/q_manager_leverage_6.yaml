@@ -1,0 +1,10 @@
+alias: q_manager_leverage_6
+label: Manager leverage
+name: What would be most useful from me as you make that shift?
+description: Makes the support ask concrete without jumping straight to a generic check-in.
+purpose: wellbeing
+stage: investment
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

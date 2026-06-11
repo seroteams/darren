@@ -38,7 +38,7 @@ function createSession() {
   return { id, dir };
 }
 
-function logStage(session, stageName, { inputs, prompt, response }) {
+function logStage(session, stageName, { inputs, prompt, response, final }) {
   if (!session) return;
   const stageDir = path.join(session.dir, stageName);
   fs.mkdirSync(stageDir, { recursive: true });
@@ -52,6 +52,15 @@ function logStage(session, stageName, { inputs, prompt, response }) {
     path.join(stageDir, "response.json"),
     typeof response === "string" ? response : JSON.stringify(response, null, 2)
   );
+  // `response` is the raw model output; `final` is what shipped after
+  // post-processing. Log both so a QA review judges the delivered briefing,
+  // not the pre-guard draft.
+  if (final !== undefined) {
+    fs.writeFileSync(
+      path.join(stageDir, "final.json"),
+      typeof final === "string" ? final : JSON.stringify(final, null, 2)
+    );
+  }
 }
 
 function logFeedback(session, entry) {

@@ -1,0 +1,10 @@
+alias: q_next_choice
+label: Next choice
+name: What is one next move you want to make before we talk again?
+description: Leaves the conversation with a clear commitment and no new thread.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

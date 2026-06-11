@@ -1,0 +1,10 @@
+alias: q_business_impact
+label: Business impact
+name: How do you want your next stretch to move the business in a visible way?
+description: Keeps the conversation grounded in impact, not just title or skills.
+purpose: competency
+stage: investment
+axis_effects:
+  engagement: +1
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_manager_support_6
+label: Manager support
+name: Where would my support make the biggest difference in helping you build that trust?
+description: Gives him a clean way to ask for the kind of backing that actually matters.
+purpose: wellbeing
+stage: investment
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

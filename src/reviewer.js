@@ -147,6 +147,33 @@ function isDecline(answer) {
   return DECLINE_PHRASES.some((p) => norm.includes(p));
 }
 
+// A note can wrap a content-free answer in a reporting verb ("yeah he said
+// things have been ok", "says it's fine") and clear the ≤2-token floor while
+// carrying no real signal. Strip a leading reporting wrapper, then check whether
+// anything concrete is left. Conservative on purpose: it only fires when a
+// reporting wrapper was actually present, so a bare note with concrete content
+// ("deadlines are tight") is never touched. Kept in sync with the same gate in
+// queue-manager.js isShallowAnswer.
+const REPORTING_PREFIX =
+  /^(yeah|yes|yep|ok|okay)?[\s,]*\b(he|she|they)?\s*(said|says|told me|mentioned|noted|reckons|feels|felt|thinks)\b[\s,]*(that|it)?\s*/i;
+// Generic, signal-free words. A remainder built only from these carries nothing.
+const LOW_SIGNAL_WORDS = new Set([
+  "things", "stuff", "it", "that", "everything", "work", "the", "a",
+  "have", "has", "had", "are", "is", "was", "were", "be", "been", "being",
+  "feel", "feels", "felt", "seem", "seems", "going",
+  "ok", "okay", "fine", "good", "great", "alright", "steady", "same",
+  "grand", "really", "just", "pretty", "quite", "bit", "so", "far",
+]);
+
+function isLowContentNote(answer) {
+  const norm = normalizeAnswer(answer);
+  if (!norm) return false;
+  const remainder = norm.replace(REPORTING_PREFIX, "").trim();
+  if (!remainder || remainder === norm) return false; // no reporting wrapper — leave to other checks
+  const content = remainder.split(/\s+/).filter((w) => w && !LOW_SIGNAL_WORDS.has(w));
+  return content.length === 0;
+}
+
 // Precompute the read-quality gate the evaluation prompt consumes, so the
 // determination does not depend on a weak model reasoning it out at generation
 // time. Mirrors <read_quality_gate> in prompts/final-evaluation.md.
@@ -167,7 +194,7 @@ function computeReadQuality(transcript) {
     const stage = t?.stage || null;
     const skipped = t?.skipped === true;
     const empty = answer.trim().length === 0;
-    const tooShort = tokenCount(answer) <= 2;
+    const tooShort = tokenCount(answer) <= 2 || isLowContentNote(answer);
     const decline = isDecline(answer);
     // A skip or empty jot is a *refusal* — the manager captured no note (no
     // data). A two-token answer or a decline is a *thin* note (weak data). Both
@@ -361,6 +388,21 @@ function formatAgendaCarryForward(agenda) {
   return `The team member opened by asking to cover: "${summary}". By the end the manager marked this ${status}.`;
 }
 
+// One-line scoring-health status injected into the evaluation prompt. When the
+// per-turn planner failed on one or more turns, axis scores are partial or
+// absent — the briefing must lean on the transcript, not on axis movement, and
+// lead with low confidence. Mirrors <scoring_status> in final-evaluation.md.
+function formatScoringStatus(scoring) {
+  const failures = Number(scoring?.failures) || 0;
+  if (failures <= 0) return "OK — the per-turn scoring engine ran on every turn; axis scores are reliable.";
+  const scored = Number(scoring?.scoredTurns) || failures;
+  return (
+    `DEGRADED — the per-turn scoring engine failed on ${failures} of ${scored} scored turns. ` +
+    `Axis scores are partial or absent and must NOT be read as trends. ` +
+    `Treat the transcript as raw notes, ground every claim in a quoted note, and lead with low confidence.`
+  );
+}
+
 function buildMessages({
   ctx,
   focusPoints,
@@ -369,6 +411,7 @@ function buildMessages({
   notes,
   selectedFocus,
   agenda,
+  scoring,
 }) {
   const template = fs.readFileSync(promptFor(ctx.meetingType, "evaluation"), "utf8");
   const axes = loadAxes();
@@ -406,6 +449,7 @@ function buildMessages({
       "{{READ_QUALITY_JSON}}",
       JSON.stringify(computeReadQuality(transcript), null, 2)
     )
+    .replaceAll("{{SCORING_STATUS}}", formatScoringStatus(scoring))
     .replaceAll("{{AGENDA_CARRY_FORWARD}}", formatAgendaCarryForward(agenda));
 
   return splitSystemUser(filled);
@@ -517,7 +561,7 @@ function validateBriefingPromptRules(briefing, { agenda, readQuality } = {}) {
 }
 
 async function evaluate(
-  { ctx, focusPoints, transcript, axisState, notes, selectedFocus, agenda },
+  { ctx, focusPoints, transcript, axisState, notes, selectedFocus, agenda, scoring },
   { model = getDefaultModel(), session, stage = "05-evaluation" } = {}
 ) {
   const sf =
@@ -534,21 +578,23 @@ async function evaluate(
     notes,
     selectedFocus: sf,
     agenda,
+    scoring,
   });
   const raw = await callOpenAI({ ...msgs, model });
   const evalPromptPath = promptFor(ctx.meetingType, "evaluation");
 
+  let briefing = parseAIJson(raw, "Evaluator", ["headline", "axes", "next_actions"]);
+  briefing = applyManagerBriefingPostProcess(briefing, axisState, transcript);
+
   logStage(session, stage, {
     inputs: withPromptVersion(
-      { ctx, focusPoints, transcript, axisState, notes, selectedFocus: sf, model },
+      { ctx, focusPoints, transcript, axisState, notes, selectedFocus: sf, scoring, model },
       evalPromptPath
     ),
     prompt: msgs.filled,
     response: raw,
+    final: briefing,
   });
-
-  let briefing = parseAIJson(raw, "Evaluator", ["headline", "axes", "next_actions"]);
-  briefing = applyManagerBriefingPostProcess(briefing, axisState, transcript);
 
   const validation = validateBriefingOverlap(briefing);
   if (!validation.passed) {

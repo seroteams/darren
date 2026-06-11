@@ -1,0 +1,9 @@
+alias: q_recognition_mismatch_3
+label: Recognition mismatch
+name: What work do you think gets recognized here right now?
+description: Surfaces his current model of what the organization values and where he sees the mismatch.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_prep_opener_84
+label: Prep opener
+name: "How did the last couple of weeks land for you against what you thought you'd get through?"
+description: Lets Sam set the frame before you go into what shifted or slipped.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

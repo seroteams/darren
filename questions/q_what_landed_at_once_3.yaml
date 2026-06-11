@@ -1,0 +1,9 @@
+alias: q_what_landed_at_once_3
+label: What landed at once
+name: What all landed on you at once?
+description: Drills into the specific pile-up he just named so you can hear what crowded out early risk signalling.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +1
+source: planner_added

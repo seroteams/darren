@@ -1,0 +1,10 @@
+alias: q_decision_space
+label: Decision space
+name: Where do you want to be making decisions that you don’t make today?
+description: Shows whether he’s aiming for broader judgment or just more volume.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

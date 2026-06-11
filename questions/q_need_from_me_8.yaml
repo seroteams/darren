@@ -1,0 +1,10 @@
+alias: q_need_from_me_8
+label: Need from me
+name: What would you want from me if you were trying to reset this stretch?
+description: Opens a practical support conversation without assuming the answer.
+purpose: wellbeing
+stage: support
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

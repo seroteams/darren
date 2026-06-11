@@ -1,0 +1,9 @@
+alias: q_political_moments_13
+label: Political moments
+name: What happens in those political moments that makes direct delivery feel safer?
+description: Drills into the specific trigger behind retreating from strategic ownership.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+source: planner_added

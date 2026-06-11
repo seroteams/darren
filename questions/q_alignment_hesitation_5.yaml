@@ -1,0 +1,9 @@
+alias: q_alignment_hesitation_5
+label: Alignment hesitation
+name: What makes cross-org alignment the part you hesitate on?
+description: Drills into the specific barrier behind avoiding influence work.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

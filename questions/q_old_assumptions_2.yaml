@@ -1,0 +1,10 @@
+alias: q_old_assumptions_2
+label: Old assumptions
+name: What assumptions from your last team are you still carrying here?
+description: Helps you hear whether the move has fully reset how he works in this environment.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

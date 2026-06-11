@@ -1,0 +1,9 @@
+alias: q_feedback_gap_5
+label: Feedback gap
+name: What part of that feedback still feels unclear?
+description: Shows you where he may still be missing the point or the path forward.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: generated

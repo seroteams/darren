@@ -1,0 +1,10 @@
+alias: q_current_snag
+label: Current snag
+name: Where is work feeling most snagged right now?
+description: Covers the under-served friction stage by locating the main source of drag or complication.
+purpose: topic
+stage: friction
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: planner_added

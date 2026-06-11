@@ -1,0 +1,8 @@
+alias: q_reset_timing_8
+label: Reset timing
+name: Is now a good time for this, or should we pick this up another time?
+description: Direct reset check because the session is not getting usable answers.
+purpose: topic
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -116,7 +116,7 @@
     "stage": null,
     "axis_effects": { "wellbeing": 3 },
     "source": "research",
-    "meeting_types": ["something_feels_off", "bi_weekly_check_in"],
+    "meeting_types": ["something_feels_off"],
     "tone": "warm"
   },
   {
@@ -236,7 +236,7 @@
     "stage": "pulse",
     "axis_effects": { "wellbeing": 2 },
     "source": "research",
-    "meeting_types": ["bi_weekly_check_in"],
+    "meeting_types": [],
     "tone": "warm"
   },
   {
