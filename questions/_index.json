@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-11T02:08:10.271Z",
-  "count": 2856,
+  "generated_at": "2026-06-11T02:19:56.605Z",
+  "count": 2866,
   "aliases": [
     "q_adjacent_problems",
     "q_after_the_push",
@@ -106,6 +106,7 @@
     "q_closer",
     "q_closer_2",
     "q_closer_3",
+    "q_closer_4",
     "q_closer_next_step",
     "q_closer_next_steps",
     "q_closer_next_steps_2",
@@ -696,6 +697,7 @@
     "q_launch_aftermath",
     "q_launch_aftermath_2",
     "q_launch_aftermath_3",
+    "q_launch_carryover",
     "q_launch_recovery_read",
     "q_launch_residue",
     "q_leadership_forums",
@@ -704,6 +706,7 @@
     "q_leadership_tradeoff",
     "q_learning_edge",
     "q_learning_edge_2",
+    "q_left_unfinished",
     "q_leverage_constraint",
     "q_leverage_example",
     "q_leverage_example_2",
@@ -841,6 +844,7 @@
     "q_mentoring_thread_18",
     "q_mentoring_thread_19",
     "q_mentoring_thread_2",
+    "q_mentoring_thread_20",
     "q_mentoring_thread_3",
     "q_mentoring_thread_4",
     "q_mentoring_thread_5",
@@ -1068,6 +1072,7 @@
     "q_next_quarter_shape",
     "q_next_quarter_shape_10",
     "q_next_quarter_shape_11",
+    "q_next_quarter_shape_12",
     "q_next_quarter_shape_2",
     "q_next_quarter_shape_3",
     "q_next_quarter_shape_4",
@@ -1213,6 +1218,7 @@
     "q_ownership_edge",
     "q_ownership_edges",
     "q_ownership_edges_2",
+    "q_ownership_edges_3",
     "q_ownership_friction",
     "q_ownership_gap",
     "q_ownership_gap_2",
@@ -1394,6 +1400,7 @@
     "q_prep_opener_9",
     "q_prep_opener_90",
     "q_prep_opener_91",
+    "q_prep_opener_92",
     "q_pressure_point",
     "q_pressure_point_2",
     "q_pressure_point_3",
@@ -2419,6 +2426,7 @@
     "q_support_needed_39",
     "q_support_needed_4",
     "q_support_needed_40",
+    "q_support_needed_41",
     "q_support_needed_5",
     "q_support_needed_6",
     "q_support_needed_7",
@@ -2461,6 +2469,7 @@
     "q_team_fit_2",
     "q_team_fit_3",
     "q_team_fit_now",
+    "q_team_friction",
     "q_team_handoff",
     "q_team_handoff_2",
     "q_team_handoff_3",
@@ -2476,6 +2485,7 @@
     "q_team_reaction",
     "q_team_reaction_2",
     "q_team_read",
+    "q_team_read_2",
     "q_team_response",
     "q_team_rhythm_shift",
     "q_team_rituals_value",
@@ -3274,6 +3284,10 @@
     },
     {
       "alias": "q_closer_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_closer_4",
       "subdir": ""
     },
     {
@@ -5637,6 +5651,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_launch_carryover",
+      "subdir": ""
+    },
+    {
       "alias": "q_launch_recovery_read",
       "subdir": ""
     },
@@ -5666,6 +5684,10 @@
     },
     {
       "alias": "q_learning_edge_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_left_unfinished",
       "subdir": ""
     },
     {
@@ -6214,6 +6236,10 @@
     },
     {
       "alias": "q_mentoring_thread_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_thread_20",
       "subdir": ""
     },
     {
@@ -7125,6 +7151,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_quarter_shape_12",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_quarter_shape_2",
       "subdir": ""
     },
@@ -7724,6 +7754,10 @@
     },
     {
       "alias": "q_ownership_edges_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_ownership_edges_3",
       "subdir": ""
     },
     {
@@ -8448,6 +8482,10 @@
     },
     {
       "alias": "q_prep_opener_91",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_92",
       "subdir": ""
     },
     {
@@ -12551,6 +12589,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_support_needed_41",
+      "subdir": ""
+    },
+    {
       "alias": "q_support_needed_5",
       "subdir": ""
     },
@@ -12719,6 +12761,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_team_friction",
+      "subdir": ""
+    },
+    {
       "alias": "q_team_handoff",
       "subdir": ""
     },
@@ -12776,6 +12822,10 @@
     },
     {
       "alias": "q_team_read",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_read_2",
       "subdir": ""
     },
     {

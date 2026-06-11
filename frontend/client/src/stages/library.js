@@ -186,11 +186,21 @@ export async function mount(root) {
   }
 
   function render() {
-    const shown = runs.filter((r) => matchesFilter(r, filter) && matchesSearch(r, query));
+    const archivedCount = runs.filter((r) => r.archived).length;
+    viewBtn.textContent = view === "archived" ? "Back to active" : `Archived${archivedCount ? ` (${archivedCount})` : ""}`;
+
+    const inView = runs.filter((r) => Boolean(r.archived) === (view === "archived"));
+    renderProgress(progressEl, inView);
+
+    const shown = inView.filter((r) => matchesFilter(r, filter) && matchesSearch(r, query));
     shown.sort((a, b) => (sortDir === "desc" ? -1 : 1) * compareRuns(a, b, sortKey));
     renderSortButtons();
     if (!runs.length) {
       listEl.innerHTML = `<li class="text-ink-mute text-sm">No finished runs yet.</li>`;
+      return;
+    }
+    if (!inView.length) {
+      listEl.innerHTML = `<li class="text-ink-mute text-sm">No archived runs.</li>`;
       return;
     }
     if (!shown.length) {
@@ -220,6 +230,7 @@ export async function mount(root) {
               <span class="lib-row__date text-ink-mute text-xs">${esc(fmtDate(r.lastSeenAt))}</span>
               <button class="btn btn--ghost btn--sm js-open" data-id="${esc(r.id)}">Review</button>
               <button class="btn btn--ghost btn--sm js-copy" data-id="${esc(r.id)}">Copy</button>
+              <button class="btn btn--ghost btn--sm js-archive" data-id="${esc(r.id)}">${view === "archived" ? "Restore" : "Archive"}</button>
             </span>
           </li>`;
       })
@@ -243,11 +254,32 @@ export async function mount(root) {
     setState({ reviewRunId: id, stage: STAGES.REVIEW_RUN });
   }
 
+  async function toggleArchive(id, btn) {
+    const next = view !== "archived"; // active view → archive; archived view → restore
+    btn.disabled = true;
+    try {
+      await setArchived(id, next);
+      const run = runs.find((r) => r.id === id);
+      if (run) run.archived = next;
+      render();
+    } catch {
+      btn.disabled = false;
+      btn.textContent = "Failed";
+    }
+  }
+
   listEl.addEventListener("click", (e) => {
+    const archiveBtn = e.target.closest(".js-archive");
+    if (archiveBtn) { toggleArchive(archiveBtn.dataset.id, archiveBtn); return; }
     const copyBtn = e.target.closest(".js-copy");
     if (copyBtn) { copyRun(copyBtn.dataset.id, copyBtn); return; }
     const openBtn = e.target.closest(".js-open");
     if (openBtn) { open(openBtn.dataset.id); return; }
+  });
+
+  viewBtn.addEventListener("click", () => {
+    view = view === "archived" ? "active" : "archived";
+    render();
   });
 
   root.querySelector(".lib-filters").addEventListener("click", (e) => {
@@ -287,7 +319,6 @@ export async function mount(root) {
     runs = [];
     console.warn("[library] getFinishedRuns failed:", e);
   }
-  renderProgress(progressEl, runs);
   render();
 }
 

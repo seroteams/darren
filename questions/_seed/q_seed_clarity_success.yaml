@@ -1,7 +1,7 @@
 alias: q_seed_clarity_success
 label: Success definition
-name: "What would make this quarter clearly successful for you — in one sentence?"
-description: "Tests whether they can name success crisply or only in vague directions."
+name: "What would a good quarter look like for you from here?"
+description: "Surfaces how clearly they picture a good outcome, without forcing a one-line answer."
 purpose: topic
 axis_effects:
   clarity: +3

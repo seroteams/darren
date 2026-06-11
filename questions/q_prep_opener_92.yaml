@@ -1,0 +1,10 @@
+alias: q_prep_opener_92
+label: Prep opener
+name: "Before we get into anything else, how has this week felt after Monday's launch, and where has it taken more energy than you expected?"
+description: Gives her room to frame the post-launch week in her own words before you go deeper.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_support_needed_41
+label: Support needed
+name: What do you need from me to keep the next couple of weeks steady?
+description: Lets her name the support that would actually help before the next stretch starts.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated
