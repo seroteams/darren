@@ -1,4 +1,4 @@
-const { listRecentRuns, listFinishedRuns, summarizeRun, compareRun, deleteRun } = require("../../../src/run-history");
+const { listRecentRuns, listFinishedRuns, summarizeRun, compareRun, deleteRun, setArchived } = require("../../../src/run-history");
 const { dropSession } = require("../sessions");
 
 function recent(c) {
@@ -45,4 +45,13 @@ function del(c) {
   c.json(200, { deleted: true, id });
 }
 
-module.exports = { recent, finished, overview, full, del };
+async function archive(c) {
+  const id = c.params.id;
+  if (!id) return c.error(Object.assign(new Error("id required"), { status: 400 }));
+  const body = await c.readBody();
+  const result = setArchived(id, Boolean(body && body.archived));
+  if (!result.ok) return c.error(Object.assign(new Error("unknown run"), { status: 404 }));
+  c.json(200, { ok: true, id, archived: result.archived });
+}
+
+module.exports = { recent, finished, overview, full, del, archive };

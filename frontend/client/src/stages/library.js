@@ -4,7 +4,7 @@
 // no Resume/Delete here — finished runs are for judging, not editing.
 
 import { STAGES, setState } from "../state.js";
-import { getFinishedRuns, getRunFull } from "../api.js";
+import { getFinishedRuns, getRunFull, setArchived } from "../api.js";
 import { libraryBadge, serializeReview } from "../ui/review-serialize.js";
 
 const FILTERS = [
@@ -138,7 +138,10 @@ export async function mount(root) {
       <header class="page-header">
         <div class="page-header__row">
           <h1 class="h1">Library</h1>
-          <button class="btn btn--ghost js-back" type="button">Back</button>
+          <div class="l-row l-row--center" style="gap:0.5rem">
+            <button class="btn btn--ghost js-view" type="button">Archived</button>
+            <button class="btn btn--ghost js-back" type="button">Back</button>
+          </div>
         </div>
         <div class="text-ink-dim text-sm">Review past prep runs.</div>
         <div class="lib-progress js-progress"></div>

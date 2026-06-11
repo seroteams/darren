@@ -52,6 +52,28 @@ function reviewSummaryOf(dir) {
   };
 }
 
+// Archive flag lives in its own tiny file alongside review.json — keeps the
+// archived bit off review.json (whose only writer is the review handler) and
+// off session-state (which review mode never mutates).
+const ARCHIVE_FILE = "archive.json";
+
+function isArchivedAt(dir) {
+  const a = readJsonAt(dir, ARCHIVE_FILE);
+  return Boolean(a && a.archived);
+}
+
+function setArchived(id, archived) {
+  const dir = findRunDir(id);
+  if (!dir) return { ok: false, id, reason: "not_found" };
+  const flag = Boolean(archived);
+  const data = { version: 1, runId: id, archived: flag, updatedAt: new Date().toISOString() };
+  const target = path.join(dir, ARCHIVE_FILE);
+  const tmp = path.join(dir, ARCHIVE_FILE + ".tmp");
+  fs.writeFileSync(tmp, JSON.stringify(data, null, 2));
+  fs.renameSync(tmp, target);
+  return { ok: true, id, archived: flag };
+}
+
 function walkRuns() {
   if (!fs.existsSync(LOGS_ROOT)) return [];
   const out = [];
@@ -141,6 +163,7 @@ function listFinishedRuns() {
         meetingType: ctx.meetingType || "",
       },
       lastSeenAt: state.lastSeenAt || 0,
+      archived: isArchivedAt(dir),
       ...reviewSummaryOf(dir),
     };
   });
@@ -271,6 +294,7 @@ module.exports = {
   summarizeRun,
   compareRun,
   deleteRun,
+  setArchived,
   findRunDir,
   readPipelineLock,
   findLatestRunWithLock,

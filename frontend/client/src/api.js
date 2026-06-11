@@ -97,6 +97,10 @@ export async function saveReview(id, review) {
   return postJson(`/api/runs/${encodeURIComponent(id)}/review`, review);
 }
 
+export async function setArchived(id, archived) {
+  return postJson(`/api/runs/${encodeURIComponent(id)}/archive`, { archived });
+}
+
 export async function postVerdict(sessionId, { verdict, issue_type, note }) {
   return json(
     await fetch("/api/verdict", {
