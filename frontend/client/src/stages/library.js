@@ -138,7 +138,7 @@ export async function mount(root) {
       <header class="page-header">
         <div class="page-header__row">
           <h1 class="h1">Library</h1>
-          <div class="l-row l-row--center" style="gap:0.5rem">
+          <div style="display:flex;align-items:center;gap:0.5rem">
             <button class="btn btn--ghost js-view" type="button">Archived</button>
             <button class="btn btn--ghost js-back" type="button">Back</button>
           </div>
@@ -164,6 +164,7 @@ export async function mount(root) {
   const listEl = root.querySelector(".js-list");
   const searchEl = root.querySelector(".lib-search");
   const backBtn = root.querySelector(".js-back");
+  const viewBtn = root.querySelector(".js-view");
   const progressEl = root.querySelector(".js-progress");
 
   const sortEl = root.querySelector(".lib-sort");
@@ -173,6 +174,7 @@ export async function mount(root) {
   let query = "";
   let sortKey = "date";
   let sortDir = "desc";
+  let view = "active"; // "active" | "archived"
 
   function renderSortButtons() {
     sortEl.querySelectorAll(".lib-filter").forEach((b) => {

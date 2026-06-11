@@ -341,6 +341,7 @@ When you ADD a new question or MODIFY wording, every question you emit must pass
 - **No deficit framing.** Never use language that assumes or names failure: "broken down", "fallen short", "slower or harder than it should have been", "without waiting for someone else". Prefer situational frames: "where did things get complicated", "what's taken more energy than expected".
 - **No competency-audit questions.** A thread-follow in a check-in probes a situation, not character. "Where are you taking the lead?" or "What are you doing to drive X?" reads like a job interview, not a conversation. Ask about what's happening, not what the employee is proving.
 - **Match the meeting register.** The tone register for this session is injected above — it overrides any generic tendency toward evaluation, formality, or agenda-performance. When in doubt: shorter, plainer, more curious.
+- **Match role & seniority.** {{ROLE}} at {{SENIORITY}} is the lens for any question you add or reword. Senior/lead → judgment, leverage, ambiguity, the calls only they make — not "are you clear on expectations?". Junior → concrete craft and clarity — not org-influence framings. If a drill would read the same for a junior and a director, sharpen it to the level.
 
 **Weak vs sharp — rewrites from real transcripts. Left column is what to AVOID; right is what to PREFER.**
 

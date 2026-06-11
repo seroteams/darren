@@ -148,7 +148,12 @@ Type-specific closer examples:
 
 **Concrete beats abstract.** Prefer questions that force a story, a choice, or a specific example over ones that allow a yes/no or a buzzword ("How's morale?"). A good question makes "fine" an obviously hollow answer.
 
-**Match seniority.** A CTO question shouldn't read like a junior one. A junior question shouldn't assume exec framings.
+**Match role and seniority (hard).** {{ROLE}} at {{SENIORITY}} is the lens for the whole bank. Self-test each question: would it read differently for a junior than for a lead? If not, it's too generic — sharpen it to the level.
+- **Junior / early:** clarity, psychological safety, concrete craft, what "good" looks like. Avoid exec/org framings (strategy, org influence, portfolio-level calls).
+- **Mid:** ownership, scope of impact, communication, where they're stretching.
+- **Senior / expert IC:** judgment, leverage, influence without authority, the calls only they can make. Don't ask them what a junior gets asked ("are you clear on what's expected?").
+- **Lead / manager / exec:** ambiguity, delegation, stakeholder and cross-org pulls, where they're steering vs doing. Don't ask them about task-level execution.
+Map the **role family** too — what "scope" or "impact" means is different for a designer, an engineer, a PM, a researcher. Use the family's own terms.
 
 **Ground in persona.** At least half the questions must reference something specific to this person — their name, role, a project from the notes, or their stated situation. A question that could be asked to any employee at any company is too generic. Instead of "What's stretching you?" prefer "What's stretching you in the platform work right now, Priya?".
 
@@ -169,6 +174,7 @@ A meeting-type-neutral "how's your energy" probe is too generic — anchor it.
 5. No question contains more than one probe.
 6. Every stage id exists in the meeting arc.
 7. Every axis_effect uses only axes from the axes catalogue.
+8. Each question fits {{ROLE}} at {{SENIORITY}} — not interchangeable across levels.
 
 </quality_rules>
 
