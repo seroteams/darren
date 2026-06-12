@@ -7,6 +7,7 @@ const { getArc } = require("./meeting-arcs");
 const { promptFor } = require("./one-on-one-types");
 const { resolveSelectedFocus } = require("./selected-focus");
 const { loadLexicon } = require("./lexicon");
+const { findJargon } = require("./golden-checks");
 const { splitSystemUser } = require("./prompt-utils");
 const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
 
@@ -250,7 +251,15 @@ async function generateBank(
 
   const existing = listAllAliases();
   const saved = [];
+  const droppedJargon = [];
   for (const q of parsed.questions || []) {
+    // Plain-language backstop — drop (never rewrite) a generated question that
+    // uses banned jargon; the prompt's plain-speech lint does the main work.
+    const jargon = findJargon(`${q.name || ""} ${q.description || ""}`);
+    if (jargon) {
+      droppedJargon.push({ label: q.label, name: q.name, term: jargon });
+      continue;
+    }
     const alias = newAlias(q.label, existing);
     existing.add(alias);
     const obj = {
@@ -270,7 +279,11 @@ async function generateBank(
   logStage(session, stage, {
     inputs: { focusPoints, name, role, seniority, meetingType, notes, model, roleProfile: roleProfileLogInfo({ role, seniority }) },
     prompt: messages.filled,
-    response: { raw, saved_aliases: saved.map((q) => q.alias) },
+    response: {
+      raw,
+      saved_aliases: saved.map((q) => q.alias),
+      ...(droppedJargon.length ? { dropped_jargon: droppedJargon } : {}),
+    },
   });
 
   return saved;

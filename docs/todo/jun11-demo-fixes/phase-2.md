@@ -1,6 +1,6 @@
 # Phase 2 — Brief wording: name + plain language
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built + live-verified on the Machar case, awaiting product-owner eyeball
 
 ## Goal
 The prep brief talks about the person by name and in plain words — no job-title-as-name, no jargon, no long-winded tails.

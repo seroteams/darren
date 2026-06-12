@@ -248,6 +248,8 @@ Patterns distilled from the rewrites:
 
 Tells of the bad register, in any question: "stronger / next-level X", "reaching for", "not fully using yet", "holding in your head", "commit to … sooner", "the judgment you're …". If the person would never say the phrase aloud about their own work, rewrite it to the plain version.
 
+Business and military jargon is also banned in question text and descriptions: "air cover", "leverage", "circle back", "synergy". Say the plain version instead — "where would backing from me help most?", not "where would a bit more air cover from me help most?". A generated question containing these terms is dropped before it can be asked.
+
 </question_craft>
 
 <meeting_arc>

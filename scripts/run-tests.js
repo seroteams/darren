@@ -26,6 +26,7 @@ const OFFLINE_TESTS = [
   "test-opener-routing.js",
   "test-person-profile.js",
   "test-persona-bench.js",
+  "test-prep-wording.js",
   "test-question-integrity.js",
   "test-question-validator.js",
   "test-read-quality.js",

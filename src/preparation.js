@@ -9,6 +9,7 @@ const { withPromptVersion } = require("./prompt-version");
 const { resolveSelectedFocus } = require("./selected-focus");
 const { splitSystemUser } = require("./prompt-utils");
 const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
+const { findJargon } = require("./golden-checks");
 
 const getDefaultModel = () => modelFor("preparation");
 
@@ -170,14 +171,15 @@ function validateBrief(brief, inputs) {
     issues.push('suggestedAction should start with "Before the 1:1" or "During the 1:1" (or equivalent in-meeting imperative)');
   }
 
-  // Role awareness — coreIssue must mention something role/seniority-specific
-  const roleWords = roleWordsFromTitle((inputs.roleTitle || "").toLowerCase());
-  const seniorityWords = ["junior", "mid", "senior", "lead", "staff", "principal", "manager", "director", "vp"];
+  // Name, not title — the brief is about a person the manager knows. The Jun 11
+  // Machar brief said "what support a lead partner alliance manager needs";
+  // this check used to require role/seniority words in coreIssue, which pushed
+  // the model toward exactly that title-speak. Now it requires the NAME; role
+  // and seniority still shape the substance via the prompt, not this check.
   const coreIssueLower = (brief.coreIssue || "").toLowerCase();
-  const hasRoleRef = roleWords.some(w => coreIssueLower.includes(w)) ||
-    seniorityWords.some(w => coreIssueLower.includes(w));
-  if (!hasRoleRef) {
-    issues.push("coreIssue does not reference role or seniority — may be too generic");
+  const firstName = ((inputs.name || "").trim().split(/\s+/)[0] || "").toLowerCase();
+  if (firstName && !coreIssueLower.includes(firstName)) {
+    issues.push(`coreIssue must refer to ${inputs.name} by name — not by their job title`);
   }
 
   // Meeting-type awareness
@@ -241,6 +243,13 @@ function validateBrief(brief, inputs) {
   const fullText = Object.values(brief).flat().join(" ");
   if (CLINICAL_PATTERNS.some((p) => p.test(fullText))) {
     issues.push("output may contain unsafe clinical interpretation — review before use");
+  }
+
+  // Plain-language backstop — the prompt's plain-words rule does the main
+  // work; this catches observed jargon ("air cover") for a flagged retry.
+  const jargon = findJargon(fullText);
+  if (jargon) {
+    issues.push(`brief uses business jargon "${jargon}" — use plain words the manager would say aloud`);
   }
 
   return { passed: issues.length === 0, issues };

@@ -84,6 +84,28 @@ function runRoleProfileVocabLeak(briefing) {
   return failures;
 }
 
+// Plain-language backstop — business jargon observed leaking into manager-
+// facing output (Jun 11 Machar run: "air cover" in the prep brief and in a
+// generated question). Minimal by design: grows only from observed leaks,
+// never speculatively. "bandwidth" is deliberately absent — the prep prompt
+// itself recommends opening on "pace or bandwidth", so banning it would make
+// the validator fight the prompt.
+const JARGON_PATTERNS = [
+  /\bair cover\b/i,
+  /\bcircle back\b/i,
+  /\bleverage\b/i,
+  /\bsynergy\b/i,
+];
+
+// Returns the first jargon term found in `text`, or null.
+function findJargon(text) {
+  for (const re of JARGON_PATTERNS) {
+    const m = String(text || "").match(re);
+    if (m) return m[0];
+  }
+  return null;
+}
+
 const MANAGER_BRIEFING_BANS = [
   "bad follow-up",
   "planner",
@@ -343,6 +365,8 @@ module.exports = {
   AXIS_MAX,
   AXIS_IDS,
   MANAGER_BRIEFING_BANS,
+  JARGON_PATTERNS,
+  findJargon,
   collectBriefingText,
   runManagerBriefingBans,
   runFocusArcGate,

@@ -17,7 +17,7 @@ Source: demo run `logs/june/2026_Jun11_08-12-c6dacfe1` (Machar · Partner allian
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Question integrity | Central eligibility gate every question passes before the UI + rejection logging + Machar regression fixture | 🔨 |
-| 2 | Brief wording | Name-not-title + plain-language guard (flag-and-retry, never rewrite) | ⬜ |
+| 2 | Brief wording | Name-not-title + plain-language guard (flag-and-retry, never rewrite) | 🔨 |
 | 3 | Live scores | Timeboxed diagnosis of stalled score bars; fix or honest "didn't update" indicator | ⬜ |
 | 4 | Back navigation | One-step-back to amend the previous answer (spec questions answered before code) | ⬜ |
 
@@ -37,7 +37,13 @@ What landed (uncommitted until green light):
 
 Verified offline: `npm test` 20/20 (incl. 23-check question-integrity suite with the frozen Jun 11 negative test); handlers load; lint clean (one pre-existing warning); live wiring check (start → first question on a Machar bi-weekly) served a work-appropriate opener through both gates. An independent adversarial code review (7 angles, 28 candidates) was run over the diff: most candidates refuted against the code; accepted fixes — sessionBank fallback hardened (any supplied array is authoritative, legacy null → seeds-only never global), serve-time gate extracted to one shared `dropIneligibleHeads` helper used by both CLI and web. Known consequences noted in Parked (thread-follow fires rarely by design; stale batch-k-verify flagged as separate task).
 
-Carl delegated the Phase 1 green light to self-verification (2026-06-12: "check first, propose") — committed on that basis; the live QA scenarios still get walked once OpenAI quota is restored, and the phase only goes ✅ after that. Next: quota → re-baseline `npm run gate` (now includes the Machar golden case + QUESTION_INTEGRITY) → walk Phase 1 QA → Phase 2.
+Carl delegated the Phase 1 green light to self-verification (2026-06-12: "check first, propose") — committed on that basis; the live QA scenarios still get walked once OpenAI quota is restored, and the phase only goes ✅ after that.
+
+**Phase 2 built same day (lean mode):** name-not-title rule + plain-language guard in `prompts/preparation.md` + `validateBrief()` (name required in coreIssue, jargon backstop via shared `findJargon` in `src/golden-checks.js` — "bandwidth" deliberately excluded because the prep prompt recommends it); jargon line added to `prompts/generate-questions.md` plain-speech lint + drop-and-log backstop in `generateBank` (`dropped_jargon` in the stage log); Jun 11 brief frozen as `evals/fixtures/machar-jun11-brief.json`; `scripts/test-prep-wording.js` (12 checks) in `npm test` (21/21 suites).
+
+**OpenAI quota is working again** (discovered 2026-06-12 when a module load-check accidentally executed a full smoke run — $0.37, 29/29 checks passed, Phase 1+2 behaviour all visible live). Cost correction: a full pipeline run is ~$0.37 (planner stage ×9 on the big model), so the 8-case gate ≈ $3 — run it only with Carl's nod. The Machar regression gate case was run solo (~$0.35): **PASS end-to-end** — brief says "Machar" (not the title), no jargon, clean suggestedAction, 9 distinct questions, QUESTION_INTEGRITY clean. Session OpenAI spend ≈ $0.72.
+
+Next: Carl eyeballs the Phase 2 brief + walks Phase 1 scenarios when convenient → phases go ✅ → full-gate re-baseline (~$3, on Carl's nod) → Phase 3 (live scores, needs the dev server).
 
 ## Parked
 - Voice/transcript input — typing-while-listening friction ("we're filling in a form almost"). Bigger UX theme, own track.
