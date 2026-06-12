@@ -1,3 +1,5 @@
+> **PARKED (2026-06-12)** — review tooling, revisit after the next build stage. See [SERO_BOARD.md](../../../SERO_BOARD.md). Don't start phases here.
+
 # Inbox-style run review
 
 **Goal:** Turn the Library into an inbox you work down to zero — see what's done and not done, move run to run without bouncing back to the list, and send a reviewed run (plus your note) to Claude in one move.

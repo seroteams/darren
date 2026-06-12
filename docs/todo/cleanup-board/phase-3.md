@@ -1,6 +1,6 @@
 # Phase 3 — Repoint old plans at the board (surgical)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built, awaiting owner QA. Note: `docs/todo/engine-trust-gates/PLAN.md` is also modified in the tree — that's the other session's own update (47 review verdicts written), deliberately excluded from this phase's commit.
 
 ## Goal
 Every old planning file either is the board or points at it, with one-line banners — nothing else changes.

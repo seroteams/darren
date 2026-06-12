@@ -1,3 +1,5 @@
+> **PARKED (2026-06-12)** — manager-first MVP; no history analytics. See [SERO_BOARD.md](../../../SERO_BOARD.md). Don't start phases here.
+
 # Per-person run history + running profile
 
 **Goal:** Sero remembers people, not just meetings — every finished 1:1 is grouped under the person it was about, and each person has one readable, always-truthful profile file.

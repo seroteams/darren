@@ -1,3 +1,5 @@
+> **Reference doc — active work lives in [SERO_BOARD.md](../SERO_BOARD.md).**
+
 # Sero Audit — how it's built, what to fix, how to grow the 1:1 engine
 
 > Date: 2026-06-06. Scope: full project. Method: read the docs, then four deep code passes — engine core (`src/`), web app (`frontend/`), eval/prompts, and the uncommitted in-flight work.

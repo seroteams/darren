@@ -1,3 +1,5 @@
+> **Reference doc — active work lives in [SERO_BOARD.md](../SERO_BOARD.md).**
+
 # Sero — Feature Inventory
 
 > **Snapshot date:** 2026-06-01

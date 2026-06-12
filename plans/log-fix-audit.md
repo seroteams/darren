@@ -1,3 +1,5 @@
+> **Reference doc (93/100 done, 0 open) — active work lives in [SERO_BOARD.md](../SERO_BOARD.md).**
+
 # Log fix audit — every issue, every status
 
 **Version:** v20
