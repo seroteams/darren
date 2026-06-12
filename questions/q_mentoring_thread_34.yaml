@@ -1,0 +1,9 @@
+alias: q_mentoring_thread_34
+label: Mentoring thread
+name: What kind of mentoring do you want to be doing more of?
+description: Clarifies the specific mentoring thread she raised before moving the arc forward.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added

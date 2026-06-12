@@ -1,0 +1,9 @@
+alias: q_needed_change_6
+label: Needed change
+name: What felt unclear about what needed to change?
+description: Drills into the specific gap in guidance he took from the promotion decision.
+purpose: topic
+stage: landing
+axis_effects:
+  engagement: +1
+source: planner_added

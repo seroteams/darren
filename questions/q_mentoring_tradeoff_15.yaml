@@ -1,0 +1,10 @@
+alias: q_mentoring_tradeoff_15
+label: Mentoring tradeoff
+name: What does the mentoring program take off your plate?
+description: Surfaces the tradeoff between stretch and load in a concrete way.
+purpose: competency
+stage: underneath
+axis_effects:
+  wellbeing: +1
+  clarity: +3
+source: generated

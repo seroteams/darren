@@ -1,0 +1,10 @@
+alias: q_manager_help_11
+label: Manager help
+name: What would help from me make that next step easier to take on?
+description: Opens the door to support without assuming what kind he needs.
+purpose: wellbeing
+stage: investment
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

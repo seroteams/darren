@@ -1,0 +1,9 @@
+alias: q_referral_friction
+label: Referral friction
+name: Where does the referral push stall internally most often?
+description: Drills into the specific internal friction he just named so you can locate the repeated snag.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added

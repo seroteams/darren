@@ -1,0 +1,9 @@
+alias: q_clearer_criteria_6
+label: Clearer criteria
+name: What would clearer criteria look like to you here?
+description: Drills into the criteria gap he just named and surfaces the model of recognition he is missing.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

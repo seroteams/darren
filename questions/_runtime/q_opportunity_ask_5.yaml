@@ -1,0 +1,9 @@
+alias: q_opportunity_ask_5
+label: Opportunity ask
+name: What opportunities does he actually want to be considered for?
+description: Drills into the specific next-level scope or forums he wants, rather than staying abstract.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+source: planner_added

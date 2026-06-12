@@ -1,0 +1,11 @@
+alias: q_prep_opener_165
+label: Prep opener
+name: If you were choosing where to put more of your energy over the next few months, what kind of work would feel most worth leaning into?
+description: Gives Devon room to set the frame before you get more specific about direction.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+  engagement: +1
+  clarity: +1
+source: generated

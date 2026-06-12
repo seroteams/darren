@@ -1,0 +1,9 @@
+alias: q_cross_org_alignment_8
+label: Cross-org alignment
+name: What makes cross-org alignment the harder part for you right now?
+description: Drills into the specific influence gap he just named before moving on.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

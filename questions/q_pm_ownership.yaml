@@ -1,0 +1,10 @@
+alias: q_pm_ownership
+label: PM ownership
+name: What are you still holding personally that you want your PMs to own more fully?
+description: Shows where he is still carrying work that should be spreading through the team.
+purpose: competency
+stage: investment
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

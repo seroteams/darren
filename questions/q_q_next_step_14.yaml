@@ -1,9 +1,0 @@
-alias: q_q_next_step_14
-label: q_next_step
-name: "What's one change you'd make on the next big decision?"
-description: ""
-purpose: topic
-stage: commit
-axis_effects:
-  clarity: +3
-source: "reworded_from:q_next_step"

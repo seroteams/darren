@@ -1,0 +1,10 @@
+alias: q_prep_opener_146
+label: Prep opener
+name: "How has the last couple of weeks felt from your side, especially where you've had to keep making the case for partnership value?"
+description: Helps you hear how the recent stretch has landed before you get into specifics.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_cross_team_effect
+label: Cross-team effect
+name: Where has your work changed the way another team is making a decision?
+description: Gets past output and toward the kind of influence a Principal engineer should create across teams.
+purpose: competency
+stage: evidence
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_specific_confusion
+label: Specific confusion
+name: "When you say 'leadership and corporate communication', what are they missing specifically?"
+description: Clarifies the vague categories into a concrete misunderstanding he is running into.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added

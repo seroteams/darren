@@ -1,0 +1,10 @@
+alias: q_work_worth_owning
+label: Work worth owning
+name: What kind of system or area would you want to own more fully next?
+description: Gets concrete about the scope he wants, not just the title.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

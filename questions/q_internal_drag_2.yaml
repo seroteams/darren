@@ -1,0 +1,10 @@
+alias: q_internal_drag_2
+label: Internal drag
+name: Where does the partnership story slow down most inside the company?
+description: Points you to the approval step or team that is creating the most drag.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_manager_support_28
+label: Manager support
+name: What would you want from me before the billing rewrite starts?
+description: Keeps the conversation practical and makes room for the support she actually wants.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

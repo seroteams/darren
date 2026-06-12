@@ -1,0 +1,10 @@
+alias: q_mentoring_tradeoff_16
+label: Mentoring tradeoff
+name: What have you had to give up to make room for mentoring?
+description: Clarifies the real cost of the mentoring load in his current role.
+purpose: topic
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  growth: +1
+source: generated

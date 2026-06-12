@@ -1,0 +1,10 @@
+alias: q_scope_mismatch_2
+label: Scope mismatch
+name: What part of Principal scope here feels different from what you expected when you moved?
+description: Helps you hear whether his mental model of the role matches how this team actually works.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

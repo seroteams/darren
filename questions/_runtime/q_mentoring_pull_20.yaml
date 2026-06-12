@@ -1,0 +1,9 @@
+alias: q_mentoring_pull_20
+label: Mentoring pull
+name: What is it about mentoring those two juniors that feels like growth for you?
+description: Drills into whether the pull is people leadership, leverage, or something else.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

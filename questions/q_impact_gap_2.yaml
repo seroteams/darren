@@ -1,0 +1,10 @@
+alias: q_impact_gap_2
+label: Impact gap
+name: Where do you think your impact is still too local for this level?
+description: Makes the gap to Principal scope concrete without turning it into a blame question.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sero — How It All Works</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #181b24;
+    --card2: #1f2330;
+    --ink: #e8eaf0;
+    --muted: #9aa3b5;
+    --accent: #5eead4;
+    --accent2: #818cf8;
+    --warn: #fbbf24;
+    --bad: #f87171;
+    --good: #4ade80;
+    --line: #2a2f3e;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; background: var(--bg); color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif; overflow: hidden; }
+
+  .deck { height: 100%; position: relative; }
+  .slide {
+    position: absolute; inset: 0; display: none;
+    flex-direction: column; justify-content: center;
+    padding: 48px 9vw 84px;
+    overflow-y: auto;
+  }
+  .slide.active { display: flex; animation: fadein .35s ease; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .kicker { color: var(--accent); font-size: 14px; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase; margin-bottom: 14px; }
+  h1 { font-size: clamp(34px, 5vw, 58px); line-height: 1.1; margin-bottom: 18px; font-weight: 700; }
+  h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.15; margin-bottom: 22px; font-weight: 700; }
+  p.lead { font-size: clamp(16px, 1.5vw, 20px); color: var(--muted); line-height: 1.65; max-width: 920px; }
+  p.lead strong, p.lead b { color: var(--ink); }
+
+  .cards { display: grid; gap: 14px; margin-top: 26px; }
+  .cards.c2 { grid-template-columns: repeat(2, 1fr); }
+  .cards.c3 { grid-template-columns: repeat(3, 1fr); }
+  .cards.c4 { grid-template-columns: repeat(4, 1fr); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  .card h3 { font-size: 16px; margin-bottom: 8px; color: var(--accent); font-weight: 650; }
+  .card h3.alt { color: var(--accent2); }
+  .card h3.warn { color: var(--warn); }
+  .card h3.bad { color: var(--bad); }
+  .card h3.good { color: var(--good); }
+  .card p { font-size: 14.5px; color: var(--muted); line-height: 1.55; }
+  .card p strong, .card p b { color: var(--ink); font-weight: 600; }
+
+  .flow { display: flex; align-items: stretch; gap: 0; margin-top: 28px; flex-wrap: wrap; }
+  .step { flex: 1 1 0; min-width: 150px; background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 16px 14px; position: relative; margin-right: 30px; }
+  .step:last-child { margin-right: 0; }
+  .step::after { content: "→"; position: absolute; right: -24px; top: 50%;
+    transform: translateY(-50%); color: var(--accent); font-size: 20px; }
+  .step:last-child::after { content: ""; }
+  .step .num { display: inline-block; background: var(--accent); color: #06241e;
+    font-weight: 700; font-size: 12px; border-radius: 999px; padding: 2px 9px; margin-bottom: 8px; }
+  .step h4 { font-size: 15px; margin-bottom: 6px; }
+  .step p { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+
+  ul.big { margin-top: 20px; list-style: none; max-width: 940px; }
+  ul.big li { font-size: clamp(15px, 1.4vw, 18px); color: var(--muted); line-height: 1.6;
+    padding: 10px 0 10px 30px; position: relative; border-bottom: 1px solid var(--line); }
+  ul.big li:last-child { border-bottom: none; }
+  ul.big li::before { content: "›"; position: absolute; left: 6px; color: var(--accent); font-weight: 700; }
+  ul.big li strong, ul.big li b { color: var(--ink); }
+
+  .pill { display: inline-block; background: var(--card2); border: 1px solid var(--line);
+    border-radius: 999px; padding: 4px 14px; font-size: 13px; color: var(--muted); margin: 4px 6px 4px 0; }
+  .pill b { color: var(--ink); font-weight: 600; }
+
+  code, .mono { font-family: Consolas, "Cascadia Code", monospace; font-size: .92em;
+    background: var(--card2); border: 1px solid var(--line); border-radius: 6px;
+    padding: 1px 7px; color: var(--accent); }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: 14.5px; }
+  th { text-align: left; color: var(--accent); font-weight: 650; padding: 10px 14px;
+    border-bottom: 2px solid var(--line); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--line); color: var(--muted); line-height: 1.5; vertical-align: top; }
+  td strong, td b { color: var(--ink); }
+
+  /* nav */
+  .navbar { position: fixed; bottom: 0; left: 0; right: 0; height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 28px; background: rgba(15,17,23,.92); border-top: 1px solid var(--line);
+    backdrop-filter: blur(6px); z-index: 10; }
+  .navbar .counter { color: var(--muted); font-size: 13px; }
+  .navbar .hint { color: var(--muted); font-size: 12px; opacity: .7; }
+  .navbtns button { background: var(--card2); color: var(--ink); border: 1px solid var(--line);
+    border-radius: 8px; padding: 7px 18px; font-size: 14px; cursor: pointer; margin-left: 8px; }
+  .navbtns button:hover { border-color: var(--accent); color: var(--accent); }
+  .progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent);
+    z-index: 11; transition: width .25s ease; }
+
+  /* TOC */
+  .toc { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 24px; max-width: 980px; }
+  .toc a { display: flex; align-items: baseline; gap: 12px; text-decoration: none;
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 11px 16px; color: var(--ink); font-size: 15px; }
+  .toc a:hover { border-color: var(--accent); }
+  .toc a .n { color: var(--accent); font-weight: 700; font-size: 13px; min-width: 22px; }
+  .toc a .sub { color: var(--muted); font-size: 12.5px; margin-left: auto; text-align: right; }
+
+  .axisbar { display: flex; align-items: center; gap: 14px; margin-top: 12px; max-width: 760px; }
+  .axisbar .name { width: 130px; font-size: 15px; }
+  .axisbar .track { flex: 1; height: 10px; background: var(--card2); border-radius: 999px; position: relative; overflow: hidden; }
+  .axisbar .track::before { content: ""; position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--line); }
+  .axisbar .fill { position: absolute; top: 0; bottom: 0; border-radius: 999px; }
+  .axisbar .val { width: 70px; font-size: 13px; color: var(--muted); }
+
+  .note { margin-top: 26px; background: var(--card2); border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0; padding: 14px 18px; font-size: 14.5px; color: var(--muted);
+    line-height: 1.6; max-width: 940px; }
+  .note b { color: var(--ink); }
+
+  @media (max-width: 860px) {
+    .cards.c2, .cards.c3, .cards.c4, .toc { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; }
+    .step { margin-right: 0; margin-bottom: 26px; }
+    .step::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -24px; transform: translateX(-50%); }
+    .step:last-child::after { content: ""; }
+    .slide { justify-content: flex-start; padding: 32px 6vw 84px; }
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- 1 TITLE -->
+<section class="slide active">
+  <div class="kicker">A plain-English guide</div>
+  <h1>Sero — How It All Works</h1>
+  <p class="lead">Sero turns a manager's rough pre-meeting notes into a fully prepared, guided 1:1 conversation — and then turns the conversation back into honest insights and next steps.</p>
+  <div style="margin-top:30px">
+    <span class="pill"><b>5</b> meeting types</span>
+    <span class="pill"><b>6</b> pipeline stages</span>
+    <span class="pill"><b>~3,750</b> questions in the library</span>
+    <span class="pill"><b>9</b> hard safety gates</span>
+    <span class="pill"><b>4</b> scoring axes</span>
+  </div>
+  <p class="lead" style="margin-top:34px; font-size:15px;">Use <b>→</b> / <b>←</b> arrow keys, or the buttons below, to move through the deck.</p>
+</section>
+
+<!-- 2 TOC -->
+<section class="slide">
+  <div class="kicker">Contents</div>
+  <h2>What's in this guide</h2>
+  <div class="toc">
+    <a href="#" data-go="3"><span class="n">01</span> The big picture <span class="sub">what Sero does</span></a>
+    <a href="#" data-go="4"><span class="n">02</span> The pipeline <span class="sub">6 stages, start to finish</span></a>
+    <a href="#" data-go="5"><span class="n">03</span> Meeting types & arcs <span class="sub">5 types, each with a shape</span></a>
+    <a href="#" data-go="6"><span class="n">04</span> Focus points <span class="sub">what the meeting is really about</span></a>
+    <a href="#" data-go="7"><span class="n">05</span> The preparation briefing <span class="sub">the manager's game plan</span></a>
+    <a href="#" data-go="8"><span class="n">06</span> The question library <span class="sub">~3,750 questions on file</span></a>
+    <a href="#" data-go="9"><span class="n">07</span> Live questioning <span class="sub">the meeting itself</span></a>
+    <a href="#" data-go="10"><span class="n">08</span> Axes & scoring <span class="sub">how answers move the needles</span></a>
+    <a href="#" data-go="11"><span class="n">09</span> The final briefing <span class="sub">honest output, after the meeting</span></a>
+    <a href="#" data-go="12"><span class="n">10</span> Role profiles <span class="sub">job-aware context, cached</span></a>
+    <a href="#" data-go="13"><span class="n">11</span> The safety gates <span class="sub">9 hard rules that can't break</span></a>
+    <a href="#" data-go="14"><span class="n">12</span> Softer guardrails <span class="sub">rules baked into prompts & code</span></a>
+    <a href="#" data-go="15"><span class="n">13</span> Logs — every run on file <span class="sub">what gets saved, where</span></a>
+    <a href="#" data-go="16"><span class="n">14</span> Testing & checking <span class="sub">gate, smoke, eval</span></a>
+    <a href="#" data-go="17"><span class="n">15</span> The app & the CLI <span class="sub">two front doors, one engine</span></a>
+    <a href="#" data-go="18"><span class="n">16</span> How we build <span class="sub">the Darren Method</span></a>
+    <a href="#" data-go="19"><span class="n">17</span> Cheat sheet <span class="sub">numbers & commands</span></a>
+  </div>
+</section>
+
+<!-- 3 BIG PICTURE -->
+<section class="slide">
+  <div class="kicker">01 · The big picture</div>
+  <h2>From scribbled notes to a great 1:1</h2>
+  <p class="lead">A manager types a few rough observations — <em>"she's been quiet lately"</em>, <em>"we need to talk about growth"</em>. Sero does the rest:</p>
+  <div class="cards c3">
+    <div class="card"><h3>Before the meeting</h3><p>Sero suggests <strong>focus points</strong> (what to actually explore), writes a <strong>preparation briefing</strong> (how to open, what to listen for, what to avoid), and builds a <strong>bank of tailored questions</strong>.</p></div>
+    <div class="card"><h3>During the meeting</h3><p>The manager works through questions one at a time. After each answer, Sero <strong>re-plans on the fly</strong> — picking the next best question and quietly scoring what the answer revealed.</p></div>
+    <div class="card"><h3>After the meeting</h3><p>Sero writes a <strong>final briefing</strong>: a headline, what was learned on each axis, two "brutal truths" (one shareable, one manager-only), three next actions, and things to watch for.</p></div>
+  </div>
+  <div class="note"><b>One engine, two front doors.</b> The same pipeline runs behind a web app (what you normally use) and a command-line version (used mostly for testing). Every run is logged to disk in full.</div>
+</section>
+
+<!-- 4 PIPELINE -->
+<section class="slide">
+  <div class="kicker">02 · The pipeline</div>
+  <h2>Six stages, in order</h2>
+  <div class="flow">
+    <div class="step"><span class="num">0</span><h4>Intake</h4><p>Name, role, seniority, meeting type, and the manager's rough notes. No AI yet.</p></div>
+    <div class="step"><span class="num">1</span><h4>Focus points</h4><p>AI picks 2–5 things worth exploring, from a fixed catalogue of 21. Manager ticks the ones they want.</p></div>
+    <div class="step"><span class="num">1b</span><h4>Preparation</h4><p>AI writes the game plan: core issue, opening question, what to listen for, what to avoid.</p></div>
+    <div class="step"><span class="num">2</span><h4>Question bank</h4><p>AI builds 8–12 questions tailored to this person, this meeting type, this moment.</p></div>
+    <div class="step"><span class="num">3</span><h4>Live questioning</h4><p>The meeting. After every answer, AI scores it and re-plans the remaining questions.</p></div>
+    <div class="step"><span class="num">4</span><h4>Final briefing</h4><p>AI sums up the whole conversation: headline, truths, next actions, watch-fors.</p></div>
+  </div>
+  <div class="note"><b>Plus an optional stage 5:</b> on some meeting types, Sero reviews the session for wording the employee actually uses ("lexicon review") so future questions sound more like their world, not corporate-speak.</div>
+  <p class="lead" style="margin-top:18px; font-size:14.5px;">Each AI stage uses the model best suited to the job — a small fast one for focus points, bigger ones for the briefing and the live planner. Stages stream to the screen so you can watch them think.</p>
+</section>
+
+<!-- 5 MEETING TYPES -->
+<section class="slide">
+  <div class="kicker">03 · Meeting types & arcs</div>
+  <h2>Five kinds of 1:1, each with a shape</h2>
+  <p class="lead">Every meeting type has an <strong>arc</strong> — a planned sequence of stages the conversation should move through, like acts in a play. The question planner respects the arc.</p>
+  <table>
+    <tr><th>Type</th><th>Feel</th><th>Arc (the acts)</th><th>Special rule</th></tr>
+    <tr><td><b>Bi-weekly check-in</b></td><td>Casual catch-up, 15–20 min</td><td>pulse → friction → momentum → lift</td><td><b>Relational:</b> no performance-judging topics</td></tr>
+    <tr><td><b>Performance & feedback</b></td><td>Direct, adult-to-adult</td><td>self-read → evidence → gap → cause → commit</td><td>—</td></tr>
+    <tr><td><b>Growth & career plan</b></td><td>Forward-looking, 30–45 min</td><td>anchor → aspiration → gap → investment → commitment</td><td>Has its own final-briefing prompt</td></tr>
+    <tr><td><b>Something feels off</b></td><td>Gentle, observation-first</td><td>landing → observation → underneath → support</td><td><b>Relational:</b> no performance-judging topics</td></tr>
+    <tr><td><b>Onboarding check-in</b></td><td>For new joiners, 15–25 min</td><td>(arc still being finished)</td><td>Newest type</td></tr>
+  </table>
+  <div class="note"><b>Why the "relational" rule matters:</b> if a casual check-in suddenly asks about output quality or speed, it feels like an ambush performance review. So the two relational types are <b>banned from using competency topics</b> — enforced three times over (in the input, in the prompt, and by a hard gate that fails the build if it ever leaks).</div>
+</section>
+
+<!-- 6 FOCUS POINTS -->
+<section class="slide">
+  <div class="kicker">04 · Focus points</div>
+  <h2>Deciding what the meeting is really about</h2>
+  <p class="lead">Sero doesn't invent topics from thin air. It chooses from a <strong>fixed catalogue of 21 focus points</strong>, in three flavours:</p>
+  <div class="cards c3">
+    <div class="card"><h3 class="good">Wellbeing (3)</h3><p>Workload, energy, team connection. How the person is actually doing.</p></div>
+    <div class="card"><h3>Topic (7)</h3><p>Priorities, blockers, growth, feedback, recognition, role clarity, manager support. The work stuff worth airing.</p></div>
+    <div class="card"><h3 class="warn">Competency (11)</h3><p>Quality, speed, ownership, communication, judgment… The evaluative ones — <strong>off-limits in relational meetings</strong>.</p></div>
+  </div>
+  <ul class="big">
+    <li>Each suggestion is marked as a <strong>signal</strong> (drawn from what you wrote in your notes) or a <strong>best practice</strong> (sensible for this role and meeting anyway) — and comes with a reason.</li>
+    <li>If your notes contain real content, at least one suggestion <strong>must</strong> come from them. Sero can't ignore what you wrote and serve only generic advice.</li>
+    <li>You start with <strong>nothing selected</strong> — you opt focus points in. Nothing gets explored without your say-so.</li>
+  </ul>
+</section>
+
+<!-- 7 PREPARATION -->
+<section class="slide">
+  <div class="kicker">05 · The preparation briefing</div>
+  <h2>The manager's game plan</h2>
+  <p class="lead">Once focus points are chosen, Sero writes a short strategy for the conversation. It always has the same six parts:</p>
+  <div class="cards c3">
+    <div class="card"><h3>Core issue</h3><p>The one thing this meeting is really about, in a sentence.</p></div>
+    <div class="card"><h3>Opening question</h3><p>How to start so the conversation opens up instead of stalling.</p></div>
+    <div class="card"><h3>Listen for</h3><p>Three behavioural cues to watch for — pauses, deflections, energy shifts.</p></div>
+    <div class="card"><h3>Avoid</h3><p>Two pitfalls likely to shut this particular conversation down.</p></div>
+    <div class="card"><h3>Good outcome</h3><p>What "this went well" looks like, concretely.</p></div>
+    <div class="card"><h3>Suggested action</h3><p>One thing the manager could offer or commit to.</p></div>
+  </div>
+  <div class="note"><b>Quality control built in:</b> the briefing is checked against a validator before you see it. If it fails (wrong shape, missing parts), Sero retries once automatically. And it refers to people by <b>name, not job title</b>, in plain language — that's a standing rule.</div>
+</section>
+
+<!-- 8 QUESTION LIBRARY -->
+<section class="slide">
+  <div class="kicker">06 · The question library</div>
+  <h2>~3,750 questions, each one a small file</h2>
+  <p class="lead">Every question Sero has ever generated and kept lives as its own little YAML file in the <code>questions/</code> folder. Each one records:</p>
+  <div class="cards c2">
+    <div class="card"><h3>What it says</h3><p>The question text, a short label, a description of what it's trying to surface, and its <strong>purpose</strong>: wellbeing, topic, or competency.</p></div>
+    <div class="card"><h3>How it behaves</h3><p>Which <strong>arc stage</strong> it belongs to, which <strong>axes it can move</strong> and by how much, and where it came from (original, generated mid-meeting, reworded…).</p></div>
+  </div>
+  <ul class="big">
+    <li><strong>The index</strong> (<code>questions/_index.json</code>) is the master list — rebuilt with <code>npm run rebuild-question-index</code> when files change.</li>
+    <li><strong>Openers and seeds:</strong> a small set of research-backed opening questions, plus per-meeting-type intro questions, are kept separately and used to start each run.</li>
+    <li><strong>The dedup gate</strong> stops near-identical questions being asked twice in a session — it compares the actual words, not just the file name (a real bug it caught: the same follow-up asked on back-to-back turns).</li>
+    <li><strong>The eligibility gate</strong> blocks questions that match a meeting type's forbidden patterns, and logs every rejection (for us to inspect — never shown to users).</li>
+  </ul>
+</section>
+
+<!-- 9 LIVE QUESTIONING -->
+<section class="slide">
+  <div class="kicker">07 · Live questioning</div>
+  <h2>The meeting itself — planned one turn at a time</h2>
+  <p class="lead">Each run has a budget of <strong>9 questions: 4 intro + 5 dynamic</strong>. After every answer the manager types in, the planner runs again and decides what happens next.</p>
+  <div class="cards c3">
+    <div class="card"><h3>Score the answer</h3><p>What did this answer reveal? The planner nudges the four axes up or down — but only within the limits that question is allowed to move.</p></div>
+    <div class="card"><h3>Re-plan the queue</h3><p>Stay on this thread? Drill deeper? Move to the next act of the arc? The planner can add, reword, or drop upcoming questions.</p></div>
+    <div class="card"><h3>Respect the rules</h3><p>Caps stop it drilling the same spot forever, asking endless wellbeing clarifiers, or wandering off the arc. When time runs short, it must move forward.</p></div>
+  </div>
+  <ul class="big">
+    <li><strong>Shallow answers don't count as good news.</strong> If an answer is just a word or two, any positive scores are zeroed — "fine" is not evidence things are fine.</li>
+    <li><strong>Notes ride along.</strong> The manager can jot live notes against any question; they're saved with the run.</li>
+    <li><strong>Everything streams.</strong> You can watch the planner think in real time in the web app.</li>
+  </ul>
+</section>
+
+<!-- 10 AXES -->
+<section class="slide">
+  <div class="kicker">08 · Axes & scoring</div>
+  <h2>Four needles that move as the person talks</h2>
+  <p class="lead">Every run tracks four axes. Each answer can nudge them by a small fixed amount (−3, −1, 0, +1, or +3). Scores accumulate over the meeting and are clamped to ±10.</p>
+  <div style="margin-top:24px">
+    <div class="axisbar"><span class="name">Wellbeing</span><div class="track"><div class="fill" style="left:35%; width:15%; background:var(--bad)"></div></div><span class="val">starts −1</span></div>
+    <div class="axisbar"><span class="name">Engagement</span><div class="track"><div class="fill" style="left:35%; width:15%; background:var(--bad)"></div></div><span class="val">starts −1</span></div>
+    <div class="axisbar"><span class="name">Clarity</span><div class="track"><div class="fill" style="left:50%; width:2%; background:var(--muted)"></div></div><span class="val">starts 0</span></div>
+    <div class="axisbar"><span class="name">Growth</span><div class="track"><div class="fill" style="left:50%; width:2%; background:var(--muted)"></div></div><span class="val">starts 0</span></div>
+  </div>
+  <div class="note" style="margin-top:30px"><b>How to read a final score:</b> ±0–1 = weak signal, ignore. ±2–4 = worth watching over the coming weeks. ±5–7 = a real pattern, act on it. ±8–10 = a defining signal. Wellbeing and engagement start slightly negative on purpose — they have to be <b>earned</b> by real evidence, not assumed.</div>
+</section>
+
+<!-- 11 FINAL BRIEFING -->
+<section class="slide">
+  <div class="kicker">09 · The final briefing</div>
+  <h2>What you walk away with</h2>
+  <p class="lead">After the last question, Sero reads the whole transcript plus the axis scores and writes the wrap-up:</p>
+  <div class="cards c3">
+    <div class="card"><h3>Headline & summary</h3><p>One headline (max 22 words), 2–3 bullets, and a short paragraph on how well the person was actually understood.</p></div>
+    <div class="card"><h3>Axis read-outs</h3><p>For each axis: what the score means in this conversation and what tone to take about it.</p></div>
+    <div class="card"><h3 class="warn">Two brutal truths</h3><p>One safe to share with the employee. One for the <strong>manager's eyes only</strong> — never mixed into anything employee-facing.</p></div>
+    <div class="card"><h3>Three next actions</h3><p>Each with a "when" attached, so they don't evaporate.</p></div>
+    <div class="card"><h3>Watch-fors</h3><p>Two observable signals to keep an eye on between now and the next 1:1.</p></div>
+    <div class="card"><h3 class="alt">Honesty switch</h3><p>If the meeting was thin — short answers, dodged questions — the briefing <strong>says so</strong> and leads with "we didn't get a good read" instead of pretending to deep insight.</p></div>
+  </div>
+</section>
+
+<!-- 12 ROLE PROFILES -->
+<section class="slide">
+  <div class="kicker">10 · Role profiles</div>
+  <h2>Sero knows the job, not just the person</h2>
+  <p class="lead">The first time a role + seniority combo appears (say, "Backend Engineer, mid-level"), Sero generates a <strong>role profile</strong> once and caches it as a file in <code>data/role-profiles/</code>. Every later run with that combo reuses it for free.</p>
+  <div class="cards c2">
+    <div class="card"><h3>What's in one</h3><p>A summary of the role, its known challenges, recommended question themes, the <strong>terminology people in that job actually use</strong>, things to listen for, and things to avoid.</p></div>
+    <div class="card"><h3>What's NOT in one</h3><p>Anything personal. Profiles are built from job title + seniority only, so they're safely shared across every person who holds that title.</p></div>
+  </div>
+  <ul class="big">
+    <li>Profiles feed the <strong>question bank</strong> (so questions sound native to the job) and the <strong>preparation briefing</strong> (so advice fits the role).</li>
+    <li>The cache key is the <strong>exact title</strong> — a "Staff SRE" never gets handed a "Backend Engineer" profile.</li>
+    <li>In relational meetings, the profile's evaluative bits are filtered out too — same no-hidden-performance-review rule, and a gate checks it.</li>
+  </ul>
+</section>
+
+<!-- 13 HARD GATES -->
+<section class="slide">
+  <div class="kicker">11 · The safety gates</div>
+  <h2>Nine hard rules that fail the build if broken</h2>
+  <p class="lead">Running <code>npm run gate</code> replays a set of human-approved "golden" test cases through the live pipeline and checks every output against these. Any single failure = the change doesn't ship.</p>
+  <table>
+    <tr><th>Gate</th><th>What it stops</th></tr>
+    <tr><td><b>PRIVATE_NOTE_LEAK</b></td><td>The manager's private judgments ("I doubt she's ready") showing up word-for-word in anything the employee could see.</td></tr>
+    <tr><td><b>OVERDIAGNOSIS_ON_THIN</b></td><td>Confident, high scores from a meeting that was actually thin and evasive.</td></tr>
+    <tr><td><b>FOCUS_ARC_LEAK</b></td><td>A casual check-in or "feels off" meeting sneaking in performance-judging topics.</td></tr>
+    <tr><td><b>ROLE_PROFILE_ARC_LEAK</b></td><td>The same sneaking, but via the role profile's evaluative content.</td></tr>
+    <tr><td><b>ENGINE_VOCAB_LEAK / ROLE_PROFILE_VOCAB_LEAK</b></td><td>Internal machinery words (placeholders, field names like "role_confidence") leaking into what users read.</td></tr>
+    <tr><td><b>WRONG_MEETING_TYPE</b></td><td>A question bank that ignores the meeting's arc (less than half the acts covered).</td></tr>
+    <tr><td><b>SCHEMA_INVALID</b></td><td>Output that's structurally broken — missing parts, scores out of range.</td></tr>
+    <tr><td><b>QUESTION_INTEGRITY</b></td><td>Duplicate questions in one meeting, forbidden phrasings, debug text, or questions that appeared from nowhere.</td></tr>
+  </table>
+</section>
+
+<!-- 14 SOFT GUARDRAILS -->
+<section class="slide">
+  <div class="kicker">12 · Softer guardrails</div>
+  <h2>Rules baked into the prompts and code</h2>
+  <div class="cards c2">
+    <div class="card"><h3>Honesty rules</h3><p><strong>No silent masking</strong> — if the model produces something off, Sero flags it; it never quietly rewrites text to hide problems. Notes with real content must produce at least one note-driven focus point.</p></div>
+    <div class="card"><h3>Wording rules</h3><p>Focus-point labels can't start with question words. A banned-phrase list keeps out consultant-speak ("pulse check", "hygiene"). "Best practice" reasons must follow set sentence shapes so they read naturally.</p></div>
+    <div class="card"><h3>Pacing rules</h3><p>Max 2 drills in a row on the same spot. Max 2 wellbeing clarifiers in a row. Max 1 off-arc tangent per meeting. When remaining questions ≤ remaining acts, the arc must move forward.</p></div>
+    <div class="card"><h3>Relevance rules</h3><p>At least half the question bank must reference something specific to <strong>this person</strong> — no fully generic banks. Two-word answers can't generate positive scores.</p></div>
+  </div>
+  <div class="note"><b>The layering idea:</b> prompts ask the model to behave; code enforces what really matters; and the hard gates catch anything that slips through. Three nets, in that order.</div>
+</section>
+
+<!-- 15 LOGS -->
+<section class="slide">
+  <div class="kicker">13 · Logs</div>
+  <h2>Every run, fully on file</h2>
+  <p class="lead">Each run gets a folder: <code>logs/&lt;month&gt;/&lt;run-id&gt;/</code> (e.g. <code>logs/june/2026_Jun02_17-35-b4b209e3</code>). Inside, every stage keeps three things: the <strong>inputs</strong> it got, the exact <strong>prompt</strong> sent to the model, and the <strong>response</strong> that came back.</p>
+  <div class="cards c3">
+    <div class="card"><h3>Per stage</h3><p><code>inputs.json</code>, <code>prompt.md</code>, <code>response.json</code> — for focus points, preparation, question bank, and evaluation. Plus one file per turn during questioning.</p></div>
+    <div class="card"><h3>Per run</h3><p><code>transcript.json</code> (all Q&A), <code>axis-state.json</code> (final scores), <code>notes.md</code>, session state, and the cost of the run in tokens and dollars.</p></div>
+    <div class="card"><h3>The fingerprint</h3><p><code>pipeline-lock.json</code> records exactly which prompts, code, and models produced this run — so we can tell what changed between any two runs.</p></div>
+  </div>
+  <div class="note"><b>One trap to remember:</b> when reviewing a run, <code>response.json</code> is the <b>raw</b> model output, before the guards run. The shipped result is in <code>final.json</code> / the later artifacts — judge the product on what shipped, not the raw draft.</div>
+</section>
+
+<!-- 16 TESTING -->
+<section class="slide">
+  <div class="kicker">14 · Testing & checking</div>
+  <h2>Three commands tell us if it still works</h2>
+  <div class="cards c3">
+    <div class="card"><h3>npm run gate</h3><p><strong>The trust gate.</strong> Replays golden test cases and runs the 9 hard checks. Pass/fail, no opinions. This is the "did we break anything that matters" button — run before calling any change done.</p></div>
+    <div class="card"><h3>npm run smoke</h3><p><strong>The end-to-end check.</strong> Pushes a whole scenario through the real pipeline, start to finish, to prove the plumbing still connects.</p></div>
+    <div class="card"><h3>npm run eval</h3><p><strong>The quality lens.</strong> Replays batches and scores soft qualities — how specific the questions are, whether the planner follows threads, whether scores match the transcript.</p></div>
+  </div>
+  <ul class="big">
+    <li><strong>Golden cases</strong> live in <code>evals/golden/</code> — real scenarios a human has ratified, including adversarial ones designed to tempt the model into breaking rules.</li>
+    <li><strong>Scenarios</strong> in <code>scenarios/</code> are replayable personas (a senior backend engineer's weekly, a junior designer's growth chat…) used by smoke and eval.</li>
+    <li>The standing rule: <strong>no self-certifying.</strong> A prompt or engine change isn't "done" until the gate has actually been run and reported.</li>
+  </ul>
+</section>
+
+<!-- 17 APP & CLI -->
+<section class="slide">
+  <div class="kicker">15 · The app & the CLI</div>
+  <h2>Two front doors, one engine</h2>
+  <div class="cards c2">
+    <div class="card"><h3>The web app</h3><p>The normal way in. Screens follow the pipeline: Start (with recent runs) → Intake → Focus points → Preparation → Bank → <strong>Questioning</strong> (live axis bars + notes) → Final briefing → optional Lexicon review. AI stages stream to the page as they generate.</p></div>
+    <div class="card"><h3>The CLI</h3><p><code>npm run cli</code> runs the same pipeline in a terminal — used mostly for testing and replays. It shows a changelog banner when prompts/code/models changed since the last run, and asks for a 1–5 rating at the end.</p></div>
+  </div>
+  <ul class="big">
+    <li><strong>In development:</strong> <code>npm run dev</code> starts the API on port <strong>3001</strong> and the web page on port <strong>3000</strong>, together. (Under preview tools, run them separately — the port injection clashes.)</li>
+    <li><strong>Sessions survive restarts</strong> — a half-finished meeting can be resumed.</li>
+    <li><strong>Light protections:</strong> requests only accepted from your own machine; new-session rate limits stop runaway loops.</li>
+  </ul>
+</section>
+
+<!-- 18 DARREN METHOD -->
+<section class="slide">
+  <div class="kicker">16 · How we build</div>
+  <h2>The Darren Method</h2>
+  <p class="lead">Anything bigger than a one-file tweak gets planned and built one careful step at a time:</p>
+  <div class="flow">
+    <div class="step"><span class="num">1</span><h4>Plan</h4><p>A folder under <code>docs/todo/&lt;name&gt;/</code>: a PLAN.md overview plus one file per phase, each ending with test scenarios.</p></div>
+    <div class="step"><span class="num">2</span><h4>Baseline</h4><p>Run the gate <em>before</em> touching anything, so pre-existing failures don't get blamed on new work.</p></div>
+    <div class="step"><span class="num">3</span><h4>One phase</h4><p>Build exactly one phase. No racing ahead.</p></div>
+    <div class="step"><span class="num">4</span><h4>You test</h4><p>The product owner walks the scenarios and gives the green light. The builder never self-certifies.</p></div>
+    <div class="step"><span class="num">5</span><h4>Commit & next</h4><p>Approved work is committed immediately. Then — and only then — the next phase starts.</p></div>
+  </div>
+  <div class="note"><b>Finished work moves to</b> <code>docs/todo/done/</code> — that folder is the project's build history (role profiles, the meeting-type refactor, demo fixes…). New ideas that pop up mid-phase get <b>parked</b> in PLAN.md, not bolted on.</div>
+</section>
+
+<!-- 19 CHEAT SHEET -->
+<section class="slide">
+  <div class="kicker">17 · Cheat sheet</div>
+  <h2>The numbers & commands that matter</h2>
+  <div class="cards c2">
+    <div class="card">
+      <h3>Key numbers</h3>
+      <p>
+        <b>5</b> meeting types · <b>2</b> relational (no competency topics)<br>
+        <b>21</b> focus points (3 wellbeing / 7 topic / 11 competency)<br>
+        <b>9</b> questions per run (4 intro + 5 dynamic)<br>
+        <b>4</b> axes, clamped ±10, deltas of −3/−1/0/+1/+3<br>
+        <b>~3,750</b> questions in the library · <b>12+</b> cached role profiles<br>
+        <b>9</b> hard gates · golden cases in <code>evals/golden/</code>
+      </p>
+    </div>
+    <div class="card">
+      <h3>Commands</h3>
+      <p>
+        <code>npm run dev</code> — web app (API :3001, page :3000)<br>
+        <code>npm run cli</code> — terminal run<br>
+        <code>npm run gate</code> — trust gate (run before "done")<br>
+        <code>npm run smoke</code> — end-to-end check<br>
+        <code>npm run eval</code> — quality scoring<br>
+        <code>npm run rebuild-question-index</code> — refresh the library index
+      </p>
+    </div>
+    <div class="card">
+      <h3>Where things live</h3>
+      <p>
+        <code>prompts/</code> — what we tell the models<br>
+        <code>src/</code> — the engine · <code>frontend/</code> — app & API<br>
+        <code>questions/</code> — the library · <code>data/role-profiles/</code> — cached profiles<br>
+        <code>logs/&lt;month&gt;/&lt;run-id&gt;/</code> — every run, in full<br>
+        <code>docs/todo/</code> — active plans · <code>docs/todo/done/</code> — finished ones
+      </p>
+    </div>
+    <div class="card">
+      <h3>House rules</h3>
+      <p>
+        <b>No silent masking</b> — flag problems, never paper over them<br>
+        <b>No hidden perf reviews</b> — relational arcs stay relational<br>
+        <b>Plain language</b> — everywhere a user reads<br>
+        <b>No self-certifying</b> — gate runs before anything is "done"<br>
+        <b>One phase at a time</b> — Darren Method, always
+      </p>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="navbar">
+  <span class="counter" id="counter">1 / 19</span>
+  <span class="hint">← → arrow keys · Home for start · T for contents</span>
+  <span class="navbtns">
+    <button id="prev">← Back</button>
+    <button id="next">Next →</button>
+  </span>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let i = 0;
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    document.getElementById('counter').textContent = (i + 1) + ' / ' + slides.length;
+    document.getElementById('progress').style.width = ((i + 1) / slides.length * 100) + '%';
+  }
+  document.getElementById('next').onclick = () => show(i + 1);
+  document.getElementById('prev').onclick = () => show(i - 1);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') show(i + 1);
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') show(i - 1);
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key.toLowerCase() === 't') show(1);
+  });
+  document.querySelectorAll('[data-go]').forEach(a => {
+    a.addEventListener('click', e => { e.preventDefault(); show(parseInt(a.dataset.go, 10) - 1); });
+  });
+  show(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+alias: q_incoming_load_3
+label: Incoming load
+name: What was landing on you at once?
+description: Gets specific about the work or requests that crowded out the missed deadline warning.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: planner_added

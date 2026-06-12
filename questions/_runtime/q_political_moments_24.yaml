@@ -1,0 +1,9 @@
+alias: q_political_moments_24
+label: Political moments
+name: Where do those political moments show up most right now?
+description: Drills into the specific stakeholder or forum where his influence feels thinnest.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+source: planner_added

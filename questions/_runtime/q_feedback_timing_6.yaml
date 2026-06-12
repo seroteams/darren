@@ -1,0 +1,9 @@
+alias: q_feedback_timing_6
+label: Feedback timing
+name: Where have you waited too long to get sharper feedback?
+description: Drills into the specific pattern he just named and anchors it in a concrete moment.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

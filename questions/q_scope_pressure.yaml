@@ -1,0 +1,10 @@
+alias: q_scope_pressure
+label: Scope pressure
+name: What part of the current scope feels like too much for one stretch?
+description: Helps you hear where the load is getting heavy before it turns into drag.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

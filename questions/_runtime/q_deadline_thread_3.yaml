@@ -1,0 +1,9 @@
+alias: q_deadline_thread_3
+label: Deadline thread
+name: When the deadlines got away from you, where did the plan first start to shift?
+description: Follows his own framing and surfaces the point where the work changed before framing it as a reliability issue.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: planner_added

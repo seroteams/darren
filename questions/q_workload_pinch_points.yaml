@@ -1,0 +1,10 @@
+alias: q_workload_pinch_points
+label: Workload pinch points
+name: What was crowding your time when those deadlines moved?
+description: Helps you hear what was actually competing for his attention.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

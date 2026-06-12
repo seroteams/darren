@@ -1,0 +1,10 @@
+alias: q_clarify_moved_work
+label: Clarify moved work
+name: "When you say 'ok', what actually moved forward in the last two weeks?"
+description: One-shot re-prompt to get a specific read on what shipped, changed, or stalled.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added

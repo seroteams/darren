@@ -1,0 +1,9 @@
+alias: q_ownership_uncertainty_5
+label: Ownership uncertainty
+name: "What's making next quarter feel unclear from your side?"
+description: Drills into the uncertainty around next-quarter ownership to surface the source of the ambiguity.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

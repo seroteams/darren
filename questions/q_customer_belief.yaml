@@ -1,0 +1,10 @@
+alias: q_customer_belief
+label: Customer belief
+name: What part of the partnership story is hardest to make land with customers?
+description: Lets you hear where the external message needs more work.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

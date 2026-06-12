@@ -1,9 +1,0 @@
-alias: q_q_missing_context_4
-label: q_missing_context
-name: "What did you know about it that the team didn't get told?"
-description: ""
-purpose: competency
-stage: gap_naming
-axis_effects:
-  clarity: +3
-source: "reworded_from:q_missing_context"

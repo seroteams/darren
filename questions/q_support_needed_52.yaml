@@ -1,0 +1,10 @@
+alias: q_support_needed_52
+label: Support needed
+name: What do you need from me before we next meet?
+description: Closes the loop on support without opening a new topic.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

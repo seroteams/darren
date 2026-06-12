@@ -1,0 +1,9 @@
+alias: q_deadline_thread_4
+label: Deadline thread
+name: When the deadlines got away from you, what was happening there?
+description: Follows his volunteered thread and lets him explain the slips in his own terms.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: planner_added

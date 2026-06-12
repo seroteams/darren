@@ -1,0 +1,10 @@
+alias: q_mentoring_tradeoff_13
+label: Mentoring tradeoff
+name: What would you have to give up to keep mentoring at the same level?
+description: Makes the tradeoff visible if the extra work is crowding out core leadership.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  wellbeing: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_mentoring_shape_19
+label: Mentoring shape
+name: What kind of mentoring would actually fit into your week right now?
+description: Helps you move from a vague wish into a format that could really work.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

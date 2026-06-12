@@ -1,0 +1,9 @@
+alias: q_recognition_mismatch_9
+label: Recognition mismatch
+name: What work do you think gets recognized instead?
+description: Surfaces his mental model of what advancement rewards and where he sees the mismatch.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_trust_building_11
+label: Trust building
+name: Which teams or people are you building trust with most actively right now?
+description: Shows whether his influence is widening through named relationships, not just output.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

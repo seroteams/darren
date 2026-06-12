@@ -1,0 +1,9 @@
+alias: q_ritual_presence_3
+label: Ritual presence
+name: "When you say 'less present in rituals,' where has that shown up most?"
+description: Pins the shift to a specific ritual or moment so the observation stage stays concrete.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

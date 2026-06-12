@@ -1,0 +1,9 @@
+alias: q_ownership_tangle
+label: Ownership tangle
+name: Where does ownership get fuzzy in this partnership work?
+description: Helps you pinpoint whether the drag is about roles, timing, or decisions.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: generated

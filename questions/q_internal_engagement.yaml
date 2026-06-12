@@ -1,0 +1,9 @@
+alias: q_internal_engagement
+label: Internal engagement
+name: Which teams are you having to re-sell this to most right now?
+description: Pins down where internal momentum is stalling so the friction is concrete.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added

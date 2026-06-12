@@ -1,0 +1,10 @@
+alias: q_political_moments_23
+label: Political moments
+name: Which political conversations do you most want to hold differently?
+description: Drills into the specific stakeholder situations where he pulls back from broader leadership.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

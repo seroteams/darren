@@ -1,0 +1,10 @@
+alias: q_choice_point
+label: Choice point
+name: Where have you had to choose between a visible win and work that would build more senior scope?
+description: Helps you hear the tradeoff he makes when easy progress and longer-term growth pull apart.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

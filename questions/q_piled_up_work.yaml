@@ -1,0 +1,9 @@
+alias: q_piled_up_work
+label: Piled-up work
+name: When it piled up, what was stacking at the same time?
+description: Drills into the concrete load behind the pile-up before moving on.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  wellbeing: +1
+source: planner_added

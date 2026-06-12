@@ -1,0 +1,10 @@
+alias: q_support_needed_59
+label: Support needed
+name: What support from me would make the biggest difference there?
+description: Invites him to name the manager support that would help him surface risk and work with clearer priorities.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: "reworded_from:q_support_needed_58"

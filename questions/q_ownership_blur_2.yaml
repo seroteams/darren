@@ -1,0 +1,9 @@
+alias: q_ownership_blur_2
+label: Ownership blur
+name: Where did ownership get fuzzy on this work?
+description: Lets you find out whether the slip came from a handoff, a shared assumption, or something else.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: generated

@@ -1,0 +1,10 @@
+alias: q_ownership_shape_2
+label: Ownership shape
+name: What would you want to be running next quarter that you are not running now?
+description: Helps you hear where she wants more ownership before any new plan lands.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_trust_gap_14
+label: Trust gap
+name: Which stakeholder relationship feels thinnest for you right now?
+description: Brings the trust question into the open without assuming the cause.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

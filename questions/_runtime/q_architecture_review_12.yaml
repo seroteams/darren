@@ -1,0 +1,9 @@
+alias: q_architecture_review_12
+label: Architecture review
+name: What role do you want to play in the architecture review?
+description: Drills into the specific kind of visibility and ownership he wants in that forum.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

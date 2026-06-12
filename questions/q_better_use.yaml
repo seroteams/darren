@@ -1,0 +1,10 @@
+alias: q_better_use
+label: Better use
+name: Where do you think your time would be better spent this year?
+description: Helps you hear what he wants to spend less energy on and why.
+purpose: topic
+stage: aspiration
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

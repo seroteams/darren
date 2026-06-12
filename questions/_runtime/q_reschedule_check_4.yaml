@@ -1,0 +1,8 @@
+alias: q_reschedule_check_4
+label: Reschedule check
+name: Would another time work better for this conversation?
+description: Direct reset to confirm whether to stop and reschedule a non-functional check-in.
+purpose: topic
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_flatter_week_12
+label: Flatter week
+name: What feels different about this week than you expected?
+description: Drills into the post-launch flatness to surface whether this is normal recovery or a specific snag.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

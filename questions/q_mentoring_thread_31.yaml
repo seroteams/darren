@@ -1,0 +1,9 @@
+alias: q_mentoring_thread_31
+label: Mentoring thread
+name: What made you stop pushing on mentoring?
+description: Drills into the mentoring thread to surface whether the blocker is time, clarity, or something else.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

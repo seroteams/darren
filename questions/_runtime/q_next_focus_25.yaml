@@ -1,0 +1,10 @@
+alias: q_next_focus_25
+label: Next focus
+name: "Given what we've covered, where do you want to focus first?"
+description: Open closer that lets him choose the first move from the growth direction he named.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added

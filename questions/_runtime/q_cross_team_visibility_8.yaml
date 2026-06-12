@@ -1,0 +1,9 @@
+alias: q_cross_team_visibility_8
+label: Cross-team visibility
+name: What kind of cross-team visibility would move you closer to tech lead?
+description: Drills into the specific exposure or scope he believes would unlock the next step.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_cross_team_decisions_12
+label: Cross-team decisions
+name: Which cross-team decisions are you not stepping into right now?
+description: Anchors the role-scope concern in concrete recent decisions he has avoided or deferred.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

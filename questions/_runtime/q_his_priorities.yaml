@@ -1,0 +1,9 @@
+alias: q_his_priorities
+label: His priorities
+name: For you specifically, what is getting your best time this week?
+description: Clarifies his actual priorities rather than the generic sales logic he just described.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

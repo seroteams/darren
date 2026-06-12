@@ -1,0 +1,9 @@
+alias: q_staff_pairing
+label: Staff pairing
+name: What would pairing with the staff engineer let you own next?
+description: Turns his stated pairing plan into a concrete aspiration about scope and senior-level ownership.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

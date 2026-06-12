@@ -1,0 +1,10 @@
+alias: q_ownership_choices
+label: Ownership choices
+name: What are you choosing to protect in your own work right now?
+description: Helps you hear what she sees as worth holding onto when the calendar gets crowded.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: generated

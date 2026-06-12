@@ -1,0 +1,10 @@
+alias: q_current_fit_4
+label: Current fit
+name: What parts of your current work still feel like a good fit for where you want to go?
+description: Helps you hear what he still wants to keep in his week before you talk about change.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

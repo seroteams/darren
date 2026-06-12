@@ -1,0 +1,10 @@
+alias: q_stuck_point_5
+label: Stuck point
+name: What is still getting stuck even when the partnership case is clear?
+description: Helps you separate message clarity from the steps that still need help.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

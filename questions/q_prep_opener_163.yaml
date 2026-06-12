@@ -1,0 +1,10 @@
+alias: q_prep_opener_163
+label: Prep opener
+name: Since the promotion decision, how has the last couple of weeks felt from your side?
+description: Gives him room to set the tone before you get into what changed.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

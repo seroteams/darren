@@ -1,0 +1,9 @@
+alias: q_outside_pressure_3
+label: Outside pressure
+name: What feels most present from outside work right now?
+description: Gives him room to name the outside pressure he just introduced without diagnosing it.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +1
+source: planner_added

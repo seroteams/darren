@@ -1,0 +1,9 @@
+alias: q_similar_work_14
+label: Similar work
+name: What kind of work has started to feel too similar?
+description: Drills into the plateau she just named to surface where the repetition is coming from.
+purpose: topic
+stage: lift
+axis_effects:
+  growth: +1
+source: planner_added

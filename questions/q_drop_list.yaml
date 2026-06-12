@@ -1,0 +1,10 @@
+alias: q_drop_list
+label: Drop list
+name: What can wait until next fortnight?
+description: Helps you separate the urgent from the truly important before the load grows again.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

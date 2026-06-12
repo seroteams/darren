@@ -1,0 +1,9 @@
+alias: q_recognition_mismatch_8
+label: Recognition mismatch
+name: What work do you think gets recognised here right now?
+description: Drills into the recognition mismatch he just named and surfaces the model he believes the organisation rewards.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

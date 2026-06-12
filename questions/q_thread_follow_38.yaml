@@ -1,8 +1,0 @@
-alias: q_thread_follow_38
-label: Thread follow
-name: When you assumed retry logic already covered it, what did you expect the system to do?
-description: Runtime thread-follow injected because planner did not follow substantive answer.
-purpose: scripted
-stage: self_read
-axis_effects:
-source: planner_added

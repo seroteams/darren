@@ -1,0 +1,10 @@
+alias: q_first_move_20
+label: First move
+name: "Given what we've covered, where do you want to focus first?"
+description: Lands the conversation on one move he can actually make.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_first_move_19"

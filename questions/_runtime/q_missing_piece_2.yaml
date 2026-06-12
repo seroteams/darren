@@ -1,0 +1,9 @@
+alias: q_missing_piece_2
+label: Missing piece
+name: "When you say 'leadership and corporate communication', what's the missing piece specifically?"
+description: Clarifies the broad phrase into a concrete understanding gap before moving on.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added

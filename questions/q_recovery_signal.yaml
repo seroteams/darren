@@ -1,0 +1,9 @@
+alias: q_recovery_signal
+label: Recovery signal
+name: What’s helping you reset after the launch?
+description: Checks for real recovery, not just a quieter calendar.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +3
+source: generated

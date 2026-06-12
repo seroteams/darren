@@ -1,0 +1,9 @@
+alias: q_leverage_thread_7
+label: Leverage thread
+name: What work feels highest-leverage to you right now?
+description: Drills into his own leverage standard before moving on, so the gap is grounded in something concrete.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

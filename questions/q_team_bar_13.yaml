@@ -1,0 +1,9 @@
+alias: q_team_bar_13
+label: Team bar
+name: What tells you the bar is fuzzy on this team?
+description: Drills into the specific signals behind his role-clarity concern before moving the arc on.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_support_needed_57
+label: Support needed
+name: What would help most from me on the partnership side over the next two weeks?
+description: Keeps the conversation on the support that would actually lighten the load.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

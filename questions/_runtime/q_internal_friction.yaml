@@ -1,0 +1,9 @@
+alias: q_internal_friction
+label: Internal friction
+name: Where does the co-working conversation get stuck internally?
+description: Drills into the specific internal dependency slowing partner work.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added

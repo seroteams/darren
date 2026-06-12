@@ -1,0 +1,10 @@
+alias: q_question_asking
+label: Question asking
+name: When you start new work here, how do you get expectations clear before it gets moving?
+description: Lets you hear how he sets up work early instead of leaving it implicit.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

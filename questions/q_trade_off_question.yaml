@@ -1,0 +1,10 @@
+alias: q_trade_off_question
+label: Trade-off question
+name: What would you be willing to drop so you can spend more time on strategic product work?
+description: Forces a real trade-off between tactical load and the work that moves him forward.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+  wellbeing: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_partner_bets
+label: Partner bets
+name: Which partner work is worth your best energy this fortnight?
+description: Helps you hear where he wants to place his bets, not just react to every ask.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

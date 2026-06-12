@@ -1,0 +1,10 @@
+alias: q_moved_or_stalled
+label: Moved or stalled
+name: What actually moved in your design work over the last two weeks?
+description: Helps you hear which pieces of the work advanced and which ones didn’t.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

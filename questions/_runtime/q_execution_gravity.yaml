@@ -1,0 +1,10 @@
+alias: q_execution_gravity
+label: Execution gravity
+name: Where are execution details pulling you in most right now?
+description: Drills into the specific work that is keeping him in tactical mode.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

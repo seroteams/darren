@@ -1,0 +1,9 @@
+alias: q_opportunity_ask_6
+label: Opportunity ask
+name: Which opportunities has he wanted but not asked for directly?
+description: Drills into the specific growth opportunities he has not been explicit about.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

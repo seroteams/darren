@@ -1,0 +1,10 @@
+alias: q_team_reaction_3
+label: Team reaction
+name: What reaction from the team stood out to you after the payments refactor shipped?
+description: Helps you hear what part of the win actually landed with the people around her.
+purpose: topic
+stage: friction
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

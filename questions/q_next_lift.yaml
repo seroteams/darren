@@ -1,0 +1,10 @@
+alias: q_next_lift
+label: Next lift
+name: What would make the next two weeks easier to move through?
+description: Ends on a practical note and points to the support that would matter most.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

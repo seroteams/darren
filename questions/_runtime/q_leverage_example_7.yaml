@@ -1,0 +1,9 @@
+alias: q_leverage_example_7
+label: Leverage example
+name: Where have you been shipping, but not shaping the highest-leverage work?
+description: Drills into his own leverage concern with a concrete recent example.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

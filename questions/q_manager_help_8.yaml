@@ -1,10 +1,10 @@
 alias: q_manager_help_8
 label: Manager help
-name: What support from me would make the biggest difference right now?
-description: Makes the support ask practical and tied to the next move, not generic reassurance.
+name: What would be most useful for me to take off your plate before next week?
+description: Ends with a concrete ask so the next two weeks leave the room lighter.
 purpose: topic
-stage: support
+stage: lift
 axis_effects:
   clarity: +1
   growth: +1
-source: planner_added
+source: generated

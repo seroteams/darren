@@ -1,0 +1,9 @@
+alias: q_leverage_thread_9
+label: Leverage thread
+name: What work feels highest-leverage here from your seat right now?
+description: Drills into his stated uncertainty about leverage so you can hear how he defines Principal-level impact on this team.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

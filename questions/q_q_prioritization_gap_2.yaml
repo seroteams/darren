@@ -1,9 +1,0 @@
-alias: q_q_prioritization_gap_2
-label: q_prioritization_gap
-name: "What's making it hard to prioritize on your own?"
-description: ""
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: "reworded_from:q_prioritization_gap"

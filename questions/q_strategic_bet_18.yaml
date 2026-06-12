@@ -1,0 +1,9 @@
+alias: q_strategic_bet_18
+label: Strategic bet
+name: What kind of strategic bet does he want to own end to end?
+description: Turns the stated aspiration into a concrete scope with visible stakeholders.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

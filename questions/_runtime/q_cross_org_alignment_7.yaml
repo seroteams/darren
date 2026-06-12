@@ -1,0 +1,9 @@
+alias: q_cross_org_alignment_7
+label: Cross-org alignment
+name: What makes cross-org alignment harder for you than running projects?
+description: Drills into the specific judgment or influence gap behind his hesitation.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_refactor_carryover_3
+label: Refactor carryover
+name: What from the payments refactor still feels unfinished to you?
+description: Shows what she still has mentally open after a successful ship.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

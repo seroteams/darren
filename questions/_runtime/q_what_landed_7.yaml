@@ -1,0 +1,9 @@
+alias: q_what_landed_7
+label: What landed
+name: What all landed on you at once?
+description: Drills into the concrete work, requests, or dependencies that piled up so the manager can see what changed.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

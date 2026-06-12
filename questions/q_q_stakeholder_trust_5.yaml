@@ -1,9 +1,0 @@
-alias: q_q_stakeholder_trust_5
-label: q_stakeholder_trust
-name: Where do stakeholders already come to you directly, and where do they still go around you?
-description: ""
-purpose: topic
-stage: anchor
-axis_effects:
-  clarity: +3
-source: "reworded_from:q_stakeholder_trust"

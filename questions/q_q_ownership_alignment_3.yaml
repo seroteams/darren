@@ -1,9 +1,0 @@
-alias: q_q_ownership_alignment_3
-label: q_ownership_alignment
-name: Whose job is it to make sure that decision is understood afterward?
-description: ""
-purpose: topic
-stage: cause
-axis_effects:
-  clarity: +3
-source: "reworded_from:q_ownership_alignment"

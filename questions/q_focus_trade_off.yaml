@@ -1,0 +1,10 @@
+alias: q_focus_trade_off
+label: Focus trade-off
+name: What did you choose to keep moving even though it meant dropping something else?
+description: Brings out the trade-off behind the slips in plain terms.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

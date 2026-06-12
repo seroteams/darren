@@ -1,0 +1,10 @@
+alias: q_review_load
+label: Review load
+name: What kind of feedback or review loop is costing you the most time right now?
+description: Gets specific about where review is adding value and where it is just adding churn.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

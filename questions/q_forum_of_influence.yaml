@@ -1,0 +1,10 @@
+alias: q_forum_of_influence
+label: Forum of influence
+name: Where do you want your judgment to carry more weight this year?
+description: Points the conversation toward the rooms and decisions where his influence should grow.
+purpose: competency
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

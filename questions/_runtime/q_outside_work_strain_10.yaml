@@ -1,0 +1,9 @@
+alias: q_outside_work_strain_10
+label: Outside-work strain
+name: "Do you want to say a bit more about what's made these weeks hard outside work?"
+description: Gives him an opt-in opening to explain the outside-work strain he just mentioned.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  wellbeing: +3
+source: planner_added

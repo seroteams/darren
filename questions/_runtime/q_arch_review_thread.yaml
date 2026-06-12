@@ -1,0 +1,9 @@
+alias: q_arch_review_thread
+label: Arch review thread
+name: What would presenting in architecture review let you own more fully?
+description: Drills into the architecture-review thread to surface the concrete scope or outcome he wants.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+source: planner_added

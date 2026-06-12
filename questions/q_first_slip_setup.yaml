@@ -1,0 +1,10 @@
+alias: q_first_slip_setup
+label: First slip setup
+name: What changed before the first deadline moved?
+description: Gets a concrete before-and-after on the first miss.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

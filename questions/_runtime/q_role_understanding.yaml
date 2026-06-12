@@ -1,0 +1,9 @@
+alias: q_role_understanding
+label: Role understanding
+name: What part of the role is least understood by sales and BD?
+description: Drills into the specific misunderstanding creating internal friction.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added

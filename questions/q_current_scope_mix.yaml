@@ -1,0 +1,10 @@
+alias: q_current_scope_mix
+label: Current scope mix
+name: Where does your time still get pulled into delivery detail that you would rather be spending on product leadership?
+description: Helps you hear what part of the role still feels too hands-on for him.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

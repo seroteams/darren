@@ -1,0 +1,10 @@
+alias: q_steady_support_2
+label: Steady support
+name: What support from me would make the biggest difference over the next couple of weeks?
+description: "Lands the conversation on something practical you can do together before the next 1:1."
+purpose: wellbeing
+stage: support
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: "reworded_from:q_steady_support"

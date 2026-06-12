@@ -1,0 +1,10 @@
+alias: q_next_quarter_shape_18
+label: Next quarter shape
+name: What do you expect to have on your plate next quarter?
+description: Gets her version of the road ahead before you bring in anything that could change it.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

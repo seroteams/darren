@@ -1,0 +1,9 @@
+alias: q_prep_opener_173
+label: Prep opener
+name: Before we get into specifics, how has the last couple of weeks felt from your side in terms of what actually got over the line?
+description: Gives Sam room to frame the fortnight before you narrow in on what shifted.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: generated

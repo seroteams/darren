@@ -1,0 +1,10 @@
+alias: q_stretch_details
+label: Stretch details
+name: What would feel like a real stretch in the next few months if it came with a clear outcome?
+description: Gets him to name the shape of stretch in practical terms you can plan around.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

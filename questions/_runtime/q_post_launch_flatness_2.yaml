@@ -1,0 +1,9 @@
+alias: q_post_launch_flatness_2
+label: Post-launch flatness
+name: What feels flat about this week, specifically?
+description: Drills into the post-launch dip to locate whether the flatness is about energy, work shape, or something unresolved.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

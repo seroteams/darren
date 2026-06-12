@@ -1,0 +1,10 @@
+alias: q_visibility_support
+label: Visibility support
+name: Where would my support make the biggest difference in getting your thinking seen by the right people?
+description: Opens a practical conversation about how you can help him gain visibility without taking the work back.
+purpose: topic
+stage: investment
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

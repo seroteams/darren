@@ -1,0 +1,9 @@
+alias: q_harder_system_ownership
+label: Harder system ownership
+name: What would owning more of the harder system work actually look like for you?
+description: Drills into the specific scope, decisions, or system ownership he wants to grow into.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_priority_drift_6
+label: Priority drift
+name: What pulled you away from the work you meant to focus on?
+description: Helps you hear what shifted Sam off the plan without sounding accusatory.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

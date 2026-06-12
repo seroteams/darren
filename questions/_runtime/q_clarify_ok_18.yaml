@@ -1,0 +1,9 @@
+alias: q_clarify_ok_18
+label: "Clarify 'ok'"
+name: "When you say 'ok', what actually got over the line?"
+description: One-shot re-prompt to turn the shallow answer into a concrete read on what landed.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added

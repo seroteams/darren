@@ -1,0 +1,9 @@
+alias: q_strained_teams_3
+label: Strained teams
+name: Which teams are most strained right now?
+description: Pins down where the internal pressure is concentrated so the friction is concrete.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added

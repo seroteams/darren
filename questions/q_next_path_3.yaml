@@ -1,0 +1,10 @@
+alias: q_next_path_3
+label: Next path
+name: What concrete path forward do you see for yourself from here?
+description: Helps you hear whether he sees a real next step or feels stuck after the decision.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

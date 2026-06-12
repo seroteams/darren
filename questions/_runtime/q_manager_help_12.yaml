@@ -1,0 +1,10 @@
+alias: q_manager_help_12
+label: Manager help
+name: What support from me would make the biggest difference over the next two weeks?
+description: Ends with a concrete ask so the next two weeks leave the room lighter.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: "reworded_from:q_manager_help_8"

@@ -1,0 +1,10 @@
+alias: q_steadying_support
+label: Steadying support
+name: What would help you feel steadier in the next couple of weeks?
+description: Closes by turning the conversation into something concrete you can support.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

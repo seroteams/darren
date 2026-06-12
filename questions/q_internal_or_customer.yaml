@@ -1,0 +1,10 @@
+alias: q_internal_or_customer
+label: Internal or customer
+name: Is the heavier lift coming more from internal alignment or customer conversations?
+description: Helps you separate where the drag is actually sitting so you can talk about it plainly.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

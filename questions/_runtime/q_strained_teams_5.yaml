@@ -1,0 +1,9 @@
+alias: q_strained_teams_5
+label: Strained teams
+name: Which teams are feeling that strain most right now?
+description: Pins down the specific internal groups where partner work is stalling.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added

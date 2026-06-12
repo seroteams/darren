@@ -1,0 +1,10 @@
+alias: q_mentoring_role_6
+label: Mentoring role
+name: What is the mentoring program building toward for you?
+description: Helps you hear whether mentoring feels like part of his path or a side track.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

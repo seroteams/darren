@@ -1,0 +1,9 @@
+alias: q_controllable_focus_4
+label: Controllable focus
+name: What felt more controllable about delivery at that point?
+description: Drills into why he retreated to delivery and what that choice protected him from.
+purpose: topic
+stage: landing
+axis_effects:
+  engagement: +1
+source: planner_added

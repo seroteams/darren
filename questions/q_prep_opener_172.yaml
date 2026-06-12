@@ -1,0 +1,10 @@
+alias: q_prep_opener_172
+label: Prep opener
+name: What would feel like a real next-step stretch for you this year, and how do your current priorities line up with that?
+description: Helps you hear whether his current work matches the kind of growth he wants next.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

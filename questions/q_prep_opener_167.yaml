@@ -1,0 +1,10 @@
+alias: q_prep_opener_167
+label: Prep opener
+name: "How have the last couple of weeks felt from your side, especially where you've had to keep re-selling the partnership story?"
+description: Lets Machar set the scene before you dig into what the extra load is doing.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

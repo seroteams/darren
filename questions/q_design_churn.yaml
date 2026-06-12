@@ -1,0 +1,10 @@
+alias: q_design_churn
+label: Design churn
+name: Where did the design keep changing after you thought it was settled?
+description: Gets at churn in the work itself, which is often where priorities quietly slip.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

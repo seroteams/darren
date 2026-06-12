@@ -1,0 +1,10 @@
+alias: q_release_cleanup
+label: Release cleanup
+name: What part of the release needs more cleanup or follow-through from you?
+description: Helps you hear whether the launch has hidden follow-up work that still needs attention.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

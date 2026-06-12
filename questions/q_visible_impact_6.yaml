@@ -1,0 +1,10 @@
+alias: q_visible_impact_6
+label: Visible impact
+name: Where is your work creating impact beyond your own service right now?
+description: Helps you hear whether his scope is reaching past steady delivery into wider effect.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

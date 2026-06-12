@@ -1,0 +1,9 @@
+alias: q_understanding_gap_3
+label: Understanding gap
+name: What are they missing about how alliance work fits with sales and BD?
+description: Drills into the specific misunderstanding he named so you can hear the real internal friction.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added

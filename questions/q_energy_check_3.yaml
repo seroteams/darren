@@ -1,0 +1,10 @@
+alias: q_energy_check_3
+label: Energy check
+name: Since we last spoke, where is your energy at with the design work?
+description: Keeps the wellbeing read tied to this fortnight, not a generic mood check.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

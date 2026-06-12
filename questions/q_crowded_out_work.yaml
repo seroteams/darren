@@ -1,0 +1,10 @@
+alias: q_crowded_out_work
+label: Crowded-out work
+name: What got pushed aside when those deadlines slipped?
+description: Helps you hear what work actually displaced the missed items.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

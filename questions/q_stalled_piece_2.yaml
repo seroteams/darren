@@ -1,0 +1,10 @@
+alias: q_stalled_piece_2
+label: Stalled piece
+name: What part of the design work stalled or sat waiting the longest?
+description: Helps you spot where momentum is getting lost in the handoff or decision flow.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

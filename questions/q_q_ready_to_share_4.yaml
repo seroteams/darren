@@ -1,9 +1,0 @@
-alias: q_q_ready_to_share_4
-label: q_ready_to_share
-name: "When you say 'ready to share,' what are you looking for before you bring work in?"
-description: ""
-purpose: topic
-stage: evidence
-axis_effects:
-  clarity: +3
-source: "reworded_from:q_ready_to_share"

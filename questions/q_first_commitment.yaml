@@ -1,0 +1,10 @@
+alias: q_first_commitment
+label: First commitment
+name: What is one strategic ownership move you want to make before we meet again?
+description: Leaves the conversation with a concrete next step that matches the growth theme.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

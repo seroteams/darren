@@ -1,0 +1,10 @@
+alias: q_energy_drain_7
+label: Energy drain
+name: What has taken more out of you than you expected since we last spoke?
+description: Keeps the check-in grounded in this fortnight and shows where the load is building.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

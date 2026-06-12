@@ -1,0 +1,9 @@
+alias: q_internal_drag
+label: Internal drag
+name: Where is the internal drag showing up most right now?
+description: Drills into the internal alignment thread he just named so the friction is concrete.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added

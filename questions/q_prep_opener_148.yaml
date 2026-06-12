@@ -1,0 +1,10 @@
+alias: q_prep_opener_148
+label: Prep opener
+name: If you were moving more through strategy, trust, and product leadership, what would this next stretch of Head of Product scope look like for you?
+description: Sets the frame for the conversation and lets Ahmed define the shape of the next step in his own terms.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

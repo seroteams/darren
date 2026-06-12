@@ -1,0 +1,10 @@
+alias: q_pressure_point_6
+label: Pressure point
+name: What was making this stretch harder than it first looked?
+description: Helps you hear what changed under the surface without turning it into a blame conversation.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

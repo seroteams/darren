@@ -1,0 +1,9 @@
+alias: q_change_unclear_2
+label: Change unclear
+name: What felt unclear about what needed to change after that decision?
+description: Drills into the specific clarity gap he named so the conversation stays with his words.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  clarity: +1
+source: planner_added

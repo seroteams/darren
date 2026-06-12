@@ -1,0 +1,9 @@
+alias: q_execution_pull_21
+label: Execution pull
+name: What keeps pulling you back into execution detail right now?
+description: Drills into the specific pattern keeping him from operating at broader product leadership scope.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

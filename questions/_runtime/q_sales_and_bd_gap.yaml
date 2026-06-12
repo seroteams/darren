@@ -1,0 +1,9 @@
+alias: q_sales_and_bd_gap
+label: Sales and BD gap
+name: What are sales and BD missing about the partner alliance role?
+description: Drills into the specific internal understanding gap he just named so the friction is more concrete.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_clarify_misunderstanding
+label: Clarify misunderstanding
+name: "When you say 'leadership and corporate communication,' what are they missing specifically?"
+description: Gets concrete on the misunderstanding before moving on.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added

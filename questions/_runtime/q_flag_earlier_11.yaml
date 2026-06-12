@@ -1,0 +1,9 @@
+alias: q_flag_earlier_11
+label: Flag earlier
+name: What got in the way of flagging it earlier?
+description: Drills into the missed heads-up he just named so he can explain what kept it unspoken.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: planner_added

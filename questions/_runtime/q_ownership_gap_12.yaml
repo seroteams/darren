@@ -1,0 +1,9 @@
+alias: q_ownership_gap_12
+label: Ownership gap
+name: Where specifically did ownership feel unclear?
+description: Pins down the work or dependency where ownership ambiguity showed up.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added
