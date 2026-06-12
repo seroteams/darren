@@ -3,7 +3,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const YAML = require("yaml");
-const assert = require("node:assert");
 
 const { loadLexicon, canonicalPath, candidatePath } = require("../src/lexicon");
 const { buildMessages } = require("../src/question-generator");
@@ -95,7 +94,6 @@ ok("filled prompt includes avoid 'what is the process?'", msg.filled.includes('"
 
 console.log("\n--- AC9 / AC21  Missing canonical file renders (none yet) safely ---");
 const origPath = canonicalPath("design", "lead");
-const orig = fs.readFileSync(origPath, "utf8");
 fs.renameSync(origPath, origPath + ".bak");
 try {
   const lex3 = loadLexicon({
@@ -135,9 +133,7 @@ const { shouldReview: _sr } = require("../src/lexicon-reviewer");
 const tmpDir = path.join(__dirname, "..", "lexicons", "_candidates", "design");
 const tmpFile = path.join(tmpDir, "lead.yaml");
 const canonicalOrig = fs.readFileSync(canonicalPath("design", "lead"), "utf8");
-const candOrig = fs.readFileSync(tmpFile, "utf8");
-// Use internal append helper indirectly by requiring the module file
-const reviewer = require("../src/lexicon-reviewer");
+const _candOrig = fs.readFileSync(tmpFile, "utf8"); // throws if the candidate file is missing
 // appendCandidates is module-internal; emulate via direct test of YAML writeback path: just verify candidate file path is targeted, not canonical.
 const expectedCandidate = candidatePath("design", "lead");
 ok("candidate path is under _candidates", expectedCandidate.includes(path.join("_candidates", "design")));

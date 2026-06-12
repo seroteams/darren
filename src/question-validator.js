@@ -63,7 +63,7 @@ function startsWithBrokenFragment(name) {
   return false;
 }
 
-function validateQuestionBeforeShow({ name, answer, transcript } = {}) {
+function validateQuestionBeforeShow({ name, answer } = {}) {
   const stem = String(name || "").trim();
   if (!stem) {
     return { ok: false, reason: "empty stem", fallback: FALLBACK_STEM };

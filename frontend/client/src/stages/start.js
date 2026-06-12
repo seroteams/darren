@@ -186,7 +186,7 @@ export async function mount(root, { setState, rehydrateById }) {
           <button class="btn btn--ghost js-delete" data-id="${escape(id)}">Delete</button>
         </div>
       `;
-    } catch (e) {
+    } catch {
       body.innerHTML = `<div class="text-ink-mute text-sm">Failed to load overview.</div>`;
     }
   }

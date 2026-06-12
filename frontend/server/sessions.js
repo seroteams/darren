@@ -1,4 +1,3 @@
-const path = require("node:path");
 const { createSession } = require("../../src/session");
 const { initState } = require("../../src/axes");
 const cost = require("../../src/cost");

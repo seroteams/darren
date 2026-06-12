@@ -266,7 +266,7 @@ export async function mount(root, { store, setState }) {
   try {
     const res = await getMeetingTypes();
     types = res.types;
-  } catch (e) {
+  } catch {
     types = [];
   }
 

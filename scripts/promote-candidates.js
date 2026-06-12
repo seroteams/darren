@@ -84,7 +84,6 @@ async function main() {
   }
 
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-  const batchDecisions = [];
   let promotedTotal = 0;
   let droppedTotal = 0;
 

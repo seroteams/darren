@@ -42,7 +42,7 @@ function createRouter() {
         if (!raw) return resolve({});
         try {
           resolve(JSON.parse(raw));
-        } catch (e) {
+        } catch {
           reject(Object.assign(new Error("Invalid JSON body"), { status: 400 }));
         }
       });

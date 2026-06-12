@@ -69,7 +69,7 @@ function classifyArcKinds(transcript) {
   });
 }
 
-function renderRun({ id, dir, scenario, brief, prepIssues, transcript, arc, coverage, servedLint, briefing, trust, judge }) {
+function renderRun({ dir, scenario, brief, prepIssues, transcript, arc, coverage, servedLint, briefing, trust, judge }) {
   const kinds = classifyArcKinds(transcript);
   const L = [];
   L.push(`# Verdict — ${scenario.name} · ${scenario.role} · ${scenario.seniority} · ${scenario.meeting_type}`);

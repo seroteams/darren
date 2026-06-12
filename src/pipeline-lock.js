@@ -330,7 +330,7 @@ function diffLocks(baseline, current) {
   };
 }
 
-function formatChangelogMarkdown({ baseline, current, summary, groups }) {
+function formatChangelogMarkdown({ baseline, current, groups }) {
   const lines = ["## Pipeline delta", ""];
   if (baseline.capturedAt) {
     lines.push(`Baseline captured: ${new Date(baseline.capturedAt).toISOString()}`);

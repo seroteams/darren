@@ -23,7 +23,6 @@ const {
   runGoldenScenarioChecks,
   runQualityPrepListenFor,
 } = require("../src/golden-checks");
-const { validateQuestionBeforeShow } = require("../src/question-validator");
 
 const REGRESSION_DIR = path.join(ROOT, "scenarios/regression");
 const BATCH_DIR = path.join(ROOT, "scenarios/batch");

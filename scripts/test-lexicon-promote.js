@@ -6,7 +6,6 @@ const YAML = require("yaml");
 const {
   listPendingPromotions,
   applyPromotionDecisions,
-  promotionItemId,
 } = require("../src/lexicon/promote-core");
 
 const ROOT = path.join(__dirname, "..");

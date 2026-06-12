@@ -1,4 +1,3 @@
-const fs = require("node:fs");
 const path = require("node:path");
 const { requireSession, summarizeAxes, persistSession } = require("../sessions");
 const { openStream } = require("../sse");

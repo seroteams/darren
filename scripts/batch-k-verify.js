@@ -9,7 +9,6 @@ const ROOT = path.join(__dirname, "..");
 
 const {
   isShallowAnswer,
-  noteMarksShallow,
   detectClarityMisalignment,
   expandSignatureForSignals,
   applyShallowGate,

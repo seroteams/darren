@@ -157,7 +157,7 @@ export async function mount(root, { setState }) {
   let run;
   try {
     run = await getRunFull(id);
-  } catch (e) {
+  } catch {
     host.innerHTML = `<p class="stage-review__empty caption">Could not load this run. It may have been deleted.</p>`;
     return;
   }
@@ -245,7 +245,7 @@ export async function mount(root, { setState }) {
       if (!alive) return;
       dirty = false;
       setStatus("saved");
-    } catch (e) {
+    } catch {
       setStatus("failed");
     }
   }

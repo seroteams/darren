@@ -1,4 +1,3 @@
-const path = require("node:path");
 const { generateFocusPoints } = require("../../generate");
 const { bold, dim, cyan, magentaBold, yellow, gray, red, HR, pad, withThinking } = require("../../ui");
 

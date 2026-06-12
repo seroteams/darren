@@ -100,7 +100,7 @@ async function main() {
       console.log("  " + dim("↳ ") + lines[0]);
       for (const l of lines.slice(1)) console.log("  " + dim("  " + l));
     }
-  } catch (_) {}
+  } catch {}
 
   while (true) {
     const recent = listRecentRuns(3);

@@ -281,7 +281,7 @@ function buildRunDebriefPayload({
 }
 
 function printRunDebrief(payload, ui) {
-  const { dim, cyan, HR } = ui;
+  const { dim, cyan } = ui;
   console.log();
   console.log(dim("  ── Run log " + "─".repeat(44)));
   console.log();
