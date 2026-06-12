@@ -1,6 +1,30 @@
 # Phase 3 — Live scores: diagnose or be honest
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 root cause found + fixed + live-verified, awaiting product-owner test
+
+## Diagnosis (2026-06-12)
+Root cause found **statically**, then proven live: the client gave the scoring
+stream at most **6.6 seconds** (`runPlanStream`'s 5s cap after a 1.6s orb
+delay) before closing it and advancing. The per-turn planner routinely takes
+5–15s on the big model, so most turns the stream died **before the `axes`
+event arrived** — bars frozen all session (the server kept scoring and logging,
+which is why the Jun 11 log had every delta while the screen showed nothing).
+It also let the UI advance while the server was still re-planning the queue —
+an amplifier for the demo's mid-run "haywire" feeling. Neither original
+suspect (replay cache, role-profile substitution) was involved.
+
+Fix: wait for the stream's terminal event (generous 120s backstop that fails
+**loudly** into the error screen instead of silently advancing). Bonus
+hardening: the score number text only updated inside a requestAnimationFrame
+count-up, which background tabs pause — now it snaps instantly when the tab
+is hidden (`document.hidden`), so scores stay correct while the manager is in
+their meeting tab.
+
+Live-verified in the browser (Machar bi-weekly, 2 answered turns): bars moved
+on both turns with the planner taking >6.6s, numbers correct in a hidden tab,
+UI advanced only after scoring landed, console clean, prod build green.
+No "scores didn't update" indicator needed — the stream now always delivers
+the update before the next question, or fails visibly.
 
 ## Goal
 Score bars move every answered turn — or the UI plainly says they didn't update, instead of silently freezing.

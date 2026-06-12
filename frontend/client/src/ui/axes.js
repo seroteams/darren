@@ -169,8 +169,10 @@ function createRow(id, celebrate) {
     if (!baseline) showOffscale(to);
     else removeOffscaleBadge();
 
-    // Count-up
-    if (REDUCE_MOTION || from === to) {
+    // Count-up. Skip it when the tab is hidden — background tabs pause
+    // requestAnimationFrame, which would leave the number text stale (the bar
+    // and chip update synchronously above) until the tab regains focus.
+    if (REDUCE_MOTION || from === to || document.hidden) {
       setValueText(to, { baseline });
       track.setAttribute("aria-valuenow", String(baseline ? seed : to));
       return;

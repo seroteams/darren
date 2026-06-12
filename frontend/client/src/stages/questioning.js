@@ -364,14 +364,27 @@ export async function mount(root, { store, setState }) {
       .open();
 
     await sleep(1600);
+    // Wait for the stream's terminal event — the planner takes as long as it
+    // takes (often 5–15s on the big model). The old 5s cap closed the stream
+    // before the axes event arrived, which froze the live score bars and let
+    // the UI advance while the server was still re-planning the queue (the
+    // Jun 11 demo's "scores stopped working" + mid-run haywire). Dead
+    // connections surface via onError above; this long cap only catches a
+    // hung-but-alive stream, and it fails loudly instead of moving on.
     const started = Date.now();
-    while (!terminal && Date.now() - started < 5000) await sleep(100);
+    while (!terminal && Date.now() - started < 120000) await sleep(100);
 
     if (terminal === "done") {
       setState({ stage: STAGES.EVAL });
-    } else {
-      activeSse?.close(); // stop a slow/stale stream so it can't fire a late event after we advance
+    } else if (terminal === "next") {
       showNextQuestion();
+    } else {
+      activeSse?.close();
+      setState({
+        stage: STAGES.ERROR,
+        error: "Scoring this answer is taking too long — the connection may be stuck.",
+        retryStage: STAGES.QUESTIONING,
+      });
     }
   }
 

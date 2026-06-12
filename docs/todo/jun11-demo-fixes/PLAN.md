@@ -18,7 +18,7 @@ Source: demo run `logs/june/2026_Jun11_08-12-c6dacfe1` (Machar · Partner allian
 |---|---|---|---|
 | 1 | Question integrity | Central eligibility gate every question passes before the UI + rejection logging + Machar regression fixture | 🔨 |
 | 2 | Brief wording | Name-not-title + plain-language guard (flag-and-retry, never rewrite) | 🔨 |
-| 3 | Live scores | Timeboxed diagnosis of stalled score bars; fix or honest "didn't update" indicator | ⬜ |
+| 3 | Live scores | Timeboxed diagnosis of stalled score bars; fix or honest "didn't update" indicator | 🔨 |
 | 4 | Back navigation | One-step-back to amend the previous answer (spec questions answered before code) | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -43,7 +43,9 @@ Carl delegated the Phase 1 green light to self-verification (2026-06-12: "check 
 
 **OpenAI quota is working again** (discovered 2026-06-12 when a module load-check accidentally executed a full smoke run — $0.37, 29/29 checks passed, Phase 1+2 behaviour all visible live). Cost correction: a full pipeline run is ~$0.37 (planner stage ×9 on the big model), so the 8-case gate ≈ $3 — run it only with Carl's nod. The Machar regression gate case was run solo (~$0.35): **PASS end-to-end** — brief says "Machar" (not the title), no jargon, clean suggestedAction, 9 distinct questions, QUESTION_INTEGRITY clean. Session OpenAI spend ≈ $0.72.
 
-Next: Carl eyeballs the Phase 2 brief + walks Phase 1 scenarios when convenient → phases go ✅ → full-gate re-baseline (~$3, on Carl's nod) → Phase 3 (live scores, needs the dev server).
+**Phase 3 built same day:** root cause of the frozen score bars was the client's 6.6s cap on the scoring stream (planner takes 5–15s → stream closed before the axes event most turns; also let the UI race ahead of the re-plan — the "haywire" amplifier). Fixed: wait for the stream's terminal event, 120s loud-failure backstop; plus instant score-text snap in hidden tabs (background tabs pause the count-up animation). Live-verified in the browser on a Machar session (2 turns, ~$0.10): bars moved both turns, hidden-tab numbers correct, console clean, prod build + lint green. Details in phase-3.md.
+
+Carl declined the full-gate re-baseline (cost). Next: Carl eyeballs phases 1–3 in the app when convenient → ✅ → Phase 4 (back-to-question; spec questions first).
 
 ## Parked
 - Voice/transcript input — typing-while-listening friction ("we're filling in a form almost"). Bigger UX theme, own track.
