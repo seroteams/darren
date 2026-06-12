@@ -29,6 +29,7 @@ module.exports = async function bank(c) {
           session.queueRef = scripted;
           session.totalBudget = scripted.length;
           session.closer = null;
+          session.sessionBank = scripted;
           return { count: scripted.length };
         }
       }
@@ -54,6 +55,19 @@ module.exports = async function bank(c) {
       // plan.js force-inserts this at queueRef[0] when turn + 1 === totalBudget,
       // so the planner can't accidentally drop or rewrite it.
       session.closer = selectReservedCloser(bankItems, session.ctx.meetingType);
+
+      // The legitimate question pool for THIS session (mirrors the CLI loop):
+      // assembled queue + reserved prep-opener and closer. The planner's
+      // coverage insertion pulls from here instead of the whole global bank,
+      // so it can't surface another persona's saved question.
+      const seenBankAliases = new Set();
+      session.sessionBank = [];
+      for (const item of [...session.queueRef, session.prepOpener, session.closer]) {
+        if (item?.alias && !seenBankAliases.has(item.alias)) {
+          seenBankAliases.add(item.alias);
+          session.sessionBank.push(item);
+        }
+      }
 
       return { count: bankItems.length };
     },

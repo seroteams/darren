@@ -1,7 +1,42 @@
-const { requireSession } = require("../sessions");
+const path = require("node:path");
+const { requireSession, persistSession } = require("../sessions");
+const {
+  checkQuestionEligibility,
+  dropIneligibleHeads,
+  appendEligibilityLog,
+} = require("../../../src/question-eligibility");
 
 module.exports = function question(c) {
   const session = requireSession(c.query.s);
+
+  // Serve-time gate — the last line of defence: no question reaches the UI
+  // without passing the eligibility check, whichever path queued it. Scripted
+  // runs keep their frozen path (log-only) so fixture comparisons stay stable.
+  const askedNames = session.transcript.map((t) => t.question.name);
+  if (session.mode === "scripted") {
+    const head = session.queueRef[0];
+    if (head) {
+      const check = checkQuestionEligibility(head, {
+        meetingType: session.ctx.meetingType,
+        askedNames,
+      });
+      if (!check.ok) {
+        console.warn(
+          `[question] scripted question would be rejected (${check.reason}): ${head.alias || head.name}`
+        );
+      }
+    }
+  } else {
+    const rejected = dropIneligibleHeads(session.queueRef, {
+      meetingType: session.ctx.meetingType,
+      askedNames,
+    });
+    if (rejected.length) {
+      appendEligibilityLog(path.join(session.dir, "eligibility-log.json"), rejected);
+      persistSession(session);
+    }
+  }
+
   if (session.turn >= session.totalBudget || session.queueRef.length === 0) {
     return c.json(200, {
       done: true,

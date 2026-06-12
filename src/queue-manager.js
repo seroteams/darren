@@ -342,51 +342,17 @@ function isUnchanged(refOriginal, incoming) {
   return true;
 }
 
-// Words stripped before comparing question wording — scaffolding shared by
-// most questions, so they carry no signal about whether two questions match.
-const REPEAT_STOP = new Set([
-  "a", "an", "the", "is", "are", "was", "were", "be", "been", "being",
-  "do", "does", "did", "to", "of", "in", "on", "for", "with", "at", "by",
-  "from", "about", "as", "into", "and", "or", "but", "if", "then", "that",
-  "this", "these", "those", "what", "whats", "how", "when", "where", "which",
-  "who", "why", "you", "your", "youre", "yours", "i", "we", "they", "it",
-  "its", "me", "my", "our", "us", "them", "their", "can", "could", "would",
-  "should", "will", "feel", "feels", "like", "one", "any", "right", "now",
-]);
-
-// Reduce a question to its set of content words (lowercased, punctuation and
-// stop words removed). Used to detect within-session repeats.
-function contentTokens(text) {
-  return new Set(
-    (text || "")
-      .toLowerCase()
-      .replace(/[^\w\s]/g, " ")
-      .split(/\s+/)
-      .filter((w) => w && !REPEAT_STOP.has(w)),
-  );
-}
-
-// True when `candidate` repeats a question already asked this session — an
-// exact content match or heavy word overlap (Jaccard >= REPEAT_JACCARD).
-// Conservative on purpose: catches near-identical repeats without dropping
-// genuine follow-ups that merely reuse a topic word.
-const REPEAT_JACCARD = 0.7;
-function isRepeatOfAsked(candidate, askedTokenSets) {
-  const c = contentTokens(candidate);
-  if (c.size === 0) return false;
-  for (const asked of askedTokenSets) {
-    if (asked.size === 0) continue;
-    let inter = 0;
-    for (const w of c) if (asked.has(w)) inter++;
-    const union = c.size + asked.size - inter;
-    if (union > 0 && inter / union >= REPEAT_JACCARD) return true;
-  }
-  return false;
-}
+// Repeat detection lives in the central eligibility gate so every admission
+// path compares question text the same way.
+const {
+  checkQuestionEligibility,
+  contentTokens,
+  isRepeatOfAsked,
+} = require("./question-eligibility");
 
 // Reconcile AI-returned items against the existing remaining queue +
 // transcript. Produces the materialised queue of question objects.
-function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames = [] }) {
+function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames = [], meetingType = null }) {
   const byAlias = new Map(remainingQueue.map((q) => [q.alias, q]));
   const existingAliases = listAllAliases();
   for (const q of remainingQueue) existingAliases.add(q.alias);
@@ -422,6 +388,17 @@ function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames 
 
     if (isRepeatOfAsked(item.name, askedTokenSets)) {
       issues.push(`dropped repeat of already-asked question: ${item.name}`);
+      continue;
+    }
+
+    // New planner items also pass the type's forbidden patterns — the planner
+    // free-writes question text every turn, so it can violate the 1:1 type's
+    // rules just like a bad opener or seed.
+    const eligibility = checkQuestionEligibility(item, { meetingType });
+    if (!eligibility.ok) {
+      issues.push(
+        `eligibility: dropped planner item "${item.label || item.name}" (${eligibility.reason}: ${eligibility.matched})`
+      );
       continue;
     }
 
@@ -589,6 +566,7 @@ function enforceAxisCoverage({
   askedNames = [],
   arc = null,
   transcript = [],
+  meetingType = null,
   bankLoader = () => [...loadDir(""), ...loadDir("_seed")],
 }) {
   if (turnNumber < 4 || !Array.isArray(newQueue) || !newQueue.length) return newQueue;
@@ -631,6 +609,13 @@ function enforceAxisCoverage({
     if (askedAliases.has(c.alias) || queuedAliases.has(c.alias)) return false;
     if (c.stage != null && arc && !arcStageIds.has(c.stage)) return false;
     if (isRepeatOfAsked(c.name, askedTokenSets)) return false;
+    const eligibility = checkQuestionEligibility(c, { meetingType });
+    if (!eligibility.ok) {
+      issues.push(
+        `eligibility: coverage skipped ${c.alias} (${eligibility.reason}: ${eligibility.matched})`
+      );
+      return false;
+    }
     return true;
   });
   const pick =
@@ -679,45 +664,35 @@ function firstQueueFollowsThread(queue, answer) {
   return followReferencesAnswer(answer, queue[0]?.name);
 }
 
-const {
-  validateQuestionBeforeShow,
-  FALLBACK_STEM,
-} = require("./question-validator");
+const { validateQuestionBeforeShow } = require("./question-validator");
 
+// Ground-or-skip: a thread-follow must mirror the answer's own words. If the
+// mirror stem can't pass validation, return null and inject nothing — a canned
+// context-free stem fakes a connection the engine didn't make (the Jun 11
+// Machar run served the identical generic stem on consecutive turns and it
+// read as disconnected both times).
 function buildThreadFollowQuestion(lastQuestion, lastAnswer, transcript) {
-  // Context-free stem — must fit ANY conversation (the old "retry logic" stem
-  // leaked a specific test scenario into unrelated sessions).
-  const phraseStem = `What made you read the situation that way at the time?`;
-  const mirrorStem = `${String(lastAnswer || "")
+  const mirrorWords = String(lastAnswer || "")
     .replace(/[^a-z0-9\s,'-]/gi, " ")
     .trim()
     .split(/\s+/)
     .filter((w) => w.length >= 4)
-    .slice(0, 3)
-    .join(" ")} — can you say more about what that means for you right now?`;
+    .slice(0, 3);
+  if (!mirrorWords.length) return null;
+  const mirrorStem = `${mirrorWords.join(" ")} — can you say more about what that means for you right now?`;
 
-  let name = phraseStem;
   const mirrorCheck = validateQuestionBeforeShow({
     name: mirrorStem,
     answer: lastAnswer,
     transcript,
   });
-  if (mirrorCheck.ok) {
-    name = mirrorStem;
-  } else {
-    const phraseCheck = validateQuestionBeforeShow({
-      name: phraseStem,
-      answer: lastAnswer,
-      transcript,
-    });
-    name = phraseCheck.ok ? phraseStem : FALLBACK_STEM;
-  }
+  if (!mirrorCheck.ok) return null;
 
   const alias = newAlias("thread follow", listAllAliases());
   return {
     alias,
     label: "Thread follow",
-    name,
+    name: mirrorStem,
     description: "Following up on what they just said.",
     purpose: lastQuestion?.purpose || "topic",
     stage: lastQuestion?.stage ?? null,
@@ -733,35 +708,25 @@ function enforceThreadFollow({
   remainingBudget,
   consecutiveDrillCount,
   askedNames = [],
+  transcript = [],
   issues,
 }) {
   if (Number(remainingBudget) <= 2) return newQueue;
   if (consecutiveDrillCount >= 2) return newQueue;
   if (!answerHasThread(lastAnswer)) return newQueue;
   if (firstQueueFollowsThread(newQueue, lastAnswer)) return newQueue;
-  const follow = buildThreadFollowQuestion(lastQuestion, lastAnswer, []);
-  const showCheck = validateQuestionBeforeShow({
-    name: follow.name,
-    answer: lastAnswer,
-    transcript: [],
-  });
-  let usedFallback = false;
-  if (!showCheck.ok) {
-    follow.name = showCheck.fallback || FALLBACK_STEM;
-    usedFallback = true;
+  const follow = buildThreadFollowQuestion(lastQuestion, lastAnswer, transcript);
+  if (!follow) {
+    issues.push("runtime: thread-follow skipped (no stem grounded in the answer)");
+    return newQueue;
   }
-  // Don't inject a thread-follow that repeats a question already asked — the
-  // generic stem can fire on consecutive turns and read as a duplicate.
+  // Don't inject a thread-follow that repeats a question already asked.
   const askedTokenSets = (askedNames || []).map(contentTokens);
   if (isRepeatOfAsked(follow.name, askedTokenSets)) {
     issues.push("runtime: thread-follow skipped (would repeat an already-asked question)");
     return newQueue;
   }
-  if (usedFallback) {
-    issues.push(`runtime: thread-follow rejected (${showCheck.reason}), used fallback`);
-  } else {
-    issues.push("runtime: injected thread-follow question");
-  }
+  issues.push("runtime: injected thread-follow question");
   saveQuestion(follow);
   return [follow, ...(newQueue || [])];
 }
@@ -888,6 +853,7 @@ async function planTurn({
     remainingQueue,
     askedAliases,
     askedNames,
+    meetingType: ctx.meetingType,
   });
   const consecutiveDrillCount = computeConsecutiveDrillCount(transcript, lastQuestion);
   let newQueue = enforceThreadFollow({
@@ -897,6 +863,7 @@ async function planTurn({
     remainingBudget,
     consecutiveDrillCount,
     askedNames,
+    transcript,
     issues: gateIssues,
   });
   newQueue = enforceDrillCap({
@@ -917,11 +884,13 @@ async function planTurn({
     askedNames,
     arc,
     transcript,
+    meetingType: ctx.meetingType,
     // Scope coverage to THIS session's pool so it can't surface another
-    // persona's saved question from the global bank. Falls back to the
-    // global default when no session bank is supplied (tests / other callers).
+    // persona's saved question from the global bank. Any supplied array is
+    // authoritative — even an empty one means "seeds only", never the global
+    // bank. Only a caller that passes nothing at all gets the global default.
     bankLoader:
-      Array.isArray(sessionBank) && sessionBank.length
+      Array.isArray(sessionBank)
         ? () => [...sessionBank, ...loadDir("_seed")]
         : undefined,
   });
@@ -953,6 +922,7 @@ module.exports = {
   applyRecurringGapClarityDamper,
   enforceAxisCoverage,
   enforceThreadFollow,
+  buildThreadFollowQuestion,
   enforceDrillCap,
   isPlannerOriginated,
   isSameStagePlannerDrill,

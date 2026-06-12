@@ -12,6 +12,7 @@
 // boundary fast-follow.
 
 const { computeReadQuality } = require("../src/reviewer");
+const { forbiddenPatternsFor, isDuplicateText } = require("../src/question-eligibility");
 const {
   runManagerBriefingBans,
   runFocusArcGate,
@@ -30,6 +31,7 @@ const HARD_FAIL = {
   ROLE_PROFILE_ARC_LEAK: "ROLE_PROFILE_ARC_LEAK",
   ROLE_PROFILE_VOCAB_LEAK: "ROLE_PROFILE_VOCAB_LEAK",
   SCHEMA_INVALID: "SCHEMA_INVALID",
+  QUESTION_INTEGRITY: "QUESTION_INTEGRITY",
 };
 
 const REQUIRED_BRIEFING_KEYS = [
@@ -193,6 +195,54 @@ function checkWrongMeetingType(meetingType, bankQuestions) {
   return { result: null };
 }
 
+// QUESTION_INTEGRITY — invariants over the questions actually served this
+// session (frozen from the Jun 11 Machar demo failures):
+//   1. No two served questions with near-identical text.
+//   2. No served question matching the meeting type's forbidden patterns.
+//   3. No engine-internal debug text in a served question's description.
+//   4. No bank-sourced question from outside this session's own bank
+//      (source "generated" must appear in the session's 03-question-bank).
+function checkQuestionIntegrity(transcript, bankQuestions, meetingType) {
+  const failures = [];
+  const served = (transcript || []).map((t) => t?.question).filter(Boolean);
+
+  for (let i = 0; i < served.length; i += 1) {
+    for (let j = i + 1; j < served.length; j += 1) {
+      if (isDuplicateText(served[i].name, served[j].name)) {
+        failures.push(`duplicate question text served (turns ${i + 1} and ${j + 1}): "${served[j].name}"`);
+      }
+    }
+  }
+
+  const patterns = forbiddenPatternsFor(meetingType);
+  for (const q of served) {
+    const text = `${q.name || ""} ${q.label || ""} ${q.description || ""}`;
+    for (const re of patterns) {
+      if (re.test(text)) {
+        failures.push(`forbidden-pattern question served for "${meetingType}": "${q.name}" (${re})`);
+      }
+    }
+  }
+
+  const DEBUG_TEXT = /\b(runtime|injected|planner|debug)\b/i;
+  for (const q of served) {
+    if (DEBUG_TEXT.test(q.description || "")) {
+      failures.push(`engine-internal text in served question description: "${q.description}"`);
+    }
+  }
+
+  const bankAliases = new Set((bankQuestions || []).map((b) => b.alias).filter(Boolean));
+  if (bankAliases.size) {
+    for (const q of served) {
+      if (q.source === "generated" && !bankAliases.has(q.alias)) {
+        failures.push(`bank-sourced question not in this session's bank: ${q.alias} ("${q.name}")`);
+      }
+    }
+  }
+
+  return failures;
+}
+
 function checkSchemaInvalid(briefing, transcript) {
   if (!briefing || typeof briefing !== "object") {
     return { reason: HARD_FAIL.SCHEMA_INVALID, detail: "briefing missing or unparseable" };
@@ -243,6 +293,12 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
     details.push(type.result.detail);
   }
   if (type.warning) warnings.push(type.warning);
+
+  const integrity = checkQuestionIntegrity(transcript, bankQuestions, meetingType);
+  if (integrity.length) {
+    hard_fails.push(HARD_FAIL.QUESTION_INTEGRITY);
+    details.push(...integrity);
+  }
 
   const vocab = runManagerBriefingBans(briefing);
   if (vocab.length) {
@@ -298,4 +354,5 @@ module.exports = {
   checkOverdiagnosisOnThin,
   checkWrongMeetingType,
   checkSchemaInvalid,
+  checkQuestionIntegrity,
 };

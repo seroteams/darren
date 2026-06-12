@@ -1,0 +1,198 @@
+[
+  {
+    "turn": 1,
+    "question": {
+      "alias": "q_open_outside_work",
+      "label": "Outside of work",
+      "name": "What's been the best part of your world outside of work lately?",
+      "description": "Explicitly non-work. Kim Scott's 'care personally' — shows genuine interest in the whole person.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 2
+      },
+      "source": "research"
+    },
+    "answer": "Got a cold but hopefully gone in a few days",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1
+    },
+    "note": "Mentions being physically unwell with a cold, which is a mild negative wellbeing signal; off-brief personal aside, so the session should pivot back to work."
+  },
+  {
+    "turn": 2,
+    "question": {
+      "alias": "q_prep_opener_77",
+      "label": "Prep opener",
+      "name": "What’s taking the most energy right now when you’re making the partnership case internally or with customers?",
+      "description": "Gives him space to set the scene around where the selling load is landing hardest.",
+      "purpose": "topic",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3,
+        "clarity": 1
+      },
+      "source": "generated"
+    },
+    "answer": "go over a couple of ideas how to peel back th elayers internally.  - reffalas may not be hitting their numbers and so internally they may not be push to really go forward. we need to agree on coworking",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "Names internal alignment friction around partner incentives and a coworking agreement, which is creating drag and some ambiguity in how to move the partnership case forward."
+  },
+  {
+    "turn": 3,
+    "question": {
+      "alias": "q_thread_follow_154",
+      "label": "Thread follow",
+      "name": "What made you read the situation that way at the time?",
+      "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+      "purpose": "topic",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3,
+        "clarity": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "lack of understanding - how it compliemnts sales team and bd teams.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "He names a specific understanding gap around how the partnership complements sales and BD, which signals mild clarity friction and some drag on day-to-day sustainability."
+  },
+  {
+    "turn": 4,
+    "question": {
+      "alias": "q_thread_follow_155",
+      "label": "Thread follow",
+      "name": "What made you read the situation that way at the time?",
+      "description": "Runtime thread-follow injected because planner did not follow substantive answer.",
+      "purpose": "topic",
+      "stage": "pulse",
+      "axis_effects": {
+        "wellbeing": 3,
+        "clarity": 1
+      },
+      "source": "planner_added"
+    },
+    "answer": "leadership and corporate communication.",
+    "skipped": false,
+    "realized_deltas": {
+      "wellbeing": -1,
+      "clarity": -1
+    },
+    "note": "He names leadership and corporate communication as the source of the misunderstanding, which signals ongoing alignment friction more than acute wellbeing strain. [THREAD-DEFERRED] leadership and corporate communication gap not drilled because drill cap hit; advance to friction stage."
+  },
+  {
+    "turn": 5,
+    "question": {
+      "alias": "q_repeat_objection",
+      "label": "Repeat objection",
+      "name": "What objection keeps coming up most often in those partnership conversations?",
+      "description": "Helps you hear the one stall point that may be shaping a lot of the extra work.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "clarity": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    "answer": "internally - teams thjat provide that benefit most are under greatest straigh tand target",
+    "skipped": false,
+    "realized_deltas": {
+      "engagement": -1,
+      "clarity": -3
+    },
+    "note": "He names a specific internal stall point: the teams delivering the benefit are under the most strain, which signals a clear bottleneck and mild drag on engagement."
+  },
+  {
+    "turn": 6,
+    "question": {
+      "alias": "q_ba_dynamic_now",
+      "label": "BA dynamic now",
+      "name": "How is the BA team dynamic landing for you day to day?",
+      "description": "Surfaces the lived experience of the relationship, not just the existence of conflict.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": {
+        "wellbeing": 3,
+        "engagement": 1
+      },
+      "source": "generated"
+    },
+    "answer": "(skipped)",
+    "skipped": true,
+    "realized_deltas": {},
+    "note": "[SKIP] no signal — planner bypassed, queue carried forward"
+  },
+  {
+    "turn": 7,
+    "question": {
+      "alias": "q_strained_teams",
+      "label": "Strained teams",
+      "name": "You said those teams are under strain — where does that show up most?",
+      "description": "Drills into the specific internal bottleneck he just named so the manager can understand the friction clearly.",
+      "purpose": "topic",
+      "stage": null,
+      "axis_effects": {
+        "clarity": 3
+      },
+      "source": "planner_added"
+    },
+    "answer": "if you are a sales person you need to meet targhet.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -3
+    },
+    "note": "He names a concrete incentive conflict: sales targets are driving behaviour, which clarifies where the partnership story is getting stuck. [THREAD-DEFERRED-WINDDOWN] Sales-target pressure on internal teams is a live thread to pick up next session."
+  },
+  {
+    "turn": 8,
+    "question": {
+      "alias": "q_leverage_point",
+      "label": "Leverage point",
+      "name": "What would make the next two weeks easier for you?",
+      "description": "A clean landing question that turns the check-in into a practical ask or decision.",
+      "purpose": "topic",
+      "stage": "lift",
+      "axis_effects": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "source": "generated"
+    },
+    "answer": "communication plan for internally, even a prestneaiotn, physcailk meeting with the teams.",
+    "skipped": false,
+    "realized_deltas": {
+      "clarity": -1,
+      "growth": -1
+    },
+    "note": "Names missing support in the form of an internal communication plan and team meetings, which signals both immediate clarity gaps and absent enablement; [THREAD-DEFERRED-WINDDOWN] asked for internal comms support and team alignment."
+  },
+  {
+    "turn": 9,
+    "question": {
+      "alias": "q_seed_clarity_success",
+      "label": "Success definition",
+      "name": "What would make this quarter clearly successful for you — in one sentence?",
+      "description": "Tests whether they can name success crisply or only in vague directions.",
+      "purpose": "topic",
+      "axis_effects": {
+        "clarity": 3,
+        "growth": 1
+      },
+      "source": "seed"
+    },
+    "answer": "he knoww here he is, but interanlly will be end user and currently working with.",
+    "skipped": false,
+    "realized_deltas": {},
+    "note": "[SHALLOW] The answer is too garbled to name a clear success definition or concrete quarter outcome."
+  }
+]

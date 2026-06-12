@@ -1,5 +1,7 @@
+const path = require("node:path");
 const { MEETING_TYPES } = require("../../../src/meeting-types");
 const { pickOpener } = require("../../../src/opener");
+const { appendEligibilityLog } = require("../../../src/question-eligibility");
 const { loadIntroQueue } = require("../../../src/intro-queue");
 const { getArc } = require("../../../src/meeting-arcs");
 const { createWebSession, persistSession, INTRO_BUDGET } = require("../sessions");
@@ -48,10 +50,14 @@ module.exports = async function start(c) {
     notes: (notes || "").trim(),
   };
 
-  const opener = pickOpener(ctx);
+  const openerRejections = [];
+  const opener = pickOpener(ctx, { rejections: openerRejections });
   const introRest = loadIntroQueue(meetingType.label, INTRO_BUDGET - 1);
   const introQueue = [opener, buildAgendaCheck(anchorStageId), ...introRest].slice(0, INTRO_BUDGET);
   const session = createWebSession(ctx, introQueue);
+  if (openerRejections.length) {
+    appendEligibilityLog(path.join(session.dir, "eligibility-log.json"), openerRejections);
+  }
 
   // Scripted test lane: stamp the run fingerprint + load the persona's fixed
   // script so the bank/planner can freeze the question path (manual mode skips all this).

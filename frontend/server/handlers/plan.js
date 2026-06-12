@@ -5,6 +5,7 @@ const { openStream } = require("../sse");
 const { planTurn } = require("../../../src/queue-manager");
 const { applyDeltas, serialize } = require("../../../src/axes");
 const { isForbiddenCloser, pickSeedOverflow } = require("../../../src/closer");
+const { appendEligibilityLog } = require("../../../src/question-eligibility");
 const { pinPrepOpenerEarly } = require("../../../src/question-generator");
 const { summarizeAgenda, buildCarryForwardQuestion } = require("../../../src/agenda");
 const questions = require("../../../src/questions");
@@ -81,6 +82,9 @@ module.exports = async function plan(c) {
       closerAlias: session.closer ? session.closer.alias : null,
       userDrillRequest,
       prep: session.preparationResult?.brief || null,
+      // Always an array: a session without a bank (e.g. rehydrated from before
+      // sessionBank existed) gets "seeds only" — never the global-bank fallback.
+      sessionBank: Array.isArray(session.sessionBank) ? session.sessionBank : [],
     });
   } catch (e) {
     console.warn("[plan] planner failed:", e.message);
@@ -171,8 +175,18 @@ module.exports = async function plan(c) {
   if (!scripted && session.queueRef.length === 0 && turn < session.totalBudget) {
     const seeds = questions.loadDir("_seed");
     const seen = new Set(session.transcript.map((t) => t.question.alias));
-    const seed = pickSeedOverflow(seeds, seen);
+    const rejections = [];
+    const seed = pickSeedOverflow(seeds, seen, {
+      meetingType: session.ctx.meetingType,
+      askedNames: session.transcript.map((t) => t.question.name),
+      rejections,
+    });
+    if (rejections.length) {
+      appendEligibilityLog(path.join(session.dir, "eligibility-log.json"), rejections);
+    }
     if (seed) session.queueRef.push(seed);
+    // No eligible seed → terminal goes "done" below and the session closes
+    // into evaluation as normal; never serve a bad question to fill time.
   }
 
   const axes = summarizeAxes(session.axisState);

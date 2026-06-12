@@ -1,4 +1,5 @@
 const { getArc } = require("./meeting-arcs");
+const { checkQuestionEligibility, rejectionEntry } = require("./question-eligibility");
 
 const FORBIDDEN_CLOSER_RE =
   /cut your work in half|drop first[\s\S]{0,48}non-negotiable|priority ranking/i;
@@ -19,10 +20,31 @@ function selectReservedCloser(bankItems, meetingTypeLabel) {
   return candidates[candidates.length - 1];
 }
 
-function pickSeedOverflow(seeds, seenAliases) {
+function pickSeedOverflow(seeds, seenAliases, { meetingType, askedNames = [], rejections } = {}) {
   const seen = seenAliases || new Set();
-  const fresh = (seeds || []).filter((s) => !seen.has(s.alias) && !isForbiddenCloser(s));
-  return fresh[0] || null;
+  for (const s of seeds || []) {
+    if (!s || seen.has(s.alias) || isForbiddenCloser(s)) continue;
+    // Seeds are global stock — they must still pass the active type's rules
+    // and not repeat anything already asked (the Jun 11 run's overflow seed
+    // was both forbidden for bi-weekly and a near-copy of the prior question).
+    const check = checkQuestionEligibility(s, { meetingType, askedNames });
+    if (!check.ok) {
+      if (rejections) {
+        rejections.push(
+          rejectionEntry({
+            question: s,
+            check,
+            source: "seed_overflow",
+            meetingType,
+            fallback: "next seed",
+          })
+        );
+      }
+      continue;
+    }
+    return s;
+  }
+  return null;
 }
 
 module.exports = {

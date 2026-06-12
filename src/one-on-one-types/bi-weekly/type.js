@@ -42,6 +42,17 @@ module.exports = {
     "Personal life or out-of-work openers ('best part of your world outside work', 'what's been good for you personally') — bi-weeklies are professional peer conversations, not pastoral check-ins.",
     "Behavioural interview questions that read like competency audits: 'Where are you taking the lead?', 'What are you doing to drive X?', 'What would make this quarter clearly successful in one sentence?' — check-ins probe situations, not character.",
   ],
+  // Machine-checkable subset of anti_patterns — enforced on every question by
+  // src/question-eligibility.js before it can reach the manager. Keep tight:
+  // only concrete phrasings that have actually leaked (Jun 11 Machar run).
+  forbidden_question_res: [
+    /\b(outside (of )?work|world outside)\b/i,
+    /\bgood for you personally\b/i,
+    /\b(the real version|no filter|real talk)\b/i,
+    /\bwhere are you taking the lead\b/i,
+    /\bwhat are you doing to drive\b/i,
+    /\bclearly successful\b[\s\S]{0,60}\bone sentence\b/i,
+  ],
   // Prompt set: inherits the shared house prompts. Override a slot to fork.
   prompts: { ...SHARED_PROMPTS },
 };

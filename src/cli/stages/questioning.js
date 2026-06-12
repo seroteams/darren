@@ -5,6 +5,7 @@ const questions = require("../../questions");
 const { planTurn } = require("../../queue-manager");
 const { pinPrepOpenerEarly } = require("../../question-generator");
 const { isForbiddenCloser, pickSeedOverflow } = require("../../closer");
+const { dropIneligibleHeads, appendEligibilityLog } = require("../../question-eligibility");
 const { initState, applyDeltas, summarize, serialize } = require("../../axes");
 const cost = require("../../cost");
 const { writeJson, sessionFile, isSkip } = require("../io");
@@ -63,6 +64,19 @@ async function runQuestioningLoop({
   console.log();
 
   while (turn < totalBudget && queueRef.length > 0) {
+    // Serve-time gate — the last line of defence: no question reaches the
+    // screen without passing the eligibility check, whichever path queued it.
+    const servedRejections = dropIneligibleHeads(queueRef, {
+      meetingType: ctx.meetingType,
+      askedNames: transcript.map((t) => t.question.name),
+    });
+    if (servedRejections.length) {
+      appendEligibilityLog(sessionFile(session, "eligibility-log.json"), servedRejections);
+      for (const r of servedRejections) {
+        console.log("  " + dim(`eligibility: skipped ${r.alias || r.label} (${r.reason})`));
+      }
+    }
+    if (queueRef.length === 0) break;
     turn += 1;
     const q = queueRef.shift();
     const pos = renderQueuePos(turn, totalBudget);
@@ -173,8 +187,18 @@ async function runQuestioningLoop({
     if (queueRef.length === 0 && turn < totalBudget) {
       const seeds = questions.loadDir("_seed");
       const seen = new Set(transcript.map((t) => t.question.alias));
-      const seed = pickSeedOverflow(seeds, seen);
+      const rejections = [];
+      const seed = pickSeedOverflow(seeds, seen, {
+        meetingType: ctx.meetingType,
+        askedNames: transcript.map((t) => t.question.name),
+        rejections,
+      });
+      if (rejections.length) {
+        appendEligibilityLog(sessionFile(session, "eligibility-log.json"), rejections);
+      }
       if (seed) queueRef.push(seed);
+      // No eligible seed → the loop ends and the session moves into its normal
+      // closing/evaluation stage; never serve a bad question just to fill time.
     }
 
     writeJson(path.join(dynamicAnswersDir, `${String(turn).padStart(2, "0")}-turn.json`), {

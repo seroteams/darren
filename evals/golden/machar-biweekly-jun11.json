@@ -1,0 +1,7 @@
+{
+  "id": "machar-biweekly-jun11",
+  "scenario": "scenarios/regression/machar-biweekly-jun11.json",
+  "kind": "happy",
+  "expect": { "verdict": "PASS", "hard_fails": [] },
+  "human_label": "PROVISIONAL — ratify at first baseline run. Frozen from the Jun 11 2026 live demo (Machar) that surfaced the four question-integrity bugs; QUESTION_INTEGRITY must stay clean on this scenario forever."
+}
