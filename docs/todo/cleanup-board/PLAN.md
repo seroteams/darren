@@ -21,14 +21,14 @@
 |---|---|---|---|
 | 1 | Git audit + gate diagnosis | Written audit note: every change-group → workstream; gate-error root cause (read-only, commits nothing) | ✅ |
 | 2 | SERO_BOARD.md | The single board: Now / Next / Parked / Cut / Done + trust rules + engine checklist | ✅ |
-| 3 | Repoint old plans | One-line banners on PLAN.md, plans/AUDIT-FEATURES-log-fix-audit, parked markers on person-profiles + inbox-review | 🔨 |
-| 4 | Next-stage spec | `docs/todo/next-stage/PLAN.md` — 8 build phases corrected against what exists | ⬜ |
-| 5 | Close out | Done-when walkthrough, folder moved to done/ | ⬜ |
+| 3 | Repoint old plans | One-line banners on PLAN.md, plans/AUDIT-FEATURES-log-fix-audit, parked markers on person-profiles + inbox-review | ✅ |
+| 4 | Next-stage spec | `docs/todo/next-stage/PLAN.md` — 8 build phases corrected against what exists | ✅ |
+| 5 | Close out | Done-when walkthrough, folder moved to done/ | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phases 1–2 ✅ (Carl green-lit; committed `7e16b25`). Phase 3 built: banners on all six files — root PLAN.md (superseded), plans/AUDIT + FEATURES + log-fix-audit (reference), person-profiles + inbox-review (PARKED). Diff verified banner-only: 6 files, +13 lines, 0 content lines changed. Pre-existing "dill" typo on PLAN.md line 1 left alone (flagged to Carl). The other session's edit to engine-trust-gates/PLAN.md sits in the tree and stays out of this commit. Awaiting Carl's Phase 3 walkthrough; green light = commit, then Phase 4 (next-stage spec).
+Phases 1–4 ✅ (Carl green-lit 1–2 individually, then "go all 3 4 5"; commits `7e16b25`, `03e24bf`, + phase-4 commit). Next-stage spec written at `docs/todo/next-stage/PLAN.md` — 8 phases, each grounded in existing files, out-of-scope list locked to the board. Phase 5 close-out running: done-means walkthrough, then this folder moves to `docs/todo/done/`.
 
 ## Parked
 - Fixing the red gate (needs API spend + belongs to engine-trust-gates) — tonight we only diagnose from logs.
