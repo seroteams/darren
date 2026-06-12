@@ -1,0 +1,10 @@
+alias: q_future_scope_2
+label: Future scope
+name: What kind of scope do you want more of next?
+description: Lets him name the work he wants to own, not just the work he can already do.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

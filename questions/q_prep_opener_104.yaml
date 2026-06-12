@@ -1,0 +1,10 @@
+alias: q_prep_opener_104
+label: Prep opener
+name: How do you want your next chapter as a Senior Engineer to feel different from the last few months?
+description: Starts from his own sense of change and gives you his frame before you go deeper.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_say_no_to
+label: Say no to
+name: What do you want to say no to next fortnight?
+description: Helps you hear where he wants firmer boundaries around his design time.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

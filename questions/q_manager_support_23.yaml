@@ -1,0 +1,10 @@
+alias: q_manager_support_23
+label: Manager support
+name: What would you want more of from me to make that stretch feel worth it?
+description: Shows you where your support would actually help him move forward.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

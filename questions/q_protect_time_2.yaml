@@ -1,0 +1,10 @@
+alias: q_protect_time_2
+label: Protect time
+name: What is one concrete change you want in place before we next meet?
+description: Leaves the conversation with a real commitment instead of a vague good intention.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

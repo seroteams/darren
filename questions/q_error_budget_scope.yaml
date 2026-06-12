@@ -1,0 +1,9 @@
+alias: q_error_budget_scope
+label: Error budget scope
+name: What would owning error budget policy actually look like in six months?
+description: Drills into the specific strategic reliability scope she wants to be known for.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

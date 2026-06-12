@@ -1,0 +1,10 @@
+alias: q_quiet_this_week_2
+label: Quiet this week
+name: "I've noticed you've been quieter in standup this week — what's been behind that?"
+description: Keeps the observation open and gives her an easy way to name the real reason.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

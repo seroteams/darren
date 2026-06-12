@@ -1,0 +1,10 @@
+alias: q_craft_vs_speed
+label: Craft vs speed
+name: Where did you have to trade off craft against moving fast?
+description: Helps you hear how Sam is balancing quality with delivery pressure.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  wellbeing: +1
+source: generated

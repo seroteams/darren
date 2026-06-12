@@ -1,0 +1,10 @@
+alias: q_manager_support_25
+label: Manager support
+name: What would make it easier for you to flag risk earlier next time?
+description: Helps you hear what support, cadence, or expectation would make early escalation feel workable.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

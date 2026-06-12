@@ -1,0 +1,9 @@
+alias: q_ownership_gap_6
+label: Ownership gap
+name: Which work specifically had unclear ownership?
+description: Drills into the ownership ambiguity he just named so you can locate the missed handoff or decision gap.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

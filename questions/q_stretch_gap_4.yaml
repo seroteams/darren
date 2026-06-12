@@ -1,0 +1,9 @@
+alias: q_stretch_gap_4
+label: Stretch gap
+name: You said nothing is stretching you right now — where is it feeling too flat?
+description: Drills into the concrete thread of low stretch to locate whether this is recovery, boredom, or a work-shape issue.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added

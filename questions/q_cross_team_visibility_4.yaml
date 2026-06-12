@@ -1,0 +1,9 @@
+alias: q_cross_team_visibility_4
+label: Cross-team visibility
+name: What kind of visibility with other teams are you looking for exactly?
+description: Drills into the specific exposure he thinks would move him toward broader senior scope.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+source: planner_added

@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781149473382,
+  "role_title_raw": "Backend Engineer",
+  "role_slug": "backend-engineer",
+  "seniority_raw": "Mid-level",
+  "seniority_key": "mid-level",
+  "role_family": "engineering",
+  "profile": {
+    "summary": "A mid-level Backend Engineer builds and maintains server-side services, APIs, data flows, and integrations used by products and internal systems. They usually own delivery of well-scoped features and fixes, write tests, review code, and help operate services in production. They work closely with other engineers, product managers, designers, and sometimes data or infrastructure teams.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing feature delivery with fixing reliability, performance, and technical debt in existing services.",
+        "category": "topic"
+      },
+      {
+        "text": "Debugging production issues across logs, databases, queues, and upstream dependencies with incomplete information.",
+        "category": "competency"
+      },
+      {
+        "text": "Making design choices that fit current needs without overengineering or creating future maintenance pain.",
+        "category": "competency"
+      },
+      {
+        "text": "Handling interruptions from incidents, support requests, and urgent bug fixes that break planned work.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Coordinating API and schema changes with other teams without causing breakages or rollout delays.",
+        "category": "topic"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Service ownership and production confidence",
+        "why": "This role often writes code that must run reliably in production, so confidence in operating and changing services matters.",
+        "category": "topic"
+      },
+      {
+        "theme": "Technical judgment on tradeoffs",
+        "why": "Mid-level engineers are expected to make solid choices on simplicity, speed, performance, and maintainability.",
+        "category": "competency"
+      },
+      {
+        "theme": "Debugging and incident learning",
+        "why": "How they approach failures shows where they need support, patterns, or stronger systems knowledge.",
+        "category": "competency"
+      },
+      {
+        "theme": "Workload fragmentation and interruption load",
+        "why": "Backend work is often disrupted by bugs and operational issues, which can quietly drain focus and energy.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Cross-team dependency management",
+        "why": "Backend changes often depend on contracts with frontend, mobile, platform, or data teams.",
+        "category": "topic"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "API",
+        "meaning": "Rules for how software systems communicate."
+      },
+      {
+        "term": "Endpoint",
+        "meaning": "A specific API path or operation."
+      },
+      {
+        "term": "Database schema",
+        "meaning": "The structure of stored data and tables."
+      },
+      {
+        "term": "Migration",
+        "meaning": "A controlled change to database structure or data."
+      },
+      {
+        "term": "Queue",
+        "meaning": "A buffer for processing work asynchronously."
+      },
+      {
+        "term": "Latency",
+        "meaning": "How long a request takes to complete."
+      },
+      {
+        "term": "Throughput",
+        "meaning": "How much work a system handles over time."
+      },
+      {
+        "term": "Caching",
+        "meaning": "Storing results temporarily to speed up access."
+      },
+      {
+        "term": "Logs",
+        "meaning": "Recorded events from running software."
+      },
+      {
+        "term": "CI/CD",
+        "meaning": "Automated build, test, and deployment pipeline."
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about customer impact or only code completion",
+      "Whether production issues are described with ownership, avoidance, or blame",
+      "How clearly they explain tradeoffs between speed, simplicity, and long-term maintenance",
+      "Whether they mention tests, observability, and rollout safety when discussing changes",
+      "Shifts from confident technical detail to vagueness around distributed systems, data, or performance"
+    ],
+    "avoid": [
+      "Treating backend work as invisible plumbing with less product impact than frontend work",
+      "Pushing only for feature speed while ignoring reliability, maintenance, and operational load",
+      "Assuming a mid-level engineer should already handle vague architecture problems without support",
+      "Reading careful technical caution as lack of urgency or low ownership"
+    ]
+  }
+}

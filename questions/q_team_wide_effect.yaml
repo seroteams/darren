@@ -1,0 +1,10 @@
+alias: q_team_wide_effect
+label: Team-wide effect
+name: Which backend decision this quarter reached beyond your immediate lane?
+description: Gets specific about whether his decisions are carrying across teams or stopping at team boundaries.
+purpose: competency
+stage: evidence
+axis_effects:
+  growth: +1
+  clarity: +3
+source: generated

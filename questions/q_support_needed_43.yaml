@@ -1,0 +1,10 @@
+alias: q_support_needed_43
+label: Support needed
+name: What would help you feel more anchored in the role over the next few weeks?
+description: Brings the conversation to practical support without reopening the whole diagnosis.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

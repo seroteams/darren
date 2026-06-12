@@ -1,0 +1,10 @@
+alias: q_next_quarter_shape_15
+label: Next-quarter shape
+name: What are you expecting to own next quarter?
+description: Helps you hear how she is already framing her scope before anything new lands.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

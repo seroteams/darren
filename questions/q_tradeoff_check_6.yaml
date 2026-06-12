@@ -1,0 +1,10 @@
+alias: q_tradeoff_check_6
+label: Tradeoff check
+name: What did you choose not to do to protect the work you wanted to keep moving?
+description: Gets at the trade-offs behind his priorities without turning the conversation into a status report.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

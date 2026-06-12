@@ -1,0 +1,10 @@
+alias: q_next_stretch_8
+label: Next stretch
+name: What kind of call do you want to get better at making this year?
+description: Lets you hear the level of judgment he wants to build next.
+purpose: competency
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

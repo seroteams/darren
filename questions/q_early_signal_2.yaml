@@ -1,0 +1,10 @@
+alias: q_early_signal_2
+label: Early signal
+name: What makes it harder for you to flag risk early when a piece of work starts slipping?
+description: Helps you understand the moment before the miss, not just the miss itself.
+purpose: competency
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

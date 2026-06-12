@@ -1,0 +1,10 @@
+alias: q_next_quarter_shape_13
+label: Next quarter shape
+name: What do you expect to be owning next quarter?
+description: Helps you hear how she’s thinking about her scope before the billing rewrite changes the picture.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

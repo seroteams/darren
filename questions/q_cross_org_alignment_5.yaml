@@ -1,0 +1,9 @@
+alias: q_cross_org_alignment_5
+label: Cross-org alignment
+name: What makes cross-org alignment the point where you hesitate?
+description: Drills into the specific barrier inside political moments before moving on.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

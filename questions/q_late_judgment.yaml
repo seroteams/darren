@@ -1,0 +1,10 @@
+alias: q_late_judgment
+label: Late judgment
+name: Can you walk me through a recent call you made later than you wanted to?
+description: Gives you a concrete moment to hear how quickly he is spotting tradeoffs and acting on them.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

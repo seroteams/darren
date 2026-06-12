@@ -1,0 +1,10 @@
+alias: q_support_needed_44
+label: Support needed
+name: What would have made the last two weeks easier for you?
+description: Opens the door to practical support without assuming what Sam needed.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

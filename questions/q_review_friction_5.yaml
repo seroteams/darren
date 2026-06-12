@@ -1,0 +1,10 @@
+alias: q_review_friction_5
+label: Review friction
+name: Where does the review loop usually slow things down for you?
+description: Helps you pinpoint the part of the process that is costing her the most time.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

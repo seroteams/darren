@@ -1,0 +1,10 @@
+alias: q_credibility_gap
+label: Credibility gap
+name: Where does your credibility still feel thinner than you want it to be?
+description: Helps you hear which stakeholder or forum still needs more trust behind him.
+purpose: competency
+stage: aspiration
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

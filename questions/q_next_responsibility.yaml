@@ -1,0 +1,9 @@
+alias: q_next_responsibility
+label: Next responsibility
+name: What responsibility would feel like a real step up for you?
+description: Helps you hear the kind of stretch he sees as meaningful rather than abstract.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: generated

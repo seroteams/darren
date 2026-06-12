@@ -8,6 +8,7 @@ const { promptFor } = require("./one-on-one-types");
 const { resolveSelectedFocus } = require("./selected-focus");
 const { loadLexicon } = require("./lexicon");
 const { splitSystemUser } = require("./prompt-utils");
+const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
@@ -178,7 +179,11 @@ function buildMessages({
     .replaceAll("{{CONVERSATION_AVOID_PHRASES}}", renderAvoidPhrases(lexicon.avoidPhrases))
     .replaceAll("{{PREP_OPENING_QUESTION}}", renderPrepText(prep?.openingQuestion))
     .replaceAll("{{PREP_CORE_ISSUE}}", renderPrepText(prep?.coreIssue))
-    .replaceAll("{{PREP_LISTEN_FOR_JSON}}", renderPrepListenFor(prep?.listenFor));
+    .replaceAll("{{PREP_LISTEN_FOR_JSON}}", renderPrepListenFor(prep?.listenFor))
+    .replaceAll(
+      "{{ROLE_PROFILE_BLOCK}}",
+      renderRoleProfileBlock(loadRoleProfile({ role, seniority }), { slice: "full", meetingType })
+    );
 
   return splitSystemUser(filled);
 }
@@ -263,7 +268,7 @@ async function generateBank(
   }
 
   logStage(session, stage, {
-    inputs: { focusPoints, name, role, seniority, meetingType, notes, model },
+    inputs: { focusPoints, name, role, seniority, meetingType, notes, model, roleProfile: roleProfileLogInfo({ role, seniority }) },
     prompt: messages.filled,
     response: { raw, saved_aliases: saved.map((q) => q.alias) },
   });

@@ -173,6 +173,7 @@ If a "Something feels off" briefing reads like a performance review, or a growth
 - Wellbeing **meaning** must cite employee-stated stress, burnout, overload, energy, or mood — not manager inference.
 - **Forbidden:** treating "rushed", "tight timelines", "deadline pressure", or handoff/clarity failures as wellbeing distress unless the report names how it felt (overwhelmed, stressed, etc.).
 - If wellbeing score is negative but evidence is only operational, say it is a weak wellbeing signal and mostly a clarity/capacity read.
+- **Banned framing without stated strain:** "running hot", "drift toward burnout", "masked fatigue", "load is rising", and similar burnout-trajectory phrases. Do NOT use them just because the score is moderately negative — they require the report to have named how it felt. When the negative score rests on operational/alignment answers (not stated strain), cap the framing at "weak wellbeing signal" **regardless of the score magnitude** — the magnitude-calibration tiers in `<axis_meaning_rules>` do not license a louder wellbeing verdict than the evidence earns.
 </wellbeing_evidence_rules>
 
 <growth_evidence_rules>
@@ -307,6 +308,8 @@ Some transcript turns carry `unbooked_signal` — axis movement the report surfa
 
 **Evidence discipline:** `evidence` must quote or name specific moments from the transcript. `missing_evidence` names what you'd need to see to confirm or rule it out — this is what keeps the read honest. `recommended_action` is one move the manager controls. `watch_next` is one observable tell for next time.
 
+**No duplication (length):** `recommended_action` and `watch_next` must NOT restate a `next_actions` item or a `watch_for` line. If the move or tell is already covered there, either give a genuinely different angle specific to engagement, or keep it to a short pointer — do not repeat the same sentence in two places. A briefing read on a phone cannot afford the same point twice.
+
 **Language — never clinical or accusatory.** Banned as flat labels: "disengaged", "burned out", "doesn't care", "checked out", "flight risk". Prefer: "an early engagement concern", "worth checking directly", "may reflect unclear support rather than low motivation". You may quote the employee's own words even if they used a stronger term — that is evidence, not your label.
 </engagement_read_rule>
 
@@ -335,6 +338,10 @@ Some transcript turns carry `unbooked_signal` — axis movement the report surfa
 - Role: {{ROLE}}
 - Seniority: {{SENIORITY}}
 - Meeting type: {{MEETING_TYPE}}
+
+**Role context (generated for this job title + seniority — use it to read the transcript in the right context; never quote it as evidence about {{NAME}}):**
+
+{{ROLE_PROFILE_BLOCK}}
 
 **Tone register for this meeting type:**
 

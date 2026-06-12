@@ -1,0 +1,10 @@
+alias: q_need_from_me_10
+label: Need from me
+name: What would you want more of from me over the next two weeks?
+description: Keeps the check-in useful by making support concrete and timely.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

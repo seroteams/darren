@@ -1,0 +1,9 @@
+alias: q_payments_win
+label: Payments win
+name: What part of that win do you want to carry into billing?
+description: Follows her concrete thread and connects the payments success to the upcoming rewrite opportunity.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added

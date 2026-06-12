@@ -1,0 +1,9 @@
+alias: q_what_landed_at_once_4
+label: What landed at once
+name: What all landed on you at once?
+description: Drills into the competing work he just named so you can hear the concrete load behind the missed signal.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +1
+source: planner_added

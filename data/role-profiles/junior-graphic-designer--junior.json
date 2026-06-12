@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781147059503,
+  "role_title_raw": "Junior Graphic Designer",
+  "role_slug": "junior-graphic-designer",
+  "seniority_raw": "Junior",
+  "seniority_key": "junior",
+  "role_family": "design",
+  "profile": {
+    "summary": "A Junior Graphic Designer supports the creation of visual assets for marketing, brand, digital, or print work. They usually execute against existing brand guidelines, prepare files, make revisions, and turn feedback into polished layouts. Their scope is hands-on production more than strategy, working closely with senior designers, marketers, copywriters, and sometimes external printers or developers.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Turning broad or conflicting feedback into clear design changes without losing confidence.",
+        "category": "competency"
+      },
+      {
+        "text": "Balancing speed, accuracy, and brand consistency on high-volume asset work.",
+        "category": "competency"
+      },
+      {
+        "text": "Building craft skills while still needing close direction and review.",
+        "category": "competency"
+      },
+      {
+        "text": "Handling repeated revisions and subjective opinions from non-design stakeholders.",
+        "category": "topic"
+      },
+      {
+        "text": "Feeling pressure to prove creative value while doing production-heavy work.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Feedback clarity and revision patterns",
+        "why": "Junior designers often depend on feedback quality, and unclear input can slow learning and delivery.",
+        "category": "topic"
+      },
+      {
+        "theme": "Growth in core design craft",
+        "why": "This level is still building fundamentals like layout, typography, hierarchy, and file preparation.",
+        "category": "competency"
+      },
+      {
+        "theme": "Confidence in presenting and explaining choices",
+        "why": "They may have good instincts but struggle to speak about decisions with stakeholders.",
+        "category": "competency"
+      },
+      {
+        "theme": "Workload sustainability during fast-turnaround requests",
+        "why": "Design teams often face urgent asks and repeated edits that can drain energy quickly.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Understanding of brand rules and when to apply them",
+        "why": "Strong execution at this level depends on using guidelines consistently across many assets.",
+        "category": "topic"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Brand guidelines",
+        "meaning": "Rules for using logos, colors, type, and visual style."
+      },
+      {
+        "term": "Typography",
+        "meaning": "How type is chosen, arranged, and styled."
+      },
+      {
+        "term": "Layout",
+        "meaning": "How visual elements are placed on a page or screen."
+      },
+      {
+        "term": "Hierarchy",
+        "meaning": "Visual order that shows what should be noticed first."
+      },
+      {
+        "term": "Mockup",
+        "meaning": "A visual preview of a design in context."
+      },
+      {
+        "term": "Bleed",
+        "meaning": "Extra image area trimmed off in print production."
+      },
+      {
+        "term": "CMYK",
+        "meaning": "Print color mode using cyan, magenta, yellow, black."
+      },
+      {
+        "term": "RGB",
+        "meaning": "Screen color mode using red, green, blue."
+      },
+      {
+        "term": "Vector",
+        "meaning": "Scalable artwork made from paths, not pixels."
+      },
+      {
+        "term": "Raster",
+        "meaning": "Pixel-based image that can blur when enlarged."
+      }
+    ],
+    "listen_for": [
+      "They talk mostly about making requested changes, not yet about owning design rationale.",
+      "They mention unclear briefs or scattered feedback as a recurring blocker.",
+      "They describe checking brand rules often, which signals conscientiousness and dependence on guidance.",
+      "They downplay their work or credit others quickly, which can point to low confidence.",
+      "They focus on tools or execution details more than audience, message, or business goal."
+    ],
+    "avoid": [
+      "Treating them like a fully independent brand owner before they have enough support.",
+      "Giving vague feedback like \"make it pop\" without concrete direction.",
+      "Assuming speed on production tasks means they do not need craft development.",
+      "Reading quietness in critiques as lack of ideas rather than lack of confidence."
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+alias: q_closer_next_step_2
+label: Closer next step
+name: What is one thing you want to do differently on the next project to show more Principal-level impact?
+description: Leaves the meeting with a clear behavioural change tied to the work ahead.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

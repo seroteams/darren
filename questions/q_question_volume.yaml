@@ -1,0 +1,10 @@
+alias: q_question_volume
+label: Question volume
+name: What makes you hold back from asking more questions in the room?
+description: Helps you hear what is keeping him from surfacing assumptions early enough.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

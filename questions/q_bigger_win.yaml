@@ -1,0 +1,10 @@
+alias: q_bigger_win
+label: Bigger win
+name: What would count as a bigger win for you in the next year as Head of Product?
+description: Helps you hear the outcome he wants, not just the habits he thinks he should build.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

@@ -9,6 +9,7 @@ const { listRecentRuns, summarizeRun, deleteRun, findLatestRunWithLock } = requi
 const { buildPipelineStatus } = require("./src/pipeline-lock");
 const { reviewSession: reviewLexiconSession } = require("./src/lexicon-reviewer");
 const { loadIntroQueue } = require("./src/intro-queue");
+const { ensureRoleProfile } = require("./src/role-profile");
 const cost = require("./src/cost");
 const { runFocusPointsStage } = require("./src/cli/stages/focus-points");
 const { runPreparationStage } = require("./src/cli/stages/preparation");
@@ -156,6 +157,15 @@ async function main() {
   const role = await ask(cyan("  Their role?     "));
   const seniority = await ask(cyan("  Seniority?      "));
 
+  // Kicks off now so it runs while the user picks a meeting type and types
+  // notes; awaited (with fallback) just before the pipeline needs it.
+  const roleProfilePromise = ensureRoleProfile({ role, seniority }, { session }).catch((err) => ({
+    status: "unavailable",
+    key: null,
+    doc: null,
+    error: err.message,
+  }));
+
   console.log();
   console.log("  " + bold("What kind of meeting?"));
   console.log();
@@ -187,6 +197,9 @@ async function main() {
 
   const ctx = { name, role, seniority, meetingType: meetingType.label, notes };
   const result = {};
+
+  const roleProfileOutcome = await roleProfilePromise;
+  console.log("  " + dim(`role profile: ${roleProfileOutcome.status} (${roleProfileOutcome.key || "no key"})`));
 
   const focusOutcome = await runFocusPointsStage({ ctx, session, ask, result });
   if (!focusOutcome.continue) {

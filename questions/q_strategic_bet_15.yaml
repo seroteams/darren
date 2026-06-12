@@ -1,0 +1,9 @@
+alias: q_strategic_bet_15
+label: Strategic bet
+name: What strategic bet does he most want to own visibly?
+description: Drills into the specific strategic bet he wants so the aspiration becomes concrete.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

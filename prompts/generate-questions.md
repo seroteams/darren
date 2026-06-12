@@ -347,6 +347,10 @@ Primary focus id: {{PRIMARY_FOCUS_ID}}
 - Seniority: {{SENIORITY}}
 - Meeting type: {{MEETING_TYPE}}
 
+**Role context (generated for this job title + seniority — guidance about the role, not facts about {{NAME}}). The curated `<conversation_language>` guidance above is human-reviewed and wins if they conflict:**
+
+{{ROLE_PROFILE_BLOCK}}
+
 **Manager's notes:**
 
 ```

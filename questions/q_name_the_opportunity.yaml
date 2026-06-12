@@ -1,0 +1,10 @@
+alias: q_name_the_opportunity
+label: Name the opportunity
+name: What opportunities have you not been explicit about wanting?
+description: Drills into the specific stretch scope or mandate he wants instead of staying abstract.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: planner_added

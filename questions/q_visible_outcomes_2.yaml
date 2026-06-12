@@ -1,0 +1,10 @@
+alias: q_visible_outcomes_2
+label: Visible outcomes
+name: What outcome on this team would make your impact obvious to people outside it?
+description: Helps you hear how he defines Principal-level impact in terms of visible results, not just steady delivery.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

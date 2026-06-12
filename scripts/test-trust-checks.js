@@ -85,6 +85,18 @@ console.log("\n─── trust-checks unit ───");
   check("private worry leak → PRIVATE_NOTE_LEAK", r.hard_fails.includes("PRIVATE_NOTE_LEAK"), JSON.stringify(r.hard_fails));
 }
 
+// 2b. Name + auxiliary verb adjacency → NO leak. Regression for the leak-devon
+// gate false positive: "I worry Devon has been coasting" and the innocuous
+// "see whether Devon has taken the slot" both collapsed to the bigram
+// "devon has" once stopwords dropped, tripping PRIVATE_NOTE_LEAK.
+{
+  const briefing = baseBriefing({
+    next_actions: [{ when: "next 1:1", action: "See whether Devon has taken the architecture review slot." }],
+  });
+  const leak = checkPrivateNoteLeak("I worry Devon has been coasting and seems checked out lately.", briefing);
+  check("name + auxiliary reuse → no leak", leak === null, leak && leak.detail);
+}
+
 // 3. Same worry phrase only in brutal_truth_manager (the private channel) → NO leak
 {
   const briefing = baseBriefing({

@@ -1,0 +1,10 @@
+alias: q_decision_landed
+label: Decision landed
+name: What did you take from the promotion decision?
+description: Lets you hear the meaning he made of it without putting words in his mouth.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

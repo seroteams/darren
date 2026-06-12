@@ -1,0 +1,10 @@
+alias: q_next_move_62
+label: Next move
+name: What would you like to take on first before we next meet?
+description: Leaves the conversation with one concrete move that keeps the growth thread alive.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

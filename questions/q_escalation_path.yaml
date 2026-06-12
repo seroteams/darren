@@ -1,0 +1,9 @@
+alias: q_escalation_path
+label: Escalation path
+name: Where does the escalation path keep pulling you back in?
+description: Drills into the specific routing pattern that keeps her acting as the default incident magnet.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

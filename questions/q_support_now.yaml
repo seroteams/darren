@@ -1,0 +1,8 @@
+alias: q_support_now
+label: Support now
+name: What kind of support would be most useful for you right now?
+description: Pauses the work agenda and invites him to name immediate support needs.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+source: planner_added

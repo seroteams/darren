@@ -1,0 +1,10 @@
+alias: q_next_move_52
+label: Next move
+name: What is the first move you want to make before we talk again?
+description: Closes the conversation on one concrete step he is ready to take.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

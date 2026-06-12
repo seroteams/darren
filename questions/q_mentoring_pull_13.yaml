@@ -1,0 +1,9 @@
+alias: q_mentoring_pull_13
+label: Mentoring pull
+name: Mentoring those two juniors — what part of that feels stretching to you?
+description: Drills into what specifically about mentoring feels like next-level stretch for him.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

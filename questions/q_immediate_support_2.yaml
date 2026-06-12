@@ -1,0 +1,9 @@
+alias: q_immediate_support_2
+label: Immediate support
+name: What support from me would make the biggest difference right now?
+description: Invites him to shape the most useful support as the conversation closes.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+source: planner_added

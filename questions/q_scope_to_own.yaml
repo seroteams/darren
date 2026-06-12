@@ -1,0 +1,10 @@
+alias: q_scope_to_own
+label: Scope to own
+name: "What would you actually want to be running that you don't run today?"
+description: Helps you hear the scope he wants more of without turning it into a title conversation.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

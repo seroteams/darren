@@ -1,0 +1,10 @@
+alias: q_next_focus_20
+label: Next focus
+name: "Given what we've covered, where do you want to focus first?"
+description: Open closer that invites Tom to name the first behavioural focus.
+purpose: topic
+stage: commit
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added

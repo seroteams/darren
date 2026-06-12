@@ -1,0 +1,9 @@
+alias: q_mentoring_pull_18
+label: Mentoring pull
+name: What is it about mentoring those two juniors that energizes you most?
+description: Drills into the specific part of mentoring that feels motivating so the growth thread becomes more concrete.
+purpose: topic
+stage: anchor
+axis_effects:
+  engagement: +3
+source: planner_added

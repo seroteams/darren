@@ -1,0 +1,9 @@
+alias: q_cross_team_pull_2
+label: Cross-team pull
+name: What kind of visibility with other teams are you actually looking for?
+description: Drills into the cross-team visibility thread to make the desired scope concrete.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

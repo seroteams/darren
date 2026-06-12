@@ -1,0 +1,10 @@
+alias: q_manager_support_19
+label: Manager support
+name: What do you need from me to make that time protection stick?
+description: Lets her name the manager support that would make the change real in practice.
+purpose: wellbeing
+stage: investment
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

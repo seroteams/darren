@@ -1,0 +1,9 @@
+alias: q_visibility_gap_5
+label: Visibility gap
+name: What kind of visibility with other teams would make that next step feel real?
+description: Drills into the cross-team visibility thread so he names the concrete scope or exposure he wants.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

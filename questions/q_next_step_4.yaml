@@ -1,0 +1,10 @@
+alias: q_next_step_4
+label: Next step
+name: What is one move you want to make before we next meet?
+description: Lands the conversation on a concrete commitment without opening a new thread.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

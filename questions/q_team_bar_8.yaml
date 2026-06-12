@@ -1,0 +1,9 @@
+alias: q_team_bar_8
+label: Team bar
+name: "What about this team's bar feels fuzzy to you?"
+description: Drills into the specific ambiguity he named before moving on.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

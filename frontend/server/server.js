@@ -29,6 +29,7 @@ const pipeline = require("./handlers/pipeline");
 const lexicon = require("./handlers/lexicon");
 const verdict = require("./handlers/verdict");
 const suggestFix = require("./handlers/suggest-fix");
+const library = require("./handlers/library");
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
@@ -121,6 +122,7 @@ function main() {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return runs.archive(c);
   });
+  router.add("GET", /^\/api\/library(?<rest>\/.*)?$/, library);
   router.add("GET", "/api/lexicon/candidates", lexicon.candidates);
   router.add("GET", "/api/lexicon/scope", lexicon.scope);
   router.add("POST", "/api/lexicon/decisions", (c) => {

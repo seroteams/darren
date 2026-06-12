@@ -1,0 +1,10 @@
+alias: q_prep_opener_116
+label: Prep opener
+name: What kind of stretch would feel worth taking on over the next six months?
+description: Gives Devon room to name the kind of work that would re-energize him before you get more specific.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

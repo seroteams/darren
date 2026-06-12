@@ -1,0 +1,9 @@
+alias: q_checklist_gap
+label: Checklist gap
+name: What keeps empty states and error flows from getting checked before review?
+description: Names the specific gap or habit that leaves known states uncovered on the first pass.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+source: planner_added

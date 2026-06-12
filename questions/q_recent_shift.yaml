@@ -1,0 +1,10 @@
+alias: q_recent_shift
+label: Recent shift
+name: When did your focus or energy last shift at work?
+description: Helps you connect the growth story to a real recent window instead of a vague sense.
+purpose: wellbeing
+stage: gap
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

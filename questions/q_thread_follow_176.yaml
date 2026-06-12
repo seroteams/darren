@@ -1,0 +1,9 @@
+alias: q_thread_follow_176
+label: Thread follow
+name: What made you read the situation that way at the time?
+description: Following up on what they just said.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added

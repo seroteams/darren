@@ -1,0 +1,10 @@
+alias: q_post_launch_read_3
+label: Post-launch read
+name: Since Monday’s launch, how has this week felt for you?
+description: Helps you hear whether this is just the usual landing after a big ship or something else.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781149284057,
+  "role_title_raw": "Head of Product",
+  "role_slug": "head-of-product",
+  "seniority_raw": "Senior",
+  "seniority_key": "senior",
+  "role_family": "product",
+  "profile": {
+    "summary": "Leads the product function across one or more product areas, setting product strategy, prioritisation, and operating rhythm. Usually manages product managers and works closely with engineering, design, go-to-market leaders, and executives. Owns turning company goals into a coherent roadmap, making trade-offs across teams, and improving how product decisions get made.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing long-term product strategy with constant pressure for short-term delivery and stakeholder asks.",
+        "category": "topic"
+      },
+      {
+        "text": "Making hard prioritisation calls across teams with incomplete data and competing executive opinions.",
+        "category": "competency"
+      },
+      {
+        "text": "Scaling product quality by coaching PMs instead of personally driving every important decision.",
+        "category": "competency"
+      },
+      {
+        "text": "Carrying accountability for outcomes without direct control over engineering, design, sales, or marketing execution.",
+        "category": "topic"
+      },
+      {
+        "text": "Sustaining energy under heavy context switching, decision load, and visible leadership pressure.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Strategy clarity and trade-offs",
+        "why": "This role is expected to connect company goals to product choices and explain what will not be done.",
+        "category": "topic"
+      },
+      {
+        "theme": "Team leadership and PM development",
+        "why": "A senior Head of Product succeeds through stronger PM judgment, ownership, and consistency across the team.",
+        "category": "competency"
+      },
+      {
+        "theme": "Cross-functional alignment",
+        "why": "Progress depends on productive working relationships with engineering, design, commercial teams, and executives.",
+        "category": "topic"
+      },
+      {
+        "theme": "Decision quality and evidence",
+        "why": "They often have to make high-impact calls with imperfect data, so their decision process matters.",
+        "category": "competency"
+      },
+      {
+        "theme": "Load, pace, and recovery",
+        "why": "The role can become a constant stream of escalations, meetings, and trade-offs that erode focus and stamina.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Roadmap",
+        "meaning": "Planned product direction and priorities over time."
+      },
+      {
+        "term": "Product strategy",
+        "meaning": "The choices about where to play and why."
+      },
+      {
+        "term": "Prioritisation",
+        "meaning": "Deciding what gets attention and what waits."
+      },
+      {
+        "term": "Discovery",
+        "meaning": "Learning about user problems before building."
+      },
+      {
+        "term": "OKRs",
+        "meaning": "Goals and measurable outcomes for a period."
+      },
+      {
+        "term": "KPIs",
+        "meaning": "Key metrics used to track performance."
+      },
+      {
+        "term": "Go-to-market",
+        "meaning": "How a product is launched and sold."
+      },
+      {
+        "term": "Product-market fit",
+        "meaning": "Evidence the product solves a real market need."
+      },
+      {
+        "term": "Stakeholder management",
+        "meaning": "Working with people who influence decisions and delivery."
+      },
+      {
+        "term": "Product ops",
+        "meaning": "Practices and support that improve product team effectiveness."
+      }
+    ],
+    "listen_for": [
+      "Whether they talk mainly about outputs and launches or about customer and business outcomes.",
+      "How they describe trade-offs when executives or peers want conflicting things.",
+      "Whether they speak about PMs as owners they are growing or as work they still need to do themselves.",
+      "Shifts from strategic language to firefighting language, which can signal loss of control or overload.",
+      "How often they reference customer evidence versus internal opinion when explaining priorities."
+    ],
+    "avoid": [
+      "Treating them like a senior individual PM instead of a functional leader building team judgment and product direction.",
+      "Pushing for certainty on roadmap commitments when the real job requires managing risk and trade-offs.",
+      "Assuming stakeholder conflict means poor collaboration rather than a normal part of the role.",
+      "Focusing only on delivery speed and ignoring whether the team is working on the right problems."
+    ]
+  }
+}

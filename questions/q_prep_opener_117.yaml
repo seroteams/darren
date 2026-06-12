@@ -1,0 +1,10 @@
+alias: q_prep_opener_117
+label: Prep opener
+name: What kind of work would feel most worth owning over the next quarter if you were leaning fully into senior-level impact?
+description: Gives Devon room to name the kind of ownership he wants before you get into tradeoffs.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

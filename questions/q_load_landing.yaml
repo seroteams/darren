@@ -1,0 +1,9 @@
+alias: q_load_landing
+label: Load landing
+name: What was landing on you at the same time?
+description: Turns the vague load statement into concrete competing work or demands.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_refunds_thread
+label: Refunds thread
+name: On the refunds project, what part of the discovery work brought out your best?
+description: Drills into the concrete work that energised Jordan so you can hear the kind of scope they should grow toward.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

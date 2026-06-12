@@ -218,6 +218,10 @@ Note for the generator: the negativity is named in `reason` fields as an underly
 - Seniority: {{SENIORITY}}
 - Meeting type: {{MEETING_TYPE}}
 
+**Role context (generated for this job title + seniority — guidance about the role, not facts about {{NAME}}):**
+
+{{ROLE_PROFILE_BLOCK}}
+
 **Manager's notes:**
 
 ```

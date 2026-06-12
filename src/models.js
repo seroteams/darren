@@ -4,7 +4,7 @@ const path = require("node:path");
 const CONFIG_PATH = path.join(__dirname, "..", "config", "models.json");
 const FALLBACK_MODEL = "gpt-4o-mini";
 
-const STAGES = ["focus_points", "preparation", "bank", "planner", "evaluation"];
+const STAGES = ["focus_points", "preparation", "bank", "planner", "evaluation", "role_profile"];
 
 let _config = null;
 

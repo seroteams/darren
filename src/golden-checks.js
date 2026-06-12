@@ -34,6 +34,56 @@ function runFocusArcGate(focusPoints, meetingType) {
   return failures;
 }
 
+// runRoleProfileArcGate — for relational arcs, the rendered role-profile block
+// must contain no competency-tagged item (same trust rule as runFocusArcGate:
+// evaluative content reads as a hidden performance review). Pure render check
+// over a profile doc — detection only, never edits.
+function runRoleProfileArcGate(profileDoc, meetingType) {
+  const failures = [];
+  if (!isRelationalArc(meetingType)) return failures;
+  if (!profileDoc || !profileDoc.profile) return failures;
+  const { renderRoleProfileBlock } = require("./role-profile");
+  const rendered = renderRoleProfileBlock(profileDoc, { slice: "full", meetingType });
+  const competencyTexts = [
+    ...(profileDoc.profile.known_challenges || [])
+      .filter((c) => c && c.category === "competency")
+      .map((c) => c.text),
+    ...(profileDoc.profile.recommended_question_themes || [])
+      .filter((t) => t && t.category === "competency")
+      .map((t) => t.theme),
+  ];
+  for (const text of competencyTexts) {
+    if (text && rendered.includes(text)) {
+      failures.push(
+        `relational arc "${meetingType}" rendered competency role-profile item: ${text.slice(0, 60)}`
+      );
+    }
+  }
+  return failures;
+}
+
+// Role-profile scaffolding is engine vocabulary — it must never surface in
+// briefing prose (same spirit as MANAGER_BRIEFING_BANS).
+const ROLE_PROFILE_VOCAB_BANS = [
+  "role profile",
+  "role_profile",
+  "known_challenges",
+  "recommended_question_themes",
+  "listen_for",
+  "role_confidence",
+];
+
+function runRoleProfileVocabLeak(briefing) {
+  const text = collectBriefingText(briefing).toLowerCase();
+  const failures = [];
+  for (const ban of ROLE_PROFILE_VOCAB_BANS) {
+    if (text.includes(ban)) {
+      failures.push(`manager briefing contains role-profile scaffolding: ${ban}`);
+    }
+  }
+  return failures;
+}
+
 const MANAGER_BRIEFING_BANS = [
   "bad follow-up",
   "planner",
@@ -296,6 +346,8 @@ module.exports = {
   collectBriefingText,
   runManagerBriefingBans,
   runFocusArcGate,
+  runRoleProfileArcGate,
+  runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
   runQuestionStemChecks,
   runQualityPrepListenFor,

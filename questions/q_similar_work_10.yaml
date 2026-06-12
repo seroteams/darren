@@ -1,0 +1,9 @@
+alias: q_similar_work_10
+label: Similar work
+name: When you say similar work, what has started to feel repetitive?
+description: Drills into the specific plateau she named to locate what is no longer stretching her.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_prep_opener_118
+label: Prep opener
+name: If major incidents weren’t taking so much of your time, what reliability scope would you want to be known for six months from now?
+description: Gives Mara room to name the kind of reliability work she wants to be remembered for before you get into trade-offs.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

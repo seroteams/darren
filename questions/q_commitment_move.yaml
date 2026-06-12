@@ -1,0 +1,10 @@
+alias: q_commitment_move
+label: Commitment move
+name: What is the next move you want to make before we meet again?
+description: Leaves the conversation with one concrete step he owns.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

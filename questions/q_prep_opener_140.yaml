@@ -1,0 +1,10 @@
+alias: q_prep_opener_140
+label: Prep opener
+name: I’ve noticed you’ve been a bit less present in team rituals lately; how has the last couple of weeks felt from your side since the promotion decision?
+description: Gives James room to set the frame in his own words before you go deeper.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

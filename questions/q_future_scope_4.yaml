@@ -1,0 +1,10 @@
+alias: q_future_scope_4
+label: Future scope
+name: What kind of technical ownership do you want more of next?
+description: Moves the conversation from current tickets to the kind of scope he wants to be known for.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

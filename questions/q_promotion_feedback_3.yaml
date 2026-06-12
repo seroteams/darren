@@ -1,0 +1,10 @@
+alias: q_promotion_feedback_3
+label: Promotion feedback
+name: What feedback from the promotion process actually stuck with you?
+description: Gets past the decision itself and into what he took in from it.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

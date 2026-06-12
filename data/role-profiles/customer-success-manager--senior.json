@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781199004518,
+  "role_title_raw": "Customer Success Manager",
+  "role_slug": "customer-success-manager",
+  "seniority_raw": "Senior",
+  "seniority_key": "senior",
+  "role_family": "general",
+  "profile": {
+    "summary": "A Senior Customer Success Manager owns a portfolio of larger or more complex customer accounts, focusing on adoption, value realization, renewals support, and risk management. They coordinate with sales, support, product, and services to keep customers healthy, unblock issues, and grow trust. They usually handle executive relationships, difficult escalations, and more strategic account planning than earlier-career CSMs.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing reactive escalations with proactive work across a large book of business.",
+        "category": "topic"
+      },
+      {
+        "text": "Managing renewal risk without always directly owning commercial decisions.",
+        "category": "topic"
+      },
+      {
+        "text": "Handling emotionally charged customer situations while staying calm and credible.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Proving customer value when usage is uneven or outcomes are hard to measure.",
+        "category": "competency"
+      },
+      {
+        "text": "Coordinating internal teams when customer issues span product gaps, support cases, and contract expectations.",
+        "category": "topic"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Account prioritization and time allocation",
+        "why": "Senior CSMs often juggle high-value accounts, renewals, and escalations, so tradeoff quality matters.",
+        "category": "topic"
+      },
+      {
+        "theme": "Renewal risk and customer health signals",
+        "why": "This role is often closest to early warning signs that affect retention and expansion.",
+        "category": "topic"
+      },
+      {
+        "theme": "Executive relationship management",
+        "why": "At senior level, success often depends on credibility with customer leaders, not just day-to-day users.",
+        "category": "competency"
+      },
+      {
+        "theme": "Value realization and success planning",
+        "why": "Customers stay when outcomes are clear, so this role needs support turning activity into business value.",
+        "category": "competency"
+      },
+      {
+        "theme": "Load, emotional strain, and recovery",
+        "why": "Escalations, difficult customers, and constant responsiveness can quietly drain energy over time.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Renewal",
+        "meaning": "Customer decision to continue the contract."
+      },
+      {
+        "term": "Churn",
+        "meaning": "Customer leaving or reducing their spend."
+      },
+      {
+        "term": "Expansion",
+        "meaning": "Growth in customer usage, seats, or contract value."
+      },
+      {
+        "term": "Adoption",
+        "meaning": "How much customers actually use the product."
+      },
+      {
+        "term": "Customer health",
+        "meaning": "Overall signal of retention risk and product value."
+      },
+      {
+        "term": "QBR",
+        "meaning": "Quarterly business review with customer stakeholders."
+      },
+      {
+        "term": "EBR",
+        "meaning": "Executive business review focused on strategic outcomes."
+      },
+      {
+        "term": "Escalation",
+        "meaning": "High-priority customer issue needing urgent attention."
+      },
+      {
+        "term": "Stakeholder mapping",
+        "meaning": "Identifying who influences customer decisions."
+      },
+      {
+        "term": "Time to value",
+        "meaning": "How quickly a customer sees useful results."
+      }
+    ],
+    "listen_for": [
+      "They talk about specific customer outcomes, not just activity completed.",
+      "They mention changes in stakeholder engagement or executive access.",
+      "They describe health in terms of evidence, not gut feel alone.",
+      "They keep returning to a few risky accounts that dominate attention.",
+      "Their language shifts from partnership to defensiveness around escalations or renewals."
+    ],
+    "avoid": [
+      "Assuming they control pricing, contracts, or product roadmap decisions on their own.",
+      "Treating customer happiness as the same thing as customer value or retention.",
+      "Pushing more accounts onto them without discussing account complexity and escalation load.",
+      "Reducing the role to support coverage instead of strategic retention and adoption work."
+    ]
+  }
+}

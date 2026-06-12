@@ -1,0 +1,9 @@
+alias: q_ritual_change
+label: Ritual change
+name: What has being less present in rituals looked like for you lately?
+description: Drills into the concrete shift he just acknowledged before moving on.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

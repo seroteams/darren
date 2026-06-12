@@ -1,0 +1,10 @@
+alias: q_forward_path
+label: Forward path
+name: What path forward feels concrete enough to try next?
+description: Helps land the conversation on a real next step instead of a vague reset.
+purpose: topic
+stage: support
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_vague_feedback_gap
+label: Vague feedback gap
+name: When feedback is vague, what do you usually miss in the next round?
+description: Names the specific pattern that stays unresolved when direction is broad rather than concrete.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

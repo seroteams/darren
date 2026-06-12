@@ -1,0 +1,10 @@
+alias: q_ownership_gap_10
+label: Ownership gap
+name: When the deadline started to move, what did you think your options were?
+description: "Helps you hear whether he saw the risk and froze, or genuinely didn't see a path to raise it."
+purpose: competency
+stage: underneath
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

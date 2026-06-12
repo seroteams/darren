@@ -1,0 +1,10 @@
+alias: q_missing_ingredient_8
+label: Missing ingredient
+name: What would have to change for that stretch to feel real?
+description: Helps you hear whether it’s scope, feedback, ownership, or something else that would make the next level tangible.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

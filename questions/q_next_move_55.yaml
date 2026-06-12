@@ -1,0 +1,10 @@
+alias: q_next_move_55
+label: Next move
+name: What would you want to try before we meet again?
+description: Leaves the conversation with a concrete next step that fits the growth arc.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_move_54"

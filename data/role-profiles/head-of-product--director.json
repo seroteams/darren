@@ -1,0 +1,128 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781149378839,
+  "role_title_raw": "Head of Product",
+  "role_slug": "head-of-product",
+  "seniority_raw": "Director",
+  "seniority_key": "director",
+  "role_family": "product",
+  "profile": {
+    "summary": "Leads the product function at a director level, setting product strategy, portfolio priorities, and operating rhythm across multiple teams or a business area. Owns roadmap tradeoffs, product org health, and alignment with engineering, design, go-to-market, finance, and executives. Usually manages product leaders or senior PMs and is accountable for outcomes, not just shipping.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing long-term product strategy with short-term revenue, customer, and executive pressure.",
+        "category": "topic"
+      },
+      {
+        "text": "Keeping multiple teams aligned on priorities when dependencies and tradeoffs cut across the portfolio.",
+        "category": "topic"
+      },
+      {
+        "text": "Shifting from direct product problem-solving to coaching leaders and scaling decision quality through others.",
+        "category": "competency"
+      },
+      {
+        "text": "Carrying visible accountability for product outcomes without always controlling engineering capacity, market timing, or sales commitments.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Building a consistent product operating model across teams with different maturity, rituals, and standards.",
+        "category": "competency"
+      },
+      {
+        "text": "Managing context switching across strategy, people leadership, stakeholder management, and escalations.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Portfolio priorities and tradeoff clarity",
+        "why": "This role is expected to make hard calls across products and teams, so weak priority signals create churn everywhere.",
+        "category": "topic"
+      },
+      {
+        "theme": "Quality of product leadership bench",
+        "why": "A Head of Product succeeds through other leaders, making coaching depth and succession strength central to the role.",
+        "category": "competency"
+      },
+      {
+        "theme": "Executive alignment and decision-making",
+        "why": "Misalignment with the leadership team can stall strategy, distort roadmaps, and create avoidable rework.",
+        "category": "topic"
+      },
+      {
+        "theme": "Product operating model and team consistency",
+        "why": "At this level, uneven planning, discovery, and delivery habits across teams become a scaling problem.",
+        "category": "competency"
+      },
+      {
+        "theme": "Sustainable load and escalation pressure",
+        "why": "The role often absorbs conflict, ambiguity, and urgent asks, which can quietly erode judgment and energy.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Customer and market signal quality",
+        "why": "Strategy quality depends on whether this leader is getting clear input from customers, data, and commercial teams.",
+        "category": "topic"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Product strategy",
+        "meaning": "The long-term direction and choices for the product."
+      },
+      {
+        "term": "Roadmap",
+        "meaning": "Planned sequence of product bets and delivery over time."
+      },
+      {
+        "term": "Portfolio",
+        "meaning": "The set of products, teams, or initiatives under management."
+      },
+      {
+        "term": "OKRs",
+        "meaning": "Objectives and key results used to track goals."
+      },
+      {
+        "term": "Product-market fit",
+        "meaning": "Evidence the product solves a real market need."
+      },
+      {
+        "term": "Discovery",
+        "meaning": "Work to understand problems before building solutions."
+      },
+      {
+        "term": "Go-to-market",
+        "meaning": "How a product is launched, sold, and adopted."
+      },
+      {
+        "term": "North star metric",
+        "meaning": "Primary measure of product value or progress."
+      },
+      {
+        "term": "Stakeholder management",
+        "meaning": "Aligning people with different goals and influence."
+      },
+      {
+        "term": "Prioritization",
+        "meaning": "Deciding what gets focus and what does not."
+      }
+    ],
+    "listen_for": [
+      "Whether they talk in terms of business outcomes or only roadmap output.",
+      "How often they mention coaching product leaders versus stepping in personally.",
+      "Repeated references to executive churn, last-minute priority changes, or sales-driven overrides.",
+      "Whether customer evidence and data are used to justify choices or absent from the story.",
+      "Signs they are the bottleneck for decisions, escalations, or cross-team alignment."
+    ],
+    "avoid": [
+      "Treating them like a senior individual PM instead of a leader accountable through other product managers.",
+      "Assuming roadmap delivery alone is the main measure of success.",
+      "Pushing for more hands-on involvement when the real need is stronger delegation and leadership leverage.",
+      "Reducing product disagreements to communication issues when they are really strategy or priority conflicts."
+    ]
+  }
+}

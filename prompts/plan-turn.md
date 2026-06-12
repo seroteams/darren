@@ -431,6 +431,10 @@ Hard boundaries:
 - Total turns: {{TOTAL_TURNS}}
 - Reserved closer alias: {{CLOSER_ALIAS}}
 
+**Role context (generated for this job title + seniority — use its vocabulary and signals when rewording or drilling):**
+
+{{ROLE_PROFILE_BLOCK}}
+
 **Focus points (stage 1):**
 
 ```json

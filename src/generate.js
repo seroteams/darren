@@ -13,6 +13,7 @@ const CATALOGUE = JSON.parse(fs.readFileSync(FOCUS_POINTS_PATH, "utf8"));
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
 const { isRelationalArc } = require("./relational-arcs");
+const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
 const getDefaultModel = () => modelFor("focus_points");
 
 // Relational arcs (Bi-weekly check-in, Something feels off) must never surface a
@@ -73,7 +74,11 @@ function buildMessages({ name, role, seniority, meetingType, notes, focusPoints 
     .replaceAll("{{ROLE}}", role || "(not provided)")
     .replaceAll("{{SENIORITY}}", seniority || "(not provided)")
     .replaceAll("{{MEETING_TYPE}}", meetingType)
-    .replaceAll("{{MANAGER_NOTES}}", notes || "(none)");
+    .replaceAll("{{MANAGER_NOTES}}", notes || "(none)")
+    .replaceAll(
+      "{{ROLE_PROFILE_BLOCK}}",
+      renderRoleProfileBlock(loadRoleProfile({ role, seniority }), { slice: "focus", meetingType })
+    );
 
   return splitSystemUser(filled);
 }
@@ -100,7 +105,7 @@ async function generateFocusPoints(
   const raw = await callOpenAI({ ...messages, model });
 
   logStage(session, stage, {
-    inputs: { ...inputs, model },
+    inputs: { ...inputs, model, roleProfile: roleProfileLogInfo(inputs) },
     prompt: messages.filled,
     response: raw,
   });

@@ -1,0 +1,9 @@
+alias: q_cleanup_week
+label: Cleanup week
+name: What about this cleanup week feels flat to you?
+description: Drills into whether the post-launch flatness is normal recovery, repetitive work, or something still unresolved.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

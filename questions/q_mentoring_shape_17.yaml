@@ -1,0 +1,10 @@
+alias: q_mentoring_shape_17
+label: Mentoring shape
+name: What would mentoring actually look like in your week?
+description: Makes the idea concrete enough to talk about tradeoffs instead of good intentions.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

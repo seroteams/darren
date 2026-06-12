@@ -1,0 +1,10 @@
+alias: q_late_heads_up
+label: Late heads-up
+name: Where did the delay start to show up before it was visible on the deadline?
+description: Helps you understand how early the shift was visible from his side.
+purpose: competency
+stage: observation
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

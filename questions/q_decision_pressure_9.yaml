@@ -1,0 +1,10 @@
+alias: q_decision_pressure_9
+label: Decision pressure
+name: When a cross-team call is messy, what do you decide yourself before escalating?
+description: Helps you hear how he is using judgment rather than defaulting to safe execution.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

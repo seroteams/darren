@@ -1,0 +1,10 @@
+alias: q_prep_opener_139
+label: Prep opener
+name: What would next-level Head of Product impact look like for you over the next six months, beyond keeping delivery moving?
+description: Gets his own picture of the next chapter on the table before you go deeper.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

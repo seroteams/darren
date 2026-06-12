@@ -1,0 +1,10 @@
+alias: q_stretch_investment
+label: Stretch investment
+name: What would you want to take on if we made space for a bigger stretch?
+description: Moves the talk from abstract ambition to a concrete bet he might actually make.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

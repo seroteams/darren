@@ -1,0 +1,10 @@
+alias: q_manager_help_6
+label: Manager help
+name: What would you want from me to make that path easier to act on?
+description: Makes the support ask practical and tied to the next move, not generic reassurance.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

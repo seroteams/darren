@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781149661388,
+  "role_title_raw": "Product Designer",
+  "role_slug": "product-designer",
+  "seniority_raw": "Mid",
+  "seniority_key": "mid",
+  "role_family": "design",
+  "profile": {
+    "summary": "A mid-level Product Designer turns product goals into usable flows, screens, and interactions for a defined area. They usually own design work from discovery through delivery, partner closely with product managers, engineers, and researchers, and balance user needs with technical and business constraints. They are expected to work independently on scoped problems, explain decisions clearly, and contribute to design system consistency without setting overall product direction.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing speed with craft when shipping work under tight product timelines.",
+        "category": "topic"
+      },
+      {
+        "text": "Handling feedback from product, engineering, and design without losing clarity or confidence.",
+        "category": "competency"
+      },
+      {
+        "text": "Working with incomplete research or unclear problem framing and still moving the work forward.",
+        "category": "topic"
+      },
+      {
+        "text": "Keeping designs consistent with the design system while adapting to real product constraints.",
+        "category": "competency"
+      },
+      {
+        "text": "Juggling several tickets, iterations, and stakeholder requests at once.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Clarity of problem framing",
+        "why": "Mid-level designers do better work when the user problem, success criteria, and constraints are clear enough to design against.",
+        "category": "topic"
+      },
+      {
+        "theme": "Feedback quality and decision-making",
+        "why": "They often receive input from many directions and need help separating useful critique from noise.",
+        "category": "competency"
+      },
+      {
+        "theme": "Partnership with product and engineering",
+        "why": "Strong day-to-day collaboration affects scope, feasibility, and whether design intent survives delivery.",
+        "category": "topic"
+      },
+      {
+        "theme": "Growth in interaction and systems thinking",
+        "why": "At this level, progress often comes from moving beyond screen-making into stronger flows, states, and patterns.",
+        "category": "competency"
+      },
+      {
+        "theme": "Workload and pace sustainability",
+        "why": "Design work can expand endlessly, so managers should check whether deadlines and review cycles are draining energy.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Wireframe",
+        "meaning": "Low-detail layout used to explore structure and flow."
+      },
+      {
+        "term": "Prototype",
+        "meaning": "Clickable model that shows how a design behaves."
+      },
+      {
+        "term": "User flow",
+        "meaning": "Steps a user takes to complete a task."
+      },
+      {
+        "term": "Design system",
+        "meaning": "Shared components, patterns, and rules for product design."
+      },
+      {
+        "term": "Usability testing",
+        "meaning": "Watching users try tasks to find friction."
+      },
+      {
+        "term": "Handoff",
+        "meaning": "Sharing final design details with engineers for build."
+      },
+      {
+        "term": "Component",
+        "meaning": "Reusable UI building block in a system."
+      },
+      {
+        "term": "Accessibility",
+        "meaning": "Designing so people with disabilities can use it."
+      },
+      {
+        "term": "Figma",
+        "meaning": "Common tool for interface design and collaboration."
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about user problems or mainly about screens and polish.",
+      "Repeated mentions of unclear requirements, late changes, or shifting scope.",
+      "How confidently they explain tradeoffs between user needs, business goals, and engineering limits.",
+      "Whether they describe feedback as collaborative input or as conflicting noise.",
+      "References to edge cases, states, and system consistency rather than only happy paths."
+    ],
+    "avoid": [
+      "Treating them like a visual decorator instead of a partner in solving product problems.",
+      "Giving vague feedback like \"make it cleaner\" without naming the user or business issue.",
+      "Assuming engineering pushback means the design was wrong rather than constrained.",
+      "Pushing endless iteration on minor details when the core problem is still unclear."
+    ]
+  }
+}

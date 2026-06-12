@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781198202790,
+  "role_title_raw": "Product manager on the payments team",
+  "role_slug": "product-manager-on-the-payments-team",
+  "seniority_raw": "Mid-level",
+  "seniority_key": "mid-level",
+  "role_family": "product",
+  "profile": {
+    "summary": "A mid-level product manager on a payments team usually owns part of the checkout, billing, payout, or transaction experience. They balance customer needs, conversion, fraud, compliance, and operational reliability. They work closely with engineering, design, data, finance, legal, support, and external payment providers to ship changes safely and improve payment performance.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing conversion goals with fraud controls, risk limits, and compliance requirements.",
+        "category": "topic"
+      },
+      {
+        "text": "Shipping payment changes carefully because small mistakes can cause lost revenue or customer trust.",
+        "category": "topic"
+      },
+      {
+        "text": "Coordinating across many stakeholders who have different priorities, including finance, legal, support, and engineering.",
+        "category": "topic"
+      },
+      {
+        "text": "Making good decisions with messy payment data, partial attribution, and provider-specific reporting.",
+        "category": "competency"
+      },
+      {
+        "text": "Carrying stress from incidents like failed charges, payout delays, or checkout outages.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Payment funnel health and failure points",
+        "why": "This role is often judged on reducing drop-off and fixing where transactions fail.",
+        "category": "topic"
+      },
+      {
+        "theme": "Tradeoffs between growth, fraud, and compliance",
+        "why": "Payments work always involves tension between making checkout easy and keeping it safe and legal.",
+        "category": "topic"
+      },
+      {
+        "theme": "Cross-functional alignment",
+        "why": "Progress depends on how well they align engineering, finance, legal, operations, and support around priorities.",
+        "category": "competency"
+      },
+      {
+        "theme": "Decision-making with incomplete data",
+        "why": "Payment metrics are often noisy or fragmented, so confidence and judgment matter.",
+        "category": "competency"
+      },
+      {
+        "theme": "Load from incidents and operational pressure",
+        "why": "Payments problems are high stakes and can create sustained stress even when the roadmap looks normal.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Authorization",
+        "meaning": "Card issuer approves a transaction attempt."
+      },
+      {
+        "term": "Capture",
+        "meaning": "Final step that takes the approved funds."
+      },
+      {
+        "term": "Chargeback",
+        "meaning": "Customer disputes a payment and funds may be reversed."
+      },
+      {
+        "term": "Decline rate",
+        "meaning": "Share of payment attempts that fail."
+      },
+      {
+        "term": "Payment gateway",
+        "meaning": "Service that routes payment data for processing."
+      },
+      {
+        "term": "PSP",
+        "meaning": "Payment service provider that processes transactions."
+      },
+      {
+        "term": "3D Secure",
+        "meaning": "Extra cardholder verification during checkout."
+      },
+      {
+        "term": "PCI DSS",
+        "meaning": "Security standard for handling card data."
+      },
+      {
+        "term": "Settlement",
+        "meaning": "When processed funds are transferred and finalized."
+      },
+      {
+        "term": "Payouts",
+        "meaning": "Money sent out to sellers, partners, or users."
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about payment success as a full funnel, not just shipped features",
+      "Repeated mentions of provider constraints or dependencies slowing decisions",
+      "How they describe tradeoffs between conversion, fraud, and compliance",
+      "Whether incidents and operational issues dominate their week",
+      "Shifts from customer language to finance or risk language depending on the problem"
+    ],
+    "avoid": [
+      "Treating payments like a normal feature area where mistakes are easy to undo",
+      "Pushing only for conversion gains without respecting fraud, compliance, or reconciliation needs",
+      "Assuming slow delivery means weak execution rather than careful risk management",
+      "Reducing their stakeholders to just design and engineering when finance, legal, and operations are central"
+    ]
+  }
+}

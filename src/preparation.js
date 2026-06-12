@@ -8,6 +8,7 @@ const { promptFor, getArc } = require("./one-on-one-types");
 const { withPromptVersion } = require("./prompt-version");
 const { resolveSelectedFocus } = require("./selected-focus");
 const { splitSystemUser } = require("./prompt-utils");
+const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
 
 const getDefaultModel = () => modelFor("preparation");
 
@@ -88,7 +89,11 @@ function buildMessages({
     .replaceAll("{{OBSERVED_SHIFT}}", observedShift || "(none)")
     .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints || [], null, 2))
     .replaceAll("{{SELECTED_FOCUS_JSON}}", JSON.stringify(sf || {}, null, 2))
-    .replaceAll("{{PRIMARY_FOCUS_ID}}", sf?.id || "(none)");
+    .replaceAll("{{PRIMARY_FOCUS_ID}}", sf?.id || "(none)")
+    .replaceAll(
+      "{{ROLE_PROFILE_BLOCK}}",
+      renderRoleProfileBlock(loadRoleProfile({ role: roleTitle, seniority }), { slice: "full", meetingType })
+    );
 
   return splitSystemUser(filled);
 }
@@ -316,7 +321,14 @@ async function generatePreparation(
 
   logStage(session, "01b-preparation", {
     inputs: withPromptVersion(
-      { ...prepInput, model, runId, validation, attempts },
+      {
+        ...prepInput,
+        model,
+        runId,
+        validation,
+        attempts,
+        roleProfile: roleProfileLogInfo({ role: prepInput.roleTitle, seniority: prepInput.seniority }),
+      },
       prepPromptPath
     ),
     prompt: messages.filled,

@@ -1,0 +1,9 @@
+alias: q_delivery_focus_8
+label: Delivery focus
+name: What did focusing on delivery let you avoid at that point?
+description: Drills into the controllable-delivery thread to surface what he was stepping back from after the decision.
+purpose: topic
+stage: landing
+axis_effects:
+  engagement: +1
+source: planner_added

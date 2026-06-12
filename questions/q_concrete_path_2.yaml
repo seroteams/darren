@@ -1,0 +1,10 @@
+alias: q_concrete_path_2
+label: Concrete path
+name: What concrete path forward feels real to you from here?
+description: Brings the conversation toward the next step he actually believes in, not a vague hope.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

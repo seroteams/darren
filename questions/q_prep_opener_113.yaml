@@ -1,0 +1,10 @@
+alias: q_prep_opener_113
+label: Prep opener
+name: I’ve noticed two deadlines slipped this month, including one without a heads-up; how has the last couple of weeks felt from your side in terms of load?
+description: Gives Reyes room to frame what changed before you name any concern.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

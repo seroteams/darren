@@ -1,0 +1,10 @@
+alias: q_manager_input
+label: Manager input
+name: Where would my feedback be most useful for you right now?
+description: Opens the door to the kind of direct input that helps him keep moving.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

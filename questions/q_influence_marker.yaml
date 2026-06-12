@@ -1,0 +1,10 @@
+alias: q_influence_marker
+label: Influence marker
+name: Where would you most want people to look to you for judgment, not just updates?
+description: Shows where he wants to move from delivery ownership into real product leadership.
+purpose: competency
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

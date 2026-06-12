@@ -1,0 +1,10 @@
+alias: q_what_shifted_there
+label: What shifted there
+name: What changed for you around that ritual?
+description: Gets at the moment the pattern started without making him defend it.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

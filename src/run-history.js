@@ -295,6 +295,7 @@ module.exports = {
   compareRun,
   deleteRun,
   setArchived,
+  isArchivedAt,
   findRunDir,
   readPipelineLock,
   findLatestRunWithLock,

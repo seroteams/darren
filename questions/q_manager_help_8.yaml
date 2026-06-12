@@ -1,0 +1,10 @@
+alias: q_manager_help_8
+label: Manager help
+name: What support from me would make the biggest difference right now?
+description: Makes the support ask practical and tied to the next move, not generic reassurance.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: planner_added

@@ -30,7 +30,6 @@ docs/todo/<slug>/
   phase-1.md   one phase + its test scenarios
   phase-2.md
   ...
-  handoff.md   where we are now (only after a phase is done)
 ```
 
 `<slug>` = short name, e.g. `fixes-june-10`.
@@ -42,16 +41,18 @@ docs/todo/<slug>/
 - [ ] Fewer big phases beats lots of tiny ones.
 - [ ] Write `PLAN.md` (template below).
 - [ ] Write one `phase-N.md` per phase (template below). Each MUST end with test scenarios. Can't write real scenarios? The phase is too big or too techy — split it.
-- [ ] Do **not** write `handoff.md` yet.
 - [ ] **Stop.** Tell the user to read the phases and confirm before any work starts.
 
 ## Job B — do one phase
 
-- [ ] Pick the phase — the next unfinished one (check `handoff.md`, else `PLAN.md`).
+- [ ] Pick the phase — the next unfinished one (check `PLAN.md`).
+- [ ] Baseline first: run `npm run gate` (and `npm run smoke` if relevant) **before touching anything**, and note the result in `PLAN.md`. Anything failing now is pre-existing — not the new work's fault.
 - [ ] If this chat is long or messy, say so — a fresh session is better.
 - [ ] Build **that phase only**. Don't wander into the next one.
 - [ ] Hand testing to the product owner: show them the scenarios + anything that helps them test (a screenshot, what to click). Then **wait**.
-- [ ] Green light? Only then: update status in `PLAN.md`, write/refresh `handoff.md`.
+- [ ] Green light? Only then: update the status and "Current state" in `PLAN.md` (what landed, how it was tested, what's next), then **commit the phase** (local only — no push/PR unless asked).
+- [ ] Scope you cut or ideas for later go in PLAN.md's "Parked" section — not into this phase.
+- [ ] All phases ✅? Move the folder to `docs/todo/done/<slug>/`.
 - [ ] **Stop.** No green light = no next phase. One phase per run. Suggest the next one another day.
 
 ## Templates
@@ -78,7 +79,10 @@ docs/todo/<slug>/
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-<which phase is next — or "see handoff.md">
+<which phase is next, what just landed, how it was tested, baseline result>
+
+## Parked
+- <good idea, but not now — cut scope, follow-ups, nice-to-haves>
 ```
 
 ### phase-N.md
@@ -109,37 +113,12 @@ Walk through these yourself. Next phase waits for your green light.
 3. **<name>** — ...
 ```
 
-### handoff.md
-
-```
-# Handoff — <slug>
-
-**Updated:** <date>, after Phase <N>
-
-## Where we are
-Phase <N> (<name>) is done and tested. Next: Phase <N+1>.
-
-## What just landed
-- <what changed>
-- <files touched>
-
-## How it was tested
-<what was walked through, result, where the proof is>
-
-## To pick up Phase <N+1>
-1. Read [PLAN.md](PLAN.md) and [phase-<N+1>.md](phase-<N+1>.md).
-2. <anything the next person needs to know>
-3. Do that phase only. Get it tested. Update this file.
-
-## Open questions
-- <anything unresolved>
-```
-
 ## The rules (don't skip these)
 
 - [ ] **The product owner gives the green light — not you.** Your own checks don't count. Show the scenarios, let them test, wait for "tested, good".
 - [ ] **One phase per run.** No starting phase N+1 in the same run unless the user says "keep going".
 - [ ] **Every phase ends with test scenarios.** No real scenarios = phase is wrong-sized. Split it.
 - [ ] **Set up, confirm, then build.** Don't set up the folder and run phase 1 in one go.
-- [ ] **`handoff.md` is the truth** for where we are. Update it the moment a phase is done.
+- [ ] **`PLAN.md` is the truth** for where we are. Update its statuses and "Current state" the moment a phase is done.
+- [ ] **Green light = commit.** Approved work gets committed right away (local only), so tested phases never sit mixed in with new changes.
 - [ ] **Spread it out.** Stopping between phases is the point — days, not one marathon.

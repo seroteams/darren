@@ -1,0 +1,10 @@
+alias: q_next_move_81
+label: Next move
+name: What do you want to take on first before we next meet?
+description: Leaves the conversation with one concrete step that follows from the path he named.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

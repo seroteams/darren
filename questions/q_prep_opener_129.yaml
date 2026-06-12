@@ -1,0 +1,10 @@
+alias: q_prep_opener_129
+label: Prep opener
+name: "How have the last couple of weeks felt for you while you're managing your accounts and escalations?"
+description: Helps Marcus set the context in his own words before you go anywhere specific.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

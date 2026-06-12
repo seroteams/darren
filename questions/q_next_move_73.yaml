@@ -1,0 +1,10 @@
+alias: q_next_move_73
+label: Next move
+name: "Given what we've covered, where do you want to focus first?"
+description: Leaves the conversation with one concrete move Jordan can own after this discussion.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_move_72"

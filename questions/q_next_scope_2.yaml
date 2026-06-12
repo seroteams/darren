@@ -1,0 +1,10 @@
+alias: q_next_scope_2
+label: Next scope
+name: What kind of call do you want to get better at making in this next stretch?
+description: Lets her define the judgment she wants to build at Staff level without turning it into a generic skills chat.
+purpose: competency
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

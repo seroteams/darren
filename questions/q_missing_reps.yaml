@@ -1,0 +1,9 @@
+alias: q_missing_reps
+label: Missing reps
+name: Which kinds of decisions do you want more reps making?
+description: Helps you map the experience he needs to build, not just the title he wants.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+source: generated

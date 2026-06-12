@@ -1,0 +1,10 @@
+alias: q_energy_by_work
+label: Energy by work
+name: Where has your energy been going this quarter?
+description: Gives you a clean read on whether his effort is concentrated in the right places or drifting.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

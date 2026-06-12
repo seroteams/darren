@@ -1,0 +1,10 @@
+alias: q_current_leverage
+label: Current leverage
+name: Where are you still spending time like an individual executor?
+description: Shows which parts of the job are still pulling him back into the weeds.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +1
+  clarity: +3
+source: generated

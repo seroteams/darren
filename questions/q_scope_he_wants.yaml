@@ -1,0 +1,10 @@
+alias: q_scope_he_wants
+label: Scope he wants
+name: What would you actually be running that you do not run today?
+description: Helps you hear the scope shift he wants in plain terms.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

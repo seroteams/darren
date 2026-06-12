@@ -1,0 +1,10 @@
+alias: q_energy_detail_2
+label: Energy detail
+name: "When you say 'fine' — where is your energy actually at right now?"
+description: One-shot clarifier to turn the vague opener into a specific read on current energy.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added

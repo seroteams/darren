@@ -1,0 +1,10 @@
+alias: q_design_focus_2
+label: Design focus
+name: Which flow has taken the most of your attention lately?
+description: Keeps the conversation grounded in one concrete area instead of a broad status update.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

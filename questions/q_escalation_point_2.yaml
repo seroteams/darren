@@ -1,0 +1,10 @@
+alias: q_escalation_point_2
+label: Escalation point
+name: What was the last issue you decided to escalate instead of handle locally?
+description: Helps you hear how he chooses when to pull others in versus carry it himself.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

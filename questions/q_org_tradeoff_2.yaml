@@ -1,0 +1,10 @@
+alias: q_org_tradeoff_2
+label: Org tradeoff
+name: What would you want to drop if you took on something with wider reach?
+description: Makes the tradeoff explicit so the next step is grounded in real capacity.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_tradeoff_check_9
+label: Tradeoff check
+name: What would you need to stop doing to make room for that next step?
+description: Surfaces the real tradeoff instead of treating growth as extra work on top.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

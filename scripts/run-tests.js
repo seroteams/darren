@@ -29,6 +29,7 @@ const OFFLINE_TESTS = [
   "test-question-validator.js",
   "test-read-quality.js",
   "test-recurring-gap-damper.js",
+  "test-role-profile.js",
   "test-trust-checks.js",
 ];
 

@@ -77,6 +77,7 @@ function unitChecks() {
     "prompts/plan-turn.md":             "src/queue-manager.js",
     "prompts/preparation.md":           "src/preparation.js",
     "prompts/final-evaluation.md":      "src/reviewer.js",
+    "prompts/generate-role-profile.md": "src/role-profile.js",
   };
   for (const [promptFile, srcFile] of Object.entries(PROMPT_SRC_MAP)) {
     try {
@@ -402,6 +403,69 @@ async function verify(exitCode, stdout) {
     : 0;
   if (generatedCount > 0) pass(`${generatedCount} generated question YAML(s) on disk`);
   else fail("generated question YAMLs", "questions/ has no generated .yaml files");
+
+  // Role profile: cached on disk, loaded by every stage, generated without personal data
+  try {
+    const { keyOf, profilePath, PROFILE_VERSION } = require("./src/role-profile");
+    const rpKey = keyOf({ role: scenario.role, seniority: scenario.seniority });
+    const rpPath = profilePath(rpKey);
+    if (fs.existsSync(rpPath)) {
+      const rpDoc = JSON.parse(fs.readFileSync(rpPath, "utf8"));
+      if (rpDoc.version === PROFILE_VERSION && rpDoc.profile) pass(`role profile cached on disk (${rpKey})`);
+      else fail("role profile file valid", `bad shape in ${rpPath}`);
+    } else {
+      fail("role profile cached on disk", `missing ${rpPath}`);
+    }
+
+    for (const rel of [
+      "01-focus-points/inputs.json",
+      "01b-preparation/inputs.json",
+      "03-question-bank/inputs.json",
+      "05-evaluation/inputs.json",
+    ]) {
+      try {
+        const inp = JSON.parse(fs.readFileSync(path.join(sDir, rel), "utf8"));
+        if (inp.roleProfile?.status === "loaded") pass(`role profile loaded: ${rel.split("/")[0]}`);
+        else fail(`role profile loaded: ${rel.split("/")[0]}`, `status=${inp.roleProfile?.status ?? "(absent)"}`);
+      } catch (e) {
+        fail(`role profile status in ${rel}`, e.message);
+      }
+    }
+
+    // Planner logs no inputs.json — verify via any rendered per-turn prompt.
+    const turnPrompts = fs.existsSync(path.join(sDir, "04-dynamic-answers"))
+      ? fs.readdirSync(path.join(sDir, "04-dynamic-answers")).filter((f) => f.endsWith("-prompt.md"))
+      : [];
+    const plannerHasBlock = turnPrompts.some((f) =>
+      fs.readFileSync(path.join(sDir, "04-dynamic-answers", f), "utf8").includes("<role_profile>")
+    );
+    if (plannerHasBlock) pass("role profile in per-turn planner prompt");
+    else if (turnPrompts.length === 0) fail("role profile in per-turn planner prompt", "no per-turn prompts logged");
+    else fail("role profile in per-turn planner prompt", `absent from all ${turnPrompts.length} turn prompt(s)`);
+
+    // Snapshot: every run logs the profile it used — cached or generated.
+    try {
+      const snap = JSON.parse(fs.readFileSync(path.join(sDir, "00b-role-profile/profile.json"), "utf8"));
+      if (snap.version === PROFILE_VERSION && snap.profile) pass("role profile snapshot in session log");
+      else fail("role profile snapshot in session log", "bad shape in 00b-role-profile/profile.json");
+    } catch (e) {
+      fail("role profile snapshot in session log", e.message);
+    }
+
+    // Privacy: if this run generated the profile, its prompt must carry no
+    // personal data — the file is shared across people.
+    const rpPromptPath = path.join(sDir, "00b-role-profile/prompt.md");
+    if (fs.existsSync(rpPromptPath)) {
+      const rpPrompt = fs.readFileSync(rpPromptPath, "utf8").toLowerCase();
+      const nameLeak = scenario.name && rpPrompt.includes(String(scenario.name).toLowerCase());
+      const notesSnippet = String(scenario.manager_notes || "").trim().slice(0, 40).toLowerCase();
+      const notesLeak = notesSnippet.length >= 15 && rpPrompt.includes(notesSnippet);
+      if (!nameLeak && !notesLeak) pass("role profile prompt carries no name/notes (privacy)");
+      else fail("role profile prompt carries no name/notes (privacy)", nameLeak ? "name found" : "manager notes found");
+    }
+  } catch (e) {
+    fail("role profile checks", e.message);
+  }
 
   // Cost log
   try {

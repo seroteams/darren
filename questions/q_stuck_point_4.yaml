@@ -1,0 +1,9 @@
+alias: q_stuck_point_4
+label: Stuck point
+name: What was the point where the work actually got stuck?
+description: Gets to the concrete snag instead of staying at the level of the missed date.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: generated

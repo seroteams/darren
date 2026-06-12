@@ -1,0 +1,10 @@
+alias: q_priority_tradeoff_8
+label: Priority tradeoff
+name: What did you choose not to do over the last two weeks?
+description: Helps you hear what actually got deprioritised once the work got real.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

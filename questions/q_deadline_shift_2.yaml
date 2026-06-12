@@ -1,0 +1,9 @@
+alias: q_deadline_shift_2
+label: Deadline shift
+name: You mentioned the deadlines got away from you — what shifted first?
+description: Follows his volunteered deadline thread and opens the observation stage around what changed in priorities.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

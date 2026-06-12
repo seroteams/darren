@@ -1,0 +1,10 @@
+alias: q_tradeoff_line_2
+label: Tradeoff line
+name: What are you saying no to so you can keep that focus?
+description: Shows how deliberate his priorities really are and what he is protecting.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

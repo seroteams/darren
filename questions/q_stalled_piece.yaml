@@ -1,0 +1,10 @@
+alias: q_stalled_piece
+label: Stalled piece
+name: Which piece took more energy than you expected?
+description: Helps you spot where the sprint got sticky without turning it into a complaint.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

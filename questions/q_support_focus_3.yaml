@@ -1,0 +1,10 @@
+alias: q_support_focus_3
+label: Support focus
+name: What support would make the biggest difference right now?
+description: Closes by inviting him to name the most useful support without opening a new thread.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: planner_added

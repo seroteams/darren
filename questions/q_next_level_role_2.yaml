@@ -1,0 +1,10 @@
+alias: q_next_level_role_2
+label: Next-level role
+name: What does the next-level Head of Product role mean to you in outcomes?
+description: Keeps the conversation on scope and impact, not a title or a list of tasks.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

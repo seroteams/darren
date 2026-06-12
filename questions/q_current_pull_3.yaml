@@ -1,0 +1,10 @@
+alias: q_current_pull_3
+label: Current pull
+name: What parts of your current priorities feel most worth your time right now?
+description: Helps you hear what he still sees as high-value work versus what he’s just carrying.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

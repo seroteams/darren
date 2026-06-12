@@ -1,0 +1,10 @@
+alias: q_feedback_shift
+label: Feedback shift
+name: Can you walk me through a piece of feedback that changed the design?
+description: Helps you hear whether review input is sharpening the work or just adding churn.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

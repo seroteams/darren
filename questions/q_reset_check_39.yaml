@@ -1,0 +1,8 @@
+alias: q_reset_check_39
+label: Reset check
+name: Is now a good time for this conversation, or should we pick it up later?
+description: Directly checks whether the session is workable before continuing.
+purpose: topic
+axis_effects:
+  clarity: +1
+source: planner_added

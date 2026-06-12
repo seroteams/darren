@@ -6,6 +6,7 @@ const { getArc } = require("./meeting-arcs");
 const { promptFor } = require("./one-on-one-types");
 const { resolveSelectedFocus } = require("./selected-focus");
 const { splitSystemUser } = require("./prompt-utils");
+const { loadRoleProfile, renderRoleProfileBlock } = require("./role-profile");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
@@ -223,6 +224,15 @@ function buildMessages({
       Array.isArray(prep?.listenFor) && prep.listenFor.length
         ? JSON.stringify(prep.listenFor, null, 2)
         : "(none)"
+    )
+    .replaceAll(
+      "{{ROLE_PROFILE_BLOCK}}",
+      // Slim slice — this prompt runs every dynamic turn, so only summary,
+      // terminology, and listen_for ride along (token budget).
+      renderRoleProfileBlock(loadRoleProfile({ role: ctx.role, seniority: ctx.seniority }), {
+        slice: "planner",
+        meetingType: ctx.meetingType,
+      })
     );
 
   return splitSystemUser(filled);

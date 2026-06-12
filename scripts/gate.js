@@ -135,6 +135,7 @@ async function runOneCase(def, args) {
     bankQuestions,
     focusPoints,
     meetingType: scenario.meeting_type,
+    ctx: { role: scenario.role, seniority: scenario.seniority },
     metrics,
   });
 

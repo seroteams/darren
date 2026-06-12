@@ -1,0 +1,10 @@
+alias: q_team_read_3
+label: Team read
+name: How do you think the team is reading your pace this week?
+description: Lets you hear whether her quieter stretch is landing cleanly with others.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

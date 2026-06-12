@@ -1,0 +1,10 @@
+alias: q_support_ask_5
+label: Support ask
+name: What would make it easier to raise a risk with me sooner next time?
+description: Helps you hear what support would make escalation feel usable, not risky.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_incident_pattern
+label: Incident pattern
+name: Those three sev-1s — how typical has that pattern been lately?
+description: Drills into whether incident pull is a recent spike or the default pattern dragging her off strategic work.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

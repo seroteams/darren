@@ -1,0 +1,10 @@
+alias: q_manager_leverage_12
+label: Manager leverage
+name: What would help you hold a bigger focus without getting pulled back into the weeds?
+description: Points the conversation toward what you can change to make senior scope easier to keep.
+purpose: wellbeing
+stage: investment
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

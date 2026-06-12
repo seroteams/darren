@@ -1,0 +1,10 @@
+alias: q_prep_opener_132
+label: Prep opener
+name: Over the next six months, what would true next-step Head of Product scope look like for you, and which outcome would you want to own end to end?
+description: Gets you straight to how Ahmed defines the next step without drifting into delivery detail.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

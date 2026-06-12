@@ -1,0 +1,9 @@
+alias: q_next_signal_2
+label: Next signal
+name: What support from me would make the biggest difference on that?
+description: Invites him to name the most useful support as the conversation closes.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +3
+source: planner_added

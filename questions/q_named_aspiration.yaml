@@ -1,0 +1,10 @@
+alias: q_named_aspiration
+label: Named aspiration
+name: What specific product outcome would you want your name on at the next level?
+description: Gets him to name a concrete end state instead of staying at the level of role language.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

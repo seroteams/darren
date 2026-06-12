@@ -1,0 +1,10 @@
+alias: q_next_step_focus_7
+label: Next step focus
+name: "Given what we've covered, where do you want to put your attention first?"
+description: Closes the conversation by turning the discussion into a clear next move.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

@@ -11,3 +11,15 @@ rules:
     field: next_actions
     min: 2
     max: 5
+
+  - id: no_role_profile_vocab_headline
+    type: regex_not
+    field: headline
+    pattern: "role[ _]profile|known_challenges|listen_for|role_confidence"
+    reason: Role-profile scaffolding must never surface in briefing copy
+
+  - id: no_role_profile_vocab_paragraph
+    type: regex_not
+    field: understanding_paragraph
+    pattern: "role[ _]profile|known_challenges|listen_for|role_confidence"
+    reason: Role-profile scaffolding must never surface in briefing copy

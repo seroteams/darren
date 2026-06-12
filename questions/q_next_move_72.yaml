@@ -1,0 +1,10 @@
+alias: q_next_move_72
+label: Next move
+name: What is the first step you want to take before we meet again?
+description: Leaves the conversation with one concrete move Jordan can own after this discussion.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

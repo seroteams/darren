@@ -1,0 +1,18 @@
+{
+  "name": "Mara",
+  "role": "Staff Site Reliability Engineer",
+  "seniority": "Senior",
+  "meeting_type": "Growth & career plan",
+  "manager_notes": "Mara is technically excellent and owns our reliability standards, but she keeps getting pulled into every major incident and I worry the strategic platform work she wants is always losing to firefighting. I want to understand what growth direction she actually wants and agree on one concrete step to protect time for it.",
+  "answers": [
+    "Honestly the last month has been heavy on incidents, three sev-1s, so most of my platform work stalled.",
+    "I want to make sure we talk about the error budget policy, the feature teams keep treating it as optional.",
+    "The on-call rotation is sustainable for me personally but the escalation path still routes too much to me directly.",
+    "What energises me is the prevention work, designing the systems so the same outage cannot happen twice.",
+    "I would like to grow toward setting reliability direction across teams, not just being the strongest responder.",
+    "The blocker is that incident response always wins, there is no protected time for the standards work.",
+    "If I could hand the postmortem follow-ups to the service teams with clear owners, that would free real time.",
+    "A fair next step would be agreeing which two services adopt the new SLO template this quarter.",
+    "Yes, if we lock the SLO rollout as my growth focus and you back me with the team leads, I am committed."
+  ]
+}

@@ -1,0 +1,9 @@
+alias: q_tech_lead_pull_15
+label: Tech lead pull
+name: Tech lead specifically — what about that role pulls you most?
+description: Drills into the named aspiration so he defines the kind of scope or impact he wants.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

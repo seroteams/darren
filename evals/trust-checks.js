@@ -12,7 +12,14 @@
 // boundary fast-follow.
 
 const { computeReadQuality } = require("../src/reviewer");
-const { runManagerBriefingBans, runFocusArcGate, runEvalIntegrityChecks } = require("../src/golden-checks");
+const {
+  runManagerBriefingBans,
+  runFocusArcGate,
+  runRoleProfileArcGate,
+  runRoleProfileVocabLeak,
+  runEvalIntegrityChecks,
+} = require("../src/golden-checks");
+const { loadRoleProfile } = require("../src/role-profile");
 
 const HARD_FAIL = {
   PRIVATE_NOTE_LEAK: "PRIVATE_NOTE_LEAK",
@@ -20,6 +27,8 @@ const HARD_FAIL = {
   WRONG_MEETING_TYPE: "WRONG_MEETING_TYPE",
   ENGINE_VOCAB_LEAK: "ENGINE_VOCAB_LEAK",
   FOCUS_ARC_LEAK: "FOCUS_ARC_LEAK",
+  ROLE_PROFILE_ARC_LEAK: "ROLE_PROFILE_ARC_LEAK",
+  ROLE_PROFILE_VOCAB_LEAK: "ROLE_PROFILE_VOCAB_LEAK",
   SCHEMA_INVALID: "SCHEMA_INVALID",
 };
 
@@ -56,7 +65,7 @@ const MARKER_RE = new RegExp(
 
 const STOP_WORDS = new Set([
   "a", "an", "the", "and", "or", "but", "of", "in", "on", "to", "for", "with",
-  "is", "are", "was", "were", "be", "been", "his", "her", "their", "they",
+  "is", "are", "was", "were", "be", "been", "has", "have", "had", "his", "her", "their", "they",
   "he", "she", "it", "i", "im", "ive", "that", "this", "about", "into", "at",
   "as", "by", "from", "still", "often", "but", "not",
 ]);
@@ -203,7 +212,7 @@ function checkSchemaInvalid(briefing, transcript) {
 
 // Run all deterministic checks. `metrics` (from scripts/lib/session-scores) is
 // optional context that gets logged as a trend, never gated.
-function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQuestions = [], focusPoints = [], meetingType, metrics = null } = {}) {
+function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQuestions = [], focusPoints = [], meetingType, ctx = null, metrics = null } = {}) {
   const hard_fails = [];
   const warnings = [];
   const details = [];
@@ -245,6 +254,23 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   if (focusArc.length) {
     hard_fails.push(HARD_FAIL.FOCUS_ARC_LEAK);
     details.push(...focusArc);
+  }
+
+  const profileVocab = runRoleProfileVocabLeak(briefing);
+  if (profileVocab.length) {
+    hard_fails.push(HARD_FAIL.ROLE_PROFILE_VOCAB_LEAK);
+    details.push(...profileVocab);
+  }
+
+  // Render-time arc gate over whatever profile this ctx resolves to on disk
+  // (null-safe: no profile → trivially clean; the smoke scenario covers the
+  // loaded case end-to-end).
+  if (ctx && ctx.role && ctx.seniority) {
+    const profileArc = runRoleProfileArcGate(loadRoleProfile(ctx), meetingType);
+    if (profileArc.length) {
+      hard_fails.push(HARD_FAIL.ROLE_PROFILE_ARC_LEAK);
+      details.push(...profileArc);
+    }
   }
 
   return finalize({ hard_fails, warnings, details, metrics, read_quality: over.rq });

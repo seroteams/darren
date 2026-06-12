@@ -1,0 +1,10 @@
+alias: q_path_forward_8
+label: Path forward
+name: What concrete path forward feels real to you right now?
+description: Moves from disappointment into the next move he can actually see.
+purpose: topic
+stage: support
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

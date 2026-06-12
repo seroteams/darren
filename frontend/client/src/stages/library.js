@@ -1,7 +1,8 @@
 // Library (internal QA tooling). Full-page list of EVERY finished run, newest
 // first, with filters + search and a verdict badge per row. From here you open
-// a run's Review page or copy its full review block to the clipboard. Read-only:
-// no Resume/Delete here — finished runs are for judging, not editing.
+// a run's Review page or copy its full review block to the clipboard. You can
+// also archive a run (hidden from the default list, viewable via the Archived
+// toggle). No Resume/Delete here — finished runs are for judging, not editing.
 
 import { STAGES, setState } from "../state.js";
 import { getFinishedRuns, getRunFull, setArchived } from "../api.js";

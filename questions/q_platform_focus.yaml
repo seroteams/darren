@@ -1,0 +1,10 @@
+alias: q_platform_focus
+label: Platform focus
+name: Which platform or standards work do you most want to spend more of your time on next?
+description: Helps you hear the specific work she wants to be known for, not just the frustration around being pulled away.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

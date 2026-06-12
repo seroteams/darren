@@ -1,0 +1,10 @@
+alias: q_team_landing_7
+label: Team landing
+name: How has the team response to the launch landed with you this week?
+description: Helps you hear whether the launch changed how she’s showing up with the team.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  engagement: +3
+  wellbeing: +1
+source: generated

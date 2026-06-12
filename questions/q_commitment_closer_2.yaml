@@ -1,0 +1,10 @@
+alias: q_commitment_closer_2
+label: Commitment closer
+name: What would showing Principal-level leverage more clearly look like before we next meet?
+description: Ends on a concrete commitment tied to the level you are calibrating against.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_commitment_closer"

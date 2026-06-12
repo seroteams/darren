@@ -1,0 +1,9 @@
+alias: q_pairing_thread_2
+label: Pairing thread
+name: What would you want to learn from pairing with the staff engineer?
+description: Drills into the concrete growth move he just named and what capability he wants to build.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +1
+source: planner_added

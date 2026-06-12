@@ -1,0 +1,10 @@
+alias: q_bigger_than_delivery
+label: Bigger than delivery
+name: What parts of your week would you want to stop owning personally if your role felt bigger?
+description: Shows where he still sits in the work instead of leading around it.
+purpose: competency
+stage: anchor
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

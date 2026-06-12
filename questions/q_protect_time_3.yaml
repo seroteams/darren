@@ -1,0 +1,10 @@
+alias: q_protect_time_3
+label: Protect time
+name: What would you most want to be different before we next meet?
+description: Leaves the conversation with a real commitment instead of a vague good intention.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_protect_time_2"

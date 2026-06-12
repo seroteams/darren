@@ -18,6 +18,7 @@ async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, not
           stage: t.question.stage,
           answer: t.answer,
           skipped: t.skipped,
+          note: t.note || "",
           unbooked_signal: t.unbooked_signal || [],
         })),
         axisState: serialize(axisState),

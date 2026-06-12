@@ -1,0 +1,10 @@
+alias: q_trust_gap_example
+label: Trust gap example
+name: Where does stakeholder trust feel thinnest for you right now?
+description: Helps you hear the specific relationship or forum where his influence is getting constrained.
+purpose: competency
+stage: anchor
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

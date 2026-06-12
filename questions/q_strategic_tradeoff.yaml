@@ -1,0 +1,10 @@
+alias: q_strategic_tradeoff
+label: Strategic tradeoff
+name: What tactical work would you need to drop to make more room for senior-level ownership?
+description: Helps you hear what he’d trade away to move into the scope he says he wants.
+purpose: competency
+stage: investment
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_future_scope
+label: Future scope
+name: What decisions do you want to be making that you are not making yet?
+description: Gets concrete about the kind of Head of Product scope he wants next.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

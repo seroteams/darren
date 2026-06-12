@@ -1,0 +1,9 @@
+alias: q_heads_up_context
+label: Heads-up context
+name: "When you say \"that's on me,\" what got in the way of flagging it sooner?"
+description: Drills into the concrete communication gap he just named without assuming a cause.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +1
+source: planner_added

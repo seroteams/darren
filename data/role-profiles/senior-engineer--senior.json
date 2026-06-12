@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781149556045,
+  "role_title_raw": "Senior Engineer",
+  "role_slug": "senior-engineer",
+  "seniority_raw": "Senior",
+  "seniority_key": "senior",
+  "role_family": "engineering",
+  "profile": {
+    "summary": "A Senior Engineer delivers complex technical work with limited oversight, owns important systems or features, and helps shape implementation choices. They balance hands-on delivery with code quality, design input, and support for less experienced engineers. They work closely with product, design, engineering peers, and their manager to turn goals into reliable software.",
+    "role_confidence": "medium",
+    "known_challenges": [
+      {
+        "text": "Balancing deep individual contribution with growing expectations to mentor others and review more work.",
+        "category": "competency"
+      },
+      {
+        "text": "Owning delivery for complex projects while depending on other teams, unclear requirements, or shifting priorities.",
+        "category": "topic"
+      },
+      {
+        "text": "Keeping technical quality high when deadlines push toward shortcuts and rework later.",
+        "category": "topic"
+      },
+      {
+        "text": "Feeling pressure to be the person who can unblock everything, which can lead to overload.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Showing senior-level impact beyond coding, especially when promotion expectations are not clearly defined.",
+        "category": "competency"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Scope and ownership of current work",
+        "why": "Senior engineers are often judged on how they handle ambiguous, high-impact work, not just task completion.",
+        "category": "topic"
+      },
+      {
+        "theme": "Technical decision-making and tradeoffs",
+        "why": "This role regularly has to balance speed, quality, maintainability, and risk in visible ways.",
+        "category": "competency"
+      },
+      {
+        "theme": "Mentoring and support load",
+        "why": "They often carry informal leadership work that can help the team but also drain focus from core delivery.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Cross-team dependencies and alignment",
+        "why": "Delivery at this level often slows down because of coordination gaps rather than coding difficulty.",
+        "category": "topic"
+      },
+      {
+        "theme": "Growth toward broader technical leadership",
+        "why": "Senior engineers usually need clarity on what stronger system ownership and influence look like from here.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Code review",
+        "meaning": "Checking code changes for quality, correctness, and maintainability."
+      },
+      {
+        "term": "Tech debt",
+        "meaning": "Past shortcuts that make future changes slower or riskier."
+      },
+      {
+        "term": "Refactor",
+        "meaning": "Changing code structure without changing behavior."
+      },
+      {
+        "term": "Architecture",
+        "meaning": "High-level system design and how parts fit together."
+      },
+      {
+        "term": "Incident",
+        "meaning": "A production problem affecting users or systems."
+      },
+      {
+        "term": "Root cause",
+        "meaning": "The underlying reason a problem happened."
+      },
+      {
+        "term": "PR",
+        "meaning": "Proposed code change for review before merging."
+      },
+      {
+        "term": "CI/CD",
+        "meaning": "Automated build, test, and release pipeline."
+      }
+    ],
+    "listen_for": [
+      "Whether they talk only about tickets finished or also about system impact and tradeoffs.",
+      "Repeated mentions of being a blocker remover for others.",
+      "Frustration about unclear ownership, changing requirements, or dependency delays.",
+      "Whether mentoring comes up as rewarding, invisible, or disruptive to their own work.",
+      "Shifts from confident technical language to vagueness when discussing longer-term growth."
+    ],
+    "avoid": [
+      "Treating them like a pure delivery machine and ignoring mentoring, design input, and system ownership.",
+      "Assuming senior means they need little support or no career guidance.",
+      "Pushing them to take on every hard problem because they are reliable.",
+      "Using generic promotion advice without clarifying what senior success looks like on this team."
+    ]
+  }
+}

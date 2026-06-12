@@ -1,0 +1,10 @@
+alias: q_current_energy
+label: Current energy
+name: Where has your energy been highest in your work lately?
+description: Helps you hear what still pulls him in without assuming the answer.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

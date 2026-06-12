@@ -1,0 +1,10 @@
+alias: q_prep_opener_138
+label: Prep opener
+name: What have you learned about where Principal-level impact actually sits on this team, and where do you think your current work is or is not landing there yet?
+description: Lets Tom map the new team’s leverage points in his own words before you press on the gap.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_team_bar_9
+label: Team bar
+name: What specifically feels fuzzy about the bar on this team?
+description: Drills into the stated ambiguity so he names the missing expectations in concrete terms.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

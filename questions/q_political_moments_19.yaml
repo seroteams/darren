@@ -1,0 +1,9 @@
+alias: q_political_moments_19
+label: Political moments
+name: What makes those conversations feel political to you?
+description: Drills into the specific stakeholder dynamics that trigger his retreat into delivery mode.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+source: planner_added

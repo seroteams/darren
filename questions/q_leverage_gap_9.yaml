@@ -1,0 +1,10 @@
+alias: q_leverage_gap_9
+label: Leverage gap
+name: Where are you still spending most of your time as the person doing the work rather than shaping the work?
+description: Helps you see whether he is operating with leverage or mostly as a strong executor.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

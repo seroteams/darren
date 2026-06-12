@@ -1,0 +1,9 @@
+alias: q_earlier_feedback_11
+label: Earlier feedback
+name: What sharper feedback would have helped you ask for earlier?
+description: Turns his feedback comment into a concrete example before moving on.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

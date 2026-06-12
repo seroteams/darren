@@ -1,0 +1,10 @@
+alias: q_trust_gap_11
+label: Trust gap
+name: Which stakeholder relationship feels thinnest to you right now?
+description: Helps you pinpoint the relationship that may be limiting his influence.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

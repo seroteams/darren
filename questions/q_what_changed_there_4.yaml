@@ -1,0 +1,10 @@
+alias: q_what_changed_there_4
+label: What changed there
+name: What changed for you in that ritual?
+description: Lets him name the moment or meaning behind the pullback in his own words.
+purpose: topic
+stage: observation
+axis_effects:
+  engagement: +1
+  wellbeing: +1
+source: generated

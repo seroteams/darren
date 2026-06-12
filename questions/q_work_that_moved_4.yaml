@@ -1,0 +1,10 @@
+alias: q_work_that_moved_4
+label: Work that moved
+name: Which piece of design work moved forward the cleanest?
+description: Lets you hear what actually had momentum and why it did.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

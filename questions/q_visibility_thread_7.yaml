@@ -1,0 +1,9 @@
+alias: q_visibility_thread_7
+label: Visibility thread
+name: What kind of visibility with other teams would move you toward tech lead?
+description: Clarifies the specific cross-team exposure he sees as relevant to the path he wants.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+source: planner_added

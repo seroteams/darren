@@ -1,0 +1,9 @@
+alias: q_energy_specifics_21
+label: Energy specifics
+name: "When you say \"the deadlines got away from me\" — where is your energy actually at lately?"
+description: Re-prompts the unanswered energy question without adding interpretation.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

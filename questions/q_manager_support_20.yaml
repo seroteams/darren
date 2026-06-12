@@ -1,0 +1,10 @@
+alias: q_manager_support_20
+label: Manager support
+name: What would you want me to help create space for?
+description: Opens the door to support without assuming the answer is more work or more pressure.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

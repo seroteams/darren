@@ -1,0 +1,10 @@
+alias: q_workload_pressure_2
+label: Workload pressure
+name: Where has your load felt heaviest lately?
+description: Helps you see whether the slips came from too much competing work rather than one bad call.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

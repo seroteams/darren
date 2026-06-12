@@ -1,0 +1,10 @@
+alias: q_ownership_shift_7
+label: Ownership shift
+name: What would you want to take on more of after this launch settles?
+description: Shows where she wants more leverage or responsibility, not just more tasks.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

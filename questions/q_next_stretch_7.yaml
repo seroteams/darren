@@ -1,0 +1,9 @@
+alias: q_next_stretch_7
+label: Next stretch
+name: What would you want to be learning more of over the next few months?
+description: Opens the door to stretch and trajectory without turning the check-in into a career review.
+purpose: competency
+stage: lift
+axis_effects:
+  growth: +3
+source: generated

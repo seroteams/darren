@@ -1,0 +1,10 @@
+alias: q_manager_support_17
+label: Manager support
+name: Where would you want me to make room for that stretch?
+description: Opens the trade-off conversation about what you should back off, unblock, or protect.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

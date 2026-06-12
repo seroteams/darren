@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781149086332,
+  "role_title_raw": "Senior Backend Engineer",
+  "role_slug": "senior-backend-engineer",
+  "seniority_raw": "Senior",
+  "seniority_key": "senior",
+  "role_family": "engineering",
+  "profile": {
+    "summary": "Owns design and delivery of backend services and APIs for a product area. Makes technical decisions, improves reliability and performance, and handles complex debugging and production issues. Works closely with product, frontend, data, platform, and other backend engineers. Expected to mentor others, review architecture and code, and turn vague requirements into maintainable systems.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing feature delivery with reliability, technical debt, and maintenance work.",
+        "category": "topic"
+      },
+      {
+        "text": "Being pulled into the hardest incidents and debugging work, which can disrupt planned delivery.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Making sound design choices under incomplete requirements and changing product priorities.",
+        "category": "competency"
+      },
+      {
+        "text": "Influencing architecture and engineering standards without always having formal authority.",
+        "category": "competency"
+      },
+      {
+        "text": "Keeping systems understandable as services, integrations, and data flows grow more complex.",
+        "category": "topic"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "System design tradeoffs and technical decision quality",
+        "why": "Senior backend engineers are expected to make durable choices on scalability, reliability, and maintainability, not just ship code.",
+        "category": "competency"
+      },
+      {
+        "theme": "Production health, incidents, and operational load",
+        "why": "Their effectiveness is shaped by how often they are firefighting and whether service ownership is sustainable.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Delivery friction across teams and dependencies",
+        "why": "Backend work often depends on product decisions, upstream data, platform support, and coordination with other engineers.",
+        "category": "topic"
+      },
+      {
+        "theme": "Technical debt and service maintainability",
+        "why": "They usually see where shortcuts are slowing the team down and where cleanup would meaningfully reduce risk.",
+        "category": "topic"
+      },
+      {
+        "theme": "Mentoring and technical leadership",
+        "why": "At this level, impact often comes through code reviews, design guidance, and raising the bar for others.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "API",
+        "meaning": "Contract that lets systems communicate with each other."
+      },
+      {
+        "term": "Microservice",
+        "meaning": "Small service focused on one business capability."
+      },
+      {
+        "term": "Latency",
+        "meaning": "How long a request takes to complete."
+      },
+      {
+        "term": "Throughput",
+        "meaning": "How much work a system handles over time."
+      },
+      {
+        "term": "SLA",
+        "meaning": "Target level for service availability or performance."
+      },
+      {
+        "term": "Database indexing",
+        "meaning": "Data structure that speeds up queries."
+      },
+      {
+        "term": "Caching",
+        "meaning": "Storing frequent results to reduce repeated work."
+      },
+      {
+        "term": "Observability",
+        "meaning": "Logs, metrics, and traces used to understand systems."
+      },
+      {
+        "term": "CI/CD",
+        "meaning": "Automated build, test, and deployment pipeline."
+      },
+      {
+        "term": "Backward compatibility",
+        "meaning": "Changes that do not break existing clients."
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about customer impact and system behavior, not just implementation details.",
+      "Repeated mentions of being the default escalation point for tricky backend or production problems.",
+      "Specific language about tradeoffs, such as performance versus simplicity or speed versus safety.",
+      "Frustration around unclear ownership between services, teams, or data boundaries.",
+      "Whether they describe mentoring, reviews, and design input as part of their normal work."
+    ],
+    "avoid": [
+      "Treating them like an individual contributor who only writes tickets and code.",
+      "Pushing feature speed without discussing reliability, migration risk, or operational cost.",
+      "Assuming mentoring and architecture work are side tasks rather than core expectations at this level.",
+      "Reducing backend work to implementation effort while ignoring debugging, integration, and production ownership."
+    ]
+  }
+}

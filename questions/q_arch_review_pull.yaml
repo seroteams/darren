@@ -1,0 +1,9 @@
+alias: q_arch_review_pull
+label: Arch review pull
+name: What about architecture review is pulling you most?
+description: Drills into the specific kind of scope and influence he wants from that forum.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

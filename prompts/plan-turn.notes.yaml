@@ -12,3 +12,9 @@ rules:
     field: _prompt_text
     terms:
       - "Drill cap (hard)"
+
+  - id: role_profile_block_present
+    type: must_contain_any
+    field: _prompt_text
+    terms:
+      - "{{ROLE_PROFILE_BLOCK}}"

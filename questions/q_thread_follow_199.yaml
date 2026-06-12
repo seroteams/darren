@@ -1,0 +1,9 @@
+alias: q_thread_follow_199
+label: Thread follow
+name: Wants clearer criteria, — can you say more about what that means for you right now?
+description: Following up on what they just said.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

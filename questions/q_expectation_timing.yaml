@@ -1,0 +1,10 @@
+alias: q_expectation_timing
+label: Expectation timing
+name: Where did you need to align expectations earlier than you did?
+description: Helps you hear how he handles ambiguity and whether he is pre-wiring decisions soon enough.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

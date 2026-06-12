@@ -1,0 +1,10 @@
+alias: q_next_move_83
+label: Next move
+name: "Given what we've covered, where do you want to focus first?"
+description: Leaves the conversation with one concrete step that follows from the path he named.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added

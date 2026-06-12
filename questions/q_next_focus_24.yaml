@@ -1,0 +1,10 @@
+alias: q_next_focus_24
+label: Next focus
+name: Given that, where do you want to focus first?
+description: Open closer that turns the concrete SLO move into an employee-shaped next focus.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added

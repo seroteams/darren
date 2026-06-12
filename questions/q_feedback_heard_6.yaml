@@ -1,0 +1,10 @@
+alias: q_feedback_heard_6
+label: Feedback heard
+name: What feedback from that process actually stuck with you?
+description: Helps you hear what he took in, not just what was said around him.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

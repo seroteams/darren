@@ -4,6 +4,7 @@ const { loadIntroQueue } = require("../../../src/intro-queue");
 const { getArc } = require("../../../src/meeting-arcs");
 const { createWebSession, persistSession, INTRO_BUDGET } = require("../sessions");
 const { generateFocusPoints } = require("../../../src/generate");
+const { ensureRoleProfile } = require("../../../src/role-profile");
 const { buildFingerprint } = require("../../../src/run-fingerprint");
 const { loadPersona, scriptAnswers } = require("../persona-script");
 
@@ -71,8 +72,11 @@ module.exports = async function start(c) {
   }
   persistSession(session);
 
-  // Pre-warm focus points while the user answers intro questions
-  generateFocusPoints(ctx, { session: { id: session.id, dir: session.dir } })
+  // Pre-warm while the user answers intro questions: role profile first (cache
+  // hit adds ~0ms), then focus points — so every stage finds the profile on disk.
+  ensureRoleProfile(ctx, { session: { id: session.id, dir: session.dir } })
+    .catch(() => null)
+    .then(() => generateFocusPoints(ctx, { session: { id: session.id, dir: session.dir } }))
     .then((result) => { session.focusPointsResult = result; })
     .catch(() => {});
 

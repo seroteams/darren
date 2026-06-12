@@ -6,6 +6,7 @@ const { promptFor, getArc, getType } = require("./one-on-one-types");
 const { withPromptVersion } = require("./prompt-version");
 const { resolveSelectedFocus } = require("./selected-focus");
 const { splitSystemUser } = require("./prompt-utils");
+const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
 
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
@@ -194,7 +195,11 @@ function computeReadQuality(transcript) {
     const stage = t?.stage || null;
     const skipped = t?.skipped === true;
     const empty = answer.trim().length === 0;
-    const tooShort = tokenCount(answer) <= 2 || isLowContentNote(answer);
+    // A turn the per-turn scorer already flagged `[SHALLOW]` (e.g. an answer too
+    // garbled to extract a clear point) is thin, even if it clears the token
+    // floor — reconcile read-quality with the scorer instead of disagreeing.
+    const noteShallow = typeof t?.note === "string" && t.note.includes("[SHALLOW]");
+    const tooShort = tokenCount(answer) <= 2 || isLowContentNote(answer) || noteShallow;
     const decline = isDecline(answer);
     // A skip or empty jot is a *refusal* — the manager captured no note (no
     // data). A two-token answer or a decline is a *thin* note (weak data). Both
@@ -450,7 +455,14 @@ function buildMessages({
       JSON.stringify(computeReadQuality(transcript), null, 2)
     )
     .replaceAll("{{SCORING_STATUS}}", formatScoringStatus(scoring))
-    .replaceAll("{{AGENDA_CARRY_FORWARD}}", formatAgendaCarryForward(agenda));
+    .replaceAll("{{AGENDA_CARRY_FORWARD}}", formatAgendaCarryForward(agenda))
+    .replaceAll(
+      "{{ROLE_PROFILE_BLOCK}}",
+      renderRoleProfileBlock(loadRoleProfile({ role: ctx.role, seniority: ctx.seniority }), {
+        slice: "eval",
+        meetingType: ctx.meetingType,
+      })
+    );
 
   return splitSystemUser(filled);
 }
@@ -588,7 +600,17 @@ async function evaluate(
 
   logStage(session, stage, {
     inputs: withPromptVersion(
-      { ctx, focusPoints, transcript, axisState, notes, selectedFocus: sf, scoring, model },
+      {
+        ctx,
+        focusPoints,
+        transcript,
+        axisState,
+        notes,
+        selectedFocus: sf,
+        scoring,
+        model,
+        roleProfile: roleProfileLogInfo({ role: ctx.role, seniority: ctx.seniority }),
+      },
       evalPromptPath
     ),
     prompt: msgs.filled,

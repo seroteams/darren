@@ -1,0 +1,10 @@
+alias: q_thread_follow_191
+label: Thread follow
+name: What made you read the situation that way at the time?
+description: Following up on what they just said.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added

@@ -1,0 +1,8 @@
+alias: q_reset_timing_9
+label: Reset timing
+name: Would another time work better for this conversation?
+description: One direct reset question to confirm whether to continue or reschedule.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+source: planner_added

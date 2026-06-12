@@ -1,0 +1,10 @@
+alias: q_feedback_heard_5
+label: Feedback heard
+name: What feedback did you actually take in from that promotion conversation?
+description: "Helps you hear what landed, what didn't, and where the message may have gone fuzzy."
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

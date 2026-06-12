@@ -1,0 +1,10 @@
+alias: q_mentoring_shape_13
+label: Mentoring shape
+name: What kind of mentoring would actually be useful to you right now?
+description: Moves the mentoring note from a vague wish into something concrete and usable.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_prep_opener_120
+label: Prep opener
+name: What have you taken to be Principal-level impact on this team so far, and where do you think your work is visibly creating leverage beyond delivery?
+description: Sets a shared frame on what Principal scope looks like here before you get into specifics.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

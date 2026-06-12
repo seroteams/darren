@@ -1,0 +1,10 @@
+alias: q_political_moments_20
+label: Political moments
+name: What happens in those political moments that makes you step back into delivery?
+description: Drills into the specific dynamic that pulls him out of strategic influence.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+  growth: +3
+source: planner_added

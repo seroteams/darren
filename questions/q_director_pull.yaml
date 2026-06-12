@@ -1,0 +1,10 @@
+alias: q_director_pull
+label: Director pull
+name: Where do you still want to be more visible as a director?
+description: Opens up the leadership shape he wants without assuming the answer is obvious.
+purpose: competency
+stage: support
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

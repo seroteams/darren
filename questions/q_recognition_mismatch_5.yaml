@@ -1,0 +1,9 @@
+alias: q_recognition_mismatch_5
+label: Recognition mismatch
+name: What work do you think gets recognized here right now?
+description: Drills into the recognition gap he just named so you can hear his current read of what the organization values.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

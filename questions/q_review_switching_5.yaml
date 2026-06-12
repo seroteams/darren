@@ -1,0 +1,9 @@
+alias: q_review_switching_5
+label: Review switching
+name: Where is the review switching adding the most drag?
+description: Drills into the concrete context-switching thread to locate the main source of friction.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added

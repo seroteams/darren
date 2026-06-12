@@ -1,0 +1,10 @@
+alias: q_quiet_stretch_5
+label: Quiet stretch
+name: What has felt heavier or more draining than usual lately?
+description: Helps you hear whether this is a capacity issue, a stress issue, or both.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

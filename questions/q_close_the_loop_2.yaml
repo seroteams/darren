@@ -1,0 +1,10 @@
+alias: q_close_the_loop_2
+label: Close the loop
+name: "Given what we've covered, what should we make sure changes before we next meet?"
+description: Leaves the conversation with a clear next step and no new thread.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

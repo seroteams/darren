@@ -1,0 +1,10 @@
+alias: q_mentoring_thread_22
+label: Mentoring thread
+name: What happened to the mentoring idea you mentioned a few months ago?
+description: Brings the stalled mentoring thread back into the room without assuming why it stopped.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

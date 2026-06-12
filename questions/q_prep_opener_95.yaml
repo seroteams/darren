@@ -1,0 +1,10 @@
+alias: q_prep_opener_95
+label: Prep opener
+name: How are you thinking about Principal-level impact on this team, and where is your work already creating leverage beyond direct delivery?
+description: Reframes the prep opener in fresh words so Tom can set the scope before you dig into specifics.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

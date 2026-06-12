@@ -1,0 +1,10 @@
+alias: q_next_step_closer_3
+label: Next-step closer
+name: What do you want to focus on first before we next meet?
+description: Leaves the session with a clear next move instead of a loose ending.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

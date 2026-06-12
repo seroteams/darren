@@ -1,0 +1,10 @@
+alias: q_decision_authority
+label: Decision authority
+name: Where do you still feel you are not the one making the call?
+description: Shows where his authority is thin and where he may still be acting below the level he wants.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -157,6 +157,10 @@ When `{{PRIMARY_FOCUS_ID}}` is set (not `(none)`), that focus is **primary** for
 - Seniority: {{SENIORITY}}
 - Meeting type: {{MEETING_TYPE}}
 
+**Role context (generated for this job title + seniority — guidance about the role, not facts about {{NAME}}):**
+
+{{ROLE_PROFILE_BLOCK}}
+
 **Tone register for this meeting type (overrides any generic instinct):** {{TONE_REGISTER}}
 
 **Anti-patterns for this meeting type (do not produce a brief that violates these):**

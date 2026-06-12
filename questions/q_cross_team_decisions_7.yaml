@@ -1,0 +1,9 @@
+alias: q_cross_team_decisions_7
+label: Cross-team decisions
+name: Which cross-team decisions have you been leaving unforced?
+description: Gets to concrete examples of where he stayed in lane instead of shaping direction.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added
