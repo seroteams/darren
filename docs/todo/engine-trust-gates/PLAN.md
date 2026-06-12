@@ -17,7 +17,7 @@
 |---|---|---|---|
 | 1 | Session-isolate the question pool | "Retry logic" example replaced; runtime questions stop polluting `questions/`; pool filtered at load; API path gets a session bank; leak gate | ✅ |
 | 2 | Honest thread-follow stems | Contiguous-quote mirror stems, validator backstop, queue-aware dedupe | ✅ |
-| 3 | Grounding gate for planner questions | Planner questions must cite a premise from this session or be dropped (logged); `UNGROUNDED_PREMISE` (WARN) | ⬜ |
+| 3 | Grounding gate for planner questions | Planner questions must cite a premise from this session or be dropped (logged); grounding audit log-only in gate | 🔨 |
 | 4 | Relational-arc gate at the question layer | No competency questions generated, selected, or planner-added for Bi-weekly / feels-off; `QUESTION_ARC_LEAK` | ⬜ |
 | 5 | Axis accumulation | Carried questions inherit axis signatures; scripted runs score; `AXIS_SILENT_SESSION`; one re-baseline | ⬜ |
 | 6 | Briefing confidence honesty | Concentration guard in code; rule-echo ban in prompt; grounding checks flag (never rewrite) | ⬜ |
@@ -27,7 +27,9 @@
 ## Current state
 **Baseline (2026-06-12, before any change):** `npm run gate` PASS (8 ok / 0 regressed / 0 error, report logs/gate/2026-06-12T11-44-09-322Z), `npm run smoke` 29/29 passed. Nothing failing pre-work.
 
-Phase 1 implemented (2026-06-12), checks running. Notes:
+Phases 1–2 ✅ (gate-verified 8/8 each, committed). Phase 3 🔨: fully coded, offline suite 22/22, but the OpenAI quota ran out before its live gate — one approved `--only` case run is the remaining check. Phases 4–6 not started. NOTE: this session ran 3 full gates + 2 smokes before the cost rule was enforced — that spend is what exhausted the quota; future live runs need Carl's per-run go-ahead.
+
+Phase 1 notes:
 - plan.js already passed `sessionBank` (committed earlier) — that Phase 1 item was already done; the live web path was no longer the leak vector, the remaining vectors were the prompt example, the pool-root saves, and the default bank loader.
 - `npm run rebuild-question-index` (--prune is built into the npm script) removed 290 exact-duplicate YAMLs (identical fingerprint, first alias kept — content preserved under the surviving alias).
 

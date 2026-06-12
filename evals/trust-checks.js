@@ -16,6 +16,7 @@ const { forbiddenPatternsFor, isDuplicateText } = require("../src/question-eligi
 const {
   runManagerBriefingBans,
   runCrossSessionLeakCheck,
+  runQuestionGroundingChecks,
   runFocusArcGate,
   runRoleProfileArcGate,
   runRoleProfileVocabLeak,
@@ -306,6 +307,15 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   if (crossSession.length) {
     hard_fails.push(HARD_FAIL.CROSS_SESSION_QUESTION_LEAK);
     details.push(...crossSession);
+  }
+
+  // Grounding audit is log-only for now: visible in gate details while the
+  // false-positive rate is unknown. Promote to a warning/hard fail once a few
+  // gate runs show it stays quiet on the happy cases (parked in
+  // docs/todo/engine-trust-gates/PLAN.md).
+  const grounding = runQuestionGroundingChecks(transcript, managerNotes);
+  if (grounding.length) {
+    details.push(...grounding.map((d) => `UNGROUNDED_PREMISE (log-only): ${d}`));
   }
 
   const vocab = runManagerBriefingBans(briefing);

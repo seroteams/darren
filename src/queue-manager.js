@@ -41,8 +41,12 @@ const QUEUE_ITEM = {
     purpose: { type: "string", enum: ["wellbeing", "topic", "competency"] },
     stage: { type: ["string", "null"] },
     axis_effects: { type: "array", items: AXIS_EFFECT_ITEM },
+    // ≤10-word verbatim quote from the note/transcript that establishes the
+    // question's premise, or the literal "open" for premise-free questions.
+    // Verified in reconcileQueue against the session's grounding corpus.
+    grounding: { type: "string" },
   },
-  required: ["ref_alias", "label", "name", "description", "purpose", "stage", "axis_effects"],
+  required: ["ref_alias", "label", "name", "description", "purpose", "stage", "axis_effects", "grounding"],
   additionalProperties: false,
 };
 
@@ -356,9 +360,65 @@ const {
   isRepeatOfAsked,
 } = require("./question-eligibility");
 
+// Grounding gate for planner-written questions. The planner must cite a short
+// verbatim quote from this session (`grounding`) for every new or reworded
+// item, or mark it "open" (assumes nothing). A question whose premise this
+// session never established is dropped whole — never patched up (the Jun 12
+// Marcus run asked about a "promotion decision" that never happened; the
+// Jun 12 Jordan run invented an "architecture review" forum).
+const GROUNDING_OPEN = "open";
+
+function normalizeGrounding(s) {
+  return String(s || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s'-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// Words any coaching question may use without the session saying them first.
+// Only consulted for "open" (premise-free) items; everything else ≥5 chars
+// must trace to the grounding corpus. Conservative direction: a word in this
+// list can never cause a drop.
+const OPEN_QUESTION_VOCAB = new Set([
+  "ahead", "balance", "biggest", "capacity", "change", "changed", "changes",
+  "clarity", "clearer", "concrete", "conversation", "decide", "decision",
+  "decisions", "describe", "different", "differently", "easier", "easiest",
+  "energy", "example", "expect", "expected", "focus", "forward", "getting",
+  "going", "happen", "happened", "happening", "harder", "hardest", "helped",
+  "helpful", "helping", "instead", "lately", "looking", "manager", "matter",
+  "matters", "meeting", "moment", "month", "months", "moving", "needs",
+  "nothing", "noticed", "otherwise", "outcome", "people", "picture",
+  "priorities", "priority", "progress", "quarter", "really", "reason",
+  "recent", "recently", "review", "reviews", "should", "situation", "someone",
+  "something", "specific", "specifically", "start", "started", "success",
+  "support", "taking", "talked", "talking", "thing", "things", "thinking",
+  "through", "today", "together", "trying", "understand", "version", "wanted",
+  "weeks", "working", "yourself",
+]);
+
+// Rare content words in an "open" question that the corpus never said.
+// Tokens are matched on a 5-char stem so inflections don't false-positive.
+function unsupportedOpenTokens(name, corpusNorm) {
+  return [...contentTokens(name)]
+    .filter((w) => w.length >= 5 && !OPEN_QUESTION_VOCAB.has(w))
+    .filter((w) => !corpusNorm.includes(w.slice(0, 5)));
+}
+
+// True when the cited grounding quote appears in the corpus — verbatim after
+// normalisation, or all of its content words individually (tolerates light
+// punctuation/reordering, not paraphrase).
+function groundingQuoteSupported(grounding, corpusNorm) {
+  const g = normalizeGrounding(grounding);
+  if (!g) return false;
+  if (corpusNorm.includes(g)) return true;
+  const tokens = [...contentTokens(g)];
+  return tokens.length > 0 && tokens.every((w) => corpusNorm.includes(w));
+}
+
 // Reconcile AI-returned items against the existing remaining queue +
 // transcript. Produces the materialised queue of question objects.
-function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames = [], meetingType = null }) {
+function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames = [], meetingType = null, groundingCorpus = null }) {
   const byAlias = new Map(remainingQueue.map((q) => [q.alias, q]));
   const existingAliases = listAllAliases();
   for (const q of remainingQueue) existingAliases.add(q.alias);
@@ -408,6 +468,29 @@ function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames 
       continue;
     }
 
+    // Grounding gate — new/reworded wording must cite a premise this session
+    // actually established. On failure, carry the untouched original forward
+    // (if any) instead of the planner's version; never reword the stem.
+    if (groundingCorpus != null) {
+      const g = normalizeGrounding(item.grounding);
+      const failed =
+        !g || g === GROUNDING_OPEN
+          ? unsupportedOpenTokens(item.name, groundingCorpus).length > 0
+          : !groundingQuoteSupported(item.grounding, groundingCorpus);
+      if (failed) {
+        const why =
+          !g || g === GROUNDING_OPEN
+            ? `unsupported premise (${unsupportedOpenTokens(item.name, groundingCorpus).join(", ")})`
+            : `unverifiable premise quote ("${item.grounding}")`;
+        issues.push(`grounding: dropped planner question with ${why}: ${item.label || item.name}`);
+        if (ref && !usedAliases.has(ref.alias)) {
+          usedAliases.add(ref.alias);
+          out.push(ref);
+        }
+        continue;
+      }
+    }
+
     const baseLabel = item.label || (ref ? ref.label : "unnamed");
     const alias = newAlias(baseLabel, new Set([...existingAliases, ...usedAliases]));
     existingAliases.add(alias);
@@ -422,6 +505,9 @@ function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames 
       stage: item.stage ?? ref?.stage ?? null,
       axis_effects: toAxisObject(item.axis_effects),
       source,
+      // Carried into the transcript so the grounding audit can re-verify
+      // served questions after the fact.
+      ...(item.grounding ? { grounding: item.grounding } : {}),
     };
     saveQuestion(q, { subdir: RUNTIME_SUBDIR });
     out.push(q);
@@ -880,11 +966,27 @@ async function planTurn({
   const askedAliases = new Set((transcript || []).map((t) => t.question.alias));
   const askedNames = (transcript || []).map((t) => t.question.name);
   const arc = getArc(ctx.meetingType);
+  // Everything this session has actually put on the table — the haystack a
+  // planner-written question's premise must be found in.
+  const groundingCorpus = normalizeGrounding(
+    [
+      ctx.notes,
+      ctx.name,
+      ctx.role,
+      ...(transcript || []).flatMap((t) => [t?.question?.name, t?.answer]),
+      ...(remainingQueue || []).map((q) => q?.name),
+      prep ? JSON.stringify(prep) : "",
+      focusPoints ? JSON.stringify(focusPoints) : "",
+    ]
+      .filter(Boolean)
+      .join("\n")
+  );
   const { queue: reconciledQueue, issues: queueIssues } = reconcileQueue(parsed.new_queue, {
     remainingQueue,
     askedAliases,
     askedNames,
     meetingType: ctx.meetingType,
+    groundingCorpus,
   });
   const consecutiveDrillCount = computeConsecutiveDrillCount(transcript, lastQuestion);
   let newQueue = enforceThreadFollow({

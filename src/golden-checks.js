@@ -114,6 +114,34 @@ function findJargon(text) {
 // leaks only, like JARGON_PATTERNS.
 const CROSS_SESSION_VOCAB = [/\bretry logic\b/i, /\bbilling rewrite\b/i];
 
+// Post-hoc grounding audit: a served planner-written question that cites a
+// `grounding` quote must have that quote in the session's own record (note +
+// what was asked/answered before it). Detection only — the blocking gate
+// lives in reconcileQueue; this catches anything that slipped past it.
+function runQuestionGroundingChecks(transcript, managerNotes) {
+  const norm = (s) =>
+    String(s || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9\s'-]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  const failures = [];
+  let saidSoFar = norm(managerNotes);
+  for (const t of transcript || []) {
+    const q = t?.question;
+    const g = norm(q?.grounding);
+    if (g && g !== "open") {
+      const tokens = g.split(" ").filter((w) => w.length > 3);
+      const ok = saidSoFar.includes(g) || (tokens.length > 0 && tokens.every((w) => saidSoFar.includes(w)));
+      if (!ok) {
+        failures.push(`turn ${t?.turn}: grounding quote not found in session record: "${q.grounding}"`);
+      }
+    }
+    saidSoFar += " " + norm(`${q?.name || ""} ${t?.answer || ""}`);
+  }
+  return failures;
+}
+
 function runCrossSessionLeakCheck(transcript, managerNotes) {
   const failures = [];
   let saidSoFar = String(managerNotes || "");
@@ -396,6 +424,7 @@ module.exports = {
   collectBriefingText,
   runManagerBriefingBans,
   runCrossSessionLeakCheck,
+  runQuestionGroundingChecks,
   runFocusArcGate,
   runRoleProfileArcGate,
   runRoleProfileVocabLeak,

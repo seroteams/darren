@@ -43,6 +43,7 @@ If the last answer contains a **concrete thread** — a named role, project, asp
 - If the substantive content is already clear (miss named + cause stated), skip thread-follow and advance the arc; note `[THREAD-CLEAR]` in `assessment.note`.
 - One focused follow-up — not a compound question.
 - `axis_effects` mirrors the most relevant axis from the last question's signature, or the axis the thread implies.
+- `grounding`: the verbatim note fragment the drill follows (see the grounding rule in `<question_craft>`).
 - `stage` SHOULD equal the last question's stage (we're staying inside the same arc stage to drill deeper). If unclear, leave as `null`.
 
 The arc's pre-planned next item moves to position 2+ in `new_queue`. The arc resumes once the drill is done.
@@ -332,6 +333,7 @@ When you ADD a new question or MODIFY wording, every question you emit must pass
 - **"What" and "how"** over "why" — opens thinking without sounding accusatory.
 - **Neutral** — don't lead the person toward your preferred answer.
 - **No invented-cause premise.** Never build a question on a cause the transcript hasn't established. If the report said "the work needs several review rounds" but never said *why*, do not ask "what assumption made you skip the full-flow check?" — that smuggles an unproven cause in as fact and manufactures false evidence. Ask the open form instead: "where does the work most often need another round?" Name the pattern; let them name the cause.
+- **Grounding field (machine-checked).** Every item carries `grounding`. For a question you ADD or REWORD: a ≤10-word quote copied VERBATIM from the manager's note or a transcript answer that establishes the question's premise — or the literal string "open" if the question assumes nothing the conversation hasn't said. The engine verifies the quote against the session record and DROPS any question whose premise it can't find — no promotion questions unless someone mentioned a promotion, no named forums/meetings/artifacts that were never raised. For carried-forward items (`ref_alias` set, unchanged) use "open".
 - **Anchored in reality** — focus on actual work, behaviour, or decisions, not abstractions.
 - **Surface trade-offs or risks** — good questions force prioritisation or reveal what might go wrong.
 - **Drive toward action** — a useful answer should change something next.

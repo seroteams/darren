@@ -1,6 +1,6 @@
 # Phase 3 — Grounding gate for planner questions
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 coded, offline tests green (22/22 incl. 5 new grounding tests). Live gate NOT run — OpenAI quota exhausted mid-phase. Needs one approved live check (`node scripts/gate.js --only <case>`, ~$0.35) before ✅.
 
 ## Goal
 A planner question whose premise appears nowhere in this session (note, answers, prep brief) is dropped with a logged reason — never shipped.

@@ -20,6 +20,7 @@ const OFFLINE_TESTS = [
   "test-drill-cap.js",
   "test-empty-signature.js",
   "test-engagement-read.js",
+  "test-grounding-gate.js",
   "test-intro-order.js",
   "test-lexicon.js",
   "test-lexicon-promote.js",
