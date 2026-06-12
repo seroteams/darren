@@ -301,7 +301,7 @@ async function runSweep(args) {
       : null,
     by_type: byType,
     runs,
-    verdict: failures.length === 0 && tiers.fail === 0 ? (tiers.watch ? "partial" : "pass") : "partial",
+    verdict: failures.length === 0 && tiers.fail === 0 ? (tiers.watch ? "partial" : "pass") : "fail",
   };
   if (priorReport) {
     fs.writeFileSync(path.join(reportDir, "baseline.json"), `${JSON.stringify({ prior: priorReport.generated_at, current: generatedAt }, null, 2)}\n`);
