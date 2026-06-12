@@ -14,7 +14,7 @@ Standing constraints (from CLAUDE.md):
 
 | Item | State | Next step |
 |---|---|---|
-| **Top up OpenAI credit + cheap gate re-check** | Credit exhausted ~19:10 on 2026-06-12 (see [audit note](docs/todo/cleanup-board/audit-note.md)) | Carl tops up → `node scripts/gate.js --only <case>` (~$0.35) to confirm all green |
+| **Top up OpenAI credit + cheap gate re-check** | Credit exhausted ~19:10 on 2026-06-12 (see [audit note](docs/todo/done/cleanup-board/audit-note.md)) | Carl tops up → `node scripts/gate.js --only <case>` (~$0.35) to confirm all green |
 | **engine-trust-gates Phases 1–3** ([plan](docs/todo/engine-trust-gates/PLAN.md)) | Committed (`ee018b5`, `bb49e7c`, `cd581a7`) and machine-verified by the GREEN 19:08 gate (8/8 PASS) | Carl product-owner walkthrough of the phase scenarios |
 | **engine-trust-gates Phases 4–6** (relational-arc gate at question layer; axis accumulation; briefing confidence honesty) | Not started | Start after Phases 1–3 walkthrough |
 | **role-profiles Phases 2–4** ([plan](docs/todo/role-profiles/PLAN.md)) | Built, machine-verified | Carl product-owner walkthrough of the scenarios |
@@ -56,7 +56,7 @@ Standing constraints (from CLAUDE.md):
 
 ## Repo state (audited 2026-06-12, late evening)
 
-`git status` is clean (only this cleanup's folder is new). The evening's ~560-file churn was all engine-trust-gates work, now committed — full mapping in the [audit note](docs/todo/cleanup-board/audit-note.md). Two old stashes exist (`cleanup/remove-dead-ai-handoff-core`, `design-system-foundation`) — **do not pop**. `logs/**` is gitignored apart from a May keep-set.
+`git status` is clean (only this cleanup's folder is new). The evening's ~560-file churn was all engine-trust-gates work, now committed — full mapping in the [audit note](docs/todo/done/cleanup-board/audit-note.md). Two old stashes exist (`cleanup/remove-dead-ai-handoff-core`, `design-system-foundation`) — **do not pop**. `logs/**` is gitignored apart from a May keep-set.
 
 **Gate status:** the code is green — last completed gate **PASSED 8/8** (2026-06-12 19:08, [result](logs/gate/2026-06-12T12-08-46-558Z/result.json)). The later 19:18 run **errored because API credit ran out**, not from a regression: all 18 attempts died at the first OpenAI call, $0 spent ([result](logs/gate/2026-06-12T12-18-27-732Z/result.json)). Re-check after top-up with `gate --only <case>` (~$0.35).
 

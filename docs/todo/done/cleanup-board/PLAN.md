@@ -23,12 +23,12 @@
 | 2 | SERO_BOARD.md | The single board: Now / Next / Parked / Cut / Done + trust rules + engine checklist | ✅ |
 | 3 | Repoint old plans | One-line banners on PLAN.md, plans/AUDIT-FEATURES-log-fix-audit, parked markers on person-profiles + inbox-review | ✅ |
 | 4 | Next-stage spec | `docs/todo/next-stage/PLAN.md` — 8 build phases corrected against what exists | ✅ |
-| 5 | Close out | Done-when walkthrough, folder moved to done/ | 🔨 |
+| 5 | Close out | Done-when walkthrough, folder moved to done/ | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phases 1–4 ✅ (Carl green-lit 1–2 individually, then "go all 3 4 5"; commits `7e16b25`, `03e24bf`, + phase-4 commit). Next-stage spec written at `docs/todo/next-stage/PLAN.md` — 8 phases, each grounded in existing files, out-of-scope list locked to the board. Phase 5 close-out running: done-means walkthrough, then this folder moves to `docs/todo/done/`.
+ALL PHASES ✅ (2026-06-12; commits `7e16b25`, `03e24bf`, `60ec5ce` + close-out). Close-out checks: tree clean apart from the other session's engine-trust-gates edit; scope-creep grep on active plans hits only exclusion lines; all six old plans point at the board from line 1. Folder archived to `docs/todo/done/cleanup-board/`.
 
 ## Parked
 - Fixing the red gate (needs API spend + belongs to engine-trust-gates) — tonight we only diagnose from logs.
