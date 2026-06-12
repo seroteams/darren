@@ -19,7 +19,6 @@ Standing constraints (from CLAUDE.md):
 | **engine-trust-gates Phases 4–6** (relational-arc gate at question layer; axis accumulation; briefing confidence honesty) | Not started | Start after Phases 1–3 walkthrough |
 | **role-profiles Phases 2–4** ([plan](docs/todo/role-profiles/PLAN.md)) | Built, machine-verified | Carl product-owner walkthrough of the scenarios |
 | **jun11-demo-fixes Phase 4** — back navigation in live Q&A ([plan](docs/todo/jun11-demo-fixes/PLAN.md)) | Not started (Phases 1–3 done & committed) | Build after Phases 1–3 sign-off |
-| **cleanup-board** (this consolidation) ([plan](docs/todo/cleanup-board/PLAN.md)) | Phase 2 in progress | Phases 3–5: banners, next-stage spec, close out |
 
 ## 2. Next — after Now is green
 
@@ -45,6 +44,7 @@ Standing constraints (from CLAUDE.md):
 
 ## 5. Done / committed
 
+- **cleanup-board (2026-06-12)** — this board created, old plans repointed, next-stage spec written ([archive](docs/todo/done/cleanup-board/PLAN.md)).
 - **engine-trust-gates Phases 1–3** — session-isolated question pool, honest thread-follow stems, planner grounding gate (`ee018b5`, `bb49e7c`, `cd581a7` + churn commit `9936c89`). Validated by green gate 2026-06-12 19:08 (8/8).
 - **jun11-demo-fixes Phases 1–3** — question integrity gate, brief wording, live scores (`5763b7e`, `91db38d`, `023a82c`), live-verified on the Machar session.
 - **role-profiles Phase 1** — core module + prompt + cache, green-lit 2026-06-11.
