@@ -106,6 +106,32 @@ function findJargon(text) {
   return null;
 }
 
+// Vocabulary from retired prompt examples / other scenarios that has leaked
+// across runs verbatim (Jun 02-04: the plan-turn "retry logic" example was
+// served to a designer, a service designer and a UX lead). A served question
+// may use these words only if this session said them first — note or an
+// earlier answer; the question's own echo doesn't count. Grows from observed
+// leaks only, like JARGON_PATTERNS.
+const CROSS_SESSION_VOCAB = [/\bretry logic\b/i, /\bbilling rewrite\b/i];
+
+function runCrossSessionLeakCheck(transcript, managerNotes) {
+  const failures = [];
+  let saidSoFar = String(managerNotes || "");
+  for (const t of transcript || []) {
+    const name = String(t?.question?.name || "");
+    for (const re of CROSS_SESSION_VOCAB) {
+      const m = name.match(re);
+      if (m && !re.test(saidSoFar)) {
+        failures.push(
+          `turn ${t?.turn}: question references "${m[0]}" which this session never mentioned`
+        );
+      }
+    }
+    saidSoFar += "\n" + String(t?.answer || "");
+  }
+  return failures;
+}
+
 const MANAGER_BRIEFING_BANS = [
   "bad follow-up",
   "planner",
@@ -369,6 +395,7 @@ module.exports = {
   findJargon,
   collectBriefingText,
   runManagerBriefingBans,
+  runCrossSessionLeakCheck,
   runFocusArcGate,
   runRoleProfileArcGate,
   runRoleProfileVocabLeak,

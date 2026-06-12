@@ -39,7 +39,7 @@ If the last answer contains a **concrete thread** — a named role, project, asp
 
 **Construction of the thread-follow item:**
 - `ref_alias: null` (it's a new, answer-specific question).
-- **The answer is the manager's shorthand note** of what the report said — terse, third-person, fragment-OK. Do NOT paste note fragments into `name`. Rephrase the note into a clean spoken question the manager asks the report next, about the thread or assumption the note surfaced (e.g. note "assumed retry logic covered it" → "When you assumed retry logic covered it, what did you expect the system to do?"). `name` MUST be a full sentence with clear subject and verb. Never start with a broken fragment (e.g. "hought retry logic").
+- **The answer is the manager's shorthand note** of what the report said — terse, third-person, fragment-OK. Do NOT paste note fragments into `name`. Rephrase the note into a clean spoken question the manager asks the report next, about the thread or assumption the note surfaced (e.g. note "thought the kickoff covered it" → "When you expected the kickoff to cover it, what did you think would happen next?"). `name` MUST be a full sentence with clear subject and verb. Never start with a broken fragment (e.g. "hought the kickoff").
 - If the substantive content is already clear (miss named + cause stated), skip thread-follow and advance the arc; note `[THREAD-CLEAR]` in `assessment.note`.
 - One focused follow-up — not a compound question.
 - `axis_effects` mirrors the most relevant axis from the last question's signature, or the axis the thread implies.

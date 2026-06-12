@@ -15,6 +15,7 @@ const { computeReadQuality } = require("../src/reviewer");
 const { forbiddenPatternsFor, isDuplicateText } = require("../src/question-eligibility");
 const {
   runManagerBriefingBans,
+  runCrossSessionLeakCheck,
   runFocusArcGate,
   runRoleProfileArcGate,
   runRoleProfileVocabLeak,
@@ -32,6 +33,7 @@ const HARD_FAIL = {
   ROLE_PROFILE_VOCAB_LEAK: "ROLE_PROFILE_VOCAB_LEAK",
   SCHEMA_INVALID: "SCHEMA_INVALID",
   QUESTION_INTEGRITY: "QUESTION_INTEGRITY",
+  CROSS_SESSION_QUESTION_LEAK: "CROSS_SESSION_QUESTION_LEAK",
 };
 
 const REQUIRED_BRIEFING_KEYS = [
@@ -298,6 +300,12 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   if (integrity.length) {
     hard_fails.push(HARD_FAIL.QUESTION_INTEGRITY);
     details.push(...integrity);
+  }
+
+  const crossSession = runCrossSessionLeakCheck(transcript, managerNotes);
+  if (crossSession.length) {
+    hard_fails.push(HARD_FAIL.CROSS_SESSION_QUESTION_LEAK);
+    details.push(...crossSession);
   }
 
   const vocab = runManagerBriefingBans(briefing);

@@ -212,5 +212,48 @@ console.log("\n─── trust-checks unit ───");
   check("clean relational focus → no FOCUS_ARC_LEAK", !r.hard_fails.includes("FOCUS_ARC_LEAK"), JSON.stringify(r.hard_fails));
 }
 
+// 13. Question imports another scenario's vocabulary the session never said
+//     → CROSS_SESSION_QUESTION_LEAK
+{
+  const transcript = healthyTranscript.map((t, i) => ({ ...t, turn: i + 1 }));
+  transcript[2] = {
+    ...transcript[2],
+    question: { name: "When you assumed retry logic already covered it, what did you expect the system to do?" },
+  };
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript,
+    managerNotes: "Maya's designs need several review rounds lately.",
+    bankQuestions: COVERING_BANK,
+    meetingType: GROWTH,
+  });
+  check(
+    "foreign-scenario question → CROSS_SESSION_QUESTION_LEAK",
+    r.hard_fails.includes("CROSS_SESSION_QUESTION_LEAK"),
+    JSON.stringify(r.hard_fails)
+  );
+}
+
+// 14. Same question when the manager's note raised the topic first → no leak
+{
+  const transcript = healthyTranscript.map((t, i) => ({ ...t, turn: i + 1 }));
+  transcript[2] = {
+    ...transcript[2],
+    question: { name: "When you assumed retry logic already covered it, what did you expect the system to do?" },
+  };
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript,
+    managerNotes: "Priya assumed retry logic covered the timeout path and the handoff missed.",
+    bankQuestions: COVERING_BANK,
+    meetingType: GROWTH,
+  });
+  check(
+    "session-raised topic → no cross-session leak",
+    !r.hard_fails.includes("CROSS_SESSION_QUESTION_LEAK"),
+    JSON.stringify(r.hard_fails)
+  );
+}
+
 console.log(`\n  ${failed === 0 ? "all trust-checks passed" : `${failed} trust-check(s) failed`}\n`);
 process.exit(failed ? 1 : 0);

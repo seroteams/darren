@@ -139,7 +139,9 @@ function scanYamlEntries(dir, subdir = "") {
     if (e.name === "_index.json") continue;
     const full = path.join(dir, e.name);
     if (e.isDirectory()) {
-      if (e.name === "_archive") continue;
+      // _runtime holds per-session planner/thread-follow artifacts — run
+      // records, not pool material; keep them out of the rebuilt index.
+      if (e.name === "_archive" || e.name === "_runtime") continue;
       out.push(...scanYamlEntries(full, subdir ? `${subdir}/${e.name}` : e.name));
     } else if (e.name.endsWith(".yaml")) {
       out.push({ alias: e.name.replace(/\.yaml$/, ""), subdir });

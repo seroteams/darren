@@ -15,6 +15,12 @@ const getDefaultModel = () => modelFor("planner");
 const ALLOWED_DELTAS = [-3, -1, 0, 1, 3];
 const MAX_QUEUE = 12;
 
+// Questions minted at runtime (planner items, thread-follows) are run records,
+// not bank material. They save under questions/_runtime/ so no later session
+// can load them as candidates — a designer session once served another
+// scenario's "retry logic" follow-up straight from the pool root (Jun 02-04).
+const RUNTIME_SUBDIR = "_runtime";
+
 const AXIS_EFFECT_ITEM = {
   type: "object",
   properties: {
@@ -417,7 +423,7 @@ function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames 
       axis_effects: toAxisObject(item.axis_effects),
       source,
     };
-    saveQuestion(q);
+    saveQuestion(q, { subdir: RUNTIME_SUBDIR });
     out.push(q);
   }
 
@@ -567,7 +573,7 @@ function enforceAxisCoverage({
   arc = null,
   transcript = [],
   meetingType = null,
-  bankLoader = () => [...loadDir(""), ...loadDir("_seed")],
+  bankLoader = () => [...loadDir("").filter(isCuratedBankQuestion), ...loadDir("_seed")],
 }) {
   if (turnNumber < 4 || !Array.isArray(newQueue) || !newQueue.length) return newQueue;
   const untouched = AXIS_IDS.filter((id) => (axisState[id]?.history?.length ?? 0) === 0);
@@ -640,6 +646,18 @@ function enforceAxisCoverage({
     `coverage: ${priority} untouched after turn ${turnNumber} — no real question carries it; queue unchanged`
   );
   return newQueue;
+}
+
+// Pool-root artifacts from before runtime questions moved to _runtime: planner
+// items and thread-follows saved by past sessions are write-only run records,
+// never bank candidates (they carry another conversation's premises). The
+// curated pool is source "generated"/seed material only. Load-time filter —
+// the YAML files themselves stay where they are.
+function isCuratedBankQuestion(q) {
+  const source = String(q?.source || "");
+  if (source === "planner_added" || source.startsWith("reworded_from")) return false;
+  if (String(q?.alias || "").startsWith("q_thread_follow")) return false;
+  return true;
 }
 
 function answerHasThread(answer) {
@@ -727,7 +745,7 @@ function enforceThreadFollow({
     return newQueue;
   }
   issues.push("runtime: injected thread-follow question");
-  saveQuestion(follow);
+  saveQuestion(follow, { subdir: RUNTIME_SUBDIR });
   return [follow, ...(newQueue || [])];
 }
 
