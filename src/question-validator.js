@@ -7,6 +7,20 @@ const FALLBACK_STEM =
   "What did you expect would happen there?";
 
 const VAGUE_MORE = /can you say more about what that means/i;
+
+// Mirror-template stems ("<quote> — can you say more…") must quote the answer
+// contiguously. Backstop for the skip-gram builder bug ("tell will working —
+// can you say more…", Jun 02): fragments assembled from scattered tokens fake
+// a quote the report never said.
+const MIRROR_TEMPLATE = /—\s*can you say more about/i;
+
+function normalizeMirror(s) {
+  return String(s || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s'-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 const SUBJECT_VERB =
   /\b(you|she|he|they|what|when|where|how|can|could|would|did|is|are|will|who)\s+\w/i;
 
@@ -59,6 +73,13 @@ function validateQuestionBeforeShow({ name, answer, transcript } = {}) {
   }
   if (/^thought retry logic\b/i.test(stem) && !/^when you assumed/i.test(stem)) {
     return { ok: false, reason: "note shorthand as stem", fallback: FALLBACK_STEM };
+  }
+  const mirrorIdx = stem.search(MIRROR_TEMPLATE);
+  if (mirrorIdx >= 0) {
+    const frag = normalizeMirror(stem.slice(0, mirrorIdx));
+    if (!frag || !normalizeMirror(answer).includes(frag)) {
+      return { ok: false, reason: "mirror fragment not a contiguous quote of the answer", fallback: FALLBACK_STEM };
+    }
   }
   if (answer && overlapRatio(stem, answer) >= 0.55 && !SUBJECT_VERB.test(stem)) {
     return { ok: false, reason: "copied answer telegraphy", fallback: FALLBACK_STEM };

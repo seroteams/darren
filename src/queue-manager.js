@@ -684,20 +684,30 @@ function firstQueueFollowsThread(queue, answer) {
 
 const { validateQuestionBeforeShow } = require("./question-validator");
 
+// The mirror must quote a contiguous run of the answer's own words, clause-
+// bounded. The old version took the first three long tokens from anywhere in
+// the answer — a skip-gram that read as word salad on typo-heavy notes
+// ("tell will working — can you say more…", Jun 02 Luke run).
+const MIRROR_FILLER = /^(yeah|yes|yep|ok|okay|well|so|um|uh|and|but)\s+/i;
+function contiguousAnswerSpan(answer) {
+  for (const raw of String(answer || "").split(/[.!?;,\n—–]+/)) {
+    let clause = raw.replace(/[^a-z0-9\s'-]/gi, " ").replace(/\s+/g, " ").trim();
+    while (MIRROR_FILLER.test(clause)) clause = clause.replace(MIRROR_FILLER, "");
+    const words = clause.split(" ").filter(Boolean);
+    if (words.length >= 3) return words.slice(0, 6).join(" ");
+  }
+  return null;
+}
+
 // Ground-or-skip: a thread-follow must mirror the answer's own words. If the
 // mirror stem can't pass validation, return null and inject nothing — a canned
 // context-free stem fakes a connection the engine didn't make (the Jun 11
 // Machar run served the identical generic stem on consecutive turns and it
 // read as disconnected both times).
 function buildThreadFollowQuestion(lastQuestion, lastAnswer, transcript) {
-  const mirrorWords = String(lastAnswer || "")
-    .replace(/[^a-z0-9\s,'-]/gi, " ")
-    .trim()
-    .split(/\s+/)
-    .filter((w) => w.length >= 4)
-    .slice(0, 3);
-  if (!mirrorWords.length) return null;
-  const mirrorStem = `${mirrorWords.join(" ")} — can you say more about what that means for you right now?`;
+  const mirrorSpan = contiguousAnswerSpan(lastAnswer);
+  if (!mirrorSpan) return null;
+  const mirrorStem = `${mirrorSpan} — can you say more about what that means for you right now?`;
 
   const mirrorCheck = validateQuestionBeforeShow({
     name: mirrorStem,
@@ -738,10 +748,13 @@ function enforceThreadFollow({
     issues.push("runtime: thread-follow skipped (no stem grounded in the answer)");
     return newQueue;
   }
-  // Don't inject a thread-follow that repeats a question already asked.
+  // Don't inject a thread-follow that repeats a question already asked — or
+  // one already sitting in the queue, which would be served as a duplicate a
+  // few turns later.
   const askedTokenSets = (askedNames || []).map(contentTokens);
-  if (isRepeatOfAsked(follow.name, askedTokenSets)) {
-    issues.push("runtime: thread-follow skipped (would repeat an already-asked question)");
+  const queuedTokenSets = (newQueue || []).map((q) => contentTokens(q?.name));
+  if (isRepeatOfAsked(follow.name, [...askedTokenSets, ...queuedTokenSets])) {
+    issues.push("runtime: thread-follow skipped (would repeat an asked or queued question)");
     return newQueue;
   }
   issues.push("runtime: injected thread-follow question");

@@ -16,7 +16,7 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Session-isolate the question pool | "Retry logic" example replaced; runtime questions stop polluting `questions/`; pool filtered at load; API path gets a session bank; leak gate | ✅ |
-| 2 | Honest thread-follow stems | Contiguous-quote mirror stems, validator backstop, generic-stem rotation/dedupe | ⬜ |
+| 2 | Honest thread-follow stems | Contiguous-quote mirror stems, validator backstop, queue-aware dedupe | ✅ |
 | 3 | Grounding gate for planner questions | Planner questions must cite a premise from this session or be dropped (logged); `UNGROUNDED_PREMISE` (WARN) | ⬜ |
 | 4 | Relational-arc gate at the question layer | No competency questions generated, selected, or planner-added for Bi-weekly / feels-off; `QUESTION_ARC_LEAK` | ⬜ |
 | 5 | Axis accumulation | Carried questions inherit axis signatures; scripted runs score; `AXIS_SILENT_SESSION`; one re-baseline | ⬜ |

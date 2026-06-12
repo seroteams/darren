@@ -1,6 +1,8 @@
 # Phase 2 — Honest thread-follow stems
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ (automated checks green 2026-06-12: unit 21/21 incl. new skip-gram tests, gate 8/8. Product-owner walk-through pending.)
+
+**Deviation notes:** the generic-stem rotation from the original plan is obsolete — the builder had already become ground-or-skip (no canned fallback exists to rotate). Landed instead: contiguous-quote mirror builder, validator contiguity backstop, and queue-aware dedupe in `enforceThreadFollow`.
 
 ## Goal
 No garbled mirror stems ("tell will working — …"), and the generic fallback question never fires twice in one session.

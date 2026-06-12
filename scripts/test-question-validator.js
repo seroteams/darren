@@ -34,6 +34,24 @@ const good = validateQuestionBeforeShow({
 });
 assert(good.ok, "accepts full-sentence assumption question");
 
+// Skip-gram mirror: tokens lifted from scattered spots in the answer, glued
+// into a fake quote (Jun 02 Luke run: "tell will working — …").
+const skipGram = validateQuestionBeforeShow({
+  name: "tell will keep — can you say more about what that means for you right now?",
+  answer: "tell me it will keep working",
+  transcript: [],
+});
+assert(!skipGram.ok, "rejects skip-gram mirror stem (not a contiguous quote)");
+assert(skipGram.reason.includes("contiguous"), `reason names contiguity (got: ${skipGram.reason})`);
+
+// A real contiguous quote of the answer is allowed through the mirror check.
+const contiguous = validateQuestionBeforeShow({
+  name: "feels boxed in lately — can you say more about what that means for you right now?",
+  answer: "Feels boxed in lately, mostly cleanup.",
+  transcript: [],
+});
+assert(contiguous.ok, `accepts contiguous-quote mirror stem (got: ${contiguous.reason || "ok"})`);
+
 if (failed) {
   console.error(`\n${failed} test(s) failed.\n`);
   process.exit(1);
