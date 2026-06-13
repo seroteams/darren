@@ -1,6 +1,6 @@
 # Phase 3 — Grounding gate for planner questions
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 coded, offline tests green (22/22 incl. 5 new grounding tests). Live gate NOT run — OpenAI quota exhausted mid-phase. Needs one approved live check (`node scripts/gate.js --only <case>`, ~$0.35) before ✅.
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ (offline 22/22; approved live check 2026-06-13 `--only biweekly-priya` PASS — model emitted `grounding` fields, gate fired once dropping a question for the word "snagging", a mild false positive since added to OPEN_QUESTION_VOCAB. Product-owner walk-through pending.)
 
 ## Goal
 A planner question whose premise appears nowhere in this session (note, answers, prep brief) is dropped with a logged reason — never shipped.
