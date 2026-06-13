@@ -1,3 +1,5 @@
+> **Reference doc — active work lives in [SERO_BOARD.md](../SERO_BOARD.md).**
+
 # reviewrun output spec (FX-43)
 
 **Version:** v1  

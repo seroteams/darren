@@ -74,6 +74,8 @@ components:
     padding: "10px 14px"
 ---
 
+> **Reference doc — active work lives in [SERO_BOARD.md](../SERO_BOARD.md).**
+
 # Design System: Sero
 
 ## 1. Overview
