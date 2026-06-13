@@ -15,7 +15,7 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Scaffold + setup grows down | New one-page run exists; the 5 setup questions stack and settle as you answer | ✅ |
-| 2 | Focus points + prep brief | Picking focus areas and reading the prep brief happen as new sections below setup | ⬜ |
+| 2 | Focus points + prep brief | Picking focus areas and reading the prep brief happen as new sections below setup | ✅ |
 | 3 | Interview grows down | The interview questions appear one below the next; each answer settles above | ⬜ |
 | 4 | Results = page 2 | After the interview, the final briefing shows as a separate results page (reuse the existing briefing screen) | ⬜ |
 | 5 | Polish + close-out | Mobile, reduced-motion, focus/scroll, copy pass; move folder to done/ | ⬜ |
@@ -33,9 +33,11 @@ What landed: a new `ONEPAGE` stage + `/flow` route, a "One-page run" button on t
 
 **Carl's direction for the rest:** he wants the *entire* flow continuous — **page 1 grows down through setup → focus areas → prep brief → questions**, and **page 2 = the final results** (the briefing). For results we reuse the existing briefing screen as page 2 (keeps it polished). Phase 4 reworded to match.
 
-**Now building: Phase 2** — focus areas + prep brief as the next grow-down sections after setup, reusing the focus-points + preparation SSE streams. As an interim bridge so the whole flow is walkable today, prep's "Continue" hands off to the existing question + briefing screens; Phase 3 replaces that bridge with on-page questions, Phase 4 formalises the results page.
+**Phase 2 ✅ verified (2026-06-13)** via a Carl-authorized ~$0.35 run: focus areas + prep brief now stream in as grow-down sections after setup, focus settles into a locked line, then an interim "Continue to interview" bridges to the existing question + briefing screens. Committed locally.
 
-Cost note: focus + prep + questions + briefing each hit the OpenAI API. Setup → reaching focus already costs the normal ~$0.35 a real run does. I build + structurally verify for free; a real end-to-end walk is a paid run (Carl's go-ahead).
+**Next: Phase 3** — replace the bridge with the interview growing down on-page (streamed questions one below the next, each answer settling, live scores). This is the biggest stage; it'll need another paid walk to verify.
+
+Cost note: focus + prep + questions + briefing each hit the OpenAI API. I build + structurally verify for free; a real end-to-end walk is a paid run (Carl's go-ahead, ~$0.35).
 
 ## Parked
 - Editing a past answer (jump back up). Out of scope — past sections are deliberately locked.

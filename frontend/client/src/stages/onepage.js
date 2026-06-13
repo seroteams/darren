@@ -2,15 +2,21 @@
 // You answer; the next question appears below; answered steps settle into a
 // locked "answered" look (not a greyed-out disabled box).
 //
-// Phase 1 covers setup only: name -> role -> seniority -> meeting type -> notes,
-// then creates the session (same startSession as a normal run) and shows a
-// "ready" section. Focus points / prep / interview / briefing land here in later
-// phases. Reuses api.js, reveal.js, and the existing design-system classes.
+// Covered so far:
+//   Phase 1 — setup: name -> role -> seniority -> meeting type -> notes.
+//   Phase 2 — focus areas + prep brief stream in as the next grow-down sections,
+//             then "Continue to interview" bridges to the existing question +
+//             briefing screens (Phase 3 puts questions on-page; Phase 4 makes
+//             the results their own page 2).
+// Reuses api.js, sse.js, orb.js, reveal.js and the existing design-system classes.
 
 import { STAGES, resetSession } from "../state.js";
-import { getMeetingTypes, startSession } from "../api.js";
+import { getMeetingTypes, startSession, setSelectedFocus } from "../api.js";
 import { focusField } from "../ui/field.js";
 import { revealOne } from "../ui/reveal.js";
+import { openSse } from "../sse.js";
+import { createOrb } from "../ui/orb.js";
+import { escapeCopy as escape } from "../ui/html.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";
 
@@ -26,6 +32,19 @@ const SETUP = [
   { key: "NOTES", field: "notes", type: "textarea", required: false,
     question: "Anything Sero should know?", placeholder: "e.g. They've been working late. Something feels off." },
 ];
+
+const PREP_VIEW_SECTIONS = [
+  { label: "Likely theme",       key: "coreIssue",       type: "paragraph" },
+  { label: "How sure is this",   key: "confidence",      type: "paragraph" },
+  { label: "Don't assume yet",   key: "dontAssume",      type: "paragraph" },
+  { label: "Say this first",     key: "openingQuestion", type: "callout" },
+  { label: "Listen for",         key: "listenFor",       type: "bullets" },
+  { label: "Avoid",              key: "avoid",           type: "bullets" },
+  { label: "Success looks like", key: "goodOutcome",     type: "paragraph" },
+  { label: "Suggested action",   key: "suggestedAction", type: "paragraph" },
+];
+
+let teardown = null;
 
 export async function mount(root, { store, setState }) {
   root.classList.add("flow-page");
@@ -45,6 +64,8 @@ export async function mount(root, { store, setState }) {
   `;
 
   const steps = root.querySelector(".flow-steps");
+  let currentSse = null;
+  teardown = () => { if (currentSse) { currentSse.close(); currentSse = null; } };
 
   root.querySelector(".js-cancel").addEventListener("click", async () => {
     const ok = await confirmResetSession(confirmAction, { to: STAGES.START });
@@ -79,17 +100,19 @@ export async function mount(root, { store, setState }) {
     return node;
   }
 
-  // Replace the current active step with its settled version, then append + reveal
-  // the next active step (or finish). `scrollTo` is false for the very first step.
+  // Append + reveal + scroll a new section to the bottom of the page.
+  function appendSection(node, { scrollTo = true, focus = false } = {}) {
+    node.classList.add("field-enter");
+    steps.appendChild(node);
+    revealOne(node);
+    if (scrollTo) requestAnimationFrame(() => node.scrollIntoView({ behavior: "smooth", block: "start" }));
+    if (focus) focusField(node);
+    return node;
+  }
+
   function place(nextNode, { scrollTo = true } = {}) {
-    nextNode.classList.add("field-enter");
-    steps.appendChild(nextNode);
     activeNode = nextNode;
-    revealOne(nextNode);
-    if (scrollTo) {
-      requestAnimationFrame(() => nextNode.scrollIntoView({ behavior: "smooth", block: "start" }));
-    }
-    focusField(nextNode);
+    appendSection(nextNode, { scrollTo, focus: true });
   }
 
   function settleAndAdvance(question, answer, opts = {}) {
@@ -240,27 +263,173 @@ export async function mount(root, { store, setState }) {
         notes: store.ctx.notes || "",
       });
       try { localStorage.setItem("seroSessionId", res.sessionId); } catch {}
-      // Stay on the one-page stage (no remount) — just record the live session.
+      // Stay on the one-page stage (no remount) — record the live session, then
+      // flow straight into focus areas.
       setState({
         sessionId: res.sessionId,
         sessionDir: res.sessionDir || null,
         createdAt: res.createdAt ?? Date.now(),
       });
-      const ready = settledNode(
-        "Setup saved",
-        "Your one-page run is ready. The focus areas, prep brief, interview and briefing land right here next.",
-      );
-      ready.classList.add("flow-ready", "field-enter");
-      steps.appendChild(ready);
-      revealOne(ready);
-      requestAnimationFrame(() => ready.scrollIntoView({ behavior: "smooth", block: "start" }));
+      runFocusPoints();
     } catch (e) {
       setState({ stage: STAGES.ERROR, error: e.message, retryStage: STAGES.ONEPAGE });
     }
+  }
+
+  // --- Focus areas (streamed) -------------------------------------------------
+
+  function appendWorking(label) {
+    const node = document.createElement("div");
+    node.className = "flow-section flow-section--active";
+    const orb = createOrb(label);
+    node.appendChild(orb.el);
+    appendSection(node);
+    return { node, orb };
+  }
+
+  function failTo(message) {
+    setState({ stage: STAGES.ERROR, error: message, retryStage: STAGES.ONEPAGE });
+  }
+
+  function runFocusPoints() {
+    const working = appendWorking("Analyzing context…");
+    const sse = openSse(`/api/focus-points/stream?s=${encodeURIComponent(store.sessionId)}`);
+    currentSse = sse;
+    sse
+      .on("thinking", (d) => working.orb.setLabel(d.label))
+      .on("result", async (d) => {
+        sse.close();
+        currentSse = null;
+        await working.orb.exit();
+        working.node.remove();
+        renderFocusPick(d);
+      })
+      .on("error", (d) => failTo(d.message || "Focus-point generation failed."))
+      .onError(() => failTo("Lost connection while generating focus areas."))
+      .open();
+  }
+
+  function renderFocusPick(d) {
+    store.focusPoints = d.focus_points;
+    const selectedIds = new Set();
+    const node = document.createElement("div");
+    node.className = "flow-section flow-section--active space-y-4";
+    node.innerHTML = `
+      <h2 class="h2 flow-q">What we'll cover</h2>
+      <div class="focus-select-hint">Select at least one topic for this 1:1.</div>
+      <div class="card focus-point-list">
+        ${d.focus_points.map((fp, i) => `
+          <div class="js-fp-wrapper">
+            <button type="button" class="focus-point focus-point--selectable js-fp-toggle" data-fp-id="${escape(fp.id)}" aria-pressed="false" title="${escape(fp.reason || "")}">
+              <div class="focus-point__num">${i + 1}</div>
+              <div class="focus-point__body">
+                <div class="focus-point__label">${escape(fp.label || fp.type || fp.id)}</div>
+                ${fp.reason ? `<div class="focus-point__reason">${escape(focusReason(fp.reason))}</div>` : ""}
+              </div>
+              <div class="focus-point__check" aria-hidden="true"></div>
+            </button>
+          </div>
+        `).join("")}
+      </div>
+      <div class="field__actions"><button class="btn js-continue" type="button" disabled>Continue to prep brief</button></div>
+    `;
+    appendSection(node);
+    const cont = node.querySelector(".js-continue");
+
+    node.querySelectorAll(".js-fp-toggle").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.fpId;
+        if (selectedIds.has(id)) {
+          selectedIds.delete(id); btn.classList.remove("is-selected"); btn.setAttribute("aria-pressed", "false");
+        } else {
+          selectedIds.add(id); btn.classList.add("is-selected"); btn.setAttribute("aria-pressed", "true");
+        }
+        cont.disabled = selectedIds.size === 0;
+      });
+    });
+
+    cont.addEventListener("click", async () => {
+      const ids = Array.from(selectedIds);
+      if (!ids.length) return;
+      cont.disabled = true;
+      try { await setSelectedFocus(store.sessionId, ids); }
+      catch (e) { console.warn("[onepage] focus save failed:", e.message); }
+      const chosen = d.focus_points.filter((fp) => selectedIds.has(fp.id));
+      store.focusPoints = chosen;
+      const labels = chosen.map((fp) => fp.label || fp.type || fp.id).join(" · ");
+      steps.replaceChild(settledNode("Focus areas", labels), node);
+      runPreparation();
+    });
+  }
+
+  // --- Prep brief (streamed) --------------------------------------------------
+
+  function runPreparation() {
+    const working = appendWorking("Preparing your prep brief…");
+    const sse = openSse(`/api/preparation/stream?s=${encodeURIComponent(store.sessionId)}`);
+    currentSse = sse;
+    sse
+      .on("thinking", (d) => working.orb.setLabel(d.label))
+      .on("result", async (d) => {
+        sse.close();
+        currentSse = null;
+        await working.orb.exit();
+        working.node.remove();
+        setState({ preparation: d.brief, preparationRunId: d.runId });
+        renderPrep(d.brief);
+      })
+      .on("error", (d) => failTo(d.message || "Preparation briefing failed."))
+      .onError(() => failTo("Lost connection while generating the prep brief."))
+      .open();
+  }
+
+  function renderPrep(brief) {
+    const sections = PREP_VIEW_SECTIONS.filter((s) => {
+      const v = brief[s.key];
+      return Array.isArray(v) ? v.length : v && String(v).trim();
+    });
+    const node = document.createElement("div");
+    node.className = "flow-section space-y-5";
+    node.innerHTML = `
+      <div class="eyebrow">Prep brief</div>
+      ${sections.map((s) => `
+        <div>
+          <div class="eyebrow mb-2">${s.label}</div>
+          <div class="card">${renderPrepField(s.type, brief[s.key])}</div>
+        </div>
+      `).join("")}
+      <div class="field__actions"><button class="btn js-to-interview" type="button">Continue to interview</button></div>
+    `;
+    appendSection(node);
+    node.querySelector(".js-to-interview").addEventListener("click", () => {
+      // Bridge to the existing question + briefing screens. Phase 3 replaces this
+      // with the interview growing down on-page; Phase 4 makes results page 2.
+      setState({ stage: STAGES.BANK });
+    });
   }
 
   // First step — no scroll, just reveal + focus.
   place(renderActive(SETUP[0]), { scrollTo: false });
 }
 
-export function unmount() { /* nothing */ }
+export function unmount() {
+  if (teardown) teardown();
+  teardown = null;
+}
+
+function focusReason(text) {
+  const trimmed = String(text == null ? "" : text).trim();
+  if (!trimmed) return "";
+  const first = trimmed.match(/^(.+?[.!?])(?:\s|$)/)?.[1];
+  return first || trimmed;
+}
+
+function renderPrepField(type, value) {
+  if (type === "bullets" && Array.isArray(value)) {
+    return `<ul class="prep-list">${value.map((item) => `<li>${escape(item)}</li>`).join("")}</ul>`;
+  }
+  if (type === "callout") {
+    return `<blockquote class="prep-callout">${escape(value || "")}</blockquote>`;
+  }
+  return `<p class="text-ink leading-relaxed">${escape(value || "")}</p>`;
+}

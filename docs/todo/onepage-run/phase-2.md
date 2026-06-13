@@ -1,6 +1,10 @@
 # Phase 2 — Focus points + prep brief
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ (verified 2026-06-13 via a Carl-authorized ~$0.35 end-to-end run)
+
+**Interim bridge:** prep's "Continue to interview" hands off to the existing question + briefing screens so the whole flow is walkable now. Phase 3 replaces that with the interview growing down on-page.
+
+**Verified run:** setup (5 settled) → focus areas streamed on-page (4 points, grounded in the notes) → picked 2 → focus settled into a locked line → prep brief streamed on-page (8 sections) → "Continue to interview" bridge. No console errors. (Preview screenshots were flaky in the environment, so confirmed via accessibility snapshots + DOM evals.)
 
 ## Goal
 After setup settles, picking your focus areas and reading the prep brief happen as the next sections **below** on the same page.
