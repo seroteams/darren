@@ -1,0 +1,9 @@
+alias: q_scope_shift_point
+label: Scope shift point
+name: Where did scope shift on you in the last fortnight?
+description: Lets you hear where the work moved under him and what that changed.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: generated

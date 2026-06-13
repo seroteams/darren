@@ -1,0 +1,10 @@
+alias: q_ownership_shift_8
+label: Ownership shift
+name: What would you want to keep owning after the launch work settles?
+description: Helps you hear what she wants to stay close to versus hand off or leave behind.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

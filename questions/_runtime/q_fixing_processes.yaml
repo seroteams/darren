@@ -1,0 +1,10 @@
+alias: q_fixing_processes
+label: Fixing processes
+name: "When you're fixing a broken process, what part of that work pulls you most?"
+description: Drill into the concrete thread to surface what kind of growth direction actually motivates him.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: fixing a broken process

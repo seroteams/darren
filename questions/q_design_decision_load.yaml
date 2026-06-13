@@ -1,0 +1,10 @@
+alias: q_design_decision_load
+label: Design decision load
+name: Which decision from the last two weeks took the most out of you?
+description: Helps you hear where the work is costing more energy than it should.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

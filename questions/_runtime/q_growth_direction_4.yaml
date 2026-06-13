@@ -1,0 +1,10 @@
+alias: q_growth_direction_4
+label: Growth direction
+name: "When you say you're stuck on direction, what kinds of operations work pull you most?"
+description: Drill on the stated stuckness to surface concrete areas of work that feel compelling.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: stuck on direction

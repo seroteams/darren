@@ -1,0 +1,11 @@
+alias: q_q_skill_gap_8
+label: q_skill_gap
+name: What skill would help you take that on?
+description: ""
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_skill_gap"
+grounding: open

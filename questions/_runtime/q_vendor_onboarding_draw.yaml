@@ -1,0 +1,10 @@
+alias: q_vendor_onboarding_draw
+label: Vendor onboarding draw
+name: What about vendor onboarding makes that worth owning for you?
+description: Surface what specifically attracts him to this end-to-end ownership thread.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: vendor onboarding process

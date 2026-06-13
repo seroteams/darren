@@ -1,0 +1,11 @@
+alias: q_name_the_snag_9
+label: Name the snag
+name: "When you say 'not sure', where has work felt most snaggy lately?"
+description: One-shot re-prompt to surface a concrete point of friction.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+grounding: not sure

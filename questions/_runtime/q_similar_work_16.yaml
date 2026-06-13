@@ -1,0 +1,10 @@
+alias: q_similar_work_16
+label: Similar work
+name: When you say similar work, what has started to feel repetitive?
+description: Drills into the plateau she named so you can locate the specific kind of work that feels stale.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: similar work for months

@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781317421561,
+  "role_title_raw": "Operations Coordinator",
+  "role_slug": "operations-coordinator",
+  "seniority_raw": "Junior",
+  "seniority_key": "junior",
+  "role_family": "general",
+  "profile": {
+    "summary": "A Junior Operations Coordinator keeps day-to-day processes moving by tracking tasks, updating records, coordinating schedules, following up with vendors or internal teams, and flagging issues early. They usually own small process steps rather than full systems, and work closely with operations leads, customer-facing teams, finance, logistics, or office support depending on the company.",
+    "role_confidence": "medium",
+    "known_challenges": [
+      {
+        "text": "Juggling many small requests and deadlines without losing track of details.",
+        "category": "competency"
+      },
+      {
+        "text": "Working in unclear processes where the handoffs, owners, or priorities are not fully defined.",
+        "category": "topic"
+      },
+      {
+        "text": "Balancing speed with accuracy when updating records, orders, schedules, or reports.",
+        "category": "competency"
+      },
+      {
+        "text": "Feeling pressure from repetitive admin work while still being expected to stay responsive and helpful.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Escalating problems confidently when they notice something off but are still early in their career.",
+        "category": "competency"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Workload clarity and task prioritisation",
+        "why": "Junior coordinators often handle a high volume of small tasks, so clear priorities reduce mistakes and stress.",
+        "category": "topic"
+      },
+      {
+        "theme": "Confidence in processes and handoffs",
+        "why": "They need to know who owns what and when to escalate, especially in messy operational workflows.",
+        "category": "competency"
+      },
+      {
+        "theme": "Accuracy, quality checks, and error recovery",
+        "why": "Small mistakes can create downstream problems, so it matters to understand where they feel unsure.",
+        "category": "competency"
+      },
+      {
+        "theme": "Repetitive work, energy, and motivation",
+        "why": "This role can become draining if the work is highly reactive or admin-heavy without enough support.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Exposure to the bigger operational picture",
+        "why": "Understanding how their tasks affect customers, teams, or delivery helps them grow beyond task execution.",
+        "category": "topic"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "SLA",
+        "meaning": "Expected time to respond or complete a task."
+      },
+      {
+        "term": "Escalation",
+        "meaning": "Passing an issue to someone with more authority or expertise."
+      },
+      {
+        "term": "Handoff",
+        "meaning": "Transfer of work or information between people or teams."
+      },
+      {
+        "term": "Backlog",
+        "meaning": "Work waiting to be completed."
+      },
+      {
+        "term": "KPI",
+        "meaning": "A metric used to track performance."
+      },
+      {
+        "term": "Turnaround time",
+        "meaning": "How long it takes to finish a request."
+      },
+      {
+        "term": "Vendor",
+        "meaning": "An outside company supplying goods or services."
+      },
+      {
+        "term": "Reconciliation",
+        "meaning": "Checking records to make sure numbers or entries match."
+      }
+    ],
+    "listen_for": [
+      "They talk about keeping things from slipping rather than owning decisions.",
+      "They mention chasing updates from others, which can signal weak handoffs or unclear ownership.",
+      "They focus on being careful or double-checking, which may reflect fear of making visible mistakes.",
+      "They describe urgent work as constant, suggesting reactive load is crowding out planned work.",
+      "They hesitate when describing escalation, which can signal low confidence or unclear authority."
+    ],
+    "avoid": [
+      "Assuming coordination work is simple because it looks administrative.",
+      "Telling them to just be more proactive when the real problem is unclear process ownership.",
+      "Judging performance only by speed and ignoring accuracy and follow-through.",
+      "Overloading them with ad hoc requests without making priorities explicit."
+    ]
+  }
+}

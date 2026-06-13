@@ -1,0 +1,11 @@
+alias: q_clarify_ok_19
+label: Clarify ok
+name: "When you say 'ok', what actually landed in the last two weeks?"
+description: Re-prompts the shallow answer so Sam names one concrete thing that landed.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added
+grounding: ok

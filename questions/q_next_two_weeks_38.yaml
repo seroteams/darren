@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_38
+label: Next two weeks
+name: What would make the next two weeks feel lighter for you?
+description: Ends the check-in on a concrete change you can help with.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

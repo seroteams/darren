@@ -1,0 +1,10 @@
+alias: q_process_thread_3
+label: Process thread
+name: What kind of process problems do you most want to fix more often?
+description: Drill into the concrete kind of operations scope that energises him.
+purpose: topic
+stage: anchor
+axis_effects:
+  engagement: +1
+source: planner_added
+grounding: fixing a broken process

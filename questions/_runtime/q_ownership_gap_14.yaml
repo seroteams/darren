@@ -1,0 +1,10 @@
+alias: q_ownership_gap_14
+label: Ownership gap
+name: What feels most unclear about next quarter ownership right now?
+description: Drills into the ownership uncertainty to surface the specific gap in scope, decisions, or expectations.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: owning next quarter

@@ -1,0 +1,10 @@
+alias: q_prep_opener_175
+label: Prep opener
+name: How have the last couple of weeks felt from your side, and what actually landed the way you expected?
+description: Gives Sam room to set the scene before you get into what to keep moving or let wait.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

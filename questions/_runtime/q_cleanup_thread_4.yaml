@@ -1,0 +1,10 @@
+alias: q_cleanup_thread_4
+label: Cleanup thread
+name: What about cleanup and reviews is making the week feel flat?
+description: Drills into the concrete post-launch work pattern she just named to separate normal recovery from something unresolved.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: cleanup and reviews

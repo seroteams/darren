@@ -1,0 +1,10 @@
+alias: q_manager_investment_8
+label: Manager investment
+name: What would help you build confidence with the reporting side?
+description: Surface what support, exposure, or changes would unlock the growth move he just named.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: confidence with the reporting side

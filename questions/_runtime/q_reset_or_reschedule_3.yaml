@@ -1,0 +1,9 @@
+alias: q_reset_or_reschedule_3
+label: Reset or reschedule
+name: Is now a good time for this, or should we pick it up later?
+description: Direct reset check to confirm whether to continue or reschedule a non-functional session.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+source: planner_added
+grounding: no

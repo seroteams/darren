@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-12T12:13:31.137Z",
-  "count": 3896,
+  "generated_at": "2026-06-13T05:10:56.633Z",
+  "count": 3902,
   "aliases": [
     "q_a_lot_landing",
     "q_account_focus",
@@ -2304,6 +2304,12 @@
     "q_promotion_meaning",
     "q_promotion_read",
     "q_promotion_read_2",
+    "q_promotion_read_3",
+    "q_promotion_read_4",
+    "q_promotion_read_5",
+    "q_promotion_read_6",
+    "q_promotion_read_7",
+    "q_promotion_read_8",
     "q_promotion_signal",
     "q_proof_of_readiness",
     "q_proof_that_lands",
@@ -13128,6 +13134,30 @@
     },
     {
       "alias": "q_promotion_read_2",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_3",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_4",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_5",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_6",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_7",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_8",
       "subdir": "_runtime"
     },
     {

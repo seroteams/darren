@@ -1,0 +1,10 @@
+alias: q_growth_direction_3
+label: Growth direction
+name: When you say you feel stuck on direction, what options are you weighing?
+description: Surface the concrete growth paths he is considering so the conversation can move from vague stuckness to named directions.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: stuck on direction
