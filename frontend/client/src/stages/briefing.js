@@ -128,7 +128,8 @@ export async function mount(root, { store, setState, resetSession }) {
     </div>
   `;
 
-  const pause = (ms) => (fastPath ? Promise.resolve() : sleep(ms));
+  const PACE = 0.45; // tighten the staggered reveal so the full briefing lands in ~2s
+  const pause = (ms) => (fastPath ? Promise.resolve() : sleep(ms * PACE));
 
   // The whole briefing is hidden behind reveal animations (opacity:0 until
   // `.is-in`). If any beat below throws, fail open: reveal everything and drop
@@ -228,7 +229,7 @@ export async function mount(root, { store, setState, resetSession }) {
     } else {
       setTimeout(() => {
         mwrap.querySelectorAll(".reveal-soft").forEach((el) => el.classList.add("is-in"));
-      }, 900);
+      }, 900 * PACE);
     }
   }
 

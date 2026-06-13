@@ -43,6 +43,10 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   stages.setAttribute("aria-label", "Run progress");
   row.appendChild(stages);
 
+  const stepEl = document.createElement("span");
+  stepEl.className = "session-topbar__step";
+  row.appendChild(stepEl);
+
   const glossaryBtn = createGlossaryButton();
   row.appendChild(glossaryBtn);
 
@@ -139,6 +143,9 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
 
     const order = TOPBAR_STAGES.map(([key]) => key);
     const curIdx = order.indexOf(current);
+
+    stepEl.textContent = curIdx >= 0 ? `Step ${curIdx + 1} of ${TOPBAR_STAGES.length}` : "";
+    stepEl.hidden = curIdx < 0;
 
     stages.innerHTML = TOPBAR_STAGES
       .map(

@@ -1913,6 +1913,12 @@ textarea { resize: vertical; }
   margin: 0 0.6rem;
   opacity: 0.5;
 }
+.session-topbar__step {
+  flex-shrink: 0;
+  font-size: var(--type-caption);
+  color: var(--color-ink-mute);
+  white-space: nowrap;
+}
 .session-topbar__placeholder {
   color: var(--color-ink-mute);
   opacity: 0.6;
