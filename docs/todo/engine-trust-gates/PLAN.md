@@ -39,7 +39,7 @@ Phase 1 notes:
 - **Baseline before work, `--update-baseline` only in Phase 5** (and only after Carl ratifies the diffs).
 
 ## Parked
-- Add `axis_effects` to the persona bench scripts (config/persona-bench-v1.json) — only 30/85 script aliases resolve a signature from the pool today, so scripted runs book partial axis signal.
+- ~~Add `axis_effects` to the persona bench scripts — only 30/85 script aliases resolve a signature.~~ **Mostly fixed 2026-06-13** (alias-bridge in `scriptSignature`, see [phase-5.md](phase-5.md) follow-up): 58/62 distinct aliases now resolve. Remaining 4 (`q_open_anything_to_cover`, `q_alignment_observed`, `q_handoff_observed`, `q_call_quality`) still carry no bank signature — give them one if their axes should move. Live re-run to confirm pending Carl's go-ahead.
 - `UNGROUNDED_MEANING` check (Phase 6) — a `read` axis whose meaning shares no rare content with the transcript. Deferred: too false-positive-prone on legitimate paraphrase to ship without a live gate to tune against. Revisit once quota is back.
 - Session-scoping note-derived `generated` bank questions too (they also embed run-specific premises — e.g. the `q_architecture_review_*` family). Phase 1 only fixes runtime artifacts.
 - Promoting `UNGROUNDED_PREMISE` from WARN to hard fail once its false-positive rate is known.

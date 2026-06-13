@@ -21,12 +21,23 @@ function loadPersona(personaId) {
 // zeroes every per-turn delta and the whole run ships axes "not read" (the
 // Jun 06-07 sweeps). Use the script item's own signature when present, else
 // resolve the alias against the question pool the script was authored from.
+//
+// The scripts were authored against pool aliases like `q_ownership_step`, but
+// newAlias() prepended another `q_` when those questions were saved, so the
+// bank stores most of them doubled as `q_q_ownership_step`. Try the literal
+// alias first, then the doubled-prefix variant — without this bridge only
+// 18/62 bench aliases resolve a signature and the scripted lane ships blank.
 function scriptSignature(item) {
   if (item.axis_effects && Object.keys(item.axis_effects).length) return item.axis_effects;
-  try {
-    const q = require("../../src/questions").loadQuestion(item.alias);
-    if (q?.axis_effects && Object.keys(q.axis_effects).length) return q.axis_effects;
-  } catch {}
+  const { loadQuestion } = require("../../src/questions");
+  const candidates = [item.alias];
+  if (/^q_/.test(item.alias)) candidates.push("q_" + item.alias);
+  for (const alias of candidates) {
+    try {
+      const q = loadQuestion(alias);
+      if (q?.axis_effects && Object.keys(q.axis_effects).length) return q.axis_effects;
+    } catch {}
+  }
   return {};
 }
 

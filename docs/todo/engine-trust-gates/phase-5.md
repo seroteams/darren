@@ -1,6 +1,15 @@
 # Phase 5 — Axis accumulation (re-baseline phase)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 coded, offline green 2026-06-13 (reconcileQueue inherits signatures from refs — tested; scripted lane resolves signatures by alias — 30/85 bench items resolve, rest parked; AXIS_SILENT_SESSION warning tested both ways). Live scripted-persona re-run + gate diff ratification + the one `--update-baseline` pending.
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 coded, offline green 2026-06-13 (reconcileQueue inherits signatures from refs — tested; scripted lane resolves signatures by alias; AXIS_SILENT_SESSION warning tested both ways). Live scripted-persona re-run + gate diff ratification + the one `--update-baseline` pending.
+
+## Follow-up (2026-06-13) — alias-bridge fix for the scripted lane
+A deep dive on the axis layer found the scripted-persona QA lane shipping every axis "not read" even on signal-rich runs (e.g. [Jun12_21-59](../../../logs/june/2026_Jun12_21-59-d8091c4a/05-evaluation/final.json): a full growth/ownership conversation, all four axes "this didn't come up"). 30 of 31 scripted runs booked zero axis signal.
+
+**Root cause:** scripts reference pool aliases like `q_ownership_step`, but `newAlias()` prepended another `q_` when those questions were saved, so the bank stores them as `q_q_ownership_step`. `scriptSignature`'s `loadQuestion(item.alias)` missed the file, the `catch` swallowed it, the signature stayed `{}`, and `clampToSignature` zeroed every delta.
+
+**Fix:** [`frontend/server/persona-script.js`](../../../frontend/server/persona-script.js) `scriptSignature` now tries the literal alias *then* the doubled-prefix variant. Resolution went 18/62 → 58/62 distinct bench aliases. No bank churn (respects "never bulk-edit questions/"). Guarded by [`scripts/test-persona-bench.js`](../../../scripts/test-persona-bench.js) (offline). The 4 still-empty aliases (`q_open_anything_to_cover`, `q_alignment_observed`, `q_handoff_observed`, `q_call_quality` — opener + observed prompts) are parked.
+
+**Still pending (needs Carl's go-ahead — paid):** a live scripted-persona re-run to confirm the briefings now read, before the `--update-baseline`.
 
 ## Goal
 Carried-forward questions keep their axis signatures, scripted runs score normally, and a session full of signal can no longer ship every axis as "didn't come up".

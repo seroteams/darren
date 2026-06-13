@@ -5,8 +5,20 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const { MEETING_TYPES } = require("../src/meeting-types");
+const { scriptedQuestions } = require("../frontend/server/persona-script");
 
 const BENCH_PATH = path.join(__dirname, "..", "config", "persona-bench-v1.json");
+
+// Scripted aliases that genuinely carry no bank signature today: the open-cover
+// opener and the relational "observed" prompts. Parked (engine-trust-gates
+// PLAN). The test fails if any OTHER alias stops resolving — that's the
+// alias-bridge regression (q_ vs q_q_) coming back.
+const PARKED_NO_SIGNATURE = new Set([
+  "q_open_anything_to_cover",
+  "q_alignment_observed",
+  "q_handoff_observed",
+  "q_call_quality",
+]);
 
 const REQUIRED_STRINGS = [
   "id",
@@ -69,4 +81,18 @@ const sorted = [...personas].sort((a, b) => a.order - b.order);
 if (sorted[0].id !== "maya-chen") fail("order 1 should be maya-chen");
 if (sorted[11].id !== "daniel-ruiz") fail("order 12 should be daniel-ruiz");
 
-console.log("OK: persona-bench-v1.json (12 personas, meeting types, orders)");
+// Every scripted question must resolve a real axis signature (via its own
+// effects or the bank), or clampToSignature zeroes the turn and the run ships
+// every axis "not read". Only the parked openers/observed prompts may be empty.
+const unresolved = new Set();
+for (const p of personas) {
+  for (const q of scriptedQuestions(p)) {
+    const hasSig = q.axis_effects && Object.keys(q.axis_effects).length > 0;
+    if (!hasSig && !PARKED_NO_SIGNATURE.has(q.alias)) unresolved.add(q.alias);
+  }
+}
+if (unresolved.size) {
+  fail(`scripted aliases with no resolvable axis signature: ${[...unresolved].sort().join(", ")}`);
+}
+
+console.log("OK: persona-bench-v1.json (12 personas, meeting types, orders, axis signatures)");
