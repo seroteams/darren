@@ -17,6 +17,19 @@ function loadPersona(personaId) {
   return loadBench().find((p) => p.id === personaId) || null;
 }
 
+// A scripted question still needs a real axis signature, or clampToSignature
+// zeroes every per-turn delta and the whole run ships axes "not read" (the
+// Jun 06-07 sweeps). Use the script item's own signature when present, else
+// resolve the alias against the question pool the script was authored from.
+function scriptSignature(item) {
+  if (item.axis_effects && Object.keys(item.axis_effects).length) return item.axis_effects;
+  try {
+    const q = require("../../src/questions").loadQuestion(item.alias);
+    if (q?.axis_effects && Object.keys(q.axis_effects).length) return q.axis_effects;
+  } catch {}
+  return {};
+}
+
 // Shape a persona's fixed script into question objects the questioning engine
 // understands. The script — not the live bank/planner — defines the path.
 function scriptedQuestions(persona) {
@@ -28,7 +41,7 @@ function scriptedQuestions(persona) {
     description: "",
     purpose: "scripted",
     stage: item.stage ?? null,
-    axis_effects: {},
+    axis_effects: scriptSignature(item),
     source: "scripted",
   }));
 }

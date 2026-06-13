@@ -301,6 +301,26 @@ function runEvalIntegrityChecks(briefing, axisState, transcript, { requireStateM
   return failures;
 }
 
+// runAxisSilenceCheck — a session full of real signal must read SOMETHING.
+// If ≥4 substantive answers came in and the shipped briefing still marks every
+// axis not_read, the axis layer failed, it isn't honesty (the Jun 06-07 sweeps
+// shipped whole sessions "didn't come up"). A genuinely thin session stays
+// exempt via the substantive-answer floor.
+function runAxisSilenceCheck(briefing, transcript) {
+  const substantive = (transcript || []).filter((t) => {
+    if (t?.skipped) return false;
+    const a = String(t?.answer || "").trim();
+    return a && a !== "(skipped)" && a.split(/\s+/).length >= 5;
+  }).length;
+  if (substantive < 4) return [];
+  const axes = Array.isArray(briefing?.axes) ? briefing.axes : [];
+  if (!axes.length) return [];
+  const allSilent = axes.every((ax) => ax?.read_status === "not_read");
+  return allSilent
+    ? [`every axis shipped not_read despite ${substantive} substantive answers — axis layer never engaged`]
+    : [];
+}
+
 function runQuestionStemChecks(transcript) {
   const failures = [];
   for (const t of transcript || []) {
@@ -447,6 +467,7 @@ module.exports = {
   runQuestionGroundingChecks,
   runFocusArcGate,
   runQuestionArcGate,
+  runAxisSilenceCheck,
   runRoleProfileArcGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,

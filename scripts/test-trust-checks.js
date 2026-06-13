@@ -305,5 +305,53 @@ console.log("\n─── trust-checks unit ───");
   );
 }
 
+// 17. Six substantive answers but every axis not_read → AXIS_SILENT_SESSION warning
+{
+  const briefing = baseBriefing({
+    axes: [
+      { id: "wellbeing", score: 0, meaning: "didn't come up", read_status: "not_read", confidence: "low" },
+      { id: "engagement", score: 0, meaning: "didn't come up", read_status: "not_read", confidence: "low" },
+      { id: "clarity", score: 0, meaning: "didn't come up", read_status: "not_read", confidence: "low" },
+      { id: "growth", score: 0, meaning: "didn't come up", read_status: "not_read", confidence: "low" },
+    ],
+  });
+  const r = runTrustChecks({
+    briefing,
+    transcript: healthyTranscript,
+    managerNotes: "",
+    bankQuestions: COVERING_BANK,
+    meetingType: GROWTH,
+  });
+  check(
+    "rich session, silent axes → AXIS_SILENT_SESSION warning",
+    r.warnings.some((w) => w.startsWith("AXIS_SILENT_SESSION")),
+    JSON.stringify(r.warnings)
+  );
+}
+
+// 18. Thin session with silent axes stays exempt (honest not_read)
+{
+  const briefing = baseBriefing({
+    axes: [
+      { id: "wellbeing", score: 0, meaning: "didn't come up", read_status: "not_read", confidence: "low" },
+      { id: "engagement", score: 0, meaning: "didn't come up", read_status: "not_read", confidence: "low" },
+      { id: "clarity", score: 0, meaning: "didn't come up", read_status: "not_read", confidence: "low" },
+      { id: "growth", score: 0, meaning: "didn't come up", read_status: "not_read", confidence: "low" },
+    ],
+  });
+  const r = runTrustChecks({
+    briefing,
+    transcript: thinTranscript,
+    managerNotes: "",
+    bankQuestions: COVERING_BANK,
+    meetingType: GROWTH,
+  });
+  check(
+    "thin session, silent axes → no silence warning",
+    !r.warnings.some((w) => w.startsWith("AXIS_SILENT_SESSION")),
+    JSON.stringify(r.warnings)
+  );
+}
+
 console.log(`\n  ${failed === 0 ? "all trust-checks passed" : `${failed} trust-check(s) failed`}\n`);
 process.exit(failed ? 1 : 0);

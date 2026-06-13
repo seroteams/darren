@@ -430,9 +430,9 @@ function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames 
   const issues = [];
   const usedAliases = new Set();
 
-  for (const item of rawNewQueue || []) {
-    if (!item || !Array.isArray(item.axis_effects) || item.axis_effects.length === 0) {
-      issues.push(`dropped item with empty axis_effects: ${item?.label || "(no label)"}`);
+  for (let item of rawNewQueue || []) {
+    if (!item) {
+      issues.push("dropped empty planner item");
       continue;
     }
     const ref = item.ref_alias ? byAlias.get(item.ref_alias) : null;
@@ -442,6 +442,22 @@ function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames 
     if (item.ref_alias && askedAliases.has(item.ref_alias)) {
       issues.push(`ref_alias ${item.ref_alias} already asked — dropping`);
       continue;
+    }
+    if (!Array.isArray(item.axis_effects) || item.axis_effects.length === 0) {
+      // The planner often omits axis_effects on carried-forward refs. That's
+      // recoverable — inherit the referenced question's signature rather than
+      // dropping the question (the old order dropped BEFORE ref resolution,
+      // which bled signatures out of runs until axes shipped "not read").
+      if (ref) {
+        item = {
+          ...item,
+          axis_effects: Object.entries(ref.axis_effects || {}).map(([axis, delta]) => ({ axis, delta })),
+        };
+        issues.push(`inherited axis_effects from ${ref.alias}`);
+      } else {
+        issues.push(`dropped item with empty axis_effects: ${item.label || "(no label)"}`);
+        continue;
+      }
     }
 
     if (ref && isUnchanged(ref, item)) {

@@ -19,6 +19,7 @@ const {
   runQuestionGroundingChecks,
   runFocusArcGate,
   runQuestionArcGate,
+  runAxisSilenceCheck,
   runRoleProfileArcGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
@@ -336,6 +337,13 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   if (questionArc.length) {
     hard_fails.push(HARD_FAIL.QUESTION_ARC_LEAK);
     details.push(...questionArc);
+  }
+
+  // Warning, not a hard fail: a signal-free session is legitimately silent,
+  // but 4+ substantive answers with zero axis movement is an engine fault
+  // until proven otherwise (AXIS_SILENT_SESSION).
+  for (const w of runAxisSilenceCheck(briefing, transcript)) {
+    warnings.push(`AXIS_SILENT_SESSION: ${w}`);
   }
 
   const profileVocab = runRoleProfileVocabLeak(briefing);

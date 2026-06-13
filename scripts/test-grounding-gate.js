@@ -137,6 +137,53 @@ console.log("\n─── grounding-gate unit ───");
   check("unchanged carried ref → untouched", queue.length === 1 && queue[0] === ref, JSON.stringify(queue));
 }
 
+// 4b. Carried ref returned WITHOUT axis_effects → signature inherited, not dropped
+//     (Phase 5: the old order dropped these before ref resolution, bleeding
+//     signatures out of runs until every axis shipped "not read").
+{
+  const ref = {
+    alias: "q_existing_energy",
+    label: "Energy check",
+    name: "Where has your energy been going lately?",
+    description: "Existing bank question.",
+    purpose: "wellbeing",
+    stage: null,
+    axis_effects: { wellbeing: 3, engagement: 1 },
+    source: "generated",
+  };
+  const { queue, issues } = reconcileQueue(
+    [
+      {
+        ref_alias: "q_existing_energy",
+        label: ref.label,
+        name: ref.name,
+        description: ref.description,
+        purpose: ref.purpose,
+        stage: ref.stage,
+        axis_effects: [],
+        grounding: "open",
+      },
+    ],
+    {
+      remainingQueue: [ref],
+      askedAliases: new Set(),
+      askedNames: [],
+      meetingType: null,
+      groundingCorpus: CORPUS_NO_PROMOTION,
+    }
+  );
+  check(
+    "carried ref without effects → inherits signature",
+    queue.length === 1 && queue[0] === ref,
+    JSON.stringify({ queue: queue.map((q) => q.alias), issues })
+  );
+  check(
+    "inheritance is logged",
+    issues.some((i) => i.startsWith("inherited axis_effects from q_existing_energy")),
+    JSON.stringify(issues)
+  );
+}
+
 // 5. No corpus supplied (legacy caller) → gate inert
 {
   const { queue } = reconcileQueue([newItem()], {

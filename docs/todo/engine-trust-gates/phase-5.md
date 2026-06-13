@@ -1,6 +1,6 @@
 # Phase 5 — Axis accumulation (re-baseline phase)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 coded, offline green 2026-06-13 (reconcileQueue inherits signatures from refs — tested; scripted lane resolves signatures by alias — 30/85 bench items resolve, rest parked; AXIS_SILENT_SESSION warning tested both ways). Live scripted-persona re-run + gate diff ratification + the one `--update-baseline` pending.
 
 ## Goal
 Carried-forward questions keep their axis signatures, scripted runs score normally, and a session full of signal can no longer ship every axis as "didn't come up".
