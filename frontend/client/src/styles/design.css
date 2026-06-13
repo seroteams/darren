@@ -287,6 +287,15 @@
   --color-negative: var(--sero-coral-700);         /* #f76b5e */
   --color-neutral: var(--sero-charcoal-400);       /* #afafaf */
 
+  /* Consolidated from inline var() fallbacks that referenced these (previously
+     undefined) tokens. Values match the fallbacks already in use, so rendering
+     is unchanged — except .notes-panel__toggle:hover, which had no fallback and
+     now gets the same subtle wash as its sibling hover states. */
+  --color-surface-2: rgba(0, 0, 0, 0.05);          /* hover / selected wash */
+  --color-warn: #b45309;                           /* warning text / border */
+  --color-amber: #b4690e;                          /* fix / partial accent */
+  --font-mono: ui-monospace, monospace;            /* code / meta text */
+
   /* =========================================================================
      Type scale — modular (~1.2), anchored at 16px body. Role-named sizes
      plus leading / weight / tracking tokens. Safe variant: existing rendered
