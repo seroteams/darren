@@ -21,7 +21,7 @@ export async function mount(root, { setState, rehydrateById }) {
             <p class="text-ink-dim text-sm mt-1">Sample employee context — or leave blank for your own setup.</p>
           </div>
           <div class="bench-select-wrap">
-            <select class="bench-select js-bench-select" disabled>
+            <select class="bench-select js-bench-select" aria-label="Demo persona" disabled>
             <option value="">Select a persona…</option>
             </select>
           </div>

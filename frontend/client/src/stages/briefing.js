@@ -97,13 +97,13 @@ export async function mount(root, { store, setState, resetSession }) {
       <section class="briefing-block verdict-block card space-y-3">
         <div class="eyebrow">Test lane · verdict</div>
         <div class="verdict-row">
-          <button type="button" class="btn btn--ghost js-verdict" data-v="keep">Keep</button>
-          <button type="button" class="btn btn--ghost js-verdict" data-v="fix">Fix</button>
-          <button type="button" class="btn btn--ghost js-verdict" data-v="block">Block</button>
+          <button type="button" class="btn btn--ghost js-verdict" data-v="keep" aria-pressed="false">Keep</button>
+          <button type="button" class="btn btn--ghost js-verdict" data-v="fix" aria-pressed="false">Fix</button>
+          <button type="button" class="btn btn--ghost js-verdict" data-v="block" aria-pressed="false">Block</button>
         </div>
         <label class="block">
           <span class="eyebrow">Issue type</span>
-          <select class="bench-select js-issue-type">
+          <select class="bench-select js-issue-type" aria-label="Issue type">
             <option value="">(none)</option>
             <option value="too_generic">too generic</option>
             <option value="wrong_level">wrong level</option>
@@ -377,7 +377,10 @@ export async function mount(root, { store, setState, resetSession }) {
     }
     verdictBtns.forEach((b) => b.addEventListener("click", () => {
       chosen = b.dataset.v;
-      verdictBtns.forEach((x) => x.classList.toggle("is-active", x === b));
+      verdictBtns.forEach((x) => {
+        x.classList.toggle("is-active", x === b);
+        x.setAttribute("aria-pressed", String(x === b));
+      });
       save();
     }));
     issueSel.addEventListener("change", save);

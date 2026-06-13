@@ -83,7 +83,7 @@ export async function mount(root, { store, setState }) {
       <div class="card reveal focus-point-list">
         ${d.focus_points.map((fp, i) => `
           <div class="js-fp-wrapper">
-            <button type="button" class="focus-point focus-point--selectable js-fp-toggle" data-fp-id="${escape(fp.id)}" title="${escape(fp.reason || "")}">
+            <button type="button" class="focus-point focus-point--selectable js-fp-toggle" data-fp-id="${escape(fp.id)}" aria-pressed="false" title="${escape(fp.reason || "")}">
               <div class="focus-point__num">${i + 1}</div>
               <div class="focus-point__body">
                 <div class="focus-point__label">${escape(fp.label || fp.type || fp.id)}</div>
@@ -119,9 +119,11 @@ export async function mount(root, { store, setState }) {
         if (selectedIds.has(id)) {
           selectedIds.delete(id);
           btn.classList.remove("is-selected");
+          btn.setAttribute("aria-pressed", "false");
         } else {
           selectedIds.add(id);
           btn.classList.add("is-selected");
+          btn.setAttribute("aria-pressed", "true");
         }
         syncContinue();
       });
