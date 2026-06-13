@@ -27,6 +27,7 @@ const runs = require("./handlers/runs");
 const runReview = require("./handlers/review");
 const pipeline = require("./handlers/pipeline");
 const lexicon = require("./handlers/lexicon");
+const roleProfile = require("./handlers/role-profile");
 const verdict = require("./handlers/verdict");
 const suggestFix = require("./handlers/suggest-fix");
 const library = require("./handlers/library");
@@ -82,6 +83,7 @@ function main() {
     return start(c);
   });
   router.add("GET", "/api/session", rehydrate);
+  router.add("GET", "/api/role-profile", roleProfile);
   router.add("GET", "/api/question", question);
   router.add("GET", "/api/suggest-answers", suggestAnswers);
   router.add("POST", "/api/answer", (c) => {

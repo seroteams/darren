@@ -11,11 +11,12 @@
 // Reuses api.js, sse.js, orb.js, reveal.js and the existing design-system classes.
 
 import { STAGES, resetSession } from "../state.js";
-import { getMeetingTypes, startSession, setSelectedFocus } from "../api.js";
+import { getMeetingTypes, startSession, setSelectedFocus, getQuestion, submitAnswer, setAgendaCovered, getRoleProfile } from "../api.js";
 import { focusField } from "../ui/field.js";
-import { revealOne } from "../ui/reveal.js";
+import { revealOne, sleep } from "../ui/reveal.js";
 import { openSse } from "../sse.js";
 import { createOrb } from "../ui/orb.js";
+import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { escapeCopy as escape } from "../ui/html.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";
@@ -64,8 +65,16 @@ export async function mount(root, { store, setState }) {
   `;
 
   const steps = root.querySelector(".flow-steps");
+  const stageInner = root.querySelector(".stage-inner");
   let currentSse = null;
-  teardown = () => { if (currentSse) { currentSse.close(); currentSse = null; } };
+  let activeEsc = null;
+  let axes = null;
+  let thinkingHost = null;
+  let noteHost = null;
+  teardown = () => {
+    if (currentSse) { currentSse.close(); currentSse = null; }
+    if (activeEsc) { document.removeEventListener("keydown", activeEsc); activeEsc = null; }
+  };
 
   root.querySelector(".js-cancel").addEventListener("click", async () => {
     const ok = await confirmResetSession(confirmAction, { to: STAGES.START });
@@ -401,11 +410,234 @@ export async function mount(root, { store, setState }) {
       <div class="field__actions"><button class="btn js-to-interview" type="button">Continue to interview</button></div>
     `;
     appendSection(node);
-    node.querySelector(".js-to-interview").addEventListener("click", () => {
-      // Bridge to the existing question + briefing screens. Phase 3 replaces this
-      // with the interview growing down on-page; Phase 4 makes results page 2.
-      setState({ stage: STAGES.BANK });
+    node.querySelector(".js-to-interview").addEventListener("click", (e) => {
+      e.currentTarget.disabled = true;
+      showRoleLanguage();
     });
+  }
+
+  // --- The language of this role (read the cached role profile's terminology) --
+
+  async function showRoleLanguage() {
+    let terms = [];
+    try {
+      const res = await getRoleProfile(store.sessionId);
+      terms = Array.isArray(res?.terminology) ? res.terminology : [];
+    } catch (e) {
+      console.warn("[onepage] role profile fetch failed:", e.message);
+    }
+    // Nothing to show (edge case) — never block the interview.
+    if (!terms.length) { startInterviewFlow(); return; }
+
+    const node = document.createElement("div");
+    node.className = "flow-section space-y-4";
+    node.innerHTML = `
+      <div class="eyebrow">The language of this role</div>
+      <p class="hint">Words a ${escape(store.ctx.role || "this role")} uses — so you're speaking the same language.</p>
+      <div class="card flow-glossary">
+        ${terms.map((t) => `
+          <div class="flow-glossary__row">
+            <div class="flow-glossary__term">${escape(t.term || "")}</div>
+            <div class="flow-glossary__meaning">${escape(t.meaning || "")}</div>
+          </div>
+        `).join("")}
+      </div>
+      <div class="field__actions"><button class="btn js-to-interview-2" type="button">Continue to interview</button></div>
+    `;
+    appendSection(node);
+    node.querySelector(".js-to-interview-2").addEventListener("click", (e) => {
+      e.currentTarget.disabled = true;
+      startInterviewFlow();
+    });
+  }
+
+  // --- Interview: build the bank, then the question loop grows down -----------
+
+  function startInterviewFlow() {
+    const working = appendWorking("Building questions…");
+    const sse = openSse(`/api/bank/stream?s=${encodeURIComponent(store.sessionId)}`);
+    currentSse = sse;
+    sse
+      .on("thinking", (d) => working.orb.setLabel(d.label))
+      .on("ready", async () => {
+        sse.close();
+        currentSse = null;
+        await working.orb.exit();
+        working.node.remove();
+        startInterview();
+      })
+      .on("error", (d) => failTo(d.message || "Question generation failed."))
+      .onError(() => failTo("Lost connection while building questions."))
+      .open();
+  }
+
+  // The live-scores rail lives just below the growing questions and stays there.
+  function startInterview() {
+    const rail = document.createElement("div");
+    rail.className = "flow-interview-rail l-stack l-stack--3";
+    rail.innerHTML = `
+      <div class="thinking-host min-h-[48px]"></div>
+      <div class="js-note-host text-sm text-ink-mute"></div>
+      <div class="axes-wrap space-y-2" aria-label="Live scores — updated each answer, not the final briefing">
+        <div class="eyebrow">Live scores</div>
+        <div class="card axes-host"></div>
+      </div>
+      <div><button class="btn btn--ghost btn--sm js-skip-brief" type="button">Skip to briefing</button></div>
+    `;
+    stageInner.appendChild(rail);
+    thinkingHost = rail.querySelector(".thinking-host");
+    noteHost = rail.querySelector(".js-note-host");
+    axes = createAxesPanel({ celebrate: false });
+    axes.renderInitial(
+      store.axes?.length
+        ? store.axes
+        : AXIS_ORDER.map((id) => ({ id, score: AXIS_SEED[id], lastDelta: 0, historyLen: 0 }))
+    );
+    rail.querySelector(".axes-host").appendChild(axes.el);
+    rail.querySelector(".js-skip-brief").addEventListener("click", async () => {
+      const ok = await confirmAction({
+        message: "Skip the remaining questions and open the briefing now? Any unanswered questions will be dropped.",
+        confirmLabel: "Open briefing",
+        cancelLabel: "Keep questioning",
+      });
+      if (!ok) return;
+      teardown();
+      setState({ stage: STAGES.BRIEFING });
+    });
+    showNextQuestion();
+  }
+
+  async function showNextQuestion() {
+    if (thinkingHost) thinkingHost.innerHTML = "";
+    if (noteHost) noteHost.textContent = "";
+    let res;
+    try { res = await getQuestion(store.sessionId); }
+    catch (e) { failTo(e.message || "Couldn't load the next question."); return; }
+    if (res.done) {
+      if (res.agenda?.summary && res.agenda.covered == null) { showAgendaCheck(res.agenda); return; }
+      finishInterview();
+      return;
+    }
+    renderQuestion(res);
+  }
+
+  function renderQuestion(res) {
+    const q = res.question;
+    store.currentQuestion = q;
+    const card = document.createElement("div");
+    card.className = "flow-section flow-section--active space-y-4";
+    card.innerHTML = `
+      <div class="eyebrow">Question ${res.turn} of ${res.total}</div>
+      <h2 class="question-stem leading-snug">${escape(q.name)}</h2>
+      ${q.description ? `<div class="question-desc">${escape(q.description)}</div>` : ""}
+      <label class="block">
+        <span class="sr-only">Your notes</span>
+        <textarea class="textarea textarea--question" rows="5" placeholder="Jot what they said — your shorthand, not a transcript" data-autofocus></textarea>
+      </label>
+      <div class="field__actions">
+        <button class="btn js-submit" type="button">Submit answer</button>
+        <button class="btn btn--ghost js-deeper" type="button" disabled>Go deeper</button>
+        <button class="btn btn--ghost js-skip" type="button">Skip</button>
+      </div>
+      <p class="hint text-xs text-ink-mute">Enter to submit · Shift+Enter to go deeper · Esc to skip</p>
+    `;
+    appendSection(card, { scrollTo: true, focus: true });
+
+    const ta = card.querySelector("textarea");
+    const deeper = card.querySelector(".js-deeper");
+    function syncDeeper() { deeper.disabled = ta.value.trim().length === 0; }
+    ta.addEventListener("input", syncDeeper);
+    ta.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && e.shiftKey) { e.preventDefault(); if (!deeper.disabled) submit(ta.value, { goDeeper: true }); return; }
+      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); submit(ta.value); }
+    });
+    if (activeEsc) document.removeEventListener("keydown", activeEsc);
+    activeEsc = (e) => { if (e.key === "Escape") { e.preventDefault(); submit(""); } };
+    document.addEventListener("keydown", activeEsc);
+    card.querySelector(".js-submit").addEventListener("click", () => submit(ta.value));
+    deeper.addEventListener("click", () => submit(ta.value, { goDeeper: true }));
+    card.querySelector(".js-skip").addEventListener("click", () => submit(""));
+
+    let submitting = false;
+    async function submit(text, { goDeeper = false } = {}) {
+      if (submitting) return;
+      const val = text.trim();
+      if (goDeeper && !val) return;
+      submitting = true;
+      if (activeEsc) { document.removeEventListener("keydown", activeEsc); activeEsc = null; }
+      let result;
+      try { result = await submitAnswer(store.sessionId, val, { goDeeper, answerSource: "manual", alias: q.alias }); }
+      catch (e) { failTo(e.message); return; }
+      steps.replaceChild(settledNode(q.name, val || "(skipped)", { muted: !val }), card);
+      await runPlanStream(val, { goDeeper: Boolean(result?.goDeeper) });
+    }
+  }
+
+  function showAgendaCheck(agenda) {
+    const card = document.createElement("div");
+    card.className = "flow-section flow-section--active space-y-4";
+    card.innerHTML = `
+      <div class="eyebrow">Before we wrap</div>
+      <h2 class="question-stem leading-snug">Earlier they wanted to cover ${escape(agenda.summary)}. Did you get to it?</h2>
+      <div class="field__actions">
+        <button class="btn js-agenda-yes" type="button">Yes, covered</button>
+        <button class="btn btn--ghost js-agenda-no" type="button">Not yet</button>
+      </div>
+    `;
+    appendSection(card, { scrollTo: true });
+    async function resolve(covered) {
+      try { await setAgendaCovered(store.sessionId, covered); }
+      catch (e) { console.warn("[onepage] agenda cover failed:", e.message); }
+      steps.replaceChild(settledNode("Agenda check", covered ? "Covered" : "Not yet"), card);
+      finishInterview();
+    }
+    card.querySelector(".js-agenda-yes").addEventListener("click", () => resolve(true));
+    card.querySelector(".js-agenda-no").addEventListener("click", () => resolve(false));
+  }
+
+  async function runPlanStream(submittedText, { goDeeper = false } = {}) {
+    const skipped = submittedText.trim() === "";
+    const orb = createOrb(goDeeper ? "Going deeper…" : skipped ? "Next question…" : "Scoring answer…");
+    thinkingHost.appendChild(orb.el);
+    requestAnimationFrame(() => orb.el.scrollIntoView({ behavior: "smooth", block: "nearest" }));
+    const sse = openSse(`/api/plan/stream?s=${encodeURIComponent(store.sessionId)}`);
+    currentSse = sse;
+    let terminal = null;
+    let noteShown = false;
+    sse
+      .on("thinking", (d) => orb.setLabel(d.label))
+      .on("axes", async (d) => {
+        await orb.exit();
+        thinkingHost.innerHTML = "";
+        axes.update(d.axes, { showDelta: true });
+        store.axes = d.axes;
+      })
+      .on("note", (d) => {
+        if (!d.note || noteShown || !noteHost) return;
+        noteShown = true;
+        noteHost.textContent = d.note;
+      })
+      .on("next", () => { terminal = "next"; })
+      .on("done", () => { terminal = "done"; })
+      .on("error", (d) => failTo(d.message || "Planning failed."))
+      .onError(() => failTo("Lost connection while scoring the answer."))
+      .open();
+
+    // The planner takes as long as it takes (often 5–15s). Wait for its terminal
+    // event; dead connections surface via onError, this long cap only catches a
+    // hung-but-alive stream and fails loudly rather than advancing early.
+    await sleep(1600);
+    const started = Date.now();
+    while (!terminal && Date.now() - started < 120000) await sleep(100);
+    currentSse = null;
+    if (terminal === "done") finishInterview();
+    else if (terminal === "next") showNextQuestion();
+    else { sse.close(); failTo("Scoring this answer is taking too long — the connection may be stuck."); }
+  }
+
+  function finishInterview() {
+    teardown();
+    setState({ stage: STAGES.EVAL });
   }
 
   // First step — no scroll, just reveal + focus.

@@ -16,9 +16,10 @@
 |---|---|---|---|
 | 1 | Scaffold + setup grows down | New one-page run exists; the 5 setup questions stack and settle as you answer | ✅ |
 | 2 | Focus points + prep brief | Picking focus areas and reading the prep brief happen as new sections below setup | ✅ |
-| 3 | Interview grows down | The interview questions appear one below the next; each answer settles above | ⬜ |
+| 3 | Interview grows down | The interview questions appear one below the next; each answer settles above | ✅ |
 | 4 | Results = page 2 | After the interview, the final briefing shows as a separate results page (reuse the existing briefing screen) | ⬜ |
 | 5 | Polish + close-out | Mobile, reduced-motion, focus/scroll, copy pass; move folder to done/ | ⬜ |
+| 6 | Role language section | "The language of this role" vocabulary between prep and the interview (flow-position: after phase 2, before phase 3) | 🔨 |
 
 ⬜ not started · 🔨 built, awaiting product-owner QA · ✅ done (tested)
 
@@ -35,7 +36,13 @@ What landed: a new `ONEPAGE` stage + `/flow` route, a "One-page run" button on t
 
 **Phase 2 ✅ verified (2026-06-13)** via a Carl-authorized ~$0.35 run: focus areas + prep brief now stream in as grow-down sections after setup, focus settles into a locked line, then an interim "Continue to interview" bridges to the existing question + briefing screens. Committed locally.
 
-**Next: Phase 3** — replace the bridge with the interview growing down on-page (streamed questions one below the next, each answer settling, live scores). This is the biggest stage; it'll need another paid walk to verify.
+**Phase 3 built (2026-06-14), not yet committed — awaiting a live walk.** After prep, the bank builds, then questions grow down one card at a time (answer → settles into a locked Q&A line → next appears below), with a persistent "Live scores" rail. When questions end it hands to the existing EVAL → BRIEFING screens (page 2). `npm test` 23/23; module mounts clean.
+
+**Blocker on verification:** the preview automation server kept dropping every 1–2 min, so a full interview walk couldn't complete (each answer's scoring takes 5–15s). Setup → focus generation did run (one session's worth of spend). Recommend Carl walks Phase 3 at localhost:3000 in a normal browser (stable); I'll fix anything he hits, then commit + flip to ✅.
+
+**Phase 3 ✅ green-lit + committed (2026-06-14).** Carl walked the interview live (grow-down questions, settled answers, live flow). Two fixes from his walk: (1) the question stem rendered grey — the bold/dark `.question-stem` rule was scoped to `.questioning-card`, now extended to `.flow-section`; (2) — none other.
+
+**Phase 6 committed but still 🔨 (on-page render unconfirmed).** Carl said "commit, it's good", so it's in — but his walk *skipped* the glossary: his prep card was already on screen (old handler) when Phase 6 landed via HMR, so his "Continue to interview" used the pre-Phase-6 path and went straight to questions. Backend is verified free (endpoint → `ready:true`, 10 terms). **Still needs one fresh one-page run** to confirm the glossary actually renders between prep and the interview — flip to ✅ after that.
 
 Cost note: focus + prep + questions + briefing each hit the OpenAI API. I build + structurally verify for free; a real end-to-end walk is a paid run (Carl's go-ahead, ~$0.35).
 

@@ -1,6 +1,10 @@
 # Phase 3 — Interview grows down
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ (green-lit 2026-06-14 — Carl walked the interview live: grow-down questions, settled answers, Q2-of-9). Follow-up fix from his walk: the question stem was rendering grey because the bold/dark `.question-stem` rule was scoped to `.questioning-card`; extended it to `.flow-section` so one-page questions read as dark headings.
+
+**Built:** after prep, the bank builds (orb), then questions grow down one card at a time — each answer settles into a locked Q&A block, the next appears below, with a persistent "Live scores" rail (reused axes panel) under the active question. Go deeper / Skip / Esc supported; "Skip to briefing" on the rail. When questions run out (incl. the agenda closing check), it hands to the existing EVAL → BRIEFING screens = page 2 results.
+
+**Verified so far:** `npm test` 23/23; module parses + mounts clean. **Not yet live-verified end-to-end** — the preview automation server kept dropping every 1–2 min, so a full interview walk (which needs 5–15s per answer) couldn't hold. Phase 2's live run already proved the on-page streaming pattern this reuses. Recommend a walk in a normal browser at localhost:3000.
 
 ## Goal
 The interview questions appear one below the next on the same page: you answer, that question settles above, the next question + input appears below. This is the heart of the "grow-down" idea.

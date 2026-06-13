@@ -41,6 +41,10 @@ export async function getSession(sessionId) {
   return json(res);
 }
 
+export async function getRoleProfile(sessionId) {
+  return json(await fetch(`/api/role-profile?s=${encodeURIComponent(sessionId)}`));
+}
+
 export async function getQuestion(sessionId) {
   return json(await fetch(`/api/question?s=${encodeURIComponent(sessionId)}`));
 }

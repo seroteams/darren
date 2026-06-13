@@ -338,7 +338,12 @@
   --measure: 38rem;
   --container-medium: 64rem;   /* 1024px — 12-grid content width */
   --container-wide: 72rem;
-  --app-nav-h: 52px;
+  /* Left-rail nav: it lives on the left now, so it occupies no top band
+     (--app-nav-h is the top offset other chrome clears — 0). Its footprint is
+     horizontal: a collapsed icon strip that opens on hover. */
+  --app-nav-h: 0px;
+  --app-nav-w: 60px;        /* collapsed icon strip */
+  --app-nav-w-open: 232px;  /* expanded on hover / keyboard focus */
 
   /* Radii — now via Sero (note: buttons/inputs tighten from 10/8px to 4px) */
   --radius-card: var(--sero-radius-card);          /* 12px */
@@ -1100,14 +1105,16 @@ textarea { resize: vertical; }
   flex: 1;
   min-width: 0;
 }
-.questioning-card .question-stem {
+.questioning-card .question-stem,
+.flow-section .question-stem {
   font-size: var(--type-h2);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.25;
   color: var(--color-ink);
 }
-.questioning-card .question-desc {
+.questioning-card .question-desc,
+.flow-section .question-desc {
   font-size: var(--type-body);
   line-height: 1.5;
   color: var(--color-ink-dim);
@@ -1760,6 +1767,24 @@ textarea { resize: vertical; }
   white-space: pre-wrap;
 }
 .flow-answer__a--muted { color: var(--color-ink-mute); font-style: italic; }
+/* Live-scores rail under the growing interview questions */
+.flow-interview-rail {
+  margin-top: 0.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border-tinted);
+}
+/* "The language of this role" glossary — term + plain meaning */
+.flow-glossary { display: grid; gap: 0.85rem; }
+.flow-glossary__row {
+  display: grid;
+  grid-template-columns: minmax(7rem, 32%) 1fr;
+  gap: 0.2rem 1.25rem;
+}
+.flow-glossary__term { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+.flow-glossary__meaning { color: var(--color-ink-mute); line-height: 1.5; }
+@media (max-width: 30rem) {
+  .flow-glossary__row { grid-template-columns: 1fr; gap: 0.1rem; }
+}
 
 /* Focus-point cards */
 .focus-point {
@@ -1907,8 +1932,8 @@ textarea { resize: vertical; }
 .session-topbar {
   --session-topbar-h: 44px;
   position: fixed;
-  top: var(--app-nav-h, 0px);
-  left: 0;
+  top: 0;
+  left: var(--app-nav-w);
   right: 0;
   height: var(--session-topbar-h);
   background: var(--color-surface);
@@ -1985,71 +2010,120 @@ body.has-session-topbar {
 }
 
 /* -----------------------------------------------------------------------------
-   App nav — brand + primary links, shown on the home (START) screen.
-   Mutually exclusive with the session topbar (which owns the top in-session).
+   App nav — inked vertical rail down the left edge. Collapsed to an icon strip;
+   opens on hover (or keyboard focus) to reveal labels. It overlays content when
+   open rather than pushing it: the rail's width animates while body padding
+   stays at the collapsed width. Persistent across every screen; the session
+   topbar sits to its right in-session.
 ----------------------------------------------------------------------------- */
 .app-nav {
+  --app-nav-bg: var(--sero-primary-950);
+  --app-nav-fg: #fff;
+  --app-nav-fg-dim: rgba(255, 255, 255, 0.62);
+  --app-nav-hover-bg: rgba(255, 255, 255, 0.08);
+  --app-nav-active-bg: rgba(255, 255, 255, 0.12);
+  --app-nav-accent: var(--sero-primary-500);
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  height: var(--app-nav-h);
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  bottom: 0;
+  width: var(--app-nav-w);
+  background: var(--app-nav-bg);
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
   z-index: var(--sero-z-sticky, 20);
+  overflow: hidden;
+  transition: width var(--dur-fast) var(--ease-out-expo),
+              box-shadow var(--dur-fast) var(--ease-out-expo);
+}
+.app-nav:hover,
+.app-nav:focus-within {
+  width: var(--app-nav-w-open);
+  box-shadow: var(--sero-shadow-xl);
+  z-index: var(--sero-z-fixed, 30);
 }
 .app-nav.is-hidden {
   display: none;
 }
 .app-nav__inner {
   height: 100%;
-  padding-inline: 1.5rem;
+  width: var(--app-nav-w-open);   /* fixed: rows don't reflow while the rail animates */
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-1);
+  padding: var(--sero-space-3) 0;
+}
+.app-nav__links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.app-nav__brand,
+.app-nav__link {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--sero-space-4);
-}
-.app-nav__brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
+  gap: 0.85rem;
+  width: 100%;
+  height: 44px;
+  flex: 0 0 auto;
+  padding-left: 18px;   /* 18px + 24px icon centres the glyph in the 60px strip */
   background: transparent;
   border: 0;
-  padding: 0.25rem;
-  margin-inline-start: -0.25rem;
   cursor: pointer;
-  border-radius: var(--sero-radius-sm);
-  color: var(--color-ink);
+  white-space: nowrap;
+  text-align: left;
+  color: var(--app-nav-fg-dim);
 }
-.app-nav__logo {
-  display: block;
+.app-nav__brand {
+  color: var(--app-nav-fg);
+  margin-bottom: var(--sero-space-2);
+}
+.app-nav__icon {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
 }
 .app-nav__word {
   font-weight: var(--type-weight-bold);
   font-size: var(--type-h4);
   letter-spacing: var(--type-tracking-tight);
 }
-.app-nav__links {
-  display: flex;
-  align-items: center;
-  gap: var(--sero-space-2);
-}
 .app-nav__link {
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  padding: 0.4rem 0.7rem;
-  border-radius: var(--sero-radius-sm);
   font-size: var(--type-body-sm);
   font-weight: var(--type-weight-medium);
-  color: var(--color-ink-dim);
 }
+/* Labels + brand word are clipped when collapsed; fade in once the rail opens. */
+.app-nav__label,
+.app-nav__word {
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out-expo);
+}
+.app-nav:hover .app-nav__label,
+.app-nav:hover .app-nav__word,
+.app-nav:focus-within .app-nav__label,
+.app-nav:focus-within .app-nav__word {
+  opacity: 1;
+}
+.app-nav__brand:hover,
 .app-nav__link:hover {
-  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
-  color: var(--color-ink);
+  background: var(--app-nav-hover-bg);
+  color: var(--app-nav-fg);
+}
+.app-nav__link.is-active {
+  background: var(--app-nav-active-bg);
+  color: var(--app-nav-fg);
+  box-shadow: inset 3px 0 0 var(--app-nav-accent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-nav,
+  .app-nav__label,
+  .app-nav__word {
+    transition: none;
+  }
 }
 body.has-app-nav {
-  padding-top: var(--app-nav-h);
+  padding-left: var(--app-nav-w);
 }
 /* When a session is active, the app nav stacks above the stage breadcrumb. */
 body.has-app-nav.has-session-topbar {
