@@ -1,6 +1,6 @@
 # Phase 4 — Relational-arc gate at the question layer
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 coded, offline green 2026-06-13 (unit 22/22 incl. QUESTION_ARC_LEAK fires/holds; prompt rules verified to inject only for relational arcs). Live bi-weekly case run + product-owner walk-through pending.
 
 ## Goal
 Bi-weekly and "Something feels off" sessions can never serve a competency/readiness question — the same two-layer protection (input filter + detect gate) the focus points already have.

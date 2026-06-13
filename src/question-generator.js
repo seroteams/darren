@@ -8,6 +8,7 @@ const { promptFor } = require("./one-on-one-types");
 const { resolveSelectedFocus } = require("./selected-focus");
 const { loadLexicon } = require("./lexicon");
 const { findJargon } = require("./golden-checks");
+const { isRelationalArc } = require("./relational-arcs");
 const { splitSystemUser } = require("./prompt-utils");
 const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
 
@@ -135,6 +136,19 @@ function pinPrepOpenerEarly(queue, prepOpener, askedAliases, meetingType) {
   return placePrepOpener(queue, prepOpener, meetingType, 0);
 }
 
+// Same trust rule as catalogueForArc (src/generate.js), one layer down: in a
+// relational arc the bank must not contain evaluative questions. Prompt-side
+// instruction here; the post-parse filter in generateBank is the hard gate.
+function relationalArcRules(meetingType) {
+  if (!isRelationalArc(meetingType)) return "";
+  return [
+    "**Relational-arc rule (machine-enforced):** This meeting type is a relational check-in, not an assessment.",
+    'Every question\'s `purpose` MUST be `wellbeing` or `topic` — never `competency`. Do not ask the report to',
+    'prove readiness, leadership, or skill ("trust you in that next role", "what are you doing to drive X") —',
+    'probe situations, not character. Items with `purpose: "competency"` are dropped before the bank is saved.',
+  ].join(" ");
+}
+
 function buildMessages({
   axes,
   focusPoints,
@@ -174,6 +188,7 @@ function buildMessages({
     .replaceAll("{{EXISTING_QUEUE_JSON}}", JSON.stringify(queueSummary, null, 2))
     .replaceAll("{{MEETING_ARC_JSON}}", JSON.stringify(arc.arc, null, 2))
     .replaceAll("{{TONE_REGISTER}}", arc.tone_register)
+    .replaceAll("{{RELATIONAL_ARC_RULES}}", relationalArcRules(meetingType))
     .replaceAll("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc.anti_patterns, null, 2))
     .replaceAll("{{CONVERSATION_PREFER_TERMS}}", renderPreferTerms(lexicon.preferTerms))
     .replaceAll("{{CONVERSATION_PREFER_PHRASES}}", renderPreferPhrases(lexicon.preferPhrases))
@@ -252,12 +267,21 @@ async function generateBank(
   const existing = listAllAliases();
   const saved = [];
   const droppedJargon = [];
+  const droppedCompetencyForArc = [];
+  const relational = isRelationalArc(meetingType);
   for (const q of parsed.questions || []) {
     // Plain-language backstop — drop (never rewrite) a generated question that
     // uses banned jargon; the prompt's plain-speech lint does the main work.
     const jargon = findJargon(`${q.name || ""} ${q.description || ""}`);
     if (jargon) {
       droppedJargon.push({ label: q.label, name: q.name, term: jargon });
+      continue;
+    }
+    // Relational-arc gate — drop (never relabel) competency questions for
+    // Bi-weekly / Something-feels-off. Mirrors catalogueForArc on focus points:
+    // the model can't ship what we don't keep.
+    if (relational && q.purpose === "competency") {
+      droppedCompetencyForArc.push({ label: q.label, name: q.name });
       continue;
     }
     const alias = newAlias(q.label, existing);
@@ -283,6 +307,9 @@ async function generateBank(
       raw,
       saved_aliases: saved.map((q) => q.alias),
       ...(droppedJargon.length ? { dropped_jargon: droppedJargon } : {}),
+      ...(droppedCompetencyForArc.length
+        ? { dropped_competency_for_arc: droppedCompetencyForArc }
+        : {}),
     },
   });
 

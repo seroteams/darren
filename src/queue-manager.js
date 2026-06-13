@@ -3,6 +3,7 @@ const fs = require("node:fs");
 const { loadAxes, validateAxisState, AXIS_IDS } = require("./axes");
 const { newAlias, saveQuestion, listAllAliases, loadDir } = require("./questions");
 const { getArc } = require("./meeting-arcs");
+const { isRelationalArc } = require("./relational-arcs");
 const { promptFor } = require("./one-on-one-types");
 const { resolveSelectedFocus } = require("./selected-focus");
 const { splitSystemUser } = require("./prompt-utils");
@@ -469,6 +470,16 @@ function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames 
       continue;
     }
 
+    // Relational-arc gate: the planner can't write an evaluative question into
+    // a check-in. No ref carry-forward here — if the planner labelled it
+    // competency, the original (if any) is suspect for the same reason.
+    if (item.purpose === "competency" && isRelationalArc(meetingType)) {
+      issues.push(
+        `arc gate: dropped planner competency question for relational arc: ${item.label || item.name}`
+      );
+      continue;
+    }
+
     // Grounding gate — new/reworded wording must cite a premise this session
     // actually established. On failure, carry the untouched original forward
     // (if any) instead of the planner's version; never reword the stem.
@@ -702,6 +713,11 @@ function enforceAxisCoverage({
     if (askedAliases.has(c.alias) || queuedAliases.has(c.alias)) return false;
     if (c.stage != null && arc && !arcStageIds.has(c.stage)) return false;
     if (isRepeatOfAsked(c.name, askedTokenSets)) return false;
+    // Relational arcs never pull an evaluative question, even for axis coverage.
+    if (c.purpose === "competency" && isRelationalArc(meetingType)) {
+      issues.push(`arc gate: coverage skipped ${c.alias} (competency question in relational arc)`);
+      return false;
+    }
     const eligibility = checkQuestionEligibility(c, { meetingType });
     if (!eligibility.ok) {
       issues.push(

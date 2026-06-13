@@ -18,6 +18,7 @@ const {
   runCrossSessionLeakCheck,
   runQuestionGroundingChecks,
   runFocusArcGate,
+  runQuestionArcGate,
   runRoleProfileArcGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
@@ -30,6 +31,7 @@ const HARD_FAIL = {
   WRONG_MEETING_TYPE: "WRONG_MEETING_TYPE",
   ENGINE_VOCAB_LEAK: "ENGINE_VOCAB_LEAK",
   FOCUS_ARC_LEAK: "FOCUS_ARC_LEAK",
+  QUESTION_ARC_LEAK: "QUESTION_ARC_LEAK",
   ROLE_PROFILE_ARC_LEAK: "ROLE_PROFILE_ARC_LEAK",
   ROLE_PROFILE_VOCAB_LEAK: "ROLE_PROFILE_VOCAB_LEAK",
   SCHEMA_INVALID: "SCHEMA_INVALID",
@@ -328,6 +330,12 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   if (focusArc.length) {
     hard_fails.push(HARD_FAIL.FOCUS_ARC_LEAK);
     details.push(...focusArc);
+  }
+
+  const questionArc = runQuestionArcGate(transcript, meetingType);
+  if (questionArc.length) {
+    hard_fails.push(HARD_FAIL.QUESTION_ARC_LEAK);
+    details.push(...questionArc);
   }
 
   const profileVocab = runRoleProfileVocabLeak(briefing);

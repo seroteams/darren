@@ -34,6 +34,26 @@ function runFocusArcGate(focusPoints, meetingType) {
   return failures;
 }
 
+// runQuestionArcGate — same trust rule as runFocusArcGate, one layer down: in a
+// relational arc no SERVED question may carry purpose "competency" (the Jun 10
+// Maya bi-weeklies served a "trust you in that next role" readiness question).
+// Purpose-field-based: prose-level evaluativeness on a mislabelled question is
+// the judge's job. Detection only — the input filters live in
+// question-generator/queue-manager.
+function runQuestionArcGate(transcript, meetingType) {
+  const failures = [];
+  if (!isRelationalArc(meetingType)) return failures;
+  for (const t of transcript || []) {
+    const q = t?.question;
+    if (q && q.purpose === "competency") {
+      failures.push(
+        `relational arc "${meetingType}" served competency question: ${q.alias || q.name}`
+      );
+    }
+  }
+  return failures;
+}
+
 // runRoleProfileArcGate — for relational arcs, the rendered role-profile block
 // must contain no competency-tagged item (same trust rule as runFocusArcGate:
 // evaluative content reads as a hidden performance review). Pure render check
@@ -426,6 +446,7 @@ module.exports = {
   runCrossSessionLeakCheck,
   runQuestionGroundingChecks,
   runFocusArcGate,
+  runQuestionArcGate,
   runRoleProfileArcGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,

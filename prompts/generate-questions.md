@@ -263,6 +263,8 @@ Arc for {{MEETING_TYPE}}:
 
 **Tone register:** {{TONE_REGISTER}}
 
+{{RELATIONAL_ARC_RULES}}
+
 **Anti-patterns specific to this meeting type — do not produce questions that look like these:**
 
 ```json

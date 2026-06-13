@@ -255,5 +255,55 @@ console.log("\n─── trust-checks unit ───");
   );
 }
 
+// 15. Served competency question in a relational arc → QUESTION_ARC_LEAK
+{
+  const transcript = healthyTranscript.map((t, i) => ({ ...t, turn: i + 1 }));
+  transcript[3] = {
+    ...transcript[3],
+    question: {
+      alias: "q_behavior_evidence",
+      name: "What would help the team trust you in that next role?",
+      purpose: "competency",
+    },
+  };
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript,
+    managerNotes: "Maya has seemed flatter in crits lately.",
+    bankQuestions: COVERING_BANK,
+    meetingType: "Bi-weekly check-in",
+  });
+  check(
+    "competency question in bi-weekly → QUESTION_ARC_LEAK",
+    r.hard_fails.includes("QUESTION_ARC_LEAK"),
+    JSON.stringify(r.hard_fails)
+  );
+}
+
+// 16. Same question in a growth meeting → no QUESTION_ARC_LEAK
+{
+  const transcript = healthyTranscript.map((t, i) => ({ ...t, turn: i + 1 }));
+  transcript[3] = {
+    ...transcript[3],
+    question: {
+      alias: "q_behavior_evidence",
+      name: "What would help the team trust you in that next role?",
+      purpose: "competency",
+    },
+  };
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript,
+    managerNotes: "Ahmed wants the next role.",
+    bankQuestions: COVERING_BANK,
+    meetingType: GROWTH,
+  });
+  check(
+    "competency question in growth meeting → no arc leak",
+    !r.hard_fails.includes("QUESTION_ARC_LEAK"),
+    JSON.stringify(r.hard_fails)
+  );
+}
+
 console.log(`\n  ${failed === 0 ? "all trust-checks passed" : `${failed} trust-check(s) failed`}\n`);
 process.exit(failed ? 1 : 0);
