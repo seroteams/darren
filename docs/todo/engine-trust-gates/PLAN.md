@@ -43,4 +43,4 @@ Phase 1 notes:
 - Promoting `UNGROUNDED_PREMISE` from WARN to hard fail once its false-positive rate is known.
 - Prose-level evaluativeness detection for bank questions (beyond the `purpose` field).
 - Reconciling the old in-app trust-fail mark on run Jun06 09-30 with the new "owned observation is OK" trust ruling.
-- Writing the 47 review verdicts into each run's `review.json` so library badges show (separate from engine work).
+- ~~Writing the 47 review verdicts into each run's `review.json`~~ — done 2026-06-12: 46 written (reviewer "claude", Carl's rulings applied; his own partial on Jun06 09-30 untouched). Library now shows 27 Keep / 20 Fix / 1 Block.
