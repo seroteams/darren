@@ -13,6 +13,7 @@ import { createNotesPanel } from "./ui/notes-panel.js";
 const loaders = {
   START:           () => import("./stages/start.js"),
   INTAKE:          () => import("./stages/intake.js"),
+  ONEPAGE:         () => import("./stages/onepage.js"),
   FOCUS_POINTS:    () => import("./stages/focus-points.js"),
   PREPARATION:     () => import("./stages/preparation.js"),
   BANK:            () => import("./stages/bank.js"),

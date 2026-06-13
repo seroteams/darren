@@ -9,6 +9,7 @@ import { STAGES } from "./state.js";
 const PATH_FOR = {
   [STAGES.START]:          () => "/",
   [STAGES.INTAKE]:         () => "/new",
+  [STAGES.ONEPAGE]:        () => "/flow",
   [STAGES.FOCUS_POINTS]:   () => "/focus",
   [STAGES.PREPARATION]:    () => "/prepare",
   [STAGES.BANK]:           () => "/bank",
@@ -26,7 +27,7 @@ const PATH_FOR = {
 
 // path -> stage (exact paths). /run/:id handled separately.
 const STAGE_FOR = {
-  "/": STAGES.START, "/new": STAGES.INTAKE, "/focus": STAGES.FOCUS_POINTS,
+  "/": STAGES.START, "/new": STAGES.INTAKE, "/flow": STAGES.ONEPAGE, "/focus": STAGES.FOCUS_POINTS,
   "/prepare": STAGES.PREPARATION, "/bank": STAGES.BANK, "/interview": STAGES.QUESTIONING,
   "/evaluate": STAGES.EVAL, "/briefing": STAGES.BRIEFING, "/debrief": STAGES.RUN_DEBRIEF,
   "/lexicon": STAGES.LEXICON_REVIEW, "/compare": STAGES.COMPARE, "/library": STAGES.LIBRARY,

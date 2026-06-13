@@ -1725,6 +1725,42 @@ textarea { resize: vertical; }
   line-height: 1.5;
 }
 
+/* -----------------------------------------------------------------------------
+   One-page run — the whole flow on one page that grows downward. Answered steps
+   settle into a locked "done" block — clearly behind you, never a greyed-out
+   disabled box.
+----------------------------------------------------------------------------- */
+.stage.flow-page {
+  /* Grow downward from the top instead of vertically centering each screen.
+     Add top room so the header clears the fixed app nav. */
+  align-items: start;
+  padding-top: calc(var(--app-nav-h) + 2rem);
+}
+.flow-answer {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 0.875rem;
+}
+.flow-answer__q {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--type-small);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-ink-mute);
+}
+.flow-answer__q::before {
+  content: "✓";
+  font-size: 0.85em;
+  color: var(--color-accent);
+}
+.flow-answer__a {
+  margin-top: 0.2rem;
+  color: var(--color-ink);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+.flow-answer__a--muted { color: var(--color-ink-mute); font-style: italic; }
+
 /* Focus-point cards */
 .focus-point {
   display: grid;

@@ -3,6 +3,7 @@
 export const STAGES = Object.freeze({
   START: "START",
   INTAKE: "INTAKE",
+  ONEPAGE: "ONEPAGE",
   FOCUS_POINTS: "FOCUS_POINTS",
   PREPARATION: "PREPARATION",
   BANK: "BANK",

@@ -12,6 +12,9 @@ export async function mount(root, { setState, rehydrateById }) {
       <header class="page-header">
         <h1 class="h1">Start a 1:1 prep session</h1>
         <div class="text-ink-dim text-sm">Resume a session or start a new one.</div>
+        <div class="field__actions">
+          <button type="button" class="btn js-onepage">One-page run</button>
+        </div>
       </header>
 
       <section class="js-bench" hidden>
@@ -247,6 +250,12 @@ export async function mount(root, { setState, rehydrateById }) {
     beginCleanSetup();
   }
 
+  function beginOnePage() {
+    store.scripted = null;
+    Object.assign(store.ctx, emptyCtx());
+    setState({ sessionId: null, stage: STAGES.ONEPAGE });
+  }
+
   function personaOptionLabel(p) {
     return `${p.displayName} · ${p.issue}`;
   }
@@ -366,6 +375,7 @@ export async function mount(root, { setState, rehydrateById }) {
     await startWithPersona();
   }
 
+  root.querySelector(".js-onepage").addEventListener("click", beginOnePage);
   benchSelect.addEventListener("change", updateBenchStartEnabled);
   benchStartBtn.addEventListener("click", onBenchStart);
   modeBtns.forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
