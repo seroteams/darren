@@ -139,7 +139,7 @@ export async function mount(root) {
       <header class="page-header">
         <div class="page-header__row">
           <h1 class="h1">Library</h1>
-          <div style="display:flex;align-items:center;gap:0.5rem">
+          <div class="flex items-center gap-2">
             <button class="btn btn--ghost js-view" type="button">Archived</button>
             <button class="btn btn--ghost js-back" type="button">Back</button>
           </div>

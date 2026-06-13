@@ -696,6 +696,11 @@ textarea { resize: vertical; }
 
 .orb--exit .orb__core { animation: orb-exit var(--dur-fast) var(--ease-out-expo) forwards; }
 .orb--exit .orb__ring { opacity: 0; }
+/* Thinking-orb container fade-out on stage exit (was an inline style in orb.js) */
+.thinking-orb.is-exiting {
+  transition: opacity var(--dur-fast) ease-out;
+  opacity: 0;
+}
 
 @keyframes orb-pulse {
   0%, 100% { transform: scale(1); opacity: 0.95; }
@@ -1049,6 +1054,12 @@ textarea { resize: vertical; }
   border-color: var(--color-positive);
   background: rgba(26, 168, 135, 0.08);
 }
+/* Fade-in "Saved"/"Copied" confirmations (was an inline style in briefing.js) */
+.feedback-confirm {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.feedback-confirm.is-shown { opacity: 1; }
 .watch-item__text {
   color: var(--color-ink);
   line-height: 1.55;

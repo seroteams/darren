@@ -117,13 +117,13 @@ export async function mount(root, { store, setState, resetSession }) {
           <span class="eyebrow">Note</span>
           <input class="input js-verdict-note" type="text" autocomplete="off" placeholder="what's wrong, in one line" />
         </label>
-        <span class="js-verdict-confirm text-sm text-ink-mute" style="opacity:0; transition: opacity 0.2s;">Saved</span>
+        <span class="js-verdict-confirm feedback-confirm text-sm text-ink-mute">Saved</span>
       </section>` : ""}
 
       <footer class="pt-2 l-cluster l-cluster--2 items-center">
         <button class="btn js-restart">Review this session</button>
         <button class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>
-        <span class="js-copy-confirm text-sm text-ink-mute" style="opacity:0; transition: opacity 0.2s;">Copied</span>
+        <span class="js-copy-confirm feedback-confirm text-sm text-ink-mute">Copied</span>
       </footer>
     </div>
   `;
@@ -369,8 +369,8 @@ export async function mount(root, { store, setState, resetSession }) {
           issue_type: issueSel.value || null,
           note: noteInput.value || null,
         });
-        confirm.style.opacity = "1";
-        setTimeout(() => { confirm.style.opacity = "0"; }, 1500);
+        confirm.classList.add("is-shown");
+        setTimeout(() => { confirm.classList.remove("is-shown"); }, 1500);
       } catch (e) {
         console.warn("[briefing] verdict save failed:", e.message);
       }
@@ -398,8 +398,8 @@ export async function mount(root, { store, setState, resetSession }) {
       ].join("\n");
       try {
         await navigator.clipboard.writeText(prompt);
-        copyConfirm.style.opacity = "1";
-        setTimeout(() => { copyConfirm.style.opacity = "0"; }, 1500);
+        copyConfirm.classList.add("is-shown");
+        setTimeout(() => { copyConfirm.classList.remove("is-shown"); }, 1500);
       } catch (e) {
         console.warn("[briefing] clipboard write failed:", e.message);
       }

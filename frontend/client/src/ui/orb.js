@@ -3,7 +3,7 @@
 
 export function createOrb(initialLabel = "") {
   const el = document.createElement("div");
-  el.className = "flex items-center gap-4 thinking-enter";
+  el.className = "thinking-orb flex items-center gap-4 thinking-enter";
   el.innerHTML = `
     <div class="orb" aria-hidden="true">
       <div class="orb__core"></div>
@@ -29,8 +29,7 @@ export function createOrb(initialLabel = "") {
   function exit() {
     return new Promise((resolve) => {
       el.querySelector(".orb").classList.add("orb--exit");
-      el.style.transition = "opacity var(--dur-fast) ease-out";
-      el.style.opacity = "0";
+      el.classList.add("is-exiting");
       setTimeout(resolve, 250);
     });
   }
