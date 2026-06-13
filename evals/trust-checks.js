@@ -20,6 +20,7 @@ const {
   runFocusArcGate,
   runQuestionArcGate,
   runAxisSilenceCheck,
+  runMeaningRuleEchoCheck,
   runRoleProfileArcGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
@@ -344,6 +345,12 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   // until proven otherwise (AXIS_SILENT_SESSION).
   for (const w of runAxisSilenceCheck(briefing, transcript)) {
     warnings.push(`AXIS_SILENT_SESSION: ${w}`);
+  }
+
+  // Warning: axis meaning that echoes rule-example framing. The runtime guard
+  // already drops its confidence to low; the gate surfaces it for review.
+  for (const w of runMeaningRuleEchoCheck(briefing)) {
+    warnings.push(`RULE_ECHO_MEANING: ${w}`);
   }
 
   const profileVocab = runRoleProfileVocabLeak(briefing);

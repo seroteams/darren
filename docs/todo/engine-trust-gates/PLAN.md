@@ -20,7 +20,7 @@
 | 3 | Grounding gate for planner questions | Planner questions must cite a premise from this session or be dropped (logged); grounding audit log-only in gate | ✅ |
 | 4 | Relational-arc gate at the question layer | No competency questions generated, selected, or planner-added for Bi-weekly / feels-off; `QUESTION_ARC_LEAK` | 🔨 |
 | 5 | Axis accumulation | Carried questions inherit axis signatures; scripted runs score; `AXIS_SILENT_SESSION`; one re-baseline | 🔨 |
-| 6 | Briefing confidence honesty | Concentration guard in code; rule-echo ban in prompt; grounding checks flag (never rewrite) | ⬜ |
+| 6 | Briefing confidence honesty | Concentration guard in code; rule-echo ban in prompt + RULE_ECHO_MEANING flag/downgrade | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -40,6 +40,7 @@ Phase 1 notes:
 
 ## Parked
 - Add `axis_effects` to the persona bench scripts (config/persona-bench-v1.json) — only 30/85 script aliases resolve a signature from the pool today, so scripted runs book partial axis signal.
+- `UNGROUNDED_MEANING` check (Phase 6) — a `read` axis whose meaning shares no rare content with the transcript. Deferred: too false-positive-prone on legitimate paraphrase to ship without a live gate to tune against. Revisit once quota is back.
 - Session-scoping note-derived `generated` bank questions too (they also embed run-specific premises — e.g. the `q_architecture_review_*` family). Phase 1 only fixes runtime artifacts.
 - Promoting `UNGROUNDED_PREMISE` from WARN to hard fail once its false-positive rate is known.
 - Prose-level evaluativeness detection for bank questions (beyond the `purpose` field).

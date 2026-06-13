@@ -16,6 +16,7 @@ const OFFLINE_TESTS = [
   "test-axis-coverage.js",
   "test-briefing-integrity.js",
   "test-briefing-prompt-rules.js",
+  "test-confidence-honesty.js",
   "test-delta-snap.js",
   "test-drill-cap.js",
   "test-empty-signature.js",

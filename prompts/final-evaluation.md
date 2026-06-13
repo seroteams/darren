@@ -174,6 +174,7 @@ If a "Something feels off" briefing reads like a performance review, or a growth
 - **Forbidden:** treating "rushed", "tight timelines", "deadline pressure", or handoff/clarity failures as wellbeing distress unless the report names how it felt (overwhelmed, stressed, etc.).
 - If wellbeing score is negative but evidence is only operational, say it is a weak wellbeing signal and mostly a clarity/capacity read.
 - **Banned framing without stated strain:** "running hot", "drift toward burnout", "masked fatigue", "load is rising", and similar burnout-trajectory phrases. Do NOT use them just because the score is moderately negative — they require the report to have named how it felt. When the negative score rests on operational/alignment answers (not stated strain), cap the framing at "weak wellbeing signal" **regardless of the score magnitude** — the magnitude-calibration tiers in `<axis_meaning_rules>` do not license a louder wellbeing verdict than the evidence earns.
+- **Never echo this rule's vocabulary into `meaning`.** The example phrases above ("rushed", "tight timelines", "running hot", "handoffs and timelines", etc.) are a *do-not-use* list, not a description kit. The `meaning` must quote or closely paraphrase what THIS report actually said, or state plainly there isn't enough signal — never assemble a wellbeing read out of the rule's own example words. (A meaning containing this scaffolding ships flagged at low confidence.)
 </wellbeing_evidence_rules>
 
 <growth_evidence_rules>

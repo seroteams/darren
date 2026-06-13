@@ -1,6 +1,8 @@
 # Phase 6 — Briefing confidence honesty
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 coded, offline green 2026-06-13 (new test-confidence-honesty.js: concentration guard caps/keeps confidence correctly; rule-echo forces low + flags + does not rewrite). Live `--judge` gate + product-owner walk-through pending.
+
+**Deviation:** `UNGROUNDED_MEANING` (zero rare-token overlap with transcript) was NOT shipped — it's speculative, prone to false WARNs on legitimate paraphrased meanings, and can't be safely tuned without a live gate run (quota-blocked). Parked. The concrete observed bug (the "rushed handoffs and timelines" rule-echo) is fully covered by `RULE_ECHO_MEANING` + the runtime confidence downgrade.
 
 ## Goal
 Overconfident axis reads get machine-readable downgrades, and meaning text that echoes prompt-rule examples ("rushed handoffs and timelines") instead of this session's words is flagged — never silently rewritten.

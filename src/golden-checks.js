@@ -204,6 +204,35 @@ const WELLBEING_TRANSCRIPT_EVIDENCE =
 
 const GROWTH_VERY_WEAK = /\bvery weak\b/i;
 
+// Burnout-trajectory framing that only appears in final-evaluation.md's
+// wellbeing rules as "do not use" examples — never something a manager types.
+// When one shows up in a shipped axis meaning, the model copied the rule
+// vocabulary instead of describing this session (the "rushed handoffs and
+// timelines" phrase appeared verbatim across 6+ Jun runs). Detection only.
+const RULE_ECHO_PHRASES = [
+  /\brushed handoffs and timelines\b/i,
+  /\brunning hot\b/i,
+  /\bdrift(?:ing)? toward burnout\b/i,
+  /\bmasked fatigue\b/i,
+  /\bload is rising\b/i,
+];
+
+// Axis ids whose meaning echoes rule-example framing. Shared by the trust gate
+// (warning) and the runtime confidence downgrade in reviewer.js.
+function ruleEchoAxisIds(briefing) {
+  const ids = new Set();
+  for (const ax of briefing?.axes || []) {
+    if (RULE_ECHO_PHRASES.some((re) => re.test(ax?.meaning || ""))) ids.add(ax.id);
+  }
+  return ids;
+}
+
+function runMeaningRuleEchoCheck(briefing) {
+  return [...ruleEchoAxisIds(briefing)].map(
+    (id) => `axis ${id} meaning echoes rule-example framing, not this session's words`
+  );
+}
+
 function collectBriefingText(briefing) {
   const parts = [
     briefing?.headline,
@@ -468,6 +497,8 @@ module.exports = {
   runFocusArcGate,
   runQuestionArcGate,
   runAxisSilenceCheck,
+  runMeaningRuleEchoCheck,
+  ruleEchoAxisIds,
   runRoleProfileArcGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,

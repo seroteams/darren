@@ -318,6 +318,23 @@ function applyAxisConfidence(briefing, axisState, transcript) {
       if (confidence === "low") confidence = "medium";
     }
 
+    // Concentration guard — a high-magnitude score built from ≤2 distinct
+    // answer excerpts is one strong signal re-scored across turns, not a
+    // session-defining breadth of evidence (the Jun 11 Machar run scored
+    // wellbeing -5 off "got a cold"). Cap confidence and name the basis; the
+    // prose tier is the prompt's job. Machine-readable fields only — no rewrite.
+    if (read_status !== "not_read" && magnitude >= 5) {
+      const distinctExcerpts = new Set(
+        (Array.isArray(history) ? history : [])
+          .map((h) => String(h?.answer_excerpt || "").toLowerCase().replace(/\s+/g, " ").trim())
+          .filter(Boolean)
+      ).size;
+      if (distinctExcerpts <= 2) {
+        if (confidence === "high") confidence = "medium";
+        evidence_basis = "concentrated_signal";
+      }
+    }
+
     if (confidence === "low" && ax.meaning) {
       const harsh =
         /\b(defining signal|ignore at your cost|very weak)\b/i.test(ax.meaning);
@@ -373,10 +390,28 @@ function applyEngagementReadGuard(briefing, axisState, transcript) {
   return briefing;
 }
 
+// When an axis meaning echoes rule-example framing instead of this session's
+// words, surface it (drop confidence to low + log) rather than rewrite the
+// sentence — engine honesty: flag the problem, don't mask it. Lazy require
+// breaks the golden-checks ↔ reviewer cycle.
+function applyMeaningRuleEchoGuard(briefing) {
+  if (!briefing?.axes) return briefing;
+  const { ruleEchoAxisIds } = require("./golden-checks");
+  const flagged = ruleEchoAxisIds(briefing);
+  for (const ax of briefing.axes) {
+    if (flagged.has(ax.id)) {
+      console.warn(`[evaluator] axis ${ax.id} meaning echoes rule-example framing — confidence forced low`);
+      ax.confidence = "low";
+    }
+  }
+  return briefing;
+}
+
 function applyManagerBriefingPostProcess(briefing, axisState, transcript) {
   let b = briefing;
   b = applyAxisScoresFromState(b, axisState);
   b = applyAxisConfidence(b, axisState, transcript);
+  b = applyMeaningRuleEchoGuard(b);
   b = applyEngagementReadGuard(b, axisState, transcript);
   return b;
 }
