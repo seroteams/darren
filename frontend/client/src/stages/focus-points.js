@@ -13,10 +13,12 @@ export async function mount(root, { store, setState }) {
   root.innerHTML = `
     <div class="stage-inner l-stack l-stack--8">
       <header class="page-header">
+        <div class="eyebrow">Focus areas</div>
         <div class="page-header__row">
           <h1 class="h1">What we'll cover</h1>
           <button class="btn btn--ghost js-start-fresh" type="button">Reset session</button>
         </div>
+        <p class="text-ink-dim text-sm">Pick what this 1:1 should cover.</p>
       </header>
       <div class="thinking-host min-h-[120px] flex items-center"></div>
       <div class="result-host"></div>

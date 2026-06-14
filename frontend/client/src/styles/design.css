@@ -982,8 +982,8 @@ body.has-session-topbar .stage {
    Briefing hero headline — larger, sentence case, tight leading
 ----------------------------------------------------------------------------- */
 .briefing-headline {
-  /* @deprecated → use .h1 (matches --type-h1) */
-  font-size: var(--type-h1);
+  /* results hero — display size to match page titles; keeps its own max-width */
+  font-size: var(--type-display);
   line-height: 1.12;
   letter-spacing: -0.02em;
   font-weight: 700;
@@ -1968,8 +1968,11 @@ body.has-session-topbar .stage {
   font-weight: 500;
 }
 .session-topbar__stages .is-current {
-  color: var(--color-ink);
+  color: var(--sero-primary-800);
   font-weight: 600;
+  background: var(--sero-primary-200);
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
 }
 /* Breadcrumb status: done = reviewable (clickable), upcoming = muted. */
 .session-topbar__stages .is-done,
@@ -2537,8 +2540,12 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
 .session-topbar__stages {
   flex: 1;
   min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow-x: auto;
   scrollbar-width: none;
+  font-size: 15px;
 }
 .session-topbar__stages::-webkit-scrollbar {
   display: none;
