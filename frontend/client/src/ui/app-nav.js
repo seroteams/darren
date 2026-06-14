@@ -24,6 +24,8 @@ const ICON = {
   compare: icon(`<path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/>`),
   lexicon: icon(`<path d="M21 14a2 2 0 0 1-2 2H8l-5 4V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M7 9h10M7 12.5h6"/>`),
   joblex: icon(`<path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/>`),
+  arcs: icon(`<circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 6h6a3 3 0 0 1 3 3v.5"/><path d="M7 18h6a3 3 0 0 0 3-3v-.5"/>`),
+  regression: icon(`<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>`),
   guide: icon(`<path d="M12 7.5v13"/><path d="M3 18.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v12.5a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>`),
 };
 
@@ -33,8 +35,10 @@ const LINKS = [
   { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new },
   { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library },
   { key: "compare", label: "Compare runs", stage: STAGES.COMPARE, icon: ICON.compare },
+  { key: "regression", label: "Regression", stage: STAGES.REGRESSION, icon: ICON.regression },
   { key: "lexicon", label: "Phrase library", stage: STAGES.LEXICON_REVIEW, icon: ICON.lexicon },
   { key: "joblex", label: "Job lexicons", stage: STAGES.ROLE_LEXICONS, icon: ICON.joblex },
+  { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs },
 ];
 
 export function createAppNav({ setState, resetSession } = {}) {
@@ -72,8 +76,10 @@ export function createAppNav({ setState, resetSession } = {}) {
     },
     library: () => setState && setState({ stage: STAGES.LIBRARY }),
     compare: () => setState && setState({ stage: STAGES.COMPARE }),
+    regression: () => setState && setState({ stage: STAGES.REGRESSION }),
     lexicon: () => setState && setState({ stage: STAGES.LEXICON_REVIEW }),
     joblex: () => setState && setState({ stage: STAGES.ROLE_LEXICONS }),
+    arcs: () => setState && setState({ stage: STAGES.MEETING_ARCS }),
     guide: () => setState && setState({ stage: STAGES.GUIDE }),
   };
 
@@ -85,8 +91,10 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.INTAKE]: "new",
     [STAGES.LIBRARY]: "library",
     [STAGES.COMPARE]: "compare",
+    [STAGES.REGRESSION]: "regression",
     [STAGES.LEXICON_REVIEW]: "lexicon",
     [STAGES.ROLE_LEXICONS]: "joblex",
+    [STAGES.MEETING_ARCS]: "arcs",
     [STAGES.GUIDE]: "guide",
   };
 

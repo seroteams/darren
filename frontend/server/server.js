@@ -9,6 +9,7 @@ const { createStaticHandler } = require("./static");
 const { startSweep } = require("./sessions");
 
 const meetingTypes = require("./handlers/meeting-types");
+const arcs = require("./handlers/arcs");
 const personaBench = require("./handlers/persona-bench");
 const start = require("./handlers/start");
 const question = require("./handlers/question");
@@ -29,6 +30,7 @@ const pipeline = require("./handlers/pipeline");
 const lexicon = require("./handlers/lexicon");
 const roleProfile = require("./handlers/role-profile");
 const roleLexicons = require("./handlers/role-lexicons");
+const regression = require("./handlers/regression");
 const verdict = require("./handlers/verdict");
 const suggestFix = require("./handlers/suggest-fix");
 const library = require("./handlers/library");
@@ -77,6 +79,7 @@ function main() {
   const router = createRouter();
 
   router.add("GET", "/api/meeting-types", meetingTypes);
+  router.add("GET", "/api/arcs", arcs.list);
   router.add("GET", "/api/persona-bench", personaBench);
   router.add("POST", "/api/start", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
@@ -85,7 +88,16 @@ function main() {
   });
   router.add("GET", "/api/session", rehydrate);
   router.add("GET", "/api/role-profile", roleProfile);
-  router.add("GET", "/api/role-lexicons", roleLexicons);
+  router.add("GET", "/api/role-lexicons", roleLexicons.list);
+  router.add("POST", "/api/role-lexicons/term", (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return roleLexicons.addTerm(c);
+  });
+  router.add("POST", "/api/role-lexicons/term/remove", (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return roleLexicons.removeTerm(c);
+  });
+  router.add("GET", "/api/regression/run", regression.run);
   router.add("GET", "/api/question", question);
   router.add("GET", "/api/suggest-answers", suggestAnswers);
   router.add("POST", "/api/answer", (c) => {

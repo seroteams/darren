@@ -22,8 +22,8 @@ edits are plain JSON; reset = delete the overlay.
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Overlay data layer + registry merge | Backend can store an arc overlay and merge it over the code default; validation + orphan-count helper; offline tests. No UI. | ✅ |
-| 2 | Read API + read-only view | `GET /api/arcs` + a new in-app "Meeting arcs" page that shows every arc. View only. | 🔨 |
-| 3 | Edit + save (write path + guardrail) | Save/reset endpoints behind the localhost guard; inline editing, add/remove/reorder phases, orphan warning before risky saves. | ⬜ |
+| 2 | Read API + read-only view | `GET /api/arcs` + a new in-app "Meeting arcs" page that shows every arc. View only. | ✅ |
+| 3 | Edit + save (write path + guardrail) | Save/reset endpoints behind the localhost guard; inline editing, add/remove/reorder phases, orphan warning before risky saves. | 🔨 |
 | 4 | (optional) Promote stage-id check to a gate | Orphaned question tags caught by `npm test`; de-hardcode `test-intro-order.js`. | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -34,8 +34,12 @@ edits are plain JSON; reset = delete the overlay.
 - Baseline: `npm test` 24/24 → **25/25 green** after Phase 1 (free, $0).
 - Phase 1 shipped: `src/arc-overlay.js`, overlay-aware `getType`/`getArc` in
   `src/one-on-one-types/index.js`, `scripts/test-arc-overlay.js`. `type.js` files untouched.
-- Phase 2 building now: `GET /api/arcs`, `getArcs()` client wrapper, the read-only
-  "Meeting arcs" page (all five stacked, expandable), left-rail nav entry.
+- Phase 2 built (2026-06-14) — **awaiting Carl's green light; not committed yet.**
+  Added `GET /api/arcs` (`frontend/server/handlers/arcs.js` + route), `getArcs()` in
+  `api.js`, the read-only "Meeting arcs" page (`stages/meeting-arcs.js`, all five stacked,
+  expandable), and the left-rail nav entry (state/router/main/app-nav).
+  Verified in preview: endpoint returns all 5 arcs, page renders, expand/collapse works,
+  no console errors. (Dev note: restarted the standalone API on :3001 to load the route.)
 
 **Cost note:** this whole feature is offline, so the baseline is the **free** `npm test`,
 never `npm run gate` (~$3, needs a separate yes, proves nothing here).

@@ -1,6 +1,6 @@
 # Phase 2 — Read API + read-only in-app view
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ (green-lit 2026-06-14)
 
 ## Goal
 A new "Meeting arcs" page inside the app shows every meeting type and its full arc — phases,

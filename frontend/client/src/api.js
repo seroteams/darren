@@ -21,6 +21,10 @@ export async function getMeetingTypes() {
   return json(await fetch("/api/meeting-types"));
 }
 
+export async function getArcs() {
+  return json(await fetch("/api/arcs"));
+}
+
 export async function getPersonaBench() {
   return json(await fetch("/api/persona-bench"));
 }
@@ -47,6 +51,18 @@ export async function getRoleProfile(sessionId) {
 
 export async function getRoleLexicons() {
   return json(await fetch("/api/role-lexicons"));
+}
+
+export async function runRegression() {
+  return json(await fetch("/api/regression/run"));
+}
+
+export async function addRoleLexiconTerm(key, term, meaning) {
+  return postJson("/api/role-lexicons/term", { key, term, meaning });
+}
+
+export async function removeRoleLexiconTerm(key, term) {
+  return postJson("/api/role-lexicons/term/remove", { key, term });
 }
 
 export async function getQuestion(sessionId) {
