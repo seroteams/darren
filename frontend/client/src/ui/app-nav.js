@@ -115,5 +115,11 @@ export function createAppNav({ setState, resetSession } = {}) {
     });
   }
 
-  return { el, render };
+  // Toggle a small alert dot on a nav item (drawn in CSS off the `has-alert`
+  // class). Used by main.js to flag a failing regression check.
+  function setAlert(key, on) {
+    el.querySelector(`.js-nav-${key}`)?.classList.toggle("has-alert", !!on);
+  }
+
+  return { el, render, setAlert };
 }

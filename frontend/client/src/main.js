@@ -3,7 +3,7 @@ import "./styles/tailwind.css";
 import "./styles/design.css";
 
 import { STAGES, store, subscribe, setState, resetSession } from "./state.js";
-import { getSession, listRecentRuns } from "./api.js";
+import { getSession, listRecentRuns, runRegression } from "./api.js";
 import { syncUrl, parseLocation, startPopstate, isFlowStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
