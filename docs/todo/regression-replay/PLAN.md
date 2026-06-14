@@ -14,7 +14,7 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Free checker (command line) | The checker + capture tool + first 3 saved runs (incl. both safety tests) + `npm run replay` | 🔨 |
-| 2 | Full set + automatic | All 8 saved runs + folded into `npm test` | ⬜ |
+| 2 | Full set + automatic | 7 cases (5 personas + 2 safety) + folded into `npm test` | ✅ |
 | 3 | In-app screen | "Regression" menu item + screen (Re-check all + green/red table) | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -53,7 +53,8 @@ Phase 1 **built** — `scripts/lib/check-session.js`, `scripts/replay-capture.js
 
 **Phase 3 also built** (jumped ahead at Carl's request — he wanted to see it in the app). Added a **Regression** nav item + screen (`frontend/client/src/stages/regression.js`) backed by a new offline endpoint `GET /api/regression/run` (`frontend/server/handlers/regression.js`), both reusing a shared suite runner (`scripts/lib/check-session.js` + `scripts/lib/replay-suite.js`; `scripts/replay-regression.js` slimmed to a CLI front-end). Verified live: endpoint returns 3/3 OK; the screen renders the green list via the in-app nav (Home → Regression). Restarted the stale API on 3001 and started Vite on 3000 (preview) to serve it.
 
-**Phase 2 still pending** (expand corpus to 8 + wire into `npm test`). Done out of order.
+**Phase 2 done** — 7 cases (5 personas + 2 safety) + folded into `npm test`, so the suite runs
+automatically on every test pass (`npm test` → 26/26, offline, $0) via `scripts/test-replay-regression.js`.
 
 **Awaiting Carl's green light.** Nothing committed yet (green light = commit).
 
