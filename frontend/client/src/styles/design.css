@@ -2458,6 +2458,27 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   margin-top: 16px;
 }
 
+.daily-reminder__checks {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.daily-reminder__check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+}
+.daily-reminder__check input {
+  margin-top: 2px;
+  flex: 0 0 auto;
+}
+
 /* -----------------------------------------------------------------------------
    Start stage — recent runs list
 ----------------------------------------------------------------------------- */

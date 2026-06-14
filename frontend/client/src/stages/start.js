@@ -1,6 +1,7 @@
 import { STAGES, store } from "../state.js";
 import { listRecentRuns, getRunOverview, deleteRun, getPersonaBench, startSession, getPipelineStatus } from "../api.js";
 import { confirmAction, alertAction } from "../ui/confirm.js";
+import { showDailyReminder } from "../ui/daily-reminder.js";
 import { stageLabel } from "../ui/stage-labels.js";
 import { escapeHtml as escape } from "../ui/html.js";
 
@@ -412,6 +413,8 @@ export async function mount(root, { setState, rehydrateById }) {
     else if (e.key.toLowerCase() === "d") { del(expandedId); }
   };
   window.addEventListener("keydown", keyHandler);
+
+  showDailyReminder();
 
   await Promise.all([load(), loadPersonas()]);
 }
