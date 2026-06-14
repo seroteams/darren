@@ -45,6 +45,18 @@ document.body.appendChild(topbar.el);
 const appNav = createAppNav({ setState, resetSession });
 document.body.appendChild(appNav.el);
 
+// Quietly run the (free, offline, no-AI) regression check and flag the nav with
+// a red dot if a saved run has regressed or errored. Re-used live by the
+// Regression page after each re-check (passed into stage mounts below).
+async function refreshRegressionAlert(data) {
+  try {
+    const d = data || await runRegression();
+    const s = d?.summary || {};
+    appNav.setAlert("regression", (s.regressed || 0) + (s.error || 0) > 0);
+  } catch { /* API unreachable — leave the dot off */ }
+}
+refreshRegressionAlert();
+
 const notesPanel = createNotesPanel({ store, setState });
 document.body.appendChild(notesPanel.el);
 if (devBadge) notesPanel.mountDevBadge(devBadge.el);
@@ -68,7 +80,7 @@ async function renderStage(nextStage) {
   requestAnimationFrame(() => node.classList.add("is-in"));
   current = { stage: nextStage, mod, node };
   if (devBadge) devBadge.render(nextStage);
-  await mod.mount(node, { store, setState, resetSession, rehydrateById });
+  await mod.mount(node, { store, setState, resetSession, rehydrateById, refreshRegressionAlert });
 }
 
 function enqueueRender(nextStage) {

@@ -5,11 +5,11 @@ import { runRegression } from "../api.js";
 import { escapeHtml as esc } from "../ui/html.js";
 
 const TAG =
-  `<span style="font-size:var(--type-small,0.78rem);color:var(--color-ink-dim,#6b7280);` +
+  `<span style="font-size:var(--type-small,14px);color:var(--color-ink-dim,#6b7280);` +
   `background:var(--color-bg,#eef3f7);border:1px solid var(--color-border,#e2e8f0);` +
   `border-radius:999px;padding:1px 8px;margin-left:6px;white-space:nowrap;">safety test</span>`;
 
-export async function mount(root) {
+export async function mount(root, opts) {
   root.innerHTML = `
     <div class="stage-medium l-stack l-stack--8">
       <header class="page-header">
@@ -23,7 +23,7 @@ export async function mount(root) {
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
           <div class="text-ink-mute text-sm js-summary">Checking…</div>
           <div style="display:flex;align-items:center;gap:10px;">
-            <span class="js-confirm" style="font-size:var(--type-small,0.82rem);font-weight:500;opacity:0;transition:opacity 200ms ease;white-space:nowrap;"></span>
+            <span class="js-confirm" style="font-size:var(--type-small,14px);font-weight:500;opacity:0;transition:opacity 200ms ease;white-space:nowrap;"></span>
             <button class="btn btn--sm js-recheck" type="button" disabled>Re-check all</button>
           </div>
         </div>
@@ -62,6 +62,7 @@ export async function mount(root) {
     render(data);
     flashRows();
     showConfirm(data);
+    opts?.refreshRegressionAlert?.(data);   // keep the nav dot in sync, no extra fetch
     recheckBtn.disabled = false;
     recheckBtn.textContent = "Re-check all";
   }
@@ -124,7 +125,7 @@ function rowHtml(c) {
   const metaLine = [esc(c.meetingType || ""), c.issue ? esc(c.issue) : ""].filter(Boolean).join(" · ");
   const lines = c.reasons && c.reasons.length ? c.reasons : err && c.error ? [c.error] : [];
   const reasons = lines.length
-    ? `<div style="margin-top:5px;font-size:var(--type-small,0.82rem);color:var(--color-negative);">${lines
+    ? `<div style="margin-top:5px;font-size:var(--type-small,14px);color:var(--color-negative);">${lines
         .map((r) => `<div>• ${esc(r)}</div>`)
         .join("")}</div>`
     : "";
@@ -133,9 +134,9 @@ function rowHtml(c) {
       <span aria-hidden="true" style="flex:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;color:${tone};background:${bg};">${mark}</span>
       <div style="flex:1;min-width:0;">
         <div style="font-weight:500;">${esc(c.name || c.id)}${safety}</div>
-        ${metaLine ? `<div style="font-size:var(--type-small,0.82rem);color:var(--color-ink-mute,#6b7280);margin-top:1px;">${metaLine}</div>` : ""}
+        ${metaLine ? `<div style="font-size:var(--type-small,14px);color:var(--color-ink-mute,#6b7280);margin-top:1px;">${metaLine}</div>` : ""}
         ${reasons}
       </div>
-      <span style="flex:none;font-size:var(--type-small,0.82rem);color:${tone};white-space:nowrap;">${statusText}</span>
+      <span style="flex:none;font-size:var(--type-small,14px);color:${tone};white-space:nowrap;">${statusText}</span>
     </div>`;
 }
