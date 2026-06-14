@@ -1,0 +1,10 @@
+alias: q_what_pulled_you
+label: What pulled you
+name: What kept pulling you away from CoE time?
+description: Gets to the specific demands that are crowding out the CoE work.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

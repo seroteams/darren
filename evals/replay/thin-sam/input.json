@@ -1,0 +1,487 @@
+{
+  "id": "thin-sam",
+  "kind": "adversarial",
+  "captured_from": "logs/june/2026_Jun13_10-05-d90da284",
+  "rawResponse": {
+    "headline": "Sam gave only one-word answers all session — this is a partial read, not a verdict on pace, clarity, or engagement.",
+    "summary_bullets": [
+      "Nine straight turns stayed at \"fine,\" \"ok,\" \"i guess,\" \"not sure,\" and \"dunno\" — the record is too thin to read what landed for Sam.",
+      "The only clear signal is the silence itself: no friction, priorities, or lift got named, so the check-in never got past surface level."
+    ],
+    "understanding_paragraph": "We did not learn what actually landed for Sam, what snagged, or what she wants next from this fortnight. The session showed a non-functional read: every turn stayed at one or two words, so there is no reliable story beyond the lack of detail.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": -1,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "no_history",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "engagement",
+        "score": -1,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "no_history",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "clarity",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "no_history",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "growth",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "no_history",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      }
+    ],
+    "brutal_truth_employee": "Too few turns hold a real note on Sam to call this a read. What we do have is a wall of \"fine,\" \"ok,\" \"i guess,\" \"not sure,\" and \"dunno,\" which says nothing beyond Sam not opening up here.",
+    "brutal_truth_manager": "You kept moving past \"i guess\" and \"not sure\" instead of stopping to pin down one concrete example. The turn after \"dunno\" was the moment to switch from broad check-in to a specific prompt about one thing that landed or snagged.",
+    "next_actions": [
+      {
+        "when": "next 1:1",
+        "action": "Re-ask the landing question with one concrete example prompt: \"what shipped, what didn't, and what was the one snag?\""
+      },
+      {
+        "when": "this week",
+        "action": "Set up a shorter follow-up with a tighter prompt list and no broad opener."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: if Sam stays at one-word answers again, treat this as a conversation problem, not a work update.",
+      "Within two weeks: ask for one specific thing that landed and one thing that snagged; if neither comes, the read is still missing."
+    ],
+    "engagement_read": {
+      "level": "inconclusive",
+      "evidence": [
+        "\"fine\"",
+        "\"ok\"",
+        "\"not sure\"",
+        "\"dunno\""
+      ],
+      "missing_evidence": "Need at least one full answer with a concrete work example, preference, or concern.",
+      "recommended_action": "Ask one narrow question and wait for a specific example before moving on.",
+      "watch_next": "Sam gives a sentence with a named project, snag, or choice instead of a one-word reply."
+    }
+  },
+  "ctx": {
+    "name": "Sam",
+    "role": "Product Designer",
+    "seniority": "Mid"
+  },
+  "meetingType": "Bi-weekly check-in",
+  "managerNotes": "Regular fortnightly check-in. Want to see how the last two weeks have landed.",
+  "focusPoints": [
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What shipped and what landed in the last two weeks.",
+      "reason": "Whether the last two weeks’ work is landing as intended, and what they’re choosing to deprioritize next.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "What’s slowing their design work down right now.",
+      "reason": "If anything is stuck—decisions, dependencies, or unclear requirements—this is the fastest way to unblock mid-level delivery.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What they want more from you this cycle.",
+      "reason": "How they’re using this check-in to ask for air cover, coaching, or time from you before the next iteration starts.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_intro_biweekly_pace",
+        "label": "Opening pace check",
+        "name": "How's the last two weeks actually felt — energy-wise?",
+        "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+        "purpose": "wellbeing",
+        "stage": "pulse",
+        "axis_effects": {
+          "wellbeing": 3,
+          "engagement": 1
+        },
+        "source": "seed"
+      },
+      "answer": "fine",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'fine' is a one-word non-answer with no specifics about energy or what shaped the last two weeks."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_prep_opener_175",
+        "label": "Prep opener",
+        "name": "How have the last couple of weeks felt from your side, and what actually landed the way you expected?",
+        "description": "Gives Sam room to set the scene before you get into what to keep moving or let wait.",
+        "purpose": "topic",
+        "stage": "pulse",
+        "axis_effects": {
+          "clarity": 1,
+          "engagement": 1
+        },
+        "source": "generated"
+      },
+      "answer": "ok",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'ok' is a one-word non-answer with no specifics."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_clarify_ok_19",
+        "label": "Clarify ok",
+        "name": "When you say 'ok', what actually landed in the last two weeks?",
+        "description": "Re-prompts the shallow answer so Sam names one concrete thing that landed.",
+        "purpose": "topic",
+        "stage": "pulse",
+        "axis_effects": {
+          "clarity": 1,
+          "engagement": 1
+        },
+        "source": "planner_added",
+        "grounding": "ok"
+      },
+      "answer": "i guess",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW x2 — advancing] [SHALLOW] 'i guess' is a non-answer with no specifics, so no signal on clarity or engagement."
+    },
+    {
+      "turn": 4,
+      "question": {
+        "alias": "q_intro_biweekly_friction",
+        "label": "Friction scan",
+        "name": "What's been slower or harder than it should have been?",
+        "description": "Invites them to name blockers without framing it as complaint.",
+        "purpose": "topic",
+        "stage": "friction",
+        "axis_effects": {
+          "clarity": 1,
+          "engagement": 3
+        },
+        "source": "seed"
+      },
+      "answer": "not sure",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'not sure' is a non-answer with no specific friction named."
+    },
+    {
+      "turn": 5,
+      "question": {
+        "alias": "q_name_the_snag_9",
+        "label": "Name the snag",
+        "name": "When you say 'not sure', where has work felt most snaggy lately?",
+        "description": "One-shot re-prompt to surface a concrete point of friction.",
+        "purpose": "topic",
+        "stage": "friction",
+        "axis_effects": {
+          "clarity": 1,
+          "engagement": 3
+        },
+        "source": "planner_added",
+        "grounding": "not sure"
+      },
+      "answer": "dunno",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'dunno' is a non-answer with no concrete work signal; [SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]"
+    },
+    {
+      "turn": 6,
+      "question": {
+        "alias": "q_reset_check_in",
+        "label": "Reset check-in",
+        "name": "Is now a good time for this conversation, or should we pick another time?",
+        "description": "Direct reset after repeated non-answers to check whether the session can continue productively.",
+        "purpose": "topic",
+        "stage": null,
+        "axis_effects": {
+          "clarity": 1
+        },
+        "source": "planner_added",
+        "grounding": "dunno"
+      },
+      "answer": "nothing to add",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'nothing to add' is a non-answer, and [SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]"
+    },
+    {
+      "turn": 7,
+      "question": {
+        "alias": "q_seed_clarity_success",
+        "label": "Success definition",
+        "name": "What would a good quarter look like for you from here?",
+        "description": "Surfaces how clearly they picture a good outcome, without forcing a one-line answer.",
+        "purpose": "topic",
+        "axis_effects": {
+          "clarity": 3,
+          "growth": 1
+        },
+        "source": "seed"
+      },
+      "answer": "no",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.] [SHALLOW] 'no' is a non-answer with no usable signal. [BUDGET-STARVED]"
+    },
+    {
+      "turn": 8,
+      "question": {
+        "alias": "q_intro_biweekly_priorities",
+        "label": "Priority clarity",
+        "name": "What are you actually focused on this week, and why those things?",
+        "description": "Surfaces whether priorities are crisp or vague; whether they match what you thought.",
+        "purpose": "clarity",
+        "stage": "momentum",
+        "axis_effects": {
+          "clarity": 3,
+          "engagement": 1
+        },
+        "source": "seed"
+      },
+      "answer": "same",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'same' gives no specific priority or rationale; [SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]"
+    },
+    {
+      "turn": 9,
+      "question": {
+        "alias": "q_next_two_weeks_38",
+        "label": "Next two weeks",
+        "name": "What would make the next two weeks feel lighter for you?",
+        "description": "Ends the check-in on a concrete change you can help with.",
+        "purpose": "wellbeing",
+        "stage": "lift",
+        "axis_effects": {
+          "wellbeing": 1,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "fine",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[SHALLOW] 'fine' is a one-word non-answer with no specifics. [SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]"
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -1,
+      "history": []
+    },
+    "engagement": {
+      "score": -1,
+      "history": []
+    },
+    "clarity": {
+      "score": 0,
+      "history": []
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  },
+  "bankQuestions": [
+    {
+      "label": "Prep opener",
+      "name": "How have the last couple of weeks felt from your side, and what actually landed the way you expected?",
+      "description": "Gives Sam room to set the scene before you get into what to keep moving or let wait.",
+      "purpose": "topic",
+      "stage": "pulse",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 1
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "What shipped landed",
+      "name": "Which design decision from the last two weeks felt like it really held up?",
+      "description": "Helps you hear what part of the recent work should stay in the mix.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": [
+        {
+          "axis": "engagement",
+          "delta": 1
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Scope shift point",
+      "name": "Where did scope shift on you in the last fortnight?",
+      "description": "Lets you hear where the work moved under him and what that changed.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        }
+      ]
+    },
+    {
+      "label": "Waiting on others",
+      "name": "What are you waiting on that is holding the design work up right now?",
+      "description": "Shows you what is stuck without turning the check-in into a blocker audit.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Keep moving",
+      "name": "What do you want to keep moving next, and what can wait?",
+      "description": "Helps Sam name the real trade-off in the next stretch of work.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "growth",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Design decision load",
+      "name": "Which decision from the last two weeks took the most out of you?",
+      "description": "Helps you hear where the work is costing more energy than it should.",
+      "purpose": "wellbeing",
+      "stage": "momentum",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Feedback that stuck",
+      "name": "What feedback from the last two weeks actually changed the design?",
+      "description": "Shows whether feedback is shaping the work or just adding noise.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 1
+        },
+        {
+          "axis": "growth",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "User flow confidence",
+      "name": "Which user flow feels most settled now?",
+      "description": "Helps you hear where the design has real shape versus still needing attention.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 1
+        },
+        {
+          "axis": "growth",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Manager support ask",
+      "name": "What would you want more from me on before the next round starts?",
+      "description": "Makes space for a direct ask about support, time, or coaching.",
+      "purpose": "topic",
+      "stage": "lift",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 1
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Next two weeks",
+      "name": "What would make the next two weeks feel lighter for you?",
+      "description": "Ends the check-in on a concrete change you can help with.",
+      "purpose": "wellbeing",
+      "stage": "lift",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "verdict": "PASS",
+  "hard_fails": [],
+  "warnings": [],
+  "briefing": {
+    "headline": "Sam gave only one-word answers all session — this is a partial read, not a verdict on pace, clarity, or engagement.",
+    "summary_bullets": [
+      "Nine straight turns stayed at \"fine,\" \"ok,\" \"i guess,\" \"not sure,\" and \"dunno\" — the record is too thin to read what landed for Sam.",
+      "The only clear signal is the silence itself: no friction, priorities, or lift got named, so the check-in never got past surface level."
+    ],
+    "understanding_paragraph": "We did not learn what actually landed for Sam, what snagged, or what she wants next from this fortnight. The session showed a non-functional read: every turn stayed at one or two words, so there is no reliable story beyond the lack of detail.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": -1,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "no_history",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "engagement",
+        "score": -1,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "no_history",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "clarity",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "no_history",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "growth",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "no_history",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      }
+    ],
+    "brutal_truth_employee": "Too few turns hold a real note on Sam to call this a read. What we do have is a wall of \"fine,\" \"ok,\" \"i guess,\" \"not sure,\" and \"dunno,\" which says nothing beyond Sam not opening up here.",
+    "brutal_truth_manager": "You kept moving past \"i guess\" and \"not sure\" instead of stopping to pin down one concrete example. The turn after \"dunno\" was the moment to switch from broad check-in to a specific prompt about one thing that landed or snagged.",
+    "next_actions": [
+      {
+        "when": "next 1:1",
+        "action": "Re-ask the landing question with one concrete example prompt: \"what shipped, what didn't, and what was the one snag?\""
+      },
+      {
+        "when": "this week",
+        "action": "Set up a shorter follow-up with a tighter prompt list and no broad opener."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: if Sam stays at one-word answers again, treat this as a conversation problem, not a work update.",
+      "Within two weeks: ask for one specific thing that landed and one thing that snagged; if neither comes, the read is still missing."
+    ],
+    "engagement_read": {
+      "level": "inconclusive",
+      "evidence": [
+        "\"fine\"",
+        "\"ok\"",
+        "\"not sure\"",
+        "\"dunno\""
+      ],
+      "missing_evidence": "Need at least one full answer with a concrete work example, preference, or concern.",
+      "recommended_action": "Ask one narrow question and wait for a specific example before moving on.",
+      "watch_next": "Sam gives a sentence with a named project, snag, or choice instead of a one-word reply."
+    }
+  }
+}

@@ -1,0 +1,11 @@
+alias: q_training_specifics
+label: Training specifics
+name: "When you say \"too much trianing,\" what is actually piling up?"
+description: Clarifies the repeated phrase into something concrete enough to act on.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: planner_added
+grounding: too much trianing

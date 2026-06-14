@@ -1,0 +1,10 @@
+alias: q_time_trade_off_2
+label: Time trade-off
+name: What did you decide not to do so the other work could move?
+description: Shows the trade-off underneath the schedule, not just the calendar.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

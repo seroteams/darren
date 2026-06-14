@@ -1,0 +1,576 @@
+{
+  "id": "growth-ahmed",
+  "kind": "happy",
+  "captured_from": "logs/june/2026_Jun12_18-39-105dc0d0",
+  "rawResponse": {
+    "headline": "Ahmed wants bigger scope, but he keeps shrinking back to execution when the room gets political.",
+    "summary_bullets": [
+      "The same pattern shows up four ways: direct delivery feels safe, while cross-org alignment, senior forums, and naming the next opportunity all stay underpowered.",
+      "He finally names a concrete move — owning one strategic bet end-to-end — but it lands as a break from the pattern, not proof the pattern is gone."
+    ],
+    "understanding_paragraph": "Ahmed is clearer now on the gap than on the destination: he sees that execution detail is where he retreats when the work gets political. What we learned that was new is the confidence piece — he doesn't want to look unprepared in senior forums, which is shaping how far he will step into visible ownership.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": -7,
+        "meaning": "Weak wellbeing signal: he points to needing more delegation and a growth contract to make the pace sustainable.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "concentrated_signal"
+      },
+      {
+        "id": "engagement",
+        "score": -4,
+        "meaning": "Worth checking: he wants bigger scope, but the energy sits more in the idea of growth than in pushing into it.",
+        "read_status": "read",
+        "confidence": "medium",
+        "evidence_basis": "mixed"
+      },
+      {
+        "id": "clarity",
+        "score": -2,
+        "meaning": "Worth noting: he knows projects, but the line between delivery and broader leadership stays blurry in senior forums.",
+        "read_status": "read",
+        "confidence": "medium",
+        "evidence_basis": "mixed"
+      },
+      {
+        "id": "growth",
+        "score": -9,
+        "meaning": "The defining signal of this session — he can name the gap, but he still defaults to execution instead of strategic ownership.",
+        "read_status": "read",
+        "confidence": "high",
+        "evidence_basis": "transcript_quotes"
+      }
+    ],
+    "brutal_truth_employee": "Ahmed is not short on ambition; the sharper signal is that he keeps choosing the safe lane. The phrase \"doesn't want to look unprepared in senior forums\" explains why bigger scope stays abstract instead of owned.",
+    "brutal_truth_manager": "The strongest moment was \"When conversations get political, retreats to what he can deliver directly\" — that was the place to press for one specific stakeholder and one decision he will own publicly. The next conversation should turn that pattern into a concrete project with visible authority, not let it stay as a confidence story.",
+    "next_actions": [
+      {
+        "when": "this week",
+        "action": "Assign Ahmed one strategic bet with named stakeholders and a public decision he owns."
+      },
+      {
+        "when": "next 1:1",
+        "action": "Ask Ahmed to map the exact senior forum, stakeholder, and competency he will show on that bet."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: see whether Ahmed brings a named stakeholder update without being prompted.",
+      "Within two weeks: if he stays in delivery detail again, treat the scope gap as unchanged."
+    ],
+    "engagement_read": {
+      "level": "worth_checking",
+      "evidence": [
+        "\"Wants bigger scope but still spends too much time in execution details.\"",
+        "\"To grow, needs to own a strategic bet with visible stakeholders.\""
+      ],
+      "missing_evidence": "I would need to see whether Ahmed volunteers visible ownership without being pushed, or keeps returning to safe delivery talk.",
+      "recommended_action": "Set one public ownership task with a named stakeholder and ask Ahmed to report back on it.",
+      "watch_next": "In the next 1:1, notice whether he leads with the bet or with the work he executed."
+    }
+  },
+  "ctx": {
+    "name": "Ahmed",
+    "role": "Head of Product",
+    "seniority": "Senior"
+  },
+  "meetingType": "Growth & career plan",
+  "managerNotes": "Ahmed talks about senior scope but often redirects into tactical delivery details. I want to understand whether this is temporary pressure or a deeper confidence gap around visibility and influence at his level. This growth conversation should surface how he defines the next-level role, what stakeholder trust gaps he sees, and where he is still operating as an individual executor. I need him to leave with a concrete growth path tied to strategic ownership, not another vague list of good habits.",
+  "focusPoints": [
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "What next-level Product leadership means to him",
+      "reason": "What he believes the next-level role requires, and which parts he already owns vs still avoids.",
+      "source": "signal",
+      "confidence": "medium",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Where stakeholder trust feels shaky right now",
+      "reason": "Ahmed redirects into tactical delivery, so clarify which stakeholder trust gaps he sees and where influence breaks down.",
+      "source": "signal",
+      "confidence": "medium",
+      "known": true
+    },
+    {
+      "id": "ownership",
+      "type": "Ownership",
+      "category": "competency",
+      "label": "Where he’s still acting as an executor",
+      "reason": "How they define strategic ownership vs day-to-day delivery, and what they want to delegate to product managers and partners.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What he needs from you to gain visibility",
+      "reason": "Whether he wants more air cover, coaching on exec conversations, or specific opportunities to lead decisions publicly.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_intro_growth_stretch",
+        "label": "Stretch now",
+        "name": "Which part of your current work is actually stretching you right now?",
+        "description": "Distinguishes comfort-zone execution from genuine growth moments.",
+        "purpose": "topic",
+        "stage": "anchor",
+        "axis_effects": {
+          "growth": 3,
+          "engagement": 1
+        },
+        "source": "seed"
+      },
+      "answer": "Wants bigger scope but still spends too much time in execution details.",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": -1,
+        "growth": -3
+      },
+      "note": "He wants bigger scope but is still stuck in execution detail, signaling a strong growth gap and mild frustration with current leverage."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_prep_opener_153",
+        "label": "Prep opener",
+        "name": "Over the next six months, what would next-level product leadership look like for you, and where do you want broader ownership to show up?",
+        "description": "Gives Ahmed room to define the shape of the next step in his own words before you dig into the gaps.",
+        "purpose": "topic",
+        "stage": "anchor",
+        "axis_effects": {
+          "growth": 3,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "When conversations get political, retreats to what he can deliver directly.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1,
+        "growth": -3
+      },
+      "note": "He names a specific pattern that limits next-level scope: in political conversations he narrows back to direct delivery, which signals both a growth gap and reduced leadership clarity."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_political_moments_23",
+        "label": "Political moments",
+        "name": "Which political conversations do you most want to hold differently?",
+        "description": "Drills into the specific stakeholder situations where he pulls back from broader leadership.",
+        "purpose": "topic",
+        "stage": "anchor",
+        "axis_effects": {
+          "growth": 3,
+          "clarity": 1
+        },
+        "source": "planner_added"
+      },
+      "answer": "Can run projects, but hesitates on shaping cross-org alignment.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1,
+        "growth": -3
+      },
+      "note": "He names a clear growth gap: he can execute delivery but pulls back from cross-org alignment, which also signals weaker clarity on his broader leadership remit."
+    },
+    {
+      "turn": 4,
+      "question": {
+        "alias": "q_cross_org_alignment_6",
+        "label": "Cross-org alignment",
+        "name": "Where does cross-org alignment get hardest for you right now?",
+        "description": "Drills into the specific forum or stakeholder dynamic where his influence drops off.",
+        "purpose": "topic",
+        "stage": "anchor",
+        "axis_effects": {
+          "growth": 3,
+          "clarity": 1
+        },
+        "source": "planner_added"
+      },
+      "answer": "Partly confidence — doesn't want to look unprepared in senior forums.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1,
+        "growth": -3
+      },
+      "note": "Names a concrete growth gap: low confidence in senior forums is limiting his ability to influence cross-org alignment; [THREAD-DEFERRED] senior forums confidence thread left unfollowed due to drill cap."
+    },
+    {
+      "turn": 5,
+      "question": {
+        "alias": "q_trade_off_question",
+        "label": "Trade-off question",
+        "name": "What would you be willing to drop so you can spend more time on strategic product work?",
+        "description": "Forces a real trade-off between tactical load and the work that moves him forward.",
+        "purpose": "topic",
+        "stage": "investment",
+        "axis_effects": {
+          "growth": 3,
+          "wellbeing": 1
+        },
+        "source": "generated"
+      },
+      "answer": "Hasn't been explicit enough about what opportunities he wants.",
+      "skipped": false,
+      "realized_deltas": {
+        "growth": -3
+      },
+      "note": "He names a growth constraint in his own behaviour — not being explicit about the opportunities he wants — which strongly limits strategic stretch."
+    },
+    {
+      "turn": 6,
+      "question": {
+        "alias": "q_seed_engagement_interest",
+        "label": "Interest",
+        "name": "Which part of your work have you been leaning into — and which part you've been avoiding?",
+        "description": "Surfaces real engagement asymmetry; avoidance is a leading indicator.",
+        "purpose": "topic",
+        "axis_effects": {
+          "engagement": 3,
+          "wellbeing": 1
+        },
+        "source": "seed"
+      },
+      "answer": "To grow, needs to own a strategic bet with visible stakeholders.",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": -3
+      },
+      "note": "Names a missing growth opportunity rather than current engagement, and specifically wants ownership of a strategic bet with visible stakeholders."
+    },
+    {
+      "turn": 7,
+      "question": {
+        "alias": "q_seed_wellbeing_recovery",
+        "label": "Recovery",
+        "name": "When you're not working, are you actually recovering — or just not-working?",
+        "description": "Distinguishes real rest from downtime that doesn't refill the tank.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "seed"
+      },
+      "answer": "Should delegate more hands-on work to create room for that.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -3
+      },
+      "note": "Names a current absence of recovery capacity and ties it to needing to delegate more hands-on work; [THREAD-DEFERRED-WINDDOWN] delegation as the lever for recovery and strategic room; [BUDGET-STARVED]"
+    },
+    {
+      "turn": 8,
+      "question": {
+        "alias": "q_seed_wellbeing_sustain",
+        "label": "Sustainability",
+        "name": "Does your current pace feel like something you could keep up for another three months?",
+        "description": "Tests whether current effort is a sprint or the new normal.",
+        "purpose": "wellbeing",
+        "axis_effects": {
+          "wellbeing": 3,
+          "engagement": -1
+        },
+        "source": "seed"
+      },
+      "answer": "A clear growth contract with milestones would keep him accountable.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -3,
+        "engagement": 1
+      },
+      "note": "Deficiency-as-request on a sustainability question: he says a clear growth contract is missing, which strongly signals current pace is not sustainably self-directed; also implies accountability would increase engagement."
+    },
+    {
+      "turn": 9,
+      "question": {
+        "alias": "q_first_commitment",
+        "label": "First commitment",
+        "name": "What is one strategic ownership move you want to make before we meet again?",
+        "description": "Leaves the conversation with a concrete next step that matches the growth theme.",
+        "purpose": "topic",
+        "stage": "commitment",
+        "axis_effects": {
+          "growth": 1,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "Wants to own one strategic bet end-to-end, milestone check-in with stakeholders in two weeks.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "note": "Names a concrete next move and a near-term stakeholder checkpoint, indicating both growth intent and clear ownership."
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -7,
+      "history": [
+        {
+          "q": "q_seed_wellbeing_recovery",
+          "delta": -3,
+          "answer_excerpt": "Should delegate more hands-on work to create room for that."
+        },
+        {
+          "q": "q_seed_wellbeing_sustain",
+          "delta": -3,
+          "answer_excerpt": "A clear growth contract with milestones would keep him accountable."
+        }
+      ]
+    },
+    "engagement": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -1,
+          "answer_excerpt": "Wants bigger scope but still spends too much time in execution details."
+        },
+        {
+          "q": "q_seed_engagement_interest",
+          "delta": -3,
+          "answer_excerpt": "To grow, needs to own a strategic bet with visible stakeholders."
+        },
+        {
+          "q": "q_seed_wellbeing_sustain",
+          "delta": 1,
+          "answer_excerpt": "A clear growth contract with milestones would keep him accountable."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_prep_opener_153",
+          "delta": -1,
+          "answer_excerpt": "When conversations get political, retreats to what he can deliver directly."
+        },
+        {
+          "q": "q_political_moments_23",
+          "delta": -1,
+          "answer_excerpt": "Can run projects, but hesitates on shaping cross-org alignment."
+        },
+        {
+          "q": "q_cross_org_alignment_6",
+          "delta": -1,
+          "answer_excerpt": "Partly confidence — doesn't want to look unprepared in senior forums."
+        },
+        {
+          "q": "q_first_commitment",
+          "delta": 1,
+          "answer_excerpt": "Wants to own one strategic bet end-to-end, milestone check-in with stakeholders in two weeks."
+        }
+      ]
+    },
+    "growth": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_intro_growth_stretch",
+          "delta": -3,
+          "answer_excerpt": "Wants bigger scope but still spends too much time in execution details."
+        },
+        {
+          "q": "q_prep_opener_153",
+          "delta": -3,
+          "answer_excerpt": "When conversations get political, retreats to what he can deliver directly."
+        },
+        {
+          "q": "q_political_moments_23",
+          "delta": -3,
+          "answer_excerpt": "Can run projects, but hesitates on shaping cross-org alignment."
+        },
+        {
+          "q": "q_cross_org_alignment_6",
+          "delta": -3,
+          "answer_excerpt": "Partly confidence — doesn't want to look unprepared in senior forums."
+        },
+        {
+          "q": "q_trade_off_question",
+          "delta": -3,
+          "answer_excerpt": "Hasn't been explicit enough about what opportunities he wants."
+        },
+        {
+          "q": "q_first_commitment",
+          "delta": 1,
+          "answer_excerpt": "Wants to own one strategic bet end-to-end, milestone check-in with stakeholders in two weeks."
+        }
+      ]
+    }
+  },
+  "bankQuestions": [
+    {
+      "label": "Prep opener",
+      "name": "Over the next six months, what would next-level product leadership look like for you, and where do you want broader ownership to show up?",
+      "description": "Gives Ahmed room to define the shape of the next step in his own words before you dig into the gaps.",
+      "purpose": "topic",
+      "stage": "anchor",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Leadership in practice",
+      "name": "When you're at your best in this role, what are you doing that feels distinctly Head of Product rather than delivery lead?",
+      "description": "Helps you hear the difference he sees between senior product leadership and staying in the weeds.",
+      "purpose": "competency",
+      "stage": "anchor",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Named destination",
+      "name": "What kind of product leader do you want people to rely on you as next?",
+      "description": "Lets him name the reputation he wants to build, not just the tasks he wants to keep doing.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Forum of influence",
+      "name": "Where do you want your judgment to carry more weight this year?",
+      "description": "Points the conversation toward the rooms and decisions where his influence should grow.",
+      "purpose": "competency",
+      "stage": "aspiration",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Executor to owner",
+      "name": "What are you still holding onto that you want to stop owning yourself?",
+      "description": "Gets at the shift from personal execution to leading through others.",
+      "purpose": "competency",
+      "stage": "gap",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Trust edges",
+      "name": "Which stakeholder relationship feels most important to strengthen for the next step?",
+      "description": "Helps you hear where trust or influence is most likely to matter for his growth.",
+      "purpose": "competency",
+      "stage": "gap",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "growth",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Trade-off question",
+      "name": "What would you be willing to drop so you can spend more time on strategic product work?",
+      "description": "Forces a real trade-off between tactical load and the work that moves him forward.",
+      "purpose": "topic",
+      "stage": "investment",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Visibility support",
+      "name": "Where would my support make the biggest difference in getting your thinking seen by the right people?",
+      "description": "Opens a practical conversation about how you can help him gain visibility without taking the work back.",
+      "purpose": "topic",
+      "stage": "investment",
+      "axis_effects": [
+        {
+          "axis": "engagement",
+          "delta": 1
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "First commitment",
+      "name": "What is one strategic ownership move you want to make before we meet again?",
+      "description": "Leaves the conversation with a concrete next step that matches the growth theme.",
+      "purpose": "topic",
+      "stage": "commitment",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 1
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    }
+  ]
+}

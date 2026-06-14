@@ -343,7 +343,7 @@
      horizontal: a collapsed icon strip that opens on hover. */
   --app-nav-h: 0px;
   --app-nav-w: 60px;        /* collapsed icon strip */
-  --app-nav-w-open: 232px;  /* expanded on hover / keyboard focus */
+  --app-nav-w-open: 248px;  /* expanded on hover / keyboard focus */
 
   /* Radii — now via Sero (note: buttons/inputs tighten from 10/8px to 4px) */
   --radius-card: var(--sero-radius-card);          /* 12px */
@@ -486,6 +486,15 @@ textarea { resize: vertical; }
   display: grid;
   place-items: center;
   padding: clamp(1.5rem, 5vw, 3rem);
+}
+/* In-run screens sit below the fixed session topbar (body gets a matching
+   padding-top). The full-height shell (#root) and the centred stage both assume
+   the whole viewport, so they overflow the fold by that offset and push the
+   centred content low. Shrink both by the same amount so content lands in the
+   visible middle and the page stops scrolling. */
+body.has-session-topbar #root,
+body.has-session-topbar .stage {
+  min-height: calc(100dvh - var(--app-nav-h) - var(--session-topbar-h, 44px));
 }
 .stage-inner {
   /* @deprecated → use .l-container */
@@ -2017,12 +2026,10 @@ body.has-session-topbar {
    topbar sits to its right in-session.
 ----------------------------------------------------------------------------- */
 .app-nav {
-  --app-nav-bg: var(--sero-primary-950);
+  --app-nav-bg: var(--sero-primary-800);
   --app-nav-fg: #fff;
-  --app-nav-fg-dim: rgba(255, 255, 255, 0.62);
-  --app-nav-hover-bg: rgba(255, 255, 255, 0.08);
-  --app-nav-active-bg: rgba(255, 255, 255, 0.12);
-  --app-nav-accent: var(--sero-primary-500);
+  --app-nav-fg-dim: rgba(255, 255, 255, 0.9);
+  --app-nav-hover-bg: rgba(255, 255, 255, 0.14);
   position: fixed;
   top: 0;
   left: 0;
@@ -2032,13 +2039,11 @@ body.has-session-topbar {
   border-right: 1px solid rgba(255, 255, 255, 0.07);
   z-index: var(--sero-z-sticky, 20);
   overflow: hidden;
-  transition: width var(--dur-fast) var(--ease-out-expo),
-              box-shadow var(--dur-fast) var(--ease-out-expo);
+  transition: width var(--dur-fast) var(--ease-out-expo);
 }
 .app-nav:hover,
 .app-nav:focus-within {
   width: var(--app-nav-w-open);
-  box-shadow: var(--sero-shadow-xl);
   z-index: var(--sero-z-fixed, 30);
 }
 .app-nav.is-hidden {
@@ -2046,7 +2051,7 @@ body.has-session-topbar {
 }
 .app-nav__inner {
   height: 100%;
-  width: var(--app-nav-w-open);   /* fixed: rows don't reflow while the rail animates */
+  width: 100%;   /* fills the rail; rows clip (nowrap) rather than reflow as it animates */
   display: flex;
   flex-direction: column;
   gap: var(--sero-space-1);
@@ -2062,10 +2067,13 @@ body.has-session-topbar {
   display: flex;
   align-items: center;
   gap: 0.85rem;
-  width: 100%;
   height: 44px;
   flex: 0 0 auto;
-  padding-left: 18px;   /* 18px + 24px icon centres the glyph in the 60px strip */
+  min-width: 0;
+  margin-inline: 8px;   /* inset so the active pill floats off both edges */
+  padding-left: 10px;   /* 8px margin + 10px + 24px icon centres the glyph in the 60px strip */
+  border-radius: 10px;
+  overflow: hidden;
   background: transparent;
   border: 0;
   cursor: pointer;
@@ -2089,6 +2097,10 @@ body.has-session-topbar {
   font-size: var(--type-h4);
   letter-spacing: var(--type-tracking-tight);
 }
+.app-nav__tagline {
+  font-weight: var(--type-weight-regular);
+  color: rgba(255, 255, 255, 0.7);
+}
 .app-nav__link {
   font-size: var(--type-body-sm);
   font-weight: var(--type-weight-medium);
@@ -2111,9 +2123,9 @@ body.has-session-topbar {
   color: var(--app-nav-fg);
 }
 .app-nav__link.is-active {
-  background: var(--app-nav-active-bg);
-  color: var(--app-nav-fg);
-  box-shadow: inset 3px 0 0 var(--app-nav-accent);
+  background: #fff;
+  color: var(--color-ink);
+  font-weight: var(--type-weight-semibold);
 }
 @media (prefers-reduced-motion: reduce) {
   .app-nav,

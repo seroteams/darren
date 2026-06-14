@@ -13,6 +13,7 @@
     "smoke": "node smoke-test.js",
     "eval": "node scripts/eval.js",
     "gate": "node scripts/gate.js",
+    "replay": "node scripts/replay-regression.js",
     "rebuild-question-index": "node scripts/rebuild-question-index.js --prune",
     "logs:purge": "node scripts/purge-logs.js",
     "sweep": "node scripts/sweep.js"

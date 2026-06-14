@@ -24,6 +24,7 @@ const loaders = {
   RUN_DEBRIEF:     () => import("./stages/run-debrief.js"),
   COMPARE:         () => import("./stages/compare.js"),
   LIBRARY:         () => import("./stages/library.js"),
+  ROLE_LEXICONS:   () => import("./stages/job-lexicons.js"),
   REVIEW_RUN:      () => import("./stages/review-run.js"),
   GUIDE:           () => import("./stages/guide.js"),
   ERROR:           () => import("./stages/error.js"),

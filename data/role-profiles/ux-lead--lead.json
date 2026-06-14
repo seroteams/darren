@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781363984976,
+  "role_title_raw": "UX Lead",
+  "role_slug": "ux-lead",
+  "seniority_raw": "Lead",
+  "seniority_key": "lead",
+  "role_family": "design",
+  "profile": {
+    "summary": "A UX Lead sets the direction for user experience across a product area or team. They guide research, interaction design, and design quality, while aligning designers, product managers, engineers, and stakeholders. They often balance hands-on design work with coaching, prioritisation, and influencing decisions without always having formal authority over every contributor.",
+    "role_confidence": "medium",
+    "known_challenges": [
+      {
+        "text": "Balancing hands-on design work with leading other designers and shaping standards.",
+        "category": "competency"
+      },
+      {
+        "text": "Getting product and engineering partners to protect time for discovery, testing, and iteration.",
+        "category": "topic"
+      },
+      {
+        "text": "Carrying design quality across multiple streams of work without becoming a bottleneck.",
+        "category": "competency"
+      },
+      {
+        "text": "Managing stakeholder opinions that override user evidence or design rationale.",
+        "category": "topic"
+      },
+      {
+        "text": "Sustaining energy while absorbing feedback, ambiguity, and cross-functional tension.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Design leadership versus individual contribution balance",
+        "why": "Lead-level UX roles often struggle to divide time between doing the work and enabling others to do it well.",
+        "category": "competency"
+      },
+      {
+        "theme": "Influence with product, engineering, and stakeholders",
+        "why": "This role depends heavily on persuasion and alignment, especially when design authority is informal.",
+        "category": "topic"
+      },
+      {
+        "theme": "Research and evidence in decision-making",
+        "why": "Understanding whether user insight is shaping choices helps reveal where design is being supported or sidelined.",
+        "category": "topic"
+      },
+      {
+        "theme": "Team design quality and consistency",
+        "why": "A lead is usually expected to raise the bar across work, not just on their own projects.",
+        "category": "competency"
+      },
+      {
+        "theme": "Load, ambiguity, and recovery",
+        "why": "UX leads often carry emotional and coordination load that can drain focus and resilience over time.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "User research",
+        "meaning": "Learning from users to guide design decisions."
+      },
+      {
+        "term": "Wireframe",
+        "meaning": "Simple layout showing structure and flow."
+      },
+      {
+        "term": "Prototype",
+        "meaning": "Clickable model used to test ideas."
+      },
+      {
+        "term": "Usability testing",
+        "meaning": "Watching users try tasks to find issues."
+      },
+      {
+        "term": "Design system",
+        "meaning": "Shared components and rules for consistent design."
+      },
+      {
+        "term": "Interaction design",
+        "meaning": "How screens, controls, and flows behave."
+      },
+      {
+        "term": "Information architecture",
+        "meaning": "How content and features are organised."
+      },
+      {
+        "term": "Journey map",
+        "meaning": "Visual view of a user's end-to-end experience."
+      },
+      {
+        "term": "Accessibility",
+        "meaning": "Designing so more people can use the product."
+      },
+      {
+        "term": "Stakeholder",
+        "meaning": "Person affected by or influencing the work."
+      }
+    ],
+    "listen_for": [
+      "They talk about trade-offs between user needs, delivery pressure, and technical limits.",
+      "They mention repeated rework caused by late feedback or unclear decision ownership.",
+      "They describe coaching designers or reviewing work more than producing final designs themselves.",
+      "They use evidence-based language when defending choices, or note when evidence is missing.",
+      "They sound like the default resolver for cross-team design issues."
+    ],
+    "avoid": [
+      "Treating them as only a senior maker and ignoring the leadership part of the role.",
+      "Assuming visual polish is the main measure of success instead of user outcomes and team influence.",
+      "Pushing them to approve every design detail, which turns them into a bottleneck.",
+      "Reading stakeholder conflict as poor collaboration when it may reflect real product trade-offs."
+    ]
+  }
+}

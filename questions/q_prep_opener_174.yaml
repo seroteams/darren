@@ -1,10 +1,9 @@
 alias: q_prep_opener_174
 label: Prep opener
-name: "How has this week felt on your side since Monday's launch, and what took more out of you than you expected?"
-description: Gives Priya room to name the real post-launch shape before you go anywhere else.
-purpose: wellbeing
+name: How has your time actually gone between CoE work and everything else since we last spoke?
+description: Helps you hear what has been taking priority and what got pushed aside.
+purpose: topic
 stage: pulse
 axis_effects:
-  wellbeing: +3
-  engagement: +1
+  clarity: +3
 source: generated

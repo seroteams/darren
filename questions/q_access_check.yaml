@@ -1,0 +1,9 @@
+alias: q_access_check
+label: Access check
+name: Is there anything practical still missing for you to start or finish it?
+description: Helps you hear if this is really an access or setup problem.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: generated

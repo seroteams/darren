@@ -20,6 +20,7 @@ const PATH_FOR = {
   [STAGES.LEXICON_REVIEW]: () => "/lexicon",
   [STAGES.COMPARE]:        () => "/compare",
   [STAGES.LIBRARY]:        () => "/library",
+  [STAGES.ROLE_LEXICONS]:  () => "/job-lexicons",
   [STAGES.GUIDE]:          () => "/guide",
   [STAGES.REVIEW_RUN]:     (s) => (s.reviewRunId ? `/run/${encodeURIComponent(s.reviewRunId)}` : "/run"),
   // ERROR intentionally absent -> urlForState returns null -> no URL write
@@ -31,7 +32,7 @@ const STAGE_FOR = {
   "/prepare": STAGES.PREPARATION, "/bank": STAGES.BANK, "/interview": STAGES.QUESTIONING,
   "/evaluate": STAGES.EVAL, "/briefing": STAGES.BRIEFING, "/debrief": STAGES.RUN_DEBRIEF,
   "/lexicon": STAGES.LEXICON_REVIEW, "/compare": STAGES.COMPARE, "/library": STAGES.LIBRARY,
-  "/guide": STAGES.GUIDE,
+  "/job-lexicons": STAGES.ROLE_LEXICONS, "/guide": STAGES.GUIDE,
 };
 
 const FLOW = new Set([STAGES.FOCUS_POINTS, STAGES.PREPARATION, STAGES.BANK,

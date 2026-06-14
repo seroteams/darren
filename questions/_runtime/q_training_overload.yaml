@@ -1,0 +1,10 @@
+alias: q_training_overload
+label: Training overload
+name: "When you say \"too much training\", what is actually piling up?"
+description: Drills into the concrete training burden he just named so the friction is specific.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: too much trianing

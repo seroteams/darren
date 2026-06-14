@@ -16,7 +16,7 @@ Standing constraints (from CLAUDE.md):
 |---|---|---|
 | **Top up OpenAI credit + cheap gate re-check** | Credit exhausted ~19:10 on 2026-06-12 (see [audit note](docs/todo/done/cleanup-board/audit-note.md)) | Carl tops up → `node scripts/gate.js --only <case>` (~$0.35) to confirm all green |
 | **engine-trust-gates Phases 1–3** ([plan](docs/todo/engine-trust-gates/PLAN.md)) | Committed (`ee018b5`, `bb49e7c`, `cd581a7`) and machine-verified by the GREEN 19:08 gate (8/8 PASS) | Carl product-owner walkthrough of the phase scenarios |
-| **engine-trust-gates Phases 4–6** (relational-arc gate at question layer; axis accumulation; briefing confidence honesty) | Not started | Start after Phases 1–3 walkthrough |
+| **engine-trust-gates Phases 4–6** (relational-arc gate at question layer; axis accumulation; briefing confidence honesty) | Committed (`da5d2ce`, `d601df5`, `5b4ca95`), machine-built | Carl product-owner walkthrough of the phase scenarios |
 | **role-profiles Phases 2–4** ([plan](docs/todo/role-profiles/PLAN.md)) | Built, machine-verified | Carl product-owner walkthrough of the scenarios |
 | **jun11-demo-fixes Phase 4** — back navigation in live Q&A ([plan](docs/todo/jun11-demo-fixes/PLAN.md)) | Not started (Phases 1–3 done & committed) | Build after Phases 1–3 sign-off |
 

@@ -126,6 +126,40 @@ function loadRoleProfile({ role, seniority }) {
   return validShape(doc) ? doc : null;
 }
 
+// List every cached role profile's words for the Job lexicons page. Read-only,
+// no model calls — same null-safe posture as loadRoleProfile: a broken or
+// old-version file is skipped, never thrown. Sorted by role title for browsing.
+function listRoleProfiles() {
+  let files;
+  try {
+    files = fs.readdirSync(PROFILES_DIR);
+  } catch {
+    return [];
+  }
+  const out = [];
+  for (const f of files) {
+    if (!f.endsWith(".json")) continue;
+    let doc;
+    try {
+      doc = JSON.parse(fs.readFileSync(path.join(PROFILES_DIR, f), "utf8"));
+    } catch {
+      continue;
+    }
+    if (!validShape(doc)) continue;
+    out.push({
+      key: f.replace(/\.json$/, ""),
+      role: doc.role_title_raw || "",
+      seniority: doc.seniority_raw || "",
+      role_family: doc.role_family || "",
+      terms: Array.isArray(doc.profile.terminology)
+        ? doc.profile.terminology.map((t) => ({ term: t.term, meaning: t.meaning }))
+        : [],
+    });
+  }
+  out.sort((a, b) => a.role.localeCompare(b.role));
+  return out;
+}
+
 function isFresh(doc) {
   return validShape(doc) && doc.prompt_version === promptVersionFor(PROMPT_PATH);
 }
@@ -339,6 +373,7 @@ module.exports = {
   keyOf,
   profilePath,
   loadRoleProfile,
+  listRoleProfiles,
   ensureRoleProfile,
   renderRoleProfileBlock,
   roleProfileLogInfo,

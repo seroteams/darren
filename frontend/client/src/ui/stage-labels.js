@@ -11,6 +11,7 @@ export const STAGE_DISPLAY = Object.freeze({
   BRIEFING: "Briefing",
   RUN_DEBRIEF: "Session review",
   LEXICON_REVIEW: "Phrase library",
+  ROLE_LEXICONS: "Job lexicons",
   ERROR: "Error",
 });
 
