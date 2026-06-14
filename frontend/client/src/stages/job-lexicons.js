@@ -10,7 +10,7 @@ export async function mount(root) {
   root.innerHTML = `
     <div class="stage-medium l-stack l-stack--8">
       <header class="page-header">
-        <div class="eyebrow">Job lexicons</div>
+        <div class="eyebrow">Role words</div>
         <h1 class="h1">The words of each role</h1>
         <div class="text-ink-dim text-sm max-w-measure">
           The everyday vocabulary the assistant knows for each job, so a 1:1 speaks the same language. Add the words your team actually uses, they sit alongside the AI's and are always yours to remove.

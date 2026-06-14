@@ -80,6 +80,14 @@ function main() {
 
   router.add("GET", "/api/meeting-types", meetingTypes);
   router.add("GET", "/api/arcs", arcs.list);
+  router.add("POST", /^\/api\/arcs\/(?<slug>[a-z0-9_]+)\/reset$/, (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return arcs.reset(c);
+  });
+  router.add("POST", /^\/api\/arcs\/(?<slug>[a-z0-9_]+)$/, (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return arcs.save(c);
+  });
   router.add("GET", "/api/persona-bench", personaBench);
   router.add("POST", "/api/start", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));

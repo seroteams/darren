@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1781452167980,
+  "role_title_raw": "Acting Coach",
+  "role_slug": "acting-coach",
+  "seniority_raw": "Senior",
+  "seniority_key": "senior",
+  "role_family": "general",
+  "profile": {
+    "summary": "A Senior Acting Coach helps performers improve technique, prepare for auditions or productions, and sustain believable performances. They usually tailor coaching to individual actors, give detailed notes, and often coordinate with directors, agents, teachers, or production teams. At this level they are expected to bring a clear method, strong judgment, and credibility across different performance contexts.",
+    "role_confidence": "medium",
+    "known_challenges": [
+      {
+        "text": "Balancing honest critique with protecting a performer’s confidence and trust.",
+        "category": "topic"
+      },
+      {
+        "text": "Adapting coaching methods to very different skill levels, styles, and performance goals.",
+        "category": "competency"
+      },
+      {
+        "text": "Managing emotional intensity in sessions without drifting beyond the coaching role.",
+        "category": "topic"
+      },
+      {
+        "text": "Irregular schedules around auditions, rehearsals, and productions can wear down energy and boundaries.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Showing clear value when progress in performance can feel subjective or uneven.",
+        "category": "competency"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "How their coaching approach is working across different clients and contexts",
+        "why": "Senior coaches are expected to adjust their method without losing consistency or quality.",
+        "category": "competency"
+      },
+      {
+        "theme": "Boundaries, emotional load, and recovery",
+        "why": "This work can involve intense personal material and uneven hours, so sustainability matters.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Client mix, goals, and where they feel most effective",
+        "why": "It helps clarify whether their time is going toward the right performers and types of work.",
+        "category": "topic"
+      },
+      {
+        "theme": "Feedback style and how notes are landing",
+        "why": "The quality of their critique directly affects trust, growth, and repeat work.",
+        "category": "competency"
+      },
+      {
+        "theme": "Relationships with directors, agents, and production partners",
+        "why": "Senior coaches often rely on reputation and collaboration around the performer, not just one-to-one skill.",
+        "category": "topic"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Scene study",
+        "meaning": "Working deeply on a scene’s choices, beats, and truthfulness.",
+        "group": "craft"
+      },
+      {
+        "term": "Cold read",
+        "meaning": "Performing from unfamiliar material with little preparation.",
+        "group": "craft"
+      },
+      {
+        "term": "Sides",
+        "meaning": "Short script pages used for auditions or callbacks.",
+        "group": "craft"
+      },
+      {
+        "term": "Beat",
+        "meaning": "A shift in intention, tactic, or emotional movement.",
+        "group": "craft"
+      },
+      {
+        "term": "Objective",
+        "meaning": "What the character wants in the scene.",
+        "group": "craft"
+      },
+      {
+        "term": "Self-tape",
+        "meaning": "A recorded audition the actor submits remotely.",
+        "group": "craft"
+      },
+      {
+        "term": "Callback",
+        "meaning": "A later audition round after initial interest.",
+        "group": "working-context"
+      },
+      {
+        "term": "Blocking",
+        "meaning": "Planned physical movement within a scene or stage space.",
+        "group": "working-context"
+      },
+      {
+        "term": "Table read",
+        "meaning": "Cast reads the script together before staging.",
+        "group": "working-context"
+      },
+      {
+        "term": "Rehearsal notes",
+        "meaning": "Specific feedback given after a run or exercise.",
+        "group": "working-context"
+      },
+      {
+        "term": "Audition prep",
+        "meaning": "Coaching focused on material, choices, and delivery for casting.",
+        "group": "working-context"
+      },
+      {
+        "term": "Technique",
+        "meaning": "The coach’s structured approach to building performance skills.",
+        "group": "senior-practice"
+      },
+      {
+        "term": "Personalization",
+        "meaning": "Making choices feel specific and lived-in, not generic.",
+        "group": "senior-practice"
+      },
+      {
+        "term": "Adjustment",
+        "meaning": "A direction that changes the actor’s approach on the next take.",
+        "group": "senior-practice"
+      },
+      {
+        "term": "Text analysis",
+        "meaning": "Breaking down script language for meaning, action, and choices.",
+        "group": "senior-practice"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "craft",
+        "label": "Acting craft"
+      },
+      {
+        "key": "working-context",
+        "label": "Auditions and rehearsal work"
+      },
+      {
+        "key": "senior-practice",
+        "label": "Senior coaching practice"
+      }
+    ],
+    "listen_for": [
+      "Whether they describe actors as individuals with different needs or use one fixed method for everyone.",
+      "How they talk about giving hard notes without humiliating or overprotecting clients.",
+      "Whether they can explain progress with concrete examples rather than vague talent language.",
+      "Signs they are carrying clients’ emotional struggles as their own.",
+      "Shifts between artistic language and practical audition or production language."
+    ],
+    "avoid": [
+      "Treating performance coaching as generic mentoring or motivation work.",
+      "Pushing them to measure success only by bookings or castings.",
+      "Assuming emotional openness means they should handle issues outside their coaching role.",
+      "Reducing their seniority to years of experience without asking about method or judgment."
+    ]
+  }
+}

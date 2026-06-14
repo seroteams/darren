@@ -14,7 +14,7 @@ export async function mount(root, { store, setState }) {
   root.innerHTML = `
     <div class="stage-medium l-stack l-stack--8">
       <header class="page-header">
-        <div class="eyebrow">Phrase library</div>
+        <div class="eyebrow">Coaching phrases</div>
         <h1 class="h1 js-stage-title">Anything worth keeping?</h1>
         <div class="text-ink-dim text-sm max-w-measure js-stage-lede">
           Terms worth saving from this conversation for future runs. Keep adds it; drop removes it.
@@ -72,7 +72,7 @@ export async function mount(root, { store, setState }) {
   function footerHtml({ showPromote, promoteCount, doneDisabled = false, doneLabel = "Continue" }) {
     const promoteBtn =
       showPromote && promoteCount > 0
-        ? `<button type="button" class="btn btn--ghost js-promote">Promote to production lexicon (${promoteCount})</button>`
+        ? `<button type="button" class="btn btn--ghost js-promote">Add to live phrases (${promoteCount})</button>`
         : "";
     return `
       <div class="l-cluster l-cluster--2 pt-6 reveal">
@@ -93,9 +93,9 @@ export async function mount(root, { store, setState }) {
   }
 
   function renderPromotePanel() {
-    titleEl.textContent = "Promote to production lexicon";
+    titleEl.textContent = "Add to live phrases";
     ledeEl.textContent =
-      "These phrases are in your candidate pile but not yet in the live lexicon questions pull from. Promote moves them into the canonical file; drop removes them from candidates.";
+      "These phrases are saved from past sessions but not yet in the live set future runs pull from. Add moves them into the live set; drop removes them.";
 
     if (!promotePending.length) {
       resultHost.innerHTML = `

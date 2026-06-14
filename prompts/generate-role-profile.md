@@ -24,7 +24,8 @@ The response must match this exact shape:
   "role_confidence": "<low | medium | high>",
   "known_challenges": [{ "text": "<challenge>", "category": "<wellbeing | topic | competency>" }],
   "recommended_question_themes": [{ "theme": "<theme>", "why": "<why it matters for this role/level>", "category": "<wellbeing | topic | competency>" }],
-  "terminology": [{ "term": "<term>", "meaning": "<short plain meaning>" }],
+  "terminology_groups": [{ "key": "<stable slug>", "label": "<role-specific group name>" }],
+  "terminology": [{ "term": "<term>", "meaning": "<short plain meaning>", "group": "<one of the group keys>" }],
   "listen_for": ["<signal>"],
   "avoid": ["<trap>"]
 }
@@ -35,7 +36,8 @@ Field rules:
 - `role_confidence`: how well you actually know this exact title. "high" = common, well-documented role. "medium" = recognisable but variable across companies. "low" = niche, ambiguous, or possibly company-specific. Be honest — a wrong guess is worse than a hedge.
 - `known_challenges`: 3 to 6 items. Recurring difficulties people in this exact role and level face — pressures, friction points, common failure modes. Each tagged with a category (see category_rules).
 - `recommended_question_themes`: 3 to 6 items. Areas a manager should explore in 1:1s with someone in this role at this level, each with one sentence on why. These are THEMES, never verbatim questions — do not write anything phrased as a question.
-- `terminology`: up to 10 items. Terms, tools, and vocabulary this role uses daily that a manager should recognise and may want to use. `meaning` is max 15 words, plain language.
+- `terminology_groups`: 1 to 3 groups that organise the vocabulary for THIS role. Think in up to three lenses: (1) the craft itself, (2) the seniority/leadership dimension if this level genuinely carries one, (3) where the two meet for this exact title. Give each a short, role-specific `label` a manager would recognise (e.g. for a UX Lead: "UX", "Lead", "UX Lead"; for a Junior Graphic Designer with no leadership dimension: "Craft", "Ways of working", "Growing into the role"; for a Principal Engineer: "Craft", "Technical leadership", "The role"). `key` is a lowercase stable slug. NEVER force a leadership group onto an IC or junior title — use a fitting third lens (specialisation, ways of working, or progression) instead. If a level only has two honest lenses, return two groups.
+- `terminology`: up to 18 items total, spread sensibly across the groups (roughly 4–6 each). Every item has a `group` equal to one of the `terminology_groups` keys. Favour how this role works in MODERN practice — rituals and ways of working (sprints, cross-functional squads, design critiques, research ops, continuous discovery), current tooling and AI-in-the-loop practice (AI-assisted prototyping, prompt-driven exploration), and practices-as-discipline (accessibility-as-practice, observability) — over textbook 101 definitions. `meaning` is max 15 words, plain language.
 - `listen_for`: up to 5 items. Signals in how this person talks about their work that tell a manager something real — e.g. what they volunteer, what they avoid, vocabulary shifts.
 - `avoid`: up to 4 items. Traps a manager falls into with this specific role and level — wrong framings, tone-deaf suggestions, misreadings.
 </output_contract>
@@ -47,6 +49,7 @@ The exact title is the whole point. "Staff Site Reliability Engineer" is not a g
 <honesty_rules>
 - If the title is niche, ambiguous, or unfamiliar, set `role_confidence` to "low", produce fewer items, and keep them general-but-true rather than invented.
 - Never invent jargon. Only include terminology you are confident this role genuinely uses. An empty-ish terminology list with real terms beats a full list with made-up ones.
+- Group labels and terms must be real to THIS role today. Modern does NOT mean invented: only include AI, ops, or ritual terms a manager would actually hear in this exact job. If you cannot honestly fill three groups, return fewer. The "never invent jargon" rule outranks the push for richer, more modern vocabulary.
 - Never invent company-specific processes, team structures, or tools as if they were universal.
 </honesty_rules>
 

@@ -20,9 +20,9 @@ lexicons page — instead of one flat list of textbook terms.
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Engine + helper + tests | Grouped data shape + `group` threaded through `effectiveTerminology`/`listRoleProfiles` + `terminologyGroups`; old files still work; offline tests. No visible change. | ✅ |
-| 2 | Fixtures + grouped render | 3 archetypes (UX Lead, junior IC, director) shown grouped on both screens; styling. FREE. | 🔨 |
-| 3 | Lock it | Offline regression guard so future edits can't silently break grouping. FREE. | ⬜ |
-| 4 | Real words (paid) | Edit the generation prompt, regenerate real modern vocabulary, run the gate. PAID. | ⬜ |
+| 2 | Fixtures + grouped render | 3 archetypes (UX Lead, junior IC, director) shown grouped on both screens; styling. FREE. | ✅ |
+| 3 | Lock it | Offline regression guard so future edits can't silently break grouping. FREE. | 🔨 |
+| 4 | Real words (paid) | Prompt edited (all future gens grouped) + 5 archetypes regenerated for real & verified. Rest of library + gate pending Carl. | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -39,6 +39,33 @@ Growing into the role** (no forced "Lead"), Head of Product → **Strategy / Lea
 role**; the other 12 roles stay flat; no console errors. `npm test` still 25/25. (Onepage
 "language of this role" screen uses the identical helper + handler + CSS; not driven through
 the full setup flow to avoid a paid `/api/start` — it's QA scenario 1 for Carl.)
+
+**Phase 3 🔨 built & verified 2026-06-14 — awaiting Carl's QA.** Added a fixture-integrity
+guard to `test-role-profile.js` (loads the real on-disk UX Lead profile; asserts every term's
+group matches a declared group, ≥1 group populated, live-run block still flat). Demonstrated
+it bites: a bogus `group` value → `npm test` FAILS clearly (exit 1) → reverted → 25/25 green.
+
+**Phase 4 🔨 core done 2026-06-14 (PAID — Carl authorised "i want it done").** Generation
+prompt updated (`prompts/generate-role-profile.md`): output now carries `terminology_groups`
++ per-term `group`, with a `<terminology_rules>` block (1–3 role-aware groups, IC-aware,
+modern ways-of-working) and a "modern ≠ invented" honesty bullet. New prompt hash `bda3c52f`,
+so **every future generation is grouped automatically**. Regenerated **5 archetypes** for real
+(~5 model calls) and verified live + 26/26 offline:
+- UX Lead → **UX / Lead / UX Lead**
+- Junior Graphic Designer → Design craft / Ways of working / Growing into the role (no "Lead")
+- Principal Backend Engineer → Backend engineering / **Technical leadership** / Principal backend work
+- Customer Success Manager → Customer success practice / Retention and growth / Senior account leadership
+- Head of Product → Product / Product leadership / Head of Product
+
+**Full sweep done 2026-06-14 (Carl authorised "group the rest now", ~$0.40).** All **17**
+cached roles regenerated to grouped — **12 generated, 5 cached, 0 failures** — each with
+role-aware labels (junior/ops roles got "Learning the role"/"Growing into", never a forced
+"Lead"). `npm test` → **26/26**. Carl chose the group-only option, so the **~$3 `npm run gate`
+was NOT run** (his call; offline suite + live checks stand in). The whole Job lexicons library
+and every one-page run now show grouped, modern, model-written vocabulary.
+
+**Left:** Carl's eyeball on the real regenerated words (the product-owner QA), then flip
+Phase 4 ✅ and move this folder to `docs/todo/done/`. Commit still deferred (busy tree).
 
 **Commit still deferred** (not bundled) — `src/role-profile.js` is shared with Carl's
 uncommitted job-lexicons overlay work; Phase 2 also edits in-flight files (`job-lexicons.js`,

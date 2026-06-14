@@ -1,0 +1,10 @@
+alias: q_student_click
+label: Student click
+name: What did you notice when the students clicked with it?
+description: Drills into the specific moment she found rewarding so you hear what success looked like to her.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added
+grounding: students click with the material

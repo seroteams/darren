@@ -1,115 +1,173 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781240841974,
+  "generated_at": 1781447333852,
   "role_title_raw": "Partner alliance manager",
   "role_slug": "partner-alliance-manager",
   "seniority_raw": "Lead",
   "seniority_key": "lead",
   "role_family": "general",
   "profile": {
-    "summary": "A Lead Partner Alliance Manager owns strategic relationships with key partners and the revenue or adoption goals tied to them. They shape joint plans, negotiate priorities, coordinate sales, marketing, product, and partner teams, and remove blockers that slow co-sell or integration work. The role mixes external relationship leadership with internal influence across multiple functions.",
+    "summary": "A Lead Partner Alliance Manager owns strategic relationships with key partners, drives joint plans and revenue goals, and coordinates sales, marketing, product, and partner teams. They usually set the partner strategy for a segment or region, unblock deal execution, manage escalations, and help the company get measurable value from alliances rather than just maintaining contacts.",
     "role_confidence": "medium",
     "known_challenges": [
       {
-        "text": "Balancing partner expectations with internal priorities when neither side fully controls the outcome.",
+        "text": "Balancing long-term partner strategy with short-term pipeline and revenue pressure.",
         "category": "topic"
       },
       {
-        "text": "Driving results through influence rather than direct authority over sales, product, or marketing teams.",
+        "text": "Driving results through internal teams they do not directly manage.",
         "category": "competency"
       },
       {
-        "text": "Keeping strategic partners engaged when launches, integrations, or joint campaigns move slowly.",
+        "text": "Handling partner conflict, channel tension, and unclear ownership on shared deals.",
         "category": "topic"
       },
       {
-        "text": "Carrying revenue or pipeline pressure while depending on other teams to execute key parts of the plan.",
+        "text": "Keeping relationships warm while still holding partners accountable for commitments.",
+        "category": "competency"
+      },
+      {
+        "text": "Travel, constant stakeholder management, and quarter-end pressure can drain energy.",
         "category": "wellbeing"
-      },
-      {
-        "text": "Deciding which partners deserve deeper investment versus light-touch maintenance.",
-        "category": "competency"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Partner portfolio focus and tradeoffs",
-        "why": "Lead-level alliance work depends on choosing where to spend limited time and internal attention.",
+        "theme": "Health of strategic partner relationships",
+        "why": "This role depends on trust, access, and momentum with a small number of important external stakeholders.",
         "category": "topic"
       },
       {
-        "theme": "Internal alignment and cross-functional influence",
-        "why": "This role succeeds when they can get sales, marketing, product, and operations moving in the same direction.",
+        "theme": "Joint business planning and execution gaps",
+        "why": "Lead-level alliance work succeeds when plans turn into real pipeline, launches, and field activity.",
+        "category": "topic"
+      },
+      {
+        "theme": "Influence across sales, marketing, and product",
+        "why": "They often need internal alignment without formal authority, which is a core part of the job.",
         "category": "competency"
       },
       {
-        "theme": "Quality of executive relationships with partners",
-        "why": "Senior partner trust often determines access, escalation speed, and long-term joint commitment.",
+        "theme": "Deal support, conflict, and escalation handling",
+        "why": "Shared opportunities often stall on rules of engagement, incentives, or partner expectations.",
         "category": "topic"
       },
       {
-        "theme": "Pipeline, revenue, and success metrics clarity",
-        "why": "Ambiguous ownership or weak measurement can make the role feel high-pressure and hard to prove.",
-        "category": "topic"
-      },
-      {
-        "theme": "Sustainable load from constant coordination and external demands",
-        "why": "Lead alliance roles often absorb urgency from both partner and internal stakeholders at once.",
+        "theme": "Load, travel, and sustainability during peak quarters",
+        "why": "Relationship-heavy commercial roles can look fine on paper while becoming exhausting in practice.",
         "category": "wellbeing"
       }
     ],
     "terminology": [
       {
-        "term": "Co-sell",
-        "meaning": "Selling together with a partner to shared customers."
+        "term": "Alliance strategy",
+        "meaning": "Plan for which partners matter and how to grow together.",
+        "group": "alliances"
       },
       {
         "term": "Joint business plan",
-        "meaning": "Shared goals, activities, and targets for the partnership."
-      },
-      {
-        "term": "Pipeline",
-        "meaning": "Potential deals being worked toward closing."
-      },
-      {
-        "term": "Partner enablement",
-        "meaning": "Training and materials that help partners sell or support."
-      },
-      {
-        "term": "MDF",
-        "meaning": "Marketing funds provided to support joint promotion."
-      },
-      {
-        "term": "QBR",
-        "meaning": "Quarterly review of results, plans, and issues."
-      },
-      {
-        "term": "Channel conflict",
-        "meaning": "Tension over who owns the customer or deal."
+        "meaning": "Shared goals, actions, owners, and targets with a partner.",
+        "group": "alliances"
       },
       {
         "term": "Partner ecosystem",
-        "meaning": "The wider network of companies you work with."
+        "meaning": "Network of partners around a product or market.",
+        "group": "alliances"
       },
       {
-        "term": "Referral",
-        "meaning": "A lead passed from one company to another."
+        "term": "Co-sell",
+        "meaning": "Selling together with a partner on shared opportunities.",
+        "group": "alliances"
+      },
+      {
+        "term": "Channel conflict",
+        "meaning": "Tension over ownership, pricing, or route to customer.",
+        "group": "alliances"
+      },
+      {
+        "term": "Partner-sourced",
+        "meaning": "Pipeline or deals originated by the partner.",
+        "group": "alliances"
+      },
+      {
+        "term": "Partner-influenced",
+        "meaning": "Deals where the partner helped progress the sale.",
+        "group": "alliances"
+      },
+      {
+        "term": "Executive sponsor",
+        "meaning": "Senior leader backing the partner relationship.",
+        "group": "leadership"
+      },
+      {
+        "term": "Stakeholder mapping",
+        "meaning": "Identifying who matters and how to engage them.",
+        "group": "leadership"
+      },
+      {
+        "term": "QBR",
+        "meaning": "Quarterly review of results, issues, and next steps.",
+        "group": "leadership"
+      },
+      {
+        "term": "Escalation path",
+        "meaning": "Who gets involved when issues block progress.",
+        "group": "leadership"
+      },
+      {
+        "term": "Rules of engagement",
+        "meaning": "Agreed way to work shared deals and accounts.",
+        "group": "the-role"
+      },
+      {
+        "term": "MDF",
+        "meaning": "Marketing funds provided for joint demand generation.",
+        "group": "the-role"
+      },
+      {
+        "term": "Pipeline review",
+        "meaning": "Check of active opportunities, risks, and next actions.",
+        "group": "the-role"
+      },
+      {
+        "term": "Partner enablement",
+        "meaning": "Training and resources that help partners sell effectively.",
+        "group": "the-role"
+      },
+      {
+        "term": "Account mapping",
+        "meaning": "Matching target accounts across both organisations.",
+        "group": "the-role"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "alliances",
+        "label": "Alliance work"
+      },
+      {
+        "key": "leadership",
+        "label": "Lead-level influence"
+      },
+      {
+        "key": "the-role",
+        "label": "Running partner motions"
       }
     ],
     "listen_for": [
-      "Whether they talk about partner outcomes or only internal activity",
-      "Repeated mentions of chasing approvals, resources, or follow-through from other teams",
-      "Shifts from strategic language to firefighting around specific accounts or launches",
-      "How clearly they connect partner work to pipeline, revenue, adoption, or retention",
-      "Whether they describe partners as collaborators, transactions, or political risks"
+      "Whether they talk about measurable partner outcomes or only relationship activity.",
+      "Whether internal blockers sound like isolated friction or a repeated influence problem.",
+      "Shifts from named strategic partners to vague references, which can signal weak ownership.",
+      "How clearly they distinguish partner-sourced, partner-influenced, and direct pipeline.",
+      "Whether escalations are framed as healthy governance or constant firefighting."
     ],
     "avoid": [
-      "Treating the role as simple relationship management without acknowledging revenue and execution pressure",
-      "Assuming poor partner results are fully within their control",
-      "Pushing them to own every partner equally instead of making clear bets",
-      "Reducing success to short-term deals when some partnerships need longer-term building"
+      "Treating the role as glorified relationship management without revenue or execution accountability.",
+      "Assuming partner problems can be solved only by asking them to build better rapport.",
+      "Judging performance on closed revenue alone when influence and partner development are also core work.",
+      "Pushing every issue back to sales when alliance friction often spans product, marketing, and operations."
     ]
   }
 }

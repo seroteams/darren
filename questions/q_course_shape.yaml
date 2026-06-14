@@ -1,0 +1,10 @@
+alias: q_course_shape
+label: Course shape
+name: What kind of course setup would you want more of?
+description: Helps you hear what she’d actually say yes to if the load grows.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

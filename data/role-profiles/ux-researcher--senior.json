@@ -1,143 +1,178 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781428513943,
+  "generated_at": 1781447406823,
   "role_title_raw": "UX Researcher",
   "role_slug": "ux-researcher",
   "seniority_raw": "Senior",
   "seniority_key": "senior",
   "role_family": "design",
   "profile": {
-    "summary": "A Senior UX Researcher plans and runs research that shapes product decisions, not just individual studies. They choose methods, frame questions with product and design partners, synthesize patterns across work, and influence roadmap, design quality, and user understanding. They often mentor less experienced researchers and work closely with product managers, designers, data partners, and engineers.",
+    "summary": "A Senior UX Researcher plans and runs research that shapes product decisions across multiple initiatives. They choose methods, frame studies, synthesize evidence, and help teams act on findings. They work closely with product managers, designers, engineers, data partners, and sometimes research ops or leadership, while raising the quality of research practice and influencing roadmaps without direct authority.",
     "role_confidence": "high",
     "known_challenges": [
       {
-        "text": "Balancing fast product timelines with the time needed for solid research and synthesis.",
+        "text": "Getting teams to use research early instead of treating it as validation at the end.",
         "category": "topic"
       },
       {
-        "text": "Getting teams to act on findings instead of treating research as a box to check.",
-        "category": "topic"
-      },
-      {
-        "text": "Handling broad stakeholder demand and deciding where their work has the most impact.",
+        "text": "Balancing fast delivery pressure with the time needed for solid recruiting, fieldwork, and synthesis.",
         "category": "wellbeing"
       },
       {
-        "text": "Turning messy qualitative signals into clear, credible guidance for senior partners.",
+        "text": "Turning rich qualitative findings into clear decisions that product and design teams will actually act on.",
         "category": "competency"
       },
       {
-        "text": "Protecting research quality when partners want quick answers or already have a preferred outcome.",
+        "text": "Managing stakeholder opinions when findings challenge roadmap assumptions or executive preferences.",
         "category": "topic"
+      },
+      {
+        "text": "Covering multiple squads or product areas without spreading research too thin.",
+        "category": "wellbeing"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Influence on product decisions",
-        "why": "Senior researchers are usually judged by whether insights change priorities, designs, or assumptions.",
+        "theme": "Research influence on product decisions",
+        "why": "Senior researchers are often judged by whether evidence changes priorities, not just by completing studies.",
         "category": "competency"
       },
       {
-        "theme": "Research prioritization and scope",
-        "why": "This role often faces more requests than capacity, so tradeoff choices matter a lot.",
+        "theme": "Study pipeline and prioritization",
+        "why": "This role usually juggles several requests and needs support saying no, sequencing work, and protecting quality.",
         "category": "topic"
       },
       {
         "theme": "Stakeholder alignment and trust",
-        "why": "Strong partnerships with product, design, and engineering determine whether research lands well.",
+        "why": "Strong relationships with product, design, and engineering determine whether findings are invited in early and acted on.",
         "category": "topic"
       },
       {
-        "theme": "Quality versus speed",
-        "why": "Senior researchers regularly need to protect rigor while still supporting delivery pace.",
+        "theme": "Synthesis and storytelling",
+        "why": "At this level, clear narratives and decision-ready outputs matter as much as fieldwork skill.",
         "category": "competency"
       },
       {
         "theme": "Energy load from context switching",
-        "why": "Juggling studies, stakeholders, and urgent asks can quietly drain focus and morale.",
+        "why": "Supporting multiple teams, urgent asks, and repeated explanation can quietly drain focus and morale.",
         "category": "wellbeing"
       }
     ],
     "terminology": [
       {
-        "term": "Usability testing",
-        "meaning": "Watching people try tasks to find friction points.",
-        "group": "methods"
-      },
-      {
         "term": "Generative research",
-        "meaning": "Research to uncover needs, behaviors, and opportunities.",
-        "group": "methods"
+        "meaning": "Research to uncover needs, behaviors, and opportunities early.",
+        "group": "research-craft"
       },
       {
         "term": "Evaluative research",
-        "meaning": "Research that tests a concept, flow, or product.",
-        "group": "methods"
+        "meaning": "Research that tests a design, flow, or concept.",
+        "group": "research-craft"
       },
       {
         "term": "Interview guide",
-        "meaning": "Planned prompts used to keep interviews consistent.",
-        "group": "artifacts"
+        "meaning": "Structured prompts used to run consistent interviews.",
+        "group": "research-craft"
       },
       {
-        "term": "Research synthesis",
-        "meaning": "Combining findings into patterns, themes, and implications.",
-        "group": "artifacts"
+        "term": "Usability testing",
+        "meaning": "Watching people try tasks to find friction.",
+        "group": "research-craft"
       },
       {
-        "term": "Participant recruitment",
-        "meaning": "Finding suitable people to take part in research.",
-        "group": "operations"
-      },
-      {
-        "term": "Insights",
-        "meaning": "Useful findings that explain user behavior or needs.",
-        "group": "outputs"
-      },
-      {
-        "term": "Affinity mapping",
-        "meaning": "Grouping observations to spot themes and patterns.",
-        "group": "analysis"
-      },
-      {
-        "term": "Journey map",
-        "meaning": "Visual view of a user's steps and pain points.",
-        "group": "artifacts"
+        "term": "Synthesis",
+        "meaning": "Turning raw notes into patterns, insights, and implications.",
+        "group": "research-craft"
       },
       {
         "term": "Triangulation",
-        "meaning": "Checking patterns across multiple methods or data sources.",
-        "group": "analysis"
+        "meaning": "Checking a finding across multiple methods or sources.",
+        "group": "research-craft"
+      },
+      {
+        "term": "Research repository",
+        "meaning": "Shared place for findings, clips, notes, and past studies.",
+        "group": "research-practice"
+      },
+      {
+        "term": "Continuous discovery",
+        "meaning": "Ongoing learning alongside product delivery, not one-off studies.",
+        "group": "research-practice"
+      },
+      {
+        "term": "Recruiting",
+        "meaning": "Finding and scheduling the right participants.",
+        "group": "research-practice"
+      },
+      {
+        "term": "Readout",
+        "meaning": "Sharing findings and recommendations with stakeholders.",
+        "group": "research-practice"
+      },
+      {
+        "term": "Insight debt",
+        "meaning": "Gaps in understanding caused by skipped or shallow research.",
+        "group": "research-practice"
+      },
+      {
+        "term": "ResearchOps",
+        "meaning": "Systems and support that make research easier to run.",
+        "group": "research-practice"
+      },
+      {
+        "term": "Stakeholder management",
+        "meaning": "Aligning expectations, decisions, and involvement across partners.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Decision-ready insight",
+        "meaning": "Finding framed clearly enough to guide a choice.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Mixed methods",
+        "meaning": "Combining qualitative and quantitative evidence.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Research roadmap",
+        "meaning": "Planned sequence of studies tied to product priorities.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Democratized research",
+        "meaning": "Non-researchers doing some research with guidance and guardrails.",
+        "group": "senior-scope"
       }
     ],
     "terminology_groups": [
       {
-        "key": "methods",
-        "label": "Methods"
+        "key": "research-craft",
+        "label": "Research craft"
       },
       {
-        "key": "artifacts",
-        "label": "Artifacts"
+        "key": "research-practice",
+        "label": "Research practice"
       },
       {
-        "key": "operations",
-        "label": "Operations and logistics."
+        "key": "senior-scope",
+        "label": "Senior scope"
       }
     ],
     "listen_for": [
-      "Whether they talk about decisions changed, not just studies completed.",
-      "Repeated mention of having to defend method choice or research time.",
-      "Signs they are carrying too many stakeholder requests at once.",
-      "Whether they describe findings with confidence, nuance, and clear limits.",
-      "Shifts from user-centered language to stakeholder-pleasing language."
+      "Whether they talk about outcomes and decisions, not just completed studies.",
+      "Whether they mention being brought in early versus late in the product cycle.",
+      "How they describe tradeoffs between speed, rigor, and stakeholder pressure.",
+      "Whether they can name patterns across teams, not only issues in one study.",
+      "Shifts from research language to influence language like alignment, adoption, and action."
     ],
     "avoid": [
-      "Treating them like a note-taker for design instead of a strategic partner.",
-      "Measuring their value only by number of studies or speed of turnaround.",
-      "Pushing for certainty when research findings are directional or partial.",
-      "Assuming anyone can do the work if they just talk to a few users."
+      "Treating them as a service desk for quick feedback requests.",
+      "Equating more interviews with more impact.",
+      "Pushing certainty when the evidence is directional or still emerging.",
+      "Assuming stakeholder facilitation is secondary to the research itself."
     ]
   }
 }

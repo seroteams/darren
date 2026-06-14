@@ -1,119 +1,178 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781423670493,
+  "generated_at": 1781447292920,
   "role_title_raw": "Account Executive",
   "role_slug": "account-executive",
   "seniority_raw": "Mid-level",
   "seniority_key": "mid-level",
   "role_family": "general",
   "profile": {
-    "summary": "A mid-level Account Executive owns a pipeline of target accounts, runs discovery and demos, manages stakeholders through evaluation, and closes new business or expansion deals. They usually work closely with sales development, solutions or product specialists, marketing, legal, finance, and customer success while carrying a quota and keeping CRM data current.",
+    "summary": "A mid-level Account Executive owns a pipeline of target accounts, runs discovery and demos, manages stakeholders through evaluation, and closes new business or expansions. They usually carry a quota, keep CRM hygiene, and work closely with sales development, marketing, solutions or product specialists, legal, finance, and customer success to move deals forward.",
     "role_confidence": "high",
     "known_challenges": [
       {
-        "text": "Balancing enough pipeline building with the time needed to move active deals forward.",
-        "category": "topic"
-      },
-      {
-        "text": "Handling long, multi-stakeholder buying cycles without losing momentum or next steps.",
-        "category": "topic"
-      },
-      {
-        "text": "Forecast pressure can push short-term deal behavior over healthy qualification.",
+        "text": "Hitting quota while juggling prospecting, active deals, follow-up, and admin work.",
         "category": "wellbeing"
       },
       {
-        "text": "Keeping CRM notes, stages, and forecasts accurate while spending most time with prospects.",
+        "text": "Getting access to the real decision-makers instead of being stuck with a single contact.",
+        "category": "topic"
+      },
+      {
+        "text": "Running strong discovery and tying the product to business pain, not just features.",
         "category": "competency"
       },
       {
-        "text": "Recovering confidence and energy after losses, slippage, or quiet periods.",
-        "category": "wellbeing"
+        "text": "Keeping deal forecasts accurate when buyer timelines keep slipping.",
+        "category": "competency"
+      },
+      {
+        "text": "Managing long approval cycles, procurement steps, and legal redlines without losing momentum.",
+        "category": "topic"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Pipeline health and deal coverage",
-        "why": "This role lives or dies on having enough qualified opportunities at different stages, not just one big deal.",
+        "theme": "Pipeline quality and coverage",
+        "why": "This role lives or dies on having enough real opportunities at the right stages, not just activity.",
         "category": "topic"
       },
       {
-        "theme": "Deal strategy and stakeholder mapping",
-        "why": "Mid-level AEs need to navigate champions, blockers, budget owners, and decision makers inside each account.",
+        "theme": "Discovery depth and deal strategy",
+        "why": "Mid-level AEs often need support turning surface interest into a clear business case and next steps.",
         "category": "competency"
       },
       {
-        "theme": "Qualification discipline",
-        "why": "Strong qualification protects time, forecast quality, and morale when pressure to chase every lead is high.",
+        "theme": "Forecast confidence",
+        "why": "Forecast calls shape trust and planning, and this role is expected to judge deal reality well.",
         "category": "competency"
       },
       {
-        "theme": "Forecast confidence and deal slippage",
-        "why": "Understanding what is real versus hopeful helps the manager coach earlier and reduce end-of-period surprises.",
+        "theme": "Cross-functional deal support",
+        "why": "Progress often depends on timely help from solutions, legal, finance, and customer success.",
         "category": "topic"
       },
       {
-        "theme": "Energy, rejection load, and motivation",
-        "why": "Constant wins and losses affect consistency, and burnout can show up before quota misses do.",
+        "theme": "Energy and resilience under quota pressure",
+        "why": "Sales pressure can distort judgment and morale, especially during slow periods or slipped deals.",
         "category": "wellbeing"
       }
     ],
     "terminology": [
       {
-        "term": "Pipeline",
-        "meaning": "Active potential deals expected to generate revenue."
-      },
-      {
-        "term": "Quota",
-        "meaning": "Sales target for a period."
-      },
-      {
-        "term": "Forecast",
-        "meaning": "Best estimate of expected closed revenue."
-      },
-      {
-        "term": "Discovery",
-        "meaning": "Early conversation to understand needs and fit."
+        "term": "Discovery call",
+        "meaning": "Conversation to uncover pains, goals, process, and buying context.",
+        "group": "sales-craft"
       },
       {
         "term": "Demo",
-        "meaning": "Product walkthrough tailored to the buyer."
+        "meaning": "Product walkthrough tailored to the buyer's use case.",
+        "group": "sales-craft"
       },
       {
-        "term": "Qualification",
-        "meaning": "Checking whether an opportunity is real and worth pursuing."
+        "term": "Pipeline",
+        "meaning": "Open opportunities being worked toward close.",
+        "group": "sales-craft"
       },
       {
-        "term": "CRM",
-        "meaning": "System used to track accounts, deals, and activity."
+        "term": "Quota",
+        "meaning": "Revenue target the AE is expected to hit.",
+        "group": "sales-craft"
+      },
+      {
+        "term": "MEDDICC",
+        "meaning": "Framework for qualifying deals and buyer readiness.",
+        "group": "sales-craft"
       },
       {
         "term": "Objection handling",
-        "meaning": "Responding to buyer concerns or pushback."
+        "meaning": "Addressing buyer concerns without getting defensive or vague.",
+        "group": "sales-craft"
       },
       {
-        "term": "Close date",
-        "meaning": "Expected date the deal will be signed."
+        "term": "Forecast",
+        "meaning": "Best estimate of what deals will close and when.",
+        "group": "execution"
       },
       {
-        "term": "Stakeholder map",
-        "meaning": "Who influences, approves, or blocks the purchase."
+        "term": "Commit",
+        "meaning": "Deal expected to close in the forecast period.",
+        "group": "execution"
+      },
+      {
+        "term": "CRM hygiene",
+        "meaning": "Keeping deal records current, accurate, and usable.",
+        "group": "execution"
+      },
+      {
+        "term": "Next step",
+        "meaning": "Specific agreed action that moves the deal forward.",
+        "group": "execution"
+      },
+      {
+        "term": "Mutual action plan",
+        "meaning": "Shared close plan with buyer tasks, owners, and dates.",
+        "group": "execution"
+      },
+      {
+        "term": "Close plan",
+        "meaning": "Internal and external steps needed to get signed.",
+        "group": "execution"
+      },
+      {
+        "term": "Champion",
+        "meaning": "Internal buyer who actively sells the deal internally.",
+        "group": "buying-process"
+      },
+      {
+        "term": "Economic buyer",
+        "meaning": "Person with budget authority or final financial say.",
+        "group": "buying-process"
+      },
+      {
+        "term": "Procurement",
+        "meaning": "Buyer team that handles purchasing process and terms.",
+        "group": "buying-process"
+      },
+      {
+        "term": "Redlines",
+        "meaning": "Requested contract edits during legal review.",
+        "group": "buying-process"
+      },
+      {
+        "term": "Stakeholder mapping",
+        "meaning": "Identifying who influences, approves, or blocks the deal.",
+        "group": "buying-process"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "sales-craft",
+        "label": "Sales craft"
+      },
+      {
+        "key": "execution",
+        "label": "Deal execution"
+      },
+      {
+        "key": "buying-process",
+        "label": "Buying process"
       }
     ],
     "listen_for": [
-      "They talk about next steps, mutual commitments, and named stakeholders rather than vague buyer interest.",
-      "They describe why a deal will close with evidence, not just optimism.",
-      "They mention qualification early instead of treating every meeting as a live opportunity.",
-      "They speak clearly about slippage patterns, not only end results.",
-      "They reference CRM hygiene or avoid specifics when pipeline quality is weak."
+      "Whether they talk about business problems or mostly product features.",
+      "How clearly they name the champion, decision process, and next step on each deal.",
+      "Whether forecast language sounds evidence-based or hopeful.",
+      "Signs they are over-relying on inbound leads or one large deal.",
+      "Whether CRM updates match the confidence they express verbally."
     ],
     "avoid": [
-      "Treating every missed target as an effort problem instead of checking pipeline quality and deal reality.",
-      "Pushing heroic end-of-quarter saves while ignoring weak qualification earlier in the cycle.",
-      "Confusing activity volume with progress on real opportunities.",
-      "Undermining trust by pressuring for optimistic forecasts the rep does not believe."
+      "Treating activity volume as proof that the pipeline is healthy.",
+      "Pushing discounts as the default answer to stalled deals.",
+      "Assuming missed forecast always means poor effort rather than weak deal qualification.",
+      "Turning every 1:1 into a numbers interrogation without helping on strategy."
     ]
   }
 }

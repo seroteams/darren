@@ -194,6 +194,31 @@ ok(
     groupedBlock.includes("- Incident command: running a live outage response")
 );
 
+// Phase 3 guard — the real grouped profile on disk (UX Lead) stays well-formed.
+// Asserts STRUCTURE, not a fixed word list, so it survives a future regeneration.
+console.log("\n--- fixture integrity: real grouped profile on disk (UX Lead) ---");
+const uxl = loadRoleProfile({ role: "UX Lead", seniority: "Lead" });
+ok("UX Lead profile loads from disk", Boolean(uxl));
+if (uxl) {
+  const declared = terminologyGroups(uxl.profile);
+  const keys = new Set(declared.map((g) => g.key));
+  const catalogued = Array.isArray(uxl.profile.terminology) ? uxl.profile.terminology : [];
+  ok("declares at least one vocabulary group", declared.length >= 1);
+  ok(
+    "every catalogued term has a group matching a declared group (no orphans)",
+    catalogued.length > 0 && catalogued.every((t) => keys.has(t.group))
+  );
+  ok(
+    "at least one declared group is populated",
+    declared.some((g) => catalogued.some((t) => t.group === g.key))
+  );
+  const block = renderRoleProfileBlock(uxl, { slice: "full", meetingType: "Growth & career plan" });
+  ok(
+    "the live-run block still emits flat '- term: meaning' lines",
+    /\n- .+: .+/.test(block) && block.includes(`${catalogued[0]?.term}:`)
+  );
+}
+
 // Async (cache hit needs await); runs after the sync sections, before the summary.
 async function runSnapshotTest() {
   console.log("\n--- session snapshot: cache hit still logs the profile ---");

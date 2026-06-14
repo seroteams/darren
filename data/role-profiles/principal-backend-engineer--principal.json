@@ -1,119 +1,183 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781149178462,
+  "generated_at": 1781431060489,
   "role_title_raw": "Principal Backend Engineer",
   "role_slug": "principal-backend-engineer",
   "seniority_raw": "Principal",
   "seniority_key": "principal",
   "role_family": "engineering",
   "profile": {
-    "summary": "A Principal Backend Engineer sets technical direction for backend systems across multiple teams. They shape architecture, reliability, performance, and service boundaries, while still going deep on critical design and code decisions. They work closely with senior engineers, engineering managers, product, security, platform, and sometimes data teams to reduce system risk and enable faster delivery at scale.",
+    "summary": "A Principal Backend Engineer sets the technical direction for backend systems across multiple teams. They shape architecture, reliability, performance, and service boundaries while still going deep on hard problems. They influence roadmaps, unblock senior engineers, and align product, platform, security, and data concerns without usually owning people management.",
     "role_confidence": "high",
     "known_challenges": [
       {
-        "text": "Balancing long-term architecture work with pressure to unblock immediate delivery needs.",
+        "text": "Balancing long-term architecture work with pressure to deliver near-term product features.",
         "category": "topic"
       },
       {
-        "text": "Influencing technical decisions across teams without direct authority.",
+        "text": "Influencing multiple teams without direct authority, especially when standards slow local delivery.",
         "category": "competency"
       },
       {
-        "text": "Carrying responsibility for reliability and scalability issues in systems they may not directly own.",
+        "text": "Being pulled into too many escalations and design reviews, leaving little focus time.",
         "category": "wellbeing"
       },
       {
-        "text": "Turning broad technical vision into standards and decisions other engineers can actually apply.",
+        "text": "Driving consistency across services while respecting different team contexts and constraints.",
+        "category": "topic"
+      },
+      {
+        "text": "Staying hands-on enough to keep technical credibility while operating at broader scope.",
         "category": "competency"
-      },
-      {
-        "text": "Managing growing context load across services, dependencies, and stakeholder priorities.",
-        "category": "wellbeing"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Architecture direction and tradeoff quality",
-        "why": "This role is often judged by whether big backend decisions stay practical, scalable, and well understood.",
-        "category": "competency"
-      },
-      {
-        "theme": "Cross-team influence and decision alignment",
-        "why": "Principal engineers succeed through trust, persuasion, and clarity across teams they do not manage.",
-        "category": "competency"
-      },
-      {
-        "theme": "System reliability, performance, and operational risk",
-        "why": "They often see failure patterns early and carry responsibility for reducing backend risk before incidents happen.",
+        "theme": "Architecture priorities and tradeoffs",
+        "why": "This role often carries the burden of deciding which backend problems deserve platform-level investment versus local fixes.",
         "category": "topic"
       },
       {
-        "theme": "Space for deep technical work versus reactive support",
-        "why": "Constant escalation and review requests can crowd out the high-leverage work expected at this level.",
+        "theme": "Cross-team influence and decision-making",
+        "why": "Their impact depends on getting adoption across teams that do not report to them.",
+        "category": "competency"
+      },
+      {
+        "theme": "Reliability, performance, and operational risk",
+        "why": "Principal backend engineers are often the people others look to when systems strain or fail.",
+        "category": "topic"
+      },
+      {
+        "theme": "Load, interruptions, and sustainable scope",
+        "why": "Broad technical ownership can turn into constant context switching and invisible overtime.",
         "category": "wellbeing"
       },
       {
-        "theme": "Technical strategy translated into concrete standards",
-        "why": "Their impact depends on turning abstract direction into patterns, guardrails, and decisions teams can use.",
-        "category": "topic"
+        "theme": "Hands-on depth versus strategic breadth",
+        "why": "They need enough coding and system contact to stay grounded while working at wider organizational scope.",
+        "category": "competency"
       }
     ],
     "terminology": [
       {
-        "term": "API",
-        "meaning": "Contract that lets systems communicate with each other."
+        "term": "Service boundaries",
+        "meaning": "Where one backend service's responsibilities start and end.",
+        "group": "backend"
       },
       {
-        "term": "Microservices",
-        "meaning": "Small services split by responsibility and deployed independently."
+        "term": "API contract",
+        "meaning": "The agreed request and response behavior between systems.",
+        "group": "backend"
       },
       {
-        "term": "Latency",
-        "meaning": "How long a request takes to complete."
+        "term": "Data model",
+        "meaning": "How backend data is structured and related.",
+        "group": "backend"
       },
       {
-        "term": "Throughput",
-        "meaning": "How much work a system handles over time."
+        "term": "Latency budget",
+        "meaning": "Allowed response time split across system components.",
+        "group": "backend"
       },
       {
-        "term": "SLA",
-        "meaning": "Promised level of service availability or performance."
+        "term": "Idempotency",
+        "meaning": "Repeating a request safely without extra side effects.",
+        "group": "backend"
+      },
+      {
+        "term": "Backward compatibility",
+        "meaning": "Changes that do not break existing clients or integrations.",
+        "group": "backend"
+      },
+      {
+        "term": "RFC",
+        "meaning": "Written proposal used to align on technical decisions.",
+        "group": "technical-leadership"
+      },
+      {
+        "term": "Technical strategy",
+        "meaning": "Longer-term plan for systems, constraints, and investments.",
+        "group": "technical-leadership"
+      },
+      {
+        "term": "Paved road",
+        "meaning": "Recommended standard approach teams can adopt easily.",
+        "group": "technical-leadership"
+      },
+      {
+        "term": "Design review",
+        "meaning": "Structured feedback on architecture before major implementation.",
+        "group": "technical-leadership"
+      },
+      {
+        "term": "Influence without authority",
+        "meaning": "Driving change through trust, clarity, and evidence.",
+        "group": "technical-leadership"
+      },
+      {
+        "term": "Stakeholder alignment",
+        "meaning": "Getting product, platform, and engineering moving together.",
+        "group": "technical-leadership"
+      },
+      {
+        "term": "Observability",
+        "meaning": "Logs, metrics, and traces that explain system behavior.",
+        "group": "the-role"
       },
       {
         "term": "SLO",
-        "meaning": "Target level for service reliability."
+        "meaning": "Target level for service reliability or performance.",
+        "group": "the-role"
       },
       {
-        "term": "Distributed systems",
-        "meaning": "Software running across multiple networked machines."
+        "term": "Incident review",
+        "meaning": "Blameless analysis of what failed and what to improve.",
+        "group": "the-role"
       },
       {
-        "term": "Event-driven architecture",
-        "meaning": "Systems react to events instead of direct calls."
+        "term": "Tech debt",
+        "meaning": "Past shortcuts that now slow change or raise risk.",
+        "group": "the-role"
       },
       {
-        "term": "Backwards compatibility",
-        "meaning": "Changes that do not break existing clients."
+        "term": "Migration plan",
+        "meaning": "Steps to move safely from old systems to new ones.",
+        "group": "the-role"
       },
       {
-        "term": "Technical debt",
-        "meaning": "Past shortcuts that slow future development."
+        "term": "AI-assisted coding",
+        "meaning": "Using coding tools to speed drafting, refactoring, or exploration.",
+        "group": "the-role"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "backend",
+        "label": "Backend engineering"
+      },
+      {
+        "key": "technical-leadership",
+        "label": "Technical leadership"
+      },
+      {
+        "key": "the-role",
+        "label": "Principal backend work"
       }
     ],
     "listen_for": [
-      "Whether they talk about system-wide tradeoffs or stay stuck in team-local issues.",
-      "Repeated mentions of being pulled into too many reviews, escalations, or design decisions.",
-      "How they describe influence: alignment built through trust versus frustration at slow adoption.",
-      "Shifts from technical detail into risk language around reliability, scaling, or migration work.",
-      "Whether they name successors and other engineers growing under their guidance."
+      "Whether they talk about system-wide tradeoffs or stay stuck in one team's local view.",
+      "How often they mention writing, alignment, and adoption work versus only implementation.",
+      "Signs they are carrying hidden operational load from incidents, escalations, or review bottlenecks.",
+      "Whether they frame problems in terms of reliability, performance, and change risk.",
+      "Shifts from curiosity and leverage to frustration about repeated persuasion or slow adoption."
     ],
     "avoid": [
-      "Treating them like a senior individual contributor who only owns their own code.",
-      "Pushing people-management expectations onto them if their role is technical leadership.",
-      "Assuming architecture work is separate from delivery pressure and operational reality.",
-      "Mistaking strong opinions for resistance when they are surfacing system risk or long-term cost."
+      "Treating them like a senior individual contributor who should simply pick up the hardest tickets.",
+      "Assuming architecture work is abstract overhead rather than delivery-enabling work.",
+      "Using them as the default approver for every technical decision.",
+      "Pushing people management expectations onto the role if they do not actually own reports."
     ]
   }
 }

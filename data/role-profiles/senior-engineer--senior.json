@@ -1,111 +1,173 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781149556045,
+  "generated_at": 1781447386514,
   "role_title_raw": "Senior Engineer",
   "role_slug": "senior-engineer",
   "seniority_raw": "Senior",
   "seniority_key": "senior",
   "role_family": "engineering",
   "profile": {
-    "summary": "A Senior Engineer delivers complex technical work with limited oversight, owns important systems or features, and helps shape implementation choices. They balance hands-on delivery with code quality, design input, and support for less experienced engineers. They work closely with product, design, engineering peers, and their manager to turn goals into reliable software.",
+    "summary": "A Senior Engineer owns complex delivery end to end, makes key technical decisions, and raises the quality bar for the team. They work closely with product, design, and other engineers, balancing hands-on implementation with system design, code review, incident response, and mentoring less experienced teammates.",
     "role_confidence": "medium",
     "known_challenges": [
       {
-        "text": "Balancing deep individual contribution with growing expectations to mentor others and review more work.",
+        "text": "Balancing deep hands-on work with the expectation to guide others and unblock the team.",
+        "category": "topic"
+      },
+      {
+        "text": "Carrying informal leadership without always having clear authority over priorities or technical direction.",
+        "category": "topic"
+      },
+      {
+        "text": "Keeping delivery moving while protecting code quality, maintainability, and technical debt work.",
         "category": "competency"
       },
       {
-        "text": "Owning delivery for complex projects while depending on other teams, unclear requirements, or shifting priorities.",
-        "category": "topic"
-      },
-      {
-        "text": "Keeping technical quality high when deadlines push toward shortcuts and rework later.",
-        "category": "topic"
-      },
-      {
-        "text": "Feeling pressure to be the person who can unblock everything, which can lead to overload.",
+        "text": "Context switching across feature work, reviews, support, and production issues can drain focus.",
         "category": "wellbeing"
       },
       {
-        "text": "Showing senior-level impact beyond coding, especially when promotion expectations are not clearly defined.",
-        "category": "competency"
+        "text": "Being seen as the person who should handle the hardest problems can create sustained pressure.",
+        "category": "wellbeing"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Scope and ownership of current work",
-        "why": "Senior engineers are often judged on how they handle ambiguous, high-impact work, not just task completion.",
+        "theme": "Tradeoffs between delivery speed and technical quality",
+        "why": "Senior Engineers are often where short-term product pressure meets long-term engineering health.",
         "category": "topic"
       },
       {
-        "theme": "Technical decision-making and tradeoffs",
-        "why": "This role regularly has to balance speed, quality, maintainability, and risk in visible ways.",
+        "theme": "Scope, ownership, and decision-making boundaries",
+        "why": "This level often succeeds or stalls based on how clearly they can own problems and influence direction.",
+        "category": "topic"
+      },
+      {
+        "theme": "Mentoring and raising the bar for the team",
+        "why": "Their impact is usually broader than individual output, especially through reviews, pairing, and guidance.",
         "category": "competency"
       },
       {
-        "theme": "Mentoring and support load",
-        "why": "They often carry informal leadership work that can help the team but also drain focus from core delivery.",
+        "theme": "Load from interruptions, support work, and hard problem ownership",
+        "why": "Senior Engineers often absorb invisible work that affects energy and sustained performance.",
         "category": "wellbeing"
       },
       {
-        "theme": "Cross-team dependencies and alignment",
-        "why": "Delivery at this level often slows down because of coordination gaps rather than coding difficulty.",
-        "category": "topic"
-      },
-      {
-        "theme": "Growth toward broader technical leadership",
-        "why": "Senior engineers usually need clarity on what stronger system ownership and influence look like from here.",
+        "theme": "Growth from strong implementer to technical leader",
+        "why": "This level is often preparing for wider architectural and cross-team influence, not just more coding.",
         "category": "competency"
       }
     ],
     "terminology": [
       {
+        "term": "System design",
+        "meaning": "Planning how parts of a system fit and scale.",
+        "group": "craft"
+      },
+      {
         "term": "Code review",
-        "meaning": "Checking code changes for quality, correctness, and maintainability."
+        "meaning": "Checking code changes for quality, clarity, and risk.",
+        "group": "craft"
       },
       {
-        "term": "Tech debt",
-        "meaning": "Past shortcuts that make future changes slower or riskier."
+        "term": "Technical debt",
+        "meaning": "Shortcuts that make future changes slower or riskier.",
+        "group": "craft"
       },
       {
-        "term": "Refactor",
-        "meaning": "Changing code structure without changing behavior."
+        "term": "Refactoring",
+        "meaning": "Improving code structure without changing behavior.",
+        "group": "craft"
       },
       {
-        "term": "Architecture",
-        "meaning": "High-level system design and how parts fit together."
+        "term": "Observability",
+        "meaning": "Logs, metrics, and traces that explain system behavior.",
+        "group": "craft"
       },
       {
         "term": "Incident",
-        "meaning": "A production problem affecting users or systems."
+        "meaning": "A production problem affecting users or system health.",
+        "group": "craft"
       },
       {
-        "term": "Root cause",
-        "meaning": "The underlying reason a problem happened."
+        "term": "Mentoring",
+        "meaning": "Helping other engineers grow through guidance and feedback.",
+        "group": "senior-scope"
       },
       {
-        "term": "PR",
-        "meaning": "Proposed code change for review before merging."
+        "term": "Design review",
+        "meaning": "Discussion to test a technical approach before building.",
+        "group": "senior-scope"
       },
       {
-        "term": "CI/CD",
-        "meaning": "Automated build, test, and release pipeline."
+        "term": "Architecture decision",
+        "meaning": "A meaningful technical choice with lasting impact.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Unblocking",
+        "meaning": "Removing obstacles so others can keep moving.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Technical direction",
+        "meaning": "The engineering approach a team is aligning around.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Cross-functional",
+        "meaning": "Working closely with product, design, and other partners.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Sprint",
+        "meaning": "A short delivery cycle with planned work.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Backlog",
+        "meaning": "The ordered list of work still to do.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Pairing",
+        "meaning": "Two engineers working together on the same problem.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "On-call",
+        "meaning": "Being responsible for responding to production issues.",
+        "group": "ways-of-working"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "craft",
+        "label": "Engineering craft"
+      },
+      {
+        "key": "senior-scope",
+        "label": "Senior engineer scope"
+      },
+      {
+        "key": "ways-of-working",
+        "label": "Ways of working"
       }
     ],
     "listen_for": [
-      "Whether they talk only about tickets finished or also about system impact and tradeoffs.",
-      "Repeated mentions of being a blocker remover for others.",
-      "Frustration about unclear ownership, changing requirements, or dependency delays.",
-      "Whether mentoring comes up as rewarding, invisible, or disruptive to their own work.",
-      "Shifts from confident technical language to vagueness when discussing longer-term growth."
+      "Whether they talk about team outcomes or only their own tickets.",
+      "How they describe tradeoffs between shipping quickly and building sustainably.",
+      "Whether production issues and support work are taking over planned engineering time.",
+      "How often they mention mentoring, reviews, and unblocking as part of their week.",
+      "Whether they sound clear or frustrated about who makes technical decisions."
     ],
     "avoid": [
-      "Treating them like a pure delivery machine and ignoring mentoring, design input, and system ownership.",
-      "Assuming senior means they need little support or no career guidance.",
-      "Pushing them to take on every hard problem because they are reliable.",
-      "Using generic promotion advice without clarifying what senior success looks like on this team."
+      "Treating them like they should just code faster instead of handling broader technical responsibilities.",
+      "Assuming informal leadership means they have authority to set priorities on their own.",
+      "Pushing all hard or messy work toward them because they are reliable.",
+      "Judging impact only by visible feature output and ignoring mentoring, reviews, and system health work."
     ]
   }
 }

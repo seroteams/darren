@@ -23,13 +23,25 @@ edits are plain JSON; reset = delete the overlay.
 |---|---|---|---|
 | 1 | Overlay data layer + registry merge | Backend can store an arc overlay and merge it over the code default; validation + orphan-count helper; offline tests. No UI. | ✅ |
 | 2 | Read API + read-only view | `GET /api/arcs` + a new in-app "Meeting arcs" page that shows every arc. View only. | ✅ |
-| 3 | Edit + save (write path + guardrail) | Save/reset endpoints behind the localhost guard; inline editing, add/remove/reorder phases, orphan warning before risky saves. | ⬜ |
+| 3 | Edit + save (write path + guardrail) | Save/reset endpoints behind the localhost guard; inline editing, add/remove/reorder phases, orphan warning before risky saves. | 🔨 |
 | 4 | (optional) Promote stage-id check to a gate | Orphaned question tags caught by `npm test`; de-hardcode `test-intro-order.js`. | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ green-lit + committed (2026-06-14). Phase 2 🔨 in progress.**
+**Phase 3 🔨 built — awaiting Carl's QA + green light (2026-06-14).**
+
+- Phase 3 lands: `save`/`reset` in `frontend/server/handlers/arcs.js`; `POST /api/arcs/:slug`
+  + `POST /api/arcs/:slug/reset` behind `originOk` in `server.js`; `saveArc`/`resetArc` in
+  `api.js`; full inline editor (edit phases/tone/anti-patterns, add/remove/reorder, orphan-
+  warning confirm, Reset to default) in `stages/meeting-arcs.js`.
+- Offline verified (free, $0): `npm test` **26/26 green**; `git status src/one-on-one-types/`
+  clean (source `type.js` files untouched); handler + edited client/server files load / `node --check` clean.
+- Not browser-tested yet — Carl to walk phase-3.md scenarios. Phase 4 stays parked until green.
+
+---
+_Prior state:_
+**Phase 1 ✅ green-lit + committed (2026-06-14). Phase 2 ✅ green-lit + committed.**
 
 - Baseline: `npm test` 24/24 → **25/25 green** after Phase 1 (free, $0).
 - Phase 1 shipped: `src/arc-overlay.js`, overlay-aware `getType`/`getArc` in

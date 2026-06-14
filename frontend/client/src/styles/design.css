@@ -477,7 +477,7 @@ textarea { resize: vertical; }
 .kbd {
   display: inline-block;
   padding: 0.05em 0.35em;
-  font-size: 0.8em;
+  font-size: var(--type-body-sm); /* was 0.8em (~12.8px) → 14px floor */
   font-family: inherit;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -1225,10 +1225,6 @@ body.has-session-topbar .stage {
 
 .watch-item {
   padding: 0.45rem 0;
-}
-.watch-item__mark {
-  color: var(--color-ink-mute);
-  line-height: 1.55;
 }
 
 /* -----------------------------------------------------------------------------
@@ -2042,11 +2038,6 @@ body.has-session-topbar .stage {
   color: var(--color-ink-mute);
   white-space: nowrap;
 }
-.session-topbar__placeholder {
-  color: var(--color-ink-mute);
-  opacity: 0.6;
-  letter-spacing: 0.02em;
-}
 body.has-session-topbar {
   padding-top: 44px;
 }
@@ -2496,18 +2487,9 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
 .run-row__head:hover {
   background: color-mix(in srgb, var(--color-accent-soft) 55%, transparent);
 }
-.run-row__num {
-  color: var(--color-ink-mute);
-  font-variant-numeric: tabular-nums;
-  font-size: 0.85em;
-}
 .run-row__headline {
   flex: 1;
   font-weight: 500;
-}
-.run-row__stage {
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 .run-row__body {
   padding: 0.75rem 1rem 1rem 2.5rem;
@@ -2551,15 +2533,6 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   vertical-align: middle;
 }
 
-.start-cta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--color-border);
-}
 
 .btn--sm {
   font-size: var(--type-caption);
@@ -2643,16 +2616,6 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-}
-.pipeline-changelog__dev-badge {
-  font-size: var(--type-label);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--color-accent-dark);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  padding: 0.1rem 0.35rem;
-  margin-left: 0.35rem;
 }
 .start-popover {
   position: fixed;
@@ -3401,7 +3364,7 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
 .guide-ref code {
   justify-self: start;
   font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: 0.85em;
+  font-size: var(--type-body-sm); /* was 0.85em (~13.6px) → 14px floor */
   color: var(--color-accent-dark);
   background: var(--color-accent-soft);
   padding: 0.1rem 0.4rem;

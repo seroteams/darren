@@ -1,111 +1,163 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781317421561,
+  "generated_at": 1781447323405,
   "role_title_raw": "Operations Coordinator",
   "role_slug": "operations-coordinator",
   "seniority_raw": "Junior",
   "seniority_key": "junior",
   "role_family": "general",
   "profile": {
-    "summary": "A Junior Operations Coordinator keeps day-to-day processes moving by tracking tasks, updating records, coordinating schedules, following up with vendors or internal teams, and flagging issues early. They usually own small process steps rather than full systems, and work closely with operations leads, customer-facing teams, finance, logistics, or office support depending on the company.",
+    "summary": "A Junior Operations Coordinator keeps day-to-day processes moving by tracking tasks, updating records, coordinating schedules, following up on requests, and helping teams stay organised. They usually support more senior operations staff and work across admin, customer, vendor, or internal teams. Their scope is execution and reliability rather than setting process strategy.",
     "role_confidence": "medium",
     "known_challenges": [
       {
-        "text": "Juggling many small requests and deadlines without losing track of details.",
-        "category": "competency"
-      },
-      {
-        "text": "Working in unclear processes where the handoffs, owners, or priorities are not fully defined.",
+        "text": "Juggling many small requests without losing track of priorities or deadlines.",
         "category": "topic"
       },
       {
-        "text": "Balancing speed with accuracy when updating records, orders, schedules, or reports.",
+        "text": "Learning when to solve an issue alone and when to escalate quickly.",
         "category": "competency"
       },
       {
-        "text": "Feeling pressure from repetitive admin work while still being expected to stay responsive and helpful.",
+        "text": "Keeping data, trackers, and handoffs accurate when work is repetitive and fast-moving.",
+        "category": "competency"
+      },
+      {
+        "text": "Handling interruptions from different teams while still finishing core tasks.",
         "category": "wellbeing"
       },
       {
-        "text": "Escalating problems confidently when they notice something off but are still early in their career.",
-        "category": "competency"
+        "text": "Working in processes they did not design and may not fully understand yet.",
+        "category": "topic"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Workload clarity and task prioritisation",
-        "why": "Junior coordinators often handle a high volume of small tasks, so clear priorities reduce mistakes and stress.",
-        "category": "topic"
-      },
-      {
-        "theme": "Confidence in processes and handoffs",
-        "why": "They need to know who owns what and when to escalate, especially in messy operational workflows.",
-        "category": "competency"
-      },
-      {
-        "theme": "Accuracy, quality checks, and error recovery",
-        "why": "Small mistakes can create downstream problems, so it matters to understand where they feel unsure.",
-        "category": "competency"
-      },
-      {
-        "theme": "Repetitive work, energy, and motivation",
-        "why": "This role can become draining if the work is highly reactive or admin-heavy without enough support.",
+        "theme": "Workload clarity and shifting priorities",
+        "why": "This role often gets pulled in many directions, so clear priorities help them stay reliable and calm.",
         "category": "wellbeing"
       },
       {
-        "theme": "Exposure to the bigger operational picture",
-        "why": "Understanding how their tasks affect customers, teams, or delivery helps them grow beyond task execution.",
+        "theme": "Confidence with core processes and tools",
+        "why": "Junior coordinators need repetition and support to build accuracy and speed in routine work.",
+        "category": "competency"
+      },
+      {
+        "theme": "Escalation judgment",
+        "why": "Knowing what needs quick attention versus normal follow-up is a key step in becoming dependable.",
+        "category": "competency"
+      },
+      {
+        "theme": "Handoffs and cross-team communication",
+        "why": "Much of the role depends on getting timely responses and keeping others aligned on status.",
+        "category": "topic"
+      },
+      {
+        "theme": "Process friction and recurring blockers",
+        "why": "They often see where work gets stuck first, even if they are not the one redesigning it.",
         "category": "topic"
       }
     ],
     "terminology": [
       {
         "term": "SLA",
-        "meaning": "Expected time to respond or complete a task."
-      },
-      {
-        "term": "Escalation",
-        "meaning": "Passing an issue to someone with more authority or expertise."
+        "meaning": "Expected time to respond or complete work.",
+        "group": "operations"
       },
       {
         "term": "Handoff",
-        "meaning": "Transfer of work or information between people or teams."
+        "meaning": "Passing work or information to another person.",
+        "group": "operations"
       },
       {
         "term": "Backlog",
-        "meaning": "Work waiting to be completed."
+        "meaning": "Work waiting to be picked up or completed.",
+        "group": "operations"
       },
       {
-        "term": "KPI",
-        "meaning": "A metric used to track performance."
+        "term": "Escalation",
+        "meaning": "Raising an issue because it needs faster or higher support.",
+        "group": "operations"
+      },
+      {
+        "term": "Tracker",
+        "meaning": "Shared list used to monitor tasks or requests.",
+        "group": "operations"
       },
       {
         "term": "Turnaround time",
-        "meaning": "How long it takes to finish a request."
+        "meaning": "How long a task takes from start to finish.",
+        "group": "operations"
       },
       {
-        "term": "Vendor",
-        "meaning": "An outside company supplying goods or services."
+        "term": "Follow-up",
+        "meaning": "Checking progress or asking for an update.",
+        "group": "coordination"
       },
       {
-        "term": "Reconciliation",
-        "meaning": "Checking records to make sure numbers or entries match."
+        "term": "Status update",
+        "meaning": "Short report on what is done, blocked, or next.",
+        "group": "coordination"
+      },
+      {
+        "term": "Dependency",
+        "meaning": "Something another person must do first.",
+        "group": "coordination"
+      },
+      {
+        "term": "Inbox triage",
+        "meaning": "Sorting incoming requests by urgency and type.",
+        "group": "coordination"
+      },
+      {
+        "term": "Documentation",
+        "meaning": "Written steps, notes, or records for the work.",
+        "group": "growth"
+      },
+      {
+        "term": "QA check",
+        "meaning": "Quick review to catch mistakes before completion.",
+        "group": "growth"
+      },
+      {
+        "term": "Escalation path",
+        "meaning": "Who to contact when an issue needs extra help.",
+        "group": "growth"
+      },
+      {
+        "term": "SOP",
+        "meaning": "Standard written steps for a repeatable task.",
+        "group": "growth"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "operations",
+        "label": "Operations basics"
+      },
+      {
+        "key": "coordination",
+        "label": "Coordination and flow"
+      },
+      {
+        "key": "growth",
+        "label": "Learning the role"
       }
     ],
     "listen_for": [
-      "They talk about keeping things from slipping rather than owning decisions.",
-      "They mention chasing updates from others, which can signal weak handoffs or unclear ownership.",
-      "They focus on being careful or double-checking, which may reflect fear of making visible mistakes.",
-      "They describe urgent work as constant, suggesting reactive load is crowding out planned work.",
-      "They hesitate when describing escalation, which can signal low confidence or unclear authority."
+      "Whether they can explain priority using deadlines, impact, or service expectations",
+      "Repeated mention of chasing people for responses or unclear ownership",
+      "Hesitation around escalation, mistakes, or asking for help",
+      "Whether they talk about keeping records current or only about finishing tasks",
+      "Signs they are absorbing interruptions as normal rather than naming overload"
     ],
     "avoid": [
-      "Assuming coordination work is simple because it looks administrative.",
-      "Telling them to just be more proactive when the real problem is unclear process ownership.",
-      "Judging performance only by speed and ignoring accuracy and follow-through.",
-      "Overloading them with ad hoc requests without making priorities explicit."
+      "Assuming this role is simple because the tasks look administrative",
+      "Treating speed as more important than accuracy and clean handoffs",
+      "Pushing them to redesign processes they do not yet have authority to change",
+      "Mistaking frequent questions for low capability when they may be building judgment"
     ]
   }
 }

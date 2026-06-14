@@ -18,8 +18,12 @@ const ENTRIES = [
     def: "The engine turns the full conversation into the post-meeting briefing.",
   },
   {
-    term: "Phrase library",
-    def: "Terms worth saving from a session into the lexicon that future runs can reference.",
+    term: "Coaching phrases",
+    def: "Wording worth saving from a session for future runs to reference.",
+  },
+  {
+    term: "Role words",
+    def: "The everyday vocabulary the assistant knows for each job; you can add your team's own words.",
   },
   {
     term: "Engine changelog",

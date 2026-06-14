@@ -38,8 +38,8 @@ const LINKS = [
   { key: "compare", label: "Compare runs", stage: STAGES.COMPARE, icon: ICON.compare },
   { key: "regression", label: "Regression", stage: STAGES.REGRESSION, icon: ICON.regression },
   { key: "personas", label: "Personas", stage: STAGES.PERSONAS, icon: ICON.personas },
-  { key: "lexicon", label: "Phrase library", stage: STAGES.LEXICON_REVIEW, icon: ICON.lexicon },
-  { key: "joblex", label: "Job lexicons", stage: STAGES.ROLE_LEXICONS, icon: ICON.joblex },
+  { key: "lexicon", label: "Coaching phrases", stage: STAGES.LEXICON_REVIEW, icon: ICON.lexicon },
+  { key: "joblex", label: "Role words", stage: STAGES.ROLE_LEXICONS, icon: ICON.joblex },
   { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs },
 ];
 

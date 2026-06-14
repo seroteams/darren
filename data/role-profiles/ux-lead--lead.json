@@ -1,99 +1,178 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781363984976,
+  "generated_at": 1781430965732,
   "role_title_raw": "UX Lead",
   "role_slug": "ux-lead",
   "seniority_raw": "Lead",
   "seniority_key": "lead",
   "role_family": "design",
   "profile": {
-    "summary": "A UX Lead sets the direction for user experience across a product area or team. They guide research, interaction design, and design quality, while aligning designers, product managers, engineers, and stakeholders. They often balance hands-on design work with coaching, prioritisation, and influencing decisions without always having formal authority over every contributor.",
-    "role_confidence": "medium",
+    "summary": "Owns the quality and direction of UX across a product area or team. Balances hands-on design work with coaching designers, shaping process, and aligning product, engineering, and research around user needs. Often sets design standards, drives critique, and helps the team turn messy problems into usable, tested experiences.",
+    "role_confidence": "high",
     "known_challenges": [
       {
-        "text": "Balancing hands-on design work with leading other designers and shaping standards.",
-        "category": "competency"
-      },
-      {
-        "text": "Getting product and engineering partners to protect time for discovery, testing, and iteration.",
+        "text": "Balancing personal design output with coaching, reviews, and cross-functional alignment work.",
         "category": "topic"
       },
       {
-        "text": "Carrying design quality across multiple streams of work without becoming a bottleneck.",
-        "category": "competency"
-      },
-      {
-        "text": "Managing stakeholder opinions that override user evidence or design rationale.",
+        "text": "Protecting research, usability, and accessibility quality when delivery pressure pushes for speed.",
         "category": "topic"
       },
       {
-        "text": "Sustaining energy while absorbing feedback, ambiguity, and cross-functional tension.",
+        "text": "Giving clear design direction without becoming a bottleneck for every decision.",
+        "category": "competency"
+      },
+      {
+        "text": "Carrying the emotional load of constant feedback, critique, and stakeholder disagreement.",
         "category": "wellbeing"
+      },
+      {
+        "text": "Translating broad product goals into a coherent user experience across teams and touchpoints.",
+        "category": "competency"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Design leadership versus individual contribution balance",
-        "why": "Lead-level UX roles often struggle to divide time between doing the work and enabling others to do it well.",
-        "category": "competency"
-      },
-      {
-        "theme": "Influence with product, engineering, and stakeholders",
-        "why": "This role depends heavily on persuasion and alignment, especially when design authority is informal.",
+        "theme": "Design quality versus delivery pressure",
+        "why": "This role often has to defend user experience standards while still helping the team ship on time.",
         "category": "topic"
       },
       {
-        "theme": "Research and evidence in decision-making",
-        "why": "Understanding whether user insight is shaping choices helps reveal where design is being supported or sidelined.",
-        "category": "topic"
-      },
-      {
-        "theme": "Team design quality and consistency",
-        "why": "A lead is usually expected to raise the bar across work, not just on their own projects.",
+        "theme": "Coaching and delegation",
+        "why": "A lead succeeds by growing other designers and creating clarity, not by doing all the important work personally.",
         "category": "competency"
       },
       {
-        "theme": "Load, ambiguity, and recovery",
-        "why": "UX leads often carry emotional and coordination load that can drain focus and resilience over time.",
+        "theme": "Cross-functional influence",
+        "why": "Much of the role depends on getting product and engineering to align on user needs and design trade-offs.",
+        "category": "competency"
+      },
+      {
+        "theme": "Team energy and feedback load",
+        "why": "Leads absorb critique, unblock others, and handle conflict, which can quietly drain energy over time.",
         "category": "wellbeing"
+      },
+      {
+        "theme": "UX strategy and consistency",
+        "why": "They are usually responsible for connecting individual features into a coherent experience across the product area.",
+        "category": "topic"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Design critique",
+        "meaning": "Structured review of work to improve decisions and quality.",
+        "group": "ux"
+      },
+      {
+        "term": "User flow",
+        "meaning": "The steps a user takes to complete a task.",
+        "group": "ux"
+      },
+      {
+        "term": "Wireframe",
+        "meaning": "Low-detail layout showing structure and interaction.",
+        "group": "ux"
+      },
+      {
+        "term": "Prototype",
+        "meaning": "Clickable model used to test or explain ideas.",
+        "group": "ux"
+      },
+      {
+        "term": "Accessibility",
+        "meaning": "Designing so people with disabilities can use it.",
+        "group": "ux"
+      },
+      {
+        "term": "Continuous discovery",
+        "meaning": "Ongoing learning from users during product development.",
+        "group": "ux"
+      },
+      {
+        "term": "Design review",
+        "meaning": "Checking work for quality, consistency, and readiness.",
+        "group": "lead"
+      },
+      {
+        "term": "Stakeholder alignment",
+        "meaning": "Getting key people to agree on direction and trade-offs.",
+        "group": "lead"
+      },
+      {
+        "term": "Delegation",
+        "meaning": "Handing off ownership with enough context and trust.",
+        "group": "lead"
+      },
+      {
+        "term": "Feedback culture",
+        "meaning": "How the team gives, receives, and uses critique.",
+        "group": "lead"
+      },
+      {
+        "term": "Prioritisation",
+        "meaning": "Choosing what matters most with limited time.",
+        "group": "lead"
+      },
+      {
+        "term": "Design system",
+        "meaning": "Shared components and rules for consistent product design.",
+        "group": "ux-lead"
+      },
+      {
+        "term": "Discovery",
+        "meaning": "Early work to understand problems, users, and options.",
+        "group": "ux-lead"
+      },
+      {
+        "term": "Handoff",
+        "meaning": "Passing design decisions and assets to engineering.",
+        "group": "ux-lead"
+      },
+      {
+        "term": "Design debt",
+        "meaning": "UX issues left unresolved that slow future work.",
+        "group": "ux-lead"
+      },
+      {
+        "term": "Usability testing",
+        "meaning": "Watching users try tasks to find friction.",
+        "group": "ux-lead"
+      },
+      {
+        "term": "AI-assisted prototyping",
+        "meaning": "Using AI tools to speed up early design exploration.",
+        "group": "ux-lead"
       }
     ],
     "terminology_groups": [
-      { "key": "craft", "label": "UX" },
-      { "key": "leadership", "label": "Lead" },
-      { "key": "intersection", "label": "UX Lead" }
-    ],
-    "terminology": [
-      { "term": "Continuous discovery", "meaning": "Always-on user research feeding design, not a one-off phase.", "group": "craft" },
-      { "term": "Research ops", "meaning": "Systems that make user research repeatable and shared.", "group": "craft" },
-      { "term": "Prototyping", "meaning": "Quick clickable models to test ideas before building.", "group": "craft" },
-      { "term": "Design system", "meaning": "Shared components and rules for consistent design.", "group": "craft" },
-      { "term": "AI-assisted design", "meaning": "Using AI tools to draft flows and explore options fast.", "group": "craft" },
-      { "term": "Accessibility-as-practice", "meaning": "Building access in continuously, not as a final check.", "group": "craft" },
-      { "term": "Cross-functional squad", "meaning": "A standing team of design, product, and engineering.", "group": "leadership" },
-      { "term": "Design critique", "meaning": "Structured peer review of in-progress design work.", "group": "leadership" },
-      { "term": "Sprint planning", "meaning": "Agreeing what the team takes on each short cycle.", "group": "leadership" },
-      { "term": "Stakeholder alignment", "meaning": "Getting decision-makers to agree direction and trade-offs.", "group": "leadership" },
-      { "term": "Coaching designers", "meaning": "Growing the team through feedback, not doing it for them.", "group": "leadership" },
-      { "term": "Design strategy", "meaning": "Linking design choices to product and business goals.", "group": "intersection" },
-      { "term": "Outcome over output", "meaning": "Judging work by user results, not volume shipped.", "group": "intersection" },
-      { "term": "Design ops", "meaning": "Tools and process that scale design across teams.", "group": "intersection" },
-      { "term": "Quality bar across teams", "meaning": "Holding consistent standards over parallel projects.", "group": "intersection" }
+      {
+        "key": "ux",
+        "label": "UX"
+      },
+      {
+        "key": "lead",
+        "label": "Lead"
+      },
+      {
+        "key": "ux-lead",
+        "label": "UX Lead"
+      }
     ],
     "listen_for": [
-      "They talk about trade-offs between user needs, delivery pressure, and technical limits.",
-      "They mention repeated rework caused by late feedback or unclear decision ownership.",
-      "They describe coaching designers or reviewing work more than producing final designs themselves.",
-      "They use evidence-based language when defending choices, or note when evidence is missing.",
-      "They sound like the default resolver for cross-team design issues."
+      "Whether they talk about team outcomes or only their own design output.",
+      "language that shows they are stuck being the approval point for too many decisions",
+      "whether they can name user evidence behind design choices or rely mostly on opinion",
+      "signs they are shielding the team from stakeholder churn without enough support",
+      "shifts from craft language to resourcing, alignment, and prioritisation concerns"
     ],
     "avoid": [
-      "Treating them as only a senior maker and ignoring the leadership part of the role.",
-      "Assuming visual polish is the main measure of success instead of user outcomes and team influence.",
-      "Pushing them to approve every design detail, which turns them into a bottleneck.",
-      "Reading stakeholder conflict as poor collaboration when it may reflect real product trade-offs."
+      "Treating them like a pure people manager with no need for hands-on design credibility.",
+      "Pushing them to move faster without discussing research, accessibility, or design quality trade-offs.",
+      "Assuming stakeholder conflict means they are not being collaborative enough.",
+      "Using them as the default fixer for every design problem on the team."
     ]
   }
 }

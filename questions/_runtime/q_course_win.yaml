@@ -1,0 +1,10 @@
+alias: q_course_win
+label: Course win
+name: What about completing the course felt great for her?
+description: Drills into the specific win she just named so the manager can hear what made it meaningful.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added
+grounding: Completing the course

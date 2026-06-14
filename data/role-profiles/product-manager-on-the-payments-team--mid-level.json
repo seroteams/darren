@@ -1,119 +1,173 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781198202790,
+  "generated_at": 1781447366955,
   "role_title_raw": "Product manager on the payments team",
   "role_slug": "product-manager-on-the-payments-team",
   "seniority_raw": "Mid-level",
   "seniority_key": "mid-level",
   "role_family": "product",
   "profile": {
-    "summary": "A mid-level product manager on a payments team usually owns part of the checkout, billing, payout, or transaction experience. They balance customer needs, conversion, fraud, compliance, and operational reliability. They work closely with engineering, design, data, finance, legal, support, and external payment providers to ship changes safely and improve payment performance.",
+    "summary": "Owns a slice of the payments product, turning customer and business needs into roadmap, requirements, and delivery with engineering, design, data, finance, risk, and support. Balances conversion, reliability, compliance, and operational realities. Usually drives improvements to checkout, payment methods, billing flows, or payment operations without full org-wide strategy ownership.",
     "role_confidence": "high",
     "known_challenges": [
       {
-        "text": "Balancing conversion goals with fraud controls, risk limits, and compliance requirements.",
+        "text": "Balancing conversion goals with fraud controls, compliance needs, and payment reliability.",
         "category": "topic"
       },
       {
-        "text": "Shipping payment changes carefully because small mistakes can cause lost revenue or customer trust.",
+        "text": "Working through many dependencies across engineering, finance, legal, risk, and external payment partners.",
         "category": "topic"
       },
       {
-        "text": "Coordinating across many stakeholders who have different priorities, including finance, legal, support, and engineering.",
-        "category": "topic"
-      },
-      {
-        "text": "Making good decisions with messy payment data, partial attribution, and provider-specific reporting.",
+        "text": "Making decisions with messy signals because payment failures can come from many points in the flow.",
         "category": "competency"
       },
       {
-        "text": "Carrying stress from incidents like failed charges, payout delays, or checkout outages.",
+        "text": "Carrying incident and escalation pressure when payment issues directly affect revenue and customers.",
         "category": "wellbeing"
+      },
+      {
+        "text": "Prioritising between visible feature work and less visible fixes like retries, reconciliation, and error handling.",
+        "category": "topic"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Payment funnel health and failure points",
-        "why": "This role is often judged on reducing drop-off and fixing where transactions fail.",
+        "theme": "Tradeoffs between growth, risk, and reliability",
+        "why": "This role constantly makes calls where a gain in conversion can raise operational or fraud risk.",
         "category": "topic"
       },
       {
-        "theme": "Tradeoffs between growth, fraud, and compliance",
-        "why": "Payments work always involves tension between making checkout easy and keeping it safe and legal.",
+        "theme": "Confidence in payment data and success metrics",
+        "why": "Good decisions depend on trusting the signals behind auth rates, drop-off, failures, and recoveries.",
+        "category": "competency"
+      },
+      {
+        "theme": "Cross-functional alignment with finance, risk, and engineering",
+        "why": "Progress is often limited by how well this person can align teams with different goals and language.",
         "category": "topic"
       },
       {
-        "theme": "Cross-functional alignment",
-        "why": "Progress depends on how well they align engineering, finance, legal, operations, and support around priorities.",
-        "category": "competency"
-      },
-      {
-        "theme": "Decision-making with incomplete data",
-        "why": "Payment metrics are often noisy or fragmented, so confidence and judgment matter.",
-        "category": "competency"
-      },
-      {
-        "theme": "Load from incidents and operational pressure",
-        "why": "Payments problems are high stakes and can create sustained stress even when the roadmap looks normal.",
+        "theme": "Handling incidents, escalations, and operational load",
+        "why": "Payments problems are urgent and stressful, and repeated fire-fighting can crowd out product thinking.",
         "category": "wellbeing"
+      },
+      {
+        "theme": "Ownership of roadmap slice and decision quality",
+        "why": "At mid-level, growth often comes from sharper prioritisation and clearer product judgment within a defined area.",
+        "category": "competency"
       }
     ],
     "terminology": [
       {
-        "term": "Authorization",
-        "meaning": "Card issuer approves a transaction attempt."
+        "term": "Authorization rate",
+        "meaning": "Share of payment attempts approved by issuer or provider.",
+        "group": "payments"
       },
       {
-        "term": "Capture",
-        "meaning": "Final step that takes the approved funds."
+        "term": "Decline code",
+        "meaning": "Reason a payment was rejected.",
+        "group": "payments"
+      },
+      {
+        "term": "3DS",
+        "meaning": "Extra cardholder verification step for some card payments.",
+        "group": "payments"
       },
       {
         "term": "Chargeback",
-        "meaning": "Customer disputes a payment and funds may be reversed."
-      },
-      {
-        "term": "Decline rate",
-        "meaning": "Share of payment attempts that fail."
+        "meaning": "Card payment reversed after a customer dispute.",
+        "group": "payments"
       },
       {
         "term": "Payment gateway",
-        "meaning": "Service that routes payment data for processing."
+        "meaning": "Service that routes payment data for processing.",
+        "group": "payments"
       },
       {
-        "term": "PSP",
-        "meaning": "Payment service provider that processes transactions."
+        "term": "Reconciliation",
+        "meaning": "Matching payment records across systems and settlements.",
+        "group": "payments"
       },
       {
-        "term": "3D Secure",
-        "meaning": "Extra cardholder verification during checkout."
+        "term": "Checkout funnel",
+        "meaning": "Steps from purchase intent to completed payment.",
+        "group": "product"
       },
       {
-        "term": "PCI DSS",
-        "meaning": "Security standard for handling card data."
+        "term": "A/B test",
+        "meaning": "Experiment comparing two versions against outcomes.",
+        "group": "product"
       },
       {
-        "term": "Settlement",
-        "meaning": "When processed funds are transferred and finalized."
+        "term": "Drop-off",
+        "meaning": "Users who leave before completing payment.",
+        "group": "product"
       },
       {
-        "term": "Payouts",
-        "meaning": "Money sent out to sellers, partners, or users."
+        "term": "Retry logic",
+        "meaning": "Rules for attempting failed payments again.",
+        "group": "product"
+      },
+      {
+        "term": "Payment method mix",
+        "meaning": "Share of transactions by payment type.",
+        "group": "product"
+      },
+      {
+        "term": "Backlog",
+        "meaning": "Prioritised list of work not yet done.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "PRD",
+        "meaning": "Document describing problem, scope, and requirements.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Incident",
+        "meaning": "Service issue needing urgent coordination and response.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Postmortem",
+        "meaning": "Write-up of what happened and how to prevent repeats.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Stakeholder alignment",
+        "meaning": "Shared understanding across teams on goals and tradeoffs.",
+        "group": "ways-of-working"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "payments",
+        "label": "Payments"
+      },
+      {
+        "key": "product",
+        "label": "Product work"
+      },
+      {
+        "key": "ways-of-working",
+        "label": "Ways of working"
       }
     ],
     "listen_for": [
-      "Whether they talk about payment success as a full funnel, not just shipped features",
-      "Repeated mentions of provider constraints or dependencies slowing decisions",
-      "How they describe tradeoffs between conversion, fraud, and compliance",
-      "Whether incidents and operational issues dominate their week",
-      "Shifts from customer language to finance or risk language depending on the problem"
+      "Whether they talk about payment outcomes in both customer and operational terms.",
+      "Whether they can separate issuer problems, provider problems, and product flow problems.",
+      "How they describe tradeoffs with risk, finance, and engineering partners.",
+      "Whether incidents and escalations dominate their story of the work.",
+      "Shifts from feature language to metrics, failure modes, and operational detail."
     ],
     "avoid": [
-      "Treating payments like a normal feature area where mistakes are easy to undo",
-      "Pushing only for conversion gains without respecting fraud, compliance, or reconciliation needs",
-      "Assuming slow delivery means weak execution rather than careful risk management",
-      "Reducing their stakeholders to just design and engineering when finance, legal, and operations are central"
+      "Treating payments like a normal feature area where speed matters more than controls.",
+      "Assuming a small conversion lift is obviously worth added fraud or support burden.",
+      "Pushing roadmap output without making space for reliability and operational fixes.",
+      "Reducing their work to writing tickets when much of the job is coordination and judgment."
     ]
   }
 }

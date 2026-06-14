@@ -1,128 +1,178 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781148897636,
+  "generated_at": 1781447396307,
   "role_title_raw": "Staff Site Reliability Engineer",
   "role_slug": "staff-site-reliability-engineer",
   "seniority_raw": "Senior",
   "seniority_key": "senior",
   "role_family": "engineering",
   "profile": {
-    "summary": "A Senior Staff Site Reliability Engineer sets reliability direction across multiple systems, leads incident and resilience work, and shapes how engineering teams build and operate services. They own hard problems like availability, scaling, observability, and risk reduction, while influencing platform, product, and engineering leaders without relying on direct authority.",
+    "summary": "Owns reliability across multiple services or a platform area, balancing hands-on engineering with cross-team influence. Sets standards for availability, incident response, observability, and operational readiness. Partners with software engineers, platform teams, security, and engineering managers to reduce risk, improve resilience, and guide how teams run production systems.",
     "role_confidence": "high",
     "known_challenges": [
       {
-        "text": "Balancing deep hands-on incident and reliability work with broad cross-team influence and long-term architecture.",
-        "category": "competency"
-      },
-      {
-        "text": "Driving reliability improvements when product teams are rewarded more for shipping features than reducing operational risk.",
+        "text": "Carrying broad reliability responsibility without direct authority over every service team.",
         "category": "topic"
       },
       {
-        "text": "Carrying invisible load during major incidents, escalations, and high-severity follow-up work.",
+        "text": "Switching between strategic prevention work and urgent incident or escalation support.",
         "category": "wellbeing"
       },
       {
-        "text": "Turning repeated operational pain into systemic fixes instead of staying trapped in reactive support.",
+        "text": "Driving adoption of SLOs, runbooks, and observability practices across teams with different priorities.",
         "category": "competency"
       },
       {
-        "text": "Setting standards for SLOs, observability, and operational readiness across teams with different maturity levels.",
-        "category": "topic"
+        "text": "Managing on-call load and after-hours interruptions while still expected to deliver long-term improvements.",
+        "category": "wellbeing"
       },
       {
-        "text": "Sustaining energy when on-call pressure, after-hours incidents, or constant interruption erode recovery time.",
-        "category": "wellbeing"
+        "text": "Pushing back on risky launches or weak operational readiness without being seen as blocking delivery.",
+        "category": "topic"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Reliability strategy and influence",
-        "why": "This role succeeds by aligning multiple teams around reliability priorities, not just fixing isolated technical issues.",
+        "theme": "Reliability priorities across teams",
+        "why": "This role often sees more reliability risk than any single product team and needs help focusing where influence matters most.",
         "category": "topic"
       },
       {
-        "theme": "Incident load and recovery",
-        "why": "Senior staff SREs often absorb hidden stress from escalations and need space to discuss sustainability.",
+        "theme": "Operational load versus engineering time",
+        "why": "Senior SREs are most effective when they can reduce toil and prevent repeat issues instead of living in constant reaction mode.",
         "category": "wellbeing"
       },
       {
-        "theme": "Preventive work versus reactive work",
-        "why": "A key signal of effectiveness is whether they can create time for systemic fixes instead of endless firefighting.",
+        "theme": "Influence without authority",
+        "why": "Much of the role depends on getting product and engineering teams to adopt better practices they do not directly own.",
         "category": "competency"
       },
       {
-        "theme": "Cross-team adoption of SRE practices",
-        "why": "Their impact depends on whether service owners are actually adopting SLOs, runbooks, and operational standards.",
+        "theme": "Incident follow-through",
+        "why": "The value of this role is not only handling incidents but making sure learning turns into concrete prevention work.",
         "category": "topic"
       },
       {
-        "theme": "Technical leverage and delegation",
-        "why": "At this level, they need to multiply impact through guidance, design, and enablement rather than owning every hard problem personally.",
-        "category": "competency"
-      },
-      {
-        "theme": "Risk trade-offs with product and engineering leadership",
-        "why": "They regularly negotiate availability, speed, and operational risk with leaders who may value them differently.",
-        "category": "topic"
+        "theme": "Sustainable on-call and recovery",
+        "why": "Even experienced SREs can burn down if escalation paths, rotations, and recovery time are not realistic.",
+        "category": "wellbeing"
       }
     ],
     "terminology": [
       {
         "term": "SLO",
-        "meaning": "Target level for service reliability."
+        "meaning": "Target level for service reliability.",
+        "group": "sre-craft"
       },
       {
         "term": "SLI",
-        "meaning": "Metric used to measure user-facing reliability."
+        "meaning": "Metric used to measure reliability.",
+        "group": "sre-craft"
       },
       {
         "term": "Error budget",
-        "meaning": "Allowed unreliability before reliability work takes priority."
-      },
-      {
-        "term": "Incident commander",
-        "meaning": "Person coordinating response during an incident."
-      },
-      {
-        "term": "Postmortem",
-        "meaning": "Write-up of what happened and how to prevent repeats."
-      },
-      {
-        "term": "Toil",
-        "meaning": "Manual repetitive operational work with little lasting value."
-      },
-      {
-        "term": "Runbook",
-        "meaning": "Documented steps for operating or fixing a service."
+        "meaning": "Allowed unreliability before delivery should slow down.",
+        "group": "sre-craft"
       },
       {
         "term": "Observability",
-        "meaning": "Ability to understand system behavior from signals and telemetry."
+        "meaning": "Seeing system health through metrics, logs, and traces.",
+        "group": "sre-craft"
       },
       {
-        "term": "Latency",
-        "meaning": "How long a request takes to complete."
+        "term": "Runbook",
+        "meaning": "Step-by-step guide for common operational tasks.",
+        "group": "sre-craft"
       },
       {
-        "term": "Availability",
-        "meaning": "How often a service is up and usable."
+        "term": "Toil",
+        "meaning": "Manual repetitive operational work with low long-term value.",
+        "group": "sre-craft"
+      },
+      {
+        "term": "Incident commander",
+        "meaning": "Person coordinating response during an incident.",
+        "group": "operations"
+      },
+      {
+        "term": "Postmortem",
+        "meaning": "Blameless review of what happened and what changes.",
+        "group": "operations"
+      },
+      {
+        "term": "On-call",
+        "meaning": "Scheduled responsibility for production issues and alerts.",
+        "group": "operations"
+      },
+      {
+        "term": "Escalation",
+        "meaning": "Routing a problem to higher expertise or ownership.",
+        "group": "operations"
+      },
+      {
+        "term": "Operational readiness",
+        "meaning": "Whether a service is prepared to run safely in production.",
+        "group": "operations"
+      },
+      {
+        "term": "Alert fatigue",
+        "meaning": "Too many noisy alerts reduce response quality.",
+        "group": "operations"
+      },
+      {
+        "term": "Reliability review",
+        "meaning": "Cross-team check of risks, dependencies, and safeguards.",
+        "group": "staff-scope"
+      },
+      {
+        "term": "Capacity planning",
+        "meaning": "Forecasting resources needed to handle future load.",
+        "group": "staff-scope"
+      },
+      {
+        "term": "Resilience",
+        "meaning": "Ability to keep working through failures or recover fast.",
+        "group": "staff-scope"
+      },
+      {
+        "term": "Service ownership",
+        "meaning": "Clear responsibility for running and improving a service.",
+        "group": "staff-scope"
+      },
+      {
+        "term": "Guardrails",
+        "meaning": "Standards or automation that prevent risky changes.",
+        "group": "staff-scope"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "sre-craft",
+        "label": "SRE craft"
+      },
+      {
+        "key": "operations",
+        "label": "Production operations"
+      },
+      {
+        "key": "staff-scope",
+        "label": "Staff-level reliability work"
       }
     ],
     "listen_for": [
-      "Whether they talk about systemic risk reduction or mostly about being pulled into emergencies",
-      "Shifts from service-level language like SLOs and error budgets to team-level frustration and blockers",
-      "Repeated mention of unclear ownership during incidents or follow-up work",
-      "Whether they describe influence through standards and enablement versus personal heroics",
-      "Signs they minimize after-hours load or normalize chronic interruption"
+      "Whether they talk about reducing repeat incidents, not just responding faster.",
+      "Whether they name cross-team dependencies and ownership gaps clearly.",
+      "Shifts from deep technical detail into influence, standards, and tradeoff language.",
+      "Signs they are absorbing too many escalations personally.",
+      "Whether they describe alerts and incidents in terms of user impact, not only system symptoms."
     ],
     "avoid": [
-      "Treating them like a senior individual contributor who should just take more tickets or incidents",
-      "Praising firefighting while ignoring the need for prevention, standards, and leverage",
-      "Assuming reliability is only a tooling problem rather than a product and engineering trade-off",
-      "Pushing them to own every critical issue personally instead of building shared operational maturity"
+      "Treating them like the team that just fixes production problems for everyone else.",
+      "Assuming senior means they should absorb unhealthy on-call or escalation load.",
+      "Pushing feature speed without making space for reliability work and follow-through.",
+      "Reading careful risk management as negativity or resistance to delivery."
     ]
   }
 }

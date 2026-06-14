@@ -1,115 +1,168 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781149661388,
+  "generated_at": 1781447354936,
   "role_title_raw": "Product Designer",
   "role_slug": "product-designer",
   "seniority_raw": "Mid",
   "seniority_key": "mid",
   "role_family": "design",
   "profile": {
-    "summary": "A mid-level Product Designer turns product goals into usable flows, screens, and interactions for a defined area. They usually own design work from discovery through delivery, partner closely with product managers, engineers, and researchers, and balance user needs with technical and business constraints. They are expected to work independently on scoped problems, explain decisions clearly, and contribute to design system consistency without setting overall product direction.",
+    "summary": "A mid-level Product Designer owns end-to-end design work for parts of a product, from framing flows and prototyping to shipping polished UI with engineers and product managers. They turn user and business needs into usable experiences, contribute to research and discovery, and improve designs through feedback, data, and iteration. Scope is usually a team or feature area rather than product-wide direction.",
     "role_confidence": "high",
     "known_challenges": [
       {
-        "text": "Balancing speed with craft when shipping work under tight product timelines.",
+        "text": "Balancing speed to ship with enough discovery, testing, and iteration.",
         "category": "topic"
       },
       {
-        "text": "Handling feedback from product, engineering, and design without losing clarity or confidence.",
+        "text": "Handling feedback from product, engineering, and other designers without losing clarity or confidence.",
         "category": "competency"
       },
       {
-        "text": "Working with incomplete research or unclear problem framing and still moving the work forward.",
+        "text": "Working through vague problem statements or shifting priorities.",
         "category": "topic"
       },
       {
-        "text": "Keeping designs consistent with the design system while adapting to real product constraints.",
-        "category": "competency"
+        "text": "Keeping quality high when design debt and edge cases pile up.",
+        "category": "topic"
       },
       {
-        "text": "Juggling several tickets, iterations, and stakeholder requests at once.",
+        "text": "Sustaining energy when deadlines compress craft time and create constant context switching.",
         "category": "wellbeing"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Clarity of problem framing",
-        "why": "Mid-level designers do better work when the user problem, success criteria, and constraints are clear enough to design against.",
+        "theme": "Clarity of problem framing and priorities",
+        "why": "Mid-level designers do better work when the problem, constraints, and success signals are clear enough to design against.",
         "category": "topic"
       },
       {
         "theme": "Feedback quality and decision-making",
-        "why": "They often receive input from many directions and need help separating useful critique from noise.",
+        "why": "They often sit in the middle of many opinions, so it matters whether feedback is actionable and decisions get made in time.",
+        "category": "topic"
+      },
+      {
+        "theme": "Growth in end-to-end ownership",
+        "why": "This level is usually stretching from executing screens to owning flows, trade-offs, and delivery with less hand-holding.",
         "category": "competency"
       },
       {
         "theme": "Partnership with product and engineering",
-        "why": "Strong day-to-day collaboration affects scope, feasibility, and whether design intent survives delivery.",
+        "why": "Strong day-to-day collaboration shapes scope, feasibility, and whether good design actually ships.",
         "category": "topic"
       },
       {
-        "theme": "Growth in interaction and systems thinking",
-        "why": "At this level, progress often comes from moving beyond screen-making into stronger flows, states, and patterns.",
-        "category": "competency"
-      },
-      {
-        "theme": "Workload and pace sustainability",
-        "why": "Design work can expand endlessly, so managers should check whether deadlines and review cycles are draining energy.",
+        "theme": "Workload, pace, and recovery",
+        "why": "Design quality drops when they are rushing across too many tickets or never get uninterrupted time to think.",
         "category": "wellbeing"
       }
     ],
     "terminology": [
       {
+        "term": "User flow",
+        "meaning": "The steps a person takes to complete a task.",
+        "group": "craft"
+      },
+      {
         "term": "Wireframe",
-        "meaning": "Low-detail layout used to explore structure and flow."
+        "meaning": "A low-detail layout used to explore structure and flow.",
+        "group": "craft"
       },
       {
         "term": "Prototype",
-        "meaning": "Clickable model that shows how a design behaves."
-      },
-      {
-        "term": "User flow",
-        "meaning": "Steps a user takes to complete a task."
+        "meaning": "A clickable model used to test or explain behavior.",
+        "group": "craft"
       },
       {
         "term": "Design system",
-        "meaning": "Shared components, patterns, and rules for product design."
-      },
-      {
-        "term": "Usability testing",
-        "meaning": "Watching users try tasks to find friction."
-      },
-      {
-        "term": "Handoff",
-        "meaning": "Sharing final design details with engineers for build."
-      },
-      {
-        "term": "Component",
-        "meaning": "Reusable UI building block in a system."
+        "meaning": "Shared components, patterns, and rules for product design.",
+        "group": "craft"
       },
       {
         "term": "Accessibility",
-        "meaning": "Designing so people with disabilities can use it."
+        "meaning": "Designing so people with different needs can use it.",
+        "group": "craft"
       },
       {
-        "term": "Figma",
-        "meaning": "Common tool for interface design and collaboration."
+        "term": "Design critique",
+        "meaning": "Structured feedback focused on the work, not the person.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Discovery",
+        "meaning": "Early work to understand problems, users, and opportunities.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Handoff",
+        "meaning": "Sharing final design details needed for engineering to build.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Iteration",
+        "meaning": "Improving a design through repeated changes and feedback.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Cross-functional",
+        "meaning": "Working closely with product, engineering, and other partners.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Edge case",
+        "meaning": "A less common scenario the design still needs to handle.",
+        "group": "growing-in-role"
+      },
+      {
+        "term": "Trade-off",
+        "meaning": "Choosing what to optimize when not everything can fit.",
+        "group": "growing-in-role"
+      },
+      {
+        "term": "Scope",
+        "meaning": "The boundaries of what the design work will cover.",
+        "group": "growing-in-role"
+      },
+      {
+        "term": "Constraints",
+        "meaning": "Limits like time, tech, policy, or business needs.",
+        "group": "growing-in-role"
+      },
+      {
+        "term": "Success metrics",
+        "meaning": "Signals used to judge whether a design worked.",
+        "group": "growing-in-role"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "craft",
+        "label": "Product design craft"
+      },
+      {
+        "key": "ways-of-working",
+        "label": "How the work gets done"
+      },
+      {
+        "key": "growing-in-role",
+        "label": "Growing into mid-level ownership"
       }
     ],
     "listen_for": [
-      "Whether they talk about user problems or mainly about screens and polish.",
-      "Repeated mentions of unclear requirements, late changes, or shifting scope.",
-      "How confidently they explain tradeoffs between user needs, business goals, and engineering limits.",
-      "Whether they describe feedback as collaborative input or as conflicting noise.",
-      "References to edge cases, states, and system consistency rather than only happy paths."
+      "Whether they talk about user problems or jump straight to screens.",
+      "How clearly they explain trade-offs between user needs, business goals, and engineering limits.",
+      "Whether feedback sounds collaborative, blocked, or overly approval-driven.",
+      "Signs they are shipping iteratively versus waiting for perfect designs.",
+      "Whether they mention data, research, or testing when judging design quality."
     ],
     "avoid": [
-      "Treating them like a visual decorator instead of a partner in solving product problems.",
-      "Giving vague feedback like \"make it cleaner\" without naming the user or business issue.",
-      "Assuming engineering pushback means the design was wrong rather than constrained.",
-      "Pushing endless iteration on minor details when the core problem is still unclear."
+      "Treating them like a pixel-polisher instead of a partner in product decisions.",
+      "Assuming faster delivery always means less design process.",
+      "Giving vague feedback like \"make it cleaner\" without naming the problem.",
+      "Pushing them to own product strategy that should sit beyond mid-level scope."
     ]
   }
 }

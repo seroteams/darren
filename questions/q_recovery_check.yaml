@@ -1,0 +1,9 @@
+alias: q_recovery_check
+label: Recovery check
+name: What has been helping you reset between sessions lately?
+description: Keeps an eye on sustainability as the load and intensity shift.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +3
+source: generated

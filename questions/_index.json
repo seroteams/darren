@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-14T09:15:51.544Z",
-  "count": 3991,
+  "generated_at": "2026-06-14T15:57:39.999Z",
+  "count": 4021,
   "aliases": [
     "q_50_percent_in_practice",
     "q_a_lot_landing",
@@ -64,6 +64,7 @@
     "q_backlog_thread_2",
     "q_bandwidth_check",
     "q_behavior_evidence",
+    "q_best_adjustment",
     "q_best_fit_scope",
     "q_best_momentum",
     "q_best_use_of_time",
@@ -261,6 +262,9 @@
     "q_core_path_check",
     "q_core_path_pull",
     "q_core_ux_depth",
+    "q_course_mix",
+    "q_course_shape",
+    "q_course_win",
     "q_craft_stretch",
     "q_craft_vs_speed",
     "q_credibility_gap",
@@ -357,6 +361,7 @@
     "q_current_leadership_shape",
     "q_current_leverage",
     "q_current_load",
+    "q_current_load_2",
     "q_current_mismatch",
     "q_current_ownership",
     "q_current_picture",
@@ -1455,6 +1460,7 @@
     "q_momentum_drain",
     "q_momentum_kept",
     "q_momentum_source",
+    "q_more_of_what",
     "q_most_leverage",
     "q_most_useful_problem",
     "q_motivation_check",
@@ -1747,6 +1753,7 @@
     "q_next_step_14",
     "q_next_step_15",
     "q_next_step_16",
+    "q_next_step_17",
     "q_next_step_2",
     "q_next_step_3",
     "q_next_step_4",
@@ -2370,8 +2377,28 @@
     "q_promotion_read_42",
     "q_promotion_read_43",
     "q_promotion_read_44",
+    "q_promotion_read_45",
+    "q_promotion_read_46",
+    "q_promotion_read_47",
+    "q_promotion_read_48",
+    "q_promotion_read_49",
     "q_promotion_read_5",
+    "q_promotion_read_50",
+    "q_promotion_read_51",
+    "q_promotion_read_52",
+    "q_promotion_read_53",
+    "q_promotion_read_54",
+    "q_promotion_read_55",
+    "q_promotion_read_56",
+    "q_promotion_read_57",
+    "q_promotion_read_58",
+    "q_promotion_read_59",
     "q_promotion_read_6",
+    "q_promotion_read_60",
+    "q_promotion_read_61",
+    "q_promotion_read_62",
+    "q_promotion_read_63",
+    "q_promotion_read_64",
     "q_promotion_read_7",
     "q_promotion_read_8",
     "q_promotion_read_9",
@@ -2879,6 +2906,7 @@
     "q_recognized_work",
     "q_recognized_work_2",
     "q_recognized_work_3",
+    "q_recovery_check",
     "q_recovery_mode",
     "q_recovery_or_drag",
     "q_recovery_or_residue",
@@ -3351,6 +3379,7 @@
     "q_stretch_tradeoff",
     "q_stretch_worth_choosing",
     "q_strong_next_step_call",
+    "q_strongest_moment",
     "q_stuck_feedback",
     "q_stuck_messaging",
     "q_stuck_pattern",
@@ -3366,6 +3395,7 @@
     "q_stuck_work",
     "q_stuck_work_2",
     "q_stuck_work_3",
+    "q_student_click",
     "q_success_bar",
     "q_success_looks_like",
     "q_support_ask",
@@ -4244,6 +4274,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_best_adjustment",
+      "subdir": ""
+    },
+    {
       "alias": "q_best_fit_scope",
       "subdir": ""
     },
@@ -5032,6 +5066,18 @@
       "subdir": ""
     },
     {
+      "alias": "q_course_mix",
+      "subdir": ""
+    },
+    {
+      "alias": "q_course_shape",
+      "subdir": ""
+    },
+    {
+      "alias": "q_course_win",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_craft_stretch",
       "subdir": ""
     },
@@ -5413,6 +5459,10 @@
     },
     {
       "alias": "q_current_load",
+      "subdir": ""
+    },
+    {
+      "alias": "q_current_load_2",
       "subdir": ""
     },
     {
@@ -9808,6 +9858,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_more_of_what",
+      "subdir": ""
+    },
+    {
       "alias": "q_most_leverage",
       "subdir": ""
     },
@@ -10973,6 +11027,10 @@
     },
     {
       "alias": "q_next_step_16",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_step_17",
       "subdir": ""
     },
     {
@@ -13490,11 +13548,91 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_45",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_46",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_47",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_48",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_49",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_5",
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_50",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_51",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_52",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_53",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_54",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_55",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_56",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_57",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_58",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_59",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_6",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_60",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_61",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_62",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_63",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_64",
       "subdir": "_runtime"
     },
     {
@@ -15526,6 +15664,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_recovery_check",
+      "subdir": ""
+    },
+    {
       "alias": "q_recovery_mode",
       "subdir": ""
     },
@@ -17414,6 +17556,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_strongest_moment",
+      "subdir": ""
+    },
+    {
       "alias": "q_stuck_feedback",
       "subdir": ""
     },
@@ -17472,6 +17618,10 @@
     {
       "alias": "q_stuck_work_3",
       "subdir": ""
+    },
+    {
+      "alias": "q_student_click",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_success_bar",

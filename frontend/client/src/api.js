@@ -25,6 +25,14 @@ export async function getArcs() {
   return json(await fetch("/api/arcs"));
 }
 
+export async function saveArc(slug, { arc, tone_register, anti_patterns, confirm = false }) {
+  return postJson(`/api/arcs/${encodeURIComponent(slug)}`, { arc, tone_register, anti_patterns, confirm });
+}
+
+export async function resetArc(slug) {
+  return postJson(`/api/arcs/${encodeURIComponent(slug)}/reset`, {});
+}
+
 export async function getPersonaBench() {
   return json(await fetch("/api/persona-bench"));
 }

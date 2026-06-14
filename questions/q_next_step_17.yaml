@@ -1,0 +1,10 @@
+alias: q_next_step_17
+label: Next step
+name: What would you want from me before we talk about adding more courses?
+description: Closes by naming the support or decision she needs next.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

@@ -1,119 +1,183 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781149284057,
+  "generated_at": 1781447314009,
   "role_title_raw": "Head of Product",
   "role_slug": "head-of-product",
   "seniority_raw": "Senior",
   "seniority_key": "senior",
   "role_family": "product",
   "profile": {
-    "summary": "Leads the product function across one or more product areas, setting product strategy, prioritisation, and operating rhythm. Usually manages product managers and works closely with engineering, design, go-to-market leaders, and executives. Owns turning company goals into a coherent roadmap, making trade-offs across teams, and improving how product decisions get made.",
+    "summary": "Owns product direction across multiple teams or a whole product area, balancing strategy, delivery, and people leadership. Sets priorities, shapes roadmap decisions, and aligns product work with company goals. Usually works closely with engineering, design, data, go-to-market leaders, and executives while coaching product managers and handling trade-offs across short-term delivery and longer-term bets.",
     "role_confidence": "high",
     "known_challenges": [
       {
-        "text": "Balancing long-term product strategy with constant pressure for short-term delivery and stakeholder asks.",
+        "text": "Balancing strategic product bets with delivery pressure from the business and leadership team.",
         "category": "topic"
       },
       {
-        "text": "Making hard prioritisation calls across teams with incomplete data and competing executive opinions.",
+        "text": "Making clear prioritisation calls when many teams and stakeholders want different outcomes.",
         "category": "competency"
       },
       {
-        "text": "Scaling product quality by coaching PMs instead of personally driving every important decision.",
-        "category": "competency"
-      },
-      {
-        "text": "Carrying accountability for outcomes without direct control over engineering, design, sales, or marketing execution.",
-        "category": "topic"
-      },
-      {
-        "text": "Sustaining energy under heavy context switching, decision load, and visible leadership pressure.",
+        "text": "Carrying decision load across roadmap, people, and executive alignment without enough quiet thinking time.",
         "category": "wellbeing"
+      },
+      {
+        "text": "Developing product managers while still stepping in on high-risk decisions and escalations.",
+        "category": "competency"
+      },
+      {
+        "text": "Keeping teams outcome-focused instead of slipping into feature output and reactive work.",
+        "category": "topic"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Strategy clarity and trade-offs",
-        "why": "This role is expected to connect company goals to product choices and explain what will not be done.",
+        "theme": "Strategic clarity and trade-offs",
+        "why": "This role is expected to turn broad company goals into clear product choices and explain what will not be done.",
         "category": "topic"
       },
       {
-        "theme": "Team leadership and PM development",
-        "why": "A senior Head of Product succeeds through stronger PM judgment, ownership, and consistency across the team.",
+        "theme": "Team health and product manager growth",
+        "why": "A big part of success is building stronger PMs and making sure leadership load is not concentrated in one person.",
         "category": "competency"
       },
       {
-        "theme": "Cross-functional alignment",
-        "why": "Progress depends on productive working relationships with engineering, design, commercial teams, and executives.",
+        "theme": "Stakeholder alignment with executives and peers",
+        "why": "Misalignment at this level creates churn, weak prioritisation, and constant roadmap resets.",
         "category": "topic"
       },
       {
-        "theme": "Decision quality and evidence",
-        "why": "They often have to make high-impact calls with imperfect data, so their decision process matters.",
-        "category": "competency"
-      },
-      {
-        "theme": "Load, pace, and recovery",
-        "why": "The role can become a constant stream of escalations, meetings, and trade-offs that erode focus and stamina.",
+        "theme": "Decision load and sustainability",
+        "why": "This role often absorbs ambiguity and pressure from many directions, which can quietly drain energy and judgment.",
         "category": "wellbeing"
+      },
+      {
+        "theme": "Product operating model and ways of working",
+        "why": "The quality of planning, discovery, and cross-functional collaboration shapes how well the whole product group performs.",
+        "category": "topic"
       }
     ],
     "terminology": [
       {
-        "term": "Roadmap",
-        "meaning": "Planned product direction and priorities over time."
-      },
-      {
         "term": "Product strategy",
-        "meaning": "The choices about where to play and why."
+        "meaning": "The choices about where to play and how to win.",
+        "group": "product"
       },
       {
-        "term": "Prioritisation",
-        "meaning": "Deciding what gets attention and what waits."
+        "term": "Roadmap",
+        "meaning": "A view of priorities, timing, and major product bets.",
+        "group": "product"
+      },
+      {
+        "term": "Outcome",
+        "meaning": "The user or business change a team aims to create.",
+        "group": "product"
       },
       {
         "term": "Discovery",
-        "meaning": "Learning about user problems before building."
-      },
-      {
-        "term": "OKRs",
-        "meaning": "Goals and measurable outcomes for a period."
-      },
-      {
-        "term": "KPIs",
-        "meaning": "Key metrics used to track performance."
-      },
-      {
-        "term": "Go-to-market",
-        "meaning": "How a product is launched and sold."
+        "meaning": "Work to understand problems before committing to solutions.",
+        "group": "product"
       },
       {
         "term": "Product-market fit",
-        "meaning": "Evidence the product solves a real market need."
+        "meaning": "Evidence that a product solves a real market need.",
+        "group": "product"
       },
       {
-        "term": "Stakeholder management",
-        "meaning": "Working with people who influence decisions and delivery."
+        "term": "North star metric",
+        "meaning": "A key measure of product value over time.",
+        "group": "product"
       },
       {
-        "term": "Product ops",
-        "meaning": "Practices and support that improve product team effectiveness."
+        "term": "Portfolio",
+        "meaning": "The set of products or product areas under oversight.",
+        "group": "leadership"
+      },
+      {
+        "term": "Prioritisation",
+        "meaning": "Choosing what gets focus and what does not.",
+        "group": "leadership"
+      },
+      {
+        "term": "Executive alignment",
+        "meaning": "Shared understanding with senior leaders on direction and trade-offs.",
+        "group": "leadership"
+      },
+      {
+        "term": "Product operating model",
+        "meaning": "How product teams plan, decide, and work together.",
+        "group": "leadership"
+      },
+      {
+        "term": "Org design",
+        "meaning": "How teams and responsibilities are structured.",
+        "group": "leadership"
+      },
+      {
+        "term": "Coaching",
+        "meaning": "Helping product managers improve judgment and execution.",
+        "group": "leadership"
+      },
+      {
+        "term": "Cross-functional trio",
+        "meaning": "Product, design, and engineering leading a team together.",
+        "group": "product-leadership"
+      },
+      {
+        "term": "Continuous discovery",
+        "meaning": "Regular learning from users alongside delivery work.",
+        "group": "product-leadership"
+      },
+      {
+        "term": "OKRs",
+        "meaning": "Goals and measurable results used to align teams.",
+        "group": "product-leadership"
+      },
+      {
+        "term": "Go-to-market",
+        "meaning": "How a product launch reaches and supports customers.",
+        "group": "product-leadership"
+      },
+      {
+        "term": "Product review",
+        "meaning": "A forum to assess progress, risks, and decisions.",
+        "group": "product-leadership"
+      },
+      {
+        "term": "Escalation",
+        "meaning": "An issue raised upward because teams cannot resolve it alone.",
+        "group": "product-leadership"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "product",
+        "label": "Product craft"
+      },
+      {
+        "key": "leadership",
+        "label": "Product leadership"
+      },
+      {
+        "key": "product-leadership",
+        "label": "Running the product organisation"
       }
     ],
     "listen_for": [
-      "Whether they talk mainly about outputs and launches or about customer and business outcomes.",
-      "How they describe trade-offs when executives or peers want conflicting things.",
-      "Whether they speak about PMs as owners they are growing or as work they still need to do themselves.",
-      "Shifts from strategic language to firefighting language, which can signal loss of control or overload.",
-      "How often they reference customer evidence versus internal opinion when explaining priorities."
+      "Whether they talk in outcomes and trade-offs or mainly in feature lists",
+      "How they describe product managers: growing leaders or people needing rescue",
+      "Frequent references to stakeholder churn, late changes, or unclear decisions",
+      "Whether they can connect roadmap choices to company goals and customer evidence",
+      "Signs they are the bottleneck for decisions, approvals, or escalation handling"
     ],
     "avoid": [
-      "Treating them like a senior individual PM instead of a functional leader building team judgment and product direction.",
-      "Pushing for certainty on roadmap commitments when the real job requires managing risk and trade-offs.",
-      "Assuming stakeholder conflict means poor collaboration rather than a normal part of the role.",
-      "Focusing only on delivery speed and ignoring whether the team is working on the right problems."
+      "Treating them like a senior individual contributor instead of a leader of product direction and people",
+      "Pushing for more roadmap certainty when the real issue is unresolved strategy or alignment",
+      "Assuming delivery speed alone is the main measure of success",
+      "Undermining their product managers by routing every important decision directly through them"
     ]
   }
 }

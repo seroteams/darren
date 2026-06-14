@@ -1,138 +1,178 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781428412156,
+  "generated_at": 1781447345537,
   "role_title_raw": "Product Designer",
   "role_slug": "product-designer",
   "seniority_raw": "Mid-level",
   "seniority_key": "mid-level",
   "role_family": "design",
   "profile": {
-    "summary": "A mid-level Product Designer owns end-to-end design work on defined product areas. They turn user and business needs into flows, wireframes, prototypes, and polished UI, working closely with product managers, engineers, and often researchers or content partners. They are expected to handle routine ambiguity, justify design choices, and ship usable work with moderate guidance rather than set overall product or design strategy.",
+    "summary": "A mid-level Product Designer owns end-to-end design work for defined product areas, from framing problems and flows to shipping polished UI with engineers and product managers. They turn research, data, and constraints into usable experiences, contribute to the design system, and handle day-to-day stakeholder collaboration with some guidance on bigger trade-offs and prioritisation.",
     "role_confidence": "high",
     "known_challenges": [
       {
-        "text": "Balancing user needs, business goals, and engineering constraints without owning the final trade-off call.",
+        "text": "Balancing speed to ship with enough discovery and iteration to avoid weak solutions.",
         "category": "topic"
       },
       {
-        "text": "Getting enough user insight and feedback early enough to avoid designing from assumptions.",
-        "category": "topic"
-      },
-      {
-        "text": "Defending design decisions with clear rationale instead of personal preference or taste.",
+        "text": "Defending design decisions with evidence when product or engineering push for shortcuts.",
         "category": "competency"
       },
       {
-        "text": "Managing multiple rounds of feedback from product, engineering, and other stakeholders without losing momentum.",
+        "text": "Working through unclear requirements or shifting priorities without losing momentum.",
+        "category": "topic"
+      },
+      {
+        "text": "Keeping craft quality high while working within technical, content, and accessibility constraints.",
+        "category": "competency"
+      },
+      {
+        "text": "Juggling feedback from multiple stakeholders can create rework and drain energy.",
         "category": "wellbeing"
-      },
-      {
-        "text": "Keeping quality high while working within existing patterns, deadlines, and technical limits.",
-        "category": "competency"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Quality of problem framing and product context",
-        "why": "Mid-level designers do better work when they understand the user problem, success measures, and constraints before moving into screens.",
+        "theme": "Clarity of problem framing and priorities",
+        "why": "Mid-level designers do better work when the problem, success signals, and trade-offs are clear enough to act on.",
         "category": "topic"
       },
       {
-        "theme": "Confidence in design rationale and communication",
-        "why": "This level is often judged on how clearly they explain choices, trade-offs, and evidence to cross-functional partners.",
+        "theme": "Quality of cross-functional collaboration",
+        "why": "Their impact depends heavily on day-to-day partnership with product managers, engineers, researchers, and content partners.",
+        "category": "topic"
+      },
+      {
+        "theme": "Confidence in decision-making and rationale",
+        "why": "At this level they are expected to explain choices clearly, not just produce screens.",
         "category": "competency"
       },
       {
-        "theme": "Access to user feedback and research signals",
-        "why": "Good design decisions depend on real user input, and mid-level designers are often blocked when that access is weak.",
-        "category": "topic"
+        "theme": "Space for craft, iteration, and accessibility",
+        "why": "Design quality often drops when delivery pressure leaves no room for refinement or inclusive design checks.",
+        "category": "competency"
       },
       {
-        "theme": "Feedback load and stakeholder dynamics",
-        "why": "They regularly absorb input from several directions, so it matters whether feedback is useful, conflicting, or slowing progress.",
+        "theme": "Workload and feedback fatigue",
+        "why": "Frequent context switching and repeated critique cycles can quietly wear down motivation and focus.",
         "category": "wellbeing"
-      },
-      {
-        "theme": "Growth in end-to-end ownership",
-        "why": "A key step at this level is moving from executing screens to owning flows, decisions, and follow-through through launch.",
-        "category": "competency"
       }
     ],
     "terminology": [
       {
+        "term": "User flow",
+        "meaning": "The steps a user takes to complete a task.",
+        "group": "craft"
+      },
+      {
         "term": "Wireframe",
-        "meaning": "Basic layout showing structure and flow before visual polish.",
-        "group": "design_artifacts"
+        "meaning": "A low-detail layout used to explore structure and flow.",
+        "group": "craft"
       },
       {
         "term": "Prototype",
-        "meaning": "Clickable model used to test or demonstrate interactions.",
-        "group": "design_artifacts"
-      },
-      {
-        "term": "User flow",
-        "meaning": "Steps a user takes to complete a task.",
-        "group": "ux_core"
-      },
-      {
-        "term": "Design system",
-        "meaning": "Shared components and rules for consistent product design.",
-        "group": "systems"
-      },
-      {
-        "term": "Usability testing",
-        "meaning": "Watching users try tasks to find friction.",
-        "group": "research"
-      },
-      {
-        "term": "Figma",
-        "meaning": "Common tool for interface design and collaboration.",
-        "group": "tools"
+        "meaning": "A clickable model used to test or explain interactions.",
+        "group": "craft"
       },
       {
         "term": "Interaction design",
-        "meaning": "Designing how screens behave and respond to actions.",
-        "group": "ux_core"
+        "meaning": "How screens behave when people tap, type, or navigate.",
+        "group": "craft"
+      },
+      {
+        "term": "Design system",
+        "meaning": "Shared components, patterns, and rules for consistent product design.",
+        "group": "craft"
       },
       {
         "term": "Accessibility",
-        "meaning": "Designing so people with disabilities can use the product.",
-        "group": "quality"
+        "meaning": "Designing so people with different needs can use the product.",
+        "group": "craft"
+      },
+      {
+        "term": "Discovery",
+        "meaning": "Early work to understand problems, users, and opportunities.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Design critique",
+        "meaning": "Structured feedback focused on improving the work.",
+        "group": "ways-of-working"
       },
       {
         "term": "Handoff",
-        "meaning": "Passing design details to engineers for build.",
-        "group": "delivery"
+        "meaning": "Sharing final design details with engineers for build.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Sprint",
+        "meaning": "A short delivery cycle used by product and engineering teams.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Continuous discovery",
+        "meaning": "Regular learning from users alongside delivery work.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "AI-assisted prototyping",
+        "meaning": "Using AI tools to speed up concepts or interface drafts.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Edge case",
+        "meaning": "A less common scenario the design still needs to handle.",
+        "group": "product-context"
+      },
+      {
+        "term": "Success metric",
+        "meaning": "A measure used to judge whether the design worked.",
+        "group": "product-context"
+      },
+      {
+        "term": "Constraint",
+        "meaning": "A limit from tech, policy, time, or business needs.",
+        "group": "product-context"
+      },
+      {
+        "term": "Trade-off",
+        "meaning": "A compromise between competing goals or limitations.",
+        "group": "product-context"
+      },
+      {
+        "term": "Usability testing",
+        "meaning": "Watching people try tasks to find friction and confusion.",
+        "group": "product-context"
       }
     ],
     "terminology_groups": [
       {
-        "key": "design_artifacts",
-        "label": "Design artifacts"
+        "key": "craft",
+        "label": "Product design craft"
       },
       {
-        "key": "ux_core",
-        "label": "UX core"
+        "key": "ways-of-working",
+        "label": "Ways of working"
       },
       {
-        "key": "systems",
-        "label": "Systems and consistency tools and delivery"
+        "key": "product-context",
+        "label": "Product context"
       }
     ],
     "listen_for": [
-      "Whether they talk about user problems and outcomes, not just screens and requests.",
-      "Whether they can explain trade-offs clearly when describing a design decision.",
-      "Repeated mentions of unclear requirements, late feedback, or shifting scope.",
-      "Whether they describe collaboration with engineers early or only at handoff.",
-      "Signs they are stuck in execution work without enough ownership of the problem."
+      "Whether they talk about user problems and outcomes, not just screens and polish.",
+      "Whether they can explain trade-offs with product, engineering, and accessibility in mind.",
+      "Repeated mention of rework, late feedback, or unclear ownership.",
+      "How often they bring evidence from research, testing, or metrics into decisions.",
+      "Whether they avoid discussing stakeholder tension or seem stuck waiting for direction."
     ],
     "avoid": [
-      "Treating design as surface polish added after product decisions are already made.",
-      "Giving purely subjective feedback without tying it to users, goals, or constraints.",
-      "Assuming faster output always means better design work.",
-      "Pushing them to own strategy far beyond their scope without support or context."
+      "Treating them like a screen-maker instead of a partner in product decisions.",
+      "Pushing for polish without protecting time for discovery, testing, or accessibility.",
+      "Assuming stakeholder disagreement means they lack confidence or skill.",
+      "Giving vague feedback like \"make it cleaner\" without product context or constraints."
     ]
   }
 }

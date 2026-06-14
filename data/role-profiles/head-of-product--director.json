@@ -1,106 +1,183 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781149378839,
+  "generated_at": 1781431081350,
   "role_title_raw": "Head of Product",
   "role_slug": "head-of-product",
   "seniority_raw": "Director",
   "seniority_key": "director",
   "role_family": "product",
   "profile": {
-    "summary": "Leads the product function at a director level, setting product strategy, portfolio priorities, and operating rhythm across multiple teams or a business area. Owns roadmap tradeoffs, product org health, and alignment with engineering, design, go-to-market, finance, and executives. Usually manages product leaders or senior PMs and is accountable for outcomes, not just shipping.",
+    "summary": "Owns product strategy, portfolio priorities, and product team performance across multiple areas. Translates company goals into roadmap choices, manages product leaders or senior PMs, and works closely with engineering, design, data, go-to-market, and executives. Balances customer value, commercial outcomes, delivery risk, and team health while shaping how product decisions get made.",
     "role_confidence": "high",
     "known_challenges": [
       {
-        "text": "Balancing long-term product strategy with short-term revenue, customer, and executive pressure.",
+        "text": "Balancing long-term product strategy with short-term revenue, delivery, and executive pressure.",
         "category": "topic"
       },
       {
-        "text": "Keeping multiple teams aligned on priorities when dependencies and tradeoffs cut across the portfolio.",
+        "text": "Keeping multiple teams aligned without becoming the bottleneck for every decision.",
+        "category": "competency"
+      },
+      {
+        "text": "Making trade-offs across a portfolio when data is incomplete or teams compete for priority.",
         "category": "topic"
       },
       {
-        "text": "Shifting from direct product problem-solving to coaching leaders and scaling decision quality through others.",
+        "text": "Developing product managers and product leaders while still carrying high-stakes business decisions.",
         "category": "competency"
       },
       {
-        "text": "Carrying visible accountability for product outcomes without always controlling engineering capacity, market timing, or sales commitments.",
-        "category": "wellbeing"
-      },
-      {
-        "text": "Building a consistent product operating model across teams with different maturity, rituals, and standards.",
-        "category": "competency"
-      },
-      {
-        "text": "Managing context switching across strategy, people leadership, stakeholder management, and escalations.",
+        "text": "Sustaining energy under constant context switching, stakeholder demands, and visible accountability.",
         "category": "wellbeing"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Portfolio priorities and tradeoff clarity",
-        "why": "This role is expected to make hard calls across products and teams, so weak priority signals create churn everywhere.",
+        "theme": "Portfolio trade-offs and priority clarity",
+        "why": "This role is judged on whether the right bets are being made across teams, not just within one roadmap.",
         "category": "topic"
       },
       {
-        "theme": "Quality of product leadership bench",
-        "why": "A Head of Product succeeds through other leaders, making coaching depth and succession strength central to the role.",
+        "theme": "Decision quality with executives and peers",
+        "why": "A Head of Product often succeeds or stalls based on how well they influence across engineering, commercial, and leadership groups.",
         "category": "competency"
       },
       {
-        "theme": "Executive alignment and decision-making",
-        "why": "Misalignment with the leadership team can stall strategy, distort roadmaps, and create avoidable rework.",
+        "theme": "Health and growth of the product organisation",
+        "why": "They usually own hiring, coaching, role clarity, and the operating standard for PMs.",
+        "category": "competency"
+      },
+      {
+        "theme": "Customer signal versus internal pressure",
+        "why": "This role constantly has to protect product judgment from becoming purely reactive to loud stakeholders.",
         "category": "topic"
       },
       {
-        "theme": "Product operating model and team consistency",
-        "why": "At this level, uneven planning, discovery, and delivery habits across teams become a scaling problem.",
-        "category": "competency"
-      },
-      {
-        "theme": "Sustainable load and escalation pressure",
-        "why": "The role often absorbs conflict, ambiguity, and urgent asks, which can quietly erode judgment and energy.",
+        "theme": "Load, recovery, and decision fatigue",
+        "why": "The role carries visible accountability and frequent context switching, which can quietly erode judgment and resilience.",
         "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Product strategy",
+        "meaning": "The choices about where to play and why.",
+        "group": "product"
       },
       {
-        "theme": "Customer and market signal quality",
-        "why": "Strategy quality depends on whether this leader is getting clear input from customers, data, and commercial teams.",
-        "category": "topic"
+        "term": "Roadmap",
+        "meaning": "Sequenced product bets and delivery direction.",
+        "group": "product"
+      },
+      {
+        "term": "Discovery",
+        "meaning": "Work to understand problems before building.",
+        "group": "product"
+      },
+      {
+        "term": "Outcome metrics",
+        "meaning": "Measures tied to user or business results.",
+        "group": "product"
+      },
+      {
+        "term": "Portfolio",
+        "meaning": "The full set of product investments.",
+        "group": "product"
+      },
+      {
+        "term": "Product operating model",
+        "meaning": "How product teams make decisions and work.",
+        "group": "product"
+      },
+      {
+        "term": "Product org design",
+        "meaning": "How PM roles, teams, and ownership are structured.",
+        "group": "leadership"
+      },
+      {
+        "term": "Coaching",
+        "meaning": "Helping PMs improve judgment and execution.",
+        "group": "leadership"
+      },
+      {
+        "term": "Stakeholder management",
+        "meaning": "Handling expectations, input, and alignment across groups.",
+        "group": "leadership"
+      },
+      {
+        "term": "Escalation",
+        "meaning": "An issue raised for faster or higher-level resolution.",
+        "group": "leadership"
+      },
+      {
+        "term": "Executive alignment",
+        "meaning": "Shared understanding with senior leaders on direction.",
+        "group": "leadership"
+      },
+      {
+        "term": "Decision rights",
+        "meaning": "Clarity on who decides what.",
+        "group": "leadership"
+      },
+      {
+        "term": "Quarterly planning",
+        "meaning": "Cross-team planning for the next quarter.",
+        "group": "role"
+      },
+      {
+        "term": "Go-to-market",
+        "meaning": "How a product is launched and sold.",
+        "group": "role"
+      },
+      {
+        "term": "North star metric",
+        "meaning": "A key measure of product value delivered.",
+        "group": "role"
+      },
+      {
+        "term": "Continuous discovery",
+        "meaning": "Ongoing customer learning alongside delivery.",
+        "group": "role"
+      },
+      {
+        "term": "Product review",
+        "meaning": "Regular forum to inspect progress and decisions.",
+        "group": "role"
+      },
+      {
+        "term": "AI-assisted analysis",
+        "meaning": "Using AI to speed synthesis or exploration.",
+        "group": "role"
       }
     ],
     "terminology_groups": [
-      { "key": "strategy", "label": "Strategy" },
-      { "key": "leadership", "label": "Leadership" },
-      { "key": "role", "label": "The role" }
-    ],
-    "terminology": [
-      { "term": "Product strategy", "meaning": "The long-term direction and choices for the product.", "group": "strategy" },
-      { "term": "Portfolio", "meaning": "The set of products and teams under management.", "group": "strategy" },
-      { "term": "North star metric", "meaning": "Primary measure of product value and progress.", "group": "strategy" },
-      { "term": "Product-market fit", "meaning": "Evidence the product solves a real market need.", "group": "strategy" },
-      { "term": "Prioritisation", "meaning": "Deciding what gets focus and what does not.", "group": "strategy" },
-      { "term": "Coaching PMs", "meaning": "Growing product managers instead of solving for them.", "group": "leadership" },
-      { "term": "Operating model", "meaning": "Shared planning, discovery, and delivery habits across teams.", "group": "leadership" },
-      { "term": "Stakeholder management", "meaning": "Aligning people with different goals and influence.", "group": "leadership" },
-      { "term": "Executive alignment", "meaning": "Keeping leadership agreed on strategy and trade-offs.", "group": "leadership" },
-      { "term": "Outcome accountability", "meaning": "Owning results, not just what ships.", "group": "role" },
-      { "term": "Roadmap trade-offs", "meaning": "Choosing across competing bets and dependencies.", "group": "role" },
-      { "term": "Org health", "meaning": "The capacity, morale, and bench strength of the team.", "group": "role" },
-      { "term": "Continuous discovery", "meaning": "Always-on customer input shaping strategy.", "group": "role" }
+      {
+        "key": "product",
+        "label": "Product"
+      },
+      {
+        "key": "leadership",
+        "label": "Product leadership"
+      },
+      {
+        "key": "role",
+        "label": "Head of Product"
+      }
     ],
     "listen_for": [
-      "Whether they talk in terms of business outcomes or only roadmap output.",
-      "How often they mention coaching product leaders versus stepping in personally.",
-      "Repeated references to executive churn, last-minute priority changes, or sales-driven overrides.",
-      "Whether customer evidence and data are used to justify choices or absent from the story.",
-      "Signs they are the bottleneck for decisions, escalations, or cross-team alignment."
+      "Whether they talk in terms of portfolio choices or get pulled into single-team detail",
+      "How they describe trade-offs between customer value, revenue, and delivery constraints",
+      "Whether they name people-development issues as clearly as roadmap issues",
+      "Shifts from evidence-based language to stakeholder-driven language under pressure",
+      "Signs they are carrying too many decisions personally"
     ],
     "avoid": [
-      "Treating them like a senior individual PM instead of a leader accountable through other product managers.",
-      "Assuming roadmap delivery alone is the main measure of success.",
-      "Pushing for more hands-on involvement when the real need is stronger delegation and leadership leverage.",
-      "Reducing product disagreements to communication issues when they are really strategy or priority conflicts."
+      "Treating them like the most senior individual PM rather than an organisational leader",
+      "Pushing for more roadmap detail when the real issue is strategy, org design, or decision clarity",
+      "Assuming stakeholder conflict means poor alignment skills rather than genuine business trade-offs",
+      "Focusing only on delivery output and ignoring team quality, product judgment, and portfolio health"
     ]
   }
 }

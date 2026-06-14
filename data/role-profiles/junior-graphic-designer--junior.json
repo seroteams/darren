@@ -1,97 +1,163 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781147059503,
+  "generated_at": 1781431048830,
   "role_title_raw": "Junior Graphic Designer",
   "role_slug": "junior-graphic-designer",
   "seniority_raw": "Junior",
   "seniority_key": "junior",
   "role_family": "design",
   "profile": {
-    "summary": "A Junior Graphic Designer supports the creation of visual assets for marketing, brand, digital, or print work. They usually execute against existing brand guidelines, prepare files, make revisions, and turn feedback into polished layouts. Their scope is hands-on production more than strategy, working closely with senior designers, marketers, copywriters, and sometimes external printers or developers.",
+    "summary": "A Junior Graphic Designer supports day-to-day visual work across marketing, brand, digital, and sometimes print. They usually execute within an existing brand system, prepare assets, make revisions, and learn through feedback from more senior designers, marketers, and stakeholders. Their scope is mostly delivery-focused, with growing ownership of small projects and increasing responsibility for file quality, consistency, and speed.",
     "role_confidence": "high",
     "known_challenges": [
       {
-        "text": "Turning broad or conflicting feedback into clear design changes without losing confidence.",
-        "category": "competency"
-      },
-      {
-        "text": "Balancing speed, accuracy, and brand consistency on high-volume asset work.",
-        "category": "competency"
-      },
-      {
-        "text": "Building craft skills while still needing close direction and review.",
-        "category": "competency"
-      },
-      {
-        "text": "Handling repeated revisions and subjective opinions from non-design stakeholders.",
+        "text": "Turning loose or changing briefs into clear visual work without much context.",
         "category": "topic"
       },
       {
-        "text": "Feeling pressure to prove creative value while doing production-heavy work.",
+        "text": "Building speed and confidence while still needing frequent feedback and direction.",
+        "category": "competency"
+      },
+      {
+        "text": "Handling rounds of revisions without taking critique personally.",
         "category": "wellbeing"
+      },
+      {
+        "text": "Keeping files, exports, and brand details accurate across many small tasks.",
+        "category": "competency"
+      },
+      {
+        "text": "Balancing production work with chances to grow concept and craft skills.",
+        "category": "topic"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Feedback clarity and revision patterns",
-        "why": "Junior designers often depend on feedback quality, and unclear input can slow learning and delivery.",
+        "theme": "Clarity of briefs and handoff quality",
+        "why": "Junior designers often struggle most when requests are vague, rushed, or missing key constraints.",
         "category": "topic"
       },
       {
-        "theme": "Growth in core design craft",
-        "why": "This level is still building fundamentals like layout, typography, hierarchy, and file preparation.",
-        "category": "competency"
-      },
-      {
-        "theme": "Confidence in presenting and explaining choices",
-        "why": "They may have good instincts but struggle to speak about decisions with stakeholders.",
-        "category": "competency"
-      },
-      {
-        "theme": "Workload sustainability during fast-turnaround requests",
-        "why": "Design teams often face urgent asks and repeated edits that can drain energy quickly.",
+        "theme": "Feedback, critique, and confidence",
+        "why": "How they receive and use feedback strongly affects growth, morale, and output quality at this level.",
         "category": "wellbeing"
       },
       {
-        "theme": "Understanding of brand rules and when to apply them",
-        "why": "Strong execution at this level depends on using guidelines consistently across many assets.",
+        "theme": "Craft fundamentals and quality bar",
+        "why": "This role develops through repetition in layout, typography, hierarchy, and brand consistency.",
+        "category": "competency"
+      },
+      {
+        "theme": "Workload mix between production and learning",
+        "why": "Too much repetitive asset work can stall development and reduce motivation.",
         "category": "topic"
+      },
+      {
+        "theme": "Stakeholder communication and revision management",
+        "why": "Junior designers need help learning how to clarify requests, explain choices, and manage changes calmly.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Brand guidelines",
+        "meaning": "Rules for using logos, colors, type, and imagery.",
+        "group": "craft"
+      },
+      {
+        "term": "Typography",
+        "meaning": "How type is chosen, spaced, and arranged.",
+        "group": "craft"
+      },
+      {
+        "term": "Hierarchy",
+        "meaning": "Visual order that guides attention through content.",
+        "group": "craft"
+      },
+      {
+        "term": "Layout",
+        "meaning": "How elements are arranged on a page or screen.",
+        "group": "craft"
+      },
+      {
+        "term": "Asset export",
+        "meaning": "Saving files in the right format, size, and settings.",
+        "group": "craft"
+      },
+      {
+        "term": "Design critique",
+        "meaning": "Structured feedback on work and design choices.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Revision round",
+        "meaning": "A cycle of requested changes to a design.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Handoff",
+        "meaning": "Passing final files or specs to another team.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Version control",
+        "meaning": "Keeping track of file changes and latest edits.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Creative brief",
+        "meaning": "The core goal, audience, message, and constraints.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Template work",
+        "meaning": "Adapting existing designs for new content.",
+        "group": "growing-into-the-role"
+      },
+      {
+        "term": "Portfolio piece",
+        "meaning": "Work saved to show skills and growth.",
+        "group": "growing-into-the-role"
+      },
+      {
+        "term": "Pixel-perfect",
+        "meaning": "Careful visual accuracy in spacing and alignment.",
+        "group": "growing-into-the-role"
+      },
+      {
+        "term": "Production design",
+        "meaning": "Preparing final assets accurately and efficiently.",
+        "group": "growing-into-the-role"
       }
     ],
     "terminology_groups": [
-      { "key": "craft", "label": "Craft" },
-      { "key": "ways", "label": "Ways of working" },
-      { "key": "growth", "label": "Growing into the role" }
-    ],
-    "terminology": [
-      { "term": "Typography", "meaning": "How type is chosen, arranged, and styled.", "group": "craft" },
-      { "term": "Layout", "meaning": "How visual elements are placed on a page.", "group": "craft" },
-      { "term": "Hierarchy", "meaning": "Visual order showing what to notice first.", "group": "craft" },
-      { "term": "Brand guidelines", "meaning": "Rules for logos, colour, type, and style.", "group": "craft" },
-      { "term": "Vector vs raster", "meaning": "Path-based artwork that scales, versus pixel images.", "group": "craft" },
-      { "term": "Design brief", "meaning": "The goal, audience, and constraints for a piece of work.", "group": "ways" },
-      { "term": "Design critique", "meaning": "A structured review where peers give feedback.", "group": "ways" },
-      { "term": "Handoff", "meaning": "Passing finished files and specs to the next team.", "group": "ways" },
-      { "term": "AI-assisted drafts", "meaning": "Using AI tools to speed up first versions.", "group": "ways" },
-      { "term": "Version control", "meaning": "Keeping named, recoverable versions of files.", "group": "ways" },
-      { "term": "Design rationale", "meaning": "Being able to explain why a choice was made.", "group": "growth" },
-      { "term": "Receiving feedback", "meaning": "Turning critique into changes without losing confidence.", "group": "growth" },
-      { "term": "Accessibility basics", "meaning": "Designing so more people can use the result.", "group": "growth" }
+      {
+        "key": "craft",
+        "label": "Design craft"
+      },
+      {
+        "key": "ways-of-working",
+        "label": "Ways of working"
+      },
+      {
+        "key": "growing-into-the-role",
+        "label": "Growing into the role"
+      }
     ],
     "listen_for": [
-      "They talk mostly about making requested changes, not yet about owning design rationale.",
-      "They mention unclear briefs or scattered feedback as a recurring blocker.",
-      "They describe checking brand rules often, which signals conscientiousness and dependence on guidance.",
-      "They downplay their work or credit others quickly, which can point to low confidence.",
-      "They focus on tools or execution details more than audience, message, or business goal."
+      "They talk mostly about making requested changes, not yet about why choices work.",
+      "They mention unclear briefs or late feedback as blockers.",
+      "They describe critique in emotional terms, which can signal confidence strain.",
+      "They focus on file prep, resizing, and asset volume, showing a production-heavy workload.",
+      "They start using craft terms like hierarchy or typography more precisely over time."
     ],
     "avoid": [
-      "Treating them like a fully independent brand owner before they have enough support.",
-      "Giving vague feedback like \"make it pop\" without concrete direction.",
-      "Assuming speed on production tasks means they do not need craft development.",
-      "Reading quietness in critiques as lack of ideas rather than lack of confidence."
+      "Assuming fast execution means they need little guidance.",
+      "Treating revision-heavy work as low-skill or not worth discussing.",
+      "Pushing full creative ownership before they have enough context and support.",
+      "Giving vague feedback like 'make it pop' instead of concrete direction."
     ]
   }
 }

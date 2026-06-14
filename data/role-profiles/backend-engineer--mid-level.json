@@ -1,15 +1,15 @@
 {
   "version": 1,
-  "prompt_version": "6fa18b03",
+  "prompt_version": "bda3c52f",
   "model": "gpt-5.4",
-  "generated_at": 1781149473382,
+  "generated_at": 1781447303156,
   "role_title_raw": "Backend Engineer",
   "role_slug": "backend-engineer",
   "seniority_raw": "Mid-level",
   "seniority_key": "mid-level",
   "role_family": "engineering",
   "profile": {
-    "summary": "A mid-level Backend Engineer builds and maintains server-side services, APIs, data flows, and integrations used by products and internal systems. They usually own delivery of well-scoped features and fixes, write tests, review code, and help operate services in production. They work closely with other engineers, product managers, designers, and sometimes data or infrastructure teams.",
+    "summary": "A mid-level Backend Engineer builds and maintains server-side services, APIs, data flows, and integrations. They usually own delivery of well-scoped features, debugging, testing, and production fixes within a team. They work closely with product, frontend, platform, QA, and other backend engineers, and are expected to write reliable code, handle routine operational issues, and contribute to design discussions without owning broad technical direction.",
     "role_confidence": "high",
     "known_challenges": [
       {
@@ -17,103 +17,162 @@
         "category": "topic"
       },
       {
-        "text": "Debugging production issues across logs, databases, queues, and upstream dependencies with incomplete information.",
+        "text": "Debugging production issues across logs, databases, queues, and upstream dependencies under time pressure.",
         "category": "competency"
       },
       {
-        "text": "Making design choices that fit current needs without overengineering or creating future maintenance pain.",
+        "text": "Translating product requirements into safe API and data model changes without breaking consumers.",
         "category": "competency"
       },
       {
-        "text": "Handling interruptions from incidents, support requests, and urgent bug fixes that break planned work.",
+        "text": "Keeping up with code review, testing, and documentation while sprint commitments stay tight.",
         "category": "wellbeing"
       },
       {
-        "text": "Coordinating API and schema changes with other teams without causing breakages or rollout delays.",
+        "text": "Working through unclear ownership when incidents or cross-service bugs span multiple teams.",
         "category": "topic"
       }
     ],
     "recommended_question_themes": [
       {
-        "theme": "Service ownership and production confidence",
-        "why": "This role often writes code that must run reliably in production, so confidence in operating and changing services matters.",
-        "category": "topic"
-      },
-      {
-        "theme": "Technical judgment on tradeoffs",
-        "why": "Mid-level engineers are expected to make solid choices on simplicity, speed, performance, and maintainability.",
+        "theme": "Service ownership and delivery scope",
+        "why": "Mid-level backend engineers do best when they have clear ownership of components and enough room to execute independently.",
         "category": "competency"
       },
       {
-        "theme": "Debugging and incident learning",
-        "why": "How they approach failures shows where they need support, patterns, or stronger systems knowledge.",
-        "category": "competency"
-      },
-      {
-        "theme": "Workload fragmentation and interruption load",
-        "why": "Backend work is often disrupted by bugs and operational issues, which can quietly drain focus and energy.",
+        "theme": "Production health and operational load",
+        "why": "Their effectiveness is shaped by how much time goes to incidents, flaky systems, and support work.",
         "category": "wellbeing"
       },
       {
-        "theme": "Cross-team dependency management",
-        "why": "Backend changes often depend on contracts with frontend, mobile, platform, or data teams.",
+        "theme": "API and data design decisions",
+        "why": "This role regularly makes choices that affect maintainability, compatibility, and downstream teams.",
+        "category": "topic"
+      },
+      {
+        "theme": "Debugging and incident learning",
+        "why": "Growth at this level often comes from handling failures well and turning fixes into prevention.",
+        "category": "competency"
+      },
+      {
+        "theme": "Cross-team dependencies and handoffs",
+        "why": "Backend work often stalls on other services, schema changes, or unclear contracts between teams.",
         "category": "topic"
       }
     ],
     "terminology": [
       {
-        "term": "API",
-        "meaning": "Rules for how software systems communicate."
+        "term": "API contract",
+        "meaning": "The agreed request and response shape clients depend on.",
+        "group": "backend-craft"
       },
       {
-        "term": "Endpoint",
-        "meaning": "A specific API path or operation."
+        "term": "Schema migration",
+        "meaning": "A controlled change to database structure or constraints.",
+        "group": "backend-craft"
       },
       {
-        "term": "Database schema",
-        "meaning": "The structure of stored data and tables."
+        "term": "Idempotency",
+        "meaning": "Repeating a request has the same effect once.",
+        "group": "backend-craft"
       },
       {
-        "term": "Migration",
-        "meaning": "A controlled change to database structure or data."
+        "term": "Pagination",
+        "meaning": "Returning large result sets in smaller chunks.",
+        "group": "backend-craft"
       },
       {
-        "term": "Queue",
-        "meaning": "A buffer for processing work asynchronously."
+        "term": "Message queue",
+        "meaning": "A buffer for asynchronous work between systems.",
+        "group": "backend-craft"
+      },
+      {
+        "term": "Rate limiting",
+        "meaning": "Restricting request volume to protect a service.",
+        "group": "backend-craft"
+      },
+      {
+        "term": "Code review",
+        "meaning": "Peer feedback on changes before merging.",
+        "group": "delivery-and-quality"
+      },
+      {
+        "term": "CI pipeline",
+        "meaning": "Automated build, test, and validation steps.",
+        "group": "delivery-and-quality"
+      },
+      {
+        "term": "Integration test",
+        "meaning": "A test that checks components working together.",
+        "group": "delivery-and-quality"
+      },
+      {
+        "term": "Rollback",
+        "meaning": "Reverting a release after problems appear.",
+        "group": "delivery-and-quality"
+      },
+      {
+        "term": "Tech debt",
+        "meaning": "Past shortcuts that slow future changes.",
+        "group": "delivery-and-quality"
+      },
+      {
+        "term": "Observability",
+        "meaning": "Using logs, metrics, and traces to understand systems.",
+        "group": "production-and-operations"
       },
       {
         "term": "Latency",
-        "meaning": "How long a request takes to complete."
+        "meaning": "How long a request takes to complete.",
+        "group": "production-and-operations"
       },
       {
         "term": "Throughput",
-        "meaning": "How much work a system handles over time."
+        "meaning": "How much work a service handles over time.",
+        "group": "production-and-operations"
       },
       {
-        "term": "Caching",
-        "meaning": "Storing results temporarily to speed up access."
+        "term": "Error budget",
+        "meaning": "Allowed unreliability before delivery should slow down.",
+        "group": "production-and-operations"
       },
       {
-        "term": "Logs",
-        "meaning": "Recorded events from running software."
+        "term": "On-call",
+        "meaning": "Being responsible for responding to production issues.",
+        "group": "production-and-operations"
       },
       {
-        "term": "CI/CD",
-        "meaning": "Automated build, test, and deployment pipeline."
+        "term": "Postmortem",
+        "meaning": "A write-up of what failed and what to improve.",
+        "group": "production-and-operations"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "backend-craft",
+        "label": "Backend craft"
+      },
+      {
+        "key": "delivery-and-quality",
+        "label": "Delivery and quality"
+      },
+      {
+        "key": "production-and-operations",
+        "label": "Production and operations"
       }
     ],
     "listen_for": [
-      "Whether they talk about customer impact or only code completion",
-      "Whether production issues are described with ownership, avoidance, or blame",
-      "How clearly they explain tradeoffs between speed, simplicity, and long-term maintenance",
-      "Whether they mention tests, observability, and rollout safety when discussing changes",
-      "Shifts from confident technical detail to vagueness around distributed systems, data, or performance"
+      "Whether they talk about systems in terms of contracts, failure modes, and trade-offs rather than just tickets.",
+      "How clearly they separate symptoms from root causes when describing bugs or incidents.",
+      "Whether production issues sound like normal ownership or constant firefighting.",
+      "Shifts from talking about writing code to talking about operating and improving services.",
+      "Whether they mention dependency blockers, unclear ownership, or brittle handoffs with other teams."
     ],
     "avoid": [
-      "Treating backend work as invisible plumbing with less product impact than frontend work",
-      "Pushing only for feature speed while ignoring reliability, maintenance, and operational load",
-      "Assuming a mid-level engineer should already handle vague architecture problems without support",
-      "Reading careful technical caution as lack of urgency or low ownership"
+      "Treating backend work as invisible support for frontend delivery.",
+      "Assuming speed matters more than safe migrations, testing, or backward compatibility.",
+      "Reading incident involvement as poor performance when it may reflect real service ownership.",
+      "Pushing architecture debates far beyond their scope instead of helping with concrete decisions and execution."
     ]
   }
 }

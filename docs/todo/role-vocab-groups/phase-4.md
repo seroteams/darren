@@ -1,6 +1,6 @@
 # Phase 4 — Real words: prompt edit + regenerate + gate
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜ · **PAID — needs Carl's explicit go-ahead per run**
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 prompt edited + 5 archetypes regenerated & verified; rest of library + gate pending Carl · **PAID**
 
 ## Goal
 Replace the hand-authored stand-ins with genuine, modern, grouped vocabulary the model

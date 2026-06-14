@@ -1,6 +1,6 @@
 # Phase 3 — Lock the free behaviour
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built & verified (guard passes + bites), awaiting QA
 
 ## Goal
 A regression guard so a future careless edit can't silently break the grouping — and one
