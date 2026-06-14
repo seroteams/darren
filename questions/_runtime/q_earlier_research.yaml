@@ -1,0 +1,10 @@
+alias: q_earlier_research
+label: Earlier research
+name: What would earlier research need to change in practice?
+description: Drills into what specifically would have to shift for research to shape decisions earlier.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: research in earlier

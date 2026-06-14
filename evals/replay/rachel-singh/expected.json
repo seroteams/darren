@@ -1,0 +1,74 @@
+{
+  "verdict": "PASS",
+  "hard_fails": [],
+  "warnings": [],
+  "briefing": {
+    "headline": "Rachel’s quietness tracks to research landing after decisions are already set, not to a lack of ideas.",
+    "summary_bullets": [
+      "The same thread repeats: Rachel speaks up only when research can still change a decision, and lately that timing has not been there.",
+      "She wants earlier framing on the next project; the gap is not volume, it is when her input enters the room."
+    ],
+    "understanding_paragraph": "Rachel’s session showed a clear shift in how she is showing up: she is holding back more, and the reason is tied to where research lands in the process. We did not learn that she lacks energy or ideas; we learned that she wants a seat earlier, before direction hardens.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "zero_score",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "engagement",
+        "score": -4,
+        "meaning": "Worth checking over the next few weeks: she is speaking less when her work feels disconnected from decisions.",
+        "read_status": "read",
+        "confidence": "medium",
+        "evidence_basis": "mixed"
+      },
+      {
+        "id": "clarity",
+        "score": -9,
+        "meaning": "The defining signal of this session: she feels research arrives after the decision is already made.",
+        "read_status": "read",
+        "confidence": "high",
+        "evidence_basis": "transcript_quotes"
+      },
+      {
+        "id": "growth",
+        "score": 1,
+        "meaning": "Weak signal, not actionable on its own; she can name the next better setup, but the learning edge is still small.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      }
+    ],
+    "brutal_truth_employee": "Rachel’s own line — “been holding back more than usual” — is the signal to keep. The bigger issue is not silence; it is that she only sees a reason to speak when “it’ll actually change a decision.”",
+    "brutal_truth_manager": "When Rachel said “the timing hasn’t felt there,” that was the moment to stay with the process gap and ask what would make it early enough. The conversation did that partly, but it could have pressed one step more on where the handoff is happening.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Confirm the next project’s framing meeting and put Rachel on the invite from the start."
+      },
+      {
+        "when": "next 1:1",
+        "action": "Ask Rachel to name one decision point where research needs to land earlier, and map that handoff together."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: does Rachel bring up a decision early, or stay quiet until the direction is set?",
+      "Within two weeks: if she is still only invited for validation, the same pullback will likely continue."
+    ],
+    "engagement_read": {
+      "level": "worth_checking",
+      "evidence": [
+        "“volume's fine. more that the work feels less connected to what gets decided”",
+        "“wants research in earlier, before the direction's set, so it can actually shape things”"
+      ],
+      "missing_evidence": "Need to see whether she leans in once she is brought into framing early, or whether the pullback shows up across other threads too.",
+      "recommended_action": "Put her into one early framing conversation and see whether her participation changes.",
+      "watch_next": "Notice whether she volunteers ideas before the direction is fixed."
+    }
+  }
+}

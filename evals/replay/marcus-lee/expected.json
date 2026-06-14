@@ -1,0 +1,74 @@
+{
+  "verdict": "PASS",
+  "hard_fails": [],
+  "warnings": [],
+  "briefing": {
+    "headline": "Marcus looks worn down by one account becoming the whole job, and the load is now spilling into the rest of his week.",
+    "summary_bullets": [
+      "Hendricks is the center of gravity: three escalation calls, outside-hours work, and no full day off in two months.",
+      "The real strain is structural, not attitude — he is the only one who knows the account, so he keeps everything himself."
+    ],
+    "understanding_paragraph": "Marcus is carrying a concentrated load that the session made visible: the account work is crowding out the proactive parts of the role he actually enjoys. We also learned he relaxes when cover is possible; the shared runbook landed immediately.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": -9,
+        "meaning": "Strong strain signal: he said he has not taken a full day off in two months and looked tired.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "engagement",
+        "score": -2,
+        "meaning": "Weak concern, worth checking: he shrugged off less team contact and moved back to client work fast.",
+        "read_status": "read",
+        "confidence": "medium",
+        "evidence_basis": "mixed"
+      },
+      {
+        "id": "clarity",
+        "score": -1,
+        "meaning": "Weak signal, not actionable on its own: the account load and cover path were blurred until the runbook idea.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "growth",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "no_history",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      }
+    ],
+    "brutal_truth_employee": "Marcus is carrying a real strain signal, not just a busy week: \"hasn't taken a full day off in two months\" and \"things pile up\" are doing the work here. The session also showed he is treating single-point ownership as the default, which is keeping the load stuck on him.",
+    "brutal_truth_manager": "The strongest moment was when Marcus said \"nobody's ever asked to share the load before\" — that was the opening to stay with the support question longer. The repeated standup-clash turn was also a place to slow down and test whether the team distance was just logistics or something he had normalized.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Take the Hendricks CTO escalation channel for two weeks and confirm Marcus is off that thread."
+      },
+      {
+        "when": "this week",
+        "action": "Set up the shared runbook for Hendricks and name a backup owner for the account."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: check whether Marcus actually took the Friday off he was owed.",
+      "Within two weeks: see if he reappears in standup or keeps skipping it for Hendricks calls."
+    ],
+    "engagement_read": {
+      "level": "worth_checking",
+      "evidence": [
+        "\"I like the team, I just don't see them\"",
+        "he skipped the standup most days and shrugged"
+      ],
+      "missing_evidence": "I would need to see whether he reconnects once the Hendricks load is shared, or whether he keeps pulling away from team touchpoints.",
+      "recommended_action": "Ask one direct, low-pressure question about what contact with the team would help, if any.",
+      "watch_next": "Notice whether he volunteers one team touchpoint he wants back, or stays flat and task-only."
+    }
+  }
+}

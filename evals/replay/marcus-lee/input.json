@@ -1,0 +1,567 @@
+{
+  "id": "marcus-lee",
+  "kind": "happy",
+  "captured_from": "logs/june/2026_Jun12_00-29-48a5c639",
+  "persona": "Marcus Lee",
+  "issue": "Burnout masked by client work",
+  "rawResponse": {
+    "headline": "Marcus looks worn down by one account becoming the whole job, and the load is now spilling into the rest of his week.",
+    "summary_bullets": [
+      "Hendricks is the center of gravity: three escalation calls, outside-hours work, and no full day off in two months.",
+      "The real strain is structural, not attitude — he is the only one who knows the account, so he keeps everything himself."
+    ],
+    "understanding_paragraph": "Marcus is carrying a concentrated load that the session made visible: the account work is crowding out the proactive parts of the role he actually enjoys. We also learned he relaxes when cover is possible; the shared runbook landed immediately.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": -9,
+        "meaning": "Strong strain signal: he said he has not taken a full day off in two months and looked tired.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "engagement",
+        "score": -2,
+        "meaning": "Weak concern, worth checking: he shrugged off less team contact and moved back to client work fast.",
+        "read_status": "read",
+        "confidence": "medium",
+        "evidence_basis": "mixed"
+      },
+      {
+        "id": "clarity",
+        "score": -1,
+        "meaning": "Weak signal, not actionable on its own: the account load and cover path were blurred until the runbook idea.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "growth",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "no_history",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      }
+    ],
+    "brutal_truth_employee": "Marcus is carrying a real strain signal, not just a busy week: \"hasn't taken a full day off in two months\" and \"things pile up\" are doing the work here. The session also showed he is treating single-point ownership as the default, which is keeping the load stuck on him.",
+    "brutal_truth_manager": "The strongest moment was when Marcus said \"nobody's ever asked to share the load before\" — that was the opening to stay with the support question longer. The repeated standup-clash turn was also a place to slow down and test whether the team distance was just logistics or something he had normalized.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Take the Hendricks CTO escalation channel for two weeks and confirm Marcus is off that thread."
+      },
+      {
+        "when": "this week",
+        "action": "Set up the shared runbook for Hendricks and name a backup owner for the account."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: check whether Marcus actually took the Friday off he was owed.",
+      "Within two weeks: see if he reappears in standup or keeps skipping it for Hendricks calls."
+    ],
+    "engagement_read": {
+      "level": "worth_checking",
+      "evidence": [
+        "\"I like the team, I just don't see them\"",
+        "he skipped the standup most days and shrugged"
+      ],
+      "missing_evidence": "I would need to see whether he reconnects once the Hendricks load is shared, or whether he keeps pulling away from team touchpoints.",
+      "recommended_action": "Ask one direct, low-pressure question about what contact with the team would help, if any.",
+      "watch_next": "Notice whether he volunteers one team touchpoint he wants back, or stays flat and task-only."
+    }
+  },
+  "ctx": {
+    "name": "Marcus",
+    "role": "Customer Success Manager",
+    "seniority": "Senior"
+  },
+  "meetingType": "Something feels off",
+  "managerNotes": "Marcus is still handling clients, but he seems more drained and less present than usual.",
+  "focusPoints": [
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Energy and presence shift lately",
+      "reason": "Notes say Marcus seems more drained and less present than usual, so clarify whether stress is rising or something else changed.",
+      "source": "signal",
+      "confidence": "medium",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How connected he feels day-to-day",
+      "reason": "Whether he feels supported and trusted internally could explain reduced presence, especially during emotionally charged customer moments.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What he’s saying yes to vs avoiding",
+      "reason": "If his focus is drifting from value realization and renewals risk into constant client triage, it can quietly drain senior CSMs.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_open_carrying_in",
+        "label": "What you're carrying",
+        "name": "What are you carrying into this conversation?",
+        "description": "Acknowledges people are not clean slates. Non-evaluative — carrying could be burden or gift.",
+        "purpose": "wellbeing",
+        "stage": "landing",
+        "axis_effects": {
+          "wellbeing": 2
+        },
+        "source": "research"
+      },
+      "answer": "Long pause first. Then said the Hendricks account renewal has been sitting on him — three escalation calls last week, two outside work hours. Said \"it's fine, it's the job\" but his tone said otherwise. Looked tired.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -1
+      },
+      "note": "Hendricks renewal and repeated after-hours escalations are sitting on him, signalling mildly strained energy; also surfaced a concrete Hendricks thread to follow."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_prep_opener_129",
+        "label": "Prep opener",
+        "name": "How have the last couple of weeks felt for you while you're managing your accounts and escalations?",
+        "description": "Helps Marcus set the context in his own words before you go anywhere specific.",
+        "purpose": "wellbeing",
+        "stage": "landing",
+        "axis_effects": {
+          "wellbeing": 3,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "Just the Hendricks renewal logistics — wants to know if legal reviewed the new terms. Nothing personal raised. Deflected back to client work quickly.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -1
+      },
+      "note": "He stayed narrowly on Hendricks logistics and deflected away from his own state, which signals mild strain but no clear clarity issue; also surfaced a concrete Hendricks thread to follow."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_hendricks_load",
+        "label": "Hendricks load",
+        "name": "What about Hendricks has been sitting on you most?",
+        "description": "Drills into the specific renewal and escalation thread he just named.",
+        "purpose": "wellbeing",
+        "stage": "landing",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "He said it's not the work, it's that he's the only one who knows the account — can't hand off even for a day. Their CTO calls him directly, skips the ticket queue. He hasn't taken a full day off in two months because \"things pile up\".",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -3
+      },
+      "note": "Strong wellbeing risk: he describes single-threaded account ownership, direct executive interruptions, and no full day off in two months."
+    },
+    {
+      "turn": 4,
+      "question": {
+        "alias": "q_thread_follow_195",
+        "label": "Thread follow",
+        "name": "What made you read the situation that way at the time?",
+        "description": "Following up on what they just said.",
+        "purpose": "wellbeing",
+        "stage": "landing",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "He said past experience — last year when he handed Brockman to a colleague for a week, they lost the renewal and he got the blame in the QBR. Since then he keeps everything himself. So the not-delegating is a learned response, not a control thing.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -3
+      },
+      "note": "He linked his current over-ownership to a specific past renewal loss and blame episode, showing sustained strain and a learned self-protective pattern; [THREAD-DEFERRED] Brockman blame history explains the pattern, but drill cap and wellbeing-cap require arc advance."
+    },
+    {
+      "turn": 5,
+      "question": {
+        "alias": "q_recent_shift_2",
+        "label": "Recent shift",
+        "name": "What has changed most in your day-to-day work lately?",
+        "description": "Gives you a clean read on what’s different without assuming the reason.",
+        "purpose": "wellbeing",
+        "stage": "observation",
+        "axis_effects": {
+          "wellbeing": 3,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "He counted it out: client portfolio went from 6 to 9 accounts after Dana left in March, no backfill. Says mornings are all escalations now, the proactive success-planning work he actually enjoys has completely dropped off the calendar.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -3,
+        "clarity": -1
+      },
+      "note": "Clear workload shift: his portfolio increased without backfill, escalations now dominate mornings, and valued proactive work has been crowded out."
+    },
+    {
+      "turn": 6,
+      "question": {
+        "alias": "q_portfolio_shift",
+        "label": "Portfolio shift",
+        "name": "How is the extra account load changing how you work day to day?",
+        "description": "Drills on the concrete portfolio increase he named to surface the practical impact on his time and operating rhythm.",
+        "purpose": "wellbeing",
+        "stage": "observation",
+        "axis_effects": {
+          "wellbeing": 3,
+          "clarity": 1
+        },
+        "source": "planner_added"
+      },
+      "answer": "Quiet on this one. Said he skips the team standup most days now because it clashes with the Hendricks morning call. Eats lunch at his desk. Said \"I like the team, I just don't see them\" — didn't seem bothered by it, which itself worries me a bit.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -3,
+        "clarity": -1
+      },
+      "note": "He describes a clearly unsustainable rhythm and shrinking team contact, with Hendricks dictating his day; also surfaced possible disengagement, worth probing next."
+    },
+    {
+      "turn": 7,
+      "question": {
+        "alias": "q_intro_off_connection",
+        "label": "Team connection",
+        "name": "How connected do you feel to the rest of the team right now?",
+        "description": "Probes isolation or drift without naming it; one of the earliest signals of disengagement.",
+        "purpose": "wellbeing",
+        "stage": "observation",
+        "axis_effects": {
+          "engagement": 3,
+          "wellbeing": 1
+        },
+        "source": "seed"
+      },
+      "answer": "(Same question as the previous one, repeated verbatim.) Nothing new — he repeated the standup clash and shrugged. Moving on.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -1,
+        "engagement": -1
+      },
+      "note": "He offered no new detail and repeated that team contact keeps getting displaced by account demands, which signals mild detachment and ongoing strain; [THREAD-DEFERRED-WINDDOWN] standup clash and isolation pattern not drilled due to wind-down."
+    },
+    {
+      "turn": 8,
+      "question": {
+        "alias": "q_after_the_decision",
+        "label": "After the decision",
+        "name": "What changed in how you wanted to show up after the promotion decision?",
+        "description": "Helps you hear whether he pulled back, recalibrated, or stopped seeing the same point of effort.",
+        "purpose": "topic",
+        "stage": "underneath",
+        "axis_effects": {
+          "engagement": 3,
+          "wellbeing": 1
+        },
+        "source": "generated"
+      },
+      "answer": "Confusing question — there was no promotion decision. Marcus looked puzzled and so was I. He guessed it meant the team-lead role that went to external hire LAST YEAR, and said honestly that stung for a month but it's not what this is about. Skipping the premise.",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[NO-REPORT-SIGNAL] The answer rejects the question's false premise rather than giving engagement or wellbeing signal; [BUDGET-STARVED] final turn must serve the closer."
+    },
+    {
+      "turn": 9,
+      "question": {
+        "alias": "q_next_step_8",
+        "label": "Next step",
+        "name": "What would help make the next two weeks steadier for you?",
+        "description": "Lands the conversation on a practical change he can take away.",
+        "purpose": "wellbeing",
+        "stage": "support",
+        "axis_effects": {
+          "wellbeing": 1,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "Three things agreed: I take the Hendricks CTO escalation channel for the next two weeks, we document the account in a shared runbook so cover is possible, and he books the Friday off he's owed. He visibly relaxed once the runbook idea landed — said \"nobody's ever asked to share the load before\".",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": 1,
+        "clarity": 1
+      },
+      "note": "Names concrete support that will reduce load and improve cover, with visible relief once shared ownership became possible."
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_open_carrying_in",
+          "delta": -1,
+          "answer_excerpt": "Long pause first. Then said the Hendricks account renewal has been sitting on him — three escalation calls last week, two outside work hours"
+        },
+        {
+          "q": "q_prep_opener_129",
+          "delta": -1,
+          "answer_excerpt": "Just the Hendricks renewal logistics — wants to know if legal reviewed the new terms. Nothing personal raised. Deflected back to client work"
+        },
+        {
+          "q": "q_hendricks_load",
+          "delta": -3,
+          "answer_excerpt": "He said it's not the work, it's that he's the only one who knows the account — can't hand off even for a day. Their CTO calls him directly, "
+        },
+        {
+          "q": "q_thread_follow_195",
+          "delta": -3,
+          "answer_excerpt": "He said past experience — last year when he handed Brockman to a colleague for a week, they lost the renewal and he got the blame in the QBR"
+        },
+        {
+          "q": "q_recent_shift_2",
+          "delta": -3,
+          "answer_excerpt": "He counted it out: client portfolio went from 6 to 9 accounts after Dana left in March, no backfill. Says mornings are all escalations now, "
+        },
+        {
+          "q": "q_portfolio_shift",
+          "delta": -3,
+          "answer_excerpt": "Quiet on this one. Said he skips the team standup most days now because it clashes with the Hendricks morning call. Eats lunch at his desk. "
+        },
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "(Same question as the previous one, repeated verbatim.) Nothing new — he repeated the standup clash and shrugged. Moving on."
+        },
+        {
+          "q": "q_next_step_8",
+          "delta": 1,
+          "answer_excerpt": "Three things agreed: I take the Hendricks CTO escalation channel for the next two weeks, we document the account in a shared runbook so cove"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_intro_off_connection",
+          "delta": -1,
+          "answer_excerpt": "(Same question as the previous one, repeated verbatim.) Nothing new — he repeated the standup clash and shrugged. Moving on."
+        }
+      ]
+    },
+    "clarity": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_recent_shift_2",
+          "delta": -1,
+          "answer_excerpt": "He counted it out: client portfolio went from 6 to 9 accounts after Dana left in March, no backfill. Says mornings are all escalations now, "
+        },
+        {
+          "q": "q_portfolio_shift",
+          "delta": -1,
+          "answer_excerpt": "Quiet on this one. Said he skips the team standup most days now because it clashes with the Hendricks morning call. Eats lunch at his desk. "
+        },
+        {
+          "q": "q_next_step_8",
+          "delta": 1,
+          "answer_excerpt": "Three things agreed: I take the Hendricks CTO escalation channel for the next two weeks, we document the account in a shared runbook so cove"
+        }
+      ]
+    },
+    "growth": {
+      "score": 0,
+      "history": []
+    }
+  },
+  "bankQuestions": [
+    {
+      "label": "Prep opener",
+      "name": "How have the last couple of weeks felt for you while you're managing your accounts and escalations?",
+      "description": "Helps Marcus set the context in his own words before you go anywhere specific.",
+      "purpose": "wellbeing",
+      "stage": "landing",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Recent shift",
+      "name": "What has changed most in your day-to-day work lately?",
+      "description": "Gives you a clean read on what’s different without assuming the reason.",
+      "purpose": "wellbeing",
+      "stage": "observation",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Heavy accounts",
+      "name": "Which accounts have been taking the most out of you recently?",
+      "description": "Helps you hear where the load is concentrating in his portfolio.",
+      "purpose": "wellbeing",
+      "stage": "observation",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 3
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Pressure points",
+      "name": "Where in the week does the pressure feel highest right now?",
+      "description": "Makes it easier to pinpoint the moments that are draining him most.",
+      "purpose": "wellbeing",
+      "stage": "underneath",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Skipping over",
+      "name": "What have you been putting off or skimming past lately?",
+      "description": "Helps you hear what he’s avoiding when the load gets too high.",
+      "purpose": "topic",
+      "stage": "underneath",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Recovery space",
+      "name": "What parts of the week are actually giving you a chance to reset?",
+      "description": "Shows whether he has any real recovery built into the week.",
+      "purpose": "wellbeing",
+      "stage": "underneath",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 3
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Account focus",
+      "name": "What are you choosing to spend the most time on right now?",
+      "description": "Helps you hear his current priorities instead of the default workload.",
+      "purpose": "topic",
+      "stage": "support",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "growth",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Tradeoff check",
+      "name": "What are you deliberately not giving time to at the moment?",
+      "description": "Makes the tradeoffs in his portfolio and calendar visible.",
+      "purpose": "topic",
+      "stage": "support",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Team lift",
+      "name": "Where do you need more from the team around you?",
+      "description": "Surfaces the support gap without turning it into a complaint session.",
+      "purpose": "topic",
+      "stage": "support",
+      "axis_effects": [
+        {
+          "axis": "engagement",
+          "delta": 3
+        },
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Next step",
+      "name": "What would help make the next two weeks steadier for you?",
+      "description": "Lands the conversation on a practical change he can take away.",
+      "purpose": "wellbeing",
+      "stage": "support",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Phase 2 — Add your own words
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built, awaiting product-owner test
 
 ## Goal
 On the Job lexicons page, you can add your own words to a job and remove ones you added. Your words are saved separately from the AI's and never overwrite them.

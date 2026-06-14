@@ -1,0 +1,10 @@
+alias: q_review_drag_3
+label: Review drag
+name: When reviews feel heavier, where does the drag show up most?
+description: Drills into the heavier-reviews thread to locate the specific point of friction.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: heavier lately

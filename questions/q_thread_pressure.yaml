@@ -1,0 +1,10 @@
+alias: q_thread_pressure
+label: Thread pressure
+name: What’s been hardest about the Figma threads or review comments lately?
+description: Gets specific about the format of the feedback, which often matters as much as the content.
+purpose: topic
+stage: momentum
+axis_effects:
+  wellbeing: +1
+  clarity: +3
+source: generated

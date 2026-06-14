@@ -4,7 +4,7 @@
 // read from disk here.
 
 const { getSession } = require("../sessions");
-const { loadRoleProfile } = require("../../../src/role-profile");
+const { loadRoleProfile, effectiveTerminology, terminologyGroups } = require("../../../src/role-profile");
 
 module.exports = function roleProfile(c) {
   const sessionId = c.query.s;
@@ -18,6 +18,7 @@ module.exports = function roleProfile(c) {
   const doc = loadRoleProfile(session.ctx || {});
   return c.json(200, {
     ready: Boolean(doc),
-    terminology: doc?.profile?.terminology || [],
+    terminology: doc ? effectiveTerminology(doc) : [],
+    terminologyGroups: doc ? terminologyGroups(doc.profile) : [],
   });
 };

@@ -1,0 +1,10 @@
+alias: q_holding_back_more
+label: Holding back more
+name: "When you've been holding back more than usual, what has that looked like in the room?"
+description: Drills into the concrete pattern of her pullback before moving on.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: holding back more than usual

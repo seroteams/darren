@@ -375,6 +375,11 @@ html, body {
     radial-gradient(circle at 72% 0%, rgba(90, 169, 230, 0.10), transparent 36%),
     var(--color-bg);
 }
+/* Always reserve the vertical scrollbar so centred content doesn't slide
+   sideways when moving between a page that scrolls and one that fits. */
+html {
+  overflow-y: scroll;
+}
 body {
   font-family: "InterVariable", "Inter", ui-sans-serif, system-ui, sans-serif;
   font-feature-settings: "ss01", "cv11";
@@ -511,6 +516,15 @@ body.has-session-topbar .stage {
   width: 100%;
   max-width: var(--container-medium);
   margin: 0 auto;
+}
+/* Questioning carries a wide action row (up to 5 buttons), so it gets a roomier
+   container than the reading-width default and the buttons wrap if space runs out. */
+.stage-questioning {
+  width: 100%;
+  max-width: 52rem;
+}
+.questioning-card .field__actions {
+  flex-wrap: wrap;
 }
 .stage-step {
   /* @deprecated → use .page-header__step */
@@ -1756,13 +1770,19 @@ body.has-session-topbar .stage {
   border-left: 2px solid var(--color-accent);
   padding-left: 0.875rem;
 }
+/* Section headings inside the one-page flow read darker/bolder so they're easy
+   to spot as you scroll (the global .eyebrow stays subtle elsewhere). */
+.flow-section .eyebrow {
+  color: var(--color-ink);
+  font-weight: var(--type-weight-semibold);
+}
 .flow-answer__q {
   display: flex;
   align-items: center;
   gap: 0.4rem;
   font-size: var(--type-small);
-  font-weight: var(--type-weight-medium);
-  color: var(--color-ink-mute);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink-dim);
 }
 .flow-answer__q::before {
   content: "✓";
@@ -1793,6 +1813,14 @@ body.has-session-topbar .stage {
 .flow-glossary__meaning { color: var(--color-ink-mute); line-height: 1.5; }
 @media (max-width: 30rem) {
   .flow-glossary__row { grid-template-columns: 1fr; gap: 0.1rem; }
+}
+/* Grouped vocabulary — Craft -> Level -> Role sub-sections, each with a heading */
+.flow-glossary-card { display: grid; gap: 1.4rem; }
+.flow-glossary-group { display: grid; gap: 0.6rem; }
+.flow-glossary-group__head {
+  margin: 0;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--color-border-tinted);
 }
 
 /* Focus-point cards */
@@ -3279,6 +3307,34 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   .lib-row { flex-wrap: wrap; }
   .lib-row__right { flex-wrap: wrap; }
 }
+
+/* Job lexicons — user-added words ------------------------------------------ */
+.joblex-add { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.joblex-add .joblex-add__term { flex: 0 1 13rem; }
+.joblex-add .joblex-add__meaning { flex: 1 1 15rem; }
+.joblex-yours {
+  font-size: var(--type-label);
+  font-weight: 600;
+  color: var(--color-ink-mute);
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+  border-radius: var(--radius-input);
+  padding: 0.05rem 0.45rem;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+.joblex-remove {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--color-ink-mute);
+  font-size: 1.05rem;
+  line-height: 1;
+  padding: 0 0.3rem;
+  margin-left: 0.2rem;
+  vertical-align: middle;
+}
+.joblex-remove:hover { color: var(--color-negative); }
+.joblex-error { color: var(--color-negative); font-size: var(--type-small); }
 
 /* Operator guide (internal reference) -------------------------------------- */
 .guide-section {

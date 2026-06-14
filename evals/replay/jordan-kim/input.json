@@ -1,0 +1,603 @@
+{
+  "id": "jordan-kim",
+  "kind": "happy",
+  "captured_from": "logs/june/2026_Jun12_00-16-303c5c57",
+  "persona": "Jordan Kim",
+  "issue": "Wants more scope",
+  "rawResponse": {
+    "headline": "Jordan has a real platform ambition, and the session turned it into a concrete API versioning scope.",
+    "summary_bullets": [
+      "The pull is not just title-chasing: Jordan named \"the versioning/deprecation policy\" and wants to own it end to end, which is the first clear test of their bigger-scope intent.",
+      "The gap is outside the squad — finance, risk, and pricing are still thin on exposure, so the next chapter depends on stakeholder trust, not just stronger delivery."
+    ],
+    "understanding_paragraph": "Jordan is not asking for a vague stretch; he wants platform ownership that changes who comes to him for decisions. The session also showed he is still missing cross-functional reach, especially with finance, risk, and pricing.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": -2,
+        "meaning": "Weak wellbeing signal: he said strategy work gives energy, but the note is about preference, not strain.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "engagement",
+        "score": 6,
+        "meaning": "A real pattern: he leaned into the conversation and kept pushing toward concrete ownership.",
+        "read_status": "read",
+        "confidence": "high",
+        "evidence_basis": "transcript_quotes"
+      },
+      {
+        "id": "clarity",
+        "score": 1,
+        "meaning": "Weak signal, not actionable on its own; he has a target, but the path across stakeholders is still fuzzy.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "growth",
+        "score": 7,
+        "meaning": "A real pattern, act on it: he named a scoped problem, a decision he wants to shape, and a concrete next step.",
+        "read_status": "read",
+        "confidence": "high",
+        "evidence_basis": "transcript_quotes"
+      }
+    ],
+    "brutal_truth_employee": "Jordan is not short on ambition; \"the versioning/deprecation policy\" and \"own the proposal end to end\" are real signals of readiness for broader scope. The weak spot is that he still lacks trust outside the squad, so the bigger role will stall if that stays true.",
+    "brutal_truth_manager": "You did well to push past \"developer experience generally\" into a named project, but the next step is to test authority, not just interest. The moment he said finance and risk know his name but \"haven't seen them lead anything,\" that was the cue to assign a stakeholder-facing decision, not move on.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Set up Jordan's intro to the platform eng lead and the three squad leads for the API versioning project."
+      },
+      {
+        "when": "this month",
+        "action": "Assign Jordan a stakeholder-facing decision on the deprecation policy and have him present it in the guild."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: see whether Jordan has booked the intro and drafted the one-pager without reminders.",
+      "Within two weeks: if finance or risk still haven't seen him lead a discussion, the cross-squad trust gap is real."
+    ],
+    "engagement_read": {
+      "level": "no_clear_concern",
+      "evidence": [
+        "\"Jordan rolled with it though\"",
+        "\"want to own the proposal end to end\""
+      ],
+      "missing_evidence": "I would need to see avoidance, silence, or repeated deflection across more than one turn to call an engagement issue.",
+      "recommended_action": "Give Jordan one visible cross-team decision to own so his energy has a place to land.",
+      "watch_next": "Next 1:1, notice whether he brings back progress unprompted or waits to be asked."
+    }
+  },
+  "ctx": {
+    "name": "Jordan",
+    "role": "Product manager on the payments team",
+    "seniority": "Mid-level"
+  },
+  "meetingType": "Growth & career plan",
+  "managerNotes": "Jordan has asked twice in the last month about leading a bigger product area. Solid delivery on payments, but I haven't seen them influence beyond their own squad yet. Want to figure out what growth they actually want and what's realistic this half.",
+  "focusPoints": [
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "Bigger product area leadership ambition",
+      "reason": "Jordan asked twice about leading a bigger product area; worth clarifying what they want to own and what feels realistic this half.",
+      "source": "signal",
+      "confidence": "medium",
+      "known": true
+    },
+    {
+      "id": "stakeholder_engagement",
+      "type": "Stakeholder engagement",
+      "category": "competency",
+      "label": "Influence beyond the payments squad",
+      "reason": "Whether they're building trust and alignment with the broader set of stakeholders needed to move work outside their squad.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    },
+    {
+      "id": "impact",
+      "type": "Impact",
+      "category": "competency",
+      "label": "Leverage from payments work beyond delivery",
+      "reason": "At mid-level, growth conversations land best when you connect their next scope to measurable leverage, not just solid execution.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    },
+    {
+      "id": "manager_support",
+      "type": "Manager support",
+      "category": "topic",
+      "label": "What they need from you to stretch",
+      "reason": "How you can give air cover, introductions, or coaching so they can credibly lead a larger area this half.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_open_learning_yourself",
+        "label": "Learning about yourself",
+        "name": "What have you been learning about yourself recently?",
+        "description": "Signals interest in them as a human, not just their output. Reflective, non-evaluative.",
+        "purpose": "wellbeing",
+        "stage": "anchor",
+        "axis_effects": {
+          "growth": 2,
+          "wellbeing": 1
+        },
+        "source": "research"
+      },
+      "answer": "Said they've realised they get energy from shaping strategy, not shipping tickets — the discovery work on the refunds project was the best month they've had here. Frustrated that their calendar is 80% delivery ceremonies.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -1,
+        "growth": 2
+      },
+      "note": "Clear growth signal: Jordan feels most energised by strategy-shaped discovery work on refunds, with mild wellbeing drag from a calendar dominated by delivery ceremonies.",
+      "unbooked_signal": [
+        {
+          "axis": "growth",
+          "raw": 3,
+          "booked": 2,
+          "reason": "clamped"
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_prep_opener_128",
+        "label": "Prep opener",
+        "name": "What kind of product area would you want to lead next, and what would make that a meaningful stretch for you this half?",
+        "description": "Gets Jordan talking about the scope he wants before you get into what it would take to earn it.",
+        "purpose": "topic",
+        "stage": "anchor",
+        "axis_effects": {
+          "growth": 3,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "Wants to talk about the open senior PM role on the platform team — saw the internal posting and wants to know if I'd back them for it. Also flagged the checkout API migration is at risk this sprint.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": 1,
+        "growth": 3
+      },
+      "note": "Named a specific next-step ambition — the open senior PM role on platform — which is strong growth signal with some directional clarity; also surfaced a separate delivery risk worth parking, not following now."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_platform_role",
+        "label": "Platform role",
+        "name": "What about that platform role pulls you specifically?",
+        "description": "Drills into the concrete scope or problems Jordan wants from the senior PM role.",
+        "purpose": "topic",
+        "stage": "anchor",
+        "axis_effects": {
+          "growth": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "Honest answer: partly the title, partly that platform touches every squad so they'd finally have leverage. When I pushed on what problem they'd own first, it got vague — \"developer experience generally\". Strong pull, fuzzy target.",
+      "skipped": false,
+      "realized_deltas": {
+        "growth": -1
+      },
+      "note": "Strong ambition is real, but the desired scope is still vague — leverage and title are clearer than a concrete problem to own."
+    },
+    {
+      "turn": 4,
+      "question": {
+        "alias": "q_named_problem",
+        "label": "Named problem",
+        "name": "What specific platform problem would you want to own first?",
+        "description": "Turns a vague pull toward platform into a concrete aspiration anchored in a named problem space.",
+        "purpose": "topic",
+        "stage": "anchor",
+        "axis_effects": {
+          "growth": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "After some back and forth they landed on the internal payments API versioning mess — every squad complains about it, they've felt the pain firsthand, and they sketched a rough idea for a deprecation policy. That's a real, scoped problem. First concrete answer of the session.",
+      "skipped": false,
+      "realized_deltas": {
+        "growth": 3
+      },
+      "note": "Named a specific adjacent problem to own and a concrete starting idea, which is strong positive growth signal; [THREAD-DEFERRED] deprecation policy idea could be worth drilling next session."
+    },
+    {
+      "turn": 5,
+      "question": {
+        "alias": "q_intro_growth_direction",
+        "label": "Direction",
+        "name": "When you imagine yourself eighteen months from now, what's actually different?",
+        "description": "Probes whether they have a real picture of where they want to go.",
+        "purpose": "topic",
+        "stage": "aspiration",
+        "axis_effects": {
+          "growth": 3,
+          "engagement": 1
+        },
+        "source": "seed"
+      },
+      "answer": "They want to be the PM other PMs come to for platform decisions — running a small group of squads or a platform area, presenting to leadership quarterly. Notably did NOT mention people management; when I asked, they said they're not sure they want reports yet. Useful nuance.",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": 1,
+        "growth": 3
+      },
+      "note": "Names a concrete future picture with broader platform scope, leadership visibility, and a clear nuance that they want influence before people management."
+    },
+    {
+      "turn": 6,
+      "question": {
+        "alias": "q_arch_review_role_3",
+        "label": "Arch review role",
+        "name": "In architecture review, what role do you want to play more often?",
+        "description": "Drills into the concrete kind of scope and visibility he wants in that forum.",
+        "purpose": "topic",
+        "stage": "aspiration",
+        "axis_effects": {
+          "engagement": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "Slightly odd question — we don't really have an architecture review forum, PMs don't attend the eng design reviews. Jordan rolled with it though: said they'd want to be in the room where API contracts get decided because that's where their roadmap keeps getting blindsided. Translated it to our API guild meeting.",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": 3
+      },
+      "note": "Strong engagement signal: Jordan named a specific forum and decision point they want access to because API contract choices are affecting their roadmap."
+    },
+    {
+      "turn": 7,
+      "question": {
+        "alias": "q_api_guild_role",
+        "label": "API guild role",
+        "name": "In the API guild, what call do you want to shape more directly?",
+        "description": "Drills on the concrete decision Jordan wants influence over in the forum they named.",
+        "purpose": "topic",
+        "stage": "aspiration",
+        "axis_effects": {
+          "engagement": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "The versioning/deprecation policy — they want to own the proposal end to end: write it, get the three squad leads aligned, present it at the guild. Asked me to intro them to the platform eng lead. Concrete and self-driven.",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": 3,
+        "clarity": -1
+      },
+      "note": "Strong engagement signal: Jordan named a specific decision to own, the stakeholders to align, and proactively asked for an introduction; [THREAD-DEFERRED-WINDDOWN] asked for intro to platform eng lead."
+    },
+    {
+      "turn": 8,
+      "question": {
+        "alias": "q_scope_gap_3",
+        "label": "Scope gap",
+        "name": "What feels missing between the work you own now and the bigger area you want to lead?",
+        "description": "Helps you map the gap in scope without turning it into a performance verdict.",
+        "purpose": "topic",
+        "stage": "gap",
+        "axis_effects": {
+          "growth": 3,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "Self-aware answer: they said stakeholder trust outside the squad — finance and risk know their name but haven't seen them lead anything. Also admitted they avoid the commercial side, never sat with the pricing team. Gap matches what I see.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": 1,
+        "growth": -3
+      },
+      "note": "Names a concrete readiness gap — limited trust with finance and risk plus little exposure to pricing — while showing clear understanding of what broader scope would require."
+    },
+    {
+      "turn": 9,
+      "question": {
+        "alias": "q_next_move_72",
+        "label": "Next move",
+        "name": "What is the first step you want to take before we meet again?",
+        "description": "Leaves the conversation with one concrete move Jordan can own after this discussion.",
+        "purpose": "topic",
+        "stage": "commitment",
+        "axis_effects": {
+          "growth": 1,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "They committed to drafting the API versioning one-pager by next Friday and booking 30 mins with the platform eng lead once I make the intro. Parked the platform role question until we see how the proposal lands — they suggested that themselves.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "note": "Named a specific next move, sequencing, and dependency on your intro, which shows both forward momentum and a clear plan."
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_open_learning_yourself",
+          "delta": -1,
+          "answer_excerpt": "Said they've realised they get energy from shaping strategy, not shipping tickets — the discovery work on the refunds project was the best m"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 6,
+      "history": [
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 1,
+          "answer_excerpt": "They want to be the PM other PMs come to for platform decisions — running a small group of squads or a platform area, presenting to leadersh"
+        },
+        {
+          "q": "q_arch_review_role_3",
+          "delta": 3,
+          "answer_excerpt": "Slightly odd question — we don't really have an architecture review forum, PMs don't attend the eng design reviews. Jordan rolled with it th"
+        },
+        {
+          "q": "q_api_guild_role",
+          "delta": 3,
+          "answer_excerpt": "The versioning/deprecation policy — they want to own the proposal end to end: write it, get the three squad leads aligned, present it at the"
+        }
+      ]
+    },
+    "clarity": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_prep_opener_128",
+          "delta": 1,
+          "answer_excerpt": "Wants to talk about the open senior PM role on the platform team — saw the internal posting and wants to know if I'd back them for it. Also "
+        },
+        {
+          "q": "q_api_guild_role",
+          "delta": -1,
+          "answer_excerpt": "The versioning/deprecation policy — they want to own the proposal end to end: write it, get the three squad leads aligned, present it at the"
+        },
+        {
+          "q": "q_scope_gap_3",
+          "delta": 1,
+          "answer_excerpt": "Self-aware answer: they said stakeholder trust outside the squad — finance and risk know their name but haven't seen them lead anything. Als"
+        },
+        {
+          "q": "q_next_move_72",
+          "delta": 1,
+          "answer_excerpt": "They committed to drafting the API versioning one-pager by next Friday and booking 30 mins with the platform eng lead once I make the intro."
+        }
+      ]
+    },
+    "growth": {
+      "score": 7,
+      "history": [
+        {
+          "q": "q_open_learning_yourself",
+          "delta": 2,
+          "answer_excerpt": "Said they've realised they get energy from shaping strategy, not shipping tickets — the discovery work on the refunds project was the best m"
+        },
+        {
+          "q": "q_prep_opener_128",
+          "delta": 3,
+          "answer_excerpt": "Wants to talk about the open senior PM role on the platform team — saw the internal posting and wants to know if I'd back them for it. Also "
+        },
+        {
+          "q": "q_platform_role",
+          "delta": -1,
+          "answer_excerpt": "Honest answer: partly the title, partly that platform touches every squad so they'd finally have leverage. When I pushed on what problem the"
+        },
+        {
+          "q": "q_named_problem",
+          "delta": 3,
+          "answer_excerpt": "After some back and forth they landed on the internal payments API versioning mess — every squad complains about it, they've felt the pain f"
+        },
+        {
+          "q": "q_intro_growth_direction",
+          "delta": 3,
+          "answer_excerpt": "They want to be the PM other PMs come to for platform decisions — running a small group of squads or a platform area, presenting to leadersh"
+        },
+        {
+          "q": "q_scope_gap_3",
+          "delta": -3,
+          "answer_excerpt": "Self-aware answer: they said stakeholder trust outside the squad — finance and risk know their name but haven't seen them lead anything. Als"
+        },
+        {
+          "q": "q_next_move_72",
+          "delta": 1,
+          "answer_excerpt": "They committed to drafting the API versioning one-pager by next Friday and booking 30 mins with the platform eng lead once I make the intro."
+        }
+      ]
+    }
+  },
+  "bankQuestions": [
+    {
+      "label": "Prep opener",
+      "name": "What kind of product area would you want to lead next, and what would make that a meaningful stretch for you this half?",
+      "description": "Gets Jordan talking about the scope he wants before you get into what it would take to earn it.",
+      "purpose": "topic",
+      "stage": "anchor",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Broader scope signal",
+      "name": "Where do you want to be making decisions outside the payments squad?",
+      "description": "Helps you hear whether he wants broader ownership or just more of the same work.",
+      "purpose": "topic",
+      "stage": "anchor",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Meaningful stretch",
+      "name": "What would feel like a real step up in scope for you this half?",
+      "description": "Keeps the conversation on a concrete stretch instead of a vague appetite for more.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Adjacent area",
+      "name": "Which adjacent product area do you want to get closer to?",
+      "description": "Gives you a named direction so you can talk about a path, not just ambition.",
+      "purpose": "topic",
+      "stage": "aspiration",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Scope gap",
+      "name": "What feels missing between the work you own now and the bigger area you want to lead?",
+      "description": "Helps you map the gap in scope without turning it into a performance verdict.",
+      "purpose": "topic",
+      "stage": "gap",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Cross-functional gap",
+      "name": "Where would you need stronger pull with finance, legal, support, or another partner to lead that wider area?",
+      "description": "Brings the stakeholder side into view, which is often what makes broader ownership real.",
+      "purpose": "competency",
+      "stage": "gap",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Decision leverage",
+      "name": "What kind of decision beyond roadmap delivery do you want to get better at shaping?",
+      "description": "Moves the conversation from shipping work to the judgments that define larger product scope.",
+      "purpose": "competency",
+      "stage": "investment",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Manager support",
+      "name": "What would you want from me to make that next step feel realistic this half?",
+      "description": "Opens the door to coaching, air cover, or introductions without assuming what he needs.",
+      "purpose": "wellbeing",
+      "stage": "investment",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 1
+        },
+        {
+          "axis": "growth",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Tradeoff check",
+      "name": "What would you be willing to drop or slow down to make room for that stretch?",
+      "description": "Makes the tradeoff explicit so the plan is about real capacity, not wishful adding-on.",
+      "purpose": "topic",
+      "stage": "investment",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        },
+        {
+          "axis": "growth",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Next move",
+      "name": "What is the first step you want to take before we meet again?",
+      "description": "Leaves the conversation with one concrete move Jordan can own after this discussion.",
+      "purpose": "topic",
+      "stage": "commitment",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 1
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    }
+  ]
+}

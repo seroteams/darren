@@ -18,6 +18,7 @@ const icon = (paths) =>
   `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
 
 const ICON = {
+  personas: icon(`<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`),
   home: icon(`<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h3v-6h6v6h3a1 1 0 0 0 1-1V9.5"/>`),
   new: icon(`<circle cx="12" cy="12" r="9"/><path d="M12 8.5v7M8.5 12h7"/>`),
   library: icon(`<path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/>`),
@@ -36,6 +37,7 @@ const LINKS = [
   { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library },
   { key: "compare", label: "Compare runs", stage: STAGES.COMPARE, icon: ICON.compare },
   { key: "regression", label: "Regression", stage: STAGES.REGRESSION, icon: ICON.regression },
+  { key: "personas", label: "Personas", stage: STAGES.PERSONAS, icon: ICON.personas },
   { key: "lexicon", label: "Phrase library", stage: STAGES.LEXICON_REVIEW, icon: ICON.lexicon },
   { key: "joblex", label: "Job lexicons", stage: STAGES.ROLE_LEXICONS, icon: ICON.joblex },
   { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs },
@@ -77,6 +79,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     library: () => setState && setState({ stage: STAGES.LIBRARY }),
     compare: () => setState && setState({ stage: STAGES.COMPARE }),
     regression: () => setState && setState({ stage: STAGES.REGRESSION }),
+    personas: () => setState && setState({ stage: STAGES.PERSONAS }),
     lexicon: () => setState && setState({ stage: STAGES.LEXICON_REVIEW }),
     joblex: () => setState && setState({ stage: STAGES.ROLE_LEXICONS }),
     arcs: () => setState && setState({ stage: STAGES.MEETING_ARCS }),
@@ -92,6 +95,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.LIBRARY]: "library",
     [STAGES.COMPARE]: "compare",
     [STAGES.REGRESSION]: "regression",
+    [STAGES.PERSONAS]: "personas",
     [STAGES.LEXICON_REVIEW]: "lexicon",
     [STAGES.ROLE_LEXICONS]: "joblex",
     [STAGES.MEETING_ARCS]: "arcs",

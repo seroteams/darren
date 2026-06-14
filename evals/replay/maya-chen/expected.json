@@ -1,0 +1,74 @@
+{
+  "verdict": "PASS",
+  "hard_fails": [],
+  "warnings": [],
+  "briefing": {
+    "headline": "Maya's review loop is being slowed by conflicting direction and missing early checks, not by lack of talent.",
+    "summary_bullets": [
+      "She keeps trying to satisfy both voices instead of forcing a single call on the payment step; that is why the work gets bounced again.",
+      "The real gap is not craft on concrete edits — it is catching empty states, error flows, and conflict before review starts."
+    ],
+    "understanding_paragraph": "The session confirmed Maya can act fast on concrete feedback, but she loses time when direction is vague or split. We also learned the rework loop is draining her, while the job itself is not the problem.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": -5,
+        "meaning": "Weak wellbeing signal: she said the rework loop was draining and she dreaded comments by round three.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "concentrated_signal"
+      },
+      {
+        "id": "engagement",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "zero_score",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "clarity",
+        "score": -6,
+        "meaning": "A real pattern, act on it: conflicting directions and vague asks leave her without one clear target.",
+        "read_status": "read",
+        "confidence": "high",
+        "evidence_basis": "transcript_quotes"
+      },
+      {
+        "id": "growth",
+        "score": -1,
+        "meaning": "Weak signal, not actionable on its own: she can name fixes, but the learning loop is still basic.",
+        "read_status": "read",
+        "confidence": "medium",
+        "evidence_basis": "axis_state_only"
+      }
+    ],
+    "brutal_truth_employee": "Maya is not short on effort or taste; the signal is that \"the rework loop was draining\" and she \"dreaded opening Figma comments by round three.\" The stronger problem is that she guesses instead of asking when direction splits, so she burns time on the wrong version.",
+    "brutal_truth_manager": "In turn 3, when she described the payment step ping-pong, the conversation should have stopped on the conflict between you and the lead designer and forced one decision. In turn 9, her checklist idea was the right close; the missed move was to pin down the exact trigger for using it before review.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Settle the checkout direction with the lead designer and send Maya one clear call on the payment step."
+      },
+      {
+        "when": "next 1:1",
+        "action": "Review Maya's pre-review checklist and agree the exact edge cases, empty states, and error flows she must catch before handoff."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: see whether Maya asks for one clear direction or keeps guessing between reviewers.",
+      "Within two weeks: check whether the next design still reaches review with missed error states or empty states."
+    ],
+    "engagement_read": {
+      "level": "inconclusive",
+      "evidence": [
+        "\"dreaded opening Figma comments by round three\"",
+        "\"likes the team\""
+      ],
+      "missing_evidence": "More turns showing whether she leans in, avoids ownership, or brings ideas unprompted.",
+      "recommended_action": "Ask one direct question next time about what she is choosing to own before review.",
+      "watch_next": "Notice whether she brings a concrete change without being prompted."
+    }
+  }
+}

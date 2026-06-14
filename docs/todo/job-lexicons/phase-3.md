@@ -1,6 +1,6 @@
 # Phase 3 — Words reach the run
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built, awaiting product-owner test
 
 ## Goal
 Words you added to a job show up in a live 1:1 for that job — on the "language of this role" screen and in what the AI is told — without overwriting the AI's words.

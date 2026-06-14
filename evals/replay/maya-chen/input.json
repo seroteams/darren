@@ -1,0 +1,565 @@
+{
+  "id": "maya-chen",
+  "kind": "happy",
+  "captured_from": "logs/june/2026_Jun11_23-58-8aa42ec0",
+  "persona": "Maya Chen",
+  "issue": "Review-loop drag",
+  "rawResponse": {
+    "headline": "Maya's review loop is being slowed by conflicting direction and missing early checks, not by lack of talent.",
+    "summary_bullets": [
+      "She keeps trying to satisfy both voices instead of forcing a single call on the payment step; that is why the work gets bounced again.",
+      "The real gap is not craft on concrete edits — it is catching empty states, error flows, and conflict before review starts."
+    ],
+    "understanding_paragraph": "The session confirmed Maya can act fast on concrete feedback, but she loses time when direction is vague or split. We also learned the rework loop is draining her, while the job itself is not the problem.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": -5,
+        "meaning": "Weak wellbeing signal: she said the rework loop was draining and she dreaded comments by round three.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "concentrated_signal"
+      },
+      {
+        "id": "engagement",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "zero_score",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "clarity",
+        "score": -6,
+        "meaning": "A real pattern, act on it: conflicting directions and vague asks leave her without one clear target.",
+        "read_status": "read",
+        "confidence": "high",
+        "evidence_basis": "transcript_quotes"
+      },
+      {
+        "id": "growth",
+        "score": -1,
+        "meaning": "Weak signal, not actionable on its own: she can name fixes, but the learning loop is still basic.",
+        "read_status": "read",
+        "confidence": "medium",
+        "evidence_basis": "axis_state_only"
+      }
+    ],
+    "brutal_truth_employee": "Maya is not short on effort or taste; the signal is that \"the rework loop was draining\" and she \"dreaded opening Figma comments by round three.\" The stronger problem is that she guesses instead of asking when direction splits, so she burns time on the wrong version.",
+    "brutal_truth_manager": "In turn 3, when she described the payment step ping-pong, the conversation should have stopped on the conflict between you and the lead designer and forced one decision. In turn 9, her checklist idea was the right close; the missed move was to pin down the exact trigger for using it before review.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Settle the checkout direction with the lead designer and send Maya one clear call on the payment step."
+      },
+      {
+        "when": "next 1:1",
+        "action": "Review Maya's pre-review checklist and agree the exact edge cases, empty states, and error flows she must catch before handoff."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: see whether Maya asks for one clear direction or keeps guessing between reviewers.",
+      "Within two weeks: check whether the next design still reaches review with missed error states or empty states."
+    ],
+    "engagement_read": {
+      "level": "inconclusive",
+      "evidence": [
+        "\"dreaded opening Figma comments by round three\"",
+        "\"likes the team\""
+      ],
+      "missing_evidence": "More turns showing whether she leans in, avoids ownership, or brings ideas unprompted.",
+      "recommended_action": "Ask one direct question next time about what she is choosing to own before review.",
+      "watch_next": "Notice whether she brings a concrete change without being prompted."
+    }
+  },
+  "ctx": {
+    "name": "Maya",
+    "role": "Junior Product Designer",
+    "seniority": "Junior"
+  },
+  "meetingType": "Performance & feedback",
+  "managerNotes": "Maya is talented, but her recent design work has needed too many review rounds before it feels ready.",
+  "focusPoints": [
+    {
+      "id": "quality",
+      "type": "Quality",
+      "category": "competency",
+      "label": "Design quality and review rounds to readiness",
+      "reason": "Whether her work is needing too many review rounds before it feels ready, and what’s driving that loop.",
+      "source": "signal",
+      "confidence": "medium",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "How critique is landing and being used",
+      "reason": "How she’s using the feedback she gets, and whether the next iteration incorporates it in a predictable way.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    },
+    {
+      "id": "growth",
+      "type": "Growth & development",
+      "category": "topic",
+      "label": "What would unlock faster iteration for her",
+      "reason": "What she wants to build next so her designs reach “ready” sooner, without losing craft or correctness.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_open_anything_to_cover",
+        "label": "Anything to cover",
+        "name": "Before we start, is there anything specific you want to make sure we cover today?",
+        "description": "Manager-led check that the report has agenda input before the prepared questions begin.",
+        "purpose": "topic",
+        "stage": "self_read",
+        "axis_effects": {
+          "engagement": 1,
+          "clarity": 1
+        },
+        "source": "designed"
+      },
+      "answer": "Maya wants to talk about the checkout redesign — says the review feedback last week felt contradictory between me and the lead designer. Also asked if she can join the design system guild.",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": 1,
+        "clarity": -1
+      },
+      "note": "She engaged with specific work topics and surfaced a concrete alignment issue: contradictory review feedback on the checkout redesign; also volunteered growth interest in the design system guild."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_prep_opener_127",
+        "label": "Prep opener",
+        "name": "What tends to still be unresolved when you bring a design to review, and where does the back-and-forth usually start?",
+        "description": "Sets a calm starting point and helps you hear where the review loop begins for her.",
+        "purpose": "topic",
+        "stage": "self_read",
+        "axis_effects": {
+          "clarity": 3,
+          "growth": 1
+        },
+        "source": "generated"
+      },
+      "answer": "Same as above — the checkout review feedback and the design system guild. Nothing new added. Felt a bit odd asking twice.",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "[NO-REPORT-SIGNAL] The answer only says the prior point was repeated and flags the duplicate ask, so it adds no new signal on clarity or growth."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_recent_example_24",
+        "label": "Recent example",
+        "name": "Can you walk me through one recent design that needed extra rounds?",
+        "description": "Gets you onto a concrete piece of work so you can hear the pattern in the real example.",
+        "purpose": "competency",
+        "stage": "evidence",
+        "axis_effects": {
+          "clarity": 3,
+          "growth": 1
+        },
+        "source": "generated"
+      },
+      "answer": "I told her to simplify the payment step to one column; lead designer told her to keep the two-column card layout for parity with the basket page. She shipped a third version trying to please both and it got bounced again. She didn't flag the conflict to either of us — just kept reworking.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -3,
+        "growth": -1
+      },
+      "note": "She describes a clear alignment failure: Maya got conflicting direction, tried to satisfy both, and did not surface the conflict, which is strong negative clarity and mild growth signal."
+    },
+    {
+      "turn": 4,
+      "question": {
+        "alias": "q_surface_conflict",
+        "label": "Surface conflict",
+        "name": "What stopped you raising that conflict when the directions split?",
+        "description": "Drills into the specific moment she kept reworking instead of surfacing conflicting feedback.",
+        "purpose": "competency",
+        "stage": "evidence",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "planner_added"
+      },
+      "answer": "She said the concrete stuff lands — spacing, error states, copy tweaks she fixes straight away. What doesn't stick is the vaguer direction like \"make it feel lighter\". She admitted she usually guesses what we mean instead of asking, because she doesn't want to look junior.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1
+      },
+      "note": "She names a clear pattern: vague feedback does not translate into action, and she guesses instead of clarifying because she fears looking junior."
+    },
+    {
+      "turn": 5,
+      "question": {
+        "alias": "q_drafting_friction",
+        "label": "Drafting friction",
+        "name": "Where does the work slow down most for you before review?",
+        "description": "Surfaces whether the drag is in exploration, decision-making, polish, or confidence.",
+        "purpose": "competency",
+        "stage": "cause",
+        "axis_effects": {
+          "clarity": 1,
+          "wellbeing": 1
+        },
+        "source": "generated"
+      },
+      "answer": "Empty states and the error flow for failed payments — both came up in round two, both could've been caught with a checklist. She also said she never sees the analytics on where users drop off, so she designs the happy path first.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1
+      },
+      "note": "Names a concrete pattern in what gets missed before review and an input gap on analytics; that is mild negative clarity, not a wellbeing signal."
+    },
+    {
+      "turn": 6,
+      "question": {
+        "alias": "q_energy_and_pace",
+        "label": "Energy and pace",
+        "name": "Since we last spoke, where is your energy at with the work?",
+        "description": "Anchors wellbeing in the current stretch and checks whether the pace is sustainable.",
+        "purpose": "wellbeing",
+        "stage": "cause",
+        "axis_effects": {
+          "wellbeing": 3,
+          "engagement": 1
+        },
+        "source": "generated"
+      },
+      "answer": "Honest answer — said the checkout rework cycle was draining and she dreaded opening Figma comments by round three. Otherwise fine, sleeping ok, likes the team. The drag is specifically the rework loop, not the job.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -1,
+        "engagement": 1
+      },
+      "note": "Mild wellbeing drag is specific to the checkout rework loop, while liking the team and distinguishing the job from the loop preserves engagement."
+    },
+    {
+      "turn": 7,
+      "question": {
+        "alias": "q_thread_follow_194",
+        "label": "Thread follow",
+        "name": "What made you read the situation that way at the time?",
+        "description": "Following up on what they just said.",
+        "purpose": "wellbeing",
+        "stage": "cause",
+        "axis_effects": {
+          "wellbeing": 3,
+          "engagement": 1
+        },
+        "source": "planner_added"
+      },
+      "answer": "She said by round three the comments felt like proof she wasn't good enough rather than normal iteration. First job out of uni — she thought seniors get designs approved in one round and asking for clarification would confirm she's behind. Didn't know multi-round reviews are normal here.",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -3,
+        "engagement": -1
+      },
+      "note": "Strong negative wellbeing and mild engagement drop: she internalised review comments as evidence she was not good enough and avoided clarification because she thought it would expose her as behind. [THREAD-DEFERRED-WINDDOWN] Thought seniors get approval in one round and did not know multi-round reviews are normal here."
+    },
+    {
+      "turn": 8,
+      "question": {
+        "alias": "q_missed_early",
+        "label": "Missed early",
+        "name": "What was missing before review that you wish had been caught sooner?",
+        "description": "Shows you where the first pass is leaving gaps before others have to point them out.",
+        "purpose": "competency",
+        "stage": "gap_naming",
+        "axis_effects": {
+          "clarity": 3,
+          "growth": 1
+        },
+        "source": "generated"
+      },
+      "answer": "Two asks: when my feedback and the lead's clash, she wants us to settle it between us and give her one direction. And a quick 10-min sync before she starts a big screen so she knows the constraints upfront. Both reasonable.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1,
+        "growth": -1
+      },
+      "note": "Names two missing supports — unified direction and upfront constraints — which is a deficiency-as-request signaling strong clarity gap and mild growth blockage."
+    },
+    {
+      "turn": 9,
+      "question": {
+        "alias": "q_closer_on_support",
+        "label": "Closer on support",
+        "name": "What support from me would help you tighten that up next round?",
+        "description": "Ends on the help she needs from you without opening a new thread.",
+        "purpose": "topic",
+        "stage": "commit",
+        "axis_effects": {
+          "growth": 1,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "She'd already answered this — repeated the kickoff sync ask. Added she'll draft a pre-review checklist herself (edge cases, empty states, error flows) and wants me to sanity-check it once.",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "note": "Names a concrete next-step change she will make and a specific support ask from you, which signals modest growth intent and clearer working setup."
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -5,
+      "history": [
+        {
+          "q": "q_energy_and_pace",
+          "delta": -1,
+          "answer_excerpt": "Honest answer — said the checkout rework cycle was draining and she dreaded opening Figma comments by round three. Otherwise fine, sleeping "
+        },
+        {
+          "q": "q_thread_follow_194",
+          "delta": -3,
+          "answer_excerpt": "She said by round three the comments felt like proof she wasn't good enough rather than normal iteration. First job out of uni — she thought"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_open_anything_to_cover",
+          "delta": 1,
+          "answer_excerpt": "Maya wants to talk about the checkout redesign — says the review feedback last week felt contradictory between me and the lead designer. Als"
+        },
+        {
+          "q": "q_energy_and_pace",
+          "delta": 1,
+          "answer_excerpt": "Honest answer — said the checkout rework cycle was draining and she dreaded opening Figma comments by round three. Otherwise fine, sleeping "
+        },
+        {
+          "q": "q_thread_follow_194",
+          "delta": -1,
+          "answer_excerpt": "She said by round three the comments felt like proof she wasn't good enough rather than normal iteration. First job out of uni — she thought"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_open_anything_to_cover",
+          "delta": -1,
+          "answer_excerpt": "Maya wants to talk about the checkout redesign — says the review feedback last week felt contradictory between me and the lead designer. Als"
+        },
+        {
+          "q": "q_recent_example_24",
+          "delta": -3,
+          "answer_excerpt": "I told her to simplify the payment step to one column; lead designer told her to keep the two-column card layout for parity with the basket "
+        },
+        {
+          "q": "q_surface_conflict",
+          "delta": -1,
+          "answer_excerpt": "She said the concrete stuff lands — spacing, error states, copy tweaks she fixes straight away. What doesn't stick is the vaguer direction l"
+        },
+        {
+          "q": "q_drafting_friction",
+          "delta": -1,
+          "answer_excerpt": "Empty states and the error flow for failed payments — both came up in round two, both could've been caught with a checklist. She also said s"
+        },
+        {
+          "q": "q_missed_early",
+          "delta": -1,
+          "answer_excerpt": "Two asks: when my feedback and the lead's clash, she wants us to settle it between us and give her one direction. And a quick 10-min sync be"
+        },
+        {
+          "q": "q_closer_on_support",
+          "delta": 1,
+          "answer_excerpt": "She'd already answered this — repeated the kickoff sync ask. Added she'll draft a pre-review checklist herself (edge cases, empty states, er"
+        }
+      ]
+    },
+    "growth": {
+      "score": -1,
+      "history": [
+        {
+          "q": "q_recent_example_24",
+          "delta": -1,
+          "answer_excerpt": "I told her to simplify the payment step to one column; lead designer told her to keep the two-column card layout for parity with the basket "
+        },
+        {
+          "q": "q_missed_early",
+          "delta": -1,
+          "answer_excerpt": "Two asks: when my feedback and the lead's clash, she wants us to settle it between us and give her one direction. And a quick 10-min sync be"
+        },
+        {
+          "q": "q_closer_on_support",
+          "delta": 1,
+          "answer_excerpt": "She'd already answered this — repeated the kickoff sync ask. Added she'll draft a pre-review checklist herself (edge cases, empty states, er"
+        }
+      ]
+    }
+  },
+  "bankQuestions": [
+    {
+      "label": "Prep opener",
+      "name": "What tends to still be unresolved when you bring a design to review, and where does the back-and-forth usually start?",
+      "description": "Sets a calm starting point and helps you hear where the review loop begins for her.",
+      "purpose": "topic",
+      "stage": "self_read",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "growth",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Recent example",
+      "name": "Can you walk me through one recent design that needed extra rounds?",
+      "description": "Gets you onto a concrete piece of work so you can hear the pattern in the real example.",
+      "purpose": "competency",
+      "stage": "evidence",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "growth",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Feedback that stuck",
+      "name": "What feedback from that review actually changed the next version?",
+      "description": "Helps you hear which critique she can turn into a better draft versus what just bounces off.",
+      "purpose": "competency",
+      "stage": "evidence",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Missed early",
+      "name": "What was missing before review that you wish had been caught sooner?",
+      "description": "Shows you where the first pass is leaving gaps before others have to point them out.",
+      "purpose": "competency",
+      "stage": "gap_naming",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "growth",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Review friction",
+      "name": "Where does the review loop usually slow things down for you?",
+      "description": "Helps you pinpoint the part of the process that is costing her the most time.",
+      "purpose": "competency",
+      "stage": "gap_naming",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "First-pass judgment",
+      "name": "What do you want to get better at spotting before you send a design out?",
+      "description": "Gives you a window into the judgment she is still building at junior level.",
+      "purpose": "competency",
+      "stage": "cause",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Working process",
+      "name": "What part of your process do you think is making the drafts broader than they need to be?",
+      "description": "Helps you hear whether the issue sits in how she frames the work before review.",
+      "purpose": "competency",
+      "stage": "cause",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "growth",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Make it ready",
+      "name": "What would you change in your next draft so it feels ready with fewer rounds?",
+      "description": "Turns the conversation toward one concrete adjustment she can actually try next.",
+      "purpose": "competency",
+      "stage": "commit",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 1
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Closer on support",
+      "name": "What support from me would help you tighten that up next round?",
+      "description": "Ends on the help she needs from you without opening a new thread.",
+      "purpose": "topic",
+      "stage": "commit",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 1
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    }
+  ]
+}

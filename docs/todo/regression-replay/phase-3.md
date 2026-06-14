@@ -1,6 +1,6 @@
 # Phase 3 — In-app Regression screen
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 (built — awaiting product-owner test)
 
 ## Goal
 A "Regression" item in the app's menu opens a screen that lists the saved runs, has a "Re-check all" button, and shows the green/red table — the same free check, now in the app.

@@ -1,0 +1,71 @@
+{
+  "verdict": "PASS",
+  "hard_fails": [],
+  "warnings": [],
+  "briefing": {
+    "headline": "Sofia is still into the work, but the review loop is draining her and blurring what matters.",
+    "summary_bullets": [
+      "The drag is not the design itself; it is the scattered feedback — “three channels,” “constant drip,” and “one review checkpoint per milestone” all point to process churn.",
+      "Her own ask is for a sharper priority line, which means the main gap is not effort but deciding what gets answered and when."
+    ],
+    "understanding_paragraph": "Sofia is still engaged with the work, but this session showed that the review process is costing her momentum. What we did not learn is whether the lower energy is just this redesign cycle or a broader pattern beyond it.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": -10,
+        "meaning": "Strong strain from “less momentum” and “death by a thousand tweaks”; this is a real pattern, act on it.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "engagement",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "zero_score",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "clarity",
+        "score": -6,
+        "meaning": "A real pattern, act on it: scattered feedback and shifting priorities are making the work feel hard to steer.",
+        "read_status": "read",
+        "confidence": "high",
+        "evidence_basis": "transcript_quotes"
+      },
+      {
+        "id": "growth",
+        "score": -2,
+        "meaning": "Weak signal, not actionable on its own; she named one process change, but not a broader learning shift.",
+        "read_status": "read",
+        "confidence": "medium",
+        "evidence_basis": "mixed"
+      }
+    ],
+    "brutal_truth_employee": "Sofia’s signal is not “I’m done with the work”; it is “the work itself’s fine” while “death by a thousand tweaks” is wearing her down. The risk is process fatigue, not loss of taste for the job.",
+    "brutal_truth_manager": "When Sofia said she wanted “one review checkpoint per milestone,” that was the moment to pin down who owns the extra revision loop and stop the conversation from drifting into general churn. The next check-in should test whether that structure actually landed, not just restate the ask.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Set one review checkpoint per milestone for Sofia’s redesign and tell the team to route comments there."
+      },
+      {
+        "when": "next 1:1",
+        "action": "Ask Sofia whether the new checkpoint cut the scattered feedback and whether priority is clearer."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: check whether Sofia stops mentioning “chasing what’s actually wanted.”",
+      "Within two weeks: if revisions still arrive across multiple channels, treat the process fix as not landed."
+    ],
+    "engagement_read": {
+      "level": "inconclusive",
+      "evidence": [],
+      "missing_evidence": "Need a direct sign of leaning in or pulling back across more than the review-process friction she described.",
+      "recommended_action": "",
+      "watch_next": ""
+    }
+  }
+}

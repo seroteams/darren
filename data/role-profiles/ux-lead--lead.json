@@ -60,47 +60,27 @@
         "category": "wellbeing"
       }
     ],
+    "terminology_groups": [
+      { "key": "craft", "label": "UX" },
+      { "key": "leadership", "label": "Lead" },
+      { "key": "intersection", "label": "UX Lead" }
+    ],
     "terminology": [
-      {
-        "term": "User research",
-        "meaning": "Learning from users to guide design decisions."
-      },
-      {
-        "term": "Wireframe",
-        "meaning": "Simple layout showing structure and flow."
-      },
-      {
-        "term": "Prototype",
-        "meaning": "Clickable model used to test ideas."
-      },
-      {
-        "term": "Usability testing",
-        "meaning": "Watching users try tasks to find issues."
-      },
-      {
-        "term": "Design system",
-        "meaning": "Shared components and rules for consistent design."
-      },
-      {
-        "term": "Interaction design",
-        "meaning": "How screens, controls, and flows behave."
-      },
-      {
-        "term": "Information architecture",
-        "meaning": "How content and features are organised."
-      },
-      {
-        "term": "Journey map",
-        "meaning": "Visual view of a user's end-to-end experience."
-      },
-      {
-        "term": "Accessibility",
-        "meaning": "Designing so more people can use the product."
-      },
-      {
-        "term": "Stakeholder",
-        "meaning": "Person affected by or influencing the work."
-      }
+      { "term": "Continuous discovery", "meaning": "Always-on user research feeding design, not a one-off phase.", "group": "craft" },
+      { "term": "Research ops", "meaning": "Systems that make user research repeatable and shared.", "group": "craft" },
+      { "term": "Prototyping", "meaning": "Quick clickable models to test ideas before building.", "group": "craft" },
+      { "term": "Design system", "meaning": "Shared components and rules for consistent design.", "group": "craft" },
+      { "term": "AI-assisted design", "meaning": "Using AI tools to draft flows and explore options fast.", "group": "craft" },
+      { "term": "Accessibility-as-practice", "meaning": "Building access in continuously, not as a final check.", "group": "craft" },
+      { "term": "Cross-functional squad", "meaning": "A standing team of design, product, and engineering.", "group": "leadership" },
+      { "term": "Design critique", "meaning": "Structured peer review of in-progress design work.", "group": "leadership" },
+      { "term": "Sprint planning", "meaning": "Agreeing what the team takes on each short cycle.", "group": "leadership" },
+      { "term": "Stakeholder alignment", "meaning": "Getting decision-makers to agree direction and trade-offs.", "group": "leadership" },
+      { "term": "Coaching designers", "meaning": "Growing the team through feedback, not doing it for them.", "group": "leadership" },
+      { "term": "Design strategy", "meaning": "Linking design choices to product and business goals.", "group": "intersection" },
+      { "term": "Outcome over output", "meaning": "Judging work by user results, not volume shipped.", "group": "intersection" },
+      { "term": "Design ops", "meaning": "Tools and process that scale design across teams.", "group": "intersection" },
+      { "term": "Quality bar across teams", "meaning": "Holding consistent standards over parallel projects.", "group": "intersection" }
     ],
     "listen_for": [
       "They talk about trade-offs between user needs, delivery pressure, and technical limits.",

@@ -1,0 +1,10 @@
+alias: q_feedback_change
+label: Feedback change
+name: What would you want to change about how we handle feedback on your work?
+description: Gives you a practical opening for adjusting the way critique lands with her.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

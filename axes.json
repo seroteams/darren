@@ -3,13 +3,13 @@
     {
       "id": "wellbeing",
       "label": "Wellbeing",
-      "seed": -1,
+      "seed": 0,
       "description": "Energy, sustainability, stress. Positive = sustainable pace, genuine recovery. Negative = running hot, masked fatigue, drift toward burnout."
     },
     {
       "id": "engagement",
       "label": "Engagement",
-      "seed": -1,
+      "seed": 0,
       "description": "Motivation, ownership, investment in the work. Positive = leaning in, proposing ideas, taking initiative. Negative = going through the motions, coasting, quiet disengagement."
     },
     {

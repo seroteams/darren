@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781423670493,
+  "role_title_raw": "Account Executive",
+  "role_slug": "account-executive",
+  "seniority_raw": "Mid-level",
+  "seniority_key": "mid-level",
+  "role_family": "general",
+  "profile": {
+    "summary": "A mid-level Account Executive owns a pipeline of target accounts, runs discovery and demos, manages stakeholders through evaluation, and closes new business or expansion deals. They usually work closely with sales development, solutions or product specialists, marketing, legal, finance, and customer success while carrying a quota and keeping CRM data current.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing enough pipeline building with the time needed to move active deals forward.",
+        "category": "topic"
+      },
+      {
+        "text": "Handling long, multi-stakeholder buying cycles without losing momentum or next steps.",
+        "category": "topic"
+      },
+      {
+        "text": "Forecast pressure can push short-term deal behavior over healthy qualification.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Keeping CRM notes, stages, and forecasts accurate while spending most time with prospects.",
+        "category": "competency"
+      },
+      {
+        "text": "Recovering confidence and energy after losses, slippage, or quiet periods.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Pipeline health and deal coverage",
+        "why": "This role lives or dies on having enough qualified opportunities at different stages, not just one big deal.",
+        "category": "topic"
+      },
+      {
+        "theme": "Deal strategy and stakeholder mapping",
+        "why": "Mid-level AEs need to navigate champions, blockers, budget owners, and decision makers inside each account.",
+        "category": "competency"
+      },
+      {
+        "theme": "Qualification discipline",
+        "why": "Strong qualification protects time, forecast quality, and morale when pressure to chase every lead is high.",
+        "category": "competency"
+      },
+      {
+        "theme": "Forecast confidence and deal slippage",
+        "why": "Understanding what is real versus hopeful helps the manager coach earlier and reduce end-of-period surprises.",
+        "category": "topic"
+      },
+      {
+        "theme": "Energy, rejection load, and motivation",
+        "why": "Constant wins and losses affect consistency, and burnout can show up before quota misses do.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Pipeline",
+        "meaning": "Active potential deals expected to generate revenue."
+      },
+      {
+        "term": "Quota",
+        "meaning": "Sales target for a period."
+      },
+      {
+        "term": "Forecast",
+        "meaning": "Best estimate of expected closed revenue."
+      },
+      {
+        "term": "Discovery",
+        "meaning": "Early conversation to understand needs and fit."
+      },
+      {
+        "term": "Demo",
+        "meaning": "Product walkthrough tailored to the buyer."
+      },
+      {
+        "term": "Qualification",
+        "meaning": "Checking whether an opportunity is real and worth pursuing."
+      },
+      {
+        "term": "CRM",
+        "meaning": "System used to track accounts, deals, and activity."
+      },
+      {
+        "term": "Objection handling",
+        "meaning": "Responding to buyer concerns or pushback."
+      },
+      {
+        "term": "Close date",
+        "meaning": "Expected date the deal will be signed."
+      },
+      {
+        "term": "Stakeholder map",
+        "meaning": "Who influences, approves, or blocks the purchase."
+      }
+    ],
+    "listen_for": [
+      "They talk about next steps, mutual commitments, and named stakeholders rather than vague buyer interest.",
+      "They describe why a deal will close with evidence, not just optimism.",
+      "They mention qualification early instead of treating every meeting as a live opportunity.",
+      "They speak clearly about slippage patterns, not only end results.",
+      "They reference CRM hygiene or avoid specifics when pipeline quality is weak."
+    ],
+    "avoid": [
+      "Treating every missed target as an effort problem instead of checking pipeline quality and deal reality.",
+      "Pushing heroic end-of-quarter saves while ignoring weak qualification earlier in the cycle.",
+      "Confusing activity volume with progress on real opportunities.",
+      "Undermining trust by pressuring for optimistic forecasts the rep does not believe."
+    ]
+  }
+}

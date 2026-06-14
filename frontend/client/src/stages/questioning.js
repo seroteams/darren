@@ -12,7 +12,7 @@ let unmountFn = null;
 
 export async function mount(root, { store, setState }) {
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--6">
+    <div class="stage-questioning l-stack l-stack--6">
       <header class="page-header">
         <div class="page-header__row">
           <div class="questioning-head min-w-0 space-y-1">

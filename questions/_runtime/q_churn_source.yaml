@@ -1,0 +1,10 @@
+alias: q_churn_source
+label: Churn source
+name: What part of that churn is wearing her down most?
+description: Drills into the specific part of the review churn that is creating the most drag.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: the churn around it

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-13T18:21:03.083Z",
-  "count": 3939,
+  "generated_at": "2026-06-14T09:15:51.544Z",
+  "count": 3991,
   "aliases": [
     "q_50_percent_in_practice",
     "q_a_lot_landing",
@@ -92,6 +92,7 @@
     "q_blocked_decisions",
     "q_blocked_decisions_2",
     "q_blocker_specifics",
+    "q_book_next_step",
     "q_brief_omission",
     "q_broader_impact",
     "q_broader_impact_2",
@@ -127,6 +128,7 @@
     "q_changed_in_flight",
     "q_checklist_gap",
     "q_choice_point",
+    "q_churn_source",
     "q_clarify_agenda",
     "q_clarify_energy",
     "q_clarify_energy_2",
@@ -244,6 +246,7 @@
     "q_context_check_in_4",
     "q_context_setter",
     "q_context_setter_2",
+    "q_context_switching",
     "q_contradictory_feedback",
     "q_controllable_delivery",
     "q_controllable_delivery_2",
@@ -406,6 +409,7 @@
     "q_decision_bottlenecks",
     "q_decision_boundaries",
     "q_decision_confidence",
+    "q_decision_disconnect",
     "q_decision_drag",
     "q_decision_drag_2",
     "q_decision_drag_3",
@@ -539,6 +543,7 @@
     "q_design_momentum_2",
     "q_design_momentum_3",
     "q_design_system_slowdowns",
+    "q_design_vs_feedback",
     "q_design_work_detail",
     "q_desired_scope",
     "q_desired_scope_2",
@@ -571,6 +576,7 @@
     "q_earlier_flag",
     "q_earlier_flag_2",
     "q_earlier_flag_3",
+    "q_earlier_research",
     "q_early_alignment",
     "q_early_alignment_10",
     "q_early_alignment_11",
@@ -724,6 +730,7 @@
     "q_fastest_money",
     "q_feasibility_pressure",
     "q_feedback_appetite",
+    "q_feedback_change",
     "q_feedback_channels",
     "q_feedback_drag",
     "q_feedback_earlier",
@@ -776,6 +783,7 @@
     "q_feedback_miss",
     "q_feedback_need",
     "q_feedback_received",
+    "q_feedback_repeat",
     "q_feedback_retained",
     "q_feedback_shift",
     "q_feedback_source",
@@ -920,6 +928,7 @@
     "q_friction_scan_23",
     "q_friction_scan_24",
     "q_friction_scan_25",
+    "q_friction_scan_26",
     "q_friction_scan_3",
     "q_friction_scan_4",
     "q_friction_scan_5",
@@ -990,6 +999,7 @@
     "q_highest_leverage_work_3",
     "q_his_priorities",
     "q_holding_back",
+    "q_holding_back_more",
     "q_immediate_support",
     "q_immediate_support_2",
     "q_impact_gap",
@@ -1074,6 +1084,7 @@
     "q_late_discovery_2",
     "q_late_flag",
     "q_late_heads_up",
+    "q_late_in_cycle",
     "q_late_judgment",
     "q_late_nights_driver",
     "q_late_notice",
@@ -1240,6 +1251,7 @@
     "q_meaningful_stretch",
     "q_meaningful_work",
     "q_meeting_load",
+    "q_meeting_thread",
     "q_mentor_fit",
     "q_mentor_shape",
     "q_mentor_shape_2",
@@ -1409,6 +1421,7 @@
     "q_missed_heads_up",
     "q_missed_in_review",
     "q_missed_in_review_2",
+    "q_missed_signal",
     "q_missed_states",
     "q_missed_states_2",
     "q_missed_states_3",
@@ -1732,6 +1745,8 @@
     "q_next_step_12",
     "q_next_step_13",
     "q_next_step_14",
+    "q_next_step_15",
+    "q_next_step_16",
     "q_next_step_2",
     "q_next_step_3",
     "q_next_step_4",
@@ -2146,6 +2161,8 @@
     "q_prep_opener_173",
     "q_prep_opener_174",
     "q_prep_opener_175",
+    "q_prep_opener_176",
+    "q_prep_opener_177",
     "q_prep_opener_18",
     "q_prep_opener_19",
     "q_prep_opener_2",
@@ -2331,8 +2348,28 @@
     "q_promotion_read_22",
     "q_promotion_read_23",
     "q_promotion_read_24",
+    "q_promotion_read_25",
+    "q_promotion_read_26",
+    "q_promotion_read_27",
+    "q_promotion_read_28",
+    "q_promotion_read_29",
     "q_promotion_read_3",
+    "q_promotion_read_30",
+    "q_promotion_read_31",
+    "q_promotion_read_32",
+    "q_promotion_read_33",
+    "q_promotion_read_34",
+    "q_promotion_read_35",
+    "q_promotion_read_36",
+    "q_promotion_read_37",
+    "q_promotion_read_38",
+    "q_promotion_read_39",
     "q_promotion_read_4",
+    "q_promotion_read_40",
+    "q_promotion_read_41",
+    "q_promotion_read_42",
+    "q_promotion_read_43",
+    "q_promotion_read_44",
     "q_promotion_read_5",
     "q_promotion_read_6",
     "q_promotion_read_7",
@@ -2369,6 +2406,7 @@
     "q_q_blocker_check_2",
     "q_q_blocker_check_3",
     "q_q_blocker_check_4",
+    "q_q_call_quality",
     "q_q_client_load",
     "q_q_client_load_2",
     "q_q_client_load_3",
@@ -2401,6 +2439,7 @@
     "q_q_discovery_fix",
     "q_q_discovery_fix_2",
     "q_q_discovery_fix_3",
+    "q_q_discovery_fix_4",
     "q_q_discovery_fix_5",
     "q_q_discovery_fix_6",
     "q_q_drafting_habit",
@@ -2877,6 +2916,7 @@
     "q_reschedule_check_2",
     "q_reschedule_check_3",
     "q_reschedule_check_4",
+    "q_research_focus",
     "q_research_time",
     "q_reset_again",
     "q_reset_check",
@@ -2943,10 +2983,12 @@
     "q_review_bar_change",
     "q_review_churn",
     "q_review_churn_source",
+    "q_review_context",
     "q_review_cycle_drag",
     "q_review_cycle_pattern",
     "q_review_drag",
     "q_review_drag_2",
+    "q_review_drag_3",
     "q_review_example",
     "q_review_example_2",
     "q_review_friction",
@@ -2958,6 +3000,7 @@
     "q_review_impact",
     "q_review_impact_2",
     "q_review_load",
+    "q_review_load_2",
     "q_review_loop",
     "q_review_loop_2",
     "q_review_round_example",
@@ -2975,6 +3018,7 @@
     "q_revision_driver",
     "q_revision_friction",
     "q_revision_pattern",
+    "q_revision_pattern_2",
     "q_rework_pattern",
     "q_rework_trigger",
     "q_rewrite_coordination",
@@ -3217,6 +3261,7 @@
     "q_stakeholder_forum",
     "q_stakeholder_friction",
     "q_stakeholder_gap",
+    "q_stakeholder_noise",
     "q_stakeholder_pull",
     "q_stakeholder_requests",
     "q_stakeholder_signal",
@@ -3414,6 +3459,8 @@
     "q_support_needed_60",
     "q_support_needed_61",
     "q_support_needed_62",
+    "q_support_needed_63",
+    "q_support_needed_64",
     "q_support_needed_7",
     "q_support_needed_8",
     "q_support_needed_9",
@@ -3491,6 +3538,7 @@
     "q_team_lift",
     "q_team_misunderstanding",
     "q_team_moments",
+    "q_team_pullback",
     "q_team_reaction",
     "q_team_reaction_2",
     "q_team_reaction_3",
@@ -3624,6 +3672,7 @@
     "q_thread_follow_95",
     "q_thread_follow_98",
     "q_thread_follow_99",
+    "q_thread_pressure",
     "q_time_and_scope",
     "q_time_drift",
     "q_time_drift_2",
@@ -3817,6 +3866,7 @@
     "q_waiting_on_others_5",
     "q_what_changed",
     "q_what_changed_2",
+    "q_what_changed_3",
     "q_what_changed_after",
     "q_what_changed_lately",
     "q_what_changed_next",
@@ -3920,6 +3970,7 @@
     "q_work_worth_owning",
     "q_working_process",
     "q_workload_fit",
+    "q_workload_load",
     "q_workload_pinch",
     "q_workload_pinch_points",
     "q_workload_pressure",
@@ -3933,6 +3984,7 @@
     "q_workload_shape_5",
     "q_workload_shift",
     "q_workload_thread",
+    "q_workload_thread_2",
     "q_workload_tradeoff",
     "q_workload_tradeoffs",
     "q_worth_keeping",
@@ -4304,6 +4356,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_book_next_step",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_brief_omission",
       "subdir": ""
     },
@@ -4442,6 +4498,10 @@
     {
       "alias": "q_choice_point",
       "subdir": ""
+    },
+    {
+      "alias": "q_churn_source",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_clarify_agenda",
@@ -4909,6 +4969,10 @@
     },
     {
       "alias": "q_context_setter_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_context_switching",
       "subdir": ""
     },
     {
@@ -5560,6 +5624,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_decision_disconnect",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_decision_drag",
       "subdir": ""
     },
@@ -6092,6 +6160,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_design_vs_feedback",
+      "subdir": ""
+    },
+    {
       "alias": "q_design_work_detail",
       "subdir": ""
     },
@@ -6218,6 +6290,10 @@
     {
       "alias": "q_earlier_flag_3",
       "subdir": ""
+    },
+    {
+      "alias": "q_earlier_research",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_early_alignment",
@@ -6832,6 +6908,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_feedback_change",
+      "subdir": ""
+    },
+    {
       "alias": "q_feedback_channels",
       "subdir": ""
     },
@@ -7037,6 +7117,10 @@
     },
     {
       "alias": "q_feedback_received",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_repeat",
       "subdir": ""
     },
     {
@@ -7616,6 +7700,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_friction_scan_26",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_friction_scan_3",
       "subdir": ""
     },
@@ -7894,6 +7982,10 @@
     {
       "alias": "q_holding_back",
       "subdir": ""
+    },
+    {
+      "alias": "q_holding_back_more",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_immediate_support",
@@ -8230,6 +8322,10 @@
     {
       "alias": "q_late_heads_up",
       "subdir": ""
+    },
+    {
+      "alias": "q_late_in_cycle",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_late_judgment",
@@ -8893,6 +8989,10 @@
     },
     {
       "alias": "q_meeting_load",
+      "subdir": ""
+    },
+    {
+      "alias": "q_meeting_thread",
       "subdir": ""
     },
     {
@@ -9570,6 +9670,10 @@
     {
       "alias": "q_missed_in_review_2",
       "subdir": ""
+    },
+    {
+      "alias": "q_missed_signal",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_missed_states",
@@ -10861,6 +10965,14 @@
     },
     {
       "alias": "q_next_step_14",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_step_15",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_step_16",
       "subdir": ""
     },
     {
@@ -12542,6 +12654,14 @@
       "subdir": ""
     },
     {
+      "alias": "q_prep_opener_176",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_177",
+      "subdir": ""
+    },
+    {
       "alias": "q_prep_opener_18",
       "subdir": ""
     },
@@ -13282,11 +13402,91 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_25",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_26",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_27",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_28",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_29",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_3",
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_30",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_31",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_32",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_33",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_34",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_35",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_36",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_37",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_38",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_39",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_4",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_40",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_41",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_42",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_43",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_44",
       "subdir": "_runtime"
     },
     {
@@ -13434,6 +13634,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_q_call_quality",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_q_client_load",
       "subdir": ""
     },
@@ -13560,6 +13764,10 @@
     {
       "alias": "q_q_discovery_fix_3",
       "subdir": ""
+    },
+    {
+      "alias": "q_q_discovery_fix_4",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_q_discovery_fix_5",
@@ -15466,6 +15674,10 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_research_focus",
+      "subdir": ""
+    },
+    {
       "alias": "q_research_time",
       "subdir": ""
     },
@@ -15730,6 +15942,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_review_context",
+      "subdir": ""
+    },
+    {
       "alias": "q_review_cycle_drag",
       "subdir": ""
     },
@@ -15744,6 +15960,10 @@
     {
       "alias": "q_review_drag_2",
       "subdir": ""
+    },
+    {
+      "alias": "q_review_drag_3",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_review_example",
@@ -15787,6 +16007,10 @@
     },
     {
       "alias": "q_review_load",
+      "subdir": ""
+    },
+    {
+      "alias": "q_review_load_2",
       "subdir": ""
     },
     {
@@ -15856,6 +16080,10 @@
     {
       "alias": "q_revision_pattern",
       "subdir": ""
+    },
+    {
+      "alias": "q_revision_pattern_2",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_rework_pattern",
@@ -16826,6 +17054,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_stakeholder_noise",
+      "subdir": ""
+    },
+    {
       "alias": "q_stakeholder_pull",
       "subdir": ""
     },
@@ -17614,6 +17846,14 @@
       "subdir": ""
     },
     {
+      "alias": "q_support_needed_63",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_needed_64",
+      "subdir": ""
+    },
+    {
       "alias": "q_support_needed_7",
       "subdir": ""
     },
@@ -17919,6 +18159,10 @@
     },
     {
       "alias": "q_team_moments",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_pullback",
       "subdir": ""
     },
     {
@@ -18451,6 +18695,10 @@
     },
     {
       "alias": "q_thread_follow_99",
+      "subdir": ""
+    },
+    {
+      "alias": "q_thread_pressure",
       "subdir": ""
     },
     {
@@ -19226,6 +19474,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_what_changed_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_what_changed_after",
       "subdir": ""
     },
@@ -19638,6 +19890,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_workload_load",
+      "subdir": ""
+    },
+    {
       "alias": "q_workload_pinch",
       "subdir": ""
     },
@@ -19688,6 +19944,10 @@
     {
       "alias": "q_workload_thread",
       "subdir": ""
+    },
+    {
+      "alias": "q_workload_thread_2",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_workload_tradeoff",

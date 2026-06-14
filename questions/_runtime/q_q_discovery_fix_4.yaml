@@ -1,0 +1,10 @@
+alias: q_q_discovery_fix_4
+label: q_discovery_fix
+name: What on your side is driving that pattern in the call?
+description: Surface whether the stalled calls come from capability, clarity, or in-call judgment.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +1
+source: "reworded_from:q_discovery_fix"
+grounding: talks more than she asks

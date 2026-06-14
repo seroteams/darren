@@ -18,6 +18,7 @@ import { openSse } from "../sse.js";
 import { createOrb } from "../ui/orb.js";
 import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { escapeCopy as escape } from "../ui/html.js";
+import { groupTerms, isGrouped } from "../ui/vocab-groups.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";
 
@@ -421,28 +422,41 @@ export async function mount(root, { store, setState }) {
 
   async function showRoleLanguage() {
     let terms = [];
+    let groups = [];
     try {
       const res = await getRoleProfile(store.sessionId);
       terms = Array.isArray(res?.terminology) ? res.terminology : [];
+      groups = Array.isArray(res?.terminologyGroups) ? res.terminologyGroups : [];
     } catch (e) {
       console.warn("[onepage] role profile fetch failed:", e.message);
     }
     // Nothing to show (edge case) — never block the interview.
     if (!terms.length) { startInterviewFlow(); return; }
 
+    const rowsHtml = (rows) => rows.map((t) => `
+      <div class="flow-glossary__row">
+        <div class="flow-glossary__term">${escape(t.term || "")}</div>
+        <div class="flow-glossary__meaning">${escape(t.meaning || "")}</div>
+      </div>
+    `).join("");
+    const sections = groupTerms(terms, groups);
+    // Grouped when the role declared groups (Craft → Level → Role); otherwise the
+    // original flat list, unchanged.
+    const glossary = isGrouped(sections)
+      ? `<div class="card flow-glossary-card">${sections.map((s) => `
+          <div class="flow-glossary-group">
+            <h3 class="flow-glossary-group__head eyebrow">${escape(s.label || "Other")}</h3>
+            <div class="flow-glossary">${rowsHtml(s.rows)}</div>
+          </div>
+        `).join("")}</div>`
+      : `<div class="card flow-glossary">${rowsHtml(terms)}</div>`;
+
     const node = document.createElement("div");
     node.className = "flow-section space-y-4";
     node.innerHTML = `
       <div class="eyebrow">The language of this role</div>
       <p class="hint">Words a ${escape(store.ctx.role || "this role")} uses — so you're speaking the same language.</p>
-      <div class="card flow-glossary">
-        ${terms.map((t) => `
-          <div class="flow-glossary__row">
-            <div class="flow-glossary__term">${escape(t.term || "")}</div>
-            <div class="flow-glossary__meaning">${escape(t.meaning || "")}</div>
-          </div>
-        `).join("")}
-      </div>
+      ${glossary}
       <div class="field__actions"><button class="btn js-to-interview-2" type="button">Continue to interview</button></div>
     `;
     appendSection(node);

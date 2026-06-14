@@ -58,14 +58,30 @@ const RESPONSE_SCHEMA = {
     },
     terminology: {
       type: "array",
-      maxItems: 10,
+      maxItems: 18,
       items: {
         type: "object",
         properties: {
           term: { type: "string" },
           meaning: { type: "string" },
+          group: { type: "string" },
         },
-        required: ["term", "meaning"],
+        required: ["term", "meaning", "group"],
+        additionalProperties: false,
+      },
+    },
+    // Display buckets for the terminology (Craft → Level → Role, role-named by
+    // the model). Up to 3, no minItems so a word-less role stays valid.
+    terminology_groups: {
+      type: "array",
+      maxItems: 3,
+      items: {
+        type: "object",
+        properties: {
+          key: { type: "string" },
+          label: { type: "string" },
+        },
+        required: ["key", "label"],
         additionalProperties: false,
       },
     },
@@ -78,6 +94,7 @@ const RESPONSE_SCHEMA = {
     "known_challenges",
     "recommended_question_themes",
     "terminology",
+    "terminology_groups",
     "listen_for",
     "avoid",
   ],
@@ -129,6 +146,7 @@ function loadRoleProfile({ role, seniority }) {
 // List every cached role profile's words for the Job lexicons page. Read-only,
 // no model calls — same null-safe posture as loadRoleProfile: a broken or
 // old-version file is skipped, never thrown. Sorted by role title for browsing.
+// User-added words (the overlay) are merged in, tagged source:"you".
 function listRoleProfiles() {
   let files;
   try {
@@ -138,6 +156,7 @@ function listRoleProfiles() {
   }
   const out = [];
   for (const f of files) {
+    if (f.endsWith(".overlay.json")) continue; // user-words sidecar, not a profile
     if (!f.endsWith(".json")) continue;
     let doc;
     try {
@@ -146,18 +165,131 @@ function listRoleProfiles() {
       continue;
     }
     if (!validShape(doc)) continue;
+    const key = f.replace(/\.json$/, "");
+    const aiTerms = Array.isArray(doc.profile.terminology)
+      ? doc.profile.terminology.map((t) => ({ term: t.term, meaning: t.meaning, group: t.group, source: "ai" }))
+      : [];
+    const yourTerms = loadOverlay(key).added_terms.map((t) => ({
+      term: t.term,
+      meaning: t.meaning,
+      source: "you",
+      added_at: t.added_at,
+    }));
     out.push({
-      key: f.replace(/\.json$/, ""),
+      key,
       role: doc.role_title_raw || "",
       seniority: doc.seniority_raw || "",
       role_family: doc.role_family || "",
-      terms: Array.isArray(doc.profile.terminology)
-        ? doc.profile.terminology.map((t) => ({ term: t.term, meaning: t.meaning }))
-        : [],
+      terms: [...aiTerms, ...yourTerms],
+      groups: terminologyGroups(doc.profile),
     });
   }
   out.sort((a, b) => a.role.localeCompare(b.role));
   return out;
+}
+
+// --- User-added words (overlay) -------------------------------------------
+// Words a manager adds live in a sidecar file, `<key>.overlay.json`, NEVER in
+// the generated profile. So a future regeneration can't paint over them, and
+// the AI's output and the human's stay cleanly separated.
+const OVERLAY_VERSION = 1;
+const KEY_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*--[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+// Guards the file path against traversal — keys are slug--slug, nothing else.
+function validKey(key) {
+  return typeof key === "string" && KEY_RE.test(key);
+}
+
+function overlayPath(key) {
+  return path.join(PROFILES_DIR, `${key}.overlay.json`);
+}
+
+// Null-safe read: missing/corrupt/wrong-shape → empty list, never throws.
+function loadOverlay(key) {
+  if (!validKey(key)) return { added_terms: [] };
+  let doc;
+  try {
+    doc = JSON.parse(fs.readFileSync(overlayPath(key), "utf8"));
+  } catch {
+    return { added_terms: [] };
+  }
+  const terms = Array.isArray(doc?.added_terms) ? doc.added_terms : [];
+  return {
+    added_terms: terms.filter((t) => t && typeof t.term === "string" && t.term.trim()),
+  };
+}
+
+function writeOverlay(key, added_terms) {
+  writeAtomic(overlayPath(key), JSON.stringify({ version: OVERLAY_VERSION, key, added_terms }, null, 2));
+}
+
+// Add a user word. The base profile must exist (you can only add to a job the
+// library already knows). Dedupes case-insensitively. Throws { status } on bad
+// input so the handler can map it to an HTTP code.
+function addOverlayTerm(key, { term, meaning } = {}) {
+  if (!validKey(key) || !fs.existsSync(profilePath(key))) {
+    throw Object.assign(new Error("Unknown role"), { status: 404 });
+  }
+  const cleanTerm = String(term || "").trim().slice(0, 60);
+  const cleanMeaning = String(meaning || "").trim().slice(0, 140);
+  if (!cleanTerm) throw Object.assign(new Error("A word is required"), { status: 400 });
+  const { added_terms } = loadOverlay(key);
+  if (added_terms.some((t) => t.term.toLowerCase() === cleanTerm.toLowerCase())) {
+    throw Object.assign(new Error("You've already added that word"), { status: 409 });
+  }
+  const entry = { term: cleanTerm, meaning: cleanMeaning, added_at: Date.now() };
+  added_terms.push(entry);
+  writeOverlay(key, added_terms);
+  return entry;
+}
+
+// Remove a user word (case-insensitive). Only ever touches the overlay, never
+// the generated profile. Returns the remaining user words.
+function removeOverlayTerm(key, term) {
+  if (!validKey(key)) throw Object.assign(new Error("Unknown role"), { status: 404 });
+  const cleanTerm = String(term || "").trim().toLowerCase();
+  const { added_terms } = loadOverlay(key);
+  const kept = added_terms.filter((t) => t.term.toLowerCase() !== cleanTerm);
+  if (kept.length !== added_terms.length) writeOverlay(key, kept);
+  return kept;
+}
+
+// The cache key for a loaded profile doc (run-time docs carry role_slug +
+// seniority_key; fall back to re-slugging the raw title/level).
+function keyOfDoc(doc) {
+  if (doc && doc.role_slug && doc.seniority_key) return `${doc.role_slug}--${doc.seniority_key}`;
+  return keyOf({ role: doc?.role_title_raw, seniority: doc?.seniority_raw });
+}
+
+// A role's own words plus the manager's overlay words, merged for run-time use.
+// User words are treated exactly like generated ones — no special-casing (engine
+// honesty). A user word that duplicates an existing one is dropped so it never
+// shows twice in a prompt or on the run screen.
+function effectiveTerminology(doc) {
+  const base = Array.isArray(doc?.profile?.terminology) ? doc.profile.terminology : [];
+  const merged = base.map((t) => ({ term: t.term, meaning: t.meaning, group: t.group }));
+  const seen = new Set(merged.map((t) => String(t.term || "").toLowerCase()));
+  const key = keyOfDoc(doc);
+  const extra = key ? loadOverlay(key).added_terms : [];
+  for (const t of extra) {
+    const norm = String(t.term || "").toLowerCase();
+    if (seen.has(norm)) continue;
+    // User words carry no group — they land in the render's trailing bucket.
+    merged.push({ term: t.term, meaning: t.meaning });
+    seen.add(norm);
+  }
+  return merged;
+}
+
+// The vocabulary's display groups (Craft → Level → Role etc.), in declared
+// order, named by the model per role. Guarded: a missing/old/garbage field → []
+// → callers fall back to a single ungrouped list, exactly like before grouping.
+function terminologyGroups(profile) {
+  const groups = profile && profile.terminology_groups;
+  if (!Array.isArray(groups)) return [];
+  return groups
+    .filter((g) => g && typeof g === "object" && typeof g.key === "string" && g.key)
+    .map((g) => ({ key: g.key, label: typeof g.label === "string" && g.label ? g.label : g.key }));
 }
 
 function isFresh(doc) {
@@ -340,9 +472,12 @@ function renderRoleProfileBlock(doc, { slice = "full", meetingType } = {}) {
       for (const t of themes) lines.push(`- ${t.theme} — ${t.why}`);
     }
   }
-  if (parts.terminology && (p.terminology || []).length) {
-    lines.push("", "Terms this role uses (recognise and mirror them):");
-    for (const t of p.terminology) lines.push(`- ${t.term}: ${t.meaning}`);
+  if (parts.terminology) {
+    const terms = effectiveTerminology(doc);
+    if (terms.length) {
+      lines.push("", "Terms this role uses (recognise and mirror them):");
+      for (const t of terms) lines.push(`- ${t.term}: ${t.meaning}`);
+    }
   }
   if (parts.listenFor && (p.listen_for || []).length) {
     lines.push("", "Listen for:");
@@ -374,6 +509,12 @@ module.exports = {
   profilePath,
   loadRoleProfile,
   listRoleProfiles,
+  loadOverlay,
+  addOverlayTerm,
+  removeOverlayTerm,
+  overlayPath,
+  effectiveTerminology,
+  terminologyGroups,
   ensureRoleProfile,
   renderRoleProfileBlock,
   roleProfileLogInfo,

@@ -1,0 +1,10 @@
+alias: q_next_step_15
+label: Next step
+name: What do you want me to do differently before our next review?
+description: Leaves the conversation with a concrete ask she can point to next time.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

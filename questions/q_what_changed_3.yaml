@@ -1,0 +1,10 @@
+alias: q_what_changed_3
+label: What changed
+name: What’s changed for you in those team conversations recently?
+description: Lets her name the shift in her own words without you guessing at the reason.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

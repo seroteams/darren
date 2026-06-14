@@ -1,0 +1,10 @@
+alias: q_review_load_2
+label: Review load
+name: Which review conversation has taken the most out of you recently?
+description: Points to a concrete moment so you can understand the kind of exchange that’s draining her.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

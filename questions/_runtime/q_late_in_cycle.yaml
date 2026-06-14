@@ -1,0 +1,10 @@
+alias: q_late_in_cycle
+label: Late in cycle
+name: When research gets pushed later, where do decisions feel made before your input lands?
+description: Pins down the specific decision points where timing is cutting her out of influence.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: research got pushed later

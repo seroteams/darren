@@ -1,0 +1,10 @@
+alias: q_review_context
+label: Review context
+name: What usually feels missing in the review context before the conversation starts?
+description: Lets you find out whether the setup, not the feedback itself, is what’s making reviews harder.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

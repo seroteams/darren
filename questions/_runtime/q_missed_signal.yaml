@@ -1,0 +1,10 @@
+alias: q_missed_signal
+label: Missed signal
+name: What kept you from pinning down their pain or timeline on that call?
+description: Surface the immediate reason discovery stayed shallow on the example she just gave.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: "didn't pin down their real pain or timeline"

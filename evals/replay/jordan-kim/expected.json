@@ -1,0 +1,73 @@
+{
+  "verdict": "PASS",
+  "hard_fails": [],
+  "warnings": [],
+  "briefing": {
+    "headline": "Jordan has a real platform ambition, and the session turned it into a concrete API versioning scope.",
+    "summary_bullets": [
+      "The pull is not just title-chasing: Jordan named \"the versioning/deprecation policy\" and wants to own it end to end, which is the first clear test of their bigger-scope intent.",
+      "The gap is outside the squad — finance, risk, and pricing are still thin on exposure, so the next chapter depends on stakeholder trust, not just stronger delivery."
+    ],
+    "understanding_paragraph": "Jordan is not asking for a vague stretch; he wants platform ownership that changes who comes to him for decisions. The session also showed he is still missing cross-functional reach, especially with finance, risk, and pricing.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": -2,
+        "meaning": "Weak wellbeing signal: he said strategy work gives energy, but the note is about preference, not strain.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "engagement",
+        "score": 6,
+        "meaning": "A real pattern: he leaned into the conversation and kept pushing toward concrete ownership.",
+        "read_status": "read",
+        "confidence": "high",
+        "evidence_basis": "transcript_quotes"
+      },
+      {
+        "id": "clarity",
+        "score": 1,
+        "meaning": "Weak signal, not actionable on its own; he has a target, but the path across stakeholders is still fuzzy.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "growth",
+        "score": 7,
+        "meaning": "A real pattern, act on it: he named a scoped problem, a decision he wants to shape, and a concrete next step.",
+        "read_status": "read",
+        "confidence": "high",
+        "evidence_basis": "transcript_quotes"
+      }
+    ],
+    "brutal_truth_employee": "Jordan is not short on ambition; \"the versioning/deprecation policy\" and \"own the proposal end to end\" are real signals of readiness for broader scope. The weak spot is that he still lacks trust outside the squad, so the bigger role will stall if that stays true.",
+    "brutal_truth_manager": "You did well to push past \"developer experience generally\" into a named project, but the next step is to test authority, not just interest. The moment he said finance and risk know his name but \"haven't seen them lead anything,\" that was the cue to assign a stakeholder-facing decision, not move on.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Set up Jordan's intro to the platform eng lead and the three squad leads for the API versioning project."
+      },
+      {
+        "when": "this month",
+        "action": "Assign Jordan a stakeholder-facing decision on the deprecation policy and have him present it in the guild."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: see whether Jordan has booked the intro and drafted the one-pager without reminders.",
+      "Within two weeks: if finance or risk still haven't seen him lead a discussion, the cross-squad trust gap is real."
+    ],
+    "engagement_read": {
+      "level": "no_clear_concern",
+      "evidence": [
+        "\"Jordan rolled with it though\"",
+        "\"want to own the proposal end to end\""
+      ],
+      "missing_evidence": "I would need to see avoidance, silence, or repeated deflection across more than one turn to call an engagement issue.",
+      "recommended_action": "Give Jordan one visible cross-team decision to own so his energy has a place to land.",
+      "watch_next": "Next 1:1, notice whether he brings back progress unprompted or waits to be asked."
+    }
+  }
+}

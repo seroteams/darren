@@ -69,47 +69,25 @@
         "category": "topic"
       }
     ],
+    "terminology_groups": [
+      { "key": "strategy", "label": "Strategy" },
+      { "key": "leadership", "label": "Leadership" },
+      { "key": "role", "label": "The role" }
+    ],
     "terminology": [
-      {
-        "term": "Product strategy",
-        "meaning": "The long-term direction and choices for the product."
-      },
-      {
-        "term": "Roadmap",
-        "meaning": "Planned sequence of product bets and delivery over time."
-      },
-      {
-        "term": "Portfolio",
-        "meaning": "The set of products, teams, or initiatives under management."
-      },
-      {
-        "term": "OKRs",
-        "meaning": "Objectives and key results used to track goals."
-      },
-      {
-        "term": "Product-market fit",
-        "meaning": "Evidence the product solves a real market need."
-      },
-      {
-        "term": "Discovery",
-        "meaning": "Work to understand problems before building solutions."
-      },
-      {
-        "term": "Go-to-market",
-        "meaning": "How a product is launched, sold, and adopted."
-      },
-      {
-        "term": "North star metric",
-        "meaning": "Primary measure of product value or progress."
-      },
-      {
-        "term": "Stakeholder management",
-        "meaning": "Aligning people with different goals and influence."
-      },
-      {
-        "term": "Prioritization",
-        "meaning": "Deciding what gets focus and what does not."
-      }
+      { "term": "Product strategy", "meaning": "The long-term direction and choices for the product.", "group": "strategy" },
+      { "term": "Portfolio", "meaning": "The set of products and teams under management.", "group": "strategy" },
+      { "term": "North star metric", "meaning": "Primary measure of product value and progress.", "group": "strategy" },
+      { "term": "Product-market fit", "meaning": "Evidence the product solves a real market need.", "group": "strategy" },
+      { "term": "Prioritisation", "meaning": "Deciding what gets focus and what does not.", "group": "strategy" },
+      { "term": "Coaching PMs", "meaning": "Growing product managers instead of solving for them.", "group": "leadership" },
+      { "term": "Operating model", "meaning": "Shared planning, discovery, and delivery habits across teams.", "group": "leadership" },
+      { "term": "Stakeholder management", "meaning": "Aligning people with different goals and influence.", "group": "leadership" },
+      { "term": "Executive alignment", "meaning": "Keeping leadership agreed on strategy and trade-offs.", "group": "leadership" },
+      { "term": "Outcome accountability", "meaning": "Owning results, not just what ships.", "group": "role" },
+      { "term": "Roadmap trade-offs", "meaning": "Choosing across competing bets and dependencies.", "group": "role" },
+      { "term": "Org health", "meaning": "The capacity, morale, and bench strength of the team.", "group": "role" },
+      { "term": "Continuous discovery", "meaning": "Always-on customer input shaping strategy.", "group": "role" }
     ],
     "listen_for": [
       "Whether they talk in terms of business outcomes or only roadmap output.",

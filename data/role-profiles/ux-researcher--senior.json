@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781428513943,
+  "role_title_raw": "UX Researcher",
+  "role_slug": "ux-researcher",
+  "seniority_raw": "Senior",
+  "seniority_key": "senior",
+  "role_family": "design",
+  "profile": {
+    "summary": "A Senior UX Researcher plans and runs research that shapes product decisions, not just individual studies. They choose methods, frame questions with product and design partners, synthesize patterns across work, and influence roadmap, design quality, and user understanding. They often mentor less experienced researchers and work closely with product managers, designers, data partners, and engineers.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing fast product timelines with the time needed for solid research and synthesis.",
+        "category": "topic"
+      },
+      {
+        "text": "Getting teams to act on findings instead of treating research as a box to check.",
+        "category": "topic"
+      },
+      {
+        "text": "Handling broad stakeholder demand and deciding where their work has the most impact.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Turning messy qualitative signals into clear, credible guidance for senior partners.",
+        "category": "competency"
+      },
+      {
+        "text": "Protecting research quality when partners want quick answers or already have a preferred outcome.",
+        "category": "topic"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Influence on product decisions",
+        "why": "Senior researchers are usually judged by whether insights change priorities, designs, or assumptions.",
+        "category": "competency"
+      },
+      {
+        "theme": "Research prioritization and scope",
+        "why": "This role often faces more requests than capacity, so tradeoff choices matter a lot.",
+        "category": "topic"
+      },
+      {
+        "theme": "Stakeholder alignment and trust",
+        "why": "Strong partnerships with product, design, and engineering determine whether research lands well.",
+        "category": "topic"
+      },
+      {
+        "theme": "Quality versus speed",
+        "why": "Senior researchers regularly need to protect rigor while still supporting delivery pace.",
+        "category": "competency"
+      },
+      {
+        "theme": "Energy load from context switching",
+        "why": "Juggling studies, stakeholders, and urgent asks can quietly drain focus and morale.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Usability testing",
+        "meaning": "Watching people try tasks to find friction points.",
+        "group": "methods"
+      },
+      {
+        "term": "Generative research",
+        "meaning": "Research to uncover needs, behaviors, and opportunities.",
+        "group": "methods"
+      },
+      {
+        "term": "Evaluative research",
+        "meaning": "Research that tests a concept, flow, or product.",
+        "group": "methods"
+      },
+      {
+        "term": "Interview guide",
+        "meaning": "Planned prompts used to keep interviews consistent.",
+        "group": "artifacts"
+      },
+      {
+        "term": "Research synthesis",
+        "meaning": "Combining findings into patterns, themes, and implications.",
+        "group": "artifacts"
+      },
+      {
+        "term": "Participant recruitment",
+        "meaning": "Finding suitable people to take part in research.",
+        "group": "operations"
+      },
+      {
+        "term": "Insights",
+        "meaning": "Useful findings that explain user behavior or needs.",
+        "group": "outputs"
+      },
+      {
+        "term": "Affinity mapping",
+        "meaning": "Grouping observations to spot themes and patterns.",
+        "group": "analysis"
+      },
+      {
+        "term": "Journey map",
+        "meaning": "Visual view of a user's steps and pain points.",
+        "group": "artifacts"
+      },
+      {
+        "term": "Triangulation",
+        "meaning": "Checking patterns across multiple methods or data sources.",
+        "group": "analysis"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "methods",
+        "label": "Methods"
+      },
+      {
+        "key": "artifacts",
+        "label": "Artifacts"
+      },
+      {
+        "key": "operations",
+        "label": "Operations and logistics."
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about decisions changed, not just studies completed.",
+      "Repeated mention of having to defend method choice or research time.",
+      "Signs they are carrying too many stakeholder requests at once.",
+      "Whether they describe findings with confidence, nuance, and clear limits.",
+      "Shifts from user-centered language to stakeholder-pleasing language."
+    ],
+    "avoid": [
+      "Treating them like a note-taker for design instead of a strategic partner.",
+      "Measuring their value only by number of studies or speed of turnaround.",
+      "Pushing for certainty when research findings are directional or partial.",
+      "Assuming anyone can do the work if they just talk to a few users."
+    ]
+  }
+}

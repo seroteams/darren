@@ -120,10 +120,13 @@ export async function mount(root, { store, setState, resetSession }) {
         <span class="js-verdict-confirm feedback-confirm text-sm text-ink-mute">Saved</span>
       </section>` : ""}
 
-      <footer class="pt-2 l-cluster l-cluster--2 items-center">
-        <button class="btn js-restart">Review this session</button>
-        <button class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>
-        <span class="js-copy-confirm feedback-confirm text-sm text-ink-mute">Copied</span>
+      <footer class="briefing-finish pt-2 l-stack l-stack--2">
+        <div class="text-sm text-ink-mute">This run is complete and saved.</div>
+        <div class="l-cluster l-cluster--2 items-center">
+          <button class="btn js-restart">Finish &amp; review this run</button>
+          <button class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>
+          <span class="js-copy-confirm feedback-confirm text-sm text-ink-mute">Copied</span>
+        </div>
       </footer>
     </div>
   `;

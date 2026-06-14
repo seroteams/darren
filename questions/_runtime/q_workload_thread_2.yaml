@@ -1,0 +1,10 @@
+alias: q_workload_thread_2
+label: Workload thread
+name: What about the current workload is feeling off right now?
+description: Drills into the workload thread she just named so you can locate the specific source of drag.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: "current workload's feeling"

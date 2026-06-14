@@ -1,0 +1,10 @@
+alias: q_support_needed_64
+label: Support needed
+name: What would help, if anything, right now?
+description: Leaves space for a practical next step without forcing a diagnosis.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,574 @@
+{
+  "id": "sofia-martinez",
+  "kind": "happy",
+  "captured_from": "logs/june/2026_Jun14_16-13-7ba14576",
+  "persona": "Sofia Martinez",
+  "issue": "Energy lower than usual",
+  "rawResponse": {
+    "headline": "Sofia is still into the work, but the review loop is draining her and blurring what matters.",
+    "summary_bullets": [
+      "The drag is not the design itself; it is the scattered feedback — “three channels,” “constant drip,” and “one review checkpoint per milestone” all point to process churn.",
+      "Her own ask is for a sharper priority line, which means the main gap is not effort but deciding what gets answered and when."
+    ],
+    "understanding_paragraph": "Sofia is still engaged with the work, but this session showed that the review process is costing her momentum. What we did not learn is whether the lower energy is just this redesign cycle or a broader pattern beyond it.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": -10,
+        "meaning": "Strong strain from “less momentum” and “death by a thousand tweaks”; this is a real pattern, act on it.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "engagement",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "zero_score",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "clarity",
+        "score": -6,
+        "meaning": "A real pattern, act on it: scattered feedback and shifting priorities are making the work feel hard to steer.",
+        "read_status": "read",
+        "confidence": "high",
+        "evidence_basis": "transcript_quotes"
+      },
+      {
+        "id": "growth",
+        "score": -2,
+        "meaning": "Weak signal, not actionable on its own; she named one process change, but not a broader learning shift.",
+        "read_status": "read",
+        "confidence": "medium",
+        "evidence_basis": "mixed"
+      }
+    ],
+    "brutal_truth_employee": "Sofia’s signal is not “I’m done with the work”; it is “the work itself’s fine” while “death by a thousand tweaks” is wearing her down. The risk is process fatigue, not loss of taste for the job.",
+    "brutal_truth_manager": "When Sofia said she wanted “one review checkpoint per milestone,” that was the moment to pin down who owns the extra revision loop and stop the conversation from drifting into general churn. The next check-in should test whether that structure actually landed, not just restate the ask.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Set one review checkpoint per milestone for Sofia’s redesign and tell the team to route comments there."
+      },
+      {
+        "when": "next 1:1",
+        "action": "Ask Sofia whether the new checkpoint cut the scattered feedback and whether priority is clearer."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: check whether Sofia stops mentioning “chasing what’s actually wanted.”",
+      "Within two weeks: if revisions still arrive across multiple channels, treat the process fix as not landed."
+    ],
+    "engagement_read": {
+      "level": "inconclusive",
+      "evidence": [],
+      "missing_evidence": "Need a direct sign of leaning in or pulling back across more than the review-process friction she described.",
+      "recommended_action": "",
+      "watch_next": ""
+    }
+  },
+  "ctx": {
+    "name": "Sofia",
+    "role": "Product Designer",
+    "seniority": "Mid-level"
+  },
+  "meetingType": "Bi-weekly check-in",
+  "managerNotes": "Sofia is usually engaged, but lately her energy in reviews feels lower than normal.",
+  "focusPoints": [
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Energy in reviews vs her normal baseline.",
+      "reason": "Notes say her energy in reviews feels lower than normal, so it’s worth clarifying what’s draining her and what helps.",
+      "source": "signal",
+      "confidence": "medium",
+      "known": true
+    },
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How she’s landing with the team lately.",
+      "reason": "Whether her lower review energy is tied to day-to-day trust or friction is worth checking, since it changes how feedback lands.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    },
+    {
+      "id": "feedback",
+      "type": "Feedback (given & received)",
+      "category": "topic",
+      "label": "How feedback conversations have been landing.",
+      "reason": "Whether critique feels supportive or repetitive matters for a mid-level designer, because it directly affects momentum and confidence.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_intro_biweekly_pace",
+        "label": "Opening pace check",
+        "name": "How's the last two weeks actually felt — energy-wise?",
+        "description": "Opener that invites a real answer rather than 'fine'. Reads wellbeing directly.",
+        "purpose": "wellbeing",
+        "stage": "pulse",
+        "axis_effects": {
+          "wellbeing": 3,
+          "engagement": 1
+        },
+        "source": "seed"
+      },
+      "answer": "nothing urgent. maybe just how the current workload's feeling",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -1,
+        "engagement": -1
+      },
+      "note": "Mildly negative signal: nothing urgent, but the current workload is what stands out, suggesting some drag on energy and investment."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_prep_opener_176",
+        "label": "Prep opener",
+        "name": "Before we get into specifics, what’s been making review and feedback conversations feel heavier lately?",
+        "description": "Helps you hear what’s changed around reviews without jumping straight to a diagnosis.",
+        "purpose": "wellbeing",
+        "stage": "pulse",
+        "axis_effects": {
+          "wellbeing": 3,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "lower than usual. getting through things but with less momentum",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -3
+      },
+      "note": "Describes a clear dip in energy and momentum, but does not yet say what is making reviews feel heavier."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_review_drag_3",
+        "label": "Review drag",
+        "name": "When reviews feel heavier, where does the drag show up most?",
+        "description": "Drills into the heavier-reviews thread to locate the specific point of friction.",
+        "purpose": "wellbeing",
+        "stage": "pulse",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "planner_added",
+        "grounding": "heavier lately"
+      },
+      "answer": "the redesign has lots of small stakeholder revisions. death by a thousand tweaks",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -3
+      },
+      "note": "Names a specific drain in the redesign review loop: many small stakeholder revisions are making the work feel wearing."
+    },
+    {
+      "turn": 4,
+      "question": {
+        "alias": "q_revision_pattern_2",
+        "label": "Revision pattern",
+        "name": "Which stakeholder revisions keep coming back on the redesign?",
+        "description": "Drills into the repeated-tweaks thread to locate the specific source of review drag.",
+        "purpose": "wellbeing",
+        "stage": "pulse",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "planner_added",
+        "grounding": "small stakeholder revisions"
+      },
+      "answer": "feedback comes scattered across three channels - spends a lot of time chasing what's actually wanted",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -3
+      },
+      "note": "Scattered feedback across three channels signals strong review drag and unclear asks that are draining her energy; also reveals a clarity gap worth probing next."
+    },
+    {
+      "turn": 5,
+      "question": {
+        "alias": "q_friction_scan_26",
+        "label": "Friction scan",
+        "name": "Where is the redesign work feeling most unclear right now?",
+        "description": "Surfaces whether the drag is tied to unclear asks, shifting constraints, or fuzzy decision-making.",
+        "purpose": "topic",
+        "stage": "friction",
+        "axis_effects": {
+          "clarity": 1,
+          "engagement": 3
+        },
+        "source": "reworded_from:q_intro_biweekly_friction",
+        "grounding": "small stakeholder revisions"
+      },
+      "answer": "work itself's fine, still likes it. it's the churn around it wearing her down",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": 1,
+        "clarity": -1
+      },
+      "note": "She still likes the design work itself, but the surrounding churn is draining, which points to mild clarity drag around the process rather than disengagement from the work."
+    },
+    {
+      "turn": 6,
+      "question": {
+        "alias": "q_churn_source",
+        "label": "Churn source",
+        "name": "What part of that churn is wearing her down most?",
+        "description": "Drills into the specific part of the review churn that is creating the most drag.",
+        "purpose": "topic",
+        "stage": "friction",
+        "axis_effects": {
+          "clarity": 1
+        },
+        "source": "planner_added",
+        "grounding": "the churn around it"
+      },
+      "answer": "wants the feedback consolidated into one round per milestone, not a constant drip",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1
+      },
+      "note": "Names a specific process gap — feedback arrives as a constant drip instead of one milestone round — which signals ongoing review-path clarity issues. [THREAD-DEFERRED] Wants feedback consolidated per milestone, but drill cap requires advancing to momentum."
+    },
+    {
+      "turn": 7,
+      "question": {
+        "alias": "q_next_step_15",
+        "label": "Next step",
+        "name": "What do you want me to do differently before our next review?",
+        "description": "Leaves the conversation with a concrete ask she can point to next time.",
+        "purpose": "topic",
+        "stage": "lift",
+        "axis_effects": {
+          "clarity": 1,
+          "growth": 1
+        },
+        "source": "generated"
+      },
+      "answer": "set one review checkpoint per milestone, hold revisions to that. stop the all-day context-switching",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1,
+        "growth": -1
+      },
+      "note": "Names a specific missing structure — one review checkpoint per milestone — which signals current process clarity is lacking; [THREAD-DEFERRED-WINDDOWN] 'stop the all-day context-switching'."
+    },
+    {
+      "turn": 8,
+      "question": {
+        "alias": "q_seed_clarity_success",
+        "label": "Success definition",
+        "name": "What would a good quarter look like for you from here?",
+        "description": "Surfaces how clearly they picture a good outcome, without forcing a one-line answer.",
+        "purpose": "topic",
+        "axis_effects": {
+          "clarity": 3,
+          "growth": 1
+        },
+        "source": "seed"
+      },
+      "answer": "a clearer line on what's actually priority would help me stop chasing every ping",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -3,
+        "growth": -1
+      },
+      "note": "Names missing priority clarity as the thing that would make the quarter better, which is a strong clarity deficit and a mild growth constraint."
+    },
+    {
+      "turn": 9,
+      "question": {
+        "alias": "q_seed_engagement_interest",
+        "label": "Interest",
+        "name": "Which part of your work have you been leaning into — and which part you've been avoiding?",
+        "description": "Surfaces real engagement asymmetry; avoidance is a leading indicator.",
+        "purpose": "topic",
+        "axis_effects": {
+          "engagement": 3,
+          "wellbeing": 1
+        },
+        "source": "seed"
+      },
+      "answer": "let's try the single review checkpoint next milestone and see if it calms the churn",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -1
+      },
+      "note": "Pivoted from the engagement question into a concrete process change request; this suggests ongoing churn is still draining, but gives no direct engagement signal."
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": -10,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "nothing urgent. maybe just how the current workload's feeling"
+        },
+        {
+          "q": "q_prep_opener_176",
+          "delta": -3,
+          "answer_excerpt": "lower than usual. getting through things but with less momentum"
+        },
+        {
+          "q": "q_review_drag_3",
+          "delta": -3,
+          "answer_excerpt": "the redesign has lots of small stakeholder revisions. death by a thousand tweaks"
+        },
+        {
+          "q": "q_revision_pattern_2",
+          "delta": -3,
+          "answer_excerpt": "feedback comes scattered across three channels - spends a lot of time chasing what's actually wanted"
+        },
+        {
+          "q": "q_seed_engagement_interest",
+          "delta": -1,
+          "answer_excerpt": "let's try the single review checkpoint next milestone and see if it calms the churn"
+        }
+      ]
+    },
+    "engagement": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_biweekly_pace",
+          "delta": -1,
+          "answer_excerpt": "nothing urgent. maybe just how the current workload's feeling"
+        },
+        {
+          "q": "q_friction_scan_26",
+          "delta": 1,
+          "answer_excerpt": "work itself's fine, still likes it. it's the churn around it wearing her down"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -6,
+      "history": [
+        {
+          "q": "q_friction_scan_26",
+          "delta": -1,
+          "answer_excerpt": "work itself's fine, still likes it. it's the churn around it wearing her down"
+        },
+        {
+          "q": "q_churn_source",
+          "delta": -1,
+          "answer_excerpt": "wants the feedback consolidated into one round per milestone, not a constant drip"
+        },
+        {
+          "q": "q_next_step_15",
+          "delta": -1,
+          "answer_excerpt": "set one review checkpoint per milestone, hold revisions to that. stop the all-day context-switching"
+        },
+        {
+          "q": "q_seed_clarity_success",
+          "delta": -3,
+          "answer_excerpt": "a clearer line on what's actually priority would help me stop chasing every ping"
+        }
+      ]
+    },
+    "growth": {
+      "score": -2,
+      "history": [
+        {
+          "q": "q_next_step_15",
+          "delta": -1,
+          "answer_excerpt": "set one review checkpoint per milestone, hold revisions to that. stop the all-day context-switching"
+        },
+        {
+          "q": "q_seed_clarity_success",
+          "delta": -1,
+          "answer_excerpt": "a clearer line on what's actually priority would help me stop chasing every ping"
+        }
+      ]
+    }
+  },
+  "bankQuestions": [
+    {
+      "label": "Prep opener",
+      "name": "Before we get into specifics, what’s been making review and feedback conversations feel heavier lately?",
+      "description": "Helps you hear what’s changed around reviews without jumping straight to a diagnosis.",
+      "purpose": "wellbeing",
+      "stage": "pulse",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Review load",
+      "name": "Which review conversation has taken the most out of you recently?",
+      "description": "Points to a concrete moment so you can understand the kind of exchange that’s draining her.",
+      "purpose": "wellbeing",
+      "stage": "friction",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 3
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Feedback repeat",
+      "name": "What kind of feedback keeps coming back in reviews?",
+      "description": "Helps you hear whether the same note is landing as useful or just wearing thin.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Review context",
+      "name": "What usually feels missing in the review context before the conversation starts?",
+      "description": "Lets you find out whether the setup, not the feedback itself, is what’s making reviews harder.",
+      "purpose": "topic",
+      "stage": "friction",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Design vs feedback",
+      "name": "When you talk about the design work itself, what feels different from talking about the feedback on it?",
+      "description": "Shows whether the drain is in the work or in the way it gets discussed.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": [
+        {
+          "axis": "engagement",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Helpful feedback",
+      "name": "What kind of feedback actually helps you move a design forward?",
+      "description": "Helps you hear what makes critique usable for her as a mid-level designer.",
+      "purpose": "competency",
+      "stage": "momentum",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Thread pressure",
+      "name": "What’s been hardest about the Figma threads or review comments lately?",
+      "description": "Gets specific about the format of the feedback, which often matters as much as the content.",
+      "purpose": "topic",
+      "stage": "momentum",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        },
+        {
+          "axis": "clarity",
+          "delta": 3
+        }
+      ]
+    },
+    {
+      "label": "Support needed",
+      "name": "What would make the next couple of review cycles feel steadier for you?",
+      "description": "Helps you land on support that could make the feedback loop less draining.",
+      "purpose": "wellbeing",
+      "stage": "lift",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Feedback change",
+      "name": "What would you want to change about how we handle feedback on your work?",
+      "description": "Gives you a practical opening for adjusting the way critique lands with her.",
+      "purpose": "topic",
+      "stage": "lift",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Next step",
+      "name": "What do you want me to do differently before our next review?",
+      "description": "Leaves the conversation with a concrete ask she can point to next time.",
+      "purpose": "topic",
+      "stage": "lift",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 1
+        },
+        {
+          "axis": "growth",
+          "delta": 1
+        }
+      ]
+    }
+  ]
+}

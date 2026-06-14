@@ -1,0 +1,10 @@
+alias: q_decision_disconnect
+label: Decision disconnect
+name: Where is that disconnect showing up most right now?
+description: Drills into the specific place where her research feels disconnected from decisions.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: less connected to what gets decided

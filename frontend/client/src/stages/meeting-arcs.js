@@ -10,31 +10,32 @@ const STYLE = `
   .arc-card { padding: 0; overflow: hidden; }
   .arc-card__head { display:flex; align-items:center; gap:10px; width:100%; padding:14px 16px;
     background:none; border:none; cursor:pointer; text-align:left; color:var(--color-ink); }
-  .arc-card__chev { transition: transform .15s ease; color:var(--color-ink-mute); flex:none; }
+  .arc-card__head:focus-visible { outline:3px solid var(--color-ink); outline-offset:-3px; border-radius:6px; }
+  .arc-card__chev { transition: transform .15s ease; color:var(--color-ink-dim); flex:none; }
   .arc-card[data-open="true"] .arc-card__chev { transform: rotate(90deg); }
-  .arc-card__meta { margin-left:auto; font-size:.8rem; color:var(--color-ink-mute); }
-  .arc-edited { font-size:.7rem; font-weight:500; padding:2px 8px; border-radius:6px;
+  .arc-card__meta { margin-left:auto; font-size:.9rem; color:var(--color-ink-dim); }
+  .arc-edited { font-size:.8rem; font-weight:600; padding:3px 9px; border-radius:6px;
     background:var(--sero-gold-200); color:var(--sero-gold-800); }
-  .arc-chips { display:flex; flex-wrap:wrap; align-items:center; gap:6px; padding:0 16px 14px 40px; }
-  .arc-chip { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.72rem;
-    padding:2px 8px; border-radius:6px; background:var(--sero-soft-200); color:var(--color-ink-dim);
-    border:1px solid var(--color-border); }
-  .arc-chip__sep { color:var(--color-ink-mute); }
+  .arc-chips { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:0 16px 16px 40px; }
+  .arc-chip { font-size:.95rem; font-weight:500; line-height:1.4;
+    padding:4px 11px; border-radius:7px; background:var(--sero-soft-200); color:var(--color-ink);
+    border:1px solid var(--color-border-strong); }
+  .arc-chip__sep { color:var(--color-ink-dim); font-size:1.1rem; }
   .arc-body { padding:4px 16px 16px; border-top:1px solid var(--color-border); }
-  .arc-sec { font-size:.7rem; letter-spacing:.04em; text-transform:uppercase;
-    color:var(--color-ink-mute); margin:14px 0 8px; }
-  .arc-phase { display:flex; align-items:flex-start; gap:10px; padding:8px 0;
+  .arc-sec { font-size:.8rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--color-ink-dim); margin:16px 0 8px; }
+  .arc-phase { display:flex; align-items:flex-start; gap:12px; padding:10px 0;
     border-bottom:1px solid var(--color-border); }
   .arc-phase:last-child { border-bottom:none; }
-  .arc-phase__id { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.72rem;
-    padding:2px 7px; border-radius:6px; background:var(--sero-soft-200); color:var(--color-ink-dim);
-    flex:none; margin-top:1px; }
+  .arc-phase__id { font-size:.9rem; font-weight:600;
+    padding:3px 9px; border-radius:7px; background:var(--sero-soft-200); color:var(--color-ink);
+    border:1px solid var(--color-border-strong); flex:none; margin-top:1px; }
   .arc-phase__main { flex:1; min-width:0; }
-  .arc-phase__label { font-weight:500; color:var(--color-ink); }
-  .arc-phase__intent { font-size:.85rem; color:var(--color-ink-dim); margin-top:2px; }
-  .arc-phase__q { flex:none; font-size:.75rem; color:var(--color-ink-mute); white-space:nowrap; margin-top:2px; }
-  .arc-anti { margin:0; padding-left:18px; color:var(--color-ink-dim); font-size:.85rem; }
-  .arc-anti li { margin:3px 0; }
+  .arc-phase__label { font-weight:600; font-size:1rem; color:var(--color-ink); }
+  .arc-phase__intent { font-size:.95rem; color:var(--color-ink-dim); margin-top:3px; line-height:1.5; }
+  .arc-phase__q { flex:none; font-size:.85rem; color:var(--color-ink-dim); white-space:nowrap; margin-top:3px; }
+  .arc-anti { margin:0; padding-left:20px; color:var(--color-ink-dim); font-size:.95rem; line-height:1.5; }
+  .arc-anti li { margin:5px 0; }
 </style>`;
 
 const CHEV = `<svg class="arc-card__chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>`;
@@ -102,10 +103,13 @@ function cardHtml(a, isOpen) {
 
   const chips = phases
     .map((p) => `<span class="arc-chip">${esc(p.id)}</span>`)
-    .join(`<span class="arc-chip__sep">→</span>`);
+    .join(`<span class="arc-chip__sep" aria-hidden="true">→</span>`);
 
+  const spoken = phases.map((p) => p.id).join(", then ");
   const body = isOpen ? bodyHtml(a, phases) : "";
-  const peek = isOpen ? "" : `<div class="arc-chips">${chips}</div>`;
+  const peek = isOpen
+    ? ""
+    : `<div class="arc-chips" role="group" aria-label="Phases: ${esc(spoken)}">${chips}</div>`;
 
   return `
     <section class="card arc-card" data-slug="${esc(a.slug)}" data-open="${isOpen}">

@@ -1,0 +1,10 @@
+alias: q_revision_pattern_2
+label: Revision pattern
+name: Which stakeholder revisions keep coming back on the redesign?
+description: Drills into the repeated-tweaks thread to locate the specific source of review drag.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: small stakeholder revisions

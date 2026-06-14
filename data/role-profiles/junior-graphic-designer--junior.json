@@ -60,47 +60,25 @@
         "category": "topic"
       }
     ],
+    "terminology_groups": [
+      { "key": "craft", "label": "Craft" },
+      { "key": "ways", "label": "Ways of working" },
+      { "key": "growth", "label": "Growing into the role" }
+    ],
     "terminology": [
-      {
-        "term": "Brand guidelines",
-        "meaning": "Rules for using logos, colors, type, and visual style."
-      },
-      {
-        "term": "Typography",
-        "meaning": "How type is chosen, arranged, and styled."
-      },
-      {
-        "term": "Layout",
-        "meaning": "How visual elements are placed on a page or screen."
-      },
-      {
-        "term": "Hierarchy",
-        "meaning": "Visual order that shows what should be noticed first."
-      },
-      {
-        "term": "Mockup",
-        "meaning": "A visual preview of a design in context."
-      },
-      {
-        "term": "Bleed",
-        "meaning": "Extra image area trimmed off in print production."
-      },
-      {
-        "term": "CMYK",
-        "meaning": "Print color mode using cyan, magenta, yellow, black."
-      },
-      {
-        "term": "RGB",
-        "meaning": "Screen color mode using red, green, blue."
-      },
-      {
-        "term": "Vector",
-        "meaning": "Scalable artwork made from paths, not pixels."
-      },
-      {
-        "term": "Raster",
-        "meaning": "Pixel-based image that can blur when enlarged."
-      }
+      { "term": "Typography", "meaning": "How type is chosen, arranged, and styled.", "group": "craft" },
+      { "term": "Layout", "meaning": "How visual elements are placed on a page.", "group": "craft" },
+      { "term": "Hierarchy", "meaning": "Visual order showing what to notice first.", "group": "craft" },
+      { "term": "Brand guidelines", "meaning": "Rules for logos, colour, type, and style.", "group": "craft" },
+      { "term": "Vector vs raster", "meaning": "Path-based artwork that scales, versus pixel images.", "group": "craft" },
+      { "term": "Design brief", "meaning": "The goal, audience, and constraints for a piece of work.", "group": "ways" },
+      { "term": "Design critique", "meaning": "A structured review where peers give feedback.", "group": "ways" },
+      { "term": "Handoff", "meaning": "Passing finished files and specs to the next team.", "group": "ways" },
+      { "term": "AI-assisted drafts", "meaning": "Using AI tools to speed up first versions.", "group": "ways" },
+      { "term": "Version control", "meaning": "Keeping named, recoverable versions of files.", "group": "ways" },
+      { "term": "Design rationale", "meaning": "Being able to explain why a choice was made.", "group": "growth" },
+      { "term": "Receiving feedback", "meaning": "Turning critique into changes without losing confidence.", "group": "growth" },
+      { "term": "Accessibility basics", "meaning": "Designing so more people can use the result.", "group": "growth" }
     ],
     "listen_for": [
       "They talk mostly about making requested changes, not yet about owning design rationale.",

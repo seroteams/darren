@@ -1,5 +1,9 @@
 [
-  { "id": "growth-ahmed", "kind": "happy" },
+  { "id": "maya-chen", "kind": "happy" },
+  { "id": "jordan-kim", "kind": "happy" },
+  { "id": "sofia-martinez", "kind": "happy" },
+  { "id": "rachel-singh", "kind": "happy" },
+  { "id": "marcus-lee", "kind": "happy" },
   { "id": "leak-devon", "kind": "adversarial" },
   { "id": "thin-sam", "kind": "adversarial" }
 ]

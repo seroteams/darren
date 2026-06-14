@@ -1,0 +1,10 @@
+alias: q_feedback_repeat
+label: Feedback repeat
+name: What kind of feedback keeps coming back in reviews?
+description: Helps you hear whether the same note is landing as useful or just wearing thin.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

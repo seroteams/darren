@@ -386,6 +386,13 @@ function applyEngagementReadGuard(briefing, axisState, transcript) {
     read.missing_evidence =
       read.missing_evidence ||
       "The conversation was too thin to read engagement — a fuller next session is needed.";
+    // An inconclusive read carries no confident move or tell — strip the
+    // sub-fields the model wrote under its (now-overruled) level, so the block
+    // collapses to level + missing_evidence instead of duplicating next_actions
+    // / watch_for. The renderer skips empty fields.
+    read.evidence = [];
+    read.recommended_action = "";
+    read.watch_next = "";
   }
   return briefing;
 }

@@ -1,0 +1,10 @@
+alias: q_prep_opener_176
+label: Prep opener
+name: Before we get into specifics, what’s been making review and feedback conversations feel heavier lately?
+description: Helps you hear what’s changed around reviews without jumping straight to a diagnosis.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

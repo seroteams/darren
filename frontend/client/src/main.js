@@ -27,6 +27,7 @@ const loaders = {
   ROLE_LEXICONS:   () => import("./stages/job-lexicons.js"),
   MEETING_ARCS:    () => import("./stages/meeting-arcs.js"),
   REGRESSION:      () => import("./stages/regression.js"),
+  PERSONAS:        () => import("./stages/personas.js"),
   REVIEW_RUN:      () => import("./stages/review-run.js"),
   GUIDE:           () => import("./stages/guide.js"),
   ERROR:           () => import("./stages/error.js"),

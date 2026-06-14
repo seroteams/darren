@@ -12,6 +12,8 @@ const {
   profilePath,
   loadRoleProfile,
   renderRoleProfileBlock,
+  effectiveTerminology,
+  terminologyGroups,
   buildMessages,
 } = require("../src/role-profile");
 
@@ -137,6 +139,60 @@ const lowConf = renderRoleProfileBlock(
 );
 ok("low confidence → caveat line", lowConf.includes("low confidence in this exact title"));
 ok("high confidence → no caveat", !full.includes("low confidence in this exact title"));
+
+console.log("\n--- vocabulary grouping: groups read + group threaded through merge ---");
+// New grouped shape: groups declared, each term tagged with a group key.
+const GROUPED = {
+  ...FIXTURE,
+  profile: {
+    ...FIXTURE.profile,
+    terminology_groups: [
+      { key: "craft", label: "Reliability" },
+      { key: "leadership", label: "Staff scope" },
+    ],
+    terminology: [
+      { term: "SLO", meaning: "target level of reliability", group: "craft" },
+      { term: "Error budget", meaning: "allowed unreliability before work pauses", group: "craft" },
+      { term: "Incident command", meaning: "running a live outage response", group: "leadership" },
+    ],
+  },
+};
+
+ok(
+  "terminologyGroups: declared groups in order",
+  terminologyGroups(GROUPED.profile).length === 2 &&
+    terminologyGroups(GROUPED.profile)[0].key === "craft" &&
+    terminologyGroups(GROUPED.profile)[0].label === "Reliability"
+);
+ok("terminologyGroups: old flat profile → [] (one ungrouped section)", terminologyGroups(FIXTURE.profile).length === 0);
+ok(
+  "terminologyGroups: garbage → [] (never throws)",
+  terminologyGroups(undefined).length === 0 &&
+    terminologyGroups({}).length === 0 &&
+    terminologyGroups({ terminology_groups: "nope" }).length === 0
+);
+ok(
+  "terminologyGroups: drops malformed group entries (no key)",
+  terminologyGroups({ terminology_groups: [{ label: "no key" }, { key: "ok", label: "Ok" }] }).length === 1
+);
+
+const effGrouped = effectiveTerminology(GROUPED);
+ok(
+  "effectiveTerminology: AI terms carry their group",
+  effGrouped.find((t) => t.term === "Incident command")?.group === "leadership" &&
+    effGrouped.find((t) => t.term === "SLO")?.group === "craft"
+);
+const sloFlat = effectiveTerminology(FIXTURE).find((t) => t.term === "SLO");
+ok("effectiveTerminology: old flat term → group undefined", Boolean(sloFlat) && sloFlat.group === undefined);
+
+// The live-run block is display-agnostic: grouped data must still render as flat
+// "- term: meaning" lines, so no gate (grounding/vocab/arc) sees a new shape.
+const groupedBlock = renderRoleProfileBlock(GROUPED, { slice: "full", meetingType: "Growth & career plan" });
+ok(
+  "grouped data still renders flat term lines in the run block",
+  groupedBlock.includes("- SLO: target level of reliability") &&
+    groupedBlock.includes("- Incident command: running a live outage response")
+);
 
 // Async (cache hit needs await); runs after the sync sections, before the summary.
 async function runSnapshotTest() {

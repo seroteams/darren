@@ -1,0 +1,10 @@
+alias: q_book_next_step
+label: book next step
+name: What gets in the way of booking the next meeting live?
+description: Surface the main cause behind leaving calls without a concrete buyer commitment.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: follow up rather than booking

@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "prompt_version": "6fa18b03",
+  "model": "gpt-5.4",
+  "generated_at": 1781428412156,
+  "role_title_raw": "Product Designer",
+  "role_slug": "product-designer",
+  "seniority_raw": "Mid-level",
+  "seniority_key": "mid-level",
+  "role_family": "design",
+  "profile": {
+    "summary": "A mid-level Product Designer owns end-to-end design work on defined product areas. They turn user and business needs into flows, wireframes, prototypes, and polished UI, working closely with product managers, engineers, and often researchers or content partners. They are expected to handle routine ambiguity, justify design choices, and ship usable work with moderate guidance rather than set overall product or design strategy.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing user needs, business goals, and engineering constraints without owning the final trade-off call.",
+        "category": "topic"
+      },
+      {
+        "text": "Getting enough user insight and feedback early enough to avoid designing from assumptions.",
+        "category": "topic"
+      },
+      {
+        "text": "Defending design decisions with clear rationale instead of personal preference or taste.",
+        "category": "competency"
+      },
+      {
+        "text": "Managing multiple rounds of feedback from product, engineering, and other stakeholders without losing momentum.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Keeping quality high while working within existing patterns, deadlines, and technical limits.",
+        "category": "competency"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Quality of problem framing and product context",
+        "why": "Mid-level designers do better work when they understand the user problem, success measures, and constraints before moving into screens.",
+        "category": "topic"
+      },
+      {
+        "theme": "Confidence in design rationale and communication",
+        "why": "This level is often judged on how clearly they explain choices, trade-offs, and evidence to cross-functional partners.",
+        "category": "competency"
+      },
+      {
+        "theme": "Access to user feedback and research signals",
+        "why": "Good design decisions depend on real user input, and mid-level designers are often blocked when that access is weak.",
+        "category": "topic"
+      },
+      {
+        "theme": "Feedback load and stakeholder dynamics",
+        "why": "They regularly absorb input from several directions, so it matters whether feedback is useful, conflicting, or slowing progress.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Growth in end-to-end ownership",
+        "why": "A key step at this level is moving from executing screens to owning flows, decisions, and follow-through through launch.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Wireframe",
+        "meaning": "Basic layout showing structure and flow before visual polish.",
+        "group": "design_artifacts"
+      },
+      {
+        "term": "Prototype",
+        "meaning": "Clickable model used to test or demonstrate interactions.",
+        "group": "design_artifacts"
+      },
+      {
+        "term": "User flow",
+        "meaning": "Steps a user takes to complete a task.",
+        "group": "ux_core"
+      },
+      {
+        "term": "Design system",
+        "meaning": "Shared components and rules for consistent product design.",
+        "group": "systems"
+      },
+      {
+        "term": "Usability testing",
+        "meaning": "Watching users try tasks to find friction.",
+        "group": "research"
+      },
+      {
+        "term": "Figma",
+        "meaning": "Common tool for interface design and collaboration.",
+        "group": "tools"
+      },
+      {
+        "term": "Interaction design",
+        "meaning": "Designing how screens behave and respond to actions.",
+        "group": "ux_core"
+      },
+      {
+        "term": "Accessibility",
+        "meaning": "Designing so people with disabilities can use the product.",
+        "group": "quality"
+      },
+      {
+        "term": "Handoff",
+        "meaning": "Passing design details to engineers for build.",
+        "group": "delivery"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "design_artifacts",
+        "label": "Design artifacts"
+      },
+      {
+        "key": "ux_core",
+        "label": "UX core"
+      },
+      {
+        "key": "systems",
+        "label": "Systems and consistency tools and delivery"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about user problems and outcomes, not just screens and requests.",
+      "Whether they can explain trade-offs clearly when describing a design decision.",
+      "Repeated mentions of unclear requirements, late feedback, or shifting scope.",
+      "Whether they describe collaboration with engineers early or only at handoff.",
+      "Signs they are stuck in execution work without enough ownership of the problem."
+    ],
+    "avoid": [
+      "Treating design as surface polish added after product decisions are already made.",
+      "Giving purely subjective feedback without tying it to users, goals, or constraints.",
+      "Assuming faster output always means better design work.",
+      "Pushing them to own strategy far beyond their scope without support or context."
+    ]
+  }
+}

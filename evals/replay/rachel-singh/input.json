@@ -1,0 +1,598 @@
+{
+  "id": "rachel-singh",
+  "kind": "happy",
+  "captured_from": "logs/june/2026_Jun14_16-15-284099af",
+  "persona": "Rachel Singh",
+  "issue": "Quieter in meetings",
+  "rawResponse": {
+    "headline": "Rachel’s quietness tracks to research landing after decisions are already set, not to a lack of ideas.",
+    "summary_bullets": [
+      "The same thread repeats: Rachel speaks up only when research can still change a decision, and lately that timing has not been there.",
+      "She wants earlier framing on the next project; the gap is not volume, it is when her input enters the room."
+    ],
+    "understanding_paragraph": "Rachel’s session showed a clear shift in how she is showing up: she is holding back more, and the reason is tied to where research lands in the process. We did not learn that she lacks energy or ideas; we learned that she wants a seat earlier, before direction hardens.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "zero_score",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "engagement",
+        "score": -4,
+        "meaning": "Worth checking over the next few weeks: she is speaking less when her work feels disconnected from decisions.",
+        "read_status": "read",
+        "confidence": "medium",
+        "evidence_basis": "mixed"
+      },
+      {
+        "id": "clarity",
+        "score": -9,
+        "meaning": "The defining signal of this session: she feels research arrives after the decision is already made.",
+        "read_status": "read",
+        "confidence": "high",
+        "evidence_basis": "transcript_quotes"
+      },
+      {
+        "id": "growth",
+        "score": 1,
+        "meaning": "Weak signal, not actionable on its own; she can name the next better setup, but the learning edge is still small.",
+        "read_status": "read",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      }
+    ],
+    "brutal_truth_employee": "Rachel’s own line — “been holding back more than usual” — is the signal to keep. The bigger issue is not silence; it is that she only sees a reason to speak when “it’ll actually change a decision.”",
+    "brutal_truth_manager": "When Rachel said “the timing hasn’t felt there,” that was the moment to stay with the process gap and ask what would make it early enough. The conversation did that partly, but it could have pressed one step more on where the handoff is happening.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Confirm the next project’s framing meeting and put Rachel on the invite from the start."
+      },
+      {
+        "when": "next 1:1",
+        "action": "Ask Rachel to name one decision point where research needs to land earlier, and map that handoff together."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: does Rachel bring up a decision early, or stay quiet until the direction is set?",
+      "Within two weeks: if she is still only invited for validation, the same pullback will likely continue."
+    ],
+    "engagement_read": {
+      "level": "worth_checking",
+      "evidence": [
+        "“volume's fine. more that the work feels less connected to what gets decided”",
+        "“wants research in earlier, before the direction's set, so it can actually shape things”"
+      ],
+      "missing_evidence": "Need to see whether she leans in once she is brought into framing early, or whether the pullback shows up across other threads too.",
+      "recommended_action": "Put her into one early framing conversation and see whether her participation changes.",
+      "watch_next": "Notice whether she volunteers ideas before the direction is fixed."
+    }
+  },
+  "ctx": {
+    "name": "Rachel",
+    "role": "UX Researcher",
+    "seniority": "Senior"
+  },
+  "meetingType": "Something feels off",
+  "managerNotes": "Rachel is usually thoughtful, but she has been much quieter in team conversations recently.",
+  "focusPoints": [
+    {
+      "id": "team_connection",
+      "type": "Team connection",
+      "category": "wellbeing",
+      "label": "How she’s landing in team conversations",
+      "reason": "Notes say Rachel’s been much quieter recently, so it’s worth clarifying what’s changed in how she’s showing up.",
+      "source": "signal",
+      "confidence": "medium",
+      "known": true
+    },
+    {
+      "id": "energy",
+      "type": "Energy & wellbeing",
+      "category": "wellbeing",
+      "label": "Motivation and stress trend lately",
+      "reason": "Her quietness could reflect stress, fatigue, or a temporary dip, so check how her energy is trending right now.",
+      "source": "signal",
+      "confidence": "low",
+      "known": true
+    },
+    {
+      "id": "priorities",
+      "type": "Priorities & goals",
+      "category": "topic",
+      "label": "What she’s focusing on versus stepping back",
+      "reason": "If she’s quieter, she may be deprioritizing certain conversations or research threads, so map what’s taking priority now.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    },
+    {
+      "id": "blockers",
+      "type": "Blockers & dependencies",
+      "category": "topic",
+      "label": "What’s slowing her down or stuck",
+      "reason": "Whether it’s a dependency, stakeholder friction, or an open decision, naming blockers helps her regain momentum quickly.",
+      "source": "best_practice",
+      "confidence": "low",
+      "known": true
+    }
+  ],
+  "transcript": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_intro_off_energy",
+        "label": "Energy read",
+        "name": "How's your energy been lately — separately from how work is going?",
+        "description": "Separates energy from output; avoids leading with 'is something wrong'.",
+        "purpose": "wellbeing",
+        "stage": "landing",
+        "axis_effects": {
+          "wellbeing": 3
+        },
+        "source": "seed"
+      },
+      "answer": "nothing specific. happy to just talk through how the last few weeks have felt",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": 1
+      },
+      "note": "She does not name an energy issue and explicitly opts into talking through the last few weeks, which is a mild positive wellbeing signal and a workable opening."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_prep_opener_177",
+        "label": "Prep opener",
+        "name": "I’ve noticed you’ve been quieter in team conversations lately; how has that space been feeling from your side over the last couple of weeks?",
+        "description": "Gives Rachel room to set the context before you go any further.",
+        "purpose": "wellbeing",
+        "stage": "landing",
+        "axis_effects": {
+          "wellbeing": 3,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "agrees. been holding back more than usual",
+      "skipped": false,
+      "realized_deltas": {
+        "wellbeing": -1,
+        "clarity": -1
+      },
+      "note": "She confirms a real shift in how she is showing up by saying she has been holding back more than usual, which signals mild strain and reduced clarity about engaging in those conversations."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_holding_back_more",
+        "label": "Holding back more",
+        "name": "When you've been holding back more than usual, what has that looked like in the room?",
+        "description": "Drills into the concrete pattern of her pullback before moving on.",
+        "purpose": "topic",
+        "stage": "landing",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "planner_added",
+        "grounding": "holding back more than usual"
+      },
+      "answer": "shifted when research got pushed later in the cycle. findings land, decisions already feel made",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -3
+      },
+      "note": "She names a concrete clarity problem: research is arriving too late to shape decisions, so the room already feels decided."
+    },
+    {
+      "turn": 4,
+      "question": {
+        "alias": "q_late_in_cycle",
+        "label": "Late in cycle",
+        "name": "When research gets pushed later, where do decisions feel made before your input lands?",
+        "description": "Pins down the specific decision points where timing is cutting her out of influence.",
+        "purpose": "topic",
+        "stage": "landing",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "planner_added",
+        "grounding": "research got pushed later"
+      },
+      "answer": "raises things if it'll actually change a decision. lately the timing hasn't felt there",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -3
+      },
+      "note": "She describes a repeated timing mismatch where her input only feels worth raising if it can still change a decision, signalling strong lack of influence clarity; [THREAD-DEFERRED] concrete thread: 'timing hasn't felt there'."
+    },
+    {
+      "turn": 5,
+      "question": {
+        "alias": "q_meeting_thread",
+        "label": "Meeting thread",
+        "name": "Is there a specific team conversation or thread where you held back more than usual?",
+        "description": "Helps you get to a concrete moment instead of staying at the level of general quietness.",
+        "purpose": "topic",
+        "stage": "observation",
+        "axis_effects": {
+          "clarity": 3,
+          "engagement": 1
+        },
+        "source": "generated"
+      },
+      "answer": "volume's fine. more that the work feels less connected to what gets decided",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": -1,
+        "clarity": -3
+      },
+      "note": "She rejects meeting volume as the issue and instead describes a strong disconnect between her work and actual decisions, signaling low alignment and some pullback from engaging."
+    },
+    {
+      "turn": 6,
+      "question": {
+        "alias": "q_team_pullback",
+        "label": "Team pullback",
+        "name": "What have you been pulling back from in the team lately?",
+        "description": "Helps you hear what she’s consciously stepping away from, not just what’s happening to her.",
+        "purpose": "topic",
+        "stage": "underneath",
+        "axis_effects": {
+          "engagement": 3,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "wants research in earlier, before the direction's set, so it can actually shape things",
+      "skipped": false,
+      "realized_deltas": {
+        "engagement": -3,
+        "clarity": -1
+      },
+      "note": "She names a clear engagement deficit: research is coming in too late to shape decisions, which also signals mild role/process misalignment."
+    },
+    {
+      "turn": 7,
+      "question": {
+        "alias": "q_next_step_16",
+        "label": "Next step",
+        "name": "What do you want to change first before we next meet?",
+        "description": "Closes by turning the conversation into one clear move she wants to make.",
+        "purpose": "topic",
+        "stage": "support",
+        "axis_effects": {
+          "growth": 1,
+          "clarity": 1
+        },
+        "source": "generated"
+      },
+      "answer": "pull her into the framing stage on the next project, not just validation",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "note": "She named a specific change she wants — being involved at framing rather than only validation — which shows a clear next move and a growth-oriented ask; [THREAD-DEFERRED-WINDDOWN] 'pull her into the framing stage on the next project, not just validation'."
+    },
+    {
+      "turn": 8,
+      "question": {
+        "alias": "q_research_focus",
+        "label": "Research focus",
+        "name": "Which research thread are you choosing to give less attention to right now?",
+        "description": "Connects the conversation to her actual work and the trade-offs she’s making.",
+        "purpose": "topic",
+        "stage": "underneath",
+        "axis_effects": {
+          "clarity": 3,
+          "growth": 1
+        },
+        "source": "generated"
+      },
+      "answer": "if research shaped even one upcoming decision, i'd feel more reason to speak up",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -3,
+        "growth": -1
+      },
+      "note": "Names a missing condition for speaking up—research shaping an upcoming decision—which signals low clarity about where her work can influence decisions and a mild growth deficit; [THREAD-DEFERRED-WINDDOWN] 'research shaped even one upcoming decision'."
+    },
+    {
+      "turn": 9,
+      "question": {
+        "alias": "q_seed_clarity_success",
+        "label": "Success definition",
+        "name": "What would a good quarter look like for you from here?",
+        "description": "Surfaces how clearly they picture a good outcome, without forcing a one-line answer.",
+        "purpose": "topic",
+        "axis_effects": {
+          "clarity": 3,
+          "growth": 1
+        },
+        "source": "seed"
+      },
+      "answer": "let's pick the next project and pull me into framing from the start",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "note": "She names a specific desired outcome — being involved at framing on the next project — which shows a clearer picture of what better would look like and a modest growth signal."
+    }
+  ],
+  "axisState": {
+    "wellbeing": {
+      "score": 0,
+      "history": [
+        {
+          "q": "q_intro_off_energy",
+          "delta": 1,
+          "answer_excerpt": "nothing specific. happy to just talk through how the last few weeks have felt"
+        },
+        {
+          "q": "q_prep_opener_177",
+          "delta": -1,
+          "answer_excerpt": "agrees. been holding back more than usual"
+        }
+      ]
+    },
+    "engagement": {
+      "score": -4,
+      "history": [
+        {
+          "q": "q_meeting_thread",
+          "delta": -1,
+          "answer_excerpt": "volume's fine. more that the work feels less connected to what gets decided"
+        },
+        {
+          "q": "q_team_pullback",
+          "delta": -3,
+          "answer_excerpt": "wants research in earlier, before the direction's set, so it can actually shape things"
+        }
+      ]
+    },
+    "clarity": {
+      "score": -9,
+      "history": [
+        {
+          "q": "q_prep_opener_177",
+          "delta": -1,
+          "answer_excerpt": "agrees. been holding back more than usual"
+        },
+        {
+          "q": "q_holding_back_more",
+          "delta": -3,
+          "answer_excerpt": "shifted when research got pushed later in the cycle. findings land, decisions already feel made"
+        },
+        {
+          "q": "q_late_in_cycle",
+          "delta": -3,
+          "answer_excerpt": "raises things if it'll actually change a decision. lately the timing hasn't felt there"
+        },
+        {
+          "q": "q_meeting_thread",
+          "delta": -3,
+          "answer_excerpt": "volume's fine. more that the work feels less connected to what gets decided"
+        },
+        {
+          "q": "q_team_pullback",
+          "delta": -1,
+          "answer_excerpt": "wants research in earlier, before the direction's set, so it can actually shape things"
+        },
+        {
+          "q": "q_next_step_16",
+          "delta": 1,
+          "answer_excerpt": "pull her into the framing stage on the next project, not just validation"
+        },
+        {
+          "q": "q_research_focus",
+          "delta": -3,
+          "answer_excerpt": "if research shaped even one upcoming decision, i'd feel more reason to speak up"
+        },
+        {
+          "q": "q_seed_clarity_success",
+          "delta": 1,
+          "answer_excerpt": "let's pick the next project and pull me into framing from the start"
+        }
+      ]
+    },
+    "growth": {
+      "score": 1,
+      "history": [
+        {
+          "q": "q_next_step_16",
+          "delta": 1,
+          "answer_excerpt": "pull her into the framing stage on the next project, not just validation"
+        },
+        {
+          "q": "q_research_focus",
+          "delta": -1,
+          "answer_excerpt": "if research shaped even one upcoming decision, i'd feel more reason to speak up"
+        },
+        {
+          "q": "q_seed_clarity_success",
+          "delta": 1,
+          "answer_excerpt": "let's pick the next project and pull me into framing from the start"
+        }
+      ]
+    }
+  },
+  "bankQuestions": [
+    {
+      "label": "Prep opener",
+      "name": "I’ve noticed you’ve been quieter in team conversations lately; how has that space been feeling from your side over the last couple of weeks?",
+      "description": "Gives Rachel room to set the context before you go any further.",
+      "purpose": "wellbeing",
+      "stage": "landing",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Meeting thread",
+      "name": "Is there a specific team conversation or thread where you held back more than usual?",
+      "description": "Helps you get to a concrete moment instead of staying at the level of general quietness.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "engagement",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "What changed",
+      "name": "What’s changed for you in those team conversations recently?",
+      "description": "Lets her name the shift in her own words without you guessing at the reason.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Workload load",
+      "name": "What’s taking up most of your attention at work right now?",
+      "description": "Helps you hear whether her quietness is tied to load, focus, or something else.",
+      "purpose": "topic",
+      "stage": "underneath",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Context switching",
+      "name": "Where is context switching costing you the most right now?",
+      "description": "Useful if the issue is less about mood and more about too many moving pieces.",
+      "purpose": "topic",
+      "stage": "underneath",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Team pullback",
+      "name": "What have you been pulling back from in the team lately?",
+      "description": "Helps you hear what she’s consciously stepping away from, not just what’s happening to her.",
+      "purpose": "topic",
+      "stage": "underneath",
+      "axis_effects": [
+        {
+          "axis": "engagement",
+          "delta": 3
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Research focus",
+      "name": "Which research thread are you choosing to give less attention to right now?",
+      "description": "Connects the conversation to her actual work and the trade-offs she’s making.",
+      "purpose": "topic",
+      "stage": "underneath",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "growth",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Stakeholder noise",
+      "name": "What part of the stakeholder noise is hardest to sort through at the moment?",
+      "description": "Helps you see whether outside pulls are crowding out her voice in the room.",
+      "purpose": "topic",
+      "stage": "observation",
+      "axis_effects": [
+        {
+          "axis": "clarity",
+          "delta": 3
+        },
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Support needed",
+      "name": "What would help, if anything, right now?",
+      "description": "Leaves space for a practical next step without forcing a diagnosis.",
+      "purpose": "wellbeing",
+      "stage": "support",
+      "axis_effects": [
+        {
+          "axis": "wellbeing",
+          "delta": 1
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "Next step",
+      "name": "What do you want to change first before we next meet?",
+      "description": "Closes by turning the conversation into one clear move she wants to make.",
+      "purpose": "topic",
+      "stage": "support",
+      "axis_effects": [
+        {
+          "axis": "growth",
+          "delta": 1
+        },
+        {
+          "axis": "clarity",
+          "delta": 1
+        }
+      ]
+    }
+  ]
+}

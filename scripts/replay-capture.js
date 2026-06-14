@@ -15,6 +15,19 @@ const { checkFromSessionDir } = require("./lib/check-session");
 const ROOT = path.join(__dirname, "..");
 const REPLAY_DIR = path.join(ROOT, "evals", "replay");
 
+// If the case id matches a homepage persona, carry its display name + issue tag
+// so the suite reads like the demo dropdown (e.g. "Maya Chen · Review-loop drag").
+function personaMeta(caseId) {
+  try {
+    const bench = require(path.join(ROOT, "config", "persona-bench-v1.json"));
+    const list = Array.isArray(bench) ? bench : bench.personas || [];
+    const p = list.find((x) => x && x.id === caseId);
+    return p ? { persona: p.displayName || p.name || null, issue: p.issue || null } : null;
+  } catch {
+    return null;
+  }
+}
+
 function parseArgs(argv) {
   const positional = [];
   let kind = "happy";
@@ -45,6 +58,7 @@ function main() {
     id: caseId,
     kind,
     captured_from: path.relative(ROOT, sessionDir).replace(/\\/g, "/"),
+    ...(personaMeta(caseId) || {}),
     ...inputs,
   };
   const expected = {
