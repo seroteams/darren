@@ -111,9 +111,35 @@ export async function mount(root, { setState, rehydrateById }) {
   function driftDot(run) {
     if (!currentAllDigest || !run.pipelineDigest?.all) return "";
     if (run.pipelineDigest.all !== currentAllDigest) {
-      return `<span class="run-row__drift-dot" title="Engine config changed since this run"></span>`;
+      return `<span class="run-row__drift-dot" title="Engine updated since this run"></span>`;
     }
     return "";
+  }
+
+  // Turn the pipeline-status diff into a short, plain-language list of what
+  // changed since the run. Reads drift.groups (content/engine/models/git) — no
+  // file paths or hashes, just human area names.
+  function describeDrift(drift) {
+    const areas = [];
+    for (const g of drift.groups || []) {
+      if (g.id === "content" || g.id === "engine") {
+        for (const c of g.changes || []) {
+          if (c.stageLabel && !areas.includes(c.stageLabel)) areas.push(c.stageLabel);
+        }
+      } else if (g.id === "models") {
+        const label = "Which AI models are used";
+        if (!areas.includes(label)) areas.push(label);
+      }
+    }
+    if (areas.length === 0) {
+      // Only the version/commit moved — nothing in how this prep is built.
+      return "Minor version change only — nothing in how this prep is built changed.";
+    }
+    const shown = areas.slice(0, 3);
+    const rest = areas.length - shown.length;
+    let list = shown.join(", ");
+    if (rest > 0) list += `, and ${rest} more`;
+    return list;
   }
 
   function reviewChip(run) {
@@ -170,15 +196,25 @@ export async function mount(root, { setState, rehydrateById }) {
     body.innerHTML = `<div class="text-ink-mute text-sm">Loading…</div>`;
     try {
       const o = await getRunOverview(id);
+      const run = runs.find((x) => x.id === id);
+      const finished = run?.stage === "BRIEFING";
       let driftHtml = "";
       try {
         const drift = await getPipelineStatus(id);
         if (drift.baseline?.hasLock && !drift.unchanged) {
-          driftHtml = `<p class="run-row__drift text-sm">Engine config changed since this run — resume uses current engine.</p>`;
+          const lead = finished
+            ? "This run was made with an older engine version. Reviewing shows the saved result as-is."
+            : "The engine changed since this session paused. Continuing will use the current engine, so the rest may not match the earlier part.";
+          driftHtml = `
+            <div class="run-row__drift text-sm">
+              <span>${escape(lead)}</span>
+              <details class="run-row__drift-details">
+                <summary>What changed</summary>
+                <p class="run-row__drift-list">${escape(describeDrift(drift))}</p>
+              </details>
+            </div>`;
         }
       } catch {}
-      const run = runs.find((x) => x.id === id);
-      const finished = run?.stage === "BRIEFING";
       body.innerHTML = `
         <div class="run-row__overview text-ink text-sm">${escape(o.overview || "")}</div>
         ${driftHtml}

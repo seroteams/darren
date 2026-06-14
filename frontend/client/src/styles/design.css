@@ -308,9 +308,11 @@
   --type-h4: 1.125rem;                            /* 18px */
   --type-lead: 1.125rem;                          /* 18px intro paragraphs */
   --type-body: 16px;
-  --type-body-sm: 14px;                           /* 0.875rem */
-  --type-caption: 13px;                           /* 0.8125rem */
-  --type-label: 12px;                             /* 0.75rem */
+  --type-body-sm: 14px;                           /* 0.875rem — accessibility floor */
+  /* Accessibility rule: NO text token may render below 14px. caption/label
+     were 13px/12px; raised to the 14px floor. Do not lower these. */
+  --type-caption: 14px;                           /* was 13px → floored to 14px */
+  --type-label: 14px;                             /* was 12px → floored to 14px */
   --type-small: var(--type-body-sm);              /* @deprecated → --type-body-sm */
 
   /* Line-height (leading) */
@@ -2521,16 +2523,30 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   gap: 0.5rem;
 }
 .run-row__drift {
-  color: var(--color-warn, #b45309);
+  color: var(--color-ink-mute);
   font-size: var(--type-label);
   margin-bottom: 0.5rem;
+}
+.run-row__drift-details {
+  margin-top: 0.25rem;
+}
+.run-row__drift-details > summary {
+  cursor: pointer;
+  color: var(--color-ink-dim);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  width: fit-content;
+}
+.run-row__drift-list {
+  margin-top: 0.35rem;
+  color: var(--color-ink-dim);
 }
 .run-row__drift-dot {
   display: inline-block;
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--color-warn, #b45309);
+  background: var(--color-ink-mute);
   margin-left: 0.35rem;
   vertical-align: middle;
 }
