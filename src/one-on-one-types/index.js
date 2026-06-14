@@ -7,6 +7,7 @@
 // src/meeting-arcs.js) so existing consumers run unchanged.
 
 const { SHARED_PROMPTS } = require("./_shared/prompts");
+const { applyOverlay } = require("../arc-overlay");
 const biWeekly = require("./bi-weekly/type");
 const performance = require("./performance/type");
 const growth = require("./growth/type");
@@ -23,8 +24,8 @@ function getType(meetingType) {
   if (!meetingType) {
     throw new Error("getType: meetingType is required");
   }
-  if (BY_LABEL[meetingType]) return BY_LABEL[meetingType];
-  if (BY_SLUG[meetingType]) return BY_SLUG[meetingType];
+  if (BY_LABEL[meetingType]) return applyOverlay(BY_LABEL[meetingType]);
+  if (BY_SLUG[meetingType]) return applyOverlay(BY_SLUG[meetingType]);
   const known = TYPES.map((t) => t.label).join(", ");
   throw new Error(`getType: unknown 1:1 type "${meetingType}". Known: ${known}`);
 }
@@ -66,8 +67,11 @@ function getArc(meetingType) {
   if (!meetingType) {
     throw new Error("getArc: meetingType is required");
   }
-  if (MEETING_ARCS[meetingType]) return MEETING_ARCS[meetingType];
-  if (ARCS_BY_SLUG[meetingType]) return ARCS_BY_SLUG[meetingType];
+  // Resolve the base type, then merge any saved overlay over it at read time so
+  // edits take effect with no server restart. MEETING_ARCS stays the static
+  // default map (back-compat); only this read path is overlay-aware.
+  const base = BY_LABEL[meetingType] || BY_SLUG[meetingType];
+  if (base) return toArc(applyOverlay(base));
   const known = Object.keys(MEETING_ARCS).join(", ");
   throw new Error(`getArc: unknown meeting type "${meetingType}". Known: ${known}`);
 }
