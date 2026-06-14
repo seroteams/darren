@@ -53,17 +53,17 @@ function cardHtml(p, inSuite) {
   const sub = [p.role, p.seniority].filter(Boolean).map(esc).join(" · ");
   const meta = [p.meeting_type, p.issue].filter(Boolean).map(esc).join(" · ");
   const badge = inSuite
-    ? `<span style="font-size:var(--type-small,0.78rem);color:var(--color-positive);background:var(--sero-success-light);border-radius:999px;padding:1px 9px;margin-left:8px;white-space:nowrap;">in regression suite</span>`
+    ? `<span style="font-size:var(--type-small,14px);color:var(--color-positive);background:var(--sero-success-light);border-radius:999px;padding:1px 9px;margin-left:8px;white-space:nowrap;">in regression suite</span>`
     : "";
   const script = Array.isArray(p.script) ? p.script : [];
   const scriptHtml = script.length
     ? `<details style="margin-top:8px;">
-         <summary style="cursor:pointer;font-size:var(--type-small,0.82rem);color:var(--color-ink-mute,#6b7280);">View the scripted conversation (${script.length} turns)</summary>
+         <summary style="cursor:pointer;font-size:var(--type-small,14px);color:var(--color-ink-mute,#6b7280);">View the scripted conversation (${script.length} turns)</summary>
          <div class="l-stack l-stack--2" style="margin-top:8px;">
            ${script
              .map(
                (s) =>
-                 `<div style="font-size:var(--type-small,0.85rem);"><div style="color:var(--color-ink-mute,#6b7280);">${esc(s.name || s.alias || "")}</div><div>${esc(s.answer || "")}</div></div>`
+                 `<div style="font-size:var(--type-small,14px);"><div style="color:var(--color-ink-mute,#6b7280);">${esc(s.name || s.alias || "")}</div><div>${esc(s.answer || "")}</div></div>`
              )
              .join("")}
          </div>
@@ -73,9 +73,9 @@ function cardHtml(p, inSuite) {
     <div class="card" style="padding:0.85rem 1.1rem;">
       <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;">
         <div style="font-weight:500;">${title}${badge}</div>
-        <div style="font-size:var(--type-small,0.82rem);color:var(--color-ink-mute,#6b7280);">${sub}</div>
+        <div style="font-size:var(--type-small,14px);color:var(--color-ink-mute,#6b7280);">${sub}</div>
       </div>
-      <div style="font-size:var(--type-small,0.85rem);color:var(--color-ink-dim,#4b5563);margin-top:2px;">${meta}</div>
+      <div style="font-size:var(--type-small,14px);color:var(--color-ink-dim,#4b5563);margin-top:2px;">${meta}</div>
       ${scriptHtml}
     </div>`;
 }
