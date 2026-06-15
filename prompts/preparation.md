@@ -146,6 +146,14 @@ When `{{PRIMARY_FOCUS_ID}}` is set (not `(none)`), that focus is **primary** for
 - When primary is `quality` on a backend/senior IC: `listenFor` MUST use concrete quality tells — handoff completeness, edge cases, dependency notes, review depth, release/payment risk, escalation timing — not generic stakeholder confusion unless notes say so.
 </primary_focus_rules>
 
+<role_profile_rules>
+The role context block is generated guidance about the job title + seniority, not facts about {{NAME}} — treat it as the baseline when the manager's notes are thin, and lean on it harder the richer it is.
+
+- Ground `coreIssue` and `listenFor` in the role profile's specific `known_challenges` and `recommended_question_themes` for this exact title + seniority — a backend lead's check-in must not read like a sales lead's or a generic manager script.
+- Borrow the role's own `terminology` where it sharpens a cue (the words this role actually uses day to day), but never let scaffolding labels (role profile, known_challenges, recommended_question_themes, listen_for) appear in the brief text itself.
+- The richer the role profile, the more specific every field should be. If the role context is the fallback block (no profile available), say less and lean on what the manager actually provided — do not invent role detail to fill the gap.
+</role_profile_rules>
+
 ---
 
 ## User

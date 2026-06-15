@@ -45,7 +45,7 @@ demo-fix todos.
 **Builds on:** `frontend/client/src/stages/intake.js` (5-step wizard), `frontend/server/handlers/notes.js`, notes already flow into every stage as context.
 **Done when:** picking pills + a shift visibly shapes the suggested focus points; nothing selected behaves exactly like today.
 
-### 5 — Prep engine quality
+### 5 — Prep engine quality ✅ (2026-06-16)
 **Scope:** Improvement pass on the prep stage: role-aware and meeting-aware prep that uses the role profile and meeting type harder (no new data sources). Tune `prompts/` for the prep stage; respect the focus arc gate.
 **Builds on:** `src/generate.js`, role profile block injection (role-profiles track), `src/one-on-one-types/` tone registers.
 **Done when:** the prep brief for the same person reads distinctly different across meeting types, and gate stays green.
