@@ -79,8 +79,27 @@ export async function mount(root, { store, setState }) {
 
   function renderField(name) {
     if (name === "MEETING_TYPE") return renderMeetingType();
-    if (name === "NOTES") return renderTextarea(name);
+    if (name === "NOTES") return renderNotes();
     return renderInput(name);
+  }
+
+  const ISSUE_PILLS = [
+    { id: "workload", label: "Workload" },
+    { id: "motivation", label: "Motivation" },
+    { id: "friction", label: "Friction" },
+    { id: "delivery", label: "Delivery" },
+    { id: "growth", label: "Growth" },
+  ];
+
+  // Compose the structured intake (pills + observed shift + free text) into one
+  // notes string that feeds focus-point generation the same way free notes do
+  // today. Nothing selected → notes is exactly the free text (today's behaviour).
+  function composeNotes({ pills, shift, free }) {
+    const parts = [];
+    if (pills.length) parts.push(`On the manager's mind: ${pills.map((p) => p.label.toLowerCase()).join(", ")}.`);
+    if (shift) parts.push(`What's changed: ${shift}`);
+    if (free) parts.push(free);
+    return parts.join("\n");
   }
 
   function renderInput(name) {
@@ -128,34 +147,70 @@ export async function mount(root, { store, setState }) {
     return wrap;
   }
 
-  function renderTextarea(name) {
-    const cfg = COPY[name];
+  function renderNotes() {
+    const cfg = COPY.NOTES;
     const wrap = document.createElement("div");
-    wrap.className = "space-y-4";
+    wrap.className = "space-y-5";
     wrap.innerHTML = `
-      <label class="block">
-        <h1 class="h1 mb-4">${cfg.question}</h1>
-        <textarea class="textarea" rows="4" placeholder="${cfg.placeholder}" data-autofocus></textarea>
+      <h1 class="h1 mb-2">${cfg.question}</h1>
+      <div class="hint">Optional. Tap what's prompting this 1:1, note what's shifted, and add your own words.</div>
+      <div class="space-y-2">
+        <div class="eyebrow">What's on your mind?</div>
+        <div class="pill-row js-pills"></div>
+      </div>
+      <label class="block space-y-2">
+        <span class="eyebrow">Anything changed — and since when?</span>
+        <input class="input js-shift" type="text" autocomplete="off" placeholder="e.g. Quieter than usual since the reorg ~3 weeks ago" />
+      </label>
+      <label class="block space-y-2">
+        <span class="eyebrow">In your words</span>
+        <textarea class="textarea js-notes" rows="4" placeholder="${cfg.placeholder}" data-autofocus></textarea>
       </label>
       <div class="field__actions">
         <button class="btn js-submit">Continue</button>
         <button class="btn btn--ghost js-skip">Skip (optional)</button>
       </div>
     `;
-    const ta = wrap.querySelector("textarea");
-    ta.value = store.ctx.notes || "";
-    ta.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        store.ctx.notes = ta.value.trim();
-        submit();
-      }
+    const selected = new Set(store.ctx.issuePills || []);
+    const pillRow = wrap.querySelector(".js-pills");
+    ISSUE_PILLS.forEach((iss) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "pill" + (selected.has(iss.id) ? " is-selected" : "");
+      b.textContent = iss.label;
+      b.setAttribute("aria-pressed", selected.has(iss.id) ? "true" : "false");
+      b.addEventListener("click", () => {
+        const on = selected.has(iss.id);
+        if (on) selected.delete(iss.id); else selected.add(iss.id);
+        b.classList.toggle("is-selected", !on);
+        b.setAttribute("aria-pressed", String(!on));
+      });
+      pillRow.appendChild(b);
     });
-    wrap.querySelector(".js-submit").addEventListener("click", () => {
-      store.ctx.notes = ta.value.trim();
+    const shiftInput = wrap.querySelector(".js-shift");
+    shiftInput.value = store.ctx.observedShift || "";
+    const ta = wrap.querySelector(".js-notes");
+    ta.value = store.ctx.freeNotes ?? store.ctx.notes ?? "";
+
+    function go() {
+      const pills = ISSUE_PILLS.filter((i) => selected.has(i.id));
+      const shift = shiftInput.value.trim();
+      const free = ta.value.trim();
+      store.ctx.issuePills = pills.map((p) => p.id);
+      store.ctx.observedShift = shift;
+      store.ctx.freeNotes = free;
+      store.ctx.notes = composeNotes({ pills, shift, free });
       submit();
+    }
+    ta.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); go(); }
     });
+    wrap.querySelector(".js-submit").addEventListener("click", go);
     wrap.querySelector(".js-skip").addEventListener("click", () => {
+      selected.clear();
+      store.ctx.issuePills = [];
+      store.ctx.observedShift = "";
+      store.ctx.freeNotes = "";
       store.ctx.notes = "";
       submit();
     });

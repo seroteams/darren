@@ -3409,3 +3409,27 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
 @media (max-width: 640px) {
   .guide-ref, .guide-ref--text { grid-template-columns: 1fr; gap: 0.15rem; }
 }
+
+/* -----------------------------------------------------------------------------
+   Issue pills — tappable intake chips (next-stage Phase 4)
+----------------------------------------------------------------------------- */
+.pill-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pill {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-ink-dim);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out-expo),
+    border-color var(--dur-fast) var(--ease-out-expo),
+    color var(--dur-fast) var(--ease-out-expo);
+}
+.pill:hover { border-color: var(--color-accent); color: var(--color-ink); }
+.pill.is-selected {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-contrast, #fff);
+}

@@ -40,7 +40,7 @@ passes — they are the roadmap forward-work (M0→M1), each its own one-phase b
 with a live walkthrough when started. They are intentionally **not** open
 demo-fix todos.
 
-### 4 — Issue pills + observed shift
+### 4 — Issue pills + observed shift ✅ (2026-06-16)
 **Scope:** Structured manager intake on top of the free-text notes: tappable issue pills (e.g. workload, motivation, friction, delivery, growth) plus an "observed shift" field (what changed, since when). Feeds focus-point generation the same way notes do today. Free text stays.
 **Builds on:** `frontend/client/src/stages/intake.js` (5-step wizard), `frontend/server/handlers/notes.js`, notes already flow into every stage as context.
 **Done when:** picking pills + a shift visibly shapes the suggested focus points; nothing selected behaves exactly like today.
