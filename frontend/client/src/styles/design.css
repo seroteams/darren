@@ -3453,3 +3453,20 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
 }
 .prep-timeline__body .prep-callout,
 .prep-timeline__body .prep-list { margin-top: 0.15rem; }
+
+/* -----------------------------------------------------------------------------
+   Shared vs private briefing reflection (next-stage Phase 8)
+----------------------------------------------------------------------------- */
+.brutal__eyebrow { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.brutal__badge {
+  font-size: var(--type-caption, 0.72rem);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+}
+.brutal__badge--shareable { background: var(--color-success-soft, rgba(34,160,90,0.12)); color: var(--color-success, #2a9d5a); }
+.brutal__badge--private { background: var(--color-warning-soft, rgba(190,120,20,0.14)); color: var(--color-warning, #b5790f); }
+.brutal--private { border-left: 3px solid var(--color-warning, #b5790f); }
+.brutal__note { margin-top: 0.4rem; font-size: var(--type-body-sm); color: var(--color-ink-mute); font-style: italic; }

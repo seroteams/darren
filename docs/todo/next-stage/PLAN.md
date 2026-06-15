@@ -60,10 +60,11 @@ demo-fix todos.
 **Builds on:** `frontend/client/src/stages/questioning.js`, `src/queue-manager.js`, planner flow.
 **Done when:** a full live run feels continuous: no dead ends, no unexplained question jumps.
 
-### 8 — Summary + follow-up
+### 8 — Summary + follow-up ✅ shared/private split (2026-06-16); carry-forward = surfaced, auto-inject parked
 **Scope:** Improvement pass on the briefing/debrief: shared actions (employee-facing) clearly separated from private reflection (manager-only `brutal_truth_manager`), follow-up items carried into the next session's prep via session continuity (phase 2).
 **Builds on:** `frontend/client/src/stages/briefing.js`, `run-debrief.js`, `src/reviewer.js`.
 **Done when:** after a run, the manager can copy a shareable summary and privately see what to watch — and the next run's prep mentions the open follow-ups.
+**Landed (2026-06-16):** shared-vs-private is now explicit — the two honest reads carry "OK to share" / "Private · just for you" badges, the manager reflection has a private left-border + "don't paste into shared notes" note, and the copy text labels it private. Follow-ups are already surfaced as the "Next 1:1" action group. **Deferred (honest):** auto-injecting last time's follow-ups into the *next* session's prep needs cross-session person-linking, which is the **parked person-profiles** feature (board: historical data = session continuity only). Building it now would re-open a parked/cut decision, so it stays parked — the surfacing + persistence half is done.
 
 ## Out of scope (board-level decisions — don't re-open here)
 Person-profiles/persona pages, dashboards, benchmarking, trends, relationship maps, coaching library. Historical data = session continuity only.

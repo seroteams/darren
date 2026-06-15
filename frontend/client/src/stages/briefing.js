@@ -239,16 +239,20 @@ export async function mount(root, { store, setState, resetSession }) {
   await pause(fastPath ? 0 : 1400);
   const brutalHost = root.querySelector(".brutal-host");
   const truths = [
-    { eyebrow: `Honest read — ${escape(store.ctx.name || "them")}`, text: b.brutal_truth_employee || "" },
-    { eyebrow: "Honest read — you", text: b.brutal_truth_manager || "" },
+    { eyebrow: `Honest read — ${escape(store.ctx.name || "them")}`, text: b.brutal_truth_employee || "", shareable: true },
+    { eyebrow: "Honest read — you", text: b.brutal_truth_manager || "", shareable: false },
   ];
   for (const t of truths) {
     if (!t.text) continue;
     const card = document.createElement("div");
-    card.className = "brutal";
+    card.className = "brutal" + (t.shareable ? "" : " brutal--private");
     card.innerHTML = `
-      <div class="brutal__eyebrow">${t.eyebrow}</div>
+      <div class="brutal__eyebrow">
+        ${t.eyebrow}
+        <span class="brutal__badge ${t.shareable ? "brutal__badge--shareable" : "brutal__badge--private"}">${t.shareable ? "OK to share" : "Private · just for you"}</span>
+      </div>
       <div class="brutal__body">${escape(t.text)}</div>
+      ${t.shareable ? "" : `<div class="brutal__note">Your reflection — don't paste this into shared notes.</div>`}
     `;
     brutalHost.appendChild(card);
     if (fastPath) card.classList.add("is-in");
@@ -478,7 +482,7 @@ function formatBriefingForCopy(b, ctx) {
 
   const mgrTruth = String(b.brutal_truth_manager || "").trim();
   if (mgrTruth) {
-    lines.push("", "Honest read — you", mgrTruth);
+    lines.push("", "Honest read — you (private · just for you, not for sharing)", mgrTruth);
   }
 
   const actions = b.next_actions || [];
