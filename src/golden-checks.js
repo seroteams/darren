@@ -162,6 +162,49 @@ function runQuestionGroundingChecks(transcript, managerNotes) {
   return failures;
 }
 
+// runStageTagOrphanCheck — every question tagged with a phase (stage) id must
+// point at a stage a live arc actually has. An unknown tag doesn't error today;
+// it silently sorts to the end of the intro queue (index 999 in intro-queue.js).
+// Intro questions are folder-scoped to their meeting type, so their stage must be
+// in THAT type's arc; openers are type-agnostic, so their stage must be in SOME
+// type's arc. Detection only — offline, no model calls.
+function runStageTagOrphanCheck() {
+  const fsLocal = require("node:fs");
+  const pathLocal = require("node:path");
+  const questions = require("./questions");
+  const { listTypes, listStageIds } = require("./one-on-one-types");
+  const failures = [];
+
+  const allStageIds = new Set();
+  for (const t of listTypes()) {
+    const ids = listStageIds(t.slug);
+    ids.forEach((id) => allStageIds.add(id));
+    const idSet = new Set(ids);
+    for (const q of questions.loadDir(pathLocal.join("_intro", t.slug))) {
+      if (q.stage && !idSet.has(q.stage)) {
+        failures.push(
+          `intro question "${q.alias || q.name}" (${t.slug}) tagged to unknown stage "${q.stage}"`
+        );
+      }
+    }
+  }
+
+  let openers = [];
+  try {
+    openers = JSON.parse(
+      fsLocal.readFileSync(pathLocal.join(questions.QUESTIONS_ROOT, "_openers.json"), "utf8")
+    );
+  } catch {
+    openers = [];
+  }
+  for (const o of Array.isArray(openers) ? openers : []) {
+    if (o && o.stage && !allStageIds.has(o.stage)) {
+      failures.push(`opener "${o.alias || o.id || o.name}" tagged to unknown stage "${o.stage}"`);
+    }
+  }
+  return failures;
+}
+
 function runCrossSessionLeakCheck(transcript, managerNotes) {
   const failures = [];
   let saidSoFar = String(managerNotes || "");
@@ -493,6 +536,7 @@ module.exports = {
   collectBriefingText,
   runManagerBriefingBans,
   runCrossSessionLeakCheck,
+  runStageTagOrphanCheck,
   runQuestionGroundingChecks,
   runFocusArcGate,
   runQuestionArcGate,

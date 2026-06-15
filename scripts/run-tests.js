@@ -37,6 +37,7 @@ const OFFLINE_TESTS = [
   "test-replay-regression.js",
   "test-role-profile.js",
   "test-role-lexicons.js",
+  "test-stage-tags.js",
   "test-trust-checks.js",
 ];
 

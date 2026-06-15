@@ -1,25 +1,35 @@
 #!/usr/bin/env node
 
+const path = require("node:path");
 const { loadIntroQueue, sortIntroByArc } = require("../src/intro-queue");
 const { selectReservedCloser, isForbiddenCloser } = require("../src/closer");
+const { getArc } = require("../src/one-on-one-types");
 const questions = require("../src/questions");
 
-const biWeekly = loadIntroQueue("Bi-weekly check-in", 3);
-if (!biWeekly.length || biWeekly[0].stage !== "pulse") {
-  console.error(`Expected bi-weekly intro to start at pulse, got ${biWeekly[0]?.stage}`);
-  process.exit(1);
+// Expected first stage = the earliest-in-arc stage among the type's intro
+// questions, derived from the live arc — no hardcoded phase ids, so an arc edit
+// can't leave this test asserting a stale id.
+function expectedFirstStage(label) {
+  const order = new Map(getArc(label).arc.map((s, i) => [s.id, i]));
+  let best = null;
+  let bestIdx = Infinity;
+  for (const q of questions.loadDir(path.join("_intro", questions.slugify(label)))) {
+    const i = order.has(q.stage) ? order.get(q.stage) : 999;
+    if (i < bestIdx) {
+      bestIdx = i;
+      best = q.stage;
+    }
+  }
+  return best;
 }
 
-const growth = loadIntroQueue("Growth & career plan", 3);
-if (!growth.length || growth[0].stage !== "anchor") {
-  console.error(`Expected growth intro to start at anchor, got ${growth[0]?.stage}`);
-  process.exit(1);
-}
-
-const feelsOff = loadIntroQueue("Something feels off", 3);
-if (!feelsOff.length || feelsOff[0].stage !== "landing") {
-  console.error(`Expected feels-off intro to start at landing, got ${feelsOff[0]?.stage}`);
-  process.exit(1);
+for (const label of ["Bi-weekly check-in", "Growth & career plan", "Something feels off"]) {
+  const queue = loadIntroQueue(label, 3);
+  const expected = expectedFirstStage(label);
+  if (!queue.length || queue[0].stage !== expected) {
+    console.error(`Expected ${label} intro to start at ${expected}, got ${queue[0]?.stage}`);
+    process.exit(1);
+  }
 }
 
 const prioritySeed = questions.loadDir("_seed").find((q) => q.alias === "q_seed_clarity_priorities");

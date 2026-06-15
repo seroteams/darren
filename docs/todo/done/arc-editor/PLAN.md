@@ -21,15 +21,18 @@ edits are plain JSON; reset = delete the overlay.
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 4 | (optional) Promote stage-id check to a gate | Orphaned question tags caught by `npm test`; de-hardcode `test-intro-order.js`. | ⬜ |
+| 4 | (optional) Promote stage-id check to a gate | Orphaned question tags caught by `npm test`; de-hardcode `test-intro-order.js`. | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 _Phases 1–3 done + signed off (overlay layer, read view, edit/save with orphan guard); 5/5 scenarios verified live. Detail in git history._
 
 ## Current state
-**Phase 4 (optional gate) stays parked.** The shipped feature is complete; this is a nice-to-have
-hardening step only.
+**Closed out 2026-06-16.** Phase 4 landed: `runStageTagOrphanCheck` in `src/golden-checks.js`
++ standing `scripts/test-stage-tags.js` (wired into `npm test`) fails on any question tagged to a
+stage no live arc has; `test-intro-order.js` now derives expected phase ids from the arcs instead
+of literals. Self-verified offline — a mis-tagged question makes `npm test` fail and names it,
+clean tree is green (27/27). Folder moved to `done/`.
 
 ## Parked
 - Editing `eval_rules` (a sensitive per-type string) — possible later phase, out of v1.
