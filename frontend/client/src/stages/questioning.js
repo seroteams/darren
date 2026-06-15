@@ -104,10 +104,18 @@ export async function mount(root, { store, setState }) {
         : undefined;
     const hasScript = Boolean(scripted) && scriptAnswer != null;
 
+    // Quiet "planner adapted" cue: a thread-follow / drill question digs into the
+    // previous answer, so flag it so the jump never reads as random.
+    const isFollowUp = /thread_follow|drill|follow_up|go_deeper|deeper/i.test(q.alias || "");
+
     const card = document.createElement("div");
     card.className = "card questioning-card space-y-4 reveal";
     card.innerHTML = `
-      ${res.returningToArc ? `<div class="question-drill-hint text-sm text-ink-dim">Back on the main agenda — next question follows the planned flow.</div>` : ""}
+      ${res.returningToArc
+        ? `<div class="question-drill-hint text-sm text-ink-dim">Back on the main agenda — next question follows the planned flow.</div>`
+        : isFollowUp
+          ? `<div class="question-drill-hint text-sm text-ink-dim">↳ Following up on what you just said.</div>`
+          : ""}
       ${scripted ? `<div class="script-meta text-xs">
         <span class="script-alias">${escape(q.alias)}</span>
         <span class="script-state ${hasScript ? "script-state--matched" : "script-state--missing"}">${hasScript ? "replay answer ready" : "no replay answer — fallback available"}</span>
@@ -276,9 +284,12 @@ export async function mount(root, { store, setState }) {
       });
     }
 
+    let submitting = false;
     async function onSubmit(text, { goDeeper = false } = {}) {
+      if (submitting) return;
       const val = text.trim();
       if (goDeeper && !val) return;
+      submitting = true;
       let result;
       try {
         result = await submitAnswer(store.sessionId, val, { goDeeper, answerSource, alias: q.alias });

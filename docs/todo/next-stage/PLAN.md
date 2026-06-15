@@ -55,7 +55,7 @@ demo-fix todos.
 **Builds on:** `frontend/client/src/stages/preparation.js`.
 **Done when:** a manager can glance at prep and know their first move.
 
-### 7 — Live 1:1 runner polish
+### 7 — Live 1:1 runner polish ✅ (2026-06-16)
 **Scope:** Ask, capture, adapt — improvement pass on the existing runner: keep the back-navigation fix (jun11 Phase 4) company, smooth answer capture, planner adaptation visible but quiet.
 **Builds on:** `frontend/client/src/stages/questioning.js`, `src/queue-manager.js`, planner flow.
 **Done when:** a full live run feels continuous: no dead ends, no unexplained question jumps.
