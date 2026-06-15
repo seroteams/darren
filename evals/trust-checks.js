@@ -316,7 +316,7 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   // Grounding audit is log-only for now: visible in gate details while the
   // false-positive rate is unknown. Promote to a warning/hard fail once a few
   // gate runs show it stays quiet on the happy cases (parked in
-  // docs/todo/engine-trust-gates/PLAN.md).
+  // docs/todo/done/engine-trust-gates/PLAN.md).
   const grounding = runQuestionGroundingChecks(transcript, managerNotes);
   if (grounding.length) {
     details.push(...grounding.map((d) => `UNGROUNDED_PREMISE (log-only): ${d}`));

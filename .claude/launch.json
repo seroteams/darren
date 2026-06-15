@@ -18,6 +18,12 @@
       "runtimeExecutable": "node",
       "runtimeArgs": ["node_modules/vite/bin/vite.js"],
       "port": 3000
+    },
+    {
+      "name": "sero-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["cross-env", "API_PORT=3001", "node", "frontend/server/server.js"],
+      "port": 3001
     }
   ]
 }
