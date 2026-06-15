@@ -3,7 +3,7 @@
 **Goal:** A manager can start a 1:1, lose their browser mid-way, come back, finish, and trust every word of the output — with better intake on the way in and a clear timeline on the way out.
 **Driver:** Carl
 **Created:** 2026-06-12
-**Status:** NOT STARTED — sits under **Next** on [SERO_BOARD.md](../../../SERO_BOARD.md). Nothing here begins while the board's Now column isn't green.
+**Status:** IN PROGRESS — Phase 1 (Contracts) done 2026-06-16. Sits under **Next** on [SERO_BOARD.md](../../../SERO_BOARD.md); Now is green so this is unblocked. One phase at a time (Darren Method) — Phase 2 next.
 
 This is hardening + gap-fill of the existing app, **not** a rebuild. Sero already has prep, a live runner, a briefing stage, per-stage schemas, question fallbacks, and trust gates. Phase files get written (Darren Method) when the build actually starts.
 
@@ -15,10 +15,11 @@ This is hardening + gap-fill of the existing app, **not** a rebuild. Sero alread
 
 ## Phases
 
-### 1 — Contracts
+### 1 — Contracts ✅ (2026-06-16)
 **Scope:** One boundaries doc (`docs/contracts.md`) that writes down the existing per-stage input/output schemas, enums, and data boundaries; tighten anything loose found while writing. Document — don't rebuild.
 **Builds on:** `RESPONSE_SCHEMA` in `src/generate.js` (focus points), `src/reviewer.js` (briefing), `src/role-profile.js` (role profile), `src/lexicon/schema.js`; axes + ranges in `src/axes.js`; question YAML shape in `src/questions.js`; review dimensions in `src/run-history.js`.
 **Done when:** every stage's contract is on one page; any mismatch between doc and code is fixed code-side or flagged.
+**Landed:** [docs/contracts.md](../../contracts.md) — all 7 stages documented (focus → role profile → lexicon → questions → axes → briefing → run history), each with fields/types/enums and its validate/clamp/fallback behaviour, plus the cross-cutting trust boundaries. No code mismatch found; the one known gap (no deterministic briefing fallback) is captured as Phase 3 below. Offline doc deliverable — `npm test` 28/28 unaffected.
 
 ### 2 — Persistence / session continuity
 **Scope:** The genuinely new build. Save web session state stage-by-stage as it happens (file-based under `logs/`, same shape the CLI already writes — no database yet). A partial run can be resumed after restart/tab-close. Access rules: session files are single-user local; private manager notes live only in the session record, never in any shared output (rule 7 on the board).
