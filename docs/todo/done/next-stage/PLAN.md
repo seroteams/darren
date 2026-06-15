@@ -3,7 +3,7 @@
 **Goal:** A manager can start a 1:1, lose their browser mid-way, come back, finish, and trust every word of the output — with better intake on the way in and a clear timeline on the way out.
 **Driver:** Carl
 **Created:** 2026-06-12
-**Status:** HARDENING CORE DONE 2026-06-16. Phases 1–3 (contracts, persistence/resume, deterministic fallback) ✅ — the engine can no longer silently fail and partial runs resume. Phases 4–8 are feature/UX improvement passes; they are the **roadmap** forward-work (see [docs/ROADMAP.md](../../ROADMAP.md) M0→M1), to be done one at a time when that build starts. No loose demo-fix/hardening todo remains.
+**Status:** DONE 2026-06-16. Phases 1–8 all landed (hardening core 1–3 + feature passes 4–8). The only carve-out is Phase 8's cross-session follow-up auto-injection (8b), which depends on the **parked person-profiles** person-linking and stays parked per the board (history = session continuity only). Live-verified: a full back-nav run + 3 trust-gate cases passed (biweekly-priya, machar-biweekly-jun11, performance-tom). `npm test` 30/30, `npm run replay` 7/7. Folder moved to `done/`.
 
 This is hardening + gap-fill of the existing app, **not** a rebuild. Sero already has prep, a live runner, a briefing stage, per-stage schemas, question fallbacks, and trust gates. Phase files get written (Darren Method) when the build actually starts.
 

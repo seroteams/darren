@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-15T17:41:27.460Z",
-  "count": 4115,
+  "generated_at": "2026-06-15T18:03:05.131Z",
+  "count": 4161,
   "aliases": [
     "q_50_percent_in_practice",
     "q_a_lot_landing",
@@ -119,6 +119,7 @@
     "q_capacity_reset",
     "q_capacity_tradeoff",
     "q_capacity_tradeoff_2",
+    "q_capacity_tradeoff_3",
     "q_career_picture",
     "q_career_pull",
     "q_cause_check",
@@ -167,6 +168,7 @@
     "q_clarify_shift",
     "q_cleanup_and_reviews",
     "q_cleanup_drag",
+    "q_cleanup_friction",
     "q_cleanup_thread",
     "q_cleanup_thread_2",
     "q_cleanup_thread_3",
@@ -301,6 +303,7 @@
     "q_cross_team_call_3",
     "q_cross_team_call_4",
     "q_cross_team_call_5",
+    "q_cross_team_decision",
     "q_cross_team_decisions",
     "q_cross_team_decisions_10",
     "q_cross_team_decisions_11",
@@ -332,6 +335,7 @@
     "q_cross_team_trust_2",
     "q_cross_team_trust_3",
     "q_cross_team_trust_4",
+    "q_cross_team_trust_5",
     "q_cross_team_visibility",
     "q_cross_team_visibility_2",
     "q_cross_team_visibility_3",
@@ -695,6 +699,7 @@
     "q_error_budget_thread",
     "q_escalation_habit",
     "q_escalation_habits",
+    "q_escalation_load",
     "q_escalation_path",
     "q_escalation_path_2",
     "q_escalation_pattern",
@@ -741,11 +746,13 @@
     "q_expectation_alignment_2",
     "q_expectation_alignment_3",
     "q_expectation_alignment_4",
+    "q_expectation_alignment_5",
     "q_expectation_check",
     "q_expectation_drift",
     "q_expectation_timing",
     "q_expected_leverage",
     "q_fastest_money",
+    "q_fastest_money_2",
     "q_feasibility_pressure",
     "q_feedback_appetite",
     "q_feedback_change",
@@ -893,6 +900,7 @@
     "q_flatter_week_11",
     "q_flatter_week_12",
     "q_flatter_week_13",
+    "q_flatter_week_14",
     "q_flatter_week_2",
     "q_flatter_week_3",
     "q_flatter_week_4",
@@ -1063,11 +1071,13 @@
     "q_influence_target",
     "q_influence_target_2",
     "q_interface_risk",
+    "q_internal_audience",
     "q_internal_buyer",
     "q_internal_drag",
     "q_internal_drag_2",
     "q_internal_engagement",
     "q_internal_friction",
+    "q_internal_friction_2",
     "q_internal_lift",
     "q_internal_or_customer",
     "q_internal_pushback",
@@ -1089,6 +1099,7 @@
     "q_joint_plan_pressure",
     "q_judgment_call",
     "q_judgment_call_2",
+    "q_judgment_call_3",
     "q_judgment_calls",
     "q_judgment_calls_2",
     "q_judgment_calls_3",
@@ -1129,6 +1140,7 @@
     "q_launch_aftermath_3",
     "q_launch_aftermath_4",
     "q_launch_aftermath_5",
+    "q_launch_aftermath_6",
     "q_launch_aftertaste",
     "q_launch_carryover",
     "q_launch_carryover_2",
@@ -1137,6 +1149,7 @@
     "q_launch_loose_ends",
     "q_launch_loose_ends_2",
     "q_launch_loose_ends_3",
+    "q_launch_loose_ends_4",
     "q_launch_ownership",
     "q_launch_path_forward",
     "q_launch_recovery_read",
@@ -1181,6 +1194,7 @@
     "q_leverage_point",
     "q_leverage_shift",
     "q_leverage_thread",
+    "q_leverage_thread_10",
     "q_leverage_thread_2",
     "q_leverage_thread_3",
     "q_leverage_thread_4",
@@ -1368,6 +1382,7 @@
     "q_mentoring_shape_8",
     "q_mentoring_shape_9",
     "q_mentoring_stall",
+    "q_mentoring_stall_10",
     "q_mentoring_stall_2",
     "q_mentoring_stall_3",
     "q_mentoring_stall_4",
@@ -1410,6 +1425,7 @@
     "q_mentoring_thread_35",
     "q_mentoring_thread_36",
     "q_mentoring_thread_37",
+    "q_mentoring_thread_38",
     "q_mentoring_thread_4",
     "q_mentoring_thread_5",
     "q_mentoring_thread_6",
@@ -1608,6 +1624,7 @@
     "q_next_focus_23",
     "q_next_focus_24",
     "q_next_focus_25",
+    "q_next_focus_26",
     "q_next_focus_3",
     "q_next_focus_4",
     "q_next_focus_5",
@@ -1731,6 +1748,7 @@
     "q_next_quarter_ownership_2",
     "q_next_quarter_ownership_3",
     "q_next_quarter_ownership_4",
+    "q_next_quarter_ownership_5",
     "q_next_quarter_ownership_6",
     "q_next_quarter_ownership_7",
     "q_next_quarter_ownership_8",
@@ -1790,7 +1808,9 @@
     "q_next_step_16",
     "q_next_step_17",
     "q_next_step_18",
+    "q_next_step_19",
     "q_next_step_2",
+    "q_next_step_20",
     "q_next_step_3",
     "q_next_step_4",
     "q_next_step_5",
@@ -1881,12 +1901,14 @@
     "q_next_two_weeks_35",
     "q_next_two_weeks_36",
     "q_next_two_weeks_37",
+    "q_next_two_weeks_38",
     "q_next_two_weeks_4",
     "q_next_two_weeks_5",
     "q_next_two_weeks_6",
     "q_next_two_weeks_7",
     "q_next_two_weeks_8",
     "q_next_two_weeks_9",
+    "q_next_two_weeks_focus",
     "q_next_weeks_focus",
     "q_no_heads_up",
     "q_not_stretching",
@@ -1971,6 +1993,7 @@
     "q_ownership_gap_11",
     "q_ownership_gap_12",
     "q_ownership_gap_13",
+    "q_ownership_gap_14",
     "q_ownership_gap_2",
     "q_ownership_gap_3",
     "q_ownership_gap_4",
@@ -1993,6 +2016,7 @@
     "q_ownership_shift_5",
     "q_ownership_shift_6",
     "q_ownership_shift_7",
+    "q_ownership_shift_8",
     "q_ownership_signal",
     "q_ownership_slice",
     "q_ownership_tangle",
@@ -2032,6 +2056,7 @@
     "q_pairing_thread_4",
     "q_pairing_thread_5",
     "q_partner_bets",
+    "q_partner_momentum",
     "q_partner_pull",
     "q_partner_work_tradeoff",
     "q_path_forward",
@@ -2217,6 +2242,8 @@
     "q_prep_opener_180",
     "q_prep_opener_181",
     "q_prep_opener_182",
+    "q_prep_opener_183",
+    "q_prep_opener_184",
     "q_prep_opener_19",
     "q_prep_opener_2",
     "q_prep_opener_20",
@@ -2337,6 +2364,7 @@
     "q_principal_scope_8",
     "q_principal_scope_9",
     "q_principal_tradeoffs",
+    "q_priority_constraint",
     "q_priority_cut",
     "q_priority_drift",
     "q_priority_drift_2",
@@ -2464,6 +2492,12 @@
     "q_promotion_read_79",
     "q_promotion_read_8",
     "q_promotion_read_80",
+    "q_promotion_read_81",
+    "q_promotion_read_82",
+    "q_promotion_read_83",
+    "q_promotion_read_84",
+    "q_promotion_read_85",
+    "q_promotion_read_86",
     "q_promotion_read_9",
     "q_promotion_signal",
     "q_proof_of_readiness",
@@ -2841,6 +2875,7 @@
     "q_question_habit_12",
     "q_question_habit_13",
     "q_question_habit_14",
+    "q_question_habit_15",
     "q_question_habit_2",
     "q_question_habit_3",
     "q_question_habit_4",
@@ -2876,6 +2911,7 @@
     "q_quiet_week_3",
     "q_quiet_week_4",
     "q_quiet_week_5",
+    "q_quiet_week_6",
     "q_quiet_week_context",
     "q_quiet_week_read",
     "q_quiet_week_read_2",
@@ -3002,6 +3038,7 @@
     "q_repeat_or_change",
     "q_repeat_rounds",
     "q_repeatable_wins",
+    "q_repeated_effort",
     "q_repeated_sell",
     "q_reporting_lines",
     "q_requirement_shifts",
@@ -3122,6 +3159,7 @@
     "q_rewrite_pressure",
     "q_rewrite_pull",
     "q_rewrite_readiness",
+    "q_rewrite_support",
     "q_rewrite_timing",
     "q_risk_signal",
     "q_risk_signal_2",
@@ -3191,6 +3229,7 @@
     "q_safe_calls_2",
     "q_safe_calls_3",
     "q_safe_execution",
+    "q_safe_execution_2",
     "q_safe_lane",
     "q_safe_mode",
     "q_safe_mode_2",
@@ -3265,6 +3304,7 @@
     "q_seed_wellbeing_recovery",
     "q_seed_wellbeing_sustain",
     "q_selling_load",
+    "q_selling_the_angle",
     "q_selling_time_drain",
     "q_senior_bar_view",
     "q_senior_forums",
@@ -3568,6 +3608,7 @@
     "q_support_needed_64",
     "q_support_needed_65",
     "q_support_needed_66",
+    "q_support_needed_67",
     "q_support_needed_7",
     "q_support_needed_8",
     "q_support_needed_9",
@@ -3603,6 +3644,7 @@
     "q_team_bar_13",
     "q_team_bar_14",
     "q_team_bar_15",
+    "q_team_bar_16",
     "q_team_bar_2",
     "q_team_bar_3",
     "q_team_bar_4",
@@ -3664,6 +3706,7 @@
     "q_team_texture",
     "q_team_trust",
     "q_team_wide_effect",
+    "q_team_wide_impact",
     "q_team_working_feel",
     "q_tech_lead_picture",
     "q_tech_lead_pull",
@@ -3796,6 +3839,7 @@
     "q_time_pulled_away",
     "q_time_sink",
     "q_time_sink_2",
+    "q_time_sink_3",
     "q_time_trade",
     "q_time_trade_off",
     "q_time_trade_off_2",
@@ -3970,6 +4014,7 @@
     "q_visible_leverage_4",
     "q_visible_leverage_5",
     "q_visible_leverage_6",
+    "q_visible_outcome",
     "q_visible_outcomes",
     "q_visible_outcomes_2",
     "q_waiting_on",
@@ -3981,6 +4026,7 @@
     "q_waiting_on_others_3",
     "q_waiting_on_others_4",
     "q_waiting_on_others_5",
+    "q_waiting_on_something",
     "q_what_changed",
     "q_what_changed_2",
     "q_what_changed_3",
@@ -4588,6 +4634,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_capacity_tradeoff_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_career_picture",
       "subdir": ""
     },
@@ -4778,6 +4828,10 @@
     {
       "alias": "q_cleanup_drag",
       "subdir": ""
+    },
+    {
+      "alias": "q_cleanup_friction",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_cleanup_thread",
@@ -5316,6 +5370,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_cross_team_decision",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_cross_team_decisions",
       "subdir": ""
     },
@@ -5437,6 +5495,10 @@
     },
     {
       "alias": "q_cross_team_trust_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_cross_team_trust_5",
       "subdir": ""
     },
     {
@@ -6892,6 +6954,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_escalation_load",
+      "subdir": ""
+    },
+    {
       "alias": "q_escalation_path",
       "subdir": ""
     },
@@ -7076,6 +7142,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_expectation_alignment_5",
+      "subdir": ""
+    },
+    {
       "alias": "q_expectation_check",
       "subdir": ""
     },
@@ -7094,6 +7164,10 @@
     {
       "alias": "q_fastest_money",
       "subdir": ""
+    },
+    {
+      "alias": "q_fastest_money_2",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_feasibility_pressure",
@@ -7681,6 +7755,10 @@
     },
     {
       "alias": "q_flatter_week_13",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_flatter_week_14",
       "subdir": "_runtime"
     },
     {
@@ -8364,6 +8442,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_internal_audience",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_internal_buyer",
       "subdir": ""
     },
@@ -8381,6 +8463,10 @@
     },
     {
       "alias": "q_internal_friction",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_internal_friction_2",
       "subdir": "_runtime"
     },
     {
@@ -8465,6 +8551,10 @@
     },
     {
       "alias": "q_judgment_call_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_judgment_call_3",
       "subdir": ""
     },
     {
@@ -8628,6 +8718,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_launch_aftermath_6",
+      "subdir": ""
+    },
+    {
       "alias": "q_launch_aftertaste",
       "subdir": ""
     },
@@ -8657,6 +8751,10 @@
     },
     {
       "alias": "q_launch_loose_ends_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_launch_loose_ends_4",
       "subdir": ""
     },
     {
@@ -8834,6 +8932,10 @@
     {
       "alias": "q_leverage_thread",
       "subdir": ""
+    },
+    {
+      "alias": "q_leverage_thread_10",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_leverage_thread_2",
@@ -9584,6 +9686,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_mentoring_stall_10",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_mentoring_stall_2",
       "subdir": ""
     },
@@ -9749,6 +9855,10 @@
     },
     {
       "alias": "q_mentoring_thread_37",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_thread_38",
       "subdir": ""
     },
     {
@@ -10544,6 +10654,10 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_next_focus_26",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_next_focus_3",
       "subdir": ""
     },
@@ -11036,6 +11150,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_quarter_ownership_5",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_quarter_ownership_6",
       "subdir": ""
     },
@@ -11272,8 +11390,16 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_step_19",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_step_2",
       "subdir": ""
+    },
+    {
+      "alias": "q_next_step_20",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_next_step_3",
@@ -11636,6 +11762,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_two_weeks_38",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_two_weeks_4",
       "subdir": ""
     },
@@ -11657,6 +11787,10 @@
     },
     {
       "alias": "q_next_two_weeks_9",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_focus",
       "subdir": ""
     },
     {
@@ -12018,6 +12152,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_ownership_gap_14",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_ownership_gap_2",
       "subdir": ""
     },
@@ -12103,6 +12241,10 @@
     },
     {
       "alias": "q_ownership_shift_7",
+      "subdir": ""
+    },
+    {
+      "alias": "q_ownership_shift_8",
       "subdir": ""
     },
     {
@@ -12259,6 +12401,10 @@
     },
     {
       "alias": "q_partner_bets",
+      "subdir": ""
+    },
+    {
+      "alias": "q_partner_momentum",
       "subdir": ""
     },
     {
@@ -13002,6 +13148,14 @@
       "subdir": ""
     },
     {
+      "alias": "q_prep_opener_183",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_184",
+      "subdir": ""
+    },
+    {
       "alias": "q_prep_opener_19",
       "subdir": ""
     },
@@ -13480,6 +13634,10 @@
     {
       "alias": "q_principal_tradeoffs",
       "subdir": ""
+    },
+    {
+      "alias": "q_priority_constraint",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_priority_cut",
@@ -13987,6 +14145,30 @@
     },
     {
       "alias": "q_promotion_read_80",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_81",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_82",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_83",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_84",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_85",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_86",
       "subdir": "_runtime"
     },
     {
@@ -15498,6 +15680,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_question_habit_15",
+      "subdir": ""
+    },
+    {
       "alias": "q_question_habit_2",
       "subdir": ""
     },
@@ -15635,6 +15821,10 @@
     },
     {
       "alias": "q_quiet_week_5",
+      "subdir": ""
+    },
+    {
+      "alias": "q_quiet_week_6",
       "subdir": ""
     },
     {
@@ -16142,6 +16332,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_repeated_effort",
+      "subdir": ""
+    },
+    {
       "alias": "q_repeated_sell",
       "subdir": ""
     },
@@ -16622,6 +16816,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_rewrite_support",
+      "subdir": ""
+    },
+    {
       "alias": "q_rewrite_timing",
       "subdir": ""
     },
@@ -16895,6 +17093,10 @@
     },
     {
       "alias": "q_safe_execution",
+      "subdir": ""
+    },
+    {
+      "alias": "q_safe_execution_2",
       "subdir": ""
     },
     {
@@ -17191,6 +17393,10 @@
     },
     {
       "alias": "q_selling_load",
+      "subdir": ""
+    },
+    {
+      "alias": "q_selling_the_angle",
       "subdir": ""
     },
     {
@@ -18406,6 +18612,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_support_needed_67",
+      "subdir": ""
+    },
+    {
       "alias": "q_support_needed_7",
       "subdir": ""
     },
@@ -18543,6 +18753,10 @@
     },
     {
       "alias": "q_team_bar_15",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_team_bar_16",
       "subdir": "_runtime"
     },
     {
@@ -18787,6 +19001,10 @@
     },
     {
       "alias": "q_team_wide_effect",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_wide_impact",
       "subdir": ""
     },
     {
@@ -19315,6 +19533,10 @@
     },
     {
       "alias": "q_time_sink_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_time_sink_3",
       "subdir": ""
     },
     {
@@ -20014,6 +20236,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_visible_outcome",
+      "subdir": ""
+    },
+    {
       "alias": "q_visible_outcomes",
       "subdir": ""
     },
@@ -20055,6 +20281,10 @@
     },
     {
       "alias": "q_waiting_on_others_5",
+      "subdir": ""
+    },
+    {
+      "alias": "q_waiting_on_something",
       "subdir": ""
     },
     {

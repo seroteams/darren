@@ -1,0 +1,11 @@
+alias: q_next_step_20
+label: Next step
+name: What would Principal-level impact look like from you in the next two weeks?
+description: Closes on a concrete shift he can take away from the conversation.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_step_19"
+grounding: open

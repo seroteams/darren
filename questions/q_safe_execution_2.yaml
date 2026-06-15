@@ -1,0 +1,10 @@
+alias: q_safe_execution_2
+label: Safe execution
+name: What feels safest to keep doing the way you already know?
+description: Gets at whether old assumptions are still shaping how he works here.
+purpose: topic
+stage: cause
+axis_effects:
+  engagement: +1
+  growth: +3
+source: generated

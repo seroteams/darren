@@ -1,0 +1,10 @@
+alias: q_internal_friction_2
+label: Internal friction
+name: On the referrals point, where is the pushback actually coming from?
+description: Drills into the named internal resistance so the blocker is concrete before moving on.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: may not push to go forward

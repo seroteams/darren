@@ -1,0 +1,10 @@
+alias: q_cleanup_friction
+label: Cleanup friction
+name: In that cleanup and review work, where is it snagging most?
+description: Drills into the concrete work thread she just named to surface the main source of friction.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: cleanup and reviews

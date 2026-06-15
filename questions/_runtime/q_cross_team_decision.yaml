@@ -1,0 +1,10 @@
+alias: q_cross_team_decision
+label: Cross-team decision
+name: Which cross-team decision should you have forced earlier?
+description: Anchors his self-read in one concrete moment where Principal-level scope was available but not taken.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: stayed in his lane

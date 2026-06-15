@@ -1,0 +1,9 @@
+alias: q_launch_loose_ends_4
+label: Launch loose ends
+name: What still feels open from the launch work?
+description: Lets you find out whether anything is still hanging around after the Monday ship.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: generated

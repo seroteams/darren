@@ -1,0 +1,10 @@
+alias: q_time_sink_3
+label: Time sink
+name: What is taking the most time without moving a deal forward?
+description: Shows where the busy work is piling up without enough payoff.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

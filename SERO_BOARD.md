@@ -39,11 +39,11 @@ the `UNGROUNDED_MEANING` check and the Phase 5 `--update-baseline` re-run.
 
 | Item | Scope |
 |---|---|
-| **Next-stage feature build** ([spec](docs/todo/next-stage/PLAN.md)) | Hardening core (phases 1–3: contracts, persistence/resume, deterministic fallback) **✅ done 2026-06-16**. Remaining = the roadmap forward-work (M0→M1): issue pills + observed shift → prep quality → prep timeline UI → live runner polish → summary/follow-up (phases 4–8). One phase at a time, each with a live walkthrough. **This is the roadmap — ready to start.** |
+| **Next-stage build** ([spec](docs/todo/done/next-stage/PLAN.md)) | **✅ ALL 8 PHASES DONE 2026-06-16** → `done/`. Hardening core (contracts, persistence/resume, deterministic fallback) + feature passes (issue pills + observed shift, prep quality, prep timeline UI, runner polish, shared/private split). One carve-out parked: cross-session follow-up auto-injection (needs person-profiles linking). |
 
 ## 3. Parked — good ideas, not now
 
-- **person-profiles feature** ([plan](docs/todo/person-profiles/PLAN.md)) — per-person history pages + "how to help them" synthesis. Parked: manager-first MVP needs no history analytics. (The scripted-persona QA *runs* stay — they're test infrastructure, not this feature.)
+- **person-profiles feature** ([plan](docs/todo/person-profiles/PLAN.md)) — per-person history pages + "how to help them" synthesis. Parked: manager-first MVP needs no history analytics. (The scripted-persona QA *runs* stay — they're test infrastructure, not this feature.) **Note:** next-stage Phase 8b (carry follow-ups into the *next* session's prep) waits on this — it needs the same per-person linking.
 - **inbox-review-june-10** ([plan](docs/todo/inbox-review-june-10/PLAN.md)) — library-as-inbox review tooling. Revisit after the next build stage.
 - **Executive dashboards** — too early, risks HR creep.
 - **Benchmarking** — needs data volume and a trust model first.

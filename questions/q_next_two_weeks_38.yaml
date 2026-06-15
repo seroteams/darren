@@ -1,7 +1,7 @@
 alias: q_next_two_weeks_38
 label: Next two weeks
-name: What would make the next two weeks feel lighter for you?
-description: Ends the check-in on a concrete change you can help with.
+name: What would make the next two weeks feel more manageable?
+description: Land the check-in by turning the conversation into a practical shift for the immediate stretch.
 purpose: wellbeing
 stage: lift
 axis_effects:

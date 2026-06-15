@@ -1,10 +1,10 @@
 alias: q_mentoring_stall_10
 label: Mentoring stall
 name: What made you stop pushing on mentoring?
-description: Drills into the stalled mentoring thread to surface whether the snag is priority, ownership, or appetite.
+description: Drills into why the mentoring thread lost momentum and whether the blocker is time, fit, or signal from the team.
 purpose: topic
 stage: friction
 axis_effects:
   engagement: +3
 source: planner_added
-grounding: still wants it, but stopped pushing
+grounding: stopped pushing

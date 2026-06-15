@@ -1,0 +1,9 @@
+alias: q_waiting_on_something
+label: Waiting on something
+name: What are you waiting on that could change what you take on next?
+description: Shows whether a decision or dependency is shaping her next move more than she’s saying.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: generated

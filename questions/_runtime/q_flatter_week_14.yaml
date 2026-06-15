@@ -1,10 +1,10 @@
 alias: q_flatter_week_14
 label: Flatter week
-name: "You said this week feels \"flatter than expected\" — what changed after Monday?"
-description: Drills into the specific post-launch shift she just named so you can tell recovery from something unresolved.
+name: "You said this week feels flatter than expected — what's behind that?"
+description: Drills into the flat post-launch energy she just named before moving on.
 purpose: wellbeing
 stage: pulse
 axis_effects:
   wellbeing: +3
 source: planner_added
-grounding: flatter this week than expected
+grounding: feels flatter this week

@@ -1,0 +1,11 @@
+alias: q_next_focus_26
+label: Next focus
+name: Given this conversation, where will you focus first to make your impact more visible?
+description: Closes by having him name the first visible Principal-level shift he will make.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added
+grounding: explicit expectations for the next cycle

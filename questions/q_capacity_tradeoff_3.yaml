@@ -1,0 +1,10 @@
+alias: q_capacity_tradeoff_3
+label: Capacity tradeoff
+name: What are you having to say no to because this cycle is fuller than usual?
+description: Helps you hear what is getting squeezed out as the pace picks up.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

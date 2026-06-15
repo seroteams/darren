@@ -1,0 +1,10 @@
+alias: q_priority_constraint
+label: Priority constraint
+name: How is that strain changing what you can actually get done this week?
+description: Turns the external pressure into a concrete read on his real priorities and trade-offs.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: under the greatest strain

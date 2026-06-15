@@ -1,0 +1,10 @@
+alias: q_internal_audience
+label: Internal audience
+name: What are leadership and corp comms not getting yet?
+description: Drills into the specific misunderstanding so the manager can see where alignment is breaking down.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: Leadership and corporate communication.

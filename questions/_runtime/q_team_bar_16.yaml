@@ -1,0 +1,10 @@
+alias: q_team_bar_16
+label: Team bar
+name: "When you say this team's bar feels fuzzy, what specifically is unclear to you?"
+description: Drills into the named ambiguity so the conversation can move from generalities to concrete evidence.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: "this team's bar still feels fuzzy"

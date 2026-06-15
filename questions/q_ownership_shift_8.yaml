@@ -1,10 +1,10 @@
 alias: q_ownership_shift_8
 label: Ownership shift
-name: What would you want to keep owning after the launch work settles?
-description: Helps you hear what she wants to stay close to versus hand off or leave behind.
+name: What would you want to keep, and what would you want to hand off, if next quarter looks different?
+description: Helps you hear how she is sorting her load before you add the billing rewrite.
 purpose: topic
 stage: momentum
 axis_effects:
+  clarity: +3
   growth: +1
-  engagement: +1
 source: generated

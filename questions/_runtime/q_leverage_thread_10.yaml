@@ -1,0 +1,10 @@
+alias: q_leverage_thread_10
+label: Leverage thread
+name: What work are you counting as highest-leverage right now?
+description: Drills on his own leverage standard before moving on, so the rest of the conversation stays concrete.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: highest-leverage work yet

@@ -1,0 +1,10 @@
+alias: q_fastest_money_2
+label: Fastest money
+name: "When 'what makes money fastest' wins, what gets pushed aside?"
+description: Drills into the trade-off he just named so you can hear what alliance work is losing out.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +3
+source: planner_added
+grounding: makes money fastest

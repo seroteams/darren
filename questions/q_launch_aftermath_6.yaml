@@ -1,10 +1,9 @@
 alias: q_launch_aftermath_6
 label: Launch aftermath
-name: Since the feature shipped, what has taken the most attention from you?
-description: "Lets her point to the part of the launch aftermath that's still pulling on her time or headspace."
-purpose: topic
-stage: friction
+name: How is the week after the launch feeling from your side?
+description: Gives Priya room to set the tone before you get into what comes next.
+purpose: wellbeing
+stage: pulse
 axis_effects:
-  clarity: +1
-  wellbeing: +1
+  wellbeing: +3
 source: generated
