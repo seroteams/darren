@@ -14,16 +14,28 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 4 | Results = page 2 | After the interview, the final briefing shows as a separate results page (reuse the existing briefing screen) | ⬜ |
-| 5 | Polish + close-out | Mobile, reduced-motion, focus/scroll, copy pass; move folder to done/ | ⬜ |
+| 4 | Briefing as closing section | After the interview, synthesis + the final briefing land inline as the bottom sections (reuse `briefing.js`) | 🔨 |
+| 5 | Polish + close-out | Mobile, reduced-motion, focus/scroll, copy pass; move folder to done/ | 🔨 |
 
 ⬜ not started · 🔨 built, awaiting product-owner QA · ✅ done (tested)
 
 _Phases 1, 2, 3, 6 done + signed off (grow-down setup → focus → prep → interview, plus the "language of this role" section). Detail in git history. Code in `7b8921a`._
 
 ## Current state
-**Phases 4 (results-as-page-2) and 5 (polish + close-out) remain.** The grow-down flow works
-end-to-end through the interview; what's left is the results page reuse and the final polish pass.
+**Phases 4 + 5 built (2026-06-16) — awaiting your walkthrough.** On the last interview answer
+(or "Skip to briefing"), `onepage.js` now removes the live-scores rail, streams synthesis as an
+inline "Writing the brief…" orb, then mounts the existing `briefing.js` renderer as the closing
+`.flow-briefing` section — no jump to a separate screen. Phase-5 polish folded in: smooth-scroll is
+gated on `prefers-reduced-motion`, new sections scroll-into-view + focus the right field (existing
+behaviour), and the reveal transforms were already reduced-motion-gated in CSS.
+
+Self-verified offline (no paid run): `/flow` loads clean, zero console errors, and `briefing.js`
+mounted into an inline sub-container renders the full briefing (headline, bullets, footer) inside
+`.flow-steps`. `npm test` 27/27 green.
+
+**What's left before close-out:** your live walkthrough of the phase-4 + phase-5 scenarios. That
+needs one full one-page run, which hits the API (~$0.35) — say go and I'll either run it or you
+walk it. Folder moves to `done/` on your green light.
 
 ## Parked
 - Editing a past answer (jump back up). Out of scope — past sections are deliberately locked.

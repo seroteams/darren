@@ -22,6 +22,13 @@ import { groupTerms, isGrouped } from "../ui/vocab-groups.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";
 
+// Reduced-motion: skip smooth-scroll easing (CSS already gates the reveal
+// transforms via prefers-reduced-motion).
+const reduceMotion = () =>
+  typeof window.matchMedia === "function" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const scrollBehavior = () => (reduceMotion() ? "auto" : "smooth");
+
 const SETUP = [
   { key: "NAME", field: "name", type: "text", required: true,
     question: "Who are you prepping for?", hint: "Their first name is enough.", placeholder: "e.g. Priya" },
@@ -73,6 +80,8 @@ export async function mount(root, { store, setState }) {
   let axes = null;
   let thinkingHost = null;
   let noteHost = null;
+  let interviewRail = null;
+  let activeQuestionCard = null;
   teardown = () => {
     if (currentSse) { currentSse.close(); currentSse = null; }
     if (activeEsc) { document.removeEventListener("keydown", activeEsc); activeEsc = null; }
@@ -116,7 +125,7 @@ export async function mount(root, { store, setState }) {
     node.classList.add("field-enter");
     steps.appendChild(node);
     revealOne(node);
-    if (scrollTo) requestAnimationFrame(() => node.scrollIntoView({ behavior: "smooth", block: "start" }));
+    if (scrollTo) requestAnimationFrame(() => node.scrollIntoView({ behavior: scrollBehavior(), block: "start" }));
     if (focus) focusField(node);
     return node;
   }
@@ -500,6 +509,7 @@ export async function mount(root, { store, setState }) {
       <div><button class="btn btn--ghost btn--sm js-skip-brief" type="button">Skip to briefing</button></div>
     `;
     stageInner.appendChild(rail);
+    interviewRail = rail;
     thinkingHost = rail.querySelector(".thinking-host");
     noteHost = rail.querySelector(".js-note-host");
     axes = createAxesPanel({ celebrate: false });
@@ -516,8 +526,9 @@ export async function mount(root, { store, setState }) {
         cancelLabel: "Keep questioning",
       });
       if (!ok) return;
-      teardown();
-      setState({ stage: STAGES.BRIEFING });
+      // Drop the on-screen (unanswered) question and run the briefing inline.
+      if (activeQuestionCard) { activeQuestionCard.remove(); activeQuestionCard = null; }
+      finishInterview();
     });
     showNextQuestion();
   }
@@ -557,6 +568,7 @@ export async function mount(root, { store, setState }) {
       <p class="hint text-xs text-ink-mute">Enter to submit · Shift+Enter to go deeper · Esc to skip</p>
     `;
     appendSection(card, { scrollTo: true, focus: true });
+    activeQuestionCard = card;
 
     const ta = card.querySelector("textarea");
     const deeper = card.querySelector(".js-deeper");
@@ -584,6 +596,7 @@ export async function mount(root, { store, setState }) {
       try { result = await submitAnswer(store.sessionId, val, { goDeeper, answerSource: "manual", alias: q.alias }); }
       catch (e) { failTo(e.message); return; }
       steps.replaceChild(settledNode(q.name, val || "(skipped)", { muted: !val }), card);
+      activeQuestionCard = null;
       await runPlanStream(val, { goDeeper: Boolean(result?.goDeeper) });
     }
   }
@@ -614,7 +627,7 @@ export async function mount(root, { store, setState }) {
     const skipped = submittedText.trim() === "";
     const orb = createOrb(goDeeper ? "Going deeper…" : skipped ? "Next question…" : "Scoring answer…");
     thinkingHost.appendChild(orb.el);
-    requestAnimationFrame(() => orb.el.scrollIntoView({ behavior: "smooth", block: "nearest" }));
+    requestAnimationFrame(() => orb.el.scrollIntoView({ behavior: scrollBehavior(), block: "nearest" }));
     const sse = openSse(`/api/plan/stream?s=${encodeURIComponent(store.sessionId)}`);
     currentSse = sse;
     let terminal = null;
@@ -650,9 +663,52 @@ export async function mount(root, { store, setState }) {
     else { sse.close(); failTo("Scoring this answer is taking too long — the connection may be stuck."); }
   }
 
+  // The interview's done — clear its live-scores rail and key handlers, then run
+  // synthesis + the final briefing as the closing sections of this same page
+  // (no jump to a separate screen).
   function finishInterview() {
-    teardown();
-    setState({ stage: STAGES.EVAL });
+    if (activeEsc) { document.removeEventListener("keydown", activeEsc); activeEsc = null; }
+    if (interviewRail) { interviewRail.remove(); interviewRail = null; }
+    runEvaluation();
+  }
+
+  function runEvaluation() {
+    if (currentSse) { currentSse.close(); currentSse = null; }
+    const working = appendWorking("Writing the brief…");
+    const sse = openSse(`/api/evaluation/stream?s=${encodeURIComponent(store.sessionId)}`);
+    currentSse = sse;
+    sse
+      .on("thinking", (d) => working.orb.setLabel(d.label))
+      .on("briefing", async (d) => {
+        sse.close();
+        currentSse = null;
+        await working.orb.exit();
+        working.node.remove();
+        store.briefing = d;
+        // Record the briefing WITHOUT a stage change so the router doesn't
+        // remount us off the one-page flow (main.js re-renders on stage/tick).
+        setState({ briefing: d, completedAt: d.completedAt ?? store.completedAt ?? null });
+        await renderBriefing(d);
+      })
+      .on("error", (d) => failTo(d.message || "Evaluation failed."))
+      .onError(() => failTo("Lost connection during synthesis."))
+      .open();
+  }
+
+  // Reuse the existing briefing renderer, mounted into the closing section.
+  async function renderBriefing() {
+    const section = document.createElement("div");
+    section.className = "flow-section flow-briefing";
+    steps.appendChild(section);
+    try {
+      const mod = await import("./briefing.js");
+      await mod.mount(section, { store, setState, resetSession });
+    } catch (e) {
+      console.error("[onepage] inline briefing render failed:", e);
+      failTo("Couldn't render the briefing.");
+      return;
+    }
+    requestAnimationFrame(() => section.scrollIntoView({ behavior: scrollBehavior(), block: "start" }));
   }
 
   // First step — no scroll, just reveal + focus.
