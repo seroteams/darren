@@ -614,6 +614,57 @@ function validateBriefingPromptRules(briefing, { agenda, readQuality } = {}) {
   return { passed: issues.length === 0, issues };
 }
 
+// Deterministic minimal briefing for when generation fails (next-stage Phase 3).
+// Built ONLY from transcript facts + the live axis scores — nothing inferred,
+// nothing invented. The headline and paragraph state plainly that the written
+// read could not be generated, so the manager is never silently handed a blank
+// or a fake. Shaped like a normal briefing so the existing render works.
+function buildFallbackBriefing({ ctx, transcript = [], axisState }) {
+  const name = (ctx && ctx.name) || "them";
+  const answered = (transcript || []).filter((t) => {
+    const a = String(t && t.answer ? t.answer : "").trim();
+    return a && a !== "(skipped)";
+  });
+  const trim = (s) => String(s || "").replace(/\s+/g, " ").trim();
+  const summary_bullets = answered.slice(0, 6).map((t) => {
+    const q = trim(t.question && t.question.name) || "Question";
+    const a = trim(t.answer);
+    const aShort = a.length > 160 ? a.slice(0, 157) + "…" : a;
+    return `Asked: ${q} — they said: ${aShort}`;
+  });
+  if (!summary_bullets.length) {
+    summary_bullets.push("No answers were captured in this session.");
+  }
+  // Real, deterministic per-answer scores; the written read is what failed.
+  const axes = axisState
+    ? Object.entries(axisState).map(([id, a]) => ({
+        id,
+        score: typeof (a && a.score) === "number" ? a.score : 0,
+        meaning: "Live score from the conversation — the written read could not be generated.",
+        read_status: a && Array.isArray(a.history) && a.history.length ? "read" : "not_read",
+      }))
+    : [];
+  return {
+    generation_failed: true,
+    headline: `Briefing generation failed — this is a minimal record of your 1:1 with ${name}, not a written read.`,
+    summary_bullets,
+    understanding_paragraph:
+      "The written briefing could not be generated this time, so the AI summary is unavailable. Below is a factual record of what you asked and what was said, plus the live scores from the conversation. Nothing here is inferred.",
+    axes,
+    brutal_truth_employee: "",
+    brutal_truth_manager: "",
+    next_actions: [],
+    watch_for: [],
+    engagement_read: {
+      level: "inconclusive",
+      evidence: [],
+      missing_evidence: "Briefing generation failed.",
+      recommended_action: "",
+      watch_next: "",
+    },
+  };
+}
+
 async function evaluate(
   { ctx, focusPoints, transcript, axisState, notes, selectedFocus, agenda, scoring },
   { model = getDefaultModel(), session, stage = "05-evaluation" } = {}
@@ -634,27 +685,46 @@ async function evaluate(
     agenda,
     scoring,
   });
-  const raw = await callOpenAI({ ...msgs, model });
   const evalPromptPath = promptFor(ctx.meetingType, "evaluation");
+  const logInputs = withPromptVersion(
+    {
+      ctx,
+      focusPoints,
+      transcript,
+      axisState,
+      notes,
+      selectedFocus: sf,
+      scoring,
+      model,
+      roleProfile: roleProfileLogInfo({ role: ctx.role, seniority: ctx.seniority }),
+    },
+    evalPromptPath
+  );
 
-  let briefing = parseAIJson(raw, "Evaluator", ["headline", "axes", "next_actions"]);
-  briefing = applyManagerBriefingPostProcess(briefing, axisState, transcript);
+  // Deterministic fallback path: if the model call or JSON parse fails, hand the
+  // manager an honest minimal briefing (transcript facts + live scores) instead
+  // of throwing. Logged with a GENERATION_FAILED flag — never silently masked.
+  let raw;
+  let briefing;
+  try {
+    raw = await callOpenAI({ ...msgs, model });
+    briefing = parseAIJson(raw, "Evaluator", ["headline", "axes", "next_actions"]);
+    briefing = applyManagerBriefingPostProcess(briefing, axisState, transcript);
+  } catch (err) {
+    console.warn(`[evaluator] GENERATION_FAILED — returning deterministic fallback briefing: ${err.message}`);
+    briefing = buildFallbackBriefing({ ctx, transcript, axisState });
+    logStage(session, stage, {
+      inputs: logInputs,
+      prompt: msgs.filled,
+      response: raw || `(generation failed: ${err.message})`,
+      final: briefing,
+      flag: "GENERATION_FAILED",
+    });
+    return briefing;
+  }
 
   logStage(session, stage, {
-    inputs: withPromptVersion(
-      {
-        ctx,
-        focusPoints,
-        transcript,
-        axisState,
-        notes,
-        selectedFocus: sf,
-        scoring,
-        model,
-        roleProfile: roleProfileLogInfo({ role: ctx.role, seniority: ctx.seniority }),
-      },
-      evalPromptPath
-    ),
+    inputs: logInputs,
     prompt: msgs.filled,
     response: raw,
     final: briefing,
@@ -678,6 +748,7 @@ async function evaluate(
 
 module.exports = {
   evaluate,
+  buildFallbackBriefing,
   buildMessages,
   callOpenAI,
   fourGramOverlap,

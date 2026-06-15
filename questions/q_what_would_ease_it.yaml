@@ -1,0 +1,10 @@
+alias: q_what_would_ease_it
+label: What would ease it
+name: What would make the next two weeks feel more manageable?
+description: Helps you land on a practical change instead of leaving the load vague.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

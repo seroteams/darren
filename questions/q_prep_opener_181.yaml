@@ -1,0 +1,10 @@
+alias: q_prep_opener_181
+label: Prep opener
+name: How have the last couple of weeks felt from your side, especially with the launch slip and the late nights?
+description: Gives Priya room to set the scene before you go into the load itself.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

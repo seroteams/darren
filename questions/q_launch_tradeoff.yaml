@@ -1,0 +1,10 @@
+alias: q_launch_tradeoff
+label: Launch tradeoff
+name: What are you keeping on the launch path that could realistically move later?
+description: Shows what she still feels bound to carry and what might be crowding out a steadier pace.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

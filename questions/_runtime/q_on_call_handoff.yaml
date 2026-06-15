@@ -1,0 +1,10 @@
+alias: q_on_call_handoff
+label: On-call handoff
+name: What needs to happen to hand off the on-call rotation?
+description: Drills into the specific handoff she wants so you can see whether this is a solvable load issue or a deeper ownership gap.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +1
+source: planner_added
+grounding: hand off the on-call rotation

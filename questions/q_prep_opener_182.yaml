@@ -1,0 +1,10 @@
+alias: q_prep_opener_182
+label: Prep opener
+name: How has the last couple of weeks around the slipped launch felt from your side, and what has been taking the most extra time?
+description: Gives Priya space to frame the launch pressure in her own words before you go deeper.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

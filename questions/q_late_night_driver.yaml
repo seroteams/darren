@@ -1,0 +1,10 @@
+alias: q_late_night_driver
+label: Late-night driver
+name: What part of the launch is pushing the late nights most?
+description: "Helps you hear the main source of the load instead of getting a blanket 'it's busy'."
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

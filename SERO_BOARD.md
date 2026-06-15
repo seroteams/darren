@@ -19,25 +19,27 @@ The Now column was product-owner-walked and signed off green on 2026-06-15. Comp
 been cleared off this board to keep it focused on what's left; the full history lives in each
 plan's git log. What remains:
 
-| Item | State | Next step |
-|---|---|---|
-| **jun11-demo-fixes Phase 4** — back navigation ([plan](docs/todo/jun11-demo-fixes/PLAN.md)) | 🔨 built + offline-verified | Carl walks scenarios 1–7 (needs one live run ~$0.35) → close out |
-| **onepage-run Phases 4+5** — inline briefing + polish ([plan](docs/todo/onepage-run/PLAN.md)) | 🔨 built + offline-verified | Carl walks the flow (needs one live run ~$0.35) → close out |
+**Now is clear — no open demo-fix or hardening todos (2026-06-16).** Everything that
+was in flight has been finished, verified, committed, and pushed.
 
-Both above are code-complete and offline-verified (`npm test` 28/28, replay 7/7);
-the only thing left is Carl's live click-through, which costs API. A single
-one-page run with a Back step could bless both at once.
+Closed out 2026-06-16:
+- **job-lexicons** + **arc-editor** → `docs/todo/done/`.
+- **jun11-demo-fixes Phase 4** (back navigation) → `done/`. Live-verified: after Back, the
+  planner follows the *corrected* answer (demo bug fixed); amend-log keeps the original.
+- **onepage-run Phases 4+5** (inline briefing + motion polish) → `done/`. Live-verified in
+  the browser: briefing renders as the closing section on `/flow`, rail removed, clean ending.
+- **next-stage hardening core** (phases 1–3): contracts, session persistence/resume,
+  deterministic briefing fallback. Engine can no longer silently fail; partial runs resume.
 
-Two small items were deliberately deferred (see engine-trust-gates → Parked): the
-`UNGROUNDED_MEANING` check and the Phase 5 `--update-baseline` re-run.
-
-Closed out 2026-06-16: **job-lexicons** and **arc-editor** (both → `docs/todo/done/`).
+Tests: `npm test` **30/30**, `npm run replay` **7/7** ($0), plus one live run that passed all
+back-nav + briefing checks. Two items remain deliberately deferred (engine-trust-gates → Parked):
+the `UNGROUNDED_MEANING` check and the Phase 5 `--update-baseline` re-run.
 
 ## 2. Next — after Now is green
 
 | Item | Scope |
 |---|---|
-| **Next-stage build** ([spec](docs/todo/next-stage/PLAN.md)) | 8 phases. **Phase 1 (Contracts) ✅ done 2026-06-16** ([docs/contracts.md](docs/contracts.md)). Remaining: session continuity (persistence) → briefing fallback → issue pills/observed shift → prep quality → prep timeline UI → live runner polish → summary/follow-up. One phase at a time; Phase 2 next. Phases 3 (fallback) is offline-safe; 4–8 need live runs/UI QA. |
+| **Next-stage feature build** ([spec](docs/todo/next-stage/PLAN.md)) | Hardening core (phases 1–3: contracts, persistence/resume, deterministic fallback) **✅ done 2026-06-16**. Remaining = the roadmap forward-work (M0→M1): issue pills + observed shift → prep quality → prep timeline UI → live runner polish → summary/follow-up (phases 4–8). One phase at a time, each with a live walkthrough. **This is the roadmap — ready to start.** |
 
 ## 3. Parked — good ideas, not now
 

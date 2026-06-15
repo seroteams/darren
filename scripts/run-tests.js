@@ -16,6 +16,7 @@ const OFFLINE_TESTS = [
   "test-arc-overlay.js",
   "test-back-nav.js",
   "test-axis-coverage.js",
+  "test-briefing-fallback.js",
   "test-briefing-integrity.js",
   "test-briefing-prompt-rules.js",
   "test-confidence-honesty.js",
@@ -38,6 +39,7 @@ const OFFLINE_TESTS = [
   "test-replay-regression.js",
   "test-role-profile.js",
   "test-role-lexicons.js",
+  "test-session-resume.js",
   "test-stage-tags.js",
   "test-trust-checks.js",
 ];

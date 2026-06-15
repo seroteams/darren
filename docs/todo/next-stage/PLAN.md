@@ -3,7 +3,7 @@
 **Goal:** A manager can start a 1:1, lose their browser mid-way, come back, finish, and trust every word of the output — with better intake on the way in and a clear timeline on the way out.
 **Driver:** Carl
 **Created:** 2026-06-12
-**Status:** IN PROGRESS — Phase 1 (Contracts) done 2026-06-16. Sits under **Next** on [SERO_BOARD.md](../../../SERO_BOARD.md); Now is green so this is unblocked. One phase at a time (Darren Method) — Phase 2 next.
+**Status:** HARDENING CORE DONE 2026-06-16. Phases 1–3 (contracts, persistence/resume, deterministic fallback) ✅ — the engine can no longer silently fail and partial runs resume. Phases 4–8 are feature/UX improvement passes; they are the **roadmap** forward-work (see [docs/ROADMAP.md](../../ROADMAP.md) M0→M1), to be done one at a time when that build starts. No loose demo-fix/hardening todo remains.
 
 This is hardening + gap-fill of the existing app, **not** a rebuild. Sero already has prep, a live runner, a briefing stage, per-stage schemas, question fallbacks, and trust gates. Phase files get written (Darren Method) when the build actually starts.
 
@@ -21,15 +21,24 @@ This is hardening + gap-fill of the existing app, **not** a rebuild. Sero alread
 **Done when:** every stage's contract is on one page; any mismatch between doc and code is fixed code-side or flagged.
 **Landed:** [docs/contracts.md](../../contracts.md) — all 7 stages documented (focus → role profile → lexicon → questions → axes → briefing → run history), each with fields/types/enums and its validate/clamp/fallback behaviour, plus the cross-cutting trust boundaries. No code mismatch found; the one known gap (no deterministic briefing fallback) is captured as Phase 3 below. Offline doc deliverable — `npm test` 28/28 unaffected.
 
-### 2 — Persistence / session continuity
+### 2 — Persistence / session continuity ✅ (2026-06-16 — see [phase-2.md](phase-2.md))
 **Scope:** The genuinely new build. Save web session state stage-by-stage as it happens (file-based under `logs/`, same shape the CLI already writes — no database yet). A partial run can be resumed after restart/tab-close. Access rules: session files are single-user local; private manager notes live only in the session record, never in any shared output (rule 7 on the board).
 **Builds on:** `src/session.js` (stage logging), `frontend/server/sessions.js` (in-memory store — gains a write-through), `frontend/server/session-persistence.js` (already reads/writes logs/), `src/run-history.js` (already infers stage for resume).
 **Done when:** kill the server mid-interview, restart, reopen — the run continues from the last answered question.
 
-### 3 — Deterministic fallback
+### 3 — Deterministic fallback ✅ (2026-06-16 — see [phase-3.md](phase-3.md))
 **Scope:** Fill the one hole: a briefing-generation failure path. If the evaluation stage fails or returns invalid JSON after retry, produce a deterministic minimal briefing (transcript-derived facts only: what was asked, what was said, axes marked "not scored — generation failed") with a visible flag. Never mask, never invent.
 **Builds on:** existing fallbacks in `src/question-validator.js` (FALLBACK_STEM), `src/role-profile.js` (FALLBACK_BLOCK), `src/closer.js`; schema validation already in `src/reviewer.js`.
 **Done when:** force an evaluation failure → the manager still gets an honest minimal summary, flagged as such; `SCHEMA_INVALID` path covered by a test.
+
+---
+
+## Roadmap feature work (phases 4–8)
+
+The hardening core above is done. The phases below are feature/UX improvement
+passes — they are the roadmap forward-work (M0→M1), each its own one-phase build
+with a live walkthrough when started. They are intentionally **not** open
+demo-fix todos.
 
 ### 4 — Issue pills + observed shift
 **Scope:** Structured manager intake on top of the free-text notes: tappable issue pills (e.g. workload, motivation, friction, delivery, growth) plus an "observed shift" field (what changed, since when). Feeds focus-point generation the same way notes do today. Free text stays.

@@ -1,0 +1,10 @@
+alias: q_sustainable_pace_5
+label: Sustainable pace
+name: What would need to change for the next two weeks to feel more sustainable?
+description: Moves the conversation toward a steadier plan without turning it into a critique.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

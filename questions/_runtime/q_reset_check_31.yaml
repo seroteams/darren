@@ -1,0 +1,10 @@
+alias: q_reset_check_31
+label: Reset check
+name: Is now a good time for this conversation, or should we pick another time?
+description: Direct reset to check whether the session is workable before continuing.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +1
+source: planner_added
+grounding: asdf idk teh

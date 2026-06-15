@@ -31,9 +31,13 @@ Carried from the board's Cut/Parked decisions; confirm + extend in the interview
 > Each milestone gets an **Outcome** (what's true when it's done) and a **Done means** checklist
 > once the interview settles the order. Status: `planned` until then.
 
-### M0 — Hardened single-user engine  · status: in progress
+### M0 — Hardened single-user engine  · status: hardening core done (2026-06-16)
 The existing app, made unbreakable for one manager: session resume, deterministic fallbacks,
-better intake, cleaner flow. (This is the existing [next-stage](todo/next-stage/PLAN.md) build.)
+better intake, cleaner flow. (This is the [next-stage](todo/next-stage/PLAN.md) build.)
+**Done so far:** contracts documented, session persistence + resume, deterministic briefing
+fallback (engine can't silently fail) — all offline-verified. **Remaining (feature/UX, = the
+next build):** issue pills + observed shift, prep quality, prep timeline UI, live runner polish,
+summary/follow-up (next-stage phases 4–8).
 
 ### M1 — Pilot-ready  · status: planned
 A handful of real managers can use it, hand-held, and come back. What's the minimum to put it in
