@@ -19,7 +19,7 @@
 | 3 | Interview grows down | The interview questions appear one below the next; each answer settles above | ✅ |
 | 4 | Results = page 2 | After the interview, the final briefing shows as a separate results page (reuse the existing briefing screen) | ⬜ |
 | 5 | Polish + close-out | Mobile, reduced-motion, focus/scroll, copy pass; move folder to done/ | ⬜ |
-| 6 | Role language section | "The language of this role" vocabulary between prep and the interview (flow-position: after phase 2, before phase 3) | 🔨 |
+| 6 | Role language section | "The language of this role" vocabulary between prep and the interview (flow-position: after phase 2, before phase 3) | ✅ |
 
 ⬜ not started · 🔨 built, awaiting product-owner QA · ✅ done (tested)
 
@@ -42,7 +42,14 @@ What landed: a new `ONEPAGE` stage + `/flow` route, a "One-page run" button on t
 
 **Phase 3 ✅ green-lit + committed (2026-06-14).** Carl walked the interview live (grow-down questions, settled answers, live flow). Two fixes from his walk: (1) the question stem rendered grey — the bold/dark `.question-stem` rule was scoped to `.questioning-card`, now extended to `.flow-section`; (2) — none other.
 
-**Phase 6 committed but still 🔨 (on-page render unconfirmed).** Carl said "commit, it's good", so it's in — but his walk *skipped* the glossary: his prep card was already on screen (old handler) when Phase 6 landed via HMR, so his "Continue to interview" used the pre-Phase-6 path and went straight to questions. Backend is verified free (endpoint → `ready:true`, 10 terms). **Still needs one fresh one-page run** to confirm the glossary actually renders between prep and the interview — flip to ✅ after that.
+**Phase 6 ✅ CONFIRMED (2026-06-15) via a Carl-authorised ~$0.35 one-page run.** Fresh run
+(Sam · Backend Engineer · Mid-level · Bi-weekly): after the prep brief, clicking "Continue to
+interview" rendered **"The language of this role"** *before* the interview, grouped — *Backend
+craft · Delivery and quality · Production and operations · Other* — 18 terms. Bonus: the
+user-added word **"Sprint"** appeared in the "Other" bucket, so this one run also confirmed
+job-lexicons (user word reaches a live 1:1) and role-vocab-groups (grouped vocab on the run
+screen). Screenshot captured. The earlier HMR mix-up is resolved now the code is committed
+(`7b8921a`). Phases 4–5 (results-as-page-2, polish) remain — not part of this sign-off.
 
 Cost note: focus + prep + questions + briefing each hit the OpenAI API. I build + structurally verify for free; a real end-to-end walk is a paid run (Carl's go-ahead, ~$0.35).
 

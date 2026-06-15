@@ -16,9 +16,9 @@ Source: demo run `logs/june/2026_Jun11_08-12-c6dacfe1` (Machar · Partner allian
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Question integrity | Central eligibility gate every question passes before the UI + rejection logging + Machar regression fixture | 🔨 |
-| 2 | Brief wording | Name-not-title + plain-language guard (flag-and-retry, never rewrite) | 🔨 |
-| 3 | Live scores | Timeboxed diagnosis of stalled score bars; fix or honest "didn't update" indicator | 🔨 |
+| 1 | Question integrity | Central eligibility gate every question passes before the UI + rejection logging + Machar regression fixture | ✅ |
+| 2 | Brief wording | Name-not-title + plain-language guard (flag-and-retry, never rewrite) | ✅ |
+| 3 | Live scores | Timeboxed diagnosis of stalled score bars; fix or honest "didn't update" indicator | ✅ |
 | 4 | Back navigation | One-step-back to amend the previous answer (spec questions answered before code) | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -46,6 +46,16 @@ Carl delegated the Phase 1 green light to self-verification (2026-06-12: "check 
 **Phase 3 built same day:** root cause of the frozen score bars was the client's 6.6s cap on the scoring stream (planner takes 5–15s → stream closed before the axes event most turns; also let the UI race ahead of the re-plan — the "haywire" amplifier). Fixed: wait for the stream's terminal event, 120s loud-failure backstop; plus instant score-text snap in hidden tabs (background tabs pause the count-up animation). Live-verified in the browser on a Machar session (2 turns, ~$0.10): bars moved both turns, hidden-tab numbers correct, console clean, prod build + lint green. Details in phase-3.md.
 
 Carl declined the full-gate re-baseline (cost). Next: Carl eyeballs phases 1–3 in the app when convenient → ✅ → Phase 4 (back-to-question; spec questions first).
+
+**✅ Phases 1–3 SIGNED OFF (2026-06-15).** The paid proof already existed (the solo Machar
+regression gate PASS end-to-end on 2026-06-12 + the Phase 3 browser check where bars moved both
+turns). Re-confirmed offline today: `QUESTION_INTEGRITY` hard-fail in `evals/trust-checks.js`,
+golden case `machar-biweekly-jun11` + frozen Machar fixtures, `src/question-eligibility.js` gate
+(P1); `findJargon` name/jargon guard in `src/golden-checks.js` + `preparation.md` (P2); the
+scoring-stream terminal-event fix in `sse.js`/`briefing.js` (P3) — and the four deterministic
+tests (question-integrity, prep-wording, briefing-prompt-rules, briefing-integrity) pass in the
+26/26 offline suite. Code in `7b8921a`. **Phase 4 (back navigation) is now unblocked** — net-new
+work, not part of this sign-off.
 
 ## Parked
 - Voice/transcript input — typing-while-listening friction ("we're filling in a form almost"). Bigger UX theme, own track.

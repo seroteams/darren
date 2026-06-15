@@ -10,22 +10,30 @@ Standing constraints (from CLAUDE.md):
 
 ---
 
-## 1. Now — finish in-flight work, no new build until green
+## 1. Now — ✅ GREEN (signed off 2026-06-15)
+
+The whole Now column was product-owner-walked and signed off on 2026-06-15 (Carl + Claude;
+session spend ~$0.35 — one live `leak-devon` gate PASS). Everything below is verified; only two
+small, deliberately-deferred items remain.
 
 | Item | State | Next step |
 |---|---|---|
-| **Top up OpenAI credit + cheap gate re-check** | Credit exhausted ~19:10 on 2026-06-12 (see [audit note](docs/todo/done/cleanup-board/audit-note.md)) | Carl tops up → `node scripts/gate.js --only <case>` (~$0.35) to confirm all green |
-| **engine-trust-gates Phases 1–3** ([plan](docs/todo/engine-trust-gates/PLAN.md)) | Committed (`ee018b5`, `bb49e7c`, `cd581a7`) and machine-verified by the GREEN 19:08 gate (8/8 PASS) | Carl product-owner walkthrough of the phase scenarios |
-| **engine-trust-gates Phases 4–6** (relational-arc gate at question layer; axis accumulation; briefing confidence honesty) | Committed (`da5d2ce`, `d601df5`, `5b4ca95`), machine-built | Carl product-owner walkthrough of the phase scenarios |
-| **role-profiles Phases 2–4** ([plan](docs/todo/role-profiles/PLAN.md)) | Built, machine-verified | Carl product-owner walkthrough of the scenarios |
-| **jun11-demo-fixes Phase 4** — back navigation in live Q&A ([plan](docs/todo/jun11-demo-fixes/PLAN.md)) | Not started (Phases 1–3 done & committed) | Build after Phases 1–3 sign-off |
+| **OpenAI credit** | Working (live `leak-devon` gate ran clean 2026-06-15) | — |
+| **engine-trust-gates Phases 1–6** ([plan](docs/todo/engine-trust-gates/PLAN.md)) | ✅ Signed off — live `leak-devon` PASS + Phase 5 ratified via live `growth-ahmed` (axes accumulate, 0 regressed) + all gates green in 26/26 offline | done |
+| **role-profiles Phases 2–4** ([plan](docs/todo/role-profiles/PLAN.md)) | ✅ Signed off — cached-second-run proven live + offline; block in all 5 stages; focus-arc gate green | done |
+| **jun11-demo-fixes Phases 1–3** ([plan](docs/todo/jun11-demo-fixes/PLAN.md)) | ✅ Signed off — prior Machar gate PASS + offline gates green | done |
+| **jun11-demo-fixes Phase 4** — back navigation | 🔨 not started (now **unblocked**) | net-new; build when ready |
+
+**Feature folders (built since the board, all signed off 2026-06-15):** arc-editor (edit/save
+meeting arcs, 5/5 live) · role-vocab-groups (grouped vocab, moved to done/) · job-lexicons (your
+words reach the run) · regression-replay (7/7 + in-app screen) · onepage-run glossary (confirmed
+in a live run). See Section 5.
 
 ## 2. Next — after Now is green
 
 | Item | Scope |
 |---|---|
-| **Next-stage build** ([spec](docs/todo/next-stage/PLAN.md) — written in cleanup Phase 4) | 8 phases, hardening + gap-fill of the existing app: contracts → session continuity (persistence) → briefing fallback → issue pills/observed shift → prep quality → prep timeline UI → live runner polish → summary/follow-up. Nothing here starts while Now isn't green. |
-| **verdicts-june-07** ([plan](docs/todo/verdicts-june-07/PLAN.md)) | 3 phases: honest arc stages in scripted runs, reword 3 clunky questions, briefing language fit. Real output quality — kept. |
+| **Next-stage build** ([spec](docs/todo/next-stage/PLAN.md) — written in cleanup Phase 4) | 8 phases, hardening + gap-fill of the existing app: contracts → session continuity (persistence) → briefing fallback → issue pills/observed shift → prep quality → prep timeline UI → live runner polish → summary/follow-up. **Now is green — this is unblocked.** |
 
 ## 3. Parked — good ideas, not now
 
@@ -44,6 +52,17 @@ Standing constraints (from CLAUDE.md):
 
 ## 5. Done / committed
 
+**Signed off 2026-06-15 (full QA pass — Carl + Claude):**
+- **verdicts-june-07 (all 3 phases)** — honest arc stages (verified on real runs), `v2-plain` question rewording + prompt avoid-list, briefing jargon ban + meeting-type voice. Found already-implemented in the engine work; verified + closed. Folder → [done/](docs/todo/done/verdicts-june-07/PLAN.md).
+- **engine-trust-gates Phases 1–6 (all)** — live `leak-devon` gate PASS + Phase 5 ratified via live `growth-ahmed` (axes accumulate correctly, 0 regressed vs baseline) + all trust gates green in the 26/26 offline suite.
+- **role-profiles Phases 2–4** — cached-second-run proven live (onepage run) + offline; `{{ROLE_PROFILE_BLOCK}}` in all 5 stages; `FOCUS_ARC_LEAK` green.
+- **jun11-demo-fixes Phases 1–3** — question integrity, name-not-title/jargon guard, live score bars; prior Machar gate PASS + offline gates green. (Phase 4 back-nav now unblocked.)
+- **arc-editor Phases 1–3** — in-app meeting-arc editor (edit/save to overlay, reset, orphan warning); 5/5 scenarios verified live.
+- **role-vocab-groups Phases 1–4** — grouped modern role vocabulary across all 18 profiles; matrix verified; folder moved to [done/](docs/todo/done/role-vocab-groups/PLAN.md).
+- **job-lexicons Phases 1–3** — browse + add-your-own words + words reach the live run (the "Sprint" word confirmed in a real 1:1).
+- **regression-replay Phases 1–3** — free offline replay (7/7), auto-run in `npm test`, in-app Regression screen + Personas page.
+- **onepage-run Phase 6** — "language of this role" glossary renders between prep and interview (confirmed in a live one-page run).
+
 - **cleanup-board (2026-06-12)** — this board created, old plans repointed, next-stage spec written ([archive](docs/todo/done/cleanup-board/PLAN.md)).
 - **engine-trust-gates Phases 1–3** — session-isolated question pool, honest thread-follow stems, planner grounding gate (`ee018b5`, `bb49e7c`, `cd581a7` + churn commit `9936c89`). Validated by green gate 2026-06-12 19:08 (8/8).
 - **jun11-demo-fixes Phases 1–3** — question integrity gate, brief wording, live scores (`5763b7e`, `91db38d`, `023a82c`), live-verified on the Machar session.
@@ -54,11 +73,18 @@ Standing constraints (from CLAUDE.md):
 
 ---
 
-## Repo state (audited 2026-06-12, late evening)
+## Repo state (audited 2026-06-15)
 
-`git status` is clean (only this cleanup's folder is new). The evening's ~560-file churn was all engine-trust-gates work, now committed — full mapping in the [audit note](docs/todo/done/cleanup-board/audit-note.md). Two old stashes exist (`cleanup/remove-dead-ai-handoff-core`, `design-system-foundation`) — **do not pop**. `logs/**` is gitignored apart from a May keep-set.
+The in-flight work (arc-editor, role-vocab-groups, role-profiles, lexicons, meeting arcs) was
+swept into commit `7b8921a` by the environment's auto-commit/push automation, then pushed — so the
+working tree is clean and `main` is up to date with origin. Three old stashes exist
+(`cleanup/remove-dead-ai-handoff-core`, `design-system-foundation`, + a WIP CSS/HTML cleanup) —
+**do not pop**. `logs/**` is gitignored apart from a May keep-set.
 
-**Gate status:** the code is green — last completed gate **PASSED 8/8** (2026-06-12 19:08, [result](logs/gate/2026-06-12T12-08-46-558Z/result.json)). The later 19:18 run **errored because API credit ran out**, not from a regression: all 18 attempts died at the first OpenAI call, $0 spent ([result](logs/gate/2026-06-12T12-18-27-732Z/result.json)). Re-check after top-up with `gate --only <case>` (~$0.35).
+**Test status:** `npm test` **26/26** green; `npm run replay` **7/7** ($0). Live `leak-devon` gate
+**PASSED** 2026-06-15 ([result](logs/gate/2026-06-15T01-54-32-606Z/result.json)). The Now column is
+green. Note: an auto-commit/push automation is active in this environment — "committed" no longer
+implies "signed off"; sign-off is tracked per-phase in each PLAN.md and Section 5 above.
 
 ## Trust boundary rules (what's enforced today)
 

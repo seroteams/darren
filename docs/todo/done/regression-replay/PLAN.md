@@ -13,13 +13,20 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Free checker (command line) | The checker + capture tool + first 3 saved runs (incl. both safety tests) + `npm run replay` | 🔨 |
+| 1 | Free checker (command line) | The checker + capture tool + first 3 saved runs (incl. both safety tests) + `npm run replay` | ✅ |
 | 2 | Full set + automatic | 7 cases (5 personas + 2 safety) + folded into `npm test` | ✅ |
-| 3 | In-app screen | "Regression" menu item + screen (Re-check all + green/red table) | 🔨 |
+| 3 | In-app screen | "Regression" menu item + screen (Re-check all + green/red table) | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
+
+**✅ ALL PHASES SIGNED OFF (2026-06-15).** Verified live + free: `npm run replay` → **7/7 PASS,
+$0, no AI**; auto-runs inside `npm test` (26/26); in-app `GET /api/regression/run` returns
+`verdict: "OK"` with `{ok:7, regressed:0, error:0, total:7}` (what the Regression screen renders);
+`/api/persona-bench` returns all 12 personas for the Personas page. Nothing regressed, so the nav
+alert dot stays off. (Code already in commit `7b8921a`; the earlier commit-collision warning is
+moot now that everything landed together.)
 
 **2026-06-14 — persona suite + Personas page landed.** Regression suite = **5 homepage personas —
 Maya Chen (Performance), Jordan Kim (Growth), Sofia Martinez (Bi-weekly), Rachel Singh + Marcus Lee

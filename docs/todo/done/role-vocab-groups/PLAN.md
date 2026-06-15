@@ -21,8 +21,8 @@ lexicons page — instead of one flat list of textbook terms.
 |---|---|---|---|
 | 1 | Engine + helper + tests | Grouped data shape + `group` threaded through `effectiveTerminology`/`listRoleProfiles` + `terminologyGroups`; old files still work; offline tests. No visible change. | ✅ |
 | 2 | Fixtures + grouped render | 3 archetypes (UX Lead, junior IC, director) shown grouped on both screens; styling. FREE. | ✅ |
-| 3 | Lock it | Offline regression guard so future edits can't silently break grouping. FREE. | 🔨 |
-| 4 | Real words (paid) | Prompt edited (all future gens grouped) + 5 archetypes regenerated for real & verified. Rest of library + gate pending Carl. | 🔨 |
+| 3 | Lock it | Offline regression guard so future edits can't silently break grouping. FREE. | ✅ |
+| 4 | Real words (paid) | Prompt edited (all future gens grouped) + 5 archetypes regenerated for real & verified. Rest of library + gate pending Carl. | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -64,8 +64,13 @@ role-aware labels (junior/ops roles got "Learning the role"/"Growing into", neve
 was NOT run** (his call; offline suite + live checks stand in). The whole Job lexicons library
 and every one-page run now show grouped, modern, model-written vocabulary.
 
-**Left:** Carl's eyeball on the real regenerated words (the product-owner QA), then flip
-Phase 4 ✅ and move this folder to `docs/todo/done/`. Commit still deferred (busy tree).
+**✅ SIGNED OFF (2026-06-15).** Carl + Claude walked the full role-type matrix on the real
+regenerated words: structural sweep clean on all 18 profiles (1–3 groups, no empty/orphan
+groups, every meaning ≤15 words), and the five matrix archetypes each read correctly — no
+forced "Lead" on the junior IC, Principal's middle group is influence/architecture not
+people-management, CSM's craft group is the discipline itself, Head of Product is
+leadership-led with no empty craft group. No invented jargon. Phases 3 + 4 flipped ✅;
+folder moved to `docs/todo/done/`. (Code already in commit `7b8921a`.)
 
 **Commit still deferred** (not bundled) — `src/role-profile.js` is shared with Carl's
 uncommitted job-lexicons overlay work; Phase 2 also edits in-flight files (`job-lexicons.js`,

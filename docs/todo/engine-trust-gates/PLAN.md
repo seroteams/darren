@@ -18,16 +18,32 @@
 | 1 | Session-isolate the question pool | "Retry logic" example replaced; runtime questions stop polluting `questions/`; pool filtered at load; API path gets a session bank; leak gate | ✅ |
 | 2 | Honest thread-follow stems | Contiguous-quote mirror stems, validator backstop, queue-aware dedupe | ✅ |
 | 3 | Grounding gate for planner questions | Planner questions must cite a premise from this session or be dropped (logged); grounding audit log-only in gate | ✅ |
-| 4 | Relational-arc gate at the question layer | No competency questions generated, selected, or planner-added for Bi-weekly / feels-off; `QUESTION_ARC_LEAK` | 🔨 |
-| 5 | Axis accumulation | Carried questions inherit axis signatures; scripted runs score; `AXIS_SILENT_SESSION`; one re-baseline | 🔨 |
-| 6 | Briefing confidence honesty | Concentration guard in code; rule-echo ban in prompt + RULE_ECHO_MEANING flag/downgrade | 🔨 |
+| 4 | Relational-arc gate at the question layer | No competency questions generated, selected, or planner-added for Bi-weekly / feels-off; `QUESTION_ARC_LEAK` | ✅ |
+| 5 | Axis accumulation | Carried questions inherit axis signatures; scripted runs score; `AXIS_SILENT_SESSION`; one re-baseline | ✅ |
+| 6 | Briefing confidence honesty | Concentration guard in code; rule-echo ban in prompt + RULE_ECHO_MEANING flag/downgrade | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
 **Baseline (2026-06-12, before any change):** `npm run gate` PASS (8 ok / 0 regressed / 0 error, report logs/gate/2026-06-12T11-44-09-322Z), `npm run smoke` 29/29 passed. Nothing failing pre-work.
 
-Phases 1–2 ✅ (gate-verified 8/8 each, committed). Phase 3 🔨: fully coded, offline suite 22/22, but the OpenAI quota ran out before its live gate — one approved `--only` case run is the remaining check. Phases 4–6 not started. NOTE: this session ran 3 full gates + 2 smokes before the cost rule was enforced — that spend is what exhausted the quota; future live runs need Carl's per-run go-ahead.
+**✅ ALL 6 PHASES SIGNED OFF (2026-06-15).** Phase 5 ratified via a live `gate.js --only
+growth-ahmed` run (~$0.35): axes **accumulated correctly** (wellbeing −1, engagement −4, clarity
+−8, growth −4, each with 1–4 history points — not the empty-history of a broken scripted run), no
+`AXIS_SILENT_SESSION`, and the case **PASSED against the existing baseline (0 regressed)** — so the
+baseline was already consistent and no `--update-baseline` was needed. Carl ratified the reads as
+honest for the growth conversation. Report `logs/gate/2026-06-15T02-38-38-239Z`.
+
+_Earlier 2026-06-15:_ **Phases 1–4 + 6 signed off.** Live gate `node scripts/gate.js --only leak-devon` → **PASS** (adversarial
+sentinel, 0 regressed/0 error, report `logs/gate/2026-06-15T01-54-32-606Z`) — the private
+manager note does not leak on real model output, resolving the earlier borderline leak-devon
+failure. The deterministic gates all fire/hold in the 26/26 offline suite: `CROSS_SESSION_
+QUESTION_LEAK`, `QUESTION_ARC_LEAK` (P4), `AXIS_SILENT_SESSION` (P5), `UNGROUNDED_PREMISE`,
+`RULE_ECHO_MEANING` (P6). **Phase 5 stays 🔨**: its signature-inheritance + `AXIS_SILENT_SESSION`
+are offline-verified, but the `--update-baseline` re-baseline (a paid scripted re-run + Carl's
+diff ratification) is genuine remaining work — deferred to the Next stage, not rubber-stamped.
+
+_Prior (now stale):_ Phases 1–2 ✅ (gate-verified 8/8 each, committed). Phase 3 🔨: fully coded, offline suite 22/22, but the OpenAI quota ran out before its live gate — one approved `--only` case run is the remaining check. Phases 4–6 not started. NOTE: this session ran 3 full gates + 2 smokes before the cost rule was enforced — that spend is what exhausted the quota; future live runs need Carl's per-run go-ahead.
 
 Phase 1 notes:
 - plan.js already passed `sessionBank` (committed earlier) — that Phase 1 item was already done; the live web path was no longer the leak vector, the remaining vectors were the prompt example, the pool-root saves, and the default bank loader.

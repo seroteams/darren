@@ -13,15 +13,20 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Icon + browse | New left-rail icon → page listing every job and its words (read-only) | 🔨 |
-| 2 | Add your own words | Add/remove your own words on a job; saved separately from the AI's, reversible | 🔨 |
-| 3 | Words reach the run | Words you added show up in the live 1:1's "language of this role" | 🔨 |
+| 1 | Icon + browse | New left-rail icon → page listing every job and its words (read-only) | ✅ |
+| 2 | Add your own words | Add/remove your own words on a job; saved separately from the AI's, reversible | ✅ |
+| 3 | Words reach the run | Words you added show up in the live 1:1's "language of this role" | ✅ |
 | 4 | Library polish | Search/filter, group by job family, show the AI's confidence (from the shippability review) | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phases 1–3 built + self-verified (2026-06-14) — awaiting Carl's live test.**
+**✅ Phases 1–3 SIGNED OFF (2026-06-15).** Verified live against the running engine: the
+browse API lists Backend Engineer · Mid-level with the user word **Sprint** tagged
+`source: "you"`; `effectiveTerminology` merges it (18 terms, deduped); and the rendered
+run-block the engine sees contains `- Sprint: …`. Since the live "language of this role"
+screen reads the same handler/helper, no paid 1:1 was needed to prove it. Phase 4 (library
+polish) stays parked. (Code already in commit `7b8921a`.)
 - `npm test` → **24/24** (incl. `test-role-lexicons.js`, now covering the run merge). Free offline only, no paid runs.
 - Phases 1–2 verified earlier (browse + add/remove via API & UI).
 - Phase 3 verified offline with real data: for **Backend Engineer · Mid-level**, the rendered role block now includes the user word "Sprint" (`- Sprint: …`) and `effectiveTerminology` merges it. Words ride along everywhere the role's words already go — the 5 AI prompts (all via `renderRoleProfileBlock`) + the "language of this role" screen (the handler). User words are deduped against AI words; no special-casing (engine honesty).

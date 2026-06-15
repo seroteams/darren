@@ -15,14 +15,22 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Core module + prompt + config | Role profiles can be generated, cached on disk, and rendered — nothing wired into the pipeline yet | ✅ |
-| 2 | Inject into all 5 stages | `{{ROLE_PROFILE_BLOCK}}` in every stage prompt, with safe fallback | 🔨 |
-| 3 | Intake wiring + live runs | Profile generated/loaded automatically at setup (CLI + web) | 🔨 |
-| 4 | Gates, smoke scenario, eval rules | New trust gates + automated checks lock the behaviour in | 🔨 |
+| 2 | Inject into all 5 stages | `{{ROLE_PROFILE_BLOCK}}` in every stage prompt, with safe fallback | ✅ |
+| 3 | Intake wiring + live runs | Profile generated/loaded automatically at setup (CLI + web) | ✅ |
+| 4 | Gates, smoke scenario, eval rules | New trust gates + automated checks lock the behaviour in | ✅ |
 
 ⬜ not started · 🔨 built, awaiting product-owner QA · ✅ done (tested)
 
 ## Current state
-All four phases are built and machine-verified (Carl green-lit Phase 1 and asked for the rest in one go on 2026-06-11). `npm test` 19/19, smoke 29/29 on the new SRE scenario, `npm run eval` green. Remaining: product-owner walkthrough of the phase 2–4 scenarios (phase-3 scenario 2 — cached second run — is the key one for the "saved for later use" promise), then flip statuses to ✅. Final gate run: 7/7 PASS (leak-devon had failed earlier in the day from the pre-existing per-turn-note passthrough work — borderline case, separate task chip raised and still open).
+**✅ ALL PHASES SIGNED OFF (2026-06-15).** Walkthrough verified the four promises: (1) cached
+second run — Backend Eng profile's prompt hash matches current, so `ensureRoleProfile` is a cache
+hit with no AI call; *also seen live* in the 2026-06-15 onepage run, where the glossary loaded
+instantly from the cached profile; (2) `{{ROLE_PROFILE_BLOCK}}` confirmed in all 5 stage prompts;
+(3) `snapshotToSession` writes `00b-role-profile/profile.json` on every path; (4) the
+`FOCUS_ARC_LEAK` gate lives in `evals/trust-checks.js` and passes in the 26/26 offline suite.
+Prior paid greens stand in for re-runs (smoke 29/29, eval green, gate 7/7). Code in `7b8921a`.
+
+_Prior:_ All four phases are built and machine-verified (Carl green-lit Phase 1 and asked for the rest in one go on 2026-06-11). `npm test` 19/19, smoke 29/29 on the new SRE scenario, `npm run eval` green. Remaining: product-owner walkthrough of the phase 2–4 scenarios (phase-3 scenario 2 — cached second run — is the key one for the "saved for later use" promise), then flip statuses to ✅. Final gate run: 7/7 PASS (leak-devon had failed earlier in the day from the pre-existing per-turn-note passthrough work — borderline case, separate task chip raised and still open).
 
 Added 2026-06-12 (Carl's request): every run's log folder now gets `00b-role-profile/profile.json` — the exact profile the run used — even on cache hits. Implemented in `snapshotToSession` (src/role-profile.js); covered by a smoke check and 3 offline checks, verified live.
 
