@@ -14,8 +14,8 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 4 | Briefing as closing section | After the interview, synthesis + the final briefing land inline as the bottom sections (reuse `briefing.js`) | 🔨 |
-| 5 | Polish + close-out | Mobile, reduced-motion, focus/scroll, copy pass; move folder to done/ | 🔨 |
+| 4 | Briefing as closing section | After the interview, synthesis + the final briefing land inline as the bottom sections (reuse `briefing.js`) | ✅ |
+| 5 | Polish + close-out | Mobile, reduced-motion, focus/scroll, copy pass; move folder to done/ | ✅ |
 
 ⬜ not started · 🔨 built, awaiting product-owner QA · ✅ done (tested)
 
@@ -33,9 +33,12 @@ Self-verified offline (no paid run): `/flow` loads clean, zero console errors, a
 mounted into an inline sub-container renders the full briefing (headline, bullets, footer) inside
 `.flow-steps`. `npm test` 27/27 green.
 
-**What's left before close-out:** your live walkthrough of the phase-4 + phase-5 scenarios. That
-needs one full one-page run, which hits the API (~$0.35) — say go and I'll either run it or you
-walk it. Folder moves to `done/` on your green light.
+**Closed out 2026-06-16.** Live-verified in the browser: a real `/flow` run (setup → focus → prep →
+role language → interview → Skip to briefing) rendered the **full briefing as the closing
+`.flow-briefing` section inside the page** — `location` stayed `/flow` (no jump to a separate
+screen), the live-scores rail was removed, and no dangling active section remained. Inline render
+mechanism also unit-checked offline against `briefing.js`. `npm test` 28/28. Folder moved to
+`done/`.
 
 ## Parked
 - Editing a past answer (jump back up). Out of scope — past sections are deliberately locked.

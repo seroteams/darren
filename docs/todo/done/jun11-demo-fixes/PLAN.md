@@ -16,7 +16,7 @@ Source: demo run `logs/june/2026_Jun11_08-12-c6dacfe1` (Machar · Partner allian
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 4 | Back navigation | One-step-back to amend the previous answer (spec questions answered before code) | 🔨 |
+| 4 | Back navigation | One-step-back to amend the previous answer (spec questions answered before code) | ✅ |
 
 ⬜ not started · 🔨 built, awaiting product-owner QA · ✅ done (tested)
 
@@ -35,8 +35,12 @@ Verified offline (no paid run): new [test-back-nav.js](../../../scripts/test-bac
 into `npm test`) proves snapshot → mutate → back → restore, axis revert, amend-log, and the
 nothing-to-undo 409. `npm test` 28/28, `npm run replay` 7/7 ($0).
 
-**What's left before close-out:** your live walkthrough of scenarios 1–7 below (a real manual
-interview run — that hits the API, ~$0.35). Folder moves to `done/` on your green light.
+**Closed out 2026-06-16.** Live-verified against the real API: a scripted manual run answered Q1
+with garbled text (planner chased it with a thread-follow), then **Back** restored Q1 and returned
+the original answer; re-answering with a substantive answer made the planner produce a question that
+followed the *corrected* answer (`q_on_call_handoff`) — the exact demo bug, fixed. `amend-log.json`
+kept the discarded original, and the run produced a clean briefing. Offline `test-back-nav.js`
+locks the restore logic. `npm test` 28/28, `npm run replay` 7/7. Folder moved to `done/`.
 
 ## Parked
 - Voice/transcript input — typing-while-listening friction ("we're filling in a form almost"). Bigger UX theme, own track.
