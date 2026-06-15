@@ -21,46 +21,15 @@ edits are plain JSON; reset = delete the overlay.
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Overlay data layer + registry merge | Backend can store an arc overlay and merge it over the code default; validation + orphan-count helper; offline tests. No UI. | ✅ |
-| 2 | Read API + read-only view | `GET /api/arcs` + a new in-app "Meeting arcs" page that shows every arc. View only. | ✅ |
-| 3 | Edit + save (write path + guardrail) | Save/reset endpoints behind the localhost guard; inline editing, add/remove/reorder phases, orphan warning before risky saves. | ✅ |
 | 4 | (optional) Promote stage-id check to a gate | Orphaned question tags caught by `npm test`; de-hardcode `test-intro-order.js`. | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
+_Phases 1–3 done + signed off (overlay layer, read view, edit/save with orphan guard); 5/5 scenarios verified live. Detail in git history._
+
 ## Current state
-**Phase 3 ✅ green-lit + committed (2026-06-15).** All five phase-3.md scenarios verified live
-against the running API; Carl gave the go. Phase 4 (optional gate) stays parked.
-
-- Phase 3 lands: `save`/`reset` in `frontend/server/handlers/arcs.js`; `POST /api/arcs/:slug`
-  + `POST /api/arcs/:slug/reset` behind `originOk` in `server.js`; `saveArc`/`resetArc` in
-  `api.js`; full inline editor (edit phases/tone/anti-patterns, add/remove/reorder, orphan-
-  warning confirm, Reset to default) in `stages/meeting-arcs.js`.
-- Verified live (free, $0): edit saved + persisted across re-fetch; `src/one-on-one-types/`
-  diff stayed empty (source untouched); reset cleaned the overlay back to default; renaming
-  `pulse` was held with the correct orphan count ("3 questions — 1 intro, 2 opener"); engine
-  reads arcs through the same `getArc` merge the page uses. `npm test` **26/26 green**.
-
----
-_Prior state:_
-**Phase 1 ✅ green-lit + committed (2026-06-14). Phase 2 ✅ green-lit + committed.**
-
-- Baseline: `npm test` 24/24 → **25/25 green** after Phase 1 (free, $0).
-- Phase 1 shipped: `src/arc-overlay.js`, overlay-aware `getType`/`getArc` in
-  `src/one-on-one-types/index.js`, `scripts/test-arc-overlay.js`. `type.js` files untouched.
-- Phase 1 ✅ committed `e9857b2`.
-- Phase 2 ✅ green-lit + committed `0020cae` (2026-06-14). The shared frontend wiring was
-  interleaved with Carl's in-progress "regression" feature; per his call the commit bundled
-  that regression wiring + the untracked files it imports (handlers/regression.js,
-  stages/regression.js, scripts/lib/replay-suite.js) so the tree builds.
-- **Phase 3 next — not started.** Awaiting Carl's go (one phase per run).
-
-Dev note: the standalone API on :3001 was restarted during Phase 2 verification but its
-background process has since exited — restart with `API_PORT=3001 node frontend/server/server.js`
-before Phase 3 browser testing.
-
-**Cost note:** this whole feature is offline, so the baseline is the **free** `npm test`,
-never `npm run gate` (~$3, needs a separate yes, proves nothing here).
+**Phase 4 (optional gate) stays parked.** The shipped feature is complete; this is a nice-to-have
+hardening step only.
 
 ## Parked
 - Editing `eval_rules` (a sensitive per-type string) — possible later phase, out of v1.

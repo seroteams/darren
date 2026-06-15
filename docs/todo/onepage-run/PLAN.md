@@ -14,44 +14,16 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Scaffold + setup grows down | New one-page run exists; the 5 setup questions stack and settle as you answer | ✅ |
-| 2 | Focus points + prep brief | Picking focus areas and reading the prep brief happen as new sections below setup | ✅ |
-| 3 | Interview grows down | The interview questions appear one below the next; each answer settles above | ✅ |
 | 4 | Results = page 2 | After the interview, the final briefing shows as a separate results page (reuse the existing briefing screen) | ⬜ |
 | 5 | Polish + close-out | Mobile, reduced-motion, focus/scroll, copy pass; move folder to done/ | ⬜ |
-| 6 | Role language section | "The language of this role" vocabulary between prep and the interview (flow-position: after phase 2, before phase 3) | ✅ |
 
 ⬜ not started · 🔨 built, awaiting product-owner QA · ✅ done (tested)
 
+_Phases 1, 2, 3, 6 done + signed off (grow-down setup → focus → prep → interview, plus the "language of this role" section). Detail in git history. Code in `7b8921a`._
+
 ## Current state
-**Phase 1 built — awaiting Carl's QA (2026-06-13).** Carl green-lit starting and named the CTA "One-page run", then stepped away for an hour, so I built Phase 1 and self-verified with free checks only (not committed — waiting on Carl's walkthrough of the phase-1 scenarios).
-
-Baseline before any change: `npm test` → **23/23 passed** (clean). After the change: still **23/23** (this is frontend-only; no test touches it).
-
-What landed: a new `ONEPAGE` stage + `/flow` route, a "One-page run" button on the start screen, and the 5 setup questions on one growing page that settle into a locked "answered" look (question + your answer + ✓, not a greyed-out disabled box). Finishing setup calls the same `startSession` as a normal run and shows a "setup saved" ready section (Phase 1 stops there by design; Phase 2 continues into focus points). No backend/prompt/engine changes anywhere — paid runs only needed to smoke-test a real end-to-end one-page run later (Carl's go-ahead, ~$0.35/run).
-
-**Phase 1 ✅ green-lit by Carl (2026-06-13)** — he walked a full setup himself and confirmed it. Committed locally.
-
-**Carl's direction for the rest:** he wants the *entire* flow continuous — **page 1 grows down through setup → focus areas → prep brief → questions**, and **page 2 = the final results** (the briefing). For results we reuse the existing briefing screen as page 2 (keeps it polished). Phase 4 reworded to match.
-
-**Phase 2 ✅ verified (2026-06-13)** via a Carl-authorized ~$0.35 run: focus areas + prep brief now stream in as grow-down sections after setup, focus settles into a locked line, then an interim "Continue to interview" bridges to the existing question + briefing screens. Committed locally.
-
-**Phase 3 built (2026-06-14), not yet committed — awaiting a live walk.** After prep, the bank builds, then questions grow down one card at a time (answer → settles into a locked Q&A line → next appears below), with a persistent "Live scores" rail. When questions end it hands to the existing EVAL → BRIEFING screens (page 2). `npm test` 23/23; module mounts clean.
-
-**Blocker on verification:** the preview automation server kept dropping every 1–2 min, so a full interview walk couldn't complete (each answer's scoring takes 5–15s). Setup → focus generation did run (one session's worth of spend). Recommend Carl walks Phase 3 at localhost:3000 in a normal browser (stable); I'll fix anything he hits, then commit + flip to ✅.
-
-**Phase 3 ✅ green-lit + committed (2026-06-14).** Carl walked the interview live (grow-down questions, settled answers, live flow). Two fixes from his walk: (1) the question stem rendered grey — the bold/dark `.question-stem` rule was scoped to `.questioning-card`, now extended to `.flow-section`; (2) — none other.
-
-**Phase 6 ✅ CONFIRMED (2026-06-15) via a Carl-authorised ~$0.35 one-page run.** Fresh run
-(Sam · Backend Engineer · Mid-level · Bi-weekly): after the prep brief, clicking "Continue to
-interview" rendered **"The language of this role"** *before* the interview, grouped — *Backend
-craft · Delivery and quality · Production and operations · Other* — 18 terms. Bonus: the
-user-added word **"Sprint"** appeared in the "Other" bucket, so this one run also confirmed
-job-lexicons (user word reaches a live 1:1) and role-vocab-groups (grouped vocab on the run
-screen). Screenshot captured. The earlier HMR mix-up is resolved now the code is committed
-(`7b8921a`). Phases 4–5 (results-as-page-2, polish) remain — not part of this sign-off.
-
-Cost note: focus + prep + questions + briefing each hit the OpenAI API. I build + structurally verify for free; a real end-to-end walk is a paid run (Carl's go-ahead, ~$0.35).
+**Phases 4 (results-as-page-2) and 5 (polish + close-out) remain.** The grow-down flow works
+end-to-end through the interview; what's left is the results page reuse and the final polish pass.
 
 ## Parked
 - Editing a past answer (jump back up). Out of scope — past sections are deliberately locked.

@@ -16,50 +16,19 @@ Source: demo run `logs/june/2026_Jun11_08-12-c6dacfe1` (Machar · Partner allian
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Question integrity | Central eligibility gate every question passes before the UI + rejection logging + Machar regression fixture | ✅ |
-| 2 | Brief wording | Name-not-title + plain-language guard (flag-and-retry, never rewrite) | ✅ |
-| 3 | Live scores | Timeboxed diagnosis of stalled score bars; fix or honest "didn't update" indicator | ✅ |
 | 4 | Back navigation | One-step-back to amend the previous answer (spec questions answered before code) | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
+_Phases 1–3 done + signed off 2026-06-15 (question integrity, brief wording, live scores); detail in git history. Code in `7b8921a`._
+
 ## Current state
-Phase 1 built (2026-06-12), awaiting product-owner test. **Baseline:** `npm run gate` = 7/7 ERROR — not a quality signal: every OpenAI call fails with 429 `insufficient_quota` (account out of credit). Live verification (gate, full smoke, Machar re-run) is blocked until the OpenAI quota is restored — needs Carl.
-
-What landed (uncommitted until green light):
-- `src/question-eligibility.js` — the central gate (type forbidden patterns + duplicate-text check) + rejection logging (`eligibility-log.json` in each run dir).
-- Wired into every path: opener pick, planner new items, coverage insertion, seed overflow (CLI + web), and serve-time checks in both the CLI loop and the web `/api/question` handler (scripted runs: log-only, path stays frozen).
-- Bi-weekly `type.js` got `forbidden_question_res` (machine-checkable subset of its anti-patterns).
-- Thread-follow: grounds in the answer's words or skips — canned stem removed; real transcript passed; repeat-protected.
-- Web plan handler now passes `sessionBank` (the global-bank pollution fix the CLI already had); built in `bank.js`, persisted.
-- `QUESTION_INTEGRITY` hard-fail added to trust checks; Machar demo frozen as fixtures (`evals/fixtures/machar-jun11-*`), golden case `machar-biweekly-jun11` registered, scenario at `scenarios/regression/machar-biweekly-jun11.json`.
-- `scripts/test-question-integrity.js` (21 checks, incl. negative test: the frozen Jun 11 run trips all four detectors) added to `npm test` — 20/20 suites pass.
-
-Verified offline: `npm test` 20/20 (incl. 23-check question-integrity suite with the frozen Jun 11 negative test); handlers load; lint clean (one pre-existing warning); live wiring check (start → first question on a Machar bi-weekly) served a work-appropriate opener through both gates. An independent adversarial code review (7 angles, 28 candidates) was run over the diff: most candidates refuted against the code; accepted fixes — sessionBank fallback hardened (any supplied array is authoritative, legacy null → seeds-only never global), serve-time gate extracted to one shared `dropIneligibleHeads` helper used by both CLI and web. Known consequences noted in Parked (thread-follow fires rarely by design; stale batch-k-verify flagged as separate task).
-
-Carl delegated the Phase 1 green light to self-verification (2026-06-12: "check first, propose") — committed on that basis; the live QA scenarios still get walked once OpenAI quota is restored, and the phase only goes ✅ after that.
-
-**Phase 2 built same day (lean mode):** name-not-title rule + plain-language guard in `prompts/preparation.md` + `validateBrief()` (name required in coreIssue, jargon backstop via shared `findJargon` in `src/golden-checks.js` — "bandwidth" deliberately excluded because the prep prompt recommends it); jargon line added to `prompts/generate-questions.md` plain-speech lint + drop-and-log backstop in `generateBank` (`dropped_jargon` in the stage log); Jun 11 brief frozen as `evals/fixtures/machar-jun11-brief.json`; `scripts/test-prep-wording.js` (12 checks) in `npm test` (21/21 suites).
-
-**OpenAI quota is working again** (discovered 2026-06-12 when a module load-check accidentally executed a full smoke run — $0.37, 29/29 checks passed, Phase 1+2 behaviour all visible live). Cost correction: a full pipeline run is ~$0.37 (planner stage ×9 on the big model), so the 8-case gate ≈ $3 — run it only with Carl's nod. The Machar regression gate case was run solo (~$0.35): **PASS end-to-end** — brief says "Machar" (not the title), no jargon, clean suggestedAction, 9 distinct questions, QUESTION_INTEGRITY clean. Session OpenAI spend ≈ $0.72.
-
-**Phase 3 built same day:** root cause of the frozen score bars was the client's 6.6s cap on the scoring stream (planner takes 5–15s → stream closed before the axes event most turns; also let the UI race ahead of the re-plan — the "haywire" amplifier). Fixed: wait for the stream's terminal event, 120s loud-failure backstop; plus instant score-text snap in hidden tabs (background tabs pause the count-up animation). Live-verified in the browser on a Machar session (2 turns, ~$0.10): bars moved both turns, hidden-tab numbers correct, console clean, prod build + lint green. Details in phase-3.md.
-
-Carl declined the full-gate re-baseline (cost). Next: Carl eyeballs phases 1–3 in the app when convenient → ✅ → Phase 4 (back-to-question; spec questions first).
-
-**✅ Phases 1–3 SIGNED OFF (2026-06-15).** The paid proof already existed (the solo Machar
-regression gate PASS end-to-end on 2026-06-12 + the Phase 3 browser check where bars moved both
-turns). Re-confirmed offline today: `QUESTION_INTEGRITY` hard-fail in `evals/trust-checks.js`,
-golden case `machar-biweekly-jun11` + frozen Machar fixtures, `src/question-eligibility.js` gate
-(P1); `findJargon` name/jargon guard in `src/golden-checks.js` + `preparation.md` (P2); the
-scoring-stream terminal-event fix in `sse.js`/`briefing.js` (P3) — and the four deterministic
-tests (question-integrity, prep-wording, briefing-prompt-rules, briefing-integrity) pass in the
-26/26 offline suite. Code in `7b8921a`. **Phase 4 (back navigation) is now unblocked** — net-new
-work, not part of this sign-off.
+**Phase 4 (back navigation) is unblocked — not started.** Net-new work: spec the one-step-back
+behaviour before code.
 
 ## Parked
 - Voice/transcript input — typing-while-listening friction ("we're filling in a form almost"). Bigger UX theme, own track.
-- Role context for unfamiliar roles — already the role-profiles track (`docs/todo/role-profiles/`); the Machar run predated role-profile wiring, newer runs have it.
+- Role context for unfamiliar roles — already the role-profiles track (`docs/todo/done/role-profiles/`); the Machar run predated role-profile wiring, newer runs have it.
 - Axis scoring penalises garbled *typing* as low "clarity" — worth a look at whether clarity should judge the report's message, not the manager's typos. Revisit after Phase 4.
 - Marketing/content angles from the call (meeting-type content pillars, "types of 1:1s" audience question) — Machar's side, not engine work.
 - Thread-follow now fires rarely by design: it grounds in the answer's words or stays silent, and the validator rejects the vague mirror on long (≥8-word) answers — so substantive answers get no injected follow-up (the planner prompt is still told to follow them itself). The deeper fix is a real model-generated follow-up instead of a template stem. Revisit if live runs feel like threads get dropped.
