@@ -16,15 +16,27 @@ Source: demo run `logs/june/2026_Jun11_08-12-c6dacfe1` (Machar · Partner allian
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 4 | Back navigation | One-step-back to amend the previous answer (spec questions answered before code) | ⬜ |
+| 4 | Back navigation | One-step-back to amend the previous answer (spec questions answered before code) | 🔨 |
 
-⬜ not started · 🔨 in progress · ✅ done (tested)
+⬜ not started · 🔨 built, awaiting product-owner QA · ✅ done (tested)
 
 _Phases 1–3 done + signed off 2026-06-15 (question integrity, brief wording, live scores); detail in git history. Code in `7b8921a`._
 
 ## Current state
-**Phase 4 (back navigation) is unblocked — not started.** Net-new work: spec the one-step-back
-behaviour before code.
+**Phase 4 (back navigation) built + offline-verified (2026-06-16) — awaiting your walkthrough.**
+Full discard-&-re-run on one step back, per the confirmed spec: `plan.js` snapshots turn state
+before mutating; `POST /api/back` ([back.js](../../../frontend/server/handlers/back.js)) pops it,
+restores turn/queue/axes/transcript/agenda flags, clears the undone turn's cached plan, and appends
+the discarded answer to `amend-log.json`. UI: a "Back" control from Q2 onward (manual mode only)
+re-presents the previous question prefilled and reverts the live score bars. Snapshots persist/
+hydrate across restart.
+
+Verified offline (no paid run): new [test-back-nav.js](../../../scripts/test-back-nav.js) (wired
+into `npm test`) proves snapshot → mutate → back → restore, axis revert, amend-log, and the
+nothing-to-undo 409. `npm test` 28/28, `npm run replay` 7/7 ($0).
+
+**What's left before close-out:** your live walkthrough of scenarios 1–7 below (a real manual
+interview run — that hits the API, ~$0.35). Folder moves to `done/` on your green light.
 
 ## Parked
 - Voice/transcript input — typing-while-listening friction ("we're filling in a form almost"). Bigger UX theme, own track.

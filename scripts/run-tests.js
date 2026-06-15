@@ -14,6 +14,7 @@ const SCRIPTS_DIR = __dirname;
 const OFFLINE_TESTS = [
   "test-answer-suggest-shape.js",
   "test-arc-overlay.js",
+  "test-back-nav.js",
   "test-axis-coverage.js",
   "test-briefing-integrity.js",
   "test-briefing-prompt-rules.js",

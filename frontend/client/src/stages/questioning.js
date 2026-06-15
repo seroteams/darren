@@ -1,5 +1,5 @@
 import { STAGES } from "../state.js";
-import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered } from "../api.js";
+import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack } from "../api.js";
 import { createOrb } from "../ui/orb.js";
 import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { openSse } from "../sse.js";
@@ -75,7 +75,7 @@ export async function mount(root, { store, setState }) {
     setState({ stage: STAGES.BRIEFING });
   });
 
-  async function showNextQuestion() {
+  async function showNextQuestion({ prefill = null } = {}) {
     qHost.innerHTML = "";
     thinkingHost.innerHTML = "";
     footerHost.innerHTML = "";
@@ -129,6 +129,7 @@ export async function mount(root, { store, setState }) {
         <button class="btn js-submit">Submit answer</button>
         <button class="btn btn--ghost js-deeper" type="button" disabled>Go deeper</button>
         <button class="btn btn--ghost js-skip">Skip</button>
+        ${res.turn > 1 && !scripted ? `<button class="btn btn--ghost js-back" type="button" title="Go back and fix your last answer">Back</button>` : ""}
         ${scripted ? `<button class="btn btn--ghost js-play" type="button">Insert scripted answer</button><button class="btn btn--ghost js-play-submit" type="button">Insert & submit</button>` : ""}
         ${!scripted && import.meta.env.DEV ? `<button class="btn btn--ghost js-suggest" type="button">Suggest notes (dev)</button>` : ""}
       </div>
@@ -146,6 +147,7 @@ export async function mount(root, { store, setState }) {
     });
 
     const ta = card.querySelector("textarea");
+    if (prefill) ta.value = prefill;
     setTimeout(() => ta.focus({ preventScroll: true }), 260);
 
     const deeperBtn = card.querySelector(".js-deeper");
@@ -178,6 +180,34 @@ export async function mount(root, { store, setState }) {
     card.querySelector(".js-submit").addEventListener("click", () => onSubmit(ta.value));
     deeperBtn.addEventListener("click", () => onSubmit(ta.value, { goDeeper: true }));
     card.querySelector(".js-skip").addEventListener("click", () => onSubmit(""));
+
+    const backBtn = card.querySelector(".js-back");
+    if (backBtn) {
+      backBtn.addEventListener("click", async () => {
+        backBtn.disabled = true;
+        let prev;
+        try {
+          prev = await goBack(store.sessionId);
+        } catch (e) {
+          backBtn.disabled = false;
+          footerHost.innerHTML = "";
+          const warn = document.createElement("div");
+          warn.className = "hint mt-2 text-amber-500";
+          warn.textContent = "Couldn't go back — the previous answer may already be locked in.";
+          footerHost.appendChild(warn);
+          return;
+        }
+        if (activeEscListener) {
+          document.removeEventListener("keydown", activeEscListener);
+          activeEscListener = null;
+        }
+        if (prev.axes) {
+          axes.renderInitial(prev.axes);
+          store.axes = prev.axes;
+        }
+        showNextQuestion({ prefill: prev.answer ?? "" });
+      });
+    }
 
     // Default source is manual; the Play button promotes it to scripted/fallback.
     let answerSource = "manual";

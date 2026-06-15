@@ -15,6 +15,7 @@ const start = require("./handlers/start");
 const question = require("./handlers/question");
 const suggestAnswers = require("./handlers/suggest-answers");
 const answer = require("./handlers/answer");
+const back = require("./handlers/back");
 const focusPoints = require("./handlers/focus-points");
 const selectedFocus = require("./handlers/selected-focus");
 const preparation = require("./handlers/preparation");
@@ -111,6 +112,10 @@ function main() {
   router.add("POST", "/api/answer", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return answer(c);
+  });
+  router.add("POST", "/api/back", (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return back(c);
   });
   router.add("POST", "/api/notes", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));

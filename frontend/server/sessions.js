@@ -45,6 +45,7 @@ function createWebSession(ctx, introQueue) {
     agendaCovered: null,
 
     lastPlanByTurn: new Map(),
+    turnSnapshots: [],
 
     pendingAnswer: null,
     pendingDrillRequest: false,

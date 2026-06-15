@@ -37,6 +37,25 @@ module.exports = async function plan(c) {
   }
 
   const pending = session.pendingAnswer;
+
+  // Back-navigation snapshot: capture the turn-affecting state BEFORE this turn
+  // mutates it, so POST /api/back can restore the previous question for an amend.
+  // Taken only on the real planning path (not the idempotent replay above).
+  const clone = (x) => (x == null ? x : JSON.parse(JSON.stringify(x)));
+  (session.turnSnapshots ||= []).push({
+    appliedTurn: session.turn + 1,
+    turn: session.turn,
+    totalBudget: session.totalBudget,
+    queueRef: clone(session.queueRef),
+    axisState: clone(session.axisState),
+    transcript: clone(session.transcript),
+    agendaInjected: session.agendaInjected,
+    agendaInput: clone(session.agendaInput),
+    showReturningToArcHint: session.showReturningToArcHint,
+    question: clone(session.queueRef[0]),
+    answerText: pending.raw,
+  });
+
   session.pendingAnswer = null;
 
   const q = session.queueRef.shift();

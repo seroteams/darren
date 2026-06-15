@@ -31,6 +31,7 @@ function serialize(s) {
     prepOpener: s.prepOpener ?? null,
     sessionBank: s.sessionBank ?? null,
     pendingAnswer: s.pendingAnswer,
+    turnSnapshots: s.turnSnapshots ?? [],
     pendingDrillRequest: Boolean(s.pendingDrillRequest),
     showReturningToArcHint: Boolean(s.showReturningToArcHint),
     notes: s.notes || [],
@@ -65,6 +66,7 @@ function hydrateSession(s, sessionDir) {
   s.lastPlanByTurn = new Map();
   s.inFlight = new Map();
   s.tracker = cost.createTracker();
+  if (!Array.isArray(s.turnSnapshots)) s.turnSnapshots = [];
   if (s.pendingDrillRequest == null) s.pendingDrillRequest = false;
   if (s.showReturningToArcHint == null) s.showReturningToArcHint = false;
   if (s.agendaInjected == null) s.agendaInjected = false;

@@ -1,6 +1,6 @@
 # Phase 4 — Back-to-question navigation
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 in progress · Phases 1–3 approved & committed.
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built + offline-verified, awaiting product-owner walkthrough · Phases 1–3 approved & committed.
 
 ## Goal
 The manager can step back one question, fix the answer (typos, missed half a sentence), and the session carries on from the corrected answer.

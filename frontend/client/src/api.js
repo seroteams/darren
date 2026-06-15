@@ -91,6 +91,10 @@ export async function submitAnswer(sessionId, answer, { goDeeper = false, answer
   );
 }
 
+export async function goBack(sessionId) {
+  return postJson("/api/back", { sessionId });
+}
+
 export async function setAgendaCovered(sessionId, covered) {
   return postJson("/api/agenda/cover", { sessionId, covered });
 }
