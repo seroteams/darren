@@ -1,0 +1,10 @@
+alias: q_tech_lead_pull_23
+label: Tech lead pull
+name: Tech lead — what about that role is pulling you most?
+description: Drills into the specific aspect of tech lead work that feels motivating so the growth thread becomes concrete.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: tech lead role

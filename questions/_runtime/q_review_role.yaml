@@ -1,0 +1,10 @@
+alias: q_review_role
+label: Review role
+name: What role do you want to play in architecture review over the next year?
+description: Turns the named forum into a concrete aspiration about scope and presence.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: present more often

@@ -1,0 +1,10 @@
+alias: q_harder_parts_2
+label: Harder parts
+name: When you say the harder parts, what kind of problems do you want more of?
+description: Makes his stretch concrete by naming the kind of senior-level work that most pulls him.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+source: planner_added
+grounding: harder parts of the system

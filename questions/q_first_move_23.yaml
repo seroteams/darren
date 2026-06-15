@@ -1,0 +1,10 @@
+alias: q_first_move_23
+label: First move
+name: What is the first concrete move you want to make before we next meet?
+description: Ends the conversation on a real step he owns, tied to the growth path you just mapped.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

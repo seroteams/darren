@@ -1,0 +1,10 @@
+alias: q_stuck_dependency
+label: Stuck dependency
+name: What is currently waiting on another team or decision?
+description: Useful for spotting the specific handoff that is holding delivery up.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

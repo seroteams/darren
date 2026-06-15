@@ -1,0 +1,10 @@
+alias: q_decision_boundaries_2
+label: Decision boundaries
+name: Where do you draw the line between decisions you should own and ones you should delegate?
+description: Helps you hear how he thinks about scope, ownership, and stepping back.
+purpose: competency
+stage: anchor
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

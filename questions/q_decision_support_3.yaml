@@ -1,0 +1,10 @@
+alias: q_decision_support_3
+label: Decision support
+name: Where would my backing make the biggest difference this week?
+description: Helps you find the one place your support would actually change the pace or shape of the decision.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

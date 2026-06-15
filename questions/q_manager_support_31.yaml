@@ -1,10 +1,10 @@
 alias: q_manager_support_31
 label: Manager support
-name: What would make the next two weeks steadier for you from my side?
-description: Ends with a practical ask so you leave with something concrete to do.
+name: Where would my support make the biggest difference for that next step?
+description: Helps you find the one place your backing would actually change his odds.
 purpose: topic
-stage: lift
+stage: investment
 axis_effects:
+  growth: +1
   clarity: +1
-  wellbeing: +1
 source: generated

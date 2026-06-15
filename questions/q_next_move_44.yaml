@@ -1,0 +1,10 @@
+alias: q_next_move_44
+label: Next move
+name: What is the next move you want to make before we meet again?
+description: Leaves the conversation with one concrete step he owns, not a loose career idea.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

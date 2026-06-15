@@ -1,0 +1,10 @@
+alias: q_influence_gap_3
+label: Influence gap
+name: Where does your influence still feel thin with key stakeholders?
+description: Gets specific about the rooms and relationships where senior scope is not yet landing.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

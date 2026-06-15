@@ -1,0 +1,10 @@
+alias: q_alignment_hesitation_13
+label: Alignment hesitation
+name: What makes cross-org alignment harder for you than running projects?
+description: Drills into the specific leadership barrier behind his hesitation in political, cross-functional situations.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: hesitates on shaping cross-org alignment

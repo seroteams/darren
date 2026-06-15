@@ -1,0 +1,10 @@
+alias: q_next_step_18
+label: Next step
+name: What do you want to do first after this conversation?
+description: Lands the meeting on a concrete next move instead of leaving the issue hanging.
+purpose: topic
+stage: lift
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

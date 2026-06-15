@@ -1,0 +1,10 @@
+alias: q_political_moments_26
+label: Political moments
+name: In those political moments, what feels hardest to hold onto?
+description: Drills into what breaks down when influence gets political so the leadership pattern is clearer.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: conversations get political

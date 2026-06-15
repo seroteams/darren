@@ -1,0 +1,10 @@
+alias: q_pulling_thread
+label: Pulling thread
+name: What kind of problems do you want to be known for taking on?
+description: Lets you hear what sort of technical scope he wants to build around.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

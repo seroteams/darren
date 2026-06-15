@@ -1,0 +1,10 @@
+alias: q_trade_offs_needed
+label: Trade-offs needed
+name: What would you need to stop carrying yourself to make room for more strategic ownership?
+description: Shows what he is still holding onto and what would need to move for the next step to feel real.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+  wellbeing: +1
+source: generated

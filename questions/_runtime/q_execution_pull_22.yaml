@@ -1,0 +1,10 @@
+alias: q_execution_pull_22
+label: Execution pull
+name: What keeps pulling you back into execution details right now?
+description: Drills into the specific forces keeping him in tactical work instead of broader scope.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: too much time in execution details

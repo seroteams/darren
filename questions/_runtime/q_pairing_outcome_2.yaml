@@ -1,0 +1,10 @@
+alias: q_pairing_outcome_2
+label: Pairing outcome
+name: What would you want to come out of pairing with the staff engineer?
+description: Clarifies the concrete outcome he wants from the pairing so the investment is specific.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: pair with the staff engineer

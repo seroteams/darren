@@ -1,0 +1,10 @@
+alias: q_cross_team_visibility_9
+label: Cross-team visibility
+name: What would more visibility with other teams actually look like for you?
+description: Drills into the specific kind of cross-team exposure he sees as the missing piece in his stretch.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+source: planner_added
+grounding: more visibility with other teams
