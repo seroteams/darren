@@ -86,12 +86,47 @@ export async function mount(root, { store, setState }) {
       return `<p class="text-ink leading-relaxed">${escape(value || "")}</p>`;
     }
 
+    // Ordered "first move" timeline, built from the existing brief fields, so the
+    // manager can glance and know what to do before/at the start of the meeting.
+    const steps = [];
+    const sa = String(brief.suggestedAction || "").trim();
+    if (sa) steps.push({ when: "Before you go in", body: sa });
+    const oq = String(brief.openingQuestion || "").trim();
+    if (oq) steps.push({ when: "Open with", body: oq, quote: true });
+    const lf = (brief.listenFor || []).filter(Boolean);
+    if (lf.length) steps.push({ when: "Then listen for", list: lf });
+    const go = String(brief.goodOutcome || "").trim();
+    if (go) steps.push({ when: "Aim to leave with", body: go });
+
+    const timelineHtml = steps.length
+      ? `
+        <div class="reveal">
+          <div class="eyebrow mb-2">At a glance — your first move</div>
+          <ol class="prep-timeline">
+            ${steps.map((s, i) => `
+              <li class="prep-timeline__step">
+                <div class="prep-timeline__num">${i + 1}</div>
+                <div class="prep-timeline__body">
+                  <div class="prep-timeline__when">${s.when}</div>
+                  ${s.quote
+                    ? `<blockquote class="prep-callout">${escape(s.body)}</blockquote>`
+                    : s.list
+                      ? `<ul class="prep-list">${s.list.map((x) => `<li>${escape(x)}</li>`).join("")}</ul>`
+                      : `<p class="text-ink leading-relaxed">${escape(s.body)}</p>`}
+                </div>
+              </li>`).join("")}
+          </ol>
+        </div>`
+      : "";
+
     resultHost.innerHTML = `
       <div class="space-y-6">
         <div class="briefing-section-head reveal">
           <div class="eyebrow">Prep brief ready</div>
           <button type="button" class="btn btn--ghost btn--sm js-copy-all-prep">Copy all</button>
         </div>
+        ${timelineHtml}
+        ${steps.length ? `<div class="eyebrow reveal pt-2">Full brief</div>` : ""}
         ${sections.map((s) => `
           <div class="reveal">
             <div class="eyebrow mb-2">${s.label}</div>

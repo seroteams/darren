@@ -50,7 +50,7 @@ demo-fix todos.
 **Builds on:** `src/generate.js`, role profile block injection (role-profiles track), `src/one-on-one-types/` tone registers.
 **Done when:** the prep brief for the same person reads distinctly different across meeting types, and gate stays green.
 
-### 6 — Prep timeline UI
+### 6 — Prep timeline UI ✅ (2026-06-16)
 **Scope:** One screen improvement: show the manager what to do before/during the meeting as a simple ordered timeline (from existing prep output). No settings, no dashboard.
 **Builds on:** `frontend/client/src/stages/preparation.js`.
 **Done when:** a manager can glance at prep and know their first move.
