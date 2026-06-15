@@ -3,6 +3,9 @@
 **This is the only active board.** Every other planning file is either done, parked, or points here.
 Created 2026-06-12. Driver: Carl. Update this file the moment work lands — not the old plans.
 
+**Direction (long-range):** [docs/ROADMAP.md](docs/ROADMAP.md) — milestones and where this is headed.
+This board is tactical; the **Next** column below is fed from the roadmap's current milestone.
+
 Standing constraints (from CLAUDE.md):
 - **No paid runs without a yes.** Anything hitting the OpenAI API needs Carl's explicit per-run go-ahead with a cost stated first (~$0.35/pipeline run, ~$3 full gate). Smallest thing that proves the point: `node scripts/gate.js --only <case>`.
 - **No silent masking.** Surface raw model output; gate and flag, never rewrite.
@@ -10,30 +13,31 @@ Standing constraints (from CLAUDE.md):
 
 ---
 
-## 1. Now — ✅ GREEN (signed off 2026-06-15)
+## 1. Now — open work
 
-The whole Now column was product-owner-walked and signed off on 2026-06-15 (Carl + Claude;
-session spend ~$0.35 — one live `leak-devon` gate PASS). Everything below is verified; only two
-small, deliberately-deferred items remain.
+The Now column was product-owner-walked and signed off green on 2026-06-15. Completed items have
+been cleared off this board to keep it focused on what's left; the full history lives in each
+plan's git log. What remains:
 
 | Item | State | Next step |
 |---|---|---|
-| **OpenAI credit** | Working (live `leak-devon` gate ran clean 2026-06-15) | — |
-| **engine-trust-gates Phases 1–6** ([plan](docs/todo/engine-trust-gates/PLAN.md)) | ✅ Signed off — live `leak-devon` PASS + Phase 5 ratified via live `growth-ahmed` (axes accumulate, 0 regressed) + all gates green in 26/26 offline | done |
-| **role-profiles Phases 2–4** ([plan](docs/todo/role-profiles/PLAN.md)) | ✅ Signed off — cached-second-run proven live + offline; block in all 5 stages; focus-arc gate green | done |
-| **jun11-demo-fixes Phases 1–3** ([plan](docs/todo/jun11-demo-fixes/PLAN.md)) | ✅ Signed off — prior Machar gate PASS + offline gates green | done |
-| **jun11-demo-fixes Phase 4** — back navigation | 🔨 not started (now **unblocked**) | net-new; build when ready |
+| **jun11-demo-fixes Phase 4** — back navigation ([plan](docs/todo/jun11-demo-fixes/PLAN.md)) | 🔨 built + offline-verified | Carl walks scenarios 1–7 (needs one live run ~$0.35) → close out |
+| **onepage-run Phases 4+5** — inline briefing + polish ([plan](docs/todo/onepage-run/PLAN.md)) | 🔨 built + offline-verified | Carl walks the flow (needs one live run ~$0.35) → close out |
 
-**Feature folders (built since the board, all signed off 2026-06-15):** arc-editor (edit/save
-meeting arcs, 5/5 live) · role-vocab-groups (grouped vocab, moved to done/) · job-lexicons (your
-words reach the run) · regression-replay (7/7 + in-app screen) · onepage-run glossary (confirmed
-in a live run). See Section 5.
+Both above are code-complete and offline-verified (`npm test` 28/28, replay 7/7);
+the only thing left is Carl's live click-through, which costs API. A single
+one-page run with a Back step could bless both at once.
+
+Two small items were deliberately deferred (see engine-trust-gates → Parked): the
+`UNGROUNDED_MEANING` check and the Phase 5 `--update-baseline` re-run.
+
+Closed out 2026-06-16: **job-lexicons** and **arc-editor** (both → `docs/todo/done/`).
 
 ## 2. Next — after Now is green
 
 | Item | Scope |
 |---|---|
-| **Next-stage build** ([spec](docs/todo/next-stage/PLAN.md) — written in cleanup Phase 4) | 8 phases, hardening + gap-fill of the existing app: contracts → session continuity (persistence) → briefing fallback → issue pills/observed shift → prep quality → prep timeline UI → live runner polish → summary/follow-up. **Now is green — this is unblocked.** |
+| **Next-stage build** ([spec](docs/todo/next-stage/PLAN.md)) | 8 phases. **Phase 1 (Contracts) ✅ done 2026-06-16** ([docs/contracts.md](docs/contracts.md)). Remaining: session continuity (persistence) → briefing fallback → issue pills/observed shift → prep quality → prep timeline UI → live runner polish → summary/follow-up. One phase at a time; Phase 2 next. Phases 3 (fallback) is offline-safe; 4–8 need live runs/UI QA. |
 
 ## 3. Parked — good ideas, not now
 
@@ -50,26 +54,10 @@ in a live run). See Section 5.
 - **Historical analytics** — replaced by **session continuity**: session-level history only (save/resume a run's stages, see past sessions for context). **No dashboards, no trends, no HR analytics.** That's the whole scope.
 - **Generic coaching toolbox** — Sero preps real 1:1s; it is not a content library.
 
-## 5. Done / committed
+## 5. Done
 
-**Signed off 2026-06-15 (full QA pass — Carl + Claude):**
-- **verdicts-june-07 (all 3 phases)** — honest arc stages (verified on real runs), `v2-plain` question rewording + prompt avoid-list, briefing jargon ban + meeting-type voice. Found already-implemented in the engine work; verified + closed. Folder → [done/](docs/todo/done/verdicts-june-07/PLAN.md).
-- **engine-trust-gates Phases 1–6 (all)** — live `leak-devon` gate PASS + Phase 5 ratified via live `growth-ahmed` (axes accumulate correctly, 0 regressed vs baseline) + all trust gates green in the 26/26 offline suite.
-- **role-profiles Phases 2–4** — cached-second-run proven live (onepage run) + offline; `{{ROLE_PROFILE_BLOCK}}` in all 5 stages; `FOCUS_ARC_LEAK` green.
-- **jun11-demo-fixes Phases 1–3** — question integrity, name-not-title/jargon guard, live score bars; prior Machar gate PASS + offline gates green. (Phase 4 back-nav now unblocked.)
-- **arc-editor Phases 1–3** — in-app meeting-arc editor (edit/save to overlay, reset, orphan warning); 5/5 scenarios verified live.
-- **role-vocab-groups Phases 1–4** — grouped modern role vocabulary across all 18 profiles; matrix verified; folder moved to [done/](docs/todo/done/role-vocab-groups/PLAN.md).
-- **job-lexicons Phases 1–3** — browse + add-your-own words + words reach the live run (the "Sprint" word confirmed in a real 1:1).
-- **regression-replay Phases 1–3** — free offline replay (7/7), auto-run in `npm test`, in-app Regression screen + Personas page.
-- **onepage-run Phase 6** — "language of this role" glossary renders between prep and interview (confirmed in a live one-page run).
-
-- **cleanup-board (2026-06-12)** — this board created, old plans repointed, next-stage spec written ([archive](docs/todo/done/cleanup-board/PLAN.md)).
-- **engine-trust-gates Phases 1–3** — session-isolated question pool, honest thread-follow stems, planner grounding gate (`ee018b5`, `bb49e7c`, `cd581a7` + churn commit `9936c89`). Validated by green gate 2026-06-12 19:08 (8/8).
-- **jun11-demo-fixes Phases 1–3** — question integrity gate, brief wording, live scores (`5763b7e`, `91db38d`, `023a82c`), live-verified on the Machar session.
-- **role-profiles Phase 1** — core module + prompt + cache, green-lit 2026-06-11.
-- **Root [PLAN.md](PLAN.md)** — all 14 rows done; kept as archive.
-- **[plans/log-fix-audit.md](plans/log-fix-audit.md)** — 100 issues, 93 done, 0 open; reference only.
-- Older finished work: [docs/todo/done/](docs/todo/done/) and [plans/done/](plans/done/).
+Completed work has been cleared from this board. The record lives in git history,
+[docs/todo/done/](docs/todo/done/), and [plans/done/](plans/done/).
 
 ---
 
