@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1781664657635,
+  "role_title_raw": "Junior Product Designer",
+  "role_slug": "junior-product-designer",
+  "seniority_raw": "Junior",
+  "seniority_key": "junior",
+  "role_family": "design",
+  "profile": {
+    "summary": "A Junior Product Designer helps design digital product flows, screens, and interactions under guidance from more experienced designers. They usually own small features or parts of a journey, turn requirements into wireframes and UI, support research and testing, and work closely with product managers, engineers, and senior designers while building craft, speed, and confidence.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Turning vague product requirements into clear design work without over-relying on others for every step.",
+        "category": "competency"
+      },
+      {
+        "text": "Balancing speed with quality while still learning core interaction, visual, and systems skills.",
+        "category": "competency"
+      },
+      {
+        "text": "Handling frequent critique without taking feedback personally or losing confidence.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Understanding technical constraints and product trade-offs well enough to make practical design choices.",
+        "category": "topic"
+      },
+      {
+        "text": "Getting enough context and ownership to grow, instead of only polishing small UI tasks.",
+        "category": "topic"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Clarity of scope and expectations",
+        "why": "Junior designers do better when they know what they own, what good looks like, and where to ask for help.",
+        "category": "topic"
+      },
+      {
+        "theme": "Feedback quality and confidence building",
+        "why": "They are still forming judgment, so the way critique is given strongly affects learning and morale.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Growth in core product design craft",
+        "why": "Progress usually depends on strengthening basics like flows, hierarchy, interaction patterns, and rationale.",
+        "category": "competency"
+      },
+      {
+        "theme": "Cross-functional collaboration with product and engineering",
+        "why": "Early habits in working with PMs and engineers shape how practical and effective their design work becomes.",
+        "category": "topic"
+      },
+      {
+        "theme": "Exposure to users and product context",
+        "why": "Seeing research, support signals, and outcomes helps them move beyond surface-level UI decisions.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Wireframe",
+        "meaning": "A simple layout showing structure before visual polish.",
+        "group": "craft"
+      },
+      {
+        "term": "User flow",
+        "meaning": "Steps a user takes to complete a task.",
+        "group": "craft"
+      },
+      {
+        "term": "Hi-fi mockup",
+        "meaning": "Detailed screen design close to the final product.",
+        "group": "craft"
+      },
+      {
+        "term": "Prototype",
+        "meaning": "Clickable model used to test or explain interactions.",
+        "group": "craft"
+      },
+      {
+        "term": "Design system",
+        "meaning": "Shared components and rules for consistent product design.",
+        "group": "craft"
+      },
+      {
+        "term": "Accessibility",
+        "meaning": "Designing so more people can use the product.",
+        "group": "craft"
+      },
+      {
+        "term": "Design critique",
+        "meaning": "Structured feedback on work to improve decisions.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Handoff",
+        "meaning": "Sharing design details with engineers for build.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Iteration",
+        "meaning": "Improving a design through repeated changes and feedback.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Discovery",
+        "meaning": "Learning about user needs before deciding solutions.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Edge case",
+        "meaning": "Less common scenario the design still needs to handle.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "AI-assisted exploration",
+        "meaning": "Using AI to generate options or speed early thinking.",
+        "group": "growing-into-the-role"
+      },
+      {
+        "term": "Design rationale",
+        "meaning": "Clear explanation of why a design choice was made.",
+        "group": "growing-into-the-role"
+      },
+      {
+        "term": "Trade-off",
+        "meaning": "What is gained and lost between design options.",
+        "group": "growing-into-the-role"
+      },
+      {
+        "term": "Constraint",
+        "meaning": "A limit that shapes what solution is practical.",
+        "group": "growing-into-the-role"
+      },
+      {
+        "term": "Feedback loop",
+        "meaning": "Regular cycle of showing work, getting input, and improving it.",
+        "group": "growing-into-the-role"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "craft",
+        "label": "Product design craft"
+      },
+      {
+        "key": "ways-of-working",
+        "label": "Team ways of working"
+      },
+      {
+        "key": "growing-into-the-role",
+        "label": "Growing into the role"
+      }
+    ],
+    "listen_for": [
+      "Whether they can explain the problem behind the screen, not just the UI they made.",
+      "Whether they talk about feedback as learning or mainly as approval-seeking.",
+      "How often they mention engineers, PMs, or users when describing design decisions.",
+      "Signs they are stuck waiting for direction instead of taking a first pass.",
+      "Whether they use design system and accessibility language naturally or avoid it."
+    ],
+    "avoid": [
+      "Treating them like a pixel-polisher with no access to problem context.",
+      "Giving vague critique like \"make it cleaner\" without teaching the reasoning.",
+      "Mistaking quietness or caution for low potential.",
+      "Pushing full ownership too early without support, review, and clear boundaries."
+    ]
+  }
+}

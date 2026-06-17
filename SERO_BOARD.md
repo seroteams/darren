@@ -3,9 +3,6 @@
 **This is the only active board.** Every other planning file is either done, parked, or points here.
 Created 2026-06-12. Driver: Carl. Update this file the moment work lands — not the old plans.
 
-**Direction (long-range):** [docs/ROADMAP.md](docs/ROADMAP.md) — milestones and where this is headed.
-This board is tactical; the **Next** column below is fed from the roadmap's current milestone.
-
 Standing constraints (from CLAUDE.md):
 - **No paid runs without a yes.** Anything hitting the OpenAI API needs Carl's explicit per-run go-ahead with a cost stated first (~$0.35/pipeline run, ~$3 full gate). Smallest thing that proves the point: `node scripts/gate.js --only <case>`.
 - **No silent masking.** Surface raw model output; gate and flag, never rewrite.
@@ -22,15 +19,6 @@ plan's git log. What remains:
 **Now is clear — no open demo-fix or hardening todos (2026-06-16).** Everything that
 was in flight has been finished, verified, committed, and pushed.
 
-Closed out 2026-06-16:
-- **job-lexicons** + **arc-editor** → `docs/todo/done/`.
-- **jun11-demo-fixes Phase 4** (back navigation) → `done/`. Live-verified: after Back, the
-  planner follows the *corrected* answer (demo bug fixed); amend-log keeps the original.
-- **onepage-run Phases 4+5** (inline briefing + motion polish) → `done/`. Live-verified in
-  the browser: briefing renders as the closing section on `/flow`, rail removed, clean ending.
-- **next-stage hardening core** (phases 1–3): contracts, session persistence/resume,
-  deterministic briefing fallback. Engine can no longer silently fail; partial runs resume.
-
 Tests: `npm test` **30/30**, `npm run replay` **7/7** ($0), plus one live run that passed all
 back-nav + briefing checks. Two items remain deliberately deferred (engine-trust-gates → Parked):
 the `UNGROUNDED_MEANING` check and the Phase 5 `--update-baseline` re-run.
@@ -39,27 +27,11 @@ the `UNGROUNDED_MEANING` check and the Phase 5 `--update-baseline` re-run.
 
 | Item | Scope |
 |---|---|
-| **Next-stage build** ([spec](docs/todo/done/next-stage/PLAN.md)) | **✅ ALL 8 PHASES DONE 2026-06-16** → `done/`. Hardening core (contracts, persistence/resume, deterministic fallback) + feature passes (issue pills + observed shift, prep quality, prep timeline UI, runner polish, shared/private split). One carve-out parked: cross-session follow-up auto-injection (needs person-profiles linking). |
+| **Next-stage build** | **✅ ALL 8 PHASES DONE 2026-06-16** → `done/`. Hardening core (contracts, persistence/resume, deterministic fallback) + feature passes (issue pills + observed shift, prep quality, prep timeline UI, runner polish, shared/private split). One carve-out parked: cross-session follow-up auto-injection (needs person-profiles linking). |
 
-## 3. Parked — good ideas, not now
+## 3. Done
 
-- **person-profiles feature** ([plan](docs/todo/person-profiles/PLAN.md)) — per-person history pages + "how to help them" synthesis. Parked: manager-first MVP needs no history analytics. (The scripted-persona QA *runs* stay — they're test infrastructure, not this feature.) **Note:** next-stage Phase 8b (carry follow-ups into the *next* session's prep) waits on this — it needs the same per-person linking.
-- **inbox-review-june-10** ([plan](docs/todo/inbox-review-june-10/PLAN.md)) — library-as-inbox review tooling. Revisit after the next build stage.
-- **Executive dashboards** — too early, risks HR creep.
-- **Benchmarking** — needs data volume and a trust model first.
-- **Relationship visualisations** — interesting, not core.
-- **Sentiment trend graphs** — could feel surveillance-heavy.
-
-## 4. Cut — not happening in this direction
-
-- **Product persona work** (anything beyond role-profiles). Role-profiles itself is role *context*, stays active in Now.
-- **Historical analytics** — replaced by **session continuity**: session-level history only (save/resume a run's stages, see past sessions for context). **No dashboards, no trends, no HR analytics.** That's the whole scope.
-- **Generic coaching toolbox** — Sero preps real 1:1s; it is not a content library.
-
-## 5. Done
-
-Completed work has been cleared from this board. The record lives in git history,
-[docs/todo/done/](docs/todo/done/), and [plans/done/](plans/done/).
+Completed work has been cleared from this board. The record lives in git history.
 
 ---
 

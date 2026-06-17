@@ -1,0 +1,10 @@
+alias: q_edge_cases_first_2
+label: Edge cases first
+name: Before review, what makes edge cases easy to leave unchecked?
+description: Drill into the concrete blind spot she just named before moving the arc on.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: "doesn't check edge cases"

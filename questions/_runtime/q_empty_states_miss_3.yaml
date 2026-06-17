@@ -1,0 +1,10 @@
+alias: q_empty_states_miss_3
+label: Empty states miss
+name: What did you miss in those empty states before review?
+description: Drill into the concrete review miss before moving on.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: missed the edge cases

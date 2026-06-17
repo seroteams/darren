@@ -1,0 +1,10 @@
+alias: q_zero_data_gap
+label: Zero-data gap
+name: What made the zero-data path easy to miss before review?
+description: Surface what in her process or framing caused this specific gap to be missed.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: missed the zero-data path

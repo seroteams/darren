@@ -1,0 +1,11 @@
+alias: q_next_review_change
+label: next review change
+name: What will you do differently before your next review?
+description: Close on the specific behaviour she will change to catch rationale, flow, and edge cases earlier.
+purpose: topic
+stage: commit
+axis_effects:
+  clarity: +1
+  growth: +1
+source: planner_added
+grounding: mostly edge cases and flow
