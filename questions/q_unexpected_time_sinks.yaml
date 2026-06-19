@@ -1,0 +1,10 @@
+alias: q_unexpected_time_sinks
+label: Unexpected time sinks
+name: What has taken more time or energy than you expected this fortnight?
+description: Lets Carl name the hidden drains instead of talking in generalities.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

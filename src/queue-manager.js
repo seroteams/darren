@@ -167,7 +167,6 @@ function buildMessages({
   turnNumber,
   totalTurns,
   closerAlias,
-  userDrillRequest = false,
   selectedFocus = null,
   prep = null,
 }) {
@@ -228,7 +227,6 @@ function buildMessages({
     .replaceAll("{{OFF_ARC_DRILL_COUNT}}", String(offArcDrillCount))
     .replaceAll("{{IS_FINAL_TURN}}", isFinalTurn ? "true" : "false")
     .replaceAll("{{CLOSER_ALIAS}}", closerAlias || "(none)")
-    .replaceAll("{{USER_DRILL_REQUEST}}", userDrillRequest ? "true" : "false")
     .replaceAll("{{PREP_CORE_ISSUE}}", prep?.coreIssue?.trim() ? prep.coreIssue.trim() : "(none)")
     .replaceAll(
       "{{PREP_LISTEN_FOR_JSON}}",
@@ -658,11 +656,63 @@ function priorCompetencyClarityHit(transcript) {
   return false;
 }
 
-function applyRecurringGapClarityDamper(rawDeltas, { lastQuestion, transcript, issues }) {
-  if (lastQuestion?.purpose !== "competency") return;
+// Connective/filler words stripped before comparing two notes — we match on the
+// content of the gap, not the grammar around it.
+const DAMPER_STOPWORDS = new Set([
+  "the", "a", "an", "and", "or", "to", "of", "in", "on", "for", "with", "it",
+  "is", "are", "was", "were", "be", "she", "he", "they", "her", "his", "them",
+  "i", "we", "you", "that", "this", "but", "not", "no", "so", "if", "as", "at",
+  "before", "after", "what", "when", "how", "why", "still", "mostly", "more",
+  "less", "too", "very", "just", "then", "than", "into", "out", "up", "down",
+]);
+
+function answerThemeTokens(text) {
+  return new Set(
+    String(text || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, " ")
+      .split(/\s+/)
+      .filter((w) => w.length > 2 && !DAMPER_STOPWORDS.has(w))
+  );
+}
+
+// Two short notes are "the same recurring point" when their content words
+// overlap on 2+ terms. Distinct gaps (different nouns) don't trip this, so a
+// genuinely new clarity issue still scores at full weight.
+function sharesAnswerTheme(a, b) {
+  const ta = answerThemeTokens(a);
+  if (ta.size < 2) return false;
+  const tb = answerThemeTokens(b);
+  if (tb.size < 2) return false;
+  let shared = 0;
+  for (const w of ta) if (tb.has(w)) shared++;
+  return shared >= 2;
+}
+
+// Has an earlier turn already booked a negative clarity hit on the SAME point
+// the current answer is making? Theme-based, so it fires regardless of how the
+// question's `purpose` was tagged — including scripted runs (purpose:"scripted")
+// where the competency gate above never matches.
+function priorSameThemeClarityHit(transcript, currentAnswer) {
+  for (const t of transcript || []) {
+    const d = t?.realized_deltas;
+    if (!(d && Number(d.clarity) < 0)) continue;
+    if (sharesAnswerTheme(currentAnswer, t?.answer)) return true;
+  }
+  return false;
+}
+
+function applyRecurringGapClarityDamper(rawDeltas, { lastQuestion, transcript, issues, lastAnswer }) {
   const current = rawDeltas.clarity;
   if (current == null || current >= -1) return;
-  if (!priorCompetencyClarityHit(transcript)) return;
+  // Trigger A — craft-gap competency stacking (the original Jun03 case).
+  const competencyRecurrence =
+    lastQuestion?.purpose === "competency" && priorCompetencyClarityHit(transcript);
+  // Trigger B — the same point re-scored across turns, whatever the purpose tag.
+  // This is what floored the Maya Jun17 run: six turns all describing one
+  // review-readiness gap, each booking a fresh clarity negative to -10.
+  const themeRecurrence = priorSameThemeClarityHit(transcript, lastAnswer);
+  if (!competencyRecurrence && !themeRecurrence) return;
   issues.push(`recurring-gap damper — capped clarity ${current} → -1`);
   rawDeltas.clarity = -1;
 }
@@ -927,7 +977,6 @@ async function planTurn({
   totalTurns,
   closerAlias,
   model = getDefaultModel(),
-  userDrillRequest = false,
   selectedFocus = null,
   prep = null,
   sessionBank = null,
@@ -963,7 +1012,6 @@ async function planTurn({
     turnNumber,
     totalTurns,
     closerAlias,
-    userDrillRequest,
     selectedFocus,
     prep,
   });
@@ -988,6 +1036,7 @@ async function planTurn({
     lastQuestion,
     transcript,
     issues: gateIssues,
+    lastAnswer,
   });
 
   const { deltas, issues: sigIssues, overflow } = clampToSignature(rawDeltas, effectiveSignature);

@@ -562,42 +562,34 @@ export async function mount(root, { store, setState }) {
       </label>
       <div class="field__actions">
         <button class="btn js-submit" type="button">Submit answer</button>
-        <button class="btn btn--ghost js-deeper" type="button" disabled>Go deeper</button>
         <button class="btn btn--ghost js-skip" type="button">Skip</button>
       </div>
-      <p class="hint text-xs text-ink-mute">Enter to submit · Shift+Enter to go deeper · Esc to skip</p>
+      <p class="hint text-xs text-ink-mute">Enter to submit · Esc to skip</p>
     `;
     appendSection(card, { scrollTo: true, focus: true });
     activeQuestionCard = card;
 
     const ta = card.querySelector("textarea");
-    const deeper = card.querySelector(".js-deeper");
-    function syncDeeper() { deeper.disabled = ta.value.trim().length === 0; }
-    ta.addEventListener("input", syncDeeper);
     ta.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && e.shiftKey) { e.preventDefault(); if (!deeper.disabled) submit(ta.value, { goDeeper: true }); return; }
       if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); submit(ta.value); }
     });
     if (activeEsc) document.removeEventListener("keydown", activeEsc);
     activeEsc = (e) => { if (e.key === "Escape") { e.preventDefault(); submit(""); } };
     document.addEventListener("keydown", activeEsc);
     card.querySelector(".js-submit").addEventListener("click", () => submit(ta.value));
-    deeper.addEventListener("click", () => submit(ta.value, { goDeeper: true }));
     card.querySelector(".js-skip").addEventListener("click", () => submit(""));
 
     let submitting = false;
-    async function submit(text, { goDeeper = false } = {}) {
+    async function submit(text) {
       if (submitting) return;
       const val = text.trim();
-      if (goDeeper && !val) return;
       submitting = true;
       if (activeEsc) { document.removeEventListener("keydown", activeEsc); activeEsc = null; }
-      let result;
-      try { result = await submitAnswer(store.sessionId, val, { goDeeper, answerSource: "manual", alias: q.alias }); }
+      try { await submitAnswer(store.sessionId, val, { answerSource: "manual", alias: q.alias }); }
       catch (e) { failTo(e.message); return; }
       steps.replaceChild(settledNode(q.name, val || "(skipped)", { muted: !val }), card);
       activeQuestionCard = null;
-      await runPlanStream(val, { goDeeper: Boolean(result?.goDeeper) });
+      await runPlanStream(val);
     }
   }
 
@@ -623,9 +615,9 @@ export async function mount(root, { store, setState }) {
     card.querySelector(".js-agenda-no").addEventListener("click", () => resolve(false));
   }
 
-  async function runPlanStream(submittedText, { goDeeper = false } = {}) {
+  async function runPlanStream(submittedText) {
     const skipped = submittedText.trim() === "";
-    const orb = createOrb(goDeeper ? "Going deeper…" : skipped ? "Next question…" : "Scoring answer…");
+    const orb = createOrb(skipped ? "Next question…" : "Scoring answer…");
     thinkingHost.appendChild(orb.el);
     requestAnimationFrame(() => orb.el.scrollIntoView({ behavior: scrollBehavior(), block: "nearest" }));
     const sse = openSse(`/api/plan/stream?s=${encodeURIComponent(store.sessionId)}`);

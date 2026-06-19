@@ -47,8 +47,6 @@ module.exports = function question(c) {
     });
   }
   const q = session.queueRef[0];
-  const returningToArc = Boolean(session.showReturningToArcHint);
-  if (returningToArc) session.showReturningToArcHint = false;
   const scripted = session.mode === "scripted"
     ? {
         alias: q.alias,
@@ -60,7 +58,6 @@ module.exports = function question(c) {
     turn: session.turn + 1,
     total: session.totalBudget,
     queueLen: session.queueRef.length,
-    returningToArc,
     scripted,
     question: {
       alias: q.alias,

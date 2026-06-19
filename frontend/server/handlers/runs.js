@@ -1,4 +1,4 @@
-const { listRecentRuns, listFinishedRuns, summarizeRun, compareRun, deleteRun, setArchived } = require("../../../src/run-history");
+const { listRecentRuns, listFinishedRuns, summarizeRun, compareRun, readRunStages, deleteRun, setArchived } = require("../../../src/run-history");
 const { dropSession } = require("../sessions");
 
 function recent(c) {
@@ -36,6 +36,16 @@ function full(c) {
   c.json(200, data);
 }
 
+// Stage-by-stage I/O for the right-rail Sent/Reply tabs: what was fed to the AI
+// and what came back, per stage. Read-only.
+function stages(c) {
+  const id = c.params.id;
+  if (!id) return c.error(Object.assign(new Error("id required"), { status: 400 }));
+  const data = readRunStages(id);
+  if (!data) return c.error(Object.assign(new Error("unknown run"), { status: 404 }));
+  c.json(200, { id, stages: data });
+}
+
 function del(c) {
   const id = c.params.id;
   if (!id) return c.error(Object.assign(new Error("id required"), { status: 400 }));
@@ -54,4 +64,4 @@ async function archive(c) {
   c.json(200, { ok: true, id, archived: result.archived });
 }
 
-module.exports = { recent, finished, overview, full, del, archive };
+module.exports = { recent, finished, overview, full, stages, del, archive };

@@ -1,0 +1,10 @@
+alias: q_steadier_next_two_weeks_3
+label: Steadier next two weeks
+name: What would make the next two weeks feel steadier for you?
+description: Ends with a practical next-step question that points toward relief, not more diagnosis.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

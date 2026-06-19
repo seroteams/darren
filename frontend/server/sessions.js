@@ -48,8 +48,6 @@ function createWebSession(ctx, introQueue) {
     turnSnapshots: [],
 
     pendingAnswer: null,
-    pendingDrillRequest: false,
-    showReturningToArcHint: false,
     inFlight: new Map(),
     tracker: cost.createTracker(),
   };

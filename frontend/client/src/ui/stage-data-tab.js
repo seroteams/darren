@@ -1,0 +1,219 @@
+// Renders the right-rail "Sent" and "Reply" tabs: what the AI was given for the
+// current stage and what it sent back. Reads the run's logged stage I/O via
+// GET /api/runs/:id/stages (the live run's sessionId IS the run id). Shows raw
+// text exactly as logged — nothing is reworded or hidden (engine-honesty rule);
+// "what shipped" appears only where a post-processed copy was actually logged.
+
+import { getRunStages } from "../api.js";
+import { STAGES } from "../state.js";
+import { escapeHtml } from "./html.js";
+
+// Live stage -> the folder it logs to.
+const STAGE_KEY = {
+  [STAGES.FOCUS_POINTS]: "01-focus-points",
+  [STAGES.PREPARATION]: "01b-preparation",
+  [STAGES.BANK]: "03-question-bank",
+  [STAGES.QUESTIONING]: "04-dynamic-answers",
+  [STAGES.EVAL]: "05-evaluation",
+};
+
+// Friendly labels for the inputs we recognise. Unknown keys fall back to a
+// humanised version of the key — we never drop a field.
+const INPUT_LABEL = {
+  name: "Name",
+  role: "Role",
+  seniority: "Seniority",
+  meetingType: "Meeting type",
+  notes: "Your private notes",
+  managerNotes: "Your private notes",
+  model: "Model",
+  focusPoints: "Focus points offered",
+  selectedFocus: "Focus points picked",
+  selectedFocusPoints: "Focus points picked",
+  prep: "Prep brief",
+  preparation: "Prep brief",
+  transcript: "Conversation so far",
+  axisState: "Running scores",
+  axes: "Scoring dimensions",
+  roleProfile: "Role profile",
+};
+
+function humanise(key) {
+  return String(key)
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[_-]+/g, " ")
+    .replace(/^./, (c) => c.toUpperCase());
+}
+
+function isEmpty(v) {
+  if (v == null) return true;
+  if (typeof v === "string") return v.trim() === "";
+  if (Array.isArray(v)) return v.length === 0;
+  if (typeof v === "object") return Object.keys(v).length === 0;
+  return false;
+}
+
+function pretty(v) {
+  if (v == null) return "";
+  if (typeof v === "string") return v;
+  try {
+    return JSON.stringify(v, null, 2);
+  } catch {
+    return String(v);
+  }
+}
+
+function placeholder(text) {
+  return `<p class="stage-io__empty">${escapeHtml(text)}</p>`;
+}
+
+// A labelled value: short scalars inline, anything structured in a <pre>.
+function field(label, value) {
+  if (isEmpty(value)) return "";
+  const scalar = typeof value !== "object";
+  const body = scalar
+    ? `<div class="stage-io__val">${escapeHtml(String(value))}</div>`
+    : `<pre class="stage-io__pre">${escapeHtml(pretty(value))}</pre>`;
+  return `<div class="stage-io__field"><div class="stage-io__label">${escapeHtml(label)}</div>${body}</div>`;
+}
+
+// A copyable code block with a header + Copy button.
+function block(title, text, { open = false, details = false } = {}) {
+  if (isEmpty(text)) return "";
+  const inner = `
+    <div class="stage-io__block-head">
+      <span class="stage-io__block-title">${escapeHtml(title)}</span>
+      <button type="button" class="stage-io__copy js-copy">Copy</button>
+    </div>
+    <pre class="stage-io__pre">${escapeHtml(text)}</pre>`;
+  if (details) {
+    return `<details class="stage-io__block stage-io__details"${open ? " open" : ""}>
+      <summary class="stage-io__summary">${escapeHtml(title)}</summary>
+      <div class="stage-io__copyrow"><button type="button" class="stage-io__copy js-copy">Copy</button></div>
+      <pre class="stage-io__pre">${escapeHtml(text)}</pre>
+    </details>`;
+  }
+  return `<div class="stage-io__block">${inner}</div>`;
+}
+
+function latestTurn(stage) {
+  const turns = stage?.turns || [];
+  return turns.length ? turns[turns.length - 1] : null;
+}
+
+function renderSent(stage) {
+  if (!stage) return placeholder("Waiting for this stage to run…");
+  // Live Q&A: the prompt embeds everything, so show the turn header + the prompt.
+  if (stage.turns) {
+    const t = latestTurn(stage);
+    if (!t) return placeholder("Waiting for the first question…");
+    const head = field(`Question ${t.turn}`, t.question || "(no question text)") + field("Their answer", t.skipped ? "(skipped)" : t.answer);
+    const prompt = t.prompt
+      ? block("Show exact text sent to the model", t.prompt, { details: true })
+      : placeholder("This run didn't save the exact prompt for this question.");
+    return head + prompt;
+  }
+  const inputs = stage.inputs || {};
+  const fields = Object.entries(inputs)
+    .map(([k, v]) => field(INPUT_LABEL[k] || humanise(k), v))
+    .join("");
+  const ctx = fields || placeholder("No inputs were logged for this stage.");
+  const prompt = stage.prompt
+    ? block("Show exact text sent to the model", stage.prompt, { details: true })
+    : "";
+  return `<div class="stage-io__fields">${ctx}</div>${prompt}`;
+}
+
+function renderReply(stage) {
+  if (!stage) return placeholder("Waiting for this stage to run…");
+  if (stage.turns) {
+    const t = latestTurn(stage);
+    if (!t) return placeholder("Waiting for the first question…");
+    return (
+      field(`Question ${t.turn}`, t.question || "(no question text)") +
+      (block("Raw reply", pretty(t.raw), { open: true }) || placeholder("No reply logged for this question."))
+    );
+  }
+  const raw = block("Raw reply", pretty(stage.raw), { open: true });
+  const final =
+    "final" in stage
+      ? block("What shipped (after processing)", pretty(stage.final))
+      : `<p class="stage-io__note">No separate processed copy was logged for this stage — the raw reply is what was used.</p>`;
+  return (raw || placeholder("No reply was logged for this stage.")) + final;
+}
+
+export function createStageDataController() {
+  const sentEl = document.createElement("div");
+  sentEl.className = "stage-io";
+  const replyEl = document.createElement("div");
+  replyEl.className = "stage-io";
+
+  let token = 0;
+  let key = null; // `${sessionId}|${stageKey}|${turn}`
+  let stage = null;
+
+  function paint() {
+    sentEl.innerHTML = renderSent(stage);
+    replyEl.innerHTML = renderReply(stage);
+  }
+
+  async function fetchStage(sessionId, stageKey, force) {
+    const my = ++token;
+    if (force) {
+      sentEl.innerHTML = placeholder("Loading…");
+      replyEl.innerHTML = placeholder("Loading…");
+    }
+    try {
+      const { stages } = await getRunStages(sessionId);
+      if (my !== token) return;
+      stage = stages.find((s) => s.key === stageKey) || null;
+    } catch {
+      if (my !== token) return;
+      stage = null;
+    }
+    paint();
+  }
+
+  // Called by the rail on every state change and on tab switches. We only do
+  // work when an AI tab is showing, so it stays cheap during normal use.
+  function render({ sessionId, stage: liveStage, turn }, activeTab) {
+    if (activeTab !== "sent" && activeTab !== "reply") return;
+    const stageKey = STAGE_KEY[liveStage];
+    if (!sessionId || !stageKey) {
+      stage = null;
+      token++; // cancel any in-flight fetch
+      sentEl.innerHTML = placeholder("This step doesn't send anything to the AI.");
+      replyEl.innerHTML = placeholder("This step doesn't send anything to the AI.");
+      key = null;
+      return;
+    }
+    const nextKey = `${sessionId}|${stageKey}|${turn || 0}`;
+    if (nextKey === key) {
+      paint();
+      return;
+    }
+    key = nextKey;
+    fetchStage(sessionId, stageKey, true);
+  }
+
+  // Copy: grab the nearest block's <pre> text. Delegated on both panes.
+  function onCopyClick(e) {
+    const btn = e.target.closest(".js-copy");
+    if (!btn) return;
+    const wrap = btn.closest(".stage-io__block, .stage-io__details");
+    const pre = wrap && wrap.querySelector(".stage-io__pre");
+    if (!pre) return;
+    navigator.clipboard.writeText(pre.textContent || "").then(
+      () => {
+        const prev = btn.textContent;
+        btn.textContent = "Copied";
+        setTimeout(() => { btn.textContent = prev; }, 1200);
+      },
+      () => { btn.textContent = "Copy failed"; }
+    );
+  }
+  sentEl.addEventListener("click", onCopyClick);
+  replyEl.addEventListener("click", onCopyClick);
+
+  return { sentEl, replyEl, render };
+}

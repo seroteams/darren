@@ -138,6 +138,7 @@ function main() {
   router.add("GET", "/api/runs/recent", runs.recent);
   router.add("GET", "/api/runs/finished", runs.finished);
   router.add("GET", /^\/api\/runs\/(?<id>[^/]+)\/full$/, runs.full);
+  router.add("GET", /^\/api\/runs\/(?<id>[^/]+)\/stages$/, runs.stages);
   router.add("GET", /^\/api\/runs\/(?<id>[^/]+)\/overview$/, runs.overview);
   router.add("DELETE", /^\/api\/runs\/(?<id>[^/]+)$/, (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));

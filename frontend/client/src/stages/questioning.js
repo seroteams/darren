@@ -106,16 +106,14 @@ export async function mount(root, { store, setState }) {
 
     // Quiet "planner adapted" cue: a thread-follow / drill question digs into the
     // previous answer, so flag it so the jump never reads as random.
-    const isFollowUp = /thread_follow|drill|follow_up|go_deeper|deeper/i.test(q.alias || "");
+    const isFollowUp = /thread_follow|drill|follow_up/i.test(q.alias || "");
 
     const card = document.createElement("div");
     card.className = "card questioning-card space-y-4 reveal";
     card.innerHTML = `
-      ${res.returningToArc
-        ? `<div class="question-drill-hint text-sm text-ink-dim">Back on the main agenda — next question follows the planned flow.</div>`
-        : isFollowUp
-          ? `<div class="question-drill-hint text-sm text-ink-dim">↳ Following up on what you just said.</div>`
-          : ""}
+      ${isFollowUp
+        ? `<div class="question-drill-hint text-sm text-ink-dim">↳ Following up on what you just said.</div>`
+        : ""}
       ${scripted ? `<div class="script-meta text-xs">
         <span class="script-alias">${escape(q.alias)}</span>
         <span class="script-state ${hasScript ? "script-state--matched" : "script-state--missing"}">${hasScript ? "replay answer ready" : "no replay answer — fallback available"}</span>
@@ -135,13 +133,12 @@ export async function mount(root, { store, setState }) {
       </label>
       <div class="field__actions">
         <button class="btn js-submit">Submit answer</button>
-        <button class="btn btn--ghost js-deeper" type="button" disabled>Go deeper</button>
         <button class="btn btn--ghost js-skip">Skip</button>
         ${res.turn > 1 && !scripted ? `<button class="btn btn--ghost js-back" type="button" title="Go back and fix your last answer">Back</button>` : ""}
         ${scripted ? `<button class="btn btn--ghost js-play" type="button">Insert scripted answer</button><button class="btn btn--ghost js-play-submit" type="button">Insert & submit</button>` : ""}
         ${!scripted && import.meta.env.DEV ? `<button class="btn btn--ghost js-suggest" type="button">Suggest notes (dev)</button>` : ""}
       </div>
-      <p class="hint hint--kbd text-xs text-ink-mute">Shift+Enter · Skip · Esc</p>
+      <p class="hint hint--kbd text-xs text-ink-mute">Enter · Skip · Esc</p>
       ${import.meta.env.DEV ? `<div class="answer-suggestions" hidden></div>` : ""}
     `;
     qHost.appendChild(card);
@@ -158,19 +155,7 @@ export async function mount(root, { store, setState }) {
     if (prefill) ta.value = prefill;
     setTimeout(() => ta.focus({ preventScroll: true }), 260);
 
-    const deeperBtn = card.querySelector(".js-deeper");
-    function syncDeeper() {
-      deeperBtn.disabled = ta.value.trim().length === 0;
-    }
-    ta.addEventListener("input", syncDeeper);
-    syncDeeper();
-
     ta.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && e.shiftKey) {
-        e.preventDefault();
-        if (!deeperBtn.disabled) onSubmit(ta.value, { goDeeper: true });
-        return;
-      }
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         onSubmit(ta.value);
@@ -186,7 +171,6 @@ export async function mount(root, { store, setState }) {
     };
     document.addEventListener("keydown", activeEscListener);
     card.querySelector(".js-submit").addEventListener("click", () => onSubmit(ta.value));
-    deeperBtn.addEventListener("click", () => onSubmit(ta.value, { goDeeper: true }));
     card.querySelector(".js-skip").addEventListener("click", () => onSubmit(""));
 
     const backBtn = card.querySelector(".js-back");
@@ -225,7 +209,6 @@ export async function mount(root, { store, setState }) {
       answerSource = hasScript ? "scripted" : "fallback";
       ta.value = text;
       ta.focus({ preventScroll: true });
-      syncDeeper();
       if (!hasScript) {
         const meta = card.querySelector(".script-state");
         if (meta) { meta.classList.add("script-state--fallback"); meta.textContent = "fallback answer used"; }
@@ -277,7 +260,6 @@ export async function mount(root, { store, setState }) {
           row.addEventListener("click", () => {
             ta.value = text;
             ta.focus({ preventScroll: true });
-            syncDeeper();
           });
           sugHost.appendChild(row);
         });
@@ -285,14 +267,13 @@ export async function mount(root, { store, setState }) {
     }
 
     let submitting = false;
-    async function onSubmit(text, { goDeeper = false } = {}) {
+    async function onSubmit(text) {
       if (submitting) return;
       const val = text.trim();
-      if (goDeeper && !val) return;
       submitting = true;
       let result;
       try {
-        result = await submitAnswer(store.sessionId, val, { goDeeper, answerSource, alias: q.alias });
+        result = await submitAnswer(store.sessionId, val, { answerSource, alias: q.alias });
       } catch (e) {
         setState({ stage: STAGES.ERROR, error: e.message, retryStage: STAGES.QUESTIONING });
         return;
@@ -304,7 +285,7 @@ export async function mount(root, { store, setState }) {
         warn.textContent = "Answer was too long — trimmed to 4000 characters.";
         footerHost.appendChild(warn);
       }
-      await runPlanStream(val, { goDeeper: Boolean(result?.goDeeper) });
+      await runPlanStream(val);
     }
   }
 
@@ -351,15 +332,9 @@ export async function mount(root, { store, setState }) {
     card.remove();
   }
 
-  async function runPlanStream(submittedText, { goDeeper = false } = {}) {
+  async function runPlanStream(submittedText) {
     const skipped = submittedText.trim() === "";
-    const orb = createOrb(
-      goDeeper
-        ? "Going deeper…"
-        : skipped
-          ? "Next question…"
-          : "Scoring answer…"
-    );
+    const orb = createOrb(skipped ? "Next question…" : "Scoring answer…");
     thinkingHost.appendChild(orb.el);
 
     const sse = openSse(`/api/plan/stream?s=${encodeURIComponent(store.sessionId)}`);

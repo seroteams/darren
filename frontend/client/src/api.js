@@ -81,12 +81,12 @@ export async function suggestAnswers(sessionId) {
   return json(await fetch(`/api/suggest-answers?s=${encodeURIComponent(sessionId)}`));
 }
 
-export async function submitAnswer(sessionId, answer, { goDeeper = false, answerSource = "manual", alias = null } = {}) {
+export async function submitAnswer(sessionId, answer, { answerSource = "manual", alias = null } = {}) {
   return json(
     await fetch("/api/answer", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId, answer, goDeeper, answerSource, alias }),
+      body: JSON.stringify({ sessionId, answer, answerSource, alias }),
     })
   );
 }
@@ -127,6 +127,10 @@ export async function getRunOverview(id) {
 
 export async function getRunFull(id) {
   return json(await fetch(`/api/runs/${encodeURIComponent(id)}/full`));
+}
+
+export async function getRunStages(id) {
+  return json(await fetch(`/api/runs/${encodeURIComponent(id)}/stages`));
 }
 
 export async function saveReview(id, review) {

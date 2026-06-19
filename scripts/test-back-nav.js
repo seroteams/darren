@@ -56,7 +56,6 @@ function mockCtx(sessionId) {
     transcript: clone(session.transcript),
     agendaInjected: session.agendaInjected,
     agendaInput: clone(session.agendaInput),
-    showReturningToArcHint: session.showReturningToArcHint,
     question: clone(session.queueRef[0]),
     answerText: originalAnswer,
   });

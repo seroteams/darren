@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-17T02:52:02.975Z",
-  "count": 4166,
+  "generated_at": "2026-06-18T18:00:41.471Z",
+  "count": 4186,
   "aliases": [
     "q_50_percent_in_practice",
     "q_a_lot_landing",
@@ -32,6 +32,7 @@
     "q_alignment_pull",
     "q_another_review_miss",
     "q_api_guild_role",
+    "q_approval_bottleneck",
     "q_arch_review_pull",
     "q_arch_review_pull_2",
     "q_arch_review_role",
@@ -432,6 +433,7 @@
     "q_decision_drag_4",
     "q_decision_drag_5",
     "q_decision_drag_6",
+    "q_decision_drag_7",
     "q_decision_feedback",
     "q_decision_gap",
     "q_decision_heard",
@@ -2248,6 +2250,7 @@
     "q_prep_opener_182",
     "q_prep_opener_183",
     "q_prep_opener_184",
+    "q_prep_opener_185",
     "q_prep_opener_19",
     "q_prep_opener_2",
     "q_prep_opener_20",
@@ -2502,7 +2505,17 @@
     "q_promotion_read_84",
     "q_promotion_read_85",
     "q_promotion_read_86",
+    "q_promotion_read_87",
+    "q_promotion_read_88",
+    "q_promotion_read_89",
     "q_promotion_read_9",
+    "q_promotion_read_90",
+    "q_promotion_read_91",
+    "q_promotion_read_92",
+    "q_promotion_read_93",
+    "q_promotion_read_94",
+    "q_promotion_read_95",
+    "q_promotion_read_96",
     "q_promotion_signal",
     "q_proof_of_readiness",
     "q_proof_that_lands",
@@ -3397,6 +3410,7 @@
     "q_specific_feedback_2",
     "q_specific_gap",
     "q_specific_work",
+    "q_specifics_check",
     "q_specifics_on_ok",
     "q_sprint_specifics",
     "q_staff_pairing",
@@ -3435,6 +3449,7 @@
     "q_steadier_next_stretch_3",
     "q_steadier_next_two_weeks",
     "q_steadier_next_two_weeks_2",
+    "q_steadier_next_two_weeks_3",
     "q_steadier_pace",
     "q_steady_pace",
     "q_steady_support",
@@ -3543,6 +3558,7 @@
     "q_support_gap_6",
     "q_support_gap_7",
     "q_support_leverage",
+    "q_support_load",
     "q_support_need",
     "q_support_need_2",
     "q_support_need_3",
@@ -3669,6 +3685,7 @@
     "q_team_connection_5",
     "q_team_dynamics",
     "q_team_edges",
+    "q_team_energy",
     "q_team_expectations",
     "q_team_fit",
     "q_team_fit_2",
@@ -3862,6 +3879,7 @@
     "q_trade_off_choices",
     "q_trade_off_line",
     "q_trade_off_question",
+    "q_trade_off_question_2",
     "q_trade_off_shift",
     "q_trade_offs",
     "q_trade_offs_made",
@@ -3971,6 +3989,7 @@
     "q_understanding_gap_3",
     "q_unexpected_drift",
     "q_unexpected_pull",
+    "q_unexpected_time_sinks",
     "q_unfinished_thread",
     "q_unsaid_concern",
     "q_urgency_source",
@@ -4117,6 +4136,7 @@
     "q_what_would_help_3",
     "q_where_it_got_heavy",
     "q_where_it_got_messy",
+    "q_where_load_piles_up",
     "q_where_scope_moved",
     "q_where_things_landed",
     "q_where_you_help",
@@ -4288,6 +4308,10 @@
     },
     {
       "alias": "q_api_guild_role",
+      "subdir": ""
+    },
+    {
+      "alias": "q_approval_bottleneck",
       "subdir": ""
     },
     {
@@ -5888,6 +5912,10 @@
     },
     {
       "alias": "q_decision_drag_6",
+      "subdir": ""
+    },
+    {
+      "alias": "q_decision_drag_7",
       "subdir": ""
     },
     {
@@ -13177,6 +13205,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_prep_opener_185",
+      "subdir": ""
+    },
+    {
       "alias": "q_prep_opener_19",
       "subdir": ""
     },
@@ -14193,7 +14225,47 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_87",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_88",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_89",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_9",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_90",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_91",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_92",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_93",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_94",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_95",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_96",
       "subdir": "_runtime"
     },
     {
@@ -17773,6 +17845,10 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_specifics_check",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_specifics_on_ok",
       "subdir": ""
     },
@@ -17922,6 +17998,10 @@
     },
     {
       "alias": "q_steadier_next_two_weeks_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_steadier_next_two_weeks_3",
       "subdir": ""
     },
     {
@@ -18354,6 +18434,10 @@
     },
     {
       "alias": "q_support_leverage",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_load",
       "subdir": ""
     },
     {
@@ -18858,6 +18942,10 @@
     },
     {
       "alias": "q_team_edges",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_energy",
       "subdir": ""
     },
     {
@@ -19633,6 +19721,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_trade_off_question_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_trade_off_shift",
       "subdir": ""
     },
@@ -20066,6 +20158,10 @@
     },
     {
       "alias": "q_unexpected_pull",
+      "subdir": ""
+    },
+    {
+      "alias": "q_unexpected_time_sinks",
       "subdir": ""
     },
     {
@@ -20650,6 +20746,10 @@
     },
     {
       "alias": "q_where_it_got_messy",
+      "subdir": ""
+    },
+    {
+      "alias": "q_where_load_piles_up",
       "subdir": ""
     },
     {

@@ -1,0 +1,10 @@
+alias: q_approval_bottleneck
+label: Approval bottleneck
+name: Where are you still the approval point more than you want to be?
+description: Shows whether he is carrying decisions that could be shared out more cleanly.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

@@ -27,7 +27,7 @@ const COPY = {
   },
   NOTES: {
     question: "Anything Sero should know?",
-    placeholder: "e.g. They've been working late. Something feels off.",
+    placeholder: "e.g. Quieter since the reorg ~3 weeks ago. Something feels off.",
     key: "notes",
   },
 };
@@ -91,13 +91,12 @@ export async function mount(root, { store, setState }) {
     { id: "growth", label: "Growth" },
   ];
 
-  // Compose the structured intake (pills + observed shift + free text) into one
-  // notes string that feeds focus-point generation the same way free notes do
-  // today. Nothing selected → notes is exactly the free text (today's behaviour).
-  function composeNotes({ pills, shift, free }) {
+  // Compose the structured intake (pills + free text) into one notes string that
+  // feeds focus-point generation the same way free notes do today. Nothing
+  // selected → notes is exactly the free text (today's behaviour).
+  function composeNotes({ pills, free }) {
     const parts = [];
     if (pills.length) parts.push(`On the manager's mind: ${pills.map((p) => p.label.toLowerCase()).join(", ")}.`);
-    if (shift) parts.push(`What's changed: ${shift}`);
     if (free) parts.push(free);
     return parts.join("\n");
   }
@@ -153,17 +152,12 @@ export async function mount(root, { store, setState }) {
     wrap.className = "space-y-5";
     wrap.innerHTML = `
       <h1 class="h1 mb-2">${cfg.question}</h1>
-      <div class="hint">Optional. Tap what's prompting this 1:1, note what's shifted, and add your own words.</div>
+      <div class="hint">Optional. Tap what's prompting this 1:1, then add anything in your own words.</div>
       <div class="space-y-2">
         <div class="eyebrow">What's on your mind?</div>
         <div class="pill-row js-pills"></div>
       </div>
       <label class="block space-y-2">
-        <span class="eyebrow">Anything changed — and since when?</span>
-        <input class="input js-shift" type="text" autocomplete="off" placeholder="e.g. Quieter than usual since the reorg ~3 weeks ago" />
-      </label>
-      <label class="block space-y-2">
-        <span class="eyebrow">In your words</span>
         <textarea class="textarea js-notes" rows="4" placeholder="${cfg.placeholder}" data-autofocus></textarea>
       </label>
       <div class="field__actions">
@@ -187,19 +181,15 @@ export async function mount(root, { store, setState }) {
       });
       pillRow.appendChild(b);
     });
-    const shiftInput = wrap.querySelector(".js-shift");
-    shiftInput.value = store.ctx.observedShift || "";
     const ta = wrap.querySelector(".js-notes");
     ta.value = store.ctx.freeNotes ?? store.ctx.notes ?? "";
 
     function go() {
       const pills = ISSUE_PILLS.filter((i) => selected.has(i.id));
-      const shift = shiftInput.value.trim();
       const free = ta.value.trim();
       store.ctx.issuePills = pills.map((p) => p.id);
-      store.ctx.observedShift = shift;
       store.ctx.freeNotes = free;
-      store.ctx.notes = composeNotes({ pills, shift, free });
+      store.ctx.notes = composeNotes({ pills, free });
       submit();
     }
     ta.addEventListener("keydown", (e) => {
@@ -209,7 +199,6 @@ export async function mount(root, { store, setState }) {
     wrap.querySelector(".js-skip").addEventListener("click", () => {
       selected.clear();
       store.ctx.issuePills = [];
-      store.ctx.observedShift = "";
       store.ctx.freeNotes = "";
       store.ctx.notes = "";
       submit();

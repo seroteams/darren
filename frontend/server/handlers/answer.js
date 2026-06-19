@@ -34,7 +34,7 @@ function recordCoverage(session, alias, answerSource) {
 
 module.exports = async function answer(c) {
   const body = await c.readBody();
-  const { sessionId, answer, goDeeper, answerSource, alias } = body;
+  const { sessionId, answer, answerSource, alias } = body;
   const session = requireSession(sessionId);
 
   if (session.turn >= session.totalBudget || session.queueRef.length === 0)
@@ -45,7 +45,6 @@ module.exports = async function answer(c) {
   const text = raw.slice(0, MAX_ANSWER_CHARS);
   const skipped = isSkip(text);
   session.pendingAnswer = { raw: text, skipped, text: skipped ? "(skipped)" : text };
-  if (goDeeper === true && !skipped) session.pendingDrillRequest = true;
   recordCoverage(session, alias, answerSource);
-  c.json(202, { turn: session.turn + 1, skipped, truncated, goDeeper: goDeeper === true && !skipped });
+  c.json(202, { turn: session.turn + 1, skipped, truncated });
 };

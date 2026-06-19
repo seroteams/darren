@@ -46,9 +46,7 @@ module.exports = async function back(c) {
   session.transcript = snap.transcript;
   session.agendaInjected = snap.agendaInjected;
   session.agendaInput = snap.agendaInput;
-  session.showReturningToArcHint = snap.showReturningToArcHint;
   session.pendingAnswer = null;
-  session.pendingDrillRequest = false;
   // Drop the cached plan for the turn we just undid so the re-answer re-plans.
   session.lastPlanByTurn.delete(snap.appliedTurn);
 

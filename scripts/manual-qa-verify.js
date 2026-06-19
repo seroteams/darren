@@ -24,12 +24,6 @@ function main() {
   failed += ok("FX-53 Regenerate bumps stageTick", /regenerateFocusPoints|stageTick/.test(focus));
   failed += ok("FX-53 regenerate query param", /set\("regenerate",\s*"1"\)/.test(focus));
 
-  const questioning = read("frontend/client/src/stages/questioning.js");
-  failed += ok("FX-37 Go deeper button", /go deeper|goDeeper|js-go-deeper/i.test(questioning));
-
-  const answer = read("frontend/server/handlers/answer.js");
-  failed += ok("FX-37 pendingDrillRequest on answer", /pendingDrillRequest/.test(answer));
-
   const lexicon = read("frontend/client/src/stages/lexicon-review.js");
   failed += ok("LF-6 Promote button in lexicon review", /promote|Promote/.test(lexicon));
 

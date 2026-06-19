@@ -287,12 +287,106 @@ function deleteRun(id) {
   return { deleted: true, id, dir };
 }
 
+function readTextAt(dir, ...parts) {
+  try {
+    return fs.readFileSync(path.join(dir, ...parts), "utf8");
+  } catch {
+    return null;
+  }
+}
+
+// Parse JSON text but keep the raw string if it isn't valid JSON — the stage
+// view must surface exactly what the model returned, never hide a parse failure.
+function parseLoose(text) {
+  if (text == null) return null;
+  try {
+    return JSON.parse(text);
+  } catch {
+    return text;
+  }
+}
+
+// One stage's I/O for the "what was fed to the AI" view: the inputs that were
+// injected, the exact prompt sent (prompt.md), the raw reply (response.json),
+// and the shipped result (final.json) where one was logged. Returns null when
+// the stage hasn't run yet (folder absent / empty).
+function readStageDir(dir, key) {
+  const stageDir = path.join(dir, key);
+  if (!fs.existsSync(stageDir)) return null;
+  const inputs = readJsonAt(stageDir, "inputs.json");
+  const prompt = readTextAt(stageDir, "prompt.md");
+  const raw = parseLoose(readTextAt(stageDir, "response.json"));
+  const finalText = readTextAt(stageDir, "final.json");
+  if (inputs == null && prompt == null && raw == null) return null;
+  const out = { inputs, prompt, raw };
+  if (finalText != null) out.final = parseLoose(finalText);
+  return out;
+}
+
+// The Live Q&A loop logs one set of files per turn: NN-turn.json (question,
+// answer, scoring) plus NN-prompt.md / NN-response.json (what the planner was
+// sent and returned). Older live runs predate the prompt files — fall back to
+// the scoring snapshot so the turn still shows something.
+function readTurns(dir) {
+  const turnsDir = path.join(dir, "04-dynamic-answers");
+  if (!fs.existsSync(turnsDir)) return [];
+  let files;
+  try {
+    files = fs.readdirSync(turnsDir);
+  } catch {
+    return [];
+  }
+  return files
+    .filter((f) => /^\d+-turn\.json$/.test(f))
+    .sort()
+    .map((f) => {
+      const t = readJsonAt(turnsDir, f) || {};
+      const pad = f.slice(0, f.indexOf("-"));
+      const prompt = readTextAt(turnsDir, `${pad}-prompt.md`);
+      const raw =
+        parseLoose(readTextAt(turnsDir, `${pad}-response.json`)) ?? {
+          assessment: t.assessment ?? null,
+          new_queue: t.new_queue ?? null,
+          issues: t.issues ?? null,
+        };
+      return {
+        turn: t.turn ?? Number(pad),
+        question: t.question?.name ?? (typeof t.question === "string" ? t.question : null),
+        answer: t.answer ?? null,
+        skipped: Boolean(t.skipped),
+        prompt,
+        raw,
+      };
+    });
+}
+
+// Ordered stage-by-stage I/O for a run, for the right-rail Sent/Reply tabs.
+// Skips stages that haven't run yet so an in-progress run returns what exists.
+// null = unknown run (no folder); [] = a real run with no stages logged yet.
+function readRunStages(id) {
+  const dir = findRunDir(id);
+  if (!dir) return null;
+  const out = [];
+  const push = (key, label) => {
+    const data = readStageDir(dir, key);
+    if (data) out.push({ key, label, ...data });
+  };
+  push("01-focus-points", "Focus areas");
+  push("01b-preparation", "Prep brief");
+  push("03-question-bank", "Questions");
+  const turns = readTurns(dir);
+  if (turns.length) out.push({ key: "04-dynamic-answers", label: "Live Q&A", turns });
+  push("05-evaluation", "Synthesis");
+  return out;
+}
+
 module.exports = {
   walkRuns,
   listRecentRuns,
   listFinishedRuns,
   summarizeRun,
   compareRun,
+  readRunStages,
   deleteRun,
   setArchived,
   isArchivedAt,

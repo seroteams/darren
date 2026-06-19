@@ -1,3 +1,4 @@
+const fs = require("node:fs");
 const path = require("node:path");
 const { requireSession, summarizeAxes, persistSession } = require("../sessions");
 const { openStream } = require("../sse");
@@ -51,7 +52,6 @@ module.exports = async function plan(c) {
     transcript: clone(session.transcript),
     agendaInjected: session.agendaInjected,
     agendaInput: clone(session.agendaInput),
-    showReturningToArcHint: session.showReturningToArcHint,
     question: clone(session.queueRef[0]),
     answerText: pending.raw,
   });
@@ -77,9 +77,6 @@ module.exports = async function plan(c) {
 
   const remainingBudget = Math.max(0, session.totalBudget - turn);
 
-  const userDrillRequest = Boolean(session.pendingDrillRequest);
-  session.pendingDrillRequest = false;
-
   let planResult;
   const prevTracker = cost.getActive();
   cost.setActive(session.tracker);
@@ -98,7 +95,6 @@ module.exports = async function plan(c) {
       turnNumber: turn,
       totalTurns: session.totalBudget,
       closerAlias: session.closer ? session.closer.alias : null,
-      userDrillRequest,
       prep: session.preparationResult?.brief || null,
       // Always an array: a session without a bank (e.g. rehydrated from before
       // sessionBank existed) gets "seeds only" — never the global-bank fallback.
@@ -167,8 +163,6 @@ module.exports = async function plan(c) {
     session.agendaInjected = true;
   }
 
-  if (userDrillRequest) session.showReturningToArcHint = true;
-
   // Force-insert the reserved closer when the next turn IS the last.
   // The planner gets veto-proof: regardless of what it returned, the closer runs last.
   const askedAliases = new Set(session.transcript.map((t) => t.question.alias));
@@ -229,10 +223,20 @@ module.exports = async function plan(c) {
       new_queue: session.queueRef.map((x) => ({ alias: x.alias, label: x.label, name: x.name })),
       issues: planResult.issues || [],
       unbooked_signal: planResult.unbooked_signal || [],
-      userDrillRequest,
       axis_state: serialize(session.axisState),
     }
   );
+  // Mirror the CLI loop: keep the exact prompt sent to the planner and its raw
+  // reply alongside the turn file, so live and CLI logs are identical and the
+  // stage I/O view can show what each Q&A turn fed the model.
+  if (planResult.prompt) {
+    const pad = String(turn).padStart(2, "0");
+    fs.writeFileSync(path.join(dynamicAnswersDir, `${pad}-prompt.md`), planResult.prompt);
+    fs.writeFileSync(
+      path.join(dynamicAnswersDir, `${pad}-response.json`),
+      typeof planResult.response === "string" ? planResult.response : JSON.stringify(planResult.response, null, 2)
+    );
+  }
   writeJson(path.join(session.dir, "transcript.json"), session.transcript);
   writeJson(path.join(session.dir, "axis-state.json"), serialize(session.axisState));
 

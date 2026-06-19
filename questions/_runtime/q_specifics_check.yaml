@@ -1,0 +1,11 @@
+alias: q_specifics_check
+label: Specifics check
+name: "When you say 'Nothing much,' what has actually taken your time lately?"
+description: Clarifies the shallow opener by asking for concrete recent work or load.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: planner_added
+grounding: Nothing much

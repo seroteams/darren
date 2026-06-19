@@ -1,8 +1,10 @@
-// Fixed right-rail notes panel. Composer model:
-//   Enter (or "Save note" button) = save. Shift+Enter = newline.
-// Stage is captured at save time, not per line, so a whole paragraph
-// gets tagged with one stage. Saved notes are clickable and become an
-// inline editable textarea (same shortcuts; Esc cancels; Delete removes).
+// Fixed right-rail panel with three tabs:
+//   Notes  — QA notes about this run (Enter/"Save note" = save, Shift+Enter =
+//            newline; saved notes are click-to-edit; Esc cancels; Delete removes).
+//   Sent   — what the AI was given for the current stage + the exact prompt.
+//   Reply  — what the AI sent back for the current stage.
+// Notes behaviour is unchanged from before tabs existed; Sent/Reply are rendered
+// by stage-data-tab.js from the run's logged stage I/O.
 
 import { postNote } from "../api.js";
 import { STAGES } from "../state.js";
@@ -13,6 +15,7 @@ import {
   renderCtxSegments,
 } from "./notes-panel-utils.js";
 import { createNotesListController, cssEscape, mountEditMode } from "./notes-list.js";
+import { createStageDataController } from "./stage-data-tab.js";
 
 const NARROW_MQ = window.matchMedia("(max-width: 1024px)");
 
@@ -24,20 +27,33 @@ export function createNotesPanel({ store, setState }) {
       <div class="notes-panel__head-row">
         <div class="notes-panel__head-main">
           <div class="notes-panel__ctx ctx-segments"></div>
-          <div class="notes-panel__eyebrow eyebrow">Test notes</div>
-          <p class="notes-panel__helper text-ink-dim text-xs">Your QA notes about this run. Manager context is shown in the main flow.</p>
         </div>
-        <button type="button" class="notes-panel__close btn btn--ghost btn--sm" aria-label="Close notes">Close</button>
+        <button type="button" class="notes-panel__close btn btn--ghost btn--sm" aria-label="Close panel">Close</button>
       </div>
-      <div class="notes-panel__dev"></div>
-    </div>
-    <div class="notes-panel__list"></div>
-    <div class="notes-panel__compose">
-      <textarea rows="4" placeholder="Type a test note about this stage…"></textarea>
-      <div class="notes-panel__compose-row">
-        <button type="button" class="btn btn--ghost notes-panel__save">Save note</button>
+      <div class="notes-panel__tabs" role="tablist">
+        <button type="button" class="notes-panel__tab is-active" data-tab="notes" role="tab" aria-selected="true">Notes</button>
+        <button type="button" class="notes-panel__tab" data-tab="sent" role="tab" aria-selected="false">Sent</button>
+        <button type="button" class="notes-panel__tab" data-tab="reply" role="tab" aria-selected="false">Reply</button>
       </div>
     </div>
+
+    <div class="notes-panel__tabpane" data-pane="notes">
+      <div class="notes-panel__notes-head">
+        <div class="notes-panel__eyebrow eyebrow">Test notes</div>
+        <p class="notes-panel__helper text-ink-dim text-xs">Your QA notes about this run. Manager context is shown in the main flow.</p>
+        <div class="notes-panel__dev"></div>
+      </div>
+      <div class="notes-panel__list"></div>
+      <div class="notes-panel__compose">
+        <textarea rows="4" placeholder="Type a test note about this stage…"></textarea>
+        <div class="notes-panel__compose-row">
+          <button type="button" class="btn btn--ghost notes-panel__save">Save note</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes-panel__tabpane is-hidden" data-pane="sent"></div>
+    <div class="notes-panel__tabpane is-hidden" data-pane="reply"></div>
   `;
   const ctxEl = el.querySelector(".notes-panel__ctx");
   const devSlot = el.querySelector(".notes-panel__dev");
@@ -45,11 +61,26 @@ export function createNotesPanel({ store, setState }) {
   const ta = el.querySelector(".notes-panel__compose textarea");
   const saveBtn = el.querySelector(".notes-panel__save");
   const closeBtn = el.querySelector(".notes-panel__close");
+  const tabsEl = el.querySelector(".notes-panel__tabs");
+  const panes = {
+    notes: el.querySelector('[data-pane="notes"]'),
+    sent: el.querySelector('[data-pane="sent"]'),
+    reply: el.querySelector('[data-pane="reply"]'),
+  };
+
+  // Sent/Reply content is owned by the stage-data controller; mount its two
+  // root nodes into the matching panes.
+  const stageData = createStageDataController();
+  panes.sent.appendChild(stageData.sentEl);
+  panes.reply.appendChild(stageData.replyEl);
+
+  // Which tab is showing — remembered across open/close while the rail lives.
+  let activeTab = "notes";
 
   const toggleBtn = document.createElement("button");
   toggleBtn.type = "button";
   toggleBtn.className = "notes-panel__toggle";
-  toggleBtn.textContent = "Test notes";
+  toggleBtn.textContent = "Run panel";
   toggleBtn.setAttribute("aria-expanded", "false");
   toggleBtn.setAttribute("aria-controls", "sero-notes-panel");
   toggleBtn.hidden = true;
@@ -74,6 +105,26 @@ export function createNotesPanel({ store, setState }) {
     errorEl.textContent = "";
     errorEl.classList.add("is-hidden");
   }
+
+  function switchTab(tab) {
+    if (!panes[tab]) return;
+    activeTab = tab;
+    for (const [name, pane] of Object.entries(panes)) {
+      pane.classList.toggle("is-hidden", name !== tab);
+    }
+    tabsEl.querySelectorAll(".notes-panel__tab").forEach((b) => {
+      const on = b.dataset.tab === tab;
+      b.classList.toggle("is-active", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    if (tab === "notes") ta.focus({ preventScroll: true });
+    else stageData.render(store, activeTab);
+  }
+
+  tabsEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".notes-panel__tab");
+    if (btn) switchTab(btn.dataset.tab);
+  });
 
   function syncLayout(hidden) {
     // A collapsed rail behaves like the narrow (toggle-driven) layout at any width.
@@ -110,7 +161,10 @@ export function createNotesPanel({ store, setState }) {
   toggleBtn.addEventListener("click", () => {
     panelOpen = !panelOpen;
     syncLayout(false);
-    if (panelOpen) ta.focus({ preventScroll: true });
+    if (panelOpen) {
+      if (activeTab === "notes") ta.focus({ preventScroll: true });
+      else stageData.render(store, activeTab);
+    }
   });
 
   closeBtn.addEventListener("click", () => {
@@ -205,6 +259,8 @@ export function createNotesPanel({ store, setState }) {
         renderCtxSegments(ctxEl, state?.ctx || {});
       }
       listController.renderList(state?.notes || []);
+      // Keep the visible AI tab in sync with the current stage.
+      if (activeTab !== "notes") stageData.render(state, activeTab);
     }
   }
 
