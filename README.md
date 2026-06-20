@@ -33,7 +33,7 @@ Requires `OPENAI_API_KEY` in `.env` for live AI stages.
 | `plans/` | Audit tracker, specs, feature inventory, archived plans |
 | `.claude/skills/reviewrun/` | `/reviewrun` skill for log review |
 
-Deep inventory: [`plans/FEATURES.md`](plans/FEATURES.md). Active workstreams: [`PLAN.md`](PLAN.md).
+**Start here for current work:** [`SERO_BOARD.md`](SERO_BOARD.md) — the single live board. Deep inventory: [`plans/FEATURES.md`](plans/FEATURES.md). Old workstream history (archived): [`plans/PLAN-archive.md`](plans/PLAN-archive.md). Folder map: [`docs/STRUCTURE.md`](docs/STRUCTURE.md).
 
 ## Verify after prompt changes
 

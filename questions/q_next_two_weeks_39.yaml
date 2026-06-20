@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_39
+label: Next-two-weeks
+name: What would make the next two weeks feel more manageable?
+description: A clean landing question that turns the check-in into a practical next step.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

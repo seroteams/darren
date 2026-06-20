@@ -1,4 +1,4 @@
-> **Superseded — active work lives in [SERO_BOARD.md](SERO_BOARD.md).** This file is a done-archive (all rows finished); don't add new work here.
+> **Superseded — active work lives in [SERO_BOARD.md](../SERO_BOARD.md).** This file is a done-archive (all rows finished); don't add new work here.
 
 # Active workstreams
 

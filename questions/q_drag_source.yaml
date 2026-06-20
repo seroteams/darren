@@ -1,0 +1,10 @@
+alias: q_drag_source
+label: Drag source
+name: What has been taking more of your time than it should lately?
+description: Gets at the specific drag without making it a verdict on his output.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

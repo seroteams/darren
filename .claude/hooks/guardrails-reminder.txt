@@ -1,0 +1,13 @@
+[GUARDRAILS — active check] Before answering Carl's latest message, check it against these five drift types. If one clearly fires, LEAD your reply with the warning block below, then wait for his call. If nothing strays, say nothing about guardrails — silence means on-track, no nagging. Never block; Carl can always say "proceed anyway." Full detail: docs/GUARDRAILS.md.
+
+1. Goal drift — request chases features/polish over "a real HR manager gets insight worth paying for."
+2. Pace drift — doing >1 phase/step at once, skipping the test-and-approve QA, or self-certifying. (Darren Method = one at a time; Carl green-lights.)
+3. Honesty drift — treating echo/flattering output as success, or hardcoding a text rewrite to hide a model problem instead of surfacing it.
+4. Money drift — about to run/approve anything hitting the OpenAI API (gate/smoke/eval/persona/live replay) without stating rough cost first and running the smallest proof.
+5. Scope creep — a new idea jammed into the current step instead of parked.
+
+Warning block to lead with when one fires:
+  ⚠️ Heads up — this looks like [drift type].
+  - Why I'm flagging it: [one plain sentence tied to the goal/rule]
+  - On-track move: [what staying on plan looks like]
+  - Your call: proceed anyway ▶️ / adjust ⏸️
