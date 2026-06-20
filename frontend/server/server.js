@@ -22,6 +22,7 @@ const preparation = require("./handlers/preparation");
 const bank = require("./handlers/bank");
 const plan = require("./handlers/plan");
 const evaluation = require("./handlers/evaluation");
+const preview = require("./handlers/preview");
 const rehydrate = require("./handlers/rehydrate");
 const notes = require("./handlers/notes");
 const agendaCover = require("./handlers/agenda");
@@ -173,6 +174,7 @@ function main() {
   router.add("GET", "/api/bank/stream", bank);
   router.add("GET", "/api/plan/stream", plan);
   router.add("GET", "/api/evaluation/stream", evaluation);
+  router.add("GET", "/api/preview", preview);
 
   const staticHandler = IS_PROD ? createStaticHandler(CLIENT_DIST) : null;
 

@@ -4,7 +4,7 @@
 // text exactly as logged — nothing is reworded or hidden (engine-honesty rule);
 // "what shipped" appears only where a post-processed copy was actually logged.
 
-import { getRunStages } from "../api.js";
+import { getRunStages, getStagePreview } from "../api.js";
 import { STAGES } from "../state.js";
 import { escapeHtml } from "./html.js";
 
@@ -101,8 +101,22 @@ function latestTurn(stage) {
   return turns.length ? turns[turns.length - 1] : null;
 }
 
-function renderSent(stage) {
-  if (!stage) return placeholder("Waiting for this stage to run…");
+// Before a stage runs there's nothing logged yet — show the exact text we're
+// ABOUT to send, assembled with zero API calls. Open by default: seeing it is
+// the whole point. Clearly marked as not-yet-sent so it's never mistaken for a
+// confirmed send.
+function renderPreview(preview) {
+  const note = `<p class="stage-io__note">Not sent yet — this is the exact text we'll send the moment this step runs. Nothing has left your machine.</p>`;
+  const model = field("Model", preview.model);
+  const prompt = block("Show exact text we're about to send (preview — not yet sent)", preview.prompt, { details: true, open: true });
+  return `${note}<div class="stage-io__fields">${model}</div>${prompt}`;
+}
+
+function renderSent(stage, preview) {
+  if (!stage) {
+    if (preview && preview.prompt) return renderPreview(preview);
+    return placeholder("Waiting for this stage to run…");
+  }
   // Live Q&A: the prompt embeds everything, so show the turn header + the prompt.
   if (stage.turns) {
     const t = latestTurn(stage);
@@ -151,13 +165,14 @@ export function createStageDataController() {
   let token = 0;
   let key = null; // `${sessionId}|${stageKey}|${turn}`
   let stage = null;
+  let preview = null;
 
   function paint() {
-    sentEl.innerHTML = renderSent(stage);
+    sentEl.innerHTML = renderSent(stage, preview);
     replyEl.innerHTML = renderReply(stage);
   }
 
-  async function fetchStage(sessionId, stageKey, force) {
+  async function fetchStage(sessionId, stageKey, liveStage, force) {
     const my = ++token;
     if (force) {
       sentEl.innerHTML = placeholder("Loading…");
@@ -171,6 +186,18 @@ export function createStageDataController() {
       if (my !== token) return;
       stage = null;
     }
+    // Not logged yet (live run, stage hasn't fired) → preview what we're about
+    // to send. Skipped once the stage has logged its real send.
+    preview = null;
+    if (!stage) {
+      try {
+        const p = await getStagePreview(sessionId, liveStage);
+        if (my !== token) return;
+        if (p && p.prompt) preview = p;
+      } catch {
+        if (my !== token) return;
+      }
+    }
     paint();
   }
 
@@ -181,6 +208,7 @@ export function createStageDataController() {
     const stageKey = STAGE_KEY[liveStage];
     if (!sessionId || !stageKey) {
       stage = null;
+      preview = null;
       token++; // cancel any in-flight fetch
       sentEl.innerHTML = placeholder("This step doesn't send anything to the AI.");
       replyEl.innerHTML = placeholder("This step doesn't send anything to the AI.");
@@ -193,7 +221,7 @@ export function createStageDataController() {
       return;
     }
     key = nextKey;
-    fetchStage(sessionId, stageKey, true);
+    fetchStage(sessionId, stageKey, liveStage, true);
   }
 
   // Copy: grab the nearest block's <pre> text. Delegated on both panes.

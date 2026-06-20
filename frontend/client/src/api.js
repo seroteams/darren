@@ -133,6 +133,16 @@ export async function getRunStages(id) {
   return json(await fetch(`/api/runs/${encodeURIComponent(id)}/stages`));
 }
 
+// Preview the exact payload the current stage is about to send to the model —
+// assembled with zero API calls. Returns null when there's no session (404) or
+// the stage's inputs aren't ready yet (409), so callers fall back gracefully.
+export async function getStagePreview(sessionId, stage) {
+  const q = stage ? `&stage=${encodeURIComponent(stage)}` : "";
+  const res = await fetch(`/api/preview?s=${encodeURIComponent(sessionId)}${q}`);
+  if (res.status === 404 || res.status === 409) return null;
+  return json(res);
+}
+
 export async function saveReview(id, review) {
   return postJson(`/api/runs/${encodeURIComponent(id)}/review`, review);
 }

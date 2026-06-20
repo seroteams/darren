@@ -24,6 +24,13 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["cross-env", "API_PORT=3001", "node", "frontend/server/server.js"],
       "port": 3001
+    },
+    {
+      "name": "sero-prod-iso",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["cross-env", "NODE_ENV=production", "node", "frontend/server/server.js"],
+      "port": 3098,
+      "autoPort": true
     }
   ]
 }

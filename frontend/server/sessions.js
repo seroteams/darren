@@ -142,6 +142,7 @@ module.exports = {
   requireSession,
   dropSession,
   snapshot,
+  inferStage,
   summarizeAxes,
   startSweep,
   persistSession: persist,

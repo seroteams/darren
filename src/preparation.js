@@ -99,6 +99,38 @@ function buildMessages({
   return splitSystemUser(filled);
 }
 
+// Normalise the handler/CLI `inputs` into the shape buildMessages expects. Kept
+// separate so the live run and the preview endpoint share one assembly path —
+// the preview can never drift from what actually gets sent.
+function buildPrepInput(inputs) {
+  const focusPoints = inputs.focusPoints || [];
+  const selectedFocus =
+    inputs.selectedFocus ||
+    resolveSelectedFocus({
+      notes: inputs.notes || inputs.observedShift,
+      observedShift: inputs.notes || inputs.observedShift,
+      focusPoints,
+      primaryFocusId: inputs.primaryFocusId,
+    });
+  return {
+    name: inputs.name,
+    roleTitle: inputs.role || inputs.roleTitle,
+    seniority: inputs.seniority,
+    meetingType: inputs.meetingType,
+    observedShift: inputs.notes || inputs.observedShift || "",
+    focusPoints,
+    selectedFocus,
+    primaryFocusId: selectedFocus?.id,
+  };
+}
+
+// Assemble the exact payload generatePreparation would send — WITHOUT calling
+// the model. `prompt` is byte-for-byte what gets logged as prompt.md.
+function assemblePreparation(inputs, { model = getDefaultModel() } = {}) {
+  const messages = buildMessages(buildPrepInput(inputs));
+  return { model, prompt: messages.filled };
+}
+
 function validateBrief(brief, inputs) {
   const issues = [];
   const opener = (brief.openingQuestion || "").trim();
@@ -265,25 +297,7 @@ async function generatePreparation(
 ) {
   const runId = randomUUID();
 
-  const focusPoints = inputs.focusPoints || [];
-  const selectedFocus =
-    inputs.selectedFocus ||
-    resolveSelectedFocus({
-      notes: inputs.notes || inputs.observedShift,
-      observedShift: inputs.notes || inputs.observedShift,
-      focusPoints,
-      primaryFocusId: inputs.primaryFocusId,
-    });
-  const prepInput = {
-    name: inputs.name,
-    roleTitle: inputs.role || inputs.roleTitle,
-    seniority: inputs.seniority,
-    meetingType: inputs.meetingType,
-    observedShift: inputs.notes || inputs.observedShift || "",
-    focusPoints,
-    selectedFocus,
-    primaryFocusId: selectedFocus?.id,
-  };
+  const prepInput = buildPrepInput(inputs);
 
   const messages = buildMessages(prepInput);
 
@@ -347,4 +361,4 @@ async function generatePreparation(
   return { brief: parsed, runId, validation, attempts };
 }
 
-module.exports = { generatePreparation, buildMessages, validateBrief };
+module.exports = { generatePreparation, buildMessages, buildPrepInput, assemblePreparation, validateBrief };
