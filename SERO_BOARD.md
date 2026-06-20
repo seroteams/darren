@@ -12,12 +12,21 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
-The Now column was product-owner-walked and signed off green on 2026-06-15. Completed items have
-been cleared off this board to keep it focused on what's left; the full history lives in each
-plan's git log. What remains:
+**Three features built and committed, all awaiting Carl's product-owner QA (2026-06-21).**
+Code is in `main` and pushed (the auto-commit automation already committed them — so each PLAN's
+"not committed yet" line is stale; they're committed, just not signed off). None has been walked
+through its QA scenarios yet. Next action on each is *Carl walks the phase scenarios → green light → close out*.
 
-**Now is clear — no open demo-fix or hardening todos (2026-06-16).** Everything that
-was in flight has been finished, verified, committed, and pushed.
+| Feature | Folder | State | What it adds |
+|---|---|---|---|
+| **Briefing grounding fixes** | `docs/todo/briefing-grounding-fixes/` | Phase 1 of 4 built | Clarity stops flooring off one repeated theme (Maya run −9 → −5). Phases 2–4 not started. |
+| **See-before-sent preview** | `docs/todo/sent-preview/` | Both phases built | Sent tab shows the exact AI payload *before* a stage runs (Preparation only), zero API calls. Byte-for-byte verified on a real run. |
+| **Stage data tabs** | `docs/todo/stage-data-tabs/` | All 3 phases built | Right rail gains Notes·Sent·Reply tabs showing what each stage was fed + the raw reply. |
+
+To see the runner features live: Carl's dev server may be running OLD code — restart `npm run dev` to pick up changes.
+
+Earlier history: the Now column was product-owner-walked and signed off green on 2026-06-15;
+completed items were cleared to keep this focused. Full history lives in each plan's git log.
 
 Tests: `npm test` **30/30**, `npm run replay` **7/7** ($0), plus one live run that passed all
 back-nav + briefing checks. Two items remain deliberately deferred (engine-trust-gates → Parked):
