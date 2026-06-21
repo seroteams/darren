@@ -6,571 +6,296 @@
 <title>How Your Engine Works — Run Flow</title>
 <style>
   :root {
-    --bg: #0e1116;
-    --bg-soft: #161b22;
-    --card: #1b212b;
-    --card-hi: #232b38;
-    --line: #2b3442;
-    --text: #e8edf4;
-    --muted: #9aa7b8;
-    --faint: #6b7787;
-    --accent: #6ea8fe;
-    --accent-soft: #1d2a44;
-    --green: #58c98a;
-    --amber: #e3b341;
-    --pink: #e06c9f;
-    --purple: #b08cf0;
-    --radius: 16px;
-    --shadow: 0 10px 30px rgba(0,0,0,.45);
-    /* axis colours */
-    --ax-wellbeing: #58c98a;
-    --ax-engagement: #6ea8fe;
-    --ax-clarity: #e3b341;
-    --ax-growth: #b08cf0;
+    --bg: #0e1116; --bg-soft:#161b22; --card:#1b212b; --card-hi:#232b38;
+    --line:#2b3442; --text:#e8edf4; --muted:#9aa7b8; --faint:#6b7787;
+    --accent:#6ea8fe; --accent-soft:#1d2a44; --green:#58c98a; --amber:#e3b341;
+    --pink:#e06c9f; --purple:#b08cf0;
+    --ax-wellbeing:#58c98a; --ax-engagement:#6ea8fe; --ax-clarity:#e3b341; --ax-growth:#b08cf0;
   }
-  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html, body { margin: 0; padding: 0; height: auto; -webkit-text-size-adjust: 100%; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; max-width:100%; }
+  html, body { margin:0; padding:0; height:100%; -webkit-text-size-adjust:100%; }
   body {
-    background: radial-gradient(1200px 600px at 50% -10%, #18202c 0%, var(--bg) 55%);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-    font-size: 17px;
-    padding-bottom: 60px;
-    /* page scrolls vertically only — stop nested blocks from trapping the swipe */
-    touch-action: pan-y;
-    overscroll-behavior-y: contain;
+    background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased; font-size:16px;
+    overflow:hidden; touch-action:none;
   }
-  /* nothing scrolls sideways — everything wraps so no element steals the vertical swipe */
-  * { max-width: 100%; }
 
-  /* app shell: fixed bar + explicit scroll region (some in-app webviews won't scroll the body) */
-  .app {
-    position: fixed; inset: 0;
-    display: flex; flex-direction: column;
-    height: 100vh; height: 100dvh;
-    overflow: hidden;
-  }
+  .app { position:fixed; inset:0; display:flex; flex-direction:column; height:100dvh; overflow:hidden; }
+
   .appbar {
-    flex: 0 0 auto;
-    padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px) * 0);
-    padding-top: calc(14px + env(safe-area-inset-top, 0px));
-    background: rgba(14,17,22,.92);
-    border-bottom: 1px solid var(--line);
-    backdrop-filter: blur(8px);
-    text-align: center;
+    flex:0 0 auto; text-align:center;
+    padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;
+    background:#11151c; border-bottom:1px solid var(--line);
   }
-  .appbar-title { font-size: 18px; font-weight: 800; }
-  .appbar-sub { font-size: 12.5px; color: var(--muted); margin-top: 1px; }
-  .scroll {
-    flex: 1 1 auto; min-height: 0;
-    overflow-y: scroll; -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    padding-bottom: calc(50px + env(safe-area-inset-bottom, 0px));
-  }
-  .wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+  .appbar .t { font-size:16px; font-weight:800; }
+  .appbar .s { font-size:11.5px; color:var(--muted); }
 
-  header {
-    padding: 28px 16px 8px;
-    text-align: center;
-    max-width: 640px;
-    margin: 0 auto;
+  .deck { position:relative; flex:1 1 auto; min-height:0; }
+  .card {
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    padding:14px 16px calc(10px + env(safe-area-inset-bottom,0px));
+    opacity:0; visibility:hidden; transition:opacity .18s ease;
   }
-  header .kicker {
-    font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
-    color: var(--accent); font-weight: 700;
-  }
-  header h1 { font-size: 30px; margin: 8px 0 6px; line-height: 1.2; }
-  header p { color: var(--muted); margin: 0; font-size: 17px; }
-  .hint {
-    margin: 16px auto 4px; max-width: 640px;
-    background: var(--accent-soft); border: 1px solid #2c4267;
-    color: #cfe0ff; border-radius: 12px; padding: 12px 16px;
-    font-size: 15.5px; display: flex; gap: 8px; align-items: center;
-  }
-  .hint b { color: #fff; }
+  .card:target { opacity:1; visibility:visible; z-index:2; }
+  /* show the first card when nothing is targeted yet */
+  .deck:not(:has(:target)) #c0 { opacity:1; visibility:visible; z-index:2; }
 
-  /* axis bar */
-  .axes {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
-    margin: 18px auto 4px; max-width: 640px;
-  }
-  .axis {
-    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-    padding: 10px 8px; text-align: center;
-  }
-  .axis .name { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
-  .axis .val { font-size: 24px; font-weight: 800; margin-top: 2px; }
-  .axis .meter { height: 5px; border-radius: 99px; background: #2a3442; margin-top: 7px; overflow: hidden; }
-  .axis .meter span { display: block; height: 100%; border-radius: 99px; }
+  .cardtop { flex:0 0 auto; }
+  .cardtop .step { font-size:11px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--faint); }
+  .cardtop h2 { margin:3px 0 4px; font-size:21px; line-height:1.2; }
+  .cardtop .one { margin:0; font-size:14px; color:var(--muted); }
 
-  /* flow */
-  .flow { margin-top: 22px; position: relative; }
-  .stage {
-    position: relative;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    margin: 0 0 14px;
-    overflow: hidden;
-  }
-  details[open].stage { border-color: #34507f; }
-  .stagehead {
-    padding: 16px;
-    cursor: pointer;
-    display: flex; gap: 14px; align-items: flex-start;
-    list-style: none;
-  }
-  .stagehead::-webkit-details-marker { display: none; }
-  .detail { padding: 0 16px 18px; }
-  .seclabel {
-    font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700;
-    color: var(--accent); margin: 16px 0 8px;
-  }
-  .seclabel.prompt { color: var(--purple); }
-  .seclabel.din { color: #8fd8ad; }
-  .seclabel.dout { color: #9cc0ff; }
-  .stage .num {
-    flex: 0 0 auto; width: 46px; height: 46px; border-radius: 12px;
-    display: grid; place-items: center; font-size: 22px;
-    background: var(--accent-soft); border: 1px solid #33476b;
-  }
-  .stage .body { flex: 1 1 auto; min-width: 0; }
-  .stage .step { font-size: 12px; color: var(--faint); letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
-  .stage h3 { margin: 2px 0 5px; font-size: 19px; }
-  .stage .one { color: var(--muted); font-size: 15.5px; margin: 0; }
-  .stage .io {
-    display: flex; gap: 6px; flex-wrap: wrap; margin-top: 11px;
-  }
-  .tag {
-    font-size: 12.5px; padding: 4px 10px; border-radius: 99px;
-    background: #20283400; border: 1px solid var(--line); color: var(--muted);
-  }
-  .tag.in { border-color: #2e4a3a; color: #8fd8ad; }
-  .tag.out { border-color: #2e3f5c; color: #9cc0ff; }
-  .stage .chev { color: var(--accent); align-self: center; font-size: 24px; font-weight: 700; flex: 0 0 auto; width: 24px; text-align: center; }
-  .stage .chev::after { content: "＋"; }
-  details[open].stage .chev::after { content: "–"; }
+  .cardbody { flex:1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-top:10px; }
 
-  /* connector */
-  .conn { display: grid; place-items: center; height: 18px; margin: -8px 0 6px; }
-  .conn svg { opacity: .5; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 10px; }
+  .chip { font-size:11.5px; padding:3px 9px; border-radius:99px; border:1px solid var(--line); color:var(--muted); }
+  .chip.in { border-color:#2e4a3a; color:#8fd8ad; }
+  .chip.out { border-color:#2e3f5c; color:#9cc0ff; }
 
-  /* loop stage special */
-  .stage.loop { border-style: dashed; border-color: #3a4a63; }
-  .stage.loop .num { background: #2a2140; border-color: #4a3a73; }
-  .loopbadge {
-    display: inline-block; font-size: 12.5px; font-weight: 700; color: var(--purple);
-    background: #2a2140; border: 1px solid #4a3a73; border-radius: 99px;
-    padding: 3px 10px; margin-top: 9px;
-  }
-
-  /* overlay + sidebar */
-  .scrim {
-    position: fixed; inset: 0; background: rgba(0,0,0,.55);
-    opacity: 0; pointer-events: none; transition: opacity .25s ease; z-index: 40;
-    backdrop-filter: blur(2px);
-  }
-  .scrim.open { opacity: 1; pointer-events: auto; }
-
-  .panel {
-    position: fixed; z-index: 50; background: var(--bg-soft);
-    box-shadow: var(--shadow);
-    display: flex; flex-direction: column;
-    /* desktop: right drawer */
-    top: 0; right: 0; height: 100%; width: 440px; max-width: 92vw;
-    transform: translateX(105%);
-    transition: transform .28s cubic-bezier(.4,0,.2,1);
-    border-left: 1px solid var(--line);
-  }
-  .panel.open { transform: translateX(0); }
-
-  .panel .phead {
-    padding: 16px 16px 12px; border-bottom: 1px solid var(--line);
-    display: flex; gap: 12px; align-items: flex-start;
-    position: sticky; top: 0; background: var(--bg-soft); z-index: 2;
-  }
-  .panel .phead .pico { font-size: 28px; }
-  .panel .phead .ptitle { flex: 1; min-width: 0; }
-  .panel .phead .step { font-size: 12px; color: var(--accent); letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
-  .panel .phead h2 { margin: 2px 0 0; font-size: 21px; }
-  .panel .close {
-    flex: 0 0 auto; width: 40px; height: 40px; border-radius: 9px; border: 1px solid var(--line);
-    background: var(--card); color: var(--text); font-size: 20px; cursor: pointer;
-  }
-  .panel .pbody {
-    flex: 1 1 auto; min-height: 0;
-    overflow-y: auto; overscroll-behavior: contain;
-    padding: 16px 16px 80px; -webkit-overflow-scrolling: touch;
-  }
-
-  .explain {
-    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-    padding: 15px; font-size: 16px; color: var(--text); margin-bottom: 14px;
-  }
-  .explain .label { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--green); font-weight: 700; margin-bottom: 7px; }
-
-  .iorow { display: flex; gap: 10px; margin-bottom: 14px; }
-  .iobox { flex: 1; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
-  .iobox .label { font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700; margin-bottom: 6px; }
-  .iobox.in .label { color: #8fd8ad; }
-  .iobox.out .label { color: #9cc0ff; }
-  .iobox p { margin: 0; font-size: 14.5px; color: var(--muted); }
-
-  .tabs { display: flex; gap: 6px; margin-bottom: 12px; }
-  .tab {
-    flex: 1; text-align: center; padding: 11px 6px; font-size: 14px; font-weight: 600;
-    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
-    color: var(--muted); cursor: pointer;
-  }
-  .tab.active { background: var(--accent-soft); border-color: #3a5688; color: #cfe0ff; }
-
-  .codewrap { position: relative; }
-  .codewrap .meta {
-    font-size: 12px; color: var(--faint); margin-bottom: 6px; font-family: ui-monospace, monospace;
-  }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px; margin-bottom:10px; }
+  .box .lab { font-size:10.5px; text-transform:uppercase; letter-spacing:.07em; font-weight:700; margin-bottom:6px; }
+  .box.plain .lab { color:var(--green); }
+  .box.prompt .lab { color:var(--purple); }
+  .box.data .lab { color:var(--accent); }
+  .box p { margin:0; font-size:14px; color:var(--text); }
+  .box .file { font-size:10.5px; color:var(--faint); font-family:ui-monospace,monospace; margin-bottom:6px; }
   pre {
-    margin: 0; background: #0c1017; border: 1px solid var(--line); border-radius: 12px;
-    padding: 14px; font-size: 13.5px; line-height: 1.6;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    color: #d6e2f0; max-height: none;
-    /* wrap instead of sideways-scroll, so it never traps the page swipe */
-    white-space: pre-wrap; word-break: break-word; overflow: hidden;
+    margin:0; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:12px; line-height:1.5; color:#d6e2f0;
+    white-space:pre-wrap; word-break:break-word; overflow:hidden;
   }
-  pre.prompt { color: #cdd9e6; }
-  .json-key { color: #9cc0ff; }
-  .json-str { color: #8fd8ad; }
-  .json-num { color: #e3b341; }
-  .json-bool { color: var(--pink); }
+  .json-key{color:#9cc0ff;} .json-str{color:#8fd8ad;} .json-num{color:#e3b341;}
 
-  .filelist { margin-top: 14px; }
-  .filelist .label { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); font-weight: 700; margin-bottom: 7px; }
-  .filelist code {
-    display: inline-block; background: var(--card); border: 1px solid var(--line);
-    border-radius: 7px; padding: 5px 9px; font-size: 12.5px; margin: 0 5px 5px 0; color: var(--muted);
-    font-family: ui-monospace, monospace;
+  /* axes strip (overview) */
+  .axes { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:6px 0 12px; }
+  .axis { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px 6px; text-align:center; }
+  .axis .n { font-size:10.5px; color:var(--muted); text-transform:uppercase; }
+  .axis .v { font-size:22px; font-weight:800; }
+  .axis .m { height:5px; border-radius:99px; background:#2a3442; margin-top:6px; overflow:hidden; }
+  .axis .m span { display:block; height:100%; border-radius:99px; }
+
+  /* nav */
+  .nav { flex:0 0 auto; display:flex; align-items:center; gap:10px; padding-top:10px; border-top:1px solid var(--line); margin-top:6px; }
+  .navbtn {
+    flex:0 0 auto; text-decoration:none; font-size:15px; font-weight:700;
+    color:#cfe0ff; background:var(--accent-soft); border:1px solid #34507f;
+    border-radius:11px; padding:11px 16px; min-height:46px; display:flex; align-items:center;
   }
+  .navbtn.next { margin-left:auto; }
+  .navbtn.off { opacity:.3; pointer-events:none; }
+  .dots { flex:1 1 auto; display:flex; justify-content:center; gap:7px; flex-wrap:wrap; }
+  .dots a { width:9px; height:9px; border-radius:99px; background:#36404f; }
+  .dots a.on { background:var(--accent); transform:scale(1.25); }
 
-  footer { text-align: center; color: var(--faint); font-size: 13.5px; margin-top: 26px; padding: 0 16px; }
-
-  /* mobile: bottom sheet */
-  @media (max-width: 560px) {
-    .panel {
-      top: auto; bottom: 0; right: 0; left: 0; width: 100%; max-width: 100%;
-      height: 88vh; height: 88dvh; border-left: none; border-top: 1px solid var(--line);
-      border-radius: 18px 18px 0 0;
-      transform: translateY(105%);
-    }
-    .panel.open { transform: translateY(0); }
-    .panel .phead { border-radius: 18px 18px 0 0; }
-    .grip { width: 40px; height: 5px; border-radius: 99px; background: #3a4453; margin: 9px auto 0; }
-    header h1 { font-size: 25px; }
-    .axes { gap: 6px; }
-    .axis .val { font-size: 21px; }
-    .axis .name { font-size: 10.5px; }
-  }
-  @media (min-width: 561px) { .grip { display: none; } }
+  .note { font-size:13px; color:var(--muted); margin-top:4px; }
+  .note b { color:var(--text); }
 </style>
 </head>
 <body>
 
 <div class="app">
   <div class="appbar">
-    <div class="appbar-title">⚙️ How your engine works</div>
-    <div class="appbar-sub">One real run, start to finish</div>
+    <div class="t">⚙️ How your engine works</div>
+    <div class="s">One real run · tap <b>Next ›</b> to move</div>
   </div>
-
-  <div class="scroll" id="scroll">
-    <header>
-      <div class="kicker">Sero · Engine Run</div>
-      <p>Every stage of one real run. Scroll down.</p>
-    </header>
-
-    <div class="wrap">
-      <div class="hint">👇 <span>Everything's open — just <b>scroll</b> to walk the whole run. Tap a stage's header to fold it away.</span></div>
-
-      <div class="axes" id="axes"></div>
-
-      <div class="flow" id="flow"></div>
-
-      <footer>
-        Example run: <b>Toby</b> · Expert UX Designer · “Growth &amp; career plan”.<br>
-        Manager's note: <i>“He wants to become a lead but his communication methods suck.”</i>
-      </footer>
-    </div>
-  </div>
+  <div class="deck" id="deck"></div>
 </div>
 
 <script>
-/* ----- Real data from run logs/may/2026_May24_21-46-1eb839fd ----- */
-
 const AXES = [
-  { id:"wellbeing",  name:"Wellbeing",  score:0, var:"--ax-wellbeing" },
-  { id:"engagement", name:"Engagement", score:1, var:"--ax-engagement" },
-  { id:"clarity",    name:"Clarity",    score:1, var:"--ax-clarity" },
-  { id:"growth",     name:"Growth",     score:5, var:"--ax-growth" },
+  { n:"Wellbeing",  v:0, c:"--ax-wellbeing" },
+  { n:"Engagement", v:1, c:"--ax-engagement" },
+  { n:"Clarity",    v:1, c:"--ax-clarity" },
+  { n:"Growth",     v:5, c:"--ax-growth" },
 ];
 
-const pretty = (o) => JSON.stringify(o, null, 2);
+const pj = o => JSON.stringify(o, null, 2);
 
+// Card 0 is the overview. Cards 1..7 are the stages.
 const STAGES = [
   {
-    key:"input", num:"📝", step:"Start",
-    title:"Your notes go in",
-    one:"You tell the engine who the meeting is with and what's on your mind.",
-    inTags:["Name & role","Meeting type","Your notes"],
-    outTags:["Context object"],
-    plain:"Nothing clever yet — this is just what you typed. The engine treats your short note as the seed for everything that follows. Every later stage reads from this.",
-    inSummary:"What you type in the app.",
-    outSummary:"A tidy context object passed to stage 1.",
-    prompt:null,
-    json:{
-      in: pretty({name:"Toby",role:"Expert UX Designer",seniority:"Expert",meetingType:"Growth & career plan",notes:"He wants to become a lead but his communication methods suck"})
-    },
-    files:["cli.js"]
+    emoji:"📝", step:"Step 1 — Start", title:"Your notes go in",
+    one:"You tell it who the meeting's with and what's on your mind.",
+    cin:["Name & role","Meeting type","Your notes"], cout:["Context"],
+    plain:"Just what you typed. This short note is the seed for everything that follows.",
+    data:pj({ name:"Toby", role:"Expert UX Designer", meetingType:"Growth & career plan",
+              notes:"Wants to be a lead but his communication is weak" }),
+    dataLab:"What you typed"
   },
   {
-    key:"focus", num:"🎯", step:"Stage 01",
-    title:"Find the focus points",
-    one:"The engine picks the 2–5 topics actually worth the conversation.",
-    inTags:["Your notes","Topic catalogue"],
-    outTags:["Focus points"],
-    plain:"The engine reads your note and asks: what genuinely matters for this person today? It returns a short list (not a full checklist) — each with a reason and where it came from: a 'signal' from your note, or 'best practice' for this kind of meeting.",
-    inSummary:"Your notes + the meeting type + a catalogue of possible topics.",
-    outSummary:"A ranked shortlist of 2–5 focus points, each with a reason.",
-    prompt:{
-      file:"prompts/generate-focus-points.md",
-      persona:"You are Sero, a prep-notes assistant for a manager about to run a 1:1. Surface the handful of topics worth the conversation — not a full checklist, just what matters for this person on this day.",
-      rules:"Return strict JSON only. focus_points is 2–5 items, most-important first. Emit only as many as carry real value — do not pad. Each item: id, label, reason, source, confidence."
-    },
-    json:{
-      out: pretty({meeting_type:"Growth & career plan",focus_points:[
-        {id:"communication",label:"Communication effectiveness for a future lead role.",reason:"Notes mention communication as a barrier to his goal of becoming a lead.",source:"signal"},
-        {id:"growth",label:"Specific skills to develop for leadership transition.",reason:"What skills bridge the gap to a lead role. Default for an expert aiming at leadership.",source:"best_practice"},
-        {id:"feedback",label:"Feedback he's received on his leadership potential.",reason:"Whether he has concrete feedback on readiness, and how he reads it.",source:"best_practice"}
-      ]})
-    },
-    files:["01-focus-points/inputs.json","01-focus-points/prompt.md","01-focus-points/response.json"]
+    emoji:"🎯", step:"Step 2 — Stage 01", title:"Find the focus points",
+    one:"It picks the 2–5 topics actually worth talking about.",
+    cin:["Your notes"], cout:["Focus points"],
+    plain:"Reads your note and asks: what really matters for this person today? A short list — each tagged from your note ('signal') or 'best practice'.",
+    prompt:"Sero, prep-notes assistant. Surface the few topics worth this 1:1 — not a checklist.",
+    file:"prompts/generate-focus-points.md",
+    data:pj({ focus_points:[
+      { label:"Communication for a lead role", source:"signal" },
+      { label:"Skills for the step up", source:"best_practice" },
+      { label:"Feedback on his potential", source:"best_practice" }
+    ]}),
+    dataLab:"What it returns"
   },
   {
-    key:"prep", num:"🧭", step:"Stage 01b",
-    title:"Write your prep briefing",
-    one:"A quick game-plan so you walk in grounded, not just informed.",
-    inTags:["Focus points","Your notes"],
-    outTags:["Briefing card"],
-    plain:"Before any questions exist, the engine hands you a one-glance briefing: what this meeting is really about, a strong opener you could say word-for-word, what to listen for, what to avoid, and what a good outcome looks like.",
-    inSummary:"The focus points from stage 1 plus your original context.",
-    outSummary:"A briefing: core issue, opening question, listen-for, avoid, good outcome, suggested action.",
-    prompt:{
-      file:"prompts/preparation.md",
-      persona:"You are Sero, a preparation assistant for a manager about to run a 1:1. Give a concise, practical briefing so the manager walks in grounded and purposeful — not just informed.",
-      rules:"Return strict JSON only. Shape: coreIssue, openingQuestion, listenFor[], avoid[], goodOutcome, suggestedAction, confidence."
-    },
-    json:{
-      out: pretty({
-        coreIssue:"Discuss the communication skills Toby needs to develop to transition from Expert UX Designer to a lead role.",
-        openingQuestion:"What specific communication challenges have you faced recently that might impact your transition to a lead role?",
-        listenFor:["whether he acknowledges communication challenges","if they have a plan to improve communication","whether he has received feedback on communication"],
-        avoid:["do not focus solely on technical skills","do not dismiss his current communication methods"],
-        goodOutcome:"You and Toby have agreed on one specific communication skill to focus on improving this quarter.",
-        suggestedAction:"Set a follow-up meeting in one month to review progress on the agreed communication skill."
-      })
-    },
-    files:["01b-preparation/inputs.json","01b-preparation/prompt.md","01b-preparation/response.json"]
+    emoji:"🧭", step:"Step 3 — Stage 01b", title:"Write your prep briefing",
+    one:"A quick game-plan so you walk in grounded.",
+    cin:["Focus points"], cout:["Briefing"],
+    plain:"Before any questions, it hands you a one-glance briefing: the core issue, an opener you can say word-for-word, what to listen for, and a good outcome.",
+    prompt:"Sero, prep assistant. Give a tight, practical briefing so the manager walks in grounded.",
+    file:"prompts/preparation.md",
+    data:pj({
+      coreIssue:"Comms skills Toby needs to become a lead.",
+      openingQuestion:"What communication challenges have you faced lately?",
+      listenFor:["does he own it","has a plan","had feedback"],
+      goodOutcome:"Agree one comms skill to work on this quarter."
+    }),
+    dataLab:"The briefing"
   },
   {
-    key:"intro", num:"👋", step:"Stage 02",
-    title:"Line up the intro questions",
-    one:"A few warm-up questions, fixed per meeting type — no AI needed.",
-    inTags:["Meeting type"],
-    outTags:["Intro queue"],
-    plain:"Not every step needs the model. The opening questions are hand-written per meeting type and simply loaded in. They ease into the conversation before the tailored questions take over.",
-    inSummary:"Just the meeting type label.",
-    outSummary:"A short list of pre-written intro question aliases.",
-    prompt:null,
-    json:{
-      out: pretty({meeting_type:"Growth & career plan",aliases:["q_open_most_like_yourself","q_intro_agenda_check","q_intro_growth_direction"]})
-    },
-    files:["02-intro-questions/aliases.json"]
+    emoji:"👋", step:"Step 4 — Stage 02", title:"Line up intro questions",
+    one:"A few warm-ups, fixed per meeting type — no AI needed.",
+    cin:["Meeting type"], cout:["Intro queue"],
+    plain:"Not every step needs the model. The opening questions are hand-written per meeting type and simply loaded in.",
+    data:pj({ aliases:[
+      "q_open_most_like_yourself",
+      "q_intro_agenda_check",
+      "q_intro_growth_direction"
+    ]}),
+    dataLab:"Loaded openers"
   },
   {
-    key:"bank", num:"💡", step:"Stage 03",
-    title:"Generate the question bank",
+    emoji:"💡", step:"Step 5 — Stage 03", title:"Generate the question bank",
     one:"8–12 tailored questions built around the focus points.",
-    inTags:["Focus points","Intro queue","Your notes"],
-    outTags:["Question bank"],
-    plain:"Now the engine designs the real questions for this person. Each one is tagged with what it's for (wellbeing / topic / competency), where it sits in the conversation arc (anchor → aspiration → gap → investment → commitment), and which axes it can move if answered well.",
-    inSummary:"Focus points, the existing intro queue, your notes, the four axes.",
-    outSummary:"A bank of 8–12 candidate questions, each with a purpose, arc stage, and axis effects.",
-    prompt:{
-      file:"prompts/generate-questions.md",
-      persona:"You are Sero, a 1:1 question designer. Given the focus points, axes, and manager's notes, produce a bank of candidate questions the manager could ask this specific person next. Each must earn its place — open something real, not fish for validation.",
-      rules:"Return strict JSON only. questions is 8–12 items. Each: label, name, description, purpose, stage, axis_effects. name = one single probe, one sentence, no compound questions."
-    },
-    json:{
-      out: pretty({questions:[
-        {label:"Current role satisfaction",name:"What's feeling solid in your role right now, and what's stretching you?",purpose:"wellbeing",stage:"anchor",axis_effects:[{axis:"wellbeing",delta:1},{axis:"engagement",delta:1}]},
-        {label:"Communication challenges",name:"In what situations is your communication style most effective, and where is it not landing?",purpose:"competency",stage:"anchor",axis_effects:[{axis:"clarity",delta:3}]},
-        {label:"Future role vision",name:"What specific responsibilities or projects excite you about a lead role?",purpose:"topic",stage:"aspiration",axis_effects:[{axis:"growth",delta:3}]},
-        {label:"Feedback interpretation",name:"How do you interpret the feedback you've received about your leadership potential?",purpose:"topic",stage:"gap",axis_effects:[{axis:"clarity",delta:3}]}
-      ],"…":"+ 4–8 more"})
-    },
-    files:["03-question-bank/inputs.json","03-question-bank/prompt.md","03-question-bank/response.json"]
+    cin:["Focus points","Your notes"], cout:["Question bank"],
+    plain:"It designs the real questions for this person. Each is tagged with its purpose, where it sits in the arc, and which axes it can move.",
+    prompt:"Sero, question designer. Build questions that open something real — not fish for validation.",
+    file:"prompts/generate-questions.md",
+    data:pj({ questions:[
+      { label:"Communication challenges", purpose:"competency", stage:"anchor",
+        axis_effects:[{ axis:"clarity", delta:3 }] },
+      { label:"Future role vision", purpose:"topic", stage:"aspiration",
+        axis_effects:[{ axis:"growth", delta:3 }] }
+    ]}),
+    dataLab:"Sample (8–12 total)"
   },
   {
-    key:"loop", num:"🔁", step:"Stage 04", loop:true,
-    title:"The live questioning loop",
-    one:"The heart of the engine — it asks, scores, and re-plans every turn.",
-    inTags:["Question bank","Last answer","Axis state"],
-    outTags:["Next question","Axis deltas","New queue"],
-    plain:"This runs once per question. After each answer it does TWO jobs at once: (1) score the answer — turning it into points on the four axes, bounded by what that question was allowed to move — and (2) re-plan the whole remaining queue: drill into a thread, drop what no longer fits, add a follow-up. That's why the conversation feels alive instead of a fixed script.\n\nNotice turn 1 below: the answer 'today is fine' was flagged [SHALLOW] — no points awarded, and a clarifying follow-up was added to the front of the queue. No silent guessing.",
-    inSummary:"The remaining queue, the last question + answer, and the running axis state.",
-    outSummary:"Axis deltas for the answer, plus a freshly re-ordered queue of what to ask next.",
-    prompt:{
-      file:"prompts/plan-turn.md",
-      persona:"You are Sero's live session planner. After each 1:1 answer you do two jobs: convert the answer into axis deltas bounded by the question's signature, and return the remaining queue — freely modifying, reordering, adding or removing items so the conversation flows from what was just said.",
-      rules:"Interaction overrides: thread follow, manager drill request, crisis, wind-down, closer craft. Scoring policy: shallow gate, deficiency-as-request, signature-bound scoring."
-    },
-    json:{
-      out: pretty({
-        turn:1,
-        question:{alias:"q_open_most_like_yourself",name:"When have you felt most like yourself recently?",purpose:"wellbeing",axis_effects:{wellbeing:2,growth:1}},
-        answer:"today is fine",
-        assessment:{deltas:{},note:"[SHALLOW] 'today is fine' is a three-token response with no concrete noun or specifics."},
-        new_queue:[
-          {alias:"q_clarify_most_like_yourself_2",name:"When you say 'today is fine', what specifically makes you feel most like yourself today?"},
-          {alias:"q_intro_agenda_check",name:"Before we get into it, anything you want to make sure we cover today?"},
-          {alias:"q_current_role_satisfaction",name:"What's feeling solid in your role right now, and what's stretching you?"}
-        ],
-        axis_state:{wellbeing:{score:-1},engagement:{score:-1},clarity:{score:0},growth:{score:0}}
-      })
-    },
-    files:["04-dynamic-answers/01-turn.json","…","04-dynamic-answers/09-turn.json","transcript.json","axis-state.json"]
+    emoji:"🔁", step:"Step 6 — Stage 04", title:"The live questioning loop",
+    one:"The heart of it: ask → score → re-plan, every turn.",
+    cin:["Last answer","Axis state"], cout:["Deltas","New queue"],
+    plain:"Runs once per question. After each answer it does two jobs: score the answer on the axes, then re-plan the queue. Here 'today is fine' was flagged SHALLOW — no points, and a follow-up was added. No silent guessing.",
+    prompt:"Sero's live planner. After each answer: score it on the axes, then re-plan the queue.",
+    file:"prompts/plan-turn.md",
+    data:pj({
+      answer:"today is fine",
+      assessment:{ deltas:{}, note:"[SHALLOW] no specifics — no points" },
+      new_queue:[
+        "Clarify: what makes today feel like you?",
+        "Agenda check",
+        "Current role satisfaction"
+      ]
+    }),
+    dataLab:"One turn"
   },
   {
-    key:"eval", num:"📊", step:"Stage 05",
-    title:"Final evaluation & briefing",
+    emoji:"📊", step:"Step 7 — Stage 05", title:"Final evaluation",
     one:"The whole conversation becomes a briefing you can act on.",
-    inTags:["Full transcript","Final axis state"],
-    outTags:["Manager briefing"],
-    plain:"Once the questions are done, the engine reads the entire transcript and the final axis scores and writes your takeaway: the headline, what the axes mean in plain words, the blunt truth, and concrete next actions with timing. This is the document you actually keep.",
-    inSummary:"The complete Q&A transcript plus the final four axis scores.",
-    outSummary:"A briefing: headline, summary bullets, per-axis meaning, brutal truths, next actions, watch-for.",
-    prompt:{
-      file:"prompts/final-evaluation.md",
-      persona:"You are Sero's post-meeting reviewer. You have the full transcript of a 1:1 the manager just ran. Turn it into a briefing the manager can act on — not a restatement. A good briefing answers: what's the story, what's the most important thing, what do I do next, what should I watch for.",
-      rules:"A scoring_status gate is applied first — if scoring degraded, the briefing says so rather than inventing scores. Engine honesty: never mask problems."
-    },
-    json:{
-      out: pretty({
-        headline:"Toby is focused on becoming a lead, with a real risk of leaving if not promoted soon.",
-        axes:[
-          {id:"wellbeing",score:0,meaning:"No significant wellbeing signal emerged — not actionable."},
-          {id:"engagement",score:1,meaning:"Slight engagement, but risk of disengagement if promotion is delayed."},
-          {id:"clarity",score:1,meaning:"Weak clarity signal — confident in some aspects but lacks full alignment."},
-          {id:"growth",score:5,meaning:"Strong growth focus on becoming a lead; a real pattern to act on."}
-        ],
-        brutal_truth_manager:"When Toby mentioned 'i am good at preparing documentation', the conversation didn't explore his communication challenges further. Next time, delve into areas needing improvement.",
-        next_actions:[
-          {when:"today",action:"Discuss the specific skills and improvements needed for a lead role."},
-          {when:"this month",action:"Set up a feedback session focused on leadership potential and communication."},
-          {when:"next 1:1",action:"Revisit the growth plan with a clear promotion timeline."}
-        ],
-        watch_for:["If Toby doesn't bring up promotion again, it may signal resignation to his current role."]
-      })
-    },
-    files:["05-evaluation/inputs.json","05-evaluation/prompt.md","05-evaluation/response.json"]
+    cin:["Transcript","Axis scores"], cout:["Manager briefing"],
+    plain:"It reads the full transcript and final scores, then writes your takeaway: the headline, what the axes mean, the blunt truth, and next actions with timing.",
+    prompt:"Sero's reviewer. Turn the transcript into a briefing the manager can act on.",
+    file:"prompts/final-evaluation.md",
+    data:pj({
+      headline:"Focused on becoming a lead; flight risk if not promoted.",
+      axes:[{ id:"growth", score:5 },{ id:"engagement", score:1 },{ id:"clarity", score:1 },{ id:"wellbeing", score:0 }],
+      next_actions:[
+        { when:"today", action:"Name the skills needed for lead." },
+        { when:"next 1:1", action:"Give a promotion timeline." }
+      ]
+    }),
+    dataLab:"The briefing"
   }
 ];
 
-/* ---------- render ---------- */
-
-function clamp(score){ // axes run -3..+5; map to 0..100 for the meter
-  return Math.round(((score + 3) / 8) * 100);
-}
-
-function renderAxes(){
-  const el = document.getElementById("axes");
-  el.innerHTML = AXES.map(a => `
-    <div class="axis">
-      <div class="name">${a.name}</div>
-      <div class="val" style="color:var(${a.var})">${a.score>0?'+':''}${a.score}</div>
-      <div class="meter"><span style="width:${clamp(a.score)}%;background:var(${a.var})"></span></div>
-    </div>`).join("");
-}
-
-function connector(){
-  return `<div class="conn"><svg width="14" height="18" viewBox="0 0 14 18"><path d="M7 0 V13 M2 9 L7 14 L12 9" stroke="#6ea8fe" stroke-width="1.6" fill="none"/></svg></div>`;
-}
-
-/* simple JSON syntax highlight */
-function hl(json){
-  return json
-    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+function hl(j){
+  return j.replace(/&/g,"&amp;").replace(/</g,"&lt;")
     .replace(/"([^"]+)":/g,'<span class="json-key">"$1"</span>:')
     .replace(/: "([^"]*)"/g,': <span class="json-str">"$1"</span>')
-    .replace(/: (-?\d+\.?\d*)/g,': <span class="json-num">$1</span>')
-    .replace(/: (true|false)/g,': <span class="json-bool">$1</span>');
+    .replace(/: (-?\d+\.?\d*)/g,': <span class="json-num">$1</span>');
 }
 
-/* build the expandable detail for one stage (sections stacked — no tabs) */
-function detailHtml(s){
-  const io = `
-    <div class="iorow">
-      <div class="iobox in"><div class="label">⬇ Goes in</div><p>${s.inSummary}</p></div>
-      <div class="iobox out"><div class="label">⬆ Comes out</div><p>${s.outSummary}</p></div>
-    </div>`;
+const TOTAL = STAGES.length + 1; // + overview card
 
-  const explain = `<div class="explain"><div class="label">In plain English</div>${s.plain.replace(/\n/g,"<br><br>")}</div>`;
-
-  let blocks = "";
-  if (s.prompt){
-    blocks += `<div class="seclabel prompt">📜 The prompt it sends</div>`
-      + `<div class="codewrap"><div class="meta">${s.prompt.file}</div>`
-      + `<pre class="prompt"><b style="color:#b08cf0">PERSONA</b>\n${s.prompt.persona}\n\n<b style="color:#e3b341">KEY RULES</b>\n${s.prompt.rules}</pre></div>`;
-  }
-  if (s.json.in){
-    blocks += `<div class="seclabel din">⬇ Data going in</div>`
-      + `<div class="codewrap"><pre>${hl(s.json.in)}</pre></div>`;
-  }
-  if (s.json.out){
-    blocks += `<div class="seclabel dout">⬆ Data coming out</div>`
-      + `<div class="codewrap"><pre>${hl(s.json.out)}</pre></div>`;
-  }
-
-  const files = `<div class="filelist"><div class="label">📁 Saved in the run log as</div>${
-    s.files.map(f=>`<code>${f}</code>`).join("")}</div>`;
-
-  return io + explain + blocks + files;
+function dots(active){
+  let s = '<div class="dots">';
+  for (let i=0;i<TOTAL;i++) s += `<a href="#c${i}" class="${i===active?'on':''}"></a>`;
+  return s + '</div>';
+}
+function nav(i){
+  const back = `<a class="navbtn ${i===0?'off':''}" href="#c${i-1}">‹ Back</a>`;
+  const next = `<a class="navbtn next ${i===TOTAL-1?'off':''}" href="#c${i+1}">Next ›</a>`;
+  return `<div class="nav">${back}${dots(i)}${next}</div>`;
 }
 
-function renderFlow(){
-  const el = document.getElementById("flow");
-  el.innerHTML = STAGES.map((s, i) => {
-    const tags = s.inTags.map(t=>`<span class="tag in">${t}</span>`).join("")
-               + s.outTags.map(t=>`<span class="tag out">${t}</span>`).join("");
-    const card = `
-      <details class="stage ${s.loop?'loop':''}" open>
-        <summary class="stagehead">
-          <div class="num">${s.num}</div>
-          <div class="body">
-            <div class="step">${s.step}</div>
-            <h3>${s.title}</h3>
-            <p class="one">${s.one}</p>
-            <div class="io">${tags}</div>
-            ${s.loop?'<div class="loopbadge">↻ repeats every question</div>':''}
-          </div>
-          <div class="chev"></div>
-        </summary>
-        <div class="detail">${detailHtml(s)}</div>
-      </details>`;
-    return card + (i < STAGES.length-1 ? connector() : "");
-  }).join("");
+function overviewCard(){
+  const axes = AXES.map(a=>`
+    <div class="axis">
+      <div class="n">${a.n}</div>
+      <div class="v" style="color:var(${a.c})">${a.v>0?'+':''}${a.v}</div>
+      <div class="m"><span style="width:${Math.round(((a.v+3)/8)*100)}%;background:var(${a.c})"></span></div>
+    </div>`).join("");
+  return `
+    <section class="card" id="c0">
+      <div class="cardtop">
+        <div class="step">The run</div>
+        <h2>Toby · Growth 1:1</h2>
+        <p class="one">7 stages turn one short note into a briefing.</p>
+      </div>
+      <div class="cardbody">
+        <div class="box plain">
+          <div class="lab">Your note</div>
+          <p>“He wants to become a lead but his communication methods suck.”</p>
+        </div>
+        <div class="lab" style="font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--faint);margin-bottom:6px;">Final read on the four axes</div>
+        <div class="axes">${axes}</div>
+        <p class="note">Tap <b>Next ›</b> (or a dot) to walk each stage. Nothing to scroll.</p>
+      </div>
+      ${nav(0)}
+    </section>`;
 }
 
-renderAxes();
-renderFlow();
+function stageCard(s, i){
+  const idx = i + 1; // overview is 0
+  const chips = s.cin.map(t=>`<span class="chip in">⬇ ${t}</span>`).join("")
+              + s.cout.map(t=>`<span class="chip out">⬆ ${t}</span>`).join("");
+  const promptBox = s.prompt ? `
+    <div class="box prompt">
+      <div class="lab">📜 Prompt it sends</div>
+      <div class="file">${s.file}</div>
+      <p style="font-size:13px;color:var(--muted)">${s.prompt}</p>
+    </div>` : "";
+  const dataBox = s.data ? `
+    <div class="box data">
+      <div class="lab">📦 ${s.dataLab}</div>
+      <pre>${hl(s.data)}</pre>
+    </div>` : "";
+  return `
+    <section class="card" id="c${idx}">
+      <div class="cardtop">
+        <div class="step">${s.step}</div>
+        <h2>${s.emoji} ${s.title}</h2>
+        <p class="one">${s.one}</p>
+      </div>
+      <div class="cardbody">
+        <div class="chips">${chips}</div>
+        <div class="box plain"><div class="lab">In plain English</div><p style="font-size:14px">${s.plain}</p></div>
+        ${promptBox}${dataBox}
+      </div>
+      ${nav(idx)}
+    </section>`;
+}
+
+document.getElementById("deck").innerHTML =
+  overviewCard() + STAGES.map((s,i)=>stageCard(s,i)).join("");
 </script>
 </body>
 </html>
