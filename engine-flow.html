@@ -29,7 +29,7 @@
     --ax-growth: #b08cf0;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html, body { margin: 0; padding: 0; }
+  html, body { margin: 0; padding: 0; height: auto; -webkit-text-size-adjust: 100%; }
   body {
     background: radial-gradient(1200px 600px at 50% -10%, #18202c 0%, var(--bg) 55%);
     color: var(--text);
@@ -38,7 +38,12 @@
     -webkit-font-smoothing: antialiased;
     font-size: 17px;
     padding-bottom: 60px;
+    /* page scrolls vertically only — stop nested blocks from trapping the swipe */
+    touch-action: pan-y;
+    overscroll-behavior-y: contain;
   }
+  /* nothing scrolls sideways — everything wraps so no element steals the vertical swipe */
+  * { max-width: 100%; }
   .wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
 
   header {
@@ -202,11 +207,13 @@
   }
   pre {
     margin: 0; background: #0c1017; border: 1px solid var(--line); border-radius: 12px;
-    padding: 14px; overflow-x: auto; font-size: 13.5px; line-height: 1.6;
+    padding: 14px; font-size: 13.5px; line-height: 1.6;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    color: #d6e2f0; max-height: none; -webkit-overflow-scrolling: touch;
+    color: #d6e2f0; max-height: none;
+    /* wrap instead of sideways-scroll, so it never traps the page swipe */
+    white-space: pre-wrap; word-break: break-word; overflow: hidden;
   }
-  pre.prompt { white-space: pre-wrap; word-break: break-word; color: #cdd9e6; }
+  pre.prompt { color: #cdd9e6; }
   .json-key { color: #9cc0ff; }
   .json-str { color: #8fd8ad; }
   .json-num { color: #e3b341; }
