@@ -83,20 +83,24 @@
     border: 1px solid var(--line);
     border-radius: var(--radius);
     margin: 0 0 14px;
-    transition: border-color .12s ease, background .12s ease;
     overflow: hidden;
   }
-  .stage.open { border-color: var(--accent); background: var(--card-hi); }
+  details[open].stage { border-color: #34507f; }
   .stagehead {
     padding: 16px;
     cursor: pointer;
     display: flex; gap: 14px; align-items: flex-start;
+    list-style: none;
   }
-  .stagehead:active { background: var(--card-hi); }
-  .detail { display: none; padding: 0 16px 18px; }
-  .stage.open .detail { display: block; }
-  .pane { display: none; }
-  .pane.active { display: block; }
+  .stagehead::-webkit-details-marker { display: none; }
+  .detail { padding: 0 16px 18px; }
+  .seclabel {
+    font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700;
+    color: var(--accent); margin: 16px 0 8px;
+  }
+  .seclabel.prompt { color: var(--purple); }
+  .seclabel.din { color: #8fd8ad; }
+  .seclabel.dout { color: #9cc0ff; }
   .stage .num {
     flex: 0 0 auto; width: 46px; height: 46px; border-radius: 12px;
     display: grid; place-items: center; font-size: 22px;
@@ -115,7 +119,9 @@
   }
   .tag.in { border-color: #2e4a3a; color: #8fd8ad; }
   .tag.out { border-color: #2e3f5c; color: #9cc0ff; }
-  .stage .chev { color: var(--accent); align-self: center; font-size: 22px; font-weight: 700; flex: 0 0 auto; width: 24px; text-align: center; }
+  .stage .chev { color: var(--accent); align-self: center; font-size: 24px; font-weight: 700; flex: 0 0 auto; width: 24px; text-align: center; }
+  .stage .chev::after { content: "＋"; }
+  details[open].stage .chev::after { content: "–"; }
 
   /* connector */
   .conn { display: grid; place-items: center; height: 18px; margin: -8px 0 6px; }
@@ -244,7 +250,7 @@
 </header>
 
 <div class="wrap">
-  <div class="hint">👆 <span><b>Tap any stage</b> to open it and see the prompt it sends and the data it produces.</span></div>
+  <div class="hint">👇 <span>Everything's open — just <b>scroll down</b> to walk the whole run. Tap a stage's header to fold it away.</span></div>
 
   <div class="axes" id="axes"></div>
 
@@ -468,7 +474,7 @@ function hl(json){
     .replace(/: (true|false)/g,': <span class="json-bool">$1</span>');
 }
 
-/* build the expandable detail for one stage */
+/* build the expandable detail for one stage (sections stacked — no tabs) */
 function detailHtml(s){
   const io = `
     <div class="iorow">
@@ -478,33 +484,25 @@ function detailHtml(s){
 
   const explain = `<div class="explain"><div class="label">In plain English</div>${s.plain.replace(/\n/g,"<br><br>")}</div>`;
 
-  const tabsAvail = [];
-  if (s.prompt) tabsAvail.push({id:"prompt",label:"📜 Prompt sent"});
-  if (s.json.in) tabsAvail.push({id:"jin",label:"⬇ Data in"});
-  if (s.json.out) tabsAvail.push({id:"jout",label:"⬆ Data out"});
-
-  const tabsHtml = `<div class="tabs">${tabsAvail.map((t,k)=>
-    `<div class="tab ${k===0?'active':''}" data-tab="${t.id}">${t.label}</div>`).join("")}</div>`;
-
-  const panes = {};
+  let blocks = "";
   if (s.prompt){
-    panes.prompt = `<div class="codewrap"><div class="meta">${s.prompt.file}</div>`
+    blocks += `<div class="seclabel prompt">📜 The prompt it sends</div>`
+      + `<div class="codewrap"><div class="meta">${s.prompt.file}</div>`
       + `<pre class="prompt"><b style="color:#b08cf0">PERSONA</b>\n${s.prompt.persona}\n\n<b style="color:#e3b341">KEY RULES</b>\n${s.prompt.rules}</pre></div>`;
   }
   if (s.json.in){
-    panes.jin = `<div class="codewrap"><div class="meta">input → model</div><pre>${hl(s.json.in)}</pre></div>`;
+    blocks += `<div class="seclabel din">⬇ Data going in</div>`
+      + `<div class="codewrap"><pre>${hl(s.json.in)}</pre></div>`;
   }
   if (s.json.out){
-    panes.jout = `<div class="codewrap"><div class="meta">${s.prompt?'model → JSON output':'output'}</div><pre>${hl(s.json.out)}</pre></div>`;
+    blocks += `<div class="seclabel dout">⬆ Data coming out</div>`
+      + `<div class="codewrap"><pre>${hl(s.json.out)}</pre></div>`;
   }
-  // stash panes on the element via data attribute is awkward; render all panes, show first
-  const panesHtml = tabsAvail.map((t,k)=>
-    `<div class="pane ${k===0?'active':''}" data-pane="${t.id}">${panes[t.id]}</div>`).join("");
 
   const files = `<div class="filelist"><div class="label">📁 Saved in the run log as</div>${
     s.files.map(f=>`<code>${f}</code>`).join("")}</div>`;
 
-  return io + explain + tabsHtml + `<div class="panehost">${panesHtml}</div>` + files;
+  return io + explain + blocks + files;
 }
 
 function renderFlow(){
@@ -513,8 +511,8 @@ function renderFlow(){
     const tags = s.inTags.map(t=>`<span class="tag in">${t}</span>`).join("")
                + s.outTags.map(t=>`<span class="tag out">${t}</span>`).join("");
     const card = `
-      <div class="stage ${s.loop?'loop':''}" data-i="${i}">
-        <div class="stagehead">
+      <details class="stage ${s.loop?'loop':''}" open>
+        <summary class="stagehead">
           <div class="num">${s.num}</div>
           <div class="body">
             <div class="step">${s.step}</div>
@@ -523,31 +521,12 @@ function renderFlow(){
             <div class="io">${tags}</div>
             ${s.loop?'<div class="loopbadge">↻ repeats every question</div>':''}
           </div>
-          <div class="chev">＋</div>
-        </div>
+          <div class="chev"></div>
+        </summary>
         <div class="detail">${detailHtml(s)}</div>
-      </div>`;
+      </details>`;
     return card + (i < STAGES.length-1 ? connector() : "");
   }).join("");
-
-  el.querySelectorAll(".stage").forEach(node=>{
-    const head = node.querySelector(".stagehead");
-    head.addEventListener("click", ()=>{
-      node.classList.toggle("open");
-      node.querySelector(".chev").textContent = node.classList.contains("open") ? "—" : "＋";
-    });
-    // tab switching within this stage
-    node.querySelectorAll(".tab").forEach(tab=>{
-      tab.addEventListener("click",(e)=>{
-        e.stopPropagation();
-        const host = tab.closest(".detail");
-        host.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-        host.querySelectorAll(".pane").forEach(p=>p.classList.remove("active"));
-        tab.classList.add("active");
-        host.querySelector(`.pane[data-pane="${tab.dataset.tab}"]`).classList.add("active");
-      });
-    });
-  });
 }
 
 renderAxes();
