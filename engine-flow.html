@@ -82,14 +82,21 @@
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 16px 16px 16px 16px;
     margin: 0 0 14px;
+    transition: border-color .12s ease, background .12s ease;
+    overflow: hidden;
+  }
+  .stage.open { border-color: var(--accent); background: var(--card-hi); }
+  .stagehead {
+    padding: 16px;
     cursor: pointer;
-    transition: transform .12s ease, border-color .12s ease, background .12s ease;
     display: flex; gap: 14px; align-items: flex-start;
   }
-  .stage:active { transform: scale(.985); }
-  .stage:hover { border-color: var(--accent); background: var(--card-hi); }
+  .stagehead:active { background: var(--card-hi); }
+  .detail { display: none; padding: 0 16px 18px; }
+  .stage.open .detail { display: block; }
+  .pane { display: none; }
+  .pane.active { display: block; }
   .stage .num {
     flex: 0 0 auto; width: 46px; height: 46px; border-radius: 12px;
     display: grid; place-items: center; font-size: 22px;
@@ -108,7 +115,7 @@
   }
   .tag.in { border-color: #2e4a3a; color: #8fd8ad; }
   .tag.out { border-color: #2e3f5c; color: #9cc0ff; }
-  .stage .chev { color: var(--faint); align-self: center; font-size: 20px; }
+  .stage .chev { color: var(--accent); align-self: center; font-size: 22px; font-weight: 700; flex: 0 0 auto; width: 24px; text-align: center; }
 
   /* connector */
   .conn { display: grid; place-items: center; height: 18px; margin: -8px 0 6px; }
@@ -237,7 +244,7 @@
 </header>
 
 <div class="wrap">
-  <div class="hint">👆 <span><b>Tap any stage</b> to slide out the prompt it sends and the data it produces.</span></div>
+  <div class="hint">👆 <span><b>Tap any stage</b> to open it and see the prompt it sends and the data it produces.</span></div>
 
   <div class="axes" id="axes"></div>
 
@@ -248,20 +255,6 @@
     Manager's note: <i>“He wants to become a lead but his communication methods suck.”</i>
   </footer>
 </div>
-
-<div class="scrim" id="scrim"></div>
-<aside class="panel" id="panel" aria-hidden="true">
-  <div class="grip"></div>
-  <div class="phead">
-    <div class="pico" id="pIco">●</div>
-    <div class="ptitle">
-      <div class="step" id="pStep">Stage</div>
-      <h2 id="pTitle">Title</h2>
-    </div>
-    <button class="close" id="closeBtn" aria-label="Close">✕</button>
-  </div>
-  <div class="pbody" id="pBody"></div>
-</aside>
 
 <script>
 /* ----- Real data from run logs/may/2026_May24_21-46-1eb839fd ----- */
@@ -465,30 +458,6 @@ function connector(){
   return `<div class="conn"><svg width="14" height="18" viewBox="0 0 14 18"><path d="M7 0 V13 M2 9 L7 14 L12 9" stroke="#6ea8fe" stroke-width="1.6" fill="none"/></svg></div>`;
 }
 
-function renderFlow(){
-  const el = document.getElementById("flow");
-  el.innerHTML = STAGES.map((s, i) => {
-    const tags = s.inTags.map(t=>`<span class="tag in">${t}</span>`).join("")
-               + s.outTags.map(t=>`<span class="tag out">${t}</span>`).join("");
-    const card = `
-      <div class="stage ${s.loop?'loop':''}" data-i="${i}">
-        <div class="num">${s.num}</div>
-        <div class="body">
-          <div class="step">${s.step}</div>
-          <h3>${s.title}</h3>
-          <p class="one">${s.one}</p>
-          <div class="io">${tags}</div>
-          ${s.loop?'<div class="loopbadge">↻ repeats every question</div>':''}
-        </div>
-        <div class="chev">›</div>
-      </div>`;
-    return card + (i < STAGES.length-1 ? connector() : "");
-  }).join("");
-  el.querySelectorAll(".stage").forEach(node=>{
-    node.addEventListener("click", ()=> openPanel(+node.dataset.i));
-  });
-}
-
 /* simple JSON syntax highlight */
 function hl(json){
   return json
@@ -499,13 +468,8 @@ function hl(json){
     .replace(/: (true|false)/g,': <span class="json-bool">$1</span>');
 }
 
-let current = null;
-function openPanel(i){
-  const s = STAGES[i]; current = i;
-  document.getElementById("pIco").textContent = s.num;
-  document.getElementById("pStep").textContent = s.step;
-  document.getElementById("pTitle").textContent = s.title;
-
+/* build the expandable detail for one stage */
+function detailHtml(s){
   const io = `
     <div class="iorow">
       <div class="iobox in"><div class="label">⬇ Goes in</div><p>${s.inSummary}</p></div>
@@ -514,7 +478,6 @@ function openPanel(i){
 
   const explain = `<div class="explain"><div class="label">In plain English</div>${s.plain.replace(/\n/g,"<br><br>")}</div>`;
 
-  // build tabs: Prompt (if any) + JSON in / JSON out
   const tabsAvail = [];
   if (s.prompt) tabsAvail.push({id:"prompt",label:"📜 Prompt sent"});
   if (s.json.in) tabsAvail.push({id:"jin",label:"⬇ Data in"});
@@ -525,8 +488,8 @@ function openPanel(i){
 
   const panes = {};
   if (s.prompt){
-    panes.prompt = `<div class="codewrap"><div class="meta">${s.prompt.file}</div>
-      <pre class="prompt"><b style="color:#b08cf0">PERSONA</b>\n${s.prompt.persona}\n\n<b style="color:#e3b341">KEY RULES</b>\n${s.prompt.rules}</pre></div>`;
+    panes.prompt = `<div class="codewrap"><div class="meta">${s.prompt.file}</div>`
+      + `<pre class="prompt"><b style="color:#b08cf0">PERSONA</b>\n${s.prompt.persona}\n\n<b style="color:#e3b341">KEY RULES</b>\n${s.prompt.rules}</pre></div>`;
   }
   if (s.json.in){
     panes.jin = `<div class="codewrap"><div class="meta">input → model</div><pre>${hl(s.json.in)}</pre></div>`;
@@ -534,37 +497,58 @@ function openPanel(i){
   if (s.json.out){
     panes.jout = `<div class="codewrap"><div class="meta">${s.prompt?'model → JSON output':'output'}</div><pre>${hl(s.json.out)}</pre></div>`;
   }
+  // stash panes on the element via data attribute is awkward; render all panes, show first
+  const panesHtml = tabsAvail.map((t,k)=>
+    `<div class="pane ${k===0?'active':''}" data-pane="${t.id}">${panes[t.id]}</div>`).join("");
 
   const files = `<div class="filelist"><div class="label">📁 Saved in the run log as</div>${
     s.files.map(f=>`<code>${f}</code>`).join("")}</div>`;
 
-  const body = document.getElementById("pBody");
-  body.innerHTML = io + explain + tabsHtml +
-    `<div id="paneHost">${panes[tabsAvail[0].id]}</div>` + files;
-  body.scrollTop = 0;
+  return io + explain + tabsHtml + `<div class="panehost">${panesHtml}</div>` + files;
+}
 
-  body.querySelectorAll(".tab").forEach(tab=>{
-    tab.addEventListener("click",()=>{
-      body.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-      tab.classList.add("active");
-      document.getElementById("paneHost").innerHTML = panes[tab.dataset.tab];
+function renderFlow(){
+  const el = document.getElementById("flow");
+  el.innerHTML = STAGES.map((s, i) => {
+    const tags = s.inTags.map(t=>`<span class="tag in">${t}</span>`).join("")
+               + s.outTags.map(t=>`<span class="tag out">${t}</span>`).join("");
+    const card = `
+      <div class="stage ${s.loop?'loop':''}" data-i="${i}">
+        <div class="stagehead">
+          <div class="num">${s.num}</div>
+          <div class="body">
+            <div class="step">${s.step}</div>
+            <h3>${s.title}</h3>
+            <p class="one">${s.one}</p>
+            <div class="io">${tags}</div>
+            ${s.loop?'<div class="loopbadge">↻ repeats every question</div>':''}
+          </div>
+          <div class="chev">＋</div>
+        </div>
+        <div class="detail">${detailHtml(s)}</div>
+      </div>`;
+    return card + (i < STAGES.length-1 ? connector() : "");
+  }).join("");
+
+  el.querySelectorAll(".stage").forEach(node=>{
+    const head = node.querySelector(".stagehead");
+    head.addEventListener("click", ()=>{
+      node.classList.toggle("open");
+      node.querySelector(".chev").textContent = node.classList.contains("open") ? "—" : "＋";
+    });
+    // tab switching within this stage
+    node.querySelectorAll(".tab").forEach(tab=>{
+      tab.addEventListener("click",(e)=>{
+        e.stopPropagation();
+        const host = tab.closest(".detail");
+        host.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+        host.querySelectorAll(".pane").forEach(p=>p.classList.remove("active"));
+        tab.classList.add("active");
+        host.querySelector(`.pane[data-pane="${tab.dataset.tab}"]`).classList.add("active");
+      });
     });
   });
-
-  document.getElementById("panel").classList.add("open");
-  document.getElementById("panel").setAttribute("aria-hidden","false");
-  document.getElementById("scrim").classList.add("open");
 }
-
-function closePanel(){
-  document.getElementById("panel").classList.remove("open");
-  document.getElementById("panel").setAttribute("aria-hidden","true");
-  document.getElementById("scrim").classList.remove("open");
-}
-
-document.getElementById("closeBtn").addEventListener("click", closePanel);
-document.getElementById("scrim").addEventListener("click", closePanel);
-document.addEventListener("keydown", e=>{ if(e.key==="Escape") closePanel(); });
 
 renderAxes();
 renderFlow();
