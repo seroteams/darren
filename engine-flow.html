@@ -44,6 +44,31 @@
   }
   /* nothing scrolls sideways — everything wraps so no element steals the vertical swipe */
   * { max-width: 100%; }
+
+  /* app shell: fixed bar + explicit scroll region (some in-app webviews won't scroll the body) */
+  .app {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    height: 100vh; height: 100dvh;
+    overflow: hidden;
+  }
+  .appbar {
+    flex: 0 0 auto;
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px) * 0);
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
+    background: rgba(14,17,22,.92);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(8px);
+    text-align: center;
+  }
+  .appbar-title { font-size: 18px; font-weight: 800; }
+  .appbar-sub { font-size: 12.5px; color: var(--muted); margin-top: 1px; }
+  .scroll {
+    flex: 1 1 auto; min-height: 0;
+    overflow-y: scroll; -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding-bottom: calc(50px + env(safe-area-inset-bottom, 0px));
+  }
   .wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
 
   header {
@@ -250,23 +275,31 @@
 </head>
 <body>
 
-<header>
-  <div class="kicker">Sero · Engine Run</div>
-  <h1>How your engine works</h1>
-  <p>Every stage of one real run, start to finish.</p>
-</header>
+<div class="app">
+  <div class="appbar">
+    <div class="appbar-title">⚙️ How your engine works</div>
+    <div class="appbar-sub">One real run, start to finish</div>
+  </div>
 
-<div class="wrap">
-  <div class="hint">👇 <span>Everything's open — just <b>scroll down</b> to walk the whole run. Tap a stage's header to fold it away.</span></div>
+  <div class="scroll" id="scroll">
+    <header>
+      <div class="kicker">Sero · Engine Run</div>
+      <p>Every stage of one real run. Scroll down.</p>
+    </header>
 
-  <div class="axes" id="axes"></div>
+    <div class="wrap">
+      <div class="hint">👇 <span>Everything's open — just <b>scroll</b> to walk the whole run. Tap a stage's header to fold it away.</span></div>
 
-  <div class="flow" id="flow"></div>
+      <div class="axes" id="axes"></div>
 
-  <footer>
-    Example run: <b>Toby</b> · Expert UX Designer · “Growth &amp; career plan”.<br>
-    Manager's note: <i>“He wants to become a lead but his communication methods suck.”</i>
-  </footer>
+      <div class="flow" id="flow"></div>
+
+      <footer>
+        Example run: <b>Toby</b> · Expert UX Designer · “Growth &amp; career plan”.<br>
+        Manager's note: <i>“He wants to become a lead but his communication methods suck.”</i>
+      </footer>
+    </div>
+  </div>
 </div>
 
 <script>
