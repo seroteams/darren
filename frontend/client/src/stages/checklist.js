@@ -19,12 +19,12 @@ const DATA = [
   { num: "001", name: "Tidy the project", tag: "Monorepo Reorg",
     goal: "Pure spring-cleaning: every file moves into a clearly labelled room. Nothing your users see changes.",
     steps: [
-      { f: "Labelled rooms", m: "Five named rooms: backend (brain), admin (your screens), frontend (future app), content (words/questions), docs (plans). Junk drawer to labelled drawers.", have: "Five named folders", c: "Folders exist and the tests still pass" },
-      { f: "One address book for data", m: "Every file location written once in a single file. Change an address once and everything follows.", have: "One file listing where data lives", c: "App and command-line tool both read locations from that one file" },
+      { f: "Labelled rooms", m: "Five named rooms: backend (brain), admin (your screens), frontend (future app), content (words/questions), docs (plans). Junk drawer to labelled drawers.", have: "Five named folders", c: "Folders exist and the tests still pass", s: "doing" },
+      { f: "One address book for data", m: "Every file location written once in a single file. Change an address once and everything follows.", have: "One file listing where data lives", c: "App and command-line tool both read locations from that one file", s: "done" },
       { f: "The brain moves house", m: "The core engine moves into the backend room and every signpost is updated.", have: "Engine in its proper room", c: "Tests green, no broken links" },
-      { f: "The content moves house", m: "All the product's words (questions, prompts, scenarios) move into the content room.", have: "Questions and prompts in the content room", c: "A run still loads its questions and tests stay green" },
+      { f: "The content moves house", m: "All the product's words (questions, prompts, scenarios) move into the content room.", have: "Questions and prompts in the content room", c: "A run still loads its questions and tests stay green", s: "doing" },
       { f: "Two apps get their own rooms", m: "The customer server and your internal screens are separated so product and tool stop being tangled.", have: "Server and screens separated", c: "App starts and one full run works" },
-      { f: "The paperwork gets filed", m: "All plans, notes and references move into the docs room.", have: "Everything filed under docs", c: "Docs are under docs/ and nothing points at old spots" },
+      { f: "The paperwork gets filed", m: "All plans, notes and references move into the docs room.", have: "Everything filed under docs", c: "Docs are under docs/ and nothing points at old spots", s: "done" },
       { f: "Throw out the junk", m: "Delete leftover clutter and update the build settings to match the new layout.", have: "A clean project", c: "Tests green, build runs, code checker passes" },
     ],
     signoff: "Tests green (same count as before) · app starts and a full run works · the command-line replay runs clean · the product behaves identically to before." },
@@ -146,7 +146,19 @@ function saveState() {
 }
 const cid = (p, s) => `p${p}s${s}`;
 
-function rowHtml(id, on, label, means, meta, gate) {
+// Status pill shown next to a step title. Two inputs decide what it shows:
+//   • st.s — the build status I (the agent) maintain in DATA + commit as work
+//     lands ("done" | "doing" | "todo"). This is the "has Claude done it?" signal.
+//   • your tick (localStorage) — your own sign-off; a tick always shows Done.
+// Effective status: a tick wins (Done); otherwise the committed build status.
+const BADGE_LABEL = { done: "Done", doing: "In progress", todo: "To do" };
+const effStatus = (id, codeStatus) => (state[id] ? "done" : codeStatus || "todo");
+const stepBadge = (id, codeStatus) => {
+  const eff = effStatus(id, codeStatus);
+  return `<span class="cl-badge cl-badge--${eff}" data-badge="${id}" data-status="${codeStatus || "todo"}">${BADGE_LABEL[eff]}</span>`;
+};
+
+function rowHtml(id, on, label, means, meta, gate, codeStatus) {
   const done = on ? "done" : "";
   return `<div class="cl-row ${gate ? "cl-row--gate" : ""} ${done}" id="row-${id}">
     <label class="cl-cb">
@@ -154,7 +166,7 @@ function rowHtml(id, on, label, means, meta, gate) {
       <span class="cl-tick">${TICK}</span>
     </label>
     <div class="cl-row__body">
-      <div class="cl-feat">${label}</div>
+      <div class="cl-feat">${label}${gate ? "" : stepBadge(id, codeStatus)}</div>
       <div class="cl-means">${means}</div>
       ${meta || ""}
     </div>
@@ -169,7 +181,7 @@ function phaseHtml(ph, pi) {
         <div><span class="cl-k">Check:</span><span class="cl-check">${esc(st.c)}</span></div>
       </div>`;
     const label = `<span class="cl-step-no">${si + 1}</span>${esc(st.f)}`;
-    return rowHtml(id, !!state[id], label, esc(st.m), meta, false);
+    return rowHtml(id, !!state[id], label, esc(st.m), meta, false, st.s);
   }).join("");
 
   const gid = cid(pi, "gate");
@@ -189,7 +201,7 @@ function phaseHtml(ph, pi) {
     <div class="cl-phase-head" data-toggle="${pi}">
       <span class="cl-num">${esc(ph.num)}</span>
       <div class="cl-phase-title">
-        <h3>${esc(ph.name)} <span class="cl-phase-tag">· ${esc(ph.tag)}</span></h3>
+        <h3>${esc(ph.name)} <span class="cl-phase-tag">· ${esc(ph.tag)}</span><span class="cl-badge cl-badge--todo" id="pbadge-${pi}">To do</span></h3>
         <div class="cl-goal">${esc(ph.goal)}</div>
         <div class="cl-phase-meter">
           <div class="cl-bar"><span id="pbar-${pi}"></span></div>
@@ -215,6 +227,17 @@ function updateMeters(root) {
     const cnt = root.querySelector("#pcount-" + pi);
     if (cnt) cnt.textContent = `${d}/${t} done`;
     root.querySelector("#phase-" + pi)?.classList.toggle("is-done", d === t);
+    const pb = root.querySelector("#pbadge-" + pi);
+    if (pb) {
+      const effs = ph.steps.map((st, si) => effStatus(cid(pi, si), st.s));
+      const [cls, txt] = effs.every((e) => e === "done")
+        ? ["done", "Done"]
+        : effs.some((e) => e !== "todo")
+          ? ["doing", "In progress"]
+          : ["todo", "To do"];
+      pb.className = "cl-badge cl-badge--" + cls;
+      pb.textContent = txt;
+    }
   });
   const opct = total ? Math.round((done / total) * 100) : 0;
   const obar = root.querySelector("#cl-overall-bar");
@@ -251,6 +274,12 @@ export function mount(root) {
       if (e.target.checked) state[id] = true; else delete state[id];
       saveState();
       root.querySelector("#row-" + id)?.classList.toggle("done", e.target.checked);
+      const sb = root.querySelector('[data-badge="' + id + '"]');
+      if (sb) {
+        const eff = e.target.checked ? "done" : sb.dataset.status || "todo";
+        sb.className = "cl-badge cl-badge--" + eff;
+        sb.textContent = BADGE_LABEL[eff];
+      }
       updateMeters(root);
     });
   });
@@ -296,6 +325,11 @@ export function mount(root) {
       saveState();
       root.querySelectorAll('input[type="checkbox"]').forEach((cb) => { cb.checked = false; });
       root.querySelectorAll(".cl-row.done").forEach((r) => r.classList.remove("done"));
+      root.querySelectorAll(".cl-badge[data-badge]").forEach((b) => {
+        const eff = b.dataset.status || "todo";
+        b.className = "cl-badge cl-badge--" + eff;
+        b.textContent = BADGE_LABEL[eff];
+      });
       updateMeters(root);
     }
   });
