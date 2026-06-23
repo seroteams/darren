@@ -4,7 +4,7 @@
 // allowed, but it must surface loudly — not vanish silently.
 
 const assert = require("node:assert/strict");
-const { clampToSignature } = require("../src/queue-manager");
+const { clampToSignature } = require("../backend/engine/queue-manager");
 
 // Empty signature + non-zero deltas → all dropped, one loud EMPTY-SIGNATURE issue.
 const { deltas, issues, overflow } = clampToSignature({ clarity: 3, growth: 1 }, {});

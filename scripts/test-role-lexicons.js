@@ -14,7 +14,7 @@ const {
   removeOverlayTerm,
   effectiveTerminology,
   renderRoleProfileBlock,
-} = require("../src/role-profile");
+} = require("../backend/engine/role-profile");
 
 let failed = 0;
 function ok(label, cond) {

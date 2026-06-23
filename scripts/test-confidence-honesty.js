@@ -7,8 +7,8 @@
 //      confidence (runtime) and trips RULE_ECHO_MEANING (gate warning), never
 //      rewritten.
 
-const { applyManagerBriefingPostProcess } = require("../src/reviewer");
-const { runMeaningRuleEchoCheck } = require("../src/golden-checks");
+const { applyManagerBriefingPostProcess } = require("../backend/engine/reviewer");
+const { runMeaningRuleEchoCheck } = require("../backend/engine/golden-checks");
 
 let failed = 0;
 function check(label, cond, detail) {

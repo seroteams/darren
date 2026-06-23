@@ -6,7 +6,7 @@ const {
   enforceDrillCap,
   isPlannerOriginated,
   isSameStagePlannerDrill,
-} = require("../src/queue-manager");
+} = require("../backend/engine/queue-manager");
 
 function q(alias, stage, source = "planner_added") {
   return { alias, label: alias, name: alias, stage, source, axis_effects: { engagement: 1 } };

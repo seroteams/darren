@@ -25,12 +25,12 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { spawn } = require("node:child_process");
 
-const { loadEnv } = require("./src/env");
-const { MEETING_TYPES } = require("./src/meeting-types");
-const { allResolved } = require("./src/models");
-const { TOTAL_BUDGET, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./src/budgets");
+const { loadEnv } = require("./backend/engine/env");
+const { MEETING_TYPES } = require("./backend/engine/meeting-types");
+const { allResolved } = require("./backend/engine/models");
+const { TOTAL_BUDGET, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./backend/engine/budgets");
 const { scanSessions, resolveNewSession } = require("./scripts/lib/session-fs");
-const { stringifyYaml, parseYaml } = require("./src/questions");
+const { stringifyYaml, parseYaml } = require("./backend/engine/questions");
 const { CONTENT_DIR, QUESTIONS_DIR } = require("./backend/engine/paths");
 
 loadEnv();
@@ -95,8 +95,8 @@ function unitChecks() {
   }
 
   const UNRESOLVED_PLACEHOLDER_RE = /\{\{[A-Z][A-Z0-9_]*\}\}/g;
-  const { parseAIJson, assertNoUnresolvedPlaceholders } = require("./src/ai-client");
-  const { buildMessages } = require("./src/preparation");
+  const { parseAIJson, assertNoUnresolvedPlaceholders } = require("./backend/engine/ai-client");
+  const { buildMessages } = require("./backend/engine/preparation");
 
   // 4. A2 — parseAIJson rejects unresolved placeholders in model output
   try {
@@ -119,7 +119,7 @@ function unitChecks() {
   }
 
   // 6. Prep validator — C1/C5 fixtures (offline)
-  const { validateBrief } = require("./src/preparation");
+  const { validateBrief } = require("./backend/engine/preparation");
   try {
     const tobyInputs = {
       name: "Toby",
@@ -409,7 +409,7 @@ async function verify(exitCode, stdout) {
 
   // Role profile: cached on disk, loaded by every stage, generated without personal data
   try {
-    const { keyOf, profilePath, PROFILE_VERSION } = require("./src/role-profile");
+    const { keyOf, profilePath, PROFILE_VERSION } = require("./backend/engine/role-profile");
     const rpKey = keyOf({ role: scenario.role, seniority: scenario.seniority });
     const rpPath = profilePath(rpKey);
     if (fs.existsSync(rpPath)) {

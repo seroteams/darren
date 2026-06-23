@@ -5,7 +5,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { loadEnv } = require("../src/env");
+const { loadEnv } = require("../backend/engine/env");
 const { CONTENT_DIR, SCENARIOS_DIR, LEXICONS_DIR } = require("../backend/engine/paths");
 
 loadEnv();
@@ -26,7 +26,7 @@ const PROMPT_HUNKS = [
   },
   {
     id: "lf1-eval-hook",
-    file: "frontend/server/handlers/evaluation.js",
+    file: "backend/api/handlers/evaluation.js",
     needles: ["kickLexiconReview", "generateSuggestions"],
   },
 ];
@@ -65,9 +65,9 @@ function checkScopeAndPrompt(scenario) {
     buildPrompt,
     normalizeTranscriptForReview,
     extractBankQuestions,
-  } = require("../src/lexicon-reviewer");
-  const { resolveLexiconScope } = require("../src/lexicon");
-  const { loadLexicon } = require("../src/lexicon");
+  } = require("../backend/engine/lexicon-reviewer");
+  const { resolveLexiconScope } = require("../backend/engine/lexicon");
+  const { loadLexicon } = require("../backend/engine/lexicon");
 
   const ctx = scenario.ctx;
   failed += ok("Toby growth → shouldReview", shouldReview(ctx) === scenario.expect.shouldReview);
@@ -105,9 +105,9 @@ function checkScopeAndPrompt(scenario) {
 function checkSparseFixture(scenario) {
   console.log("\n--- Sparse transcript (no padding) ---");
   let failed = 0;
-  const { buildPrompt, normalizeTranscriptForReview } = require("../src/lexicon-reviewer");
-  const { resolveLexiconScope } = require("../src/lexicon");
-  const { loadLexicon } = require("../src/lexicon");
+  const { buildPrompt, normalizeTranscriptForReview } = require("../backend/engine/lexicon-reviewer");
+  const { resolveLexiconScope } = require("../backend/engine/lexicon");
+  const { loadLexicon } = require("../backend/engine/lexicon");
 
   const ctx = scenario.ctx;
   const scope = resolveLexiconScope(ctx);
@@ -136,7 +136,7 @@ async function checkLive(scenario) {
     return 0;
   }
   let failed = 0;
-  const { generateSuggestions } = require("../src/lexicon-reviewer");
+  const { generateSuggestions } = require("../backend/engine/lexicon-reviewer");
   const sessionDir = path.join(ROOT, scenario.sessionDir);
   const sessionId = path.basename(sessionDir);
   const tracePath = path.join(LEXICONS_DIR, "_suggested", `${sessionId}.json`);

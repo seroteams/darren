@@ -3,10 +3,10 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { loadEnv } = require("../src/env");
-const { callAI, parseAIJson } = require("../src/ai-client");
-const { getArc } = require("../src/one-on-one-types");
-const { modelFor } = require("../src/models");
+const { loadEnv } = require("../backend/engine/env");
+const { callAI, parseAIJson } = require("../backend/engine/ai-client");
+const { getArc } = require("../backend/engine/one-on-one-types");
+const { modelFor } = require("../backend/engine/models");
 
 loadEnv();
 

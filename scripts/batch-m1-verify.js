@@ -7,7 +7,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { spawn } = require("node:child_process");
-const { loadEnv } = require("../src/env");
+const { loadEnv } = require("../backend/engine/env");
 const { CONTENT_DIR, SCENARIOS_DIR } = require("../backend/engine/paths");
 
 loadEnv();

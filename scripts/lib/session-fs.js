@@ -5,7 +5,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { monthFolderFor } = require("../../src/session");
+const { monthFolderFor } = require("../../backend/engine/session");
 
 function scanSessions(root) {
   const logsDir = path.join(root, "logs");

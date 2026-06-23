@@ -18,13 +18,13 @@ const {
   checkQuestionEligibility,
   dropIneligibleHeads,
   isDuplicateText,
-} = require("../src/question-eligibility");
-const { pickOpener } = require("../src/opener");
-const { pickSeedOverflow } = require("../src/closer");
+} = require("../backend/engine/question-eligibility");
+const { pickOpener } = require("../backend/engine/opener");
+const { pickSeedOverflow } = require("../backend/engine/closer");
 const {
   buildThreadFollowQuestion,
   enforceThreadFollow,
-} = require("../src/queue-manager");
+} = require("../backend/engine/queue-manager");
 const { checkQuestionIntegrity } = require("../evals/trust-checks");
 const { QUESTIONS_DIR } = require("../backend/engine/paths");
 

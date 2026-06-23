@@ -12,17 +12,17 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const ROOT = path.join(__dirname, "..");
-const { loadEnv } = require("../src/env");
+const { loadEnv } = require("../backend/engine/env");
 loadEnv();
 
-const { MEETING_TYPES } = require("../src/meeting-types");
-const { TOTAL_BUDGET } = require("../src/budgets");
-const { validateBrief, generatePreparation } = require("../src/preparation");
-const { resolveSelectedFocus } = require("../src/selected-focus");
+const { MEETING_TYPES } = require("../backend/engine/meeting-types");
+const { TOTAL_BUDGET } = require("../backend/engine/budgets");
+const { validateBrief, generatePreparation } = require("../backend/engine/preparation");
+const { resolveSelectedFocus } = require("../backend/engine/selected-focus");
 const {
   runGoldenScenarioChecks,
   runQualityPrepListenFor,
-} = require("../src/golden-checks");
+} = require("../backend/engine/golden-checks");
 
 const { SCENARIOS_DIR } = require("../backend/engine/paths");
 const REGRESSION_DIR = path.join(SCENARIOS_DIR, "regression");

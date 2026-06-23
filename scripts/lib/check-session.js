@@ -11,7 +11,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { applyManagerBriefingPostProcess } = require("../../src/reviewer");
+const { applyManagerBriefingPostProcess } = require("../../backend/engine/reviewer");
 const { runTrustChecks } = require("../../evals/trust-checks");
 const { loadBankQuestions } = require("./session-scores");
 

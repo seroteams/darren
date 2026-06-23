@@ -6,7 +6,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { spawn } = require("node:child_process");
-const { loadEnv } = require("../src/env");
+const { loadEnv } = require("../backend/engine/env");
 const { scoreSessionDir, aggregateRuns } = require("./lib/session-scores");
 const { SCENARIOS_DIR } = require("../backend/engine/paths");
 

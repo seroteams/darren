@@ -3,7 +3,7 @@
 // that no live arc has. An orphaned tag silently mis-routes (intro-queue sorts
 // it to index 999) instead of erroring — this catches it offline in `npm test`.
 
-const { runStageTagOrphanCheck } = require("../src/golden-checks");
+const { runStageTagOrphanCheck } = require("../backend/engine/golden-checks");
 
 const failures = runStageTagOrphanCheck();
 if (failures.length) {

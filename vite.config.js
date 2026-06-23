@@ -8,7 +8,7 @@ export default defineConfig({
   base: "/",
   resolve: {
     alias: {
-      "@sero/run-debrief": resolve(__dirname, "src/run-debrief.mjs"),
+      "@sero/run-debrief": resolve(__dirname, "backend/engine/run-debrief.mjs"),
     },
   },
   server: {

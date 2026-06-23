@@ -6,7 +6,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { reconcileQueue } = require("../src/queue-manager");
+const { reconcileQueue } = require("../backend/engine/queue-manager");
 const { QUESTIONS_DIR } = require("../backend/engine/paths");
 
 let failed = 0;

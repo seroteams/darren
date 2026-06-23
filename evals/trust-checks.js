@@ -11,8 +11,8 @@
 // The reworded/subtle cases fall to the judge Warn and, later, the data-flow
 // boundary fast-follow.
 
-const { computeReadQuality } = require("../src/reviewer");
-const { forbiddenPatternsFor, isDuplicateText } = require("../src/question-eligibility");
+const { computeReadQuality } = require("../backend/engine/reviewer");
+const { forbiddenPatternsFor, isDuplicateText } = require("../backend/engine/question-eligibility");
 const {
   runManagerBriefingBans,
   runCrossSessionLeakCheck,
@@ -24,8 +24,8 @@ const {
   runRoleProfileArcGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
-} = require("../src/golden-checks");
-const { loadRoleProfile } = require("../src/role-profile");
+} = require("../backend/engine/golden-checks");
+const { loadRoleProfile } = require("../backend/engine/role-profile");
 
 const HARD_FAIL = {
   PRIVATE_NOTE_LEAK: "PRIVATE_NOTE_LEAK",
@@ -182,7 +182,7 @@ function checkWrongMeetingType(meetingType, bankQuestions) {
   let arc;
   try {
     // Lazy require so a pure unit test can skip arc machinery if needed.
-    arc = require("../src/one-on-one-types").getArc(meetingType);
+    arc = require("../backend/engine/one-on-one-types").getArc(meetingType);
   } catch {
     return { result: null, warning: `unknown meeting type "${meetingType}" — coverage check skipped` };
   }

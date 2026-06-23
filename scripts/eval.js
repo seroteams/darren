@@ -9,8 +9,8 @@ const { spawnSync } = require("node:child_process");
 
 const ROOT = path.join(__dirname, "..");
 const { PROMPTS_DIR } = require("../backend/engine/paths");
-const { evaluateNotes, summarizeResults } = require("../src/rules");
-const { promptVersionFor } = require("../src/prompt-version");
+const { evaluateNotes, summarizeResults } = require("../backend/engine/rules");
+const { promptVersionFor } = require("../backend/engine/prompt-version");
 
 function loadJson(p) {
   return JSON.parse(fs.readFileSync(p, "utf8"));

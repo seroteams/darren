@@ -2,7 +2,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { pickOpener } = require("../src/opener");
+const { pickOpener } = require("../backend/engine/opener");
 const { QUESTIONS_DIR } = require("../backend/engine/paths");
 
 const OPENERS_PATH = path.join(QUESTIONS_DIR, "_openers.json");

@@ -8,7 +8,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { rebuildQuestionIndex, questionFingerprint, QUESTIONS_ROOT } = require("../src/questions");
+const { rebuildQuestionIndex, questionFingerprint, QUESTIONS_ROOT } = require("../backend/engine/questions");
 
 function scanYamlQuestions(dir, subdir = "") {
   const out = [];
@@ -26,7 +26,7 @@ function scanYamlQuestions(dir, subdir = "") {
 }
 
 function pruneExactDuplicates() {
-  const { parseYaml } = require("../src/questions");
+  const { parseYaml } = require("../backend/engine/questions");
   const all = scanYamlQuestions(QUESTIONS_ROOT).map((item) => ({
     ...item,
     q: parseYaml(fs.readFileSync(item.path, "utf8")),

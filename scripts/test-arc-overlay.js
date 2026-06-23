@@ -10,8 +10,8 @@ const {
   removeOverlay,
   diffStageIds,
   validKey,
-} = require("../src/arc-overlay");
-const { getArc, listStageIds } = require("../src/one-on-one-types");
+} = require("../backend/engine/arc-overlay");
+const { getArc, listStageIds } = require("../backend/engine/one-on-one-types");
 
 const SLUG = "bi_weekly_check_in";
 const LABEL = "Bi-weekly check-in";

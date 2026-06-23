@@ -6,8 +6,8 @@
 const assert = require("node:assert");
 const fs = require("node:fs");
 const path = require("node:path");
-const back = require("../frontend/server/handlers/back");
-const { createWebSession, dropSession, summarizeAxes } = require("../frontend/server/sessions");
+const back = require("../backend/api/handlers/back");
+const { createWebSession, dropSession, summarizeAxes } = require("../backend/api/sessions");
 
 let failed = 0;
 async function check(name, fn) {

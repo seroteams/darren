@@ -10,13 +10,13 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { loadEnv } = require("../src/env");
+const { loadEnv } = require("../backend/engine/env");
 loadEnv();
 
-const { getArc } = require("../src/one-on-one-types");
-const { validateBrief } = require("../src/preparation");
-const { resolveSelectedFocus } = require("../src/selected-focus");
-const { isSameStagePlannerDrill } = require("../src/queue-manager");
+const { getArc } = require("../backend/engine/one-on-one-types");
+const { validateBrief } = require("../backend/engine/preparation");
+const { resolveSelectedFocus } = require("../backend/engine/selected-focus");
+const { isSameStagePlannerDrill } = require("../backend/engine/queue-manager");
 const { stageCoverageSummary } = require("./eval-judge");
 const { isYesNoDeadEnd, isPresupposed, isMultiProbe, isTrustRisk } = require("./lint-bank");
 

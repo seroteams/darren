@@ -11,8 +11,8 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { validateBrief } = require("../src/preparation");
-const { findJargon } = require("../src/golden-checks");
+const { validateBrief } = require("../backend/engine/preparation");
+const { findJargon } = require("../backend/engine/golden-checks");
 
 let failed = 0;
 function check(name, ok, detail) {

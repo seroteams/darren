@@ -4,7 +4,7 @@
 // "How to help them" section stays an honest stub until synthesis exists.
 
 const assert = require("node:assert/strict");
-const { slugify, renderProfileMarkdown } = require("../src/person-profile");
+const { slugify, renderProfileMarkdown } = require("../backend/engine/person-profile");
 
 // 1. slugify: group key is forgiving but never empty.
 {

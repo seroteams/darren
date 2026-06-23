@@ -5,7 +5,7 @@
 // disengagement label is worse than no label.
 
 const assert = require("node:assert/strict");
-const { applyEngagementReadGuard } = require("../src/reviewer");
+const { applyEngagementReadGuard } = require("../backend/engine/reviewer");
 
 // A rich transcript: 6 substantive third-person notes → not a partial read.
 const richTranscript = [

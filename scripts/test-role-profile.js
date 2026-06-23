@@ -15,7 +15,7 @@ const {
   effectiveTerminology,
   terminologyGroups,
   buildMessages,
-} = require("../src/role-profile");
+} = require("../backend/engine/role-profile");
 
 let failed = 0;
 function ok(label, cond) {
@@ -223,8 +223,8 @@ if (uxl) {
 async function runSnapshotTest() {
   console.log("\n--- session snapshot: cache hit still logs the profile ---");
   const os = require("node:os");
-  const { ensureRoleProfile } = require("../src/role-profile");
-  const { promptVersionFor } = require("../src/prompt-version");
+  const { ensureRoleProfile } = require("../backend/engine/role-profile");
+  const { promptVersionFor } = require("../backend/engine/prompt-version");
   const snapRole = "__test-snapshot-role__";
   const snapKey = keyOf({ role: snapRole, seniority: "senior" });
   const snapFile = profilePath(snapKey);
@@ -248,7 +248,7 @@ async function runSnapshotTest() {
 }
 
 console.log("\n--- trust gates: arc leak + vocab leak ---");
-const { runRoleProfileArcGate, runRoleProfileVocabLeak } = require("../src/golden-checks");
+const { runRoleProfileArcGate, runRoleProfileVocabLeak } = require("../backend/engine/golden-checks");
 ok("arc gate clean on growth", runRoleProfileArcGate(FIXTURE, "Growth & career plan").length === 0);
 ok(
   "arc gate clean on bi-weekly (renderer filters competency)",

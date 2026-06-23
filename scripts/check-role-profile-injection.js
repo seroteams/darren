@@ -1,7 +1,7 @@
 // Renders all 5 stage prompts offline and reports whether the role-profile
 // block (or its fallback) landed in each. No API spend.
 // Run: node scripts/check-role-profile-injection.js ["<job title>" "<seniority>" ["<meeting type>"]]
-const { FALLBACK_BLOCK } = require("../src/role-profile");
+const { FALLBACK_BLOCK } = require("../backend/engine/role-profile");
 
 const role = process.argv[2] || "Staff Site Reliability Engineer";
 const seniority = process.argv[3] || "Senior";
@@ -12,9 +12,9 @@ const axes = [{ id: "wellbeing" }, { id: "engagement" }, { id: "clarity" }, { id
 
 const stages = {
   "focus points": () =>
-    require("../src/generate").buildMessages({ ...ctx, focusPoints: [] }),
+    require("../backend/engine/generate").buildMessages({ ...ctx, focusPoints: [] }),
   "preparation": () =>
-    require("../src/preparation").buildMessages({
+    require("../backend/engine/preparation").buildMessages({
       name: ctx.name,
       roleTitle: role,
       seniority,
@@ -23,14 +23,14 @@ const stages = {
       focusPoints: [],
     }),
   "question bank": () =>
-    require("../src/question-generator").buildMessages({
+    require("../backend/engine/question-generator").buildMessages({
       axes,
       focusPoints: [],
       ...ctx,
       existingQueue: [],
     }),
   "per-turn planner": () =>
-    require("../src/queue-manager").buildMessages({
+    require("../backend/engine/queue-manager").buildMessages({
       axes,
       focusPoints: [],
       ctx,
@@ -45,7 +45,7 @@ const stages = {
       closerAlias: "q_closer",
     }),
   "final evaluation": () =>
-    require("../src/reviewer").buildMessages({
+    require("../backend/engine/reviewer").buildMessages({
       ctx,
       focusPoints: [],
       transcript: [],

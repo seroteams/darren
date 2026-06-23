@@ -7,8 +7,8 @@
 //   node scripts/verify-maya-jun17-damper.js
 
 const assert = require("node:assert/strict");
-const { initState, applyDeltas } = require("../src/axes");
-const { applyRecurringGapClarityDamper } = require("../src/queue-manager");
+const { initState, applyDeltas } = require("../backend/engine/axes");
+const { applyRecurringGapClarityDamper } = require("../backend/engine/queue-manager");
 
 // The run as it happened: question purpose was "scripted" (not "competency"),
 // which is why the original purpose-gated damper never fired and clarity hit -10.

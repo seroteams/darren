@@ -5,10 +5,10 @@
 const path = require("node:path");
 require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
-const { loadEnv } = require("../src/env");
+const { loadEnv } = require("../backend/engine/env");
 loadEnv();
 
-const { generatePreparation } = require("../src/preparation");
+const { generatePreparation } = require("../backend/engine/preparation");
 
 const SHARED = {
   meetingType: "Bi-weekly check-in",

@@ -9,16 +9,16 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { loadEnv } = require("../src/env");
+const { loadEnv } = require("../backend/engine/env");
 loadEnv();
 
-const { initState, applyDeltas, serialize } = require("../src/axes");
+const { initState, applyDeltas, serialize } = require("../backend/engine/axes");
 const {
   applyRecurringGapClarityDamper,
   clampToSignature,
-} = require("../src/queue-manager");
-const { loadQuestion } = require("../src/questions");
-const { evaluate } = require("../src/reviewer");
+} = require("../backend/engine/queue-manager");
+const { loadQuestion } = require("../backend/engine/questions");
+const { evaluate } = require("../backend/engine/reviewer");
 
 const { CONFIG_DIR } = require("../backend/engine/paths");
 const BENCH = path.join(CONFIG_DIR, "persona-bench-v1.json");
