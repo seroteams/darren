@@ -8,13 +8,14 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { spawn } = require("node:child_process");
 const { loadEnv } = require("../src/env");
+const { CONTENT_DIR, SCENARIOS_DIR } = require("../backend/engine/paths");
 
 loadEnv();
 
 const ROOT = path.join(__dirname, "..");
 const BATCH_DIR = path.join(ROOT, "logs/may/2026_May24_batch");
 const BASELINE_PATH = path.join(BATCH_DIR, "quality-report.json");
-const BATCH_SCENARIOS = path.join(ROOT, "scenarios/batch");
+const BATCH_SCENARIOS = path.join(SCENARIOS_DIR, "batch");
 
 const PREDICTED = {
   question_specificity: { min: 0.4, max: 0.6 },
@@ -64,7 +65,7 @@ function checkPromptAdoption() {
   const results = [];
   let failed = 0;
   for (const hunk of PROMPT_HUNKS) {
-    const text = fs.readFileSync(path.join(ROOT, hunk.file), "utf8");
+    const text = fs.readFileSync(path.join(CONTENT_DIR, hunk.file), "utf8");
     const missing = hunk.needles.filter((n) => !text.includes(n));
     const ok = missing.length === 0;
     results.push({ id: hunk.id, file: hunk.file, ok, missing });
@@ -180,7 +181,7 @@ function loadScenarioArg(file) {
     path.isAbsolute(file) ? file : null,
     path.join(BATCH_SCENARIOS, file.endsWith(".json") ? file : `${file}.json`),
     path.join(ROOT, file),
-    path.join(ROOT, "scenarios/regression", file.endsWith(".json") ? file : `${file}.json`),
+    path.join(SCENARIOS_DIR, "regression", file.endsWith(".json") ? file : `${file}.json`),
   ].filter(Boolean);
   const scenarioPath = candidates.find((p) => fs.existsSync(p));
   if (!scenarioPath) {

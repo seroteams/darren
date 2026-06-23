@@ -11,6 +11,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { checkFromSessionDir } = require("./lib/check-session");
+const { CONFIG_DIR } = require("../backend/engine/paths");
 
 const ROOT = path.join(__dirname, "..");
 const REPLAY_DIR = path.join(ROOT, "evals", "replay");
@@ -19,7 +20,7 @@ const REPLAY_DIR = path.join(ROOT, "evals", "replay");
 // so the suite reads like the demo dropdown (e.g. "Maya Chen · Review-loop drag").
 function personaMeta(caseId) {
   try {
-    const bench = require(path.join(ROOT, "config", "persona-bench-v1.json"));
+    const bench = require(path.join(CONFIG_DIR, "persona-bench-v1.json"));
     const list = Array.isArray(bench) ? bench : bench.personas || [];
     const p = list.find((x) => x && x.id === caseId);
     return p ? { persona: p.displayName || p.name || null, issue: p.issue || null } : null;

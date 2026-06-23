@@ -7,11 +7,12 @@ const { loadEnv } = require("../src/env");
 const { scoreSessionDir, aggregateRuns } = require("./lib/session-scores");
 const { judgeSession, computeVerdictTier } = require("./eval-judge");
 const { runSmoke } = require("./lib/run-scenario");
+const { SCENARIOS_DIR } = require("../backend/engine/paths");
 
 loadEnv();
 
 const ROOT = path.join(__dirname, "..");
-const BATCH_DIR = path.join(ROOT, "scenarios", "batch");
+const BATCH_DIR = path.join(SCENARIOS_DIR, "batch");
 const BATCH_INDEX = path.join(BATCH_DIR, "_index.json");
 const SWEEPS_DIR = path.join(ROOT, "logs", "sweeps");
 

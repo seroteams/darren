@@ -31,6 +31,7 @@ const { allResolved } = require("./src/models");
 const { TOTAL_BUDGET, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./src/budgets");
 const { scanSessions, resolveNewSession } = require("./scripts/lib/session-fs");
 const { stringifyYaml, parseYaml } = require("./src/questions");
+const { CONTENT_DIR, QUESTIONS_DIR } = require("./backend/engine/paths");
 
 loadEnv();
 
@@ -81,7 +82,7 @@ function unitChecks() {
   };
   for (const [promptFile, srcFile] of Object.entries(PROMPT_SRC_MAP)) {
     try {
-      const promptText = fs.readFileSync(promptFile, "utf8");
+      const promptText = fs.readFileSync(path.join(CONTENT_DIR, promptFile), "utf8");
       const srcText = fs.readFileSync(srcFile, "utf8");
       const placeholders = [...promptText.matchAll(/\{\{([A-Z0-9_]+)\}\}/g)].map((m) => m[1]);
       const unique = [...new Set(placeholders)];
@@ -187,7 +188,9 @@ function unitChecks() {
 }
 
 const scenarioPath = process.argv[2] || "scenarios/001-senior-backend-weekly.json";
-const scenarioAbs = path.resolve(scenarioPath);
+const scenarioAbs = path.isAbsolute(scenarioPath)
+  ? scenarioPath
+  : path.join(CONTENT_DIR, scenarioPath);
 
 if (!fs.existsSync(scenarioAbs)) {
   console.error(`Scenario not found: ${scenarioPath}`);
@@ -398,8 +401,8 @@ async function verify(exitCode, stdout) {
   }
 
   // Generated questions written to disk
-  const generatedCount = fs.existsSync("questions")
-    ? fs.readdirSync("questions").filter((f) => f.endsWith(".yaml")).length
+  const generatedCount = fs.existsSync(QUESTIONS_DIR)
+    ? fs.readdirSync(QUESTIONS_DIR).filter((f) => f.endsWith(".yaml")).length
     : 0;
   if (generatedCount > 0) pass(`${generatedCount} generated question YAML(s) on disk`);
   else fail("generated question YAMLs", "questions/ has no generated .yaml files");

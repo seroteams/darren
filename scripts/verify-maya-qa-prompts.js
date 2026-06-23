@@ -7,8 +7,9 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const ROOT = path.join(__dirname, "..");
+const { PROMPTS_DIR } = require("../backend/engine/paths");
 const evalMd = fs.readFileSync(
-  path.join(ROOT, "prompts", "final-evaluation.md"),
+  path.join(PROMPTS_DIR, "final-evaluation.md"),
   "utf8"
 );
 const qm = fs.readFileSync(path.join(ROOT, "src", "queue-manager.js"), "utf8");

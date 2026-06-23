@@ -3,8 +3,9 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { pickOpener } = require("../src/opener");
+const { QUESTIONS_DIR } = require("../backend/engine/paths");
 
-const OPENERS_PATH = path.join(__dirname, "..", "questions", "_openers.json");
+const OPENERS_PATH = path.join(QUESTIONS_DIR, "_openers.json");
 
 const MEETING_CASES = [
   { slug: "bi_weekly_check_in", pretty: "Bi-weekly check-in" },

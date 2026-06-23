@@ -5,10 +5,12 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
+const { SCENARIOS_DIR } = require("../backend/engine/paths");
+
 const ROOT = path.join(__dirname, "..");
 const RUN_OUTPUTS = path.join(ROOT, "logs/may/2026_May24_batch/run-outputs.json");
-const BATCH_DIR = path.join(ROOT, "scenarios/batch");
-const OUT_DIR = path.join(ROOT, "scenarios/regression");
+const BATCH_DIR = path.join(SCENARIOS_DIR, "batch");
+const OUT_DIR = path.join(SCENARIOS_DIR, "regression");
 
 const PICKS = [
   {

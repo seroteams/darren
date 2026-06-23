@@ -6,6 +6,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const ROOT = path.join(__dirname, "..");
+const { PROMPTS_DIR } = require("../backend/engine/paths");
 
 const {
   isShallowAnswer,
@@ -87,7 +88,7 @@ function checkCoverage() {
 function checkPromptAndUi() {
   console.log("\n--- Prompt + UI hunks (FX-27) ---");
   let failed = 0;
-  const plan = fs.readFileSync(path.join(ROOT, "prompts/plan-turn.md"), "utf8");
+  const plan = fs.readFileSync(path.join(PROMPTS_DIR, "plan-turn.md"), "utf8");
   failed += ok("shallow vs neutral rule", plan.includes("Shallow vs neutral"));
   failed += ok("misalignment type", plan.includes("**Misalignment**"));
   failed += ok("coverage hard rule", plan.includes("Coverage (hard at turn 4+)"));

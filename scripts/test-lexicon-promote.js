@@ -8,10 +8,10 @@ const {
   applyPromotionDecisions,
 } = require("../src/lexicon/promote-core");
 
-const ROOT = path.join(__dirname, "..");
-const CAND = path.join(ROOT, "lexicons/_candidates/engineering");
+const { LEXICONS_DIR } = require("../backend/engine/paths");
+const CAND = path.join(LEXICONS_DIR, "_candidates/engineering");
 const CAND_FILE = path.join(CAND, "lead.yaml");
-const CANON_DIR = path.join(ROOT, "lexicons/engineering");
+const CANON_DIR = path.join(LEXICONS_DIR, "engineering");
 const CANON_FILE = path.join(CANON_DIR, "lead.yaml");
 
 const candBackup = fs.existsSync(CAND_FILE) ? fs.readFileSync(CAND_FILE, "utf8") : null;

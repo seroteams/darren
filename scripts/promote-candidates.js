@@ -15,8 +15,10 @@ const {
   describePromotionItem,
 } = require("../src/lexicon/promote-core");
 
+const { LEXICONS_DIR } = require("../backend/engine/paths");
+
 const ROOT = path.join(__dirname, "..");
-const LEX_DIR = path.join(ROOT, "lexicons");
+const LEX_DIR = LEXICONS_DIR;
 
 function readYaml(filePath) {
   try {

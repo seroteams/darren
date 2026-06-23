@@ -7,8 +7,10 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
+const { SCENARIOS_DIR } = require("../backend/engine/paths");
+
 const ROOT = path.join(__dirname, "..");
-const BATCH_DIR = path.join(ROOT, "scenarios/batch");
+const BATCH_DIR = path.join(SCENARIOS_DIR, "batch");
 const REPLAY = path.join(ROOT, "scripts/replay-scenario.js");
 
 function loadJson(p) {
@@ -63,7 +65,7 @@ function main() {
   const report = {
     generated_at: new Date().toISOString(),
     batch_count: index.length,
-    regression_count: loadJson(path.join(ROOT, "scenarios/regression/_index.json")).length,
+    regression_count: loadJson(path.join(SCENARIOS_DIR, "regression/_index.json")).length,
     ok: failed === 0,
   };
   const reportPath = path.join(ROOT, "logs/may/2026_May24_batch/m4-batch-replay-report.json");

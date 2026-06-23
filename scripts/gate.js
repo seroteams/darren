@@ -21,6 +21,7 @@ const { loadEnv } = require("../src/env");
 const { runSmoke } = require("./lib/run-scenario");
 const { scoreSessionDir, loadBankQuestions } = require("./lib/session-scores");
 const { runTrustChecks } = require("../evals/trust-checks");
+const { CONTENT_DIR } = require("../backend/engine/paths");
 
 loadEnv();
 
@@ -95,7 +96,7 @@ function sessionComplete(sessionDir) {
 }
 
 async function runOneCase(def, args) {
-  const scenarioPath = path.join(ROOT, def.scenario);
+  const scenarioPath = path.join(CONTENT_DIR, def.scenario);
   const scenario = loadJson(scenarioPath);
   if (!scenario) {
     return { id: def.id, kind: def.kind, status: "error", error: `scenario not found: ${def.scenario}` };

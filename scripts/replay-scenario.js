@@ -24,9 +24,9 @@ const {
   runQualityPrepListenFor,
 } = require("../src/golden-checks");
 
-const REGRESSION_DIR = path.join(ROOT, "scenarios/regression");
-const BATCH_DIR = path.join(ROOT, "scenarios/batch");
-const SCENARIOS_DIR = path.join(ROOT, "scenarios");
+const { SCENARIOS_DIR } = require("../backend/engine/paths");
+const REGRESSION_DIR = path.join(SCENARIOS_DIR, "regression");
+const BATCH_DIR = path.join(SCENARIOS_DIR, "batch");
 
 function loadJson(file) {
   return JSON.parse(fs.readFileSync(file, "utf8"));

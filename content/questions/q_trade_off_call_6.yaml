@@ -1,0 +1,10 @@
+alias: q_trade_off_call_6
+label: Trade-off call
+name: What are you saying no to so the UX work can keep moving?
+description: Helps you hear the real trade-offs behind the current workload.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -7,6 +7,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { reconcileQueue } = require("../src/queue-manager");
+const { QUESTIONS_DIR } = require("../backend/engine/paths");
 
 let failed = 0;
 function check(label, cond, detail) {
@@ -20,7 +21,7 @@ function check(label, cond, detail) {
 
 function cleanupRuntime(queue) {
   for (const q of queue || []) {
-    const p = path.join(__dirname, "..", "questions", "_runtime", `${q.alias}.yaml`);
+    const p = path.join(QUESTIONS_DIR, "_runtime", `${q.alias}.yaml`);
     try {
       fs.unlinkSync(p);
     } catch {}

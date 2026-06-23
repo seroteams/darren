@@ -1,0 +1,10 @@
+alias: q_team_coverage
+label: Team coverage
+name: "Where does the team still need you to step in more than you'd like?"
+description: Shows where his lead role is pulling him back into hands-on coverage.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

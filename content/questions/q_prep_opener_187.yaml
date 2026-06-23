@@ -1,0 +1,10 @@
+alias: q_prep_opener_187
+label: Prep opener
+name: How have the last couple of weeks felt in terms of what keeps pulling you off the work that matters most?
+description: Sets up the conversation around the competing pulls without jumping straight to diagnosis.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

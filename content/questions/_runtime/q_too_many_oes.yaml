@@ -1,0 +1,10 @@
+alias: q_too_many_oes
+label: Too many OEs
+name: "When you say too many OE's, which asks are pulling you most often?"
+description: Drills into the specific recurring pulls creating the overload he just named.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +1
+source: planner_added
+grounding: "too many OE's"

@@ -6,8 +6,9 @@ const path = require("node:path");
 
 const { MEETING_TYPES } = require("../src/meeting-types");
 const { scriptedQuestions } = require("../frontend/server/persona-script");
+const { CONFIG_DIR } = require("../backend/engine/paths");
 
-const BENCH_PATH = path.join(__dirname, "..", "config", "persona-bench-v1.json");
+const BENCH_PATH = path.join(CONFIG_DIR, "persona-bench-v1.json");
 
 // Scripted aliases that genuinely carry no bank signature today: the open-cover
 // opener and the relational "observed" prompts. Parked (engine-trust-gates

@@ -25,6 +25,7 @@ function check(name, ok, detail) {
 }
 
 const ROOT = path.join(__dirname, "..");
+const { PROMPTS_DIR } = require("../backend/engine/paths");
 const MACHAR_INPUTS = {
   name: "Machar",
   roleTitle: "Partner alliance manager",
@@ -87,12 +88,12 @@ check(
 
 // --- 4. prompts carry the rules
 {
-  const prep = fs.readFileSync(path.join(ROOT, "prompts", "preparation.md"), "utf8");
+  const prep = fs.readFileSync(path.join(PROMPTS_DIR, "preparation.md"), "utf8");
   check("preparation.md: name-not-title rule present", /never (?:by their job title|describe them by their job title)/i.test(prep));
   check("preparation.md: jargon ban present", /air cover/i.test(prep));
   check("preparation.md: clean-ending rule for suggestedAction", /ends cleanly/i.test(prep));
 
-  const gen = fs.readFileSync(path.join(ROOT, "prompts", "generate-questions.md"), "utf8");
+  const gen = fs.readFileSync(path.join(PROMPTS_DIR, "generate-questions.md"), "utf8");
   check("generate-questions.md: jargon ban present", /air cover/i.test(gen));
 }
 

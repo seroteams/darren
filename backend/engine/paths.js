@@ -1,20 +1,16 @@
 // Address book — the single place that says where data lives on disk.
 //
-// Added in Phase 001 step 2 of the monorepo reorg. It is intentionally
-// UNUSED right now: step 2 only creates it. Step 3 moves the content roots
-// into content/ AND repoints the engine/server/scripts to read through here,
-// so the path strings stop being scattered across dozens of files.
-//
-// Today the data still sits at the repo root, so CONTENT_DIR === ROOT.
-// In step 3, flip CONTENT_DIR to path.join(ROOT, "content") in lockstep with
-// the actual `git mv` — that one line relocates every data root below.
-// LOGS_DIR stays at the root; logs do not move in this phase.
+// Added in Phase 001 of the monorepo reorg so content paths stop being
+// scattered across dozens of files. The product's content (prompts, questions,
+// lexicons, scenarios, config, data, notes, axes.json, focus-points.json) lives
+// under content/; engine/server/cli read it through the constants below.
+// LOGS_DIR stays at the repo root; logs do not move in this phase.
 
 const path = require("path");
 
 // backend/engine/paths.js -> repo root is two levels up.
 const ROOT = path.join(__dirname, "..", "..");
-const CONTENT_DIR = ROOT; // step 3: -> path.join(ROOT, "content")
+const CONTENT_DIR = path.join(ROOT, "content");
 
 module.exports = {
   ROOT,

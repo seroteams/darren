@@ -1,0 +1,10 @@
+alias: q_team_burnout
+label: Team burnout
+name: "You said it's burning the team out — where is that showing up most?"
+description: Drills into the concrete signs and source of the team strain he just named.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: burning my team out

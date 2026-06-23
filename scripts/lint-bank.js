@@ -13,8 +13,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const YAML = require("yaml");
 
-const ROOT = path.join(__dirname, "..");
-const QUESTIONS_DIR = path.join(ROOT, "questions");
+const { QUESTIONS_DIR } = require("../backend/engine/paths");
 
 // --- rule predicates (pure; exported for reuse) ---------------------------
 const WALK_ME_THROUGH = /^(can|could) you walk me through\b/i;

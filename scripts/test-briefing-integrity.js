@@ -6,10 +6,10 @@ const {
   runEvalIntegrityChecks,
 } = require("../src/golden-checks");
 
-const ROOT = path.join(__dirname, "..");
+const { SCENARIOS_DIR } = require("../backend/engine/paths");
 const scenario = require(path.join(
-  ROOT,
-  "scenarios/regression/priya_performance_quality_jun02.json"
+  SCENARIOS_DIR,
+  "regression/priya_performance_quality_jun02.json"
 ));
 
 let failed = 0;

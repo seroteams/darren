@@ -6,11 +6,12 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { loadEnv } = require("../src/env");
+const { CONTENT_DIR, SCENARIOS_DIR, LEXICONS_DIR } = require("../backend/engine/paths");
 
 loadEnv();
 
 const ROOT = path.join(__dirname, "..");
-const SCENARIO_PATH = path.join(ROOT, "scenarios/regression/toby_lexicon_growth.json");
+const SCENARIO_PATH = path.join(SCENARIOS_DIR, "regression/toby_lexicon_growth.json");
 
 const PROMPT_HUNKS = [
   {
@@ -47,7 +48,8 @@ function checkPromptHunks() {
   console.log("\n--- Prompt + wiring hunks ---");
   let failed = 0;
   for (const hunk of PROMPT_HUNKS) {
-    const text = fs.readFileSync(path.join(ROOT, hunk.file), "utf8");
+    const base = hunk.file.startsWith("prompts/") ? CONTENT_DIR : ROOT;
+    const text = fs.readFileSync(path.join(base, hunk.file), "utf8");
     for (const needle of hunk.needles) {
       failed += ok(`${hunk.id}: ${needle.slice(0, 48)}`, text.includes(needle));
     }
@@ -137,7 +139,7 @@ async function checkLive(scenario) {
   const { generateSuggestions } = require("../src/lexicon-reviewer");
   const sessionDir = path.join(ROOT, scenario.sessionDir);
   const sessionId = path.basename(sessionDir);
-  const tracePath = path.join(ROOT, "lexicons/_suggested", `${sessionId}.json`);
+  const tracePath = path.join(LEXICONS_DIR, "_suggested", `${sessionId}.json`);
   const hadTrace = fs.existsSync(tracePath);
   const traceBackup = hadTrace ? fs.readFileSync(tracePath, "utf8") : null;
   if (hadTrace) fs.unlinkSync(tracePath);

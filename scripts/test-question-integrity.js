@@ -26,6 +26,7 @@ const {
   enforceThreadFollow,
 } = require("../src/queue-manager");
 const { checkQuestionIntegrity } = require("../evals/trust-checks");
+const { QUESTIONS_DIR } = require("../backend/engine/paths");
 
 let failed = 0;
 function check(name, ok, detail) {
@@ -130,7 +131,7 @@ check(
   // snapshot the index, collect what this test creates, and restore both at
   // the end so test runs don't pollute questions/.
   const createdAliases = [];
-  const QUESTIONS_ROOT = path.join(__dirname, "..", "questions");
+  const QUESTIONS_ROOT = QUESTIONS_DIR;
   const INDEX_PATH = path.join(QUESTIONS_ROOT, "_index.json");
   const indexSnapshot = fs.readFileSync(INDEX_PATH, "utf8");
 

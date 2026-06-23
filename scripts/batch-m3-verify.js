@@ -7,8 +7,10 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
+const { SCENARIOS_DIR } = require("../backend/engine/paths");
+
 const ROOT = path.join(__dirname, "..");
-const REGRESSION_DIR = path.join(ROOT, "scenarios/regression");
+const REGRESSION_DIR = path.join(SCENARIOS_DIR, "regression");
 
 const M3_IDS = ["priya_biweekly_qspec", "lin_biweekly_thread", "ahmed_growth_delta"];
 

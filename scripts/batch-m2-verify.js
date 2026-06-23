@@ -8,13 +8,14 @@ const path = require("node:path");
 const { spawn } = require("node:child_process");
 const { loadEnv } = require("../src/env");
 const { scoreSessionDir, aggregateRuns } = require("./lib/session-scores");
+const { SCENARIOS_DIR } = require("../backend/engine/paths");
 
 loadEnv();
 
 const ROOT = path.join(__dirname, "..");
 const BATCH_DIR = path.join(ROOT, "logs/may/2026_May24_batch");
 const BASELINE_PATH = path.join(BATCH_DIR, "quality-report.json");
-const BATCH_SCENARIOS = path.join(ROOT, "scenarios/batch");
+const BATCH_SCENARIOS = path.join(SCENARIOS_DIR, "batch");
 
 const PREDICTED = {
   question_specificity: { min: 0.4, max: 0.6 },

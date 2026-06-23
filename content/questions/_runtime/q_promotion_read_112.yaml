@@ -1,0 +1,9 @@
+alias: q_promotion_read_112
+label: Promotion read
+name: How did the promotion decision land with you?
+description: Probe the recent decision.
+purpose: topic
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: open

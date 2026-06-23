@@ -20,8 +20,8 @@ const {
 const { loadQuestion } = require("../src/questions");
 const { evaluate } = require("../src/reviewer");
 
-const ROOT = path.join(__dirname, "..");
-const BENCH = path.join(ROOT, "config", "persona-bench-v1.json");
+const { CONFIG_DIR } = require("../backend/engine/paths");
+const BENCH = path.join(CONFIG_DIR, "persona-bench-v1.json");
 
 const COERCIVE_RE =
   /\b(force\s|forcing\s|pin\s|pin\s+her|pin\s+him|drive\s+her|drive\s+him|make\s+her|make\s+him)\b/i;

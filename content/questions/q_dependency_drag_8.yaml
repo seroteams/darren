@@ -1,0 +1,10 @@
+alias: q_dependency_drag_8
+label: Dependency drag
+name: What dependency is eating the most of your time right now?
+description: Helps you isolate the external pull that is soaking up capacity.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

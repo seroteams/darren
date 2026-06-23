@@ -6,6 +6,7 @@ const YAML = require("yaml");
 
 const { loadLexicon, canonicalPath, candidatePath } = require("../src/lexicon");
 const { buildMessages } = require("../src/question-generator");
+const { LEXICONS_DIR } = require("../backend/engine/paths");
 
 let failed = 0;
 function ok(label, cond) {
@@ -130,7 +131,7 @@ ok("design / lead / performance → skipped", !shouldReview({ role: "UX Designer
 
 console.log("\n--- AC2 / AC15 / AC16  appendCandidates writes only to candidate file ---");
 const { shouldReview: _sr } = require("../src/lexicon-reviewer");
-const tmpDir = path.join(__dirname, "..", "lexicons", "_candidates", "design");
+const tmpDir = path.join(LEXICONS_DIR, "_candidates", "design");
 const tmpFile = path.join(tmpDir, "lead.yaml");
 const canonicalOrig = fs.readFileSync(canonicalPath("design", "lead"), "utf8");
 const _candOrig = fs.readFileSync(tmpFile, "utf8"); // throws if the candidate file is missing

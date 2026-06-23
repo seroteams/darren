@@ -8,6 +8,7 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
 const ROOT = path.join(__dirname, "..");
+const { PROMPTS_DIR } = require("../backend/engine/paths");
 const { evaluateNotes, summarizeResults } = require("../src/rules");
 const { promptVersionFor } = require("../src/prompt-version");
 
@@ -27,7 +28,7 @@ function runReplayBatch() {
 }
 
 function evalPromptNotes() {
-  const planTurnText = fs.readFileSync(path.join(ROOT, "prompts/plan-turn.md"), "utf8");
+  const planTurnText = fs.readFileSync(path.join(PROMPTS_DIR, "plan-turn.md"), "utf8");
   const planResults = evaluateNotes("prompts/plan-turn.notes.yaml", {
     output: { _prompt_text: planTurnText },
   });
@@ -37,7 +38,7 @@ function evalPromptNotes() {
   for (const r of planResults) {
     console.log(`  ${r.pass ? "PASS" : "FAIL"}  ${r.id}${r.reason ? ` — ${r.reason}` : ""}`);
   }
-  console.log(`  prompt_version: ${promptVersionFor(path.join(ROOT, "prompts/plan-turn.md"))}`);
+  console.log(`  prompt_version: ${promptVersionFor(path.join(PROMPTS_DIR, "plan-turn.md"))}`);
 
   return planSummary.ok ? 0 : 1;
 }
@@ -101,8 +102,8 @@ function main() {
     generated_at: new Date().toISOString(),
     ok: failed === 0,
     session: fs.existsSync(sessionDir) ? path.relative(ROOT, sessionDir) : null,
-    plan_turn_version: promptVersionFor(path.join(ROOT, "prompts/plan-turn.md")),
-    eval_version: promptVersionFor(path.join(ROOT, "prompts/final-evaluation.md")),
+    plan_turn_version: promptVersionFor(path.join(PROMPTS_DIR, "plan-turn.md")),
+    eval_version: promptVersionFor(path.join(PROMPTS_DIR, "final-evaluation.md")),
   };
   const reportPath = path.join(ROOT, "logs/may/2026_May24_batch/eval-matrix-report.json");
   fs.mkdirSync(path.dirname(reportPath), { recursive: true });

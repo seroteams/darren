@@ -1,0 +1,10 @@
+alias: q_message_load
+label: Message load
+name: What about the Teams messages is creating the most drag?
+description: Drills into how message traffic is disrupting the team and consuming capacity.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: teams messages
