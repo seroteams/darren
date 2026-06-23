@@ -7,24 +7,24 @@ const sharedRules = {
 };
 
 // Three source areas:
-//   - Node / CommonJS: CLI, engine core (src/), HTTP server, scripts
+//   - Node / CommonJS: CLI + engine core (backend/engine/), API (backend/api/), scripts
 //   - Node / ESM:       build config + the shared run-debrief ESM build
-//   - Browser / ESM:    the vanilla-JS web client (frontend/client/)
+//   - Browser / ESM:    the vanilla-JS web client (admin/)
 module.exports = [
   {
     ignores: [
       "node_modules/**",
-      "frontend/client/dist/**",
+      "admin/dist/**",
       ".claude/**", // vendored skills, not our code
       "docs/archives/**",
       "logs/**",
-      "questions/**",
+      "content/questions/**",
     ],
   },
   js.configs.recommended,
   {
     files: ["**/*.js"],
-    ignores: ["frontend/client/**", "**/*.esm.js", "vite.config.js"],
+    ignores: ["admin/**", "**/*.esm.js", "vite.config.js"],
     languageOptions: {
       ecmaVersion: 2023,
       sourceType: "commonjs",
@@ -38,7 +38,7 @@ module.exports = [
   },
   {
     files: ["**/*.esm.js", "**/*.mjs", "vite.config.js"],
-    ignores: ["frontend/client/**"],
+    ignores: ["admin/**"],
     languageOptions: {
       ecmaVersion: 2023,
       sourceType: "module",
@@ -47,7 +47,7 @@ module.exports = [
     rules: sharedRules,
   },
   {
-    files: ["frontend/client/**/*.js"],
+    files: ["admin/**/*.js"],
     languageOptions: {
       ecmaVersion: 2023,
       sourceType: "module",

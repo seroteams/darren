@@ -39,7 +39,7 @@ const library = require("./handlers/library");
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
-const CLIENT_DIST = path.join(__dirname, "..", "..", "frontend", "client", "dist");
+const CLIENT_DIST = path.join(__dirname, "..", "..", "admin", "dist");
 
 // Simple per-IP rate limiter for session creation (POST /api/start).
 // Allows up to MAX_PER_IP new sessions within WINDOW_MS before returning 429.

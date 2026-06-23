@@ -1,10 +1,10 @@
 node_modules
-frontend/client/dist
+admin/dist
 .env
 .env.local
 .DS_Store
 *.zip
-!archives/**/*.zip
+!docs/archives/**/*.zip
 .playwright-mcp/
 
 # Local / runtime agent & tool artifacts
@@ -13,15 +13,15 @@ frontend/client/dist
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
 .impeccable/
-lexicons/_suggested/
-frontend/client/node_modules/.vite/
+content/lexicons/_suggested/
+admin/node_modules/.vite/
 
 # Daily work reports
 REPORT-*.md
 CHEATSHEET-*.md
 
 # Per-person profiles (derived from logs/ — rebuild with scripts/rebuild-profiles.js)
-data/people/
+content/data/people/
 
 # Runtime logs (keep-set only)
 debug-be19bb.log

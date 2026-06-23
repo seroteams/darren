@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 const API_PORT = process.env.API_PORT || 3001;
 
 export default defineConfig({
-  root: resolve(__dirname, "frontend/client"),
+  root: resolve(__dirname, "admin"),
   base: "/",
   resolve: {
     alias: {
@@ -22,7 +22,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: resolve(__dirname, "frontend/client/dist"),
+    outDir: resolve(__dirname, "admin/dist"),
     emptyOutDir: true,
     sourcemap: true,
   },
