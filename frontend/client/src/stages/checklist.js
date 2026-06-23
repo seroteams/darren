@@ -105,15 +105,16 @@ const KEY = "sero-p2p-checklist-v1";
 const TICK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>`;
 const CHEV = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>`;
 
-// Ready-to-paste kickoff prompt per phase — drop into a fresh thread to start
-// that area. Shared house-rules preamble + a phase-specific brief (goal / done /
-// first step), drawn from the same goal + sign-off shown on the card.
+// Ready-to-paste CONTINUE prompt per phase — drop into a fresh thread to pick
+// the phase up from where it actually stands. Shared house-rules preamble + a
+// live status snapshot (built from each step's committed status) + the
+// phase-specific brief, so the prompt stays accurate all the way through.
 const PREAMBLE = (pi) =>
   `Phase ${DATA[pi].num} — ${DATA[pi].name} · ${DATA[pi].tag} (Prototype → Production checklist).\n\n` +
-  `Run this with the Darren Method: create docs/todo/<slug>/ (a PLAN.md overview + phase files that each end in QA scenarios), keep a one-line "Current state" in PLAN.md, and do ONLY this phase — then stop for my green light before any next phase. You don't self-certify; I walk the QA scenarios and approve. The moment I approve, commit locally (no push/PR unless I ask).\n\n` +
-  `Before touching anything: run npm test (free/offline) and tell me the result, so pre-existing failures aren't pinned on this work.\n\n` +
+  `Continue this with the Darren Method: there's already a plan folder docs/todo/<slug>/ — read its PLAN.md "Current state" first and pick up from there. Do ONE step at a time and stop for my green light before anything risky or before the next phase. You don't self-certify; I walk the QA scenarios and approve. The moment I approve a step, commit locally (no push/PR unless I ask).\n\n` +
+  `Before continuing: run npm test (free/offline) and tell me the result, so you're building on a known-good baseline, not pinning old failures on this work.\n\n` +
   `Rules: Surgical changes only — touch what the task needs, match existing style, don't refactor what isn't broken; if you spot dead code, mention it, don't delete it. Engine honesty — surface raw model output; flag problems, never hardcode text to hide them. No paid runs (anything hitting the OpenAI API — gate/smoke/eval/live replays, ~$0.35/case up to ~$3) without my explicit yes for that run, cost stated first; default to free checks (npm test, node scripts/replay-scenario.js <id> --fixtures-only).\n\n` +
-  `First, show me a written plan I can approve before you write code. Talk plainly, and end with a short "In simple terms:" line.`;
+  `First, tell me plainly where things stand and what the next step is — then continue. End with a short "In simple terms:" line.`;
 
 const KICK = [
   // 001 Tidy the project
@@ -134,8 +135,22 @@ const KICK = [
   `Goal: a dedicated safety pass before real staff data flows — security-skill checks to green, personal data fenced by company + role, and AI keys proven server-only (never in a browser, response, or log).\nFirst move (before any code): install/run the security checks and post exactly what they flag — a triage list (issue → severity → fix plan) for my review before fixing.\nOut of scope: no new features, no broad refactors — fix only what the checks and the data-fencing/key-leak review surface. Park anything bigger.\nWatch out for: AI keys ending up in the client bundle, an API response, or a log line — check the built frontend bundle specifically, not just the source. Confirm role-level fencing, not just company-level.\nDone when:\n• Agent-verified: security-skill checks green; grep of built bundle/responses/logs shows no key leak; tests prove personal-data access is fenced by company + role.\n• Owner-walked: a named human expert has reviewed and signed off (record the name in PLAN.md).`,
 ];
 
-const buildKickoff = (pi) => `${PREAMBLE(pi)}\n\nThis phase — ${DATA[pi].name}:\n${KICK[pi]}`;
-const KICKOFFS = DATA.map((_, pi) => buildKickoff(pi));
+// A live snapshot of the phase's progress + which step to resume at, built from
+// each step's committed status (st.s). Updated whenever a step's status flips.
+const STATUS_WORD = { done: "DONE", doing: "IN PROGRESS", todo: "TO DO" };
+function buildContinue(pi) {
+  const ph = DATA[pi];
+  const lines = ph.steps
+    .map((st, si) => `  ${si + 1}. ${st.f} — ${STATUS_WORD[st.s || "todo"]}`)
+    .join("\n");
+  const nextIdx = ph.steps.findIndex((st) => (st.s || "todo") !== "done");
+  const next =
+    nextIdx === -1
+      ? "All steps are marked done — verify the whole phase against its sign-off, then check with me before the next phase."
+      : `Pick up at step ${nextIdx + 1} ("${ph.steps[nextIdx].f}") and keep going one step at a time. Don't redo steps already marked DONE.`;
+  return `${PREAMBLE(pi)}\n\nWhere this phase stands right now:\n${lines}\n${next}\n\nThis phase — ${ph.name}:\n${KICK[pi]}`;
+}
+const CONTINUES = DATA.map((_, pi) => buildContinue(pi));
 
 let state = {};
 function loadState() {
@@ -189,12 +204,12 @@ function phaseHtml(ph, pi) {
   const gate = rowHtml(gid, !!state[gid], gateLabel, esc(ph.signoff), "", true);
 
   const kick = `<div class="cl-kick">
-    <div class="cl-kick__lede">Tackling this phase? Copy the ready-made prompt and paste it into a fresh thread to kick it off.</div>
+    <div class="cl-kick__lede">Continuing this phase? Copy the prompt — it captures where we are and picks up from the next unfinished step.</div>
     <div class="cl-kick__actions">
-      <button type="button" class="btn btn--sm js-kick" data-kick="${pi}">Copy kickoff prompt</button>
+      <button type="button" class="btn btn--sm js-kick" data-kick="${pi}">Copy continue prompt</button>
       <span class="cl-kick__saved" id="kick-saved-${pi}">Copied ✓</span>
     </div>
-    <details class="cl-kick__preview"><summary>Preview the prompt</summary><pre>${esc(KICKOFFS[pi])}</pre></details>
+    <details class="cl-kick__preview"><summary>Preview the prompt</summary><pre>${esc(CONTINUES[pi])}</pre></details>
   </div>`;
 
   return `<section class="cl-phase is-collapsed" id="phase-${pi}">
@@ -289,7 +304,7 @@ export function mount(root) {
     b.addEventListener("click", async (e) => {
       e.stopPropagation();
       const i = b.dataset.kick;
-      const text = KICKOFFS[i];
+      const text = CONTINUES[i];
       try {
         await navigator.clipboard.writeText(text);
       } catch {
