@@ -131,6 +131,9 @@
 </header>
 
 <div class="wrap">
+  <div id="previewNote" style="display:none; margin-top:18px; padding:12px 16px; border:1px solid rgba(245,166,35,.4); background:var(--gatebg); color:var(--gate); border-radius:12px; font-size:13.5px">
+    <b>Preview mode.</b> This is the side-panel preview, where the browser blocks saving — your ticks here won't be remembered. To save your progress for good, open <b>qa-checklist.html</b> in a real browser tab.
+  </div>
   <div class="intro">
     <h2>Eight phases. One step at a time.</h2>
     <p>Tick each step as you confirm it works. Your progress is saved in this browser automatically — close the tab and your ticks will still be here when you come back. Each phase ends with an amber <b>Sign-off</b> gate: only tick that once you're happy to move on.</p>
@@ -227,7 +230,18 @@ const DATA = [
 ];
 
 const KEY = "sero-p2p-checklist-v1";
-let state = JSON.parse(localStorage.getItem(KEY) || "{}");
+// Safe storage: real localStorage when allowed, in-memory fallback when the
+// page runs in a sandboxed preview frame (where localStorage is blocked).
+const store = (()=>{
+  try{
+    const t="__sero_test__"; window.localStorage.setItem(t,"1"); window.localStorage.removeItem(t);
+    return { get:()=>window.localStorage.getItem(KEY), set:v=>window.localStorage.setItem(KEY,v), del:()=>window.localStorage.removeItem(KEY), persistent:true };
+  }catch(e){
+    let mem=null;
+    return { get:()=>mem, set:v=>{mem=v;}, del:()=>{mem=null;}, persistent:false };
+  }
+})();
+let state = JSON.parse(store.get() || "{}");
 const app = document.getElementById("app");
 
 function id(p, s){ return `p${p}s${s}`; }
@@ -285,7 +299,7 @@ function render(){
     cb.addEventListener("change", e=>{
       const cidv = e.target.dataset.id;
       if(e.target.checked) state[cidv]=true; else delete state[cidv];
-      localStorage.setItem(KEY, JSON.stringify(state));
+      store.set(JSON.stringify(state));
       document.getElementById("row-"+cidv).classList.toggle("done", e.target.checked);
       flashSaved();
       updateMeters();
@@ -330,10 +344,11 @@ function flashSaved(){
 
 document.getElementById("resetBtn").addEventListener("click", ()=>{
   if(confirm("Clear all your ticks? This can't be undone.")){
-    state={}; localStorage.removeItem(KEY); render();
+    state={}; store.del(); render();
   }
 });
 
+if(!store.persistent){ document.getElementById("previewNote").style.display="block"; }
 render();
 </script>
 </body>
