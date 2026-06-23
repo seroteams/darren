@@ -1,6 +1,6 @@
 # Phase 1 — The reorg (done in small, checkable steps)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 in progress (step 1)
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ all steps agent-verified — awaiting Carl's QA walk + sign-off
 
 ## Goal
 Move every file into its room (`backend` / `admin` / `frontend` / `content` / `docs`), add the address book `backend/engine/paths.js`, and repoint every reference — so the app, CLI, and tests behave identically.
@@ -24,12 +24,14 @@ Carl wants **small numbered steps with a check between each**, not one big move.
 | `scripts/` `evals/` `logs/` + root build/config | *(unchanged)* |
 
 ## Steps (each is its own checkpoint — green before the next)
-1. **Docs room** — `git mv plans/ docs/plans/`, `git mv archives/ docs/archives/`; repoint the one reference (`eslint.config.js` ignore glob `archives/**` → `docs/archives/**`). No code imports these, so tests/app/CLI are unaffected. ← **DOING THIS ONE**
-2. **Scaffold + address book** — create `backend/ admin/ content/` and the `frontend/` placeholder (README); add `backend/engine/paths.js` defining each data root. Additive only — nothing reads it yet.
-3. **Content room** — move `prompts/ questions/ lexicons/ scenarios/ config/ data/ notes/ axes.json focus-points.json` → `content/`; repoint every engine/server/script read (via `paths.js` or fixed relative paths).
-4. **Backend room** — move `src/ → backend/engine/`, `frontend/server/ → backend/api/`, `cli.js → backend/cli.js`; fix internal requires + `package.json` script paths (`dev`, `start`, `cli`).
-5. **Admin room** — move `frontend/client/ → admin/`; update `vite.config.js` (root, alias, outDir) + `eslint.config.js` globs; leave `frontend/` as the empty placeholder.
-6. **Cleanup & sweep** — `git mv smoke-test.js scripts/`; update `.gitignore` (`admin/dist`); grep-sweep for any stray old paths; final `npm test` (30/30) + offline replay + owner full-run walk.
+1. ✅ **Docs room** — `git mv plans/ docs/plans/`, `git mv archives/ docs/archives/`; repoint the one reference (`eslint.config.js` ignore glob). Committed `6020d7b`.
+2. ✅ **Address book** — added `backend/engine/paths.js` (every data root in one place). Committed `a68556f`. (Skipped empty `admin/`/`content/` folders + `frontend/` placeholder README — git ignores empty dirs, and those get created when files move in (steps 3b/5); the `frontend/` README belongs in step 5 when the live app actually leaves `frontend/`.)
+3. ✅ **Content room** — split for safety (read-sites were far more than first scoped + touch the content-lock machinery + non-test-covered scripts):
+   - **3a** ✅ — wired the engine's content reads through `paths.js`, moved nothing (`CONTENT_DIR === ROOT`, byte-identical). Committed `781731e`.
+   - **3b** ✅ — `git mv` the nine content roots into `content/`, flipped `CONTENT_DIR → ROOT/content`, repointed the scripts, grep-swept. Committed `b297412`.
+4. ✅ **Backend room** — moved `src/ → backend/engine/`, `frontend/server/ → backend/api/`, `cli.js → backend/cli.js`; fixed requires + `package.json` + vite alias + several `__dirname`-relative paths the move broke (`.env`, logs, pipeline-lock, cli `./src`). Committed `00d2a75`.
+5. ✅ **Admin room** — moved `frontend/client/ → admin/`; updated `vite.config.js` (root, outDir) + server `CLIENT_DIST` + `eslint.config.js` globs + `.gitignore`; `frontend/` is now the placeholder + README. Committed `62af687`.
+6. ✅ **Cleanup & sweep** — fixed the last stale path references (source files read as text); updated `README.md` + `docs/STRUCTURE.md`; final grep sweep clean. Committed `c4fac17`. (`smoke-test.js → scripts/` **parked** — see PLAN.md Parked.)
 
 ## Not in this phase
 - No renaming for clarity, no logic edits, no file splits, no dependency upgrades.
@@ -37,10 +39,10 @@ Carl wants **small numbered steps with a check between each**, not one big move.
 - No real admin/customer code split.
 
 ## Done when (whole phase)
-- [ ] `npm test` → 30/30 (same as baseline).
-- [ ] `node scripts/replay-scenario.js 001-priya-perf-feedback --fixtures-only` runs clean.
-- [ ] No leftover references to old paths (grep clean).
-- [ ] Product owner has walked the scenarios and said go.
+- [x] `npm test` → 30/30 (same as baseline). ✅
+- [x] `node scripts/replay-scenario.js 001-priya-perf-feedback --fixtures-only` runs clean. ✅
+- [x] No leftover references to old paths (grep clean). ✅
+- [ ] Product owner has walked the scenarios and said go. ← **Carl: this is the one left**
 
 ---
 
