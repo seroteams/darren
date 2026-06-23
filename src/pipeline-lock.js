@@ -3,6 +3,8 @@ const path = require("node:path");
 const crypto = require("node:crypto");
 const { execSync } = require("node:child_process");
 
+const { CONTENT_DIR } = require("../backend/engine/paths");
+
 const ROOT = path.join(__dirname, "..");
 const LOCK_FILE = "pipeline-lock.json";
 
@@ -88,13 +90,13 @@ function walkYamlDir(absDir, relPrefix) {
 
 function listManifestPaths() {
   const paths = new Set(Object.keys(PATH_META));
-  for (const rel of walkYamlDir(path.join(ROOT, "questions"), "questions")) {
+  for (const rel of walkYamlDir(path.join(CONTENT_DIR, "questions"), "questions")) {
     paths.add(rel);
     if (!PATH_META[rel]) {
       PATH_META[rel] = { tier: "content", stageLabel: "Question seeds" };
     }
   }
-  for (const rel of walkYamlDir(path.join(ROOT, "lexicons"), "lexicons")) {
+  for (const rel of walkYamlDir(path.join(CONTENT_DIR, "lexicons"), "lexicons")) {
     paths.add(rel);
     if (!PATH_META[rel]) {
       PATH_META[rel] = { tier: "content", stageLabel: "Conversation lexicon" };
@@ -152,7 +154,7 @@ function readGitInfo() {
 function capturePipelineLock() {
   const files = {};
   for (const rel of listManifestPaths()) {
-    const abs = path.join(ROOT, rel);
+    const abs = path.join(CONTENT_DIR, rel);
     if (!fs.existsSync(abs)) continue;
     try {
       files[rel] = hashFile(abs);

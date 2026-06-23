@@ -2,6 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const questions = require("./questions");
+const { DATA_DIR } = require("../backend/engine/paths");
 
 // Arc overlays — a manager's edits to a 1:1 Type's arc live in a sidecar file,
 // `data/arc-overlays/<slug>.json`, NEVER in the canonical `type.js`. The registry
@@ -9,8 +10,7 @@ const questions = require("./questions");
 // so the originals stay pristine and "reset" is just deleting the overlay.
 // Same null-safe / atomic-write posture as the role-profile overlay.
 
-const ROOT = path.join(__dirname, "..");
-const OVERLAYS_DIR = path.join(ROOT, "data", "arc-overlays");
+const OVERLAYS_DIR = path.join(DATA_DIR, "arc-overlays");
 const OVERLAY_VERSION = 1;
 
 // Type slugs are lower_snake (bi_weekly_check_in). Guards the path against traversal.

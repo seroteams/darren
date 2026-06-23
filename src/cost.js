@@ -1,7 +1,8 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const { DATA_DIR } = require("../backend/engine/paths");
 
-const PRICING_PATH = path.join(__dirname, "..", "data", "openai-models.json");
+const PRICING_PATH = path.join(DATA_DIR, "openai-models.json");
 
 let _pricing = null;
 

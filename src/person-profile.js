@@ -1,8 +1,9 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { walkRuns, reviewSummaryOf } = require("./run-history");
+const { DATA_DIR } = require("../backend/engine/paths");
 
-const PEOPLE_ROOT = path.join(__dirname, "..", "data", "people");
+const PEOPLE_ROOT = path.join(DATA_DIR, "people");
 const AXIS_ORDER = ["wellbeing", "engagement", "clarity", "growth"];
 
 // Group key. "Maya" and "Maya Chen" stay two people until a real person id

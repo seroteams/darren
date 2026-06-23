@@ -1,8 +1,9 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const YAML = require("yaml");
+const { LEXICONS_DIR } = require("../../backend/engine/paths");
 
-const SUGGESTED_DIR = path.join(__dirname, "..", "..", "lexicons", "_suggested");
+const SUGGESTED_DIR = path.join(LEXICONS_DIR, "_suggested");
 
 function ensureCandidateDoc(filePath, scope) {
   let doc = null;

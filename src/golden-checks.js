@@ -6,10 +6,11 @@ const { validateQuestionBeforeShow, startsWithBrokenFragment } = require("./ques
 const { applyManagerBriefingPostProcess } = require("./reviewer");
 const { isRelationalArc } = require("./relational-arcs");
 const { AXIS_IDS, AXIS_MIN, AXIS_MAX } = require("./axes");
+const { FOCUS_POINTS_FILE } = require("../backend/engine/paths");
 
 // Focus catalogue category lookup (id -> category) for the relational-arc gate.
 const FOCUS_CATALOGUE = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "..", "focus-points.json"), "utf8")
+  fs.readFileSync(FOCUS_POINTS_FILE, "utf8")
 );
 const FOCUS_CATEGORY_BY_ID = new Map(
   (FOCUS_CATALOGUE.focus_points || []).map((fp) => [fp.id, fp.category])

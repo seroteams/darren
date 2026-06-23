@@ -9,10 +9,10 @@ const { logStage } = require("./session");
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
 const { isRelationalArc } = require("./relational-arcs");
+const { DATA_DIR, PROMPTS_DIR } = require("../backend/engine/paths");
 
-const ROOT = path.join(__dirname, "..");
-const PROFILES_DIR = path.join(ROOT, "data", "role-profiles");
-const PROMPT_PATH = path.join(ROOT, "prompts", "generate-role-profile.md");
+const PROFILES_DIR = path.join(DATA_DIR, "role-profiles");
+const PROMPT_PATH = path.join(PROMPTS_DIR, "generate-role-profile.md");
 const PROFILE_VERSION = 1;
 
 const FALLBACK_BLOCK =

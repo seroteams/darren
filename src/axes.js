@@ -1,7 +1,8 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const { AXES_FILE } = require("../backend/engine/paths");
 
-const AXES_PATH = path.join(__dirname, "..", "axes.json");
+const AXES_PATH = AXES_FILE;
 
 const SCORE_CLAMP = 10;
 const AXIS_MIN = -SCORE_CLAMP;

@@ -1,9 +1,8 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const YAML = require("yaml");
+const { LEXICONS_DIR } = require("../backend/engine/paths");
 
-const ROOT = path.join(__dirname, "..");
-const LEXICONS_DIR = path.join(ROOT, "lexicons");
 const CANDIDATES_DIR = path.join(LEXICONS_DIR, "_candidates");
 
 const EMPTY = { preferTerms: [], preferPhrases: [], avoidPhrases: [] };

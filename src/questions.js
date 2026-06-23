@@ -1,7 +1,8 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const { QUESTIONS_DIR } = require("../backend/engine/paths");
 
-const QUESTIONS_ROOT = path.join(__dirname, "..", "questions");
+const QUESTIONS_ROOT = QUESTIONS_DIR;
 const INDEX_PATH = path.join(QUESTIONS_ROOT, "_index.json");
 const OPENERS_PATH = path.join(QUESTIONS_ROOT, "_openers.json");
 

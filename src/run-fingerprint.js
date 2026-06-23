@@ -1,10 +1,9 @@
 const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
+const { PROMPTS_DIR, CONFIG_DIR } = require("../backend/engine/paths");
 
-const ROOT = path.join(__dirname, "..");
-const PROMPTS_DIR = path.join(ROOT, "prompts");
-const MODELS_PATH = path.join(ROOT, "config", "models.json");
+const MODELS_PATH = path.join(CONFIG_DIR, "models.json");
 
 function shortHash(text) {
   return crypto.createHash("sha256").update(text).digest("hex").slice(0, 8);

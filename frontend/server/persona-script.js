@@ -1,7 +1,8 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const { CONFIG_DIR } = require("../../backend/engine/paths");
 
-const BENCH_PATH = path.join(__dirname, "..", "..", "config", "persona-bench-v1.json");
+const BENCH_PATH = path.join(CONFIG_DIR, "persona-bench-v1.json");
 
 let cached = null;
 

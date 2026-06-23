@@ -1,7 +1,7 @@
 const path = require("node:path");
+const { PROMPTS_DIR } = require("../../../backend/engine/paths");
 
-// Repo-level prompts/ directory. __dirname = src/one-on-one-types/_shared
-const PROMPTS_DIR = path.join(__dirname, "..", "..", "..", "prompts");
+// Repo-level prompts/ directory.
 
 // Default ("house") prompt set every 1:1 Type inherits. A Type overrides a slot
 // by setting its own absolute path (e.g. src/one-on-one-types/growth/prompts/final-evaluation.md).

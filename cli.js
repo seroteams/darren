@@ -10,6 +10,7 @@ const { buildPipelineStatus } = require("./src/pipeline-lock");
 const { reviewSession: reviewLexiconSession } = require("./src/lexicon-reviewer");
 const { loadIntroQueue } = require("./src/intro-queue");
 const { ensureRoleProfile } = require("./src/role-profile");
+const { NOTES_DIR } = require("./backend/engine/paths");
 const cost = require("./src/cost");
 const { runFocusPointsStage } = require("./src/cli/stages/focus-points");
 const { runPreparationStage } = require("./src/cli/stages/preparation");
@@ -91,7 +92,7 @@ async function main() {
 
   try {
     const lines = fs
-      .readFileSync(path.join(__dirname, "notes", "whats-new.md"), "utf8")
+      .readFileSync(path.join(NOTES_DIR, "whats-new.md"), "utf8")
       .split("\n")
       .map((l) => l.trim())
       .filter(Boolean);

@@ -1,10 +1,10 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const YAML = require("yaml");
+const { LEXICONS_DIR } = require("../../backend/engine/paths");
 
-const ROOT = path.join(__dirname, "..", "..");
-const CAND_DIR = path.join(ROOT, "lexicons", "_candidates");
-const LEX_DIR = path.join(ROOT, "lexicons");
+const CAND_DIR = path.join(LEXICONS_DIR, "_candidates");
+const LEX_DIR = LEXICONS_DIR;
 
 function readYaml(filePath) {
   try {

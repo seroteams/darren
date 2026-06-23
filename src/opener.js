@@ -3,8 +3,9 @@ const path = require("node:path");
 const { slugify } = require("./questions");
 const { getArc } = require("./meeting-arcs");
 const { checkQuestionEligibility, rejectionEntry } = require("./question-eligibility");
+const { QUESTIONS_DIR } = require("../backend/engine/paths");
 
-const OPENERS_FILE = path.join(__dirname, "../questions/_openers.json");
+const OPENERS_FILE = path.join(QUESTIONS_DIR, "_openers.json");
 
 const HEAVY_NOTES_RE = /\boff\b|heavy|hard|struggl|burnt|tired|quiet|withdrawn|distant|stress|worried|concern/i;
 

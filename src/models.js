@@ -1,7 +1,8 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const { CONFIG_DIR } = require("../backend/engine/paths");
 
-const CONFIG_PATH = path.join(__dirname, "..", "config", "models.json");
+const CONFIG_PATH = path.join(CONFIG_DIR, "models.json");
 const FALLBACK_MODEL = "gpt-4o-mini";
 
 const STAGES = ["focus_points", "preparation", "bank", "planner", "evaluation", "role_profile"];

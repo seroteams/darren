@@ -1,11 +1,10 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { parse: parseYaml } = require("yaml");
-
-const ROOT = path.join(__dirname, "..");
+const { CONTENT_DIR } = require("../backend/engine/paths");
 
 function loadNotes(notesPath) {
-  const full = path.isAbsolute(notesPath) ? notesPath : path.join(ROOT, notesPath);
+  const full = path.isAbsolute(notesPath) ? notesPath : path.join(CONTENT_DIR, notesPath);
   if (!fs.existsSync(full)) return { rules: [] };
   const doc = parseYaml(fs.readFileSync(full, "utf8"));
   return { path: full, rules: Array.isArray(doc?.rules) ? doc.rules : [] };

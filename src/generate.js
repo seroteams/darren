@@ -4,9 +4,9 @@ const path = require("node:path");
 const { logStage } = require("./session");
 const { promptFor } = require("./one-on-one-types");
 const { splitSystemUser } = require("./prompt-utils");
+const { FOCUS_POINTS_FILE } = require("../backend/engine/paths");
 
-const ROOT = path.join(__dirname, "..");
-const FOCUS_POINTS_PATH = path.join(ROOT, "focus-points.json");
+const FOCUS_POINTS_PATH = FOCUS_POINTS_FILE;
 
 const CATALOGUE = JSON.parse(fs.readFileSync(FOCUS_POINTS_PATH, "utf8"));
 
