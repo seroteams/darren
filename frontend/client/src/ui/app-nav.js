@@ -28,6 +28,7 @@ const ICON = {
   arcs: icon(`<circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 6h6a3 3 0 0 1 3 3v.5"/><path d="M7 18h6a3 3 0 0 0 3-3v-.5"/>`),
   regression: icon(`<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>`),
   guide: icon(`<path d="M12 7.5v13"/><path d="M3 18.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v12.5a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>`),
+  checklist: icon(`<path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/>`),
 };
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
@@ -41,6 +42,7 @@ const LINKS = [
   { key: "lexicon", label: "Coaching phrases", stage: STAGES.LEXICON_REVIEW, icon: ICON.lexicon },
   { key: "joblex", label: "Role words", stage: STAGES.ROLE_LEXICONS, icon: ICON.joblex },
   { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs },
+  { key: "checklist", label: "Build plan", stage: STAGES.CHECKLIST, icon: ICON.checklist },
 ];
 
 export function createAppNav({ setState, resetSession } = {}) {
@@ -83,6 +85,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     lexicon: () => setState && setState({ stage: STAGES.LEXICON_REVIEW }),
     joblex: () => setState && setState({ stage: STAGES.ROLE_LEXICONS }),
     arcs: () => setState && setState({ stage: STAGES.MEETING_ARCS }),
+    checklist: () => setState && setState({ stage: STAGES.CHECKLIST }),
     guide: () => setState && setState({ stage: STAGES.GUIDE }),
   };
 
@@ -99,6 +102,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.LEXICON_REVIEW]: "lexicon",
     [STAGES.ROLE_LEXICONS]: "joblex",
     [STAGES.MEETING_ARCS]: "arcs",
+    [STAGES.CHECKLIST]: "checklist",
     [STAGES.GUIDE]: "guide",
   };
 
