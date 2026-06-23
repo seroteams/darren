@@ -30,6 +30,7 @@ const loaders = {
   PERSONAS:        () => import("./stages/personas.js"),
   REVIEW_RUN:      () => import("./stages/review-run.js"),
   GUIDE:           () => import("./stages/guide.js"),
+  TODO:            () => import("./stages/todo.js"),
   ERROR:           () => import("./stages/error.js"),
 };
 

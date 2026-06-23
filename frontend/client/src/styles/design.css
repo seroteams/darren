@@ -3588,3 +3588,145 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
 .brutal__badge--private { background: var(--color-warning-soft, rgba(190,120,20,0.14)); color: var(--color-warning, #b5790f); }
 .brutal--private { border-left: 3px solid var(--color-warning, #b5790f); }
 .brutal__note { margin-top: 0.4rem; font-size: var(--type-body-sm); color: var(--color-ink-mute); font-style: italic; }
+
+/* ── Build plan (todo.js) — the prototype → production checklist ───────────── */
+.todo-overall {
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-3);
+  margin-top: var(--sero-space-3);
+}
+.todo-overall__pct {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink);
+  min-width: 2.6rem;
+}
+.todo-bar {
+  display: block;
+  flex: 1;
+  height: 4px;
+  background: var(--color-border);
+  border-radius: var(--sero-radius-full);
+  overflow: hidden;
+}
+.todo-bar--lg { height: 6px; }
+.todo-bar > i {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: var(--sero-radius-full);
+  background: var(--color-accent);
+  transition: width var(--dur-medium) var(--ease-out-expo);
+}
+
+.todo-phases {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-3);
+}
+.todo-phase {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+.todo-phase.is-complete { border-color: color-mix(in srgb, var(--color-positive) 45%, var(--color-border)); }
+
+.todo-phase__head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sero-space-3);
+  width: 100%;
+  padding: var(--sero-space-4);
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+.todo-phase__num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: var(--sero-radius-card);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  font-weight: var(--type-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+.todo-phase.is-complete .todo-phase__num {
+  background: color-mix(in srgb, var(--color-positive) 14%, transparent);
+  color: var(--color-positive);
+}
+.todo-phase__title { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.25rem; }
+.todo-phase__name { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+.todo-phase__tag { color: var(--color-ink-mute); font-weight: var(--type-weight-regular); font-size: var(--type-body-sm); }
+.todo-phase__goal { color: var(--color-ink-dim); font-size: var(--type-body-sm); }
+.todo-phase__meter { display: flex; align-items: center; gap: var(--sero-space-2); margin-top: 0.3rem; max-width: 26rem; }
+.todo-phase__count { color: var(--color-ink-mute); font-size: var(--type-body-sm); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.todo-phase__chev { flex: none; color: var(--color-ink-mute); transition: transform var(--dur-fast, 160ms) ease; margin-top: 0.2rem; }
+.todo-phase.is-open .todo-phase__chev { transform: rotate(180deg); }
+
+.todo-phase__steps { display: none; padding: 0 var(--sero-space-4) var(--sero-space-2); }
+.todo-phase.is-open .todo-phase__steps { display: block; }
+
+.todo-row {
+  display: flex;
+  gap: var(--sero-space-3);
+  padding: var(--sero-space-3) 0;
+  border-top: 1px solid var(--color-border);
+}
+.todo-cb { flex: none; display: inline-flex; cursor: pointer; padding-top: 0.1rem; }
+.todo-cb input { position: absolute; opacity: 0; width: 0; height: 0; }
+.todo-tick {
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: var(--sero-radius-sm);
+  background: var(--color-surface);
+  transition: all 140ms ease;
+}
+.todo-cb:hover .todo-tick { border-color: var(--color-accent); }
+.todo-tick svg { width: 0.85rem; height: 0.85rem; color: #fff; opacity: 0; transform: scale(0.6); transition: all 140ms ease; }
+.todo-cb input:checked + .todo-tick { background: var(--color-positive); border-color: var(--color-positive); }
+.todo-cb input:checked + .todo-tick svg { opacity: 1; transform: scale(1); }
+.todo-cb input:focus-visible + .todo-tick { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+.todo-row__body { flex: 1; min-width: 0; }
+.todo-row__feat { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+.todo-row.is-done .todo-row__feat { color: var(--color-ink-mute); text-decoration: line-through; }
+.todo-step-no { color: var(--color-ink-mute); font-variant-numeric: tabular-nums; font-size: var(--type-body-sm); margin-right: 0.5rem; }
+.todo-row__means { margin: 0.2rem 0 0; color: var(--color-ink-dim); font-size: var(--type-body-sm); }
+.todo-row__meta { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; margin-top: 0.5rem; }
+.todo-row__meta > div { font-size: var(--type-body-sm); }
+.todo-k { color: var(--color-ink-mute); margin-right: 0.45rem; }
+.todo-k::after { content: ":"; }
+.todo-v { color: var(--color-ink); }
+.todo-v--check { color: var(--color-positive); }
+
+.todo-gate-wrap {
+  margin: var(--sero-space-2) calc(-1 * var(--sero-space-4)) 0;
+  padding: 0 var(--sero-space-4);
+  background: var(--color-warning-soft, rgba(190,120,20,0.10));
+}
+.todo-row--gate { border-top-color: color-mix(in srgb, var(--color-amber) 35%, var(--color-border)); }
+.todo-row--gate .todo-row__feat { color: var(--color-amber); }
+.todo-row--gate .todo-cb input:checked + .todo-tick { background: var(--color-amber); border-color: var(--color-amber); }
+.todo-gate-tag {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--color-amber) 45%, transparent);
+  border-radius: var(--sero-radius-sm);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+  font-weight: var(--type-weight-regular);
+}
