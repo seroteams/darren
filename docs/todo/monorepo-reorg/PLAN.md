@@ -20,7 +20,7 @@
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Baseline:** `npm test` → 30/30 passed (2026-06-24, free/offline). Map approved by Carl (app → `admin/`; tooling `scripts/`+`evals/`+`logs/` stay at root). A previous run-ahead had copied most of the reorg into untracked `admin/`/`backend/`/`content/` — those were byte-identical duplicates (zero unique work) and have been **deleted** to restore the clean baseline. Phase 1 now runs in **6 small steps with a check between each** (Carl's call). **Doing:** Step 1 (move docs room). **Next:** Carl walks the Step 1 QA scenario and green-lights before Step 2.
+**Baseline:** `npm test` → 30/30 passed (2026-06-24, free/offline). Map approved by Carl (app → `admin/`; tooling `scripts/`+`evals/`+`logs/` stay at root). A previous run-ahead had copied most of the reorg into untracked `admin/`/`backend/`/`content/` — those were byte-identical duplicates (zero unique work) and have been **deleted** to restore the clean baseline. Phase 1 now runs in **6 small steps with a check between each** (Carl's call). **Step 1 ✅** (move docs room) — committed `6020d7b`, Carl green-lit, `npm test` 30/30. **Next:** Step 2 (scaffold rooms + `backend/engine/paths.js` address book) — awaiting Carl's go.
 
 ## Decisions (Carl, 2026-06-23)
 - Today's tangled web app moves whole into **`admin/`**; new **`frontend/`** is an empty placeholder for the future customer app (Phase 007). Matches the layout locked 19-Jun.
