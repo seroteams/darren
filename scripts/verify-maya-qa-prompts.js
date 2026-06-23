@@ -12,7 +12,7 @@ const evalMd = fs.readFileSync(
   path.join(PROMPTS_DIR, "final-evaluation.md"),
   "utf8"
 );
-const qm = fs.readFileSync(path.join(ROOT, "src", "queue-manager.js"), "utf8");
+const qm = fs.readFileSync(path.join(ROOT, "backend", "engine", "queue-manager.js"), "utf8");
 
 function ok(label, cond) {
   console.log(`  ${cond ? "PASS" : "FAIL"}  ${label}`);

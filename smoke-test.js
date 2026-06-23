@@ -73,12 +73,12 @@ function unitChecks() {
 
   // 3. Prompt placeholder coverage — every {{X}} in a prompt file has a .replace call in its src file
   const PROMPT_SRC_MAP = {
-    "prompts/generate-focus-points.md": "src/generate.js",
-    "prompts/generate-questions.md":    "src/question-generator.js",
-    "prompts/plan-turn.md":             "src/queue-manager.js",
-    "prompts/preparation.md":           "src/preparation.js",
-    "prompts/final-evaluation.md":      "src/reviewer.js",
-    "prompts/generate-role-profile.md": "src/role-profile.js",
+    "prompts/generate-focus-points.md": "backend/engine/generate.js",
+    "prompts/generate-questions.md":    "backend/engine/question-generator.js",
+    "prompts/plan-turn.md":             "backend/engine/queue-manager.js",
+    "prompts/preparation.md":           "backend/engine/preparation.js",
+    "prompts/final-evaluation.md":      "backend/engine/reviewer.js",
+    "prompts/generate-role-profile.md": "backend/engine/role-profile.js",
   };
   for (const [promptFile, srcFile] of Object.entries(PROMPT_SRC_MAP)) {
     try {

@@ -20,14 +20,14 @@ function main() {
   console.log("\n─── Manual QA code-path checks ───\n");
   let failed = 0;
 
-  const focus = read("frontend/client/src/stages/focus-points.js");
+  const focus = read("admin/src/stages/focus-points.js");
   failed += ok("FX-53 Regenerate bumps stageTick", /regenerateFocusPoints|stageTick/.test(focus));
   failed += ok("FX-53 regenerate query param", /set\("regenerate",\s*"1"\)/.test(focus));
 
-  const lexicon = read("frontend/client/src/stages/lexicon-review.js");
+  const lexicon = read("admin/src/stages/lexicon-review.js");
   failed += ok("LF-6 Promote button in lexicon review", /promote|Promote/.test(lexicon));
 
-  const promoteCore = fs.existsSync(path.join(ROOT, "src/lexicon/promote-core.js"));
+  const promoteCore = fs.existsSync(path.join(ROOT, "backend/engine/lexicon/promote-core.js"));
   failed += ok("LF-6 promote-core module", promoteCore);
 
   if (failed) {

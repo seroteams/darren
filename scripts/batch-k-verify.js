@@ -93,10 +93,10 @@ function checkPromptAndUi() {
   failed += ok("misalignment type", plan.includes("**Misalignment**"));
   failed += ok("coverage hard rule", plan.includes("Coverage (hard at turn 4+)"));
 
-  const questioning = fs.readFileSync(path.join(ROOT, "frontend/client/src/stages/questioning.js"), "utf8");
+  const questioning = fs.readFileSync(path.join(ROOT, "admin/src/stages/questioning.js"), "utf8");
   failed += ok("questioning axes panel", questioning.includes("axes-host"));
 
-  const briefing = fs.readFileSync(path.join(ROOT, "frontend/client/src/stages/briefing.js"), "utf8");
+  const briefing = fs.readFileSync(path.join(ROOT, "admin/src/stages/briefing.js"), "utf8");
   failed += ok("briefing axes explainer", briefing.includes("not word count"));
   return failed;
 }
