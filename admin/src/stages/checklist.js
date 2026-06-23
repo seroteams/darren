@@ -19,13 +19,13 @@ const DATA = [
   { num: "001", name: "Tidy the project", tag: "Monorepo Reorg",
     goal: "Pure spring-cleaning: every file moves into a clearly labelled room. Nothing your users see changes.",
     steps: [
-      { f: "Labelled rooms", m: "Five named rooms: backend (brain), admin (your screens), frontend (future app), content (words/questions), docs (plans). Junk drawer to labelled drawers.", have: "Five named folders", c: "Folders exist and the tests still pass", s: "doing" },
+      { f: "Labelled rooms", m: "Five named rooms: backend (brain), admin (your screens), frontend (future app), content (words/questions), docs (plans). Junk drawer to labelled drawers.", have: "Five named folders", c: "Folders exist and the tests still pass", s: "done" },
       { f: "One address book for data", m: "Every file location written once in a single file. Change an address once and everything follows.", have: "One file listing where data lives", c: "App and command-line tool both read locations from that one file", s: "done" },
-      { f: "The brain moves house", m: "The core engine moves into the backend room and every signpost is updated.", have: "Engine in its proper room", c: "Tests green, no broken links" },
-      { f: "The content moves house", m: "All the product's words (questions, prompts, scenarios) move into the content room.", have: "Questions and prompts in the content room", c: "A run still loads its questions and tests stay green", s: "doing" },
-      { f: "Two apps get their own rooms", m: "The customer server and your internal screens are separated so product and tool stop being tangled.", have: "Server and screens separated", c: "App starts and one full run works" },
+      { f: "The brain moves house", m: "The core engine moves into the backend room and every signpost is updated.", have: "Engine in its proper room", c: "Tests green, no broken links", s: "done" },
+      { f: "The content moves house", m: "All the product's words (questions, prompts, scenarios) move into the content room.", have: "Questions and prompts in the content room", c: "A run still loads its questions and tests stay green", s: "done" },
+      { f: "Two apps get their own rooms", m: "The customer server and your internal screens are separated so product and tool stop being tangled.", have: "Server and screens separated", c: "App starts and one full run works", s: "done" },
       { f: "The paperwork gets filed", m: "All plans, notes and references move into the docs room.", have: "Everything filed under docs", c: "Docs are under docs/ and nothing points at old spots", s: "done" },
-      { f: "Throw out the junk", m: "Delete leftover clutter and update the build settings to match the new layout.", have: "A clean project", c: "Tests green, build runs, code checker passes" },
+      { f: "Throw out the junk", m: "Delete leftover clutter and update the build settings to match the new layout.", have: "A clean project", c: "Tests green, build runs, code checker passes", s: "done" },
     ],
     signoff: "Tests green (same count as before) · app starts and a full run works · the command-line replay runs clean · the product behaves identically to before." },
 
