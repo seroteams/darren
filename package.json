@@ -10,6 +10,7 @@
     "cli": "node backend/cli.js",
     "test": "node scripts/run-tests.js",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
     "smoke": "node smoke-test.js",
     "eval": "node scripts/eval.js",
     "gate": "node scripts/gate.js",
@@ -28,6 +29,7 @@
     "globals": "^15.14.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
+    "typescript": "^6.0.3",
     "vite": "^6.0.3"
   },
   "dependencies": {

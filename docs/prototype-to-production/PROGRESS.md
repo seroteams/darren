@@ -12,8 +12,9 @@
 - **Last updated:** 2026-06-24
 
 ## Next up (this can change as we learn)
-**Carl's QA on step 3** (rulebooks written): read both skills, confirm the right one fits backend vs
-frontend work. Then I commit step 3 and start **step 4 — TypeScript tooling + mirrored test layout**.
+**Carl's QA on step 4** (safety tooling): rails laid. Then I commit step 4 and start **step 5 — wire
+`CLAUDE.md` to the rulebooks + one tiny test-first proof change** (the first real `.ts`, which also
+turns `npm run typecheck` green).
 
 ## Phase status
 | # | Phase | Status |
@@ -52,6 +53,13 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
 ## Activity log (newest first)
+- **2026-06-24** — **Phase 002 step 4 — TS safety rails laid (awaiting Carl's QA).** Added strict
+  `tsconfig.json` (`noEmit`, `allowJs:false` — existing JS untouched; conversion is Phase 003),
+  `typecheck` script + `typescript@^6` dev-dep, and the mirrored `tests/` skeleton
+  (`README` + `integration/` + `e2e/`). Strict proven on a throwaway file (caught implicit-any +
+  null-assign; passed clean code). Repo `typecheck` says "no inputs" until step 5's first `.ts`.
+  Lint exit 0 (6 pre-existing warnings); `npm test` 30/30. 1 pre-existing npm advisory left for Carl.
+  Step 3 committed `6d2694f`.
 - **2026-06-24** — **Phase 002 step 3 — two rulebooks written (awaiting Carl's QA).** Hand-authored
   `backend-conventions` + `frontend-conventions` skills in `.claude/skills/` from the locked
   conventions (no new rules invented). Both load (`npx skills ls` lists them; both surfaced

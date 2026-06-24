@@ -19,7 +19,7 @@
 | 1 | Shop around for proven rules | Borrow-vs-build survey (below) for Carl's pick | ✅ **survey done — Carl picked Option 1** |
 | 2 | Install the quality skills | Chosen TDD + security skill(s) installed; each verified to load/trigger | 🔨 **installed + agent-verified — awaiting Carl's QA** |
 | 3 | Write our own rulebooks | `backend-conventions` + `frontend-conventions` skills | 🔨 **written + load-verified — awaiting Carl's QA** |
-| 4 | Set up the safety tooling | Strict `tsconfig` + lint + mirrored `tests/` layout | ⬜ |
+| 4 | Set up the safety tooling | Strict `tsconfig` + lint + mirrored `tests/` layout | 🔨 **rails laid + strict proven — awaiting Carl's QA** |
 | 5 | Point the AI at the rules | `CLAUDE.md` wired so the right rulebook auto-loads; links resolve; one tiny test-first proof change | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -47,7 +47,23 @@ locked conventions (no new rules invented):
   honest errors (+ engine no-masking rule), mirrored test layout.
 - `.claude/skills/frontend-conventions/SKILL.md` — TS, kebab + role-suffix names, composition,
   14px text floor, plain user-facing language, mirrored test layout.
-Both load: `npx skills ls` lists them and both surfaced as available in-session. Not committed yet.
+Both load: `npx skills ls` lists them and both surfaced as available in-session. Committed `6d2694f`
+after Carl's "lets move on".
+
+**Step 4 done (this pass) — awaiting Carl's QA:** laid the TypeScript safety rails *without* touching
+existing JS (conversion is Phase 003):
+- `tsconfig.json` — `strict` on (no implicit `any`, strict null checks, `noUncheckedIndexedAccess`,
+  etc.), `noEmit` (type-check only; vite still builds), `allowJs: false` so the existing JS pile is
+  left alone.
+- `package.json` — added `typecheck` script (`tsc --noEmit`) and `typescript@^6` dev-dep.
+- `tests/` skeleton — `tests/README.md` (the mirrored-layout convention) + `tests/integration/` and
+  `tests/e2e/` (`.gitkeep`).
+- **Strict rail proven working** on a throwaway file: it caught `TS7006` (implicit any) + `TS2322`
+  (null→number) and passed clean code. Repo-wide `npm run typecheck` reports "no inputs" until the
+  first real `.ts` lands in **step 5** (by design).
+- ESLint already existed; left as-is (lint exit 0, 6 pre-existing warnings). `npm test` still **30/30**.
+- Note: npm flagged **1 pre-existing high-severity advisory** in the dep tree (not from `typescript`,
+  which has no deps). Left for Carl — `npm audit fix` is an unrelated, riskier change. Not committed yet.
 
 ---
 
