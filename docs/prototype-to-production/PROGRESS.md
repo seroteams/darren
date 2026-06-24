@@ -7,18 +7,18 @@
 ---
 
 ## Where we are now
-- **Active phase:** 001 — Monorepo reorg
+- **Active phase:** 002 — Conventions & skills
 - **Status:** `not-started` (not broken down into steps yet)
-- **Last updated:** 2026-06-19
+- **Last updated:** 2026-06-24
 
 ## Next up (this can change as we learn)
-Break **Phase 001 — Monorepo reorg** down into numbered step files inside `001-monorepo-reorg/`.
+Break **Phase 002 — Conventions & skills** down into numbered step files inside `002-convention-skills/`.
 Say **"what next?"** to do this.
 
 ## Phase status
 | # | Phase | Status |
 |---|---|---|
-| 001 | Monorepo reorg | `not-started` |
+| 001 | Monorepo reorg | `done` |
 | 002 | Conventions & skills | `not-started` |
 | 003 | TypeScript conversion | `not-started` |
 | 004 | Backend API v1 (RESTful, TDD) | `not-started` |
@@ -49,6 +49,12 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
 ## Activity log (newest first)
+- **2026-06-24** — **Phase 001 (Monorepo reorg) → `done`.** Files moved into five rooms
+  (`backend` `admin` `frontend` `content` `docs`) + address book `backend/engine/paths.js`
+  (25 engine files read locations from it). Verified: `npm test` 30/30 (= pre-move baseline),
+  offline replay clean, tree + paths correct, no stale root references. Owner walked the app +
+  CLI and signed off. Removed an empty leftover root `lexicons/` folder (untracked debris; the
+  real one is `content/lexicons/`). Plan folder moved to `docs/todo/done/monorepo-reorg/`.
 - **2026-06-19** — Reworked the plan to 8 phases: added **003 TypeScript conversion** and **008 Security**,
   renumbered backend/DB/auth/frontend accordingly, and folded in the new standards (TypeScript, TDD,
   RESTful `/api/v1/`, DB conventions + migrations, org/multi-tenant model, SSO-ready auth). Updated

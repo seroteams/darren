@@ -26,7 +26,7 @@
 
 **Verified:** `npm test` 30/30 after every step; offline replay clean; dev server boots on new paths (`backend/api` + vite root `admin`, `.env` key loads, sessions restore, `/todo` 200); `cli.js` require chain resolves; `manual-qa-verify` green; final grep sweep shows no old root-path references.
 
-**Awaiting Carl:** walk the QA scenarios (run the app + a full prep run + CLI) and tick the sign-off gate. The dev server is left running. **Not** started Phase 002 (needs your go). Then update the effort `PROGRESS.md` and move this folder to `docs/todo/done/`.
+**✅ SIGNED OFF (Carl, 2026-06-24).** Carl walked the app + full prep run + CLI and gave the go. Free checks re-run at sign-off: `npm test` 30/30, offline replay clean, five rooms + address book correct, no stale root references. Removed an empty leftover root `lexicons/` folder (untracked debris; real one is `content/lexicons/`). Effort `PROGRESS.md` updated (001 → `done`); folder moved to `docs/todo/done/`. **Not** started Phase 002 (needs your go).
 
 ## Decisions (Carl, 2026-06-23)
 - Today's tangled web app moves whole into **`admin/`**; new **`frontend/`** is an empty placeholder for the future customer app (Phase 007). Matches the layout locked 19-Jun.
