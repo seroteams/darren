@@ -31,6 +31,7 @@ function serialize(s) {
     prepOpener: s.prepOpener ?? null,
     sessionBank: s.sessionBank ?? null,
     pendingAnswer: s.pendingAnswer,
+    userDrillRequest: s.userDrillRequest ?? null,
     turnSnapshots: s.turnSnapshots ?? [],
     notes: s.notes || [],
     agendaInput: s.agendaInput ?? null,

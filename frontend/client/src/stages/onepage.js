@@ -561,7 +561,8 @@ export async function mount(root, { store, setState }) {
         <textarea class="textarea textarea--question" rows="5" placeholder="Jot what they said — your shorthand, not a transcript" data-autofocus></textarea>
       </label>
       <div class="field__actions">
-        <button class="btn js-submit" type="button">Submit answer</button>
+        <button class="btn js-submit" type="button">Continue</button>
+        <button class="btn btn--ghost js-deeper" type="button" title="Ask a follow-up on what they just said before the arc moves on">Go deeper</button>
         <button class="btn btn--ghost js-skip" type="button">Skip</button>
       </div>
       <p class="hint text-xs text-ink-mute">Enter to submit · Esc to skip</p>
@@ -577,15 +578,16 @@ export async function mount(root, { store, setState }) {
     activeEsc = (e) => { if (e.key === "Escape") { e.preventDefault(); submit(""); } };
     document.addEventListener("keydown", activeEsc);
     card.querySelector(".js-submit").addEventListener("click", () => submit(ta.value));
+    card.querySelector(".js-deeper")?.addEventListener("click", () => submit(ta.value, { drillRequest: true }));
     card.querySelector(".js-skip").addEventListener("click", () => submit(""));
 
     let submitting = false;
-    async function submit(text) {
+    async function submit(text, { drillRequest = false } = {}) {
       if (submitting) return;
       const val = text.trim();
       submitting = true;
       if (activeEsc) { document.removeEventListener("keydown", activeEsc); activeEsc = null; }
-      try { await submitAnswer(store.sessionId, val, { answerSource: "manual", alias: q.alias }); }
+      try { await submitAnswer(store.sessionId, val, { answerSource: "manual", alias: q.alias, drillRequest: drillRequest && val !== "" }); }
       catch (e) { failTo(e.message); return; }
       steps.replaceChild(settledNode(q.name, val || "(skipped)", { muted: !val }), card);
       activeQuestionCard = null;

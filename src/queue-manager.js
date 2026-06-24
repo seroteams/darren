@@ -169,6 +169,7 @@ function buildMessages({
   closerAlias,
   selectedFocus = null,
   prep = null,
+  userDrillRequest = false,
 }) {
   const template = fs.readFileSync(promptFor(ctx.meetingType, "planTurn"), "utf8");
   const arc = getArc(ctx.meetingType);
@@ -225,6 +226,7 @@ function buildMessages({
     .replaceAll("{{LAST_REALIZED_DELTAS_JSON}}", JSON.stringify(lastRealizedDeltas, null, 2))
     .replaceAll("{{CONSECUTIVE_WELLBEING_CLARIFIER_COUNT}}", String(consecutiveWellbeingClarifierCount))
     .replaceAll("{{OFF_ARC_DRILL_COUNT}}", String(offArcDrillCount))
+    .replaceAll("{{USER_DRILL_REQUEST}}", userDrillRequest ? "true" : "false")
     .replaceAll("{{IS_FINAL_TURN}}", isFinalTurn ? "true" : "false")
     .replaceAll("{{CLOSER_ALIAS}}", closerAlias || "(none)")
     .replaceAll("{{PREP_CORE_ISSUE}}", prep?.coreIssue?.trim() ? prep.coreIssue.trim() : "(none)")
@@ -980,6 +982,7 @@ async function planTurn({
   selectedFocus = null,
   prep = null,
   sessionBank = null,
+  userDrillRequest = false,
 }) {
   validateAxisState(axisState);
 
@@ -1014,6 +1017,7 @@ async function planTurn({
     closerAlias,
     selectedFocus,
     prep,
+    userDrillRequest,
   });
   const raw = await callOpenAI({ ...msgs, model });
   const parsed = parseAIJson(raw, "Queue planner", ["assessment", "new_queue"]);

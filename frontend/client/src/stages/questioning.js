@@ -132,7 +132,8 @@ export async function mount(root, { store, setState }) {
         <textarea class="textarea textarea--question" rows="5" placeholder="Jot what they said — your shorthand, not a transcript" aria-label="Your notes"></textarea>
       </label>
       <div class="field__actions">
-        <button class="btn js-submit">Submit answer</button>
+        <button class="btn js-submit">${scripted ? "Submit answer" : "Continue"}</button>
+        ${!scripted ? `<button class="btn btn--ghost js-deeper" type="button" title="Ask a follow-up on what they just said before the arc moves on">Go deeper</button>` : ""}
         <button class="btn btn--ghost js-skip">Skip</button>
         ${res.turn > 1 && !scripted ? `<button class="btn btn--ghost js-back" type="button" title="Go back and fix your last answer">Back</button>` : ""}
         ${scripted ? `<button class="btn btn--ghost js-play" type="button">Insert scripted answer</button><button class="btn btn--ghost js-play-submit" type="button">Insert & submit</button>` : ""}
@@ -171,6 +172,7 @@ export async function mount(root, { store, setState }) {
     };
     document.addEventListener("keydown", activeEscListener);
     card.querySelector(".js-submit").addEventListener("click", () => onSubmit(ta.value));
+    card.querySelector(".js-deeper")?.addEventListener("click", () => onSubmit(ta.value, { drillRequest: true }));
     card.querySelector(".js-skip").addEventListener("click", () => onSubmit(""));
 
     const backBtn = card.querySelector(".js-back");
@@ -267,13 +269,13 @@ export async function mount(root, { store, setState }) {
     }
 
     let submitting = false;
-    async function onSubmit(text) {
+    async function onSubmit(text, { drillRequest = false } = {}) {
       if (submitting) return;
       const val = text.trim();
       submitting = true;
       let result;
       try {
-        result = await submitAnswer(store.sessionId, val, { answerSource, alias: q.alias });
+        result = await submitAnswer(store.sessionId, val, { answerSource, alias: q.alias, drillRequest: drillRequest && val !== "" });
       } catch (e) {
         setState({ stage: STAGES.ERROR, error: e.message, retryStage: STAGES.QUESTIONING });
         return;

@@ -81,12 +81,12 @@ export async function suggestAnswers(sessionId) {
   return json(await fetch(`/api/suggest-answers?s=${encodeURIComponent(sessionId)}`));
 }
 
-export async function submitAnswer(sessionId, answer, { answerSource = "manual", alias = null } = {}) {
+export async function submitAnswer(sessionId, answer, { answerSource = "manual", alias = null, drillRequest = false } = {}) {
   return json(
     await fetch("/api/answer", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId, answer, answerSource, alias }),
+      body: JSON.stringify({ sessionId, answer, answerSource, alias, drillRequest }),
     })
   );
 }

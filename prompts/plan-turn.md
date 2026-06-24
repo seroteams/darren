@@ -53,6 +53,14 @@ The arc's pre-planned next item moves to position 2+ in `new_queue`. The arc res
 **BIAS: When in doubt whether something is a thread, follow it.** In testing, this rule fires too rarely — the cost of one unnecessary drill is far less than the cost of ignoring what the employee just said.
 </thread_follow_rule>
 
+<user_drill_request>
+**Manager drill request (explicit "go deeper").** When `user_drill_request` is true, the manager pressed "Go deeper" on the last answer — they are explicitly asking to stay on this thread, not advance the arc. The **first** item in `new_queue` MUST be a follow-on that drills on the last answer, built exactly like a `<thread_follow_rule>` item (`ref_alias: null`, full-sentence `name`, `grounding` quoting the note fragment, `stage` = last question's stage).
+
+This **overrides** the "Prefer keeping" rule AND the "NOT a concrete thread" exclusion above — fire the drill even when the thread feels thin, because the manager has signalled it matters. If the answer is genuinely empty (a skip), there is nothing to drill: advance normally and note `[DRILL-EMPTY]`.
+
+It does **not** override the hard rules. The drill cap (`consecutive_drill_count >= 2`), wind-down (`is_final_turn` / `remaining_budget <= 2`), and budget-starvation (`remaining_budget <= length(remaining_stages)`) still win. When one of those blocks the requested drill, advance the arc as those rules require and append `[DRILL-BLOCKED]` to `assessment.note` so the suppression is visible, never silent.
+</user_drill_request>
+
 <output_contract>
 Return one valid JSON object only.
 No prose.
@@ -465,6 +473,7 @@ Primary focus id: {{PRIMARY_FOCUS_ID}}
 - Consecutive drills at current stage: {{CONSECUTIVE_DRILL_COUNT}}
 - Consecutive wellbeing clarifiers in a row: {{CONSECUTIVE_WELLBEING_CLARIFIER_COUNT}}
 - Off-arc tangents taken this session: {{OFF_ARC_DRILL_COUNT}}
+- Manager pressed "Go deeper" on the last answer (`user_drill_request`): {{USER_DRILL_REQUEST}}
 
 **Arc progress so far (turns spent per stage):**
 

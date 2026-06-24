@@ -34,7 +34,7 @@ function recordCoverage(session, alias, answerSource) {
 
 module.exports = async function answer(c) {
   const body = await c.readBody();
-  const { sessionId, answer, answerSource, alias } = body;
+  const { sessionId, answer, answerSource, alias, drillRequest } = body;
   const session = requireSession(sessionId);
 
   if (session.turn >= session.totalBudget || session.queueRef.length === 0)
@@ -45,6 +45,10 @@ module.exports = async function answer(c) {
   const text = raw.slice(0, MAX_ANSWER_CHARS);
   const skipped = isSkip(text);
   session.pendingAnswer = { raw: text, skipped, text: skipped ? "(skipped)" : text };
+  // "Go deeper": the manager explicitly asked to drill on this answer. Meaningless
+  // on a skip (nothing to drill into), so gate on a real answer. Consumed + cleared
+  // by the next plan turn so it never carries into a later question.
+  session.userDrillRequest = !skipped && drillRequest === true;
   recordCoverage(session, alias, answerSource);
   c.json(202, { turn: session.turn + 1, skipped, truncated });
 };

@@ -57,6 +57,10 @@ module.exports = async function plan(c) {
   });
 
   session.pendingAnswer = null;
+  // Consume the "Go deeper" flag for this turn only, then clear it so it can't
+  // leak into a later question's planning.
+  const userDrillRequest = session.userDrillRequest === true;
+  session.userDrillRequest = null;
 
   const q = session.queueRef.shift();
   session.turn += 1;
@@ -99,6 +103,7 @@ module.exports = async function plan(c) {
       // Always an array: a session without a bank (e.g. rehydrated from before
       // sessionBank existed) gets "seeds only" — never the global-bank fallback.
       sessionBank: Array.isArray(session.sessionBank) ? session.sessionBank : [],
+      userDrillRequest,
     });
   } catch (e) {
     console.warn("[plan] planner failed:", e.message);
