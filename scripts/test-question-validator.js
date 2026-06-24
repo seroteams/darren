@@ -2,7 +2,7 @@
 const {
   validateQuestionBeforeShow,
   FALLBACK_STEM,
-} = require("../backend/engine/question-validator");
+} = require("../backend/engine/question-validator.ts");
 
 let failed = 0;
 

@@ -13,6 +13,10 @@ safety, not features.
   so modules agree on exact contracts.
 - `npm run typecheck` clean (no `any` in converted code) **and** `npm test` green at every step.
 - The app and CLI behave **exactly as before** — Carl walks a real run + the CLI and sees no difference.
+- **End-of-phase QA agency (Carl's instruction, 2026-06-24):** before final sign-off, run a multi-agent
+  adversarial review of **all** converted code — behaviour drift, correctness, stray `any`/`as`/`@ts-ignore`,
+  every importer specifier correct, no orphaned `.js` — then **fix everything it finds**. This runs *after*
+  the conversion is complete, before the owner-walk + paid gate case.
 
 **Out of scope (park it):** see the survey — depends on Carl's scope pick. New features, refactors,
 or behaviour changes are *never* in this phase.
@@ -21,8 +25,8 @@ or behaviour changes are *never* in this phase.
 | # | Step | What it lands | Status |
 |---|---|---|---|
 | 1 | Lock scope + strategy (survey below) + de-risk | Carl's picks + a green proof that tests can import converted `.ts` engine modules | ✅ |
-| 2 | Define shared core types | `backend/shared/` contracts — session, focus point, question, axis state, briefing, evaluation | 🔨 |
-| 3 | Convert engine leaf modules (test-first) | lowest-dependency engine files → `.ts`, tests green | ⬜ |
+| 2 | Define shared core types | `backend/shared/` contracts — session, focus point, question, axis state, briefing, evaluation | ✅ |
+| 3 | Convert engine leaf modules (test-first) | lowest-dependency engine files → `.ts`, tests green | 🔨 |
 | 4 | Convert engine core | up the dependency graph, tests green at each step | ⬜ |
 | 5 | Convert the API server | `backend/api/` → `.ts` | ⬜ |
 | 6 | Convert CLI + final sweep | `cli.ts`; remove stray `any`; `typecheck` clean repo-wide | ⬜ |
@@ -40,16 +44,15 @@ or behaviour changes are *never* in this phase.
 **explicit `.ts` specifier**, so every importer's `'./x'` must become `'./x.ts'` when `x` converts
 (including the `scripts/test-*.js` harness). CJS-require-of-`.ts` and `.ts`-import-of-CJS-`.js` both work.
 
-**Step 2 🔨 (written — awaiting Carl's walk).** Shared core types written + green:
-`backend/shared/{cost,question,briefing,session}.types.ts`. `npm run typecheck` **clean**, `npm test`
-**30/30**. All four previously-unclear shapes pinned from source (notes→`handlers/notes.js`,
-fingerprint→`run-fingerprint.js`, verdict→`handlers/verdict.js`, cost→`cost.js`) — **no** `any`/`as`/`@ts-ignore`.
-Added `cost.types.ts` (a 4th file) because both `session.tracker` and `briefing.cost` reference it.
-`Question` kept **closed** (8 fields) — for sign-off. Only `unknown`s left are two internal caches
-(`lastPlanByTurn`, `inFlight`), which is legitimate.
+**Step 2 ✅ (approved + committed `b5e94c07`).** Shared core types live:
+`backend/shared/{cost,question,briefing,session}.types.ts`. All four previously-unclear shapes pinned from
+source — **no** `any`/`as`/`@ts-ignore`. `Question` kept **closed** (8 fields).
 
-**Next (Step 3, after green light):** convert `question-validator.js` first (true leaf + already has a
-test), then `paths`, then up the order. Paid `gate` stays parked until the end-of-phase behaviour proof.
+**Step 3 🔨 (first leaf done — awaiting Carl's walk).** Converted `question-validator.js` → `.ts` end-to-end
+as the proof: ESM `export` + types (`ValidationResult`), 4 importers' specifiers flipped
+(`index` / `golden-checks` / `queue-manager` + `scripts/test-question-validator.js`), old `.js` deleted.
+`npm test` **30/30**, `typecheck` **clean**. The convert→flip→green mechanic is proven on real code.
+Next: the rest of the L0 leaves, then up the order. Paid `gate` stays parked until the end-of-phase proof.
 
 ---
 

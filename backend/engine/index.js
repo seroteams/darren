@@ -7,7 +7,7 @@ const { planTurn } = require("./queue-manager");
 const { evaluate, applyManagerBriefingPostProcess } = require("./reviewer");
 const { evaluateProductQa } = require("./product-qa");
 const { resolveSelectedFocus } = require("./selected-focus");
-const { validateQuestionBeforeShow } = require("./question-validator");
+const { validateQuestionBeforeShow } = require("./question-validator.ts");
 const budgets = require("./budgets");
 
 module.exports = {

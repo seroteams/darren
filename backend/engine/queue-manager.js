@@ -851,7 +851,7 @@ function firstQueueFollowsThread(queue, answer) {
   return followReferencesAnswer(answer, queue[0]?.name);
 }
 
-const { validateQuestionBeforeShow } = require("./question-validator");
+const { validateQuestionBeforeShow } = require("./question-validator.ts");
 
 // The mirror must quote a contiguous run of the answer's own words, clause-
 // bounded. The old version took the first three long tokens from anywhere in

@@ -3,7 +3,7 @@
 // Context-free fallback — must fit ANY conversation. Never a stem tied to a
 // specific scenario (the old "before handoff?" stem leaked test-case context
 // into unrelated sessions).
-const FALLBACK_STEM =
+export const FALLBACK_STEM =
   "What did you expect would happen there?";
 
 const VAGUE_MORE = /can you say more about what that means/i;
@@ -14,7 +14,7 @@ const VAGUE_MORE = /can you say more about what that means/i;
 // a quote the report never said.
 const MIRROR_TEMPLATE = /—\s*can you say more about/i;
 
-function normalizeMirror(s) {
+function normalizeMirror(s: string | undefined): string {
   return String(s || "")
     .toLowerCase()
     .replace(/[^a-z0-9\s'-]/g, " ")
@@ -27,7 +27,7 @@ const SUBJECT_VERB =
 const NOTE_TELEGRAPH =
   /^(thought|missed|main paths|she felt|escalates when)\b/i;
 
-function tokenSet(text) {
+function tokenSet(text: string | undefined): Set<string> {
   return new Set(
     String(text || "")
       .toLowerCase()
@@ -37,7 +37,7 @@ function tokenSet(text) {
   );
 }
 
-function overlapRatio(a, b) {
+function overlapRatio(a: string | undefined, b: string | undefined): number {
   const ta = tokenSet(a);
   const tb = tokenSet(b);
   if (!ta.size || !tb.size) return 0;
@@ -46,7 +46,7 @@ function overlapRatio(a, b) {
   return shared / Math.min(ta.size, tb.size);
 }
 
-function answerIsSubstantive(answer) {
+function answerIsSubstantive(answer: string | undefined): boolean {
   const a = String(answer || "").trim();
   if (a.length < 20) return false;
   const lower = a.toLowerCase();
@@ -55,7 +55,7 @@ function answerIsSubstantive(answer) {
   return a.split(/\s+/).length >= 8;
 }
 
-function startsWithBrokenFragment(name) {
+export function startsWithBrokenFragment(name: string | undefined): boolean {
   const s = String(name || "").trim();
   if (/^hought\b/i.test(s)) return true;
   if (/^[a-z]{4,12}\s+retry\b/i.test(s) && !/^when\b/i.test(s)) return true;
@@ -63,7 +63,13 @@ function startsWithBrokenFragment(name) {
   return false;
 }
 
-function validateQuestionBeforeShow({ name, answer } = {}) {
+export type ValidationResult =
+  | { ok: true }
+  | { ok: false; reason: string; fallback: string };
+
+export function validateQuestionBeforeShow(
+  { name, answer }: { name?: string; answer?: string } = {}
+): ValidationResult {
   const stem = String(name || "").trim();
   if (!stem) {
     return { ok: false, reason: "empty stem", fallback: FALLBACK_STEM };
@@ -92,9 +98,3 @@ function validateQuestionBeforeShow({ name, answer } = {}) {
   }
   return { ok: true };
 }
-
-module.exports = {
-  validateQuestionBeforeShow,
-  FALLBACK_STEM,
-  startsWithBrokenFragment,
-};

@@ -2,7 +2,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { validateQuestionBeforeShow, startsWithBrokenFragment } = require("./question-validator");
+const { validateQuestionBeforeShow, startsWithBrokenFragment } = require("./question-validator.ts");
 const { applyManagerBriefingPostProcess } = require("./reviewer");
 const { isRelationalArc } = require("./relational-arcs");
 const { AXIS_IDS, AXIS_MIN, AXIS_MAX } = require("./axes");
