@@ -15,10 +15,10 @@ const ROOT = path.join(__dirname, "..");
 const { loadEnv } = require("../backend/engine/env");
 loadEnv();
 
-const { MEETING_TYPES } = require("../backend/engine/meeting-types");
-const { TOTAL_BUDGET } = require("../backend/engine/budgets");
+const { MEETING_TYPES } = require("../backend/engine/meeting-types.ts");
+const { TOTAL_BUDGET } = require("../backend/engine/budgets.ts");
 const { validateBrief, generatePreparation } = require("../backend/engine/preparation");
-const { resolveSelectedFocus } = require("../backend/engine/selected-focus");
+const { resolveSelectedFocus } = require("../backend/engine/selected-focus.ts");
 const {
   runGoldenScenarioChecks,
   runQualityPrepListenFor,

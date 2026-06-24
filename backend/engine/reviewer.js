@@ -4,8 +4,8 @@ const { logStage } = require("./session");
 const { loadAxes, AXIS_IDS, AXIS_MIN, AXIS_MAX } = require("./axes");
 const { promptFor, getArc, getType } = require("./one-on-one-types");
 const { withPromptVersion } = require("./prompt-version");
-const { resolveSelectedFocus } = require("./selected-focus");
-const { splitSystemUser } = require("./prompt-utils");
+const { resolveSelectedFocus } = require("./selected-focus.ts");
+const { splitSystemUser } = require("./prompt-utils.ts");
 const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
 
 const { modelFor } = require("./models");

@@ -3,7 +3,7 @@ const path = require("node:path");
 
 const { slugify } = require("./person-profile");
 const { roleFamilyOf } = require("./lexicon");
-const { splitSystemUser } = require("./prompt-utils");
+const { splitSystemUser } = require("./prompt-utils.ts");
 const { promptVersionFor } = require("./prompt-version");
 const { logStage } = require("./session");
 const { modelFor } = require("./models");

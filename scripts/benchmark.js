@@ -15,7 +15,7 @@ loadEnv();
 
 const { getArc } = require("../backend/engine/one-on-one-types");
 const { validateBrief } = require("../backend/engine/preparation");
-const { resolveSelectedFocus } = require("../backend/engine/selected-focus");
+const { resolveSelectedFocus } = require("../backend/engine/selected-focus.ts");
 const { isSameStagePlannerDrill } = require("../backend/engine/queue-manager");
 const { stageCoverageSummary } = require("./eval-judge");
 const { isYesNoDeadEnd, isPresupposed, isMultiProbe, isTrustRisk } = require("./lint-bank");

@@ -1,5 +1,5 @@
 const path = require("node:path");
-const { MEETING_TYPES } = require("../../engine/meeting-types");
+const { MEETING_TYPES } = require("../../engine/meeting-types.ts");
 const { pickOpener } = require("../../engine/opener");
 const { appendEligibilityLog } = require("../../engine/question-eligibility");
 const { loadIntroQueue } = require("../../engine/intro-queue");

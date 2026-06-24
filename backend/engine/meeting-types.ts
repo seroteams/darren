@@ -1,4 +1,11 @@
-const MEETING_TYPES = [
+export interface MeetingType {
+  label: string;
+  badge: string | null;
+  duration: string;
+  description: string;
+}
+
+export const MEETING_TYPES: MeetingType[] = [
   {
     label: "Bi-weekly check-in",
     badge: "Recommended",
@@ -32,5 +39,3 @@ const MEETING_TYPES = [
       "First few weeks of a new joiner — how they're settling, what's still unclear, and where they need unblocking.",
   },
 ];
-
-module.exports = { MEETING_TYPES };

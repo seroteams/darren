@@ -1,7 +1,7 @@
 const { createSession } = require("../engine/session");
 const { initState } = require("../engine/axes");
 const cost = require("../engine/cost");
-const { INTRO_BUDGET, DYNAMIC_BUDGET, TOTAL_BUDGET } = require("../engine/budgets");
+const { INTRO_BUDGET, DYNAMIC_BUDGET, TOTAL_BUDGET } = require("../engine/budgets.ts");
 const { persist, loadPersistedSessions, restoreFromDisk } = require("./session-persistence");
 
 const SESSION_TTL_MS = Number(process.env.SESSION_TTL_MS) || 2 * 60 * 60 * 1000;

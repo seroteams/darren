@@ -5,8 +5,8 @@ const { newAlias, saveQuestion, listAllAliases, loadDir } = require("./questions
 const { getArc } = require("./meeting-arcs");
 const { isRelationalArc } = require("./relational-arcs");
 const { promptFor } = require("./one-on-one-types");
-const { resolveSelectedFocus } = require("./selected-focus");
-const { splitSystemUser } = require("./prompt-utils");
+const { resolveSelectedFocus } = require("./selected-focus.ts");
+const { splitSystemUser } = require("./prompt-utils.ts");
 const { loadRoleProfile, renderRoleProfileBlock } = require("./role-profile");
 
 const { modelFor } = require("./models");

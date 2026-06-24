@@ -1,4 +1,4 @@
-const { resolveSelectedFocus } = require("../engine/selected-focus");
+const { resolveSelectedFocus } = require("../engine/selected-focus.ts");
 
 function getSessionSelectedFocus(session) {
   const focusPoints = session.focusPointsResult?.focus_points || [];

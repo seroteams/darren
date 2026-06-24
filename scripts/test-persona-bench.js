@@ -4,7 +4,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { MEETING_TYPES } = require("../backend/engine/meeting-types");
+const { MEETING_TYPES } = require("../backend/engine/meeting-types.ts");
 const { scriptedQuestions } = require("../backend/api/persona-script");
 const { CONFIG_DIR } = require("../backend/engine/paths");
 

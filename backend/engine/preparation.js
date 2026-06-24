@@ -6,8 +6,8 @@ const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
 const { promptFor, getArc } = require("./one-on-one-types");
 const { withPromptVersion } = require("./prompt-version");
-const { resolveSelectedFocus } = require("./selected-focus");
-const { splitSystemUser } = require("./prompt-utils");
+const { resolveSelectedFocus } = require("./selected-focus.ts");
+const { splitSystemUser } = require("./prompt-utils.ts");
 const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
 const { findJargon } = require("./golden-checks");
 

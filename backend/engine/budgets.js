@@ -1,9 +1,0 @@
-const INTRO_BUDGET = 4;
-const DYNAMIC_BUDGET = 5;
-const TOTAL_BUDGET = INTRO_BUDGET + DYNAMIC_BUDGET;
-
-module.exports = {
-  INTRO_BUDGET,
-  DYNAMIC_BUDGET,
-  TOTAL_BUDGET,
-};

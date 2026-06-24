@@ -1,13 +1,34 @@
 // Resolve the manager's primary focus for a session (first-class, not notes-only).
 
-function normalizeId(s) {
+interface FocusInput {
+  id?: string;
+  label?: string;
+  type?: string;
+  source?: string;
+}
+
+interface SelectedFocusInputs {
+  selectedFocus?: { id?: string; label?: string };
+  primaryFocusId?: string;
+  focusPoints?: FocusInput[];
+  notes?: string;
+  observedShift?: string;
+}
+
+interface ResolvedFocus {
+  id: string;
+  label: string;
+  fallback?: true;
+}
+
+function normalizeId(s: string | undefined): string {
   return String(s || "")
     .trim()
     .toLowerCase()
     .replace(/\s+/g, "_");
 }
 
-function resolveSelectedFocus(inputs = {}) {
+export function resolveSelectedFocus(inputs: SelectedFocusInputs = {}): ResolvedFocus | null {
   if (inputs.selectedFocus?.id) {
     return {
       id: normalizeId(inputs.selectedFocus.id),
@@ -45,4 +66,4 @@ function resolveSelectedFocus(inputs = {}) {
   return null;
 }
 
-module.exports = { resolveSelectedFocus, normalizeId };
+export { normalizeId };

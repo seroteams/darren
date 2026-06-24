@@ -1,4 +1,4 @@
-const { MEETING_TYPES } = require("./meeting-types");
+const { MEETING_TYPES } = require("./meeting-types.ts");
 const { getType, listTypes, promptFor, getArc, listStageIds } = require("./one-on-one-types");
 const { generateFocusPoints } = require("./generate");
 const { generatePreparation } = require("./preparation");
@@ -6,9 +6,9 @@ const { generateBankWithFallback } = require("./question-generator");
 const { planTurn } = require("./queue-manager");
 const { evaluate, applyManagerBriefingPostProcess } = require("./reviewer");
 const { evaluateProductQa } = require("./product-qa");
-const { resolveSelectedFocus } = require("./selected-focus");
+const { resolveSelectedFocus } = require("./selected-focus.ts");
 const { validateQuestionBeforeShow } = require("./question-validator.ts");
-const budgets = require("./budgets");
+const budgets = require("./budgets.ts");
 
 module.exports = {
   MEETING_TYPES,
