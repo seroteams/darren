@@ -224,7 +224,7 @@ async function runSnapshotTest() {
   console.log("\n--- session snapshot: cache hit still logs the profile ---");
   const os = require("node:os");
   const { ensureRoleProfile } = require("../backend/engine/role-profile");
-  const { promptVersionFor } = require("../backend/engine/prompt-version");
+  const { promptVersionFor } = require("../backend/engine/prompt-version.ts");
   const snapRole = "__test-snapshot-role__";
   const snapKey = keyOf({ role: snapRole, seniority: "senior" });
   const snapFile = profilePath(snapKey);

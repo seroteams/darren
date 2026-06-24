@@ -1,4 +1,4 @@
-const cost = require("./cost");
+const cost = require("./cost.ts");
 
 const TIMEOUT_MS = 30_000;
 const MAX_RETRIES = 5;

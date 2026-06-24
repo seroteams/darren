@@ -10,7 +10,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { loadEnv } = require("../backend/engine/env");
+const { loadEnv } = require("../backend/engine/env.ts");
 loadEnv();
 
 const { getArc } = require("../backend/engine/one-on-one-types");

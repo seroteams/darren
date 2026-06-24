@@ -2,10 +2,10 @@ const fs = require("node:fs");
 const { randomUUID } = require("node:crypto");
 
 const { logStage } = require("./session");
-const { modelFor } = require("./models");
+const { modelFor } = require("./models.ts");
 const { callAI, parseAIJson } = require("./ai-client");
 const { promptFor, getArc } = require("./one-on-one-types");
-const { withPromptVersion } = require("./prompt-version");
+const { withPromptVersion } = require("./prompt-version.ts");
 const { resolveSelectedFocus } = require("./selected-focus.ts");
 const { splitSystemUser } = require("./prompt-utils.ts");
 const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");

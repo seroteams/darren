@@ -1,7 +1,7 @@
 const http = require("node:http");
 const path = require("node:path");
 
-const { loadEnv } = require("../engine/env");
+const { loadEnv } = require("../engine/env.ts");
 loadEnv();
 
 const { createRouter } = require("./router");

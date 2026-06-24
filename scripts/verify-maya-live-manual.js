@@ -9,7 +9,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { loadEnv } = require("../backend/engine/env");
+const { loadEnv } = require("../backend/engine/env.ts");
 loadEnv();
 
 const { initState, applyDeltas, serialize } = require("../backend/engine/axes");

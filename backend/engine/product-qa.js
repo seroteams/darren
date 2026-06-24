@@ -9,8 +9,8 @@ const { logStage } = require("./session");
 const { promptFor } = require("./one-on-one-types");
 const { resolveSelectedFocus } = require("./selected-focus.ts");
 const { splitSystemUser } = require("./prompt-utils.ts");
-const { withPromptVersion } = require("./prompt-version");
-const { modelFor } = require("./models");
+const { withPromptVersion } = require("./prompt-version.ts");
+const { modelFor } = require("./models.ts");
 const { callAI, parseAIJson } = require("./ai-client");
 
 const getDefaultModel = () => modelFor("evaluation");

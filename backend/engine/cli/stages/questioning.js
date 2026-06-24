@@ -7,7 +7,7 @@ const { pinPrepOpenerEarly } = require("../../question-generator");
 const { isForbiddenCloser, pickSeedOverflow } = require("../../closer");
 const { dropIneligibleHeads, appendEligibilityLog } = require("../../question-eligibility");
 const { initState, applyDeltas, summarize, serialize } = require("../../axes");
-const cost = require("../../cost");
+const cost = require("../../cost.ts");
 const { writeJson, sessionFile, isSkip } = require("../io");
 const {
   bold,

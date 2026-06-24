@@ -3,7 +3,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { loadEnv } = require("../backend/engine/env");
+const { loadEnv } = require("../backend/engine/env.ts");
 const { scoreSessionDir, aggregateRuns } = require("./lib/session-scores");
 const { judgeSession, computeVerdictTier } = require("./eval-judge");
 const { runSmoke } = require("./lib/run-scenario");

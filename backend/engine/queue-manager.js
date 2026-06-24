@@ -9,7 +9,7 @@ const { resolveSelectedFocus } = require("./selected-focus.ts");
 const { splitSystemUser } = require("./prompt-utils.ts");
 const { loadRoleProfile, renderRoleProfileBlock } = require("./role-profile");
 
-const { modelFor } = require("./models");
+const { modelFor } = require("./models.ts");
 const { callAI, parseAIJson } = require("./ai-client");
 const getDefaultModel = () => modelFor("planner");
 

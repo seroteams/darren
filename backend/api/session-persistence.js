@@ -3,7 +3,7 @@ const path = require("node:path");
 const { LOGS_ROOT } = require("../engine/session");
 const { findRunDir } = require("../engine/run-history");
 const { initState } = require("../engine/axes");
-const cost = require("../engine/cost");
+const cost = require("../engine/cost.ts");
 
 const STATE_FILE = "session-state.json";
 

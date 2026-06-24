@@ -2,7 +2,7 @@
 // tester's structured verdict, ask the model for ONE minimal prompt edit. Returns
 // strict JSON only — display-only, the tester applies it by hand (no auto-apply).
 
-const { modelFor } = require("./models");
+const { modelFor } = require("./models.ts");
 const { callAI, parseAIJson } = require("./ai-client");
 
 // Map a pipeline stage to its editable prompt template + the run-folder log dir.

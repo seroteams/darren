@@ -1,6 +1,6 @@
 // Generate (or reuse) a role profile and print it readably.
 // Run: node scripts/role-profile-demo.js "Staff Site Reliability Engineer" "Senior"
-const { loadEnv } = require("../backend/engine/env");
+const { loadEnv } = require("../backend/engine/env.ts");
 loadEnv();
 
 const { ensureRoleProfile, profilePath } = require("../backend/engine/role-profile");

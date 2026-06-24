@@ -3,7 +3,7 @@
 // about the report's reply — that the operator can click to fill the notes box.
 // Testing aid only — the web UI gates it behind dev mode.
 
-const { modelFor } = require("./models");
+const { modelFor } = require("./models.ts");
 const { callAI, parseAIJson } = require("./ai-client");
 
 const RESPONSE_SCHEMA = {

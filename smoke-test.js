@@ -25,9 +25,9 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { spawn } = require("node:child_process");
 
-const { loadEnv } = require("./backend/engine/env");
+const { loadEnv } = require("./backend/engine/env.ts");
 const { MEETING_TYPES } = require("./backend/engine/meeting-types.ts");
-const { allResolved } = require("./backend/engine/models");
+const { allResolved } = require("./backend/engine/models.ts");
 const { TOTAL_BUDGET, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./backend/engine/budgets.ts");
 const { scanSessions, resolveNewSession } = require("./scripts/lib/session-fs");
 const { stringifyYaml, parseYaml } = require("./backend/engine/questions");

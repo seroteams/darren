@@ -1,6 +1,6 @@
 const { evaluate } = require("../../reviewer");
 const { serialize } = require("../../axes");
-const cost = require("../../cost");
+const cost = require("../../cost.ts");
 const { renderBriefing } = require("../../briefing");
 const { writeJson, sessionFile } = require("../io");
 const { bold, dim, yellow, HR, pad, withThinking } = require("../../ui.ts");

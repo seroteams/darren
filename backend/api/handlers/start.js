@@ -7,7 +7,7 @@ const { getArc } = require("../../engine/meeting-arcs");
 const { createWebSession, persistSession, INTRO_BUDGET } = require("../sessions");
 const { generateFocusPoints } = require("../../engine/generate");
 const { ensureRoleProfile } = require("../../engine/role-profile");
-const { buildFingerprint } = require("../../engine/run-fingerprint");
+const { buildFingerprint } = require("../../engine/run-fingerprint.ts");
 const { loadPersona, scriptAnswers } = require("../persona-script");
 
 function buildAgendaCheck(anchorStageId) {

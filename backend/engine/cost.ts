@@ -1,18 +1,29 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const { DATA_DIR } = require("./paths.mts");
+import fs from "node:fs";
+import path from "node:path";
+import { DATA_DIR } from "./paths.mts";
+import type { OpenAiUsage, CostCall, CostSummary, CostTracker } from "../shared/cost.types.ts";
 
 const PRICING_PATH = path.join(DATA_DIR, "openai-models.json");
 
-let _pricing = null;
-
-function loadPricing() {
-  if (_pricing) return _pricing;
-  _pricing = JSON.parse(fs.readFileSync(PRICING_PATH, "utf8"));
-  return _pricing;
+interface ModelPrice {
+  input_per_1m_usd: number;
+  output_per_1m_usd: number;
+  cached_input_per_1m_usd?: number | null;
+}
+interface Pricing {
+  models: Record<string, ModelPrice>;
 }
 
-function priceOf(model) {
+let _pricing: Pricing | null = null;
+
+function loadPricing(): Pricing {
+  if (_pricing) return _pricing;
+  const parsed = JSON.parse(fs.readFileSync(PRICING_PATH, "utf8"));
+  _pricing = parsed;
+  return parsed;
+}
+
+function priceOf(model: string): ModelPrice | null {
   const data = loadPricing();
   const entry = data.models[model];
   if (entry) return entry;
@@ -20,7 +31,7 @@ function priceOf(model) {
   const longest = Object.keys(data.models)
     .filter((id) => model.startsWith(id))
     .sort((a, b) => b.length - a.length)[0];
-  return longest ? data.models[longest] : null;
+  return longest ? data.models[longest] ?? null : null;
 }
 
 // Convert an OpenAI chat.completions usage block to a cost in USD. The block
@@ -29,7 +40,10 @@ function priceOf(model) {
 //     prompt_tokens_details: { cached_tokens } }
 // Cached tokens (when present) are billed at the cached rate; the remaining
 // prompt tokens at the standard input rate; completion at the output rate.
-function costOf(model, usage) {
+function costOf(
+  model: string,
+  usage: OpenAiUsage | undefined
+): { usd: number | null; known: boolean; reason?: string } {
   const p = priceOf(model);
   if (!p) return { usd: null, known: false, reason: `no pricing for ${model}` };
   const prompt = Number(usage?.prompt_tokens || 0);
@@ -45,9 +59,9 @@ function costOf(model, usage) {
   return { usd, known: true };
 }
 
-function createTracker() {
-  const calls = [];
-  const record = (stage, model, usage) => {
+function createTracker(): CostTracker {
+  const calls: CostCall[] = [];
+  const record = (stage: string, model: string, usage: OpenAiUsage | undefined): void => {
     const { usd, known, reason } = costOf(model, usage);
     calls.push({
       stage,
@@ -62,7 +76,7 @@ function createTracker() {
       at: new Date().toISOString(),
     });
   };
-  const summary = () => {
+  const summary = (): CostSummary => {
     let usd = 0;
     let unknownCalls = 0;
     let prompt = 0;
@@ -91,27 +105,29 @@ function createTracker() {
 
 // Single process-scoped active tracker. Modules that make API calls import
 // and call record() without having to thread the tracker through every layer.
-let _active = null;
-const setActive = (t) => { _active = t; };
-const getActive = () => _active;
-const record = (stage, model, usage) => {
+let _active: CostTracker | null = null;
+const setActive = (t: CostTracker | null): void => {
+  _active = t;
+};
+const getActive = (): CostTracker | null => _active;
+const record = (stage: string, model: string, usage: OpenAiUsage | undefined): void => {
   if (_active) _active.record(stage, model, usage);
 };
 
-function formatUsd(usd) {
+function formatUsd(usd: number | null | undefined): string {
   if (usd == null || Number.isNaN(usd)) return "—";
   if (usd < 0.01) return `$${usd.toFixed(4)}`;
   if (usd < 1) return `$${usd.toFixed(3)}`;
   return `$${usd.toFixed(2)}`;
 }
 
-function formatTokens(n) {
+function formatTokens(n: number): string {
   if (n < 1000) return `${n}`;
   if (n < 1_000_000) return `${(n / 1000).toFixed(1)}k`;
   return `${(n / 1_000_000).toFixed(2)}M`;
 }
 
-module.exports = {
+export {
   loadPricing,
   priceOf,
   costOf,

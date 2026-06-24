@@ -10,7 +10,7 @@ const { pinPrepOpenerEarly } = require("../../engine/question-generator");
 const { summarizeAgenda, buildCarryForwardQuestion } = require("../../engine/agenda.ts");
 const questions = require("../../engine/questions");
 const { writeJson } = require("../../engine/cli/io");
-const cost = require("../../engine/cost");
+const cost = require("../../engine/cost.ts");
 const { getSessionSelectedFocus } = require("../selected-focus");
 
 module.exports = async function plan(c) {

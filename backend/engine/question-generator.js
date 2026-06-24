@@ -12,7 +12,7 @@ const { isRelationalArc } = require("./relational-arcs.ts");
 const { splitSystemUser } = require("./prompt-utils.ts");
 const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
 
-const { modelFor } = require("./models");
+const { modelFor } = require("./models.ts");
 const { callAI, parseAIJson } = require("./ai-client");
 const getDefaultModel = () => modelFor("bank");
 

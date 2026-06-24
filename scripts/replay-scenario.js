@@ -12,7 +12,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const ROOT = path.join(__dirname, "..");
-const { loadEnv } = require("../backend/engine/env");
+const { loadEnv } = require("../backend/engine/env.ts");
 loadEnv();
 
 const { MEETING_TYPES } = require("../backend/engine/meeting-types.ts");

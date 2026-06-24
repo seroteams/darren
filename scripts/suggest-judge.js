@@ -3,10 +3,10 @@
 // reason for each of the 8 review dimensions, grounded in the run data. The human
 // reviewer (Carl) always overrides; these are starting suggestions, not verdicts.
 
-const { loadEnv } = require("../backend/engine/env");
+const { loadEnv } = require("../backend/engine/env.ts");
 loadEnv();
 const { callAI, parseAIJson } = require("../backend/engine/ai-client");
-const { modelFor } = require("../backend/engine/models");
+const { modelFor } = require("../backend/engine/models.ts");
 
 const DIMS = [
   ["role_aware", "Role / seniority / meeting awareness", "Is the PREP specific to this person & meeting, or generic coaching?"],

@@ -38,6 +38,6 @@ export interface CostSummary {
 
 /** The live per-run cost tracker (runtime-only; never serialized). */
 export interface CostTracker {
-  record(stage: string, model: string, usage: OpenAiUsage): void;
+  record(stage: string, model: string, usage?: OpenAiUsage): void;
   summary(): CostSummary;
 }

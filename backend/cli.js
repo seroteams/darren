@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { loadEnv } = require("./engine/env");
+const { loadEnv } = require("./engine/env.ts");
 const { createAsker } = require("./engine/ask.ts");
 const { MEETING_TYPES, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./engine");
 const { createSession } = require("./engine/session");
@@ -11,7 +11,7 @@ const { reviewSession: reviewLexiconSession } = require("./engine/lexicon-review
 const { loadIntroQueue } = require("./engine/intro-queue");
 const { ensureRoleProfile } = require("./engine/role-profile");
 const { NOTES_DIR, ROOT } = require("./engine/paths.mts");
-const cost = require("./engine/cost");
+const cost = require("./engine/cost.ts");
 const { runFocusPointsStage } = require("./engine/cli/stages/focus-points");
 const { runPreparationStage } = require("./engine/cli/stages/preparation");
 const { runQuestionBankStage } = require("./engine/cli/stages/question-bank");

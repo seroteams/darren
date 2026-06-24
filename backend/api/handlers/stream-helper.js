@@ -1,6 +1,6 @@
 const { openStream } = require("../sse");
 const { persist } = require("../session-persistence");
-const cost = require("../../engine/cost");
+const cost = require("../../engine/cost.ts");
 
 // runStage(session, stageKey, { thinkingLabel, produce, onResult, resultEvent })
 //

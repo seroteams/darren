@@ -7,7 +7,7 @@ const { CONTENT_DIR, ROOT } = require("./paths.mts");
 
 const LOCK_FILE = "pipeline-lock.json";
 
-const { allResolved } = require("./models");
+const { allResolved } = require("./models.ts");
 
 /** @type {Record<string, { tier: 'content'|'engine', stageLabel: string }>} */
 const PATH_META = {

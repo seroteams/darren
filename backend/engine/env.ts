@@ -1,10 +1,10 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const { ROOT } = require("./paths.mts");
+import fs from "node:fs";
+import path from "node:path";
+import { ROOT } from "./paths.mts";
 
 const DEFAULT_ENV_PATH = path.join(ROOT, ".env");
 
-function loadEnv(envPath = DEFAULT_ENV_PATH) {
+export function loadEnv(envPath: string = DEFAULT_ENV_PATH): void {
   if (!fs.existsSync(envPath)) return;
   const content = fs.readFileSync(envPath, "utf8");
   for (const rawLine of content.split(/\r?\n/)) {
@@ -23,5 +23,3 @@ function loadEnv(envPath = DEFAULT_ENV_PATH) {
     if (!(key in process.env)) process.env[key] = value;
   }
 }
-
-module.exports = { loadEnv };

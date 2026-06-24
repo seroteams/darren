@@ -17,7 +17,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { loadEnv } = require("../backend/engine/env");
+const { loadEnv } = require("../backend/engine/env.ts");
 const { runSmoke } = require("./lib/run-scenario");
 const { scoreSessionDir, loadBankQuestions } = require("./lib/session-scores");
 const { runTrustChecks } = require("../evals/trust-checks");

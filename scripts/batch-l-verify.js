@@ -5,7 +5,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { loadEnv } = require("../backend/engine/env");
+const { loadEnv } = require("../backend/engine/env.ts");
 const { CONTENT_DIR, SCENARIOS_DIR, LEXICONS_DIR } = require("../backend/engine/paths.mts");
 
 loadEnv();
