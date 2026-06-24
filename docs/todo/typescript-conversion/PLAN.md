@@ -26,8 +26,8 @@ or behaviour changes are *never* in this phase.
 |---|---|---|---|
 | 1 | Lock scope + strategy (survey below) + de-risk | Carl's picks + a green proof that tests can import converted `.ts` engine modules | ✅ |
 | 2 | Define shared core types | `backend/shared/` contracts — session, focus point, question, axis state, briefing, evaluation | ✅ |
-| 3 | Convert engine leaf modules (test-first) | lowest-dependency engine files → `.ts`, tests green | 🔨 |
-| 4 | Convert engine core | up the dependency graph, tests green at each step | ⬜ |
+| 3 | Convert engine leaf modules (test-first) | lowest-dependency engine files → `.ts`, tests green | ✅ |
+| 4 | Convert engine core | up the dependency graph, tests green at each step | 🔨 |
 | 5 | Convert the API server | `backend/api/` → `.ts` | ⬜ |
 | 6 | Convert CLI + final sweep | `cli.ts`; remove stray `any`; `typecheck` clean repo-wide | ⬜ |
 
@@ -44,15 +44,27 @@ or behaviour changes are *never* in this phase.
 **explicit `.ts` specifier**, so every importer's `'./x'` must become `'./x.ts'` when `x` converts
 (including the `scripts/test-*.js` harness). CJS-require-of-`.ts` and `.ts`-import-of-CJS-`.js` both work.
 
-**Step 2 ✅ (approved + committed `b5e94c07`).** Shared core types live:
-`backend/shared/{cost,question,briefing,session}.types.ts`. All four previously-unclear shapes pinned from
-source — **no** `any`/`as`/`@ts-ignore`. `Question` kept **closed** (8 fields).
+**Step 2 ✅ (committed `b5e94c07`).** Shared core types: `backend/shared/{cost,question,briefing,session}.types.ts`.
 
-**Step 3 🔨 (first leaf done — awaiting Carl's walk).** Converted `question-validator.js` → `.ts` end-to-end
-as the proof: ESM `export` + types (`ValidationResult`), 4 importers' specifiers flipped
-(`index` / `golden-checks` / `queue-manager` + `scripts/test-question-validator.js`), old `.js` deleted.
-`npm test` **30/30**, `typecheck` **clean**. The convert→flip→green mechanic is proven on real code.
-Next: the rest of the L0 leaves, then up the order. Paid `gate` stays parked until the end-of-phase proof.
+**Step 3 🔨 (overnight progress — leaf-first conversion underway).** Converted **18 modules** to TypeScript
+in 6 green commits (each: convert → flip importers → `npm test` 30/30 + `typecheck` clean → commit):
+- **All of L0 (11):** question-validator, budgets, meeting-types, agenda, selected-focus, prompt-utils, ui,
+  ask, relational-arcs, lexicon/schema, **paths** (as `paths.mts` — see decision).
+- **L1 so far (7):** env, models, rules, prompt-version, cost, run-fingerprint, one-on-one-types/_shared/prompts.
+  (cost + run-fingerprint validate the shared cost/RunFingerprint contracts; refined `CostTracker.record` to
+  accept optional `usage`.)
+
+**⚠️ DECISION made overnight (needs Carl's nod):** `paths` needs its own directory, which is ESM-only
+(`import.meta.dirname`). tsc treats a `.ts` as CommonJS (no `"type":"module"` — the ~80 remaining `.js` are
+still CJS) and rejects `import.meta` (TS1470). Fix used: the **`.mts` extension** (tsc *and* Node both treat
+it as ESM). Only `paths` (now) and `api/server.js` (later) ever need this. Alternative: tsconfig
+`module:"preserve"` (all `.ts` → ESM). Chose `.mts` as most-local / lowest-risk; added `backend/**/*.mts` to
+the typecheck includes. **Easy to switch if you prefer the tsconfig route.**
+
+**Next:** the meaty lexicon trio (`lexicon`, `lexicon/candidates-io`, `lexicon/promote-core` — heavy dynamic
+YAML object work, best done fresh), then `axes` + `questions`, then up the graph (L2→L5), then `api/`, then
+`cli.js`. Paid `gate` stays parked until the end-of-phase behaviour proof. **End-of-phase QA-agency review is
+a hard gate (see "Done means").**
 
 ---
 
