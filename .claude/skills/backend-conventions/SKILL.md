@@ -16,6 +16,9 @@ failing test first).
 - TypeScript everywhere, `strict` on. Explicit types and interfaces.
 - **No loose `any`.** If a type is genuinely unknown, use `unknown` and narrow it.
 - Public functions and exported APIs have explicit parameter and return types.
+- **Type-stripping safe.** Avoid TS features that need compilation (constructor *parameter
+  properties* like `constructor(private repo: X)`, `enum`, `namespace`) — they break Node's native
+  `.ts` runner. Declare fields explicitly and assign in the constructor; use union types instead of `enum`.
 
 ## 2. File names — kebab-case + a role suffix
 One responsibility per file. Name it `<resource>.<role>.ts`:
