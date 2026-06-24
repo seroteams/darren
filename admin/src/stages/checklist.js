@@ -135,11 +135,31 @@ const KICK = [
   `Goal: a dedicated safety pass before real staff data flows — security-skill checks to green, personal data fenced by company + role, and AI keys proven server-only (never in a browser, response, or log).\nFirst move (before any code): install/run the security checks and post exactly what they flag — a triage list (issue → severity → fix plan) for my review before fixing.\nOut of scope: no new features, no broad refactors — fix only what the checks and the data-fencing/key-leak review surface. Park anything bigger.\nWatch out for: AI keys ending up in the client bundle, an API response, or a log line — check the built frontend bundle specifically, not just the source. Confirm role-level fencing, not just company-level.\nDone when:\n• Agent-verified: security-skill checks green; grep of built bundle/responses/logs shows no key leak; tests prove personal-data access is fenced by company + role.\n• Owner-walked: a named human expert has reviewed and signed off (record the name in PLAN.md).`,
 ];
 
+// Ready-to-paste VERIFY prompt for a phase whose every step is already built.
+// At that point there's nothing left to build — the job is to confirm it was
+// done right and hand the owner their by-hand checks — so the prompt flips from
+// "continue building" to "verify and sign off".
+const VERIFY = (pi) => {
+  const ph = DATA[pi];
+  return `Phase ${ph.num} — ${ph.name} · ${ph.tag} (Prototype → Production checklist).\n\n` +
+    `This phase is built — every step is marked done. Your job now is to VERIFY it was done right, not to build more. Don't change code unless verification turns up a real problem; if it does, stop and tell me before fixing.\n\n` +
+    `Run the free checks first and report each result plainly: npm test (expect the same pass count as the pre-work baseline) and node scripts/replay-scenario.js <id> --fixtures-only. No paid runs (anything hitting the OpenAI API — gate/smoke/eval/live replays, ~$0.35/case up to ~$3) without my explicit yes for that run, cost stated first.\n\n` +
+    `Then read the plan folder docs/todo/<slug>/ PLAN.md to confirm what was claimed matches what shipped, and walk me through the owner checks I do by hand. Wait for my go on the sign-off gate before touching the next phase — you don't self-certify.\n\n` +
+    `What "done right" means for this phase:\n${KICK[pi]}\n\n` +
+    `Owner sign-off gate: ${ph.signoff}\n\n` +
+    `First, tell me plainly whether the free checks passed and exactly what I need to check by hand — then wait. End with a short "In simple terms:" line.`;
+};
+
+// True when every step of a phase is built (agent status done) — i.e. the phase
+// is ready to verify rather than continue.
+const isBuilt = (ph) => ph.steps.every((st) => (st.s || "todo") === "done");
+
 // A live snapshot of the phase's progress + which step to resume at, built from
 // each step's committed status (st.s). Updated whenever a step's status flips.
 const STATUS_WORD = { done: "DONE", doing: "IN PROGRESS", todo: "TO DO" };
 function buildContinue(pi) {
   const ph = DATA[pi];
+  if (isBuilt(ph)) return VERIFY(pi);
   const lines = ph.steps
     .map((st, si) => `  ${si + 1}. ${st.f} — ${STATUS_WORD[st.s || "todo"]}`)
     .join("\n");
@@ -203,10 +223,15 @@ function phaseHtml(ph, pi) {
   const gateLabel = `Sign-off — your approval gate<span class="cl-tag">your call</span>`;
   const gate = rowHtml(gid, !!state[gid], gateLabel, esc(ph.signoff), "", true);
 
+  const built = isBuilt(ph);
+  const kickLede = built
+    ? "This phase is built. Copy the prompt to check it was done right — it runs the free checks and walks you through your sign-off."
+    : "Continuing this phase? Copy the prompt — it captures where we are and picks up from the next unfinished step.";
+  const kickBtn = built ? "Copy verify prompt" : "Copy continue prompt";
   const kick = `<div class="cl-kick">
-    <div class="cl-kick__lede">Continuing this phase? Copy the prompt — it captures where we are and picks up from the next unfinished step.</div>
+    <div class="cl-kick__lede">${kickLede}</div>
     <div class="cl-kick__actions">
-      <button type="button" class="btn btn--sm js-kick" data-kick="${pi}">Copy continue prompt</button>
+      <button type="button" class="btn btn--sm js-kick" data-kick="${pi}">${kickBtn}</button>
       <span class="cl-kick__saved" id="kick-saved-${pi}">Copied ✓</span>
     </div>
     <details class="cl-kick__preview"><summary>Preview the prompt</summary><pre>${esc(CONTINUES[pi])}</pre></details>
