@@ -1,7 +1,7 @@
 const { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener } = require("../../question-generator");
 const { selectReservedCloser } = require("../../closer");
 const { writeJson, sessionFile } = require("../io");
-const { dim, red, HR, withThinking } = require("../../ui");
+const { dim, red, HR, withThinking } = require("../../ui.ts");
 
 async function runQuestionBankStage({ ctx, focusPoints, meetingTypeLabel, introQueue, prep, session }) {
   writeJson(sessionFile(session, "02-intro-questions/aliases.json"), {

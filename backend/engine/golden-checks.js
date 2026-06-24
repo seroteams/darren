@@ -4,7 +4,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { validateQuestionBeforeShow, startsWithBrokenFragment } = require("./question-validator.ts");
 const { applyManagerBriefingPostProcess } = require("./reviewer");
-const { isRelationalArc } = require("./relational-arcs");
+const { isRelationalArc } = require("./relational-arcs.ts");
 const { AXIS_IDS, AXIS_MIN, AXIS_MAX } = require("./axes");
 const { FOCUS_POINTS_FILE } = require("./paths");
 

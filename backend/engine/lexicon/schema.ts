@@ -1,4 +1,4 @@
-const RESPONSE_SCHEMA = {
+export const RESPONSE_SCHEMA = {
   type: "object",
   properties: {
     roleFamily: { type: "string" },
@@ -24,5 +24,3 @@ const RESPONSE_SCHEMA = {
   required: ["roleFamily", "seniority", "meetingType", "suggestions"],
   additionalProperties: false,
 };
-
-module.exports = { RESPONSE_SCHEMA };

@@ -1,5 +1,5 @@
 const TTY = process.stdout.isTTY && !process.env.NO_COLOR;
-const sty = (codes) => (s) => (TTY ? `\x1b[${codes}m${s}\x1b[0m` : s);
+const sty = (codes: string) => (s: string): string => (TTY ? `\x1b[${codes}m${s}\x1b[0m` : s);
 
 const bold = sty("1");
 const dim = sty("2");
@@ -15,22 +15,28 @@ const greenBold = sty("1;32");
 
 const HR = dim("─".repeat(60));
 
-function pad(s, n) {
+interface AxisView {
+  label: string;
+  score: number;
+  lastDelta: number;
+}
+
+function pad(s: string, n: number): string {
   return s + " ".repeat(Math.max(0, n - s.length));
 }
 
-function signedFmt(n) {
+function signedFmt(n: number): string {
   if (n > 0) return `+${n}`;
   return `${n}`;
 }
 
-function arrowFor(score, lastDelta) {
+function arrowFor(score: number, lastDelta: number): string {
   if (lastDelta > 0) return green("▲");
   if (lastDelta < 0) return red("▼");
   return dim("●");
 }
 
-function colorForScore(score) {
+function colorForScore(score: number): (s: string) => string {
   if (score >= 3) return greenBold;
   if (score > 0) return green;
   if (score <= -3) return red;
@@ -38,7 +44,7 @@ function colorForScore(score) {
   return dim;
 }
 
-function renderAxisLine(axes) {
+function renderAxisLine(axes: AxisView[]): string {
   return axes
     .map((a) => {
       const arrow = arrowFor(a.score, a.lastDelta);
@@ -48,25 +54,25 @@ function renderAxisLine(axes) {
     .join("  ");
 }
 
-function renderQueuePos(i, total) {
+function renderQueuePos(i: number, total: number): string {
   return yellow(`[Q ${i}/${total}]`);
 }
 
-function renderDebugLine(axes, questionAlias) {
+function renderDebugLine(axes: AxisView[], questionAlias: string): string {
   const moved = axes.filter((a) => a.lastDelta !== 0);
   if (!moved.length) return dim(`  (no axis moved) ← ${questionAlias}`);
   const parts = moved.map((a) => `${a.label.toLowerCase()} ${signedFmt(a.lastDelta)}`);
   return dim(`  ${questionAlias} → ${parts.join(", ")}`);
 }
 
-async function withThinking(subline, fn) {
+async function withThinking<T>(subline: string, fn: () => Promise<T>): Promise<T> {
   const frames = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
   let i = 0;
-  let interval = null;
+  let interval: ReturnType<typeof setInterval> | null = null;
   const supported = TTY;
   const print = () => {
     process.stdout.write(
-      `\r  ${dim(frames[i % frames.length])} ${dim("Thinking...")}  ${gray(subline)}   `
+      `\r  ${dim(frames[i % frames.length] ?? "")} ${dim("Thinking...")}  ${gray(subline)}   `
     );
     i++;
   };
@@ -85,7 +91,7 @@ async function withThinking(subline, fn) {
   }
 }
 
-module.exports = {
+export {
   TTY,
   bold,
   dim,

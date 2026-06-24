@@ -1,7 +1,7 @@
 const path = require("node:path");
 
 const { canonicalPath, candidatePath } = require("../lexicon");
-const { bold, cyan, dim, gray, green, yellow, HR } = require("../ui");
+const { bold, cyan, dim, gray, green, yellow, HR } = require("../ui.ts");
 const { appendCandidates, writeTrace } = require("./candidates-io");
 const { generateSuggestions } = require("./review-core");
 const { ROOT } = require("../paths");

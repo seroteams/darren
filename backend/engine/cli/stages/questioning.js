@@ -21,7 +21,7 @@ const {
   renderQueuePos,
   renderDebugLine,
   withThinking,
-} = require("../../ui");
+} = require("../../ui.ts");
 
 async function runQuestioningLoop({
   ctx,

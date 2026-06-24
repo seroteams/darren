@@ -8,7 +8,7 @@ const { promptFor } = require("./one-on-one-types");
 const { resolveSelectedFocus } = require("./selected-focus.ts");
 const { loadLexicon } = require("./lexicon");
 const { findJargon } = require("./golden-checks");
-const { isRelationalArc } = require("./relational-arcs");
+const { isRelationalArc } = require("./relational-arcs.ts");
 const { splitSystemUser } = require("./prompt-utils.ts");
 const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
 

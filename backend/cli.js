@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const { loadEnv } = require("./engine/env");
-const { createAsker } = require("./engine/ask");
+const { createAsker } = require("./engine/ask.ts");
 const { MEETING_TYPES, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./engine");
 const { createSession } = require("./engine/session");
 const { listRecentRuns, summarizeRun, deleteRun, findLatestRunWithLock } = require("./engine/run-history");
@@ -27,7 +27,7 @@ const {
   yellow,
   red,
   HR,
-} = require("./engine/ui");
+} = require("./engine/ui.ts");
 
 loadEnv();
 

@@ -9,7 +9,7 @@ const {
   magentaBold,
   cyan,
   pad,
-} = require("./ui");
+} = require("./ui.ts");
 
 // Renders the final-evaluation JSON to stdout in the same style as cli.js.
 function renderBriefing(evalJson, employeeName) {

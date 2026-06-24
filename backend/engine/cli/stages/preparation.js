@@ -1,5 +1,5 @@
 const { generatePreparation } = require("../../preparation");
-const { bold, dim, cyan, magentaBold, gray, yellow, HR, withThinking } = require("../../ui");
+const { bold, dim, cyan, magentaBold, gray, yellow, HR, withThinking } = require("../../ui.ts");
 
 async function runPreparationStage({ ctx, focusPoints, session }) {
   console.log();

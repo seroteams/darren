@@ -8,15 +8,15 @@
 // flags any that slip through (src/golden-checks.js → FOCUS_ARC_LEAK).
 //
 // Matched by slug or label, case-insensitive.
-const RELATIONAL_ARCS = new Set([
+const RELATIONAL_ARCS = new Set<string>([
   "bi_weekly_check_in",
   "bi-weekly check-in",
   "something_feels_off",
   "something feels off",
 ]);
 
-function isRelationalArc(meetingType) {
+export function isRelationalArc(meetingType: string | undefined): boolean {
   return RELATIONAL_ARCS.has(String(meetingType || "").trim().toLowerCase());
 }
 
-module.exports = { RELATIONAL_ARCS, isRelationalArc };
+export { RELATIONAL_ARCS };

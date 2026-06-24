@@ -3,7 +3,7 @@ const { serialize } = require("../../axes");
 const cost = require("../../cost");
 const { renderBriefing } = require("../../briefing");
 const { writeJson, sessionFile } = require("../io");
-const { bold, dim, yellow, HR, pad, withThinking } = require("../../ui");
+const { bold, dim, yellow, HR, pad, withThinking } = require("../../ui.ts");
 
 async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, notes, scoring, session, name }) {
   console.log(HR);
