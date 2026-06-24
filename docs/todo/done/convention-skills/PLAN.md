@@ -77,11 +77,26 @@ existing JS (conversion is Phase 003):
 - Note: `clamp` is the sanctioned tiny proof module (no caller yet) — happy to keep it as the first
   shared util or remove it; your call. Not committed yet.
 
-## QA sign-off (Carl walks this)
-- **Agent-verified ✅:** all 4 skills load (`npx skills ls`); `npm run typecheck` clean; all guide links
-  resolve; the test-first proof landed in correctly-named files (`clamp.ts` + `clamp.test.ts`), 3/3 green.
-- **Owner-walked (you):** open `CLAUDE.md` §7 — does the right rulebook clearly point to backend vs
-  frontend work? Optionally open either `SKILL.md` link and confirm it opens the real file.
+## QA sign-off checklist — ALL ✅ (triple-checked 2026-06-24)
+
+**Done-when criteria:**
+- [x] **TDD skill** installed & loads (`obra/superpowers/test-driven-development`)
+- [x] **Security skill** installed & loads (`getsentry security-review`)
+- [x] **`backend-conventions`** rulebook written & loads
+- [x] **`frontend-conventions`** rulebook written & loads
+- [x] All 4 skills have valid frontmatter and show in `npx skills ls`
+- [x] **Strict TypeScript rails** in place (`tsconfig` strict; `npm run typecheck` CLEAN)
+- [x] **Mirrored test layout** created (`tests/README` + `integration/` + `e2e/`)
+- [x] **`CLAUDE.md` wired** (§7 maps work → rulebook)
+- [x] **All guide links resolve** — 0 dead across CLAUDE.md + phase docs
+- [x] **One test-first proof change** landed in correctly-named files (`clamp.ts`/`clamp.test.ts`), red→green, 3/3
+- [x] **Real-feature test** (delete-a-run) built fully by the rules, 4/4 green, then removed
+- [x] **Nothing broke** — `npm test` 30/30, `lint` exit 0
+- [x] **Owner-walked** — Carl confirmed CLAUDE.md §7 surfaces the right rulebook for backend vs frontend
+
+**Triple-check passes (all green):** (1) skills present/valid/listed/locked · (2) tsconfig strict +
+typecheck clean + proof 3/3 + suite 30/30 + lint 0 · (3) 0 dead links + statuses correct + folder
+archived + no leftover junk (`.kiro`/`.agents`/`backend/_demo` gone) + all commits in place.
 
 **✅ SIGNED OFF (Carl, 2026-06-24).** Carl walked the QA and gave the go. All 5 steps done +
 agent-verified (4 skills load, strict typecheck clean, links resolve, test-first proof 3/3, `npm test`
@@ -89,7 +104,8 @@ agent-verified (4 skills load, strict typecheck clean, links resolve, test-first
 (TypeScript conversion) is next when Carl's ready.
 
 ## Steps 1–5 commits
-1 survey `8156e96` · 2 skills `913cca2` · 3 rulebooks `6d2694f` · 4 TS rails `5874347c` · 5 wiring + proof (this close-out).
+1 survey `8156e96` · 2 skills `913cca2` · 3 rulebooks `6d2694f` · 4 TS rails `5874347c` ·
+5 wiring + proof `f8a6dc1e` · close-out `cb30abe3` · type-stripping note `152606ea`.
 
 ---
 
