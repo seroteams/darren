@@ -20,7 +20,7 @@
 | 2 | Install the quality skills | Chosen TDD + security skill(s) installed; each verified to load/trigger | 🔨 **installed + agent-verified — awaiting Carl's QA** |
 | 3 | Write our own rulebooks | `backend-conventions` + `frontend-conventions` skills | 🔨 **written + load-verified — awaiting Carl's QA** |
 | 4 | Set up the safety tooling | Strict `tsconfig` + lint + mirrored `tests/` layout | 🔨 **rails laid + strict proven — awaiting Carl's QA** |
-| 5 | Point the AI at the rules | `CLAUDE.md` wired so the right rulebook auto-loads; links resolve; one tiny test-first proof change | ⬜ |
+| 5 | Point the AI at the rules | `CLAUDE.md` wired so the right rulebook auto-loads; links resolve; one tiny test-first proof change | ✅ done (signed off) |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -63,7 +63,33 @@ existing JS (conversion is Phase 003):
   first real `.ts` lands in **step 5** (by design).
 - ESLint already existed; left as-is (lint exit 0, 6 pre-existing warnings). `npm test` still **30/30**.
 - Note: npm flagged **1 pre-existing high-severity advisory** in the dep tree (not from `typescript`,
-  which has no deps). Left for Carl — `npm audit fix` is an unrelated, riskier change. Not committed yet.
+  which has no deps). Left for Carl — `npm audit fix` is an unrelated, riskier change. Committed `5874347c`.
+
+**Step 5 done (this pass) — awaiting Carl's QA:** pointed the agent at the rules + landed the proof.
+- `CLAUDE.md` — new **§7 House Rules** maps each kind of work to its rulebook (backend / frontend /
+  any-feature / security), all four links resolve to real `SKILL.md` files.
+- **Proof change (test-first, first real `.ts`):** `backend/shared/clamp.ts` + co-located
+  `clamp.test.ts`, named per the backend rulebook. Watched it fail (stub → `actual 12, expected 10`),
+  then minimal code → **3/3 pass** (Node runs TS natively).
+- Completed the TS tooling that only surfaced with a real file: added `@types/node`, `types:["node"]`
+  and `allowImportingTsExtensions` to `tsconfig`. **`npm run typecheck` now clean** across the repo.
+- **All guide links resolve** (8/8 checked across CLAUDE.md + the phase docs, 0 dead). `npm test` **30/30**.
+- Note: `clamp` is the sanctioned tiny proof module (no caller yet) — happy to keep it as the first
+  shared util or remove it; your call. Not committed yet.
+
+## QA sign-off (Carl walks this)
+- **Agent-verified ✅:** all 4 skills load (`npx skills ls`); `npm run typecheck` clean; all guide links
+  resolve; the test-first proof landed in correctly-named files (`clamp.ts` + `clamp.test.ts`), 3/3 green.
+- **Owner-walked (you):** open `CLAUDE.md` §7 — does the right rulebook clearly point to backend vs
+  frontend work? Optionally open either `SKILL.md` link and confirm it opens the real file.
+
+**✅ SIGNED OFF (Carl, 2026-06-24).** Carl walked the QA and gave the go. All 5 steps done +
+agent-verified (4 skills load, strict typecheck clean, links resolve, test-first proof 3/3, `npm test`
+30/30). Effort `PROGRESS.md` updated (002 → `done`); folder moved to `docs/todo/done/`. Phase 003
+(TypeScript conversion) is next when Carl's ready.
+
+## Steps 1–5 commits
+1 survey `8156e96` · 2 skills `913cca2` · 3 rulebooks `6d2694f` · 4 TS rails `5874347c` · 5 wiring + proof (this close-out).
 
 ---
 

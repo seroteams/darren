@@ -8,13 +8,13 @@
 
 ## Where we are now
 - **Active phase:** 002 — Conventions & skills
-- **Status:** `planned` (broken into 5 steps; step 1 survey done, awaiting Carl's pick)
+- **Status:** `awaiting-qa` (all 5 steps built + agent-verified; awaiting Carl's final QA walk)
 - **Last updated:** 2026-06-24
 
 ## Next up (this can change as we learn)
-**Carl's QA on step 4** (safety tooling): rails laid. Then I commit step 4 and start **step 5 — wire
-`CLAUDE.md` to the rulebooks + one tiny test-first proof change** (the first real `.ts`, which also
-turns `npm run typecheck` green).
+**Carl's final QA on Phase 002.** Open `CLAUDE.md` §7 and confirm the right rulebook surfaces for
+backend vs frontend work. When approved: commit step 5, set Phase 002 → `done`, move
+`docs/todo/convention-skills/` → `docs/todo/done/`, and Phase 003 (TypeScript conversion) is next.
 
 ## Phase status
 | # | Phase | Status |
@@ -53,6 +53,11 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
 ## Activity log (newest first)
+- **2026-06-24** — **Phase 002 step 5 — rules wired + proof landed (Phase → awaiting-qa).** `CLAUDE.md`
+  §7 maps work → rulebook (backend/frontend/feature/security); all 4 links resolve. Test-first proof:
+  `backend/shared/clamp.ts` + co-located `clamp.test.ts` (named per backend rulebook), red→green, 3/3.
+  Finished TS tooling (`@types/node`, `types:["node"]`, `allowImportingTsExtensions`); `npm run
+  typecheck` clean repo-wide. Guide links 8/8 resolve; `npm test` 30/30. Step 4 committed `5874347c`.
 - **2026-06-24** — **Phase 002 step 4 — TS safety rails laid (awaiting Carl's QA).** Added strict
   `tsconfig.json` (`noEmit`, `allowJs:false` — existing JS untouched; conversion is Phase 003),
   `typecheck` script + `typescript@^6` dev-dep, and the mirrored `tests/` skeleton

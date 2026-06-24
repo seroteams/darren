@@ -4,6 +4,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["ES2022"],
+    "types": ["node"],
 
     "strict": true,
     "noImplicitAny": true,
@@ -16,6 +17,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "noEmit": true,
+    "allowImportingTsExtensions": true,
     "allowJs": false
   },
   "include": ["backend/**/*.ts", "admin/**/*.ts", "frontend/**/*.ts", "tests/**/*.ts"],
