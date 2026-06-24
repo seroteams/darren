@@ -32,11 +32,11 @@ const DATA = [
   { num: "002", name: "House rules", tag: "Conventions & Skills",
     goal: "Teach the AI our standards once, written as skills it reads automatically. From here on all new code is in a safer language and tested before it's trusted.",
     steps: [
-      { f: "Shop around for proven rules", m: "Look at the best community rulebooks and decide what to borrow versus write ourselves. No reinventing wheels.", have: "A borrow-vs-build decision", c: "The decision is written in the progress log" },
-      { f: "Install the quality skills", m: "Install the test-first skill and security skills. The safety gear goes on the shelf.", have: "Skills installed and ready", c: "All installed skills load without error" },
-      { f: "Write our own rulebooks", m: "Two plain rulebooks (backend and frontend): naming, structure, how the parts connect.", have: "Two house-rule skills", c: "Both load and cover naming, structure and layout" },
-      { f: "Set up the safety tooling", m: "Stricter tooling and a test runner so mistakes get caught before the app runs.", have: "Early-warning tooling", c: "Strict settings build, the runner runs, test folders mirror the code" },
-      { f: "Point the AI at the rules", m: "Wire the project guide so the AI opens the right rulebook automatically.", have: "AI self-serving the right rules", c: "Every guide link opens the correct skill" },
+      { f: "Shop around for proven rules", m: "Look at the best community rulebooks and decide what to borrow versus write ourselves. No reinventing wheels.", have: "A borrow-vs-build decision", c: "The decision is written in the progress log", s: "done" },
+      { f: "Install the quality skills", m: "Install the test-first skill and security skills. The safety gear goes on the shelf.", have: "Skills installed and ready", c: "All installed skills load without error", s: "done" },
+      { f: "Write our own rulebooks", m: "Two plain rulebooks (backend and frontend): naming, structure, how the parts connect.", have: "Two house-rule skills", c: "Both load and cover naming, structure and layout", s: "done" },
+      { f: "Set up the safety tooling", m: "Stricter tooling and a test runner so mistakes get caught before the app runs.", have: "Early-warning tooling", c: "Strict settings build, the runner runs, test folders mirror the code", s: "done" },
+      { f: "Point the AI at the rules", m: "Wire the project guide so the AI opens the right rulebook automatically.", have: "AI self-serving the right rules", c: "Every guide link opens the correct skill", s: "done" },
     ],
     signoff: "Every skill loads without error · a small test-first change lands in correctly-named files · all guide links resolve." },
 
@@ -300,6 +300,7 @@ export function mount(root) {
         <div class="cl-overall">
           <div class="cl-bar cl-bar--lg"><span id="cl-overall-bar"></span></div>
           <div class="cl-overall__pct" id="cl-overall-pct">0%</div>
+          <button class="btn btn--ghost btn--sm js-refresh" type="button">Refresh</button>
           <button class="btn btn--ghost btn--sm js-reset" type="button">Reset</button>
         </div>
       </header>
@@ -356,6 +357,16 @@ export function mount(root) {
       if (e.target.closest("label.cl-cb")) return;
       root.querySelector("#phase-" + h.dataset.toggle)?.classList.toggle("is-collapsed");
     });
+  });
+
+  // Refresh — re-check every task's status against the latest. The build-status
+  // badges are baked into the page at load, so the only way to pick up freshly
+  // shipped progress (and any ticks saved in another tab) is to re-pull the page.
+  root.querySelector(".js-refresh").addEventListener("click", (e) => {
+    const btn = e.currentTarget;
+    btn.disabled = true;
+    btn.textContent = "Checking…";
+    window.location.reload();
   });
 
   // Reset
