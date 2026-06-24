@@ -1,5 +1,5 @@
-const path = require("node:path");
-const { PROMPTS_DIR } = require("../../paths.mts");
+import path from "node:path";
+import { PROMPTS_DIR } from "../../paths.mts";
 
 // Repo-level prompts/ directory.
 
@@ -16,4 +16,4 @@ const SHARED_PROMPTS = {
   lexicon: path.join(PROMPTS_DIR, "review-session-for-lexicon.md"),
 };
 
-module.exports = { PROMPTS_DIR, SHARED_PROMPTS };
+export { PROMPTS_DIR, SHARED_PROMPTS };

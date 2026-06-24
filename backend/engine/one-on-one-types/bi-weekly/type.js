@@ -1,4 +1,4 @@
-const { SHARED_PROMPTS } = require("../_shared/prompts");
+const { SHARED_PROMPTS } = require("../_shared/prompts.ts");
 
 // 1:1 Type — Bi-weekly check-in
 // Data home for this Type. Edit here to tune the type in isolation.

@@ -6,7 +6,7 @@
 // are kept as thin back-compat shims (same shapes + error messages as the old
 // src/meeting-arcs.js) so existing consumers run unchanged.
 
-const { SHARED_PROMPTS } = require("./_shared/prompts");
+const { SHARED_PROMPTS } = require("./_shared/prompts.ts");
 const { applyOverlay } = require("../arc-overlay");
 const biWeekly = require("./bi-weekly/type");
 const performance = require("./performance/type");
