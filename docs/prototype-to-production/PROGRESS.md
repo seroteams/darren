@@ -7,20 +7,20 @@
 ---
 
 ## Where we are now
-- **Active phase:** 002 — Conventions & skills
-- **Status:** `awaiting-qa` (all 5 steps built + agent-verified; awaiting Carl's final QA walk)
+- **Active phase:** 003 — TypeScript conversion (Phase 002 done & signed off)
+- **Status:** `not-started` (003 not broken into steps yet)
 - **Last updated:** 2026-06-24
 
 ## Next up (this can change as we learn)
-**Carl's final QA on Phase 002.** Open `CLAUDE.md` §7 and confirm the right rulebook surfaces for
-backend vs frontend work. When approved: commit step 5, set Phase 002 → `done`, move
-`docs/todo/convention-skills/` → `docs/todo/done/`, and Phase 003 (TypeScript conversion) is next.
+Break **Phase 003 — TypeScript conversion** down into numbered step files inside
+`003-typescript-conversion/`. Say **"what next?"** to do this. (Phase 002 done; folder archived at
+[../todo/done/convention-skills/PLAN.md](../todo/done/convention-skills/PLAN.md).)
 
 ## Phase status
 | # | Phase | Status |
 |---|---|---|
 | 001 | Monorepo reorg | `done` |
-| 002 | Conventions & skills | `not-started` |
+| 002 | Conventions & skills | `done` |
 | 003 | TypeScript conversion | `not-started` |
 | 004 | Backend API v1 (RESTful, TDD) | `not-started` |
 | 005 | Postgres foundation | `not-started` |
@@ -53,6 +53,12 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
 ## Activity log (newest first)
+- **2026-06-24** — **Phase 002 (Conventions & skills) → `done` & SIGNED OFF.** Carl walked the QA
+  (CLAUDE.md §7 surfaces the right rulebook for backend vs frontend) and gave the go. Shipped: TDD +
+  security-review skills installed, `backend-conventions` + `frontend-conventions` written, strict
+  TypeScript rails + mirrored test layout, CLAUDE.md wired, and a test-first proof (`clamp`) in
+  correctly-named files. Verified: 4 skills load, typecheck clean, 8/8 links resolve, `npm test` 30/30.
+  Folder moved to `docs/todo/done/convention-skills/`. Phase 003 (TypeScript conversion) is next.
 - **2026-06-24** — **Phase 002 step 5 — rules wired + proof landed (Phase → awaiting-qa).** `CLAUDE.md`
   §7 maps work → rulebook (backend/frontend/feature/security); all 4 links resolve. Test-first proof:
   `backend/shared/clamp.ts` + co-located `clamp.test.ts` (named per backend rulebook), red→green, 3/3.
@@ -76,7 +82,7 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   installer spillover (`.kiro/`, `.agents/`). `npm test` 30/30. Not committed until Carl's QA.
 - **2026-06-24** — **Phase 002 broken into 5 steps; step 1 (borrow-vs-build survey) written.**
   Researched skills.sh / GitHub. Recommendation written into
-  [../todo/convention-skills/PLAN.md](../todo/convention-skills/PLAN.md): borrow **TDD**
+  [../todo/done/convention-skills/PLAN.md](../todo/done/convention-skills/PLAN.md): borrow **TDD**
   (`obra/superpowers/test-driven-development`) + one general **security** skill
   (`getsentry/skills` → `security-review`), park **Trail of Bits** for Phase 008, and **build**
   our two rulebooks (`backend-conventions` + `frontend-conventions`). Nothing installed — awaiting

@@ -3,7 +3,7 @@
 **Goal:** Teach the agent our standards *once* as auto-loaded skills — install a test-first skill and security skill(s), write two plain rulebooks (backend + frontend), and wire the project guide so the right rulebook opens automatically.
 **Driver:** Carl
 **Created:** 2026-06-24
-**Tracks:** the bigger plan in [../../prototype-to-production/002-convention-skills/00-phase-overview.md](../../prototype-to-production/002-convention-skills/00-phase-overview.md). When this is done + approved, update that effort's `PROGRESS.md` (Phase 002 → `done`).
+**Tracks:** the bigger plan in [../../../prototype-to-production/002-convention-skills/00-phase-overview.md](../../../prototype-to-production/002-convention-skills/00-phase-overview.md). When this is done + approved, update that effort's `PROGRESS.md` (Phase 002 → `done`).
 
 ## Done means
 - Every skill (TDD + security + our two rulebooks) **loads/triggers without error**.
