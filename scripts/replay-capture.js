@@ -11,7 +11,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { checkFromSessionDir } = require("./lib/check-session");
-const { CONFIG_DIR } = require("../backend/engine/paths");
+const { CONFIG_DIR } = require("../backend/engine/paths.mts");
 
 const ROOT = path.join(__dirname, "..");
 const REPLAY_DIR = path.join(ROOT, "evals", "replay");

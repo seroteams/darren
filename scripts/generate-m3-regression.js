@@ -5,7 +5,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { SCENARIOS_DIR } = require("../backend/engine/paths");
+const { SCENARIOS_DIR } = require("../backend/engine/paths.mts");
 
 const ROOT = path.join(__dirname, "..");
 const RUN_OUTPUTS = path.join(ROOT, "logs/may/2026_May24_batch/run-outputs.json");

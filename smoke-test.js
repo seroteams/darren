@@ -31,7 +31,7 @@ const { allResolved } = require("./backend/engine/models");
 const { TOTAL_BUDGET, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./backend/engine/budgets.ts");
 const { scanSessions, resolveNewSession } = require("./scripts/lib/session-fs");
 const { stringifyYaml, parseYaml } = require("./backend/engine/questions");
-const { CONTENT_DIR, QUESTIONS_DIR } = require("./backend/engine/paths");
+const { CONTENT_DIR, QUESTIONS_DIR } = require("./backend/engine/paths.mts");
 
 loadEnv();
 

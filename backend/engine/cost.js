@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const { DATA_DIR } = require("./paths");
+const { DATA_DIR } = require("./paths.mts");
 
 const PRICING_PATH = path.join(DATA_DIR, "openai-models.json");
 

@@ -24,7 +24,7 @@ const {
   runQualityPrepListenFor,
 } = require("../backend/engine/golden-checks");
 
-const { SCENARIOS_DIR } = require("../backend/engine/paths");
+const { SCENARIOS_DIR } = require("../backend/engine/paths.mts");
 const REGRESSION_DIR = path.join(SCENARIOS_DIR, "regression");
 const BATCH_DIR = path.join(SCENARIOS_DIR, "batch");
 

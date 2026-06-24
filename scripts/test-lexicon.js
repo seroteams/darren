@@ -6,7 +6,7 @@ const YAML = require("yaml");
 
 const { loadLexicon, canonicalPath, candidatePath } = require("../backend/engine/lexicon");
 const { buildMessages } = require("../backend/engine/question-generator");
-const { LEXICONS_DIR } = require("../backend/engine/paths");
+const { LEXICONS_DIR } = require("../backend/engine/paths.mts");
 
 let failed = 0;
 function ok(label, cond) {

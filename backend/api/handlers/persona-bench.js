@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const { MEETING_TYPES } = require("../../engine/meeting-types.ts");
-const { CONFIG_DIR } = require("../../engine/paths");
+const { CONFIG_DIR } = require("../../engine/paths.mts");
 
 const BENCH_PATH = path.join(CONFIG_DIR, "persona-bench-v1.json");
 

@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const { QUESTIONS_DIR } = require("./paths");
+const { QUESTIONS_DIR } = require("./paths.mts");
 
 const QUESTIONS_ROOT = QUESTIONS_DIR;
 const INDEX_PATH = path.join(QUESTIONS_ROOT, "_index.json");

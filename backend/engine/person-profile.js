@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { walkRuns, reviewSummaryOf } = require("./run-history");
-const { DATA_DIR } = require("./paths");
+const { DATA_DIR } = require("./paths.mts");
 
 const PEOPLE_ROOT = path.join(DATA_DIR, "people");
 const AXIS_ORDER = ["wellbeing", "engagement", "clarity", "growth"];

@@ -7,7 +7,7 @@ const { loadEnv } = require("../backend/engine/env");
 const { scoreSessionDir, aggregateRuns } = require("./lib/session-scores");
 const { judgeSession, computeVerdictTier } = require("./eval-judge");
 const { runSmoke } = require("./lib/run-scenario");
-const { SCENARIOS_DIR } = require("../backend/engine/paths");
+const { SCENARIOS_DIR } = require("../backend/engine/paths.mts");
 
 loadEnv();
 

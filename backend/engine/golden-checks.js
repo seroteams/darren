@@ -6,7 +6,7 @@ const { validateQuestionBeforeShow, startsWithBrokenFragment } = require("./ques
 const { applyManagerBriefingPostProcess } = require("./reviewer");
 const { isRelationalArc } = require("./relational-arcs.ts");
 const { AXIS_IDS, AXIS_MIN, AXIS_MAX } = require("./axes");
-const { FOCUS_POINTS_FILE } = require("./paths");
+const { FOCUS_POINTS_FILE } = require("./paths.mts");
 
 // Focus catalogue category lookup (id -> category) for the relational-arc gate.
 const FOCUS_CATALOGUE = JSON.parse(

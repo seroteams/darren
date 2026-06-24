@@ -8,7 +8,7 @@ const {
   applyPromotionDecisions,
 } = require("../backend/engine/lexicon/promote-core");
 
-const { LEXICONS_DIR } = require("../backend/engine/paths");
+const { LEXICONS_DIR } = require("../backend/engine/paths.mts");
 const CAND = path.join(LEXICONS_DIR, "_candidates/engineering");
 const CAND_FILE = path.join(CAND, "lead.yaml");
 const CANON_DIR = path.join(LEXICONS_DIR, "engineering");

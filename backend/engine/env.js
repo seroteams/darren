@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const { ROOT } = require("./paths");
+const { ROOT } = require("./paths.mts");
 
 const DEFAULT_ENV_PATH = path.join(ROOT, ".env");
 

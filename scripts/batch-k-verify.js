@@ -6,7 +6,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const ROOT = path.join(__dirname, "..");
-const { PROMPTS_DIR } = require("../backend/engine/paths");
+const { PROMPTS_DIR } = require("../backend/engine/paths.mts");
 
 const {
   isShallowAnswer,

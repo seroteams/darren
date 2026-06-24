@@ -15,7 +15,7 @@ const {
   describePromotionItem,
 } = require("../backend/engine/lexicon/promote-core");
 
-const { LEXICONS_DIR } = require("../backend/engine/paths");
+const { LEXICONS_DIR } = require("../backend/engine/paths.mts");
 
 const ROOT = path.join(__dirname, "..");
 const LEX_DIR = LEXICONS_DIR;

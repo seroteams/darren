@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const questions = require("./questions");
-const { DATA_DIR } = require("./paths");
+const { DATA_DIR } = require("./paths.mts");
 
 // Arc overlays — a manager's edits to a 1:1 Type's arc live in a sidecar file,
 // `data/arc-overlays/<slug>.json`, NEVER in the canonical `type.js`. The registry

@@ -25,7 +25,7 @@ function check(name, ok, detail) {
 }
 
 const ROOT = path.join(__dirname, "..");
-const { PROMPTS_DIR } = require("../backend/engine/paths");
+const { PROMPTS_DIR } = require("../backend/engine/paths.mts");
 const MACHAR_INPUTS = {
   name: "Machar",
   roleTitle: "Partner alliance manager",

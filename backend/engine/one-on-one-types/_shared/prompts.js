@@ -1,5 +1,5 @@
 const path = require("node:path");
-const { PROMPTS_DIR } = require("../../paths");
+const { PROMPTS_DIR } = require("../../paths.mts");
 
 // Repo-level prompts/ directory.
 

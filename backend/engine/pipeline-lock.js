@@ -3,7 +3,7 @@ const path = require("node:path");
 const crypto = require("node:crypto");
 const { execSync } = require("node:child_process");
 
-const { CONTENT_DIR, ROOT } = require("./paths");
+const { CONTENT_DIR, ROOT } = require("./paths.mts");
 
 const LOCK_FILE = "pipeline-lock.json";
 

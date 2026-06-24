@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const { AXES_FILE } = require("./paths");
+const { AXES_FILE } = require("./paths.mts");
 
 const AXES_PATH = AXES_FILE;
 

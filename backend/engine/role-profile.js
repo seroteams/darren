@@ -9,7 +9,7 @@ const { logStage } = require("./session");
 const { modelFor } = require("./models");
 const { callAI, parseAIJson } = require("./ai-client");
 const { isRelationalArc } = require("./relational-arcs.ts");
-const { DATA_DIR, PROMPTS_DIR } = require("./paths");
+const { DATA_DIR, PROMPTS_DIR } = require("./paths.mts");
 
 const PROFILES_DIR = path.join(DATA_DIR, "role-profiles");
 const PROMPT_PATH = path.join(PROMPTS_DIR, "generate-role-profile.md");

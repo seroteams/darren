@@ -20,6 +20,6 @@
     "allowImportingTsExtensions": true,
     "allowJs": false
   },
-  "include": ["backend/**/*.ts", "admin/**/*.ts", "frontend/**/*.ts", "tests/**/*.ts"],
+  "include": ["backend/**/*.ts", "backend/**/*.mts", "admin/**/*.ts", "frontend/**/*.ts", "tests/**/*.ts"],
   "exclude": ["node_modules", "**/dist"]
 }

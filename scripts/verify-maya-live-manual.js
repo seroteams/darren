@@ -20,7 +20,7 @@ const {
 const { loadQuestion } = require("../backend/engine/questions");
 const { evaluate } = require("../backend/engine/reviewer");
 
-const { CONFIG_DIR } = require("../backend/engine/paths");
+const { CONFIG_DIR } = require("../backend/engine/paths.mts");
 const BENCH = path.join(CONFIG_DIR, "persona-bench-v1.json");
 
 const COERCIVE_RE =

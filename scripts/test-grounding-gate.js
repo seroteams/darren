@@ -7,7 +7,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { reconcileQueue } = require("../backend/engine/queue-manager");
-const { QUESTIONS_DIR } = require("../backend/engine/paths");
+const { QUESTIONS_DIR } = require("../backend/engine/paths.mts");
 
 let failed = 0;
 function check(label, cond, detail) {

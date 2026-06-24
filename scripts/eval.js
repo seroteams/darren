@@ -8,7 +8,7 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
 const ROOT = path.join(__dirname, "..");
-const { PROMPTS_DIR } = require("../backend/engine/paths");
+const { PROMPTS_DIR } = require("../backend/engine/paths.mts");
 const { evaluateNotes, summarizeResults } = require("../backend/engine/rules");
 const { promptVersionFor } = require("../backend/engine/prompt-version");
 

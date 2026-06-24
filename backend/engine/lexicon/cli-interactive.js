@@ -4,7 +4,7 @@ const { canonicalPath, candidatePath } = require("../lexicon");
 const { bold, cyan, dim, gray, green, yellow, HR } = require("../ui.ts");
 const { appendCandidates, writeTrace } = require("./candidates-io");
 const { generateSuggestions } = require("./review-core");
-const { ROOT } = require("../paths");
+const { ROOT } = require("../paths.mts");
 
 function capitalize(s) {
   if (!s) return s;

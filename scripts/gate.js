@@ -21,7 +21,7 @@ const { loadEnv } = require("../backend/engine/env");
 const { runSmoke } = require("./lib/run-scenario");
 const { scoreSessionDir, loadBankQuestions } = require("./lib/session-scores");
 const { runTrustChecks } = require("../evals/trust-checks");
-const { CONTENT_DIR } = require("../backend/engine/paths");
+const { CONTENT_DIR } = require("../backend/engine/paths.mts");
 
 loadEnv();
 

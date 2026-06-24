@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const YAML = require("yaml");
-const { LEXICONS_DIR } = require("./paths");
+const { LEXICONS_DIR } = require("./paths.mts");
 
 const CANDIDATES_DIR = path.join(LEXICONS_DIR, "_candidates");
 

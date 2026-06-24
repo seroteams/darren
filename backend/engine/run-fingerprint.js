@@ -1,7 +1,7 @@
 const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
-const { PROMPTS_DIR, CONFIG_DIR } = require("./paths");
+const { PROMPTS_DIR, CONFIG_DIR } = require("./paths.mts");
 
 const MODELS_PATH = path.join(CONFIG_DIR, "models.json");
 

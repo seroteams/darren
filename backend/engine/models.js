@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const { CONFIG_DIR } = require("./paths");
+const { CONFIG_DIR } = require("./paths.mts");
 
 const CONFIG_PATH = path.join(CONFIG_DIR, "models.json");
 const FALLBACK_MODEL = "gpt-4o-mini";

@@ -1,7 +1,7 @@
 const path = require("node:path");
 const { logFeedback } = require("../session");
 const { cyan, dim } = require("../ui.ts");
-const { ROOT } = require("../paths");
+const { ROOT } = require("../paths.mts");
 
 async function collectRunRating(ask, session) {
   const STAGES = {

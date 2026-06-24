@@ -1,7 +1,7 @@
 const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
-const { CONTENT_DIR } = require("./paths");
+const { CONTENT_DIR } = require("./paths.mts");
 
 function promptVersionFor(promptPath) {
   const full = path.isAbsolute(promptPath) ? promptPath : path.join(CONTENT_DIR, promptPath);

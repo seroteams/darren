@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { parse: parseYaml } = require("yaml");
-const { CONTENT_DIR } = require("./paths");
+const { CONTENT_DIR } = require("./paths.mts");
 
 function loadNotes(notesPath) {
   const full = path.isAbsolute(notesPath) ? notesPath : path.join(CONTENT_DIR, notesPath);

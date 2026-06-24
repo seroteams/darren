@@ -7,7 +7,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
-const { SCENARIOS_DIR } = require("../backend/engine/paths");
+const { SCENARIOS_DIR } = require("../backend/engine/paths.mts");
 
 const ROOT = path.join(__dirname, "..");
 const BATCH_DIR = path.join(SCENARIOS_DIR, "batch");
