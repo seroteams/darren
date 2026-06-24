@@ -18,7 +18,7 @@
 |---|---|---|---|
 | 1 | Shop around for proven rules | Borrow-vs-build survey (below) for Carl's pick | ✅ **survey done — Carl picked Option 1** |
 | 2 | Install the quality skills | Chosen TDD + security skill(s) installed; each verified to load/trigger | 🔨 **installed + agent-verified — awaiting Carl's QA** |
-| 3 | Write our own rulebooks | `backend-conventions` + `frontend-conventions` skills | ⬜ |
+| 3 | Write our own rulebooks | `backend-conventions` + `frontend-conventions` skills | 🔨 **written + load-verified — awaiting Carl's QA** |
 | 4 | Set up the safety tooling | Strict `tsconfig` + lint + mirrored `tests/` layout | ⬜ |
 | 5 | Point the AI at the rules | `CLAUDE.md` wired so the right rulebook auto-loads; links resolve; one tiny test-first proof change | ⬜ |
 
@@ -37,7 +37,17 @@
 Both recorded in `skills-lock.json`; `npx skills ls` lists both for Claude Code; the TDD skill surfaced
 as available in-session. Read both `SKILL.md` + confirmed licences before trusting them. Removed the
 installer's spillover copies in `.kiro/` and `.agents/` (agent dirs we don't use). `npm test` still **30/30**.
-Not committed yet — waiting on your QA walk.
+Committed `913cca2` after Carl's "okay good" (incl. live demos of both skills: red→green + a
+confidence-gated file review).
+
+**Step 3 done (this pass) — awaiting Carl's QA:** wrote our two rulebook skills, hand-authored from the
+locked conventions (no new rules invented):
+- `.claude/skills/backend-conventions/SKILL.md` — TS tight contracts, kebab + role-suffix names,
+  slim-controller→service→co-located-repo, interfaces-first/shallow inheritance, RESTful `/api/v1`,
+  honest errors (+ engine no-masking rule), mirrored test layout.
+- `.claude/skills/frontend-conventions/SKILL.md` — TS, kebab + role-suffix names, composition,
+  14px text floor, plain user-facing language, mirrored test layout.
+Both load: `npx skills ls` lists them and both surfaced as available in-session. Not committed yet.
 
 ---
 

@@ -12,9 +12,8 @@
 - **Last updated:** 2026-06-24
 
 ## Next up (this can change as we learn)
-**Carl's QA on step 2** (skills installed): confirm both skills are present and trigger. Then I commit
-step 2 locally and start **step 3 — write the two rulebooks** (`backend-conventions` +
-`frontend-conventions`).
+**Carl's QA on step 3** (rulebooks written): read both skills, confirm the right one fits backend vs
+frontend work. Then I commit step 3 and start **step 4 — TypeScript tooling + mirrored test layout**.
 
 ## Phase status
 | # | Phase | Status |
@@ -53,6 +52,10 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
 ## Activity log (newest first)
+- **2026-06-24** — **Phase 002 step 3 — two rulebooks written (awaiting Carl's QA).** Hand-authored
+  `backend-conventions` + `frontend-conventions` skills in `.claude/skills/` from the locked
+  conventions (no new rules invented). Both load (`npx skills ls` lists them; both surfaced
+  in-session). Step 2 committed `913cca2` after Carl's go.
 - **2026-06-24** — **Phase 002 step 2 — skills installed (awaiting Carl's QA).** Installed into
   `.claude/skills/`: `test-driven-development` (obra/superpowers, MIT) and `security-review`
   (getsentry, CC BY-SA 4.0 / OWASP). Read both SKILL.md + confirmed licences first. Both in
