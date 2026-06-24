@@ -8,12 +8,14 @@
 
 ## Where we are now
 - **Active phase:** 002 — Conventions & skills
-- **Status:** `not-started` (not broken down into steps yet)
+- **Status:** `planned` (broken into 5 steps; step 1 survey done, awaiting Carl's pick)
 - **Last updated:** 2026-06-24
 
 ## Next up (this can change as we learn)
-Break **Phase 002 — Conventions & skills** down into numbered step files inside `002-convention-skills/`.
-Say **"what next?"** to do this.
+**Step 2 — install the chosen skills** (Option 1 locked): `obra/superpowers/test-driven-development`
++ `getsentry/skills` → `security-review`. Read each SKILL.md + confirm licence before enabling, then
+verify each loads/triggers. Paused for Carl's explicit go before running the installs (they run
+third-party code into the repo).
 
 ## Phase status
 | # | Phase | Status |
@@ -42,6 +44,9 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   decoupled from credentials); **security/PII + AI-key protection + required human-expert review**.
 - **2026-06-19** — TypeScript conversion gets its **own phase (003)**, after conventions (002) and
   before the backend scaffold (004), so everything built afterward stands on typed code.
+- **2026-06-24** — **Phase 002 borrow-vs-build → Option 1.** Borrow TDD (`obra/superpowers/
+  test-driven-development`) + one general security skill (`getsentry/skills` → `security-review`);
+  park Trail of Bits for Phase 008; build `backend-conventions` + `frontend-conventions` ourselves.
 
 ## Parked (good ideas — not now)
 - Teammate invitations as a full feature (resend / sent-at / expires-at flows). DB + code are
@@ -49,6 +54,13 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
 ## Activity log (newest first)
+- **2026-06-24** — **Phase 002 broken into 5 steps; step 1 (borrow-vs-build survey) written.**
+  Researched skills.sh / GitHub. Recommendation written into
+  [../todo/convention-skills/PLAN.md](../todo/convention-skills/PLAN.md): borrow **TDD**
+  (`obra/superpowers/test-driven-development`) + one general **security** skill
+  (`getsentry/skills` → `security-review`), park **Trail of Bits** for Phase 008, and **build**
+  our two rulebooks (`backend-conventions` + `frontend-conventions`). Nothing installed — awaiting
+  Carl's pick (Option 1/2/3). Baseline before work: `npm test` 30/30 (free/offline).
 - **2026-06-24** — **Phase 001 (Monorepo reorg) → `done`.** Files moved into five rooms
   (`backend` `admin` `frontend` `content` `docs`) + address book `backend/engine/paths.js`
   (25 engine files read locations from it). Verified: `npm test` 30/30 (= pre-move baseline),
