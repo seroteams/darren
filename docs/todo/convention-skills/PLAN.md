@@ -17,7 +17,7 @@
 | # | Step | What it lands | Status |
 |---|---|---|---|
 | 1 | Shop around for proven rules | Borrow-vs-build survey (below) for Carl's pick | ✅ **survey done — Carl picked Option 1** |
-| 2 | Install the quality skills | Chosen TDD + security skill(s) installed; each verified to load/trigger | ⬜ |
+| 2 | Install the quality skills | Chosen TDD + security skill(s) installed; each verified to load/trigger | 🔨 **installed + agent-verified — awaiting Carl's QA** |
 | 3 | Write our own rulebooks | `backend-conventions` + `frontend-conventions` skills | ⬜ |
 | 4 | Set up the safety tooling | Strict `tsconfig` + lint + mirrored `tests/` layout | ⬜ |
 | 5 | Point the AI at the rules | `CLAUDE.md` wired so the right rulebook auto-loads; links resolve; one tiny test-first proof change | ⬜ |
@@ -29,7 +29,15 @@
 ## Current state
 **Baseline:** `npm test` → **30/30** (2026-06-24, free/offline). Known-good.
 
-**Step 1 done (this pass):** borrow-vs-build survey written below from real research on skills.sh / GitHub. Nothing installed yet — waiting on Carl's pick before any code.
+**Step 1 done:** borrow-vs-build survey written; Carl picked **Option 1**. Committed `8156e96`.
+
+**Step 2 done (this pass) — awaiting Carl's QA:** installed the two chosen skills into `.claude/skills/`:
+- `test-driven-development` (obra/superpowers, **MIT**) — red→green discipline, uses `npm test`.
+- `security-review` (getsentry, **CC BY-SA 4.0** / OWASP, attribution file kept) — confidence-gated, "don't report on pattern-matching alone" (fits our engine-honesty rule).
+Both recorded in `skills-lock.json`; `npx skills ls` lists both for Claude Code; the TDD skill surfaced
+as available in-session. Read both `SKILL.md` + confirmed licences before trusting them. Removed the
+installer's spillover copies in `.kiro/` and `.agents/` (agent dirs we don't use). `npm test` still **30/30**.
+Not committed yet — waiting on your QA walk.
 
 ---
 
