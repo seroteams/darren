@@ -76,11 +76,22 @@ the typecheck includes. **Easy to switch if you prefer the tsconfig route.**
 faithful in-place mutation via typed same-ref locals (preserves untouched fields/key-order); fixed a U+001F
 id-delimiter escape mid-conversion. Each: typecheck clean + `npm test` 30/30 + smoke.
 
-**Next:** up the dependency graph — `meeting-arcs`, `one-on-one-types/*`, then the core pipeline modules
-(`generate`, `preparation`, `question-generator`, `queue-manager`, `reviewer`, `role-profile`,
-`answer-suggester`, `opener`, `closer`, `intro-queue`, `arc-overlay`, `person-profile`, `run-history`,
-`product-qa`, `prompt-fixer`, `question-eligibility`, `golden-checks`, `review-html`, `index`,
-`lexicon-reviewer`, lexicon/`review-core`+`cli-interactive`, cli/*). Then `api/`, then `cli.js`.
+**Up-the-graph progress (this session, all committed, each typecheck + npm test 30/30 + smoke):**
+`cli/io`, `cli/run-rating`, `prompt-fixer`, `run-history`. (Running total converted this session: 13 modules
++ the lexicon trio.) Engine `.js` left: **19 root / 32 incl. subdirs**; then **`api/` (37 files)** + `cli.js`.
+
+**Remaining engine waves (dependency order):**
+- Now-unblocked: `person-profile`, `review-html` (need run-history ✅).
+- one-on-one-types cluster: 5 `*/type` files → `index` (decision: `*/type` files use `export default {...}`
+  — they're consumed only by `index`; index uses default-imports). Then `arc-overlay`, `answer-suggester`,
+  `meeting-arcs`, `question-eligibility`, `product-qa`, lexicon/`review-core`+`cli-interactive`, `lexicon-reviewer`,
+  `closer`, `intro-queue`, `opener`.
+- Then needs-role-profile tier: `role-profile` → `generate`, `preparation`, `question-generator`,
+  `queue-manager` (1152 lines), `reviewer` (761) ⇄ `golden-checks` (555) [circular — convert back-to-back].
+- Then `index`, `cli/stages/*`. Then `api/`, then `cli.js`.
+
+Big modules (`queue-manager`, `reviewer`, `golden-checks`, `role-profile`) are agent-drafted then reviewed
+line-by-line before integrating. **No dangers hit so far.**
 Paid `gate` stays parked until the end-of-phase behaviour proof. **End-of-phase QA-agency review is
 a hard gate (see "Done means").**
 
