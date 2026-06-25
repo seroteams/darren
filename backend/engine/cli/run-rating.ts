@@ -1,10 +1,13 @@
-const path = require("node:path");
-const { logFeedback } = require("../session.ts");
-const { cyan, dim } = require("../ui.ts");
-const { ROOT } = require("../paths.mts");
+import path from "node:path";
+import { logFeedback } from "../session.ts";
+import { cyan, dim } from "../ui.ts";
+import { ROOT } from "../paths.mts";
 
-async function collectRunRating(ask, session) {
-  const STAGES = {
+async function collectRunRating(
+  ask: (q: string) => Promise<string>,
+  session: { id: string; dir: string },
+): Promise<void> {
+  const STAGES: Record<string, { key: string; dir: string | null }> = {
     "1": { key: "overall", dir: null },
     "2": { key: "focus_points", dir: "01-focus-points" },
     "3": { key: "question_bank", dir: "03-question-bank" },
@@ -18,6 +21,7 @@ async function collectRunRating(ask, session) {
   console.log(dim("  Stage?  (1) overall  (2) focus points  (3) questions  (4) evaluation"));
   const stagePick = await ask(cyan("  › "));
   const stage = STAGES[stagePick.trim()] || STAGES["1"];
+  if (!stage) return; // unreachable: STAGES["1"] is always present
 
   const noteRaw = await ask(cyan("  Note (or Enter to skip): "));
   const note = noteRaw.trim() || null;
@@ -48,4 +52,4 @@ async function collectRunRating(ask, session) {
   console.log();
 }
 
-module.exports = { collectRunRating };
+export { collectRunRating };

@@ -2,7 +2,7 @@ const { evaluate } = require("../../reviewer");
 const { serialize } = require("../../axes.ts");
 const cost = require("../../cost.ts");
 const { renderBriefing } = require("../../briefing.ts");
-const { writeJson, sessionFile } = require("../io");
+const { writeJson, sessionFile } = require("../io.ts");
 const { bold, dim, yellow, HR, pad, withThinking } = require("../../ui.ts");
 
 async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, notes, scoring, session, name }) {

@@ -9,7 +9,7 @@ const { appendEligibilityLog } = require("../../engine/question-eligibility");
 const { pinPrepOpenerEarly } = require("../../engine/question-generator");
 const { summarizeAgenda, buildCarryForwardQuestion } = require("../../engine/agenda.ts");
 const questions = require("../../engine/questions.ts");
-const { writeJson } = require("../../engine/cli/io");
+const { writeJson } = require("../../engine/cli/io.ts");
 const cost = require("../../engine/cost.ts");
 const { getSessionSelectedFocus } = require("../selected-focus");
 
