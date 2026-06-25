@@ -72,10 +72,15 @@ the typecheck includes. **Easy to switch if you prefer the tsconfig route.**
 
 `session` ✅ committed (engine logging helper; 15 importers). **Safe frontier now fully cleared.**
 
-**Next — GATE:** the **risky lexicon trio** (`lexicon`, `lexicon/candidates-io`, `lexicon/promote-core` —
-heavy dynamic YAML object work) — **held for an explicit go-ahead** before starting. Then up the graph
-(meeting-arcs, one-on-one-types, then generate/preparation/question-generator/queue-manager/reviewer/
-role-profile/etc.), then `api/`, then `cli.js`.
+**Lexicon trio ✅ done** (`lexicon`, `lexicon/candidates-io`, `lexicon/promote-core`) — hand-converted,
+faithful in-place mutation via typed same-ref locals (preserves untouched fields/key-order); fixed a U+001F
+id-delimiter escape mid-conversion. Each: typecheck clean + `npm test` 30/30 + smoke.
+
+**Next:** up the dependency graph — `meeting-arcs`, `one-on-one-types/*`, then the core pipeline modules
+(`generate`, `preparation`, `question-generator`, `queue-manager`, `reviewer`, `role-profile`,
+`answer-suggester`, `opener`, `closer`, `intro-queue`, `arc-overlay`, `person-profile`, `run-history`,
+`product-qa`, `prompt-fixer`, `question-eligibility`, `golden-checks`, `review-html`, `index`,
+`lexicon-reviewer`, lexicon/`review-core`+`cli-interactive`, cli/*). Then `api/`, then `cli.js`.
 Paid `gate` stays parked until the end-of-phase behaviour proof. **End-of-phase QA-agency review is
 a hard gate (see "Done means").**
 
