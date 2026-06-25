@@ -10,7 +10,7 @@ export const STAGE_LABEL = {
   BRIEFING: "Briefing",
 };
 
-export const HIDDEN_STAGES = new Set([STAGES.INTAKE, STAGES.ERROR]);
+export const HIDDEN_STAGES = new Set([STAGES.INTAKE, STAGES.ERROR, STAGES.CHECKLIST]);
 
 export function groupNotes(notes) {
   const out = [];
