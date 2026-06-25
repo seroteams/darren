@@ -101,7 +101,7 @@ async function decisions(c) {
 }
 
 async function promotePending(c) {
-  const { listPendingPromotions } = require("../../engine/lexicon/promote-core");
+  const { listPendingPromotions } = require("../../engine/lexicon/promote-core.ts");
   const items = listPendingPromotions();
   return c.json(200, { items, count: items.length });
 }
@@ -109,7 +109,7 @@ async function promotePending(c) {
 async function promoteApply(c) {
   const body = await c.readBody();
   const { decisions: list } = body || {};
-  const { applyPromotionDecisions } = require("../../engine/lexicon/promote-core");
+  const { applyPromotionDecisions } = require("../../engine/lexicon/promote-core.ts");
   const result = applyPromotionDecisions(Array.isArray(list) ? list : []);
   return c.json(200, { ok: true, ...result });
 }

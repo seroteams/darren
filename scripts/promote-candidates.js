@@ -13,7 +13,7 @@ const {
   listCandidateFiles,
   netNewForMeeting,
   describePromotionItem,
-} = require("../backend/engine/lexicon/promote-core");
+} = require("../backend/engine/lexicon/promote-core.ts");
 
 const { LEXICONS_DIR } = require("../backend/engine/paths.mts");
 

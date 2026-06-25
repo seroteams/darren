@@ -6,7 +6,7 @@ const YAML = require("yaml");
 const {
   listPendingPromotions,
   applyPromotionDecisions,
-} = require("../backend/engine/lexicon/promote-core");
+} = require("../backend/engine/lexicon/promote-core.ts");
 
 const { LEXICONS_DIR } = require("../backend/engine/paths.mts");
 const CAND = path.join(LEXICONS_DIR, "_candidates/engineering");
