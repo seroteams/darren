@@ -1,5 +1,5 @@
 const { evaluate } = require("../../reviewer");
-const { serialize } = require("../../axes");
+const { serialize } = require("../../axes.ts");
 const cost = require("../../cost.ts");
 const { renderBriefing } = require("../../briefing");
 const { writeJson, sessionFile } = require("../io");

@@ -1,5 +1,5 @@
 const { createSession } = require("../engine/session");
-const { initState } = require("../engine/axes");
+const { initState } = require("../engine/axes.ts");
 const cost = require("../engine/cost.ts");
 const { INTRO_BUDGET, DYNAMIC_BUDGET, TOTAL_BUDGET } = require("../engine/budgets.ts");
 const { persist, loadPersistedSessions, restoreFromDisk } = require("./session-persistence");

@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 
 const { logStage } = require("./session");
-const { loadAxes, AXIS_IDS } = require("./axes");
+const { loadAxes, AXIS_IDS } = require("./axes.ts");
 const { newAlias, saveQuestion, listAllAliases } = require("./questions");
 const { getArc } = require("./meeting-arcs");
 const { promptFor } = require("./one-on-one-types");

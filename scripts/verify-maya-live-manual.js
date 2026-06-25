@@ -12,7 +12,7 @@ const path = require("node:path");
 const { loadEnv } = require("../backend/engine/env.ts");
 loadEnv();
 
-const { initState, applyDeltas, serialize } = require("../backend/engine/axes");
+const { initState, applyDeltas, serialize } = require("../backend/engine/axes.ts");
 const {
   applyRecurringGapClarityDamper,
   clampToSignature,

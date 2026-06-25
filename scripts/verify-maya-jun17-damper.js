@@ -7,7 +7,7 @@
 //   node scripts/verify-maya-jun17-damper.js
 
 const assert = require("node:assert/strict");
-const { initState, applyDeltas } = require("../backend/engine/axes");
+const { initState, applyDeltas } = require("../backend/engine/axes.ts");
 const { applyRecurringGapClarityDamper } = require("../backend/engine/queue-manager");
 
 // The run as it happened: question purpose was "scripted" (not "competency"),

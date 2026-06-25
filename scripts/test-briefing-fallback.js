@@ -7,7 +7,7 @@
 const assert = require("node:assert");
 const { buildFallbackBriefing } = require("../backend/engine/reviewer");
 const { runManagerBriefingBans } = require("../backend/engine/golden-checks");
-const { initState, applyDeltas } = require("../backend/engine/axes");
+const { initState, applyDeltas } = require("../backend/engine/axes.ts");
 
 let failed = 0;
 function check(name, fn) {

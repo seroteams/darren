@@ -1,6 +1,7 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const { AXES_FILE } = require("./paths.mts");
+import fs from "node:fs";
+import path from "node:path";
+import { AXES_FILE } from "./paths.mts";
+import type { AxisSlot, AxisState } from "../shared/session.types.ts";
 
 const AXES_PATH = AXES_FILE;
 
@@ -8,16 +9,23 @@ const SCORE_CLAMP = 10;
 const AXIS_MIN = -SCORE_CLAMP;
 const AXIS_MAX = SCORE_CLAMP;
 
-function loadAxes() {
-  return JSON.parse(fs.readFileSync(AXES_PATH, "utf8")).axes;
+interface AxisDef {
+  id: string;
+  label: string;
+  seed?: number;
+}
+
+function loadAxes(): AxisDef[] {
+  const data: { axes: AxisDef[] } = JSON.parse(fs.readFileSync(AXES_PATH, "utf8"));
+  return data.axes;
 }
 
 // The canonical ordered list of axis ids, derived from axes.json so there is a
 // single source of truth instead of a hardcoded array repeated per stage.
 const AXIS_IDS = loadAxes().map((a) => a.id);
 
-function initState(axes = loadAxes()) {
-  const state = {};
+function initState(axes: AxisDef[] = loadAxes()): AxisState {
+  const state: AxisState = {};
   for (const a of axes) {
     const seed = typeof a.seed === "number" ? a.seed : 0;
     state[a.id] = { id: a.id, label: a.label, score: seed, lastDelta: 0, history: [] };
@@ -25,11 +33,19 @@ function initState(axes = loadAxes()) {
   return state;
 }
 
-function applyDeltas(state, { questionAlias, answerExcerpt, deltas }) {
-  for (const axisId of Object.keys(deltas || {})) {
+function applyDeltas(
+  state: AxisState,
+  {
+    questionAlias,
+    answerExcerpt,
+    deltas,
+  }: { questionAlias: string; answerExcerpt?: string; deltas?: Record<string, number> },
+): void {
+  const deltaMap = deltas || {};
+  for (const axisId of Object.keys(deltaMap)) {
     const slot = state[axisId];
     if (!slot) continue;
-    const delta = Number(deltas[axisId]) || 0;
+    const delta = Number(deltaMap[axisId]) || 0;
     const proposed = slot.score + delta;
     slot.score = Math.max(-SCORE_CLAMP, Math.min(SCORE_CLAMP, proposed));
     slot.lastDelta = delta;
@@ -40,11 +56,14 @@ function applyDeltas(state, { questionAlias, answerExcerpt, deltas }) {
     });
   }
   for (const axisId of Object.keys(state)) {
-    if (!(axisId in (deltas || {}))) state[axisId].lastDelta = 0;
+    const slot = state[axisId];
+    if (slot && !(axisId in deltaMap)) slot.lastDelta = 0;
   }
 }
 
-function summarize(state) {
+function summarize(
+  state: AxisState,
+): Array<{ id: string; label: string; score: number; lastDelta: number }> {
   return Object.values(state).map((s) => ({
     id: s.id,
     label: s.label,
@@ -53,21 +72,23 @@ function summarize(state) {
   }));
 }
 
-function serialize(state) {
-  const out = {};
+function serialize(state: AxisState): Record<string, { score: number; history: AxisSlot["history"] }> {
+  const out: Record<string, { score: number; history: AxisSlot["history"] }> = {};
   for (const [id, s] of Object.entries(state)) {
     out[id] = { score: s.score, history: s.history };
   }
   return out;
 }
 
-function coverageGap(state) {
+function coverageGap(
+  state: AxisState,
+): Array<{ id: string; touches: number; score: number }> {
   return Object.values(state)
     .map((s) => ({ id: s.id, touches: s.history.length, score: s.score }))
     .sort((a, b) => a.touches - b.touches);
 }
 
-function validateAxisState(state) {
+function validateAxisState(state: AxisState): void {
   if (!state || typeof state !== "object" || Array.isArray(state)) {
     throw new Error("axis state is missing or not an object");
   }
@@ -84,4 +105,16 @@ function validateAxisState(state) {
   }
 }
 
-module.exports = { loadAxes, initState, applyDeltas, summarize, serialize, coverageGap, validateAxisState, SCORE_CLAMP, AXIS_IDS, AXIS_MIN, AXIS_MAX };
+export {
+  loadAxes,
+  initState,
+  applyDeltas,
+  summarize,
+  serialize,
+  coverageGap,
+  validateAxisState,
+  SCORE_CLAMP,
+  AXIS_IDS,
+  AXIS_MIN,
+  AXIS_MAX,
+};

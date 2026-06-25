@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { LOGS_ROOT } = require("../engine/session");
 const { findRunDir } = require("../engine/run-history");
-const { initState } = require("../engine/axes");
+const { initState } = require("../engine/axes.ts");
 const cost = require("../engine/cost.ts");
 
 const STATE_FILE = "session-state.json";

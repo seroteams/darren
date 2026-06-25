@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 
-const { loadAxes, validateAxisState, AXIS_IDS } = require("./axes");
+const { loadAxes, validateAxisState, AXIS_IDS } = require("./axes.ts");
 const { newAlias, saveQuestion, listAllAliases, loadDir } = require("./questions");
 const { getArc } = require("./meeting-arcs");
 const { isRelationalArc } = require("./relational-arcs.ts");
