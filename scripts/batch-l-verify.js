@@ -66,8 +66,8 @@ function checkScopeAndPrompt(scenario) {
     normalizeTranscriptForReview,
     extractBankQuestions,
   } = require("../backend/engine/lexicon-reviewer");
-  const { resolveLexiconScope } = require("../backend/engine/lexicon");
-  const { loadLexicon } = require("../backend/engine/lexicon");
+  const { resolveLexiconScope } = require("../backend/engine/lexicon.ts");
+  const { loadLexicon } = require("../backend/engine/lexicon.ts");
 
   const ctx = scenario.ctx;
   failed += ok("Toby growth → shouldReview", shouldReview(ctx) === scenario.expect.shouldReview);
@@ -106,8 +106,8 @@ function checkSparseFixture(scenario) {
   console.log("\n--- Sparse transcript (no padding) ---");
   let failed = 0;
   const { buildPrompt, normalizeTranscriptForReview } = require("../backend/engine/lexicon-reviewer");
-  const { resolveLexiconScope } = require("../backend/engine/lexicon");
-  const { loadLexicon } = require("../backend/engine/lexicon");
+  const { resolveLexiconScope } = require("../backend/engine/lexicon.ts");
+  const { loadLexicon } = require("../backend/engine/lexicon.ts");
 
   const ctx = scenario.ctx;
   const scope = resolveLexiconScope(ctx);

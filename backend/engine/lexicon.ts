@@ -1,13 +1,45 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const YAML = require("yaml");
-const { LEXICONS_DIR } = require("./paths.mts");
+import fs from "node:fs";
+import path from "node:path";
+import * as YAML from "yaml";
+import { LEXICONS_DIR } from "./paths.mts";
 
 const CANDIDATES_DIR = path.join(LEXICONS_DIR, "_candidates");
 
-const EMPTY = { preferTerms: [], preferPhrases: [], avoidPhrases: [] };
+interface AvoidPhrase {
+  phrase: string;
+  reason: string;
+  better_as: string;
+}
 
-function roleFamilyOf(role) {
+interface Lexicon {
+  preferTerms: string[];
+  preferPhrases: string[];
+  avoidPhrases: AvoidPhrase[];
+}
+
+interface LexiconScope {
+  roleFamily: string | null;
+  seniority: string | null;
+  meetingType: string | null;
+}
+
+interface ResolvedLexiconScope extends LexiconScope {
+  sourceSeniority?: string;
+}
+
+interface LexiconCtx {
+  meetingType?: string | null;
+  role?: string | null;
+  seniority?: string | null;
+}
+
+const EMPTY: Lexicon = { preferTerms: [], preferPhrases: [], avoidPhrases: [] };
+
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+
+function roleFamilyOf(role: string | null | undefined): string | null {
   if (!role || typeof role !== "string") return null;
   const r = role.toLowerCase();
   if (
@@ -41,7 +73,7 @@ function roleFamilyOf(role) {
   return "general";
 }
 
-function meetingTypeKey(meetingType) {
+function meetingTypeKey(meetingType: string | null | undefined): string | null {
   if (!meetingType || typeof meetingType !== "string") return null;
   const m = meetingType.toLowerCase();
   if (m.includes("growth")) return "growth";
@@ -51,30 +83,30 @@ function meetingTypeKey(meetingType) {
   return m;
 }
 
-function seniorityKey(seniority) {
+function seniorityKey(seniority: string | null | undefined): string | null {
   if (!seniority || typeof seniority !== "string") return null;
   return seniority.toLowerCase().trim();
 }
 
-function canonicalPath(roleFamily, seniority) {
+function canonicalPath(roleFamily: string, seniority: string): string {
   return path.join(LEXICONS_DIR, roleFamily, `${seniority}.yaml`);
 }
 
-function candidatePath(roleFamily, seniority) {
+function candidatePath(roleFamily: string, seniority: string): string {
   return path.join(CANDIDATES_DIR, roleFamily, `${seniority}.yaml`);
 }
 
-function safeLoadYaml(filePath) {
+function safeLoadYaml(filePath: string): Record<string, unknown> | null {
   try {
     const raw = fs.readFileSync(filePath, "utf8");
-    const parsed = YAML.parse(raw);
-    return parsed && typeof parsed === "object" ? parsed : null;
+    const parsed: unknown = YAML.parse(raw);
+    return isObjectRecord(parsed) ? parsed : null;
   } catch {
     return null;
   }
 }
 
-function loadLexicon({ meetingType, role, seniority }) {
+function loadLexicon({ meetingType, role, seniority }: LexiconCtx): Lexicon {
   const family = roleFamilyOf(role);
   const sen = seniorityKey(seniority);
   const mt = meetingTypeKey(meetingType);
@@ -84,19 +116,22 @@ function loadLexicon({ meetingType, role, seniority }) {
   const doc = safeLoadYaml(filePath);
   if (!doc) return { ...EMPTY };
 
-  const meetings = doc.meeting_types && typeof doc.meeting_types === "object" ? doc.meeting_types : {};
+  const meetings: Record<string, unknown> = isObjectRecord(doc.meeting_types) ? doc.meeting_types : {};
   const entry = meetings[mt];
-  if (!entry || typeof entry !== "object") return { ...EMPTY };
+  if (!isObjectRecord(entry)) return { ...EMPTY };
 
-  const preferTerms = Array.isArray(entry.prefer_terms)
-    ? entry.prefer_terms.filter((x) => typeof x === "string" && x.trim())
+  const preferTerms: string[] = Array.isArray(entry.prefer_terms)
+    ? entry.prefer_terms.filter((x: unknown): x is string => typeof x === "string" && x.trim().length > 0)
     : [];
-  const preferPhrases = Array.isArray(entry.prefer_phrases)
-    ? entry.prefer_phrases.filter((x) => typeof x === "string" && x.trim())
+  const preferPhrases: string[] = Array.isArray(entry.prefer_phrases)
+    ? entry.prefer_phrases.filter((x: unknown): x is string => typeof x === "string" && x.trim().length > 0)
     : [];
-  const avoidPhrases = Array.isArray(entry.avoid_phrases)
+  const avoidPhrases: AvoidPhrase[] = Array.isArray(entry.avoid_phrases)
     ? entry.avoid_phrases
-        .filter((x) => x && typeof x === "object" && typeof x.phrase === "string" && x.phrase.trim())
+        .filter(
+          (x: unknown): x is { phrase: string; reason?: unknown; better_as?: unknown } =>
+            isObjectRecord(x) && typeof x.phrase === "string" && x.phrase.trim().length > 0,
+        )
         .map((x) => ({
           phrase: x.phrase,
           reason: typeof x.reason === "string" ? x.reason : "",
@@ -107,7 +142,7 @@ function loadLexicon({ meetingType, role, seniority }) {
   return { preferTerms, preferPhrases, avoidPhrases };
 }
 
-function lexiconScopeFor({ meetingType, role, seniority }) {
+function lexiconScopeFor({ meetingType, role, seniority }: LexiconCtx): LexiconScope {
   return {
     roleFamily: roleFamilyOf(role),
     seniority: seniorityKey(seniority),
@@ -116,7 +151,7 @@ function lexiconScopeFor({ meetingType, role, seniority }) {
 }
 
 // Expert ICs on growth paths share the lead lexicon file for their role family.
-function resolveLexiconScope(ctx) {
+function resolveLexiconScope(ctx: LexiconCtx): ResolvedLexiconScope {
   const base = lexiconScopeFor(ctx);
   if (base.roleFamily && base.meetingType === "growth" && base.seniority === "expert") {
     return { ...base, seniority: "lead", sourceSeniority: "expert" };
@@ -127,15 +162,15 @@ function resolveLexiconScope(ctx) {
 const REVIEW_SENIORITIES = new Set(["lead", "expert"]);
 
 // LF-5 path B: all role families; still growth + lead|expert (bi-weekly stays out-of-scope).
-function isLexiconReviewScope(scope) {
+function isLexiconReviewScope(scope: LexiconScope): boolean {
   return (
     Boolean(scope.roleFamily) &&
     scope.meetingType === "growth" &&
-    REVIEW_SENIORITIES.has(scope.seniority)
+    REVIEW_SENIORITIES.has(scope.seniority ?? "")
   );
 }
 
-module.exports = {
+export {
   loadLexicon,
   lexiconScopeFor,
   resolveLexiconScope,

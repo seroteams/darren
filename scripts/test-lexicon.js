@@ -4,7 +4,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const YAML = require("yaml");
 
-const { loadLexicon, canonicalPath, candidatePath } = require("../backend/engine/lexicon");
+const { loadLexicon, canonicalPath, candidatePath } = require("../backend/engine/lexicon.ts");
 const { buildMessages } = require("../backend/engine/question-generator");
 const { LEXICONS_DIR } = require("../backend/engine/paths.mts");
 

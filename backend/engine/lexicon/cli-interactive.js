@@ -1,6 +1,6 @@
 const path = require("node:path");
 
-const { canonicalPath, candidatePath } = require("../lexicon");
+const { canonicalPath, candidatePath } = require("../lexicon.ts");
 const { bold, cyan, dim, gray, green, yellow, HR } = require("../ui.ts");
 const { appendCandidates, writeTrace } = require("./candidates-io");
 const { generateSuggestions } = require("./review-core");

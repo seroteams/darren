@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const { slugify } = require("./person-profile");
-const { roleFamilyOf } = require("./lexicon");
+const { roleFamilyOf } = require("./lexicon.ts");
 const { splitSystemUser } = require("./prompt-utils.ts");
 const { promptVersionFor } = require("./prompt-version.ts");
 const { logStage } = require("./session.ts");

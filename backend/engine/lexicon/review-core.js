@@ -3,7 +3,7 @@ const path = require("node:path");
 
 const { callAI, parseAIJson } = require("../ai-client.ts");
 const { modelFor } = require("../models.ts");
-const { loadLexicon, lexiconScopeFor, resolveLexiconScope, isLexiconReviewScope, candidatePath } = require("../lexicon");
+const { loadLexicon, lexiconScopeFor, resolveLexiconScope, isLexiconReviewScope, candidatePath } = require("../lexicon.ts");
 const { RESPONSE_SCHEMA } = require("./schema.ts");
 const { appendCandidates, writeTrace, readTrace, tracePathFor } = require("./candidates-io");
 const { promptFor } = require("../one-on-one-types");
