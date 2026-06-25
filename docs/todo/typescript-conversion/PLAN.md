@@ -53,10 +53,13 @@ in 6 green commits (each: convert → flip importers → `npm test` 30/30 + `typ
 - **L1 so far (7):** env, models, rules, prompt-version, cost, run-fingerprint, one-on-one-types/_shared/prompts.
   (cost + run-fingerprint validate the shared cost/RunFingerprint contracts; refined `CostTracker.record` to
   accept optional `usage`.)
-- **Post-overnight (2, this session):** `pipeline-lock` (typed lock/diff/change-group shapes; 4 importers flipped)
-  and `axes` (reuses shared `AxisState`/`AxisSlot` from session.types; 13 importers flipped). `pipeline-lock`
-  unblocked `session.js`. Both: typecheck clean + `npm test` 30/30 + smoke. **Noted:** `axes` carried a
-  pre-existing unused `node:path` import — kept (not deleted) per the dead-code rule; flag for a later cleanup.
+- **Post-overnight (this session):** `pipeline-lock` (typed lock/diff/change-group shapes; 4 importers),
+  `axes` (reuses shared `AxisState`/`AxisSlot`; 13 importers), `questions` (YAML codec + index IO; reuses
+  shared `Question`; 15 importers — agent-drafted, reviewed+corrected). All committed: typecheck clean +
+  `npm test` 30/30 + smoke. `briefing` (CLI renderer) converted + verified but **HELD uncommitted** for the
+  owner-walk (untested module). `ai-client` **drafted** (agent: raw fetch, no SDK; reuses `OpenAiUsage`) —
+  pending careful review + integration. **Noted:** `axes` carried a pre-existing unused `node:path` import —
+  kept (not deleted) per the dead-code rule; flag for a later cleanup.
 
 **⚠️ DECISION made overnight (needs Carl's nod):** `paths` needs its own directory, which is ESM-only
 (`import.meta.dirname`). tsc treats a `.ts` as CommonJS (no `"type":"module"` — the ~80 remaining `.js` are
@@ -65,7 +68,7 @@ it as ESM). Only `paths` (now) and `api/server.js` (later) ever need this. Alter
 `module:"preserve"` (all `.ts` → ESM). Chose `.mts` as most-local / lowest-risk; added `backend/**/*.mts` to
 the typecheck includes. **Easy to switch if you prefer the tsconfig route.**
 
-**Next (safe frontier — deps all typed):** `questions`, `briefing`, `ai-client`, `session`. The **risky
+**Next:** integrate `ai-client` (drafted), then `session`; commit `briefing` on the owner-walk. The **risky
 lexicon trio** (`lexicon`, `lexicon/candidates-io`, `lexicon/promote-core` — heavy dynamic YAML object work)
 is held for an explicit go-ahead before starting. Then up the graph (L2→L5), then `api/`, then `cli.js`.
 Paid `gate` stays parked until the end-of-phase behaviour proof. **End-of-phase QA-agency review is
