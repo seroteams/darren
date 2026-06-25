@@ -11,7 +11,7 @@ const { resolveSelectedFocus } = require("./selected-focus.ts");
 const { splitSystemUser } = require("./prompt-utils.ts");
 const { withPromptVersion } = require("./prompt-version.ts");
 const { modelFor } = require("./models.ts");
-const { callAI, parseAIJson } = require("./ai-client");
+const { callAI, parseAIJson } = require("./ai-client.ts");
 
 const getDefaultModel = () => modelFor("evaluation");
 

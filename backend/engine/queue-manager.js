@@ -10,7 +10,7 @@ const { splitSystemUser } = require("./prompt-utils.ts");
 const { loadRoleProfile, renderRoleProfileBlock } = require("./role-profile");
 
 const { modelFor } = require("./models.ts");
-const { callAI, parseAIJson } = require("./ai-client");
+const { callAI, parseAIJson } = require("./ai-client.ts");
 const getDefaultModel = () => modelFor("planner");
 
 const ALLOWED_DELTAS = [-3, -1, 0, 1, 3];

@@ -4,7 +4,7 @@
 // Testing aid only — the web UI gates it behind dev mode.
 
 const { modelFor } = require("./models.ts");
-const { callAI, parseAIJson } = require("./ai-client");
+const { callAI, parseAIJson } = require("./ai-client.ts");
 
 const RESPONSE_SCHEMA = {
   type: "object",

@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { callAI, parseAIJson } = require("../ai-client");
+const { callAI, parseAIJson } = require("../ai-client.ts");
 const { modelFor } = require("../models.ts");
 const { loadLexicon, lexiconScopeFor, resolveLexiconScope, isLexiconReviewScope, candidatePath } = require("../lexicon");
 const { RESPONSE_SCHEMA } = require("./schema.ts");

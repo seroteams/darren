@@ -3,7 +3,7 @@
 // strict JSON only — display-only, the tester applies it by hand (no auto-apply).
 
 const { modelFor } = require("./models.ts");
-const { callAI, parseAIJson } = require("./ai-client");
+const { callAI, parseAIJson } = require("./ai-client.ts");
 
 // Map a pipeline stage to its editable prompt template + the run-folder log dir.
 const STAGE_MAP = {

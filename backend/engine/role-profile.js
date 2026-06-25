@@ -7,7 +7,7 @@ const { splitSystemUser } = require("./prompt-utils.ts");
 const { promptVersionFor } = require("./prompt-version.ts");
 const { logStage } = require("./session");
 const { modelFor } = require("./models.ts");
-const { callAI, parseAIJson } = require("./ai-client");
+const { callAI, parseAIJson } = require("./ai-client.ts");
 const { isRelationalArc } = require("./relational-arcs.ts");
 const { DATA_DIR, PROMPTS_DIR } = require("./paths.mts");
 

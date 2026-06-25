@@ -5,7 +5,7 @@
 
 const { loadEnv } = require("../backend/engine/env.ts");
 loadEnv();
-const { callAI, parseAIJson } = require("../backend/engine/ai-client");
+const { callAI, parseAIJson } = require("../backend/engine/ai-client.ts");
 const { modelFor } = require("../backend/engine/models.ts");
 
 const DIMS = [

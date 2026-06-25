@@ -1,29 +1,77 @@
-const cost = require("./cost.ts");
+import * as cost from "./cost.ts";
+import type { OpenAiUsage } from "../shared/cost.types.ts";
 
 const TIMEOUT_MS = 30_000;
 const MAX_RETRIES = 5;
 const RETRY_STATUSES = new Set([429, 500, 502, 503, 504]);
 
-function isGemini(model) {
+// JSON-shaped value, for the schema objects we transform for Gemini.
+type JsonValue =
+  | string
+  | number
+  | boolean
+  | null
+  | JsonValue[]
+  | { [key: string]: JsonValue };
+
+// Error carrying the optional HTTP status / Retry-After we attach to thrown
+// errors so withRetry can decide whether to retry and how long to wait.
+interface RetryableError extends Error {
+  status?: number;
+  retryAfter?: number;
+}
+
+// Arguments shared by callAI and the per-provider callers.
+interface CallAIArgs {
+  system: string;
+  user: string;
+  schema: JsonValue;
+  schemaName: string;
+  temperature: number;
+  model: string;
+  costLabel: string;
+}
+
+// OpenAI chat.completions response — only the fields we read.
+interface OpenAIChatResponse {
+  usage?: OpenAiUsage;
+  choices?: Array<{ message?: { content?: string } }>;
+}
+
+// Gemini generateContent response — only the fields we read.
+interface GeminiResponse {
+  usageMetadata?: {
+    promptTokenCount?: number;
+    candidatesTokenCount?: number;
+    totalTokenCount?: number;
+  };
+  candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+}
+
+function isGemini(model: unknown): boolean {
   return typeof model === "string" && model.startsWith("gemini-");
 }
 
 // Strip OpenAI-specific schema fields unsupported by Gemini's responseSchema,
 // and convert union null types (["string","null"]) to Gemini's nullable flag.
-function toGeminiSchema(schema) {
+function toGeminiSchema(schema: JsonValue): JsonValue {
   if (!schema || typeof schema !== "object" || Array.isArray(schema)) return schema;
-  const out = {};
+  const out: { [key: string]: JsonValue } = {};
   for (const [k, v] of Object.entries(schema)) {
     if (k === "additionalProperties") continue;
     if (k === "type" && Array.isArray(v)) {
       const nonNull = v.filter((t) => t !== "null");
-      if (nonNull.length === 1) out.type = nonNull[0];
+      if (nonNull.length === 1) {
+        const only = nonNull[0];
+        if (only !== undefined) out.type = only;
+      }
       if (v.includes("null")) out.nullable = true;
       continue;
     }
     if (k === "properties" && v && typeof v === "object") {
-      out[k] = {};
-      for (const [pk, pv] of Object.entries(v)) out[k][pk] = toGeminiSchema(pv);
+      const props: { [key: string]: JsonValue } = {};
+      for (const [pk, pv] of Object.entries(v)) props[pk] = toGeminiSchema(pv);
+      out[k] = props;
     } else if (k === "items" && v && typeof v === "object" && !Array.isArray(v)) {
       out[k] = toGeminiSchema(v);
     } else {
@@ -33,7 +81,7 @@ function toGeminiSchema(schema) {
   return out;
 }
 
-async function fetchWithTimeout(url, options) {
+async function fetchWithTimeout(url: string, options: RequestInit): Promise<Response> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
@@ -43,8 +91,8 @@ async function fetchWithTimeout(url, options) {
   }
 }
 
-async function withRetry(fn, label) {
-  let lastErr;
+async function withRetry<T>(fn: () => Promise<T>, label: string): Promise<T> {
+  let lastErr: RetryableError | undefined;
   for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
     if (attempt > 0) {
       // Respect the Retry-After the API told us; fall back to exponential backoff
@@ -54,14 +102,15 @@ async function withRetry(fn, label) {
     try {
       return await fn();
     } catch (err) {
-      lastErr = err;
-      const isAbort = err.name === "AbortError";
+      const e: RetryableError = err instanceof Error ? err : new Error(String(err));
+      lastErr = e;
+      const isAbort = e.name === "AbortError";
       // A status-less error means we never got an HTTP response — a network drop
       // (ECONNRESET, DNS failure, fetch TypeError). Those are transient: retry them.
-      const isNetworkError = err.status == null;
-      const isRetryable = isAbort || isNetworkError || RETRY_STATUSES.has(err.status);
-      if (!isRetryable) throw err;
-      console.warn(`[ai-client] ${label} attempt ${attempt + 1} failed (${err.message}), retrying…`);
+      const isNetworkError = e.status == null;
+      const isRetryable = isAbort || isNetworkError || RETRY_STATUSES.has(e.status ?? -1);
+      if (!isRetryable) throw e;
+      console.warn(`[ai-client] ${label} attempt ${attempt + 1} failed (${e.message}), retrying…`);
     }
   }
   throw lastErr;
@@ -69,7 +118,7 @@ async function withRetry(fn, label) {
 
 const UNRESOLVED_PLACEHOLDER_RE = /\{\{[A-Z][A-Z0-9_]*\}\}/g;
 
-function assertNoUnresolvedPlaceholders(text, where) {
+function assertNoUnresolvedPlaceholders(text: unknown, where: string): void {
   if (typeof text !== "string") return;
   const hits = text.match(UNRESOLVED_PLACEHOLDER_RE);
   if (hits && hits.length) {
@@ -78,7 +127,15 @@ function assertNoUnresolvedPlaceholders(text, where) {
   }
 }
 
-async function callAI({ system, user, schema, schemaName, temperature, model, costLabel }) {
+async function callAI({
+  system,
+  user,
+  schema,
+  schemaName,
+  temperature,
+  model,
+  costLabel,
+}: CallAIArgs): Promise<string> {
   assertNoUnresolvedPlaceholders(system, `${costLabel} system prompt`);
   assertNoUnresolvedPlaceholders(user, `${costLabel} user prompt`);
   if (isGemini(model)) {
@@ -87,7 +144,15 @@ async function callAI({ system, user, schema, schemaName, temperature, model, co
   return _callOpenAI({ system, user, schema, schemaName, temperature, model, costLabel });
 }
 
-async function _callOpenAI({ system, user, schema, schemaName, temperature, model, costLabel }) {
+async function _callOpenAI({
+  system,
+  user,
+  schema,
+  schemaName,
+  temperature,
+  model,
+  costLabel,
+}: CallAIArgs): Promise<string> {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error("OPENAI_API_KEY not set");
 
@@ -109,19 +174,26 @@ async function _callOpenAI({ system, user, schema, schemaName, temperature, mode
       }),
     });
     if (!res.ok) {
-      const err = new Error(`OpenAI ${res.status}: ${await res.text()}`);
+      const err: RetryableError = new Error(`OpenAI ${res.status}: ${await res.text()}`);
       err.status = res.status;
       const retryAfter = res.headers.get("retry-after");
       if (retryAfter) err.retryAfter = parseFloat(retryAfter) * 1000;
       throw err;
     }
-    const data = await res.json();
+    const data: OpenAIChatResponse = JSON.parse(await res.text());
     cost.record(costLabel, model, data.usage);
     return data.choices?.[0]?.message?.content ?? "";
   }, `OpenAI/${costLabel}`);
 }
 
-async function _callGemini({ system, user, schema, temperature, model, costLabel }) {
+async function _callGemini({
+  system,
+  user,
+  schema,
+  temperature,
+  model,
+  costLabel,
+}: Omit<CallAIArgs, "schemaName">): Promise<string> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new Error("GEMINI_API_KEY not set");
 
@@ -140,16 +212,16 @@ async function _callGemini({ system, user, schema, temperature, model, costLabel
             responseSchema: toGeminiSchema(schema),
           },
         }),
-      }
+      },
     );
     if (!res.ok) {
-      const err = new Error(`Gemini ${res.status}: ${await res.text()}`);
+      const err: RetryableError = new Error(`Gemini ${res.status}: ${await res.text()}`);
       err.status = res.status;
       throw err;
     }
-    const data = await res.json();
+    const data: GeminiResponse = JSON.parse(await res.text());
     // Normalise to OpenAI-style usage so cost.record works unchanged
-    const usage = {
+    const usage: OpenAiUsage = {
       prompt_tokens: data.usageMetadata?.promptTokenCount ?? 0,
       completion_tokens: data.usageMetadata?.candidatesTokenCount ?? 0,
       total_tokens: data.usageMetadata?.totalTokenCount ?? 0,
@@ -159,8 +231,11 @@ async function _callGemini({ system, user, schema, temperature, model, costLabel
   }, `Gemini/${costLabel}`);
 }
 
-function findUnresolvedPlaceholderFields(value, path = "") {
-  const hits = [];
+function findUnresolvedPlaceholderFields(
+  value: unknown,
+  path = "",
+): Array<{ path: string; tokens: string[] }> {
+  const hits: Array<{ path: string; tokens: string[] }> = [];
   if (typeof value === "string") {
     const m = value.match(UNRESOLVED_PLACEHOLDER_RE);
     if (m) hits.push({ path: path || "(root)", tokens: [...new Set(m)] });
@@ -174,8 +249,8 @@ function findUnresolvedPlaceholderFields(value, path = "") {
   return hits;
 }
 
-function parseAIJson(raw, label, requiredKeys = []) {
-  let parsed;
+function parseAIJson(raw: string, label: string, requiredKeys: string[] = []): unknown {
+  let parsed: unknown;
   try {
     parsed = JSON.parse(raw);
   } catch {
@@ -183,7 +258,8 @@ function parseAIJson(raw, label, requiredKeys = []) {
     throw new Error(`${label} returned invalid JSON: ${preview}${(raw || "").length > 300 ? "…" : ""}`);
   }
   if (requiredKeys.length) {
-    const missing = requiredKeys.filter((k) => !(k in (parsed || {})));
+    const obj: object = parsed && typeof parsed === "object" ? parsed : {};
+    const missing = requiredKeys.filter((k) => !(k in obj));
     if (missing.length) {
       throw new Error(`${label} returned schema-invalid response — missing fields: ${missing.join(", ")}`);
     }
@@ -196,4 +272,4 @@ function parseAIJson(raw, label, requiredKeys = []) {
   return parsed;
 }
 
-module.exports = { callAI, isGemini, parseAIJson, assertNoUnresolvedPlaceholders };
+export { callAI, isGemini, parseAIJson, assertNoUnresolvedPlaceholders };

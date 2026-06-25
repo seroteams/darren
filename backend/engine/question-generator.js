@@ -13,7 +13,7 @@ const { splitSystemUser } = require("./prompt-utils.ts");
 const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
 
 const { modelFor } = require("./models.ts");
-const { callAI, parseAIJson } = require("./ai-client");
+const { callAI, parseAIJson } = require("./ai-client.ts");
 const getDefaultModel = () => modelFor("bank");
 
 const ALLOWED_DELTAS = [3, 1, -1, -3];
