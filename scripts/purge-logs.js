@@ -21,7 +21,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const { LOGS_ROOT } = require("../backend/engine/session.ts");
-const { isArchivedAt, reviewSummaryOf } = require("../backend/engine/run-history");
+const { isArchivedAt, reviewSummaryOf } = require("../backend/engine/run-history.ts");
 
 const RUN_ID_RE = /\b\d{4}_[A-Z][a-z]{2}\d{2}_\d{2}-\d{2}-[0-9a-f]{8}\b/g;
 const RUN_DIR_RE = /^\d{4}_[A-Z][a-z]{2}\d{2}_\d{2}-\d{2}-[0-9a-f]{8}$/;

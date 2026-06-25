@@ -1,4 +1,4 @@
-const { listRecentRuns, listFinishedRuns, summarizeRun, compareRun, readRunStages, deleteRun, setArchived } = require("../../engine/run-history");
+const { listRecentRuns, listFinishedRuns, summarizeRun, compareRun, readRunStages, deleteRun, setArchived } = require("../../engine/run-history.ts");
 const { dropSession } = require("../sessions");
 
 function recent(c) {

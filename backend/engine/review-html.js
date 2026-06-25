@@ -9,7 +9,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { LOGS_ROOT } = require("./session.ts");
-const { buildHeadline } = require("./run-history");
+const { buildHeadline } = require("./run-history.ts");
 
 const SKIP_MONTH_DIRS = new Set(["probes", "sweeps"]);
 

@@ -15,7 +15,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { findRunDir, listFinishedRuns } = require("../backend/engine/run-history");
+const { findRunDir, listFinishedRuns } = require("../backend/engine/run-history.ts");
 
 function readJson(file) {
   try {

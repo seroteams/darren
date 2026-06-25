@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { findRunDir } = require("../../engine/run-history");
+const { findRunDir } = require("../../engine/run-history.ts");
 const { suggestFix, stageInfo } = require("../../engine/prompt-fixer.ts");
 
 function readText(file) {

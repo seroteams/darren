@@ -11,7 +11,7 @@ const {
   findLatestRunWithLock,
   findLatestRun,
   buildHeadline,
-} = require("../../engine/run-history");
+} = require("../../engine/run-history.ts");
 
 function status(c) {
   const baselineParam = c.query.baseline || "latest";

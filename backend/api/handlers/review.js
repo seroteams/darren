@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const { findRunDir, reviewStatusOf, REVIEW_DIM_KEYS } = require("../../engine/run-history");
+const { findRunDir, reviewStatusOf, REVIEW_DIM_KEYS } = require("../../engine/run-history.ts");
 
 // In-app Run Review (internal QA tooling). This handler is the ONLY writer of
 // review.json and it writes NOTHING else — review mode never mutates the run's
