@@ -1,7 +1,7 @@
 alias: q_prep_opener_187
 label: Prep opener
-name: How have the last couple of weeks felt in terms of what keeps pulling you off the work that matters most?
-description: Sets up the conversation around the competing pulls without jumping straight to diagnosis.
+name: How has the mix of topics across each OE felt to carry over the last couple of weeks?
+description: Gives Carl space to name where the load is landing before you get specific.
 purpose: wellbeing
 stage: pulse
 axis_effects:

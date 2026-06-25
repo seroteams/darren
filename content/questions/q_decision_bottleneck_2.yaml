@@ -1,0 +1,10 @@
+alias: q_decision_bottleneck_2
+label: Decision bottleneck
+name: Where are you still the one every design decision has to come back to?
+description: Helps you hear where he is stuck as the approval point for too much.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

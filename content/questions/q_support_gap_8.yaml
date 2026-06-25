@@ -1,0 +1,10 @@
+alias: q_support_gap_8
+label: Support gap
+name: Where would my help make the biggest difference on your load right now?
+description: Opens a practical ask without assuming what support he needs.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated
