@@ -8,7 +8,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { LOGS_ROOT } = require("../../engine/session");
+const { LOGS_ROOT } = require("../../engine/session.ts");
 
 const MIME = {
   ".html": "text/html; charset=utf-8",

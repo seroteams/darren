@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const { LOGS_ROOT } = require("../engine/session");
+const { LOGS_ROOT } = require("../engine/session.ts");
 const { findRunDir } = require("../engine/run-history");
 const { initState } = require("../engine/axes.ts");
 const cost = require("../engine/cost.ts");

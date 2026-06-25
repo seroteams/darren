@@ -1,5 +1,5 @@
 const path = require("node:path");
-const { logFeedback } = require("../session");
+const { logFeedback } = require("../session.ts");
 const { cyan, dim } = require("../ui.ts");
 const { ROOT } = require("../paths.mts");
 

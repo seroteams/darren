@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 
-const { logStage } = require("./session");
+const { logStage } = require("./session.ts");
 const { loadAxes, AXIS_IDS } = require("./axes.ts");
 const { newAlias, saveQuestion, listAllAliases } = require("./questions.ts");
 const { getArc } = require("./meeting-arcs");

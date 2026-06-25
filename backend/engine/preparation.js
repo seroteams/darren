@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const { randomUUID } = require("node:crypto");
 
-const { logStage } = require("./session");
+const { logStage } = require("./session.ts");
 const { modelFor } = require("./models.ts");
 const { callAI, parseAIJson } = require("./ai-client.ts");
 const { promptFor, getArc } = require("./one-on-one-types");

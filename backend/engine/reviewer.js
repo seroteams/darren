@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 
-const { logStage } = require("./session");
+const { logStage } = require("./session.ts");
 const { loadAxes, AXIS_IDS, AXIS_MIN, AXIS_MAX } = require("./axes.ts");
 const { promptFor, getArc, getType } = require("./one-on-one-types");
 const { withPromptVersion } = require("./prompt-version.ts");

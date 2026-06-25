@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { logStage } = require("./session");
+const { logStage } = require("./session.ts");
 const { promptFor } = require("./one-on-one-types");
 const { splitSystemUser } = require("./prompt-utils.ts");
 const { FOCUS_POINTS_FILE } = require("./paths.mts");
