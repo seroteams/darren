@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sero — My Roadmap</title>
+<style>
+  :root {
+    --bg:#0f1117; --card:#181b24; --card2:#1f2330; --ink:#e8eaf0; --muted:#9aa3b5;
+    --accent:#5eead4; --accent2:#818cf8; --warn:#fbbf24; --good:#4ade80; --line:#2a2f3e;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink);
+    font-family:"Segoe UI", system-ui, -apple-system, sans-serif; line-height:1.6;
+    padding:40px 20px 80px; }
+  .wrap { max-width:800px; margin:0 auto; }
+
+  /* header */
+  .kicker { color:var(--accent); font-size:14px; font-weight:700; letter-spacing:.16em;
+    text-transform:uppercase; margin-bottom:10px; }
+  h1 { font-size:clamp(30px,5vw,46px); line-height:1.1; margin-bottom:10px; }
+  .sub { color:var(--muted); font-size:17px; max-width:640px; }
+
+  .goal { background:linear-gradient(135deg,#1b2433,#181b24); border:1px solid var(--accent);
+    border-radius:16px; padding:20px 22px; margin:26px 0; }
+  .goal .tag { display:inline-block; background:var(--accent); color:#06241e; font-weight:700;
+    font-size:14px; letter-spacing:.05em; border-radius:999px; padding:3px 12px; margin-bottom:10px; }
+  .goal p { font-size:18px; color:var(--ink); }
+  .goal p.small { font-size:15px; color:var(--muted); margin-top:8px; }
+
+  .legend { display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 6px; }
+  .legend span { font-size:14px; color:var(--muted); display:flex; align-items:center; gap:7px; }
+  .dot { width:13px; height:13px; border-radius:50%; display:inline-block; }
+  .dot.now { background:var(--accent); } .dot.next { background:var(--accent2); }
+  .dot.later { background:var(--card2); border:1px solid var(--line); } .dot.done { background:var(--good); }
+
+  /* part section */
+  section.part { margin-top:34px; }
+  .part-head { margin-bottom:16px; }
+  .part-head .pnum { color:var(--accent2); font-size:14px; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; }
+  .part-head h2 { font-size:24px; margin:2px 0 4px; }
+  .part-head p { color:var(--muted); font-size:15px; }
+
+  /* timeline */
+  .item { display:grid; grid-template-columns:52px 1fr; padding-bottom:14px; }
+  .item:last-child { padding-bottom:0; }
+  .rail { position:relative; }
+  .rail::before { content:''; position:absolute; left:50%; transform:translateX(-50%);
+    top:8px; bottom:-14px; width:2px; background:var(--line); }
+  .item:last-child .rail::before { display:none; }
+  .node { position:relative; width:42px; height:42px; border-radius:50%; margin:0 auto;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px;
+    background:var(--card2); color:var(--muted); border:2px solid var(--line); }
+  .node.now { background:var(--accent); color:#06241e; border-color:var(--accent);
+    box-shadow:0 0 0 6px rgba(94,234,212,.16); }
+  .node.next { background:var(--accent2); color:#0a0c14; border-color:var(--accent2); }
+  .node.done { background:var(--good); color:#06241e; border-color:var(--good); }
+
+  .card { background:var(--card); border:1px solid var(--line); border-radius:13px;
+    padding:14px 17px; position:relative; }
+  .card.is-now { border-color:var(--accent); }
+  .card.is-next { border-color:var(--accent2); }
+  .card .top { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:5px; }
+  .card h3 { font-size:18px; }
+  .badge { font-size:14px; font-weight:700; letter-spacing:.04em; border-radius:999px;
+    padding:2px 11px; text-transform:uppercase; }
+  .badge.now { background:var(--accent); color:#06241e; }
+  .badge.next { background:var(--accent2); color:#0a0c14; }
+  .badge.later { background:var(--card2); color:var(--muted); border:1px solid var(--line); }
+  .badge.done { background:var(--good); color:#06241e; }
+  .here { background:var(--warn); color:#3a2a00; font-size:14px; font-weight:700; border-radius:999px;
+    padding:2px 11px; }
+  .card p.meaning { font-size:15px; color:var(--muted); }
+  ul.sub { list-style:none; margin-top:11px; }
+  ul.sub li { font-size:15px; color:var(--muted); padding:6px 0 6px 24px; position:relative;
+    border-top:1px solid var(--line); }
+  ul.sub li:first-child { border-top:none; }
+  ul.sub li::before { content:'›'; position:absolute; left:4px; color:var(--accent); font-weight:700; }
+  ul.sub li b { color:var(--ink); }
+  .pin { color:var(--good); font-weight:700; }
+
+  .finish { background:linear-gradient(135deg,#16241c,#181b24); border:1px solid var(--good);
+    border-radius:16px; padding:20px 22px; margin-top:34px; }
+  .finish .tag { display:inline-block; background:var(--good); color:#06241e; font-weight:700;
+    font-size:14px; border-radius:999px; padding:3px 12px; margin-bottom:10px; }
+  .finish p { font-size:17px; color:var(--ink); }
+
+  .foot { margin-top:30px; color:var(--muted); font-size:14px; text-align:center; line-height:1.7; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Sero · the plan, in order</div>
+  <h1>My Roadmap</h1>
+  <p class="sub">What we're doing, top to bottom. Do this, then that. One step at a time — you test and approve each piece before the next one starts.</p>
+
+  <div class="goal">
+    <span class="tag">🎯 The finish line</span>
+    <p>A real manager uses Sero with their <b>real team</b>, gets something genuinely useful, and says <b>"I need this — here's my money."</b></p>
+    <p class="small">Everything below is the path to that one moment.</p>
+  </div>
+
+  <div class="legend">
+    <span><i class="dot now"></i> Now — your turn</span>
+    <span><i class="dot next"></i> Next up</span>
+    <span><i class="dot later"></i> Later</span>
+    <span><i class="dot done"></i> Done</span>
+  </div>
+
+  <!-- PART 1 -->
+  <section class="part">
+    <div class="part-head">
+      <div class="pnum">Part 1 · right now</div>
+      <h2>Finish what's on the bench</h2>
+      <p>Three things are already built. They just need you to try them and say "yep, good." Nothing new starts until they get your tick.</p>
+    </div>
+
+    <div class="item">
+      <div class="rail"><div class="node now">✓?</div></div>
+      <div class="card is-now">
+        <div class="top">
+          <h3>Test &amp; approve the 3 finished features</h3>
+          <span class="here">👉 you are here</span>
+        </div>
+        <p class="meaning">Built and waiting for your check. Open the app, walk each one, and give the thumbs up (or tell me what's off).</p>
+        <ul class="sub">
+          <li><b>Briefing fix</b> — stops the briefing harping on the same theme over and over.</li>
+          <li><b>See-before-sent</b> — see exactly what Sero will send the AI, <i>before</i> it sends it.</li>
+          <li><b>Step-by-step tabs</b> — see what each step was given, and the raw reply it got back.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PART 2 -->
+  <section class="part">
+    <div class="part-head">
+      <div class="pnum">Part 2 · the build</div>
+      <h2>Turn the prototype into a real product</h2>
+      <p>The "8 phases." This gets Sero ready for real companies and real staff data. We do them <b>one at a time</b>, in this order.</p>
+    </div>
+
+    <div class="item">
+      <div class="rail"><div class="node next">1</div></div>
+      <div class="card is-next">
+        <div class="top"><h3>Tidy the files</h3><span class="badge next">next up</span></div>
+        <p class="meaning">Put everything in neat, named folders. Nothing looks different to users — it's just organised so the rest is easier.</p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="rail"><div class="node">2</div></div>
+      <div class="card">
+        <div class="top"><h3>Set the house rules</h3><span class="badge later">later</span></div>
+        <p class="meaning">Agree how the code is written so it stays clean and tidy as it grows.</p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="rail"><div class="node">3</div></div>
+      <div class="card">
+        <div class="top"><h3>Make the code stricter</h3><span class="badge later">later</span></div>
+        <p class="meaning">Switch to TypeScript — the computer catches mistakes before you ever see them.</p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="rail"><div class="node">4</div></div>
+      <div class="card">
+        <div class="top"><h3>Build the engine room</h3><span class="badge later">later</span></div>
+        <p class="meaning">A proper, tidy backend so new features can be added without making a mess.</p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="rail"><div class="node">5</div></div>
+      <div class="card">
+        <div class="top"><h3>Add the filing cabinet</h3><span class="badge later">later</span></div>
+        <p class="meaning">A real database, so lots of people and companies can use Sero safely at once.</p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="rail"><div class="node">6</div></div>
+      <div class="card">
+        <div class="top"><h3>Add the front door</h3><span class="badge later">later</span></div>
+        <p class="meaning">Real sign-up and login. Signing up creates your company's own private space.</p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="rail"><div class="node">7</div></div>
+      <div class="card">
+        <div class="top"><h3>Build the customer app</h3><span class="badge later">later</span></div>
+        <p class="meaning">The actual screens a new customer registers and logs into — the product people see.</p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="rail"><div class="node">8</div></div>
+      <div class="card">
+        <div class="top"><h3>Lock it down</h3><span class="badge later">later</span></div>
+        <p class="meaning">Protect people's personal data and our AI keys. A security expert signs off before any real staff data goes in.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PART 3 -->
+  <section class="part">
+    <div class="part-head">
+      <div class="pnum">Part 3 · prove it</div>
+      <h2>Prove people will pay</h2>
+      <p>The new bit from your research. All three reports agreed: the build above gets people <b>in</b> — it doesn't prove they'll <b>pay</b>. This part does. <i>(Agreed direction; we'll write the fine detail when we reach it.)</i></p>
+    </div>
+
+    <div class="item">
+      <div class="rail"><div class="node">9</div></div>
+      <div class="card">
+        <div class="top"><h3>Add the "prove it" layer</h3><span class="badge later">later</span></div>
+        <p class="meaning">Four small things that turn "nice tool" into a real money signal:</p>
+        <ul class="sub">
+          <li><b>A real paid ask</b> — so a "yes" means money, not just a polite "thanks".</li>
+          <li><b>Honesty checks</b> — make sure Sero gives real insight, not flattery. Measured, not assumed.</li>
+          <li><b>Remember the last meeting</b> — so meeting #2 picks up where #1 left off. <span class="pin">← already un-parked, ready to build.</span></li>
+          <li><b>A "tell your team" kit</b> — a plain note + basic privacy, so staff are in the loop and it's legal in the UK/EU.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="item">
+      <div class="rail"><div class="node">10</div></div>
+      <div class="card">
+        <div class="top"><h3>Run a small, hand-held trial</h3><span class="badge later">later</span></div>
+        <p class="meaning">Invite 3–8 chosen managers, help them personally, and end with the real question: <b>"Will you pay to keep it?"</b></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="finish">
+    <span class="tag">🏁 The whole game</span>
+    <p>If a few of them say <b>yes</b> — and come back, and tell colleagues — you've proven Sero is genuinely wanted. That's success.</p>
+  </div>
+
+  <p class="foot">
+    Nothing here is locked. Say the word and we move, add, or cut anything.<br>
+    Last updated 21 June 2026.
+  </p>
+
+</div>
+</body>
+</html>

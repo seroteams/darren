@@ -75,7 +75,7 @@ existing JS (conversion is Phase 003):
   and `allowImportingTsExtensions` to `tsconfig`. **`npm run typecheck` now clean** across the repo.
 - **All guide links resolve** (8/8 checked across CLAUDE.md + the phase docs, 0 dead). `npm test` **30/30**.
 - Note: `clamp` is the sanctioned tiny proof module (no caller yet) — happy to keep it as the first
-  shared util or remove it; your call. Not committed yet.
+  shared util or remove it; your call. Committed with step 5 (`f8a6dc1e`).
 
 ## QA sign-off checklist — ALL ✅ (triple-checked 2026-06-24)
 

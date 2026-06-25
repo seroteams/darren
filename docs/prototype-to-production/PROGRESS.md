@@ -8,12 +8,13 @@
 
 ## Where we are now
 - **Active phase:** 003 — TypeScript conversion (Phase 002 done & signed off)
-- **Status:** `not-started` (003 not broken into steps yet)
+- **Status:** `planned` (plan folder + scope survey written; awaiting Carl's scope pick)
 - **Last updated:** 2026-06-24
 
 ## Next up (this can change as we learn)
-Break **Phase 003 — TypeScript conversion** down into numbered step files inside
-`003-typescript-conversion/`. Say **"what next?"** to do this. (Phase 002 done; folder archived at
+**Carl picks the Phase 003 scope** (A backend-only / B +tooling / C +admin) and confirms the strategy —
+survey in [../todo/typescript-conversion/PLAN.md](../todo/typescript-conversion/PLAN.md). Once locked,
+the detailed `phase-N.md` step files get written and step 1 runs. (Phase 002 done; folder archived at
 [../todo/done/convention-skills/PLAN.md](../todo/done/convention-skills/PLAN.md).)
 
 ## Phase status
@@ -21,7 +22,7 @@ Break **Phase 003 — TypeScript conversion** down into numbered step files insi
 |---|---|---|
 | 001 | Monorepo reorg | `done` |
 | 002 | Conventions & skills | `done` |
-| 003 | TypeScript conversion | `not-started` |
+| 003 | TypeScript conversion | `planned` |
 | 004 | Backend API v1 (RESTful, TDD) | `not-started` |
 | 005 | Postgres foundation | `not-started` |
 | 006 | Auth (org model, password, SSO-ready) | `not-started` |
@@ -53,6 +54,13 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
 ## Activity log (newest first)
+- **2026-06-24** — **Phase 003 (TypeScript conversion) → `planned`.** Re-verified Phase 002 (free
+  checks: `npm test` 30/30, `typecheck` clean, offline replay green; 4 skills load, links resolve,
+  `clamp` proof 3/3) — Carl gave a complete sign-off. Set up the Phase 003 plan folder
+  [../todo/typescript-conversion/PLAN.md](../todo/typescript-conversion/PLAN.md) with the JS surface
+  (engine 63 / api 37 / cli 1 = 101 backend files; +69 scripts; +46 admin) and a scope survey
+  (A backend-only *recommended* / B +tooling / C +admin) + strategy (leaf-first, strict, test-first).
+  Awaiting Carl's scope pick before detailed step files + step 1.
 - **2026-06-24** — **Phase 002 (Conventions & skills) → `done` & SIGNED OFF.** Carl walked the QA
   (CLAUDE.md §7 surfaces the right rulebook for backend vs frontend) and gave the go. Shipped: TDD +
   security-review skills installed, `backend-conventions` + `frontend-conventions` written, strict
