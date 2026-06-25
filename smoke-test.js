@@ -30,7 +30,7 @@ const { MEETING_TYPES } = require("./backend/engine/meeting-types.ts");
 const { allResolved } = require("./backend/engine/models.ts");
 const { TOTAL_BUDGET, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./backend/engine/budgets.ts");
 const { scanSessions, resolveNewSession } = require("./scripts/lib/session-fs");
-const { stringifyYaml, parseYaml } = require("./backend/engine/questions");
+const { stringifyYaml, parseYaml } = require("./backend/engine/questions.ts");
 const { CONTENT_DIR, QUESTIONS_DIR } = require("./backend/engine/paths.mts");
 
 loadEnv();

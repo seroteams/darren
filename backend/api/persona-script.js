@@ -30,7 +30,7 @@ function loadPersona(personaId) {
 // 18/62 bench aliases resolve a signature and the scripted lane ships blank.
 function scriptSignature(item) {
   if (item.axis_effects && Object.keys(item.axis_effects).length) return item.axis_effects;
-  const { loadQuestion } = require("../engine/questions");
+  const { loadQuestion } = require("../engine/questions.ts");
   const candidates = [item.alias];
   if (/^q_/.test(item.alias)) candidates.push("q_" + item.alias);
   for (const alias of candidates) {

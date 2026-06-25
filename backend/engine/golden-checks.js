@@ -172,7 +172,7 @@ function runQuestionGroundingChecks(transcript, managerNotes) {
 function runStageTagOrphanCheck() {
   const fsLocal = require("node:fs");
   const pathLocal = require("node:path");
-  const questions = require("./questions");
+  const questions = require("./questions.ts");
   const { listTypes, listStageIds } = require("./one-on-one-types");
   const failures = [];
 

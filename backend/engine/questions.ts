@@ -1,6 +1,7 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const { QUESTIONS_DIR } = require("./paths.mts");
+import fs from "node:fs";
+import path from "node:path";
+import { QUESTIONS_DIR } from "./paths.mts";
+import type { Question } from "../shared/question.types.ts";
 
 const QUESTIONS_ROOT = QUESTIONS_DIR;
 const INDEX_PATH = path.join(QUESTIONS_ROOT, "_index.json");
@@ -17,42 +18,56 @@ const FIELD_ORDER = [
   "source",
 ];
 
+interface IndexEntry {
+  alias: string;
+  subdir: string;
+  kind?: string;
+}
+
+interface QuestionIndex {
+  generated_at: string;
+  count: number;
+  aliases: string[];
+  entries: IndexEntry[];
+}
+
 // -----------------------------------------------------------------------------
 // Minimal YAML codec (scoped to our question shape: flat scalars + one-level
 // nested axis_effects: {axisId: int}). Not a general YAML parser.
 // -----------------------------------------------------------------------------
 
-function needsQuoting(s) {
+function needsQuoting(s: string): boolean {
   return /[:#"'\n]/.test(s) || /^\s|\s$/.test(s) || /^[0-9-]/.test(s) || s === "";
 }
 
-function quote(s) {
+function quote(s: string): string {
   return `"${String(s).replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
 }
 
-function emitScalar(v) {
+function emitScalar(v: unknown): string {
   if (typeof v === "number") return String(v);
   if (typeof v === "boolean") return v ? "true" : "false";
   const s = String(v);
   return needsQuoting(s) ? quote(s) : s;
 }
 
-function emitSignedNumber(n) {
+function emitSignedNumber(n: number): string {
   return n > 0 ? `+${n}` : String(n);
 }
 
-function stringifyYaml(obj) {
-  const lines = [];
+function stringifyYaml(obj: Record<string, unknown>): string {
+  const lines: string[] = [];
   const keys = FIELD_ORDER.filter((k) => k in obj).concat(
-    Object.keys(obj).filter((k) => !FIELD_ORDER.includes(k))
+    Object.keys(obj).filter((k) => !FIELD_ORDER.includes(k)),
   );
   for (const key of keys) {
     const v = obj[key];
     if (v === undefined || v === null) continue;
     if (key === "axis_effects" && typeof v === "object") {
       lines.push("axis_effects:");
-      for (const axisId of Object.keys(v)) {
-        lines.push(`  ${axisId}: ${emitSignedNumber(Number(v[axisId]))}`);
+      const effects: Record<string, unknown> = { ...v };
+      for (const axisId of Object.keys(effects)) {
+        lines.push(`  ${axisId}: ${emitSignedNumber(Number(effects[axisId]))}`);
       }
       continue;
     }
@@ -61,7 +76,7 @@ function stringifyYaml(obj) {
   return lines.join("\n") + "\n";
 }
 
-function parseScalar(raw) {
+function parseScalar(raw: string): string | number | boolean {
   const s = raw.trim();
   if (s === "") return "";
   if (s === "true") return true;
@@ -74,12 +89,13 @@ function parseScalar(raw) {
   return s;
 }
 
-function parseYaml(text) {
-  const out = {};
+function parseYaml(text: string): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
   const lines = text.split(/\r?\n/);
   let i = 0;
   while (i < lines.length) {
     const line = lines[i];
+    if (line === undefined) break;
     if (/^\s*(#.*)?$/.test(line)) {
       i++;
       continue;
@@ -89,20 +105,29 @@ function parseYaml(text) {
       i++;
       continue;
     }
-    const [, key, rest] = m;
+    const key = m[1];
+    const rest = m[2];
+    if (key === undefined || rest === undefined) {
+      i++;
+      continue;
+    }
     const stripped = rest.replace(/\s+#.*$/, "").trim();
     if (stripped === "") {
-      const nested = {};
+      const nested: Record<string, unknown> = {};
       i++;
       while (i < lines.length) {
         const sub = lines[i];
+        if (sub === undefined) break;
         if (/^\s*(#.*)?$/.test(sub)) {
           i++;
           continue;
         }
         const subM = sub.match(/^(\s+)([a-zA-Z_][a-zA-Z0-9_]*):\s*(.+)$/);
         if (!subM) break;
-        nested[subM[2]] = parseScalar(subM[3].replace(/\s+#.*$/, ""));
+        const subKey = subM[2];
+        const subVal = subM[3];
+        if (subKey === undefined || subVal === undefined) break;
+        nested[subKey] = parseScalar(subVal.replace(/\s+#.*$/, ""));
         i++;
       }
       out[key] = nested;
@@ -114,7 +139,13 @@ function parseYaml(text) {
   return out;
 }
 
-function questionFingerprint(q) {
+function questionFingerprint(q: {
+  name: unknown;
+  description: unknown;
+  purpose: unknown;
+  stage?: unknown;
+  axis_effects?: unknown;
+}): string {
   return JSON.stringify({
     name: q.name,
     description: q.description,
@@ -124,17 +155,17 @@ function questionFingerprint(q) {
   });
 }
 
-function readOpeners() {
+function readOpeners(): Array<Record<string, unknown>> {
   try {
-    const raw = JSON.parse(fs.readFileSync(OPENERS_PATH, "utf8"));
+    const raw: unknown = JSON.parse(fs.readFileSync(OPENERS_PATH, "utf8"));
     return Array.isArray(raw) ? raw : [];
   } catch {
     return [];
   }
 }
 
-function scanYamlEntries(dir, subdir = "") {
-  const out = [];
+function scanYamlEntries(dir: string, subdir = ""): IndexEntry[] {
+  const out: IndexEntry[] = [];
   if (!fs.existsSync(dir)) return out;
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     if (e.name === "_index.json") continue;
@@ -151,17 +182,17 @@ function scanYamlEntries(dir, subdir = "") {
   return out;
 }
 
-function readIndex() {
+function readIndex(): QuestionIndex | null {
   try {
-    const doc = JSON.parse(fs.readFileSync(INDEX_PATH, "utf8"));
+    const doc: QuestionIndex = JSON.parse(fs.readFileSync(INDEX_PATH, "utf8"));
     if (Array.isArray(doc.aliases)) return doc;
   } catch {}
   return null;
 }
 
-function writeIndex(entries) {
+function writeIndex(entries: IndexEntry[]): QuestionIndex {
   const aliases = entries.map((e) => e.alias).sort();
-  const doc = {
+  const doc: QuestionIndex = {
     generated_at: new Date().toISOString(),
     count: aliases.length,
     aliases,
@@ -171,15 +202,15 @@ function writeIndex(entries) {
   return doc;
 }
 
-function rebuildQuestionIndex() {
+function rebuildQuestionIndex(): QuestionIndex {
   const entries = scanYamlEntries(QUESTIONS_ROOT);
   for (const o of readOpeners()) {
-    if (o?.alias) entries.push({ alias: o.alias, subdir: "_openers.json", kind: "opener" });
+    if (o?.alias) entries.push({ alias: String(o.alias), subdir: "_openers.json", kind: "opener" });
   }
   return writeIndex(entries);
 }
 
-function registerAlias(alias, { subdir = "" } = {}) {
+function registerAlias(alias: string, { subdir = "" }: { subdir?: string } = {}): QuestionIndex {
   const index = readIndex();
   if (!index) return rebuildQuestionIndex();
   if (index.aliases.includes(alias)) return index;
@@ -197,7 +228,7 @@ function registerAlias(alias, { subdir = "" } = {}) {
 // Alias + file IO
 // -----------------------------------------------------------------------------
 
-function slugify(s) {
+function slugify(s: string): string {
   return String(s)
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "_")
@@ -205,7 +236,7 @@ function slugify(s) {
     .slice(0, 40);
 }
 
-function newAlias(baseLabel, existing = new Set()) {
+function newAlias(baseLabel: string, existing: Set<string> = new Set()): string {
   const base = "q_" + (slugify(baseLabel) || "unnamed");
   if (!existing.has(base)) return base;
   let n = 2;
@@ -213,28 +244,31 @@ function newAlias(baseLabel, existing = new Set()) {
   return `${base}_${n}`;
 }
 
-function ensureDir(dir) {
+function ensureDir(dir: string): void {
   fs.mkdirSync(dir, { recursive: true });
 }
 
-function questionPath(alias, subdir = "") {
+function questionPath(alias: string, subdir = ""): string {
   const dir = subdir ? path.join(QUESTIONS_ROOT, subdir) : QUESTIONS_ROOT;
   return path.join(dir, `${alias}.yaml`);
 }
 
-function saveQuestion(q, { subdir = "" } = {}) {
+function saveQuestion(q: Question, { subdir = "" }: { subdir?: string } = {}): string {
   const dir = subdir ? path.join(QUESTIONS_ROOT, subdir) : QUESTIONS_ROOT;
   ensureDir(dir);
-  fs.writeFileSync(path.join(dir, `${q.alias}.yaml`), stringifyYaml(q));
+  fs.writeFileSync(path.join(dir, `${q.alias}.yaml`), stringifyYaml({ ...q }));
   registerAlias(q.alias, { subdir });
   return q.alias;
 }
 
-function loadQuestion(alias, { subdir = "" } = {}) {
+function loadQuestion(
+  alias: string,
+  { subdir = "" }: { subdir?: string } = {},
+): Record<string, unknown> {
   return parseYaml(fs.readFileSync(questionPath(alias, subdir), "utf8"));
 }
 
-function loadDir(subdir) {
+function loadDir(subdir: string): Array<Record<string, unknown>> {
   const dir = path.join(QUESTIONS_ROOT, subdir);
   if (!fs.existsSync(dir)) return [];
   return fs
@@ -244,22 +278,22 @@ function loadDir(subdir) {
     .map((f) => parseYaml(fs.readFileSync(path.join(dir, f), "utf8")));
 }
 
-function listAliases(subdir = "") {
+function listAliases(subdir = ""): Set<string> {
   const dir = subdir ? path.join(QUESTIONS_ROOT, subdir) : QUESTIONS_ROOT;
-  if (!fs.existsSync(dir)) return new Set();
+  if (!fs.existsSync(dir)) return new Set<string>();
   return new Set(
-    fs.readdirSync(dir).filter((f) => f.endsWith(".yaml")).map((f) => f.replace(/\.yaml$/, ""))
+    fs.readdirSync(dir).filter((f) => f.endsWith(".yaml")).map((f) => f.replace(/\.yaml$/, "")),
   );
 }
 
-function listAllAliases() {
+function listAllAliases(): Set<string> {
   const index = readIndex();
   if (index) return new Set(index.aliases);
   return listAllAliasesScan();
 }
 
-function listAllAliasesScan() {
-  const set = new Set();
+function listAllAliasesScan(): Set<string> {
+  const set = new Set<string>();
   for (const a of listAliases()) set.add(a);
   if (fs.existsSync(QUESTIONS_ROOT)) {
     for (const entry of fs.readdirSync(QUESTIONS_ROOT, { withFileTypes: true })) {
@@ -269,12 +303,12 @@ function listAllAliasesScan() {
     }
   }
   for (const o of readOpeners()) {
-    if (o?.alias) set.add(o.alias);
+    if (o?.alias) set.add(String(o.alias));
   }
   return set;
 }
 
-module.exports = {
+export {
   QUESTIONS_ROOT,
   INDEX_PATH,
   stringifyYaml,

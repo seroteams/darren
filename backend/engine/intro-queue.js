@@ -1,5 +1,5 @@
 const path = require("node:path");
-const questions = require("./questions");
+const questions = require("./questions.ts");
 const { getArc } = require("./meeting-arcs");
 
 function sortIntroByArc(introItems, meetingTypeLabel) {

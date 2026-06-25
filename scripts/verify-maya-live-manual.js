@@ -17,7 +17,7 @@ const {
   applyRecurringGapClarityDamper,
   clampToSignature,
 } = require("../backend/engine/queue-manager");
-const { loadQuestion } = require("../backend/engine/questions");
+const { loadQuestion } = require("../backend/engine/questions.ts");
 const { evaluate } = require("../backend/engine/reviewer");
 
 const { CONFIG_DIR } = require("../backend/engine/paths.mts");

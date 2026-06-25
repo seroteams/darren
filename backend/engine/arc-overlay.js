@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const questions = require("./questions");
+const questions = require("./questions.ts");
 const { DATA_DIR } = require("./paths.mts");
 
 // Arc overlays — a manager's edits to a 1:1 Type's arc live in a sidecar file,

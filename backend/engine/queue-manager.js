@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 
 const { loadAxes, validateAxisState, AXIS_IDS } = require("./axes.ts");
-const { newAlias, saveQuestion, listAllAliases, loadDir } = require("./questions");
+const { newAlias, saveQuestion, listAllAliases, loadDir } = require("./questions.ts");
 const { getArc } = require("./meeting-arcs");
 const { isRelationalArc } = require("./relational-arcs.ts");
 const { promptFor } = require("./one-on-one-types");
