@@ -5,7 +5,7 @@ const { callAI, parseAIJson } = require("../ai-client.ts");
 const { modelFor } = require("../models.ts");
 const { loadLexicon, lexiconScopeFor, resolveLexiconScope, isLexiconReviewScope, candidatePath } = require("../lexicon.ts");
 const { RESPONSE_SCHEMA } = require("./schema.ts");
-const { appendCandidates, writeTrace, readTrace, tracePathFor } = require("./candidates-io");
+const { appendCandidates, writeTrace, readTrace, tracePathFor } = require("./candidates-io.ts");
 const { promptFor } = require("../one-on-one-types");
 
 function shouldReview(ctx) {

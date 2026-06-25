@@ -17,7 +17,7 @@ const {
   writeTrace,
   readTrace,
   tracePathFor,
-} = require("./lexicon/candidates-io");
+} = require("./lexicon/candidates-io.ts");
 const { parseInput, partition } = require("./lexicon/cli-interactive");
 
 module.exports = {
