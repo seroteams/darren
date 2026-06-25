@@ -78,10 +78,16 @@ id-delimiter escape mid-conversion. Each: typecheck clean + `npm test` 30/30 + s
 
 **Up-the-graph progress (this session, all committed, each typecheck + npm test 30/30 + smoke):**
 `cli/io`, `cli/run-rating`, `prompt-fixer`, `run-history`. (Running total converted this session: 13 modules
-+ the lexicon trio.) Engine `.js` left: **19 root / 32 incl. subdirs**; then **`api/` (37 files)** + `cli.js`.
++ the lexicon trio.) Engine `.js` left after that session: **19 root / 32 incl. subdirs**; then **`api/` (37 files)** + `cli.js`.
+
+**New-session progress (2026-06-26, committed, typecheck clean + npm test 30/30):** converted `person-profile`
+(3 importers; reuses shared `NextAction` and run-history's walked-run / review-summary shapes; narrows disk
+JSON via the run-history helper pattern) and `review-html` (1 importer; pure static-HTML render with **no unit
+test** → verified by a free read-only smoke that rendered a real run to a 25 KB valid page). **Engine `.js`
+left now: 17 root / 30 incl. subdirs.**
 
 **Remaining engine waves (dependency order):**
-- Now-unblocked: `person-profile`, `review-html` (need run-history ✅).
+- ✅ Done 2026-06-26: `person-profile` (3 importers) + `review-html` (1 importer; smoke-verified, no unit test). **Next unblocked: the one-on-one-types cluster.**
 - one-on-one-types cluster: 5 `*/type` files → `index` (decision: `*/type` files use `export default {...}`
   — they're consumed only by `index`; index uses default-imports). Then `arc-overlay`, `answer-suggester`,
   `meeting-arcs`, `question-eligibility`, `product-qa`, lexicon/`review-core`+`cli-interactive`, `lexicon-reviewer`,

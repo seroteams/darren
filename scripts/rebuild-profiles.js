@@ -4,7 +4,7 @@
 //   node scripts/rebuild-profiles.js maya     rebuild one person
 
 const path = require("node:path");
-const { collectPersonRuns, buildProfile, slugify, PEOPLE_ROOT } = require("../backend/engine/person-profile");
+const { collectPersonRuns, buildProfile, slugify, PEOPLE_ROOT } = require("../backend/engine/person-profile.ts");
 
 const arg = process.argv[2];
 

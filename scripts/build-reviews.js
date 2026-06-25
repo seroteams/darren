@@ -8,7 +8,7 @@
 // never aborts the batch.
 
 const path = require("node:path");
-const { writeReviewHtml, writeIndexHtml, walkRunDirs } = require("../backend/engine/review-html");
+const { writeReviewHtml, writeIndexHtml, walkRunDirs } = require("../backend/engine/review-html.ts");
 
 function main() {
   const target = process.argv[2];

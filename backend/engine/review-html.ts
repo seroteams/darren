@@ -6,18 +6,60 @@
 // malformed files, every interpolated value is HTML-escaped, and a run that
 // never finished still renders a useful page instead of crashing.
 
-const fs = require("node:fs");
-const path = require("node:path");
-const { LOGS_ROOT } = require("./session.ts");
-const { buildHeadline } = require("./run-history.ts");
+import fs from "node:fs";
+import path from "node:path";
+import { LOGS_ROOT } from "./session.ts";
+import { buildHeadline } from "./run-history.ts";
 
 const SKIP_MONTH_DIRS = new Set(["probes", "sweeps"]);
+
+// Disk JSON is unknown until checked — narrow with these instead of trusting shapes.
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
+function asString(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+function asNumber(v: unknown): number {
+  return typeof v === "number" ? v : 0;
+}
+
+interface LoadedRun {
+  dir: string;
+  id: string;
+  state: Record<string, unknown>;
+  ctx: Record<string, unknown>;
+  briefing: Record<string, unknown> | null;
+  transcript: unknown[];
+  axis: Record<string, unknown> | null;
+  notes: unknown[];
+  notesMd: string | null;
+  stages: Array<{ name: string; response: unknown }>;
+}
+
+interface Quality {
+  completed: boolean;
+  status: string;
+  turns: number;
+  stageCount: number;
+  noteCount: number;
+  cost: Record<string, unknown> | null;
+  warnings: string[];
+}
+
+interface IndexCard {
+  sortKey: number;
+  html: string;
+}
 
 // ---------------------------------------------------------------------------
 // Strict escaping
 // ---------------------------------------------------------------------------
 
-function esc(value) {
+function esc(value: unknown): string {
   if (value === null || value === undefined) return "";
   return String(value)
     .replace(/&/g, "&amp;")
@@ -31,7 +73,7 @@ function esc(value) {
 // Tolerant loaders — never throw, always return a usable shape
 // ---------------------------------------------------------------------------
 
-function readJson(file) {
+function readJson(file: string): unknown {
   try {
     return JSON.parse(fs.readFileSync(file, "utf8"));
   } catch {
@@ -39,7 +81,7 @@ function readJson(file) {
   }
 }
 
-function readText(file) {
+function readText(file: string): string | null {
   try {
     return fs.readFileSync(file, "utf8");
   } catch {
@@ -47,8 +89,8 @@ function readText(file) {
   }
 }
 
-function listStages(dir) {
-  let entries;
+function listStages(dir: string): Array<{ name: string; response: unknown }> {
+  let entries: fs.Dirent[];
   try {
     entries = fs.readdirSync(dir, { withFileTypes: true });
   } catch {
@@ -64,19 +106,19 @@ function listStages(dir) {
     }));
 }
 
-function loadRun(dir) {
-  const state = readJson(path.join(dir, "session-state.json")) || {};
+function loadRun(dir: string): LoadedRun {
+  const state = asRecord(readJson(path.join(dir, "session-state.json")));
   const transcript = readJson(path.join(dir, "transcript.json"));
   const axis = readJson(path.join(dir, "axis-state.json"));
   const notesMd = readText(path.join(dir, "notes.md"));
   return {
     dir,
-    id: state.id || path.basename(dir),
+    id: asString(state.id) || path.basename(dir),
     state,
-    ctx: state.ctx || {},
-    briefing: state.briefing || null,
+    ctx: asRecord(state.ctx),
+    briefing: isObjectRecord(state.briefing) ? state.briefing : null,
     transcript: Array.isArray(transcript) ? transcript : [],
-    axis: axis && typeof axis === "object" ? axis : null,
+    axis: isObjectRecord(axis) ? axis : null,
     notes: Array.isArray(state.notes) ? state.notes : [],
     notesMd,
     stages: listStages(dir),
@@ -87,25 +129,27 @@ function loadRun(dir) {
 // Small formatting helpers
 // ---------------------------------------------------------------------------
 
-function fmtDate(ms) {
+function fmtDate(ms: unknown): string {
   if (!ms) return "";
+  if (typeof ms !== "number" && typeof ms !== "string") return "";
   const d = new Date(ms);
   if (Number.isNaN(d.getTime())) return "";
   return d.toLocaleString();
 }
 
-function fmtDuration(createdAt, completedAt) {
+function fmtDuration(createdAt: unknown, completedAt: unknown): string {
+  if (typeof createdAt !== "number" || typeof completedAt !== "number") return "";
   if (!createdAt || !completedAt || completedAt < createdAt) return "";
   const mins = Math.round((completedAt - createdAt) / 60000);
   return mins >= 60 ? `${Math.floor(mins / 60)}h ${mins % 60}m` : `${mins}m`;
 }
 
-function signClass(n) {
+function signClass(n: unknown): string {
   if (typeof n !== "number" || n === 0) return "zero";
   return n > 0 ? "pos" : "neg";
 }
 
-function signed(n) {
+function signed(n: unknown): string {
   if (typeof n !== "number") return "";
   return n > 0 ? `+${n}` : String(n);
 }
@@ -116,8 +160,8 @@ const AXIS_ORDER = ["wellbeing", "engagement", "clarity", "growth"];
 // Run-quality assessment (regression-focused)
 // ---------------------------------------------------------------------------
 
-function assessQuality(run) {
-  const warnings = [];
+function assessQuality(run: LoadedRun): Quality {
+  const warnings: string[] = [];
   if (!run.state || !run.state.id) warnings.push("session-state.json missing or unreadable");
   if (run.transcript.length === 0) warnings.push("transcript is empty or missing");
   if (!run.axis) warnings.push("axis-state.json missing or unreadable");
@@ -131,7 +175,7 @@ function assessQuality(run) {
     turns: run.transcript.length,
     stageCount: run.stages.length,
     noteCount: run.notes.length,
-    cost: run.briefing && run.briefing.cost ? run.briefing.cost : null,
+    cost: run.briefing && run.briefing.cost ? asRecord(run.briefing.cost) : null,
     warnings,
   };
 }
@@ -197,7 +241,7 @@ pre { background: #fafafa; border: 1px solid var(--line); border-radius: 8px; pa
 .runcard .tag { font-size: 11px; color: var(--muted); margin-top: 8px; }
 `;
 
-function page(title, bodyHtml) {
+function page(title: string, bodyHtml: string): string {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -220,7 +264,7 @@ ${bodyHtml}
 // Per-run review.html
 // ---------------------------------------------------------------------------
 
-function renderQuality(q) {
+function renderQuality(q: Quality): string {
   const bits = [
     `<span class="kv">Status: <b>${esc(q.status)}</b></span>`,
     `<span class="kv">Turns: <b>${q.turns}</b></span>`,
@@ -240,11 +284,11 @@ function renderQuality(q) {
 <div class="card"><div class="row">${bits.join("")}</div>${warn}</div>`;
 }
 
-function renderBriefing(b) {
+function renderBriefing(b: Record<string, unknown> | null): string {
   if (!b) {
     return `<h2>Verdict</h2><div class="card"><span class="sub">No briefing — this run did not reach the evaluation stage.</span></div>`;
   }
-  const parts = [];
+  const parts: string[] = [];
   if (b.headline) parts.push(`<p style="font-weight:600;font-size:17px;margin:0 0 10px">${esc(b.headline)}</p>`);
   if (Array.isArray(b.summary_bullets) && b.summary_bullets.length) {
     parts.push(`<ul class="clean">${b.summary_bullets.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`);
@@ -277,7 +321,7 @@ ${b.brutal_truth_employee ? `<div class="kv" style="margin-top:10px"><b>For the 
   return `<h2>Verdict</h2>${card}${truths}${actions}${watch}`;
 }
 
-function renderAxes(run) {
+function renderAxes(run: LoadedRun): string {
   // Prefer the briefing's axes (has human "meaning"); fall back to axis-state scores.
   const briefingAxes = run.briefing && Array.isArray(run.briefing.axes) ? run.briefing.axes : null;
   let rows = "";
@@ -290,9 +334,10 @@ function renderAxes(run) {
       )
       .join("");
   } else if (run.axis) {
-    rows = AXIS_ORDER.filter((k) => run.axis[k])
+    const axisObj = run.axis;
+    rows = AXIS_ORDER.filter((k) => axisObj[k])
       .map((k) => {
-        const a = run.axis[k] || {};
+        const a = asRecord(axisObj[k]);
         const hist = Array.isArray(a.history) ? a.history.length : 0;
         return `<div class="axis"><div class="name">${esc(k)}</div>
 <div><span class="chip ${signClass(a.score)}">${signed(a.score)}</span></div>
@@ -304,14 +349,15 @@ function renderAxes(run) {
   return `<h2>Axis scores</h2><div class="card">${rows}</div>`;
 }
 
-function renderTranscript(run) {
+function renderTranscript(run: LoadedRun): string {
   if (run.transcript.length === 0) {
     return `<h2>Transcript</h2><div class="card"><span class="sub">No transcript recorded.</span></div>`;
   }
   const turns = run.transcript
-    .map((t) => {
-      const q = t.question || {};
-      const deltas = t.realized_deltas && typeof t.realized_deltas === "object" ? t.realized_deltas : {};
+    .map((entry) => {
+      const t = asRecord(entry);
+      const q = asRecord(t.question);
+      const deltas = asRecord(t.realized_deltas);
       const deltaChips = Object.keys(deltas)
         .map((k) => `<span class="chip ${signClass(deltas[k])}" title="${esc(k)}">${esc(k.slice(0, 4))} ${signed(deltas[k])}</span>`)
         .join(" ");
@@ -327,10 +373,11 @@ ${t.note ? `<div class="note">${esc(t.note)}</div>` : ""}
   return `<h2>Transcript</h2><div class="card">${turns}</div>`;
 }
 
-function renderNotes(run) {
+function renderNotes(run: LoadedRun): string {
   if (run.notes.length) {
     const items = run.notes
-      .map((n) => {
+      .map((note) => {
+        const n = asRecord(note);
         const when = n.ts ? fmtDate(n.ts) : "";
         const stem = n.question_stem ? `<div class="note">${esc(n.question_stem)}</div>` : "";
         return `<div class="turn"><div class="meta">${esc(n.stage || "")} ${esc(when)}</div><div class="a">${esc(n.text)}</div>${stem}</div>`;
@@ -344,7 +391,7 @@ function renderNotes(run) {
   return "";
 }
 
-function renderStages(run) {
+function renderStages(run: LoadedRun): string {
   if (!run.stages.length) return "";
   const blocks = run.stages
     .map((s) => {
@@ -355,7 +402,7 @@ function renderStages(run) {
   return `<h2>Stage outputs</h2><div class="card">${blocks}</div>`;
 }
 
-function buildReviewHtml(run) {
+function buildReviewHtml(run: LoadedRun): string {
   const q = assessQuality(run);
   const headline = buildHeadline(run.ctx) || run.id;
   const created = fmtDate(run.state.createdAt);
@@ -384,7 +431,7 @@ ${renderStages(run)}`;
 // Writers
 // ---------------------------------------------------------------------------
 
-function writeReviewHtml(dir) {
+function writeReviewHtml(dir: string): string {
   const run = loadRun(dir);
   const html = buildReviewHtml(run);
   const out = path.join(dir, "review.html");
@@ -392,13 +439,13 @@ function writeReviewHtml(dir) {
   return out;
 }
 
-function walkRunDirs() {
-  const out = [];
+function walkRunDirs(): Array<{ dir: string; month: string; id: string }> {
+  const out: Array<{ dir: string; month: string; id: string }> = [];
   if (!fs.existsSync(LOGS_ROOT)) return out;
   for (const m of fs.readdirSync(LOGS_ROOT, { withFileTypes: true })) {
     if (!m.isDirectory() || SKIP_MONTH_DIRS.has(m.name)) continue;
     const monthDir = path.join(LOGS_ROOT, m.name);
-    let entries;
+    let entries: fs.Dirent[];
     try {
       entries = fs.readdirSync(monthDir, { withFileTypes: true });
     } catch {
@@ -414,7 +461,7 @@ function walkRunDirs() {
   return out;
 }
 
-function buildIndexHtml(cards) {
+function buildIndexHtml(cards: IndexCard[]): string {
   const grid = cards.length
     ? `<div class="grid">${cards.map((c) => c.html).join("")}</div>`
     : `<div class="card"><span class="sub">No runs found.</span></div>`;
@@ -424,7 +471,7 @@ function buildIndexHtml(cards) {
 ${grid}`);
 }
 
-function indexCard(meta) {
+function indexCard(meta: { dir: string; month: string; id: string }): IndexCard {
   const run = loadRun(meta.dir);
   const q = assessQuality(run);
   const headline = buildHeadline(run.ctx) || run.id;
@@ -433,7 +480,7 @@ function indexCard(meta) {
   const axisChips = axes
     .map((a) => `<span class="chip ${signClass(a.score)}" title="${esc(a.id)}">${esc(a.id.slice(0, 4))} ${signed(a.score)}</span>`)
     .join(" ");
-  const sortKey = run.state.createdAt || run.state.lastSeenAt || 0;
+  const sortKey = asNumber(run.state.createdAt) || asNumber(run.state.lastSeenAt) || 0;
   const href = `${esc(meta.month)}/${esc(meta.id)}/review.html`;
   const tag = q.warnings.length
     ? `<div class="tag" style="color:var(--neg)">${q.status} · ${q.warnings.length} issue${q.warnings.length === 1 ? "" : "s"}</div>`
@@ -447,7 +494,7 @@ ${tag}
   return { sortKey, html };
 }
 
-function writeIndexHtml() {
+function writeIndexHtml(): string {
   const cards = walkRunDirs()
     .map(indexCard)
     .sort((a, b) => b.sortKey - a.sortKey);
@@ -457,7 +504,7 @@ function writeIndexHtml() {
   return out;
 }
 
-module.exports = {
+export {
   loadRun,
   buildReviewHtml,
   writeReviewHtml,
