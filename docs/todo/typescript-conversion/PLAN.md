@@ -70,10 +70,12 @@ it as ESM). Only `paths` (now) and `api/server.js` (later) ever need this. Alter
 `module:"preserve"` (all `.ts` → ESM). Chose `.mts` as most-local / lowest-risk; added `backend/**/*.mts` to
 the typecheck includes. **Easy to switch if you prefer the tsconfig route.**
 
-**Next:** `session` (engine logging helper — last clean safe-frontier module; high importer fan-out). Then
-the **risky lexicon trio** (`lexicon`, `lexicon/candidates-io`, `lexicon/promote-core` — heavy dynamic YAML
-object work) — **held for an explicit go-ahead** before starting. Then up the graph (L2→L5), then `api/`,
-then `cli.js`.
+`session` ✅ committed (engine logging helper; 15 importers). **Safe frontier now fully cleared.**
+
+**Next — GATE:** the **risky lexicon trio** (`lexicon`, `lexicon/candidates-io`, `lexicon/promote-core` —
+heavy dynamic YAML object work) — **held for an explicit go-ahead** before starting. Then up the graph
+(meeting-arcs, one-on-one-types, then generate/preparation/question-generator/queue-manager/reviewer/
+role-profile/etc.), then `api/`, then `cli.js`.
 Paid `gate` stays parked until the end-of-phase behaviour proof. **End-of-phase QA-agency review is
 a hard gate (see "Done means").**
 
