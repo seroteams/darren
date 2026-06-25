@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sero — Prototype to Production Checklist</title>
+<style>
+  :root{
+    --bg:#0f1115; --card:#171a21; --card2:#1d212b; --line:#2a2f3a;
+    --ink:#e7e9ee; --muted:#9aa3b2; --soft:#6b7383;
+    --accent:#6ea8fe; --good:#48c78e; --gate:#f5a623; --gatebg:#2a2113;
+    --shadow:0 1px 0 rgba(255,255,255,.03), 0 8px 24px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent)}
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px 80px}
+
+  /* sticky header */
+  header.top{
+    position:sticky; top:0; z-index:20; backdrop-filter:blur(8px);
+    background:rgba(15,17,21,.82); border-bottom:1px solid var(--line);
+  }
+  .top-inner{max-width:980px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:18px}
+  .top h1{font-size:16px; margin:0; font-weight:650; letter-spacing:.2px}
+  .top .sub{color:var(--muted); font-size:13px}
+  .top .spacer{flex:1}
+  .overall{display:flex; align-items:center; gap:12px; min-width:230px}
+  .overall .bar{flex:1}
+  .overall .pct{font-variant-numeric:tabular-nums; font-weight:650; font-size:14px; min-width:42px; text-align:right}
+  button.reset{
+    background:transparent; border:1px solid var(--line); color:var(--muted);
+    border-radius:8px; padding:7px 12px; font-size:13px; cursor:pointer;
+  }
+  button.reset:hover{color:var(--ink); border-color:var(--soft)}
+
+  /* progress bar */
+  .bar{height:8px; border-radius:99px; background:#252a35; overflow:hidden}
+  .bar > span{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--accent),var(--good)); transition:width .35s ease}
+
+  .intro{padding:34px 0 8px}
+  .intro h2{font-size:26px; margin:0 0 8px}
+  .intro p{color:var(--muted); margin:0; max-width:680px}
+
+  /* phase card */
+  .phase{
+    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    margin:22px 0; box-shadow:var(--shadow); overflow:hidden;
+  }
+  .phase-head{
+    display:flex; align-items:flex-start; gap:14px; padding:20px 22px; cursor:pointer;
+    user-select:none;
+  }
+  .num{
+    flex:none; width:46px; height:46px; border-radius:12px; display:grid; place-items:center;
+    background:var(--card2); border:1px solid var(--line); font-weight:700; font-size:15px; color:var(--accent);
+    font-variant-numeric:tabular-nums;
+  }
+  .phase.done .num{color:var(--good); border-color:rgba(72,199,142,.4)}
+  .phase-title{flex:1; min-width:0}
+  .phase-title h3{margin:0; font-size:18px; font-weight:650}
+  .phase-title .goal{color:var(--muted); font-size:14px; margin-top:4px}
+  .phase-meter{display:flex; align-items:center; gap:10px; margin-top:12px}
+  .phase-meter .bar{flex:1; max-width:340px}
+  .phase-meter .count{font-size:12px; color:var(--soft); font-variant-numeric:tabular-nums}
+  .chev{flex:none; color:var(--soft); transition:transform .2s ease; margin-top:4px}
+  .phase.collapsed .chev{transform:rotate(-90deg)}
+  .phase.collapsed .steps{display:none}
+
+  .steps{padding:0 22px 12px}
+  /* one row */
+  .row{
+    display:flex; gap:14px; padding:14px 0; border-top:1px solid var(--line);
+  }
+  .row .box{flex:none; padding-top:2px}
+  /* custom checkbox */
+  label.cb{display:inline-flex; cursor:pointer}
+  label.cb input{position:absolute; opacity:0; width:0; height:0}
+  .tick{
+    width:22px; height:22px; border-radius:7px; border:1.5px solid var(--soft);
+    display:grid; place-items:center; transition:all .15s ease; background:var(--card2);
+  }
+  label.cb:hover .tick{border-color:var(--accent)}
+  .tick svg{width:13px; height:13px; opacity:0; transform:scale(.6); transition:all .15s ease; color:#0f1115}
+  input:checked + .tick{background:var(--good); border-color:var(--good)}
+  input:checked + .tick svg{opacity:1; transform:scale(1)}
+  .row .body{flex:1; min-width:0}
+  .row .feat{font-weight:600; font-size:15px}
+  .row.done .feat{color:var(--muted); text-decoration:line-through; text-decoration-color:var(--soft)}
+  .row .means{color:var(--muted); font-size:14px; margin-top:3px}
+  .row .meta{display:flex; flex-wrap:wrap; gap:8px 18px; margin-top:9px}
+  .row .meta div{font-size:13px}
+  .row .meta .k{color:var(--soft); margin-right:6px}
+  .row .meta .have{color:#bcd0ea}
+  .row .meta .check{color:#bfe6d2}
+  .step-no{color:var(--soft); font-size:12px; font-variant-numeric:tabular-nums; margin-right:8px}
+
+  /* sign-off row */
+  .row.gate{background:var(--gatebg); margin:10px -22px 0; padding:16px 22px; border-top:1px solid rgba(245,166,35,.25)}
+  .row.gate .feat{color:var(--gate)}
+  .row.gate.done .feat{color:var(--gate); text-decoration:none; opacity:.7}
+  .row.gate .tag{
+    display:inline-block; font-size:11px; letter-spacing:.6px; text-transform:uppercase;
+    color:var(--gate); border:1px solid rgba(245,166,35,.4); border-radius:6px; padding:1px 7px; margin-left:8px;
+  }
+  .row.gate input:checked + .tick{background:var(--gate); border-color:var(--gate)}
+
+  footer{color:var(--soft); font-size:13px; text-align:center; margin-top:40px}
+  .saved{color:var(--good); font-size:12px; opacity:0; transition:opacity .3s; margin-left:6px}
+  .saved.show{opacity:1}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div>
+      <h1>Prototype → Production</h1>
+      <div class="sub">Your build plan, one checkable step at a time<span class="saved" id="saved">saved ✓</span></div>
+    </div>
+    <div class="spacer"></div>
+    <div class="overall">
+      <div class="bar"><span id="overallBar"></span></div>
+      <div class="pct" id="overallPct">0%</div>
+    </div>
+    <button class="reset" id="resetBtn">Reset</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div id="previewNote" style="display:none; margin-top:18px; padding:12px 16px; border:1px solid rgba(245,166,35,.4); background:var(--gatebg); color:var(--gate); border-radius:12px; font-size:13.5px">
+    <b>Preview mode.</b> This is the side-panel preview, where the browser blocks saving — your ticks here won't be remembered. To save your progress for good, open <b>qa-checklist.html</b> in a real browser tab.
+  </div>
+  <div class="intro">
+    <h2>Eight phases. One step at a time.</h2>
+    <p>Tick each step as you confirm it works. Your progress is saved in this browser automatically — close the tab and your ticks will still be here when you come back. Each phase ends with an amber <b>Sign-off</b> gate: only tick that once you're happy to move on.</p>
+  </div>
+  <div id="app"></div>
+  <footer>Saved locally in your browser only — nothing is uploaded. Built from the prototype-to-production roadmap.</footer>
+</div>
+
+<script>
+const DATA = [
+  { num:"001", name:"Tidy the project", tag:"Monorepo Reorg",
+    goal:"Pure spring-cleaning: every file moves into a clearly labelled room. Nothing your users see changes.",
+    steps:[
+      {f:"Labelled rooms", m:"Five named rooms: backend (brain), admin (your screens), frontend (future app), content (words/questions), docs (plans). Junk drawer to labelled drawers.", have:"Five named folders", c:"Folders exist and the tests still pass"},
+      {f:"One address book for data", m:"Every file location written once in a single file. Change an address once and everything follows.", have:"One file listing where data lives", c:"App and command-line tool both read locations from that one file"},
+      {f:"The brain moves house", m:"The core engine moves into the backend room and every signpost is updated.", have:"Engine in its proper room", c:"Tests green, no broken links"},
+      {f:"The content moves house", m:"All the product's words (questions, prompts, scenarios) move into the content room.", have:"Questions and prompts in the content room", c:"A run still loads its questions and tests stay green"},
+      {f:"Two apps get their own rooms", m:"The customer server and your internal screens are separated so product and tool stop being tangled.", have:"Server and screens separated", c:"App starts and one full run works"},
+      {f:"The paperwork gets filed", m:"All plans, notes and references move into the docs room.", have:"Everything filed under docs", c:"Docs are under docs/ and nothing points at old spots"},
+      {f:"Throw out the junk", m:"Delete leftover clutter and update the build settings to match the new layout.", have:"A clean project", c:"Tests green, build runs, code checker passes"},
+    ],
+    signoff:"Tests green (same count as before) · app starts and a full run works · the command-line replay runs clean · the product behaves identically to before." },
+
+  { num:"002", name:"House rules", tag:"Conventions & Skills",
+    goal:"Teach the AI our standards once, written as skills it reads automatically. From here on all new code is in a safer language and tested before it's trusted.",
+    steps:[
+      {f:"Shop around for proven rules", m:"Look at the best community rulebooks and decide what to borrow versus write ourselves. No reinventing wheels.", have:"A borrow-vs-build decision", c:"The decision is written in the progress log"},
+      {f:"Install the quality skills", m:"Install the test-first skill and security skills. The safety gear goes on the shelf.", have:"Skills installed and ready", c:"All installed skills load without error"},
+      {f:"Write our own rulebooks", m:"Two plain rulebooks (backend and frontend): naming, structure, how the parts connect.", have:"Two house-rule skills", c:"Both load and cover naming, structure and layout"},
+      {f:"Set up the safety tooling", m:"Stricter tooling and a test runner so mistakes get caught before the app runs.", have:"Early-warning tooling", c:"Strict settings build, the runner runs, test folders mirror the code"},
+      {f:"Point the AI at the rules", m:"Wire the project guide so the AI opens the right rulebook automatically.", have:"AI self-serving the right rules", c:"Every guide link opens the correct skill"},
+    ],
+    signoff:"Every skill loads without error · a small test-first change lands in correctly-named files · all guide links resolve." },
+
+  { num:"003", name:"Make the code safer", tag:"TypeScript Conversion",
+    goal:"Upgrade the code to a stricter language that flags mistakes before the app runs — like spell-check for code. Nothing behaves differently.",
+    steps:[
+      {f:"Turn on strict mode", m:"The backend switches to the most thorough safety checks from the start.", have:"Backend under strict checks", c:"The strict settings build cleanly"},
+      {f:"Agree the shapes of our data", m:"Define the exact shape of core things (session, question, briefing) so every part agrees.", have:"Agreed core definitions", c:"Definitions compile and the code uses them"},
+      {f:"Convert piece by piece", m:"Convert from the outside in, keeping every test green at each step.", have:"The whole engine converted", c:"Tests green after each piece is converted"},
+      {f:"Tighten the loose ends", m:"Tidy up any vague spots the conversion reveals.", have:"No soft edges left", c:"No loose or untyped spots remain"},
+    ],
+    signoff:"Safety build passes with no loose spots · tests green · the app and command-line behave identically to before." },
+
+  { num:"004", name:"A proper engine room", tag:"Backend API v1",
+    goal:"Reshape the backend into clean layers behind a versioned doorway (an API) so it can grow without becoming spaghetti. The product does the same thing today.",
+    steps:[
+      {f:"Draw the menu of services", m:"List every service and write the official menu (contract): what you can ask for and what you get back.", have:"A written service menu", c:"The contract lists every request and its response"},
+      {f:"Build the shared plumbing", m:"The shared path every request flows through: error handling, who-you-are context, a slot for the login check later.", have:"Consistent request handling", c:"Errors come back in one consistent shape"},
+      {f:"Build each service in clean layers", m:"Each area is three small single-job parts (front desk, logic, data), written test-first.", have:"Small single-job parts", c:"Each service is tested before its code and the routes work"},
+      {f:"Lay out the test rooms", m:"Arrange the tests to mirror the code so any test is instantly findable.", have:"A mirrored test layout", c:"Small tests beside the code, bigger ones in a matching tree"},
+    ],
+    signoff:"Every route follows the standard · each service was tested first · storage could be swapped without touching the logic." },
+
+  { num:"005", name:"A real database", tag:"Postgres Foundation",
+    goal:"Move live data (organisations, users, sessions) off loose files into a proper database, so many people can use it safely and nothing is lost on restart.",
+    steps:[
+      {f:"Pick the database toolkit", m:"Choose the proven tool for managing the database and record the choice.", have:"Toolkit on record", c:"The choice is written in the progress log"},
+      {f:"Build the first tables", m:"Create the core tables (orgs, users, sessions, run-history pointer, invitations) as a proper versioned change.", have:"The core tables", c:"The database builds itself from empty with one command"},
+      {f:"Plug the backend into the database", m:"Connect the backend and swap session/user storage over, behind the same doorway so the logic doesn't change.", have:"Backend on the database", c:"Services unchanged and now read/write the database"},
+      {f:"One-command local setup", m:"Any teammate can spin up the database locally with one documented command.", have:"One-step DB start", c:"A teammate starts the database from the written command"},
+    ],
+    signoff:"Database builds from clean in one command · a session survives a server restart · tests green and a teammate can start the DB." },
+
+  { num:"006", name:"The front door", tag:"Auth",
+    goal:"A real front door — register and log in with strong passwords. Because it's HR, signing up also creates the company, so data belongs to the organisation, not a lone person.",
+    steps:[
+      {f:"Finalise the accounts tables", m:"Finalise the tables for companies, people, sign-in methods and invitations.", have:"Account tables ready", c:"The tables exist with every field they need"},
+      {f:"Register and login with safe passwords", m:"Passwords are stored as a strong scramble — the real password is never kept, even we can't see it.", have:"Working register and login", c:"Passwords stored scrambled, the raw password never kept"},
+      {f:"Keep people in, guard the doors", m:"A secure pass on login and a guard that turns logged-out visitors away from protected pages.", have:"Guarded pages", c:"A protected page is refused when you're logged out"},
+      {f:"Signup creates the company", m:"Signing up creates the org, makes the first person the owner, and fences all data to their company.", have:"Company auto-created on signup", c:"Registering creates a person and their company, with that person as owner"},
+    ],
+    signoff:"Signup creates a person and a company · login works and logged-out access is refused · two companies cannot see each other's data." },
+
+  { num:"007", name:"The customer app", tag:"Frontend App",
+    goal:"The visible payoff — a real customer-facing app with register/login wired to the secure backend. Your current screens stay as the internal admin tool.",
+    steps:[
+      {f:"Stand up the new app", m:"Create the new customer app and its build setup — the shell the experience lives in.", have:"New app running", c:"The app builds and runs"},
+      {f:"Build register and login screens", m:"The actual screens a new customer sees.", have:"Register and login screens", c:"Both screens appear correctly"},
+      {f:"Wire the screens to the backend", m:"Connect the screens to the secure backend so signup and login really work and the app remembers you.", have:"Screens that really work", c:"Register a new company in the browser, log in, reach the signed-in screen"},
+      {f:"A simple home screen", m:"A minimal home showing the company name and a button to start a prep run — proves the loop.", have:"A home screen", c:"Shows your company name and a start button"},
+    ],
+    signoff:"Register and log in in the browser and see the home screen · a refresh keeps you logged in · logout returns you to login." },
+
+  { num:"008", name:"Keep it safe", tag:"Security",
+    goal:"A dedicated safety pass before real staff data flows: protect personal data and make sure AI keys can never leak. Automated checks are the floor — a human expert signs off before real data flows.",
+    steps:[
+      {f:"Run the security checks", m:"Install the security skills, run their checks, and fix anything flagged until all green.", have:"A clean bill of health", c:"The security checks are all green"},
+      {f:"Protect personal data", m:"Map where personal/HR data lives and lock it down — fenced by company and role, encrypted in transit, kept out of logs.", have:"Fenced personal data", c:"Reaching another company or role's data is blocked"},
+      {f:"Lock away the AI keys", m:"Prove the AI keys live only on the server — never in a browser, a response, or a log. Critical.", have:"Server-only keys", c:"No key appears in the app, a response, or a log anywhere"},
+      {f:"Human expert sign-off", m:"A security-literate human reviews everything and signs off on the record.", have:"A named expert's sign-off", c:"A named human expert has reviewed and signed off in the log"},
+    ],
+    signoff:"Checks green · no key leaks anywhere · personal-data access fenced by company and role · a named expert has signed off." },
+];
+
+const KEY = "sero-p2p-checklist-v1";
+// Safe storage: real localStorage when allowed, in-memory fallback when the
+// page runs in a sandboxed preview frame (where localStorage is blocked).
+const store = (()=>{
+  try{
+    const t="__sero_test__"; window.localStorage.setItem(t,"1"); window.localStorage.removeItem(t);
+    return { get:()=>window.localStorage.getItem(KEY), set:v=>window.localStorage.setItem(KEY,v), del:()=>window.localStorage.removeItem(KEY), persistent:true };
+  }catch(e){
+    let mem=null;
+    return { get:()=>mem, set:v=>{mem=v;}, del:()=>{mem=null;}, persistent:false };
+  }
+})();
+let state = JSON.parse(store.get() || "{}");
+const app = document.getElementById("app");
+
+function id(p, s){ return `p${p}s${s}`; }
+const TICK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+
+function render(){
+  app.innerHTML = DATA.map((ph, pi) => {
+    const stepsHtml = ph.steps.map((st, si) => {
+      const cid = id(pi, si);
+      const on = state[cid] ? "checked" : "";
+      const done = state[cid] ? "done" : "";
+      return `<div class="row ${done}" id="row-${cid}">
+        <div class="box"><label class="cb"><input type="checkbox" data-id="${cid}" ${on}><span class="tick">${TICK}</span></label></div>
+        <div class="body">
+          <div class="feat"><span class="step-no">${pi===8?"":(si+1)}</span>${st.f}</div>
+          <div class="means">${st.m}</div>
+          <div class="meta">
+            <div><span class="k">You'll have:</span><span class="have">${st.have}</span></div>
+            <div><span class="k">Check:</span><span class="check">${st.c}</span></div>
+          </div>
+        </div>
+      </div>`;
+    }).join("");
+
+    const gid = id(pi, "gate");
+    const gon = state[gid] ? "checked" : "";
+    const gdone = state[gid] ? "done" : "";
+    const gateHtml = `<div class="row gate ${gdone}" id="row-${gid}">
+      <div class="box"><label class="cb"><input type="checkbox" data-id="${gid}" ${gon}><span class="tick">${TICK}</span></label></div>
+      <div class="body">
+        <div class="feat">Sign-off — your approval gate<span class="tag">your call</span></div>
+        <div class="means">${ph.signoff}</div>
+      </div>
+    </div>`;
+
+    return `<section class="phase collapsed" id="phase-${pi}">
+      <div class="phase-head" data-toggle="${pi}">
+        <div class="num">${ph.num}</div>
+        <div class="phase-title">
+          <h3>${ph.name} <span style="color:var(--soft);font-weight:400;font-size:14px">· ${ph.tag}</span></h3>
+          <div class="goal">${ph.goal}</div>
+          <div class="phase-meter">
+            <div class="bar"><span id="pbar-${pi}"></span></div>
+            <div class="count" id="pcount-${pi}"></div>
+          </div>
+        </div>
+        <div class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="steps">${stepsHtml}${gateHtml}</div>
+    </section>`;
+  }).join("");
+
+  // wire checkboxes
+  app.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener("change", e=>{
+      const cidv = e.target.dataset.id;
+      if(e.target.checked) state[cidv]=true; else delete state[cidv];
+      store.set(JSON.stringify(state));
+      document.getElementById("row-"+cidv).classList.toggle("done", e.target.checked);
+      flashSaved();
+      updateMeters();
+    });
+  });
+  // wire collapse
+  app.querySelectorAll('[data-toggle]').forEach(h=>{
+    h.addEventListener("click", e=>{
+      if(e.target.closest("label.cb")) return;
+      document.getElementById("phase-"+h.dataset.toggle).classList.toggle("collapsed");
+    });
+  });
+  updateMeters();
+}
+
+function updateMeters(){
+  let total=0, done=0;
+  DATA.forEach((ph, pi)=>{
+    const ids = ph.steps.map((_,si)=>id(pi,si)).concat([id(pi,"gate")]);
+    const d = ids.filter(x=>state[x]).length;
+    const t = ids.length;
+    total+=t; done+=d;
+    const pct = Math.round(d/t*100);
+    const bar = document.getElementById("pbar-"+pi);
+    if(bar) bar.style.width = pct+"%";
+    const cnt = document.getElementById("pcount-"+pi);
+    if(cnt) cnt.textContent = `${d}/${t} done`;
+    document.getElementById("phase-"+pi).classList.toggle("done", d===t);
+  });
+  const opct = total? Math.round(done/total*100):0;
+  document.getElementById("overallBar").style.width = opct+"%";
+  document.getElementById("overallPct").textContent = opct+"%";
+}
+
+let savedTimer;
+function flashSaved(){
+  const el = document.getElementById("saved");
+  el.classList.add("show");
+  clearTimeout(savedTimer);
+  savedTimer = setTimeout(()=>el.classList.remove("show"), 1200);
+}
+
+document.getElementById("resetBtn").addEventListener("click", ()=>{
+  if(confirm("Clear all your ticks? This can't be undone.")){
+    state={}; store.del(); render();
+  }
+});
+
+if(!store.persistent){ document.getElementById("previewNote").style.display="block"; }
+render();
+</script>
+</body>
+</html>
