@@ -1,4 +1,4 @@
-const {
+import {
   bold,
   dim,
   gray,
@@ -9,11 +9,12 @@ const {
   magentaBold,
   cyan,
   pad,
-} = require("./ui.ts");
+} from "./ui.ts";
+import type { Briefing, NextAction } from "../shared/briefing.types.ts";
 
 // Renders the final-evaluation JSON to stdout in the same style as cli.js.
-function renderBriefing(evalJson, employeeName) {
-  const ev = evalJson || {};
+function renderBriefing(evalJson: Briefing | null | undefined, employeeName?: string): void {
+  const ev: Partial<Briefing> = evalJson || {};
 
   console.log("  " + magentaBold("BRIEFING"));
   console.log("  " + dim("─".repeat(8)));
@@ -69,14 +70,15 @@ function renderBriefing(evalJson, employeeName) {
     console.log("  " + bold("Next actions"));
     // group by `when`
     const order = ["today", "this week", "this month", "next 1:1"];
-    const groups = {};
+    const groups: Record<string, NextAction[]> = {};
     for (const a of ev.next_actions) {
       const k = a.when || "unscheduled";
       (groups[k] = groups[k] || []).push(a);
     }
     for (const when of order.concat(Object.keys(groups).filter((k) => !order.includes(k)))) {
-      if (!groups[when]) continue;
-      for (const a of groups[when]) {
+      const bucket = groups[when];
+      if (!bucket) continue;
+      for (const a of bucket) {
         console.log(`    ${cyan(pad(when, 10))}  ${a.action}`);
       }
     }
@@ -90,4 +92,4 @@ function renderBriefing(evalJson, employeeName) {
   }
 }
 
-module.exports = { renderBriefing };
+export { renderBriefing };

@@ -1,7 +1,7 @@
 const { evaluate } = require("../../reviewer");
 const { serialize } = require("../../axes.ts");
 const cost = require("../../cost.ts");
-const { renderBriefing } = require("../../briefing");
+const { renderBriefing } = require("../../briefing.ts");
 const { writeJson, sessionFile } = require("../io");
 const { bold, dim, yellow, HR, pad, withThinking } = require("../../ui.ts");
 
