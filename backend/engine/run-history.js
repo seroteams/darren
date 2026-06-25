@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { LOGS_ROOT, monthFolderFor } = require("./session");
-const { readPipelineLockFromDir } = require("./pipeline-lock");
+const { readPipelineLockFromDir } = require("./pipeline-lock.ts");
 
 const STATE_FILE = "session-state.json";
 const SKIP_DIRS = new Set(["probes"]);

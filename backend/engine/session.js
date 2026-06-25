@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { randomUUID } = require("node:crypto");
-const { writePipelineLock } = require("./pipeline-lock");
+const { writePipelineLock } = require("./pipeline-lock.ts");
 const { LOGS_DIR } = require("./paths.mts");
 
 const LOGS_ROOT = LOGS_DIR;

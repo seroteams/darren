@@ -5,7 +5,7 @@ const {
   scanPipelineNow,
   readPipelineLockFromDir,
   manifestCounts,
-} = require("../../engine/pipeline-lock");
+} = require("../../engine/pipeline-lock.ts");
 const {
   findRunDir,
   findLatestRunWithLock,
