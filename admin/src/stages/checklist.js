@@ -45,7 +45,7 @@ const DATA = [
     steps: [
       { f: "Turn on strict mode", m: "The backend switches to the most thorough safety checks from the start.", have: "Backend under strict checks", c: "The strict settings build cleanly", s: "done" },
       { f: "Agree the shapes of our data", m: "Define the exact shape of core things (session, question, briefing) so every part agrees.", have: "Agreed core definitions", c: "Definitions compile and the code uses them", s: "done" },
-      { f: "Convert piece by piece", m: "Convert from the outside in, keeping every test green at each step.", have: "The whole engine converted", c: "Tests green after each piece is converted", s: "doing" },
+      { f: "Convert piece by piece", m: "Convert the whole backend outside-in — engine first, then the API server, then the command-line tool — keeping every test green at each step. Where it stands: engine 100% done; API server underway (the shared plumbing + all data/admin endpoints converted; the AI-calling endpoints + the entry file still to go); command-line tool last.", have: "Engine done; API server + CLI converting", c: "Tests green after each piece; engine fully converted, API server about half done", s: "doing" },
       { f: "Tighten the loose ends", m: "Tidy up any vague spots the conversion reveals.", have: "No soft edges left", c: "No loose or untyped spots remain" },
     ],
     signoff: "Safety build passes with no loose spots · tests green · the app and command-line behave identically to before." },
