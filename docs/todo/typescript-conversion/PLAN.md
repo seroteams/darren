@@ -131,6 +131,22 @@ requires the *handler* `./handlers/role-profile`, NOT the engine module — corr
 behaviour deferred. **Engine `.js` left: 12 root / 19 incl. subdirs.** Now leaf-ready: `generate`, `queue-manager`.
 Remaining knot: `reviewer` ⇄ `golden-checks` (circular — convert back-to-back).
 
+**Owner-walk ✅ (2026-06-26, Carl):** ran a real 1:1 on the live paid path — behaves identically. Proves
+`ai-client` + `product-qa` + `role-profile` on the live path (they were agent/type-verified but not yet
+behaviour-proven). Green light to resume converting. (Free CLI boot-test first confirmed every converted
+`.ts`/`.mts` module resolves in the real entrypoint before spending — no module-resolution break.)
+
+**generate ✅ (2026-06-26, committed, typecheck + npm test 30/30 + free `buildMessages` smoke):** 141-line
+focus-points stage-runner (`01-focus-points`) → `.ts`. 5 importers flipped repo-wide (engine/`index`,
+cli/stages/`focus-points`, api/handlers/`start` + `focus-points`, **scripts/`check-role-profile-injection`** —
+the repo-wide grep applied). **First converted module to *read* fields off `parseAIJson`'s `unknown` return** —
+narrowed with the local `asRecord`/`asString` trio (the person-profile house pattern), faithful to the
+original's permissive coercions (the OpenAI strict schema already guarantees the string shapes, so the narrowing
+is in-practice byte-identical). Catalogue kept entry-by-reference (all fields — `description`, `label_examples` —
+still reach the model). Live AI path deferred to owner-walk; **offline smoke** verified 21 entries load, prompts
+fill, zero leftover `{{…}}`. **Noted:** carried a pre-existing unused `node:path` import — kept (dead-code rule),
+flag for later cleanup (same as `axes`). **Engine `.js` left: 11 root / 18 incl. subdirs.** Next leaf-ready: `queue-manager`.
+
 **Remaining engine waves (dependency order):**
 - ✅ Done 2026-06-26: `person-profile` (3 importers) + `review-html` (1 importer; smoke-verified, no unit test). **Next unblocked: the one-on-one-types cluster.**
 - ✅ one-on-one-types cluster DONE (2026-06-26): 5 `*/type` files → `index` (decision: `*/type` files use `export default {...}`

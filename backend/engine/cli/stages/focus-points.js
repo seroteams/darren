@@ -1,4 +1,4 @@
-const { generateFocusPoints } = require("../../generate");
+const { generateFocusPoints } = require("../../generate.ts");
 const { bold, dim, cyan, magentaBold, yellow, gray, red, HR, pad, withThinking } = require("../../ui.ts");
 
 function renderFocusPoints(result, name, role, seniority, { regenerated = false } = {}) {

@@ -12,7 +12,7 @@ const axes = [{ id: "wellbeing" }, { id: "engagement" }, { id: "clarity" }, { id
 
 const stages = {
   "focus points": () =>
-    require("../backend/engine/generate").buildMessages({ ...ctx, focusPoints: [] }),
+    require("../backend/engine/generate.ts").buildMessages({ ...ctx, focusPoints: [] }),
   "preparation": () =>
     require("../backend/engine/preparation").buildMessages({
       name: ctx.name,

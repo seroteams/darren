@@ -1,6 +1,6 @@
 const { requireSession } = require("../sessions");
 const { runStage } = require("./stream-helper");
-const { generateFocusPoints } = require("../../engine/generate");
+const { generateFocusPoints } = require("../../engine/generate.ts");
 
 module.exports = async function focusPoints(c) {
   const session = requireSession(c.query.s);
