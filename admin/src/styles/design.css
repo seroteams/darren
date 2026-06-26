@@ -1112,6 +1112,15 @@ body.has-session-topbar .stage {
 .question-session-ctx.is-empty {
   display: none;
 }
+/* The "what you told Sero" echo, quoted under the context line. */
+.question-session-notes {
+  margin: 0;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+  font-style: italic;
+  line-height: 1.45;
+  max-width: 64ch;
+}
 
 /* Questioning — readable stem + answer area */
 .question-drill-hint {

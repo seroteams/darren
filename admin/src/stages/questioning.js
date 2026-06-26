@@ -18,6 +18,7 @@ export async function mount(root, { store, setState }) {
           <div class="questioning-head min-w-0 space-y-1">
             <p class="turn-label page-header__step"></p>
             <div class="question-session-ctx ctx-segments" aria-label="Session context"></div>
+            <p class="question-session-notes" aria-label="What you told Sero" hidden></p>
           </div>
           <button class="btn btn--ghost js-save-exit shrink-0" type="button">Skip to briefing</button>
         </div>
@@ -36,6 +37,14 @@ export async function mount(root, { store, setState }) {
   const qHost = root.querySelector(".question-host");
 
   renderCtxSegments(sessionCtxEl, store.ctx || {}, { compact: true });
+  // Echo what the manager told Sero at setup (chips summary + their own words) so
+  // the full context stays visible the whole way through the interview.
+  const sessionNotesEl = root.querySelector(".question-session-notes");
+  const ctxNotes = String(store.ctx?.notes || "").replace(/\s*\n+\s*/g, " ").trim();
+  if (ctxNotes) {
+    sessionNotesEl.textContent = `“${ctxNotes}”`;
+    sessionNotesEl.hidden = false;
+  }
   const thinkingHost = root.querySelector(".thinking-host");
   const axesHost = root.querySelector(".axes-host");
   const footerHost = root.querySelector(".footer-host");
