@@ -24,7 +24,7 @@ const { pickSeedOverflow } = require("../backend/engine/closer.ts");
 const {
   buildThreadFollowQuestion,
   enforceThreadFollow,
-} = require("../backend/engine/queue-manager");
+} = require("../backend/engine/queue-manager.ts");
 const { checkQuestionIntegrity } = require("../evals/trust-checks");
 const { QUESTIONS_DIR } = require("../backend/engine/paths.mts");
 

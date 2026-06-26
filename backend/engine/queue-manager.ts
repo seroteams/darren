@@ -1,17 +1,100 @@
-const fs = require("node:fs");
+import fs from "node:fs";
 
-const { loadAxes, validateAxisState, AXIS_IDS } = require("./axes.ts");
-const { newAlias, saveQuestion, listAllAliases, loadDir } = require("./questions.ts");
-const { getArc } = require("./meeting-arcs.ts");
-const { isRelationalArc } = require("./relational-arcs.ts");
-const { promptFor } = require("./one-on-one-types/index.ts");
-const { resolveSelectedFocus } = require("./selected-focus.ts");
-const { splitSystemUser } = require("./prompt-utils.ts");
-const { loadRoleProfile, renderRoleProfileBlock } = require("./role-profile.ts");
+import { loadAxes, validateAxisState, AXIS_IDS } from "./axes.ts";
+import { newAlias, saveQuestion, listAllAliases, loadDir } from "./questions.ts";
+import { getArc } from "./meeting-arcs.ts";
+import { isRelationalArc } from "./relational-arcs.ts";
+import { promptFor } from "./one-on-one-types/index.ts";
+import { resolveSelectedFocus } from "./selected-focus.ts";
+import { splitSystemUser } from "./prompt-utils.ts";
+import { loadRoleProfile, renderRoleProfileBlock } from "./role-profile.ts";
 
-const { modelFor } = require("./models.ts");
-const { callAI, parseAIJson } = require("./ai-client.ts");
+import { modelFor } from "./models.ts";
+import { callAI, parseAIJson } from "./ai-client.ts";
+// Repeat detection lives in the central eligibility gate so every admission
+// path compares question text the same way.
+import {
+  checkQuestionEligibility,
+  contentTokens,
+  isRepeatOfAsked,
+} from "./question-eligibility.ts";
+import { validateQuestionBeforeShow } from "./question-validator.ts";
+
+import type { Question, QuestionPurpose } from "../shared/question.types.ts";
+import type { AxisState, TranscriptEntry } from "../shared/session.types.ts";
+
 const getDefaultModel = () => modelFor("planner");
+
+// Disk JSON / model output is unknown until checked — narrow with these instead
+// of trusting shapes (the established house pattern).
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
+function asString(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+
+// REVIEW: bank/seed candidates load from disk YAML as loosely-typed records
+// (loadDir → Record<string, unknown>). The question YAML schema is closed and
+// canonical, so a coverage pick is materialised into a Question by narrowing
+// its canonical fields here — same fields the original spliced in, just typed.
+function bankRecordToQuestion(c: Record<string, unknown>): Question {
+  const purposeRaw = c.purpose;
+  const purpose: QuestionPurpose =
+    purposeRaw === "wellbeing" || purposeRaw === "topic" || purposeRaw === "competency" || purposeRaw === "engagement"
+      ? purposeRaw
+      : "topic";
+  const axisEffects: Record<string, number> = {};
+  if (isObjectRecord(c.axis_effects)) {
+    for (const [axis, delta] of Object.entries(c.axis_effects)) {
+      if (typeof delta === "number") axisEffects[axis] = delta;
+    }
+  }
+  return {
+    alias: asString(c.alias),
+    label: asString(c.label),
+    name: asString(c.name),
+    description: asString(c.description),
+    purpose,
+    stage: typeof c.stage === "string" ? c.stage : null,
+    axis_effects: axisEffects,
+    source: asString(c.source),
+  };
+}
+
+// The arc-shaped view getArc returns (slug/tone_register/arc/anti_patterns).
+type Arc = ReturnType<typeof getArc>;
+
+// A raw queue item as the planner emits it on the wire (axis_effects is an
+// array here; toAxisObject converts it). All fields are permissive because the
+// reconcile/coverage code reads them defensively.
+interface RawQueueItem {
+  ref_alias?: string | null;
+  label?: string;
+  name?: string;
+  description?: string;
+  purpose?: QuestionPurpose;
+  stage?: string | null;
+  axis_effects?: AxisEffect[];
+  grounding?: string;
+}
+
+// One {axis, delta} pair on the wire.
+interface AxisEffect {
+  axis: string;
+  delta: number;
+}
+
+// REVIEW: parseAIJson returns unknown. The wire is schema-constrained, but the
+// value is still unknown here — narrow it to the array reconcileQueue reads.
+// Each element is an object or falsy (the loop's `if (!item)` already tolerates
+// falsy); fields are then read defensively, exactly as the original did.
+function isRawQueueArray(v: unknown): v is RawQueueItem[] {
+  return Array.isArray(v) && v.every((e) => e == null || typeof e === "object");
+}
 
 const ALLOWED_DELTAS = [-3, -1, 0, 1, 3];
 const MAX_QUEUE = 12;
@@ -69,26 +152,29 @@ const RESPONSE_SCHEMA = {
   additionalProperties: false,
 };
 
-function computeArcProgress(transcript, arc) {
-  const progress = {};
+function computeArcProgress(transcript: TranscriptEntry[] | null | undefined, arc: Arc): Record<string, number> {
+  const progress: Record<string, number> = {};
   for (const stage of arc.arc) progress[stage.id] = 0;
   for (const t of transcript || []) {
     const s = t?.question?.stage;
-    if (s && Object.prototype.hasOwnProperty.call(progress, s)) progress[s] += 1;
+    // hasOwnProperty guarantees the key exists (initialised to 0 above), but TS
+    // can't see that through the runtime check — `?? 0` restores the value
+    // without changing behaviour (the key is always a number here).
+    if (s && Object.prototype.hasOwnProperty.call(progress, s)) progress[s] = (progress[s] ?? 0) + 1;
   }
   return progress;
 }
 
-function isPlannerOriginated(source) {
+function isPlannerOriginated(source: unknown): boolean {
   return source === "planner_added" || (typeof source === "string" && source.startsWith("reworded_from:"));
 }
 
-function isSameStagePlannerDrill(question, stage) {
+function isSameStagePlannerDrill(question: { stage?: string | null; source?: string } | null | undefined, stage: string | null | undefined): boolean {
   if (!question || stage == null || stage === undefined) return false;
   return question.stage === stage && isPlannerOriginated(question.source);
 }
 
-function computeConsecutiveDrillCount(transcript, lastQuestion) {
+function computeConsecutiveDrillCount(transcript: TranscriptEntry[] | null | undefined, lastQuestion: { stage?: string | null } | null | undefined): number {
   if (!lastQuestion?.stage) return 0;
   let count = 0;
   const t = transcript || [];
@@ -105,7 +191,7 @@ function computeConsecutiveDrillCount(transcript, lastQuestion) {
 }
 
 // D1 — stages whose arc_progress < target_questions, in arc order.
-function computeRemainingStages(transcript, arc) {
+function computeRemainingStages(transcript: TranscriptEntry[] | null | undefined, arc: Arc): Array<{ id: string; label: string; intent: string; target_questions: number; arc_progress: number }> {
   const progress = computeArcProgress(transcript, arc);
   return arc.arc
     .map((stage) => ({
@@ -119,7 +205,7 @@ function computeRemainingStages(transcript, arc) {
 }
 
 // D3 — most recent prior turn's realized deltas (used for snap-back).
-function computeLastRealizedDeltas(transcript) {
+function computeLastRealizedDeltas(transcript: TranscriptEntry[] | null | undefined): Record<string, number> {
   const t = transcript || [];
   for (let i = t.length - 1; i >= 0; i--) {
     const d = t[i]?.realized_deltas;
@@ -129,7 +215,7 @@ function computeLastRealizedDeltas(transcript) {
 }
 
 // D4 — consecutive trailing planner_added items with purpose=wellbeing.
-function computeConsecutiveWellbeingClarifierCount(transcript) {
+function computeConsecutiveWellbeingClarifierCount(transcript: TranscriptEntry[] | null | undefined): number {
   let count = 0;
   const t = transcript || [];
   for (let i = t.length - 1; i >= 0; i--) {
@@ -143,7 +229,7 @@ function computeConsecutiveWellbeingClarifierCount(transcript) {
 
 // D5 — session-wide count of planner_added items with stage=null
 // (thread-follows that left the arc rather than staying inside it).
-function computeOffArcDrillCount(transcript) {
+function computeOffArcDrillCount(transcript: TranscriptEntry[] | null | undefined): number {
   let count = 0;
   for (const t of transcript || []) {
     const q = t?.question;
@@ -169,12 +255,27 @@ function buildMessages({
   closerAlias,
   selectedFocus = null,
   prep = null,
+}: {
+  axes: unknown;
+  focusPoints: unknown;
+  ctx: BuildMessagesCtx;
+  transcript: TranscriptEntry[] | null | undefined;
+  lastQuestion: Question | null | undefined;
+  lastAnswer: string | null | undefined;
+  axisState: unknown;
+  remainingQueue: Question[] | null | undefined;
+  remainingBudget: number | string | null | undefined;
+  turnNumber?: number | null;
+  totalTurns?: number | null;
+  closerAlias: string | null | undefined;
+  selectedFocus?: { id?: string } | null;
+  prep?: PlannerPrep | null;
 }) {
   const template = fs.readFileSync(promptFor(ctx.meetingType, "planTurn"), "utf8");
   const arc = getArc(ctx.meetingType);
   const sf =
     selectedFocus ||
-    resolveSelectedFocus({ notes: ctx.notes, focusPoints });
+    resolveSelectedFocus({ notes: ctx.notes, focusPoints: Array.isArray(focusPoints) ? focusPoints : undefined });
   const transcriptSummary = (transcript || []).map((t) => ({
     alias: t.question.alias,
     name: t.question.name,
@@ -247,7 +348,7 @@ function buildMessages({
   return splitSystemUser(filled);
 }
 
-async function callOpenAI({ system, user, model }) {
+async function callOpenAI({ system, user, model }: { system: string; user: string; model: string }): Promise<string> {
   return callAI({
     system,
     user,
@@ -259,7 +360,7 @@ async function callOpenAI({ system, user, model }) {
   });
 }
 
-function snapToAllowedDelta(raw) {
+function snapToAllowedDelta(raw: unknown): number {
   const n = Number(raw);
   if (!Number.isFinite(n)) return 0;
   return ALLOWED_DELTAS.reduce((best, d) => {
@@ -273,10 +374,14 @@ function snapToAllowedDelta(raw) {
   });
 }
 
-function toAxisObject(effects) {
-  const out = {};
-  for (const e of effects || []) {
-    if (e && AXIS_IDS.includes(e.axis)) out[e.axis] = snapToAllowedDelta(e.delta);
+function toAxisObject(effects: unknown): Record<string, number> {
+  const out: Record<string, number> = {};
+  // original passed model output straight in; AXIS_IDS.includes() already guards
+  // a bad shape, so narrow each element to read .axis/.delta. (unknown[] not the
+  // any[] that Array.isArray would otherwise widen the loop var to.)
+  const items: unknown[] = Array.isArray(effects) ? effects : [];
+  for (const e of items) {
+    if (isObjectRecord(e) && typeof e.axis === "string" && AXIS_IDS.includes(e.axis)) out[e.axis] = snapToAllowedDelta(e.delta);
   }
   return out;
 }
@@ -287,11 +392,11 @@ function toAxisObject(effects) {
 // clamp held back) so it can be preserved as unbooked_signal instead of lost.
 // Privacy: overflow entries hold ONLY axis/raw/booked/reason — never answer
 // text, note fragments, or model explanations.
-function clampToSignature(rawDeltas, signature) {
+function clampToSignature(rawDeltas: Record<string, number>, signature: Record<string, number> | null | undefined): { deltas: Record<string, number>; issues: string[]; overflow: Array<{ axis: string; raw: number; booked: number; reason: string }> } {
   const sigKeys = Object.keys(signature || {});
-  const deltas = {};
-  const issues = [];
-  const overflow = [];
+  const deltas: Record<string, number> = {};
+  const issues: string[] = [];
+  const overflow: Array<{ axis: string; raw: number; booked: number; reason: string }> = [];
   // A question with no signature drops every delta as "off-signature" and books
   // nothing for the turn. That is sometimes legitimate, but it must not vanish
   // silently — surface it loudly so a missing axis_effects is debuggable.
@@ -315,7 +420,7 @@ function clampToSignature(rawDeltas, signature) {
       }
       continue;
     }
-    const mag = Math.abs(signature[axis]);
+    const mag = Math.abs(signature?.[axis] ?? 0);
     const clamped = Math.max(-mag, Math.min(mag, rawDelta));
     if (clamped !== rawDelta) {
       issues.push(`clamped ${axis} ${rawDelta} → ${clamped} (signature magnitude ${mag})`);
@@ -326,8 +431,8 @@ function clampToSignature(rawDeltas, signature) {
   return { deltas, issues, overflow };
 }
 
-function axisCoverage(axisState) {
-  const out = {};
+function axisCoverage(axisState: AxisState): Record<string, { score: number; touches: number }> {
+  const out: Record<string, { score: number; touches: number }> = {};
   for (const id of AXIS_IDS) {
     const slot = axisState[id];
     // Use ?? not || so that legitimate negative scores aren't coerced to 0
@@ -338,9 +443,9 @@ function axisCoverage(axisState) {
 
 // Returns true iff a reconstructed queue item matches the referenced existing
 // question on the canonical fields (ignoring whitespace).
-function isUnchanged(refOriginal, incoming) {
+function isUnchanged(refOriginal: Question | null | undefined, incoming: RawQueueItem): boolean {
   if (!refOriginal) return false;
-  const norm = (s) => (s || "").replace(/\s+/g, " ").trim();
+  const norm = (s: string | null | undefined) => (s || "").replace(/\s+/g, " ").trim();
   if (norm(refOriginal.name) !== norm(incoming.name)) return false;
   if (norm(refOriginal.label) !== norm(incoming.label)) return false;
   if (norm(refOriginal.description) !== norm(incoming.description)) return false;
@@ -351,14 +456,6 @@ function isUnchanged(refOriginal, incoming) {
   return true;
 }
 
-// Repeat detection lives in the central eligibility gate so every admission
-// path compares question text the same way.
-const {
-  checkQuestionEligibility,
-  contentTokens,
-  isRepeatOfAsked,
-} = require("./question-eligibility.ts");
-
 // Grounding gate for planner-written questions. The planner must cite a short
 // verbatim quote from this session (`grounding`) for every new or reworded
 // item, or mark it "open" (assumes nothing). A question whose premise this
@@ -367,7 +464,7 @@ const {
 // Jun 12 Jordan run invented an "architecture review" forum).
 const GROUNDING_OPEN = "open";
 
-function normalizeGrounding(s) {
+function normalizeGrounding(s: unknown): string {
   return String(s || "")
     .toLowerCase()
     .replace(/[^a-z0-9\s'-]/g, " ")
@@ -399,7 +496,7 @@ const OPEN_QUESTION_VOCAB = new Set([
 
 // Rare content words in an "open" question that the corpus never said.
 // Tokens are matched on a 5-char stem so inflections don't false-positive.
-function unsupportedOpenTokens(name, corpusNorm) {
+function unsupportedOpenTokens(name: unknown, corpusNorm: string): string[] {
   return [...contentTokens(name)]
     .filter((w) => w.length >= 5 && !OPEN_QUESTION_VOCAB.has(w))
     .filter((w) => !corpusNorm.includes(w.slice(0, 5)));
@@ -408,7 +505,7 @@ function unsupportedOpenTokens(name, corpusNorm) {
 // True when the cited grounding quote appears in the corpus — verbatim after
 // normalisation, or all of its content words individually (tolerates light
 // punctuation/reordering, not paraphrase).
-function groundingQuoteSupported(grounding, corpusNorm) {
+function groundingQuoteSupported(grounding: unknown, corpusNorm: string): boolean {
   const g = normalizeGrounding(grounding);
   if (!g) return false;
   if (corpusNorm.includes(g)) return true;
@@ -418,15 +515,15 @@ function groundingQuoteSupported(grounding, corpusNorm) {
 
 // Reconcile AI-returned items against the existing remaining queue +
 // transcript. Produces the materialised queue of question objects.
-function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames = [], meetingType = null, groundingCorpus = null }) {
+function reconcileQueue(rawNewQueue: RawQueueItem[] | null | undefined, { remainingQueue, askedAliases, askedNames = [], meetingType = null, groundingCorpus = null }: { remainingQueue: Question[]; askedAliases: Set<string>; askedNames?: string[]; meetingType?: string | null; groundingCorpus?: string | null }): { queue: Question[]; issues: string[] } {
   const byAlias = new Map(remainingQueue.map((q) => [q.alias, q]));
   const existingAliases = listAllAliases();
   for (const q of remainingQueue) existingAliases.add(q.alias);
   for (const a of askedAliases) existingAliases.add(a);
   const askedTokenSets = askedNames.map(contentTokens);
-  const out = [];
-  const issues = [];
-  const usedAliases = new Set();
+  const out: Question[] = [];
+  const issues: string[] = [];
+  const usedAliases = new Set<string>();
 
   for (let item of rawNewQueue || []) {
     if (!item) {
@@ -476,7 +573,7 @@ function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames 
     // New planner items also pass the type's forbidden patterns — the planner
     // free-writes question text every turn, so it can violate the 1:1 type's
     // rules just like a bad opener or seed.
-    const eligibility = checkQuestionEligibility(item, { meetingType });
+    const eligibility = checkQuestionEligibility(item, { meetingType: meetingType ?? undefined });
     if (!eligibility.ok) {
       issues.push(
         `eligibility: dropped planner item "${item.label || item.name}" (${eligibility.reason}: ${eligibility.matched})`
@@ -487,7 +584,7 @@ function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames 
     // Relational-arc gate: the planner can't write an evaluative question into
     // a check-in. No ref carry-forward here — if the planner labelled it
     // competency, the original (if any) is suspect for the same reason.
-    if (item.purpose === "competency" && isRelationalArc(meetingType)) {
+    if (item.purpose === "competency" && isRelationalArc(meetingType ?? undefined)) {
       issues.push(
         `arc gate: dropped planner competency question for relational arc: ${item.label || item.name}`
       );
@@ -522,12 +619,12 @@ function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames 
     existingAliases.add(alias);
     usedAliases.add(alias);
     const source = ref ? `reworded_from:${ref.alias}` : "planner_added";
-    const q = {
+    const q: Question = {
       alias,
-      label: item.label,
-      name: item.name,
-      description: item.description,
-      purpose: item.purpose,
+      label: item.label ?? "",
+      name: item.name ?? "",
+      description: item.description ?? "",
+      purpose: item.purpose ?? "topic",
       stage: item.stage ?? ref?.stage ?? null,
       axis_effects: toAxisObject(item.axis_effects),
       source,
@@ -548,7 +645,7 @@ function reconcileQueue(rawNewQueue, { remainingQueue, askedAliases, askedNames 
   return { queue: out, issues };
 }
 
-function isShallowAnswer(answer) {
+function isShallowAnswer(answer: string | null | undefined): boolean {
   if (!answer || typeof answer !== "string") return false;
   const trimmed = answer.trim();
   if (!trimmed) return false;
@@ -591,11 +688,11 @@ function isShallowAnswer(answer) {
   return false;
 }
 
-function noteMarksShallow(note) {
+function noteMarksShallow(note: unknown): boolean {
   return typeof note === "string" && note.includes("[SHALLOW]");
 }
 
-function detectClarityMisalignment(answer) {
+function detectClarityMisalignment(answer: string | null | undefined): boolean {
   if (!answer || typeof answer !== "string") return false;
   const lower = answer.toLowerCase();
   if (/\bmay think this\b.*\bmay think that\b/.test(lower)) return true;
@@ -606,31 +703,31 @@ function detectClarityMisalignment(answer) {
   return false;
 }
 
-function expandSignatureForSignals(signature, answer) {
-  const sig = { ...(signature || {}) };
+function expandSignatureForSignals(signature: Record<string, number> | null | undefined, answer: string | null | undefined): Record<string, number> {
+  const sig: Record<string, number> = { ...(signature || {}) };
   if (detectClarityMisalignment(answer) && sig.clarity == null) {
     sig.clarity = 3;
   }
   return sig;
 }
 
-function applyShallowGate(rawDeltas, { lastAnswer, note, issues }) {
+function applyShallowGate(rawDeltas: Record<string, number>, { lastAnswer, note, issues }: { lastAnswer: string | null | undefined; note: unknown; issues: string[] }): boolean {
   const answerIsSkip = !lastAnswer || lastAnswer === "(skipped)";
   const shallow = !answerIsSkip && (isShallowAnswer(lastAnswer) || noteMarksShallow(note));
   if (!shallow) return false;
   for (const axis of Object.keys(rawDeltas)) {
     if (rawDeltas[axis] !== 0) {
-      issues.push(`shallow answer — zeroed ${axis} (${rawDeltas[axis] > 0 ? "+" : ""}${rawDeltas[axis]})`);
+      issues.push(`shallow answer — zeroed ${axis} (${(rawDeltas[axis] ?? 0) > 0 ? "+" : ""}${rawDeltas[axis]})`);
       rawDeltas[axis] = 0;
     }
   }
   return true;
 }
 
-function applyMisalignmentClarity(rawDeltas, { lastAnswer, signature, issues }) {
+function applyMisalignmentClarity(rawDeltas: Record<string, number>, { lastAnswer, signature, issues }: { lastAnswer: string | null | undefined; signature: Record<string, number>; issues: string[] }): void {
   if (!detectClarityMisalignment(lastAnswer)) return;
   if (!Object.prototype.hasOwnProperty.call(signature, "clarity")) return;
-  const mag = Math.abs(signature.clarity);
+  const mag = Math.abs(signature.clarity ?? 0);
   const current = rawDeltas.clarity;
   if (current == null || current >= 0) {
     const applied = -Math.min(mag, 1);
@@ -647,7 +744,7 @@ function applyMisalignmentClarity(rawDeltas, { lastAnswer, signature, issues }) 
 // -3s across consecutive gap turns (the Maya run clamped clarity to -10 off one
 // repeated fact). Enforce it deterministically: once any prior competency turn
 // has booked a negative clarity delta, cap this turn's clarity at -1.
-function priorCompetencyClarityHit(transcript) {
+function priorCompetencyClarityHit(transcript: TranscriptEntry[] | null | undefined): boolean {
   for (const t of transcript || []) {
     if (t?.question?.purpose !== "competency") continue;
     const d = t?.realized_deltas;
@@ -666,7 +763,7 @@ const DAMPER_STOPWORDS = new Set([
   "less", "too", "very", "just", "then", "than", "into", "out", "up", "down",
 ]);
 
-function answerThemeTokens(text) {
+function answerThemeTokens(text: unknown): Set<string> {
   return new Set(
     String(text || "")
       .toLowerCase()
@@ -679,7 +776,7 @@ function answerThemeTokens(text) {
 // Two short notes are "the same recurring point" when their content words
 // overlap on 2+ terms. Distinct gaps (different nouns) don't trip this, so a
 // genuinely new clarity issue still scores at full weight.
-function sharesAnswerTheme(a, b) {
+function sharesAnswerTheme(a: unknown, b: unknown): boolean {
   const ta = answerThemeTokens(a);
   if (ta.size < 2) return false;
   const tb = answerThemeTokens(b);
@@ -693,7 +790,7 @@ function sharesAnswerTheme(a, b) {
 // the current answer is making? Theme-based, so it fires regardless of how the
 // question's `purpose` was tagged — including scripted runs (purpose:"scripted")
 // where the competency gate above never matches.
-function priorSameThemeClarityHit(transcript, currentAnswer) {
+function priorSameThemeClarityHit(transcript: TranscriptEntry[] | null | undefined, currentAnswer: unknown): boolean {
   for (const t of transcript || []) {
     const d = t?.realized_deltas;
     if (!(d && Number(d.clarity) < 0)) continue;
@@ -702,7 +799,7 @@ function priorSameThemeClarityHit(transcript, currentAnswer) {
   return false;
 }
 
-function applyRecurringGapClarityDamper(rawDeltas, { lastQuestion, transcript, issues, lastAnswer }) {
+function applyRecurringGapClarityDamper(rawDeltas: Record<string, number>, { lastQuestion, transcript, issues, lastAnswer }: { lastQuestion: { purpose?: string } | null | undefined; transcript: TranscriptEntry[] | null | undefined; issues: string[]; lastAnswer: unknown }): void {
   const current = rawDeltas.clarity;
   if (current == null || current >= -1) return;
   // Trigger A — craft-gap competency stacking (the original Jun03 case).
@@ -717,7 +814,7 @@ function applyRecurringGapClarityDamper(rawDeltas, { lastQuestion, transcript, i
   rawDeltas.clarity = -1;
 }
 
-function isRuntimeThreadFollow(q) {
+function isRuntimeThreadFollow(q: { source?: string; label?: string } | null | undefined): boolean {
   return q?.source === "planner_added" && q?.label === "Thread follow";
 }
 
@@ -738,7 +835,18 @@ function enforceAxisCoverage({
   transcript = [],
   meetingType = null,
   bankLoader = () => [...loadDir("").filter(isCuratedBankQuestion), ...loadDir("_seed")],
-}) {
+}: {
+  newQueue: Question[];
+  axisState: AxisState;
+  turnNumber: number;
+  issues: string[];
+  askedAliases?: Set<string>;
+  askedNames?: string[];
+  arc?: Arc | null;
+  transcript?: TranscriptEntry[];
+  meetingType?: string | null;
+  bankLoader?: () => unknown[];
+}): Question[] {
   if (turnNumber < 4 || !Array.isArray(newQueue) || !newQueue.length) return newQueue;
   const untouched = AXIS_IDS.filter((id) => (axisState[id]?.history?.length ?? 0) === 0);
   if (!untouched.length) return newQueue;
@@ -773,18 +881,25 @@ function enforceAxisCoverage({
   );
   const queuedAliases = new Set(newQueue.map((q) => q.alias));
   const askedTokenSets = askedNames.map(contentTokens);
-  const candidates = (bankLoader() || []).filter((c) => {
-    if (!c?.alias || !c?.name) return false;
-    if (!c.axis_effects?.[priority]) return false;
-    if (askedAliases.has(c.alias) || queuedAliases.has(c.alias)) return false;
-    if (c.stage != null && arc && !arcStageIds.has(c.stage)) return false;
+  const candidates = (bankLoader() || []).filter((c): c is Record<string, unknown> => {
+    if (!isObjectRecord(c)) return false;
+    if (!c.alias || !c.name) return false;
+    if (!isObjectRecord(c.axis_effects) || !c.axis_effects[priority]) return false;
+    if (askedAliases.has(String(c.alias)) || queuedAliases.has(String(c.alias))) return false;
+    if (c.stage != null && arc && !arcStageIds.has(String(c.stage))) return false;
     if (isRepeatOfAsked(c.name, askedTokenSets)) return false;
     // Relational arcs never pull an evaluative question, even for axis coverage.
-    if (c.purpose === "competency" && isRelationalArc(meetingType)) {
+    if (c.purpose === "competency" && isRelationalArc(meetingType ?? undefined)) {
       issues.push(`arc gate: coverage skipped ${c.alias} (competency question in relational arc)`);
       return false;
     }
-    const eligibility = checkQuestionEligibility(c, { meetingType });
+    // REVIEW: the gate takes a {name,label,description,alias} view; bank records
+    // are loosely typed, so narrow those fields (asString matches how the gate's
+    // own `|| ""` / contentTokens already coerce non-strings).
+    const eligibility = checkQuestionEligibility(
+      { name: asString(c.name), label: asString(c.label), description: asString(c.description), alias: asString(c.alias) },
+      { meetingType: meetingType ?? undefined }
+    );
     if (!eligibility.ok) {
       issues.push(
         `eligibility: coverage skipped ${c.alias} (${eligibility.reason}: ${eligibility.matched})`
@@ -794,12 +909,12 @@ function enforceAxisCoverage({
     return true;
   });
   const pick =
-    candidates.find((c) => c.stage != null && underServed.has(c.stage)) ||
+    candidates.find((c) => c.stage != null && underServed.has(String(c.stage))) ||
     candidates.find((c) => c.stage == null) ||
     candidates[0];
   if (pick) {
     const queue = [...newQueue];
-    queue.splice(insertAt, 0, pick);
+    queue.splice(insertAt, 0, bankRecordToQuestion(pick));
     if (queue.length > MAX_QUEUE) {
       issues.push(`truncated queue from ${queue.length} to ${MAX_QUEUE}`);
       queue.length = MAX_QUEUE;
@@ -822,20 +937,20 @@ function enforceAxisCoverage({
 // never bank candidates (they carry another conversation's premises). The
 // curated pool is source "generated"/seed material only. Load-time filter —
 // the YAML files themselves stay where they are.
-function isCuratedBankQuestion(q) {
+function isCuratedBankQuestion(q: Record<string, unknown>): boolean {
   const source = String(q?.source || "");
   if (source === "planner_added" || source.startsWith("reworded_from")) return false;
   if (String(q?.alias || "").startsWith("q_thread_follow")) return false;
   return true;
 }
 
-function answerHasThread(answer) {
+function answerHasThread(answer: string | null | undefined): boolean {
   if (!answer || answer === "(skipped)") return false;
   if (isShallowAnswer(answer)) return false;
   return answer.trim().split(/\s+/).filter(Boolean).length >= 5;
 }
 
-function followReferencesAnswer(answer, questionName) {
+function followReferencesAnswer(answer: string | null | undefined, questionName: string | null | undefined): boolean {
   const words = String(answer || "")
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, " ")
@@ -846,19 +961,17 @@ function followReferencesAnswer(answer, questionName) {
   return words.filter((w) => q.includes(w)).length >= 1;
 }
 
-function firstQueueFollowsThread(queue, answer) {
+function firstQueueFollowsThread(queue: Question[] | null | undefined, answer: string | null | undefined): boolean {
   if (!Array.isArray(queue) || !queue.length) return false;
   return followReferencesAnswer(answer, queue[0]?.name);
 }
-
-const { validateQuestionBeforeShow } = require("./question-validator.ts");
 
 // The mirror must quote a contiguous run of the answer's own words, clause-
 // bounded. The old version took the first three long tokens from anywhere in
 // the answer — a skip-gram that read as word salad on typo-heavy notes
 // ("tell will working — can you say more…", Jun 02 Luke run).
 const MIRROR_FILLER = /^(yeah|yes|yep|ok|okay|well|so|um|uh|and|but)\s+/i;
-function contiguousAnswerSpan(answer) {
+function contiguousAnswerSpan(answer: string | null | undefined): string | null {
   for (const raw of String(answer || "").split(/[.!?;,\n—–]+/)) {
     let clause = raw.replace(/[^a-z0-9\s'-]/gi, " ").replace(/\s+/g, " ").trim();
     while (MIRROR_FILLER.test(clause)) clause = clause.replace(MIRROR_FILLER, "");
@@ -873,15 +986,14 @@ function contiguousAnswerSpan(answer) {
 // context-free stem fakes a connection the engine didn't make (the Jun 11
 // Machar run served the identical generic stem on consecutive turns and it
 // read as disconnected both times).
-function buildThreadFollowQuestion(lastQuestion, lastAnswer, transcript) {
+function buildThreadFollowQuestion(lastQuestion: Question | null | undefined, lastAnswer: string | null | undefined, transcript: TranscriptEntry[] | null | undefined): Question | null {
   const mirrorSpan = contiguousAnswerSpan(lastAnswer);
   if (!mirrorSpan) return null;
   const mirrorStem = `${mirrorSpan} — can you say more about what that means for you right now?`;
 
   const mirrorCheck = validateQuestionBeforeShow({
     name: mirrorStem,
-    answer: lastAnswer,
-    transcript,
+    answer: lastAnswer ?? undefined,
   });
   if (!mirrorCheck.ok) return null;
 
@@ -907,7 +1019,16 @@ function enforceThreadFollow({
   askedNames = [],
   transcript = [],
   issues,
-}) {
+}: {
+  newQueue: Question[];
+  lastAnswer: string | null | undefined;
+  lastQuestion: Question | null | undefined;
+  remainingBudget: number | string | null | undefined;
+  consecutiveDrillCount: number;
+  askedNames?: string[];
+  transcript?: TranscriptEntry[];
+  issues: string[];
+}): Question[] {
   if (Number(remainingBudget) <= 2) return newQueue;
   if (consecutiveDrillCount >= 2) return newQueue;
   if (!answerHasThread(lastAnswer)) return newQueue;
@@ -939,7 +1060,15 @@ function enforceDrillCap({
   transcript,
   arc,
   issues,
-}) {
+}: {
+  newQueue: Question[];
+  lastQuestion: Question | null | undefined;
+  remainingQueue: Question[] | null | undefined;
+  consecutiveDrillCount: number;
+  transcript: TranscriptEntry[] | null | undefined;
+  arc: Arc;
+  issues: string[];
+}): Question[] {
   let queue = [...(newQueue || [])];
   const lastStage = lastQuestion?.stage;
   if (lastStage == null || lastStage === undefined || consecutiveDrillCount < 2) {
@@ -948,13 +1077,13 @@ function enforceDrillCap({
 
   while (queue.length && isSameStagePlannerDrill(queue[0], lastStage)) {
     const dropped = queue[0];
-    issues.push(`drill cap: removed same-stage drill at ${lastStage} (${dropped.alias || dropped.label})`);
+    issues.push(`drill cap: removed same-stage drill at ${lastStage} (${dropped?.alias || dropped?.label})`);
     queue = queue.slice(1);
   }
 
   const remainingStages = computeRemainingStages(transcript, arc);
   if (!remainingStages.length) return queue;
-  const targetStage = remainingStages[0].id;
+  const targetStage = remainingStages[0]?.id;
   const pool = [...(remainingQueue || []), ...queue];
   const candidate = pool.find((q) => q.stage === targetStage);
   if (candidate && queue[0]?.alias !== candidate.alias) {
@@ -980,6 +1109,22 @@ async function planTurn({
   selectedFocus = null,
   prep = null,
   sessionBank = null,
+}: {
+  focusPoints: unknown;
+  ctx: PlanTurnCtx;
+  transcript: TranscriptEntry[] | null | undefined;
+  lastQuestion: Question;
+  lastAnswer: string | null | undefined;
+  axisState: AxisState;
+  remainingQueue: Question[] | null | undefined;
+  remainingBudget: number | string | null | undefined;
+  turnNumber?: number | null;
+  totalTurns?: number | null;
+  closerAlias: string | null | undefined;
+  model?: string;
+  selectedFocus?: { id?: string } | null;
+  prep?: PlannerPrep | null;
+  sessionBank?: Question[] | null;
 }) {
   validateAxisState(axisState);
 
@@ -1016,13 +1161,14 @@ async function planTurn({
     prep,
   });
   const raw = await callOpenAI({ ...msgs, model });
-  const parsed = parseAIJson(raw, "Queue planner", ["assessment", "new_queue"]);
+  const parsed = asRecord(parseAIJson(raw, "Queue planner", ["assessment", "new_queue"]));
 
-  const rawDeltas = toAxisObject(parsed.assessment?.deltas);
-  const gateIssues = [];
+  const assessmentRaw = asRecord(parsed.assessment);
+  const rawDeltas = toAxisObject(assessmentRaw.deltas);
+  const gateIssues: string[] = [];
   applyShallowGate(rawDeltas, {
     lastAnswer,
-    note: parsed.assessment?.note || "",
+    note: typeof assessmentRaw.note === "string" ? assessmentRaw.note : "",
     issues: gateIssues,
   });
 
@@ -1042,7 +1188,7 @@ async function planTurn({
   const { deltas, issues: sigIssues, overflow } = clampToSignature(rawDeltas, effectiveSignature);
   const assessment = {
     deltas,
-    note: parsed.assessment?.note || "",
+    note: typeof assessmentRaw.note === "string" ? assessmentRaw.note : "",
   };
 
   const askedAliases = new Set((transcript || []).map((t) => t.question.alias));
@@ -1063,8 +1209,9 @@ async function planTurn({
       .filter(Boolean)
       .join("\n")
   );
-  const { queue: reconciledQueue, issues: queueIssues } = reconcileQueue(parsed.new_queue, {
-    remainingQueue,
+  const newQueueRaw = isRawQueueArray(parsed.new_queue) ? parsed.new_queue : undefined;
+  const { queue: reconciledQueue, issues: queueIssues } = reconcileQueue(newQueueRaw, {
+    remainingQueue: remainingQueue || [],
     askedAliases,
     askedNames,
     meetingType: ctx.meetingType,
@@ -1078,7 +1225,7 @@ async function planTurn({
     remainingBudget,
     consecutiveDrillCount,
     askedNames,
-    transcript,
+    transcript: transcript || [],
     issues: gateIssues,
   });
   newQueue = enforceDrillCap({
@@ -1098,7 +1245,7 @@ async function planTurn({
     askedAliases,
     askedNames,
     arc,
-    transcript,
+    transcript: transcript || [],
     meetingType: ctx.meetingType,
     // Scope coverage to THIS session's pool so it can't surface another
     // persona's saved question from the global bank. Any supplied array is
@@ -1120,7 +1267,25 @@ async function planTurn({
   };
 }
 
-module.exports = {
+// The meeting context buildMessages reads — a permissive view of MeetingContext.
+interface BuildMessagesCtx {
+  meetingType: string;
+  notes?: string;
+  name?: string;
+  role?: string;
+  seniority?: string;
+}
+
+// planTurn additionally reads ctx.notes/name/role for the grounding corpus.
+type PlanTurnCtx = BuildMessagesCtx;
+
+// The slim prep slice the planner reads (coreIssue + listenFor).
+interface PlannerPrep {
+  coreIssue?: string;
+  listenFor?: string[];
+}
+
+export {
   planTurn,
   buildMessages,
   callOpenAI,

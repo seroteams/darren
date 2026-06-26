@@ -3,7 +3,7 @@
 // Maya run (Jun03) stacked -3 clarity on the same craft gap → clarity -10.
 
 const assert = require("node:assert/strict");
-const { applyRecurringGapClarityDamper } = require("../backend/engine/queue-manager");
+const { applyRecurringGapClarityDamper } = require("../backend/engine/queue-manager.ts");
 
 const competencyQ = {
   alias: "q_ready_sooner",

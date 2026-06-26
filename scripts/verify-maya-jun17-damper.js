@@ -8,7 +8,7 @@
 
 const assert = require("node:assert/strict");
 const { initState, applyDeltas } = require("../backend/engine/axes.ts");
-const { applyRecurringGapClarityDamper } = require("../backend/engine/queue-manager");
+const { applyRecurringGapClarityDamper } = require("../backend/engine/queue-manager.ts");
 
 // The run as it happened: question purpose was "scripted" (not "competency"),
 // which is why the original purpose-gated damper never fired and clarity hit -10.

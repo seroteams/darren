@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const questions = require("../../questions.ts");
-const { planTurn } = require("../../queue-manager");
+const { planTurn } = require("../../queue-manager.ts");
 const { pinPrepOpenerEarly } = require("../../question-generator");
 const { isForbiddenCloser, pickSeedOverflow } = require("../../closer");
 const { dropIneligibleHeads, appendEligibilityLog } = require("../../question-eligibility.ts");

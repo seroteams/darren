@@ -7,7 +7,7 @@
 // clarity/growth.
 
 const assert = require("node:assert/strict");
-const { enforceAxisCoverage } = require("../backend/engine/queue-manager");
+const { enforceAxisCoverage } = require("../backend/engine/queue-manager.ts");
 
 // All axes touched except wellbeing → coverage wants wellbeing served.
 const axisState = {

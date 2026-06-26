@@ -30,7 +30,7 @@ const stages = {
       existingQueue: [],
     }),
   "per-turn planner": () =>
-    require("../backend/engine/queue-manager").buildMessages({
+    require("../backend/engine/queue-manager.ts").buildMessages({
       axes,
       focusPoints: [],
       ctx,

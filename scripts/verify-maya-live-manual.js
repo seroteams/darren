@@ -16,7 +16,7 @@ const { initState, applyDeltas, serialize } = require("../backend/engine/axes.ts
 const {
   applyRecurringGapClarityDamper,
   clampToSignature,
-} = require("../backend/engine/queue-manager");
+} = require("../backend/engine/queue-manager.ts");
 const { loadQuestion } = require("../backend/engine/questions.ts");
 const { evaluate } = require("../backend/engine/reviewer");
 

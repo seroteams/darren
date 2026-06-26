@@ -16,7 +16,7 @@ const {
   applyMisalignmentClarity,
   clampToSignature,
   enforceAxisCoverage,
-} = require("../backend/engine/queue-manager");
+} = require("../backend/engine/queue-manager.ts");
 
 function ok(label, cond) {
   if (cond) {

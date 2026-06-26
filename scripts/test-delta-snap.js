@@ -4,7 +4,7 @@
 // accident of array order, which used to send +2 → 1 but -2 → -3.
 
 const assert = require("node:assert/strict");
-const { snapToAllowedDelta } = require("../backend/engine/queue-manager");
+const { snapToAllowedDelta } = require("../backend/engine/queue-manager.ts");
 
 // Exact ties snap toward zero, symmetrically.
 assert.equal(snapToAllowedDelta(2), 1, "+2 snaps to +1 (toward zero)");
