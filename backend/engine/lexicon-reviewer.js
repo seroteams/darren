@@ -1,6 +1,6 @@
 // Lexicon session review — barrel re-export. Core AI + I/O live under ./lexicon/.
 
-const { reviewSession } = require("./lexicon/cli-interactive");
+const { reviewSession } = require("./lexicon/cli-interactive.ts");
 const {
   shouldReview,
   generateSuggestions,
@@ -18,7 +18,7 @@ const {
   readTrace,
   tracePathFor,
 } = require("./lexicon/candidates-io.ts");
-const { parseInput, partition } = require("./lexicon/cli-interactive");
+const { parseInput, partition } = require("./lexicon/cli-interactive.ts");
 
 module.exports = {
   reviewSession,

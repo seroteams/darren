@@ -20,7 +20,7 @@ interface AcceptedSuggestion {
   type: string;
   value?: string;
   reason?: string;
-  better_as?: string;
+  better_as?: string | null;
 }
 
 function isObjectRecord(v: unknown): v is Record<string, unknown> {

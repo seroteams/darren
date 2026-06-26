@@ -150,6 +150,18 @@ function suggestionId(s: { type?: string }, i: number): string {
   return `${i}-${s.type}`;
 }
 
+// Discriminated on `skipped` so callers can narrow cleanly (a bare inferred
+// return widens `skipped` to boolean and loses the discriminant).
+type GenerateResult =
+  | { skipped: true; reason: string; error?: string }
+  | {
+      skipped: false;
+      scope: { roleFamily: string | null; seniority: string | null; meetingType: string | null; sourceSeniority?: string };
+      suggestions: unknown[];
+      tracePath: string;
+      fromCache?: boolean;
+    };
+
 async function generateSuggestions({
   session,
   ctx,
@@ -158,7 +170,7 @@ async function generateSuggestions({
   session: ReviewSession;
   ctx: ReviewCtx;
   force?: boolean;
-}) {
+}): Promise<GenerateResult> {
   if (!shouldReview(ctx)) return { skipped: true, reason: "out-of-scope" };
 
   if (!force) {
@@ -167,7 +179,11 @@ async function generateSuggestions({
       const cachedSuggestions: unknown[] = cached.allSuggestions;
       return {
         skipped: false,
-        scope: { roleFamily: cached.roleFamily, seniority: cached.seniority, meetingType: cached.meetingType },
+        scope: {
+          roleFamily: typeof cached.roleFamily === "string" ? cached.roleFamily : null,
+          seniority: typeof cached.seniority === "string" ? cached.seniority : null,
+          meetingType: typeof cached.meetingType === "string" ? cached.meetingType : null,
+        },
         suggestions: cachedSuggestions,
         tracePath: tracePathFor(session.id),
         fromCache: true,

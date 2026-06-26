@@ -1,17 +1,52 @@
-const path = require("node:path");
+import path from "node:path";
 
-const { canonicalPath, candidatePath } = require("../lexicon.ts");
-const { bold, cyan, dim, gray, green, yellow, HR } = require("../ui.ts");
-const { appendCandidates, writeTrace } = require("./candidates-io.ts");
-const { generateSuggestions } = require("./review-core.ts");
-const { ROOT } = require("../paths.mts");
+import { canonicalPath, candidatePath } from "../lexicon.ts";
+import { bold, cyan, dim, gray, green, yellow, HR } from "../ui.ts";
+import { appendCandidates, writeTrace } from "./candidates-io.ts";
+import { generateSuggestions } from "./review-core.ts";
+import { ROOT } from "../paths.mts";
 
-function capitalize(s) {
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+
+interface Suggestion {
+  type: string;
+  value?: string;
+  reason?: string;
+  evidence?: string;
+  better_as?: string | null;
+}
+
+function isSuggestion(v: unknown): v is Suggestion {
+  return isObjectRecord(v) && typeof v.type === "string";
+}
+
+type ParsedInput =
+  | { action: "skip" }
+  | { action: "none" }
+  | { action: "approve_all" }
+  | { action: "approve_except"; remove: Set<number> };
+
+interface ReviewCtx {
+  meetingType?: string | null;
+  role?: string | null;
+  seniority?: string | null;
+  name?: string | null;
+  notes?: string | null;
+}
+
+interface ReviewSession {
+  id: string;
+  dir: string;
+}
+
+function capitalize(s: string | null | undefined): string | null | undefined {
   if (!s) return s;
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-function describeSuggestion(s) {
+function describeSuggestion(s: Suggestion): string {
   if (s.type === "prefer_term") return `Add preferred term: "${s.value}"`;
   if (s.type === "prefer_phrase") return `Add preferred phrase: "${s.value}"`;
   if (s.type === "avoid_phrase") {
@@ -21,7 +56,7 @@ function describeSuggestion(s) {
   return `${s.type}: "${s.value}"`;
 }
 
-function renderSuggestions(suggestions, scopeLabel) {
+function renderSuggestions(suggestions: Suggestion[], scopeLabel: string): void {
   console.log();
   console.log("  " + bold(`Sero found ${suggestions.length} possible wording updates for ${scopeLabel}:`));
   console.log();
@@ -33,7 +68,7 @@ function renderSuggestions(suggestions, scopeLabel) {
   console.log();
 }
 
-function parseInput(raw) {
+function parseInput(raw: string | null | undefined): ParsedInput {
   const s = (raw || "").trim().toLowerCase();
   if (s === "q") return { action: "skip" };
   if (s === "n") return { action: "none" };
@@ -46,15 +81,18 @@ function parseInput(raw) {
   return { action: "approve_all" };
 }
 
-function partition(suggestions, parsed) {
+function partition(
+  suggestions: Suggestion[],
+  parsed: ParsedInput,
+): { accepted: Suggestion[]; rejected: Suggestion[] } {
   if (parsed.action === "skip" || parsed.action === "none") {
     return { accepted: [], rejected: suggestions.slice() };
   }
   if (parsed.action === "approve_all") {
     return { accepted: suggestions.slice(), rejected: [] };
   }
-  const accepted = [];
-  const rejected = [];
+  const accepted: Suggestion[] = [];
+  const rejected: Suggestion[] = [];
   suggestions.forEach((s, i) => {
     if (parsed.remove.has(i + 1)) rejected.push(s);
     else accepted.push(s);
@@ -62,16 +100,30 @@ function partition(suggestions, parsed) {
   return { accepted, rejected };
 }
 
-async function reviewSession({ session, ctx, ask }) {
+async function reviewSession({
+  session,
+  ctx,
+  ask,
+}: {
+  session: ReviewSession;
+  ctx: ReviewCtx;
+  ask: (prompt: string) => Promise<string> | string;
+}) {
   const gen = await generateSuggestions({ session, ctx, force: true });
   if (gen.skipped) {
-    if (gen.reason === "reviewer-failed") {
+    if ("error" in gen && gen.error) {
       console.log("  " + dim(`reviewer failed: ${gen.error}`));
     }
     return gen;
   }
 
-  const { scope, suggestions, tracePath } = gen;
+  const suggestions = gen.suggestions.filter(isSuggestion);
+  const tracePath = gen.tracePath;
+  const scope = {
+    roleFamily: typeof gen.scope.roleFamily === "string" ? gen.scope.roleFamily : null,
+    seniority: typeof gen.scope.seniority === "string" ? gen.scope.seniority : null,
+    meetingType: typeof gen.scope.meetingType === "string" ? gen.scope.meetingType : "",
+  };
 
   console.log();
   console.log(HR);
@@ -102,15 +154,15 @@ async function reviewSession({ session, ctx, ask }) {
 
   let wrote = false;
   if (parsed.action !== "skip" && accepted.length) {
-    wrote = appendCandidates(candidatePath(scope.roleFamily, scope.seniority), scope, accepted);
+    wrote = appendCandidates(candidatePath(scope.roleFamily ?? "", scope.seniority ?? ""), scope, accepted);
   }
 
   console.log();
   if (parsed.action === "skip") {
     console.log("  " + dim("Skipped. Trace saved for review."));
   } else if (accepted.length && wrote) {
-    console.log("  " + green(`Saved ${accepted.length} to candidates`) + dim(` → ${path.relative(ROOT, candidatePath(scope.roleFamily, scope.seniority))}`));
-    console.log("  " + dim(`Canonical (live) lexicon unchanged: ${path.relative(ROOT, canonicalPath(scope.roleFamily, scope.seniority))}`));
+    console.log("  " + green(`Saved ${accepted.length} to candidates`) + dim(` → ${path.relative(ROOT, candidatePath(scope.roleFamily ?? "", scope.seniority ?? ""))}`));
+    console.log("  " + dim(`Canonical (live) lexicon unchanged: ${path.relative(ROOT, canonicalPath(scope.roleFamily ?? "", scope.seniority ?? ""))}`));
   } else if (accepted.length && !wrote) {
     console.log("  " + dim("All accepted suggestions were already in the candidate file — nothing new written."));
   } else {
@@ -122,7 +174,7 @@ async function reviewSession({ session, ctx, ask }) {
   return { skipped: false, accepted, rejected, tracePath };
 }
 
-module.exports = {
+export {
   reviewSession,
   renderSuggestions,
   parseInput,
