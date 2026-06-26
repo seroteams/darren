@@ -6,7 +6,7 @@ const { promptFor, getArc, getType } = require("./one-on-one-types/index.ts");
 const { withPromptVersion } = require("./prompt-version.ts");
 const { resolveSelectedFocus } = require("./selected-focus.ts");
 const { splitSystemUser } = require("./prompt-utils.ts");
-const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
+const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile.ts");
 
 const { modelFor } = require("./models.ts");
 const { callAI, parseAIJson } = require("./ai-client.ts");

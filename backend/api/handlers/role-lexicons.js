@@ -6,7 +6,7 @@ const {
   listRoleProfiles,
   addOverlayTerm,
   removeOverlayTerm,
-} = require("../../engine/role-profile");
+} = require("../../engine/role-profile.ts");
 
 function list(c) {
   return c.json(200, { roles: listRoleProfiles() });

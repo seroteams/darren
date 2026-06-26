@@ -409,7 +409,7 @@ async function verify(exitCode, stdout) {
 
   // Role profile: cached on disk, loaded by every stage, generated without personal data
   try {
-    const { keyOf, profilePath, PROFILE_VERSION } = require("./backend/engine/role-profile");
+    const { keyOf, profilePath, PROFILE_VERSION } = require("./backend/engine/role-profile.ts");
     const rpKey = keyOf({ role: scenario.role, seniority: scenario.seniority });
     const rpPath = profilePath(rpKey);
     if (fs.existsSync(rpPath)) {

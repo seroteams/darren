@@ -1,7 +1,7 @@
 // Renders all 5 stage prompts offline and reports whether the role-profile
 // block (or its fallback) landed in each. No API spend.
 // Run: node scripts/check-role-profile-injection.js ["<job title>" "<seniority>" ["<meeting type>"]]
-const { FALLBACK_BLOCK } = require("../backend/engine/role-profile");
+const { FALLBACK_BLOCK } = require("../backend/engine/role-profile.ts");
 
 const role = process.argv[2] || "Staff Site Reliability Engineer";
 const seniority = process.argv[3] || "Senior";

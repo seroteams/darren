@@ -6,7 +6,7 @@ const { loadIntroQueue } = require("../../engine/intro-queue");
 const { getArc } = require("../../engine/meeting-arcs.ts");
 const { createWebSession, persistSession, INTRO_BUDGET } = require("../sessions");
 const { generateFocusPoints } = require("../../engine/generate");
-const { ensureRoleProfile } = require("../../engine/role-profile");
+const { ensureRoleProfile } = require("../../engine/role-profile.ts");
 const { buildFingerprint } = require("../../engine/run-fingerprint.ts");
 const { loadPersona, scriptAnswers } = require("../persona-script");
 

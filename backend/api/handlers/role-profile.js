@@ -4,7 +4,7 @@
 // read from disk here.
 
 const { getSession } = require("../sessions");
-const { loadRoleProfile, effectiveTerminology, terminologyGroups } = require("../../engine/role-profile");
+const { loadRoleProfile, effectiveTerminology, terminologyGroups } = require("../../engine/role-profile.ts");
 
 module.exports = function roleProfile(c) {
   const sessionId = c.query.s;

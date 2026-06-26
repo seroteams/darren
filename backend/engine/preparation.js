@@ -8,7 +8,7 @@ const { promptFor, getArc } = require("./one-on-one-types/index.ts");
 const { withPromptVersion } = require("./prompt-version.ts");
 const { resolveSelectedFocus } = require("./selected-focus.ts");
 const { splitSystemUser } = require("./prompt-utils.ts");
-const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
+const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile.ts");
 const { findJargon } = require("./golden-checks");
 
 const getDefaultModel = () => modelFor("preparation");

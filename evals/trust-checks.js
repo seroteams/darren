@@ -25,7 +25,7 @@ const {
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
 } = require("../backend/engine/golden-checks");
-const { loadRoleProfile } = require("../backend/engine/role-profile");
+const { loadRoleProfile } = require("../backend/engine/role-profile.ts");
 
 const HARD_FAIL = {
   PRIVATE_NOTE_LEAK: "PRIVATE_NOTE_LEAK",

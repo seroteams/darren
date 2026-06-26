@@ -15,7 +15,7 @@ const {
   effectiveTerminology,
   terminologyGroups,
   buildMessages,
-} = require("../backend/engine/role-profile");
+} = require("../backend/engine/role-profile.ts");
 
 let failed = 0;
 function ok(label, cond) {
@@ -223,7 +223,7 @@ if (uxl) {
 async function runSnapshotTest() {
   console.log("\n--- session snapshot: cache hit still logs the profile ---");
   const os = require("node:os");
-  const { ensureRoleProfile } = require("../backend/engine/role-profile");
+  const { ensureRoleProfile } = require("../backend/engine/role-profile.ts");
   const { promptVersionFor } = require("../backend/engine/prompt-version.ts");
   const snapRole = "__test-snapshot-role__";
   const snapKey = keyOf({ role: snapRole, seniority: "senior" });

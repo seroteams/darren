@@ -7,7 +7,7 @@ const { isRelationalArc } = require("./relational-arcs.ts");
 const { promptFor } = require("./one-on-one-types/index.ts");
 const { resolveSelectedFocus } = require("./selected-focus.ts");
 const { splitSystemUser } = require("./prompt-utils.ts");
-const { loadRoleProfile, renderRoleProfileBlock } = require("./role-profile");
+const { loadRoleProfile, renderRoleProfileBlock } = require("./role-profile.ts");
 
 const { modelFor } = require("./models.ts");
 const { callAI, parseAIJson } = require("./ai-client.ts");

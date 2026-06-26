@@ -1,15 +1,15 @@
-const fs = require("node:fs");
-const path = require("node:path");
+import fs from "node:fs";
+import path from "node:path";
 
-const { slugify } = require("./person-profile.ts");
-const { roleFamilyOf } = require("./lexicon.ts");
-const { splitSystemUser } = require("./prompt-utils.ts");
-const { promptVersionFor } = require("./prompt-version.ts");
-const { logStage } = require("./session.ts");
-const { modelFor } = require("./models.ts");
-const { callAI, parseAIJson } = require("./ai-client.ts");
-const { isRelationalArc } = require("./relational-arcs.ts");
-const { DATA_DIR, PROMPTS_DIR } = require("./paths.mts");
+import { slugify } from "./person-profile.ts";
+import { roleFamilyOf } from "./lexicon.ts";
+import { splitSystemUser } from "./prompt-utils.ts";
+import { promptVersionFor } from "./prompt-version.ts";
+import { logStage } from "./session.ts";
+import { modelFor } from "./models.ts";
+import { callAI, parseAIJson } from "./ai-client.ts";
+import { isRelationalArc } from "./relational-arcs.ts";
+import { DATA_DIR, PROMPTS_DIR } from "./paths.mts";
 
 const PROFILES_DIR = path.join(DATA_DIR, "role-profiles");
 const PROMPT_PATH = path.join(PROMPTS_DIR, "generate-role-profile.md");
@@ -19,6 +19,63 @@ const FALLBACK_BLOCK =
   "(no role profile available — ground questions in the stated role title and seniority)";
 
 const getDefaultModel = () => modelFor("role_profile");
+
+// Disk JSON is unknown until checked — narrow with these instead of trusting shapes.
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
+function asString(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+
+// One generated challenge / theme item (category drives the relational-arc filter).
+interface RoleProfileItem {
+  text: string;
+  category?: string;
+}
+interface RoleProfileTheme {
+  theme: string;
+  why: string;
+  category?: string;
+}
+interface RoleProfileTerm {
+  term: string;
+  meaning: string;
+  group?: string;
+}
+interface RoleProfileGroup {
+  key: string;
+  label?: string;
+}
+
+// The generated profile body (the `profile` field of the cached doc).
+interface RoleProfileContent {
+  summary: string;
+  role_confidence?: string;
+  known_challenges: RoleProfileItem[];
+  recommended_question_themes: RoleProfileTheme[];
+  terminology?: RoleProfileTerm[];
+  terminology_groups?: RoleProfileGroup[];
+  listen_for?: string[];
+  avoid?: string[];
+}
+
+// A cached role-profile doc as written to / read from disk.
+interface RoleProfileDoc {
+  version: number;
+  prompt_version?: string;
+  model?: string;
+  generated_at?: number;
+  role_title_raw?: string;
+  role_slug?: string | null;
+  seniority_raw?: string;
+  seniority_key?: string | null;
+  role_family?: string;
+  profile: RoleProfileContent;
+}
 
 // Generated from role + seniority ONLY — the file is shared across every person
 // holding this title at this level, so nothing personal may flow in.
@@ -103,27 +160,26 @@ const RESPONSE_SCHEMA = {
 
 // Exact title + seniority is the cache key — "job titles are key". No family
 // coarsening: Staff SRE and Software Engineer are different files by design.
-function keyOf({ role, seniority }) {
+function keyOf({ role, seniority }: { role?: unknown; seniority?: unknown }): string | null {
   const roleSlug = slugify(role);
   const senSlug = slugify(seniority);
   if (!roleSlug || !senSlug) return null;
   return `${roleSlug}--${senSlug}`;
 }
 
-function profilePath(key) {
+function profilePath(key: string): string {
   return path.join(PROFILES_DIR, `${key}.json`);
 }
 
-function validShape(doc) {
+function validShape(doc: unknown): doc is RoleProfileDoc {
+  if (!isObjectRecord(doc)) return false;
+  const profile = doc.profile;
   return Boolean(
-    doc &&
-      typeof doc === "object" &&
-      doc.version === PROFILE_VERSION &&
-      doc.profile &&
-      typeof doc.profile === "object" &&
-      typeof doc.profile.summary === "string" &&
-      Array.isArray(doc.profile.known_challenges) &&
-      Array.isArray(doc.profile.recommended_question_themes)
+    doc.version === PROFILE_VERSION &&
+      isObjectRecord(profile) &&
+      typeof profile.summary === "string" &&
+      Array.isArray(profile.known_challenges) &&
+      Array.isArray(profile.recommended_question_themes)
   );
 }
 
@@ -131,10 +187,10 @@ function validShape(doc) {
 // missing/corrupt/wrong-version file means "no profile", never a throw. A
 // prompt_version mismatch does NOT null it — content is still useful mid-run;
 // regeneration is ensureRoleProfile's job at intake time.
-function loadRoleProfile({ role, seniority }) {
+function loadRoleProfile({ role, seniority }: { role?: unknown; seniority?: unknown }): RoleProfileDoc | null {
   const key = keyOf({ role, seniority });
   if (!key) return null;
-  let doc;
+  let doc: unknown;
   try {
     doc = JSON.parse(fs.readFileSync(profilePath(key), "utf8"));
   } catch {
@@ -148,7 +204,7 @@ function loadRoleProfile({ role, seniority }) {
 // old-version file is skipped, never thrown. Sorted by role title for browsing.
 // User-added words (the overlay) are merged in, tagged source:"you".
 function listRoleProfiles() {
-  let files;
+  let files: string[];
   try {
     files = fs.readdirSync(PROFILES_DIR);
   } catch {
@@ -158,7 +214,7 @@ function listRoleProfiles() {
   for (const f of files) {
     if (f.endsWith(".overlay.json")) continue; // user-words sidecar, not a profile
     if (!f.endsWith(".json")) continue;
-    let doc;
+    let doc: unknown;
     try {
       doc = JSON.parse(fs.readFileSync(path.join(PROFILES_DIR, f), "utf8"));
     } catch {
@@ -195,38 +251,46 @@ function listRoleProfiles() {
 const OVERLAY_VERSION = 1;
 const KEY_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*--[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+// One user-added overlay word.
+interface OverlayTerm {
+  term: string;
+  meaning: string;
+  added_at: number;
+}
+
 // Guards the file path against traversal — keys are slug--slug, nothing else.
-function validKey(key) {
+function validKey(key: unknown): key is string {
   return typeof key === "string" && KEY_RE.test(key);
 }
 
-function overlayPath(key) {
+function overlayPath(key: string): string {
   return path.join(PROFILES_DIR, `${key}.overlay.json`);
 }
 
 // Null-safe read: missing/corrupt/wrong-shape → empty list, never throws.
-function loadOverlay(key) {
+function loadOverlay(key: string): { added_terms: OverlayTerm[] } {
   if (!validKey(key)) return { added_terms: [] };
-  let doc;
+  let doc: unknown;
   try {
     doc = JSON.parse(fs.readFileSync(overlayPath(key), "utf8"));
   } catch {
     return { added_terms: [] };
   }
-  const terms = Array.isArray(doc?.added_terms) ? doc.added_terms : [];
+  const rawTerms = asRecord(doc).added_terms;
+  const terms = Array.isArray(rawTerms) ? rawTerms : [];
   return {
     added_terms: terms.filter((t) => t && typeof t.term === "string" && t.term.trim()),
   };
 }
 
-function writeOverlay(key, added_terms) {
+function writeOverlay(key: string, added_terms: OverlayTerm[]): void {
   writeAtomic(overlayPath(key), JSON.stringify({ version: OVERLAY_VERSION, key, added_terms }, null, 2));
 }
 
 // Add a user word. The base profile must exist (you can only add to a job the
 // library already knows). Dedupes case-insensitively. Throws { status } on bad
 // input so the handler can map it to an HTTP code.
-function addOverlayTerm(key, { term, meaning } = {}) {
+function addOverlayTerm(key: string, { term, meaning }: { term?: unknown; meaning?: unknown } = {}): OverlayTerm {
   if (!validKey(key) || !fs.existsSync(profilePath(key))) {
     throw Object.assign(new Error("Unknown role"), { status: 404 });
   }
@@ -245,7 +309,7 @@ function addOverlayTerm(key, { term, meaning } = {}) {
 
 // Remove a user word (case-insensitive). Only ever touches the overlay, never
 // the generated profile. Returns the remaining user words.
-function removeOverlayTerm(key, term) {
+function removeOverlayTerm(key: string, term: unknown): OverlayTerm[] {
   if (!validKey(key)) throw Object.assign(new Error("Unknown role"), { status: 404 });
   const cleanTerm = String(term || "").trim().toLowerCase();
   const { added_terms } = loadOverlay(key);
@@ -256,18 +320,20 @@ function removeOverlayTerm(key, term) {
 
 // The cache key for a loaded profile doc (run-time docs carry role_slug +
 // seniority_key; fall back to re-slugging the raw title/level).
-function keyOfDoc(doc) {
-  if (doc && doc.role_slug && doc.seniority_key) return `${doc.role_slug}--${doc.seniority_key}`;
-  return keyOf({ role: doc?.role_title_raw, seniority: doc?.seniority_raw });
+function keyOfDoc(doc: unknown): string | null {
+  const rec = asRecord(doc);
+  if (rec && rec.role_slug && rec.seniority_key) return `${asString(rec.role_slug)}--${asString(rec.seniority_key)}`;
+  return keyOf({ role: rec.role_title_raw, seniority: rec.seniority_raw });
 }
 
 // A role's own words plus the manager's overlay words, merged for run-time use.
 // User words are treated exactly like generated ones — no special-casing (engine
 // honesty). A user word that duplicates an existing one is dropped so it never
 // shows twice in a prompt or on the run screen.
-function effectiveTerminology(doc) {
-  const base = Array.isArray(doc?.profile?.terminology) ? doc.profile.terminology : [];
-  const merged = base.map((t) => ({ term: t.term, meaning: t.meaning, group: t.group }));
+function effectiveTerminology(doc: unknown): RoleProfileTerm[] {
+  const profileTerms = asRecord(asRecord(doc).profile).terminology;
+  const base = Array.isArray(profileTerms) ? profileTerms : [];
+  const merged: RoleProfileTerm[] = base.map((t) => ({ term: t.term, meaning: t.meaning, group: t.group }));
   const seen = new Set(merged.map((t) => String(t.term || "").toLowerCase()));
   const key = keyOfDoc(doc);
   const extra = key ? loadOverlay(key).added_terms : [];
@@ -284,27 +350,31 @@ function effectiveTerminology(doc) {
 // The vocabulary's display groups (Craft → Level → Role etc.), in declared
 // order, named by the model per role. Guarded: a missing/old/garbage field → []
 // → callers fall back to a single ungrouped list, exactly like before grouping.
-function terminologyGroups(profile) {
-  const groups = profile && profile.terminology_groups;
+function terminologyGroups(profile: unknown): Array<{ key: string; label: string }> {
+  const groups = isObjectRecord(profile) ? profile.terminology_groups : undefined;
   if (!Array.isArray(groups)) return [];
   return groups
-    .filter((g) => g && typeof g === "object" && typeof g.key === "string" && g.key)
-    .map((g) => ({ key: g.key, label: typeof g.label === "string" && g.label ? g.label : g.key }));
+    .filter((g) => isObjectRecord(g) && typeof g.key === "string" && g.key)
+    .map((g) => {
+      const rec = asRecord(g);
+      const key = asString(rec.key);
+      return { key, label: typeof rec.label === "string" && rec.label ? rec.label : key };
+    });
 }
 
-function isFresh(doc) {
+function isFresh(doc: unknown): boolean {
   return validShape(doc) && doc.prompt_version === promptVersionFor(PROMPT_PATH);
 }
 
 // Atomic write, same pattern as person-profile.js: a crash mid-write can never
 // leave a torn cache file.
-function writeAtomic(file, content) {
+function writeAtomic(file: string, content: string): void {
   const tmp = file + ".tmp";
   fs.writeFileSync(tmp, content);
   fs.renameSync(tmp, file);
 }
 
-function buildMessages({ role, seniority }) {
+function buildMessages({ role, seniority }: { role?: string; seniority?: string }) {
   const template = fs.readFileSync(PROMPT_PATH, "utf8");
   const filled = template
     .replaceAll("{{ROLE_TITLE}}", role || "(not provided)")
@@ -312,7 +382,19 @@ function buildMessages({ role, seniority }) {
   return splitSystemUser(filled);
 }
 
-async function generate({ role, seniority, key, model, session }) {
+async function generate({
+  role,
+  seniority,
+  key,
+  model,
+  session,
+}: {
+  role?: string;
+  seniority?: string;
+  key: string;
+  model: string;
+  session: Parameters<typeof logStage>[0];
+}) {
   const messages = buildMessages({ role, seniority });
   const raw = await callAI({
     system: messages.system,
@@ -357,12 +439,21 @@ async function generate({ role, seniority, key, model, session }) {
 
 // One generation per key at a time within this process; two simultaneous
 // setups share the same promise instead of double-spending.
-const inFlight = new Map();
+const inFlight = new Map<string, Promise<RoleProfileOutcome>>();
+
+// The outcome of an ensureRoleProfile call (cache hit, fresh generation, or a
+// neutral "unavailable" when no key or generation failed).
+interface RoleProfileOutcome {
+  status: string;
+  key: string | null;
+  doc: unknown;
+  error?: string;
+}
 
 // Every run's log folder gets the profile it actually used — cache hits
 // included — so a run is self-contained for review. Logging must never break
 // a run, hence the blanket try/catch.
-function snapshotToSession(session, outcome) {
+function snapshotToSession(session: { dir?: string } | null | undefined, outcome: RoleProfileOutcome): void {
   if (!session || !session.dir) return;
   try {
     const dir = path.join(session.dir, "00b-role-profile");
@@ -391,36 +482,48 @@ function snapshotToSession(session, outcome) {
 // { status: "unavailable" } — stages fall back to the neutral block, the run
 // never blocks on this. Whatever the outcome, a snapshot lands in the
 // session's log folder.
-async function ensureRoleProfile({ role, seniority }, { session, model = getDefaultModel() } = {}) {
+async function ensureRoleProfile(
+  { role, seniority }: { role?: string; seniority?: string },
+  {
+    session,
+    model = getDefaultModel(),
+  }: { session?: Parameters<typeof logStage>[0]; model?: string } = {}
+): Promise<RoleProfileOutcome> {
   const key = keyOf({ role, seniority });
   if (!key) {
-    const outcome = { status: "unavailable", key: null, doc: null };
+    const outcome: RoleProfileOutcome = { status: "unavailable", key: null, doc: null };
     snapshotToSession(session, outcome);
     return outcome;
   }
 
-  let existing = null;
+  let existing: unknown = null;
   try {
     existing = JSON.parse(fs.readFileSync(profilePath(key), "utf8"));
   } catch {
     existing = null;
   }
   if (isFresh(existing)) {
-    const outcome = { status: "cached", key, doc: existing };
+    const outcome: RoleProfileOutcome = { status: "cached", key, doc: existing };
     snapshotToSession(session, outcome);
     return outcome;
   }
 
-  if (inFlight.has(key)) {
-    return inFlight.get(key).then((outcome) => {
+  const pending = inFlight.get(key);
+  if (pending) {
+    return pending.then((outcome) => {
       snapshotToSession(session, outcome);
       return outcome;
     });
   }
 
   const promise = generate({ role, seniority, key, model, session })
-    .then((doc) => ({ status: "generated", key, doc }))
-    .catch((err) => ({ status: "unavailable", key, doc: null, error: err.message }))
+    .then((doc): RoleProfileOutcome => ({ status: "generated", key, doc }))
+    .catch((err: unknown): RoleProfileOutcome => ({
+      status: "unavailable",
+      key,
+      doc: null,
+      error: err instanceof Error ? err.message : String(err),
+    }))
     .finally(() => inFlight.delete(key));
 
   inFlight.set(key, promise);
@@ -433,7 +536,7 @@ async function ensureRoleProfile({ role, seniority }, { session, model = getDefa
 // Relational arcs (bi-weekly / feels-off) must never surface competency
 // content — same rule as catalogueForArc in generate.js, enforced in code at
 // render time so one cached profile safely serves every meeting type.
-function filterForArc(items, meetingType) {
+function filterForArc<T extends { category?: string }>(items: T[], meetingType: string | undefined): T[] {
   if (!isRelationalArc(meetingType)) return items;
   return items.filter((item) => item.category !== "competency");
 }
@@ -445,10 +548,18 @@ const SLICES = {
   eval: { challenges: true, themes: false, terminology: true, listenFor: false, avoid: false },
 };
 
-function renderRoleProfileBlock(doc, { slice = "full", meetingType } = {}) {
+type SliceName = keyof typeof SLICES;
+function isSliceName(s: string): s is SliceName {
+  return s === "full" || s === "focus" || s === "planner" || s === "eval";
+}
+
+function renderRoleProfileBlock(
+  doc: unknown,
+  { slice = "full", meetingType }: { slice?: string; meetingType?: string } = {}
+): string {
   if (!doc || !validShape(doc)) return FALLBACK_BLOCK;
   const p = doc.profile;
-  const parts = SLICES[slice] || SLICES.full;
+  const parts = isSliceName(slice) ? SLICES[slice] : SLICES.full;
   const lines = ["<role_profile>"];
   lines.push(
     `Role context for a ${doc.seniority_raw || "(unspecified)"} ${doc.role_title_raw || "(unspecified)"} (generated guidance, not facts about this specific person):`
@@ -481,11 +592,11 @@ function renderRoleProfileBlock(doc, { slice = "full", meetingType } = {}) {
   }
   if (parts.listenFor && (p.listen_for || []).length) {
     lines.push("", "Listen for:");
-    for (const s of p.listen_for) lines.push(`- ${s}`);
+    for (const s of p.listen_for || []) lines.push(`- ${s}`);
   }
   if (parts.avoid && (p.avoid || []).length) {
     lines.push("", "Avoid:");
-    for (const a of p.avoid) lines.push(`- ${a}`);
+    for (const a of p.avoid || []) lines.push(`- ${a}`);
   }
   lines.push("</role_profile>");
   return lines.join("\n");
@@ -493,14 +604,14 @@ function renderRoleProfileBlock(doc, { slice = "full", meetingType } = {}) {
 
 // For stage inputs.json — lets QA verify deterministically whether the block
 // was loaded for a given run without parsing the rendered prompt.
-function roleProfileLogInfo({ role, seniority }) {
+function roleProfileLogInfo({ role, seniority }: { role?: unknown; seniority?: unknown }) {
   return {
     key: keyOf({ role, seniority }),
     status: loadRoleProfile({ role, seniority }) ? "loaded" : "none",
   };
 }
 
-module.exports = {
+export {
   PROFILES_DIR,
   PROMPT_PATH,
   PROFILE_VERSION,

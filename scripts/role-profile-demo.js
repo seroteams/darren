@@ -3,7 +3,7 @@
 const { loadEnv } = require("../backend/engine/env.ts");
 loadEnv();
 
-const { ensureRoleProfile, profilePath } = require("../backend/engine/role-profile");
+const { ensureRoleProfile, profilePath } = require("../backend/engine/role-profile.ts");
 
 const [role, seniority] = process.argv.slice(2);
 if (!role || !seniority) {

@@ -13,7 +13,7 @@ const CATALOGUE = JSON.parse(fs.readFileSync(FOCUS_POINTS_PATH, "utf8"));
 const { modelFor } = require("./models.ts");
 const { callAI, parseAIJson } = require("./ai-client.ts");
 const { isRelationalArc } = require("./relational-arcs.ts");
-const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile");
+const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile.ts");
 const getDefaultModel = () => modelFor("focus_points");
 
 // Relational arcs (Bi-weekly check-in, Something feels off) must never surface a

@@ -121,6 +121,16 @@ stage slot exists in SHARED_PROMPTS, so the remaining stage-runners (`generate`/
 `question-generator`/`queue-manager`) won't each need to narrow `readFileSync(promptFor(...))`. Live AI path is
 paid → behaviour deferred to the owner-walk. **Engine `.js` left: 13 root / 20 incl. subdirs.**
 
+**role-profile ✅ (2026-06-26 AM, committed, typecheck + npm test 30/30 incl. `test-role-profile` + `test-role-lexicons`):**
+522-line module (disk cache + AI generation + user-word overlay + slice rendering) → `.ts`. **Agent-drafted then
+reviewed line-by-line** (the PLAN process for big modules). The draft was typecheck-clean and honestly self-flagged
+its deviations; I corrected 3 for byte-exact fidelity: an `as` cast in the SLICES lookup → `isSliceName` type guard;
+`loadOverlay` + `effectiveTerminology` had normalized/coerced disk data → restored to the original's raw pass-through.
+**17 importers** flipped repo-wide (api ×3, cli, engine ×6, evals, scripts ×4, smoke-test). Note: `api/server.js`
+requires the *handler* `./handlers/role-profile`, NOT the engine module — correctly left alone. Live AI path is paid →
+behaviour deferred. **Engine `.js` left: 12 root / 19 incl. subdirs.** Now leaf-ready: `generate`, `queue-manager`.
+Remaining knot: `reviewer` ⇄ `golden-checks` (circular — convert back-to-back).
+
 **Remaining engine waves (dependency order):**
 - ✅ Done 2026-06-26: `person-profile` (3 importers) + `review-html` (1 importer; smoke-verified, no unit test). **Next unblocked: the one-on-one-types cluster.**
 - ✅ one-on-one-types cluster DONE (2026-06-26): 5 `*/type` files → `index` (decision: `*/type` files use `export default {...}`
@@ -128,7 +138,7 @@ paid → behaviour deferred to the owner-walk. **Engine `.js` left: 13 root / 20
   ✅ done). Then `answer-suggester`,
   lexicon/`review-core`+`cli-interactive`, `lexicon-reviewer`,
   `closer`, `intro-queue`, `opener`.
-- Then needs-role-profile tier: `role-profile` → `generate`, `preparation`, `question-generator`,
+- Then needs-role-profile tier: `role-profile` ✅ → now `generate`, `preparation`, `question-generator`,
   `queue-manager` (1152 lines), `reviewer` (761) ⇄ `golden-checks` (555) [circular — convert back-to-back].
 - Then `index`, `cli/stages/*`. Then `api/`, then `cli.js`.
 

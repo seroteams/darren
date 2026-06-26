@@ -63,7 +63,7 @@ function runRoleProfileArcGate(profileDoc, meetingType) {
   const failures = [];
   if (!isRelationalArc(meetingType)) return failures;
   if (!profileDoc || !profileDoc.profile) return failures;
-  const { renderRoleProfileBlock } = require("./role-profile");
+  const { renderRoleProfileBlock } = require("./role-profile.ts");
   const rendered = renderRoleProfileBlock(profileDoc, { slice: "full", meetingType });
   const competencyTexts = [
     ...(profileDoc.profile.known_challenges || [])
