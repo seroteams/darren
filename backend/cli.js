@@ -3,7 +3,7 @@ const path = require("node:path");
 
 const { loadEnv } = require("./engine/env.ts");
 const { createAsker } = require("./engine/ask.ts");
-const { MEETING_TYPES, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./engine");
+const { MEETING_TYPES, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./engine/index.ts");
 const { createSession } = require("./engine/session.ts");
 const { listRecentRuns, summarizeRun, deleteRun, findLatestRunWithLock } = require("./engine/run-history.ts");
 const { buildPipelineStatus } = require("./engine/pipeline-lock.ts");
