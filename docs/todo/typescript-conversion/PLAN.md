@@ -38,6 +38,29 @@ or behaviour changes are *never* in this phase.
 
 ## Current state
 
+**API handlers batches 1–2 ✅ (2026-06-26, typecheck clean + npm test 30/30 + live boot+curl per batch):**
+6 handlers → `.ts`. Batch 1: `meeting-types`, `persona-bench` (single-fn), `pipeline`, `review` (object).
+Batch 2: `runs`, `role-lexicons` (object). Disk/wire JSON narrowed via house guards; unexported engine types
+pulled via `ReturnType<typeof …>` (pipeline's `PipelineLock`).
+> **⚙️ THE HANDLER↔server INTEROP RULE (critical — `require()` of ESM `export default` returns `{default:fn}`, NOT the fn; verified):**
+> - **Object handler** (`module.exports = { a, b }`) → `.ts` **named exports**; in `server.js` just flip the
+>   specifier `./handlers/x` → `./handlers/x.ts` (the `x.a` namespace access still resolves). No `.default`.
+> - **Single-fn handler** (`module.exports = fn`) → `.ts` **`export default fn`**; in `server.js`
+>   `require("./handlers/x.ts").default` (temporary CJS bridge — **all `.default` come off when `server.js`
+>   converts last**, becoming clean `import x from`).
+> - `server.js` (still CJS) requiring a `.ts` handler works (require-of-ESM). `allowJs:false` ⇒ a `.ts` file
+>   **cannot** import a still-`.js` module — so **`server.js` MUST convert last** (it imports all handlers).
+> - **⛔ `regression` handler is BLOCKED:** it imports `scripts/lib/replay-suite` (a *parked* `.js`, scope A).
+>   It stays `.js` with this documented exception until scripts are pulled into scope.
+
+**Remaining handlers (22):** object — `arcs`, `lexicon` (both complex: arcs has serialize/normalizePhase/diff;
+lexicon has AI + `GenerateResult` discriminated-union narrowing). single-fn — `rehydrate`, `library`, `verdict`,
+`notes`, `agenda`, `back`, `answer`, `question`, `selected-focus` (handler); **live-AI** (behaviour → owner-walk):
+`start`, `focus-points`, `preparation`, `bank`, `plan`, `evaluation`, `suggest-answers`, `suggest-fix`. Then
+`server.js` → **`server.mts`** (needs `import.meta.dirname` for `__dirname` — same `.mts`/TS1470 reason as `paths.mts`;
+update `dev`/`start` npm scripts to `server.mts`; drop all `.default` bridges). Then `backend/cli.js`. Then step 6
++ end-of-phase QA-agency review + owner-walk + one paid gate case.
+
 **API infra layer ✅ (2026-06-26, typecheck clean + npm test 30/30 + free require-boot test):** step 5 begun.
 The 8 leaf-most `backend/api/` files — `router`, `sse`, `static`, `persona-script`, `selected-focus` (the api
 helper, NOT the handler), `session-persistence`, `sessions`, `handlers/stream-helper` → `.ts`. Pure plumbing,
