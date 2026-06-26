@@ -1,20 +1,43 @@
-const fs = require("node:fs");
+import fs from "node:fs";
 
-const { logStage } = require("./session.ts");
-const { loadAxes, AXIS_IDS } = require("./axes.ts");
-const { newAlias, saveQuestion, listAllAliases } = require("./questions.ts");
-const { getArc } = require("./meeting-arcs.ts");
-const { promptFor } = require("./one-on-one-types/index.ts");
-const { resolveSelectedFocus } = require("./selected-focus.ts");
-const { loadLexicon } = require("./lexicon.ts");
-const { findJargon } = require("./golden-checks.ts");
-const { isRelationalArc } = require("./relational-arcs.ts");
-const { splitSystemUser } = require("./prompt-utils.ts");
-const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile.ts");
+import { logStage } from "./session.ts";
+import { loadAxes, AXIS_IDS } from "./axes.ts";
+import { newAlias, saveQuestion, listAllAliases, loadDir } from "./questions.ts";
+import { getArc } from "./meeting-arcs.ts";
+import { promptFor } from "./one-on-one-types/index.ts";
+import { resolveSelectedFocus } from "./selected-focus.ts";
+import { loadLexicon } from "./lexicon.ts";
+import { findJargon } from "./golden-checks.ts";
+import { isRelationalArc } from "./relational-arcs.ts";
+import { splitSystemUser } from "./prompt-utils.ts";
+import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./role-profile.ts";
 
-const { modelFor } = require("./models.ts");
-const { callAI, parseAIJson } = require("./ai-client.ts");
+import { modelFor } from "./models.ts";
+import { callAI, parseAIJson } from "./ai-client.ts";
+
+import type { Question, QuestionPurpose } from "../shared/question.types.ts";
+
 const getDefaultModel = () => modelFor("bank");
+
+// Disk JSON / model output is unknown until checked — narrow with these instead
+// of trusting shapes (the established house pattern).
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
+function asString(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+
+// A prep brief, as far as this stage reads it (its opener/core issue/listen-for
+// seed the bank prompt).
+interface PrepLike {
+  openingQuestion?: string;
+  coreIssue?: string;
+  listenFor?: string[];
+}
 
 const ALLOWED_DELTAS = [3, 1, -1, -3];
 
@@ -53,17 +76,19 @@ const RESPONSE_SCHEMA = {
   additionalProperties: false,
 };
 
-function renderPreferTerms(terms) {
+function renderPreferTerms(terms: string[] | null | undefined): string {
   if (!terms || !terms.length) return "(none yet)";
   return terms.join(", ");
 }
 
-function renderPreferPhrases(phrases) {
+function renderPreferPhrases(phrases: string[] | null | undefined): string {
   if (!phrases || !phrases.length) return "(none yet)";
   return phrases.map((p) => `- "${p}"`).join("\n");
 }
 
-function renderAvoidPhrases(items) {
+function renderAvoidPhrases(
+  items: ReadonlyArray<{ phrase: string; reason: string; better_as: string }> | null | undefined
+): string {
   if (!items || !items.length) return "(none yet)";
   return items
     .map((it) => {
@@ -74,16 +99,16 @@ function renderAvoidPhrases(items) {
     .join("\n");
 }
 
-function renderPrepText(value) {
+function renderPrepText(value: unknown): string {
   return value && String(value).trim() ? String(value).trim() : "(none)";
 }
 
-function renderPrepListenFor(items) {
+function renderPrepListenFor(items: unknown): string {
   return Array.isArray(items) && items.length ? JSON.stringify(items, null, 2) : "(none)";
 }
 
 // The bank item the model tagged as the prep-anchored opener (or null).
-function findPrepOpener(items) {
+function findPrepOpener(items: Question[] | null | undefined): Question | null {
   return (items || []).find((q) => /prep opener/i.test(q.label || "")) || null;
 }
 
@@ -91,10 +116,11 @@ function findPrepOpener(items) {
 // (or self_read) AND a seed/semi_set source. The prep opener (source
 // "generated") and planner thread-follows are never warm, so they don't get
 // counted into the leading warm run.
-function warmIntroFilter(meetingType) {
+function warmIntroFilter(meetingType: string): (q: Question | undefined) => boolean {
   const anchorStageId = getArc(meetingType).arc[0]?.id || null;
   const warmStages = new Set(["self_read", anchorStageId].filter(Boolean));
   return (q) =>
+    !!q &&
     warmStages.has(q.stage) &&
     (q.source === "seed" || q.source === "semi_set" || /^q_(intro|open)/.test(q.alias || ""));
 }
@@ -103,7 +129,12 @@ function warmIntroFilter(meetingType) {
 // it's the first SUBSTANTIVE question — not buried behind the fixed intro probes
 // or a planner thread-follow. minIndex keeps it from ever being literally first
 // during initial assembly (when the warm opener sits at position 0).
-function placePrepOpener(queue, prepOpener, meetingType, minIndex = 0) {
+function placePrepOpener(
+  queue: Question[],
+  prepOpener: Question | null | undefined,
+  meetingType: string,
+  minIndex = 0
+): Question[] {
   if (!prepOpener) return queue;
   const isWarm = warmIntroFilter(meetingType);
   const rest = (queue || []).filter((q) => q.alias !== prepOpener.alias);
@@ -116,7 +147,12 @@ function placePrepOpener(queue, prepOpener, meetingType, minIndex = 0) {
 // Initial queue assembly: intro questions + bank, with the prep opener moved up
 // to just after the warm opener. No-op without a prep brief or tagged opener
 // (e.g. the seed-bank fallback).
-function assembleQueueWithPrepOpener(introQueue, bank, prep, meetingType) {
+function assembleQueueWithPrepOpener(
+  introQueue: Question[] | null | undefined,
+  bank: Question[] | null | undefined,
+  prep: PrepLike | null | undefined,
+  meetingType: string
+): Question[] {
   const base = [...(introQueue || []), ...(bank || [])];
   if (!prep?.openingQuestion || !bank?.length || !introQueue?.length) return base;
   const opener = findPrepOpener(bank);
@@ -128,7 +164,12 @@ function assembleQueueWithPrepOpener(introQueue, bank, prep, meetingType) {
 // has been asked. The live planner re-plans the whole queue each turn and will
 // otherwise bury or drop it (it doesn't know the opener is special). Re-inserts
 // it if the planner dropped it. No-op once it's been asked.
-function pinPrepOpenerEarly(queue, prepOpener, askedAliases, meetingType) {
+function pinPrepOpenerEarly(
+  queue: Question[],
+  prepOpener: Question | null | undefined,
+  askedAliases: Set<string> | null | undefined,
+  meetingType: string
+): Question[] {
   if (!prepOpener) return queue;
   if (askedAliases && typeof askedAliases.has === "function" && askedAliases.has(prepOpener.alias)) {
     return queue;
@@ -139,7 +180,7 @@ function pinPrepOpenerEarly(queue, prepOpener, askedAliases, meetingType) {
 // Same trust rule as catalogueForArc (src/generate.js), one layer down: in a
 // relational arc the bank must not contain evaluative questions. Prompt-side
 // instruction here; the post-parse filter in generateBank is the hard gate.
-function relationalArcRules(meetingType) {
+function relationalArcRules(meetingType: string): string {
   if (!isRelationalArc(meetingType)) return "";
   return [
     "**Relational-arc rule (machine-enforced):** This meeting type is a relational check-in, not an assessment.",
@@ -147,6 +188,19 @@ function relationalArcRules(meetingType) {
     'prove readiness, leadership, or skill ("trust you in that next role", "what are you doing to drive X") —',
     'probe situations, not character. Items with `purpose: "competency"` are dropped before the bank is saved.',
   ].join(" ");
+}
+
+interface BankMessagesArgs {
+  axes: unknown;
+  focusPoints?: unknown;
+  name?: string;
+  role?: string;
+  seniority?: string;
+  meetingType: string;
+  notes?: string;
+  existingQueue?: Question[] | null;
+  selectedFocus?: { id?: string; label?: string } | null;
+  prep?: PrepLike | null;
 }
 
 function buildMessages({
@@ -160,12 +214,12 @@ function buildMessages({
   existingQueue,
   selectedFocus,
   prep,
-}) {
+}: BankMessagesArgs) {
   const template = fs.readFileSync(promptFor(meetingType, "questionBank"), "utf8");
   const arc = getArc(meetingType);
   const sf =
     selectedFocus ||
-    resolveSelectedFocus({ notes, focusPoints });
+    resolveSelectedFocus({ notes, focusPoints: Array.isArray(focusPoints) ? focusPoints : undefined });
   const lexicon = loadLexicon({ meetingType, role, seniority });
   const queueSummary = (existingQueue || []).map((q) => ({
     alias: q.alias,
@@ -204,7 +258,7 @@ function buildMessages({
   return splitSystemUser(filled);
 }
 
-async function callOpenAI({ system, user, model }) {
+async function callOpenAI({ system, user, model = getDefaultModel() }: { system: string; user: string; model?: string }): Promise<string> {
   return callAI({
     system,
     user,
@@ -216,19 +270,36 @@ async function callOpenAI({ system, user, model }) {
   });
 }
 
-function snapToAllowedDelta(raw) {
+function snapToAllowedDelta(raw: unknown): number {
   const n = Number(raw);
   if (!Number.isFinite(n)) return 0;
   return ALLOWED_DELTAS.reduce((best, d) => (Math.abs(d - n) < Math.abs(best - n) ? d : best));
 }
 
-function toAxisObject(effects) {
-  const out = {};
-  for (const e of effects || []) {
-    if (e && AXIS_IDS.includes(e.axis)) out[e.axis] = snapToAllowedDelta(e.delta);
+function toAxisObject(effects: unknown): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const e of Array.isArray(effects) ? effects : []) {
+    if (isObjectRecord(e) && typeof e.axis === "string" && AXIS_IDS.includes(e.axis)) {
+      out[e.axis] = snapToAllowedDelta(e.delta);
+    }
   }
   return out;
 }
+
+interface GenerateBankArgs {
+  focusPoints?: unknown;
+  name?: string;
+  role?: string;
+  seniority?: string;
+  meetingType: string;
+  notes?: string;
+  existingQueue?: Question[] | null;
+  selectedFocus?: { id?: string; label?: string } | null;
+  primaryFocusId?: string;
+  prep?: PrepLike | null;
+}
+
+type BankOpts = { model?: string; session?: Parameters<typeof logStage>[0]; stage?: string };
 
 async function generateBank(
   {
@@ -242,13 +313,13 @@ async function generateBank(
     selectedFocus,
     primaryFocusId,
     prep,
-  },
-  { model = getDefaultModel(), session, stage = "03-question-bank" } = {}
-) {
+  }: GenerateBankArgs,
+  { model = getDefaultModel(), session, stage = "03-question-bank" }: BankOpts = {}
+): Promise<Question[]> {
   const axes = loadAxes();
   const sf =
     selectedFocus ||
-    resolveSelectedFocus({ notes, focusPoints, primaryFocusId });
+    resolveSelectedFocus({ notes, focusPoints: Array.isArray(focusPoints) ? focusPoints : undefined, primaryFocusId });
   const messages = buildMessages({
     axes,
     focusPoints,
@@ -262,37 +333,46 @@ async function generateBank(
     prep,
   });
   const raw = await callOpenAI({ ...messages, model });
-  const parsed = parseAIJson(raw, "Question generator", ["questions"]);
+  const parsed = asRecord(parseAIJson(raw, "Question generator", ["questions"]));
 
   const existing = listAllAliases();
-  const saved = [];
-  const droppedJargon = [];
-  const droppedCompetencyForArc = [];
+  const saved: Question[] = [];
+  const droppedJargon: Array<{ label: string; name: string; term: string }> = [];
+  const droppedCompetencyForArc: Array<{ label: string; name: string }> = [];
   const relational = isRelationalArc(meetingType);
-  for (const q of parsed.questions || []) {
+  for (const item of Array.isArray(parsed.questions) ? parsed.questions : []) {
+    const q = asRecord(item);
+    const name_ = asString(q.name);
+    const description = asString(q.description);
+    const label = asString(q.label);
     // Plain-language backstop — drop (never rewrite) a generated question that
     // uses banned jargon; the prompt's plain-speech lint does the main work.
-    const jargon = findJargon(`${q.name || ""} ${q.description || ""}`);
+    const jargon = findJargon(`${name_} ${description}`);
     if (jargon) {
-      droppedJargon.push({ label: q.label, name: q.name, term: jargon });
+      droppedJargon.push({ label, name: name_, term: jargon });
       continue;
     }
+    const purposeRaw = asString(q.purpose);
     // Relational-arc gate — drop (never relabel) competency questions for
     // Bi-weekly / Something-feels-off. Mirrors catalogueForArc on focus points:
     // the model can't ship what we don't keep.
-    if (relational && q.purpose === "competency") {
-      droppedCompetencyForArc.push({ label: q.label, name: q.name });
+    if (relational && purposeRaw === "competency") {
+      droppedCompetencyForArc.push({ label, name: name_ });
       continue;
     }
-    const alias = newAlias(q.label, existing);
+    const alias = newAlias(label, existing);
     existing.add(alias);
-    const obj = {
+    const purpose: QuestionPurpose =
+      purposeRaw === "wellbeing" || purposeRaw === "topic" || purposeRaw === "competency" || purposeRaw === "engagement"
+        ? purposeRaw
+        : "topic";
+    const obj: Question = {
       alias,
-      label: q.label,
-      name: q.name,
-      description: q.description,
-      purpose: q.purpose,
-      stage: q.stage || null,
+      label,
+      name: name_,
+      description,
+      purpose,
+      stage: asString(q.stage) || null,
       axis_effects: toAxisObject(q.axis_effects),
       source: "generated",
     };
@@ -316,8 +396,11 @@ async function generateBank(
   return saved;
 }
 
-async function generateBankWithFallback(args, opts, { onFallback } = {}) {
-  const { loadDir } = require("./questions.ts");
+async function generateBankWithFallback(
+  args: GenerateBankArgs,
+  opts?: BankOpts,
+  { onFallback }: { onFallback?: (e: unknown) => void } = {}
+): Promise<Question[] | Array<Record<string, unknown>>> {
   try {
     return await generateBank(args, opts);
   } catch (e) {
@@ -326,7 +409,7 @@ async function generateBankWithFallback(args, opts, { onFallback } = {}) {
   }
 }
 
-module.exports = {
+export {
   generateBank,
   generateBankWithFallback,
   buildMessages,

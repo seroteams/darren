@@ -23,7 +23,7 @@ const stages = {
       focusPoints: [],
     }),
   "question bank": () =>
-    require("../backend/engine/question-generator").buildMessages({
+    require("../backend/engine/question-generator.ts").buildMessages({
       axes,
       focusPoints: [],
       ...ctx,

@@ -1,4 +1,4 @@
-const { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener } = require("../../question-generator");
+const { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener } = require("../../question-generator.ts");
 const { selectReservedCloser } = require("../../closer");
 const { writeJson, sessionFile } = require("../io.ts");
 const { dim, red, HR, withThinking } = require("../../ui.ts");

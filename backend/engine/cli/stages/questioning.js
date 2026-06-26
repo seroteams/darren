@@ -3,7 +3,7 @@ const path = require("node:path");
 
 const questions = require("../../questions.ts");
 const { planTurn } = require("../../queue-manager.ts");
-const { pinPrepOpenerEarly } = require("../../question-generator");
+const { pinPrepOpenerEarly } = require("../../question-generator.ts");
 const { isForbiddenCloser, pickSeedOverflow } = require("../../closer");
 const { dropIneligibleHeads, appendEligibilityLog } = require("../../question-eligibility.ts");
 const { initState, applyDeltas, summarize, serialize } = require("../../axes.ts");

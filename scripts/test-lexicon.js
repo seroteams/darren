@@ -5,7 +5,7 @@ const path = require("node:path");
 const YAML = require("yaml");
 
 const { loadLexicon, canonicalPath, candidatePath } = require("../backend/engine/lexicon.ts");
-const { buildMessages } = require("../backend/engine/question-generator");
+const { buildMessages } = require("../backend/engine/question-generator.ts");
 const { LEXICONS_DIR } = require("../backend/engine/paths.mts");
 
 let failed = 0;
