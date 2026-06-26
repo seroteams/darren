@@ -37,6 +37,16 @@ or behaviour changes are *never* in this phase.
 > adding tooling or the admin UI adds more. Writing the detailed files now would be guessing.
 
 ## Current state
+
+> ### ⏩ HANDOVER (2026-06-26 EOD) — read this first
+> **Phase 003, step 3 (convert piece by piece) — well underway.** Baseline: `npm test` = **30/30 green**, `npm run typecheck` clean.
+> **Done this session (committed):** answer-suggester, opener, intro-queue, closer, the full lexicon chain (review-core, cli-interactive, lexicon-reviewer), and **queue-manager** (1152 lines — the biggest; agent-drafted + line-by-line reviewed, 30/30 incl. its 6 internal tests + replay-regression).
+> **Engine `.js` left: 5 root + 5 cli/stages = 10** — `golden-checks`, `reviewer`, `preparation`, `question-generator`, `index` (root) · 5× `cli/stages/*`.
+> **➡️ NEXT STEP (awaiting Carl's go):** the **circular `reviewer` (761) ⇄ `golden-checks` (555) pair** — they import each other, so convert **both back-to-back in ONE commit**. This is the last big-risk step. Use the proven process below. After it: downhill — `preparation`, `question-generator` (~350 ea), then `index` (30), then `cli/stages/*`, then `api/` + `cli.js`.
+> **The per-module process (every module):** ① read the `.js` + grep its importers **repo-wide** (incl. `evals/`, `scripts/`) ② write the `.ts` (faithful — same logic, only types) ③ `git rm` the `.js`, flip every importer's specifier to `…/x.ts` (or `.mts`) ④ `npm run typecheck` clean + `npm test` 30/30 ⑤ commit locally **only after Carl's green light** (he walks QA; you don't self-certify) ⑥ update this Current state.
+> **Hard rules:** NO `any`/`as`/`@ts-ignore`/`!` — narrow disk/model `unknown` with the house `isObjectRecord`/`asString` guards; honest no-op `?? `/`?.` for `noUncheckedIndexedAccess`; reuse shared types (`backend/shared/*.types.ts`). **No paid runs** (anything hitting OpenAI — gate/smoke/eval/live replay) without Carl's explicit yes for that run; free checks only (`npm test`, `npm run typecheck`). Leave `content/questions/_index.json` **unstaged** (unrelated artifact). Big modules: agent-draft → review line-by-line → integrate.
+> **Hard gate before phase sign-off:** after ALL conversion, run the end-of-phase multi-agent adversarial review (see "Done means"), fix everything, then Carl's owner-walk + one paid gate case. Live AI paths (planner/reviewer/prep/etc.) are type+test-verified but behaviour-deferred to that owner-walk.
+
 **Scope locked: A (backend only).** Frontend + `scripts/` tooling parked (brief: "don't touch frontend").
 
 **Step 1 ✅ (approved).** Strict mode confirmed *already on* (Phase 002 set it). Leaf-first order mapped
