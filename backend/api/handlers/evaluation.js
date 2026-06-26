@@ -4,7 +4,7 @@ const { evaluate } = require("../../engine/reviewer");
 const { getSessionSelectedFocus } = require("../selected-focus");
 const { serialize } = require("../../engine/axes.ts");
 const { formatNotesForEvaluation } = require("./notes");
-const { generateSuggestions, shouldReview } = require("../../engine/lexicon-reviewer");
+const { generateSuggestions, shouldReview } = require("../../engine/lexicon-reviewer.ts");
 
 function kickLexiconReview(session) {
   if (!shouldReview(session.ctx)) return;

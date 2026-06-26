@@ -65,7 +65,7 @@ function checkScopeAndPrompt(scenario) {
     buildPrompt,
     normalizeTranscriptForReview,
     extractBankQuestions,
-  } = require("../backend/engine/lexicon-reviewer");
+  } = require("../backend/engine/lexicon-reviewer.ts");
   const { resolveLexiconScope } = require("../backend/engine/lexicon.ts");
   const { loadLexicon } = require("../backend/engine/lexicon.ts");
 
@@ -105,7 +105,7 @@ function checkScopeAndPrompt(scenario) {
 function checkSparseFixture(scenario) {
   console.log("\n--- Sparse transcript (no padding) ---");
   let failed = 0;
-  const { buildPrompt, normalizeTranscriptForReview } = require("../backend/engine/lexicon-reviewer");
+  const { buildPrompt, normalizeTranscriptForReview } = require("../backend/engine/lexicon-reviewer.ts");
   const { resolveLexiconScope } = require("../backend/engine/lexicon.ts");
   const { loadLexicon } = require("../backend/engine/lexicon.ts");
 
@@ -136,7 +136,7 @@ async function checkLive(scenario) {
     return 0;
   }
   let failed = 0;
-  const { generateSuggestions } = require("../backend/engine/lexicon-reviewer");
+  const { generateSuggestions } = require("../backend/engine/lexicon-reviewer.ts");
   const sessionDir = path.join(ROOT, scenario.sessionDir);
   const sessionId = path.basename(sessionDir);
   const tracePath = path.join(LEXICONS_DIR, "_suggested", `${sessionId}.json`);

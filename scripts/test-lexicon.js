@@ -120,7 +120,7 @@ try {
 }
 
 console.log("\n--- shouldReview gating: out-of-scope sessions skipped ---");
-const { shouldReview } = require("../backend/engine/lexicon-reviewer");
+const { shouldReview } = require("../backend/engine/lexicon-reviewer.ts");
 ok("design / lead / growth → reviewed", shouldReview({ role: "Lead Web Designer", seniority: "Lead", meetingType: "Growth & career plan" }));
 ok("design / expert / growth → reviewed", shouldReview({ role: "Expert UX Designer", seniority: "Expert", meetingType: "Growth & career plan" }));
 ok("engineering / lead / growth → reviewed (LF-5)", shouldReview({ role: "Backend Engineer", seniority: "Lead", meetingType: "Growth & career plan" }));
@@ -130,7 +130,7 @@ ok("design / lead / biweekly → skipped", !shouldReview({ role: "UX Lead", seni
 ok("design / lead / performance → skipped", !shouldReview({ role: "UX Designer", seniority: "Lead", meetingType: "Performance & feedback" }));
 
 console.log("\n--- AC2 / AC15 / AC16  appendCandidates writes only to candidate file ---");
-const { shouldReview: _sr } = require("../backend/engine/lexicon-reviewer");
+const { shouldReview: _sr } = require("../backend/engine/lexicon-reviewer.ts");
 const tmpDir = path.join(LEXICONS_DIR, "_candidates", "design");
 const tmpFile = path.join(tmpDir, "lead.yaml");
 const canonicalOrig = fs.readFileSync(canonicalPath("design", "lead"), "utf8");
@@ -142,7 +142,7 @@ ok("canonical path is NOT under _candidates", !canonicalPath("design", "lead").i
 ok("canonical file unchanged by setup", fs.readFileSync(canonicalPath("design", "lead"), "utf8") === canonicalOrig);
 
 console.log("\n--- AC15 / AC16 / AC17  appendCandidates + trace, canonical untouched ---");
-const { _internals } = require("../backend/engine/lexicon-reviewer");
+const { _internals } = require("../backend/engine/lexicon-reviewer.ts");
 const tmpCandFile = candidatePath("design", "lead");
 const beforeCand = fs.readFileSync(tmpCandFile, "utf8");
 const beforeCanon = fs.readFileSync(canonicalPath("design", "lead"), "utf8");

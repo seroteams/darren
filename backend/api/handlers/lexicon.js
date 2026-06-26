@@ -11,7 +11,7 @@ const {
   commitDecisions,
   suggestionId,
   shouldReview,
-} = require("../../engine/lexicon-reviewer");
+} = require("../../engine/lexicon-reviewer.ts");
 
 function describePhrase(s) {
   if (s.type === "prefer_term") return s.value;

@@ -1,7 +1,7 @@
 // Lexicon session review — barrel re-export. Core AI + I/O live under ./lexicon/.
 
-const { reviewSession } = require("./lexicon/cli-interactive.ts");
-const {
+import { reviewSession, parseInput, partition } from "./lexicon/cli-interactive.ts";
+import {
   shouldReview,
   generateSuggestions,
   commitDecisions,
@@ -10,17 +10,16 @@ const {
   buildPrompt,
   normalizeTranscriptForReview,
   normalizeEvaluation,
-} = require("./lexicon/review-core.ts");
-const {
+} from "./lexicon/review-core.ts";
+import {
   appendCandidates,
   ensureCandidateDoc,
   writeTrace,
   readTrace,
   tracePathFor,
-} = require("./lexicon/candidates-io.ts");
-const { parseInput, partition } = require("./lexicon/cli-interactive.ts");
+} from "./lexicon/candidates-io.ts";
 
-module.exports = {
+export {
   reviewSession,
   shouldReview,
   generateSuggestions,
@@ -32,12 +31,13 @@ module.exports = {
   normalizeTranscriptForReview,
   normalizeEvaluation,
   extractBankQuestions,
-  _internals: {
-    parseInput,
-    partition,
-    appendCandidates,
-    writeTrace,
-    ensureCandidateDoc,
-    extractBankQuestions,
-  },
+};
+
+export const _internals = {
+  parseInput,
+  partition,
+  appendCandidates,
+  writeTrace,
+  ensureCandidateDoc,
+  extractBankQuestions,
 };
