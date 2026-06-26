@@ -1,7 +1,13 @@
-const { generatePreparation } = require("../../preparation");
-const { bold, dim, cyan, magentaBold, gray, yellow, HR, withThinking } = require("../../ui.ts");
+import { generatePreparation } from "../../preparation.ts";
+import { bold, dim, cyan, magentaBold, gray, yellow, HR, withThinking } from "../../ui.ts";
 
-async function runPreparationStage({ ctx, focusPoints, session }) {
+import type { MeetingContext, PreparationResult } from "../../../shared/session.types.ts";
+
+async function runPreparationStage({ ctx, focusPoints, session }: {
+  ctx: MeetingContext;
+  focusPoints: unknown;
+  session: { dir: string };
+}): Promise<PreparationResult> {
   console.log();
   console.log(HR);
 
@@ -13,7 +19,7 @@ async function runPreparationStage({ ctx, focusPoints, session }) {
         seniority: ctx.seniority,
         meetingType: ctx.meetingType,
         notes: ctx.notes,
-        focusPoints,
+        focusPoints: Array.isArray(focusPoints) ? focusPoints : undefined,
       },
       { session }
     )
@@ -24,7 +30,10 @@ async function runPreparationStage({ ctx, focusPoints, session }) {
   return prepResult;
 }
 
-function renderPreparationBrief(prep, validation) {
+function renderPreparationBrief(
+  prep: PreparationResult["brief"],
+  validation: { passed: boolean; issues: string[] }
+): void {
   console.log(HR);
   console.log();
   console.log("  " + magentaBold("PREPARATION BRIEFING"));
@@ -65,4 +74,4 @@ function renderPreparationBrief(prep, validation) {
   console.log();
 }
 
-module.exports = { runPreparationStage, renderPreparationBrief };
+export { runPreparationStage, renderPreparationBrief };

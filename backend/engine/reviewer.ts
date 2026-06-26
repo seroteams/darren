@@ -13,7 +13,13 @@ import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
 
 import type { Briefing, AxisRead } from "../shared/briefing.types.ts";
-import type { AxisState, MeetingContext } from "../shared/session.types.ts";
+import type { AxisSlot, MeetingContext } from "../shared/session.types.ts";
+
+// evaluate is called with EITHER the live AxisState (Record<string, AxisSlot>) or
+// the serialized axis state (engine/axes.ts serialize() → just score + history,
+// what the CLI eval stage and persisted axis-state.json carry). Both assign to
+// this; the post-process only ever reads score + history.
+type AxisStateInput = Record<string, Pick<AxisSlot, "score" | "history">> | null | undefined;
 
 const getDefaultModel = () => modelFor("evaluation");
 
@@ -40,7 +46,9 @@ interface ReadTurn {
   skipped?: boolean;
   note?: string;
   turn?: number;
-  question?: { name?: string } | null;
+  // The CLI eval stage passes question as the name *string*; the fallback test
+  // passes it as a {name} object. buildFallbackBriefing narrows both.
+  question?: unknown;
 }
 type Transcript = ReadonlyArray<ReadTurn> | null | undefined;
 
@@ -292,7 +300,7 @@ function transcriptShowsLearningCommitment(transcript: Transcript): boolean {
   return hasMiss && hasCause && hasCommit;
 }
 
-function applyAxisScoresFromState(briefing: Briefing, axisState: AxisState | null | undefined): Briefing {
+function applyAxisScoresFromState(briefing: Briefing, axisState: AxisStateInput): Briefing {
   if (!briefing?.axes || !axisState) return briefing;
   for (const ax of briefing.axes) {
     const st = axisState[ax.id];
@@ -307,7 +315,7 @@ function applyAxisScoresFromState(briefing: Briefing, axisState: AxisState | nul
 
 function applyAxisConfidence(
   briefing: Briefing,
-  axisState: AxisState | null | undefined,
+  axisState: AxisStateInput,
   transcript: Transcript
 ): Briefing {
   if (!briefing?.axes) return briefing;
@@ -410,7 +418,7 @@ function applyAxisConfidence(
 // one call where a wrong early label is worse than no label.
 function applyEngagementReadGuard(
   briefing: Briefing,
-  axisState: AxisState | null | undefined,
+  axisState: AxisStateInput,
   transcript: Transcript
 ): Briefing {
   const read = briefing?.engagement_read;
@@ -462,7 +470,7 @@ function applyMeaningRuleEchoGuard(briefing: Briefing): Briefing {
 
 function applyManagerBriefingPostProcess(
   briefing: Briefing,
-  axisState: AxisState | null | undefined,
+  axisState: AxisStateInput,
   transcript: Transcript
 ): Briefing {
   let b = briefing;
@@ -504,7 +512,7 @@ interface BuildMessagesArgs {
   ctx: MeetingContext;
   focusPoints?: unknown;
   transcript?: Transcript;
-  axisState?: AxisState | null;
+  axisState?: AxisStateInput;
   notes?: string | null;
   selectedFocus?: SelectedFocusInput | null;
   agenda?: AgendaInput;
@@ -695,7 +703,7 @@ function buildFallbackBriefing({
 }: {
   ctx?: { name?: string } | null;
   transcript?: Transcript;
-  axisState?: AxisState | null;
+  axisState?: AxisStateInput;
 }): Briefing {
   const name = (ctx && ctx.name) || "them";
   const answered = (transcript || []).filter((t) => {
@@ -704,7 +712,7 @@ function buildFallbackBriefing({
   });
   const trim = (s: unknown): string => String(s || "").replace(/\s+/g, " ").trim();
   const summary_bullets = answered.slice(0, 6).map((t) => {
-    const q = trim(t.question && t.question.name) || "Question";
+    const q = trim(isObjectRecord(t.question) ? t.question.name : undefined) || "Question";
     const a = trim(t.answer);
     const aShort = a.length > 160 ? a.slice(0, 157) + "…" : a;
     return `Asked: ${q} — they said: ${aShort}`;
@@ -746,7 +754,7 @@ interface EvaluateArgs {
   ctx: MeetingContext;
   focusPoints?: unknown;
   transcript?: Transcript;
-  axisState?: AxisState | null;
+  axisState?: AxisStateInput;
   notes?: string | null;
   selectedFocus?: SelectedFocusInput | null;
   agenda?: AgendaInput;

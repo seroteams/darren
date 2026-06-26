@@ -396,16 +396,45 @@ async function generateBank(
   return saved;
 }
 
+// Seed YAML are canonical saved questions (saveQuestion writes exactly the 8
+// Question fields). Materialise each into a typed Question — note axis_effects is
+// already a stored {axisId: delta} object here, NOT the planner's wire array, so
+// it is read as-is (not via toAxisObject).
+function seedToQuestion(item: unknown): Question {
+  const r = asRecord(item);
+  const purposeRaw = asString(r.purpose);
+  const purpose: QuestionPurpose =
+    purposeRaw === "wellbeing" || purposeRaw === "topic" || purposeRaw === "competency" || purposeRaw === "engagement"
+      ? purposeRaw
+      : "topic";
+  const axis_effects: Record<string, number> = {};
+  if (isObjectRecord(r.axis_effects)) {
+    for (const [axis, delta] of Object.entries(r.axis_effects)) {
+      if (typeof delta === "number") axis_effects[axis] = delta;
+    }
+  }
+  return {
+    alias: asString(r.alias),
+    label: asString(r.label),
+    name: asString(r.name),
+    description: asString(r.description),
+    purpose,
+    stage: asString(r.stage) || null,
+    axis_effects,
+    source: asString(r.source) || "seed",
+  };
+}
+
 async function generateBankWithFallback(
   args: GenerateBankArgs,
   opts?: BankOpts,
   { onFallback }: { onFallback?: (e: unknown) => void } = {}
-): Promise<Question[] | Array<Record<string, unknown>>> {
+): Promise<Question[]> {
   try {
     return await generateBank(args, opts);
   } catch (e) {
     onFallback?.(e);
-    return loadDir("_seed");
+    return loadDir("_seed").map(seedToQuestion);
   }
 }
 
@@ -417,4 +446,5 @@ export {
   assembleQueueWithPrepOpener,
   findPrepOpener,
   pinPrepOpenerEarly,
+  seedToQuestion,
 };

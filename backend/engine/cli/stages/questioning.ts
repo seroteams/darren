@@ -1,15 +1,15 @@
-const fs = require("node:fs");
-const path = require("node:path");
+import fs from "node:fs";
+import path from "node:path";
 
-const questions = require("../../questions.ts");
-const { planTurn } = require("../../queue-manager.ts");
-const { pinPrepOpenerEarly } = require("../../question-generator.ts");
-const { isForbiddenCloser, pickSeedOverflow } = require("../../closer");
-const { dropIneligibleHeads, appendEligibilityLog } = require("../../question-eligibility.ts");
-const { initState, applyDeltas, summarize, serialize } = require("../../axes.ts");
-const cost = require("../../cost.ts");
-const { writeJson, sessionFile, isSkip } = require("../io.ts");
-const {
+import { loadDir } from "../../questions.ts";
+import { planTurn } from "../../queue-manager.ts";
+import { pinPrepOpenerEarly, seedToQuestion } from "../../question-generator.ts";
+import { isForbiddenCloser, pickSeedOverflow } from "../../closer.ts";
+import { dropIneligibleHeads, appendEligibilityLog } from "../../question-eligibility.ts";
+import { initState, applyDeltas, summarize, serialize } from "../../axes.ts";
+import * as cost from "../../cost.ts";
+import { writeJson, sessionFile, isSkip } from "../io.ts";
+import {
   bold,
   dim,
   cyan,
@@ -21,7 +21,22 @@ const {
   renderQueuePos,
   renderDebugLine,
   withThinking,
-} = require("../../ui.ts");
+} from "../../ui.ts";
+
+import type { Question } from "../../../shared/question.types.ts";
+import type { MeetingContext, AxisState, TranscriptEntry, PreparationResult } from "../../../shared/session.types.ts";
+import type { CostTracker } from "../../../shared/cost.types.ts";
+
+// What the questioning loop reads off a planTurn result; the planner returns a
+// superset, and the planner-failed fallback below matches this exactly.
+interface TurnPlan {
+  assessment: { deltas: Record<string, number>; note: string };
+  newQueue: Question[];
+  issues?: string[];
+  unbooked_signal?: Array<{ axis: string; raw: number; booked: number; reason: string }>;
+  prompt: string | null;
+  response: unknown;
+}
 
 async function runQuestioningLoop({
   ctx,
@@ -34,9 +49,20 @@ async function runQuestioningLoop({
   session,
   tracker,
   ask,
-}) {
+}: {
+  ctx: MeetingContext;
+  focusPoints: unknown;
+  queue: Question[];
+  closer: Question | null;
+  prepOpener: Question | null;
+  prep: PreparationResult["brief"] | null;
+  totalBudget: number;
+  session: { dir: string };
+  tracker: CostTracker;
+  ask: (prompt: string) => Promise<string>;
+}): Promise<{ transcript: TranscriptEntry[]; axisState: AxisState; scoring: { failures: number; scoredTurns: number } }> {
   const axisState = initState();
-  const transcript = [];
+  const transcript: TranscriptEntry[] = [];
   const dynamicAnswersDir = sessionFile(session, "04-dynamic-answers");
   fs.mkdirSync(dynamicAnswersDir, { recursive: true });
 
@@ -48,8 +74,8 @@ async function runQuestioningLoop({
   // The legitimate question pool for THIS session: the assembled queue plus the
   // reserved prep-opener and closer. Coverage pulls from here instead of the
   // whole global bank, so it can't surface another persona's saved question.
-  const sessionBank = [];
-  const seenBankAliases = new Set();
+  const sessionBank: Question[] = [];
+  const seenBankAliases = new Set<string>();
   for (const item of [...queue, prepOpener, closer]) {
     if (item?.alias && !seenBankAliases.has(item.alias)) {
       seenBankAliases.add(item.alias);
@@ -79,6 +105,7 @@ async function runQuestioningLoop({
     if (queueRef.length === 0) break;
     turn += 1;
     const q = queueRef.shift();
+    if (!q) break;
     const pos = renderQueuePos(turn, totalBudget);
     const queueLen = dim(`(${queueRef.length} more queued)`);
     console.log(`  ${pos}  ${dim(q.purpose || "")}  ${queueLen}`);
@@ -90,14 +117,15 @@ async function runQuestioningLoop({
     const answerText = skipped ? "(skipped)" : answer;
     const remainingBudget = Math.max(0, totalBudget - turn);
 
-    transcript.push({
+    const entry: TranscriptEntry = {
       turn,
       question: q,
       answer: answerText,
       skipped,
-    });
+    };
+    transcript.push(entry);
 
-    let plan;
+    let plan: TurnPlan;
     if (!skipped) scoredTurns += 1;
     try {
       plan = await withThinking(
@@ -120,13 +148,14 @@ async function runQuestioningLoop({
           })
       );
     } catch (e) {
+      const errMessage = e instanceof Error ? e.message : String(e);
       if (!skipped) plannerFailures += 1;
       console.log("  " + red("Planner failed — keeping queue as-is and moving on."));
-      console.log("  " + dim(e.message));
+      console.log("  " + dim(errMessage));
       plan = {
         assessment: { deltas: {}, note: "(planner failed)" },
         newQueue: queueRef,
-        issues: [e.message],
+        issues: [errMessage],
         prompt: "",
         response: "",
       };
@@ -138,10 +167,9 @@ async function runQuestioningLoop({
       deltas: plan.assessment.deltas,
     });
 
-    const current = transcript[transcript.length - 1];
-    current.realized_deltas = plan.assessment.deltas;
-    current.note = plan.assessment.note;
-    if (plan.unbooked_signal?.length) current.unbooked_signal = plan.unbooked_signal;
+    entry.realized_deltas = plan.assessment.deltas;
+    entry.note = plan.assessment.note;
+    if (plan.unbooked_signal?.length) entry.unbooked_signal = plan.unbooked_signal;
 
     const axesSummary = summarize(axisState);
     console.log();
@@ -185,10 +213,10 @@ async function runQuestioningLoop({
     }
 
     if (queueRef.length === 0 && turn < totalBudget) {
-      const seeds = questions.loadDir("_seed");
+      const seeds = loadDir("_seed").map(seedToQuestion);
       const seen = new Set(transcript.map((t) => t.question.alias));
-      const rejections = [];
-      const seed = pickSeedOverflow(seeds, seen, {
+      const rejections: ReturnType<typeof dropIneligibleHeads> = [];
+      const picked = pickSeedOverflow(seeds, seen, {
         meetingType: ctx.meetingType,
         askedNames: transcript.map((t) => t.question.name),
         rejections,
@@ -196,6 +224,9 @@ async function runQuestioningLoop({
       if (rejections.length) {
         appendEligibilityLog(sessionFile(session, "eligibility-log.json"), rejections);
       }
+      // pickSeedOverflow returns the loose closer-question view; recover the
+      // Question from the (narrowed) seed list so it can rejoin the queue.
+      const seed = picked ? seeds.find((s) => s.alias === picked.alias) : undefined;
       if (seed) queueRef.push(seed);
       // No eligible seed → the loop ends and the session moves into its normal
       // closing/evaluation stage; never serve a bad question just to fill time.
@@ -241,4 +272,4 @@ async function runQuestioningLoop({
   return { transcript, axisState, scoring: { failures: plannerFailures, scoredTurns } };
 }
 
-module.exports = { runQuestioningLoop };
+export { runQuestioningLoop };

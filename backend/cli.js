@@ -12,11 +12,11 @@ const { loadIntroQueue } = require("./engine/intro-queue.ts");
 const { ensureRoleProfile } = require("./engine/role-profile.ts");
 const { NOTES_DIR, ROOT } = require("./engine/paths.mts");
 const cost = require("./engine/cost.ts");
-const { runFocusPointsStage } = require("./engine/cli/stages/focus-points");
-const { runPreparationStage } = require("./engine/cli/stages/preparation");
-const { runQuestionBankStage } = require("./engine/cli/stages/question-bank");
-const { runQuestioningLoop } = require("./engine/cli/stages/questioning");
-const { runEvaluationStage, writeSessionCost } = require("./engine/cli/stages/evaluation");
+const { runFocusPointsStage } = require("./engine/cli/stages/focus-points.ts");
+const { runPreparationStage } = require("./engine/cli/stages/preparation.ts");
+const { runQuestionBankStage } = require("./engine/cli/stages/question-bank.ts");
+const { runQuestioningLoop } = require("./engine/cli/stages/questioning.ts");
+const { runEvaluationStage, writeSessionCost } = require("./engine/cli/stages/evaluation.ts");
 const { collectRunRating } = require("./engine/cli/run-rating.ts");
 // run-debrief is an ES module (shared with the Vite browser build); loaded lazily in main().
 const {

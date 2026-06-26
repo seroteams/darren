@@ -1,11 +1,23 @@
-const { evaluate } = require("../../reviewer.ts");
-const { serialize } = require("../../axes.ts");
-const cost = require("../../cost.ts");
-const { renderBriefing } = require("../../briefing.ts");
-const { writeJson, sessionFile } = require("../io.ts");
-const { bold, dim, yellow, HR, pad, withThinking } = require("../../ui.ts");
+import { evaluate } from "../../reviewer.ts";
+import { serialize } from "../../axes.ts";
+import * as cost from "../../cost.ts";
+import { renderBriefing } from "../../briefing.ts";
+import { writeJson, sessionFile } from "../io.ts";
+import { bold, dim, yellow, HR, pad, withThinking } from "../../ui.ts";
 
-async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, notes, scoring, session, name }) {
+import type { MeetingContext, AxisState, TranscriptEntry } from "../../../shared/session.types.ts";
+import type { CostTracker, CostSummary } from "../../../shared/cost.types.ts";
+
+async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, notes, scoring, session, name }: {
+  ctx: MeetingContext;
+  focusPoints: unknown;
+  transcript: TranscriptEntry[];
+  axisState: AxisState;
+  notes?: string;
+  scoring?: { failures?: number; scoredTurns?: number };
+  session: { dir: string };
+  name: string;
+}) {
   console.log(HR);
   const finalEval = await withThinking("Final evaluation", () =>
     evaluate(
@@ -36,7 +48,7 @@ async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, not
   return finalEval;
 }
 
-function renderSessionCost(finalCost) {
+function renderSessionCost(finalCost: CostSummary): void {
   console.log("  " + bold("Session cost"));
   console.log(
     "    " +
@@ -53,12 +65,14 @@ function renderSessionCost(finalCost) {
       (finalCost.cached_tokens ? dim(`, ${cost.formatTokens(finalCost.cached_tokens)} cached`) : "") +
       dim(")")
   );
-  const perStage = {};
+  const perStage: Record<string, { n: number; usd: number; tok: number }> = {};
   for (const c of finalCost.calls) {
     if (!perStage[c.stage]) perStage[c.stage] = { n: 0, usd: 0, tok: 0 };
-    perStage[c.stage].n += 1;
-    if (c.known_price && c.usd_cost != null) perStage[c.stage].usd += c.usd_cost;
-    perStage[c.stage].tok += c.prompt_tokens + c.completion_tokens;
+    const entry = perStage[c.stage];
+    if (!entry) continue;
+    entry.n += 1;
+    if (c.known_price && c.usd_cost != null) entry.usd += c.usd_cost;
+    entry.tok += c.prompt_tokens + c.completion_tokens;
   }
   for (const [stage, s] of Object.entries(perStage)) {
     console.log(
@@ -80,10 +94,10 @@ function renderSessionCost(finalCost) {
   }
 }
 
-function writeSessionCost(session, tracker) {
+function writeSessionCost(session: { dir: string }, tracker: CostTracker): void {
   const finalCost = tracker.summary();
   writeJson(sessionFile(session, "cost.json"), finalCost);
   renderSessionCost(finalCost);
 }
 
-module.exports = { runEvaluationStage, writeSessionCost, renderSessionCost };
+export { runEvaluationStage, writeSessionCost, renderSessionCost };

@@ -1,9 +1,19 @@
-const { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener } = require("../../question-generator.ts");
-const { selectReservedCloser } = require("../../closer");
-const { writeJson, sessionFile } = require("../io.ts");
-const { dim, red, HR, withThinking } = require("../../ui.ts");
+import { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener } from "../../question-generator.ts";
+import { selectReservedCloser } from "../../closer.ts";
+import { writeJson, sessionFile } from "../io.ts";
+import { dim, red, HR, withThinking } from "../../ui.ts";
 
-async function runQuestionBankStage({ ctx, focusPoints, meetingTypeLabel, introQueue, prep, session }) {
+import type { Question } from "../../../shared/question.types.ts";
+import type { MeetingContext, PreparationResult } from "../../../shared/session.types.ts";
+
+async function runQuestionBankStage({ ctx, focusPoints, meetingTypeLabel, introQueue, prep, session }: {
+  ctx: MeetingContext;
+  focusPoints: unknown;
+  meetingTypeLabel: string;
+  introQueue: Question[];
+  prep: PreparationResult["brief"] | null;
+  session: { dir: string };
+}) {
   writeJson(sessionFile(session, "02-intro-questions/aliases.json"), {
     meeting_type: meetingTypeLabel,
     aliases: introQueue.map((q) => q.alias),
@@ -18,7 +28,7 @@ async function runQuestionBankStage({ ctx, focusPoints, meetingTypeLabel, introQ
       {
         onFallback: (e) => {
           console.log("  " + red("Bank generation failed — falling back to seed bank."));
-          console.log("  " + dim(e.message));
+          console.log("  " + dim(e instanceof Error ? e.message : String(e)));
         },
       }
     )
@@ -44,4 +54,4 @@ async function runQuestionBankStage({ ctx, focusPoints, meetingTypeLabel, introQ
   return { queue, closer, bank, prepOpener };
 }
 
-module.exports = { runQuestionBankStage };
+export { runQuestionBankStage };

@@ -101,7 +101,7 @@ export interface TranscriptEntry {
   skipped: boolean;
   realized_deltas?: Record<string, number>; // added after planning
   note?: string; // planner note; may carry [SHALLOW]/[SKIP] markers
-  unbooked_signal?: string[]; // only when the planner returned overflow
+  unbooked_signal?: Array<{ axis: string; raw: number; booked: number; reason: string }>; // planner clamp overflow (queue-manager clampToSignature); only when the planner held signal back
 }
 
 /** Back-nav snapshot (handlers/plan.js). */

@@ -1,7 +1,15 @@
-const { generateFocusPoints } = require("../../generate.ts");
-const { bold, dim, cyan, magentaBold, yellow, gray, red, HR, pad, withThinking } = require("../../ui.ts");
+import { generateFocusPoints } from "../../generate.ts";
+import { bold, dim, cyan, magentaBold, yellow, gray, red, HR, pad, withThinking } from "../../ui.ts";
 
-function renderFocusPoints(result, name, role, seniority, { regenerated = false } = {}) {
+import type { FocusPointsResult, MeetingContext } from "../../../shared/session.types.ts";
+
+function renderFocusPoints(
+  result: FocusPointsResult,
+  name: string,
+  role: string,
+  seniority: string,
+  { regenerated = false }: { regenerated?: boolean } = {}
+): void {
   console.log();
   console.log("  " + dim(pad("Meeting", 8)) + "  " + bold(result.meeting_type));
   console.log(
@@ -32,7 +40,12 @@ function renderFocusPoints(result, name, role, seniority, { regenerated = false 
   console.log();
 }
 
-async function runFocusPointsStage({ ctx, session, ask, result }) {
+async function runFocusPointsStage({ ctx, session, ask, result }: {
+  ctx: MeetingContext;
+  session: { dir: string };
+  ask: (prompt: string) => Promise<string>;
+  result: FocusPointsResult;
+}): Promise<{ continue: boolean }> {
   console.log();
   console.log(HR);
 
@@ -62,4 +75,4 @@ async function runFocusPointsStage({ ctx, session, ask, result }) {
   return { continue: true };
 }
 
-module.exports = { runFocusPointsStage, renderFocusPoints };
+export { runFocusPointsStage, renderFocusPoints };
