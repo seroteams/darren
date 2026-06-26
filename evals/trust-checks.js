@@ -11,7 +11,7 @@
 // The reworded/subtle cases fall to the judge Warn and, later, the data-flow
 // boundary fast-follow.
 
-const { computeReadQuality } = require("../backend/engine/reviewer");
+const { computeReadQuality } = require("../backend/engine/reviewer.ts");
 const { forbiddenPatternsFor, isDuplicateText } = require("../backend/engine/question-eligibility.ts");
 const {
   runManagerBriefingBans,
@@ -24,7 +24,7 @@ const {
   runRoleProfileArcGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
-} = require("../backend/engine/golden-checks");
+} = require("../backend/engine/golden-checks.ts");
 const { loadRoleProfile } = require("../backend/engine/role-profile.ts");
 
 const HARD_FAIL = {

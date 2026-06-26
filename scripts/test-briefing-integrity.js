@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 const path = require("node:path");
-const { applyManagerBriefingPostProcess } = require("../backend/engine/reviewer");
+const { applyManagerBriefingPostProcess } = require("../backend/engine/reviewer.ts");
 const {
   runManagerBriefingBans,
   runEvalIntegrityChecks,
-} = require("../backend/engine/golden-checks");
+} = require("../backend/engine/golden-checks.ts");
 
 const { SCENARIOS_DIR } = require("../backend/engine/paths.mts");
 const scenario = require(path.join(

@@ -9,7 +9,7 @@ const { withPromptVersion } = require("./prompt-version.ts");
 const { resolveSelectedFocus } = require("./selected-focus.ts");
 const { splitSystemUser } = require("./prompt-utils.ts");
 const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile.ts");
-const { findJargon } = require("./golden-checks");
+const { findJargon } = require("./golden-checks.ts");
 
 const getDefaultModel = () => modelFor("preparation");
 

@@ -248,7 +248,7 @@ async function runSnapshotTest() {
 }
 
 console.log("\n--- trust gates: arc leak + vocab leak ---");
-const { runRoleProfileArcGate, runRoleProfileVocabLeak } = require("../backend/engine/golden-checks");
+const { runRoleProfileArcGate, runRoleProfileVocabLeak } = require("../backend/engine/golden-checks.ts");
 ok("arc gate clean on growth", runRoleProfileArcGate(FIXTURE, "Growth & career plan").length === 0);
 ok(
   "arc gate clean on bi-weekly (renderer filters competency)",

@@ -5,8 +5,8 @@
 // clearly flagged. No model calls.
 
 const assert = require("node:assert");
-const { buildFallbackBriefing } = require("../backend/engine/reviewer");
-const { runManagerBriefingBans } = require("../backend/engine/golden-checks");
+const { buildFallbackBriefing } = require("../backend/engine/reviewer.ts");
+const { runManagerBriefingBans } = require("../backend/engine/golden-checks.ts");
 const { initState, applyDeltas } = require("../backend/engine/axes.ts");
 
 let failed = 0;

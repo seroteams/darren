@@ -5,7 +5,7 @@
 // well-answered session no longer flips the briefing into "they barely answered".
 
 const assert = require("node:assert/strict");
-const { computeReadQuality } = require("../backend/engine/reviewer");
+const { computeReadQuality } = require("../backend/engine/reviewer.ts");
 
 const note = (i) => ({
   alias: `q${i}`,

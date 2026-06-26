@@ -1,16 +1,53 @@
-const fs = require("node:fs");
+import fs from "node:fs";
 
-const { logStage } = require("./session.ts");
-const { loadAxes, AXIS_IDS, AXIS_MIN, AXIS_MAX } = require("./axes.ts");
-const { promptFor, getArc, getType } = require("./one-on-one-types/index.ts");
-const { withPromptVersion } = require("./prompt-version.ts");
-const { resolveSelectedFocus } = require("./selected-focus.ts");
-const { splitSystemUser } = require("./prompt-utils.ts");
-const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile.ts");
+import { logStage } from "./session.ts";
+import { loadAxes, AXIS_IDS, AXIS_MIN, AXIS_MAX } from "./axes.ts";
+import { promptFor, getArc, getType } from "./one-on-one-types/index.ts";
+import { withPromptVersion } from "./prompt-version.ts";
+import { resolveSelectedFocus } from "./selected-focus.ts";
+import { splitSystemUser } from "./prompt-utils.ts";
+import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./role-profile.ts";
+import { ruleEchoAxisIds } from "./golden-checks.ts";
 
-const { modelFor } = require("./models.ts");
-const { callAI, parseAIJson } = require("./ai-client.ts");
+import { modelFor } from "./models.ts";
+import { callAI, parseAIJson } from "./ai-client.ts";
+
+import type { Briefing, AxisRead } from "../shared/briefing.types.ts";
+import type { AxisState, MeetingContext } from "../shared/session.types.ts";
+
 const getDefaultModel = () => modelFor("evaluation");
+
+// Disk JSON / model output is unknown until checked — narrow with these instead
+// of trusting shapes (the established house pattern).
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+// The evaluator wire is schema-constrained (RESPONSE_SCHEMA, additionalProperties
+// false); confirm the structural minimum (an axes array) and read the parsed
+// output as a Briefing. The axis post-process fields (read_status, confidence,
+// evidence_basis) are added by applyManagerBriefingPostProcess below.
+function isEvalBriefing(v: unknown): v is Briefing {
+  return isObjectRecord(v) && Array.isArray(v.axes);
+}
+
+// Transcript turns are read defensively: production passes TranscriptEntry[], but
+// read-quality also inspects top-level alias/stage some callers stamp on a turn,
+// and the fallback reads question.name. Read loosely, exactly as the original did.
+interface ReadTurn {
+  answer?: string;
+  alias?: string | null;
+  stage?: string | null;
+  skipped?: boolean;
+  note?: string;
+  turn?: number;
+  question?: { name?: string } | null;
+}
+type Transcript = ReadonlyArray<ReadTurn> | null | undefined;
+
+type SelectedFocusInput = { id?: string; label?: string };
+type AgendaInput = { summary?: string | null; covered?: boolean | null } | null | undefined;
+type ScoringInput = { failures?: number; scoredTurns?: number } | null | undefined;
+type SessionArg = Parameters<typeof logStage>[0];
 
 const OVERLAP_STOP_WORDS = new Set([
   "a", "an", "the", "and", "or", "but", "of", "in", "on", "to", "for", "with",
@@ -93,19 +130,19 @@ const RESPONSE_SCHEMA = {
   additionalProperties: false,
 };
 
-function clampScore(n) {
+function clampScore(n: unknown): number {
   const x = Number(n);
   if (!Number.isFinite(x)) return 0;
   return Math.max(AXIS_MIN, Math.min(AXIS_MAX, Math.round(x)));
 }
 
-function transcriptText(transcript) {
+function transcriptText(transcript: Transcript): string {
   return (transcript || [])
     .map((t) => (typeof t === "string" ? t : t?.answer || ""))
     .join("\n");
 }
 
-function tokenCount(s) {
+function tokenCount(s: unknown): number {
   return String(s || "").trim().split(/\s+/).filter(Boolean).length;
 }
 
@@ -134,7 +171,7 @@ const DECLINE_PHRASES = [
 
 // Normalize a note before phrase-matching: lowercase, drop punctuation, collapse
 // whitespace. Keeps matching safe and exact-ish rather than broad.
-function normalizeAnswer(s) {
+function normalizeAnswer(s: unknown): string {
   return String(s || "")
     .toLowerCase()
     .replace(/[^\w\s]/g, " ")
@@ -142,7 +179,7 @@ function normalizeAnswer(s) {
     .trim();
 }
 
-function isDecline(answer) {
+function isDecline(answer: unknown): boolean {
   const norm = normalizeAnswer(answer);
   if (!norm) return false;
   return DECLINE_PHRASES.some((p) => norm.includes(p));
@@ -166,7 +203,7 @@ const LOW_SIGNAL_WORDS = new Set([
   "grand", "really", "just", "pretty", "quite", "bit", "so", "far",
 ]);
 
-function isLowContentNote(answer) {
+function isLowContentNote(answer: unknown): boolean {
   const norm = normalizeAnswer(answer);
   if (!norm) return false;
   const remainder = norm.replace(REPORTING_PREFIX, "").trim();
@@ -188,7 +225,7 @@ function isLowContentNote(answer) {
 // ONLY when it carries no signal — it is an opener, not a probe. If the opener
 // holds real signal (a named concern, blocker, workload, risk, growth intent) it
 // counts like any substantive turn. Non-intro turns always count.
-function computeReadQuality(transcript) {
+function computeReadQuality(transcript: Transcript) {
   const turns = (transcript || []).map((t, i) => {
     const answer = typeof t === "string" ? t : t?.answer || "";
     const alias = t?.alias || null;
@@ -205,13 +242,13 @@ function computeReadQuality(transcript) {
     // data). A two-token answer or a decline is a *thin* note (weak data). Both
     // carry no real signal, but they are different failures: the first must not
     // be framed as "the report answered in 2-4 words".
-    let reason = null;
+    let reason: string | null = null;
     if (skipped || empty) reason = "skip";
     else if (decline) reason = "decline";
     else if (tooShort) reason = "thin";
     const shallow = reason !== null;
     const is_note = !shallow;
-    const isIntro = stage === "self_read" || INTRO_ALIASES.has(alias);
+    const isIntro = stage === "self_read" || (alias != null && INTRO_ALIASES.has(alias));
     const counted = !(isIntro && shallow);
     return { index: i + 1, alias, stage, reason, is_note, shallow, counted };
   });
@@ -229,7 +266,7 @@ function computeReadQuality(transcript) {
   // flip the briefing into partial-read mode.
   const partial_read =
     note_turns < 3 || (total_turns > 0 && note_turns / total_turns < 0.6);
-  let partial_reason = null;
+  let partial_reason: string | null = null;
   if (partial_read) {
     partial_reason = skipped_count >= thin_count ? "mostly_skipped" : "mostly_thin";
   }
@@ -246,7 +283,7 @@ function computeReadQuality(transcript) {
   };
 }
 
-function transcriptShowsLearningCommitment(transcript) {
+function transcriptShowsLearningCommitment(transcript: Transcript): boolean {
   const joined = transcriptText(transcript).toLowerCase();
   const hasMiss = /\b(missed|wrong|assumption|failed|did not)\b/.test(joined);
   const hasCause = /\b(because|retry|edge case|logic|escalat)\b/.test(joined);
@@ -255,7 +292,7 @@ function transcriptShowsLearningCommitment(transcript) {
   return hasMiss && hasCause && hasCommit;
 }
 
-function applyAxisScoresFromState(briefing, axisState) {
+function applyAxisScoresFromState(briefing: Briefing, axisState: AxisState | null | undefined): Briefing {
   if (!briefing?.axes || !axisState) return briefing;
   for (const ax of briefing.axes) {
     const st = axisState[ax.id];
@@ -268,7 +305,11 @@ function applyAxisScoresFromState(briefing, axisState) {
   return briefing;
 }
 
-function applyAxisConfidence(briefing, axisState, transcript) {
+function applyAxisConfidence(
+  briefing: Briefing,
+  axisState: AxisState | null | undefined,
+  transcript: Transcript
+): Briefing {
   if (!briefing?.axes) return briefing;
   const answers = transcriptText(transcript);
   const hasWellbeingEvidence = WELLBEING_TRANSCRIPT_EVIDENCE.test(answers);
@@ -285,8 +326,8 @@ function applyAxisConfidence(briefing, axisState, transcript) {
     // signal (insufficient_signal). The UI collapses on this, not on a magic 0.
     const noHistory = !Array.isArray(history) || history.length === 0;
     const zeroScore = stateScore === 0;
-    let read_status = "read";
-    let not_read_reason;
+    let read_status: "read" | "not_read" = "read";
+    let not_read_reason: "no_history" | "zero_score" | "insufficient_signal" | undefined;
     if (noHistory) {
       read_status = "not_read";
       not_read_reason = "no_history";
@@ -298,8 +339,8 @@ function applyAxisConfidence(briefing, axisState, transcript) {
       not_read_reason = "insufficient_signal";
     }
 
-    let confidence = "medium";
-    let evidence_basis = "mixed";
+    let confidence: "low" | "medium" | "high" = "medium";
+    let evidence_basis: "mixed" | "axis_state_only" | "transcript_quotes" | "concentrated_signal" = "mixed";
 
     if (magnitude <= 1) {
       confidence = "low";
@@ -367,7 +408,11 @@ function applyAxisConfidence(briefing, axisState, transcript) {
 // wellbeing axes barely registered (combined touches < 2), force
 // "inconclusive" regardless of what the model returned. Disengagement is the
 // one call where a wrong early label is worse than no label.
-function applyEngagementReadGuard(briefing, axisState, transcript) {
+function applyEngagementReadGuard(
+  briefing: Briefing,
+  axisState: AxisState | null | undefined,
+  transcript: Transcript
+): Briefing {
   const read = briefing?.engagement_read;
   if (!read || typeof read !== "object") return briefing;
   if (read.level === "inconclusive") return briefing;
@@ -399,11 +444,12 @@ function applyEngagementReadGuard(briefing, axisState, transcript) {
 
 // When an axis meaning echoes rule-example framing instead of this session's
 // words, surface it (drop confidence to low + log) rather than rewrite the
-// sentence — engine honesty: flag the problem, don't mask it. Lazy require
-// breaks the golden-checks ↔ reviewer cycle.
-function applyMeaningRuleEchoGuard(briefing) {
+// sentence — engine honesty: flag the problem, don't mask it. `ruleEchoAxisIds`
+// is imported from golden-checks; the golden-checks ↔ reviewer import cycle is
+// safe because the binding is only used here at call time (ESM live binding),
+// never at module load.
+function applyMeaningRuleEchoGuard(briefing: Briefing): Briefing {
   if (!briefing?.axes) return briefing;
-  const { ruleEchoAxisIds } = require("./golden-checks");
   const flagged = ruleEchoAxisIds(briefing);
   for (const ax of briefing.axes) {
     if (flagged.has(ax.id)) {
@@ -414,7 +460,11 @@ function applyMeaningRuleEchoGuard(briefing) {
   return briefing;
 }
 
-function applyManagerBriefingPostProcess(briefing, axisState, transcript) {
+function applyManagerBriefingPostProcess(
+  briefing: Briefing,
+  axisState: AxisState | null | undefined,
+  transcript: Transcript
+): Briefing {
   let b = briefing;
   b = applyAxisScoresFromState(b, axisState);
   b = applyAxisConfidence(b, axisState, transcript);
@@ -423,13 +473,13 @@ function applyManagerBriefingPostProcess(briefing, axisState, transcript) {
   return b;
 }
 
-function formatAgendaCarryForward(agenda) {
+function formatAgendaCarryForward(agenda: AgendaInput): string {
   const summary = agenda?.summary;
   if (!summary) return "(no carry-forward agenda item)";
   const status =
-    agenda.covered === true
+    agenda?.covered === true
       ? "covered"
-      : agenda.covered === false
+      : agenda?.covered === false
         ? "NOT covered"
         : "unconfirmed";
   return `The team member opened by asking to cover: "${summary}". By the end the manager marked this ${status}.`;
@@ -439,7 +489,7 @@ function formatAgendaCarryForward(agenda) {
 // per-turn planner failed on one or more turns, axis scores are partial or
 // absent — the briefing must lean on the transcript, not on axis movement, and
 // lead with low confidence. Mirrors <scoring_status> in final-evaluation.md.
-function formatScoringStatus(scoring) {
+function formatScoringStatus(scoring: ScoringInput): string {
   const failures = Number(scoring?.failures) || 0;
   if (failures <= 0) return "OK — the per-turn scoring engine ran on every turn; axis scores are reliable.";
   const scored = Number(scoring?.scoredTurns) || failures;
@@ -448,6 +498,17 @@ function formatScoringStatus(scoring) {
     `Axis scores are partial or absent and must NOT be read as trends. ` +
     `Treat the transcript as raw notes, ground every claim in a quoted note, and lead with low confidence.`
   );
+}
+
+interface BuildMessagesArgs {
+  ctx: MeetingContext;
+  focusPoints?: unknown;
+  transcript?: Transcript;
+  axisState?: AxisState | null;
+  notes?: string | null;
+  selectedFocus?: SelectedFocusInput | null;
+  agenda?: AgendaInput;
+  scoring?: ScoringInput;
 }
 
 function buildMessages({
@@ -459,7 +520,7 @@ function buildMessages({
   selectedFocus,
   agenda,
   scoring,
-}) {
+}: BuildMessagesArgs) {
   const template = fs.readFileSync(promptFor(ctx.meetingType, "evaluation"), "utf8");
   const axes = loadAxes();
   const arc = getArc(ctx.meetingType);
@@ -468,7 +529,7 @@ function buildMessages({
     resolveSelectedFocus({
       notes: notes || ctx.notes,
       observedShift: notes || ctx.notes,
-      focusPoints,
+      focusPoints: Array.isArray(focusPoints) ? focusPoints : undefined,
     });
   let typeEvalRules = "";
   try {
@@ -509,7 +570,12 @@ function buildMessages({
   return splitSystemUser(filled);
 }
 
-async function callOpenAI({ system, user, model, schemaName }) {
+async function callOpenAI({
+  system,
+  user,
+  model = getDefaultModel(),
+  schemaName,
+}: { system: string; user: string; model?: string; schemaName?: string }): Promise<string> {
   return callAI({
     system,
     user,
@@ -521,7 +587,7 @@ async function callOpenAI({ system, user, model, schemaName }) {
   });
 }
 
-function normalizeContentWords(text) {
+function normalizeContentWords(text: unknown): string[] {
   return String(text || "")
     .toLowerCase()
     .replaceAll(/[^a-z0-9\s]+/g, " ")
@@ -530,15 +596,15 @@ function normalizeContentWords(text) {
     .filter((word) => !OVERLAP_STOP_WORDS.has(word));
 }
 
-function fourGrams(words) {
-  const grams = new Set();
+function fourGrams(words: string[]): Set<string> {
+  const grams = new Set<string>();
   for (let i = 0; i <= words.length - 4; i += 1) {
     grams.add(words.slice(i, i + 4).join(" "));
   }
   return grams;
 }
 
-function fourGramOverlap(headline, bullet) {
+function fourGramOverlap(headline: unknown, bullet: unknown): number {
   const headlineWords = normalizeContentWords(headline);
   const bulletWords = normalizeContentWords(bullet);
   if (headlineWords.length < 4 || bulletWords.length < 4) return 0;
@@ -553,8 +619,8 @@ function fourGramOverlap(headline, bullet) {
   return overlap;
 }
 
-function validateBriefingOverlap(briefing) {
-  const issues = [];
+function validateBriefingOverlap(briefing: Briefing): { passed: boolean; issues: string[] } {
+  const issues: string[] = [];
   const headline = briefing?.headline || "";
   const bullets = Array.isArray(briefing?.summary_bullets) ? briefing.summary_bullets : [];
 
@@ -578,8 +644,11 @@ function validateBriefingOverlap(briefing) {
 const PARTIAL_READ_RERUN =
   /\b(re-?ask|re-?run|rerun|revisit|extend|another (conversation|session)|follow up)\b/i;
 
-function validateBriefingPromptRules(briefing, { agenda, readQuality } = {}) {
-  const issues = [];
+function validateBriefingPromptRules(
+  briefing: Briefing,
+  { agenda, readQuality }: { agenda?: AgendaInput; readQuality?: { partial_read?: boolean } } = {}
+): { passed: boolean; issues: string[] } {
+  const issues: string[] = [];
 
   const summary = agenda?.summary;
   if (summary) {
@@ -619,13 +688,21 @@ function validateBriefingPromptRules(briefing, { agenda, readQuality } = {}) {
 // nothing invented. The headline and paragraph state plainly that the written
 // read could not be generated, so the manager is never silently handed a blank
 // or a fake. Shaped like a normal briefing so the existing render works.
-function buildFallbackBriefing({ ctx, transcript = [], axisState }) {
+function buildFallbackBriefing({
+  ctx,
+  transcript = [],
+  axisState,
+}: {
+  ctx?: { name?: string } | null;
+  transcript?: Transcript;
+  axisState?: AxisState | null;
+}): Briefing {
   const name = (ctx && ctx.name) || "them";
   const answered = (transcript || []).filter((t) => {
     const a = String(t && t.answer ? t.answer : "").trim();
     return a && a !== "(skipped)";
   });
-  const trim = (s) => String(s || "").replace(/\s+/g, " ").trim();
+  const trim = (s: unknown): string => String(s || "").replace(/\s+/g, " ").trim();
   const summary_bullets = answered.slice(0, 6).map((t) => {
     const q = trim(t.question && t.question.name) || "Question";
     const a = trim(t.answer);
@@ -637,7 +714,7 @@ function buildFallbackBriefing({ ctx, transcript = [], axisState }) {
   }
   // Real, deterministic per-answer scores; the written read is what failed.
   const axes = axisState
-    ? Object.entries(axisState).map(([id, a]) => ({
+    ? Object.entries(axisState).map(([id, a]): AxisRead => ({
         id,
         score: typeof (a && a.score) === "number" ? a.score : 0,
         meaning: "Live score from the conversation — the written read could not be generated.",
@@ -665,15 +742,26 @@ function buildFallbackBriefing({ ctx, transcript = [], axisState }) {
   };
 }
 
+interface EvaluateArgs {
+  ctx: MeetingContext;
+  focusPoints?: unknown;
+  transcript?: Transcript;
+  axisState?: AxisState | null;
+  notes?: string | null;
+  selectedFocus?: SelectedFocusInput | null;
+  agenda?: AgendaInput;
+  scoring?: ScoringInput;
+}
+
 async function evaluate(
-  { ctx, focusPoints, transcript, axisState, notes, selectedFocus, agenda, scoring },
-  { model = getDefaultModel(), session, stage = "05-evaluation" } = {}
-) {
+  { ctx, focusPoints, transcript, axisState, notes, selectedFocus, agenda, scoring }: EvaluateArgs,
+  { model = getDefaultModel(), session, stage = "05-evaluation" }: { model?: string; session?: SessionArg; stage?: string } = {}
+): Promise<Briefing> {
   const sf =
     selectedFocus ||
     resolveSelectedFocus({
       notes: notes || ctx?.notes,
-      focusPoints,
+      focusPoints: Array.isArray(focusPoints) ? focusPoints : undefined,
     });
   const msgs = buildMessages({
     ctx,
@@ -704,22 +792,27 @@ async function evaluate(
   // Deterministic fallback path: if the model call or JSON parse fails, hand the
   // manager an honest minimal briefing (transcript facts + live scores) instead
   // of throwing. Logged with a GENERATION_FAILED flag — never silently masked.
-  let raw;
-  let briefing;
+  let raw: string | undefined;
+  let briefing: Briefing;
   try {
     raw = await callOpenAI({ ...msgs, model });
-    briefing = parseAIJson(raw, "Evaluator", ["headline", "axes", "next_actions"]);
-    briefing = applyManagerBriefingPostProcess(briefing, axisState, transcript);
+    const parsed = parseAIJson(raw, "Evaluator", ["headline", "axes", "next_actions"]);
+    if (!isEvalBriefing(parsed)) {
+      throw new Error("Evaluator returned a response without an axes array");
+    }
+    briefing = applyManagerBriefingPostProcess(parsed, axisState, transcript);
   } catch (err) {
-    console.warn(`[evaluator] GENERATION_FAILED — returning deterministic fallback briefing: ${err.message}`);
+    const errMessage = err instanceof Error ? err.message : String(err);
+    console.warn(`[evaluator] GENERATION_FAILED — returning deterministic fallback briefing: ${errMessage}`);
     briefing = buildFallbackBriefing({ ctx, transcript, axisState });
-    logStage(session, stage, {
+    const failLog = {
       inputs: logInputs,
       prompt: msgs.filled,
-      response: raw || `(generation failed: ${err.message})`,
+      response: raw || `(generation failed: ${errMessage})`,
       final: briefing,
       flag: "GENERATION_FAILED",
-    });
+    };
+    logStage(session, stage, failLog);
     return briefing;
   }
 
@@ -746,7 +839,7 @@ async function evaluate(
   return briefing;
 }
 
-module.exports = {
+export {
   evaluate,
   buildFallbackBriefing,
   buildMessages,

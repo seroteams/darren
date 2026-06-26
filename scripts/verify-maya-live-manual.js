@@ -18,7 +18,7 @@ const {
   clampToSignature,
 } = require("../backend/engine/queue-manager.ts");
 const { loadQuestion } = require("../backend/engine/questions.ts");
-const { evaluate } = require("../backend/engine/reviewer");
+const { evaluate } = require("../backend/engine/reviewer.ts");
 
 const { CONFIG_DIR } = require("../backend/engine/paths.mts");
 const BENCH = path.join(CONFIG_DIR, "persona-bench-v1.json");

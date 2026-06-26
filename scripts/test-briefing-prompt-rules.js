@@ -7,7 +7,7 @@
 // Production warns; this test hard-fails so drift can't pass CI.
 
 const assert = require("node:assert/strict");
-const { validateBriefingPromptRules } = require("../backend/engine/reviewer");
+const { validateBriefingPromptRules } = require("../backend/engine/reviewer.ts");
 
 const agenda = { summary: "the pricing migration timeline", covered: false };
 

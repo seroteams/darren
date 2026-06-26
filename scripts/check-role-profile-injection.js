@@ -45,7 +45,7 @@ const stages = {
       closerAlias: "q_closer",
     }),
   "final evaluation": () =>
-    require("../backend/engine/reviewer").buildMessages({
+    require("../backend/engine/reviewer.ts").buildMessages({
       ctx,
       focusPoints: [],
       transcript: [],

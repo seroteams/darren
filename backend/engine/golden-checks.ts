@@ -1,19 +1,65 @@
 // Offline pass/fail gates for golden regression scenarios (Priya Jun02+).
 
-const fs = require("node:fs");
-const path = require("node:path");
-const { validateQuestionBeforeShow, startsWithBrokenFragment } = require("./question-validator.ts");
-const { applyManagerBriefingPostProcess } = require("./reviewer");
-const { isRelationalArc } = require("./relational-arcs.ts");
-const { AXIS_IDS, AXIS_MIN, AXIS_MAX } = require("./axes.ts");
-const { FOCUS_POINTS_FILE } = require("./paths.mts");
+import fs from "node:fs";
+import path from "node:path";
+import { validateQuestionBeforeShow, startsWithBrokenFragment } from "./question-validator.ts";
+import { applyManagerBriefingPostProcess } from "./reviewer.ts";
+import { isRelationalArc } from "./relational-arcs.ts";
+import { AXIS_IDS, AXIS_MIN, AXIS_MAX } from "./axes.ts";
+import { FOCUS_POINTS_FILE } from "./paths.mts";
+import { renderRoleProfileBlock } from "./role-profile.ts";
+import { loadDir, QUESTIONS_ROOT } from "./questions.ts";
+import { listTypes, listStageIds } from "./one-on-one-types/index.ts";
+
+import type { Briefing } from "../shared/briefing.types.ts";
+import type { AxisState } from "../shared/session.types.ts";
+
+// Disk JSON / model output / fixture briefings are unchecked until narrowed —
+// narrow with these instead of trusting shapes (the established house pattern).
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
+function asString(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+
+// The gates read transcript turns and briefings defensively (model output and
+// hand-crafted regression fixtures, not guaranteed-complete shapes). A turn here
+// may carry top-level alias/stage and a richer question (e.g. `grounding`) than
+// the canonical Question contract — read loosely, exactly as the original did.
+interface GateQuestion {
+  name?: string;
+  alias?: string;
+  purpose?: string;
+  grounding?: string;
+}
+interface GateTurn {
+  turn?: number;
+  answer?: string;
+  skipped?: boolean;
+  question?: GateQuestion;
+}
+type GateTranscript = ReadonlyArray<GateTurn> | null | undefined;
+
+// A model- or fixture-produced briefing arrives unchecked; the eval wire is
+// schema-constrained, so confirm the structural minimum (an axes array) and read
+// it as a Briefing — the same pragmatic narrowing the engine uses for model JSON.
+function isBriefingShape(v: unknown): v is Briefing {
+  return isObjectRecord(v) && Array.isArray(v.axes);
+}
 
 // Focus catalogue category lookup (id -> category) for the relational-arc gate.
-const FOCUS_CATALOGUE = JSON.parse(
-  fs.readFileSync(FOCUS_POINTS_FILE, "utf8")
-);
-const FOCUS_CATEGORY_BY_ID = new Map(
-  (FOCUS_CATALOGUE.focus_points || []).map((fp) => [fp.id, fp.category])
+const FOCUS_CATALOGUE = asRecord(JSON.parse(fs.readFileSync(FOCUS_POINTS_FILE, "utf8")));
+const FOCUS_CATEGORY_BY_ID = new Map<string, unknown>(
+  (Array.isArray(FOCUS_CATALOGUE.focus_points) ? FOCUS_CATALOGUE.focus_points : []).map(
+    (fp): [string, unknown] => {
+      const rec = asRecord(fp);
+      return [asString(rec.id), rec.category];
+    }
+  )
 );
 
 // runFocusArcGate — for Bi-weekly check-in and Something feels off, every focus
@@ -21,12 +67,12 @@ const FOCUS_CATEGORY_BY_ID = new Map(
 // Category is resolved from the catalogue by id (never trusting a passed-in
 // field). Detection only: it never edits the model output. Returns a failures
 // array (mirrors runManagerBriefingBans).
-function runFocusArcGate(focusPoints, meetingType) {
-  const failures = [];
+function runFocusArcGate(focusPoints: unknown, meetingType: string): string[] {
+  const failures: string[] = [];
   if (!isRelationalArc(meetingType)) return failures;
-  const points = Array.isArray(focusPoints) ? focusPoints : [];
+  const points: unknown[] = Array.isArray(focusPoints) ? focusPoints : [];
   for (const fp of points) {
-    const id = fp && fp.id;
+    const id = isObjectRecord(fp) ? asString(fp.id) : "";
     if (!id) continue;
     if (FOCUS_CATEGORY_BY_ID.get(id) === "competency") {
       failures.push(`relational arc "${meetingType}" emitted competency focus point: ${id}`);
@@ -41,8 +87,8 @@ function runFocusArcGate(focusPoints, meetingType) {
 // Purpose-field-based: prose-level evaluativeness on a mislabelled question is
 // the judge's job. Detection only — the input filters live in
 // question-generator/queue-manager.
-function runQuestionArcGate(transcript, meetingType) {
-  const failures = [];
+function runQuestionArcGate(transcript: GateTranscript, meetingType: string): string[] {
+  const failures: string[] = [];
   if (!isRelationalArc(meetingType)) return failures;
   for (const t of transcript || []) {
     const q = t?.question;
@@ -59,19 +105,23 @@ function runQuestionArcGate(transcript, meetingType) {
 // must contain no competency-tagged item (same trust rule as runFocusArcGate:
 // evaluative content reads as a hidden performance review). Pure render check
 // over a profile doc — detection only, never edits.
-function runRoleProfileArcGate(profileDoc, meetingType) {
-  const failures = [];
+function runRoleProfileArcGate(profileDoc: unknown, meetingType: string): string[] {
+  const failures: string[] = [];
   if (!isRelationalArc(meetingType)) return failures;
-  if (!profileDoc || !profileDoc.profile) return failures;
-  const { renderRoleProfileBlock } = require("./role-profile.ts");
+  if (!isObjectRecord(profileDoc) || !isObjectRecord(profileDoc.profile)) return failures;
+  const profile = profileDoc.profile;
   const rendered = renderRoleProfileBlock(profileDoc, { slice: "full", meetingType });
+  const knownChallenges = Array.isArray(profile.known_challenges) ? profile.known_challenges : [];
+  const themes = Array.isArray(profile.recommended_question_themes)
+    ? profile.recommended_question_themes
+    : [];
   const competencyTexts = [
-    ...(profileDoc.profile.known_challenges || [])
-      .filter((c) => c && c.category === "competency")
-      .map((c) => c.text),
-    ...(profileDoc.profile.recommended_question_themes || [])
-      .filter((t) => t && t.category === "competency")
-      .map((t) => t.theme),
+    ...knownChallenges
+      .filter((c) => isObjectRecord(c) && c.category === "competency")
+      .map((c) => asString(asRecord(c).text)),
+    ...themes
+      .filter((t) => isObjectRecord(t) && t.category === "competency")
+      .map((t) => asString(asRecord(t).theme)),
   ];
   for (const text of competencyTexts) {
     if (text && rendered.includes(text)) {
@@ -94,9 +144,9 @@ const ROLE_PROFILE_VOCAB_BANS = [
   "role_confidence",
 ];
 
-function runRoleProfileVocabLeak(briefing) {
+function runRoleProfileVocabLeak(briefing: Briefing): string[] {
   const text = collectBriefingText(briefing).toLowerCase();
-  const failures = [];
+  const failures: string[] = [];
   for (const ban of ROLE_PROFILE_VOCAB_BANS) {
     if (text.includes(ban)) {
       failures.push(`manager briefing contains role-profile scaffolding: ${ban}`);
@@ -119,10 +169,10 @@ const JARGON_PATTERNS = [
 ];
 
 // Returns the first jargon term found in `text`, or null.
-function findJargon(text) {
+function findJargon(text: unknown): string | null {
   for (const re of JARGON_PATTERNS) {
     const m = String(text || "").match(re);
-    if (m) return m[0];
+    if (m) return m[0] ?? null;
   }
   return null;
 }
@@ -139,14 +189,14 @@ const CROSS_SESSION_VOCAB = [/\bretry logic\b/i, /\bbilling rewrite\b/i];
 // `grounding` quote must have that quote in the session's own record (note +
 // what was asked/answered before it). Detection only — the blocking gate
 // lives in reconcileQueue; this catches anything that slipped past it.
-function runQuestionGroundingChecks(transcript, managerNotes) {
-  const norm = (s) =>
+function runQuestionGroundingChecks(transcript: GateTranscript, managerNotes: unknown): string[] {
+  const norm = (s: unknown): string =>
     String(s || "")
       .toLowerCase()
       .replace(/[^a-z0-9\s'-]/g, " ")
       .replace(/\s+/g, " ")
       .trim();
-  const failures = [];
+  const failures: string[] = [];
   let saidSoFar = norm(managerNotes);
   for (const t of transcript || []) {
     const q = t?.question;
@@ -155,7 +205,7 @@ function runQuestionGroundingChecks(transcript, managerNotes) {
       const tokens = g.split(" ").filter((w) => w.length > 3);
       const ok = saidSoFar.includes(g) || (tokens.length > 0 && tokens.every((w) => saidSoFar.includes(w)));
       if (!ok) {
-        failures.push(`turn ${t?.turn}: grounding quote not found in session record: "${q.grounding}"`);
+        failures.push(`turn ${t?.turn}: grounding quote not found in session record: "${q?.grounding}"`);
       }
     }
     saidSoFar += " " + norm(`${q?.name || ""} ${t?.answer || ""}`);
@@ -169,45 +219,45 @@ function runQuestionGroundingChecks(transcript, managerNotes) {
 // Intro questions are folder-scoped to their meeting type, so their stage must be
 // in THAT type's arc; openers are type-agnostic, so their stage must be in SOME
 // type's arc. Detection only — offline, no model calls.
-function runStageTagOrphanCheck() {
-  const fsLocal = require("node:fs");
-  const pathLocal = require("node:path");
-  const questions = require("./questions.ts");
-  const { listTypes, listStageIds } = require("./one-on-one-types/index.ts");
-  const failures = [];
+function runStageTagOrphanCheck(): string[] {
+  const failures: string[] = [];
 
-  const allStageIds = new Set();
+  const allStageIds = new Set<string>();
   for (const t of listTypes()) {
     const ids = listStageIds(t.slug);
     ids.forEach((id) => allStageIds.add(id));
     const idSet = new Set(ids);
-    for (const q of questions.loadDir(pathLocal.join("_intro", t.slug))) {
-      if (q.stage && !idSet.has(q.stage)) {
+    for (const q of loadDir(path.join("_intro", t.slug))) {
+      const stage = asString(q.stage);
+      if (stage && !idSet.has(stage)) {
         failures.push(
-          `intro question "${q.alias || q.name}" (${t.slug}) tagged to unknown stage "${q.stage}"`
+          `intro question "${asString(q.alias) || asString(q.name)}" (${t.slug}) tagged to unknown stage "${stage}"`
         );
       }
     }
   }
 
-  let openers = [];
+  let openers: unknown = [];
   try {
     openers = JSON.parse(
-      fsLocal.readFileSync(pathLocal.join(questions.QUESTIONS_ROOT, "_openers.json"), "utf8")
+      fs.readFileSync(path.join(QUESTIONS_ROOT, "_openers.json"), "utf8")
     );
   } catch {
     openers = [];
   }
   for (const o of Array.isArray(openers) ? openers : []) {
-    if (o && o.stage && !allStageIds.has(o.stage)) {
-      failures.push(`opener "${o.alias || o.id || o.name}" tagged to unknown stage "${o.stage}"`);
+    const stage = isObjectRecord(o) ? asString(o.stage) : "";
+    if (isObjectRecord(o) && stage && !allStageIds.has(stage)) {
+      failures.push(
+        `opener "${asString(o.alias) || asString(o.id) || asString(o.name)}" tagged to unknown stage "${stage}"`
+      );
     }
   }
   return failures;
 }
 
-function runCrossSessionLeakCheck(transcript, managerNotes) {
-  const failures = [];
+function runCrossSessionLeakCheck(transcript: GateTranscript, managerNotes: unknown): string[] {
+  const failures: string[] = [];
   let saidSoFar = String(managerNotes || "");
   for (const t of transcript || []) {
     const name = String(t?.question?.name || "");
@@ -262,22 +312,22 @@ const RULE_ECHO_PHRASES = [
 ];
 
 // Axis ids whose meaning echoes rule-example framing. Shared by the trust gate
-// (warning) and the runtime confidence downgrade in reviewer.js.
-function ruleEchoAxisIds(briefing) {
-  const ids = new Set();
+// (warning) and the runtime confidence downgrade in reviewer.ts.
+function ruleEchoAxisIds(briefing: Briefing): Set<string> {
+  const ids = new Set<string>();
   for (const ax of briefing?.axes || []) {
     if (RULE_ECHO_PHRASES.some((re) => re.test(ax?.meaning || ""))) ids.add(ax.id);
   }
   return ids;
 }
 
-function runMeaningRuleEchoCheck(briefing) {
+function runMeaningRuleEchoCheck(briefing: Briefing): string[] {
   return [...ruleEchoAxisIds(briefing)].map(
     (id) => `axis ${id} meaning echoes rule-example framing, not this session's words`
   );
 }
 
-function collectBriefingText(briefing) {
+function collectBriefingText(briefing: Briefing): string {
   const parts = [
     briefing?.headline,
     briefing?.understanding_paragraph,
@@ -291,9 +341,9 @@ function collectBriefingText(briefing) {
   return parts.filter(Boolean).join("\n");
 }
 
-function runManagerBriefingBans(briefing) {
+function runManagerBriefingBans(briefing: Briefing): string[] {
   const text = collectBriefingText(briefing).toLowerCase();
-  const failures = [];
+  const failures: string[] = [];
   for (const ban of MANAGER_BRIEFING_BANS) {
     const re = ban === "hought" ? /\bhought\b/i : new RegExp(ban.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
     if (re.test(text)) failures.push(`manager briefing contains banned phrase: ${ban}`);
@@ -304,12 +354,12 @@ function runManagerBriefingBans(briefing) {
   return failures;
 }
 
-function transcriptAnswers(transcript) {
+function transcriptAnswers(transcript: GateTranscript): string {
   return (transcript || []).map((t) => String(t?.answer || "")).join("\n");
 }
 
-function runWellbeingMeaningCheck(briefing, transcript) {
-  const failures = [];
+function runWellbeingMeaningCheck(briefing: Briefing, transcript: GateTranscript): string[] {
+  const failures: string[] = [];
   const answers = transcriptAnswers(transcript);
   const hasEvidence = WELLBEING_TRANSCRIPT_EVIDENCE.test(answers);
   for (const ax of briefing?.axes || []) {
@@ -328,7 +378,7 @@ function runWellbeingMeaningCheck(briefing, transcript) {
   return failures;
 }
 
-function transcriptShowsLearningCommitment(transcript) {
+function transcriptShowsLearningCommitment(transcript: GateTranscript): boolean {
   const joined = transcriptAnswers(transcript).toLowerCase();
   const hasMiss = /\b(missed|wrong|assumption|failed|did not)\b/.test(joined);
   const hasCause = /\b(because|retry|edge case|logic|escalat)\b/.test(joined);
@@ -337,8 +387,8 @@ function transcriptShowsLearningCommitment(transcript) {
   return hasMiss && hasCause && hasCommit;
 }
 
-function runGrowthMeaningCheck(briefing, transcript) {
-  const failures = [];
+function runGrowthMeaningCheck(briefing: Briefing, transcript: GateTranscript): string[] {
+  const failures: string[] = [];
   if (!transcriptShowsLearningCommitment(transcript)) return failures;
   for (const ax of briefing?.axes || []) {
     if (ax.id !== "growth") continue;
@@ -351,8 +401,13 @@ function runGrowthMeaningCheck(briefing, transcript) {
   return failures;
 }
 
-function runEvalIntegrityChecks(briefing, axisState, transcript, { requireStateMatch = true } = {}) {
-  const failures = [];
+function runEvalIntegrityChecks(
+  briefing: Briefing,
+  axisState: AxisState | null | undefined,
+  transcript: GateTranscript,
+  { requireStateMatch = true }: { requireStateMatch?: boolean } = {}
+): string[] {
+  const failures: string[] = [];
   const allText = collectBriefingText(briefing).toLowerCase();
   if (allText.includes("off-scale")) {
     failures.push('briefing contains "off-scale"');
@@ -363,7 +418,7 @@ function runEvalIntegrityChecks(briefing, axisState, transcript, { requireStateM
       failures.push(`axis ${ax.id} score ${score} outside [${AXIS_MIN}, ${AXIS_MAX}]`);
     }
     if (requireStateMatch && axisState?.[ax.id]) {
-      const expected = axisState[ax.id].score;
+      const expected = axisState?.[ax.id]?.score;
       if (score !== expected) {
         failures.push(`axis ${ax.id} score ${score} !== axis_state ${expected}`);
       }
@@ -379,7 +434,7 @@ function runEvalIntegrityChecks(briefing, axisState, transcript, { requireStateM
 // axis not_read, the axis layer failed, it isn't honesty (the Jun 06-07 sweeps
 // shipped whole sessions "didn't come up"). A genuinely thin session stays
 // exempt via the substantive-answer floor.
-function runAxisSilenceCheck(briefing, transcript) {
+function runAxisSilenceCheck(briefing: Briefing, transcript: GateTranscript): string[] {
   const substantive = (transcript || []).filter((t) => {
     if (t?.skipped) return false;
     const a = String(t?.answer || "").trim();
@@ -394,8 +449,8 @@ function runAxisSilenceCheck(briefing, transcript) {
     : [];
 }
 
-function runQuestionStemChecks(transcript) {
-  const failures = [];
+function runQuestionStemChecks(transcript: GateTranscript): string[] {
+  const failures: string[] = [];
   for (const t of transcript || []) {
     const name = t?.question?.name || "";
     const answer = t?.answer || "";
@@ -405,7 +460,7 @@ function runQuestionStemChecks(transcript) {
     if (/^thought retry logic\b/i.test(name) && !/^when you assumed/i.test(name)) {
       failures.push(`transcript turn ${t.turn}: banned note shorthand stem`);
     }
-    const v = validateQuestionBeforeShow({ name, answer, transcript });
+    const v = validateQuestionBeforeShow({ name, answer });
     if (!v.ok && t?.question?.alias?.includes("thread_follow")) {
       failures.push(
         `transcript turn ${t.turn}: thread-follow would be rejected (${v.reason})`
@@ -415,7 +470,10 @@ function runQuestionStemChecks(transcript) {
   return failures;
 }
 
-function runQualityPrepListenFor(brief, selectedFocus) {
+function runQualityPrepListenFor(
+  brief: { listenFor?: string[] } | null | undefined,
+  selectedFocus: { id?: unknown } | null | undefined
+): string[] {
   if (normalizeFocusId(selectedFocus) !== "quality") return [];
   const items = brief?.listenFor || [];
   if (!items.length) return ["listenFor empty for quality focus"];
@@ -429,7 +487,7 @@ function runQualityPrepListenFor(brief, selectedFocus) {
     if (qualityCue.test(item)) qualityHits += 1;
     if (commOnly.test(item) && !qualityCue.test(item)) commOnlyHits += 1;
   }
-  const failures = [];
+  const failures: string[] = [];
   if (qualityHits < Math.ceil(items.length / 2)) {
     failures.push("listenFor not majority quality/backend tells for quality focus");
   }
@@ -439,16 +497,31 @@ function runQualityPrepListenFor(brief, selectedFocus) {
   return failures;
 }
 
-function normalizeFocusId(selectedFocus) {
+function normalizeFocusId(selectedFocus: { id?: unknown } | null | undefined): string {
   return String(selectedFocus?.id || "").trim().toLowerCase();
 }
 
-function runGoldenScenarioChecks(scenario) {
+interface GoldenBlock {
+  transcript?: GateTurn[];
+  axis_state?: AxisState;
+  expectTranscriptStemFailures?: boolean;
+  golden_eval_bad?: unknown;
+  golden_eval_good?: unknown;
+  expectPostProcessedPass?: boolean;
+  telegraphic_answer?: string;
+}
+interface GoldenScenario {
+  golden?: GoldenBlock;
+  golden_transcript?: GateTurn[];
+  golden_axis_state?: AxisState;
+}
+
+function runGoldenScenarioChecks(scenario: GoldenScenario): { failures: string[]; passes: string[] } {
   const g = scenario.golden;
   if (!g) return { failures: [], passes: [] };
 
-  let failures = [];
-  const passes = [];
+  const failures: string[] = [];
+  const passes: string[] = [];
 
   const transcript = g.transcript || scenario.golden_transcript;
   const axisState = g.axis_state || scenario.golden_axis_state;
@@ -465,7 +538,7 @@ function runGoldenScenarioChecks(scenario) {
   }
 
   const badEval = g.golden_eval_bad;
-  if (badEval) {
+  if (isBriefingShape(badEval)) {
     const banFails = runManagerBriefingBans(badEval);
     if (banFails.length) {
       passes.push(`golden_eval_bad fails manager bans (${banFails.length})`);
@@ -481,22 +554,21 @@ function runGoldenScenarioChecks(scenario) {
   }
 
   if (g.golden_eval_bad && axisState) {
-    const processed = applyManagerBriefingPostProcess(
-      JSON.parse(JSON.stringify(g.golden_eval_bad)),
-      axisState,
-      transcript
-    );
-    const scoreOnly = runEvalIntegrityChecks(processed, axisState, transcript, {
-      requireStateMatch: true,
-    }).filter((f) => !f.includes("wellbeing") && !f.includes("growth") && !f.includes("off-scale"));
-    if (scoreOnly.length === 0) {
-      passes.push("post-process fixes axis scores to match axis_state");
-    } else {
-      failures.push(...scoreOnly.map((f) => `post-process: ${f}`));
+    const cloned: unknown = JSON.parse(JSON.stringify(g.golden_eval_bad));
+    if (isBriefingShape(cloned)) {
+      const processed = applyManagerBriefingPostProcess(cloned, axisState, transcript);
+      const scoreOnly = runEvalIntegrityChecks(processed, axisState, transcript, {
+        requireStateMatch: true,
+      }).filter((f) => !f.includes("wellbeing") && !f.includes("growth") && !f.includes("off-scale"));
+      if (scoreOnly.length === 0) {
+        passes.push("post-process fixes axis scores to match axis_state");
+      } else {
+        failures.push(...scoreOnly.map((f) => `post-process: ${f}`));
+      }
     }
   }
 
-  if (g.expectPostProcessedPass && g.golden_eval_good) {
+  if (g.expectPostProcessedPass && isBriefingShape(g.golden_eval_good)) {
     const goodFails = [
       ...runManagerBriefingBans(g.golden_eval_good),
       ...runEvalIntegrityChecks(g.golden_eval_good, axisState, transcript, {
@@ -515,7 +587,6 @@ function runGoldenScenarioChecks(scenario) {
     const v = validateQuestionBeforeShow({
       name: built,
       answer: g.telegraphic_answer,
-      transcript,
     });
     if (!v.ok) {
       passes.push("telegraphic mirror stem rejected by validator");
@@ -527,7 +598,7 @@ function runGoldenScenarioChecks(scenario) {
   return { failures, passes };
 }
 
-module.exports = {
+export {
   AXIS_MIN,
   AXIS_MAX,
   AXIS_IDS,

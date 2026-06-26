@@ -22,7 +22,7 @@ const { resolveSelectedFocus } = require("../backend/engine/selected-focus.ts");
 const {
   runGoldenScenarioChecks,
   runQualityPrepListenFor,
-} = require("../backend/engine/golden-checks");
+} = require("../backend/engine/golden-checks.ts");
 
 const { SCENARIOS_DIR } = require("../backend/engine/paths.mts");
 const REGRESSION_DIR = path.join(SCENARIOS_DIR, "regression");

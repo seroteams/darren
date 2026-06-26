@@ -12,7 +12,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const { validateBrief } = require("../backend/engine/preparation");
-const { findJargon } = require("../backend/engine/golden-checks");
+const { findJargon } = require("../backend/engine/golden-checks.ts");
 
 let failed = 0;
 function check(name, ok, detail) {

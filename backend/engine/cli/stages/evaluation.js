@@ -1,4 +1,4 @@
-const { evaluate } = require("../../reviewer");
+const { evaluate } = require("../../reviewer.ts");
 const { serialize } = require("../../axes.ts");
 const cost = require("../../cost.ts");
 const { renderBriefing } = require("../../briefing.ts");
