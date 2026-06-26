@@ -5,22 +5,31 @@
 //   POST /api/arcs/:slug/reset → delete the overlay, back to the code default.
 // No model calls anywhere here. Writes are behind the localhost origin guard.
 
-const { listTypes, getArc } = require("../../engine/one-on-one-types/index.ts");
-const {
+import { listTypes, getArc } from "../../engine/one-on-one-types/index.ts";
+import {
   loadOverlay,
   writeOverlay,
   removeOverlay,
   validateArc,
   diffStageIds,
   validKey,
-} = require("../../engine/arc-overlay.ts");
+} from "../../engine/arc-overlay.ts";
+import type { RequestContext } from "../router.ts";
+import type { MeetingType } from "../../engine/one-on-one-types/_shared/meeting-type.types.ts";
+
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
 
 function notFound() {
   return Object.assign(new Error("Unknown meeting type"), { status: 404 });
 }
 
 // The slim, client-facing shape of one arc.
-function serialize(t) {
+function serialize(t: MeetingType) {
   const a = getArc(t.label);
   return {
     slug: t.slug,
@@ -37,14 +46,14 @@ function serialize(t) {
   };
 }
 
-function list(c) {
+function list(c: RequestContext): void {
   c.json(200, { arcs: listTypes().map(serialize) });
 }
 
 // Coerce one incoming phase into the stored shape — trims strings and forces
 // target_questions to a whole number so validateArc gets clean input.
-function normalizePhase(p) {
-  if (!p || typeof p !== "object") return p;
+function normalizePhase(p: unknown): unknown {
+  if (!isObjectRecord(p)) return p;
   const n = Number(p.target_questions);
   return {
     id: typeof p.id === "string" ? p.id.trim() : p.id,
@@ -54,7 +63,7 @@ function normalizePhase(p) {
   };
 }
 
-function warningText(diff) {
+function warningText(diff: ReturnType<typeof diffStageIds>): string {
   const ids = diff.removed_ids.length ? `"${diff.removed_ids.join('", "')}"` : "a phase";
   const parts = [];
   if (diff.intro) parts.push(`${diff.intro} intro`);
@@ -63,19 +72,19 @@ function warningText(diff) {
   return `Removing or renaming ${ids} would orphan ${diff.total} question${diff.total === 1 ? "" : "s"}${breakdown} — they'd no longer route to a phase. Save anyway?`;
 }
 
-async function save(c) {
+async function save(c: RequestContext): Promise<void> {
   const { slug } = c.params;
   if (!validKey(slug)) return c.error(notFound());
 
   // Confirm the slug is a real type and grab its current stage ids for the diff.
-  let current;
+  let current: ReturnType<typeof getArc>;
   try {
     current = getArc(slug);
   } catch {
     return c.error(notFound());
   }
 
-  const body = (await c.readBody()) || {};
+  const body = asRecord(await c.readBody());
   if (!Array.isArray(body.arc)) {
     return c.error(Object.assign(new Error("An arc (list of phases) is required."), { status: 400 }));
   }
@@ -100,15 +109,17 @@ async function save(c) {
       : undefined,
   });
 
-  return c.json(200, { ok: true, arc: serialize(BY_SLUG_LABEL(slug)) });
+  const t = BY_SLUG_LABEL(slug);
+  if (!t) return c.error(notFound());
+  return c.json(200, { ok: true, arc: serialize(t) });
 }
 
 // getArc/serialize key off the Type; map a slug back to its {slug,label} stub.
-function BY_SLUG_LABEL(slug) {
+function BY_SLUG_LABEL(slug: string): MeetingType | undefined {
   return listTypes().find((t) => t.slug === slug);
 }
 
-function reset(c) {
+function reset(c: RequestContext): void {
   const { slug } = c.params;
   if (!validKey(slug)) return c.error(notFound());
   const t = BY_SLUG_LABEL(slug);
@@ -117,4 +128,4 @@ function reset(c) {
   return c.json(200, { ok: true, arc: serialize(t) });
 }
 
-module.exports = { list, save, reset };
+export { list, save, reset };

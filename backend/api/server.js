@@ -9,7 +9,7 @@ const { createStaticHandler } = require("./static.ts");
 const { startSweep } = require("./sessions.ts");
 
 const meetingTypes = require("./handlers/meeting-types.ts").default;
-const arcs = require("./handlers/arcs");
+const arcs = require("./handlers/arcs.ts");
 const personaBench = require("./handlers/persona-bench.ts").default;
 const start = require("./handlers/start");
 const question = require("./handlers/question");
@@ -29,7 +29,7 @@ const agendaCover = require("./handlers/agenda");
 const runs = require("./handlers/runs.ts");
 const runReview = require("./handlers/review.ts");
 const pipeline = require("./handlers/pipeline.ts");
-const lexicon = require("./handlers/lexicon");
+const lexicon = require("./handlers/lexicon.ts");
 const roleProfile = require("./handlers/role-profile");
 const roleLexicons = require("./handlers/role-lexicons.ts");
 const regression = require("./handlers/regression");
