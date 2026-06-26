@@ -41,11 +41,26 @@ or behaviour changes are *never* in this phase.
 > ### ⏩ HANDOVER (2026-06-26 EOD) — read this first
 > **Phase 003, step 3 (convert piece by piece) — well underway.** Baseline: `npm test` = **30/30 green**, `npm run typecheck` clean.
 > **Done this session (committed):** answer-suggester, opener, intro-queue, closer, the full lexicon chain (review-core, cli-interactive, lexicon-reviewer), and **queue-manager** (1152 lines — the biggest; agent-drafted + line-by-line reviewed, 30/30 incl. its 6 internal tests + replay-regression).
-> **Engine `.js` left: 5 root + 5 cli/stages = 10** — `golden-checks`, `reviewer`, `preparation`, `question-generator`, `index` (root) · 5× `cli/stages/*`.
-> **➡️ NEXT STEP (awaiting Carl's go):** the **circular `reviewer` (761) ⇄ `golden-checks` (555) pair** — they import each other, so convert **both back-to-back in ONE commit**. This is the last big-risk step. Use the proven process below. After it: downhill — `preparation`, `question-generator` (~350 ea), then `index` (30), then `cli/stages/*`, then `api/` + `cli.js`.
+> **Engine `.js` left: 3 root + 5 cli/stages = 8** — `preparation`, `question-generator`, `index` (root) · 5× `cli/stages/*`. (`reviewer` ⇄ `golden-checks` ✅ done — see entry below.)
+> **➡️ NEXT STEP:** `preparation` (~350) then `question-generator` (~350) — both leaf-ready (their only remaining dep, `golden-checks`/`findJargon`, is done). Then `index` (30), then `cli/stages/*`, then `api/` + `cli.js`. **The big-risk circular pair is behind us — it's downhill from here.**
 > **The per-module process (every module):** ① read the `.js` + grep its importers **repo-wide** (incl. `evals/`, `scripts/`) ② write the `.ts` (faithful — same logic, only types) ③ `git rm` the `.js`, flip every importer's specifier to `…/x.ts` (or `.mts`) ④ `npm run typecheck` clean + `npm test` 30/30 ⑤ commit locally **only after Carl's green light** (he walks QA; you don't self-certify) ⑥ update this Current state.
 > **Hard rules:** NO `any`/`as`/`@ts-ignore`/`!` — narrow disk/model `unknown` with the house `isObjectRecord`/`asString` guards; honest no-op `?? `/`?.` for `noUncheckedIndexedAccess`; reuse shared types (`backend/shared/*.types.ts`). **No paid runs** (anything hitting OpenAI — gate/smoke/eval/live replay) without Carl's explicit yes for that run; free checks only (`npm test`, `npm run typecheck`). Leave `content/questions/_index.json` **unstaged** (unrelated artifact). Big modules: agent-draft → review line-by-line → integrate.
 > **Hard gate before phase sign-off:** after ALL conversion, run the end-of-phase multi-agent adversarial review (see "Done means"), fix everything, then Carl's owner-walk + one paid gate case. Live AI paths (planner/reviewer/prep/etc.) are type+test-verified but behaviour-deferred to that owner-walk.
+
+**reviewer ⇄ golden-checks ✅ (2026-06-26, committed `5dcef5ab`, typecheck clean + npm test 30/30):** the **circular pair** (761 + 555),
+converted together in ONE commit — the last big-risk step. The lazy `require("./golden-checks")` that broke the load cycle became a
+top-level ESM import; the cycle is safe via **ESM live bindings** (both crossed bindings — `applyManagerBriefingPostProcess`,
+`ruleEchoAxisIds` — are function declarations used only at call time, never at module load; **verified loading in BOTH orders**).
+Faithful + types-only (no `any`/`as`/`@ts-ignore`/`!`): the post-process/gate fns are typed against the shared `Briefing` with every
+defensive guard kept verbatim; model output narrowed via a documented `isEvalBriefing` guard (the queue-manager parseAIJson pattern);
+golden-checks' 3 *other* lazy requires (role-profile/questions/one-on-one-types) hoisted to top-level imports (verified no back-edge
+cycle). **19 importers** flipped repo-wide (api ×1, engine ×4 incl. preparation/question-generator, evals, scripts ×13). Judgment
+calls surfaced to Carl: (a) one **unreachable** micro-deviation — if the evaluator ever returned non-array `axes` (schema-impossible),
+mine routes to the deterministic GENERATION_FAILED fallback vs the original's degenerate ship; (b) dropped a dead `transcript` arg
+from two `validateQuestionBeforeShow` calls (the fn only reads `{name,answer}` — always ignored). **Pre-existing latent gap flagged,
+NOT fixed (out of scope):** `evaluate`'s `flag:"GENERATION_FAILED"` handed to `logStage` is silently dropped (logStage only writes
+inputs/prompt/response/final) — cosmetic, the fallback briefing still carries `generation_failed:true`. Live evaluator call is paid →
+behaviour deferred to the owner-walk. **Engine `.js` left: 3 root / 8 incl. subdirs.** Next: `preparation`, `question-generator`.
 
 **Scope locked: A (backend only).** Frontend + `scripts/` tooling parked (brief: "don't touch frontend").
 
