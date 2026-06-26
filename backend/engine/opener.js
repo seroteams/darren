@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { slugify } = require("./questions.ts");
-const { getArc } = require("./meeting-arcs");
+const { getArc } = require("./meeting-arcs.ts");
 const { checkQuestionEligibility, rejectionEntry } = require("./question-eligibility");
 const { QUESTIONS_DIR } = require("./paths.mts");
 

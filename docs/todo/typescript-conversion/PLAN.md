@@ -101,12 +101,17 @@ was missed, and surfaced as `test-trust-checks` + `test-replay-regression` failu
 test gate, then fixed. Pre-existing dead code flagged: `ARCS_BY_SLUG` in `index.ts` (declared, never used) — kept
 per the no-delete rule. **Engine `.js` left now: 16 root / 23 incl. subdirs.**
 
+**meeting-arcs ✅ (2026-06-26 AM, committed, typecheck + npm test 30/30):** 9-line re-export shim → `.ts`;
+6 importers flipped repo-wide (incl. `api/handlers/start.js`). **Engine `.js` left: 15 root / 22 incl. subdirs.**
+Dependency scan — **leaf-ready now** (all deps converted): `answer-suggester`, `product-qa`,
+`question-eligibility`, `role-profile`. (`role-profile` is the big unblocker — 6 modules wait on it.)
+
 **Remaining engine waves (dependency order):**
 - ✅ Done 2026-06-26: `person-profile` (3 importers) + `review-html` (1 importer; smoke-verified, no unit test). **Next unblocked: the one-on-one-types cluster.**
 - ✅ one-on-one-types cluster DONE (2026-06-26): 5 `*/type` files → `index` (decision: `*/type` files use `export default {...}`
   — they're consumed only by `index`; index uses default-imports; shared `MeetingType` ✅ ready, `arc-overlay`
   ✅ done). Then `answer-suggester`,
-  `meeting-arcs`, `question-eligibility`, `product-qa`, lexicon/`review-core`+`cli-interactive`, `lexicon-reviewer`,
+  `question-eligibility`, `product-qa`, lexicon/`review-core`+`cli-interactive`, `lexicon-reviewer`,
   `closer`, `intro-queue`, `opener`.
 - Then needs-role-profile tier: `role-profile` → `generate`, `preparation`, `question-generator`,
   `queue-manager` (1152 lines), `reviewer` (761) ⇄ `golden-checks` (555) [circular — convert back-to-back].

@@ -4,6 +4,4 @@
 //
 // New code should require("./one-on-one-types") and use getType / listTypes.
 
-const { MEETING_ARCS, getArc, listStageIds } = require("./one-on-one-types/index.ts");
-
-module.exports = { MEETING_ARCS, getArc, listStageIds };
+export { MEETING_ARCS, getArc, listStageIds } from "./one-on-one-types/index.ts";

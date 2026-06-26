@@ -1,4 +1,4 @@
-const { getArc } = require("./meeting-arcs");
+const { getArc } = require("./meeting-arcs.ts");
 const { checkQuestionEligibility, rejectionEntry } = require("./question-eligibility");
 
 const FORBIDDEN_CLOSER_RE =
