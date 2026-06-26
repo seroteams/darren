@@ -147,6 +147,16 @@ still reach the model). Live AI path deferred to owner-walk; **offline smoke** v
 fill, zero leftover `{{…}}`. **Noted:** carried a pre-existing unused `node:path` import — kept (dead-code rule),
 flag for later cleanup (same as `axes`). **Engine `.js` left: 11 root / 18 incl. subdirs.** Next leaf-ready: `queue-manager`.
 
+**answer-suggester ✅ (2026-06-26, committed, typecheck clean + npm test 30/30):**
+213-line dev-only note-suggester (roleplay aid, gated behind dev mode) → `.ts`. 2 importers flipped repo-wide
+(api/handlers/`suggest-answers`, scripts/`test-answer-suggest-shape`). Reuses shared `TranscriptEntry`; the model's
+JSON reply (`unknown`) narrowed via the house `asRecord` helper; `filterAnswers` takes `unknown` and coerces to an
+array internally — faithful to the original `rawList || []` and byte-identical in practice (the strict response schema
+guarantees `answers` is a string list). `question` typed required (always supplied, used unguarded), rest optional to
+match the original's `|| ""` defenses. **No `any`/`as`/`@ts-ignore`.** Live AI path is paid → behaviour deferred to the
+owner-walk; offline `test-answer-suggest-shape` covers the post-filter and passes. **Engine `.js` left after this: 10 root /
+17 incl. subdirs.** Next leaf-ready: `closer`, `intro-queue`, `opener` (small), then `queue-manager` (big, 1152 lines).
+
 **Remaining engine waves (dependency order):**
 - ✅ Done 2026-06-26: `person-profile` (3 importers) + `review-html` (1 importer; smoke-verified, no unit test). **Next unblocked: the one-on-one-types cluster.**
 - ✅ one-on-one-types cluster DONE (2026-06-26): 5 `*/type` files → `index` (decision: `*/type` files use `export default {...}`

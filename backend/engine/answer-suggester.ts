@@ -3,8 +3,17 @@
 // about the report's reply — that the operator can click to fill the notes box.
 // Testing aid only — the web UI gates it behind dev mode.
 
-const { modelFor } = require("./models.ts");
-const { callAI, parseAIJson } = require("./ai-client.ts");
+import { modelFor } from "./models.ts";
+import { callAI, parseAIJson } from "./ai-client.ts";
+import type { TranscriptEntry } from "../shared/session.types.ts";
+
+// Model JSON is unknown until checked — narrow with these instead of trusting shapes.
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
 
 const RESPONSE_SCHEMA = {
   type: "object",
@@ -33,7 +42,7 @@ const BANNED_OPENER =
 const FIRST_PERSON_SELF =
   /\b(i|i'm|i've|i'd|i'll|my|me|mine|myself)\b/i;
 
-function referencesFirstPerson(text) {
+function referencesFirstPerson(text: string): boolean {
   return FIRST_PERSON_SELF.test(String(text || ""));
 }
 
@@ -57,14 +66,14 @@ Rules:
 - Realistic: no crisis, no one-word notes, no hostility.
 Return strict JSON only: {"answers": ["...", "..."]}. No prose, no markdown.`;
 
-function wordCount(text) {
+function wordCount(text: string): number {
   return String(text || "")
     .trim()
     .split(/\s+/)
     .filter(Boolean).length;
 }
 
-function stripBannedOpener(text) {
+function stripBannedOpener(text: string): string {
   let s = String(text || "").trim();
   let prev;
   do {
@@ -74,7 +83,7 @@ function stripBannedOpener(text) {
   return s;
 }
 
-function sanitizeAnswer(text) {
+function sanitizeAnswer(text: string): string | null {
   const trimmed = stripBannedOpener(text);
   if (!trimmed) return null;
   const wc = wordCount(trimmed);
@@ -83,10 +92,11 @@ function sanitizeAnswer(text) {
   return trimmed;
 }
 
-function filterAnswers(rawList) {
-  const out = [];
-  const seen = new Set();
-  for (const a of rawList || []) {
+function filterAnswers(rawList: unknown): string[] {
+  const list: readonly unknown[] = Array.isArray(rawList) ? rawList : [];
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const a of list) {
     if (typeof a !== "string") continue;
     const clean = sanitizeAnswer(a);
     if (!clean) continue;
@@ -99,7 +109,7 @@ function filterAnswers(rawList) {
   return out;
 }
 
-function recentTranscript(transcript, limit = 4) {
+function recentTranscript(transcript: TranscriptEntry[] | undefined, limit = 4): string {
   const turns = (transcript || []).slice(-limit);
   if (!turns.length) return "(this is the first question)";
   return turns
@@ -108,6 +118,22 @@ function recentTranscript(transcript, limit = 4) {
       return `You asked: ${t.question?.name || "(question)"}\nNote: ${a}`;
     })
     .join("\n\n");
+}
+
+interface SuggestAnswersInput {
+  name?: string;
+  role?: string;
+  seniority?: string;
+  meetingType?: string;
+  notes?: string;
+  question: string;
+  questionLabel?: string;
+  questionDescription?: string;
+  transcript?: TranscriptEntry[];
+}
+
+interface BuildUserMessageInput extends SuggestAnswersInput {
+  retryHint?: string;
 }
 
 function buildUserMessage({
@@ -121,7 +147,7 @@ function buildUserMessage({
   questionDescription,
   transcript,
   retryHint,
-}) {
+}: BuildUserMessageInput): string {
   const lines = [
     `The report: ${name || "the employee"}, ${seniority || ""} ${role || ""}`.trim(),
     `Meeting type: ${meetingType || "1:1"}`,
@@ -149,7 +175,7 @@ function buildUserMessage({
   return lines.join("\n");
 }
 
-async function callOnce(user, { model }) {
+async function callOnce(user: string, { model }: { model: string }): Promise<string[]> {
   const raw = await callAI({
     system: SYSTEM,
     user,
@@ -159,7 +185,7 @@ async function callOnce(user, { model }) {
     model,
     costLabel: "aux-answer-suggest",
   });
-  const parsed = parseAIJson(raw, "Answer suggester", ["answers"]);
+  const parsed = asRecord(parseAIJson(raw, "Answer suggester", ["answers"]));
   return filterAnswers(parsed.answers);
 }
 
@@ -174,10 +200,10 @@ async function suggestAnswers(
     questionLabel,
     questionDescription,
     transcript,
-  },
-  { model = modelFor("bank") } = {}
-) {
-  const base = {
+  }: SuggestAnswersInput,
+  { model = modelFor("bank") }: { model?: string } = {}
+): Promise<string[]> {
+  const base: BuildUserMessageInput = {
     name,
     role,
     seniority,
@@ -200,7 +226,7 @@ async function suggestAnswers(
   return answers.slice(0, 3);
 }
 
-module.exports = {
+export {
   suggestAnswers,
   sanitizeAnswer,
   filterAnswers,

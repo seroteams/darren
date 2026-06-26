@@ -8,7 +8,7 @@ const {
   wordCount,
   MIN_WORDS,
   MAX_WORDS,
-} = require("../backend/engine/answer-suggester");
+} = require("../backend/engine/answer-suggester.ts");
 
 let failed = 0;
 

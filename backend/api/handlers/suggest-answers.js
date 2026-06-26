@@ -1,5 +1,5 @@
 const { requireSession } = require("../sessions");
-const { suggestAnswers } = require("../../engine/answer-suggester");
+const { suggestAnswers } = require("../../engine/answer-suggester.ts");
 
 // Dev-only roleplay aid: draft a few in-character employee answers for the
 // question currently on screen. Failures degrade to an empty list — the UI
