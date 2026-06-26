@@ -1,23 +1,34 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const {
+import fs from "node:fs";
+import path from "node:path";
+import {
   buildPipelineStatus,
   scanPipelineNow,
   readPipelineLockFromDir,
   manifestCounts,
-} = require("../../engine/pipeline-lock.ts");
-const {
+} from "../../engine/pipeline-lock.ts";
+import {
   findRunDir,
   findLatestRunWithLock,
   findLatestRun,
   buildHeadline,
-} = require("../../engine/run-history.ts");
+} from "../../engine/run-history.ts";
+import type { RequestContext } from "../router.ts";
 
-function status(c) {
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
+
+// PipelineLock isn't exported from pipeline-lock; pull it off a return type.
+type PipelineLock = ReturnType<typeof readPipelineLockFromDir>;
+
+function status(c: RequestContext): void {
   const baselineParam = c.query.baseline || "latest";
-  let baselineLock = null;
-  let baselineRunId = null;
-  let baselineHeadline = null;
+  let baselineLock: PipelineLock = null;
+  let baselineRunId: string | null = null;
+  let baselineHeadline: string | null = null;
   let baselineHasLock = false;
 
   if (baselineParam === "latest") {
@@ -43,10 +54,10 @@ function status(c) {
       baselineRunId = baselineParam;
       baselineHasLock = !!baselineLock;
       try {
-        const state = JSON.parse(
+        const state: unknown = JSON.parse(
           fs.readFileSync(path.join(dir, "session-state.json"), "utf8")
         );
-        baselineHeadline = buildHeadline(state.ctx || {});
+        baselineHeadline = buildHeadline(asRecord(isObjectRecord(state) ? state.ctx : {}));
       } catch {}
     }
   }
@@ -64,7 +75,7 @@ function status(c) {
   c.json(200, body);
 }
 
-function manifest(c) {
+function manifest(c: RequestContext): void {
   const current = scanPipelineNow();
   c.json(200, {
     capturedAt: current.capturedAt,
@@ -73,4 +84,4 @@ function manifest(c) {
   });
 }
 
-module.exports = { status, manifest };
+export { status, manifest };
