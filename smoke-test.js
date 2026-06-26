@@ -96,7 +96,7 @@ function unitChecks() {
 
   const UNRESOLVED_PLACEHOLDER_RE = /\{\{[A-Z][A-Z0-9_]*\}\}/g;
   const { parseAIJson, assertNoUnresolvedPlaceholders } = require("./backend/engine/ai-client.ts");
-  const { buildMessages } = require("./backend/engine/preparation");
+  const { buildMessages } = require("./backend/engine/preparation.ts");
 
   // 4. A2 — parseAIJson rejects unresolved placeholders in model output
   try {
@@ -119,7 +119,7 @@ function unitChecks() {
   }
 
   // 6. Prep validator — C1/C5 fixtures (offline)
-  const { validateBrief } = require("./backend/engine/preparation");
+  const { validateBrief } = require("./backend/engine/preparation.ts");
   try {
     const tobyInputs = {
       name: "Toby",

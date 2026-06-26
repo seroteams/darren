@@ -17,7 +17,7 @@ loadEnv();
 
 const { MEETING_TYPES } = require("../backend/engine/meeting-types.ts");
 const { TOTAL_BUDGET } = require("../backend/engine/budgets.ts");
-const { validateBrief, generatePreparation } = require("../backend/engine/preparation");
+const { validateBrief, generatePreparation } = require("../backend/engine/preparation.ts");
 const { resolveSelectedFocus } = require("../backend/engine/selected-focus.ts");
 const {
   runGoldenScenarioChecks,

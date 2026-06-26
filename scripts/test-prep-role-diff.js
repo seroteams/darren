@@ -8,7 +8,7 @@ require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 const { loadEnv } = require("../backend/engine/env.ts");
 loadEnv();
 
-const { generatePreparation } = require("../backend/engine/preparation");
+const { generatePreparation } = require("../backend/engine/preparation.ts");
 
 const SHARED = {
   meetingType: "Bi-weekly check-in",

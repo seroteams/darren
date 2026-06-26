@@ -3,7 +3,7 @@
 // Reuses the same assembly code the live run uses, so the preview can never
 // drift from what actually gets sent (engine honesty). GET /api/preview?s=<id>.
 const { requireSession, inferStage } = require("../sessions");
-const { assemblePreparation } = require("../../engine/preparation");
+const { assemblePreparation } = require("../../engine/preparation.ts");
 const { buildPreparationInputs } = require("./preparation");
 
 // stage -> assemble its payload from a live session. Each returns

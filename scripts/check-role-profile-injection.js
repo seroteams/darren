@@ -14,7 +14,7 @@ const stages = {
   "focus points": () =>
     require("../backend/engine/generate.ts").buildMessages({ ...ctx, focusPoints: [] }),
   "preparation": () =>
-    require("../backend/engine/preparation").buildMessages({
+    require("../backend/engine/preparation.ts").buildMessages({
       name: ctx.name,
       roleTitle: role,
       seniority,

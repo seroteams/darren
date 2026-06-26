@@ -1,17 +1,87 @@
-const fs = require("node:fs");
-const { randomUUID } = require("node:crypto");
+import fs from "node:fs";
+import { randomUUID } from "node:crypto";
 
-const { logStage } = require("./session.ts");
-const { modelFor } = require("./models.ts");
-const { callAI, parseAIJson } = require("./ai-client.ts");
-const { promptFor, getArc } = require("./one-on-one-types/index.ts");
-const { withPromptVersion } = require("./prompt-version.ts");
-const { resolveSelectedFocus } = require("./selected-focus.ts");
-const { splitSystemUser } = require("./prompt-utils.ts");
-const { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } = require("./role-profile.ts");
-const { findJargon } = require("./golden-checks.ts");
+import { logStage } from "./session.ts";
+import { modelFor } from "./models.ts";
+import { callAI, parseAIJson } from "./ai-client.ts";
+import { promptFor, getArc } from "./one-on-one-types/index.ts";
+import { withPromptVersion } from "./prompt-version.ts";
+import { resolveSelectedFocus } from "./selected-focus.ts";
+import { splitSystemUser } from "./prompt-utils.ts";
+import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./role-profile.ts";
+import { findJargon } from "./golden-checks.ts";
+
+import type { PreparationResult } from "../shared/session.types.ts";
 
 const getDefaultModel = () => modelFor("preparation");
+
+// Disk JSON / model output is unknown until checked — narrow with these instead
+// of trusting shapes (the established house pattern).
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
+function asString(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+
+// The prep brief, as the model emits it (RESPONSE_SCHEMA below) and as
+// generatePreparation returns it (PreparationResult.brief).
+type PrepBrief = PreparationResult["brief"];
+
+// Focus points are forwarded to resolveSelectedFocus and serialized into the
+// prompt; only these scalar fields are read downstream.
+interface PrepFocusPoint {
+  id?: string;
+  label?: string;
+  type?: string;
+  source?: string;
+}
+
+// The raw handler/CLI inputs handed to generatePreparation / assemblePreparation.
+interface RawPrepInput {
+  name?: string;
+  role?: string;
+  roleTitle?: string;
+  seniority?: string;
+  meetingType: string;
+  notes?: string;
+  observedShift?: string;
+  focusPoints?: PrepFocusPoint[];
+  selectedFocus?: { id?: string; label?: string };
+  primaryFocusId?: string;
+}
+
+// The normalised input buildMessages / validateBrief consume (output of buildPrepInput).
+interface PrepInput {
+  name?: string;
+  roleTitle?: string;
+  seniority?: string;
+  meetingType: string;
+  observedShift: string;
+  focusPoints: PrepFocusPoint[];
+  selectedFocus: { id?: string; label?: string } | null;
+  primaryFocusId?: string;
+}
+
+// The eval wire is schema-constrained (RESPONSE_SCHEMA, additionalProperties
+// false); materialise the parsed output into a typed PrepBrief by reading its
+// canonical fields — byte-identical to the original raw object in practice.
+function coercePrepBrief(v: unknown): PrepBrief {
+  const r = asRecord(v);
+  return {
+    coreIssue: asString(r.coreIssue),
+    openingQuestion: asString(r.openingQuestion),
+    listenFor: Array.isArray(r.listenFor) ? r.listenFor.map(asString) : [],
+    avoid: Array.isArray(r.avoid) ? r.avoid.map(asString) : [],
+    goodOutcome: asString(r.goodOutcome),
+    suggestedAction: asString(r.suggestedAction),
+    confidence: asString(r.confidence),
+    dontAssume: asString(r.dontAssume),
+  };
+}
 
 const RESPONSE_SCHEMA = {
   type: "object",
@@ -60,7 +130,7 @@ const POST_MEETING_ACTION =
   /\b(schedule|set up a follow|follow-up meeting|follow up meeting|next month|next quarter|in one month|review progress)\b/i;
 const PRE_IN_MEETING_ACTION = /^(before the 1:1|during the 1:1|before the meeting|during the meeting)\b/i;
 
-function focusPointLabels(focusPoints) {
+function focusPointLabels(focusPoints: PrepFocusPoint[] | null | undefined): string[] {
   return (focusPoints || [])
     .map((fp) => (fp.label || fp.type || "").toLowerCase())
     .filter(Boolean);
@@ -74,7 +144,7 @@ function buildMessages({
   observedShift,
   focusPoints,
   selectedFocus,
-}) {
+}: PrepInput) {
   const template = fs.readFileSync(promptFor(meetingType, "preparation"), "utf8");
   const arc = getArc(meetingType);
   const sf =
@@ -102,7 +172,7 @@ function buildMessages({
 // Normalise the handler/CLI `inputs` into the shape buildMessages expects. Kept
 // separate so the live run and the preview endpoint share one assembly path —
 // the preview can never drift from what actually gets sent.
-function buildPrepInput(inputs) {
+function buildPrepInput(inputs: RawPrepInput): PrepInput {
   const focusPoints = inputs.focusPoints || [];
   const selectedFocus =
     inputs.selectedFocus ||
@@ -126,13 +196,13 @@ function buildPrepInput(inputs) {
 
 // Assemble the exact payload generatePreparation would send — WITHOUT calling
 // the model. `prompt` is byte-for-byte what gets logged as prompt.md.
-function assemblePreparation(inputs, { model = getDefaultModel() } = {}) {
+function assemblePreparation(inputs: RawPrepInput, { model = getDefaultModel() }: { model?: string } = {}): { model: string; prompt: string } {
   const messages = buildMessages(buildPrepInput(inputs));
   return { model, prompt: messages.filled };
 }
 
-function validateBrief(brief, inputs) {
-  const issues = [];
+function validateBrief(brief: PrepBrief, inputs: PrepInput): { passed: boolean; issues: string[] } {
+  const issues: string[] = [];
   const opener = (brief.openingQuestion || "").trim();
   const openerLower = opener.toLowerCase();
   const meetingType = (inputs.meetingType || "").toLowerCase();
@@ -215,7 +285,7 @@ function validateBrief(brief, inputs) {
   }
 
   // Meeting-type awareness
-  const meetingWords = {
+  const meetingWords: Record<string, string[]> = {
     "check": ["check", "routine", "regular", "cadence", "weekly", "bi-weekly", "biweekly"],
     "performance": ["performance", "feedback", "review", "rating", "expectation"],
     "growth": ["growth", "career", "development", "trajectory", "next", "goal", "lead"],
@@ -287,14 +357,14 @@ function validateBrief(brief, inputs) {
   return { passed: issues.length === 0, issues };
 }
 
-function roleWordsFromTitle(roleLower) {
+function roleWordsFromTitle(roleLower: string): string[] {
   return roleLower.split(/\s+/).filter((w) => w.length > 3);
 }
 
 async function generatePreparation(
-  inputs,
-  { model = getDefaultModel(), session } = {}
-) {
+  inputs: RawPrepInput,
+  { model = getDefaultModel(), session }: { model?: string; session?: Parameters<typeof logStage>[0] } = {}
+): Promise<PreparationResult> {
   const runId = randomUUID();
 
   const prepInput = buildPrepInput(inputs);
@@ -311,7 +381,7 @@ async function generatePreparation(
     costLabel:  "01b-preparation",
   });
 
-  let parsed = parseAIJson(raw, "Preparation model", ["coreIssue", "openingQuestion"]);
+  let parsed = coercePrepBrief(parseAIJson(raw, "Preparation model", ["coreIssue", "openingQuestion"]));
   let validation = validateBrief(parsed, prepInput);
   let attempts = 1;
 
@@ -329,7 +399,7 @@ async function generatePreparation(
       model,
       costLabel:  "01b-preparation-retry",
     });
-    const retryParsed = parseAIJson(retryRaw, "Preparation model (retry)", ["coreIssue", "openingQuestion"]);
+    const retryParsed = coercePrepBrief(parseAIJson(retryRaw, "Preparation model (retry)", ["coreIssue", "openingQuestion"]));
     const retryValidation = validateBrief(retryParsed, prepInput);
     attempts = 2;
 
@@ -361,4 +431,4 @@ async function generatePreparation(
   return { brief: parsed, runId, validation, attempts };
 }
 
-module.exports = { generatePreparation, buildMessages, buildPrepInput, assemblePreparation, validateBrief };
+export { generatePreparation, buildMessages, buildPrepInput, assemblePreparation, validateBrief };
