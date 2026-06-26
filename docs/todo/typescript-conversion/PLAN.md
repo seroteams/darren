@@ -92,9 +92,18 @@ that the one-on-one-types cluster will reuse. Pulled **ahead** of where it sits 
 `index` imports its `applyOverlay` and arc-overlay's own deps (`questions.ts`, `paths.mts`) were already done —
 strict leaf-first. Covered by `test-arc-overlay`. **Engine `.js` left now: 16 root / 29 incl. subdirs.**
 
+**one-on-one-types cluster ✅ (2026-06-26, committed, typecheck clean + npm test 30/30):** 5 `*/type.js` → `.ts`
+(`export default` a typed `MeetingType`) + `index.js` → `.ts` (default-imports, typed registry). The
+`backend/engine/one-on-one-types/` dir is now **all TypeScript**. **16 registry importers** flipped to the
+explicit `…/one-on-one-types/index.ts` specifier (Node's directory-index resolution never finds `index.ts`).
+⚠️ **Lesson: grep importers REPO-WIDE.** One importer lived in `evals/trust-checks.js` (outside `backend/`+`scripts/`),
+was missed, and surfaced as `test-trust-checks` + `test-replay-regression` failures — caught pre-commit by the
+test gate, then fixed. Pre-existing dead code flagged: `ARCS_BY_SLUG` in `index.ts` (declared, never used) — kept
+per the no-delete rule. **Engine `.js` left now: 16 root / 23 incl. subdirs.**
+
 **Remaining engine waves (dependency order):**
 - ✅ Done 2026-06-26: `person-profile` (3 importers) + `review-html` (1 importer; smoke-verified, no unit test). **Next unblocked: the one-on-one-types cluster.**
-- one-on-one-types cluster: 5 `*/type` files → `index` (decision: `*/type` files use `export default {...}`
+- ✅ one-on-one-types cluster DONE (2026-06-26): 5 `*/type` files → `index` (decision: `*/type` files use `export default {...}`
   — they're consumed only by `index`; index uses default-imports; shared `MeetingType` ✅ ready, `arc-overlay`
   ✅ done). Then `answer-suggester`,
   `meeting-arcs`, `question-eligibility`, `product-qa`, lexicon/`review-core`+`cli-interactive`, `lexicon-reviewer`,

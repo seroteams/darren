@@ -5,7 +5,7 @@ const path = require("node:path");
 
 const { loadEnv } = require("../backend/engine/env.ts");
 const { callAI, parseAIJson } = require("../backend/engine/ai-client.ts");
-const { getArc } = require("../backend/engine/one-on-one-types");
+const { getArc } = require("../backend/engine/one-on-one-types/index.ts");
 const { modelFor } = require("../backend/engine/models.ts");
 
 loadEnv();

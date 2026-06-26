@@ -1,5 +1,5 @@
 const { MEETING_TYPES } = require("./meeting-types.ts");
-const { getType, listTypes, promptFor, getArc, listStageIds } = require("./one-on-one-types");
+const { getType, listTypes, promptFor, getArc, listStageIds } = require("./one-on-one-types/index.ts");
 const { generateFocusPoints } = require("./generate");
 const { generatePreparation } = require("./preparation");
 const { generateBankWithFallback } = require("./question-generator");

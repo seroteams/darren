@@ -182,7 +182,7 @@ function checkWrongMeetingType(meetingType, bankQuestions) {
   let arc;
   try {
     // Lazy require so a pure unit test can skip arc machinery if needed.
-    arc = require("../backend/engine/one-on-one-types").getArc(meetingType);
+    arc = require("../backend/engine/one-on-one-types/index.ts").getArc(meetingType);
   } catch {
     return { result: null, warning: `unknown meeting type "${meetingType}" — coverage check skipped` };
   }

@@ -5,7 +5,7 @@
 //   POST /api/arcs/:slug/reset → delete the overlay, back to the code default.
 // No model calls anywhere here. Writes are behind the localhost origin guard.
 
-const { listTypes, getArc } = require("../../engine/one-on-one-types");
+const { listTypes, getArc } = require("../../engine/one-on-one-types/index.ts");
 const {
   loadOverlay,
   writeOverlay,

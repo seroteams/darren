@@ -1,8 +1,9 @@
-const { SHARED_PROMPTS } = require("../_shared/prompts.ts");
+import { SHARED_PROMPTS } from "../_shared/prompts.ts";
+import type { MeetingType } from "../_shared/meeting-type.types.ts";
 
 // 1:1 Type — Something feels off
 // Data home for this Type. Edit here to tune the type in isolation.
-module.exports = {
+const meetingType: MeetingType = {
   slug: "something_feels_off",
   label: "Something feels off",
   tone_register:
@@ -52,3 +53,5 @@ module.exports = {
   // Prompt set: inherits the shared house prompts.
   prompts: { ...SHARED_PROMPTS },
 };
+
+export default meetingType;

@@ -3,7 +3,7 @@
 const path = require("node:path");
 const { loadIntroQueue, sortIntroByArc } = require("../backend/engine/intro-queue");
 const { selectReservedCloser, isForbiddenCloser } = require("../backend/engine/closer");
-const { getArc } = require("../backend/engine/one-on-one-types");
+const { getArc } = require("../backend/engine/one-on-one-types/index.ts");
 const questions = require("../backend/engine/questions.ts");
 
 // Expected first stage = the earliest-in-arc stage among the type's intro

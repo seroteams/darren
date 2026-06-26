@@ -6,7 +6,7 @@ const { modelFor } = require("../models.ts");
 const { loadLexicon, lexiconScopeFor, resolveLexiconScope, isLexiconReviewScope, candidatePath } = require("../lexicon.ts");
 const { RESPONSE_SCHEMA } = require("./schema.ts");
 const { appendCandidates, writeTrace, readTrace, tracePathFor } = require("./candidates-io.ts");
-const { promptFor } = require("../one-on-one-types");
+const { promptFor } = require("../one-on-one-types/index.ts");
 
 function shouldReview(ctx) {
   return isLexiconReviewScope(lexiconScopeFor(ctx));

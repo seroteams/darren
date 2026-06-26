@@ -1,8 +1,9 @@
-const { SHARED_PROMPTS } = require("../_shared/prompts.ts");
+import { SHARED_PROMPTS } from "../_shared/prompts.ts";
+import type { MeetingType } from "../_shared/meeting-type.types.ts";
 
 // 1:1 Type — Performance & feedback
 // Data home for this Type. Edit here to tune the type in isolation.
-module.exports = {
+const meetingType: MeetingType = {
   slug: "performance_feedback",
   label: "Performance & feedback",
   tone_register:
@@ -54,3 +55,5 @@ module.exports = {
   ].join("\n"),
   prompts: { ...SHARED_PROMPTS },
 };
+
+export default meetingType;

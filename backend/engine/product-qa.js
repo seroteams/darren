@@ -6,7 +6,7 @@
 const fs = require("node:fs");
 
 const { logStage } = require("./session.ts");
-const { promptFor } = require("./one-on-one-types");
+const { promptFor } = require("./one-on-one-types/index.ts");
 const { resolveSelectedFocus } = require("./selected-focus.ts");
 const { splitSystemUser } = require("./prompt-utils.ts");
 const { withPromptVersion } = require("./prompt-version.ts");

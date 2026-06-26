@@ -2,7 +2,7 @@ const fs = require("node:fs");
 
 const { logStage } = require("./session.ts");
 const { loadAxes, AXIS_IDS, AXIS_MIN, AXIS_MAX } = require("./axes.ts");
-const { promptFor, getArc, getType } = require("./one-on-one-types");
+const { promptFor, getArc, getType } = require("./one-on-one-types/index.ts");
 const { withPromptVersion } = require("./prompt-version.ts");
 const { resolveSelectedFocus } = require("./selected-focus.ts");
 const { splitSystemUser } = require("./prompt-utils.ts");

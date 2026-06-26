@@ -13,7 +13,7 @@
 
 const fs = require("node:fs");
 
-const { getType } = require("./one-on-one-types");
+const { getType } = require("./one-on-one-types/index.ts");
 
 // Words stripped before comparing question wording — scaffolding shared by
 // most questions, so they carry no signal about whether two questions match.
