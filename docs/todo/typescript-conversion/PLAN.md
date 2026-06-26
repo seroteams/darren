@@ -157,6 +157,24 @@ match the original's `|| ""` defenses. **No `any`/`as`/`@ts-ignore`.** Live AI p
 owner-walk; offline `test-answer-suggest-shape` covers the post-filter and passes. **Engine `.js` left after this: 10 root /
 17 incl. subdirs.** Next leaf-ready: `closer`, `intro-queue`, `opener` (small), then `queue-manager` (big, 1152 lines).
 
+**Session 2026-06-26 (Carl: "finish the engine today" — live todo list).** answer-suggester committed, then
+**6 more converted+committed** (each: typecheck clean + npm test 30/30, no `any`/`as`/`@ts-ignore`):
+`opener`, `intro-queue`, `closer` (small leaves), then the **independent lexicon chain** —
+`lexicon/review-core` (hand-converted, heavy disk-JSON narrowing via `isObjectRecord`),
+`lexicon/cli-interactive` (+ two folded type fixes: `generateSuggestions` given an explicit discriminated
+`GenerateResult` return type so callers narrow; candidates-io `AcceptedSuggestion.better_as` widened to
+`string|null` to match the schema), and `lexicon-reviewer` (barrel). Honest patterns used for
+`noUncheckedIndexedAccess`: guarded throw / `?? null` / `?.id` at indexed-access spots (no `!`).
+**Dependency rescan corrected the order:** `preparation`/`question-generator`/`index`/half of `cli/stages`
+all depend on the **`golden-checks ⇄ reviewer`** pair, so that big circular pair is the true gate, not a
+late step. **Engine `.js` left now: 6 root / 11 incl. subdirs** (6 root: golden-checks, index, preparation,
+question-generator, queue-manager, reviewer · 5 subdir: the cli/stages/*) — and the *only* unblocked engine
+work remaining is the **three big modules**: `queue-manager` (1152, leaf-ready), `reviewer` (761) ⇄
+`golden-checks` (555) [circular pair]. Everything else (`preparation`, `question-generator`, `index`,
+cli/stages) waits on them. ⏸️ **Paused here for Carl's green
+light before the risky core** (per "stop before anything risky"); big modules go agent-draft → line-by-line
+review → typecheck + npm test, live AI paths deferred to the owner-walk.
+
 **Remaining engine waves (dependency order):**
 - ✅ Done 2026-06-26: `person-profile` (3 importers) + `review-html` (1 importer; smoke-verified, no unit test). **Next unblocked: the one-on-one-types cluster.**
 - ✅ one-on-one-types cluster DONE (2026-06-26): 5 `*/type` files → `index` (decision: `*/type` files use `export default {...}`
