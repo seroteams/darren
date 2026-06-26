@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const path = require("node:path");
-const { loadIntroQueue, sortIntroByArc } = require("../backend/engine/intro-queue");
+const { loadIntroQueue, sortIntroByArc } = require("../backend/engine/intro-queue.ts");
 const { selectReservedCloser, isForbiddenCloser } = require("../backend/engine/closer");
 const { getArc } = require("../backend/engine/one-on-one-types/index.ts");
 const questions = require("../backend/engine/questions.ts");
