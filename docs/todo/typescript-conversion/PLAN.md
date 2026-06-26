@@ -27,7 +27,7 @@ or behaviour changes are *never* in this phase.
 | 1 | Lock scope + strategy (survey below) + de-risk | Carl's picks + a green proof that tests can import converted `.ts` engine modules | ✅ |
 | 2 | Define shared core types | `backend/shared/` contracts — session, focus point, question, axis state, briefing, evaluation | ✅ |
 | 3 | Convert engine leaf modules (test-first) | lowest-dependency engine files → `.ts`, tests green | ✅ |
-| 4 | Convert engine core | up the dependency graph, tests green at each step | 🔨 |
+| 4 | Convert engine core | up the dependency graph, tests green at each step | ✅ |
 | 5 | Convert the API server | `backend/api/` → `.ts` | ⬜ |
 | 6 | Convert CLI + final sweep | `cli.ts`; remove stray `any`; `typecheck` clean repo-wide | ⬜ |
 
