@@ -10,7 +10,7 @@ const {
   buildPrompt,
   normalizeTranscriptForReview,
   normalizeEvaluation,
-} = require("./lexicon/review-core");
+} = require("./lexicon/review-core.ts");
 const {
   appendCandidates,
   ensureCandidateDoc,

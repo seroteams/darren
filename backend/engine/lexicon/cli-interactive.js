@@ -3,7 +3,7 @@ const path = require("node:path");
 const { canonicalPath, candidatePath } = require("../lexicon.ts");
 const { bold, cyan, dim, gray, green, yellow, HR } = require("../ui.ts");
 const { appendCandidates, writeTrace } = require("./candidates-io.ts");
-const { generateSuggestions } = require("./review-core");
+const { generateSuggestions } = require("./review-core.ts");
 const { ROOT } = require("../paths.mts");
 
 function capitalize(s) {
