@@ -10,7 +10,7 @@ const {
   removeOverlay,
   diffStageIds,
   validKey,
-} = require("../backend/engine/arc-overlay");
+} = require("../backend/engine/arc-overlay.ts");
 const { getArc, listStageIds } = require("../backend/engine/one-on-one-types");
 
 const SLUG = "bi_weekly_check_in";

@@ -86,10 +86,17 @@ JSON via the run-history helper pattern) and `review-html` (1 importer; pure sta
 test** → verified by a free read-only smoke that rendered a real run to a 25 KB valid page). **Engine `.js`
 left now: 17 root / 30 incl. subdirs.**
 
+**arc-overlay ✅ (2026-06-26, committed, typecheck clean + npm test 30/30):** 3 importers; `applyOverlay` now
+typed against a new **shared `MeetingType` contract** (`backend/engine/one-on-one-types/_shared/meeting-type.types.ts`)
+that the one-on-one-types cluster will reuse. Pulled **ahead** of where it sits in the wave list below, because
+`index` imports its `applyOverlay` and arc-overlay's own deps (`questions.ts`, `paths.mts`) were already done —
+strict leaf-first. Covered by `test-arc-overlay`. **Engine `.js` left now: 16 root / 29 incl. subdirs.**
+
 **Remaining engine waves (dependency order):**
 - ✅ Done 2026-06-26: `person-profile` (3 importers) + `review-html` (1 importer; smoke-verified, no unit test). **Next unblocked: the one-on-one-types cluster.**
 - one-on-one-types cluster: 5 `*/type` files → `index` (decision: `*/type` files use `export default {...}`
-  — they're consumed only by `index`; index uses default-imports). Then `arc-overlay`, `answer-suggester`,
+  — they're consumed only by `index`; index uses default-imports; shared `MeetingType` ✅ ready, `arc-overlay`
+  ✅ done). Then `answer-suggester`,
   `meeting-arcs`, `question-eligibility`, `product-qa`, lexicon/`review-core`+`cli-interactive`, `lexicon-reviewer`,
   `closer`, `intro-queue`, `opener`.
 - Then needs-role-profile tier: `role-profile` → `generate`, `preparation`, `question-generator`,

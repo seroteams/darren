@@ -13,7 +13,7 @@ const {
   validateArc,
   diffStageIds,
   validKey,
-} = require("../../engine/arc-overlay");
+} = require("../../engine/arc-overlay.ts");
 
 function notFound() {
   return Object.assign(new Error("Unknown meeting type"), { status: 404 });

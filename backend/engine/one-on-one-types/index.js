@@ -7,7 +7,7 @@
 // src/meeting-arcs.js) so existing consumers run unchanged.
 
 const { SHARED_PROMPTS } = require("./_shared/prompts.ts");
-const { applyOverlay } = require("../arc-overlay");
+const { applyOverlay } = require("../arc-overlay.ts");
 const biWeekly = require("./bi-weekly/type");
 const performance = require("./performance/type");
 const growth = require("./growth/type");

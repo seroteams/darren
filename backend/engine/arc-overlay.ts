@@ -1,8 +1,8 @@
-const fs = require("node:fs");
-const path = require("node:path");
-
-const questions = require("./questions.ts");
-const { DATA_DIR } = require("./paths.mts");
+import fs from "node:fs";
+import path from "node:path";
+import * as questions from "./questions.ts";
+import { DATA_DIR } from "./paths.mts";
+import type { MeetingType, ArcPhase } from "./one-on-one-types/_shared/meeting-type.types.ts";
 
 // Arc overlays — a manager's edits to a 1:1 Type's arc live in a sidecar file,
 // `data/arc-overlays/<slug>.json`, NEVER in the canonical `type.js`. The registry
@@ -16,16 +16,40 @@ const OVERLAY_VERSION = 1;
 // Type slugs are lower_snake (bi_weekly_check_in). Guards the path against traversal.
 const SLUG_RE = /^[a-z0-9]+(?:_[a-z0-9]+)*$/;
 
-function validKey(slug) {
+// Disk JSON is unknown until checked — narrow instead of trusting shapes.
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
+
+// The three editable fields an overlay may carry over the code-default Type.
+interface Overlay {
+  arc?: ArcPhase[];
+  tone_register?: string;
+  anti_patterns?: string[];
+}
+
+// The on-disk overlay sidecar (data/arc-overlays/<slug>.json).
+interface OverlayDoc {
+  version: number;
+  slug: string;
+  arc?: unknown[];
+  tone_register?: string;
+  anti_patterns?: unknown[];
+}
+
+function validKey(slug: unknown): slug is string {
   return typeof slug === "string" && SLUG_RE.test(slug);
 }
 
-function overlayPath(slug) {
+function overlayPath(slug: string): string {
   return path.join(OVERLAYS_DIR, `${slug}.json`);
 }
 
-// Atomic write, same pattern as role-profile.js / person-profile.js.
-function writeAtomic(file, content) {
+// Atomic write, same pattern as role-profile.js / person-profile.ts.
+function writeAtomic(file: string, content: string): void {
   const tmp = file + ".tmp";
   fs.writeFileSync(tmp, content);
   fs.renameSync(tmp, file);
@@ -33,25 +57,28 @@ function writeAtomic(file, content) {
 
 // Null-safe read: missing/corrupt/wrong-shape → null, never throws. Only the
 // three editable fields are honoured; anything else in the file is ignored.
-function loadOverlay(slug) {
+function loadOverlay(slug: unknown): Overlay | null {
   if (!validKey(slug)) return null;
-  let doc;
+  let doc: unknown;
   try {
     doc = JSON.parse(fs.readFileSync(overlayPath(slug), "utf8"));
   } catch {
     return null;
   }
-  if (!doc || typeof doc !== "object") return null;
-  const out = {};
+  if (!isObjectRecord(doc)) return null;
+  const out: Overlay = {};
   if (Array.isArray(doc.arc)) out.arc = doc.arc;
   if (typeof doc.tone_register === "string") out.tone_register = doc.tone_register;
   if (Array.isArray(doc.anti_patterns)) out.anti_patterns = doc.anti_patterns;
   return Object.keys(out).length ? out : null;
 }
 
-function writeOverlay(slug, data = {}) {
+function writeOverlay(
+  slug: unknown,
+  data: { arc?: unknown; tone_register?: unknown; anti_patterns?: unknown } = {}
+): OverlayDoc {
   if (!validKey(slug)) throw Object.assign(new Error("Unknown meeting type"), { status: 404 });
-  const doc = { version: OVERLAY_VERSION, slug };
+  const doc: OverlayDoc = { version: OVERLAY_VERSION, slug };
   if (Array.isArray(data.arc)) doc.arc = data.arc;
   if (typeof data.tone_register === "string") doc.tone_register = data.tone_register;
   if (Array.isArray(data.anti_patterns)) doc.anti_patterns = data.anti_patterns;
@@ -61,7 +88,7 @@ function writeOverlay(slug, data = {}) {
 }
 
 // Reset: delete the overlay so the type falls back to its code default.
-function removeOverlay(slug) {
+function removeOverlay(slug: unknown): boolean {
   if (!validKey(slug)) return false;
   try {
     fs.unlinkSync(overlayPath(slug));
@@ -73,11 +100,11 @@ function removeOverlay(slug) {
 
 // Merge an overlay over a base Type object, returning a NEW object — the cached
 // module is never mutated. Only the editable fields are overlaid.
-function applyOverlay(type) {
+function applyOverlay(type: MeetingType): MeetingType {
   if (!type || !type.slug) return type;
   const overlay = loadOverlay(type.slug);
   if (!overlay) return type;
-  const merged = { ...type };
+  const merged: MeetingType = { ...type };
   if (overlay.arc) merged.arc = overlay.arc;
   if (overlay.tone_register) merged.tone_register = overlay.tone_register;
   if (overlay.anti_patterns) merged.anti_patterns = overlay.anti_patterns;
@@ -85,12 +112,12 @@ function applyOverlay(type) {
 }
 
 // Validate an edited arc before it can be written. Returns { ok, errors }.
-function validateArc(arc) {
-  const errors = [];
+function validateArc(arc: unknown): { ok: boolean; errors: string[] } {
+  const errors: string[] = [];
   if (!Array.isArray(arc) || arc.length === 0) {
     return { ok: false, errors: ["An arc needs at least one phase."] };
   }
-  const ids = [];
+  const ids: string[] = [];
   arc.forEach((p, i) => {
     const where = `Phase ${i + 1}`;
     if (!p || typeof p !== "object") {
@@ -117,7 +144,7 @@ function validateArc(arc) {
   return { ok: errors.length === 0, errors };
 }
 
-function readOpeners() {
+function readOpeners(): unknown[] {
   try {
     const raw = JSON.parse(fs.readFileSync(path.join(questions.QUESTIONS_ROOT, "_openers.json"), "utf8"));
     return Array.isArray(raw) ? raw : [];
@@ -132,7 +159,11 @@ function readOpeners() {
 // ids (stage ids are arc-specific, so an opener tagged "pulse" belongs to
 // bi-weekly). This is the count behind the rename/remove confirm dialog and the
 // fix for the silent index-999 mis-routing in intro-queue.js.
-function diffStageIds(slug, newArc, { currentStageIds = null } = {}) {
+function diffStageIds(
+  slug: string,
+  newArc: unknown,
+  { currentStageIds = null }: { currentStageIds?: unknown } = {}
+): { intro: number; openers: number; total: number; removed_ids: unknown[] } {
   const newIds = new Set((Array.isArray(newArc) ? newArc : []).map((p) => p && p.id).filter(Boolean));
 
   let intro = 0;
@@ -144,7 +175,8 @@ function diffStageIds(slug, newArc, { currentStageIds = null } = {}) {
   if (Array.isArray(currentStageIds)) {
     const curSet = new Set(currentStageIds);
     for (const o of readOpeners()) {
-      if (o && o.stage && curSet.has(o.stage) && !newIds.has(o.stage)) openers++;
+      const rec = asRecord(o);
+      if (rec.stage && curSet.has(rec.stage) && !newIds.has(rec.stage)) openers++;
     }
   }
 
@@ -155,7 +187,7 @@ function diffStageIds(slug, newArc, { currentStageIds = null } = {}) {
   return { intro, openers, total: intro + openers, removed_ids };
 }
 
-module.exports = {
+export {
   OVERLAYS_DIR,
   validKey,
   overlayPath,
