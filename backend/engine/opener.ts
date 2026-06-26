@@ -1,19 +1,35 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const { slugify } = require("./questions.ts");
-const { getArc } = require("./meeting-arcs.ts");
-const { checkQuestionEligibility, rejectionEntry } = require("./question-eligibility.ts");
-const { QUESTIONS_DIR } = require("./paths.mts");
+import fs from "node:fs";
+import path from "node:path";
+import { slugify } from "./questions.ts";
+import { getArc } from "./meeting-arcs.ts";
+import { checkQuestionEligibility, rejectionEntry } from "./question-eligibility.ts";
+import { QUESTIONS_DIR } from "./paths.mts";
+import type { Question } from "../shared/question.types.ts";
 
 const OPENERS_FILE = path.join(QUESTIONS_DIR, "_openers.json");
 
 const HEAVY_NOTES_RE = /\boff\b|heavy|hard|struggl|burnt|tired|quiet|withdrawn|distant|stress|worried|concern/i;
 
-function loadOpeners() {
+// An opener as stored in _openers.json: a question-shaped object plus the
+// meeting-type tagging and tone used only by the picker below.
+interface Opener extends Question {
+  meeting_types: string[];
+  tone?: string;
+}
+
+interface OpenerContext {
+  meetingType?: string;
+  notes?: string;
+}
+
+function loadOpeners(): Opener[] {
   return JSON.parse(fs.readFileSync(OPENERS_FILE, "utf8"));
 }
 
-function pickOpener(ctx, { rejections } = {}) {
+function pickOpener(
+  ctx: OpenerContext,
+  { rejections }: { rejections?: ReturnType<typeof rejectionEntry>[] } = {},
+): Question {
   const openers = loadOpeners();
   const meetingSlug = slugify(ctx.meetingType || "");
   const notesHeavy = HEAVY_NOTES_RE.test(ctx.notes || "");
@@ -62,7 +78,11 @@ function pickOpener(ctx, { rejections } = {}) {
 
   const max = Math.max(...scored.map((s) => s.score));
   const pool = scored.filter((s) => s.score === max);
-  const pick = pool[Math.floor(Math.random() * pool.length)].opener;
+  const choice = pool[Math.floor(Math.random() * pool.length)];
+  if (!choice) {
+    throw new Error(`no eligible opener for meeting type ${meetingSlug}`);
+  }
+  const pick = choice.opener;
 
   // Return shape compatible with existing question objects
   return {
@@ -77,4 +97,4 @@ function pickOpener(ctx, { rejections } = {}) {
   };
 }
 
-module.exports = { pickOpener };
+export { pickOpener };

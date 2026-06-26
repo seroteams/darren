@@ -19,7 +19,7 @@ const {
   dropIneligibleHeads,
   isDuplicateText,
 } = require("../backend/engine/question-eligibility.ts");
-const { pickOpener } = require("../backend/engine/opener");
+const { pickOpener } = require("../backend/engine/opener.ts");
 const { pickSeedOverflow } = require("../backend/engine/closer");
 const {
   buildThreadFollowQuestion,
