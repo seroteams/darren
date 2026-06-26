@@ -1,5 +1,5 @@
 const { getArc } = require("./meeting-arcs.ts");
-const { checkQuestionEligibility, rejectionEntry } = require("./question-eligibility");
+const { checkQuestionEligibility, rejectionEntry } = require("./question-eligibility.ts");
 
 const FORBIDDEN_CLOSER_RE =
   /cut your work in half|drop first[\s\S]{0,48}non-negotiable|priority ranking/i;

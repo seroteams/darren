@@ -18,7 +18,7 @@ const {
   checkQuestionEligibility,
   dropIneligibleHeads,
   isDuplicateText,
-} = require("../backend/engine/question-eligibility");
+} = require("../backend/engine/question-eligibility.ts");
 const { pickOpener } = require("../backend/engine/opener");
 const { pickSeedOverflow } = require("../backend/engine/closer");
 const {

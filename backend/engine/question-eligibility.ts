@@ -11,9 +11,29 @@
 // Rejections are logged via rejectionEntry/appendEligibilityLog — log-only,
 // never user-facing.
 
-const fs = require("node:fs");
+import fs from "node:fs";
 
-const { getType } = require("./one-on-one-types/index.ts");
+import { getType } from "./one-on-one-types/index.ts";
+
+interface EligibilityQuestion {
+  name?: string;
+  label?: string;
+  description?: string;
+  alias?: string;
+}
+
+type EligibilityResult = { ok: true } | { ok: false; reason: string; matched: string };
+
+interface RejectionLogEntry {
+  alias: string | null;
+  label: string | null;
+  name: string | null;
+  source: string;
+  reason: string;
+  matched: string | null;
+  meetingType: string | null;
+  fallback: string | null;
+}
 
 // Words stripped before comparing question wording — scaffolding shared by
 // most questions, so they carry no signal about whether two questions match.
@@ -29,9 +49,10 @@ const REPEAT_STOP = new Set([
 
 // Reduce a question to its set of content words (lowercased, punctuation and
 // stop words removed). Used to detect within-session repeats.
-function contentTokens(text) {
+function contentTokens(text: unknown): Set<string> {
+  const s = typeof text === "string" ? text : "";
   return new Set(
-    (text || "")
+    s
       .toLowerCase()
       .replace(/[^\w\s]/g, " ")
       .split(/\s+/)
@@ -41,7 +62,7 @@ function contentTokens(text) {
 
 const REPEAT_JACCARD = 0.7;
 
-function jaccard(a, b) {
+function jaccard(a: Set<string>, b: Set<string>): number {
   if (!a.size || !b.size) return 0;
   let inter = 0;
   for (const w of a) if (b.has(w)) inter++;
@@ -52,12 +73,12 @@ function jaccard(a, b) {
 // True when two question texts are near-identical (exact content match or
 // heavy word overlap). Conservative on purpose: catches repeats without
 // dropping genuine follow-ups that merely reuse a topic word.
-function isDuplicateText(a, b) {
+function isDuplicateText(a: unknown, b: unknown): boolean {
   return jaccard(contentTokens(a), contentTokens(b)) >= REPEAT_JACCARD;
 }
 
 // True when `candidate` repeats a question already asked this session.
-function isRepeatOfAsked(candidate, askedTokenSets) {
+function isRepeatOfAsked(candidate: unknown, askedTokenSets: Set<string>[]): boolean {
   const c = contentTokens(candidate);
   if (c.size === 0) return false;
   for (const asked of askedTokenSets) {
@@ -67,7 +88,7 @@ function isRepeatOfAsked(candidate, askedTokenSets) {
   return false;
 }
 
-function forbiddenPatternsFor(meetingType) {
+function forbiddenPatternsFor(meetingType: string | undefined): RegExp[] {
   if (!meetingType) return [];
   try {
     return getType(meetingType).forbidden_question_res || [];
@@ -79,7 +100,10 @@ function forbiddenPatternsFor(meetingType) {
 // The gate. `question` is any object with name/label/description; `askedNames`
 // is the list of question texts already asked this session. Returns {ok:true}
 // or {ok:false, reason: "forbidden_pattern"|"duplicate_text", matched}.
-function checkQuestionEligibility(question, { meetingType, askedNames = [] } = {}) {
+function checkQuestionEligibility(
+  question: EligibilityQuestion | null | undefined,
+  { meetingType, askedNames = [] }: { meetingType?: string; askedNames?: string[] } = {},
+): EligibilityResult {
   const text = `${question?.name || ""} ${question?.label || ""} ${question?.description || ""}`;
   for (const re of forbiddenPatternsFor(meetingType)) {
     if (re.test(text)) {
@@ -101,7 +125,19 @@ function checkQuestionEligibility(question, { meetingType, askedNames = [] } = {
 // Standard shape for a rejection log entry. `source` names the path that
 // tried to serve the question (opener_pick, planner_new_item, coverage_insert,
 // seed_overflow, serve_time); `fallback` says what happened instead.
-function rejectionEntry({ question, check, source, meetingType, fallback }) {
+function rejectionEntry({
+  question,
+  check,
+  source,
+  meetingType,
+  fallback,
+}: {
+  question?: EligibilityQuestion | null;
+  check?: { reason?: string; matched?: string } | null;
+  source: string;
+  meetingType?: string | null;
+  fallback?: string | null;
+}): RejectionLogEntry {
   return {
     alias: question?.alias || null,
     label: question?.label || null,
@@ -119,8 +155,11 @@ function rejectionEntry({ question, check, source, meetingType, fallback }) {
 // Returns the rejection entries for the caller to log. Shared by the CLI
 // questioning loop and the web /api/question handler so the orchestration
 // can't drift between them.
-function dropIneligibleHeads(queueRef, { meetingType, askedNames = [] } = {}) {
-  const rejected = [];
+function dropIneligibleHeads(
+  queueRef: EligibilityQuestion[],
+  { meetingType, askedNames = [] }: { meetingType?: string; askedNames?: string[] } = {},
+): RejectionLogEntry[] {
+  const rejected: RejectionLogEntry[] = [];
   while (queueRef.length) {
     const head = queueRef[0];
     const check = checkQuestionEligibility(head, { meetingType, askedNames });
@@ -141,9 +180,9 @@ function dropIneligibleHeads(queueRef, { meetingType, askedNames = [] } = {}) {
 
 // Append rejection entries to the session's eligibility log file. Log-only,
 // never user-facing; failures to write must never break a live turn.
-function appendEligibilityLog(filePath, entries) {
+function appendEligibilityLog(filePath: string | null | undefined, entries: RejectionLogEntry[] | null | undefined): void {
   if (!filePath || !entries || !entries.length) return;
-  let log = [];
+  let log: unknown[] = [];
   try {
     log = JSON.parse(fs.readFileSync(filePath, "utf8"));
     if (!Array.isArray(log)) log = [];
@@ -154,11 +193,11 @@ function appendEligibilityLog(filePath, entries) {
   try {
     fs.writeFileSync(filePath, JSON.stringify(log, null, 2));
   } catch (e) {
-    console.warn("[question-eligibility] log write failed:", e.message);
+    console.warn("[question-eligibility] log write failed:", e instanceof Error ? e.message : String(e));
   }
 }
 
-module.exports = {
+export {
   checkQuestionEligibility,
   rejectionEntry,
   dropIneligibleHeads,

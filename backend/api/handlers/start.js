@@ -1,7 +1,7 @@
 const path = require("node:path");
 const { MEETING_TYPES } = require("../../engine/meeting-types.ts");
 const { pickOpener } = require("../../engine/opener");
-const { appendEligibilityLog } = require("../../engine/question-eligibility");
+const { appendEligibilityLog } = require("../../engine/question-eligibility.ts");
 const { loadIntroQueue } = require("../../engine/intro-queue");
 const { getArc } = require("../../engine/meeting-arcs.ts");
 const { createWebSession, persistSession, INTRO_BUDGET } = require("../sessions");

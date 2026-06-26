@@ -357,7 +357,7 @@ const {
   checkQuestionEligibility,
   contentTokens,
   isRepeatOfAsked,
-} = require("./question-eligibility");
+} = require("./question-eligibility.ts");
 
 // Grounding gate for planner-written questions. The planner must cite a short
 // verbatim quote from this session (`grounding`) for every new or reworded

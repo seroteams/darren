@@ -12,7 +12,7 @@
 // boundary fast-follow.
 
 const { computeReadQuality } = require("../backend/engine/reviewer");
-const { forbiddenPatternsFor, isDuplicateText } = require("../backend/engine/question-eligibility");
+const { forbiddenPatternsFor, isDuplicateText } = require("../backend/engine/question-eligibility.ts");
 const {
   runManagerBriefingBans,
   runCrossSessionLeakCheck,

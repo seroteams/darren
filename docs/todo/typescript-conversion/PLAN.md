@@ -106,12 +106,18 @@ per the no-delete rule. **Engine `.js` left now: 16 root / 23 incl. subdirs.**
 Dependency scan — **leaf-ready now** (all deps converted): `answer-suggester`, `product-qa`,
 `question-eligibility`, `role-profile`. (`role-profile` is the big unblocker — 6 modules wait on it.)
 
+**question-eligibility ✅ (2026-06-26 AM, committed, typecheck + npm test 30/30 incl. `test-question-integrity`):**
+171-line admission gate → `.ts` (typed question / result / log shapes; `getType` reused). 9 importers flipped
+repo-wide (api ×3, engine ×4, `evals/trust-checks`, `scripts/test-question-integrity`). **Engine `.js` left:
+14 root / 21 incl. subdirs.** Newly leaf-ready: `closer`, `opener` (both deps now done) — plus the standing
+`answer-suggester`, `product-qa`, `role-profile`.
+
 **Remaining engine waves (dependency order):**
 - ✅ Done 2026-06-26: `person-profile` (3 importers) + `review-html` (1 importer; smoke-verified, no unit test). **Next unblocked: the one-on-one-types cluster.**
 - ✅ one-on-one-types cluster DONE (2026-06-26): 5 `*/type` files → `index` (decision: `*/type` files use `export default {...}`
   — they're consumed only by `index`; index uses default-imports; shared `MeetingType` ✅ ready, `arc-overlay`
   ✅ done). Then `answer-suggester`,
-  `question-eligibility`, `product-qa`, lexicon/`review-core`+`cli-interactive`, `lexicon-reviewer`,
+  `product-qa`, lexicon/`review-core`+`cli-interactive`, `lexicon-reviewer`,
   `closer`, `intro-queue`, `opener`.
 - Then needs-role-profile tier: `role-profile` → `generate`, `preparation`, `question-generator`,
   `queue-manager` (1152 lines), `reviewer` (761) ⇄ `golden-checks` (555) [circular — convert back-to-back].

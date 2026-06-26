@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { slugify } = require("./questions.ts");
 const { getArc } = require("./meeting-arcs.ts");
-const { checkQuestionEligibility, rejectionEntry } = require("./question-eligibility");
+const { checkQuestionEligibility, rejectionEntry } = require("./question-eligibility.ts");
 const { QUESTIONS_DIR } = require("./paths.mts");
 
 const OPENERS_FILE = path.join(QUESTIONS_DIR, "_openers.json");

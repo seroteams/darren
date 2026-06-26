@@ -4,7 +4,7 @@ const {
   checkQuestionEligibility,
   dropIneligibleHeads,
   appendEligibilityLog,
-} = require("../../engine/question-eligibility");
+} = require("../../engine/question-eligibility.ts");
 
 module.exports = function question(c) {
   const session = requireSession(c.query.s);
