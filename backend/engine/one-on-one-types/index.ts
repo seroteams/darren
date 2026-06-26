@@ -54,14 +54,19 @@ function listTypes(): MeetingType[] {
 // to the shared house prompt if the Type is missing/unknown or doesn't override
 // the slot. This is the seam every stage runner uses — forking a stage = drop a
 // file in the Type's folder and point its type.js at it; no runner change needed.
-function promptFor(meetingType: string, slot: string): string | undefined {
+function promptFor(meetingType: string, slot: string): string {
   let type: MeetingType | null = null;
   try {
     type = getType(meetingType);
   } catch {
     type = null;
   }
-  return (type && type.prompts && type.prompts[slot]) || SHARED[slot];
+  const promptPath = (type && type.prompts && type.prompts[slot]) || SHARED[slot];
+  // Every stage slot is present in SHARED_PROMPTS, so this only throws for an
+  // unknown slot — unreachable for the fixed slot set, and a clearer failure
+  // than the old undefined return crashing at the caller's readFileSync.
+  if (!promptPath) throw new Error(`promptFor: no prompt registered for slot "${slot}"`);
+  return promptPath;
 }
 
 // --- Back-compat: arc-shaped view (the slim object old consumers expect) ---

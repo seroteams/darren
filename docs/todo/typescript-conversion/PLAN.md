@@ -112,12 +112,21 @@ repo-wide (api ×3, engine ×4, `evals/trust-checks`, `scripts/test-question-int
 14 root / 21 incl. subdirs.** Newly leaf-ready: `closer`, `opener` (both deps now done) — plus the standing
 `answer-suggester`, `product-qa`, `role-profile`.
 
+**product-qa ✅ (2026-06-26 AM, committed, typecheck + npm test 30/30):** 120-line self-diagnostic stage → `.ts`
+(1 importer: `engine/index.js`). Bound to typed deps by structural extraction — `Parameters<typeof logStage>[0]`
+for the session arg, focus-points type pulled from `resolveSelectedFocus` (those types aren't exported). The
+inline AI JSON-schema literal checks clean against `callAI`'s `JsonValue`. **Refinement that unblocks the rest:**
+`promptFor` now returns `string` (throws on the unreachable unknown-slot) instead of `string | undefined` — every
+stage slot exists in SHARED_PROMPTS, so the remaining stage-runners (`generate`/`preparation`/`reviewer`/
+`question-generator`/`queue-manager`) won't each need to narrow `readFileSync(promptFor(...))`. Live AI path is
+paid → behaviour deferred to the owner-walk. **Engine `.js` left: 13 root / 20 incl. subdirs.**
+
 **Remaining engine waves (dependency order):**
 - ✅ Done 2026-06-26: `person-profile` (3 importers) + `review-html` (1 importer; smoke-verified, no unit test). **Next unblocked: the one-on-one-types cluster.**
 - ✅ one-on-one-types cluster DONE (2026-06-26): 5 `*/type` files → `index` (decision: `*/type` files use `export default {...}`
   — they're consumed only by `index`; index uses default-imports; shared `MeetingType` ✅ ready, `arc-overlay`
   ✅ done). Then `answer-suggester`,
-  `product-qa`, lexicon/`review-core`+`cli-interactive`, `lexicon-reviewer`,
+  lexicon/`review-core`+`cli-interactive`, `lexicon-reviewer`,
   `closer`, `intro-queue`, `opener`.
 - Then needs-role-profile tier: `role-profile` → `generate`, `preparation`, `question-generator`,
   `queue-manager` (1152 lines), `reviewer` (761) ⇄ `golden-checks` (555) [circular — convert back-to-back].

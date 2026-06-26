@@ -3,17 +3,32 @@
 // manager-briefing evaluator in reviewer.js — it shares no logic with it, only
 // the same external building blocks (prompt loading, the AI client, logging).
 
-const fs = require("node:fs");
+import fs from "node:fs";
 
-const { logStage } = require("./session.ts");
-const { promptFor } = require("./one-on-one-types/index.ts");
-const { resolveSelectedFocus } = require("./selected-focus.ts");
-const { splitSystemUser } = require("./prompt-utils.ts");
-const { withPromptVersion } = require("./prompt-version.ts");
-const { modelFor } = require("./models.ts");
-const { callAI, parseAIJson } = require("./ai-client.ts");
+import { logStage } from "./session.ts";
+import { promptFor } from "./one-on-one-types/index.ts";
+import { resolveSelectedFocus } from "./selected-focus.ts";
+import { splitSystemUser } from "./prompt-utils.ts";
+import { withPromptVersion } from "./prompt-version.ts";
+import { modelFor } from "./models.ts";
+import { callAI, parseAIJson } from "./ai-client.ts";
 
-const getDefaultModel = () => modelFor("evaluation");
+// Reuse the focus-points shape resolveSelectedFocus already declares (its type
+// is not exported, so extract it structurally rather than re-declaring).
+type FocusPoints = NonNullable<Parameters<typeof resolveSelectedFocus>[0]>["focusPoints"];
+
+interface ProductQaInput {
+  ctx: { name?: string; meetingType: string };
+  focusPoints?: FocusPoints;
+  transcript?: unknown;
+  axisState?: unknown;
+  notes?: string;
+  selectedFocus?: unknown;
+  productQaNotes?: string;
+  systemDiagnostics?: unknown;
+}
+
+const getDefaultModel = (): string => modelFor("evaluation");
 
 function buildProductQaMessages({
   ctx,
@@ -24,7 +39,7 @@ function buildProductQaMessages({
   selectedFocus,
   productQaNotes,
   systemDiagnostics,
-}) {
+}: ProductQaInput) {
   const qaPath = promptFor(ctx.meetingType, "productQa");
   const template = fs.readFileSync(qaPath, "utf8");
   const sf =
@@ -57,9 +72,13 @@ async function evaluateProductQa(
     selectedFocus,
     productQaNotes,
     systemDiagnostics,
-  },
-  { model = getDefaultModel(), session, stage = "05-product-qa" } = {}
-) {
+  }: ProductQaInput,
+  {
+    model = getDefaultModel(),
+    session,
+    stage = "05-product-qa",
+  }: { model?: string; session?: Parameters<typeof logStage>[0]; stage?: string } = {}
+): Promise<unknown> {
   const msgs = buildProductQaMessages({
     ctx,
     focusPoints,
@@ -117,4 +136,4 @@ async function evaluateProductQa(
   return parseAIJson(raw, "Product QA", ["defects", "summary"]);
 }
 
-module.exports = { evaluateProductQa, buildProductQaMessages };
+export { evaluateProductQa, buildProductQaMessages };
