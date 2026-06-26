@@ -41,8 +41,8 @@ or behaviour changes are *never* in this phase.
 > ### ⏩ HANDOVER (2026-06-26 EOD) — read this first
 > **Phase 003, step 3 (convert piece by piece) — well underway.** Baseline: `npm test` = **30/30 green**, `npm run typecheck` clean.
 > **Done this session (committed):** answer-suggester, opener, intro-queue, closer, the full lexicon chain (review-core, cli-interactive, lexicon-reviewer), and **queue-manager** (1152 lines — the biggest; agent-drafted + line-by-line reviewed, 30/30 incl. its 6 internal tests + replay-regression).
-> **Engine `.js` left: 1 root + 5 cli/stages = 6** — `index` (root) · 5× `cli/stages/*`. (`reviewer`⇄`golden-checks`, `preparation`, `question-generator` ✅ done — see entries below.)
-> **➡️ NEXT STEP:** `index` (30-line wiring barrel) then the 5 `cli/stages/*`. Then `api/` (37) + `cli.js`. **Every engine root module but `index` is converted.**
+> **Engine `.js` left: 0 — `backend/engine/` is 100% TypeScript** ✅ (verified by a free CLI boot-test: `require('./backend/cli.js')` loads every module + all 5 cli/stages and renders). **Remaining for Phase 003: `api/` (37 files) + `backend/cli.js` (the entrypoint shell).**
+> **➡️ NEXT STEP:** the API server — `backend/api/` (37 files: handlers, routes, server). Then `backend/cli.js`. Then **step 6** (final sweep) + the **end-of-phase QA-agency review** + Carl's owner-walk + one paid gate case.
 > **The per-module process (every module):** ① read the `.js` + grep its importers **repo-wide** (incl. `evals/`, `scripts/`) ② write the `.ts` (faithful — same logic, only types) ③ `git rm` the `.js`, flip every importer's specifier to `…/x.ts` (or `.mts`) ④ `npm run typecheck` clean + `npm test` 30/30 ⑤ commit locally **only after Carl's green light** (he walks QA; you don't self-certify) ⑥ update this Current state.
 > **Hard rules:** NO `any`/`as`/`@ts-ignore`/`!` — narrow disk/model `unknown` with the house `isObjectRecord`/`asString` guards; honest no-op `?? `/`?.` for `noUncheckedIndexedAccess`; reuse shared types (`backend/shared/*.types.ts`). **No paid runs** (anything hitting OpenAI — gate/smoke/eval/live replay) without Carl's explicit yes for that run; free checks only (`npm test`, `npm run typecheck`). Leave `content/questions/_index.json` **unstaged** (unrelated artifact). Big modules: agent-draft → review line-by-line → integrate.
 > **Hard gate before phase sign-off:** after ALL conversion, run the end-of-phase multi-agent adversarial review (see "Done means"), fix everything, then Carl's owner-walk + one paid gate case. Live AI paths (planner/reviewer/prep/etc.) are type+test-verified but behaviour-deferred to that owner-walk.
@@ -75,6 +75,24 @@ queue-manager's wire→object axis coercion (`isObjectRecord(e) && typeof e.axis
 seed-bank fallback hoisted to the existing top-level import (no cycle). Prep-opener placement helpers typed against `Question[]`.
 **7 importers** flipped (api ×2, cli/stages ×2, engine/index, scripts ×2; the `admin/dist` hit is a built doc-string, not an import).
 Live AI path paid → behaviour deferred. **Engine `.js` left: 1 root / 6 incl. subdirs** — only `index` + the 5 `cli/stages/*`.
+
+**engine/index ✅ (2026-06-26, committed `3d392164`, typecheck + npm test 30/30):** the 30-line re-export barrel → ESM
+(`import`/`export`; `...budgets` → `export * from "./budgets.ts"`). `cli.js`'s `require("./engine")` flipped to the explicit
+`./engine/index.ts` — Node's directory-index resolution never finds `index.ts` (same lesson as the one-on-one-types barrel).
+
+**cli/stages ×5 ✅ (2026-06-26, committed `0c46349e`, typecheck + npm test 30/30 + CLI boot-test) — ENGINE NOW 100% TS:**
+`focus-points`, `preparation`, `question-bank`, `questioning`, `evaluation` → `.ts`; `cli.js`'s 5 stage requires flipped. Verified
+by a **free CLI boot-test** (`require('./backend/cli.js')` loads every stage + the whole engine graph and renders the menu) on top
+of typecheck + 30/30 — which **caught & fixed 3 latent broken bare-requires the suite never sees** (the stages still `require`d
+`../../preparation` and `../../closer` after those became `.ts`; the CLI was silently broken). Faithful, types-only; reused shared
+`Question`/`MeetingContext`/`TranscriptEntry`/`PreparationResult`/`CostTracker`; `plan` typed via a local `TurnPlan` the planner
+result + the planner-failed fallback both satisfy. **Three supporting type-corrections the conversion surfaced (committed with it):**
+(a) reviewer `ReadTurn.question` `{name}|null`→`unknown` (eval stage passes question as a name *string*, the fallback test as a
+`{name}` object; narrowed in `buildFallbackBriefing`); (b) reviewer `axisState` `AxisState`→`Pick<AxisSlot,'score'|'history'>`
+(`evaluate` receives the *serialized* axis state, not the live one); (c) `session.types` `TranscriptEntry.unbooked_signal`
+`string[]`→`{axis,raw,booked,reason}[]` (mistyped — `planTurn`'s clamp emits objects, stored as-is). `question-generator`
+`generateBankWithFallback` now returns `Question[]` via a faithful `seedToQuestion` materialiser (seeds are saved Questions;
+`axis_effects` read as the stored object, not the wire array). **Engine `.js` left: 0.** Next: `api/` (37) + `cli.js`.
 
 **Scope locked: A (backend only).** Frontend + `scripts/` tooling parked (brief: "don't touch frontend").
 
