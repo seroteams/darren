@@ -2,7 +2,7 @@
 
 const path = require("node:path");
 const { loadIntroQueue, sortIntroByArc } = require("../backend/engine/intro-queue.ts");
-const { selectReservedCloser, isForbiddenCloser } = require("../backend/engine/closer");
+const { selectReservedCloser, isForbiddenCloser } = require("../backend/engine/closer.ts");
 const { getArc } = require("../backend/engine/one-on-one-types/index.ts");
 const questions = require("../backend/engine/questions.ts");
 

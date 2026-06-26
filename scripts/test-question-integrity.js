@@ -20,7 +20,7 @@ const {
   isDuplicateText,
 } = require("../backend/engine/question-eligibility.ts");
 const { pickOpener } = require("../backend/engine/opener.ts");
-const { pickSeedOverflow } = require("../backend/engine/closer");
+const { pickSeedOverflow } = require("../backend/engine/closer.ts");
 const {
   buildThreadFollowQuestion,
   enforceThreadFollow,

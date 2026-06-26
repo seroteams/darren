@@ -1,7 +1,7 @@
 const { requireSession } = require("../sessions");
 const { runStage } = require("./stream-helper");
 const { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener } = require("../../engine/question-generator");
-const { selectReservedCloser } = require("../../engine/closer");
+const { selectReservedCloser } = require("../../engine/closer.ts");
 const { getSessionSelectedFocus } = require("../selected-focus");
 const { loadPersona, scriptedQuestions } = require("../persona-script");
 
