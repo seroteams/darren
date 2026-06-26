@@ -1,0 +1,10 @@
+alias: q_coordination_pull
+label: Coordination pull
+name: Which coordination asks are taking the most time right now?
+description: Drills into the specific stakeholder work crowding out higher-leverage design and growth work.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: pull him into coordination

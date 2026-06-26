@@ -1,10 +1,11 @@
 alias: q_friction_scan_19
 label: Friction scan
-name: Where have things gotten complicated lately?
-description: Invites her to name current snags in plain terms and advances into the friction stage.
+name: Where has work felt most snagged lately?
+description: Invites them to name blockers without framing it as complaint.
 purpose: topic
 stage: friction
 axis_effects:
   clarity: +1
   engagement: +3
 source: "reworded_from:q_intro_biweekly_friction"
+grounding: open

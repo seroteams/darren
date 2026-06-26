@@ -1,0 +1,10 @@
+alias: q_decision_rights
+label: Decision rights
+name: Which decision rights feel most unclear right now?
+description: Pins down the specific boundary that is creating the most friction.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: decision rights

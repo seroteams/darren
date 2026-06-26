@@ -1,10 +1,10 @@
 alias: q_prep_opener_38
 label: Prep opener
-name: How have the last couple of weeks landed for you, and what ended up taking more of your time than you expected?
-description: Opens with a calm read on the fortnight and surfaces unplanned work without sounding like an audit.
+name: What parts of your work lately have felt most like Head-of territory, and where do you want more room to operate?
+description: Starts from the growth brief and lets Carl point to the kind of lead work he wants more of.
 purpose: topic
 stage: pulse
 axis_effects:
+  growth: +3
   clarity: +1
-  engagement: +1
 source: generated

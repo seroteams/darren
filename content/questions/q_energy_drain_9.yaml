@@ -1,0 +1,10 @@
+alias: q_energy_drain_9
+label: Energy drain
+name: What part of this friction is taking the most out of you?
+description: Shows whether the strain is mostly about time, emotion, or constant interruption.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

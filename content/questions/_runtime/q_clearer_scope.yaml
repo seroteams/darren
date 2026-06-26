@@ -1,0 +1,10 @@
+alias: q_clearer_scope
+label: Clearer scope
+name: When you say clearer scope, where is it fuzzy right now?
+description: Drills into the scope-clarity thread he just raised so the manager can hear the concrete gap.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: clearer scope

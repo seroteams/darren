@@ -1,0 +1,10 @@
+alias: q_prep_opener_188
+label: Prep opener
+name: Before we get into specifics, what has taken more of your time or energy than expected over the last couple of weeks?
+description: Helps you hear what has been pulling Carl off his normal lane lately.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

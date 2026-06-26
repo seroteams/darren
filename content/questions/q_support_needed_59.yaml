@@ -1,0 +1,10 @@
+alias: q_support_needed_59
+label: Support needed
+name: Where would backing from me help most right now?
+description: Leaves room for Carl to ask for the kind of support that would actually change the week.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

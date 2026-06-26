@@ -1,0 +1,10 @@
+alias: q_team_direction
+label: Team direction
+name: Where are you steering the team more than you were six months ago?
+description: Shows whether his scope is shifting from craft output toward direction and leadership.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

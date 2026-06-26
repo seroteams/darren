@@ -1,0 +1,10 @@
+alias: q_stakeholder_pull_2
+label: Stakeholder pull
+name: Where are stakeholder asks pulling you away from the work you want to be doing?
+description: Brings out the trade-offs he is managing between influence work and design depth.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

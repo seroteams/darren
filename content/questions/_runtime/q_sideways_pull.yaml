@@ -1,0 +1,10 @@
+alias: q_sideways_pull
+label: Sideways pull
+name: What asks are pulling you sideways most right now?
+description: Drills into the specific requests crowding out design depth and higher-leverage work.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: pulling him sideways
