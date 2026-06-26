@@ -1,5 +1,5 @@
-const { requireSession } = require("../sessions");
-const { runStage } = require("./stream-helper");
+const { requireSession } = require("../sessions.ts");
+const { runStage } = require("./stream-helper.ts");
 const { generateFocusPoints } = require("../../engine/generate.ts");
 
 module.exports = async function focusPoints(c) {

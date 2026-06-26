@@ -1,4 +1,4 @@
-const { requireSession, persistSession } = require("../sessions");
+const { requireSession, persistSession } = require("../sessions.ts");
 
 module.exports = async function selectedFocus(c) {
   const body = await c.readBody();

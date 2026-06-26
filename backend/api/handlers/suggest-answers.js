@@ -1,4 +1,4 @@
-const { requireSession } = require("../sessions");
+const { requireSession } = require("../sessions.ts");
 const { suggestAnswers } = require("../../engine/answer-suggester.ts");
 
 // Dev-only roleplay aid: draft a few in-character employee answers for the

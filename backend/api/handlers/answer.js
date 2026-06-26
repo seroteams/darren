@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const { requireSession } = require("../sessions");
+const { requireSession } = require("../sessions.ts");
 
 const MAX_ANSWER_CHARS = 4000;
 

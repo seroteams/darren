@@ -1,7 +1,7 @@
-const { requireSession } = require("../sessions");
-const { runStage } = require("./stream-helper");
+const { requireSession } = require("../sessions.ts");
+const { runStage } = require("./stream-helper.ts");
 const { generatePreparation } = require("../../engine/preparation.ts");
-const { getSessionSelectedFocus } = require("../selected-focus");
+const { getSessionSelectedFocus } = require("../selected-focus.ts");
 
 const IS_DEV = process.env.NODE_ENV !== "production";
 

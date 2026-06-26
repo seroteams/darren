@@ -1,5 +1,5 @@
 const { listRecentRuns, listFinishedRuns, summarizeRun, compareRun, readRunStages, deleteRun, setArchived } = require("../../engine/run-history.ts");
-const { dropSession } = require("../sessions");
+const { dropSession } = require("../sessions.ts");
 
 function recent(c) {
   const limit = Math.max(1, Math.min(20, Number(c.query.limit) || 3));

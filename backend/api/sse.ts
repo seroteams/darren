@@ -1,6 +1,15 @@
+import type { ServerResponse } from "node:http";
+
 const HEARTBEAT_MS = 15_000;
 
-function openStream(res) {
+/** A live Server-Sent-Events stream over one response. */
+export interface SseStream {
+  write(event: string, data?: unknown): void;
+  close(): void;
+  onClose(fn: () => void): void;
+}
+
+function openStream(res: ServerResponse): SseStream {
   res.writeHead(200, {
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache, no-transform",
@@ -29,8 +38,8 @@ function openStream(res) {
   };
 }
 
-function thinkingLabel(label) {
+function thinkingLabel(label: string) {
   return { label };
 }
 
-module.exports = { openStream, thinkingLabel };
+export { openStream, thinkingLabel };

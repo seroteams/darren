@@ -1,6 +1,32 @@
-const { openStream } = require("../sse");
-const { persist } = require("../session-persistence");
-const cost = require("../../engine/cost.ts");
+import { openStream } from "../sse.ts";
+import { persist } from "../session-persistence.ts";
+import { getActive, setActive } from "../../engine/cost.ts";
+import type { SseStream } from "../sse.ts";
+import type { RequestContext } from "../router.ts";
+import type { Session } from "../../shared/session.types.ts";
+
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+
+// The shared Session types inFlight as Map<string, unknown> (internal de-dup);
+// the entries are the shape we put in here. Narrow on read with the guard below.
+interface InFlightEntry {
+  subscribers: SseStream[];
+  controller: AbortController;
+}
+function isInFlightEntry(v: unknown): v is InFlightEntry {
+  return isObjectRecord(v) && Array.isArray(v.subscribers) && v.controller instanceof AbortController;
+}
+
+interface RunStageOptions<T> {
+  thinkingLabel: string;
+  produce: (signal: AbortSignal) => Promise<T>; // async () => result
+  getCached: () => T | null | undefined; // () => cached result or null/undefined
+  setCached: (result: T) => void; // (result) => void
+  resultEvent: string; // string e.g. "result"
+  buildPayload: (result: T) => unknown; // (result) => any
+}
 
 // runStage(session, stageKey, { thinkingLabel, produce, onResult, resultEvent })
 //
@@ -8,19 +34,19 @@ const cost = require("../../engine/cost.ts");
 // continuously during fresh runs) and then `{resultEvent}` with the payload,
 // then `done`. Multiple clients for the same stage attach to a single in-flight
 // AbortController and share events via a subscriber list.
-async function runStage(
-  c,
-  session,
-  stageKey,
+async function runStage<T>(
+  c: RequestContext,
+  session: Session,
+  stageKey: string,
   {
     thinkingLabel,
-    produce,        // async () => result
-    getCached,      // () => cached result or null/undefined
-    setCached,      // (result) => void
-    resultEvent,    // string e.g. "result"
-    buildPayload,   // (result) => any
-  }
-) {
+    produce,
+    getCached,
+    setCached,
+    resultEvent,
+    buildPayload,
+  }: RunStageOptions<T>
+): Promise<void> {
   const stream = openStream(c.res);
 
   // --- Case 1: result already cached -> brief replay
@@ -41,7 +67,7 @@ async function runStage(
 
   // --- Case 2: another client is already driving this stage -> attach
   const existing = session.inFlight.get(stageKey);
-  if (existing) {
+  if (existing && isInFlightEntry(existing)) {
     existing.subscribers.push(stream);
     stream.write("thinking", { label: thinkingLabel });
     stream.onClose(() => {
@@ -52,13 +78,13 @@ async function runStage(
   }
 
   // --- Case 3: fresh run
-  const entry = {
+  const entry: InFlightEntry = {
     subscribers: [stream],
     controller: new AbortController(),
   };
   session.inFlight.set(stageKey, entry);
 
-  const broadcast = (event, data) => {
+  const broadcast = (event: string, data: unknown) => {
     for (const s of entry.subscribers) s.write(event, data);
   };
   const closeAll = () => {
@@ -72,8 +98,8 @@ async function runStage(
     if (i >= 0) entry.subscribers.splice(i, 1);
   });
 
-  const prevTracker = cost.getActive();
-  cost.setActive(session.tracker);
+  const prevTracker = getActive();
+  setActive(session.tracker);
   try {
     const result = await produce(entry.controller.signal);
     setCached(result);
@@ -82,14 +108,14 @@ async function runStage(
     broadcast("done", {});
     closeAll();
   } catch (err) {
-    const recoverable = err.recoverable === true;
-    console.error(`[${stageKey}] failed:`, err?.stack || err);
-    broadcast("error", { message: err.message || String(err), recoverable });
+    const recoverable = isObjectRecord(err) && err.recoverable === true;
+    console.error(`[${stageKey}] failed:`, (isObjectRecord(err) && err.stack) || err);
+    broadcast("error", { message: (err instanceof Error && err.message) || String(err), recoverable });
     closeAll();
   } finally {
     session.inFlight.delete(stageKey);
-    cost.setActive(prevTracker);
+    setActive(prevTracker);
   }
 }
 
-module.exports = { runStage };
+export { runStage };

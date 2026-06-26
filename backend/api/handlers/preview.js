@@ -2,7 +2,7 @@
 // model — assembled with ZERO API calls, so nothing leaves the machine unseen.
 // Reuses the same assembly code the live run uses, so the preview can never
 // drift from what actually gets sent (engine honesty). GET /api/preview?s=<id>.
-const { requireSession, inferStage } = require("../sessions");
+const { requireSession, inferStage } = require("../sessions.ts");
 const { assemblePreparation } = require("../../engine/preparation.ts");
 const { buildPreparationInputs } = require("./preparation");
 

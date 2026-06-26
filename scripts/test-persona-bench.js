@@ -5,7 +5,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const { MEETING_TYPES } = require("../backend/engine/meeting-types.ts");
-const { scriptedQuestions } = require("../backend/api/persona-script");
+const { scriptedQuestions } = require("../backend/api/persona-script.ts");
 const { CONFIG_DIR } = require("../backend/engine/paths.mts");
 
 const BENCH_PATH = path.join(CONFIG_DIR, "persona-bench-v1.json");

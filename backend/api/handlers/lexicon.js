@@ -5,7 +5,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { getSession } = require("../sessions");
+const { getSession } = require("../sessions.ts");
 const {
   generateSuggestions,
   commitDecisions,

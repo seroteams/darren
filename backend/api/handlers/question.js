@@ -1,5 +1,5 @@
 const path = require("node:path");
-const { requireSession, persistSession } = require("../sessions");
+const { requireSession, persistSession } = require("../sessions.ts");
 const {
   checkQuestionEligibility,
   dropIneligibleHeads,

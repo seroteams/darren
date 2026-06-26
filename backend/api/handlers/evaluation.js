@@ -1,7 +1,7 @@
-const { requireSession } = require("../sessions");
-const { runStage } = require("./stream-helper");
+const { requireSession } = require("../sessions.ts");
+const { runStage } = require("./stream-helper.ts");
 const { evaluate } = require("../../engine/reviewer.ts");
-const { getSessionSelectedFocus } = require("../selected-focus");
+const { getSessionSelectedFocus } = require("../selected-focus.ts");
 const { serialize } = require("../../engine/axes.ts");
 const { formatNotesForEvaluation } = require("./notes");
 const { generateSuggestions, shouldReview } = require("../../engine/lexicon-reviewer.ts");

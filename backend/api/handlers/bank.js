@@ -1,9 +1,9 @@
-const { requireSession } = require("../sessions");
-const { runStage } = require("./stream-helper");
+const { requireSession } = require("../sessions.ts");
+const { runStage } = require("./stream-helper.ts");
 const { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener } = require("../../engine/question-generator.ts");
 const { selectReservedCloser } = require("../../engine/closer.ts");
-const { getSessionSelectedFocus } = require("../selected-focus");
-const { loadPersona, scriptedQuestions } = require("../persona-script");
+const { getSessionSelectedFocus } = require("../selected-focus.ts");
+const { loadPersona, scriptedQuestions } = require("../persona-script.ts");
 
 module.exports = async function bank(c) {
   const session = requireSession(c.query.s);

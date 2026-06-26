@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const { requireSession, summarizeAxes, persistSession } = require("../sessions");
+const { requireSession, summarizeAxes, persistSession } = require("../sessions.ts");
 
 // Append the discarded turn to amend-log.json so the run record keeps the
 // original answer alongside whatever the amended one turns out to be.

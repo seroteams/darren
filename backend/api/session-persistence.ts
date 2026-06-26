@@ -1,14 +1,30 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const { LOGS_ROOT } = require("../engine/session.ts");
-const { findRunDir } = require("../engine/run-history.ts");
-const { initState } = require("../engine/axes.ts");
-const cost = require("../engine/cost.ts");
+import fs from "node:fs";
+import path from "node:path";
+import { LOGS_ROOT } from "../engine/session.ts";
+import { findRunDir } from "../engine/run-history.ts";
+import { initState } from "../engine/axes.ts";
+import { createTracker } from "../engine/cost.ts";
+import type { Session } from "../shared/session.types.ts";
 
 const STATE_FILE = "session-state.json";
 
+// The on-disk shape: every Session field except the runtime-only ones (Maps +
+// tracker), which are rebuilt by hydrateSession on restore.
+type PersistedSession = Omit<Session, "lastPlanByTurn" | "inFlight" | "tracker">;
+
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+
+// On-disk state is the closed output of serialize() below; a present string id
+// is the one integrity check the original made (`if (!s.id) return null`).
+// hydrateSession backfills the few fields older state files may lack.
+function isPersistedSession(v: unknown): v is PersistedSession {
+  return isObjectRecord(v) && typeof v.id === "string";
+}
+
 // Fields that are safe to persist and restore (skip ephemeral Maps and functions)
-function serialize(s) {
+function serialize(s: Session): PersistedSession {
   return {
     id: s.id,
     dir: s.dir,
@@ -46,57 +62,65 @@ function serialize(s) {
   };
 }
 
-function persist(session) {
+function persist(session: Session): void {
   try {
     fs.writeFileSync(
       path.join(session.dir, STATE_FILE),
       JSON.stringify(serialize(session), null, 2)
     );
   } catch (e) {
-    console.warn("[session-persistence] write failed:", e.message);
+    console.warn("[session-persistence] write failed:", e instanceof Error ? e.message : e);
   }
 }
 
-function hydrateSession(s, sessionDir) {
+function hydrateSession(s: PersistedSession, sessionDir: string): Session {
   // Trust the on-disk location over the serialised `dir` field — old
   // state files have a pre-move absolute path baked in.
-  s.dir = sessionDir;
-  s.lastPlanByTurn = new Map();
-  s.inFlight = new Map();
-  s.tracker = cost.createTracker();
-  if (!Array.isArray(s.turnSnapshots)) s.turnSnapshots = [];
-  if (s.agendaInjected == null) s.agendaInjected = false;
-  if (s.agendaCovered === undefined) s.agendaCovered = null;
-  if (s.agendaInput === undefined) s.agendaInput = null;
-  if (!s.axisState || typeof s.axisState !== "object") s.axisState = initState();
-  return s;
+  return {
+    ...s,
+    dir: sessionDir,
+    turnSnapshots: Array.isArray(s.turnSnapshots) ? s.turnSnapshots : [],
+    agendaInjected: s.agendaInjected == null ? false : s.agendaInjected,
+    agendaCovered: s.agendaCovered === undefined ? null : s.agendaCovered,
+    agendaInput: s.agendaInput === undefined ? null : s.agendaInput,
+    axisState: !s.axisState || typeof s.axisState !== "object" ? initState() : s.axisState,
+    lastPlanByTurn: new Map(),
+    inFlight: new Map(),
+    tracker: createTracker(),
+  };
 }
 
-function restoreSessionAtDir(sessionDir, sessions, { ttlCutoff } = {}) {
+function restoreSessionAtDir(
+  sessionDir: string,
+  sessions: Map<string, Session>,
+  { ttlCutoff }: { ttlCutoff?: number } = {}
+): Session | null {
   const stateFile = path.join(sessionDir, STATE_FILE);
   if (!fs.existsSync(stateFile)) return null;
   try {
-    const s = JSON.parse(fs.readFileSync(stateFile, "utf8"));
-    if (!s.id) return null;
-    if (ttlCutoff != null && s.lastSeenAt < ttlCutoff) return null;
-    if (sessions.has(s.id)) return sessions.get(s.id);
-    hydrateSession(s, sessionDir);
-    sessions.set(s.id, s);
-    return s;
+    const parsed: unknown = JSON.parse(fs.readFileSync(stateFile, "utf8"));
+    if (!isPersistedSession(parsed)) return null;
+    if (ttlCutoff != null && parsed.lastSeenAt < ttlCutoff) return null;
+    const existing = sessions.get(parsed.id);
+    if (existing) return existing;
+    const hydrated = hydrateSession(parsed, sessionDir);
+    sessions.set(parsed.id, hydrated);
+    return hydrated;
   } catch {
     return null;
   }
 }
 
-function restoreFromDisk(id, sessions) {
-  if (sessions.has(id)) return sessions.get(id);
+function restoreFromDisk(id: string, sessions: Map<string, Session>): Session | null {
+  const existing = sessions.get(id);
+  if (existing) return existing;
   const sessionDir = findRunDir(id);
   if (!sessionDir) return null;
   const s = restoreSessionAtDir(sessionDir, sessions);
   return s && s.id === id ? s : null;
 }
 
-function loadPersistedSessions(sessions, ttlMs) {
+function loadPersistedSessions(sessions: Map<string, Session>, ttlMs: number): void {
   if (!fs.existsSync(LOGS_ROOT)) return;
   const ttlCutoff = Date.now() - ttlMs;
   let restored = 0;
@@ -118,4 +142,4 @@ function loadPersistedSessions(sessions, ttlMs) {
   if (restored > 0) console.log(`[session-persistence] restored ${restored} session(s) from disk`);
 }
 
-module.exports = { persist, loadPersistedSessions, restoreFromDisk, hydrateSession };
+export { persist, loadPersistedSessions, restoreFromDisk, hydrateSession };

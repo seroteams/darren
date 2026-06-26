@@ -4,9 +4,9 @@ const path = require("node:path");
 const { loadEnv } = require("../engine/env.ts");
 loadEnv();
 
-const { createRouter } = require("./router");
-const { createStaticHandler } = require("./static");
-const { startSweep } = require("./sessions");
+const { createRouter } = require("./router.ts");
+const { createStaticHandler } = require("./static.ts");
+const { startSweep } = require("./sessions.ts");
 
 const meetingTypes = require("./handlers/meeting-types");
 const arcs = require("./handlers/arcs");

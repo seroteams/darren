@@ -1,4 +1,4 @@
-const { getSession, snapshot } = require("../sessions");
+const { getSession, snapshot } = require("../sessions.ts");
 
 module.exports = function rehydrate(c) {
   const id = c.query.s;

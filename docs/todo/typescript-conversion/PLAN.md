@@ -38,6 +38,23 @@ or behaviour changes are *never* in this phase.
 
 ## Current state
 
+**API infra layer ✅ (2026-06-26, typecheck clean + npm test 30/30 + free require-boot test):** step 5 begun.
+The 8 leaf-most `backend/api/` files — `router`, `sse`, `static`, `persona-script`, `selected-focus` (the api
+helper, NOT the handler), `session-persistence`, `sessions`, `handlers/stream-helper` → `.ts`. Pure plumbing,
+no live-AI paths, fully covered offline by `test-session-resume`/`test-persona-bench`/`test-back-nav`. Reuses
+shared `Session`/`MeetingContext`/`AxisState`/`Question`/`FocusPoint` (the shared `Session` type was written in
+step 2 *for* this). New exported API contracts: `RequestContext`/`RouteHandler` (router), `SseStream` (sse),
+`Persona`/`ScriptedQuestion` (persona-script). **~22 importers flipped** repo-wide (all handler `.js` + `server.js`
++ scripts `test-session-resume`/`test-persona-bench`/`test-back-nav`). No `any`/`as`/`@ts-ignore`/`!`.
+**Judgment calls surfaced to Carl:** (a) `session-persistence` uses a *documented loose guard*
+`isPersistedSession(v): v is PersistedSession` — on-disk state is the closed output of `serialize()`, and the
+original only checked `if (!s.id)`; `hydrateSession` still backfills the legacy-optional fields (axisState,
+turnSnapshots, agenda*). (b) `createWebSession` now sets `completedAt: null` explicitly (the shared type requires
+`number | null`; `serialize`/`snapshot` already did `?? null`, so byte-identical downstream). (c) `selected-focus`
+helper: dropped the dead `typeof p === "string" ? p : p?.id` object-branch — the handler only ever stores
+`string[]` (trimmed ids), so the branch was unreachable; behaviour identical. **API `.js` left: 29** (28
+handlers + `server.js`), plus `backend/cli.js` (the engine entrypoint). Next: the 28 handlers, then `server.js`.
+
 > ### ⏩ HANDOVER (2026-06-26 EOD) — read this first
 > **Phase 003, step 3 (convert piece by piece) — well underway.** Baseline: `npm test` = **30/30 green**, `npm run typecheck` clean.
 > **Done this session (committed):** answer-suggester, opener, intro-queue, closer, the full lexicon chain (review-core, cli-interactive, lexicon-reviewer), and **queue-manager** (1152 lines — the biggest; agent-drafted + line-by-line reviewed, 30/30 incl. its 6 internal tests + replay-regression).

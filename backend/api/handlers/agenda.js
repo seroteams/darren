@@ -1,4 +1,4 @@
-const { requireSession, persistSession } = require("../sessions");
+const { requireSession, persistSession } = require("../sessions.ts");
 
 // POST /api/agenda/cover — records the closing-check answer ("Did you cover this?").
 module.exports = async function agendaCover(c) {

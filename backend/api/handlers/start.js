@@ -4,11 +4,11 @@ const { pickOpener } = require("../../engine/opener.ts");
 const { appendEligibilityLog } = require("../../engine/question-eligibility.ts");
 const { loadIntroQueue } = require("../../engine/intro-queue.ts");
 const { getArc } = require("../../engine/meeting-arcs.ts");
-const { createWebSession, persistSession, INTRO_BUDGET } = require("../sessions");
+const { createWebSession, persistSession, INTRO_BUDGET } = require("../sessions.ts");
 const { generateFocusPoints } = require("../../engine/generate.ts");
 const { ensureRoleProfile } = require("../../engine/role-profile.ts");
 const { buildFingerprint } = require("../../engine/run-fingerprint.ts");
-const { loadPersona, scriptAnswers } = require("../persona-script");
+const { loadPersona, scriptAnswers } = require("../persona-script.ts");
 
 function buildAgendaCheck(anchorStageId) {
   return Object.freeze({

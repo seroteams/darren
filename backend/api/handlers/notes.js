@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const { requireSession } = require("../sessions");
-const { persist } = require("../session-persistence");
+const { requireSession } = require("../sessions.ts");
+const { persist } = require("../session-persistence.ts");
 
 const STAGE_LABEL = {
   FOCUS_POINTS: "Focus points",

@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const { requireSession, summarizeAxes, persistSession } = require("../sessions");
-const { openStream } = require("../sse");
+const { requireSession, summarizeAxes, persistSession } = require("../sessions.ts");
+const { openStream } = require("../sse.ts");
 const { planTurn } = require("../../engine/queue-manager.ts");
 const { applyDeltas, serialize } = require("../../engine/axes.ts");
 const { isForbiddenCloser, pickSeedOverflow } = require("../../engine/closer.ts");
@@ -11,7 +11,7 @@ const { summarizeAgenda, buildCarryForwardQuestion } = require("../../engine/age
 const questions = require("../../engine/questions.ts");
 const { writeJson } = require("../../engine/cli/io.ts");
 const cost = require("../../engine/cost.ts");
-const { getSessionSelectedFocus } = require("../selected-focus");
+const { getSessionSelectedFocus } = require("../selected-focus.ts");
 
 module.exports = async function plan(c) {
   const session = requireSession(c.query.s);

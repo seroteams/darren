@@ -3,7 +3,7 @@
 // No model call — the profile was generated at /api/start (pre-warm) and is just
 // read from disk here.
 
-const { getSession } = require("../sessions");
+const { getSession } = require("../sessions.ts");
 const { loadRoleProfile, effectiveTerminology, terminologyGroups } = require("../../engine/role-profile.ts");
 
 module.exports = function roleProfile(c) {

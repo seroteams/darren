@@ -1,4 +1,4 @@
-const { requireSession, persistSession } = require("../sessions");
+const { requireSession, persistSession } = require("../sessions.ts");
 
 const VERDICTS = new Set(["keep", "fix", "block"]);
 const ISSUE_TYPES = new Set([

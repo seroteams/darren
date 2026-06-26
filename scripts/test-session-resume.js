@@ -12,8 +12,8 @@ const {
   snapshot,
   sessions,
   persistSession,
-} = require("../backend/api/sessions");
-const { restoreFromDisk } = require("../backend/api/session-persistence");
+} = require("../backend/api/sessions.ts");
+const { restoreFromDisk } = require("../backend/api/session-persistence.ts");
 
 let failed = 0;
 function check(name, fn) {
