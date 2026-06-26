@@ -38,10 +38,13 @@ or behaviour changes are *never* in this phase.
 
 ## Current state
 
-**API handlers batches 1–2 ✅ (2026-06-26, typecheck clean + npm test 30/30 + live boot+curl per batch):**
-6 handlers → `.ts`. Batch 1: `meeting-types`, `persona-bench` (single-fn), `pipeline`, `review` (object).
-Batch 2: `runs`, `role-lexicons` (object). Disk/wire JSON narrowed via house guards; unexported engine types
-pulled via `ReturnType<typeof …>` (pipeline's `PipelineLock`).
+**API handlers batches 1–3 ✅ (2026-06-26, typecheck clean + npm test 30/30 + live boot+curl per batch):**
+8 handlers → `.ts`. Batch 1: `meeting-types`, `persona-bench` (single-fn), `pipeline`, `review` (object).
+Batch 2: `runs`, `role-lexicons` (object). Batch 3: `arcs`, `lexicon` (object — the complex pair). **All 6 object
+handlers now done.** Disk/wire JSON narrowed via house guards; unexported engine types pulled via
+`ReturnType<typeof …>` (pipeline's `PipelineLock`, arcs' `ArcView`/`diffStageIds`). lexicon note: `commitDecisions`'
+inferred return widens `skipped` to `boolean` (mutable object-literal property), so the accepted-count uses
+`"accepted" in commit && Array.isArray(...)` rather than discriminant narrowing.
 > **⚙️ THE HANDLER↔server INTEROP RULE (critical — `require()` of ESM `export default` returns `{default:fn}`, NOT the fn; verified):**
 > - **Object handler** (`module.exports = { a, b }`) → `.ts` **named exports**; in `server.js` just flip the
 >   specifier `./handlers/x` → `./handlers/x.ts` (the `x.a` namespace access still resolves). No `.default`.
@@ -53,9 +56,8 @@ pulled via `ReturnType<typeof …>` (pipeline's `PipelineLock`).
 > - **⛔ `regression` handler is BLOCKED:** it imports `scripts/lib/replay-suite` (a *parked* `.js`, scope A).
 >   It stays `.js` with this documented exception until scripts are pulled into scope.
 
-**Remaining handlers (22):** object — `arcs`, `lexicon` (both complex: arcs has serialize/normalizePhase/diff;
-lexicon has AI + `GenerateResult` discriminated-union narrowing). single-fn — `rehydrate`, `library`, `verdict`,
-`notes`, `agenda`, `back`, `answer`, `question`, `selected-focus` (handler); **live-AI** (behaviour → owner-walk):
+**Remaining handlers (19, all single-fn):** `rehydrate`, `library`, `verdict`, `notes`, `agenda`, `back`,
+`answer`, `question`, `preview`, `role-profile`, `selected-focus` (handler); **live-AI** (behaviour → owner-walk):
 `start`, `focus-points`, `preparation`, `bank`, `plan`, `evaluation`, `suggest-answers`, `suggest-fix`. Then
 `server.js` → **`server.mts`** (needs `import.meta.dirname` for `__dirname` — same `.mts`/TS1470 reason as `paths.mts`;
 update `dev`/`start` npm scripts to `server.mts`; drop all `.default` bridges). Then `backend/cli.js`. Then step 6
