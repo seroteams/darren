@@ -13,7 +13,7 @@ const path = require("node:path");
 
 const { applyManagerBriefingPostProcess } = require("../../backend/engine/reviewer.ts");
 const { runTrustChecks } = require("../../evals/trust-checks");
-const { loadBankQuestions } = require("./session-scores");
+const { loadBankQuestions } = require("./session-scores.ts");
 
 function loadJson(p, fallback = undefined) {
   if (!fs.existsSync(p)) return fallback;
