@@ -38,6 +38,29 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### 🔨 2026-06-27 — STEP 3 — **safe set COMPLETE** (8 domains + suggest-fix), **Carl-accepted** ("move to next stage")
+> **runs Pass B (`suggest-fix`)** done test-first + behaviour-identical, accepted on the free checks
+> (its live, paid walk is deferred — see note):
+> - `services/suggest-fix/` — `suggest-fix.repo.ts` (file reads: run dir + `session-state.json` + the
+>   stage's prompt/response) → `suggest-fix.service.ts` (the 400/404/409 gates + input assembly, with the
+>   **AI call as an injected `runFix` boundary**, 502 on failure) → `suggest-fix.controller.ts` (thin;
+>   wires the engine fixer into the boundary). Co-located test written **first** (7 cases) exercises every
+>   gate + the assembly **with zero disk and zero model calls**.
+> - **Wiring:** v1 `POST /api/v1/suggest-fix` (v1Route, throws forbidden) + legacy `/api/suggest-fix`
+>   alias. v1 mirrors today's path (runId in body; the contract's `/runs/:id/suggest-fix` is deferred
+>   polish). Removed the orphaned `handlers/suggest-fix.ts`. 502 stays honest on legacy, masked on v1.
+> - **Verified (free):** `npm test` **44/44**, typecheck clean, banned-construct grep clean.
+> - **⚠️ Live walk deferred (money):** suggest-fix is the one runs route that calls the model. Structure
+>   is proven free (unit tests + typecheck); exercising it end-to-end is **one fixer call (~$0.35)** — walk
+>   it naturally next time a run is reviewed. No paid run without Carl's explicit yes.
+>
+> **All 8 safe domains + suggest-fix are now in clean layers** (catalog, role-lexicons, regression,
+> pipeline, library, checks, arcs, lexicon, runs). The only handlers left in `backend/api/handlers/` are
+> the **live `sessions` pipeline** (21 routes — start/answer/back, the 5 SSE streams, notes, verdict,
+> per-session lexicon, preview, role-profile, rehydrate). **STOPPED here for Carl's steer on how to
+> approach `sessions`** — it holds live in-memory state and is the heart of the product, so it gets its
+> own sub-phase plan, not a quick pass. Step 4 (mirrored test tree) still follows.
+>
 > ### 🔨 2026-06-27 — STEP 3 IN PROGRESS — runs **Pass A** layered (8 of 9 routes), **Carl-approved**
 > `runs` is the big domain (9 routes across 3 handler files) and one route (`suggest-fix`) calls the AI,
 > so it's split: **Pass A = the 8 free, file-backed routes** (recent, finished, overview, full, stages,

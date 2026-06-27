@@ -35,7 +35,7 @@ import roleProfile from "./handlers/role-profile.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
 import * as regression from "./services/regression/regression.controller.ts";
 import verdict from "./handlers/verdict.ts";
-import suggestFix from "./handlers/suggest-fix.ts";
+import * as suggestFix from "./services/suggest-fix/suggest-fix.controller.ts";
 import library from "./services/library/library.controller.ts";
 import checks from "./services/checks/checks.controller.ts";
 
@@ -176,9 +176,17 @@ function main(): void {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return verdict(c);
   });
+  // suggest-fix — the prompt-fix suggester (controller → service → repo + an
+  // injected AI boundary; the one runs route that calls the model). v1 mirrors
+  // today's path (runId stays in the body; the contract's id-in-path
+  // /runs/:id/suggest-fix is deferred polish); legacy alias on the same controller.
+  router.add("POST", "/api/v1/suggest-fix", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return suggestFix.suggest(c);
+  }));
   router.add("POST", "/api/suggest-fix", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return suggestFix(c);
+    return suggestFix.suggest(c);
   });
   router.add("GET", "/api/v1/pipeline/status", v1Route(pipeline.status));
   router.add("GET", "/api/pipeline/status", pipeline.status);
