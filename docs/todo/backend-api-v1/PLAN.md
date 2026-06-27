@@ -38,6 +38,40 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### 🔨 2026-06-28 — `sessions` **S0 BUILT** (the session-store seam), test-first — awaiting Carl's walk
+> First sub-pass of the `sessions` domain. **No routes moved** — the seam is defined so S1–S4 convert
+> against a stable boundary. Built **test-first** (red → green):
+> - `services/sessions/sessions.repo.ts` — the **`SessionsRepo`** storage seam (`get` / `create` / `drop`
+>   / `persist`), `fileSessionsRepo` delegating to the existing `sessions.ts` store. A DB/Redis store can
+>   replace it without touching a service.
+> - `services/sessions/sessions.service.ts` — `createSessionsService(repo)` exposing the shared
+>   session-resolution core (`get` / `require` / `create` / `drop` / `persist`). `require` is the layered
+>   home of the old `requireSession`: unknown id → shared `notFound`, **message kept verbatim**
+>   (`Unknown session: <id>`) so the legacy alias stays byte-identical when its route converts.
+> - `services/sessions/sessions.service.test.ts` written **first** (7 cases, in-memory fake store) — proves
+>   the swap: get/require(404)/create/drop/persist all drive through the seam with zero disk, zero model.
+> - **Design call (flag for Carl):** the seam is **storage-only**. The shared *pure derivations*
+>   (`snapshot` / `inferStage` / `summarizeAxes`) compute a view from a Session and touch no storage, so
+>   they are **not** on the repo — they move into the service alongside their routes in S1
+>   (`snapshot`→rehydrate, `inferStage`→preview). Keeps "repos own data access" honest. The sub-phase plan
+>   listed `inferStage` under the seam; this realises the same intent one layer up. Tell me if you'd rather
+>   bundle them onto the repo.
+> - **Verified (free):** `npm test` **45/45** (+1 new file), typecheck clean, banned-construct grep clean.
+>   `git status` shows only the new `services/sessions/` folder — `server.ts`, handlers, and `sessions.ts`
+>   untouched, so the app + admin behave **identically** (the seam is unused until S1).
+> - **Not committed — awaiting your S0 walk** (QA shape §F: "describe swapping the session store with a
+>   fake — seam holds, no route behaviour changes"). On your green light I commit, then start **S1 (free
+>   reads)**.
+>
+> ### 🔨 2026-06-27 — `sessions` sub-phase **PLANNED**, decisions locked (Carl)
+> Carl chose **plan-first** for the risky `sessions` domain. Wrote
+> [sessions-subphase.md](sessions-subphase.md): slices the 21 routes into **S0 → S4** (session-store
+> seam first, then free reads → non-AI writes → AI JSON → SSE streams), safest-first, one pass per walk.
+> **Decisions locked:** (1) v1 sessions take **id IN THE PATH** (`/api/v1/sessions/:id/…`, the contract's
+> D4) — legacy `?s=`/body routes stay as-is so the admin is unaffected; the controller resolves the id
+> from path (v1) or query/body (legacy). (2) **one pass per walk.** **Next: S0** — design the session-
+> store seam + fakes (no routes moved), then walk. Awaiting Carl's go on S0.
+>
 > ### 🔨 2026-06-27 — STEP 3 — **safe set COMPLETE** (8 domains + suggest-fix), **Carl-accepted** ("move to next stage")
 > **runs Pass B (`suggest-fix`)** done test-first + behaviour-identical, accepted on the free checks
 > (its live, paid walk is deferred — see note):
