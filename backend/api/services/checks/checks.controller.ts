@@ -1,8 +1,9 @@
-// POST /api/checks/run — runs one free, offline check for the Tasks board button
-// and returns pass/fail + a short summary. All the safety lives in the service
-// (allow-list, refusal); this just parses the request and formats the reply.
+// POST /api/v1/checks/run (+ legacy /api/checks/run) — runs one free, offline
+// check for the Tasks board button and returns pass/fail + a short summary. All
+// the safety lives in the service (allow-list, refusal); this just parses the
+// request and formats the reply.
 
-import type { RequestContext } from "../router.ts";
+import type { RequestContext } from "../../router.ts";
 import { runFreeCheck } from "./checks.service.ts";
 
 function isRecord(v: unknown): v is Record<string, unknown> {

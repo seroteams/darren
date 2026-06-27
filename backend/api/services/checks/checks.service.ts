@@ -8,7 +8,7 @@
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
-import { ROOT } from "../../engine/paths.mts";
+import { ROOT } from "../../../engine/paths.mts";
 
 /** A single allow-listed free check. `argv` is passed to `node`, script first
  *  (typed non-empty so the script path is always present). */
