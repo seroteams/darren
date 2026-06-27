@@ -2,9 +2,10 @@
 // trust gates re-graded on frozen runs) and returns results for the Regression
 // screen. No model calls — same engine as `npm run replay`.
 
-const { runSuite } = require("../../../scripts/lib/replay-suite.ts");
+import { runSuite } from "../../../scripts/lib/replay-suite.ts";
+import type { RequestContext } from "../router.ts";
 
-function run(c) {
+function run(c: RequestContext): void {
   const { verdict, summary, results } = runSuite();
   const cases = results.map((r) => ({
     id: r.id,
@@ -17,9 +18,9 @@ function run(c) {
     expectedVerdict: r.expectedVerdict,
     hardFails: r.hardFails || [],
     reasons: r.reasons || [],
-    error: r.error || null,
+    error: "error" in r ? r.error || null : null,
   }));
   return c.json(200, { verdict, summary, cases });
 }
 
-module.exports = { run };
+export { run };
