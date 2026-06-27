@@ -74,7 +74,7 @@ const DATA = [
       { f: "Convert piece by piece", m: "Convert the whole backend outside-in — engine first, then the API server, then the command-line tool — keeping every test green at each step.", have: "Whole backend converted — 0 backend .js left",
         auto: "Run `npm test` — expect 30/30, same as before the conversion.", eye: "Done: engine, API server and command-line all converted. App + command-line still behave the same.", s: "done" },
       { f: "Tighten the loose ends", m: "Tidy up any vague spots the conversion reveals.", have: "No soft edges left",
-        auto: "Run `npm run typecheck` — no loose/untyped escapes left (no stray `any` or ignores).", eye: null },
+        auto: "Run `npm run typecheck` — no loose/untyped escapes left (no stray `any` or ignores).", eye: null, s: "done" },
     ],
     signoff: "Safety build passes with no loose spots · tests green · the app and command-line behave identically to before." },
 
