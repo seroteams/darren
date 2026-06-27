@@ -1,20 +1,22 @@
-const { requireSession } = require("../sessions.ts");
-const { runStage } = require("./stream-helper.ts");
-const { evaluate } = require("../../engine/reviewer.ts");
-const { getSessionSelectedFocus } = require("../selected-focus.ts");
-const { serialize } = require("../../engine/axes.ts");
-const { formatNotesForEvaluation } = require("./notes.ts");
-const { generateSuggestions, shouldReview } = require("../../engine/lexicon-reviewer.ts");
+import { requireSession } from "../sessions.ts";
+import { runStage } from "./stream-helper.ts";
+import { evaluate } from "../../engine/reviewer.ts";
+import { getSessionSelectedFocus } from "../selected-focus.ts";
+import { serialize } from "../../engine/axes.ts";
+import { formatNotesForEvaluation } from "./notes.ts";
+import { generateSuggestions, shouldReview } from "../../engine/lexicon-reviewer.ts";
+import type { RequestContext } from "../router.ts";
+import type { Session } from "../../shared/session.types.ts";
 
-function kickLexiconReview(session) {
+function kickLexiconReview(session: Session): void {
   if (!shouldReview(session.ctx)) return;
-  generateSuggestions({ session, ctx: session.ctx }).catch((e) => {
-    console.warn("[evaluation] lexicon review failed:", e.message);
+  generateSuggestions({ session, ctx: session.ctx }).catch((e: unknown) => {
+    console.warn("[evaluation] lexicon review failed:", e instanceof Error ? e.message : String(e));
   });
 }
 
-module.exports = async function evaluation(c) {
-  const session = requireSession(c.query.s);
+export default async function evaluation(c: RequestContext): Promise<void> {
+  const session = requireSession(c.query.s ?? "");
   const intakeNotes = String(session.ctx?.notes || "").trim();
   const capturedNotes = formatNotesForEvaluation(session.notes || []);
   const notesForEvaluation = [intakeNotes, capturedNotes].filter(Boolean).join("\n\n");
@@ -33,11 +35,18 @@ module.exports = async function evaluation(c) {
       kickLexiconReview(session);
     },
     produce: () => {
+      // Evaluation is the last stage, so focus points are always present; narrow
+      // here for the produce closure (TS can't carry it in) — the original read
+      // session.focusPointsResult.focus_points directly and would throw if absent.
+      const focusResult = session.focusPointsResult;
+      if (!focusResult) {
+        throw Object.assign(new Error("focus points not ready"), { status: 409 });
+      }
       const selectedFocus = getSessionSelectedFocus(session);
       return evaluate(
         {
           ctx: session.ctx,
-          focusPoints: session.focusPointsResult.focus_points,
+          focusPoints: focusResult.focus_points,
           selectedFocus,
           transcript: session.transcript.map((t) => ({
             question: t.question.name,
@@ -60,4 +69,4 @@ module.exports = async function evaluation(c) {
     resultEvent: "briefing",
     buildPayload: (r) => session.briefing || r,
   });
-};
+}

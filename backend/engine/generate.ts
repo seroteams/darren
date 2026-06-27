@@ -9,6 +9,7 @@ import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
 import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./role-profile.ts";
+import type { FocusPoint, FocusPointsResult } from "../shared/session.types.ts";
 
 // Model/disk JSON is unknown until checked — narrow with these instead of trusting shapes.
 function isObjectRecord(v: unknown): v is Record<string, unknown> {
@@ -19,6 +20,15 @@ function asRecord(v: unknown): Record<string, unknown> {
 }
 function asString(v: unknown): string {
   return typeof v === "string" ? v : "";
+}
+// The model's RESPONSE_SCHEMA pins source/confidence to these enums, so narrow
+// the parsed values into the canonical FocusPoint unions (byte-identical to the
+// old asString pass-through for any schema-valid response).
+function asFocusSource(v: unknown): FocusPoint["source"] {
+  return v === "best_practice" ? "best_practice" : "signal";
+}
+function asConfidence(v: unknown): FocusPoint["confidence"] {
+  return v === "high" ? "high" : v === "medium" ? "medium" : "low";
 }
 
 // The focus-point catalogue is read from disk; keep each entry by reference so
@@ -142,7 +152,7 @@ async function callOpenAI({
 async function generateFocusPoints(
   inputs: FocusPointInputs,
   { model = getDefaultModel(), session, stage = "01-focus-points" }: { model?: string; session?: SessionArg; stage?: string } = {}
-) {
+): Promise<FocusPointsResult> {
   const catalogue = loadFocusPoints();
   const offered = catalogueForArc(catalogue, inputs.meetingType);
   const messages = buildMessages({ ...inputs, focusPoints: offered });
@@ -173,8 +183,8 @@ async function generateFocusPoints(
         category: entry ? asString(entry.category) : null,
         label: asString(rec.label),
         reason: oneSentenceReason(rec.reason),
-        source: asString(rec.source),
-        confidence: asString(rec.confidence) || "low",
+        source: asFocusSource(rec.source),
+        confidence: asConfidence(rec.confidence),
         known: !!entry,
       };
     }),
