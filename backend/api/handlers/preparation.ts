@@ -1,13 +1,18 @@
-const { requireSession } = require("../sessions.ts");
-const { runStage } = require("./stream-helper.ts");
-const { generatePreparation } = require("../../engine/preparation.ts");
-const { getSessionSelectedFocus } = require("../selected-focus.ts");
+import { requireSession } from "../sessions.ts";
+import { runStage } from "./stream-helper.ts";
+import { generatePreparation } from "../../engine/preparation.ts";
+import { getSessionSelectedFocus } from "../selected-focus.ts";
+import type { RequestContext } from "../router.ts";
+import type { Session } from "../../shared/session.types.ts";
 
 const IS_DEV = process.env.NODE_ENV !== "production";
 
 // Map live session state to the inputs generatePreparation expects. Shared with
 // the preview endpoint so what's previewed is exactly what gets sent.
-function buildPreparationInputs(session) {
+function buildPreparationInputs(session: Session) {
+  if (!session.focusPointsResult) {
+    throw Object.assign(new Error("Focus points not ready"), { status: 409 });
+  }
   const selectedFocus = getSessionSelectedFocus(session);
   return {
     ...session.ctx,
@@ -17,8 +22,8 @@ function buildPreparationInputs(session) {
   };
 }
 
-async function preparation(c) {
-  const session = requireSession(c.query.s);
+async function preparation(c: RequestContext): Promise<void> {
+  const session = requireSession(c.query.s ?? "");
 
   if (!session.focusPointsResult) {
     return c.error(Object.assign(new Error("Focus points not ready"), { status: 409 }));
@@ -39,5 +44,5 @@ async function preparation(c) {
   });
 }
 
-module.exports = preparation;
-module.exports.buildPreparationInputs = buildPreparationInputs;
+export default preparation;
+export { buildPreparationInputs };

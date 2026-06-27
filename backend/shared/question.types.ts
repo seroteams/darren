@@ -5,7 +5,7 @@
  * Why a question exists. Wider than the LLM bank enum — the hardcoded intro/agenda
  * questions use "engagement" (start.js, agenda.js), which the bank schema never emits.
  */
-export type QuestionPurpose = "wellbeing" | "topic" | "competency" | "engagement";
+export type QuestionPurpose = "wellbeing" | "topic" | "competency" | "engagement" | "scripted";
 
 export interface Question {
   alias: string; // stable id, e.g. "q_intro_agenda_check"

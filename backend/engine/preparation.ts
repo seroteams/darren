@@ -36,7 +36,7 @@ type PrepBrief = PreparationResult["brief"];
 interface PrepFocusPoint {
   id?: string;
   label?: string;
-  type?: string;
+  type?: string | null;
   source?: string;
 }
 
@@ -50,7 +50,7 @@ interface RawPrepInput {
   notes?: string;
   observedShift?: string;
   focusPoints?: PrepFocusPoint[];
-  selectedFocus?: { id?: string; label?: string };
+  selectedFocus?: { id?: string; label?: string } | null;
   primaryFocusId?: string;
 }
 

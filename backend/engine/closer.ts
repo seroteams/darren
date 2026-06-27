@@ -18,10 +18,10 @@ function isForbiddenCloser(question: CloserQuestion | null | undefined): boolean
   return FORBIDDEN_CLOSER_RE.test(text);
 }
 
-function selectReservedCloser(
-  bankItems: CloserQuestion[] | null | undefined,
+function selectReservedCloser<T extends CloserQuestion>(
+  bankItems: T[] | null | undefined,
   meetingTypeLabel: string,
-): CloserQuestion | null {
+): T | null {
   const arc = getArc(meetingTypeLabel);
   const finalStageId = arc.arc[arc.arc.length - 1]?.id;
   const candidates = (bankItems || []).filter(

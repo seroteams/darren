@@ -3,7 +3,7 @@
 interface FocusInput {
   id?: string;
   label?: string;
-  type?: string;
+  type?: string | null;
   source?: string;
 }
 
@@ -21,7 +21,7 @@ interface ResolvedFocus {
   fallback?: true;
 }
 
-function normalizeId(s: string | undefined): string {
+function normalizeId(s: string | null | undefined): string {
   return String(s || "")
     .trim()
     .toLowerCase()

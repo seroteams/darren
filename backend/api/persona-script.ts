@@ -46,7 +46,7 @@ export interface ScriptedQuestion {
   name: string;
   description: string;
   purpose: "scripted";
-  stage: string | number | null;
+  stage: string | null;
   axis_effects: Record<string, number>;
   source: "scripted";
 }
@@ -120,7 +120,10 @@ function scriptedQuestions(persona: Persona | null): ScriptedQuestion[] {
     name: item.name,
     description: "",
     purpose: "scripted" as const,
-    stage: item.stage ?? null,
+    // Scripts may carry a numeric stage; normalise to string so scripted items
+    // are canonical Questions. Stage ids are strings, so this never changes arc
+    // routing (a numeric stage matched no arc stage id before either).
+    stage: item.stage == null ? null : String(item.stage),
     axis_effects: scriptSignature(item),
     source: "scripted" as const,
   }));

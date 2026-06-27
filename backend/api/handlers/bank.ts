@@ -1,12 +1,13 @@
-const { requireSession } = require("../sessions.ts");
-const { runStage } = require("./stream-helper.ts");
-const { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener } = require("../../engine/question-generator.ts");
-const { selectReservedCloser } = require("../../engine/closer.ts");
-const { getSessionSelectedFocus } = require("../selected-focus.ts");
-const { loadPersona, scriptedQuestions } = require("../persona-script.ts");
+import { requireSession } from "../sessions.ts";
+import { runStage } from "./stream-helper.ts";
+import { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener } from "../../engine/question-generator.ts";
+import { selectReservedCloser } from "../../engine/closer.ts";
+import { getSessionSelectedFocus } from "../selected-focus.ts";
+import { loadPersona, scriptedQuestions } from "../persona-script.ts";
+import type { RequestContext } from "../router.ts";
 
-module.exports = async function bank(c) {
-  const session = requireSession(c.query.s);
+export default async function bank(c: RequestContext): Promise<void> {
+  const session = requireSession(c.query.s ?? "");
   if (!session.focusPointsResult) {
     return c.error(Object.assign(new Error("focus points not ready"), { status: 409 }));
   }
@@ -34,11 +35,18 @@ module.exports = async function bank(c) {
         }
       }
 
+      // Guaranteed non-null by the handler's pre-check above; narrowed here for
+      // the produce closure (TS can't carry the guard across the callback).
+      const focusResult = session.focusPointsResult;
+      if (!focusResult) {
+        throw Object.assign(new Error("focus points not ready"), { status: 409 });
+      }
+
       const selectedFocus = getSessionSelectedFocus(session);
       const prep = session.preparationResult?.brief || null;
       const bankItems = await generateBankWithFallback(
         {
-          focusPoints: session.focusPointsResult.focus_points,
+          focusPoints: focusResult.focus_points,
           ...session.ctx,
           selectedFocus,
           primaryFocusId: selectedFocus?.id,
@@ -46,7 +54,7 @@ module.exports = async function bank(c) {
           prep,
         },
         { session: { id: session.id, dir: session.dir } },
-        { onFallback: (e) => console.warn("[bank] generation failed, falling back to _seed:", e.message) }
+        { onFallback: (e: unknown) => console.warn("[bank] generation failed, falling back to _seed:", e instanceof Error ? e.message : String(e)) }
       );
       session.queueRef = assembleQueueWithPrepOpener(session.introQueue, bankItems, prep, session.ctx.meetingType);
       session.prepOpener = prep ? findPrepOpener(bankItems) : null;
@@ -60,7 +68,7 @@ module.exports = async function bank(c) {
       // assembled queue + reserved prep-opener and closer. The planner's
       // coverage insertion pulls from here instead of the whole global bank,
       // so it can't surface another persona's saved question.
-      const seenBankAliases = new Set();
+      const seenBankAliases = new Set<string>();
       session.sessionBank = [];
       for (const item of [...session.queueRef, session.prepOpener, session.closer]) {
         if (item?.alias && !seenBankAliases.has(item.alias)) {
@@ -74,4 +82,4 @@ module.exports = async function bank(c) {
     resultEvent: "ready",
     buildPayload: (r) => ({ count: r.count }),
   });
-};
+}
