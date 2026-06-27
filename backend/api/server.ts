@@ -33,7 +33,7 @@ import * as pipeline from "./handlers/pipeline.ts";
 import * as lexicon from "./handlers/lexicon.ts";
 import roleProfile from "./handlers/role-profile.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
-import * as regression from "./handlers/regression.ts";
+import * as regression from "./services/regression/regression.controller.ts";
 import verdict from "./handlers/verdict.ts";
 import suggestFix from "./handlers/suggest-fix.ts";
 import library from "./handlers/library.ts";
@@ -132,6 +132,7 @@ function main(): void {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return roleLexicons.removeTerm(c);
   });
+  router.add("GET", "/api/v1/regression/run", v1Route(regression.run));
   router.add("GET", "/api/regression/run", regression.run);
   router.add("POST", "/api/checks/run", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));

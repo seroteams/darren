@@ -1,7 +1,7 @@
 // Shared regression-replay engine: load the frozen cases in evals/replay/,
 // re-grade each against CURRENT code, and report drift from its baseline.
 // Used by BOTH the CLI (scripts/replay-regression.js) and the in-app endpoint
-// (backend/api/handlers/regression) so they can never disagree. No API calls.
+// (backend/api/services/regression) so they can never disagree. No API calls.
 
 import fs from "node:fs";
 import path from "node:path";
