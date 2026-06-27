@@ -38,6 +38,28 @@ or behaviour changes are *never* in this phase.
 
 ## Current state
 
+> ### ⏩ 2026-06-27 — ALL API HANDLERS NOW TYPESCRIPT (read this first)
+> Done this session (6 local commits, each typecheck-clean + npm test 30/30 + a free server boot+curl):
+> converted the **20 remaining handlers** + reconciled the prior session's half-applied `preparation.ts`.
+> Batches: (1) bank, preview, preparation; (2) back, notes, agenda, verdict, selected-focus, rehydrate;
+> (3) answer, question, suggest-answers, suggest-fix, library; (4) focus-points, evaluation; (5) start;
+> (6) plan, role-profile. **`backend/api/handlers/` is all `.ts` except `regression.js`** (blocked — see below).
+> server.js (still `.js`) bridges every converted single-fn handler via `require("./handlers/x.ts").default`.
+> **Type seams the conversion surfaced (all faithful, type-only, committed with their batch):** FocusPoint
+> `null` vs engine `undefined` chain (PrepFocusPoint/FocusInput/RawPrepInput.selectedFocus/normalizeId);
+> `SessionRef` gained optional `id`; `QuestionPurpose` += `"scripted"` then `"clarity"` (audited the data —
+> real purposes are topic/competency/wellbeing/scripted/clarity); scripted numeric stage normalised to string;
+> `selectReservedCloser`/`pickSeedOverflow` made generic `<T extends CloserQuestion>`; `generateFocusPoints`
+> annotated `Promise<FocusPointsResult>` with asFocusSource/asConfidence narrowers; `loadIntroQueue`/
+> `sortIntroByArc` now return `Question[]` via a shared `materializeQuestion` (intro YAMLs are saved Questions;
+> verified by test-intro-order); prompt-fixer prompt/responseText widened to accept `null`. Baseline note: the
+> very first "baseline" mis-read tsc's exit via a pipe — the prior session's `preparation.ts` actually had a
+> latent tsc error, now fixed. **➡️ NEXT (this session, in order): `cli.ts` (run-debrief.d.mts already written) →
+> tooling leaf-first (session-scores, trust-checks → check-session → replay-suite) → `regression.ts` →
+> `server.js → server.mts` LAST (drops all `.default` bridges) → final sweep + flip the build-plan checklist.**
+> Owner-walk + 1 paid gate still Carl's (deferred). Scope decision (2026-06-27): Carl approved pulling the 4
+> parked tooling files into scope to finish server.js.
+
 **API handlers batches 1–3 ✅ (2026-06-26, typecheck clean + npm test 30/30 + live boot+curl per batch):**
 8 handlers → `.ts`. Batch 1: `meeting-types`, `persona-bench` (single-fn), `pipeline`, `review` (object).
 Batch 2: `runs`, `role-lexicons` (object). Batch 3: `arcs`, `lexicon` (object — the complex pair). **All 6 object
