@@ -38,11 +38,22 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
-> ### 🔨 2026-06-27 — STEP 3 IN PROGRESS — catalog approved ("yes go for it"); rolling through safe domains
-> Carl approved the catalog pattern and said go. Committing catalog, then converting the remaining
-> **safe** domains (`runs`, `lexicon`, `role-lexicons`, `arcs`, `checks`, `pipeline`, `regression`,
-> `library`) the same way, each test-first + behaviour-identical + committed as it goes green. **Will stop
-> before the live `sessions` pipeline** (risky) and before step 4.
+> ### 🔨 2026-06-27 — STEP 3 IN PROGRESS — 3 of 9 safe domains layered (catalog, role-lexicons, regression)
+> Carl approved the catalog pattern and said "go for it." Done + committed, each test-first +
+> behaviour-identical + `npm test` green at each:
+> - **catalog** (`9060123f`) — meeting-types + personas; repo seam proven via in-memory fake.
+> - **role-lexicons** (`7de91fd8`) — list/add/remove over the role-profile engine (repo seam).
+> - **regression** (`6eb200b6`) — compute-only; injected suite runner is the seam (no repo).
+> Now 38/38 tests, typecheck clean. **Remaining safe:** `pipeline`, `library`, `checks` (relocate the
+> already-layered pair), `arcs`, `lexicon`, `runs`. **Then stop before the live `sessions` pipeline.**
+>
+> **⚠️ Policy call I'm making (flag for Carl) — v1 URL shape:** to stay behaviour-identical and surgical,
+> v1 routes **mirror the legacy request/response shapes under the `/api/v1/` prefix** (with free renames
+> like `persona-bench` → `personas`). The contract's fuller REST polish — key-in-path
+> (`/role-lexicons/:key/terms`), `DELETE` verbs, merging collections (`/runs?status=`) — **changes request
+> shapes and adds dual-controller code for v1 routes nothing calls yet**, so I'm **deferring it** to a
+> dedicated polish pass (its own decision at the phase walk). Tell me if you'd rather I do the full REST
+> shapes now. The **layering** (the hard part) is identical either way, so this isn't rework.
 >
 > ### 🔨 2026-06-27 — catalog domain layered (proof of pattern)
 > First domain converted to clean layers (decision D5), **test-first** (red → green):
