@@ -66,8 +66,8 @@ function buildUser({
 }: {
   stage: string;
   file: string;
-  promptText?: string;
-  responseText?: string;
+  promptText?: string | null;
+  responseText?: string | null;
   verdict?: FixVerdict | null;
   ctx?: FixCtx | null;
 }): string {
@@ -105,8 +105,8 @@ async function suggestFix(
     ctx,
   }: {
     stage: string;
-    promptText?: string;
-    responseText?: string;
+    promptText?: string | null;
+    responseText?: string | null;
     verdict?: FixVerdict | null;
     ctx?: FixCtx | null;
   },

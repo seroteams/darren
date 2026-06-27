@@ -1,10 +1,21 @@
-const fs = require("node:fs");
-const path = require("node:path");
+import fs from "node:fs";
+import path from "node:path";
 
-const { findRunDir } = require("../../engine/run-history.ts");
-const { suggestFix, stageInfo } = require("../../engine/prompt-fixer.ts");
+import { findRunDir } from "../../engine/run-history.ts";
+import { suggestFix, stageInfo } from "../../engine/prompt-fixer.ts";
+import type { RequestContext } from "../router.ts";
 
-function readText(file) {
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
+function asString(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+
+function readText(file: string): string | null {
   try {
     return fs.readFileSync(file, "utf8");
   } catch {
@@ -12,16 +23,17 @@ function readText(file) {
   }
 }
 
-function readState(dir) {
+function readState(dir: string): Record<string, unknown> | null {
   try {
-    return JSON.parse(fs.readFileSync(path.join(dir, "session-state.json"), "utf8"));
+    const parsed: unknown = JSON.parse(fs.readFileSync(path.join(dir, "session-state.json"), "utf8"));
+    return isObjectRecord(parsed) ? parsed : null;
   } catch {
     return null;
   }
 }
 
 // Per-turn questioning prompts are numbered (NN-prompt.md); grab the latest.
-function readQuestioningPrompt(stageDir) {
+function readQuestioningPrompt(stageDir: string): string | null {
   try {
     const files = fs.readdirSync(stageDir).filter((f) => /prompt\.md$/.test(f)).sort();
     const last = files[files.length - 1];
@@ -33,9 +45,10 @@ function readQuestioningPrompt(stageDir) {
 
 // Learning loop: assemble prompt + response + tester verdict, return a structured
 // prompt-fix suggestion (display only — the tester applies it by hand).
-module.exports = async function suggestFixHandler(c) {
-  const body = await c.readBody();
-  const { runId, stage = "evaluation" } = body;
+export default async function suggestFixHandler(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  const runId = asString(body.runId);
+  const stage = typeof body.stage === "string" ? body.stage : "evaluation";
   if (!runId) return c.error(Object.assign(new Error("runId required"), { status: 400 }));
 
   const dir = findRunDir(runId);
@@ -65,7 +78,8 @@ module.exports = async function suggestFixHandler(c) {
     });
     c.json(200, { fix });
   } catch (e) {
-    console.warn("[suggest-fix] failed:", e.message);
-    return c.error(Object.assign(new Error("fix suggestion failed: " + e.message), { status: 502 }));
+    const msg = e instanceof Error ? e.message : String(e);
+    console.warn("[suggest-fix] failed:", msg);
+    return c.error(Object.assign(new Error("fix suggestion failed: " + msg), { status: 502 }));
   }
-};
+}

@@ -1,11 +1,12 @@
-const { requireSession } = require("../sessions.ts");
-const { suggestAnswers } = require("../../engine/answer-suggester.ts");
+import { requireSession } from "../sessions.ts";
+import { suggestAnswers } from "../../engine/answer-suggester.ts";
+import type { RequestContext } from "../router.ts";
 
 // Dev-only roleplay aid: draft a few in-character employee answers for the
 // question currently on screen. Failures degrade to an empty list — the UI
 // just shows nothing rather than blocking the run.
-module.exports = async function suggestAnswersHandler(c) {
-  const session = requireSession(c.query.s);
+export default async function suggestAnswersHandler(c: RequestContext): Promise<void> {
+  const session = requireSession(c.query.s ?? "");
   const q = session.queueRef[0];
   if (!q) return c.json(200, { answers: [] });
 
@@ -19,7 +20,7 @@ module.exports = async function suggestAnswersHandler(c) {
     });
     c.json(200, { answers });
   } catch (e) {
-    console.warn("[suggest-answers] failed:", e.message);
+    console.warn("[suggest-answers] failed:", e instanceof Error ? e.message : String(e));
     c.json(200, { answers: [] });
   }
-};
+}

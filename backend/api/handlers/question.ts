@@ -1,13 +1,14 @@
-const path = require("node:path");
-const { requireSession, persistSession } = require("../sessions.ts");
-const {
+import path from "node:path";
+import { requireSession, persistSession } from "../sessions.ts";
+import {
   checkQuestionEligibility,
   dropIneligibleHeads,
   appendEligibilityLog,
-} = require("../../engine/question-eligibility.ts");
+} from "../../engine/question-eligibility.ts";
+import type { RequestContext } from "../router.ts";
 
-module.exports = function question(c) {
-  const session = requireSession(c.query.s);
+export default function question(c: RequestContext): void {
+  const session = requireSession(c.query.s ?? "");
 
   // Serve-time gate — the last line of defence: no question reaches the UI
   // without passing the eligibility check, whichever path queued it. Scripted
@@ -37,7 +38,10 @@ module.exports = function question(c) {
     }
   }
 
-  if (session.turn >= session.totalBudget || session.queueRef.length === 0) {
+  // queueRef[0] is undefined exactly when the queue is empty, so `!q` is the
+  // same terminal condition as the original `queueRef.length === 0` check.
+  const q = session.queueRef[0];
+  if (session.turn >= session.totalBudget || !q) {
     return c.json(200, {
       done: true,
       agenda: {
@@ -46,7 +50,6 @@ module.exports = function question(c) {
       },
     });
   }
-  const q = session.queueRef[0];
   const scripted = session.mode === "scripted"
     ? {
         alias: q.alias,
@@ -67,4 +70,4 @@ module.exports = function question(c) {
       purpose: q.purpose,
     },
   });
-};
+}
