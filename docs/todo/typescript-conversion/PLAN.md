@@ -28,8 +28,8 @@ or behaviour changes are *never* in this phase.
 | 2 | Define shared core types | `backend/shared/` contracts — session, focus point, question, axis state, briefing, evaluation | ✅ |
 | 3 | Convert engine leaf modules (test-first) | lowest-dependency engine files → `.ts`, tests green | ✅ |
 | 4 | Convert engine core | up the dependency graph, tests green at each step | ✅ |
-| 5 | Convert the API server | `backend/api/` → `.ts` | ⬜ |
-| 6 | Convert CLI + final sweep | `cli.ts`; remove stray `any`; `typecheck` clean repo-wide | ⬜ |
+| 5 | Convert the API server | `backend/api/` → `.ts` (all handlers + server.ts) | ✅ |
+| 6 | Convert CLI + final sweep | `cli.ts` ✅; `typecheck` clean repo-wide ✅; 0 backend `.js` ✅ — QA-agency review + owner-walk pending | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -38,27 +38,39 @@ or behaviour changes are *never* in this phase.
 
 ## Current state
 
-> ### ⏩ 2026-06-27 — ALL API HANDLERS NOW TYPESCRIPT (read this first)
-> Done this session (6 local commits, each typecheck-clean + npm test 30/30 + a free server boot+curl):
-> converted the **20 remaining handlers** + reconciled the prior session's half-applied `preparation.ts`.
-> Batches: (1) bank, preview, preparation; (2) back, notes, agenda, verdict, selected-focus, rehydrate;
-> (3) answer, question, suggest-answers, suggest-fix, library; (4) focus-points, evaluation; (5) start;
-> (6) plan, role-profile. **`backend/api/handlers/` is all `.ts` except `regression.js`** (blocked — see below).
-> server.js (still `.js`) bridges every converted single-fn handler via `require("./handlers/x.ts").default`.
-> **Type seams the conversion surfaced (all faithful, type-only, committed with their batch):** FocusPoint
-> `null` vs engine `undefined` chain (PrepFocusPoint/FocusInput/RawPrepInput.selectedFocus/normalizeId);
-> `SessionRef` gained optional `id`; `QuestionPurpose` += `"scripted"` then `"clarity"` (audited the data —
-> real purposes are topic/competency/wellbeing/scripted/clarity); scripted numeric stage normalised to string;
-> `selectReservedCloser`/`pickSeedOverflow` made generic `<T extends CloserQuestion>`; `generateFocusPoints`
-> annotated `Promise<FocusPointsResult>` with asFocusSource/asConfidence narrowers; `loadIntroQueue`/
-> `sortIntroByArc` now return `Question[]` via a shared `materializeQuestion` (intro YAMLs are saved Questions;
-> verified by test-intro-order); prompt-fixer prompt/responseText widened to accept `null`. Baseline note: the
-> very first "baseline" mis-read tsc's exit via a pipe — the prior session's `preparation.ts` actually had a
-> latent tsc error, now fixed. **➡️ NEXT (this session, in order): `cli.ts` (run-debrief.d.mts already written) →
-> tooling leaf-first (session-scores, trust-checks → check-session → replay-suite) → `regression.ts` →
-> `server.js → server.mts` LAST (drops all `.default` bridges) → final sweep + flip the build-plan checklist.**
-> Owner-walk + 1 paid gate still Carl's (deferred). Scope decision (2026-06-27): Carl approved pulling the 4
-> parked tooling files into scope to finish server.js.
+> ### ✅ 2026-06-27 — BACKEND IS 100% TYPESCRIPT (conversion complete; read this first)
+> **`find backend -name '*.js'` → 0.** Whole backend converted, in 14 local commits, each typecheck-clean +
+> `npm test` 30/30 + a free boot/curl (or the suite test that exercises it). What landed this session:
+> - **20 API handlers** + reconciled the prior session's half-applied `preparation.ts`. Batches: (1) bank,
+>   preview, preparation; (2) back, notes, agenda, verdict, selected-focus, rehydrate; (3) answer, question,
+>   suggest-answers, suggest-fix, library; (4) focus-points, evaluation; (5) start; (6) plan, role-profile.
+> - **`cli.js → cli.ts`** (+ `run-debrief.d.mts` for the browser-shared `.mjs`; boot-test verified).
+> - **The 4 parked tooling files** Carl approved pulling in, leaf-first: `scripts/lib/session-scores`,
+>   `evals/trust-checks`, `scripts/lib/check-session`, `scripts/lib/replay-suite` — then `regression` handler.
+>   tsconfig `include` extended to `scripts/**/*.ts|mts` + `evals/**/*.ts|mts` so they're strict-checked.
+> - **`server.js → server.ts`** LAST (all `.default`/require bridges dropped for clean imports). Kept it a
+>   regular `.ts` (NOT `.mts`): an ESM `.mts` server sees the CJS-classified handlers' *namespace* and every
+>   default import breaks; a regular `.ts` is CJS to tsc (esModuleInterop default imports work) and ESM to Node
+>   (defaults resolve) — verified by boot test (default + object routes all 200/404). `import.meta.dirname`
+>   avoided via `paths.mts` ROOT (same trick as replay-suite, since `.ts` runs as ESM = no `__dirname`).
+>
+> **Type seams the conversion surfaced (all faithful, type-only):** FocusPoint `null` vs engine `undefined` chain
+> (PrepFocusPoint/FocusInput/RawPrepInput.selectedFocus/normalizeId); `SessionRef` += optional `id`;
+> `QuestionPurpose` += `"scripted"` then `"clarity"` (audited the data: topic/competency/wellbeing/scripted/clarity);
+> scripted numeric stage normalised to string; `selectReservedCloser`/`pickSeedOverflow` generic
+> `<T extends CloserQuestion>`; `generateFocusPoints` → `Promise<FocusPointsResult>` (asFocusSource/asConfidence);
+> `loadIntroQueue`/`sortIntroByArc` → `Question[]` via shared `materializeQuestion`; prompt-fixer prompt/response
+> widened to `null`; check-session axis-state + briefing materialised to the post-process's shapes.
+> **Zero banned constructs** across all converted files (grepped: no `any`/`as`/`@ts-ignore`/`!`).
+> Baseline gotcha caught: the first "baseline" mis-read tsc's exit through a pipe — the prior session's
+> `preparation.ts` had a latent tsc error (now fixed); true baseline is 1-was-broken → now clean.
+>
+> **➡️ REMAINING (Carl's gates, deferred — these were always Carl's):** (1) the end-of-phase **multi-agent
+> QA-agency adversarial review** (couldn't run this session — agent spend limit + ultracode off; the *mechanical*
+> half is done: full typecheck clean, 30/30, banned-construct grep clean, boot tests). (2) Carl's **owner-walk** of
+> a real run + CLI. (3) **one paid gate case** (`node scripts/gate.js --only <case>`, ~$0.35). Then Phase 003 → done.
+> Build-plan page note: `admin/src/stages/checklist.js` was deleted in Carl's working tree (todo-board-rebuild →
+> `tasks.js`), so the step-status flip is left for Carl to reconcile with the new page (didn't touch his WIP).
 
 **API handlers batches 1–3 ✅ (2026-06-26, typecheck clean + npm test 30/30 + live boot+curl per batch):**
 8 handlers → `.ts`. Batch 1: `meeting-types`, `persona-bench` (single-fn), `pipeline`, `review` (object).
