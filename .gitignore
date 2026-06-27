@@ -33,3 +33,11 @@ logs/**
 !logs/may/2026_May25_14-23-5252887f/
 !logs/sweeps/
 !logs/sweeps/2026-05-31T11-49-46-826Z/
+
+# Runtime-generated questions. The engine writes source:generated questions to the
+# questions ROOT during runs; authored banks live in the _seed/_intro/_runtime
+# subdirs (tracked), so this root-only glob never hides real content.
+/content/questions/*.yaml
+
+# Local screenshots dropped at repo root (UI reference shots, etc.)
+/*.png
