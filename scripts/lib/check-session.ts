@@ -67,41 +67,28 @@ function parseSavedResponse(raw: unknown): unknown {
   return b;
 }
 
-interface CheckInputs {
-  rawResponse?: unknown;
-  ctx?: { name?: string; role?: string; seniority?: string; meetingType?: string };
-  focusPoints?: unknown;
-  transcript?: unknown;
-  axisState?: unknown;
-  managerNotes?: unknown;
-  bankQuestions?: unknown;
-  meetingType?: string;
-}
-
 // Re-run the 4 post-process guards and the 11 trust gates against CURRENT code.
 // Deterministic on the frozen inputs + whatever the repo config resolves to now
 // (arcs, focus catalogue, ban lists, role profiles) — which is exactly the
-// surface we want a regression to move.
-function checkFromInputs({
-  rawResponse,
-  ctx = {},
-  focusPoints = [],
-  transcript = [],
-  axisState = {},
-  managerNotes = "",
-  bankQuestions = [],
-  meetingType,
-}: CheckInputs = {}) {
-  const parsed = parseSavedResponse(rawResponse);
+// surface we want a regression to move. `input` arrives loose (a saved run folder
+// or a replay case), so narrow it here as the original JS destructure did.
+function checkFromInputs(input: unknown = {}) {
+  const o = asRecord(input);
+  const ctx = asRecord(o.ctx);
+  const transcript = o.transcript;
+  const axisState = o.axisState;
+  const meetingType = typeof o.meetingType === "string" ? o.meetingType : undefined;
+
+  const parsed = parseSavedResponse(o.rawResponse);
   const checksFor = (briefing: unknown) =>
     runTrustChecks({
       briefing,
       transcript,
-      managerNotes,
-      bankQuestions,
-      focusPoints,
-      meetingType: meetingType || ctx.meetingType,
-      ctx: { role: ctx.role, seniority: ctx.seniority },
+      managerNotes: o.managerNotes ?? "",
+      bankQuestions: o.bankQuestions ?? [],
+      focusPoints: o.focusPoints ?? [],
+      meetingType: meetingType || asString(ctx.meetingType),
+      ctx: { role: asString(ctx.role), seniority: asString(ctx.seniority) },
     });
 
   // Frozen runs always carry a real briefing; for a malformed one (unreachable

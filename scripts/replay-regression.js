@@ -13,7 +13,7 @@
 // Drift in EITHER direction counts (so a safety test that quietly stops firing is
 // caught too). Exit: 0 all good · 1 regression · 2 infra.
 
-const { runSuite, updateBaseline } = require("./lib/replay-suite");
+const { runSuite, updateBaseline } = require("./lib/replay-suite.ts");
 
 function parseArgs(argv) {
   const args = { only: "", updateBaseline: false, json: false };

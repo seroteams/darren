@@ -2,7 +2,7 @@
 // trust gates re-graded on frozen runs) and returns results for the Regression
 // screen. No model calls — same engine as `npm run replay`.
 
-const { runSuite } = require("../../../scripts/lib/replay-suite");
+const { runSuite } = require("../../../scripts/lib/replay-suite.ts");
 
 function run(c) {
   const { verdict, summary, results } = runSuite();

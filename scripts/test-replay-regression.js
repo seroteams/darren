@@ -4,7 +4,7 @@
 // fails on any drift from their baselines. No API calls — same engine as
 // `npm run replay` (scripts/replay-regression.js).
 
-const { runSuite } = require("./lib/replay-suite");
+const { runSuite } = require("./lib/replay-suite.ts");
 
 const { results, summary } = runSuite();
 
