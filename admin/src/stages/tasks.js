@@ -84,7 +84,7 @@ const DATA = [
       { f: "Draw the menu of services", m: "List every service and write the official menu (contract): what you can ask for and what you get back.", have: "A written service menu",
         auto: null, eye: "Once built: the contract doc lists every request and its response shape.", s: "done" },
       { f: "Build the shared plumbing", m: "The shared path every request flows through: error handling, who-you-are context, a slot for the login check later.", have: "Consistent request handling",
-        auto: "Once built: `npm test` covers the shared error shape.", eye: "Once built: a forced error comes back in one consistent shape." },
+        auto: "Once built: `npm test` covers the shared error shape.", eye: "Once built: a forced error comes back in one consistent shape.", s: "done" },
       { f: "Build each service in clean layers", m: "Each area is three small single-job parts (front desk, logic, data), written test-first.", have: "Small single-job parts",
         auto: "Once built: `npm test` — each service's test was written before its code and passes.", eye: "Once built: the routes respond as the contract says." },
       { f: "Lay out the test rooms", m: "Arrange the tests to mirror the code so any test is instantly findable.", have: "A mirrored test layout",

@@ -7,9 +7,11 @@
 // run here — they cost money and need live keys. Run those manually.
 
 const { spawnSync } = require("node:child_process");
+const fs = require("node:fs");
 const path = require("node:path");
 
 const SCRIPTS_DIR = __dirname;
+const ROOT = path.join(__dirname, "..");
 
 const OFFLINE_TESTS = [
   "test-answer-suggest-shape.js",
@@ -45,9 +47,28 @@ const OFFLINE_TESTS = [
   "test-trust-checks.js",
 ];
 
+// Co-located unit tests: TypeScript `*.test.ts` living BESIDE the code they test
+// (backend-conventions). Discovered under backend/ so `npm test` covers them too.
+// They use the built-in `node:test` runner, so each runs via `node --test <file>`.
+// (Arranging the wider mirrored tree — integration/e2e — is Phase 004 step 4.)
+function findColocatedTests(dir) {
+  const out = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === "node_modules") continue;
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...findColocatedTests(full));
+    else if (entry.name.endsWith(".test.ts")) out.push(full);
+  }
+  return out;
+}
+
+const COLOCATED_TESTS = findColocatedTests(path.join(ROOT, "backend"));
+
 let failed = 0;
+let total = 0;
 
 for (const file of OFFLINE_TESTS) {
+  total++;
   const res = spawnSync(process.execPath, [path.join(SCRIPTS_DIR, file)], {
     encoding: "utf8",
   });
@@ -61,5 +82,19 @@ for (const file of OFFLINE_TESTS) {
   }
 }
 
-console.log(`\n${OFFLINE_TESTS.length - failed}/${OFFLINE_TESTS.length} passed`);
+for (const file of COLOCATED_TESTS) {
+  total++;
+  const rel = path.relative(ROOT, file).replace(/\\/g, "/");
+  const res = spawnSync(process.execPath, ["--test", file], { encoding: "utf8" });
+  if (res.status === 0) {
+    console.log(`PASS  ${rel}`);
+  } else {
+    failed++;
+    console.error(`FAIL  ${rel}`);
+    const out = `${res.stdout || ""}${res.stderr || ""}`.trimEnd();
+    if (out) console.error(out.replace(/^/gm, "      "));
+  }
+}
+
+console.log(`\n${total - failed}/${total} passed`);
 process.exit(failed ? 1 : 0);

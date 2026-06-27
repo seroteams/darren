@@ -27,7 +27,7 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 | # | Step | What it lands | Status |
 |---|---|---|---|
 | 1 | **Draw the menu of services** | The written `/api/v1/` contract — every route, request + response shape, the error format, the identity/auth slot. Decisions D1–D5 locked. | ✅ |
-| 2 | Build the shared plumbing | Middleware every request flows through: one error shape, request/identity context, an auth placeholder slot. `npm test` covers the error shape. | ⬜ |
+| 2 | Build the shared plumbing | Middleware every request flows through: one error shape, request/identity context, an auth placeholder slot. `npm test` covers the error shape. | ✅ |
 | 3 | Build each service in clean layers (TDD) | Per-domain controller → service → repo, **test-first**. Repos file-backed; storage swappable without touching the service. | ⬜ |
 | 4 | Lay out the mirrored test rooms | Unit tests beside the code; integration/e2e in a `tests/` tree shaped like the domains. | ⬜ |
 
@@ -38,6 +38,29 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### ✅ 2026-06-27 — STEP 2 DONE (shared plumbing) — Carl approved ("then lets go") + committed
+> Carl walked the free checks and approved. Committed locally.
+>
+> ### 🔨 2026-06-27 — STEP 2 BUILT (shared plumbing) test-first
+> New layer `backend/api/middleware/` (decision D5), built **test-first** (red → green):
+> - **`http-error.ts`** — the one error shape `{ error: { code, message, details? } }`: an `HttpError`
+>   class, `toErrorBody()`/`errorStatus()` (also map the existing `Object.assign(new Error,{status})`
+>   throws to a code), and lean factory helpers (`badRequest`/`notFound`/`validationFailed`/…). 5xx are
+>   masked to a generic message — the raw error is logged, never sent (engine honesty).
+> - **`request-context.ts`** — `RequestIdentity { userId, orgId, roles }` + `anonymousIdentity()` +
+>   `buildIdentity(req)` (anonymous now — the shape Phase 006's login check fills in).
+> - **`require-auth.ts`** — the no-op login-check **slot** (never rejects in Phase 004).
+> - Co-located tests `http-error.test.ts` + `request-context.test.ts` (`node:test`), written **before**
+>   the code. Extended `scripts/run-tests.js` to discover co-located `backend/**/*.test.ts` so `npm test`
+>   covers them (this also picked up the orphaned `clamp.test.ts`).
+> - **Verified (free):** `npm test` **34/34** (was 31; +clamp +2 new), `npm run typecheck` clean, no
+>   banned constructs (`any`/`as`/`@ts-ignore`/`!`). **Not committed yet — awaiting your walk.**
+> - **Not touched:** the live router/handlers still emit the legacy `{ error: string }` shape; v1 routes
+>   adopt `toErrorBody` in step 3 (keeps the admin unbroken — decision D2).
+>
+> **➡️ NEXT after your sign-off:** commit step 2, then step 3 — convert the first small domain
+> (catalog or the existing `checks` pair) to controller → service → repo, test-first.
+>
 > ### ✅ 2026-06-27 — STEP 1 DONE (the service menu) — decisions D1–D5 locked by Carl ("choose the best")
 > Carl delegated the five open decisions; I took the recommended low-risk/behaviour-identical option on
 > each (D1 alias · D2 leave bodies · D3 pragmatic REST · D4 id-in-path · D5 services/ + middleware/ tree).
@@ -61,11 +84,11 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 > write the detailed phase-2/3/4 step files and start step 2 (shared plumbing) test-first.
 
 ## Pre-existing in the tree (flagged, not touched)
-- **`checks` handler/service WIP** — `backend/api/handlers/checks.ts`, `checks.service.ts`,
-  `scripts/test-checks-service.js` are untracked, from the Phase 003 sign-off window. They're a thin
+- **`checks` handler/service** — `backend/api/handlers/checks.ts`, `checks.service.ts`,
+  `scripts/test-checks-service.js` are now **tracked/committed** (the auto-commit automation landed them
+  since the session-start snapshot — the earlier "untracked" note was stale). They're a thin
   **controller → service** example for the Tasks-board "run free checks" button and happen to model the
-  exact layering this phase wants. Left as-is; I'll fold them into the v1 structure during step 3 (or
-  Carl can have them committed first). Not part of step 1.
+  exact layering this phase wants — a natural first candidate to slot into the v1 structure in step 3.
 - Other untracked/working-tree changes (admin stages, `content/questions/` artifacts, etc.) are
   unrelated to this phase — untouched.
 
