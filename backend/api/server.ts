@@ -1,61 +1,68 @@
-const http = require("node:http");
-const path = require("node:path");
+import http from "node:http";
+import path from "node:path";
+import type { IncomingMessage } from "node:http";
 
-const { loadEnv } = require("../engine/env.ts");
+import { loadEnv } from "../engine/env.ts";
+import { ROOT } from "../engine/paths.mts";
+import { createRouter } from "./router.ts";
+import { createStaticHandler } from "./static.ts";
+import { startSweep } from "./sessions.ts";
+
+import meetingTypes from "./handlers/meeting-types.ts";
+import * as arcs from "./handlers/arcs.ts";
+import personaBench from "./handlers/persona-bench.ts";
+import start from "./handlers/start.ts";
+import question from "./handlers/question.ts";
+import suggestAnswers from "./handlers/suggest-answers.ts";
+import answer from "./handlers/answer.ts";
+import back from "./handlers/back.ts";
+import focusPoints from "./handlers/focus-points.ts";
+import selectedFocus from "./handlers/selected-focus.ts";
+import preparation from "./handlers/preparation.ts";
+import bank from "./handlers/bank.ts";
+import plan from "./handlers/plan.ts";
+import evaluation from "./handlers/evaluation.ts";
+import preview from "./handlers/preview.ts";
+import rehydrate from "./handlers/rehydrate.ts";
+import notes from "./handlers/notes.ts";
+import agendaCover from "./handlers/agenda.ts";
+import * as runs from "./handlers/runs.ts";
+import * as runReview from "./handlers/review.ts";
+import * as pipeline from "./handlers/pipeline.ts";
+import * as lexicon from "./handlers/lexicon.ts";
+import roleProfile from "./handlers/role-profile.ts";
+import * as roleLexicons from "./handlers/role-lexicons.ts";
+import * as regression from "./handlers/regression.ts";
+import verdict from "./handlers/verdict.ts";
+import suggestFix from "./handlers/suggest-fix.ts";
+import library from "./handlers/library.ts";
+
+// Loaded before main() (and therefore before any request) so the AI key/model —
+// read at call time inside ai-client/models — are present. The handler modules
+// above evaluate first; none read the AI env at load time.
 loadEnv();
-
-const { createRouter } = require("./router.ts");
-const { createStaticHandler } = require("./static.ts");
-const { startSweep } = require("./sessions.ts");
-
-const meetingTypes = require("./handlers/meeting-types.ts").default;
-const arcs = require("./handlers/arcs.ts");
-const personaBench = require("./handlers/persona-bench.ts").default;
-const start = require("./handlers/start.ts").default;
-const question = require("./handlers/question.ts").default;
-const suggestAnswers = require("./handlers/suggest-answers.ts").default;
-const answer = require("./handlers/answer.ts").default;
-const back = require("./handlers/back.ts").default;
-const focusPoints = require("./handlers/focus-points.ts").default;
-const selectedFocus = require("./handlers/selected-focus.ts").default;
-const preparation = require("./handlers/preparation.ts").default;
-const bank = require("./handlers/bank.ts").default;
-const plan = require("./handlers/plan.ts").default;
-const evaluation = require("./handlers/evaluation.ts").default;
-const preview = require("./handlers/preview.ts").default;
-const rehydrate = require("./handlers/rehydrate.ts").default;
-const notes = require("./handlers/notes.ts").default;
-const agendaCover = require("./handlers/agenda.ts").default;
-const runs = require("./handlers/runs.ts");
-const runReview = require("./handlers/review.ts");
-const pipeline = require("./handlers/pipeline.ts");
-const lexicon = require("./handlers/lexicon.ts");
-const roleProfile = require("./handlers/role-profile.ts").default;
-const roleLexicons = require("./handlers/role-lexicons.ts");
-const regression = require("./handlers/regression.ts");
-const verdict = require("./handlers/verdict.ts").default;
-const suggestFix = require("./handlers/suggest-fix.ts").default;
-const library = require("./handlers/library.ts").default;
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
-const CLIENT_DIST = path.join(__dirname, "..", "..", "admin", "dist");
+const CLIENT_DIST = path.join(ROOT, "admin", "dist");
 
 // Simple per-IP rate limiter for session creation (POST /api/start).
 // Allows up to MAX_PER_IP new sessions within WINDOW_MS before returning 429.
 const RATE_WINDOW_MS = 60_000;
 const MAX_PER_IP = 5;
-const ipCounts = new Map();
+const ipCounts = new Map<string, number>();
 setInterval(() => ipCounts.clear(), RATE_WINDOW_MS).unref?.();
 
-function rateLimitIp(req) {
-  const ip = req.headers["x-forwarded-for"]?.split(",")[0].trim() || req.socket?.remoteAddress || "unknown";
+function rateLimitIp(req: IncomingMessage): boolean {
+  const xff = req.headers["x-forwarded-for"];
+  const fromXff = typeof xff === "string" ? xff.split(",")[0]?.trim() : undefined;
+  const ip = fromXff || req.socket?.remoteAddress || "unknown";
   const count = (ipCounts.get(ip) || 0) + 1;
   ipCounts.set(ip, count);
   return count > MAX_PER_IP;
 }
 
-function warnIfNoKey() {
+function warnIfNoKey(): void {
   if (!process.env.OPENAI_API_KEY) {
     console.warn("\x1b[33m[warn] OPENAI_API_KEY not set — AI stages will fail on first call.\x1b[0m");
     console.warn("       bash:       export OPENAI_API_KEY=sk-...");
@@ -63,7 +70,7 @@ function warnIfNoKey() {
   }
 }
 
-function originOk(req) {
+function originOk(req: IncomingMessage): boolean {
   const origin = req.headers.origin;
   if (!origin) return true;
   try {
@@ -74,7 +81,7 @@ function originOk(req) {
   }
 }
 
-function main() {
+function main(): void {
   warnIfNoKey();
   startSweep();
 
@@ -204,7 +211,7 @@ function main() {
     console.log();
   });
 
-  const shutdown = (signal) => {
+  const shutdown = (signal: string) => {
     console.log(`\n[${signal}] graceful shutdown (5s) ...`);
     server.close(() => process.exit(0));
     setTimeout(() => process.exit(0), 5000).unref?.();

@@ -4,9 +4,9 @@
   "private": true,
   "description": "Sero — 1:1 prep. CLI + web frontend.",
   "scripts": {
-    "dev": "concurrently -n api,web -c magenta,cyan \"cross-env API_PORT=3001 node backend/api/server.js\" \"vite\"",
+    "dev": "concurrently -n api,web -c magenta,cyan \"cross-env API_PORT=3001 node backend/api/server.ts\" \"vite\"",
     "build": "vite build",
-    "start": "cross-env NODE_ENV=production node backend/api/server.js",
+    "start": "cross-env NODE_ENV=production node backend/api/server.ts",
     "cli": "node backend/cli.ts",
     "test": "node scripts/run-tests.js",
     "lint": "eslint .",
