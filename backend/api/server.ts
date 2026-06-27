@@ -27,8 +27,7 @@ import preview from "./handlers/preview.ts";
 import rehydrate from "./handlers/rehydrate.ts";
 import notes from "./handlers/notes.ts";
 import agendaCover from "./handlers/agenda.ts";
-import * as runs from "./handlers/runs.ts";
-import * as runReview from "./handlers/review.ts";
+import * as runs from "./services/runs/runs.controller.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexicon from "./handlers/lexicon.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
@@ -185,6 +184,27 @@ function main(): void {
   router.add("GET", "/api/pipeline/status", pipeline.status);
   router.add("GET", "/api/v1/pipeline/manifest", v1Route(pipeline.manifest));
   router.add("GET", "/api/pipeline/manifest", pipeline.manifest);
+  // runs — finished-run history + Run Review (controller → service → repo). v1
+  // mirrors today's paths under /api/v1/ (the contract's bare /:id and ?status=
+  // merge are deferred REST polish); legacy /api/runs/* stay as aliases on the
+  // same controller. Mutating routes throw forbidden on v1, c.error on legacy.
+  router.add("GET", "/api/v1/runs/recent", v1Route(runs.recent));
+  router.add("GET", "/api/v1/runs/finished", v1Route(runs.finished));
+  router.add("GET", /^\/api\/v1\/runs\/(?<id>[^/]+)\/full$/, v1Route(runs.full));
+  router.add("GET", /^\/api\/v1\/runs\/(?<id>[^/]+)\/stages$/, v1Route(runs.stages));
+  router.add("GET", /^\/api\/v1\/runs\/(?<id>[^/]+)\/overview$/, v1Route(runs.overview));
+  router.add("DELETE", /^\/api\/v1\/runs\/(?<id>[^/]+)$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return runs.del(c);
+  }));
+  router.add("POST", /^\/api\/v1\/runs\/(?<id>[^/]+)\/review$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return runs.review(c);
+  }));
+  router.add("POST", /^\/api\/v1\/runs\/(?<id>[^/]+)\/archive$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return runs.archive(c);
+  }));
   router.add("GET", "/api/runs/recent", runs.recent);
   router.add("GET", "/api/runs/finished", runs.finished);
   router.add("GET", /^\/api\/runs\/(?<id>[^/]+)\/full$/, runs.full);
@@ -196,7 +216,7 @@ function main(): void {
   });
   router.add("POST", /^\/api\/runs\/(?<id>[^/]+)\/review$/, (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return runReview.review(c);
+    return runs.review(c);
   });
   router.add("POST", /^\/api\/runs\/(?<id>[^/]+)\/archive$/, (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));

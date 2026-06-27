@@ -38,6 +38,24 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### 🔨 2026-06-27 — STEP 3 IN PROGRESS — runs **Pass A** layered (8 of 9 routes), **Carl-approved**
+> `runs` is the big domain (9 routes across 3 handler files) and one route (`suggest-fix`) calls the AI,
+> so it's split: **Pass A = the 8 free, file-backed routes** (recent, finished, overview, full, stages,
+> delete, archive, review). **Pass B = `suggest-fix`** (next — the AI route, model call as an injected
+> boundary). Pass A done test-first + behaviour-identical, **Carl-approved** ("yes"):
+> - `services/runs/` — `runs.repo.ts` (seam over the run-history engine + the `review.json` sidecar) →
+>   `runs.service.ts` (logic: limit clamp + 6-field map, not-found gates, the full Run-Review marks
+>   schema / note cap / `createdAt`-preserve / write-fail→honest-500) → `runs.controller.ts` (thin, 8
+>   handlers). Co-located `runs.service.test.ts` written **first** (18 cases, fake repo).
+> - **Wiring:** v1 `/api/v1/runs/*` via v1Route (mutating throw forbidden) + legacy `/api/runs/*` aliases
+>   on the same controller. v1 **mirrors today's paths** (the contract's bare `/runs/:id` + `?status=`
+>   merge are deferred polish; mirroring also dodges a `recent`-vs-`:id` route collision). The new
+>   controller's `review` absorbed `review.ts`, so **both** orphaned handlers removed (`runs.ts`,
+>   `review.ts`). A `review.json` write failure stays a 500 with its real message on legacy, masked on v1.
+> - **Verified (free):** `npm test` **43/43**, typecheck clean, banned-construct grep clean.
+> Now **43/43**. **Remaining: runs Pass B (`suggest-fix`).** Then the safe set is done → **STOP before the
+> live `sessions` pipeline.**
+>
 > ### 🔨 2026-06-27 — STEP 3 IN PROGRESS — 8 of 9 safe domains layered (+ lexicon)
 > **lexicon** (global word-promotion) done test-first + behaviour-identical, **Carl-approved**
 > ("lets keep going"). A **partial extraction**: `handlers/lexicon.ts` held 5 handlers — only the 2
