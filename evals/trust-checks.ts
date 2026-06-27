@@ -11,9 +11,9 @@
 // The reworded/subtle cases fall to the judge Warn and, later, the data-flow
 // boundary fast-follow.
 
-const { computeReadQuality } = require("../backend/engine/reviewer.ts");
-const { forbiddenPatternsFor, isDuplicateText } = require("../backend/engine/question-eligibility.ts");
-const {
+import { computeReadQuality } from "../backend/engine/reviewer.ts";
+import { forbiddenPatternsFor, isDuplicateText } from "../backend/engine/question-eligibility.ts";
+import {
   runManagerBriefingBans,
   runCrossSessionLeakCheck,
   runQuestionGroundingChecks,
@@ -24,8 +24,73 @@ const {
   runRoleProfileArcGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
-} = require("../backend/engine/golden-checks.ts");
-const { loadRoleProfile } = require("../backend/engine/role-profile.ts");
+} from "../backend/engine/golden-checks.ts";
+import { loadRoleProfile } from "../backend/engine/role-profile.ts";
+import { getArc } from "../backend/engine/one-on-one-types/index.ts";
+import type { Briefing } from "../backend/shared/briefing.types.ts";
+
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
+function asString(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+// Same pragmatic narrowing the engine uses (golden-checks.isBriefingShape): the
+// eval wire is schema-constrained, so an axes array is the structural minimum.
+function isBriefingShape(v: unknown): v is Briefing {
+  return isObjectRecord(v) && Array.isArray(v.axes);
+}
+
+// A loose, all-optional turn — a superset of the engine's GateTurn and ReadTurn,
+// so a materialised transcript is assignable to both the gate functions and
+// computeReadQuality while still exposing the extra fields trust-checks reads.
+interface LooseQuestion {
+  name?: string;
+  alias?: string;
+  label?: string;
+  description?: string;
+  purpose?: string;
+  grounding?: string;
+  source?: string;
+  stage?: string | null;
+}
+interface LooseTurn {
+  turn?: number;
+  answer?: string;
+  skipped?: boolean;
+  alias?: string;
+  question?: LooseQuestion;
+}
+
+function toLooseQuestion(v: unknown): LooseQuestion {
+  const r = asRecord(v);
+  const out: LooseQuestion = {};
+  if (typeof r.name === "string") out.name = r.name;
+  if (typeof r.alias === "string") out.alias = r.alias;
+  if (typeof r.label === "string") out.label = r.label;
+  if (typeof r.description === "string") out.description = r.description;
+  if (typeof r.purpose === "string") out.purpose = r.purpose;
+  if (typeof r.grounding === "string") out.grounding = r.grounding;
+  if (typeof r.source === "string") out.source = r.source;
+  if (typeof r.stage === "string" || r.stage === null) out.stage = r.stage;
+  return out;
+}
+function toLooseTranscript(v: unknown): LooseTurn[] {
+  if (!Array.isArray(v)) return [];
+  return v.map((t) => {
+    const r = asRecord(t);
+    const out: LooseTurn = {};
+    if (typeof r.turn === "number") out.turn = r.turn;
+    if (typeof r.answer === "string") out.answer = r.answer;
+    if (typeof r.skipped === "boolean") out.skipped = r.skipped;
+    if (typeof r.alias === "string") out.alias = r.alias;
+    if (r.question !== undefined) out.question = toLooseQuestion(r.question);
+    return out;
+  });
+}
 
 const HARD_FAIL = {
   PRIVATE_NOTE_LEAK: "PRIVATE_NOTE_LEAK",
@@ -79,8 +144,8 @@ const STOP_WORDS = new Set([
   "as", "by", "from", "still", "often", "but", "not",
 ]);
 
-function contentWords(text) {
-  return String(text || "")
+function contentWords(text: unknown): string[] {
+  return asString(text)
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, " ")
     .split(/\s+/)
@@ -88,8 +153,8 @@ function contentWords(text) {
     .filter((w) => !STOP_WORDS.has(w));
 }
 
-function ngramSet(words, n) {
-  const out = new Set();
+function ngramSet(words: string[], n: number): Set<string> {
+  const out = new Set<string>();
   for (let i = 0; i <= words.length - n; i += 1) {
     out.add(words.slice(i, i + n).join(" "));
   }
@@ -97,10 +162,10 @@ function ngramSet(words, n) {
 }
 
 // Concatenate every employee-facing briefing field (excludes brutal_truth_manager).
-function employeeFacingText(briefing) {
-  if (!briefing || typeof briefing !== "object") return "";
-  const parts = [];
-  const push = (v) => {
+function employeeFacingText(briefing: unknown): string {
+  if (!isObjectRecord(briefing)) return "";
+  const parts: string[] = [];
+  const push = (v: unknown) => {
     if (typeof v === "string") parts.push(v);
   };
   for (const [key, value] of Object.entries(briefing)) {
@@ -109,8 +174,8 @@ function employeeFacingText(briefing) {
       for (const item of value) {
         if (typeof item === "string") push(item);
         else if (item && typeof item === "object") {
-          push(item.action);
-          push(item.meaning);
+          push(asRecord(item).action);
+          push(asRecord(item).meaning);
         }
       }
     } else {
@@ -124,7 +189,7 @@ function employeeFacingText(briefing) {
 // keeps the ones that read as private judgment, and flags if any reuses a run of
 // 3 content words verbatim in the employee-facing output. Will miss rewordings
 // (those are the judge's job).
-function checkPrivateNoteLeak(managerNotes, briefing) {
+function checkPrivateNoteLeak(managerNotes: unknown, briefing: unknown) {
   const employeeText = employeeFacingText(briefing);
   if (!managerNotes || !employeeText) return null;
 
@@ -135,7 +200,7 @@ function checkPrivateNoteLeak(managerNotes, briefing) {
   const employeeGrams = ngramSet(contentWords(employeeText), 2);
   if (!employeeGrams.size) return null;
 
-  const clauses = String(managerNotes)
+  const clauses = asString(managerNotes)
     .split(/[.;\n!?]+/)
     .map((s) => s.trim())
     .filter(Boolean)
@@ -156,18 +221,20 @@ function checkPrivateNoteLeak(managerNotes, briefing) {
 // engine is supposed to soften: axes go not_read, meanings hedge. This fails if
 // a thin transcript still produced a confident, high-magnitude axis read — i.e.
 // the softening guardrail regressed.
-function checkOverdiagnosisOnThin(transcript, briefing) {
+function checkOverdiagnosisOnThin(transcript: LooseTurn[], briefing: unknown) {
   const rq = computeReadQuality(transcript || []);
   if (!rq.partial_read) return { result: null, rq };
-  const axes = Array.isArray(briefing?.axes) ? briefing.axes : [];
-  for (const ax of axes) {
+  const axesRaw = asRecord(briefing).axes;
+  const axes: unknown[] = Array.isArray(axesRaw) ? axesRaw : [];
+  for (const axRaw of axes) {
+    const ax = asRecord(axRaw);
     const confident = ax.read_status === "read" && ax.confidence === "high";
     const strong = ax.read_status !== "not_read" && Math.abs(Number(ax.score) || 0) >= 5;
     if (confident || strong) {
       return {
         result: {
           reason: HARD_FAIL.OVERDIAGNOSIS_ON_THIN,
-          detail: `partial read (${rq.note_turns}/${rq.total_turns} real notes) but axis "${ax.id}" reads ${ax.score} (${ax.confidence}/${ax.read_status})`,
+          detail: `partial read (${rq.note_turns}/${rq.total_turns} real notes) but axis "${asString(ax.id)}" reads ${asString(ax.score) || Number(ax.score) || 0} (${asString(ax.confidence)}/${asString(ax.read_status)})`,
         },
         rq,
       };
@@ -178,17 +245,17 @@ function checkOverdiagnosisOnThin(transcript, briefing) {
 
 // WRONG_MEETING_TYPE — the question bank should follow the meeting type's arc.
 // Fails if fewer than half the arc stages are represented.
-function checkWrongMeetingType(meetingType, bankQuestions) {
+function checkWrongMeetingType(meetingType: string, bankQuestions: unknown) {
   let arc;
   try {
-    // Lazy require so a pure unit test can skip arc machinery if needed.
-    arc = require("../backend/engine/one-on-one-types/index.ts").getArc(meetingType);
+    arc = getArc(meetingType);
   } catch {
     return { result: null, warning: `unknown meeting type "${meetingType}" — coverage check skipped` };
   }
   const expected = (arc?.arc || []).map((s) => s.id).filter(Boolean);
   if (!expected.length) return { result: null };
-  const seen = new Set((bankQuestions || []).map((q) => q.stage).filter(Boolean));
+  const bank = Array.isArray(bankQuestions) ? bankQuestions : [];
+  const seen = new Set(bank.map((q) => asString(asRecord(q).stage)).filter(Boolean));
   const matched = expected.filter((id) => seen.has(id));
   const ratio = matched.length / expected.length;
   if (ratio < 0.5) {
@@ -209,14 +276,14 @@ function checkWrongMeetingType(meetingType, bankQuestions) {
 //   3. No engine-internal debug text in a served question's description.
 //   4. No bank-sourced question from outside this session's own bank
 //      (source "generated" must appear in the session's 03-question-bank).
-function checkQuestionIntegrity(transcript, bankQuestions, meetingType) {
-  const failures = [];
-  const served = (transcript || []).map((t) => t?.question).filter(Boolean);
+function checkQuestionIntegrity(transcript: LooseTurn[], bankQuestions: unknown, meetingType: string): string[] {
+  const failures: string[] = [];
+  const served = (transcript || []).map((t) => t.question).filter((q): q is LooseQuestion => Boolean(q));
 
   for (let i = 0; i < served.length; i += 1) {
     for (let j = i + 1; j < served.length; j += 1) {
-      if (isDuplicateText(served[i].name, served[j].name)) {
-        failures.push(`duplicate question text served (turns ${i + 1} and ${j + 1}): "${served[j].name}"`);
+      if (isDuplicateText(served[i]?.name, served[j]?.name)) {
+        failures.push(`duplicate question text served (turns ${i + 1} and ${j + 1}): "${served[j]?.name}"`);
       }
     }
   }
@@ -238,10 +305,11 @@ function checkQuestionIntegrity(transcript, bankQuestions, meetingType) {
     }
   }
 
-  const bankAliases = new Set((bankQuestions || []).map((b) => b.alias).filter(Boolean));
+  const bank = Array.isArray(bankQuestions) ? bankQuestions : [];
+  const bankAliases = new Set(bank.map((b) => asString(asRecord(b).alias)).filter(Boolean));
   if (bankAliases.size) {
     for (const q of served) {
-      if (q.source === "generated" && !bankAliases.has(q.alias)) {
+      if (q.source === "generated" && q.alias && !bankAliases.has(q.alias)) {
         failures.push(`bank-sourced question not in this session's bank: ${q.alias} ("${q.name}")`);
       }
     }
@@ -250,13 +318,16 @@ function checkQuestionIntegrity(transcript, bankQuestions, meetingType) {
   return failures;
 }
 
-function checkSchemaInvalid(briefing, transcript) {
-  if (!briefing || typeof briefing !== "object") {
+function checkSchemaInvalid(briefing: unknown, transcript: LooseTurn[]) {
+  if (!isObjectRecord(briefing)) {
     return { reason: HARD_FAIL.SCHEMA_INVALID, detail: "briefing missing or unparseable" };
   }
   const missing = REQUIRED_BRIEFING_KEYS.filter((k) => !(k in briefing));
   if (missing.length) {
     return { reason: HARD_FAIL.SCHEMA_INVALID, detail: `missing keys: ${missing.join(", ")}` };
+  }
+  if (!isBriefingShape(briefing)) {
+    return { reason: HARD_FAIL.SCHEMA_INVALID, detail: "axes missing or not an array" };
   }
   // Axis score range / off-scale (state match not required here).
   const integrity = runEvalIntegrityChecks(briefing, null, transcript || [], { requireStateMatch: false })
@@ -267,18 +338,42 @@ function checkSchemaInvalid(briefing, transcript) {
   return null;
 }
 
+interface ReadQuality {
+  partial_read: boolean;
+  note_turns: number;
+  total_turns: number;
+}
+
+interface TrustChecksInput {
+  briefing?: unknown;
+  transcript?: unknown;
+  managerNotes?: unknown;
+  bankQuestions?: unknown;
+  focusPoints?: unknown;
+  meetingType?: string;
+  ctx?: { role?: string; seniority?: string } | null;
+  metrics?: unknown;
+}
+
 // Run all deterministic checks. `metrics` (from scripts/lib/session-scores) is
 // optional context that gets logged as a trend, never gated.
-function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQuestions = [], focusPoints = [], meetingType, ctx = null, metrics = null } = {}) {
-  const hard_fails = [];
-  const warnings = [];
-  const details = [];
+function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQuestions = [], focusPoints = [], meetingType, ctx = null, metrics = null }: TrustChecksInput = {}) {
+  const hard_fails: string[] = [];
+  const warnings: string[] = [];
+  const details: string[] = [];
+  const turns = toLooseTranscript(transcript);
+  const type = meetingType || "";
 
   // Schema first — if the briefing is broken, the other content checks are moot.
-  const schema = checkSchemaInvalid(briefing, transcript);
+  const schema = checkSchemaInvalid(briefing, turns);
   if (schema) {
     hard_fails.push(schema.reason);
     details.push(schema.detail);
+    return finalize({ hard_fails, warnings, details, metrics });
+  }
+  // checkSchemaInvalid already fails any non-Briefing input, so this narrows
+  // briefing to the structural Briefing the engine gates below require.
+  if (!isBriefingShape(briefing)) {
     return finalize({ hard_fails, warnings, details, metrics });
   }
 
@@ -288,26 +383,26 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
     details.push(leak.detail);
   }
 
-  const over = checkOverdiagnosisOnThin(transcript, briefing);
+  const over = checkOverdiagnosisOnThin(turns, briefing);
   if (over.result) {
     hard_fails.push(over.result.reason);
     details.push(over.result.detail);
   }
 
-  const type = checkWrongMeetingType(meetingType, bankQuestions);
-  if (type.result) {
-    hard_fails.push(type.result.reason);
-    details.push(type.result.detail);
+  const typeCheck = checkWrongMeetingType(type, bankQuestions);
+  if (typeCheck.result) {
+    hard_fails.push(typeCheck.result.reason);
+    details.push(typeCheck.result.detail);
   }
-  if (type.warning) warnings.push(type.warning);
+  if (typeCheck.warning) warnings.push(typeCheck.warning);
 
-  const integrity = checkQuestionIntegrity(transcript, bankQuestions, meetingType);
+  const integrity = checkQuestionIntegrity(turns, bankQuestions, type);
   if (integrity.length) {
     hard_fails.push(HARD_FAIL.QUESTION_INTEGRITY);
     details.push(...integrity);
   }
 
-  const crossSession = runCrossSessionLeakCheck(transcript, managerNotes);
+  const crossSession = runCrossSessionLeakCheck(turns, managerNotes);
   if (crossSession.length) {
     hard_fails.push(HARD_FAIL.CROSS_SESSION_QUESTION_LEAK);
     details.push(...crossSession);
@@ -317,7 +412,7 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   // false-positive rate is unknown. Promote to a warning/hard fail once a few
   // gate runs show it stays quiet on the happy cases (parked in
   // docs/todo/done/engine-trust-gates/PLAN.md).
-  const grounding = runQuestionGroundingChecks(transcript, managerNotes);
+  const grounding = runQuestionGroundingChecks(turns, managerNotes);
   if (grounding.length) {
     details.push(...grounding.map((d) => `UNGROUNDED_PREMISE (log-only): ${d}`));
   }
@@ -328,13 +423,13 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
     details.push(...vocab);
   }
 
-  const focusArc = runFocusArcGate(focusPoints, meetingType);
+  const focusArc = runFocusArcGate(focusPoints, type);
   if (focusArc.length) {
     hard_fails.push(HARD_FAIL.FOCUS_ARC_LEAK);
     details.push(...focusArc);
   }
 
-  const questionArc = runQuestionArcGate(transcript, meetingType);
+  const questionArc = runQuestionArcGate(turns, type);
   if (questionArc.length) {
     hard_fails.push(HARD_FAIL.QUESTION_ARC_LEAK);
     details.push(...questionArc);
@@ -343,7 +438,7 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   // Warning, not a hard fail: a signal-free session is legitimately silent,
   // but 4+ substantive answers with zero axis movement is an engine fault
   // until proven otherwise (AXIS_SILENT_SESSION).
-  for (const w of runAxisSilenceCheck(briefing, transcript)) {
+  for (const w of runAxisSilenceCheck(briefing, turns)) {
     warnings.push(`AXIS_SILENT_SESSION: ${w}`);
   }
 
@@ -363,7 +458,7 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   // (null-safe: no profile → trivially clean; the smoke scenario covers the
   // loaded case end-to-end).
   if (ctx && ctx.role && ctx.seniority) {
-    const profileArc = runRoleProfileArcGate(loadRoleProfile(ctx), meetingType);
+    const profileArc = runRoleProfileArcGate(loadRoleProfile(ctx), type);
     if (profileArc.length) {
       hard_fails.push(HARD_FAIL.ROLE_PROFILE_ARC_LEAK);
       details.push(...profileArc);
@@ -373,7 +468,13 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   return finalize({ hard_fails, warnings, details, metrics, read_quality: over.rq });
 }
 
-function finalize({ hard_fails, warnings, details, metrics, read_quality }) {
+function finalize({ hard_fails, warnings, details, metrics, read_quality }: {
+  hard_fails: string[];
+  warnings: string[];
+  details: string[];
+  metrics?: unknown;
+  read_quality?: ReadQuality | null;
+}) {
   const verdict = hard_fails.length ? "FAIL" : warnings.length ? "WARN" : "PASS";
   return {
     verdict,
@@ -387,7 +488,7 @@ function finalize({ hard_fails, warnings, details, metrics, read_quality }) {
   };
 }
 
-module.exports = {
+export {
   HARD_FAIL,
   runTrustChecks,
   employeeFacingText,

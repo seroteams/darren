@@ -4,7 +4,7 @@
 // doesn't). No API calls — runs in `npm test`. This is what proves the gate's
 // detectors are not no-ops without spending a live run.
 
-const { runTrustChecks, checkPrivateNoteLeak, employeeFacingText } = require("../evals/trust-checks");
+const { runTrustChecks, checkPrivateNoteLeak, employeeFacingText } = require("../evals/trust-checks.ts");
 
 let failed = 0;
 function check(label, cond, detail) {

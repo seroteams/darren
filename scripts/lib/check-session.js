@@ -12,7 +12,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const { applyManagerBriefingPostProcess } = require("../../backend/engine/reviewer.ts");
-const { runTrustChecks } = require("../../evals/trust-checks");
+const { runTrustChecks } = require("../../evals/trust-checks.ts");
 const { loadBankQuestions } = require("./session-scores.ts");
 
 function loadJson(p, fallback = undefined) {

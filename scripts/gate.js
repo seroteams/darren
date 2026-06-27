@@ -20,7 +20,7 @@ const path = require("node:path");
 const { loadEnv } = require("../backend/engine/env.ts");
 const { runSmoke } = require("./lib/run-scenario");
 const { scoreSessionDir, loadBankQuestions } = require("./lib/session-scores.ts");
-const { runTrustChecks } = require("../evals/trust-checks");
+const { runTrustChecks } = require("../evals/trust-checks.ts");
 const { CONTENT_DIR } = require("../backend/engine/paths.mts");
 
 loadEnv();

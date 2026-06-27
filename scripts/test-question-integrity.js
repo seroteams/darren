@@ -25,7 +25,7 @@ const {
   buildThreadFollowQuestion,
   enforceThreadFollow,
 } = require("../backend/engine/queue-manager.ts");
-const { checkQuestionIntegrity } = require("../evals/trust-checks");
+const { checkQuestionIntegrity } = require("../evals/trust-checks.ts");
 const { QUESTIONS_DIR } = require("../backend/engine/paths.mts");
 
 let failed = 0;
