@@ -38,6 +38,16 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### 🔨 2026-06-27 — STEP 3 IN PROGRESS — 6 of 9 safe domains layered
+> Added since the 3-domain mark, each test-first + behaviour-identical + `npm test` green:
+> - **pipeline** (`043dc9b6`) — status branching behind a repo; fake repo exercises all 3 branches.
+> - **library** (`c90730c8`) — pure path logic (incl. the traversal guard, now unit-tested) + fs repo;
+>   file server, so no v1Route (manages its own responses).
+> - **checks** (`ce2665d9`) — relocated the already-layered pair into `services/checks/` (git mv).
+> Now **40/40** tests, typecheck clean. **Remaining safe (the bigger 3):** `arcs`, `lexicon`, `runs`.
+> Then **stop before the live `sessions` pipeline**. The v1 URL-shape policy (mirror legacy under
+> `/api/v1/`, defer REST polish) still stands.
+>
 > ### 🔨 2026-06-27 — STEP 3 IN PROGRESS — 3 of 9 safe domains layered (catalog, role-lexicons, regression)
 > Carl approved the catalog pattern and said "go for it." Done + committed, each test-first +
 > behaviour-identical + `npm test` green at each:
