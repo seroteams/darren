@@ -26,11 +26,12 @@ function asAxisEffects(v: unknown): Record<string, number> {
   return out;
 }
 
-// Intro questions are saved Question YAMLs; materialise each loaded record into a
-// canonical Question — every field narrowed to its contract type, any extra YAML
-// scalar preserved via the spread. For the curated _intro files (which carry the
-// 8 Question fields with valid values) this is identical to the raw load.
-function toIntroQuestion(rec: Record<string, unknown>): Question {
+// Questions on disk (intro queues, _seed overflow) are saved Question YAMLs;
+// materialise each loaded record into a canonical Question — every field narrowed
+// to its contract type, any extra YAML scalar preserved via the spread. For the
+// curated files (which carry the 8 Question fields with valid values) this is
+// identical to the raw load. Shared with the planner's _seed overflow path.
+function materializeQuestion(rec: Record<string, unknown>): Question {
   return {
     ...rec,
     alias: asString(rec.alias),
@@ -59,9 +60,9 @@ function sortIntroByArc(introItems: Question[], meetingTypeLabel: string): Quest
 
 function loadIntroQueue(meetingTypeLabel: string, budget: number): Question[] {
   const slug = questions.slugify(meetingTypeLabel);
-  const loaded = questions.loadDir(path.join("_intro", slug)).map(toIntroQuestion);
+  const loaded = questions.loadDir(path.join("_intro", slug)).map(materializeQuestion);
   const sorted = sortIntroByArc(loaded, meetingTypeLabel);
   return sorted.slice(0, budget);
 }
 
-export { loadIntroQueue, sortIntroByArc };
+export { loadIntroQueue, sortIntroByArc, materializeQuestion };

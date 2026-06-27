@@ -1,26 +1,57 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const { requireSession, summarizeAxes, persistSession } = require("../sessions.ts");
-const { openStream } = require("../sse.ts");
-const { planTurn } = require("../../engine/queue-manager.ts");
-const { applyDeltas, serialize } = require("../../engine/axes.ts");
-const { isForbiddenCloser, pickSeedOverflow } = require("../../engine/closer.ts");
-const { appendEligibilityLog } = require("../../engine/question-eligibility.ts");
-const { pinPrepOpenerEarly } = require("../../engine/question-generator.ts");
-const { summarizeAgenda, buildCarryForwardQuestion } = require("../../engine/agenda.ts");
-const questions = require("../../engine/questions.ts");
-const { writeJson } = require("../../engine/cli/io.ts");
-const cost = require("../../engine/cost.ts");
-const { getSessionSelectedFocus } = require("../selected-focus.ts");
+import fs from "node:fs";
+import path from "node:path";
+import { requireSession, summarizeAxes, persistSession } from "../sessions.ts";
+import { openStream } from "../sse.ts";
+import { planTurn } from "../../engine/queue-manager.ts";
+import { applyDeltas, serialize } from "../../engine/axes.ts";
+import { isForbiddenCloser, pickSeedOverflow } from "../../engine/closer.ts";
+import { appendEligibilityLog } from "../../engine/question-eligibility.ts";
+import { pinPrepOpenerEarly } from "../../engine/question-generator.ts";
+import { summarizeAgenda, buildCarryForwardQuestion } from "../../engine/agenda.ts";
+import * as questions from "../../engine/questions.ts";
+import { materializeQuestion } from "../../engine/intro-queue.ts";
+import { writeJson } from "../../engine/cli/io.ts";
+import * as cost from "../../engine/cost.ts";
+import { getSessionSelectedFocus } from "../selected-focus.ts";
+import type { RequestContext } from "../router.ts";
+import type { Question } from "../../shared/question.types.ts";
+import type { TranscriptEntry } from "../../shared/session.types.ts";
 
-module.exports = async function plan(c) {
-  const session = requireSession(c.query.s);
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+
+// What we cache per turn for idempotent replay (set at the end of this handler).
+interface CachedPlan {
+  axes: ReturnType<typeof summarizeAxes>;
+  issues?: string[];
+  note: string;
+  terminal: string;
+  thinkingLabel: string;
+}
+function isCachedPlan(v: unknown): v is CachedPlan {
+  return isObjectRecord(v) && typeof v.terminal === "string" && typeof v.thinkingLabel === "string";
+}
+
+// The slice of the planner's result this handler reads. Both planTurn's return
+// and the planner-failed fallback satisfy it.
+interface PlanResult {
+  assessment: { deltas: Record<string, number>; note: string };
+  newQueue: Question[];
+  issues?: string[];
+  unbooked_signal?: TranscriptEntry["unbooked_signal"];
+  prompt?: string | null;
+  response?: unknown;
+}
+
+export default async function plan(c: RequestContext): Promise<void> {
+  const session = requireSession(c.query.s ?? "");
   const stream = openStream(c.res);
 
   // --- Idempotent replay of an already-completed turn
   const turnForStream = session.turn + (session.pendingAnswer ? 1 : 0);
   const cached = session.lastPlanByTurn.get(turnForStream);
-  if (cached) {
+  if (isCachedPlan(cached)) {
     stream.write("thinking", { label: cached.thinkingLabel });
     setTimeout(() => {
       stream.write("axes", { axes: cached.axes, issues: cached.issues });
@@ -42,7 +73,7 @@ module.exports = async function plan(c) {
   // Back-navigation snapshot: capture the turn-affecting state BEFORE this turn
   // mutates it, so POST /api/back can restore the previous question for an amend.
   // Taken only on the real planning path (not the idempotent replay above).
-  const clone = (x) => (x == null ? x : JSON.parse(JSON.stringify(x)));
+  const clone = <T>(x: T): T => (x == null ? x : JSON.parse(JSON.stringify(x)));
   (session.turnSnapshots ||= []).push({
     appliedTurn: session.turn + 1,
     turn: session.turn,
@@ -52,13 +83,18 @@ module.exports = async function plan(c) {
     transcript: clone(session.transcript),
     agendaInjected: session.agendaInjected,
     agendaInput: clone(session.agendaInput),
-    question: clone(session.queueRef[0]),
+    question: clone(session.queueRef[0]) ?? null,
     answerText: pending.raw,
   });
 
   session.pendingAnswer = null;
 
   const q = session.queueRef.shift();
+  if (!q) {
+    stream.write("error", { message: "no pending question", recoverable: false });
+    stream.close();
+    return;
+  }
   session.turn += 1;
   const turn = session.turn;
 
@@ -68,22 +104,23 @@ module.exports = async function plan(c) {
   stream.write("thinking", { label: thinkingLabel });
 
   // Mirror cli.js: push turn into transcript BEFORE planning
-  session.transcript.push({
+  const turnEntry: TranscriptEntry = {
     turn,
     question: q,
     answer: pending.text,
     skipped: pending.skipped,
-  });
+  };
+  session.transcript.push(turnEntry);
 
   const remainingBudget = Math.max(0, session.totalBudget - turn);
 
-  let planResult;
+  let planResult: PlanResult;
   const prevTracker = cost.getActive();
   cost.setActive(session.tracker);
   try {
     const selectedFocus = getSessionSelectedFocus(session);
     planResult = await planTurn({
-      focusPoints: session.focusPointsResult.focus_points,
+      focusPoints: session.focusPointsResult?.focus_points,
       selectedFocus,
       ctx: session.ctx,
       transcript: session.transcript,
@@ -101,11 +138,12 @@ module.exports = async function plan(c) {
       sessionBank: Array.isArray(session.sessionBank) ? session.sessionBank : [],
     });
   } catch (e) {
-    console.warn("[plan] planner failed:", e.message);
+    const msg = e instanceof Error ? e.message : String(e);
+    console.warn("[plan] planner failed:", msg);
     planResult = {
       assessment: { deltas: {}, note: "(planner failed)" },
       newQueue: session.queueRef,
-      issues: [e.message],
+      issues: [msg],
       prompt: "",
       response: "",
     };
@@ -120,10 +158,9 @@ module.exports = async function plan(c) {
     deltas: planResult.assessment.deltas,
   });
 
-  const current = session.transcript[session.transcript.length - 1];
-  current.realized_deltas = planResult.assessment.deltas;
-  current.note = planResult.assessment.note;
-  if (planResult.unbooked_signal?.length) current.unbooked_signal = planResult.unbooked_signal;
+  turnEntry.realized_deltas = planResult.assessment.deltas;
+  turnEntry.note = planResult.assessment.note;
+  if (planResult.unbooked_signal?.length) turnEntry.unbooked_signal = planResult.unbooked_signal;
 
   // Scripted test lane: keep the planner's scoring (deltas + note) but ignore its
   // re-plan, agenda carry-forward, closer force-insert and seed overflow — the
@@ -166,28 +203,29 @@ module.exports = async function plan(c) {
   // Force-insert the reserved closer when the next turn IS the last.
   // The planner gets veto-proof: regardless of what it returned, the closer runs last.
   const askedAliases = new Set(session.transcript.map((t) => t.question.alias));
+  const closer = session.closer;
   if (
     !scripted &&
     turn + 1 === session.totalBudget &&
-    session.closer &&
-    !askedAliases.has(session.closer.alias) &&
-    !isForbiddenCloser(session.closer)
+    closer &&
+    !askedAliases.has(closer.alias) &&
+    !isForbiddenCloser(closer)
   ) {
-    if (session.queueRef[0]?.alias !== session.closer.alias) {
-      session.queueRef = session.queueRef.filter((x) => x.alias !== session.closer.alias);
-      session.queueRef.unshift(session.closer);
+    if (session.queueRef[0]?.alias !== closer.alias) {
+      session.queueRef = session.queueRef.filter((x) => x.alias !== closer.alias);
+      session.queueRef.unshift(closer);
       planResult.issues = [
         ...(planResult.issues || []),
-        `closer force-inserted: ${session.closer.alias}`,
+        `closer force-inserted: ${closer.alias}`,
       ];
     }
   }
 
   // Overflow from _seed if planner emptied the queue but we still have budget
   if (!scripted && session.queueRef.length === 0 && turn < session.totalBudget) {
-    const seeds = questions.loadDir("_seed");
+    const seeds = questions.loadDir("_seed").map(materializeQuestion);
     const seen = new Set(session.transcript.map((t) => t.question.alias));
-    const rejections = [];
+    const rejections: NonNullable<Parameters<typeof appendEligibilityLog>[1]> = [];
     const seed = pickSeedOverflow(seeds, seen, {
       meetingType: session.ctx.meetingType,
       askedNames: session.transcript.map((t) => t.question.name),
@@ -254,4 +292,4 @@ module.exports = async function plan(c) {
 
   persistSession(session);
   stream.close();
-};
+}

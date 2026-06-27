@@ -31,8 +31,8 @@ function selectReservedCloser<T extends CloserQuestion>(
   return candidates[candidates.length - 1] ?? null;
 }
 
-function pickSeedOverflow(
-  seeds: Array<CloserQuestion | null | undefined> | null | undefined,
+function pickSeedOverflow<T extends CloserQuestion>(
+  seeds: Array<T | null | undefined> | null | undefined,
   seenAliases: Set<string> | null | undefined,
   {
     meetingType,
@@ -43,7 +43,7 @@ function pickSeedOverflow(
     askedNames?: string[];
     rejections?: ReturnType<typeof rejectionEntry>[];
   } = {},
-): CloserQuestion | null {
+): T | null {
   const seen = seenAliases || new Set<string>();
   for (const s of seeds || []) {
     if (!s || (s.alias != null && seen.has(s.alias)) || isForbiddenCloser(s)) continue;

@@ -3,10 +3,11 @@
 // No model call — the profile was generated at /api/start (pre-warm) and is just
 // read from disk here.
 
-const { getSession } = require("../sessions.ts");
-const { loadRoleProfile, effectiveTerminology, terminologyGroups } = require("../../engine/role-profile.ts");
+import { getSession } from "../sessions.ts";
+import { loadRoleProfile, effectiveTerminology, terminologyGroups } from "../../engine/role-profile.ts";
+import type { RequestContext } from "../router.ts";
 
-module.exports = function roleProfile(c) {
+export default function roleProfile(c: RequestContext): void {
   const sessionId = c.query.s;
   if (!sessionId) {
     return c.error(Object.assign(new Error("sessionId required"), { status: 400 }));
@@ -21,4 +22,4 @@ module.exports = function roleProfile(c) {
     terminology: doc ? effectiveTerminology(doc) : [],
     terminologyGroups: doc ? terminologyGroups(doc.profile) : [],
   });
-};
+}
