@@ -36,7 +36,7 @@ import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller
 import * as regression from "./services/regression/regression.controller.ts";
 import verdict from "./handlers/verdict.ts";
 import suggestFix from "./handlers/suggest-fix.ts";
-import library from "./handlers/library.ts";
+import library from "./services/library/library.controller.ts";
 import checks from "./handlers/checks.ts";
 
 // Loaded before main() (and therefore before any request) so the AI key/model —
@@ -185,6 +185,8 @@ function main(): void {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return runs.archive(c);
   });
+  // library serves files (not JSON), so it manages its own responses — no v1Route.
+  router.add("GET", /^\/api\/v1\/library(?<rest>\/.*)?$/, library);
   router.add("GET", /^\/api\/library(?<rest>\/.*)?$/, library);
   router.add("GET", "/api/lexicon/candidates", lexicon.candidates);
   router.add("GET", "/api/lexicon/scope", lexicon.scope);
