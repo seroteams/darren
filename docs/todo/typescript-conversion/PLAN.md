@@ -38,6 +38,38 @@ or behaviour changes are *never* in this phase.
 
 ## Current state
 
+> ### ✅ 2026-06-27 — GATES #1 + #3 DONE (review + paid case); only Carl's owner-walk left (read this first)
+> Ran the end-of-phase **multi-agent adversarial review** (ultracode, 71 agents: 17 reviewers diffing
+> all 109 converted files vs baseline `0b00c144`, refute-by-default verification, integrity check,
+> synthesis). **52 raised → 34 confirmed → 18 refuted; integrity clean** (0 orphan `.js`, every importer
+> resolves, all 28 handler imports match export style, scripts/config wired). **Full ledger:**
+> [qa-review-2026-06-27.md](qa-review-2026-06-27.md).
+> - **⚠️ The review MISSED a class of bug — caught by the paid run:** stale `.js` **string-literal file
+>   paths** (not imports, so the import-grep didn't see them). One **broke the live pipeline entirely**
+>   (`smoke-test.js` pre-flight read `backend/engine/*.js` → every gate/smoke died "pipeline incomplete").
+>   Fixed all 3 live sites: `smoke-test.js` `PROMPT_SRC_MAP` (6) + CLI spawn path (`cli.ts`→`backend/cli.ts`),
+>   and `pipeline-lock.ts` `PATH_META` (~28, was silently dropping engine source from the fingerprint).
+> - **Gate #3 (paid) ✅ PASS:** `node scripts/gate.js --only thin-sam` → PASS (expected PASS, `hard_fails:[]`,
+>   `partial_read:true`/9 turns — honesty sentinel held). Full 5-stage session written. **Cost $0.3498 (14 calls).**
+> - **33 of 34 confirmed differences only fire on malformed/schema-violating input** real data never
+>   produces — many are honesty *improvements*. The conversion is faithful on every real-data path.
+> - **One real regression on real data — FIXED:** `evals/trust-checks.ts` dropped the per-turn `note`
+>   when materialising the transcript, silently disabling the `OVERDIAGNOSIS_ON_THIN` gate for
+>   `[SHALLOW]`-flagged answers. Carried `note` through + added a red→green regression test. Plus two
+>   cheap faithful corrections: trust-checks QUESTION_INTEGRITY alias guard, and `plan.ts` focusPoints
+>   `?.` that had turned a free planner fallback into a paid live call.
+> - **Verified:** `tsc --noEmit` clean · `npm test` 30/30 (incl. the new case). **Files touched (mine,
+>   uncommitted — awaiting Carl's green light, NOT self-certified):** `evals/trust-checks.ts`,
+>   `backend/api/handlers/plan.ts`, `scripts/test-trust-checks.js`, this PLAN + the ledger.
+> - **Accepted-as-intentional deviations** (seed-overflow `stage:null`, persona-bench, the garbage-in
+>   batch) are documented in the ledger with rationale + how to restore — Carl can override any.
+>
+> **➡️ REMAINING for sign-off — just #2, Carl's owner-walk** (real 1:1 in-app + `npm run cli`, confirm
+> identical behaviour). The paid gate (#3) already proves the live pipeline runs end-to-end clean. Once
+> Carl's walk is green → Phase 003 → done; move folder to `docs/todo/done/`. **Uncommitted (mine, awaiting
+> green light):** `evals/trust-checks.ts`, `backend/api/handlers/plan.ts`, `backend/engine/pipeline-lock.ts`,
+> `smoke-test.js`, `scripts/test-trust-checks.js`, this PLAN + the ledger.
+
 > ### ✅ 2026-06-27 — BACKEND IS 100% TYPESCRIPT (conversion complete; read this first)
 > **`find backend -name '*.js'` → 0.** Whole backend converted, in 14 local commits, each typecheck-clean +
 > `npm test` 30/30 + a free boot/curl (or the suite test that exercises it). What landed this session:

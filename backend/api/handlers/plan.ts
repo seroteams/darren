@@ -119,8 +119,13 @@ export default async function plan(c: RequestContext): Promise<void> {
   cost.setActive(session.tracker);
   try {
     const selectedFocus = getSessionSelectedFocus(session);
+    // Original engine accessed focusPointsResult.focus_points directly: a null
+    // result threw here and fell into the catch below (free "(planner failed)"
+    // fallback, no model call). Keep that — optional chaining would instead run
+    // a live (paid) plan with focusPoints=undefined. Throw stays inside the try.
+    if (!session.focusPointsResult) throw new Error("focus points not ready");
     planResult = await planTurn({
-      focusPoints: session.focusPointsResult?.focus_points,
+      focusPoints: session.focusPointsResult.focus_points,
       selectedFocus,
       ctx: session.ctx,
       transcript: session.transcript,

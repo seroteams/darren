@@ -62,6 +62,7 @@ interface LooseTurn {
   answer?: string;
   skipped?: boolean;
   alias?: string;
+  note?: string;
   question?: LooseQuestion;
 }
 
@@ -87,6 +88,10 @@ function toLooseTranscript(v: unknown): LooseTurn[] {
     if (typeof r.answer === "string") out.answer = r.answer;
     if (typeof r.skipped === "boolean") out.skipped = r.skipped;
     if (typeof r.alias === "string") out.alias = r.alias;
+    // computeReadQuality reads the per-turn `note` to detect [SHALLOW]-flagged
+    // answers; it MUST survive materialisation or the OVERDIAGNOSIS_ON_THIN gate
+    // silently goes dark on substantive-but-thin reads.
+    if (typeof r.note === "string") out.note = r.note;
     if (r.question !== undefined) out.question = toLooseQuestion(r.question);
     return out;
   });
@@ -309,7 +314,7 @@ function checkQuestionIntegrity(transcript: LooseTurn[], bankQuestions: unknown,
   const bankAliases = new Set(bank.map((b) => asString(asRecord(b).alias)).filter(Boolean));
   if (bankAliases.size) {
     for (const q of served) {
-      if (q.source === "generated" && q.alias && !bankAliases.has(q.alias)) {
+      if (q.source === "generated" && !bankAliases.has(q.alias ?? "")) {
         failures.push(`bank-sourced question not in this session's bank: ${q.alias} ("${q.name}")`);
       }
     }

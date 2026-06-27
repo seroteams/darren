@@ -73,12 +73,12 @@ function unitChecks() {
 
   // 3. Prompt placeholder coverage — every {{X}} in a prompt file has a .replace call in its src file
   const PROMPT_SRC_MAP = {
-    "prompts/generate-focus-points.md": "backend/engine/generate.js",
-    "prompts/generate-questions.md":    "backend/engine/question-generator.js",
-    "prompts/plan-turn.md":             "backend/engine/queue-manager.js",
-    "prompts/preparation.md":           "backend/engine/preparation.js",
-    "prompts/final-evaluation.md":      "backend/engine/reviewer.js",
-    "prompts/generate-role-profile.md": "backend/engine/role-profile.js",
+    "prompts/generate-focus-points.md": "backend/engine/generate.ts",
+    "prompts/generate-questions.md":    "backend/engine/question-generator.ts",
+    "prompts/plan-turn.md":             "backend/engine/queue-manager.ts",
+    "prompts/preparation.md":           "backend/engine/preparation.ts",
+    "prompts/final-evaluation.md":      "backend/engine/reviewer.ts",
+    "prompts/generate-role-profile.md": "backend/engine/role-profile.ts",
   };
   for (const [promptFile, srcFile] of Object.entries(PROMPT_SRC_MAP)) {
     try {
@@ -265,7 +265,7 @@ if (!process.env.OPENAI_API_KEY) {
 const logsBefore = new Set(scanSessions(__dirname));
 const startedAt = Date.now();
 
-const child = spawn(process.execPath, ["cli.ts"], {
+const child = spawn(process.execPath, [path.join(__dirname, "backend", "cli.ts")], {
   stdio: ["pipe", "pipe", "inherit"],
   env: { ...process.env, NO_COLOR: "1" }, // cleaner test output
 });

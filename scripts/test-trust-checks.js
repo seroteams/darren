@@ -141,6 +141,35 @@ console.log("\n─── trust-checks unit ───");
   check("thin read + confident axis → OVERDIAGNOSIS_ON_THIN", r.hard_fails.includes("OVERDIAGNOSIS_ON_THIN"), JSON.stringify(r.hard_fails));
 }
 
+// 5b. Substantive answers, but every turn flagged [SHALLOW] by the per-turn
+// scorer → still a thin read → OVERDIAGNOSIS_ON_THIN must fire. Unlike case 5
+// (genuinely short answers), these clear the token floor, so the ONLY signal
+// that the read is thin is the per-turn `note`. Regression guard: the JS→TS
+// conversion dropped `note` when materialising the transcript, silently
+// disabling this gate on real [SHALLOW] data.
+{
+  const shallowNotedTranscript = healthyTranscript.map((t) => ({
+    ...t,
+    note: "[SHALLOW] too garbled to extract a clear point",
+  }));
+  const briefing = baseBriefing({
+    axes: [
+      { id: "wellbeing", score: 1, meaning: "ok", read_status: "read", confidence: "medium" },
+      { id: "engagement", score: -7, meaning: "Disengaged.", read_status: "read", confidence: "high" },
+      { id: "clarity", score: 0, meaning: "n/a", read_status: "not_read", confidence: "low" },
+      { id: "growth", score: 0, meaning: "n/a", read_status: "not_read", confidence: "low" },
+    ],
+  });
+  const r = runTrustChecks({
+    briefing,
+    transcript: shallowNotedTranscript,
+    managerNotes: "",
+    bankQuestions: COVERING_BANK,
+    meetingType: GROWTH,
+  });
+  check("[SHALLOW]-noted substantive answers → OVERDIAGNOSIS_ON_THIN", r.hard_fails.includes("OVERDIAGNOSIS_ON_THIN"), JSON.stringify(r.hard_fails));
+}
+
 // 6. Thin read but properly softened (not_read) axes → no over-diagnosis
 {
   const briefing = baseBriefing({
