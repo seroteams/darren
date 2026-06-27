@@ -29,7 +29,7 @@ import notes from "./handlers/notes.ts";
 import agendaCover from "./handlers/agenda.ts";
 import * as runs from "./handlers/runs.ts";
 import * as runReview from "./handlers/review.ts";
-import * as pipeline from "./handlers/pipeline.ts";
+import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexicon from "./handlers/lexicon.ts";
 import roleProfile from "./handlers/role-profile.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
@@ -164,7 +164,9 @@ function main(): void {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return suggestFix(c);
   });
+  router.add("GET", "/api/v1/pipeline/status", v1Route(pipeline.status));
   router.add("GET", "/api/pipeline/status", pipeline.status);
+  router.add("GET", "/api/v1/pipeline/manifest", v1Route(pipeline.manifest));
   router.add("GET", "/api/pipeline/manifest", pipeline.manifest);
   router.add("GET", "/api/runs/recent", runs.recent);
   router.add("GET", "/api/runs/finished", runs.finished);
