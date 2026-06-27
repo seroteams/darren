@@ -5,7 +5,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { checkFromInputs } = require("./check-session");
+const { checkFromInputs } = require("./check-session.ts");
 
 const ROOT = path.join(__dirname, "..", "..");
 const REPLAY_DIR = path.join(ROOT, "evals", "replay");

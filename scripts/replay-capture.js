@@ -10,7 +10,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { checkFromSessionDir } = require("./lib/check-session");
+const { checkFromSessionDir } = require("./lib/check-session.ts");
 const { CONFIG_DIR } = require("../backend/engine/paths.mts");
 
 const ROOT = path.join(__dirname, "..");
