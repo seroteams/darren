@@ -6,6 +6,7 @@ import { HttpError } from "../../middleware/http-error.ts";
 import { initState } from "../../../engine/axes.ts";
 import { createTracker } from "../../../engine/cost.ts";
 import { TOTAL_BUDGET } from "../../../engine/budgets.ts";
+import { shouldReview } from "../../../engine/lexicon-reviewer.ts";
 import type { Session, MeetingContext } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
 
@@ -130,4 +131,39 @@ test("persist forwards the session through the seam", () => {
   const { repo, persisted } = fakeRepo([s]);
   createSessionsService(repo).persist(s);
   assert.deepEqual(persisted, [s]);
+});
+
+// --- S1a: free reads (session snapshot, lexicon scope) ---
+
+test("getSnapshot resolves through the seam and returns the session snapshot", () => {
+  const s = fakeSession("abc");
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).getSnapshot("abc");
+  // A fresh session (no focus points yet) reports the first stage.
+  assert.equal(out.sessionId, "abc");
+  assert.equal(out.stage, "FOCUS_POINTS");
+});
+
+test("getSnapshot throws a 404 for an unknown session", () => {
+  const { repo } = fakeRepo();
+  assert.throws(
+    () => createSessionsService(repo).getSnapshot("ghost"),
+    (err: unknown) => err instanceof HttpError && err.status === 404 && err.code === "NOT_FOUND"
+  );
+});
+
+test("lexiconScope returns the session ctx's review eligibility", () => {
+  const s = fakeSession("abc");
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).lexiconScope("abc");
+  // Forwards exactly what the (pure) engine rule says for this session's ctx.
+  assert.deepEqual(out, { eligible: shouldReview(s.ctx) });
+});
+
+test("lexiconScope throws a 404 for an unknown session", () => {
+  const { repo } = fakeRepo();
+  assert.throws(
+    () => createSessionsService(repo).lexiconScope("ghost"),
+    (err: unknown) => err instanceof HttpError && err.status === 404 && err.code === "NOT_FOUND"
+  );
 });

@@ -75,18 +75,6 @@ async function candidates(c: RequestContext): Promise<void> {
   }
 }
 
-async function scope(c: RequestContext): Promise<void> {
-  const sessionId = c.query.s;
-  if (!sessionId) {
-    return c.error(Object.assign(new Error("sessionId required"), { status: 400 }));
-  }
-  const session = getSession(sessionId);
-  if (!session) {
-    return c.json(404, { error: "session not found" });
-  }
-  return c.json(200, { eligible: shouldReview(session.ctx) });
-}
-
 async function decisions(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
   const sessionId = body.sessionId;
@@ -120,4 +108,4 @@ async function decisions(c: RequestContext): Promise<void> {
   c.json(200, { ok: true, count: records.length, committed });
 }
 
-export { candidates, scope, decisions };
+export { candidates, decisions };

@@ -24,7 +24,7 @@ import bank from "./handlers/bank.ts";
 import plan from "./handlers/plan.ts";
 import evaluation from "./handlers/evaluation.ts";
 import preview from "./handlers/preview.ts";
-import rehydrate from "./handlers/rehydrate.ts";
+import * as sessions from "./services/sessions/sessions.controller.ts";
 import notes from "./handlers/notes.ts";
 import agendaCover from "./handlers/agenda.ts";
 import * as runs from "./services/runs/runs.controller.ts";
@@ -122,7 +122,12 @@ function main(): void {
     if (rateLimitIp(c.req)) return c.error(Object.assign(new Error("Rate limit exceeded"), { status: 429 }));
     return start(c);
   });
-  router.add("GET", "/api/session", rehydrate);
+  // sessions — the live 1:1 runner (controller → service → repo, the S0 seam). v1
+  // takes the id IN THE PATH (/api/v1/sessions/:id…, decision D4) with the one error
+  // shape; legacy /api/ keeps ?s=<id> so the admin is unaffected. S1a: the two pure
+  // session-state reads (snapshot + lexicon scope); the rest follow per sub-pass.
+  router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)$/, v1Route(sessions.snapshot));
+  router.add("GET", "/api/session", sessions.snapshot);
   router.add("GET", "/api/role-profile", roleProfile);
   // role-lexicons (controller → service → repo). v1 uses the one error shape;
   // legacy /api/ paths are aliases on the same controller (D1/D2).
@@ -234,7 +239,10 @@ function main(): void {
   router.add("GET", /^\/api\/v1\/library(?<rest>\/.*)?$/, library);
   router.add("GET", /^\/api\/library(?<rest>\/.*)?$/, library);
   router.add("GET", "/api/lexicon/candidates", lexicon.candidates);
-  router.add("GET", "/api/lexicon/scope", lexicon.scope);
+  // lexicon scope is a session read — now on the sessions controller (S1a). v1 nests
+  // it under the session resource (/sessions/:id/lexicon/scope); legacy path unchanged.
+  router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/lexicon\/scope$/, v1Route(sessions.lexiconScope));
+  router.add("GET", "/api/lexicon/scope", sessions.lexiconScope);
   router.add("POST", "/api/lexicon/decisions", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return lexicon.decisions(c);

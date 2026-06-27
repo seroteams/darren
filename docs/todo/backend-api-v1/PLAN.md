@@ -38,7 +38,46 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
-> ### 🔨 2026-06-28 — `sessions` **S0 BUILT** (the session-store seam), test-first — awaiting Carl's walk
+> ### 🔨 2026-06-28 — `sessions` **S1a BUILT** (2 of 5 free reads), test-first — awaiting Carl's walk
+> S0 committed (`910808c9`) on Carl's green light ("happy, keep moving"). Started S1 with the two reads
+> that touch **only session state** (so they need nothing but the S0 seam) — the cleanest proof the seam
+> drives real routes. Built **test-first** (red → green):
+> - `services/sessions/sessions.service.ts` — added `getSnapshot(id)` (resolve via seam → pure `snapshot`)
+>   and `lexiconScope(id)` (→ pure `shouldReview(ctx)`). Both reuse the S0 `require` (unknown id → 404).
+> - `services/sessions/sessions.controller.ts` (new, thin) — resolves the id from `c.params.id` (v1 path)
+>   **or** `c.query.s` (legacy), then calls the service. This id-resolution is the only wiring delta vs the
+>   other domains (decision D4).
+> - `sessions.service.test.ts` — +4 cases (11 total): snapshot/scope resolve through a fake store and
+>   throw 404 for unknown ids. Zero disk, zero model.
+> - **Wiring (`server.ts`):** v1 `GET /api/v1/sessions/:id` + `/api/v1/sessions/:id/lexicon/scope`
+>   (v1Route, one error shape) + legacy `/api/session` & `/api/lexicon/scope` aliases on the same
+>   controller (old `?s=` shape — admin unaffected). Retired the orphaned `handlers/rehydrate.ts`; dropped
+>   `scope` from `handlers/lexicon.ts` (its `candidates`/`decisions` stay for S3).
+> - **Behaviour note (flag):** the 200 success bodies are **byte-identical**. The not-found path stays
+>   **404** but its body text normalises to the shared `Unknown session: <id>` (was `unknown session` /
+>   `session not found`), and a *missing* id on legacy now 404s instead of 400. Both are **safe**: the admin
+>   branches on these endpoints by **status only** (verified in `admin/src/api.js` — `getSession`/
+>   `getLexiconScope` map any 404 → null/`{eligible:false}`), and it always sends `?s=`, so the 400 path is
+>   unreachable. Same spirit as the earlier free renames.
+> - **Helper-relocation call (flag):** I did **not** move `snapshot`/`inferStage`/`summarizeAxes` out of
+>   `sessions.ts` yet — the service imports them. To avoid touching the critical store file once per route,
+>   they relocate to their final layered home in **one safe move during the end-of-sessions cleanup** (when
+>   no legacy handler imports them). Lower-risk than the per-route move I floated at S0.
+> - **Verified (free):** `npm test` **45/45**, typecheck clean, banned-construct grep clean. Only the
+>   `services/sessions/` folder + 3 small `server.ts`/`lexicon.ts` edits changed.
+> - **Live boot diff (free, $0 — no model call):** booted the API on :3999, rehydrated a real on-disk
+>   session (`2026_Jun02_21-31-d5ba01d7`). Legacy vs v1 **byte-identical** for both the snapshot and the
+>   scope (`{eligible:false}`); unknown id → **both 404** (legacy flat `{error}`, v1 shared `{error:{code}}`).
+>   Carl OK'd paid runs but none was needed — these reads don't touch the model.
+> - **Remaining S1 reads:** `role-profile`, `preview`, `question` — each pulls in a 2nd store (role-profile
+>   cache / prep assembler / eligibility-log write), so each gets its own small seam next. **Not committed —
+>   awaiting your S1a walk.**
+>
+> **S1a QA (walk before commit):** open a live run → the snapshot (stage, axes, notes, agenda — `GET
+> /api/session?s=…`) reads exactly as before; the lexicon eligibility (`GET /api/lexicon/scope?s=…`) reads
+> as before (e.g. bi-weekly/feels-off → not eligible). Nothing in the runner UI changes.
+>
+> ### ✅ 2026-06-28 — `sessions` **S0 DONE** (the session-store seam) — Carl approved ("happy, keep moving") + committed `910808c9`
 > First sub-pass of the `sessions` domain. **No routes moved** — the seam is defined so S1–S4 convert
 > against a stable boundary. Built **test-first** (red → green):
 > - `services/sessions/sessions.repo.ts` — the **`SessionsRepo`** storage seam (`get` / `create` / `drop`

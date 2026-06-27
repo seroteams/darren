@@ -8,6 +8,8 @@
 // byte-identical when its route is converted; v1 wraps it in the shared error shape.
 
 import { notFound } from "../../middleware/http-error.ts";
+import { snapshot } from "../../sessions.ts";
+import { shouldReview } from "../../../engine/lexicon-reviewer.ts";
 import type { SessionsRepo } from "./sessions.repo.ts";
 import type { Session, MeetingContext } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
@@ -18,6 +20,9 @@ export interface SessionsService {
   create(ctx: MeetingContext, introQueue: Question[]): Session;
   drop(id: string): void;
   persist(session: Session): void;
+  // S1a — free reads (resolve through the seam, then compose a pure derivation):
+  getSnapshot(id: string): ReturnType<typeof snapshot>;
+  lexiconScope(id: string): { eligible: boolean };
 }
 
 export function createSessionsService(repo: SessionsRepo): SessionsService {
@@ -33,5 +38,7 @@ export function createSessionsService(repo: SessionsRepo): SessionsService {
     create: (ctx, introQueue) => repo.create(ctx, introQueue),
     drop: (id) => repo.drop(id),
     persist: (session) => repo.persist(session),
+    getSnapshot: (id) => snapshot(requireExisting(id)),
+    lexiconScope: (id) => ({ eligible: shouldReview(requireExisting(id).ctx) }),
   };
 }
