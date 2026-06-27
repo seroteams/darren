@@ -26,7 +26,7 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 ## The steps
 | # | Step | What it lands | Status |
 |---|---|---|---|
-| 1 | **Draw the menu of services** | The written `/api/v1/` contract — every route, request + response shape, the error format, the identity/auth slot. **For Carl's review before any code.** | 🔨 drafted — awaiting Carl |
+| 1 | **Draw the menu of services** | The written `/api/v1/` contract — every route, request + response shape, the error format, the identity/auth slot. Decisions D1–D5 locked. | ✅ |
 | 2 | Build the shared plumbing | Middleware every request flows through: one error shape, request/identity context, an auth placeholder slot. `npm test` covers the error shape. | ⬜ |
 | 3 | Build each service in clean layers (TDD) | Per-domain controller → service → repo, **test-first**. Repos file-backed; storage swappable without touching the service. | ⬜ |
 | 4 | Lay out the mirrored test rooms | Unit tests beside the code; integration/e2e in a `tests/` tree shaped like the domains. | ⬜ |
@@ -38,7 +38,13 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
-> ### 🔨 2026-06-27 — STEP 1 DRAFTED (the service menu) — AWAITING CARL'S REVIEW
+> ### ✅ 2026-06-27 — STEP 1 DONE (the service menu) — decisions D1–D5 locked by Carl ("choose the best")
+> Carl delegated the five open decisions; I took the recommended low-risk/behaviour-identical option on
+> each (D1 alias · D2 leave bodies · D3 pragmatic REST · D4 id-in-path · D5 services/ + middleware/ tree).
+> The contract is now final and committed. **➡️ NEXT:** step 2 — build the shared plumbing (one error
+> shape + request/identity context + no-op auth slot) **test-first**. Awaiting Carl's go before writing code.
+>
+> ### 🔨 2026-06-27 — STEP 1 DRAFTED (the service menu)
 > Baseline before any work: **`npm test` 31/31 green** (free/offline). Note this is 31, not the 30/30
 > in older docs — the untracked `checks` handler/service WIP (left over from Phase 003 sign-off) adds
 > `test-checks-service.js`. Flagged, not folded in (see "Pre-existing in the tree" below).

@@ -82,7 +82,7 @@ const DATA = [
     goal: "Reshape the backend into clean layers behind a versioned doorway (an API) so it can grow without becoming spaghetti. The product does the same thing today.",
     steps: [
       { f: "Draw the menu of services", m: "List every service and write the official menu (contract): what you can ask for and what you get back.", have: "A written service menu",
-        auto: null, eye: "Once built: the contract doc lists every request and its response shape.", s: "doing" },
+        auto: null, eye: "Once built: the contract doc lists every request and its response shape.", s: "done" },
       { f: "Build the shared plumbing", m: "The shared path every request flows through: error handling, who-you-are context, a slot for the login check later.", have: "Consistent request handling",
         auto: "Once built: `npm test` covers the shared error shape.", eye: "Once built: a forced error comes back in one consistent shape." },
       { f: "Build each service in clean layers", m: "Each area is three small single-job parts (front desk, logic, data), written test-first.", have: "Small single-job parts",

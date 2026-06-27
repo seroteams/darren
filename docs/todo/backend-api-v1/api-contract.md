@@ -11,9 +11,21 @@ clean layers; it does **not** change product behaviour.
 
 ---
 
-## A. Five decisions I need from you (the only real forks)
+## A. Five decisions — LOCKED 2026-06-27 (Carl: "not sure, can you choose the best?")
 
-Everything else below follows house rules already locked in. These five are genuine choices:
+Carl delegated these; I took the recommended (low-risk, behaviour-identical) option on each:
+
+| # | Decision | ✅ Locked choice |
+|---|---|---|
+| D1 | Versioning | Register under `/api/v1/` **and keep `/api/…` as a thin alias** to the same handlers; migrate the ~52 admin call-sites + delete the alias as a follow-up. |
+| D2 | Success body | **Leave resource-shaped bodies as-is**; standardise only the **error** shape. No admin caller changes. |
+| D3 | REST rigor | **Pragmatic** — nounify CRUD resources (sessions, runs, lexicon, arcs); keep action/stream sub-routes for the AI pipeline. |
+| D4 | Session id | **In the path** (`/api/v1/sessions/:id/…`); out of `?s=` query and request bodies. |
+| D5 | Code layout | `backend/api/services/<domain>/` (`*.controller/service/repo/types.ts` + co-located `*.test.ts`) and `backend/api/middleware/` for shared plumbing. |
+
+The original framing of each choice is kept below for the record.
+
+Everything else below follows house rules already locked in. These five were the genuine choices:
 
 **D1 — Versioning cutover vs. compatibility alias.**
 The rule is "every route under `/api/v1/`". The admin console calls the old `/api/…` paths in **~52
