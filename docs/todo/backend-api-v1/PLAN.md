@@ -38,6 +38,28 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### 🔨 2026-06-27 — STEP 3 IN PROGRESS — catalog approved ("yes go for it"); rolling through safe domains
+> Carl approved the catalog pattern and said go. Committing catalog, then converting the remaining
+> **safe** domains (`runs`, `lexicon`, `role-lexicons`, `arcs`, `checks`, `pipeline`, `regression`,
+> `library`) the same way, each test-first + behaviour-identical + committed as it goes green. **Will stop
+> before the live `sessions` pipeline** (risky) and before step 4.
+>
+> ### 🔨 2026-06-27 — catalog domain layered (proof of pattern)
+> First domain converted to clean layers (decision D5), **test-first** (red → green):
+> `backend/api/services/catalog/` — `catalog.repo.ts` (file storage, behind a `CatalogRepo`
+> interface) → `catalog.service.ts` (`createCatalogService(repo)` — sort + meetingTypeIndex logic, never
+> touches req/res or storage) → `catalog.controller.ts` (thin: call service, `c.json`). Plus
+> `middleware/v1-route.ts` — wraps a controller so v1 errors use the one shape; legacy routes keep the old
+> shape (D2). Co-located tests written **before** the code: `catalog.service.test.ts` (proves the
+> **swap-storage seam** — an in-memory fake repo, zero service change) + `v1-route.test.ts`.
+> - **Wiring (server.ts):** `GET /api/v1/meeting-types`, `GET /api/v1/personas` (v1 error shape) + the
+>   legacy `/api/meeting-types`, `/api/persona-bench` aliases on the same controller (D1). Removed the two
+>   now-orphaned handlers (`handlers/meeting-types.ts`, `handlers/persona-bench.ts` — only server.ts used them).
+> - **Verified (free):** `npm test` **36/36**, `npm run typecheck` clean. Live boot on :3999 → v1 and legacy
+>   responses **byte-identical** to before (diff clean for both meeting-types and personas).
+> - **Not committed yet — awaiting your walk.** Then I continue step 3 domain by domain; I'll **stop again
+>   before the live `sessions` pipeline** (the risky one).
+>
 > ### ✅ 2026-06-27 — STEP 2 DONE (shared plumbing) — Carl approved ("then lets go") + committed
 > Carl walked the free checks and approved. Committed locally.
 >

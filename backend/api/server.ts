@@ -8,9 +8,9 @@ import { createRouter } from "./router.ts";
 import { createStaticHandler } from "./static.ts";
 import { startSweep } from "./sessions.ts";
 
-import meetingTypes from "./handlers/meeting-types.ts";
 import * as arcs from "./handlers/arcs.ts";
-import personaBench from "./handlers/persona-bench.ts";
+import * as catalog from "./services/catalog/catalog.controller.ts";
+import { v1Route } from "./middleware/v1-route.ts";
 import start from "./handlers/start.ts";
 import question from "./handlers/question.ts";
 import suggestAnswers from "./handlers/suggest-answers.ts";
@@ -88,7 +88,13 @@ function main(): void {
 
   const router = createRouter();
 
-  router.add("GET", "/api/meeting-types", meetingTypes);
+  // catalog — first domain on the v1 layer (controller → service → repo).
+  // v1 routes use the one error shape (v1Route); the legacy /api/ paths stay as
+  // aliases on the same controller with the old error shape (decision D1/D2).
+  router.add("GET", "/api/v1/meeting-types", v1Route(catalog.getMeetingTypes));
+  router.add("GET", "/api/v1/personas", v1Route(catalog.getPersonas));
+  router.add("GET", "/api/meeting-types", catalog.getMeetingTypes);
+  router.add("GET", "/api/persona-bench", catalog.getPersonas);
   router.add("GET", "/api/arcs", arcs.list);
   router.add("POST", /^\/api\/arcs\/(?<slug>[a-z0-9_]+)\/reset$/, (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
@@ -98,7 +104,6 @@ function main(): void {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return arcs.save(c);
   });
-  router.add("GET", "/api/persona-bench", personaBench);
   router.add("POST", "/api/start", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     if (rateLimitIp(c.req)) return c.error(Object.assign(new Error("Rate limit exceeded"), { status: 429 }));
