@@ -8,7 +8,7 @@ import { createRouter } from "./router.ts";
 import { createStaticHandler } from "./static.ts";
 import { startSweep } from "./sessions.ts";
 
-import * as arcs from "./handlers/arcs.ts";
+import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { forbidden } from "./middleware/http-error.ts";
@@ -96,6 +96,18 @@ function main(): void {
   router.add("GET", "/api/v1/personas", v1Route(catalog.getPersonas));
   router.add("GET", "/api/meeting-types", catalog.getMeetingTypes);
   router.add("GET", "/api/persona-bench", catalog.getPersonas);
+  // arcs (controller → service → repo). v1 uses the one error shape and throws
+  // forbidden on bad origin; the legacy /api/ aliases keep the old shape (D1/D2).
+  // v1 mirrors today's verb/path (POST save); the contract's PATCH is deferred polish.
+  router.add("GET", "/api/v1/arcs", v1Route(arcs.list));
+  router.add("POST", /^\/api\/v1\/arcs\/(?<slug>[a-z0-9_]+)\/reset$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return arcs.reset(c);
+  }));
+  router.add("POST", /^\/api\/v1\/arcs\/(?<slug>[a-z0-9_]+)$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return arcs.save(c);
+  }));
   router.add("GET", "/api/arcs", arcs.list);
   router.add("POST", /^\/api\/arcs\/(?<slug>[a-z0-9_]+)\/reset$/, (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));

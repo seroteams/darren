@@ -38,6 +38,20 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### 🔨 2026-06-27 — STEP 3 IN PROGRESS — 7 of 9 safe domains layered (+ arcs)
+> **arcs** done test-first + behaviour-identical + `npm test` green, **Carl-approved** ("go for it"):
+> - `services/arcs/` — `arcs.repo.ts` (the storage seam: type registry + arc-overlay engine —
+>   `writeOverlay`/`removeOverlay`/`hasOverlay`/`diffStageIds`) → `arcs.service.ts` (all logic: serialise,
+>   normalise, validate, the **orphan-confirm** decision; throws the shared `HttpError` factories, never
+>   touches req/res or files) → `arcs.controller.ts` (thin). Co-located `arcs.service.test.ts` written
+>   **first** (11 cases, fake repo) proves the logic runs with zero storage.
+> - **Wiring:** v1 `GET /api/v1/arcs`, `POST /api/v1/arcs/:slug`, `POST /api/v1/arcs/:slug/reset`
+>   (v1Route; mutating ones `throw forbidden`) + legacy `/api/arcs…` aliases on the same controller (old
+>   shape). Removed the orphaned `handlers/arcs.ts`. v1 keeps today's POST verb (the contract's PATCH is
+>   deferred polish, same call as role-lexicons).
+> - **Verified (free):** `npm test` **41/41**, typecheck clean, banned-construct grep clean.
+> Now **41/41**. **Remaining safe (2):** `lexicon`, `runs`. **Then stop before the live `sessions` pipeline.**
+>
 > ### 🔨 2026-06-27 — STEP 3 IN PROGRESS — 6 of 9 safe domains layered
 > Added since the 3-domain mark, each test-first + behaviour-identical + `npm test` green:
 > - **pipeline** (`043dc9b6`) — status branching behind a repo; fake repo exercises all 3 branches.
