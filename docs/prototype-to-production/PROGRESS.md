@@ -7,9 +7,9 @@
 ---
 
 ## Where we are now
-- **Active phase:** 003 — TypeScript conversion (Phase 002 done & signed off)
-- **Status:** `planned` (plan folder + scope survey written; awaiting Carl's scope pick)
-- **Last updated:** 2026-06-24
+- **Active phase:** 004 — Backend API v1 (RESTful, TDD) — Phase 003 done & signed off
+- **Status:** `not-started` (Phase 003 closed; 004 about to begin)
+- **Last updated:** 2026-06-27
 
 ## Next up (this can change as we learn)
 **Carl picks the Phase 003 scope** (A backend-only / B +tooling / C +admin) and confirms the strategy —
@@ -22,7 +22,7 @@ the detailed `phase-N.md` step files get written and step 1 runs. (Phase 002 don
 |---|---|---|
 | 001 | Monorepo reorg | `done` |
 | 002 | Conventions & skills | `done` |
-| 003 | TypeScript conversion | `planned` |
+| 003 | TypeScript conversion | `done` |
 | 004 | Backend API v1 (RESTful, TDD) | `not-started` |
 | 005 | Postgres foundation | `not-started` |
 | 006 | Auth (org model, password, SSO-ready) | `not-started` |
