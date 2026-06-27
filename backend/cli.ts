@@ -1,25 +1,25 @@
-const fs = require("node:fs");
-const path = require("node:path");
+import fs from "node:fs";
+import path from "node:path";
 
-const { loadEnv } = require("./engine/env.ts");
-const { createAsker } = require("./engine/ask.ts");
-const { MEETING_TYPES, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./engine/index.ts");
-const { createSession } = require("./engine/session.ts");
-const { listRecentRuns, summarizeRun, deleteRun, findLatestRunWithLock } = require("./engine/run-history.ts");
-const { buildPipelineStatus } = require("./engine/pipeline-lock.ts");
-const { reviewSession: reviewLexiconSession } = require("./engine/lexicon-reviewer.ts");
-const { loadIntroQueue } = require("./engine/intro-queue.ts");
-const { ensureRoleProfile } = require("./engine/role-profile.ts");
-const { NOTES_DIR, ROOT } = require("./engine/paths.mts");
-const cost = require("./engine/cost.ts");
-const { runFocusPointsStage } = require("./engine/cli/stages/focus-points.ts");
-const { runPreparationStage } = require("./engine/cli/stages/preparation.ts");
-const { runQuestionBankStage } = require("./engine/cli/stages/question-bank.ts");
-const { runQuestioningLoop } = require("./engine/cli/stages/questioning.ts");
-const { runEvaluationStage, writeSessionCost } = require("./engine/cli/stages/evaluation.ts");
-const { collectRunRating } = require("./engine/cli/run-rating.ts");
+import { loadEnv } from "./engine/env.ts";
+import { createAsker } from "./engine/ask.ts";
+import { MEETING_TYPES, INTRO_BUDGET, DYNAMIC_BUDGET } from "./engine/index.ts";
+import { createSession } from "./engine/session.ts";
+import { listRecentRuns, summarizeRun, deleteRun, findLatestRunWithLock } from "./engine/run-history.ts";
+import { buildPipelineStatus } from "./engine/pipeline-lock.ts";
+import { reviewSession as reviewLexiconSession } from "./engine/lexicon-reviewer.ts";
+import { loadIntroQueue } from "./engine/intro-queue.ts";
+import { ensureRoleProfile } from "./engine/role-profile.ts";
+import { NOTES_DIR, ROOT } from "./engine/paths.mts";
+import * as cost from "./engine/cost.ts";
+import { runFocusPointsStage } from "./engine/cli/stages/focus-points.ts";
+import { runPreparationStage } from "./engine/cli/stages/preparation.ts";
+import { runQuestionBankStage } from "./engine/cli/stages/question-bank.ts";
+import { runQuestioningLoop } from "./engine/cli/stages/questioning.ts";
+import { runEvaluationStage, writeSessionCost } from "./engine/cli/stages/evaluation.ts";
+import { collectRunRating } from "./engine/cli/run-rating.ts";
 // run-debrief is an ES module (shared with the Vite browser build); loaded lazily in main().
-const {
+import {
   bold,
   dim,
   cyan,
@@ -27,7 +27,14 @@ const {
   yellow,
   red,
   HR,
-} = require("./engine/ui.ts");
+} from "./engine/ui.ts";
+import type { FocusPointsResult, MeetingContext } from "./shared/session.types.ts";
+
+// The rich (has-baseline) shape of buildPipelineStatus().summary, all-optional so
+// the defensive `|| 0` / `?.length` reads below stay valid when there's no baseline.
+type PipelineSummary = Partial<
+  Extract<ReturnType<typeof buildPipelineStatus>["summary"], { contentModified: number }>
+>;
 
 loadEnv();
 
@@ -43,7 +50,7 @@ function printPipelineDelta() {
     console.log("  " + dim("Pipeline: matches last run"));
     return;
   }
-  const s = status.summary || {};
+  const s: PipelineSummary = status.summary || {};
   const parts = [];
   const contentN =
     (s.contentModified || 0) + (s.contentAdded || 0) + (s.contentRemoved || 0);
@@ -61,9 +68,9 @@ function printPipelineDelta() {
       }
     } else if (g.id === "git") {
       const c = g.changes[0];
-      const from = c.from ? c.from.sha : "?";
-      const to = c.to ? c.to.sha : "?";
-      console.log("  " + dim(`  · git: ${from} → ${to}${c.to?.dirty ? " (dirty)" : ""}`));
+      const from = c?.from ? c.from.sha : "?";
+      const to = c?.to ? c.to.sha : "?";
+      console.log("  " + dim(`  · git: ${from} → ${to}${c?.to?.dirty ? " (dirty)" : ""}`));
     } else {
       for (const c of g.changes.slice(0, 8)) {
         console.log("  " + dim(`  · ${c.path} (${c.stageLabel})`));
@@ -119,8 +126,9 @@ async function main() {
     const viewMatch = /^[1-3]$/.exec(choice);
     if (viewMatch) {
       const idx = Number(viewMatch[0]) - 1;
-      if (recent[idx]) {
-        const summary = summarizeRun(recent[idx].id);
+      const target = recent[idx];
+      if (target) {
+        const summary = summarizeRun(target.id);
         console.log();
         if (summary) console.log("  " + summary.overview);
         console.log("  " + dim("Resume from CLI not supported — open web app to continue."));
@@ -130,10 +138,11 @@ async function main() {
     const delMatch = /^d\s+([1-3])$/.exec(choice);
     if (delMatch) {
       const idx = Number(delMatch[1]) - 1;
-      if (recent[idx]) {
-        const ans = (await ask(cyan(`  Delete "${recent[idx].headline}"? [y/N] `))).trim().toLowerCase();
+      const target = recent[idx];
+      if (target) {
+        const ans = (await ask(cyan(`  Delete "${target.headline}"? [y/N] `))).trim().toLowerCase();
         if (ans === "y") {
-          deleteRun(recent[idx].id);
+          deleteRun(target.id);
           console.log("  " + dim("Deleted."));
         }
       }
@@ -142,7 +151,11 @@ async function main() {
     console.log("  " + dim("Unrecognised — try [n], [1-3], or [d 1]."));
   }
 
-  const session = createSession();
+  const session: ReturnType<typeof createSession> & { createdAt: number; completedAt: number | null } = {
+    ...createSession(),
+    createdAt: 0,
+    completedAt: null,
+  };
   session.createdAt = Date.now();
   const tracker = cost.createTracker();
   cost.setActive(tracker);
@@ -160,11 +173,11 @@ async function main() {
 
   // Kicks off now so it runs while the user picks a meeting type and types
   // notes; awaited (with fallback) just before the pipeline needs it.
-  const roleProfilePromise = ensureRoleProfile({ role, seniority }, { session }).catch((err) => ({
+  const roleProfilePromise = ensureRoleProfile({ role, seniority }, { session }).catch((err: unknown) => ({
     status: "unavailable",
     key: null,
     doc: null,
-    error: err.message,
+    error: err instanceof Error ? err.message : String(err),
   }));
 
   console.log();
@@ -177,12 +190,12 @@ async function main() {
     console.log();
   });
 
-  let meetingType = null;
+  let meetingType: (typeof MEETING_TYPES)[number] | null = null;
   while (!meetingType) {
     const pick = await ask(cyan(`  Pick a number (1-${MEETING_TYPES.length}): `));
     const idx = Number(pick) - 1;
     if (Number.isInteger(idx) && idx >= 0 && idx < MEETING_TYPES.length) {
-      meetingType = MEETING_TYPES[idx];
+      meetingType = MEETING_TYPES[idx] ?? null;
     } else {
       console.log(red(`  Please enter a number between 1 and ${MEETING_TYPES.length}.`));
     }
@@ -196,8 +209,8 @@ async function main() {
   );
   const notes = await ask(cyan("  > "));
 
-  const ctx = { name, role, seniority, meetingType: meetingType.label, notes };
-  const result = {};
+  const ctx: MeetingContext = { name, role, seniority, meetingType: meetingType.label, notes };
+  const result: FocusPointsResult = { meeting_type: "", focus_points: [] };
 
   const roleProfileOutcome = await roleProfilePromise;
   console.log("  " + dim(`role profile: ${roleProfileOutcome.status} (${roleProfileOutcome.key || "no key"})`));
@@ -270,14 +283,14 @@ async function main() {
   try {
     await reviewLexiconSession({ session, ctx, ask });
   } catch (e) {
-    console.log("  " + dim(`lexicon review error: ${e.message}`));
+    console.log("  " + dim(`lexicon review error: ${e instanceof Error ? e.message : String(e)}`));
   }
 
   await collectRunRating(ask, session);
   closeAsker();
 }
 
-main().catch((e) => {
-  console.error(red(e.message || e));
+main().catch((e: unknown) => {
+  console.error(red(e instanceof Error ? e.message : String(e)));
   process.exit(1);
 });

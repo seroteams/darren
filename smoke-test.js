@@ -2,7 +2,7 @@
 //
 // Sero end-to-end smoke test.
 //
-// Spawns `node cli.js` as a child process, pipes pre-canned answers from a
+// Spawns `node cli.ts` as a child process, pipes pre-canned answers from a
 // scenario file through stdin, walks the full 5-stage flow, then verifies
 // the session log on disk.
 //
@@ -265,12 +265,12 @@ if (!process.env.OPENAI_API_KEY) {
 const logsBefore = new Set(scanSessions(__dirname));
 const startedAt = Date.now();
 
-const child = spawn(process.execPath, ["cli.js"], {
+const child = spawn(process.execPath, ["cli.ts"], {
   stdio: ["pipe", "pipe", "inherit"],
   env: { ...process.env, NO_COLOR: "1" }, // cleaner test output
 });
 
-// Pipe each answer on its own line. readline in cli.js consumes lines one at
+// Pipe each answer on its own line. readline in cli.ts consumes lines one at
 // a time as rl.question() fires; buffering the whole script up front is fine.
 child.stdin.write(inputs.join("\n") + "\n");
 child.stdin.end();
