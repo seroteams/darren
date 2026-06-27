@@ -38,7 +38,13 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
-> ### 🔨 2026-06-28 — `sessions` **S1a BUILT** (2 of 5 free reads), test-first — awaiting Carl's walk
+> ### ✅ 2026-06-28 — live regression gate **PASSED** after the step-3 refactor (Carl-approved paid run)
+> Ran one live gate case to confirm the whole Phase 004 step-3 layering (8 domains + sessions S0/S1a)
+> didn't change live behaviour: `node scripts/gate.js --only leak-devon` → **PASS (1 ok / 0 regressed /
+> 0 error)** ([result](../../../logs/gate/2026-06-27T17-49-36-023Z/result.json)). ~$0.35, on Carl's
+> explicit go. The refactor is behaviour-identical end-to-end, not just in unit tests.
+>
+> ### ✅ 2026-06-28 — `sessions` **S1a DONE** (2 of 5 free reads) — Carl approved ("go for it") + committed `66e509f1`
 > S0 committed (`910808c9`) on Carl's green light ("happy, keep moving"). Started S1 with the two reads
 > that touch **only session state** (so they need nothing but the S0 seam) — the cleanest proof the seam
 > drives real routes. Built **test-first** (red → green):
