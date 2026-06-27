@@ -12,7 +12,6 @@ import {
   suggestionId,
   shouldReview,
 } from "../../engine/lexicon-reviewer.ts";
-import { listPendingPromotions, applyPromotionDecisions } from "../../engine/lexicon/promote-core.ts";
 import type { RequestContext } from "../router.ts";
 
 function isObjectRecord(v: unknown): v is Record<string, unknown> {
@@ -121,16 +120,4 @@ async function decisions(c: RequestContext): Promise<void> {
   c.json(200, { ok: true, count: records.length, committed });
 }
 
-async function promotePending(c: RequestContext): Promise<void> {
-  const items = listPendingPromotions();
-  return c.json(200, { items, count: items.length });
-}
-
-async function promoteApply(c: RequestContext): Promise<void> {
-  const body = asRecord(await c.readBody());
-  const list = body.decisions;
-  const result = applyPromotionDecisions(Array.isArray(list) ? list : []);
-  return c.json(200, { ok: true, ...result });
-}
-
-export { candidates, scope, decisions, promotePending, promoteApply };
+export { candidates, scope, decisions };

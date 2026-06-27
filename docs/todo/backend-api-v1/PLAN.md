@@ -38,6 +38,23 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### 🔨 2026-06-27 — STEP 3 IN PROGRESS — 8 of 9 safe domains layered (+ lexicon)
+> **lexicon** (global word-promotion) done test-first + behaviour-identical, **Carl-approved**
+> ("lets keep going"). A **partial extraction**: `handlers/lexicon.ts` held 5 handlers — only the 2
+> global-promotion ones (`promotePending`/`promoteApply`) were the standalone `lexicon` domain; the 3
+> per-session ones (`candidates`/`scope`/`decisions`, which hit `getSession` + the AI reviewer) **stay in
+> the handler for the `sessions` phase**.
+> - `services/lexicon/` — `lexicon.repo.ts` (seam over the promote-core engine) → `lexicon.service.ts`
+>   (count + coerce + `{ ok, … }` wrap, storage-agnostic) → `lexicon.controller.ts` (thin). Co-located
+>   `lexicon.service.test.ts` written **first** (3 cases, fake repo).
+> - **Wiring:** v1 `GET /api/v1/lexicon/promotions/pending` + `POST /api/v1/lexicon/promotions`
+>   (v1Route; POST throws forbidden) + legacy `/api/lexicon/promote/pending` + `/promote` aliases on the
+>   new controller. v1 **nounifies** the collection (`promote`→`promotions`) — a shape-neutral free rename
+>   (the contract's path), legacy unchanged so admin is unaffected. Trimmed the 2 orphaned fns + their
+>   unused import from the handler.
+> - **Verified (free):** `npm test` **42/42**, typecheck clean, banned-construct grep clean.
+> Now **42/42**. **Remaining safe (1):** `runs`. **Then STOP before the live `sessions` pipeline.**
+>
 > ### 🔨 2026-06-27 — STEP 3 IN PROGRESS — 7 of 9 safe domains layered (+ arcs)
 > **arcs** done test-first + behaviour-identical + `npm test` green, **Carl-approved** ("go for it"):
 > - `services/arcs/` — `arcs.repo.ts` (the storage seam: type registry + arc-overlay engine —

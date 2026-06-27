@@ -31,6 +31,7 @@ import * as runs from "./handlers/runs.ts";
 import * as runReview from "./handlers/review.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexicon from "./handlers/lexicon.ts";
+import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
 import roleProfile from "./handlers/role-profile.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
 import * as regression from "./services/regression/regression.controller.ts";
@@ -210,10 +211,18 @@ function main(): void {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return lexicon.decisions(c);
   });
-  router.add("GET", "/api/lexicon/promote/pending", lexicon.promotePending);
+  // lexicon promotion (controller → service → repo). v1 nounifies the collection
+  // (/promotions — a free, shape-neutral rename); legacy /promote stays as an alias
+  // on the same controller (D1/D2). Per-session lexicon stays in handlers/lexicon.ts.
+  router.add("GET", "/api/v1/lexicon/promotions/pending", v1Route(lexiconPromote.pending));
+  router.add("POST", "/api/v1/lexicon/promotions", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return lexiconPromote.apply(c);
+  }));
+  router.add("GET", "/api/lexicon/promote/pending", lexiconPromote.pending);
   router.add("POST", "/api/lexicon/promote", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return lexicon.promoteApply(c);
+    return lexiconPromote.apply(c);
   });
   router.add("GET", "/api/focus-points/stream", focusPoints);
   router.add("POST", "/api/focus-points/select", (c) => {
