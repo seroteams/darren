@@ -8,21 +8,21 @@
 
 ## Where we are now
 - **Active phase:** 003 — TypeScript conversion (Phase 002 done & signed off)
-- **Status:** `planned` (plan folder + scope survey written; awaiting Carl's scope pick)
-- **Last updated:** 2026-06-24
+- **Status:** `in-progress` (scope A locked; `backend/engine/` 100% converted to TypeScript; `api/` + `cli.js` + final sweep + QA-agency review + owner sign-off still to come)
+- **Last updated:** 2026-06-27
 
 ## Next up (this can change as we learn)
-**Carl picks the Phase 003 scope** (A backend-only / B +tooling / C +admin) and confirms the strategy —
-survey in [../todo/typescript-conversion/PLAN.md](../todo/typescript-conversion/PLAN.md). Once locked,
-the detailed `phase-N.md` step files get written and step 1 runs. (Phase 002 done; folder archived at
-[../todo/done/convention-skills/PLAN.md](../todo/done/convention-skills/PLAN.md).)
+**Finish Phase 003:** convert `backend/api/` (37 files), then `backend/cli.js`, then the final sweep —
+then the end-of-phase multi-agent adversarial review (hard gate), Carl's owner-walk + one paid gate case,
+and sign-off. Live state in [../todo/typescript-conversion/PLAN.md](../todo/typescript-conversion/PLAN.md).
+(Phase 002 done; folder archived at [../todo/done/convention-skills/PLAN.md](../todo/done/convention-skills/PLAN.md).)
 
 ## Phase status
 | # | Phase | Status |
 |---|---|---|
 | 001 | Monorepo reorg | `done` |
 | 002 | Conventions & skills | `done` |
-| 003 | TypeScript conversion | `planned` |
+| 003 | TypeScript conversion | `in-progress` |
 | 004 | Backend API v1 (RESTful, TDD) | `not-started` |
 | 005 | Postgres foundation | `not-started` |
 | 006 | Auth (org model, password, SSO-ready) | `not-started` |
@@ -54,6 +54,13 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
 ## Activity log (newest first)
+- **2026-06-27** — **Status catch-up: Phase 003 → `in-progress`** (top-of-file summary was stale at
+  `planned`/2026-06-24). Reality per [../todo/typescript-conversion/PLAN.md](../todo/typescript-conversion/PLAN.md)
+  + git log: scope **A (backend only)** locked; **`backend/engine/` is 100% TypeScript** (all 63 files,
+  incl. the big modules — queue-manager, reviewer⇄golden-checks, role-profile — `npm test` 30/30 +
+  `typecheck` clean at every commit; CLI boot-test green; Carl's live owner-walk confirmed identical
+  behaviour). Left: convert `api/` (37) + `cli.js`, final sweep, the end-of-phase adversarial QA-agency
+  review (hard gate), owner-walk + one paid gate case, then sign-off. Docs-only edit; no code touched.
 - **2026-06-24** — **Phase 003 (TypeScript conversion) → `planned`.** Re-verified Phase 002 (free
   checks: `npm test` 30/30, `typecheck` clean, offline replay green; 4 skills load, links resolve,
   `clamp` proof 3/3) — Carl gave a complete sign-off. Set up the Phase 003 plan folder
