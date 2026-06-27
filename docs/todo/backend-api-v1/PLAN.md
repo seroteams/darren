@@ -38,6 +38,60 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### ✅ 2026-06-28 — `sessions` **S1b DONE** (the remaining 3 free reads) — built on free checks, **awaiting Carl's walk** (not committed by Carl yet)
+> Converted the last 3 of S1's 5 free reads — each pulls a 2nd store, unlike S1a — into the sessions
+> service/controller, **test-first** (red → green):
+> - `services/sessions/sessions.repo.ts` — broadened the seam from "the session record" to **the sessions
+>   domain's data access**: added `loadRoleProfile(ctx)` (role-profile cache read) and
+>   `appendEligibilityLog(dir, entries)` (per-session eligibility-log write, owns the filename). Storage
+>   only; pure derivations still live in the service.
+> - `services/sessions/sessions.service.ts` — added `roleProfile(id)` (seam read → pure
+>   `effectiveTerminology`/`terminologyGroups`), `preview(id, stage?)` (resolve stage via pure `inferStage`
+>   → a `PREVIEW_ASSEMBLERS` map; `PREPARATION` reuses `assemblePreparation(buildPreparationInputs(session))`
+>   so the preview can't drift from what gets sent; throws shared `conflict` 409 when focus points aren't
+>   ready), and `question(id)` (the serve-time eligibility gate — scripted = log-only, else
+>   `dropIneligibleHeads` → `appendEligibilityLog` + `persist` through the seam — then the next-question /
+>   done payload). All resolve via the S0 `require` (unknown id → shared 404).
+> - `services/sessions/sessions.controller.ts` — 3 thin handlers; same `c.params.id || c.query.s` id resolve.
+> - `sessions.service.test.ts` — **+11 cases (22 total)**: roleProfile (null / cached-doc / 404), preview
+>   (unsupported stage / 409 not-ready / 404), question (next / reject→log+persist / scripted log-only /
+>   done / 404). Zero disk, zero model (the doc fixture is crafted so `effectiveTerminology` reads no overlay).
+> - **Wiring (`server.ts`):** v1 `GET /api/v1/sessions/:id/{role-profile,question,preview}` (v1Route, one
+>   error shape) + legacy `/api/role-profile`, `/api/question`, `/api/preview` aliases on the same
+>   controller (old `?s=`/`&stage=` shape — admin unaffected). Removed the 3 orphaned handlers
+>   (`handlers/role-profile.ts`, `preview.ts`, `question.ts`).
+> - **Fingerprint-manifest call (flag):** `handlers/question.ts` was the only converted handler tracked in
+>   `pipeline-lock.ts` `PATH_META` (tier engine, the serve-time gate). Deleting it would silently drop that
+>   logic from drift-tracking, so I **repointed it**: removed the `question.ts` entry and added
+>   `backend/api/services/sessions/sessions.service.ts` (tier engine, label "Sessions"). The gate stays
+>   tracked at its new home, and every future S2–S4 conversion's logic is now auto-covered (no further
+>   manifest churn). This changes the pipeline-lock **engine hash** for new runs — accurate (the engine code
+>   really did move), same kind of churn S1a already caused by editing `lexicon.ts`. Tell me if you'd rather
+>   I'd kept finer per-route labels.
+> - **Behaviour notes (flags):** the 200 success bodies are **byte-identical** (verified live, incl.
+>   preview's real prep-payload). `question`/`preview` 404s were already `Unknown session: <id>` (via
+>   `requireSession`) → identical. `role-profile`'s 404 body **normalises** from `session not found` to
+>   `Unknown session: <id>`, and a *missing* id now 404s instead of 400 — both safe and the same accepted
+>   S1a normalisation (admin's `getRoleProfile` only ever sends `?s=` and isn't the body; `getStagePreview`
+>   branches on status 404/409 only). v1 error paths use the shared envelope, legacy stays flat `{error}`.
+> - **Helper-relocation call (flag):** the service imports the pure `buildPreparationInputs` from
+>   `handlers/preparation.ts` (a backwards-ish import). It relocates to its layered home when **preparation
+>   converts in S4** — same "relocate in one move at end-of-sessions cleanup" rule as `snapshot`/`inferStage`.
+> - **Verified (free):** `npm test` **45/45 files** (sessions file +11 cases), typecheck clean,
+>   banned-construct grep clean. **Live boot diff (free, $0 — no model):** booted :3999, rehydrated real
+>   on-disk sessions — `role-profile` / `question` / `preview` all **byte-identical** legacy-vs-v1 at 200
+>   (BRIEFING `supported:false` *and* a PREPARATION session's full prep-payload); unknown id → **both 404**
+>   (legacy flat, v1 enveloped). No model call needed.
+>
+> **S1b QA (walk for sign-off):** open a live run at the prep stage → the "language of this role" terminology
+> (`GET /api/role-profile?s=…`), the current question (`GET /api/question?s=…`), and the prompt preview
+> (`GET /api/preview?s=…`) all read exactly as before; nothing in the runner UI changes.
+>
+> **Remaining sessions passes:** **S2** non-AI writes (`start` leads) · **S3** AI JSON (structure free,
+> paid walk deferred) · **S4** SSE streams (structure free, paid walk deferred) · end-of-sessions cleanup
+> (relocate `snapshot`/`inferStage`/`summarizeAxes` + `buildPreparationInputs`; reconcile remaining manifest
+> handler entries) · **Step 4** mirrored test tree.
+
 > ### ✅ 2026-06-28 — live regression gate **PASSED** after the step-3 refactor (Carl-approved paid run)
 > Ran one live gate case to confirm the whole Phase 004 step-3 layering (8 domains + sessions S0/S1a)
 > didn't change live behaviour: `node scripts/gate.js --only leak-devon` → **PASS (1 ok / 0 regressed /

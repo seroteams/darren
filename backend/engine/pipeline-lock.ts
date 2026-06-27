@@ -118,13 +118,15 @@ const PATH_META: Record<string, PathMeta> = {
   "backend/engine/lexicon/review-core.ts": { tier: "engine", stageLabel: "Lexicon review" },
   "backend/engine/lexicon/candidates-io.ts": { tier: "engine", stageLabel: "Lexicon candidates" },
   "backend/api/sessions.ts": { tier: "engine", stageLabel: "Sessions" },
+  "backend/api/services/sessions/sessions.service.ts": { tier: "engine", stageLabel: "Sessions" },
   "backend/api/session-persistence.ts": { tier: "engine", stageLabel: "Session persistence" },
   "backend/api/handlers/start.ts": { tier: "engine", stageLabel: "Start" },
   "backend/api/handlers/focus-points.ts": { tier: "engine", stageLabel: "Focus points" },
   "backend/api/handlers/preparation.ts": { tier: "engine", stageLabel: "Preparation" },
   "backend/api/handlers/bank.ts": { tier: "engine", stageLabel: "Question bank" },
   "backend/api/handlers/plan.ts": { tier: "engine", stageLabel: "Questioning (planner)" },
-  "backend/api/handlers/question.ts": { tier: "engine", stageLabel: "Question" },
+  // question's serve-time eligibility gate moved into the sessions service (S1b);
+  // it's tracked there now (see backend/api/services/sessions/sessions.service.ts above).
   "backend/api/handlers/answer.ts": { tier: "engine", stageLabel: "Answer" },
   "backend/api/handlers/evaluation.ts": { tier: "engine", stageLabel: "Evaluation" },
   "backend/api/handlers/lexicon.ts": { tier: "engine", stageLabel: "Lexicon" },

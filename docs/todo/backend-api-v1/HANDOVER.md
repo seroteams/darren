@@ -18,8 +18,8 @@ behind a versioned `/api/v1/`. **Behaviour-identical — structure only, no feat
     Live gate (`leak-devon`) PASSED after the refactor → no behaviour regression.
 - **Step 4 (mirrored integration/e2e test tree)** ⬜ not started.
 
-## NEXT — S1b: the remaining 3 free reads
-Convert these, **test-first**, one small seam each (they each pull in a 2nd store, unlike S1a):
+## ~~NEXT — S1b: the remaining 3 free reads~~ ✅ DONE 2026-06-28 (see PLAN.md "Current state" — awaiting Carl's walk). **NEXT is now S2 (non-AI writes).**
+Converted these, **test-first**, one small seam each (they each pull in a 2nd store, unlike S1a):
 | Route (legacy) | Old handler | Extra dependency |
 |---|---|---|
 | `GET /role-profile?s=` | `handlers/role-profile.ts` | role-profile cache read (`loadRoleProfile` + pure `effectiveTerminology`/`terminologyGroups`) |

@@ -25,3 +25,18 @@ export function snapshot(c: RequestContext): void {
 export function lexiconScope(c: RequestContext): void {
   c.json(200, service.lexiconScope(sessionId(c)));
 }
+
+// GET /api/v1/sessions/:id/role-profile  ·  GET /api/role-profile?s=<id>
+export function roleProfile(c: RequestContext): void {
+  c.json(200, service.roleProfile(sessionId(c)));
+}
+
+// GET /api/v1/sessions/:id/preview  ·  GET /api/preview?s=<id>&stage=<stage>
+export function preview(c: RequestContext): void {
+  c.json(200, service.preview(sessionId(c), c.query.stage));
+}
+
+// GET /api/v1/sessions/:id/question  ·  GET /api/question?s=<id>
+export function question(c: RequestContext): void {
+  c.json(200, service.question(sessionId(c)));
+}

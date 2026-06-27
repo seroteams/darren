@@ -13,7 +13,6 @@ import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { forbidden } from "./middleware/http-error.ts";
 import start from "./handlers/start.ts";
-import question from "./handlers/question.ts";
 import suggestAnswers from "./handlers/suggest-answers.ts";
 import answer from "./handlers/answer.ts";
 import back from "./handlers/back.ts";
@@ -23,7 +22,6 @@ import preparation from "./handlers/preparation.ts";
 import bank from "./handlers/bank.ts";
 import plan from "./handlers/plan.ts";
 import evaluation from "./handlers/evaluation.ts";
-import preview from "./handlers/preview.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
 import notes from "./handlers/notes.ts";
 import agendaCover from "./handlers/agenda.ts";
@@ -31,7 +29,6 @@ import * as runs from "./services/runs/runs.controller.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexicon from "./handlers/lexicon.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
-import roleProfile from "./handlers/role-profile.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
 import * as regression from "./services/regression/regression.controller.ts";
 import verdict from "./handlers/verdict.ts";
@@ -128,7 +125,10 @@ function main(): void {
   // session-state reads (snapshot + lexicon scope); the rest follow per sub-pass.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)$/, v1Route(sessions.snapshot));
   router.add("GET", "/api/session", sessions.snapshot);
-  router.add("GET", "/api/role-profile", roleProfile);
+  // role-profile is a session read (S1b) — now on the sessions controller. v1 nests
+  // it under the session resource (/sessions/:id/role-profile); legacy ?s= unchanged.
+  router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/role-profile$/, v1Route(sessions.roleProfile));
+  router.add("GET", "/api/role-profile", sessions.roleProfile);
   // role-lexicons (controller → service → repo). v1 uses the one error shape;
   // legacy /api/ paths are aliases on the same controller (D1/D2).
   router.add("GET", "/api/v1/role-lexicons", v1Route(roleLexicons.list));
@@ -159,7 +159,10 @@ function main(): void {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return checks(c);
   });
-  router.add("GET", "/api/question", question);
+  // question is a session read (S1b) — now on the sessions controller. v1 nests it
+  // under the session resource (/sessions/:id/question); legacy ?s= unchanged.
+  router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/question$/, v1Route(sessions.question));
+  router.add("GET", "/api/question", sessions.question);
   router.add("GET", "/api/suggest-answers", suggestAnswers);
   router.add("POST", "/api/answer", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
@@ -269,7 +272,10 @@ function main(): void {
   router.add("GET", "/api/bank/stream", bank);
   router.add("GET", "/api/plan/stream", plan);
   router.add("GET", "/api/evaluation/stream", evaluation);
-  router.add("GET", "/api/preview", preview);
+  // preview is a session read (S1b) — now on the sessions controller. v1 nests it
+  // under the session resource (/sessions/:id/preview); legacy ?s=&stage= unchanged.
+  router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/preview$/, v1Route(sessions.preview));
+  router.add("GET", "/api/preview", sessions.preview);
 
   const staticHandler = IS_PROD ? createStaticHandler(CLIENT_DIST) : null;
 
