@@ -1891,6 +1891,21 @@ body.has-session-topbar .stage {
   font-weight: 600;
 }
 
+/* Prep brief — all sections collected into one card, split by dividers
+   instead of a separate labelled box per section. */
+.prep-brief {
+  padding: 0;
+}
+.prep-brief__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem;
+}
+.prep-brief__row + .prep-brief__row {
+  border-top: 1px solid var(--color-border-tinted);
+}
+
 /* Selectable focus-point state */
 .focus-point--selectable {
   grid-template-columns: 1.75rem 1fr 1.5rem;

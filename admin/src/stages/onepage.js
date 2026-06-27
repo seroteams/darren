@@ -412,12 +412,14 @@ export async function mount(root, { store, setState }) {
     node.className = "flow-section space-y-5";
     node.innerHTML = `
       <div class="eyebrow">Prep brief</div>
-      ${sections.map((s) => `
-        <div>
-          <div class="eyebrow mb-2">${s.label}</div>
-          <div class="card">${renderPrepField(s.type, brief[s.key])}</div>
-        </div>
-      `).join("")}
+      <div class="card prep-brief">
+        ${sections.map((s) => `
+          <div class="prep-brief__row">
+            <div class="eyebrow">${s.label}</div>
+            ${renderPrepField(s.type, brief[s.key])}
+          </div>
+        `).join("")}
+      </div>
       <div class="field__actions"><button class="btn js-to-interview" type="button">Continue to interview</button></div>
     `;
     appendSection(node);

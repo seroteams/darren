@@ -16,13 +16,13 @@
     {
       "name": "sero-web",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["node_modules/vite/bin/vite.js", "--port", "3002", "--strictPort"],
-      "port": 3002
+      "runtimeArgs": ["node_modules/vite/bin/vite.js", "--port", "3000", "--strictPort"],
+      "port": 3000
     },
     {
       "name": "sero-api",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["cross-env", "API_PORT=3001", "node", "backend/api/server.js"],
+      "runtimeArgs": ["cross-env", "API_PORT=3001", "node", "backend/api/server.ts"],
       "port": 3001
     },
     {

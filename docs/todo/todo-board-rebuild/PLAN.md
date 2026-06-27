@@ -17,23 +17,25 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | New Tasks page + nav | A brand-new "Tasks" page at `/tasks` with its own nav item. Clean board: my status (✅ Built / 🔵 Building / ⚪ Not started) kept separate from your verdict tick; wrong-address warning. | 🔨 |
-| 2 | Plain check steps | Every step's "how to check" rewritten into concrete lines: "App runs (free check)" + "You check (by eye)" | 🔨 |
-| M | Merge boards | Port the Copy continue/verify prompt into Tasks (driven by build status, never your ticks); retire the Build plan page (nav, route, stage, file) so there's one board, not two. | 🔨 |
-| 3 | Run-checks button | The page runs the FREE checks for you and shows ✅/❌ per step | ⬜ |
+| 1 | New Tasks page + nav | A brand-new "Tasks" page at `/tasks` with its own nav item. Clean board: my status (✅ Built / 🔵 Building / ⚪ Not started) kept separate from your verdict tick; wrong-address warning. | ✅ |
+| 2 | Plain check steps | Every step's "how to check" rewritten into concrete lines: "App runs (free check)" + "You check (by eye)" | ✅ |
+| M | Merge boards | Port the Copy continue/verify prompt into Tasks (driven by build status, never your ticks); retire the Build plan page (nav, route, stage, file) so there's one board, not two. | ✅ |
+| 3 | Run-checks button | The page runs the FREE checks for you and shows ✅/❌ per step | ⬜ greenlit, not built |
 
-⬜ not started · 🔨 in progress (built, awaiting test) · ✅ done (tested)
+⬜ not started · 🔨 in progress (built, awaiting test) · ✅ done (committed)
 
 ## Current state
-Phases 1, 2 and the **Merge** are BUILT but NOT yet committed — awaiting Carl's green light (he walks the scenarios; I don't self-certify). Baseline before work: `npm test` = **30/30**. After the merge: `npm run build` clean; `/tasks` verified via preview — 8 phases, 8 copy-prompt buttons (001/002 "Copy verify prompt", 003+ "Copy continue prompt"), Phase 003 snapshot accurate (resumes at step 3), no console errors, Build plan removed from the nav.
+**Phases 1, 2 and the Merge are DONE and COMMITTED** (commit `a55ccf44` "feat(admin): new Tasks board replacing the Build plan page"; screenshots gitignored in `c028344a`). The Build plan page is fully retired and Tasks is the single board.
 
-What the merge changed:
-- `admin/src/stages/tasks.js` — added the prompt generator (PREAMBLE / KICK / VERIFY / buildContinue / CONTINUES) + the per-phase "Copy continue/verify prompt" block and its copy handler.
-- Retired the Build plan: removed `CHECKLIST` from `state.js`, `router.js` (`/todo`), `main.js` loaders, and `app-nav.js` (icon, link, handler, active map); deleted `admin/src/stages/checklist.js`; swapped `CHECKLIST`→`TASKS` in `notes-panel-utils.js` HIDDEN_STAGES. Shared `cl-` CSS left intact (Tasks reuses it).
+**Carl's decisions (2026-06-27):**
+- Build plan removal — **accepted.** Tasks-only is fine; do NOT restore the old page.
+- Phase 3 (run-checks button) — **greenlit to build.** This is the only remaining phase.
 
-Known unrelated breakage: the API server (`backend/api/server.js`) won't start — `Cannot find module './handlers/preparation'` (the Phase 003 TS conversion deleted `preparation.js`, added `preparation.ts`, but server.js still requires the old path). Pre-existing backend work, not part of this plan. The Tasks page makes no API calls, so it's unaffected — but a full app run needs that fixed.
+One tiny uncommitted edit sits in `tasks.js` (4 lines): Phase 003's step 3 flipped `doing`→`done` to reflect the now-complete TS conversion. It can ride along with the Phase 3 commit.
 
-Next: Carl walks `/tasks` at localhost:3000 — confirm the copy-prompt buttons work, the statuses look right, and the Build plan really is gone. On his go, commit, then build Phase 3 (run-checks button).
+**Prerequisite for Phase 3:** the button calls the API, so the API server must run. Right now `node backend/api/server.js` errors (`Cannot find module './handlers/preparation'`) — but the backend is now 100% TypeScript (server.ts; commits `86ccc88e`/`f0e277ae`), so `server.js` is likely a stale entry. Phase 3 must first confirm the correct way to start the TS API, then add the endpoint.
+
+Next: build Phase 3 — recommended in a FRESH session (this chat is long/messy; Darren rule). Then Carl walks the Phase 3 scenarios; on his go, commit and close the folder to `docs/todo/done/`.
 
 ## Parked
 - Saving verdicts on the server (so they survive across browsers/computers, not just this one). Carl chose "pin to one address" for now — revisit if he ever uses a second machine.

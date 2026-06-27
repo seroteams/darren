@@ -127,14 +127,14 @@ export async function mount(root, { store, setState }) {
         </div>
         ${timelineHtml}
         ${steps.length ? `<div class="eyebrow reveal pt-2">Full brief</div>` : ""}
-        ${sections.map((s) => `
-          <div class="reveal">
-            <div class="eyebrow mb-2">${s.label}</div>
-            <div class="card">
+        <div class="card prep-brief reveal">
+          ${sections.map((s) => `
+            <div class="prep-brief__row">
+              <div class="eyebrow">${s.label}</div>
               ${renderField(s.type, brief[s.key])}
             </div>
-          </div>
-        `).join("")}
+          `).join("")}
+        </div>
         <div class="l-cluster l-cluster--2 pt-2 reveal">
           <button class="btn js-continue">Generate interview questions</button>
           <button class="btn btn--ghost js-restart">New session</button>

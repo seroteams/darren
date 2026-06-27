@@ -29,7 +29,7 @@ or behaviour changes are *never* in this phase.
 | 3 | Convert engine leaf modules (test-first) | lowest-dependency engine files → `.ts`, tests green | ✅ |
 | 4 | Convert engine core | up the dependency graph, tests green at each step | ✅ |
 | 5 | Convert the API server | `backend/api/` → `.ts` (all handlers + server.ts) | ✅ |
-| 6 | Convert CLI + final sweep | `cli.ts` ✅; `typecheck` clean repo-wide ✅; 0 backend `.js` ✅ — QA-agency review + owner-walk pending | 🔨 |
+| 6 | Convert CLI + final sweep | `cli.ts` ✅; `typecheck` clean repo-wide ✅; 0 backend `.js` ✅; QA-agency review ✅; paid gate case ✅; owner-walk ✅ | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -38,6 +38,32 @@ or behaviour changes are *never* in this phase.
 
 ## Current state
 
+> ### ✅ 2026-06-27 — PHASE 003 SIGNED OFF (Carl's owner-walk green) — DONE
+> Carl ran the owner-walk (live 1:1 in-app + `npm run cli`) and confirmed **identical behaviour** — the last
+> gate. All three gates now closed: **#1 multi-agent adversarial review ✅**, **#2 owner-walk ✅**, **#3 paid
+> gate case ✅**. Backend is 100% TypeScript (0 `.js`), `typecheck` clean, `npm test` 30/30. **Phase 003 → done.**
+> Folder moved to `docs/todo/done/typescript-conversion/`; the bigger effort's `PROGRESS.md` Phase 003 → `done`.
+> Sign-off committed docs-only — the unrelated `checks` handler/service WIP in the tree was left untouched.
+>
+> ### ✅ 2026-06-27 — STEP 6 LOOSE-ENDS SWEEP RE-VERIFIED · QA-fix files now committed (read this first)
+> Picked up at "tighten the loose ends". Re-ran the full **free** verification on the committed tree:
+> `npm test` **30/30**, `npm run typecheck` **clean**, **0 backend `.js`**, and a repo-wide banned-construct
+> grep across `backend/**`, `evals/**`, `scripts/**` `.ts`/`.mts`: **no `@ts-ignore`/`@ts-expect-error`/
+> `@ts-nocheck`, no `: any`/`<any>`/`as any`/`any[]`, no `!` non-null assertions.** The agent-verified half
+> of "Done when" is fully met.
+> - **One honest nuance (safe, flagged not hidden):** the only `as` in the whole converted backend is two
+>   **`as const`** in `backend/api/persona-script.ts` (`"scripted" as const` ×2) — literal-pins that *tighten*
+>   the type to match the `purpose`/`source` union; they don't loosen anything. The prior "no `as` at all"
+>   note used a grep that skipped lowercase `const`. Left as-is (rewrite would be a needless change); Carl's call.
+> - **Bookkeeping correction:** the Gate #1+#3 fix files this section's next entry calls "uncommitted" are in
+>   fact **committed in `b734d65f`** (`evals/trust-checks.ts`, `backend/api/handlers/plan.ts`,
+>   `backend/engine/pipeline-lock.ts`, `smoke-test.js`, `scripts/test-trust-checks.js`, PLAN + ledger). The only
+>   uncommitted tree changes are **unrelated** (todo-board-rebuild's `admin/src/stages/tasks.js` + `content/questions/`
+>   artifacts) — untouched.
+> - **➡️ The single remaining item for Phase 003 sign-off is Carl's owner-walk** (real 1:1 in-app + `npm run cli`,
+>   confirm identical behaviour). Gates #1 (review) and #3 (paid case) are done. Once the walk is green → Phase 003
+>   → done; move folder to `docs/todo/done/` and set the bigger effort's `PROGRESS.md` Phase 003 → `done`.
+>
 > ### ✅ 2026-06-27 — GATES #1 + #3 DONE (review + paid case); only Carl's owner-walk left (read this first)
 > Ran the end-of-phase **multi-agent adversarial review** (ultracode, 71 agents: 17 reviewers diffing
 > all 109 converted files vs baseline `0b00c144`, refute-by-default verification, integrity check,

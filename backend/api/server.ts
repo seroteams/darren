@@ -36,6 +36,7 @@ import * as regression from "./handlers/regression.ts";
 import verdict from "./handlers/verdict.ts";
 import suggestFix from "./handlers/suggest-fix.ts";
 import library from "./handlers/library.ts";
+import checks from "./handlers/checks.ts";
 
 // Loaded before main() (and therefore before any request) so the AI key/model —
 // read at call time inside ai-client/models — are present. The handler modules
@@ -115,6 +116,10 @@ function main(): void {
     return roleLexicons.removeTerm(c);
   });
   router.add("GET", "/api/regression/run", regression.run);
+  router.add("POST", "/api/checks/run", (c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return checks(c);
+  });
   router.add("GET", "/api/question", question);
   router.add("GET", "/api/suggest-answers", suggestAnswers);
   router.add("POST", "/api/answer", (c) => {
