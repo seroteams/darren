@@ -1,9 +1,21 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const { requireSession } = require("../sessions.ts");
-const { persist } = require("../session-persistence.ts");
+import fs from "node:fs";
+import path from "node:path";
+import { requireSession } from "../sessions.ts";
+import { persist } from "../session-persistence.ts";
+import type { RequestContext } from "../router.ts";
+import type { Session, SessionNote } from "../../shared/session.types.ts";
 
-const STAGE_LABEL = {
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
+function asString(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+
+const STAGE_LABEL: Record<string, string> = {
   FOCUS_POINTS: "Focus points",
   PREPARATION: "Preparation",
   BANK: "Question bank",
@@ -14,7 +26,7 @@ const STAGE_LABEL = {
   ERROR: "Error",
 };
 
-function fmtTime(ts) {
+function fmtTime(ts: number): string {
   const d = new Date(ts);
   const hh = String(d.getHours()).padStart(2, "0");
   const mm = String(d.getMinutes()).padStart(2, "0");
@@ -22,29 +34,30 @@ function fmtTime(ts) {
   return `${hh}:${mm}:${ss}`;
 }
 
-function fmtTimeShort(ts) {
+function fmtTimeShort(ts: number): string {
   const d = new Date(ts);
   const hh = String(d.getHours()).padStart(2, "0");
   const mm = String(d.getMinutes()).padStart(2, "0");
   return `${hh}:${mm}`;
 }
 
-function truncate(text, maxLen) {
+function truncate(text: unknown, maxLen: number): string {
   const clean = String(text || "").replace(/\s+/g, " ").trim();
   if (!clean) return "";
   if (clean.length <= maxLen) return clean;
   return `${clean.slice(0, maxLen).trimEnd()}...`;
 }
 
-function formatNotesForEvaluation(notes) {
+function formatNotesForEvaluation(notes: unknown): string {
   if (!Array.isArray(notes) || notes.length === 0) return "";
-  const lines = [];
-  for (const n of notes) {
-    const text = String(n?.text || "").trim();
+  const lines: string[] = [];
+  for (const raw of notes) {
+    const n = asRecord(raw);
+    const text = asString(n.text).trim();
     if (!text) continue;
-    const stamp = fmtTimeShort(Number.isFinite(n?.ts) ? n.ts : Date.now());
-    const alias = String(n?.question_alias || "").trim();
-    const stem = truncate(n?.question_stem, 60);
+    const stamp = fmtTimeShort(Number.isFinite(n.ts) ? Number(n.ts) : Date.now());
+    const alias = asString(n.question_alias).trim();
+    const stem = truncate(n.question_stem, 60);
     if (alias && stem) lines.push(`[${stamp} @ ${alias}] ${stem} - ${text}`);
     else if (alias) lines.push(`[${stamp} @ ${alias}] ${text}`);
     else if (stem) lines.push(`[${stamp}] ${stem} - ${text}`);
@@ -53,8 +66,13 @@ function formatNotesForEvaluation(notes) {
   return lines.join("\n");
 }
 
-function renderMarkdown(session) {
-  const ctx = session.ctx || {};
+interface NoteGroup {
+  head: string;
+  items: SessionNote[];
+}
+
+function renderMarkdown(session: Session): string {
+  const ctx = session.ctx;
   const headerLine = [ctx.name, ctx.role, ctx.meetingType]
     .filter((v) => v && String(v).trim())
     .join(" · ");
@@ -62,7 +80,7 @@ function renderMarkdown(session) {
   if (headerLine) lines.push(headerLine);
   lines.push("");
 
-  const groups = [];
+  const groups: NoteGroup[] = [];
   for (const n of session.notes || []) {
     const stem = String(n.question_stem || "").trim();
     const alias = String(n.question_alias || "").trim();
@@ -95,23 +113,23 @@ function renderMarkdown(session) {
   return lines.join("\n");
 }
 
-function writeNotesFile(session) {
+function writeNotesFile(session: Session): void {
   try {
     fs.writeFileSync(path.join(session.dir, "notes.md"), renderMarkdown(session));
   } catch (e) {
-    console.warn("[notes] write failed:", e.message);
+    console.warn("[notes] write failed:", e instanceof Error ? e.message : String(e));
   }
 }
 
-module.exports = async function notes(c) {
-  const body = await c.readBody();
-  const { sessionId, note } = body || {};
-  if (!sessionId) return c.error(Object.assign(new Error("sessionId required"), { status: 400 }));
-  if (!note || typeof note !== "object")
+export default async function notes(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  const note = asRecord(body.note);
+  if (!body.sessionId) return c.error(Object.assign(new Error("sessionId required"), { status: 400 }));
+  if (!body.note || typeof body.note !== "object")
     return c.error(Object.assign(new Error("note required"), { status: 400 }));
   if (!note.id) return c.error(Object.assign(new Error("note.id required"), { status: 400 }));
 
-  const session = requireSession(sessionId);
+  const session = requireSession(asString(body.sessionId));
   if (!Array.isArray(session.notes)) session.notes = [];
 
   const id = String(note.id);
@@ -121,30 +139,17 @@ module.exports = async function notes(c) {
   if (isDelete) {
     if (existingIdx >= 0) session.notes.splice(existingIdx, 1);
   } else {
-    const entry = {
+    const existing = existingIdx >= 0 ? session.notes[existingIdx] : undefined;
+    const entry: SessionNote = {
       id,
-      stage: String(note.stage || (existingIdx >= 0 ? session.notes[existingIdx].stage : "")),
-      turn: Number.isFinite(note.turn)
-        ? note.turn
-        : existingIdx >= 0
-        ? session.notes[existingIdx].turn
-        : 0,
-      ts: Number.isFinite(note.ts)
-        ? note.ts
-        : existingIdx >= 0
-        ? session.notes[existingIdx].ts
-        : Date.now(),
+      stage: String(note.stage || (existing ? existing.stage : "")),
+      turn: Number.isFinite(note.turn) ? Number(note.turn) : existing ? existing.turn : 0,
+      ts: Number.isFinite(note.ts) ? Number(note.ts) : existing ? existing.ts : Date.now(),
       text: String(note.text).slice(0, 4000),
-      question_alias: String(
-        note.question_alias ||
-          (existingIdx >= 0 ? session.notes[existingIdx].question_alias : "")
-      )
+      question_alias: String(note.question_alias || (existing ? existing.question_alias : ""))
         .trim()
         .slice(0, 120),
-      question_stem: String(
-        note.question_stem ||
-          (existingIdx >= 0 ? session.notes[existingIdx].question_stem : "")
-      )
+      question_stem: String(note.question_stem || (existing ? existing.question_stem : ""))
         .replace(/\s+/g, " ")
         .trim()
         .slice(0, 80),
@@ -157,6 +162,6 @@ module.exports = async function notes(c) {
   writeNotesFile(session);
 
   c.json(200, { ok: true, count: session.notes.length });
-};
+}
 
-module.exports.formatNotesForEvaluation = formatNotesForEvaluation;
+export { formatNotesForEvaluation };

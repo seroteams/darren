@@ -3,7 +3,7 @@ const { runStage } = require("./stream-helper.ts");
 const { evaluate } = require("../../engine/reviewer.ts");
 const { getSessionSelectedFocus } = require("../selected-focus.ts");
 const { serialize } = require("../../engine/axes.ts");
-const { formatNotesForEvaluation } = require("./notes");
+const { formatNotesForEvaluation } = require("./notes.ts");
 const { generateSuggestions, shouldReview } = require("../../engine/lexicon-reviewer.ts");
 
 function kickLexiconReview(session) {

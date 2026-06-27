@@ -6,7 +6,7 @@
 const assert = require("node:assert");
 const fs = require("node:fs");
 const path = require("node:path");
-const back = require("../backend/api/handlers/back");
+const back = require("../backend/api/handlers/back.ts").default;
 const { createWebSession, dropSession, summarizeAxes } = require("../backend/api/sessions.ts");
 
 let failed = 0;
