@@ -20,7 +20,7 @@ export const STAGES = Object.freeze({
   PERSONAS: "PERSONAS",
   REVIEW_RUN: "REVIEW_RUN",
   GUIDE: "GUIDE",
-  CHECKLIST: "CHECKLIST",
+  TASKS: "TASKS",
   ERROR: "ERROR",
 });
 

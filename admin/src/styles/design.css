@@ -3787,3 +3787,114 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
 .cl-cb input:checked + .cl-tick svg { opacity: 1; transform: scale(1); }
 .cl-row--gate .cl-cb input:checked + .cl-tick { background: var(--color-amber); border-color: var(--color-amber); }
 .cl-cb input:focus-visible + .cl-tick { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+/* ============================================================
+   Tasks board (/tasks) — clean re-think of the checklist.
+   My status chip (read-only) is kept visually separate from
+   your verdict tick. Reuses .cl-badge for the status pill.
+   ============================================================ */
+.tk-warn {
+  font-size: var(--type-body-sm);
+  line-height: 1.5;
+  padding: var(--sero-space-3) var(--sero-space-4);
+  border-radius: var(--sero-radius-sm);
+  background: color-mix(in srgb, var(--color-amber) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-amber) 40%, transparent);
+  color: var(--color-ink);
+}
+.tk-warn a { color: var(--color-accent-dark); font-weight: var(--type-weight-semibold); }
+
+.tk-phases { display: flex; flex-direction: column; gap: var(--sero-space-3); }
+.tk-phase {
+  border: 1px solid var(--color-border);
+  border-radius: var(--sero-radius-md, 12px);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+.tk-phase-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sero-space-3);
+  padding: var(--sero-space-4);
+  cursor: pointer;
+}
+.tk-num {
+  flex: none;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink-mute);
+  background: var(--color-surface-2);
+  border-radius: var(--sero-radius-sm);
+  padding: 0.15rem 0.5rem;
+}
+.tk-phase-title { flex: 1 1 auto; min-width: 0; }
+.tk-phase-title h3 { margin: 0; font-size: var(--type-body-lg, 1.0625rem); display: flex; align-items: center; flex-wrap: wrap; gap: 0.15rem; }
+.tk-phase-tag { color: var(--color-ink-mute); font-weight: var(--type-weight-regular, 400); }
+.tk-goal { margin-top: var(--sero-space-1); font-size: var(--type-body-sm); color: var(--color-ink-dim); line-height: 1.5; }
+.tk-chev { flex: none; color: var(--color-ink-mute); transition: transform 0.18s ease; }
+.tk-phase.is-collapsed .tk-chev { transform: rotate(-90deg); }
+.tk-phase.is-collapsed .tk-steps { display: none; }
+
+.tk-steps { padding: 0 var(--sero-space-4) var(--sero-space-4); display: flex; flex-direction: column; gap: var(--sero-space-3); }
+.tk-row {
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-border);
+  border-radius: var(--sero-radius-sm);
+  padding: var(--sero-space-3);
+  background: var(--color-surface);
+}
+.tk-row.is-verified { border-left-color: var(--color-positive); background: color-mix(in srgb, var(--color-positive) 5%, transparent); }
+.tk-row__head { display: flex; align-items: center; gap: var(--sero-space-2); }
+.tk-step-no {
+  flex: none; width: 1.4rem; height: 1.4rem; display: grid; place-items: center;
+  font-size: var(--type-body-sm); font-weight: var(--type-weight-semibold);
+  color: var(--color-ink-mute); background: var(--color-surface-2); border-radius: var(--sero-radius-full);
+}
+.tk-feat { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+.tk-status { margin-left: auto; }
+.tk-means { margin-top: var(--sero-space-2); font-size: var(--type-body-sm); color: var(--color-ink-dim); line-height: 1.5; }
+.tk-meta { margin-top: var(--sero-space-2); }
+
+.tk-verdict {
+  margin-top: var(--sero-space-3);
+  display: inline-flex; align-items: center; gap: var(--sero-space-2);
+  cursor: pointer;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+  user-select: none;
+}
+.tk-verdict input { position: absolute; opacity: 0; width: 0; height: 0; }
+.tk-verdict__box {
+  width: 1.35rem; height: 1.35rem; flex: none;
+  border-radius: var(--sero-radius-sm);
+  border: 1.5px solid var(--color-border-strong);
+  display: grid; place-items: center;
+  background: var(--color-surface);
+  transition: all 0.15s ease;
+}
+.tk-verdict__box svg { width: 0.8rem; height: 0.8rem; opacity: 0; transform: scale(0.6); transition: all 0.15s ease; color: #fff; }
+.tk-verdict:hover .tk-verdict__box { border-color: var(--color-positive); }
+.tk-verdict input:checked + .tk-verdict__box { background: var(--color-positive); border-color: var(--color-positive); }
+.tk-verdict input:checked + .tk-verdict__box svg { opacity: 1; transform: scale(1); }
+.tk-verdict input:checked ~ .tk-verdict__text { color: var(--color-positive); font-weight: var(--type-weight-semibold); }
+.tk-verdict input:focus-visible + .tk-verdict__box { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+.tk-signoff {
+  margin-top: var(--sero-space-1);
+  font-size: var(--type-body-sm); color: var(--color-ink-mute); line-height: 1.5;
+  padding-top: var(--sero-space-2); border-top: 1px dashed var(--color-border);
+}
+.tk-signoff .cl-k { color: var(--color-amber); }
+
+/* the two check lines: "App runs (free check)" + "You check (by eye)" */
+.tk-check { display: flex; gap: var(--sero-space-2); margin-top: 0.15rem; }
+.tk-check .cl-k { flex: none; }
+.tk-check--auto .cl-k { color: var(--color-accent-dark); }
+.tk-check--eye .cl-k { color: var(--color-positive); }
+.tk-code {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.95em;
+  background: var(--color-surface-2);
+  border-radius: var(--sero-radius-sm);
+  padding: 0.05rem 0.35rem;
+}
