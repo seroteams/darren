@@ -11,6 +11,7 @@ import { startSweep } from "./sessions.ts";
 import * as arcs from "./handlers/arcs.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
+import { forbidden } from "./middleware/http-error.ts";
 import start from "./handlers/start.ts";
 import question from "./handlers/question.ts";
 import suggestAnswers from "./handlers/suggest-answers.ts";
@@ -31,7 +32,7 @@ import * as runReview from "./handlers/review.ts";
 import * as pipeline from "./handlers/pipeline.ts";
 import * as lexicon from "./handlers/lexicon.ts";
 import roleProfile from "./handlers/role-profile.ts";
-import * as roleLexicons from "./handlers/role-lexicons.ts";
+import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
 import * as regression from "./handlers/regression.ts";
 import verdict from "./handlers/verdict.ts";
 import suggestFix from "./handlers/suggest-fix.ts";
@@ -111,11 +112,22 @@ function main(): void {
   });
   router.add("GET", "/api/session", rehydrate);
   router.add("GET", "/api/role-profile", roleProfile);
+  // role-lexicons (controller → service → repo). v1 uses the one error shape;
+  // legacy /api/ paths are aliases on the same controller (D1/D2).
+  router.add("GET", "/api/v1/role-lexicons", v1Route(roleLexicons.list));
   router.add("GET", "/api/role-lexicons", roleLexicons.list);
+  router.add("POST", "/api/v1/role-lexicons/term", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return roleLexicons.addTerm(c);
+  }));
   router.add("POST", "/api/role-lexicons/term", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return roleLexicons.addTerm(c);
   });
+  router.add("POST", "/api/v1/role-lexicons/term/remove", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return roleLexicons.removeTerm(c);
+  }));
   router.add("POST", "/api/role-lexicons/term/remove", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return roleLexicons.removeTerm(c);
