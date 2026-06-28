@@ -37,3 +37,6 @@ Phase 005. Phases 1, 2, 4 are safe to run alongside Phase 005; Phase 3 touches t
 - Retiring the 34 legacy `/api/*` route aliases in `server.ts` (do it when the customer app no
   longer needs them).
 - A shared `legacyError()` / `guardOrigin` helper to de-duplicate `server.ts` routing boilerplate.
+- **Make `npm test` hermetic** — it currently regenerates `content/questions/_index.json` (and a
+  couple of throwaway questions) on every run, so the tree goes dirty after testing. Tests should
+  write to a temp dir, not mutate tracked content.
