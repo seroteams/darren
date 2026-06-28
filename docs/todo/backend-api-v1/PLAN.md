@@ -28,16 +28,46 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 |---|---|---|---|
 | 1 | **Draw the menu of services** | The written `/api/v1/` contract — every route, request + response shape, the error format, the identity/auth slot. Decisions D1–D5 locked. | ✅ |
 | 2 | Build the shared plumbing | Middleware every request flows through: one error shape, request/identity context, an auth placeholder slot. `npm test` covers the error shape. | ✅ |
-| 3 | Build each service in clean layers (TDD) | Per-domain controller → service → repo, **test-first**. Repos file-backed; storage swappable without touching the service. | ⬜ |
-| 4 | Lay out the mirrored test rooms | Unit tests beside the code; integration/e2e in a `tests/` tree shaped like the domains. | ⬜ |
+| 3 | Build each service in clean layers (TDD) | Per-domain controller → service → repo, **test-first**. Repos file-backed; storage swappable without touching the service. | 🔨→✅* |
+| 4 | Lay out the mirrored test rooms | Unit tests beside the code; integration/e2e in a `tests/` tree shaped like the domains. | 🔨→✅* |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested + Carl-approved)
+*Steps 3 & 4 are **built and free-verified** (every domain layered incl. all of `sessions` S0–S4, end-of-sessions
+cleanup, and the mirrored `backend/tests/<domain>/` tree). They flip to ✅ on Carl's owner-walk sign-off — the
+phase-level gate. Then the folder moves to `done/` and the Prototype→Production `PROGRESS.md` is set Phase 004 → done.
 
 > Detailed `phase-2/3/4.md` step files (each ending in owner QA scenarios) get written **after** Carl
 > approves the step-1 contract — same as Phase 003, so we don't guess the shape before the menu is locked.
 
 ## Current state
 
+> ### 🏁 2026-06-28 — PHASE 004 **BUILT — all steps + the test tree done, free-verified, committed. Awaiting Carl's owner-walk.**
+> Everything in "Done means" that I can verify offline is green. What's left is inherently Carl's: the owner-walk
+> sign-off + the optional paid AI walks. I am **not** self-certifying the phase done.
+> - **All routes layered:** every one of the ~38 API routes is controller → service → repo under `/api/v1/`
+>   with the legacy `/api/` aliases intact (admin unaffected). The final domain `sessions` (21 routes) went
+>   S0 (seam) → S1 (reads) → S2 (writes) → S3 (AI JSON) → S4 (all 5 SSE streams). `backend/api/handlers/` now
+>   holds **only** the shared `stream-helper.ts`.
+> - **Cleanup done:** the pure derivations `snapshot`/`inferStage`/`summarizeAxes` moved out of the session
+>   store into the co-located `services/sessions/session-views.ts` (commit `60f1299b`) — "repos own data
+>   access" is honest; the store holds only live state.
+> - **Step 4 done:** integration/e2e tests now live in a domain-shaped tree `backend/tests/<domain>/`
+>   (`sessions/`, `checks/`) instead of one flat folder; the runner auto-discovers it; a README documents the
+>   convention (commit `38229a57`). Unit-tests-beside-the-code was already in place.
+> - **Verified (free):** `npm test` **46/46** (27 offline + 16 co-located unit + 3 integration), typecheck
+>   clean, banned-construct grep clean. Every conversion pass was proven byte-identical legacy-vs-v1 by a $0
+>   boot-diff. One Carl-approved live gate case passed earlier (`leak-devon`, ~$0.35) confirming the layering is
+>   behaviour-identical end-to-end.
+> - **What I did NOT do (Carl's gate):** mark the phase ✅, flip the build-plan badge, move this folder to
+>   `done/`, or set the Prototype→Production `PROGRESS.md` to done — all of that waits on Carl's "approved."
+>   The paid S3/S4 AI walks are also his to trigger (within the $3 budget).
+>
+> **Owner-walk QA (the sign-off):** (1) run a real 1:1 from the console — start, answer, step back to amend,
+> save/delete a note, mark the agenda, pick focus points, finish to a briefing — each reads/persists exactly as
+> before; a bad origin still 403s; rapid starts still 429. (2) The architecture check: describe swapping a
+> repo's storage (the `SessionsRepo` seam) for a fake/DB — no service logic changes, routes still respond in
+> the contracted shape. On your "approved," I close it all out and Phase 005 opens.
+>
 > ### ✅ 2026-06-28 — `sessions` **S4 `plan` stream DONE — S4 COMPLETE (all 5 streams)** — structure-only, free-verified, **committed**. Paid walk deferred.
 > The big one — last and on its own, as planned. The ~300-line live planner does **not** use `runStage`; it
 > manages its own SSE with idempotent per-turn replay, the back-navigation snapshot, agenda carry-forward,

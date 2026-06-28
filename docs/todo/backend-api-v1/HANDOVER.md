@@ -3,42 +3,43 @@
 **Read this + [PLAN.md](PLAN.md) ("Current state" is the live log, newest first) +
 [sessions-subphase.md](sessions-subphase.md). Then continue.**
 
-Date: 2026-06-28. Branch: `main`. **Tree is clean and pushed** — `main` is in sync with `origin/main`.
-Latest commits: `6ccad211` (S4 bank) · `1ae7ba49` (S4 preparation) · `feb8ae5b` (S4 focus-points) · `5a5fe7ab` (S3).
+Date: 2026-06-28. Branch: `main`. **Committed locally; NOT pushed this session** (the prior handover assumed
+push-per-pass; this session stayed local per the standing "work locally" rule — offer to `git push origin main`
+if Carl wants phone review).
+Latest commits (this session, newest first): `38229a57` (Step 4 test tree) · `60f1299b` (cleanup: derivations) ·
+`04a9f248` (S4 plan) · `3ece6e1f` (S4 evaluation) · then `c654e485`/`6ccad211` (S4 bank) earlier.
 (Untracked `content/questions/_runtime/*`, `role-profiles/*`, `docs/todo/briefing-readability-p0/` are
 **pre-existing, unrelated** to this phase — leave them alone; there's a standing rule against touching the
 questions artifacts.)
 
 ## Where we are
 Phase 004 = reshape the backend into clean layers (thin controller → service → co-located repo) behind a
-versioned `/api/v1/`. **Behaviour-identical — structure only, no features.** ~**88% done.**
+versioned `/api/v1/`. **Behaviour-identical — structure only, no features.** **BUILT — 100% of the work done +
+free-verified. Only the owner-walk sign-off remains** (Carl's gate; not self-certified).
 
 - **Step 1 (contract)** ✅ · **Step 2 (shared plumbing)** ✅
-- **Step 3 (convert every domain, TDD)** 🔨 — all **9 safe domains done** + the risky **`sessions`** domain
-  (21 routes) nearly done via sub-passes S0–S4:
-  - **S0** ✅ store seam · **S1** ✅ 5 free reads · **S2** ✅ 8 non-AI writes (S2a `start` + S2b the other 7)
-  - **S3** ✅ 2 AI JSON routes (`suggest-answers`, `lexicon/candidates`) — model behind an injected boundary,
-    structure-only, **paid walk deferred**
-  - **S4** 🔨 5 SSE streams — **`focus-points` ✅ + `preparation` ✅ + `bank` ✅ done**; **2 to go**:
-    `evaluation`, `plan`
-- **Step 4 (mirrored integration/e2e test tree)** ⬜ not started.
+- **Step 3 (convert every domain, TDD)** ✅* — all 9 safe domains + the risky **`sessions`** (21 routes) via
+  S0–S4: **S0** seam · **S1** 5 reads · **S2** 8 writes · **S3** 2 AI JSON · **S4** all 5 SSE streams
+  (`focus-points`/`preparation`/`bank`/`evaluation`/`plan`). `handlers/` now holds **only** `stream-helper.ts`.
+- **End-of-sessions cleanup** ✅* — `snapshot`/`inferStage`/`summarizeAxes` relocated to the co-located
+  `services/sessions/session-views.ts`. (`buildPreparationInputs` was already relocated in S1b/S4.)
+- **Step 4 (mirrored test tree)** ✅* — integration tests live in `backend/tests/<domain>/`; runner
+  auto-discovers them; `backend/tests/README.md` documents the convention.
 
-## NEXT — finish S4 (2 streams), then cleanup, then Step 4
-**Recommended order: `evaluation` → `plan` (last, on its own — the riskiest).**
-The streams vary a lot (this is why the locked plan says "one stream first, then the rest").
-**Pattern proven three times now** — `focus-points` + `preparation` + `bank` (see [PLAN.md](PLAN.md)
-"Current state"): copy `preparationStream`/`bankStream` in `sessions.controller.ts`, wire v1 + legacy in
-`server.ts` (no `v1Route`), drop the handler + its `pipeline-lock.ts` entry, relocate any pure helper the
-handler exported (like `buildPreparationInputs` → `preparation-inputs.ts`; `bank` had none).
-| Stream | Notes |
-|---|---|
-| `evaluation` | Uses `runStage`. Plus a fire-and-forget `kickLexiconReview` side-effect. Imports `formatNotesForEvaluation` from `services/sessions/notes-format.ts` (already relocated in S2b). |
-| `plan` | **THE BIG ONE — ~300 lines, does NOT use `runStage`.** Manages its own SSE: idempotent per-turn replay, back-nav snapshot capture, `planTurn`, agenda carry-forward, closer force-insert, seed overflow, filesystem turn logs. Give it its own pass + extra care. |
+*= built + free-verified; flips to a hard ✅ on Carl's owner-walk approval.
 
-**Then — end-of-sessions cleanup:** relocate the pure view helpers still living in `sessions.ts`
-(`snapshot`/`inferStage`/`summarizeAxes`) + `buildPreparationInputs` to their layered homes (one safe move,
-not per-route). When done, **`handlers/` should hold ONLY `stream-helper.ts`** (a shared helper, not a route).
-**Then Step 4** — the mirrored test tree.
+## NEXT — the owner-walk (Carl), then close-out
+**No build work left.** The only remaining gate is Carl's sign-off:
+1. **Walk the QA** (free): run a real 1:1 — start, answer, step back, save a note, mark the agenda, pick focus
+   points, finish to a briefing — each reads/persists exactly as before; bad origin still 403, rapid starts 429.
+2. **Architecture check:** describe swapping a repo's storage (the `SessionsRepo` seam) for a fake/DB — no
+   service logic changes; routes still respond in the contracted shape.
+3. **Optional, paid:** the S3/S4 AI walks (suggest-answers + the live streams) — one model call each, within the
+   $3 budget, exercised naturally during the real run above.
+
+On Carl's **"approved"**: mark the phase ✅, flip the build-plan badge (`admin/src/stages/checklist.js`) to done,
+move this folder to `docs/todo/done/`, set the Prototype→Production `PROGRESS.md` (Phase 004 → done) — **then
+Phase 005 opens.**
 
 ## How to work (non-negotiable)
 - **Darren Method, one pass per walk.** Carl has been saying "go ahead / continue" to batch + commit on free
@@ -76,7 +77,8 @@ not per-route). When done, **`handlers/` should hold ONLY `stream-helper.ts`** (
   (`generate.ts`/`preparation.ts`/`question-generator.ts`/`queue-manager.ts`/`reviewer.ts`) is already tracked.
 
 ## Verify each pass (all FREE)
-1. `npm test` (currently **45/45 files**) · 2. `npm run typecheck` · 3. banned-construct grep on touched files.
+1. `npm test` (currently **46/46**: 27 offline + 16 co-located + 3 integration) · 2. `npm run typecheck` ·
+   3. banned-construct grep on touched files.
 4. **$0 live boot-diff — the key trick:** boot with **`OPENAI_API_KEY=` (empty/unset)** so any AI pre-warm /
    model call fails fast and is swallowed (no billable request), then `curl`/`fetch` the v1 path vs the legacy
    route and compare. This lets you diff even AI routes (degrade/error paths) + streams (`thinking → error`
