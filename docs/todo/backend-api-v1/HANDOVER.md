@@ -47,9 +47,12 @@ not per-route). When done, **`handlers/` should hold ONLY `stream-helper.ts`** (
   `runStage`) — verify those by typecheck + the $0 SSE boot-diff instead. Don't fabricate a meaningless test.
 - **No banned constructs:** no `any` / `as` cast / `@ts-ignore` / non-null `!` (use the `isObjectRecord`/
   `asRecord` guard pattern). Grep touched files before committing.
-- **Money — HARD STOP:** nothing hits OpenAI without Carl's explicit per-run yes (~$0.35/call). AI routes +
-  streams are built structure-only with the model behind an injected boundary; **the paid success walk is
-  deferred** for all of them.
+- **Money — $3 TOTAL CAP (Carl, 2026-06-28):** OpenAI spend is now OK **up to $3 total** for Phase 004's paid
+  walks (no longer per-run yes) — but **track cumulative spend and stop at $3**, and run the **smallest thing
+  that proves the point**: `node scripts/gate.js --only <case>` (~$0.35) runs the whole pipeline once, so a
+  single live run confirms several converted stages at once. Don't burn the budget on repeats or the full
+  8-case sweep. AI routes + streams are structure-only with the model behind an injected boundary, so the paid
+  walk just confirms live generation matches.
 
 ## The pattern to copy
 - **Reference layered domain:** `backend/api/services/runs/` (repo = storage seam, service = logic throwing
@@ -78,7 +81,8 @@ not per-route). When done, **`handlers/` should hold ONLY `stream-helper.ts`** (
    sequence) for **$0**. Boot: `OPENAI_API_KEY= API_PORT=3999 node backend/api/server.ts`; wait via
    `curl --retry --retry-connrefused`; stop the server after. (Do NOT `node -e require` `scripts/gate.js` — it
    runs on import.) The **real success walk** (answers/candidates/streams actually generating) is one paid
-   model call — deferred, only on Carl's explicit yes.
+   model call — now covered by the **$3 total budget** above; batch it (one live run proves several converted
+   stages) and track spend.
 
 ## Behaviour-identical contract (verified each pass)
 - Legacy `/api/…` routes keep their old **status + flat `{error: string}`** body — the admin is unaffected
