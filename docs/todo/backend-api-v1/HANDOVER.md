@@ -4,7 +4,7 @@
 [sessions-subphase.md](sessions-subphase.md). Then continue.**
 
 Date: 2026-06-28. Branch: `main`. **Tree is clean and pushed** — `main` is in sync with `origin/main`.
-Latest commits: `1ae7ba49` (S4 preparation) · `feb8ae5b` (S4 focus-points) · `5a5fe7ab` (S3) · `1189bb82` (S2b).
+Latest commits: `<bank>` (S4 bank) · `1ae7ba49` (S4 preparation) · `feb8ae5b` (S4 focus-points) · `5a5fe7ab` (S3).
 (Untracked `content/questions/_runtime/*`, `role-profiles/*`, `docs/todo/briefing-readability-p0/` are
 **pre-existing, unrelated** to this phase — leave them alone; there's a standing rule against touching the
 questions artifacts.)
@@ -19,20 +19,19 @@ versioned `/api/v1/`. **Behaviour-identical — structure only, no features.** ~
   - **S0** ✅ store seam · **S1** ✅ 5 free reads · **S2** ✅ 8 non-AI writes (S2a `start` + S2b the other 7)
   - **S3** ✅ 2 AI JSON routes (`suggest-answers`, `lexicon/candidates`) — model behind an injected boundary,
     structure-only, **paid walk deferred**
-  - **S4** 🔨 5 SSE streams — **`focus-points` ✅ + `preparation` ✅ done**; **3 to go**: `bank`,
+  - **S4** 🔨 5 SSE streams — **`focus-points` ✅ + `preparation` ✅ + `bank` ✅ done**; **2 to go**:
     `evaluation`, `plan`
 - **Step 4 (mirrored integration/e2e test tree)** ⬜ not started.
 
-## NEXT — finish S4 (3 streams), then cleanup, then Step 4
-**Recommended order: `bank` → `evaluation` → `plan` (last, on its own — the riskiest).**
+## NEXT — finish S4 (2 streams), then cleanup, then Step 4
+**Recommended order: `evaluation` → `plan` (last, on its own — the riskiest).**
 The streams vary a lot (this is why the locked plan says "one stream first, then the rest").
-**Pattern proven twice now** — `focus-points` + `preparation` (see [PLAN.md](PLAN.md) "Current state"):
-copy `preparationStream` in `sessions.controller.ts`, wire v1 + legacy in `server.ts` (no `v1Route`),
-drop the handler + its `pipeline-lock.ts` entry, relocate any pure helper the handler exported (like
-`buildPreparationInputs` → `preparation-inputs.ts`).
+**Pattern proven three times now** — `focus-points` + `preparation` + `bank` (see [PLAN.md](PLAN.md)
+"Current state"): copy `preparationStream`/`bankStream` in `sessions.controller.ts`, wire v1 + legacy in
+`server.ts` (no `v1Route`), drop the handler + its `pipeline-lock.ts` entry, relocate any pure helper the
+handler exported (like `buildPreparationInputs` → `preparation-inputs.ts`; `bank` had none).
 | Stream | Notes |
 |---|---|
-| `bank` | Uses `runStage`. Complex `produce`: scripted-lane (load persona → `scriptedQuestions`) vs live bank generation + queue assembly + reserved closer. 409 "focus points not ready" pre-check. |
 | `evaluation` | Uses `runStage`. Plus a fire-and-forget `kickLexiconReview` side-effect. Imports `formatNotesForEvaluation` from `services/sessions/notes-format.ts` (already relocated in S2b). |
 | `plan` | **THE BIG ONE — ~300 lines, does NOT use `runStage`.** Manages its own SSE: idempotent per-turn replay, back-nav snapshot capture, `planTurn`, agenda carry-forward, closer force-insert, seed overflow, filesystem turn logs. Give it its own pass + extra care. |
 

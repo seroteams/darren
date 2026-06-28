@@ -38,6 +38,37 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### ✅ 2026-06-28 — `sessions` **S4 `bank` stream DONE** — structure-only, free-verified, **committed + pushed**. Paid walk deferred. **2 streams to go.**
+> Third S4 stream, same proven pattern as `focus-points` + `preparation` (streams **manage their own response →
+> no `v1Route`**; the shared **`runStage`** drives idempotent replay + the model call). Bank exports **no pure
+> helper**, so nothing to relocate — the simplest move yet.
+> - `services/sessions/sessions.controller.ts` — **+`bankStream(c)`**: resolves the session through the seam
+>   (`service.require` → 404 before the stream opens), keeps the **409 "focus points not ready"** pre-check
+>   verbatim, then `runStage` with the bank config moved **verbatim** from the handler — the scripted-lane
+>   (`loadPersona` → `scriptedQuestions` as the frozen queue) vs live `generateBankWithFallback` + queue
+>   assembly (`assembleQueueWithPrepOpener`/`findPrepOpener`) + reserved closer (`selectReservedCloser`) +
+>   `sessionBank` alias-dedup. Engine imports re-pathed for the controller's location.
+> - **Wiring (`server.ts`):** legacy `/api/bank/stream` repointed onto `sessions.bankStream` + a **new** v1
+>   `GET /api/v1/sessions/:id/bank/stream` (no `v1Route` — manages own response). Removed the handler import;
+>   **deleted `handlers/bank.ts`** (its only route).
+> - **Manifest (`pipeline-lock.ts`):** dropped the `handlers/bank.ts` entry — its real engine
+>   `backend/engine/question-generator.ts` ("Question bank") still tracks the logic. Comment updated.
+> - **No new unit test (flag):** a stream has no pure service-level logic to unit-test (the orchestration is the
+>   shared `runStage`); the `produce` is moved **verbatim** and uses engine fns directly (covered by typecheck +
+>   the boot-diff), same call as the prior two streams.
+> - **Verified (free):** `npm test` **46/46**, typecheck clean, banned-construct grep clean. **$0 SSE boot-diff
+>   (key unset — model unreachable):** legacy vs v1 **byte-identical** — unknown session → both flat 404
+>   `Unknown session: <id>`; a real session (focus points set, bank already cached) → both emit
+>   `thinking {"label":"Generating question bank"} → ready {"count":10} → done` identically (the cached replay
+>   implicitly proves the 409 pre-check passed + the v1 path-id resolves to the same session as legacy `?s=`).
+> - **⚠️ Deferred (money):** the *fresh* live generation path (a real bank actually generated, then the cached
+>   replay) is one model call — walked naturally on your go (covered by the $3 Phase-004 budget).
+>
+> **Remaining S4 streams (2):** `evaluation` (uses `runStage`; + fire-and-forget `kickLexiconReview`; imports
+> `formatNotesForEvaluation` from `notes-format.ts`) · `plan` (**THE BIG ONE — ~300 lines, no `runStage`,
+> manages its own SSE — last, on its own**). Then end-of-sessions cleanup (relocate `snapshot`/`inferStage`/
+> `summarizeAxes`) + Step 4 test tree.
+>
 > ### ✅ 2026-06-28 — `sessions` **S4 `preparation` stream DONE** — structure-only, free-verified, **committed + pushed**. Paid walk deferred. **3 streams to go.**
 > Second S4 stream, same pattern as `focus-points` (streams **manage their own response → no `v1Route`**; the
 > shared **`runStage`** drives idempotent replay + the model call).
