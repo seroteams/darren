@@ -8,18 +8,15 @@ For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full 
 
 ## ▶ Your move
 
-**Phase 005 — Phase 2 (first migration + schema) is ✅ SIGNED OFF (2026-06-28).** You walked the QA and
-said go. The 5 tables are defined + the first migration is generated, committed, and pushed to `main`.
+**Phase 005 — Phase 3 (connection pool + repo swap) is ✅ SIGNED OFF (2026-06-28).** You said go. Session
+storage now swaps to Postgres (Neon) behind the same interface; committed + pushed. Password rotated.
 
-**Phase 3 (connection pool + repo swap) is now starting 🔨 — but it needs one decision from you first.**
-Phase 3's proof is a round-trip test: write a session → restart → read it back **from Postgres**. That
-needs a running database, and **Docker isn't installed on this machine** (the plan assumed local Postgres
-via docker-compose). **Pick how we run Postgres** (see the options I've put to you) and I'll proceed —
-still all free/offline, no OpenAI.
+**Phase 4 (the final piece) is now starting 🔨.** It wires the database restore into server startup so a
+real meeting **survives a full server restart** (loaded from Postgres), and adds the short setup docs for
+the managed database. When this is approved, Phase 005 is done.
 
 - Last updated: 2026-06-28
-- Baseline before Phase 3: `npm test` → **46/46 passed** (free, offline) ✅ · `npm run typecheck` clean ✅
-- Blocker: no local Postgres yet (Docker not installed) — awaiting your pick on how to run the DB.
+- Phase 3 result: `npm test` → **47/47** (incl. the Postgres round-trip; free) ✅ · `npm run typecheck` clean ✅
 
 ---
 
@@ -33,8 +30,8 @@ database, with clear rules and proper versioned migrations. Same behaviour; data
 ### The phases
 - [x] **Phase 1** — Choose the tool (**Drizzle** locked) + lock the DB rules · ✅
 - [x] **Phase 2** — First migration + schema (orgs, users, sessions, runs-index, invitations) · ✅ *signed off*
-- [ ] **Phase 3** — Connection pool + swap `SessionsRepo`/`UsersRepo` file → Postgres (same interface) · 🔨 *starting — needs the DB-run decision*
-- [ ] **Phase 4** — `docker-compose` + `DATABASE_URL` + docs (restart-persistence walk) · ⬜
+- [x] **Phase 3** — Connection pool + swap `SessionsRepo` file → Postgres (same interface) · ✅ *signed off*
+- [ ] **Phase 4** — Managed-Postgres setup docs + `DATABASE_URL` + the live restart-persistence walk · 🔨 *starting*
 
 > **Gate cleared:** Phase 005 depended on Phase 004's repo seam — that's now signed off, so the build is
 > clear the moment you pick the tool. Detailed Phase 2/3/4 step files are written *after* the Phase-1

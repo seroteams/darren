@@ -6,6 +6,15 @@
 
 import { defineConfig } from "drizzle-kit";
 
+// Load DATABASE_URL from the repo-root .env (gitignored). cwd is the repo root
+// under npm scripts, so the no-arg form resolves ./.env; the try/catch makes a
+// missing .env a no-op (db:generate works offline with the placeholder below).
+try {
+  process.loadEnvFile();
+} catch {
+  /* no .env present — fine for offline `db:generate` */
+}
+
 export default defineConfig({
   dialect: "postgresql",
   schema: "./backend/db/schema.ts",

@@ -11,7 +11,8 @@ import path from "node:path";
 import type { RequestContext } from "../../router.ts";
 import { createSessionsService } from "./sessions.service.ts";
 import type { Prewarm, DraftAnswers, ReviewLexicon } from "./sessions.service.ts";
-import { fileSessionsRepo } from "./sessions.repo.ts";
+import { fileSessionsRepo, pgSessionsRepo } from "./sessions.repo.ts";
+import { hasDatabaseUrl } from "../../../db/client.ts";
 import { ensureRoleProfile } from "../../../engine/role-profile.ts";
 import { generateFocusPoints } from "../../../engine/generate.ts";
 import { generatePreparation } from "../../../engine/preparation.ts";
@@ -65,7 +66,10 @@ const draftAnswers: DraftAnswers = (i) =>
   });
 const reviewLexicon: ReviewLexicon = (i) => generateSuggestions({ session: i.session, ctx: i.ctx });
 
-const service = createSessionsService(fileSessionsRepo, { prewarm, draftAnswers, reviewLexicon });
+// Same interface, swappable storage (Phase 005): Postgres when DATABASE_URL is set,
+// else the file-backed repo — so the app still runs with no database configured.
+const repo = hasDatabaseUrl() ? pgSessionsRepo : fileSessionsRepo;
+const service = createSessionsService(repo, { prewarm, draftAnswers, reviewLexicon });
 
 // Reads take the id from the path (v1) or ?s= (legacy).
 function sessionId(c: RequestContext): string {

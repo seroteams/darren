@@ -55,6 +55,10 @@ export const sessions = pgTable(
     orgId: uuid("org_id")
       .notNull()
       .references(() => organizations.id),
+    // The app's own session id is a slug (e.g. "2026_May08_21-53-a3f7b2c1" from
+    // engine/session.ts), not a uuid — so the uuid PK rule stays, and the slug
+    // lives here as the unique key the repo reads/writes by.
+    sessionKey: text("session_key").notNull().unique(),
     state: jsonb("state").notNull(),
     logDir: text("log_dir"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),

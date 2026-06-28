@@ -8,8 +8,8 @@
 
 ## Where we are now
 - **Active phase:** 005 — Postgres foundation
-- **Status:** `in-progress` — **Phase 2 (schema + first migration) ✅ signed off + pushed.** Phase 3 (repo
-  swap) starting, blocked on a DB-run decision (Docker not installed on this machine).
+- **Status:** `in-progress` — **Phase 3 (repo swap → Postgres) ✅ signed off + pushed.** On managed Neon;
+  session storage swapped behind the same interface. Phase 4 (boot-restore + setup docs + restart walk) starting.
 - **Last updated:** 2026-06-28
 
 ## Next up (this can change as we learn)
@@ -60,6 +60,17 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
 ## Activity log (newest first)
+- **2026-06-28** — **Phase 005 · Phase 3 (connection pool + repo swap) → ✅ signed off, committed, pushed.**
+  DB-run pick = **managed Neon Postgres** (Docker not installed). Carl created the DB + added `DATABASE_URL`
+  to the gitignored `.env`; `db:migrate` built the 5 tables (+ `0001` adding `sessions.session_key`, since
+  session ids are slugs not uuids). Swapped session storage file → Postgres behind the **same
+  `SessionsRepo` interface** (`sessions.service.ts` untouched): lazy pool (`backend/db/client.ts`), async
+  durable layer (`backend/db/sessions-store.ts`), `pgSessionsRepo` (write-through mirror — in-memory Map
+  stays the sync hot store; create/persist mirror to PG fire-and-forget), controller switch
+  (`DATABASE_URL` set → Postgres, else file). Round-trip test proves a session reads back **from the DB**
+  (9/9); skips when no `DATABASE_URL` so `npm test` stays green offline. **47/47**, typecheck clean. All
+  free — no OpenAI. Neon password rotated after it was pasted in chat. `UsersRepo` deferred to 006 (no
+  consumer yet). **Phase 4 (boot-restore wiring + setup docs + restart walk) is next.**
 - **2026-06-28** — **Phase 005 · Phase 2 (schema + first migration) → ✅ signed off, committed, pushed.**
   Carl walked the QA and approved. Built on Drizzle: `backend/db/schema.ts` (5 tables per the locked
   rules) + generated migration `0000_glorious_sunset_bain.sql`, `drizzle.config.ts`, `db:generate` /

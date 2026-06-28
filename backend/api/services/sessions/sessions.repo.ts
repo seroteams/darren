@@ -32,6 +32,7 @@ import type { Persona } from "../../persona-script.ts";
 import type { Session, MeetingContext } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
 import { asRecord } from "../../../shared/guards.ts";
+import { upsertSession } from "../../../db/sessions-store.ts";
 
 /** The cached role-profile doc (or null when none is cached) — exactly what the
  *  engine's loadRoleProfile returns, named here so services + tests can refer to it. */
@@ -145,5 +146,29 @@ export const fileSessionsRepo: SessionsRepo = {
     fs.appendFileSync(path.join(dir, LEXICON_DECISIONS_FILE), line, "utf8");
   },
   commitLexiconDecisions: (session, ctx, keepIds) => commitDecisions({ session, ctx, keepIds }),
+};
+
+// Postgres-backed sessions repo. Same interface as fileSessionsRepo — only the
+// durable store changes. The live in-memory Map stays the synchronous hot store,
+// so get/drop and every disk log-only method delegate unchanged to fileSessionsRepo;
+// only create + persist additionally mirror the session into Postgres. The mirror
+// is fire-and-forget with a logged failure (like the log-only writes — a DB hiccup
+// never breaks a live turn). A boot-restore (db/sessions-store loadSessionsFromDb)
+// reloads the Map from Postgres so a session can survive a server restart.
+export const pgSessionsRepo: SessionsRepo = {
+  ...fileSessionsRepo,
+  create: (ctx, introQueue) => {
+    const session = fileSessionsRepo.create(ctx, introQueue);
+    upsertSession(session).catch((e) =>
+      console.warn("[sessions.pg] create mirror failed:", e instanceof Error ? e.message : String(e)),
+    );
+    return session;
+  },
+  persist: (session) => {
+    fileSessionsRepo.persist(session);
+    upsertSession(session).catch((e) =>
+      console.warn("[sessions.pg] persist mirror failed:", e instanceof Error ? e.message : String(e)),
+    );
+  },
 };
 

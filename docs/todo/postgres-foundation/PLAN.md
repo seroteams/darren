@@ -54,8 +54,8 @@ When this is done + approved, set that effort's `PROGRESS.md` (Phase 005 → `do
 |---|---|---|---|
 | 1 | **Choose the tool + lock the conventions** | Drizzle-vs-Prisma **decided & logged** (= Drizzle); the DB rules above confirmed against the schema we'll write. **No code.** | ✅ |
 | 2 | First migration + schema | The 5 tables as a **versioned migration**; builds from clean with one command; `npm test` green. | ✅ |
-| 3 | Connection pool + repo swap | `backend/db` pool; `SessionsRepo` (+ a small `UsersRepo`) swapped file → Postgres **behind the same interface**; services untouched; tests green. | 🔨 *needs DB-run pick* |
-| 4 | docker-compose + `DATABASE_URL` + docs | Local Postgres **one-command up**; a teammate can follow the README; the restart-persistence walk passes. | ⬜ |
+| 3 | Connection pool + repo swap | `backend/db` pool; `SessionsRepo` swapped file → Postgres **behind the same interface**; services untouched; tests green. (UsersRepo deferred to 006 — no consumer yet.) | ✅ |
+| 4 | Managed-Postgres docs + boot-restore + walk | Wire DB restore into server start; setup docs (managed Postgres + `DATABASE_URL`); the restart-persistence walk passes. *(was docker-compose — now managed Neon, Carl's pick.)* | 🔨 starting |
 
 ⬜ not started · 🔨 in progress · ✅ done (you tested + said go)
 
@@ -100,6 +100,23 @@ detail.
 ---
 
 ## Current state
+> ### 📋 2026-06-28 — Phase 3 (connection pool + repo swap) **built — awaiting Carl's QA**
+> DB-run pick = **managed cloud Postgres (Neon)**. Carl created the DB + added `DATABASE_URL` to the
+> gitignored `.env`; `npm run db:migrate` built all 5 tables in Neon (+ a `0001` migration adding
+> `sessions.session_key`, since the app's session id is a slug not a uuid — uuid PK rule kept).
+> Built behind the **same `SessionsRepo` interface** (`sessions.service.ts` untouched):
+> - `backend/db/client.ts` (lazy pool), `backend/db/sessions-store.ts` (async durable layer: upsert /
+>   read / boot-restore / default-org seed), `pgSessionsRepo` (write-through: the in-memory Map stays the
+>   sync hot store; create/persist mirror to Postgres fire-and-forget — a DB hiccup never breaks a turn).
+> - Wiring switch in the controller: `DATABASE_URL` set → Postgres, else file-backed.
+> - **Round-trip test** (`backend/tests/sessions/test-pg-roundtrip.js`): writes a session → wipes memory →
+>   reads it back **from Postgres** (9/9). Skips when `DATABASE_URL` is unset, so `npm test` stays green
+>   offline. Verified both ways. **47/47** tests, typecheck clean. All free — no OpenAI.
+> - **Design note:** the repo interface is sync but Postgres is async → write-through mirror + a
+>   boot-restore (`loadSessionsFromDb`) that **Phase 4 wires into server start** for the live restart walk.
+>   Standalone `UsersRepo` deferred to Phase 006 (nothing consumes it yet — avoid speculative code).
+> - ⚠️ The Neon password was pasted in chat — rotate it after QA, update `.env`. Not committed yet (QA first).
+
 > ### 📋 2026-06-28 — Phase 2 ✅ signed off · Phase 3 starting — **blocked on a DB-run decision**
 > Carl walked Phase 2's QA and approved ("QA done, seems fine! Lets go!"). Phase 2 committed + pushed to
 > `main`. Phase 3 (connection pool + repo swap) opened — but its round-trip proof needs a running Postgres,

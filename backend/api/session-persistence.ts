@@ -139,4 +139,5 @@ function loadPersistedSessions(sessions: Map<string, Session>, ttlMs: number): v
   if (restored > 0) console.log(`[session-persistence] restored ${restored} session(s) from disk`);
 }
 
-export { persist, loadPersistedSessions, restoreFromDisk, hydrateSession };
+export { persist, loadPersistedSessions, restoreFromDisk, hydrateSession, serialize };
+export type { PersistedSession };
