@@ -53,8 +53,8 @@ When this is done + approved, set that effort's `PROGRESS.md` (Phase 005 → `do
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | **Choose the tool + lock the conventions** | Drizzle-vs-Prisma **decided & logged** (= Drizzle); the DB rules above confirmed against the schema we'll write. **No code.** | ✅ |
-| 2 | First migration + schema | The 5 tables as a **versioned migration**; builds from clean with one command; `npm test` green. | 🔨 built — awaiting QA |
-| 3 | Connection pool + repo swap | `backend/db` pool; `SessionsRepo` (+ a small `UsersRepo`) swapped file → Postgres **behind the same interface**; services untouched; tests green. | ⬜ |
+| 2 | First migration + schema | The 5 tables as a **versioned migration**; builds from clean with one command; `npm test` green. | ✅ |
+| 3 | Connection pool + repo swap | `backend/db` pool; `SessionsRepo` (+ a small `UsersRepo`) swapped file → Postgres **behind the same interface**; services untouched; tests green. | 🔨 *needs DB-run pick* |
 | 4 | docker-compose + `DATABASE_URL` + docs | Local Postgres **one-command up**; a teammate can follow the README; the restart-persistence walk passes. | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (you tested + said go)
@@ -100,6 +100,13 @@ detail.
 ---
 
 ## Current state
+> ### 📋 2026-06-28 — Phase 2 ✅ signed off · Phase 3 starting — **blocked on a DB-run decision**
+> Carl walked Phase 2's QA and approved ("QA done, seems fine! Lets go!"). Phase 2 committed + pushed to
+> `main`. Phase 3 (connection pool + repo swap) opened — but its round-trip proof needs a running Postgres,
+> and **Docker is not installed on this machine**. Surfaced the choice of how to run the DB (Docker Desktop
+> vs a no-Docker in-process test DB vs a native/managed Postgres) before writing the pool/repo code.
+> Still all free/offline — no OpenAI. **Next:** Carl picks the DB-run path, then Phase 3 code + round-trip.
+
 > ### 📋 2026-06-28 — Phase 2 (first migration + schema) **built — awaiting Carl's QA**
 > Phase 004 is signed off and the tool is locked (**Drizzle**), so the build is unblocked. Wrote the
 > detailed `phase-2/3/4.md` step files in Drizzle's shape, then built Phase 2:

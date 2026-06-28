@@ -8,7 +8,8 @@
 
 ## Where we are now
 - **Active phase:** 005 — Postgres foundation
-- **Status:** `planned` — **tool chosen: Drizzle.** Handover written for a fresh thread; the build continues there.
+- **Status:** `in-progress` — **Phase 2 (schema + first migration) ✅ signed off + pushed.** Phase 3 (repo
+  swap) starting, blocked on a DB-run decision (Docker not installed on this machine).
 - **Last updated:** 2026-06-28
 
 ## Next up (this can change as we learn)
@@ -59,6 +60,13 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
 ## Activity log (newest first)
+- **2026-06-28** — **Phase 005 · Phase 2 (schema + first migration) → ✅ signed off, committed, pushed.**
+  Carl walked the QA and approved. Built on Drizzle: `backend/db/schema.ts` (5 tables per the locked
+  rules) + generated migration `0000_glorious_sunset_bain.sql`, `drizzle.config.ts`, `db:generate` /
+  `db:migrate` scripts. `npm test` 46/46, typecheck clean. Then **opened Phase 3 (repo swap) and hit a
+  blocker:** the round-trip proof needs a running Postgres and **Docker is not installed** on this machine.
+  Put the DB-run choice to Carl (Docker Desktop / no-Docker in-process test DB / native or managed
+  Postgres) before writing pool + repo code. Still $0 — no OpenAI run.
 - **2026-06-28** — **Phase 005 tool locked = Drizzle; handover written.** Carl picked Drizzle; wrote
   [../todo/postgres-foundation/HANDOVER.md](../todo/postgres-foundation/HANDOVER.md) for a fresh thread to
   continue the build (write phase-2/3/4 in Drizzle's shape, then Phase 2 — first migration). No code yet —

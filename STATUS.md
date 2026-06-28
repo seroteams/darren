@@ -8,20 +8,18 @@ For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full 
 
 ## ▶ Your move
 
-**Phase 005 — Phase 2 (first migration + schema) is BUILT and waiting for your QA walk.** 🔨
-The 5 tables — `organizations`, `users`, `sessions`, `runs`, `invitations` — are defined in plain
-TypeScript (`backend/db/schema.ts`) and Drizzle generated a readable versioned SQL migration from them
-(`backend/db/migrations/0000_glorious_sunset_bain.sql`). `npm run db:generate` / `db:migrate` scripts added.
-**Nothing was committed** — that waits for your green light (Darren rhythm).
+**Phase 005 — Phase 2 (first migration + schema) is ✅ SIGNED OFF (2026-06-28).** You walked the QA and
+said go. The 5 tables are defined + the first migration is generated, committed, and pushed to `main`.
 
-**To walk it (all free, offline — no DB, no OpenAI):** follow the 4 scenarios in
-[docs/todo/postgres-foundation/phase-2.md](docs/todo/postgres-foundation/phase-2.md) — read the schema, read
-the generated SQL, confirm nothing else moved, confirm the run-logs still stay on disk. Say **go** and I
-commit Phase 2 and start Phase 3 (the repo swap).
+**Phase 3 (connection pool + repo swap) is now starting 🔨 — but it needs one decision from you first.**
+Phase 3's proof is a round-trip test: write a session → restart → read it back **from Postgres**. That
+needs a running database, and **Docker isn't installed on this machine** (the plan assumed local Postgres
+via docker-compose). **Pick how we run Postgres** (see the options I've put to you) and I'll proceed —
+still all free/offline, no OpenAI.
 
 - Last updated: 2026-06-28
-- Baseline before Phase 2: `npm test` → **46/46 passed** (free, offline) ✅
-- After Phase 2 build: `npm test` → **46/46** ✅ · `npm run typecheck` clean · migration generates the 5 tables ✅
+- Baseline before Phase 3: `npm test` → **46/46 passed** (free, offline) ✅ · `npm run typecheck` clean ✅
+- Blocker: no local Postgres yet (Docker not installed) — awaiting your pick on how to run the DB.
 
 ---
 
@@ -34,8 +32,8 @@ database, with clear rules and proper versioned migrations. Same behaviour; data
 
 ### The phases
 - [x] **Phase 1** — Choose the tool (**Drizzle** locked) + lock the DB rules · ✅
-- [ ] **Phase 2** — First migration + schema (orgs, users, sessions, runs-index, invitations) · 🔨 *built — awaiting your QA*
-- [ ] **Phase 3** — Connection pool + swap `SessionsRepo`/`UsersRepo` file → Postgres (same interface) · ⬜
+- [x] **Phase 2** — First migration + schema (orgs, users, sessions, runs-index, invitations) · ✅ *signed off*
+- [ ] **Phase 3** — Connection pool + swap `SessionsRepo`/`UsersRepo` file → Postgres (same interface) · 🔨 *starting — needs the DB-run decision*
 - [ ] **Phase 4** — `docker-compose` + `DATABASE_URL` + docs (restart-persistence walk) · ⬜
 
 > **Gate cleared:** Phase 005 depended on Phase 004's repo seam — that's now signed off, so the build is
