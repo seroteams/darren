@@ -7,7 +7,8 @@
 const assert = require("node:assert");
 const fs = require("node:fs");
 const path = require("node:path");
-const { createWebSession, dropSession, summarizeAxes } = require("../backend/api/sessions.ts");
+const { createWebSession, dropSession } = require("../backend/api/sessions.ts");
+const { summarizeAxes } = require("../backend/api/services/sessions/session-views.ts");
 const { createSessionsService } = require("../backend/api/services/sessions/sessions.service.ts");
 const { fileSessionsRepo } = require("../backend/api/services/sessions/sessions.repo.ts");
 

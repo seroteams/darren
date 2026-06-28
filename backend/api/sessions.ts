@@ -3,7 +3,7 @@ import { initState } from "../engine/axes.ts";
 import { createTracker } from "../engine/cost.ts";
 import { INTRO_BUDGET, DYNAMIC_BUDGET, TOTAL_BUDGET } from "../engine/budgets.ts";
 import { persist, loadPersistedSessions, restoreFromDisk } from "./session-persistence.ts";
-import type { Session, MeetingContext, AxisState } from "../shared/session.types.ts";
+import type { Session, MeetingContext } from "../shared/session.types.ts";
 import type { Question } from "../shared/question.types.ts";
 
 const SESSION_TTL_MS = Number(process.env.SESSION_TTL_MS) || 2 * 60 * 60 * 1000;
@@ -76,55 +76,6 @@ function dropSession(id: string): void {
   sessions.delete(id);
 }
 
-function snapshot(s: Session) {
-  return {
-    sessionId: s.id,
-    sessionDir: s.dir,
-    stage: inferStage(s),
-    ctx: s.ctx,
-    focusPoints: s.focusPointsResult,
-    preparation: s.preparationResult,
-    bankReady: s.bankReady,
-    turn: s.turn,
-    totalBudget: s.totalBudget,
-    axes: summarizeAxes(s.axisState),
-    briefing: s.briefing,
-    notes: s.notes || [],
-    agenda: { summary: s.agendaInput?.summary ?? null, covered: s.agendaCovered ?? null },
-    mode: s.mode || "manual",
-    runLabel: s.runLabel ?? null,
-    scripted: s.mode === "scripted"
-      ? {
-          mode: "scripted",
-          personaId: s.fingerprint?.personaId ?? null,
-          fallback: s.scriptedFallback || "",
-          answers: s.scriptAnswers || {},
-        }
-      : null,
-    createdAt: s.createdAt,
-    completedAt: s.completedAt ?? null,
-  };
-}
-
-function summarizeAxes(axisState: AxisState) {
-  return Object.values(axisState).map((a) => ({
-    id: a.id,
-    label: a.label,
-    score: a.score,
-    lastDelta: a.lastDelta,
-    historyLen: (a.history && a.history.length) || 0,
-  }));
-}
-
-function inferStage(s: Session): string {
-  if (s.briefing) return "BRIEFING";
-  if (s.turn >= s.totalBudget) return "EVAL";
-  if (s.bankReady) return "QUESTIONING";
-  if (s.focusPointsResult && s.preparationResult) return "BANK";
-  if (s.focusPointsResult) return "PREPARATION";
-  return "FOCUS_POINTS";
-}
-
 function startSweep(): void {
   loadPersistedSessions(sessions, SESSION_TTL_MS);
   setInterval(() => {
@@ -140,9 +91,6 @@ export {
   getSession,
   requireSession,
   dropSession,
-  snapshot,
-  inferStage,
-  summarizeAxes,
   startSweep,
   persist as persistSession,
   sessions,

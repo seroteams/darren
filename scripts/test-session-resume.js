@@ -9,10 +9,10 @@ const fs = require("node:fs");
 const {
   createWebSession,
   dropSession,
-  snapshot,
   sessions,
   persistSession,
 } = require("../backend/api/sessions.ts");
+const { snapshot } = require("../backend/api/services/sessions/session-views.ts");
 const { restoreFromDisk } = require("../backend/api/session-persistence.ts");
 
 let failed = 0;

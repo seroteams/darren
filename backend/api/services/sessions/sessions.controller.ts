@@ -32,7 +32,7 @@ import { getSessionSelectedFocus } from "../../selected-focus.ts";
 import { loadPersona, scriptedQuestions } from "../../persona-script.ts";
 import { runStage } from "../../handlers/stream-helper.ts";
 import { openStream } from "../../sse.ts";
-import { summarizeAxes } from "../../sessions.ts";
+import { summarizeAxes } from "./session-views.ts";
 import { buildPreparationInputs } from "./preparation-inputs.ts";
 import { formatNotesForEvaluation } from "./notes-format.ts";
 import type { Session, TranscriptEntry } from "../../../shared/session.types.ts";

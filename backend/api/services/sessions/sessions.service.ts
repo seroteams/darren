@@ -8,7 +8,8 @@
 // byte-identical when its route is converted; v1 wraps it in the shared error shape.
 
 import { badRequest, notFound, conflict } from "../../middleware/http-error.ts";
-import { snapshot, inferStage, summarizeAxes, INTRO_BUDGET } from "../../sessions.ts";
+import { INTRO_BUDGET } from "../../sessions.ts";
+import { snapshot, inferStage, summarizeAxes } from "./session-views.ts";
 import { shouldReview, suggestionId } from "../../../engine/lexicon-reviewer.ts";
 import { effectiveTerminology, terminologyGroups } from "../../../engine/role-profile.ts";
 import { assemblePreparation } from "../../../engine/preparation.ts";

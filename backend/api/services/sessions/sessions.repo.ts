@@ -9,8 +9,9 @@
 // role-profile vocabulary (S1b role-profile) and the per-session eligibility log
 // (S1b question). The pure derivations the handlers also share — snapshot /
 // inferStage / summarizeAxes — take a Session and compute a view; they touch no
-// storage, so they are NOT on this repo. They move into the sessions service
-// alongside their routes, keeping "repos own data access" honest.
+// storage, so they are NOT on this repo. They live in the co-located pure module
+// session-views.ts (relocated there at end-of-sessions cleanup), keeping "repos
+// own data access" honest.
 //
 // S0 moved no routes: this delegates to the existing `sessions.ts` store, which the
 // legacy handlers still call directly until their route is converted.
