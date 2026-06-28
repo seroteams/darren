@@ -1,6 +1,10 @@
-// Shared constants for the plan-turn queue pipeline. Kept in one place so the
-// extracted gate / coverage / thread-follow modules and queue-manager agree
+// Shared constants + types for the plan-turn queue pipeline. Kept in one place so
+// the extracted gate / coverage / thread-follow modules and queue-manager agree
 // without importing each other circularly.
+import { getArc } from "./meeting-arcs.ts";
+
+// The arc-shaped view getArc returns (slug/tone_register/arc/anti_patterns).
+export type Arc = ReturnType<typeof getArc>;
 
 export const ALLOWED_DELTAS = [-3, -1, 0, 1, 3];
 export const MAX_QUEUE = 12;
