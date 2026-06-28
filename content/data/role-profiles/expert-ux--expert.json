@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1782565756086,
+  "role_title_raw": "Expert UX",
+  "role_slug": "expert-ux",
+  "seniority_raw": "Expert",
+  "seniority_key": "expert",
+  "role_family": "design",
+  "profile": {
+    "summary": "Likely a very senior individual contributor in UX who sets direction on complex product areas, raises design quality, and influences product, engineering, and research partners. Often owns ambiguous problems, drives standards, and mentors others without formal people management. Scope varies a lot by company because \"Expert UX\" is not a standard title.",
+    "role_confidence": "medium",
+    "known_challenges": [
+      {
+        "text": "Influencing product decisions without direct authority, especially when delivery pressure outweighs user needs.",
+        "category": "topic"
+      },
+      {
+        "text": "Balancing hands-on design work with expectations to mentor, review, and shape broader UX practice.",
+        "category": "competency"
+      },
+      {
+        "text": "Working through vague ownership when the title signals seniority but the remit is not clearly defined.",
+        "category": "topic"
+      },
+      {
+        "text": "Carrying the emotional load of being the person others look to for design judgment on hard calls.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Proving impact beyond polished deliverables, especially where UX outcomes are hard to measure.",
+        "category": "competency"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Scope and decision rights",
+        "why": "This level often succeeds or stalls based on how clearly they can own decisions across teams.",
+        "category": "topic"
+      },
+      {
+        "theme": "Influence with product and engineering peers",
+        "why": "Their impact depends on shaping direction through trust, evidence, and timing rather than authority.",
+        "category": "competency"
+      },
+      {
+        "theme": "Quality bar and design standards",
+        "why": "Senior UX contributors are often expected to raise consistency and craft across more than their own work.",
+        "category": "competency"
+      },
+      {
+        "theme": "Load from mentoring and reviews",
+        "why": "Informal leadership work can quietly consume time and energy if it is not acknowledged and managed.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Evidence and outcome tracking",
+        "why": "They need support connecting design choices to user and business results, not just outputs.",
+        "category": "topic"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Design system",
+        "meaning": "Shared components and rules for consistent product design.",
+        "group": "ux-craft"
+      },
+      {
+        "term": "Interaction design",
+        "meaning": "How the product behaves as people use it.",
+        "group": "ux-craft"
+      },
+      {
+        "term": "Accessibility",
+        "meaning": "Designing so more people can use the product.",
+        "group": "ux-craft"
+      },
+      {
+        "term": "Journey map",
+        "meaning": "Visual view of a user's end-to-end experience.",
+        "group": "ux-craft"
+      },
+      {
+        "term": "Usability testing",
+        "meaning": "Watching users try tasks to find friction.",
+        "group": "ux-craft"
+      },
+      {
+        "term": "Continuous discovery",
+        "meaning": "Ongoing learning with users during product work.",
+        "group": "ux-practice"
+      },
+      {
+        "term": "Design critique",
+        "meaning": "Structured feedback on work to improve decisions.",
+        "group": "ux-practice"
+      },
+      {
+        "term": "Cross-functional trio",
+        "meaning": "Designer, product manager, and engineer working closely together.",
+        "group": "ux-practice"
+      },
+      {
+        "term": "Research synthesis",
+        "meaning": "Combining findings into patterns, insights, and implications.",
+        "group": "ux-practice"
+      },
+      {
+        "term": "AI-assisted prototyping",
+        "meaning": "Using AI tools to speed concept exploration.",
+        "group": "ux-practice"
+      },
+      {
+        "term": "North star vision",
+        "meaning": "A longer-term product experience direction.",
+        "group": "expert-ux"
+      },
+      {
+        "term": "Design strategy",
+        "meaning": "Connecting user experience choices to product goals.",
+        "group": "expert-ux"
+      },
+      {
+        "term": "Stakeholder alignment",
+        "meaning": "Getting key people to support a direction.",
+        "group": "expert-ux"
+      },
+      {
+        "term": "Design review",
+        "meaning": "Reviewing work for quality, coherence, and risk.",
+        "group": "expert-ux"
+      },
+      {
+        "term": "Influence without authority",
+        "meaning": "Shaping decisions through trust, evidence, and communication.",
+        "group": "expert-ux"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "ux-craft",
+        "label": "UX craft"
+      },
+      {
+        "key": "ux-practice",
+        "label": "UX ways of working"
+      },
+      {
+        "key": "expert-ux",
+        "label": "Expert UX"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about outcomes and trade-offs, not just screens and flows.",
+      "How they describe influence across product and engineering when priorities conflict.",
+      "Whether mentoring and review work sounds energising, invisible, or draining.",
+      "Shifts from user evidence to opinion when defending decisions under pressure.",
+      "Whether they frame problems at team level or system level."
+    ],
+    "avoid": [
+      "Assuming they want people management just because they are highly senior.",
+      "Reducing their value to mockups or speed of delivery.",
+      "Giving them broad design accountability without clear decision rights.",
+      "Treating mentoring and standards work as extra rather than core to the role."
+    ]
+  }
+}

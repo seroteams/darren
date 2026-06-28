@@ -1,0 +1,178 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1782582673648,
+  "role_title_raw": "Senior Backend Developer",
+  "role_slug": "senior-backend-developer",
+  "seniority_raw": "Senior",
+  "seniority_key": "senior",
+  "role_family": "engineering",
+  "profile": {
+    "summary": "A Senior Backend Developer designs, builds, and improves server-side systems that power products at scale. They usually own service design, APIs, data flows, reliability, and code quality for meaningful parts of the stack. They work closely with product, frontend, platform, QA, and other backend engineers, and are often expected to mentor others and shape technical decisions without being the formal manager.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing feature delivery with reliability, performance, and technical debt work.",
+        "category": "topic"
+      },
+      {
+        "text": "Being pulled into many code reviews, debugging threads, and design decisions, which fragments focus time.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Making sound architecture choices without over-engineering too early.",
+        "category": "competency"
+      },
+      {
+        "text": "Handling production issues and being accountable for systems that fail under real traffic.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Influencing product and engineering trade-offs without always having formal authority.",
+        "category": "competency"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "System ownership and service health",
+        "why": "Senior backend developers are often closest to the real reliability and maintainability risks in production systems.",
+        "category": "topic"
+      },
+      {
+        "theme": "Technical decision-making and trade-offs",
+        "why": "This role is judged on choosing pragmatic designs that fit scale, speed, and future change.",
+        "category": "competency"
+      },
+      {
+        "theme": "Focus time versus support load",
+        "why": "Senior engineers often become the default escalation point, which can quietly erode deep work and energy.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Collaboration with product, frontend, and platform",
+        "why": "Backend work depends on clear contracts, shared priorities, and realistic delivery plans across teams.",
+        "category": "topic"
+      },
+      {
+        "theme": "Mentoring and raising engineering standards",
+        "why": "At senior level, impact usually includes improving how other engineers build, review, and operate systems.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "API contract",
+        "meaning": "Agreed request and response behavior between systems.",
+        "group": "backend-engineering"
+      },
+      {
+        "term": "Schema migration",
+        "meaning": "A controlled change to database structure.",
+        "group": "backend-engineering"
+      },
+      {
+        "term": "Idempotency",
+        "meaning": "Same request can run repeatedly without extra side effects.",
+        "group": "backend-engineering"
+      },
+      {
+        "term": "Async processing",
+        "meaning": "Work handled later through queues or background jobs.",
+        "group": "backend-engineering"
+      },
+      {
+        "term": "Caching",
+        "meaning": "Storing frequent data to reduce latency and load.",
+        "group": "backend-engineering"
+      },
+      {
+        "term": "Observability",
+        "meaning": "Using logs, metrics, and traces to understand systems.",
+        "group": "backend-engineering"
+      },
+      {
+        "term": "Code review",
+        "meaning": "Checking changes for correctness, clarity, and risk.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Design doc",
+        "meaning": "Written proposal for a technical approach and trade-offs.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Technical debt",
+        "meaning": "Past shortcuts that slow future change or increase risk.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Mentoring",
+        "meaning": "Helping other engineers grow through guidance and feedback.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Incident",
+        "meaning": "A production problem affecting users or systems.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "SLA",
+        "meaning": "Target level for service availability or response.",
+        "group": "systems-in-production"
+      },
+      {
+        "term": "SLO",
+        "meaning": "Internal reliability target tied to user experience.",
+        "group": "systems-in-production"
+      },
+      {
+        "term": "Error budget",
+        "meaning": "Allowed unreliability before delivery pace should slow.",
+        "group": "systems-in-production"
+      },
+      {
+        "term": "Latency",
+        "meaning": "How long a system takes to respond.",
+        "group": "systems-in-production"
+      },
+      {
+        "term": "Throughput",
+        "meaning": "How much work a system handles over time.",
+        "group": "systems-in-production"
+      },
+      {
+        "term": "Runbook",
+        "meaning": "Step-by-step guide for handling operational issues.",
+        "group": "systems-in-production"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "backend-engineering",
+        "label": "Backend engineering"
+      },
+      {
+        "key": "senior-scope",
+        "label": "Senior scope"
+      },
+      {
+        "key": "systems-in-production",
+        "label": "Systems in production"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about user impact, not just implementation details.",
+      "Whether production concerns like latency, failure modes, and monitoring come up naturally.",
+      "Whether they frame trade-offs clearly or jump straight to preferred solutions.",
+      "Whether they mention unblocking others, reviewing code, and mentoring as part of their work.",
+      "Whether they sound overloaded by being the go-to person for too many systems or decisions."
+    ],
+    "avoid": [
+      "Treating them as only a ticket executor rather than someone shaping system design.",
+      "Assuming senior means they should absorb endless interruptions and support work.",
+      "Pushing feature speed while dismissing reliability or maintenance concerns as secondary.",
+      "Confusing strong technical opinions with resistance when they are surfacing real system risks."
+    ]
+  }
+}
