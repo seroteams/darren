@@ -1,0 +1,10 @@
+alias: q_architecture_review_pull_2
+label: Architecture review pull
+name: What about the architecture review feels like the right next stretch for you?
+description: Drills into why presenting there matters so the aspiration becomes concrete.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: present more often

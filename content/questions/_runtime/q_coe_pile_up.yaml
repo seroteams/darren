@@ -1,0 +1,11 @@
+alias: q_coe_pile_up
+label: CoE pile-up
+name: What part of the CoE work keeps piling up between check-ins?
+description: Drills into the specific CoE work creating pressure so the load is concrete.
+purpose: topic
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: planner_added
+grounding: CoE work keeps piling up

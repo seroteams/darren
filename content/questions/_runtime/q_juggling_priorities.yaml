@@ -1,0 +1,10 @@
+alias: q_juggling_priorities
+label: Juggling priorities
+name: "When you're juggling priorities, where is it getting most tangled?"
+description: Drills into the specific source of the workload friction he just named.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: juggling priorities

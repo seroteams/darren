@@ -1,0 +1,11 @@
+alias: q_land_specifically
+label: Land specifically
+name: "When you say 'ok,' what did the last two weeks actually look like?"
+description: One-shot re-prompt to turn a non-answer into a concrete read on how the fortnight went.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: planner_added
+grounding: ok

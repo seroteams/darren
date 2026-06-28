@@ -1,0 +1,10 @@
+alias: q_core_ux_work
+label: Core UX work
+name: Which core UX work is getting pushed back most often?
+description: Pins down the specific work being crowded out so the trade-off is concrete.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: Core UX work keeps getting pushed back

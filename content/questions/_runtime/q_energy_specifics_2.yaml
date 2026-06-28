@@ -1,10 +1,11 @@
 alias: q_energy_specifics_2
 label: Energy specifics
-name: "When you say 'fine', where is your energy actually at right now?"
-description: Clarifies the shallow pulse answer so Sam locates their energy more concretely.
+name: "When you say 'fine,' where is your energy actually at right now?"
+description: "One-shot re-prompt to get a specific read on Sam's energy instead of a non-answer."
 purpose: wellbeing
 stage: pulse
 axis_effects:
   wellbeing: +3
   engagement: +1
 source: planner_added
+grounding: fine

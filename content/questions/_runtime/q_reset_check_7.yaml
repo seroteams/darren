@@ -1,8 +1,10 @@
 alias: q_reset_check_7
 label: Reset check
-name: Is now a good time for this conversation?
-description: Directly resets a non-functional check-in and tests whether to continue or reschedule.
-purpose: topic
+name: Is now a good time for this conversation, or should we pick it up later?
+description: Directly resets a non-functional check-in after repeated non-answers.
+purpose: wellbeing
+stage: friction
 axis_effects:
-  clarity: +1
+  wellbeing: +1
 source: planner_added
+grounding: not sure

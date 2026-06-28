@@ -1,9 +1,10 @@
 alias: q_cross_team_visibility_7
 label: Cross-team visibility
-name: What would more visibility with other teams let you own?
-description: Drills into the concrete scope or decisions he believes cross-team visibility would unlock.
+name: What kind of visibility with other teams are you looking for specifically?
+description: Clarifies the concrete cross-functional scope he wants so the growth thread becomes actionable.
 purpose: topic
 stage: anchor
 axis_effects:
   growth: +3
 source: planner_added
+grounding: more visibility with other teams

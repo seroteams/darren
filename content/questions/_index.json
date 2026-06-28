@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-26T05:43:54.746Z",
-  "count": 3903,
+  "generated_at": "2026-06-28T11:52:26.803Z",
+  "count": 4106,
   "aliases": [
     "q_50_percent_in_practice",
     "q_a_lot_landing",
@@ -15,6 +15,7 @@
     "q_after_the_ship_2",
     "q_air_cover_ask",
     "q_air_cover_needed",
+    "q_alignment_drag",
     "q_alignment_gap",
     "q_alignment_hesitation",
     "q_alignment_hesitation_10",
@@ -51,6 +52,7 @@
     "q_architecture_review_8",
     "q_architecture_review_9",
     "q_architecture_review_pull",
+    "q_architecture_review_pull_2",
     "q_architecture_review_role",
     "q_architecture_review_role_2",
     "q_ask_explicitly",
@@ -169,7 +171,6 @@
     "q_clearer_criteria_4",
     "q_clearer_criteria_5",
     "q_clearer_path",
-    "q_clearer_scope",
     "q_client_load_2",
     "q_close_next_steps",
     "q_close_on_next_step",
@@ -187,6 +188,7 @@
     "q_closer_next_step_4",
     "q_closer_next_step_5",
     "q_closer_next_step_6",
+    "q_closer_next_step_7",
     "q_closer_next_steps",
     "q_closer_next_steps_2",
     "q_closer_next_steps_3",
@@ -202,6 +204,8 @@
     "q_coasting_thread_5",
     "q_coasting_thread_6",
     "q_coasting_thread_7",
+    "q_coe_pile_up",
+    "q_coe_pressure_points",
     "q_coe_slip_point",
     "q_commitment_closer",
     "q_commitment_closer_2",
@@ -247,13 +251,17 @@
     "q_controllable_focus",
     "q_controllable_focus_2",
     "q_controllable_focus_3",
-    "q_coordination_pull",
     "q_core_path",
     "q_core_path_2",
     "q_core_path_3",
     "q_core_path_check",
     "q_core_path_pull",
     "q_core_ux_depth",
+    "q_core_ux_pressure",
+    "q_core_ux_work",
+    "q_council_fit",
+    "q_council_value",
+    "q_council_weight",
     "q_course_mix",
     "q_course_shape",
     "q_craft_stretch",
@@ -325,12 +333,15 @@
     "q_cross_team_visibility_4",
     "q_cross_team_visibility_5",
     "q_cross_team_visibility_6",
+    "q_cross_team_visibility_7",
+    "q_crowded_decisions",
     "q_crowded_out_work",
     "q_crowded_week",
     "q_crowded_week_2",
     "q_current_dependency",
     "q_current_energy",
     "q_current_energy_2",
+    "q_current_energy_3",
     "q_current_fit",
     "q_current_fit_2",
     "q_current_fit_3",
@@ -360,6 +371,7 @@
     "q_current_pull_2",
     "q_current_pull_3",
     "q_current_pull_4",
+    "q_current_pull_5",
     "q_current_push",
     "q_current_read",
     "q_current_read_2",
@@ -422,6 +434,7 @@
     "q_decision_latitude",
     "q_decision_leverage",
     "q_decision_load",
+    "q_decision_load_2",
     "q_decision_meaning",
     "q_decision_need",
     "q_decision_needed",
@@ -437,6 +450,7 @@
     "q_decision_point_5",
     "q_decision_point_6",
     "q_decision_point_7",
+    "q_decision_point_8",
     "q_decision_points",
     "q_decision_points_2",
     "q_decision_pressure",
@@ -450,7 +464,6 @@
     "q_decision_pressure_8",
     "q_decision_pressure_9",
     "q_decision_reach",
-    "q_decision_rights",
     "q_decision_risk",
     "q_decision_shaping",
     "q_decision_signal",
@@ -513,6 +526,7 @@
     "q_dependency_check_5",
     "q_dependency_check_6",
     "q_dependency_drag",
+    "q_dependency_drag_2",
     "q_dependency_drag_3",
     "q_dependency_drag_4",
     "q_dependency_drag_5",
@@ -543,6 +557,7 @@
     "q_design_momentum_3",
     "q_design_system_slowdowns",
     "q_design_vs_feedback",
+    "q_design_work_balance",
     "q_design_work_detail",
     "q_desired_scope",
     "q_desired_scope_2",
@@ -656,6 +671,7 @@
     "q_energy_specifics_17",
     "q_energy_specifics_18",
     "q_energy_specifics_19",
+    "q_energy_specifics_2",
     "q_energy_specifics_20",
     "q_energy_specifics_21",
     "q_energy_specifics_22",
@@ -726,6 +742,7 @@
     "q_expectation_drift",
     "q_expectation_timing",
     "q_expected_leverage",
+    "q_extra_effort",
     "q_fastest_money",
     "q_feasibility_pressure",
     "q_feedback_appetite",
@@ -748,6 +765,7 @@
     "q_feedback_heard_6",
     "q_feedback_heard_7",
     "q_feedback_heard_8",
+    "q_feedback_impact",
     "q_feedback_in_practice",
     "q_feedback_in_practice_2",
     "q_feedback_intake",
@@ -901,7 +919,6 @@
     "q_friction_scan_16",
     "q_friction_scan_17",
     "q_friction_scan_18",
-    "q_friction_scan_19",
     "q_friction_scan_2",
     "q_friction_scan_20",
     "q_friction_scan_21",
@@ -936,6 +953,7 @@
     "q_gap_pattern",
     "q_gap_specifics",
     "q_gap_to_change",
+    "q_global_experience_load",
     "q_good_momentum",
     "q_growth_direction",
     "q_growth_direction_2",
@@ -1039,6 +1057,7 @@
     "q_judgment_calls_3",
     "q_judgment_calls_4",
     "q_judgment_pressure",
+    "q_juggling_priorities",
     "q_keep_moving",
     "q_keep_or_drop",
     "q_keep_or_drop_2",
@@ -1047,6 +1066,7 @@
     "q_kept_moving",
     "q_key_shift",
     "q_kitchen_rhythm",
+    "q_land_specifically",
     "q_land_specifics",
     "q_lane_vs_scope",
     "q_last_cycle_thread",
@@ -1133,6 +1153,7 @@
     "q_leverage_thread_6",
     "q_leverage_thread_7",
     "q_leverage_thread_8",
+    "q_lighten_the_review",
     "q_lingering_thread",
     "q_load_at_once",
     "q_load_check",
@@ -1165,6 +1186,7 @@
     "q_manager_help_13",
     "q_manager_help_14",
     "q_manager_help_2",
+    "q_manager_help_3",
     "q_manager_help_4",
     "q_manager_help_5",
     "q_manager_help_6",
@@ -1204,6 +1226,7 @@
     "q_manager_support_20",
     "q_manager_support_21",
     "q_manager_support_22",
+    "q_manager_support_23",
     "q_manager_support_24",
     "q_manager_support_25",
     "q_manager_support_26",
@@ -1271,6 +1294,7 @@
     "q_mentoring_pull_18",
     "q_mentoring_pull_19",
     "q_mentoring_pull_2",
+    "q_mentoring_pull_20",
     "q_mentoring_pull_3",
     "q_mentoring_pull_4",
     "q_mentoring_pull_5",
@@ -1405,6 +1429,7 @@
     "q_missing_experience",
     "q_missing_exposure",
     "q_missing_exposure_2",
+    "q_missing_exposure_3",
     "q_missing_ingredient",
     "q_missing_ingredient_10",
     "q_missing_ingredient_11",
@@ -1577,6 +1602,7 @@
     "q_next_move_27",
     "q_next_move_28",
     "q_next_move_29",
+    "q_next_move_3",
     "q_next_move_30",
     "q_next_move_31",
     "q_next_move_32",
@@ -1677,6 +1703,7 @@
     "q_next_role_signal",
     "q_next_round_plan",
     "q_next_safeguard",
+    "q_next_scope",
     "q_next_scope_3",
     "q_next_scope_move",
     "q_next_scope_move_2",
@@ -1756,6 +1783,7 @@
     "q_next_two_weeks_12",
     "q_next_two_weeks_13",
     "q_next_two_weeks_14",
+    "q_next_two_weeks_15",
     "q_next_two_weeks_16",
     "q_next_two_weeks_17",
     "q_next_two_weeks_18",
@@ -1763,6 +1791,7 @@
     "q_next_two_weeks_2",
     "q_next_two_weeks_20",
     "q_next_two_weeks_21",
+    "q_next_two_weeks_22",
     "q_next_two_weeks_23",
     "q_next_two_weeks_24",
     "q_next_two_weeks_25",
@@ -1772,6 +1801,7 @@
     "q_next_two_weeks_29",
     "q_next_two_weeks_3",
     "q_next_two_weeks_30",
+    "q_next_two_weeks_31",
     "q_next_two_weeks_32",
     "q_next_two_weeks_33",
     "q_next_two_weeks_35",
@@ -1789,6 +1819,8 @@
     "q_not_stretching",
     "q_observed_shift",
     "q_obvious_to_whom",
+    "q_oe_focus",
+    "q_oe_tradeoff",
     "q_old_assumptions",
     "q_old_assumptions_2",
     "q_one_change",
@@ -1901,6 +1933,7 @@
     "q_pairing_goal",
     "q_pairing_goal_2",
     "q_pairing_outcome",
+    "q_pairing_outcome_2",
     "q_pairing_plan",
     "q_pairing_plan_2",
     "q_pairing_plan_3",
@@ -1954,6 +1987,7 @@
     "q_plan_drift",
     "q_plan_drift_2",
     "q_plan_shift",
+    "q_plan_shift_2",
     "q_plan_vs_reality",
     "q_plan_vs_reality_2",
     "q_planned_progress",
@@ -2020,6 +2054,7 @@
     "q_prep_opener_113",
     "q_prep_opener_114",
     "q_prep_opener_115",
+    "q_prep_opener_116",
     "q_prep_opener_117",
     "q_prep_opener_118",
     "q_prep_opener_119",
@@ -2073,6 +2108,7 @@
     "q_prep_opener_162",
     "q_prep_opener_163",
     "q_prep_opener_164",
+    "q_prep_opener_165",
     "q_prep_opener_166",
     "q_prep_opener_167",
     "q_prep_opener_168",
@@ -2081,6 +2117,7 @@
     "q_prep_opener_170",
     "q_prep_opener_171",
     "q_prep_opener_172",
+    "q_prep_opener_173",
     "q_prep_opener_174",
     "q_prep_opener_175",
     "q_prep_opener_176",
@@ -2150,6 +2187,7 @@
     "q_prep_opener_64",
     "q_prep_opener_65",
     "q_prep_opener_66",
+    "q_prep_opener_67",
     "q_prep_opener_68",
     "q_prep_opener_69",
     "q_prep_opener_7",
@@ -2167,6 +2205,7 @@
     "q_prep_opener_80",
     "q_prep_opener_81",
     "q_prep_opener_82",
+    "q_prep_opener_83",
     "q_prep_opener_84",
     "q_prep_opener_85",
     "q_prep_opener_86",
@@ -2261,15 +2300,110 @@
     "q_promotion_meaning",
     "q_promotion_read",
     "q_promotion_read_10",
+    "q_promotion_read_100",
+    "q_promotion_read_101",
+    "q_promotion_read_102",
+    "q_promotion_read_103",
+    "q_promotion_read_104",
+    "q_promotion_read_105",
+    "q_promotion_read_106",
+    "q_promotion_read_107",
+    "q_promotion_read_108",
+    "q_promotion_read_109",
     "q_promotion_read_11",
+    "q_promotion_read_110",
+    "q_promotion_read_111",
+    "q_promotion_read_112",
+    "q_promotion_read_113",
+    "q_promotion_read_114",
+    "q_promotion_read_115",
+    "q_promotion_read_116",
+    "q_promotion_read_117",
+    "q_promotion_read_118",
+    "q_promotion_read_119",
     "q_promotion_read_12",
+    "q_promotion_read_120",
+    "q_promotion_read_121",
+    "q_promotion_read_122",
+    "q_promotion_read_123",
+    "q_promotion_read_124",
+    "q_promotion_read_125",
+    "q_promotion_read_126",
+    "q_promotion_read_127",
+    "q_promotion_read_128",
+    "q_promotion_read_129",
     "q_promotion_read_13",
+    "q_promotion_read_130",
+    "q_promotion_read_131",
+    "q_promotion_read_132",
+    "q_promotion_read_133",
+    "q_promotion_read_134",
+    "q_promotion_read_135",
+    "q_promotion_read_136",
+    "q_promotion_read_137",
+    "q_promotion_read_138",
+    "q_promotion_read_139",
     "q_promotion_read_14",
+    "q_promotion_read_140",
+    "q_promotion_read_141",
+    "q_promotion_read_142",
+    "q_promotion_read_143",
+    "q_promotion_read_144",
+    "q_promotion_read_145",
+    "q_promotion_read_146",
+    "q_promotion_read_147",
+    "q_promotion_read_148",
+    "q_promotion_read_149",
     "q_promotion_read_15",
+    "q_promotion_read_150",
+    "q_promotion_read_151",
+    "q_promotion_read_152",
+    "q_promotion_read_153",
+    "q_promotion_read_154",
+    "q_promotion_read_155",
+    "q_promotion_read_156",
+    "q_promotion_read_157",
+    "q_promotion_read_158",
+    "q_promotion_read_159",
     "q_promotion_read_16",
+    "q_promotion_read_160",
+    "q_promotion_read_161",
+    "q_promotion_read_162",
+    "q_promotion_read_163",
+    "q_promotion_read_164",
+    "q_promotion_read_165",
+    "q_promotion_read_166",
+    "q_promotion_read_167",
+    "q_promotion_read_168",
+    "q_promotion_read_169",
     "q_promotion_read_17",
+    "q_promotion_read_170",
+    "q_promotion_read_171",
+    "q_promotion_read_172",
+    "q_promotion_read_173",
+    "q_promotion_read_174",
+    "q_promotion_read_175",
+    "q_promotion_read_176",
+    "q_promotion_read_177",
+    "q_promotion_read_178",
+    "q_promotion_read_179",
     "q_promotion_read_18",
+    "q_promotion_read_180",
+    "q_promotion_read_181",
+    "q_promotion_read_182",
+    "q_promotion_read_183",
+    "q_promotion_read_184",
+    "q_promotion_read_185",
+    "q_promotion_read_186",
+    "q_promotion_read_187",
+    "q_promotion_read_188",
+    "q_promotion_read_189",
     "q_promotion_read_19",
+    "q_promotion_read_190",
+    "q_promotion_read_191",
+    "q_promotion_read_192",
+    "q_promotion_read_193",
+    "q_promotion_read_194",
     "q_promotion_read_2",
     "q_promotion_read_20",
     "q_promotion_read_21",
@@ -2305,15 +2439,65 @@
     "q_promotion_read_49",
     "q_promotion_read_5",
     "q_promotion_read_50",
+    "q_promotion_read_51",
+    "q_promotion_read_52",
+    "q_promotion_read_53",
+    "q_promotion_read_54",
+    "q_promotion_read_55",
+    "q_promotion_read_56",
+    "q_promotion_read_57",
+    "q_promotion_read_58",
+    "q_promotion_read_59",
     "q_promotion_read_6",
+    "q_promotion_read_60",
+    "q_promotion_read_61",
+    "q_promotion_read_62",
+    "q_promotion_read_63",
+    "q_promotion_read_64",
+    "q_promotion_read_65",
+    "q_promotion_read_66",
+    "q_promotion_read_67",
+    "q_promotion_read_68",
+    "q_promotion_read_69",
     "q_promotion_read_7",
+    "q_promotion_read_70",
+    "q_promotion_read_71",
+    "q_promotion_read_72",
+    "q_promotion_read_73",
+    "q_promotion_read_74",
+    "q_promotion_read_75",
+    "q_promotion_read_76",
+    "q_promotion_read_77",
+    "q_promotion_read_78",
+    "q_promotion_read_79",
     "q_promotion_read_8",
+    "q_promotion_read_80",
+    "q_promotion_read_81",
+    "q_promotion_read_82",
+    "q_promotion_read_83",
+    "q_promotion_read_84",
+    "q_promotion_read_85",
+    "q_promotion_read_86",
+    "q_promotion_read_87",
+    "q_promotion_read_88",
+    "q_promotion_read_89",
     "q_promotion_read_9",
+    "q_promotion_read_90",
+    "q_promotion_read_91",
+    "q_promotion_read_92",
+    "q_promotion_read_93",
+    "q_promotion_read_94",
+    "q_promotion_read_95",
+    "q_promotion_read_96",
+    "q_promotion_read_97",
+    "q_promotion_read_98",
+    "q_promotion_read_99",
     "q_promotion_signal",
     "q_proof_of_readiness",
     "q_proof_that_lands",
     "q_protect_the_quarter",
     "q_protect_the_time",
+    "q_protect_the_week",
     "q_protect_time",
     "q_protect_time_2",
     "q_protect_time_3",
@@ -2327,6 +2511,7 @@
     "q_protection_needed",
     "q_proving_himself",
     "q_pull_factors",
+    "q_pull_toward_work",
     "q_pullback_point",
     "q_pulled_sideways",
     "q_pulling_thread",
@@ -2816,6 +3001,7 @@
     "q_recovery_window",
     "q_recovery_window_2",
     "q_recurring_churn",
+    "q_recurring_pull",
     "q_redirected_time",
     "q_refactor_carryover",
     "q_refactor_carryover_2",
@@ -2888,6 +3074,7 @@
     "q_reset_check_46",
     "q_reset_check_5",
     "q_reset_check_6",
+    "q_reset_check_7",
     "q_reset_check_8",
     "q_reset_check_9",
     "q_reset_choice",
@@ -2910,6 +3097,7 @@
     "q_review_bar_change",
     "q_review_churn",
     "q_review_churn_2",
+    "q_review_churn_3",
     "q_review_churn_source",
     "q_review_context",
     "q_review_cycle_drag",
@@ -2928,6 +3116,7 @@
     "q_review_impact_2",
     "q_review_load",
     "q_review_load_2",
+    "q_review_load_3",
     "q_review_loop",
     "q_review_loop_2",
     "q_review_round_example",
@@ -3031,6 +3220,7 @@
     "q_say_no_to",
     "q_say_yes_no",
     "q_saying_no",
+    "q_saying_no_2",
     "q_scatter_source",
     "q_scope_assumptions",
     "q_scope_changes",
@@ -3135,7 +3325,6 @@
     "q_show_up_change",
     "q_show_your_work",
     "q_side_pull",
-    "q_sideways_pull",
     "q_signal_before_review",
     "q_signal_from_review",
     "q_signal_plan",
@@ -3267,7 +3456,9 @@
     "q_stretch_shape_2",
     "q_stretch_thread",
     "q_stretch_tradeoff",
+    "q_stretch_tradeoff_2",
     "q_stretch_worth_choosing",
+    "q_stretching_judgment",
     "q_strong_next_step_call",
     "q_strongest_moment",
     "q_stuck_dependency",
@@ -3330,6 +3521,7 @@
     "q_support_needed_14",
     "q_support_needed_15",
     "q_support_needed_16",
+    "q_support_needed_17",
     "q_support_needed_18",
     "q_support_needed_19",
     "q_support_needed_2",
@@ -3403,6 +3595,7 @@
     "q_sustainable_pace_2",
     "q_sustainable_pace_3",
     "q_sustainable_pace_4",
+    "q_sustainable_pace_5",
     "q_sustained_pace",
     "q_switching_pattern",
     "q_tactical_drift",
@@ -3473,6 +3666,7 @@
     "q_team_tension",
     "q_team_texture",
     "q_team_trust",
+    "q_team_vs_self",
     "q_team_wide_effect",
     "q_team_wide_impact",
     "q_team_working_feel",
@@ -3495,6 +3689,7 @@
     "q_tech_lead_pull_3",
     "q_tech_lead_pull_4",
     "q_tech_lead_pull_5",
+    "q_tech_lead_pull_6",
     "q_tech_lead_pull_8",
     "q_tech_lead_pull_9",
     "q_tense_renewals",
@@ -3615,6 +3810,7 @@
     "q_trade_off_choice",
     "q_trade_off_choices",
     "q_trade_off_line",
+    "q_trade_off_line_2",
     "q_trade_off_question",
     "q_trade_off_question_2",
     "q_trade_off_shift",
@@ -3628,6 +3824,7 @@
     "q_tradeoff_call_7",
     "q_tradeoff_check",
     "q_tradeoff_check_10",
+    "q_tradeoff_check_11",
     "q_tradeoff_check_12",
     "q_tradeoff_check_2",
     "q_tradeoff_check_3",
@@ -3717,6 +3914,7 @@
     "q_useful_progress",
     "q_useful_support",
     "q_user_flow_confidence",
+    "q_user_flow_focus",
     "q_user_signal",
     "q_vague_ending",
     "q_vague_feedback_gap",
@@ -3772,6 +3970,7 @@
     "q_waiting_on_others_5",
     "q_waiting_on_others_6",
     "q_waiting_on_something",
+    "q_what_can_slip",
     "q_what_changed",
     "q_what_changed_2",
     "q_what_changed_3",
@@ -3849,6 +4048,8 @@
     "q_what_to_drop",
     "q_what_to_drop_2",
     "q_what_to_drop_3",
+    "q_what_to_drop_4",
+    "q_what_to_drop_5",
     "q_what_to_repeat",
     "q_what_to_trade",
     "q_what_would_help",
@@ -3872,6 +4073,7 @@
     "q_work_shape",
     "q_work_that_dragged",
     "q_work_that_drains",
+    "q_work_that_fits",
     "q_work_that_landed",
     "q_work_that_landed_2",
     "q_work_that_matters",
@@ -3880,6 +4082,7 @@
     "q_work_that_moved_3",
     "q_work_that_moved_4",
     "q_work_that_pulls",
+    "q_work_that_slips",
     "q_work_that_stuck",
     "q_work_worth_owning",
     "q_working_process",
@@ -3957,6 +4160,10 @@
     },
     {
       "alias": "q_air_cover_needed",
+      "subdir": ""
+    },
+    {
+      "alias": "q_alignment_drag",
       "subdir": ""
     },
     {
@@ -4102,6 +4309,10 @@
     {
       "alias": "q_architecture_review_pull",
       "subdir": ""
+    },
+    {
+      "alias": "q_architecture_review_pull_2",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_architecture_review_role",
@@ -4576,10 +4787,6 @@
       "subdir": ""
     },
     {
-      "alias": "q_clearer_scope",
-      "subdir": "_runtime"
-    },
-    {
       "alias": "q_client_load_2",
       "subdir": ""
     },
@@ -4648,6 +4855,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_closer_next_step_7",
+      "subdir": ""
+    },
+    {
       "alias": "q_closer_next_steps",
       "subdir": ""
     },
@@ -4705,6 +4916,14 @@
     },
     {
       "alias": "q_coasting_thread_7",
+      "subdir": ""
+    },
+    {
+      "alias": "q_coe_pile_up",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_coe_pressure_points",
       "subdir": ""
     },
     {
@@ -4888,10 +5107,6 @@
       "subdir": ""
     },
     {
-      "alias": "q_coordination_pull",
-      "subdir": "_runtime"
-    },
-    {
       "alias": "q_core_path",
       "subdir": ""
     },
@@ -4914,6 +5129,26 @@
     {
       "alias": "q_core_ux_depth",
       "subdir": ""
+    },
+    {
+      "alias": "q_core_ux_pressure",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_core_ux_work",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_council_fit",
+      "subdir": ""
+    },
+    {
+      "alias": "q_council_value",
+      "subdir": ""
+    },
+    {
+      "alias": "q_council_weight",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_course_mix",
@@ -5200,6 +5435,14 @@
       "subdir": ""
     },
     {
+      "alias": "q_cross_team_visibility_7",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_crowded_decisions",
+      "subdir": ""
+    },
+    {
       "alias": "q_crowded_out_work",
       "subdir": ""
     },
@@ -5221,6 +5464,10 @@
     },
     {
       "alias": "q_current_energy_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_current_energy_3",
       "subdir": ""
     },
     {
@@ -5337,6 +5584,10 @@
     },
     {
       "alias": "q_current_pull_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_current_pull_5",
       "subdir": ""
     },
     {
@@ -5588,6 +5839,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_decision_load_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_decision_meaning",
       "subdir": ""
     },
@@ -5648,6 +5903,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_decision_point_8",
+      "subdir": ""
+    },
+    {
       "alias": "q_decision_points",
       "subdir": ""
     },
@@ -5698,10 +5957,6 @@
     {
       "alias": "q_decision_reach",
       "subdir": ""
-    },
-    {
-      "alias": "q_decision_rights",
-      "subdir": "_runtime"
     },
     {
       "alias": "q_decision_risk",
@@ -5952,6 +6207,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_dependency_drag_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_dependency_drag_3",
       "subdir": ""
     },
@@ -6069,6 +6328,10 @@
     },
     {
       "alias": "q_design_vs_feedback",
+      "subdir": ""
+    },
+    {
+      "alias": "q_design_work_balance",
       "subdir": ""
     },
     {
@@ -6524,6 +6787,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_energy_specifics_2",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_energy_specifics_20",
       "subdir": ""
     },
@@ -6804,6 +7071,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_extra_effort",
+      "subdir": ""
+    },
+    {
       "alias": "q_fastest_money",
       "subdir": ""
     },
@@ -6889,6 +7160,10 @@
     },
     {
       "alias": "q_feedback_heard_8",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_impact",
       "subdir": ""
     },
     {
@@ -7504,10 +7779,6 @@
       "subdir": ""
     },
     {
-      "alias": "q_friction_scan_19",
-      "subdir": "_runtime"
-    },
-    {
       "alias": "q_friction_scan_2",
       "subdir": ""
     },
@@ -7642,6 +7913,10 @@
     {
       "alias": "q_gap_to_change",
       "subdir": ""
+    },
+    {
+      "alias": "q_global_experience_load",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_good_momentum",
@@ -8056,6 +8331,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_juggling_priorities",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_keep_moving",
       "subdir": ""
     },
@@ -8086,6 +8365,10 @@
     {
       "alias": "q_kitchen_rhythm",
       "subdir": ""
+    },
+    {
+      "alias": "q_land_specifically",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_land_specifics",
@@ -8432,6 +8715,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_lighten_the_review",
+      "subdir": ""
+    },
+    {
       "alias": "q_lingering_thread",
       "subdir": ""
     },
@@ -8557,6 +8844,10 @@
     },
     {
       "alias": "q_manager_help_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_manager_help_3",
       "subdir": ""
     },
     {
@@ -8713,6 +9004,10 @@
     },
     {
       "alias": "q_manager_support_22",
+      "subdir": ""
+    },
+    {
+      "alias": "q_manager_support_23",
       "subdir": ""
     },
     {
@@ -8982,6 +9277,10 @@
     {
       "alias": "q_mentoring_pull_2",
       "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_pull_20",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_mentoring_pull_3",
@@ -9517,6 +9816,10 @@
     },
     {
       "alias": "q_missing_exposure_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_missing_exposure_3",
       "subdir": ""
     },
     {
@@ -10208,6 +10511,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_move_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_move_30",
       "subdir": ""
     },
@@ -10608,6 +10915,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_scope",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_scope_3",
       "subdir": ""
     },
@@ -10924,6 +11235,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_two_weeks_15",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_two_weeks_16",
       "subdir": ""
     },
@@ -10949,6 +11264,10 @@
     },
     {
       "alias": "q_next_two_weeks_21",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_22",
       "subdir": ""
     },
     {
@@ -10985,6 +11304,10 @@
     },
     {
       "alias": "q_next_two_weeks_30",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_31",
       "subdir": ""
     },
     {
@@ -11054,6 +11377,14 @@
     {
       "alias": "q_obvious_to_whom",
       "subdir": ""
+    },
+    {
+      "alias": "q_oe_focus",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_oe_tradeoff",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_old_assumptions",
@@ -11526,6 +11857,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_pairing_outcome_2",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_pairing_plan",
       "subdir": ""
     },
@@ -11735,6 +12070,10 @@
     },
     {
       "alias": "q_plan_shift",
+      "subdir": ""
+    },
+    {
+      "alias": "q_plan_shift_2",
       "subdir": ""
     },
     {
@@ -12002,6 +12341,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_prep_opener_116",
+      "subdir": ""
+    },
+    {
       "alias": "q_prep_opener_117",
       "subdir": ""
     },
@@ -12214,6 +12557,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_prep_opener_165",
+      "subdir": ""
+    },
+    {
       "alias": "q_prep_opener_166",
       "subdir": ""
     },
@@ -12243,6 +12590,10 @@
     },
     {
       "alias": "q_prep_opener_172",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_173",
       "subdir": ""
     },
     {
@@ -12522,6 +12873,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_prep_opener_67",
+      "subdir": ""
+    },
+    {
       "alias": "q_prep_opener_68",
       "subdir": ""
     },
@@ -12587,6 +12942,10 @@
     },
     {
       "alias": "q_prep_opener_82",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_83",
       "subdir": ""
     },
     {
@@ -12966,7 +13325,87 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_100",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_101",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_102",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_103",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_104",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_105",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_106",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_107",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_108",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_109",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_11",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_110",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_111",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_112",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_113",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_114",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_115",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_116",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_117",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_118",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_119",
       "subdir": "_runtime"
     },
     {
@@ -12974,7 +13413,87 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_120",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_121",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_122",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_123",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_124",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_125",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_126",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_127",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_128",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_129",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_13",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_130",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_131",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_132",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_133",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_134",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_135",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_136",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_137",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_138",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_139",
       "subdir": "_runtime"
     },
     {
@@ -12982,7 +13501,87 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_140",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_141",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_142",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_143",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_144",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_145",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_146",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_147",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_148",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_149",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_15",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_150",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_151",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_152",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_153",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_154",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_155",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_156",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_157",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_158",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_159",
       "subdir": "_runtime"
     },
     {
@@ -12990,7 +13589,87 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_160",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_161",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_162",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_163",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_164",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_165",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_166",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_167",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_168",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_169",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_17",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_170",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_171",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_172",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_173",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_174",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_175",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_176",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_177",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_178",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_179",
       "subdir": "_runtime"
     },
     {
@@ -12998,7 +13677,67 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_180",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_181",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_182",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_183",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_184",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_185",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_186",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_187",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_188",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_189",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_19",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_190",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_191",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_192",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_193",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_194",
       "subdir": "_runtime"
     },
     {
@@ -13142,7 +13881,83 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_51",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_52",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_53",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_54",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_55",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_56",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_57",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_58",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_59",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_6",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_60",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_61",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_62",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_63",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_64",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_65",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_66",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_67",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_68",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_69",
       "subdir": "_runtime"
     },
     {
@@ -13150,11 +13965,131 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_70",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_71",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_72",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_73",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_74",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_75",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_76",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_77",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_78",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_79",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_8",
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_80",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_81",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_82",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_83",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_84",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_85",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_86",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_87",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_88",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_89",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_9",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_90",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_91",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_92",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_93",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_94",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_95",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_96",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_97",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_98",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_99",
       "subdir": "_runtime"
     },
     {
@@ -13175,6 +14110,10 @@
     },
     {
       "alias": "q_protect_the_time",
+      "subdir": ""
+    },
+    {
+      "alias": "q_protect_the_week",
       "subdir": ""
     },
     {
@@ -13227,6 +14166,10 @@
     },
     {
       "alias": "q_pull_factors",
+      "subdir": ""
+    },
+    {
+      "alias": "q_pull_toward_work",
       "subdir": ""
     },
     {
@@ -15186,6 +16129,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_recurring_pull",
+      "subdir": ""
+    },
+    {
       "alias": "q_redirected_time",
       "subdir": ""
     },
@@ -15474,6 +16421,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_reset_check_7",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_reset_check_8",
       "subdir": ""
     },
@@ -15562,6 +16513,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_review_churn_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_review_churn_source",
       "subdir": ""
     },
@@ -15631,6 +16586,10 @@
     },
     {
       "alias": "q_review_load_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_review_load_3",
       "subdir": ""
     },
     {
@@ -16043,6 +17002,10 @@
     },
     {
       "alias": "q_saying_no",
+      "subdir": ""
+    },
+    {
+      "alias": "q_saying_no_2",
       "subdir": ""
     },
     {
@@ -16460,10 +17423,6 @@
     {
       "alias": "q_side_pull",
       "subdir": ""
-    },
-    {
-      "alias": "q_sideways_pull",
-      "subdir": "_runtime"
     },
     {
       "alias": "q_signal_before_review",
@@ -16990,7 +17949,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_stretch_tradeoff_2",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_stretch_worth_choosing",
+      "subdir": ""
+    },
+    {
+      "alias": "q_stretching_judgment",
       "subdir": ""
     },
     {
@@ -17239,6 +18206,10 @@
     },
     {
       "alias": "q_support_needed_16",
+      "subdir": ""
+    },
+    {
+      "alias": "q_support_needed_17",
       "subdir": ""
     },
     {
@@ -17534,6 +18505,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_sustainable_pace_5",
+      "subdir": ""
+    },
+    {
       "alias": "q_sustained_pace",
       "subdir": ""
     },
@@ -17814,6 +18789,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_team_vs_self",
+      "subdir": ""
+    },
+    {
       "alias": "q_team_wide_effect",
       "subdir": ""
     },
@@ -17900,6 +18879,10 @@
     {
       "alias": "q_tech_lead_pull_5",
       "subdir": ""
+    },
+    {
+      "alias": "q_tech_lead_pull_6",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_tech_lead_pull_8",
@@ -18382,6 +19365,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_trade_off_line_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_trade_off_question",
       "subdir": ""
     },
@@ -18431,6 +19418,10 @@
     },
     {
       "alias": "q_tradeoff_check_10",
+      "subdir": ""
+    },
+    {
+      "alias": "q_tradeoff_check_11",
       "subdir": ""
     },
     {
@@ -18790,6 +19781,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_user_flow_focus",
+      "subdir": ""
+    },
+    {
       "alias": "q_user_signal",
       "subdir": ""
     },
@@ -19007,6 +20002,10 @@
     },
     {
       "alias": "q_waiting_on_something",
+      "subdir": ""
+    },
+    {
+      "alias": "q_what_can_slip",
       "subdir": ""
     },
     {
@@ -19318,6 +20317,14 @@
       "subdir": ""
     },
     {
+      "alias": "q_what_to_drop_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_what_to_drop_5",
+      "subdir": ""
+    },
+    {
       "alias": "q_what_to_repeat",
       "subdir": ""
     },
@@ -19410,6 +20417,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_work_that_fits",
+      "subdir": ""
+    },
+    {
       "alias": "q_work_that_landed",
       "subdir": ""
     },
@@ -19439,6 +20450,10 @@
     },
     {
       "alias": "q_work_that_pulls",
+      "subdir": ""
+    },
+    {
+      "alias": "q_work_that_slips",
       "subdir": ""
     },
     {

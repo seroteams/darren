@@ -1,0 +1,10 @@
+alias: q_core_ux_pressure
+label: Core UX pressure
+name: Which core UX work is taking the hit most often?
+description: Makes the crowded-out UX work concrete so the next trade-off is easier to act on.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: protect core UX work

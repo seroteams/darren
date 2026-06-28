@@ -1,0 +1,10 @@
+alias: q_council_weight
+label: Council weight
+name: What about the council invite feels like extra lift?
+description: Drills into what specifically makes the invitation feel heavy so the tradeoff is concrete.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +1
+source: planner_added
+grounding: extra lift, not excitement

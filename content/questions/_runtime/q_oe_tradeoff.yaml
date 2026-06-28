@@ -1,0 +1,10 @@
+alias: q_oe_tradeoff
+label: OE tradeoff
+name: "What about the OEs is the piece you'd be giving up?"
+description: Drills into the specific tradeoff he named so you understand what council work would displace.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: "Keeping up with he OE's"

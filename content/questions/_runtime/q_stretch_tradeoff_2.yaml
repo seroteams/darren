@@ -1,0 +1,9 @@
+alias: q_stretch_tradeoff_2
+label: Stretch tradeoff
+name: What kind of stretch work are you saying no to right now?
+description: Surfaces the specific growth work being deferred so the tradeoff is concrete.
+purpose: topic
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: Avoiding work that stretches him

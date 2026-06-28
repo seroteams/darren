@@ -1,0 +1,9 @@
+alias: q_oe_focus
+label: OE focus
+name: Staying on top of the OEs — what would that look like in practice?
+description: Drills into the concrete success condition he just named so the manager understands the operating target.
+purpose: topic
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: staying on top of the OEs
