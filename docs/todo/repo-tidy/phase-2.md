@@ -1,25 +1,27 @@
 # Phase 2 — Split queue-manager.ts
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 in progress — 2 of 3 seams extracted (verified), awaiting your QA
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 split complete — queue-manager 1309 → 434, every module < 600, verified; awaiting your QA
 
 ## Goal
 Break the 1,309-line `queue-manager.ts` into focused files along its existing seams, leaving
 `planTurn` as the orchestrator.
 
-## Changes
-- [x] `delta-gates.ts` — shallow-answer / misalignment / recurring-gap-damper (Phase 2a, ~160 lines).
-- [x] `thread-follow.ts` + `queue-constants.ts` — runtime thread-follow group + shared constants (Phase 2b, ~110 lines).
-- [ ] `axis-coverage.ts` (+ `queue-metrics.ts` it depends on) — **next cut**.
-- [ ] Optional further cuts to get under ~600: `reconcile-queue.ts`, `messages.ts`.
+## Changes — all done, each a pure verbatim move (`planTurn` unchanged)
+- [x] `delta-gates.ts` — shallow-answer / misalignment / recurring-gap-damper (2a).
+- [x] `thread-follow.ts` + `queue-constants.ts` — thread-follow group + shared constants (2b).
+- [x] `axis-coverage.ts` + `queue-metrics.ts` — coverage enforcement + transcript/arc metrics (2c).
+- [x] `messages.ts` — plan-turn prompt assembly (2d).
+- [x] `reconcile-queue.ts` — queue reconciliation + grounding gate + axis-delta coercion (2e).
 
-So far: `queue-manager.ts` **1309 → 1036** lines; each cut a pure verbatim move, `planTurn` unchanged.
+Result: `queue-manager.ts` **1309 → 434** lines (−67%); now just the `planTurn` orchestrator + AI
+plumbing + clamp/drill-cap. Every engine module is under 600 (largest extracted: reconcile-queue 245).
 
 ## Not in this phase
 - The controller split (Phase 3). Any change to *which* questions are chosen — pure move only.
 
 ## Done when
-- [x] `npm test` green; `npm run typecheck` clean (after each cut).
-- [ ] No file in the set is over ~600 lines — **not yet** (queue-manager 1036; needs axis-coverage + reconcile/messages cuts).
+- [x] `npm test` green (46/46); `npm run typecheck` clean (after every cut).
+- [x] No file in the set is over ~600 lines — queue-manager 434; largest extracted module 245.
 - [ ] Product owner has tested the scenarios below and said go
 
 ## Test scenarios — for the product owner

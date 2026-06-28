@@ -20,7 +20,7 @@ What remains is *code* change, so it runs as tested phases, one at a time.
 | # | Phase | What it lands | Status | Sequencing |
 |---|---|---|---|---|
 | 1 | Shared guards | One `backend/shared/guards.ts`, imported across 38 files | 🔨 verified | Anytime — safe |
-| 2 | Split queue-manager | `delta-gates` ✓ + `thread-follow` ✓ out; `axis-coverage` next | 🔨 | Anytime — engine only |
+| 2 | Split queue-manager | 1309 → 434 across 5 cuts (gates/thread/axis/messages/reconcile); every module < 600 | 🔨 awaiting QA | Anytime — engine only |
 | 3 | Split sessions.controller | Thin controller + `sessions.service` | ⬜ | **After** Phase 005 swaps the sessions repo |
 | 4 | Admin TypeScript pilot | Shared util layer + 2–3 stages to TS; prove the toolchain | ⬜ | Anytime — frontend only |
 
@@ -32,11 +32,10 @@ What remains is *code* change, so it runs as tested phases, one at a time.
 deliberately `.mjs`, shared with the Vite build). Phases 2–4 not started. None blocks Phase 005;
 Phase 3 waits for Phase 005's sessions-repo swap.
 
-**Phase 2 in progress 2026-06-28** — `queue-manager.ts` 1309 → 1036 lines. Two seams extracted as
-pure verbatim moves, each verified (typecheck + `npm test` 46/46) and committed: `delta-gates.ts`
-(2a) and `thread-follow.ts` + `queue-constants.ts` (2b). Next cut: `axis-coverage.ts` (+ the
-`queue-metrics.ts` it needs), then optionally `reconcile-queue.ts` / `messages.ts` to get under
-~600. Awaiting Carl's QA walk before continuing.
+**Phase 2 split complete 2026-06-28** — `queue-manager.ts` 1309 → 434 (−67%) across 5 verbatim cuts
+(2a–2e), each verified (typecheck + `npm test` 46/46) and committed: delta-gates · thread-follow +
+queue-constants · axis-coverage + queue-metrics · messages · reconcile-queue + grounding. Every
+engine module now under 600. Awaiting Carl's QA walk to tick ✅.
 
 ## Parked
 - Converting ALL 47 admin stages to TS (Phase 4 only *pilots* it — the full sweep is its own plan).
