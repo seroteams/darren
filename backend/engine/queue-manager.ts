@@ -23,6 +23,14 @@ import { validateQuestionBeforeShow } from "./question-validator.ts";
 import type { Question, QuestionPurpose } from "../shared/question.types.ts";
 import type { AxisState, TranscriptEntry } from "../shared/session.types.ts";
 import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
+import { ALLOWED_DELTAS, MAX_QUEUE, RUNTIME_SUBDIR } from "./queue-constants.ts";
+import {
+  isRuntimeThreadFollow,
+  answerHasThread,
+  followReferencesAnswer,
+  buildThreadFollowQuestion,
+  enforceThreadFollow,
+} from "./thread-follow.ts";
 import {
   isShallowAnswer,
   noteMarksShallow,
@@ -96,15 +104,6 @@ interface AxisEffect {
 function isRawQueueArray(v: unknown): v is RawQueueItem[] {
   return Array.isArray(v) && v.every((e) => e == null || typeof e === "object");
 }
-
-const ALLOWED_DELTAS = [-3, -1, 0, 1, 3];
-const MAX_QUEUE = 12;
-
-// Questions minted at runtime (planner items, thread-follows) are run records,
-// not bank material. They save under questions/_runtime/ so no later session
-// can load them as candidates — a designer session once served another
-// scenario's "retry logic" follow-up straight from the pool root (Jun 02-04).
-const RUNTIME_SUBDIR = "_runtime";
 
 const AXIS_EFFECT_ITEM = {
   type: "object",
@@ -646,10 +645,6 @@ function reconcileQueue(rawNewQueue: RawQueueItem[] | null | undefined, { remain
   return { queue: out, issues };
 }
 
-function isRuntimeThreadFollow(q: { source?: string; label?: string } | null | undefined): boolean {
-  return q?.source === "planner_added" && q?.label === "Thread follow";
-}
-
 // Coverage must be honest: an untouched axis gets a REAL question that probes
 // it — never an axis label stamped onto a question whose text doesn't carry it
 // (the Maya run logged wellbeing:3 on a retry-logic follow-up). Order: promote
@@ -774,114 +769,6 @@ function isCuratedBankQuestion(q: Record<string, unknown>): boolean {
   if (source === "planner_added" || source.startsWith("reworded_from")) return false;
   if (String(q?.alias || "").startsWith("q_thread_follow")) return false;
   return true;
-}
-
-function answerHasThread(answer: string | null | undefined): boolean {
-  if (!answer || answer === "(skipped)") return false;
-  if (isShallowAnswer(answer)) return false;
-  return answer.trim().split(/\s+/).filter(Boolean).length >= 5;
-}
-
-function followReferencesAnswer(answer: string | null | undefined, questionName: string | null | undefined): boolean {
-  const words = String(answer || "")
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
-    .split(/\s+/)
-    .filter((w) => w.length > 4);
-  const q = String(questionName || "").toLowerCase();
-  if (!words.length) return false;
-  return words.filter((w) => q.includes(w)).length >= 1;
-}
-
-function firstQueueFollowsThread(queue: Question[] | null | undefined, answer: string | null | undefined): boolean {
-  if (!Array.isArray(queue) || !queue.length) return false;
-  return followReferencesAnswer(answer, queue[0]?.name);
-}
-
-// The mirror must quote a contiguous run of the answer's own words, clause-
-// bounded. The old version took the first three long tokens from anywhere in
-// the answer — a skip-gram that read as word salad on typo-heavy notes
-// ("tell will working — can you say more…", Jun 02 Luke run).
-const MIRROR_FILLER = /^(yeah|yes|yep|ok|okay|well|so|um|uh|and|but)\s+/i;
-function contiguousAnswerSpan(answer: string | null | undefined): string | null {
-  for (const raw of String(answer || "").split(/[.!?;,\n—–]+/)) {
-    let clause = raw.replace(/[^a-z0-9\s'-]/gi, " ").replace(/\s+/g, " ").trim();
-    while (MIRROR_FILLER.test(clause)) clause = clause.replace(MIRROR_FILLER, "");
-    const words = clause.split(" ").filter(Boolean);
-    if (words.length >= 3) return words.slice(0, 6).join(" ");
-  }
-  return null;
-}
-
-// Ground-or-skip: a thread-follow must mirror the answer's own words. If the
-// mirror stem can't pass validation, return null and inject nothing — a canned
-// context-free stem fakes a connection the engine didn't make (the Jun 11
-// Machar run served the identical generic stem on consecutive turns and it
-// read as disconnected both times).
-function buildThreadFollowQuestion(lastQuestion: Question | null | undefined, lastAnswer: string | null | undefined, transcript: TranscriptEntry[] | null | undefined): Question | null {
-  const mirrorSpan = contiguousAnswerSpan(lastAnswer);
-  if (!mirrorSpan) return null;
-  const mirrorStem = `${mirrorSpan} — can you say more about what that means for you right now?`;
-
-  const mirrorCheck = validateQuestionBeforeShow({
-    name: mirrorStem,
-    answer: lastAnswer ?? undefined,
-  });
-  if (!mirrorCheck.ok) return null;
-
-  const alias = newAlias("thread follow", listAllAliases());
-  return {
-    alias,
-    label: "Thread follow",
-    name: mirrorStem,
-    description: "Following up on what they just said.",
-    purpose: lastQuestion?.purpose || "topic",
-    stage: lastQuestion?.stage ?? null,
-    axis_effects: { ...(lastQuestion?.axis_effects || { engagement: 1 }) },
-    source: "planner_added",
-  };
-}
-
-function enforceThreadFollow({
-  newQueue,
-  lastAnswer,
-  lastQuestion,
-  remainingBudget,
-  consecutiveDrillCount,
-  askedNames = [],
-  transcript = [],
-  issues,
-}: {
-  newQueue: Question[];
-  lastAnswer: string | null | undefined;
-  lastQuestion: Question | null | undefined;
-  remainingBudget: number | string | null | undefined;
-  consecutiveDrillCount: number;
-  askedNames?: string[];
-  transcript?: TranscriptEntry[];
-  issues: string[];
-}): Question[] {
-  if (Number(remainingBudget) <= 2) return newQueue;
-  if (consecutiveDrillCount >= 2) return newQueue;
-  if (!answerHasThread(lastAnswer)) return newQueue;
-  if (firstQueueFollowsThread(newQueue, lastAnswer)) return newQueue;
-  const follow = buildThreadFollowQuestion(lastQuestion, lastAnswer, transcript);
-  if (!follow) {
-    issues.push("runtime: thread-follow skipped (no stem grounded in the answer)");
-    return newQueue;
-  }
-  // Don't inject a thread-follow that repeats a question already asked — or
-  // one already sitting in the queue, which would be served as a duplicate a
-  // few turns later.
-  const askedTokenSets = (askedNames || []).map(contentTokens);
-  const queuedTokenSets = (newQueue || []).map((q) => contentTokens(q?.name));
-  if (isRepeatOfAsked(follow.name, [...askedTokenSets, ...queuedTokenSets])) {
-    issues.push("runtime: thread-follow skipped (would repeat an asked or queued question)");
-    return newQueue;
-  }
-  issues.push("runtime: injected thread-follow question");
-  saveQuestion(follow, { subdir: RUNTIME_SUBDIR });
-  return [follow, ...(newQueue || [])];
 }
 
 function enforceDrillCap({
