@@ -8,22 +8,20 @@ For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full 
 
 ## ▶ Your move
 
-**Phase 004 (Backend API v1) is ✅ DONE & SIGNED OFF (2026-06-28)** — you owner-walked it and approved. The
-whole backend is now clean layers (controller → service → repo) under `/api/v1/`, file-backed behind a
-**swappable repo seam**. Closed out: badge → ✅ Built, folder archived to `docs/todo/done/backend-api-v1/`,
-PROGRESS.md → done. *(No paid run was needed — the $3 budget is untouched.)*
+**Phase 005 — Phase 2 (first migration + schema) is BUILT and waiting for your QA walk.** 🔨
+The 5 tables — `organizations`, `users`, `sessions`, `runs`, `invitations` — are defined in plain
+TypeScript (`backend/db/schema.ts`) and Drizzle generated a readable versioned SQL migration from them
+(`backend/db/migrations/0000_glorious_sunset_bain.sql`). `npm run db:generate` / `db:migrate` scripts added.
+**Nothing was committed** — that waits for your green light (Darren rhythm).
 
-**Phase 005 (Postgres foundation) is now active. Tool decided: ✅ Drizzle.** A **handover is written for a
-fresh thread** to continue the build — see
-[docs/todo/postgres-foundation/HANDOVER.md](docs/todo/postgres-foundation/HANDOVER.md).
-
-**To continue:** open a new thread and paste the quick-start prompt at the bottom of that handover (or use
-the `/tasks` board's one-click "Copy continue prompt" for Phase 005). The new thread will write the
-detailed Phase 2/3/4 step files in Drizzle's shape, run the free baseline (`npm test`), then build
-**Phase 2 — the first migration** (the 5 tables). One phase at a time; you green-light before the next.
+**To walk it (all free, offline — no DB, no OpenAI):** follow the 4 scenarios in
+[docs/todo/postgres-foundation/phase-2.md](docs/todo/postgres-foundation/phase-2.md) — read the schema, read
+the generated SQL, confirm nothing else moved, confirm the run-logs still stay on disk. Say **go** and I
+commit Phase 2 and start Phase 3 (the repo swap).
 
 - Last updated: 2026-06-28
-- Baseline at 004 sign-off: `npm test` → **46/46 passed** (free, offline) ✅ · typecheck clean
+- Baseline before Phase 2: `npm test` → **46/46 passed** (free, offline) ✅
+- After Phase 2 build: `npm test` → **46/46** ✅ · `npm run typecheck` clean · migration generates the 5 tables ✅
 
 ---
 
@@ -35,8 +33,8 @@ database, with clear rules and proper versioned migrations. Same behaviour; data
 (Heavy run-history logs stay on disk, indexed by id.)
 
 ### The phases
-- [ ] **Phase 1** — Choose the tool (**Drizzle vs Prisma**) + lock the DB rules · ⬜ *awaiting your pick*
-- [ ] **Phase 2** — First migration + schema (orgs, users, sessions, runs-index, invitations) · ⬜ *detail written after the pick*
+- [x] **Phase 1** — Choose the tool (**Drizzle** locked) + lock the DB rules · ✅
+- [ ] **Phase 2** — First migration + schema (orgs, users, sessions, runs-index, invitations) · 🔨 *built — awaiting your QA*
 - [ ] **Phase 3** — Connection pool + swap `SessionsRepo`/`UsersRepo` file → Postgres (same interface) · ⬜
 - [ ] **Phase 4** — `docker-compose` + `DATABASE_URL` + docs (restart-persistence walk) · ⬜
 

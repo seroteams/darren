@@ -52,8 +52,8 @@ When this is done + approved, set that effort's `PROGRESS.md` (Phase 005 → `do
 ## The phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | **Choose the tool + lock the conventions** | Drizzle-vs-Prisma **decided & logged**; the DB rules above confirmed against the schema we'll write. **No code.** | ⬜ |
-| 2 | First migration + schema | The 5 tables as a **versioned migration**; builds from clean with one command; `npm test` green. | ⬜ |
+| 1 | **Choose the tool + lock the conventions** | Drizzle-vs-Prisma **decided & logged** (= Drizzle); the DB rules above confirmed against the schema we'll write. **No code.** | ✅ |
+| 2 | First migration + schema | The 5 tables as a **versioned migration**; builds from clean with one command; `npm test` green. | 🔨 built — awaiting QA |
 | 3 | Connection pool + repo swap | `backend/db` pool; `SessionsRepo` (+ a small `UsersRepo`) swapped file → Postgres **behind the same interface**; services untouched; tests green. | ⬜ |
 | 4 | docker-compose + `DATABASE_URL` + docs | Local Postgres **one-command up**; a teammate can follow the README; the restart-persistence walk passes. | ⬜ |
 
@@ -100,15 +100,20 @@ detail.
 ---
 
 ## Current state
-> ### 📋 2026-06-28 — Phase 005 **pre-planned** (folder scaffolded) — building **blocked on Phase 004 sign-off**
-> Created at Carl's request ("go for 005") while Phase 004 awaits its owner-walk. This is **planning only,
-> $0, no gate skipped** — no 005 code exists or will until 004 is approved (005 rewrites 004's repo seam).
-> - **Two things unblock the build:** (1) you owner-walk + approve **Phase 004** (mostly free — drive a
->   real 1:1, then describe swapping the `SessionsRepo` storage); (2) you **pick the migration tool**
->   above (Drizzle recommended). Then **Phase 2** (first migration) starts.
-> - **Baseline (free) to run when Phase 2 building begins:** `npm test` (currently **46/46** offline).
->   No paid run is needed for any of Phase 1 or for planning; the $3 budget stays parked.
-> - **Next:** await Carl's 004 approval + tool pick.
+> ### 📋 2026-06-28 — Phase 2 (first migration + schema) **built — awaiting Carl's QA**
+> Phase 004 is signed off and the tool is locked (**Drizzle**), so the build is unblocked. Wrote the
+> detailed `phase-2/3/4.md` step files in Drizzle's shape, then built Phase 2:
+> - **Installed:** `drizzle-orm`, `pg`, `drizzle-kit` (dev), `@types/pg` (dev). *(1 pre-existing high npm
+>   advisory; drizzle-kit's dev-only chain adds a few moderate — noted, not actioned.)*
+> - **Schema:** `backend/db/schema.ts` — all 5 tables in plain TypeScript per the locked rules.
+> - **Migration:** `npm run db:generate` produced `backend/db/migrations/0000_glorious_sunset_bain.sql` —
+>   readable SQL: uuid PKs (`gen_random_uuid()`), `timestamptz`, `jsonb`, enums, `org_id` FKs + indexes,
+>   unique email. `drizzle.config.ts` + `db:generate`/`db:migrate` scripts added.
+> - **Checks (all free/offline):** `npm test` **46/46** ✅ (unchanged — schema is inert) · `npm run
+>   typecheck` clean ✅. No live DB this phase (that's Phase 4).
+> - **Not committed** — waiting on Carl's QA walk (phase-2.md scenarios). Green light → commit → Phase 3.
+> - **Open note carried to Phase 3:** the existing string session id → `sessions.id uuid` mapping (mint
+>   uuid + keep folder in `log_dir`, vs. a `legacy_id` column) is decided in Phase 3.
 
 ## Parked
 - Moving run-history artifacts into the DB — stays on disk this phase, indexed by a `runs` row.
