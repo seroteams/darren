@@ -160,6 +160,20 @@ export async function mount(root, { store, setState }) {
       resetSession();
       setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
     });
+
+    // Enter advances to the next step (matches the focus-points page).
+    function handleKey(e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === "Enter") {
+        const cont = resultHost.querySelector(".js-continue");
+        if (cont && !cont.disabled) cont.click();
+      }
+    }
+    document.addEventListener("keydown", handleKey);
+    unmountFn = () => {
+      sse.close();
+      document.removeEventListener("keydown", handleKey);
+    };
   }
 
   unmountFn = () => sse.close();

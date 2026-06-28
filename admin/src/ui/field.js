@@ -28,13 +28,14 @@ export function swapField(host, renderNext) {
   });
 }
 
-// Focus the primary input inside a field node. Prefers input/textarea over
-// buttons. Called once the swap is complete.
+// Focus the primary control inside a field node. An explicit [data-autofocus]
+// wins (so a field can choose, e.g., a pill group over its text box); otherwise
+// fall back to the first input/textarea, then any button. Called after swap.
 export function focusField(node) {
   if (!node) return;
   const target =
-    node.querySelector("input:not([type=hidden]), textarea") ||
     node.querySelector("[data-autofocus]") ||
+    node.querySelector("input:not([type=hidden]), textarea") ||
     node.querySelector("button");
   if (target && typeof target.focus === "function") {
     // Focus on next frame so the transition doesn't fight us for paint

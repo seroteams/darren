@@ -154,11 +154,11 @@ export async function mount(root, { store, setState }) {
       <h1 class="h1 mb-2">${cfg.question}</h1>
       <div class="hint">Optional. Tap what's prompting this 1:1, then add anything in your own words.</div>
       <div class="space-y-2">
-        <div class="eyebrow">What's on your mind?</div>
-        <div class="pill-row js-pills"></div>
+        <div class="eyebrow" id="pills-label">What's on your mind?</div>
+        <div class="pill-row js-pills" role="group" aria-labelledby="pills-label"></div>
       </div>
       <label class="block space-y-2">
-        <textarea class="textarea js-notes" rows="4" placeholder="${cfg.placeholder}" data-autofocus></textarea>
+        <textarea class="textarea js-notes" rows="4" placeholder="${cfg.placeholder}"></textarea>
       </label>
       <div class="field__actions">
         <button class="btn js-submit">Continue</button>
@@ -167,18 +167,34 @@ export async function mount(root, { store, setState }) {
     `;
     const selected = new Set(store.ctx.issuePills || []);
     const pillRow = wrap.querySelector(".js-pills");
-    ISSUE_PILLS.forEach((iss) => {
+    // Roving tabindex: the whole chip row is one Tab stop (Tab lands on the
+    // group, then moves on to the text box). Arrow keys move between chips,
+    // Space/Enter toggles. The first chip is the entry point and gets focus.
+    const pillBtns = [];
+    function focusPill(next) {
+      const n = (next + pillBtns.length) % pillBtns.length;
+      pillBtns.forEach((p, idx) => { p.tabIndex = idx === n ? 0 : -1; });
+      pillBtns[n].focus();
+    }
+    ISSUE_PILLS.forEach((iss, i) => {
       const b = document.createElement("button");
       b.type = "button";
       b.className = "pill" + (selected.has(iss.id) ? " is-selected" : "");
       b.textContent = iss.label;
       b.setAttribute("aria-pressed", selected.has(iss.id) ? "true" : "false");
+      b.tabIndex = i === 0 ? 0 : -1;
+      if (i === 0) b.setAttribute("data-autofocus", "");
       b.addEventListener("click", () => {
         const on = selected.has(iss.id);
         if (on) selected.delete(iss.id); else selected.add(iss.id);
         b.classList.toggle("is-selected", !on);
         b.setAttribute("aria-pressed", String(!on));
       });
+      b.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); focusPill(i + 1); }
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); focusPill(i - 1); }
+      });
+      pillBtns.push(b);
       pillRow.appendChild(b);
     });
     const ta = wrap.querySelector(".js-notes");
