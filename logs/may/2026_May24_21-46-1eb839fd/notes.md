@@ -1,5 +1,5 @@
 # Notes — 2026_May24_21-46-1eb839fd
-Toby · Expert UX Designer · Growth & career plan
+Alex · Expert UX Designer · Growth & career plan
 
 ## Preparation
 - [21:47:18] Discuss the communication skills {{NAME}} needs to develop to transition from Expert UX Designer to a lead role.
@@ -50,7 +50,7 @@ Toby · Expert UX Designer · Growth & career plan
   really this ssytem feels dumb as if it has not reseached what a growht and career plan arc would be.
 - [22:18:48] Question 6 of 9
   When you say 'not up for promotion', what specifically would make you feel ready for that step?
-  Explore Toby's perception of readiness for promotion and what he believes is necessary to achieve it.
+  Explore Alex's perception of readiness for promotion and what he believes is necessary to achieve it.
 
 
   this system is off on a tangent, 
@@ -76,17 +76,17 @@ Toby · Expert UX Designer · Growth & career plan
 ## Briefing
 - [22:28:07] this is great
 
-  Briefing · For Toby
-  Toby is focused on becoming a lead, with a real risk of leaving if not promoted soon
+  Briefing · For Alex
+  Alex is focused on becoming a lead, with a real risk of leaving if not promoted soon
 - [22:28:16] this repeast the top "What stood out
   ●
-  Toby's answers indicate a strong desire for promotion to lead, with a risk of leaving if unmet."
+  Alex's answers indicate a strong desire for promotion to lead, with a risk of leaving if unmet."
 - [22:28:28] this is great
 
   hat we understood
-  The session confirmed Toby's strong focus on becoming a lead, with a sense of urgency due to his perceived readiness and contributions. He feels confident in his documentation and presentation skills, though communication was noted as a barrier to leadership. Toby's risk of leaving if not promoted soon is a significant concern that needs addressing.
+  The session confirmed Alex's strong focus on becoming a lead, with a sense of urgency due to his perceived readiness and contributions. He feels confident in his documentation and presentation skills, though communication was noted as a barrier to leadership. Alex's risk of leaving if not promoted soon is a significant concern that needs addressing.
 - [22:28:53] About you
-  When Toby mentioned "i am good at preparing documentation and presenting to people," the conversation didn't explore his communication challenges further. Next time, delve into areas needing improvement.
+  When Alex mentioned "i am good at preparing documentation and presenting to people," the conversation didn't explore his communication challenges further. Next time, delve into areas needing improvement.
 
   nah this mute advise, it should be around making a plan
 

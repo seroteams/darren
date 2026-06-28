@@ -344,8 +344,8 @@ Hard boundaries:
     "id": "manager_support",
     "type": "Manager support",
     "category": "topic",
-    "label": "What Carl would want more of from you.",
-    "reason": "Whether there's something specific Carl needs from you that he hasn't asked for. Leads stop asking when they think you're already stretched.",
+    "label": "What Jordan would want more of from you.",
+    "reason": "Whether there's something specific Jordan needs from you that he hasn't asked for. Leads stop asking when they think you're already stretched.",
     "source": "best_practice",
     "known": true
   }
@@ -354,7 +354,7 @@ Hard boundaries:
 
 **1:1 context:**
 
-- Name: Carl
+- Name: Jordan
 - Role: UX Lead
 - Seniority: Lead
 - Meeting type: Bi-weekly check-in
@@ -362,7 +362,7 @@ Hard boundaries:
 **Manager's notes:**
 
 ```
-They have been sick reacnetly
+They have been quiet in stand-ups recently
 ```
 
 **Already in the queue (intro questions that will be asked first — do NOT duplicate these angles):**

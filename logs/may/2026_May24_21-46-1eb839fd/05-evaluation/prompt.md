@@ -242,7 +242,7 @@ No confidence beyond the evidence.
 
 **1:1 context:**
 
-- Name: Toby
+- Name: Alex
 - Role: Expert UX Designer
 - Seniority: Expert
 - Meeting type: Growth & career plan
@@ -250,7 +250,7 @@ No confidence beyond the evidence.
 **Manager's original notes:**
 
 ```
-He wants to become a lead but his communication methods suck
+He wants to become a lead but his communication needs work
 ```
 
 **Focus points (stage 1):**

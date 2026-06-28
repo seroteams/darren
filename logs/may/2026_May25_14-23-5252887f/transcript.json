@@ -18,7 +18,7 @@
     "realized_deltas": {
       "wellbeing": -1
     },
-    "note": "Carl's response indicates he is not fully recovered, signaling mild wellbeing concern."
+    "note": "Jordan's response indicates he is not fully recovered, signaling mild wellbeing concern."
   },
   {
     "turn": 2,
@@ -39,7 +39,7 @@
     "realized_deltas": {
       "wellbeing": 1
     },
-    "note": "Mild positive signal — Carl is recovering, but not fully back to normal."
+    "note": "Mild positive signal — Jordan is recovering, but not fully back to normal."
   },
   {
     "turn": 3,
@@ -91,7 +91,7 @@
       "alias": "q_ux_priorities_focus",
       "label": "UX priorities focus",
       "name": "What are the main UX priorities you're focusing on right now?",
-      "description": "Determines if Carl is still focused on key UX work or getting sidetracked.",
+      "description": "Determines if Jordan is still focused on key UX work or getting sidetracked.",
       "purpose": "topic",
       "stage": "friction",
       "axis_effects": {
@@ -112,7 +112,7 @@
       "alias": "q_clarify_ux_priorities",
       "label": "Clarify UX priorities",
       "name": "When you say 'the app redesign and the sections on the' — what specifically are you focusing on within those areas?",
-      "description": "Clarifies what Carl is focusing on within the app redesign and sections.",
+      "description": "Clarifies what Jordan is focusing on within the app redesign and sections.",
       "purpose": "topic",
       "stage": "friction",
       "axis_effects": {
@@ -133,7 +133,7 @@
       "alias": "q_clarify_ux_focus",
       "label": "Clarify UX focus",
       "name": "When you say 'get all the screens designed quickly' — which screens specifically, and why the rush?",
-      "description": "Seeks specifics on which screens Carl is focusing on and the urgency behind it.",
+      "description": "Seeks specifics on which screens Jordan is focusing on and the urgency behind it.",
       "purpose": "topic",
       "stage": "friction",
       "axis_effects": {
@@ -175,7 +175,7 @@
       "alias": "q_lightening_the_load",
       "label": "Lightening the load",
       "name": "What could make your next two weeks feel lighter or more productive?",
-      "description": "Explores opportunities to reduce stress or increase productivity for Carl.",
+      "description": "Explores opportunities to reduce stress or increase productivity for Jordan.",
       "purpose": "wellbeing",
       "stage": "lift",
       "axis_effects": {

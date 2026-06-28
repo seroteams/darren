@@ -1,8 +1,8 @@
 {
-  "name": "Carl",
+  "name": "Jordan",
   "role": "UX Lead",
   "seniority": "Lead",
   "meetingType": "Bi-weekly check-in",
-  "notes": "They have been sick reacnetly",
+  "notes": "They have been quiet in stand-ups recently",
   "model": "gpt-4o"
 }

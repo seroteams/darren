@@ -465,7 +465,7 @@ Note for the generator: the negativity is named in `reason` fields as an underly
 
 **1:1 context:**
 
-- Name: Carl
+- Name: Jordan
 - Role: UX Lead
 - Seniority: Lead
 - Meeting type: Bi-weekly check-in
@@ -473,7 +473,7 @@ Note for the generator: the negativity is named in `reason` fields as an underly
 **Manager's notes:**
 
 ```
-They have been sick reacnetly
+They have been quiet in stand-ups recently
 ```
 
 Validate against the output contract, then produce the JSON now.

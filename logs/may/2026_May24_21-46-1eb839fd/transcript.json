@@ -24,7 +24,7 @@
       "alias": "q_clarify_most_like_yourself_2",
       "label": "Clarify 'most like yourself'",
       "name": "When you say 'today is fine', what specifically makes you feel most like yourself today?",
-      "description": "Seek specifics about what makes today feel authentic to Toby.",
+      "description": "Seek specifics about what makes today feel authentic to Alex.",
       "purpose": "wellbeing",
       "stage": null,
       "axis_effects": {
@@ -44,7 +44,7 @@
       "alias": "q_clarify_looking_forward",
       "label": "Clarify 'looking forward'",
       "name": "When you say 'looking forward to this session', what specifically are you hoping to get out of it?",
-      "description": "Seek specifics about what Toby anticipates from this session.",
+      "description": "Seek specifics about what Alex anticipates from this session.",
       "purpose": "wellbeing",
       "stage": null,
       "axis_effects": {
@@ -59,7 +59,7 @@
       "wellbeing": 1,
       "growth": 1
     },
-    "note": "Toby is focused on growth and is looking for guidance on achieving a lead role."
+    "note": "Alex is focused on growth and is looking for guidance on achieving a lead role."
   },
   {
     "turn": 4,
@@ -103,7 +103,7 @@
     "realized_deltas": {
       "engagement": 1
     },
-    "note": "Toby expresses a clear desire to exceed and sees promotion as crucial, indicating engagement is contingent on growth opportunities."
+    "note": "Alex expresses a clear desire to exceed and sees promotion as crucial, indicating engagement is contingent on growth opportunities."
   },
   {
     "turn": 6,
@@ -111,7 +111,7 @@
       "alias": "q_promotion_urgency",
       "label": "Promotion urgency",
       "name": "When you say 'not up for promotion', what specifically would make you feel ready for that step?",
-      "description": "Explore Toby's perception of readiness for promotion and what he believes is necessary to achieve it.",
+      "description": "Explore Alex's perception of readiness for promotion and what he believes is necessary to achieve it.",
       "purpose": "topic",
       "stage": null,
       "axis_effects": {
@@ -124,7 +124,7 @@
     "realized_deltas": {
       "engagement": 1
     },
-    "note": "Toby describes leading design and stakeholder work as evidence of readiness for promotion, indicating engagement with his current role."
+    "note": "Alex describes leading design and stakeholder work as evidence of readiness for promotion, indicating engagement with his current role."
   },
   {
     "turn": 7,
@@ -132,7 +132,7 @@
       "alias": "q_stakeholder_work_specifics",
       "label": "Stakeholder work specifics",
       "name": "When you mention working with stakeholders, what specifically has been your biggest win there?",
-      "description": "Explore Toby's achievements and impact in stakeholder engagement.",
+      "description": "Explore Alex's achievements and impact in stakeholder engagement.",
       "purpose": "topic",
       "stage": null,
       "axis_effects": {
@@ -145,7 +145,7 @@
     "realized_deltas": {
       "engagement": 1
     },
-    "note": "Toby's engagement with stakeholders led to successful design decisions and app performance."
+    "note": "Alex's engagement with stakeholders led to successful design decisions and app performance."
   },
   {
     "turn": 8,
@@ -153,7 +153,7 @@
       "alias": "q_communication_challenges_2",
       "label": "Communication challenges",
       "name": "In what situations do you find your current communication style most effective, and where is it not landing as you'd like?",
-      "description": "Identify strengths and weaknesses in Toby's communication style.",
+      "description": "Identify strengths and weaknesses in Alex's communication style.",
       "purpose": "competency",
       "stage": "anchor",
       "axis_effects": {
@@ -174,7 +174,7 @@
       "alias": "q_commitment_to_action_4",
       "label": "Commitment to action",
       "name": "What's the first concrete thing you want to have moved by our next conversation?",
-      "description": "Encourages Toby to commit to a specific action or goal.",
+      "description": "Encourages Alex to commit to a specific action or goal.",
       "purpose": "topic",
       "stage": "commitment",
       "axis_effects": {
@@ -187,6 +187,6 @@
     "realized_deltas": {
       "growth": 1
     },
-    "note": "Toby's answer indicates a clear commitment to discussing steps toward a lead role, aligning with growth goals."
+    "note": "Alex's answer indicates a clear commitment to discussing steps toward a lead role, aligning with growth goals."
   }
 ]

@@ -4,7 +4,7 @@
     "alias": "q_stakeholder_work_specifics",
     "label": "Stakeholder work specifics",
     "name": "When you mention working with stakeholders, what specifically has been your biggest win there?",
-    "description": "Explore Toby's achievements and impact in stakeholder engagement.",
+    "description": "Explore Alex's achievements and impact in stakeholder engagement.",
     "purpose": "topic",
     "stage": null,
     "axis_effects": {
@@ -18,7 +18,7 @@
     "deltas": {
       "engagement": 1
     },
-    "note": "Toby's engagement with stakeholders led to successful design decisions and app performance."
+    "note": "Alex's engagement with stakeholders led to successful design decisions and app performance."
   },
   "new_queue": [
     {

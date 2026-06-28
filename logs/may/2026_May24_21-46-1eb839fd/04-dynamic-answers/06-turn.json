@@ -4,7 +4,7 @@
     "alias": "q_promotion_urgency",
     "label": "Promotion urgency",
     "name": "When you say 'not up for promotion', what specifically would make you feel ready for that step?",
-    "description": "Explore Toby's perception of readiness for promotion and what he believes is necessary to achieve it.",
+    "description": "Explore Alex's perception of readiness for promotion and what he believes is necessary to achieve it.",
     "purpose": "topic",
     "stage": null,
     "axis_effects": {
@@ -18,7 +18,7 @@
     "deltas": {
       "engagement": 1
     },
-    "note": "Toby describes leading design and stakeholder work as evidence of readiness for promotion, indicating engagement with his current role."
+    "note": "Alex describes leading design and stakeholder work as evidence of readiness for promotion, indicating engagement with his current role."
   },
   "new_queue": [
     {

@@ -465,7 +465,7 @@ Note for the generator: the negativity is named in `reason` fields as an underly
 
 **1:1 context:**
 
-- Name: Toby
+- Name: Alex
 - Role: Expert UX Designer
 - Seniority: Expert
 - Meeting type: Growth & career plan
@@ -473,7 +473,7 @@ Note for the generator: the negativity is named in `reason` fields as an underly
 **Manager's notes:**
 
 ```
-He wants to become a lead but his communication methods suck
+He wants to become a lead but his communication needs work
 ```
 
 Validate against the output contract, then produce the JSON now.

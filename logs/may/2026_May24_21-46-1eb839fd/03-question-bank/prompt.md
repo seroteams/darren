@@ -361,7 +361,7 @@ Hard boundaries:
 
 **1:1 context:**
 
-- Name: Toby
+- Name: Alex
 - Role: Expert UX Designer
 - Seniority: Expert
 - Meeting type: Growth & career plan
@@ -369,7 +369,7 @@ Hard boundaries:
 **Manager's notes:**
 
 ```
-He wants to become a lead but his communication methods suck
+He wants to become a lead but his communication needs work
 ```
 
 **Already in the queue (intro questions that will be asked first — do NOT duplicate these angles):**

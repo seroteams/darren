@@ -124,8 +124,8 @@ Call this `shallow_count`.
 
 Rules:
 - A shallow answer is NOT positive signal. Do not cite "every day" as wellbeing strength or "as a lead" as growth direction. The +1 deltas these produced (if any) come from a non-answer and must not feature in `axes[].meaning`, `understanding_paragraph`, or `brutal_truth_employee` as if they were real reads.
-- **When `shallow_count >= 3`:** the dominant story of the session is the read itself, not the content. The `headline` MUST lead with this. Example: `"Carl answered most questions in two-to-four words — what we have is a partial read, not a verdict on growth."` The `understanding_paragraph` should name what we did NOT learn, not invent insight from the fragments. At least one `next_actions` item must address re-running or extending the conversation (e.g. `{when: "next 1:1", action: "Re-ask the growth-direction question with a concrete prompt: 'name the role, the scope, or the work you'd want in 18 months — pick one and describe it.' One-word answers are not a read."}`).
-- **When `shallow_count = 1-2`:** call it out plainly in `brutal_truth_manager`, naming WHICH turn was shallow and what specifically the manager should have pushed back on. Example: `"When Carl said 'as a lead' to the 18-month question, that was him already a lead answering with his current title — and the conversation moved on. That was the moment to say 'you already are — what's different about that future lead?'"`
+- **When `shallow_count >= 3`:** the dominant story of the session is the read itself, not the content. The `headline` MUST lead with this. Example: `"Jordan answered most questions in two-to-four words — what we have is a partial read, not a verdict on growth."` The `understanding_paragraph` should name what we did NOT learn, not invent insight from the fragments. At least one `next_actions` item must address re-running or extending the conversation (e.g. `{when: "next 1:1", action: "Re-ask the growth-direction question with a concrete prompt: 'name the role, the scope, or the work you'd want in 18 months — pick one and describe it.' One-word answers are not a read."}`).
+- **When `shallow_count = 1-2`:** call it out plainly in `brutal_truth_manager`, naming WHICH turn was shallow and what specifically the manager should have pushed back on. Example: `"When Jordan said 'as a lead' to the 18-month question, that was him already a lead answering with his current title — and the conversation moved on. That was the moment to say 'you already are — what's different about that future lead?'"`
 - **Never** describe a shallow answer's axis as a "positive read" or "stable" — at best it is "no signal, weak read".
 </shallow_answer_handling>
 
@@ -242,7 +242,7 @@ No confidence beyond the evidence.
 
 **1:1 context:**
 
-- Name: Carl
+- Name: Jordan
 - Role: UX Lead
 - Seniority: Lead
 - Meeting type: Bi-weekly check-in
@@ -250,7 +250,7 @@ No confidence beyond the evidence.
 **Manager's original notes:**
 
 ```
-They have been sick reacnetly
+They have been quiet in stand-ups recently
 ```
 
 **Focus points (stage 1):**
@@ -279,8 +279,8 @@ They have been sick reacnetly
     "id": "manager_support",
     "type": "Manager support",
     "category": "topic",
-    "label": "What Carl would want more of from you.",
-    "reason": "Whether there's something specific Carl needs from you that he hasn't asked for. Leads stop asking when they think you're already stretched.",
+    "label": "What Jordan would want more of from you.",
+    "reason": "Whether there's something specific Jordan needs from you that he hasn't asked for. Leads stop asking when they think you're already stretched.",
     "source": "best_practice",
     "known": true
   }

@@ -1,10 +1,10 @@
 # Notes — 2026_May25_14-23-5252887f
-Carl · UX Lead · Bi-weekly check-in
+Jordan · UX Lead · Bi-weekly check-in
 
 ## Preparation
 - [14:25:38] this is better 
   uggested action
-  During the 1:1, explore if Carl needs temporary adjustments to his workload to better manage his recovery.
+  During the 1:1, explore if Jordan needs temporary adjustments to his workload to better manage his recovery.
 
 ## Questioning
 - [14:28:16] line1

@@ -4,7 +4,7 @@
     "alias": "q_clarify_looking_forward",
     "label": "Clarify 'looking forward'",
     "name": "When you say 'looking forward to this session', what specifically are you hoping to get out of it?",
-    "description": "Seek specifics about what Toby anticipates from this session.",
+    "description": "Seek specifics about what Alex anticipates from this session.",
     "purpose": "wellbeing",
     "stage": null,
     "axis_effects": {
@@ -20,7 +20,7 @@
       "wellbeing": 1,
       "growth": 1
     },
-    "note": "Toby is focused on growth and is looking for guidance on achieving a lead role."
+    "note": "Alex is focused on growth and is looking for guidance on achieving a lead role."
   },
   "new_queue": [
     {

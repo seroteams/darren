@@ -31,7 +31,7 @@ Field rules:
 - `openingQuestion`: max 28 words. A real sentence the manager could say verbatim to open the 1:1. Must be specific to the selected concerns. Prefer "What" or "How" unless a no-oriented question is safer. Must NOT be "How are you?", "Tell me about...", "What do you think?", or any other generic opener. Must invite a concrete, personal response.
 - `listenFor`: exactly 3 items, each starting with "whether" or "if they". Short, specific, observable.
 - `avoid`: exactly 2 items, each starting with "do not". Practical traps for this specific meeting type and seniority.
-- `goodOutcome`: one sentence. The single observable agreement, decision, or shared frame reachable in *this* 30–60 minute meeting. Not a multi-meeting arc, not "a clear understanding of X" (that's a quarter's worth of work). Format: "You and Toby have agreed [one concrete next step or shared frame]." If the topic genuinely takes more than one meeting, narrow to the first agreement that unlocks the rest.
+- `goodOutcome`: one sentence. The single observable agreement, decision, or shared frame reachable in *this* 30–60 minute meeting. Not a multi-meeting arc, not "a clear understanding of X" (that's a quarter's worth of work). Format: "You and Alex have agreed [one concrete next step or shared frame]." If the topic genuinely takes more than one meeting, narrow to the first agreement that unlocks the rest.
 - `suggestedAction`: one practical action with clear ownership and timing. Starts with a verb. Achievable in this single 1:1. Must include when it will be checked.
 </output_contract>
 
@@ -75,7 +75,7 @@ If notes are empty, say what the conversation should test, not what is true.
 **Manager's notes (what Sero should know):**
 
 ```
-He wants to become a lead but his communication methods suck
+He wants to become a lead but his communication needs work
 ```
 
 **Focus points for this meeting:**

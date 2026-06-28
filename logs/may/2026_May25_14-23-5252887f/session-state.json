@@ -4,11 +4,11 @@
   "createdAt": 1779693838250,
   "lastSeenAt": 1779700545087,
   "ctx": {
-    "name": "Carl",
+    "name": "Jordan",
     "role": "UX Lead",
     "seniority": "Lead",
     "meetingType": "Bi-weekly check-in",
-    "notes": "They have been sick reacnetly"
+    "notes": "They have been quiet in stand-ups recently"
   },
   "introQueue": [
     {
@@ -88,8 +88,8 @@
         "id": "manager_support",
         "type": "Manager support",
         "category": "topic",
-        "label": "What Carl would want more of from you.",
-        "reason": "Whether there's something specific Carl needs from you that he hasn't asked for. Leads stop asking when they think you're already stretched.",
+        "label": "What Jordan would want more of from you.",
+        "reason": "Whether there's something specific Jordan needs from you that he hasn't asked for. Leads stop asking when they think you're already stretched.",
         "source": "best_practice",
         "known": true
       }
@@ -97,7 +97,7 @@
   },
   "preparationResult": {
     "brief": {
-      "coreIssue": "Carl's health and energy levels after a recent illness, and how this impacts his current UX priorities and focus.",
+      "coreIssue": "Jordan's health and energy levels after a recent illness, and how this impacts his current UX priorities and focus.",
       "openingQuestion": "How are you feeling about your energy levels now, and are there any concerns about balancing your current UX priorities?",
       "listenFor": [
         "whether he mentions specific tasks he's struggling with post-illness",
@@ -108,8 +108,8 @@
         "do not assume his energy is fully restored",
         "do not overlook subtle hints about needing additional support"
       ],
-      "goodOutcome": "You and Carl have agreed on a realistic adjustment to his current UX priorities that accommodates his energy levels.",
-      "suggestedAction": "During the 1:1, explore if Carl needs temporary adjustments to his workload to better manage his recovery."
+      "goodOutcome": "You and Jordan have agreed on a realistic adjustment to his current UX priorities that accommodates his energy levels.",
+      "suggestedAction": "During the 1:1, explore if Jordan needs temporary adjustments to his workload to better manage his recovery."
     },
     "runId": "9b178730-bb9b-45dd-8a76-a733765225e2",
     "validation": {
@@ -127,18 +127,18 @@
     "count": 8
   },
   "briefing": {
-    "headline": "Carl's clarity and engagement are low, driven by email backlog stress and unclear UX priorities.",
+    "headline": "Jordan's clarity and engagement are low, driven by email backlog stress and unclear UX priorities.",
     "summary_bullets": [
-      "Carl's engagement is low due to overwhelming email backlog, causing stress and fear of forgetting tasks.",
-      "Clarity is a concern, with Carl unable to articulate specific UX priorities or urgency reasons.",
+      "Jordan's engagement is low due to overwhelming email backlog, causing stress and fear of forgetting tasks.",
+      "Clarity is a concern, with Jordan unable to articulate specific UX priorities or urgency reasons.",
       "Skipped question on lightening the load suggests possible avoidance or overwhelm."
     ],
-    "understanding_paragraph": "The session confirmed the read from the notes that Carl is not fully recovered from illness. His engagement is low, driven by the overwhelming email backlog. Clarity on UX priorities and urgency is lacking, indicating potential misalignment with team goals.",
+    "understanding_paragraph": "The session confirmed the read from the notes that Jordan is not fully recovered from illness. His engagement is low, driven by the overwhelming email backlog. Clarity on UX priorities and urgency is lacking, indicating potential misalignment with team goals.",
     "axes": [
       {
         "id": "wellbeing",
         "score": -1,
-        "meaning": "Weak signal; Carl is not fully recovered but managing."
+        "meaning": "Weak signal; Jordan is not fully recovered but managing."
       },
       {
         "id": "engagement",
@@ -156,12 +156,12 @@
         "meaning": "No signal here — not actionable."
       }
     ],
-    "brutal_truth_employee": "Carl expressed stress about the email backlog, saying \"scared I will forget something.\" This indicates significant pressure affecting his engagement.",
-    "brutal_truth_manager": "When Carl said \"they need to get done\" about UX priorities, the conversation moved on without digging into the real drivers. This was a missed opportunity to clarify priorities.",
+    "brutal_truth_employee": "Jordan expressed stress about the email backlog, saying \"scared I will forget something.\" This indicates significant pressure affecting his engagement.",
+    "brutal_truth_manager": "When Jordan said \"they need to get done\" about UX priorities, the conversation moved on without digging into the real drivers. This was a missed opportunity to clarify priorities.",
     "next_actions": [
       {
         "when": "today",
-        "action": "Email Carl to help prioritize his email backlog and reduce immediate stress."
+        "action": "Email Jordan to help prioritize his email backlog and reduce immediate stress."
       },
       {
         "when": "this week",
@@ -169,12 +169,12 @@
       },
       {
         "when": "next 1:1",
-        "action": "Revisit the skipped question on making the next two weeks lighter, ensuring Carl provides a concrete answer."
+        "action": "Revisit the skipped question on making the next two weeks lighter, ensuring Jordan provides a concrete answer."
       }
     ],
     "watch_for": [
-      "If Carl continues to express stress over emails in the next two weeks, consider additional support.",
-      "If Carl skips questions again in the next 1:1, it may indicate deeper overwhelm."
+      "If Jordan continues to express stress over emails in the next two weeks, consider additional support.",
+      "If Jordan skips questions again in the next 1:1, it may indicate deeper overwhelm."
     ]
   },
   "queueRef": [],
@@ -276,7 +276,7 @@
       "realized_deltas": {
         "wellbeing": -1
       },
-      "note": "Carl's response indicates he is not fully recovered, signaling mild wellbeing concern."
+      "note": "Jordan's response indicates he is not fully recovered, signaling mild wellbeing concern."
     },
     {
       "turn": 2,
@@ -297,7 +297,7 @@
       "realized_deltas": {
         "wellbeing": 1
       },
-      "note": "Mild positive signal — Carl is recovering, but not fully back to normal."
+      "note": "Mild positive signal — Jordan is recovering, but not fully back to normal."
     },
     {
       "turn": 3,
@@ -349,7 +349,7 @@
         "alias": "q_ux_priorities_focus",
         "label": "UX priorities focus",
         "name": "What are the main UX priorities you're focusing on right now?",
-        "description": "Determines if Carl is still focused on key UX work or getting sidetracked.",
+        "description": "Determines if Jordan is still focused on key UX work or getting sidetracked.",
         "purpose": "topic",
         "stage": "friction",
         "axis_effects": {
@@ -370,7 +370,7 @@
         "alias": "q_clarify_ux_priorities",
         "label": "Clarify UX priorities",
         "name": "When you say 'the app redesign and the sections on the' — what specifically are you focusing on within those areas?",
-        "description": "Clarifies what Carl is focusing on within the app redesign and sections.",
+        "description": "Clarifies what Jordan is focusing on within the app redesign and sections.",
         "purpose": "topic",
         "stage": "friction",
         "axis_effects": {
@@ -391,7 +391,7 @@
         "alias": "q_clarify_ux_focus",
         "label": "Clarify UX focus",
         "name": "When you say 'get all the screens designed quickly' — which screens specifically, and why the rush?",
-        "description": "Seeks specifics on which screens Carl is focusing on and the urgency behind it.",
+        "description": "Seeks specifics on which screens Jordan is focusing on and the urgency behind it.",
         "purpose": "topic",
         "stage": "friction",
         "axis_effects": {
@@ -433,7 +433,7 @@
         "alias": "q_lightening_the_load",
         "label": "Lightening the load",
         "name": "What could make your next two weeks feel lighter or more productive?",
-        "description": "Explores opportunities to reduce stress or increase productivity for Carl.",
+        "description": "Explores opportunities to reduce stress or increase productivity for Jordan.",
         "purpose": "wellbeing",
         "stage": "lift",
         "axis_effects": {
@@ -453,7 +453,7 @@
     "alias": "q_lightening_the_load",
     "label": "Lightening the load",
     "name": "What could make your next two weeks feel lighter or more productive?",
-    "description": "Explores opportunities to reduce stress or increase productivity for Carl.",
+    "description": "Explores opportunities to reduce stress or increase productivity for Jordan.",
     "purpose": "wellbeing",
     "stage": "lift",
     "axis_effects": {
@@ -468,7 +468,7 @@
       "stage": "PREPARATION",
       "turn": 0,
       "ts": 1779693938795,
-      "text": "this is better \nuggested action\nDuring the 1:1, explore if Carl needs temporary adjustments to his workload to better manage his recovery."
+      "text": "this is better \nuggested action\nDuring the 1:1, explore if Jordan needs temporary adjustments to his workload to better manage his recovery."
     },
     {
       "id": "0495eda3-d2c4-4bf1-865f-115eaeaaaeb3",
