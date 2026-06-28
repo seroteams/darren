@@ -12,9 +12,13 @@ import type { Prewarm, DraftAnswers, ReviewLexicon } from "./sessions.service.ts
 import { fileSessionsRepo } from "./sessions.repo.ts";
 import { ensureRoleProfile } from "../../../engine/role-profile.ts";
 import { generateFocusPoints } from "../../../engine/generate.ts";
+import { generatePreparation } from "../../../engine/preparation.ts";
 import { suggestAnswers as draftAnswersEngine } from "../../../engine/answer-suggester.ts";
 import { generateSuggestions } from "../../../engine/lexicon-reviewer.ts";
 import { runStage } from "../../handlers/stream-helper.ts";
+import { buildPreparationInputs } from "./preparation-inputs.ts";
+
+const IS_DEV = process.env.NODE_ENV !== "production";
 
 // The real AI pre-warm wired into the service's injected boundary: role profile
 // first (cache hit adds ~0ms), then focus points — so every stage finds the
@@ -170,5 +174,29 @@ export async function focusPointsStream(c: RequestContext): Promise<void> {
     produce: () => generateFocusPoints(session.ctx, { session: { id: session.id, dir: session.dir } }),
     resultEvent: "result",
     buildPayload: (r) => ({ meeting_type: r.meeting_type, focus_points: r.focus_points }),
+  });
+}
+
+// GET /api/v1/sessions/:id/preparation/stream  ·  GET /api/preparation/stream?s=<id>
+export async function preparationStream(c: RequestContext): Promise<void> {
+  const session = service.require(sessionId(c));
+  // Pre-check the prerequisite before opening the stream (kept verbatim from the
+  // legacy handler — the runStage produce re-guards via buildPreparationInputs).
+  if (!session.focusPointsResult) {
+    return c.error(Object.assign(new Error("Focus points not ready"), { status: 409 }));
+  }
+
+  await runStage(c, session, "preparation", {
+    thinkingLabel: "Preparing your briefing",
+    getCached: () => session.preparationResult,
+    setCached: (r) => { session.preparationResult = r; },
+    produce: () => generatePreparation(
+      buildPreparationInputs(session),
+      { session: { id: session.id, dir: session.dir } }
+    ),
+    resultEvent: "result",
+    buildPayload: (r) => IS_DEV
+      ? { brief: r.brief, runId: r.runId, validation: r.validation }
+      : { brief: r.brief, runId: r.runId },
   });
 }

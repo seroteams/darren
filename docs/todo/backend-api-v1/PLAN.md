@@ -38,6 +38,36 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### ✅ 2026-06-28 — `sessions` **S4 `preparation` stream DONE** — structure-only, free-verified, **committed + pushed**. Paid walk deferred. **3 streams to go.**
+> Second S4 stream, same pattern as `focus-points` (streams **manage their own response → no `v1Route`**; the
+> shared **`runStage`** drives idempotent replay + the model call).
+> - **Relocated the pure `buildPreparationInputs`** out of the deleted handler into a co-located pure helper
+>   `services/sessions/preparation-inputs.ts` (moved **verbatim**, like `notes-format.ts`). The sessions service
+>   (preview, S1b) now imports it from there — the service no longer reaches back into `handlers/`.
+> - `services/sessions/sessions.controller.ts` — **+`preparationStream(c)`**: resolves the session through the
+>   seam (`service.require` → 404 before the stream opens), keeps the **409 "Focus points not ready"** pre-check
+>   verbatim, then `runStage` with `generatePreparation` as the `produce` boundary (`buildPreparationInputs` →
+>   the model). Added `IS_DEV` + the dev-only `validation` field in `buildPayload`, exactly as the handler had.
+> - **Wiring (`server.ts`):** legacy `/api/preparation/stream` repointed onto `sessions.preparationStream` + a
+>   **new** v1 `GET /api/v1/sessions/:id/preparation/stream` (no `v1Route` — manages own response). Removed the
+>   handler import; **deleted `handlers/preparation.ts`** (its last route; `buildPreparationInputs` already moved).
+> - **Manifest (`pipeline-lock.ts`):** dropped the `handlers/preparation.ts` entry — its real engine
+>   `backend/engine/preparation.ts` ("Preparation") still tracks the logic (same as focus-points). Comment updated.
+> - **No new unit test (flag):** a stream has no pure service-level logic to unit-test (the orchestration is the
+>   shared `runStage`); the relocated `buildPreparationInputs` is moved **verbatim** (covered by typecheck + the
+>   boot-diff + the existing preview path), same call as the `notes-format.ts` relocation in S2b.
+> - **Verified (free):** `npm test` **45/45**, typecheck clean, banned-construct grep clean. **$0 SSE boot-diff
+>   (key unset — model unreachable):** legacy vs v1 **byte-identical** — unknown session → both flat 404
+>   `Unknown session: <id>`; a real session (focus points set, no cached prep) runs the full fresh `produce` →
+>   both emit `thinking → error` `{"message":"OPENAI_API_KEY not set"}` identically.
+> - **⚠️ Deferred (money):** the real success path (a briefing actually generated, then the cached replay) is one
+>   model call — walked naturally on your go (covered by the $3 Phase-004 budget).
+>
+> **Remaining S4 streams (3):** `bank` (scripted-lane vs live generation + queue + reserved closer; 409 pre-check)
+> · `evaluation` (+ fire-and-forget `kickLexiconReview`; imports `formatNotesForEvaluation` from `notes-format.ts`)
+> · `plan` (**THE BIG ONE — ~300 lines, no `runStage`, manages its own SSE — last, on its own**). Then
+> end-of-sessions cleanup (relocate `snapshot`/`inferStage`/`summarizeAxes`) + Step 4 test tree.
+>
 > ### 🔨 2026-06-28 — `sessions` **S4 STARTED** — `focus-points` stream converted (the first stream = the pattern). Free-verified, **committed + pushed**. 4 streams to go.
 > Per the locked plan ("convert one stream first as the pattern, then the rest"), converted the simplest SSE
 > stream to establish the pattern. Streams **manage their own response → no `v1Route`** (like library); the

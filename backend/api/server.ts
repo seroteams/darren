@@ -12,7 +12,6 @@ import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { forbidden, rateLimited } from "./middleware/http-error.ts";
-import preparation from "./handlers/preparation.ts";
 import bank from "./handlers/bank.ts";
 import plan from "./handlers/plan.ts";
 import evaluation from "./handlers/evaluation.ts";
@@ -314,7 +313,10 @@ function main(): void {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return sessions.selectedFocus(c);
   });
-  router.add("GET", "/api/preparation/stream", preparation);
+  // preparation/stream is an SSE stream (S4) — now on the sessions controller. Like
+  // focus-points it manages its own response, so NO v1Route; v1 just nests the path.
+  router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/preparation\/stream$/, sessions.preparationStream);
+  router.add("GET", "/api/preparation/stream", sessions.preparationStream);
   router.add("GET", "/api/bank/stream", bank);
   router.add("GET", "/api/plan/stream", plan);
   router.add("GET", "/api/evaluation/stream", evaluation);

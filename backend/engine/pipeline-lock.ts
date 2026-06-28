@@ -125,8 +125,8 @@ const PATH_META: Record<string, PathMeta> = {
   // The SSE-stream handlers are thin runStage wiring; their real stage engines are
   // tracked above (generate.ts/preparation.ts/question-generator.ts/queue-manager.ts/
   // reviewer.ts), so a converted stream drops its redundant handler entry. focus-points
-  // (S4) moved to the sessions controller — generate.ts ("Focus points") still tracks it.
-  "backend/api/handlers/preparation.ts": { tier: "engine", stageLabel: "Preparation" },
+  // + preparation (S4) moved to the sessions controller — their engines (generate.ts
+  // "Focus points", preparation.ts "Preparation") still track them.
   "backend/api/handlers/bank.ts": { tier: "engine", stageLabel: "Question bank" },
   "backend/api/handlers/plan.ts": { tier: "engine", stageLabel: "Questioning (planner)" },
   // question (S1b) + answer (S2b) moved into the sessions service; their engine

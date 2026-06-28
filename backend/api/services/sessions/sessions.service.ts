@@ -12,7 +12,7 @@ import { snapshot, inferStage, summarizeAxes, INTRO_BUDGET } from "../../session
 import { shouldReview, suggestionId } from "../../../engine/lexicon-reviewer.ts";
 import { effectiveTerminology, terminologyGroups } from "../../../engine/role-profile.ts";
 import { assemblePreparation } from "../../../engine/preparation.ts";
-import { buildPreparationInputs } from "../../handlers/preparation.ts";
+import { buildPreparationInputs } from "./preparation-inputs.ts";
 import { checkQuestionEligibility, dropIneligibleHeads } from "../../../engine/question-eligibility.ts";
 import { MEETING_TYPES } from "../../../engine/meeting-types.ts";
 import { pickOpener } from "../../../engine/opener.ts";
