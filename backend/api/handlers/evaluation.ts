@@ -3,7 +3,7 @@ import { runStage } from "./stream-helper.ts";
 import { evaluate } from "../../engine/reviewer.ts";
 import { getSessionSelectedFocus } from "../selected-focus.ts";
 import { serialize } from "../../engine/axes.ts";
-import { formatNotesForEvaluation } from "./notes.ts";
+import { formatNotesForEvaluation } from "../services/sessions/notes-format.ts";
 import { generateSuggestions, shouldReview } from "../../engine/lexicon-reviewer.ts";
 import type { RequestContext } from "../router.ts";
 import type { Session } from "../../shared/session.types.ts";

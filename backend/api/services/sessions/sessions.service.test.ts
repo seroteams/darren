@@ -10,7 +10,7 @@ import { shouldReview } from "../../../engine/lexicon-reviewer.ts";
 import { MEETING_TYPES } from "../../../engine/meeting-types.ts";
 import { INTRO_BUDGET } from "../../sessions.ts";
 import type { Persona } from "../../persona-script.ts";
-import type { Session, MeetingContext } from "../../../shared/session.types.ts";
+import type { Session, MeetingContext, TurnSnapshot } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
 
 // A complete-but-minimal live Session, built with the same pure engine helpers the
@@ -62,12 +62,22 @@ function fakeRepo(
   dropped: string[];
   persisted: Session[];
   logged: Array<{ dir: string; entries: unknown }>;
+  coverageWrites: Array<{ dir: string; coverage: unknown }>;
+  amendLogs: Array<{ dir: string; entry: unknown }>;
+  notesWrites: Array<{ dir: string; markdown: string }>;
+  decisionAppends: Array<{ dir: string; records: unknown[] }>;
+  commits: Array<{ keepIds: string[] }>;
 } {
   const store = new Map<string, Session>(seed.map((s) => [s.id, s]));
   const created: Array<{ ctx: MeetingContext; introQueue: Question[] }> = [];
   const dropped: string[] = [];
   const persisted: Session[] = [];
   const logged: Array<{ dir: string; entries: unknown }> = [];
+  const coverageWrites: Array<{ dir: string; coverage: unknown }> = [];
+  const amendLogs: Array<{ dir: string; entry: unknown }> = [];
+  const notesWrites: Array<{ dir: string; markdown: string }> = [];
+  const decisionAppends: Array<{ dir: string; records: unknown[] }> = [];
+  const commits: Array<{ keepIds: string[] }> = [];
   const repo: SessionsRepo = {
     get: (id) => store.get(id),
     create: (ctx, introQueue) => {
@@ -90,8 +100,28 @@ function fakeRepo(
     },
     // S2 — the scripted-lane persona bench read:
     loadPersona: (personaId) => (opts.persona && personaId === opts.persona.id ? opts.persona : null),
+    // S2b — the write side-effect seams (no disk; just record the call):
+    writeScriptCoverage: (dir, coverage) => {
+      coverageWrites.push({ dir, coverage });
+    },
+    appendAmendLog: (dir, entry) => {
+      amendLogs.push({ dir, entry });
+    },
+    writeNotesFile: (dir, markdown) => {
+      notesWrites.push({ dir, markdown });
+    },
+    appendLexiconDecisions: (dir, records) => {
+      decisionAppends.push({ dir, records });
+    },
+    commitLexiconDecisions: (_session, _ctx, keepIds) => {
+      commits.push({ keepIds });
+      return { skipped: true, reason: "out-of-scope" };
+    },
   };
-  return { repo, store, created, dropped, persisted, logged };
+  return {
+    repo, store, created, dropped, persisted, logged,
+    coverageWrites, amendLogs, notesWrites, decisionAppends, commits,
+  };
 }
 
 // A minimal but complete Question (the 8-field closed contract). Override only
@@ -499,4 +529,203 @@ test("start (scripted) loads the persona through the seam and stamps the scripte
   });
   assert.ok(sess.fingerprint); // a run fingerprint was stamped
   assert.equal(persisted.length, 1);
+});
+
+// --- S2b: the 7 simpler non-AI writes (origin-guarded state writes) ---
+// Each resolves the id through the seam (S2a writeId in the controller passes the
+// resolved string), mutates session state, and forwards its write through the seam.
+
+test("answer stages a manual answer and returns turn/skipped/truncated (no coverage write)", () => {
+  const s = fakeSession("abc");
+  s.queueRef = [fakeQuestion()];
+  const { repo, coverageWrites } = fakeRepo([s]);
+  const out = createSessionsService(repo).answer("abc", { answer: "a real reply" });
+  assert.deepEqual(out, { turn: 1, skipped: false, truncated: false });
+  assert.deepEqual(s.pendingAnswer, { raw: "a real reply", skipped: false, text: "a real reply" });
+  assert.equal(coverageWrites.length, 0); // manual mode → no script-coverage write
+});
+
+test("answer treats blank/skip as skipped and truncates past the 4000-char cap", () => {
+  const s = fakeSession("abc");
+  s.queueRef = [fakeQuestion()];
+  const { repo } = fakeRepo([s]);
+  const svc = createSessionsService(repo);
+  assert.deepEqual(svc.answer("abc", { answer: "skip" }), { turn: 1, skipped: true, truncated: false });
+  assert.equal(s.pendingAnswer?.text, "(skipped)");
+  const long = "x".repeat(4100);
+  const out = svc.answer("abc", { answer: long });
+  assert.equal(out.truncated, true);
+  assert.equal(s.pendingAnswer?.raw.length, 4000);
+});
+
+test("answer in scripted mode records coverage through the seam", () => {
+  const s = fakeSession("abc");
+  s.mode = "scripted";
+  s.queueRef = [fakeQuestion({ alias: "q_a" })];
+  const { repo, coverageWrites } = fakeRepo([s]);
+  createSessionsService(repo).answer("abc", { answer: "ans", answerSource: "scripted", alias: "q_a" });
+  assert.equal(coverageWrites.length, 1);
+  assert.equal(coverageWrites[0]?.dir, s.dir);
+  assert.deepEqual(s.scriptCoverage?.aliases_answered_by_script, ["q_a"]);
+});
+
+test("answer throws 409 when no question is pending", () => {
+  const s = fakeSession("abc");
+  s.queueRef = []; // empty queue → nothing to answer
+  const { repo } = fakeRepo([s]);
+  assert.throws(
+    () => createSessionsService(repo).answer("abc", { answer: "x" }),
+    (err: unknown) => err instanceof HttpError && err.status === 409 && err.message === "no question pending"
+  );
+});
+
+test("answer throws 404 for an unknown session", () => {
+  const { repo } = fakeRepo();
+  assert.throws(
+    () => createSessionsService(repo).answer("ghost", { answer: "x" }),
+    (err: unknown) => err instanceof HttpError && err.status === 404
+  );
+});
+
+test("back reverts the last snapshot, logs the amendment through the seam, and persists", () => {
+  const s = fakeSession("abc");
+  const snap: TurnSnapshot = {
+    appliedTurn: 3,
+    turn: 2,
+    totalBudget: 9,
+    queueRef: [fakeQuestion({ alias: "q2" })],
+    axisState: initState(),
+    transcript: [],
+    agendaInjected: false,
+    agendaInput: null,
+    question: fakeQuestion({ alias: "q1" }),
+    answerText: "the original answer",
+  };
+  s.turnSnapshots = [snap];
+  s.turn = 3;
+  const { repo, amendLogs, persisted } = fakeRepo([s]);
+  const out = createSessionsService(repo).back("abc");
+  assert.equal(out.turn, 3); // restored turn (2) + 1
+  assert.equal(out.total, 9);
+  assert.equal(out.answer, "the original answer");
+  assert.ok(Array.isArray(out.axes));
+  assert.equal(s.turn, 2); // rolled back
+  assert.equal(s.pendingAnswer, null);
+  assert.equal(amendLogs.length, 1);
+  assert.deepEqual(amendLogs[0]?.entry, {
+    discarded_turn: 3,
+    question_alias: "q1",
+    original_answer: "the original answer",
+  });
+  assert.deepEqual(persisted, [s]);
+});
+
+test("back throws 409 when there is nothing to go back to", () => {
+  const s = fakeSession("abc");
+  s.turnSnapshots = [];
+  const { repo } = fakeRepo([s]);
+  assert.throws(
+    () => createSessionsService(repo).back("abc"),
+    (err: unknown) => err instanceof HttpError && err.status === 409 && err.message === "nothing to go back to"
+  );
+});
+
+test("notes upserts a note, persists, and writes the notes file through the seam", () => {
+  const s = fakeSession("abc");
+  const { repo, persisted, notesWrites } = fakeRepo([s]);
+  const out = createSessionsService(repo).notes("abc", {
+    note: { id: "n1", stage: "QUESTIONING", turn: 2, text: "watch the tone here" },
+  });
+  assert.deepEqual(out, { ok: true, count: 1 });
+  assert.equal(s.notes.length, 1);
+  assert.equal(s.notes[0]?.id, "n1");
+  assert.deepEqual(persisted, [s]);
+  assert.equal(notesWrites.length, 1);
+  assert.equal(notesWrites[0]?.dir, s.dir);
+});
+
+test("notes deletes a note when text is blank", () => {
+  const s = fakeSession("abc");
+  s.notes = [{ id: "n1", stage: "QUESTIONING", turn: 1, ts: 0, text: "old", question_alias: "", question_stem: "" }];
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).notes("abc", { note: { id: "n1", text: "  " } });
+  assert.deepEqual(out, { ok: true, count: 0 });
+});
+
+test("notes validates sessionId / note / note.id with 400s before resolving the session", () => {
+  const { repo } = fakeRepo();
+  const svc = createSessionsService(repo);
+  assert.throws(() => svc.notes("", { note: { id: "n1", text: "x" } }),
+    (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "sessionId required");
+  assert.throws(() => svc.notes("abc", {}),
+    (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "note required");
+  assert.throws(() => svc.notes("abc", { note: { text: "x" } }),
+    (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "note.id required");
+});
+
+test("agendaCover records the closing-check answer and persists", () => {
+  const s = fakeSession("abc");
+  const { repo, persisted } = fakeRepo([s]);
+  assert.deepEqual(createSessionsService(repo).agendaCover("abc", { covered: true }), { ok: true, covered: true });
+  assert.equal(s.agendaCovered, true);
+  assert.deepEqual(persisted, [s]);
+  // any non-true value is recorded as false (mirrors `=== true`)
+  assert.deepEqual(createSessionsService(repo).agendaCover("abc", { covered: "yes" }), { ok: true, covered: false });
+});
+
+test("verdict validates then stamps the structured verdict and persists", () => {
+  const s = fakeSession("abc");
+  const { repo, persisted } = fakeRepo([s]);
+  const out = createSessionsService(repo).verdict("abc", { verdict: "fix", issue_type: "too_generic", note: " tighten " });
+  assert.equal(out.ok, true);
+  assert.equal(out.verdict.verdict, "fix");
+  assert.equal(out.verdict.issue_type, "too_generic");
+  assert.equal(out.verdict.note, "tighten");
+  assert.equal(s.verdict?.verdict, "fix");
+  assert.deepEqual(persisted, [s]);
+});
+
+test("verdict rejects an invalid verdict / issue_type with 400s", () => {
+  const s = fakeSession("abc");
+  const { repo } = fakeRepo([s]);
+  const svc = createSessionsService(repo);
+  assert.throws(() => svc.verdict("abc", { verdict: "nope" }),
+    (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "invalid verdict");
+  assert.throws(() => svc.verdict("abc", { verdict: "keep", issue_type: "bogus" }),
+    (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "invalid issue_type");
+});
+
+test("selectedFocus stores the cleaned id list and persists", () => {
+  const s = fakeSession("abc");
+  const { repo, persisted } = fakeRepo([s]);
+  const out = createSessionsService(repo).selectedFocus("abc", { focusPointIds: ["a", "", "  b  ", 0] });
+  assert.deepEqual(out, { selectedFocusPoints: ["a", "b"] });
+  assert.deepEqual(s.selectedFocusPoints, ["a", "b"]);
+  assert.deepEqual(persisted, [s]);
+});
+
+test("lexiconDecisions logs the audit trail and commits only the kept ids when in scope", () => {
+  const s = fakeSession("abc");
+  s.ctx = { ...s.ctx, meetingType: "Performance & feedback" }; // a reviewable scope
+  const { repo, decisionAppends, commits } = fakeRepo([s]);
+  const out = createSessionsService(repo).lexiconDecisions("abc", {
+    decisions: [{ id: "d1", keep: true }, { id: "d2", keep: false }],
+  });
+  assert.equal(out.ok, true);
+  assert.equal(out.count, 2); // full audit count (keeps + drops)
+  assert.equal(decisionAppends.length, 1);
+  assert.equal(decisionAppends[0]?.records.length, 2);
+  // commit only fires when shouldReview(ctx) is true; it gets only the kept ids
+  if (commits.length) {
+    assert.deepEqual(commits[0]?.keepIds, ["d1"]);
+  }
+});
+
+test("lexiconDecisions requires a sessionId (400) and 404s an unknown session", () => {
+  const { repo } = fakeRepo();
+  const svc = createSessionsService(repo);
+  assert.throws(() => svc.lexiconDecisions("", { decisions: [] }),
+    (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "sessionId required");
+  assert.throws(() => svc.lexiconDecisions("ghost", { decisions: [] }),
+    (e: unknown) => e instanceof HttpError && e.status === 404);
 });

@@ -1,13 +1,17 @@
 #!/usr/bin/env node
 // Offline test for one-step-back navigation (jun11 Phase 4). Exercises the
-// deterministic restore logic in handlers/back.js — snapshot -> mutate -> back ->
-// restored, plus the amend-log — with no model calls.
+// deterministic restore logic — now in the sessions service (S2b), driven here
+// through the real file-backed repo: snapshot -> mutate -> back -> restored, plus
+// the amend-log on disk — with no model calls.
 
 const assert = require("node:assert");
 const fs = require("node:fs");
 const path = require("node:path");
-const back = require("../backend/api/handlers/back.ts").default;
 const { createWebSession, dropSession, summarizeAxes } = require("../backend/api/sessions.ts");
+const { createSessionsService } = require("../backend/api/services/sessions/sessions.service.ts");
+const { fileSessionsRepo } = require("../backend/api/services/sessions/sessions.repo.ts");
+
+const svc = createSessionsService(fileSessionsRepo);
 
 let failed = 0;
 async function check(name, fn) {
@@ -18,16 +22,6 @@ async function check(name, fn) {
     failed++;
     console.error(`  FAIL ${name}: ${e.message}`);
   }
-}
-
-function mockCtx(sessionId) {
-  const out = {};
-  return {
-    _out: out,
-    readBody: async () => ({ sessionId }),
-    json: (status, body) => { out.status = status; out.body = body; },
-    error: (err) => { out.error = err; },
-  };
 }
 
 (async () => {
@@ -68,12 +62,10 @@ function mockCtx(sessionId) {
   session.lastPlanByTurn.set(1, { cached: true });
   session.agendaInjected = true;
 
-  // --- Back ---
-  const ctx = mockCtx(session.id);
-  await back(ctx);
+  // --- Back (through the layered service) ---
+  const result = svc.back(session.id);
 
   await check("restores turn + queue + transcript + agenda flag", async () => {
-    assert.strictEqual(ctx._out.status, 200);
     assert.strictEqual(session.turn, preTurn, "turn reverted");
     assert.strictEqual(session.queueRef.length, preQueueLen, "queue restored");
     assert.strictEqual(session.transcript.length, 0, "transcript reverted");
@@ -82,12 +74,12 @@ function mockCtx(sessionId) {
   });
 
   await check("returns original answer + turn index for re-present", async () => {
-    assert.strictEqual(ctx._out.body.answer, originalAnswer);
-    assert.strictEqual(ctx._out.body.turn, session.turn + 1);
+    assert.strictEqual(result.answer, originalAnswer);
+    assert.strictEqual(result.turn, session.turn + 1);
   });
 
   await check("axes reverted to pre-turn values", async () => {
-    const ax = ctx._out.body.axes.find((a) => a.id === firstAxisId);
+    const ax = result.axes.find((a) => a.id === firstAxisId);
     const pre = preAxes.find((a) => a.id === firstAxisId);
     assert.strictEqual(ax.score, pre.score, "axis score back to pre-turn");
   });
@@ -101,10 +93,11 @@ function mockCtx(sessionId) {
   });
 
   await check("second back with no snapshot -> 409", async () => {
-    const ctx2 = mockCtx(session.id);
-    await back(ctx2);
-    assert.ok(ctx2._out.error, "expected an error");
-    assert.strictEqual(ctx2._out.error.status, 409);
+    assert.throws(
+      () => svc.back(session.id),
+      (e) => e && e.status === 409,
+      "expected a 409"
+    );
   });
 
   // Cleanup the temp run folder.

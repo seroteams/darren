@@ -8,7 +8,7 @@
 // byte-identical when its route is converted; v1 wraps it in the shared error shape.
 
 import { badRequest, notFound, conflict } from "../../middleware/http-error.ts";
-import { snapshot, inferStage, INTRO_BUDGET } from "../../sessions.ts";
+import { snapshot, inferStage, summarizeAxes, INTRO_BUDGET } from "../../sessions.ts";
 import { shouldReview } from "../../../engine/lexicon-reviewer.ts";
 import { effectiveTerminology, terminologyGroups } from "../../../engine/role-profile.ts";
 import { assemblePreparation } from "../../../engine/preparation.ts";
@@ -20,12 +20,44 @@ import { loadIntroQueue } from "../../../engine/intro-queue.ts";
 import { getArc } from "../../../engine/meeting-arcs.ts";
 import { buildFingerprint } from "../../../engine/run-fingerprint.ts";
 import { scriptAnswers } from "../../persona-script.ts";
-import type { SessionsRepo, EligibilityLogEntries } from "./sessions.repo.ts";
-import type { Session, MeetingContext } from "../../../shared/session.types.ts";
+import { renderNotesMarkdown } from "./notes-format.ts";
+import type { SessionsRepo, EligibilityLogEntries, LexiconCommitResult } from "./sessions.repo.ts";
+import type { Session, MeetingContext, TesterVerdict, SessionNote } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
 
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
 function asString(v: unknown): string {
   return typeof v === "string" ? v : "";
+}
+
+// --- answer helpers (moved verbatim from handlers/answer.ts) ---
+const MAX_ANSWER_CHARS = 4000;
+function isSkip(input: string): boolean {
+  const s = (input || "").trim().toLowerCase();
+  return s === "" || s === "skip" || s === "pass" || s === "-";
+}
+
+// --- verdict helpers (moved verbatim from handlers/verdict.ts) ---
+type Verdict = TesterVerdict["verdict"];
+type IssueType = Exclude<TesterVerdict["issue_type"], null>;
+function isVerdict(v: unknown): v is Verdict {
+  return v === "keep" || v === "fix" || v === "block";
+}
+const ISSUE_TYPES = new Set<string>([
+  "too_generic",
+  "wrong_level",
+  "bad_tone",
+  "over_inferred",
+  "missed_focus",
+  "weak_action",
+]);
+function isIssueType(v: unknown): v is IssueType {
+  return typeof v === "string" && ISSUE_TYPES.has(v);
 }
 
 // The semi-set early agenda question /start always seeds into the intro queue,
@@ -76,6 +108,15 @@ interface StartResult {
 // stays model-free + unit-testable; the controller wires the real engine chain.
 export type Prewarm = (session: Session, ctx: MeetingContext) => void;
 
+// S2b — the non-AI write response bodies (byte-identical to the legacy handlers).
+interface AnswerResult { turn: number; skipped: boolean; truncated: boolean }
+interface BackResult { turn: number; total: number; answer: string; axes: ReturnType<typeof summarizeAxes> }
+interface NotesResult { ok: true; count: number }
+interface AgendaResult { ok: true; covered: boolean }
+interface VerdictResult { ok: true; verdict: TesterVerdict }
+interface SelectedFocusResult { selectedFocusPoints: string[] }
+interface LexiconDecisionsResult { ok: true; count: number; committed: number }
+
 // stage -> assemble its payload from a live session, with ZERO API calls. Reuses
 // the live run's own assembly so the preview can never drift from what actually
 // gets sent (engine honesty). Each returns { label, model, prompt } or throws a
@@ -109,6 +150,15 @@ export interface SessionsService {
   // S2 — non-AI writes. start leads: create a session + scripted lane, then fire
   // the (injected) AI pre-warm. Takes the already-read request body record.
   start(body: Record<string, unknown>): StartResult;
+  // S2b — the remaining non-AI writes. id is resolved by the controller (v1 path
+  // or legacy body.sessionId); the rest of the payload stays in `body`.
+  answer(id: string, body: Record<string, unknown>): AnswerResult;
+  back(id: string): BackResult;
+  notes(id: string, body: Record<string, unknown>): NotesResult;
+  agendaCover(id: string, body: Record<string, unknown>): AgendaResult;
+  verdict(id: string, body: Record<string, unknown>): VerdictResult;
+  selectedFocus(id: string, body: Record<string, unknown>): SelectedFocusResult;
+  lexiconDecisions(id: string, body: Record<string, unknown>): LexiconDecisionsResult;
 }
 
 export function createSessionsService(repo: SessionsRepo, prewarm: Prewarm = () => {}): SessionsService {
@@ -271,6 +321,175 @@ export function createSessionsService(repo: SessionsRepo, prewarm: Prewarm = () 
         createdAt: session.createdAt,
         introQueueLen: introQueue.length,
       };
+    },
+
+    answer: (id, body) => {
+      const session = requireExisting(id);
+      if (session.turn >= session.totalBudget || session.queueRef.length === 0)
+        throw conflict("no question pending");
+
+      const raw = typeof body.answer === "string" ? body.answer : "";
+      const truncated = raw.length > MAX_ANSWER_CHARS;
+      const text = raw.slice(0, MAX_ANSWER_CHARS);
+      const skipped = isSkip(text);
+      session.pendingAnswer = { raw: text, skipped, text: skipped ? "(skipped)" : text };
+
+      // Scripted test lane only: track scripted vs fallback coverage, persisted to
+      // its own file through the seam (log-only — moved from recordCoverage).
+      if (session.mode === "scripted") {
+        const alias = asString(body.alias);
+        const answerSource = asString(body.answerSource);
+        const cov = session.scriptCoverage || {
+          aliases_answered_by_script: [],
+          aliases_missing_script: [],
+          fallback_count: 0,
+        };
+        if (answerSource === "scripted") {
+          if (alias && !cov.aliases_answered_by_script.includes(alias)) cov.aliases_answered_by_script.push(alias);
+        } else if (answerSource === "fallback") {
+          cov.fallback_count += 1;
+          if (alias && !cov.aliases_missing_script.includes(alias)) cov.aliases_missing_script.push(alias);
+        }
+        session.scriptCoverage = cov;
+        repo.writeScriptCoverage(session.dir, cov);
+      }
+
+      return { turn: session.turn + 1, skipped, truncated };
+    },
+
+    back: (id) => {
+      const session = requireExisting(id);
+      const snap = (session.turnSnapshots || []).pop();
+      if (!snap) throw conflict("nothing to go back to");
+
+      // Keep the discarded turn in the amend log (through the seam) so the run
+      // record keeps the original answer alongside the amended one.
+      repo.appendAmendLog(session.dir, {
+        discarded_turn: snap.appliedTurn,
+        question_alias: snap.question?.alias ?? null,
+        original_answer: snap.answerText ?? "",
+      });
+
+      // Full discard & re-run: roll every derived field back to the snapshot taken
+      // before that turn was planned.
+      session.turn = snap.turn;
+      session.totalBudget = snap.totalBudget;
+      session.queueRef = snap.queueRef;
+      session.axisState = snap.axisState;
+      session.transcript = snap.transcript;
+      session.agendaInjected = snap.agendaInjected;
+      session.agendaInput = snap.agendaInput;
+      session.pendingAnswer = null;
+      session.lastPlanByTurn.delete(snap.appliedTurn);
+      repo.persist(session);
+
+      return {
+        turn: session.turn + 1,
+        total: session.totalBudget,
+        answer: snap.answerText ?? "",
+        axes: summarizeAxes(session.axisState),
+      };
+    },
+
+    notes: (id, body) => {
+      const note = asRecord(body.note);
+      if (!id) throw badRequest("sessionId required");
+      if (!body.note || typeof body.note !== "object") throw badRequest("note required");
+      if (!note.id) throw badRequest("note.id required");
+
+      const session = requireExisting(id);
+      if (!Array.isArray(session.notes)) session.notes = [];
+
+      const noteId = String(note.id);
+      const existingIdx = session.notes.findIndex((n) => n.id === noteId);
+      const isDelete = note.deleted === true || (typeof note.text === "string" && !note.text.trim());
+
+      if (isDelete) {
+        if (existingIdx >= 0) session.notes.splice(existingIdx, 1);
+      } else {
+        const existing = existingIdx >= 0 ? session.notes[existingIdx] : undefined;
+        const entry: SessionNote = {
+          id: noteId,
+          stage: String(note.stage || (existing ? existing.stage : "")),
+          turn: Number.isFinite(note.turn) ? Number(note.turn) : existing ? existing.turn : 0,
+          ts: Number.isFinite(note.ts) ? Number(note.ts) : existing ? existing.ts : Date.now(),
+          text: String(note.text).slice(0, 4000),
+          question_alias: String(note.question_alias || (existing ? existing.question_alias : ""))
+            .trim()
+            .slice(0, 120),
+          question_stem: String(note.question_stem || (existing ? existing.question_stem : ""))
+            .replace(/\s+/g, " ")
+            .trim()
+            .slice(0, 80),
+        };
+        if (existingIdx >= 0) session.notes[existingIdx] = entry;
+        else session.notes.push(entry);
+      }
+
+      repo.persist(session);
+      repo.writeNotesFile(session.dir, renderNotesMarkdown(session));
+      return { ok: true, count: session.notes.length };
+    },
+
+    agendaCover: (id, body) => {
+      const session = requireExisting(id);
+      session.agendaCovered = body.covered === true;
+      repo.persist(session);
+      return { ok: true, covered: session.agendaCovered };
+    },
+
+    verdict: (id, body) => {
+      const session = requireExisting(id);
+      const verdictValue = body.verdict;
+      const issueType = body.issue_type;
+      const note = body.note;
+
+      if (!isVerdict(verdictValue)) throw badRequest("invalid verdict");
+      if (issueType && !isIssueType(issueType)) throw badRequest("invalid issue_type");
+
+      const verdict: TesterVerdict = {
+        verdict: verdictValue,
+        issue_type: isIssueType(issueType) ? issueType : null,
+        note: typeof note === "string" ? note.trim() || null : null,
+        at: Date.now(),
+      };
+      session.verdict = verdict;
+      repo.persist(session);
+      return { ok: true, verdict };
+    },
+
+    selectedFocus: (id, body) => {
+      const session = requireExisting(id);
+      const ids = Array.isArray(body.focusPointIds)
+        ? body.focusPointIds.map((x: unknown) => String(x || "").trim()).filter(Boolean)
+        : [];
+      session.selectedFocusPoints = ids;
+      repo.persist(session);
+      return { selectedFocusPoints: ids };
+    },
+
+    lexiconDecisions: (id, body) => {
+      if (!id) throw badRequest("sessionId required");
+      const session = requireExisting(id);
+      const list = body.decisions;
+      const records: unknown[] = Array.isArray(list) ? list : [];
+
+      // Audit trail in the session dir — full keep/drop log, regardless of scope.
+      if (records.length) {
+        repo.appendLexiconDecisions(session.dir, records);
+      }
+
+      // Roll keeps into the candidate yaml when scope is reviewable.
+      const keepIds = records
+        .filter((r): r is Record<string, unknown> => isObjectRecord(r) && Boolean(r.keep))
+        .map((r) => asString(r.id));
+      let commit: LexiconCommitResult = { skipped: true, reason: "out-of-scope" };
+      if (shouldReview(session.ctx)) {
+        commit = repo.commitLexiconDecisions(session, session.ctx, keepIds);
+      }
+
+      const committed = "accepted" in commit && Array.isArray(commit.accepted) ? commit.accepted.length : 0;
+      return { ok: true, count: records.length, committed };
     },
   };
 }

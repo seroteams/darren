@@ -15,6 +15,7 @@
 // S0 moved no routes: this delegates to the existing `sessions.ts` store, which the
 // legacy handlers still call directly until their route is converted.
 
+import fs from "node:fs";
 import path from "node:path";
 import {
   getSession,
@@ -24,6 +25,7 @@ import {
 } from "../../sessions.ts";
 import { loadRoleProfile } from "../../../engine/role-profile.ts";
 import { appendEligibilityLog } from "../../../engine/question-eligibility.ts";
+import { commitDecisions } from "../../../engine/lexicon-reviewer.ts";
 import { loadPersona } from "../../persona-script.ts";
 import type { Persona } from "../../persona-script.ts";
 import type { Session, MeetingContext } from "../../../shared/session.types.ts";
@@ -36,6 +38,19 @@ export type RoleProfileDoc = ReturnType<typeof loadRoleProfile>;
 /** The eligibility-log entry array — what the opener picker collects and the repo
  *  writes (S2 start re-uses this for opener rejections). */
 export type EligibilityLogEntries = NonNullable<Parameters<typeof appendEligibilityLog>[1]>;
+
+/** The scripted-lane coverage record persisted alongside a run (S2b answer). */
+export type ScriptCoverage = NonNullable<Session["scriptCoverage"]>;
+
+/** One discarded turn appended to amend-log.json on a step-back (S2b back). */
+export interface AmendLogEntry {
+  discarded_turn: number;
+  question_alias: string | null;
+  original_answer: string;
+}
+
+/** What commitDecisions returns — the lexicon-decisions commit outcome (S2b). */
+export type LexiconCommitResult = ReturnType<typeof commitDecisions>;
 
 export interface SessionsRepo {
   /** Live-or-restore-from-disk read; undefined when no such session exists. */
@@ -55,9 +70,27 @@ export interface SessionsRepo {
   /** The scripted-lane persona for an id (null when none / not scripted) — a read
    *  of the on-disk persona bench (no model call). */
   loadPersona(personaId: string | null): Persona | null;
+  /** Persist the scripted-lane coverage record (log-only; a write failure never
+   *  breaks the turn). */
+  writeScriptCoverage(dir: string, coverage: ScriptCoverage): void;
+  /** Append one discarded turn to the session's amend log (log-only; read + write
+   *  failures are swallowed, as today). */
+  appendAmendLog(dir: string, entry: AmendLogEntry): void;
+  /** Write the rendered notes markdown to the session dir (log-only). */
+  writeNotesFile(dir: string, markdown: string): void;
+  /** Append the full keep/drop decision audit trail (a write failure surfaces, as
+   *  today — this one is NOT swallowed). */
+  appendLexiconDecisions(dir: string, records: unknown[]): void;
+  /** Commit the kept lexicon suggestions into the candidate yaml via the same engine
+   *  path the CLI uses; returns the commit outcome. */
+  commitLexiconDecisions(session: Session, ctx: MeetingContext, keepIds: string[]): LexiconCommitResult;
 }
 
 const ELIGIBILITY_LOG_FILE = "eligibility-log.json";
+const SCRIPT_COVERAGE_FILE = "script-coverage.json";
+const AMEND_LOG_FILE = "amend-log.json";
+const NOTES_FILE = "notes.md";
+const LEXICON_DECISIONS_FILE = "lexicon-decisions.jsonl";
 
 export const fileSessionsRepo: SessionsRepo = {
   get: (id) => getSession(id),
@@ -73,4 +106,48 @@ export const fileSessionsRepo: SessionsRepo = {
     appendEligibilityLog(path.join(dir, ELIGIBILITY_LOG_FILE), entries);
   },
   loadPersona: (personaId) => loadPersona(personaId),
+  writeScriptCoverage: (dir, coverage) => {
+    try {
+      fs.writeFileSync(path.join(dir, SCRIPT_COVERAGE_FILE), JSON.stringify(coverage, null, 2));
+    } catch (e) {
+      console.warn("[answer] coverage write failed:", e instanceof Error ? e.message : String(e));
+    }
+  },
+  appendAmendLog: (dir, entry) => {
+    const file = path.join(dir, AMEND_LOG_FILE);
+    let log: unknown[] = [];
+    try {
+      if (fs.existsSync(file)) {
+        const parsed: unknown = JSON.parse(fs.readFileSync(file, "utf8"));
+        if (Array.isArray(parsed)) log = parsed;
+      }
+    } catch (e) {
+      console.warn("[back] amend-log read failed:", e instanceof Error ? e.message : String(e));
+    }
+    log.push(entry);
+    try {
+      fs.writeFileSync(file, JSON.stringify(log, null, 2));
+    } catch (e) {
+      console.warn("[back] amend-log write failed:", e instanceof Error ? e.message : String(e));
+    }
+  },
+  writeNotesFile: (dir, markdown) => {
+    try {
+      fs.writeFileSync(path.join(dir, NOTES_FILE), markdown);
+    } catch (e) {
+      console.warn("[notes] write failed:", e instanceof Error ? e.message : String(e));
+    }
+  },
+  appendLexiconDecisions: (dir, records) => {
+    const line = records.map((r) => JSON.stringify({ ts: Date.now(), ...asRecord(r) })).join("\n") + "\n";
+    fs.appendFileSync(path.join(dir, LEXICON_DECISIONS_FILE), line, "utf8");
+  },
+  commitLexiconDecisions: (session, ctx, keepIds) => commitDecisions({ session, ctx, keepIds }),
 };
+
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}

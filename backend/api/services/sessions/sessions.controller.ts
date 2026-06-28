@@ -34,9 +34,17 @@ function isObjectRecord(v: unknown): v is Record<string, unknown> {
 function asRecord(v: unknown): Record<string, unknown> {
   return isObjectRecord(v) ? v : {};
 }
+function asString(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
 
+// Reads take the id from the path (v1) or ?s= (legacy).
 function sessionId(c: RequestContext): string {
   return c.params.id || c.query.s || "";
+}
+// Writes take it from the path (v1) or the body's sessionId (legacy).
+function writeId(c: RequestContext, body: Record<string, unknown>): string {
+  return c.params.id || asString(body.sessionId) || "";
 }
 
 // GET /api/v1/sessions/:id  ·  GET /api/session?s=<id>
@@ -70,4 +78,46 @@ export function question(c: RequestContext): void {
 export async function start(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
   c.json(201, service.start(body));
+}
+
+// POST /api/v1/sessions/:id/answer  ·  POST /api/answer   (202, as today)
+export async function answer(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  c.json(202, service.answer(writeId(c, body), body));
+}
+
+// POST /api/v1/sessions/:id/back  ·  POST /api/back
+export async function back(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  c.json(200, service.back(writeId(c, body)));
+}
+
+// POST /api/v1/sessions/:id/notes  ·  POST /api/notes
+export async function notes(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  c.json(200, service.notes(writeId(c, body), body));
+}
+
+// POST /api/v1/sessions/:id/agenda/cover  ·  POST /api/agenda/cover
+export async function agendaCover(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  c.json(200, service.agendaCover(writeId(c, body), body));
+}
+
+// POST /api/v1/sessions/:id/verdict  ·  POST /api/verdict
+export async function verdict(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  c.json(200, service.verdict(writeId(c, body), body));
+}
+
+// POST /api/v1/sessions/:id/focus-points/select  ·  POST /api/focus-points/select
+export async function selectedFocus(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  c.json(200, service.selectedFocus(writeId(c, body), body));
+}
+
+// POST /api/v1/sessions/:id/lexicon/decisions  ·  POST /api/lexicon/decisions
+export async function lexiconDecisions(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  c.json(200, service.lexiconDecisions(writeId(c, body), body));
 }

@@ -126,9 +126,8 @@ const PATH_META: Record<string, PathMeta> = {
   "backend/api/handlers/preparation.ts": { tier: "engine", stageLabel: "Preparation" },
   "backend/api/handlers/bank.ts": { tier: "engine", stageLabel: "Question bank" },
   "backend/api/handlers/plan.ts": { tier: "engine", stageLabel: "Questioning (planner)" },
-  // question's serve-time eligibility gate moved into the sessions service (S1b);
-  // it's tracked there now (see backend/api/services/sessions/sessions.service.ts above).
-  "backend/api/handlers/answer.ts": { tier: "engine", stageLabel: "Answer" },
+  // question (S1b) + answer (S2b) moved into the sessions service; their engine
+  // logic is tracked there now (see backend/api/services/sessions/sessions.service.ts above).
   "backend/api/handlers/evaluation.ts": { tier: "engine", stageLabel: "Evaluation" },
   "backend/api/handlers/lexicon.ts": { tier: "engine", stageLabel: "Lexicon" },
   "backend/api/handlers/stream-helper.ts": { tier: "engine", stageLabel: "Streaming" },

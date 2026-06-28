@@ -1,9 +1,12 @@
-import fs from "node:fs";
-import path from "node:path";
-import { requireSession } from "../sessions.ts";
-import { persist } from "../session-persistence.ts";
-import type { RequestContext } from "../router.ts";
-import type { Session, SessionNote } from "../../shared/session.types.ts";
+// Pure note formatters for the sessions domain, moved verbatim from the old
+// handlers/notes.ts when the notes write converted to clean layers (S2b):
+//  - renderNotesMarkdown(session) → the notes.md the notes write persists.
+//  - formatNotesForEvaluation(notes) → the captured-notes string the evaluation
+//    stage feeds the model. The evaluation stream (not yet layered) imports this
+//    from here; it lands at its final home when evaluation converts in S4.
+// No storage, no req/res — these only shape strings.
+
+import type { Session, SessionNote } from "../../../shared/session.types.ts";
 
 function isObjectRecord(v: unknown): v is Record<string, unknown> {
   return Boolean(v) && typeof v === "object";
@@ -71,7 +74,7 @@ interface NoteGroup {
   items: SessionNote[];
 }
 
-function renderMarkdown(session: Session): string {
+function renderNotesMarkdown(session: Session): string {
   const ctx = session.ctx;
   const headerLine = [ctx.name, ctx.role, ctx.meetingType]
     .filter((v) => v && String(v).trim())
@@ -113,55 +116,4 @@ function renderMarkdown(session: Session): string {
   return lines.join("\n");
 }
 
-function writeNotesFile(session: Session): void {
-  try {
-    fs.writeFileSync(path.join(session.dir, "notes.md"), renderMarkdown(session));
-  } catch (e) {
-    console.warn("[notes] write failed:", e instanceof Error ? e.message : String(e));
-  }
-}
-
-export default async function notes(c: RequestContext): Promise<void> {
-  const body = asRecord(await c.readBody());
-  const note = asRecord(body.note);
-  if (!body.sessionId) return c.error(Object.assign(new Error("sessionId required"), { status: 400 }));
-  if (!body.note || typeof body.note !== "object")
-    return c.error(Object.assign(new Error("note required"), { status: 400 }));
-  if (!note.id) return c.error(Object.assign(new Error("note.id required"), { status: 400 }));
-
-  const session = requireSession(asString(body.sessionId));
-  if (!Array.isArray(session.notes)) session.notes = [];
-
-  const id = String(note.id);
-  const existingIdx = session.notes.findIndex((n) => n.id === id);
-  const isDelete = note.deleted === true || (typeof note.text === "string" && !note.text.trim());
-
-  if (isDelete) {
-    if (existingIdx >= 0) session.notes.splice(existingIdx, 1);
-  } else {
-    const existing = existingIdx >= 0 ? session.notes[existingIdx] : undefined;
-    const entry: SessionNote = {
-      id,
-      stage: String(note.stage || (existing ? existing.stage : "")),
-      turn: Number.isFinite(note.turn) ? Number(note.turn) : existing ? existing.turn : 0,
-      ts: Number.isFinite(note.ts) ? Number(note.ts) : existing ? existing.ts : Date.now(),
-      text: String(note.text).slice(0, 4000),
-      question_alias: String(note.question_alias || (existing ? existing.question_alias : ""))
-        .trim()
-        .slice(0, 120),
-      question_stem: String(note.question_stem || (existing ? existing.question_stem : ""))
-        .replace(/\s+/g, " ")
-        .trim()
-        .slice(0, 80),
-    };
-    if (existingIdx >= 0) session.notes[existingIdx] = entry;
-    else session.notes.push(entry);
-  }
-
-  persist(session);
-  writeNotesFile(session);
-
-  c.json(200, { ok: true, count: session.notes.length });
-}
-
-export { formatNotesForEvaluation };
+export { renderNotesMarkdown, formatNotesForEvaluation };

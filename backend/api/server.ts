@@ -13,24 +13,18 @@ import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { forbidden, rateLimited } from "./middleware/http-error.ts";
 import suggestAnswers from "./handlers/suggest-answers.ts";
-import answer from "./handlers/answer.ts";
-import back from "./handlers/back.ts";
 import focusPoints from "./handlers/focus-points.ts";
-import selectedFocus from "./handlers/selected-focus.ts";
 import preparation from "./handlers/preparation.ts";
 import bank from "./handlers/bank.ts";
 import plan from "./handlers/plan.ts";
 import evaluation from "./handlers/evaluation.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
-import notes from "./handlers/notes.ts";
-import agendaCover from "./handlers/agenda.ts";
 import * as runs from "./services/runs/runs.controller.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexicon from "./handlers/lexicon.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
 import * as regression from "./services/regression/regression.controller.ts";
-import verdict from "./handlers/verdict.ts";
 import * as suggestFix from "./services/suggest-fix/suggest-fix.controller.ts";
 import library from "./services/library/library.controller.ts";
 import checks from "./services/checks/checks.controller.ts";
@@ -173,25 +167,48 @@ function main(): void {
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/question$/, v1Route(sessions.question));
   router.add("GET", "/api/question", sessions.question);
   router.add("GET", "/api/suggest-answers", suggestAnswers);
+  // sessions non-AI writes (S2b) — now on the sessions controller. v1 nests each
+  // under the session resource (/sessions/:id/…) with the one error shape + origin
+  // guard; legacy /api/ keeps body.sessionId + the old flat shape (admin unaffected).
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/answer$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return sessions.answer(c);
+  }));
   router.add("POST", "/api/answer", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return answer(c);
+    return sessions.answer(c);
   });
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/back$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return sessions.back(c);
+  }));
   router.add("POST", "/api/back", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return back(c);
+    return sessions.back(c);
   });
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/notes$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return sessions.notes(c);
+  }));
   router.add("POST", "/api/notes", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return notes(c);
+    return sessions.notes(c);
   });
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/agenda\/cover$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return sessions.agendaCover(c);
+  }));
   router.add("POST", "/api/agenda/cover", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return agendaCover(c);
+    return sessions.agendaCover(c);
   });
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/verdict$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return sessions.verdict(c);
+  }));
   router.add("POST", "/api/verdict", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return verdict(c);
+    return sessions.verdict(c);
   });
   // suggest-fix — the prompt-fix suggester (controller → service → repo + an
   // injected AI boundary; the one runs route that calls the model). v1 mirrors
@@ -255,9 +272,15 @@ function main(): void {
   // it under the session resource (/sessions/:id/lexicon/scope); legacy path unchanged.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/lexicon\/scope$/, v1Route(sessions.lexiconScope));
   router.add("GET", "/api/lexicon/scope", sessions.lexiconScope);
+  // lexicon/decisions is a sessions non-AI write (S2b) — now on the sessions
+  // controller. (candidates stays in handlers/lexicon.ts for S3, the AI route.)
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/lexicon\/decisions$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return sessions.lexiconDecisions(c);
+  }));
   router.add("POST", "/api/lexicon/decisions", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return lexicon.decisions(c);
+    return sessions.lexiconDecisions(c);
   });
   // lexicon promotion (controller → service → repo). v1 nounifies the collection
   // (/promotions — a free, shape-neutral rename); legacy /promote stays as an alias
@@ -273,9 +296,15 @@ function main(): void {
     return lexiconPromote.apply(c);
   });
   router.add("GET", "/api/focus-points/stream", focusPoints);
+  // focus-points/select is a sessions non-AI write (S2b) — now on the sessions
+  // controller. (The stream above stays a handler until S4.)
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/focus-points\/select$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return sessions.selectedFocus(c);
+  }));
   router.add("POST", "/api/focus-points/select", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return selectedFocus(c);
+    return sessions.selectedFocus(c);
   });
   router.add("GET", "/api/preparation/stream", preparation);
   router.add("GET", "/api/bank/stream", bank);

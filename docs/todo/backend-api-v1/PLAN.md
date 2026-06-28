@@ -38,7 +38,58 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
-> ### 🔨 2026-06-28 — `sessions` **S2a BUILT** (`POST /start` — the special one that leads S2) — test-first, free-verified. **NOT committed — awaiting your S2a walk.**
+> ### ✅ 2026-06-28 — `sessions` **S2b DONE** (the 7 remaining non-AI writes) — Carl said "go ahead with all"; built test-first, free-verified, **committed + pushed**.
+> Carl approved S2a and authorised batching the rest of S2 ("go ahead with all … everything commit so i can
+> check on my phone"). Converted all 7 non-AI writes in one pass, **test-first** (red → green),
+> behaviour-identical. (Pace note: this batches 7 routes into one pass rather than one-per-walk — Carl's
+> explicit informed call; the $0 boot-diff below stands in for the live walk, and the QA scenario is left for
+> you to walk anyway.)
+> - **Routes:** `answer`, `back`, `notes`, `agenda/cover`, `verdict`, `focus-points/select`, `lexicon/decisions`.
+> - `services/sessions/sessions.repo.ts` — **+5 seam methods** (data access / disk side-effects):
+>   `writeScriptCoverage` (answer's scripted coverage), `appendAmendLog` (back's amend log — read+append+write),
+>   `writeNotesFile` (notes.md), `appendLexiconDecisions` (the jsonl audit trail — **not** swallowed, as today),
+>   `commitLexiconDecisions` (the engine candidate-yaml commit). + types `ScriptCoverage`/`AmendLogEntry`/
+>   `LexiconCommitResult`.
+> - `services/sessions/notes-format.ts` — **new pure module**: `renderNotesMarkdown` (the notes.md the write
+>   persists) + `formatNotesForEvaluation` (the eval-input string). Both moved verbatim from the deleted
+>   `handlers/notes.ts`; `handlers/evaluation.ts` (an S4 stream) now imports `formatNotesForEvaluation` from
+>   here — it lands at its final home when evaluation converts in S4 (same "relocate at cleanup" rule).
+> - `services/sessions/sessions.service.ts` — **+7 methods** `(id, body)` (id resolved by the controller),
+>   each moved verbatim: validation 400s, the 409 gates (answer "no question pending", back "nothing to go
+>   back to"), the state mutations, and the seam writes. `back(id)` takes no body (only the id).
+> - `services/sessions/sessions.controller.ts` — **+7 thin handlers** + a `writeId(c, body)` resolver
+>   (`c.params.id` for v1, else `body.sessionId` for legacy). `answer` keeps its **202**.
+> - **Wiring (`server.ts`):** the 7 legacy `/api/…` routes repointed onto `sessions.*` (same body/shape/guards
+>   — admin unaffected) + **7 new** v1 `POST /api/v1/sessions/:id/{answer,back,notes,agenda/cover,verdict,
+>   focus-points/select,lexicon/decisions}` (one error shape, origin guard throws `forbidden`). `handlers/
+>   lexicon.ts` **trimmed** — `decisions` moved out; `candidates` stays for S3. **Deleted 6 handlers**
+>   (answer, back, notes, agenda, verdict, selected-focus).
+> - **Fingerprint-manifest call (flag):** folded the `handlers/answer.ts` entry into the sessions-service
+>   entry (already tracked) — same accurate engine-hash churn as S1b's `question` / S2a's `start`.
+> - **Companion-test repoint (flag):** `scripts/test-back-nav.js` imported the deleted `handlers/back.ts`. It
+>   now drives `createSessionsService(fileSessionsRepo).back(id)` — the real file-backed path (createWebSession
+>   + amend-log on disk + the 409) — so its end-to-end coverage is preserved on the layered code.
+> - **Behaviour note (flag):** the only body change is `lexicon/decisions`' unknown-session 404 text
+>   (`session not found` → `Unknown session: <id>`) — safe (the admin's `json()` only uses `body.error` as a
+>   message + branches on status). The other 6 already threw `Unknown session: <id>` via `requireSession`, so
+>   their 404s are byte-identical. v1 error paths use the shared envelope; legacy stays flat.
+> - **Verified (free):** `npm test` **45/45 files** (+16 service cases, 43 total in the sessions file; back-nav
+>   green), typecheck clean, banned-construct grep clean. **$0 live boot-diff (key unset — no model call):**
+>   two fresh sessions driven legacy vs v1 — all 7 writes return **identical** status + success body (incl.
+>   `answer` 202; `verdict` modulo its `at` ms); the 409/404/400 paths match status with legacy-flat vs
+>   v1-enveloped bodies exactly as designed. Both test sessions cleaned up. **9 pass / 0 fail.**
+>
+> **S2b QA (walk anytime):** in a live run — submit an answer, step back to amend, save/delete a note, mark
+> the agenda covered, record a tester verdict, pick focus points, keep/drop a lexicon term — each persists
+> exactly as before; a bad origin still 403s; an invalid verdict still 400s. Nothing in the runner changes.
+>
+> **Remaining sessions passes:** **S3** AI JSON (`suggest-answers`, `lexicon/candidates` — structure free,
+> paid walk deferred) · **S4** SSE streams (`focus-points`/`preparation`/`bank`/`plan`/`evaluation` — structure
+> free, paid walk deferred) · end-of-sessions cleanup (relocate `snapshot`/`inferStage`/`summarizeAxes` +
+> `buildPreparationInputs` + `formatNotesForEvaluation` to their final homes; drop the now-orphaned
+> `handlers/lexicon.ts` once candidates moves) · **Step 4** mirrored test tree.
+>
+> ### ✅ 2026-06-28 — `sessions` **S2a DONE** (`POST /start` — the special one that leads S2) — Carl-approved ("All working") + committed `5e22b386` + pushed.
 > S2's first step. `start` is the risky non-AI write (it **creates** a session, is **rate-limited**, and
 > fires the **async AI pre-warm**), so it's isolated as its own sub-pass + commit. Converted **test-first**
 > (red → green), behaviour-identical:
