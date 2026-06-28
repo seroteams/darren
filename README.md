@@ -8,8 +8,9 @@ Manager-facing 1:1 prep — sparse notes in, structured meeting out. **CLI** + *
 npm install
 npm run dev      # API :3001 + web :3000
 npm run cli      # terminal pipeline
-npm run smoke    # scenario smoke tests
-npm run eval     # offline engine checks (prompt rules + replay batch)
+npm test         # full offline test suite — free, no API key
+npm run smoke    # scenario smoke tests — PAID (hits OpenAI, needs key)
+npm run eval     # engine checks (prompt rules + replay) — PAID (hits OpenAI)
 ```
 
 Production: `npm run build && npm start` (serves built client on `:3000`).
@@ -20,9 +21,9 @@ Requires `OPENAI_API_KEY` in `.env` for live AI stages.
 
 | Path | What |
 |---|---|
-| `backend/engine/` | Pipeline core (generate, prep, queue, eval, lexicon, one-on-one types) + `paths.js` address book |
+| `backend/engine/` | Pipeline core (generate, prep, queue, eval, lexicon, one-on-one types) + `paths.mts` address book |
 | `backend/api/` | HTTP API + session persistence |
-| `backend/cli.js` | CLI entry point |
+| `backend/cli.ts` | CLI entry point |
 | `admin/` | Web UI stages (internal admin tool — Vite SPA) |
 | `frontend/` | Placeholder for the future customer app (Phase 007) |
 | `content/` | Product content — `prompts/`, `questions/`, `lexicons/`, `scenarios/`, `config/`, `data/`, `notes/`, `axes.json`, `focus-points.json` |
@@ -40,7 +41,7 @@ Requires `OPENAI_API_KEY` in `.env` for live AI stages.
 2. `node scripts/sweep.js --dry-run` — list sweep personas
 3. `node scripts/sweep.js` — full 5-type sweep (needs API key; writes `logs/sweeps/<ts>/`)
 
-Reference logs kept in git: see [`plans/done/old-log-open-issues.md`](plans/done/old-log-open-issues.md).
+Reference run logs kept in git: the `logs/` keep-set (see `.gitignore`).
 
 ## Skills
 

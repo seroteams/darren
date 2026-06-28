@@ -12,25 +12,28 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
-**Three features built and committed, all awaiting Carl's product-owner QA (2026-06-21).**
-Code is in `main` and pushed (the auto-commit automation already committed them — so each PLAN's
-"not committed yet" line is stale; they're committed, just not signed off). None has been walked
-through its QA scenarios yet. Next action on each is *Carl walks the phase scenarios → green light → close out*.
+**Active build: Phase 005 — Postgres Foundation** (`docs/todo/postgres-foundation/`). Phase 004
+(Backend API v1) was product-owner signed off 2026-06-28 and closed out to
+`docs/todo/done/backend-api-v1/`. Phase 005 is **blocked on one decision — Drizzle vs Prisma**;
+no database code lands until that's picked (plan Step 1). Live per-phase tracker: [`STATUS.md`](STATUS.md).
 
-| Feature | Folder | State | What it adds |
-|---|---|---|---|
-| **Briefing grounding fixes** | `docs/todo/briefing-grounding-fixes/` | Phase 1 of 4 built | Clarity stops flooring off one repeated theme (Maya run −9 → −5). Phases 2–4 not started. |
-| **See-before-sent preview** | `docs/todo/sent-preview/` | Both phases built | Sent tab shows the exact AI payload *before* a stage runs (Preparation only), zero API calls. Byte-for-byte verified on a real run. |
-| **Stage data tabs** | `docs/todo/stage-data-tabs/` | All 3 phases built | Right rail gains Notes·Sent·Reply tabs showing what each stage was fed + the raw reply. |
+**Built earlier, still awaiting Carl's product-owner QA** — not signed off, don't treat as done:
 
-To see the runner features live: Carl's dev server may be running OLD code — restart `npm run dev` to pick up changes.
+| Feature | Folder | State |
+|---|---|---|
+| Briefing grounding fixes | `docs/todo/briefing-grounding-fixes/` | Phase 1 of 4 built; Phases 2–4 not started |
+| See-before-sent preview | `docs/todo/sent-preview/` | Both phases built, awaiting QA |
+| Stage data tabs | `docs/todo/stage-data-tabs/` | All 3 phases built, awaiting QA |
+| See-before-sent (live) | `docs/todo/see-before-sent/` | Built, awaiting QA |
+| Todo-board rebuild | `docs/todo/todo-board-rebuild/` | Built, awaiting QA |
+| Briefing readability (P0) | `docs/todo/briefing-readability-p0/` | Scaffolded, awaiting your go |
 
-Earlier history: the Now column was product-owner-walked and signed off green on 2026-06-15;
-completed items were cleared to keep this focused. Full history lives in each plan's git log.
+None has been walked through its QA scenarios. Next action on each: *Carl walks the scenarios →
+green light → close out to `done/`.* To see runner features live, restart `npm run dev` (your dev
+server may be on old code).
 
-Tests: `npm test` **30/30**, `npm run replay` **7/7** ($0), plus one live run that passed all
-back-nav + briefing checks. Two items remain deliberately deferred (engine-trust-gates → Parked):
-the `UNGROUNDED_MEANING` check and the Phase 5 `--update-baseline` re-run.
+Tests: `npm test` **46/46** (offline, $0). Commits are **local only** — `main` is ahead of origin
+and nothing has been pushed; pushing is a deliberate manual step, not automated.
 
 ## 2. Next — after Now is green
 
@@ -45,18 +48,17 @@ Completed work has been cleared from this board. The record lives in git history
 
 ---
 
-## Repo state (audited 2026-06-15)
+## Repo state (audited 2026-06-28)
 
-The in-flight work (arc-editor, role-vocab-groups, role-profiles, lexicons, meeting arcs) was
-swept into commit `7b8921a` by the environment's auto-commit/push automation, then pushed — so the
-working tree is clean and `main` is up to date with origin. Three old stashes exist
-(`cleanup/remove-dead-ai-handoff-core`, `design-system-foundation`, + a WIP CSS/HTML cleanup) —
-**do not pop**. `logs/**` is gitignored apart from a May keep-set.
+Phase 004 is closed and archived (`docs/todo/done/backend-api-v1/`); Phase 005 (Postgres) is the
+active plan. **There is no auto-commit/push automation** — earlier notes here assumed one; that was
+wrong. Commits are made explicitly and are **local only** (`main` is ahead of origin; nothing is
+pushed). Three old stashes exist (`cleanup/remove-dead-ai-handoff-core`, `design-system-foundation`,
++ a WIP CSS/HTML cleanup) — **do not pop**. `logs/**` is gitignored apart from a small May keep-set
+(now de-identified — no real names or notes).
 
-**Test status:** `npm test` **26/26** green; `npm run replay` **7/7** ($0). Live `leak-devon` gate
-**PASSED** 2026-06-15 ([result](logs/gate/2026-06-15T01-54-32-606Z/result.json)). The Now column is
-green. Note: an auto-commit/push automation is active in this environment — "committed" no longer
-implies "signed off"; sign-off is tracked per-phase in each PLAN.md and Section 5 above.
+**Test status:** `npm test` **46/46** green, offline ($0). Live gate/smoke/eval are PAID and need a
+per-run go-ahead. Sign-off is tracked per-phase in each PLAN.md, `STATUS.md`, and Section 1 above.
 
 ## Trust boundary rules (what's enforced today)
 
