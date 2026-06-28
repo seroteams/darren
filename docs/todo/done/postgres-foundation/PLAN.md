@@ -55,7 +55,7 @@ When this is done + approved, set that effort's `PROGRESS.md` (Phase 005 → `do
 | 1 | **Choose the tool + lock the conventions** | Drizzle-vs-Prisma **decided & logged** (= Drizzle); the DB rules above confirmed against the schema we'll write. **No code.** | ✅ |
 | 2 | First migration + schema | The 5 tables as a **versioned migration**; builds from clean with one command; `npm test` green. | ✅ |
 | 3 | Connection pool + repo swap | `backend/db` pool; `SessionsRepo` swapped file → Postgres **behind the same interface**; services untouched; tests green. (UsersRepo deferred to 006 — no consumer yet.) | ✅ |
-| 4 | Managed-Postgres docs + boot-restore + walk | Wire DB restore into server start; setup docs (managed Postgres + `DATABASE_URL`); the restart-persistence walk passes. *(was docker-compose — now managed Neon, Carl's pick.)* | 🔨 starting |
+| 4 | Managed-Postgres docs + boot-restore + walk | Wire DB restore into server start; setup docs (managed Postgres + `DATABASE_URL`); the restart-persistence walk passes. *(was docker-compose — now managed Neon, Carl's pick.)* | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (you tested + said go)
 
@@ -100,6 +100,33 @@ detail.
 ---
 
 ## Current state
+> ### ✅ 2026-06-28 — Phase 005 (Postgres foundation) DONE & SIGNED OFF (Carl: "Option A").
+> Orgs/users/sessions now live in managed Neon Postgres behind the **same repo interface**; heavy logs stay
+> on disk, indexed; a session survives a server restart (boot-restore). All 4 phases ✅. 47/47, typecheck
+> clean, all free. Folder archived to `docs/todo/done/`; PROGRESS.md → done; build-plan badge → Built.
+> **A real bug was found + fixed during close-out (kept here for the record):** the sessions controller
+> chose file-vs-Postgres **at module load**, but the original `server.ts` loaded `.env` in its body (after
+> imports) — so the live server silently fell back to **files despite `DATABASE_URL`**. Carl's first run
+> (`2026_Jun28_22-21`) went to files (an earlier "it saved to the DB" claim was wrong, corrected). Fix
+> `backend/api/env-boot.ts` (loads `.env` as the first import) committed with the close-out; verified — the
+> live "DB Wiring Test" run landed in Postgres.
+> **Parked follow-ups:** (1) a **regression test for the live wiring path** (the round-trip test missed this
+> bug because it bypasses the controller) — spun off as a task. (2) Separate engine track: the run's
+> questions drifted off-thread (planner grounding) — review next. **Next big phase: 006 (Auth).**
+
+> ### 📋 2026-06-28 — Phase 4 (boot-restore + setup docs) **built — awaiting Carl's QA** · Phase 3 ✅ signed off + pushed
+> Phase 3 approved ("GO!") and committed/pushed to `main`. Built Phase 4 (the final piece):
+> - **Boot-restore wired in:** `startSweep` (server start) now also calls `loadSessionsFromDb` when
+>   `DATABASE_URL` is set — so a live session is reloaded from Postgres after a restart (logs
+>   `restored N session(s) from Postgres`). Best-effort async; a DB hiccup leaves the disk-restored set.
+> - **Setup docs:** `backend/db/README.md` — the cold-start steps for the managed DB (create Neon → put
+>   `DATABASE_URL` in `.env` → `npm run db:migrate` → run). phase-4.md re-scoped from docker-compose →
+>   managed Neon (Carl's pick).
+> - **Automated restart proof:** the round-trip test now also asserts `loadSessionsFromDb` repopulates the
+>   live map from Postgres — the restart path proven in code. **47/47**, typecheck clean. All free.
+> - **Left for Carl's QA:** the live restart walk (`npm run dev` → start a 1:1 → restart → still there).
+>   Not committed yet (QA first). Green light → commit + close out Phase 005 → Phase 006 (Auth).
+
 > ### 📋 2026-06-28 — Phase 3 (connection pool + repo swap) **built — awaiting Carl's QA**
 > DB-run pick = **managed cloud Postgres (Neon)**. Carl created the DB + added `DATABASE_URL` to the
 > gitignored `.env`; `npm run db:migrate` built all 5 tables in Neon (+ a `0001` migration adding

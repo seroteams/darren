@@ -8,34 +8,29 @@ For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full 
 
 ## ▶ Your move
 
-**Phase 005 — Phase 3 (connection pool + repo swap) is ✅ SIGNED OFF (2026-06-28).** You said go. Session
-storage now swaps to Postgres (Neon) behind the same interface; committed + pushed. Password rotated.
+**Phase 005 (Postgres foundation) is ✅ DONE & SIGNED OFF (2026-06-28).** You picked Option A — the
+`env-boot` fix is committed and pushed, so new runs now save to Postgres correctly (the live "DB Wiring
+Test" run confirms it). All 4 phases ✅; folder archived. *(Your earlier UX-Lead run stays in files — it
+predates the fix.)*
 
-**Phase 4 (the final piece) is now starting 🔨.** It wires the database restore into server startup so a
-real meeting **survives a full server restart** (loaded from Postgres), and adds the short setup docs for
-the managed database. When this is approved, Phase 005 is done.
+**Next up: dig into the strange questions** — a **separate engine/question-quality** issue (the planner
+drifted off your actual topic; not the database). Review of `logs/june/2026_Jun28_22-21-9c10e643` is queued.
+
+**Parked:** a regression test for the live DB-wiring path (the bug above slipped past the round-trip test,
+which bypasses the controller) — spun off as a background task so it can't recur unnoticed.
 
 - Last updated: 2026-06-28
-- Phase 3 result: `npm test` → **47/47** (incl. the Postgres round-trip; free) ✅ · `npm run typecheck` clean ✅
+- Phase 005 final: `npm test` → **47/47** ✅ · `npm run typecheck` clean ✅ · live DB path verified (real run in Postgres)
 
 ---
 
-## Active plan: Postgres Foundation (Prototype → Production · Phase 005)
+## Active: question-quality review (engine track) → then Phase 006 (Auth)
 
-📄 [docs/todo/postgres-foundation/PLAN.md](docs/todo/postgres-foundation/PLAN.md) · phase 1 [phase-1.md](docs/todo/postgres-foundation/phase-1.md)
-**Goal:** move the live data — organisations, users, sessions — off loose JSON files into a real Postgres
-database, with clear rules and proper versioned migrations. Same behaviour; data now survives a restart.
-(Heavy run-history logs stay on disk, indexed by id.)
+No formal plan folder yet — this is a free diagnostic of one run flagged by Carl (questions went off-thread).
+Once understood, decide whether it needs a Darren-method fix plan. **Phase 006 (Auth)** is the next
+prototype→production phase; its plan folder gets scaffolded when we turn to it.
 
-### The phases
-- [x] **Phase 1** — Choose the tool (**Drizzle** locked) + lock the DB rules · ✅
-- [x] **Phase 2** — First migration + schema (orgs, users, sessions, runs-index, invitations) · ✅ *signed off*
-- [x] **Phase 3** — Connection pool + swap `SessionsRepo` file → Postgres (same interface) · ✅ *signed off*
-- [ ] **Phase 4** — Managed-Postgres setup docs + `DATABASE_URL` + the live restart-persistence walk · 🔨 *starting*
-
-> **Gate cleared:** Phase 005 depended on Phase 004's repo seam — that's now signed off, so the build is
-> clear the moment you pick the tool. Detailed Phase 2/3/4 step files are written *after* the Phase-1
-> decision (same rhythm as 004's D1–D5) because Drizzle and Prisma produce different file layouts.
+**Just-finished plan:** Postgres Foundation → [docs/todo/done/postgres-foundation/PLAN.md](docs/todo/done/postgres-foundation/PLAN.md) (all 4 phases ✅).
 
 ---
 

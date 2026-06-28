@@ -102,7 +102,7 @@ const DATA = [
       { f: "Plug the backend into the database", m: "Connect the backend and swap session/user storage over, behind the same doorway so the logic doesn't change.", have: "Backend on the database",
         auto: "Once built: `npm test` — services unchanged, now reading/writing the database.", eye: "Once built: a session survives a server restart.", s: "done" },
       { f: "One-command local setup", m: "Any teammate can spin up the database locally with one documented command.", have: "One-step DB start",
-        auto: null, eye: "Once built: a teammate starts the database from the one written command.", s: "doing" },
+        auto: null, eye: "Once built: a teammate starts the database from the one written command.", s: "done" },
     ],
     signoff: "Database builds from clean in one command · a session survives a server restart · tests green and a teammate can start the DB." },
 

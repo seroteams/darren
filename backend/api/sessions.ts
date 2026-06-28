@@ -3,6 +3,8 @@ import { initState } from "../engine/axes.ts";
 import { createTracker } from "../engine/cost.ts";
 import { INTRO_BUDGET, DYNAMIC_BUDGET, TOTAL_BUDGET } from "../engine/budgets.ts";
 import { persist, loadPersistedSessions, restoreFromDisk } from "./session-persistence.ts";
+import { hasDatabaseUrl } from "../db/client.ts";
+import { loadSessionsFromDb } from "../db/sessions-store.ts";
 import type { Session, MeetingContext } from "../shared/session.types.ts";
 import type { Question } from "../shared/question.types.ts";
 
@@ -78,6 +80,16 @@ function dropSession(id: string): void {
 
 function startSweep(): void {
   loadPersistedSessions(sessions, SESSION_TTL_MS);
+  // When Postgres is configured, also restore live sessions from the database on
+  // boot — so a session survives a server restart, loaded from the DB. Async +
+  // best-effort: a DB hiccup logs and leaves the disk-restored set in place.
+  if (hasDatabaseUrl()) {
+    loadSessionsFromDb(sessions, SESSION_TTL_MS)
+      .then((n) => {
+        if (n) console.log(`[sessions] restored ${n} session(s) from Postgres`);
+      })
+      .catch((e) => console.warn("[sessions] Postgres restore failed:", e instanceof Error ? e.message : String(e)));
+  }
   setInterval(() => {
     const cutoff = Date.now() - SESSION_TTL_MS;
     for (const [id, s] of sessions) {

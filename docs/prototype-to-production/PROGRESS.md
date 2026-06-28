@@ -7,9 +7,11 @@
 ---
 
 ## Where we are now
-- **Active phase:** 005 — Postgres foundation
-- **Status:** `in-progress` — **Phase 3 (repo swap → Postgres) ✅ signed off + pushed.** On managed Neon;
-  session storage swapped behind the same interface. Phase 4 (boot-restore + setup docs + restart walk) starting.
+- **Active phase:** 006 — Auth (next). **005 (Postgres foundation) is `done`** (Carl: Option A).
+- **Status:** **Phase 005 ✅ DONE.** Managed Neon Postgres behind the same repo interface; a load-order bug
+  (live server fell back to files despite `DATABASE_URL`) was found + fixed (`env-boot.ts`) and verified — a
+  real run now lands in Postgres. Immediate next: review the run's off-thread questions (separate engine
+  track). Parked: a regression test for the live DB-wiring path.
 - **Last updated:** 2026-06-28
 
 ## Next up (this can change as we learn)
@@ -26,7 +28,7 @@ green-lights before the next.
 | 002 | Conventions & skills | `done` |
 | 003 | TypeScript conversion | `done` |
 | 004 | Backend API v1 (RESTful, TDD) | `done` |
-| 005 | Postgres foundation | `planned` (active — awaiting tool pick) |
+| 005 | Postgres foundation | `done` |
 | 006 | Auth (org model, password, SSO-ready) | `not-started` |
 | 007 | Frontend app | `not-started` |
 | 008 | Security | `not-started` |
@@ -60,6 +62,17 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
 ## Activity log (newest first)
+- **2026-06-28** — **Phase 005 (Postgres foundation) → ✅ DONE & SIGNED OFF (Carl: "Option A").** Built
+  Phase 4 (boot-restore in `startSweep`, `backend/db/README.md`, boot-restore assertion in the round-trip
+  test; 47/47). A pre-commit DB check caught a **load-order bug**: the sessions controller picks
+  file-vs-Postgres at module load, but `server.ts` loaded `.env` in its body (after imports), so the live
+  server silently fell back to **files despite `DATABASE_URL`** — Carl's first run (`2026_Jun28_22-21`)
+  went to files (the earlier "it saved to the DB" claim was wrong, corrected). Fix
+  `backend/api/env-boot.ts` (loads `.env` as the first import) committed with the close-out; verified — the
+  live "DB Wiring Test" run is in Postgres. Closed out: PLAN → ✅, folder → `docs/todo/done/`, badge →
+  Built, this log → done. Free (no OpenAI). **Parked:** (1) regression test for the live DB-wiring path
+  (round-trip test missed the bug — bypasses the controller) — spun off as a task; (2) planner question
+  drift (separate engine track) — review next. **Phase 006 (Auth) is now active.**
 - **2026-06-28** — **Phase 005 · Phase 3 (connection pool + repo swap) → ✅ signed off, committed, pushed.**
   DB-run pick = **managed Neon Postgres** (Docker not installed). Carl created the DB + added `DATABASE_URL`
   to the gitignored `.env`; `db:migrate` built the 5 tables (+ `0001` adding `sessions.session_key`, since

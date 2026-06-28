@@ -19,7 +19,7 @@ if (!process.env.DATABASE_URL) {
 }
 
 const { createWebSession, dropSession, sessions } = require("../../api/sessions.ts");
-const { upsertSession, readSession, deleteSession } = require("../../db/sessions-store.ts");
+const { upsertSession, readSession, deleteSession, loadSessionsFromDb } = require("../../db/sessions-store.ts");
 const { closeDb } = require("../../db/client.ts");
 
 let failed = 0;
@@ -69,6 +69,14 @@ const introQueue = [
     check("ephemeral Maps are rebuilt on restore", () => {
       assert.ok(restored.lastPlanByTurn instanceof Map);
       assert.ok(restored.inFlight instanceof Map);
+    });
+
+    // Boot-restore proof: the server's startup path repopulates the live map FROM
+    // Postgres — this is what makes a session survive a real server restart.
+    await loadSessionsFromDb(sessions, 60 * 60 * 1000);
+    check("boot-restore loads the session from Postgres into the live map", () => {
+      assert.ok(sessions.has(id));
+      assert.strictEqual(sessions.get(id).turn, 1);
     });
   } finally {
     // Clean up: remove the row from the DB, the temp run folder, and close the pool.

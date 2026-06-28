@@ -1,8 +1,9 @@
+import "./env-boot.ts"; // MUST be first — loads .env before any module reads env at load time
+
 import http from "node:http";
 import path from "node:path";
 import type { IncomingMessage } from "node:http";
 
-import { loadEnv } from "../engine/env.ts";
 import { ROOT } from "../engine/paths.mts";
 import { createRouter } from "./router.ts";
 import { createStaticHandler } from "./static.ts";
@@ -22,11 +23,6 @@ import * as regression from "./services/regression/regression.controller.ts";
 import * as suggestFix from "./services/suggest-fix/suggest-fix.controller.ts";
 import library from "./services/library/library.controller.ts";
 import checks from "./services/checks/checks.controller.ts";
-
-// Loaded before main() (and therefore before any request) so the AI key/model —
-// read at call time inside ai-client/models — are present. The handler modules
-// above evaluate first; none read the AI env at load time.
-loadEnv();
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
