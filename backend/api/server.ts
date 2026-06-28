@@ -7,6 +7,7 @@ import { ROOT } from "../engine/paths.mts";
 import { createRouter } from "./router.ts";
 import { createStaticHandler } from "./static.ts";
 import { startSweep } from "./sessions.ts";
+import { getBuildInfo } from "./build-info.ts";
 
 import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
@@ -74,6 +75,10 @@ function main(): void {
   startSweep();
 
   const router = createRouter();
+
+  // version — the running API's build id (git short SHA + commit date), captured
+  // at boot. Lets the app show which build is live so a stale server is obvious.
+  router.add("GET", "/api/version", (c) => c.json(200, getBuildInfo()));
 
   // catalog — first domain on the v1 layer (controller → service → repo).
   // v1 routes use the one error shape (v1Route); the legacy /api/ paths stay as

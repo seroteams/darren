@@ -21,6 +21,11 @@ export async function getMeetingTypes() {
   return json(await fetch("/api/meeting-types"));
 }
 
+// The running API's build id (git short SHA + commit date) — for the build stamp.
+export async function getVersion() {
+  return json(await fetch("/api/version"));
+}
+
 export async function getArcs() {
   return json(await fetch("/api/arcs"));
 }

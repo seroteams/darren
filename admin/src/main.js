@@ -6,6 +6,7 @@ import { STAGES, store, subscribe, setState, resetSession } from "./state.js";
 import { getSession, listRecentRuns, runRegression } from "./api.js";
 import { syncUrl, parseLocation, startPopstate, isFlowStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
+import { createBuildStamp } from "./ui/build-stamp.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
 import { createAppNav } from "./ui/app-nav.js";
 import { createNotesPanel } from "./ui/notes-panel.js";
@@ -39,6 +40,9 @@ let current = { stage: null, mod: null, node: null };
 let renderChain = Promise.resolve();
 
 const devBadge = import.meta.env.DEV ? createDevBadge() : null;
+
+// Always-on build stamp (which API build is live) — see ui/build-stamp.js.
+document.body.appendChild(createBuildStamp().el);
 
 const topbar = createSessionTopbar({ store, setState, resetSession });
 document.body.appendChild(topbar.el);
