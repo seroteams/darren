@@ -6,8 +6,9 @@ what it does today;** this is structure, not features.
 **Driver:** Carl
 **Created:** 2026-06-27
 **Tracks:** the bigger plan in
-[../../prototype-to-production/004-backend-api-scaffold/00-phase-overview.md](../../prototype-to-production/004-backend-api-scaffold/00-phase-overview.md).
+[../../../prototype-to-production/004-backend-api-scaffold/00-phase-overview.md](../../../prototype-to-production/004-backend-api-scaffold/00-phase-overview.md).
 When this is done + approved, update that effort's `PROGRESS.md` (Phase 004 → `done`).
+**Status: ✅ DONE & SIGNED OFF (2026-06-28).** Archived here in `done/`.
 
 ## Done means
 - Every route lives under **`/api/v1/`** and follows the REST verb/status conventions.
@@ -28,19 +29,34 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 |---|---|---|---|
 | 1 | **Draw the menu of services** | The written `/api/v1/` contract — every route, request + response shape, the error format, the identity/auth slot. Decisions D1–D5 locked. | ✅ |
 | 2 | Build the shared plumbing | Middleware every request flows through: one error shape, request/identity context, an auth placeholder slot. `npm test` covers the error shape. | ✅ |
-| 3 | Build each service in clean layers (TDD) | Per-domain controller → service → repo, **test-first**. Repos file-backed; storage swappable without touching the service. | 🔨→✅* |
-| 4 | Lay out the mirrored test rooms | Unit tests beside the code; integration/e2e in a `tests/` tree shaped like the domains. | 🔨→✅* |
+| 3 | Build each service in clean layers (TDD) | Per-domain controller → service → repo, **test-first**. Repos file-backed; storage swappable without touching the service. | ✅ |
+| 4 | Lay out the mirrored test rooms | Unit tests beside the code; integration/e2e in a `tests/` tree shaped like the domains. | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested + Carl-approved)
-*Steps 3 & 4 are **built and free-verified** (every domain layered incl. all of `sessions` S0–S4, end-of-sessions
-cleanup, and the mirrored `backend/tests/<domain>/` tree). They flip to ✅ on Carl's owner-walk sign-off — the
-phase-level gate. Then the folder moves to `done/` and the Prototype→Production `PROGRESS.md` is set Phase 004 → done.
+*Steps 3 & 4 were **built, free-verified, and Carl owner-walked + approved (2026-06-28)** — now ✅. The folder
+has moved to `done/` and the Prototype→Production `PROGRESS.md` is set Phase 004 → `done`. **Phase 005 (Postgres
+foundation) is the active phase** — see [../../postgres-foundation/PLAN.md](../../postgres-foundation/PLAN.md).
 
 > Detailed `phase-2/3/4.md` step files (each ending in owner QA scenarios) get written **after** Carl
 > approves the step-1 contract — same as Phase 003, so we don't guess the shape before the menu is locked.
 
 ## Current state
 
+> ### ✅ 2026-06-28 — PHASE 004 **DONE & SIGNED OFF** — Carl owner-walked + approved ("approved!"). Closed out.
+> Carl walked the owner QA and gave the green light. Close-out actions taken this session:
+> - **Steps 3 & 4 → ✅** (table above); the phase is complete — every route is controller → service → repo
+>   under `/api/v1/`, the mirrored `backend/tests/<domain>/` tree is in place, `handlers/` holds only
+>   `stream-helper.ts`.
+> - **Build-plan badge** (`admin/src/stages/tasks.js`) Phase 004 → **✅ Built** (steps 3 & 4 set `s:"done"`).
+> - **Prototype→Production `PROGRESS.md`** set **Phase 004 → `done`**; **Phase 005 (Postgres) is now the
+>   active phase** (pre-planned at `docs/todo/postgres-foundation/`).
+> - **This folder moved** to `docs/todo/done/backend-api-v1/`.
+> - **Paid walk: not triggered.** Carl approved on the **free** owner-walk + the swappable-storage check; no
+>   gate run was kicked off, so the **$3 budget is untouched**. The AI stages get exercised naturally on the
+>   next real run. Free baseline at sign-off: `npm test` 46/46, typecheck clean.
+>
+> **Next:** Phase 005 building — awaiting Carl's **Drizzle-vs-Prisma** pick, then the first migration.
+>
 > ### 🏁 2026-06-28 — PHASE 004 **BUILT — all steps + the test tree done, free-verified, committed. Awaiting Carl's owner-walk.**
 > Everything in "Done means" that I can verify offline is green. What's left is inherently Carl's: the owner-walk
 > sign-off + the optional paid AI walks. I am **not** self-certifying the phase done.
@@ -428,7 +444,7 @@ phase-level gate. Then the folder moves to `done/` and the Prototype→Productio
 > ### ✅ 2026-06-28 — live regression gate **PASSED** after the step-3 refactor (Carl-approved paid run)
 > Ran one live gate case to confirm the whole Phase 004 step-3 layering (8 domains + sessions S0/S1a)
 > didn't change live behaviour: `node scripts/gate.js --only leak-devon` → **PASS (1 ok / 0 regressed /
-> 0 error)** ([result](../../../logs/gate/2026-06-27T17-49-36-023Z/result.json)). ~$0.35, on Carl's
+> 0 error)** ([result](../../../../logs/gate/2026-06-27T17-49-36-023Z/result.json)). ~$0.35, on Carl's
 > explicit go. The refactor is behaviour-identical end-to-end, not just in unit tests.
 >
 > ### ✅ 2026-06-28 — `sessions` **S1a DONE** (2 of 5 free reads) — Carl approved ("go for it") + committed `66e509f1`

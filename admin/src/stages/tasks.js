@@ -86,9 +86,9 @@ const DATA = [
       { f: "Build the shared plumbing", m: "The shared path every request flows through: error handling, who-you-are context, a slot for the login check later.", have: "Consistent request handling",
         auto: "Once built: `npm test` covers the shared error shape.", eye: "Once built: a forced error comes back in one consistent shape.", s: "done" },
       { f: "Build each service in clean layers", m: "Each area is three small single-job parts (front desk, logic, data), written test-first.", have: "Small single-job parts",
-        auto: "Once built: `npm test` — each service's test was written before its code and passes.", eye: "Once built: the routes respond as the contract says.", s: "doing" },
+        auto: "Once built: `npm test` — each service's test was written before its code and passes.", eye: "Once built: the routes respond as the contract says.", s: "done" },
       { f: "Lay out the test rooms", m: "Arrange the tests to mirror the code so any test is instantly findable.", have: "A mirrored test layout",
-        auto: null, eye: "Once built: small tests sit beside the code, bigger ones in a matching tree." },
+        auto: null, eye: "Once built: small tests sit beside the code, bigger ones in a matching tree.", s: "done" },
     ],
     signoff: "Every route follows the standard · each service was tested first · storage could be swapped without touching the logic." },
 

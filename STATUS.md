@@ -8,52 +8,42 @@ For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full 
 
 ## ▶ Your move
 
-**Phase 004 is BUILT — every build step + the test tree are done and free-verified.** All 21 sessions routes are
-in clean layers (S0→S4), the shared derivations are relocated, and the mirrored integration test tree is in place.
-`backend/api/handlers/` now holds only the shared `stream-helper.ts`. The app behaves identically (proven by 46/46
-tests + $0 byte-identical boot-diffs on every pass).
+**Phase 004 (Backend API v1) is ✅ DONE & SIGNED OFF (2026-06-28)** — you owner-walked it and approved. The
+whole backend is now clean layers (controller → service → repo) under `/api/v1/`, file-backed behind a
+**swappable repo seam**. Closed out: badge → ✅ Built, folder archived to `docs/todo/done/backend-api-v1/`,
+PROGRESS.md → done. *(No paid run was needed — the $3 budget is untouched.)*
 
-**The one remaining gate is yours — the owner-walk.** I don't self-certify a phase done. To sign off Phase 004:
-- **Walk the QA** (free parts): start a 1:1, drive a turn, step back, save a note, finish to a briefing — everything
-  reads/persists exactly as before. And the architecture check: you can describe swapping a repo's storage (the
-  `SessionsRepo` seam) with no service logic change.
-- **Optional, paid:** the S3/S4 AI walks (suggest-answers, the live streams) each cost one model call — exercised
-  naturally during a real run, on your explicit go (within the $3 Phase-004 budget).
-- **Say "approved"** → I tick the phase ✅, flip the build-plan badge to done, move the folder to `docs/todo/done/`,
-  update the Prototype→Production `PROGRESS.md` (004 → done), and **Phase 005 opens.**
+**Phase 005 (Postgres foundation) is now active — and it needs one decision from you to start building:**
+- **Pick the database tool: Drizzle (my recommendation) or Prisma.** Both give versioned migrations + the
+  rules we locked; Drizzle fits better because its schema is plain TypeScript and it slides cleanly behind
+  the repo seam we just built. The full comparison is in the PLAN below.
+- **Tell me "Drizzle" (or "Prisma")** → I log the choice, write the detailed Phase 2/3/4 step files in that
+  tool's shape, run the free baseline (`npm test`), and start **Phase 2 (the first migration)**.
 
 - Last updated: 2026-06-28
-- Baseline / final: `npm test` → **46/46 passed** (free, offline) ✅ · typecheck clean
-
-> Note: STATUS.md was pointing at the parked "Briefing readability P0" side-plan; I've repointed it to the
-> plan we're actually building (Phase 004). The briefing plan is still scaffolded and waiting whenever you want it.
+- Baseline / final at 004 sign-off: `npm test` → **46/46 passed** (free, offline) ✅ · typecheck clean
 
 ---
 
-## Active plan: Backend API v1 (Prototype → Production · Phase 004)
+## Active plan: Postgres Foundation (Prototype → Production · Phase 005)
 
-📄 [docs/todo/backend-api-v1/PLAN.md](docs/todo/backend-api-v1/PLAN.md) · sub-plan [sessions-subphase.md](docs/todo/backend-api-v1/sessions-subphase.md)
-**Goal:** reshape the backend into clean layers behind a versioned `/api/v1/` — controller → service → repo. Same behaviour, better structure.
+📄 [docs/todo/postgres-foundation/PLAN.md](docs/todo/postgres-foundation/PLAN.md) · phase 1 [phase-1.md](docs/todo/postgres-foundation/phase-1.md)
+**Goal:** move the live data — organisations, users, sessions — off loose JSON files into a real Postgres
+database, with clear rules and proper versioned migrations. Same behaviour; data now survives a restart.
+(Heavy run-history logs stay on disk, indexed by id.)
 
-The final domain, **`sessions`** (the live 1:1 runner), was converted in safe passes S0→S4 — all done.
+### The phases
+- [ ] **Phase 1** — Choose the tool (**Drizzle vs Prisma**) + lock the DB rules · ⬜ *awaiting your pick*
+- [ ] **Phase 2** — First migration + schema (orgs, users, sessions, runs-index, invitations) · ⬜ *detail written after the pick*
+- [ ] **Phase 3** — Connection pool + swap `SessionsRepo`/`UsersRepo` file → Postgres (same interface) · ⬜
+- [ ] **Phase 4** — `docker-compose` + `DATABASE_URL` + docs (restart-persistence walk) · ⬜
 
-### The full build — all done, free-verified, committed
-- [x] **Step 1** — the `/api/v1/` service contract (decisions D1–D5 locked) ✅
-- [x] **Step 2** — shared plumbing (one error shape, request/identity, auth slot) ✅
-- [x] **Step 3** — 8 safe domains + `runs` + `suggest-fix` layered ✅
-- [x] **Step 3 · sessions** S0 seam → S1 reads → S2 writes → S3 AI JSON → S4 streams ✅
-  - [x] S4 streams: `focus-points` · `preparation` · `bank` · `evaluation` · `plan` (the big one) ✅
-- [x] **Cleanup** — `snapshot` / `inferStage` / `summarizeAxes` relocated to `session-views.ts` ✅
-- [x] **Step 4** — mirrored integration test tree (`backend/tests/<domain>/`) ✅
-- [ ] **Phase 004 owner-walk → "approved"** → then ✅, folder moves to `done/`, PROGRESS.md → done, **Phase 005 opens**
-
-> Paid walks for the AI routes (S3/S4) are **deferred** — structure is proven free; one live model call exercises
-> each naturally during a real run, on your explicit go (covered by the $3 Phase-004 budget).
-> Build-plan badge (`admin/src/stages/checklist.js`) stays `doing` until you approve — then I flip it to `done`.
+> **Gate cleared:** Phase 005 depended on Phase 004's repo seam — that's now signed off, so the build is
+> clear the moment you pick the tool. Detailed Phase 2/3/4 step files are written *after* the Phase-1
+> decision (same rhythm as 004's D1–D5) because Drizzle and Prisma produce different file layouts.
 
 ---
 
 ## How to read the boxes
 `⬜ not started` · `🔨 in progress` · `✅ done (you tested + said go)`
-A pass isn't ✅ until **you** walk its QA and green-light it — I never self-certify. Free-verified + committed means
-the structure is proven offline and saved; the optional paid walk is yours to trigger.
+A pass isn't ✅ until **you** walk its QA and green-light it — I never self-certify.

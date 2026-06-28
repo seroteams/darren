@@ -7,15 +7,16 @@
 ---
 
 ## Where we are now
-- **Active phase:** 004 — Backend API v1 (RESTful, TDD) — Phase 003 done & signed off
-- **Status:** `not-started` (Phase 003 closed; 004 about to begin)
-- **Last updated:** 2026-06-27
+- **Active phase:** 005 — Postgres foundation
+- **Status:** `planned` — folder scaffolded; **building gated on one decision: Carl picks Drizzle vs Prisma.**
+- **Last updated:** 2026-06-28 (Phase 004 signed off & closed out today)
 
 ## Next up (this can change as we learn)
-**Carl picks the Phase 003 scope** (A backend-only / B +tooling / C +admin) and confirms the strategy —
-survey in [../todo/typescript-conversion/PLAN.md](../todo/typescript-conversion/PLAN.md). Once locked,
-the detailed `phase-N.md` step files get written and step 1 runs. (Phase 002 done; folder archived at
-[../todo/done/convention-skills/PLAN.md](../todo/done/convention-skills/PLAN.md).)
+**One decision unblocks the build: Carl picks the migration tool** — **Drizzle (recommended)** vs Prisma —
+the comparison is in [../todo/postgres-foundation/PLAN.md](../todo/postgres-foundation/PLAN.md). On the
+pick: I log it, write the detailed `phase-2/3/4.md` step files, run the free baseline (`npm test`), and
+start **Phase 2 (first migration)**. *(Phase 004's repo-seam gate is now satisfied — it's `done`, so the
+05 build is clear the moment the tool is chosen.)*
 
 ## Phase status
 | # | Phase | Status |
@@ -23,8 +24,8 @@ the detailed `phase-N.md` step files get written and step 1 runs. (Phase 002 don
 | 001 | Monorepo reorg | `done` |
 | 002 | Conventions & skills | `done` |
 | 003 | TypeScript conversion | `done` |
-| 004 | Backend API v1 (RESTful, TDD) | `not-started` |
-| 005 | Postgres foundation | `not-started` |
+| 004 | Backend API v1 (RESTful, TDD) | `done` |
+| 005 | Postgres foundation | `planned` (active — awaiting tool pick) |
 | 006 | Auth (org model, password, SSO-ready) | `not-started` |
 | 007 | Frontend app | `not-started` |
 | 008 | Security | `not-started` |
@@ -54,6 +55,22 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
 ## Activity log (newest first)
+- **2026-06-28** — **Phase 004 (Backend API v1) → `done` & SIGNED OFF.** Carl owner-walked and approved
+  ("approved!"). Close-out done: steps 3 & 4 → ✅ in
+  [../todo/done/backend-api-v1/PLAN.md](../todo/done/backend-api-v1/PLAN.md); build-plan badge
+  (`admin/src/stages/tasks.js`) Phase 004 → ✅ Built (steps 3 & 4 `s:"done"`); folder moved to
+  `docs/todo/done/backend-api-v1/`. **Phase 005 is now the active phase.** Approved on the **free**
+  owner-walk — no paid gate run was triggered, so the **$3 budget is untouched**. The full backend is now
+  controller → service → repo under `/api/v1/`, file-backed behind a swappable repo seam — exactly what
+  Phase 005 swaps to Postgres.
+- **2026-06-28** — **Phase 005 (Postgres foundation) → `planned` (build gated).** At Carl's request
+  ("go for 005"), scaffolded the Darren working folder
+  [../todo/postgres-foundation/PLAN.md](../todo/postgres-foundation/PLAN.md) + `phase-1.md` (the
+  tool-choice decision step). Phase 1 writes up the gating decision — **Drizzle (recommended) vs
+  Prisma** — with a tailored comparison; phases 2–4 are outlined, detail to be written once the tool is
+  locked (same rhythm as 004's D1–D5). **Flagged pace drift:** 005 rewrites 004's repo seam, so **no
+  005 code lands until Carl approves Phase 004.** Planning was $0 — no paid run. Also corrected the
+  stale Phase-004 status here (`not-started` → `awaiting-qa`; it's been built + committed since 06-28).
 - **2026-06-24** — **Phase 003 (TypeScript conversion) → `planned`.** Re-verified Phase 002 (free
   checks: `npm test` 30/30, `typecheck` clean, offline replay green; 4 skills load, links resolve,
   `clamp` proof 3/3) — Carl gave a complete sign-off. Set up the Phase 003 plan folder
