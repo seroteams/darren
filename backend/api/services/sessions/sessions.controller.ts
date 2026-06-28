@@ -8,10 +8,12 @@
 
 import type { RequestContext } from "../../router.ts";
 import { createSessionsService } from "./sessions.service.ts";
-import type { Prewarm } from "./sessions.service.ts";
+import type { Prewarm, DraftAnswers, ReviewLexicon } from "./sessions.service.ts";
 import { fileSessionsRepo } from "./sessions.repo.ts";
 import { ensureRoleProfile } from "../../../engine/role-profile.ts";
 import { generateFocusPoints } from "../../../engine/generate.ts";
+import { suggestAnswers as draftAnswersEngine } from "../../../engine/answer-suggester.ts";
+import { generateSuggestions } from "../../../engine/lexicon-reviewer.ts";
 
 // The real AI pre-warm wired into the service's injected boundary: role profile
 // first (cache hit adds ~0ms), then focus points — so every stage finds the
@@ -26,7 +28,18 @@ const prewarm: Prewarm = (session, ctx) => {
     .catch(() => {});
 };
 
-const service = createSessionsService(fileSessionsRepo, prewarm);
+// The real model calls wired into the S3 injected boundaries (deferred paid walk).
+const draftAnswers: DraftAnswers = (i) =>
+  draftAnswersEngine({
+    ...i.ctx,
+    question: i.question,
+    questionLabel: i.questionLabel,
+    questionDescription: i.questionDescription,
+    transcript: i.transcript,
+  });
+const reviewLexicon: ReviewLexicon = (i) => generateSuggestions({ session: i.session, ctx: i.ctx });
+
+const service = createSessionsService(fileSessionsRepo, { prewarm, draftAnswers, reviewLexicon });
 
 function isObjectRecord(v: unknown): v is Record<string, unknown> {
   return Boolean(v) && typeof v === "object";
@@ -120,4 +133,14 @@ export async function selectedFocus(c: RequestContext): Promise<void> {
 export async function lexiconDecisions(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
   c.json(200, service.lexiconDecisions(writeId(c, body), body));
+}
+
+// GET /api/v1/sessions/:id/suggest-answers  ·  GET /api/suggest-answers?s=<id>
+export async function suggestAnswers(c: RequestContext): Promise<void> {
+  c.json(200, await service.suggestAnswers(sessionId(c)));
+}
+
+// GET /api/v1/sessions/:id/lexicon/candidates  ·  GET /api/lexicon/candidates?s=<id>
+export async function lexiconCandidates(c: RequestContext): Promise<void> {
+  c.json(200, await service.lexiconCandidates(sessionId(c)));
 }

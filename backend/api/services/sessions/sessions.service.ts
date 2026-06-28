@@ -9,7 +9,7 @@
 
 import { badRequest, notFound, conflict } from "../../middleware/http-error.ts";
 import { snapshot, inferStage, summarizeAxes, INTRO_BUDGET } from "../../sessions.ts";
-import { shouldReview } from "../../../engine/lexicon-reviewer.ts";
+import { shouldReview, suggestionId } from "../../../engine/lexicon-reviewer.ts";
 import { effectiveTerminology, terminologyGroups } from "../../../engine/role-profile.ts";
 import { assemblePreparation } from "../../../engine/preparation.ts";
 import { buildPreparationInputs } from "../../handlers/preparation.ts";
@@ -22,7 +22,7 @@ import { buildFingerprint } from "../../../engine/run-fingerprint.ts";
 import { scriptAnswers } from "../../persona-script.ts";
 import { renderNotesMarkdown } from "./notes-format.ts";
 import type { SessionsRepo, EligibilityLogEntries, LexiconCommitResult } from "./sessions.repo.ts";
-import type { Session, MeetingContext, TesterVerdict, SessionNote } from "../../../shared/session.types.ts";
+import type { Session, MeetingContext, TesterVerdict, SessionNote, TranscriptEntry } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
 
 function isObjectRecord(v: unknown): v is Record<string, unknown> {
@@ -108,6 +108,34 @@ interface StartResult {
 // stays model-free + unit-testable; the controller wires the real engine chain.
 export type Prewarm = (session: Session, ctx: MeetingContext) => void;
 
+// S3 — the injected AI boundaries (like suggest-fix's runFix), so the service makes
+// no model call itself and stays unit-testable. The controller wires the real engine.
+export type DraftAnswers = (input: {
+  ctx: MeetingContext;
+  question: string;
+  questionLabel: string;
+  questionDescription: string;
+  transcript: TranscriptEntry[];
+}) => Promise<string[]>;
+
+// The reviewer result the service reads off (a subset of generateSuggestions' shape).
+interface LexiconReviewResult {
+  skipped?: boolean;
+  reason?: string;
+  error?: string | null;
+  suggestions?: unknown[];
+  fromCache?: boolean;
+}
+export type ReviewLexicon = (input: { session: Session; ctx: MeetingContext }) => Promise<LexiconReviewResult>;
+
+// Everything the sessions service needs injected. All optional so the read/write
+// tests (which touch none of these) can keep calling createSessionsService(repo).
+export interface SessionsDeps {
+  prewarm?: Prewarm;
+  draftAnswers?: DraftAnswers;
+  reviewLexicon?: ReviewLexicon;
+}
+
 // S2b — the non-AI write response bodies (byte-identical to the legacy handlers).
 interface AnswerResult { turn: number; skipped: boolean; truncated: boolean }
 interface BackResult { turn: number; total: number; answer: string; axes: ReturnType<typeof summarizeAxes> }
@@ -116,6 +144,41 @@ interface AgendaResult { ok: true; covered: boolean }
 interface VerdictResult { ok: true; verdict: TesterVerdict }
 interface SelectedFocusResult { selectedFocusPoints: string[] }
 interface LexiconDecisionsResult { ok: true; count: number; committed: number }
+
+// S3 — AI JSON route response bodies.
+interface SuggestAnswersResult { answers: string[] }
+interface UiCandidate { id: string; type: unknown; phrase: string; context: string }
+// One shape with optional error/fromCache — the runtime object only carries the keys
+// each branch sets, so the JSON stays byte-identical to the legacy handler's branches.
+interface LexiconCandidatesResult {
+  candidates: UiCandidate[];
+  skipped: string | null;
+  error?: string | null;
+  fromCache?: boolean;
+}
+
+// Pure UI mapping for lexicon candidates (moved verbatim from handlers/lexicon.ts).
+function describePhrase(s: Record<string, unknown>): string {
+  if (s.type === "prefer_term") return asString(s.value);
+  if (s.type === "prefer_phrase") return asString(s.value);
+  if (s.type === "avoid_phrase") {
+    return s.better_as
+      ? `Avoid: "${asString(s.value)}" → try: "${asString(s.better_as)}"`
+      : `Avoid: "${asString(s.value)}"`;
+  }
+  return asString(s.value);
+}
+function mapForUi(suggestions: unknown[]): UiCandidate[] {
+  return suggestions.map((raw, i) => {
+    const s = asRecord(raw);
+    return {
+      id: suggestionId({ type: typeof s.type === "string" ? s.type : undefined }, i),
+      type: s.type,
+      phrase: describePhrase(s),
+      context: asString(s.reason) || asString(s.evidence) || "",
+    };
+  });
+}
 
 // stage -> assemble its payload from a live session, with ZERO API calls. Reuses
 // the live run's own assembly so the preview can never drift from what actually
@@ -159,9 +222,18 @@ export interface SessionsService {
   verdict(id: string, body: Record<string, unknown>): VerdictResult;
   selectedFocus(id: string, body: Record<string, unknown>): SelectedFocusResult;
   lexiconDecisions(id: string, body: Record<string, unknown>): LexiconDecisionsResult;
+  // S3 — AI JSON routes (the model is the injected boundary; deferred paid walk).
+  suggestAnswers(id: string): Promise<SuggestAnswersResult>;
+  lexiconCandidates(id: string): Promise<LexiconCandidatesResult>;
 }
 
-export function createSessionsService(repo: SessionsRepo, prewarm: Prewarm = () => {}): SessionsService {
+export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {}): SessionsService {
+  const prewarm = deps.prewarm ?? (() => {});
+  const draftAnswers: DraftAnswers =
+    deps.draftAnswers ?? (() => Promise.reject(new Error("draftAnswers boundary not provided")));
+  const reviewLexicon: ReviewLexicon =
+    deps.reviewLexicon ?? (() => Promise.reject(new Error("reviewLexicon boundary not provided")));
+
   function requireExisting(id: string): Session {
     const s = repo.get(id);
     if (!s) throw notFound(`Unknown session: ${id}`);
@@ -490,6 +562,48 @@ export function createSessionsService(repo: SessionsRepo, prewarm: Prewarm = () 
 
       const committed = "accepted" in commit && Array.isArray(commit.accepted) ? commit.accepted.length : 0;
       return { ok: true, count: records.length, committed };
+    },
+
+    suggestAnswers: async (id) => {
+      const session = requireExisting(id);
+      const q = session.queueRef[0];
+      if (!q) return { answers: [] };
+      try {
+        const answers = await draftAnswers({
+          ctx: session.ctx,
+          question: q.name,
+          questionLabel: q.label || "",
+          questionDescription: q.description || "",
+          transcript: session.transcript,
+        });
+        return { answers };
+      } catch (e) {
+        // Failures degrade to an empty list — the UI shows nothing rather than blocking.
+        console.warn("[suggest-answers] failed:", e instanceof Error ? e.message : String(e));
+        return { answers: [] };
+      }
+    },
+
+    lexiconCandidates: async (id) => {
+      if (!id) throw badRequest("sessionId required");
+      const session = requireExisting(id);
+      if (!shouldReview(session.ctx)) return { candidates: [], skipped: "out-of-scope" };
+      try {
+        const result = await reviewLexicon({ session, ctx: session.ctx });
+        if (result.skipped) {
+          return { candidates: [], skipped: result.reason || "skipped", error: result.error || null };
+        }
+        const suggestions = result.suggestions || [];
+        return {
+          candidates: mapForUi(suggestions),
+          skipped: suggestions.length ? null : "empty",
+          fromCache: Boolean(result.fromCache),
+        };
+      } catch (e) {
+        // Surface honestly: legacy keeps this message (500), v1 masks 5xx.
+        const msg = (e instanceof Error && e.message) || "lexicon review failed";
+        throw Object.assign(new Error(msg), { status: 500 });
+      }
     },
   };
 }

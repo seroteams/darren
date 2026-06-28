@@ -453,7 +453,7 @@ test("start (manual) creates via the seam, persists, fires the pre-warm once, an
   const firstType = MEETING_TYPES[0];
   assert.ok(firstType);
 
-  const out = createSessionsService(repo, prewarm).start({
+  const out = createSessionsService(repo, { prewarm }).start({
     name: "  Dana  ",
     role: " Engineer ",
     seniority: " Senior ",
@@ -506,7 +506,7 @@ test("start (scripted) loads the persona through the seam and stamps the scripte
   };
   const { repo, persisted } = fakeRepo([], { persona });
 
-  const out = createSessionsService(repo, () => {}).start({
+  const out = createSessionsService(repo, { prewarm: () => {} }).start({
     name: "Dana",
     role: "Engineer",
     seniority: "Senior",
@@ -727,5 +727,120 @@ test("lexiconDecisions requires a sessionId (400) and 404s an unknown session", 
   assert.throws(() => svc.lexiconDecisions("", { decisions: [] }),
     (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "sessionId required");
   assert.throws(() => svc.lexiconDecisions("ghost", { decisions: [] }),
+    (e: unknown) => e instanceof HttpError && e.status === 404);
+});
+
+// --- S3: AI JSON routes (the model behind an injected boundary; no model call here) ---
+
+test("suggestAnswers returns the drafted answers from the injected boundary", async () => {
+  const s = fakeSession("abc");
+  s.queueRef = [fakeQuestion({ name: "What's blocking you?" })];
+  const calls: unknown[] = [];
+  const out = await createSessionsService(fakeRepo([s]).repo, {
+    draftAnswers: async (input) => { calls.push(input); return ["a1", "a2"]; },
+  }).suggestAnswers("abc");
+  assert.deepEqual(out, { answers: ["a1", "a2"] });
+  assert.equal(calls.length, 1);
+});
+
+test("suggestAnswers returns [] when no question is queued (boundary not called)", async () => {
+  const s = fakeSession("abc");
+  s.queueRef = [];
+  let called = false;
+  const out = await createSessionsService(fakeRepo([s]).repo, {
+    draftAnswers: async () => { called = true; return ["x"]; },
+  }).suggestAnswers("abc");
+  assert.deepEqual(out, { answers: [] });
+  assert.equal(called, false);
+});
+
+test("suggestAnswers degrades to [] when the boundary throws (UI shows nothing, no error)", async () => {
+  const s = fakeSession("abc");
+  s.queueRef = [fakeQuestion()];
+  const out = await createSessionsService(fakeRepo([s]).repo, {
+    draftAnswers: async () => { throw new Error("model down"); },
+  }).suggestAnswers("abc");
+  assert.deepEqual(out, { answers: [] });
+});
+
+test("suggestAnswers throws 404 for an unknown session", async () => {
+  await assert.rejects(
+    () => createSessionsService(fakeRepo().repo, {}).suggestAnswers("ghost"),
+    (e: unknown) => e instanceof HttpError && e.status === 404
+  );
+});
+
+const IN_SCOPE: MeetingContext = {
+  name: "Dana",
+  role: "Backend developer",
+  seniority: "Expert",
+  meetingType: "Growth & career plan",
+  notes: "",
+};
+
+test("lexiconCandidates short-circuits out-of-scope without calling the boundary", async () => {
+  const s = fakeSession("abc"); // default ctx (weekly) is out of lexicon-review scope
+  assert.equal(shouldReview(s.ctx), false);
+  let called = false;
+  const out = await createSessionsService(fakeRepo([s]).repo, {
+    reviewLexicon: async () => { called = true; return { skipped: false, suggestions: [] }; },
+  }).lexiconCandidates("abc");
+  assert.deepEqual(out, { candidates: [], skipped: "out-of-scope" });
+  assert.equal(called, false);
+});
+
+test("lexiconCandidates maps the reviewer suggestions for the UI when in scope", async () => {
+  const s = fakeSession("abc");
+  s.ctx = { ...IN_SCOPE };
+  assert.equal(shouldReview(s.ctx), true);
+  const out = await createSessionsService(fakeRepo([s]).repo, {
+    reviewLexicon: async () => ({
+      skipped: false,
+      suggestions: [{ type: "prefer_term", value: "WIP", reason: "the team says it" }],
+    }),
+  }).lexiconCandidates("abc");
+  assert.equal(out.skipped, null);
+  assert.equal(out.fromCache, false);
+  assert.equal(out.candidates.length, 1);
+  const c0 = out.candidates[0];
+  assert.ok(c0);
+  assert.equal(c0.phrase, "WIP");
+  assert.equal(c0.context, "the team says it");
+});
+
+test("lexiconCandidates reports 'empty' when the reviewer returns no suggestions", async () => {
+  const s = fakeSession("abc");
+  s.ctx = { ...IN_SCOPE };
+  const out = await createSessionsService(fakeRepo([s]).repo, {
+    reviewLexicon: async () => ({ skipped: false, suggestions: [] }),
+  }).lexiconCandidates("abc");
+  assert.deepEqual(out, { candidates: [], skipped: "empty", fromCache: false });
+});
+
+test("lexiconCandidates passes through a skipped reviewer result", async () => {
+  const s = fakeSession("abc");
+  s.ctx = { ...IN_SCOPE };
+  const out = await createSessionsService(fakeRepo([s]).repo, {
+    reviewLexicon: async () => ({ skipped: true, reason: "reviewer-failed", error: "boom" }),
+  }).lexiconCandidates("abc");
+  assert.deepEqual(out, { candidates: [], skipped: "reviewer-failed", error: "boom" });
+});
+
+test("lexiconCandidates surfaces a reviewer throw as a 500", async () => {
+  const s = fakeSession("abc");
+  s.ctx = { ...IN_SCOPE };
+  await assert.rejects(
+    () => createSessionsService(fakeRepo([s]).repo, {
+      reviewLexicon: async () => { throw new Error("kaboom"); },
+    }).lexiconCandidates("abc"),
+    (e: unknown) => e instanceof Error && "status" in e && e.status === 500
+  );
+});
+
+test("lexiconCandidates requires a sessionId (400) and 404s an unknown session", async () => {
+  const svc = createSessionsService(fakeRepo().repo, {});
+  await assert.rejects(() => svc.lexiconCandidates(""),
+    (e: unknown) => e instanceof HttpError && e.status === 400);
+  await assert.rejects(() => svc.lexiconCandidates("ghost"),
     (e: unknown) => e instanceof HttpError && e.status === 404);
 });

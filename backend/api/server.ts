@@ -12,7 +12,6 @@ import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { forbidden, rateLimited } from "./middleware/http-error.ts";
-import suggestAnswers from "./handlers/suggest-answers.ts";
 import focusPoints from "./handlers/focus-points.ts";
 import preparation from "./handlers/preparation.ts";
 import bank from "./handlers/bank.ts";
@@ -21,7 +20,6 @@ import evaluation from "./handlers/evaluation.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
 import * as runs from "./services/runs/runs.controller.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
-import * as lexicon from "./handlers/lexicon.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
 import * as regression from "./services/regression/regression.controller.ts";
@@ -166,7 +164,10 @@ function main(): void {
   // under the session resource (/sessions/:id/question); legacy ?s= unchanged.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/question$/, v1Route(sessions.question));
   router.add("GET", "/api/question", sessions.question);
-  router.add("GET", "/api/suggest-answers", suggestAnswers);
+  // suggest-answers is an AI JSON read (S3) — now on the sessions controller (model
+  // behind an injected boundary). v1 nests it under the session resource.
+  router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/suggest-answers$/, v1Route(sessions.suggestAnswers));
+  router.add("GET", "/api/suggest-answers", sessions.suggestAnswers);
   // sessions non-AI writes (S2b) — now on the sessions controller. v1 nests each
   // under the session resource (/sessions/:id/…) with the one error shape + origin
   // guard; legacy /api/ keeps body.sessionId + the old flat shape (admin unaffected).
@@ -267,7 +268,11 @@ function main(): void {
   // library serves files (not JSON), so it manages its own responses — no v1Route.
   router.add("GET", /^\/api\/v1\/library(?<rest>\/.*)?$/, library);
   router.add("GET", /^\/api\/library(?<rest>\/.*)?$/, library);
-  router.add("GET", "/api/lexicon/candidates", lexicon.candidates);
+  // lexicon/candidates is an AI JSON read (S3) — now on the sessions controller
+  // (the per-session lexicon reviewer, model behind an injected boundary). With this
+  // the last route leaves handlers/lexicon.ts. v1 nests it under the session resource.
+  router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/lexicon\/candidates$/, v1Route(sessions.lexiconCandidates));
+  router.add("GET", "/api/lexicon/candidates", sessions.lexiconCandidates);
   // lexicon scope is a session read — now on the sessions controller (S1a). v1 nests
   // it under the session resource (/sessions/:id/lexicon/scope); legacy path unchanged.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/lexicon\/scope$/, v1Route(sessions.lexiconScope));

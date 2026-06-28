@@ -129,7 +129,8 @@ const PATH_META: Record<string, PathMeta> = {
   // question (S1b) + answer (S2b) moved into the sessions service; their engine
   // logic is tracked there now (see backend/api/services/sessions/sessions.service.ts above).
   "backend/api/handlers/evaluation.ts": { tier: "engine", stageLabel: "Evaluation" },
-  "backend/api/handlers/lexicon.ts": { tier: "engine", stageLabel: "Lexicon" },
+  // lexicon's per-session reviewer (candidates) moved into the sessions service (S3);
+  // its engine (review-core / candidates-io / lexicon) is tracked above.
   "backend/api/handlers/stream-helper.ts": { tier: "engine", stageLabel: "Streaming" },
 };
 

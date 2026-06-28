@@ -38,6 +38,50 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### ✅ 2026-06-28 — `sessions` **S3 DONE** (the 2 AI JSON routes) — structure-only, free-verified, **committed + pushed**. Paid live walk **deferred**.
+> `suggest-answers` (roleplay answer drafts) + `lexicon/candidates` (the per-session lexicon reviewer) — both
+> call the model — converted **structure-only**, test-first, behaviour-identical. The model is an **injected
+> boundary** (like suggest-fix's `runFix`), so the service makes no model call itself and is unit-tested free;
+> the **paid live walk is deferred** (no OpenAI call without your explicit go).
+> - **Factory tidy:** `createSessionsService(repo, prewarm)` → `createSessionsService(repo, deps)` where
+>   `deps = { prewarm?, draftAnswers?, reviewLexicon? }`. As the injected boundaries grew past one, an options
+>   object beats a positional list. All read/write tests are unaffected (deps optional; they pass none).
+> - `services/sessions/sessions.service.ts` — **+2 async methods**: `suggestAnswers(id)` (no question → `[]`;
+>   boundary failure degrades to `[]`, never blocks) and `lexiconCandidates(id)` (400 no-id → 404 unknown →
+>   out-of-scope short-circuit **before** any model call → reviewer result mapped for the UI; a reviewer
+>   *throw* surfaces as a 500). Moved the pure `mapForUi`/`describePhrase` here verbatim. + boundary types
+>   `DraftAnswers`/`ReviewLexicon` + `SessionsDeps`.
+> - `services/sessions/sessions.controller.ts` — wired the **real** model calls into the boundaries
+>   (`answer-suggester.suggestAnswers`, `lexicon-reviewer.generateSuggestions`) + **2 thin GET handlers**
+>   (reads — `sessionId(c)` resolver: path id for v1, `?s=` for legacy).
+> - **Wiring (`server.ts`):** legacy `/api/suggest-answers` + `/api/lexicon/candidates` repointed onto
+>   `sessions.*` + **2 new** v1 `GET /api/v1/sessions/:id/{suggest-answers,lexicon/candidates}` (one error
+>   shape). **Deleted `handlers/suggest-answers.ts` + `handlers/lexicon.ts`** — candidates was its last route,
+>   so the whole per-session lexicon handler is gone (scope→S1a, decisions→S2b, candidates→S3). Manifest
+>   folded; the stale "stays in handlers/lexicon.ts" comment in `services/lexicon/lexicon.controller.ts` fixed.
+> - **Behaviour note (flag):** `candidates`' unknown-session 404 text normalises (`session not found` →
+>   `Unknown session: <id>`) — safe (admin branches on status). `suggest-answers` already 404'd via
+>   `requireSession` → byte-identical. On a reviewer error, legacy keeps the real 500 message; v1 masks 5xx —
+>   same engine-honesty split as suggest-fix.
+> - **Verified (free):** `npm test` **45/45 files** (+10 service cases, 53 total in the sessions file),
+>   typecheck clean, banned-construct grep clean. **$0 live boot-diff (key unset — model unreachable):**
+>   suggest-answers degrades to `{answers:[]}` (legacy == v1); `lexicon/candidates` on a bi-weekly session is
+>   **out-of-scope** → `{candidates:[],skipped:"out-of-scope"}` byte-identical (no model call); 404 flat vs
+>   enveloped; legacy no-id → 400. **5 pass / 0 fail.**
+> - **⚠️ Deferred (money):** the *real* generation walk — answers actually drafted, candidates actually
+>   reviewed — is **one model call each (~$0.35)**, walked naturally on your go during a real run. Structure is
+>   proven free; nothing hits OpenAI yet.
+>
+> **S3 QA (walk on your go — costs a model call):** in a live run, open the answer-suggester (drafts a few
+> in-character replies) and, on a growth/lead-or-expert run, the lexicon candidates (suggests term keeps) —
+> each behaves exactly as before.
+>
+> **Remaining:** **S4** SSE streams (`focus-points`/`preparation`/`bank`/`plan`/`evaluation` + `stream-helper`
+> — the riskiest; they manage their own responses, so no `v1Route`; structure free, paid walk deferred) ·
+> end-of-sessions cleanup (relocate `snapshot`/`inferStage`/`summarizeAxes` + `buildPreparationInputs` +
+> `formatNotesForEvaluation` to their final homes) · **Step 4** mirrored test tree. After S4, `handlers/` holds
+> only `stream-helper.ts`.
+>
 > ### ✅ 2026-06-28 — `sessions` **S2b DONE** (the 7 remaining non-AI writes) — Carl said "go ahead with all"; built test-first, free-verified, **committed + pushed**.
 > Carl approved S2a and authorised batching the rest of S2 ("go ahead with all … everything commit so i can
 > check on my phone"). Converted all 7 non-AI writes in one pass, **test-first** (red → green),
