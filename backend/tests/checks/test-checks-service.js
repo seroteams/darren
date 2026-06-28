@@ -13,7 +13,7 @@ const {
   listChecks,
   resolveCheck,
   runFreeCheck,
-} = require("../backend/api/services/checks/checks.service.ts");
+} = require("../../api/services/checks/checks.service.ts");
 
 const PAID_TOKENS = ["gate", "smoke", "eval"];
 

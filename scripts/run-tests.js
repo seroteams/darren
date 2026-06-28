@@ -16,12 +16,10 @@ const ROOT = path.join(__dirname, "..");
 const OFFLINE_TESTS = [
   "test-answer-suggest-shape.js",
   "test-arc-overlay.js",
-  "test-back-nav.js",
   "test-axis-coverage.js",
   "test-briefing-fallback.js",
   "test-briefing-integrity.js",
   "test-briefing-prompt-rules.js",
-  "test-checks-service.js",
   "test-confidence-honesty.js",
   "test-delta-snap.js",
   "test-drill-cap.js",
@@ -42,27 +40,36 @@ const OFFLINE_TESTS = [
   "test-replay-regression.js",
   "test-role-profile.js",
   "test-role-lexicons.js",
-  "test-session-resume.js",
   "test-stage-tags.js",
   "test-trust-checks.js",
 ];
 
-// Co-located unit tests: TypeScript `*.test.ts` living BESIDE the code they test
-// (backend-conventions). Discovered under backend/ so `npm test` covers them too.
-// They use the built-in `node:test` runner, so each runs via `node --test <file>`.
-// (Arranging the wider mirrored tree — integration/e2e — is Phase 004 step 4.)
-function findColocatedTests(dir) {
+// The mirrored test tree (Phase 004 step 4):
+//   - Unit tests live BESIDE the code as `*.test.ts` (backend-conventions). They use
+//     the built-in `node:test` runner, so each runs via `node --test <file>`.
+//   - Integration/e2e tests live under backend/tests/<domain>/ as `test-*.js`,
+//     shaped like the API service domains (e.g. backend/tests/sessions/). They are
+//     standalone assertion scripts, run via `node <file>` like the offline scripts.
+// Both are auto-discovered below, so a new test just drops into the right folder.
+function findTests(dir, predicate) {
   const out = [];
+  if (!fs.existsSync(dir)) return out;
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     if (entry.name === "node_modules") continue;
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) out.push(...findColocatedTests(full));
-    else if (entry.name.endsWith(".test.ts")) out.push(full);
+    if (entry.isDirectory()) out.push(...findTests(full, predicate));
+    else if (predicate(entry.name)) out.push(full);
   }
   return out;
 }
 
-const COLOCATED_TESTS = findColocatedTests(path.join(ROOT, "backend"));
+// `*.test.ts` everywhere under backend/ EXCEPT the integration tree (those are .js).
+const COLOCATED_TESTS = findTests(path.join(ROOT, "backend"), (n) => n.endsWith(".test.ts"));
+// `test-*.js` integration/e2e scripts under the domain-shaped backend/tests/ tree.
+const INTEGRATION_TESTS = findTests(
+  path.join(ROOT, "backend", "tests"),
+  (n) => n.startsWith("test-") && n.endsWith(".js")
+);
 
 let failed = 0;
 let total = 0;
@@ -86,6 +93,20 @@ for (const file of COLOCATED_TESTS) {
   total++;
   const rel = path.relative(ROOT, file).replace(/\\/g, "/");
   const res = spawnSync(process.execPath, ["--test", file], { encoding: "utf8" });
+  if (res.status === 0) {
+    console.log(`PASS  ${rel}`);
+  } else {
+    failed++;
+    console.error(`FAIL  ${rel}`);
+    const out = `${res.stdout || ""}${res.stderr || ""}`.trimEnd();
+    if (out) console.error(out.replace(/^/gm, "      "));
+  }
+}
+
+for (const file of INTEGRATION_TESTS) {
+  total++;
+  const rel = path.relative(ROOT, file).replace(/\\/g, "/");
+  const res = spawnSync(process.execPath, [file], { encoding: "utf8" });
   if (res.status === 0) {
     console.log(`PASS  ${rel}`);
   } else {
