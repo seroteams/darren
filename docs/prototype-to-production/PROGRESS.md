@@ -8,15 +8,15 @@
 
 ## Where we are now
 - **Active phase:** 005 — Postgres foundation
-- **Status:** `planned` — folder scaffolded; **building gated on one decision: Carl picks Drizzle vs Prisma.**
-- **Last updated:** 2026-06-28 (Phase 004 signed off & closed out today)
+- **Status:** `planned` — **tool chosen: Drizzle.** Handover written for a fresh thread; the build continues there.
+- **Last updated:** 2026-06-28
 
 ## Next up (this can change as we learn)
-**One decision unblocks the build: Carl picks the migration tool** — **Drizzle (recommended)** vs Prisma —
-the comparison is in [../todo/postgres-foundation/PLAN.md](../todo/postgres-foundation/PLAN.md). On the
-pick: I log it, write the detailed `phase-2/3/4.md` step files, run the free baseline (`npm test`), and
-start **Phase 2 (first migration)**. *(Phase 004's repo-seam gate is now satisfied — it's `done`, so the
-05 build is clear the moment the tool is chosen.)*
+**Continue in a fresh thread** — handover at
+[../todo/postgres-foundation/HANDOVER.md](../todo/postgres-foundation/HANDOVER.md). Steps: write the
+detailed `phase-2/3/4.md` step files in Drizzle's shape, run the free baseline (`npm test`), then build
+**Phase 2 (first migration)** — the 5 tables as a versioned migration. One phase at a time; Carl
+green-lights before the next.
 
 ## Phase status
 | # | Phase | Status |
@@ -48,6 +48,10 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - **2026-06-24** — **Phase 002 borrow-vs-build → Option 1.** Borrow TDD (`obra/superpowers/
   test-driven-development`) + one general security skill (`getsentry/skills` → `security-review`);
   park Trail of Bits for Phase 008; build `backend-conventions` + `frontend-conventions` ourselves.
+- **2026-06-28** — **Phase 005 migration tool = Drizzle** (chosen by Carl). Over Prisma because the schema
+  is plain TypeScript (one language, no separate DSL), it's SQL-first, and it drops cleanly behind the
+  Phase-004 repo seam (Prisma's generated client competes with hand-written repos). Comparison in
+  [../todo/postgres-foundation/PLAN.md](../todo/postgres-foundation/PLAN.md).
 
 ## Parked (good ideas — not now)
 - Teammate invitations as a full feature (resend / sent-at / expires-at flows). DB + code are
@@ -55,6 +59,10 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
 ## Activity log (newest first)
+- **2026-06-28** — **Phase 005 tool locked = Drizzle; handover written.** Carl picked Drizzle; wrote
+  [../todo/postgres-foundation/HANDOVER.md](../todo/postgres-foundation/HANDOVER.md) for a fresh thread to
+  continue the build (write phase-2/3/4 in Drizzle's shape, then Phase 2 — first migration). No code yet —
+  handover only, so the next thread starts clean.
 - **2026-06-28** — **Phase 004 (Backend API v1) → `done` & SIGNED OFF.** Carl owner-walked and approved
   ("approved!"). Close-out done: steps 3 & 4 → ✅ in
   [../todo/done/backend-api-v1/PLAN.md](../todo/done/backend-api-v1/PLAN.md); build-plan badge

@@ -13,15 +13,17 @@ whole backend is now clean layers (controller → service → repo) under `/api/
 **swappable repo seam**. Closed out: badge → ✅ Built, folder archived to `docs/todo/done/backend-api-v1/`,
 PROGRESS.md → done. *(No paid run was needed — the $3 budget is untouched.)*
 
-**Phase 005 (Postgres foundation) is now active — and it needs one decision from you to start building:**
-- **Pick the database tool: Drizzle (my recommendation) or Prisma.** Both give versioned migrations + the
-  rules we locked; Drizzle fits better because its schema is plain TypeScript and it slides cleanly behind
-  the repo seam we just built. The full comparison is in the PLAN below.
-- **Tell me "Drizzle" (or "Prisma")** → I log the choice, write the detailed Phase 2/3/4 step files in that
-  tool's shape, run the free baseline (`npm test`), and start **Phase 2 (the first migration)**.
+**Phase 005 (Postgres foundation) is now active. Tool decided: ✅ Drizzle.** A **handover is written for a
+fresh thread** to continue the build — see
+[docs/todo/postgres-foundation/HANDOVER.md](docs/todo/postgres-foundation/HANDOVER.md).
+
+**To continue:** open a new thread and paste the quick-start prompt at the bottom of that handover (or use
+the `/tasks` board's one-click "Copy continue prompt" for Phase 005). The new thread will write the
+detailed Phase 2/3/4 step files in Drizzle's shape, run the free baseline (`npm test`), then build
+**Phase 2 — the first migration** (the 5 tables). One phase at a time; you green-light before the next.
 
 - Last updated: 2026-06-28
-- Baseline / final at 004 sign-off: `npm test` → **46/46 passed** (free, offline) ✅ · typecheck clean
+- Baseline at 004 sign-off: `npm test` → **46/46 passed** (free, offline) ✅ · typecheck clean
 
 ---
 
