@@ -4,15 +4,9 @@
 import type { RequestContext } from "../../router.ts";
 import { createArcsService } from "./arcs.service.ts";
 import { fileArcsRepo } from "./arcs.repo.ts";
+import { asRecord } from "../../../shared/guards.ts";
 
 const service = createArcsService(fileArcsRepo);
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
 
 export function list(c: RequestContext): void {
   c.json(200, service.list());

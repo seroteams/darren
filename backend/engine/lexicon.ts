@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import * as YAML from "yaml";
 import { LEXICONS_DIR } from "./paths.mts";
+import { isObjectRecord } from "../shared/guards.ts";
 
 const CANDIDATES_DIR = path.join(LEXICONS_DIR, "_candidates");
 
@@ -34,10 +35,6 @@ interface LexiconCtx {
 }
 
 const EMPTY: Lexicon = { preferTerms: [], preferPhrases: [], avoidPhrases: [] };
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
 
 function roleFamilyOf(role: string | null | undefined): string | null {
   if (!role || typeof role !== "string") return null;

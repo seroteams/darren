@@ -37,6 +37,7 @@ import { buildPreparationInputs } from "./preparation-inputs.ts";
 import { formatNotesForEvaluation } from "./notes-format.ts";
 import type { Session, TranscriptEntry } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
+import { isObjectRecord, asRecord, asString } from "../../../shared/guards.ts";
 
 const IS_DEV = process.env.NODE_ENV !== "production";
 
@@ -65,16 +66,6 @@ const draftAnswers: DraftAnswers = (i) =>
 const reviewLexicon: ReviewLexicon = (i) => generateSuggestions({ session: i.session, ctx: i.ctx });
 
 const service = createSessionsService(fileSessionsRepo, { prewarm, draftAnswers, reviewLexicon });
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
 
 // Reads take the id from the path (v1) or ?s= (legacy).
 function sessionId(c: RequestContext): string {

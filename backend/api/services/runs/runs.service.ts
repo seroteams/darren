@@ -6,6 +6,7 @@
 import { badRequest, notFound } from "../../middleware/http-error.ts";
 import { reviewStatusOf, REVIEW_DIM_KEYS } from "../../../engine/run-history.ts";
 import type { RunsRepo } from "./runs.repo.ts";
+import { isObjectRecord, asRecord } from "../../../shared/guards.ts";
 
 // Manual overall verdict + the per-review note cap (mirrors the old handler).
 const OVERALL_VALUES = ["keep", "fix", "block"];
@@ -27,13 +28,6 @@ export interface RunsService {
   remove(id: string | undefined): { deleted: true; id: string };
   archive(id: string | undefined, body: unknown): { ok: true; id: string; archived: boolean | undefined };
   review(id: string | undefined, body: unknown): ReviewResult;
-}
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
 }
 
 export function createRunsService(repo: RunsRepo): RunsService {

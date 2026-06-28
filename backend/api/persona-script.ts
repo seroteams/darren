@@ -2,19 +2,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { CONFIG_DIR } from "../engine/paths.mts";
 import { loadQuestion } from "../engine/questions.ts";
+import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
 const BENCH_PATH = path.join(CONFIG_DIR, "persona-bench-v1.json");
 
 // Disk JSON is unknown until checked — narrow with these guards (house pattern).
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
+
 function asAxisEffects(v: unknown): Record<string, number> {
   if (!isObjectRecord(v)) return {};
   const out: Record<string, number> = {};

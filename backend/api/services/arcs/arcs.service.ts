@@ -7,6 +7,7 @@ import { validKey, validateArc } from "../../../engine/arc-overlay.ts";
 import { badRequest, notFound } from "../../middleware/http-error.ts";
 import type { MeetingType } from "../../../engine/one-on-one-types/_shared/meeting-type.types.ts";
 import type { ArcsRepo, DiffResult } from "./arcs.repo.ts";
+import { isObjectRecord } from "../../../shared/guards.ts";
 
 interface SerializedPhase {
   id: string;
@@ -31,10 +32,6 @@ export interface ArcsService {
   list(): { arcs: SerializedArc[] };
   save(slug: string, body: Record<string, unknown>): SaveResult;
   reset(slug: string): { ok: true; arc: SerializedArc };
-}
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
 }
 
 // Coerce one incoming phase into the stored shape — trims strings and forces

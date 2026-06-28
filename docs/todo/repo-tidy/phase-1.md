@@ -1,21 +1,24 @@
 # Phase 1 — Shared guards + drop the .mjs oddity
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built + verified (typecheck + 46/46), awaiting your glance
 
 ## Goal
-One copy of the small type-guards, and no stray `.mjs` in the TypeScript engine.
+One copy of the small type-guards instead of ~34 — a pure, behaviour-preserving move.
 
 ## Changes
-- New `backend/shared/guards.ts` exporting `isObjectRecord`, `asRecord`, `asString` (and any
-  identical siblings). Replace the ~34 local copies with an import.
-- Convert `backend/engine/run-debrief.mjs` (+ its hand-written `.d.mts`) to `run-debrief.ts`.
+- New `backend/shared/guards.ts` exporting `isObjectRecord`, `asRecord`, `asString`. Replaced the
+  38 local copies with an import (done 2026-06-28).
+
+**Dropped from this phase:** converting `run-debrief.mjs` → `.ts`. Its `.d.mts` header and
+`admin/src/ui/run-debrief.js` confirm it's deliberately plain ESM, **shared with the Vite browser
+build** (`@sero/run-debrief`). Converting it would break the admin build. Left as-is by design.
 
 ## Not in this phase
-- Any file splitting (Phases 2–3). Any behaviour change at all — this is a pure move.
+- Any file splitting (Phases 2–3). Any behaviour change at all — this was a pure move.
 
 ## Done when
-- [ ] `npm test` green; `npm run typecheck` clean.
-- [ ] grep shows the guards defined once, imported everywhere else.
+- [x] `npm test` green (46/46); `npm run typecheck` clean.
+- [x] grep shows the guards defined once, imported everywhere else.
 - [ ] Product owner has tested the scenarios below and said go
 
 ## Test scenarios — for the product owner

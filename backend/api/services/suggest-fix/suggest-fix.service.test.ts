@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { createSuggestFixService } from "./suggest-fix.service.ts";
 import type { RunFix } from "./suggest-fix.service.ts";
 import type { SuggestFixRepo } from "./suggest-fix.repo.ts";
+import { isObjectRecord } from "../../../shared/guards.ts";
 
 // A fake repo returns canned run-dir + state + prompt/response reads, and a fake
 // RunFix stands in for the AI call — so the gate/assembly logic is exercised with
@@ -17,9 +18,6 @@ function fakeRepo(over: Partial<SuggestFixRepo> = {}): SuggestFixRepo {
   };
 }
 
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
 function hasStatus(n: number): (e: unknown) => boolean {
   return (e) => isObjectRecord(e) && e.status === n;
 }

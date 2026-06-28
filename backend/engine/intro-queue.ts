@@ -2,13 +2,8 @@ import path from "node:path";
 import * as questions from "./questions.ts";
 import { getArc } from "./meeting-arcs.ts";
 import type { Question, QuestionPurpose } from "../shared/question.types.ts";
+import { isObjectRecord, asString } from "../shared/guards.ts";
 
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
 function asQuestionPurpose(v: unknown): QuestionPurpose {
   return v === "wellbeing" ||
     v === "topic" ||

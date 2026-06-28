@@ -6,14 +6,9 @@
 import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
 import type { TranscriptEntry } from "../shared/session.types.ts";
+import { asRecord } from "../shared/guards.ts";
 
 // Model JSON is unknown until checked — narrow with these instead of trusting shapes.
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
 
 const RESPONSE_SCHEMA = {
   type: "object",

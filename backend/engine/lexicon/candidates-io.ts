@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import * as YAML from "yaml";
 import { LEXICONS_DIR } from "../paths.mts";
+import { isObjectRecord } from "../../shared/guards.ts";
 
 const SUGGESTED_DIR = path.join(LEXICONS_DIR, "_suggested");
 
@@ -21,10 +22,6 @@ interface AcceptedSuggestion {
   value?: string;
   reason?: string;
   better_as?: string | null;
-}
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
 }
 
 function ensureCandidateDoc(filePath: string, scope: CandidateScope): CandidateDoc {

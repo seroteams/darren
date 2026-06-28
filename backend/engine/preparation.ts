@@ -12,20 +12,12 @@ import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./r
 import { findJargon } from "./golden-checks.ts";
 
 import type { PreparationResult } from "../shared/session.types.ts";
+import { asRecord, asString } from "../shared/guards.ts";
 
 const getDefaultModel = () => modelFor("preparation");
 
 // Disk JSON / model output is unknown until checked — narrow with these instead
 // of trusting shapes (the established house pattern).
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
 
 // The prep brief, as the model emits it (RESPONSE_SCHEMA below) and as
 // generatePreparation returns it (PreparationResult.brief).

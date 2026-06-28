@@ -1,13 +1,11 @@
 import { URL } from "node:url";
 import type { IncomingMessage, ServerResponse } from "node:http";
+import { isObjectRecord } from "../shared/guards.ts";
 
 const MAX_BODY_BYTES = 1_000_000; // 1 MB cap on request bodies to prevent memory exhaustion
 
 // Disk/wire/error values are unknown until checked — narrow with this guard
 // instead of trusting shapes (the established house pattern).
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
 
 /** The per-request context handed to every route handler. */
 export interface RequestContext {

@@ -10,6 +10,7 @@ import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
 import { DATA_DIR, PROMPTS_DIR } from "./paths.mts";
+import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
 const PROFILES_DIR = path.join(DATA_DIR, "role-profiles");
 const PROMPT_PATH = path.join(PROMPTS_DIR, "generate-role-profile.md");
@@ -21,15 +22,6 @@ const FALLBACK_BLOCK =
 const getDefaultModel = () => modelFor("role_profile");
 
 // Disk JSON is unknown until checked — narrow with these instead of trusting shapes.
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
 
 // One generated challenge / theme item (category drives the relational-arc filter).
 interface RoleProfileItem {

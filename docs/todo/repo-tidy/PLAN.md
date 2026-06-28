@@ -11,7 +11,7 @@ What remains is *code* change, so it runs as tested phases, one at a time.
 
 ## Done means
 - The `isObjectRecord` / `asRecord` / `asString` guards live in ONE module, not ~34 copies.
-- No `.mjs` oddity in the TS engine (`run-debrief` is `.ts`).
+- ~~No `.mjs` oddity~~ — `run-debrief.mjs` is intentionally plain ESM (shared with the Vite build); left as-is.
 - `queue-manager.ts` and `sessions.controller.ts` are split into focused files.
 - A proven, repeatable path for the admin SPA to become TypeScript.
 - `npm test` green and app behaviour unchanged after every phase.
@@ -19,7 +19,7 @@ What remains is *code* change, so it runs as tested phases, one at a time.
 ## Phases
 | # | Phase | What it lands | Status | Sequencing |
 |---|---|---|---|---|
-| 1 | Shared guards + drop .mjs | One `backend/shared/guards.ts`; `run-debrief.ts` | ⬜ | Anytime — safe |
+| 1 | Shared guards | One `backend/shared/guards.ts`, imported across 38 files | 🔨 verified | Anytime — safe |
 | 2 | Split queue-manager | `axis-coverage` / `delta-gates` / `thread-follow` out of the 1.3k-line file | ⬜ | Anytime — engine only |
 | 3 | Split sessions.controller | Thin controller + `sessions.service` | ⬜ | **After** Phase 005 swaps the sessions repo |
 | 4 | Admin TypeScript pilot | Shared util layer + 2–3 stages to TS; prove the toolchain | ⬜ | Anytime — frontend only |
@@ -27,9 +27,10 @@ What remains is *code* change, so it runs as tested phases, one at a time.
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder scaffolded 2026-06-28; **no phase started** — awaiting Carl's go. None of these blocks
-Phase 005. Phases 1, 2, 4 are safe to run alongside Phase 005; Phase 3 touches the same
-`sessions` files Phase 005 swaps, so it waits until that swap lands.
+**Phase 1 built + verified 2026-06-28** — guards deduped across 38 files; `typecheck` clean,
+`npm test` 46/46. Awaiting Carl's glance to tick ✅. The run-debrief→ts item was dropped (it's
+deliberately `.mjs`, shared with the Vite build). Phases 2–4 not started. None blocks Phase 005;
+Phase 3 waits for Phase 005's sessions-repo swap.
 
 ## Parked
 - Converting ALL 47 admin stages to TS (Phase 4 only *pilots* it — the full sweep is its own plan).

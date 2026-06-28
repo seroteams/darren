@@ -7,10 +7,7 @@ import { loadLexicon, lexiconScopeFor, resolveLexiconScope, isLexiconReviewScope
 import { RESPONSE_SCHEMA } from "./schema.ts";
 import { appendCandidates, writeTrace, readTrace, tracePathFor } from "./candidates-io.ts";
 import { promptFor } from "../one-on-one-types/index.ts";
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
+import { isObjectRecord } from "../../shared/guards.ts";
 
 // The session context this stage reads. A superset of the lexicon helpers'
 // LexiconCtx (which only needs meetingType/role/seniority).

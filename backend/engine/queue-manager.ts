@@ -22,20 +22,12 @@ import { validateQuestionBeforeShow } from "./question-validator.ts";
 
 import type { Question, QuestionPurpose } from "../shared/question.types.ts";
 import type { AxisState, TranscriptEntry } from "../shared/session.types.ts";
+import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
 const getDefaultModel = () => modelFor("planner");
 
 // Disk JSON / model output is unknown until checked — narrow with these instead
 // of trusting shapes (the established house pattern).
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
 
 // REVIEW: bank/seed candidates load from disk YAML as loosely-typed records
 // (loadDir → Record<string, unknown>). The question YAML schema is closed and

@@ -25,16 +25,7 @@ import { renderNotesMarkdown } from "./notes-format.ts";
 import type { SessionsRepo, EligibilityLogEntries, LexiconCommitResult } from "./sessions.repo.ts";
 import type { Session, MeetingContext, TesterVerdict, SessionNote, TranscriptEntry } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
+import { isObjectRecord, asRecord, asString } from "../../../shared/guards.ts";
 
 // --- answer helpers (moved verbatim from handlers/answer.ts) ---
 const MAX_ANSWER_CHARS = 4000;

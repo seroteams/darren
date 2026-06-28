@@ -4,10 +4,7 @@ import { getActive, setActive } from "../../engine/cost.ts";
 import type { SseStream } from "../sse.ts";
 import type { RequestContext } from "../router.ts";
 import type { Session } from "../../shared/session.types.ts";
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
+import { isObjectRecord } from "../../shared/guards.ts";
 
 // The shared Session types inFlight as Map<string, unknown> (internal de-dup);
 // the entries are the shape we put in here. Narrow on read with the guard below.

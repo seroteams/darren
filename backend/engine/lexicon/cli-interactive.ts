@@ -5,10 +5,7 @@ import { bold, cyan, dim, gray, green, yellow, HR } from "../ui.ts";
 import { appendCandidates, writeTrace } from "./candidates-io.ts";
 import { generateSuggestions } from "./review-core.ts";
 import { ROOT } from "../paths.mts";
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
+import { isObjectRecord } from "../../shared/guards.ts";
 
 interface Suggestion {
   type: string;

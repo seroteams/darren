@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import * as YAML from "yaml";
 import { LEXICONS_DIR } from "../paths.mts";
+import { isObjectRecord } from "../../shared/guards.ts";
 
 const CAND_DIR = path.join(LEXICONS_DIR, "_candidates");
 const LEX_DIR = LEXICONS_DIR;
@@ -56,10 +57,6 @@ interface TouchedBucket {
   canonPath: string;
   canonChanged: boolean;
   candChanged: boolean;
-}
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
 }
 
 // Raw `.phrase` of an avoid entry (undefined if not an object) — matches the

@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { createArcsService } from "./arcs.service.ts";
 import type { ArcsRepo, ArcData, DiffResult } from "./arcs.repo.ts";
 import type { MeetingType } from "../../../engine/one-on-one-types/_shared/meeting-type.types.ts";
+import { isObjectRecord } from "../../../shared/guards.ts";
 
 // One canned type + its merged arc. serialize reads t.slug/t.label from the type
 // and tone_register/anti_patterns/arc from getArc, so the two are kept consistent.
@@ -48,9 +49,6 @@ function fakeRepo(over: Partial<ArcsRepo> = {}): { repo: ArcsRepo; calls: Calls 
   return { repo, calls };
 }
 
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
 // Run fn and report the HTTP status of whatever it throws (undefined if it didn't).
 function thrownStatus(fn: () => unknown): number | undefined {
   try {

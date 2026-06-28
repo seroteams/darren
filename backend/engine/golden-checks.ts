@@ -13,18 +13,10 @@ import { listTypes, listStageIds } from "./one-on-one-types/index.ts";
 
 import type { Briefing } from "../shared/briefing.types.ts";
 import type { AxisState } from "../shared/session.types.ts";
+import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
 // Disk JSON / model output / fixture briefings are unchecked until narrowed —
 // narrow with these instead of trusting shapes (the established house pattern).
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
 
 // The gates read transcript turns and briefings defensively (model output and
 // hand-crafted regression fixtures, not guaranteed-complete shapes). A turn here

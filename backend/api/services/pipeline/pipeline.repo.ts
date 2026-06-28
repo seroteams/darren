@@ -15,6 +15,7 @@ import {
   findLatestRun,
   buildHeadline,
 } from "../../../engine/run-history.ts";
+import { isObjectRecord, asRecord } from "../../../shared/guards.ts";
 
 // PipelineLock isn't exported from pipeline-lock — pull it off the return type.
 export type PipelineLock = ReturnType<typeof readPipelineLockFromDir>;
@@ -33,13 +34,6 @@ export interface PipelineRepo {
   readHeadline(dir: string): string | null;
   scanNow(): { capturedAt: unknown; aggregates: unknown };
   manifestCounts(): unknown;
-}
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
 }
 
 export const filePipelineRepo: PipelineRepo = {

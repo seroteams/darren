@@ -7,16 +7,7 @@
 // No storage, no req/res — these only shape strings.
 
 import type { Session, SessionNote } from "../../../shared/session.types.ts";
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
+import { asRecord, asString } from "../../../shared/guards.ts";
 
 const STAGE_LABEL: Record<string, string> = {
   FOCUS_POINTS: "Focus points",

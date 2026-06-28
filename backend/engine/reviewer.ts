@@ -14,6 +14,7 @@ import { callAI, parseAIJson } from "./ai-client.ts";
 
 import type { Briefing, AxisRead } from "../shared/briefing.types.ts";
 import type { AxisSlot, MeetingContext } from "../shared/session.types.ts";
+import { isObjectRecord } from "../shared/guards.ts";
 
 // evaluate is called with EITHER the live AxisState (Record<string, AxisSlot>) or
 // the serialized axis state (engine/axes.ts serialize() → just score + history,
@@ -25,9 +26,7 @@ const getDefaultModel = () => modelFor("evaluation");
 
 // Disk JSON / model output is unknown until checked — narrow with these instead
 // of trusting shapes (the established house pattern).
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
+
 // The evaluator wire is schema-constrained (RESPONSE_SCHEMA, additionalProperties
 // false); confirm the structural minimum (an axes array) and read the parsed
 // output as a Briefing. The axis post-process fields (read_status, confidence,

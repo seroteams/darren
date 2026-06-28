@@ -16,20 +16,12 @@ import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
 
 import type { Question, QuestionPurpose } from "../shared/question.types.ts";
+import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
 const getDefaultModel = () => modelFor("bank");
 
 // Disk JSON / model output is unknown until checked — narrow with these instead
 // of trusting shapes (the established house pattern).
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
 
 // A prep brief, as far as this stage reads it (its opener/core issue/listen-for
 // seed the bank prompt).

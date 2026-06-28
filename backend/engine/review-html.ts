@@ -10,19 +10,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { LOGS_ROOT } from "./session.ts";
 import { buildHeadline } from "./run-history.ts";
+import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
 const SKIP_MONTH_DIRS = new Set(["probes", "sweeps"]);
 
 // Disk JSON is unknown until checked — narrow with these instead of trusting shapes.
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
+
 function asNumber(v: unknown): number {
   return typeof v === "number" ? v : 0;
 }

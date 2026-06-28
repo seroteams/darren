@@ -9,16 +9,13 @@ import fs from "node:fs";
 import path from "node:path";
 import { findRunDir } from "../../../engine/run-history.ts";
 import { stageInfo } from "../../../engine/prompt-fixer.ts";
+import { isObjectRecord } from "../../../shared/guards.ts";
 
 export interface SuggestFixRepo {
   findRunDir(runId: string): string | null;
   readState(dir: string): Record<string, unknown> | null;
   readPrompt(dir: string, stage: string): string | null;
   readResponse(dir: string, stage: string): string | null;
-}
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
 }
 
 function readText(file: string): string | null {

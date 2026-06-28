@@ -3,20 +3,13 @@ import path from "node:path";
 import { walkRuns, reviewSummaryOf } from "./run-history.ts";
 import { DATA_DIR } from "./paths.mts";
 import type { NextAction } from "../shared/briefing.types.ts";
+import { asRecord, asString } from "../shared/guards.ts";
 
 const PEOPLE_ROOT = path.join(DATA_DIR, "people");
 const AXIS_ORDER = ["wellbeing", "engagement", "clarity", "growth"];
 
 // Disk JSON is unknown until checked — narrow with these instead of trusting shapes.
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
+
 function asNumber(v: unknown): number {
   return typeof v === "number" ? v : 0;
 }

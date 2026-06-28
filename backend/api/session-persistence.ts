@@ -5,16 +5,13 @@ import { findRunDir } from "../engine/run-history.ts";
 import { initState } from "../engine/axes.ts";
 import { createTracker } from "../engine/cost.ts";
 import type { Session } from "../shared/session.types.ts";
+import { isObjectRecord } from "../shared/guards.ts";
 
 const STATE_FILE = "session-state.json";
 
 // The on-disk shape: every Session field except the runtime-only ones (Maps +
 // tracker), which are rebuilt by hydrateSession on restore.
 type PersistedSession = Omit<Session, "lastPlanByTurn" | "inFlight" | "tracker">;
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
 
 // On-disk state is the closed output of serialize() below; a present string id
 // is the one integrity check the original made (`if (!s.id) return null`).

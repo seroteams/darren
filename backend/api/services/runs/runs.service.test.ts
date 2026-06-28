@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createRunsService } from "./runs.service.ts";
 import type { RunsRepo } from "./runs.repo.ts";
+import { isObjectRecord, asRecord } from "../../../shared/guards.ts";
 
 interface Calls {
   dropSession: string[];
@@ -34,12 +35,6 @@ function fakeRepo(over: Partial<RunsRepo> = {}): { repo: RunsRepo; calls: Calls 
   return { repo, calls };
 }
 
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
 // Run fn and report the status + message of whatever it threw.
 function thrown(fn: () => unknown): { status?: number; message?: string } {
   try {

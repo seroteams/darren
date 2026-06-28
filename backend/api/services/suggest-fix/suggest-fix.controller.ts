@@ -8,6 +8,7 @@ import { createSuggestFixService } from "./suggest-fix.service.ts";
 import type { RunFix } from "./suggest-fix.service.ts";
 import { fileSuggestFixRepo } from "./suggest-fix.repo.ts";
 import { suggestFix } from "../../../engine/prompt-fixer.ts";
+import { asRecord } from "../../../shared/guards.ts";
 
 const runFix: RunFix = (input) =>
   suggestFix({
@@ -19,13 +20,6 @@ const runFix: RunFix = (input) =>
   });
 
 const service = createSuggestFixService(fileSuggestFixRepo, runFix);
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
 
 export async function suggest(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());

@@ -3,6 +3,7 @@ import path from "node:path";
 import * as questions from "./questions.ts";
 import { DATA_DIR } from "./paths.mts";
 import type { MeetingType, ArcPhase } from "./one-on-one-types/_shared/meeting-type.types.ts";
+import { isObjectRecord, asRecord } from "../shared/guards.ts";
 
 // Arc overlays — a manager's edits to a 1:1 Type's arc live in a sidecar file,
 // `data/arc-overlays/<slug>.json`, NEVER in the canonical `type.js`. The registry
@@ -17,12 +18,6 @@ const OVERLAY_VERSION = 1;
 const SLUG_RE = /^[a-z0-9]+(?:_[a-z0-9]+)*$/;
 
 // Disk JSON is unknown until checked — narrow instead of trusting shapes.
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
 
 // The three editable fields an overlay may carry over the code-default Type.
 interface Overlay {

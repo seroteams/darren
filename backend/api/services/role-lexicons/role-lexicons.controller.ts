@@ -4,18 +4,9 @@
 import type { RequestContext } from "../../router.ts";
 import { createRoleLexiconsService } from "./role-lexicons.service.ts";
 import { fileRoleLexiconsRepo } from "./role-lexicons.repo.ts";
+import { asRecord, asString } from "../../../shared/guards.ts";
 
 const service = createRoleLexiconsService(fileRoleLexiconsRepo);
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
 
 export function list(c: RequestContext): void {
   c.json(200, { roles: service.list() });

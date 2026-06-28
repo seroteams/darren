@@ -6,15 +6,9 @@
 import type { RequestContext } from "../../router.ts";
 import { createLexiconService } from "./lexicon.service.ts";
 import { fileLexiconRepo } from "./lexicon.repo.ts";
+import { asRecord } from "../../../shared/guards.ts";
 
 const service = createLexiconService(fileLexiconRepo);
-
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
 
 export function pending(c: RequestContext): void {
   c.json(200, service.pending());

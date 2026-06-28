@@ -10,17 +10,10 @@ import { callAI, parseAIJson } from "./ai-client.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
 import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./role-profile.ts";
 import type { FocusPoint, FocusPointsResult } from "../shared/session.types.ts";
+import { asRecord, asString } from "../shared/guards.ts";
 
 // Model/disk JSON is unknown until checked — narrow with these instead of trusting shapes.
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
-}
+
 // The model's RESPONSE_SCHEMA pins source/confidence to these enums, so narrow
 // the parsed values into the canonical FocusPoint unions (byte-identical to the
 // old asString pass-through for any schema-valid response).

@@ -2,21 +2,13 @@ import fs from "node:fs";
 import path from "node:path";
 import { LOGS_ROOT, monthFolderFor } from "./session.ts";
 import { readPipelineLockFromDir } from "./pipeline-lock.ts";
+import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
 const STATE_FILE = "session-state.json";
 const SKIP_DIRS = new Set(["probes"]);
 
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
 function asNumber(v: unknown): number {
   return typeof v === "number" ? v : 0;
-}
-function asString(v: unknown): string {
-  return typeof v === "string" ? v : "";
 }
 
 function readState(stateFile: string): unknown {

@@ -31,6 +31,7 @@ import { loadPersona } from "../../persona-script.ts";
 import type { Persona } from "../../persona-script.ts";
 import type { Session, MeetingContext } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
+import { asRecord } from "../../../shared/guards.ts";
 
 /** The cached role-profile doc (or null when none is cached) — exactly what the
  *  engine's loadRoleProfile returns, named here so services + tests can refer to it. */
@@ -146,9 +147,3 @@ export const fileSessionsRepo: SessionsRepo = {
   commitLexiconDecisions: (session, ctx, keepIds) => commitDecisions({ session, ctx, keepIds }),
 };
 
-function isObjectRecord(v: unknown): v is Record<string, unknown> {
-  return Boolean(v) && typeof v === "object";
-}
-function asRecord(v: unknown): Record<string, unknown> {
-  return isObjectRecord(v) ? v : {};
-}
