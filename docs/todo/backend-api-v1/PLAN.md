@@ -38,7 +38,7 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
-> ### ✅ 2026-06-28 — `sessions` **S1b DONE** (the remaining 3 free reads) — built on free checks, **awaiting Carl's walk** (not committed by Carl yet)
+> ### ✅ 2026-06-28 — `sessions` **S1b DONE** (the remaining 3 free reads) — **Carl walked + approved** ("Yes — passed"); code committed `0e0bcf21`. **➡️ NEXT: S2 (non-AI writes, `start` leads).**
 > Converted the last 3 of S1's 5 free reads — each pulls a 2nd store, unlike S1a — into the sessions
 > service/controller, **test-first** (red → green):
 > - `services/sessions/sessions.repo.ts` — broadened the seam from "the session record" to **the sessions

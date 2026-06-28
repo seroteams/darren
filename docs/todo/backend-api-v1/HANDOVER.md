@@ -16,9 +16,11 @@ behind a versioned `/api/v1/`. **Behaviour-identical — structure only, no feat
   - **S0** ✅ committed — the `SessionsRepo` storage seam + `createSessionsService` core.
   - **S1a** ✅ committed — 2 of 5 free reads converted: `GET /session` (snapshot) + `GET /lexicon/scope`.
     Live gate (`leak-devon`) PASSED after the refactor → no behaviour regression.
+  - **S1b** ✅ committed (`0e0bcf21`) + **Carl-approved** — the remaining 3 free reads
+    (`GET /role-profile`, `/preview`, `/question`). All 5 free reads now layered → **S1 complete**.
 - **Step 4 (mirrored integration/e2e test tree)** ⬜ not started.
 
-## ~~NEXT — S1b: the remaining 3 free reads~~ ✅ DONE 2026-06-28 (see PLAN.md "Current state" — awaiting Carl's walk). **NEXT is now S2 (non-AI writes).**
+## ~~NEXT — S1b: the remaining 3 free reads~~ ✅ DONE + **Carl-approved** 2026-06-28 (committed `0e0bcf21`). **NEXT is now S2 (non-AI writes, `start` leads).**
 Converted these, **test-first**, one small seam each (they each pull in a 2nd store, unlike S1a):
 | Route (legacy) | Old handler | Extra dependency |
 |---|---|---|
