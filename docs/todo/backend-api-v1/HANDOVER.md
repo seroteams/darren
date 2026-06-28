@@ -4,7 +4,7 @@
 [sessions-subphase.md](sessions-subphase.md). Then continue.**
 
 Date: 2026-06-28. Branch: `main`. **Tree is clean and pushed** — `main` is in sync with `origin/main`.
-Latest commits: `<bank>` (S4 bank) · `1ae7ba49` (S4 preparation) · `feb8ae5b` (S4 focus-points) · `5a5fe7ab` (S3).
+Latest commits: `6ccad211` (S4 bank) · `1ae7ba49` (S4 preparation) · `feb8ae5b` (S4 focus-points) · `5a5fe7ab` (S3).
 (Untracked `content/questions/_runtime/*`, `role-profiles/*`, `docs/todo/briefing-readability-p0/` are
 **pre-existing, unrelated** to this phase — leave them alone; there's a standing rule against touching the
 questions artifacts.)
