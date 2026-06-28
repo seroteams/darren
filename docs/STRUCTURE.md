@@ -4,20 +4,22 @@ A one-line map of the repo, with **lifecycle** so it's clear what's live code, w
 just reference, and what's generated (and therefore safe to delete/rebuild).
 
 **Start here for current work:** [`SERO_BOARD.md`](../SERO_BOARD.md) — the single live board.
+**How code is named + laid out:** [`CONVENTIONS.md`](CONVENTIONS.md) — one page, for anyone walking in.
 
 > Layout note (Phase 001 reorg): everything now lives in five rooms — `backend/`
 > (engine + API + CLI), `admin/` (the internal UI), `frontend/` (future customer app,
 > placeholder), `content/` (all product content), and `docs/`. Tooling (`scripts/`,
 > `evals/`, `logs/`) and root config stay at the root. Where content lives on disk is
-> defined in one place: `backend/engine/paths.js`.
+> defined in one place: `backend/engine/paths.mts`.
 
 ## Top-level folders
 
 | Path | What lives here | Lifecycle |
 |---|---|---|
-| `backend/engine/` | Pipeline core — generate, prep, queue, eval, lexicon, one-on-one types. `paths.js` is the address book (one place defining where content lives) | **live code** |
+| `backend/engine/` | Pipeline core — generate, prep, queue, eval, lexicon, one-on-one types. `paths.mts` is the address book (one place defining where content lives) | **live code** |
 | `backend/api/` | HTTP API + session persistence | **live code** |
-| `backend/cli.js` | CLI entry point | **live code** |
+| `backend/tests/` | Integration tests, mirroring the API service domains (`test-*.js`) | **live test code** |
+| `backend/cli.ts` | CLI entry point | **live code** |
 | `admin/` | Web UI (Vite SPA), one module per pipeline stage — the internal admin tool | **live code** |
 | `frontend/` | Placeholder for the future customer app (Phase 007) — README only for now | **placeholder** |
 | `content/prompts/` | Stage prompt templates (`.md` + `.notes.yaml`) — what we tell the LLM | **live config** |
@@ -41,9 +43,9 @@ just reference, and what's generated (and therefore safe to delete/rebuild).
 | `SERO_BOARD.md` | **The live board** — what's in flight now. Start here. |
 | `CLAUDE.md` | Standing behavioural rules for this repo |
 | `README.md` | Quick start + short repo map |
-| `backend/cli.js` | CLI entry point |
+| `backend/cli.ts` | CLI entry point |
 | `smoke-test.js` | Full 5-stage smoke run |
-| `backend/engine/paths.js` | The address book — one place defining where content lives |
+| `backend/engine/paths.mts` | The address book — one place defining where content lives |
 
 ## The look-alikes (what actually differs)
 
