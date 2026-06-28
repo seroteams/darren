@@ -128,7 +128,13 @@ const PATH_META: Record<string, PathMeta> = {
   // + preparation + bank + evaluation (S4) moved to the sessions controller — their engines
   // (generate.ts "Focus points", preparation.ts "Preparation", question-generator.ts
   // "Question bank", reviewer.ts "Evaluation") still track them.
-  "backend/api/handlers/plan.ts": { tier: "engine", stageLabel: "Questioning (planner)" },
+  // plan (S4) is NOT thin runStage wiring — its orchestration (agenda carry-forward,
+  // closer force-insert, seed overflow) moved into the sessions controller. Its engine
+  // queue-manager.ts ("Questioning (planner)") tracks the planner call, but that glue
+  // lives in the controller now, so we REPOINT here (same call as S1b's question move:
+  // dropping the entry would silently drop the glue from drift-tracking). This tracks
+  // the sessions controller (all five streams' orchestration).
+  "backend/api/services/sessions/sessions.controller.ts": { tier: "engine", stageLabel: "Questioning (planner)" },
   // question (S1b) + answer (S2b) moved into the sessions service; their engine
   // logic is tracked there now (see backend/api/services/sessions/sessions.service.ts above).
   // lexicon's per-session reviewer (candidates) moved into the sessions service (S3);

@@ -13,7 +13,6 @@ import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { forbidden, rateLimited } from "./middleware/http-error.ts";
-import plan from "./handlers/plan.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
 import * as runs from "./services/runs/runs.controller.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
@@ -324,7 +323,10 @@ function main(): void {
   // focus-points it manages its own response, so NO v1Route; v1 just nests the path.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/bank\/stream$/, sessions.bankStream);
   router.add("GET", "/api/bank/stream", sessions.bankStream);
-  router.add("GET", "/api/plan/stream", plan);
+  // plan/stream is an SSE stream (S4) — now on the sessions controller. Like
+  // focus-points it manages its own response, so NO v1Route; v1 just nests the path.
+  router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/plan\/stream$/, sessions.planStream);
+  router.add("GET", "/api/plan/stream", sessions.planStream);
   // evaluation/stream is an SSE stream (S4) — now on the sessions controller. Like
   // focus-points it manages its own response, so NO v1Route; v1 just nests the path.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/evaluation\/stream$/, sessions.evaluationStream);

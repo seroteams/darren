@@ -8,10 +8,14 @@ For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full 
 
 ## ▶ Your move
 
-**Phase 004 · sessions S4 — `evaluation` stream is DONE** (4th of 5 streams), free-verified + committed.
-Two ways forward, your call:
-- **Say "go"** → I convert the **last** stream, `plan` (the big one — ~300 lines, manages its own SSE).
-- **Walk the evaluation QA** (optional, costs one model call): finish a real 1:1 → the final briefing generates exactly as before. Structure is already proven free.
+**Phase 004 · sessions S4 is COMPLETE — all 5 SSE streams converted.** The `plan` stream (the big one) just
+landed, free-verified + committed. `backend/api/handlers/` now holds only the shared `stream-helper.ts` — every
+sessions route is layered. Two things remain before Phase 004 is done (and Phase 005 can start):
+- **Say "go"** → I do the **end-of-sessions cleanup** (relocate the shared `snapshot` / `inferStage` /
+  `summarizeAxes` derivations to their layered home) — small, free, structure-only.
+- Then **Step 4** — the mirrored integration/e2e test tree.
+- Optional anytime: **walk the S3/S4 AI QA** (costs model calls) — finish a real 1:1 and the streams behave
+  exactly as before. Structure is already proven free.
 
 - Last updated: 2026-06-28
 - Baseline: `npm test` → **46/46 passed** (free, offline) ✅
@@ -28,15 +32,15 @@ Two ways forward, your call:
 
 We're deep in the final domain, **`sessions`** (the live 1:1 runner), converted in safe passes S0→S4. S0–S3 are ✅. We're in **S4 — the 5 SSE streams**, one stream per pass.
 
-### S4 — SSE streams (one at a time)
+### S4 — SSE streams ✅ COMPLETE
 - [x] `focus-points` stream ✅
 - [x] `preparation` stream ✅
 - [x] `bank` stream ✅
-- [x] `evaluation` stream ✅ — **just landed** (controller `evaluationStream` + `kickLexiconReview`; legacy `/api/evaluation/stream` repointed + new v1 `/api/v1/sessions/:id/evaluation/stream`; handler deleted; manifest folded). `npm test` 46/46, typecheck clean, $0 boot-diff legacy==v1 byte-identical.
-- [ ] `plan` stream ⬜ **next — the big one** (~300 lines, no `runStage`, manages its own SSE)
+- [x] `evaluation` stream ✅
+- [x] `plan` stream ✅ — **just landed** (the big one: controller `planStream` + `CachedPlan`/`PlanResult`; moved verbatim — idempotent per-turn replay, back-nav snapshot, agenda carry-forward, closer force-insert, seed overflow; `requireSession`→`service.require`, `persistSession`→`service.persist`). Legacy `/api/plan/stream` repointed + new v1 `/api/v1/sessions/:id/plan/stream`; handler deleted; manifest **repointed** to the controller (keeps the planner glue drift-tracked). `npm test` 46/46, typecheck clean, $0 boot-diff legacy==v1 byte-identical.
 
-### After S4
-- [ ] End-of-sessions cleanup — relocate `snapshot` / `inferStage` / `summarizeAxes` to their layered home
+### After S4 — what's left in Phase 004
+- [ ] **Next:** End-of-sessions cleanup — relocate `snapshot` / `inferStage` / `summarizeAxes` to their layered home
 - [ ] **Step 4** — the mirrored integration/e2e test tree
 - [ ] **Phase 004 owner-walk → green light** → then Phase 004 is ✅ and **Phase 005 can start** (not before)
 

@@ -38,6 +38,46 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### ✅ 2026-06-28 — `sessions` **S4 `plan` stream DONE — S4 COMPLETE (all 5 streams)** — structure-only, free-verified, **committed**. Paid walk deferred.
+> The big one — last and on its own, as planned. The ~300-line live planner does **not** use `runStage`; it
+> manages its own SSE with idempotent per-turn replay, the back-navigation snapshot, agenda carry-forward,
+> closer force-insert and seed overflow. Moved **verbatim** into the controller; only session-resolution changed.
+> - `services/sessions/sessions.controller.ts` — **+`planStream(c)`** (handler body moved verbatim) **+ the
+>   `CachedPlan`/`PlanResult` interfaces + `isCachedPlan` guard**. The two seam swaps: `requireSession(c.query.s)`
+>   → `service.require(sessionId(c))`, and the final `persistSession(session)` → `service.persist(session)`
+>   (both go through the S0 seam; behaviour-identical). `summarizeAxes` is imported from `../../sessions.ts` —
+>   its current home — to relocate in the end-of-sessions cleanup (same rule as snapshot/inferStage). Added the
+>   planner's engine/io imports (`planTurn`, `applyDeltas`, `pinPrepOpenerEarly`, `isForbiddenCloser`/
+>   `pickSeedOverflow`, `summarizeAgenda`/`buildCarryForwardQuestion`, `questions`, `materializeQuestion`,
+>   `appendEligibilityLog`, `writeJson`, `cost`, `openStream`, `fs`/`path`).
+> - **Wiring (`server.ts`):** legacy `/api/plan/stream` repointed onto `sessions.planStream` + a **new** v1
+>   `GET /api/v1/sessions/:id/plan/stream` (no `v1Route` — manages own response). Removed the handler import;
+>   **deleted `handlers/plan.ts`**. **`handlers/` now holds only the shared `stream-helper.ts`** — every
+>   sessions route is layered (the end-state the sub-phase plan called for).
+> - **Manifest (`pipeline-lock.ts`) — REPOINTED, not dropped (flag):** unlike the four thin runStage streams,
+>   `plan`'s orchestration (agenda carry-forward, closer force-insert, seed overflow) is real glue, and its
+>   helper engines (`closer.ts`, `agenda.ts`) aren't separately tracked — so simply dropping the entry would
+>   silently drop that glue from drift-tracking. I **repointed** `handlers/plan.ts` →
+>   `backend/api/services/sessions/sessions.controller.ts` (tier engine, "Questioning (planner)"), the same call
+>   as S1b's `question.ts`→service move. This now tracks the whole sessions controller (all five streams' glue);
+>   it bumps the pipeline **engine hash** for new runs — accurate, the code really moved. Tell me if you'd
+>   rather a finer label.
+> - **No new unit test (flag):** a stream has no pure service-level logic to unit-test (the orchestration runs
+>   live SSE + disk side-effects); the body is moved **verbatim** (covered by typecheck + the boot-diff).
+> - **Verified (free):** `npm test` **46/46**, typecheck clean, banned-construct grep clean. **$0 SSE boot-diff
+>   (key unset — model unreachable), READ-ONLY branches only (the mutating planning path is never triggered):**
+>   legacy vs v1 **byte-identical** — unknown session → both flat 404 `Unknown session: <id>`; a completed
+>   session (turn 9/9, `pendingAnswer` null, no cached `lastPlanByTurn`) → both emit
+>   `:ok → error {"message":"no pending answer","recoverable":false}` identically (no mutation, no model call,
+>   no file writes; also proves the v1 path-id resolves to the same session as legacy `?s=`).
+> - **⚠️ Deferred (money):** the *real planning turn* (answer scored → queue re-planned → model call) mutates
+>   live state, so it's exercised naturally during a real run on your go (covered by the $3 Phase-004 budget) —
+>   never as a throwaway boot-diff (it would corrupt a real on-disk session).
+>
+> **S4 is done.** Remaining Phase 004 work: **end-of-sessions cleanup** (relocate the shared `snapshot` /
+> `inferStage` / `summarizeAxes` derivations to their layered home now that no legacy handler imports them) ·
+> **Step 4** (the mirrored integration/e2e test tree). Then the Phase 004 owner-walk → done → Phase 005.
+>
 > ### ✅ 2026-06-28 — `sessions` **S4 `evaluation` stream DONE** — structure-only, free-verified, **committed**. Paid walk deferred. **1 stream to go.**
 > Fourth S4 stream, same proven pattern as `focus-points`/`preparation`/`bank` (streams **manage their own
 > response → no `v1Route`**; the shared **`runStage`** drives idempotent replay + the model call). The pure
