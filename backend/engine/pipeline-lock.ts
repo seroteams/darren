@@ -125,13 +125,12 @@ const PATH_META: Record<string, PathMeta> = {
   // The SSE-stream handlers are thin runStage wiring; their real stage engines are
   // tracked above (generate.ts/preparation.ts/question-generator.ts/queue-manager.ts/
   // reviewer.ts), so a converted stream drops its redundant handler entry. focus-points
-  // + preparation + bank (S4) moved to the sessions controller — their engines (generate.ts
-  // "Focus points", preparation.ts "Preparation", question-generator.ts "Question bank")
-  // still track them.
+  // + preparation + bank + evaluation (S4) moved to the sessions controller — their engines
+  // (generate.ts "Focus points", preparation.ts "Preparation", question-generator.ts
+  // "Question bank", reviewer.ts "Evaluation") still track them.
   "backend/api/handlers/plan.ts": { tier: "engine", stageLabel: "Questioning (planner)" },
   // question (S1b) + answer (S2b) moved into the sessions service; their engine
   // logic is tracked there now (see backend/api/services/sessions/sessions.service.ts above).
-  "backend/api/handlers/evaluation.ts": { tier: "engine", stageLabel: "Evaluation" },
   // lexicon's per-session reviewer (candidates) moved into the sessions service (S3);
   // its engine (review-core / candidates-io / lexicon) is tracked above.
   "backend/api/handlers/stream-helper.ts": { tier: "engine", stageLabel: "Streaming" },

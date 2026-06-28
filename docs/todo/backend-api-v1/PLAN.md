@@ -38,6 +38,40 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### ✅ 2026-06-28 — `sessions` **S4 `evaluation` stream DONE** — structure-only, free-verified, **committed**. Paid walk deferred. **1 stream to go.**
+> Fourth S4 stream, same proven pattern as `focus-points`/`preparation`/`bank` (streams **manage their own
+> response → no `v1Route`**; the shared **`runStage`** drives idempotent replay + the model call). The pure
+> `formatNotesForEvaluation` was **already relocated** to `services/sessions/notes-format.ts` in S2b, so —
+> like `bank` — nothing to move. The simplest remaining stream.
+> - `services/sessions/sessions.controller.ts` — **+`evaluationStream(c)`** (the handler's body moved
+>   **verbatim**: resolve session through the seam → compute `notesForEvaluation` from intake + captured notes
+>   → `runStage` with the evaluation config; the final-stage `focusPointsResult` narrow + 409 throw kept inside
+>   `produce`, exactly as before) **+ the `kickLexiconReview` helper** (moved verbatim; fired fire-and-forget
+>   from `setCached` once the briefing lands). Added imports: `evaluate` (`reviewer.ts`), `serialize`
+>   (`axes.ts`), `formatNotesForEvaluation` (`./notes-format.ts`), `shouldReview` (folded into the existing
+>   `lexicon-reviewer` import), and the `Session` type.
+> - **Wiring (`server.ts`):** legacy `/api/evaluation/stream` repointed onto `sessions.evaluationStream` + a
+>   **new** v1 `GET /api/v1/sessions/:id/evaluation/stream` (no `v1Route` — manages own response). Removed the
+>   handler import; **deleted `handlers/evaluation.ts`**. `handlers/` now holds only `plan.ts` + the shared
+>   `stream-helper.ts`.
+> - **Manifest (`pipeline-lock.ts`):** dropped the `handlers/evaluation.ts` entry — its real engine
+>   `backend/engine/reviewer.ts` ("Evaluation") still tracks the logic. Comment updated.
+> - **No new unit test (flag):** a stream has no pure service-level logic to unit-test (the orchestration is the
+>   shared `runStage`); the `produce` + `kickLexiconReview` are moved **verbatim** and use engine fns directly
+>   (covered by typecheck + the boot-diff), same call as the prior three streams.
+> - **Verified (free):** `npm test` **46/46**, typecheck clean, banned-construct grep clean. **$0 SSE boot-diff
+>   (key unset — model unreachable):** legacy vs v1 **byte-identical** — unknown session → both flat 404
+>   `Unknown session: <id>`; a real completed session (briefing already cached) → both replay
+>   `:ok → thinking {"label":"Final evaluation"} → briefing {…} → done` identically (6131 bytes each). The
+>   cached replay (`runStage` Case 1) skips `setCached`, so `kickLexiconReview` never fires — **no model call**;
+>   it also implicitly proves the v1 path-id resolves to the same session as legacy `?s=`.
+> - **⚠️ Deferred (money):** the *fresh* live path (a briefing actually generated, then the cached replay) is
+>   one model call — walked naturally on your go (covered by the $3 Phase-004 budget).
+>
+> **Remaining S4 stream (1):** `plan` (**THE BIG ONE — ~300 lines, no `runStage`, manages its own SSE with
+> idempotent replay, snapshot capture, agenda carry-forward, closer force-insert — last, on its own**). Then
+> end-of-sessions cleanup (relocate `snapshot`/`inferStage`/`summarizeAxes`) + Step 4 test tree.
+>
 > ### ✅ 2026-06-28 — `sessions` **S4 `bank` stream DONE** — structure-only, free-verified, **committed + pushed**. Paid walk deferred. **2 streams to go.**
 > Third S4 stream, same proven pattern as `focus-points` + `preparation` (streams **manage their own response →
 > no `v1Route`**; the shared **`runStage`** drives idempotent replay + the model call). Bank exports **no pure

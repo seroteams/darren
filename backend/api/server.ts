@@ -14,7 +14,6 @@ import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { forbidden, rateLimited } from "./middleware/http-error.ts";
 import plan from "./handlers/plan.ts";
-import evaluation from "./handlers/evaluation.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
 import * as runs from "./services/runs/runs.controller.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
@@ -326,7 +325,10 @@ function main(): void {
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/bank\/stream$/, sessions.bankStream);
   router.add("GET", "/api/bank/stream", sessions.bankStream);
   router.add("GET", "/api/plan/stream", plan);
-  router.add("GET", "/api/evaluation/stream", evaluation);
+  // evaluation/stream is an SSE stream (S4) — now on the sessions controller. Like
+  // focus-points it manages its own response, so NO v1Route; v1 just nests the path.
+  router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/evaluation\/stream$/, sessions.evaluationStream);
+  router.add("GET", "/api/evaluation/stream", sessions.evaluationStream);
   // preview is a session read (S1b) — now on the sessions controller. v1 nests it
   // under the session resource (/sessions/:id/preview); legacy ?s=&stage= unchanged.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/preview$/, v1Route(sessions.preview));
