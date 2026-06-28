@@ -14,6 +14,7 @@ import { ensureRoleProfile } from "../../../engine/role-profile.ts";
 import { generateFocusPoints } from "../../../engine/generate.ts";
 import { suggestAnswers as draftAnswersEngine } from "../../../engine/answer-suggester.ts";
 import { generateSuggestions } from "../../../engine/lexicon-reviewer.ts";
+import { runStage } from "../../handlers/stream-helper.ts";
 
 // The real AI pre-warm wired into the service's injected boundary: role profile
 // first (cache hit adds ~0ms), then focus points — so every stage finds the
@@ -143,4 +144,31 @@ export async function suggestAnswers(c: RequestContext): Promise<void> {
 // GET /api/v1/sessions/:id/lexicon/candidates  ·  GET /api/lexicon/candidates?s=<id>
 export async function lexiconCandidates(c: RequestContext): Promise<void> {
   c.json(200, await service.lexiconCandidates(sessionId(c)));
+}
+
+// --- S4: SSE streams. These manage their own response (no v1Route, like library);
+// the shared runStage drives idempotent replay + the model call. The session is
+// resolved through the same seam (service.require → 404 before the stream opens).
+
+// GET /api/v1/sessions/:id/focus-points/stream  ·  GET /api/focus-points/stream?s=<id>
+export async function focusPointsStream(c: RequestContext): Promise<void> {
+  const session = service.require(sessionId(c));
+  const force = c.query.regenerate === "1" || c.query.regenerate === "true";
+  if (force) {
+    session.focusPointsResult = null;
+    const inFlight = session.inFlight.get("focus-points");
+    if (isObjectRecord(inFlight) && inFlight.controller instanceof AbortController) {
+      inFlight.controller.abort();
+      session.inFlight.delete("focus-points");
+    }
+  }
+
+  await runStage(c, session, "focus-points", {
+    thinkingLabel: "Choosing focus points",
+    getCached: () => session.focusPointsResult,
+    setCached: (r) => { session.focusPointsResult = r; },
+    produce: () => generateFocusPoints(session.ctx, { session: { id: session.id, dir: session.dir } }),
+    resultEvent: "result",
+    buildPayload: (r) => ({ meeting_type: r.meeting_type, focus_points: r.focus_points }),
+  });
 }

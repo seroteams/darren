@@ -38,6 +38,34 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### 🔨 2026-06-28 — `sessions` **S4 STARTED** — `focus-points` stream converted (the first stream = the pattern). Free-verified, **committed + pushed**. 4 streams to go.
+> Per the locked plan ("convert one stream first as the pattern, then the rest"), converted the simplest SSE
+> stream to establish the pattern. Streams **manage their own response → no `v1Route`** (like library); the
+> shared **`runStage`** (idempotent replay + the model call) stays in `handlers/stream-helper.ts`.
+> - `services/sessions/sessions.controller.ts` — **+`focusPointsStream(c)`**: resolves the session through
+>   the **seam** (`service.require` → 404 before the stream opens), handles `?regenerate=`, then calls the
+>   shared `runStage` with the stage config. The model call (`generateFocusPoints`) is the `produce` boundary.
+> - **Wiring (`server.ts`):** legacy `/api/focus-points/stream` repointed onto `sessions.focusPointsStream`
+>   + a **new** v1 `GET /api/v1/sessions/:id/focus-points/stream` (**no `v1Route`** — manages own response;
+>   v1 just nests the path). Removed the handler import; **deleted `handlers/focus-points.ts`**.
+> - **Manifest:** dropped the now-redundant `handlers/focus-points.ts` entry — the SSE handlers are thin
+>   `runStage` wiring and their real stage engines are already tracked (`generate.ts` = "Focus points", etc.),
+>   so a converted stream just drops its proxy entry (no fold needed, unlike the JSON routes).
+> - **No new unit test (flag):** a stream has no pure service-level logic to unit-test — the orchestration is
+>   the shared `runStage` (unchanged). Verified instead by typecheck + the $0 SSE boot-diff below.
+> - **Verified (free):** `npm test` **45/45**, typecheck clean, banned-construct grep clean. **$0 SSE
+>   boot-diff (key unset — model unreachable):** a fresh stream emits **`thinking → error`** identically on
+>   legacy vs v1; unknown-session → **both flat 404** `Unknown session: <id>` (no `v1Route` on streams, so v1
+>   stays flat too — byte-identical). The full runStage fresh-run path is exercised on both routes, $0.
+> - **⚠️ Deferred (money):** the real success path (focus points actually generated, then the cached replay)
+>   is one model call — walked naturally on your go.
+>
+> **Remaining S4 streams (each its own step — they vary a lot):** `preparation` (also relocates the pure
+> `buildPreparationInputs`, which the service already imports for preview) · `bank` (complex scripted-lane
+> `produce`) · `plan` (**the ~300-line live planner — it does NOT use `runStage`; manages its own SSE with
+> idempotent replay, snapshot capture, agenda carry-forward, closer force-insert — the biggest/riskiest**) ·
+> `evaluation` (+ the fire-and-forget `kickLexiconReview`). Then end-of-sessions cleanup + Step 4 test tree.
+>
 > ### ✅ 2026-06-28 — `sessions` **S3 DONE** (the 2 AI JSON routes) — structure-only, free-verified, **committed + pushed**. Paid live walk **deferred**.
 > `suggest-answers` (roleplay answer drafts) + `lexicon/candidates` (the per-session lexicon reviewer) — both
 > call the model — converted **structure-only**, test-first, behaviour-identical. The model is an **injected

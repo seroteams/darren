@@ -12,7 +12,6 @@ import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { forbidden, rateLimited } from "./middleware/http-error.ts";
-import focusPoints from "./handlers/focus-points.ts";
 import preparation from "./handlers/preparation.ts";
 import bank from "./handlers/bank.ts";
 import plan from "./handlers/plan.ts";
@@ -300,9 +299,13 @@ function main(): void {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return lexiconPromote.apply(c);
   });
-  router.add("GET", "/api/focus-points/stream", focusPoints);
+  // focus-points/stream is an SSE stream (S4) — now on the sessions controller.
+  // It manages its own response, so NO v1Route (like library); v1 just nests the
+  // path under the session resource. The shared stream-helper.ts stays in handlers/.
+  router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/focus-points\/stream$/, sessions.focusPointsStream);
+  router.add("GET", "/api/focus-points/stream", sessions.focusPointsStream);
   // focus-points/select is a sessions non-AI write (S2b) — now on the sessions
-  // controller. (The stream above stays a handler until S4.)
+  // controller.
   router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/focus-points\/select$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return sessions.selectedFocus(c);

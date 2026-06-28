@@ -122,7 +122,10 @@ const PATH_META: Record<string, PathMeta> = {
   "backend/api/session-persistence.ts": { tier: "engine", stageLabel: "Session persistence" },
   // start's create + scripted-lane orchestration moved into the sessions service
   // (S2); it's tracked there now (see backend/api/services/sessions/sessions.service.ts).
-  "backend/api/handlers/focus-points.ts": { tier: "engine", stageLabel: "Focus points" },
+  // The SSE-stream handlers are thin runStage wiring; their real stage engines are
+  // tracked above (generate.ts/preparation.ts/question-generator.ts/queue-manager.ts/
+  // reviewer.ts), so a converted stream drops its redundant handler entry. focus-points
+  // (S4) moved to the sessions controller — generate.ts ("Focus points") still tracks it.
   "backend/api/handlers/preparation.ts": { tier: "engine", stageLabel: "Preparation" },
   "backend/api/handlers/bank.ts": { tier: "engine", stageLabel: "Question bank" },
   "backend/api/handlers/plan.ts": { tier: "engine", stageLabel: "Questioning (planner)" },
