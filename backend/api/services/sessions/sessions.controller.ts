@@ -8,9 +8,32 @@
 
 import type { RequestContext } from "../../router.ts";
 import { createSessionsService } from "./sessions.service.ts";
+import type { Prewarm } from "./sessions.service.ts";
 import { fileSessionsRepo } from "./sessions.repo.ts";
+import { ensureRoleProfile } from "../../../engine/role-profile.ts";
+import { generateFocusPoints } from "../../../engine/generate.ts";
 
-const service = createSessionsService(fileSessionsRepo);
+// The real AI pre-warm wired into the service's injected boundary: role profile
+// first (cache hit adds ~0ms), then focus points — so every stage finds the
+// profile on disk. Fire-and-forget, exactly as the legacy /start handler did.
+const prewarm: Prewarm = (session, ctx) => {
+  ensureRoleProfile(ctx, { session: { id: session.id, dir: session.dir } })
+    .catch(() => null)
+    .then(() => generateFocusPoints(ctx, { session: { id: session.id, dir: session.dir } }))
+    .then((result) => {
+      session.focusPointsResult = result;
+    })
+    .catch(() => {});
+};
+
+const service = createSessionsService(fileSessionsRepo, prewarm);
+
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return Boolean(v) && typeof v === "object";
+}
+function asRecord(v: unknown): Record<string, unknown> {
+  return isObjectRecord(v) ? v : {};
+}
 
 function sessionId(c: RequestContext): string {
   return c.params.id || c.query.s || "";
@@ -39,4 +62,12 @@ export function preview(c: RequestContext): void {
 // GET /api/v1/sessions/:id/question  ·  GET /api/question?s=<id>
 export function question(c: RequestContext): void {
   c.json(200, service.question(sessionId(c)));
+}
+
+// POST /api/v1/sessions  ·  POST /api/start
+// Creates a session (the origin guard + per-IP rate limit live in server.ts, as
+// today). 201 with the new session's id/dir/createdAt/introQueueLen.
+export async function start(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  c.json(201, service.start(body));
 }

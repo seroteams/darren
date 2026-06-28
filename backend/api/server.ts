@@ -11,8 +11,7 @@ import { startSweep } from "./sessions.ts";
 import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
-import { forbidden } from "./middleware/http-error.ts";
-import start from "./handlers/start.ts";
+import { forbidden, rateLimited } from "./middleware/http-error.ts";
 import suggestAnswers from "./handlers/suggest-answers.ts";
 import answer from "./handlers/answer.ts";
 import back from "./handlers/back.ts";
@@ -114,10 +113,20 @@ function main(): void {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return arcs.save(c);
   });
+  // start — create a session (controller → service → repo + S0 seam; the AI
+  // pre-warm is injected). The origin guard + per-IP rate limit are HTTP concerns,
+  // so they stay here in front of both routes. v1 creates on the collection
+  // (POST /api/v1/sessions, decision D4) with the one error shape; legacy
+  // /api/start keeps the old flat error shape so the admin is unaffected.
+  router.add("POST", "/api/v1/sessions", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    if (rateLimitIp(c.req)) throw rateLimited("Rate limit exceeded");
+    return sessions.start(c);
+  }));
   router.add("POST", "/api/start", (c) => {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     if (rateLimitIp(c.req)) return c.error(Object.assign(new Error("Rate limit exceeded"), { status: 429 }));
-    return start(c);
+    return sessions.start(c);
   });
   // sessions — the live 1:1 runner (controller → service → repo, the S0 seam). v1
   // takes the id IN THE PATH (/api/v1/sessions/:id…, decision D4) with the one error

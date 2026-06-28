@@ -112,6 +112,9 @@ export function notFound(message = "Not found"): HttpError {
 export function conflict(message: string, details?: unknown): HttpError {
   return new HttpError(409, "CONFLICT", message, details);
 }
+export function rateLimited(message = "Rate limit exceeded"): HttpError {
+  return new HttpError(429, "RATE_LIMITED", message);
+}
 export function validationFailed(message: string, details?: unknown): HttpError {
   return new HttpError(422, "VALIDATION_FAILED", message, details);
 }

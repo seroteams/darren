@@ -120,7 +120,8 @@ const PATH_META: Record<string, PathMeta> = {
   "backend/api/sessions.ts": { tier: "engine", stageLabel: "Sessions" },
   "backend/api/services/sessions/sessions.service.ts": { tier: "engine", stageLabel: "Sessions" },
   "backend/api/session-persistence.ts": { tier: "engine", stageLabel: "Session persistence" },
-  "backend/api/handlers/start.ts": { tier: "engine", stageLabel: "Start" },
+  // start's create + scripted-lane orchestration moved into the sessions service
+  // (S2); it's tracked there now (see backend/api/services/sessions/sessions.service.ts).
   "backend/api/handlers/focus-points.ts": { tier: "engine", stageLabel: "Focus points" },
   "backend/api/handlers/preparation.ts": { tier: "engine", stageLabel: "Preparation" },
   "backend/api/handlers/bank.ts": { tier: "engine", stageLabel: "Question bank" },

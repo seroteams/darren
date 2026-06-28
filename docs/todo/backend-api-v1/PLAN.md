@@ -38,6 +38,51 @@ file storage behind the repo seam), no new product features, no UI redesign. Str
 
 ## Current state
 
+> ### 🔨 2026-06-28 — `sessions` **S2a BUILT** (`POST /start` — the special one that leads S2) — test-first, free-verified. **NOT committed — awaiting your S2a walk.**
+> S2's first step. `start` is the risky non-AI write (it **creates** a session, is **rate-limited**, and
+> fires the **async AI pre-warm**), so it's isolated as its own sub-pass + commit. Converted **test-first**
+> (red → green), behaviour-identical:
+> - `services/sessions/sessions.repo.ts` — added one seam read: `loadPersona(personaId)` (the scripted-lane
+>   persona-bench read) + a re-exported `EligibilityLogEntries` type. Storage only.
+> - `services/sessions/sessions.service.ts` — added `start(body)`: the validation 400s (name/role/seniority
+>   required, meetingTypeIndex range), intro-queue composition (pure engine — `pickOpener`/`loadIntroQueue`/
+>   `getArc`/`buildAgendaCheck`, moved verbatim), `repo.create` → opener-rejection log → scripted lane
+>   (`repo.loadPersona` + pure `scriptAnswers`/`buildFingerprint`) → `repo.persist`. The AI pre-warm is now an
+>   **injected `Prewarm` boundary** (fired fire-and-forget after persist) — like suggest-fix's `runFix`, so the
+>   service makes **no model call itself** and is unit-testable.
+> - `services/sessions/sessions.controller.ts` — thin async `start` handler (reads body → `c.json(201, …)`) and
+>   **wires the real pre-warm** (`ensureRoleProfile` → `generateFocusPoints`, the exact legacy chain, sets
+>   `session.focusPointsResult` on resolve).
+> - **Wiring (`server.ts`):** legacy `POST /api/start` repointed onto `sessions.start` — the origin guard +
+>   per-IP rate limit are HTTP concerns and **stay in server.ts unchanged**, so the admin is unaffected. Added
+>   a **new** v1 `POST /api/v1/sessions` (create on the collection — D4; the id doesn't exist yet, so it's the
+>   collection POST, not `/:id`) with the one error shape, throwing `forbidden` / `rateLimited`. Added a
+>   `rateLimited()` factory to `http-error.ts` (first 429 producer). Removed the orphaned `handlers/start.ts`.
+> - **Fingerprint-manifest call (flag):** dropped the `handlers/start.ts` entry from `pipeline-lock.ts`
+>   `PATH_META` and noted that start's orchestration now lives in `sessions.service.ts` (already tracked,
+>   label "Sessions"). Same accurate engine-hash churn as S1b's `question` move — the code really did move file.
+> - **Tests:** `sessions.service.test.ts` **+5 cases (27 total)** — validation 400s; manual create (ctx
+>   trimmed, `create`+`persist` forwarded through the seam, **pre-warm fired once** with the live session+ctx,
+>   201 body shape); scripted lane (`loadPersona` via seam → `scriptAnswers`/fallback/coverage/fingerprint
+>   stamped). Pre-warm injected as a spy → **zero model, zero session-state disk** (the only disk is the
+>   deterministic offline opener/intro-queue config the runner always composes from).
+> - **Verified (free):** `npm test` **45/45 files**, typecheck clean, banned-construct grep clean.
+>   **Live boot diff ($0 — `OPENAI_API_KEY` unset so the pre-warm's model calls fail fast + are swallowed,
+>   nothing billed):** legacy `/api/start` vs v1 `POST /api/v1/sessions` — both **201** with identical key set
+>   (`sessionId,sessionDir,createdAt,introQueueLen`) and the same `introQueueLen` (4); missing-name → both
+>   **400** (legacy flat `{"error":"name required"}`, v1 enveloped `{code:"BAD_REQUEST"}`); bad origin → both
+>   **403** (flat vs enveloped). The two test sessions were created on disk then removed.
+> - **What's NOT proven (flag):** the pre-warm *succeeding* (focus points actually generated) needs a real
+>   key = a model call. Structure is proven free; the live AI side is exercised naturally the next time you
+>   start a real session in the runner — no separate paid test needed.
+>
+> **S2a QA (walk for sign-off):** start a real 1:1 from the console (any meeting type) → the session is created
+> exactly as before (same 201, lands in the runner, intro questions queued); a bad request (e.g. blank name)
+> still 400s; rapid repeats still 429 after 5. Nothing in the start flow changes.
+>
+> **Remaining S2 (S2b, next pass):** the 7 simpler non-AI writes — `answer`, `back`, `notes`, `agenda/cover`,
+> `verdict`, `focus-points/select`, `lexicon/decisions`. Then **S3** AI JSON · **S4** SSE streams · cleanup.
+>
 > ### ✅ 2026-06-28 — `sessions` **S1b DONE** (the remaining 3 free reads) — **Carl walked + approved** ("Yes — passed"); code committed `0e0bcf21`. **➡️ NEXT: S2 (non-AI writes, `start` leads).**
 > Converted the last 3 of S1's 5 free reads — each pulls a 2nd store, unlike S1a — into the sessions
 > service/controller, **test-first** (red → green):

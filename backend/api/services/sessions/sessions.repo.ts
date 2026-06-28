@@ -24,12 +24,18 @@ import {
 } from "../../sessions.ts";
 import { loadRoleProfile } from "../../../engine/role-profile.ts";
 import { appendEligibilityLog } from "../../../engine/question-eligibility.ts";
+import { loadPersona } from "../../persona-script.ts";
+import type { Persona } from "../../persona-script.ts";
 import type { Session, MeetingContext } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
 
 /** The cached role-profile doc (or null when none is cached) — exactly what the
  *  engine's loadRoleProfile returns, named here so services + tests can refer to it. */
 export type RoleProfileDoc = ReturnType<typeof loadRoleProfile>;
+
+/** The eligibility-log entry array — what the opener picker collects and the repo
+ *  writes (S2 start re-uses this for opener rejections). */
+export type EligibilityLogEntries = NonNullable<Parameters<typeof appendEligibilityLog>[1]>;
 
 export interface SessionsRepo {
   /** Live-or-restore-from-disk read; undefined when no such session exists. */
@@ -46,6 +52,9 @@ export interface SessionsRepo {
   /** Append serve-time eligibility rejections to the session's on-disk log
    *  (log-only; a write failure never breaks a live turn). */
   appendEligibilityLog(dir: string, entries: Parameters<typeof appendEligibilityLog>[1]): void;
+  /** The scripted-lane persona for an id (null when none / not scripted) — a read
+   *  of the on-disk persona bench (no model call). */
+  loadPersona(personaId: string | null): Persona | null;
 }
 
 const ELIGIBILITY_LOG_FILE = "eligibility-log.json";
@@ -63,4 +72,5 @@ export const fileSessionsRepo: SessionsRepo = {
   appendEligibilityLog: (dir, entries) => {
     appendEligibilityLog(path.join(dir, ELIGIBILITY_LOG_FILE), entries);
   },
+  loadPersona: (personaId) => loadPersona(personaId),
 };

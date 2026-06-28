@@ -7,16 +7,42 @@
 // session is a 404. The message text is kept verbatim so the legacy alias's body is
 // byte-identical when its route is converted; v1 wraps it in the shared error shape.
 
-import { notFound, conflict } from "../../middleware/http-error.ts";
-import { snapshot, inferStage } from "../../sessions.ts";
+import { badRequest, notFound, conflict } from "../../middleware/http-error.ts";
+import { snapshot, inferStage, INTRO_BUDGET } from "../../sessions.ts";
 import { shouldReview } from "../../../engine/lexicon-reviewer.ts";
 import { effectiveTerminology, terminologyGroups } from "../../../engine/role-profile.ts";
 import { assemblePreparation } from "../../../engine/preparation.ts";
 import { buildPreparationInputs } from "../../handlers/preparation.ts";
 import { checkQuestionEligibility, dropIneligibleHeads } from "../../../engine/question-eligibility.ts";
-import type { SessionsRepo } from "./sessions.repo.ts";
+import { MEETING_TYPES } from "../../../engine/meeting-types.ts";
+import { pickOpener } from "../../../engine/opener.ts";
+import { loadIntroQueue } from "../../../engine/intro-queue.ts";
+import { getArc } from "../../../engine/meeting-arcs.ts";
+import { buildFingerprint } from "../../../engine/run-fingerprint.ts";
+import { scriptAnswers } from "../../persona-script.ts";
+import type { SessionsRepo, EligibilityLogEntries } from "./sessions.repo.ts";
 import type { Session, MeetingContext } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
+
+function asString(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+
+// The semi-set early agenda question /start always seeds into the intro queue,
+// anchored to the meeting arc's first stage. Pure — moved verbatim from the handler.
+function buildAgendaCheck(anchorStageId: string | null): Question {
+  return Object.freeze({
+    alias: "q_intro_agenda_check",
+    label: "Agenda check",
+    name: "Before we get into it, anything you want to make sure we cover today?",
+    description:
+      "Semi-set early question. Gives the team member explicit permission to set the agenda before the manager's plan takes over.",
+    purpose: "engagement",
+    stage: anchorStageId,
+    axis_effects: { engagement: 1, clarity: 1 },
+    source: "semi_set",
+  });
+}
 
 // The preview response: either the assembled stage payload or "this stage has no
 // previewable payload yet" (200, not an error — the UI just shows nothing).
@@ -34,6 +60,21 @@ type QuestionResult =
       scripted: { alias: string; answer: string | null; fallback: string } | null;
       question: Pick<Question, "alias" | "label" | "name" | "description" | "purpose">;
     };
+
+// The /start 201 body — the new session's id + dir + when it was created + how
+// many intro questions were queued. Byte-identical to the legacy handler.
+interface StartResult {
+  sessionId: string;
+  sessionDir: string;
+  createdAt: number;
+  introQueueLen: number;
+}
+
+// The injected AI pre-warm boundary. /start fires this (fire-and-forget) right
+// after persist to cache the role profile then generate focus points, so later
+// stages find them on disk. Injected — like suggest-fix's runFix — so the service
+// stays model-free + unit-testable; the controller wires the real engine chain.
+export type Prewarm = (session: Session, ctx: MeetingContext) => void;
 
 // stage -> assemble its payload from a live session, with ZERO API calls. Reuses
 // the live run's own assembly so the preview can never drift from what actually
@@ -65,9 +106,12 @@ export interface SessionsService {
   };
   preview(id: string, stage?: string): PreviewResult;
   question(id: string): QuestionResult;
+  // S2 — non-AI writes. start leads: create a session + scripted lane, then fire
+  // the (injected) AI pre-warm. Takes the already-read request body record.
+  start(body: Record<string, unknown>): StartResult;
 }
 
-export function createSessionsService(repo: SessionsRepo): SessionsService {
+export function createSessionsService(repo: SessionsRepo, prewarm: Prewarm = () => {}): SessionsService {
   function requireExisting(id: string): Session {
     const s = repo.get(id);
     if (!s) throw notFound(`Unknown session: ${id}`);
@@ -163,6 +207,69 @@ export function createSessionsService(repo: SessionsRepo): SessionsService {
           description: q.description,
           purpose: q.purpose,
         },
+      };
+    },
+
+    start: (body) => {
+      const { name, role, seniority, meetingTypeIndex, notes, mode, runLabel, personaId } = body;
+
+      if (typeof name !== "string" || !name.trim()) throw badRequest("name required");
+      if (typeof role !== "string" || !role.trim()) throw badRequest("role required");
+      if (typeof seniority !== "string" || !seniority.trim()) throw badRequest("seniority required");
+
+      const idx = Number(meetingTypeIndex);
+      if (!Number.isInteger(idx) || idx < 0 || idx >= MEETING_TYPES.length)
+        throw badRequest("meetingTypeIndex out of range");
+      const meetingType = MEETING_TYPES[idx];
+      if (!meetingType) throw badRequest("meetingTypeIndex out of range");
+
+      const arc = getArc(meetingType.label);
+      const anchorStageId = arc.arc[0]?.id || null;
+      const ctx: MeetingContext = {
+        name: name.trim(),
+        role: role.trim(),
+        seniority: seniority.trim(),
+        meetingType: meetingType.label,
+        notes: asString(notes).trim(),
+      };
+
+      const openerRejections: EligibilityLogEntries = [];
+      const opener = pickOpener(ctx, { rejections: openerRejections });
+      const introRest = loadIntroQueue(meetingType.label, INTRO_BUDGET - 1);
+      const introQueue = [opener, buildAgendaCheck(anchorStageId), ...introRest].slice(0, INTRO_BUDGET);
+      const session = repo.create(ctx, introQueue);
+      if (openerRejections.length) {
+        repo.appendEligibilityLog(session.dir, openerRejections);
+      }
+
+      // Scripted test lane: load the persona's fixed script so the bank/planner can
+      // freeze the question path (manual mode skips all this).
+      const isScripted = mode === "scripted";
+      const persona = isScripted ? repo.loadPersona(typeof personaId === "string" ? personaId : null) : null;
+      session.mode = isScripted ? "scripted" : "manual";
+      session.runLabel = typeof runLabel === "string" ? runLabel.trim() || null : null;
+      session.fingerprint = buildFingerprint({
+        mode: session.mode,
+        runLabel: session.runLabel,
+        personaId: persona ? persona.id : null,
+        scriptVersion: persona ? persona.script_version : null,
+      });
+      if (persona) {
+        session.scriptAnswers = scriptAnswers(persona);
+        session.scriptedFallback = persona.scripted_fallback || null;
+        session.scriptCoverage = { aliases_answered_by_script: [], aliases_missing_script: [], fallback_count: 0 };
+      }
+      repo.persist(session);
+
+      // Pre-warm while the user answers intro questions (fire-and-forget, via the
+      // injected boundary so this service makes no model call itself).
+      prewarm(session, ctx);
+
+      return {
+        sessionId: session.id,
+        sessionDir: session.dir,
+        createdAt: session.createdAt,
+        introQueueLen: introQueue.length,
       };
     },
   };

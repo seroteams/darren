@@ -7,6 +7,9 @@ import { initState } from "../../../engine/axes.ts";
 import { createTracker } from "../../../engine/cost.ts";
 import { TOTAL_BUDGET } from "../../../engine/budgets.ts";
 import { shouldReview } from "../../../engine/lexicon-reviewer.ts";
+import { MEETING_TYPES } from "../../../engine/meeting-types.ts";
+import { INTRO_BUDGET } from "../../sessions.ts";
+import type { Persona } from "../../persona-script.ts";
 import type { Session, MeetingContext } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
 
@@ -51,7 +54,7 @@ function fakeSession(id: string): Session {
 // we can prove the service forwards writes through the seam.
 function fakeRepo(
   seed: Session[] = [],
-  opts: { roleProfileDoc?: RoleProfileDoc } = {}
+  opts: { roleProfileDoc?: RoleProfileDoc; persona?: Persona } = {}
 ): {
   repo: SessionsRepo;
   store: Map<string, Session>;
@@ -85,6 +88,8 @@ function fakeRepo(
     appendEligibilityLog: (dir, entries) => {
       logged.push({ dir, entries });
     },
+    // S2 — the scripted-lane persona bench read:
+    loadPersona: (personaId) => (opts.persona && personaId === opts.persona.id ? opts.persona : null),
   };
   return { repo, store, created, dropped, persisted, logged };
 }
@@ -368,4 +373,130 @@ test("question throws a 404 for an unknown session", () => {
     () => createSessionsService(repo).question("ghost"),
     (err: unknown) => err instanceof HttpError && err.status === 404 && err.code === "NOT_FOUND"
   );
+});
+
+// --- S2: start (create a session — the non-AI write that leads S2) ---
+// start composes its intro queue from the real (offline, deterministic) opener +
+// intro-queue config; these cases prove the SEAM forwarding (create/persist/
+// loadPersona), the injected pre-warm boundary firing, the validation 400s, and
+// the scripted-lane stamping — no model call, no session-state disk.
+
+test("start rejects a missing/blank name with a 400 BAD_REQUEST", () => {
+  const { repo } = fakeRepo();
+  assert.throws(
+    () => createSessionsService(repo).start({ role: "Eng", seniority: "Senior", meetingTypeIndex: 0 }),
+    (err: unknown) =>
+      err instanceof HttpError && err.status === 400 && err.code === "BAD_REQUEST" && err.message === "name required"
+  );
+});
+
+test("start rejects a missing role / seniority with the same 400s as today", () => {
+  const svc = createSessionsService(fakeRepo().repo);
+  assert.throws(
+    () => svc.start({ name: "Dana", seniority: "Senior", meetingTypeIndex: 0 }),
+    (err: unknown) => err instanceof HttpError && err.status === 400 && err.message === "role required"
+  );
+  assert.throws(
+    () => svc.start({ name: "Dana", role: "Eng", meetingTypeIndex: 0 }),
+    (err: unknown) => err instanceof HttpError && err.status === 400 && err.message === "seniority required"
+  );
+});
+
+test("start rejects an out-of-range meetingTypeIndex (negative or past the end) with a 400", () => {
+  const svc = createSessionsService(fakeRepo().repo);
+  const base = { name: "Dana", role: "Eng", seniority: "Senior" };
+  for (const idx of [-1, MEETING_TYPES.length, 999, "nope"]) {
+    assert.throws(
+      () => svc.start({ ...base, meetingTypeIndex: idx }),
+      (err: unknown) =>
+        err instanceof HttpError && err.status === 400 && err.message === "meetingTypeIndex out of range"
+    );
+  }
+});
+
+test("start (manual) creates via the seam, persists, fires the pre-warm once, and returns the 201 payload", () => {
+  const { repo, created, persisted } = fakeRepo();
+  const fired: Array<{ id: string; ctx: MeetingContext }> = [];
+  const prewarm = (session: Session, ctx: MeetingContext) => {
+    fired.push({ id: session.id, ctx });
+  };
+  const firstType = MEETING_TYPES[0];
+  assert.ok(firstType);
+
+  const out = createSessionsService(repo, prewarm).start({
+    name: "  Dana  ",
+    role: " Engineer ",
+    seniority: " Senior ",
+    meetingTypeIndex: 0,
+    notes: "  busy week  ",
+  });
+
+  // created through the seam with a trimmed ctx + a real (non-empty) intro queue
+  assert.equal(created.length, 1);
+  const call = created[0];
+  assert.ok(call);
+  assert.deepEqual(call.ctx, {
+    name: "Dana",
+    role: "Engineer",
+    seniority: "Senior",
+    meetingType: firstType.label,
+    notes: "busy week",
+  });
+  assert.ok(call.introQueue.length >= 1 && call.introQueue.length <= INTRO_BUDGET);
+
+  // persisted once; pre-warm fired once with the live session + the same ctx
+  assert.equal(persisted.length, 1);
+  assert.equal(fired.length, 1);
+  const fire = fired[0];
+  assert.ok(fire);
+  assert.equal(fire.id, out.sessionId);
+  assert.deepEqual(fire.ctx, call.ctx);
+
+  // the 201 body shape mirrors the legacy handler exactly
+  assert.deepEqual(out, {
+    sessionId: "new-0",
+    sessionDir: "/fake/new-0",
+    createdAt: 0,
+    introQueueLen: call.introQueue.length,
+  });
+
+  // manual lane: no persona pulled; mode/runLabel stamped on the live session
+  const sess = repo.get("new-0");
+  assert.ok(sess);
+  assert.equal(sess.mode, "manual");
+  assert.equal(sess.runLabel, null);
+});
+
+test("start (scripted) loads the persona through the seam and stamps the scripted lane", () => {
+  const persona: Persona = {
+    id: "p1",
+    script: [{ alias: "q_a", name: "Q A", answer: "answer A", stage: null, axis_effects: {} }],
+    script_version: "v2",
+    scripted_fallback: "answer in your own words",
+  };
+  const { repo, persisted } = fakeRepo([], { persona });
+
+  const out = createSessionsService(repo, () => {}).start({
+    name: "Dana",
+    role: "Engineer",
+    seniority: "Senior",
+    meetingTypeIndex: 0,
+    mode: "scripted",
+    personaId: "p1",
+    runLabel: "  bench-run  ",
+  });
+
+  const sess = repo.get(out.sessionId);
+  assert.ok(sess);
+  assert.equal(sess.mode, "scripted");
+  assert.equal(sess.runLabel, "bench-run");
+  assert.deepEqual(sess.scriptAnswers, { q_a: "answer A" });
+  assert.equal(sess.scriptedFallback, "answer in your own words");
+  assert.deepEqual(sess.scriptCoverage, {
+    aliases_answered_by_script: [],
+    aliases_missing_script: [],
+    fallback_count: 0,
+  });
+  assert.ok(sess.fingerprint); // a run fingerprint was stamped
+  assert.equal(persisted.length, 1);
 });
