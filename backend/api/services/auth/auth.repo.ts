@@ -9,7 +9,7 @@
 
 import { eq } from "drizzle-orm";
 import { getDb } from "../../../db/client.ts";
-import { users, organizations } from "../../../db/schema.ts";
+import { users, organizations, authSessions } from "../../../db/schema.ts";
 
 /** A user as auth reads it — includes the password hash (login needs it); the
  *  service strips it before anything leaves the server (see PublicUser). */
@@ -74,5 +74,67 @@ export const pgAuthRepo: AuthRepo = {
     const org = rows[0];
     if (!org) throw new Error("ensureDefaultOrg: insert returned no row");
     return org.id;
+  },
+};
+
+// --- Login sessions (Phase 3) — the auth_sessions store. Kept as its own interface
+// so the register/login service's AuthRepo (and its test fake) stay untouched: the
+// controller manages sessions after the service authenticates.
+
+/** Who a valid session belongs to — what buildIdentity needs. */
+export interface SessionIdentity {
+  userId: string;
+  orgId: string;
+  roles: string[];
+}
+
+/** A new login session to persist (the cookie carries `token`). */
+export interface NewSession {
+  token: string;
+  userId: string;
+  orgId: string;
+  expiresAt: Date;
+}
+
+export interface AuthSessionRepo {
+  /** Persist a new login session. */
+  create(input: NewSession): Promise<void>;
+  /** The identity behind a session token, or null when unknown or expired. */
+  findIdentityByToken(token: string): Promise<SessionIdentity | null>;
+  /** Remove a session (logout). */
+  delete(token: string): Promise<void>;
+}
+
+export const pgAuthSessionRepo: AuthSessionRepo = {
+  async create(input) {
+    const db = getDb();
+    await db.insert(authSessions).values({
+      token: input.token,
+      userId: input.userId,
+      orgId: input.orgId,
+      expiresAt: input.expiresAt,
+    });
+  },
+  async findIdentityByToken(token) {
+    const db = getDb();
+    const rows = await db
+      .select({
+        userId: authSessions.userId,
+        orgId: authSessions.orgId,
+        role: users.role,
+        expiresAt: authSessions.expiresAt,
+      })
+      .from(authSessions)
+      .innerJoin(users, eq(users.id, authSessions.userId))
+      .where(eq(authSessions.token, token))
+      .limit(1);
+    const r = rows[0];
+    if (!r) return null;
+    if (r.expiresAt.getTime() <= Date.now()) return null; // expired — treat as no session
+    return { userId: r.userId, orgId: r.orgId, roles: [r.role] };
+  },
+  async delete(token) {
+    const db = getDb();
+    await db.delete(authSessions).where(eq(authSessions.token, token));
   },
 };

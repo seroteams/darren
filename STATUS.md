@@ -8,13 +8,10 @@ For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full 
 
 ## ▶ Your move
 
-**Phase 2 ✅ QA'd + committed. I'm now building Phase 3 (stay logged in + guard the doors + dev side-door).**
-Nothing for you to do this second — I'll come back with QA scenarios when it's built. Phase 3 lands: a secure
-login cookie so a refresh keeps you in, a real guard that turns logged-out visitors away from protected
-endpoints, a logout, and a private `DEV_AUTOLOGIN` one-click-in that is **sealed shut in production** (proven
-by a test).
+**Phase 3 ✅ tested (11/11 checks I ran for Carl, all green) + committed. I'm now building Phase 4 — the
+last one (signup creates the company + each company's data fenced).** Nothing for you to do this second.
 
-✅ Phase 1 committed (`2e43a42e`) · ✅ Phase 2 committed.
+✅ Phase 1 committed (`2e43a42e`) · ✅ Phase 2 committed (`d1a6b8c6`) · ✅ Phase 3 committed.
 
 📄 Plan: [PLAN.md](docs/todo/auth-front-door/PLAN.md) ·
 [phase-1](docs/todo/auth-front-door/phase-1.md) · [phase-2](docs/todo/auth-front-door/phase-2.md) ·
@@ -34,14 +31,14 @@ by a test).
 📄 [docs/todo/auth-front-door/PLAN.md](docs/todo/auth-front-door/PLAN.md)
 **Goal:** real register/login with safe passwords, guarded pages, signup that creates the company (data
 fenced per-company) — plus a dev-only one-click login that's sealed shut for real customers.
-**Status:** Phase 1 ✅ + Phase 2 ✅ committed; Phase 3 in progress 2026-06-29.
+**Status:** Phase 1 ✅ + Phase 2 ✅ + Phase 3 ✅ committed; Phase 4 (final) in progress 2026-06-29.
 
 | # | Phase | Status |
 |---|---|---|
 | 1 | Accounts tables ready | ✅ committed `2e43a42e` |
 | 2 | Register & login with safe passwords | ✅ QA'd + committed |
-| 3 | Keep people in, guard the doors (+ dev side-door) | 🔨 building |
-| 4 | Signup creates the company | ⬜ |
+| 3 | Keep people in, guard the doors (+ dev side-door) | ✅ tested + committed |
+| 4 | Signup creates the company | 🔨 building |
 
 **Just-finished plan:** Postgres Foundation → [docs/todo/done/postgres-foundation/PLAN.md](docs/todo/done/postgres-foundation/PLAN.md) (all 4 phases ✅, committed `b079b88b`).
 

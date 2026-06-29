@@ -78,6 +78,8 @@ function main(): void {
   // the one error shape from the start.
   router.add("POST", "/api/v1/auth/register", v1Route(auth.register));
   router.add("POST", "/api/v1/auth/login", v1Route(auth.login));
+  router.add("POST", "/api/v1/auth/logout", v1Route(auth.logout));
+  router.add("GET", "/api/v1/auth/me", v1Route(auth.me));
 
   // catalog — first domain on the v1 layer (controller → service → repo).
   // v1 routes use the one error shape (v1Route); the legacy /api/ paths stay as

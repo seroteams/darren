@@ -26,13 +26,24 @@ This phase fills seams that already exist — it is not from scratch:
 |---|---|---|---|
 | 1 | Accounts tables ready | `auth_sessions` table + confirm the account tables are complete; `bcryptjs` installed | 🔨 |
 | 2 | Register & login with safe passwords | Register hashes the password; login verifies it; raw password never stored | ✅ |
-| 3 | Keep people in, guard the doors (+ dev side-door) | Login issues a secure cookie; logged-out is refused on protected pages; `DEV_AUTOLOGIN` one-click in, sealed in prod | ⬜ |
+| 3 | Keep people in, guard the doors (+ dev side-door) | Login issues a secure cookie; logged-out is refused on protected pages; `DEV_AUTOLOGIN` one-click in, sealed in prod | ✅ |
 | 4 | Signup creates the company | Register creates the org + owner; every query fenced to the caller's company | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ committed `2e43a42e`.** **Phase 2 ✅ Carl QA'd + green-lit 2026-06-29.**
+**Phase 1 ✅ committed `2e43a42e`.** **Phase 2 ✅ committed `d1a6b8c6`.**
+**Phase 3 ✅ QA'd (11/11 checks run on Carl's behalf, all green) + green-lit 2026-06-29.**
+Login creates an `auth_sessions`
+row and sets an httpOnly cookie (Secure added in production only, so local http dev still works); a refresh
+keeps you in. `buildIdentity()` reads the cookie → real `{userId, orgId, roles}`; `requireAuth()` rejects
+when logged-out. Added `POST /api/v1/auth/logout` (clears cookie **and** deletes the row — a real
+revocation) and a protected `GET /api/v1/auth/me`. Dev side-door: `DEV_AUTOLOGIN` (non-prod only) auto-logs
+in with no cookie — **hard-gated dead in production** (proven by a test). Existing endpoints are left
+unguarded on purpose (broad fencing is Phase 4) so the admin app keeps working. `npm test` 48/48 ✅, typecheck
+clean ✅. Live proof against the running server: register→login→/me(200)→/me-no-cookie(401)→logout→/me-with-old-cookie(401),
+plus side-door(200). Not committed yet (commits on your green light).
+Phase 2 detail —
 New `backend/api/services/auth/`
 (controller → service → repo + mirrored tests): `POST /api/v1/auth/register` and `POST /api/v1/auth/login`.
 Passwords scrambled with `bcryptjs` (cost 10); the raw password is never stored, logged, or returned.
