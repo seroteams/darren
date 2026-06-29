@@ -9,44 +9,26 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-**Phase 007 — Phase 1 (login gate + screens) is DONE and committed ✅. Next: Phase 2 — re-point the data.**
+**Phase 007 — the login screen — is DONE and closed ✅. Nothing is actively in flight — pick what's next.**
 
-You walked Phase 1 and gave the go ("logged in and out and work swell"), so it's committed locally and the
-build board's 007 entry is re-framed to the fold-in (no more "separate customer app"). The admin console now
-has a real front door — login screen when logged out, register creates your account + company, refresh keeps
-you in, log out returns you to login.
+Both phases are green-lit and committed locally. The admin console now has a real front door (login / register /
+logout), and each company sees only its **own** runs — two companies can't see each other's data. The plan is
+archived at [docs/todo/done/login-screen/](docs/todo/done/login-screen/PLAN.md).
 
-**Phase 2 — the data re-point (real isolation):** make the console read/write **your** company's data, not
-the shared placeholder org, so two companies can't see each other's runs. My first move is read-only and free:
-verify the generic `/api/v1/` routes already fence by your login's company (the way `/auth/me/runs` does). If
-any still fall back to the shared org, that's a small backend fix I'll flag first — not paper over. Then I
-migrate the client off the legacy routes. Full detail: [docs/todo/login-screen/phase-2.md](docs/todo/login-screen/phase-2.md).
+There's no phase plan in flight right now. When you want to start the next thing, tell me which — either a
+parked plan below, or a feature from [SERO_BOARD.md](SERO_BOARD.md) (the "Cross-session follow-up" continuity
+loop is the flagged next big item). I'll set it up as a fresh plan and we work it one phase at a time.
+
+One small loose thread carried over: a hardening follow-up to also fence *live, in-progress* sessions by
+company (the saved-runs wall is complete). Low priority, parked in the closed plan and on the board.
 
 - Last updated: 2026-06-29
-- Phase 1: committed locally ✅ · `npm test` **49/49** ✅ · typecheck clean ✅ · your QA walk green ✅.
-- Phase 2: **built — ready for your QA walk** (uncommitted; commits on your green light). Approach A. Runs are
-  fenced by company end-to-end, new sessions are stamped with your company, and the console's screens now read
-  from the fenced routes. Offline checks green: `npm test` **51/51**, typecheck clean, client syntax OK.
-  Deferred as a follow-up (task #7): live-session-by-id hardening — not needed for the runs QA.
-  Live free smoke (no paid runs) confirms the wall over real HTTP: logged in, fenced `/api/v1/runs/recent`
-  returns **0** (old null-org runs hidden); anonymous legacy path returns **3** — the fence working.
-  **App is running for you at http://localhost:3000** (fresh API on 3007, today's code; existing 3001 left alone).
-  **▶ Your move:** walk the two-company isolation scenarios in [phase-2.md](docs/todo/login-screen/phase-2.md).
-  Heads-up: making a run appear means starting a session, which calls the AI model (small paid OpenAI usage) —
-  your call to run. One behaviour note: old dev runs (no company tag) won't show under your account, by design.
-
----
-
-## Active plan: Phase 007 — The login screen (fold into the admin console)
-
-📄 [docs/todo/login-screen/PLAN.md](docs/todo/login-screen/PLAN.md)
-**Goal:** make login real in the app you can click, then point the console's data at your real company so
-two companies can't see each other's runs.
-
-| # | Phase | Status |
-|---|-------|--------|
-| 1 | Login gate + screens | ✅ done — green-lit + committed |
-| 2 | Re-point console data to the org (real isolation) | 🔨 in progress — approach A chosen, building |
+- Phase 1 (login gate + screens): ✅ committed `b8db668a` · QA-walked by you.
+- Phase 2 (data fenced per company, approach A): ✅ committed `6df05419` · `npm test` **51/51**, typecheck clean,
+  + a live free smoke (logged-in fenced runs = 0, anonymous legacy = 3 — the wall live over HTTP). Paid
+  two-company walk deferred; you accepted on the offline tests + smoke.
+- App may still be running for you at http://localhost:3000 (a fresh API on 3007 + web on 3000 I started for the
+  smoke; the pre-existing 3001 server was left untouched).
 
 ---
 
