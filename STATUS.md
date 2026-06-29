@@ -3,28 +3,41 @@
 **This is the live tracker for the phase plan we're actively working through.**
 One place. Always current. I update it the moment a phase starts or gets your green light — you never have to ask.
 For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full detail, open the plan linked below.
+Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where everything lives.
 
 ---
 
 ## ▶ Your move
 
-**🎉 Phase 006 (Auth — "The front door") is COMPLETE — all 4 steps built, tested, and committed.**
-You can register, log in, stay logged in, get turned away when logged out, log out for real, and your
-private skip-the-password switch can never leak to customers. Signup now creates the company (you're its
-owner) and each company's data is walled off from every other. I ran all the checks for you — every one
-green. Closed out to [docs/todo/done/auth-front-door/](docs/todo/done/auth-front-door/PLAN.md).
+**Phase 007 — Phase 1 (login gate + screens) is DONE and committed ✅. Next: Phase 2 — re-point the data.**
 
-**One honest note for later:** there's still **no login *screen*** — the admin console you open at
-localhost:3000 doesn't ask you to log in yet. Wiring login into the actual UI (and pointing the existing
-screens at your real company instead of the shared pre-auth placeholder) is the next body of work — call it
-**Phase 7: the login screen**. The back-end front door is done; the visible door is next.
+You walked Phase 1 and gave the go ("logged in and out and work swell"), so it's committed locally and the
+build board's 007 entry is re-framed to the fold-in (no more "separate customer app"). The admin console now
+has a real front door — login screen when logged out, register creates your account + company, refresh keeps
+you in, log out returns you to login.
 
-**Pick what's next** (no rush):
-- **Phase 7 — the login screen** (make the login real in the app you can click).
-- **Planner grounding** (engine track) — scaffolded at [docs/todo/planner-grounding/PLAN.md](docs/todo/planner-grounding/PLAN.md), still awaiting your scope pick (A/B/C/all).
+**Phase 2 — the data re-point (real isolation):** make the console read/write **your** company's data, not
+the shared placeholder org, so two companies can't see each other's runs. My first move is read-only and free:
+verify the generic `/api/v1/` routes already fence by your login's company (the way `/auth/me/runs` does). If
+any still fall back to the shared org, that's a small backend fix I'll flag first — not paper over. Then I
+migrate the client off the legacy routes. Full detail: [docs/todo/login-screen/phase-2.md](docs/todo/login-screen/phase-2.md).
 
 - Last updated: 2026-06-29
-- Phase 006 final: `npm test` → **49/49** ✅ · typecheck clean ✅ · live-proved against Postgres (login flow + two-company isolation). Committed across `2e43a42e` → (Phase 4 commit).
+- Phase 1: committed locally ✅ · `npm test` **49/49** ✅ · typecheck clean ✅ · your QA walk green ✅.
+- Phase 2: not started — I'll begin with the free route-fence check and report before changing anything.
+
+---
+
+## Active plan: Phase 007 — The login screen (fold into the admin console)
+
+📄 [docs/todo/login-screen/PLAN.md](docs/todo/login-screen/PLAN.md)
+**Goal:** make login real in the app you can click, then point the console's data at your real company so
+two companies can't see each other's runs.
+
+| # | Phase | Status |
+|---|-------|--------|
+| 1 | Login gate + screens | ✅ done — green-lit + committed |
+| 2 | Re-point console data to the org (real isolation) | ⬜ not started — next |
 
 ---
 

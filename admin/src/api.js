@@ -3,7 +3,12 @@
 async function json(res) {
   let body = {};
   try { body = await res.json(); } catch { /* non-JSON body (e.g. 502 HTML gateway page) */ }
-  if (!res.ok) throw Object.assign(new Error(body.error || `HTTP ${res.status}`), { status: res.status });
+  if (!res.ok) {
+    // Legacy /api/ returns { error: "msg" }; v1 returns { error: { code, message } }.
+    const e = body.error;
+    const msg = (typeof e === "string" ? e : e?.message) || `HTTP ${res.status}`;
+    throw Object.assign(new Error(msg), { status: res.status });
+  }
   return body;
 }
 
@@ -15,6 +20,25 @@ export async function postJson(url, payload) {
       body: JSON.stringify(payload),
     })
   );
+}
+
+// --- Auth (Phase 006 endpoints; cookie is httpOnly + automatic) ---
+
+export async function register({ email, name, password, company }) {
+  return postJson("/api/v1/auth/register", { email, name, password, company });
+}
+
+export async function login({ email, password }) {
+  return postJson("/api/v1/auth/login", { email, password });
+}
+
+export async function logout() {
+  return postJson("/api/v1/auth/logout", {});
+}
+
+// Who am I? 200 { userId, orgId, roles } when logged in; throws (status 401) when not.
+export async function me() {
+  return json(await fetch("/api/v1/auth/me"));
 }
 
 export async function getMeetingTypes() {

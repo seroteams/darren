@@ -15,9 +15,11 @@ Standing constraints (from CLAUDE.md):
 **Phases 001–006 of the Prototype→Production line are all done, signed off, and closed to
 `docs/todo/done/`.** Phase 006 (Auth — the back-end front door) was the last to land: register/login
 with hashed passwords, guarded pages, a hard-gated dev side-door, and signup that creates the company
-with per-company data fencing. **Next up: Phase 007 — the customer app / login screen** (make login real
-in the app you can click). Live per-phase tracker: [`STATUS.md`](STATUS.md); full phase list in the
-[tasks board](admin/src/stages/tasks.js).
+with per-company data fencing. **Phase 007 — the login screen — is in flight, folded into the existing
+admin console (no separate app, decided with Carl):** Phase 1 (login gate + register/login/logout
+screens + boot gate) is **green-lit and committed (2026-06-29)**; Phase 2 (re-point the console's data to
+the logged-in company so two companies are isolated) is next. Live per-phase tracker:
+[`STATUS.md`](STATUS.md); full phase list in the [tasks board](admin/src/stages/tasks.js).
 
 **Separate engine/runner track — built earlier, still awaiting Carl's product-owner QA** (not part of the
 001–008 phase line; not signed off, don't treat as done):
@@ -53,7 +55,7 @@ Completed work has been cleared from this board. The record lives in git history
 
 ## Repo state (audited 2026-06-29)
 
-Phases 001–006 are all closed and archived under `docs/todo/done/`; Phase 007 (customer app) is next.
+Phases 001–006 are all closed and archived under `docs/todo/done/`; Phase 007 (login screen, folded into the admin console) is in flight — Phase 1 committed, Phase 2 next.
 **There is no auto-commit/push automation** — commits are made explicitly. `main` is currently **in sync
 with origin** (recent phases have been pushed; pushing remains a deliberate manual step). Three old
 stashes exist (`cleanup/remove-dead-ai-handoff-core`, `design-system-foundation`, + a WIP CSS/HTML

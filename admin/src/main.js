@@ -3,7 +3,7 @@ import "./styles/tailwind.css";
 import "./styles/design.css";
 
 import { STAGES, store, subscribe, setState, resetSession } from "./state.js";
-import { getSession, listRecentRuns, runRegression } from "./api.js";
+import { getSession, listRecentRuns, runRegression, me } from "./api.js";
 import { syncUrl, parseLocation, startPopstate, isFlowStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createBuildStamp } from "./ui/build-stamp.js";
@@ -12,6 +12,8 @@ import { createAppNav } from "./ui/app-nav.js";
 import { createNotesPanel } from "./ui/notes-panel.js";
 // Lazy stage modules — kept in a map so HMR + code-split both work nicely.
 const loaders = {
+  LOGIN:           () => import("./stages/login.js"),
+  REGISTER:        () => import("./stages/register.js"),
   START:           () => import("./stages/start.js"),
   INTAKE:          () => import("./stages/intake.js"),
   ONEPAGE:         () => import("./stages/onepage.js"),
@@ -158,7 +160,24 @@ export async function rehydrateById(id) {
 }
 
 async function boot() {
+  // Auth gate — no entry without a valid session. 401 (or API unreachable) → login.
+  let identity = null;
+  try { identity = await me(); } catch { /* logged out */ }
+
   const route = parseLocation();
+
+  if (!identity) {
+    // Logged out: only the auth screens are reachable; honor a /register deep link.
+    setState({ user: null, stage: route?.stage === STAGES.REGISTER ? STAGES.REGISTER : STAGES.LOGIN });
+    return;
+  }
+  // Logged in — record who, then carry on with the normal boot below. Mutate
+  // directly (no notify) so the real stage is what renders, no login flash.
+  store.user = { userId: identity.userId, orgId: identity.orgId, roles: identity.roles };
+  if (route?.stage === STAGES.LOGIN || route?.stage === STAGES.REGISTER) {
+    setState({ stage: STAGES.START });
+    return;
+  }
 
   // /run/:id deep link — id comes from URL, no session needed.
   if (route?.stage === STAGES.REVIEW_RUN) {

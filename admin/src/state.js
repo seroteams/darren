@@ -1,6 +1,8 @@
 // Minimal state store + machine transitions. No dependencies.
 
 export const STAGES = Object.freeze({
+  LOGIN: "LOGIN",
+  REGISTER: "REGISTER",
   START: "START",
   INTAKE: "INTAKE",
   ONEPAGE: "ONEPAGE",
@@ -25,6 +27,7 @@ export const STAGES = Object.freeze({
 });
 
 const initial = {
+  user: null,
   sessionId: null,
   stage: STAGES.START,
   substage: "NAME",
@@ -65,6 +68,9 @@ export function setState(patch) {
 }
 
 export function resetSession() {
-  Object.assign(store, { ...initial, ctx: { name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" } });
+  // Preserve the logged-in user across a session reset — "new session" clears the
+  // run, not the login.
+  const user = store.user;
+  Object.assign(store, { ...initial, user, ctx: { name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" } });
   try { localStorage.removeItem("seroSessionId"); } catch {}
 }

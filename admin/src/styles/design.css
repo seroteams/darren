@@ -3913,3 +3913,26 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   border-radius: var(--sero-radius-sm);
   padding: 0.05rem 0.35rem;
 }
+
+/* --- Auth screens (Phase 007) --- */
+/* Login / register live without the nav rail, so center the card in the viewport. */
+.auth-card {
+  max-width: 380px;
+  margin-inline: auto;
+  margin-top: clamp(var(--sero-space-6), 12vh, 12rem);
+}
+/* Inline text button that reads as a link (the "Create one" / "Log in" switches). */
+.link {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--color-accent-dark, var(--color-ink));
+  font: inherit;
+  font-weight: var(--type-weight-medium);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.link:hover { opacity: 0.8; }
+.link:focus-visible { outline: none; box-shadow: var(--sero-shadow-focus); border-radius: 4px; }
+/* Account row (log out) sits at the bottom of the nav rail. */
+.app-nav__links--foot { margin-top: auto; }

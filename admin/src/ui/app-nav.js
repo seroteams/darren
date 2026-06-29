@@ -4,6 +4,7 @@
 // its right in-session. render({ stage }) keeps the active link in sync.
 
 import { STAGES } from "../state.js";
+import { logout } from "../api.js";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
   <rect width="48" height="48" rx="12" fill="var(--color-ink)"/>
@@ -29,6 +30,7 @@ const ICON = {
   regression: icon(`<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>`),
   guide: icon(`<path d="M12 7.5v13"/><path d="M3 18.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v12.5a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>`),
   tasks: icon(`<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><path d="m9 14 2 2 4-4"/>`),
+  logout: icon(`<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>`),
 };
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
@@ -69,6 +71,12 @@ export function createAppNav({ setState, resetSession } = {}) {
           )
           .join("")}
       </nav>
+      <nav class="app-nav__links app-nav__links--foot" aria-label="Account">
+        <button type="button" class="app-nav__link js-logout" data-key="logout">
+          <span class="app-nav__icon">${ICON.logout}</span>
+          <span class="app-nav__label">Log out</span>
+        </button>
+      </nav>
     </div>
   `;
 
@@ -92,6 +100,13 @@ export function createAppNav({ setState, resetSession } = {}) {
   el.querySelector(".js-home").addEventListener("click", onNav.home);
   items.forEach((it) => el.querySelector(`.js-nav-${it.key}`)?.addEventListener("click", onNav[it.key]));
 
+  async function onLogout() {
+    try { await logout(); } catch (e) { console.warn("[nav] logout failed:", e); }
+    if (resetSession) resetSession();
+    setState && setState({ user: null, stage: STAGES.LOGIN });
+  }
+  el.querySelector(".js-logout").addEventListener("click", onLogout);
+
   const ACTIVE_BY_STAGE = {
     [STAGES.START]: "home",
     [STAGES.INTAKE]: "new",
@@ -109,6 +124,13 @@ export function createAppNav({ setState, resetSession } = {}) {
   // Persistent across every screen — re-assert the body class and light up the
   // link that matches the current stage (none during an in-run flow).
   function render({ stage } = {}) {
+    // The login/register screens stand alone — no nav rail.
+    if (stage === STAGES.LOGIN || stage === STAGES.REGISTER) {
+      el.classList.add("is-hidden");
+      document.body.classList.remove("has-app-nav");
+      return;
+    }
+    el.classList.remove("is-hidden");
     document.body.classList.add("has-app-nav");
     const activeKey = ACTIVE_BY_STAGE[stage] || null;
     el.querySelectorAll(".app-nav__link").forEach((b) => {
