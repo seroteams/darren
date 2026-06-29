@@ -121,6 +121,7 @@ export interface TurnSnapshot {
 export interface Session {
   id: string;
   dir: string;
+  orgId?: string | null; // the company that owns this run; null = unfenced (legacy/anonymous). Phase 007/2.
   createdAt: number;
   lastSeenAt: number;
   completedAt: number | null;

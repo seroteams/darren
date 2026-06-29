@@ -66,24 +66,23 @@ export async function getPersonaBench() {
   return json(await fetch("/api/persona-bench"));
 }
 
+// Sessions + runs are org-fenced (Phase 007/2): these call the v1 routes (id in the
+// path), so the session cookie fences every read/write to the logged-in company.
+// Shared config / QA endpoints (meeting-types, arcs, role-lexicons, pipeline, …) are
+// not per-company, so they stay on the legacy /api/ paths — no isolation to gain.
+
 export async function startSession(payload) {
-  return json(
-    await fetch("/api/start", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-  );
+  return postJson("/api/v1/sessions", payload);
 }
 
 export async function getSession(sessionId) {
-  const res = await fetch(`/api/session?s=${encodeURIComponent(sessionId)}`);
+  const res = await fetch(`/api/v1/sessions/${encodeURIComponent(sessionId)}`);
   if (res.status === 404) return null;
   return json(res);
 }
 
 export async function getRoleProfile(sessionId) {
-  return json(await fetch(`/api/role-profile?s=${encodeURIComponent(sessionId)}`));
+  return json(await fetch(`/api/v1/sessions/${encodeURIComponent(sessionId)}/role-profile`));
 }
 
 export async function getRoleLexicons() {
@@ -103,91 +102,73 @@ export async function removeRoleLexiconTerm(key, term) {
 }
 
 export async function getQuestion(sessionId) {
-  return json(await fetch(`/api/question?s=${encodeURIComponent(sessionId)}`));
+  return json(await fetch(`/api/v1/sessions/${encodeURIComponent(sessionId)}/question`));
 }
 
 export async function suggestAnswers(sessionId) {
-  return json(await fetch(`/api/suggest-answers?s=${encodeURIComponent(sessionId)}`));
+  return json(await fetch(`/api/v1/sessions/${encodeURIComponent(sessionId)}/suggest-answers`));
 }
 
 export async function submitAnswer(sessionId, answer, { answerSource = "manual", alias = null } = {}) {
-  return json(
-    await fetch("/api/answer", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId, answer, answerSource, alias }),
-    })
-  );
+  return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/answer`, { answer, answerSource, alias });
 }
 
 export async function goBack(sessionId) {
-  return postJson("/api/back", { sessionId });
+  return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/back`, {});
 }
 
 export async function setAgendaCovered(sessionId, covered) {
-  return postJson("/api/agenda/cover", { sessionId, covered });
+  return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/agenda/cover`, { covered });
 }
 
 export async function setSelectedFocus(sessionId, focusPointIds) {
-  return postJson("/api/focus-points/select", { sessionId, focusPointIds });
+  return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/focus-points/select`, { focusPointIds });
 }
 
 export async function postNote(sessionId, note) {
-  return json(
-    await fetch("/api/notes", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId, note }),
-    })
-  );
+  return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/notes`, { note });
 }
 
 export async function listRecentRuns(limit = 3) {
-  return json(await fetch(`/api/runs/recent?limit=${limit}`));
+  return json(await fetch(`/api/v1/runs/recent?limit=${limit}`));
 }
 
 export async function getFinishedRuns() {
-  return json(await fetch("/api/runs/finished"));
+  return json(await fetch("/api/v1/runs/finished"));
 }
 
 export async function getRunOverview(id) {
-  return json(await fetch(`/api/runs/${encodeURIComponent(id)}/overview`));
+  return json(await fetch(`/api/v1/runs/${encodeURIComponent(id)}/overview`));
 }
 
 export async function getRunFull(id) {
-  return json(await fetch(`/api/runs/${encodeURIComponent(id)}/full`));
+  return json(await fetch(`/api/v1/runs/${encodeURIComponent(id)}/full`));
 }
 
 export async function getRunStages(id) {
-  return json(await fetch(`/api/runs/${encodeURIComponent(id)}/stages`));
+  return json(await fetch(`/api/v1/runs/${encodeURIComponent(id)}/stages`));
 }
 
 // Preview the exact payload the current stage is about to send to the model —
 // assembled with zero API calls. Returns null when there's no session (404) or
 // the stage's inputs aren't ready yet (409), so callers fall back gracefully.
 export async function getStagePreview(sessionId, stage) {
-  const q = stage ? `&stage=${encodeURIComponent(stage)}` : "";
-  const res = await fetch(`/api/preview?s=${encodeURIComponent(sessionId)}${q}`);
+  const q = stage ? `?stage=${encodeURIComponent(stage)}` : "";
+  const res = await fetch(`/api/v1/sessions/${encodeURIComponent(sessionId)}/preview${q}`);
   if (res.status === 404 || res.status === 409) return null;
   return json(res);
 }
 
 export async function saveReview(id, review) {
-  return postJson(`/api/runs/${encodeURIComponent(id)}/review`, review);
+  return postJson(`/api/v1/runs/${encodeURIComponent(id)}/review`, review);
 }
 
 export async function setArchived(id, archived) {
-  return postJson(`/api/runs/${encodeURIComponent(id)}/archive`, { archived });
+  return postJson(`/api/v1/runs/${encodeURIComponent(id)}/archive`, { archived });
 }
 
 export async function postVerdict(sessionId, { verdict, issue_type, note }) {
-  return json(
-    await fetch("/api/verdict", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId, verdict, issue_type, note }),
-    })
-  );
+  return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/verdict`, { verdict, issue_type, note });
 }
 
 export async function suggestFix(runId, stage) {
@@ -201,7 +182,7 @@ export async function suggestFix(runId, stage) {
 }
 
 export async function deleteRun(id) {
-  return json(await fetch(`/api/runs/${encodeURIComponent(id)}`, { method: "DELETE" }));
+  return json(await fetch(`/api/v1/runs/${encodeURIComponent(id)}`, { method: "DELETE" }));
 }
 
 export async function getPipelineStatus(baseline = "latest") {
@@ -213,19 +194,19 @@ export async function getPipelineStatus(baseline = "latest") {
 }
 
 export async function getLexiconCandidates(sessionId) {
-  const res = await fetch(`/api/lexicon/candidates?s=${encodeURIComponent(sessionId)}`);
+  const res = await fetch(`/api/v1/sessions/${encodeURIComponent(sessionId)}/lexicon/candidates`);
   if (res.status === 404) return { candidates: [] };
   return json(res);
 }
 
 export async function getLexiconScope(sessionId) {
-  const res = await fetch(`/api/lexicon/scope?s=${encodeURIComponent(sessionId)}`);
+  const res = await fetch(`/api/v1/sessions/${encodeURIComponent(sessionId)}/lexicon/scope`);
   if (res.status === 404) return { eligible: false };
   return json(res);
 }
 
 export async function submitLexiconDecisions(sessionId, decisions) {
-  return postJson("/api/lexicon/decisions", { sessionId, decisions });
+  return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/lexicon/decisions`, { decisions });
 }
 
 export async function getLexiconPromotePending() {

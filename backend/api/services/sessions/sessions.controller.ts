@@ -13,6 +13,7 @@ import { createSessionsService } from "./sessions.service.ts";
 import type { Prewarm, DraftAnswers, ReviewLexicon } from "./sessions.service.ts";
 import { fileSessionsRepo, pgSessionsRepo } from "./sessions.repo.ts";
 import { hasDatabaseUrl } from "../../../db/client.ts";
+import { buildIdentity } from "../../middleware/request-context.ts";
 import { ensureRoleProfile } from "../../../engine/role-profile.ts";
 import { generateFocusPoints } from "../../../engine/generate.ts";
 import { generatePreparation } from "../../../engine/preparation.ts";
@@ -107,10 +108,13 @@ export function question(c: RequestContext): void {
 
 // POST /api/v1/sessions  ·  POST /api/start
 // Creates a session (the origin guard + per-IP rate limit live in server.ts, as
-// today). 201 with the new session's id/dir/createdAt/introQueueLen.
+// today). 201 with the new session's id/dir/createdAt/introQueueLen. The run is
+// stamped with the caller's company (the data wall, Phase 007/2) so its history
+// is fenced to that company; an anonymous caller (no cookie) stamps null.
 export async function start(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
-  c.json(201, service.start(body));
+  const { orgId } = await buildIdentity(c.req);
+  c.json(201, service.start(body, orgId));
 }
 
 // POST /api/v1/sessions/:id/answer  ·  POST /api/answer   (202, as today)

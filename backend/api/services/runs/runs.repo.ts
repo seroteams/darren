@@ -31,16 +31,19 @@ export interface ArchiveResult {
   archived?: boolean;
 }
 
+// Every read takes an optional orgId — the caller's company. When given, only that
+// company's runs are visible and a by-id read of another company's run resolves to
+// "unknown" (the data wall, Phase 007/2). Omitted = unfenced (CLI/gate).
 export interface RunsRepo {
-  listRecent(limit: number): unknown[];
-  listFinished(): unknown[];
-  summarize(id: string): unknown; // falsy when the run is unknown
-  compare(id: string): unknown;
-  readStages(id: string): unknown;
-  deleteRun(id: string): DeleteResult;
+  listRecent(limit: number, orgId?: string | null): unknown[];
+  listFinished(orgId?: string | null): unknown[];
+  summarize(id: string, orgId?: string | null): unknown; // falsy when the run is unknown
+  compare(id: string, orgId?: string | null): unknown;
+  readStages(id: string, orgId?: string | null): unknown;
+  deleteRun(id: string, orgId?: string | null): DeleteResult;
   dropSession(id: string): void; // evict any in-memory session for a deleted run
-  setArchived(id: string, archived: boolean): ArchiveResult;
-  findRunDir(id: string): string | null;
+  setArchived(id: string, archived: boolean, orgId?: string | null): ArchiveResult;
+  findRunDir(id: string, orgId?: string | null): string | null;
   readReview(dir: string): unknown; // existing review.json, or null
   writeReview(dir: string, data: unknown): void;
 }
@@ -64,17 +67,17 @@ function writeReviewFile(dir: string, data: unknown): void {
 }
 
 export const fileRunsRepo: RunsRepo = {
-  listRecent: (limit) => listRecentRuns(limit),
-  listFinished: () => listFinishedRuns(),
-  summarize: (id) => summarizeRun(id),
-  compare: (id) => compareRun(id),
-  readStages: (id) => readRunStages(id),
-  deleteRun: (id) => deleteRun(id),
+  listRecent: (limit, orgId) => listRecentRuns(limit, orgId),
+  listFinished: (orgId) => listFinishedRuns(orgId),
+  summarize: (id, orgId) => summarizeRun(id, orgId),
+  compare: (id, orgId) => compareRun(id, orgId),
+  readStages: (id, orgId) => readRunStages(id, orgId),
+  deleteRun: (id, orgId) => deleteRun(id, orgId),
   dropSession: (id) => {
     dropSession(id);
   },
-  setArchived: (id, archived) => setArchived(id, archived),
-  findRunDir: (id) => findRunDir(id),
+  setArchived: (id, archived, orgId) => setArchived(id, archived, orgId),
+  findRunDir: (id, orgId) => findRunDir(id, orgId),
   readReview: (dir) => readReviewFile(dir),
   writeReview: (dir, data) => writeReviewFile(dir, data),
 };

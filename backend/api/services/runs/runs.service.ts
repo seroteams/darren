@@ -19,15 +19,18 @@ interface ReviewResult {
   failedCount: number;
 }
 
+// Every method takes the caller's orgId (the company behind the cookie) so reads
+// and run lookups are fenced to that company — the data wall (Phase 007/2). The
+// controller derives it from the session; undefined/null = unfenced (legacy).
 export interface RunsService {
-  recent(limit: unknown): { runs: unknown[] };
-  finished(): { runs: unknown[] };
-  overview(id: string | undefined): unknown;
-  full(id: string | undefined): unknown;
-  stages(id: string | undefined): { id: string; stages: unknown };
-  remove(id: string | undefined): { deleted: true; id: string };
-  archive(id: string | undefined, body: unknown): { ok: true; id: string; archived: boolean | undefined };
-  review(id: string | undefined, body: unknown): ReviewResult;
+  recent(limit: unknown, orgId?: string | null): { runs: unknown[] };
+  finished(orgId?: string | null): { runs: unknown[] };
+  overview(id: string | undefined, orgId?: string | null): unknown;
+  full(id: string | undefined, orgId?: string | null): unknown;
+  stages(id: string | undefined, orgId?: string | null): { id: string; stages: unknown };
+  remove(id: string | undefined, orgId?: string | null): { deleted: true; id: string };
+  archive(id: string | undefined, body: unknown, orgId?: string | null): { ok: true; id: string; archived: boolean | undefined };
+  review(id: string | undefined, body: unknown, orgId?: string | null): ReviewResult;
 }
 
 export function createRunsService(repo: RunsRepo): RunsService {
@@ -37,9 +40,9 @@ export function createRunsService(repo: RunsRepo): RunsService {
     return id;
   }
 
-  function review(id: string | undefined, body: unknown): ReviewResult {
+  function review(id: string | undefined, body: unknown, orgId?: string | null): ReviewResult {
     const runId = requireId(id);
-    const dir = repo.findRunDir(runId);
+    const dir = repo.findRunDir(runId, orgId);
     if (!dir) throw notFound("unknown run");
     if (!isObjectRecord(body)) throw badRequest("invalid payload");
     const rawMarks = asRecord(body.marks);
@@ -83,9 +86,9 @@ export function createRunsService(repo: RunsRepo): RunsService {
   }
 
   return {
-    recent: (limit) => {
+    recent: (limit, orgId) => {
       const n = Math.max(1, Math.min(20, Number(limit) || 3));
-      const runs = repo.listRecent(n).map((r) => {
+      const runs = repo.listRecent(n, orgId).map((r) => {
         const o = asRecord(r);
         return {
           id: o.id,
@@ -98,33 +101,33 @@ export function createRunsService(repo: RunsRepo): RunsService {
       });
       return { runs };
     },
-    finished: () => ({ runs: repo.listFinished() }),
-    overview: (id) => {
-      const summary = repo.summarize(requireId(id));
+    finished: (orgId) => ({ runs: repo.listFinished(orgId) }),
+    overview: (id, orgId) => {
+      const summary = repo.summarize(requireId(id), orgId);
       if (!summary) throw notFound("unknown run");
       return summary;
     },
-    full: (id) => {
-      const data = repo.compare(requireId(id));
+    full: (id, orgId) => {
+      const data = repo.compare(requireId(id), orgId);
       if (!data) throw notFound("unknown run");
       return data;
     },
-    stages: (id) => {
+    stages: (id, orgId) => {
       const runId = requireId(id);
-      const data = repo.readStages(runId);
+      const data = repo.readStages(runId, orgId);
       if (!data) throw notFound("unknown run");
       return { id: runId, stages: data };
     },
-    remove: (id) => {
+    remove: (id, orgId) => {
       const runId = requireId(id);
-      const result = repo.deleteRun(runId);
+      const result = repo.deleteRun(runId, orgId);
       if (!result.deleted) throw notFound("unknown run");
       repo.dropSession(runId);
       return { deleted: true, id: runId };
     },
-    archive: (id, body) => {
+    archive: (id, body, orgId) => {
       const runId = requireId(id);
-      const result = repo.setArchived(runId, Boolean(asRecord(body).archived));
+      const result = repo.setArchived(runId, Boolean(asRecord(body).archived), orgId);
       if (!result.ok) throw notFound("unknown run");
       return { ok: true, id: runId, archived: result.archived };
     },

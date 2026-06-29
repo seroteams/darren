@@ -5,39 +5,46 @@
 import type { RequestContext } from "../../router.ts";
 import { createRunsService } from "./runs.service.ts";
 import { fileRunsRepo } from "./runs.repo.ts";
+import { buildIdentity } from "../../middleware/request-context.ts";
 
 const service = createRunsService(fileRunsRepo);
 
-export function recent(c: RequestContext): void {
-  c.json(200, service.recent(c.query.limit));
+// The caller's company from the session cookie — the data wall (Phase 007/2).
+// null for an anonymous request → the service stays unfenced (legacy behaviour).
+async function callerOrgId(c: RequestContext): Promise<string | null> {
+  return (await buildIdentity(c.req)).orgId;
 }
 
-export function finished(c: RequestContext): void {
-  c.json(200, service.finished());
+export async function recent(c: RequestContext): Promise<void> {
+  c.json(200, service.recent(c.query.limit, await callerOrgId(c)));
 }
 
-export function overview(c: RequestContext): void {
-  c.json(200, service.overview(c.params.id));
+export async function finished(c: RequestContext): Promise<void> {
+  c.json(200, service.finished(await callerOrgId(c)));
 }
 
-export function full(c: RequestContext): void {
-  c.json(200, service.full(c.params.id));
+export async function overview(c: RequestContext): Promise<void> {
+  c.json(200, service.overview(c.params.id, await callerOrgId(c)));
 }
 
-export function stages(c: RequestContext): void {
-  c.json(200, service.stages(c.params.id));
+export async function full(c: RequestContext): Promise<void> {
+  c.json(200, service.full(c.params.id, await callerOrgId(c)));
 }
 
-export function del(c: RequestContext): void {
-  c.json(200, service.remove(c.params.id));
+export async function stages(c: RequestContext): Promise<void> {
+  c.json(200, service.stages(c.params.id, await callerOrgId(c)));
+}
+
+export async function del(c: RequestContext): Promise<void> {
+  c.json(200, service.remove(c.params.id, await callerOrgId(c)));
 }
 
 export async function archive(c: RequestContext): Promise<void> {
   const body = await c.readBody();
-  c.json(200, service.archive(c.params.id, body));
+  c.json(200, service.archive(c.params.id, body, await callerOrgId(c)));
 }
 
 export async function review(c: RequestContext): Promise<void> {
   const body = await c.readBody();
-  c.json(200, service.review(c.params.id, body));
+  c.json(200, service.review(c.params.id, body, await callerOrgId(c)));
 }

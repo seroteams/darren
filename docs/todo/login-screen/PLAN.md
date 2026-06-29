@@ -23,7 +23,7 @@ This phase wires a UI onto auth that already works — it is not from scratch:
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Login gate + screens | Console requires login; register/login/logout screens; boot gate calls `/auth/me` | ✅ done (green-lit + committed 2026-06-29) |
-| 2 | Re-point data to the org | Client calls org-fenced `/api/v1/` routes; two companies are isolated in the UI | 🔨 in progress (approach A) |
+| 2 | Re-point data to the org | Client calls org-fenced `/api/v1/` routes; two companies are isolated in the UI | ✅ done (green-lit + committed 2026-06-29, approach A) |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested + green-lit)
 
@@ -53,10 +53,20 @@ renamed "The login screen · Folded into the admin console", its four steps now 
 register/login screens → wire to backend (all ✅ Built) → point the data at your company (⚪ Phase 2).
 The old "separate customer app" wording is gone.
 
-**Next: Phase 2** — re-point the console's data to the logged-in company (real isolation). First task is
-the free, read-only route-fence check (see phase-2.md) before any client migration.
+**Phase 2 green-lit + committed (2026-06-29) — approach A (tag file-runs by company).** New sessions are
+stamped with the caller's company (`serialize` → disk + Postgres); the run-history reads fence by it
+(`runOwnedByOrg`) through engine → repo → service → controller; `admin/src/api.js` sessions + runs calls
+moved to the org-fenced v1 routes. Carl accepted on the offline tests (`npm test` 51/51, typecheck clean)
+plus a live free smoke (logged-in fenced `/api/v1/runs/recent` = 0, anonymous legacy = 3 — the wall live
+over HTTP), and deferred the paid two-company walk. See [phase-2.md](phase-2.md) "Build progress".
+
+**Both phases ✅ — plan closed out to `docs/todo/done/`.**
 
 ## Parked (cut scope — not this phase)
+- **Harden: fence live-session-by-id cross-open (follow-up).** The runs-history surface is fully fenced; the
+  live-runner by-id reads/writes (snapshot/question/answer/streams) don't yet org-check the resolved session.
+  Not a browsable surface (you only drive a session whose id you hold), so deferred. Thread `orgId` through the
+  session controller's id resolvers (or a small async ownership guard) when hardening.
 - Org **name** on the authed landing (login/register return no `orgName`; show "Welcome, {name}!" for now; add `GET /api/v1/orgs/me` later when the prep flow needs it).
 - Password reset, email verification, invitations, multi-org switching, roles/permissions UI, SSO.
 - Refresh-token rotation (server-side sessions are sufficient this round).

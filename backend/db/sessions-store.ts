@@ -37,7 +37,7 @@ export async function upsertSession(session: Session): Promise<void> {
   const completedAt = session.completedAt ? new Date(session.completedAt) : null;
   await getDb()
     .insert(sessionsTable)
-    .values({ orgId: DEFAULT_ORG_ID, sessionKey: session.id, state, logDir: session.dir, completedAt })
+    .values({ orgId: session.orgId ?? DEFAULT_ORG_ID, sessionKey: session.id, state, logDir: session.dir, completedAt })
     .onConflictDoUpdate({
       target: sessionsTable.sessionKey,
       set: { state, logDir: session.dir, completedAt, updatedAt: new Date() },

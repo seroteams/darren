@@ -82,6 +82,51 @@ test("finished passes the repo list straight through", () => {
   assert.deepEqual(createRunsService(repo).finished(), { runs: [{ id: "a" }, { id: "b" }] });
 });
 
+test("the caller's orgId is forwarded to every fenced repo read (the data wall)", () => {
+  const seen: Array<string | null | undefined> = [];
+  const record = (orgId?: string | null) => {
+    seen.push(orgId);
+    return undefined;
+  };
+  const { repo } = fakeRepo({
+    listRecent: (_n, orgId) => { record(orgId); return []; },
+    listFinished: (orgId) => { record(orgId); return []; },
+    summarize: (_id, orgId) => { record(orgId); return { ok: true }; },
+    compare: (_id, orgId) => { record(orgId); return { ok: true }; },
+    readStages: (_id, orgId) => { record(orgId); return { ok: true }; },
+    deleteRun: (id, orgId) => { record(orgId); return { deleted: true, id }; },
+    setArchived: (id, _a, orgId) => { record(orgId); return { ok: true, id, archived: true }; },
+  });
+  const svc = createRunsService(repo);
+  svc.recent(undefined, "org-A");
+  svc.finished("org-A");
+  svc.overview("r1", "org-A");
+  svc.full("r1", "org-A");
+  svc.stages("r1", "org-A");
+  svc.remove("r1", "org-A");
+  svc.archive("r1", { archived: true }, "org-A");
+  assert.deepEqual(seen, ["org-A", "org-A", "org-A", "org-A", "org-A", "org-A", "org-A"]);
+});
+
+test("a fencing repo blocks cross-company reads: A sees only A's runs and can't open B's", () => {
+  const ALL = [
+    { id: "a1", orgId: "org-A", headline: "A", lastSeenAt: 2, stage: "done", pipelineDigest: null, reviewStatus: "none" },
+    { id: "b1", orgId: "org-B", headline: "B", lastSeenAt: 1, stage: "done", pipelineDigest: null, reviewStatus: "none" },
+  ];
+  const fence = (orgId?: string | null) => (r: { orgId: string }) => !orgId || r.orgId === orgId;
+  const { repo } = fakeRepo({
+    listRecent: (_n, orgId) => ALL.filter(fence(orgId)),
+    compare: (id, orgId) => ALL.find((r) => r.id === id && fence(orgId)(r)) ?? null,
+  });
+  const svc = createRunsService(repo);
+  // Company A's recent list shows only A's run.
+  assert.deepEqual(svc.recent(undefined, "org-A").runs.map((r) => asRecord(r).id), ["a1"]);
+  // Company A cannot open company B's run by id — same answer as a stranger (404).
+  assert.equal(thrown(() => svc.full("b1", "org-A")).status, 404);
+  // …but A can open its own.
+  assert.equal(asRecord(svc.full("a1", "org-A")).id, "a1");
+});
+
 test("overview returns the summary, or 404 when unknown", () => {
   const ok = fakeRepo({ summarize: () => ({ id: "r1", ok: true }) });
   assert.deepEqual(createRunsService(ok.repo).overview("r1"), { id: "r1", ok: true });

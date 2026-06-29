@@ -58,7 +58,7 @@ function fakeRepo(
 ): {
   repo: SessionsRepo;
   store: Map<string, Session>;
-  created: Array<{ ctx: MeetingContext; introQueue: Question[] }>;
+  created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null }>;
   dropped: string[];
   persisted: Session[];
   logged: Array<{ dir: string; entries: unknown }>;
@@ -69,7 +69,7 @@ function fakeRepo(
   commits: Array<{ keepIds: string[] }>;
 } {
   const store = new Map<string, Session>(seed.map((s) => [s.id, s]));
-  const created: Array<{ ctx: MeetingContext; introQueue: Question[] }> = [];
+  const created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null }> = [];
   const dropped: string[] = [];
   const persisted: Session[] = [];
   const logged: Array<{ dir: string; entries: unknown }> = [];
@@ -80,9 +80,10 @@ function fakeRepo(
   const commits: Array<{ keepIds: string[] }> = [];
   const repo: SessionsRepo = {
     get: (id) => store.get(id),
-    create: (ctx, introQueue) => {
-      created.push({ ctx, introQueue });
+    create: (ctx, introQueue, orgId) => {
+      created.push({ ctx, introQueue, orgId });
       const s = fakeSession(`new-${store.size}`);
+      s.orgId = orgId ?? null;
       store.set(s.id, s);
       return s;
     },
@@ -176,7 +177,7 @@ test("create forwards ctx + introQueue through the seam and returns the new sess
   const queue: Question[] = [];
   const out = createSessionsService(repo).create(ctx, queue);
   assert.equal(out.id, "new-0");
-  assert.deepEqual(created, [{ ctx, introQueue: queue }]);
+  assert.deepEqual(created, [{ ctx, introQueue: queue, orgId: undefined }]);
 });
 
 test("drop forwards the id through the seam", () => {
@@ -495,6 +496,30 @@ test("start (manual) creates via the seam, persists, fires the pre-warm once, an
   assert.ok(sess);
   assert.equal(sess.mode, "manual");
   assert.equal(sess.runLabel, null);
+});
+
+test("start stamps the caller's orgId onto the new session (the data wall, Phase 2)", () => {
+  const { repo, created } = fakeRepo();
+  const out = createSessionsService(repo, { prewarm: () => {} }).start(
+    { name: "Dana", role: "Engineer", seniority: "Senior", meetingTypeIndex: 0 },
+    "org-A",
+  );
+  // orgId forwarded through the seam at create time…
+  assert.equal(created.length, 1);
+  assert.equal(created[0]?.orgId, "org-A");
+  // …and stamped on the live session.
+  const sess = repo.get(out.sessionId);
+  assert.ok(sess);
+  assert.equal(sess.orgId, "org-A");
+});
+
+test("start without an orgId leaves the session unfenced (legacy/anonymous → null)", () => {
+  const { repo, created } = fakeRepo();
+  const out = createSessionsService(repo, { prewarm: () => {} }).start({
+    name: "Dana", role: "Engineer", seniority: "Senior", meetingTypeIndex: 0,
+  });
+  assert.equal(created[0]?.orgId, undefined);
+  assert.equal(repo.get(out.sessionId)?.orgId, null);
 });
 
 test("start (scripted) loads the persona through the seam and stamps the scripted lane", () => {

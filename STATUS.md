@@ -24,11 +24,16 @@ migrate the client off the legacy routes. Full detail: [docs/todo/login-screen/p
 
 - Last updated: 2026-06-29
 - Phase 1: committed locally ✅ · `npm test` **49/49** ✅ · typecheck clean ✅ · your QA walk green ✅.
-- Phase 2: **in progress.** Route-fence check done — the generic v1 routes are **not** fenced today (runs
-  read file-history with no company tag; sessions use the placeholder company). You chose **approach A**
-  (tag file-runs by company). Now building it test-first: stamp company id on session creation → fence the
-  run-history reads → thread it through the controllers → migrate the client → prove the wall offline. QA is
-  the two-company isolation walk in [phase-2.md](docs/todo/login-screen/phase-2.md).
+- Phase 2: **built — ready for your QA walk** (uncommitted; commits on your green light). Approach A. Runs are
+  fenced by company end-to-end, new sessions are stamped with your company, and the console's screens now read
+  from the fenced routes. Offline checks green: `npm test` **51/51**, typecheck clean, client syntax OK.
+  Deferred as a follow-up (task #7): live-session-by-id hardening — not needed for the runs QA.
+  Live free smoke (no paid runs) confirms the wall over real HTTP: logged in, fenced `/api/v1/runs/recent`
+  returns **0** (old null-org runs hidden); anonymous legacy path returns **3** — the fence working.
+  **App is running for you at http://localhost:3000** (fresh API on 3007, today's code; existing 3001 left alone).
+  **▶ Your move:** walk the two-company isolation scenarios in [phase-2.md](docs/todo/login-screen/phase-2.md).
+  Heads-up: making a run appear means starting a session, which calls the AI model (small paid OpenAI usage) —
+  your call to run. One behaviour note: old dev runs (no company tag) won't show under your account, by design.
 
 ---
 

@@ -1,6 +1,6 @@
 # Phase 2 — Re-point console data to the org (real isolation)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 in progress (approach A chosen 2026-06-29)
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done (green-lit + committed 2026-06-29, approach A)
 
 ## Goal
 Switch the console off the shared pre-auth placeholder org and onto the logged-in company's fenced data, so two companies cannot see each other's sessions or runs in the UI.
@@ -50,14 +50,42 @@ runs read by it. Sub-steps (test-first, in order):
   - arcs, role-lexicons, regression, pipeline, suggest-fix, library → their `/api/v1/` paths
   Update call sites where a signature changes (id now a path segment).
 
+## Build progress (2026-06-29)
+- ✅ **Step 1 — stamp the company on session creation.** `orgId` flows `start` → `create` → the session;
+  `serialize()` writes it to `session-state.json`; the Postgres mirror uses it (was hardcoded `DEFAULT_ORG_ID`).
+- ✅ **Step 2 — fence the run-history reads.** Optional `orgId` filter through `walkRuns`/`listRecent`/
+  `listFinished`/`findRunDir`/`summarize`/`compare`/`readStages`/`delete`/`setArchived`; pure `runOwnedByOrg`
+  rule. Omit `orgId` = unfenced, so CLI/gate/session-restore are untouched.
+- ✅ **Step 3 — thread it through the runs + sessions controllers.** Runs controller derives `orgId` from the
+  cookie and passes it down (anonymous → null → unfenced); `start` stamps the caller's company.
+- 🟡 **Flagged (task #7) — live-session-by-id cross-open.** The runs-history browse surface is fully fenced
+  (the QA scenarios). The live-runner by-id reads/writes don't yet org-check the resolved session — not a
+  browsable console surface, so flagged as hardening for Carl to include now or defer.
+- ✅ **Step 4 — client migration.** `admin/src/api.js` sessions + runs calls now hit the org-fenced v1
+  routes (id-in-path): start, snapshot, question, suggest-answers, answer, back, notes, agenda/cover,
+  focus-points/select, verdict, preview, lexicon scope/candidates/decisions; runs recent/finished/overview/
+  full/stages/review/archive/delete. Shared config/QA endpoints (meeting-types, version, arcs, role-lexicons,
+  regression, pipeline, persona-bench, suggest-fix, lexicon promotions) stay on legacy — not per-company, so
+  no isolation to gain. SSE streams stay on legacy `?s=` (resolved by the id you already hold; covered by
+  task #7 if we harden session-by-id).
+- ✅ **Step 5 — offline proof.** `runOwnedByOrg` rule test, a fencing-repo isolation test (A sees only A's
+  runs; can't open B's by id → 404), session-start stamping test, serialize-persists-orgId test.
+- Offline checks green: `npm test` **51/51**, `npm run typecheck` clean, `api.js` syntax OK. **Not committed**
+  (commits on your QA green light).
+- ▶ **Your move — the two-company QA walk** (scenarios below). Heads-up: getting a run to show means starting
+  a session, which calls the AI model (small paid OpenAI usage) — your call to run.
+- ⚠️ **Behaviour note:** existing on-disk runs have no `orgId` (null) → they are invisible to a real logged-in
+  company by design (approach A: a company sees only its own runs). New runs created while logged in are stamped
+  and visible. Worth knowing when you walk the QA: old dev runs won't appear under your account.
+
 ## Not in this phase
 - No new features on the v1 endpoints beyond what's needed for parity with today's console.
 - Org-name display stays parked.
 
 ## Done when
-- [ ] `npm test` and `npm run typecheck` green.
-- [ ] The two-company isolation walk below passes live.
-- [ ] Product owner has tested the scenarios and said go.
+- [x] `npm test` and `npm run typecheck` green (51/51, clean).
+- [x] Live free smoke confirms the wall over HTTP: logged-in fenced `/api/v1/runs/recent` = 0; anonymous legacy = 3.
+- [x] Product owner accepted on the offline tests + live free smoke (2026-06-29 — "commit"); deferred the paid two-company walk.
 
 ## Test scenarios — for the product owner
 Walk these yourself. Phase closes on your green light.
