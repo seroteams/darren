@@ -41,3 +41,8 @@ logs/**
 
 # Local screenshots dropped at repo root (UI reference shots, etc.)
 /*.png
+
+# Chat-history archive — generated transcripts + generator, kept on the local
+# machine only (re-runnable, never committed; ~5.7MB of past conversation logs)
+/docs/chat-history/
+/scripts/chat-log.py

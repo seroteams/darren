@@ -28,6 +28,27 @@ screens at your real company instead of the shared pre-auth placeholder) is the 
 
 ---
 
+## Parked / backlog plans (NOT in-flight)
+
+Nothing below is actively being worked. They're scaffolded ideas in `docs/todo/`,
+waiting for a scope pick or a turn. Listed here so the folder count never *looks*
+like 8 things are half-done at once — they aren't.
+
+| Plan | State |
+|---|---|
+| [planner-grounding](docs/todo/planner-grounding/PLAN.md) | parked — awaiting scope pick (A/B/C/all) |
+| [briefing-readability-p0](docs/todo/briefing-readability-p0/PLAN.md) | parked |
+| [briefing-grounding-fixes](docs/todo/briefing-grounding-fixes/PLAN.md) | awaiting |
+| [see-before-sent](docs/todo/see-before-sent/PLAN.md) | awaiting |
+| [sent-preview](docs/todo/sent-preview/PLAN.md) | awaiting |
+| [stage-data-tabs](docs/todo/stage-data-tabs/PLAN.md) | awaiting |
+| [repo-tidy](docs/todo/repo-tidy/PLAN.md) | awaiting |
+| [todo-board-rebuild](docs/todo/todo-board-rebuild/PLAN.md) | awaiting |
+
+When one becomes live, move it up into "Your move" above and start its phases.
+
+---
+
 ## Just-finished plan: Phase 006 — The front door (Auth) ✅
 
 📄 [docs/todo/done/auth-front-door/PLAN.md](docs/todo/done/auth-front-door/PLAN.md)
