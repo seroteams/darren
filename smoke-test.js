@@ -75,7 +75,7 @@ function unitChecks() {
   const PROMPT_SRC_MAP = {
     "prompts/generate-focus-points.md": "backend/engine/generate.ts",
     "prompts/generate-questions.md":    "backend/engine/question-generator.ts",
-    "prompts/plan-turn.md":             "backend/engine/queue-manager.ts",
+    "prompts/plan-turn.md":             "backend/engine/messages.ts",
     "prompts/preparation.md":           "backend/engine/preparation.ts",
     "prompts/final-evaluation.md":      "backend/engine/reviewer.ts",
     "prompts/generate-role-profile.md": "backend/engine/role-profile.ts",
