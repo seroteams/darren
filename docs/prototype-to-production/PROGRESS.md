@@ -7,19 +7,22 @@
 ---
 
 ## Where we are now
-- **Active phase:** 006 — Auth (next). **005 (Postgres foundation) is `done`** (Carl: Option A).
-- **Status:** **Phase 005 ✅ DONE.** Managed Neon Postgres behind the same repo interface; a load-order bug
-  (live server fell back to files despite `DATABASE_URL`) was found + fixed (`env-boot.ts`) and verified — a
-  real run now lands in Postgres. Immediate next: review the run's off-thread questions (separate engine
-  track). Parked: a regression test for the live DB-wiring path.
-- **Last updated:** 2026-06-28
+- **Active phase:** 007 — Frontend app / login screen (next, not started). **006 (Auth) is `done`.**
+- **Status:** **Phase 006 ✅ DONE & SIGNED OFF.** Register/login with bcrypt-hashed passwords (raw never
+  stored), session cookie + a guard that refuses logged-out access to protected pages, a hard-gated
+  `DEV_AUTOLOGIN` side-door (sealed in prod), and signup that creates the org + first-user-owner with
+  every query fenced to the caller's company. Closed out to `docs/todo/done/auth-front-door/`.
+- **Free checks:** `npm test` **49/49** green · `npm run typecheck` clean (offline, $0). `main` in sync
+  with origin.
+- **Last updated:** 2026-06-29
 
 ## Next up (this can change as we learn)
-**Continue in a fresh thread** — handover at
-[../todo/postgres-foundation/HANDOVER.md](../todo/postgres-foundation/HANDOVER.md). Steps: write the
-detailed `phase-2/3/4.md` step files in Drizzle's shape, run the free baseline (`npm test`), then build
-**Phase 2 (first migration)** — the 5 tables as a versioned migration. One phase at a time; Carl
-green-lights before the next.
+**Phase 007 — the customer app.** The back-end front door (006) is done, but there's still **no login
+*screen*** — the admin console at localhost:3000 doesn't ask you to log in yet. 007 stands up the
+customer-facing app (register/login screens wired to the secure backend) while the current screens stay
+as the internal admin tool. Two open scopes to pick from before starting: full Phase 007 vs the
+**planner-grounding** engine track ([../todo/planner-grounding/PLAN.md](../todo/planner-grounding/PLAN.md)).
+One phase at a time; Carl green-lights before the next.
 
 ## Phase status
 | # | Phase | Status |
@@ -29,7 +32,7 @@ green-lights before the next.
 | 003 | TypeScript conversion | `done` |
 | 004 | Backend API v1 (RESTful, TDD) | `done` |
 | 005 | Postgres foundation | `done` |
-| 006 | Auth (org model, password, SSO-ready) | `not-started` |
+| 006 | Auth (org model, password, SSO-ready) | `done` |
 | 007 | Frontend app | `not-started` |
 | 008 | Security | `not-started` |
 
@@ -61,8 +64,38 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   **scaffolded** for it in Phases 005–006; the feature itself is later.
 - SSO (Google / Microsoft) sign-in. Structure is designed for it in Phase 006; the integration is later.
 
+## Lessons learned (one line per phase — what surprised us, so it compounds)
+- **001 Monorepo reorg** — a previous run-ahead left untracked duplicate file copies that polluted the
+  baseline; clean the working tree *before* trusting a "tests green" baseline.
+- **002 Conventions** — borrowing proven community skills (TDD, security-review) beat writing our own;
+  only the project-specific rulebooks were worth hand-authoring.
+- **003 TypeScript** — leaf-first, strict-from-the-start conversion kept every step green; the discipline
+  that paid off was banning `any`/`@ts-ignore` escapes rather than papering over unclear shapes.
+- **004 Backend API** — the real test of clean layering wasn't the routes, it was "can storage swap
+  without touching the service" — writing each test before its code forced that seam to stay honest.
+- **005 Postgres** — **the load-order bug:** the live server picked file-vs-Postgres at module load but
+  loaded `.env` *after* imports, so it silently wrote to files despite `DATABASE_URL`. The round-trip test
+  missed it because it bypassed the controller. Lesson: verify the *destination* (query the DB), don't
+  infer persistence from routing logic; test the wiring path the live server actually takes.
+- **006 Auth** — "done" can be half-true at the seam: the back-end front door works fully, but there's no
+  login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
+
 ## Activity log (newest first)
-- **2026-06-28** — **Phase 005 (Postgres foundation) → ✅ DONE & SIGNED OFF (Carl: "Option A").** Built
+- **2026-06-29** — **Full pre-007 audit + tracker reconciliation.** Confirmed phases 001–006 all done,
+  signed off, and archived in `done/` (`npm test` 49/49, typecheck clean, offline). Found three of the
+  project's five progress trackers had drifted stale (`SERO_BOARD.md` still said "005 active", this
+  `PROGRESS.md` had 006 as `not-started`, the how-it-works changelog stopped at Jun 14) plus a wrong
+  "nothing pushed / main ahead" claim (`main` is in sync with origin). Reconciled all three to
+  006-done/007-next, corrected the push-state claim, and added the Lessons section below. Doc-only, $0.
+- **2026-06-29** — **Phase 006 (Auth — the front door) → ✅ DONE & SIGNED OFF.** Built across 4 sub-phases:
+  (1) `auth_sessions` table + bcryptjs ready (`2e43a42e`); (2) register & login, bcrypt hashing, raw
+  password never stored — proven by test (`d1a6b8c6`); (3) session cookie on login + a guard that refuses
+  logged-out access to protected pages, plus a `DEV_AUTOLOGIN` one-click side-door hard-sealed in prod
+  (`c303f136`); (4) signup creates the org + first-user-owner, every query fenced to the caller's company —
+  proven company A can't read company B (`0789c1e0`). Build-board badges marked done (`b812915f`).
+  Live-proved against Postgres (login flow + two-company isolation). All free — no OpenAI run. **Phase 007
+  (frontend app / login screen) is now next.** Note: 006 delivered the *back-end* front door only — there's
+  still no login *screen* in the clickable app; that's 007.
   Phase 4 (boot-restore in `startSweep`, `backend/db/README.md`, boot-restore assertion in the round-trip
   test; 47/47). A pre-commit DB check caught a **load-order bug**: the sessions controller picks
   file-vs-Postgres at module load, but `server.ts` loaded `.env` in its body (after imports), so the live

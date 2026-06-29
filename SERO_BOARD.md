@@ -12,12 +12,15 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
-**Active build: Phase 005 — Postgres Foundation** (`docs/todo/postgres-foundation/`). Phase 004
-(Backend API v1) was product-owner signed off 2026-06-28 and closed out to
-`docs/todo/done/backend-api-v1/`. Phase 005 is **blocked on one decision — Drizzle vs Prisma**;
-no database code lands until that's picked (plan Step 1). Live per-phase tracker: [`STATUS.md`](STATUS.md).
+**Phases 001–006 of the Prototype→Production line are all done, signed off, and closed to
+`docs/todo/done/`.** Phase 006 (Auth — the back-end front door) was the last to land: register/login
+with hashed passwords, guarded pages, a hard-gated dev side-door, and signup that creates the company
+with per-company data fencing. **Next up: Phase 007 — the customer app / login screen** (make login real
+in the app you can click). Live per-phase tracker: [`STATUS.md`](STATUS.md); full phase list in the
+[tasks board](admin/src/stages/tasks.js).
 
-**Built earlier, still awaiting Carl's product-owner QA** — not signed off, don't treat as done:
+**Separate engine/runner track — built earlier, still awaiting Carl's product-owner QA** (not part of the
+001–008 phase line; not signed off, don't treat as done):
 
 | Feature | Folder | State |
 |---|---|---|
@@ -32,8 +35,8 @@ None has been walked through its QA scenarios. Next action on each: *Carl walks 
 green light → close out to `done/`.* To see runner features live, restart `npm run dev` (your dev
 server may be on old code).
 
-Tests: `npm test` **46/46** (offline, $0). Commits are **local only** — `main` is ahead of origin
-and nothing has been pushed; pushing is a deliberate manual step, not automated.
+Tests: `npm test` **49/49** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
+(not automated); `main` is currently **in sync with origin** — recent phases have been pushed.
 
 ## 2. Next — after Now is green
 
@@ -48,17 +51,18 @@ Completed work has been cleared from this board. The record lives in git history
 
 ---
 
-## Repo state (audited 2026-06-28)
+## Repo state (audited 2026-06-29)
 
-Phase 004 is closed and archived (`docs/todo/done/backend-api-v1/`); Phase 005 (Postgres) is the
-active plan. **There is no auto-commit/push automation** — earlier notes here assumed one; that was
-wrong. Commits are made explicitly and are **local only** (`main` is ahead of origin; nothing is
-pushed). Three old stashes exist (`cleanup/remove-dead-ai-handoff-core`, `design-system-foundation`,
-+ a WIP CSS/HTML cleanup) — **do not pop**. `logs/**` is gitignored apart from a small May keep-set
-(now de-identified — no real names or notes).
+Phases 001–006 are all closed and archived under `docs/todo/done/`; Phase 007 (customer app) is next.
+**There is no auto-commit/push automation** — commits are made explicitly. `main` is currently **in sync
+with origin** (recent phases have been pushed; pushing remains a deliberate manual step). Three old
+stashes exist (`cleanup/remove-dead-ai-handoff-core`, `design-system-foundation`, + a WIP CSS/HTML
+cleanup) — **do not pop**. `logs/**` is gitignored apart from a small May keep-set (de-identified — no
+real names or notes).
 
-**Test status:** `npm test` **46/46** green, offline ($0). Live gate/smoke/eval are PAID and need a
-per-run go-ahead. Sign-off is tracked per-phase in each PLAN.md, `STATUS.md`, and Section 1 above.
+**Test status:** `npm test` **49/49** green, `npm run typecheck` clean, offline ($0). Live
+gate/smoke/eval are PAID and need a per-run go-ahead. Sign-off is tracked per-phase in each PLAN.md,
+`STATUS.md`, and Section 1 above.
 
 ## Trust boundary rules (what's enforced today)
 
