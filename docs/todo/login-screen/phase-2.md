@@ -5,8 +5,28 @@
 ## Goal
 Switch the console off the shared pre-auth placeholder org and onto the logged-in company's fenced data, so two companies cannot see each other's sessions or runs in the UI.
 
-## Changes
-- **Verify the fence FIRST (the one unknown):** confirm the generic v1 routes (`POST /api/v1/sessions`, `GET /api/v1/runs/recent`, `GET /api/v1/sessions/:id`, …) derive `orgId` from the session cookie's identity and filter by it — the way `/auth/me/runs` does. Check [backend/api/middleware/request-context.ts](../../../backend/api/middleware/request-context.ts), `v1Route`, and the sessions/runs repos. If any v1 route still falls back to `DEFAULT_ORG_ID`, that's a small backend fix and the **first task** here — flag it, don't paper over it (engine-honesty rule).
+## Verification result (2026-06-29) — the fence is NOT in place; bigger than "a small fix"
+Read-only check done before any client change. Findings:
+- **Generic v1 routes share the legacy controllers and are not org-fenced.** `runs.recent/finished/full/…`
+  ([runs.controller.ts](../../../backend/api/services/runs/runs.controller.ts)) take **no identity** —
+  they call `service.recent(...)` over the **file-based** run-history engine ([runs.repo.ts](../../../backend/api/services/runs/runs.repo.ts) → `fileRunsRepo` → `listRecentRuns`), which has **no org concept at all**. Every company would see every run.
+- **Sessions are stamped with the placeholder org.** The pg session store hardcodes `DEFAULT_ORG_ID`
+  ([sessions-store.ts:20](../../../backend/db/sessions-store.ts)); session reads resolve by id with no org-ownership check.
+- **Only `/auth/me/runs` is truly fenced** — it derives `orgId` from the cookie and reads a **different,
+  sparse** Postgres `runs` table ([org-data.repo.ts](../../../backend/api/services/auth/org-data.repo.ts): id/label/status/logDir) via `listMyRuns`. The console's runs UI needs far more than that table holds.
+- **Conclusion:** a client path-swap alone gives **zero isolation**. Real backend work is required first, and
+  there's a genuine design fork (below) on how the **file-based** run-history gets fenced. Flagged for Carl's
+  direction before any code (engine-honesty + one-phase-at-a-time).
+
+### Design fork for the runs store (needs Carl's pick)
+- **A — tag file-runs with orgId + filter:** record the creating company's `orgId` in each run dir/manifest, then
+  fence `listRecentRuns`/lookups by it. Keeps the rich file-based UI; touches the run-history engine + every runs read.
+- **B — move runs onto the org-fenced Postgres `runs` table:** make the console read the already-fenced store, and
+  enrich that table to carry what the UI shows. Cleaner long-term, larger migration of the runs UI.
+- **C — minimal sessions-only fence this phase:** fence sessions by real `orgId` now (stamp on create, check on read),
+  and defer runs-history fencing to its own phase. Smaller, honest, but leaves runs cross-visible until then.
+
+## Changes (after the fork is chosen)
 - **Migrate the client** — rewrite each [admin/src/api.js](../../../admin/src/api.js) data function from the legacy `/api/` shape to the v1 shape. Main mechanical change: **id-in-path** instead of `?s=<id>` / body `sessionId`:
   - `startSession` → `POST /api/v1/sessions`
   - `getSession`/`getQuestion`/`getRoleProfile`/`suggestAnswers`/`getStagePreview` → `GET /api/v1/sessions/:id/…`
