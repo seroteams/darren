@@ -110,13 +110,13 @@ const DATA = [
     goal: "A real front door — register and log in with strong passwords. Because it's HR, signing up also creates the company, so data belongs to the organisation, not a lone person.",
     steps: [
       { f: "Finalise the accounts tables", m: "Finalise the tables for companies, people, sign-in methods and invitations.", have: "Account tables ready",
-        auto: null, eye: "Once built: the tables exist with every field they need." },
+        auto: null, eye: "Once built: the tables exist with every field they need.", s: "done" },
       { f: "Register and login with safe passwords", m: "Passwords are stored as a strong scramble — the real password is never kept, even we can't see it.", have: "Working register and login",
-        auto: "Once built: `npm test` proves the raw password is never stored (only the scramble).", eye: "Once built: you can register and log in." },
+        auto: "Once built: `npm test` proves the raw password is never stored (only the scramble).", eye: "Once built: you can register and log in.", s: "done" },
       { f: "Keep people in, guard the doors", m: "A secure pass on login and a guard that turns logged-out visitors away from protected pages.", have: "Guarded pages",
-        auto: "Once built: `npm test` proves a protected page is refused when logged out.", eye: "Once built: logged out, a protected page turns you away." },
+        auto: "Once built: `npm test` proves a protected page is refused when logged out.", eye: "Once built: logged out, a protected page turns you away.", s: "done" },
       { f: "Signup creates the company", m: "Signing up creates the org, makes the first person the owner, and fences all data to their company.", have: "Company auto-created on signup",
-        auto: "Once built: `npm test` proves company A can't read company B's data.", eye: "Once built: registering creates a person + their company, with that person as owner." },
+        auto: "Once built: `npm test` proves company A can't read company B's data.", eye: "Once built: registering creates a person + their company, with that person as owner.", s: "done" },
     ],
     signoff: "Signup creates a person and a company · login works and logged-out access is refused · two companies cannot see each other's data." },
 
