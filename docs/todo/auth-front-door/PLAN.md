@@ -25,19 +25,23 @@ This phase fills seams that already exist — it is not from scratch:
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Accounts tables ready | `auth_sessions` table + confirm the account tables are complete; `bcryptjs` installed | 🔨 |
-| 2 | Register & login with safe passwords | Register hashes the password; login verifies it; raw password never stored | ⬜ |
+| 2 | Register & login with safe passwords | Register hashes the password; login verifies it; raw password never stored | ✅ |
 | 3 | Keep people in, guard the doors (+ dev side-door) | Login issues a secure cookie; logged-out is refused on protected pages; `DEV_AUTOLOGIN` one-click in, sealed in prod | ⬜ |
 | 4 | Signup creates the company | Register creates the org + owner; every query fenced to the caller's company | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 build done 2026-06-29 — awaiting Carl's QA + green light.** Added the `auth_sessions` table
-([schema.ts](../../../backend/db/schema.ts)), generated + applied migration `0002_stormy_ricochet.sql`
-(table confirmed live in Postgres — all 6 cols, 4 indexes), installed `bcryptjs` (+ `@types/bcryptjs`),
-confirmed the account tables already carry every field auth needs. `npm test` 47/47 ✅, typecheck clean ✅.
-Not committed yet (commits on your green light).
-**Baseline (free):** `npm test` → 47/47. (The paid `npm run gate` needs your explicit go-ahead with a cost first — not run by default.)
+**Phase 1 ✅ committed `2e43a42e`.** **Phase 2 ✅ Carl QA'd + green-lit 2026-06-29.**
+New `backend/api/services/auth/`
+(controller → service → repo + mirrored tests): `POST /api/v1/auth/register` and `POST /api/v1/auth/login`.
+Passwords scrambled with `bcryptjs` (cost 10); the raw password is never stored, logged, or returned.
+Rejects weak passwords (< 8 chars), duplicate emails, and wrong logins (generic "email or password is
+incorrect" — no account-existence leak). Email normalized to lower-case. Users attach to a shared default
+org for now (Phase 4 makes register create the company). `npm test` 48/48 ✅, typecheck clean ✅. Live proof
+against Postgres confirmed: stored hash is bcrypt (not the raw password), login right/wrong behave. Not
+committed yet (commits on your green light).
+**Baseline (free):** `npm test` → 48/48. (The paid `npm run gate` needs your explicit go-ahead with a cost first — not run by default.)
 
 ## Parked
 - **Invitations / resend / expiry flow** — table exists, feature is later.

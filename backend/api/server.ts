@@ -11,6 +11,7 @@ import { startSweep } from "./sessions.ts";
 import { getBuildInfo } from "./build-info.ts";
 
 import * as arcs from "./services/arcs/arcs.controller.ts";
+import * as auth from "./services/auth/auth.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { forbidden, rateLimited } from "./middleware/http-error.ts";
@@ -72,6 +73,11 @@ function main(): void {
   // version — the running API's build id (git short SHA + commit date), captured
   // at boot. Lets the app show which build is live so a stale server is obvious.
   router.add("GET", "/api/version", (c) => c.json(200, getBuildInfo()));
+
+  // auth — register + login (Phase 006). v1-only (no legacy alias): new endpoints,
+  // the one error shape from the start.
+  router.add("POST", "/api/v1/auth/register", v1Route(auth.register));
+  router.add("POST", "/api/v1/auth/login", v1Route(auth.login));
 
   // catalog — first domain on the v1 layer (controller → service → repo).
   // v1 routes use the one error shape (v1Route); the legacy /api/ paths stay as
