@@ -24,7 +24,11 @@ migrate the client off the legacy routes. Full detail: [docs/todo/login-screen/p
 
 - Last updated: 2026-06-29
 - Phase 1: committed locally ✅ · `npm test` **49/49** ✅ · typecheck clean ✅ · your QA walk green ✅.
-- Phase 2: not started — I'll begin with the free route-fence check and report before changing anything.
+- Phase 2: **in progress.** Route-fence check done — the generic v1 routes are **not** fenced today (runs
+  read file-history with no company tag; sessions use the placeholder company). You chose **approach A**
+  (tag file-runs by company). Now building it test-first: stamp company id on session creation → fence the
+  run-history reads → thread it through the controllers → migrate the client → prove the wall offline. QA is
+  the two-company isolation walk in [phase-2.md](docs/todo/login-screen/phase-2.md).
 
 ---
 
@@ -37,7 +41,7 @@ two companies can't see each other's runs.
 | # | Phase | Status |
 |---|-------|--------|
 | 1 | Login gate + screens | ✅ done — green-lit + committed |
-| 2 | Re-point console data to the org (real isolation) | ⬜ not started — next |
+| 2 | Re-point console data to the org (real isolation) | 🔨 in progress — approach A chosen, building |
 
 ---
 

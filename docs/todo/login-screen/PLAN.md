@@ -23,7 +23,7 @@ This phase wires a UI onto auth that already works — it is not from scratch:
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Login gate + screens | Console requires login; register/login/logout screens; boot gate calls `/auth/me` | ✅ done (green-lit + committed 2026-06-29) |
-| 2 | Re-point data to the org | Client calls org-fenced `/api/v1/` routes; two companies are isolated in the UI | ⬜ next |
+| 2 | Re-point data to the org | Client calls org-fenced `/api/v1/` routes; two companies are isolated in the UI | 🔨 in progress (approach A) |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested + green-lit)
 

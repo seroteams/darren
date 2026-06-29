@@ -130,7 +130,7 @@ const DATA = [
       { f: "Wire the screens to the backend", m: "Connect the screens to the secure Phase-006 backend so signup and login really work, a refresh keeps you in, and logout returns you to login for real.", have: "Screens that really work",
         auto: null, eye: "Register a company, log in, reach the app; a refresh keeps you in; logout returns you to login.", s: "done" },
       { f: "Point the console's data at your company", m: "Switch the console off the shared placeholder data onto your logged-in company's fenced data, so two companies can't see each other's sessions or runs.", have: "Per-company data isolation",
-        auto: "Once built: `npm test` — green — proving company A can't read company B's data.", eye: "As company A you see only A's runs; B's runs never appear; opening B's run by id is refused.", s: "todo" },
+        auto: "Once built: `npm test` — green — proving company A can't read company B's data.", eye: "As company A you see only A's runs; B's runs never appear; opening B's run by id is refused.", s: "doing" },
     ],
     signoff: "Log in and out in the admin console (no separate app) · a refresh keeps you logged in · the console shows only your company's runs · two companies cannot see each other's data." },
 

@@ -1,6 +1,6 @@
 # Phase 2 — Re-point console data to the org (real isolation)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 in progress (approach A chosen 2026-06-29)
 
 ## Goal
 Switch the console off the shared pre-auth placeholder org and onto the logged-in company's fenced data, so two companies cannot see each other's sessions or runs in the UI.
@@ -26,7 +26,21 @@ Read-only check done before any client change. Findings:
 - **C — minimal sessions-only fence this phase:** fence sessions by real `orgId` now (stamp on create, check on read),
   and defer runs-history fencing to its own phase. Smaller, honest, but leaves runs cross-visible until then.
 
-## Changes (after the fork is chosen)
+## Chosen approach: **A — tag file-runs by company** (Carl, 2026-06-29)
+Keep today's rich file-based runs UI; record the creating company's `orgId` on each run and fence every
+runs read by it. Sub-steps (test-first, in order):
+1. **Stamp the real `orgId` on session creation** — thread the request identity's `orgId` into
+   `sessions.start`, store it on the session state (so it serializes to `session-state.json` on disk **and**
+   the PG `sessions.orgId` column, replacing the hardcoded `DEFAULT_ORG_ID`). Anonymous/legacy → `DEFAULT`.
+2. **Fence the run-history engine by `orgId`** — add **optional** `orgId` filtering to
+   [run-history.ts](../../../backend/engine/run-history.ts) (`walkRuns`/`listRecent`/`listFinished`/`findRunDir`/`summarize`/`compare`/`readRunStages`/`delete`/`setArchived`): when an `orgId` is given, only runs whose `state.orgId` matches are visible, and a by-id read of another org's run returns `null` → 404. No `orgId` = unfiltered, so CLI/gate/replay are untouched.
+3. **Thread `orgId` through the runs + sessions controllers** — build identity from the cookie and pass `orgId`
+   down on the **v1** routes. Legacy `/api/` routes stay pinned to `DEFAULT` (the client is leaving them).
+4. **Migrate the client** to the org-fenced v1 routes (below).
+5. **Prove the wall offline** — pure isolation tests (mirroring `listMyRuns`' test): company A can't list or
+   open company B's runs/sessions. `npm test` + `npm run typecheck` green before Carl's QA walk.
+
+### Step 4 detail — client migration
 - **Migrate the client** — rewrite each [admin/src/api.js](../../../admin/src/api.js) data function from the legacy `/api/` shape to the v1 shape. Main mechanical change: **id-in-path** instead of `?s=<id>` / body `sessionId`:
   - `startSession` → `POST /api/v1/sessions`
   - `getSession`/`getQuestion`/`getRoleProfile`/`suggestAnswers`/`getStagePreview` → `GET /api/v1/sessions/:id/…`
