@@ -22,10 +22,10 @@ export interface AuthUser {
   passwordHash: string | null;
 }
 
-/** What register hands the repo to persist. The raw password never appears here —
- *  only the one-way hash. */
-export interface NewUser {
-  orgId: string;
+/** What register hands the repo to create a company and its first user together.
+ *  The raw password never appears here — only the one-way hash. */
+export interface NewOrgOwner {
+  company: string;
   email: string;
   name: string;
   passwordHash: string;
@@ -34,15 +34,11 @@ export interface NewUser {
 export interface AuthRepo {
   /** The user with this (already-normalized) email, or null. */
   findByEmail(email: string): Promise<AuthUser | null>;
-  /** Persist a new user; returns the stored row. */
-  createUser(input: NewUser): Promise<AuthUser>;
-  /** The org id new users attach to until Phase 4 — created once, then reused. */
-  ensureDefaultOrg(): Promise<string>;
+  /** Create the company AND its owner together, in one transaction (both succeed or
+   *  neither does); returns the stored owner. This is what makes signup create the
+   *  company (Phase 4). */
+  createOrgWithOwner(input: NewOrgOwner): Promise<AuthUser>;
 }
-
-// The shared placeholder org every Phase-2 signup joins. Phase 4 removes this in
-// favour of register creating the signer's own company.
-const DEFAULT_ORG_NAME = "Default Org (pre-Phase-4)";
 
 export const pgAuthRepo: AuthRepo = {
   async findByEmail(email) {
@@ -52,28 +48,28 @@ export const pgAuthRepo: AuthRepo = {
     if (!u) return null;
     return { id: u.id, orgId: u.orgId, email: u.email, name: u.name, role: u.role, passwordHash: u.passwordHash };
   },
-  async createUser(input) {
+  async createOrgWithOwner(input) {
     const db = getDb();
-    const rows = await db
-      .insert(users)
-      .values({ orgId: input.orgId, email: input.email, name: input.name, passwordHash: input.passwordHash })
-      .returning();
-    const u = rows[0];
-    if (!u) throw new Error("createUser: insert returned no row");
-    return { id: u.id, orgId: u.orgId, email: u.email, name: u.name, role: u.role, passwordHash: u.passwordHash };
-  },
-  async ensureDefaultOrg() {
-    const db = getDb();
-    const existing = await db
-      .select()
-      .from(organizations)
-      .where(eq(organizations.name, DEFAULT_ORG_NAME))
-      .limit(1);
-    if (existing[0]) return existing[0].id;
-    const rows = await db.insert(organizations).values({ name: DEFAULT_ORG_NAME }).returning();
-    const org = rows[0];
-    if (!org) throw new Error("ensureDefaultOrg: insert returned no row");
-    return org.id;
+    // One transaction: the org and its owner are created together, or not at all —
+    // never a company with no owner, or an owner with no company.
+    return db.transaction(async (tx) => {
+      const orgRows = await tx.insert(organizations).values({ name: input.company }).returning();
+      const org = orgRows[0];
+      if (!org) throw new Error("createOrgWithOwner: org insert returned no row");
+      const userRows = await tx
+        .insert(users)
+        .values({
+          orgId: org.id,
+          email: input.email,
+          name: input.name,
+          role: "owner",
+          passwordHash: input.passwordHash,
+        })
+        .returning();
+      const u = userRows[0];
+      if (!u) throw new Error("createOrgWithOwner: user insert returned no row");
+      return { id: u.id, orgId: u.orgId, email: u.email, name: u.name, role: u.role, passwordHash: u.passwordHash };
+    });
   },
 };
 

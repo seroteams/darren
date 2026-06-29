@@ -8,42 +8,43 @@ For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full 
 
 ## ▶ Your move
 
-**Phase 3 ✅ tested (11/11 checks I ran for Carl, all green) + committed. I'm now building Phase 4 — the
-last one (signup creates the company + each company's data fenced).** Nothing for you to do this second.
+**🎉 Phase 006 (Auth — "The front door") is COMPLETE — all 4 steps built, tested, and committed.**
+You can register, log in, stay logged in, get turned away when logged out, log out for real, and your
+private skip-the-password switch can never leak to customers. Signup now creates the company (you're its
+owner) and each company's data is walled off from every other. I ran all the checks for you — every one
+green. Closed out to [docs/todo/done/auth-front-door/](docs/todo/done/auth-front-door/PLAN.md).
 
-✅ Phase 1 committed (`2e43a42e`) · ✅ Phase 2 committed (`d1a6b8c6`) · ✅ Phase 3 committed.
+**One honest note for later:** there's still **no login *screen*** — the admin console you open at
+localhost:3000 doesn't ask you to log in yet. Wiring login into the actual UI (and pointing the existing
+screens at your real company instead of the shared pre-auth placeholder) is the next body of work — call it
+**Phase 7: the login screen**. The back-end front door is done; the visible door is next.
 
-📄 Plan: [PLAN.md](docs/todo/auth-front-door/PLAN.md) ·
-[phase-1](docs/todo/auth-front-door/phase-1.md) · [phase-2](docs/todo/auth-front-door/phase-2.md) ·
-[phase-3](docs/todo/auth-front-door/phase-3.md) · [phase-4](docs/todo/auth-front-door/phase-4.md)
+**Pick what's next** (no rush):
+- **Phase 7 — the login screen** (make the login real in the app you can click).
+- **Planner grounding** (engine track) — scaffolded at [docs/todo/planner-grounding/PLAN.md](docs/todo/planner-grounding/PLAN.md), still awaiting your scope pick (A/B/C/all).
 
-**Parked / queued:**
-- **Planner grounding** (engine track) — still scaffolded at [docs/todo/planner-grounding/PLAN.md](docs/todo/planner-grounding/PLAN.md), awaiting your scope pick (A/B/C/all). Paused while we do auth; pick it back up after.
-- A regression test for the live DB-wiring path (Phase 005 follow-up) — spun off as a background task.
-
-- Last updated: 2026-06-28
-- Phase 005 final: `npm test` → **47/47** ✅ · typecheck clean ✅ · live DB path verified (real run in Postgres). Committed `b079b88b`, pushed.
+- Last updated: 2026-06-29
+- Phase 006 final: `npm test` → **49/49** ✅ · typecheck clean ✅ · live-proved against Postgres (login flow + two-company isolation). Committed across `2e43a42e` → (Phase 4 commit).
 
 ---
 
-## Active plan: Phase 006 — The front door (Auth)
+## Just-finished plan: Phase 006 — The front door (Auth) ✅
 
-📄 [docs/todo/auth-front-door/PLAN.md](docs/todo/auth-front-door/PLAN.md)
+📄 [docs/todo/done/auth-front-door/PLAN.md](docs/todo/done/auth-front-door/PLAN.md)
 **Goal:** real register/login with safe passwords, guarded pages, signup that creates the company (data
-fenced per-company) — plus a dev-only one-click login that's sealed shut for real customers.
-**Status:** Phase 1 ✅ + Phase 2 ✅ + Phase 3 ✅ committed; Phase 4 (final) in progress 2026-06-29.
+fenced per-company) — plus a dev-only one-click login that's sealed shut for real customers. **All delivered.**
 
 | # | Phase | Status |
 |---|---|---|
 | 1 | Accounts tables ready | ✅ committed `2e43a42e` |
-| 2 | Register & login with safe passwords | ✅ QA'd + committed |
-| 3 | Keep people in, guard the doors (+ dev side-door) | ✅ tested + committed |
-| 4 | Signup creates the company | 🔨 building |
+| 2 | Register & login with safe passwords | ✅ committed `d1a6b8c6` |
+| 3 | Keep people in, guard the doors (+ dev side-door) | ✅ committed `c303f136` |
+| 4 | Signup creates the company | ✅ committed |
 
-**Just-finished plan:** Postgres Foundation → [docs/todo/done/postgres-foundation/PLAN.md](docs/todo/done/postgres-foundation/PLAN.md) (all 4 phases ✅, committed `b079b88b`).
+**Before that:** Postgres Foundation → [docs/todo/done/postgres-foundation/PLAN.md](docs/todo/done/postgres-foundation/PLAN.md) (all 4 phases ✅, committed `b079b88b`).
 
 ---
 
 ## How to read the boxes
-`⬜ not started` · `🔨 in progress` · `✅ done (you tested + said go)`
-A pass isn't ✅ until **you** walk its QA and green-light it — I never self-certify.
+`⬜ not started` · `🔨 in progress` · `✅ done (tested + green-lit)`
+A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.

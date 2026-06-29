@@ -8,8 +8,10 @@ import type { RequestContext } from "../../router.ts";
 import { createAuthService } from "./auth.service.ts";
 import type { PasswordHasher } from "./auth.service.ts";
 import { pgAuthRepo, pgAuthSessionRepo } from "./auth.repo.ts";
+import { pgOrgDataRepo, listMyRuns } from "./org-data.repo.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireAuth } from "../../middleware/require-auth.ts";
+import { unauthenticated } from "../../middleware/http-error.ts";
 import { sessionCookie, clearedSessionCookie, readCookie, SESSION_COOKIE } from "../../middleware/cookies.ts";
 import { asRecord, asString } from "../../../shared/guards.ts";
 
@@ -31,6 +33,7 @@ export async function register(c: RequestContext): Promise<void> {
     email: asString(body.email),
     name: asString(body.name),
     password: asString(body.password),
+    company: asString(body.company),
   });
   c.json(201, { user });
 }
@@ -64,4 +67,14 @@ export async function me(c: RequestContext): Promise<void> {
   const identity = await buildIdentity(c.req);
   requireAuth(identity);
   c.json(200, { userId: identity.userId, orgId: identity.orgId, roles: identity.roles });
+}
+
+// GET /api/v1/auth/me/runs — protected + org-fenced. Returns ONLY the caller's
+// company's runs, proving the data wall between companies (Phase 4).
+export async function myRuns(c: RequestContext): Promise<void> {
+  const identity = await buildIdentity(c.req);
+  requireAuth(identity);
+  const orgId = identity.orgId;
+  if (!orgId) throw unauthenticated();
+  c.json(200, { runs: await listMyRuns(pgOrgDataRepo, orgId) });
 }

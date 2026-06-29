@@ -24,6 +24,7 @@ export interface RegisterInput {
   email: string;
   name: string;
   password: string;
+  company?: string; // the new company's name; defaults to "<name>'s Company"
 }
 
 export interface LoginInput {
@@ -69,9 +70,11 @@ export function createAuthService(repo: AuthRepo, hasher: PasswordHasher): AuthS
         throw conflict("That email is already registered.");
       }
 
+      // Because it's HR, signing up creates the company too: the first person becomes
+      // its owner (Phase 4). Default the company name from the person's name.
+      const company = (input.company ?? "").trim() || `${name}'s Company`;
       const passwordHash = await hasher.hash(password);
-      const orgId = await repo.ensureDefaultOrg();
-      const user = await repo.createUser({ orgId, email, name, passwordHash });
+      const user = await repo.createOrgWithOwner({ company, email, name, passwordHash });
       return toPublic(user);
     },
 

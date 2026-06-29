@@ -3,26 +3,33 @@ import assert from "node:assert/strict";
 import bcrypt from "bcryptjs";
 import { createAuthService } from "./auth.service.ts";
 import type { PasswordHasher } from "./auth.service.ts";
-import type { AuthRepo, AuthUser, NewUser } from "./auth.repo.ts";
+import type { AuthRepo, AuthUser, NewOrgOwner } from "./auth.repo.ts";
 
 // In-memory repo: proves the service logic never depends on Postgres (the seam
-// check). Captures exactly what register hands createUser, so a test can inspect
-// the stored hash directly.
-function fakeRepo(seed: AuthUser[] = []): AuthRepo & { rows: AuthUser[] } {
+// check). Captures exactly what register persists — the stored hash and the company
+// name — so a test can inspect them directly.
+function fakeRepo(seed: AuthUser[] = []): AuthRepo & { rows: AuthUser[]; companies: string[] } {
   const rows: AuthUser[] = [...seed];
+  const companies: string[] = [];
   let n = 0;
   return {
     rows,
+    companies,
     async findByEmail(email) {
       return rows.find((u) => u.email === email) ?? null;
     },
-    async createUser(input: NewUser) {
-      const u: AuthUser = { id: `u${++n}`, role: "owner", ...input };
+    async createOrgWithOwner(input: NewOrgOwner) {
+      companies.push(input.company);
+      const u: AuthUser = {
+        id: `u${++n}`,
+        orgId: `org${n}`,
+        email: input.email,
+        name: input.name,
+        role: "owner",
+        passwordHash: input.passwordHash,
+      };
       rows.push(u);
       return u;
-    },
-    async ensureDefaultOrg() {
-      return "org-default";
     },
   };
 }
@@ -54,7 +61,25 @@ test("register stores only a scramble — never the raw password — and never r
   // Nothing handed back to the caller carries the hash.
   assert.equal("passwordHash" in user, false);
   assert.equal(user.email, "amy@acme.com");
-  assert.equal(user.orgId, "org-default");
+  assert.ok(user.orgId); // a company was created for them
+});
+
+test("register creates a company and makes the person its owner", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({ email: "gita@acme.com", name: "Gita", password: "longenough1" });
+  assert.ok(user.orgId, "a company id was assigned");
+  assert.equal(user.role, "owner");
+  assert.equal(repo.companies.length, 1); // exactly one company created
+});
+
+test("the company name defaults to the person's name, or uses the one given", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  await service.register({ email: "hugo@acme.com", name: "Hugo", password: "longenough1" });
+  assert.equal(repo.companies[0], "Hugo's Company");
+  await service.register({ email: "ivy@acme.com", name: "Ivy", password: "longenough1", company: "Acme Inc" });
+  assert.equal(repo.companies[1], "Acme Inc");
 });
 
 test("login accepts the right password and rejects the wrong one", async () => {
