@@ -15,6 +15,13 @@
       "when": 1782658719725,
       "tag": "0001_slim_captain_marvel",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1782692300444,
+      "tag": "0002_stormy_ricochet",
+      "breakpoints": true
     }
   ]
 }

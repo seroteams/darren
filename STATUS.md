@@ -8,29 +8,42 @@ For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full 
 
 ## ▶ Your move
 
-**Phase 005 (Postgres foundation) is ✅ DONE & SIGNED OFF (2026-06-28).** You picked Option A — the
-`env-boot` fix is committed and pushed, so new runs now save to Postgres correctly (the live "DB Wiring
-Test" run confirms it). All 4 phases ✅; folder archived. *(Your earlier UX-Lead run stays in files — it
-predates the fix.)*
+**Phase 1 (Accounts tables ready) is built — please walk the 2 QA scenarios and say go.** I added the
+`auth_sessions` login-pass table, generated + applied its migration (confirmed live in your Postgres),
+and installed `bcryptjs` ready for Phase 2. `npm test` 47/47 ✅, typecheck clean ✅. **Not committed yet** —
+I commit the moment you green-light. Your two checks are in [phase-1.md](docs/todo/auth-front-door/phase-1.md#test-scenarios--for-the-product-owner):
 
-**Next up: dig into the strange questions** — a **separate engine/question-quality** issue (the planner
-drifted off your actual topic; not the database). Review of `logs/june/2026_Jun28_22-21-9c10e643` is queued.
+1. **Tables build from clean** — fresh DB + `npm run db:migrate` finishes with no errors; `auth_sessions` shows up.
+2. **Nothing else broke** — `npm test` still shows 47/47.
 
-**Parked:** a regression test for the live DB-wiring path (the bug above slipped past the round-trip test,
-which bypasses the controller) — spun off as a background task so it can't recur unnoticed.
+📄 Plan: [PLAN.md](docs/todo/auth-front-door/PLAN.md) ·
+[phase-1](docs/todo/auth-front-door/phase-1.md) · [phase-2](docs/todo/auth-front-door/phase-2.md) ·
+[phase-3](docs/todo/auth-front-door/phase-3.md) · [phase-4](docs/todo/auth-front-door/phase-4.md)
+
+**Parked / queued:**
+- **Planner grounding** (engine track) — still scaffolded at [docs/todo/planner-grounding/PLAN.md](docs/todo/planner-grounding/PLAN.md), awaiting your scope pick (A/B/C/all). Paused while we do auth; pick it back up after.
+- A regression test for the live DB-wiring path (Phase 005 follow-up) — spun off as a background task.
 
 - Last updated: 2026-06-28
-- Phase 005 final: `npm test` → **47/47** ✅ · `npm run typecheck` clean ✅ · live DB path verified (real run in Postgres)
+- Phase 005 final: `npm test` → **47/47** ✅ · typecheck clean ✅ · live DB path verified (real run in Postgres). Committed `b079b88b`, pushed.
 
 ---
 
-## Active: question-quality review (engine track) → then Phase 006 (Auth)
+## Active plan: Phase 006 — The front door (Auth)
 
-No formal plan folder yet — this is a free diagnostic of one run flagged by Carl (questions went off-thread).
-Once understood, decide whether it needs a Darren-method fix plan. **Phase 006 (Auth)** is the next
-prototype→production phase; its plan folder gets scaffolded when we turn to it.
+📄 [docs/todo/auth-front-door/PLAN.md](docs/todo/auth-front-door/PLAN.md)
+**Goal:** real register/login with safe passwords, guarded pages, signup that creates the company (data
+fenced per-company) — plus a dev-only one-click login that's sealed shut for real customers.
+**Status:** Phase 1 built 2026-06-29, **awaiting Carl's QA + green light** (not committed yet).
 
-**Just-finished plan:** Postgres Foundation → [docs/todo/done/postgres-foundation/PLAN.md](docs/todo/done/postgres-foundation/PLAN.md) (all 4 phases ✅).
+| # | Phase | Status |
+|---|---|---|
+| 1 | Accounts tables ready | 🔨 built — awaiting your QA |
+| 2 | Register & login with safe passwords | ⬜ |
+| 3 | Keep people in, guard the doors (+ dev side-door) | ⬜ |
+| 4 | Signup creates the company | ⬜ |
+
+**Just-finished plan:** Postgres Foundation → [docs/todo/done/postgres-foundation/PLAN.md](docs/todo/done/postgres-foundation/PLAN.md) (all 4 phases ✅, committed `b079b88b`).
 
 ---
 

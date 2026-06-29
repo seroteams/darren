@@ -105,3 +105,26 @@ export const invitations = pgTable(
   },
   (t) => [index("invitations_org_id_idx").on(t.orgId)],
 );
+
+/** The login pass (Phase 006). One row per active login. The cookie carries `token`
+ *  — an opaque, unguessable string — NOT the uuid PK, so the PK never leaves the
+ *  server (same split the `sessions` table uses with `session_key`). A row is created
+ *  on login and deleted on logout/expiry, which is what makes a logout *real*
+ *  (revocable) — the reason we chose a server-side session over a stateless JWT.
+ *  Distinct from `sessions` above, which is the 1:1 prep session, not a login. */
+export const authSessions = pgTable(
+  "auth_sessions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    token: text("token").notNull().unique(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => organizations.id),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("auth_sessions_org_id_idx").on(t.orgId), index("auth_sessions_user_id_idx").on(t.userId)],
+);
