@@ -1,0 +1,11 @@
+alias: q_role_clarity
+label: Role clarity
+name: When you say role and responsibilities, what feels most unclear right now?
+description: Clarifies which part of the Head of UX scope feels undefined to him.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  growth: +3
+source: planner_added
+grounding: role and responsibliites need

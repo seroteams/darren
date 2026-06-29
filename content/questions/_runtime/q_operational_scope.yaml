@@ -1,0 +1,11 @@
+alias: q_operational_scope
+label: Operational scope
+name: What part of the operational side feels least clear to you?
+description: Drills into the specific admin or organisational scope he feels unsure about.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  growth: +3
+source: planner_added
+grounding: backend and paperwork needed

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-28T11:52:26.803Z",
-  "count": 4106,
+  "generated_at": "2026-06-29T04:09:13.665Z",
+  "count": 4155,
   "aliases": [
     "q_50_percent_in_practice",
     "q_a_lot_landing",
@@ -95,6 +95,7 @@
     "q_billing_weirdness",
     "q_blocked_decisions",
     "q_blocked_decisions_2",
+    "q_blocked_growth",
     "q_blocker_specifics",
     "q_brief_omission",
     "q_broader_impact",
@@ -281,6 +282,7 @@
     "q_criteria_meaning",
     "q_critique_handling",
     "q_critique_translation",
+    "q_critique_use",
     "q_crits_landing",
     "q_crits_landing_2",
     "q_crits_lately",
@@ -338,6 +340,9 @@
     "q_crowded_out_work",
     "q_crowded_week",
     "q_crowded_week_2",
+    "q_culture_fit",
+    "q_culture_friction",
+    "q_culture_thread",
     "q_current_dependency",
     "q_current_energy",
     "q_current_energy_2",
@@ -742,6 +747,7 @@
     "q_expectation_drift",
     "q_expectation_timing",
     "q_expected_leverage",
+    "q_expert_track_specifics",
     "q_extra_effort",
     "q_fastest_money",
     "q_feasibility_pressure",
@@ -783,6 +789,7 @@
     "q_feedback_landing_7",
     "q_feedback_landing_8",
     "q_feedback_landing_9",
+    "q_feedback_load",
     "q_feedback_loop",
     "q_feedback_loop_2",
     "q_feedback_loop_3",
@@ -1113,6 +1120,8 @@
     "q_launch_slip_cause",
     "q_launch_thread",
     "q_launch_tradeoff",
+    "q_lead_level_stretch",
+    "q_lead_skills",
     "q_leadership_forum",
     "q_leadership_forums",
     "q_leadership_in_practice",
@@ -1561,6 +1570,7 @@
     "q_next_focus_22",
     "q_next_focus_23",
     "q_next_focus_24",
+    "q_next_focus_25",
     "q_next_focus_3",
     "q_next_focus_4",
     "q_next_focus_5",
@@ -1766,6 +1776,7 @@
     "q_next_stretch_7",
     "q_next_stretch_8",
     "q_next_stretch_9",
+    "q_next_stretch_step",
     "q_next_support",
     "q_next_support_10",
     "q_next_support_2",
@@ -1850,6 +1861,7 @@
     "q_open_what_matters_now",
     "q_open_whats_on_mind",
     "q_operating_rhythm",
+    "q_operational_scope",
     "q_opportunity_ask",
     "q_opportunity_ask_2",
     "q_opportunity_ask_3",
@@ -1876,6 +1888,7 @@
     "q_outside_work_strain_8",
     "q_outside_work_strain_9",
     "q_own_end_to_end",
+    "q_own_the_next_scope",
     "q_owned_work",
     "q_ownership_ambiguity",
     "q_ownership_blur",
@@ -2134,7 +2147,9 @@
     "q_prep_opener_186",
     "q_prep_opener_187",
     "q_prep_opener_188",
+    "q_prep_opener_189",
     "q_prep_opener_19",
+    "q_prep_opener_190",
     "q_prep_opener_2",
     "q_prep_opener_20",
     "q_prep_opener_21",
@@ -2253,6 +2268,7 @@
     "q_principal_scope_8",
     "q_principal_scope_9",
     "q_principal_tradeoffs",
+    "q_priority_choices",
     "q_priority_cut",
     "q_priority_drift",
     "q_priority_drift_2",
@@ -2404,9 +2420,33 @@
     "q_promotion_read_192",
     "q_promotion_read_193",
     "q_promotion_read_194",
+    "q_promotion_read_195",
+    "q_promotion_read_196",
+    "q_promotion_read_197",
+    "q_promotion_read_198",
+    "q_promotion_read_199",
     "q_promotion_read_2",
     "q_promotion_read_20",
+    "q_promotion_read_200",
+    "q_promotion_read_201",
+    "q_promotion_read_202",
+    "q_promotion_read_203",
+    "q_promotion_read_204",
+    "q_promotion_read_205",
+    "q_promotion_read_206",
+    "q_promotion_read_207",
+    "q_promotion_read_208",
+    "q_promotion_read_209",
     "q_promotion_read_21",
+    "q_promotion_read_210",
+    "q_promotion_read_211",
+    "q_promotion_read_212",
+    "q_promotion_read_213",
+    "q_promotion_read_214",
+    "q_promotion_read_215",
+    "q_promotion_read_216",
+    "q_promotion_read_217",
+    "q_promotion_read_218",
     "q_promotion_read_22",
     "q_promotion_read_23",
     "q_promotion_read_24",
@@ -2947,6 +2987,7 @@
     "q_recent_example_23",
     "q_recent_example_24",
     "q_recent_example_25",
+    "q_recent_example_26",
     "q_recent_example_3",
     "q_recent_example_4",
     "q_recent_example_5",
@@ -3190,6 +3231,7 @@
     "q_rituals_worth_keeping",
     "q_roadmap_access",
     "q_roadmap_access_2",
+    "q_role_clarity",
     "q_role_definition",
     "q_role_definition_2",
     "q_role_definition_3",
@@ -3200,6 +3242,7 @@
     "q_role_in_practice",
     "q_role_load_today",
     "q_role_outcome",
+    "q_role_specifics",
     "q_role_stretch",
     "q_root_cause",
     "q_routine_vs_stretch",
@@ -3373,6 +3416,7 @@
     "q_stakeholder_noise",
     "q_stakeholder_pull",
     "q_stakeholder_pull_2",
+    "q_stakeholder_pull_3",
     "q_stakeholder_requests",
     "q_stakeholder_signal",
     "q_stakeholder_trust",
@@ -3439,6 +3483,7 @@
     "q_stretch_and_tradeoffs",
     "q_stretch_appetite",
     "q_stretch_appetite_2",
+    "q_stretch_beyond_craft",
     "q_stretch_details",
     "q_stretch_evidence",
     "q_stretch_gap",
@@ -3542,6 +3587,7 @@
     "q_support_needed_33",
     "q_support_needed_34",
     "q_support_needed_35",
+    "q_support_needed_36",
     "q_support_needed_37",
     "q_support_needed_39",
     "q_support_needed_4",
@@ -3624,6 +3670,7 @@
     "q_team_connection_5",
     "q_team_coverage",
     "q_team_direction",
+    "q_team_direction_2",
     "q_team_dynamics",
     "q_team_edges",
     "q_team_energy",
@@ -3651,6 +3698,7 @@
     "q_team_load",
     "q_team_misunderstanding",
     "q_team_moments",
+    "q_team_norms",
     "q_team_pullback",
     "q_team_reaction",
     "q_team_reaction_2",
@@ -3816,6 +3864,7 @@
     "q_trade_off_shift",
     "q_trade_offs",
     "q_trade_offs_needed",
+    "q_trade_offs_now",
     "q_tradeoff_call",
     "q_tradeoff_call_3",
     "q_tradeoff_call_4",
@@ -4480,6 +4529,10 @@
     },
     {
       "alias": "q_blocked_decisions_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_blocked_growth",
       "subdir": ""
     },
     {
@@ -5227,6 +5280,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_critique_use",
+      "subdir": ""
+    },
+    {
       "alias": "q_crits_landing",
       "subdir": ""
     },
@@ -5453,6 +5510,18 @@
     {
       "alias": "q_crowded_week_2",
       "subdir": ""
+    },
+    {
+      "alias": "q_culture_fit",
+      "subdir": ""
+    },
+    {
+      "alias": "q_culture_friction",
+      "subdir": ""
+    },
+    {
+      "alias": "q_culture_thread",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_current_dependency",
@@ -7071,6 +7140,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_expert_track_specifics",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_extra_effort",
       "subdir": ""
     },
@@ -7232,6 +7305,10 @@
     },
     {
       "alias": "q_feedback_landing_9",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_load",
       "subdir": ""
     },
     {
@@ -8552,6 +8629,14 @@
     },
     {
       "alias": "q_launch_tradeoff",
+      "subdir": ""
+    },
+    {
+      "alias": "q_lead_level_stretch",
+      "subdir": ""
+    },
+    {
+      "alias": "q_lead_skills",
       "subdir": ""
     },
     {
@@ -10347,6 +10432,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_focus_25",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_focus_3",
       "subdir": ""
     },
@@ -11167,6 +11256,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_stretch_step",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_support",
       "subdir": ""
     },
@@ -11525,6 +11618,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_operational_scope",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_opportunity_ask",
       "subdir": ""
     },
@@ -11626,6 +11723,10 @@
     },
     {
       "alias": "q_own_end_to_end",
+      "subdir": ""
+    },
+    {
+      "alias": "q_own_the_next_scope",
       "subdir": ""
     },
     {
@@ -12661,7 +12762,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_prep_opener_189",
+      "subdir": ""
+    },
+    {
       "alias": "q_prep_opener_19",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_190",
       "subdir": ""
     },
     {
@@ -13134,6 +13243,10 @@
     },
     {
       "alias": "q_principal_tradeoffs",
+      "subdir": ""
+    },
+    {
+      "alias": "q_priority_choices",
       "subdir": ""
     },
     {
@@ -13741,6 +13854,26 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_195",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_196",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_197",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_198",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_199",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_2",
       "subdir": "_runtime"
     },
@@ -13749,7 +13882,83 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_promotion_read_200",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_201",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_202",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_203",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_204",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_205",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_206",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_207",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_208",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_209",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_read_21",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_210",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_211",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_212",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_213",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_214",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_215",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_216",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_217",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_218",
       "subdir": "_runtime"
     },
     {
@@ -15913,6 +16122,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_recent_example_26",
+      "subdir": ""
+    },
+    {
       "alias": "q_recent_example_3",
       "subdir": ""
     },
@@ -16885,6 +17098,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_role_clarity",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_role_definition",
       "subdir": ""
     },
@@ -16923,6 +17140,10 @@
     {
       "alias": "q_role_outcome",
       "subdir": ""
+    },
+    {
+      "alias": "q_role_specifics",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_role_stretch",
@@ -17617,6 +17838,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_stakeholder_pull_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_stakeholder_requests",
       "subdir": ""
     },
@@ -17878,6 +18103,10 @@
     },
     {
       "alias": "q_stretch_appetite_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_stretch_beyond_craft",
       "subdir": ""
     },
     {
@@ -18293,6 +18522,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_support_needed_36",
+      "subdir": ""
+    },
+    {
       "alias": "q_support_needed_37",
       "subdir": ""
     },
@@ -18621,6 +18854,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_team_direction_2",
+      "subdir": ""
+    },
+    {
       "alias": "q_team_dynamics",
       "subdir": ""
     },
@@ -18726,6 +18963,10 @@
     },
     {
       "alias": "q_team_moments",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_norms",
       "subdir": ""
     },
     {
@@ -19386,6 +19627,10 @@
     },
     {
       "alias": "q_trade_offs_needed",
+      "subdir": ""
+    },
+    {
+      "alias": "q_trade_offs_now",
       "subdir": ""
     },
     {

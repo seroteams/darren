@@ -1,0 +1,10 @@
+alias: q_role_specifics
+label: Role specifics
+name: Which part of the Head of UX role feels fuzziest right now?
+description: Drills into the repeated role-clarity thread so he names the specific gap.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: role and responsibilities

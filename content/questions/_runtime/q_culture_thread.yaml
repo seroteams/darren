@@ -1,0 +1,10 @@
+alias: q_culture_thread
+label: Culture thread
+name: You mentioned Thai culture — where does that show up most in the work?
+description: Drills into the specific culture-related friction he just named so the conversation stays with his live concern.
+purpose: topic
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: especially around Thai culture

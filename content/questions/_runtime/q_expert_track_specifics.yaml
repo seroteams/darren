@@ -1,0 +1,10 @@
+alias: q_expert_track_specifics
+label: Expert track specifics
+name: What about the expert track feels most relevant to you right now?
+description: Drills into what he is actually seeking in the expert track before moving on.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added
+grounding: expert track we have

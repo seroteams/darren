@@ -1,0 +1,178 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1782660972658,
+  "role_title_raw": "Backend Engineer",
+  "role_slug": "backend-engineer",
+  "seniority_raw": "Senior",
+  "seniority_key": "senior",
+  "role_family": "engineering",
+  "profile": {
+    "summary": "A Senior Backend Engineer owns the design, delivery, and reliability of backend services and APIs. They make technical tradeoffs, improve system performance and operability, and help shape how work gets built across a team. They work closely with product, frontend, platform, data, and other backend engineers, and are often expected to mentor others while still shipping hands-on code.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing feature delivery with reliability, performance, and technical debt work.",
+        "category": "topic"
+      },
+      {
+        "text": "Making architecture decisions with incomplete information and long-term consequences.",
+        "category": "competency"
+      },
+      {
+        "text": "Being a go-to problem solver can create constant interruptions and reduce focus time.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Driving better engineering practices without formal authority over teammates.",
+        "category": "competency"
+      },
+      {
+        "text": "Owning production issues and incidents can add stress, especially during high-change periods.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "System ownership and technical tradeoffs",
+        "why": "Senior backend engineers are expected to make sound decisions on architecture, scalability, and maintainability, not just implement tickets.",
+        "category": "competency"
+      },
+      {
+        "theme": "Reliability, incidents, and operational load",
+        "why": "Their effectiveness is shaped by how much production support, firefighting, and preventive work they are carrying.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Delivery friction across teams",
+        "why": "Backend work often depends on product clarity, upstream decisions, and coordination with frontend, platform, and data partners.",
+        "category": "topic"
+      },
+      {
+        "theme": "Technical debt and platform health",
+        "why": "This role often sees where shortcuts are slowing the team down and where foundational fixes matter most.",
+        "category": "topic"
+      },
+      {
+        "theme": "Mentoring and technical influence",
+        "why": "At senior level, impact usually includes raising code quality and helping less experienced engineers grow.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "API contract",
+        "meaning": "The agreed request and response shape between systems.",
+        "group": "backend-engineering"
+      },
+      {
+        "term": "Service boundary",
+        "meaning": "The line around what a service owns and exposes.",
+        "group": "backend-engineering"
+      },
+      {
+        "term": "Schema migration",
+        "meaning": "A controlled change to database structure.",
+        "group": "backend-engineering"
+      },
+      {
+        "term": "Idempotency",
+        "meaning": "Safe repeated requests that do not duplicate effects.",
+        "group": "backend-engineering"
+      },
+      {
+        "term": "Latency",
+        "meaning": "How long a request takes to complete.",
+        "group": "backend-engineering"
+      },
+      {
+        "term": "Throughput",
+        "meaning": "How much work a system handles over time.",
+        "group": "backend-engineering"
+      },
+      {
+        "term": "Observability",
+        "meaning": "Using logs, metrics, and traces to understand systems.",
+        "group": "reliability-operations"
+      },
+      {
+        "term": "SLA",
+        "meaning": "A promised level of service performance or uptime.",
+        "group": "reliability-operations"
+      },
+      {
+        "term": "SLO",
+        "meaning": "A target for service reliability or performance.",
+        "group": "reliability-operations"
+      },
+      {
+        "term": "Incident",
+        "meaning": "A production problem affecting users or systems.",
+        "group": "reliability-operations"
+      },
+      {
+        "term": "Postmortem",
+        "meaning": "A review of what happened and how to prevent repeats.",
+        "group": "reliability-operations"
+      },
+      {
+        "term": "On-call",
+        "meaning": "Being responsible for responding to production issues.",
+        "group": "reliability-operations"
+      },
+      {
+        "term": "Code review",
+        "meaning": "Peer feedback on code before merging changes.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Design doc",
+        "meaning": "A written proposal for a technical approach.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Technical debt",
+        "meaning": "Past shortcuts that now slow change or increase risk.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Refactoring",
+        "meaning": "Improving code structure without changing behavior.",
+        "group": "senior-scope"
+      },
+      {
+        "term": "Mentoring",
+        "meaning": "Helping other engineers grow through guidance and feedback.",
+        "group": "senior-scope"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "backend-engineering",
+        "label": "Backend engineering"
+      },
+      {
+        "key": "reliability-operations",
+        "label": "Reliability and operations"
+      },
+      {
+        "key": "senior-scope",
+        "label": "Senior scope"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about user impact and system impact together, not just code output.",
+      "Whether incidents are described as isolated events or as patterns with root causes.",
+      "Whether they frame problems in terms of service ownership, dependencies, and tradeoffs.",
+      "Whether they mention mentoring, reviews, or design guidance as part of their normal work.",
+      "Whether they sound stuck in reactive support work instead of proactive engineering."
+    ],
+    "avoid": [
+      "Treating them like a faster mid-level engineer whose value is only shipping more code.",
+      "Pushing feature delivery while dismissing reliability, maintenance, or operational risk.",
+      "Assuming mentoring and technical leadership happen without time or recognition.",
+      "Reducing backend work to tickets when much of the role is decision-making and prevention."
+    ]
+  }
+}
