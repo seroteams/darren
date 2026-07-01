@@ -12,6 +12,15 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**▶ Active line: Phase 009 — Getting ready to share (real-data alpha).** 8 phases, ship-blockers first
+([plan](docs/todo/009-ready-to-share/PLAN.md), tactical tracker [STATUS.md](STATUS.md)). **Phase 1 (safety
+floor / execute 008) is ✅ signed off (2026-07-01, `e68c4c8c`):** data fenced by org+role, AI keys proven
+server-only (key-search zero-hits), DB audited + cleared of unfenced rows, anonymous-start path decided
+(kept open + walled for the alpha, close before widening). Human-expert security review **waived/deferred**
+for the small alpha (accepted risk — book before widening). **Phase 2 (hosted + spend-capped) is next.**
+
+The auth history below is the foundation Phase 009 builds on.
+
 **Phases 001–006 of the Prototype→Production line are all done, signed off, and closed to
 `docs/todo/done/`.** Phase 006 (Auth — the back-end front door) was the last to land: register/login
 with hashed passwords, guarded pages, a hard-gated dev side-door, and signup that creates the company

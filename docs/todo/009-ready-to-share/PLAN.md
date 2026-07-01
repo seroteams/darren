@@ -21,7 +21,7 @@ and the codebase reads clean to a newcomer.
 ## Phases
 | # | Phase | What it lands | Track | Status |
 |---|---|---|---|---|
-| 1 | Safety floor (execute 008) | Data fenced by org+role · AI keys proven server-only · sensitive data out of logs · human sign-off | A | 🔨 |
+| 1 | Safety floor (execute 008) | Data fenced by org+role · AI keys proven server-only · sensitive data out of logs · human sign-off | A | ✅ |
 | 2 | Hosted + spend-capped | A shareable URL an invited manager can reach · usage/cost cap · graceful failure | A | ⬜ |
 | 3 | Privacy note + first run | Plain privacy/consent note · onboarding empty states · a clear "run your first 1:1" path | A | ⬜ |
 | 4 | Clear the QA pile | The built-but-unQA'd features each signed off or cut, so nothing half-built shows | A | ⬜ |
@@ -33,7 +33,14 @@ and the codebase reads clean to a newcomer.
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 🔨 in progress (started 2026-07-01).** Plan approved by Carl; Phase 1 executes the existing
+**Phase 1 ✅ signed off (2026-07-01). Phase 2 ⬜ next — not started.** Product owner walked all 6 QA
+scenarios (cross-company wall, role limits, key-search zero-hits, DB clean, no-login wall) and gave the
+go; committed `e68c4c8c`. Human-expert sign-off remains waived/deferred (see Decisions). Phase 2 (hosted +
+spend-capped) awaits Carl's start.
+
+<details><summary>Phase 1 history</summary>
+
+Plan approved by Carl; Phase 1 executes the existing
 [008 security overview](../../prototype-to-production/008-security/00-phase-overview.md) — the hard
 prerequisite for real staff data.
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` **clean**. Paid gate/smoke
@@ -50,8 +57,9 @@ prerequisite for real staff data.
   completed). **Cleared** on Carl's explicit go-ahead (scoped `DELETE … WHERE org_id = placeholder`,
   returning 3 keys; placeholder org row left intact as the anon-insert bridge). DB now: 0 unfenced
   sessions, 6 total (all real dev/test orgs).
-- **Next (non-code):** decide the anonymous session-start path (keep-but-never-stamp-real-data, or
-  close it). Then Phase 1 → your sign-off.
+- **Anonymous session-start path — DECIDED (2026-07-01):** kept open for the alpha (see Decisions).
+
+</details>
 
 ## Decisions (this plan)
 - **2026-07-01 — anonymous session-start path kept open for the alpha (A, tracked as C).** The start

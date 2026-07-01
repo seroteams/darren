@@ -9,20 +9,19 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-**Now active: Phase 009 — Getting ready to share (real-data alpha). Phase 1 🔨 in progress.**
+**Now active: Phase 009 — Getting ready to share (real-data alpha). Phase 1 ✅ done · Phase 2 ⬜ next.**
 
 009 turns Sero into something real managers can safely use on real teams, and gets the codebase
 newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-to-share/](docs/todo/009-ready-to-share/PLAN.md).
 
-- **Phase 1 🔨 — Safety floor (execute 008).** Fence data by org+role, prove AI keys are server-only, keep
-  personal data out of logs. Human expert sign-off **waived for alpha** (your call, accepted risk — keep it
-  to 2–3 friendly managers; deferred, not cancelled). Security review done; the one code fix it found —
-  the **null-org escape hatch** — is now **closed** (`f0e5401d`, test-first, `npm test` 52/52 · typecheck
-  clean). **DB null-org audit done (2026-07-01):** 0 null-org rows, `runs` empty, all orgs dev/test; the
-  3 leftover pre-auth test sessions were cleared on your go-ahead (0 unfenced now, 6 total).
-  **Anonymous-start path decided (2026-07-01):** kept open for the alpha, walled + quarantined; close
-  before widening (PLAN Decisions). **Both residuals closed — Phase 1 is now ready for your QA sign-off**
-  (walk the 6 scenarios in [phase-1.md](docs/todo/009-ready-to-share/phase-1.md)).
+- **Phase 1 ✅ — Safety floor (execute 008). Signed off 2026-07-01, committed `e68c4c8c`.** You walked all
+  6 QA scenarios (cross-company wall, role limits, key-search zero-hits, DB clean, no-login wall) and gave
+  the go. Human expert sign-off **waived for alpha** (accepted risk — keep to 2–3 friendly managers;
+  deferred, not cancelled). Build badge: 3/4 of the 008 steps flipped done; the human-expert step stays
+  open by design.
+- **Phase 2 ⬜ — Hosted + spend-capped (next, not started).** A shareable URL an invited manager can reach,
+  a usage/cost cap, and graceful failure. **Awaiting your start** — or you may prefer to jump to the queued
+  QA-pile clear-out; your call.
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` clean. Paid gate needs your go-ahead.
 
 **Also waiting on your QA (separate plan): Member navigation — Phase 1 built. 🔨**

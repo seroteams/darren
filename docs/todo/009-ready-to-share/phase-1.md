@@ -1,6 +1,6 @@
 # Phase 1 — Safety floor (execute 008)
 
-**Part of:** [PLAN.md](PLAN.md) · **Track:** A (ship-blocker) · **Status:** 🔨
+**Part of:** [PLAN.md](PLAN.md) · **Track:** A (ship-blocker) · **Status:** ✅ (signed off 2026-07-01)
 
 ## Goal
 Make Sero safe to hold real HR data before anyone logs in: personal data fenced by organisation **and**
@@ -26,7 +26,7 @@ role, AI keys provably server-only, sensitive content kept out of logs, and a hu
       Decisions. Follow-up: close before widening.
 - [ ] ~~A named human expert has reviewed and signed off~~ — **waived for alpha (accepted risk, 2026-07-01).**
       Deferred, not cancelled: book before widening past 2–3 friendly managers.
-- [ ] Product owner has tested the scenarios below and said go.
+- [x] Product owner has tested the scenarios below and said go. **(2026-07-01 — click-through 1/2/6 passed; 3/5 evidence shown; go given.)**
 
 > **Note:** this is a large phase (008 has its own 4-step overview) and may split into its own sub-plan.
 > Expert sign-off is waived for the small alpha by Carl's call — automated checks are the floor, not a
