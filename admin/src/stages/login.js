@@ -2,7 +2,7 @@
 // server sets the session cookie; we store the user in state and land on START.
 // A link switches to the register screen.
 
-import { STAGES } from "../state.js";
+import { STAGES, isAdmin } from "../state.js";
 import { login } from "../../../shared/api.js";
 
 export async function mount(root, { setState }) {
@@ -53,7 +53,10 @@ export async function mount(root, { setState }) {
     submitBtn.textContent = "Logging in…";
     try {
       const { user } = await login({ email, password });
-      setState({ user, stage: STAGES.START });
+      // A plain member lands on their own clean Home (member-nav Phase 1); only an
+      // admin/owner gets the internal start page. Mirrors the boot routing in main.js
+      // so login and a fresh reload land in the same place.
+      setState({ user, stage: isAdmin(user) ? STAGES.START : STAGES.MEMBER_HOME });
     } catch (e2) {
       showError(e2.message || "Could not log in.");
       submitBtn.disabled = false;
