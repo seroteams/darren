@@ -7,22 +7,22 @@
 ---
 
 ## Where we are now
-- **Active phase:** 007 — Frontend app / login screen (next, not started). **006 (Auth) is `done`.**
-- **Status:** **Phase 006 ✅ DONE & SIGNED OFF.** Register/login with bcrypt-hashed passwords (raw never
-  stored), session cookie + a guard that refuses logged-out access to protected pages, a hard-gated
-  `DEV_AUTOLOGIN` side-door (sealed in prod), and signup that creates the org + first-user-owner with
-  every query fenced to the caller's company. Closed out to `docs/todo/done/auth-front-door/`.
-- **Free checks:** `npm test` **49/49** green · `npm run typecheck` clean (offline, $0). `main` in sync
-  with origin.
-- **Last updated:** 2026-06-29
+- **Active phase:** 009 — Ready to share (alpha). Phase 1 (safety floor / executes 008) in progress.
+  **001–007 are `done`; 008 (Security) is being executed inside 009 Phase 1.**
+- **Live tactical tracker:** [../../STATUS.md](../../STATUS.md) is the current per-phase source of truth —
+  trust it over the table below. This log is now append-only decisions + lessons, not a status source.
+- **Status:** 007 (login screen) shipped and closed to `done/login-screen/`; auth-hardening and
+  admin-access-guard also built and closed. 009 Phase 1 is built + tested — the null-org escape hatch is
+  closed (`f0e5401d`, test-first) — awaiting its non-code residuals (DB null-org audit, anonymous
+  session-start decision) + Carl's sign-off.
+- **Free checks:** `npm test` **52/52** green · `npm run typecheck` clean (offline, $0).
+- **Last updated:** 2026-07-01
 
 ## Next up (this can change as we learn)
-**Phase 007 — the customer app.** The back-end front door (006) is done, but there's still **no login
-*screen*** — the admin console at localhost:3000 doesn't ask you to log in yet. 007 stands up the
-customer-facing app (register/login screens wired to the secure backend) while the current screens stay
-as the internal admin tool. Two open scopes to pick from before starting: full Phase 007 vs the
-**planner-grounding** engine track ([../todo/planner-grounding/PLAN.md](../todo/planner-grounding/PLAN.md)).
-One phase at a time; Carl green-lights before the next.
+**Phase 009 — ready to share (alpha), Phase 1.** The live detail is in [../../STATUS.md](../../STATUS.md)
+and [../todo/009-ready-to-share/PLAN.md](../todo/009-ready-to-share/PLAN.md). 007 (login screen) and 008's
+security floor are handled; Phase 1's remaining open items are the DB null-org audit, the anonymous
+session-start decision, and Carl's sign-off. One phase at a time; Carl green-lights before the next.
 
 ## Phase status
 | # | Phase | Status |
@@ -33,8 +33,8 @@ One phase at a time; Carl green-lights before the next.
 | 004 | Backend API v1 (RESTful, TDD) | `done` |
 | 005 | Postgres foundation | `done` |
 | 006 | Auth (org model, password, SSO-ready) | `done` |
-| 007 | Frontend app | `not-started` |
-| 008 | Security | `not-started` |
+| 007 | Frontend app | `done` |
+| 008 | Security | `in-progress` — folded into 009 Phase 1 |
 
 Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` → `done`.
 
@@ -81,6 +81,14 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-01** — **Tracker reconciliation (doc-only, $0).** A deep code audit of the in-flight plans
+  found this log had drifted: it still read "007 next / not-started" and "008 not-started", while 001–007
+  are all `done` (login screen shipped + closed) and 008's security floor is being executed inside 009
+  Phase 1. Corrected "Where we are now", "Next up", and the phase-status table to reality, and re-affirmed
+  STATUS.md as the live per-phase tracker (this file is append-only). Also verified while auditing (free):
+  frontend-admin-split Phase 1 is genuinely built — `shared/api.js`+`sse.js` moved out of `admin/src`, all
+  27 admin importers repointed to `shared/`, `npm run build` resolves every stage; `npm test` 52/52,
+  typecheck clean.
 - **2026-06-29** — **Full pre-007 audit + tracker reconciliation.** Confirmed phases 001–006 all done,
   signed off, and archived in `done/` (`npm test` 49/49, typecheck clean, offline). Found three of the
   project's five progress trackers had drifted stale (`SERO_BOARD.md` still said "005 active", this
