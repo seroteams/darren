@@ -21,16 +21,31 @@ and the codebase reads clean to a newcomer.
 ## Phases
 | # | Phase | What it lands | Track | Status |
 |---|---|---|---|---|
-| 1 | Safety floor (execute 008) | Data fenced by org+role · AI keys proven server-only · sensitive data out of logs · human sign-off | A | ✅ |
-| 2 | Hosted + spend-capped | A shareable URL an invited manager can reach · usage/cost cap · graceful failure | A | ⬜ |
-| 3 | Privacy note + first run | Plain privacy/consent note · onboarding empty states · a clear "run your first 1:1" path | A | ⬜ |
-| 4 | Clear the QA pile | The built-but-unQA'd features each signed off or cut, so nothing half-built shows | A | ⬜ |
-| 5 | Feedback + one-pager | A simple in-app feedback route · a "what Sero is / what to expect" page | A | ⬜ |
-| 6 | Finish repo-tidy | repo-tidy phases 3–4 + parked naming pass & hermetic tests | B | ⬜ |
-| 7 | Tidy docs + newcomer README | Finish tracker-consolidation 2–4 · conventions/dead-code sweep · a README a newcomer follows | B | ⬜ |
-| 8 | Continuity loop | Meeting #2 reviews meeting #1's actions & commitments | C | ⬜ |
+| 1 | Safety floor (execute 008) | Data fenced by org+role · AI keys proven server-only · sensitive data out of logs · human sign-off | A | 🟢 |
+| 2 | Hosted + spend-capped | A shareable URL an invited manager can reach · usage/cost cap · graceful failure | A | 🔴 |
+| 3 | Privacy note + first run | Plain privacy/consent note · onboarding empty states · a clear "run your first 1:1" path | A | 🔴 |
+| 4 | Clear the QA pile | The built-but-unQA'd features each signed off or cut, so nothing half-built shows | A | 🟡 |
+| 5 | Feedback + one-pager | A simple in-app feedback route · a "what Sero is / what to expect" page | A | 🔴 |
+| 6 | Finish repo-tidy | repo-tidy phases 3–4 + parked naming pass & hermetic tests | B | 🔴 |
+| 7 | Tidy docs + newcomer README | Finish tracker-consolidation 2–4 · conventions/dead-code sweep · a README a newcomer follows | B | 🔴 |
+| 8 | Continuity loop | Meeting #2 reviews meeting #1's actions & commitments | C | 🔴 |
 
-⬜ not started · 🔨 in progress · ✅ done (tested)
+🔴 not started · 🟡 in progress · 🟢 done (tested) · ✂️ cut
+
+## Phase 4 — QA pile tracker
+The built-but-un-QA'd features, walked one at a time. Tick 🟢 (signed off) or cut ✂️.
+
+| # | Feature | What it gives the user | Status |
+|---|---|---|---|
+| 1 | repo-tidy P1 | invisible: one shared type-guard module | 🟢 |
+| 2 | frontend-admin-split P1 | invisible: shared code in `shared/` folder | 🟢 |
+| 3 | tracker-consolidation P1 | invisible: a "which tracker is which" map | 🟢 |
+| 4 | member-nav P1 | member sees a simple Home · Team · Runs rail | 🟡 walking |
+| 5 | stage-data-tabs | Notes · Sent · Reply tabs on the right rail | 🔴 |
+| 6 | sent-preview | "about to send" preview before a stage runs | 🔴 |
+| 7 | repo-tidy P2 | invisible: queue-manager split 1309→434 lines | 🔴 |
+| 8 | todo-board-rebuild P3 | ⚠️ gap: "Run the checks" button — backend built, UI missing | 🔴 |
+| 9 | briefing-grounding-fixes P1 | ⚠️ gap: over-claim damper — code present, **uncommitted** | 🔴 |
 
 ## Current state
 **Phase 1 ✅ signed off (2026-07-01). Phase 2 ⬜ next — not started.** Product owner walked all 6 QA

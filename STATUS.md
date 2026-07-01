@@ -9,7 +9,7 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-**Now active: Phase 009 — Getting ready to share (real-data alpha). Phase 1 ✅ done · Phase 2 ⬜ next.**
+**Now active: Phase 009 — Getting ready to share (real-data alpha). Phase 1 ✅ · Phase 4 🔨 (QA-pile clear-out) · Phase 2/3 deferred.**
 
 009 turns Sero into something real managers can safely use on real teams, and gets the codebase
 newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-to-share/](docs/todo/009-ready-to-share/PLAN.md).
@@ -19,9 +19,14 @@ newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-t
   the go. Human expert sign-off **waived for alpha** (accepted risk — keep to 2–3 friendly managers;
   deferred, not cancelled). Build badge: 3/4 of the 008 steps flipped done; the human-expert step stays
   open by design.
-- **Phase 2 ⬜ — Hosted + spend-capped (next, not started).** A shareable URL an invited manager can reach,
-  a usage/cost cap, and graceful failure. **Awaiting your start** — or you may prefer to jump to the queued
-  QA-pile clear-out; your call.
+- **Phase 4 🔨 — Clear the QA pile (started 2026-07-01, your pick over Phase 2).** Walk each built-but-un-QA'd
+  feature and tick (🟢 sign off) or cut (✂️). **Live dot tracker in the plan**
+  ([009 PLAN → Phase 4 QA pile tracker](docs/todo/009-ready-to-share/PLAN.md)). **3 ticked so far
+  (2026-07-01):** repo-tidy P1 🟢 · frontend-admin-split P1 🟢 · tracker-consolidation P1 🟢 (all invisible,
+  tests green). Next up: member-nav P1 (visible walk). Remaining: stage-data-tabs · sent-preview · repo-tidy
+  P2 · todo-board-rebuild P3 (⚠️ UI gap) · briefing-grounding-fixes P1 (⚠️ uncommitted).
+- **Phase 2 ⬜ / Phase 3 ⬜ — deferred.** Hosted + spend-capped (2) and privacy/first-run (3) come after the
+  pile is clear.
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` clean. Paid gate needs your go-ahead.
 
 **Also waiting on your QA (separate plan): Member navigation — Phase 1 built. 🔨**

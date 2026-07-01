@@ -19,7 +19,7 @@ What remains is *code* change, so it runs as tested phases, one at a time.
 ## Phases
 | # | Phase | What it lands | Status | Sequencing |
 |---|---|---|---|---|
-| 1 | Shared guards | One `backend/shared/guards.ts`, imported across 38 files | 🔨 verified | Anytime — safe |
+| 1 | Shared guards | One `backend/shared/guards.ts`, imported across 38 files | ✅ | Anytime — safe |
 | 2 | Split queue-manager | 1309 → 434 across 5 cuts (gates/thread/axis/messages/reconcile); every module < 600 | 🔨 awaiting QA | Anytime — engine only |
 | 3 | Split sessions.controller | Thin controller + `sessions.service` | ⬜ | **After** Phase 005 swaps the sessions repo |
 | 4 | Admin TypeScript pilot | Shared util layer + 2–3 stages to TS; prove the toolchain | ⬜ | Anytime — frontend only |
@@ -27,8 +27,8 @@ What remains is *code* change, so it runs as tested phases, one at a time.
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 built + verified 2026-06-28** — guards deduped across 38 files; `typecheck` clean,
-`npm test` 46/46. Awaiting Carl's glance to tick ✅. The run-debrief→ts item was dropped (it's
+**Phase 1 ✅ ticked 2026-07-01** (Carl, QA-pile clear-out — invisible refactor, tests green). Guards
+deduped across 38 files; `typecheck` clean, `npm test` 46/46 (now 52/52). The run-debrief→ts item was dropped (it's
 deliberately `.mjs`, shared with the Vite build). Phases 2–4 not started. None blocks Phase 005;
 Phase 3 waits for Phase 005's sessions-repo swap.
 

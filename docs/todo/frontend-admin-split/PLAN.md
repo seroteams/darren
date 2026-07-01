@@ -17,7 +17,7 @@ Right now there is **one** app. `admin/` is a single Vite SPA that serves *both*
 ## Phases (strangler order: enable → add → subtract → wire)
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Shared foundation | Pull the genuinely-shared, non-branching machinery (api/sse client, generic UI primitives, base styles) into a `shared/` spot both apps import. `state`/`router` are split later, not moved. **Nothing visibly changes.** | 🔨 |
+| 1 | Shared foundation | Pull the genuinely-shared, non-branching machinery (api/sse client, generic UI primitives, base styles) into a `shared/` spot both apps import. `state`/`router` are split later, not moved. **Nothing visibly changes.** | ✅ |
 | 2 | Stand up the customer app | A real second Vite app in `frontend/` that imports `shared/` + only the customer stages. Served on its own dev port. Admin app untouched. | ⬜ |
 | 3 | Slim the admin app | Remove the now-duplicated customer-only stages from the admin build so `admin/` is internal tooling only. | ⬜ |
 | 4 | Serve + fence the two apps | API serves the customer app at the public root; admin app served on its own internal route/deploy; prove no secrets/tools in the customer bundle. | ⬜ |
@@ -25,7 +25,7 @@ Right now there is **one** app. `admin/` is a single Vite SPA that serves *both*
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 BUILT 2026-07-01 — awaiting Carl's QA (committed pre-QA at his "finish" request).**
+**Phase 1 ✅ ticked 2026-07-01** (Carl, QA-pile clear-out — behaviour-preserving refactor, build resolves all imports, tests green).
 - **What landed:** `api.js` + `sse.js` moved to a new repo-root `shared/` folder (with a README); all 26 admin importers repointed to `../../shared/…`; `vite.config.js` `server.fs.allow` opened to the repo root so the sibling `shared/` resolves in dev. `state.js`/`router.js` deliberately **left in admin** — they interleave admin + member concerns and get *split* when the customer app is built (Phase 2/3), not moved whole.
 - **Verified (free):** `npm run build` (vite/Rollup) resolves every import — all 27 stages compiled ✓. `npm test` **52/52**, typecheck clean (backend untouched). Frontend has no unit tests, so the build is the resolution proof; the visual "nothing changed" walk is Carl's QA.
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · typecheck clean.

@@ -30,7 +30,7 @@ found three stale trackers. The fix is fewer sources, not more sync rules.
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The map | A short, agreed "which file is for what" reference everyone can point to | 🔨 |
+| 1 | The map | A short, agreed "which file is for what" reference everyone can point to | ✅ |
 | 2 | Demote PROGRESS.md | PROGRESS reads as an append-only decisions log, not a status board | ⬜ |
 | 3 | Changelog clarity | sero-how-it-works.html is clearly a manual founder changelog, not live status | ⬜ |
 | 4 | Lock the rules | CLAUDE.md §6 simplified to the two-source model; badges confirmed build-only | ⬜ |
@@ -38,7 +38,7 @@ found three stale trackers. The fix is fewer sources, not more sync rules.
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 built + committed — awaiting Carl's QA tick.** Phase 1 landed a standalone
+**Phase 1 ✅ ticked 2026-07-01** (Carl, QA-pile clear-out). Phase 1 landed a standalone
 `docs/TRACKERS.md` (the map) plus a one-line pointer to it from STATUS.md's intro. Decision made:
 the map is a *standalone* file (durable reference) rather than a section inside STATUS.md (which
 churns each phase) — veto-able in QA.
