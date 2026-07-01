@@ -154,6 +154,21 @@ test("create forwards the caller's userId to the repo (run attribution — membe
   assert.equal(created[0]?.userId, "u1");
 });
 
+test("require person-fences a live session: same-company members can't open each other's (member-nav Phase 2)", () => {
+  const s = fakeSession("s1");
+  s.orgId = "org-A";
+  s.userId = "u1";
+  const svc = createSessionsService(fakeRepo([s]).repo);
+  // the member who created it reaches it…
+  assert.equal(svc.require("s1", "org-A", "u1").id, "s1");
+  // …a DIFFERENT member of the SAME company gets 404 (the person wall)…
+  assert.throws(() => svc.require("s1", "org-A", "u2"), (e) => (e as { status?: number }).status === 404);
+  // …a cross-company caller still 404s (the company wall, unchanged)…
+  assert.throws(() => svc.require("s1", "org-B", "u1"), (e) => (e as { status?: number }).status === 404);
+  // …and an internal/CLI caller (no org/user context) still resolves it.
+  assert.equal(svc.require("s1", undefined, undefined).id, "s1");
+});
+
 test("get forwards the repo lookup — the session when present", () => {
   const s = fakeSession("abc");
   const { repo } = fakeRepo([s]);

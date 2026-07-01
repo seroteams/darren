@@ -81,15 +81,18 @@ function writeId(c: RequestContext, body: Record<string, unknown>): string {
   return c.params.id || asString(body.sessionId) || "";
 }
 
-// The caller's company from the session cookie — the live-session wall (auth-
-// hardening Phase 1, mirrors runs.controller). null for an anonymous request.
-async function callerOrgId(c: RequestContext): Promise<string | null> {
-  return (await buildIdentity(c.req)).orgId;
+// The caller's company + person from the session cookie — the live-session wall (auth-
+// hardening Phase 1 + member-nav Phase 2). Both null for an anonymous request.
+async function callerFence(c: RequestContext): Promise<{ orgId: string | null; userId: string | null }> {
+  const identity = await buildIdentity(c.req);
+  return { orgId: identity.orgId, userId: identity.userId };
 }
-// Assert the caller's company owns this session before we touch it. A cross-company
-// id throws 404 inside service.require — so it can't be read, written, or confirmed.
+// Assert the caller owns this session before we touch it. A cross-company OR cross-member
+// id throws 404 inside service.require — so a member can't read, write, or even confirm
+// the existence of another member's (or another company's) session.
 async function assertOwner(c: RequestContext, id: string): Promise<void> {
-  service.require(id, await callerOrgId(c));
+  const { orgId, userId } = await callerFence(c);
+  service.require(id, orgId, userId);
 }
 
 // GET /api/v1/sessions/:id  ·  GET /api/session?s=<id>
@@ -214,7 +217,8 @@ export async function lexiconCandidates(c: RequestContext): Promise<void> {
 
 // GET /api/v1/sessions/:id/focus-points/stream  ·  GET /api/focus-points/stream?s=<id>
 export async function focusPointsStream(c: RequestContext): Promise<void> {
-  const session = service.require(sessionId(c), await callerOrgId(c));
+  const { orgId, userId } = await callerFence(c);
+  const session = service.require(sessionId(c), orgId, userId);
   const force = c.query.regenerate === "1" || c.query.regenerate === "true";
   if (force) {
     session.focusPointsResult = null;
@@ -237,7 +241,8 @@ export async function focusPointsStream(c: RequestContext): Promise<void> {
 
 // GET /api/v1/sessions/:id/preparation/stream  ·  GET /api/preparation/stream?s=<id>
 export async function preparationStream(c: RequestContext): Promise<void> {
-  const session = service.require(sessionId(c), await callerOrgId(c));
+  const { orgId, userId } = await callerFence(c);
+  const session = service.require(sessionId(c), orgId, userId);
   // Pre-check the prerequisite before opening the stream (kept verbatim from the
   // legacy handler — the runStage produce re-guards via buildPreparationInputs).
   if (!session.focusPointsResult) {
@@ -261,7 +266,8 @@ export async function preparationStream(c: RequestContext): Promise<void> {
 
 // GET /api/v1/sessions/:id/bank/stream  ·  GET /api/bank/stream?s=<id>
 export async function bankStream(c: RequestContext): Promise<void> {
-  const session = service.require(sessionId(c), await callerOrgId(c));
+  const { orgId, userId } = await callerFence(c);
+  const session = service.require(sessionId(c), orgId, userId);
   if (!session.focusPointsResult) {
     return c.error(Object.assign(new Error("focus points not ready"), { status: 409 }));
   }
@@ -349,7 +355,8 @@ function kickLexiconReview(session: Session): void {
 
 // GET /api/v1/sessions/:id/evaluation/stream  ·  GET /api/evaluation/stream?s=<id>
 export async function evaluationStream(c: RequestContext): Promise<void> {
-  const session = service.require(sessionId(c), await callerOrgId(c));
+  const { orgId, userId } = await callerFence(c);
+  const session = service.require(sessionId(c), orgId, userId);
   const intakeNotes = String(session.ctx?.notes || "").trim();
   const capturedNotes = formatNotesForEvaluation(session.notes || []);
   const notesForEvaluation = [intakeNotes, capturedNotes].filter(Boolean).join("\n\n");
@@ -434,7 +441,8 @@ interface PlanResult {
 
 // GET /api/v1/sessions/:id/plan/stream  ·  GET /api/plan/stream?s=<id>
 export async function planStream(c: RequestContext): Promise<void> {
-  const session = service.require(sessionId(c), await callerOrgId(c));
+  const { orgId, userId } = await callerFence(c);
+  const session = service.require(sessionId(c), orgId, userId);
   const stream = openStream(c.res);
 
   // --- Idempotent replay of an already-completed turn

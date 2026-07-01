@@ -189,7 +189,7 @@ export interface SessionsService {
   get(id: string): Session | undefined;
   // callerOrgId fences the lookup to the caller's company (the live-session wall):
   // a cross-company id throws 404. Omit it for an internal/unfenced resolve.
-  require(id: string, callerOrgId?: string | null): Session;
+  require(id: string, callerOrgId?: string | null, callerUserId?: string | null): Session;
   create(ctx: MeetingContext, introQueue: Question[], orgId?: string | null, userId?: string | null): Session;
   drop(id: string): void;
   persist(session: Session): void;
@@ -239,10 +239,16 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
   // null-org session is reachable only by an anonymous caller (callerOrgId === null);
   // omitting callerOrgId (undefined) means "no caller context" (internal/CLI) and
   // skips the wall entirely.
-  function requireExisting(id: string, callerOrgId?: string | null): Session {
+  function requireExisting(id: string, callerOrgId?: string | null, callerUserId?: string | null): Session {
     const s = repo.get(id);
     if (!s) throw notFound(`Unknown session: ${id}`);
     if (callerOrgId !== undefined && (s.orgId ?? null) !== (callerOrgId ?? null)) {
+      throw notFound(`Unknown session: ${id}`);
+    }
+    // Person wall (member-nav Phase 2): a caller with a user context only reaches a
+    // session THEY created — so same-company members can't touch each other's live
+    // sessions. undefined userId (internal/CLI) skips this wall, as with the org wall.
+    if (callerUserId !== undefined && (s.userId ?? null) !== (callerUserId ?? null)) {
       throw notFound(`Unknown session: ${id}`);
     }
     return s;

@@ -15,13 +15,16 @@ interface SessionRef {
 }
 
 function sessionId(now = new Date()): string {
-  // e.g. 2026_May08_21-53-a3f7b2c1
+  // e.g. 2026_May08_21-53-a3f7b2c1d4e5f6079a8b0c1d2e3f4051
+  // The timestamp prefix drives run-folder routing (monthFolderFor); the suffix is the
+  // security-relevant part — a FULL 128-bit random token (member-nav Phase 2), so a
+  // live-session id can't be brute-forced within a time window. Was 32 bits (8 hex).
   const year = now.getFullYear();
   const month = SHORT_MONTHS[now.getMonth()];
   const day = String(now.getDate()).padStart(2, "0");
   const hh = String(now.getHours()).padStart(2, "0");
   const mm = String(now.getMinutes()).padStart(2, "0");
-  const suffix = randomUUID().replace(/-/g, "").slice(0, 8);
+  const suffix = randomUUID().replace(/-/g, "");
   return `${year}_${month}${day}_${hh}-${mm}-${suffix}`;
 }
 
