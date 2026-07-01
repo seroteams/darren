@@ -65,11 +65,37 @@ export async function mount(root, { setState }) {
   root.querySelector(".js-to-register").addEventListener("click", () => setState({ stage: STAGES.REGISTER }));
 
   // Dev convenience — prefill a local dev account so you're never locked out while
-  // testing. Stripped from production builds (import.meta.env.DEV is false there), so
-  // these creds never ship. Override via VITE_DEV_LOGIN_EMAIL / VITE_DEV_LOGIN_PASSWORD.
+  // testing, with a one-click swap between the ADMIN (owner) and a STANDARD (member)
+  // account for exercising the role wall. Every visit defaults to Admin. All of this is
+  // stripped from production builds (import.meta.env.DEV is false there), so the creds
+  // and the toggle never ship. Override via VITE_DEV_LOGIN_EMAIL / _PASSWORD (admin) and
+  // VITE_DEV_LOGIN_MEMBER_EMAIL / _PASSWORD (standard).
   if (import.meta.env.DEV) {
-    emailEl.value = import.meta.env.VITE_DEV_LOGIN_EMAIL || "carl@seroteams.com";
-    passwordEl.value = import.meta.env.VITE_DEV_LOGIN_PASSWORD || "serodev123";
+    const ADMIN = {
+      label: "Admin",
+      email: import.meta.env.VITE_DEV_LOGIN_EMAIL || "carl@seroteams.com",
+      password: import.meta.env.VITE_DEV_LOGIN_PASSWORD || "serodev123",
+    };
+    const STANDARD = {
+      label: "Standard user",
+      email: import.meta.env.VITE_DEV_LOGIN_MEMBER_EMAIL || "member@seroteams.com",
+      password: import.meta.env.VITE_DEV_LOGIN_MEMBER_PASSWORD || "seromember123",
+    };
+
+    // A small dev-only line under the form — reuses the same `.link` style as "Create one".
+    const swap = document.createElement("p");
+    swap.className = "text-ink-dim text-sm js-dev-swap";
+    root.querySelector(".js-to-register").closest("p").before(swap);
+
+    function fill(role) {
+      emailEl.value = role.email;
+      passwordEl.value = role.password;
+      const other = role === ADMIN ? STANDARD : ADMIN;
+      swap.innerHTML = `Dev login: <strong>${role.label}</strong> — <button type="button" class="link js-swap">use ${other.label.toLowerCase()}</button>`;
+      swap.querySelector(".js-swap").addEventListener("click", () => fill(other));
+    }
+
+    fill(ADMIN); // default to admin every visit
     requestAnimationFrame(() => submitBtn.focus({ preventScroll: true }));
   } else {
     requestAnimationFrame(() => emailEl.focus({ preventScroll: true }));
