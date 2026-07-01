@@ -167,11 +167,11 @@ const DATA = [
     goal: "Click any past 1:1 and re-read it — a clean, read-only version of the briefing Sero prepared.",
     steps: [
       { f: "Open one read-only", m: "A detail page showing the briefing you saw after that meeting — no admin verdict tools.", have: "A re-readable briefing",
-        auto: "Run `npm test` + `npm run typecheck` — green.", eye: "Click a 1:1 → its briefing opens; Back returns to the list.", s: "doing" },
+        auto: "Run `npm test` + `npm run typecheck` — green.", eye: "Click a 1:1 → its briefing opens; Back returns to the list.", s: "done" },
       { f: "Show what you agreed", m: "Put 'what you agreed' and 'what to watch for' up front — the parts the next meeting builds on.", have: "Carry-forward parts prominent",
-        auto: null, eye: "The agreed actions + watch-fors are easy to spot.", s: "doing" },
+        auto: null, eye: "The agreed actions + watch-fors are easy to spot.", s: "done" },
       { f: "Only your own", m: "Typing someone else's 1:1 id is refused.", have: "Fenced",
-        auto: "Run `npm test` — opening another member's id → not found.", eye: null, s: "doing" },
+        auto: "Run `npm test` — opening another member's id → not found.", eye: null, s: "done" },
     ],
     signoff: "Any past 1:1 opens read-only and returns cleanly · you can't open one that isn't yours." },
 

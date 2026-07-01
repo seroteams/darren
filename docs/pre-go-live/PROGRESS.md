@@ -123,3 +123,11 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   minimal edit set to OVERVIEW + phases 001–007 & 009 (security, in-flow rating, continuity, Team-primary,
   per-phase states, telemetry). Plan judged right-sized (not verbose); gaps were *aspects*, now closed.
   Next: `what next?` → break down Phase 001.
+- **2026-07-01** — **Reconciled state.** Found the tree had advanced past this session: PG1 done +
+  committed (`3cc5ef9d`), PG2 (reopen a run) built + `awaiting-qa`, plus an off-plan admin-only
+  `cloneRun` QA-helper that had briefly broken typecheck (mock repo missing `cloneRun`) — since closed;
+  tree green (`npm test` 53/53, typecheck clean). Carl chose to keep `cloneRun` (option A); logged it.
+- **2026-07-01** — **Phase 002 signed off + committed.** Set up a live walk: seeded 3 member-owned
+  finished runs (Priya / Marco / Ade, in `logs/` which is gitignored) for `member@seroteams.com`, ran
+  API 3001 + Vite 3000, confirmed the chain (login → list newest-first → click → read-only briefing;
+  foreign id → 404). Carl walked it and green-lit. Committed PG2 + `cloneRun`. Next: break down Phase 003.
