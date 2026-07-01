@@ -171,6 +171,56 @@ test("require throws a 404 NOT_FOUND when the session is unknown", () => {
   );
 });
 
+// --- The live-session company wall (auth-hardening Phase 1). A session owned by a
+// company can only be resolved by that company; cross-company → the same 404 as a
+// missing session (don't leak that the id exists). Mirrors the runs wall.
+function orgSession(id: string, orgId: string | null): Session {
+  const s = fakeSession(id);
+  s.orgId = orgId;
+  return s;
+}
+
+test("require returns an org-owned session to its OWN company", () => {
+  const { repo } = fakeRepo([orgSession("abc", "company-A")]);
+  const s = createSessionsService(repo).require("abc", "company-A");
+  assert.equal(s.id, "abc");
+});
+
+test("require throws 404 when ANOTHER company asks for an org-owned session", () => {
+  const { repo } = fakeRepo([orgSession("abc", "company-A")]);
+  const svc = createSessionsService(repo);
+  assert.throws(
+    () => svc.require("abc", "company-B"),
+    (err: unknown) =>
+      err instanceof HttpError &&
+      err.status === 404 &&
+      err.code === "NOT_FOUND" &&
+      err.message === "Unknown session: abc" // same shape as missing — no existence leak
+  );
+});
+
+test("require throws 404 when an ANONYMOUS caller asks for an org-owned session", () => {
+  const { repo } = fakeRepo([orgSession("abc", "company-A")]);
+  const svc = createSessionsService(repo);
+  assert.throws(
+    () => svc.require("abc", null),
+    (err: unknown) => err instanceof HttpError && err.status === 404 && err.code === "NOT_FOUND"
+  );
+});
+
+test("require returns a legacy (null-org) session to any caller — unfenced", () => {
+  const { repo } = fakeRepo([orgSession("legacy", null)]);
+  const svc = createSessionsService(repo);
+  assert.equal(svc.require("legacy", "company-B").id, "legacy");
+  assert.equal(svc.require("legacy", null).id, "legacy");
+});
+
+test("require with no caller-company arg still resolves an org-owned session (internal callers)", () => {
+  const { repo } = fakeRepo([orgSession("abc", "company-A")]);
+  // Omitting the arg = caller context not supplied (e.g. an internal call) → no wall.
+  assert.equal(createSessionsService(repo).require("abc").id, "abc");
+});
+
 test("create forwards ctx + introQueue through the seam and returns the new session", () => {
   const { repo, created } = fakeRepo();
   const ctx: MeetingContext = { name: "Dev", role: "Eng", seniority: "Senior", meetingType: "weekly", notes: "" };

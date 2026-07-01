@@ -81,29 +81,50 @@ function writeId(c: RequestContext, body: Record<string, unknown>): string {
   return c.params.id || asString(body.sessionId) || "";
 }
 
+// The caller's company from the session cookie — the live-session wall (auth-
+// hardening Phase 1, mirrors runs.controller). null for an anonymous request.
+async function callerOrgId(c: RequestContext): Promise<string | null> {
+  return (await buildIdentity(c.req)).orgId;
+}
+// Assert the caller's company owns this session before we touch it. A cross-company
+// id throws 404 inside service.require — so it can't be read, written, or confirmed.
+async function assertOwner(c: RequestContext, id: string): Promise<void> {
+  service.require(id, await callerOrgId(c));
+}
+
 // GET /api/v1/sessions/:id  ·  GET /api/session?s=<id>
-export function snapshot(c: RequestContext): void {
-  c.json(200, service.getSnapshot(sessionId(c)));
+export async function snapshot(c: RequestContext): Promise<void> {
+  const id = sessionId(c);
+  await assertOwner(c, id);
+  c.json(200, service.getSnapshot(id));
 }
 
 // GET /api/v1/sessions/:id/lexicon/scope  ·  GET /api/lexicon/scope?s=<id>
-export function lexiconScope(c: RequestContext): void {
-  c.json(200, service.lexiconScope(sessionId(c)));
+export async function lexiconScope(c: RequestContext): Promise<void> {
+  const id = sessionId(c);
+  await assertOwner(c, id);
+  c.json(200, service.lexiconScope(id));
 }
 
 // GET /api/v1/sessions/:id/role-profile  ·  GET /api/role-profile?s=<id>
-export function roleProfile(c: RequestContext): void {
-  c.json(200, service.roleProfile(sessionId(c)));
+export async function roleProfile(c: RequestContext): Promise<void> {
+  const id = sessionId(c);
+  await assertOwner(c, id);
+  c.json(200, service.roleProfile(id));
 }
 
 // GET /api/v1/sessions/:id/preview  ·  GET /api/preview?s=<id>&stage=<stage>
-export function preview(c: RequestContext): void {
-  c.json(200, service.preview(sessionId(c), c.query.stage));
+export async function preview(c: RequestContext): Promise<void> {
+  const id = sessionId(c);
+  await assertOwner(c, id);
+  c.json(200, service.preview(id, c.query.stage));
 }
 
 // GET /api/v1/sessions/:id/question  ·  GET /api/question?s=<id>
-export function question(c: RequestContext): void {
-  c.json(200, service.question(sessionId(c)));
+export async function question(c: RequestContext): Promise<void> {
+  const id = sessionId(c);
+  await assertOwner(c, id);
+  c.json(200, service.question(id));
 }
 
 // POST /api/v1/sessions  ·  POST /api/start
@@ -120,53 +141,71 @@ export async function start(c: RequestContext): Promise<void> {
 // POST /api/v1/sessions/:id/answer  ·  POST /api/answer   (202, as today)
 export async function answer(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
-  c.json(202, service.answer(writeId(c, body), body));
+  const id = writeId(c, body);
+  await assertOwner(c, id);
+  c.json(202, service.answer(id, body));
 }
 
 // POST /api/v1/sessions/:id/back  ·  POST /api/back
 export async function back(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
-  c.json(200, service.back(writeId(c, body)));
+  const id = writeId(c, body);
+  await assertOwner(c, id);
+  c.json(200, service.back(id));
 }
 
 // POST /api/v1/sessions/:id/notes  ·  POST /api/notes
 export async function notes(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
-  c.json(200, service.notes(writeId(c, body), body));
+  const id = writeId(c, body);
+  await assertOwner(c, id);
+  c.json(200, service.notes(id, body));
 }
 
 // POST /api/v1/sessions/:id/agenda/cover  ·  POST /api/agenda/cover
 export async function agendaCover(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
-  c.json(200, service.agendaCover(writeId(c, body), body));
+  const id = writeId(c, body);
+  await assertOwner(c, id);
+  c.json(200, service.agendaCover(id, body));
 }
 
 // POST /api/v1/sessions/:id/verdict  ·  POST /api/verdict
 export async function verdict(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
-  c.json(200, service.verdict(writeId(c, body), body));
+  const id = writeId(c, body);
+  await assertOwner(c, id);
+  c.json(200, service.verdict(id, body));
 }
 
 // POST /api/v1/sessions/:id/focus-points/select  ·  POST /api/focus-points/select
 export async function selectedFocus(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
-  c.json(200, service.selectedFocus(writeId(c, body), body));
+  const id = writeId(c, body);
+  await assertOwner(c, id);
+  c.json(200, service.selectedFocus(id, body));
 }
 
 // POST /api/v1/sessions/:id/lexicon/decisions  ·  POST /api/lexicon/decisions
 export async function lexiconDecisions(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
-  c.json(200, service.lexiconDecisions(writeId(c, body), body));
+  const id = writeId(c, body);
+  await assertOwner(c, id);
+  c.json(200, service.lexiconDecisions(id, body));
 }
 
 // GET /api/v1/sessions/:id/suggest-answers  ·  GET /api/suggest-answers?s=<id>
 export async function suggestAnswers(c: RequestContext): Promise<void> {
-  c.json(200, await service.suggestAnswers(sessionId(c)));
+  const id = sessionId(c);
+  await assertOwner(c, id);
+  c.json(200, await service.suggestAnswers(id));
 }
 
 // GET /api/v1/sessions/:id/lexicon/candidates  ·  GET /api/lexicon/candidates?s=<id>
 export async function lexiconCandidates(c: RequestContext): Promise<void> {
-  c.json(200, await service.lexiconCandidates(sessionId(c)));
+  const id = sessionId(c);
+  await assertOwner(c, id);
+  c.json(200, await service.lexiconCandidates(id));
 }
 
 // --- S4: SSE streams. These manage their own response (no v1Route, like library);
@@ -175,7 +214,7 @@ export async function lexiconCandidates(c: RequestContext): Promise<void> {
 
 // GET /api/v1/sessions/:id/focus-points/stream  ·  GET /api/focus-points/stream?s=<id>
 export async function focusPointsStream(c: RequestContext): Promise<void> {
-  const session = service.require(sessionId(c));
+  const session = service.require(sessionId(c), await callerOrgId(c));
   const force = c.query.regenerate === "1" || c.query.regenerate === "true";
   if (force) {
     session.focusPointsResult = null;
@@ -198,7 +237,7 @@ export async function focusPointsStream(c: RequestContext): Promise<void> {
 
 // GET /api/v1/sessions/:id/preparation/stream  ·  GET /api/preparation/stream?s=<id>
 export async function preparationStream(c: RequestContext): Promise<void> {
-  const session = service.require(sessionId(c));
+  const session = service.require(sessionId(c), await callerOrgId(c));
   // Pre-check the prerequisite before opening the stream (kept verbatim from the
   // legacy handler — the runStage produce re-guards via buildPreparationInputs).
   if (!session.focusPointsResult) {
@@ -222,7 +261,7 @@ export async function preparationStream(c: RequestContext): Promise<void> {
 
 // GET /api/v1/sessions/:id/bank/stream  ·  GET /api/bank/stream?s=<id>
 export async function bankStream(c: RequestContext): Promise<void> {
-  const session = service.require(sessionId(c));
+  const session = service.require(sessionId(c), await callerOrgId(c));
   if (!session.focusPointsResult) {
     return c.error(Object.assign(new Error("focus points not ready"), { status: 409 }));
   }
@@ -310,7 +349,7 @@ function kickLexiconReview(session: Session): void {
 
 // GET /api/v1/sessions/:id/evaluation/stream  ·  GET /api/evaluation/stream?s=<id>
 export async function evaluationStream(c: RequestContext): Promise<void> {
-  const session = service.require(sessionId(c));
+  const session = service.require(sessionId(c), await callerOrgId(c));
   const intakeNotes = String(session.ctx?.notes || "").trim();
   const capturedNotes = formatNotesForEvaluation(session.notes || []);
   const notesForEvaluation = [intakeNotes, capturedNotes].filter(Boolean).join("\n\n");
@@ -395,7 +434,7 @@ interface PlanResult {
 
 // GET /api/v1/sessions/:id/plan/stream  ·  GET /api/plan/stream?s=<id>
 export async function planStream(c: RequestContext): Promise<void> {
-  const session = service.require(sessionId(c));
+  const session = service.require(sessionId(c), await callerOrgId(c));
   const stream = openStream(c.res);
 
   // --- Idempotent replay of an already-completed turn

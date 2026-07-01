@@ -9,26 +9,26 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-**Phase 007 — the login screen — is DONE and closed ✅. Nothing is actively in flight — pick what's next.**
+**Auth hardening — Phase 1 ✅ done & committed. I'm now building Phase 2 (the login-required door).**
 
-Both phases are green-lit and committed locally. The admin console now has a real front door (login / register /
-logout), and each company sees only its **own** runs — two companies can't see each other's data. The plan is
-archived at [docs/todo/done/login-screen/](docs/todo/done/login-screen/PLAN.md).
+📄 [docs/todo/auth-hardening/PLAN.md](docs/todo/auth-hardening/PLAN.md)
 
-There's no phase plan in flight right now. When you want to start the next thing, tell me which — either a
-parked plan below, or a feature from [SERO_BOARD.md](SERO_BOARD.md) (the "Cross-session follow-up" continuity
-loop is the flagged next big item). I'll set it up as a fresh plan and we work it one phase at a time.
+A health check (after Phase 007 closed) found two access-control holes. This plan closes them, one phase at a time:
 
-One small loose thread carried over: a hardening follow-up to also fence *live, in-progress* sessions by
-company (the saved-runs wall is complete). Low priority, parked in the closed plan and on the board.
+- **Phase 1 — Fence live sessions by company. ✅ done.** One company can no longer read or write another's live
+  session — it gets a 404 every time. Tested offline (51/51) + a free live 2-company HTTP smoke (8/8). Committed.
+- **Phase 2 — Guard the doors. 🔨 in progress.** Today a request with no login isn't denied — it falls through
+  to the legacy *unfenced* view. Phase 2 refuses anonymous callers (401) on the protected runs + session
+  endpoints. One open call to confirm: keep session *start* open to logged-out visitors (recommended).
 
-- Last updated: 2026-06-29
-- Phase 1 (login gate + screens): ✅ committed `b8db668a` · QA-walked by you.
-- Phase 2 (data fenced per company, approach A): ✅ committed `6df05419` · `npm test` **51/51**, typecheck clean,
-  + a live free smoke (logged-in fenced runs = 0, anonymous legacy = 3 — the wall live over HTTP). Paid
-  two-company walk deferred; you accepted on the offline tests + smoke.
-- App may still be running for you at http://localhost:3000 (a fresh API on 3007 + web on 3000 I started for the
-  smoke; the pre-existing 3001 server was left untouched).
+When Phase 2 is built I'll hand you its scenarios to QA before we close the plan out.
+
+- Last updated: 2026-07-01
+- Phase 1: ✅ committed · offline 51/51 + live 2-company wall smoke 8/8 (side-door off, no OpenAI key → free).
+- Health check earlier this session: typecheck clean · build clean · 0 dep vulns · paid 2-case gate **PASS**
+  (happy + honesty sentinel, ~$0.70). Fixed a stale smoke-test check that was blocking the gate/smoke harness —
+  committed `0331cfa0`.
+- Prior plan (Phase 007 login screen): ✅ closed, archived at [docs/todo/done/login-screen/](docs/todo/done/login-screen/PLAN.md).
 
 ---
 

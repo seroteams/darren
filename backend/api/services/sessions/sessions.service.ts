@@ -187,7 +187,9 @@ const PREVIEW_ASSEMBLERS: Record<string, (session: Session) => { label: string; 
 
 export interface SessionsService {
   get(id: string): Session | undefined;
-  require(id: string): Session;
+  // callerOrgId fences the lookup to the caller's company (the live-session wall):
+  // a cross-company id throws 404. Omit it for an internal/unfenced resolve.
+  require(id: string, callerOrgId?: string | null): Session;
   create(ctx: MeetingContext, introQueue: Question[], orgId?: string | null): Session;
   drop(id: string): void;
   persist(session: Session): void;
@@ -227,9 +229,18 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
   const reviewLexicon: ReviewLexicon =
     deps.reviewLexicon ?? (() => Promise.reject(new Error("reviewLexicon boundary not provided")));
 
-  function requireExisting(id: string): Session {
+  // The live-session company wall (auth-hardening Phase 1). Every read/write/stream
+  // resolves a session through here. When the caller's company is supplied and the
+  // session is owned by a *different* company, throw the same 404 as a missing
+  // session — so a cross-company id can't be read, written, or even confirmed to
+  // exist. A null-org (anonymous/legacy) session stays open; omitting callerOrgId
+  // (undefined) means "no caller context" (internal call) and skips the wall.
+  function requireExisting(id: string, callerOrgId?: string | null): Session {
     const s = repo.get(id);
     if (!s) throw notFound(`Unknown session: ${id}`);
+    if (callerOrgId !== undefined && s.orgId && s.orgId !== callerOrgId) {
+      throw notFound(`Unknown session: ${id}`);
+    }
     return s;
   }
 
