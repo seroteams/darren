@@ -1,6 +1,6 @@
 # Phase 3 — Run-checks button
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done (built + verified 2026-07-01)
 
 ## Goal
 Let you press a button on a step and have the app run its **free, safe** checks for you, then show ✅ pass / ❌ fail right there — so you don't have to run anything in a terminal yourself.

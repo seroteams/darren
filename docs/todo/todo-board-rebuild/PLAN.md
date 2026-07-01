@@ -20,7 +20,7 @@
 | 1 | New Tasks page + nav | A brand-new "Tasks" page at `/tasks` with its own nav item. Clean board: my status (✅ Built / 🔵 Building / ⚪ Not started) kept separate from your verdict tick; wrong-address warning. | ✅ |
 | 2 | Plain check steps | Every step's "how to check" rewritten into concrete lines: "App runs (free check)" + "You check (by eye)" | ✅ |
 | M | Merge boards | Port the Copy continue/verify prompt into Tasks (driven by build status, never your ticks); retire the Build plan page (nav, route, stage, file) so there's one board, not two. | ✅ |
-| 3 | Run-checks button | The page runs the FREE checks for you and shows ✅/❌ per step | 🔨 backend built + tested; UI button pending |
+| 3 | Run-checks button | The page runs the FREE checks for you and shows ✅/❌ per step | ✅ |
 
 ⬜ not started · 🔨 in progress (built, awaiting test) · ✅ done (committed)
 
@@ -37,7 +37,12 @@ One tiny uncommitted edit sits in `tasks.js` (4 lines): Phase 003's step 3 flipp
 
 **Prerequisite for Phase 3 (historical note):** the button calls the API, so the API server must run. An earlier note said `node backend/api/server.js` errors (`Cannot find module './handlers/preparation'`) — that was a stale `.js` entry; the backend is now 100% TypeScript (`server.ts`).
 
-Next: build Phase 3 — recommended in a FRESH session (this chat is long/messy; Darren rule). Then Carl walks the Phase 3 scenarios; on his go, commit and close the folder to `docs/todo/done/`.
+**Phase 3 ✅ BUILT + VERIFIED (2026-07-01, QA-pile clear-out).** Added the "Run the free checks" button
+to each step (with an auto-check) in `tasks.js` + a `runFreeCheck` helper in `shared/api.js` calling the
+existing `POST /api/v1/checks/run`, plus result styling in `design.css`. Verified live: pressing it showed
+"Running…" then **"✅ 52/52 tests passed"** in green (matches the real suite — it genuinely ran); the
+verdict tick stays separate (not auto-ticked); the endpoint only runs the allow-listed free checks. **All
+phases now ✅ — ready to close to `docs/todo/done/` on Carl's nod.**
 
 ## Parked
 - Saving verdicts on the server (so they survive across browsers/computers, not just this one). Carl chose "pin to one address" for now — revisit if he ever uses a second machine.

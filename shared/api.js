@@ -41,6 +41,12 @@ export async function me() {
   return json(await fetch("/api/v1/auth/me"));
 }
 
+// Tasks board (Phase 3): run ONE free, offline check by id ("tests" | "replay").
+// The server allow-lists these and refuses anything paid. Returns { ok, summary, output }.
+export async function runFreeCheck(check) {
+  return postJson("/api/v1/checks/run", { check });
+}
+
 export async function getMeetingTypes() {
   return json(await fetch("/api/meeting-types"));
 }

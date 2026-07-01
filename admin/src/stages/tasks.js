@@ -15,6 +15,7 @@
 // the old Build plan page), built from the build statuses below — never your ticks.
 
 import { STAGES, setState } from "../state.js";
+import { runFreeCheck } from "../../../shared/api.js";
 
 let keyHandler = null;
 
@@ -250,9 +251,13 @@ function fmtCode(text) {
   return esc(text).replace(/`([^`]+)`/g, '<code class="tk-code">$1</code>');
 }
 
-function checkMeta(st) {
+function checkMeta(st, id) {
   const auto = st.auto
-    ? `<div class="tk-check tk-check--auto"><span class="cl-k">App runs (free check):</span><span>${fmtCode(st.auto)}</span></div>`
+    ? `<div class="tk-check tk-check--auto"><span class="cl-k">App runs (free check):</span><span>${fmtCode(st.auto)}</span>
+        <span class="tk-run">
+          <button type="button" class="btn btn--sm js-run-check" data-run="${id}">Run the free checks</button>
+          <span class="tk-run__result text-sm" id="tk-run-${id}" role="status" aria-live="polite"></span>
+        </span></div>`
     : "";
   const eye = st.eye
     ? `<div class="tk-check tk-check--eye"><span class="cl-k">You check (by eye):</span><span>${fmtCode(st.eye)}</span></div>`
@@ -274,7 +279,7 @@ function stepRow(pi, si, st) {
       <span class="cl-badge cl-badge--${st2.cls} tk-status">${st2.label}</span>
     </div>
     <div class="tk-means">${esc(st.m)}</div>
-    ${checkMeta(st)}
+    ${checkMeta(st, id)}
     <label class="tk-verdict">
       <input type="checkbox" data-id="${id}" ${checked ? "checked" : ""}>
       <span class="tk-verdict__box">${TICK}</span>
@@ -338,7 +343,7 @@ export function mount(root) {
           <h1 class="h1">Tasks</h1>
           <button class="btn btn--ghost js-back" type="button">Back</button>
         </div>
-        <div class="page-header__lede"><b>I mark what's built; you tick what you've checked.</b> Each step shows my status (✅ Built / 🔵 Building / ⚪ Not started) — set in the code, can't be wiped — plus how to check it: a free check the app will run for you (button coming next), and the bit you eyeball. Your tick is your own sign-off, saved in this browser.</div>
+        <div class="page-header__lede"><b>I mark what's built; you tick what you've checked.</b> Each step shows my status (✅ Built / 🔵 Building / ⚪ Not started) — set in the code, can't be wiped — plus how to check it: a free check the app runs for you at the press of a button, and the bit you eyeball. Your tick is your own sign-off, saved in this browser.</div>
       </header>
       ${banner}
       <div class="tk-phases">${DATA.map(phaseHtml).join("")}</div>
@@ -353,6 +358,31 @@ export function mount(root) {
       if (e.target.checked) verdicts[id] = true; else delete verdicts[id];
       saveVerdicts();
       root.querySelector("#tkrow-" + id)?.classList.toggle("is-verified", e.target.checked);
+    });
+  });
+
+  // "Run the free checks" — call the allow-listed endpoint (runs the test suite,
+  // never anything paid) and show ✅ pass count / ❌ what failed, right on the step.
+  // A green result is information only; your verdict tick stays your own call.
+  root.querySelectorAll(".js-run-check").forEach((b) => {
+    b.addEventListener("click", async () => {
+      const id = b.dataset.run;
+      const out = root.querySelector("#tk-run-" + id);
+      b.disabled = true;
+      b.textContent = "Running…";
+      if (out) { out.textContent = "Running the test suite…"; out.className = "tk-run__result text-sm is-running"; }
+      try {
+        const r = await runFreeCheck("tests");
+        if (out) {
+          out.textContent = (r.ok ? "✅ " : "❌ ") + (r.summary || (r.ok ? "Passed" : "Failed"));
+          out.className = "tk-run__result text-sm " + (r.ok ? "is-pass" : "is-fail");
+        }
+      } catch (e) {
+        if (out) { out.textContent = "❌ Couldn't run — " + (e.message || e); out.className = "tk-run__result text-sm is-fail"; }
+      } finally {
+        b.disabled = false;
+        b.textContent = "Run the free checks";
+      }
     });
   });
 

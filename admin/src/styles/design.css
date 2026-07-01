@@ -3888,6 +3888,13 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
 .tk-means { margin-top: var(--sero-space-2); font-size: var(--type-body-sm); color: var(--color-ink-dim); line-height: 1.5; }
 .tk-meta { margin-top: var(--sero-space-2); }
 
+/* "Run the free checks" button + its inline result (Phase 3). */
+.tk-run { display: inline-flex; align-items: center; gap: var(--sero-space-2); margin-top: var(--sero-space-2); flex-wrap: wrap; }
+.tk-run__result { color: var(--color-ink-dim); }
+.tk-run__result.is-running { color: var(--color-ink-mute); }
+.tk-run__result.is-pass { color: var(--color-positive); font-weight: var(--type-weight-semibold); }
+.tk-run__result.is-fail { color: var(--color-negative); font-weight: var(--type-weight-semibold); }
+
 .tk-verdict {
   margin-top: var(--sero-space-3);
   display: inline-flex; align-items: center; gap: var(--sero-space-2);
