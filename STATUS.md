@@ -9,25 +9,39 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-**Auth hardening — DONE and closed ✅. Nothing is actively in flight — pick what's next.**
+**Admin access guard (Option A) — Phase 1 ✅ done. Phase 2 is ready when you are.**
 
-Both holes the post-007 health check found are now shut, tested, and committed:
+We're separating the internal admin tooling from the customer flow *without* the big app split (Option A from
+the 2026-07-01 revisit). Two phases; **Phase 1 green-lit + committed**. Phase 2 waits on your go.
 
-- **Phase 1 — live sessions fenced by company.** One company can't read or write another's live session (404).
-- **Phase 2 — runs endpoints require login.** Logged-out callers get 401 instead of the legacy unfenced list.
-  Session *start* stays open to logged-out visitors, by your call.
+- **Phase 1 ✅ — require login on the internal tooling.** Every admin-only endpoint (pipeline, checks,
+  regression, arcs, lexicon promotion, role-lexicons, suggest-fix, library) now needs a logged-in caller —
+  logged out you get a 401 instead of internal data. You walked all 3 scenarios ("all passed").
+- **Phase 2 ⬜ — the admin-role wall.** Require an owner/admin *role* (403 for a plain member), hide the admin
+  tools in the console from non-admins, and add a member account so we can actually test it.
 
-Plan archived at [docs/todo/done/auth-hardening/](docs/todo/done/auth-hardening/PLAN.md). When you want the next
-thing, tell me which — a parked plan below, or an item from [SERO_BOARD.md](SERO_BOARD.md) (the "Cross-session
-follow-up" continuity loop is the flagged next big item).
+**👉 Next: say go and I'll start Phase 2** (see [docs/todo/admin-access-guard/phase-2.md](docs/todo/admin-access-guard/phase-2.md)).
+One flagged decision waits there: whether Run Review/delete/archive should also go admin-only.
 
 - Last updated: 2026-07-01
-- Phase 1: ✅ committed `12fc3071` · 51/51 + live 2-company wall smoke 8/8.
-- Phase 2: ✅ committed with close-out · 51/51 + live runs-gate smoke 5/5 (anon 401, logged-in 200, dev
-  side-door 200, anon start 201). Side-door off + no OpenAI key → both smokes free.
-- Earlier this session: health check (typecheck clean · build clean · 0 dep vulns · paid 2-case gate **PASS**,
-  ~$0.70) + fixed a stale smoke-test check that was blocking the gate/smoke harness (`0331cfa0`).
-- Prior plan (Phase 007 login screen): ✅ closed at [docs/todo/done/login-screen/](docs/todo/done/login-screen/PLAN.md).
+- Baseline (free): `npm test` 51/51 · typecheck clean. After Phase 1: **52/52** (+admin-guard unit test) · typecheck clean.
+- Plan: [docs/todo/admin-access-guard/PLAN.md](docs/todo/admin-access-guard/PLAN.md).
+
+### Boxes
+- [x] **Phase 1 — require login on internal tooling** ✅ green-lit + committed 2026-07-01
+  - [x] login-route guard built + unit-tested (anon 401 / logged-in ok / dev side-door ok)
+  - [x] wired onto every admin-only route (v1 + legacy) · customer flow untouched
+  - [x] `npm test` 52/52 · typecheck clean
+  - [x] you walked the 3 scenarios and said go
+- [ ] **Phase 2 — admin-role wall + hide the UI** ⬜ not started (say go to start)
+
+---
+
+### Just finished: Auth hardening ✅ (closed)
+Both post-007 holes shut, tested, committed. Phase 1 (live sessions fenced by company, `12fc3071`) · Phase 2
+(runs endpoints require login, session *start* stays open by your call). Archived at
+[docs/todo/done/auth-hardening/](docs/todo/done/auth-hardening/PLAN.md). Prior: Phase 007 login screen ✅
+([docs/todo/done/login-screen/](docs/todo/done/login-screen/PLAN.md)).
 
 ---
 
