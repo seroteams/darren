@@ -12,7 +12,16 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
-**▶ Active line: Phase 009 — Getting ready to share (real-data alpha).** 8 phases, ship-blockers first
+**▶ Active line: pre-go-live — a manager tool worth coming back to.** New track (2026-07-01), 9 phases,
+one at a time: the manager's own **Runs** list + reopen, **rate a 1:1** (1–5★, Carl sees all), **Team**
+auto-built from past 1:1s + person detail, and a **superadmin** read-only window on the whole alpha
+(who's registered → their teams → their runs). Playbook
+[docs/pre-go-live/OVERVIEW.md](docs/pre-go-live/OVERVIEW.md), live state
+[docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md), tactical [STATUS.md](STATUS.md).
+**Supersedes** the deferred member-nav Phase 2 and 009's deferred "real Team content" (folded in).
+Phase 001 next — not yet broken down. Nothing built, no paid runs.
+
+**Paused under it: Phase 009 — Getting ready to share (real-data alpha).** 8 phases, ship-blockers first
 ([plan](docs/todo/009-ready-to-share/PLAN.md), tactical tracker [STATUS.md](STATUS.md)).
 - **Phase 1 (safety floor / execute 008) — ✅ signed off (2026-07-01, `e68c4c8c`):** data fenced by
   org+role, AI keys proven server-only (key-search zero-hits), DB audited + cleared of unfenced rows,

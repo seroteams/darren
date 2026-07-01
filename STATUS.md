@@ -9,7 +9,18 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-**Now active: Phase 009. Phases 1 · 3 · 4 · 5 ✅ done · Phase 2 ⏸ parked (not hosting yet) · Phase 8 ⏸ deferred ("remembering + teams later") · Phases 6 · 7 open (awaiting your word).**
+**Now active: [pre-go-live](docs/pre-go-live/OVERVIEW.md) — the manager's Team & Runs, ratings, and a
+superadmin window on the alpha.** 9 phases, one at a time.
+**PG1 (Manager Runs list) ✅ signed off + committed 2026-07-01** — the Runs page now lists your own past
+1:1s (loading / empty / error / list, read-only, fenced to you). **PG2 (Reopen a run) is next.**
+Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
+
+> This track **supersedes** the deferred **member-nav Phase 2** (real Runs) and **009's deferred "real
+> Team content"** — both folded in here so trackers don't multiply.
+
+<details><summary>Previously active: Phase 009 — non-hosting ultra batch (paused for pre-go-live)</summary>
+
+**Phases 1 · 3 · 4 · 5 ✅ done · Phase 2 ⏸ parked (not hosting yet) · Phase 8 ⏸ deferred ("remembering + teams later") · Phases 6 · 7 open (awaiting your word).**
 
 009 turns Sero into something real managers can safely use on real teams, and gets the codebase
 newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-to-share/](docs/todo/009-ready-to-share/PLAN.md).
@@ -41,6 +52,8 @@ newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-t
   - ⏸ **Phase 8 (continuity / "remembering") — deferred** by you ("we can do the remembering and teams later").
   - ⬜ **Phases 6 (repo-tidy 3–4) & 7 (docs + README) — still open**, not yet green-lit to continue.
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` clean. Paid gate needs your go-ahead.
+
+</details>
 
 **Member navigation — Phase 1 ✅ (committed + signed off).** Corrected 2026-07-01: this was already
 committed (`d864a3a3` + landing fix `fc77b8ba`) and QA-ticked (`1aea2b1b`) — the earlier "built,

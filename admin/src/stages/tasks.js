@@ -148,6 +148,110 @@ const DATA = [
         auto: null, eye: "Once built: a named human expert has reviewed and signed off in the log." },
     ],
     signoff: "Checks green · no key leaks anywhere · personal-data access fenced by company and role · a named expert has signed off." },
+
+  // ── Pre-go-live track (docs/pre-go-live/) — make Sero a tool managers come back to.
+  // All not-started; state lives in docs/pre-go-live/PROGRESS.md, not a todo PLAN.md.
+  { num: "PG1", name: "Past 1:1s list", tag: "Pre-go-live", track: "Pre-go-live", folder: "docs/pre-go-live/", stateFile: "PROGRESS.md",
+    goal: "Your Runs page stops being a placeholder and shows your OWN past 1:1s, newest first — so you can actually come back to them.",
+    steps: [
+      { f: "Load your own 1:1s", m: "Wire the page to the member-safe endpoint that returns only your finished 1:1s (it already exists).", have: "Your real 1:1s listed",
+        auto: "Run `npm test` + `npm run typecheck` — both green.", eye: "Open Past 1:1s — your finished 1:1s show, newest first.", s: "done" },
+      { f: "Empty + error states", m: "No 1:1s yet → a friendly start-your-first message; a failed load → a plain retry, not a broken screen.", have: "Every state handled",
+        auto: null, eye: "With no 1:1s you see the empty state; nothing looks half-built.", s: "done" },
+      { f: "Only ever your own", m: "You never see a colleague's list or the admin whole-company view.", have: "Fenced to you",
+        auto: "Run `npm test` — a different member sees only their own.", eye: "Log in as another member — a different list.", s: "done" },
+    ],
+    signoff: "Your finished 1:1s show newest-first · a member with none sees the empty state · you never see another member's 1:1s." },
+
+  { num: "PG2", name: "Reopen a 1:1", tag: "Pre-go-live", track: "Pre-go-live", folder: "docs/pre-go-live/", stateFile: "PROGRESS.md",
+    goal: "Click any past 1:1 and re-read it — a clean, read-only version of the briefing Sero prepared.",
+    steps: [
+      { f: "Open one read-only", m: "A detail page showing the briefing you saw after that meeting — no admin verdict tools.", have: "A re-readable briefing",
+        auto: "Run `npm test` + `npm run typecheck` — green.", eye: "Click a 1:1 → its briefing opens; Back returns to the list.", s: "todo" },
+      { f: "Show what you agreed", m: "Put 'what you agreed' and 'what to watch for' up front — the parts the next meeting builds on.", have: "Carry-forward parts prominent",
+        auto: null, eye: "The agreed actions + watch-fors are easy to spot.", s: "todo" },
+      { f: "Only your own", m: "Typing someone else's 1:1 id is refused.", have: "Fenced",
+        auto: "Run `npm test` — opening another member's id → not found.", eye: null, s: "todo" },
+    ],
+    signoff: "Any past 1:1 opens read-only and returns cleanly · you can't open one that isn't yours." },
+
+  { num: "PG3", name: "Rate a 1:1", tag: "Pre-go-live", track: "Pre-go-live", folder: "docs/pre-go-live/", stateFile: "PROGRESS.md",
+    goal: "Say how useful each 1:1 was — a one-tap 1–5 star right after the meeting, plus an optional note — so the tool learns and Carl gets an honest read.",
+    steps: [
+      { f: "Save a rating", m: "A member-safe endpoint stores your stars + optional note alongside the run (a simple file, written safely).", have: "Ratings saved safely",
+        auto: "Run `npm test` — covers the endpoint (bad stars → 400, logged-out → 401, not-yours → 404).", eye: "Rate a 1:1, reload — the stars stick.", s: "todo" },
+      { f: "Ask at the right moment", m: "A gentle one-tap rating at the END of a 1:1 (with Skip), plus on the detail later; a low score reveals a one-line 'what missed?'. Never an 'unrated' nag.", have: "In-flow, no nagging",
+        auto: null, eye: "Finish a 1:1 → gently asked to rate; skipping is easy; no guilt-y unrated count anywhere.", s: "todo" },
+      { f: "Accessible + private", m: "Stars work by keyboard/screen-reader and stay ≥14px; the note is a private manager field — never shown to staff, never logged.", have: "Accessible + private",
+        auto: null, eye: "You can set the rating with the keyboard.", s: "todo" },
+    ],
+    signoff: "Rate a 1:1 at the end and later · it persists · a low score invites a note · nothing nags · the note never leaves your view." },
+
+  { num: "PG4", name: "Your Team, built for you", tag: "Pre-go-live", track: "Pre-go-live", folder: "docs/pre-go-live/", stateFile: "PROGRESS.md",
+    goal: "The Team page fills itself in — the people you've met with, grouped from your past 1:1s: how often, how recently, how useful on average.",
+    steps: [
+      { f: "Group your people", m: "One card per person from your own 1:1s (names differing only by case/spacing merge automatically).", have: "People cards appear",
+        auto: "Run `npm test` + `npm run typecheck` — green.", eye: "Two 1:1s about the same person → one card, count 2, right average.", s: "todo" },
+      { f: "Team is the main way in", m: "Team becomes the primary surface; the flat list is relabelled 'Past 1:1s'; every 1:1 row links to its person.", have: "Person-first navigation",
+        auto: null, eye: "Every 1:1 row links to the person; the nav reads 'Past 1:1s'.", s: "todo" },
+      { f: "Honest first-timer states", m: "A one-meeting card doesn't imply history it lacks; an empty state for no 1:1s.", have: "Honest early states",
+        auto: null, eye: "With one 1:1 the card reads '1 meeting · not yet rated'.", s: "todo" },
+    ],
+    signoff: "People appear grouped from your 1:1s with correct counts/averages · case/spacing duplicates merge · Team is the primary way in." },
+
+  { num: "PG5", name: "A person in one place", tag: "Pre-go-live", track: "Pre-go-live", folder: "docs/pre-go-live/", stateFile: "PROGRESS.md",
+    goal: "Click a person and see all your 1:1s with them, their ratings, and — the key bit — 'Since last time: what you agreed and what to watch for' when you prep the next one.",
+    steps: [
+      { f: "The person page", m: "All your 1:1s with that person, newest first, each openable, with its rating and a summary header.", have: "One place per person",
+        auto: "Run `npm test` + `npm run typecheck` — green.", eye: "Open a person → their 1:1s + a '3.0 avg · 4 rated' header.", s: "todo" },
+      { f: "Since last time", m: "A block pulling the last meeting's agreed actions + watch-fors (already in the data) so returning actually HELPS, not just reminds.", have: "It remembers for you",
+        auto: null, eye: "The person page shows 'Since last time' from the most recent 1:1.", s: "todo" },
+      { f: "Prep the next one", m: "A 'Prep next 1:1' button pre-fills the person. Note: this is the only paid path, and only if you run the full pipeline.", have: "Straight into the next prep",
+        auto: null, eye: "Prep next 1:1 starts intake pre-filled.", s: "todo" },
+    ],
+    signoff: "A person shows all their 1:1s + ratings + a correct average · 'Since last time' surfaces last meeting's actions · prep-next pre-fills." },
+
+  { num: "PG6", name: "Carl's master key (safe)", tag: "Pre-go-live", track: "Pre-go-live", folder: "docs/pre-go-live/", stateFile: "PROGRESS.md",
+    goal: "Give ONLY Carl a read-only key to see across all alpha companies — built and proven safe behind the scenes, no screens yet.",
+    steps: [
+      { f: "A safe, read-only key", m: "Identity checked server-side from the login (never the browser); the code can only ever read; every use is logged.", have: "A tightly-gated key",
+        auto: "Run `npm test` — superadmin sees all; a normal owner → 403; no route can change anything; tests run with the dev shortcut off.", eye: null, s: "todo" },
+      { f: "Cross-company reads", m: "Read-only endpoints that loop the real companies/users and reuse the existing per-company run walk.", have: "The data reachable",
+        auto: "Run `npm test` + `npm run typecheck` — green.", eye: null, s: "todo" },
+    ],
+    signoff: "Only Carl's account reads across companies · everyone else refused · nothing is writable · each access is logged · tests green with the dev shortcut off." },
+
+  { num: "PG7", name: "Who's using Sero", tag: "Pre-go-live", track: "Pre-go-live", folder: "docs/pre-go-live/", stateFile: "PROGRESS.md",
+    goal: "A screen for Carl: every alpha company and its people — roles, join dates, 1:1 counts — plus whether they're coming back, and how ratings look overall.",
+    steps: [
+      { f: "Companies → people", m: "List every company and its users (name, role, joined, 1:1 count).", have: "The alpha at a glance",
+        auto: "Run `npm test` + `npm run typecheck` — green; a normal owner is refused.", eye: "As Carl the page lists every company + users; a normal owner can't reach it.", s: "todo" },
+      { f: "Are they coming back?", m: "Per-user last-active + 1:1s-over-time — the return-visit signal the whole track exists to prove.", have: "Return-visit signal",
+        auto: null, eye: "Each user shows last-active + recent activity.", s: "todo" },
+      { f: "How ratings look overall", m: "An alpha-wide summary: average stars + a count of low scores.", have: "Honest signal in one glance",
+        auto: null, eye: "The page shows the alpha-wide rating summary.", s: "todo" },
+    ],
+    signoff: "Carl sees every company + users with join dates, run counts, return-visit signal and an alpha-wide rating summary · normal owners refused." },
+
+  { num: "PG8", name: "Drill into a person's work", tag: "Pre-go-live", track: "Pre-go-live", folder: "docs/pre-go-live/", stateFile: "PROGRESS.md",
+    goal: "From that screen, Carl clicks a user and sees their people, their 1:1s and ratings, and can open any briefing read-only.",
+    steps: [
+      { f: "User → people + 1:1s", m: "Drill from a user into their people (same grouping) and their 1:1s with ratings.", have: "The full picture",
+        auto: "Run `npm test` + `npm run typecheck` — green; still refused for normal owners.", eye: "As Carl, open a user → their people + 1:1s + ratings.", s: "todo" },
+      { f: "Open a briefing read-only", m: "Reuse the member-safe read-only view; never the richer admin readers.", have: "See what they saw",
+        auto: null, eye: "A 1:1 opens read-only.", s: "todo" },
+    ],
+    signoff: "Carl drills user → people → 1:1s → ratings and opens briefings read-only · normal owners refused · no cross-company leak for anyone else." },
+
+  { num: "PG9", name: "Tidy the people list", tag: "Pre-go-live", track: "Pre-go-live", folder: "docs/pre-go-live/", stateFile: "PROGRESS.md",
+    goal: "Once there's real history: merge duplicate people and see simple rating roll-ups. (Manual roster + charts stay parked for after the alpha.)",
+    steps: [
+      { f: "Merge duplicates", m: "Merge two cards that are the same person, and edit a name; history combines and sticks.", have: "One card per real person",
+        auto: "Run `npm test` + `npm run typecheck` — green; the merge survives a reload.", eye: "Merge 'Priya' + 'Priya S.' → one card with combined history.", s: "todo" },
+      { f: "Rating roll-ups", m: "Per-person average usefulness with its count.", have: "Simple roll-ups",
+        auto: null, eye: "A person shows a combined average with its count.", s: "todo" },
+    ],
+    signoff: "Duplicate people merge into one card with combined history · the merge persists · per-person roll-ups read correctly." },
 ];
 
 // Your verdicts live here — their own key, kept separate from my build statuses
@@ -169,9 +273,15 @@ const statusOf = (s) => STATUS[s] || STATUS.todo;
 // status (st.s) — never from your verdict ticks — so the handoff prompt stays
 // accurate as work lands. Drop one into a fresh thread to pick a phase up from
 // exactly where it stands.
+// Track/folder/state-file are per-phase, defaulting to the Prototype → Production
+// track so the original phases are unchanged; the pre-go-live phases override them.
+const trackOf = (ph) => ph.track || "Prototype → Production";
+const folderOf = (ph) => ph.folder || "docs/todo/<slug>/";
+const stateOf = (ph) => ph.stateFile || "PLAN.md";
+
 const PREAMBLE = (pi) =>
-  `Phase ${DATA[pi].num} — ${DATA[pi].name} · ${DATA[pi].tag} (Prototype → Production checklist).\n\n` +
-  `Continue this with the Darren Method: there's already a plan folder docs/todo/<slug>/ — read its PLAN.md "Current state" first and pick up from there. Do ONE step at a time and stop for my green light before anything risky or before the next phase. You don't self-certify; I walk the QA scenarios and approve. The moment I approve a step, commit locally (no push/PR unless I ask).\n\n` +
+  `Phase ${DATA[pi].num} — ${DATA[pi].name} · ${DATA[pi].tag} (${trackOf(DATA[pi])} checklist).\n\n` +
+  `Continue this with the Darren Method: there's already a plan folder ${folderOf(DATA[pi])} — read its ${stateOf(DATA[pi])} "Current state" first and pick up from there. Do ONE step at a time and stop for my green light before anything risky or before the next phase. You don't self-certify; I walk the QA scenarios and approve. The moment I approve a step, commit locally (no push/PR unless I ask).\n\n` +
   `Before continuing: run npm test (free/offline) and tell me the result, so you're building on a known-good baseline, not pinning old failures on this work.\n\n` +
   `Rules: Surgical changes only — touch what the task needs, match existing style, don't refactor what isn't broken; if you spot dead code, mention it, don't delete it. Engine honesty — surface raw model output; flag problems, never hardcode text to hide them. No paid runs (anything hitting the OpenAI API — gate/smoke/eval/live replays, ~$0.35/case up to ~$3) without my explicit yes for that run, cost stated first; default to free checks (npm test, node scripts/replay-scenario.js <id> --fixtures-only).\n\n` +
   `First, tell me plainly where things stand and what the next step is — then continue. End with a short "In simple terms:" line.`;
@@ -193,16 +303,36 @@ const KICK = [
   `Goal: make login real in the app you can click by FOLDING it into the existing admin console (no separate app) — register/login/logout screens + a boot gate wired to the secure Phase-006 backend — then re-point the console's data to the logged-in company so two companies can't see each other's runs.\nFirst move (before any code): read docs/todo/login-screen/PLAN.md "Current state" — Phase 1 (login gate + screens) is built and approved; pick up at Phase 2 (re-point data). Verify the generic v1 routes fence by the cookie's orgId BEFORE migrating the client; if any still fall back to DEFAULT_ORG_ID, flag it as the first task — don't paper over it (engine-honesty rule).\nOut of scope: no separate customer-facing app (decided with Carl: fold into admin); no new product features beyond parity with today's console; org-name display parked.\nWatch out for: a v1 route that silently serves the placeholder org; client call sites where the id moves into the path; session/login state surviving refresh.\nDone when:\n• Agent-verified: npm test + npm run typecheck green incl. a test that company A can't read company B's data.\n• Owner-walked: log in/out in the console; a refresh keeps you in; logout returns to login; as company A you see only A's runs and can't open B's.`,
   // 008 Keep it safe
   `Goal: a dedicated safety pass before real staff data flows — security-skill checks to green, personal data fenced by company + role, and AI keys proven server-only (never in a browser, response, or log).\nFirst move (before any code): install/run the security checks and post exactly what they flag — a triage list (issue → severity → fix plan) for my review before fixing.\nOut of scope: no new features, no broad refactors — fix only what the checks and the data-fencing/key-leak review surface. Park anything bigger.\nWatch out for: AI keys ending up in the client bundle, an API response, or a log line — check the built frontend bundle specifically, not just the source. Confirm role-level fencing, not just company-level.\nDone when:\n• Agent-verified: security-skill checks green; grep of built bundle/responses/logs shows no key leak; tests prove personal-data access is fenced by company + role.\n• Owner-walked: a named human expert has reviewed and signed off (record the name in PLAN.md).`,
+
+  // ── Pre-go-live KICK prompts (indexes 8–16, one per PG1–PG9) ────────────────
+  // PG1 Past 1:1s list
+  `Goal: turn the member Runs page from a placeholder into the manager's own past 1:1s, newest first, wired to the member-safe /api/v1/runs/mine (already built + tested).\nFirst move (before any code): read docs/pre-go-live/001-manager-runs-list/00-phase-overview.md and PROGRESS.md, then add listMyRuns() to shared/api.js and sketch the list markup for my ok.\nOut of scope: no reopen/detail yet (that's PG2), no rating, no team grouping. Just the list + its states.\nWatch out for: the fence — a member must see ONLY their own runs; and pre-login/dev/anonymous runs carry no userId so they're intentionally invisible (documented cutover, no backfill).\nDone when:\n• Agent-verified: npm test + npm run typecheck green; a different member sees only their own.\n• Owner-walked: your finished 1:1s list newest-first; none → the empty state; a failed load → a plain retry.`,
+  // PG2 Reopen a 1:1
+  `Goal: click a past 1:1 and re-read it read-only, via /api/v1/runs/mine/:id, reusing review-run.js's briefing render minus the admin verdict tools.\nFirst move (before any code): read docs/pre-go-live/002-reopen-a-run/00-phase-overview.md, add getMyRun(id) to shared/api.js, register a member run-detail stage.\nOut of scope: no rating widget yet (PG3), no editing — read-only only.\nWatch out for: memberRunView is briefing-only (no raw prep/focus/transcript) — render the briefing shape, never fall through to the admin readers; opening another member's id must 404. Surface next_actions + watch_for prominently (they power PG5).\nDone when:\n• Agent-verified: npm test + npm run typecheck green; another member's id → not found.\n• Owner-walked: any past 1:1 opens read-only and Back returns cleanly.`,
+  // PG3 Rate a 1:1
+  `Goal: let the manager rate a 1:1 (1–5 stars 'Did this help you run the 1:1?' + optional note), stored as a rating.json sidecar written atomically; surfaced on the list + detail; Carl sees all ratings.\nFirst move (before any code): read docs/pre-go-live/003-rate-a-1-1/00-phase-overview.md; write the endpoint test FIRST (bad stars → 400, logged-out → 401, not-owner → 404).\nOut of scope: no DB columns (sidecar stays — CTO-review decision); no team averages yet (PG4/PG5).\nWatch out for: the note is a PRIVATE manager field — never in employee-facing output, never logged, add **/rating.json to .gitignore. In-flow one-tap rating at the END of a 1:1 with Skip; NEVER an 'unrated' nag. Stars keyboard/screen-reader operable, ≥14px.\nDone when:\n• Agent-verified: npm test covers the endpoint; typecheck green; rating persists to the file (verify the destination, not the code).\n• Owner-walked: rate at the end + later; a low score invites a note; nothing nags.`,
+  // PG4 Your Team, built for you
+  `Goal: fill the Team page automatically — one card per person, grouped from the manager's own 1:1s, with times-met / last-met / average usefulness.\nFirst move (before any code): read docs/pre-go-live/004-team-auto-built/00-phase-overview.md; group client-side over the /runs/mine payload by a normalized name key (trim + lower-case), and factor the grouping into a shared function PG8 can reuse server-side.\nOut of scope: no add/edit/merge (that's PG9), no charts. Grouping + cards only.\nWatch out for: keep the display name separate from the grouping key; design the one-meeting card so it doesn't imply history it lacks. Relabel the member 'Runs' nav item/page to 'Past 1:1s' and link every row to its person; Team is the primary way in.\nDone when:\n• Agent-verified: npm test + npm run typecheck green.\n• Owner-walked: two 1:1s about one person → one card (count 2, right average); 'Priya'/'priya' merge; empty + one-meeting states read cleanly.`,
+  // PG5 A person in one place
+  `Goal: a person page — all your 1:1s with them (openable, with ratings), a summary header, and the make-or-break 'Since last time' block (last meeting's next_actions + watch_for, already in the payload).\nFirst move (before any code): read docs/pre-go-live/005-person-detail/00-phase-overview.md; register a person-detail stage, reuse PG1 rows + PG2 detail + PG4 grouping.\nOut of scope: no cross-session engine 'remembering' (that stays deferred) — 'Since last time' is just a read-only composed block over existing data.\nWatch out for: hide the block if the latest run has neither field (no empty scaffolding). 'Prep next 1:1' is the ONLY paid path and only if the full pipeline runs — flag it in QA so a paid run isn't triggered by accident.\nDone when:\n• Agent-verified: npm test + npm run typecheck green.\n• Owner-walked: a person shows their 1:1s + ratings + a correct 'N avg · M rated'; 'Since last time' appears; prep-next pre-fills.`,
+  // PG6 Carl's master key (safe)
+  `Goal: a read-only superadmin key that ONLY Carl can use to read across companies — proven by tests, no screens yet.\nFirst move (before any code): read docs/pre-go-live/006-superadmin-gate/00-phase-overview.md; write the 403 tests FIRST (with DEV_AUTOLOGIN off). Resolve the caller's email SERVER-SIDE from the authenticated userId (the users join in findIdentityByToken) — never from a header/cookie/body; match a normalized SUPERADMIN_EMAILS.\nOut of scope: no admin UI yet (PG7/PG8). Gate + read-only endpoints + audit only.\nWatch out for: make the superadmin service STRUCTURALLY read-only — no write/delete imports, GET-only routes through one requireSuperadmin funnel; log one line per superadmin request (who/when/route/target). The dev side-door has no allowlisted email and must never satisfy the gate.\nDone when:\n• Agent-verified: npm test — superadmin sees all, normal owner → 403, no route accepts a mutating method, no cross-org leak; typecheck green.\n• Owner-walked: n/a (backend only) — I read the test results.`,
+  // PG7 Who's using Sero
+  `Goal: a superadmin-only screen listing every alpha company + its users (name, role, joined, 1:1 count), the return-visit signal (last-active + 1:1s-over-time), and an alpha-wide rating summary.\nFirst move (before any code): read docs/pre-go-live/007-admin-registered/00-phase-overview.md; register an admin stage via the 6-step pattern; fetch the PG6 cross-company endpoint.\nOut of scope: no per-user drill-down yet (PG8). The list + the two summaries only.\nWatch out for: the frontend admin-only nav guard is cosmetic (every owner passes it) — security rests on the backend requireSuperadmin 403; keep the plain-owner→403 test. All counts/signal derive from existing run timestamps — no new tracking infra.\nDone when:\n• Agent-verified: npm test + npm run typecheck green; a normal owner is refused.\n• Owner-walked: as Carl the page lists every company + users with join dates, run counts, return-visit signal and the alpha-wide rating summary; a normal owner can't reach it.`,
+  // PG8 Drill into a person's work
+  `Goal: from the registered screen, Carl clicks a user and sees their people (same grouping as PG4), their 1:1s + ratings, and can open any briefing read-only.\nFirst move (before any code): read docs/pre-go-live/008-admin-user-drilldown/00-phase-overview.md; extend the PG6 superadmin service with read-only per-user reads; reuse the shared grouping function from PG4.\nOut of scope: no writes/edits from the admin view — read-only. No new person store.\nWatch out for: still superadmin-gated (normal owner → 403); reuse the member-safe read-only briefing view, never the richer admin readers; no cross-company leak for anyone but the superadmin.\nDone when:\n• Agent-verified: npm test + npm run typecheck green; refused for normal owners.\n• Owner-walked: as Carl, open a user → their people + 1:1s + ratings; a 1:1 opens read-only.`,
+  // PG9 Tidy the people list
+  `Goal: once there's real history — merge duplicate people (an alias remap on the PG4 normalized key), edit a name, and show per-person rating roll-ups.\nFirst move (before any code): read docs/pre-go-live/009-roster-polish/00-phase-overview.md; propose the smallest person-identity store (light people record vs per-manager alias map) with 2–3 options for my pick BEFORE building.\nOut of scope (PARKED post-alpha): manual 'add a person' roster, search/filter, trend sparklines/charts. Merge + roll-ups only.\nWatch out for: the merge must STICK after reload (verify the destination); re-point grouping at the resolved person without re-architecting PG4.\nDone when:\n• Agent-verified: npm test + npm run typecheck green; the merge survives a reload.\n• Owner-walked: merge 'Priya' + 'Priya S.' → one card with combined history; per-person roll-ups read correctly.`,
 ];
 
 // VERIFY prompt for a phase whose every step is already built — flips the brief
 // from "continue building" to "confirm it was done right and hand over checks".
 const VERIFY = (pi) => {
   const ph = DATA[pi];
-  return `Phase ${ph.num} — ${ph.name} · ${ph.tag} (Prototype → Production checklist).\n\n` +
+  return `Phase ${ph.num} — ${ph.name} · ${ph.tag} (${trackOf(ph)} checklist).\n\n` +
     `This phase is built — every step is marked done. Your job now is to VERIFY it was done right, not to build more. Don't change code unless verification turns up a real problem; if it does, stop and tell me before fixing.\n\n` +
     `Run the free checks first and report each result plainly: npm test (expect the same pass count as the pre-work baseline) and node scripts/replay-scenario.js <id> --fixtures-only. No paid runs (anything hitting the OpenAI API — gate/smoke/eval/live replays, ~$0.35/case up to ~$3) without my explicit yes for that run, cost stated first.\n\n` +
-    `Then read the plan folder docs/todo/<slug>/ PLAN.md to confirm what was claimed matches what shipped, and walk me through the owner checks I do by hand. Wait for my go on the sign-off gate before touching the next phase — you don't self-certify.\n\n` +
+    `Then read the plan folder ${folderOf(ph)} ${stateOf(ph)} to confirm what was claimed matches what shipped, and walk me through the owner checks I do by hand. Wait for my go on the sign-off gate before touching the next phase — you don't self-certify.\n\n` +
     `What "done right" means for this phase:\n${KICK[pi]}\n\n` +
     `Owner sign-off gate: ${ph.signoff}\n\n` +
     `First, tell me plainly whether the free checks passed and exactly what I need to check by hand — then wait. End with a short "In simple terms:" line.`;
