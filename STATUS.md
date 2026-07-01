@@ -18,8 +18,11 @@ newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-t
   personal data out of logs. Human expert sign-off **waived for alpha** (your call, accepted risk — keep it
   to 2–3 friendly managers; deferred, not cancelled). Security review done; the one code fix it found —
   the **null-org escape hatch** — is now **closed** (`f0e5401d`, test-first, `npm test` 52/52 · typecheck
-  clean). Residual is non-code: audit the DB for existing null-org rows before real data; decide the
-  anonymous-start path. Then Phase 1 is ready for your sign-off.
+  clean). **DB null-org audit done (2026-07-01):** 0 null-org rows, `runs` empty, all orgs dev/test; the
+  3 leftover pre-auth test sessions were cleared on your go-ahead (0 unfenced now, 6 total).
+  **Anonymous-start path decided (2026-07-01):** kept open for the alpha, walled + quarantined; close
+  before widening (PLAN Decisions). **Both residuals closed — Phase 1 is now ready for your QA sign-off**
+  (walk the 6 scenarios in [phase-1.md](docs/todo/009-ready-to-share/phase-1.md)).
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` clean. Paid gate needs your go-ahead.
 
 **Also waiting on your QA (separate plan): Member navigation — Phase 1 built. 🔨**

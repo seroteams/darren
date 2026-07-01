@@ -20,6 +20,10 @@ role, AI keys provably server-only, sensitive content kept out of logs, and a hu
 - [ ] Security-skill checks come back green.
 - [ ] A search of the built app, responses, and logs finds **no** AI key anywhere.
 - [ ] Company A provably cannot reach Company B's data, and role limits hold within a company.
+- [x] **DB audited for null/unfenced rows before real data — done (2026-07-01).** 0 literal-null org rows,
+      `runs` empty, all orgs dev/test; the 3 leftover pre-auth test sessions cleared (0 unfenced now).
+- [x] **Anonymous session-start path decided (2026-07-01):** kept open for the alpha (A/C) — see PLAN
+      Decisions. Follow-up: close before widening.
 - [ ] ~~A named human expert has reviewed and signed off~~ — **waived for alpha (accepted risk, 2026-07-01).**
       Deferred, not cancelled: book before widening past 2–3 friendly managers.
 - [ ] Product owner has tested the scenarios below and said go.
@@ -34,3 +38,5 @@ Walk through these yourself. Next phase waits for your green light.
 2. **Role limits** — As a non-owner member of a company, try to reach a manager-only view or another person's private notes. You should be refused. ❌ Not OK if private manager notes show.
 3. **No keys anywhere** — I show you the output of the key-search across the app bundle, API responses, and logs. You should see zero hits. ❌ Not OK if any key-shaped string appears.
 4. **Risk acknowledged** — Expert sign-off is waived for this alpha. Confirm you're OK proceeding on automated checks only, with the alpha kept to 2–3 people you know. (Sign-off deferred, not cancelled.)
+5. **Database is clean** — I show you the audit: zero null-org rows, `runs` empty, and the 3 leftover pre-auth test sessions removed. You should see 0 unfenced sessions before real data flows. ❌ Not OK if any null/placeholder session with a real person's name remains.
+6. **No-login start is walled, not leaky** — Confirm the decision: someone can still start a session without logging in (needed by our own test tools), but real managers always log in through the app, and any no-login session is quarantined — a logged-in user gets "not found" if they try to open one. ❌ Not OK if a logged-in company can see a no-login session's contents.

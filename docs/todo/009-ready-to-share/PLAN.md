@@ -43,10 +43,25 @@ prerequisite for real staff data.
   web-path logging clean ✅. **Null-org escape hatch — CLOSED** (`f0e5401d`, 2026-07-01, test-first): the
   live-session wall now default-denies, so an org caller can't read an unstamped/anonymous session
   (`npm test` 52/52 · typecheck clean). Deploy-time condition for Phase 2 still stands: web server only.
-- **Next (non-code):** audit the DB for any existing null-org rows before real data flows; decide the
-  anonymous session-start path (keep-but-never-stamp-real-data, or close it). Then Phase 1 → your sign-off.
+- **DB null-org audit — DONE (2026-07-01, read-only against live Neon).** Verified the destination, not
+  the code: **0 literal-null** org_id rows (column is `NOT NULL` + the write path coerces null →
+  placeholder), `runs` table empty, all 10 orgs are dev/test. Found **3 sessions in the pre-auth
+  placeholder org** (`00000000-…-0001`) — all throwaway test data (generic roles, no person name, none
+  completed). **Cleared** on Carl's explicit go-ahead (scoped `DELETE … WHERE org_id = placeholder`,
+  returning 3 keys; placeholder org row left intact as the anon-insert bridge). DB now: 0 unfenced
+  sessions, 6 total (all real dev/test orgs).
+- **Next (non-code):** decide the anonymous session-start path (keep-but-never-stamp-real-data, or
+  close it). Then Phase 1 → your sign-off.
 
 ## Decisions (this plan)
+- **2026-07-01 — anonymous session-start path kept open for the alpha (A, tracked as C).** The start
+  route (`POST /api/v1/sessions` · `/api/start`) stays login-free (origin + rate-limit only), as decided
+  in auth-hardening Phase 2. Safe because: the hosted app gates every page behind login, so a real manager
+  always creates an org-fenced session; anonymous sessions are stamped null → quarantined in the placeholder
+  org and 404 to any logged-in caller (escape hatch closed); the free CLI/scripted/smoke test lanes rely on
+  it. **Follow-up (deferred, not cancelled):** add an auth gate to the start route before widening past 2–3
+  friendly managers — same gate as the human security review. Carl deferred the choice to Claude's
+  recommendation.
 - **2026-07-01 — human expert sign-off waived for alpha (accepted risk).** Carl chose to proceed on
   automated checks only for a small friendly alpha. 008's overview marks the expert review *required*; this
   is an explicit override. Mitigation: keep the alpha to 2–3 personally-known managers; treat sign-off as
