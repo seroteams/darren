@@ -31,9 +31,9 @@ found three stale trackers. The fix is fewer sources, not more sync rules.
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | The map | A short, agreed "which file is for what" reference everyone can point to | ✅ |
-| 2 | Demote PROGRESS.md | PROGRESS reads as an append-only decisions log, not a status board | ⬜ |
-| 3 | Changelog clarity | sero-how-it-works.html is clearly a manual founder changelog, not live status | ⬜ |
-| 4 | Lock the rules | CLAUDE.md §6 simplified to the two-source model; badges confirmed build-only | ⬜ |
+| 2 | Demote PROGRESS.md | PROGRESS reads as an append-only decisions log, not a status board | ✅ via 009 P7 (`0f5f6677`) |
+| 3 | Changelog clarity | sero-how-it-works.html is clearly a manual founder changelog, not live status | ✅ via 009 P7 (edit in sero-how-it-works.html) |
+| 4 | Lock the rules | CLAUDE.md §6 simplified to the two-source model; badges confirmed build-only | ✅ via 009 P7 (`0f5f6677`) |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 

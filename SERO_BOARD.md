@@ -21,8 +21,9 @@ auto-built from past 1:1s + person detail, and a **superadmin** read-only window
 **Supersedes** the deferred member-nav Phase 2 and 009's deferred "real Team content" (folded in).
 Phase 001 next — not yet broken down. Nothing built, no paid runs.
 
-**Paused under it: Phase 009 — Getting ready to share (real-data alpha).** 8 phases, ship-blockers first
-([plan](docs/todo/009-ready-to-share/PLAN.md), tactical tracker [STATUS.md](STATUS.md)).
+**✅ Closed (2026-07-01): Phase 009 — Getting ready to share (real-data alpha).** Every actionable phase
+done; hosting (2) + continuity (8) folded into the pre-go-live track above
+([plan → done/](docs/todo/done/009-ready-to-share/PLAN.md), detail [STATUS.md](STATUS.md)).
 - **Phase 1 (safety floor / execute 008) — ✅ signed off (2026-07-01, `e68c4c8c`):** data fenced by
   org+role, AI keys proven server-only (key-search zero-hits), DB audited + cleared of unfenced rows,
   anonymous-start path decided (kept open + walled for the alpha, close before widening). Human-expert
@@ -35,9 +36,11 @@ Phase 001 next — not yet broken down. Nothing built, no paid runs.
   consent, first-run guidance on member Home, real Team/Runs empty states, register landing fix.
 - **Phase 5 (feedback + one-pager) — ✅ done (2026-07-01, verified end-to-end, test-first backend).**
   In-app feedback → local file (git-ignored) + an About one-pager, both in the nav footer.
-- **Phase 8 (continuity / "remembering") — ⏸ deferred by Carl (2026-07-01):** "we can do the remembering
-  and teams later" (real Team content also later). Phases **6 (repo-tidy 3–4) & 7 (docs/README) still
-  open** — awaiting Carl's word. **Nothing live, no paid runs.** Live per-phase detail in [STATUS.md](STATUS.md).
+- **Phases 6 (repo-tidy 3–4 + hermetic tests) & 7 (docs + newcomer README) — ✅ done (2026-07-01, walked +
+  signed off):** `sessions.controller` split into focused files, `npm test` made hermetic, admin TypeScript
+  pilot, tracker-consolidation + README two-source clarity.
+- **Phase 8 (continuity / "remembering") — ⏸ deferred by Carl (2026-07-01):** "remembering and teams
+  later" — folded into the pre-go-live track above. **Nothing live, no paid runs.** Detail in [STATUS.md](STATUS.md).
 
 The auth history below is the foundation Phase 009 builds on.
 

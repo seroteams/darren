@@ -18,12 +18,12 @@ Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No pai
 > This track **supersedes** the deferred **member-nav Phase 2** (real Runs) and **009's deferred "real
 > Team content"** — both folded in here so trackers don't multiply.
 
-<details><summary>Previously active: Phase 009 — non-hosting ultra batch (paused for pre-go-live)</summary>
+<details><summary>Phase 009 — non-hosting ultra batch (✅ closed 2026-07-01 → done/)</summary>
 
-**Phases 1 · 3 · 4 · 5 ✅ done · Phase 2 ⏸ parked (not hosting yet) · Phase 8 ⏸ deferred ("remembering + teams later") · Phases 6 · 7 open (awaiting your word).**
+**Phases 1 · 3 · 4 · 5 · 6 · 7 ✅ done (6 & 7 walked + signed off 2026-07-01). Phase 2 ⏸ parked (→ hosting, later) · Phase 8 ⏸ deferred (→ pre-go-live continuity). Every actionable 009 phase is complete; the folder is archived to `done/`.**
 
-009 turns Sero into something real managers can safely use on real teams, and gets the codebase
-newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-to-share/](docs/todo/009-ready-to-share/PLAN.md).
+009 turned Sero into something real managers can safely use on real teams, and got the codebase
+newcomer-clean. Full plan: [docs/todo/done/009-ready-to-share/](docs/todo/done/009-ready-to-share/PLAN.md).
 
 > **Ultra batch (2026-07-01):** Carl OK'd finishing every remaining non-hosting phase in one run —
 > **nothing live, no paid runs.** I build + offline-verify (`npm test`/`typecheck`) + commit each locally.
@@ -49,8 +49,10 @@ newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-t
   - ✅ **Phase 5 (feedback + one-pager)** (`92aff101`) — **verified end-to-end** (test-first backend):
     feedback note reaches `content/data/feedback/feedback.jsonl` (destination verified), empty → 400,
     logged-out → 401; About one-pager + both in the nav footer. Feedback file is git-ignored.
-  - ⏸ **Phase 8 (continuity / "remembering") — deferred** by you ("we can do the remembering and teams later").
-  - ⬜ **Phases 6 (repo-tidy 3–4) & 7 (docs + README) — still open**, not yet green-lit to continue.
+  - ✅ **Phase 6 (repo-tidy 3–4 + hermetic tests)** — `sessions.controller` split 698→134 (`b51aec29`),
+    `npm test` hermetic (`c66a455a`), admin TS pilot (`70e0f339`). Walked + signed off 2026-07-01.
+  - ✅ **Phase 7 (docs + newcomer README)** — tracker-consolidation + README two-source clarity (`0f5f6677`).
+  - ⏸ **Phase 8 (continuity / "remembering") — deferred**, folded into the pre-go-live track.
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` clean. Paid gate needs your go-ahead.
 
 </details>
@@ -96,7 +98,8 @@ like 8 things are half-done at once — they aren't.
 | [see-before-sent](docs/todo/see-before-sent/PLAN.md) | awaiting |
 | [sent-preview](docs/todo/sent-preview/PLAN.md) | awaiting |
 | [stage-data-tabs](docs/todo/stage-data-tabs/PLAN.md) | awaiting |
-| [repo-tidy](docs/todo/repo-tidy/PLAN.md) | awaiting |
+| [repo-tidy](docs/todo/repo-tidy/PLAN.md) | ✅ done (all 4 phases; 3–4 via 009 P6) |
+| [tracker-consolidation](docs/todo/tracker-consolidation/PLAN.md) | ✅ done (all 4 phases; 2–4 via 009 P7) |
 | [todo-board-rebuild](docs/todo/todo-board-rebuild/PLAN.md) | awaiting |
 
 When one becomes live, move it up into "Your move" above and start its phases.

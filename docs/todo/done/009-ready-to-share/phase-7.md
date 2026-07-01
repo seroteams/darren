@@ -7,7 +7,7 @@ A newcomer opens the repo and finds their way — trackers don't contradict each
 and a README walks them from clone to first run.
 
 ## Changes
-- Finish [tracker-consolidation](../tracker-consolidation/PLAN.md) Phases 2–4: demote PROGRESS.md to an
+- Finish [tracker-consolidation](../../tracker-consolidation/PLAN.md) Phases 2–4: demote PROGRESS.md to an
   append-only log, mark the how-it-works page as a manual changelog, simplify CLAUDE.md §6 to two sources.
 - A conventions sweep: file naming (kebab-case + role suffix) as touched, remove dead code we can prove is
   dead, split any remaining oversized files, no stray `any`/ignores.

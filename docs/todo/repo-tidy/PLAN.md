@@ -21,8 +21,8 @@ What remains is *code* change, so it runs as tested phases, one at a time.
 |---|---|---|---|---|
 | 1 | Shared guards | One `backend/shared/guards.ts`, imported across 38 files | ✅ | Anytime — safe |
 | 2 | Split queue-manager | 1309 → 434 across 5 cuts (gates/thread/axis/messages/reconcile); every module < 600 | ✅ | Anytime — engine only |
-| 3 | Split sessions.controller | Thin controller + `sessions.service` | ⬜ | **After** Phase 005 swaps the sessions repo |
-| 4 | Admin TypeScript pilot | Shared util layer + 2–3 stages to TS; prove the toolchain | ⬜ | Anytime — frontend only |
+| 3 | Split sessions.controller | Thin controller + focused modules (runtime + streams) | ✅ done via 009 P6a (`b51aec29`) | **After** Phase 005 swaps the sessions repo |
+| 4 | Admin TypeScript pilot | Shared util layer + 2–3 stages to TS; prove the toolchain | ✅ done via 009 P6b (`70e0f339`) | Anytime — frontend only |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 

@@ -4,7 +4,7 @@
 and the codebase reads clean to a newcomer.
 **Driver:** Carl
 **Created:** 2026-07-01
-**Overview:** [../../archives/prototype-to-production/✓009-ready-to-share.md](../../archives/prototype-to-production/✓009-ready-to-share.md)
+**Overview:** [../../../archives/prototype-to-production/✓009-ready-to-share.md](../../../archives/prototype-to-production/✓009-ready-to-share.md)
 
 ## Done means
 - An invited manager opens a hosted URL, logs in, and completes their first 1:1 with no hand-holding.
@@ -101,7 +101,7 @@ notes can be HR-adjacent — never committed).
 **Phases 1 · 3 · 4 · 5 · 6 · 7 ✅ done — 6 & 7 walked + signed off by Carl 2026-07-01 ("tried it and
 it's fine"). Phase 2 ⏸ parked (not hosting yet). Phase 8 (continuity / "remembering") ⏸ deferred by Carl
 (2026-07-01).** Every non-parked / non-deferred phase of 009 is complete. Remaining 009 scope (hosting,
-continuity) now lives under the **pre-go-live** track (see [SERO_BOARD.md](../../../SERO_BOARD.md)); Carl is
+continuity) now lives under the **pre-go-live** track (see [SERO_BOARD.md](../../../../SERO_BOARD.md)); Carl is
 restructuring the roadmap there. **Formal archive of this folder → `done/` left to Carl** so it lands where
 his reorg puts it (his SERO_BOARD treats 009 as paused-under-pre-go-live, not simply done).
 
@@ -141,7 +141,7 @@ spend-capped) is parked (Carl: not hosting yet).
 <details><summary>Phase 1 history</summary>
 
 Plan approved by Carl; Phase 1 executes the existing
-[008 security overview](../../archives/prototype-to-production/✓008-security/00-phase-overview.md) — the hard
+[008 security overview](../../../archives/prototype-to-production/✓008-security/00-phase-overview.md) — the hard
 prerequisite for real staff data.
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` **clean**. Paid gate/smoke
   not run — need Carl's go-ahead (~$3 full / ~$0.35 single case); security work is mostly free to verify.

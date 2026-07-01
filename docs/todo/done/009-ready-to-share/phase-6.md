@@ -7,7 +7,7 @@ The code reads cleanly to a newcomer — finish the started tidy so no oversized
 duplicates remain.
 
 ## Changes
-- Complete [repo-tidy](../repo-tidy/PLAN.md) Phase 3 (split `sessions.controller` into thin controller +
+- Complete [repo-tidy](../../repo-tidy/PLAN.md) Phase 3 (split `sessions.controller` into thin controller +
   service) and Phase 4 (admin TypeScript pilot — prove the toolchain on 2–3 stages).
 - Clear the parked items that matter for cleanliness: naming normalisation as touched, and make `npm test`
   hermetic (stop it dirtying `content/questions/` on every run).

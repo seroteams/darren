@@ -7,7 +7,7 @@ Regenerate this when the active phase changes.
 ---
 
 ```text
-Fresh start on Sero. First, read STATUS.md, docs/todo/009-ready-to-share/PLAN.md, and
+Fresh start on Sero. First, read STATUS.md, docs/todo/done/009-ready-to-share/PLAN.md, and
 CLAUDE.md so you pick up the house rules before acting — Darren Method (one phase at a
 time; I walk the QA and green-light before the next; you never self-certify), cost control
 (NO OpenAI/paid runs — gate/smoke/eval/live replays — without my explicit yes + a rough
