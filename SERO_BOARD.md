@@ -13,11 +13,19 @@ Standing constraints (from CLAUDE.md):
 ## 1. Now — open work
 
 **▶ Active line: Phase 009 — Getting ready to share (real-data alpha).** 8 phases, ship-blockers first
-([plan](docs/todo/009-ready-to-share/PLAN.md), tactical tracker [STATUS.md](STATUS.md)). **Phase 1 (safety
-floor / execute 008) is ✅ signed off (2026-07-01, `e68c4c8c`):** data fenced by org+role, AI keys proven
-server-only (key-search zero-hits), DB audited + cleared of unfenced rows, anonymous-start path decided
-(kept open + walled for the alpha, close before widening). Human-expert security review **waived/deferred**
-for the small alpha (accepted risk — book before widening). **Phase 2 (hosted + spend-capped) is next.**
+([plan](docs/todo/009-ready-to-share/PLAN.md), tactical tracker [STATUS.md](STATUS.md)).
+- **Phase 1 (safety floor / execute 008) — ✅ signed off (2026-07-01, `e68c4c8c`):** data fenced by
+  org+role, AI keys proven server-only (key-search zero-hits), DB audited + cleared of unfenced rows,
+  anonymous-start path decided (kept open + walled for the alpha, close before widening). Human-expert
+  security review **waived/deferred** for the small alpha (accepted risk — book before widening).
+- **Phase 4 (clear the QA pile) — ✅ done (2026-07-01):** all 9 built-but-un-QA'd features signed off or
+  cut (repo-tidy P1/P2, frontend-admin-split P1, tracker-consolidation P1, member-nav P1, stage-data-tabs,
+  sent-preview, todo-board-rebuild P3, briefing-grounding-fixes P1). Nothing half-built left on screen.
+- **Phase 2 (hosted + spend-capped) — ⏸ PARKED by Carl (2026-07-01): not hosting yet.**
+- **Active now — the remaining non-hosting phases, batch-authorized under ultracode (2026-07-01):**
+  Phase 3 (privacy + first run), 5 (feedback + one-pager), 6 (finish repo-tidy 3–4), 7 (docs + newcomer
+  README), 8 (continuity loop). **Nothing live, no paid runs**; built work is "built — awaiting Carl's QA",
+  not self-certified. Live per-phase detail in [STATUS.md](STATUS.md).
 
 The auth history below is the foundation Phase 009 builds on.
 
@@ -35,24 +43,24 @@ unfenced list). Session *start* stays open to logged-out visitors by decision. C
 `docs/todo/done/auth-hardening/`. Live per-phase tracker:
 [`STATUS.md`](STATUS.md); full phase list in the [tasks board](admin/src/stages/tasks.js).
 
-**Separate engine/runner track — built earlier, still awaiting Carl's product-owner QA** (not part of the
-001–008 phase line; not signed off, don't treat as done):
+**Separate engine/runner track — built earlier.** Most were folded into 009 Phase 4 (the QA pile) and
+**signed off 2026-07-01**. [STATUS.md](STATUS.md) is the source of truth for these; the table below just
+mirrors it:
 
 | Feature | Folder | State |
 |---|---|---|
-| Briefing grounding fixes | `docs/todo/briefing-grounding-fixes/` | Phase 1 of 4 built; Phases 2–4 not started |
-| See-before-sent preview | `docs/todo/sent-preview/` | Both phases built, awaiting QA |
-| Stage data tabs | `docs/todo/stage-data-tabs/` | All 3 phases built, awaiting QA |
-| See-before-sent (live) | `docs/todo/see-before-sent/` | Built, awaiting QA |
-| Todo-board rebuild | `docs/todo/todo-board-rebuild/` | Built, awaiting QA |
-| Briefing readability (P0) | `docs/todo/briefing-readability-p0/` | Scaffolded, awaiting your go |
+| Briefing grounding fixes | `docs/todo/briefing-grounding-fixes/` | Phase 1 🟢 signed off (QA pile); Phases 2–4 not started |
+| See-before-sent preview | `docs/todo/sent-preview/` | 🟢 signed off (QA pile, walked live) |
+| Stage data tabs | `docs/todo/stage-data-tabs/` | 🟢 signed off (QA pile, walked live) |
+| Todo-board rebuild | `docs/todo/todo-board-rebuild/` | 🟢 signed off (QA pile; "Run the free checks" button) |
+| See-before-sent (live) | `docs/todo/see-before-sent/` | Built, still awaiting QA (not in the pile) |
+| Briefing readability (P0) | `docs/todo/briefing-readability-p0/` | Scaffolded, parked |
 
-None has been walked through its QA scenarios. Next action on each: *Carl walks the scenarios →
-green light → close out to `done/`.* To see runner features live, restart `npm run dev` (your dev
-server may be on old code).
+The QA pile is cleared. The two still-open rows (see-before-sent live, briefing-readability P0) await a
+Carl walk → green light → close out to `done/`.
 
-Tests: `npm test` **51/51** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
-(not automated); `main` is currently **in sync with origin** — recent phases have been pushed.
+Tests: `npm test` **52/52** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
+(not automated); `main` is currently **ahead of origin** (local-only by Carl's call — nothing pushed).
 
 ## 2. Next — after Now is green
 
@@ -70,13 +78,13 @@ Completed work has been cleared from this board. The record lives in git history
 ## Repo state (audited 2026-06-29)
 
 Phases 001–006 are all closed and archived under `docs/todo/done/`; Phase 007 (login screen, folded into the admin console) is **done** — both phases committed, plan closed to `docs/todo/done/login-screen/`.
-**There is no auto-commit/push automation** — commits are made explicitly. `main` is currently **in sync
-with origin** (recent phases have been pushed; pushing remains a deliberate manual step). Three old
+**There is no auto-commit/push automation** — commits are made explicitly. `main` is currently **ahead of
+origin** (local-only by Carl's call for the ultra batch — pushing remains a deliberate manual step). Three old
 stashes exist (`cleanup/remove-dead-ai-handoff-core`, `design-system-foundation`, + a WIP CSS/HTML
 cleanup) — **do not pop**. `logs/**` is gitignored apart from a small May keep-set (de-identified — no
 real names or notes).
 
-**Test status:** `npm test` **49/49** green, `npm run typecheck` clean, offline ($0). Live
+**Test status:** `npm test` **52/52** green, `npm run typecheck` clean, offline ($0). Live
 gate/smoke/eval are PAID and need a per-run go-ahead. Sign-off is tracked per-phase in each PLAN.md,
 `STATUS.md`, and Section 1 above.
 

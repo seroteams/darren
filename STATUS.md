@@ -9,33 +9,39 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-**Now active: Phase 009 — Getting ready to share (real-data alpha). Phase 1 ✅ · Phase 4 🔨 (QA-pile clear-out) · Phase 2/3 deferred.**
+**Now active: Phase 009 — finishing the non-hosting phases in one ultra batch (authorized 2026-07-01). Phase 1 ✅ · Phase 4 ✅ · Phase 2 ⏸ parked (not hosting yet) · Phases 3·5·6·7·8 🔨 in the batch.**
 
 009 turns Sero into something real managers can safely use on real teams, and gets the codebase
 newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-to-share/](docs/todo/009-ready-to-share/PLAN.md).
+
+> **Ultra batch (2026-07-01):** Carl OK'd finishing every remaining non-hosting phase in one run —
+> **nothing live, no paid runs.** I build + offline-verify (`npm test`/`typecheck`) + commit each locally.
+> Everything I ship is **"built — awaiting your QA"**, never self-certified ✅. You walk the QA scenarios
+> (collected per phase below) whenever you're ready. Hosting (Phase 2) stays parked.
 
 - **Phase 1 ✅ — Safety floor (execute 008). Signed off 2026-07-01, committed `e68c4c8c`.** You walked all
   6 QA scenarios (cross-company wall, role limits, key-search zero-hits, DB clean, no-login wall) and gave
   the go. Human expert sign-off **waived for alpha** (accepted risk — keep to 2–3 friendly managers;
   deferred, not cancelled). Build badge: 3/4 of the 008 steps flipped done; the human-expert step stays
   open by design.
-- **Phase 4 🔨 — Clear the QA pile (started 2026-07-01, your pick over Phase 2).** Walk each built-but-un-QA'd
-  feature and tick (🟢 sign off) or cut (✂️). **Live dot tracker in the plan**
-  ([009 PLAN → Phase 4 QA pile tracker](docs/todo/009-ready-to-share/PLAN.md)). **✅ ALL 9 ticked
-  (2026-07-01)** — QA pile cleared: repo-tidy P1 🟢 · frontend-admin-split P1 🟢 · tracker-consolidation P1 🟢 ·
-  member-nav P1 🟢 (fix `fc77b8ba`) · stage-data-tabs 🟢 · sent-preview 🟢 · repo-tidy P2 🟢 ·
-  todo-board-rebuild P3 🟢 (built the "Run the free checks" button, ✅ 52/52 live) · briefing-grounding-fixes
-  P1 🟢 (damper already committed; verified −9→−5 offline). **Phase 4 done — ready to mark ✅ and pick the
-  next phase (2 hosted, or 3 privacy/first-run).**
-- **Phase 2 ⬜ / Phase 3 ⬜ — deferred.** Hosted + spend-capped (2) and privacy/first-run (3) come after the
-  pile is clear.
+- **Phase 4 ✅ — Clear the QA pile (done 2026-07-01).** All 9 built-but-un-QA'd features ticked:
+  repo-tidy P1 🟢 · frontend-admin-split P1 🟢 · tracker-consolidation P1 🟢 · member-nav P1 🟢 (fix
+  `fc77b8ba`) · stage-data-tabs 🟢 · sent-preview 🟢 · repo-tidy P2 🟢 · todo-board-rebuild P3 🟢 · 
+  briefing-grounding-fixes P1 🟢. Nothing half-built left on screen.
+- **Phase 2 ⏸ — PARKED (2026-07-01, Carl's call): not hosting yet.** Picks back up when Carl wants a
+  shareable URL. The rest of 009 does not depend on it.
+- **Phases 3 · 5 · 6 · 7 · 8 🔨 — the ultra batch (in progress).** Building in dependency order:
+  tidy/audit → member-nav reconcile → Phase 3 (privacy + first run) → Phase 5 (feedback + one-pager) →
+  Phase 6 (finish repo-tidy 3–4) → Phase 7 (docs + newcomer README) → Phase 8 (continuity loop).
+  Each lands **built + offline-verified + committed, awaiting your QA.**
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` clean. Paid gate needs your go-ahead.
 
-**Also waiting on your QA (separate plan): Member navigation — Phase 1 built. 🔨**
-Member rail cut to Home · Team · Runs; members land on a Home page with "Start a new session"; Team/Runs are
-placeholders; admins untouched. **Test via the quick-swap:** log in as **Standard** → see only Home · Team ·
-Runs, land on Home, start a session; Team/Runs show placeholders; admin login unchanged. Plan:
-[docs/todo/member-nav/](docs/todo/member-nav/PLAN.md). (Built, uncommitted, awaiting your green light.)
+**Member navigation — Phase 1 ✅ (committed + signed off).** Corrected 2026-07-01: this was already
+committed (`d864a3a3` + landing fix `fc77b8ba`) and QA-ticked (`1aea2b1b`) — the earlier "built,
+uncommitted" note was stale. Member rail = Home · Team · Runs, members land on a clean Home, admins
+untouched, dev Admin/Standard quick-swap works. Phase 2 (Real Runs) has backend groundwork landed
+(`ca23831e`/`9a2a7148`/`f30783d9`) but the Runs *page* is still the placeholder — that's the genuinely
+open member-nav work. Plan: [docs/todo/member-nav/](docs/todo/member-nav/PLAN.md).
 
 - Last updated: 2026-07-01
 

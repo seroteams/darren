@@ -7,22 +7,23 @@
 ---
 
 ## Where we are now
-- **Active phase:** 009 — Ready to share (alpha). Phase 1 (safety floor / executes 008) in progress.
-  **001–007 are `done`; 008 (Security) is being executed inside 009 Phase 1.**
+- **Active phase:** 009 — Ready to share (alpha). **Phase 1 ✅ signed off** (`e68c4c8c`) and **Phase 4 ✅**
+  (QA pile cleared). **001–008 are `done`.** Now finishing the remaining **non-hosting** phases (3·5·6·7·8)
+  in one ultra batch (2026-07-01) — nothing live, no paid runs. Hosting (Phase 2) parked.
 - **Live tactical tracker:** [../../STATUS.md](../../STATUS.md) is the current per-phase source of truth —
   trust it over the table below. This log is now append-only decisions + lessons, not a status source.
 - **Status:** 007 (login screen) shipped and closed to `done/login-screen/`; auth-hardening and
-  admin-access-guard also built and closed. 009 Phase 1 is built + tested — the null-org escape hatch is
-  closed (`f0e5401d`, test-first) — awaiting its non-code residuals (DB null-org audit, anonymous
-  session-start decision) + Carl's sign-off.
+  admin-access-guard also built and closed. 009 Phase 1 (safety floor / executes 008) is signed off — DB
+  null-org audit done, anonymous session-start decided (kept open + walled for the alpha), escape hatch
+  closed (`f0e5401d`). Human-expert security review waived/deferred for the small alpha.
 - **Free checks:** `npm test` **52/52** green · `npm run typecheck` clean (offline, $0).
 - **Last updated:** 2026-07-01
 
 ## Next up (this can change as we learn)
-**Phase 009 — ready to share (alpha), Phase 1.** The live detail is in [../../STATUS.md](../../STATUS.md)
-and [../todo/009-ready-to-share/PLAN.md](../todo/009-ready-to-share/PLAN.md). 007 (login screen) and 008's
-security floor are handled; Phase 1's remaining open items are the DB null-org audit, the anonymous
-session-start decision, and Carl's sign-off. One phase at a time; Carl green-lights before the next.
+**Phase 009 — the ultra batch of non-hosting phases (3·5·6·7·8).** The live detail is in
+[../../STATUS.md](../../STATUS.md) and [../todo/009-ready-to-share/PLAN.md](../todo/009-ready-to-share/PLAN.md).
+Phases 1 and 4 are signed off; Phase 2 (hosting) is parked. Building the rest in dependency order, each
+landing built + offline-verified + committed, awaiting Carl's QA walk. Hosting resumes on Carl's word.
 
 ## Phase status
 | # | Phase | Status |
@@ -34,7 +35,7 @@ session-start decision, and Carl's sign-off. One phase at a time; Carl green-lig
 | 005 | Postgres foundation | `done` |
 | 006 | Auth (org model, password, SSO-ready) | `done` |
 | 007 | Frontend app | `done` |
-| 008 | Security | `in-progress` — folded into 009 Phase 1 |
+| 008 | Security | `done` — executed + signed off inside 009 Phase 1 (`e68c4c8c`) |
 
 Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` → `done`.
 
@@ -81,6 +82,14 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-01** — **009 Phase 1 signed off + ultra batch authorized.** Phase 1 (safety floor / execute
+  008) was green-lit and committed (`e68c4c8c`); 008 is now `done`, not "in-progress". Phase 4 (clear the
+  QA pile) also closed — all 9 built-but-un-QA'd features signed off. Carl then switched to **ultracode**
+  and authorized finishing every remaining **non-hosting** phase in one batch (3 privacy/first-run, 5
+  feedback/one-pager, 6 repo-tidy 3–4, 7 docs/README, 8 continuity). Hosting (Phase 2) **parked** — not
+  hosting yet. Standing limits held: **nothing live, no paid runs**; built work is "built — awaiting QA",
+  never self-certified. *Lesson recorded:* a batch build trades the Darren per-phase green-light for
+  bisectable local commits + offline verification at each step; QA is deferred, not skipped.
 - **2026-07-01** — **Tracker reconciliation (doc-only, $0).** A deep code audit of the in-flight plans
   found this log had drifted: it still read "007 next / not-started" and "008 not-started", while 001–007
   are all `done` (login screen shipped + closed) and 008's security floor is being executed inside 009
