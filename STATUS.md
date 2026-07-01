@@ -30,10 +30,13 @@ newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-t
   briefing-grounding-fixes P1 🟢. Nothing half-built left on screen.
 - **Phase 2 ⏸ — PARKED (2026-07-01, Carl's call): not hosting yet.** Picks back up when Carl wants a
   shareable URL. The rest of 009 does not depend on it.
-- **Phases 3 · 5 · 6 · 7 · 8 🔨 — the ultra batch (in progress).** Building in dependency order:
-  tidy/audit → member-nav reconcile → Phase 3 (privacy + first run) → Phase 5 (feedback + one-pager) →
-  Phase 6 (finish repo-tidy 3–4) → Phase 7 (docs + newcomer README) → Phase 8 (continuity loop).
-  Each lands **built + offline-verified + committed, awaiting your QA.**
+- **Phases 3 · 5 · 6 · 7 · 8 🔨 — the ultra batch (in progress).** Building in dependency order. Each
+  lands **built + offline-verified + committed, awaiting your QA.** Progress:
+  - ✅ tidy/audit + member-nav reconcile (committed)
+  - 🟡 **Phase 3 (privacy + first run) — BUILT, awaiting your QA** (`05abd1e0`). QA walk in the
+    [009 plan → Phase 3](docs/todo/009-ready-to-share/PLAN.md). Privacy note + consent link, first-run
+    "how it works" on member Home, real Team/Runs empty states, register landing fix.
+  - ⬜ Phase 5 (feedback + one-pager) → 6 (repo-tidy 3–4) → 7 (docs + README) → 8 (continuity) — next.
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` clean. Paid gate needs your go-ahead.
 
 **Member navigation — Phase 1 ✅ (committed + signed off).** Corrected 2026-07-01: this was already

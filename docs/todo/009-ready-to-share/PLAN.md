@@ -23,7 +23,7 @@ and the codebase reads clean to a newcomer.
 |---|---|---|---|---|
 | 1 | Safety floor (execute 008) | Data fenced by org+role · AI keys proven server-only · sensitive data out of logs · human sign-off | A | 🟢 |
 | 2 | Hosted + spend-capped | A shareable URL an invited manager can reach · usage/cost cap · graceful failure | A | 🔴 |
-| 3 | Privacy note + first run | Plain privacy/consent note · onboarding empty states · a clear "run your first 1:1" path | A | 🔴 |
+| 3 | Privacy note + first run | Plain privacy/consent note · onboarding empty states · a clear "run your first 1:1" path | A | 🟡 built, awaiting QA |
 | 4 | Clear the QA pile | The built-but-unQA'd features each signed off or cut, so nothing half-built shows | A | 🟢 |
 | 5 | Feedback + one-pager | A simple in-app feedback route · a "what Sero is / what to expect" page | A | 🔴 |
 | 6 | Finish repo-tidy | repo-tidy phases 3–4 + parked naming pass & hermetic tests | B | 🔴 |
@@ -47,11 +47,40 @@ The built-but-un-QA'd features, walked one at a time. Tick 🟢 (signed off) or 
 | 8 | todo-board-rebuild P3 | "Run the checks" button — built + verified (✅ 52/52 live) | 🟢 |
 | 9 | briefing-grounding-fixes P1 | over-claim damper — committed (delta-gates.ts); verified −9→−5 | 🟢 |
 
+## Phase 3 — built, awaiting your QA (2026-07-01, commit `05abd1e0`)
+Built under the ultra batch (nothing live, no paid runs). Verified offline: vite build clean, typecheck
+clean, `npm test` 52/52; preview-walked the register→privacy→back flow and direct-rendered the three
+member screens.
+
+**Decisions I made (flagging for your call):**
+- **Team/Runs → intentional empty states, not hidden.** Each now says what's coming and offers "start a
+  1:1", so nothing reads as "coming soon". Keeps the Home·Team·Runs shape member-nav set. Easy to switch
+  to hiding Team if you'd rather.
+- **Privacy note copy is code-honest:** account deletion is an email path (no self-serve endpoint exists),
+  and it states plainly that the AI provider processes the text. No over-promising.
+- **Register landing fix** lands a member on Home (was bouncing via the admin start page); a self-signup
+  owner still lands on the admin start page — unchanged for you.
+
+**QA walk (log in via the dev Admin/Standard quick-swap):**
+1. On the **sign-up** screen: a consent line + "Read the privacy note" link shows before you submit; the
+   link opens the note; "← Back to sign up" returns you.
+2. Open the **privacy note** from the nav footer (as both a member and an admin) — it reads plainly and
+   every claim is true.
+3. As a fresh **member**: Home shows the 3-step "how it works" + Start button; **Runs** and **Team** show
+   real empty states (no "coming soon") each with a start-a-1:1 button that begins intake.
+4. Deep-link `/privacy` in the URL as a logged-in member — it renders (not bounced to Home).
+
 ## Current state
-**Phase 1 ✅ signed off (2026-07-01). Phase 2 ⬜ next — not started.** Product owner walked all 6 QA
+**Phase 1 ✅ signed off. Phase 4 ✅. Phase 2 ⏸ parked (Carl: not hosting yet). Phase 3 🟡 built/pre-QA
+(above). Now in the ultra batch: Phases 5·6·7·8 next.** Original Phase-1 sign-off detail below.
+
+<details><summary>Phase 1 sign-off (2026-07-01)</summary>
+
+Product owner walked all 6 QA
 scenarios (cross-company wall, role limits, key-search zero-hits, DB clean, no-login wall) and gave the
 go; committed `e68c4c8c`. Human-expert sign-off remains waived/deferred (see Decisions). Phase 2 (hosted +
-spend-capped) awaits Carl's start.
+spend-capped) is parked (Carl: not hosting yet).
+</details>
 
 <details><summary>Phase 1 history</summary>
 
