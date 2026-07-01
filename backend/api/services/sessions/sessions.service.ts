@@ -229,16 +229,20 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
   const reviewLexicon: ReviewLexicon =
     deps.reviewLexicon ?? (() => Promise.reject(new Error("reviewLexicon boundary not provided")));
 
-  // The live-session company wall (auth-hardening Phase 1). Every read/write/stream
-  // resolves a session through here. When the caller's company is supplied and the
-  // session is owned by a *different* company, throw the same 404 as a missing
-  // session — so a cross-company id can't be read, written, or even confirmed to
-  // exist. A null-org (anonymous/legacy) session stays open; omitting callerOrgId
-  // (undefined) means "no caller context" (internal call) and skips the wall.
+  // The live-session company wall (auth-hardening Phase 1; null-org fix 009 Phase 1).
+  // Every read/write/stream resolves a session through here. Default-deny: once a
+  // caller has a company context, only a session in that SAME company resolves —
+  // anything else throws the same 404 as a missing session, so a cross-company id
+  // can't be read, written, or even confirmed to exist. Crucially this also fences
+  // *null-org* (anonymous/legacy) sessions away from an org-scoped caller — the
+  // escape hatch that made any anonymously-started 1:1 cross-company visible. A
+  // null-org session is reachable only by an anonymous caller (callerOrgId === null);
+  // omitting callerOrgId (undefined) means "no caller context" (internal/CLI) and
+  // skips the wall entirely.
   function requireExisting(id: string, callerOrgId?: string | null): Session {
     const s = repo.get(id);
     if (!s) throw notFound(`Unknown session: ${id}`);
-    if (callerOrgId !== undefined && s.orgId && s.orgId !== callerOrgId) {
+    if (callerOrgId !== undefined && (s.orgId ?? null) !== (callerOrgId ?? null)) {
       throw notFound(`Unknown session: ${id}`);
     }
     return s;

@@ -208,11 +208,19 @@ test("require throws 404 when an ANONYMOUS caller asks for an org-owned session"
   );
 });
 
-test("require returns a legacy (null-org) session to any caller — unfenced", () => {
+test("require DENIES a legacy (null-org) session to an org-scoped caller (default-deny)", () => {
   const { repo } = fakeRepo([orgSession("legacy", null)]);
   const svc = createSessionsService(repo);
-  assert.equal(svc.require("legacy", "company-B").id, "legacy");
+  // The null-org escape hatch (009 Phase 1): once a caller HAS a company, an
+  // unstamped/anonymous session must resolve to the same 404 as missing — never leak.
+  assert.throws(
+    () => svc.require("legacy", "company-B"),
+    (err: unknown) => err instanceof HttpError && err.status === 404 && err.code === "NOT_FOUND"
+  );
+  // The anonymous caller (logged out, null) still reaches its own null-org session…
   assert.equal(svc.require("legacy", null).id, "legacy");
+  // …and an internal call with no caller context (undefined) stays unfenced.
+  assert.equal(svc.require("legacy").id, "legacy");
 });
 
 test("require with no caller-company arg still resolves an org-owned session (internal callers)", () => {
