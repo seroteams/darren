@@ -9,6 +9,14 @@ const path = require("node:path");
 const { reconcileQueue } = require("../backend/engine/queue-manager.ts");
 const { QUESTIONS_DIR } = require("../backend/engine/paths.mts");
 
+// reconcileQueue saves surviving questions into the global bank (via the engine's
+// saveQuestion → registerAlias, which rewrites _index.json). Snapshot the index up
+// front and restore it verbatim at the end so a test run leaves questions/ clean —
+// same pattern as test-question-integrity.js. (The runtime .yaml files are removed
+// per-block by cleanupRuntime below.)
+const INDEX_PATH = path.join(QUESTIONS_DIR, "_index.json");
+const indexSnapshot = fs.readFileSync(INDEX_PATH, "utf8");
+
 let failed = 0;
 function check(label, cond, detail) {
   if (cond) {
@@ -196,6 +204,9 @@ console.log("\n─── grounding-gate unit ───");
   check("no corpus → gate inert", queue.length === 1, JSON.stringify(queue.map((q) => q.name)));
   cleanupRuntime(queue);
 }
+
+// Restore the index exactly as it was before the test ran.
+try { fs.writeFileSync(INDEX_PATH, indexSnapshot); } catch {}
 
 console.log(`\n  ${failed === 0 ? "all grounding-gate tests passed" : `${failed} grounding-gate test(s) failed`}\n`);
 process.exit(failed ? 1 : 0);
