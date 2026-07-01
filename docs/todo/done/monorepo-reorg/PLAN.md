@@ -3,7 +3,7 @@
 **Goal:** Move the loose pile of files into five labelled rooms (`backend`, `admin`, `frontend`, `content`, `docs`) plus one "where data lives" address-book file — with **no change to how anything works**.
 **Driver:** Carl
 **Created:** 2026-06-23
-**Tracks:** the bigger plan in [../../prototype-to-production/001-monorepo-reorg/00-phase-overview.md](../../prototype-to-production/001-monorepo-reorg/00-phase-overview.md). When this is done + approved, update that effort's `PROGRESS.md` (Phase 001 → `done`).
+**Tracks:** the bigger plan in [../../../archives/prototype-to-production/✓001-monorepo-reorg/00-phase-overview.md](../../../archives/prototype-to-production/✓001-monorepo-reorg/00-phase-overview.md). When this is done + approved, update that effort's `PROGRESS.md` (Phase 001 → `done`).
 
 ## Done means
 - App still starts (`npm run dev`) and a full prep run works end-to-end — looks/behaves exactly as today.

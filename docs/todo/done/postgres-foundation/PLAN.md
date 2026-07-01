@@ -7,7 +7,7 @@ behaviour as today; the difference is data now survives a restart and is safe fo
 **Driver:** Carl
 **Created:** 2026-06-28
 **Tracks:** the bigger plan in
-[../../prototype-to-production/005-postgres-foundation/00-phase-overview.md](../../prototype-to-production/005-postgres-foundation/00-phase-overview.md).
+[../../../archives/prototype-to-production/✓005-postgres-foundation/00-phase-overview.md](../../../archives/prototype-to-production/✓005-postgres-foundation/00-phase-overview.md).
 When this is done + approved, set that effort's `PROGRESS.md` (Phase 005 → `done`).
 
 > ### ⛔ Gate — building waits on Phase 004 sign-off

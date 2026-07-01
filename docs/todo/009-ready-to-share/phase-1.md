@@ -7,7 +7,7 @@ Make Sero safe to hold real HR data before anyone logs in: personal data fenced 
 role, AI keys provably server-only, sensitive content kept out of logs, and a human sign-off on the record.
 
 ## Changes
-- Executes the existing plan in [008-security overview](../../prototype-to-production/008-security/00-phase-overview.md):
+- Executes the existing plan in [008-security overview](../../archives/prototype-to-production/✓008-security/00-phase-overview.md):
   install + run the security skills to green; map where PII lives and lock access by org + role;
   audit secrets so no key reaches a client bundle, response, or log; book the human expert review.
 - Extends the engine's existing trust gates (manager-private notes) to the multi-user, multi-org world.

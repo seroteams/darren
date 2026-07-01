@@ -5,7 +5,7 @@ everything built after this stands on typed, checked code. **Nothing behaves dif
 safety, not features.
 **Driver:** Carl
 **Created:** 2026-06-24
-**Tracks:** the bigger plan in [../../prototype-to-production/003-typescript-conversion/00-phase-overview.md](../../prototype-to-production/003-typescript-conversion/00-phase-overview.md). When this is done + approved, update that effort's `PROGRESS.md` (Phase 003 → `done`).
+**Tracks:** the bigger plan in [../../../archives/prototype-to-production/✓003-typescript-conversion/00-phase-overview.md](../../../archives/prototype-to-production/✓003-typescript-conversion/00-phase-overview.md). When this is done + approved, update that effort's `PROGRESS.md` (Phase 003 → `done`).
 
 ## Done means
 - `backend/engine/` + the server (`backend/api/`, `cli`) converted from `.js` to `.ts`, **strict mode on**.

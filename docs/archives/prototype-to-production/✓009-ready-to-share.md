@@ -8,7 +8,7 @@ Take Sero from "works for us" to something we can safely put in front of **real 
 real 1:1s on their real teams** — and, at the same time, get the codebase **clean enough that a new
 engineer can read it**. Two audiences, two workstreams.
 
-**Hard prerequisite:** Phase [008 — Security](../008-security/00-phase-overview.md). Real staff data
+**Hard prerequisite:** Phase [008 — Security](../✓008-security/00-phase-overview.md). Real staff data
 cannot flow until 008's floor is in place (data scoped by org + role, AI keys server-only, human
 sign-off). 009 sits on top of it — it does **not** re-do security.
 

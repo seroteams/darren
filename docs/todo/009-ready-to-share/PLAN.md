@@ -4,7 +4,7 @@
 and the codebase reads clean to a newcomer.
 **Driver:** Carl
 **Created:** 2026-07-01
-**Overview:** [../../prototype-to-production/009-ready-to-share.md](../../prototype-to-production/009-ready-to-share.md)
+**Overview:** [../../archives/prototype-to-production/✓009-ready-to-share.md](../../archives/prototype-to-production/✓009-ready-to-share.md)
 
 ## Done means
 - An invited manager opens a hosted URL, logs in, and completes their first 1:1 with no hand-holding.
@@ -114,7 +114,7 @@ spend-capped) is parked (Carl: not hosting yet).
 <details><summary>Phase 1 history</summary>
 
 Plan approved by Carl; Phase 1 executes the existing
-[008 security overview](../../prototype-to-production/008-security/00-phase-overview.md) — the hard
+[008 security overview](../../archives/prototype-to-production/✓008-security/00-phase-overview.md) — the hard
 prerequisite for real staff data.
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` **clean**. Paid gate/smoke
   not run — need Carl's go-ahead (~$3 full / ~$0.35 single case); security work is mostly free to verify.

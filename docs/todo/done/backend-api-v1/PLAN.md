@@ -6,7 +6,7 @@ what it does today;** this is structure, not features.
 **Driver:** Carl
 **Created:** 2026-06-27
 **Tracks:** the bigger plan in
-[../../../prototype-to-production/004-backend-api-scaffold/00-phase-overview.md](../../../prototype-to-production/004-backend-api-scaffold/00-phase-overview.md).
+[../../../archives/prototype-to-production/✓004-backend-api-scaffold/00-phase-overview.md](../../../archives/prototype-to-production/✓004-backend-api-scaffold/00-phase-overview.md).
 When this is done + approved, update that effort's `PROGRESS.md` (Phase 004 → `done`).
 **Status: ✅ DONE & SIGNED OFF (2026-06-28).** Archived here in `done/`.
 

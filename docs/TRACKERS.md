@@ -16,7 +16,7 @@ If you only remember one thing: **STATUS.md for now, SERO_BOARD.md for the map.*
 
 | File / thing | What it actually is | Where to check status instead |
 |---|---|---|
-| **docs/prototype-to-production/PROGRESS.md** | Append-only log of decisions + lessons. History, not state. | STATUS.md |
+| **docs/archives/prototype-to-production/PROGRESS.md** | Append-only log of decisions + lessons. History, not state. | STATUS.md |
 | **Build badges** — `admin/src/stages/tasks.js` (`s` field) | A *UI feature*: per-step build state that drives the /tasks board and the "copy continue prompt". Legit to keep; it shows build progress, it is not a rival status narrative. | STATUS.md |
 | **docs/sero-how-it-works.html** | Manual founder-facing changelog — the story of what shipped, refreshed by hand at each phase close. Does not self-update. | STATUS.md |
 
