@@ -1,6 +1,6 @@
 # Phase 1 — Member shell (Home · Team · Runs)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built — awaiting QA
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done (walked + green-lit 2026-07-01; landing fix `fc77b8ba`)
 
 ## Goal
 A member logs in, lands on a **Home** page, and sees a rail of exactly **Home · Team · Runs** (+ Log out). Team and Runs open simple placeholder pages. Admins are untouched. All frontend — no backend, no real run data yet.

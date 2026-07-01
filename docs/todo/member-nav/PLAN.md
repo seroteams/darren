@@ -21,13 +21,17 @@ So "Home, Team, Runs" is a *new member experience*, not a smaller filter:
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Member shell | Member rail = Home · Team · Runs; member lands on Home; Team + Runs are placeholder pages; deep-link guards updated | 🔨 |
+| 1 | Member shell | Member rail = Home · Team · Runs; member lands on Home; Team + Runs are placeholder pages; deep-link guards updated | ✅ |
 | 2 | Real Runs | Attribute runs to the member, member-safe own-runs endpoint, Runs page shows the real list | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 built — awaiting Carl's QA.** Baseline before touching anything: `npm test` 52/52 (offline). After edits: `npm test` still 52/52, all changed files syntax-checked clean. Preview not driven — Carl's own dev servers already occupy ports 3000/3001, so HMR should already show the change; the visual walk is his QA. Not committed yet (commit on green light). Next: Carl walks [phase-1.md](phase-1.md) scenarios.
+**Phase 1 ✅ ticked 2026-07-01** (QA-pile clear-out, walked live in the browser). All 7 scenarios pass.
+**QA caught a real gap the earlier "verified" note missed:** the login-click path landed a member on the
+admin/testing start page (persona bench + "Replay test run"), not their Home — the boot/reload path was
+correct, but `login.js` sent everyone to `START`. **Fixed** `fc77b8ba`: non-admins route to `MEMBER_HOME`
+on login (admin unchanged), re-verified in-browser. Phase 2 (real Runs) not started.
 
 Files touched (Phase 1, all frontend):
 - `admin/src/state.js` — new stages MEMBER_HOME, TEAM, RUNS.

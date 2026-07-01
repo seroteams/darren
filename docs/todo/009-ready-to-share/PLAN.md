@@ -40,7 +40,7 @@ The built-but-un-QA'd features, walked one at a time. Tick 🟢 (signed off) or 
 | 1 | repo-tidy P1 | invisible: one shared type-guard module | 🟢 |
 | 2 | frontend-admin-split P1 | invisible: shared code in `shared/` folder | 🟢 |
 | 3 | tracker-consolidation P1 | invisible: a "which tracker is which" map | 🟢 |
-| 4 | member-nav P1 | member sees a simple Home · Team · Runs rail | 🟡 walking |
+| 4 | member-nav P1 | member sees a simple Home · Team · Runs rail | 🟢 (landing fix `fc77b8ba`) |
 | 5 | stage-data-tabs | Notes · Sent · Reply tabs on the right rail | 🔴 |
 | 6 | sent-preview | "about to send" preview before a stage runs | 🔴 |
 | 7 | repo-tidy P2 | invisible: queue-manager split 1309→434 lines | 🔴 |
