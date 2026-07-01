@@ -9,24 +9,34 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-**Admin access guard (Option A) — DONE and closed ✅. Nothing is actively in flight — pick what's next.**
+**Now active: Phase 009 — Getting ready to share (real-data alpha). Phase 1 🔨 in progress.**
 
-The internal admin tooling is now separated from the customer flow *without* the big app split: login-gated
-(Phase 1) and admin-role-gated (Phase 2). A plain member is refused the tooling (403) and can't see it in the
-console; owners are unaffected. Verified over HTTP (anon 401 · member 403 · owner 200 · prep flow 200).
+009 turns Sero into something real managers can safely use on real teams, and gets the codebase
+newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-to-share/](docs/todo/009-ready-to-share/PLAN.md).
 
-- **Phase 1 ✅ — require login on the internal tooling.** (committed `370033b5`)
-- **Phase 2 ✅ — the admin-role wall + hide the UI.** (green-lit + committed 2026-07-01)
-- Plus a dev-only **Admin/Standard login quick-swap** to make testing the wall easy (`53dbd0ae`).
+- **Phase 1 🔨 — Safety floor (execute 008).** Fence data by org+role, prove AI keys are server-only, keep
+  personal data out of logs. Human expert sign-off **waived for alpha** (your call, accepted risk — keep it
+  to 2–3 friendly managers; deferred, not cancelled). Security review done; the one code fix it found —
+  the **null-org escape hatch** — is now **closed** (`f0e5401d`, test-first, `npm test` 52/52 · typecheck
+  clean). Residual is non-code: audit the DB for existing null-org rows before real data; decide the
+  anonymous-start path. Then Phase 1 is ready for your sign-off.
+- **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` clean. Paid gate needs your go-ahead.
 
-Plan archived at [docs/todo/done/admin-access-guard/](docs/todo/done/admin-access-guard/PLAN.md). Parked for
-later: the fuller splits — **Option B** (`/api/admin/*` route prefix) and **Option C** (a separate customer
-`frontend/` app) — plus a roles-management UI (invite teammates, assign owner/admin/member).
-
-**👉 Pick the next thing** — a parked plan below, or an item from [SERO_BOARD.md](SERO_BOARD.md).
+**Also waiting on your QA (separate plan): Member navigation — Phase 1 built. 🔨**
+Member rail cut to Home · Team · Runs; members land on a Home page with "Start a new session"; Team/Runs are
+placeholders; admins untouched. **Test via the quick-swap:** log in as **Standard** → see only Home · Team ·
+Runs, land on Home, start a session; Team/Runs show placeholders; admin login unchanged. Plan:
+[docs/todo/member-nav/](docs/todo/member-nav/PLAN.md). (Built, uncommitted, awaiting your green light.)
 
 - Last updated: 2026-07-01
-- Phase 2 close-out: `npm test` 52/52 · typecheck clean · `npm run build` clean.
+
+---
+
+### Just finished: Admin access guard (Option A) ✅ (closed)
+Internal tooling login-gated (Phase 1 `370033b5`) + admin-role-gated (Phase 2, 2026-07-01) + dev Admin/Standard
+quick-swap (`53dbd0ae`). Member refused the tooling (403), owners unaffected. Archived at
+[docs/todo/done/admin-access-guard/](docs/todo/done/admin-access-guard/PLAN.md). Parked: Option B (`/api/admin/*`
+prefix), Option C (separate customer `frontend/`), roles-management UI.
 
 ---
 
