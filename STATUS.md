@@ -21,11 +21,12 @@ newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-t
   open by design.
 - **Phase 4 🔨 — Clear the QA pile (started 2026-07-01, your pick over Phase 2).** Walk each built-but-un-QA'd
   feature and tick (🟢 sign off) or cut (✂️). **Live dot tracker in the plan**
-  ([009 PLAN → Phase 4 QA pile tracker](docs/todo/009-ready-to-share/PLAN.md)). **8 of 9 ticked
-  (2026-07-01):** repo-tidy P1 🟢 · frontend-admin-split P1 🟢 · tracker-consolidation P1 🟢 · member-nav P1 🟢
-  (fix `fc77b8ba`) · stage-data-tabs 🟢 · sent-preview 🟢 · repo-tidy P2 🟢 · todo-board-rebuild P3 🟢 (built
-  the "Run the free checks" button — verified live ✅ 52/52). **Last one:** briefing-grounding-fixes P1
-  (⚠️ uncommitted — commit + verify next).
+  ([009 PLAN → Phase 4 QA pile tracker](docs/todo/009-ready-to-share/PLAN.md)). **✅ ALL 9 ticked
+  (2026-07-01)** — QA pile cleared: repo-tidy P1 🟢 · frontend-admin-split P1 🟢 · tracker-consolidation P1 🟢 ·
+  member-nav P1 🟢 (fix `fc77b8ba`) · stage-data-tabs 🟢 · sent-preview 🟢 · repo-tidy P2 🟢 ·
+  todo-board-rebuild P3 🟢 (built the "Run the free checks" button, ✅ 52/52 live) · briefing-grounding-fixes
+  P1 🟢 (damper already committed; verified −9→−5 offline). **Phase 4 done — ready to mark ✅ and pick the
+  next phase (2 hosted, or 3 privacy/first-run).**
 - **Phase 2 ⬜ / Phase 3 ⬜ — deferred.** Hosted + spend-capped (2) and privacy/first-run (3) come after the
   pile is clear.
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` clean. Paid gate needs your go-ahead.

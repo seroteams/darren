@@ -15,7 +15,7 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Dampen repeated-fact deltas | One theme can't ratchet an axis to the floor | 🔨 |
+| 1 | Dampen repeated-fact deltas | One theme can't ratchet an axis to the floor | ✅ |
 | 2 | Code guards in post-processor | Jargon linter + concentration→confidence cap (enforced in code) | ⬜ |
 | 3 | Attribution anti-example | Briefing stops quoting manager notes as the employee's words | ⬜ |
 | 4 | Single-theme shrink rule | One-topic briefings get shorter, not repetitive | ⬜ |
@@ -23,6 +23,15 @@
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
+**Phase 1 ✅ ticked 2026-07-01 (QA-pile clear-out).** Correction: the "not committed yet" note below was
+**stale** — the damper is committed. After the repo-tidy Phase-2a split it lives in
+`backend/engine/delta-gates.ts` (`applyRecurringGapClarityDamper`), imported + called from `queue-manager.ts`.
+Verified free (no API): `node scripts/test-recurring-gap-damper.js` → **PASS**; `node
+scripts/verify-maya-jun17-damper.js` → **PASS** (clarity **−9 without the fix → −5 with it**, mid-range,
+off the floor — exactly the done-when). Phases 2–4 remain not started (parked).
+
+<details><summary>Original Phase-1 build note (paths pre-date the TS/reorg + split)</summary>
+
 **Phase 1 built — awaiting Carl's green light (not committed yet).**
 - Baseline (free): `npm test` → 30/30 passing before any change.
 - Root cause found: `src/queue-manager.js` already had `applyRecurringGapClarityDamper`, but it only fired when `lastQuestion.purpose === "competency"`. This run's scripted questions carry `purpose: "scripted"`, so the damper never ran and clarity stacked to the −10 floor (ended −9).
@@ -31,6 +40,8 @@
 - Result: on the real Maya turns, clarity **−9 → −5**. `npm test` → 30/30; competency sim (`verify-maya-live-manual.js`) still −7; QA contract checks pass.
 - Scope note: Phase 1 damps **clarity** (the axis that floored). Growth ended −5 (never floored) — left as-is; can extend later if wanted (parkable).
 - **Next:** Carl walks the phase-1 test scenarios. Green light → commit (local) → start Phase 2.
+
+</details>
 
 ## Parked (expert follow-ons — separate, after the patch lands)
 - **P5 — Distinct-evidence as a first-class number.** Compute distinct themes per axis once; confidence, score ceiling, and briefing length all derive from it (replaces the 4 separate rules). High value.

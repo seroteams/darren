@@ -24,7 +24,7 @@ and the codebase reads clean to a newcomer.
 | 1 | Safety floor (execute 008) | Data fenced by org+role · AI keys proven server-only · sensitive data out of logs · human sign-off | A | 🟢 |
 | 2 | Hosted + spend-capped | A shareable URL an invited manager can reach · usage/cost cap · graceful failure | A | 🔴 |
 | 3 | Privacy note + first run | Plain privacy/consent note · onboarding empty states · a clear "run your first 1:1" path | A | 🔴 |
-| 4 | Clear the QA pile | The built-but-unQA'd features each signed off or cut, so nothing half-built shows | A | 🟡 |
+| 4 | Clear the QA pile | The built-but-unQA'd features each signed off or cut, so nothing half-built shows | A | 🟢 |
 | 5 | Feedback + one-pager | A simple in-app feedback route · a "what Sero is / what to expect" page | A | 🔴 |
 | 6 | Finish repo-tidy | repo-tidy phases 3–4 + parked naming pass & hermetic tests | B | 🔴 |
 | 7 | Tidy docs + newcomer README | Finish tracker-consolidation 2–4 · conventions/dead-code sweep · a README a newcomer follows | B | 🔴 |
@@ -45,7 +45,7 @@ The built-but-un-QA'd features, walked one at a time. Tick 🟢 (signed off) or 
 | 6 | sent-preview | "about to send" preview before a stage runs | 🟢 (walked live) |
 | 7 | repo-tidy P2 | invisible: queue-manager split 1309→434 lines | 🟢 (behaviour-preserving, tests green) |
 | 8 | todo-board-rebuild P3 | "Run the checks" button — built + verified (✅ 52/52 live) | 🟢 |
-| 9 | briefing-grounding-fixes P1 | ⚠️ gap: over-claim damper — code present, **uncommitted** | 🔴 |
+| 9 | briefing-grounding-fixes P1 | over-claim damper — committed (delta-gates.ts); verified −9→−5 | 🟢 |
 
 ## Current state
 **Phase 1 ✅ signed off (2026-07-01). Phase 2 ⬜ next — not started.** Product owner walked all 6 QA
