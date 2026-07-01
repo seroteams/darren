@@ -26,8 +26,8 @@ and the codebase reads clean to a newcomer.
 | 3 | Privacy note + first run | Plain privacy/consent note · onboarding empty states · a clear "run your first 1:1" path | A | 🟢 done (verified live) |
 | 4 | Clear the QA pile | The built-but-unQA'd features each signed off or cut, so nothing half-built shows | A | 🟢 |
 | 5 | Feedback + one-pager | A simple in-app feedback route · a "what Sero is / what to expect" page | A | 🟢 done (verified live) |
-| 6 | Finish repo-tidy | repo-tidy phases 3–4 + parked naming pass & hermetic tests | B | 🔴 |
-| 7 | Tidy docs + newcomer README | Finish tracker-consolidation 2–4 · conventions/dead-code sweep · a README a newcomer follows | B | 🔴 |
+| 6 | Finish repo-tidy | repo-tidy phases 3–4 + parked naming pass & hermetic tests | B | 🟡 built + offline-verified (awaiting QA) |
+| 7 | Tidy docs + newcomer README | Finish tracker-consolidation 2–4 · conventions/dead-code sweep · a README a newcomer follows | B | 🟡 built + offline-verified (awaiting QA) |
 | 8 | Continuity loop | Meeting #2 reviews meeting #1's actions & commitments | C | ⏸ deferred (Carl, 2026-07-01) |
 
 🔴 not started · 🟡 in progress · 🟢 done (tested) · ✂️ cut
@@ -98,10 +98,34 @@ notes can be HR-adjacent — never committed).
 4. Log out and `POST /api/v1/feedback` directly → 401.
 
 ## Current state
-**Phases 1 · 3 · 4 · 5 ✅ done (3 & 5 verified end-to-end 2026-07-01). Phase 2 ⏸ parked (not hosting yet).
-Phase 8 (continuity / "remembering") ⏸ deferred by Carl (2026-07-01) — "we can do the remembering and
-teams later". Phases 6 (repo-tidy 3–4) & 7 (docs/README) still open — awaiting Carl's word on whether to
-continue the batch.** Original Phase-1 sign-off detail below.
+**Phases 1 · 3 · 4 · 5 ✅ done (3 & 5 verified end-to-end 2026-07-01). Phases 6 & 7 🟡 built +
+offline-verified 2026-07-01 (Carl: "build 6 & 7, then close") — awaiting Carl's QA walk. Phase 2 ⏸ parked
+(not hosting yet). Phase 8 (continuity / "remembering") ⏸ deferred by Carl (2026-07-01) — "we can do the
+remembering and teams later".**
+
+**Phase 6 (repo-tidy 3–4 + hermetic tests) — built, offline-verified, committed:**
+- **P6a** `sessions.controller.ts` split 698→134 lines: thin controller + `session-runtime.ts` (service
+  wiring) + `session-streams.ts` (the 5 SSE handlers). Verbatim cut; `server.ts` untouched (streams
+  re-exported). Commit `b51aec29`.
+- **P6c** `npm test` made hermetic: `test-grounding-gate.js` now snapshots + restores
+  `content/questions/_index.json`, so a full run leaves no tracked file dirty. Commit `c66a455a`.
+- **P6b** admin TypeScript pilot: `admin/tsconfig.json` + `state.d.ts` + `stage.types.ts`; `team`/`runs`/
+  `error` stages → `.ts`; `npm run typecheck:admin`; path written to `admin/TYPESCRIPT.md`. Commit `70e0f339`.
+- Verified offline throughout: `npm test` **53/53**, root + admin typecheck clean, `vite build` resolves the
+  `.ts` stages. **Live full-run QA deferred (ultra batch — no paid runs).** See P6 QA scenarios (phase-6.md).
+
+**Phase 7 (docs + newcomer README) — built, committed `0f5f6677`:**
+- README "where are we" now points to the two-source model (STATUS + SERO_BOARD) + `docs/TRACKERS.md` map.
+- CLAUDE.md §6 tracker rule tightened to the two-source model (no rule removed).
+- Archived `PROGRESS.md` banner reframed as append-only log, not a status source.
+- Changelog (`sero-how-it-works.html`) "LIVE" badge → "manual log, see STATUS.md" (edit staged; committed
+  with Carl's in-flight reformat of that file). Link reconciliation to `docs/archives/…` verified clean
+  (inbound live links repointed; archived internals left frozen per `docs/archives/README.md`).
+
+**Close-out remaining (needs Carl):** flip STATUS.md / SERO_BOARD.md / build badges + move this folder to
+`done/` — held because Carl is live-editing the trackers, and because 6 & 7 are built-not-QA'd (his walk pending).
+
+Original Phase-1 sign-off detail below.
 
 <details><summary>Phase 1 sign-off (2026-07-01)</summary>
 
