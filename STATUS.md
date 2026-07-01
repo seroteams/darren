@@ -36,7 +36,10 @@ newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-t
   - 🟡 **Phase 3 (privacy + first run) — BUILT, awaiting your QA** (`05abd1e0`). QA walk in the
     [009 plan → Phase 3](docs/todo/009-ready-to-share/PLAN.md). Privacy note + consent link, first-run
     "how it works" on member Home, real Team/Runs empty states, register landing fix.
-  - ⬜ Phase 5 (feedback + one-pager) → 6 (repo-tidy 3–4) → 7 (docs + README) → 8 (continuity) — next.
+  - 🟡 **Phase 5 (feedback + one-pager) — BUILT, awaiting your QA** (`92aff101`). QA walk in the
+    [009 plan → Phase 5](docs/todo/009-ready-to-share/PLAN.md). In-app feedback route (stored to a local
+    file, test-first) + an About one-pager, both in the nav footer.
+  - ⬜ Phase 6 (repo-tidy 3–4) → 7 (docs + README) → 8 (continuity) — next.
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` clean. Paid gate needs your go-ahead.
 
 **Member navigation — Phase 1 ✅ (committed + signed off).** Corrected 2026-07-01: this was already

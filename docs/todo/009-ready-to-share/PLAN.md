@@ -25,7 +25,7 @@ and the codebase reads clean to a newcomer.
 | 2 | Hosted + spend-capped | A shareable URL an invited manager can reach · usage/cost cap · graceful failure | A | 🔴 |
 | 3 | Privacy note + first run | Plain privacy/consent note · onboarding empty states · a clear "run your first 1:1" path | A | 🟡 built, awaiting QA |
 | 4 | Clear the QA pile | The built-but-unQA'd features each signed off or cut, so nothing half-built shows | A | 🟢 |
-| 5 | Feedback + one-pager | A simple in-app feedback route · a "what Sero is / what to expect" page | A | 🔴 |
+| 5 | Feedback + one-pager | A simple in-app feedback route · a "what Sero is / what to expect" page | A | 🟡 built, awaiting QA |
 | 6 | Finish repo-tidy | repo-tidy phases 3–4 + parked naming pass & hermetic tests | B | 🔴 |
 | 7 | Tidy docs + newcomer README | Finish tracker-consolidation 2–4 · conventions/dead-code sweep · a README a newcomer follows | B | 🔴 |
 | 8 | Continuity loop | Meeting #2 reviews meeting #1's actions & commitments | C | 🔴 |
@@ -70,9 +70,27 @@ member screens.
    real empty states (no "coming soon") each with a start-a-1:1 button that begins intake.
 4. Deep-link `/privacy` in the URL as a logged-in member — it renders (not bounced to Home).
 
+## Phase 5 — built, awaiting your QA (2026-07-01, commit `92aff101`)
+Feedback route + About one-pager. Backend built **test-first** (red→green): 5 new feedback service tests.
+Verified offline: `npm test` 53/53, typecheck clean, vite build clean; preview-rendered both screens, the
+nav-footer links, and the empty-note validation.
+
+- **Feedback** (`POST /api/v1/feedback`): login required (any role), origin-guarded, stored to
+  `content/data/feedback/feedback.jsonl` — a local file, **no external service** (Carl reads it directly).
+  Non-empty + trimmed + capped at 2000 chars; the message is never logged.
+- **About** one-pager (`/about`): what Sero is / do first / expect / early-alpha, with a Start button.
+- Both reachable from the nav footer (What is Sero? · Send feedback · Privacy · Log out) for members and admins.
+
+**QA walk:**
+1. From the nav footer open **What is Sero?** — it reads plainly and explains what to do first.
+2. Open **Send feedback**, submit an empty note → inline "write a short note first" (nothing sent).
+3. Send a real note → "Thanks!" state. **Verify the destination** (not the code): open
+   `content/data/feedback/feedback.jsonl` on the server and confirm your note + timestamp + your user/org.
+4. Log out and `POST /api/v1/feedback` directly → 401.
+
 ## Current state
-**Phase 1 ✅ signed off. Phase 4 ✅. Phase 2 ⏸ parked (Carl: not hosting yet). Phase 3 🟡 built/pre-QA
-(above). Now in the ultra batch: Phases 5·6·7·8 next.** Original Phase-1 sign-off detail below.
+**Phase 1 ✅ signed off. Phase 4 ✅. Phase 2 ⏸ parked (Carl: not hosting yet). Phases 3 & 5 🟡 built/pre-QA
+(above). Now in the ultra batch: Phases 6·7·8 next.** Original Phase-1 sign-off detail below.
 
 <details><summary>Phase 1 sign-off (2026-07-01)</summary>
 
