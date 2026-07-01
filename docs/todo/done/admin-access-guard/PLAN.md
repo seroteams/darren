@@ -30,20 +30,32 @@ We deliberately kept one app (admin + customer flow together) through Phases 001
 - session-scoped `lexicon` (candidates / scope / decisions — part of a session)
 - `auth.*`; session **start** stays open (prior decision, 2026-07-01)
 
-**Flagged for Carl to settle (in Phase 2):**
-- `runs` review / archive / delete — a run belongs to the customer's company (already login + org-fenced), but the **Review verdict** is really *your* internal QA tool. Keep as customer data, or pull the verdict/delete/archive actions admin-only?
-- `catalog` reads — leave open, or require login? (Low risk either way.)
+**Settled (Carl, 2026-07-01):**
+- `runs` (recent/finished/full/stages/overview/review/archive/delete) → **admin-only**. Run history + Run Review are internal QA tooling, not a manager feature. Gated in the controller via `requireAdmin`.
+- `catalog` reads → **stay open** (the prep picker needs meeting-types/personas). Low risk.
 
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Require login on the internal tooling | A `requireAuth` wall on every admin-only endpoint above — logged-out callers get 401 instead of internal data. No role logic yet. | ✅ done (green-lit + committed 2026-07-01) |
-| 2 | Add the admin-role wall + hide the UI | Upgrade those endpoints to require an owner/admin **role** (403 for a member), hide the admin-only tools in the console from non-admins, add a way to create a member so we can actually test it, and settle the flagged edge cases. | ⬜ |
+| 2 | Add the admin-role wall + hide the UI | Upgrade those endpoints to require an owner/admin **role** (403 for a member), hide the admin-only tools in the console from non-admins, add a way to create a member so we can actually test it, and settle the flagged edge cases. | ✅ done (green-lit + committed 2026-07-01) |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ green-lit by Carl + committed (2026-07-01). Phase 2 not started (needs a go).**
+**✅ COMPLETE — both phases done, green-lit, committed. Plan closed out to `docs/todo/done/`.**
+
+Option A delivered: the internal admin tooling is now walled off from the customer flow — login-gated (Phase 1) and admin-role-gated (Phase 2) — without the full app split (parked as B/C). Verified over HTTP: anon → 401, member → 403, owner → 200 on the tooling; catalog/prep flow → 200 for everyone. `npm test` 52/52, typecheck clean, build clean.
+
+
+**Baseline (free):** `npm test` 52/52 ✅, typecheck clean ✅. **After:** typecheck clean, `npm test` 52/52, `npm run build` clean, and a member account seeded (member@seroteams.com).
+
+**Built (Phase 2):**
+- Backend role gate — `requireAdmin` (401 anon / 403 non-admin) in [require-auth.ts](../../../backend/api/middleware/require-auth.ts); the route wrapper is now `requireAdminRoute` ([admin-guard.ts](../../../backend/api/middleware/admin-guard.ts)); [server.ts](../../../backend/api/server.ts) `adminV1`/`adminLegacy` route through it; [runs.controller.ts](../../../backend/api/services/runs/runs.controller.ts) `callerOrgId` now `requireAdmin`. Tests: [admin-guard.test.ts](../../../backend/api/middleware/admin-guard.test.ts) covers anon→401, member→403, owner/admin→ok, dev side-door→ok.
+- Frontend hiding — `isAdmin(user)` ([state.js](../../../admin/src/state.js)) + `isAdminStage` ([router.js](../../../admin/src/router.js)); the nav ([app-nav.js](../../../admin/src/ui/app-nav.js)) hides every admin-only tool from a member; [main.js](../../../admin/src/main.js) bounces a member off any admin deep-link / back-forward to a new session (resuming a live flow session if the URL points at one).
+- Testable member — [scripts/seed-member.ts](../../../scripts/seed-member.ts) (dev-only, free) seeds/demotes member@seroteams.com / seromember123 into the dev org.
+
+**Phase 1 ✅** green-lit + committed `370033b5`.
 
 **Baseline (free, 2026-07-01):** `npm test` → 51/51 ✅, `npm run typecheck` clean ✅. (No paid gate — Phase 1 is pure auth-routing, nothing the engine/prompts touch; a live gate would prove nothing here and needs a separate go-ahead.)
 
@@ -51,8 +63,9 @@ We deliberately kept one app (admin + customer flow together) through Phases 001
 
 Facts the plan rests on (verified 2026-07-01): identity carries `roles: string[]` ([request-context.ts](../../../backend/api/middleware/request-context.ts)); today every registered user is `"owner"` (register creates the org owner — [auth.repo.ts:65](../../../backend/api/services/auth/auth.repo.ts)); the dev side-door is also `["owner"]`. So Phase 1 breaks nothing Carl does today; the member-vs-owner distinction only becomes testable once Phase 2 adds a member account.
 
-**Phase 1 QA:** Carl walked all 3 scenarios and gave the go ("all passed"). Committed local.
-**Next:** Phase 2 (owner/admin role wall + hide the admin UI + a testable member account) — awaiting Carl's go.
+**Phase 1 QA:** Carl walked all 3 scenarios and gave the go ("all passed"). Committed `370033b5`.
+**Phase 2 QA:** Carl gave the go (2026-07-01). Committed + plan moved to `docs/todo/done/admin-access-guard/`.
+**Related:** dev-only Admin/Standard login quick-swap (helps test the wall) committed separately `53dbd0ae`.
 
 ## Parked
 - **Full app split** (a real separate customer-facing `frontend/` app, `admin/` staff-only, separate deploy) — Option C from the revisit; the original Phase 007+ vision. Bigger, later.
