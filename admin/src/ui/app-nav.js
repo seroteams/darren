@@ -33,6 +33,7 @@ const ICON = {
   guide: icon(`<path d="M12 7.5v13"/><path d="M3 18.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v12.5a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>`),
   tasks: icon(`<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><path d="m9 14 2 2 4-4"/>`),
   logout: icon(`<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>`),
+  privacy: icon(`<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>`),
 };
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
@@ -81,6 +82,10 @@ export function createAppNav({ setState, resetSession } = {}) {
           .join("")}
       </nav>
       <nav class="app-nav__links app-nav__links--foot" aria-label="Account">
+        <button type="button" class="app-nav__link js-nav-privacy" data-key="privacy">
+          <span class="app-nav__icon">${ICON.privacy}</span>
+          <span class="app-nav__label">Privacy</span>
+        </button>
         <button type="button" class="app-nav__link js-logout" data-key="logout">
           <span class="app-nav__icon">${ICON.logout}</span>
           <span class="app-nav__label">Log out</span>
@@ -107,10 +112,12 @@ export function createAppNav({ setState, resetSession } = {}) {
     arcs: () => setState && setState({ stage: STAGES.MEETING_ARCS }),
     tasks: () => setState && setState({ stage: STAGES.TASKS }),
     guide: () => setState && setState({ stage: STAGES.GUIDE }),
+    privacy: () => setState && setState({ stage: STAGES.PRIVACY }),
   };
 
   el.querySelector(".js-home").addEventListener("click", onNav.home);
   items.forEach((it) => el.querySelector(`.js-nav-${it.key}`)?.addEventListener("click", onNav[it.key]));
+  el.querySelector(".js-nav-privacy").addEventListener("click", onNav.privacy);
 
   async function onLogout() {
     try { await logout(); } catch (e) { console.warn("[nav] logout failed:", e); }
@@ -139,8 +146,9 @@ export function createAppNav({ setState, resetSession } = {}) {
   // Persistent across every screen — re-assert the body class and light up the
   // link that matches the current stage (none during an in-run flow).
   function render({ stage, user } = {}) {
-    // The login/register screens stand alone — no nav rail.
-    if (stage === STAGES.LOGIN || stage === STAGES.REGISTER) {
+    // The login/register screens stand alone — no nav rail. So does the privacy note when
+    // a logged-out visitor opens it from the signup screen (there's no app to navigate yet).
+    if (stage === STAGES.LOGIN || stage === STAGES.REGISTER || (stage === STAGES.PRIVACY && !user)) {
       el.classList.add("is-hidden");
       document.body.classList.remove("has-app-nav");
       return;
@@ -153,7 +161,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     el.classList.toggle("app-nav--member", !admin);
     const wanted = admin ? "admin" : "member";
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
-      if (b.dataset.key === "logout") return;
+      if (b.dataset.key === "logout" || b.dataset.key === "privacy") return;  // account rows: always shown
       b.hidden = b.dataset[wanted] !== "1";
     });
     const activeKey = ACTIVE_BY_STAGE[stage] || null;

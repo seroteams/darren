@@ -4,7 +4,7 @@ import "./styles/design.css";
 
 import { STAGES, store, subscribe, setState, resetSession, isAdmin } from "./state.js";
 import { getSession, listRecentRuns, runRegression, me } from "../../shared/api.js";
-import { syncUrl, parseLocation, startPopstate, isFlowStage, isAdminStage, isMemberStage } from "./router.js";
+import { syncUrl, parseLocation, startPopstate, isFlowStage, isAdminStage, isMemberStage, isSharedStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createBuildStamp } from "./ui/build-stamp.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
@@ -14,6 +14,7 @@ import { createNotesPanel } from "./ui/notes-panel.js";
 const loaders = {
   LOGIN:           () => import("./stages/login.js"),
   REGISTER:        () => import("./stages/register.js"),
+  PRIVACY:         () => import("./stages/privacy.js"),
   START:           () => import("./stages/start.js"),
   MEMBER_HOME:     () => import("./stages/member-home.js"),
   TEAM:            () => import("./stages/team.js"),
@@ -175,8 +176,12 @@ async function boot() {
   const route = parseLocation();
 
   if (!identity) {
-    // Logged out: only the auth screens are reachable; honor a /register deep link.
-    setState({ user: null, stage: route?.stage === STAGES.REGISTER ? STAGES.REGISTER : STAGES.LOGIN });
+    // Logged out: only the auth screens + the public privacy note are reachable; honor a
+    // /register or /privacy deep link, otherwise send to login.
+    let loggedOutStage = STAGES.LOGIN;
+    if (route?.stage === STAGES.REGISTER) loggedOutStage = STAGES.REGISTER;
+    else if (route?.stage === STAGES.PRIVACY) loggedOutStage = STAGES.PRIVACY;
+    setState({ user: null, stage: loggedOutStage });
     return;
   }
   // Logged in — record who, then carry on with the normal boot below. Mutate
@@ -197,6 +202,7 @@ async function boot() {
     }
     if (route && route.stage === STAGES.INTAKE) { setState({ stage: STAGES.INTAKE, substage: "NAME" }); return; }
     if (route && isMemberStage(route.stage)) { setState({ stage: route.stage }); return; }
+    if (route && isSharedStage(route.stage)) { setState({ stage: route.stage }); return; }
     history.replaceState(null, "", "/home");
     setState({ stage: STAGES.MEMBER_HOME });
     return;

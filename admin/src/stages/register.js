@@ -3,7 +3,7 @@
 // immediately log in with the same credentials to land the user in. A link
 // switches back to the login screen.
 
-import { STAGES } from "../state.js";
+import { STAGES, isAdmin } from "../state.js";
 import { register, login } from "../../../shared/api.js";
 
 export async function mount(root, { setState }) {
@@ -33,6 +33,10 @@ export async function mount(root, { setState }) {
         <p class="js-err text-negative text-sm" hidden></p>
         <button type="submit" class="btn js-submit">Create account</button>
       </form>
+      <p class="text-ink-dim text-sm">
+        By creating an account you agree to how Sero handles your data.
+        <button type="button" class="link js-privacy">Read the privacy note</button>.
+      </p>
       <p class="text-ink-dim text-sm">
         Already have an account?
         <button type="button" class="link js-to-login">Log in</button>
@@ -66,9 +70,11 @@ export async function mount(root, { setState }) {
     submitBtn.textContent = "Creating…";
     try {
       await register({ email, name, password, company });
-      // Register doesn't set the cookie — log in to get the session and land in.
+      // Register doesn't set the cookie — log in to get the session and land in. Land by
+      // role like login.js does, so a first-time member reaches their Home (not an admin
+      // screen the router immediately bounces). A self-signup owner still lands on START.
       const { user } = await login({ email, password });
-      setState({ user, stage: STAGES.START });
+      setState({ user, stage: isAdmin(user) ? STAGES.START : STAGES.MEMBER_HOME });
     } catch (e2) {
       showError(e2.message || "Could not create your account.");
       submitBtn.disabled = false;
@@ -78,6 +84,7 @@ export async function mount(root, { setState }) {
 
   form.addEventListener("submit", onSubmit);
   root.querySelector(".js-to-login").addEventListener("click", () => setState({ stage: STAGES.LOGIN }));
+  root.querySelector(".js-privacy").addEventListener("click", () => setState({ stage: STAGES.PRIVACY }));
 
   requestAnimationFrame(() => nameEl.focus({ preventScroll: true }));
 }

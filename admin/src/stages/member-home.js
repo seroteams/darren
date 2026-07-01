@@ -15,8 +15,11 @@ export async function mount(root, { setState }) {
       </header>
 
       <section class="card-flat space-y-3">
-        <div class="eyebrow">New session</div>
-        <p class="text-ink-dim text-sm">Answer a few questions and Sero builds your prep.</p>
+        <div class="eyebrow">Start here</div>
+        <p class="text-sm">Sero walks you through a quick prep and writes a briefing you can use in the meeting. Here's how it goes:</p>
+        <p class="text-sm text-ink-dim">1 &middot; Tell Sero who you're meeting and what's on your mind.</p>
+        <p class="text-sm text-ink-dim">2 &middot; Answer a few short questions.</p>
+        <p class="text-sm text-ink-dim">3 &middot; Get a briefing to guide the 1:1.</p>
         <button type="button" class="btn js-start">Start a new session</button>
       </section>
     </div>
