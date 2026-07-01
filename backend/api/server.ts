@@ -25,6 +25,7 @@ import * as regression from "./services/regression/regression.controller.ts";
 import * as suggestFix from "./services/suggest-fix/suggest-fix.controller.ts";
 import library from "./services/library/library.controller.ts";
 import checks from "./services/checks/checks.controller.ts";
+import * as feedback from "./services/feedback/feedback.controller.ts";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
@@ -87,6 +88,14 @@ function main(): void {
   router.add("POST", "/api/v1/auth/login", v1Route(auth.login));
   router.add("POST", "/api/v1/auth/logout", v1Route(auth.logout));
   router.add("GET", "/api/v1/auth/me", v1Route(auth.me));
+
+  // feedback — a tester's in-app note (Phase 5). Login required (any role, not admin);
+  // stored to a local file (content/data/feedback/feedback.jsonl), no external service.
+  // Origin-guarded like the other mutating v1 routes.
+  router.add("POST", "/api/v1/feedback", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return feedback.submit(c);
+  }));
 
   // catalog — first domain on the v1 layer (controller → service → repo).
   // v1 routes use the one error shape (v1Route); the legacy /api/ paths stay as

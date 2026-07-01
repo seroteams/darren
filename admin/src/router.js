@@ -10,6 +10,8 @@ const PATH_FOR = {
   [STAGES.LOGIN]:          () => "/login",
   [STAGES.REGISTER]:       () => "/register",
   [STAGES.PRIVACY]:        () => "/privacy",
+  [STAGES.ABOUT]:          () => "/about",
+  [STAGES.FEEDBACK]:       () => "/feedback",
   [STAGES.START]:          () => "/",
   [STAGES.MEMBER_HOME]:    () => "/home",
   [STAGES.TEAM]:           () => "/team",
@@ -39,6 +41,7 @@ const PATH_FOR = {
 // path -> stage (exact paths). /run/:id handled separately.
 const STAGE_FOR = {
   "/login": STAGES.LOGIN, "/register": STAGES.REGISTER, "/privacy": STAGES.PRIVACY,
+  "/about": STAGES.ABOUT, "/feedback": STAGES.FEEDBACK,
   "/": STAGES.START, "/home": STAGES.MEMBER_HOME, "/team": STAGES.TEAM, "/runs": STAGES.RUNS,
   "/new": STAGES.INTAKE, "/flow": STAGES.ONEPAGE, "/focus": STAGES.FOCUS_POINTS,
   "/prepare": STAGES.PREPARATION, "/bank": STAGES.BANK, "/interview": STAGES.QUESTIONING,
@@ -65,10 +68,11 @@ export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
 const MEMBER_ONLY = new Set([STAGES.MEMBER_HOME, STAGES.TEAM, STAGES.RUNS]);
 export const isMemberStage = (stage) => MEMBER_ONLY.has(stage);
 
-// Any-audience content pages (009 Phase 3+): reachable by admins, members, and — for the
-// privacy note — logged-out visitors from the signup screen. Boot honors these deep links
+// Any-audience content pages (009 Phase 3+): reachable by admins and members alike — the
+// privacy note, the About one-pager, and the Feedback form. (Privacy is also reachable
+// logged-out from the signup screen — see boot in main.js.) Boot honors these deep links
 // for a member instead of bouncing them to Home.
-const SHARED = new Set([STAGES.PRIVACY]);
+const SHARED = new Set([STAGES.PRIVACY, STAGES.ABOUT, STAGES.FEEDBACK]);
 export const isSharedStage = (stage) => SHARED.has(stage);
 
 export function parseLocation() {

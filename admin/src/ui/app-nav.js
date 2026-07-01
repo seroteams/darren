@@ -34,6 +34,8 @@ const ICON = {
   tasks: icon(`<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><path d="m9 14 2 2 4-4"/>`),
   logout: icon(`<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>`),
   privacy: icon(`<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>`),
+  about: icon(`<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>`),
+  feedback: icon(`<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>`),
 };
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
@@ -82,6 +84,14 @@ export function createAppNav({ setState, resetSession } = {}) {
           .join("")}
       </nav>
       <nav class="app-nav__links app-nav__links--foot" aria-label="Account">
+        <button type="button" class="app-nav__link js-nav-about" data-key="about">
+          <span class="app-nav__icon">${ICON.about}</span>
+          <span class="app-nav__label">What is Sero?</span>
+        </button>
+        <button type="button" class="app-nav__link js-nav-feedback" data-key="feedback">
+          <span class="app-nav__icon">${ICON.feedback}</span>
+          <span class="app-nav__label">Send feedback</span>
+        </button>
         <button type="button" class="app-nav__link js-nav-privacy" data-key="privacy">
           <span class="app-nav__icon">${ICON.privacy}</span>
           <span class="app-nav__label">Privacy</span>
@@ -113,11 +123,13 @@ export function createAppNav({ setState, resetSession } = {}) {
     tasks: () => setState && setState({ stage: STAGES.TASKS }),
     guide: () => setState && setState({ stage: STAGES.GUIDE }),
     privacy: () => setState && setState({ stage: STAGES.PRIVACY }),
+    about: () => setState && setState({ stage: STAGES.ABOUT }),
+    feedback: () => setState && setState({ stage: STAGES.FEEDBACK }),
   };
 
   el.querySelector(".js-home").addEventListener("click", onNav.home);
   items.forEach((it) => el.querySelector(`.js-nav-${it.key}`)?.addEventListener("click", onNav[it.key]));
-  el.querySelector(".js-nav-privacy").addEventListener("click", onNav.privacy);
+  ["about", "feedback", "privacy"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", onNav[k]));
 
   async function onLogout() {
     try { await logout(); } catch (e) { console.warn("[nav] logout failed:", e); }
@@ -141,6 +153,9 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.MEETING_ARCS]: "arcs",
     [STAGES.TASKS]: "tasks",
     [STAGES.GUIDE]: "guide",
+    [STAGES.ABOUT]: "about",
+    [STAGES.FEEDBACK]: "feedback",
+    [STAGES.PRIVACY]: "privacy",
   };
 
   // Persistent across every screen — re-assert the body class and light up the
@@ -160,8 +175,9 @@ export function createAppNav({ setState, resetSession } = {}) {
     const admin = isAdmin(user);
     el.classList.toggle("app-nav--member", !admin);
     const wanted = admin ? "admin" : "member";
+    const alwaysShown = new Set(["logout", "privacy", "about", "feedback"]); // account/utility rows
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
-      if (b.dataset.key === "logout" || b.dataset.key === "privacy") return;  // account rows: always shown
+      if (alwaysShown.has(b.dataset.key)) return;
       b.hidden = b.dataset[wanted] !== "1";
     });
     const activeKey = ACTIVE_BY_STAGE[stage] || null;

@@ -4,6 +4,8 @@ export const STAGES = Object.freeze({
   LOGIN: "LOGIN",
   REGISTER: "REGISTER",
   PRIVACY: "PRIVACY",
+  ABOUT: "ABOUT",
+  FEEDBACK: "FEEDBACK",
   START: "START",
   MEMBER_HOME: "MEMBER_HOME",
   TEAM: "TEAM",

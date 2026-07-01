@@ -41,6 +41,12 @@ export async function me() {
   return json(await fetch("/api/v1/auth/me"));
 }
 
+// Feedback (Phase 5): send a short tester note. Login required (any role); stored to a
+// local file on the server, no external service. Returns { ok: true }.
+export async function submitFeedback(message, page) {
+  return postJson("/api/v1/feedback", { message, page });
+}
+
 // Tasks board (Phase 3): run ONE free, offline check by id ("tests" | "replay").
 // The server allow-lists these and refuses anything paid. Returns { ok, summary, output }.
 export async function runFreeCheck(check) {
