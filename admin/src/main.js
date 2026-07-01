@@ -19,8 +19,8 @@ const loaders = {
   FEEDBACK:        () => import("./stages/feedback.js"),
   START:           () => import("./stages/start.js"),
   MEMBER_HOME:     () => import("./stages/member-home.js"),
-  TEAM:            () => import("./stages/team.js"),
-  RUNS:            () => import("./stages/runs.js"),
+  TEAM:            () => import("./stages/team.ts"),
+  RUNS:            () => import("./stages/runs.ts"),
   INTAKE:          () => import("./stages/intake.js"),
   ONEPAGE:         () => import("./stages/onepage.js"),
   FOCUS_POINTS:    () => import("./stages/focus-points.js"),
@@ -40,7 +40,7 @@ const loaders = {
   REVIEW_RUN:      () => import("./stages/review-run.js"),
   GUIDE:           () => import("./stages/guide.js"),
   TASKS:           () => import("./stages/tasks.js"),
-  ERROR:           () => import("./stages/error.js"),
+  ERROR:           () => import("./stages/error.ts"),
 };
 
 const root = document.getElementById("root");

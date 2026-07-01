@@ -1,7 +1,8 @@
 import { STAGES } from "../state.js";
 import { escapeHtml as escape } from "../ui/html.js";
+import type { Mount, Unmount } from "./stage.types.ts";
 
-export async function mount(root, { store, setState }) {
+export const mount: Mount = async (root, { store, setState }) => {
   const retryTo = store.retryStage || STAGES.INTAKE;
   const technical = store.error || "Unknown error";
   root.innerHTML = `
@@ -23,13 +24,13 @@ export async function mount(root, { store, setState }) {
       </div>
     </div>
   `;
-  root.querySelector(".js-retry").addEventListener("click", () => {
+  root.querySelector(".js-retry")?.addEventListener("click", () => {
     setState({ error: null, stage: retryTo });
   });
-  root.querySelector(".js-restart").addEventListener("click", () => {
+  root.querySelector(".js-restart")?.addEventListener("click", () => {
     try { localStorage.removeItem("seroSessionId"); } catch {}
     setState({ error: null, sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
   });
-}
+};
 
-export function unmount() { /* nothing */ }
+export const unmount: Unmount = () => { /* nothing */ };

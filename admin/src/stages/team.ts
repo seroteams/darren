@@ -3,8 +3,9 @@
 // what will live here and offers the primary action, so nothing reads as half-built.
 
 import { STAGES, store } from "../state.js";
+import type { Mount, Unmount } from "./stage.types.ts";
 
-export async function mount(root, { setState }) {
+export const mount: Mount = async (root, { setState }) => {
   root.innerHTML = `
     <div class="stage-inner l-stack l-stack--8">
       <header class="page-header">
@@ -20,11 +21,11 @@ export async function mount(root, { setState }) {
     </div>
   `;
 
-  root.querySelector(".js-start").addEventListener("click", () => {
+  root.querySelector(".js-start")?.addEventListener("click", () => {
     store.scripted = null;
     Object.assign(store.ctx, { name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" });
     setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
   });
-}
+};
 
-export function unmount() {}
+export const unmount: Unmount = () => {};
