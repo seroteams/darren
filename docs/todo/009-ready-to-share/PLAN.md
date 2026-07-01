@@ -23,12 +23,12 @@ and the codebase reads clean to a newcomer.
 |---|---|---|---|---|
 | 1 | Safety floor (execute 008) | Data fenced by org+role · AI keys proven server-only · sensitive data out of logs · human sign-off | A | 🟢 |
 | 2 | Hosted + spend-capped | A shareable URL an invited manager can reach · usage/cost cap · graceful failure | A | 🔴 |
-| 3 | Privacy note + first run | Plain privacy/consent note · onboarding empty states · a clear "run your first 1:1" path | A | 🟡 built, awaiting QA |
+| 3 | Privacy note + first run | Plain privacy/consent note · onboarding empty states · a clear "run your first 1:1" path | A | 🟢 done (verified live) |
 | 4 | Clear the QA pile | The built-but-unQA'd features each signed off or cut, so nothing half-built shows | A | 🟢 |
-| 5 | Feedback + one-pager | A simple in-app feedback route · a "what Sero is / what to expect" page | A | 🟡 built, awaiting QA |
+| 5 | Feedback + one-pager | A simple in-app feedback route · a "what Sero is / what to expect" page | A | 🟢 done (verified live) |
 | 6 | Finish repo-tidy | repo-tidy phases 3–4 + parked naming pass & hermetic tests | B | 🔴 |
 | 7 | Tidy docs + newcomer README | Finish tracker-consolidation 2–4 · conventions/dead-code sweep · a README a newcomer follows | B | 🔴 |
-| 8 | Continuity loop | Meeting #2 reviews meeting #1's actions & commitments | C | 🔴 |
+| 8 | Continuity loop | Meeting #2 reviews meeting #1's actions & commitments | C | ⏸ deferred (Carl, 2026-07-01) |
 
 🔴 not started · 🟡 in progress · 🟢 done (tested) · ✂️ cut
 
@@ -47,10 +47,15 @@ The built-but-un-QA'd features, walked one at a time. Tick 🟢 (signed off) or 
 | 8 | todo-board-rebuild P3 | "Run the checks" button — built + verified (✅ 52/52 live) | 🟢 |
 | 9 | briefing-grounding-fixes P1 | over-claim damper — committed (delta-gates.ts); verified −9→−5 | 🟢 |
 
-## Phase 3 — built, awaiting your QA (2026-07-01, commit `05abd1e0`)
-Built under the ultra batch (nothing live, no paid runs). Verified offline: vite build clean, typecheck
-clean, `npm test` 52/52; preview-walked the register→privacy→back flow and direct-rendered the three
-member screens.
+## Phase 3 — ✅ done, verified end-to-end (2026-07-01, commit `05abd1e0`)
+Built under the ultra batch (nothing live, no paid runs). **Carl said "finish 3 and 5", so I verified it
+end-to-end in the running app rather than leaving it pre-QA** — logged in as BOTH a real member and an
+owner (real DB session, not the dev side-door): member lands on `/home` with the first-run "how it works",
+the member rail is Home·Team·Runs (member theme), **Team and Runs show the new empty states with a
+start-a-1:1 button and no "Coming soon" anywhere**, and the privacy note opens from the footer (with the
+rail for a logged-in member; standalone + "back to sign up" from the signup screen). Also offline: vite
+build clean, typecheck clean, `npm test` 53/53. Walk the scenarios yourself anytime — nothing here was
+self-certified blind.
 
 **Decisions I made (flagging for your call):**
 - **Team/Runs → intentional empty states, not hidden.** Each now says what's coming and offers "start a
@@ -70,10 +75,14 @@ member screens.
    real empty states (no "coming soon") each with a start-a-1:1 button that begins intake.
 4. Deep-link `/privacy` in the URL as a logged-in member — it renders (not bounced to Home).
 
-## Phase 5 — built, awaiting your QA (2026-07-01, commit `92aff101`)
+## Phase 5 — ✅ done, verified end-to-end (2026-07-01, commit `92aff101`)
 Feedback route + About one-pager. Backend built **test-first** (red→green): 5 new feedback service tests.
-Verified offline: `npm test` 53/53, typecheck clean, vite build clean; preview-rendered both screens, the
-nav-footer links, and the empty-note validation.
+**Verified end-to-end in the running app** (Carl said "finish"): About renders live with the nav
+highlighting it; the feedback form sends and shows the "Thanks!" state; a real note **landed in
+`content/data/feedback/feedback.jsonl`** stamped with the sender's user/org + timestamp, trimmed
+(**destination verified, not just the code**); an empty note → 400, and a **logged-out POST → 401**. Also
+offline: `npm test` 53/53, typecheck clean, vite build clean. The feedback file is now git-ignored (tester
+notes can be HR-adjacent — never committed).
 
 - **Feedback** (`POST /api/v1/feedback`): login required (any role), origin-guarded, stored to
   `content/data/feedback/feedback.jsonl` — a local file, **no external service** (Carl reads it directly).
@@ -89,8 +98,10 @@ nav-footer links, and the empty-note validation.
 4. Log out and `POST /api/v1/feedback` directly → 401.
 
 ## Current state
-**Phase 1 ✅ signed off. Phase 4 ✅. Phase 2 ⏸ parked (Carl: not hosting yet). Phases 3 & 5 🟡 built/pre-QA
-(above). Now in the ultra batch: Phases 6·7·8 next.** Original Phase-1 sign-off detail below.
+**Phases 1 · 3 · 4 · 5 ✅ done (3 & 5 verified end-to-end 2026-07-01). Phase 2 ⏸ parked (not hosting yet).
+Phase 8 (continuity / "remembering") ⏸ deferred by Carl (2026-07-01) — "we can do the remembering and
+teams later". Phases 6 (repo-tidy 3–4) & 7 (docs/README) still open — awaiting Carl's word on whether to
+continue the batch.** Original Phase-1 sign-off detail below.
 
 <details><summary>Phase 1 sign-off (2026-07-01)</summary>
 
@@ -124,6 +135,12 @@ prerequisite for real staff data.
 </details>
 
 ## Decisions (this plan)
+- **2026-07-01 — Phase 8 (continuity / "remembering") + real Team content deferred.** Carl: "finish 3 and
+  5 — we can do the remembering and teams later." So Phase 8 is parked, and the member **Team** page stays
+  the intentional empty state (real team content = member-nav Phase 2, later). Phases 3 & 5 were verified
+  end-to-end and closed. Phases 6 (repo-tidy 3–4) & 7 (docs/README) remain open — not yet green-lit to continue.
+- **2026-07-01 — Team/Runs empty states kept (not hidden).** The two member tabs show intentional empty
+  states that offer "start a 1:1" rather than hiding Team; confirmed fine by the "teams later" call.
 - **2026-07-01 — anonymous session-start path kept open for the alpha (A, tracked as C).** The start
   route (`POST /api/v1/sessions` · `/api/start`) stays login-free (origin + rate-limit only), as decided
   in auth-hardening Phase 2. Safe because: the hosted app gates every page behind login, so a real manager

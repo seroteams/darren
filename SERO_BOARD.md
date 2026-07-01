@@ -22,10 +22,13 @@ Standing constraints (from CLAUDE.md):
   cut (repo-tidy P1/P2, frontend-admin-split P1, tracker-consolidation P1, member-nav P1, stage-data-tabs,
   sent-preview, todo-board-rebuild P3, briefing-grounding-fixes P1). Nothing half-built left on screen.
 - **Phase 2 (hosted + spend-capped) — ⏸ PARKED by Carl (2026-07-01): not hosting yet.**
-- **Active now — the remaining non-hosting phases, batch-authorized under ultracode (2026-07-01):**
-  Phase 3 (privacy + first run), 5 (feedback + one-pager), 6 (finish repo-tidy 3–4), 7 (docs + newcomer
-  README), 8 (continuity loop). **Nothing live, no paid runs**; built work is "built — awaiting Carl's QA",
-  not self-certified. Live per-phase detail in [STATUS.md](STATUS.md).
+- **Phase 3 (privacy + first run) — ✅ done (2026-07-01, verified end-to-end, both roles).** Privacy note +
+  consent, first-run guidance on member Home, real Team/Runs empty states, register landing fix.
+- **Phase 5 (feedback + one-pager) — ✅ done (2026-07-01, verified end-to-end, test-first backend).**
+  In-app feedback → local file (git-ignored) + an About one-pager, both in the nav footer.
+- **Phase 8 (continuity / "remembering") — ⏸ deferred by Carl (2026-07-01):** "we can do the remembering
+  and teams later" (real Team content also later). Phases **6 (repo-tidy 3–4) & 7 (docs/README) still
+  open** — awaiting Carl's word. **Nothing live, no paid runs.** Live per-phase detail in [STATUS.md](STATUS.md).
 
 The auth history below is the foundation Phase 009 builds on.
 

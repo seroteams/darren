@@ -23,6 +23,10 @@ CHEATSHEET-*.md
 # Per-person profiles (derived from logs/ — rebuild with scripts/rebuild-profiles.js)
 content/data/people/
 
+# Tester feedback (009 Phase 5) — a local runtime store Carl reads directly; may carry
+# HR-adjacent notes, so it's never committed.
+content/data/feedback/
+
 # Runtime logs (keep-set only)
 debug-be19bb.log
 .cursor/debug-*.log

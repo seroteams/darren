@@ -9,7 +9,7 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-**Now active: Phase 009 — finishing the non-hosting phases in one ultra batch (authorized 2026-07-01). Phase 1 ✅ · Phase 4 ✅ · Phase 2 ⏸ parked (not hosting yet) · Phases 3·5·6·7·8 🔨 in the batch.**
+**Now active: Phase 009. Phases 1 · 3 · 4 · 5 ✅ done · Phase 2 ⏸ parked (not hosting yet) · Phase 8 ⏸ deferred ("remembering + teams later") · Phases 6 · 7 open (awaiting your word).**
 
 009 turns Sero into something real managers can safely use on real teams, and gets the codebase
 newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-to-share/](docs/todo/009-ready-to-share/PLAN.md).
@@ -30,16 +30,16 @@ newcomer-clean. 8 phases, ship-blockers first. Full plan: [docs/todo/009-ready-t
   briefing-grounding-fixes P1 🟢. Nothing half-built left on screen.
 - **Phase 2 ⏸ — PARKED (2026-07-01, Carl's call): not hosting yet.** Picks back up when Carl wants a
   shareable URL. The rest of 009 does not depend on it.
-- **Phases 3 · 5 · 6 · 7 · 8 🔨 — the ultra batch (in progress).** Building in dependency order. Each
-  lands **built + offline-verified + committed, awaiting your QA.** Progress:
+- **The ultra batch — progress:**
   - ✅ tidy/audit + member-nav reconcile (committed)
-  - 🟡 **Phase 3 (privacy + first run) — BUILT, awaiting your QA** (`05abd1e0`). QA walk in the
-    [009 plan → Phase 3](docs/todo/009-ready-to-share/PLAN.md). Privacy note + consent link, first-run
-    "how it works" on member Home, real Team/Runs empty states, register landing fix.
-  - 🟡 **Phase 5 (feedback + one-pager) — BUILT, awaiting your QA** (`92aff101`). QA walk in the
-    [009 plan → Phase 5](docs/todo/009-ready-to-share/PLAN.md). In-app feedback route (stored to a local
-    file, test-first) + an About one-pager, both in the nav footer.
-  - ⬜ Phase 6 (repo-tidy 3–4) → 7 (docs + README) → 8 (continuity) — next.
+  - ✅ **Phase 3 (privacy + first run)** (`05abd1e0`) — **verified end-to-end 2026-07-01, both roles**
+    (member + owner, live): privacy note + consent link, first-run "how it works" on member Home, real
+    Team/Runs empty states (no "Coming soon"), register landing fix. Walk it anytime — nothing self-certified blind.
+  - ✅ **Phase 5 (feedback + one-pager)** (`92aff101`) — **verified end-to-end** (test-first backend):
+    feedback note reaches `content/data/feedback/feedback.jsonl` (destination verified), empty → 400,
+    logged-out → 401; About one-pager + both in the nav footer. Feedback file is git-ignored.
+  - ⏸ **Phase 8 (continuity / "remembering") — deferred** by you ("we can do the remembering and teams later").
+  - ⬜ **Phases 6 (repo-tidy 3–4) & 7 (docs + README) — still open**, not yet green-lit to continue.
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` clean. Paid gate needs your go-ahead.
 
 **Member navigation — Phase 1 ✅ (committed + signed off).** Corrected 2026-07-01: this was already
