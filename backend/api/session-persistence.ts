@@ -26,6 +26,7 @@ function serialize(s: Session): PersistedSession {
     id: s.id,
     dir: s.dir,
     orgId: s.orgId ?? null,
+    userId: s.userId ?? null,
     createdAt: s.createdAt,
     completedAt: s.completedAt ?? null,
     lastSeenAt: s.lastSeenAt,

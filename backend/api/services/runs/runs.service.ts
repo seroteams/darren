@@ -31,6 +31,11 @@ export interface RunsService {
   remove(id: string | undefined, orgId?: string | null): { deleted: true; id: string };
   archive(id: string | undefined, body: unknown, orgId?: string | null): { ok: true; id: string; archived: boolean | undefined };
   review(id: string | undefined, body: unknown, orgId?: string | null): ReviewResult;
+  // Member-safe reads (member-nav Phase 2): a logged-in member's OWN finished runs, and
+  // one own run's read-only view. Fenced by both orgId and userId; myRun 404s a run the
+  // member doesn't own.
+  myFinished(orgId: string | null | undefined, userId: string | null | undefined): { runs: unknown[] };
+  myRun(id: string | undefined, orgId: string | null | undefined, userId: string | null | undefined): unknown;
 }
 
 export function createRunsService(repo: RunsRepo): RunsService {
@@ -102,6 +107,12 @@ export function createRunsService(repo: RunsRepo): RunsService {
       return { runs };
     },
     finished: (orgId) => ({ runs: repo.listFinished(orgId) }),
+    myFinished: (orgId, userId) => ({ runs: repo.listFinishedForMember(orgId, userId) }),
+    myRun: (id, orgId, userId) => {
+      const view = repo.memberRun(requireId(id), orgId, userId);
+      if (!view) throw notFound("unknown run");
+      return view;
+    },
     overview: (id, orgId) => {
       const summary = repo.summarize(requireId(id), orgId);
       if (!summary) throw notFound("unknown run");

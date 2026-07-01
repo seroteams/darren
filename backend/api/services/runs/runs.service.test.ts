@@ -30,6 +30,8 @@ function fakeRepo(over: Partial<RunsRepo> = {}): { repo: RunsRepo; calls: Calls 
     writeReview: (dir, data) => {
       calls.writeReview.push({ dir, data });
     },
+    listFinishedForMember: () => [],
+    memberRun: () => null,
     ...over,
   };
   return { repo, calls };
@@ -80,6 +82,27 @@ test("recent maps only the six summary fields, dropping extras", () => {
 test("finished passes the repo list straight through", () => {
   const { repo } = fakeRepo({ listFinished: () => [{ id: "a" }, { id: "b" }] });
   assert.deepEqual(createRunsService(repo).finished(), { runs: [{ id: "a" }, { id: "b" }] });
+});
+
+test("myFinished forwards orgId+userId and wraps the member's own runs (member-nav Phase 2)", () => {
+  const seen: Array<{ orgId?: string | null; userId?: string | null }> = [];
+  const { repo } = fakeRepo({
+    listFinishedForMember: (orgId, userId) => { seen.push({ orgId, userId }); return [{ id: "m1" }]; },
+  });
+  assert.deepEqual(createRunsService(repo).myFinished("org-A", "u1"), { runs: [{ id: "m1" }] });
+  assert.deepEqual(seen, [{ orgId: "org-A", userId: "u1" }]);
+});
+
+test("myRun returns the member's own run, forwarding orgId+userId; 404 when not theirs/unknown", () => {
+  const seen: Array<{ id: string; orgId?: string | null; userId?: string | null }> = [];
+  const ok = fakeRepo({
+    memberRun: (id, orgId, userId) => { seen.push({ id, orgId, userId }); return { id, briefing: {} }; },
+  });
+  assert.deepEqual(createRunsService(ok.repo).myRun("m1", "org-A", "u1"), { id: "m1", briefing: {} });
+  assert.deepEqual(seen, [{ id: "m1", orgId: "org-A", userId: "u1" }]);
+  // A run the member doesn't own (or unknown) → the repo returns null → 404.
+  const miss = fakeRepo({ memberRun: () => null });
+  assert.equal(thrown(() => createRunsService(miss.repo).myRun("m1", "org-A", "u2")).status, 404);
 });
 
 test("the caller's orgId is forwarded to every fenced repo read (the data wall)", () => {

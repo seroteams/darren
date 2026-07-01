@@ -20,6 +20,15 @@ function runOwnedByOrg(state: unknown, orgId?: string | null): boolean {
   return isObjectRecord(state) && state.orgId === orgId;
 }
 
+// The member data wall (member-nav Phase 2): a run belongs to a member when its stored
+// userId matches the caller's. Unlike runOwnedByOrg this is NEVER unfenced — a caller
+// with no userId, or a run with no userId, matches nothing. So a member only ever sees
+// runs they created; every other member's (and every admin's) run is invisible.
+function runOwnedByUser(state: unknown, userId?: string | null): boolean {
+  if (!userId) return false;
+  return isObjectRecord(state) && state.userId === userId;
+}
+
 function readState(stateFile: string): unknown {
   try {
     return JSON.parse(fs.readFileSync(stateFile, "utf8"));
@@ -207,6 +216,53 @@ function listFinishedRuns(orgId?: string | null) {
       ...reviewSummaryOf(dir),
     };
   });
+}
+
+// A member's OWN finished runs (member-nav Phase 2), newest first. Double-fenced:
+// walkRuns applies the company wall, runOwnedByUser keeps only this member's runs.
+// Returns a lightweight member-safe shape (no QA review / archive fields).
+function listFinishedRunsForMember(orgId: string | null | undefined, userId: string | null | undefined) {
+  const runs = walkRuns(orgId).filter(({ state }) => state && state.briefing && runOwnedByUser(state, userId));
+  runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
+  return runs.map(({ id, state }) => {
+    const ctx = asRecord(state.ctx);
+    return {
+      id,
+      headline: buildHeadline(ctx),
+      ctx: {
+        name: asString(ctx.name),
+        role: asString(ctx.role),
+        seniority: asString(ctx.seniority),
+        meetingType: asString(ctx.meetingType),
+      },
+      lastSeenAt: asNumber(state.lastSeenAt),
+    };
+  });
+}
+
+// A read-only view of ONE of the member's own runs (member-nav Phase 2): the briefing
+// plus its context. Fenced by company AND user — a run the caller doesn't own resolves
+// to null (the same "unknown" answer a stranger gets, so ids can't be probed).
+function memberRunView(id: string, orgId: string | null | undefined, userId: string | null | undefined) {
+  const dir = findRunDir(id, orgId);
+  if (!dir) return null;
+  const state = readState(path.join(dir, STATE_FILE));
+  if (!runOwnedByUser(state, userId)) return null;
+  const s = asRecord(state);
+  const ctx = asRecord(s.ctx);
+  return {
+    id,
+    headline: buildHeadline(ctx),
+    ctx: {
+      name: asString(ctx.name),
+      role: asString(ctx.role),
+      seniority: asString(ctx.seniority),
+      meetingType: asString(ctx.meetingType),
+    },
+    briefing: s.briefing ?? null,
+    lastSeenAt: asNumber(s.lastSeenAt),
+    completedAt: s.completedAt ?? null,
+  };
 }
 
 function findLatestRunWithLock() {
@@ -430,6 +486,9 @@ function readRunStages(id: string, orgId?: string | null) {
 
 export {
   runOwnedByOrg,
+  runOwnedByUser,
+  listFinishedRunsForMember,
+  memberRunView,
   walkRuns,
   listRecentRuns,
   listFinishedRuns,

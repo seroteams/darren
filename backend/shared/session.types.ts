@@ -122,6 +122,7 @@ export interface Session {
   id: string;
   dir: string;
   orgId?: string | null; // the company that owns this run; null = unfenced (legacy/anonymous). Phase 007/2.
+  userId?: string | null; // the member who created this run; null = unattributed (legacy/anonymous). member-nav Phase 2.
   createdAt: number;
   lastSeenAt: number;
   completedAt: number | null;

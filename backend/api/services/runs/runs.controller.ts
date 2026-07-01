@@ -6,7 +6,7 @@ import type { RequestContext } from "../../router.ts";
 import { createRunsService } from "./runs.service.ts";
 import { fileRunsRepo } from "./runs.repo.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
-import { requireAdmin } from "../../middleware/require-auth.ts";
+import { requireAdmin, requireAuth } from "../../middleware/require-auth.ts";
 
 const service = createRunsService(fileRunsRepo);
 
@@ -53,4 +53,24 @@ export async function archive(c: RequestContext): Promise<void> {
 export async function review(c: RequestContext): Promise<void> {
   const body = await c.readBody();
   c.json(200, service.review(c.params.id, body, await callerOrgId(c)));
+}
+
+// The caller's own identity — login required, ANY role (member-nav Phase 2). The member
+// "my runs" endpoints use this instead of callerOrgId: a plain member reads their OWN
+// runs even though the admin runs tooling above stays owner/admin-only. Fenced by both
+// orgId and userId in the service, so a member never sees another member's or an admin's.
+async function callerIdentity(c: RequestContext): Promise<{ userId: string | null; orgId: string | null }> {
+  const identity = await buildIdentity(c.req);
+  requireAuth(identity); // 401 when logged out; no role check
+  return { userId: identity.userId, orgId: identity.orgId };
+}
+
+export async function mine(c: RequestContext): Promise<void> {
+  const { userId, orgId } = await callerIdentity(c);
+  c.json(200, service.myFinished(orgId, userId));
+}
+
+export async function mineDetail(c: RequestContext): Promise<void> {
+  const { userId, orgId } = await callerIdentity(c);
+  c.json(200, service.myRun(c.params.id, orgId, userId));
 }

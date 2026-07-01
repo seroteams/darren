@@ -243,6 +243,11 @@ function main(): void {
   // mirrors today's paths under /api/v1/ (the contract's bare /:id and ?status=
   // merge are deferred REST polish); legacy /api/runs/* stay as aliases on the
   // same controller. Mutating routes throw forbidden on v1, c.error on legacy.
+  // member's own runs (member-nav Phase 2) — logged-in members only (NOT admin), fenced
+  // to the caller's userId. Registered before the admin runs routes so the literal /mine
+  // isn't shadowed; plain v1Route (no adminV1). The admin runs endpoints below are unchanged.
+  router.add("GET", "/api/v1/runs/mine", v1Route(runs.mine));
+  router.add("GET", /^\/api\/v1\/runs\/mine\/(?<id>[^/]+)$/, v1Route(runs.mineDetail));
   router.add("GET", "/api/v1/runs/recent", v1Route(runs.recent));
   router.add("GET", "/api/v1/runs/finished", v1Route(runs.finished));
   router.add("GET", /^\/api\/v1\/runs\/(?<id>[^/]+)\/full$/, v1Route(runs.full));

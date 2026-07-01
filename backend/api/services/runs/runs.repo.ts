@@ -15,6 +15,8 @@ import {
   deleteRun,
   setArchived,
   findRunDir,
+  listFinishedRunsForMember,
+  memberRunView,
 } from "../../../engine/run-history.ts";
 import { dropSession } from "../../sessions.ts";
 
@@ -46,6 +48,11 @@ export interface RunsRepo {
   findRunDir(id: string, orgId?: string | null): string | null;
   readReview(dir: string): unknown; // existing review.json, or null
   writeReview(dir: string, data: unknown): void;
+  // Member-safe reads (member-nav Phase 2) — fenced by BOTH orgId and userId, so a
+  // member sees only runs they created. memberRun returns null when the run is unknown
+  // or owned by someone else.
+  listFinishedForMember(orgId: string | null | undefined, userId: string | null | undefined): unknown[];
+  memberRun(id: string, orgId: string | null | undefined, userId: string | null | undefined): unknown;
 }
 
 // Null-safe read of a run's review.json — missing/corrupt → null, never throws.
@@ -80,4 +87,6 @@ export const fileRunsRepo: RunsRepo = {
   findRunDir: (id, orgId) => findRunDir(id, orgId),
   readReview: (dir) => readReviewFile(dir),
   writeReview: (dir, data) => writeReviewFile(dir, data),
+  listFinishedForMember: (orgId, userId) => listFinishedRunsForMember(orgId, userId),
+  memberRun: (id, orgId, userId) => memberRunView(id, orgId, userId),
 };

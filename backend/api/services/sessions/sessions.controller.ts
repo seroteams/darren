@@ -134,8 +134,8 @@ export async function question(c: RequestContext): Promise<void> {
 // is fenced to that company; an anonymous caller (no cookie) stamps null.
 export async function start(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
-  const { orgId } = await buildIdentity(c.req);
-  c.json(201, service.start(body, orgId));
+  const { orgId, userId } = await buildIdentity(c.req);
+  c.json(201, service.start(body, orgId, userId));
 }
 
 // POST /api/v1/sessions/:id/answer  ·  POST /api/answer   (202, as today)

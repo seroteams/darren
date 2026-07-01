@@ -59,8 +59,9 @@ export interface SessionsRepo {
   /** Live-or-restore-from-disk read; undefined when no such session exists. */
   get(id: string): Session | undefined;
   /** Create a new live session (throws 503 at the concurrency cap, as today).
-   *  orgId stamps the owning company (null = unfenced legacy/anonymous). Phase 007/2. */
-  create(ctx: MeetingContext, introQueue: Question[], orgId?: string | null): Session;
+   *  orgId stamps the owning company (null = unfenced legacy/anonymous). Phase 007/2.
+   *  userId stamps the creating member (null = unattributed). member-nav Phase 2. */
+  create(ctx: MeetingContext, introQueue: Question[], orgId?: string | null, userId?: string | null): Session;
   /** Evict a session from the live store (on-disk record is left in place). */
   drop(id: string): void;
   /** Write the session's current state to disk. */
@@ -98,7 +99,7 @@ const LEXICON_DECISIONS_FILE = "lexicon-decisions.jsonl";
 
 export const fileSessionsRepo: SessionsRepo = {
   get: (id) => getSession(id),
-  create: (ctx, introQueue, orgId) => createWebSession(ctx, introQueue, orgId ?? null),
+  create: (ctx, introQueue, orgId, userId) => createWebSession(ctx, introQueue, orgId ?? null, userId ?? null),
   drop: (id) => {
     dropSession(id);
   },
@@ -158,8 +159,8 @@ export const fileSessionsRepo: SessionsRepo = {
 // reloads the Map from Postgres so a session can survive a server restart.
 export const pgSessionsRepo: SessionsRepo = {
   ...fileSessionsRepo,
-  create: (ctx, introQueue, orgId) => {
-    const session = fileSessionsRepo.create(ctx, introQueue, orgId);
+  create: (ctx, introQueue, orgId, userId) => {
+    const session = fileSessionsRepo.create(ctx, introQueue, orgId, userId);
     upsertSession(session).catch((e) =>
       console.warn("[sessions.pg] create mirror failed:", e instanceof Error ? e.message : String(e)),
     );

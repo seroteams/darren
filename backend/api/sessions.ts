@@ -14,7 +14,7 @@ const MAX_CONCURRENT = 50;
 
 const sessions = new Map<string, Session>();
 
-function createWebSession(ctx: MeetingContext, introQueue: Question[], orgId: string | null = null): Session {
+function createWebSession(ctx: MeetingContext, introQueue: Question[], orgId: string | null = null, userId: string | null = null): Session {
   if (sessions.size >= MAX_CONCURRENT) {
     throw Object.assign(new Error("Too many concurrent sessions"), { status: 503 });
   }
@@ -23,6 +23,7 @@ function createWebSession(ctx: MeetingContext, introQueue: Question[], orgId: st
     id: inner.id,
     dir: inner.dir,
     orgId,
+    userId,
     createdAt: Date.now(),
     lastSeenAt: Date.now(),
     completedAt: null,

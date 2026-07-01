@@ -58,7 +58,7 @@ function fakeRepo(
 ): {
   repo: SessionsRepo;
   store: Map<string, Session>;
-  created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null }>;
+  created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null; userId?: string | null }>;
   dropped: string[];
   persisted: Session[];
   logged: Array<{ dir: string; entries: unknown }>;
@@ -69,7 +69,7 @@ function fakeRepo(
   commits: Array<{ keepIds: string[] }>;
 } {
   const store = new Map<string, Session>(seed.map((s) => [s.id, s]));
-  const created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null }> = [];
+  const created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null; userId?: string | null }> = [];
   const dropped: string[] = [];
   const persisted: Session[] = [];
   const logged: Array<{ dir: string; entries: unknown }> = [];
@@ -80,10 +80,11 @@ function fakeRepo(
   const commits: Array<{ keepIds: string[] }> = [];
   const repo: SessionsRepo = {
     get: (id) => store.get(id),
-    create: (ctx, introQueue, orgId) => {
-      created.push({ ctx, introQueue, orgId });
+    create: (ctx, introQueue, orgId, userId) => {
+      created.push({ ctx, introQueue, orgId, userId });
       const s = fakeSession(`new-${store.size}`);
       s.orgId = orgId ?? null;
+      s.userId = userId ?? null;
       store.set(s.id, s);
       return s;
     },
@@ -140,6 +141,18 @@ function fakeQuestion(over: Partial<Question> = {}): Question {
     ...over,
   };
 }
+
+test("create forwards the caller's userId to the repo (run attribution — member-nav Phase 2)", () => {
+  const { repo, created } = fakeRepo();
+  createSessionsService(repo).create(
+    { name: "A", role: "B", seniority: "C", meetingType: "weekly", notes: "" },
+    [fakeQuestion()],
+    "org-A",
+    "u1",
+  );
+  assert.equal(created[0]?.orgId, "org-A");
+  assert.equal(created[0]?.userId, "u1");
+});
 
 test("get forwards the repo lookup — the session when present", () => {
   const s = fakeSession("abc");
@@ -235,7 +248,7 @@ test("create forwards ctx + introQueue through the seam and returns the new sess
   const queue: Question[] = [];
   const out = createSessionsService(repo).create(ctx, queue);
   assert.equal(out.id, "new-0");
-  assert.deepEqual(created, [{ ctx, introQueue: queue, orgId: undefined }]);
+  assert.deepEqual(created, [{ ctx, introQueue: queue, orgId: undefined, userId: undefined }]);
 });
 
 test("drop forwards the id through the seam", () => {
