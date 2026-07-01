@@ -29,23 +29,23 @@ holes that were left open (and parked):
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Fence live sessions by company | Caller's company threaded into the session lookup; cross-company access returns 404 on every read/write/stream | ✅ |
-| 2 | Guard the doors (require login) | Protected runs + session endpoints refuse anonymous callers (401) instead of the legacy unfenced view | 🔨 |
+| 2 | Guard the doors (require login) | Runs endpoints refuse anonymous callers (401) instead of the legacy unfenced view (sessions covered by Phase 1 + open-start decision) | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ done + committed. Phase 2 🔨 in progress** (the login-required door).
+**✅ COMPLETE — both phases done, tested, committed. Plan closed out to `docs/todo/done/`.**
 
-- Phase 1 landed: the company wall lives in `sessions.service.ts` `requireExisting(id, callerOrgId?)`
-  — a cross-company id throws the same 404 as a missing session. `sessions.controller.ts`
-  threads the caller's company (from the cookie) into every read, write, and SSE stream
-  via an `assertOwner` helper. Null-org (anonymous/legacy) sessions stay open, unchanged.
-- Phase 1 tested: typecheck clean; `npm test` 51/51 incl. 5 new wall unit tests; + a free
-  live 2-company HTTP smoke (side-door OFF, no OpenAI key) — 8/8 (owner 200/202, other
-  company + anonymous 404 on read/question/write, legacy null-org still 201/200). Green-lit.
-- Phase 2 next: `requireAuth` on the protected runs + session endpoints; anonymous → 401
-  instead of the legacy unfenced view. Open decision to confirm: keep session *start* open
-  to logged-out visitors (recommended).
+- Phase 1 (fence live sessions): the company wall lives in `sessions.service.ts`
+  `requireExisting(id, callerOrgId?)` — cross-company id → same 404 as missing.
+  `sessions.controller.ts` threads the caller's company into every read/write/SSE stream.
+  Committed `12fc3071`. Tested: 51/51 + 5 wall unit tests + live 2-company smoke 8/8.
+- Phase 2 (guard the doors): `runs.controller.ts` `callerOrgId` now does `buildIdentity` →
+  `requireAuth` — all eight runs endpoints refuse anonymous (401) instead of the legacy
+  unfenced list. Sessions deliberately left as Phase 1 (open-start decision, 2026-07-01).
+  Tested: 51/51 + live runs-gate smoke 5/5 (anon 401, logged-in 200, dev side-door 200,
+  anon start still 201).
+- Both health-check holes are now shut. See SERO_BOARD.md.
 
 Pre-work this session (health check): fixed the stale smoke-test placeholder check that
 was blocking the whole gate/smoke harness — committed `0331cfa0`.

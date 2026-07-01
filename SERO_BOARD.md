@@ -19,8 +19,11 @@ with per-company data fencing. **Phase 007 — the login screen — is DONE (202
 existing admin console (no separate app, decided with Carl):** Phase 1 (login gate + register/login/logout
 screens + boot gate) and Phase 2 (data re-pointed to the logged-in company — runs fenced per company,
 sessions stamped with their company) are both green-lit and committed; the plan is closed to
-`docs/todo/done/login-screen/`. One hardening follow-up parked: fence live-session-by-id cross-open (the
-runs-history surface is fully fenced; not a browsable surface). Live per-phase tracker:
+`docs/todo/done/login-screen/`. **The parked hardening follow-up is now DONE (auth-hardening, 2026-07-01):**
+a post-007 health check confirmed two holes and both are shut — Phase 1 fences live sessions by company
+(cross-company access → 404), Phase 2 requires login on the runs endpoints (anonymous → 401, was the legacy
+unfenced list). Session *start* stays open to logged-out visitors by decision. Closed to
+`docs/todo/done/auth-hardening/`. Live per-phase tracker:
 [`STATUS.md`](STATUS.md); full phase list in the [tasks board](admin/src/stages/tasks.js).
 
 **Separate engine/runner track — built earlier, still awaiting Carl's product-owner QA** (not part of the
@@ -39,7 +42,7 @@ None has been walked through its QA scenarios. Next action on each: *Carl walks 
 green light → close out to `done/`.* To see runner features live, restart `npm run dev` (your dev
 server may be on old code).
 
-Tests: `npm test` **49/49** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
+Tests: `npm test` **51/51** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
 (not automated); `main` is currently **in sync with origin** — recent phases have been pushed.
 
 ## 2. Next — after Now is green

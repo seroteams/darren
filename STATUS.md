@@ -9,26 +9,25 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-**Auth hardening — Phase 1 ✅ done & committed. I'm now building Phase 2 (the login-required door).**
+**Auth hardening — DONE and closed ✅. Nothing is actively in flight — pick what's next.**
 
-📄 [docs/todo/auth-hardening/PLAN.md](docs/todo/auth-hardening/PLAN.md)
+Both holes the post-007 health check found are now shut, tested, and committed:
 
-A health check (after Phase 007 closed) found two access-control holes. This plan closes them, one phase at a time:
+- **Phase 1 — live sessions fenced by company.** One company can't read or write another's live session (404).
+- **Phase 2 — runs endpoints require login.** Logged-out callers get 401 instead of the legacy unfenced list.
+  Session *start* stays open to logged-out visitors, by your call.
 
-- **Phase 1 — Fence live sessions by company. ✅ done.** One company can no longer read or write another's live
-  session — it gets a 404 every time. Tested offline (51/51) + a free live 2-company HTTP smoke (8/8). Committed.
-- **Phase 2 — Guard the doors. 🔨 in progress.** Today a request with no login isn't denied — it falls through
-  to the legacy *unfenced* view. Phase 2 refuses anonymous callers (401) on the protected runs + session
-  endpoints. One open call to confirm: keep session *start* open to logged-out visitors (recommended).
-
-When Phase 2 is built I'll hand you its scenarios to QA before we close the plan out.
+Plan archived at [docs/todo/done/auth-hardening/](docs/todo/done/auth-hardening/PLAN.md). When you want the next
+thing, tell me which — a parked plan below, or an item from [SERO_BOARD.md](SERO_BOARD.md) (the "Cross-session
+follow-up" continuity loop is the flagged next big item).
 
 - Last updated: 2026-07-01
-- Phase 1: ✅ committed · offline 51/51 + live 2-company wall smoke 8/8 (side-door off, no OpenAI key → free).
-- Health check earlier this session: typecheck clean · build clean · 0 dep vulns · paid 2-case gate **PASS**
-  (happy + honesty sentinel, ~$0.70). Fixed a stale smoke-test check that was blocking the gate/smoke harness —
-  committed `0331cfa0`.
-- Prior plan (Phase 007 login screen): ✅ closed, archived at [docs/todo/done/login-screen/](docs/todo/done/login-screen/PLAN.md).
+- Phase 1: ✅ committed `12fc3071` · 51/51 + live 2-company wall smoke 8/8.
+- Phase 2: ✅ committed with close-out · 51/51 + live runs-gate smoke 5/5 (anon 401, logged-in 200, dev
+  side-door 200, anon start 201). Side-door off + no OpenAI key → both smokes free.
+- Earlier this session: health check (typecheck clean · build clean · 0 dep vulns · paid 2-case gate **PASS**,
+  ~$0.70) + fixed a stale smoke-test check that was blocking the gate/smoke harness (`0331cfa0`).
+- Prior plan (Phase 007 login screen): ✅ closed at [docs/todo/done/login-screen/](docs/todo/done/login-screen/PLAN.md).
 
 ---
 

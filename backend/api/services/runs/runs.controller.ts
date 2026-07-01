@@ -6,13 +6,18 @@ import type { RequestContext } from "../../router.ts";
 import { createRunsService } from "./runs.service.ts";
 import { fileRunsRepo } from "./runs.repo.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
+import { requireAuth } from "../../middleware/require-auth.ts";
 
 const service = createRunsService(fileRunsRepo);
 
-// The caller's company from the session cookie — the data wall (Phase 007/2).
-// null for an anonymous request → the service stays unfenced (legacy behaviour).
+// The caller's company from the session cookie, login required (auth-hardening Phase 2).
+// Anonymous → 401 (was: null → the legacy UNFENCED list). The dev side-door still yields
+// an identity, so dev one-click is unaffected. All runs handlers resolve through here, so
+// this one guard protects every runs endpoint.
 async function callerOrgId(c: RequestContext): Promise<string | null> {
-  return (await buildIdentity(c.req)).orgId;
+  const identity = await buildIdentity(c.req);
+  requireAuth(identity);
+  return identity.orgId;
 }
 
 export async function recent(c: RequestContext): Promise<void> {
