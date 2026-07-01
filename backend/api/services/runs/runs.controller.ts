@@ -6,17 +6,18 @@ import type { RequestContext } from "../../router.ts";
 import { createRunsService } from "./runs.service.ts";
 import { fileRunsRepo } from "./runs.repo.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
-import { requireAuth } from "../../middleware/require-auth.ts";
+import { requireAdmin } from "../../middleware/require-auth.ts";
 
 const service = createRunsService(fileRunsRepo);
 
-// The caller's company from the session cookie, login required (auth-hardening Phase 2).
-// Anonymous → 401 (was: null → the legacy UNFENCED list). The dev side-door still yields
-// an identity, so dev one-click is unaffected. All runs handlers resolve through here, so
+// The caller's company from the session cookie, ADMIN required (admin-access-guard
+// Phase 2). Run history + Run Review are internal QA tooling, so a logged-in non-admin
+// member is refused (403); anonymous is 401. The dev side-door still yields an owner
+// identity, so dev one-click is unaffected. All runs handlers resolve through here, so
 // this one guard protects every runs endpoint.
 async function callerOrgId(c: RequestContext): Promise<string | null> {
   const identity = await buildIdentity(c.req);
-  requireAuth(identity);
+  requireAdmin(identity);
   return identity.orgId;
 }
 

@@ -2,9 +2,9 @@ import "@fontsource-variable/inter";
 import "./styles/tailwind.css";
 import "./styles/design.css";
 
-import { STAGES, store, subscribe, setState, resetSession } from "./state.js";
+import { STAGES, store, subscribe, setState, resetSession, isAdmin } from "./state.js";
 import { getSession, listRecentRuns, runRegression, me } from "./api.js";
-import { syncUrl, parseLocation, startPopstate, isFlowStage } from "./router.js";
+import { syncUrl, parseLocation, startPopstate, isFlowStage, isAdminStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createBuildStamp } from "./ui/build-stamp.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
@@ -100,7 +100,7 @@ let routedStage = null;
 let routedTick = null;
 subscribe((s) => {
   topbar.render({ ctx: s.ctx, stage: s.stage, sessionId: s.sessionId });
-  appNav.render({ stage: s.stage });
+  appNav.render({ stage: s.stage, user: s.user });
   notesPanel.render(s);
   if (s.stage !== routedStage || s.stageTick !== routedTick) {
     routedStage = s.stage;
@@ -111,6 +111,11 @@ subscribe((s) => {
 });
 
 startPopstate((parsed) => {
+  // A member can't reach an admin screen via back/forward — bounce to the prep flow.
+  if (store.user && isAdminStage(parsed.stage) && !isAdmin(store.user)) {
+    setState({ stage: STAGES.INTAKE, substage: "NAME" });
+    return;
+  }
   if (parsed.stage === STAGES.REVIEW_RUN) {
     if (parsed.params?.reviewRunId) setState({ reviewRunId: parsed.params.reviewRunId, stage: STAGES.REVIEW_RUN });
     else setState({ stage: STAGES.START });
@@ -174,6 +179,23 @@ async function boot() {
   // Logged in — record who, then carry on with the normal boot below. Mutate
   // directly (no notify) so the real stage is what renders, no login flash.
   store.user = { userId: identity.userId, orgId: identity.orgId, roles: identity.roles };
+
+  // A plain member only gets the prep flow (admin-access-guard Phase 2). Resume a live
+  // session if the URL points at one; otherwise land on a new session. Admin screens
+  // (run history, library, the internal tooling) are never rendered for a member — the
+  // rest of boot below is the owner/admin path.
+  if (!isAdmin(store.user)) {
+    if (route && isFlowStage(route.stage)) {
+      try {
+        const id = localStorage.getItem("seroSessionId");
+        if (id && await rehydrateById(id)) return;   // resume — syncUrl corrects the URL
+      } catch (e) { console.warn("[boot] member rehydrate failed:", e); }
+    }
+    history.replaceState(null, "", "/new");
+    setState({ stage: STAGES.INTAKE, substage: "NAME" });
+    return;
+  }
+
   if (route?.stage === STAGES.LOGIN || route?.stage === STAGES.REGISTER) {
     setState({ stage: STAGES.START });
     return;

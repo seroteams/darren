@@ -48,6 +48,13 @@ const FLOW = new Set([STAGES.FOCUS_POINTS, STAGES.PREPARATION, STAGES.BANK,
   STAGES.QUESTIONING, STAGES.EVAL, STAGES.BRIEFING, STAGES.RUN_DEBRIEF]);
 export const isFlowStage = (stage) => FLOW.has(stage);
 
+// Screens reserved for owners/admins — the internal tooling + the run-history dashboard
+// (admin-access-guard Phase 2). A member deep-linking here is bounced to the prep flow.
+const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE, STAGES.REGRESSION,
+  STAGES.PERSONAS, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
+  STAGES.TASKS, STAGES.GUIDE, STAGES.REVIEW_RUN]);
+export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
+
 export function parseLocation() {
   const p = window.location.pathname.replace(/\/+$/, "") || "/";
   if (STAGE_FOR[p]) return { stage: STAGE_FOR[p] };

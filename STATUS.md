@@ -9,31 +9,24 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-**Admin access guard (Option A) — Phase 1 ✅ done. Phase 2 is ready when you are.**
+**Admin access guard (Option A) — DONE and closed ✅. Nothing is actively in flight — pick what's next.**
 
-We're separating the internal admin tooling from the customer flow *without* the big app split (Option A from
-the 2026-07-01 revisit). Two phases; **Phase 1 green-lit + committed**. Phase 2 waits on your go.
+The internal admin tooling is now separated from the customer flow *without* the big app split: login-gated
+(Phase 1) and admin-role-gated (Phase 2). A plain member is refused the tooling (403) and can't see it in the
+console; owners are unaffected. Verified over HTTP (anon 401 · member 403 · owner 200 · prep flow 200).
 
-- **Phase 1 ✅ — require login on the internal tooling.** Every admin-only endpoint (pipeline, checks,
-  regression, arcs, lexicon promotion, role-lexicons, suggest-fix, library) now needs a logged-in caller —
-  logged out you get a 401 instead of internal data. You walked all 3 scenarios ("all passed").
-- **Phase 2 ⬜ — the admin-role wall.** Require an owner/admin *role* (403 for a plain member), hide the admin
-  tools in the console from non-admins, and add a member account so we can actually test it.
+- **Phase 1 ✅ — require login on the internal tooling.** (committed `370033b5`)
+- **Phase 2 ✅ — the admin-role wall + hide the UI.** (green-lit + committed 2026-07-01)
+- Plus a dev-only **Admin/Standard login quick-swap** to make testing the wall easy (`53dbd0ae`).
 
-**👉 Next: say go and I'll start Phase 2** (see [docs/todo/admin-access-guard/phase-2.md](docs/todo/admin-access-guard/phase-2.md)).
-One flagged decision waits there: whether Run Review/delete/archive should also go admin-only.
+Plan archived at [docs/todo/done/admin-access-guard/](docs/todo/done/admin-access-guard/PLAN.md). Parked for
+later: the fuller splits — **Option B** (`/api/admin/*` route prefix) and **Option C** (a separate customer
+`frontend/` app) — plus a roles-management UI (invite teammates, assign owner/admin/member).
+
+**👉 Pick the next thing** — a parked plan below, or an item from [SERO_BOARD.md](SERO_BOARD.md).
 
 - Last updated: 2026-07-01
-- Baseline (free): `npm test` 51/51 · typecheck clean. After Phase 1: **52/52** (+admin-guard unit test) · typecheck clean.
-- Plan: [docs/todo/admin-access-guard/PLAN.md](docs/todo/admin-access-guard/PLAN.md).
-
-### Boxes
-- [x] **Phase 1 — require login on internal tooling** ✅ green-lit + committed 2026-07-01
-  - [x] login-route guard built + unit-tested (anon 401 / logged-in ok / dev side-door ok)
-  - [x] wired onto every admin-only route (v1 + legacy) · customer flow untouched
-  - [x] `npm test` 52/52 · typecheck clean
-  - [x] you walked the 3 scenarios and said go
-- [ ] **Phase 2 — admin-role wall + hide the UI** ⬜ not started (say go to start)
+- Phase 2 close-out: `npm test` 52/52 · typecheck clean · `npm run build` clean.
 
 ---
 

@@ -14,7 +14,7 @@ import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as auth from "./services/auth/auth.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
-import { requireLoginRoute } from "./middleware/admin-guard.ts";
+import { requireAdminRoute } from "./middleware/admin-guard.ts";
 import { forbidden, rateLimited } from "./middleware/http-error.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
 import * as runs from "./services/runs/runs.controller.ts";
@@ -65,11 +65,11 @@ function originOk(req: IncomingMessage): boolean {
   }
 }
 
-// Admin tooling requires a logged-in user (admin-access-guard Phase 1). adminV1 keeps
-// the one v1 error shape; adminLegacy wraps the bare /api aliases + the library stream.
-// The owner/admin ROLE check lands in Phase 2.
-const adminV1 = (h: RouteHandler): RouteHandler => v1Route(requireLoginRoute(h));
-const adminLegacy = (h: RouteHandler): RouteHandler => requireLoginRoute(h);
+// Admin tooling requires a logged-in owner/admin (admin-access-guard Phase 2). adminV1
+// keeps the one v1 error shape; adminLegacy wraps the bare /api aliases + the library
+// stream. (Runs endpoints gate themselves in the controller via requireAdmin.)
+const adminV1 = (h: RouteHandler): RouteHandler => v1Route(requireAdminRoute(h));
+const adminLegacy = (h: RouteHandler): RouteHandler => requireAdminRoute(h);
 
 function main(): void {
   warnIfNoKey();

@@ -3,7 +3,7 @@
 // once in main.js, persistent across every screen. The session topbar sits to
 // its right in-session. render({ stage }) keeps the active link in sync.
 
-import { STAGES } from "../state.js";
+import { STAGES, isAdmin } from "../state.js";
 import { logout } from "../api.js";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
@@ -34,17 +34,19 @@ const ICON = {
 };
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
+// `admin: true` marks an owner/admin-only tool — hidden from a plain member, who only
+// sees the prep flow (admin-access-guard Phase 2).
 const LINKS = [
-  { key: "home", label: "Home", stage: STAGES.START, icon: ICON.home },
+  { key: "home", label: "Home", stage: STAGES.START, icon: ICON.home, admin: true },
   { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new },
-  { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library },
-  { key: "compare", label: "Compare runs", stage: STAGES.COMPARE, icon: ICON.compare },
-  { key: "regression", label: "Regression", stage: STAGES.REGRESSION, icon: ICON.regression },
-  { key: "personas", label: "Personas", stage: STAGES.PERSONAS, icon: ICON.personas },
-  { key: "lexicon", label: "Coaching phrases", stage: STAGES.LEXICON_REVIEW, icon: ICON.lexicon },
-  { key: "joblex", label: "Role words", stage: STAGES.ROLE_LEXICONS, icon: ICON.joblex },
-  { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs },
-  { key: "tasks", label: "Tasks", stage: STAGES.TASKS, icon: ICON.tasks },
+  { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library, admin: true },
+  { key: "compare", label: "Compare runs", stage: STAGES.COMPARE, icon: ICON.compare, admin: true },
+  { key: "regression", label: "Regression", stage: STAGES.REGRESSION, icon: ICON.regression, admin: true },
+  { key: "personas", label: "Personas", stage: STAGES.PERSONAS, icon: ICON.personas, admin: true },
+  { key: "lexicon", label: "Coaching phrases", stage: STAGES.LEXICON_REVIEW, icon: ICON.lexicon, admin: true },
+  { key: "joblex", label: "Role words", stage: STAGES.ROLE_LEXICONS, icon: ICON.joblex, admin: true },
+  { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs, admin: true },
+  { key: "tasks", label: "Tasks", stage: STAGES.TASKS, icon: ICON.tasks, admin: true },
 ];
 
 export function createAppNav({ setState, resetSession } = {}) {
@@ -53,7 +55,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   document.body.classList.add("has-app-nav");
 
   const items = [...LINKS];
-  if (import.meta.env.DEV) items.push({ key: "guide", label: "Guide", stage: STAGES.GUIDE, icon: ICON.guide });
+  if (import.meta.env.DEV) items.push({ key: "guide", label: "Guide", stage: STAGES.GUIDE, icon: ICON.guide, admin: true });
 
   el.innerHTML = `
     <div class="app-nav__inner">
@@ -64,7 +66,7 @@ export function createAppNav({ setState, resetSession } = {}) {
       <nav class="app-nav__links" aria-label="Primary">
         ${items
           .map(
-            (it) => `<button type="button" class="app-nav__link js-nav-${it.key}" data-key="${it.key}">
+            (it) => `<button type="button" class="app-nav__link js-nav-${it.key}" data-key="${it.key}" data-admin="${it.admin ? "1" : ""}">
           <span class="app-nav__icon">${it.icon}</span>
           <span class="app-nav__label">${it.label}</span>
         </button>`
@@ -123,7 +125,7 @@ export function createAppNav({ setState, resetSession } = {}) {
 
   // Persistent across every screen — re-assert the body class and light up the
   // link that matches the current stage (none during an in-run flow).
-  function render({ stage } = {}) {
+  function render({ stage, user } = {}) {
     // The login/register screens stand alone — no nav rail.
     if (stage === STAGES.LOGIN || stage === STAGES.REGISTER) {
       el.classList.add("is-hidden");
@@ -132,6 +134,9 @@ export function createAppNav({ setState, resetSession } = {}) {
     }
     el.classList.remove("is-hidden");
     document.body.classList.add("has-app-nav");
+    // Owner/admin-only tools are hidden from a plain member (admin-access-guard Phase 2).
+    const admin = isAdmin(user);
+    el.querySelectorAll('[data-admin="1"]').forEach((b) => { b.hidden = !admin; });
     const activeKey = ACTIVE_BY_STAGE[stage] || null;
     el.querySelectorAll(".app-nav__link").forEach((b) => {
       const on = b.dataset.key === activeKey;

@@ -67,6 +67,15 @@ export function setState(patch) {
   }
 }
 
+// True when the logged-in user is an owner/admin — the internal tooling is theirs, a
+// plain member only gets the prep flow (admin-access-guard Phase 2). Handles both shapes
+// we store: me() gives { roles: [...] }, login() gives a PublicUser { role: "..." }.
+export function isAdmin(user) {
+  if (!user) return false;
+  const roles = Array.isArray(user.roles) ? user.roles : user.role ? [user.role] : [];
+  return roles.includes("owner") || roles.includes("admin");
+}
+
 export function resetSession() {
   // Preserve the logged-in user across a session reset — "new session" clears the
   // run, not the login.
