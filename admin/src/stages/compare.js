@@ -1,5 +1,5 @@
 import { STAGES } from "../state.js";
-import { listRecentRuns, getRunFull, suggestFix, postVerdict } from "../api.js";
+import { listRecentRuns, getRunFull, suggestFix, postVerdict } from "../../../shared/api.js";
 
 const FIX_STAGES = ["focus_points", "preparation", "bank", "questioning", "evaluation"];
 

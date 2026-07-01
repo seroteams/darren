@@ -4,7 +4,7 @@
 // switches back to the login screen.
 
 import { STAGES } from "../state.js";
-import { register, login } from "../api.js";
+import { register, login } from "../../../shared/api.js";
 
 export async function mount(root, { setState }) {
   root.innerHTML = `

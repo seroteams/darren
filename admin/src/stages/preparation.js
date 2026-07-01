@@ -1,6 +1,6 @@
 import { STAGES, resetSession } from "../state.js";
 import { createOrb } from "../ui/orb.js";
-import { openSse } from "../sse.js";
+import { openSse } from "../../../shared/sse.js";
 import { revealSequence } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";

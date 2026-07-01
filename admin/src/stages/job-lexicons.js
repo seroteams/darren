@@ -2,7 +2,7 @@
 // terminology). You can add your own words per role; they save to a separate
 // overlay (never overwriting the AI's) and show marked as "yours".
 
-import { getRoleLexicons, addRoleLexiconTerm, removeRoleLexiconTerm } from "../api.js";
+import { getRoleLexicons, addRoleLexiconTerm, removeRoleLexiconTerm } from "../../../shared/api.js";
 import { escapeHtml as esc } from "../ui/html.js";
 import { groupTerms, isGrouped } from "../ui/vocab-groups.js";
 

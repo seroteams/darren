@@ -1,6 +1,6 @@
 import { STAGES } from "../state.js";
 import { createOrb } from "../ui/orb.js";
-import { openSse } from "../sse.js";
+import { openSse } from "../../../shared/sse.js";
 
 let unmountFn = null;
 const MIN_DISPLAY_MS = 1000;

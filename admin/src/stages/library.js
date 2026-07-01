@@ -5,7 +5,7 @@
 // toggle). No Resume/Delete here — finished runs are for judging, not editing.
 
 import { STAGES, setState } from "../state.js";
-import { getFinishedRuns, getRunFull, setArchived } from "../api.js";
+import { getFinishedRuns, getRunFull, setArchived } from "../../../shared/api.js";
 import { libraryBadge, serializeReview } from "../ui/review-serialize.js";
 
 const FILTERS = [

@@ -4,7 +4,7 @@
 // only reads cached store fields plus getRunFull(sessionId) for the Q&A
 // transcript, which the store does not hold.
 
-import { getRunFull } from "../api.js";
+import { getRunFull } from "../../../shared/api.js";
 import { TOPBAR_STAGES } from "./stage-labels.js";
 import { escapeHtml as esc } from "./html.js";
 

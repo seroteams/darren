@@ -1,7 +1,7 @@
 import { STAGES } from "../state.js";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
-import { postVerdict } from "../api.js";
+import { postVerdict } from "../../../shared/api.js";
 import { escapeCopy as escape } from "../ui/html.js";
 
 const WHEN_ORDER = ["today", "this week", "this month", "next 1:1"];

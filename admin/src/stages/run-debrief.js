@@ -1,5 +1,5 @@
 import { STAGES } from "../state.js";
-import { getLexiconScope } from "../api.js";
+import { getLexiconScope } from "../../../shared/api.js";
 import { buildPayloadFromStore, buildQaReviewPromptFromStore, mountRunDebrief } from "../ui/run-debrief.js";
 
 export async function mount(root, { store, setState, resetSession }) {

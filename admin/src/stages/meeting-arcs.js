@@ -4,7 +4,7 @@
 // overlay (never the source); "Reset to default" wipes them. Renaming or removing
 // a phase that has tagged questions warns before it orphans them.
 
-import { getArcs, saveArc, resetArc } from "../api.js";
+import { getArcs, saveArc, resetArc } from "../../../shared/api.js";
 import { escapeHtml as esc } from "../ui/html.js";
 
 const STYLE = `

@@ -1,5 +1,5 @@
 import { STAGES, store } from "../state.js";
-import { listRecentRuns, getRunOverview, deleteRun, getPersonaBench, startSession, getPipelineStatus } from "../api.js";
+import { listRecentRuns, getRunOverview, deleteRun, getPersonaBench, startSession, getPipelineStatus } from "../../../shared/api.js";
 import { confirmAction, alertAction } from "../ui/confirm.js";
 import { stageLabel } from "../ui/stage-labels.js";
 import { escapeHtml as escape } from "../ui/html.js";

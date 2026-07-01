@@ -4,7 +4,7 @@
 // server is stale, this stays on the old SHA until a restart — that's the tell.
 // Click to copy the SHA.
 
-import { getVersion } from "../api.js";
+import { getVersion } from "../../../shared/api.js";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 

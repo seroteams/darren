@@ -3,7 +3,7 @@
 // A link switches to the register screen.
 
 import { STAGES } from "../state.js";
-import { login } from "../api.js";
+import { login } from "../../../shared/api.js";
 
 export async function mount(root, { setState }) {
   root.innerHTML = `

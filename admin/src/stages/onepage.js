@@ -11,10 +11,10 @@
 // Reuses api.js, sse.js, orb.js, reveal.js and the existing design-system classes.
 
 import { STAGES, resetSession } from "../state.js";
-import { getMeetingTypes, startSession, setSelectedFocus, getQuestion, submitAnswer, setAgendaCovered, getRoleProfile } from "../api.js";
+import { getMeetingTypes, startSession, setSelectedFocus, getQuestion, submitAnswer, setAgendaCovered, getRoleProfile } from "../../../shared/api.js";
 import { focusField } from "../ui/field.js";
 import { revealOne, sleep } from "../ui/reveal.js";
-import { openSse } from "../sse.js";
+import { openSse } from "../../../shared/sse.js";
 import { createOrb } from "../ui/orb.js";
 import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { escapeCopy as escape } from "../ui/html.js";

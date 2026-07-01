@@ -1,11 +1,11 @@
 import { STAGES, resetSession } from "../state.js";
 import { createOrb } from "../ui/orb.js";
-import { openSse } from "../sse.js";
+import { openSse } from "../../../shared/sse.js";
 import { revealSequence } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";
 import { renderCtxSegments } from "../ui/notes-panel-utils.js";
-import { setSelectedFocus } from "../api.js";
+import { setSelectedFocus } from "../../../shared/api.js";
 import { escapeCopy as escape } from "../ui/html.js";
 
 export async function mount(root, { store, setState }) {

@@ -4,7 +4,7 @@
 // text exactly as logged — nothing is reworded or hidden (engine-honesty rule);
 // "what shipped" appears only where a post-processed copy was actually logged.
 
-import { getRunStages, getStagePreview } from "../api.js";
+import { getRunStages, getStagePreview } from "../../../shared/api.js";
 import { STAGES } from "../state.js";
 import { escapeHtml } from "./html.js";
 

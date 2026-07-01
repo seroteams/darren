@@ -6,7 +6,7 @@
 // Mounted once in main.js, kept in sync by the store subscribe callback.
 
 import { STAGES } from "../state.js";
-import { deleteRun } from "../api.js";
+import { deleteRun } from "../../../shared/api.js";
 import { confirmAction } from "./confirm.js";
 import { TOPBAR_STAGES } from "./stage-labels.js";
 import { createGlossaryButton } from "./glossary.js";

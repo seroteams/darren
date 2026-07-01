@@ -1,8 +1,8 @@
 import { STAGES } from "../state.js";
-import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack } from "../api.js";
+import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack } from "../../../shared/api.js";
 import { createOrb } from "../ui/orb.js";
 import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
-import { openSse } from "../sse.js";
+import { openSse } from "../../../shared/sse.js";
 import { revealOne, sleep } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
 import { renderCtxSegments } from "../ui/notes-panel-utils.js";

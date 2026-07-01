@@ -25,14 +25,13 @@ Right now there is **one** app. `admin/` is a single Vite SPA that serves *both*
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 STARTED 2026-07-01 (Carl green-lit "start Phase 1 now") — build not yet done; best continued in a fresh session.**
-- **Baseline captured (free, 2026-07-01):** `npm test` **52/52** · `npm run typecheck` clean.
+**Phase 1 BUILT 2026-07-01 — awaiting Carl's QA (committed pre-QA at his "finish" request).**
+- **What landed:** `api.js` + `sse.js` moved to a new repo-root `shared/` folder (with a README); all 26 admin importers repointed to `../../shared/…`; `vite.config.js` `server.fs.allow` opened to the repo root so the sibling `shared/` resolves in dev. `state.js`/`router.js` deliberately **left in admin** — they interleave admin + member concerns and get *split* when the customer app is built (Phase 2/3), not moved whole.
+- **Verified (free):** `npm run build` (vite/Rollup) resolves every import — all 27 stages compiled ✓. `npm test` **52/52**, typecheck clean (backend untouched). Frontend has no unit tests, so the build is the resolution proof; the visual "nothing changed" walk is Carl's QA.
+- **Baseline (free, 2026-07-01):** `npm test` **52/52** · typecheck clean.
 - **Decisions locked** (see below): share via a plain folder (A); JS→TS out of scope.
-- **Blast-radius finding (why the build wants its own fresh session):**
-  - `api.js` + `sse.js` alone are imported in **27 files** — the "move shared machinery" step is a wide, mechanical import-repoint.
-  - `state.js` (the `STAGES` enum) and `router.js` interleave admin **and** member concerns — they can't be "moved whole"; they get **split** when the customer app is built (Phase 2/3), not in the foundation step. Phase 1 is refined to move only the genuinely-shared, non-branching modules (api/sse, generic `ui/` primitives, base styles).
-  - **Verification is build/preview-only:** `npm test` + `tsc` are backend-only and won't catch a broken frontend import. Phase 1 must be verified with a Vite build (mind the dev-server port conflict — Carl runs 3000/3001).
-- **Heads-up (guardrail):** this is **parked** in the live plan ([009](../009-ready-to-share/PLAN.md) "Option C"); building it pauses 009 alpha-readiness. Carl chose to start it knowingly.
+- **Heads-up (guardrail):** this is **parked** in the live plan ([009](../009-ready-to-share/PLAN.md) "Option C"); building it pauses 009 alpha-readiness. Carl chose to proceed knowingly.
+- **Next:** Carl walks the Phase 1 scenarios (below) — the app should behave exactly as before. On green light → Phase 2 (stand up the customer app in `frontend/`).
 
 ## Decisions (locked 2026-07-01)
 - **Sharing = plain folder (A).** Both apps import shared modules via relative paths — simplest, no new tooling. Revisit workspaces (B) only if the customer app grows. (Rejected: copy/duplicate — drifts.)

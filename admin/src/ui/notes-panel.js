@@ -6,7 +6,7 @@
 // Notes behaviour is unchanged from before tabs existed; Sent/Reply are rendered
 // by stage-data-tab.js from the run's logged stage I/O.
 
-import { postNote } from "../api.js";
+import { postNote } from "../../../shared/api.js";
 import { STAGES } from "../state.js";
 import {
   attachAutoGrow,

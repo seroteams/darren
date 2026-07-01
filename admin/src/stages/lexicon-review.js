@@ -4,7 +4,7 @@ import {
   submitLexiconDecisions,
   getLexiconPromotePending,
   submitLexiconPromote,
-} from "../api.js";
+} from "../../../shared/api.js";
 import { revealSequence } from "../ui/reveal.js";
 import { escapeCopy as escape, escapeHtml } from "../ui/html.js";
 

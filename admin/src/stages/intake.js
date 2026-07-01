@@ -1,5 +1,5 @@
 import { STAGES, resetSession } from "../state.js";
-import { getMeetingTypes, startSession } from "../api.js";
+import { getMeetingTypes, startSession } from "../../../shared/api.js";
 import { swapField, focusField } from "../ui/field.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";

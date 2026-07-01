@@ -2,7 +2,7 @@
 // same set powers the homepage demo dropdown and the Regression safety suite, so
 // this is one consistent cast across the app. Read-only.
 
-import { getPersonaBench, runRegression } from "../api.js";
+import { getPersonaBench, runRegression } from "../../../shared/api.js";
 import { escapeHtml as esc } from "../ui/html.js";
 
 export async function mount(root) {

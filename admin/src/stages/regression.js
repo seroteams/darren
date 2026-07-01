@@ -1,7 +1,7 @@
 // Regression — re-grade the saved "key runs" against the current engine and show
 // which still behave correctly. Offline, no AI (same check as `npm run replay`).
 
-import { runRegression } from "../api.js";
+import { runRegression } from "../../../shared/api.js";
 import { escapeHtml as esc } from "../ui/html.js";
 
 const TAG =

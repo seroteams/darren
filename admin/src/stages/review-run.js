@@ -4,7 +4,7 @@
 // the run folder via POST /api/runs/:id/review. Not part of the live manager flow.
 
 import { STAGES, store } from "../state.js";
-import { getRunFull, saveReview } from "../api.js";
+import { getRunFull, saveReview } from "../../../shared/api.js";
 import { DIMENSIONS, OVERALL_VALUES, reviewStatusFromMarks, serializeReview, engineTag } from "../ui/review-serialize.js";
 
 const OVERALL_LABEL = { keep: "Keep", fix: "Fix", block: "Block" };

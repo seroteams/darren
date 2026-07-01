@@ -4,7 +4,7 @@
 // its right in-session. render({ stage }) keeps the active link in sync.
 
 import { STAGES, isAdmin } from "../state.js";
-import { logout } from "../api.js";
+import { logout } from "../../../shared/api.js";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
   <rect width="48" height="48" rx="12" fill="var(--color-ink)"/>
