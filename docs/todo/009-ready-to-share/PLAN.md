@@ -26,8 +26,8 @@ and the codebase reads clean to a newcomer.
 | 3 | Privacy note + first run | Plain privacy/consent note · onboarding empty states · a clear "run your first 1:1" path | A | 🟢 done (verified live) |
 | 4 | Clear the QA pile | The built-but-unQA'd features each signed off or cut, so nothing half-built shows | A | 🟢 |
 | 5 | Feedback + one-pager | A simple in-app feedback route · a "what Sero is / what to expect" page | A | 🟢 done (verified live) |
-| 6 | Finish repo-tidy | repo-tidy phases 3–4 + parked naming pass & hermetic tests | B | 🟡 built + offline-verified (awaiting QA) |
-| 7 | Tidy docs + newcomer README | Finish tracker-consolidation 2–4 · conventions/dead-code sweep · a README a newcomer follows | B | 🟡 built + offline-verified (awaiting QA) |
+| 6 | Finish repo-tidy | repo-tidy phases 3–4 + parked naming pass & hermetic tests | B | 🟢 done — Carl walked it 2026-07-01 ("tried it and it's fine") |
+| 7 | Tidy docs + newcomer README | Finish tracker-consolidation 2–4 · conventions/dead-code sweep · a README a newcomer follows | B | 🟢 done — Carl walked it 2026-07-01 |
 | 8 | Continuity loop | Meeting #2 reviews meeting #1's actions & commitments | C | ⏸ deferred (Carl, 2026-07-01) |
 
 🔴 not started · 🟡 in progress · 🟢 done (tested) · ✂️ cut
@@ -98,10 +98,12 @@ notes can be HR-adjacent — never committed).
 4. Log out and `POST /api/v1/feedback` directly → 401.
 
 ## Current state
-**Phases 1 · 3 · 4 · 5 ✅ done (3 & 5 verified end-to-end 2026-07-01). Phases 6 & 7 🟡 built +
-offline-verified 2026-07-01 (Carl: "build 6 & 7, then close") — awaiting Carl's QA walk. Phase 2 ⏸ parked
-(not hosting yet). Phase 8 (continuity / "remembering") ⏸ deferred by Carl (2026-07-01) — "we can do the
-remembering and teams later".**
+**Phases 1 · 3 · 4 · 5 · 6 · 7 ✅ done — 6 & 7 walked + signed off by Carl 2026-07-01 ("tried it and
+it's fine"). Phase 2 ⏸ parked (not hosting yet). Phase 8 (continuity / "remembering") ⏸ deferred by Carl
+(2026-07-01).** Every non-parked / non-deferred phase of 009 is complete. Remaining 009 scope (hosting,
+continuity) now lives under the **pre-go-live** track (see [SERO_BOARD.md](../../../SERO_BOARD.md)); Carl is
+restructuring the roadmap there. **Formal archive of this folder → `done/` left to Carl** so it lands where
+his reorg puts it (his SERO_BOARD treats 009 as paused-under-pre-go-live, not simply done).
 
 **Phase 6 (repo-tidy 3–4 + hermetic tests) — built, offline-verified, committed:**
 - **P6a** `sessions.controller.ts` split 698→134 lines: thin controller + `session-runtime.ts` (service
@@ -122,8 +124,9 @@ remembering and teams later".**
   with Carl's in-flight reformat of that file). Link reconciliation to `docs/archives/…` verified clean
   (inbound live links repointed; archived internals left frozen per `docs/archives/README.md`).
 
-**Close-out remaining (needs Carl):** flip STATUS.md / SERO_BOARD.md / build badges + move this folder to
-`done/` — held because Carl is live-editing the trackers, and because 6 & 7 are built-not-QA'd (his walk pending).
+**Close-out remaining (Carl's, when the reorg settles):** reflect 6 & 7's sign-off in STATUS.md / SERO_BOARD.md
+and move this folder to `done/`. Left to Carl because he's mid-restructure of those trackers (folding 009's
+open scope into the pre-go-live track) and moving the folder would break the live links he's editing.
 
 Original Phase-1 sign-off detail below.
 
