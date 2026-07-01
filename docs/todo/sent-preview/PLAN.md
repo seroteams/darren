@@ -29,8 +29,8 @@ stage is about to send. This adds a **preview**: assemble the same payload the r
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Backend preview | Shared assembler for Preparation + `GET /api/preview?s=<id>` returning the payload, no API call | 🔨 |
-| 2 | Sent-tab preview | Sent tab fetches + renders the preview when the stage hasn't logged yet, labelled "about to send" | 🔨 |
+| 1 | Backend preview | Shared assembler for Preparation + `GET /api/preview?s=<id>` returning the payload, no API call | ✅ |
+| 2 | Sent-tab preview | Sent tab fetches + renders the preview when the stage hasn't logged yet, labelled "about to send" | ✅ |
 
 ⬜ not started · 🔨 built, awaiting product-owner QA · ✅ done (tested)
 
@@ -41,8 +41,15 @@ Code-verified: `assemblePreparation` (`backend/engine/preparation.ts`), `PREVIEW
 fallback (`admin/src/ui/stage-data-tab.js`). The genuinely outstanding item is only Carl's on-screen QA of the
 "about to send" banner — badge stays 🔨 until he ticks. (`npm test` now 52/52, up from the 30/30 below.)
 
+**✅ Both phases ticked 2026-07-01** (QA-pile clear-out). Walked live on the Maya session: (1) preview
+endpoint `GET /api/v1/sessions/:id/preview?stage=PREPARATION` returned the full ~19k-char prompt with
+**zero** API calls; (2) on the Prep-brief step, the **Sent** tab showed the payload clearly labelled
+*"Not sent yet — this is the exact text we'll send the moment this step runs. Nothing has left your
+machine"* with a "preview — not yet sent" reveal (screenshot captured). Byte-for-byte match vs the real
+logged prompt was confirmed by the prior audit. One preparation stage was run to capture the in-tab
+screenshot (Carl-approved paid check).
+
 Both phases **built in one pass** (Phase 1 isn't visible in the UI on its own, so they QA together).
-Awaiting Carl's in-app QA before the ✅ tick.
 
 Verified so far (free, no API spend):
 - `npm test` → 30/30. `frontend` client build → all bundles resolve (incl. new `getStagePreview` import).

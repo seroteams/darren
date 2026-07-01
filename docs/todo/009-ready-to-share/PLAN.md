@@ -42,7 +42,7 @@ The built-but-un-QA'd features, walked one at a time. Tick 🟢 (signed off) or 
 | 3 | tracker-consolidation P1 | invisible: a "which tracker is which" map | 🟢 |
 | 4 | member-nav P1 | member sees a simple Home · Team · Runs rail | 🟢 (landing fix `fc77b8ba`) |
 | 5 | stage-data-tabs | Notes · Sent · Reply tabs on the right rail | 🟢 (walked live, 1 paid stage) |
-| 6 | sent-preview | "about to send" preview before a stage runs | 🔴 |
+| 6 | sent-preview | "about to send" preview before a stage runs | 🟢 (walked live) |
 | 7 | repo-tidy P2 | invisible: queue-manager split 1309→434 lines | 🔴 |
 | 8 | todo-board-rebuild P3 | ⚠️ gap: "Run the checks" button — backend built, UI missing | 🔴 |
 | 9 | briefing-grounding-fixes P1 | ⚠️ gap: over-claim damper — code present, **uncommitted** | 🔴 |
