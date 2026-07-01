@@ -1,0 +1,10 @@
+alias: q_tech_lead_shape
+label: Tech lead shape
+name: When you picture that tech lead role, what would be different in your week?
+description: Drills into the named aspiration so he defines the role in concrete work, scope, and decisions.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: tech lead role

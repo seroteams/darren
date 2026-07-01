@@ -1,0 +1,10 @@
+alias: q_payments_win_thread
+label: Payments win thread
+name: What part of that payments work felt most worth owning for you?
+description: Drills into the concrete refactor win she volunteered to surface what kind of work gives her momentum.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: owned the migration plan

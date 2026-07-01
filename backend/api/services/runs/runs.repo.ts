@@ -17,6 +17,7 @@ import {
   findRunDir,
   listFinishedRunsForMember,
   memberRunView,
+  cloneRun,
 } from "../../../engine/run-history.ts";
 import { dropSession } from "../../sessions.ts";
 
@@ -53,6 +54,9 @@ export interface RunsRepo {
   // or owned by someone else.
   listFinishedForMember(orgId: string | null | undefined, userId: string | null | undefined): unknown[];
   memberRun(id: string, orgId: string | null | undefined, userId: string | null | undefined): unknown;
+  // Dev-only "prefill a run": copy a finished run into a fresh one owned by the caller.
+  // Returns the new run's id, or null when the source is unknown / not finished.
+  cloneRun(sourceId: string, orgId: string | null, userId: string | null): { id: string } | null;
 }
 
 // Null-safe read of a run's review.json — missing/corrupt → null, never throws.
@@ -89,4 +93,5 @@ export const fileRunsRepo: RunsRepo = {
   writeReview: (dir, data) => writeReviewFile(dir, data),
   listFinishedForMember: (orgId, userId) => listFinishedRunsForMember(orgId, userId),
   memberRun: (id, orgId, userId) => memberRunView(id, orgId, userId),
+  cloneRun: (sourceId, orgId, userId) => cloneRun(sourceId, orgId, userId),
 };

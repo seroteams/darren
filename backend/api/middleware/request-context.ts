@@ -12,16 +12,18 @@ export interface RequestIdentity {
   userId: string | null; // null = anonymous
   orgId: string | null; // null = no org context yet
   roles: string[]; // [] when anonymous
+  email: string | null; // null when anonymous
+  name: string | null; // null when anonymous
 }
 
 export function anonymousIdentity(): RequestIdentity {
-  return { userId: null, orgId: null, roles: [] };
+  return { userId: null, orgId: null, roles: [], email: null, name: null };
 }
 
 /** The seeded identity the dev side-door lands you in as. Synthetic on purpose —
  *  Phase 3 doesn't fence data on it; Phase 4 will point it at a real dev org. */
 function devIdentity(): RequestIdentity {
-  return { userId: "dev-user", orgId: "dev-org", roles: ["owner"] };
+  return { userId: "dev-user", orgId: "dev-org", roles: ["owner"], email: "dev@seroteams.com", name: "Dev User" };
 }
 
 /** How buildIdentity looks a session token up. Defaults to Postgres; injectable so
@@ -47,5 +49,5 @@ export async function buildIdentity(
 
   const found = await lookup(token);
   if (!found) return anonymousIdentity();
-  return { userId: found.userId, orgId: found.orgId, roles: found.roles };
+  return { userId: found.userId, orgId: found.orgId, roles: found.roles, email: found.email, name: found.name };
 }

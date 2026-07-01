@@ -10,22 +10,41 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 002 — Reopen a run — `not-started`**
+**→ Phase 003 — Rate a 1:1 — `not-started`**
 
-**Phase 001 ✅ signed off by Carl (2026-07-01) and committed.** Now on PG2: break it into step files, then build one step at a time.
+**Phase 002 ✅ signed off (Carl walked it live, 2026-07-01) + committed.** Next action for the agent:
+**break Phase 003 down** into step files (`01-….md` …) + `99-qa-signoff.md`. Do not start coding until
+Carl green-lights the breakdown.
 
-Phase 001 (done):
-- [x] **01 — API client** — `listMyRuns()` → `GET /api/v1/runs/mine` in `shared/api.js`.
-- [x] **02 — Render the list** — `admin/src/stages/runs.ts`: loading / empty / error / list states,
-  read-only rows, newest-first, every value escaped.
-- [x] **99 — QA sign-off** — Carl walked it and approved.
+Phase 002 (done) steps:
+- [x] **01 — API client** — `getMyRun(id)` → `GET /api/v1/runs/mine/:id` in `shared/api.js`.
+- [x] **02 — Detail stage** — new `admin/src/stages/run-detail.ts` at `/runs/:id` (member stage
+  `RUN_DETAIL` + `myRunId`); state/router/main plumbing (parse, boot, popstate); read-only briefing
+  render (What stood out / understood / honest read / what to do next / reminders), loading / error /
+  not-found states, every value escaped.
+- [x] **03 — Wire rows** — Runs rows are now keyboard-operable `<button>`s that open the detail;
+  `.runs-list__row` style added.
+- [x] **99 — QA sign-off** — Carl walked it (member login, seeded runs): list → click Priya → read-only
+  briefing opened; foreign id → 404. ✅ green-lit.
+
+Verified (free): `npm test` 53/53 · `npm run typecheck` clean. Live (real app, stubbed run):
+`/runs/r1` routes to the detail, subtitle + all five briefing sections render, `<it>` escaped, no console
+errors; a bad/foreign id → the "couldn't open" card (404 fence). Phase 001 (done) below.
+
+**Also in the tree (bundled with PG2, will commit together): `cloneRun` — a dev-only QA-helper.**
+Admin-guarded (`requireAdmin`) "prefill a run" tool: `GET /api/v1/runs/clonable` + `POST
+/api/v1/runs/clone` (origin-checked) clone a finished run into a fresh one owned by the caller, so a
+manager has *owned* test runs to walk the 001/002 QA (the userId-attribution cutover makes older runs
+invisible). Not a pre-go-live phase feature — accepted 2026-07-01 (Carl, option A) as test-data scaffolding.
+Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Momentary typecheck gap — the
+`RunsRepo` mock lacked `cloneRun` — was closed; tree is green again.)
 
 ## Phase board
 
 | # | Phase | Status |
 |---|---|---|
 | 001 | Manager Runs list | ✅ done (signed off + committed) |
-| 002 | Reopen a run | not-started (active) |
+| 002 | Reopen a run | ✅ done (signed off + committed) |
 | 003 | Rate a 1:1 | not-started |
 | 004 | Team — auto-built people | not-started |
 | 005 | Person detail | not-started |

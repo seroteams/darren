@@ -36,6 +36,11 @@ export interface RunsService {
   // member doesn't own.
   myFinished(orgId: string | null | undefined, userId: string | null | undefined): { runs: unknown[] };
   myRun(id: string | undefined, orgId: string | null | undefined, userId: string | null | undefined): unknown;
+  // Dev-only "prefill a run" (admin-guarded at the route). clonable lists every finished
+  // run on disk (unfenced) so there's always something to seed from; clone copies one into
+  // a fresh run owned by the caller so it drops straight into their /mine.
+  clonable(): { runs: unknown[] };
+  clone(sourceId: string | undefined, orgId: string | null, userId: string | null): { id: string };
 }
 
 export function createRunsService(repo: RunsRepo): RunsService {
@@ -143,5 +148,11 @@ export function createRunsService(repo: RunsRepo): RunsService {
       return { ok: true, id: runId, archived: result.archived };
     },
     review,
+    clonable: () => ({ runs: repo.listFinished(null) }),
+    clone: (sourceId, orgId, userId) => {
+      const result = repo.cloneRun(requireId(sourceId), orgId, userId);
+      if (!result) throw notFound("unknown run");
+      return result;
+    },
   };
 }

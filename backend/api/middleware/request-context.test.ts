@@ -31,23 +31,27 @@ async function withEnv(vars: Record<string, string | undefined>, fn: () => Promi
 }
 
 test("anonymousIdentity is fully anonymous", () => {
-  assert.deepEqual(anonymousIdentity(), { userId: null, orgId: null, roles: [] });
+  assert.deepEqual(anonymousIdentity(), { userId: null, orgId: null, roles: [], email: null, name: null });
 });
 
 test("buildIdentity is anonymous with no cookie (no dev flag)", async () => {
   await withEnv({ NODE_ENV: "development", DEV_AUTOLOGIN: undefined }, async () => {
-    assert.deepEqual(await buildIdentity(reqWith(), noSession), { userId: null, orgId: null, roles: [] });
+    assert.deepEqual(await buildIdentity(reqWith(), noSession), { userId: null, orgId: null, roles: [], email: null, name: null });
   });
 });
 
 test("buildIdentity returns the looked-up identity for a valid session cookie", async () => {
   await withEnv({ NODE_ENV: "development", DEV_AUTOLOGIN: undefined }, async () => {
     const lookup: IdentityLookup = async (token) =>
-      token === "good" ? { userId: "u1", orgId: "o1", roles: ["owner"] } : null;
+      token === "good"
+        ? { userId: "u1", orgId: "o1", roles: ["owner"], email: "u1@example.com", name: "User One" }
+        : null;
     assert.deepEqual(await buildIdentity(reqWith("sero_session=good"), lookup), {
       userId: "u1",
       orgId: "o1",
       roles: ["owner"],
+      email: "u1@example.com",
+      name: "User One",
     });
   });
 });
@@ -69,7 +73,7 @@ test("dev side-door: with DEV_AUTOLOGIN set (non-prod) you are auto-identified w
 test("HARD GATE: the dev side-door is dead in production even with DEV_AUTOLOGIN set", async () => {
   await withEnv({ NODE_ENV: "production", DEV_AUTOLOGIN: "1" }, async () => {
     const id = await buildIdentity(reqWith(), noSession);
-    assert.deepEqual(id, { userId: null, orgId: null, roles: [] });
+    assert.deepEqual(id, { userId: null, orgId: null, roles: [], email: null, name: null });
   });
 });
 
@@ -78,5 +82,5 @@ test("requireAuth rejects an anonymous identity", () => {
 });
 
 test("requireAuth allows an identified user", () => {
-  assert.doesNotThrow(() => requireAuth({ userId: "u1", orgId: "o1", roles: ["owner"] }));
+  assert.doesNotThrow(() => requireAuth({ userId: "u1", orgId: "o1", roles: ["owner"], email: "u1@example.com", name: "User One" }));
 });

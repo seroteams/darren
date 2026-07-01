@@ -258,6 +258,14 @@ function main(): void {
   router.add("GET", /^\/api\/v1\/runs\/mine\/(?<id>[^/]+)$/, v1Route(runs.mineDetail));
   router.add("GET", "/api/v1/runs/recent", v1Route(runs.recent));
   router.add("GET", "/api/v1/runs/finished", v1Route(runs.finished));
+  // dev-only "prefill a run" (admin-guarded in the controller): list clonable finished
+  // runs, and clone one into a fresh run owned by the caller. Literal paths registered
+  // before the /:id regex routes so they aren't shadowed.
+  router.add("GET", "/api/v1/runs/clonable", v1Route(runs.clonable));
+  router.add("POST", "/api/v1/runs/clone", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return runs.clone(c);
+  }));
   router.add("GET", /^\/api\/v1\/runs\/(?<id>[^/]+)\/full$/, v1Route(runs.full));
   router.add("GET", /^\/api\/v1\/runs\/(?<id>[^/]+)\/stages$/, v1Route(runs.stages));
   router.add("GET", /^\/api\/v1\/runs\/(?<id>[^/]+)\/overview$/, v1Route(runs.overview));

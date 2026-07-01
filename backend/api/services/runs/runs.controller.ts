@@ -21,6 +21,18 @@ async function callerOrgId(c: RequestContext): Promise<string | null> {
   return identity.orgId;
 }
 
+// The caller's full identity for the "prefill a run" tool. Returns userId too, because
+// clone stamps the caller as the run's owner so it lands in their own /mine list. Access:
+// admins always; in dev, ANY logged-in user — so the test manager account we use for QA
+// (member@seroteams.com, a plain member) can prefill while experiencing the manager side.
+// In production it stays admin-only, so real members never clone.
+async function callerPrefill(c: RequestContext): Promise<{ userId: string | null; orgId: string | null }> {
+  const identity = await buildIdentity(c.req);
+  if (process.env.NODE_ENV === "production") requireAdmin(identity);
+  else requireAuth(identity);
+  return { userId: identity.userId, orgId: identity.orgId };
+}
+
 export async function recent(c: RequestContext): Promise<void> {
   c.json(200, service.recent(c.query.limit, await callerOrgId(c)));
 }
@@ -63,6 +75,23 @@ async function callerIdentity(c: RequestContext): Promise<{ userId: string | nul
   const identity = await buildIdentity(c.req);
   requireAuth(identity); // 401 when logged out; no role check
   return { userId: identity.userId, orgId: identity.orgId };
+}
+
+// Dev-only "prefill a run" (admin-guarded): list clonable finished runs, and clone one
+// into a fresh run owned by the caller so they can walk a full run without paying to
+// generate it. clone reads { sourceId } from the body and returns { id } of the new run.
+export async function clonable(c: RequestContext): Promise<void> {
+  await callerPrefill(c);
+  c.json(200, service.clonable());
+}
+
+export async function clone(c: RequestContext): Promise<void> {
+  const { userId, orgId } = await callerPrefill(c);
+  const body = await c.readBody();
+  const sourceId = typeof (body as { sourceId?: unknown })?.sourceId === "string"
+    ? (body as { sourceId: string }).sourceId
+    : undefined;
+  c.json(200, service.clone(sourceId, orgId, userId));
 }
 
 export async function mine(c: RequestContext): Promise<void> {

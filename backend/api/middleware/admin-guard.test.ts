@@ -13,9 +13,9 @@ function ctxWith(cookie?: string): RequestContext {
 
 const noSession: IdentityLookup = async () => null;
 const ownerSession: IdentityLookup = async (token) =>
-  token === "owner" ? { userId: "u1", orgId: "o1", roles: ["owner"] } : null;
+  token === "owner" ? { userId: "u1", orgId: "o1", roles: ["owner"], email: "u1@example.com", name: "Owner One" } : null;
 const memberSession: IdentityLookup = async (token) =>
-  token === "member" ? { userId: "u2", orgId: "o1", roles: ["member"] } : null;
+  token === "member" ? { userId: "u2", orgId: "o1", roles: ["member"], email: "u2@example.com", name: "Member Two" } : null;
 
 // Set env for one test and always restore (matches request-context.test.ts).
 async function withEnv(vars: Record<string, string | undefined>, fn: () => Promise<void>): Promise<void> {
@@ -38,22 +38,22 @@ async function withEnv(vars: Record<string, string | undefined>, fn: () => Promi
 // --- requireAdmin (the pure gate) ---
 
 test("requireAdmin: anonymous → 401", () => {
-  assert.throws(() => requireAdmin({ userId: null, orgId: null, roles: [] }), (err: unknown) => {
+  assert.throws(() => requireAdmin({ userId: null, orgId: null, roles: [], email: null, name: null }), (err: unknown) => {
     assert.equal((err as { status?: number }).status, 401);
     return true;
   });
 });
 
 test("requireAdmin: logged-in member → 403", () => {
-  assert.throws(() => requireAdmin({ userId: "u2", orgId: "o1", roles: ["member"] }), (err: unknown) => {
+  assert.throws(() => requireAdmin({ userId: "u2", orgId: "o1", roles: ["member"], email: "u2@example.com", name: "Member Two" }), (err: unknown) => {
     assert.equal((err as { status?: number }).status, 403);
     return true;
   });
 });
 
 test("requireAdmin: owner and admin are allowed", () => {
-  assert.doesNotThrow(() => requireAdmin({ userId: "u1", orgId: "o1", roles: ["owner"] }));
-  assert.doesNotThrow(() => requireAdmin({ userId: "u3", orgId: "o1", roles: ["admin"] }));
+  assert.doesNotThrow(() => requireAdmin({ userId: "u1", orgId: "o1", roles: ["owner"], email: "u1@example.com", name: "Owner One" }));
+  assert.doesNotThrow(() => requireAdmin({ userId: "u3", orgId: "o1", roles: ["admin"], email: "u3@example.com", name: "Admin Three" }));
 });
 
 // --- requireAdminRoute (the route wrapper over buildIdentity) ---

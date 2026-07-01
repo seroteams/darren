@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { LOGS_ROOT, monthFolderFor } from "./session.ts";
+import { LOGS_ROOT, monthFolderFor, createSession } from "./session.ts";
 import { readPipelineLockFromDir } from "./pipeline-lock.ts";
 import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
@@ -484,9 +484,59 @@ function readRunStages(id: string, orgId?: string | null) {
   return out;
 }
 
+// --- Dev-only "prefill a run" (clone a finished run) ---------------------------
+// A free way to get a full run to walk without paying for generation: copy an
+// already-finished run into a new one the caller owns. cloneRunState is the pure
+// half (stamp a fresh identity + the caller's owner onto a copy of the state);
+// cloneRun does the I/O around it. Gated to admins at the route.
+
+interface CloneStamp {
+  id: string;
+  dir: string;
+  orgId: string | null;
+  userId: string | null;
+  now: number;
+}
+
+// Return a copy of a finished run's state with a new identity + the caller as owner,
+// so it lands in the caller's own /mine. The briefing (and everything else) is kept
+// verbatim — same answers, same result, every time. Never mutates the source.
+function cloneRunState(source: unknown, stamp: CloneStamp): Record<string, unknown> {
+  const base = isObjectRecord(source) ? source : {};
+  return {
+    ...base,
+    id: stamp.id,
+    dir: stamp.dir,
+    orgId: stamp.orgId,
+    userId: stamp.userId,
+    createdAt: stamp.now,
+    lastSeenAt: stamp.now,
+    completedAt: stamp.now,
+    runLabel: "prefill",
+  };
+}
+
+// Copy a FINISHED run (has a briefing) into a fresh run owned by the caller. Source
+// lookup is unfenced — the route is admin-only, and the whole point is to seed a run
+// from whatever finished runs exist on disk. Returns { id } of the new run, or null
+// when the source is unknown or not finished. All file copies: zero API cost.
+function cloneRun(sourceId: unknown, orgId: string | null, userId: string | null): { id: string } | null {
+  const srcDir = findRunDir(sourceId); // unfenced (admin-guarded route)
+  if (!srcDir) return null;
+  const source = readState(path.join(srcDir, STATE_FILE));
+  if (!isObjectRecord(source) || !source.briefing) return null; // only clone finished runs
+  const { id, dir } = createSession(); // mints a new id + dir under this month
+  fs.cpSync(srcDir, dir, { recursive: true }); // briefing lives in state; stages come too
+  const cloned = cloneRunState(source, { id, dir, orgId, userId, now: Date.now() });
+  fs.writeFileSync(path.join(dir, STATE_FILE), JSON.stringify(cloned, null, 2));
+  return { id };
+}
+
 export {
   runOwnedByOrg,
   runOwnedByUser,
+  cloneRunState,
+  cloneRun,
   listFinishedRunsForMember,
   memberRunView,
   walkRuns,

@@ -11,8 +11,9 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 **Now active: [pre-go-live](docs/pre-go-live/OVERVIEW.md) — the manager's Team & Runs, ratings, and a
 superadmin window on the alpha.** 9 phases, one at a time.
-**PG1 (Manager Runs list) ✅ signed off + committed 2026-07-01** — the Runs page now lists your own past
-1:1s (loading / empty / error / list, read-only, fenced to you). **PG2 (Reopen a run) is next.**
+**PG1 (Manager Runs list) ✅ · PG2 (Reopen a run) ✅ — both signed off 2026-07-01.** The Runs page lists
+your own past 1:1s (fenced to you), and clicking one opens a clean, read-only briefing you can re-read
+(keyboard-operable, deep-linkable, foreign runs blocked). **PG3 (Rate a 1:1) is next.**
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
 
 > This track **supersedes** the deferred **member-nav Phase 2** (real Runs) and **009's deferred "real

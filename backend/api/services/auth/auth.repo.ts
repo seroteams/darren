@@ -82,6 +82,8 @@ export interface SessionIdentity {
   userId: string;
   orgId: string;
   roles: string[];
+  email: string;
+  name: string;
 }
 
 /** A new login session to persist (the cookie carries `token`). */
@@ -118,6 +120,8 @@ export const pgAuthSessionRepo: AuthSessionRepo = {
         userId: authSessions.userId,
         orgId: authSessions.orgId,
         role: users.role,
+        email: users.email,
+        name: users.name,
         expiresAt: authSessions.expiresAt,
       })
       .from(authSessions)
@@ -127,7 +131,7 @@ export const pgAuthSessionRepo: AuthSessionRepo = {
     const r = rows[0];
     if (!r) return null;
     if (r.expiresAt.getTime() <= Date.now()) return null; // expired — treat as no session
-    return { userId: r.userId, orgId: r.orgId, roles: [r.role] };
+    return { userId: r.userId, orgId: r.orgId, roles: [r.role], email: r.email, name: r.name };
   },
   async delete(token) {
     const db = getDb();

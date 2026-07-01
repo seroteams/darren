@@ -156,6 +156,24 @@ export async function listMyRuns() {
   return json(await fetch("/api/v1/runs/mine"));
 }
 
+// One of the member's OWN finished 1:1s, read-only (pre-go-live PG2). Same org+user
+// fence; a run the member doesn't own → 404 (json() throws). Shape:
+// { id, headline, ctx, briefing, lastSeenAt, completedAt }.
+export async function getMyRun(id) {
+  return json(await fetch(`/api/v1/runs/mine/${encodeURIComponent(id)}`));
+}
+
+// Dev-only "prefill a run" (admin-only server-side). clonable = every finished run on
+// disk to seed from; cloneRun copies one into a fresh run the caller owns (lands in
+// their /mine). Free — all file copies, no OpenAI. Shapes: { runs: [...] } and { id }.
+export async function getClonableRuns() {
+  return json(await fetch("/api/v1/runs/clonable"));
+}
+
+export async function cloneRun(sourceId) {
+  return postJson("/api/v1/runs/clone", { sourceId });
+}
+
 export async function getRunOverview(id) {
   return json(await fetch(`/api/v1/runs/${encodeURIComponent(id)}/overview`));
 }

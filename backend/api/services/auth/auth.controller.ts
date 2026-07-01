@@ -64,7 +64,7 @@ export async function logout(c: RequestContext): Promise<void> {
 export async function me(c: RequestContext): Promise<void> {
   const identity = await buildIdentity(c.req);
   requireAuth(identity);
-  c.json(200, { userId: identity.userId, orgId: identity.orgId, roles: identity.roles });
+  c.json(200, { userId: identity.userId, orgId: identity.orgId, roles: identity.roles, email: identity.email, name: identity.name });
 }
 
 // (Removed GET /api/v1/auth/me/runs — member-nav Phase 2 security. It was org-fenced

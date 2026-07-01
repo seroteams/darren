@@ -1,0 +1,10 @@
+alias: q_routine_work
+label: Routine work
+name: Which part of the routine UX work feels flattest right now?
+description: Drills into the specific work pattern behind the boredom so the drag is concrete.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  engagement: +3
+source: planner_added
+grounding: bored with routine UX work

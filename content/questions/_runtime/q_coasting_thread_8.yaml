@@ -1,0 +1,10 @@
+alias: q_coasting_thread_8
+label: Coasting thread
+name: "When you say you're coasting a bit, what's that looking like this week?"
+description: Drills into the post-ship coasting note to distinguish recovery from drift or disconnection.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: coasting a bit this week

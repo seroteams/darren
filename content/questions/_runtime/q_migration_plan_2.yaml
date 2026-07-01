@@ -1,0 +1,10 @@
+alias: q_migration_plan_2
+label: Migration plan
+name: What about the migration plan felt especially solid to you?
+description: Drills into the concrete launch thread she volunteered to surface what worked and what she wants to carry forward.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: migration plan

@@ -1,0 +1,10 @@
+alias: q_architecture_review_role_3
+label: Architecture review role
+name: In architecture review, what role do you want to play more often?
+description: Drills into the specific kind of technical scope and visibility he wants in that forum.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: present more often in the architecture review

@@ -694,6 +694,18 @@ body.has-session-topbar .stage {
   padding: 1.25rem;
 }
 
+/* Clickable run row (pre-go-live PG2) — a <button> that reads as a card row. The
+   global :focus-visible rule supplies the focus ring, so it's keyboard-accessible. */
+.runs-list__row {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.runs-list__row:hover { background: var(--sero-active-state-bg); }
+
 /* -----------------------------------------------------------------------------
    The thinking orb — tuned for a light background
 ----------------------------------------------------------------------------- */
@@ -2089,18 +2101,8 @@ body.has-session-topbar {
   overflow: hidden;
   transition: width var(--dur-fast) var(--ease-out-expo);
 }
-/* Manager (member) rail — Sero blue with dark-navy icons + text, so it's obvious at a
-   glance you're in the manager app, not the admin engine (member-nav Phase 1). */
-.app-nav--member {
-  --app-nav-bg: #5AA9E6;
-  --app-nav-fg: #24445C;
-  --app-nav-fg-dim: #24445C;
-  --app-nav-hover-bg: rgba(36, 68, 92, 0.12);
-  border-right-color: rgba(36, 68, 92, 0.12);
-}
-.app-nav--member .app-nav__tagline {
-  color: rgba(36, 68, 92, 0.65);
-}
+/* Manager (member) rail — shares the admin rail's dark theme (base .app-nav
+   styles); no colour override so the two look identical. */
 .app-nav:hover,
 .app-nav:focus-within {
   width: var(--app-nav-w-open);
@@ -2219,6 +2221,48 @@ body.has-app-nav {
 /* When a session is active, the app nav stacks above the stage breadcrumb. */
 body.has-app-nav.has-session-topbar {
   padding-top: calc(var(--app-nav-h) + var(--session-topbar-h, 44px));
+}
+
+/* Profile badge — top-right "who am I signed in as" chip for the manager (member)
+   app. Same Sero-blue palette as the member rail so it reads as one manager surface.
+   Members only; hidden for admins and during the in-session flow (JS toggles [hidden]). */
+.profile-badge {
+  position: fixed;
+  top: var(--sero-space-3);
+  right: var(--sero-space-3);
+  z-index: var(--sero-z-fixed, 30);
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-2);
+  max-width: min(60vw, 320px);
+  padding: 5px 12px 5px 5px;
+  background: #fff;
+  border: 1px solid rgba(36, 68, 92, 0.14);
+  border-radius: 999px;
+  box-shadow: var(--sero-shadow-1, 0 1px 3px rgba(15, 23, 42, 0.08));
+}
+.profile-badge[hidden] {
+  display: none;
+}
+.profile-badge__avatar {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #5aa9e6;
+  color: #fff;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-bold);
+  line-height: 1;
+}
+.profile-badge__email {
+  font-size: var(--type-body-sm);
+  color: #24445c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* -----------------------------------------------------------------------------

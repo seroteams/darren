@@ -9,6 +9,7 @@ import { createDevBadge } from "./ui/dev-badge.js";
 import { createBuildStamp } from "./ui/build-stamp.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
 import { createAppNav } from "./ui/app-nav.js";
+import { createProfileBadge } from "./ui/profile-badge.js";
 import { createNotesPanel } from "./ui/notes-panel.js";
 // Lazy stage modules — kept in a map so HMR + code-split both work nicely.
 const loaders = {
@@ -21,6 +22,7 @@ const loaders = {
   MEMBER_HOME:     () => import("./stages/member-home.js"),
   TEAM:            () => import("./stages/team.ts"),
   RUNS:            () => import("./stages/runs.ts"),
+  RUN_DETAIL:      () => import("./stages/run-detail.ts"),
   INTAKE:          () => import("./stages/intake.js"),
   ONEPAGE:         () => import("./stages/onepage.js"),
   FOCUS_POINTS:    () => import("./stages/focus-points.js"),
@@ -57,6 +59,10 @@ document.body.appendChild(topbar.el);
 
 const appNav = createAppNav({ setState, resetSession });
 document.body.appendChild(appNav.el);
+
+// Top-right "who's signed in" chip — members only (see ui/profile-badge.js).
+const profileBadge = createProfileBadge();
+document.body.appendChild(profileBadge.el);
 
 // Quietly run the (free, offline, no-AI) regression check and flag the nav with
 // a red dot if a saved run has regressed or errored. Re-used live by the
@@ -107,6 +113,7 @@ let routedTick = null;
 subscribe((s) => {
   topbar.render({ ctx: s.ctx, stage: s.stage, sessionId: s.sessionId });
   appNav.render({ stage: s.stage, user: s.user });
+  profileBadge.render({ stage: s.stage, user: s.user });
   notesPanel.render(s);
   if (s.stage !== routedStage || s.stageTick !== routedTick) {
     routedStage = s.stage;
@@ -125,6 +132,11 @@ startPopstate((parsed) => {
   if (parsed.stage === STAGES.REVIEW_RUN) {
     if (parsed.params?.reviewRunId) setState({ reviewRunId: parsed.params.reviewRunId, stage: STAGES.REVIEW_RUN });
     else setState({ stage: STAGES.START });
+    return;
+  }
+  if (parsed.stage === STAGES.RUN_DETAIL) {
+    if (parsed.params?.myRunId) setState({ myRunId: parsed.params.myRunId, stage: STAGES.RUN_DETAIL });
+    else setState({ stage: STAGES.RUNS });
     return;
   }
   if (isFlowStage(parsed.stage)) {                 // only valid with a live session
@@ -188,7 +200,7 @@ async function boot() {
   }
   // Logged in — record who, then carry on with the normal boot below. Mutate
   // directly (no notify) so the real stage is what renders, no login flash.
-  store.user = { userId: identity.userId, orgId: identity.orgId, roles: identity.roles };
+  store.user = { userId: identity.userId, orgId: identity.orgId, roles: identity.roles, email: identity.email, name: identity.name };
 
   // A plain member gets the member app: Home · Team · Runs, plus the prep flow
   // (member-nav Phase 1). Resume a live session if the URL points at one; honor a member
@@ -203,6 +215,10 @@ async function boot() {
       } catch (e) { console.warn("[boot] member rehydrate failed:", e); }
     }
     if (route && route.stage === STAGES.INTAKE) { setState({ stage: STAGES.INTAKE, substage: "NAME" }); return; }
+    if (route && route.stage === STAGES.RUN_DETAIL) {
+      if (route.params?.myRunId) { setState({ myRunId: route.params.myRunId, stage: STAGES.RUN_DETAIL }); return; }
+      history.replaceState(null, "", "/runs"); setState({ stage: STAGES.RUNS }); return;
+    }
     if (route && isMemberStage(route.stage)) { setState({ stage: route.stage }); return; }
     if (route && isSharedStage(route.stage)) { setState({ stage: route.stage }); return; }
     history.replaceState(null, "", "/home");

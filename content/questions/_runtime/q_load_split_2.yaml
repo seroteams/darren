@@ -1,0 +1,11 @@
+alias: q_load_split_2
+label: Load split
+name: Which of those is taking more of your day-to-day energy right now?
+description: Pins down where the load is landing first so the friction stage starts from something concrete.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: planner_added
+grounding: CoE and AZP App Project

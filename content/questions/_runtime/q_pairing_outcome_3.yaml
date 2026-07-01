@@ -1,0 +1,10 @@
+alias: q_pairing_outcome_3
+label: Pairing outcome
+name: What do you want to learn from pairing with the staff engineer?
+description: Drills into the specific capability or judgment he wants to build through that pairing.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +1
+source: planner_added
+grounding: pair with the staff engineer

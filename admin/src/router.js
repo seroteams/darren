@@ -16,6 +16,7 @@ const PATH_FOR = {
   [STAGES.MEMBER_HOME]:    () => "/home",
   [STAGES.TEAM]:           () => "/team",
   [STAGES.RUNS]:           () => "/runs",
+  [STAGES.RUN_DETAIL]:     (s) => (s.myRunId ? `/runs/${encodeURIComponent(s.myRunId)}` : "/runs"),
   [STAGES.INTAKE]:         () => "/new",
   [STAGES.ONEPAGE]:        () => "/flow",
   [STAGES.FOCUS_POINTS]:   () => "/focus",
@@ -65,7 +66,7 @@ export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
 
 // The plain-member destinations (member-nav Phase 1): Home, Team, Runs. Used by boot +
 // back/forward to honor a member's own deep links rather than bouncing them.
-const MEMBER_ONLY = new Set([STAGES.MEMBER_HOME, STAGES.TEAM, STAGES.RUNS]);
+const MEMBER_ONLY = new Set([STAGES.MEMBER_HOME, STAGES.TEAM, STAGES.RUNS, STAGES.RUN_DETAIL]);
 export const isMemberStage = (stage) => MEMBER_ONLY.has(stage);
 
 // Any-audience content pages (009 Phase 3+): reachable by admins and members alike — the
@@ -78,6 +79,10 @@ export const isSharedStage = (stage) => SHARED.has(stage);
 export function parseLocation() {
   const p = window.location.pathname.replace(/\/+$/, "") || "/";
   if (STAGE_FOR[p]) return { stage: STAGE_FOR[p] };
+  // A member re-opening one of their own runs: /runs/:id (checked after the exact-path
+  // map, so bare /runs still resolves to the list above).
+  const mine = p.match(/^\/runs\/([^/]+)$/);
+  if (mine) return { stage: STAGES.RUN_DETAIL, params: { myRunId: decodeURIComponent(mine[1]) } };
   const m = p.match(/^\/run\/([^/]+)$/);
   if (m) return { stage: STAGES.REVIEW_RUN, params: { reviewRunId: decodeURIComponent(m[1]) } };
   if (p === "/run") return { stage: STAGES.REVIEW_RUN }; // no id -> caller redirects

@@ -1,0 +1,10 @@
+alias: q_coe_follow_up
+label: CoE follow-up
+name: What kind of follow-up is eating the most time in CoE right now?
+description: Drills into the specific loop inside CoE that is consuming his capacity.
+purpose: topic
+stage: friction
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: constant follow-up

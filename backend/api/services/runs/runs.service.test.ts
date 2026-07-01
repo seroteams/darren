@@ -32,6 +32,7 @@ function fakeRepo(over: Partial<RunsRepo> = {}): { repo: RunsRepo; calls: Calls 
     },
     listFinishedForMember: () => [],
     memberRun: () => null,
+    cloneRun: (_sourceId, _orgId, _userId) => ({ id: "clone-1" }),
     ...over,
   };
   return { repo, calls };
@@ -252,6 +253,31 @@ test("review returns 404 when the run dir is not found", () => {
 test("review rejects a non-object payload with 400", () => {
   const { repo } = fakeRepo();
   assert.equal(thrown(() => createRunsService(repo).review("r1", "nope")).status, 400);
+});
+
+test("clonable returns every finished run unfenced (the dev prefill picker source)", () => {
+  const seen: Array<string | null | undefined> = [];
+  const { repo } = fakeRepo({
+    listFinished: (orgId) => { seen.push(orgId); return [{ id: "a" }, { id: "b" }]; },
+  });
+  assert.deepEqual(createRunsService(repo).clonable(), { runs: [{ id: "a" }, { id: "b" }] });
+  assert.deepEqual(seen, [null]); // unfenced: null orgId, so the picker always has sources
+});
+
+test("clone forwards sourceId + caller owner and returns the new run id", () => {
+  const seen: Array<{ sourceId: string; orgId: string | null; userId: string | null }> = [];
+  const { repo } = fakeRepo({
+    cloneRun: (sourceId, orgId, userId) => { seen.push({ sourceId, orgId, userId }); return { id: "new-run" }; },
+  });
+  assert.deepEqual(createRunsService(repo).clone("src-1", "dev-org", "dev-user"), { id: "new-run" });
+  assert.deepEqual(seen, [{ sourceId: "src-1", orgId: "dev-org", userId: "dev-user" }]);
+});
+
+test("clone is 400 when sourceId is missing, 404 when the source is unknown/not finished", () => {
+  const { repo } = fakeRepo();
+  assert.equal(thrown(() => createRunsService(repo).clone(undefined, "o", "u")).status, 400);
+  const miss = fakeRepo({ cloneRun: () => null });
+  assert.equal(thrown(() => createRunsService(miss.repo).clone("src-1", "o", "u")).status, 404);
 });
 
 test("review surfaces a write failure with status 500 and a clear message", () => {

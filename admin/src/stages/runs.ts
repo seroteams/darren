@@ -72,6 +72,12 @@ export const mount: Mount = async (root, { setState }) => {
   const wire = () => {
     root.querySelector(".js-start")?.addEventListener("click", startOneOnOne);
     root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
+    root.querySelectorAll<HTMLElement>(".js-open").forEach((el) => {
+      el.addEventListener("click", () => {
+        const id = el.dataset.id;
+        if (id) setState({ myRunId: id, stage: STAGES.RUN_DETAIL });
+      });
+    });
   };
 
   const load = async () => {
@@ -93,11 +99,12 @@ export const mount: Mount = async (root, { setState }) => {
       return;
     }
 
-    // Newest first, then a plain read-only row per run.
+    // Newest first, then one clickable row per run — a real button, so it's
+    // keyboard-operable for free (PG2 opens its read-only detail).
     const rows = runs
       .slice()
       .sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0))
-      .map((r) => `<div class="card-flat"><span class="text-sm">${rowLine(r)}</span></div>`)
+      .map((r) => `<button type="button" class="card-flat runs-list__row js-open" data-id="${escapeHtml(r.id)}"><span class="text-sm">${rowLine(r)}</span></button>`)
       .join("");
     root.innerHTML = shell(`<section class="l-stack l-stack--2">${rows}</section>`);
     wire();

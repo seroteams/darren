@@ -1,0 +1,10 @@
+alias: q_next_scope_picture
+label: Next-scope picture
+name: If the next year goes well, what bigger scope do you want to be known for?
+description: Moves into aspiration by getting him to name the concrete technical scope or outcomes he wants next.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: tech lead role
