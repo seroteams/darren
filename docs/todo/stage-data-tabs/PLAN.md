@@ -13,16 +13,22 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Backend stage I/O | `GET /api/runs/:id/stages` serving each stage's input/prompt/reply; Q&A-turn prompts stop being discarded | 🔨 |
-| 2 | Tabbed rail shell | Right rail becomes Notes·Sent·Reply tabs; Notes unchanged; Sent/Reply empty placeholders | 🔨 |
-| 3 | Fill Sent & Reply | The two tabs show the current stage's injected context, exact prompt, and raw reply | 🔨 |
+| 1 | Backend stage I/O | `GET /api/runs/:id/stages` serving each stage's input/prompt/reply; Q&A-turn prompts stop being discarded | ✅ |
+| 2 | Tabbed rail shell | Right rail becomes Notes·Sent·Reply tabs; Notes unchanged; Sent/Reply empty placeholders | ✅ |
+| 3 | Fill Sent & Reply | The two tabs show the current stage's injected context, exact prompt, and raw reply | ✅ |
 
 ⬜ not started · 🔨 built, awaiting product-owner QA · ✅ done (tested)
 
 ## Current state
 **Audit reconciliation (2026-07-01):** all three phases are **built, committed, and wired live in the app** — not "awaiting commit". Code-verified: `readRunStages()` + `GET /api/v1/runs/:id/stages` (`backend/engine/run-history.ts`, `server.ts`), the Notes·Sent·Reply tab shell (`admin/src/ui/notes-panel.js`, mounted in `main.js`), and the fully-populated Sent/Reply tabs (`admin/src/ui/stage-data-tab.js`). The only thing genuinely outstanding is Carl's on-screen QA sign-off — the badges stay 🔨 until he ticks. (`npm test` now 52/52, up from the 30/30 noted below.)
 
-All three phases **built in one pass** (Carl said "go with all"). Awaiting Carl's QA before the ✅ tick.
+**✅ All three phases ticked 2026-07-01** (QA-pile clear-out). Walked live: started a demo session, ran one
+focus-points stage (approved paid call, `gpt-5.4-nano`, a few cents). **Sent** tab showed the readable
+fields + "Show exact text sent to the model"; **Reply** tab showed the raw model JSON + Copy; backend
+`/api/v1/runs/:id/stages` returned all 5 stages with ~24k-char prompts. Known parked limit confirmed: on a
+*finished-run review* the right panel is the verdict tool, not these tabs — the tabs are live-session only.
+
+All three phases **built in one pass** (Carl said "go with all").
 
 Verified so far (free, no API spend):
 - `npm test` → 30/30 pass. `npm run build` → client bundles clean (all imports resolve).
