@@ -1,8 +1,10 @@
 # Progress Log — Prototype → Production
 
-> **This is the living log for the migration.** The AI agent updates it after every action.
-> The fixed playbook is **[OVERVIEW.md](OVERVIEW.md)**; this file is the part that changes.
-> Carl: you don't edit this — just say "what next?" and the agent reads and updates it.
+> **Archived append-only log — decisions + lessons, NOT a status source.** The Prototype →
+> Production migration is complete; this is its historical record, frozen at archive time.
+> For where the build is *now*, check `STATUS.md` (tactical) and `SERO_BOARD.md` (strategic) at the
+> repo root. The playbook was **[OVERVIEW.md](OVERVIEW.md)**. The "Where we are now" / "Phase status"
+> snapshots below are frozen at archive time — trust `STATUS.md` over them.
 
 ---
 

@@ -9,7 +9,7 @@ const STAGE_META = {
   QUESTIONING:  { file: "stages/questioning.js",   data: "/api/plan/stream, /api/question, /api/answer" },
   EVAL:         { file: "stages/eval.js",          data: "/api/evaluation/stream" },
   BRIEFING:     { file: "stages/briefing.js",      data: "—" },
-  ERROR:        { file: "stages/error.js",         data: "—" },
+  ERROR:        { file: "stages/error.ts",         data: "—" },
 };
 
 export function createDevBadge() {
