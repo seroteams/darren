@@ -6,7 +6,7 @@
 // scenario file through stdin, walks the full 5-stage flow, then verifies
 // the session log on disk.
 //
-// Run: node smoke-test.js [scenarios/001-senior-backend-weekly.json]
+// Run: node scripts/smoke-test.js [scenarios/001-senior-backend-weekly.json]
 //
 // What this verifies:
 //   - Stage 1 focus points generated and logged
@@ -25,13 +25,13 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { spawn } = require("node:child_process");
 
-const { loadEnv } = require("./backend/engine/env.ts");
-const { MEETING_TYPES } = require("./backend/engine/meeting-types.ts");
-const { allResolved } = require("./backend/engine/models.ts");
-const { TOTAL_BUDGET, INTRO_BUDGET, DYNAMIC_BUDGET } = require("./backend/engine/budgets.ts");
-const { scanSessions, resolveNewSession } = require("./scripts/lib/session-fs");
-const { stringifyYaml, parseYaml } = require("./backend/engine/questions.ts");
-const { CONTENT_DIR, QUESTIONS_DIR } = require("./backend/engine/paths.mts");
+const { loadEnv } = require("../backend/engine/env.ts");
+const { MEETING_TYPES } = require("../backend/engine/meeting-types.ts");
+const { allResolved } = require("../backend/engine/models.ts");
+const { TOTAL_BUDGET, INTRO_BUDGET, DYNAMIC_BUDGET } = require("../backend/engine/budgets.ts");
+const { scanSessions, resolveNewSession } = require("./lib/session-fs");
+const { stringifyYaml, parseYaml } = require("../backend/engine/questions.ts");
+const { CONTENT_DIR, QUESTIONS_DIR } = require("../backend/engine/paths.mts");
 
 loadEnv();
 
@@ -95,8 +95,8 @@ function unitChecks() {
   }
 
   const UNRESOLVED_PLACEHOLDER_RE = /\{\{[A-Z][A-Z0-9_]*\}\}/g;
-  const { parseAIJson, assertNoUnresolvedPlaceholders } = require("./backend/engine/ai-client.ts");
-  const { buildMessages } = require("./backend/engine/preparation.ts");
+  const { parseAIJson, assertNoUnresolvedPlaceholders } = require("../backend/engine/ai-client.ts");
+  const { buildMessages } = require("../backend/engine/preparation.ts");
 
   // 4. A2 — parseAIJson rejects unresolved placeholders in model output
   try {
@@ -119,7 +119,7 @@ function unitChecks() {
   }
 
   // 6. Prep validator — C1/C5 fixtures (offline)
-  const { validateBrief } = require("./backend/engine/preparation.ts");
+  const { validateBrief } = require("../backend/engine/preparation.ts");
   try {
     const tobyInputs = {
       name: "Toby",
@@ -262,10 +262,10 @@ if (!process.env.OPENAI_API_KEY) {
 }
 
 // ------------------------------------------------------------------- Spawn
-const logsBefore = new Set(scanSessions(__dirname));
+const logsBefore = new Set(scanSessions(path.join(__dirname, "..")));
 const startedAt = Date.now();
 
-const child = spawn(process.execPath, [path.join(__dirname, "backend", "cli.ts")], {
+const child = spawn(process.execPath, [path.join(__dirname, "..", "backend", "cli.ts")], {
   stdio: ["pipe", "pipe", "inherit"],
   env: { ...process.env, NO_COLOR: "1" }, // cleaner test output
 });
@@ -298,7 +298,7 @@ async function verify(exitCode, stdout) {
   if (exitCode === 0) pass("child exited 0");
   else fail("child exited 0", `got code ${exitCode}`);
 
-  const session = resolveNewSession(stdout, logsBefore, __dirname);
+  const session = resolveNewSession(stdout, logsBefore, path.join(__dirname, ".."));
   if (!session) {
     fail("new session directory created", "no new dir in logs/");
     return report(checks);
@@ -409,7 +409,7 @@ async function verify(exitCode, stdout) {
 
   // Role profile: cached on disk, loaded by every stage, generated without personal data
   try {
-    const { keyOf, profilePath, PROFILE_VERSION } = require("./backend/engine/role-profile.ts");
+    const { keyOf, profilePath, PROFILE_VERSION } = require("../backend/engine/role-profile.ts");
     const rpKey = keyOf({ role: scenario.role, seniority: scenario.seniority });
     const rpPath = profilePath(rpKey);
     if (fs.existsSync(rpPath)) {

@@ -296,7 +296,7 @@ styles/
 | `scripts/replay-scenario.js` | Re-run a scenario end-to-end |
 | `scripts/test-lexicon.js` | Lexicon-pipeline unit-ish test |
 | `scripts/test-prep-role-diff.js` | Diff prep briefings across roles |
-| `smoke-test.js` | End-to-end smoke (`npm run smoke`) |
+| `scripts/smoke-test.js` | End-to-end smoke (`npm run smoke`) |
 
 ---
 

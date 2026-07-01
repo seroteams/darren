@@ -252,7 +252,7 @@ function buildRunDebriefPayload({
   const relDir = relativeLogDir(sessionDir, sessionId);
   const relDirSlash = relDir.endsWith("/") ? relDir : `${relDir}/`;
   const scenario = suggestSmokeScenario(meetingType);
-  const smokeNode = `node smoke-test.js ${scenario}`;
+  const smokeNode = `node scripts/smoke-test.js ${scenario}`;
   const smokeCommandBlock = `npm run smoke\n${smokeNode}`;
   const { root, lines } = folderTreeLines(relDirSlash, surface);
   const formattedNotes = formatDebriefNotes(notes);

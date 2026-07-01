@@ -13,7 +13,7 @@ function runSmoke(scenarioPath) {
   return new Promise((resolve, reject) => {
     const before = new Set(scanSessions(ROOT));
     const startedAt = Date.now();
-    const child = spawn(process.execPath, ["smoke-test.js", scenarioPath], {
+    const child = spawn(process.execPath, ["scripts/smoke-test.js", scenarioPath], {
       cwd: ROOT,
       stdio: ["ignore", "pipe", "pipe"],
       env: { ...process.env, NO_COLOR: "1" },

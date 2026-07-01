@@ -44,7 +44,7 @@ just reference, and what's generated (and therefore safe to delete/rebuild).
 | `CLAUDE.md` | Standing behavioural rules for this repo |
 | `README.md` | Quick start + short repo map |
 | `backend/cli.ts` | CLI entry point |
-| `smoke-test.js` | Full 5-stage smoke run |
+| `scripts/smoke-test.js` | Full 5-stage smoke run |
 | `backend/engine/paths.mts` | The address book — one place defining where content lives |
 
 ## The look-alikes (what actually differs)

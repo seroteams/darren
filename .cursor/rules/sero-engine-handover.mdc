@@ -124,7 +124,7 @@ Do not push/commit a PR until the user chooses. Blockers:
 ```bash
 npm run dev      # api (frontend/server) + vite web, concurrently
 npm run cli      # node cli.js — drive the engine from terminal
-npm run smoke    # node smoke-test.js
+npm run smoke    # node scripts/smoke-test.js
 npm run eval     # node scripts/eval.js — prompt notes + batch replay + briefing rules
 ```
 
