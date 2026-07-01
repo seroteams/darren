@@ -2089,6 +2089,18 @@ body.has-session-topbar {
   overflow: hidden;
   transition: width var(--dur-fast) var(--ease-out-expo);
 }
+/* Manager (member) rail — Sero blue with dark-navy icons + text, so it's obvious at a
+   glance you're in the manager app, not the admin engine (member-nav Phase 1). */
+.app-nav--member {
+  --app-nav-bg: #5AA9E6;
+  --app-nav-fg: #24445C;
+  --app-nav-fg-dim: #24445C;
+  --app-nav-hover-bg: rgba(36, 68, 92, 0.12);
+  border-right-color: rgba(36, 68, 92, 0.12);
+}
+.app-nav--member .app-nav__tagline {
+  color: rgba(36, 68, 92, 0.65);
+}
 .app-nav:hover,
 .app-nav:focus-within {
   width: var(--app-nav-w-open);
@@ -2128,6 +2140,12 @@ body.has-session-topbar {
   white-space: nowrap;
   text-align: left;
   color: var(--app-nav-fg-dim);
+}
+/* The base rule sets display:flex, which outweighs the [hidden] attribute — so a
+   hidden link would still paint. This restores the hide (used to gate the rail by
+   role: members see only Home · Team · Runs). */
+.app-nav__link[hidden] {
+  display: none;
 }
 .app-nav__brand {
   color: var(--app-nav-fg);

@@ -27,6 +27,8 @@ const ICON = {
   lexicon: icon(`<path d="M21 14a2 2 0 0 1-2 2H8l-5 4V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M7 9h10M7 12.5h6"/>`),
   joblex: icon(`<path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/>`),
   arcs: icon(`<circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 6h6a3 3 0 0 1 3 3v.5"/><path d="M7 18h6a3 3 0 0 0 3-3v-.5"/>`),
+  team: icon(`<path d="M18 21a6 6 0 0 0-12 0"/><circle cx="12" cy="8" r="4"/><path d="M22 21a5 5 0 0 0-4-4.9"/><path d="M2 21a5 5 0 0 1 4-4.9"/>`),
+  runs: icon(`<path d="M14 2v6h6"/><path d="M4 6a2 2 0 0 1 2-2h8l6 6v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="m9 15 2 2 4-4"/>`),
   regression: icon(`<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>`),
   guide: icon(`<path d="M12 7.5v13"/><path d="M3 18.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v12.5a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>`),
   tasks: icon(`<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><path d="m9 14 2 2 4-4"/>`),
@@ -34,11 +36,16 @@ const ICON = {
 };
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
-// `admin: true` marks an owner/admin-only tool — hidden from a plain member, who only
-// sees the prep flow (admin-access-guard Phase 2).
+// Each row is tagged by audience: `admin: true` = the owner/admin tooling; `member: true`
+// = the plain member app (admin-access-guard Phase 2 + member-nav Phase 1). render()
+// shows exactly one audience's rows based on the logged-in role. A member sees just
+// Home · Team · Runs; an admin sees the full internal toolset (unchanged).
 const LINKS = [
   { key: "home", label: "Home", stage: STAGES.START, icon: ICON.home, admin: true },
-  { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new },
+  { key: "mhome", label: "Home", stage: STAGES.MEMBER_HOME, icon: ICON.home, member: true },
+  { key: "team", label: "Team", stage: STAGES.TEAM, icon: ICON.team, member: true },
+  { key: "runs", label: "Runs", stage: STAGES.RUNS, icon: ICON.runs, member: true },
+  { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new, admin: true },
   { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library, admin: true },
   { key: "compare", label: "Compare runs", stage: STAGES.COMPARE, icon: ICON.compare, admin: true },
   { key: "regression", label: "Regression", stage: STAGES.REGRESSION, icon: ICON.regression, admin: true },
@@ -66,7 +73,7 @@ export function createAppNav({ setState, resetSession } = {}) {
       <nav class="app-nav__links" aria-label="Primary">
         ${items
           .map(
-            (it) => `<button type="button" class="app-nav__link js-nav-${it.key}" data-key="${it.key}" data-admin="${it.admin ? "1" : ""}">
+            (it) => `<button type="button" class="app-nav__link js-nav-${it.key}" data-key="${it.key}" data-admin="${it.admin ? "1" : ""}" data-member="${it.member ? "1" : ""}">
           <span class="app-nav__icon">${it.icon}</span>
           <span class="app-nav__label">${it.label}</span>
         </button>`
@@ -84,6 +91,9 @@ export function createAppNav({ setState, resetSession } = {}) {
 
   const onNav = {
     home: () => setState && setState({ stage: STAGES.START }),
+    mhome: () => setState && setState({ stage: STAGES.MEMBER_HOME }),
+    team: () => setState && setState({ stage: STAGES.TEAM }),
+    runs: () => setState && setState({ stage: STAGES.RUNS }),
     new: () => {
       if (resetSession) resetSession();
       setState && setState({ stage: STAGES.INTAKE, substage: "NAME" });
@@ -111,6 +121,9 @@ export function createAppNav({ setState, resetSession } = {}) {
 
   const ACTIVE_BY_STAGE = {
     [STAGES.START]: "home",
+    [STAGES.MEMBER_HOME]: "mhome",
+    [STAGES.TEAM]: "team",
+    [STAGES.RUNS]: "runs",
     [STAGES.INTAKE]: "new",
     [STAGES.LIBRARY]: "library",
     [STAGES.COMPARE]: "compare",
@@ -134,9 +147,15 @@ export function createAppNav({ setState, resetSession } = {}) {
     }
     el.classList.remove("is-hidden");
     document.body.classList.add("has-app-nav");
-    // Owner/admin-only tools are hidden from a plain member (admin-access-guard Phase 2).
+    // Show exactly one audience's rows: admins get the internal toolset, members get
+    // Home · Team · Runs (member-nav Phase 1). Log out sits outside this and always shows.
     const admin = isAdmin(user);
-    el.querySelectorAll('[data-admin="1"]').forEach((b) => { b.hidden = !admin; });
+    el.classList.toggle("app-nav--member", !admin);
+    const wanted = admin ? "admin" : "member";
+    el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
+      if (b.dataset.key === "logout") return;
+      b.hidden = b.dataset[wanted] !== "1";
+    });
     const activeKey = ACTIVE_BY_STAGE[stage] || null;
     el.querySelectorAll(".app-nav__link").forEach((b) => {
       const on = b.dataset.key === activeKey;

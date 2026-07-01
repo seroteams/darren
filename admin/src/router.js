@@ -10,6 +10,9 @@ const PATH_FOR = {
   [STAGES.LOGIN]:          () => "/login",
   [STAGES.REGISTER]:       () => "/register",
   [STAGES.START]:          () => "/",
+  [STAGES.MEMBER_HOME]:    () => "/home",
+  [STAGES.TEAM]:           () => "/team",
+  [STAGES.RUNS]:           () => "/runs",
   [STAGES.INTAKE]:         () => "/new",
   [STAGES.ONEPAGE]:        () => "/flow",
   [STAGES.FOCUS_POINTS]:   () => "/focus",
@@ -35,7 +38,8 @@ const PATH_FOR = {
 // path -> stage (exact paths). /run/:id handled separately.
 const STAGE_FOR = {
   "/login": STAGES.LOGIN, "/register": STAGES.REGISTER,
-  "/": STAGES.START, "/new": STAGES.INTAKE, "/flow": STAGES.ONEPAGE, "/focus": STAGES.FOCUS_POINTS,
+  "/": STAGES.START, "/home": STAGES.MEMBER_HOME, "/team": STAGES.TEAM, "/runs": STAGES.RUNS,
+  "/new": STAGES.INTAKE, "/flow": STAGES.ONEPAGE, "/focus": STAGES.FOCUS_POINTS,
   "/prepare": STAGES.PREPARATION, "/bank": STAGES.BANK, "/interview": STAGES.QUESTIONING,
   "/evaluate": STAGES.EVAL, "/briefing": STAGES.BRIEFING, "/debrief": STAGES.RUN_DEBRIEF,
   "/lexicon": STAGES.LEXICON_REVIEW, "/compare": STAGES.COMPARE, "/library": STAGES.LIBRARY,
@@ -54,6 +58,11 @@ const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE, STAGES
   STAGES.PERSONAS, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
   STAGES.TASKS, STAGES.GUIDE, STAGES.REVIEW_RUN]);
 export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
+
+// The plain-member destinations (member-nav Phase 1): Home, Team, Runs. Used by boot +
+// back/forward to honor a member's own deep links rather than bouncing them.
+const MEMBER_ONLY = new Set([STAGES.MEMBER_HOME, STAGES.TEAM, STAGES.RUNS]);
+export const isMemberStage = (stage) => MEMBER_ONLY.has(stage);
 
 export function parseLocation() {
   const p = window.location.pathname.replace(/\/+$/, "") || "/";

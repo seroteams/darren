@@ -4,7 +4,7 @@ import "./styles/design.css";
 
 import { STAGES, store, subscribe, setState, resetSession, isAdmin } from "./state.js";
 import { getSession, listRecentRuns, runRegression, me } from "./api.js";
-import { syncUrl, parseLocation, startPopstate, isFlowStage, isAdminStage } from "./router.js";
+import { syncUrl, parseLocation, startPopstate, isFlowStage, isAdminStage, isMemberStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createBuildStamp } from "./ui/build-stamp.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
@@ -15,6 +15,9 @@ const loaders = {
   LOGIN:           () => import("./stages/login.js"),
   REGISTER:        () => import("./stages/register.js"),
   START:           () => import("./stages/start.js"),
+  MEMBER_HOME:     () => import("./stages/member-home.js"),
+  TEAM:            () => import("./stages/team.js"),
+  RUNS:            () => import("./stages/runs.js"),
   INTAKE:          () => import("./stages/intake.js"),
   ONEPAGE:         () => import("./stages/onepage.js"),
   FOCUS_POINTS:    () => import("./stages/focus-points.js"),
@@ -111,9 +114,9 @@ subscribe((s) => {
 });
 
 startPopstate((parsed) => {
-  // A member can't reach an admin screen via back/forward — bounce to the prep flow.
+  // A member can't reach an admin screen via back/forward — bounce to their Home.
   if (store.user && isAdminStage(parsed.stage) && !isAdmin(store.user)) {
-    setState({ stage: STAGES.INTAKE, substage: "NAME" });
+    setState({ stage: STAGES.MEMBER_HOME });
     return;
   }
   if (parsed.stage === STAGES.REVIEW_RUN) {
@@ -180,10 +183,11 @@ async function boot() {
   // directly (no notify) so the real stage is what renders, no login flash.
   store.user = { userId: identity.userId, orgId: identity.orgId, roles: identity.roles };
 
-  // A plain member only gets the prep flow (admin-access-guard Phase 2). Resume a live
-  // session if the URL points at one; otherwise land on a new session. Admin screens
-  // (run history, library, the internal tooling) are never rendered for a member — the
-  // rest of boot below is the owner/admin path.
+  // A plain member gets the member app: Home · Team · Runs, plus the prep flow
+  // (member-nav Phase 1). Resume a live session if the URL points at one; honor a member
+  // deep link (/home, /team, /runs, /new); otherwise land on Home. Admin screens (run
+  // history, library, the internal tooling) are never rendered for a member — the rest
+  // of boot below is the owner/admin path.
   if (!isAdmin(store.user)) {
     if (route && isFlowStage(route.stage)) {
       try {
@@ -191,8 +195,10 @@ async function boot() {
         if (id && await rehydrateById(id)) return;   // resume — syncUrl corrects the URL
       } catch (e) { console.warn("[boot] member rehydrate failed:", e); }
     }
-    history.replaceState(null, "", "/new");
-    setState({ stage: STAGES.INTAKE, substage: "NAME" });
+    if (route && route.stage === STAGES.INTAKE) { setState({ stage: STAGES.INTAKE, substage: "NAME" }); return; }
+    if (route && isMemberStage(route.stage)) { setState({ stage: route.stage }); return; }
+    history.replaceState(null, "", "/home");
+    setState({ stage: STAGES.MEMBER_HOME });
     return;
   }
 
