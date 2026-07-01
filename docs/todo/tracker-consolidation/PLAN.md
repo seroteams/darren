@@ -30,7 +30,7 @@ found three stale trackers. The fix is fewer sources, not more sync rules.
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The map | A short, agreed "which file is for what" reference everyone can point to | ⬜ |
+| 1 | The map | A short, agreed "which file is for what" reference everyone can point to | 🔨 |
 | 2 | Demote PROGRESS.md | PROGRESS reads as an append-only decisions log, not a status board | ⬜ |
 | 3 | Changelog clarity | sero-how-it-works.html is clearly a manual founder changelog, not live status | ⬜ |
 | 4 | Lock the rules | CLAUDE.md §6 simplified to the two-source model; badges confirmed build-only | ⬜ |
@@ -38,9 +38,18 @@ found three stale trackers. The fix is fewer sources, not more sync rules.
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Scaffolded, not started.** No phase has begun. Awaiting Carl's read-through and
-green light before Phase 1. Baseline not yet run (will run at the start of Phase 1 —
-this is docs-only, so `npm test` is the relevant free check, not a paid gate).
+**Phase 1 built + committed — awaiting Carl's QA tick.** Phase 1 landed a standalone
+`docs/TRACKERS.md` (the map) plus a one-line pointer to it from STATUS.md's intro. Decision made:
+the map is a *standalone* file (durable reference) rather than a section inside STATUS.md (which
+churns each phase) — veto-able in QA.
+
+**Audit reconciliation (2026-07-01):** `docs/TRACKERS.md` is **git-tracked with a clean status** — it
+**is committed** (the earlier "not committed yet" was stale). Phase 2 (demote PROGRESS.md) is now
+**partly advanced**, not untouched: the 2026-07-01 PROGRESS.md reconciliation added the "trust STATUS.md
+/ append-only, not a status source" pointer — but Phase 2 isn't done, because PROGRESS.md's top banner
+still reads "living log… updated after every action" and its rival phase-status table survives. Phases 3–4
+remain not started (the how-it-works changelog still badges "LIVE" and doesn't point to STATUS.md; CLAUDE.md
+§6 still carries the keep-many-in-sync rules). `npm test` now 52/52.
 
 ## Parked
 - Auto-deriving STATUS.md content from the build badges (or vice versa) — tempting, but

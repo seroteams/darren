@@ -20,7 +20,9 @@
 ⬜ not started · 🔨 built, awaiting product-owner QA · ✅ done (tested)
 
 ## Current state
-All three phases **built in one pass** (Carl said "go with all"). Awaiting Carl's QA before commit.
+**Audit reconciliation (2026-07-01):** all three phases are **built, committed, and wired live in the app** — not "awaiting commit". Code-verified: `readRunStages()` + `GET /api/v1/runs/:id/stages` (`backend/engine/run-history.ts`, `server.ts`), the Notes·Sent·Reply tab shell (`admin/src/ui/notes-panel.js`, mounted in `main.js`), and the fully-populated Sent/Reply tabs (`admin/src/ui/stage-data-tab.js`). The only thing genuinely outstanding is Carl's on-screen QA sign-off — the badges stay 🔨 until he ticks. (`npm test` now 52/52, up from the 30/30 noted below.)
+
+All three phases **built in one pass** (Carl said "go with all"). Awaiting Carl's QA before the ✅ tick.
 
 Verified so far (free, no API spend):
 - `npm test` → 30/30 pass. `npm run build` → client bundles clean (all imports resolve).

@@ -37,6 +37,13 @@ Phase 3 waits for Phase 005's sessions-repo swap.
 queue-constants · axis-coverage + queue-metrics · messages · reconcile-queue + grounding. Every
 engine module now under 600. Awaiting Carl's QA walk to tick ✅.
 
+**Audit reconciliation (2026-07-01):** Phases 1 & 2 re-confirmed built + committed (`backend/shared/guards.ts`
+imported across 41 files; the 5 queue-manager cuts all present) — `npm test` now **52/52**, typecheck clean.
+Phase 3 is **genuinely not started**: `sessions.controller.ts` is still ~689 lines and calls the engine
+directly (`planTurn`, `evaluate`, `assembleQueueWithPrepOpener`); the existing `sessions.service.ts` is the
+Phase-004 storage/derivation service, **not** the orchestration extraction Phase 3 describes. Phase 4 (admin
+TS pilot) also not started (no `.ts` in `admin/src/stages/`, no `admin/tsconfig.json`).
+
 ## Parked
 - Converting ALL 47 admin stages to TS (Phase 4 only *pilots* it — the full sweep is its own plan).
 - Naming normalisation of any legacy files (do it as you touch them, not as a sweep).

@@ -20,7 +20,7 @@
 | 1 | New Tasks page + nav | A brand-new "Tasks" page at `/tasks` with its own nav item. Clean board: my status (✅ Built / 🔵 Building / ⚪ Not started) kept separate from your verdict tick; wrong-address warning. | ✅ |
 | 2 | Plain check steps | Every step's "how to check" rewritten into concrete lines: "App runs (free check)" + "You check (by eye)" | ✅ |
 | M | Merge boards | Port the Copy continue/verify prompt into Tasks (driven by build status, never your ticks); retire the Build plan page (nav, route, stage, file) so there's one board, not two. | ✅ |
-| 3 | Run-checks button | The page runs the FREE checks for you and shows ✅/❌ per step | ⬜ greenlit, not built |
+| 3 | Run-checks button | The page runs the FREE checks for you and shows ✅/❌ per step | 🔨 backend built + tested; UI button pending |
 
 ⬜ not started · 🔨 in progress (built, awaiting test) · ✅ done (committed)
 
@@ -33,7 +33,9 @@
 
 One tiny uncommitted edit sits in `tasks.js` (4 lines): Phase 003's step 3 flipped `doing`→`done` to reflect the now-complete TS conversion. It can ride along with the Phase 3 commit.
 
-**Prerequisite for Phase 3:** the button calls the API, so the API server must run. Right now `node backend/api/server.js` errors (`Cannot find module './handlers/preparation'`) — but the backend is now 100% TypeScript (server.ts; commits `86ccc88e`/`f0e277ae`), so `server.js` is likely a stale entry. Phase 3 must first confirm the correct way to start the TS API, then add the endpoint.
+**Audit reconciliation (2026-07-01):** Phase 3's **backend half is already built + tested** — `backend/api/services/checks/checks.controller.ts` + `checks.service.ts` implement `runFreeCheck`, allow-list exactly the two free commands and refuse others, wired at `POST /api/v1/checks/run`, with a passing test (`backend/tests/checks/test-checks-service.js`). It landed via the Phase-004 api-v1 relocation. **Only the UI button is missing** — no "Run the free checks" button in `tasks.js` yet, and nothing in `admin/` calls `/checks/run`. So Phase 3 = frontend-only remaining. (The old `server.js` note below is stale — the backend is 100% TypeScript now; start the API the normal way.)
+
+**Prerequisite for Phase 3 (historical note):** the button calls the API, so the API server must run. An earlier note said `node backend/api/server.js` errors (`Cannot find module './handlers/preparation'`) — that was a stale `.js` entry; the backend is now 100% TypeScript (`server.ts`).
 
 Next: build Phase 3 — recommended in a FRESH session (this chat is long/messy; Darren rule). Then Carl walks the Phase 3 scenarios; on his go, commit and close the folder to `docs/todo/done/`.
 

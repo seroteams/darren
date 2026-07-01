@@ -10,12 +10,12 @@
 
 ## Current state
 
-- ✅ **Phase 1 built — awaiting product-owner QA.** Focus areas preview (`assembleFocusPoints` + `FOCUS_POINTS` in `ASSEMBLERS`) and the readable split display (System / User / raw, reused by all stages). Baseline before work: `npm test` 30/30.
+- 🚩 **Phase 1 — code is NOT in the current tree (lost in the 2026-06-24 monorepo reorg).** This was marked "✅ built, awaiting QA", but a **2026-07-01 code audit** found no `assembleFocusPoints` and no `FOCUS_POINTS` entry in `PREVIEW_ASSEMBLERS` (`backend/api/services/sessions/sessions.service.ts` has only `PREPARATION`), and no System/User split display in `admin/src/ui/stage-data-tab.js` (it renders the prompt as one raw block). The surviving Preparation-preview slice actually lives under [sent-preview](../sent-preview/PLAN.md), not here. **Decide: rebuild, fold into sent-preview, or cut this plan.** Baseline before the original work: `npm test` 30/30.
 - ⏳ Phases 2–6 not started (one at a time, after each green light).
 
 ## Phases
 
-1. **Focus areas + readable display** — `PHASE-1.md` *(built, in QA)*
+1. **Focus areas + readable display** — `PHASE-1.md` *(was marked built; code lost in the reorg — see Current state)*
 2. **Prep brief** verify + adopt display — `PHASE-2.md`
 3. **Questions (BANK)** — `PHASE-3.md`
 4. **Synthesis (EVAL)** — `PHASE-4.md`

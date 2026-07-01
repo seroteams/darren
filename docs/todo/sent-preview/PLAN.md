@@ -35,8 +35,14 @@ stage is about to send. This adds a **preview**: assemble the same payload the r
 ⬜ not started · 🔨 built, awaiting product-owner QA · ✅ done (tested)
 
 ## Current state
+**Audit reconciliation (2026-07-01):** both phases are **built, committed, and wired live** — not "awaiting commit".
+Code-verified: `assemblePreparation` (`backend/engine/preparation.ts`), `PREVIEW_ASSEMBLERS.PREPARATION` +
+`GET /api/v1/sessions/:id/preview` (`sessions.service.ts`, `server.ts`), and the Sent-tab `renderPreview()`
+fallback (`admin/src/ui/stage-data-tab.js`). The genuinely outstanding item is only Carl's on-screen QA of the
+"about to send" banner — badge stays 🔨 until he ticks. (`npm test` now 52/52, up from the 30/30 below.)
+
 Both phases **built in one pass** (Phase 1 isn't visible in the UI on its own, so they QA together).
-Awaiting Carl's in-app QA before commit.
+Awaiting Carl's in-app QA before the ✅ tick.
 
 Verified so far (free, no API spend):
 - `npm test` → 30/30. `frontend` client build → all bundles resolve (incl. new `getStagePreview` import).
