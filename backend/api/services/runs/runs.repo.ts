@@ -49,6 +49,9 @@ export interface RunsRepo {
   findRunDir(id: string, orgId?: string | null): string | null;
   readReview(dir: string): unknown; // existing review.json, or null
   writeReview(dir: string, data: unknown): void;
+  // Manager 1:1 rating (pre-go-live PG3): a rating.json sidecar in the run folder.
+  readRating(dir: string): unknown; // existing rating.json, or null
+  writeRating(dir: string, data: unknown): void;
   // Member-safe reads (member-nav Phase 2) — fenced by BOTH orgId and userId, so a
   // member sees only runs they created. memberRun returns null when the run is unknown
   // or owned by someone else.
@@ -77,6 +80,21 @@ function writeReviewFile(dir: string, data: unknown): void {
   fs.renameSync(tmp, target);
 }
 
+// Same null-safe read + atomic write for the manager's rating.json sidecar (PG3).
+function readRatingFile(dir: string): unknown {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(dir, "rating.json"), "utf8"));
+  } catch {
+    return null;
+  }
+}
+function writeRatingFile(dir: string, data: unknown): void {
+  const target = path.join(dir, "rating.json");
+  const tmp = path.join(dir, "rating.json.tmp");
+  fs.writeFileSync(tmp, JSON.stringify(data, null, 2));
+  fs.renameSync(tmp, target);
+}
+
 export const fileRunsRepo: RunsRepo = {
   listRecent: (limit, orgId) => listRecentRuns(limit, orgId),
   listFinished: (orgId) => listFinishedRuns(orgId),
@@ -91,6 +109,8 @@ export const fileRunsRepo: RunsRepo = {
   findRunDir: (id, orgId) => findRunDir(id, orgId),
   readReview: (dir) => readReviewFile(dir),
   writeReview: (dir, data) => writeReviewFile(dir, data),
+  readRating: (dir) => readRatingFile(dir),
+  writeRating: (dir, data) => writeRatingFile(dir, data),
   listFinishedForMember: (orgId, userId) => listFinishedRunsForMember(orgId, userId),
   memberRun: (id, orgId, userId) => memberRunView(id, orgId, userId),
   cloneRun: (sourceId, orgId, userId) => cloneRun(sourceId, orgId, userId),

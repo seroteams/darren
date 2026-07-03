@@ -103,3 +103,11 @@ export async function mineDetail(c: RequestContext): Promise<void> {
   const { userId, orgId } = await callerIdentity(c);
   c.json(200, service.myRun(c.params.id, orgId, userId));
 }
+
+// Rate one of the caller's own runs (pre-go-live PG3): login required, any role; the
+// service fences by org + user (a run you don't own → 404). Origin-guarded in server.ts.
+export async function rateMine(c: RequestContext): Promise<void> {
+  const { userId, orgId } = await callerIdentity(c);
+  const body = await c.readBody();
+  c.json(200, service.rateMine(c.params.id, body, orgId, userId));
+}

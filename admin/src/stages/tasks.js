@@ -179,11 +179,11 @@ const DATA = [
     goal: "Say how useful each 1:1 was — a one-tap 1–5 star right after the meeting, plus an optional note — so the tool learns and Carl gets an honest read.",
     steps: [
       { f: "Save a rating", m: "A member-safe endpoint stores your stars + optional note alongside the run (a simple file, written safely).", have: "Ratings saved safely",
-        auto: "Run `npm test` — covers the endpoint (bad stars → 400, logged-out → 401, not-yours → 404).", eye: "Rate a 1:1, reload — the stars stick.", s: "todo" },
+        auto: "Run `npm test` — covers the endpoint (bad stars → 400, logged-out → 401, not-yours → 404).", eye: "Rate a 1:1, reload — the stars stick.", s: "doing" },
       { f: "Ask at the right moment", m: "A gentle one-tap rating at the END of a 1:1 (with Skip), plus on the detail later; a low score reveals a one-line 'what missed?'. Never an 'unrated' nag.", have: "In-flow, no nagging",
-        auto: null, eye: "Finish a 1:1 → gently asked to rate; skipping is easy; no guilt-y unrated count anywhere.", s: "todo" },
+        auto: null, eye: "Finish a 1:1 → gently asked to rate; skipping is easy; no guilt-y unrated count anywhere.", s: "doing" },
       { f: "Accessible + private", m: "Stars work by keyboard/screen-reader and stay ≥14px; the note is a private manager field — never shown to staff, never logged.", have: "Accessible + private",
-        auto: null, eye: "You can set the rating with the keyboard.", s: "todo" },
+        auto: null, eye: "You can set the rating with the keyboard.", s: "doing" },
     ],
     signoff: "Rate a 1:1 at the end and later · it persists · a low score invites a note · nothing nags · the note never leaves your view." },
 

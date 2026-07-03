@@ -1,8 +1,9 @@
 import { STAGES } from "../state.js";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
-import { postVerdict } from "../../../shared/api.js";
+import { postVerdict, rateMyRun } from "../../../shared/api.js";
 import { escapeCopy as escape } from "../ui/html.js";
+import { createStarRating } from "../ui/star-rating.js";
 
 const WHEN_ORDER = ["today", "this week", "this month", "next 1:1"];
 
@@ -121,6 +122,15 @@ export async function mount(root, { store, setState, resetSession }) {
       </section>` : ""}
 
       <footer class="briefing-finish pt-2 l-stack l-stack--2">
+        ${store.scripted ? "" : `
+        <div class="rate-inflow card-flat space-y-2 js-rate-inflow">
+          <div class="eyebrow" id="rate-inflow-label">Did this help you run the 1:1?</div>
+          <div class="l-cluster l-cluster--2 items-center">
+            <div class="js-inflow-stars"></div>
+            <button type="button" class="btn btn--ghost btn--sm js-rate-skip">Skip</button>
+            <span class="js-rate-status text-sm text-ink-mute" role="status" aria-live="polite"></span>
+          </div>
+        </div>`}
         <div class="text-sm text-ink-mute">This run is complete and saved.</div>
         <div class="l-cluster l-cluster--2 items-center">
           <button class="btn js-restart">Finish &amp; review this run</button>
@@ -360,6 +370,26 @@ export async function mount(root, { store, setState, resetSession }) {
   root.querySelector(".js-restart").addEventListener("click", () => {
     setState({ stage: STAGES.RUN_DEBRIEF });
   });
+
+  // In-flow rating (pre-go-live PG3): a gentle one-tap "how useful?" at the end of a real
+  // 1:1 (skipped for the scripted test lane). Rates the just-finished run by its id; Skip
+  // dismisses it, and a save failure is soft ("rate it later from Runs") — never a blocker.
+  const rateBlock = root.querySelector(".js-rate-inflow");
+  if (rateBlock) {
+    const status = rateBlock.querySelector(".js-rate-status");
+    const stars = createStarRating({
+      onChange: async (s) => {
+        try {
+          await rateMyRun(store.sessionId, { stars: s });
+          if (status) status.textContent = "Thanks!";
+        } catch {
+          if (status) status.textContent = "You can rate it later from Runs.";
+        }
+      },
+    });
+    rateBlock.querySelector(".js-inflow-stars").appendChild(stars.el);
+    rateBlock.querySelector(".js-rate-skip").addEventListener("click", () => rateBlock.remove());
+  }
 
   // Scripted test lane: capture the structured verdict (ground truth for Suggest-fix).
   if (store.scripted) {

@@ -14,6 +14,7 @@ type MyRun = {
   headline: string;
   ctx: { name: string; role: string; seniority: string; meetingType: string };
   lastSeenAt: number;
+  rating: { stars: number } | null;
 };
 
 // Local one-use time-ago (mirrors compare.js) — four lines, so no shared util for one caller.
@@ -104,7 +105,12 @@ export const mount: Mount = async (root, { setState }) => {
     const rows = runs
       .slice()
       .sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0))
-      .map((r) => `<button type="button" class="card-flat runs-list__row js-open" data-id="${escapeHtml(r.id)}"><span class="text-sm">${rowLine(r)}</span></button>`)
+      .map((r) => {
+        const badge = r.rating
+          ? `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">★ ${r.rating.stars}</span>`
+          : "";
+        return `<button type="button" class="card-flat runs-list__row js-open" data-id="${escapeHtml(r.id)}"><span class="text-sm">${rowLine(r)}</span>${badge}</button>`;
+      })
       .join("");
     root.innerHTML = shell(`<section class="l-stack l-stack--2">${rows}</section>`);
     wire();

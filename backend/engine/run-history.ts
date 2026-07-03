@@ -94,6 +94,16 @@ function isArchivedAt(dir: string): boolean {
   return Boolean(isObjectRecord(a) && a.archived);
 }
 
+// The manager's own 1:1 rating for a run (pre-go-live PG3), or null. Reads the
+// rating.json sidecar the runs service writes; only a valid 1-5 star shape is surfaced.
+function ratingOf(dir: string): { stars: number; note: string; updatedAt: string | null } | null {
+  const r = readJsonAt(dir, "rating.json");
+  if (!isObjectRecord(r)) return null;
+  const stars = asNumber(r.stars);
+  if (stars < 1 || stars > 5) return null;
+  return { stars, note: asString(r.note), updatedAt: typeof r.updatedAt === "string" ? r.updatedAt : null };
+}
+
 function setArchived(id: string, archived: unknown, orgId?: string | null): { ok: boolean; id: string; reason?: string; archived?: boolean } {
   const dir = findRunDir(id, orgId);
   if (!dir) return { ok: false, id, reason: "not_found" };
@@ -224,7 +234,7 @@ function listFinishedRuns(orgId?: string | null) {
 function listFinishedRunsForMember(orgId: string | null | undefined, userId: string | null | undefined) {
   const runs = walkRuns(orgId).filter(({ state }) => state && state.briefing && runOwnedByUser(state, userId));
   runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
-  return runs.map(({ id, state }) => {
+  return runs.map(({ id, dir, state }) => {
     const ctx = asRecord(state.ctx);
     return {
       id,
@@ -236,6 +246,7 @@ function listFinishedRunsForMember(orgId: string | null | undefined, userId: str
         meetingType: asString(ctx.meetingType),
       },
       lastSeenAt: asNumber(state.lastSeenAt),
+      rating: ratingOf(dir),
     };
   });
 }
@@ -262,6 +273,7 @@ function memberRunView(id: string, orgId: string | null | undefined, userId: str
     briefing: s.briefing ?? null,
     lastSeenAt: asNumber(s.lastSeenAt),
     completedAt: s.completedAt ?? null,
+    rating: ratingOf(dir),
   };
 }
 

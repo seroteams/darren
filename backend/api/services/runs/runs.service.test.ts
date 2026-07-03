@@ -7,13 +7,14 @@ import { isObjectRecord, asRecord } from "../../../shared/guards.ts";
 interface Calls {
   dropSession: string[];
   writeReview: Array<{ dir: string; data: unknown }>;
+  writeRating: Array<{ dir: string; data: unknown }>;
 }
 
 // A fake repo records its side-effects (dropSession, writeReview) and returns
 // canned reads — proving the service logic (clamp/map, not-found gates, the
 // review marks schema) is independent of run-history storage.
 function fakeRepo(over: Partial<RunsRepo> = {}): { repo: RunsRepo; calls: Calls } {
-  const calls: Calls = { dropSession: [], writeReview: [] };
+  const calls: Calls = { dropSession: [], writeReview: [], writeRating: [] };
   const repo: RunsRepo = {
     listRecent: () => [],
     listFinished: () => [],
@@ -33,6 +34,10 @@ function fakeRepo(over: Partial<RunsRepo> = {}): { repo: RunsRepo; calls: Calls 
     listFinishedForMember: () => [],
     memberRun: () => null,
     cloneRun: (_sourceId, _orgId, _userId) => ({ id: "clone-1" }),
+    readRating: () => null,
+    writeRating: (dir, data) => {
+      calls.writeRating.push({ dir, data });
+    },
     ...over,
   };
   return { repo, calls };
@@ -278,6 +283,64 @@ test("clone is 400 when sourceId is missing, 404 when the source is unknown/not 
   assert.equal(thrown(() => createRunsService(repo).clone(undefined, "o", "u")).status, 400);
   const miss = fakeRepo({ cloneRun: () => null });
   assert.equal(thrown(() => createRunsService(miss.repo).clone("src-1", "o", "u")).status, 404);
+});
+
+test("rateMine writes a 1-5 star rating + trimmed note for the caller's own run", () => {
+  const { repo, calls } = fakeRepo({
+    memberRun: (id) => ({ id, briefing: {} }), // caller owns it
+    findRunDir: () => "/runs/r1",
+  });
+  const out = createRunsService(repo).rateMine("r1", { stars: 4, note: "  useful, a bit generic  " }, "org-A", "u1");
+  assert.deepEqual(out, { ok: true, stars: 4, note: "useful, a bit generic" });
+  const call = calls.writeRating[0];
+  assert.ok(call);
+  assert.equal(call.dir, "/runs/r1");
+  const rec = asRecord(call.data);
+  assert.equal(rec.version, 1);
+  assert.equal(rec.runId, "r1");
+  assert.equal(rec.stars, 4);
+  assert.equal(rec.note, "useful, a bit generic");
+  assert.equal(rec.ratedBy, "u1");
+  assert.equal(typeof rec.createdAt, "string");
+  assert.equal(typeof rec.updatedAt, "string");
+});
+
+test("rateMine caps the note at 4000 chars and preserves createdAt from a prior rating", () => {
+  const { repo, calls } = fakeRepo({
+    memberRun: (id) => ({ id }),
+    readRating: () => ({ createdAt: "2020-01-01T00:00:00.000Z" }),
+  });
+  createRunsService(repo).rateMine("r1", { stars: 5, note: "x".repeat(5000) }, "org-A", "u1");
+  const rec = asRecord(calls.writeRating[0]?.data);
+  assert.equal(rec.note, "x".repeat(4000));
+  assert.equal(rec.createdAt, "2020-01-01T00:00:00.000Z");
+});
+
+test("rateMine rejects out-of-range / non-integer stars with 400 (and writes nothing)", () => {
+  const mk = () => fakeRepo({ memberRun: (id) => ({ id }) });
+  for (const bad of [0, 6, 2.5, -1, "3", null]) {
+    const { repo, calls } = mk();
+    assert.equal(thrown(() => createRunsService(repo).rateMine("r1", { stars: bad }, "o", "u")).status, 400);
+    assert.deepEqual(calls.writeRating, []);
+  }
+});
+
+test("rateMine is 404 for a run the caller doesn't own (or unknown) — no probing", () => {
+  const { repo, calls } = fakeRepo({ memberRun: () => null }); // not theirs
+  assert.equal(thrown(() => createRunsService(repo).rateMine("r1", { stars: 4 }, "org-A", "u2")).status, 404);
+  assert.deepEqual(calls.writeRating, []);
+});
+
+test("rateMine surfaces a write failure with status 500 and a clear message", () => {
+  const { repo } = fakeRepo({
+    memberRun: (id) => ({ id }),
+    writeRating: () => {
+      throw new Error("boom");
+    },
+  });
+  const r = thrown(() => createRunsService(repo).rateMine("r1", { stars: 4 }, "o", "u"));
+  assert.equal(r.status, 500);
+  assert.match(r.message ?? "", /rating write failed/);
 });
 
 test("review surfaces a write failure with status 500 and a clear message", () => {

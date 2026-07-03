@@ -163,6 +163,12 @@ export async function getMyRun(id) {
   return json(await fetch(`/api/v1/runs/mine/${encodeURIComponent(id)}`));
 }
 
+// Rate one of the member's OWN runs (pre-go-live PG3): { stars: 1-5, note? }. Member-safe
+// + origin-guarded server-side; a run you don't own → 404. Returns { ok, stars, note }.
+export async function rateMyRun(id, { stars, note }) {
+  return postJson(`/api/v1/runs/mine/${encodeURIComponent(id)}/rating`, { stars, note });
+}
+
 // Dev-only "prefill a run" (admin-only server-side). clonable = every finished run on
 // disk to seed from; cloneRun copies one into a fresh run the caller owns (lands in
 // their /mine). Free — all file copies, no OpenAI. Shapes: { runs: [...] } and { id }.

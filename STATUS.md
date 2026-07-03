@@ -13,8 +13,16 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 superadmin window on the alpha.** 9 phases, one at a time.
 **PG1 (Manager Runs list) ✅ · PG2 (Reopen a run) ✅ — both signed off 2026-07-01.** The Runs page lists
 your own past 1:1s (fenced to you), and clicking one opens a clean, read-only briefing you can re-read
-(keyboard-operable, deep-linkable, foreign runs blocked). **PG3 (Rate a 1:1) is next.**
+(keyboard-operable, deep-linkable, foreign runs blocked).
+**PG3 (Rate a 1:1) 🔨 built end-to-end — awaiting your QA walk.** Backend (rate route, fences, tests)
+and front-end (star widget on the detail, in-flow prompt with Skip, list badge) are all in the tree,
+checkpointed 2026-07-03. **Your move: walk [99-qa-signoff.md](docs/pre-go-live/003-rate-a-1-1/99-qa-signoff.md)** —
+on your green light PG3 goes ✅ and gets its final checkpoint.
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
+
+> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-03 as a snapshot commit.
+> In any fresh session, say **"check point"** and I'll read this file + the PROGRESS log + recent
+> commits and give you the full "where we are, your move" picture — no digging needed.
 
 > This track **supersedes** the deferred **member-nav Phase 2** (real Runs) and **009's deferred "real
 > Team content"** — both folded in here so trackers don't multiply.
@@ -65,7 +73,7 @@ untouched, dev Admin/Standard quick-swap works. Phase 2 (Real Runs) has backend 
 (`ca23831e`/`9a2a7148`/`f30783d9`) but the Runs *page* is still the placeholder — that's the genuinely
 open member-nav work. Plan: [docs/todo/member-nav/](docs/todo/member-nav/PLAN.md).
 
-- Last updated: 2026-07-01
+- Last updated: 2026-07-03
 
 ---
 

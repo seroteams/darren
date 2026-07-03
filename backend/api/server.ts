@@ -256,6 +256,12 @@ function main(): void {
   // isn't shadowed; plain v1Route (no adminV1). The admin runs endpoints below are unchanged.
   router.add("GET", "/api/v1/runs/mine", v1Route(runs.mine));
   router.add("GET", /^\/api\/v1\/runs\/mine\/(?<id>[^/]+)$/, v1Route(runs.mineDetail));
+  // Rate one of your own runs (pre-go-live PG3) — member-safe (org+user fenced in the
+  // service), origin-guarded. Registered with the other /mine routes.
+  router.add("POST", /^\/api\/v1\/runs\/mine\/(?<id>[^/]+)\/rating$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return runs.rateMine(c);
+  }));
   router.add("GET", "/api/v1/runs/recent", v1Route(runs.recent));
   router.add("GET", "/api/v1/runs/finished", v1Route(runs.finished));
   // dev-only "prefill a run" (admin-guarded in the controller): list clonable finished

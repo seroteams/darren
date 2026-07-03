@@ -36,6 +36,10 @@ export interface RunsService {
   // member doesn't own.
   myFinished(orgId: string | null | undefined, userId: string | null | undefined): { runs: unknown[] };
   myRun(id: string | undefined, orgId: string | null | undefined, userId: string | null | undefined): unknown;
+  // Rate one of the member's OWN 1:1s (pre-go-live PG3): 1-5 stars + optional note,
+  // stored as a rating.json sidecar. Fenced by org AND user — a run the caller doesn't
+  // own is a 404 (same answer a stranger gets), so ids can't be probed or rated.
+  rateMine(id: string | undefined, body: unknown, orgId: string | null | undefined, userId: string | null | undefined): { ok: true; stars: number; note: string };
   // Dev-only "prefill a run" (admin-guarded at the route). clonable lists every finished
   // run on disk (unfenced) so there's always something to seed from; clone copies one into
   // a fresh run owned by the caller so it drops straight into their /mine.
@@ -117,6 +121,36 @@ export function createRunsService(repo: RunsRepo): RunsService {
       const view = repo.memberRun(requireId(id), orgId, userId);
       if (!view) throw notFound("unknown run");
       return view;
+    },
+    rateMine: (id, body, orgId, userId) => {
+      const runId = requireId(id);
+      // Ownership first: the run must be the caller's own (org + user). Not theirs /
+      // unknown → 404, the same answer a stranger gets, so ids can't be probed.
+      if (!repo.memberRun(runId, orgId, userId)) throw notFound("unknown run");
+      if (!isObjectRecord(body)) throw badRequest("invalid payload");
+      const stars = body.stars;
+      if (typeof stars !== "number" || !Number.isInteger(stars) || stars < 1 || stars > 5) throw badRequest("stars must be an integer 1-5");
+      // The note is a private manager field — trimmed + capped, never logged.
+      const note = String(body.note != null ? body.note : "").trim().slice(0, NOTE_CAP);
+      const dir = repo.findRunDir(runId, orgId);
+      if (!dir) throw notFound("unknown run");
+      const prev = repo.readRating(dir);
+      const now = new Date().toISOString();
+      const out = {
+        version: 1,
+        runId,
+        stars,
+        note,
+        ratedBy: userId ?? null,
+        createdAt: isObjectRecord(prev) && prev.createdAt ? prev.createdAt : now,
+        updatedAt: now,
+      };
+      try {
+        repo.writeRating(dir, out);
+      } catch (e) {
+        throw Object.assign(new Error("rating write failed: " + (e instanceof Error ? e.message : String(e))), { status: 500 });
+      }
+      return { ok: true, stars, note };
     },
     overview: (id, orgId) => {
       const summary = repo.summarize(requireId(id), orgId);

@@ -697,7 +697,10 @@ body.has-session-topbar .stage {
 /* Clickable run row (pre-go-live PG2) — a <button> that reads as a card row. The
    global :focus-visible rule supplies the focus ring, so it's keyboard-accessible. */
 .runs-list__row {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
   width: 100%;
   text-align: left;
   font: inherit;
@@ -705,6 +708,22 @@ body.has-session-topbar .stage {
   cursor: pointer;
 }
 .runs-list__row:hover { background: var(--sero-active-state-bg); }
+
+/* Star badge on a rated run row (PG3). */
+.runs-list__stars { color: var(--sero-gold-700, #ad7400); white-space: nowrap; }
+
+/* Star rating control (PG3) — a radiogroup of five star buttons. Stars are ~28px, so
+   they clear the 14px floor; the global :focus-visible rule rings the focused star. */
+.star-rating { display: flex; gap: 0.25rem; }
+.star-rating__star {
+  font-size: 1.75rem;
+  line-height: 1;
+  background: none;
+  border: 0;
+  padding: 0 0.1rem;
+  color: var(--sero-gold-700, #ad7400);
+  cursor: pointer;
+}
 
 /* -----------------------------------------------------------------------------
    The thinking orb — tuned for a light background

@@ -10,11 +10,25 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 003 — Rate a 1:1 — `not-started`**
+**→ Phase 003 — Rate a 1:1 — `planned`**
 
-**Phase 002 ✅ signed off (Carl walked it live, 2026-07-01) + committed.** Next action for the agent:
-**break Phase 003 down** into step files (`01-….md` …) + `99-qa-signoff.md`. Do not start coding until
-Carl green-lights the breakdown.
+Broken down into 3 build steps + QA. **Heads-up (honesty):** the **backend for PG3 is already built
+and green** (a parallel batch got ahead) — route `POST /api/v1/runs/mine/:id/rating`, `rateMine`
+service (stars 1–5 → 400, org+user fence → 404, note trim/cap, atomic `rating.json`), the `rating`
+field surfaced on both the list + detail payloads, full tests, and `**/rating.json` gitignore. So PG3's
+remaining work is **entirely front-end**. Next action for the agent: **do Step 01** once Carl says go.
+
+PG3 steps:
+- [ ] **01 — Rate on the detail** ([01-rate-on-detail.md](003-rate-a-1-1/01-rate-on-detail.md)) — client
+  call `rateRun()` + a reusable, keyboard-operable star widget on `run-detail`; low score (≤2) reveals a
+  "What missed?" note; persists to `rating.json` (verify the destination).
+- [ ] **02 — Rate in-flow** ([02-rate-in-flow.md](003-rate-a-1-1/02-rate-in-flow.md)) — the same widget
+  at the end of a live 1:1 (`BRIEFING` stage) with a plain **Skip**; no "unrated" nag ever.
+- [ ] **03 — List badge** ([03-list-badge.md](003-rate-a-1-1/03-list-badge.md)) — a compact ★ badge on
+  rated Runs rows; a quiet "Rate this?" on unrated (never a guilt count).
+- [ ] **99 — QA sign-off** ([99-qa-signoff.md](003-rate-a-1-1/99-qa-signoff.md)) — Carl walks it.
+
+**Phase 002 ✅ signed off (Carl walked it live, 2026-07-01) + committed.**
 
 Phase 002 (done) steps:
 - [x] **01 — API client** — `getMyRun(id)` → `GET /api/v1/runs/mine/:id` in `shared/api.js`.
@@ -45,7 +59,7 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
 |---|---|---|
 | 001 | Manager Runs list | ✅ done (signed off + committed) |
 | 002 | Reopen a run | ✅ done (signed off + committed) |
-| 003 | Rate a 1:1 | not-started |
+| 003 | Rate a 1:1 | planned (backend built; front-end pending) |
 | 004 | Team — auto-built people | not-started |
 | 005 | Person detail | not-started |
 | 006 | Superadmin gate (backend) | not-started |
@@ -131,3 +145,8 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   finished runs (Priya / Marco / Ade, in `logs/` which is gitignored) for `member@seroteams.com`, ran
   API 3001 + Vite 3000, confirmed the chain (login → list newest-first → click → read-only briefing;
   foreign id → 404). Carl walked it and green-lit. Committed PG2 + `cloneRun`. Next: break down Phase 003.
+- **2026-07-02** — **Phase 003 broken down** → 3 front-end steps (`01-rate-on-detail`, `02-rate-in-flow`,
+  `03-list-badge`) + existing QA sheet; status → `planned`. On reading the code, found the **PG3 backend
+  already built + green** (route/service/repo/tests/payload/gitignore all present; `npm test` 53/53,
+  typecheck clean) — another parallel batch ran ahead, so the steps consume it rather than rebuild it.
+  No new code written this turn. Next: `go` → Step 01 (client call + accessible star widget on run-detail).

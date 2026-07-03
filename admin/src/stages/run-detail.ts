@@ -5,8 +5,9 @@
 // next 1:1 builds on (surfaced as their own blocks; PG5's "Since last time" reuses them).
 
 import { STAGES, store } from "../state.js";
-import { getMyRun } from "../../../shared/api.js";
+import { getMyRun, rateMyRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
+import { createStarRating } from "../ui/star-rating.js";
 import type { Mount, Unmount } from "./stage.types.ts";
 
 type NextAction = { when?: string; action?: string };
@@ -25,6 +26,7 @@ type RunDetail = {
   briefing: Briefing | null;
   lastSeenAt: number;
   completedAt: number | null;
+  rating: { stars: number; note: string; updatedAt: string | null } | null;
 };
 
 function card(label: string, inner: string): string {
@@ -49,6 +51,57 @@ function renderBriefing(b: Briefing | null): string {
   }
   if ((b.watch_for || []).length) out.push(card("Reminders", bullets(b.watch_for!)));
   return out.join("") || none;
+}
+
+// The "how useful was this?" star rating (PG3). A radiogroup of five star buttons —
+// keyboard-operable, labelled — pre-filled from the run's saved rating. A low score
+// (<=2) reveals the optional "what missed?" note.
+function renderRating(run: RunDetail): string {
+  const stars = run.rating?.stars ?? 0;
+  const note = run.rating?.note ?? "";
+  return `<section class="card-flat space-y-3 js-rating">
+      <div class="eyebrow">Did this help you run the 1:1?</div>
+      <div class="js-stars-mount"></div>
+      <div class="star-rating__note l-stack l-stack--2" ${stars && stars <= 2 ? "" : "hidden"}>
+        <label class="text-sm text-ink-dim" for="rating-note">What missed? (optional)</label>
+        <textarea id="rating-note" class="input" rows="2">${escapeHtml(note)}</textarea>
+      </div>
+      <div class="text-sm text-ink-mute js-rating-status" role="status" aria-live="polite"></div>
+    </section>`;
+}
+
+function wireRating(root: HTMLElement, run: RunDetail): void {
+  const mount = root.querySelector<HTMLElement>(".js-stars-mount");
+  if (!mount) return;
+  const noteWrap = root.querySelector<HTMLElement>(".star-rating__note");
+  const noteEl = root.querySelector<HTMLTextAreaElement>("#rating-note");
+  const status = root.querySelector<HTMLElement>(".js-rating-status");
+  let stars = run.rating?.stars ?? 0;
+  let saveTimer: ReturnType<typeof setTimeout> | null = null;
+
+  const save = async () => {
+    if (!stars) return;
+    try {
+      await rateMyRun(run.id, { stars, note: noteEl?.value ?? "" });
+      if (status) status.textContent = "Saved ✓";
+    } catch {
+      if (status) status.textContent = "Couldn't save — please try again.";
+    }
+  };
+  const rating = createStarRating({
+    initialStars: stars,
+    onChange: (s: number) => {
+      stars = s;
+      if (noteWrap) noteWrap.hidden = !(s && s <= 2);
+      void save();
+    },
+  });
+  mount.appendChild(rating.el);
+
+  noteEl?.addEventListener("input", () => {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => void save(), 600);
+  });
 }
 
 // Plain "who · role, seniority · meeting" for the subtitle (raw — set via textContent).
@@ -107,7 +160,8 @@ export const mount: Mount = async (root, { setState }) => {
 
   const sub = root.querySelector<HTMLElement>(".js-sub");
   if (sub) sub.textContent = subtitle(run.ctx);
-  root.querySelector(".js-host")!.innerHTML = renderBriefing(run.briefing);
+  root.querySelector(".js-host")!.innerHTML = renderRating(run) + renderBriefing(run.briefing);
+  wireRating(root, run);
 };
 
 export const unmount: Unmount = () => {};
