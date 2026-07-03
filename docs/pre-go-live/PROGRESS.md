@@ -10,7 +10,30 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 003 — Rate a 1:1 — `built end-to-end` (landed on main 2026-07-03)**
+**→ Phase 005 — Person detail — `not-started` (not yet broken down)**
+
+Next up: say "go" to break PG5 into steps. Clicking a person card (from the PG4 Team page) opens their
+page — all the manager's 1:1s with that person, their rating history, and the minimal "since last time"
+(most-recent `next_actions` + `watch_for`, already in the payload). Reuses `groupRunsByPerson` from PG4.
+
+**Phase 004 — Team, auto-built — ✅ `done` (signed off + committed 2026-07-04).**
+Carl walked the QA (`demo@sero.test`) — people grouped from `/runs/mine`, case/spacing duplicates merge,
+single-meeting card reads "1 meeting · not yet rated", empty state for no runs, nav + page relabelled
+"Past 1:1s". Baseline was green (`npm test` 53/53, typecheck clean).
+
+PG4 steps:
+- [x] **01 — Team page** ([01-team-auto-built.md](004-team-auto-built/01-team-auto-built.md)) — new shared
+  helper `admin/src/ui/group-people.js` → `groupRunsByPerson(runs)` (normalized-name key so "Priya"/"priya"
+  merge; rolls up count / last-met / avg stars + rated-count; sorted most-recent-met first; pure, reused by
+  PG5). `team.ts` rewritten to fetch `listMyRuns()`, group, and render `.card-flat` cards with own
+  loading / empty / error states, names escaped.
+- [x] **02 — Relabel Runs → "Past 1:1s"** ([02-relabel-runs.md](004-team-auto-built/02-relabel-runs.md)) —
+  nav + page now read "Past 1:1s" (`app-nav.js`, `runs.ts`); admin screens untouched. (Row → person
+  click-through is **PG5**, intentionally not here.)
+- [x] **99 — QA sign-off** ([99-qa-signoff.md](004-team-auto-built/99-qa-signoff.md)) — all 5 walk
+  scenarios green; Carl green-lit 2026-07-04.
+
+**Phase 003 — Rate a 1:1 — ✅ `done` (signed off 2026-07-03, committed `6ae77667`).**
 
 All four build steps done, verified live, and committed + merged to `main` on Carl's "commit and move on".
 (The parallel session's duplicate step files were consolidated into the coherent set below.)
@@ -60,9 +83,9 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
 |---|---|---|
 | 001 | Manager Runs list | ✅ done (signed off + committed) |
 | 002 | Reopen a run | ✅ done (signed off + committed) |
-| 003 | Rate a 1:1 | planned (backend built; front-end pending) |
-| 004 | Team — auto-built people | not-started |
-| 005 | Person detail | not-started |
+| 003 | Rate a 1:1 | ✅ done (signed off + committed) |
+| 004 | Team — auto-built people | ✅ done (signed off + committed) |
+| 005 | Person detail | not-started (next) |
 | 006 | Superadmin gate (backend) | not-started |
 | 007 | Admin: who's registered | not-started |
 | 008 | Admin: user → teams → runs | not-started |
@@ -151,3 +174,13 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   already built + green** (route/service/repo/tests/payload/gitignore all present; `npm test` 53/53,
   typecheck clean) — another parallel batch ran ahead, so the steps consume it rather than rebuild it.
   No new code written this turn. Next: `go` → Step 01 (client call + accessible star widget on run-detail).
+- **2026-07-03** — **Phase 003 signed off + committed (`6ae77667`).** Carl tried it live (`demo@sero.test`)
+  and said commit + move on; PG3 (rate a 1:1, end-to-end) landed on `main`.
+- **2026-07-04** — **Phase 004 signed off + committed.** Built on a short-lived `fable-playground` branch
+  (identical to `main`, no unique commits); Carl asked to drop that branch, so PG4's working-tree changes
+  moved to `main` and the branch was deleted. Baseline free checks green (`npm test` 53/53, typecheck
+  clean). Carl walked the PG4 QA (Team page groups people from `/runs/mine`, case/spacing merge, honest
+  single-meeting + empty states, nav relabelled "Past 1:1s") and green-lit. Committed PG4; ticked STATUS +
+  SERO_BOARD + build badges (PG3 3 steps + PG4 3 steps → done; corrected PG4 step-2 wording that had
+  mis-bundled the PG5 person-link into PG4) + refreshed the how-it-works changelog. Next: `go` → break down
+  Phase 005 (Person detail).

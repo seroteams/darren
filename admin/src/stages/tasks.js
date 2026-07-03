@@ -179,11 +179,11 @@ const DATA = [
     goal: "Say how useful each 1:1 was — a one-tap 1–5 star right after the meeting, plus an optional note — so the tool learns and Carl gets an honest read.",
     steps: [
       { f: "Save a rating", m: "A member-safe endpoint stores your stars + optional note alongside the run (a simple file, written safely).", have: "Ratings saved safely",
-        auto: "Run `npm test` — covers the endpoint (bad stars → 400, logged-out → 401, not-yours → 404).", eye: "Rate a 1:1, reload — the stars stick.", s: "doing" },
+        auto: "Run `npm test` — covers the endpoint (bad stars → 400, logged-out → 401, not-yours → 404).", eye: "Rate a 1:1, reload — the stars stick.", s: "done" },
       { f: "Ask at the right moment", m: "A gentle one-tap rating at the END of a 1:1 (with Skip), plus on the detail later; a low score reveals a one-line 'what missed?'. Never an 'unrated' nag.", have: "In-flow, no nagging",
-        auto: null, eye: "Finish a 1:1 → gently asked to rate; skipping is easy; no guilt-y unrated count anywhere.", s: "doing" },
+        auto: null, eye: "Finish a 1:1 → gently asked to rate; skipping is easy; no guilt-y unrated count anywhere.", s: "done" },
       { f: "Accessible + private", m: "Stars work by keyboard/screen-reader and stay ≥14px; the note is a private manager field — never shown to staff, never logged.", have: "Accessible + private",
-        auto: null, eye: "You can set the rating with the keyboard.", s: "doing" },
+        auto: null, eye: "You can set the rating with the keyboard.", s: "done" },
     ],
     signoff: "Rate a 1:1 at the end and later · it persists · a low score invites a note · nothing nags · the note never leaves your view." },
 
@@ -191,11 +191,11 @@ const DATA = [
     goal: "The Team page fills itself in — the people you've met with, grouped from your past 1:1s: how often, how recently, how useful on average.",
     steps: [
       { f: "Group your people", m: "One card per person from your own 1:1s (names differing only by case/spacing merge automatically).", have: "People cards appear",
-        auto: "Run `npm test` + `npm run typecheck` — green.", eye: "Two 1:1s about the same person → one card, count 2, right average.", s: "todo" },
-      { f: "Team is the main way in", m: "Team becomes the primary surface; the flat list is relabelled 'Past 1:1s'; every 1:1 row links to its person.", have: "Person-first navigation",
-        auto: null, eye: "Every 1:1 row links to the person; the nav reads 'Past 1:1s'.", s: "todo" },
+        auto: "Run `npm test` + `npm run typecheck` — green.", eye: "Two 1:1s about the same person → one card, count 2, right average.", s: "done" },
+      { f: "Team is the main way in", m: "Team becomes the primary surface; the flat list is relabelled 'Past 1:1s'. (Clicking a person → their page lands in PG5.)", have: "Person-first framing",
+        auto: null, eye: "The nav + page read 'Past 1:1s' (not 'Runs'); admin screens unchanged.", s: "done" },
       { f: "Honest first-timer states", m: "A one-meeting card doesn't imply history it lacks; an empty state for no 1:1s.", have: "Honest early states",
-        auto: null, eye: "With one 1:1 the card reads '1 meeting · not yet rated'.", s: "todo" },
+        auto: null, eye: "With one 1:1 the card reads '1 meeting · not yet rated'.", s: "done" },
     ],
     signoff: "People appear grouped from your 1:1s with correct counts/averages · case/spacing duplicates merge · Team is the primary way in." },
 

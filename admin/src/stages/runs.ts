@@ -44,7 +44,7 @@ function rowLine(r: MyRun): string {
 export const mount: Mount = async (root, { setState }) => {
   const header = `
     <header class="page-header">
-      <h1 class="h1">Runs</h1>
+      <h1 class="h1">Past 1:1s</h1>
       <div class="text-ink-dim text-sm">Your past prep sessions.</div>
     </header>`;
   const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}</div>`;

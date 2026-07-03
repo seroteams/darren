@@ -11,16 +11,18 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 **Now active: [pre-go-live](docs/pre-go-live/OVERVIEW.md) — the manager's Team & Runs, ratings, and a
 superadmin window on the alpha.** 9 phases, one at a time.
-**PG1 (Manager Runs list) ✅ · PG2 (Reopen a run) ✅ — both signed off 2026-07-01.** The Runs page lists
-your own past 1:1s (fenced to you), and clicking one opens a clean, read-only briefing you can re-read
-(keyboard-operable, deep-linkable, foreign runs blocked).
-**PG3 (Rate a 1:1) 🔨 built end-to-end — awaiting your QA walk.** Backend (rate route, fences, tests)
-and front-end (star widget on the detail, in-flow prompt with Skip, list badge) are all in the tree,
-checkpointed 2026-07-03. **Your move: walk [99-qa-signoff.md](docs/pre-go-live/003-rate-a-1-1/99-qa-signoff.md)** —
-on your green light PG3 goes ✅ and gets its final checkpoint.
+**PG1 (Manager Runs list) ✅ · PG2 (Reopen a run) ✅ — signed off 2026-07-01. PG3 (Rate a 1:1) ✅ —
+signed off 2026-07-03. PG4 (Team — auto-built) ✅ — signed off + committed 2026-07-04.** The Runs page
+(now **"Past 1:1s"**) lists your own past 1:1s, each re-openable as a read-only briefing and rateable
+(1–5★ + note); the **Team** page now builds itself — one card per person you've met with, with times met,
+last met, and average usefulness ("Priya"/"priya" fold into one).
+
+**▶ Your move: PG5 (Person detail) — not yet broken down.** Say **"go"** (or "what next?") and I'll break
+PG5 into steps: clicking a person card opens their page — all your 1:1s with them, their rating history,
+and a minimal "since last time". Nothing built there yet.
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
 
-> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-03 as a snapshot commit.
+> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG4 sign-off + commit.
 > In any fresh session, say **"check point"** and I'll read this file + the PROGRESS log + recent
 > commits and give you the full "where we are, your move" picture — no digging needed.
 
@@ -73,7 +75,7 @@ untouched, dev Admin/Standard quick-swap works. Phase 2 (Real Runs) has backend 
 (`ca23831e`/`9a2a7148`/`f30783d9`) but the Runs *page* is still the placeholder — that's the genuinely
 open member-nav work. Plan: [docs/todo/member-nav/](docs/todo/member-nav/PLAN.md).
 
-- Last updated: 2026-07-03
+- Last updated: 2026-07-04
 
 ---
 

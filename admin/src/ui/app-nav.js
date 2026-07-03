@@ -47,7 +47,7 @@ const LINKS = [
   { key: "home", label: "Home", stage: STAGES.START, icon: ICON.home, admin: true },
   { key: "mhome", label: "Home", stage: STAGES.MEMBER_HOME, icon: ICON.home, member: true },
   { key: "team", label: "Team", stage: STAGES.TEAM, icon: ICON.team, member: true },
-  { key: "runs", label: "Runs", stage: STAGES.RUNS, icon: ICON.runs, member: true },
+  { key: "runs", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, member: true },
   { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new, admin: true },
   { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library, admin: true },
   { key: "compare", label: "Compare runs", stage: STAGES.COMPARE, icon: ICON.compare, admin: true },
