@@ -1,11 +1,12 @@
 // Person detail — one person's page: all the manager's own 1:1s with them, newest first
 // (pre-go-live PG5, step 01). Composes the PG4 grouping (for the header summary) and the
 // PG1 rows over the same /runs/mine payload — fenced server-side by company AND user, so
-// only your own 1:1s ever appear. Rows are display-only here; opening a run and "Since
-// last time" + "Prep next 1:1" land in the next steps.
+// only your own 1:1s ever appear. The top "Since last time" block (step 02) surfaces the
+// most recent 1:1's agreed actions + watch-fors. Rows are display-only here; opening a run
+// and "Prep next 1:1" land in step 03.
 
 import { STAGES, store } from "../state.js";
-import { listMyRuns } from "../../../shared/api.js";
+import { listMyRuns, getMyRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { groupRunsByPerson, personKeyOf } from "../ui/group-people.js";
 import type { Mount, Unmount } from "./stage.types.ts";
@@ -26,6 +27,8 @@ type Person = {
   ratedCount: number;
   avgStars: number | null;
 };
+type NextAction = { when?: string; action?: string };
+type Briefing = { next_actions?: NextAction[]; watch_for?: string[] } | null;
 
 // Local one-use time-ago (mirrors runs.ts / team.ts) — four lines, no shared util for one caller.
 function relTime(ms: number): string {
@@ -56,6 +59,29 @@ function rowLine(r: MyRun): string {
   const when = relTime(r.lastSeenAt);
   if (when) bits.push(when);
   return escapeHtml(bits.length ? bits.join(" · ") : r.headline || "Untitled 1:1");
+}
+
+// "Since last time" — the most recent 1:1's agreed next actions + what-to-watch-for, so
+// prepping the next conversation is helped by the last one (PG5 step 02, the make-or-break
+// slice). Returns "" — the block is hidden entirely — when neither field has content, so
+// there's no empty scaffolding. Every value escaped.
+function sinceLastTime(b: Briefing): string {
+  if (!b) return "";
+  const actions = (b.next_actions || []).filter((a) => a && (a.action || a.when));
+  const watch = (b.watch_for || []).filter(Boolean);
+  if (!actions.length && !watch.length) return "";
+  const parts: string[] = [];
+  if (actions.length) {
+    const items = actions
+      .map((a) => `<li class="text-sm">${a.when ? escapeHtml(a.when) + ": " : ""}${escapeHtml(a.action || "")}</li>`)
+      .join("");
+    parts.push(`<div class="l-stack l-stack--2"><div class="text-sm text-ink-dim">What you agreed</div><ul class="l-stack l-stack--2">${items}</ul></div>`);
+  }
+  if (watch.length) {
+    const items = watch.map((w) => `<li class="text-sm">${escapeHtml(w)}</li>`).join("");
+    parts.push(`<div class="l-stack l-stack--2"><div class="text-sm text-ink-dim">What to watch for</div><ul class="l-stack l-stack--2">${items}</ul></div>`);
+  }
+  return `<section class="card-flat l-stack l-stack--4"><div class="eyebrow">Since last time</div>${parts.join("")}</section>`;
 }
 
 function runRow(r: MyRun): string {
@@ -129,8 +155,17 @@ export const mount: Mount = async (root, { setState }) => {
   if (nameEl) nameEl.textContent = person.name;
   const sub = root.querySelector<HTMLElement>(".js-sub");
   if (sub) sub.textContent = subtitleText(person);
-  root.querySelector(".js-host")!.innerHTML =
-    `<section class="l-stack l-stack--2">${mine.map(runRow).join("")}</section>`;
+
+  // The list carries no briefing, so fetch just the most recent run's detail for "Since
+  // last time". A failure omits the block — the run list still renders. No OpenAI call.
+  let sinceBlock = "";
+  try {
+    const latest = (await getMyRun(mine[0]!.id)) as { briefing: Briefing };
+    sinceBlock = sinceLastTime(latest?.briefing ?? null);
+  } catch { /* omit the block, keep the page */ }
+
+  const list = `<section class="l-stack l-stack--2">${mine.map(runRow).join("")}</section>`;
+  root.querySelector(".js-host")!.innerHTML = sinceBlock + list;
   wireBack();
 };
 

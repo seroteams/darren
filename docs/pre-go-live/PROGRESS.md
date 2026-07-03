@@ -10,7 +10,7 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 005 — Person detail — `in-progress` (Step 01 built 2026-07-04; awaiting Steps 02–03)**
+**→ Phase 005 — Person detail — `in-progress` (Steps 01–02 built 2026-07-04; awaiting Step 03)**
 
 Broken into 3 build steps + QA. Clicking a person card (from the PG4 Team page) opens their page — all the
 manager's 1:1s with that person, their rating history, and the minimal "since last time" (most-recent
@@ -25,9 +25,12 @@ PG5 steps:
   not-found ("no 1:1s with this person yet") states. New shared `personKeyOf()` in `group-people.js` so
   the page filters runs on the exact same key the grouping uses (no drift). Rows are display-only — opening
   them is Step 03. No backend change (still `/runs/mine`). Typecheck clean, `npm test` 53/53.
-- [ ] **02 — "Since last time"** ([02-since-last-time.md](005-person-detail/02-since-last-time.md)) — the
-  make-or-break block: latest 1:1's `next_actions` + `watch_for` (reuse `review-run.js` markup), hidden if
-  both absent. Minimal slice of the deferred "remembering"; near-free, no OpenAI.
+- [x] **02 — "Since last time"** ([02-since-last-time.md](005-person-detail/02-since-last-time.md)) —
+  **built 2026-07-04** (Carl chose to build, not park). A block at the top of the person page shows the
+  most recent 1:1's agreed next-actions ("What you agreed") + watch-fors ("What to watch for"); hidden
+  entirely when both are empty (no scaffolding). The list payload carries no briefing, so it fetches just
+  that one run's detail (`getMyRun`) — **no OpenAI call**. Minimal slice of the deferred "remembering".
+  Typecheck clean, `npm test` 53/53.
 - [ ] **03 — Open + prep next** ([03-open-and-prep.md](005-person-detail/03-open-and-prep.md)) — rows open
   the PG2 read-only detail; "Prep next 1:1" seeds intake with name/role. **Money-path flag:** seeding intake
   is free; only running the full pipeline spends — called out in QA so a walk doesn't trigger a paid run.
