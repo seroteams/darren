@@ -1,7 +1,7 @@
 // Team — the people the manager has met with, built automatically from their own past
 // 1:1s (pre-go-live PG4). Grouped by person (normalized name), each card shows how often,
-// how recently, and how useful on average. Display-only for now — clicking a person opens
-// their page in PG5. Distinct from the admin Library (whole-company, admin-only).
+// how recently, and how useful on average. Each card is a button that opens that person's
+// page (PG5). Distinct from the admin Library (whole-company, admin-only).
 
 import { STAGES, store } from "../state.js";
 import { listMyRuns } from "../../../shared/api.js";
@@ -38,9 +38,11 @@ function metaLine(p: Person): string {
   return escapeHtml(bits.join(" · "));
 }
 
+// A clickable card — a real <button>, so it's keyboard-operable for free — opening the
+// person's page (PG5). The global :focus-visible rule supplies the focus ring.
 function personCard(p: Person): string {
   const role = p.role ? `<span class="text-ink-dim"> · ${escapeHtml(p.role)}</span>` : "";
-  return `<div class="card-flat"><div class="text-sm"><strong>${escapeHtml(p.name)}</strong>${role}</div><div class="text-sm text-ink-dim">${metaLine(p)}</div></div>`;
+  return `<button type="button" class="card-flat runs-list__row js-person" data-key="${escapeHtml(p.key)}"><span class="l-stack l-stack--2"><span class="text-sm"><strong>${escapeHtml(p.name)}</strong>${role}</span><span class="text-sm text-ink-dim">${metaLine(p)}</span></span></button>`;
 }
 
 export const mount: Mount = async (root, { setState }) => {
@@ -73,6 +75,12 @@ export const mount: Mount = async (root, { setState }) => {
   const wire = () => {
     root.querySelector(".js-start")?.addEventListener("click", startOneOnOne);
     root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
+    root.querySelectorAll<HTMLElement>(".js-person").forEach((el) => {
+      el.addEventListener("click", () => {
+        const key = el.dataset.key;
+        if (key) setState({ personKey: key, stage: STAGES.PERSON_DETAIL });
+      });
+    });
   };
 
   const load = async () => {

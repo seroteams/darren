@@ -10,7 +10,7 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 005 — Person detail — `planned` (broken down 2026-07-04; no code written yet)**
+**→ Phase 005 — Person detail — `in-progress` (Step 01 built 2026-07-04; awaiting Steps 02–03)**
 
 Broken into 3 build steps + QA. Clicking a person card (from the PG4 Team page) opens their page — all the
 manager's 1:1s with that person, their rating history, and the minimal "since last time" (most-recent
@@ -18,9 +18,13 @@ manager's 1:1s with that person, their rating history, and the minimal "since la
 detail, and the PG3 ratings — little new backend.
 
 PG5 steps:
-- [ ] **01 — The person page** ([01-person-page.md](005-person-detail/01-person-page.md)) — new
-  `PERSON_DETAIL` stage at `/team/:person` (normalized name key); clickable Team cards; header summary +
-  her runs newest-first; own loading/error/not-found states. No backend change (still `/runs/mine`).
+- [x] **01 — The person page** ([01-person-page.md](005-person-detail/01-person-page.md)) — **built
+  2026-07-04.** New `PERSON_DETAIL` stage at `/team/:person` (state + router + main plumbing mirroring
+  `RUN_DETAIL`); Team cards are now keyboard-operable buttons that open the person page; header summary
+  (name · role · N meetings · last · avg) + her runs newest-first (with ★ badge); loading / error /
+  not-found ("no 1:1s with this person yet") states. New shared `personKeyOf()` in `group-people.js` so
+  the page filters runs on the exact same key the grouping uses (no drift). Rows are display-only — opening
+  them is Step 03. No backend change (still `/runs/mine`). Typecheck clean, `npm test` 53/53.
 - [ ] **02 — "Since last time"** ([02-since-last-time.md](005-person-detail/02-since-last-time.md)) — the
   make-or-break block: latest 1:1's `next_actions` + `watch_for` (reuse `review-run.js` markup), hidden if
   both absent. Minimal slice of the deferred "remembering"; near-free, no OpenAI.

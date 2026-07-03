@@ -23,6 +23,7 @@ const loaders = {
   TEAM:            () => import("./stages/team.ts"),
   RUNS:            () => import("./stages/runs.ts"),
   RUN_DETAIL:      () => import("./stages/run-detail.ts"),
+  PERSON_DETAIL:   () => import("./stages/person-detail.ts"),
   INTAKE:          () => import("./stages/intake.js"),
   ONEPAGE:         () => import("./stages/onepage.js"),
   FOCUS_POINTS:    () => import("./stages/focus-points.js"),
@@ -139,6 +140,11 @@ startPopstate((parsed) => {
     else setState({ stage: STAGES.RUNS });
     return;
   }
+  if (parsed.stage === STAGES.PERSON_DETAIL) {
+    if (parsed.params?.personKey) setState({ personKey: parsed.params.personKey, stage: STAGES.PERSON_DETAIL });
+    else setState({ stage: STAGES.TEAM });
+    return;
+  }
   if (isFlowStage(parsed.stage)) {                 // only valid with a live session
     if (store.sessionId) setState({ stage: parsed.stage, stageTick: store.stageTick + 1 });
     else setState({ stage: STAGES.START });
@@ -218,6 +224,10 @@ async function boot() {
     if (route && route.stage === STAGES.RUN_DETAIL) {
       if (route.params?.myRunId) { setState({ myRunId: route.params.myRunId, stage: STAGES.RUN_DETAIL }); return; }
       history.replaceState(null, "", "/runs"); setState({ stage: STAGES.RUNS }); return;
+    }
+    if (route && route.stage === STAGES.PERSON_DETAIL) {
+      if (route.params?.personKey) { setState({ personKey: route.params.personKey, stage: STAGES.PERSON_DETAIL }); return; }
+      history.replaceState(null, "", "/team"); setState({ stage: STAGES.TEAM }); return;
     }
     if (route && isMemberStage(route.stage)) { setState({ stage: route.stage }); return; }
     if (route && isSharedStage(route.stage)) { setState({ stage: route.stage }); return; }

@@ -4,12 +4,19 @@
 // average usefulness (from PG3 star ratings) with its count. Sorted most-recently-met first.
 // Pure + side-effect free, so the person page (PG5) reuses it over the same /runs/mine payload.
 
+// The one place the person key is defined — trim + lower-case, so "Priya" / " priya "
+// fold together. Exported so the person page (PG5) filters runs on the exact same key
+// the grouping uses (no drift between the Team card and its page).
+export function personKeyOf(name) {
+  return String(name ?? "").trim().toLowerCase();
+}
+
 export function groupRunsByPerson(runs) {
   const map = new Map();
   for (const r of runs || []) {
     const name = String(r?.ctx?.name ?? "").trim();
     if (!name) continue; // a run with no person name can't be grouped
-    const key = name.toLowerCase();
+    const key = personKeyOf(name);
     let p = map.get(key);
     if (!p) {
       p = { key, name, role: String(r?.ctx?.role ?? ""), count: 0, lastMet: 0, starSum: 0, ratedCount: 0 };
