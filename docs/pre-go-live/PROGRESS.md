@@ -10,7 +10,10 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 005 — Person detail — `in-progress` (Steps 01–02 built 2026-07-04; awaiting Step 03)**
+**→ Phase 005 — Person detail — `awaiting-qa` (all 3 steps + UI polish built 2026-07-04)**
+
+**Your move: walk [99-qa-signoff.md](005-person-detail/99-qa-signoff.md).** On your green light PG5 → done,
+STATUS + board ticked, committed. (Includes the money check: "Prep next 1:1" seeds the form for free.)
 
 Broken into 3 build steps + QA. Clicking a person card (from the PG4 Team page) opens their page — all the
 manager's 1:1s with that person, their rating history, and the minimal "since last time" (most-recent
@@ -31,10 +34,15 @@ PG5 steps:
   entirely when both are empty (no scaffolding). The list payload carries no briefing, so it fetches just
   that one run's detail (`getMyRun`) — **no OpenAI call**. Minimal slice of the deferred "remembering".
   Typecheck clean, `npm test` 53/53.
-- [ ] **03 — Open + prep next** ([03-open-and-prep.md](005-person-detail/03-open-and-prep.md)) — rows open
-  the PG2 read-only detail; "Prep next 1:1" seeds intake with name/role. **Money-path flag:** seeding intake
-  is free; only running the full pipeline spends — called out in QA so a walk doesn't trigger a paid run.
-- [ ] **99 — QA sign-off** ([99-qa-signoff.md](005-person-detail/99-qa-signoff.md)).
+- [x] **03 — Open + prep next** ([03-open-and-prep.md](005-person-detail/03-open-and-prep.md)) — **built
+  2026-07-04.** Each past-1:1 row is now a button that reopens the PG2 read-only detail; a primary "Prep
+  your next 1:1 with <name>" button seeds a fresh intake with the person's name/role (intake reads
+  `store.ctx`) and opens the form. **Money-path:** seeding + opening intake spends nothing; only running the
+  full pipeline from there spends — flagged in QA. Typecheck clean, `npm test` 53/53.
+- [x] **UI polish** (Carl asked mid-phase) — the person page got real hierarchy: "Since last time" is an
+  elevated, colour-coded card (mint = agreed, gold = watch), a scannable stat line under the name, and the
+  past 1:1s as a quiet dividered log. New scoped classes in `design.css`; 14px floor kept.
+- [ ] **99 — QA sign-off** ([99-qa-signoff.md](005-person-detail/99-qa-signoff.md)) — **awaiting Carl's walk.**
 
 Next: `go` → build Step 01 (the person page).
 

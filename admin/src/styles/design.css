@@ -811,9 +811,12 @@ body.has-session-topbar .stage {
   background: transparent;
   border: none;
   border-bottom: 1px solid var(--color-border-tinted);
-  padding: var(--sero-space-3) var(--sero-space-1);
+  padding: var(--sero-space-3) var(--sero-space-2);
+  border-radius: var(--sero-radius-sm, 6px);
+  cursor: pointer;
 }
 .person-run:last-child { border-bottom: none; }
+.person-run:hover { background: var(--sero-active-state-bg); }
 .person-run__type { color: var(--color-ink); }
 .person-run__when { color: var(--color-ink-mute); }
 

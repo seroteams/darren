@@ -2,8 +2,9 @@
 // (pre-go-live PG5, step 01). Composes the PG4 grouping (for the header summary) and the
 // PG1 rows over the same /runs/mine payload — fenced server-side by company AND user, so
 // only your own 1:1s ever appear. The top "Since last time" block (step 02) surfaces the
-// most recent 1:1's agreed actions + watch-fors. Rows are display-only here; opening a run
-// and "Prep next 1:1" land in step 03.
+// most recent 1:1's agreed actions + watch-fors. Each row opens the PG2 read-only detail,
+// and "Prep next 1:1" seeds a fresh intake with this person (free — only running the full
+// pipeline from there spends, same as starting any 1:1).
 
 import { STAGES, store } from "../state.js";
 import { listMyRuns, getMyRun } from "../../../shared/api.js";
@@ -89,7 +90,7 @@ function runRow(r: MyRun): string {
   const badge = r.rating
     ? `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">★ ${r.rating.stars}</span>`
     : "";
-  return `<div class="person-run"><span class="text-sm"><span class="person-run__type">${escapeHtml(type)}</span>${when ? `<span class="person-run__when"> · ${escapeHtml(when)}</span>` : ""}</span>${badge}</div>`;
+  return `<button type="button" class="person-run js-open" data-id="${escapeHtml(r.id)}"><span class="text-sm"><span class="person-run__type">${escapeHtml(type)}</span>${when ? `<span class="person-run__when"> · ${escapeHtml(when)}</span>` : ""}</span>${badge}</button>`;
 }
 
 export const mount: Mount = async (root, { setState }) => {
@@ -169,8 +170,24 @@ export const mount: Mount = async (root, { setState }) => {
     <h2 class="person-runs__heading">Past 1:1s</h2>
     <div>${mine.map(runRow).join("")}</div>
   </section>`;
-  root.querySelector(".js-host")!.innerHTML = sinceBlock + list;
+  const prep = `<section><button type="button" class="btn js-prep">Prep your next 1:1 with ${escapeHtml(person.name)}</button></section>`;
+  root.querySelector(".js-host")!.innerHTML = sinceBlock + list + prep;
+
   wireBack();
+  // Each row reopens that 1:1's read-only briefing (PG2). No new detail view.
+  root.querySelectorAll<HTMLElement>(".js-open").forEach((el) => {
+    el.addEventListener("click", () => {
+      const id = el.dataset.id;
+      if (id) setState({ myRunId: id, stage: STAGES.RUN_DETAIL });
+    });
+  });
+  // "Prep next 1:1" — seed a fresh intake with this person and open the form. Seeding is
+  // free; only running the full pipeline from intake spends (same as starting any 1:1).
+  root.querySelector(".js-prep")?.addEventListener("click", () => {
+    store.scripted = null;
+    Object.assign(store.ctx, { name: person.name, role: person.role, seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" });
+    setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
+  });
 };
 
 export const unmount: Unmount = () => {};
