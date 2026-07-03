@@ -41,30 +41,27 @@ function relTime(ms: number): string {
   return `${Math.round(hr / 24)}d ago`;
 }
 
-// Raw (unescaped) subtitle for textContent: "role · N meetings · last · avg".
-function subtitleText(p: Person): string {
-  const bits: string[] = [];
-  if (p.role) bits.push(p.role);
-  bits.push(`${p.count} meeting${p.count > 1 ? "s" : ""}`);
+// The summary line under the name: role, then meetings / last met / average as a scannable
+// stat row (numbers emphasised). Returns HTML (set via innerHTML) — every value escaped.
+function summaryHtml(p: Person): string {
+  const items: string[] = [];
+  if (p.role) items.push(`<span class="person-summary__role">${escapeHtml(p.role)}</span>`);
+  items.push(`<span><b>${p.count}</b> meeting${p.count > 1 ? "s" : ""}</span>`);
   const last = relTime(p.lastMet);
-  if (last) bits.push(`last ${last}`);
-  bits.push(p.avgStars != null ? `★ ${p.avgStars.toFixed(1)} avg (${p.ratedCount} rated)` : "not yet rated");
-  return bits.join(" · ");
-}
-
-// One 1:1 with this person → "meeting · when" (the name is redundant on their own page).
-function rowLine(r: MyRun): string {
-  const bits: string[] = [];
-  if (r.ctx?.meetingType) bits.push(r.ctx.meetingType);
-  const when = relTime(r.lastSeenAt);
-  if (when) bits.push(when);
-  return escapeHtml(bits.length ? bits.join(" · ") : r.headline || "Untitled 1:1");
+  if (last) items.push(`<span>last <b>${escapeHtml(last)}</b></span>`);
+  items.push(
+    p.avgStars != null
+      ? `<span><b>★ ${p.avgStars.toFixed(1)}</b> avg · ${p.ratedCount} rated</span>`
+      : `<span>not yet rated</span>`,
+  );
+  return items.join(`<span class="person-summary__sep" aria-hidden="true">·</span>`);
 }
 
 // "Since last time" — the most recent 1:1's agreed next actions + what-to-watch-for, so
 // prepping the next conversation is helped by the last one (PG5 step 02, the make-or-break
-// slice). Returns "" — the block is hidden entirely — when neither field has content, so
-// there's no empty scaffolding. Every value escaped.
+// slice). The two lists are colour-coded (agreed vs watch) so they read apart at a glance.
+// Returns "" — the block is hidden entirely — when neither field has content, so there's no
+// empty scaffolding. Every value escaped.
 function sinceLastTime(b: Briefing): string {
   if (!b) return "";
   const actions = (b.next_actions || []).filter((a) => a && (a.action || a.when));
@@ -73,22 +70,26 @@ function sinceLastTime(b: Briefing): string {
   const parts: string[] = [];
   if (actions.length) {
     const items = actions
-      .map((a) => `<li class="text-sm">${a.when ? escapeHtml(a.when) + ": " : ""}${escapeHtml(a.action || "")}</li>`)
+      .map((a) => `<li>${a.when ? `<span class="since__when">${escapeHtml(a.when)}:</span> ` : ""}${escapeHtml(a.action || "")}</li>`)
       .join("");
-    parts.push(`<div class="l-stack l-stack--2"><div class="text-sm text-ink-dim">What you agreed</div><ul class="l-stack l-stack--2">${items}</ul></div>`);
+    parts.push(`<div class="since__group"><span class="since__label since__label--agreed">What you agreed</span><ul class="since__list">${items}</ul></div>`);
   }
   if (watch.length) {
-    const items = watch.map((w) => `<li class="text-sm">${escapeHtml(w)}</li>`).join("");
-    parts.push(`<div class="l-stack l-stack--2"><div class="text-sm text-ink-dim">What to watch for</div><ul class="l-stack l-stack--2">${items}</ul></div>`);
+    const items = watch.map((w) => `<li>${escapeHtml(w)}</li>`).join("");
+    parts.push(`<div class="since__group"><span class="since__label since__label--watch">What to watch for</span><ul class="since__list">${items}</ul></div>`);
   }
-  return `<section class="card-flat l-stack l-stack--4"><div class="eyebrow">Since last time</div>${parts.join("")}</section>`;
+  return `<section class="since"><h2 class="since__title">Since last time</h2>${parts.join("")}</section>`;
 }
 
+// One 1:1 in the quiet log below the recap: meeting type + when, with its star badge if
+// rated. The person's name is redundant on their own page, so it's left off.
 function runRow(r: MyRun): string {
+  const when = relTime(r.lastSeenAt);
+  const type = r.ctx?.meetingType || r.headline || "1:1";
   const badge = r.rating
     ? `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">★ ${r.rating.stars}</span>`
     : "";
-  return `<div class="card-flat runs-list__row"><span class="text-sm">${rowLine(r)}</span>${badge}</div>`;
+  return `<div class="person-run"><span class="text-sm"><span class="person-run__type">${escapeHtml(type)}</span>${when ? `<span class="person-run__when"> · ${escapeHtml(when)}</span>` : ""}</span>${badge}</div>`;
 }
 
 export const mount: Mount = async (root, { setState }) => {
@@ -101,7 +102,7 @@ export const mount: Mount = async (root, { setState }) => {
           <h1 class="h1 js-name">Person</h1>
           <button type="button" class="btn btn--ghost js-back">Back to Team</button>
         </div>
-        <div class="text-ink-dim text-sm js-sub"></div>
+        <div class="person-summary js-sub"></div>
       </header>
       <div class="l-stack l-stack--4 js-host">${inner}</div>
     </div>`;
@@ -154,7 +155,7 @@ export const mount: Mount = async (root, { setState }) => {
   const nameEl = root.querySelector<HTMLElement>(".js-name");
   if (nameEl) nameEl.textContent = person.name;
   const sub = root.querySelector<HTMLElement>(".js-sub");
-  if (sub) sub.textContent = subtitleText(person);
+  if (sub) sub.innerHTML = summaryHtml(person);
 
   // The list carries no briefing, so fetch just the most recent run's detail for "Since
   // last time". A failure omits the block — the run list still renders. No OpenAI call.
@@ -164,7 +165,10 @@ export const mount: Mount = async (root, { setState }) => {
     sinceBlock = sinceLastTime(latest?.briefing ?? null);
   } catch { /* omit the block, keep the page */ }
 
-  const list = `<section class="l-stack l-stack--2">${mine.map(runRow).join("")}</section>`;
+  const list = `<section class="l-stack l-stack--2">
+    <h2 class="person-runs__heading">Past 1:1s</h2>
+    <div>${mine.map(runRow).join("")}</div>
+  </section>`;
   root.querySelector(".js-host")!.innerHTML = sinceBlock + list;
   wireBack();
 };
