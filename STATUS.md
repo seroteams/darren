@@ -17,9 +17,10 @@ signed off 2026-07-03. PG4 (Team — auto-built) ✅ — signed off + committed 
 (1–5★ + note); the **Team** page now builds itself — one card per person you've met with, with times met,
 last met, and average usefulness ("Priya"/"priya" fold into one).
 
-**▶ Your move: PG5 (Person detail) — not yet broken down.** Say **"go"** (or "what next?") and I'll break
-PG5 into steps: clicking a person card opens their page — all your 1:1s with them, their rating history,
-and a minimal "since last time". Nothing built there yet.
+**▶ Your move: PG5 (Person detail) — broken down into 3 steps + QA, nothing built yet.** Say **"go"** and
+I'll build Step 01 (the person page): clicking a person card opens their page — all your 1:1s with them,
+their rating history, and the make-or-break "since last time" (last meeting's agreed actions + watch-fors).
+Plan: [docs/pre-go-live/005-person-detail/00-phase-overview.md](docs/pre-go-live/005-person-detail/00-phase-overview.md).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
 
 > 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG4 sign-off + commit.

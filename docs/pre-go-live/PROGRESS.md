@@ -10,11 +10,26 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 005 — Person detail — `not-started` (not yet broken down)**
+**→ Phase 005 — Person detail — `planned` (broken down 2026-07-04; no code written yet)**
 
-Next up: say "go" to break PG5 into steps. Clicking a person card (from the PG4 Team page) opens their
-page — all the manager's 1:1s with that person, their rating history, and the minimal "since last time"
-(most-recent `next_actions` + `watch_for`, already in the payload). Reuses `groupRunsByPerson` from PG4.
+Broken into 3 build steps + QA. Clicking a person card (from the PG4 Team page) opens their page — all the
+manager's 1:1s with that person, their rating history, and the minimal "since last time" (most-recent
+`next_actions` + `watch_for`, already in the payload). Reuses `groupRunsByPerson`, the PG1 row, the PG2
+detail, and the PG3 ratings — little new backend.
+
+PG5 steps:
+- [ ] **01 — The person page** ([01-person-page.md](005-person-detail/01-person-page.md)) — new
+  `PERSON_DETAIL` stage at `/team/:person` (normalized name key); clickable Team cards; header summary +
+  her runs newest-first; own loading/error/not-found states. No backend change (still `/runs/mine`).
+- [ ] **02 — "Since last time"** ([02-since-last-time.md](005-person-detail/02-since-last-time.md)) — the
+  make-or-break block: latest 1:1's `next_actions` + `watch_for` (reuse `review-run.js` markup), hidden if
+  both absent. Minimal slice of the deferred "remembering"; near-free, no OpenAI.
+- [ ] **03 — Open + prep next** ([03-open-and-prep.md](005-person-detail/03-open-and-prep.md)) — rows open
+  the PG2 read-only detail; "Prep next 1:1" seeds intake with name/role. **Money-path flag:** seeding intake
+  is free; only running the full pipeline spends — called out in QA so a walk doesn't trigger a paid run.
+- [ ] **99 — QA sign-off** ([99-qa-signoff.md](005-person-detail/99-qa-signoff.md)).
+
+Next: `go` → build Step 01 (the person page).
 
 **Phase 004 — Team, auto-built — ✅ `done` (signed off + committed 2026-07-04).**
 Carl walked the QA (`demo@sero.test`) — people grouped from `/runs/mine`, case/spacing duplicates merge,
@@ -85,7 +100,7 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
 | 002 | Reopen a run | ✅ done (signed off + committed) |
 | 003 | Rate a 1:1 | ✅ done (signed off + committed) |
 | 004 | Team — auto-built people | ✅ done (signed off + committed) |
-| 005 | Person detail | not-started (next) |
+| 005 | Person detail | planned (broken down; building next) |
 | 006 | Superadmin gate (backend) | not-started |
 | 007 | Admin: who's registered | not-started |
 | 008 | Admin: user → teams → runs | not-started |
