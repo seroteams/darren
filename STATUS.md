@@ -11,19 +11,20 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 **Now active: [pre-go-live](docs/pre-go-live/OVERVIEW.md) — the manager's Team & Runs, ratings, and a
 superadmin window on the alpha.** 9 phases, one at a time.
-**PG1 (Manager Runs list) ✅ · PG2 (Reopen a run) ✅ — signed off 2026-07-01. PG3 (Rate a 1:1) ✅ —
-signed off 2026-07-03. PG4 (Team — auto-built) ✅ — signed off + committed 2026-07-04.** The Runs page
-(now **"Past 1:1s"**) lists your own past 1:1s, each re-openable as a read-only briefing and rateable
-(1–5★ + note); the **Team** page now builds itself — one card per person you've met with, with times met,
-last met, and average usefulness ("Priya"/"priya" fold into one).
+**PG1 (Runs list) ✅ · PG2 (Reopen a run) ✅ — 2026-07-01. PG3 (Rate a 1:1) ✅ — 2026-07-03. PG4 (Team —
+auto-built) ✅ · PG5 (Person detail) ✅ — signed off + committed 2026-07-04.** The Runs page (now **"Past
+1:1s"**) lists your own past 1:1s, each re-openable and rateable (1–5★ + note); the **Team** page builds
+itself (one card per person, times met / last met / avg usefulness); clicking a person opens **their page**
+— their 1:1s, a **"Since last time"** recap of last meeting's agreed actions + watch-fors, and a one-tap
+**"Prep your next 1:1"** that seeds the form (free until you run a pipeline).
 
-**▶ Your move: PG5 (Person detail) — broken down into 3 steps + QA, nothing built yet.** Say **"go"** and
-I'll build Step 01 (the person page): clicking a person card opens their page — all your 1:1s with them,
-their rating history, and the make-or-break "since last time" (last meeting's agreed actions + watch-fors).
-Plan: [docs/pre-go-live/005-person-detail/00-phase-overview.md](docs/pre-go-live/005-person-detail/00-phase-overview.md).
+**▶ Your move: PG6 (Superadmin gate) — not yet broken down.** Say **"go"** and I'll break PG6 into steps:
+your account gains a read-only, cross-company key (proven by tests, no screen yet) — the one intentional
+wall-crossing, tightly gated. Nothing built there yet.
+Plan: [docs/pre-go-live/006-superadmin-gate/00-phase-overview.md](docs/pre-go-live/006-superadmin-gate/00-phase-overview.md).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
 
-> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG4 sign-off + commit.
+> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG5 sign-off + commit.
 > In any fresh session, say **"check point"** and I'll read this file + the PROGRESS log + recent
 > commits and give you the full "where we are, your move" picture — no digging needed.
 

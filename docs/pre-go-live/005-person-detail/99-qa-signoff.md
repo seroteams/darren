@@ -4,7 +4,7 @@
 *as long as you don't run a full pipeline from "Prep next 1:1"* (see the ⚠️ note below).
 
 ## Automated (I run these and paste results)
-- [ ] `npm test` green · `npm run typecheck` clean.
+- [x] `npm test` green · `npm run typecheck` clean. — **2026-07-04: 53/53 passed · typecheck clean.**
 
 ## The walk (as a member with past 1:1s — e.g. `demo@sero.test`)
 1. On **Team**, click a person card → **their page** opens: name · role · total meetings · last met ·
@@ -28,4 +28,5 @@
 - Merging genuine duplicates ("Priya" vs "Priya S.") → **PG9**.
 
 ## Sign-off
-- [ ] **Carl:** all pass → I approve PG5. On your tick I set PG5 → done, tick STATUS + the board, and commit.
+- [x] **Carl:** all pass → PG5 approved (2026-07-04, "looks good commit"). PG5 set → done, STATUS + board
+  ticked, changelog refreshed, committed.

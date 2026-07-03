@@ -10,10 +10,18 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 005 — Person detail — `awaiting-qa` (all 3 steps + UI polish built 2026-07-04)**
+**→ Phase 006 — Superadmin gate (backend) — `not-started` (not yet broken down)**
 
-**Your move: walk [99-qa-signoff.md](005-person-detail/99-qa-signoff.md).** On your green light PG5 → done,
-STATUS + board ticked, committed. (Includes the money check: "Prep next 1:1" seeds the form for free.)
+Next up: say "go" to break PG6 into steps. Carl's account gains a read-only, cross-company key (proven by
+tests, not a screen yet) — the one intentional wall-crossing, tightly gated: email resolved server-side
+from the authenticated userId, GET-only module, one-line access audit, 403 tests with `DEV_AUTOLOGIN` off,
+dev side-door can never match the allowlist. See the CTO security must-haves in this file's Decisions.
+
+**Phase 005 — Person detail — ✅ `done` (signed off + committed 2026-07-04).** Carl walked it ("looks good
+commit"). Clicking a Team person opens their page: header summary, their 1:1s newest-first (each reopens
+the PG2 read-only briefing), the "Since last time" recap (last meeting's agreed actions + watch-fors), and
+"Prep your next 1:1 with <name>" seeding a fresh intake — all fenced to the manager's own runs, no OpenAI
+call. Plus a mid-phase UI polish (elevated colour-coded recap, quiet log). Baseline + post green.
 
 Broken into 3 build steps + QA. Clicking a person card (from the PG4 Team page) opens their page — all the
 manager's 1:1s with that person, their rating history, and the minimal "since last time" (most-recent
@@ -115,8 +123,8 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
 | 002 | Reopen a run | ✅ done (signed off + committed) |
 | 003 | Rate a 1:1 | ✅ done (signed off + committed) |
 | 004 | Team — auto-built people | ✅ done (signed off + committed) |
-| 005 | Person detail | planned (broken down; building next) |
-| 006 | Superadmin gate (backend) | not-started |
+| 005 | Person detail | ✅ done (signed off + committed) |
+| 006 | Superadmin gate (backend) | not-started (next) |
 | 007 | Admin: who's registered | not-started |
 | 008 | Admin: user → teams → runs | not-started |
 | 009 | Roster + polish | not-started |
@@ -214,3 +222,12 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   SERO_BOARD + build badges (PG3 3 steps + PG4 3 steps → done; corrected PG4 step-2 wording that had
   mis-bundled the PG5 person-link into PG4) + refreshed the how-it-works changelog. Next: `go` → break down
   Phase 005 (Person detail).
+- **2026-07-04** — **Phase 005 built + signed off + committed.** Broke PG5 into 3 steps + QA, built them in
+  sequence with Carl checking between: Step 01 person page (`4bad9961`, new `PERSON_DETAIL` stage at
+  `/team/:person`, shared `personKeyOf` so the page filters on the same key the grouping uses), Step 02
+  "Since last time" (`810f9b14`, fetches the latest run's detail — no OpenAI), a mid-phase UI polish Carl
+  asked for (`81fa5adf`, elevated colour-coded recap + scannable header + quiet log), Step 03 open-a-run +
+  prep-next (`99005e9e`, rows → PG2 detail, "Prep next 1:1" seeds intake — free until a full pipeline runs).
+  Carl walked it ("looks good commit") → PG5 ✅. Ticked STATUS + SERO_BOARD + build badges (PG5 3 steps →
+  done) + how-it-works changelog. Free checks green throughout (53/53, typecheck clean); no paid runs.
+  Next: `go` → break down Phase 006 (superadmin gate).

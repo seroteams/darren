@@ -203,11 +203,11 @@ const DATA = [
     goal: "Click a person and see all your 1:1s with them, their ratings, and — the key bit — 'Since last time: what you agreed and what to watch for' when you prep the next one.",
     steps: [
       { f: "The person page", m: "All your 1:1s with that person, newest first, each openable, with its rating and a summary header.", have: "One place per person",
-        auto: "Run `npm test` + `npm run typecheck` — green.", eye: "Open a person → their 1:1s + a '3.0 avg · 4 rated' header.", s: "todo" },
+        auto: "Run `npm test` + `npm run typecheck` — green.", eye: "Open a person → their 1:1s + a '3.0 avg · 4 rated' header.", s: "done" },
       { f: "Since last time", m: "A block pulling the last meeting's agreed actions + watch-fors (already in the data) so returning actually HELPS, not just reminds.", have: "It remembers for you",
-        auto: null, eye: "The person page shows 'Since last time' from the most recent 1:1.", s: "todo" },
+        auto: null, eye: "The person page shows 'Since last time' from the most recent 1:1.", s: "done" },
       { f: "Prep the next one", m: "A 'Prep next 1:1' button pre-fills the person. Note: this is the only paid path, and only if you run the full pipeline.", have: "Straight into the next prep",
-        auto: null, eye: "Prep next 1:1 starts intake pre-filled.", s: "todo" },
+        auto: null, eye: "Prep next 1:1 starts intake pre-filled.", s: "done" },
     ],
     signoff: "A person shows all their 1:1s + ratings + a correct average · 'Since last time' surfaces last meeting's actions · prep-next pre-fills." },
 
