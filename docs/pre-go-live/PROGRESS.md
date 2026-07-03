@@ -10,23 +10,24 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 003 — Rate a 1:1 — `planned`**
+**→ Phase 003 — Rate a 1:1 — `built end-to-end` (landed on main 2026-07-03)**
 
-Broken down into 3 build steps + QA. **Heads-up (honesty):** the **backend for PG3 is already built
-and green** (a parallel batch got ahead) — route `POST /api/v1/runs/mine/:id/rating`, `rateMine`
-service (stars 1–5 → 400, org+user fence → 404, note trim/cap, atomic `rating.json`), the `rating`
-field surfaced on both the list + detail payloads, full tests, and `**/rating.json` gitignore. So PG3's
-remaining work is **entirely front-end**. Next action for the agent: **do Step 01** once Carl says go.
+All four build steps done, verified live, and committed + merged to `main` on Carl's "commit and move on".
+(The parallel session's duplicate step files were consolidated into the coherent set below.)
 
 PG3 steps:
-- [ ] **01 — Rate on the detail** ([01-rate-on-detail.md](003-rate-a-1-1/01-rate-on-detail.md)) — client
-  call `rateRun()` + a reusable, keyboard-operable star widget on `run-detail`; low score (≤2) reveals a
-  "What missed?" note; persists to `rating.json` (verify the destination).
-- [ ] **02 — Rate in-flow** ([02-rate-in-flow.md](003-rate-a-1-1/02-rate-in-flow.md)) — the same widget
-  at the end of a live 1:1 (`BRIEFING` stage) with a plain **Skip**; no "unrated" nag ever.
-- [ ] **03 — List badge** ([03-list-badge.md](003-rate-a-1-1/03-list-badge.md)) — a compact ★ badge on
-  rated Runs rows; a quiet "Rate this?" on unrated (never a guilt count).
-- [ ] **99 — QA sign-off** ([99-qa-signoff.md](003-rate-a-1-1/99-qa-signoff.md)) — Carl walks it.
+- [x] **01 — Backend rating** ([01-backend-rating.md](003-rate-a-1-1/01-backend-rating.md)) — route
+  `POST /api/v1/runs/mine/:id/rating`, `rateMine` (stars 1–5 number → 400, org+user fence → 404, note
+  trim/cap, **atomic** `rating.json`), `rating` surfaced on list + detail payloads, 5 tests, gitignore.
+- [x] **02 — Rate on the detail** ([02-rate-on-detail.md](003-rate-a-1-1/02-rate-on-detail.md)) — shared
+  keyboard-operable star widget (`admin/src/ui/star-rating.js`) on `run-detail`; low score (≤2) reveals a
+  "What missed?" note; persists (destination verified live).
+- [x] **03 — Rate in-flow** ([03-in-flow-rating.md](003-rate-a-1-1/03-in-flow-rating.md)) — the same
+  widget at the end of a 1:1 (`BRIEFING`) with a plain **Skip**; hidden for the scripted test lane; no nag.
+- [x] **04 — List badge** ([04-list-badge.md](003-rate-a-1-1/04-list-badge.md)) — a compact ★N badge on
+  rated Runs rows; unrated rows stay clean.
+- [~] **99 — QA sign-off** ([99-qa-signoff.md](003-rate-a-1-1/99-qa-signoff.md)) — Carl tried it live
+  (`demo@sero.test`) and said commit + move on; formal walk of every scenario still open if he wants it.
 
 **Phase 002 ✅ signed off (Carl walked it live, 2026-07-01) + committed.**
 
