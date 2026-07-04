@@ -69,21 +69,26 @@ export async function mount(root, { setState }) {
 
   // Dev convenience — prefill a local dev account so you're never locked out while
   // testing, with a one-click swap between the ADMIN (owner) and a STANDARD (member)
-  // account for exercising the role wall. Every visit defaults to Admin. All of this is
-  // stripped from production builds (import.meta.env.DEV is false there), so the creds
-  // and the toggle never ship. Override via VITE_DEV_LOGIN_EMAIL / _PASSWORD (admin) and
-  // VITE_DEV_LOGIN_MEMBER_EMAIL / _PASSWORD (standard).
-  if (import.meta.env.DEV) {
+  // account for exercising the role wall. Every visit defaults to Admin. Credentials
+  // come from your local .env only (VITE_DEV_LOGIN_EMAIL / _PASSWORD for admin,
+  // VITE_DEV_LOGIN_MEMBER_EMAIL / _PASSWORD for standard — see .env.example); no
+  // credentials live in source. Without them the prefill simply doesn't appear. The
+  // whole block is stripped from production builds (import.meta.env.DEV is false there).
+  const devAdminEmail = import.meta.env.DEV ? import.meta.env.VITE_DEV_LOGIN_EMAIL : undefined;
+  if (devAdminEmail) {
     const ADMIN = {
       label: "Admin",
-      email: import.meta.env.VITE_DEV_LOGIN_EMAIL || "carl@seroteams.com",
-      password: import.meta.env.VITE_DEV_LOGIN_PASSWORD || "serodev123",
+      email: devAdminEmail,
+      password: import.meta.env.VITE_DEV_LOGIN_PASSWORD || "",
     };
-    const STANDARD = {
-      label: "Standard user",
-      email: import.meta.env.VITE_DEV_LOGIN_MEMBER_EMAIL || "member@seroteams.com",
-      password: import.meta.env.VITE_DEV_LOGIN_MEMBER_PASSWORD || "seromember123",
-    };
+    const memberEmail = import.meta.env.VITE_DEV_LOGIN_MEMBER_EMAIL;
+    const STANDARD = memberEmail
+      ? {
+          label: "Standard user",
+          email: memberEmail,
+          password: import.meta.env.VITE_DEV_LOGIN_MEMBER_PASSWORD || "",
+        }
+      : null;
 
     // A small dev-only line under the form — reuses the same `.link` style as "Create one".
     const swap = document.createElement("p");
@@ -94,8 +99,12 @@ export async function mount(root, { setState }) {
       emailEl.value = role.email;
       passwordEl.value = role.password;
       const other = role === ADMIN ? STANDARD : ADMIN;
-      swap.innerHTML = `Dev login: <strong>${role.label}</strong> — <button type="button" class="link js-swap">use ${other.label.toLowerCase()}</button>`;
-      swap.querySelector(".js-swap").addEventListener("click", () => fill(other));
+      if (other) {
+        swap.innerHTML = `Dev login: <strong>${role.label}</strong> — <button type="button" class="link js-swap">use ${other.label.toLowerCase()}</button>`;
+        swap.querySelector(".js-swap").addEventListener("click", () => fill(other));
+      } else {
+        swap.innerHTML = `Dev login: <strong>${role.label}</strong>`;
+      }
     }
 
     fill(ADMIN); // default to admin every visit
