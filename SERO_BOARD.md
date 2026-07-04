@@ -22,9 +22,9 @@ auto-built from past 1:1s + person detail, and a **superadmin** read-only window
 **PG1–PG7 ✅ done** (Runs list, reopen, rate a 1:1, Team auto-built + "Past 1:1s", the per-person page with
 "Since last time" + "Prep next 1:1", the read-only cross-company superadmin gate, and the **Registered**
 screen — every alpha company + people with the return-visit signal + rating summary, superadmin-only — all
-signed off, committed to `main`). **PG8 (drilldown, incl. open-a-briefing read-only) and PG9 (merge
-duplicates + rename + roll-ups) are both built end-to-end — awaiting Carl's walk to close the pre-go-live
-build.** PG8 Steps 01–02 already signed off. Safety-gate progress this session: the privacy note now
+signed off, committed to `main`). **PG8 (drilldown, incl. open-a-briefing read-only) ✅ closed 2026-07-04**
+(Carl's call — read-only walk skipped; verification stands). **PG9 (merge duplicates + rename + roll-ups) is
+built — awaiting Carl's walk** to close the pre-go-live build. Safety-gate progress this session: the privacy note now
 discloses stored ratings + the superadmin cross-company view; run-qa C1 (tester-note leak) fixed. No hosting.
 
 **✅ Closed (2026-07-01): Phase 009 — Getting ready to share (real-data alpha).** Every actionable phase

@@ -10,8 +10,8 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**🎉 Pre-go-live BUILD COMPLETE — PG1–PG9 all signed off (Carl approved PG8 + PG9 on 2026-07-04).**
-The whole 9-phase pre-go-live track is done: manager Runs + reopen + rate, auto-built Team, person page with
+**Pre-go-live BUILD complete; sign-offs closing out — PG1–PG7 ✅ signed off · PG8 ✅ closed 2026-07-04 (Carl's call, read-only walk skipped) · PG9 built, awaiting Carl's walk (or a "close pg9").**
+The whole 9-phase pre-go-live track is **built**: manager Runs + reopen + rate, auto-built Team, person page with
 "Since last time", the superadmin gate + Registered screen + user drilldown (incl. open-a-briefing), and the
 Tidy-up (merge/rename/roll-ups). Next: the alpha **safety gate** (AG1 — before widening past 2–3 managers)
 and any parked plans Carl picks up. **Continuity is HARD-PARKED by Carl — do not build.**

@@ -36,5 +36,7 @@ last time.
   disclosure that an internal admin can view a company's data across companies.
 
 ## Sign-off
-- [ ] **Carl:** scenarios 1–7 pass → PG8 closes (set → done, tick STATUS + the board, commit). Then PG9
-  (roster + polish) is the last pre-go-live phase — after which the user-management plan's Phase 0 starts.
+- [x] **Carl:** **closed on Carl's call 2026-07-04 ("close pg8").** The Step 03 read-only walk (scenario 7)
+  was **skipped by Carl's decision** — technical verification stands: `runDetail`/`getAdminRun` wired
+  end-to-end, the gated route returns 401 (not 404) live, `npm test` 60/60. PG8 set → done. PG9 remains the
+  last open pre-go-live phase.

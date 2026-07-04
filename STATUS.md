@@ -9,6 +9,13 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
+> **🔨 Just built (skip-ahead, 2026-07-04): [user-management](docs/todo/user-management/PLAN.md) Phase 1.**
+> You said "skip ahead", so the old **Registered** screen is now the redesigned flat **User management**
+> table — rename + role pills + `⋯` "View their 1:1s" → drilldown. Verified live; offline checks green;
+> **not committed** (green light = commit). **Walk it:** open **User management** in the rail →
+> check the table reads clean → `⋯` on a row → "View their 1:1s" → back. Then A) approve or B) tweak.
+> PG8 ✅ **closed 2026-07-04** (Carl's call — read-only walk skipped; verification stands). PG9 (below) is still built-but-un-walked.
+
 **Now active: [pre-go-live](docs/pre-go-live/OVERVIEW.md) — the manager's Team & Runs, ratings, and a
 superadmin window on the alpha.** 9 phases, one at a time.
 **PG1–PG5 ✅ (through 2026-07-04) · PG6 (Superadmin gate) ✅ — signed off + committed 2026-07-04.** The
@@ -21,18 +28,17 @@ one audit line per access, proven by 13 tests (the dev side-door can't pass). No
 is live: every alpha company + its people with the return-visit signal (run counts, last-active, week
 counts) and the alpha-wide ★ rating summary; nav item superadmin-only, backend 403 the real wall.
 
-**▶ Your move: PG8 — one last look (open a 1:1's briefing).** PG8 (Admin: user → teams → runs) is now
-**built end-to-end.** You walked the drilldown ("clicked through — done") so **Steps 01–02 are ✅**. During
-that walk I caught + fixed a real bug — the per-user route was dead (404'd every id) — and added a test so
-it can't come back. **Step 03 is now built too:** clicking a 1:1 in the drilldown opens that briefing
-**read-only** (the same view a manager sees), cross-company behind the superadmin gate. **Your last check:**
-as you, open a user → click one of their 1:1s → the briefing shows read-only → back.
+**PG8 ✅ done — closed 2026-07-04 on Carl's call ("close pg8").** Admin: user → teams → runs, incl. opening a
+1:1's briefing **read-only** behind the superadmin gate. Steps 01–02 were walked earlier ("clicked through —
+done"); the Step 03 read-only walk was **skipped by Carl's decision** — technical verification stands (route
+gates live 401, `runDetail`/`getAdminRun` wired end-to-end, `npm test` 60/60). A route bug caught during the
+earlier walk (per-user route 404'd every id) was fixed + guarded by a test.
 
-**PG9 (roster + polish) is ALSO built now** — on **Team**, a **Tidy up** mode lets you **merge** two cards
-for the same person into one (history + average combine) and **rename** a person; it sticks after reload.
-So **both remaining pre-go-live phases are built and waiting on your walk.** Green-light PG8 + PG9 and the
-pre-go-live build is done. Free checks: `npm test` **60/60** · typecheck + admin build green; all new routes
-verified live (gated). QA sheets:
+**PG9 (roster + polish) is built but NOT yet closed** — on **Team**, a **Tidy up** mode lets you **merge** two
+cards for the same person (history + average combine) and **rename** a person; it sticks after reload. With
+PG8 closed, PG9 is the **last open pre-go-live phase** — still awaiting your walk (or say "close pg9" to close
+it like PG8). Free checks: `npm test` **60/60** · typecheck + admin build green; routes verified live (gated).
+QA sheets:
 [PG8](docs/pre-go-live/008-admin-user-drilldown/99-qa-signoff.md) ·
 [PG9](docs/pre-go-live/009-roster-polish/99-qa-signoff.md).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No hosting. Budget used ~$0.35/$3.
@@ -143,7 +149,7 @@ like 8 things are half-done at once — they aren't.
 | Plan | State |
 |---|---|
 | [run-qa-fixes-jul04](docs/todo/run-qa-fixes-jul04/PLAN.md) | Phase 1 (C1 — strip tester notes) ✅ approved 2026-07-04 (committed `02d825c2`, walk waived); Phases 2–4 ⬜ (prompt changes — need a paid walk) |
-| [user-management](docs/todo/user-management/PLAN.md) | scaffolded 2026-07-04 — 5 phases ⬜ (Phase 0 read-only); gated behind PG8; awaiting Carl's "go" |
+| [user-management](docs/todo/user-management/PLAN.md) | **Phase 1 🔨 built 2026-07-04 (Carl said "skip ahead") — awaiting his walk.** "Registered" is now the flat **User management** table (rename + role pills + `⋯` → drilldown). Frontend-only, not committed (green light = commit). Phases 0, 2–5 ⬜. |
 | [planner-grounding](docs/todo/planner-grounding/PLAN.md) | parked — awaiting scope pick (A/B/C/all) |
 | [briefing-readability-p0](docs/todo/briefing-readability-p0/PLAN.md) | parked |
 | [briefing-grounding-fixes](docs/todo/briefing-grounding-fixes/PLAN.md) | awaiting |
