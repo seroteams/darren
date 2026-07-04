@@ -5,7 +5,6 @@ import { generatePreparation } from "./preparation.ts";
 import { generateBankWithFallback } from "./question-generator.ts";
 import { planTurn } from "./queue-manager.ts";
 import { evaluate, applyManagerBriefingPostProcess } from "./reviewer.ts";
-import { evaluateProductQa } from "./product-qa.ts";
 import { resolveSelectedFocus } from "./selected-focus.ts";
 import { validateQuestionBeforeShow } from "./question-validator.ts";
 
@@ -21,7 +20,6 @@ export {
   generateBankWithFallback,
   planTurn,
   evaluate,
-  evaluateProductQa,
   applyManagerBriefingPostProcess,
   resolveSelectedFocus,
   validateQuestionBeforeShow,

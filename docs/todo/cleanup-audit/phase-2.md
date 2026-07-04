@@ -1,6 +1,6 @@
 # Phase 2 — Delete dead cruft
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built 2026-07-04 — awaiting Carl's QA
 
 ## Goal
 Throw out the scratch scripts and dead code left over from closed phases, and empty the oversized log folder.
