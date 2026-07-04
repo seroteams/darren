@@ -1,3 +1,10 @@
+> **⛔ FOLDED + CLOSED 2026-07-04 (Carl's call).** This plan's shipped slice (the Preparation payload
+> preview) already lives in [sent-preview](../sent-preview/PLAN.md). Its remaining ambition — extend the
+> preview to *every* stage + a readable System/User-split display — has been absorbed into sent-preview's
+> **Parked** section. The Phase-1 code lost in the June reorg is **not** being rebuilt here; it will be
+> redone stage-by-stage under sent-preview if/when Carl wants it. Archived to `done/` as folded (not
+> delivered under this name). Everything below is the original plan, kept for reference.
+
 # See-before-sent — exact LLM payload on every stage
 
 **Goal:** On every LLM stage, the right-rail **Sent** tab shows *any and all data sent to the model* — exact, no drift — laid out so a non-engineer can eyeball "is the engine sending the right thing?". Labelled + skimmable, with the raw text one click away.

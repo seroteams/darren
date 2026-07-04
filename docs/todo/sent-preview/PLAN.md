@@ -80,7 +80,12 @@ prod stack (port 3098). Results:
 runs, open **Sent** → you should see "Show exact text we're about to send (preview — not yet sent)".
 
 ## Parked
-- Extend the preview to the other stages, one at a time: Focus points, Question bank, Live Q&A
-  (per-turn), Evaluation.
+- **Extend the preview to every stage, one at a time** (absorbed from the folded-in `see-before-sent` plan,
+  2026-07-04): Focus points, Question bank (BANK), Synthesis (EVAL), Live Q&A (per-turn, QUESTIONING), and
+  the final Briefing note. Each reuses the same `assembleX`/`buildMessages` the live send uses — no drift,
+  zero API calls — mirroring how Preparation was done here. Build one stage per phase, QA, then the next.
+- **Readable System/User split display** (also from `see-before-sent`): lay the payload out labelled +
+  skimmable so a non-engineer can eyeball "is the engine sending the right thing?", with the raw text one
+  click away — rather than one raw block. Applies to `admin/src/ui/stage-data-tab.js`.
 - An **approval gate** (hold the call until you click Send) — out of scope for now.
 - Secret/PII redaction in the preview view.
