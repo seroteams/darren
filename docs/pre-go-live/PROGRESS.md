@@ -10,7 +10,7 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 006 — Superadmin gate (backend) — `planned` (broken down 2026-07-04; no code written yet)**
+**→ Phase 006 — Superadmin gate (backend) — `in-progress` (Step 01 built test-first 2026-07-04)**
 
 Broken into 3 test-first steps + QA. Backend-only, no screen (PG7/PG8 build those). **Verified anchors while
 breaking it down:** `RequestIdentity` **already** carries a server-resolved `email` (request-context.ts:16),
@@ -19,10 +19,13 @@ the route wrapper in `admin-guard.ts` (mirror `requireAdminRoute`); `organizatio
 `schema.ts`; the dev side-door email is `dev@seroteams.com` (not Carl's), so it can't satisfy the allowlist.
 
 PG6 steps:
-- [ ] **01 — Superadmin guard** ([01-superadmin-guard.md](006-superadmin-gate/01-superadmin-guard.md)) —
-  `SUPERADMIN_EMAILS` allowlist + shared `normalizeEmail` + `requireSuperadmin` (mirrors `requireAdmin`) +
-  `requireSuperadminRoute` wrapper. Reads `identity.email` only (server-resolved, never client). Tests
-  first: superadmin passes, owner → 403, anonymous → 401, dev side-door → 403.
+- [x] **01 — Superadmin guard** ([01-superadmin-guard.md](006-superadmin-gate/01-superadmin-guard.md)) —
+  **built test-first 2026-07-04.** `normalizeEmail` + `isSuperadminIdentity` + `requireSuperadmin` in
+  `require-auth.ts` (allowlist parsed fresh from `SUPERADMIN_EMAILS`, reads server-resolved `identity.email`
+  only); `requireSuperadminRoute` in new `superadmin-guard.ts` (mirrors `admin-guard.ts`, injectable lookup).
+  8 tests written first (red) then green: normalize folds case/space + rejects empty, allowlisted passes,
+  owner → 403, anonymous → 401, empty allowlist → nobody, **dev side-door → 403**. `npm test` 54/54,
+  typecheck clean. No route wired yet (Step 02).
 - [ ] **02 — Cross-company read** ([02-cross-company-read.md](006-superadmin-gate/02-cross-company-read.md))
   — read-only `superadmin` service/repo, `GET /api/v1/admin/registered` (companies → users) funnelled
   through the guard, GET-only. Tests first: superadmin sees all, owner → 403, no cross-org leak, mutating
