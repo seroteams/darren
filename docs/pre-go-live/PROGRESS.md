@@ -315,4 +315,12 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   (frontend): new `admin-registered.ts` stage at `/admin/registered` (summary + companies → users with the
   signal, own states), `getRegistered()` client, and a server-computed `isSuperadmin` flag on `/auth/me`
   gating the (cosmetic) nav item — backend 403 stays the wall. Verify (free): `npm test` 57/57, typecheck
-  clean, `npm run build` OK (new chunk). Committed locally; **awaiting Carl's QA walk.**
+  clean, `npm run build` OK (new chunk). Committed locally; opened PR #7.
+- **2026-07-04** — **PG7 driven live end-to-end (both roles), zero errors.** Stood up a real local Postgres
+  (migrated schema, seeded 2 companies + 3 users + 5 rated run folders on disk), ran the API + Vite, and
+  drove the browser with Playwright. **Superadmin** (email on `SUPERADMIN_EMAILS`): `/auth/me` →
+  `isSuperadmin:true`, the **Registered** nav item shows, the screen renders companies oldest-first with the
+  per-user signal + the "★ 3.0 avg over 4 rated · 2 low" summary — matches the unit tests exactly, no console
+  errors. **Normal owner** (allowlist empty): `isSuperadmin:false`, nav item **hidden**, direct
+  `/admin/registered` → the "for Sero admins only" card, backend **403**. Nothing to fix — works as designed.
+  Still Carl's to sign off in his own env (Neon `DATABASE_URL`).
