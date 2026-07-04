@@ -72,14 +72,14 @@ mirrors it:
 | See-before-sent preview | `docs/todo/sent-preview/` | 🟢 signed off (QA pile, walked live) |
 | Stage data tabs | `docs/todo/stage-data-tabs/` | 🟢 signed off (QA pile, walked live) |
 | Todo-board rebuild | `docs/todo/todo-board-rebuild/` | 🟢 signed off (QA pile; "Run the free checks" button) |
-| See-before-sent (live) | `docs/todo/see-before-sent/` | Built, still awaiting QA (not in the pile) |
+| See-before-sent (all-stage) | `docs/todo/done/see-before-sent/` | ✅ folded into sent-preview + archived 2026-07-04 (lost reorg code not rebuilt under this name) |
 | Briefing readability (P0) | `docs/todo/briefing-readability-p0/` | Scaffolded, parked |
 
-The QA pile is cleared. The two still-open rows (see-before-sent live, briefing-readability P0) await a
+The QA pile is cleared. The one still-open row (briefing-readability P0) awaits a
 Carl walk → green light → close out to `done/`.
 
 Tests: `npm test` **57/57** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
-(not automated); `main` is currently **ahead of origin** (local-only by Carl's call — nothing pushed).
+(not automated); `main` was **pushed to origin 2026-07-04** — local and origin are now in sync.
 
 ## 2. Next — after Now is green
 

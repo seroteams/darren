@@ -142,7 +142,7 @@ like 8 things are half-done at once — they aren't.
 | [planner-grounding](docs/todo/planner-grounding/PLAN.md) | parked — awaiting scope pick (A/B/C/all) |
 | [briefing-readability-p0](docs/todo/briefing-readability-p0/PLAN.md) | parked |
 | [briefing-grounding-fixes](docs/todo/briefing-grounding-fixes/PLAN.md) | awaiting |
-| [see-before-sent](docs/todo/see-before-sent/PLAN.md) | awaiting |
+| [see-before-sent](docs/todo/done/see-before-sent/PLAN.md) | ✅ folded into sent-preview + archived 2026-07-04 |
 | [sent-preview](docs/todo/sent-preview/PLAN.md) | awaiting |
 | [stage-data-tabs](docs/todo/stage-data-tabs/PLAN.md) | awaiting |
 | [repo-tidy](docs/todo/done/repo-tidy/PLAN.md) | ✅ done (all 4 phases; 3–4 via 009 P6) — archived to done/ |
