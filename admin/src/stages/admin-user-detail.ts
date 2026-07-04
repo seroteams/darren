@@ -63,7 +63,7 @@ export const mount: Mount = async (root, { setState }) => {
   const name = store.adminUserName || "This user";
   const header = `
     <header class="page-header l-stack l-stack--2">
-      <button type="button" class="btn btn--ghost btn--sm js-back">‹ Registered</button>
+      <button type="button" class="btn btn--ghost btn--sm js-back">‹ User management</button>
       <h1 class="h1">${escapeHtml(name)}</h1>
       <div class="text-ink-dim text-sm">Their people and 1:1s — read-only.</div>
     </header>`;

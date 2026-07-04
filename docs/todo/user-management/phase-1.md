@@ -1,31 +1,33 @@
-# Phase 1 — Change a user's role
+# Phase 1 — User management table + rename
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done — closed on Carl's "finish" (2026-07-05); live-verified, hands-on walk optional
 
 ## Goal
-From the Manage menu, the superadmin can set any user's role to member / manager / admin, and it persists — without ever being able to leave a company with no active manager/admin.
+Replace the stacked-card "Registered" screen with a clean flat table, and rename the nav item to **"User management"** — the surface every later action hangs off. Frontend only, no mutations.
 
 ## Why
-Lowest-risk action (updates the existing `users.role` column, no migration) and it builds the plumbing every later phase reuses: the write repo method, the guardrail spot, the audit call, and the Manage-menu UI on the Registered row.
+Carl judged the card layout as weak. The table is the foundation the `⋯` actions sit on, and its look should be signed off before anything destructive is wired on.
 
 ## Changes
-- **Backend:** `PATCH /api/v1/admin/users/:id/role` body `{ role }`, registered as a RegExp route with a named group (mirror `/admin/users/:id/runs`). Validate `role ∈ {admin,manager,member}`. **Guardrail:** refuse a demotion that would leave the org with zero active manager/admin. New `updateUserRole` repo method. Audit success / blocked / failed.
-- **Frontend:** add the **Manage** control to the row in [admin-registered.ts](../../../admin/src/stages/admin-registered.ts) → role picker → `setUserRole` in [shared/api.js](../../../shared/api.js) → reload. A blocked demotion surfaces the plain server reason.
-- **Tests:** service test (happy path + the last-manager guardrail blocks *and* audits + invalid role) and a route/param test.
+- **Rename:** nav label "Registered" → "User management" ([app-nav.js](../../../admin/src/ui/app-nav.js)) and the page `<h1>`. The internal stage/route stay `ADMIN_REGISTERED` / `/admin/registered` (a `/admin/users` alias is parked — less churn).
+- **Redesign:** replace the stacked cards in [admin-registered.ts](../../../admin/src/stages/admin-registered.ts) with a **flat table** — flatten the existing `GET /api/v1/admin/registered` `companies[].users[]` into rows: **User** (name + email) · **Role** (badge: admin/manager/member) · **Company** · **Activity** (runs · last active) · **`⋯`**. Keep the alpha-ratings summary as one small header line. Reuse `escapeHtml` + `relTime`; all values escaped, ≥14px.
+- **Open a person:** the **whole row is clickable** → the existing drilldown (`ADMIN_USER`); the name is a real `<button>` so it's keyboard- and screen-reader-reachable.
+- **No `⋯` menu this phase.** After the design review (below), the single-item `⋯` ("View their 1:1s") was dropped as redundant with the clickable row. The `⋯` + real actions (role / deactivate / delete / reset) return in **Phase 2** when there's something to put in it.
+- **"Coming back?" surfaced** (design-review fix): a ▲/▼/• trend per row (this-week vs last-week) leads the activity cell with recency, and the table **default-sorts by last-active** so the quiet/never-active sink to the bottom. The alpha-ratings stat became a labelled block; the zero-user note became a proper caption.
+- **No backend change** — same endpoint, flattened + sorted client-side.
 
 ## Not in this phase
-- Deactivate, delete, reset (their own phases). The Manage menu can list them disabled/"coming next" or add them per phase — no live wiring yet.
+- Any mutation/action (role, deactivate, delete, reset) — Phases 2–5.
+- Search / sort / pagination (parked; small N).
 
 ## Done when
-- [ ] Role change persists (verified in the DB, not just the 200 response).
-- [ ] Invalid role rejected (400, unchanged).
-- [ ] Demoting a company's last active manager/admin is blocked and audited.
-- [ ] `npm test` + `npm run typecheck` pass.
-- [ ] Product owner has tested the scenarios below and said go.
+- [x] The table lists everyone across companies with role + company + activity. *(verified live: Carl/admin, Dev Member/member, User A/manager, Daniel/manager; empty company preserved as a footnote.)*
+- [x] Nav + page title read "User management". *(nav rail + h1 both updated; drilldown back button too.)*
+- [x] "View their 1:1s" opens the drilldown; back returns to the table. *(walked live via preview.)*
+- [x] `npm run typecheck` + `npm run build` green. *(both clean; `npm test` 60/60.)*
+- [x] Product owner said go — Carl directed "finish" (2026-07-05) after the design review; a hands-on walk is still open to him.
 
 ## Test scenarios — for the product owner
-Walk through these yourself. Next phase waits for your green light.
-1. **Role sticks** — change a user member→manager, reload. The badge and the stored role both show manager. ❌ Not OK if it reverts.
-2. **Last manager protected** — try to demote a company's only manager to member. You should be blocked with a plain reason. ❌ Not OK if it lets you.
-3. **Bad input rejected** — an invalid role via the API returns 400 and changes nothing.
-4. **Audit trail** — all three attempts appear in the audit log with the right outcome (success / blocked / failed).
+1. **Clean table** — open **User management** → a clean table lists everyone with their company and a role badge. ❌ Not OK if anyone/anything is missing vs the old screen.
+2. **Drilldown still works** — click a row's "View their 1:1s" → the drilldown opens → back returns to the table.
+3. **Reads simple** — it looks like a tidy user list, not the old card clutter.

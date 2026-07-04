@@ -9,11 +9,14 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **🔨 Just built (skip-ahead, 2026-07-04): [user-management](docs/todo/user-management/PLAN.md) Phase 1.**
-> You said "skip ahead", so the old **Registered** screen is now the redesigned flat **User management**
-> table — rename + role pills + `⋯` "View their 1:1s" → drilldown. Verified live; offline checks green;
-> **not committed** (green light = commit). **Walk it:** open **User management** in the rail →
-> check the table reads clean → `⋯` on a row → "View their 1:1s" → back. Then A) approve or B) tweak.
+> **✅ [user-management](docs/todo/user-management/PLAN.md) Phase 1 — done + committed 2026-07-05 (skip-ahead).**
+> The old **Registered** screen is now the **User management** table: **grouped by company**, each row's
+> **"Coming back?"** trend (▲/▼) leading + sorted so drifters sink, the whole row opens the drilldown; role
+> pills; ratings as a labelled block. Went through an independent **UX/UI design review** (23/40 → acted on
+> the safe wins + company grouping). Closed on your "finish" — live-verified (`npm test` 60/60, typecheck +
+> build green); a hands-on walk is still yours. **Next: Phase 2 — change a user's role.**
+> ⚠️ Loose end: the nav *label* rename sits in `app-nav.js` next to your new **Universe** item, so that file
+> is **left uncommitted** (rides with Universe). Phases 0, 2–5 still ⬜.
 > PG8 ✅ **closed 2026-07-04** (Carl's call — read-only walk skipped; verification stands). PG9 (below) is still built-but-un-walked.
 
 **Now active: [pre-go-live](docs/pre-go-live/OVERVIEW.md) — the manager's Team & Runs, ratings, and a

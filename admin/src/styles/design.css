@@ -712,6 +712,88 @@ body.has-session-topbar .stage {
 /* Star badge on a rated run row (PG3). */
 .runs-list__stars { color: var(--sero-gold-700, #ad7400); white-space: nowrap; }
 
+/* -----------------------------------------------------------------------------
+   User management (user-management Phase 1) — the superadmin's flat table of
+   everyone registered across the alpha. Replaces the old stacked company cards.
+----------------------------------------------------------------------------- */
+.um-table-wrap { overflow-x: auto; }   /* narrow viewports scroll the table, not the page */
+.um-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--type-body-sm);       /* 14px floor */
+}
+.um-table th {
+  text-align: left;
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink-mute);
+  padding: 0 var(--sero-space-4) var(--sero-space-2);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+.um-table td {
+  padding: var(--sero-space-3) var(--sero-space-4);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+  color: var(--color-ink);
+}
+.um-table tbody tr:last-child td { border-bottom: none; }
+.um-row { cursor: pointer; }
+.um-row:hover { background: var(--sero-active-state-bg); }
+/* The person's name is a real button (keyboard + screen-reader target) styled as plain
+   bold text; the underline on hover signals the whole row is clickable. */
+.um-user__open {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink);
+  text-align: left;
+  cursor: pointer;
+}
+.um-row:hover .um-user__open { text-decoration: underline; }
+.um-user__email { color: var(--color-ink-dim); }
+.um-activity { display: flex; align-items: baseline; gap: var(--sero-space-2); }
+.um-activity__sub { color: var(--color-ink-dim); }
+
+/* "Coming back?" trend mark — a shape, not arithmetic. Calm colours: rising reads positive,
+   cooling reads warm-muted (attention, not alarm), steady/quiet stay neutral. */
+.um-trend { font-size: 0.85em; line-height: 1; }
+.um-trend--up     { color: var(--color-positive); }
+.um-trend--down   { color: var(--color-amber); }
+.um-trend--steady { color: var(--color-ink-dim); }
+.um-trend--quiet  { color: var(--color-ink-mute); }
+
+/* Alpha-wide ratings — a deliberate labelled stat, not a floating dim line. */
+.um-summary { display: flex; flex-direction: column; gap: var(--sero-space-0-5); }
+
+/* Role pill — one calm tint per account role. */
+.um-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: var(--sero-radius-badge);
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.um-badge--admin   { background: var(--sero-lavender-200); color: var(--sero-lavender-800); }
+.um-badge--manager { background: var(--sero-primary-200);  color: var(--sero-primary-800); }
+.um-badge--member  { background: var(--sero-soft-500);     color: var(--sero-soft-800); }
+
+/* Company group header — the organizing unit for a cross-company operator. Each company is a
+   <tbody> band: a name + people-count + freshest activity, over its people. Generous top space
+   separates groups; the first sits tight under the column labels. */
+.um-group__head td {
+  padding: var(--sero-space-5) var(--sero-space-4) var(--sero-space-1);
+  border-bottom: 1.5px solid var(--color-border-strong);
+}
+.um-group:first-of-type .um-group__head td { padding-top: var(--sero-space-2); }
+.um-group__name { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+.um-group__meta { color: var(--color-ink-dim); margin-left: var(--sero-space-2); }
+.um-group--empty .um-group__name { color: var(--color-ink-mute); }
+.um-group--empty .um-group__head td { border-bottom-color: var(--color-border); }
+
 /* Person page (pre-go-live PG5). Hierarchy is the whole point here: the "Since last time"
    recap is the reason to come back, so it's an elevated, colour-coded card; the past 1:1s
    below are a quiet dividered log, not a stack of competing cards. */
