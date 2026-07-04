@@ -1,0 +1,11 @@
+alias: q_say_more
+label: Say more
+name: "When you say 'Nothing,' what have the last few school days actually been like?"
+description: Clarifies the shallow opener by asking for concrete detail about recent school experience.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: planner_added
+grounding: Nothing

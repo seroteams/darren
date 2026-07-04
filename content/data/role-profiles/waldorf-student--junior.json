@@ -1,0 +1,148 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1783149799936,
+  "role_title_raw": "Waldorf Student",
+  "role_slug": "waldorf-student",
+  "seniority_raw": "Junior",
+  "seniority_key": "junior",
+  "role_family": "general",
+  "profile": {
+    "summary": "A junior Waldorf student is early in a Waldorf school journey, learning core subjects through stories, arts, movement, handwork, and routine. Their work is guided closely by class teachers and specialist teachers, with strong emphasis on rhythm, participation, social development, and building foundational skills rather than independent ownership.",
+    "role_confidence": "medium",
+    "known_challenges": [
+      {
+        "text": "Adjusting to the school rhythm, expectations, and teacher-led routines.",
+        "category": "topic"
+      },
+      {
+        "text": "Building confidence in reading, writing, numeracy, and practical classroom tasks.",
+        "category": "competency"
+      },
+      {
+        "text": "Managing frustration when learning moves through repetition and practice.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Finding a place socially in a class with strong group activities.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Balancing creative expression with following instructions and classroom structure.",
+        "category": "topic"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Comfort with daily rhythm and transitions",
+        "why": "This matters because younger students often show stress or confidence through how they handle routines and changes between activities.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Foundational skill growth",
+        "why": "Early progress in literacy, numeracy, listening, and practical tasks shapes confidence across the rest of the school day.",
+        "category": "competency"
+      },
+      {
+        "theme": "Engagement with artistic and movement-based learning",
+        "why": "Waldorf learning relies heavily on drawing, music, movement, and handwork, so engagement here affects overall participation.",
+        "category": "topic"
+      },
+      {
+        "theme": "Friendships and group belonging",
+        "why": "Social ease strongly affects how safe, expressive, and ready to learn a junior student feels.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Response to guidance and feedback",
+        "why": "At this stage, growth depends a lot on how well the student can take direction, imitate, and try again.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Main lesson",
+        "meaning": "The core morning learning block for a subject area.",
+        "group": "waldorf-learning"
+      },
+      {
+        "term": "Circle time",
+        "meaning": "Group activity with movement, verse, song, or rhythm.",
+        "group": "waldorf-learning"
+      },
+      {
+        "term": "Eurythmy",
+        "meaning": "Movement art used to support expression, rhythm, and learning.",
+        "group": "waldorf-learning"
+      },
+      {
+        "term": "Handwork",
+        "meaning": "Practical craft activities like knitting or sewing.",
+        "group": "waldorf-learning"
+      },
+      {
+        "term": "Form drawing",
+        "meaning": "Drawing patterns to build focus, coordination, and spatial sense.",
+        "group": "waldorf-learning"
+      },
+      {
+        "term": "Rhythm",
+        "meaning": "Predictable daily or weekly structure that supports learning.",
+        "group": "waldorf-learning"
+      },
+      {
+        "term": "Class teacher",
+        "meaning": "Primary teacher guiding the class across subjects and years.",
+        "group": "school-relationships"
+      },
+      {
+        "term": "Subject teacher",
+        "meaning": "Teacher for a specialist area like music or handwork.",
+        "group": "school-relationships"
+      },
+      {
+        "term": "Imitation",
+        "meaning": "Learning by watching and copying the teacher or peers.",
+        "group": "early-development"
+      },
+      {
+        "term": "Readiness",
+        "meaning": "Being developmentally prepared for a task or concept.",
+        "group": "early-development"
+      },
+      {
+        "term": "Participation",
+        "meaning": "Joining in attentively with class activities and routines.",
+        "group": "early-development"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "waldorf-learning",
+        "label": "Waldorf learning"
+      },
+      {
+        "key": "school-relationships",
+        "label": "School relationships"
+      },
+      {
+        "key": "early-development",
+        "label": "Early development"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about teachers and classmates with ease or hesitation.",
+      "examples of enjoying stories, art, movement, or handwork versus withdrawing from them.",
+      "signs that routine changes upset their sense of safety or focus.",
+      "whether they describe learning as trying, copying, and practicing or as feeling lost.",
+      "how often social worries come up when discussing school"
+    ],
+    "avoid": [
+      "Treating the role like a job with adult-style ownership and performance language.",
+      "Assuming academic progress is the only useful signal of how things are going.",
+      "Dismissing arts, movement, or handwork as secondary to real learning.",
+      "Pushing for independence beyond what is realistic for an early-stage student"
+    ]
+  }
+}

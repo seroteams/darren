@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-04T03:26:54.160Z",
-  "count": 4198,
+  "generated_at": "2026-07-04T07:26:29.214Z",
+  "count": 4212,
   "aliases": [
     "q_50_percent_in_practice",
     "q_a_lot_landing",
@@ -9,6 +9,7 @@
     "q_adjacent_area",
     "q_adjacent_problems",
     "q_adjacent_trust",
+    "q_after_school_running",
     "q_after_the_decision",
     "q_after_the_push",
     "q_after_the_ship",
@@ -163,6 +164,7 @@
     "q_clarify_ok_8",
     "q_clarify_ok_9",
     "q_clarify_shift",
+    "q_classmate_ease",
     "q_cleanup_and_reviews",
     "q_cleanup_drag",
     "q_cleanup_thread",
@@ -198,6 +200,7 @@
     "q_closer_next_steps_3",
     "q_closer_next_steps_5",
     "q_closer_on_support",
+    "q_closer_on_support_2",
     "q_closing_focus",
     "q_coasting_read",
     "q_coasting_this_week",
@@ -982,6 +985,7 @@
     "q_harder_parts",
     "q_hardest_part_now",
     "q_hardest_pressure",
+    "q_hardest_transition",
     "q_heads_up_barrier",
     "q_heads_up_context",
     "q_heads_up_point",
@@ -1199,6 +1203,7 @@
     "q_low_novelty",
     "q_low_stretch",
     "q_main_blocker",
+    "q_main_lesson_comfort",
     "q_main_pull",
     "q_make_it_ready",
     "q_manager_asks",
@@ -1839,6 +1844,7 @@
     "q_next_two_weeks_34",
     "q_next_two_weeks_35",
     "q_next_two_weeks_36",
+    "q_next_two_weeks_37",
     "q_next_two_weeks_4",
     "q_next_two_weeks_41",
     "q_next_two_weeks_5",
@@ -1980,6 +1986,7 @@
     "q_pairing_thread_2",
     "q_pairing_thread_3",
     "q_pairing_thread_4",
+    "q_participation_shift",
     "q_partner_bets",
     "q_partner_momentum",
     "q_partner_pull",
@@ -2177,6 +2184,7 @@
     "q_prep_opener_190",
     "q_prep_opener_191",
     "q_prep_opener_192",
+    "q_prep_opener_193",
     "q_prep_opener_2",
     "q_prep_opener_20",
     "q_prep_opener_21",
@@ -3295,6 +3303,7 @@
     "q_safe_mode_4",
     "q_safe_mode_driver",
     "q_said_no_to_what",
+    "q_say_more",
     "q_say_no_moments",
     "q_say_no_to",
     "q_say_yes_no",
@@ -3489,6 +3498,7 @@
     "q_steady_support",
     "q_steadying_support",
     "q_sticking_points",
+    "q_still_feels_good",
     "q_still_in_motion",
     "q_still_open",
     "q_still_unresolved",
@@ -3686,6 +3696,7 @@
     "q_switching_pattern",
     "q_tactical_drift",
     "q_tactical_pull",
+    "q_teacher_check",
     "q_team_bar",
     "q_team_bar_10",
     "q_team_bar_11",
@@ -4086,6 +4097,7 @@
     "q_what_got_dropped",
     "q_what_he_heard",
     "q_what_helps",
+    "q_what_helps_most",
     "q_what_holding_back",
     "q_what_is_stuck",
     "q_what_it_means",
@@ -4196,6 +4208,8 @@
     "q_workload_tradeoffs",
     "q_worth_keeping",
     "q_worth_owning",
+    "q_writing_clarify",
+    "q_writing_impact",
     "q_written_summary_miss",
     "q_yeses_right_now",
     "q_your_support",
@@ -4229,6 +4243,10 @@
     {
       "alias": "q_adjacent_trust",
       "subdir": ""
+    },
+    {
+      "alias": "q_after_school_running",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_after_the_decision",
@@ -4847,6 +4865,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_classmate_ease",
+      "subdir": ""
+    },
+    {
       "alias": "q_cleanup_and_reviews",
       "subdir": ""
     },
@@ -4984,6 +5006,10 @@
     },
     {
       "alias": "q_closer_on_support",
+      "subdir": ""
+    },
+    {
+      "alias": "q_closer_on_support_2",
       "subdir": ""
     },
     {
@@ -8123,6 +8149,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_hardest_transition",
+      "subdir": ""
+    },
+    {
       "alias": "q_heads_up_barrier",
       "subdir": ""
     },
@@ -8988,6 +9018,10 @@
     },
     {
       "alias": "q_main_blocker",
+      "subdir": ""
+    },
+    {
+      "alias": "q_main_lesson_comfort",
       "subdir": ""
     },
     {
@@ -11551,6 +11585,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_two_weeks_37",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_two_weeks_4",
       "subdir": ""
     },
@@ -12134,6 +12172,10 @@
     },
     {
       "alias": "q_pairing_thread_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_participation_shift",
       "subdir": ""
     },
     {
@@ -12922,6 +12964,10 @@
     },
     {
       "alias": "q_prep_opener_192",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_193",
       "subdir": ""
     },
     {
@@ -17397,6 +17443,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_say_more",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_say_no_moments",
       "subdir": ""
     },
@@ -18170,6 +18220,10 @@
     },
     {
       "alias": "q_sticking_points",
+      "subdir": ""
+    },
+    {
+      "alias": "q_still_feels_good",
       "subdir": ""
     },
     {
@@ -18958,6 +19012,10 @@
     },
     {
       "alias": "q_tactical_pull",
+      "subdir": ""
+    },
+    {
+      "alias": "q_teacher_check",
       "subdir": ""
     },
     {
@@ -20561,6 +20619,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_what_helps_most",
+      "subdir": ""
+    },
+    {
       "alias": "q_what_holding_back",
       "subdir": ""
     },
@@ -20999,6 +21061,14 @@
     {
       "alias": "q_worth_owning",
       "subdir": ""
+    },
+    {
+      "alias": "q_writing_clarify",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_writing_impact",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_written_summary_miss",

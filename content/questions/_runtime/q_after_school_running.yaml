@@ -1,0 +1,10 @@
+alias: q_after_school_running
+label: After-school running
+name: What is it about running after school that feels hardest?
+description: Drills into the specific activity he named to locate the friction more clearly.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: When running after school

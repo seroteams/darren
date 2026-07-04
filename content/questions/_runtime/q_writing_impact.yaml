@@ -1,0 +1,10 @@
+alias: q_writing_impact
+label: Writing impact
+name: What is it about writing that makes your legs bother you more?
+description: Drills into the concrete writing thread to locate what part of that activity is hardest.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: when he is writing

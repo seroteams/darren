@@ -1,0 +1,10 @@
+alias: q_writing_clarify
+label: Writing clarify
+name: "When you say 'get in the way' while writing, what part is hardest?"
+description: Clarifies the garbled writing answer so the manager can locate the concrete difficulty.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: get in tht way if when i aplaying
