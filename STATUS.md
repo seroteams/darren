@@ -11,21 +11,19 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 **Now active: [pre-go-live](docs/pre-go-live/OVERVIEW.md) — the manager's Team & Runs, ratings, and a
 superadmin window on the alpha.** 9 phases, one at a time.
-**PG1 (Runs list) ✅ · PG2 (Reopen a run) ✅ — 2026-07-01. PG3 (Rate a 1:1) ✅ — 2026-07-03. PG4 (Team —
-auto-built) ✅ · PG5 (Person detail) ✅ — signed off + committed 2026-07-04.** The Runs page (now **"Past
-1:1s"**) lists your own past 1:1s, each re-openable and rateable (1–5★ + note); the **Team** page builds
-itself (one card per person, times met / last met / avg usefulness); clicking a person opens **their page**
-— their 1:1s, a **"Since last time"** recap of last meeting's agreed actions + watch-fors, and a one-tap
-**"Prep your next 1:1"** that seeds the form (free until you run a pipeline).
+**PG1–PG5 ✅ (through 2026-07-04) · PG6 (Superadmin gate) ✅ — signed off + committed 2026-07-04.** The
+member side is done: **"Past 1:1s"** list + reopen + rate, the auto-built **Team**, and each person's page
+with a **"Since last time"** recap and one-tap **"Prep your next 1:1"**. Behind the scenes, your account now
+has a read-only, cross-company **superadmin key** — server-resolved allowlist, read-only by construction,
+one audit line per access, proven by 13 tests (the dev side-door can't pass). No screen yet.
 
-**▶ Your move: PG6 (Superadmin gate) — broken down into 3 test-first steps + QA, nothing built yet.** Say
-**"go"** and I'll build Step 01 (the guard, test-first): your account gains a read-only, cross-company key
-(proven by tests, no screen yet) — the one intentional wall-crossing, tightly gated (server-resolved email
-allowlist, GET-only module, one audit line per access, dev side-door can't satisfy it).
-Plan: [docs/pre-go-live/006-superadmin-gate/01-superadmin-guard.md](docs/pre-go-live/006-superadmin-gate/01-superadmin-guard.md).
+**▶ Your move: PG7 (Admin — who's registered) — not yet broken down.** Say **"go"** and I'll break PG7 into
+steps: the first superadmin **screen** — every alpha company and its users (names, roles, joined-when, run
+counts), built on the PG6 `GET /api/v1/admin/registered` endpoint, gated so only you can reach it.
+Plan: [docs/pre-go-live/007-admin-registered/00-phase-overview.md](docs/pre-go-live/007-admin-registered/00-phase-overview.md).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
 
-> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG5 sign-off + commit.
+> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG6 sign-off + commit.
 > In any fresh session, say **"check point"** and I'll read this file + the PROGRESS log + recent
 > commits and give you the full "where we are, your move" picture — no digging needed.
 

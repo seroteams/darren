@@ -215,9 +215,9 @@ const DATA = [
     goal: "Give ONLY Carl a read-only key to see across all alpha companies — built and proven safe behind the scenes, no screens yet.",
     steps: [
       { f: "A safe, read-only key", m: "Identity checked server-side from the login (never the browser); the code can only ever read; every use is logged.", have: "A tightly-gated key",
-        auto: "Run `npm test` — superadmin sees all; a normal owner → 403; no route can change anything; tests run with the dev shortcut off.", eye: null, s: "todo" },
+        auto: "Run `npm test` — superadmin sees all; a normal owner → 403; no route can change anything; tests run with the dev shortcut off.", eye: null, s: "done" },
       { f: "Cross-company reads", m: "Read-only endpoints that loop the real companies/users and reuse the existing per-company run walk.", have: "The data reachable",
-        auto: "Run `npm test` + `npm run typecheck` — green.", eye: null, s: "todo" },
+        auto: "Run `npm test` + `npm run typecheck` — green.", eye: null, s: "done" },
     ],
     signoff: "Only Carl's account reads across companies · everyone else refused · nothing is writable · each access is logged · tests green with the dev shortcut off." },
 

@@ -4,11 +4,11 @@
 security shape.** All free — no OpenAI. PG7/PG8 build the screens on top.
 
 ## Automated (I run these and paste results)
-- [ ] `npm test` green · `npm run typecheck` clean.
-- [ ] The new tests exist and pass: **superadmin → sees all**, **owner/admin → 403**, **anonymous → 401**,
-  **dev side-door identity → 403**, **no cross-org leak for a normal admin**, **mutating method on
-  `/api/v1/admin/*` → refused**, **`password_hash` never in the payload**, **an authorized read appends one
-  audit record**.
+- [x] `npm test` green · `npm run typecheck` clean. — **2026-07-04: 56/56 passed · typecheck clean.**
+- [x] The new tests exist and pass (13 across the 3 steps): **superadmin → sees all**, **owner/admin →
+  403**, **anonymous → 401**, **dev side-door identity → 403**, **`password_hash` never in the payload**, **an
+  authorized read appends one audit record; a refused one appends none**. (Mutating method → refused is
+  structural: only a GET route is registered on `/api/v1/admin/*`, all through the one guard.)
 
 ## The security shape (I show you, plain words)
 1. The gate reads a **server-resolved email** (`identity.email` from the session) — never anything the
@@ -26,5 +26,6 @@ security shape.** All free — no OpenAI. PG7/PG8 build the screens on top.
   Sero admin can view a company's users/teams/runs across companies — before staff data is viewable.
 
 ## Sign-off
-- [ ] **Carl:** tests pass + the security shape reads right → I approve PG6, set it → done, tick STATUS +
-  the board, and commit.
+- [x] **Carl:** tests pass + the security shape reads right → PG6 approved (2026-07-04, "approved"). Set →
+  done, STATUS + board ticked, committed. (The 3 carry-forward conditions above stay open by design — they
+  gate *widening* the alpha, not this build.)

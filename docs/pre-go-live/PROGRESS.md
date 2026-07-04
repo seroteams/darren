@@ -10,13 +10,19 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 006 — Superadmin gate (backend) — `awaiting-qa` (all 3 steps built test-first 2026-07-04)**
+**→ Phase 007 — Admin: who's registered — `not-started` (not yet broken down)**
 
-**Your move: walk [99-qa-signoff.md](006-superadmin-gate/99-qa-signoff.md).** Mostly reading test results +
-confirming the security shape (server-resolved allowlist, dev side-door can't pass, read-only-by-construction,
-one audit line). On your green light PG6 → done, STATUS + board ticked, committed. Note the three
-carry-forward conditions before the alpha widens (human-expert review scope, close anon session route,
-privacy-note disclosure).
+Next up: say "go" to break PG7 into steps. The first superadmin **screen** — Carl sees every alpha company
+and its users (names, roles, when they joined, run counts), built on the PG6 `GET /api/v1/admin/registered`
+endpoint. Frontend, gated so only the superadmin can reach the page.
+
+**Phase 006 — Superadmin gate — ✅ `done` (signed off + committed 2026-07-04).** Carl approved the security
+shape + tests ("approved"). Backend-only, test-first (13 tests): `requireSuperadmin` guard reads the
+server-resolved `identity.email` against `SUPERADMIN_EMAILS` (dev side-door can't pass); read-only-by-
+construction `superadmin` service + guarded GET `/api/v1/admin/registered` (no `password_hash`); one audit
+line per access (refused access not audited). 56/56, typecheck clean. **Carry-forward before the alpha
+widens** (still open by design): human-expert review must cover this key · close anon `POST /api/v1/sessions`
+· privacy-note disclosure.
 
 Broken into 3 test-first steps + QA. Backend-only, no screen (PG7/PG8 build those). **Verified anchors while
 breaking it down:** `RequestIdentity` **already** carries a server-resolved `email` (request-context.ts:16),
@@ -158,8 +164,8 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
 | 003 | Rate a 1:1 | ✅ done (signed off + committed) |
 | 004 | Team — auto-built people | ✅ done (signed off + committed) |
 | 005 | Person detail | ✅ done (signed off + committed) |
-| 006 | Superadmin gate (backend) | planned (broken down; building next) |
-| 007 | Admin: who's registered | not-started |
+| 006 | Superadmin gate (backend) | ✅ done (signed off + committed) |
+| 007 | Admin: who's registered | not-started (next) |
 | 008 | Admin: user → teams → runs | not-started |
 | 009 | Roster + polish | not-started |
 
@@ -265,3 +271,12 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   Carl walked it ("looks good commit") → PG5 ✅. Ticked STATUS + SERO_BOARD + build badges (PG5 3 steps →
   done) + how-it-works changelog. Free checks green throughout (53/53, typecheck clean); no paid runs.
   Next: `go` → break down Phase 006 (superadmin gate).
+- **2026-07-04** — **Phase 006 built + signed off + committed.** Broke PG6 into 3 test-first steps + QA,
+  grounded against real symbols (found `RequestIdentity.email` is already server-resolved, so the guard was a
+  thin add). Built test-first: Step 01 guard (`23b59a37`, `requireSuperadmin` + `requireSuperadminRoute`, 8
+  tests incl. dev-side-door → 403), Step 02 cross-company read (`370cdc64`, read-only `superadmin`
+  service/repo + guarded GET `/api/v1/admin/registered`, no `password_hash`), Step 03 audit line
+  (`cbfe99c6`, one JSONL record per access, refused not audited, hermetic). Carl approved the security shape
+  + tests ("approved") → PG6 ✅. Ticked STATUS + SERO_BOARD + build badges (PG6 2 chips → done) + changelog.
+  56/56, typecheck clean; no paid runs. **Carry-forward before widening the alpha stays open by design.**
+  Next: `go` → break down Phase 007 (who's registered — the first superadmin screen).
