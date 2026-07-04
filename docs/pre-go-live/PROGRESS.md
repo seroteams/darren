@@ -359,3 +359,8 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   service directly, never the HTTP route. **Gap flagged:** no route-level wiring test exists — a follow-up.
   Visual superadmin walk still owed by Carl (needs his own `carl@seroteams.com` login; the dev side-door is
   non-superadmin by design). 57/57 + typecheck still green.
+- **2026-07-04** — **Closed the route-test gap (`2dd8722a`).** Added `backend/api/router.test.ts` driving the
+  real `handle()`: a RegExp named-group route captures `:id`; an Express-style string `":id"` route does NOT
+  match a real id (falls to 404) — the exact contract that let the PG8 bug through. Runner now 58/58 files,
+  typecheck clean, pushed. **PG8 status: Steps 01–02 built + route bug fixed + guarded; only the visual
+  superadmin walk (Carl) and Step 03 (open a briefing read-only) remain to close PG8.**
