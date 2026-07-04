@@ -22,7 +22,8 @@ auto-built from past 1:1s + person detail, and a **superadmin** read-only window
 **PG1–PG7 ✅ done** (Runs list, reopen, rate a 1:1, Team auto-built + "Past 1:1s", the per-person page with
 "Since last time" + "Prep next 1:1", the read-only cross-company superadmin gate, and the **Registered**
 screen — every alpha company + people with the return-visit signal + rating summary, superadmin-only — all
-signed off, committed to `main`). **PG8 (Admin: user → teams → runs — the drilldown) is next.** No paid runs.
+signed off, committed to `main`). **PG8 (Admin: user → teams → runs — the drilldown): Steps 01–02 built,
+awaiting Carl's QA; Step 03 (open a briefing read-only) not built yet.** No paid runs.
 
 **✅ Closed (2026-07-01): Phase 009 — Getting ready to share (real-data alpha).** Every actionable phase
 done; hosting (2) + continuity (8) folded into the pre-go-live track above
@@ -77,7 +78,7 @@ mirrors it:
 The QA pile is cleared. The two still-open rows (see-before-sent live, briefing-readability P0) await a
 Carl walk → green light → close out to `done/`.
 
-Tests: `npm test` **52/52** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
+Tests: `npm test` **57/57** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
 (not automated); `main` is currently **ahead of origin** (local-only by Carl's call — nothing pushed).
 
 ## 2. Next — after Now is green
@@ -97,12 +98,11 @@ Completed work has been cleared from this board. The record lives in git history
 
 Phases 001–006 are all closed and archived under `docs/todo/done/`; Phase 007 (login screen, folded into the admin console) is **done** — both phases committed, plan closed to `docs/todo/done/login-screen/`.
 **There is no auto-commit/push automation** — commits are made explicitly. `main` is currently **ahead of
-origin** (local-only by Carl's call for the ultra batch — pushing remains a deliberate manual step). Three old
-stashes exist (`cleanup/remove-dead-ai-handoff-core`, `design-system-foundation`, + a WIP CSS/HTML
-cleanup) — **do not pop**. `logs/**` is gitignored apart from a small May keep-set (de-identified — no
-real names or notes).
+origin** (local-only by Carl's call for the ultra batch — pushing remains a deliberate manual step). The three
+old stashes were archived as `archive/*` tags + dropped 2026-06-29; the stash list is clean — keep it clean.
+`logs/**` is gitignored apart from a small May keep-set (de-identified — no real names or notes).
 
-**Test status:** `npm test` **52/52** green, `npm run typecheck` clean, offline ($0). Live
+**Test status:** `npm test` **57/57** green, `npm run typecheck` clean, offline ($0). Live
 gate/smoke/eval are PAID and need a per-run go-ahead. Sign-off is tracked per-phase in each PLAN.md,
 `STATUS.md`, and Section 1 above.
 

@@ -10,28 +10,44 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 007 — Admin: who's registered — `planned` (broken down 2026-07-04; no code written yet)**
+**→ Phase 008 — Admin: user → teams → runs (the drilldown) — `awaiting-qa` (Steps 01–02 built 2026-07-04)**
 
-Broken into 2 steps + QA. **Finding while breaking it down:** the PG6 endpoint returns companies → users
-**only** (run stats were out of PG6 scope), but the PG7 screen wants run counts / last-active / rating
-summary — so **Step 01 is a backend enrichment step**, not just a frontend screen as the terse overview
-implied. **Open scope choice for Carl:** full return-visit signal (run count + last-active + this-week/last-
-week + alpha rating summary) vs a minimal list (company → users + run count + last-active). Steps written to
-the full scope; easy to trim at build time.
+From the Registered screen, click a user → see their people (reuse PG4 grouping) + their runs with ratings
+(PG1/PG3), open any run read-only (PG2). Mostly composes existing pieces behind the PG6 superadmin gate.
 
-PG7 steps:
-- [ ] **01 — Enrich the registered data** ([01-registered-data.md](007-admin-registered/01-registered-data.md))
-  — backend, test-first. Add per-user `runCount` / `lastActiveAt` / `runsThisWeek` / `runsLastWeek` + a
-  top-level alpha `summary` (avgStars / ratedCount / lowCount) to `GET /api/v1/admin/registered`. Derivation
-  in the service (fake-repo testable, `now` passed in); still guarded, read-only, no `password_hash`.
-- [ ] **02 — The "Registered" screen** ([02-registered-screen.md](007-admin-registered/02-registered-screen.md))
-  — frontend admin stage at `/admin/registered` (admin page pattern), fetch + render companies → users with
-  the signal + summary; own states. Nav item shown only to the superadmin via a new `isSuperadmin` flag on
-  `GET /api/v1/auth/me` (a boolean, never the allowlist) — **cosmetic; the backend 403 stays the real wall.**
-- [ ] **99 — QA sign-off** ([99-qa-signoff.md](007-admin-registered/99-qa-signoff.md)) — Carl sees every
-  company + users + signal; a normal owner: no nav item **and** 403 on the route.
+PG8 steps:
+- [x] **01 — Per-user runs read (backend)** — **built test-first, awaiting QA.** Superadmin-only
+  `GET /api/v1/admin/users/:id/runs`: `run-history.listFinishedRunsForUser(userId)` (org-unfenced, by
+  userId) → repo `listRunsForUser()` → service `userRuns()` (newest-first, ratings included) → controller +
+  gated route (`superadminV1`, can't be added un-gated). 2 new service tests. 57/57, typecheck clean.
+- [x] **02 — The drilldown screen** — **built, awaiting QA.** New admin stage `admin-user-detail.ts` at
+  `/admin/users/:id` (6-step pattern); Registered rows are now buttons that drill in; reuses PG4
+  `groupRunsByPerson` for the people list + PG1 rows / PG3 star badges for the 1:1s; back +
+  loading/empty/error, all escaped, ≥14px. Superadmin-only (ADMIN_USER in ADMIN_ONLY + backend 403). 57/57,
+  both typechecks + build green. **QA needs the API restarted:** as superadmin, Registered → click a user →
+  their people + 1:1s + ratings → back; as a normal manager: refused.
+- [ ] **03 — Open a briefing read-only** — **not built.** Wire a drilldown run row to reopen the PG2
+  read-only detail. Closes PG8.
+- [ ] **99 — QA sign-off** ([99-qa-signoff.md](008-admin-user-drilldown/99-qa-signoff.md)).
 
-Next: `go` (full scope) or "trim to minimal" → then build Step 01.
+Next: Carl QA of Steps 01–02 → build Step 03 → close PG8.
+
+**Phase 007 — Admin: who's registered — ✅ `done` (signed off + committed 2026-07-04, `c95a0052` +
+`a1781799`).** Carl green-lit both steps ("go for it now"). The **Registered** superadmin screen is live:
+every alpha company + its people with the return-visit signal (run counts / last-active / this-week /
+last-week) + the alpha-wide ★ rating summary; nav item superadmin-only via an `isSuperadmin` boolean on
+`/auth/me`, backend 403 the real wall.
+
+<details><summary>PG7 step detail (built full-scope per Carl's "go")</summary>
+
+- [x] **01 — Enrich the registered data** — per-user `runCount` / `lastActiveAt` / `runsThisWeek` /
+  `runsLastWeek` + a top-level alpha `summary` (avgStars / ratedCount / lowCount) on
+  `GET /api/v1/admin/registered`; derivation in the service (`now` injected), read-only, no `password_hash`.
+- [x] **02 — The "Registered" screen** — `admin-registered.ts` at `/admin/registered`; nav item gated by the
+  `isSuperadmin` flag (cosmetic; backend 403 is the wall).
+- [x] **99 — QA sign-off** — signed off 2026-07-04.
+
+</details>
 
 **Phase 006 — Superadmin gate — ✅ `done` (signed off + committed 2026-07-04).** Carl approved the security
 shape + tests ("approved"). Backend-only, test-first (13 tests): `requireSuperadmin` guard reads the
@@ -182,8 +198,8 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
 | 004 | Team — auto-built people | ✅ done (signed off + committed) |
 | 005 | Person detail | ✅ done (signed off + committed) |
 | 006 | Superadmin gate (backend) | ✅ done (signed off + committed) |
-| 007 | Admin: who's registered | planned (broken down; building next) |
-| 008 | Admin: user → teams → runs | not-started |
+| 007 | Admin: who's registered | ✅ done (signed off + committed) |
+| 008 | Admin: user → teams → runs | 🔨 Steps 01–02 built, awaiting QA · Step 03 not built |
 | 009 | Roster + polish | not-started |
 
 ## Baseline (fill in before touching code in a phase)

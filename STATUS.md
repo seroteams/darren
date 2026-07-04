@@ -138,14 +138,15 @@ like 8 things are half-done at once — they aren't.
 
 | Plan | State |
 |---|---|
+| [run-qa-fixes-jul04](docs/todo/run-qa-fixes-jul04/PLAN.md) | scaffolded 2026-07-04 — 4 phases ⬜, awaiting Carl's "go" on Phase 1 (fixes for the Brian-run defects) |
 | [planner-grounding](docs/todo/planner-grounding/PLAN.md) | parked — awaiting scope pick (A/B/C/all) |
 | [briefing-readability-p0](docs/todo/briefing-readability-p0/PLAN.md) | parked |
 | [briefing-grounding-fixes](docs/todo/briefing-grounding-fixes/PLAN.md) | awaiting |
 | [see-before-sent](docs/todo/see-before-sent/PLAN.md) | awaiting |
 | [sent-preview](docs/todo/sent-preview/PLAN.md) | awaiting |
 | [stage-data-tabs](docs/todo/stage-data-tabs/PLAN.md) | awaiting |
-| [repo-tidy](docs/todo/repo-tidy/PLAN.md) | ✅ done (all 4 phases; 3–4 via 009 P6) |
-| [tracker-consolidation](docs/todo/tracker-consolidation/PLAN.md) | ✅ done (all 4 phases; 2–4 via 009 P7) |
+| [repo-tidy](docs/todo/done/repo-tidy/PLAN.md) | ✅ done (all 4 phases; 3–4 via 009 P6) — archived to done/ |
+| [tracker-consolidation](docs/todo/done/tracker-consolidation/PLAN.md) | ✅ done (all 4 phases; 2–4 via 009 P7) — archived to done/ |
 | [todo-board-rebuild](docs/todo/todo-board-rebuild/PLAN.md) | awaiting |
 
 When one becomes live, move it up into "Your move" above and start its phases.
