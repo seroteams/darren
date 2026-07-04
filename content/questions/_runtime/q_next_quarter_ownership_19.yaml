@@ -1,0 +1,10 @@
+alias: q_next_quarter_ownership_19
+label: Next quarter ownership
+name: What feels most unclear about next quarter ownership right now?
+description: Drills into the specific source of her uncertainty before moving on.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: "Unsure what she's owning next quarter"
