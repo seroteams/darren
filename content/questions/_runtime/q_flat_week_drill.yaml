@@ -1,0 +1,10 @@
+alias: q_flat_week_drill
+label: Flat week drill
+name: You said this week feels flatter than expected — what feels flat about it?
+description: Drills into the specific shape of the post-launch flatness before moving on.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: flatter this week than expected

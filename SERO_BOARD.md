@@ -88,7 +88,7 @@ Tests: `npm test` **57/57** (offline, $0) · `npm run typecheck` clean. Commits 
 | Item | Scope |
 |---|---|
 | **Next-stage build** | **✅ ALL 8 PHASES DONE 2026-06-16** → `done/`. Hardening core (contracts, persistence/resume, deterministic fallback) + feature passes (issue pills + observed shift, prep quality, prep timeline UI, runner polish, shared/private split). One carve-out — cross-session follow-up auto-injection — **un-parked 2026-06-21** (now its own item below). |
-| **Cross-session follow-up (continuity)** | **Un-parked 2026-06-21.** Carry prior-meeting context forward so meeting #2 reviews meeting #1's actions and commitments — the return-visit loop. Still needs person-profiles linking. *Why now:* three independent alpha-readiness research reports flagged the two-cycle return visit as central to proving willingness-to-pay — value shows on meeting #2, not #1. Not started. |
+| **Cross-session follow-up (continuity)** | **⛔ HARD-PARKED by Carl (2026-07-04) — do NOT build until he explicitly says go.** The return-visit loop (meeting #2 reviews meeting #1's actions). Research flags it as the willingness-to-pay driver, but Carl knows that and still wants it held. Plan scaffolded + hard-parked at [docs/todo/continuity/PLAN.md](docs/todo/continuity/PLAN.md), no code written. |
 
 ## 3. Done
 

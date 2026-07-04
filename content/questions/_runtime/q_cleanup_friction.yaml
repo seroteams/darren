@@ -1,10 +1,10 @@
 alias: q_cleanup_friction
 label: Cleanup friction
-name: In that cleanup and review work, where is it snagging most?
-description: Drills into the concrete work thread she just named to surface the main source of friction.
+name: In the cleanup and reviews, where is things getting sticky?
+description: Drills into the concrete post-launch friction she just named before moving deeper into the arc.
 purpose: topic
-stage: pulse
+stage: friction
 axis_effects:
-  wellbeing: +3
+  engagement: +3
 source: planner_added
 grounding: cleanup and reviews

@@ -10,8 +10,18 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 008 — Admin: user → teams → runs (the drilldown) — built end-to-end; Steps 01–02 signed off,
-Step 03 `awaiting-qa` (all built 2026-07-04)**
+**🎉 Pre-go-live BUILD COMPLETE — PG1–PG9 all signed off (Carl approved PG8 + PG9 on 2026-07-04).**
+The whole 9-phase pre-go-live track is done: manager Runs + reopen + rate, auto-built Team, person page with
+"Since last time", the superadmin gate + Registered screen + user drilldown (incl. open-a-briefing), and the
+Tidy-up (merge/rename/roll-ups). Next: the alpha **safety gate** (AG1 — before widening past 2–3 managers)
+and any parked plans Carl picks up. **Continuity is HARD-PARKED by Carl — do not build.**
+
+---
+
+_Phase detail below is kept as the historical record._
+
+**Phase 008 — Admin: user → teams → runs (the drilldown) — ✅ done (signed off 2026-07-04). Built end-to-end;
+Steps 01–02 signed off, Step 03 built + approved.**
 
 From the Registered screen, click a user → see their people (reuse PG4 grouping) + their runs with ratings
 (PG1/PG3), open any run read-only. Composes existing pieces behind the PG6 superadmin gate.
@@ -201,8 +211,8 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
 | 005 | Person detail | ✅ done (signed off + committed) |
 | 006 | Superadmin gate (backend) | ✅ done (signed off + committed) |
 | 007 | Admin: who's registered | ✅ done (signed off + committed) |
-| 008 | Admin: user → teams → runs | 🔨 built end-to-end · 01–02 signed off · Step 03 awaiting final walk |
-| 009 | Roster + polish | 🔨 built end-to-end (merge + rename + roll-ups) · awaiting walk |
+| 008 | Admin: user → teams → runs | ✅ done (signed off 2026-07-04) |
+| 009 | Roster + polish | ✅ done (signed off 2026-07-04) |
 
 ## Baseline (fill in before touching code in a phase)
 - **2026-07-01 — Phase 001 baseline (free checks, no OpenAI):** `npm test` **53/53 passed**,

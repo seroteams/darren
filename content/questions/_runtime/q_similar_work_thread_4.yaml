@@ -1,0 +1,10 @@
+alias: q_similar_work_thread_4
+label: Similar work thread
+name: What has felt too similar about the work lately?
+description: Drills into the plateau thread to surface what specifically feels repetitive.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: similar work for months

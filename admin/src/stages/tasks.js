@@ -233,7 +233,7 @@ const DATA = [
       { f: "User → people + 1:1s", m: "Drill from a user into their people (same grouping) and their 1:1s with ratings.", have: "The full picture",
         auto: "Run `npm test` + `npm run typecheck` — green; still refused for normal owners.", eye: "As Carl, open a user → their people + 1:1s + ratings.", s: "done" },
       { f: "Open a briefing read-only", m: "Reuse the member-safe read-only view; never the richer admin readers.", have: "See what they saw",
-        auto: "Run `npm test` — 58/58; new GET /api/v1/admin/runs/:id gates (401), not 404.", eye: "A 1:1 opens read-only.", s: "doing" },
+        auto: "Run `npm test` — 58/58; new GET /api/v1/admin/runs/:id gates (401), not 404.", eye: "A 1:1 opens read-only.", s: "done" },
     ],
     signoff: "Carl drills user → people → 1:1s → ratings and opens briefings read-only · normal owners refused · no cross-company leak for anyone else." },
 
@@ -241,9 +241,9 @@ const DATA = [
     goal: "Once there's real history: merge duplicate people and see simple rating roll-ups. (Manual roster + charts stay parked for after the alpha.)",
     steps: [
       { f: "Merge duplicates", m: "Merge two cards that are the same person, and edit a name; history combines and sticks.", have: "One card per real person",
-        auto: "Run `npm test` (60/60) + `npm run typecheck` — green; team routes gate 401. The merge survives a reload.", eye: "Merge 'Priya' + 'Priya S.' → one card with combined history.", s: "doing" },
+        auto: "Run `npm test` (60/60) + `npm run typecheck` — green; team routes gate 401. The merge survives a reload.", eye: "Merge 'Priya' + 'Priya S.' → one card with combined history.", s: "done" },
       { f: "Rating roll-ups", m: "Per-person average usefulness with its count.", have: "Simple roll-ups",
-        auto: "Combined average falls out of the merge (shared person key).", eye: "A person shows a combined average with its count.", s: "doing" },
+        auto: "Combined average falls out of the merge (shared person key).", eye: "A person shows a combined average with its count.", s: "done" },
     ],
     signoff: "Duplicate people merge into one card with combined history · the merge persists · per-person roll-ups read correctly." },
 
@@ -258,7 +258,7 @@ const DATA = [
       { f: "Close the open session start", m: "Starting a 1:1 currently lets logged-out visitors in by decision — fine for the tiny alpha. Close it before widening so every run belongs to a signed-in person.", have: "Login required to start a 1:1",
         auto: "Run `npm test` — a logged-out start is refused (401).", eye: null, s: "todo" },
       { f: "Update the privacy note", m: "Before their staff data is viewable, tell managers that ratings (including the private note) are stored, and that a Sero admin can read across companies.", have: "An honest, current privacy note",
-        auto: null, eye: "The privacy note mentions rating storage and the cross-company admin view.", s: "doing" },
+        auto: null, eye: "The privacy note mentions rating storage and the cross-company admin view.", s: "done" },
       { f: "Lock down the rating note", m: "The private 'what missed?' note must never reach an employee-facing screen and never be logged. The rating file is already git-ignored; this confirms the rest.", have: "The rating note proven private",
         auto: "Run `npm test` — the rating note never appears in employee-facing/shared output.", eye: null, s: "todo" },
     ],

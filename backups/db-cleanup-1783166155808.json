@@ -1,0 +1,157 @@
+{
+  "when": "2026-07-04T11:55:55.807Z",
+  "users": [
+    {
+      "id": "258ecacd-64c1-4412-94dd-eeba59ea0faa",
+      "email": "ph007.1782712094@test.dev",
+      "name": "Phase7 Tester",
+      "org_id": "9236a482-7e77-40c9-80b9-77dc1d14404f"
+    },
+    {
+      "id": "69791b04-bea9-4fea-8818-fbf2e6fd23f3",
+      "email": "weak@test.dev",
+      "name": "X",
+      "org_id": "debb8832-22cd-47eb-ac9c-5db009e1f2c1"
+    },
+    {
+      "id": "dacff81e-4154-46be-a64e-3d0f249a82b2",
+      "email": "carl.uiwalk.001@test.dev",
+      "name": "Carl UIWalk",
+      "org_id": "dd9fecc7-29f1-4882-98e2-8269413f7a1d"
+    },
+    {
+      "id": "fd65164a-e8a3-46ed-b7ca-e63ca6dd33b4",
+      "email": "wall-b-1782721166142@example.com",
+      "name": "User B",
+      "org_id": "069f1956-79b3-48a4-8dad-ba8709c17e6e"
+    },
+    {
+      "id": "8a8d84cc-b827-4162-9648-e74d1f2b94e3",
+      "email": "runs-1782871354807@example.com",
+      "name": "Runs User",
+      "org_id": "0b55ae1f-6a7e-4f61-a3a9-9fb4ce08be1d"
+    },
+    {
+      "id": "2a369cfe-9489-4328-a291-9edcef4340ce",
+      "email": "seedmgr+1782919006986@example.com",
+      "name": "Dana Manager",
+      "org_id": "05dc0a92-a868-4a31-b5ce-0df852752558"
+    },
+    {
+      "id": "4909d7d6-c030-44bb-b82b-81e9139b5438",
+      "email": "seedmgr2+1782919151238@example.com",
+      "name": "Sam Other",
+      "org_id": "f19f5866-71b2-4ff9-842d-5baa48910e8b"
+    },
+    {
+      "id": "7df2b986-c551-4066-931c-183a36c966d7",
+      "email": "probe@test.com",
+      "name": "Probe",
+      "org_id": "d4582041-3d90-4d7c-acdf-46fe5c20fe79"
+    },
+    {
+      "id": "326f67ff-b047-4e82-a8d4-8d9c57f3cb40",
+      "email": "demo@sero.test",
+      "name": "Demo Manager",
+      "org_id": "702f9cd0-07ef-4e6a-8b1a-00e63e90bea6"
+    }
+  ],
+  "orgs": [
+    {
+      "id": "08ee6126-cd6e-40f7-a3e7-2f1ef3279523",
+      "name": "Default Org (pre-Phase-4)",
+      "other_users": "0",
+      "sessions": "0",
+      "runs": "0"
+    },
+    {
+      "id": "9236a482-7e77-40c9-80b9-77dc1d14404f",
+      "name": "Phase7 Tester's Company",
+      "other_users": "0",
+      "sessions": "0",
+      "runs": "0"
+    },
+    {
+      "id": "debb8832-22cd-47eb-ac9c-5db009e1f2c1",
+      "name": "X's Company",
+      "other_users": "0",
+      "sessions": "0",
+      "runs": "0"
+    },
+    {
+      "id": "dd9fecc7-29f1-4882-98e2-8269413f7a1d",
+      "name": "Acme UIWalk",
+      "other_users": "0",
+      "sessions": "0",
+      "runs": "0"
+    },
+    {
+      "id": "069f1956-79b3-48a4-8dad-ba8709c17e6e",
+      "name": "Company B",
+      "other_users": "0",
+      "sessions": "0",
+      "runs": "0"
+    },
+    {
+      "id": "0b55ae1f-6a7e-4f61-a3a9-9fb4ce08be1d",
+      "name": "RunsCo",
+      "other_users": "0",
+      "sessions": "0",
+      "runs": "0"
+    },
+    {
+      "id": "05dc0a92-a868-4a31-b5ce-0df852752558",
+      "name": "Dana Co",
+      "other_users": "0",
+      "sessions": "0",
+      "runs": "0"
+    },
+    {
+      "id": "f19f5866-71b2-4ff9-842d-5baa48910e8b",
+      "name": "Sam Co",
+      "other_users": "0",
+      "sessions": "0",
+      "runs": "0"
+    },
+    {
+      "id": "d4582041-3d90-4d7c-acdf-46fe5c20fe79",
+      "name": "ProbeCo",
+      "other_users": "0",
+      "sessions": "0",
+      "runs": "0"
+    },
+    {
+      "id": "702f9cd0-07ef-4e6a-8b1a-00e63e90bea6",
+      "name": "Demo Co",
+      "other_users": "0",
+      "sessions": "0",
+      "runs": "0"
+    }
+  ],
+  "auth_sessions": [
+    {
+      "id": "c7e4eac0-9e20-4921-9d07-25f8fb215a93",
+      "user_id": "fd65164a-e8a3-46ed-b7ca-e63ca6dd33b4"
+    },
+    {
+      "id": "b33a2f8d-403e-4fd1-977e-529d6b4bd451",
+      "user_id": "8a8d84cc-b827-4162-9648-e74d1f2b94e3"
+    },
+    {
+      "id": "ae9378aa-23cf-4b71-b896-3a30e4ba77f0",
+      "user_id": "2a369cfe-9489-4328-a291-9edcef4340ce"
+    },
+    {
+      "id": "98c879ee-e3eb-42c7-bc2a-581a67a4760f",
+      "user_id": "7df2b986-c551-4066-931c-183a36c966d7"
+    },
+    {
+      "id": "aba23072-784b-4ac2-b670-2bf5c4ac7662",
+      "user_id": "7df2b986-c551-4066-931c-183a36c966d7"
+    },
+    {
+      "id": "20f1a9a6-0bd3-4e96-98ae-7fe0adb59310",
+      "user_id": "326f67ff-b047-4e82-a8d4-8d9c57f3cb40"
+    }
+  ]
+}

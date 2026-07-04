@@ -1,0 +1,10 @@
+alias: q_cutover_thread_2
+label: Cutover thread
+name: What about the cutover felt most worth it to you?
+description: Drills into the concrete pride thread she just named to surface what she values in the work.
+purpose: topic
+stage: friction
+axis_effects:
+  engagement: +3
+source: planner_added
+grounding: migration plan and how the cutover was handled

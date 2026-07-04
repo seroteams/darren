@@ -1,0 +1,10 @@
+alias: q_manager_support_31
+label: Manager support
+name: What support from me would make the biggest difference on that?
+description: Invites her to shape the manager support that would help most next.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: bigger scope conversation
