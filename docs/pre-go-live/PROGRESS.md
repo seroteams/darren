@@ -10,7 +10,7 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 006 — Superadmin gate (backend) — `in-progress` (Step 01 built test-first 2026-07-04)**
+**→ Phase 006 — Superadmin gate (backend) — `in-progress` (Steps 01–02 built test-first 2026-07-04)**
 
 Broken into 3 test-first steps + QA. Backend-only, no screen (PG7/PG8 build those). **Verified anchors while
 breaking it down:** `RequestIdentity` **already** carries a server-resolved `email` (request-context.ts:16),
@@ -26,10 +26,14 @@ PG6 steps:
   8 tests written first (red) then green: normalize folds case/space + rejects empty, allowlisted passes,
   owner → 403, anonymous → 401, empty allowlist → nobody, **dev side-door → 403**. `npm test` 54/54,
   typecheck clean. No route wired yet (Step 02).
-- [ ] **02 — Cross-company read** ([02-cross-company-read.md](006-superadmin-gate/02-cross-company-read.md))
-  — read-only `superadmin` service/repo, `GET /api/v1/admin/registered` (companies → users) funnelled
-  through the guard, GET-only. Tests first: superadmin sees all, owner → 403, no cross-org leak, mutating
-  method refused, `password_hash` never in payload.
+- [x] **02 — Cross-company read** ([02-cross-company-read.md](006-superadmin-gate/02-cross-company-read.md))
+  — **built test-first 2026-07-04.** New `services/superadmin/` (repo = SELECT-only reads of
+  `organizations`/`users`, **never** selects `password_hash`; service groups users under their company,
+  oldest-first, owns the ordering; thin controller). `GET /api/v1/admin/registered` wired via
+  `superadminV1 = v1Route(requireSuperadminRoute(h))` — GET-only, funnelled through the Step-01 guard.
+  Service tests (fake repo, red→green): grouping/order correct, empty-company and no-companies cases, and
+  **no `passwordHash`/`orgId` leak into the view**. `npm test` 55/55, typecheck clean. (Owner→403 /
+  dev-side-door→403 proven in the Step-01 guard tests; GET-only = no mutating route registered.)
 - [ ] **03 — Audit line** ([03-audit-line.md](006-superadmin-gate/03-audit-line.md)) — one appended record
   per superadmin request (ts, actor, route, target); a 403 isn't audited as success. One append, not a
   subsystem; sink is gitignored.

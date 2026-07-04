@@ -15,6 +15,7 @@ import * as auth from "./services/auth/auth.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { requireAdminRoute } from "./middleware/admin-guard.ts";
+import { requireSuperadminRoute } from "./middleware/superadmin-guard.ts";
 import { forbidden, rateLimited } from "./middleware/http-error.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
 import * as runs from "./services/runs/runs.controller.ts";
@@ -26,6 +27,7 @@ import * as suggestFix from "./services/suggest-fix/suggest-fix.controller.ts";
 import library from "./services/library/library.controller.ts";
 import checks from "./services/checks/checks.controller.ts";
 import * as feedback from "./services/feedback/feedback.controller.ts";
+import * as superadmin from "./services/superadmin/superadmin.controller.ts";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
@@ -72,6 +74,12 @@ function originOk(req: IncomingMessage): boolean {
 const adminV1 = (h: RouteHandler): RouteHandler => v1Route(requireAdminRoute(h));
 const adminLegacy = (h: RouteHandler): RouteHandler => requireAdminRoute(h);
 
+// Superadmin tooling (pre-go-live PG6) — the one cross-company read, gated to the
+// SUPERADMIN_EMAILS allowlist. Every /api/v1/admin/* route funnels through
+// requireSuperadminRoute, so a route can't be added here un-gated. GET-only; the
+// per-company fence for every other path is untouched.
+const superadminV1 = (h: RouteHandler): RouteHandler => v1Route(requireSuperadminRoute(h));
+
 function main(): void {
   warnIfNoKey();
   startSweep();
@@ -96,6 +104,10 @@ function main(): void {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return feedback.submit(c);
   }));
+
+  // superadmin — read-only, cross-company view of the alpha (pre-go-live PG6). GET-only,
+  // behind the SUPERADMIN_EMAILS allowlist. No screen yet (PG7/PG8 build those on top).
+  router.add("GET", "/api/v1/admin/registered", superadminV1(superadmin.registered));
 
   // catalog — first domain on the v1 layer (controller → service → repo).
   // v1 routes use the one error shape (v1Route); the legacy /api/ paths stay as
@@ -393,6 +405,20 @@ function main(): void {
 
   server.keepAliveTimeout = 75_000;
   server.headersTimeout = 80_000;
+
+  // A failed bind (almost always the port is still held by a zombie API from a
+  // previous run) must be LOUD and FATAL — otherwise it falls through to the
+  // catch-all uncaughtException handler below, which keeps a not-listening process
+  // alive so `npm run dev` looks healthy while every /api call 500s.
+  server.on("error", (err: NodeJS.ErrnoException) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(`\n  \x1b[1;31mPort ${PORT} is already in use\x1b[0m — likely a leftover API from a previous run.`);
+      console.error(`  Free it and retry:  npx kill-port ${PORT}\n`);
+    } else {
+      console.error("[server error]", err);
+    }
+    process.exit(1);
+  });
 
   server.listen(PORT, () => {
     const mode = IS_PROD ? "prod" : "dev";
