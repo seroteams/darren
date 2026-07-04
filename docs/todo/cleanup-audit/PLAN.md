@@ -15,7 +15,7 @@ Source: full audit report (chat, 2026-07-04). Everything here is offline/free �
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Quick fixes | The 4 small real fixes (types, constant, error logging, stale config) | ⬜ |
+| 1 | Quick fixes | The 4 small real fixes (types, constant, error logging, stale config) | 🔨 built — awaiting Carl's QA |
 | 2 | Delete dead cruft | Dead scripts gone, product-qa/clamp decided, logs purged, old branches pruned | ⬜ |
 | 3 | Frontend helpers | One escapeHtml + one relTime for the whole admin app | ⬜ |
 | 4 | Backend dedup | One prompt-filling helper, one snapDelta, test auto-discovery | ⬜ |
@@ -23,7 +23,20 @@ Source: full audit report (chat, 2026-07-04). Everything here is offline/free �
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 is next. Baseline not yet run.
+**Baseline (free, 2026-07-04):** `npm test` **56/56 PASS** · `npm run typecheck` (backend) **clean** ·
+`npm run typecheck:admin` **17 pre-existing errors** — almost all are the stale `state.d.ts` this plan's
+Phase 1 fixes (missing `PERSON_DETAIL`/`RUN_DETAIL` stages + `myRunId`/`personKey` fields), plus 2 in the
+in-progress rating work. Anything red above beyond those 17 would be new damage; these 17 are not.
+**Budget note:** Carl OK'd up to **$3** of API spend this session (2026-07-04). Plan needs $0; reserve it —
+at most one `node scripts/gate.js --only <case>` (~$0.35) after Phase 4's prompt refactor if wanted.
+**Phase 1 🔨 built (2026-07-04), awaiting Carl's QA — uncommitted until green light.**
+What landed: state.d.ts completed (+ RUN_DETAIL/PERSON_DETAIL stages, myRunId/personKey fields);
+listMyRuns + star-rating JSDoc types (fixed ALL 17 baseline type errors, typecheck:admin now fully green);
+question-generator now derives ALLOWED_DELTAS from queue-constants (0 excluded on purpose, order preserved
+— note: the two snapToAllowedDelta copies tie-break differently, planner→0 / bank→positive, flagged in
+phase-4.md); prewarm failures now console.warn; stale frontend/* permission rules removed from
+.claude/settings.json. Verified free: npm test 56/56 · both typechecks clean · clicked through Home /
+Past 1:1s / Team / run detail in the browser, zero console errors, star rating intact.
 
 ## Parked
 (from the audit — each would be its own plan if Carl wants it)

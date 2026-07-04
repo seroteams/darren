@@ -36,11 +36,13 @@ Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No pai
 
 The 2026-07-04 deep-dive audit's cleanup, at [docs/todo/cleanup-audit/](docs/todo/cleanup-audit/PLAN.md) —
 4 small phases (quick fixes → delete dead cruft → frontend helpers → backend dedup), no OpenAI spend anywhere.
-**Phase 1 (quick fixes) 🔨 building — will land as "built, awaiting your QA".** Doesn't block PG7.
+**Phase 1 (quick fixes) 🔨 BUILT 2026-07-04 — awaiting your QA** (scenarios in
+[phase-1.md](docs/todo/cleanup-audit/phase-1.md)). Free checks green: tests 56/56, both typechecks
+fully clean (the 17 pre-existing type errors are gone), app click-through clean. Doesn't block PG7.
 
 | # | Phase | Status |
 |---|---|---|
-| 1 | Quick fixes (types, duplicate constant, silent errors, stale config) | 🔨 |
+| 1 | Quick fixes (types, duplicate constant, silent errors, stale config) | 🔨 built — your QA |
 | 2 | Delete dead cruft (scripts, product-qa, log purge) | ⬜ |
 | 3 | Frontend helpers (one escapeHtml, one relTime) | ⬜ |
 | 4 | Backend dedup (prompt filler, snapDelta, test auto-discovery) | ⬜ |

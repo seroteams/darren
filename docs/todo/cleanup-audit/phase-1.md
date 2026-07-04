@@ -1,6 +1,6 @@
 # Phase 1 — Quick fixes
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built 2026-07-04 — awaiting Carl's QA
 
 ## Goal
 Fix the four small real problems the audit confirmed, without changing any behaviour a user would notice.

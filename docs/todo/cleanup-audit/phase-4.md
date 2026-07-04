@@ -7,7 +7,10 @@ The engine has one prompt-filling helper and one delta-snapping helper instead o
 
 ## Changes
 - New `fillPlaceholders(template, vars)` helper; use it in the five prompt builders (`reviewer.ts`, `generate.ts`, `preparation.ts`, `lexicon/review-core.ts`, `question-generator.ts`). Same output, one place to maintain.
-- One shared `snapDelta()` (currently duplicated in `question-generator.ts` and `reconcile-queue.ts`).
+- One shared `snapDelta()` — **careful:** the two copies are NOT identical. The planner's
+  (queue-manager, covered by `test-delta-snap.js`) tie-breaks toward zero; the bank's
+  (question-generator) tie-breaks positive (2 → 3, no 0 in its list). Found during Phase 1.
+  Either share one helper with a tie-break option, or document why both exist and skip.
 - `scripts/run-tests.js` — auto-discover `scripts/test-*.js` with a small `PAID_TESTS` exclude list, instead of the hand-maintained 28-entry array.
 
 ## Not in this phase
