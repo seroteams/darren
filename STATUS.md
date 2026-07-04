@@ -18,10 +18,11 @@ itself (one card per person, times met / last met / avg usefulness); clicking a 
 — their 1:1s, a **"Since last time"** recap of last meeting's agreed actions + watch-fors, and a one-tap
 **"Prep your next 1:1"** that seeds the form (free until you run a pipeline).
 
-**▶ Your move: PG6 (Superadmin gate) — not yet broken down.** Say **"go"** and I'll break PG6 into steps:
-your account gains a read-only, cross-company key (proven by tests, no screen yet) — the one intentional
-wall-crossing, tightly gated. Nothing built there yet.
-Plan: [docs/pre-go-live/006-superadmin-gate/00-phase-overview.md](docs/pre-go-live/006-superadmin-gate/00-phase-overview.md).
+**▶ Your move: PG6 (Superadmin gate) — broken down into 3 test-first steps + QA, nothing built yet.** Say
+**"go"** and I'll build Step 01 (the guard, test-first): your account gains a read-only, cross-company key
+(proven by tests, no screen yet) — the one intentional wall-crossing, tightly gated (server-resolved email
+allowlist, GET-only module, one audit line per access, dev side-door can't satisfy it).
+Plan: [docs/pre-go-live/006-superadmin-gate/01-superadmin-guard.md](docs/pre-go-live/006-superadmin-gate/01-superadmin-guard.md).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
 
 > 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG5 sign-off + commit.

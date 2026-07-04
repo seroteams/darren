@@ -10,12 +10,30 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 006 — Superadmin gate (backend) — `not-started` (not yet broken down)**
+**→ Phase 006 — Superadmin gate (backend) — `planned` (broken down 2026-07-04; no code written yet)**
 
-Next up: say "go" to break PG6 into steps. Carl's account gains a read-only, cross-company key (proven by
-tests, not a screen yet) — the one intentional wall-crossing, tightly gated: email resolved server-side
-from the authenticated userId, GET-only module, one-line access audit, 403 tests with `DEV_AUTOLOGIN` off,
-dev side-door can never match the allowlist. See the CTO security must-haves in this file's Decisions.
+Broken into 3 test-first steps + QA. Backend-only, no screen (PG7/PG8 build those). **Verified anchors while
+breaking it down:** `RequestIdentity` **already** carries a server-resolved `email` (request-context.ts:16),
+so the guard is a thin add, not plumbing; the guards live in `require-auth.ts` (mirror `requireAdmin`) and
+the route wrapper in `admin-guard.ts` (mirror `requireAdminRoute`); `organizations`/`users` tables exist in
+`schema.ts`; the dev side-door email is `dev@seroteams.com` (not Carl's), so it can't satisfy the allowlist.
+
+PG6 steps:
+- [ ] **01 — Superadmin guard** ([01-superadmin-guard.md](006-superadmin-gate/01-superadmin-guard.md)) —
+  `SUPERADMIN_EMAILS` allowlist + shared `normalizeEmail` + `requireSuperadmin` (mirrors `requireAdmin`) +
+  `requireSuperadminRoute` wrapper. Reads `identity.email` only (server-resolved, never client). Tests
+  first: superadmin passes, owner → 403, anonymous → 401, dev side-door → 403.
+- [ ] **02 — Cross-company read** ([02-cross-company-read.md](006-superadmin-gate/02-cross-company-read.md))
+  — read-only `superadmin` service/repo, `GET /api/v1/admin/registered` (companies → users) funnelled
+  through the guard, GET-only. Tests first: superadmin sees all, owner → 403, no cross-org leak, mutating
+  method refused, `password_hash` never in payload.
+- [ ] **03 — Audit line** ([03-audit-line.md](006-superadmin-gate/03-audit-line.md)) — one appended record
+  per superadmin request (ts, actor, route, target); a 403 isn't audited as success. One append, not a
+  subsystem; sink is gitignored.
+- [ ] **99 — QA sign-off** ([99-qa-signoff.md](006-superadmin-gate/99-qa-signoff.md)) — mostly test results
+  + the security shape in plain words + the three carry-forward conditions before the alpha widens.
+
+Next: `go` → build Step 01 (the guard, test-first).
 
 **Phase 005 — Person detail — ✅ `done` (signed off + committed 2026-07-04).** Carl walked it ("looks good
 commit"). Clicking a Team person opens their page: header summary, their 1:1s newest-first (each reopens
@@ -124,7 +142,7 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
 | 003 | Rate a 1:1 | ✅ done (signed off + committed) |
 | 004 | Team — auto-built people | ✅ done (signed off + committed) |
 | 005 | Person detail | ✅ done (signed off + committed) |
-| 006 | Superadmin gate (backend) | not-started (next) |
+| 006 | Superadmin gate (backend) | planned (broken down; building next) |
 | 007 | Admin: who's registered | not-started |
 | 008 | Admin: user → teams → runs | not-started |
 | 009 | Roster + polish | not-started |
