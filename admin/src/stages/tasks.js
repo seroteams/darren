@@ -219,11 +219,11 @@ const DATA = [
     goal: "A screen for Carl: every alpha company and its people — roles, join dates, 1:1 counts — plus whether they're coming back, and how ratings look overall.",
     steps: [
       { f: "Companies → people", m: "List every company and its users (name, role, joined, 1:1 count).", have: "The alpha at a glance",
-        auto: "Run `npm test` + `npm run typecheck` — green; a normal owner is refused.", eye: "As Carl the page lists every company + users; a normal owner can't reach it.", s: "doing" },
+        auto: "Run `npm test` + `npm run typecheck` — green; a normal owner is refused.", eye: "As Carl the page lists every company + users; a normal owner can't reach it.", s: "done" },
       { f: "Are they coming back?", m: "Per-user last-active + 1:1s-over-time — the return-visit signal the whole track exists to prove.", have: "Return-visit signal",
-        auto: null, eye: "Each user shows last-active + recent activity.", s: "doing" },
+        auto: null, eye: "Each user shows last-active + recent activity.", s: "done" },
       { f: "How ratings look overall", m: "An alpha-wide summary: average stars + a count of low scores.", have: "Honest signal in one glance",
-        auto: null, eye: "The page shows the alpha-wide rating summary.", s: "doing" },
+        auto: null, eye: "The page shows the alpha-wide rating summary.", s: "done" },
     ],
     signoff: "Carl sees every company + users with join dates, run counts, return-visit signal and an alpha-wide rating summary · normal owners refused." },
 

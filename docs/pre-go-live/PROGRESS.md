@@ -316,3 +316,8 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   403 is still the wall (login.js + boot both hydrate the flag from me()). 57/57 + both typechecks + build
   green; live-checked a member does NOT see the item, no console errors. Full superadmin visual walk needs
   the API restarted with these changes (Carl's QA). No OpenAI. Next: Carl QA → PG7 ✅ → break down PG8.
+- **2026-07-04** — **PG7 ✅ signed off ("go for it now").** Both steps green-lit + committed (`c95a0052`
+  backend enrichment, `a1781799` the screen). Ticked STATUS + SERO_BOARD (PG1–PG7 done) + build badges (PG7
+  3 steps → done). Moving to PG8. **PG8 Step 01 (backend per-user runs read) building** — a superadmin-only
+  `GET /api/v1/admin/users/:id/runs` (cross-org, read-only) so the drilldown can show a user's own 1:1s +
+  ratings; reuses the run walk, attributes by userId. Test-first.
