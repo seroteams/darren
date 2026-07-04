@@ -26,7 +26,7 @@ Run reviewed: `logs/july/2026_Jul04_14-23-4b3931311f7d411093c5cef545f22615`.
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 (C1 — strip tester notes) is built + unit-tested + committed (`02d825c2`), awaiting a walked run to confirm. Phases 2–4 not started. No baseline run yet (runs when a paid phase starts).
+Phase 1 (C1 — strip tester notes) is built + unit-tested + committed (`02d825c2`); ✅ approved by Carl 2026-07-04 (walked-run confirmation waived). Phases 2–4 not started. No baseline run yet (runs when a paid phase starts).
 
 Note on testing: Phases 2–4 are prompt changes — their effect only shows in a **live** walked run (an OpenAI call, ~$0.35). Phase 1 is a code strip and can be checked without a paid run. Carl green-lights each phase by walking a run and eyeballing the output; paid runs need his explicit go-ahead for that specific run.
 

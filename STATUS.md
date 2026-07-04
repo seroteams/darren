@@ -142,7 +142,7 @@ like 8 things are half-done at once — they aren't.
 
 | Plan | State |
 |---|---|
-| [run-qa-fixes-jul04](docs/todo/run-qa-fixes-jul04/PLAN.md) | Phase 1 (C1 — strip tester notes) 🔨 built + committed `02d825c2`, awaiting a walked run; Phases 2–4 ⬜ (prompt changes — need a paid walk) |
+| [run-qa-fixes-jul04](docs/todo/run-qa-fixes-jul04/PLAN.md) | Phase 1 (C1 — strip tester notes) ✅ approved 2026-07-04 (committed `02d825c2`, walk waived); Phases 2–4 ⬜ (prompt changes — need a paid walk) |
 | [user-management](docs/todo/user-management/PLAN.md) | scaffolded 2026-07-04 — 5 phases ⬜ (Phase 0 read-only); gated behind PG8; awaiting Carl's "go" |
 | [planner-grounding](docs/todo/planner-grounding/PLAN.md) | parked — awaiting scope pick (A/B/C/all) |
 | [briefing-readability-p0](docs/todo/briefing-readability-p0/PLAN.md) | parked |
