@@ -1,12 +1,32 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createSuperadminService } from "./superadmin.service.ts";
-import type { SuperadminRepo, OrgRow, UserRow, RunRow } from "./superadmin.repo.ts";
+import type { SuperadminRepo, OrgRow, UserRow, RunRow, UserRunRow } from "./superadmin.repo.ts";
 
 // A storage-agnostic fake — the service logic (grouping, ordering, the read-only view
 // shape) is proven without a database, the same seam the other domains use.
-function fakeRepo(orgs: OrgRow[], people: UserRow[], runs: RunRow[] = []): SuperadminRepo {
-  return { listOrganizations: async () => orgs, listUsers: async () => people, listRuns: async () => runs };
+function fakeRepo(
+  orgs: OrgRow[],
+  people: UserRow[],
+  runs: RunRow[] = [],
+  runsByUser: Record<string, UserRunRow[]> = {},
+): SuperadminRepo {
+  return {
+    listOrganizations: async () => orgs,
+    listUsers: async () => people,
+    listRuns: async () => runs,
+    listRunsForUser: async (id: string) => runsByUser[id] ?? [],
+  };
+}
+
+function userRun(id: string, name: string, lastSeenAt: number, stars: number | null): UserRunRow {
+  return {
+    id,
+    headline: name,
+    ctx: { name, role: "Engineer", seniority: "Senior", meetingType: "One-on-one" },
+    lastSeenAt,
+    rating: stars == null ? null : { stars, note: "", updatedAt: null },
+  };
 }
 
 test("listRegistered groups users under their company, oldest-first, no secrets in the view", async () => {
@@ -123,4 +143,22 @@ test("enrich: summary with no ratings → avgStars null, zero counts", async () 
   assert.equal(summary.avgStars, null);
   assert.equal(summary.ratedCount, 0);
   assert.equal(summary.lowCount, 0);
+});
+
+// --- PG8 Step 01: the per-user drilldown read ----------------------------
+
+test("userRuns: returns one user's runs newest-first", async () => {
+  const runsByUser = {
+    u1: [userRun("r1", "Marco", ago(3), 4), userRun("r2", "Priya", ago(1), 5)],
+  };
+  const svc = createSuperadminService(fakeRepo([], [], [], runsByUser));
+  const { runs } = await svc.userRuns("u1");
+  assert.deepEqual(runs.map((r) => r.id), ["r2", "r1"]); // newest first
+  assert.equal(runs[0]!.rating?.stars, 5);
+});
+
+test("userRuns: an unknown user → empty list, not an error", async () => {
+  const svc = createSuperadminService(fakeRepo([], [], [], {}));
+  const { runs } = await svc.userRuns("nobody");
+  assert.deepEqual(runs, []);
 });

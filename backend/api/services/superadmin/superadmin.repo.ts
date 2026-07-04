@@ -10,7 +10,7 @@
 
 import { getDb } from "../../../db/client.ts";
 import { organizations, users } from "../../../db/schema.ts";
-import { listRunsForSuperadmin } from "../../../engine/run-history.ts";
+import { listRunsForSuperadmin, listFinishedRunsForUser } from "../../../engine/run-history.ts";
 
 /** One company row (no tenant scope — this is the cross-company read). */
 export interface OrgRow {
@@ -40,10 +40,23 @@ export interface RunRow {
   stars: number | null;
 }
 
+/** One of a user's finished 1:1s for the drilldown (pre-go-live PG8) — the member-safe row
+ *  shape (headline, ctx, rating), reused from the run walk. No briefing here (that's the
+ *  read-only detail, opened separately). */
+export interface UserRunRow {
+  id: string;
+  headline: string;
+  ctx: { name: string; role: string; seniority: string; meetingType: string };
+  lastSeenAt: number;
+  rating: { stars: number; note: string; updatedAt: string | null } | null;
+}
+
 export interface SuperadminRepo {
   listOrganizations(): Promise<OrgRow[]>;
   listUsers(): Promise<UserRow[]>;
   listRuns(): Promise<RunRow[]>;
+  /** One user's finished runs, across all companies (superadmin drilldown, PG8). */
+  listRunsForUser(userId: string): Promise<UserRunRow[]>;
 }
 
 export const pgSuperadminRepo: SuperadminRepo = {
@@ -71,5 +84,8 @@ export const pgSuperadminRepo: SuperadminRepo = {
   // (the same one the fenced member reads use, here unfenced behind the superadmin route).
   async listRuns() {
     return listRunsForSuperadmin();
+  },
+  async listRunsForUser(userId: string) {
+    return listFinishedRunsForUser(userId);
   },
 };

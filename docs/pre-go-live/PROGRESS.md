@@ -321,3 +321,9 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   3 steps → done). Moving to PG8. **PG8 Step 01 (backend per-user runs read) building** — a superadmin-only
   `GET /api/v1/admin/users/:id/runs` (cross-org, read-only) so the drilldown can show a user's own 1:1s +
   ratings; reuses the run walk, attributes by userId. Test-first.
+- **2026-07-04** — **PG8 Step 01 (backend per-user runs read) built — awaiting QA.** Added
+  `run-history.listFinishedRunsForUser(userId)` (mirrors the member read but org-unfenced, by userId) →
+  repo `listRunsForUser()` → service `userRuns()` (newest-first) → controller + gated route
+  `GET /api/v1/admin/users/:id/runs` (superadminV1, so it can't be added un-gated). 2 new service tests
+  (ordering, unknown-user → empty). 57/57 + typecheck green; no OpenAI. Next: Carl QA (backend — read the
+  results) → Step 02, the drilldown screen (people via PG4 grouping + runs), then Step 03 (open a briefing).

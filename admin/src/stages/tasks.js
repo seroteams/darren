@@ -231,7 +231,7 @@ const DATA = [
     goal: "From that screen, Carl clicks a user and sees their people, their 1:1s and ratings, and can open any briefing read-only.",
     steps: [
       { f: "User → people + 1:1s", m: "Drill from a user into their people (same grouping) and their 1:1s with ratings.", have: "The full picture",
-        auto: "Run `npm test` + `npm run typecheck` — green; still refused for normal owners.", eye: "As Carl, open a user → their people + 1:1s + ratings.", s: "todo" },
+        auto: "Run `npm test` + `npm run typecheck` — green; still refused for normal owners.", eye: "As Carl, open a user → their people + 1:1s + ratings.", s: "doing" },
       { f: "Open a briefing read-only", m: "Reuse the member-safe read-only view; never the richer admin readers.", have: "See what they saw",
         auto: null, eye: "A 1:1 opens read-only.", s: "todo" },
     ],

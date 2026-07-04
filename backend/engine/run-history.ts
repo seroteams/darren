@@ -266,6 +266,31 @@ function listRunsForSuperadmin(): { userId: string | null; lastSeenAt: number; s
     }));
 }
 
+// One user's finished runs, newest-first, attributed by userId across ALL companies
+// (pre-go-live PG8 drilldown). Unfenced on org — reachable only behind the superadmin
+// repo/route. Same member-safe row shape as listFinishedRunsForMember (headline, ctx,
+// rating), so the drilldown reuses PG1 rows + PG3 ratings. An absent userId → [] (the
+// runOwnedByUser guard never matches a null id).
+function listFinishedRunsForUser(userId: string | null | undefined) {
+  const runs = walkRuns().filter(({ state }) => state && state.briefing && runOwnedByUser(state, userId));
+  runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
+  return runs.map(({ id, dir, state }) => {
+    const ctx = asRecord(state.ctx);
+    return {
+      id,
+      headline: buildHeadline(ctx),
+      ctx: {
+        name: asString(ctx.name),
+        role: asString(ctx.role),
+        seniority: asString(ctx.seniority),
+        meetingType: asString(ctx.meetingType),
+      },
+      lastSeenAt: asNumber(state.lastSeenAt),
+      rating: ratingOf(dir),
+    };
+  });
+}
+
 // A read-only view of ONE of the member's own runs (member-nav Phase 2): the briefing
 // plus its context. Fenced by company AND user — a run the caller doesn't own resolves
 // to null (the same "unknown" answer a stranger gets, so ids can't be probed).
@@ -566,6 +591,7 @@ export {
   cloneRun,
   listFinishedRunsForMember,
   listRunsForSuperadmin,
+  listFinishedRunsForUser,
   memberRunView,
   walkRuns,
   listRecentRuns,

@@ -5,7 +5,7 @@
 // return-visit signal (per-user run counts + last-active) and an alpha-wide rating summary.
 
 import { pgSuperadminRepo } from "./superadmin.repo.ts";
-import type { SuperadminRepo, RunRow } from "./superadmin.repo.ts";
+import type { SuperadminRepo, RunRow, UserRunRow } from "./superadmin.repo.ts";
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -46,6 +46,8 @@ export interface SuperadminService {
    *  their return-visit signal, plus the alpha-wide rating summary. `now` is injected so
    *  the week buckets are deterministic in tests; it defaults to the current time. */
   listRegistered(now?: Date): Promise<{ companies: RegisteredCompany[]; summary: AlphaSummary }>;
+  /** One user's finished runs, newest-first (PG8 drilldown). Read-only, superadmin-only. */
+  userRuns(userId: string): Promise<{ runs: UserRunRow[] }>;
 }
 
 /** Per-user run tallies, keyed by userId. Runs with no userId (machine/gate sessions)
@@ -115,6 +117,10 @@ export function createSuperadminService(repo: SuperadminRepo = pgSuperadminRepo)
         users: byOrg.get(o.id) ?? [],
       }));
       return { companies, summary: summarizeRatings(runs) };
+    },
+    async userRuns(userId) {
+      const runs = await repo.listRunsForUser(userId);
+      return { runs: [...runs].sort((a, b) => b.lastSeenAt - a.lastSeenAt) };
     },
   };
 }

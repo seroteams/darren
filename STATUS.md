@@ -23,9 +23,11 @@ counts) and the alpha-wide ★ rating summary; nav item superadmin-only, backend
 
 **▶ Your move: PG8 (Admin: user → teams → runs — the drilldown).** From the Registered screen, click a user
 → see their people (reuse PG4 grouping) + their runs with ratings (PG1/PG3), open any run read-only (PG2).
-Mostly composes existing pieces behind the PG6 superadmin gate. **Step 01 (backend per-user runs read) 🔨
-building.**
-Plan: [docs/pre-go-live/008-admin-user-drilldown/00-phase-overview.md](docs/pre-go-live/008-admin-user-drilldown/00-phase-overview.md).
+Mostly composes existing pieces behind the PG6 superadmin gate. **Step 01 (backend per-user runs read)
+🔨 BUILT 2026-07-04 — awaiting your QA:** superadmin-only `GET /api/v1/admin/users/:id/runs` returns one
+user's finished 1:1s (with ratings), newest-first, across companies. Test-first (2 new tests: ordering,
+unknown-user → empty). `npm test` 57/57 · typecheck clean. Green-light → Step 02 (the drilldown screen).
+Plan: [docs/pre-go-live/008-admin-user-drilldown/01-per-user-reads.md](docs/pre-go-live/008-admin-user-drilldown/01-per-user-reads.md).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
 
 > 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG6 sign-off + commit.
