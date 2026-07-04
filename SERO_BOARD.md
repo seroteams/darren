@@ -119,6 +119,14 @@ Tests: `npm test` **57/57** (offline, $0) · `npm run typecheck` clean. Commits 
 |---|---|
 | **Next-stage build** | **✅ ALL 8 PHASES DONE 2026-06-16** → `done/`. Hardening core (contracts, persistence/resume, deterministic fallback) + feature passes (issue pills + observed shift, prep quality, prep timeline UI, runner polish, shared/private split). One carve-out — cross-session follow-up auto-injection — **un-parked 2026-06-21**, later built as the continuity track and then **removed 2026-07-06** (see the active line above). |
 
+## 2b. Pre-go-live (deferred to launch time)
+
+Not for now — revisit when we're close to a release.
+
+| Item | Why | Source |
+|---|---|---|
+| **Auth via Google/Microsoft SSO** — don't roll our own password/user handling | Avoids owning passwords + user management, which we shouldn't be doing ourselves | Darren (CTO) coaching, 2026-07-04 |
+
 ## 3. Done
 
 Completed work has been cleared from this board. The record lives in git history.
