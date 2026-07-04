@@ -71,14 +71,14 @@ mirrors it:
 | Feature | Folder | State |
 |---|---|---|
 | Briefing grounding fixes | `docs/todo/briefing-grounding-fixes/` | Phase 1 🟢 signed off (QA pile); Phases 2–4 not started |
-| See-before-sent preview | `docs/todo/sent-preview/` | 🟢 signed off (QA pile, walked live) |
-| Stage data tabs | `docs/todo/stage-data-tabs/` | 🟢 signed off (QA pile, walked live) |
-| Todo-board rebuild | `docs/todo/todo-board-rebuild/` | 🟢 signed off (QA pile; "Run the free checks" button) |
+| See-before-sent preview | `docs/todo/done/sent-preview/` | ✅ archived to done/ 2026-07-05 (signed off 2026-07-01) |
+| Stage data tabs | `docs/todo/done/stage-data-tabs/` | ✅ archived to done/ 2026-07-05 (signed off 2026-07-01) |
+| Todo-board rebuild | `docs/todo/done/todo-board-rebuild/` | ✅ archived to done/ 2026-07-05 (signed off 2026-07-01; "Run the free checks" button) |
 | See-before-sent (all-stage) | `docs/todo/done/see-before-sent/` | ✅ folded into sent-preview + archived 2026-07-04 (lost reorg code not rebuilt under this name) |
 | Briefing readability (P0) | `docs/todo/briefing-readability-p0/` | Scaffolded, parked |
 
-The QA pile is cleared. The one still-open row (briefing-readability P0) awaits a
-Carl walk → green light → close out to `done/`.
+The QA pile is cleared and the three finished plans are archived. Still open here:
+briefing-grounding-fixes (Phases 2–4 not started) and briefing-readability P0 (scaffolded, parked).
 
 Tests: `npm test` **57/57** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
 (not automated); `main` was **pushed to origin 2026-07-04** — local and origin are now in sync.

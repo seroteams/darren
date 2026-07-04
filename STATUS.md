@@ -154,11 +154,11 @@ like 8 things are half-done at once — they aren't.
 | [briefing-readability-p0](docs/todo/briefing-readability-p0/PLAN.md) | parked |
 | [briefing-grounding-fixes](docs/todo/briefing-grounding-fixes/PLAN.md) | awaiting |
 | [see-before-sent](docs/todo/done/see-before-sent/PLAN.md) | ✅ folded into sent-preview + archived 2026-07-04 |
-| [sent-preview](docs/todo/sent-preview/PLAN.md) | awaiting |
-| [stage-data-tabs](docs/todo/stage-data-tabs/PLAN.md) | awaiting |
+| [sent-preview](docs/todo/done/sent-preview/PLAN.md) | ✅ done (both phases walked 2026-07-01) — archived to done/ 2026-07-05 |
+| [stage-data-tabs](docs/todo/done/stage-data-tabs/PLAN.md) | ✅ done (all 3 phases walked 2026-07-01) — archived to done/ 2026-07-05 |
 | [repo-tidy](docs/todo/done/repo-tidy/PLAN.md) | ✅ done (all 4 phases; 3–4 via 009 P6) — archived to done/ |
 | [tracker-consolidation](docs/todo/done/tracker-consolidation/PLAN.md) | ✅ done (all 4 phases; 2–4 via 009 P7) — archived to done/ |
-| [todo-board-rebuild](docs/todo/todo-board-rebuild/PLAN.md) | awaiting |
+| [todo-board-rebuild](docs/todo/done/todo-board-rebuild/PLAN.md) | ✅ done (all phases walked 2026-07-01; closed on Carl's nod 2026-07-05) — archived to done/ |
 
 When one becomes live, move it up into "Your move" above and start its phases.
 
