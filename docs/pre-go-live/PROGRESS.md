@@ -327,3 +327,11 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   `GET /api/v1/admin/users/:id/runs` (superadminV1, so it can't be added un-gated). 2 new service tests
   (ordering, unknown-user → empty). 57/57 + typecheck green; no OpenAI. Next: Carl QA (backend — read the
   results) → Step 02, the drilldown screen (people via PG4 grouping + runs), then Step 03 (open a briefing).
+- **2026-07-04** — **PG8 Step 02 (drilldown screen) built — awaiting QA.** New admin stage
+  `admin-user-detail.ts` at `/admin/users/:id`, wired via the 6-step pattern (state STAGE +
+  `adminUserId`/`adminUserName` + router path/parse/ADMIN_ONLY + main loader + boot/popstate deep-link +
+  `getUserRuns()`). Registered user rows are now buttons that drill in; the page reuses PG4
+  `groupRunsByPerson` for the people list + PG1 rows / PG3 star badges for the 1:1s, with back +
+  loading/empty/error; all escaped, ≥14px. Superadmin-only (ADMIN_USER in ADMIN_ONLY + backend 403).
+  57/57 + both typechecks + build green; no OpenAI. Next: Carl QA (needs API restart for the live walk) →
+  Step 03 (open a briefing read-only) closes PG8.

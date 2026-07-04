@@ -37,6 +37,7 @@ const PATH_FOR = {
   [STAGES.GUIDE]:          () => "/guide",
   [STAGES.TASKS]:          () => "/tasks",
   [STAGES.ADMIN_REGISTERED]: () => "/admin/registered",
+  [STAGES.ADMIN_USER]:     (s) => (s.adminUserId ? `/admin/users/${encodeURIComponent(s.adminUserId)}` : "/admin/registered"),
   [STAGES.REVIEW_RUN]:     (s) => (s.reviewRunId ? `/run/${encodeURIComponent(s.reviewRunId)}` : "/run"),
   // ERROR intentionally absent -> urlForState returns null -> no URL write
 };
@@ -63,7 +64,7 @@ export const isFlowStage = (stage) => FLOW.has(stage);
 // (admin-access-guard Phase 2). A member deep-linking here is bounced to the prep flow.
 const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE, STAGES.REGRESSION,
   STAGES.PERSONAS, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.TASKS, STAGES.GUIDE, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED]);
+  STAGES.TASKS, STAGES.GUIDE, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER]);
 export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
 
 // The plain-member destinations (member-nav Phase 1): Home, Team, Runs. Used by boot +
@@ -89,6 +90,10 @@ export function parseLocation() {
   // so bare /team still resolves to the Team list above). The segment is the person key.
   const person = p.match(/^\/team\/([^/]+)$/);
   if (person) return { stage: STAGES.PERSON_DETAIL, params: { personKey: decodeURIComponent(person[1]) } };
+  // A superadmin drilling into one user: /admin/users/:id (after the exact-path map, so
+  // /admin/registered still resolves above). The segment is the user id.
+  const adminUser = p.match(/^\/admin\/users\/([^/]+)$/);
+  if (adminUser) return { stage: STAGES.ADMIN_USER, params: { adminUserId: decodeURIComponent(adminUser[1]) } };
   const m = p.match(/^\/run\/([^/]+)$/);
   if (m) return { stage: STAGES.REVIEW_RUN, params: { reviewRunId: decodeURIComponent(m[1]) } };
   if (p === "/run") return { stage: STAGES.REVIEW_RUN }; // no id -> caller redirects

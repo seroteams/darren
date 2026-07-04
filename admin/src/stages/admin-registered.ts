@@ -3,6 +3,7 @@
 // the allowlisted superadmin (Carl) gets a 200; a normal owner is refused (403). The nav
 // item is hidden for everyone else, but that hiding is cosmetic — the 403 is the real wall.
 
+import { STAGES } from "../state.js";
 import { getRegistered } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
@@ -42,12 +43,13 @@ function userRow(u: RegUser): string {
     `last active ${lastActive(u.lastActiveAt)}`,
     `${u.runsThisWeek} this week / ${u.runsLastWeek} last`,
   ];
+  // A button so it's keyboard-operable — clicking drills into the user's 1:1s (PG8 Step 02).
   return `
-    <div class="card-flat l-stack l-stack--2">
+    <button type="button" class="card-flat l-stack l-stack--2 js-user" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}" style="text-align:left;width:100%">
       <div class="text-sm"><strong>${escapeHtml(u.name)}</strong> · ${escapeHtml(u.role)}</div>
       <div class="text-ink-dim text-sm">${escapeHtml(u.email)} · joined ${escapeHtml(joinedOn(u.createdAt))}</div>
       <div class="text-ink-dim text-sm">${escapeHtml(bits.join(" · "))}</div>
-    </div>`;
+    </button>`;
 }
 
 function companyCard(c: RegCompany): string {
@@ -79,7 +81,7 @@ function summaryCard(s: Summary): string {
     </section>`;
 }
 
-export const mount: Mount = async (root) => {
+export const mount: Mount = async (root, { setState }) => {
   const header = `
     <header class="page-header">
       <h1 class="h1">Registered</h1>
@@ -96,6 +98,12 @@ export const mount: Mount = async (root) => {
 
   const wire = () => {
     root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
+    root.querySelectorAll<HTMLElement>(".js-user").forEach((el) => {
+      el.addEventListener("click", () => {
+        const id = el.dataset.id;
+        if (id) setState({ adminUserId: id, adminUserName: el.dataset.name ?? null, stage: STAGES.ADMIN_USER });
+      });
+    });
   };
 
   const load = async () => {
@@ -121,6 +129,7 @@ export const mount: Mount = async (root) => {
     }
 
     root.innerHTML = shell(`${summaryCard(summary)}${companies.map(companyCard).join("")}`);
+    wire();
   };
 
   await load();

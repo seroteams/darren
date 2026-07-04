@@ -246,6 +246,23 @@ const DATA = [
         auto: null, eye: "A person shows a combined average with its count.", s: "todo" },
     ],
     signoff: "Duplicate people merge into one card with combined history · the merge persists · per-person roll-ups read correctly." },
+
+  // ── Alpha safety gate — the promises we made ourselves BEFORE real staff data
+  // reaches more than a couple of friendly managers. Not a build phase; a checklist
+  // of open commitments. State lives in docs/pre-go-live/PROGRESS.md ("Before we widen…").
+  { num: "AG1", name: "Before we widen past 2–3 managers", tag: "Alpha safety gate", track: "Pre-go-live", folder: "docs/pre-go-live/", stateFile: "PROGRESS.md",
+    goal: "The safety promises to close before real staff data reaches more than a couple of friendly managers. None of these block today's tiny alpha — all must be done before it grows.",
+    steps: [
+      { f: "Expert security sign-off", m: "A security-literate human reviews everything — and the new cross-company superadmin key specifically — and signs off on the record. The earlier alpha waiver was written before that key existed, so it doesn't cover it.", have: "A named expert's sign-off covering the superadmin key",
+        auto: null, eye: "A named human has reviewed the superadmin wall-crossing and signed off in the log.", s: "todo" },
+      { f: "Close the open session start", m: "Starting a 1:1 currently lets logged-out visitors in by decision — fine for the tiny alpha. Close it before widening so every run belongs to a signed-in person.", have: "Login required to start a 1:1",
+        auto: "Run `npm test` — a logged-out start is refused (401).", eye: null, s: "todo" },
+      { f: "Update the privacy note", m: "Before their staff data is viewable, tell managers that ratings (including the private note) are stored, and that a Sero admin can read across companies.", have: "An honest, current privacy note",
+        auto: null, eye: "The privacy note mentions rating storage and the cross-company admin view.", s: "todo" },
+      { f: "Lock down the rating note", m: "The private 'what missed?' note must never reach an employee-facing screen and never be logged. The rating file is already git-ignored; this confirms the rest.", have: "The rating note proven private",
+        auto: "Run `npm test` — the rating note never appears in employee-facing/shared output.", eye: null, s: "todo" },
+    ],
+    signoff: "A named expert has signed off on the superadmin key · logged-out can't start a 1:1 · the privacy note discloses rating storage + the cross-company admin view · the rating note never leaves the manager's view or reaches a log." },
 ];
 
 // Your verdicts live here — their own key, kept separate from my build statuses
@@ -317,6 +334,9 @@ const KICK = [
   `Goal: from the registered screen, Carl clicks a user and sees their people (same grouping as PG4), their 1:1s + ratings, and can open any briefing read-only.\nFirst move (before any code): read docs/pre-go-live/008-admin-user-drilldown/00-phase-overview.md; extend the PG6 superadmin service with read-only per-user reads; reuse the shared grouping function from PG4.\nOut of scope: no writes/edits from the admin view — read-only. No new person store.\nWatch out for: still superadmin-gated (normal owner → 403); reuse the member-safe read-only briefing view, never the richer admin readers; no cross-company leak for anyone but the superadmin.\nDone when:\n• Agent-verified: npm test + npm run typecheck green; refused for normal owners.\n• Owner-walked: as Carl, open a user → their people + 1:1s + ratings; a 1:1 opens read-only.`,
   // PG9 Tidy the people list
   `Goal: once there's real history — merge duplicate people (an alias remap on the PG4 normalized key), edit a name, and show per-person rating roll-ups.\nFirst move (before any code): read docs/pre-go-live/009-roster-polish/00-phase-overview.md; propose the smallest person-identity store (light people record vs per-manager alias map) with 2–3 options for my pick BEFORE building.\nOut of scope (PARKED post-alpha): manual 'add a person' roster, search/filter, trend sparklines/charts. Merge + roll-ups only.\nWatch out for: the merge must STICK after reload (verify the destination); re-point grouping at the resolved person without re-architecting PG4.\nDone when:\n• Agent-verified: npm test + npm run typecheck green; the merge survives a reload.\n• Owner-walked: merge 'Priya' + 'Priya S.' → one card with combined history; per-person roll-ups read correctly.`,
+
+  // AG1 Before we widen the alpha (safety gate)
+  `Goal: close the four "before we widen the alpha" safety promises — an expert security sign-off that covers the new superadmin key, closing the anonymous 'start a 1:1' route, updating the privacy note, and proving the private rating note never leaks.\nFirst move (before any code): read the "Before we widen past 2–3 friendly managers" section of docs/pre-go-live/PROGRESS.md. These are gates, not a build phase — sort them into code (close the session route, prove the note stays private) vs process (expert review, privacy-note copy) and pick ONE with me before starting.\nOut of scope: don't widen the alpha or touch product features — these are the pre-widen guardrails only.\nWatch out for: the anonymous session-start route stays OPEN for today's alpha by Carl's decision — don't close it without a go. Verify the private note never reaches an employee-facing/shared field, not just that the file is git-ignored.\nDone when:\n• Agent-verified: npm test green incl. a logged-out start refused and the rating note absent from shared output.\n• Owner-walked: a named expert has signed off on the superadmin key; the privacy note discloses rating storage + the cross-company admin view.`,
 ];
 
 // VERIFY prompt for a phase whose every step is already built — flips the brief

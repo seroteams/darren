@@ -23,11 +23,14 @@ counts) and the alpha-wide ★ rating summary; nav item superadmin-only, backend
 
 **▶ Your move: PG8 (Admin: user → teams → runs — the drilldown).** From the Registered screen, click a user
 → see their people (reuse PG4 grouping) + their runs with ratings (PG1/PG3), open any run read-only (PG2).
-Mostly composes existing pieces behind the PG6 superadmin gate. **Step 01 (backend per-user runs read)
-🔨 BUILT 2026-07-04 — awaiting your QA:** superadmin-only `GET /api/v1/admin/users/:id/runs` returns one
-user's finished 1:1s (with ratings), newest-first, across companies. Test-first (2 new tests: ordering,
-unknown-user → empty). `npm test` 57/57 · typecheck clean. Green-light → Step 02 (the drilldown screen).
-Plan: [docs/pre-go-live/008-admin-user-drilldown/01-per-user-reads.md](docs/pre-go-live/008-admin-user-drilldown/01-per-user-reads.md).
+Mostly composes existing pieces behind the PG6 superadmin gate. **Steps 01–02 🔨 BUILT 2026-07-04 —
+awaiting your QA. Step 01 (backend):** superadmin-only `GET /api/v1/admin/users/:id/runs` returns one
+user's finished 1:1s (ratings included), newest-first (2 new tests). **Step 02 (the screen):** clicking a
+user on the Registered page opens `/admin/users/:id` — their **people** (reuses the PG4 grouping) and their
+**1:1s** with ★ ratings, plus back; superadmin-only. **QA (needs the API restarted):** as you, Registered →
+click a user → see their people + 1:1s + ratings → back. As a normal owner: refused. Free checks: `npm test`
+57/57 · both typechecks clean · build compiles. Green-light → **Step 03** (open a briefing read-only) closes PG8.
+Plan: [docs/pre-go-live/008-admin-user-drilldown/02-drilldown-screen.md](docs/pre-go-live/008-admin-user-drilldown/02-drilldown-screen.md).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
 
 > 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG6 sign-off + commit.

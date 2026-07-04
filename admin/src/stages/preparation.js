@@ -126,15 +126,17 @@ export async function mount(root, { store, setState }) {
           <button type="button" class="btn btn--ghost btn--sm js-copy-all-prep">Copy all</button>
         </div>
         ${timelineHtml}
-        ${steps.length ? `<div class="eyebrow reveal pt-2">Full brief</div>` : ""}
-        <div class="card prep-brief reveal">
-          ${sections.map((s) => `
-            <div class="prep-brief__row">
-              <div class="eyebrow">${s.label}</div>
-              ${renderField(s.type, brief[s.key])}
-            </div>
-          `).join("")}
-        </div>
+        <details class="prep-full reveal pt-2"${steps.length ? "" : " open"}>
+          <summary class="prep-full__summary eyebrow">Full brief</summary>
+          <div class="card prep-brief mt-2">
+            ${sections.map((s) => `
+              <div class="prep-brief__row">
+                <div class="eyebrow">${s.label}</div>
+                ${renderField(s.type, brief[s.key])}
+              </div>
+            `).join("")}
+          </div>
+        </details>
         <div class="l-cluster l-cluster--2 pt-2 reveal">
           <button class="btn js-continue">Generate interview questions</button>
           <button class="btn btn--ghost js-restart">New session</button>

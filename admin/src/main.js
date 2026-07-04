@@ -44,6 +44,7 @@ const loaders = {
   GUIDE:           () => import("./stages/guide.js"),
   TASKS:           () => import("./stages/tasks.js"),
   ADMIN_REGISTERED: () => import("./stages/admin-registered.ts"),
+  ADMIN_USER:      () => import("./stages/admin-user-detail.ts"),
   ERROR:           () => import("./stages/error.ts"),
 };
 
@@ -146,6 +147,11 @@ startPopstate((parsed) => {
   if (parsed.stage === STAGES.PERSON_DETAIL) {
     if (parsed.params?.personKey) setState({ personKey: parsed.params.personKey, stage: STAGES.PERSON_DETAIL });
     else setState({ stage: STAGES.TEAM });
+    return;
+  }
+  if (parsed.stage === STAGES.ADMIN_USER) {
+    if (parsed.params?.adminUserId) setState({ adminUserId: parsed.params.adminUserId, stage: STAGES.ADMIN_USER });
+    else setState({ stage: STAGES.ADMIN_REGISTERED });
     return;
   }
   if (isFlowStage(parsed.stage)) {                 // only valid with a live session
@@ -251,6 +257,13 @@ async function boot() {
   if (route?.stage === STAGES.REVIEW_RUN) {
     if (route.params?.reviewRunId) { setState({ reviewRunId: route.params.reviewRunId, stage: STAGES.REVIEW_RUN }); return; }
     history.replaceState(null, "", "/"); setState({ stage: STAGES.START }); return;
+  }
+
+  // /admin/users/:id deep link (PG8) — id from URL; the name isn't in the URL, so the
+  // page shows a generic title until it loads. Falls back to the Registered list.
+  if (route?.stage === STAGES.ADMIN_USER) {
+    if (route.params?.adminUserId) { setState({ adminUserId: route.params.adminUserId, stage: STAGES.ADMIN_USER }); return; }
+    history.replaceState(null, "", "/admin/registered"); setState({ stage: STAGES.ADMIN_REGISTERED }); return;
   }
 
   let rehydrated = false;

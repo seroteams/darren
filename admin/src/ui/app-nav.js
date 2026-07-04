@@ -158,6 +158,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.MEETING_ARCS]: "arcs",
     [STAGES.TASKS]: "tasks",
     [STAGES.ADMIN_REGISTERED]: "registered",
+    [STAGES.ADMIN_USER]: "registered",
     [STAGES.GUIDE]: "guide",
     [STAGES.ABOUT]: "about",
     [STAGES.FEEDBACK]: "feedback",

@@ -50,6 +50,14 @@ export async function getRegistered() {
   return json(await fetch("/api/v1/admin/registered"));
 }
 
+// One user's finished 1:1s for the superadmin drilldown (pre-go-live PG8). Same gate as
+// getRegistered — a normal owner gets 401/403 (json() throws). Shape:
+// { runs: [{ id, headline, ctx, lastSeenAt, rating }] }, newest-first.
+/** @returns {Promise<{ runs?: unknown[] }>} */
+export async function getUserRuns(userId) {
+  return json(await fetch(`/api/v1/admin/users/${encodeURIComponent(userId)}/runs`));
+}
+
 // Feedback (Phase 5): send a short tester note. Login required (any role); stored to a
 // local file on the server, no external service. Returns { ok: true }.
 export async function submitFeedback(message, page) {

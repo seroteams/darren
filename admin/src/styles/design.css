@@ -1315,6 +1315,9 @@ body.has-session-topbar .stage {
   border-radius: var(--radius-card);
   opacity: 0;
 }
+.brutal + .brutal {
+  margin-top: 1.25rem;
+}
 @media (prefers-reduced-motion: no-preference) {
   .brutal { transform: scale(0.96); }
 }
@@ -2044,6 +2047,16 @@ body.has-session-topbar .stage {
 .prep-brief__row + .prep-brief__row {
   border-top: 1px solid var(--color-border-tinted);
 }
+
+/* Collapsible "Full brief" — closed by default once the at-a-glance timeline is shown */
+.prep-full__summary {
+  cursor: pointer;
+  list-style: none;
+  width: fit-content;
+}
+.prep-full__summary::-webkit-details-marker { display: none; }
+.prep-full__summary::before { content: "▸ "; }
+.prep-full[open] > .prep-full__summary::before { content: "▾ "; }
 
 /* Selectable focus-point state */
 .focus-point--selectable {

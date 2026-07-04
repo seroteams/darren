@@ -32,6 +32,7 @@ export const STAGES = Object.freeze({
   GUIDE: "GUIDE",
   TASKS: "TASKS",
   ADMIN_REGISTERED: "ADMIN_REGISTERED",
+  ADMIN_USER: "ADMIN_USER",
   ERROR: "ERROR",
 });
 
@@ -49,6 +50,8 @@ const initial = {
   reviewRunId: null,
   myRunId: null,
   personKey: null,
+  adminUserId: null,
+  adminUserName: null,
   currentQuestion: null,
   axes: [],
   briefing: null,
