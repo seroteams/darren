@@ -32,6 +32,7 @@ const ICON = {
   regression: icon(`<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>`),
   guide: icon(`<path d="M12 7.5v13"/><path d="M3 18.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v12.5a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>`),
   tasks: icon(`<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><path d="m9 14 2 2 4-4"/>`),
+  registered: icon(`<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/>`),
   logout: icon(`<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>`),
   privacy: icon(`<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>`),
   about: icon(`<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>`),
@@ -57,6 +58,9 @@ const LINKS = [
   { key: "joblex", label: "Role words", stage: STAGES.ROLE_LEXICONS, icon: ICON.joblex, admin: true },
   { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs, admin: true },
   { key: "tasks", label: "Tasks", stage: STAGES.TASKS, icon: ICON.tasks, admin: true },
+  // Superadmin-only (pre-go-live PG7). `admin: true` puts it in the admin rail; `superadmin:
+  // true` hides it from every owner but Carl. Cosmetic — the backend 403 is the real wall.
+  { key: "registered", label: "Registered", stage: STAGES.ADMIN_REGISTERED, icon: ICON.registered, admin: true, superadmin: true },
 ];
 
 export function createAppNav({ setState, resetSession } = {}) {
@@ -76,7 +80,7 @@ export function createAppNav({ setState, resetSession } = {}) {
       <nav class="app-nav__links" aria-label="Primary">
         ${items
           .map(
-            (it) => `<button type="button" class="app-nav__link js-nav-${it.key}" data-key="${it.key}" data-admin="${it.admin ? "1" : ""}" data-member="${it.member ? "1" : ""}">
+            (it) => `<button type="button" class="app-nav__link js-nav-${it.key}" data-key="${it.key}" data-admin="${it.admin ? "1" : ""}" data-member="${it.member ? "1" : ""}" data-superadmin="${it.superadmin ? "1" : ""}">
           <span class="app-nav__icon">${it.icon}</span>
           <span class="app-nav__label">${it.label}</span>
         </button>`
@@ -121,6 +125,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     joblex: () => setState && setState({ stage: STAGES.ROLE_LEXICONS }),
     arcs: () => setState && setState({ stage: STAGES.MEETING_ARCS }),
     tasks: () => setState && setState({ stage: STAGES.TASKS }),
+    registered: () => setState && setState({ stage: STAGES.ADMIN_REGISTERED }),
     guide: () => setState && setState({ stage: STAGES.GUIDE }),
     privacy: () => setState && setState({ stage: STAGES.PRIVACY }),
     about: () => setState && setState({ stage: STAGES.ABOUT }),
@@ -152,6 +157,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.ROLE_LEXICONS]: "joblex",
     [STAGES.MEETING_ARCS]: "arcs",
     [STAGES.TASKS]: "tasks",
+    [STAGES.ADMIN_REGISTERED]: "registered",
     [STAGES.GUIDE]: "guide",
     [STAGES.ABOUT]: "about",
     [STAGES.FEEDBACK]: "feedback",
@@ -178,7 +184,11 @@ export function createAppNav({ setState, resetSession } = {}) {
     const alwaysShown = new Set(["logout", "privacy", "about", "feedback"]); // account/utility rows
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
       if (alwaysShown.has(b.dataset.key)) return;
-      b.hidden = b.dataset[wanted] !== "1";
+      let show = b.dataset[wanted] === "1";
+      // A superadmin-only row (Registered, PG7) shows only for Carl — the flag comes from
+      // /auth/me. This is cosmetic; the endpoint still enforces the 403.
+      if (show && b.dataset.superadmin === "1" && !(user && user.isSuperadmin)) show = false;
+      b.hidden = !show;
     });
     const activeKey = ACTIVE_BY_STAGE[stage] || null;
     el.querySelectorAll(".app-nav__link").forEach((b) => {

@@ -306,3 +306,13 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   (bucketing, no-runs→zeros not omitted, unrated excluded, no `passwordHash`, avg rounding). Still behind
   `requireSuperadminRoute`, still read-only, no new tracking infra. 57/57 + typecheck green; no OpenAI.
   Next: Carl QA (backend only — read the test results) → Step 02, the screen.
+- **2026-07-04** — **Phase 007 Step 02 (the screen) built — awaiting QA.** New admin stage
+  `admin-registered.ts` at `/admin/registered`, wired via the 6-step pattern (state STAGE + router
+  path/ADMIN_ONLY + main loader + app-nav link + `getRegistered()`). Shows the alpha rating summary + each
+  company with its users (role, joined, run count, last-active, this-week/last-week) + loading/empty/error
+  states; every value escaped, ≥14px, plain language. Nav visibility: `/auth/me` now returns a
+  server-computed `isSuperadmin` boolean (reuses `isSuperadminIdentity`; allowlist never leaves the
+  server), the nav item is `superadmin: true` and hidden unless the flag is set — cosmetic, the backend
+  403 is still the wall (login.js + boot both hydrate the flag from me()). 57/57 + both typechecks + build
+  green; live-checked a member does NOT see the item, no console errors. Full superadmin visual walk needs
+  the API restarted with these changes (Carl's QA). No OpenAI. Next: Carl QA → PG7 ✅ → break down PG8.

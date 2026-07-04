@@ -3,7 +3,7 @@
 // A link switches to the register screen.
 
 import { STAGES, isAdmin } from "../state.js";
-import { login } from "../../../shared/api.js";
+import { login, me } from "../../../shared/api.js";
 
 export async function mount(root, { setState }) {
   // Login is a full-bleed split screen: form on the left, photo on the right.
@@ -64,10 +64,14 @@ export async function mount(root, { setState }) {
     submitBtn.textContent = "Logging in…";
     try {
       const { user } = await login({ email, password });
+      // Re-read identity from /auth/me so the user object carries isSuperadmin (PG7 nav
+      // visibility) the same as a fresh boot does; fall back to the login user if it fails.
+      let identity = user;
+      try { identity = await me(); } catch { /* keep the login user */ }
       // A plain member lands on their own clean Home (member-nav Phase 1); only an
       // admin/owner gets the internal start page. Mirrors the boot routing in main.js
       // so login and a fresh reload land in the same place.
-      setState({ user, stage: isAdmin(user) ? STAGES.START : STAGES.MEMBER_HOME });
+      setState({ user: identity, stage: isAdmin(identity) ? STAGES.START : STAGES.MEMBER_HOME });
     } catch (e2) {
       showError(e2.message || "Could not log in.");
       submitBtn.disabled = false;

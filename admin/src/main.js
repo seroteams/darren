@@ -43,6 +43,7 @@ const loaders = {
   REVIEW_RUN:      () => import("./stages/review-run.js"),
   GUIDE:           () => import("./stages/guide.js"),
   TASKS:           () => import("./stages/tasks.js"),
+  ADMIN_REGISTERED: () => import("./stages/admin-registered.ts"),
   ERROR:           () => import("./stages/error.ts"),
 };
 
@@ -208,7 +209,7 @@ async function boot() {
   }
   // Logged in — record who, then carry on with the normal boot below. Mutate
   // directly (no notify) so the real stage is what renders, no login flash.
-  store.user = { userId: identity.userId, orgId: identity.orgId, roles: identity.roles, email: identity.email, name: identity.name };
+  store.user = { userId: identity.userId, orgId: identity.orgId, roles: identity.roles, email: identity.email, name: identity.name, isSuperadmin: identity.isSuperadmin };
 
   // A plain member gets the member app: Home · Team · Runs, plus the prep flow
   // (member-nav Phase 1). Resume a live session if the URL points at one; honor a member

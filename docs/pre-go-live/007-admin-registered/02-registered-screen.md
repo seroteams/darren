@@ -1,5 +1,16 @@
 # Phase 007 · Step 02 — The "Registered" screen (frontend)
 
+> **Status: 🔨 built 2026-07-04 — awaiting Carl's QA.** New admin stage `admin-registered.ts` at
+> `/admin/registered` (registered via the 6-step pattern: state STAGE + router path/ADMIN_ONLY + main
+> loader + app-nav link + `getRegistered()` in api.js). Renders the alpha rating summary + each company
+> with its users (role, joined, run count, last-active, this-week/last-week), with loading/empty/error
+> states; every value escaped, ≥14px. **Nav visibility:** `/auth/me` now returns a server-computed
+> `isSuperadmin` boolean (the allowlist never leaves the server); the nav item is `superadmin: true` and
+> hidden unless that flag is set. Security still rests on the backend 403. Verified: `npm test` 57/57 ·
+> both typechecks clean · `npm run build` compiles · live check — a **member does not see the item** and
+> no console errors. Full superadmin walk (Carl sees the populated page) needs the API restarted with
+> these changes → part of Carl's QA. No OpenAI.
+
 ## Goal
 A superadmin-only admin page that shows every alpha company and its people, with the return-visit signal —
 so Carl can watch adoption at a glance.

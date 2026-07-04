@@ -36,9 +36,18 @@ export async function logout() {
   return postJson("/api/v1/auth/logout", {});
 }
 
-// Who am I? 200 { userId, orgId, roles } when logged in; throws (status 401) when not.
+// Who am I? 200 { userId, orgId, roles, isSuperadmin } when logged in; throws (401) when
+// not. isSuperadmin is a server-computed flag the nav uses to show the Registered item.
 export async function me() {
   return json(await fetch("/api/v1/auth/me"));
+}
+
+// The superadmin's cross-company alpha view (pre-go-live PG7). Gated server-side by
+// requireSuperadminRoute — a normal owner gets 401/403 (json() throws). Shape:
+// { companies: [{ id, name, createdAt, users: [...] }], summary: { avgStars, ratedCount, lowCount } }.
+/** @returns {Promise<{ companies?: unknown[], summary?: unknown }>} */
+export async function getRegistered() {
+  return json(await fetch("/api/v1/admin/registered"));
 }
 
 // Feedback (Phase 5): send a short tester note. Login required (any role); stored to a
