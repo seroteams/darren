@@ -2,7 +2,9 @@
 // how to delete it (009 Phase 3). Static content, no API. Reachable from the signup
 // screen (logged out) and from the nav footer (logged in). Every claim here is true
 // against the code: data is fenced by company + role, a run can be deleted from its row,
-// and account deletion is an honest manual/email path (there's no self-serve endpoint yet).
+// account deletion is an honest manual/email path (there's no self-serve endpoint yet),
+// ratings (stars + note) are stored per run, and the one cross-company exception — the
+// superadmin (Sero-team) read-only view (PG6–PG8) — is disclosed rather than hidden.
 
 import { STAGES, store, isAdmin } from "../state.js";
 
@@ -27,12 +29,12 @@ export async function mount(root, { setState }) {
 
       <section class="card-flat space-y-3">
         <div class="eyebrow">What we store</div>
-        <p class="text-sm">The person's name and role, any notes you type when prepping a 1:1, your answers during the prep, and the briefing Sero writes for you. Nothing more.</p>
+        <p class="text-sm">The person's name and role, any notes you type when prepping a 1:1, your answers during the prep, and the briefing Sero writes for you. If you rate how useful a 1:1 was, we store that star rating and any note you add with it. Nothing more.</p>
       </section>
 
       <section class="card-flat space-y-3">
         <div class="eyebrow">Who can see it</div>
-        <p class="text-sm">Only you and your company's owner. Your data is walled off from every other company — no one outside yours can see it. To write your briefing, the text is sent to our AI provider, which processes it to produce the result.</p>
+        <p class="text-sm">Inside your company, only you and your company's owner. Your data is walled off from every <em>other</em> company — no other customer can see it. During this early alpha, a member of the Sero team can view companies' people, 1:1s and ratings to run and support the trial; we only look to keep things working and we never share it. To write your briefing, the text is sent to our AI provider, which processes it to produce the result.</p>
       </section>
 
       <section class="card-flat space-y-3">
