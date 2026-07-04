@@ -17,10 +17,12 @@ with a **"Since last time"** recap and one-tap **"Prep your next 1:1"**. Behind 
 has a read-only, cross-company **superadmin key** — server-resolved allowlist, read-only by construction,
 one audit line per access, proven by 13 tests (the dev side-door can't pass). No screen yet.
 
-**▶ Your move: PG7 (Admin — who's registered) — not yet broken down.** Say **"go"** and I'll break PG7 into
-steps: the first superadmin **screen** — every alpha company and its users (names, roles, joined-when, run
-counts), built on the PG6 `GET /api/v1/admin/registered` endpoint, gated so only you can reach it.
-Plan: [docs/pre-go-live/007-admin-registered/00-phase-overview.md](docs/pre-go-live/007-admin-registered/00-phase-overview.md).
+**▶ Your move: PG7 (Admin — who's registered) — broken down into 2 steps + QA, nothing built yet.** The
+first superadmin **screen** — every alpha company + its users with the return-visit signal (run counts,
+last-active, alpha rating summary). **Finding:** the PG6 endpoint only carries companies → users, so Step 01
+is a backend enrichment (run stats), then Step 02 is the screen. **Scope choice:** say **"go"** for the full
+signal, or **"trim to minimal"** (just list + run count + last-active).
+Plan: [docs/pre-go-live/007-admin-registered/01-registered-data.md](docs/pre-go-live/007-admin-registered/01-registered-data.md).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
 
 > 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG6 sign-off + commit.
