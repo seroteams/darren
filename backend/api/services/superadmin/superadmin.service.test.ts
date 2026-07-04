@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createSuperadminService } from "./superadmin.service.ts";
-import type { SuperadminRepo, OrgRow, UserRow, RunRow, UserRunRow } from "./superadmin.repo.ts";
+import type { SuperadminRepo, OrgRow, UserRow, RunRow, UserRunRow, SuperadminRunDetail } from "./superadmin.repo.ts";
 
 // A storage-agnostic fake — the service logic (grouping, ordering, the read-only view
 // shape) is proven without a database, the same seam the other domains use.
@@ -10,12 +10,14 @@ function fakeRepo(
   people: UserRow[],
   runs: RunRow[] = [],
   runsByUser: Record<string, UserRunRow[]> = {},
+  runsById: Record<string, SuperadminRunDetail> = {},
 ): SuperadminRepo {
   return {
     listOrganizations: async () => orgs,
     listUsers: async () => people,
     listRuns: async () => runs,
     listRunsForUser: async (id: string) => runsByUser[id] ?? [],
+    readRun: async (id: string) => runsById[id] ?? null,
   };
 }
 
@@ -161,4 +163,25 @@ test("userRuns: an unknown user → empty list, not an error", async () => {
   const svc = createSuperadminService(fakeRepo([], [], [], {}));
   const { runs } = await svc.userRuns("nobody");
   assert.deepEqual(runs, []);
+});
+
+// --- PG8 Step 03: the read-only briefing detail --------------------------
+
+test("runDetail: returns one finished run's read-only briefing", async () => {
+  const detail: SuperadminRunDetail = {
+    id: "r1",
+    headline: "Marco 1:1",
+    ctx: { name: "Marco", role: "Engineer", seniority: "Senior", meetingType: "One-on-one" },
+    briefing: { summary_bullets: ["stood out"] },
+    lastSeenAt: 1000,
+    completedAt: 1000,
+    rating: { stars: 4, note: "", updatedAt: null },
+  };
+  const svc = createSuperadminService(fakeRepo([], [], [], {}, { r1: detail }));
+  assert.equal((await svc.runDetail("r1"))?.id, "r1");
+});
+
+test("runDetail: an unknown/unfinished run → null (controller turns this into a 404)", async () => {
+  const svc = createSuperadminService(fakeRepo([], [], [], {}, {}));
+  assert.equal(await svc.runDetail("nope"), null);
 });

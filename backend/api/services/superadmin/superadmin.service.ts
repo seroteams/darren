@@ -5,7 +5,7 @@
 // return-visit signal (per-user run counts + last-active) and an alpha-wide rating summary.
 
 import { pgSuperadminRepo } from "./superadmin.repo.ts";
-import type { SuperadminRepo, RunRow, UserRunRow } from "./superadmin.repo.ts";
+import type { SuperadminRepo, RunRow, UserRunRow, SuperadminRunDetail } from "./superadmin.repo.ts";
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -48,6 +48,8 @@ export interface SuperadminService {
   listRegistered(now?: Date): Promise<{ companies: RegisteredCompany[]; summary: AlphaSummary }>;
   /** One user's finished runs, newest-first (PG8 drilldown). Read-only, superadmin-only. */
   userRuns(userId: string): Promise<{ runs: UserRunRow[] }>;
+  /** One finished run's read-only briefing detail (PG8 Step 3). null if unknown/unfinished. */
+  runDetail(runId: string): Promise<SuperadminRunDetail | null>;
 }
 
 /** Per-user run tallies, keyed by userId. Runs with no userId (machine/gate sessions)
@@ -121,6 +123,9 @@ export function createSuperadminService(repo: SuperadminRepo = pgSuperadminRepo)
     async userRuns(userId) {
       const runs = await repo.listRunsForUser(userId);
       return { runs: [...runs].sort((a, b) => b.lastSeenAt - a.lastSeenAt) };
+    },
+    async runDetail(runId) {
+      return repo.readRun(runId);
     },
   };
 }

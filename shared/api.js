@@ -58,6 +58,12 @@ export async function getUserRuns(userId) {
   return json(await fetch(`/api/v1/admin/users/${encodeURIComponent(userId)}/runs`));
 }
 
+// Superadmin, read-only (PG8 Step 3): one finished run's briefing across companies.
+// Unknown/unfinished id → 404. Gated by requireSuperadminRoute.
+export async function getAdminRun(id) {
+  return json(await fetch(`/api/v1/admin/runs/${encodeURIComponent(id)}`));
+}
+
 // Feedback (Phase 5): send a short tester note. Login required (any role); stored to a
 // local file on the server, no external service. Returns { ok: true }.
 export async function submitFeedback(message, page) {

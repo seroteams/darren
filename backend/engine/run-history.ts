@@ -317,6 +317,33 @@ function memberRunView(id: string, orgId: string | null | undefined, userId: str
   };
 }
 
+// A read-only view of ANY ONE finished run, UNFENCED (pre-go-live PG8 superadmin drilldown).
+// Same shape as memberRunView, but no org/user check — reachable only behind
+// requireSuperadminRoute. Returns null for an unknown id or a run with no briefing (not
+// finished), so ids can't be probed and half-run sessions never surface.
+function superadminRunView(id: string) {
+  const dir = findRunDir(id);
+  if (!dir) return null;
+  const state = readState(path.join(dir, STATE_FILE));
+  const s = asRecord(state);
+  if (!s.briefing) return null;
+  const ctx = asRecord(s.ctx);
+  return {
+    id,
+    headline: buildHeadline(ctx),
+    ctx: {
+      name: asString(ctx.name),
+      role: asString(ctx.role),
+      seniority: asString(ctx.seniority),
+      meetingType: asString(ctx.meetingType),
+    },
+    briefing: s.briefing ?? null,
+    lastSeenAt: asNumber(s.lastSeenAt),
+    completedAt: typeof s.completedAt === "number" ? s.completedAt : null,
+    rating: ratingOf(dir),
+  };
+}
+
 function findLatestRunWithLock() {
   const runs = walkRuns();
   runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
@@ -593,6 +620,7 @@ export {
   listRunsForSuperadmin,
   listFinishedRunsForUser,
   memberRunView,
+  superadminRunView,
   walkRuns,
   listRecentRuns,
   listFinishedRuns,

@@ -28,9 +28,9 @@ function fakeRes(): ServerResponse & { status: number | null } {
 
 test("router: a RegExp named-group route captures :id from a real path", async () => {
   const router = createRouter();
-  let seen: Record<string, string> | null = null;
+  const seen: { params: Record<string, string> | null } = { params: null };
   router.add("GET", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/runs$/, (c) => {
-    seen = c.params;
+    seen.params = c.params;
     c.json(200, { ok: true });
   });
 
@@ -39,7 +39,7 @@ test("router: a RegExp named-group route captures :id from a real path", async (
 
   assert.equal(res.status, 200);
   // regex named groups arrive as a null-prototype object — assert the value, not the shape
-  assert.equal(seen?.id, "u1");
+  assert.equal(seen.params?.id, "u1");
 });
 
 test("router: an Express-style string ':id' pattern does NOT match a real id (the PG8 gotcha)", async () => {

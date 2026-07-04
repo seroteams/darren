@@ -8,17 +8,9 @@ import { STAGES, store } from "../state.js";
 import { getMyRun, rateMyRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { createStarRating } from "../ui/star-rating.js";
+import { renderReadonlyBriefing, type Briefing } from "../ui/briefing-view.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
-type NextAction = { when?: string; action?: string };
-type Briefing = {
-  summary_bullets?: string[];
-  understanding_paragraph?: string;
-  brutal_truth_employee?: string;
-  brutal_truth_manager?: string;
-  next_actions?: NextAction[];
-  watch_for?: string[];
-};
 type RunDetail = {
   id: string;
   headline: string;
@@ -28,30 +20,6 @@ type RunDetail = {
   completedAt: number | null;
   rating: { stars: number; note: string; updatedAt: string | null } | null;
 };
-
-function card(label: string, inner: string): string {
-  return `<section class="card-flat space-y-2"><div class="eyebrow">${escapeHtml(label)}</div>${inner}</section>`;
-}
-function bullets(items: string[]): string {
-  return `<ul class="l-stack l-stack--2">${items.map((x) => `<li class="text-sm">${escapeHtml(x)}</li>`).join("")}</ul>`;
-}
-
-// The same field set the manager saw (mirrors review-run.js renderBriefing), briefing-only.
-function renderBriefing(b: Briefing | null): string {
-  const none = `<section class="card-flat"><p class="text-sm text-ink-dim">No briefing was recorded for this 1:1.</p></section>`;
-  if (!b) return none;
-  const out: string[] = [];
-  if ((b.summary_bullets || []).length) out.push(card("What stood out", bullets(b.summary_bullets!)));
-  if (b.understanding_paragraph) out.push(card("What we understood", `<p class="text-sm">${escapeHtml(b.understanding_paragraph)}</p>`));
-  if (b.brutal_truth_employee) out.push(card("Honest read — them", `<p class="text-sm">${escapeHtml(b.brutal_truth_employee)}</p>`));
-  if (b.brutal_truth_manager) out.push(card("Honest read — you", `<p class="text-sm">${escapeHtml(b.brutal_truth_manager)}</p>`));
-  if ((b.next_actions || []).length) {
-    const items = b.next_actions!.map((a) => `<li class="text-sm">${a.when ? escapeHtml(a.when) + ": " : ""}${escapeHtml(a.action || "")}</li>`);
-    out.push(card("What to do next", `<ul class="l-stack l-stack--2">${items.join("")}</ul>`));
-  }
-  if ((b.watch_for || []).length) out.push(card("Reminders", bullets(b.watch_for!)));
-  return out.join("") || none;
-}
 
 // The "how useful was this?" star rating (PG3). A radiogroup of five star buttons —
 // keyboard-operable, labelled — pre-filled from the run's saved rating. A low score
@@ -160,7 +128,7 @@ export const mount: Mount = async (root, { setState }) => {
 
   const sub = root.querySelector<HTMLElement>(".js-sub");
   if (sub) sub.textContent = subtitle(run.ctx);
-  root.querySelector(".js-host")!.innerHTML = renderRating(run) + renderBriefing(run.briefing);
+  root.querySelector(".js-host")!.innerHTML = renderRating(run) + renderReadonlyBriefing(run.briefing);
   wireRating(root, run);
 };
 
