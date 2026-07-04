@@ -10,28 +10,34 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 007 — Admin: who's registered — `planned` (broken down 2026-07-04; no code written yet)**
+**→ Phase 007 — Admin: who's registered — `awaiting-qa` (built full scope 2026-07-04; Carl said "go")**
 
-Broken into 2 steps + QA. **Finding while breaking it down:** the PG6 endpoint returns companies → users
-**only** (run stats were out of PG6 scope), but the PG7 screen wants run counts / last-active / rating
-summary — so **Step 01 is a backend enrichment step**, not just a frontend screen as the terse overview
-implied. **Open scope choice for Carl:** full return-visit signal (run count + last-active + this-week/last-
-week + alpha rating summary) vs a minimal list (company → users + run count + last-active). Steps written to
-the full scope; easy to trim at build time.
+Both build steps done, offline-verified, committed locally. **Awaiting Carl's QA walk**
+([99-qa-signoff.md](007-admin-registered/99-qa-signoff.md)) — nothing self-certified; the ✅ waits on the walk.
 
 PG7 steps:
-- [ ] **01 — Enrich the registered data** ([01-registered-data.md](007-admin-registered/01-registered-data.md))
-  — backend, test-first. Add per-user `runCount` / `lastActiveAt` / `runsThisWeek` / `runsLastWeek` + a
-  top-level alpha `summary` (avgStars / ratedCount / lowCount) to `GET /api/v1/admin/registered`. Derivation
-  in the service (fake-repo testable, `now` passed in); still guarded, read-only, no `password_hash`.
-- [ ] **02 — The "Registered" screen** ([02-registered-screen.md](007-admin-registered/02-registered-screen.md))
-  — frontend admin stage at `/admin/registered` (admin page pattern), fetch + render companies → users with
-  the signal + summary; own states. Nav item shown only to the superadmin via a new `isSuperadmin` flag on
-  `GET /api/v1/auth/me` (a boolean, never the allowlist) — **cosmetic; the backend 403 stays the real wall.**
+- [x] **01 — Enrich the registered data** ([01-registered-data.md](007-admin-registered/01-registered-data.md))
+  — **built test-first.** `GET /api/v1/admin/registered` now returns, per user, `runCount` / `lastActiveAt` /
+  `runsThisWeek` / `runsLastWeek`, plus a top-level `summary: { avgStars, ratedCount, lowCount }` (low = ≤2)
+  folded across **all** alpha runs. Derived from existing run timestamps + PG3 ratings — no new tracking.
+  Derivation lives in the service (fake-repo testable; `now` injected by the controller so week buckets are
+  deterministic). New repo read `listRunSignals()` reuses the unfenced `run-history` walk (all companies).
+  Still behind `requireSuperadminRoute`, read-only, no `passwordHash`. 3 new service tests (per-user stats,
+  no-runs → 0 not omitted, alpha summary avg/low) → 6/6 in the file.
+- [x] **02 — The "Registered" screen** ([02-registered-screen.md](007-admin-registered/02-registered-screen.md))
+  — **built.** New admin stage `admin/src/stages/admin-registered.ts` at `/admin/registered`: alpha summary
+  up top, then each company with its users (name, role, joined, run count, last active, this-week/last-week);
+  own loading / empty / error states. Nav item shows **only** to the superadmin via a new server-computed
+  `isSuperadmin` flag on `GET /api/v1/auth/me` (a boolean, never the allowlist) — **cosmetic; the backend 403
+  stays the real wall** (a normal owner who hits the route sees the "for Sero admins only" card). Plumbing:
+  `state.js` STAGE + `router.js` path (in `ADMIN_ONLY`) + `main.js` loader + `app-nav.js` link (data-superadmin
+  gate) + `getRegistered()` in `shared/api.js`. Every value escaped.
 - [ ] **99 — QA sign-off** ([99-qa-signoff.md](007-admin-registered/99-qa-signoff.md)) — Carl sees every
   company + users + signal; a normal owner: no nav item **and** 403 on the route.
 
-Next: `go` (full scope) or "trim to minimal" → then build Step 01.
+Verify (free, no OpenAI): `npm test` **57/57** · `npm run typecheck` clean · `npm run build` OK (new
+`admin-registered` chunk emitted). PG6 guard unchanged (`superadmin-guard.test.ts` still proves owner → 403);
+no `passwordHash` in the payload (repo selects explicit columns only). Next: Carl walks the QA scenarios.
 
 **Phase 006 — Superadmin gate — ✅ `done` (signed off + committed 2026-07-04).** Carl approved the security
 shape + tests ("approved"). Backend-only, test-first (13 tests): `requireSuperadmin` guard reads the
@@ -182,11 +188,14 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
 | 004 | Team — auto-built people | ✅ done (signed off + committed) |
 | 005 | Person detail | ✅ done (signed off + committed) |
 | 006 | Superadmin gate (backend) | ✅ done (signed off + committed) |
-| 007 | Admin: who's registered | planned (broken down; building next) |
+| 007 | Admin: who's registered | awaiting-qa (built full scope; committed local) |
 | 008 | Admin: user → teams → runs | not-started |
 | 009 | Roster + polish | not-started |
 
 ## Baseline (fill in before touching code in a phase)
+- **2026-07-04 — Phase 007 baseline (free checks, no OpenAI):** `npm test` **57/57 passed**,
+  `npm run typecheck` **clean** (after `npm install` on the fresh clone). The green line PG7 is measured
+  against; after the PG7 build it's still 57/57 (3 new service cases in the existing superadmin test file).
 - **2026-07-01 — Phase 001 baseline (free checks, no OpenAI):** `npm test` **53/53 passed**,
   `npm run typecheck` **clean**. (Up from the 52/52 last-known-good — suite has grown.) This is the
   green line Phase 001 work is measured against.
@@ -297,3 +306,13 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   + tests ("approved") → PG6 ✅. Ticked STATUS + SERO_BOARD + build badges (PG6 2 chips → done) + changelog.
   56/56, typecheck clean; no paid runs. **Carry-forward before widening the alpha stays open by design.**
   Next: `go` → break down Phase 007 (who's registered — the first superadmin screen).
+- **2026-07-04** — **Phase 007 broken down, then built full scope (Carl said "go").** Fresh clone was 3 days
+  stale; reset the working branch onto latest `main` (through the PG6 + cleanup-audit merge), `npm install`,
+  baseline **57/57 + typecheck clean**. Step 01 (backend, test-first): enriched `GET /api/v1/admin/registered`
+  with the per-user return-visit signal (`runCount` / `lastActiveAt` / `runsThisWeek` / `runsLastWeek`) + a
+  top-level alpha `summary` (avg / rated / low ≤2); new repo read `listRunSignals()` reuses the unfenced
+  `run-history` walk; `now` injected for deterministic week buckets; 3 new service tests (→ 6/6). Step 02
+  (frontend): new `admin-registered.ts` stage at `/admin/registered` (summary + companies → users with the
+  signal, own states), `getRegistered()` client, and a server-computed `isSuperadmin` flag on `/auth/me`
+  gating the (cosmetic) nav item — backend 403 stays the wall. Verify (free): `npm test` 57/57, typecheck
+  clean, `npm run build` OK (new chunk). Committed locally; **awaiting Carl's QA walk.**

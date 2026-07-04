@@ -6,7 +6,9 @@
 import type { RequestContext } from "../../router.ts";
 import { superadminService } from "./superadmin.service.ts";
 
-/** GET /api/v1/admin/registered — every company and the people in it. */
+/** GET /api/v1/admin/registered — every company and the people in it, with the
+ *  return-visit signal and the alpha rating summary. The clock is injected here so the
+ *  service's week buckets stay deterministic under test. */
 export async function registered(c: RequestContext): Promise<void> {
-  c.json(200, await superadminService.listRegistered());
+  c.json(200, await superadminService.listRegistered(new Date()));
 }
