@@ -19,10 +19,11 @@ auto-built from past 1:1s + person detail, and a **superadmin** read-only window
 [docs/pre-go-live/OVERVIEW.md](docs/pre-go-live/OVERVIEW.md), live state
 [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md), tactical [STATUS.md](STATUS.md).
 **Supersedes** the deferred member-nav Phase 2 and 009's deferred "real Team content" (folded in).
-**PG1–PG6 ✅ done** (Runs list, reopen, rate a 1:1, Team auto-built + "Past 1:1s", the per-person page with
-"Since last time" + "Prep next 1:1", and the read-only cross-company superadmin gate — all signed off,
-committed to `main`). **PG7 (Admin: who's registered — the first superadmin screen) is next — not yet broken
-down.** No paid runs.
+**PG1–PG7 ✅ done** (Runs list, reopen, rate a 1:1, Team auto-built + "Past 1:1s", the per-person page with
+"Since last time" + "Prep next 1:1", the read-only cross-company superadmin gate, and now the **"Registered"**
+screen — every alpha company + its people with the return-visit signal + an alpha rating summary; all signed
+off, committed to `main`, PG7 verified live both roles). **PG8 (Admin: user → teams → runs — drill from a
+person into their 1:1s) is next — not yet broken down.** No paid runs.
 
 **✅ Closed (2026-07-01): Phase 009 — Getting ready to share (real-data alpha).** Every actionable phase
 done; hosting (2) + continuity (8) folded into the pre-go-live track above

@@ -10,10 +10,15 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 007 — Admin: who's registered — `awaiting-qa` (built full scope 2026-07-04; Carl said "go")**
+**→ Phase 008 — Admin: user → teams → runs — `not-started`**
 
-Both build steps done, offline-verified, committed locally. **Awaiting Carl's QA walk**
-([99-qa-signoff.md](007-admin-registered/99-qa-signoff.md)) — nothing self-certified; the ✅ waits on the walk.
+Next action for the agent: **break Phase 008 down** into step files + `99-qa-signoff.md` (don't start coding
+until Carl green-lights the breakdown). It drills from a person in "Registered" into their teams and their
+individual 1:1s — the read-only superadmin path built on the PG6 fence + PG7 screen.
+
+**Phase 007 — Admin: who's registered — ✅ `done` (signed off + merged 2026-07-04).** Both build steps done,
+verified live end-to-end (both roles: superadmin sees the screen with correct data; a normal owner gets no
+nav item + a 403), Carl signed off, PR #7 merged to `main`.
 
 PG7 steps:
 - [x] **01 — Enrich the registered data** ([01-registered-data.md](007-admin-registered/01-registered-data.md))
@@ -188,8 +193,8 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
 | 004 | Team — auto-built people | ✅ done (signed off + committed) |
 | 005 | Person detail | ✅ done (signed off + committed) |
 | 006 | Superadmin gate (backend) | ✅ done (signed off + committed) |
-| 007 | Admin: who's registered | awaiting-qa (built full scope; committed local) |
-| 008 | Admin: user → teams → runs | not-started |
+| 007 | Admin: who's registered | ✅ done (signed off + merged 2026-07-04) |
+| 008 | Admin: user → teams → runs | not-started (next) |
 | 009 | Roster + polish | not-started |
 
 ## Baseline (fill in before touching code in a phase)
@@ -324,3 +329,7 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   errors. **Normal owner** (allowlist empty): `isSuperadmin:false`, nav item **hidden**, direct
   `/admin/registered` → the "for Sero admins only" card, backend **403**. Nothing to fix — works as designed.
   Still Carl's to sign off in his own env (Neon `DATABASE_URL`).
+- **2026-07-04** — **PG7 signed off + merged.** Carl green-lit ("Done"); merged PR #7 to `main`. Ticked
+  STATUS + SERO_BOARD + the build badge → done, refreshed the how-it-works changelog. Pre-go-live is now
+  **7/9** (member side complete + the first superadmin screen live). Next: break down Phase 008
+  (user → teams → runs).

@@ -11,21 +11,19 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 **Now active: [pre-go-live](docs/pre-go-live/OVERVIEW.md) — the manager's Team & Runs, ratings, and a
 superadmin window on the alpha.** 9 phases, one at a time.
-**PG1–PG6 ✅ (through 2026-07-04) · PG7 (Admin — who's registered) 🔨 built full scope, awaiting your QA.**
-The member side is done: **"Past 1:1s"** list + reopen + rate, the auto-built **Team**, and each person's page
-with a **"Since last time"** recap and one-tap **"Prep your next 1:1"**. Behind the scenes, your account has a
-read-only, cross-company **superadmin key** (PG6) — and now its **first screen**.
+**PG1–PG7 ✅ (through 2026-07-04).** The member side is done: **"Past 1:1s"** list + reopen + rate, the
+auto-built **Team**, and each person's page with a **"Since last time"** recap and one-tap **"Prep your next
+1:1"**. Behind the scenes, your account has a read-only, cross-company **superadmin key** (PG6) — and now its
+first screen, **"Registered"** (PG7): the alpha rating summary + every company and its people with the
+return-visit signal (joined, run count, last active, this-week / last-week). Verified live end-to-end both
+roles (superadmin sees it; a normal owner gets no nav item + a 403), signed off, merged to `main`.
 
-**▶ Your move: walk the PG7 QA.** You said **"go"** for the full signal, so it's built: a superadmin-only
-**"Registered"** page at `/admin/registered` — the alpha rating summary up top, then every company and its
-people with the return-visit signal (joined date, run count, last active, this-week / last-week). The nav
-item shows **only to you** (a server-computed `isSuperadmin` flag — cosmetic; the backend 403 is the real
-wall). Built + offline-verified + committed locally; **nothing self-certified — the ✅ waits on your walk.**
-QA sheet: [docs/pre-go-live/007-admin-registered/99-qa-signoff.md](docs/pre-go-live/007-admin-registered/99-qa-signoff.md).
-Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). Free checks green (57/57, typecheck,
-build); no paid runs.
+**▶ Your move: PG8 (Admin — user → teams → runs).** The next superadmin screen: drill from a person in
+"Registered" into their teams and their individual 1:1s. Not broken down yet — say **"go"** and I'll split it
+into steps + QA (one phase at a time, as always).
+Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
 
-> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG7 build (awaiting QA).
+> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG7 sign-off + merge.
 > In any fresh session, say **"check point"** and I'll read this file + the PROGRESS log + recent
 > commits and give you the full "where we are, your move" picture — no digging needed.
 
