@@ -351,3 +351,11 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   loading/empty/error; all escaped, ≥14px. Superadmin-only (ADMIN_USER in ADMIN_ONLY + backend 403).
   57/57 + both typechecks + build green; no OpenAI. Next: Carl QA (needs API restart for the live walk) →
   Step 03 (open a briefing read-only) closes PG8.
+- **2026-07-04** — **PG8 QA found + fixed a route bug (`cec682e9`).** Setting up the live walk surfaced that
+  Step 01's route was registered as the string `"/api/v1/admin/users/:id/runs"`, but `router.ts` matches
+  string patterns **exactly** (only regex patterns extract `:id`), so every real user id **404'd** — the
+  drilldown would have loaded no runs. Switched to the named-group regex the sibling routes use; verified
+  live (now 401-gated for a real id, was 404). The 57/57 service tests missed it because they call the
+  service directly, never the HTTP route. **Gap flagged:** no route-level wiring test exists — a follow-up.
+  Visual superadmin walk still owed by Carl (needs his own `carl@seroteams.com` login; the dev side-door is
+  non-superadmin by design). 57/57 + typecheck still green.
