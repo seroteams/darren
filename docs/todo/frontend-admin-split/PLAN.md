@@ -30,7 +30,7 @@ Right now there is **one** app. `admin/` is a single Vite SPA that serves *both*
 - **Verified (free):** `npm run build` (vite/Rollup) resolves every import — all 27 stages compiled ✓. `npm test` **52/52**, typecheck clean (backend untouched). Frontend has no unit tests, so the build is the resolution proof; the visual "nothing changed" walk is Carl's QA.
 - **Baseline (free, 2026-07-01):** `npm test` **52/52** · typecheck clean.
 - **Decisions locked** (see below): share via a plain folder (A); JS→TS out of scope.
-- **Heads-up (guardrail):** this is **parked** in the live plan ([009](../009-ready-to-share/PLAN.md) "Option C"); building it pauses 009 alpha-readiness. Carl chose to proceed knowingly.
+- **Heads-up (guardrail):** this is **parked** in the live plan ([009](../done/009-ready-to-share/PLAN.md) "Option C"); building it pauses 009 alpha-readiness. Carl chose to proceed knowingly.
 - **Next:** Carl walks the Phase 1 scenarios (below) — the app should behave exactly as before. On green light → Phase 2 (stand up the customer app in `frontend/`).
 
 ## Decisions (locked 2026-07-01)

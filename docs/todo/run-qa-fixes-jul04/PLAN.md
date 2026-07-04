@@ -4,7 +4,9 @@
 **Driver:** Carl
 **Created:** 2026-07-04
 
-Source review: [../../../.claude/plans/run-context-report-melodic-rabbit.md](run-context-report-melodic-rabbit.md) (A–E write-up).
+Source review: the "melodic-rabbit" A–E write-up — a local session scratch doc under `.claude/plans/`
+(never committed to the repo, and no longer present). The four defects it found are captured in the phase
+table below, so this plan stands on its own without it.
 Run reviewed: `logs/july/2026_Jul04_14-23-4b3931311f7d411093c5cef545f22615`.
 
 ## Done means

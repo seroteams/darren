@@ -21,7 +21,7 @@ from their past 1:1s. No "add a teammate" step; the team appears as they run 1:1
    Keep the manager's original display name for the card label. **Start client-side** from the
    `/api/v1/runs/mine` payload. **Factor the grouping into a small shared function**, because Phase 008
    needs the same roll-up server-side for an arbitrary user — write it once, don't reimplement.
-2. Rewrite [team.js](../../../admin/src/stages/team.js) from placeholder to the grouped people list
+2. Rewrite [team.ts](../../../admin/src/stages/team.ts) from placeholder to the grouped people list
    (match `.card-flat` / `.l-stack`; `escapeHtml` names).
 3. Design the **"only one meeting" card** deliberately ("1 meeting · not yet rated") so a single 1:1
    doesn't imply a history it lacks.

@@ -1,5 +1,5 @@
 > **⛔ FOLDED + CLOSED 2026-07-04 (Carl's call).** This plan's shipped slice (the Preparation payload
-> preview) already lives in [sent-preview](../sent-preview/PLAN.md). Its remaining ambition — extend the
+> preview) already lives in [sent-preview](../../sent-preview/PLAN.md). Its remaining ambition — extend the
 > preview to *every* stage + a readable System/User-split display — has been absorbed into sent-preview's
 > **Parked** section. The Phase-1 code lost in the June reorg is **not** being rebuilt here; it will be
 > redone stage-by-stage under sent-preview if/when Carl wants it. Archived to `done/` as folded (not
@@ -17,7 +17,7 @@
 
 ## Current state
 
-- 🚩 **Phase 1 — code is NOT in the current tree (lost in the 2026-06-24 monorepo reorg).** This was marked "✅ built, awaiting QA", but a **2026-07-01 code audit** found no `assembleFocusPoints` and no `FOCUS_POINTS` entry in `PREVIEW_ASSEMBLERS` (`backend/api/services/sessions/sessions.service.ts` has only `PREPARATION`), and no System/User split display in `admin/src/ui/stage-data-tab.js` (it renders the prompt as one raw block). The surviving Preparation-preview slice actually lives under [sent-preview](../sent-preview/PLAN.md), not here. **Decide: rebuild, fold into sent-preview, or cut this plan.** Baseline before the original work: `npm test` 30/30.
+- 🚩 **Phase 1 — code is NOT in the current tree (lost in the 2026-06-24 monorepo reorg).** This was marked "✅ built, awaiting QA", but a **2026-07-01 code audit** found no `assembleFocusPoints` and no `FOCUS_POINTS` entry in `PREVIEW_ASSEMBLERS` (`backend/api/services/sessions/sessions.service.ts` has only `PREPARATION`), and no System/User split display in `admin/src/ui/stage-data-tab.js` (it renders the prompt as one raw block). The surviving Preparation-preview slice actually lives under [sent-preview](../../sent-preview/PLAN.md), not here. **Decide: rebuild, fold into sent-preview, or cut this plan.** Baseline before the original work: `npm test` 30/30.
 - ⏳ Phases 2–6 not started (one at a time, after each green light).
 
 ## Phases

@@ -18,7 +18,7 @@ an empty placeholder. If they have none yet, they see a friendly "start your fir
 
 ## The steps (to be detailed when this phase starts)
 1. Add `listMyRuns()` to [shared/api.js](../../../shared/api.js) → `GET /api/v1/runs/mine`.
-2. Rewrite [runs.js](../../../admin/src/stages/runs.js): fetch on mount, render the list (kept empty
+2. Rewrite [runs.ts](../../../admin/src/stages/runs.ts): fetch on mount, render the list (kept empty
    state when the list is empty, error state if the fetch fails).
 3. Match the existing design (`.card-flat`, `.l-stack`, list rows like the admin Start page), `escapeHtml`
    every value.
