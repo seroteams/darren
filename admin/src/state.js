@@ -81,13 +81,14 @@ export function setState(patch) {
   }
 }
 
-// True when the logged-in user is an owner/admin — the internal tooling is theirs, a
+// True when the logged-in user is a manager/admin — the internal tooling is theirs, a
 // plain member only gets the prep flow (admin-access-guard Phase 2). Handles both shapes
 // we store: me() gives { roles: [...] }, login() gives a PublicUser { role: "..." }.
+// Mirrors the backend ADMIN_ROLES gate in require-auth.ts.
 export function isAdmin(user) {
   if (!user) return false;
   const roles = Array.isArray(user.roles) ? user.roles : user.role ? [user.role] : [];
-  return roles.includes("owner") || roles.includes("admin");
+  return roles.includes("manager") || roles.includes("admin");
 }
 
 export function resetSession() {

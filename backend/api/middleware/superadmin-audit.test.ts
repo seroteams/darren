@@ -20,9 +20,9 @@ function ctxWith(cookie: string | undefined, pathname = "/api/v1/admin/registere
 }
 
 const superSession: IdentityLookup = async (token) =>
-  token === "super" ? { userId: "u1", orgId: "o1", roles: ["owner"], email: SUPER, name: "Carl" } : null;
+  token === "super" ? { userId: "u1", orgId: "o1", roles: ["admin"], email: SUPER, name: "Carl" } : null;
 const ownerSession: IdentityLookup = async (token) =>
-  token === "owner" ? { userId: "u2", orgId: "o2", roles: ["owner"], email: "someone@acme.com", name: "Owner" } : null;
+  token === "owner" ? { userId: "u2", orgId: "o2", roles: ["manager"], email: "someone@acme.com", name: "Owner" } : null;
 
 async function withEnv(vars: Record<string, string | undefined>, fn: () => Promise<void>): Promise<void> {
   const prev: Record<string, string | undefined> = {};
@@ -45,7 +45,7 @@ async function withEnv(vars: Record<string, string | undefined>, fn: () => Promi
 
 test("superadminAuditEntry records who/what/when — and no secret", () => {
   const entry = superadminAuditEntry(
-    { userId: "u1", orgId: "o1", roles: ["owner"], email: SUPER, name: "Carl" },
+    { userId: "u1", orgId: "o1", roles: ["admin"], email: SUPER, name: "Carl" },
     "GET",
     "/api/v1/admin/registered",
     "2026-07-04T00:00:00.000Z",

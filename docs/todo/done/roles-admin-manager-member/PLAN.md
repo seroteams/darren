@@ -20,14 +20,16 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Switch the role model | Enum rename + data migration + signup + console gate — the functional core, app stays working | ✅ |
-| 2 | Sweep the leftovers | User-facing labels, seed scripts, test fixtures updated off "owner" — no behaviour change | 🔨 |
+| 2 | Sweep the leftovers | User-facing labels, seed scripts, test fixtures updated off "owner" — no behaviour change | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
 **Phase 1 ✅ done + applied to live DB (2026-07-04).** Carl said GO. Migration `0003_role_admin_manager_member` applied to Neon: enum is now `manager/admin/member`, live counts admin=1 (carl)/manager=11/member=1, no `owner` remains. Code: enum, signup→manager, gate→admin+manager, dev side-door→admin, gate test updated. `npm test` 57/57, typecheck clean. Verified by direct DB query (not inferred).
 
-**Phase 2 🔨 now** — sweeping the leftover `"owner"` references (UI labels, seed scripts, test fixtures) with no behaviour change.
+**Phase 2 ✅ done (2026-07-04).** Frontend `isAdmin` (`admin/src/state.js`) now allows manager+admin (mirrors the backend gate — without this managers lose the console nav). Dead `"owner"` role value purged from all live code + test fixtures. Company-ownership wording (`createOrgWithOwner`, register/privacy copy) deliberately kept — different concept. Backend + admin typecheck clean, 57/57 tests green. `admin/dist` bundle is stale but gitignored (rebuilds on deploy).
+
+**All phases ✅ — plan complete.** Folder moves to `docs/todo/done/`. Remaining: Carl's eyeball QA (log in as manager/admin/member in the browser) whenever convenient — the mechanics are verified.
 
 Baseline (2026-07-04, free): `npm test` → **57/57 pass**. `npm run gate` (~$3, OpenAI) skipped on purpose — it doesn't exercise roles.
 

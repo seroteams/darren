@@ -1,6 +1,6 @@
 # Phase 2 — Sweep the leftovers
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ (2026-07-04 — key functional fix: frontend `isAdmin` now manager+admin; dead `"owner"` role value purged from all live code + test fixtures; typecheck + admin typecheck clean, 57/57 tests green)
 
 ## Goal
 Remove every remaining trace of "owner" that Phase 1 didn't need to touch — user-facing labels, seed scripts, and test fixtures/assertions — so the codebase reads cleanly as `admin / manager / member`. No behaviour change.
@@ -22,8 +22,9 @@ The codebase uses "role" for two unrelated concepts:
 The account role's `"owner"` string is unambiguous (no job title is "owner"), so the sweep targets the literal `"owner"` role value only. Never blanket-rename the word "role".
 
 ## Done when
-- [ ] `grep` for the `"owner"` role string across the app returns only intentional history (docs/changelog), not live code.
-- [ ] `npm test` (free) is green.
+- [x] The dead `"owner"` role **value** (`role: "owner"` / `roles: ["owner"]`) is gone from all live code + test fixtures. (The *word* "owner" remains where it means company-ownership — `createOrgWithOwner`, `assertOwner`, "the run's owner", the register/privacy copy — plus historical comments and a test lookup key. Those are correct and intentionally kept.)
+- [x] The frontend `isAdmin` gate (`admin/src/state.js`) mirrors the backend and allows manager+admin — else managers lose the console nav.
+- [x] `npm test` green (57/57) + `npm run typecheck` + `npm run typecheck:admin` clean.
 - [ ] Product owner has confirmed nothing visible changed and said go.
 
 ## Test scenarios — for the product owner

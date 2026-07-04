@@ -44,12 +44,12 @@ test("buildIdentity returns the looked-up identity for a valid session cookie", 
   await withEnv({ NODE_ENV: "development", DEV_AUTOLOGIN: undefined }, async () => {
     const lookup: IdentityLookup = async (token) =>
       token === "good"
-        ? { userId: "u1", orgId: "o1", roles: ["owner"], email: "u1@example.com", name: "User One" }
+        ? { userId: "u1", orgId: "o1", roles: ["manager"], email: "u1@example.com", name: "User One" }
         : null;
     assert.deepEqual(await buildIdentity(reqWith("sero_session=good"), lookup), {
       userId: "u1",
       orgId: "o1",
-      roles: ["owner"],
+      roles: ["manager"],
       email: "u1@example.com",
       name: "User One",
     });
@@ -82,5 +82,5 @@ test("requireAuth rejects an anonymous identity", () => {
 });
 
 test("requireAuth allows an identified user", () => {
-  assert.doesNotThrow(() => requireAuth({ userId: "u1", orgId: "o1", roles: ["owner"], email: "u1@example.com", name: "User One" }));
+  assert.doesNotThrow(() => requireAuth({ userId: "u1", orgId: "o1", roles: ["manager"], email: "u1@example.com", name: "User One" }));
 });

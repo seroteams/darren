@@ -23,9 +23,9 @@ const SUPER = "carl@seroteams.com";
 
 const noSession: IdentityLookup = async () => null;
 const superSession: IdentityLookup = async (token) =>
-  token === "super" ? { userId: "u1", orgId: "o1", roles: ["owner"], email: SUPER, name: "Carl" } : null;
+  token === "super" ? { userId: "u1", orgId: "o1", roles: ["admin"], email: SUPER, name: "Carl" } : null;
 const ownerSession: IdentityLookup = async (token) =>
-  token === "owner" ? { userId: "u2", orgId: "o2", roles: ["owner"], email: "someone@acme.com", name: "Owner" } : null;
+  token === "owner" ? { userId: "u2", orgId: "o2", roles: ["manager"], email: "someone@acme.com", name: "Owner" } : null;
 
 // Set env for one test and always restore (matches admin-guard.test.ts / request-context.test.ts).
 async function withEnv(vars: Record<string, string | undefined>, fn: () => Promise<void>): Promise<void> {
@@ -59,11 +59,11 @@ test("normalizeEmail: trims + lower-cases, empty → null", () => {
 
 test("isSuperadminIdentity: only an allowlisted, server-resolved email passes", async () => {
   await withEnv({ SUPERADMIN_EMAILS: SUPER }, async () => {
-    assert.equal(isSuperadminIdentity({ userId: "u1", orgId: "o1", roles: ["owner"], email: SUPER, name: "Carl" }), true);
+    assert.equal(isSuperadminIdentity({ userId: "u1", orgId: "o1", roles: ["admin"], email: SUPER, name: "Carl" }), true);
     // case/whitespace-insensitive
-    assert.equal(isSuperadminIdentity({ userId: "u1", orgId: "o1", roles: ["owner"], email: " CARL@Seroteams.com ", name: "Carl" }), true);
+    assert.equal(isSuperadminIdentity({ userId: "u1", orgId: "o1", roles: ["admin"], email: " CARL@Seroteams.com ", name: "Carl" }), true);
     // a normal owner is NOT superadmin
-    assert.equal(isSuperadminIdentity({ userId: "u2", orgId: "o2", roles: ["owner"], email: "someone@acme.com", name: "Owner" }), false);
+    assert.equal(isSuperadminIdentity({ userId: "u2", orgId: "o2", roles: ["manager"], email: "someone@acme.com", name: "Owner" }), false);
     // anonymous (no email) is never superadmin
     assert.equal(isSuperadminIdentity({ userId: null, orgId: null, roles: [], email: null, name: null }), false);
   });
@@ -75,17 +75,17 @@ test("requireSuperadmin: anonymous → 401, non-allowlisted → 403, allowlisted
       assert.equal((err as { status?: number }).status, 401);
       return true;
     });
-    assert.throws(() => requireSuperadmin({ userId: "u2", orgId: "o2", roles: ["owner"], email: "someone@acme.com", name: "Owner" }), (err: unknown) => {
+    assert.throws(() => requireSuperadmin({ userId: "u2", orgId: "o2", roles: ["manager"], email: "someone@acme.com", name: "Owner" }), (err: unknown) => {
       assert.equal((err as { status?: number }).status, 403);
       return true;
     });
-    assert.doesNotThrow(() => requireSuperadmin({ userId: "u1", orgId: "o1", roles: ["owner"], email: SUPER, name: "Carl" }));
+    assert.doesNotThrow(() => requireSuperadmin({ userId: "u1", orgId: "o1", roles: ["admin"], email: SUPER, name: "Carl" }));
   });
 });
 
 test("requireSuperadmin: empty allowlist → nobody is superadmin", async () => {
   await withEnv({ SUPERADMIN_EMAILS: undefined }, async () => {
-    assert.throws(() => requireSuperadmin({ userId: "u1", orgId: "o1", roles: ["owner"], email: SUPER, name: "Carl" }), (err: unknown) => {
+    assert.throws(() => requireSuperadmin({ userId: "u1", orgId: "o1", roles: ["admin"], email: SUPER, name: "Carl" }), (err: unknown) => {
       assert.equal((err as { status?: number }).status, 403);
       return true;
     });

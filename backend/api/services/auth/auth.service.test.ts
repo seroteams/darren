@@ -25,7 +25,7 @@ function fakeRepo(seed: AuthUser[] = []): AuthRepo & { rows: AuthUser[]; compani
         orgId: `org${n}`,
         email: input.email,
         name: input.name,
-        role: "owner",
+        role: "manager",
         passwordHash: input.passwordHash,
       };
       rows.push(u);
@@ -64,12 +64,12 @@ test("register stores only a scramble — never the raw password — and never r
   assert.ok(user.orgId); // a company was created for them
 });
 
-test("register creates a company and makes the person its owner", async () => {
+test("register creates a company and makes the person its manager", async () => {
   const repo = fakeRepo();
   const service = createAuthService(repo, fakeHasher);
   const user = await service.register({ email: "gita@acme.com", name: "Gita", password: "longenough1" });
   assert.ok(user.orgId, "a company id was assigned");
-  assert.equal(user.role, "owner");
+  assert.equal(user.role, "manager");
   assert.equal(repo.companies.length, 1); // exactly one company created
 });
 

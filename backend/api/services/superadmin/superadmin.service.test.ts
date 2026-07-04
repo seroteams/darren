@@ -35,8 +35,8 @@ test("listRegistered groups users under their company, oldest-first, no secrets 
     { id: "o1", name: "Acme", createdAt: new Date("2026-01-01") },
   ];
   const people: UserRow[] = [
-    { id: "u3", orgId: "o2", name: "Cara", email: "cara@beta.com", role: "owner", createdAt: new Date("2026-02-02") },
-    { id: "u1", orgId: "o1", name: "Ann", email: "ann@acme.com", role: "owner", createdAt: new Date("2026-01-02") },
+    { id: "u3", orgId: "o2", name: "Cara", email: "cara@beta.com", role: "manager", createdAt: new Date("2026-02-02") },
+    { id: "u1", orgId: "o1", name: "Ann", email: "ann@acme.com", role: "manager", createdAt: new Date("2026-01-02") },
     { id: "u2", orgId: "o1", name: "Bo", email: "bo@acme.com", role: "member", createdAt: new Date("2026-01-03") },
   ];
   const svc = createSuperadminService(fakeRepo(orgs, people));
@@ -82,7 +82,7 @@ function oneOrg(users: UserRow[], runs: RunRow[]) {
 
 test("enrich: per-user run count and last-active from run timestamps", async () => {
   const users: UserRow[] = [
-    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "owner", createdAt: new Date("2026-01-02") },
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "manager", createdAt: new Date("2026-01-02") },
   ];
   const runs: RunRow[] = [
     { userId: "u1", lastSeenAt: ago(1), stars: null },
@@ -98,7 +98,7 @@ test("enrich: per-user run count and last-active from run timestamps", async () 
 
 test("enrich: this-week / last-week bucketing against a fixed now", async () => {
   const users: UserRow[] = [
-    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "owner", createdAt: new Date("2026-01-02") },
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "manager", createdAt: new Date("2026-01-02") },
   ];
   const runs: RunRow[] = [
     { userId: "u1", lastSeenAt: ago(1), stars: null }, // this week
@@ -113,7 +113,7 @@ test("enrich: this-week / last-week bucketing against a fixed now", async () => 
 
 test("enrich: a user with no runs still appears with zeros, not omitted", async () => {
   const users: UserRow[] = [
-    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "owner", createdAt: new Date("2026-01-02") },
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "manager", createdAt: new Date("2026-01-02") },
   ];
   const ann = (await oneOrg(users, []).listRegistered(NOW)).companies[0]!.users[0]!;
   assert.equal(ann.runCount, 0);
@@ -124,7 +124,7 @@ test("enrich: a user with no runs still appears with zeros, not omitted", async 
 
 test("enrich: alpha-wide rating summary (avg / rated / low ≤2) over all runs", async () => {
   const users: UserRow[] = [
-    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "owner", createdAt: new Date("2026-01-02") },
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "manager", createdAt: new Date("2026-01-02") },
   ];
   const runs: RunRow[] = [
     { userId: "u1", lastSeenAt: ago(1), stars: 5 },
