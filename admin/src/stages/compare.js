@@ -1,5 +1,7 @@
 import { STAGES } from "../state.js";
 import { listRecentRuns, getRunFull, suggestFix, postVerdict } from "../../../shared/api.js";
+import { escapeHtml as escape } from "../ui/html.js";
+import { relTime } from "../ui/time.ts";
 
 const FIX_STAGES = ["focus_points", "preparation", "bank", "questioning", "evaluation"];
 
@@ -88,16 +90,6 @@ function optionLabel(r) {
   const t = relTime(r.lastSeenAt);
   if (t) bits.push(t);
   return bits.join(" · ");
-}
-
-function relTime(ms) {
-  if (!ms) return "";
-  const min = Math.round((Date.now() - ms) / 60000);
-  if (min < 1) return "just now";
-  if (min < 60) return `${min}m ago`;
-  const hr = Math.round(min / 60);
-  if (hr < 24) return `${hr}h ago`;
-  return `${Math.round(hr / 24)}d ago`;
 }
 
 // Normalize a run's four axes into { id: { score, notRead } }, mirroring the
@@ -464,7 +456,3 @@ function actionColumn(run, ab) {
 }
 
 export function unmount() { /* nothing */ }
-
-function escape(s) {
-  return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-}

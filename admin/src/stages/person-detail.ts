@@ -10,6 +10,7 @@ import { STAGES, store } from "../state.js";
 import { listMyRuns, getMyRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { groupRunsByPerson, personKeyOf } from "../ui/group-people.js";
+import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
 type MyRun = {
@@ -32,16 +33,6 @@ type NextAction = { when?: string; action?: string };
 type Briefing = { next_actions?: NextAction[]; watch_for?: string[] } | null;
 
 // Local one-use time-ago (mirrors runs.ts / team.ts) — four lines, no shared util for one caller.
-function relTime(ms: number): string {
-  if (!ms) return "";
-  const min = Math.round((Date.now() - ms) / 60000);
-  if (min < 1) return "just now";
-  if (min < 60) return `${min}m ago`;
-  const hr = Math.round(min / 60);
-  if (hr < 24) return `${hr}h ago`;
-  return `${Math.round(hr / 24)}d ago`;
-}
-
 // The summary line under the name: role, then meetings / last met / average as a scannable
 // stat row (numbers emphasised). Returns HTML (set via innerHTML) — every value escaped.
 function summaryHtml(p: Person): string {

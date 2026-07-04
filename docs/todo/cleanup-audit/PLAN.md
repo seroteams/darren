@@ -16,8 +16,8 @@ Source: full audit report (chat, 2026-07-04). Everything here is offline/free �
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Quick fixes | The 4 small real fixes (types, constant, error logging, stale config) | ✅ green-lit + committed `55f27457` (2026-07-04) |
-| 2 | Delete dead cruft | Dead scripts gone, product-qa/clamp decided, logs purged, old branches pruned | 🔨 built — awaiting Carl's QA |
-| 3 | Frontend helpers | One escapeHtml + one relTime for the whole admin app | ⬜ |
+| 2 | Delete dead cruft | Dead scripts gone, product-qa/clamp decided, logs purged, old branches pruned | ✅ green-lit `f64c108f` (2026-07-04) |
+| 3 | Frontend helpers | One escapeHtml + one relTime for the whole admin app | 🔨 built — awaiting Carl's QA |
 | 4 | Backend dedup | One prompt-filling helper, one snapDelta, test auto-discovery | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -29,8 +29,17 @@ Phase 1 fixes (missing `PERSON_DETAIL`/`RUN_DETAIL` stages + `myRunId`/`personKe
 in-progress rating work. Anything red above beyond those 17 would be new damage; these 17 are not.
 **Budget note:** Carl OK'd up to **$3** of API spend this session (2026-07-04). Plan needs $0; reserve it —
 at most one `node scripts/gate.js --only <case>` (~$0.35) after Phase 4's prompt refactor if wanted.
-**Phase 1 ✅ green-lit + committed `55f27457` (2026-07-04).**
-**Phase 2 🔨 built (2026-07-04), awaiting Carl's QA — uncommitted until green light.**
+**Phases 1–2 ✅ green-lit (`55f27457`, `f64c108f`).**
+**Phase 3 🔨 built (2026-07-04), awaiting Carl's QA.**
+What landed: new shared `admin/src/ui/time.ts` (+ co-located test, written red→green) replaces the
+4 identical relTime copies; the 4 local escape fns replaced by the shared `escapeHtml` (aliased at
+import so 59 call sites are untouched; tasks.js is now stricter — its old copy didn't escape quotes);
+run-tests.js now also discovers admin `*.test.ts` (suite 55 → 56); admin tsconfig excludes test files
+(node-run, not browser); html.js comment corrected (four chars, not five).
+Verified free: npm test **56/56** · both typechecks clean · `npm run build` compiles every stage ·
+member pages (Runs "10h ago" etc.) render clean in the browser; admin pages compile-verified via build
+(member login can't mount them — Carl's QA covers the visual pass).
+Earlier phase details:
 What landed: 7 dead one-off scripts deleted (~1,450 lines; batch-m4 kept, eval.js uses it);
 product-qa.ts + its engine export + orphaned prompt map entry + prompt file deleted; clamp.ts +
 test deleted; logs purged 92 machine-made runs, 75MB (236MB → 154MB) — purge wrongly took the

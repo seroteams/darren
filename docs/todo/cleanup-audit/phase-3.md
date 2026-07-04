@@ -1,6 +1,6 @@
 # Phase 3 — Frontend helpers (one copy each)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built 2026-07-04 — awaiting Carl's QA
 
 ## Goal
 The admin app has one HTML-escape helper and one relative-time helper, instead of four hand-rolled copies of each.

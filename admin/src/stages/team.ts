@@ -7,6 +7,7 @@ import { STAGES, store } from "../state.js";
 import { listMyRuns } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { groupRunsByPerson } from "../ui/group-people.js";
+import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
 type Person = {
@@ -20,16 +21,6 @@ type Person = {
 };
 
 // Local one-use time-ago (mirrors runs.ts) — four lines, so no shared util for one caller.
-function relTime(ms: number): string {
-  if (!ms) return "";
-  const min = Math.round((Date.now() - ms) / 60000);
-  if (min < 1) return "just now";
-  if (min < 60) return `${min}m ago`;
-  const hr = Math.round(min / 60);
-  if (hr < 24) return `${hr}h ago`;
-  return `${Math.round(hr / 24)}d ago`;
-}
-
 function metaLine(p: Person): string {
   const bits: string[] = [`${p.count} meeting${p.count > 1 ? "s" : ""}`];
   const last = relTime(p.lastMet);

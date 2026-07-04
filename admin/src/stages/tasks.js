@@ -16,15 +16,9 @@
 
 import { STAGES, setState } from "../state.js";
 import { runFreeCheck } from "../../../shared/api.js";
+import { escapeHtml as esc } from "../ui/html.js";
 
 let keyHandler = null;
-
-function esc(s) {
-  return String(s == null ? "" : s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
 
 // Phases + steps. `s` is MY build status: "done" | "doing" | "todo" (default).
 // This is the only thing that drives the status chip — your tick never changes it.

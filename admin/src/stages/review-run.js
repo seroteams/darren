@@ -6,16 +6,9 @@
 import { STAGES, store } from "../state.js";
 import { getRunFull, saveReview } from "../../../shared/api.js";
 import { DIMENSIONS, OVERALL_VALUES, reviewStatusFromMarks, serializeReview, engineTag } from "../ui/review-serialize.js";
+import { escapeHtml as esc } from "../ui/html.js";
 
 const OVERALL_LABEL = { keep: "Keep", fix: "Fix", block: "Block" };
-
-function esc(s) {
-  return String(s == null ? "" : s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
 
 function card(label, inner) {
   return `<div class="stage-review__card"><div class="eyebrow">${esc(label)}</div>${inner}</div>`;

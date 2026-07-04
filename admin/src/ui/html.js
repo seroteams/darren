@@ -1,6 +1,7 @@
 // Shared HTML-safety + copy-normalization helpers.
 
-// Escape the five HTML-significant characters for safe interpolation into markup.
+// Escape the four HTML-significant characters (& < > ") for safe interpolation
+// into markup. Attribute interpolations must use double quotes — ' is not escaped.
 export function escapeHtml(s) {
   return String(s == null ? "" : s)
     .replace(/&/g, "&amp;")

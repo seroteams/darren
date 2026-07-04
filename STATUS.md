@@ -36,17 +36,17 @@ Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No pai
 
 The 2026-07-04 deep-dive audit's cleanup, at [docs/todo/cleanup-audit/](docs/todo/cleanup-audit/PLAN.md) —
 4 small phases (quick fixes → delete dead cruft → frontend helpers → backend dedup), no OpenAI spend anywhere.
-**Phase 1 ✅ green-lit + committed `55f27457`. Phase 2 (delete dead cruft) 🔨 BUILT 2026-07-04 —
-awaiting your QA** (scenarios in [phase-2.md](docs/todo/cleanup-audit/phase-2.md)). Free checks green:
-tests 55/55 (one fewer by design — a deleted test of deleted code), both typechecks clean, app boots
-clean. 75MB of old machine-made logs purged; 8 stale remote branches archived as local tags then
-removed. Doesn't block PG7.
+**Phases 1–2 ✅ green-lit (`55f27457`, `f64c108f`). Phase 3 (frontend helpers) 🔨 BUILT 2026-07-04 —
+awaiting your QA** (scenarios in [phase-3.md](docs/todo/cleanup-audit/phase-3.md)). One shared
+relative-time helper (test-first, with its own unit test) and one shared HTML-escape now serve the
+whole admin app — 8 hand-rolled copies deleted. Free checks green: tests 56/56, both typechecks clean,
+full build compiles. Doesn't block PG7.
 
 | # | Phase | Status |
 |---|---|---|
 | 1 | Quick fixes (types, duplicate constant, silent errors, stale config) | ✅ `55f27457` |
-| 2 | Delete dead cruft (scripts, product-qa, log purge) | 🔨 built — your QA |
-| 3 | Frontend helpers (one escapeHtml, one relTime) | ⬜ |
+| 2 | Delete dead cruft (scripts, product-qa, log purge) | ✅ `f64c108f` |
+| 3 | Frontend helpers (one escapeHtml, one relTime) | 🔨 built — your QA |
 | 4 | Backend dedup (prompt filler, snapDelta, test auto-discovery) | ⬜ |
 
 <details><summary>Phase 009 — non-hosting ultra batch (✅ closed 2026-07-01 → done/)</summary>

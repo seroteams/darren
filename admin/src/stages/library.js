@@ -7,6 +7,7 @@
 import { STAGES, setState } from "../state.js";
 import { getFinishedRuns, getRunFull, setArchived } from "../../../shared/api.js";
 import { libraryBadge, serializeReview } from "../ui/review-serialize.js";
+import { escapeHtml as esc } from "../ui/html.js";
 
 const FILTERS = [
   { key: "all", label: "All" },
@@ -54,14 +55,6 @@ function compareRuns(a, b, key) {
 }
 
 let keyHandler = null;
-
-function esc(s) {
-  return String(s == null ? "" : s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
 
 function fmtDate(ts) {
   if (!ts) return "";
