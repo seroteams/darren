@@ -11,6 +11,7 @@ import { findJargon } from "./golden-checks.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
 import { splitSystemUser } from "./prompt-utils.ts";
 import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./role-profile.ts";
+import { ALLOWED_DELTAS as QUEUE_ALLOWED_DELTAS } from "./queue-constants.ts";
 
 import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
@@ -31,7 +32,12 @@ interface PrepLike {
   listenFor?: string[];
 }
 
-const ALLOWED_DELTAS = [3, 1, -1, -3];
+// Bank questions must move an axis, so 0 is excluded here — the planner's shared
+// list (queue-constants.ts) allows 0, but a no-op axis effect on a bank question
+// would be dead weight. Derived, not redefined, so the two can't silently drift.
+// Descending order matters: snapToAllowedDelta's reduce tie-breaks toward the
+// earlier entry, and it has always favoured the positive delta on a tie (2 → 3).
+const ALLOWED_DELTAS = QUEUE_ALLOWED_DELTAS.filter((d) => d !== 0).sort((a, b) => b - a);
 
 const RESPONSE_SCHEMA = {
   type: "object",

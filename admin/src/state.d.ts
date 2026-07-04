@@ -5,7 +5,8 @@
 
 export type StageName =
   | "LOGIN" | "REGISTER" | "PRIVACY" | "ABOUT" | "FEEDBACK" | "START"
-  | "MEMBER_HOME" | "TEAM" | "RUNS" | "INTAKE" | "ONEPAGE" | "FOCUS_POINTS"
+  | "MEMBER_HOME" | "TEAM" | "RUNS" | "RUN_DETAIL" | "PERSON_DETAIL"
+  | "INTAKE" | "ONEPAGE" | "FOCUS_POINTS"
   | "PREPARATION" | "BANK" | "QUESTIONING" | "EVAL" | "BRIEFING"
   | "LEXICON_REVIEW" | "RUN_DEBRIEF" | "COMPARE" | "LIBRARY" | "ROLE_LEXICONS"
   | "MEETING_ARCS" | "REGRESSION" | "PERSONAS" | "REVIEW_RUN" | "GUIDE"
@@ -34,6 +35,8 @@ export interface Store {
   preparation: unknown;
   preparationRunId: string | null;
   reviewRunId: string | null;
+  myRunId: string | null;
+  personKey: string | null;
   currentQuestion: unknown;
   axes: unknown[];
   briefing: unknown;
@@ -46,6 +49,9 @@ export interface Store {
   stageTick: number;
   regenerateFocusPoints: boolean;
   scripted: unknown;
+  // Not in state.js's initial object — patched in via setState (main.js rehydrate),
+  // read by briefing.js — so optional here.
+  skipBriefingAnimation?: boolean;
 }
 
 export const store: Store;

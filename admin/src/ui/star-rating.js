@@ -4,6 +4,7 @@
 // the stars — the caller wires saving via onChange. Used on the run detail (with a note)
 // and at the end of a 1:1 (compact, with Skip).
 
+/** @param {{ initialStars?: number, ariaLabel?: string, onChange?: (stars: number) => void }} [opts] */
 export function createStarRating({ initialStars = 0, ariaLabel = "How useful was this 1:1? 1 to 5 stars", onChange } = {}) {
   const el = document.createElement("div");
   el.className = "star-rating";

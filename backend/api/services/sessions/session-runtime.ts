@@ -22,12 +22,17 @@ export const IS_DEV = process.env.NODE_ENV !== "production";
 // profile on disk. Fire-and-forget, exactly as the legacy /start handler did.
 const prewarm: Prewarm = (session, ctx) => {
   ensureRoleProfile(ctx, { session: { id: session.id, dir: session.dir } })
-    .catch(() => null)
+    .catch((e) => {
+      console.warn(`[prewarm] role profile failed for ${session.id} (continuing):`, e?.message ?? e);
+      return null;
+    })
     .then(() => generateFocusPoints(ctx, { session: { id: session.id, dir: session.dir } }))
     .then((result) => {
       session.focusPointsResult = result;
     })
-    .catch(() => {});
+    .catch((e) => {
+      console.warn(`[prewarm] focus points failed for ${session.id} (stage will retry live):`, e?.message ?? e);
+    });
 };
 
 // The real model calls wired into the S3 injected boundaries (deferred paid walk).

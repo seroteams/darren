@@ -152,6 +152,7 @@ export async function getFinishedRuns() {
 // The logged-in member's OWN finished 1:1s (member-nav). Fenced server-side by
 // company AND user, so a member only ever gets their own — never a colleague's or
 // the admin's whole-company list. Shape: { runs: [{ id, headline, ctx, lastSeenAt }] }.
+/** @returns {Promise<{ runs?: unknown[] }>} */
 export async function listMyRuns() {
   return json(await fetch("/api/v1/runs/mine"));
 }
