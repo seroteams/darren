@@ -27,6 +27,10 @@ content/data/people/
 # HR-adjacent notes, so it's never committed.
 content/data/feedback/
 
+# Superadmin access audit (pre-go-live PG6) — one JSONL line per cross-company access.
+# A local runtime trail, never committed.
+content/data/audit/
+
 # Manager 1:1 ratings (pre-go-live PG3) — a rating.json sidecar per run. The optional
 # note is a private manager field (HR-adjacent), so belt-and-braces never commit it.
 # (Run folders live under logs/** which is already ignored; this covers any keep-set too.)

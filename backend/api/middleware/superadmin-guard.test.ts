@@ -6,10 +6,18 @@ import { requireSuperadmin, isSuperadminIdentity, normalizeEmail } from "./requi
 import type { IdentityLookup } from "./request-context.ts";
 import type { RequestContext } from "../router.ts";
 
-// A bare context carrying just the cookie header (all buildIdentity reads).
+// A context carrying the cookie plus the method + path the audited funnel reads.
 function ctxWith(cookie?: string): RequestContext {
-  return { req: { headers: cookie ? { cookie } : {} } as IncomingMessage } as RequestContext;
+  return {
+    req: { headers: cookie ? { cookie } : {}, method: "GET" } as IncomingMessage,
+    url: new URL("http://localhost/api/v1/admin/registered"),
+    query: {},
+    params: {},
+  } as RequestContext;
 }
+
+// A no-op audit so the pass-through test stays hermetic (never writes the real audit file).
+const noAudit = async () => {};
 
 const SUPER = "carl@seroteams.com";
 
@@ -119,7 +127,7 @@ test("requireSuperadminRoute runs the handler for the allowlisted superadmin", a
     let ran = false;
     const guarded = requireSuperadminRoute(() => {
       ran = true;
-    }, superSession);
+    }, superSession, noAudit);
     await guarded(ctxWith("sero_session=super"));
     assert.equal(ran, true, "the allowlisted superadmin must reach the route");
   });

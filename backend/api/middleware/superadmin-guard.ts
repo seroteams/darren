@@ -14,11 +14,22 @@ import type { RouteHandler, RequestContext } from "../router.ts";
 import { buildIdentity } from "./request-context.ts";
 import type { IdentityLookup } from "./request-context.ts";
 import { requireSuperadmin } from "./require-auth.ts";
+import { appendSuperadminAudit, superadminAuditEntry } from "./superadmin-audit.ts";
+import type { SuperadminAuditEntry } from "./superadmin-audit.ts";
 
-export function requireSuperadminRoute(handler: RouteHandler, lookup?: IdentityLookup): RouteHandler {
+/** How the funnel records an access. Injectable so it's unit-testable without touching disk;
+ *  defaults to the real JSONL sink. */
+export type SuperadminAudit = (entry: SuperadminAuditEntry) => Promise<void>;
+
+export function requireSuperadminRoute(
+  handler: RouteHandler,
+  lookup?: IdentityLookup,
+  audit: SuperadminAudit = appendSuperadminAudit,
+): RouteHandler {
   return async (c: RequestContext) => {
     const identity = await buildIdentity(c.req, lookup);
-    requireSuperadmin(identity); // 401 anonymous, 403 for anyone not on the allowlist
+    requireSuperadmin(identity); // throws 401/403 here — a refused access is never audited below
+    await audit(superadminAuditEntry(identity, c.req.method ?? "GET", c.url.pathname, new Date().toISOString()));
     return handler(c);
   };
 }

@@ -10,7 +10,13 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 006 — Superadmin gate (backend) — `in-progress` (Steps 01–02 built test-first 2026-07-04)**
+**→ Phase 006 — Superadmin gate (backend) — `awaiting-qa` (all 3 steps built test-first 2026-07-04)**
+
+**Your move: walk [99-qa-signoff.md](006-superadmin-gate/99-qa-signoff.md).** Mostly reading test results +
+confirming the security shape (server-resolved allowlist, dev side-door can't pass, read-only-by-construction,
+one audit line). On your green light PG6 → done, STATUS + board ticked, committed. Note the three
+carry-forward conditions before the alpha widens (human-expert review scope, close anon session route,
+privacy-note disclosure).
 
 Broken into 3 test-first steps + QA. Backend-only, no screen (PG7/PG8 build those). **Verified anchors while
 breaking it down:** `RequestIdentity` **already** carries a server-resolved `email` (request-context.ts:16),
@@ -34,9 +40,12 @@ PG6 steps:
   Service tests (fake repo, red→green): grouping/order correct, empty-company and no-companies cases, and
   **no `passwordHash`/`orgId` leak into the view**. `npm test` 55/55, typecheck clean. (Owner→403 /
   dev-side-door→403 proven in the Step-01 guard tests; GET-only = no mutating route registered.)
-- [ ] **03 — Audit line** ([03-audit-line.md](006-superadmin-gate/03-audit-line.md)) — one appended record
-  per superadmin request (ts, actor, route, target); a 403 isn't audited as success. One append, not a
-  subsystem; sink is gitignored.
+- [x] **03 — Audit line** ([03-audit-line.md](006-superadmin-gate/03-audit-line.md)) — **built test-first
+  2026-07-04.** `superadmin-audit.ts`: pure `superadminAuditEntry` (at/userId/email/method/route, no secret)
+  + `appendSuperadminAudit` (one JSONL line to gitignored `content/data/audit/`). Called from the
+  `requireSuperadminRoute` funnel **after** the guard passes (sink injectable), so a 403 is never audited as
+  success. Tests (red→green): an authorized access audits exactly once with the right entry; a refused access
+  audits zero. Confirmed **hermetic** (no audit file written during `npm test`). 56/56, typecheck clean.
 - [ ] **99 — QA sign-off** ([99-qa-signoff.md](006-superadmin-gate/99-qa-signoff.md)) — mostly test results
   + the security shape in plain words + the three carry-forward conditions before the alpha widens.
 
