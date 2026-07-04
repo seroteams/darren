@@ -241,9 +241,9 @@ const DATA = [
     goal: "Once there's real history: merge duplicate people and see simple rating roll-ups. (Manual roster + charts stay parked for after the alpha.)",
     steps: [
       { f: "Merge duplicates", m: "Merge two cards that are the same person, and edit a name; history combines and sticks.", have: "One card per real person",
-        auto: "Run `npm test` + `npm run typecheck` — green; the merge survives a reload.", eye: "Merge 'Priya' + 'Priya S.' → one card with combined history.", s: "todo" },
+        auto: "Run `npm test` (60/60) + `npm run typecheck` — green; team routes gate 401. The merge survives a reload.", eye: "Merge 'Priya' + 'Priya S.' → one card with combined history.", s: "doing" },
       { f: "Rating roll-ups", m: "Per-person average usefulness with its count.", have: "Simple roll-ups",
-        auto: null, eye: "A person shows a combined average with its count.", s: "todo" },
+        auto: "Combined average falls out of the merge (shared person key).", eye: "A person shows a combined average with its count.", s: "doing" },
     ],
     signoff: "Duplicate people merge into one card with combined history · the merge persists · per-person roll-ups read correctly." },
 
@@ -258,7 +258,7 @@ const DATA = [
       { f: "Close the open session start", m: "Starting a 1:1 currently lets logged-out visitors in by decision — fine for the tiny alpha. Close it before widening so every run belongs to a signed-in person.", have: "Login required to start a 1:1",
         auto: "Run `npm test` — a logged-out start is refused (401).", eye: null, s: "todo" },
       { f: "Update the privacy note", m: "Before their staff data is viewable, tell managers that ratings (including the private note) are stored, and that a Sero admin can read across companies.", have: "An honest, current privacy note",
-        auto: null, eye: "The privacy note mentions rating storage and the cross-company admin view.", s: "todo" },
+        auto: null, eye: "The privacy note mentions rating storage and the cross-company admin view.", s: "doing" },
       { f: "Lock down the rating note", m: "The private 'what missed?' note must never reach an employee-facing screen and never be logged. The rating file is already git-ignored; this confirms the rest.", have: "The rating note proven private",
         auto: "Run `npm test` — the rating note never appears in employee-facing/shared output.", eye: null, s: "todo" },
     ],

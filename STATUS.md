@@ -26,11 +26,16 @@ counts) and the alpha-wide ★ rating summary; nav item superadmin-only, backend
 that walk I caught + fixed a real bug — the per-user route was dead (404'd every id) — and added a test so
 it can't come back. **Step 03 is now built too:** clicking a 1:1 in the drilldown opens that briefing
 **read-only** (the same view a manager sees), cross-company behind the superadmin gate. **Your last check:**
-as you, open a user → click one of their 1:1s → the briefing shows read-only → back. Green-light that and
-PG8 closes; then PG9 (roster + polish) is the last pre-go-live phase. Free checks: `npm test` **58/58** ·
-typecheck + admin build green; new route verified live (gated). QA sheet:
-[docs/pre-go-live/008-admin-user-drilldown/99-qa-signoff.md](docs/pre-go-live/008-admin-user-drilldown/99-qa-signoff.md).
-Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
+as you, open a user → click one of their 1:1s → the briefing shows read-only → back.
+
+**PG9 (roster + polish) is ALSO built now** — on **Team**, a **Tidy up** mode lets you **merge** two cards
+for the same person into one (history + average combine) and **rename** a person; it sticks after reload.
+So **both remaining pre-go-live phases are built and waiting on your walk.** Green-light PG8 + PG9 and the
+pre-go-live build is done. Free checks: `npm test` **60/60** · typecheck + admin build green; all new routes
+verified live (gated). QA sheets:
+[PG8](docs/pre-go-live/008-admin-user-drilldown/99-qa-signoff.md) ·
+[PG9](docs/pre-go-live/009-roster-polish/99-qa-signoff.md).
+Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No hosting. Budget used ~$0.35/$3.
 
 > 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG6 sign-off + commit.
 > In any fresh session, say **"check point"** and I'll read this file + the PROGRESS log + recent

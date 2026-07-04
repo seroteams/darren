@@ -202,7 +202,7 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
 | 006 | Superadmin gate (backend) | ✅ done (signed off + committed) |
 | 007 | Admin: who's registered | ✅ done (signed off + committed) |
 | 008 | Admin: user → teams → runs | 🔨 built end-to-end · 01–02 signed off · Step 03 awaiting final walk |
-| 009 | Roster + polish | not-started |
+| 009 | Roster + polish | 🔨 built end-to-end (merge + rename + roll-ups) · awaiting walk |
 
 ## Baseline (fill in before touching code in a phase)
 - **2026-07-01 — Phase 001 baseline (free checks, no OpenAI):** `npm test` **53/53 passed**,
@@ -369,6 +369,16 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   comment warned about), added `getAdminRun`, wired the drilldown 1:1 rows to open the briefing read-only
   with a back. 58/58 + typecheck + admin build green; new route verified live (401-gates, was 404). **Final
   walk (Step 03) owed by Carl.** Next: his walk → PG8 ✅ → PG9.
+- **2026-07-04** — **PG9 (roster + polish) built end-to-end (`1f22f572`) — awaiting walk.** Store choice made
+  (Carl's "do all"): a light per-manager **alias map** sidecar (`content/data/people-aliases/`, gitignored,
+  atomic write) — no DB migration. Backend test-first (7 tests): `team.service` merge (folds keys, collapses
+  chains, rejects self/cycle) + rename (sets/clears a display name on the canonical key) → fenced controller
+  (login, own userId) → 3 routes (GET open + 2 origin-guarded POSTs), all verified live at 401. Frontend:
+  `groupRunsByPerson` takes an optional alias map (backward-compatible) + new `canonicalKeyOf`; Team gains a
+  **"Tidy up"** mode (Rename + "Merge into…" picker); the person page groups/filters on the canonical key so a
+  merged person collects every folded-in 1:1. 60/60 + typecheck + build green. QA sheet written
+  ([99-qa-signoff.md](009-roster-polish/99-qa-signoff.md)). **Walk owed by Carl** (merge/rename, and that it
+  sticks after reload). With PG8's final walk, this closes the pre-go-live build.
 - **2026-07-04** — **Closed the route-test gap (`2dd8722a`).** Added `backend/api/router.test.ts` driving the
   real `handle()`: a RegExp named-group route captures `:id`; an Express-style string `":id"` route does NOT
   match a real id (falls to 404) — the exact contract that let the PG8 bug through. Runner now 58/58 files,
