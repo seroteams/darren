@@ -11,21 +11,19 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 **Now active: [pre-go-live](docs/pre-go-live/OVERVIEW.md) — the manager's Team & Runs, ratings, and a
 superadmin window on the alpha.** 9 phases, one at a time.
-**PG1–PG5 ✅ (through 2026-07-04) · PG6 (Superadmin gate) ✅ — signed off + committed 2026-07-04.** The
-member side is done: **"Past 1:1s"** list + reopen + rate, the auto-built **Team**, and each person's page
-with a **"Since last time"** recap and one-tap **"Prep your next 1:1"**. Behind the scenes, your account now
-has a read-only, cross-company **superadmin key** — server-resolved allowlist, read-only by construction,
-one audit line per access, proven by 13 tests (the dev side-door can't pass). No screen yet.
+**PG1–PG7 ✅ (through 2026-07-04).** The member side is done: **"Past 1:1s"** list + reopen + rate, the
+auto-built **Team**, and each person's page with a **"Since last time"** recap and one-tap **"Prep your next
+1:1"**. Behind the scenes, your account has a read-only, cross-company **superadmin key** (PG6) — and now its
+first screen, **"Registered"** (PG7): the alpha rating summary + every company and its people with the
+return-visit signal (joined, run count, last active, this-week / last-week). Verified live end-to-end both
+roles (superadmin sees it; a normal owner gets no nav item + a 403), signed off, merged to `main`.
 
-**▶ Your move: PG7 (Admin — who's registered) — broken down into 2 steps + QA, nothing built yet.** The
-first superadmin **screen** — every alpha company + its users with the return-visit signal (run counts,
-last-active, alpha rating summary). **Finding:** the PG6 endpoint only carries companies → users, so Step 01
-is a backend enrichment (run stats), then Step 02 is the screen. **Scope choice:** say **"go"** for the full
-signal, or **"trim to minimal"** (just list + run count + last-active).
-Plan: [docs/pre-go-live/007-admin-registered/01-registered-data.md](docs/pre-go-live/007-admin-registered/01-registered-data.md).
+**▶ Your move: PG8 (Admin — user → teams → runs).** The next superadmin screen: drill from a person in
+"Registered" into their teams and their individual 1:1s. Not broken down yet — say **"go"** and I'll split it
+into steps + QA (one phase at a time, as always).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
 
-> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG6 sign-off + commit.
+> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG7 sign-off + merge.
 > In any fresh session, say **"check point"** and I'll read this file + the PROGRESS log + recent
 > commits and give you the full "where we are, your move" picture — no digging needed.
 

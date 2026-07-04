@@ -116,6 +116,22 @@ function setArchived(id: string, archived: unknown, orgId?: string | null): { ok
   return { ok: true, id, archived: flag };
 }
 
+// Cross-company run signals for the superadmin adoption view (pre-go-live PG7): who ran
+// each run (userId attribution, same as /runs/mine), when it was last touched, and its
+// 1-5 rating (or null). Unfenced by design — walkRuns() with no orgId spans EVERY company,
+// so this is the one intentional cross-tenant read and is reachable ONLY behind
+// requireSuperadminRoute. Read-only; the per-company fence for every other path is untouched.
+function listRunSignals(): Array<{ userId: string | null; lastSeenAt: number; stars: number | null }> {
+  return walkRuns().map(({ dir, state }) => {
+    const rating = ratingOf(dir);
+    return {
+      userId: typeof state.userId === "string" ? state.userId : null,
+      lastSeenAt: asNumber(state.lastSeenAt),
+      stars: rating ? rating.stars : null,
+    };
+  });
+}
+
 interface WalkedRun {
   id: string;
   dir: string;
@@ -551,6 +567,7 @@ export {
   cloneRun,
   listFinishedRunsForMember,
   memberRunView,
+  listRunSignals,
   walkRuns,
   listRecentRuns,
   listFinishedRuns,

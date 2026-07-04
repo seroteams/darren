@@ -10,6 +10,7 @@
 
 import { getDb } from "../../../db/client.ts";
 import { organizations, users } from "../../../db/schema.ts";
+import { listRunSignals as walkRunSignals } from "../../../engine/run-history.ts";
 
 /** One company row (no tenant scope — this is the cross-company read). */
 export interface OrgRow {
@@ -30,9 +31,20 @@ export interface UserRow {
   createdAt: Date;
 }
 
+/** One run's return-visit signal (pre-go-live PG7). `userId` is the run's stored
+ *  attribution (null for a pre-auth / anonymous run); `lastSeenAt` is ms-epoch of the
+ *  last touch; `stars` is the manager's 1-5 rating, or null if unrated. No run content,
+ *  no note — just the numbers the adoption view derives from. */
+export interface RunSignal {
+  userId: string | null;
+  lastSeenAt: number;
+  stars: number | null;
+}
+
 export interface SuperadminRepo {
   listOrganizations(): Promise<OrgRow[]>;
   listUsers(): Promise<UserRow[]>;
+  listRunSignals(): Promise<RunSignal[]>;
 }
 
 export const pgSuperadminRepo: SuperadminRepo = {
@@ -55,5 +67,10 @@ export const pgSuperadminRepo: SuperadminRepo = {
         createdAt: users.createdAt,
       })
       .from(users);
+  },
+  // Runs live on disk, not in Postgres — reuse the run-history walk (unfenced = all
+  // companies) rather than a second query path. Read-only, no secret, no run content.
+  async listRunSignals() {
+    return walkRunSignals();
   },
 };

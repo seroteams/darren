@@ -9,7 +9,7 @@ import { createAuthService } from "./auth.service.ts";
 import type { PasswordHasher } from "./auth.service.ts";
 import { pgAuthRepo, pgAuthSessionRepo } from "./auth.repo.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
-import { requireAuth } from "../../middleware/require-auth.ts";
+import { requireAuth, isSuperadminIdentity } from "../../middleware/require-auth.ts";
 import { sessionCookie, clearedSessionCookie, readCookie, SESSION_COOKIE } from "../../middleware/cookies.ts";
 import { asRecord, asString } from "../../../shared/guards.ts";
 
@@ -60,11 +60,20 @@ export async function logout(c: RequestContext): Promise<void> {
 }
 
 // GET /api/v1/auth/me — protected. Turns logged-out visitors away (401); returns the
-// caller's identity when logged in. The Phase 3 proof that the guard works.
+// caller's identity when logged in. The Phase 3 proof that the guard works. `isSuperadmin`
+// (PG7) is a server-computed boolean from the same allowlist — a flag for the cosmetic nav
+// gate only, never the allowlist itself; security still rests on the backend 403.
 export async function me(c: RequestContext): Promise<void> {
   const identity = await buildIdentity(c.req);
   requireAuth(identity);
-  c.json(200, { userId: identity.userId, orgId: identity.orgId, roles: identity.roles, email: identity.email, name: identity.name });
+  c.json(200, {
+    userId: identity.userId,
+    orgId: identity.orgId,
+    roles: identity.roles,
+    email: identity.email,
+    name: identity.name,
+    isSuperadmin: isSuperadminIdentity(identity),
+  });
 }
 
 // (Removed GET /api/v1/auth/me/runs — member-nav Phase 2 security. It was org-fenced

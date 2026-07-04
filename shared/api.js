@@ -36,9 +36,18 @@ export async function logout() {
   return postJson("/api/v1/auth/logout", {});
 }
 
-// Who am I? 200 { userId, orgId, roles } when logged in; throws (status 401) when not.
+// Who am I? 200 { userId, orgId, roles, email, name, isSuperadmin } when logged in; throws
+// (status 401) when not. isSuperadmin is a server-computed flag for the cosmetic nav gate.
 export async function me() {
   return json(await fetch("/api/v1/auth/me"));
+}
+
+// Superadmin, cross-company read (pre-go-live PG7): every alpha company + its users with
+// the return-visit signal, and the alpha rating summary. Gated server-side to the
+// superadmin allowlist — a normal owner/admin → 403 (json() throws). Read-only. Shape:
+// { companies: [{ id, name, createdAt, users: [...] }], summary: { avgStars, ratedCount, lowCount } }.
+export async function getRegistered() {
+  return json(await fetch("/api/v1/admin/registered"));
 }
 
 // Feedback (Phase 5): send a short tester note. Login required (any role); stored to a
