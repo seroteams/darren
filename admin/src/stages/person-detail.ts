@@ -7,9 +7,9 @@
 // pipeline from there spends, same as starting any 1:1).
 
 import { STAGES, store } from "../state.js";
-import { listMyRuns, getMyRun } from "../../../shared/api.js";
+import { listMyRuns, getMyRun, getTeamAliases } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
-import { groupRunsByPerson, personKeyOf } from "../ui/group-people.js";
+import { groupRunsByPerson, canonicalKeyOf } from "../ui/group-people.js";
 import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
@@ -118,9 +118,12 @@ export const mount: Mount = async (root, { setState }) => {
   }
 
   let runs: MyRun[];
+  let aliases: { merges: Record<string, string>; names: Record<string, string> };
   try {
-    const res = await listMyRuns();
+    const [res, aliasRes] = await Promise.all([listMyRuns(), getTeamAliases().catch(() => ({}))]);
     runs = Array.isArray(res?.runs) ? (res.runs as MyRun[]) : [];
+    const a = aliasRes as Partial<typeof aliases>;
+    aliases = { merges: a?.merges || {}, names: a?.names || {} };
   } catch {
     root.querySelector(".js-host")!.innerHTML = notice(
       "Couldn't load",
@@ -130,9 +133,11 @@ export const mount: Mount = async (root, { setState }) => {
     return;
   }
 
-  const person = (groupRunsByPerson(runs) as Person[]).find((p) => p.key === key);
+  // Group + filter on the SAME canonical key the Team uses, so a merged person's page
+  // collects every 1:1 that folded into them (and shows their renamed name).
+  const person = (groupRunsByPerson(runs, aliases) as Person[]).find((p) => p.key === key);
   const mine = runs
-    .filter((r) => personKeyOf(r?.ctx?.name ?? "") === key)
+    .filter((r) => canonicalKeyOf(r?.ctx?.name ?? "", aliases) === key)
     .sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0));
 
   if (!person || mine.length === 0) {

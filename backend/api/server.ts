@@ -19,6 +19,7 @@ import { requireSuperadminRoute } from "./middleware/superadmin-guard.ts";
 import { forbidden, rateLimited } from "./middleware/http-error.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
 import * as runs from "./services/runs/runs.controller.ts";
+import * as team from "./services/team/team.controller.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
@@ -275,6 +276,18 @@ function main(): void {
   router.add("POST", /^\/api\/v1\/runs\/mine\/(?<id>[^/]+)\/rating$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return runs.rateMine(c);
+  }));
+  // Team people-aliases (pre-go-live PG9) — a manager merges/renames people in their OWN
+  // auto-built Team. Member-safe (login required, fenced to the caller's userId in the
+  // controller); the two mutations are origin-guarded like rateMine.
+  router.add("GET", "/api/v1/team/aliases", v1Route(team.aliases));
+  router.add("POST", "/api/v1/team/merge", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return team.merge(c);
+  }));
+  router.add("POST", "/api/v1/team/rename", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return team.rename(c);
   }));
   router.add("GET", "/api/v1/runs/recent", v1Route(runs.recent));
   router.add("GET", "/api/v1/runs/finished", v1Route(runs.finished));

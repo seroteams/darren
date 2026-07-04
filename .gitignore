@@ -36,6 +36,10 @@ content/data/audit/
 # (Run folders live under logs/** which is already ignored; this covers any keep-set too.)
 **/rating.json
 
+# Manager people-aliases (pre-go-live PG9) — a per-manager merge/rename sidecar. Personal
+# (real names), so never committed.
+content/data/people-aliases/
+
 # Runtime logs (keep-set only)
 debug-be19bb.log
 .cursor/debug-*.log

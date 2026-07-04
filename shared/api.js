@@ -193,6 +193,19 @@ export async function rateMyRun(id, { stars, note }) {
   return postJson(`/api/v1/runs/mine/${encodeURIComponent(id)}/rating`, { stars, note });
 }
 
+// Team people-aliases (pre-go-live PG9): the caller's own merge/rename overrides.
+// Keys are the normalized person key the Team groups on. All member-safe + user-fenced.
+// Each returns the updated { merges, names } map. Merge folds `from` into `into`.
+export async function getTeamAliases() {
+  return json(await fetch("/api/v1/team/aliases"));
+}
+export async function mergePeople(from, into) {
+  return postJson("/api/v1/team/merge", { from, into });
+}
+export async function renamePerson(key, name) {
+  return postJson("/api/v1/team/rename", { key, name });
+}
+
 // Dev-only "prefill a run" (admin-only server-side). clonable = every finished run on
 // disk to seed from; cloneRun copies one into a fresh run the caller owns (lands in
 // their /mine). Free — all file copies, no OpenAI. Shapes: { runs: [...] } and { id }.
