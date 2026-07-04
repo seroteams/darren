@@ -7,7 +7,7 @@ import { callAI, parseAIJson } from "./ai-client.ts";
 import { promptFor, getArc } from "./one-on-one-types/index.ts";
 import { withPromptVersion } from "./prompt-version.ts";
 import { resolveSelectedFocus } from "./selected-focus.ts";
-import { splitSystemUser } from "./prompt-utils.ts";
+import { splitSystemUser, fillPlaceholders } from "./prompt-utils.ts";
 import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./role-profile.ts";
 import { findJargon } from "./golden-checks.ts";
 
@@ -142,21 +142,19 @@ function buildMessages({
   const sf =
     selectedFocus ||
     resolveSelectedFocus({ notes: observedShift, observedShift, focusPoints });
-  const filled = template
-    .replaceAll("{{NAME}}", name || "(not provided)")
-    .replaceAll("{{ROLE_TITLE}}", roleTitle || "(not provided)")
-    .replaceAll("{{SENIORITY}}", seniority || "(not provided)")
-    .replaceAll("{{MEETING_TYPE}}", meetingType || "(not provided)")
-    .replaceAll("{{TONE_REGISTER}}", arc?.tone_register || "(none)")
-    .replaceAll("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc?.anti_patterns || [], null, 2))
-    .replaceAll("{{OBSERVED_SHIFT}}", observedShift || "(none)")
-    .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints || [], null, 2))
-    .replaceAll("{{SELECTED_FOCUS_JSON}}", JSON.stringify(sf || {}, null, 2))
-    .replaceAll("{{PRIMARY_FOCUS_ID}}", sf?.id || "(none)")
-    .replaceAll(
-      "{{ROLE_PROFILE_BLOCK}}",
-      renderRoleProfileBlock(loadRoleProfile({ role: roleTitle, seniority }), { slice: "full", meetingType })
-    );
+  const filled = fillPlaceholders(template, {
+    NAME: name || "(not provided)",
+    ROLE_TITLE: roleTitle || "(not provided)",
+    SENIORITY: seniority || "(not provided)",
+    MEETING_TYPE: meetingType || "(not provided)",
+    TONE_REGISTER: arc?.tone_register || "(none)",
+    ANTI_PATTERNS_JSON: JSON.stringify(arc?.anti_patterns || [], null, 2),
+    OBSERVED_SHIFT: observedShift || "(none)",
+    FOCUS_POINTS_JSON: JSON.stringify(focusPoints || [], null, 2),
+    SELECTED_FOCUS_JSON: JSON.stringify(sf || {}, null, 2),
+    PRIMARY_FOCUS_ID: sf?.id || "(none)",
+    ROLE_PROFILE_BLOCK: renderRoleProfileBlock(loadRoleProfile({ role: roleTitle, seniority }), { slice: "full", meetingType }),
+  });
 
   return splitSystemUser(filled);
 }

@@ -9,7 +9,7 @@ import { resolveSelectedFocus } from "./selected-focus.ts";
 import { loadLexicon } from "./lexicon.ts";
 import { findJargon } from "./golden-checks.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
-import { splitSystemUser } from "./prompt-utils.ts";
+import { splitSystemUser, fillPlaceholders } from "./prompt-utils.ts";
 import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./role-profile.ts";
 import { ALLOWED_DELTAS as QUEUE_ALLOWED_DELTAS } from "./queue-constants.ts";
 
@@ -37,6 +37,8 @@ interface PrepLike {
 // would be dead weight. Derived, not redefined, so the two can't silently drift.
 // Descending order matters: snapToAllowedDelta's reduce tie-breaks toward the
 // earlier entry, and it has always favoured the positive delta on a tie (2 → 3).
+// NOTE: this is deliberately NOT the planner's snap (reconcile-queue.ts ties go
+// toward zero) — the bank has no 0, so its ties must pick a sign. Don't merge.
 const ALLOWED_DELTAS = QUEUE_ALLOWED_DELTAS.filter((d) => d !== 0).sort((a, b) => b - a);
 
 const RESPONSE_SCHEMA = {
@@ -227,31 +229,29 @@ function buildMessages({
     stage: q.stage ?? null,
     axis_effects: q.axis_effects,
   }));
-  const filled = template
-    .replaceAll("{{AXES_JSON}}", JSON.stringify(axes, null, 2))
-    .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
-    .replaceAll("{{NAME}}", name || "(not provided)")
-    .replaceAll("{{ROLE}}", role || "(not provided)")
-    .replaceAll("{{SENIORITY}}", seniority || "(not provided)")
-    .replaceAll("{{MEETING_TYPE}}", meetingType)
-    .replaceAll("{{MANAGER_NOTES}}", notes || "(none)")
-    .replaceAll("{{SELECTED_FOCUS_JSON}}", JSON.stringify(sf || {}, null, 2))
-    .replaceAll("{{PRIMARY_FOCUS_ID}}", sf?.id || "(none)")
-    .replaceAll("{{EXISTING_QUEUE_JSON}}", JSON.stringify(queueSummary, null, 2))
-    .replaceAll("{{MEETING_ARC_JSON}}", JSON.stringify(arc.arc, null, 2))
-    .replaceAll("{{TONE_REGISTER}}", arc.tone_register)
-    .replaceAll("{{RELATIONAL_ARC_RULES}}", relationalArcRules(meetingType))
-    .replaceAll("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc.anti_patterns, null, 2))
-    .replaceAll("{{CONVERSATION_PREFER_TERMS}}", renderPreferTerms(lexicon.preferTerms))
-    .replaceAll("{{CONVERSATION_PREFER_PHRASES}}", renderPreferPhrases(lexicon.preferPhrases))
-    .replaceAll("{{CONVERSATION_AVOID_PHRASES}}", renderAvoidPhrases(lexicon.avoidPhrases))
-    .replaceAll("{{PREP_OPENING_QUESTION}}", renderPrepText(prep?.openingQuestion))
-    .replaceAll("{{PREP_CORE_ISSUE}}", renderPrepText(prep?.coreIssue))
-    .replaceAll("{{PREP_LISTEN_FOR_JSON}}", renderPrepListenFor(prep?.listenFor))
-    .replaceAll(
-      "{{ROLE_PROFILE_BLOCK}}",
-      renderRoleProfileBlock(loadRoleProfile({ role, seniority }), { slice: "full", meetingType })
-    );
+  const filled = fillPlaceholders(template, {
+    AXES_JSON: JSON.stringify(axes, null, 2),
+    FOCUS_POINTS_JSON: JSON.stringify(focusPoints, null, 2),
+    NAME: name || "(not provided)",
+    ROLE: role || "(not provided)",
+    SENIORITY: seniority || "(not provided)",
+    MEETING_TYPE: meetingType,
+    MANAGER_NOTES: notes || "(none)",
+    SELECTED_FOCUS_JSON: JSON.stringify(sf || {}, null, 2),
+    PRIMARY_FOCUS_ID: sf?.id || "(none)",
+    EXISTING_QUEUE_JSON: JSON.stringify(queueSummary, null, 2),
+    MEETING_ARC_JSON: JSON.stringify(arc.arc, null, 2),
+    TONE_REGISTER: arc.tone_register,
+    RELATIONAL_ARC_RULES: relationalArcRules(meetingType),
+    ANTI_PATTERNS_JSON: JSON.stringify(arc.anti_patterns, null, 2),
+    CONVERSATION_PREFER_TERMS: renderPreferTerms(lexicon.preferTerms),
+    CONVERSATION_PREFER_PHRASES: renderPreferPhrases(lexicon.preferPhrases),
+    CONVERSATION_AVOID_PHRASES: renderAvoidPhrases(lexicon.avoidPhrases),
+    PREP_OPENING_QUESTION: renderPrepText(prep?.openingQuestion),
+    PREP_CORE_ISSUE: renderPrepText(prep?.coreIssue),
+    PREP_LISTEN_FOR_JSON: renderPrepListenFor(prep?.listenFor),
+    ROLE_PROFILE_BLOCK: renderRoleProfileBlock(loadRoleProfile({ role, seniority }), { slice: "full", meetingType }),
+  });
 
   return splitSystemUser(filled);
 }

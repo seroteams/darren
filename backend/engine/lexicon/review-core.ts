@@ -7,6 +7,7 @@ import { loadLexicon, lexiconScopeFor, resolveLexiconScope, isLexiconReviewScope
 import { RESPONSE_SCHEMA } from "./schema.ts";
 import { appendCandidates, writeTrace, readTrace, tracePathFor } from "./candidates-io.ts";
 import { promptFor } from "../one-on-one-types/index.ts";
+import { fillPlaceholders } from "../prompt-utils.ts";
 import { isObjectRecord } from "../../shared/guards.ts";
 
 // The session context this stage reads. A superset of the lexicon helpers'
@@ -94,18 +95,19 @@ function buildPrompt({
   const template = fs.readFileSync(promptFor(ctx.meetingType || "", "lexicon"), "utf8");
   const reviewTranscript = normalizeTranscriptForReview(transcript);
   const reviewEval = normalizeEvaluation(evaluation);
-  const filled = template
-    .replaceAll("{{ROLE_FAMILY}}", String(scope.roleFamily))
-    .replaceAll("{{SENIORITY}}", String(scope.seniority))
-    .replaceAll("{{MEETING_TYPE}}", String(scope.meetingType))
-    .replaceAll("{{CURRENT_LEXICON_JSON}}", JSON.stringify(lexicon, null, 2))
-    .replaceAll("{{NAME}}", ctx.name || "(unknown)")
-    .replaceAll("{{ROLE}}", ctx.role || "(unknown)")
-    .replaceAll("{{MEETING_TYPE_LABEL}}", ctx.meetingType || "(unknown)")
-    .replaceAll("{{MANAGER_NOTES}}", ctx.notes || "(none)")
-    .replaceAll("{{TRANSCRIPT_JSON}}", JSON.stringify(reviewTranscript, null, 2))
-    .replaceAll("{{QUESTION_BANK_JSON}}", JSON.stringify(bank || [], null, 2))
-    .replaceAll("{{EVALUATION_JSON}}", JSON.stringify(reviewEval, null, 2));
+  const filled = fillPlaceholders(template, {
+    ROLE_FAMILY: String(scope.roleFamily),
+    SENIORITY: String(scope.seniority),
+    MEETING_TYPE: String(scope.meetingType),
+    CURRENT_LEXICON_JSON: JSON.stringify(lexicon, null, 2),
+    NAME: ctx.name || "(unknown)",
+    ROLE: ctx.role || "(unknown)",
+    MEETING_TYPE_LABEL: ctx.meetingType || "(unknown)",
+    MANAGER_NOTES: ctx.notes || "(none)",
+    TRANSCRIPT_JSON: JSON.stringify(reviewTranscript, null, 2),
+    QUESTION_BANK_JSON: JSON.stringify(bank || [], null, 2),
+    EVALUATION_JSON: JSON.stringify(reviewEval, null, 2),
+  });
 
   const systemMatch = filled.match(/## System\s+([\s\S]*?)\n## User/);
   const userMatch = filled.match(/## User\s+([\s\S]*)$/);

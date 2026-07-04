@@ -17,8 +17,8 @@ Source: full audit report (chat, 2026-07-04). Everything here is offline/free �
 |---|---|---|---|
 | 1 | Quick fixes | The 4 small real fixes (types, constant, error logging, stale config) | ✅ green-lit + committed `55f27457` (2026-07-04) |
 | 2 | Delete dead cruft | Dead scripts gone, product-qa/clamp decided, logs purged, old branches pruned | ✅ green-lit `f64c108f` (2026-07-04) |
-| 3 | Frontend helpers | One escapeHtml + one relTime for the whole admin app | 🔨 built — awaiting Carl's QA |
-| 4 | Backend dedup | One prompt-filling helper, one snapDelta, test auto-discovery | ⬜ |
+| 3 | Frontend helpers | One escapeHtml + one relTime for the whole admin app | ✅ green-lit `ddefe3b7` (2026-07-04) |
+| 4 | Backend dedup | One prompt-filling helper, snap divergence documented, test auto-discovery | 🔨 built — awaiting Carl's QA |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -29,8 +29,22 @@ Phase 1 fixes (missing `PERSON_DETAIL`/`RUN_DETAIL` stages + `myRunId`/`personKe
 in-progress rating work. Anything red above beyond those 17 would be new damage; these 17 are not.
 **Budget note:** Carl OK'd up to **$3** of API spend this session (2026-07-04). Plan needs $0; reserve it —
 at most one `node scripts/gate.js --only <case>` (~$0.35) after Phase 4's prompt refactor if wanted.
-**Phases 1–2 ✅ green-lit (`55f27457`, `f64c108f`).**
-**Phase 3 🔨 built (2026-07-04), awaiting Carl's QA.**
+**Phases 1–3 ✅ green-lit (`55f27457`, `f64c108f`, `ddefe3b7`).**
+**Phase 4 🔨 built (2026-07-04), awaiting Carl's QA.**
+What landed: `fillPlaceholders()` in prompt-utils.ts (test-first; sequential-replaceAll semantics
+preserved exactly, keys in original order → prompts byte-identical) now used by all 5 prompt builders;
+the two snapToAllowedDelta copies deliberately NOT merged (planner ties→0, bank ties→positive) —
+divergence now documented in question-generator.ts; run-tests.js auto-discovers scripts/test-*.js with
+a PAID_TESTS denylist (a new test can never be silently skipped); smoke-test's placeholder-coverage
+guard taught to recognise the fillPlaceholders form.
+Verified free: npm test **57/57** (prompt-utils.test.ts auto-discovered — proving the discovery works) ·
+typecheck clean · smoke pre-flight unit checks 14/14.
+**Paid capstone blocked:** tried one gate case (`--only biweekly-priya`, would be ~$0.35) — every OpenAI
+call returns **429 "exceeded your current quota"**. The account needs billing topped up; $0 actually
+spent. Run `node scripts/gate.js --only biweekly-priya` once billing works to close the loop.
+**Audit correction:** config/models.json EXISTS and is used (smoke prints "models: (from
+config/models.json)") — the parked "simplify models.ts" item was based on a wrong finding; dropped.
+Earlier phase details:
 What landed: new shared `admin/src/ui/time.ts` (+ co-located test, written red→green) replaces the
 4 identical relTime copies; the 4 local escape fns replaced by the shared `escapeHtml` (aliased at
 import so 59 call sites are untouched; tasks.js is now stricter — its old copy didn't escape quotes);
@@ -65,7 +79,6 @@ Past 1:1s / Team / run detail in the browser, zero console errors, star rating i
 - Finish the admin JS→TS migration (file-by-file as touched).
 - Session fence: document undefined/null invariant + add org+user wall test.
 - Unify the two fmtDate helpers; shared guard factory for admin/superadmin middleware.
-- Simplify models.ts 4-level model resolution (unused layers).
 - Refresh docs/sero-how-it-works.html changelog (PG phases not reflected).
 - **purge-logs.js should skip git-tracked runs.** Found in Phase 2: the purge deleted the tracked
   May keep-set (2026_May24_21-46 + 2026_May25_14-23, 51 files) because they're marked archived —

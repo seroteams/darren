@@ -5,7 +5,7 @@ import { loadAxes, AXIS_IDS, AXIS_MIN, AXIS_MAX } from "./axes.ts";
 import { promptFor, getArc, getType } from "./one-on-one-types/index.ts";
 import { withPromptVersion } from "./prompt-version.ts";
 import { resolveSelectedFocus } from "./selected-focus.ts";
-import { splitSystemUser } from "./prompt-utils.ts";
+import { splitSystemUser, fillPlaceholders } from "./prompt-utils.ts";
 import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./role-profile.ts";
 import { ruleEchoAxisIds } from "./golden-checks.ts";
 
@@ -544,35 +544,30 @@ function buildMessages({
   } catch {
     typeEvalRules = "";
   }
-  const filled = template
-    .replaceAll("{{AXES_JSON}}", JSON.stringify(axes, null, 2))
-    .replaceAll("{{NAME}}", ctx.name || "(not provided)")
-    .replaceAll("{{ROLE}}", ctx.role || "(not provided)")
-    .replaceAll("{{SENIORITY}}", ctx.seniority || "(not provided)")
-    .replaceAll("{{MEETING_TYPE}}", ctx.meetingType)
-    .replaceAll("{{TYPE_EVAL_RULES}}", typeEvalRules)
-    .replaceAll("{{TONE_REGISTER}}", arc.tone_register)
-    .replaceAll("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc.anti_patterns, null, 2))
-    .replaceAll("{{MEETING_ARC_JSON}}", JSON.stringify(arc.arc, null, 2))
-    .replaceAll("{{MANAGER_NOTES}}", notes || "(none)")
-    .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
-    .replaceAll("{{SELECTED_FOCUS_JSON}}", JSON.stringify(sf || {}, null, 2))
-    .replaceAll("{{PRIMARY_FOCUS_ID}}", sf?.id || "(none)")
-    .replaceAll("{{TRANSCRIPT_JSON}}", JSON.stringify(transcript, null, 2))
-    .replaceAll("{{AXIS_STATE_JSON}}", JSON.stringify(axisState, null, 2))
-    .replaceAll(
-      "{{READ_QUALITY_JSON}}",
-      JSON.stringify(computeReadQuality(transcript), null, 2)
-    )
-    .replaceAll("{{SCORING_STATUS}}", formatScoringStatus(scoring))
-    .replaceAll("{{AGENDA_CARRY_FORWARD}}", formatAgendaCarryForward(agenda))
-    .replaceAll(
-      "{{ROLE_PROFILE_BLOCK}}",
-      renderRoleProfileBlock(loadRoleProfile({ role: ctx.role, seniority: ctx.seniority }), {
-        slice: "eval",
-        meetingType: ctx.meetingType,
-      })
-    );
+  const filled = fillPlaceholders(template, {
+    AXES_JSON: JSON.stringify(axes, null, 2),
+    NAME: ctx.name || "(not provided)",
+    ROLE: ctx.role || "(not provided)",
+    SENIORITY: ctx.seniority || "(not provided)",
+    MEETING_TYPE: ctx.meetingType,
+    TYPE_EVAL_RULES: typeEvalRules,
+    TONE_REGISTER: arc.tone_register,
+    ANTI_PATTERNS_JSON: JSON.stringify(arc.anti_patterns, null, 2),
+    MEETING_ARC_JSON: JSON.stringify(arc.arc, null, 2),
+    MANAGER_NOTES: notes || "(none)",
+    FOCUS_POINTS_JSON: JSON.stringify(focusPoints, null, 2),
+    SELECTED_FOCUS_JSON: JSON.stringify(sf || {}, null, 2),
+    PRIMARY_FOCUS_ID: sf?.id || "(none)",
+    TRANSCRIPT_JSON: JSON.stringify(transcript, null, 2),
+    AXIS_STATE_JSON: JSON.stringify(axisState, null, 2),
+    READ_QUALITY_JSON: JSON.stringify(computeReadQuality(transcript), null, 2),
+    SCORING_STATUS: formatScoringStatus(scoring),
+    AGENDA_CARRY_FORWARD: formatAgendaCarryForward(agenda),
+    ROLE_PROFILE_BLOCK: renderRoleProfileBlock(
+      loadRoleProfile({ role: ctx.role, seniority: ctx.seniority }),
+      { slice: "eval", meetingType: ctx.meetingType }
+    ),
+  });
 
   return splitSystemUser(filled);
 }

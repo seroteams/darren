@@ -36,18 +36,19 @@ Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No pai
 
 The 2026-07-04 deep-dive audit's cleanup, at [docs/todo/cleanup-audit/](docs/todo/cleanup-audit/PLAN.md) —
 4 small phases (quick fixes → delete dead cruft → frontend helpers → backend dedup), no OpenAI spend anywhere.
-**Phases 1–2 ✅ green-lit (`55f27457`, `f64c108f`). Phase 3 (frontend helpers) 🔨 BUILT 2026-07-04 —
-awaiting your QA** (scenarios in [phase-3.md](docs/todo/cleanup-audit/phase-3.md)). One shared
-relative-time helper (test-first, with its own unit test) and one shared HTML-escape now serve the
-whole admin app — 8 hand-rolled copies deleted. Free checks green: tests 56/56, both typechecks clean,
-full build compiles. Doesn't block PG7.
+**Phases 1–3 ✅ green-lit. Phase 4 (backend dedup, the last one) 🔨 BUILT 2026-07-04 — awaiting your
+QA** (scenarios in [phase-4.md](docs/todo/cleanup-audit/phase-4.md)). One shared prompt-filling helper
+(test-first, byte-identical prompts) across all 5 builders; test runner now auto-finds every test.
+Free checks green: tests 57/57, typecheck clean, smoke pre-flight 14/14.
+⚠️ **OpenAI account is out of quota (429 billing)** — every live call is rejected right now; the one
+paid gate case that would close the loop is queued until billing is topped up. $0 spent this session.
 
 | # | Phase | Status |
 |---|---|---|
 | 1 | Quick fixes (types, duplicate constant, silent errors, stale config) | ✅ `55f27457` |
 | 2 | Delete dead cruft (scripts, product-qa, log purge) | ✅ `f64c108f` |
-| 3 | Frontend helpers (one escapeHtml, one relTime) | 🔨 built — your QA |
-| 4 | Backend dedup (prompt filler, snapDelta, test auto-discovery) | ⬜ |
+| 3 | Frontend helpers (one escapeHtml, one relTime) | ✅ `ddefe3b7` |
+| 4 | Backend dedup (prompt filler, snap documented, test auto-discovery) | 🔨 built — your QA |
 
 <details><summary>Phase 009 — non-hosting ultra batch (✅ closed 2026-07-01 → done/)</summary>
 

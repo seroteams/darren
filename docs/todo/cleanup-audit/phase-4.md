@@ -1,6 +1,7 @@
 # Phase 4 — Backend dedup
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built 2026-07-04 — awaiting Carl's QA
+(snap helpers deliberately NOT merged — divergence documented instead; see PLAN.md Current state)
 
 ## Goal
 The engine has one prompt-filling helper and one delta-snapping helper instead of five and two copies, and the test runner can never silently skip a new test.

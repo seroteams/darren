@@ -71,7 +71,9 @@ function unitChecks() {
     pass(`budget constants consistent: ${INTRO_BUDGET} + ${DYNAMIC_BUDGET} = ${TOTAL_BUDGET}`);
   else fail("budget constants consistent", `TOTAL_BUDGET ${TOTAL_BUDGET} ≠ ${INTRO_BUDGET} + ${DYNAMIC_BUDGET}`);
 
-  // 3. Prompt placeholder coverage — every {{X}} in a prompt file has a .replace call in its src file
+  // 3. Prompt placeholder coverage — every {{X}} in a prompt file is filled by its
+  // src file, either as a `"{{X}}"` replaceAll literal or as an `X:` key in a
+  // fillPlaceholders({ ... }) vars object (cleanup-audit Phase 4).
   const PROMPT_SRC_MAP = {
     "prompts/generate-focus-points.md": "backend/engine/generate.ts",
     "prompts/generate-questions.md":    "backend/engine/question-generator.ts",
@@ -86,7 +88,12 @@ function unitChecks() {
       const srcText = fs.readFileSync(srcFile, "utf8");
       const placeholders = [...promptText.matchAll(/\{\{([A-Z0-9_]+)\}\}/g)].map((m) => m[1]);
       const unique = [...new Set(placeholders)];
-      const missing = unique.filter((p) => !srcText.includes(`"{{${p}}}"`) && !srcText.includes(`\\{\\{${p}\\}\\}`));
+      const missing = unique.filter(
+        (p) =>
+          !srcText.includes(`"{{${p}}}"`) &&
+          !srcText.includes(`\\{\\{${p}\\}\\}`) &&
+          !new RegExp(`(^|[\\s{,])${p}\\s*:`, "m").test(srcText)
+      );
       if (missing.length === 0) pass(`prompt placeholders covered: ${path.basename(promptFile)}`);
       else fail(`prompt placeholders covered: ${path.basename(promptFile)}`, `missing .replace for: ${missing.join(", ")}`);
     } catch (e) {

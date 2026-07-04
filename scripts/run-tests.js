@@ -13,36 +13,15 @@ const path = require("node:path");
 const SCRIPTS_DIR = __dirname;
 const ROOT = path.join(__dirname, "..");
 
-const OFFLINE_TESTS = [
-  "test-answer-suggest-shape.js",
-  "test-arc-overlay.js",
-  "test-axis-coverage.js",
-  "test-briefing-fallback.js",
-  "test-briefing-integrity.js",
-  "test-briefing-prompt-rules.js",
-  "test-confidence-honesty.js",
-  "test-delta-snap.js",
-  "test-drill-cap.js",
-  "test-empty-signature.js",
-  "test-engagement-read.js",
-  "test-grounding-gate.js",
-  "test-intro-order.js",
-  "test-lexicon.js",
-  "test-lexicon-promote.js",
-  "test-opener-routing.js",
-  "test-person-profile.js",
-  "test-persona-bench.js",
-  "test-prep-wording.js",
-  "test-question-integrity.js",
-  "test-question-validator.js",
-  "test-read-quality.js",
-  "test-recurring-gap-damper.js",
-  "test-replay-regression.js",
-  "test-role-profile.js",
-  "test-role-lexicons.js",
-  "test-stage-tags.js",
-  "test-trust-checks.js",
-];
+// Every scripts/test-*.js is an offline assertion script and is auto-discovered
+// here — a new test file can never be silently skipped. The ONLY exceptions are
+// the paid ones below (they hit the OpenAI API — run those manually, with a
+// go-ahead).
+const PAID_TESTS = new Set(["test-prep-role-diff.js"]);
+const OFFLINE_TESTS = fs
+  .readdirSync(SCRIPTS_DIR)
+  .filter((n) => n.startsWith("test-") && n.endsWith(".js") && !PAID_TESTS.has(n))
+  .sort();
 
 // The mirrored test tree (Phase 004 step 4):
 //   - Unit tests live BESIDE the code as `*.test.ts` (backend-conventions). They use

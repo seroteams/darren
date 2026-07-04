@@ -3,7 +3,7 @@ import path from "node:path";
 
 import { logStage } from "./session.ts";
 import { promptFor } from "./one-on-one-types/index.ts";
-import { splitSystemUser } from "./prompt-utils.ts";
+import { splitSystemUser, fillPlaceholders } from "./prompt-utils.ts";
 import { FOCUS_POINTS_FILE } from "./paths.mts";
 import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
@@ -111,17 +111,15 @@ function buildMessages({
   focusPoints,
 }: FocusPointInputs & { focusPoints: unknown }) {
   const template = fs.readFileSync(promptFor(meetingType, "focusPoints"), "utf8");
-  const filled = template
-    .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
-    .replaceAll("{{NAME}}", name || "(not provided)")
-    .replaceAll("{{ROLE}}", role || "(not provided)")
-    .replaceAll("{{SENIORITY}}", seniority || "(not provided)")
-    .replaceAll("{{MEETING_TYPE}}", meetingType)
-    .replaceAll("{{MANAGER_NOTES}}", notes || "(none)")
-    .replaceAll(
-      "{{ROLE_PROFILE_BLOCK}}",
-      renderRoleProfileBlock(loadRoleProfile({ role, seniority }), { slice: "focus", meetingType })
-    );
+  const filled = fillPlaceholders(template, {
+    FOCUS_POINTS_JSON: JSON.stringify(focusPoints, null, 2),
+    NAME: name || "(not provided)",
+    ROLE: role || "(not provided)",
+    SENIORITY: seniority || "(not provided)",
+    MEETING_TYPE: meetingType,
+    MANAGER_NOTES: notes || "(none)",
+    ROLE_PROFILE_BLOCK: renderRoleProfileBlock(loadRoleProfile({ role, seniority }), { slice: "focus", meetingType }),
+  });
 
   return splitSystemUser(filled);
 }
