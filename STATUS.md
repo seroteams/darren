@@ -40,6 +40,20 @@ Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No pai
 > This track **supersedes** the deferred **member-nav Phase 2** (real Runs) and **009's deferred "real
 > Team content"** — both folded in here so trackers don't multiply.
 
+### Just finished: Roles admin/manager/member ✅ (side-task, closed 2026-07-04 → done/)
+
+Renamed the account-role model **owner/admin/member → admin/manager/member** (Carl's call). Both phases done
+same day, archived at [docs/todo/done/roles-admin-manager-member/](docs/todo/done/roles-admin-manager-member/PLAN.md).
+- **Phase 1** (`dc6a9f7d`): enum renamed + migration `0003` **applied to live Neon** — every `owner` → `manager`,
+  `carl@seroteams.com` → `admin` (verified by DB query: admin=1, manager=11, member=1, no owner). Signup now
+  creates managers; console gate (`requireAdmin`) opens to admin+manager; dev side-door → admin.
+- **Phase 2** (`b0f0c26d`): frontend `isAdmin` mirrors the backend (manager+admin) so migrated managers keep the
+  console; dead `"owner"` role value purged from fixtures. Company-*ownership* wording kept (different concept).
+- Superadmin is unchanged — still `carl@seroteams.com` via the `SUPERADMIN_EMAILS` allowlist, independent of role.
+- **Note:** wherever older tracker text says "a normal owner" (e.g. PG8 below), that's now "a normal manager".
+- Free checks green: `npm test` 57/57 · backend + admin typecheck clean. **Pending: Carl's browser eyeball** (log
+  in as manager/admin/member) — mechanics verified, visual walk is yours whenever.
+
 ### Just finished: cleanup-audit ✅ (closed 2026-07-04 → done/)
 
 The July 4 deep-dive audit's cleanup — all 4 phases done in one day, archived at
