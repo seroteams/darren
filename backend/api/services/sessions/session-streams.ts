@@ -29,7 +29,7 @@ import { runStage } from "../../handlers/stream-helper.ts";
 import { openStream } from "../../sse.ts";
 import { summarizeAxes } from "./session-views.ts";
 import { buildPreparationInputs } from "./preparation-inputs.ts";
-import { formatNotesForEvaluation } from "./notes-format.ts";
+import { formatNotesForEvaluation, stripTesterNoteLines } from "./notes-format.ts";
 import type { Session, TranscriptEntry } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
 import { isObjectRecord } from "../../../shared/guards.ts";
@@ -177,7 +177,9 @@ export async function evaluationStream(c: RequestContext): Promise<void> {
   const { orgId, userId } = await callerFence(c);
   const session = service.require(sessionId(c), orgId, userId);
   const intakeNotes = String(session.ctx?.notes || "").trim();
-  const capturedNotes = formatNotesForEvaluation(session.notes || []);
+  // Drop timestamped mid-run tester/observation lines before they reach the manager-notes
+  // channel (run-qa-fixes C1) — genuine intake notes have no [HH:MM] stamp and survive.
+  const capturedNotes = stripTesterNoteLines(formatNotesForEvaluation(session.notes || []));
   const notesForEvaluation = [intakeNotes, capturedNotes].filter(Boolean).join("\n\n");
 
   await runStage(c, session, "evaluation", {

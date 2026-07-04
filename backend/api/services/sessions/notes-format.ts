@@ -42,6 +42,24 @@ function truncate(text: unknown, maxLen: number): string {
   return `${clean.slice(0, maxLen).trimEnd()}...`;
 }
 
+// A note captured mid-run (via the notes feature) is stamped `[14:26 @ alias] …` or
+// `[14:26] …` by formatNotesForEvaluation. Those are in-flight QA/observation lines, not
+// the manager's briefing-worthy context — in the Brian run they leaked into the briefing,
+// which then told the manager off about a "repeated question" that was a tester's note.
+// This strips those timestamped lines so the manager-notes channel carries only the
+// genuine (intake) notes. Free-text intake notes have no leading [HH:MM] stamp, so they
+// pass through untouched. Input-side filter — it never rewrites model output.
+const TESTER_NOTE_LINE = /^\s*\[\d{1,2}:\d{2}(:\d{2})?(\s*@\s*[^\]]+)?\]/;
+function stripTesterNoteLines(text: unknown): string {
+  const s = String(text || "");
+  if (!s) return "";
+  return s
+    .split("\n")
+    .filter((line) => !TESTER_NOTE_LINE.test(line))
+    .join("\n")
+    .trim();
+}
+
 function formatNotesForEvaluation(notes: unknown): string {
   if (!Array.isArray(notes) || notes.length === 0) return "";
   const lines: string[] = [];
@@ -107,4 +125,4 @@ function renderNotesMarkdown(session: Session): string {
   return lines.join("\n");
 }
 
-export { renderNotesMarkdown, formatNotesForEvaluation };
+export { renderNotesMarkdown, formatNotesForEvaluation, stripTesterNoteLines };

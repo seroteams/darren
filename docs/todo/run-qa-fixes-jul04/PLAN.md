@@ -18,7 +18,7 @@ Run reviewed: `logs/july/2026_Jul04_14-23-4b3931311f7d411093c5cef545f22615`.
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Stop testing notes leaking (C1) | Strip QA note lines before they reach the briefing | ⬜ |
+| 1 | Stop testing notes leaking (C1) | Strip QA note lines before they reach the briefing | 🔨 built + unit-tested, awaiting a walked run |
 | 2 | Question variety (B1) | Bank no longer minting one topic eight ways | ⬜ |
 | 3 | Honest wellbeing scoring (B2) | Scorer needs stated strain, not just a place/time | ⬜ |
 | 4 | Who said it (B3) | No third-person note quoted as the student's speech | ⬜ |
