@@ -17,11 +17,13 @@ with a **"Since last time"** recap and one-tap **"Prep your next 1:1"**. Behind 
 has a read-only, cross-company **superadmin key** — server-resolved allowlist, read-only by construction,
 one audit line per access, proven by 13 tests (the dev side-door can't pass). No screen yet.
 
-**▶ Your move: PG7 (Admin — who's registered) — broken down into 2 steps + QA, nothing built yet.** The
-first superadmin **screen** — every alpha company + its users with the return-visit signal (run counts,
-last-active, alpha rating summary). **Finding:** the PG6 endpoint only carries companies → users, so Step 01
-is a backend enrichment (run stats), then Step 02 is the screen. **Scope choice:** say **"go"** for the full
-signal, or **"trim to minimal"** (just list + run count + last-active).
+**▶ Your move: PG7 Step 01 (backend enrichment) 🔨 BUILT 2026-07-04 — awaiting your QA.** Carl chose the
+full return-visit signal. The `/api/v1/admin/registered` endpoint now carries, per user, `runCount` /
+`lastActiveAt` / `runsThisWeek` / `runsLastWeek`, plus a top-level `summary { avgStars, ratedCount, lowCount }`
+over all alpha runs — all derived from existing run timestamps + PG3 ratings, no new tracking. Test-first:
+8 assertions (week bucketing against a fixed `now`, no-runs → zeros, unrated excluded, no `passwordHash`).
+**QA (backend only — read the results):** `npm test` 57/57 · `npm run typecheck` clean · still behind the
+superadmin gate (owner → 403). Green-light → **Step 02, the screen.**
 Plan: [docs/pre-go-live/007-admin-registered/01-registered-data.md](docs/pre-go-live/007-admin-registered/01-registered-data.md).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
 

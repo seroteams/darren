@@ -221,9 +221,9 @@ const DATA = [
       { f: "Companies → people", m: "List every company and its users (name, role, joined, 1:1 count).", have: "The alpha at a glance",
         auto: "Run `npm test` + `npm run typecheck` — green; a normal owner is refused.", eye: "As Carl the page lists every company + users; a normal owner can't reach it.", s: "todo" },
       { f: "Are they coming back?", m: "Per-user last-active + 1:1s-over-time — the return-visit signal the whole track exists to prove.", have: "Return-visit signal",
-        auto: null, eye: "Each user shows last-active + recent activity.", s: "todo" },
+        auto: null, eye: "Each user shows last-active + recent activity.", s: "doing" },
       { f: "How ratings look overall", m: "An alpha-wide summary: average stars + a count of low scores.", have: "Honest signal in one glance",
-        auto: null, eye: "The page shows the alpha-wide rating summary.", s: "todo" },
+        auto: null, eye: "The page shows the alpha-wide rating summary.", s: "doing" },
     ],
     signoff: "Carl sees every company + users with join dates, run counts, return-visit signal and an alpha-wide rating summary · normal owners refused." },
 

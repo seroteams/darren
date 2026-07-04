@@ -297,3 +297,12 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   + tests ("approved") → PG6 ✅. Ticked STATUS + SERO_BOARD + build badges (PG6 2 chips → done) + changelog.
   56/56, typecheck clean; no paid runs. **Carry-forward before widening the alpha stays open by design.**
   Next: `go` → break down Phase 007 (who's registered — the first superadmin screen).
+- **2026-07-04** — **Phase 007 Step 01 (backend enrichment) built — awaiting QA.** Carl picked the full
+  return-visit signal ("go"). Test-first: added `listRunsForSuperadmin()` to run-history (walks all orgs via
+  the existing `walkRuns`, finished runs only, attributes by `userId`, reads PG3 `ratingOf` stars) → repo
+  `listRuns()` → the `superadmin` service now enriches each user with `runCount` / `lastActiveAt` /
+  `runsThisWeek` / `runsLastWeek` (week buckets from an injected `now` so tests are deterministic) and folds
+  every run's rating into a top-level `summary { avgStars, ratedCount, lowCount }`. 8 new assertions
+  (bucketing, no-runs→zeros not omitted, unrated excluded, no `passwordHash`, avg rounding). Still behind
+  `requireSuperadminRoute`, still read-only, no new tracking infra. 57/57 + typecheck green; no OpenAI.
+  Next: Carl QA (backend only — read the test results) → Step 02, the screen.

@@ -251,6 +251,21 @@ function listFinishedRunsForMember(orgId: string | null | undefined, userId: str
   });
 }
 
+// Every finished run across ALL companies, attributed to its owner (pre-go-live PG7).
+// Unfenced on purpose — the ONE cross-tenant read, reachable only behind the superadmin
+// repo/route. Returns just the fields the alpha signal needs (owner, when, rating); the
+// service does all counting/bucketing so it stays unit-testable. A run with no userId
+// (machine/gate sessions) has userId null and is ignored by the owner grouping.
+function listRunsForSuperadmin(): { userId: string | null; lastSeenAt: number; stars: number | null }[] {
+  return walkRuns()
+    .filter(({ state }) => state && state.briefing)
+    .map(({ dir, state }) => ({
+      userId: typeof state.userId === "string" ? state.userId : null,
+      lastSeenAt: asNumber(state.lastSeenAt),
+      stars: ratingOf(dir)?.stars ?? null,
+    }));
+}
+
 // A read-only view of ONE of the member's own runs (member-nav Phase 2): the briefing
 // plus its context. Fenced by company AND user — a run the caller doesn't own resolves
 // to null (the same "unknown" answer a stranger gets, so ids can't be probed).
@@ -550,6 +565,7 @@ export {
   cloneRunState,
   cloneRun,
   listFinishedRunsForMember,
+  listRunsForSuperadmin,
   memberRunView,
   walkRuns,
   listRecentRuns,

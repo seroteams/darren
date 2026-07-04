@@ -1,5 +1,12 @@
 # Phase 007 · Step 01 — Enrich the registered data (backend, test-first)
 
+> **Status: 🔨 built 2026-07-04 — awaiting Carl's QA.** `listRunsForSuperadmin()` (all-orgs run walk,
+> reuses `walkRuns`) → repo `listRuns()` → service enriches each user with `runCount` / `lastActiveAt` /
+> `runsThisWeek` / `runsLastWeek` (week buckets against an injected `now`) and folds all ratings into a
+> top-level `summary { avgStars, ratedCount, lowCount }`. Test-first: 8 assertions incl. week bucketing,
+> no-runs → zeros, unrated excluded, no `passwordHash`. `npm test` 57/57 · typecheck clean · no OpenAI.
+> Step 02 (the screen) waits for the green light.
+
 ## Goal
 Add the return-visit signal to the superadmin data: per-user run count + last-active, and an alpha-wide
 rating summary — the numbers that answer "are they coming back, and is it landing?".

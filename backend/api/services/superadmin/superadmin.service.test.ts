@@ -1,12 +1,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createSuperadminService } from "./superadmin.service.ts";
-import type { SuperadminRepo, OrgRow, UserRow } from "./superadmin.repo.ts";
+import type { SuperadminRepo, OrgRow, UserRow, RunRow } from "./superadmin.repo.ts";
 
 // A storage-agnostic fake — the service logic (grouping, ordering, the read-only view
 // shape) is proven without a database, the same seam the other domains use.
-function fakeRepo(orgs: OrgRow[], people: UserRow[]): SuperadminRepo {
-  return { listOrganizations: async () => orgs, listUsers: async () => people };
+function fakeRepo(orgs: OrgRow[], people: UserRow[], runs: RunRow[] = []): SuperadminRepo {
+  return { listOrganizations: async () => orgs, listUsers: async () => people, listRuns: async () => runs };
 }
 
 test("listRegistered groups users under their company, oldest-first, no secrets in the view", async () => {
@@ -47,4 +47,80 @@ test("listRegistered: no companies → empty list, not an error", async () => {
   const svc = createSuperadminService(fakeRepo([], []));
   const { companies } = await svc.listRegistered();
   assert.deepEqual(companies, []);
+});
+
+// --- PG7 Step 01: the return-visit signal ---------------------------------
+
+const NOW = new Date("2026-07-04T12:00:00Z");
+const DAY = 24 * 60 * 60 * 1000;
+const ago = (days: number) => NOW.getTime() - days * DAY;
+
+function oneOrg(users: UserRow[], runs: RunRow[]) {
+  const orgs: OrgRow[] = [{ id: "o1", name: "Acme", createdAt: new Date("2026-01-01") }];
+  return createSuperadminService(fakeRepo(orgs, users, runs));
+}
+
+test("enrich: per-user run count and last-active from run timestamps", async () => {
+  const users: UserRow[] = [
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "owner", createdAt: new Date("2026-01-02") },
+  ];
+  const runs: RunRow[] = [
+    { userId: "u1", lastSeenAt: ago(1), stars: null },
+    { userId: "u1", lastSeenAt: ago(9), stars: null },
+    { userId: "u2-stranger", lastSeenAt: ago(1), stars: null }, // no matching user → ignored
+    { userId: null, lastSeenAt: ago(1), stars: null }, // machine run → ignored
+  ];
+  const { companies } = await oneOrg(users, runs).listRegistered(NOW);
+  const ann = companies[0]!.users[0]!;
+  assert.equal(ann.runCount, 2);
+  assert.equal(ann.lastActiveAt?.getTime(), ago(1)); // most-recent wins
+});
+
+test("enrich: this-week / last-week bucketing against a fixed now", async () => {
+  const users: UserRow[] = [
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "owner", createdAt: new Date("2026-01-02") },
+  ];
+  const runs: RunRow[] = [
+    { userId: "u1", lastSeenAt: ago(1), stars: null }, // this week
+    { userId: "u1", lastSeenAt: ago(6), stars: null }, // this week
+    { userId: "u1", lastSeenAt: ago(8), stars: null }, // last week
+    { userId: "u1", lastSeenAt: ago(20), stars: null }, // older than both
+  ];
+  const ann = (await oneOrg(users, runs).listRegistered(NOW)).companies[0]!.users[0]!;
+  assert.equal(ann.runsThisWeek, 2);
+  assert.equal(ann.runsLastWeek, 1);
+});
+
+test("enrich: a user with no runs still appears with zeros, not omitted", async () => {
+  const users: UserRow[] = [
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "owner", createdAt: new Date("2026-01-02") },
+  ];
+  const ann = (await oneOrg(users, []).listRegistered(NOW)).companies[0]!.users[0]!;
+  assert.equal(ann.runCount, 0);
+  assert.equal(ann.lastActiveAt, null);
+  assert.equal(ann.runsThisWeek, 0);
+  assert.equal(ann.runsLastWeek, 0);
+});
+
+test("enrich: alpha-wide rating summary (avg / rated / low ≤2) over all runs", async () => {
+  const users: UserRow[] = [
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "owner", createdAt: new Date("2026-01-02") },
+  ];
+  const runs: RunRow[] = [
+    { userId: "u1", lastSeenAt: ago(1), stars: 5 },
+    { userId: "u1", lastSeenAt: ago(2), stars: 4 },
+    { userId: "u1", lastSeenAt: ago(3), stars: 2 }, // low
+    { userId: "u1", lastSeenAt: ago(4), stars: null }, // unrated → not counted
+  ];
+  const { summary } = await oneOrg(users, runs).listRegistered(NOW);
+  assert.equal(summary.avgStars, 3.7); // (5+4+2)/3 = 3.666… → 3.7
+  assert.equal(summary.ratedCount, 3);
+  assert.equal(summary.lowCount, 1);
+});
+
+test("enrich: summary with no ratings → avgStars null, zero counts", async () => {
+  const { summary } = await oneOrg([], []).listRegistered(NOW);
+  assert.equal(summary.avgStars, null);
+  assert.equal(summary.ratedCount, 0);
+  assert.equal(summary.lowCount, 0);
 });

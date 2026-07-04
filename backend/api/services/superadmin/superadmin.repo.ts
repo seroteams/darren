@@ -10,6 +10,7 @@
 
 import { getDb } from "../../../db/client.ts";
 import { organizations, users } from "../../../db/schema.ts";
+import { listRunsForSuperadmin } from "../../../engine/run-history.ts";
 
 /** One company row (no tenant scope — this is the cross-company read). */
 export interface OrgRow {
@@ -30,9 +31,19 @@ export interface UserRow {
   createdAt: Date;
 }
 
+/** One finished run, attributed to its owner (pre-go-live PG7). `userId` may be null for
+ *  machine/gate sessions (the service ignores those). `stars` is null when unrated. This
+ *  is the cross-company run read — reachable only behind requireSuperadminRoute. */
+export interface RunRow {
+  userId: string | null;
+  lastSeenAt: number;
+  stars: number | null;
+}
+
 export interface SuperadminRepo {
   listOrganizations(): Promise<OrgRow[]>;
   listUsers(): Promise<UserRow[]>;
+  listRuns(): Promise<RunRow[]>;
 }
 
 export const pgSuperadminRepo: SuperadminRepo = {
@@ -55,5 +66,10 @@ export const pgSuperadminRepo: SuperadminRepo = {
         createdAt: users.createdAt,
       })
       .from(users);
+  },
+  // Runs live on the filesystem, not the DB — reuse run-history's walk across ALL orgs
+  // (the same one the fenced member reads use, here unfenced behind the superadmin route).
+  async listRuns() {
+    return listRunsForSuperadmin();
   },
 };
