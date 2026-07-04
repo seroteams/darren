@@ -32,6 +32,19 @@ Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No pai
 > This track **supersedes** the deferred **member-nav Phase 2** (real Runs) and **009's deferred "real
 > Team content"** — both folded in here so trackers don't multiply.
 
+### Also in flight: cleanup-audit (side track, all free) 🔨
+
+The 2026-07-04 deep-dive audit's cleanup, at [docs/todo/cleanup-audit/](docs/todo/cleanup-audit/PLAN.md) —
+4 small phases (quick fixes → delete dead cruft → frontend helpers → backend dedup), no OpenAI spend anywhere.
+**Phase 1 (quick fixes) 🔨 building — will land as "built, awaiting your QA".** Doesn't block PG7.
+
+| # | Phase | Status |
+|---|---|---|
+| 1 | Quick fixes (types, duplicate constant, silent errors, stale config) | 🔨 |
+| 2 | Delete dead cruft (scripts, product-qa, log purge) | ⬜ |
+| 3 | Frontend helpers (one escapeHtml, one relTime) | ⬜ |
+| 4 | Backend dedup (prompt filler, snapDelta, test auto-discovery) | ⬜ |
+
 <details><summary>Phase 009 — non-hosting ultra batch (✅ closed 2026-07-01 → done/)</summary>
 
 **Phases 1 · 3 · 4 · 5 · 6 · 7 ✅ done (6 & 7 walked + signed off 2026-07-01). Phase 2 ⏸ parked (→ hosting, later) · Phase 8 ⏸ deferred (→ pre-go-live continuity). Every actionable 009 phase is complete; the folder is archived to `done/`.**
