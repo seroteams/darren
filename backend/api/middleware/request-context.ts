@@ -23,7 +23,7 @@ export function anonymousIdentity(): RequestIdentity {
 /** The seeded identity the dev side-door lands you in as. Synthetic on purpose —
  *  Phase 3 doesn't fence data on it; Phase 4 will point it at a real dev org. */
 function devIdentity(): RequestIdentity {
-  return { userId: "dev-user", orgId: "dev-org", roles: ["owner"], email: "dev@seroteams.com", name: "Dev User" };
+  return { userId: "dev-user", orgId: "dev-org", roles: ["admin"], email: "dev@seroteams.com", name: "Dev User" };
 }
 
 /** How buildIdentity looks a session token up. Defaults to Postgres; injectable so

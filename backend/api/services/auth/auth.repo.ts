@@ -62,7 +62,7 @@ export const pgAuthRepo: AuthRepo = {
           orgId: org.id,
           email: input.email,
           name: input.name,
-          role: "owner",
+          role: "manager",
           passwordHash: input.passwordHash,
         })
         .returning();

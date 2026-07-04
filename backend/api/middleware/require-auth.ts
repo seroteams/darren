@@ -10,9 +10,10 @@ export function requireAuth(identity: RequestIdentity): void {
 
 // The admin-only gate (admin-access-guard Phase 2). A logged-out caller is 401 (that's
 // "sign in", not "forbidden"); a logged-in non-admin is 403. The internal tooling sits
-// behind this; the customer prep flow does not. Roles come from the identity (owner is
-// what every signup gets today; admin is reserved for later).
-const ADMIN_ROLES = ["owner", "admin"];
+// behind this; the customer prep flow does not. Roles come from the identity: manager is
+// what every signup gets (the end user who runs 1:1s); admin is internal Sero. Both reach
+// the console; member does not.
+const ADMIN_ROLES = ["admin", "manager"];
 
 export function isAdminIdentity(identity: RequestIdentity): boolean {
   return identity.roles.some((r) => ADMIN_ROLES.includes(r));

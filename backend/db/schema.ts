@@ -15,7 +15,7 @@
 import { pgTable, pgEnum, uuid, text, timestamp, jsonb, index, uniqueIndex } from "drizzle-orm/pg-core";
 
 /** Fixed sets as enums (locked rule: roles / invite status are enums, not free text). */
-export const userRole = pgEnum("user_role", ["owner", "admin", "member"]);
+export const userRole = pgEnum("user_role", ["admin", "manager", "member"]);
 export const inviteStatus = pgEnum("invite_status", ["pending", "accepted", "revoked"]);
 
 /** The tenant root — one row per company. */

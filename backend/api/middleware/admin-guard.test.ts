@@ -12,8 +12,8 @@ function ctxWith(cookie?: string): RequestContext {
 }
 
 const noSession: IdentityLookup = async () => null;
-const ownerSession: IdentityLookup = async (token) =>
-  token === "owner" ? { userId: "u1", orgId: "o1", roles: ["owner"], email: "u1@example.com", name: "Owner One" } : null;
+const managerSession: IdentityLookup = async (token) =>
+  token === "manager" ? { userId: "u1", orgId: "o1", roles: ["manager"], email: "u1@example.com", name: "Manager One" } : null;
 const memberSession: IdentityLookup = async (token) =>
   token === "member" ? { userId: "u2", orgId: "o1", roles: ["member"], email: "u2@example.com", name: "Member Two" } : null;
 
@@ -51,8 +51,8 @@ test("requireAdmin: logged-in member → 403", () => {
   });
 });
 
-test("requireAdmin: owner and admin are allowed", () => {
-  assert.doesNotThrow(() => requireAdmin({ userId: "u1", orgId: "o1", roles: ["owner"], email: "u1@example.com", name: "Owner One" }));
+test("requireAdmin: manager and admin are allowed", () => {
+  assert.doesNotThrow(() => requireAdmin({ userId: "u1", orgId: "o1", roles: ["manager"], email: "u1@example.com", name: "Manager One" }));
   assert.doesNotThrow(() => requireAdmin({ userId: "u3", orgId: "o1", roles: ["admin"], email: "u3@example.com", name: "Admin Three" }));
 });
 
@@ -86,18 +86,18 @@ test("requireAdminRoute refuses a logged-in member (403) and never runs the hand
   });
 });
 
-test("requireAdminRoute runs the handler for a logged-in owner", async () => {
+test("requireAdminRoute runs the handler for a logged-in manager", async () => {
   await withEnv({ NODE_ENV: "development", DEV_AUTOLOGIN: undefined }, async () => {
     let ran = false;
     const guarded = requireAdminRoute(() => {
       ran = true;
-    }, ownerSession);
-    await guarded(ctxWith("sero_session=owner"));
-    assert.equal(ran, true, "handler must run for an owner");
+    }, managerSession);
+    await guarded(ctxWith("sero_session=manager"));
+    assert.equal(ran, true, "handler must run for a manager");
   });
 });
 
-test("requireAdminRoute lets the dev side-door through (non-prod, DEV_AUTOLOGIN → owner)", async () => {
+test("requireAdminRoute lets the dev side-door through (non-prod, DEV_AUTOLOGIN → admin)", async () => {
   await withEnv({ NODE_ENV: "development", DEV_AUTOLOGIN: "1" }, async () => {
     let ran = false;
     const guarded = requireAdminRoute(() => {
