@@ -108,7 +108,7 @@ function main(): void {
   // superadmin — read-only, cross-company view of the alpha (pre-go-live PG6). GET-only,
   // behind the SUPERADMIN_EMAILS allowlist. No screen yet (PG7/PG8 build those on top).
   router.add("GET", "/api/v1/admin/registered", superadminV1(superadmin.registered));
-  router.add("GET", "/api/v1/admin/users/:id/runs", superadminV1(superadmin.userRuns));
+  router.add("GET", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/runs$/, superadminV1(superadmin.userRuns));
 
   // catalog — first domain on the v1 layer (controller → service → repo).
   // v1 routes use the one error shape (v1Route); the legacy /api/ paths stay as
