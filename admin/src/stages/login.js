@@ -6,28 +6,39 @@ import { STAGES, isAdmin } from "../state.js";
 import { login } from "../../../shared/api.js";
 
 export async function mount(root, { setState }) {
+  // Login is a full-bleed split screen: form on the left, photo on the right.
+  // Break the stage out of its centered/padded default for this screen only.
+  root.classList.add("stage--auth");
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--8 auth-card">
-      <header class="page-header">
-        <h1 class="h1">Log in</h1>
-        <div class="text-ink-dim text-sm">Welcome back. Sign in to your workspace.</div>
-      </header>
-      <form class="card-flat space-y-3 js-form" novalidate>
-        <label class="l-stack l-stack--2">
-          <span class="eyebrow">Email</span>
-          <input class="input js-email" type="email" autocomplete="username" required />
-        </label>
-        <label class="l-stack l-stack--2">
-          <span class="eyebrow">Password</span>
-          <input class="input js-password" type="password" autocomplete="current-password" required />
-        </label>
-        <p class="js-err text-negative text-sm" hidden></p>
-        <button type="submit" class="btn js-submit">Log in</button>
-      </form>
-      <p class="text-ink-dim text-sm">
-        No account yet?
-        <button type="button" class="link js-to-register">Create one</button>
-      </p>
+    <div class="auth-split">
+      <div class="auth-split__form">
+        <div class="auth-panel l-stack l-stack--6">
+          <div class="auth-brand">
+            <img class="auth-brand__logo" src="/logo.png" alt="" aria-hidden="true" />
+            <h1 class="auth-brand__title">Sero — where teams thrive</h1>
+            <p class="auth-brand__sub">Your 1:1s are broken. Let's fix that.</p>
+          </div>
+          <form class="l-stack l-stack--4 js-form" novalidate>
+            <label class="l-stack l-stack--2">
+              <span class="eyebrow">Email</span>
+              <input class="input js-email" type="email" autocomplete="username" required />
+            </label>
+            <label class="l-stack l-stack--2">
+              <span class="eyebrow">Password</span>
+              <input class="input js-password" type="password" autocomplete="current-password" required />
+            </label>
+            <p class="js-err text-negative text-sm" hidden></p>
+            <button type="submit" class="btn js-submit">Sign in</button>
+          </form>
+          <p class="text-ink-dim text-sm">
+            No account yet?
+            <button type="button" class="link js-to-register">Create one</button>
+          </p>
+        </div>
+      </div>
+      <div class="auth-split__media" aria-hidden="true">
+        <img class="auth-split__img" src="/login.jpg" alt="" onerror="this.remove()" />
+      </div>
     </div>
   `;
 
@@ -60,7 +71,7 @@ export async function mount(root, { setState }) {
     } catch (e2) {
       showError(e2.message || "Could not log in.");
       submitBtn.disabled = false;
-      submitBtn.textContent = "Log in";
+      submitBtn.textContent = "Sign in";
     }
   }
 
@@ -105,4 +116,6 @@ export async function mount(root, { setState }) {
   }
 }
 
-export function unmount() {}
+export function unmount(root) {
+  root?.classList.remove("stage--auth");
+}

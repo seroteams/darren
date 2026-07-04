@@ -1,6 +1,6 @@
 # Phase 4 — Backend dedup
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built 2026-07-04 — awaiting Carl's QA
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ green-lit 2026-07-04 — live gate case PASSED (1 ok / 0 regressed)
 (snap helpers deliberately NOT merged — divergence documented instead; see PLAN.md Current state)
 
 ## Goal

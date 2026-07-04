@@ -1,6 +1,6 @@
 alias: q_friction_scan_19
 label: Friction scan
-name: Where has work felt most snagged lately?
+name: Where are things getting snagged right now?
 description: Invites them to name blockers without framing it as complaint.
 purpose: topic
 stage: friction

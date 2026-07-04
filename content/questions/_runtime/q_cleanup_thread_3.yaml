@@ -1,9 +1,10 @@
 alias: q_cleanup_thread_3
 label: Cleanup thread
-name: What kind of cleanup is still taking your attention right now?
-description: Drills into the cleanup thread to surface whether unresolved launch work is shaping her near-term focus.
+name: Cleanup and reviews — where is that still taking more energy than expected?
+description: Drills into the concrete post-launch work she named to see whether anything unresolved is still dragging on her.
 purpose: topic
-stage: pulse
+stage: friction
 axis_effects:
-  clarity: +3
+  wellbeing: +1
 source: planner_added
+grounding: cleanup and reviews

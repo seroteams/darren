@@ -32,23 +32,15 @@ Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No pai
 > This track **supersedes** the deferred **member-nav Phase 2** (real Runs) and **009's deferred "real
 > Team content"** — both folded in here so trackers don't multiply.
 
-### Also in flight: cleanup-audit (side track, all free) 🔨
+### Just finished: cleanup-audit ✅ (closed 2026-07-04 → done/)
 
-The 2026-07-04 deep-dive audit's cleanup, at [docs/todo/cleanup-audit/](docs/todo/cleanup-audit/PLAN.md) —
-4 small phases (quick fixes → delete dead cruft → frontend helpers → backend dedup), no OpenAI spend anywhere.
-**Phases 1–3 ✅ green-lit. Phase 4 (backend dedup, the last one) 🔨 BUILT 2026-07-04 — awaiting your
-QA** (scenarios in [phase-4.md](docs/todo/cleanup-audit/phase-4.md)). One shared prompt-filling helper
-(test-first, byte-identical prompts) across all 5 builders; test runner now auto-finds every test.
-Free checks green: tests 57/57, typecheck clean, smoke pre-flight 14/14.
-⚠️ **OpenAI account is out of quota (429 billing)** — every live call is rejected right now; the one
-paid gate case that would close the loop is queued until billing is topped up. $0 spent this session.
-
-| # | Phase | Status |
-|---|---|---|
-| 1 | Quick fixes (types, duplicate constant, silent errors, stale config) | ✅ `55f27457` |
-| 2 | Delete dead cruft (scripts, product-qa, log purge) | ✅ `f64c108f` |
-| 3 | Frontend helpers (one escapeHtml, one relTime) | ✅ `ddefe3b7` |
-| 4 | Backend dedup (prompt filler, snap documented, test auto-discovery) | 🔨 built — your QA |
+The July 4 deep-dive audit's cleanup — all 4 phases done in one day, archived at
+[docs/todo/done/cleanup-audit/](docs/todo/done/cleanup-audit/PLAN.md). Quick fixes (17 hidden type
+errors → 0) · dead cruft deleted (~1,650 lines + 75MB logs + 8 stale branches, all archive-tagged) ·
+one shared escapeHtml + relTime for the admin app · one shared prompt-filler for all 5 engine builders.
+Tests grew 52 → **57** and the runner now auto-finds every test. Proven by a live gate case
+(**PASS**, 1 ok / 0 regressed). OpenAI billing was topped up mid-session; spend ~$0.35.
+Parked follow-ups (engine unit tests, god-file splits, purge-guard) live in the archived PLAN.md.
 
 <details><summary>Phase 009 — non-hosting ultra batch (✅ closed 2026-07-01 → done/)</summary>
 

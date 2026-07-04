@@ -26,6 +26,18 @@
       "port": 3001
     },
     {
+      "name": "sero-web-alt",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["node_modules/vite/bin/vite.js", "--port", "3007", "--strictPort"],
+      "port": 3007
+    },
+    {
+      "name": "sero-web-3009",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["node_modules/vite/bin/vite.js", "--port", "3009", "--strictPort"],
+      "port": 3009
+    },
+    {
       "name": "sero-prod-iso",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["cross-env", "NODE_ENV=production", "node", "backend/api/server.js"],

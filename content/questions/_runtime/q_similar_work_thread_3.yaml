@@ -1,7 +1,7 @@
 alias: q_similar_work_thread_3
 label: Similar work thread
-name: What kind of work has felt too similar lately?
-description: Drills into the plateau she named so you can locate the specific work pattern behind it.
+name: When you say similar work, what has started to feel repetitive?
+description: Drills into the specific work pattern behind her sense of being stuck.
 purpose: topic
 stage: momentum
 axis_effects:

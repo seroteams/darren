@@ -55,7 +55,7 @@ function renderBriefing(b: Briefing | null): string {
 
 // The "how useful was this?" star rating (PG3). A radiogroup of five star buttons —
 // keyboard-operable, labelled — pre-filled from the run's saved rating. A low score
-// (<=2) reveals the optional "what missed?" note.
+// (<=2) reveals the optional "what missed?" note, saved via an explicit Save button.
 function renderRating(run: RunDetail): string {
   const stars = run.rating?.stars ?? 0;
   const note = run.rating?.note ?? "";
@@ -65,6 +65,7 @@ function renderRating(run: RunDetail): string {
       <div class="star-rating__note l-stack l-stack--2" ${stars && stars <= 2 ? "" : "hidden"}>
         <label class="text-sm text-ink-dim" for="rating-note">What missed? (optional)</label>
         <textarea id="rating-note" class="input" rows="2">${escapeHtml(note)}</textarea>
+        <div><button type="button" class="btn btn--sm js-note-save">Save note</button></div>
       </div>
       <div class="text-sm text-ink-mute js-rating-status" role="status" aria-live="polite"></div>
     </section>`;
@@ -77,7 +78,6 @@ function wireRating(root: HTMLElement, run: RunDetail): void {
   const noteEl = root.querySelector<HTMLTextAreaElement>("#rating-note");
   const status = root.querySelector<HTMLElement>(".js-rating-status");
   let stars = run.rating?.stars ?? 0;
-  let saveTimer: ReturnType<typeof setTimeout> | null = null;
 
   const save = async () => {
     if (!stars) return;
@@ -99,9 +99,9 @@ function wireRating(root: HTMLElement, run: RunDetail): void {
   mount.appendChild(rating.el);
 
   noteEl?.addEventListener("input", () => {
-    if (saveTimer) clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => void save(), 600);
+    if (status) status.textContent = "Press Save to keep your note.";
   });
+  root.querySelector<HTMLButtonElement>(".js-note-save")?.addEventListener("click", () => void save());
 }
 
 // Plain "who · role, seniority · meeting" for the subtitle (raw — set via textContent).

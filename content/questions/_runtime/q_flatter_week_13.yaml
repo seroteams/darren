@@ -1,9 +1,10 @@
 alias: q_flatter_week_13
 label: Flatter week
-name: What do you think is behind the flatter week?
-description: Drills into the specific post-launch dip she just named before moving the arc on.
+name: "You said this week feels flatter than expected — what's behind that?"
+description: Drills into the post-launch flatness to distinguish normal decompression from something unresolved.
 purpose: wellbeing
 stage: pulse
 axis_effects:
   wellbeing: +3
 source: planner_added
+grounding: flatter this week than expected

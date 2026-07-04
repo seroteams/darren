@@ -18,7 +18,7 @@ Source: full audit report (chat, 2026-07-04). Everything here is offline/free �
 | 1 | Quick fixes | The 4 small real fixes (types, constant, error logging, stale config) | ✅ green-lit + committed `55f27457` (2026-07-04) |
 | 2 | Delete dead cruft | Dead scripts gone, product-qa/clamp decided, logs purged, old branches pruned | ✅ green-lit `f64c108f` (2026-07-04) |
 | 3 | Frontend helpers | One escapeHtml + one relTime for the whole admin app | ✅ green-lit `ddefe3b7` (2026-07-04) |
-| 4 | Backend dedup | One prompt-filling helper, snap divergence documented, test auto-discovery | 🔨 built — awaiting Carl's QA |
+| 4 | Backend dedup | One prompt-filling helper, snap divergence documented, test auto-discovery | ✅ green-lit + gate-proven (2026-07-04) |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -29,8 +29,12 @@ Phase 1 fixes (missing `PERSON_DETAIL`/`RUN_DETAIL` stages + `myRunId`/`personKe
 in-progress rating work. Anything red above beyond those 17 would be new damage; these 17 are not.
 **Budget note:** Carl OK'd up to **$3** of API spend this session (2026-07-04). Plan needs $0; reserve it —
 at most one `node scripts/gate.js --only <case>` (~$0.35) after Phase 4's prompt refactor if wanted.
-**Phases 1–3 ✅ green-lit (`55f27457`, `f64c108f`, `ddefe3b7`).**
-**Phase 4 🔨 built (2026-07-04), awaiting Carl's QA.**
+**ALL 4 PHASES ✅ — plan complete 2026-07-04** (`55f27457`, `f64c108f`, `ddefe3b7`, `cfc53eb2`).
+Carl topped up OpenAI billing and gave the close-out go-ahead; the live gate capstone ran and
+**PASSED** (`node scripts/gate.js --only biweekly-priya` → 1 ok / 0 regressed / 0 error, report
+logs/gate/2026-07-04T03-27-05-533Z) — the refactored prompt builders produce a fully passing
+end-to-end run. Session API spend: ~$0.35 of the $3 budget.
+Phase 4 details:
 What landed: `fillPlaceholders()` in prompt-utils.ts (test-first; sequential-replaceAll semantics
 preserved exactly, keys in original order → prompts byte-identical) now used by all 5 prompt builders;
 the two snapToAllowedDelta copies deliberately NOT merged (planner ties→0, bank ties→positive) —
