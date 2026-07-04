@@ -21,16 +21,15 @@ one audit line per access, proven by 13 tests (the dev side-door can't pass). No
 is live: every alpha company + its people with the return-visit signal (run counts, last-active, week
 counts) and the alpha-wide ★ rating summary; nav item superadmin-only, backend 403 the real wall.
 
-**▶ Your move: PG8 (Admin: user → teams → runs — the drilldown).** From the Registered screen, click a user
-→ see their people (reuse PG4 grouping) + their runs with ratings (PG1/PG3), open any run read-only (PG2).
-Mostly composes existing pieces behind the PG6 superadmin gate. **Steps 01–02 🔨 BUILT 2026-07-04 —
-awaiting your QA. Step 01 (backend):** superadmin-only `GET /api/v1/admin/users/:id/runs` returns one
-user's finished 1:1s (ratings included), newest-first (2 new tests). **Step 02 (the screen):** clicking a
-user on the Registered page opens `/admin/users/:id` — their **people** (reuses the PG4 grouping) and their
-**1:1s** with ★ ratings, plus back; superadmin-only. **QA (needs the API restarted):** as you, Registered →
-click a user → see their people + 1:1s + ratings → back. As a normal owner: refused. Free checks: `npm test`
-57/57 · both typechecks clean · build compiles. Green-light → **Step 03** (open a briefing read-only) closes PG8.
-Plan: [docs/pre-go-live/008-admin-user-drilldown/02-drilldown-screen.md](docs/pre-go-live/008-admin-user-drilldown/02-drilldown-screen.md).
+**▶ Your move: PG8 — one last look (open a 1:1's briefing).** PG8 (Admin: user → teams → runs) is now
+**built end-to-end.** You walked the drilldown ("clicked through — done") so **Steps 01–02 are ✅**. During
+that walk I caught + fixed a real bug — the per-user route was dead (404'd every id) — and added a test so
+it can't come back. **Step 03 is now built too:** clicking a 1:1 in the drilldown opens that briefing
+**read-only** (the same view a manager sees), cross-company behind the superadmin gate. **Your last check:**
+as you, open a user → click one of their 1:1s → the briefing shows read-only → back. Green-light that and
+PG8 closes; then PG9 (roster + polish) is the last pre-go-live phase. Free checks: `npm test` **58/58** ·
+typecheck + admin build green; new route verified live (gated). QA sheet:
+[docs/pre-go-live/008-admin-user-drilldown/99-qa-signoff.md](docs/pre-go-live/008-admin-user-drilldown/99-qa-signoff.md).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No paid runs.
 
 > 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG6 sign-off + commit.

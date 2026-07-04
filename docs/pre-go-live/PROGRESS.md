@@ -10,27 +10,29 @@ Status words: `not-started` (not broken down) · `planned` · `in-progress` · `
 
 ## Active phase
 
-**→ Phase 008 — Admin: user → teams → runs (the drilldown) — `awaiting-qa` (Steps 01–02 built 2026-07-04)**
+**→ Phase 008 — Admin: user → teams → runs (the drilldown) — built end-to-end; Steps 01–02 signed off,
+Step 03 `awaiting-qa` (all built 2026-07-04)**
 
 From the Registered screen, click a user → see their people (reuse PG4 grouping) + their runs with ratings
-(PG1/PG3), open any run read-only (PG2). Mostly composes existing pieces behind the PG6 superadmin gate.
+(PG1/PG3), open any run read-only. Composes existing pieces behind the PG6 superadmin gate.
 
 PG8 steps:
-- [x] **01 — Per-user runs read (backend)** — **built test-first, awaiting QA.** Superadmin-only
-  `GET /api/v1/admin/users/:id/runs`: `run-history.listFinishedRunsForUser(userId)` (org-unfenced, by
-  userId) → repo `listRunsForUser()` → service `userRuns()` (newest-first, ratings included) → controller +
-  gated route (`superadminV1`, can't be added un-gated). 2 new service tests. 57/57, typecheck clean.
-- [x] **02 — The drilldown screen** — **built, awaiting QA.** New admin stage `admin-user-detail.ts` at
-  `/admin/users/:id` (6-step pattern); Registered rows are now buttons that drill in; reuses PG4
-  `groupRunsByPerson` for the people list + PG1 rows / PG3 star badges for the 1:1s; back +
-  loading/empty/error, all escaped, ≥14px. Superadmin-only (ADMIN_USER in ADMIN_ONLY + backend 403). 57/57,
-  both typechecks + build green. **QA needs the API restarted:** as superadmin, Registered → click a user →
-  their people + 1:1s + ratings → back; as a normal manager: refused.
-- [ ] **03 — Open a briefing read-only** — **not built.** Wire a drilldown run row to reopen the PG2
-  read-only detail. Closes PG8.
-- [ ] **99 — QA sign-off** ([99-qa-signoff.md](008-admin-user-drilldown/99-qa-signoff.md)).
+- [x] **01 — Per-user runs read (backend)** — **built + signed off.** Superadmin-only
+  `GET /api/v1/admin/users/:id/runs` (org-unfenced, by userId) → `userRuns()` newest-first with ratings.
+  (Route-bug caught + fixed + guarded during QA — see the log.)
+- [x] **02 — The drilldown screen** — **built + signed off.** `admin-user-detail.ts` at `/admin/users/:id`;
+  Registered rows drill in; reuses PG4 grouping + PG1 rows + PG3 badges; superadmin-only. Carl walked it
+  ("I have clicked through — done").
+- [x] **03 — Open a briefing read-only** — **built, awaiting final walk.** Unfenced `superadminRunView(id)`
+  → repo `readRun` → service `runDetail` → controller (404 on null) → gated regex route
+  `GET /api/v1/admin/runs/:id`. Frontend: shared `ui/briefing-view.ts` (the PG2 renderer, extracted so
+  run-detail and this reuse one copy — no drift) + `getAdminRun` + drilldown rows open the read-only
+  briefing with a back. 58/58, typecheck + build green; route verified live (401-gates). **Final walk:** as
+  superadmin, open a user → click a 1:1 → its briefing shows read-only → back.
+- [ ] **99 — QA sign-off** ([99-qa-signoff.md](008-admin-user-drilldown/99-qa-signoff.md)) — Step-03 walk
+  then close PG8.
 
-Next: Carl QA of Steps 01–02 → build Step 03 → close PG8.
+Next: Carl walks the Step-03 briefing open → PG8 ✅ → break down PG9 (roster + polish).
 
 **Phase 007 — Admin: who's registered — ✅ `done` (signed off + committed 2026-07-04, `c95a0052` +
 `a1781799`).** Carl green-lit both steps ("go for it now"). The **Registered** superadmin screen is live:
@@ -199,7 +201,7 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
 | 005 | Person detail | ✅ done (signed off + committed) |
 | 006 | Superadmin gate (backend) | ✅ done (signed off + committed) |
 | 007 | Admin: who's registered | ✅ done (signed off + committed) |
-| 008 | Admin: user → teams → runs | 🔨 Steps 01–02 built, awaiting QA · Step 03 not built |
+| 008 | Admin: user → teams → runs | 🔨 built end-to-end · 01–02 signed off · Step 03 awaiting final walk |
 | 009 | Roster + polish | not-started |
 
 ## Baseline (fill in before touching code in a phase)
@@ -359,6 +361,14 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   service directly, never the HTTP route. **Gap flagged:** no route-level wiring test exists — a follow-up.
   Visual superadmin walk still owed by Carl (needs his own `carl@seroteams.com` login; the dev side-door is
   non-superadmin by design). 57/57 + typecheck still green.
+- **2026-07-04** — **PG8 Steps 01–02 signed off; Step 03 built (`e4ba1958`).** Carl walked the drilldown ("I
+  have clicked through — done") → 01–02 ✅. Then built Step 03 test-first: unfenced `superadminRunView(id)`
+  → repo `readRun` → service `runDetail` → controller (404 on null, ids can't be probed) → gated regex route
+  `GET /api/v1/admin/runs/:id` (2 new service tests). Frontend: extracted the PG2 read-only briefing renderer
+  into shared `admin/src/ui/briefing-view.ts` (run-detail now reuses it — kills the drift the file's own
+  comment warned about), added `getAdminRun`, wired the drilldown 1:1 rows to open the briefing read-only
+  with a back. 58/58 + typecheck + admin build green; new route verified live (401-gates, was 404). **Final
+  walk (Step 03) owed by Carl.** Next: his walk → PG8 ✅ → PG9.
 - **2026-07-04** — **Closed the route-test gap (`2dd8722a`).** Added `backend/api/router.test.ts` driving the
   real `handle()`: a RegExp named-group route captures `:id`; an Express-style string `":id"` route does NOT
   match a real id (falls to 404) — the exact contract that let the PG8 bug through. Runner now 58/58 files,

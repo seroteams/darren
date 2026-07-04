@@ -22,8 +22,9 @@ auto-built from past 1:1s + person detail, and a **superadmin** read-only window
 **PG1–PG7 ✅ done** (Runs list, reopen, rate a 1:1, Team auto-built + "Past 1:1s", the per-person page with
 "Since last time" + "Prep next 1:1", the read-only cross-company superadmin gate, and the **Registered**
 screen — every alpha company + people with the return-visit signal + rating summary, superadmin-only — all
-signed off, committed to `main`). **PG8 (Admin: user → teams → runs — the drilldown): Steps 01–02 built,
-awaiting Carl's QA; Step 03 (open a briefing read-only) not built yet.** No paid runs.
+signed off, committed to `main`). **PG8 (Admin: user → teams → runs — the drilldown): built end-to-end —
+Steps 01–02 signed off (Carl walked it), Step 03 (open a briefing read-only) built + awaiting his final
+walk to close PG8.** No paid runs.
 
 **✅ Closed (2026-07-01): Phase 009 — Getting ready to share (real-data alpha).** Every actionable phase
 done; hosting (2) + continuity (8) folded into the pre-go-live track above
