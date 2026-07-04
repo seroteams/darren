@@ -68,6 +68,9 @@ document.body.appendChild(profileBadge.el);
 // Quietly run the (free, offline, no-AI) regression check and flag the nav with
 // a red dot if a saved run has regressed or errored. Re-used live by the
 // Regression page after each re-check (passed into stage mounts below).
+// Admin-only: /api/regression/run is owner-scoped (401 logged-out, 403 for a
+// member), and the nav dot only exists for admins — so this is kicked off from
+// boot() once an admin identity is confirmed, never at module load.
 async function refreshRegressionAlert(data) {
   try {
     const d = data || await runRegression();
@@ -75,7 +78,6 @@ async function refreshRegressionAlert(data) {
     appNav.setAlert("regression", (s.regressed || 0) + (s.error || 0) > 0);
   } catch { /* API unreachable — leave the dot off */ }
 }
-refreshRegressionAlert();
 
 const notesPanel = createNotesPanel({ store, setState });
 document.body.appendChild(notesPanel.el);
@@ -235,6 +237,9 @@ async function boot() {
     setState({ stage: STAGES.MEMBER_HOME });
     return;
   }
+
+  // Admin/owner from here down — safe to kick off the (admin-only) regression check.
+  refreshRegressionAlert();
 
   if (route?.stage === STAGES.LOGIN || route?.stage === STAGES.REGISTER) {
     setState({ stage: STAGES.START });
