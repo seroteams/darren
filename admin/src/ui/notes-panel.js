@@ -8,10 +8,10 @@
 
 import { postNote } from "../../../shared/api.js";
 import { STAGES } from "../state.js";
+import { isFlowStage } from "../router.js";
 import {
   attachAutoGrow,
   cryptoId,
-  HIDDEN_STAGES,
   renderCtxSegments,
 } from "./notes-panel-utils.js";
 import { createNotesListController, cssEscape, mountEditMode } from "./notes-list.js";
@@ -248,7 +248,10 @@ export function createNotesPanel({ store, setState }) {
 
   function render(state) {
     const stage = state?.stage;
-    const hidden = !state?.sessionId || HIDDEN_STAGES.has(stage);
+    // Test-notes rail is a run-only tool: show it only while an admin is actually
+    // doing a run (the flow stages), never on other admin pages like Universe/Tasks
+    // where a lingering sessionId used to leak it in.
+    const hidden = !state?.sessionId || !isFlowStage(stage);
     railCollapsed = stage === STAGES.BRIEFING;
     syncLayout(hidden);
     if (!hidden) {
