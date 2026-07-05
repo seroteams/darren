@@ -43,6 +43,13 @@
       "when": 1783232016901,
       "tag": "0005_majestic_katie_power",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1783264800559,
+      "tag": "0006_colorful_obadiah_stane",
+      "breakpoints": true
     }
   ]
 }

@@ -117,8 +117,8 @@ function main(): void {
   router.add("POST", "/api/v1/auth/logout", v1Route(auth.logout));
   router.add("GET", "/api/v1/auth/me", v1Route(auth.me));
 
-  // feedback — a tester's in-app note (Phase 5). Login required (any role, not admin);
-  // stored to a local file (content/data/feedback/feedback.jsonl), no external service.
+  // feedback — a tester's in-app note (Phase 5; feedback-inbox moved the store to the
+  // feedback_notes table). Login required (any role, not admin); no external service.
   // Origin-guarded like the other mutating v1 routes.
   router.add("POST", "/api/v1/feedback", v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
@@ -159,6 +159,9 @@ function main(): void {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return errorLog.resolve(c);
   }));
+  // feedback inbox — the superadmin's cross-company view of every tester note, newest
+  // first. Same gate as the error log; read-only.
+  router.add("GET", "/api/v1/admin/feedback", superadminV1(feedback.list));
 
   // catalog — first domain on the v1 layer (controller → service → repo).
   // v1 routes use the one error shape (v1Route).

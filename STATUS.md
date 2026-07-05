@@ -9,6 +9,19 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
+> **🔨 [feedback-inbox](docs/todo/feedback-inbox/PLAN.md) — NEW track (started 2026-07-05). Phase 1 (the whole slice) BUILT, awaiting your walk.**
+> Your ask: a page that shows what testers send via "Send feedback", with its own DB table.
+> Done in one slice, the error-log pattern: **`feedback_notes` table live on Neon** (migration
+> `0006`), the send-form now writes the table (the old JSONL file's one line was a throwaway QA
+> note, not migrated), **`GET /api/v1/admin/feedback`** behind the superadmin wall, and a
+> read-only **Feedback inbox** screen in the Admin rail under Error log. Live-proven end-to-end
+> on a scratch pair (:3033 web → :3031 API): sent a note in the UI → row in Neon → inbox showed
+> it ("just now · Carl · Sero (dev)"); manager 403, logged-out 401; test rows cleaned up.
+> `npm test` **72/72** · both typechecks clean. Committed except two files carrying OTHER
+> sessions' in-flight work: `shared/api.js` + `admin/src/ui/app-nav.js` (flagged in the PLAN —
+> whichever track commits first carries them). ⚠️ **Restart your dev API** before walking on
+> :3000/:3001. Walk: [phase-1.md](docs/todo/feedback-inbox/phase-1.md).
+
 > **⬜ [guest-run](docs/todo/guest-run/PLAN.md) — NEW plan set up 2026-07-05, awaiting your read-through before Phase 1.**
 > Your "open way first" idea: a visitor with no account clicks **"Try it — no account needed"** on the login
 > screen, runs a full 1:1, and after the briefing is asked *"Want to keep this?"* — register/log in and the

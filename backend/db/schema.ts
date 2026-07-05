@@ -133,6 +133,28 @@ export const authSessions = pgTable(
   (t) => [index("auth_sessions_org_id_idx").on(t.orgId), index("auth_sessions_user_id_idx").on(t.userId)],
 );
 
+/** Tester feedback (feedback-inbox). One row per in-app note from the Send-feedback
+ *  form, so the superadmin Feedback screen can read them across every company. Replaces
+ *  the Phase-5 JSONL file (content/data/feedback/feedback.jsonl) as the store. `org_id` /
+ *  `user_id` are NULLABLE like error_logs (the service tolerates an anonymous caller even
+ *  though the route requires login); FK + index all the same. */
+export const feedbackNotes = pgTable(
+  "feedback_notes",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id").references(() => organizations.id),
+    userId: uuid("user_id").references(() => users.id),
+    message: text("message").notNull(),
+    page: text("page"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index("feedback_notes_org_id_idx").on(t.orgId),
+    index("feedback_notes_user_id_idx").on(t.userId),
+    index("feedback_notes_created_at_idx").on(t.createdAt),
+  ],
+);
+
 /** Error log (error-log Phase 1). One row per captured error so the superadmin Error
  *  log screen can show what broke — across Carl's local dev and the published live Sero
  *  (the `environment` tag). Deliberately looser than the tenant tables: `org_id` /

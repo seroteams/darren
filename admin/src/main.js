@@ -48,6 +48,7 @@ const loaders = {
   ADMIN_REGISTERED: () => import("./stages/admin-registered.ts"),
   ADMIN_USER:      () => import("./stages/admin-user-detail.ts"),
   ADMIN_ERROR_LOG: () => import("./stages/admin-error-log.ts"),
+  ADMIN_FEEDBACK:  () => import("./stages/admin-feedback.ts"),
   ERROR:           () => import("./stages/error.ts"),
 };
 
