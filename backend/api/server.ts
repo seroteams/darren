@@ -117,6 +117,14 @@ function main(): void {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return superadmin.setRole(c);
   }));
+  router.add("POST", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/deactivate$/, superadminV1((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return superadmin.deactivate(c);
+  }));
+  router.add("POST", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/reactivate$/, superadminV1((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return superadmin.reactivate(c);
+  }));
 
   // catalog — first domain on the v1 layer (controller → service → repo).
   // v1 routes use the one error shape (v1Route); the legacy /api/ paths stay as
