@@ -26,17 +26,18 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > will get **list-only** (type + date + manager) — no notes, no briefing; richer is your call
 > (parked: `member-run-visibility`).
 
-> **🔨 team-for-managers — one small slice BUILT (2026-07-05 late), awaiting your walk.**
-> Your ask: managers need to see their team members on Team. Finding: it already worked, but only
-> from **finished** 1:1s — your manager test account (qa-suggest@local.test) had one prep with
-> "Darren" abandoned at turn 0, so Team showed empty. Now Team also shows people from **started**
-> preps, honestly labelled "1:1 prep in progress · not met yet" (not counted as a meeting, not
-> rated, plain card — no dead-end click). Past 1:1s unchanged (finished-only; `?open=1` is opt-in).
-> Test-first: 74/74 at build time · both typechecks · live-proven on a scratch pair (:3083 web →
-> :3081 API — flag off/on, page rendered, console clean; QA fixture cleaned up). **Walk:** log in as
-> your manager account → Team → Darren shows as "prep in progress". NOT committed (your green light).
-> ⚠️ Overlap: the **people-roster** track above plans a roster-backed Team page (its Phase 4) — this
-> slice keeps today's run-built Team honest in the meantime; the roster supersedes it when it lands.
+> **✅ team-for-managers — CLOSED 2026-07-05 ("go"): Team now shows started preps, proven + committed.**
+> Your ask: managers need to see their team members on Team. Finding: it already worked, but only from
+> **finished** 1:1s, so a manager with only an abandoned prep saw an empty page. Now Team also shows
+> people from **started** preps, labelled "1:1 prep in progress · not met yet" (not counted as a
+> meeting, not rated, plain card). Past 1:1s unchanged (finished-only; `?open=1` is opt-in, Team-only).
+> Proven twice, all free: offline TDD (tests now 78/78 at HEAD, both typechecks) + a full Playwright
+> walk on a scratch pair — real login as manager@seroteams.com → Team showed the live "Priya QA" prep
+> + the QA seed; Past 1:1s stayed empty; user fence held; screenshot sent to Carl. Green-lit "go".
+> Code was carried into the parallel session's sweep commits (`0c116e21` backend · `3bf7f2d3` admin ·
+> `1196287b` shared/api.js) — verified every piece present at HEAD. QA seed + scratch servers cleaned.
+> ⚠️ Remember: **restart the dev API on :3001** to see it on your own browser. Overlap noted: the
+> **people-roster** track's Phase 4 (roster-backed Team) supersedes this slice when it lands.
 
 > **🔨 [feedback-inbox](docs/todo/feedback-inbox/PLAN.md) — NEW track (started 2026-07-05). Phase 1 (the whole slice) BUILT, awaiting your walk.**
 > Your ask: a page that shows what testers send via "Send feedback", with its own DB table.
