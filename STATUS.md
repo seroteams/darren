@@ -29,15 +29,13 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > `npm test` 65/65 · both typechecks clean. **Next: Phase 2 — Universe's pipeline ring goes honest** (⬜,
 > waiting for Carl's go).
 
-> **🔨 [design-system](docs/todo/design-system/PLAN.md) — Sero × Flowbite. Phase 1 ✅ green-lit ("NICE LETS GO", `d7651e7f`) · Phase 2 BUILT, awaiting walk (2026-07-05).**
-> The Sero look = **Flowbite 2.5.2 + Carl's colours**. Done: component sheet at
-> `admin/public/sero-flowbite/index.html` (nav: Admin → Design system) with colours, type, buttons, badges,
-> inputs (both variants), **toasts/alerts**, **the one table style**, cards, dropdown+modal, nav, side panel,
-> the **10-rule "before you build" checklist**, and the component inventory. Full-app UI audit done (top
-> drifts: inputs/dropdowns/progress/errors ×2 each, inline hex in 8 files — future cleanups, parked).
-> **Phase 2 built:** root `DESIGN.md` (auto-loads every session — verified `hasDesign: true`), archived doc
-> banner, memory saved. **Walk:** (1) sheet still looks right, (2) ask any fresh agent to mock a small screen
-> — it should come out Sero without being told. Green light = commit + close out to done/.
+> **✅ [design-system](docs/todo/done/design-system/PLAN.md) — Sero × Flowbite: CLOSED 2026-07-05 (both phases green-lit same day).**
+> The Sero look = **Flowbite 2.5.2 + Carl's colours**, now law: component sheet at
+> `admin/public/sero-flowbite/index.html` (nav: Admin → Design system) with the 10-rule "before you build"
+> checklist, toasts/alerts, the one table style, both input variants + all core components — and a root
+> **`DESIGN.md`** that **auto-loads for every agent, every session** (verified `hasDesign: true`). New/touched
+> screens follow it; no bulk re-skin. Parked follow-ups (in the archived PLAN): inline-hex cleanup in 8 files,
+> dropdown/progress/error consolidation, ⭐ states batch (empty/loading/tabs/toggles) on the sheet.
 
 > **🔨 [error-log](docs/todo/error-log/PLAN.md) — NEW track, built 2026-07-05 on Carl's "GO GO".**
 > A superadmin **Error log** screen: every error any user hits, across **your local dev and the published live

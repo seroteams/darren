@@ -9,10 +9,14 @@ system from day one; old screens conform only when touched.
 
 ## Current state
 
-- **Phase 1 — 🔨 BUILT (2026-07-05), awaiting Carl's walk.** Sheet live at
-  `admin/public/sero-flowbite/index.html`; verified in browser: loads clean (no console errors),
-  0 text under 14px, dropdown + modal work. Not committed — green light = commit.
-- Phase 2 — ⬜ not started.
+- **Phase 1 — ✅ GREEN-LIT by Carl 2026-07-05 ("NICE LETS GO"), committed `d7651e7f`.** Sheet +
+  admin-nav link + the audit's big four (rules checklist, toasts/alerts, canonical table, input
+  family) + side nav on the sheet. Full-app UI audit done (Explore sweep) — top drifts:
+  inputs ×2, dropdowns ×2, progress ×2, errors ×2, inline hex in 8 files.
+- **Phase 2 — ✅ GREEN-LIT by Carl 2026-07-05 ("love it keep going").** Root `DESIGN.md` written
+  (Stitch format, Flowbite 2.5.2 base, sheet recipes, the 10 rules in §6); loader verified
+  `hasDesign: true` from root; archived doc got a ⛔ superseded banner; memory saved.
+- **TRACK CLOSED 2026-07-05** — both phases ✅, folder moved to done/.
 - Pre-work done 2026-07-05: UI-idea prototype folders (`newdesign*`, `newui`, `sero-original`)
   removed from `admin/public/`; stale `dist/sero-original` cleaned; full checkpoint save committed.
 
@@ -20,8 +24,8 @@ system from day one; old screens conform only when touched.
 
 | # | Phase | What Carl gets | Status |
 |---|---|---|---|
-| 1 | [Component sheet](phase-1.md) | One page showing Flowbite components in Sero colours — open it, compare to Figma | 🔨 |
-| 2 | [DESIGN.md + wiring](phase-2.md) | Auto-loaded design reference at project root; agents design "Sero" by default | ⬜ |
+| 1 | [Component sheet](phase-1.md) | One page showing Flowbite components in Sero colours — open it, compare to Figma | ✅ |
+| 2 | [DESIGN.md + wiring](phase-2.md) | Auto-loaded design reference at project root; agents design "Sero" by default | ✅ |
 
 ## Facts the work rests on
 

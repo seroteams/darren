@@ -74,7 +74,10 @@ components:
     padding: "10px 14px"
 ---
 
-> **Reference doc — active work lives in [SERO_BOARD.md](../SERO_BOARD.md).**
+> **⛔ SUPERSEDED (2026-07-05) by the root [DESIGN.md](../../../DESIGN.md)** — the live design
+> system (Flowbite 2.5.2 + Sero tokens, auto-loaded by agents). This archived copy predates the
+> Bricolage Grotesque display font and the 4px control radius; don't build from it.
+> Active work lives in [SERO_BOARD.md](../SERO_BOARD.md).
 
 # Design System: Sero
 
