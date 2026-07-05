@@ -9,6 +9,13 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
+> **🔨 NEW TRACK: [mobile-responsive](docs/todo/mobile-responsive/PLAN.md) — the whole app on a phone (started 2026-07-05).**
+> Carl's scope call: **all 38 screens, full polish**, own track, existing styles (no Flowbite re-skin here).
+> 5 phases: ① responsive shell (rail → drawer + mobile header) ② auth + member screens ③ run pipeline on a
+> phone ④ global sweep + admin core (tables, iOS zoom, touch targets) ⑤ QA tools + Universe.
+> **Phase 1 🔨 building now** — drawer/header/topbar/notes. Your walk when it's up: phone or devtools phone
+> mode — drawer works for both roles, in-session chrome stacks, desktop untouched. No paid runs in this track.
+
 > **🔨 NEW TRACK: [page-heartbeat](docs/todo/page-heartbeat/PLAN.md) — real UPDATE buttons (started 2026-07-05).**
 > From today's 25-page audit: Guide, Universe and the Tasks board are hand-typed snapshots of the app;
 > everything else already refreshes itself. 3 phases: ① heartbeat endpoint + Guide · ② Universe ring ·
