@@ -9,21 +9,23 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — P1 ✅ green-lit ("b GO") · P2 (runs carry personId) BUILT, awaiting your walk (2026-07-05).**
+> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — P1 ✅ · P2 ✅ (both "go", walks waived) · P3 (backfill) BUILT + RUN, awaiting your walk (2026-07-06).**
 > Your ask: members should only see their own 1:1s → the real build (option B): managers formally
 > **have** members; a member linked to a roster person will see the 1:1s ABOUT them (Phase 5).
-> **P1 ✅ (`4a762779`):** `people` table live on Neon (migration `0007`) + 5 fenced endpoints under
-> `/api/v1/team/people` — walk waived by your "b GO", live proof stood.
-> **P2 BUILT test-first:** every new 1:1 stamps `personId` — who the run is ABOUT — into its state
-> (disk + DB mirror): a free-typed name auto-matches-or-creates the roster row ("  priya qa " reuses
-> Priya, no dup), an explicit personId must be the caller's own (400 otherwise), claimed guest runs
-> join the roster too, file-only dev (no DB) still runs. A real bug caught by checking the destination:
-> the state serializer is a whitelist and silently DROPPED personId — fixed + pinned by tests.
-> Live-proven on scratch APIs at $0 (invalid OpenAI key so prewarm can't spend); QA rows/dirs/mirrors
-> cleaned. `npm test` **76/76** · typecheck clean. **Walk:** the 4 scenarios in
-> [phase-2.md](docs/todo/people-roster/phase-2.md) (all free) — or say go → Phase 3 (backfill old runs).
-> Then: ④ intake person picker + roster Team page · ⑤ member link + "Your 1:1s". ⚠️ Privacy: members
-> will get **list-only** (type + date + manager) — no notes, no briefing; richer is your call
+> **P1 ✅ (`4a762779`):** `people` table on Neon (migration `0007`) + 5 fenced `/api/v1/team/people`
+> endpoints. **P2 ✅ (`30218597`):** every new 1:1 stamps `personId` (who it's ABOUT) into state, disk +
+> DB mirror; free-typed names auto-join the roster; claimed guest runs too; a serializer whitelist bug
+> (personId silently dropped from state files) was caught at the destination + pinned by tests.
+> **P3 BUILT + RUN:** `scripts/backfill-people.ts` (dev-guarded, idempotent, `--dry-run`) walked every
+> old run: **20 people created** across your accounts (member@ carries the demo roster — Grace, Daniel,
+> Marcus, Nina, Sofia, Samira, Priya Shah…), **27 runs stamped** on disk, **16 DB mirrors updated**,
+> **7 runs left honestly unlinked** (their owner accounts were deleted — FK refuses, script skips +
+> says so). Re-run = 0 changes (idempotent ✓); verified by querying Neon + reading a stamped state file.
+> Note: no alias files existed, so the merge-folding path had no real data to exercise. `npm test`
+> **78/78** · typecheck clean. **Walk:** the 4 scenarios in
+> [phase-3.md](docs/todo/people-roster/phase-3.md) (all free) — or say go → Phase 4 (intake person
+> picker + roster-driven Team page). Then ⑤ member link + "Your 1:1s". ⚠️ Privacy: members will get
+> **list-only** (type + date + manager) — no notes, no briefing; richer is your call
 > (parked: `member-run-visibility`).
 
 > **✅ team-for-managers — CLOSED 2026-07-05 ("go"): Team now shows started preps, proven + committed.**

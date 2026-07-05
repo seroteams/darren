@@ -1,5 +1,22 @@
 # Phase 3 — backfill existing runs + fold in aliases
 
+## BUILT + RUN — awaiting Carl's walk (2026-07-06)
+
+- `scripts/backfill-people.ts` written (dev-guarded, DATABASE_URL required, `--dry-run`, idempotent)
+  **and executed against the real store**:
+  - Dry run eyeballed first (27 people / 34 runs planned; 60 anonymous runs left alone).
+  - Real run: **20 people rows created** across 3 real accounts; **27 runs stamped** on disk;
+    **16 DB mirror rows updated**; **7 runs left honestly unlinked** — their owner accounts no
+    longer exist in `users` (deleted test users), the FK rightly refuses, script warns + skips.
+  - Verified AT the store: people table queried per manager (member@ carries the demo roster:
+    Grace, Daniel, Marcus, Nina, Sofia, Samira, Priya Shah, Marco Diaz, Ade Balogun — QA
+    scenario 2 ✓); a stamped `session-state.json` read back off disk ✓; re-run reports
+    27 already-linked / 0 new (idempotency ✓).
+  - ⚠️ Honest gap: **no alias files existed** (`content/data/people-aliases/` is empty on this
+    machine), so the alias-merge scenario had no real data to prove live. The chain-follow
+    resolve is the same logic the people-service merge tests pin.
+- Checks: `npm test` **78/78** · typecheck clean.
+
 ## Work
 
 New `scripts/backfill-people.ts` (dev-guarded like seed-runs.ts; requires DATABASE_URL; idempotent; `--dry-run` flag):
