@@ -20,8 +20,8 @@ for the other four steps. The UI needs no changes.
 |---|---|---|---|
 | 1 | Focus points | Before-send preview for the focus-points step | ✅ |
 | 2 | Question bank | Before-send preview for the question-bank step | ✅ |
-| 3 | Final briefing | Before-send preview for the evaluation/briefing step | 🔨 |
-| 4 | Questioning (per-turn planner) | Before-send preview for the next question, when an answer is pending | ⬜ |
+| 3 | Final briefing | Before-send preview for the evaluation/briefing step | ✅ |
+| 4 | Questioning (per-turn planner) | Before-send preview for the next question, when an answer is pending | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -34,7 +34,11 @@ zero API cost.
 **Phase 2 — Question bank: ✅ DONE.** Carl green-lit 2026-07-05; committed. `assembleBank`
 in `backend/engine/question-generator.ts` + `bank-inputs.ts` (mirrors the live bank stream)
 + `BANK` in `PREVIEW_ASSEMBLERS`, with happy-path + 409 tests.
-**Phase 3 — Final briefing: 🔨 building now.**
+**Phase 3 — Final briefing: ✅ DONE.** Carl green-lit 2026-07-05; committed.
+`assembleEvaluation` in `backend/engine/reviewer.ts` + `evaluation-inputs.ts` (mirrors the
+live eval stream) + `EVAL` in `PREVIEW_ASSEMBLERS`, with happy-path + 409 tests.
+**Phase 4 — Questioning (per-turn planner): 🔨 building now.** The tricky one — preview only
+when an answer is pending (the byte-honest before-send moment).
 
 ## Parked
 - Making the panel more prominent / friendlier wording (Carl chose "all 5 steps", not the polish option).

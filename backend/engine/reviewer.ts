@@ -572,6 +572,32 @@ function buildMessages({
   return splitSystemUser(filled);
 }
 
+// Assemble the exact payload evaluate would send — WITHOUT calling the model.
+// Mirrors evaluate's selectedFocus prelude so the preview is byte-for-byte what
+// gets logged as prompt.md — no drift.
+function assembleEvaluation(
+  args: EvaluateArgs,
+  { model = getDefaultModel() }: { model?: string } = {}
+): { model: string; prompt: string } {
+  const sf =
+    args.selectedFocus ||
+    resolveSelectedFocus({
+      notes: args.notes || args.ctx?.notes,
+      focusPoints: Array.isArray(args.focusPoints) ? args.focusPoints : undefined,
+    });
+  const msgs = buildMessages({
+    ctx: args.ctx,
+    focusPoints: args.focusPoints,
+    transcript: args.transcript,
+    axisState: args.axisState,
+    notes: args.notes,
+    selectedFocus: sf,
+    agenda: args.agenda,
+    scoring: args.scoring,
+  });
+  return { model, prompt: msgs.filled };
+}
+
 async function callOpenAI({
   system,
   user,
@@ -843,6 +869,7 @@ async function evaluate(
 
 export {
   evaluate,
+  assembleEvaluation,
   buildFallbackBriefing,
   buildMessages,
   callOpenAI,
