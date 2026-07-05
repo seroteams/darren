@@ -97,6 +97,12 @@ export async function getVersion() {
   return json(await fetch("/api/version"));
 }
 
+// The heartbeat: what the codebase looks like right now (screens on disk, npm
+// commands, axes, question count, build) — the Guide renders and diffs this.
+export async function getHeartbeat() {
+  return json(await fetch("/api/v1/heartbeat"));
+}
+
 export async function getArcs() {
   return json(await fetch("/api/arcs"));
 }

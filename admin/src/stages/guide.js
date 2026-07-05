@@ -1,11 +1,13 @@
 // Operator guide (internal, for the founder/tester — dev-gated entry point).
 // A single read-only reference for the whole project: how to run it, what each
 // pipeline stage and screen does, the QA tooling, the core concepts, where things
-// live on disk, and the known gaps. Static content, no API calls. Modeled on
-// library.js: build innerHTML, Back button + Esc -> Home, clean up on unmount.
+// live on disk, and the known gaps. The Screens and Commands sections render LIVE
+// from the heartbeat endpoint (the server re-reads the repo per request); the
+// UPDATE button refreshes them and reports what changed since the last snapshot.
+// Modeled on library.js: build innerHTML, Back + Esc -> Home, clean up on unmount.
 
 import { STAGES, setState } from "../state.js";
-import { getArcs, getVersion, getMeetingTypes } from "../../../shared/api.js";
+import { getArcs, getVersion, getMeetingTypes, getHeartbeat } from "../../../shared/api.js";
 
 let keyHandler = null;
 
@@ -28,21 +30,31 @@ const TOC = [
   ["gaps", "Known gaps"],
 ];
 
-const COMMANDS = [
-  ["npm run dev", "Web app for testing — API on :3001, Vite UI on :3000 (two processes)."],
-  ["npm run up", "One-command dev launcher (scripts/dev.ps1)."],
-  ["npm run build && npm start", "Production build (Vite) served from one Node process."],
-  ["npm test", "Unit + engine tests (scripts/run-tests.js)."],
-  ["npm run typecheck", "TypeScript, no emit (typecheck:admin for the UI)."],
-  ["npm run lint", "ESLint over the repo."],
-  ["npm run smoke", "Scenario smoke tests."],
-  ["npm run eval", "Offline engine checks — prompt rules + replay."],
-  ["npm run gate", "Full quality gate (needs API key)."],
-  ["npm run replay", "Replay-regression check against saved runs."],
-  ["npm run sweep", "Full 5-type sweep (needs API key) → logs/sweeps/."],
-  ["npm run db:migrate", "Apply Drizzle migrations (db:generate to author them)."],
-  ["npm run rebuild-question-index", "Regenerate content/questions/_index.json (--prune)."],
-];
+// The command LIST is read live from package.json via the heartbeat — a script
+// added or removed shows up on the next UPDATE. Only these notes are hand-written;
+// a script with no note renders as "New — not described yet."
+const COMMAND_NOTES = {
+  dev: "Web app for testing — API on :3001, Vite UI on :3000 (two processes).",
+  up: "One-command dev launcher (scripts/dev.ps1).",
+  build: "Production build (Vite) — then npm start serves it from one Node process.",
+  start: "Serve the production build from one Node process.",
+  cli: "Run the engine from the terminal.",
+  test: "Unit + engine tests (scripts/run-tests.js).",
+  typecheck: "TypeScript, no emit.",
+  "typecheck:admin": "TypeScript for the UI, no emit.",
+  lint: "ESLint over the repo.",
+  smoke: "Scenario smoke tests.",
+  eval: "Offline engine checks — prompt rules + replay.",
+  gate: "Full quality gate (needs API key).",
+  replay: "Replay-regression check against saved runs.",
+  sweep: "Full 5-type sweep (needs API key) → logs/sweeps/.",
+  "db:generate": "Author Drizzle migrations.",
+  "db:migrate": "Apply Drizzle migrations.",
+  "rebuild-question-index": "Regenerate content/questions/_index.json (--prune).",
+  "logs:purge": "Purge old run logs.",
+  "autostart:install": "Install the Windows start-with-PC task.",
+  "autostart:uninstall": "Remove the Windows start-with-PC task.",
+};
 
 const ENV = [
   ["OPENAI_API_KEY", "Required for every OpenAI stage."],
@@ -68,48 +80,32 @@ const PIPELINE = [
   ["6", "Lexicon review (optional)", "Suggests wording to fold into the lexicon for future questions.", "backend/engine/lexicon-reviewer.ts · content/prompts/review-session-for-lexicon.md"],
 ];
 
-const SCREENS_FLOW = [
-  ["intake.js", "New session form: name → role → seniority → meeting type → notes."],
-  ["onepage.js", "Single-page flow variant of a run."],
-  ["focus-points.js", "Shows the focus points; you choose which to keep."],
-  ["preparation.js", "Streams the pre-meeting brief."],
-  ["bank.js", "Streams the question bank, then hands to the conversation."],
-  ["questioning.js", "Live Q&A loop — jot answers, axes update live."],
-  ["eval.js", "Streams the final synthesis."],
-  ["briefing.js", "The final briefing; verdict capture on scripted runs."],
-  ["run-debrief.js", "Post-run stats; copy the QA prompt."],
-  ["lexicon-review.js", "Accept or reject phrase candidates."],
-];
+// The screen LIST + each description are read live from the heartbeat — the list
+// is the real files in admin/src/stages/, the description is each file's own
+// header comment. Only the grouping is curated here; a file the map doesn't know
+// lands in "New screens — not yet grouped" so additions are impossible to miss.
+const SCREEN_GROUPS = {
+  "intake.js": "flow", "onepage.js": "flow", "focus-points.js": "flow",
+  "preparation.js": "flow", "bank.js": "flow", "questioning.js": "flow",
+  "eval.js": "flow", "briefing.js": "flow", "run-debrief.js": "flow",
+  "lexicon-review.js": "flow",
+  "login.js": "member", "register.js": "member", "member-home.js": "member",
+  "team.ts": "member", "runs.ts": "member", "run-detail.ts": "member",
+  "person-detail.ts": "member",
+  "start.js": "admin", "library.js": "admin", "compare.js": "admin",
+  "review-run.js": "admin", "regression.js": "admin", "personas.js": "admin",
+  "meeting-arcs.js": "admin", "job-lexicons.js": "admin", "tasks.js": "admin",
+  "universe.ts": "admin", "admin-registered.ts": "admin", "admin-user-detail.ts": "admin",
+  "guide.js": "admin",
+  "about.js": "shared", "feedback.js": "shared", "privacy.js": "shared", "error.ts": "shared",
+};
 
-const SCREENS_MEMBER = [
-  ["login.js · register.js", "Sign in / create an account."],
-  ["member-home.js", "A member's own landing page."],
-  ["team.js", "Team — the people you run 1:1s with (auto-built from your runs)."],
-  ["runs.ts", "Past 1:1s — your own finished runs."],
-  ["run-detail.ts", "One of your own runs, opened read-only."],
-  ["person-detail.ts", "One person's page — their history across 1:1s."],
-];
-
-const SCREENS_ADMIN = [
-  ["start.js", "Home (admin) — recent runs, persona-bench demo launcher, resume/delete."],
-  ["library.js", "Every finished run — filter, search, review."],
-  ["compare.js", "Two runs side by side."],
-  ["review-run.js", "8-dimension Keep/Fix/Block review of one run."],
-  ["regression.js", "Regression dashboard — golden checks against saved runs."],
-  ["personas.js", "Persona bench — the demo personas."],
-  ["meeting-arcs.js", "Edit the meeting arcs (each type's stage sequence)."],
-  ["job-lexicons.js", "Role words — the per-role lexicon editor."],
-  ["tasks.js", "Prototype → Production build board."],
-  ["universe.ts", "3D live map of the app (admin-only eye candy)."],
-  ["admin-registered.ts · admin-user-detail.ts", "User management — cross-company view (superadmin only)."],
-  ["guide.js", "This page (dev only)."],
-];
-
-const SCREENS_SHARED = [
-  ["about.js", "\"What is Sero?\" one-pager."],
-  ["feedback.js", "Send-feedback form (stored locally)."],
-  ["privacy.js", "Privacy note."],
-  ["error.ts", "Error screen with retry."],
+const SCREEN_GROUP_ORDER = [
+  ["new", "New screens — not yet grouped"],
+  ["flow", "The run flow"],
+  ["member", "The member app"],
+  ["admin", "Admin tooling"],
+  ["shared", "Shared & utility"],
 ];
 
 const NAV = [
@@ -199,15 +195,69 @@ function concept(title, body) {
   return `<div class="card l-stack l-stack--2"><h3 class="h3">${esc(title)}</h3><p class="text-ink-dim text-sm">${esc(body)}</p></div>`;
 }
 
-// ---------- live meeting arcs (UPDATE button) ----------
+// ---------- live sections (heartbeat) ----------
+// Screens + Commands render from GET /api/v1/heartbeat — the server re-reads the
+// repo per request, so these sections can't silently drift from the code.
+
+function commandsHtml(commands) {
+  if (!Array.isArray(commands) || !commands.length) {
+    return `<p class="text-ink-mute text-sm">Nothing loaded yet.</p>`;
+  }
+  return commands
+    .map((name) => {
+      const cmd = name === "test" ? "npm test" : name === "start" ? "npm start" : `npm run ${name}`;
+      return ref(cmd, COMMAND_NOTES[name] || "New — not described yet.");
+    })
+    .join("");
+}
+
+function screensHtml(screens) {
+  if (!Array.isArray(screens) || !screens.length) {
+    return `<p class="text-ink-mute text-sm">Nothing loaded yet.</p>`;
+  }
+  const buckets = new Map(SCREEN_GROUP_ORDER.map(([k]) => [k, []]));
+  for (const s of screens) {
+    buckets.get(SCREEN_GROUPS[s.file] || "new").push(s);
+  }
+  return SCREEN_GROUP_ORDER.filter(([k]) => buckets.get(k).length)
+    .map(
+      ([k, label]) => `<div class="eyebrow">${esc(label)}</div>
+      <div class="card-flat">${buckets
+        .get(k)
+        .map((s) => ref(s.file, s.desc || "No header note in the file yet."))
+        .join("")}</div>`
+    )
+    .join("");
+}
+
+const LIVE_ERR = `<p class="g-arc-note g-arc-note--err">Couldn't reach the API — is it running?</p>`;
+
+function fillLive(root, hb) {
+  const screens = root.querySelector(".js-screens-host");
+  const commands = root.querySelector(".js-commands-host");
+  if (!hb) {
+    if (screens) screens.innerHTML = LIVE_ERR;
+    if (commands) commands.innerHTML = LIVE_ERR;
+    return;
+  }
+  if (screens) screens.innerHTML = screensHtml(hb.screens);
+  if (commands) commands.innerHTML = `<div class="card-flat">${commandsHtml(hb.commands)}</div>`;
+}
+
+async function loadLive(root) {
+  try {
+    fillLive(root, await getHeartbeat());
+  } catch {
+    fillLive(root, null);
+  }
+}
+
+// ---------- live meeting arcs ----------
 // The arcs can be edited anywhere in the system, so this section pulls them live
-// instead of hand-listing them. UPDATE fetches the current arcs, diffs them against
-// the last snapshot (kept in localStorage), shows what changed, then saves the new
-// snapshot so the next check has a baseline.
+// instead of hand-listing them — auto-loaded on open and refreshed by the page-level
+// "Check for changes" button (which also reports any that moved).
 
-const ARC_SNAP_KEY = "seroGuideArcsSnapshot";
-
-// Refresh glyph for the check/update pills.
+// Refresh glyph for the check pill.
 const REFRESH_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>`;
 
 // Swap a pill's label without disturbing its icon; toggles a spinning-icon class.
@@ -224,8 +274,6 @@ function shortWhen(iso) {
 }
 
 const ARC_STYLE = `<style>
-  .g-arc-bar { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
-  .g-arc-status { font-size:var(--type-body-sm); color:var(--color-ink-mute); }
   .g-arc { padding:12px 0; border-bottom:1px solid var(--color-border); }
   .g-arc:last-child { border-bottom:none; }
   .g-arc__head { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
@@ -237,13 +285,7 @@ const ARC_STYLE = `<style>
   .g-arc-edited { font-size:var(--type-body-sm); font-weight:600; padding:2px 8px; border-radius:6px;
     background:var(--sero-gold-200); color:var(--sero-gold-800); }
   .g-arc-note { font-size:var(--type-body-sm); margin:0 0 12px; }
-  .g-arc-note--ok { color:var(--color-ink-dim); }
   .g-arc-note--err { color:var(--sero-rose-700, #b4232a); }
-  .g-arc-note--change { border:1px solid var(--color-border-strong); border-radius:10px;
-    padding:12px 14px; background:var(--sero-soft-200); }
-  .g-arc-note__title { font-weight:600; margin-bottom:6px; }
-  .g-arc-note--change ul { margin:0; padding-left:18px; }
-  .g-arc-note--change li { margin:3px 0; }
   .js-sys-note:empty { display:none; }
   .sys-note { font-size:var(--type-body-sm); }
   .sys-note--ok, .sys-note--err { display:inline-block; padding:8px 13px; border-radius:10px;
@@ -275,27 +317,6 @@ function normalizeArc(a) {
   };
 }
 
-function diffArcs(oldArr, newArr) {
-  const oldBy = new Map(oldArr.map((a) => [a.slug, a]));
-  const newBy = new Map(newArr.map((a) => [a.slug, a]));
-  const added = newArr.filter((a) => !oldBy.has(a.slug)).map((a) => a.label);
-  const removed = oldArr.filter((a) => !newBy.has(a.slug)).map((a) => a.label);
-  const changed = [];
-  const seq = (a) => a.phases.map((p) => p.id).join(" → ");
-  for (const a of newArr) {
-    const b = oldBy.get(a.slug);
-    if (!b) continue;
-    const notes = [];
-    if (a.label !== b.label) notes.push("name");
-    if (seq(a) !== seq(b)) notes.push("phase order/set");
-    else if (JSON.stringify(a.phases) !== JSON.stringify(b.phases)) notes.push("phase details");
-    if ((a.tone || "") !== (b.tone || "")) notes.push("tone");
-    if (JSON.stringify(a.anti) !== JSON.stringify(b.anti)) notes.push("anti-patterns");
-    if (notes.length) changed.push({ label: a.label, notes });
-  }
-  return { added, removed, changed };
-}
-
 function arcRowHtml(a) {
   const chips = a.phases
     .map((p) => `<span class="g-arc-chip">${esc(p.id)}</span>`)
@@ -310,68 +331,18 @@ function arcRowHtml(a) {
     </div>`;
 }
 
-function changesHtml(diff, hadBaseline) {
-  if (!hadBaseline) return `<p class="g-arc-note g-arc-note--ok">First check — saved a snapshot. The next UPDATE will show what changed.</p>`;
-  const { added, removed, changed } = diff;
-  if (!added.length && !removed.length && !changed.length) {
-    return `<p class="g-arc-note g-arc-note--ok">No changes since your last check.</p>`;
-  }
-  const items = [];
-  if (added.length) items.push(`<li><strong>Added:</strong> ${added.map(esc).join(", ")}</li>`);
-  if (removed.length) items.push(`<li><strong>Removed:</strong> ${removed.map(esc).join(", ")}</li>`);
-  for (const c of changed) items.push(`<li><strong>${esc(c.label)}</strong> — ${c.notes.map(esc).join(", ")} changed</li>`);
-  return `<div class="g-arc-note g-arc-note--change">
-      <div class="g-arc-note__title">Changed since your last check</div>
-      <ul>${items.join("")}</ul>
-    </div>`;
-}
-
-function readArcSnap() {
-  try {
-    return JSON.parse(localStorage.getItem(ARC_SNAP_KEY) || "null");
-  } catch {
-    return null;
-  }
-}
-
-function writeArcSnap(arcs) {
-  try {
-    localStorage.setItem(ARC_SNAP_KEY, JSON.stringify({ at: new Date().toISOString(), arcs }));
-  } catch {
-    /* storage full/blocked — the button still works, it just won't diff next time */
-  }
-}
-
-function wireArcs(root) {
+async function loadArcs(root) {
   const host = root.querySelector(".js-arcs-host");
-  const status = root.querySelector(".js-arcs-status");
-  const btn = root.querySelector(".js-arcs-update");
-  if (!host || !btn) return;
-
-  const showStatus = (snap) => {
-    status.textContent = snap?.at ? `Last checked ${shortWhen(snap.at)}` : "Not checked yet.";
-  };
-
-  const initial = readArcSnap();
-  if (initial?.arcs?.length) host.innerHTML = initial.arcs.map(arcRowHtml).join("");
-  showStatus(initial);
-
-  btn.addEventListener("click", async () => {
-    setBtnBusy(btn, true, "Checking…");
-    try {
-      const res = await getArcs();
-      const live = (Array.isArray(res?.arcs) ? res.arcs : []).map(normalizeArc);
-      const snap = readArcSnap();
-      const diff = diffArcs(snap?.arcs || [], live);
-      host.innerHTML = changesHtml(diff, Boolean(snap?.arcs?.length)) + live.map(arcRowHtml).join("");
-      writeArcSnap(live);
-      showStatus(readArcSnap());
-    } catch (e) {
-      host.innerHTML = `<p class="g-arc-note g-arc-note--err">Couldn't reach the arcs — is the API running? (${esc(e?.message || "error")})</p>`;
-    } finally {
-      setBtnBusy(btn, false, "Update arcs");
-    }
-  });
+  if (!host) return;
+  try {
+    const res = await getArcs();
+    const live = (Array.isArray(res?.arcs) ? res.arcs : []).map(normalizeArc);
+    host.innerHTML = live.length
+      ? live.map(arcRowHtml).join("")
+      : `<p class="text-ink-mute text-sm">No meeting arcs found.</p>`;
+  } catch {
+    host.innerHTML = LIVE_ERR;
+  }
 }
 
 // ---------- system check (page-level "Check for changes") ----------
@@ -382,10 +353,11 @@ function wireArcs(root) {
 const SYS_SNAP_KEY = "seroGuideSystemSnapshot";
 
 async function readSystem() {
-  const [ver, mt, arcRes] = await Promise.all([
+  const [ver, mt, arcRes, hb] = await Promise.all([
     getVersion().catch(() => null),
     getMeetingTypes().catch(() => null),
     getArcs().catch(() => null),
+    getHeartbeat().catch(() => null),
   ]);
   const arcs = (Array.isArray(arcRes?.arcs) ? arcRes.arcs : [])
     .map(normalizeArc)
@@ -394,6 +366,13 @@ async function readSystem() {
     build: ver?.build || "unknown",
     types: (Array.isArray(mt?.types) ? mt.types : []).map((t) => t.label).filter(Boolean).sort(),
     arcs,
+    // Heartbeat parts — null when the endpoint couldn't be read, so the diff
+    // (and old snapshots without these fields) just skips them.
+    hbOk: Boolean(hb),
+    screens: Array.isArray(hb?.screens) ? hb.screens : null,
+    commands: Array.isArray(hb?.commands) ? hb.commands : null,
+    axes: Array.isArray(hb?.axes) ? hb.axes : null,
+    questionCount: typeof hb?.questionCount === "number" ? hb.questionCount : null,
   };
 }
 
@@ -419,6 +398,44 @@ function diffSystem(oldS, now) {
   if (arcAdd.length) lines.push(`Meeting arcs added: ${arcAdd.map(esc).join(", ")}`);
   if (arcRem.length) lines.push(`Meeting arcs removed: ${arcRem.map(esc).join(", ")}`);
   if (arcChg.length) lines.push(`Meeting arcs changed: ${arcChg.map(esc).join(", ")}`);
+
+  if (oldS.screens && now.screens) {
+    const oldScr = new Map(oldS.screens.map((s) => [s.file, s.desc || ""]));
+    const nowScr = new Map(now.screens.map((s) => [s.file, s.desc || ""]));
+    const scrAdd = now.screens.filter((s) => !oldScr.has(s.file)).map((s) => s.file);
+    const scrRem = oldS.screens.filter((s) => !nowScr.has(s.file)).map((s) => s.file);
+    const scrChg = now.screens
+      .filter((s) => oldScr.has(s.file) && oldScr.get(s.file) !== (s.desc || ""))
+      .map((s) => s.file);
+    if (scrAdd.length) lines.push(`Screens added: ${scrAdd.map(esc).join(", ")}`);
+    if (scrRem.length) lines.push(`Screens removed: ${scrRem.map(esc).join(", ")}`);
+    if (scrChg.length) lines.push(`Screen notes changed: ${scrChg.map(esc).join(", ")}`);
+  }
+  if (oldS.commands && now.commands) {
+    const cmdAdd = now.commands.filter((n) => !oldS.commands.includes(n));
+    const cmdRem = oldS.commands.filter((n) => !now.commands.includes(n));
+    if (cmdAdd.length) lines.push(`Commands added: ${cmdAdd.map((n) => `<code>npm run ${esc(n)}</code>`).join(", ")}`);
+    if (cmdRem.length) lines.push(`Commands removed: ${cmdRem.map((n) => `<code>npm run ${esc(n)}</code>`).join(", ")}`);
+  }
+  if (oldS.axes && now.axes) {
+    const oldAx = new Map(oldS.axes.map((a) => [a.id, a.label]));
+    const nowAx = new Map(now.axes.map((a) => [a.id, a.label]));
+    const axAdd = now.axes.filter((a) => !oldAx.has(a.id)).map((a) => a.label);
+    const axRem = oldS.axes.filter((a) => !nowAx.has(a.id)).map((a) => a.label);
+    const axRen = now.axes
+      .filter((a) => oldAx.has(a.id) && oldAx.get(a.id) !== a.label)
+      .map((a) => `${esc(oldAx.get(a.id))} → ${esc(a.label)}`);
+    if (axAdd.length) lines.push(`Axes added: ${axAdd.map(esc).join(", ")}`);
+    if (axRem.length) lines.push(`Axes removed: ${axRem.map(esc).join(", ")}`);
+    if (axRen.length) lines.push(`Axes renamed: ${axRen.join(", ")}`);
+  }
+  if (
+    typeof oldS.questionCount === "number" &&
+    typeof now.questionCount === "number" &&
+    oldS.questionCount !== now.questionCount
+  ) {
+    lines.push(`Question library ${oldS.questionCount.toLocaleString()} → ${now.questionCount.toLocaleString()} questions`);
+  }
   return lines;
 }
 
@@ -453,9 +470,12 @@ function wireSystemCheck(root) {
     setBtnBusy(btn, true, "Checking…");
     try {
       const now = await readSystem();
+      // Redraw the live sections from the same read, so UPDATE = refresh + report.
+      fillLive(root, now.hbOk ? now : null);
+      void loadArcs(root);
       const prev = readSysSnap();
       if (!prev?.sys) {
-        note.innerHTML = `<div class="sys-note sys-note--ok">First check — saved a snapshot of the build, meeting types and arcs. The next check will show what moved. <span class="sys-note__meta">Build ${esc(now.build)}.</span></div>`;
+        note.innerHTML = `<div class="sys-note sys-note--ok">First check — saved a snapshot of the build, meeting types, arcs, screens, commands, axes and question count. The next check will show what moved. <span class="sys-note__meta">Build ${esc(now.build)}.</span></div>`;
       } else {
         const lines = diffSystem(prev.sys, now);
         note.innerHTML = lines.length
@@ -497,7 +517,8 @@ export function mount(root) {
 
       <section class="guide-section" id="g-run">
         <h2 class="h2">Run it</h2>
-        <div class="card-flat">${COMMANDS.map(([c, d]) => ref(c, d)).join("")}</div>
+        <p class="text-ink-dim text-sm">The command list is read live from <code>package.json</code> — a new script shows up on its own; only the notes are hand-written.</p>
+        <div class="js-commands-host"><div class="card-flat"><p class="text-ink-mute text-sm">Loading from the codebase…</p></div></div>
         <div class="eyebrow">Environment</div>
         <div class="card-flat">${ENV.map(([c, d]) => ref(c, d)).join("")}</div>
         <p class="text-ink-mute text-sm">Loaded from <code>.env</code> at the repo root. Under the preview tools, keep the API on 3001 and run Vite-only on 3000.</p>
@@ -511,15 +532,8 @@ export function mount(root) {
 
       <section class="guide-section" id="g-screens">
         <h2 class="h2">The screens</h2>
-        <p class="text-ink-dim text-sm">Each screen is a stage module in <code>admin/src/stages/</code>, wired to a URL in <code>router.js</code>.</p>
-        <div class="eyebrow">The run flow</div>
-        <div class="card-flat">${SCREENS_FLOW.map(([c, d]) => ref(c, d)).join("")}</div>
-        <div class="eyebrow">The member app</div>
-        <div class="card-flat">${SCREENS_MEMBER.map(([c, d]) => ref(c, d)).join("")}</div>
-        <div class="eyebrow">Admin tooling</div>
-        <div class="card-flat">${SCREENS_ADMIN.map(([c, d]) => ref(c, d)).join("")}</div>
-        <div class="eyebrow">Shared &amp; utility</div>
-        <div class="card-flat">${SCREENS_SHARED.map(([c, d]) => ref(c, d)).join("")}</div>
+        <p class="text-ink-dim text-sm">Read live from <code>admin/src/stages/</code> — the list is the real files on disk and each description is the file's own header comment, so this section can't drift. A file added to the code lands under "New screens" until it's grouped.</p>
+        <div class="js-screens-host l-stack l-stack--4"><p class="text-ink-mute text-sm">Loading from the codebase…</p></div>
         <div class="eyebrow">Getting around</div>
         <div class="card-flat">${NAV.map(([t, d]) => labelRow(t, d)).join("")}</div>
       </section>
@@ -542,12 +556,8 @@ export function mount(root) {
 
       <section class="guide-section" id="g-arcs">
         <h2 class="h2">Meeting arcs (live)</h2>
-        <p class="text-ink-dim text-sm">Pulled live from the system — not hand-written, so it can't go stale. Hit <strong>UPDATE</strong> to fetch the current arcs and see what's changed since your last check. Edit them on the <code>Meeting arcs</code> screen.</p>
-        <div class="g-arc-bar">
-          <button class="guide-btn js-arcs-update" type="button">${REFRESH_ICON}<span class="js-btn-label">Update arcs</span></button>
-          <span class="g-arc-status js-arcs-status"></span>
-        </div>
-        <div class="card-flat js-arcs-host"><p class="text-ink-mute text-sm">Click UPDATE to load the current meeting arcs.</p></div>
+        <p class="text-ink-dim text-sm">Pulled live from the system — not hand-written, so it can't go stale. <strong>Check for changes</strong> (top) refreshes these and reports any that moved. Edit them on the <code>Meeting arcs</code> screen.</p>
+        <div class="card-flat js-arcs-host"><p class="text-ink-mute text-sm">Loading from the codebase…</p></div>
       </section>
 
       <section class="guide-section" id="g-files">
@@ -563,8 +573,9 @@ export function mount(root) {
     </div>
   `;
 
-  wireArcs(root);
   wireSystemCheck(root);
+  void loadLive(root); // fill Screens + Commands from the codebase on open
+  void loadArcs(root); // fill the live meeting arcs on open
 
   const back = () => setState({ stage: STAGES.START });
   root.querySelector(".js-back").addEventListener("click", back);

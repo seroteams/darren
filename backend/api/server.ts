@@ -30,6 +30,7 @@ import library from "./services/library/library.controller.ts";
 import checks from "./services/checks/checks.controller.ts";
 import * as feedback from "./services/feedback/feedback.controller.ts";
 import * as superadmin from "./services/superadmin/superadmin.controller.ts";
+import * as heartbeat from "./services/heartbeat/heartbeat.controller.ts";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
@@ -296,6 +297,11 @@ function main(): void {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return suggestFix.suggest(c);
   }));
+  // heartbeat — the "what does the app look like right now" snapshot the Guide
+  // renders and diffs (page-heartbeat Phase 1). Reads the repo fresh per request.
+  // v1-only: new endpoint, no legacy clients.
+  router.add("GET", "/api/v1/heartbeat", adminV1(heartbeat.snapshot));
+
   router.add("GET", "/api/v1/pipeline/status", adminV1(pipeline.status));
   router.add("GET", "/api/pipeline/status", adminLegacy(pipeline.status));
   router.add("GET", "/api/v1/pipeline/manifest", adminV1(pipeline.manifest));
