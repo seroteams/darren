@@ -346,7 +346,7 @@ export async function mount(root, { store, setState }) {
     const orb = createOrb(skipped ? "Next question…" : "Scoring answer…");
     thinkingHost.appendChild(orb.el);
 
-    const sse = openSse(`/api/plan/stream?s=${encodeURIComponent(store.sessionId)}`);
+    const sse = openSse(`/api/v1/sessions/${encodeURIComponent(store.sessionId)}/plan/stream`);
     activeSse = sse;
 
     let terminal = null;

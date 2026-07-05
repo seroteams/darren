@@ -13,16 +13,18 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Audit report | `docs/audits/live-data-audit-2026-07-05.md` — the full findings, plain words | 🔨 |
-| 2 | Finish the v1 migration | 13 calls in `shared/api.js` switched to `/api/v1/` | ⬜ |
+| 1 | Audit report | `docs/audits/live-data-audit-2026-07-05.md` — the full findings, plain words | ✅ |
+| 2 | Finish the v1 migration | ALL non-v1 calls switched to `/api/v1/` — 15 in `shared/api.js` + **10 SSE stream URLs in stage files the audit undercounted** | ✅ |
 | 3 | Delete the legacy routes | ~54 alias routes + unconsumed `pipeline/manifest` removed from server.ts | ⬜ |
 | 4 | docs/todo housekeeping | finished folders moved to `done/`, trackers matched to reality | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 built (report written) — awaiting Carl's read-through.
-**Baseline (2026-07-05, free):** `npm test` **67/67 PASS** before any change.
+Phases 1 + 2 done (Carl green-lit the whole cleanup 2026-07-05 — "go for it, happy to complete"; per-phase walks waived, scenarios stay valid for spot-checks). Phase 3 next.
+**Phase 2 note:** the audit's "13 calls" was an undercount — the sweep also caught `saveArc`/`resetArc` (template literals) and **10 SSE stream URLs living in stage files** (bank/eval/focus-points/onepage×5/preparation/questioning), all migrated; dev-badge labels updated. Deleting the aliases without those would have broken the whole run pipeline.
+**Checks (free):** `npm test` **69/69 PASS** · admin build ✓ · repo grep shows only `/api/v1/` + `/api/version` in the frontend. Typecheck errors exist but all sit in the other session's in-flight error-log files — pre-existing, not this work.
+**Baseline (2026-07-05, free):** `npm test` **67/67 PASS** before any change (test count grew to 69 via the parallel error-log/mobile sessions).
 
 ## Parked
 - `feedback.jsonl` grows forever (no rotation) and run artifacts on disk have no retention policy — decide later.

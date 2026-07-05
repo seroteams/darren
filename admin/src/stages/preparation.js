@@ -36,7 +36,7 @@ export async function mount(root, { store, setState }) {
   const orb = createOrb("Preparing your prep brief…");
   thinkingHost.appendChild(orb.el);
 
-  const sse = openSse(`/api/preparation/stream?s=${encodeURIComponent(sessionId)}`);
+  const sse = openSse(`/api/v1/sessions/${encodeURIComponent(sessionId)}/preparation/stream`);
   sse
     .on("thinking", (d) => orb.setLabel(d.label))
     .on("result", async (d) => {

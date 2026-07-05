@@ -40,9 +40,8 @@ export async function mount(root, { store, setState }) {
   const regenerate = store.regenerateFocusPoints;
   if (regenerate) setState({ regenerateFocusPoints: false });
 
-  const streamQs = new URLSearchParams({ s: sessionId });
-  if (regenerate) streamQs.set("regenerate", "1");
-  const sse = openSse(`/api/focus-points/stream?${streamQs}`);
+  const streamQs = regenerate ? "?regenerate=1" : "";
+  const sse = openSse(`/api/v1/sessions/${encodeURIComponent(sessionId)}/focus-points/stream${streamQs}`);
   sse
     .on("thinking", (d) => orb.setLabel(d.label))
     .on("result", async (d) => {

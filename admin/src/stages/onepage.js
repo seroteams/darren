@@ -313,7 +313,7 @@ export async function mount(root, { store, setState }) {
 
   function runFocusPoints() {
     const working = appendWorking("Analyzing context…");
-    const sse = openSse(`/api/focus-points/stream?s=${encodeURIComponent(store.sessionId)}`);
+    const sse = openSse(`/api/v1/sessions/${encodeURIComponent(store.sessionId)}/focus-points/stream`);
     currentSse = sse;
     sse
       .on("thinking", (d) => working.orb.setLabel(d.label))
@@ -386,7 +386,7 @@ export async function mount(root, { store, setState }) {
 
   function runPreparation() {
     const working = appendWorking("Preparing your prep brief…");
-    const sse = openSse(`/api/preparation/stream?s=${encodeURIComponent(store.sessionId)}`);
+    const sse = openSse(`/api/v1/sessions/${encodeURIComponent(store.sessionId)}/preparation/stream`);
     currentSse = sse;
     sse
       .on("thinking", (d) => working.orb.setLabel(d.label))
@@ -481,7 +481,7 @@ export async function mount(root, { store, setState }) {
 
   function startInterviewFlow() {
     const working = appendWorking("Building questions…");
-    const sse = openSse(`/api/bank/stream?s=${encodeURIComponent(store.sessionId)}`);
+    const sse = openSse(`/api/v1/sessions/${encodeURIComponent(store.sessionId)}/bank/stream`);
     currentSse = sse;
     sse
       .on("thinking", (d) => working.orb.setLabel(d.label))
@@ -622,7 +622,7 @@ export async function mount(root, { store, setState }) {
     const orb = createOrb(skipped ? "Next question…" : "Scoring answer…");
     thinkingHost.appendChild(orb.el);
     requestAnimationFrame(() => orb.el.scrollIntoView({ behavior: scrollBehavior(), block: "nearest" }));
-    const sse = openSse(`/api/plan/stream?s=${encodeURIComponent(store.sessionId)}`);
+    const sse = openSse(`/api/v1/sessions/${encodeURIComponent(store.sessionId)}/plan/stream`);
     currentSse = sse;
     let terminal = null;
     let noteShown = false;
@@ -669,7 +669,7 @@ export async function mount(root, { store, setState }) {
   function runEvaluation() {
     if (currentSse) { currentSse.close(); currentSse = null; }
     const working = appendWorking("Writing the brief…");
-    const sse = openSse(`/api/evaluation/stream?s=${encodeURIComponent(store.sessionId)}`);
+    const sse = openSse(`/api/v1/sessions/${encodeURIComponent(store.sessionId)}/evaluation/stream`);
     currentSse = sse;
     sse
       .on("thinking", (d) => working.orb.setLabel(d.label))

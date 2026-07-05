@@ -2,12 +2,12 @@
 // Mounted from main.js; never rendered in production builds.
 
 const STAGE_META = {
-  INTAKE:       { file: "stages/intake.js",        data: "/api/meeting-types, /api/start" },
-  FOCUS_POINTS: { file: "stages/focus-points.js",  data: "/api/focus-points/stream" },
-  PREPARATION:  { file: "stages/preparation.js",   data: "/api/preparation/stream" },
-  BANK:         { file: "stages/bank.js",          data: "/api/bank/stream" },
-  QUESTIONING:  { file: "stages/questioning.js",   data: "/api/plan/stream, /api/question, /api/answer" },
-  EVAL:         { file: "stages/eval.js",          data: "/api/evaluation/stream" },
+  INTAKE:       { file: "stages/intake.js",        data: "/api/v1/meeting-types, /api/v1/sessions" },
+  FOCUS_POINTS: { file: "stages/focus-points.js",  data: "/api/v1/sessions/:id/focus-points/stream" },
+  PREPARATION:  { file: "stages/preparation.js",   data: "/api/v1/sessions/:id/preparation/stream" },
+  BANK:         { file: "stages/bank.js",          data: "/api/v1/sessions/:id/bank/stream" },
+  QUESTIONING:  { file: "stages/questioning.js",   data: "/api/v1/sessions/:id/plan/stream, …/question, …/answer" },
+  EVAL:         { file: "stages/eval.js",          data: "/api/v1/sessions/:id/evaluation/stream" },
   BRIEFING:     { file: "stages/briefing.js",      data: "—" },
   ERROR:        { file: "stages/error.ts",         data: "—" },
 };

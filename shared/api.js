@@ -117,7 +117,7 @@ export async function runFreeCheck(check) {
 }
 
 export async function getMeetingTypes() {
-  return json(await fetch("/api/meeting-types"));
+  return json(await fetch("/api/v1/meeting-types"));
 }
 
 // The running API's build id (git short SHA + commit date) — for the build stamp.
@@ -132,19 +132,19 @@ export async function getHeartbeat() {
 }
 
 export async function getArcs() {
-  return json(await fetch("/api/arcs"));
+  return json(await fetch("/api/v1/arcs"));
 }
 
 export async function saveArc(slug, { arc, tone_register, anti_patterns, confirm = false }) {
-  return postJson(`/api/arcs/${encodeURIComponent(slug)}`, { arc, tone_register, anti_patterns, confirm });
+  return postJson(`/api/v1/arcs/${encodeURIComponent(slug)}`, { arc, tone_register, anti_patterns, confirm });
 }
 
 export async function resetArc(slug) {
-  return postJson(`/api/arcs/${encodeURIComponent(slug)}/reset`, {});
+  return postJson(`/api/v1/arcs/${encodeURIComponent(slug)}/reset`, {});
 }
 
 export async function getPersonaBench() {
-  return json(await fetch("/api/persona-bench"));
+  return json(await fetch("/api/v1/personas"));
 }
 
 // Test-engine hub: start a scripted full-engine run for one persona (paid — the
@@ -162,8 +162,8 @@ export async function getPersonaRunCurrent() {
 
 // Sessions + runs are org-fenced (Phase 007/2): these call the v1 routes (id in the
 // path), so the session cookie fences every read/write to the logged-in company.
-// Shared config / QA endpoints (meeting-types, arcs, role-lexicons, pipeline, …) are
-// not per-company, so they stay on the legacy /api/ paths — no isolation to gain.
+// Everything else calls /api/v1/ too (live-data-cleanup Phase 2) — /api/version is the
+// one exception, it has no v1 twin.
 
 export async function startSession(payload) {
   return postJson("/api/v1/sessions", payload);
@@ -180,27 +180,27 @@ export async function getRoleProfile(sessionId) {
 }
 
 export async function getRoleLexicons() {
-  return json(await fetch("/api/role-lexicons"));
+  return json(await fetch("/api/v1/role-lexicons"));
 }
 
 export async function runRegression() {
-  return json(await fetch("/api/regression/run"));
+  return json(await fetch("/api/v1/regression/run"));
 }
 
 export async function addRoleLexiconTerm(key, term, meaning) {
-  return postJson("/api/role-lexicons/term", { key, term, meaning });
+  return postJson("/api/v1/role-lexicons/term", { key, term, meaning });
 }
 
 export async function removeRoleLexiconTerm(key, term) {
-  return postJson("/api/role-lexicons/term/remove", { key, term });
+  return postJson("/api/v1/role-lexicons/term/remove", { key, term });
 }
 
 export async function hideRoleLexiconTerm(key, term) {
-  return postJson("/api/role-lexicons/term/hide", { key, term });
+  return postJson("/api/v1/role-lexicons/term/hide", { key, term });
 }
 
 export async function unhideRoleLexiconTerm(key, term) {
-  return postJson("/api/role-lexicons/term/unhide", { key, term });
+  return postJson("/api/v1/role-lexicons/term/unhide", { key, term });
 }
 
 export async function getQuestion(sessionId) {
@@ -320,7 +320,7 @@ export async function postVerdict(sessionId, { verdict, issue_type, note }) {
 
 export async function suggestFix(runId, stage) {
   return json(
-    await fetch("/api/suggest-fix", {
+    await fetch("/api/v1/suggest-fix", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ runId, stage }),
@@ -337,7 +337,7 @@ export async function getPipelineStatus(baseline = "latest") {
     baseline === "latest"
       ? ""
       : `?baseline=${encodeURIComponent(baseline)}`;
-  return json(await fetch(`/api/pipeline/status${q}`));
+  return json(await fetch(`/api/v1/pipeline/status${q}`));
 }
 
 export async function getLexiconCandidates(sessionId) {
@@ -357,10 +357,10 @@ export async function submitLexiconDecisions(sessionId, decisions) {
 }
 
 export async function getLexiconPromotePending() {
-  return json(await fetch("/api/lexicon/promote/pending"));
+  return json(await fetch("/api/v1/lexicon/promotions/pending"));
 }
 
 export async function submitLexiconPromote(decisions) {
-  return postJson("/api/lexicon/promote", { decisions });
+  return postJson("/api/v1/lexicon/promotions", { decisions });
 }
 
