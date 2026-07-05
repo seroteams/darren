@@ -62,6 +62,13 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > `e1fa2d6a`. Parked in the archived PLAN: port to the customer app; guests on intake still see member
 > nav rows (pre-existing — one for the guest-run P2 walk below). Folder → done/.
 >
+> **✅ Follow-up fix (2026-07-06, Carl's find on his guest walk): the QA notes rail is now internal-admin-only.**
+> A guest mid-run was getting the TEST NOTES panel (+ Sending/Received/Rules tabs). Root cause: its
+> visibility rule never checked WHO — only live-session + flow-stage. New tested gate: guests, members
+> AND managers never see it; only the internal admin role does, mid-run. Proven live in the running app
+> (all five cases) + unit tests; `npm test` **79/79** · typecheck clean. Commit `8e735cad` — fixes both
+> apps (shared component). Note-writing API unchanged (already owner-fenced).
+>
 > **🔨 [guest-run](docs/todo/guest-run/PLAN.md) — Phase 1 ✅ · Phase 2 (guest front door) BUILT, awaiting your walk (2026-07-05).**
 > Your "open way first" idea: no-account visitor runs a full 1:1, saves it at the end by registering/logging in.
 > **P2 BUILT:** "Try it — no account needed" on the login screen → straight into intake; mid-run reload returns
