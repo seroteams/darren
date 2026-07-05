@@ -27,24 +27,23 @@ Two patterns already exist and we reuse them:
 | 0 | Baseline + schema check | Read-only: confirm DB/migration path, lock the `error_logs` columns + capture scope, baseline `npm test` — go/no-go | ✅ |
 | 1 | Store + catch backend errors | `error_logs` table + migration; write one row on every API 5xx at `v1Route` (+ legacy router). Redacts secrets, never blocks the response | ✅ |
 | 2 | The Error log screen | Superadmin-only page + nav item (mirrors User management); read endpoint; the table, newest first | 🔨 |
-| 3 | Catch browser errors too | Global crash handler + failed-fetch reporter in the app → blank-screen crashes + failed loads land in the log, tagged with the screen | ⬜ |
+| 3 | Catch browser errors too | Global crash handler + failed-fetch reporter in the app → blank-screen crashes + failed loads land in the log, tagged with the screen | 🔨 |
 | 4 | Detail + tidy-up | Row-click detail (stack, request info); filters + "mark resolved"; auto-purge old rows | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ signed off + Phase 2 built (2026-07-05) — awaiting Carl's Phase 2 QA walk.** Phase 1 was proven live (a real error wrote a correct, tagged, secret-safe row to Neon, then cleaned up) and Carl green-lit it. Committed: Phase 1 `4a3f03fb`, Phase 2 `a15af8b1`. (Phase 0/1 detail lives in [phase-0.md](phase-0.md)/[phase-1.md](phase-1.md).)
+**Phase 1 ✅ + Phases 2 & 3 built (2026-07-05) — awaiting Carl's walk of 2 & 3.** Carl green-lit Phase 1 (proven live). Committed: P1 `4a3f03fb`, P2 `a15af8b1`, P3 `52145f05`. Offline green throughout: `npm test` **67/67**, backend + admin typecheck clean, admin build OK.
 
-**Phase 2 — built, verified offline + live-read against Neon, NOT yet signed off:**
-- **The screen:** [admin-error-log.ts](../../../admin/src/stages/admin-error-log.ts) — the table (Where[env] · When · Who · Route+source · What · Status), newest first, Local/Live + API/Browser pills, loading / empty / error states, 14px floor.
-- **Nav item** "Error log" (superadmin-only, Admin group) + full wiring — [app-nav.js](../../../admin/src/ui/app-nav.js), [router.js](../../../admin/src/router.js) (`/admin/errors` + ADMIN_ONLY gate), [state.js](../../../admin/src/state.js), [main.js](../../../admin/src/main.js).
-- **Read endpoint** `GET /api/v1/admin/errors` (superadminV1-gated — the 403 is the real wall) → a dedicated [error-log service/repo/controller](../../../backend/api/services/error-log/) (its own module so Phase 4's mutations don't touch superadmin's read-only invariant). The repo LEFT JOINs users + orgs for name + company; anonymous rows survive. Newest 200.
-- **Verified:** `npm test` **66/66**, backend + admin typecheck clean, admin build OK. The pg leftJoin was **verified live against Neon** — a real user's row joined to name + company, an anonymous row kept null who, newest-first, both cleaned up.
-- **To QA (Carl):** ⚠️ **restart the API server first** (the running :3001 predates the new `/admin/errors` route). Then log in → nav **Error log** → the screen loads. It's empty now ("nothing's broken"); trigger a real 500 to watch a row appear (or I can seed one).
+**Phase 2 (the screen) — built:** superadmin **Error log** page ([admin-error-log.ts](../../../admin/src/stages/admin-error-log.ts)) + nav item (superadmin-only, Admin group) + `GET /api/v1/admin/errors` → a dedicated [error-log service/repo](../../../backend/api/services/error-log/) that LEFT JOINs users + orgs for name + company (anonymous rows survive). Table: Where[env] · When · Who · Route+source · What · Status, newest first, Local/Live + API/Browser pills. Read path verified live against Neon.
 
-**Next:** Phase 3 — catch browser crashes / failed loads too.
+**Phase 3 (browser capture) — built:** client crashes + failed loads now POST to `/api/v1/errors` (origin-guarded, per-IP rate-limited) → `source:"browser"` rows. Global `window.onerror`/`unhandledrejection` ([error-reporter.js](../../../admin/src/ui/error-reporter.js)) + the render-catch + the ERROR stage all report — deduped/throttled, never loops on itself. Browser write+read verified live against Neon.
 
-**Parallel track:** several other Claude sessions are active in this repo (user-management P3, mobile-responsive, page-heartbeat, design-system) — my commits are scoped to error-log files only.
+**To QA (Carl):** ⚠️ **restart the API server** (running :3001 predates the new routes), then log in → **Error log**. I **seeded 5 demo rows** (marked `details.demo=true`) so the screen shows a populated table like the mockup — say "clear demo" and I delete them. Trigger a real error to watch live capture.
+
+**Next:** Phase 4 — row detail, filters, mark-resolved, auto-purge.
+
+⚠️ **Concurrency note:** commit `52145f05` also swept a parallel session's staged test-engine-hub files (all sessions share one git index in this working copy). Nothing lost — flagged to Carl; recommend a separate git worktree per session. `shared/api.reportClientError` is in the tree but its file is co-mingled, so it rode along in that broad commit too.
 
 ## Parked
 - **⚠️ Follow-up flagged (NOT this plan):** the existing **audit log, feedback, and run logs** all write to **local disk** (`content/data/…`). Same wipe-on-deploy risk once Sero is hosted — worth moving to the DB (or persistent storage) before real customers. Raised 2026-07-05 during this decision; belongs in the going-live track, not here.
