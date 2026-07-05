@@ -24,6 +24,7 @@ import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
 import * as regression from "./services/regression/regression.controller.ts";
+import * as personaRuns from "./services/persona-runs/persona-runs.controller.ts";
 import * as suggestFix from "./services/suggest-fix/suggest-fix.controller.ts";
 import library from "./services/library/library.controller.ts";
 import checks from "./services/checks/checks.controller.ts";
@@ -217,6 +218,13 @@ function main(): void {
   }));
   router.add("GET", "/api/v1/regression/run", adminV1(regression.run));
   router.add("GET", "/api/regression/run", adminLegacy(regression.run));
+  // persona-runs — start a scripted full-engine run (paid; the click is the
+  // go-ahead) + poll its progress. One at a time, enforced in the service.
+  router.add("POST", "/api/v1/persona-runs", adminV1((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return personaRuns.start(c);
+  }));
+  router.add("GET", "/api/v1/persona-runs/current", adminV1(personaRuns.current));
   router.add("POST", "/api/v1/checks/run", adminV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return checks(c);

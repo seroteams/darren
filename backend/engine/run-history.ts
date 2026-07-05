@@ -84,6 +84,18 @@ function reviewSummaryOf(dir: string): {
   };
 }
 
+// Which persona (if any) a run was driven by, and whether it was scripted.
+// Read off saved state: the scripted lane stamps fingerprint.personaId at start
+// and mode is persisted on every save. Manual runs come back {null, "manual"}.
+function personaTagOf(state: unknown): { personaId: string | null; mode: string } {
+  const s = asRecord(state);
+  const fp = asRecord(s.fingerprint);
+  return {
+    personaId: asString(fp.personaId) || null,
+    mode: asString(s.mode) || "manual",
+  };
+}
+
 // Archive flag lives in its own tiny file alongside review.json — keeps the
 // archived bit off review.json (whose only writer is the review handler) and
 // off session-state (which review mode never mutates).
@@ -223,6 +235,7 @@ function listFinishedRuns(orgId?: string | null) {
       },
       lastSeenAt: asNumber(state.lastSeenAt),
       archived: isArchivedAt(dir),
+      ...personaTagOf(state),
       ...reviewSummaryOf(dir),
     };
   });
@@ -637,5 +650,6 @@ export {
   buildHeadline,
   reviewStatusOf,
   reviewSummaryOf,
+  personaTagOf,
   REVIEW_DIM_KEYS,
 };

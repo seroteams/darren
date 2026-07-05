@@ -19,7 +19,7 @@ Full background + architecture: the approved plan (2026-07-05, in Claude's plan 
 ## Phases
 | # | Phase | What it lands | Cost | Status |
 |---|---|---|---|---|
-| 1 | Persona-run job service | `POST /api/v1/persona-runs` + `GET .../current` with job state (fake runner) + run-history rows gain personaId/mode | free | ⬜ |
+| 1 | Persona-run job service | `POST /api/v1/persona-runs` + `GET .../current` with job state (fake runner) + run-history rows gain personaId/mode | free | 🔨 built, awaiting walk |
 | 2 | The runner | The real stage loop driving the engine end-to-end with scripted answers (offline-tested with injected fakes) | free | ⬜ |
 | 3 | Hub UI + first real run | ▶ Run button, progress, history badges on the Personas page; Carl clicks one real run | ~$0.35 | ⬜ |
 | 4 | Consolidation | Safety-check strip on the hub, nav slims to one entry, Compare deep-links from history | free | ⬜ |
@@ -27,7 +27,11 @@ Full background + architecture: the approved plan (2026-07-05, in Claude's plan 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder set up 2026-07-05 from the approved plan. **Nothing built yet — waiting for Carl to read the phase files and give the go for Phase 1.** Baseline to run before Phase 1 starts: `npm test` + `npm run typecheck` (free — no paid gate needed for this work).
+**Phase 1 built 2026-07-05, awaiting Carl's walk.** Carl said GO same day the folder went up.
+- Baseline before building: `npm test` **62/62 PASS** · `npm run typecheck` clean.
+- Built: `backend/api/services/persona-runs/` (service + controller + 9 tests), routes in server.ts, `personaTagOf` on Library rows (+2 tests). Runner is an honest 5-second dry run (labels itself; real engine loop is Phase 2). No OpenAI calls anywhere.
+- After building: typecheck clean · new tests 21/21 · full suite 62/63 — the one fail is `universe.test.ts`, **Carl's in-flight WIP that changed mid-session** (passed at baseline, then modified outside this session; unrelated files).
+- Not committed yet — green light = commit.
 
 ## Parked
 - Refactor `planStream`'s scripted path and the runner's turn loop into one shared function (deliberate duplication for now — zero blast radius on the live session path).

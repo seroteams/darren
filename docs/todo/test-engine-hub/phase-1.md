@@ -1,6 +1,6 @@
 # Phase 1 — Persona-run job service (free)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built 2026-07-05, awaiting walk
 
 ## Goal
 The API gets a "start a persona run" door and a "how's it going" window — with all the guard rails — before any real engine work is wired in.

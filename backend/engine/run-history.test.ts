@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { runOwnedByOrg, runOwnedByUser, cloneRunState } from "./run-history.ts";
+import { runOwnedByOrg, runOwnedByUser, cloneRunState, personaTagOf } from "./run-history.ts";
 
 // runOwnedByOrg is the data wall (Phase 007/2): the single rule the run-history
 // reads use to decide whether a run is visible to the caller's company.
@@ -80,4 +80,17 @@ test("cloneRunState does not mutate the source run", () => {
   assert.equal(source.id, "SRC");
   assert.equal(source.orgId, "org-src");
   assert.equal(source.userId, "someone-else");
+});
+
+// personaTagOf feeds the Test-engine hub: which persona a run came from + whether
+// it was scripted. Library rows spread it in, so the hub can group runs by persona.
+test("personaTagOf reads the persona id and mode off saved state", () => {
+  const state = { mode: "scripted", fingerprint: { personaId: "maya-chen", scriptVersion: "v2-plain" } };
+  assert.deepEqual(personaTagOf(state), { personaId: "maya-chen", mode: "scripted" });
+});
+
+test("personaTagOf defaults a manual / legacy run to {null, manual}", () => {
+  assert.deepEqual(personaTagOf({}), { personaId: null, mode: "manual" });
+  assert.deepEqual(personaTagOf({ fingerprint: null }), { personaId: null, mode: "manual" });
+  assert.deepEqual(personaTagOf(null), { personaId: null, mode: "manual" });
 });
