@@ -3,8 +3,8 @@
 // Rendering is canvas eye-candy and stays untested; the data shaping lives here.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, filterUniverse, focusUniverse, searchUniverse, PIPELINE } from "./universe.ts";
-import type { UNode } from "./universe.ts";
+import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, filterUniverse, focusUniverse, searchUniverse, PIPELINE } from "./universe.model.ts";
+import type { UNode } from "./universe.model.ts";
 
 test("buildUniverse: empty data still yields the core and the full pipeline chain", () => {
   const { nodes, edges } = buildUniverse({});
