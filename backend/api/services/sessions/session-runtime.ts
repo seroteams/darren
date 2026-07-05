@@ -48,8 +48,11 @@ const reviewLexicon: ReviewLexicon = (i) => generateSuggestions({ session: i.ses
 
 // Same interface, swappable storage (Phase 005): Postgres when DATABASE_URL is set,
 // else the file-backed repo — so the app still runs with no database configured.
-const repo = hasDatabaseUrl() ? pgSessionsRepo : fileSessionsRepo;
-export const service = createSessionsService(repo, { prewarm, draftAnswers, reviewLexicon });
+// Exported for the persona-runs QA service, which drives the same live-session
+// store through its own service instance with pre-warm disabled (every paid call
+// must be explicit and single there).
+export const sessionsRepo = hasDatabaseUrl() ? pgSessionsRepo : fileSessionsRepo;
+export const service = createSessionsService(sessionsRepo, { prewarm, draftAnswers, reviewLexicon });
 
 // Reads take the id from the path (v1) or ?s= (legacy).
 export function sessionId(c: RequestContext): string {

@@ -20,14 +20,21 @@ Full background + architecture: the approved plan (2026-07-05, in Claude's plan 
 | # | Phase | What it lands | Cost | Status |
 |---|---|---|---|---|
 | 1 | Persona-run job service | `POST /api/v1/persona-runs` + `GET .../current` with job state (fake runner) + run-history rows gain personaId/mode | free | ✅ walked (delegated) 2026-07-05 |
-| 2 | The runner | The real stage loop driving the engine end-to-end with scripted answers (offline-tested with injected fakes) | free | ⬜ |
+| 2 | The runner | The real stage loop driving the engine end-to-end with scripted answers (offline-tested with injected fakes) | free | 🔨 built, awaiting walk |
 | 3 | Hub UI + first real run | ▶ Run button, progress, history badges on the Personas page; Carl clicks one real run | ~$0.35 | ⬜ |
 | 4 | Consolidation | Safety-check strip on the hub, nav slims to one entry, Compare deep-links from history | free | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ done 2026-07-05 (committed `e148db2a`). Next: Phase 2 (the real runner) on Carl's go.**
+**Phase 2 🔨 built 2026-07-05, awaiting Carl's walk. Phase 1 ✅ (committed `e148db2a`).**
+- Phase 2 baseline: `npm test` 65/65 green (other tracks had landed since Phase 1's 62) · typecheck clean.
+- Built: [persona-runs.runner.ts](../../../backend/api/services/persona-runs/persona-runs.runner.ts) — the real stage loop (start on the scripted lane → role profile → focus → preparation → frozen script turn-by-turn → evaluation with cost + briefing), mirroring the web session's scripted path; live session code untouched except one export in session-runtime.ts. Controller now wires the real runner (its own sessions-service instance with pre-warm off, so every paid call is explicit and single). 8 runner tests, all offline.
+- After: **`npm test` 67/67 green** · typecheck clean.
+- ⚠️ The API door now runs the REAL engine: a `POST /api/v1/persona-runs` on a live server spends ~$0.35. Nothing auto-runs — it still takes an explicit authenticated POST — but no casual poking until Phase 3 puts the priced button on it.
+- Not committed — green light = commit.
+
+Phase 1 record:
 - Baseline before building: `npm test` 62/62 · typecheck clean. After: new tests 21/21, typecheck clean (the one suite fail was Carl's unrelated in-flight universe WIP).
 - **Walk delegated by Carl ("YOU TEST IT FOR ME") and run live 2026-07-05** against a throwaway API instance on :3002 with the dev side-door (the real :3001 stayed untouched; it correctly 401s a logged-out caller). Results, all pass:
   - idle status when nothing runs ✓ · unknown persona → 404 plain message ✓ · missing personaId → 400 ✓

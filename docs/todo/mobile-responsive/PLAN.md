@@ -26,7 +26,11 @@
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder set up 2026-07-05 from the approved plan (full plan detail: `.claude/plans/while-we-are-here-fizzy-pine.md` on Carl's machine; the essentials live in the phase files). Phase 1 building next in the same session (Carl approved setup + Phase 1 together).
+**Phase 1 BUILT 2026-07-05 — awaiting Carl's walk (not committed; green light = commit).**
+Landed: mobile header (48px, brand + ☰) + off-canvas drawer replacing the rail below 768px (scrim, Esc/scrim-tap/navigate-to-close, aria-expanded, closed drawer out of the tab order); desktop hover-expand wrapped in `@media (hover: hover)`; compact in-session topbar (current stage + step count only) stacked under the header; notes panel full-width below 640px; profile badge avatar-only below 768px. Files: `design.css` (+~190 lines incl. the new Mobile shell section), `app-nav.js` (+~60).
+Verified in a real browser at 375×812: no horizontal overflow on Home/Library/New-session; header 0–48px, topbar 48–92px, content from 92px; drawer open/close all four ways; desktop at 1280px byte-identical behaviour (rail 60px, hover-expand to 248px, no header/scrim). Free checks after edits: typecheck:admin clean · admin build clean · `npm test` 65/65 (baseline same).
+Next: Carl walks phase-1.md scenarios (devtools phone mode or real phone — for the phone, start Vite with `--host` and open `http://<pc-ip>:3000`). Then Phase 2 (auth + member screens).
+
 Baseline (2026-07-05, before Phase 1 edits): `npm test` **65/65** · `npm run typecheck:admin` clean · admin build clean. Free checks only — no paid gate needed for CSS/UI work.
 
 ## Testing each phase (how Carl walks it)

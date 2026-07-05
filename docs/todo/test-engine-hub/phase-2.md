@@ -1,6 +1,6 @@
 # Phase 2 — The runner (free)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built 2026-07-05, awaiting walk
 
 ## Goal
 The real engine loop: given a persona, drive the whole pipeline start-to-finish with its scripted answers — built and proven entirely offline (engine calls faked in tests; no OpenAI spend this phase).

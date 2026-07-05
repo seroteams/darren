@@ -3,7 +3,7 @@
 // Rendering is canvas eye-candy and stays untested; the data shaping lives here.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, filterUniverse, PIPELINE } from "./universe.ts";
+import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, filterUniverse, focusUniverse, searchUniverse, PIPELINE } from "./universe.ts";
 import type { UNode } from "./universe.ts";
 
 test("buildUniverse: empty data still yields the core and the full pipeline chain", () => {
@@ -115,6 +115,61 @@ test("filterUniverse: the core can never be hidden; empty filter hides nothing",
   const noCore = filterUniverse(nodes, edges, new Set(["core", "stage"]));
   assert.ok(noCore.nodes.some((n) => n.kind === "core"), "the sun stays lit");
   assert.ok(!noCore.nodes.some((n) => n.kind === "stage"), "pipeline hidden as asked");
+});
+
+// A little world for focus/search tests: two people, their runs, a type, a lexicon.
+const WORLD = buildUniverse({
+  runs: [
+    { id: "r1", headline: "Maya catch-up", ctx: { name: "Maya", role: "Designer", meetingType: "Weekly" } },
+    { id: "r2", ctx: { name: "Maya", role: "Designer" } },
+    { id: "r3", ctx: { name: "Ola", role: "Engineer", meetingType: "Weekly" } },
+  ],
+  types: [{ label: "Weekly" }],
+  lexicons: [{ key: "designer", label: "Designer", terms: [] }],
+  sessions: [{ id: "s1", stage: "BANK", ctx: { name: "Priya" } }],
+});
+
+test("focusUniverse: a person keeps their runs, their role words, their types — and drops the rest", () => {
+  const f = focusUniverse(WORLD.nodes, WORLD.edges, "person:maya")!;
+  const ids = new Set(f.nodes.map((n) => n.id));
+  assert.ok(ids.has("person:maya") && ids.has("run:r1") && ids.has("run:r2"), "her and her runs");
+  assert.ok(ids.has("lexicon:designer"), "her role words");
+  assert.ok(ids.has("type:weekly"), "the type her runs used");
+  assert.ok(ids.has("core"), "the core always stays");
+  assert.ok(!ids.has("person:ola") && !ids.has("run:r3"), "other people gone");
+  assert.ok(!ids.has("session:s1"), "unrelated live sessions gone");
+  assert.ok(f.edges.every((e) => ids.has(e.from) && ids.has(e.to)), "no dangling lines");
+});
+
+test("focusUniverse: a run keeps its person + type; a type keeps its runs + their people", () => {
+  const run = focusUniverse(WORLD.nodes, WORLD.edges, "run:r1")!;
+  const runIds = new Set(run.nodes.map((n) => n.id));
+  assert.ok(runIds.has("person:maya") && runIds.has("type:weekly"));
+  assert.ok(!runIds.has("run:r2"), "her other run is not part of this run's story");
+
+  const type = focusUniverse(WORLD.nodes, WORLD.edges, "type:weekly")!;
+  const typeIds = new Set(type.nodes.map((n) => n.id));
+  assert.ok(typeIds.has("run:r1") && typeIds.has("run:r3"), "both runs that used it");
+  assert.ok(typeIds.has("person:maya") && typeIds.has("person:ola"), "and their people");
+});
+
+test("focusUniverse: a stage keeps its parts and parked sessions; core/unknown mean no focus", () => {
+  const f = focusUniverse(WORLD.nodes, WORLD.edges, "stage:bank")!;
+  const ids = new Set(f.nodes.map((n) => n.id));
+  assert.ok(ids.has("session:s1"), "the session parked at Questions");
+  assert.ok([...ids].some((id) => id.startsWith("part:bank:")), "its machinery");
+  assert.ok(!ids.has("person:maya"));
+  assert.equal(focusUniverse(WORLD.nodes, WORLD.edges, "core"), null, "core = the whole universe already");
+  assert.equal(focusUniverse(WORLD.nodes, WORLD.edges, "nope"), null);
+});
+
+test("searchUniverse: case-insensitive, starts-with beats contains, short queries return nothing", () => {
+  const hits = searchUniverse(WORLD.nodes, "may");
+  assert.ok(hits.length >= 2);
+  assert.equal(hits[0]!.id, "person:maya", "the person named Maya outranks runs that mention her");
+  assert.deepEqual(searchUniverse(WORLD.nodes, "m"), [], "one letter is too little");
+  assert.equal(searchUniverse(WORLD.nodes, "WEEKLY")[0]!.id, "type:weekly");
+  assert.ok(searchUniverse(WORLD.nodes, "zzz").length === 0);
 });
 
 test("stars: n filled then hollow, out of five", () => {

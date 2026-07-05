@@ -37,12 +37,14 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > screens follow it; no bulk re-skin. Parked follow-ups (in the archived PLAN): inline-hex cleanup in 8 files,
 > dropdown/progress/error consolidation, ⭐ states batch (empty/loading/tabs/toggles) on the sheet.
 
-> **🔨 [error-log](docs/todo/error-log/PLAN.md) — NEW track, built 2026-07-05 on Carl's "GO GO".**
+> **🔨 [error-log](docs/todo/error-log/PLAN.md) — NEW track (started 2026-07-05). Phase 1 ✅ · Phase 2 built.**
 > A superadmin **Error log** screen: every error any user hits, across **your local dev and the published live
-> Sero** (one Neon, each row tagged **Local / Live**, filterable), newest first. **Phase 0 ✅** (plan + schema check).
-> **Phase 1 built — awaiting your QA walk:** `error_logs` table live on Neon (verified by query); every API 5xx now
-> records one row (secret-safe, fire-and-forget, `console.error` kept as backstop). Offline green: `npm test` **65/65**,
-> typecheck clean; **not committed** until you sign off. **Next: Phase 2 — the screen + nav item.** Phases 2–4 ⬜.
+> Sero** (one Neon, each row tagged **Local / Live**), newest first. **Phase 0 + Phase 1 ✅** — the `error_logs`
+> table is live on Neon and every API 5xx records one row (secret-safe; proven live then cleaned up; committed `4a3f03fb`).
+> **Phase 2 built — awaiting your walk (committed `a15af8b1`):** the **Error log** screen + superadmin-only nav item
+> + `GET /api/v1/admin/errors`. `npm test` **66/66**, typechecks + admin build clean; read path verified live against
+> Neon. ⚠️ **Restart the API server**, then log in → **Error log** (empty until a real 500 hits). **Next: Phase 3 —
+> browser crashes.** Phases 3–4 ⬜.
 >
 > **🔨 [user-management](docs/todo/user-management/PLAN.md) Phase 3 — deactivate / reactivate a user: STARTING (2026-07-05).**
 > Nullable `deactivatedAt` on `users` + `POST …/deactivate` & `…/reactivate`; login must reject deactivated users;
@@ -55,13 +57,14 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > superadmin-gated + origin-guarded, **blocks demoting a company's last manager/admin** (409). The stale-API 404 Carl
 > first hit was fixed by restarting the :3001 process (concurrency respawns fresh code).
 >
-> **✅ [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) Phase 1 — persona-run job service: DONE 2026-07-05 (walk delegated to Claude, all scenarios passed live; committed `e148db2a`).**
+> **🔨 [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) Phase 2 — the real engine runner: BUILT 2026-07-05, awaiting Carl's walk (free, offline-tested). Phase 1 ✅ (walk delegated, all live checks passed, `e148db2a`).**
 > One page: ▶ Run on a persona → full engine runs on its scripted answers → review with the 8-dimension grid.
-> Phase 1 landed the API doors + guard rails, **verified against a live instance**: idle status ✓, unknown
-> persona 404 ✓, missing id 400 ✓, start 202 ✓, double-start 409 ✓, honest dry-run label ✓, done in ~5s ✓,
-> slot frees after ✓, logged-out 401 ✓, $0 OpenAI. (Tested on a throwaway :3002 instance with the dev
-> side-door; the :3001 API Carl uses was untouched.) **Next: Phase 2 — the real engine runner (free,
-> offline-tested) — on Carl's go.** Only Phase 3 spends money (one ~$0.35 run, Carl's own click).
+> Phase 2 lands the real stage loop: scripted-lane session → role profile → focus → preparation → the frozen
+> script turn-by-turn → evaluation with cost + briefing — run folders identical to live runs. All engine calls
+> injected: 8 runner tests prove the whole shape offline. **`npm test` 67/67 · typecheck clean. $0 spent.**
+> ⚠️ The API door now runs the REAL engine (~$0.35 per explicit authenticated POST) — nothing auto-runs, but
+> no casual poking until Phase 3 puts the priced ▶ Run button on it. **Not committed — green light = commit.**
+> Next after the walk: Phase 3 — hub UI + Carl's one paid click (~$0.35).
 >
 > **Phase 1 ✅ done + committed** — the flat **User management** table (`d2bf9ec2` screen + `53f1f132` rename),
 > companies as **white cards** (`af1992f3`); role pills; the whole row opens the drilldown. **Phase 0** mostly

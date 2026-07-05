@@ -322,6 +322,72 @@ export function filterUniverse(
   return { nodes: keep, edges: edges.filter((e) => ids.has(e.from) && ids.has(e.to)) };
 }
 
+/* ------------------------------------------------------------------ focus --- */
+// "Show only their universe" — one node plus the things that genuinely belong to its
+// story, by kind: a person keeps their runs, role words, and the types those runs
+// used; a run keeps its person + type; a type keeps its runs + their people; a stage
+// keeps its machinery + parked sessions. Core/parts can't focus (core IS the map).
+export function focusUniverse(nodes: UNode[], edges: UEdge[], id: string): { nodes: UNode[]; edges: UEdge[] } | null {
+  const byId = new Map(nodes.map((n) => [n.id, n]));
+  const me = byId.get(id);
+  if (!me || me.kind === "core" || me.kind === "part") return null;
+
+  const adj = new Map<string, string[]>();
+  for (const e of edges) {
+    if (!adj.has(e.from)) adj.set(e.from, []);
+    if (!adj.has(e.to)) adj.set(e.to, []);
+    adj.get(e.from)!.push(e.to);
+    adj.get(e.to)!.push(e.from);
+  }
+  const near = (of: string, kinds: UNode["kind"][]) =>
+    (adj.get(of) || []).filter((nid) => { const n = byId.get(nid); return !!n && kinds.includes(n.kind); });
+
+  const keep = new Set<string>([id, "core"]);
+  if (me.kind === "person") {
+    for (const nid of near(id, ["run", "lexicon"])) keep.add(nid);
+    for (const rid of near(id, ["run"])) for (const tid of near(rid, ["type"])) keep.add(tid);
+  } else if (me.kind === "run") {
+    for (const nid of near(id, ["person", "type"])) keep.add(nid);
+  } else if (me.kind === "type") {
+    for (const rid of near(id, ["run"])) { keep.add(rid); for (const pid of near(rid, ["person"])) keep.add(pid); }
+  } else if (me.kind === "lexicon") {
+    for (const pid of near(id, ["person"])) keep.add(pid);
+  } else if (me.kind === "session") {
+    for (const sid of near(id, ["stage"])) keep.add(sid);
+  } else if (me.kind === "stage") {
+    for (const nid of near(id, ["part", "session"])) keep.add(nid);
+  }
+  return {
+    nodes: nodes.filter((n) => keep.has(n.id)),
+    edges: edges.filter((e) => keep.has(e.from) && keep.has(e.to)),
+  };
+}
+
+/* ----------------------------------------------------------------- search --- */
+// Find-anything: name beats mention, people beat their runs, 8 results max. Two
+// letters minimum so a single keystroke doesn't light up the whole sky.
+const SEARCH_RANK: Record<UNode["kind"], number> = {
+  person: 0, session: 1, run: 2, type: 3, stage: 4, lexicon: 5, part: 6, core: 7,
+};
+
+export function searchUniverse(nodes: UNode[], query: string): UNode[] {
+  const q = query.trim().toLowerCase();
+  if (q.length < 2) return [];
+  const scored: { n: UNode; s: number }[] = [];
+  for (const n of nodes) {
+    const label = n.label.toLowerCase();
+    let s: number | null = null;
+    if (label.startsWith(q)) s = 0;
+    else if (label.includes(q)) s = 1;
+    else if (n.sub.toLowerCase().includes(q)) s = 2;
+    if (s != null) scored.push({ n, s });
+  }
+  return scored
+    .sort((a, b) => a.s - b.s || SEARCH_RANK[a.n.kind] - SEARCH_RANK[b.n.kind] || a.n.label.localeCompare(b.n.label))
+    .map((x) => x.n)
+    .slice(0, 8);
+}
+
 /* ------------------------------------------------------------------- diff --- */
 // Compare two builds of the universe so an Update can tell what changed in the
 // engine since it was last drawn. Pure + tested — the button just renders these.
@@ -500,6 +566,16 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       .uni__chip.is-off { opacity: 0.35; }
       .uni__chip.is-off b { background: transparent !important; box-shadow: inset 0 0 0 1.5px rgba(219,231,255,0.55); }
       .uni__chip--all { border-color: rgba(125,211,252,0.45); background: rgba(125,211,252,0.16); font-weight: 600; }
+      .uni__chip--focus { border-color: rgba(255,214,102,0.6); background: rgba(255,214,102,0.14); font-weight: 600; color: #ffe9b3; }
+      .uni__search { pointer-events: auto; margin-top: 12px; position: relative; width: 270px; }
+      .uni__search-input { width: 100%; font: inherit; font-size: 14px; padding: 8px 12px; border-radius: 9px; border: 1px solid rgba(125,211,252,0.3); background: rgba(10,16,34,0.75); color: #eaf2ff; outline: none; }
+      .uni__search-input::placeholder { color: rgba(219,231,255,0.45); }
+      .uni__search-input:focus { border-color: rgba(125,211,252,0.7); }
+      .uni__search-results { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: rgba(10,16,34,0.95); border: 1px solid rgba(125,211,252,0.25); border-radius: 10px; overflow: hidden; backdrop-filter: blur(8px); z-index: 7; }
+      .uni__search-hit { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; font: inherit; font-size: 14px; padding: 9px 12px; background: none; border: 0; color: #eaf2ff; cursor: pointer; }
+      .uni__search-hit:hover, .uni__search-hit.is-active { background: rgba(125,211,252,0.15); }
+      .uni__search-hit b { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+      .uni__search-hit .k { margin-left: auto; color: rgba(219,231,255,0.5); }
       /* Panel open: slide the chips left of the drawer so filtering stays usable. */
       .uni.has-panel .uni__legend { right: calc(clamp(300px, 25vw, 440px) + 24px); }
       @media (prefers-reduced-motion: reduce) { .uni__legend { transition: none; } }
@@ -546,6 +622,10 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
           <span class="uni__refresh-label">Update from the engine</span>
         </button>
         <div class="uni__status js-status" role="status" aria-live="polite"></div>
+        <div class="uni__search">
+          <input class="uni__search-input js-search" type="search" placeholder="Find anything — a name, a 1:1, a type…" autocomplete="off" spellcheck="false" aria-label="Find anything" />
+          <div class="uni__search-results js-search-results" hidden></div>
+        </div>
       </div>
       <div class="uni__counts js-counts">Loading the universe…</div>
       <div class="uni__legend" role="group" aria-label="Filter what's shown">
@@ -556,6 +636,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
         <button type="button" class="uni__chip js-chip" data-kind="run" title="Click to hide or show these"><b style="background:rgb(${COLOR.run})"></b>Finished 1:1s</button>
         <button type="button" class="uni__chip js-chip" data-kind="type" title="Click to hide or show these"><b style="background:rgb(${COLOR.type})"></b>Meeting types</button>
         <button type="button" class="uni__chip js-chip" data-kind="lexicon" title="Click to hide or show these"><b style="background:rgb(${COLOR.lexicon})"></b>Role words</button>
+        <button type="button" class="uni__chip uni__chip--focus js-chip-focus" hidden></button>
         <button type="button" class="uni__chip uni__chip--all js-chip-all" hidden>Show all</button>
       </div>
       <aside class="uni__panel js-panel" aria-hidden="true"></aside>
@@ -629,15 +710,30 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
     if (Array.isArray(saved)) for (const k of saved) if (FILTER_KINDS.includes(k as UNode["kind"])) hidden.add(k as UNode["kind"]);
   } catch { /* fresh start */ }
 
-  // What's actually on screen = the full map minus the hidden kinds. Recomputed on
-  // every chip toggle and every data rebuild.
+  // What's actually on screen = the full map, optionally narrowed to one thing's
+  // story (focus), minus the hidden kinds (chips). Recomputed on every chip toggle,
+  // focus change, and data rebuild.
+  let focusId: string | null = null;
   let view = filterUniverse(nodes, edges, hidden);
   let pulses = buildPulses(view.edges);
   function applyView() {
-    view = filterUniverse(nodes, edges, hidden);
+    let base: { nodes: UNode[]; edges: UEdge[] } = { nodes, edges };
+    if (focusId) {
+      const f = focusUniverse(nodes, edges, focusId);
+      if (f) base = f;
+      else focusId = null; // the focused thing left the data — back to everything
+    }
+    view = filterUniverse(base.nodes, base.edges, hidden);
     pulses = buildPulses(view.edges);
     hovered = null;
-    if (selected && hidden.has(selected.kind)) resetView(); // its panel closes with it
+    renderFocusChip();
+    // Whatever the panel showed just got filtered/focused away — close it, keep the camera.
+    if (selected && !view.nodes.some((n) => n.id === selected!.id)) { selected = null; renderPanel(null); }
+  }
+  function setFocus(id: string | null) {
+    focusId = id;
+    applyView();
+    if (id) { const n = byId.get(id); if (n) flyTo(n); }
   }
 
   // Nodes an Update just added: id -> performance.now() when it arrived, so the frame
@@ -742,9 +838,12 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
           .map((s) => `<li><span class="st">${esc(s.label)}</span><span class="sb">${esc(s.sub)}</span></li>`)
           .join("")}</ol></div>`
       : "";
-    const footHtml = m.openRunId
-      ? `<div class="uni__panel-foot"><button type="button" class="primary js-open">Open this run</button></div>`
+    const canFocus = n.kind !== "core" && n.kind !== "part";
+    const openBtn = m.openRunId ? `<button type="button" class="primary js-open">Open this run</button>` : "";
+    const focusBtn = canFocus
+      ? `<button type="button" class="js-focus">${focusId === n.id ? "Show everything" : "Focus on this"}</button>`
       : "";
+    const footHtml = openBtn || focusBtn ? `<div class="uni__panel-foot">${openBtn}${focusBtn}</div>` : "";
 
     panelEl.innerHTML = `
       <div class="uni__panel-head">
@@ -758,6 +857,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
     `;
     panelEl.querySelector(".js-close")!.addEventListener("click", resetView);
     panelEl.querySelector(".js-open")?.addEventListener("click", () => { if (n.runId) openRun(n.runId); });
+    panelEl.querySelector(".js-focus")?.addEventListener("click", () => setFocus(focusId === n.id ? null : n.id));
     panelEl.querySelectorAll<HTMLButtonElement>(".uni__runrow").forEach((b) => {
       b.addEventListener("click", () => { if (b.dataset.run) openRun(b.dataset.run); });
     });
@@ -864,6 +964,50 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
   );
   allChip.addEventListener("click", () => { hidden.clear(); saveHidden(); renderChips(); applyView(); });
   renderChips();
+
+  // Focus chip — shows what the map is narrowed to; click to widen back out.
+  const focusChip = shell.querySelector<HTMLButtonElement>(".js-chip-focus")!;
+  function renderFocusChip() {
+    const n = focusId ? byId.get(focusId) : null;
+    focusChip.hidden = !n;
+    if (n) focusChip.textContent = `✕ Focusing: ${n.label}`;
+  }
+  focusChip.addEventListener("click", () => setFocus(null));
+
+  // Find-anything box — searches the FULL map (even filtered-out kinds). Picking a
+  // hit un-hides its kind if needed, drops a focus that would hide it, and flies there.
+  const searchInput = shell.querySelector<HTMLInputElement>(".js-search")!;
+  const searchResults = shell.querySelector<HTMLDivElement>(".js-search-results")!;
+  let searchHits: UNode[] = [];
+  function renderSearch() {
+    searchHits = searchUniverse(nodes, searchInput.value);
+    searchResults.hidden = searchHits.length === 0;
+    searchResults.innerHTML = searchHits
+      .map((n, i) => `<button type="button" class="uni__search-hit${i === 0 ? " is-active" : ""}" data-i="${i}"><b style="background:rgb(${COLOR[n.kind]})"></b><span></span><span class="k">${esc(KIND_WORD[n.kind])}</span></button>`)
+      .join("");
+    [...searchResults.querySelectorAll<HTMLButtonElement>(".uni__search-hit")].forEach((b, i) => {
+      b.querySelector("span")!.textContent = searchHits[i]!.label;
+      b.addEventListener("click", () => pickSearch(i));
+    });
+  }
+  function pickSearch(i: number) {
+    const hit = searchHits[i];
+    if (!hit) return;
+    if (hidden.has(hit.kind)) { hidden.delete(hit.kind); saveHidden(); renderChips(); applyView(); }
+    if (focusId && !view.nodes.some((v) => v.id === hit.id)) setFocus(null);
+    const live = byId.get(hit.id) || hit;
+    flyTo(live);
+    searchInput.value = "";
+    searchResults.hidden = true;
+    searchHits = [];
+    searchInput.blur();
+  }
+  searchInput.addEventListener("input", renderSearch);
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); pickSearch(0); }
+    // Esc in the box just clears the box — it shouldn't also reset the whole view.
+    if (e.key === "Escape") { searchInput.value = ""; searchResults.hidden = true; searchHits = []; e.stopPropagation(); }
+  });
 
   function pick(mx: number, my: number): UNode | null {
     let best: UNode | null = null, bestZ = Infinity;
