@@ -103,6 +103,13 @@ action that matters on each screen.
 - Flat surfaces; depth from tone and spacing.
 - Plain language everywhere; no enterprise jargon.
 
+### Brandmark / logo
+The rounded square with two bars and two dots is **the Sero logo** — the one official mark.
+Master + colour versions live in `admin/public/sero-flowbite/brand/` (see that folder's
+`README.md` and the **Brandmark** section of the component sheet). Default is
+`sero-brandmark-charcoal.svg`; colour tiles keep white marks and use only palette colours.
+Don't recolour the marks, squash the square, or square off the corners.
+
 ## 2. Colors
 
 Near-monochrome ink-on-paper with a single sky accent, plus a small semantic set.

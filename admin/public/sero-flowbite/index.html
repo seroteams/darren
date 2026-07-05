@@ -54,6 +54,7 @@
   <p class="font-display font-semibold text-base mb-4 px-3">Sero design system</p>
   <ul class="space-y-1 text-sm font-medium">
     <li><a href="#rules"     class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">✔ Before you build</a></li>
+    <li><a href="#brandmark" class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Brandmark / logo</a></li>
     <li><a href="#colours"   class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Colours</a></li>
     <li><a href="#type"      class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Type</a></li>
     <li><a href="#buttons"   class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Buttons</a></li>
@@ -104,6 +105,49 @@
       <p>8. <strong>Works at phone width</strong> — no sideways scroll, everything tappable.</p>
       <p>9. One date format everywhere: <strong>Mon 18 Nov 2024</strong>.</p>
       <p>10. Plain words. Focus ring on everything interactive. No nested cards, no side-stripes, no gradient text.</p>
+    </div>
+  </section>
+
+  <!-- ============ BRANDMARK / LOGO ============ -->
+  <section id="brandmark" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">Brandmark <span class="text-sero-dim text-base font-normal font-sans">(this is our logo)</span></h2>
+    <p class="text-sero-dim max-w-prose">The rounded square with two bars and two dots is <strong>the Sero logo</strong> — the one official mark. Files live in
+      <code class="text-sm">admin/public/sero-flowbite/brand/</code>. Use them as-is: don't recolour the marks, squash the square, or add effects.</p>
+
+    <!-- The master -->
+    <div class="bg-sero-surface border border-sero-border rounded-xl p-6 flex flex-col sm:flex-row items-center gap-6">
+      <img src="brand/sero-brandmark-charcoal.svg" alt="Sero logo" width="96" height="96" class="rounded-2xl">
+      <div class="space-y-1 text-center sm:text-left">
+        <p class="font-semibold text-xl">The master</p>
+        <p class="text-base text-sero-dim max-w-prose"><code class="text-sm">sero-brandmark-charcoal.svg</code> — charcoal tile, white marks. This is the default; reach for it unless there's a reason to use another colour.</p>
+      </div>
+    </div>
+
+    <!-- Colour versions -->
+    <p class="text-base font-medium pt-2">Colour versions <span class="text-sero-dim font-normal">— all from our tokens, marks stay white</span></p>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div><img src="brand/sero-brandmark-charcoal.svg"  alt="Sero logo, charcoal"  width="80" height="80" class="rounded-2xl"><p class="mt-1.5 text-sm font-medium">Charcoal</p><p class="text-sm text-sero-dim">master · #333333</p></div>
+      <div><img src="brand/sero-brandmark-ink.svg"       alt="Sero logo, ink"       width="80" height="80" class="rounded-2xl"><p class="mt-1.5 text-sm font-medium">Ink</p><p class="text-sm text-sero-dim">#1f2a37</p></div>
+      <div><img src="brand/sero-brandmark-blue.svg"      alt="Sero logo, blue"      width="80" height="80" class="rounded-2xl"><p class="mt-1.5 text-sm font-medium">Action blue</p><p class="text-sm text-sero-dim">#5aa9e6</p></div>
+      <div><img src="brand/sero-brandmark-blue-deep.svg" alt="Sero logo, deep blue" width="80" height="80" class="rounded-2xl"><p class="mt-1.5 text-sm font-medium">Blue pressed</p><p class="text-sm text-sero-dim">#1b5d91</p></div>
+      <div><img src="brand/sero-brandmark-mint.svg"      alt="Sero logo, mint"      width="80" height="80" class="rounded-2xl"><p class="mt-1.5 text-sm font-medium">Mint</p><p class="text-sm text-sero-dim">#1aa887</p></div>
+      <div><img src="brand/sero-brandmark-lavender.svg"  alt="Sero logo, lavender"  width="80" height="80" class="rounded-2xl"><p class="mt-1.5 text-sm font-medium">Lavender</p><p class="text-sm text-sero-dim">#55358f</p></div>
+      <div><img src="brand/sero-brandmark-coral.svg"     alt="Sero logo, coral"     width="80" height="80" class="rounded-2xl"><p class="mt-1.5 text-sm font-medium">Coral</p><p class="text-sm text-sero-dim">#ac1608</p></div>
+    </div>
+
+    <!-- On backgrounds without a tile -->
+    <p class="text-base font-medium pt-2">On backgrounds without a tile</p>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div><div class="rounded-2xl p-2 bg-sero-page flex items-center justify-center"><img src="brand/sero-brandmark-mono-light.svg" alt="Sero logo, pale mono" width="80" height="80"></div><p class="mt-1.5 text-sm font-medium">Mono light</p><p class="text-sm text-sero-dim">pale surfaces · print</p></div>
+      <div><div class="rounded-2xl p-2 bg-sero-ink flex items-center justify-center"><img src="brand/sero-brandmark-white.svg" alt="Sero logo, white marks" width="80" height="80"></div><p class="mt-1.5 text-sm font-medium">White marks</p><p class="text-sm text-sero-dim">dark / photo backgrounds</p></div>
+      <div><div class="rounded-2xl p-2 bg-sero-surface border border-sero-border flex items-center justify-center"><img src="brand/sero-brandmark-ink-marks.svg" alt="Sero logo, ink marks" width="80" height="80"></div><p class="mt-1.5 text-sm font-medium">Ink marks</p><p class="text-sm text-sero-dim">light backgrounds</p></div>
+    </div>
+
+    <div class="bg-sero-surface border border-sero-border rounded-xl p-6 grid gap-x-8 gap-y-2.5 sm:grid-cols-2 text-base">
+      <p><strong>Clear space:</strong> one bar-width clear on every side.</p>
+      <p><strong>Minimum size:</strong> never below 24px.</p>
+      <p><strong>Don't</strong> recolour the marks, squash the square, or add shadows/gradients.</p>
+      <p><strong>The corners are the mark</strong> — never square off the tile.</p>
     </div>
   </section>
 
