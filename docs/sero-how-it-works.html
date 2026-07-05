@@ -194,15 +194,15 @@
   <div style="margin-top:24px">
     <span class="pill"><b>5</b> meeting types</span>
     <span class="pill"><b>6</b> pipeline stages</span>
-    <span class="pill"><b>3,806</b> questions</span>
+    <span class="pill"><b>4,375</b> questions</span>
     <span class="pill"><b>21</b> focus areas</span>
     <span class="pill"><b>4</b> axes</span>
     <span class="pill"><b>14</b> trust checks</span>
-    <span class="pill"><b>19</b> role profiles</span>
+    <span class="pill"><b>24</b> role profiles</span>
     <span class="pill hot"><b>NEW:</b> read the real prompts</span>
-    <span class="pill hot"><b>NEW:</b> TypeScript engine</span>
+    <span class="pill hot"><b>NEW:</b> a real sign-in product</span>
   </div>
-  <p class="lead" style="margin-top:26px; font-size:14.5px;">Use <b>→</b> / <b>←</b> arrow keys or the buttons below. Press <b>T</b> for the contents page.</p>
+  <p class="lead" style="margin-top:26px; font-size:14.5px;">Use <b>→</b> / <b>←</b> arrow keys or the buttons below. Press <b>T</b> for contents. A shareable, customer-facing changelog lives alongside this in <code>sero-changelog.html</code>.</p>
 </section>
 
 <!-- 2 TOC -->
@@ -244,13 +244,13 @@
   <h2>The big shifts since the last version</h2>
   <div class="cards c3">
     <div class="card"><span class="tag">NEW</span><h3 class="alt">A tidy monorepo</h3><p>The code was reorganised into clear rooms — <code>backend/</code> (the engine + API), <code>admin/</code> (the console), <code>content/</code> (questions, prompts, data), <code>frontend/</code> (future customer app).</p></div>
-    <div class="card"><span class="tag">NEW</span><h3 class="alt">TypeScript engine</h3><p>The whole engine is now TypeScript — a spell-checker for code that catches whole classes of bug before they run. The API is about halfway converted.</p></div>
+    <div class="card"><span class="tag">NEW</span><h3 class="alt">A real sign-in product</h3><p>Sero now has <strong>login and three roles</strong> (member · manager · admin, plus a superadmin gate), a <strong>Postgres foundation</strong>, and works on <strong>mobile</strong> — the engine is fully TypeScript too.</p></div>
     <div class="card"><span class="tag">NEW</span><h3 class="alt">See what's sent</h3><p>Before the AI runs, a <strong>"Sent" tab</strong> shows the exact payload it will receive — zero API calls. This guide now embeds the real prompts too.</p></div>
     <div class="card"><h3>Admin build-plan console</h3><p>An in-app <strong>Prototype → Production checklist</strong> tracks 8 hardening phases with live status badges.</p></div>
     <div class="card"><h3>Stage data tabs</h3><p>Every stage now exposes <strong>Notes · Sent · Reply</strong> tabs — what it was fed and the raw AI reply, side by side.</p></div>
     <div class="card"><h3>Honest briefings, tuned</h3><p>Grounding fixes stopped the briefing over-penalising repeated themes (one run's clarity went from −9 to a fair −5).</p></div>
   </div>
-  <div class="note alt"><b>Still here and still true:</b> the one-page run, job lexicons, the six engine-trust gates, axes that start neutral, and the single <code>SERO_BOARD.md</code>. All refreshed in the slides that follow.</div>
+  <div class="note alt"><b>The biggest shift:</b> Sero grew from an internal tool into a <b>real sign-in product</b> — <b>three role-based apps</b> (member · manager · admin, plus superadmin), <b>auth</b>, a <b>Postgres foundation</b>, and full <b>mobile</b> support. The foundation phases are done; the current push (the "manager-ready" track) makes it shippable. Still here too: the one-page run, job lexicons, and the six engine-trust gates.</div>
 </section>
 
 <!-- 4 CHANGELOG -->
@@ -273,7 +273,7 @@
     <div class="logitem"><div class="logdate">Jun 12</div><div class="logbody"><h4>Engine trust gates + neutral axes</h4><p>Six protections (question isolation, honest stems, grounded premises, arc gate, axis honesty, confidence honesty); all four axes now start at 0.</p></div></div>
     <div class="logitem"><div class="logdate">Earlier</div><div class="logbody"><h4>One-page run · job lexicons · role profiles</h4><p>The single-page conversation, the per-role vocabulary page, and cached per-role context.</p></div></div>
   </div>
-  <div class="note alt"><b>How this stays current:</b> when a big change is committed, the guide is refreshed — numbers bumped and a new line added at the top here.</div>
+  <div class="note alt"><b>Two changelogs, one truth:</b> this is the technical timeline. A polished, <b>customer-facing</b> version — with a copy-ready LinkedIn post — lives in <code>sero-changelog.html</code>. Ask any time and I refresh both together.</div>
 </section>
 
 <!-- 5 BIG PICTURE -->
@@ -285,7 +285,7 @@
     <div class="card"><h3 class="good">The product — a guided 1:1</h3><p>A manager types rough notes (<em>"she's been quiet"</em>). Sero suggests <strong>focus areas</strong>, writes a <strong>prep briefing</strong>, builds a <strong>question bank</strong>, runs the <strong>live conversation</strong> scoring as it goes, then writes a <strong>final briefing</strong> with truths and next actions. This is what a manager touches.</p></div>
     <div class="card"><h3 class="alt">The workshop — keeping it honest</h3><p>Around it sits build & QA tooling: a <strong>run library</strong>, <strong>compare</strong>, per-run <strong>verdicts</strong>, a <strong>regression</strong> safety check, the trust <strong>gates</strong>, an offline <strong>eval loop</strong>, and a <strong>build-plan console</strong>. This is how the team trusts the engine before it ships.</p></div>
   </div>
-  <div class="note"><b>One engine, two layouts, every run logged.</b> The manager run can be the classic screen-by-screen flow or the newer one-page grow-down — identical answers and briefing either way. It's filesystem-backed; there's no database yet (that's a planned phase).</div>
+  <div class="note"><b>One engine, two layouts, every run logged.</b> The manager run can be the classic screen-by-screen flow or the newer one-page grow-down — identical answers and briefing either way. Runs are still logged to the filesystem, but a <b>Postgres foundation</b> now sits underneath, and sign-in fences data by person and org.</div>
 </section>
 
 <!-- 6 ARCHITECTURE -->
@@ -301,7 +301,8 @@
   </div>
   <ul class="big">
     <li>Supporting rooms: <code>evals/</code> (golden cases + trust checks), <code>tests/</code>, <code>scripts/</code> (gate/eval/replay tooling), <code>docs/</code> (plans), <code>logs/</code> (every run).</li>
-    <li><strong>TypeScript migration (Phase 003, in progress):</strong> the <strong>engine is 100% converted</strong>; the <strong>API ~50%</strong> (handlers converting in batches); the CLI and server entry convert last. It's a types-only change — no behaviour difference, just far fewer ways to introduce a bug.</li>
+    <li><strong>TypeScript, top to bottom:</strong> the engine is fully converted and the API rebuilt as a clean layered <strong>v1</strong> (controller → service → repo). A types-only change — far fewer ways to introduce a bug.</li>
+    <li><strong>Now a real product:</strong> sign-in with <strong>three roles</strong> (member · manager · admin, plus a superadmin gate for you), a <strong>Postgres foundation</strong> under the filesystem logs, and full <strong>mobile</strong> support. The <code>frontend/</code> room is where the customer app will grow.</li>
     <li><strong>House-rule skills</strong> auto-load the right conventions when the team edits backend, frontend, or writes tests — so new code matches the same standards every time.</li>
   </ul>
 </section>
@@ -365,7 +366,7 @@
     <tr><td><b>Performance & feedback</b></td><td>Direct, adult-to-adult</td><td>self-read → evidence → gap → cause → commit</td><td>—</td></tr>
     <tr><td><b>Growth & career plan</b></td><td>Forward-looking, 30–45 min</td><td>anchor → aspiration → gap → investment → commitment</td><td>Its own final-briefing voice</td></tr>
     <tr><td><b>Something feels off</b></td><td>Gentle, observation-first</td><td>landing → observation → underneath → support</td><td><b>Relational:</b> no performance-judging topics</td></tr>
-    <tr><td><b>Onboarding check-in</b></td><td>For new joiners, 15–25 min</td><td>settle → clarity → connection → support</td><td>For new starters</td></tr>
+    <tr><td><b>Onboarding check-in</b></td><td>For new joiners, 15–25 min</td><td>settling → orientation → blockers → connection</td><td>For new starters</td></tr>
   </table>
   <div class="note"><b>Arcs are browsable & editable</b> from the "Meeting arcs" page. The relational rule — no competency topics in a casual check-in — is enforced at <b>four</b> layers: the input filter, the prompt, the focus gate (<code>FOCUS_ARC_LEAK</code>), and the question-layer gate (<code>QUESTION_ARC_LEAK</code>).</div>
 </section>
@@ -406,7 +407,7 @@
 <!-- 12 QUESTION LIBRARY -->
 <section class="slide">
   <div class="kicker">10 · The question library</div>
-  <h2>3,806 questions, each its own small file</h2>
+  <h2>4,375 questions, each its own small file</h2>
   <p class="lead">Every question Sero has generated and kept lives as a tiny YAML file in <code>content/questions/</code>. Each records what it says and how it behaves:</p>
   <div class="cards c2">
     <div class="card"><h3>What it says</h3><p>The text, a short label, a plain description, and its <strong>purpose</strong>: wellbeing, topic, or competency.</p></div>
