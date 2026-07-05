@@ -9,14 +9,24 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **✅ [user-management](docs/todo/user-management/PLAN.md) Phase 1 — done + committed 2026-07-05 (skip-ahead).**
-> The old **Registered** screen is now the **User management** table: **grouped by company**, each row's
-> **"Coming back?"** trend (▲/▼) leading + sorted so drifters sink, the whole row opens the drilldown; role
-> pills; ratings as a labelled block. Went through an independent **UX/UI design review** (23/40 → acted on
-> the safe wins + company grouping). Closed on your "finish" — live-verified (`npm test` 60/60, typecheck +
-> build green); a hands-on walk is still yours. **Next: Phase 2 — change a user's role.**
-> Committed in two clean commits: the screen (`d2bf9ec2`) + the nav-label rename (`53f1f132`, split out so
-> your in-progress **Universe** nav item stayed uncommitted). Phases 0, 2–5 still ⬜.
+> **🔨 [user-management](docs/todo/user-management/PLAN.md) Phase 2 — change a user's role: BUILT + unit-tested + COMMITTED (`ac0359a7`), awaiting Carl's walk (2026-07-05).**
+> Backend: `PATCH /api/v1/admin/users/:id/role` — superadmin-gated + origin-guarded, validates the role,
+> **blocks demoting a company's last manager/admin** (409), and audits every attempt (success/blocked/failed +
+> before→after) to `content/data/audit/superadmin.jsonl`. Frontend: a `⋯` menu per row → role picker →
+> `setUserRole` → reload; a blocked change shows the plain server reason. 5 new service tests; **`npm test` 61/61**,
+> root typecheck clean, admin build ✓. **Committed** (`ac0359a7`, 14 files) — tree clean; Done-when boxes stay
+> unchecked until the walk. On green light: tick the trackers/`tasks.js`, then Phase 3 (deactivate/reactivate).
+> ⚠️ **To walk it, RESTART the API server** — the frontend is Vite-HMR-live but the running :3001 API is stale
+> (pre-dates the new route; a PATCH 404s until restart). Then: User management → `⋯` on a member → set
+> "manager" (badge updates); demote a company's only manager → blocked. ⚠️ Pre-existing `typecheck:admin` errors
+> live in `universe.ts` (Carl's uncommitted WIP) — not Phase 2.
+>
+> **Phase 1 ✅ done + committed** — the flat **User management** table (`d2bf9ec2` screen + `53f1f132` rename),
+> companies as **white cards** (`af1992f3`); role pills; the whole row opens the drilldown. **Phase 0** mostly
+> done — superadmin access confirmed; **key finding: the `runs` table has NO `userId` column** (a run links to
+> its owner via `state.userId` on disk), so Phase 4 "keep-but-orphan runs" needs **no migration**; the real FKs
+> to clear on delete are `auth_sessions` + `invitations.invitedBy`; **no email infra** → Phase 5 uses a copyable
+> reset link. Phases 0 (write findings), 3–5 still ⬜.
 > PG8 ✅ **closed 2026-07-04** (Carl's call — read-only walk skipped; verification stands). PG9 (below) is still built-but-un-walked.
 
 **Now active: [pre-go-live](docs/pre-go-live/OVERVIEW.md) — the manager's Team & Runs, ratings, and a
@@ -46,7 +56,7 @@ QA sheets:
 [PG9](docs/pre-go-live/009-roster-polish/99-qa-signoff.md).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No hosting. Budget used ~$0.35/$3.
 
-> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-04 after PG7 sign-off + commit; PG8 + PG9 built and awaiting your walk.
+> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-05: user-management **Phase 2 (change role) built + tested + COMMITTED `ac0359a7`** (needs an API restart to walk); Phase 1 committed; briefing-grounding-fixes closed out to done/ (`3d339e47`); PG8 closed, PG9 built-awaiting-close.
 > In any fresh session, say **"check point"** and I'll read this file + the PROGRESS log + recent
 > commits and give you the full "where we are, your move" picture — no digging needed.
 
@@ -155,7 +165,7 @@ like 8 things are half-done at once — they aren't.
 | [user-management](docs/todo/user-management/PLAN.md) | **Phase 1 🔨 built 2026-07-04 (Carl said "skip ahead") — awaiting his walk.** "Registered" is now the flat **User management** table (rename + role pills + `⋯` → drilldown). Frontend-only, not committed (green light = commit). Phases 0, 2–5 ⬜. |
 | [planner-grounding](docs/todo/planner-grounding/PLAN.md) | parked — awaiting scope pick (A/B/C/all) |
 | [briefing-readability-p0](docs/todo/briefing-readability-p0/PLAN.md) | parked |
-| [briefing-grounding-fixes](docs/todo/briefing-grounding-fixes/PLAN.md) | awaiting |
+| [briefing-grounding-fixes](docs/todo/done/briefing-grounding-fixes/PLAN.md) | ✅ closed out → done/ 2026-07-05 (`3d339e47`) |
 | [see-before-sent](docs/todo/done/see-before-sent/PLAN.md) | ✅ folded into sent-preview + archived 2026-07-04 |
 | [sent-preview](docs/todo/done/sent-preview/PLAN.md) | ✅ done (both phases walked 2026-07-01) — archived to done/ 2026-07-05 |
 | [stage-data-tabs](docs/todo/done/stage-data-tabs/PLAN.md) | ✅ done (all 3 phases walked 2026-07-01) — archived to done/ 2026-07-05 |
