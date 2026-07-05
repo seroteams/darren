@@ -36,9 +36,10 @@ Measured WCAG contrast for every system pairing (script, not guesswork). Fixed: 
 status tokens (`--color-positive-text` mint-900 · `--color-negative-text` coral-800) wired into
 all 7 colour-as-text usages; focus ring 1.2:1 → double ring (7:1); sheet coral text → 800;
 the 4.5:1 law added to the sheet rules + DESIGN.md ("Accessible pairings", measured ratios).
-**One open brand call (flagged in DESIGN.md §2):** white on accent #5aa9e6 primary buttons =
-2.5:1 FAIL. Fix A: dark label on the sky fill (6.8:1, keeps the light-blue button). Fix B:
-white label on accent-dark #1b5d91 fill (7:1, navy buttons). Carl picks; until then unchanged.
+**Button call resolved (2026-07-05):** Carl tried the dark label (pick A), saw it rendered,
+and reverted — **white on sky stays as an accepted brand deviation** (2.5:1, recorded in
+DESIGN.md §2 with the passing fallbacks if requirements ever harden). Every other measured
+failure is fixed.
 
 ## Parked
 - Backend gating of internal endpoints managers can still hit (list built during Phase 1).

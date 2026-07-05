@@ -58,7 +58,7 @@ spacing:
 components:
   button-primary:
     backgroundColor: "{colors.accent}"
-    textColor: "#081c2b"
+    textColor: "{colors.surface}"
     rounded: "{rounded.sm}"
     padding: "8px 16px"
   button-ghost:
@@ -152,10 +152,12 @@ Text must hit **4.5:1**; large text and UI shapes **3:1**. The pairs that pass:
   `page-bg`, mute text is 16px+ or use dim instead.
 - **Focus ring**: the double ring (2px white gap + primary-800) — visible on every background.
   Never a pale ring.
-- **Primary buttons (Carl's call, 2026-07-05):** the sky fill stays; the label is **dark**
-  (`primary-950` #081c2b on #5aa9e6 = 6.8:1). Hover deepens the fill within the light range
-  (`primary-600`) so the dark label keeps contrast. White-on-sky (2.5:1) is retired — the only
-  white-on-accent left is the brandmark tile, which is a graphic, not text.
+- **Primary buttons — ACCEPTED brand deviation (Carl's call, 2026-07-05):** white label on the
+  sky fill stays, at **2.5:1** (below AA). Carl saw the passing dark-label option rendered and
+  chose the white ("put white back") — the light-blue-with-white button IS the brand. Don't
+  re-flag it in audits; don't copy the pattern to new colour pairs. Hover (accent-dark fill)
+  passes at 7:1. If accessibility requirements ever harden (e.g. a customer audit), the
+  recorded fallbacks are: dark label on sky (6.8:1) or white on accent-dark (7:1).
 
 ### Named Rules
 **The One Accent Rule.** Sky blue appears on at most one primary action per screen.
@@ -187,8 +189,8 @@ modals and side panels a larger one. Never ambient decoration. Honour `prefers-r
 
 Flowbite 2.5.2 shapes + Sero tokens. Canonical recipes (visual versions on the sheet):
 
-- **Buttons** — controls round at **4px**. Primary: accent fill, **dark label** (primary-950 —
-  a11y, 6.8:1; hover deepens fill to primary-600), one per screen. Ghost: surface + border +
+- **Buttons** — controls round at **4px**. Primary: accent fill, white label (accepted brand
+  deviation — see §2; hover darkens to accent-dark), one per screen. Ghost: surface + border +
   ink. Quiet: text-only dim. Danger: coral-**800** border/text. Never a trailing arrow on an
   action button.
 - **Cards** — surface, 1px border, **12px** radius, 16–24px padding. Never nested.
