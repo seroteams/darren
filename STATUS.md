@@ -15,8 +15,8 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > pills; ratings as a labelled block. Went through an independent **UX/UI design review** (23/40 → acted on
 > the safe wins + company grouping). Closed on your "finish" — live-verified (`npm test` 60/60, typecheck +
 > build green); a hands-on walk is still yours. **Next: Phase 2 — change a user's role.**
-> ⚠️ Loose end: the nav *label* rename sits in `app-nav.js` next to your new **Universe** item, so that file
-> is **left uncommitted** (rides with Universe). Phases 0, 2–5 still ⬜.
+> Committed in two clean commits: the screen (`d2bf9ec2`) + the nav-label rename (`53f1f132`, split out so
+> your in-progress **Universe** nav item stayed uncommitted). Phases 0, 2–5 still ⬜.
 > PG8 ✅ **closed 2026-07-04** (Carl's call — read-only walk skipped; verification stands). PG9 (below) is still built-but-un-walked.
 
 **Now active: [pre-go-live](docs/pre-go-live/OVERVIEW.md) — the manager's Team & Runs, ratings, and a
