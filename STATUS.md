@@ -51,6 +51,19 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > whichever track commits first carries them). ⚠️ **Restart your dev API** before walking on
 > :3000/:3001. Walk: [phase-1.md](docs/todo/feedback-inbox/phase-1.md).
 
+> **🔨 [start-screen](docs/todo/start-screen/PLAN.md) — NEW slice on the guest-run track (2026-07-05): the whole thing BUILT, awaiting your walk.**
+> Your ask: move login off the front door. A fresh visitor on **`/`** now sees a **guest-first start
+> screen** — "Walk into your next 1:1 prepared.", the privacy promise, and ONE button ("Try it — no
+> account needed") straight into a guest run. The login form lives at **`/login`**, completely
+> unchanged (dev logins intact); logged-in visits to `/` land on your normal home as before.
+> Test-first: `npm test` **78/78** · admin typecheck clean · browser-proven logged-out on a scratch
+> Vite (:3009, $0): front door → one click → intake at /new; back returns to the front door; /login,
+> register + privacy links all resolve; 375px CTA above the fold, photo dropped. **Walk:** the 6
+> scenarios in [PLAN.md](docs/todo/start-screen/PLAN.md) (all free — stop at the intake screen).
+> ⚠️ A parallel session's checkpoint swept this build into commit `3bf7f2d3` with other in-flight
+> admin files (declared in the message). Spotted during QA (pre-existing, parked in the PLAN):
+> guests on intake still see member nav rows — one for the guest-run P2 walk.
+>
 > **🔨 [guest-run](docs/todo/guest-run/PLAN.md) — Phase 1 ✅ · Phase 2 (guest front door) BUILT, awaiting your walk (2026-07-05).**
 > Your "open way first" idea: no-account visitor runs a full 1:1, saves it at the end by registering/logging in.
 > **P2 BUILT:** "Try it — no account needed" on the login screen → straight into intake; mid-run reload returns
