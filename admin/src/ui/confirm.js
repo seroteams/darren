@@ -24,7 +24,7 @@ function openDialog({
 
     const titleId = `modal-title-${Date.now()}`;
     modal.innerHTML = `
-      <div class="modal__message h3" id="${titleId}"></div>
+      <div class="modal__message" id="${titleId}"></div>
       <div class="modal__actions">
         ${alert ? "" : `<button class="btn btn--ghost js-cancel" type="button"></button>`}
         <button class="btn ${destructive ? "btn--danger" : ""} js-confirm" type="button"></button>

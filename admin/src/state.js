@@ -1,6 +1,7 @@
 // Minimal state store + machine transitions. No dependencies.
 
 export const STAGES = Object.freeze({
+  WELCOME: "WELCOME",
   LOGIN: "LOGIN",
   REGISTER: "REGISTER",
   PRIVACY: "PRIVACY",

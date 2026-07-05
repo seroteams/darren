@@ -7,6 +7,10 @@ import { STAGES } from "./state.js";
 
 // stage -> path
 const PATH_FOR = {
+  // WELCOME and START share "/": the guest-first start screen for a logged-out
+  // visitor, the manager home when logged in. parseLocation returns START for
+  // "/"; boot/popstate translate that to WELCOME when there's no user.
+  [STAGES.WELCOME]:        () => "/",
   [STAGES.LOGIN]:          () => "/login",
   [STAGES.REGISTER]:       () => "/register",
   [STAGES.PRIVACY]:        () => "/privacy",

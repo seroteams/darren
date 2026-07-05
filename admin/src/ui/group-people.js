@@ -33,6 +33,9 @@ export function canonicalKeyOf(name, aliases) {
   return resolveKey(aliases && aliases.merges, personKeyOf(name));
 }
 
+// A run flagged `finished: false` is a started-but-unfinished prep (Team-for-managers):
+// it puts the person on the Team (openCount) but doesn't count as a meeting — count,
+// lastMet and the rating stay finished-only. Rows without the flag count as before.
 export function groupRunsByPerson(runs, aliases) {
   const merges = (aliases && aliases.merges) || {};
   const names = (aliases && aliases.names) || {};
@@ -40,18 +43,24 @@ export function groupRunsByPerson(runs, aliases) {
   for (const r of runs || []) {
     const name = String(r?.ctx?.name ?? "").trim();
     if (!name) continue; // a run with no person name can't be grouped
+    const finished = r?.finished !== false;
     const key = resolveKey(merges, personKeyOf(name));
     let p = map.get(key);
     if (!p) {
-      p = { key, name, role: String(r?.ctx?.role ?? ""), count: 0, lastMet: 0, starSum: 0, ratedCount: 0 };
+      p = { key, name, role: String(r?.ctx?.role ?? ""), count: 0, openCount: 0, lastMet: 0, lastSeen: 0, starSum: 0, ratedCount: 0 };
       map.set(key, p);
     }
-    p.count += 1;
     const seen = Number(r?.lastSeenAt) || 0;
-    if (seen >= p.lastMet) {
-      p.lastMet = seen;
+    if (seen >= p.lastSeen) {
+      p.lastSeen = seen;
       p.role = String(r?.ctx?.role ?? p.role); // show the most recent role
     }
+    if (!finished) {
+      p.openCount += 1;
+      continue;
+    }
+    p.count += 1;
+    if (seen >= p.lastMet) p.lastMet = seen;
     const stars = Number(r?.rating?.stars) || 0;
     if (stars >= 1 && stars <= 5) {
       p.starSum += stars;
@@ -59,14 +68,15 @@ export function groupRunsByPerson(runs, aliases) {
     }
   }
   return [...map.values()]
+    .sort((a, b) => b.lastSeen - a.lastSeen) // newest activity first — met or just prepped
     .map((p) => ({
       key: p.key,
       name: names[p.key] || p.name, // an explicit rename wins over the first-seen name
       role: p.role,
       count: p.count,
+      openCount: p.openCount,
       lastMet: p.lastMet,
       ratedCount: p.ratedCount,
       avgStars: p.ratedCount ? p.starSum / p.ratedCount : null,
-    }))
-    .sort((a, b) => b.lastMet - a.lastMet);
+    }));
 }

@@ -15,6 +15,7 @@ import { createNotesPanel } from "./ui/notes-panel.js";
 import { installGlobalErrorReporter, reportError } from "./ui/error-reporter.js";
 // Lazy stage modules — kept in a map so HMR + code-split both work nicely.
 const loaders = {
+  WELCOME:         () => import("./stages/welcome.ts"),
   LOGIN:           () => import("./stages/login.js"),
   REGISTER:        () => import("./stages/register.js"),
   PRIVACY:         () => import("./stages/privacy.js"),
@@ -136,12 +137,13 @@ subscribe((s) => {
 
 startPopstate((parsed) => {
   // A guest (no account, guest-run Phase 2) only has the guest lane — intake, the
-  // run stages, and the auth/content pages. Any other back/forward destination
-  // (dashboards, history, admin screens) bounces to login.
+  // run stages, and the auth/content pages. Back/forward onto "/" is the guest-first
+  // start screen (start-screen); any other destination (dashboards, history, admin
+  // screens) bounces to login.
   if (!store.user
       && !isGuestStage(parsed.stage) && !isSharedStage(parsed.stage)
       && parsed.stage !== STAGES.LOGIN && parsed.stage !== STAGES.REGISTER) {
-    setState({ stage: STAGES.LOGIN });
+    setState({ stage: parsed.stage === STAGES.START ? STAGES.WELCOME : STAGES.LOGIN });
     return;
   }
   // A plain member only has their past 1:1s (member-view: only-runs) — any other
@@ -179,8 +181,8 @@ startPopstate((parsed) => {
   }
   if (isFlowStage(parsed.stage)) {                 // only valid with a live session
     if (store.sessionId) setState({ stage: parsed.stage, stageTick: store.stageTick + 1 });
-    // No session: a logged-in user goes home; a guest has no home — back to login.
-    else setState({ stage: store.user ? STAGES.START : STAGES.LOGIN });
+    // No session: a logged-in user goes home; a guest goes to the start screen.
+    else setState({ stage: store.user ? STAGES.START : STAGES.WELCOME });
     return;
   }
   if (parsed.stage === STAGES.INTAKE) { setState({ stage: STAGES.INTAKE, substage: "NAME" }); return; }
@@ -246,12 +248,18 @@ async function boot() {
       } catch (e) {
         console.warn("[boot] guest rehydrate failed:", e);
       }
-      if (!rehydrated) setState({ user: null, stage: STAGES.LOGIN });
+      if (!rehydrated) setState({ user: null, stage: STAGES.WELCOME });
       return;
     }
-    let loggedOutStage = STAGES.LOGIN;
-    if (route?.stage === STAGES.REGISTER) loggedOutStage = STAGES.REGISTER;
+    // The front door (start-screen): a fresh visitor on "/" — or any unknown
+    // path — gets the guest-first start screen, not the login form. Explicit
+    // /login, /register and /privacy deep links still work; every other known
+    // page stays behind login.
+    let loggedOutStage = STAGES.WELCOME;
+    if (route?.stage === STAGES.LOGIN) loggedOutStage = STAGES.LOGIN;
+    else if (route?.stage === STAGES.REGISTER) loggedOutStage = STAGES.REGISTER;
     else if (route?.stage === STAGES.PRIVACY) loggedOutStage = STAGES.PRIVACY;
+    else if (route && route.stage !== STAGES.START) loggedOutStage = STAGES.LOGIN;
     setState({ user: null, stage: loggedOutStage });
     return;
   }

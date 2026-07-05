@@ -4,6 +4,7 @@
 // itself to .ts is the next step; this declaration is the bridge in the meantime.
 
 export type StageName =
+  | "WELCOME"
   | "LOGIN" | "REGISTER" | "PRIVACY" | "ABOUT" | "FEEDBACK" | "START"
   | "MEMBER_HOME" | "TEAM" | "RUNS" | "RUN_DETAIL" | "PERSON_DETAIL"
   | "INTAKE" | "ONEPAGE" | "FOCUS_POINTS"

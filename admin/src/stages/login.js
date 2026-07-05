@@ -4,10 +4,12 @@
 
 import { STAGES, isAdmin } from "../state.js";
 import { login, me } from "../../../shared/api.js";
+import { startGuestRun } from "../guest.ts";
 
 // Optimised copies (1200px tall, ~90KB) of the /images Pexels originals live in
-// admin/public/login/ — one is picked at random per visit.
-const LOGIN_PHOTOS = [
+// admin/public/login/ — one is picked at random per visit. Exported so the
+// start screen (welcome.ts) draws from the same pool.
+export const LOGIN_PHOTOS = [
   "/login/pexels-alex-green-5699419.jpg",
   "/login/pexels-cottonbro-4861338.jpg",
   "/login/pexels-george-milton-6953779.jpg",
@@ -96,13 +98,9 @@ export async function mount(root, { setState }) {
 
   form.addEventListener("submit", onSubmit);
   root.querySelector(".js-to-register").addEventListener("click", () => setState({ stage: STAGES.REGISTER }));
-  // The guest lane (guest-run Phase 2): straight into intake, no account. A fresh
-  // run every time — any stale remembered session id is dropped so boot can't pull
-  // a visitor into an old run.
-  root.querySelector(".js-try-guest").addEventListener("click", () => {
-    try { localStorage.removeItem("seroSessionId"); } catch {}
-    setState({ user: null, sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
-  });
+  // The guest lane (guest-run Phase 2): straight into intake, no account. The
+  // entry logic lives in guest.ts, shared with the start screen (welcome.ts).
+  root.querySelector(".js-try-guest").addEventListener("click", () => startGuestRun(setState));
 
   // Dev convenience — prefill a local test account so you're never locked out while
   // testing, cycling through the three-login setup: MANAGER (the real end user under

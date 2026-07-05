@@ -2,8 +2,18 @@
 // (hidden from managers, manager-ready Phase 1) vs admin-only vs member destinations.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isInternalStage, isAdminStage, isMemberStage, isGuestStage } from "./router.js";
+import { isInternalStage, isAdminStage, isMemberStage, isGuestStage, urlForState } from "./router.js";
 import { STAGES } from "./state.js";
+
+test("the guest-first start screen (WELCOME) lives at the root path", () => {
+  // start-screen: the logged-out front door renders at "/" — boot decides whether
+  // "/" shows WELCOME (logged out) or START (logged-in manager home).
+  assert.ok(STAGES.WELCOME, "STAGES.WELCOME exists");
+  assert.equal(urlForState({ stage: STAGES.WELCOME }), "/");
+  // The front door is not part of the guest RUN lane — that set gates mid-run
+  // reload/rehydrate, which the start screen never needs.
+  assert.equal(isGuestStage(STAGES.WELCOME), false);
+});
 
 test("isInternalStage: the workshop is internal-only", () => {
   for (const s of [STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS, STAGES.LEXICON_REVIEW,

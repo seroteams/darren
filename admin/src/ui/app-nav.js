@@ -260,9 +260,9 @@ export function createAppNav({ setState, resetSession } = {}) {
   // Persistent across every screen — re-assert the body class and light up the
   // link that matches the current stage (none during an in-run flow).
   function render({ stage, user } = {}) {
-    // The login/register screens stand alone — no nav rail. So does the privacy note when
-    // a logged-out visitor opens it from the signup screen (there's no app to navigate yet).
-    if (stage === STAGES.LOGIN || stage === STAGES.REGISTER || (stage === STAGES.PRIVACY && !user)) {
+    // The start/login/register screens stand alone — no nav rail. So does the privacy note
+    // when a logged-out visitor opens it from the signup screen (there's no app to navigate yet).
+    if (stage === STAGES.WELCOME || stage === STAGES.LOGIN || stage === STAGES.REGISTER || (stage === STAGES.PRIVACY && !user)) {
       el.classList.add("is-hidden");
       bar.classList.add("is-hidden");
       setDrawer(false);

@@ -1,20 +1,28 @@
-import { STAGES, store } from "../state.js";
+import { STAGES, store, isInternalAdmin } from "../state.js";
 import { listRecentRuns, getRunOverview, deleteRun, getPersonaBench, startSession, getPipelineStatus } from "../../../shared/api.js";
 import { confirmAction, alertAction } from "../ui/confirm.js";
 import { stageLabel } from "../ui/stage-labels.js";
 import { escapeHtml as escape } from "../ui/html.js";
 import { formatDate } from "../ui/time.ts";
+import { icon } from "../ui/icon.js";
+import { Check } from "lucide";
 
 let keyHandler = null;
 
 export async function mount(root, { setState, rehydrateById }) {
+  // Demo personas + replay test runs are internal QA tools — only the internal `admin`
+  // role sees them. A manager gets a clean dashboard: start a session + recent sessions.
+  const internal = isInternalAdmin(store.user);
   root.innerHTML = `
     <div class="stage-inner l-stack l-stack--8">
       <header class="page-header">
         <h1 class="h1">Start a 1:1 prep session</h1>
         <div class="text-ink-dim text-sm">Resume a session or start a new one.</div>
         <div class="field__actions">
-          <button type="button" class="btn js-onepage">One-page run</button>
+          ${internal
+            ? `<button type="button" class="btn js-onepage">One-page run</button>`
+            : `<button type="button" class="btn js-startnew">Start a new session</button>
+               <button type="button" class="btn btn--ghost js-onepage">One-page run</button>`}
         </div>
       </header>
 
@@ -144,7 +152,7 @@ export async function mount(root, { setState, rehydrateById }) {
   }
 
   function reviewChip(run) {
-    if (run.reviewStatus === "complete") return ` <span class="run-row__review run-row__review--done" title="Reviewed">Reviewed ✓</span>`;
+    if (run.reviewStatus === "complete") return ` <span class="run-row__review run-row__review--done" title="Reviewed">Reviewed ${icon(Check, { size: 16 })}</span>`;
     if (run.reviewStatus === "partial") return ` <span class="run-row__review run-row__review--partial" title="Review in progress">Review · partial</span>`;
     return "";
   }
@@ -413,6 +421,7 @@ export async function mount(root, { setState, rehydrateById }) {
   }
 
   root.querySelector(".js-onepage").addEventListener("click", beginOnePage);
+  root.querySelector(".js-startnew")?.addEventListener("click", startNew);
   benchSelect.addEventListener("change", updateBenchStartEnabled);
   benchStartBtn.addEventListener("click", onBenchStart);
   modeBtns.forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
@@ -450,7 +459,8 @@ export async function mount(root, { setState, rehydrateById }) {
   };
   window.addEventListener("keydown", keyHandler);
 
-  await Promise.all([load(), loadPersonas()]);
+  // Managers never load the persona bench — the section stays hidden for them.
+  await Promise.all([load(), internal ? loadPersonas() : Promise.resolve()]);
 }
 
 export function unmount() {

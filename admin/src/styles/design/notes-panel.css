@@ -381,10 +381,19 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   border-radius: var(--radius-card);
   box-shadow: var(--sero-shadow-xl);
 }
+.modal__message {
+  font-size: var(--type-lead);
+  font-weight: var(--type-weight-semibold);
+  line-height: 1.4;
+  color: var(--color-ink);
+}
 .modal__actions {
   display: flex;
   gap: 8px;
   justify-content: flex-end;
-  margin-top: 16px;
+  margin-top: 20px;
+}
+.modal__actions .btn {
+  white-space: nowrap;
 }
 

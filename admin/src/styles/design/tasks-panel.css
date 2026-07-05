@@ -1,0 +1,99 @@
+/* ============================================================
+   Card detail panel (/tasks planner) — Trello-style side panel
+   that slides in from the right when a card is clicked. Holds
+   the editable card fields, dated notes, the "pick this up"
+   prompt and Claude's drift read (GUARDRAILS.md applied).
+   ============================================================ */
+.kb-card.is-selected { border-color: var(--color-accent); box-shadow: var(--sero-shadow-focus); }
+
+.kbp {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  z-index: 50; /* under the Update-from-docs overlay (60) */
+  width: clamp(320px, 25vw, 480px);
+  box-sizing: border-box;
+  background: var(--color-surface);
+  border-left: 1px solid var(--color-border);
+  box-shadow: -18px 0 40px rgba(2, 6, 23, 0.12);
+  padding: var(--sero-space-5) var(--sero-space-4);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-3);
+  animation: kbp-in 0.22s ease both;
+}
+@keyframes kbp-in {
+  from { transform: translateX(24px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@media (max-width: 720px) { .kbp { width: 100%; } }
+
+.kbp__head { display: flex; align-items: center; justify-content: space-between; gap: var(--sero-space-2); }
+.kbp__nolane { font-size: var(--type-body-sm); color: var(--color-ink-mute); }
+.kbp__close { font-size: var(--type-body); }
+
+.kbp__title {
+  width: 100%; box-sizing: border-box; font: inherit;
+  font-size: var(--type-body-lg, 1.0625rem); font-weight: var(--type-weight-semibold);
+  color: var(--color-ink); background: transparent;
+  border: 1px solid transparent; border-radius: var(--sero-radius-sm);
+  padding: 0.35rem 0.45rem; margin-left: -0.45rem;
+}
+.kbp__title:hover { border-color: var(--color-border); }
+.kbp__title:focus { outline: none; border-color: var(--color-accent); background: var(--color-surface); box-shadow: var(--sero-shadow-focus); }
+
+.kbp__meta { display: flex; gap: var(--sero-space-2); }
+.kbp__meta .kbp__field { flex: 1 1 0; min-width: 0; }
+.kbp__field {
+  display: flex; flex-direction: column; gap: 0.25rem;
+  font-size: var(--type-body-sm); font-weight: var(--type-weight-semibold); color: var(--color-ink-dim);
+}
+.kbp__field input, .kbp__field select, .kbp__field textarea {
+  width: 100%; box-sizing: border-box; font: inherit; font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-regular, 400);
+  border: 1px solid var(--color-border); border-radius: var(--sero-radius-sm);
+  padding: 0.4rem 0.55rem; color: var(--color-ink); background: var(--color-surface);
+  resize: vertical;
+}
+.kbp__field input:focus, .kbp__field select:focus, .kbp__field textarea:focus {
+  outline: none; border-color: var(--color-accent); box-shadow: var(--sero-shadow-focus);
+}
+.kbp__hint { font-size: var(--type-body-sm); color: var(--color-ink-mute); line-height: 1.4; }
+
+.kbp__sec { border-top: 1px solid var(--color-border); padding-top: var(--sero-space-3); display: flex; flex-direction: column; gap: var(--sero-space-2); }
+.kbp__h { margin: 0; font-size: var(--type-body-sm); font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+
+/* Claude's read — one line per fired guardrail (or the all-clear). */
+.kbp-guards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sero-space-2); }
+.kbp-guard {
+  display: flex; gap: var(--sero-space-2); align-items: flex-start;
+  font-size: var(--type-body-sm); line-height: 1.5; color: var(--color-ink-dim);
+  background: var(--color-surface-2); border: 1px solid var(--color-border);
+  border-radius: var(--sero-radius-sm); padding: var(--sero-space-2) var(--sero-space-3);
+}
+.kbp-guard__ic { flex: none; }
+.kbp-guard__body b { color: var(--color-ink); }
+
+/* Dated notes on the card. */
+.kbp-addnote { display: flex; gap: var(--sero-space-2); }
+.kbp-addnote input {
+  flex: 1 1 auto; min-width: 0; box-sizing: border-box; font: inherit; font-size: var(--type-body-sm);
+  border: 1px solid var(--color-border); border-radius: var(--sero-radius-sm);
+  padding: 0.4rem 0.55rem; color: var(--color-ink); background: var(--color-surface);
+}
+.kbp-addnote input:focus { outline: none; border-color: var(--color-accent); box-shadow: var(--sero-shadow-focus); }
+.kbp-notes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sero-space-2); }
+.kbp-note { border: 1px solid var(--color-border); border-radius: var(--sero-radius-sm); padding: var(--sero-space-2) var(--sero-space-3); }
+.kbp-note--empty { border-style: dashed; color: var(--color-ink-mute); font-size: var(--type-body-sm); }
+.kbp-note__head { display: flex; align-items: center; justify-content: space-between; font-size: var(--type-body-sm); color: var(--color-ink-mute); }
+.kbp-note__text { margin-top: 0.15rem; font-size: var(--type-body-sm); color: var(--color-ink); line-height: 1.45; white-space: pre-wrap; }
+
+/* The copy-paste prompt. */
+.kbp__prompt {
+  width: 100%; box-sizing: border-box;
+  font-family: var(--font-mono, ui-monospace, monospace); font-size: var(--type-body-sm);
+  line-height: 1.5; color: var(--color-ink);
+  background: var(--color-surface-2); border: 1px solid var(--color-border);
+  border-radius: var(--sero-radius-sm); padding: var(--sero-space-3); resize: vertical;
+}
+.kbp .js-kbp-copy { align-self: flex-start; }
