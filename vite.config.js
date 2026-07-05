@@ -6,6 +6,11 @@ const API_PORT = process.env.API_PORT || 3001;
 export default defineConfig({
   root: resolve(__dirname, "admin"),
   base: "/",
+  // The Vite root is admin/, but the project's single .env lives at the repo root (same
+  // file the backend and .env.example use). Point envDir there so VITE_-prefixed vars
+  // (e.g. the dev-login prefill creds) are actually read. Only VITE_* vars reach the
+  // client bundle, so repo-root secrets like DATABASE_URL stay server-side.
+  envDir: resolve(__dirname, "."),
   resolve: {
     alias: {
       "@sero/run-debrief": resolve(__dirname, "backend/engine/run-debrief.mjs"),

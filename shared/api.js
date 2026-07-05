@@ -261,10 +261,12 @@ export async function getFinishedRuns() {
 
 // The logged-in member's OWN finished 1:1s (member-nav). Fenced server-side by
 // company AND user, so a member only ever gets their own — never a colleague's or
-// the admin's whole-company list. Shape: { runs: [{ id, headline, ctx, lastSeenAt }] }.
+// the admin's whole-company list. Pass { open: true } to also get started-but-
+// unfinished preps (Team-for-managers), each row flagged `finished`.
+// Shape: { runs: [{ id, headline, ctx, lastSeenAt, finished }] }.
 /** @returns {Promise<{ runs?: unknown[] }>} */
-export async function listMyRuns() {
-  return json(await fetch("/api/v1/runs/mine"));
+export async function listMyRuns(opts) {
+  return json(await fetch(`/api/v1/runs/mine${opts && opts.open ? "?open=1" : ""}`));
 }
 
 // One of the member's OWN finished 1:1s, read-only (pre-go-live PG2). Same org+user

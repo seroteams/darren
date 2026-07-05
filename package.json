@@ -9,6 +9,8 @@
     "autostart:install": "powershell -ExecutionPolicy Bypass -File scripts/install-autostart.ps1",
     "autostart:uninstall": "powershell -ExecutionPolicy Bypass -File scripts/uninstall-autostart.ps1",
     "build": "vite build",
+    "dev:customer": "vite --config frontend/vite.config.js",
+    "build:customer": "vite build --config frontend/vite.config.js",
     "start": "cross-env NODE_ENV=production node backend/api/server.ts",
     "cli": "node backend/cli.ts",
     "test": "node scripts/run-tests.js",

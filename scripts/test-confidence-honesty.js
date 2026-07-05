@@ -92,5 +92,42 @@ console.log("\n─── confidence-honesty unit ───");
   check("clean meaning → no rule-echo flag", runMeaningRuleEchoCheck(b).length === 0, JSON.stringify(runMeaningRuleEchoCheck(b)));
 }
 
+// ── Single-touch cap (no-inference ruling, Phase 4 / S2) ────────────────────
+
+// 5. A strong claim (|score| ≥ 3) standing on ONE answer → insufficient_signal,
+//    not a score. One answer cannot carry a session-defining axis read.
+{
+  const b = briefingWith([axis("clarity", -4, "Direction feels murky to him.")]);
+  const axisState = { clarity: { score: -4, history: history(-4, ["unsure what the goal is"]) } };
+  const transcript = [{ answer: "long substantive answer about goals", skipped: false }];
+  const out = applyManagerBriefingPostProcess(b, axisState, transcript);
+  const c = out.axes.find((a) => a.id === "clarity");
+  check("single-touch |score|≥3 → not_read", c.read_status === "not_read", `read_status=${c.read_status}`);
+  check("single-touch |score|≥3 → insufficient_signal", c.not_read_reason === "insufficient_signal", `reason=${c.not_read_reason}`);
+}
+
+// 6. A small single-touch read (|score| = 2) survives, but capped: one answer
+//    is one observable — never more than low confidence.
+{
+  const b = briefingWith([axis("clarity", -2, "Slightly unsure on direction.")]);
+  const axisState = { clarity: { score: -2, history: history(-2, ["unsure what the goal is"]) } };
+  const transcript = [{ answer: "long substantive answer about goals", skipped: false }];
+  const out = applyManagerBriefingPostProcess(b, axisState, transcript);
+  const c = out.axes.find((a) => a.id === "clarity");
+  check("single-touch |score|=2 stays read", c.read_status === "read", `read_status=${c.read_status}`);
+  check("single-touch read → confidence capped low", c.confidence === "low", `confidence=${c.confidence}`);
+  check("single-touch read → basis concentrated_signal", c.evidence_basis === "concentrated_signal", `basis=${c.evidence_basis}`);
+}
+
+// 7. Two distinct touches at |score| ≥ 3 are NOT capped by the single-touch rule.
+{
+  const b = briefingWith([axis("clarity", -4, "Direction feels murky to him.")]);
+  const axisState = { clarity: { score: -4, history: history(-4, ["unsure what the goal is", "asked twice who decides"]) } };
+  const transcript = [{ answer: "long substantive answer about goals", skipped: false }];
+  const out = applyManagerBriefingPostProcess(b, axisState, transcript);
+  const c = out.axes.find((a) => a.id === "clarity");
+  check("two touches |score|≥3 → stays read", c.read_status === "read", `read_status=${c.read_status}`);
+}
+
 console.log(`\n  ${failed === 0 ? "all confidence-honesty tests passed" : `${failed} confidence-honesty test(s) failed`}\n`);
 process.exit(failed ? 1 : 0);
