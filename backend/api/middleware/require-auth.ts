@@ -47,9 +47,15 @@ function superadminAllowlist(): Set<string> {
 }
 
 export function isSuperadminIdentity(identity: RequestIdentity): boolean {
-  const email = normalizeEmail(identity.email);
-  if (!email) return false;
-  return superadminAllowlist().has(email);
+  return isSuperadminEmail(identity.email);
+}
+
+/** Is this email on the superadmin allowlist? Same normalizer + list as the identity check —
+ *  used by mutations that must protect a superadmin account (e.g. Phase 3 deactivate). */
+export function isSuperadminEmail(email: string | null | undefined): boolean {
+  const normalized = normalizeEmail(email);
+  if (!normalized) return false;
+  return superadminAllowlist().has(normalized);
 }
 
 export function requireSuperadmin(identity: RequestIdentity): void {

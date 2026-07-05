@@ -101,6 +101,19 @@ test("login on an unknown email is refused with the same message (no account-exi
   await assert.rejects(() => service.login({ email: "nobody@acme.com", password: "whatever12" }), /incorrect/i);
 });
 
+test("login: a deactivated user is refused even with the RIGHT password (user-management Phase 3)", async () => {
+  // A registered, correct-password user who has since been switched off.
+  const seeded: AuthUser = {
+    id: "u1", orgId: "o1", email: "gone@acme.com", name: "Gone", role: "member",
+    passwordHash: "scrambled:rightpassword", deactivatedAt: new Date("2026-01-01"),
+  };
+  const service = createAuthService(fakeRepo([seeded]), fakeHasher);
+  await assert.rejects(
+    () => service.login({ email: "gone@acme.com", password: "rightpassword" }),
+    /deactivated/i,
+  );
+});
+
 test("login is case-insensitive on the email", async () => {
   const repo = fakeRepo();
   const service = createAuthService(repo, fakeHasher);

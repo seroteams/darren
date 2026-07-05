@@ -13,6 +13,8 @@ function fakeRepo(
   runsByUser: Record<string, UserRunRow[]> = {},
   runsById: Record<string, SuperadminRunDetail> = {},
   writes: { id: string; role: string }[] = [],
+  deactivations: { id: string; at: Date | null }[] = [],
+  revocations: string[] = [],
 ): SuperadminRepo {
   return {
     listOrganizations: async () => orgs,
@@ -21,6 +23,12 @@ function fakeRepo(
     listRunsForUser: async (id: string) => runsByUser[id] ?? [],
     readRun: async (id: string) => runsById[id] ?? null,
     updateUserRole: async (id, role) => { writes.push({ id, role }); },
+    setDeactivated: async (id, at) => {
+      deactivations.push({ id, at });
+      const u = people.find((p) => p.id === id);
+      if (u) u.deactivatedAt = at;
+    },
+    revokeSessionsForUser: async (id) => { revocations.push(id); },
   };
 }
 
@@ -237,5 +245,103 @@ test("setUserRole: allows demoting a lead when another manager/admin remains", a
   const res = await svc.setUserRole(ACTOR, "u1", "member");
   assert.deepEqual(res, { id: "u1", role: "member" });
   assert.deepEqual(writes, [{ id: "u1", role: "member" }]);
+  assert.equal(audits.at(-1)?.outcome, "success");
+});
+
+// --- Deactivate / reactivate (user-management Phase 3) ---
+
+function deactivateHarness(people: UserRow[]) {
+  const deactivations: { id: string; at: Date | null }[] = [];
+  const revocations: string[] = [];
+  const audits: SuperadminAuditEntry[] = [];
+  const svc = createSuperadminService(
+    fakeRepo([], people, [], {}, {}, [], deactivations, revocations),
+    async (e) => { audits.push(e); },
+  );
+  return { svc, deactivations, revocations, audits };
+}
+function deactivated(id: string, orgId: string, role: string): UserRow {
+  return { ...person(id, orgId, role), deactivatedAt: new Date("2026-01-01") };
+}
+
+test("deactivateUser: switches a user off, kills their live sessions, audits success", async () => {
+  // A second active lead so the last-lead guardrail doesn't fire.
+  const { svc, deactivations, revocations, audits } = deactivateHarness([
+    person("u1", "o1", "admin"),
+    person("u2", "o1", "member"),
+  ]);
+  const res = await svc.deactivateUser(ACTOR, "u2");
+  assert.deepEqual(res, { id: "u2", deactivated: true });
+  assert.equal(deactivations.length, 1);
+  assert.equal(deactivations[0]?.id, "u2");
+  assert.ok(deactivations[0]?.at instanceof Date, "a timestamp is written, not null");
+  assert.deepEqual(revocations, ["u2"], "live sessions are revoked (kicked now)");
+  assert.equal(audits.at(-1)?.outcome, "success");
+  assert.equal(audits.at(-1)?.target, "u2");
+});
+
+test("reactivateUser: clears the block, audits success, no session touch", async () => {
+  const { svc, deactivations, revocations, audits } = deactivateHarness([deactivated("u1", "o1", "member")]);
+  const res = await svc.reactivateUser(ACTOR, "u1");
+  assert.deepEqual(res, { id: "u1", deactivated: false });
+  assert.deepEqual(deactivations, [{ id: "u1", at: null }]);
+  assert.deepEqual(revocations, [], "reactivation never revokes sessions");
+  assert.equal(audits.at(-1)?.outcome, "success");
+});
+
+test("deactivateUser: unknown user → 404, no write, audits failed", async () => {
+  const { svc, deactivations, revocations, audits } = deactivateHarness([]);
+  await assert.rejects(() => svc.deactivateUser(ACTOR, "ghost"), /unknown user/);
+  assert.deepEqual(deactivations, []);
+  assert.deepEqual(revocations, []);
+  assert.equal(audits.at(-1)?.outcome, "failed");
+});
+
+test("deactivateUser: blocks deactivating yourself (409), no write, audits blocked", async () => {
+  // ACTOR is super1 — put them in the roster and try to deactivate self.
+  const { svc, deactivations, audits } = deactivateHarness([
+    person("super1", "o1", "admin"),
+    person("u2", "o1", "admin"),
+  ]);
+  await assert.rejects(() => svc.deactivateUser(ACTOR, "super1"), /your own account/i);
+  assert.deepEqual(deactivations, []);
+  assert.equal(audits.at(-1)?.outcome, "blocked");
+});
+
+test("deactivateUser: blocks deactivating a superadmin account (409)", async () => {
+  const prev = process.env.SUPERADMIN_EMAILS;
+  process.env.SUPERADMIN_EMAILS = "boss@x.com"; // person('boss',…).email === 'boss@x.com'
+  try {
+    const { svc, deactivations, audits } = deactivateHarness([
+      person("boss", "o1", "admin"),
+      person("u2", "o1", "admin"),
+    ]);
+    await assert.rejects(() => svc.deactivateUser(ACTOR, "boss"), /superadmin account/i);
+    assert.deepEqual(deactivations, []);
+    assert.equal(audits.at(-1)?.outcome, "blocked");
+  } finally {
+    process.env.SUPERADMIN_EMAILS = prev;
+  }
+});
+
+test("deactivateUser: blocks deactivating a company's only active lead (409)", async () => {
+  const { svc, deactivations, revocations, audits } = deactivateHarness([
+    person("u1", "o1", "manager"),
+    person("u2", "o1", "member"),
+  ]);
+  await assert.rejects(() => svc.deactivateUser(ACTOR, "u1"), /only active manager or admin/i);
+  assert.deepEqual(deactivations, []);
+  assert.deepEqual(revocations, []);
+  assert.equal(audits.at(-1)?.outcome, "blocked");
+});
+
+test("deactivateUser: allows deactivating a lead when another ACTIVE lead remains", async () => {
+  const { svc, deactivations, audits } = deactivateHarness([
+    person("u1", "o1", "manager"),
+    person("u2", "o1", "admin"),
+  ]);
+  const res = await svc.deactivateUser(ACTOR, "u1");
+  assert.deepEqual(res, { id: "u1", deactivated: true });
+  assert.equal(deactivations[0]?.id, "u1");
   assert.equal(audits.at(-1)?.outcome, "success");
 });

@@ -39,6 +39,10 @@ export const users = pgTable(
     name: text("name").notNull(),
     role: userRole("role").notNull().default("member"),
     passwordHash: text("password_hash"),
+    // Deactivate/reactivate (user-management Phase 3): null = active. A set timestamp
+    // blocks login and is the signal for the "Deactivated" row state. Reversible —
+    // reactivate clears it back to null. Deletes nothing.
+    deactivatedAt: timestamp("deactivated_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },

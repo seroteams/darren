@@ -36,6 +36,13 @@
       "when": 1783230976869,
       "tag": "0004_nifty_iron_monger",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1783232016901,
+      "tag": "0005_majestic_katie_power",
+      "breakpoints": true
     }
   ]
 }

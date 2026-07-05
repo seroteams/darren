@@ -40,3 +40,24 @@ export async function setRole(c: RequestContext): Promise<void> {
   );
   c.json(200, result);
 }
+
+/** POST /api/v1/admin/users/:id/deactivate — switch a user off (user-management Phase 3).
+ *  Guardrails + audit live in the service; the actor is stamped from the resolved identity. */
+export async function deactivate(c: RequestContext): Promise<void> {
+  const actor = await buildIdentity(c.req);
+  const result = await superadminService.deactivateUser(
+    { userId: actor.userId, email: actor.email },
+    c.params.id ?? "",
+  );
+  c.json(200, result);
+}
+
+/** POST /api/v1/admin/users/:id/reactivate — switch a user back on (Phase 3). */
+export async function reactivate(c: RequestContext): Promise<void> {
+  const actor = await buildIdentity(c.req);
+  const result = await superadminService.reactivateUser(
+    { userId: actor.userId, email: actor.email },
+    c.params.id ?? "",
+  );
+  c.json(200, result);
+}

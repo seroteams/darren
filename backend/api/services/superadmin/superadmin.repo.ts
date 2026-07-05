@@ -10,7 +10,7 @@
 
 import { eq } from "drizzle-orm";
 import { getDb } from "../../../db/client.ts";
-import { organizations, users } from "../../../db/schema.ts";
+import { organizations, users, authSessions } from "../../../db/schema.ts";
 import { listRunsForSuperadmin, listFinishedRunsForUser, superadminRunView } from "../../../engine/run-history.ts";
 
 /** The account roles, mirrored from the `user_role` enum in schema.ts. */
@@ -33,6 +33,9 @@ export interface UserRow {
   email: string;
   role: string;
   createdAt: Date;
+  /** Deactivate/reactivate (Phase 3): a set timestamp = switched off; absent/null = active.
+   *  Optional so the many read-only view constructions stay untouched — undefined means active. */
+  deactivatedAt?: Date | null;
 }
 
 /** One finished run, attributed to its owner (pre-go-live PG7). `userId` may be null for
@@ -78,6 +81,12 @@ export interface SuperadminRepo {
   /** Set a user's account role (user-management Phase 2). The ONE guarded write on this
    *  path — validation + the "never orphan a company" guardrail run in the service first. */
   updateUserRole(userId: string, role: UserRoleName): Promise<void>;
+  /** Switch a user off (a timestamp) or back on (null) — user-management Phase 3. The
+   *  guardrails (no self / no superadmin / no org's last active lead) run in the service first. */
+  setDeactivated(userId: string, at: Date | null): Promise<void>;
+  /** Drop every live login session for a user — so a deactivation kicks them NOW, not just
+   *  at their next login. Called right after setDeactivated on the deactivate path. */
+  revokeSessionsForUser(userId: string): Promise<void>;
 }
 
 export const pgSuperadminRepo: SuperadminRepo = {
@@ -98,6 +107,7 @@ export const pgSuperadminRepo: SuperadminRepo = {
         email: users.email,
         role: users.role,
         createdAt: users.createdAt,
+        deactivatedAt: users.deactivatedAt,
       })
       .from(users);
   },
@@ -115,5 +125,13 @@ export const pgSuperadminRepo: SuperadminRepo = {
   async updateUserRole(userId: string, role: UserRoleName) {
     const db = getDb();
     await db.update(users).set({ role, updatedAt: new Date() }).where(eq(users.id, userId));
+  },
+  async setDeactivated(userId: string, at: Date | null) {
+    const db = getDb();
+    await db.update(users).set({ deactivatedAt: at, updatedAt: new Date() }).where(eq(users.id, userId));
+  },
+  async revokeSessionsForUser(userId: string) {
+    const db = getDb();
+    await db.delete(authSessions).where(eq(authSessions.userId, userId));
   },
 };

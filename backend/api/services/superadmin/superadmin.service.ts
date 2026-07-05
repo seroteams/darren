@@ -8,6 +8,7 @@
 import { pgSuperadminRepo } from "./superadmin.repo.ts";
 import type { SuperadminRepo, RunRow, UserRunRow, SuperadminRunDetail, UserRoleName } from "./superadmin.repo.ts";
 import { badRequest, notFound, conflict } from "../../middleware/http-error.ts";
+import { isSuperadminEmail } from "../../middleware/require-auth.ts";
 import { appendSuperadminAudit } from "../../middleware/superadmin-audit.ts";
 import type { SuperadminAuditEntry } from "../../middleware/superadmin-audit.ts";
 
@@ -15,10 +16,14 @@ const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 /** The account roles a superadmin may set. */
 const ROLES: readonly UserRoleName[] = ["admin", "manager", "member"];
-/** "Lead" = a manager/admin who can run the company. Deactivation (Phase 3) will refine
- *  this; today every manager/admin counts. */
+/** "Lead" = a manager/admin who can run the company. */
 function isLead(role: string): boolean {
   return role === "manager" || role === "admin";
+}
+/** An *active* lead — the invariant we protect is "never leave a company with no active
+ *  manager/admin". A deactivated lead doesn't count (Phase 3). */
+function isActiveLead(u: { role: string; deactivatedAt?: Date | null }): boolean {
+  return isLead(u.role) && !u.deactivatedAt;
 }
 
 /** Who is performing a mutation — for the audit trail. */
@@ -42,6 +47,9 @@ export interface RegisteredUser {
   lastActiveAt: Date | null;
   runsThisWeek: number;
   runsLastWeek: number;
+  /** Deactivate/reactivate (Phase 3): true = switched off (login blocked). Drives the
+   *  "Deactivated" row state on the User management screen. */
+  deactivated: boolean;
 }
 
 /** The alpha-wide rating signal (PG7): average stars, how many runs were rated, and how
@@ -74,6 +82,13 @@ export interface SuperadminService {
    *  that would leave a company with no manager/admin, writes it, and audits the outcome.
    *  Throws 400 (bad role), 404 (unknown user), or 409 (last lead). */
   setUserRole(actor: SuperadminActor, userId: string, role: string): Promise<{ id: string; role: UserRoleName }>;
+  /** Switch a user off (user-management Phase 3): blocks their login and kills their live
+   *  sessions immediately. Guardrails: no deactivating yourself, a superadmin account, or a
+   *  company's last active manager/admin. Throws 404 (unknown), 409 (guardrail). Audits. */
+  deactivateUser(actor: SuperadminActor, userId: string): Promise<{ id: string; deactivated: true }>;
+  /** Switch a user back on (Phase 3) — clears the block so they can log in again. Reversible,
+   *  deletes nothing. Throws 404 (unknown). Audits. */
+  reactivateUser(actor: SuperadminActor, userId: string): Promise<{ id: string; deactivated: false }>;
 }
 
 /** Per-user run tallies, keyed by userId. Runs with no userId (machine/gate sessions)
@@ -136,6 +151,7 @@ export function createSuperadminService(
           lastActiveAt: t ? new Date(t.lastActive) : null,
           runsThisWeek: t?.thisWeek ?? 0,
           runsLastWeek: t?.lastWeek ?? 0,
+          deactivated: !!u.deactivatedAt,
         });
         byOrg.set(u.orgId, list);
       }
@@ -178,9 +194,9 @@ export function createSuperadminService(
         await rec("failed", "unknown user");
         throw notFound("unknown user");
       }
-      // Never leave a company without at least one manager/admin: block demoting its last lead.
-      if (isLead(target.role) && role === "member") {
-        const leads = people.filter((u) => u.orgId === target.orgId && isLead(u.role));
+      // Never leave a company without at least one *active* manager/admin: block demoting its last lead.
+      if (isActiveLead(target) && role === "member") {
+        const leads = people.filter((u) => u.orgId === target.orgId && isActiveLead(u));
         if (leads.length <= 1) {
           await rec("blocked", `last manager/admin of the company (was ${target.role})`);
           throw conflict(
@@ -192,7 +208,76 @@ export function createSuperadminService(
       await rec("success", `role ${target.role}→${role}`);
       return { id: userId, role: role as UserRoleName };
     },
+
+    async deactivateUser(actor, userId) {
+      const route = `/api/v1/admin/users/${userId}/deactivate`;
+      const rec = auditFor(audit, actor, route, userId);
+
+      const people = await repo.listUsers();
+      const target = people.find((u) => u.id === userId);
+      if (!target) {
+        await rec("failed", "unknown user");
+        throw notFound("unknown user");
+      }
+      // Guardrail 1 — never lock yourself out.
+      if (actor.userId && actor.userId === userId) {
+        await rec("blocked", "self-deactivate");
+        throw conflict("You can't deactivate your own account.");
+      }
+      // Guardrail 2 — a superadmin account is off-limits (they run the console).
+      if (isSuperadminEmail(target.email)) {
+        await rec("blocked", "superadmin account");
+        throw conflict("This is a superadmin account and can't be deactivated.");
+      }
+      // Guardrail 3 — never leave a company with no active manager/admin.
+      if (isActiveLead(target)) {
+        const activeLeads = people.filter((u) => u.orgId === target.orgId && isActiveLead(u));
+        if (activeLeads.length <= 1) {
+          await rec("blocked", "last active manager/admin of the company");
+          throw conflict(
+            "This is the company's only active manager or admin — activate or promote someone else first.",
+          );
+        }
+      }
+      await repo.setDeactivated(userId, new Date());
+      // Kick them NOW: drop every live session so they're bounced on their next action.
+      await repo.revokeSessionsForUser(userId);
+      await rec("success", `deactivated (was ${target.role})`);
+      return { id: userId, deactivated: true };
+    },
+
+    async reactivateUser(actor, userId) {
+      const route = `/api/v1/admin/users/${userId}/reactivate`;
+      const rec = auditFor(audit, actor, route, userId);
+
+      const people = await repo.listUsers();
+      const target = people.find((u) => u.id === userId);
+      if (!target) {
+        await rec("failed", "unknown user");
+        throw notFound("unknown user");
+      }
+      // Reactivation is always safe (it only restores access) — no guardrails.
+      await repo.setDeactivated(userId, null);
+      await rec("success", "reactivated");
+      return { id: userId, deactivated: false };
+    },
   };
+}
+
+/** The audit recorder shared by the Phase 3 mutations — one line per attempt (success /
+ *  blocked / failed), stamped with the acting superadmin and the target. */
+function auditFor(audit: SuperadminAudit, actor: SuperadminActor, route: string, target: string) {
+  return (outcome: "success" | "blocked" | "failed", detail: string) =>
+    audit({
+      at: new Date().toISOString(),
+      userId: actor.userId,
+      email: actor.email,
+      method: "POST",
+      route,
+      outcome,
+      target,
+      detail,
+    });
 }
 
 export const superadminService = createSuperadminService();

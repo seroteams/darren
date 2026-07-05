@@ -8,7 +8,7 @@
 // stored, logged, or returned.
 
 import type { AuthRepo, AuthUser } from "./auth.repo.ts";
-import { badRequest, conflict, unauthenticated } from "../../middleware/http-error.ts";
+import { badRequest, conflict, unauthenticated, forbidden } from "../../middleware/http-error.ts";
 
 /** Shortest password we accept. Plain minimum-length gate — strength rules are not
  *  in this phase. */
@@ -88,6 +88,11 @@ export function createAuthService(repo: AuthRepo, hasher: PasswordHasher): AuthS
       // let in.
       if (!user || !user.passwordHash || !(await hasher.verify(password, user.passwordHash))) {
         throw unauthenticated("Email or password is incorrect.");
+      }
+      // A deactivated account is refused even with the right password (user-management
+      // Phase 3). They authenticated, so it's honest to say why rather than "wrong password".
+      if (user.deactivatedAt) {
+        throw forbidden("This account has been deactivated. Contact your administrator.");
       }
       return toPublic(user);
     },

@@ -20,6 +20,9 @@ export interface AuthUser {
   name: string;
   role: string;
   passwordHash: string | null;
+  /** Deactivate/reactivate (user-management Phase 3): a set timestamp blocks login.
+   *  Optional so register's return path (a brand-new, active user) stays untouched. */
+  deactivatedAt?: Date | null;
 }
 
 /** What register hands the repo to create a company and its first user together.
@@ -46,7 +49,7 @@ export const pgAuthRepo: AuthRepo = {
     const rows = await db.select().from(users).where(eq(users.email, email)).limit(1);
     const u = rows[0];
     if (!u) return null;
-    return { id: u.id, orgId: u.orgId, email: u.email, name: u.name, role: u.role, passwordHash: u.passwordHash };
+    return { id: u.id, orgId: u.orgId, email: u.email, name: u.name, role: u.role, passwordHash: u.passwordHash, deactivatedAt: u.deactivatedAt };
   },
   async createOrgWithOwner(input) {
     const db = getDb();
