@@ -26,20 +26,20 @@ Two patterns already exist and we reuse them:
 |---|---|---|---|
 | 0 | Baseline + schema check | Read-only: confirm DB/migration path, lock the `error_logs` columns + capture scope, baseline `npm test` — go/no-go | ✅ |
 | 1 | Store + catch backend errors | `error_logs` table + migration; write one row on every API 5xx at `v1Route` (+ legacy router). Redacts secrets, never blocks the response | ✅ |
-| 2 | The Error log screen | Superadmin-only page + nav item (mirrors User management); read endpoint; the table, newest first | 🔨 |
-| 3 | Catch browser errors too | Global crash handler + failed-fetch reporter in the app → blank-screen crashes + failed loads land in the log, tagged with the screen | 🔨 |
-| 4 | Detail + tidy-up | Row-click detail (stack, request info); filters + "mark resolved"; auto-purge old rows | 🔨 |
+| 2 | The Error log screen | Superadmin-only page + nav item (mirrors User management); read endpoint; the table, newest first | ✅ |
+| 3 | Catch browser errors too | Global crash handler + failed-fetch reporter in the app → blank-screen crashes + failed loads land in the log, tagged with the screen | ✅ |
+| 4 | Detail + tidy-up | Row-click detail (stack, request info); filters + "mark resolved"; auto-purge old rows | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**All phases built (0–4) — Phase 1 ✅ signed off; 2, 3, 4 built + awaiting Carl's walk (2026-07-05).** Carl kept saying "keep going," so 2–4 were built back-to-back; the :3001 API was restarted onto the full feature. Committed: P1 `4a3f03fb`, P2 `a15af8b1`, P3 `52145f05`, toggle `96ee8cf9`, P4 `30ad405b`. Offline green: `npm test` **69/69**, backend + admin typecheck clean, admin build OK.
+**✅ CLOSED 2026-07-05 — all phases done + green-lit by Carl ("yes can close").** The Error log is live: backend 500s + browser crashes/failed loads land in one Neon `error_logs` table, shown on a superadmin screen with **Local/Live + API/Browser** filters, click-through **detail** (stack), **mark-resolved**, and `npm run errors:purge`. Top-aligned so filter switches don't jump; white card + row hover. Carl walked it; the 5 demo rows were cleared (real captures remain). Committed: P1 `4a3f03fb`, P2 `a15af8b1`, P3 `52145f05`, toggle `96ee8cf9`, P4 `30ad405b`, white-card/hover `5313fbdd`, top-align `a6f67a2b`. Offline green throughout (`npm test` 69/69, typechecks + build). Folder moved to `done/`.
 
 **Phase 2 (the screen) — built:** superadmin **Error log** page ([admin-error-log.ts](../../../admin/src/stages/admin-error-log.ts)) + nav item (superadmin-only, Admin group) + `GET /api/v1/admin/errors` → a dedicated [error-log service/repo](../../../backend/api/services/error-log/) that LEFT JOINs users + orgs for name + company (anonymous rows survive). Table: Where[env] · When · Who · Route+source · What · Status, newest first, Local/Live + API/Browser pills, plus a **Local / Live toggle** above the table (filter to just your machine or just the live Sero — pulled forward from Phase 4 at Carl's request). Read path verified live against Neon.
 
 **Phase 3 (browser capture) — built:** client crashes + failed loads now POST to `/api/v1/errors` (origin-guarded, per-IP rate-limited) → `source:"browser"` rows. Global `window.onerror`/`unhandledrejection` ([error-reporter.js](../../../admin/src/ui/error-reporter.js)) + the render-catch + the ERROR stage all report — deduped/throttled, never loops on itself. Browser write+read verified live against Neon.
 
-**To QA (Carl):** ⚠️ **restart the API server** (running :3001 predates the new routes), then log in → **Error log**. I **seeded 5 demo rows** (marked `details.demo=true`) so the screen shows a populated table like the mockup — say "clear demo" and I delete them. Trigger a real error to watch live capture.
+**Walked + closed:** Carl walked the screen (filters, detail, toggle), flagged two polish items — **white card + row hover**, and **top-align** to stop the filter jump — both fixed. Demo rows cleared. Green-lit "yes can close."
 
 **Phase 4 (triage) — built:** click a row for detail (stack + full context); an **API/Browser** source filter + **Show resolved** beside the Local/Live toggle; **Mark resolved / Reopen** (`PATCH …/resolve`); `npm run errors:purge` drops rows >30 days (`--dry` previews). All verified live vs Neon.
 
