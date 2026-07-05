@@ -48,3 +48,11 @@ Verified live in the preview (dev quick-swap both roles): **manager** rail = Hom
 - What a member sees when they **open** one of their runs — Phase 2 opens a simple read-only briefing view; richer member debrief is a follow-up.
 - Member **Home** polish (recent activity, tips, empty states) — start minimal.
 - Backfilling **existing** runs with a member owner — pre-Phase-2 runs have no user attribution, so they simply won't appear in a member's list. Decide later if that matters.
+
+---
+
+## CLOSED 2026-07-05 (live-data-cleanup Phase 4, Carl's call)
+Phase 1 (member rail) was signed off 2026-07-01. Phase 2 ("real Runs") was
+**superseded by the pre-go-live track** — PG1–PG5 delivered the real Past 1:1s
+list, reopen + rate, the auto-built Team, and per-person pages. Nothing here
+is still open.

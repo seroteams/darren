@@ -16,12 +16,13 @@
 | 1 | Audit report | `docs/audits/live-data-audit-2026-07-05.md` — the full findings, plain words | ✅ |
 | 2 | Finish the v1 migration | ALL non-v1 calls switched to `/api/v1/` — 15 in `shared/api.js` + **10 SSE stream URLs in stage files the audit undercounted** | ✅ |
 | 3 | Delete the legacy routes | ~54 alias routes + unconsumed `pipeline/manifest` removed from server.ts | ✅ |
-| 4 | docs/todo housekeeping | finished folders moved to `done/`, trackers matched to reality | 🔨 |
+| 4 | docs/todo housekeeping | finished folders moved to `done/`, trackers matched to reality | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phases 1 + 2 + 3 done (Carl green-lit the whole cleanup 2026-07-05 — "go for it, happy to complete"; per-phase walks waived, scenarios stay valid for spot-checks). Phase 4 (todo housekeeping) in progress.
+**ALL 4 PHASES DONE — plan CLOSED 2026-07-05, same day it opened.** Carl green-lit the whole cleanup ("go for it, happy to complete"; per-phase walks waived — the phase-file scenarios stay valid for spot-checks).
+**Phase 4:** the todo folder was already honest — the only stale entry was **member-nav**, closed to done/ on Carl's call (Phase 2 superseded by pre-go-live PG1–5). Everything else is genuinely active (error-log, user-management, page-heartbeat, hide-ai-words, manager-ready, this plan) or deliberately parked (continuity — hard-parked; design-cleanups, planner-grounding, briefing-readability-p0, run-qa-fixes-jul04 P2–4, frontend-admin-split P2–4).
 **Phase 3 landed:** every legacy `/api/*` alias route deleted from server.ts (145 lines gone); the whole unconsumed `pipeline/manifest` chain removed (route + controller + service + repo scan/counts + its test); `adminLegacy` renamed `adminRaw` (now only wraps the library file stream); Guide text + library redirect fallback updated. **Live-proven on a scratch API (port 3199):** legacy `/api/arcs`, `/api/meeting-types`, `/api/bank/stream`, `/api/v1/pipeline/manifest` all **404**; `/api/v1/arcs` **401** (exists, gated), `/api/v1/meeting-types` + `/api/version` **200**. `npm test` 69/69 · admin build ✓ · typecheck clean outside the other session's in-flight error-log files.
 ⚠️ Note for Carl: **restart your dev API server** — the old process still serves the old routes until restarted.
 **Phase 2 note:** the audit's "13 calls" was an undercount — the sweep also caught `saveArc`/`resetArc` (template literals) and **10 SSE stream URLs living in stage files** (bank/eval/focus-points/onepage×5/preparation/questioning), all migrated; dev-badge labels updated. Deleting the aliases without those would have broken the whole run pipeline.

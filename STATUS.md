@@ -9,24 +9,28 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **🔨 NEW TRACK: [manager-ready](docs/todo/manager-ready/PLAN.md) — customers stop seeing the workshop (started 2026-07-05).**
-> Managers (the paying users) currently get the **full internal rail** (Library, Compare, Personas, Universe,
-> Tasks…). **Phase 1 BUILT — awaiting your walk (not committed):** managers now get their own rail —
-> **Home · New 1:1 · Team · Past 1:1s** — and deep-links/back-forward into internal tools bounce them to Home.
-> Admin + member rails untouched (browser-verified per role). Test-first: `npm test` 67/67 → **69/69**, typecheck
-> clean. Walk: [phase-1.md](docs/todo/manager-ready/phase-1.md) (log in per role, check the rail, try `/tasks` as
-> manager). **Phase 2 (Bricolage headings, 4px buttons, one date format) is blocked until `design.css` goes quiet**
-> (mobile track is in it). ⚠️ Pre-existing at HEAD, not this track: `vite build` fails on `@sero/run-debrief`
-> (a parallel session's mid-work commit — flagged, not touched).
+> **🔨 [manager-ready](docs/todo/manager-ready/PLAN.md) — Phase 1 ✅ green-lit + committed · Phase 2 BUILT, awaiting walk (2026-07-05).**
+> **P1 ✅ ("looks good continue"):** managers get their own rail — **Home · New 1:1 · Team · Past 1:1s** — and
+> bounce off internal tools; admin + member rails untouched; 69/69 tests.
+> **P2 BUILT — the design polish, awaiting your walk (not committed):** headings now render in **Bricolage
+> Grotesque** (the Figma personality, finally in the app), **buttons sharpened to 4px**, **one date format
+> everywhere** ("Mon 18 Nov 2024", shared `formatDate`, locale-proof), two 12px text remnants fixed. Live-verified:
+> h1 font, 4px radius, date sample; 69/69 · typechecks clean. **Walk:** open any page — do the headings feel like
+> your Figma? Check button corners + Library dates. Scenarios: [phase-2.md](docs/todo/manager-ready/phase-2.md).
+> ⚠️ Commit note: `design.css` also holds the mobile track's uncommitted CSS — on your green light their phases
+> should commit first (or one commit declares both). ⚠️ Pre-existing at HEAD: `vite build` fails on
+> `@sero/run-debrief` (another session's mid-work commit — not this track).
 
-> **🔨 NEW TRACK: [live-data-cleanup](docs/todo/live-data-cleanup/PLAN.md) — audit done, finish the v1 migration + drop dead routes (started 2026-07-05).**
-> Carl asked for a full "is everything really connected?" audit. Verdict: **all 38 screens are live-wired — the
-> real find is the half-finished v1 API migration**: 13 calls in `shared/api.js` still use old `/api/…` paths,
-> which keeps ~54 dead legacy routes alive on the server (nothing else uses them — scripts/tests checked).
-> 4 phases: ① audit report · ② switch the 13 calls to `/api/v1/` · ③ delete the legacy routes (+ unconsumed
-> `pipeline/manifest`) · ④ docs/todo housekeeping. All free checks, no paid runs.
-> **Phase 1 built — the report is at [docs/audits/live-data-audit-2026-07-05.md](docs/audits/live-data-audit-2026-07-05.md), awaiting your read-through**
-> (scenarios in [phase-1.md](docs/todo/live-data-cleanup/phase-1.md)). Baseline: `npm test` **67/67**.
+> **✅ [live-data-cleanup](docs/todo/done/live-data-cleanup/PLAN.md) — CLOSED 2026-07-05, all 4 phases same-day (Carl: "go for it, happy to complete").**
+> The "is everything really connected?" audit: **all 38 screens are live-wired** — the real find was the
+> half-finished v1 API migration. Fixed end-to-end: every frontend call (incl. 10 SSE stream URLs the audit
+> initially missed) now hits `/api/v1/`; all ~54 dead legacy `/api/*` routes deleted from the server; the
+> unconsumed `pipeline/manifest` chain removed; **member-nav** archived to done/ (superseded by pre-go-live).
+> Report: [docs/audits/live-data-audit-2026-07-05.md](docs/audits/live-data-audit-2026-07-05.md). Live-proven
+> on a scratch API (legacy → 404, v1 answers); `npm test` 69/69 · admin build ✓. No paid runs.
+> ⚠️ **Restart your dev API server** — an old process still serves the deleted routes until restarted.
+> Spot-check scenarios stay in the phase files if you ever want the click-through (arcs, job lexicons,
+> test-engine strip, start page, new 1:1).
 
 > **✅ [mobile-responsive](docs/todo/done/mobile-responsive/PLAN.md) — the whole app on a phone: CLOSED 2026-07-05 (all 5 phases green-lit same day, "commit, its good").**
 > All 38 screens now work at phone width, desktop untouched: below 768px the rail is a slide-in drawer
@@ -199,7 +203,8 @@ committed (`d864a3a3` + landing fix `fc77b8ba`) and QA-ticked (`1aea2b1b`) — t
 uncommitted" note was stale. Member rail = Home · Team · Runs, members land on a clean Home, admins
 untouched, dev Admin/Standard quick-swap works. Phase 2 (Real Runs) has backend groundwork landed
 (`ca23831e`/`9a2a7148`/`f30783d9`) but the Runs *page* is still the placeholder — that's the genuinely
-open member-nav work. Plan: [docs/todo/member-nav/](docs/todo/member-nav/PLAN.md).
+open member-nav work. **Update 2026-07-05: that open work shipped via pre-go-live PG1–5, so the folder is
+closed** → [docs/todo/done/member-nav/](docs/todo/done/member-nav/PLAN.md) (live-data-cleanup Phase 4).
 
 - Last updated: 2026-07-04
 
