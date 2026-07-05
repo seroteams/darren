@@ -54,8 +54,9 @@ export interface RunsRepo {
   writeRating(dir: string, data: unknown): void;
   // Member-safe reads (member-nav Phase 2) — fenced by BOTH orgId and userId, so a
   // member sees only runs they created. memberRun returns null when the run is unknown
-  // or owned by someone else.
-  listFinishedForMember(orgId: string | null | undefined, userId: string | null | undefined): unknown[];
+  // or owned by someone else. includeOpen (Team-for-managers) adds the caller's
+  // started-but-unfinished preps, each row flagged `finished`.
+  listFinishedForMember(orgId: string | null | undefined, userId: string | null | undefined, includeOpen?: boolean): unknown[];
   memberRun(id: string, orgId: string | null | undefined, userId: string | null | undefined): unknown;
   // Dev-only "prefill a run": copy a finished run into a fresh one owned by the caller.
   // Returns the new run's id, or null when the source is unknown / not finished.
@@ -111,7 +112,7 @@ export const fileRunsRepo: RunsRepo = {
   writeReview: (dir, data) => writeReviewFile(dir, data),
   readRating: (dir) => readRatingFile(dir),
   writeRating: (dir, data) => writeRatingFile(dir, data),
-  listFinishedForMember: (orgId, userId) => listFinishedRunsForMember(orgId, userId),
+  listFinishedForMember: (orgId, userId, includeOpen) => listFinishedRunsForMember(orgId, userId, includeOpen),
   memberRun: (id, orgId, userId) => memberRunView(id, orgId, userId),
   cloneRun: (sourceId, orgId, userId) => cloneRun(sourceId, orgId, userId),
 };

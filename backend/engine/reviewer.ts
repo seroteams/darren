@@ -345,6 +345,14 @@ function applyAxisConfidence(
     } else if (ax.id === "wellbeing" && !hasWellbeingEvidence && magnitude <= 1) {
       read_status = "not_read";
       not_read_reason = "insufficient_signal";
+    } else if (Array.isArray(history) && history.length < 2 && magnitude >= 3) {
+      // Single-touch cap (no-inference ruling, Phase 4 / S2): a strong claim
+      // (|score| ≥ 3) may not stand on one answer — below the two-substantive-
+      // answer threshold it reads insufficient_signal instead of a score.
+      // Magnitude-2 single-touch reads survive (three frozen replay cases carry
+      // legitimate ones) but are confidence-capped below.
+      read_status = "not_read";
+      not_read_reason = "insufficient_signal";
     }
 
     let confidence: "low" | "medium" | "high" = "medium";
@@ -365,6 +373,14 @@ function applyAxisConfidence(
 
     if (ax.id === "growth" && learning) {
       if (confidence === "low") confidence = "medium";
+    }
+
+    // Single-touch confidence cap (no-inference ruling, Phase 4 / S2): one
+    // answer is one observable — a surviving single-touch read never carries
+    // more than low confidence, and the basis names the concentration.
+    if (read_status !== "not_read" && Array.isArray(history) && history.length < 2) {
+      confidence = "low";
+      evidence_basis = "concentrated_signal";
     }
 
     // Concentration guard — a high-magnitude score built from ≤2 distinct

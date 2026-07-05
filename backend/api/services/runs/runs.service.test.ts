@@ -99,6 +99,18 @@ test("myFinished forwards orgId+userId and wraps the member's own runs (member-n
   assert.deepEqual(seen, [{ orgId: "org-A", userId: "u1" }]);
 });
 
+test("myFinished passes includeOpen through only for the literal query value \"1\"", () => {
+  const seen: unknown[] = [];
+  const { repo } = fakeRepo({
+    listFinishedForMember: (orgId, userId, includeOpen) => { seen.push(includeOpen); return []; },
+  });
+  const svc = createRunsService(repo);
+  svc.myFinished("org-A", "u1", "1");
+  svc.myFinished("org-A", "u1", undefined);
+  svc.myFinished("org-A", "u1", "true");
+  assert.deepEqual(seen, [true, false, false]);
+});
+
 test("myRun returns the member's own run, forwarding orgId+userId; 404 when not theirs/unknown", () => {
   const seen: Array<{ id: string; orgId?: string | null; userId?: string | null }> = [];
   const ok = fakeRepo({

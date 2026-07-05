@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { runOwnedByOrg, runOwnedByUser, cloneRunState, personaTagOf } from "./run-history.ts";
+import { runOwnedByOrg, runOwnedByUser, memberRunVisible, cloneRunState, personaTagOf } from "./run-history.ts";
 
 // runOwnedByOrg is the data wall (Phase 007/2): the single rule the run-history
 // reads use to decide whether a run is visible to the caller's company.
@@ -46,6 +46,32 @@ test("a run with no userId is invisible to any member", () => {
 test("a non-object state is never owned by a member", () => {
   assert.equal(runOwnedByUser(null, "u1"), false);
   assert.equal(runOwnedByUser("nope", "u1"), false);
+});
+
+// memberRunVisible decides which of a member's own runs their list shows: finished runs
+// always; a started-but-unfinished prep only when includeOpen is set AND it already names
+// a person (Team groups on the name — a nameless prep has nothing to show).
+test("a finished owned run is always visible, with or without includeOpen", () => {
+  const state = { userId: "u1", briefing: { headline: "hi" }, ctx: { name: "Priya" } };
+  assert.equal(memberRunVisible(state, "u1", false), true);
+  assert.equal(memberRunVisible(state, "u1", true), true);
+});
+
+test("an open owned prep with a person name shows only when includeOpen is set", () => {
+  const state = { userId: "u1", ctx: { name: "Darren" } };
+  assert.equal(memberRunVisible(state, "u1", false), false);
+  assert.equal(memberRunVisible(state, "u1", true), true);
+});
+
+test("an open prep with no name yet never shows — nothing to group on", () => {
+  assert.equal(memberRunVisible({ userId: "u1", ctx: {} }, "u1", true), false);
+  assert.equal(memberRunVisible({ userId: "u1", ctx: { name: "  " } }, "u1", true), false);
+  assert.equal(memberRunVisible({ userId: "u1" }, "u1", true), false);
+});
+
+test("someone else's run is never visible, open or finished", () => {
+  assert.equal(memberRunVisible({ userId: "u2", briefing: {}, ctx: { name: "P" } }, "u1", true), false);
+  assert.equal(memberRunVisible({ userId: "u2", ctx: { name: "P" } }, "u1", true), false);
 });
 
 // cloneRunState is the pure half of the dev-only "prefill a run" tool: it takes a

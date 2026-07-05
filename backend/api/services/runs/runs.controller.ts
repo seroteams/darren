@@ -96,7 +96,7 @@ export async function clone(c: RequestContext): Promise<void> {
 
 export async function mine(c: RequestContext): Promise<void> {
   const { userId, orgId } = await callerIdentity(c);
-  c.json(200, service.myFinished(orgId, userId));
+  c.json(200, service.myFinished(orgId, userId, c.query.open));
 }
 
 export async function mineDetail(c: RequestContext): Promise<void> {

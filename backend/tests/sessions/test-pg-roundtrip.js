@@ -46,6 +46,7 @@ const introQueue = [
   session.queueRef = [{ alias: "q_two", name: "Q two?", stage: "friction" }];
   session.transcript = [{ turn: 1, question: { alias: "q_one", name: "Q one?" }, answer: "first answer" }];
   session.turn = 1;
+  session.outcomeCheck = "partly";
 
   try {
     // Write to Postgres, then simulate a restart: drop every trace from memory.
@@ -65,6 +66,7 @@ const introQueue = [
     });
     check("next question in the queue survived", () => assert.strictEqual(restored.queueRef[0].alias, "q_two"));
     check("bank-ready flag survived", () => assert.strictEqual(restored.bankReady, true));
+    check("outcomeCheck survived (loop-closure capture, spec sec.6)", () => assert.strictEqual(restored.outcomeCheck, "partly"));
     check("axis state is present (jsonb survived)", () => assert.ok(restored.axisState && typeof restored.axisState === "object"));
     check("ephemeral Maps are rebuilt on restore", () => {
       assert.ok(restored.lastPlanByTurn instanceof Map);

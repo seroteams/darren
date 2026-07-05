@@ -241,11 +241,24 @@ function listFinishedRuns(orgId?: string | null) {
   });
 }
 
+// Which of a member's own runs their list shows: finished runs always; a started-but-
+// unfinished prep only when includeOpen is set AND it already names a person (the Team
+// groups on the name, so a nameless prep has nothing to show). Owned-by-someone-else is
+// never visible, open or finished.
+function memberRunVisible(state: unknown, userId: string | null | undefined, includeOpen: boolean): boolean {
+  if (!runOwnedByUser(state, userId)) return false;
+  const s = asRecord(state);
+  if (s.briefing) return true;
+  return includeOpen && asString(asRecord(s.ctx).name).trim() !== "";
+}
+
 // A member's OWN finished runs (member-nav Phase 2), newest first. Double-fenced:
-// walkRuns applies the company wall, runOwnedByUser keeps only this member's runs.
+// walkRuns applies the company wall, memberRunVisible keeps only this member's runs.
+// includeOpen (Team-for-managers) adds their started-but-unfinished preps; every row
+// carries `finished` so the Team can show those honestly ("prep in progress").
 // Returns a lightweight member-safe shape (no QA review / archive fields).
-function listFinishedRunsForMember(orgId: string | null | undefined, userId: string | null | undefined) {
-  const runs = walkRuns(orgId).filter(({ state }) => state && state.briefing && runOwnedByUser(state, userId));
+function listFinishedRunsForMember(orgId: string | null | undefined, userId: string | null | undefined, includeOpen = false) {
+  const runs = walkRuns(orgId).filter(({ state }) => state && memberRunVisible(state, userId, includeOpen));
   runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
   return runs.map(({ id, dir, state }) => {
     const ctx = asRecord(state.ctx);
@@ -259,6 +272,7 @@ function listFinishedRunsForMember(orgId: string | null | undefined, userId: str
         meetingType: asString(ctx.meetingType),
       },
       lastSeenAt: asNumber(state.lastSeenAt),
+      finished: Boolean(state.briefing),
       rating: ratingOf(dir),
     };
   });
@@ -627,6 +641,7 @@ function cloneRun(sourceId: unknown, orgId: string | null, userId: string | null
 export {
   runOwnedByOrg,
   runOwnedByUser,
+  memberRunVisible,
   cloneRunState,
   cloneRun,
   listFinishedRunsForMember,
