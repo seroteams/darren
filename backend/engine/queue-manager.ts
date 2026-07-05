@@ -402,8 +402,47 @@ async function planTurn({
 // planTurn additionally reads ctx.notes/name/role for the grounding corpus.
 type PlanTurnCtx = BuildMessagesCtx;
 
+// Assemble the exact payload planTurn would send for the next turn — WITHOUT
+// calling the model. Mirrors planTurn's axis validation + skip-shortcut + axes /
+// axisCoverage prelude, so the preview is byte-for-byte what planTurn would log.
+// Returns prompt:null when the planner would take its skip-shortcut — an honest
+// "no model call at all" signal, not a prompt that never gets sent.
+function assemblePlanTurn(
+  args: Parameters<typeof planTurn>[0],
+  { model = getDefaultModel() }: { model?: string } = {}
+): { model: string; prompt: string | null } {
+  validateAxisState(args.axisState);
+  const skipShortcutEligible =
+    (!args.lastAnswer || args.lastAnswer === "(skipped)") &&
+    Number(args.remainingBudget) !== 1 &&
+    Array.isArray(args.remainingQueue) &&
+    args.remainingQueue.length > 0 &&
+    (args.transcript || []).slice(-2).filter((t) => t?.skipped).length < 2;
+  if (skipShortcutEligible) return { model, prompt: null };
+
+  const axes = loadAxes();
+  const msgs = buildMessages({
+    axes,
+    focusPoints: args.focusPoints,
+    ctx: args.ctx,
+    transcript: args.transcript,
+    lastQuestion: args.lastQuestion,
+    lastAnswer: args.lastAnswer,
+    axisState: axisCoverage(args.axisState),
+    remainingQueue: args.remainingQueue,
+    remainingBudget: args.remainingBudget,
+    turnNumber: args.turnNumber,
+    totalTurns: args.totalTurns,
+    closerAlias: args.closerAlias,
+    selectedFocus: args.selectedFocus,
+    prep: args.prep,
+  });
+  return { model, prompt: msgs.filled };
+}
+
 export {
   planTurn,
+  assemblePlanTurn,
   buildMessages,
   callOpenAI,
   axisCoverage,

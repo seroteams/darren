@@ -447,6 +447,56 @@ test("preview throws a 409 CONFLICT for EVAL when focus points aren't ready", ()
   );
 });
 
+// A session mid-questioning with a real answer pending for the planner.
+function questioningSession(pending: { raw: string; text: string; skipped: boolean }): Session {
+  const s = fakeSession("abc");
+  s.ctx = { ...s.ctx, meetingType: "Performance & feedback" }; // planner looks up the arc
+  s.focusPointsResult = {
+    meeting_type: "Performance & feedback",
+    focus_points: [
+      { id: "fp1", type: "T", category: "topic", label: "Delivery risk", reason: "r", source: "signal", confidence: "high", known: true },
+    ],
+  } as unknown as Session["focusPointsResult"];
+  s.queueRef = [fakeQuestion({ alias: "q1", name: "What slipped this sprint" }), fakeQuestion({ alias: "q2", name: "Next" })];
+  s.pendingAnswer = pending;
+  return s;
+}
+
+test("preview assembles the QUESTIONING (planner) payload when an answer is pending (no API call)", () => {
+  const s = questioningSession({ raw: "We shipped late", text: "We shipped late because staging broke", skipped: false });
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).preview("abc", "questioning") as {
+    stage: string;
+    label: string;
+    model: string;
+    prompt: string;
+    preview: boolean;
+  };
+  assert.equal(out.stage, "QUESTIONING");
+  assert.equal(out.label, "Next question");
+  assert.equal(out.preview, true);
+  assert.ok(out.prompt.includes("staging broke")); // the pending answer flows into the planner prompt
+});
+
+test("preview shows the honest 'planner bypassed' note when the planner would skip (no model call)", () => {
+  // A skip with a non-empty queue and >1 budget triggers the planner's skip-shortcut.
+  const s = questioningSession({ raw: "", text: "(skipped)", skipped: true });
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).preview("abc", "questioning") as { prompt: string };
+  assert.ok(out.prompt.includes("planner bypassed")); // honest "nothing sent", not a fabricated prompt
+});
+
+test("preview throws a 409 CONFLICT for QUESTIONING when no answer is pending", () => {
+  const s = fakeSession("abc");
+  s.focusPointsResult = { meeting_type: "weekly", focus_points: [] } as unknown as Session["focusPointsResult"];
+  s.pendingAnswer = null;
+  const { repo } = fakeRepo([s]);
+  assert.throws(
+    () => createSessionsService(repo).preview("abc", "questioning"),
+    (err: unknown) => err instanceof HttpError && err.status === 409 && err.code === "CONFLICT"
+  );
+});
+
 test("preview throws a 409 CONFLICT when the stage's inputs aren't ready", () => {
   const s = fakeSession("abc"); // no focusPointsResult
   const { repo } = fakeRepo([s]);

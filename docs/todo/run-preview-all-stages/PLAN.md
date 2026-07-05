@@ -21,7 +21,7 @@ for the other four steps. The UI needs no changes.
 | 1 | Focus points | Before-send preview for the focus-points step | ✅ |
 | 2 | Question bank | Before-send preview for the question-bank step | ✅ |
 | 3 | Final briefing | Before-send preview for the evaluation/briefing step | ✅ |
-| 4 | Questioning (per-turn planner) | Before-send preview for the next question, when an answer is pending | 🔨 |
+| 4 | Questioning (per-turn planner) | Before-send preview for the next question, when an answer is pending | ✅ backend |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -37,8 +37,20 @@ in `backend/engine/question-generator.ts` + `bank-inputs.ts` (mirrors the live b
 **Phase 3 — Final briefing: ✅ DONE.** Carl green-lit 2026-07-05; committed.
 `assembleEvaluation` in `backend/engine/reviewer.ts` + `evaluation-inputs.ts` (mirrors the
 live eval stream) + `EVAL` in `PREVIEW_ASSEMBLERS`, with happy-path + 409 tests.
-**Phase 4 — Questioning (per-turn planner): 🔨 building now.** The tricky one — preview only
-when an answer is pending (the byte-honest before-send moment).
+**Phase 4 — Questioning: ✅ BACKEND done + committed.** `assemblePlanTurn` in
+`backend/engine/queue-manager.ts` + `plan-turn-inputs.ts` + `QUESTIONING` in
+`PREVIEW_ASSEMBLERS` (409 when no pending answer; honest "planner bypassed" note on the skip
+path). Tests: pending-answer happy-path + skip-shortcut sentinel + no-answer 409. Full suite
+69/69, typecheck clean.
+
+**QA finding (2026-07-05, Carl):** the questioning preview only fires in the split-second
+between submit and the planner starting (pendingAnswer is cleared once scoring begins), so
+on the Live Q&A step the Sent tab shows "Waiting…" instead of the prompt. Carl's better
+design: as you *type* the next answer, the "Sending" view should fill in live; plus a
+"Received" (last turn's reply) and a "Rules" (guardrails/filters active + what fired) view.
+→ **The questioning USER EXPERIENCE is carried into a new plan:
+`docs/todo/questioning-panel-rsr/`.** This backend (assemblePlanTurn) is the foundation it
+builds on. Steps 1-3 (focus/prep/bank/briefing) ship as-is and work well.
 
 ## Parked
 - Making the panel more prominent / friendlier wording (Carl chose "all 5 steps", not the polish option).

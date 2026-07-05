@@ -16,9 +16,11 @@ import { assemblePreparation } from "../../../engine/preparation.ts";
 import { assembleFocusPoints } from "../../../engine/generate.ts";
 import { assembleBank } from "../../../engine/question-generator.ts";
 import { assembleEvaluation } from "../../../engine/reviewer.ts";
+import { assemblePlanTurn } from "../../../engine/queue-manager.ts";
 import { buildPreparationInputs } from "./preparation-inputs.ts";
 import { buildBankInputs } from "./bank-inputs.ts";
 import { buildEvaluationInputs } from "./evaluation-inputs.ts";
+import { buildPlanTurnInputs } from "./plan-turn-inputs.ts";
 import { checkQuestionEligibility, dropIneligibleHeads } from "../../../engine/question-eligibility.ts";
 import { MEETING_TYPES } from "../../../engine/meeting-types.ts";
 import { pickOpener } from "../../../engine/opener.ts";
@@ -203,6 +205,24 @@ const PREVIEW_ASSEMBLERS: Record<string, (session: Session) => { label: string; 
       throw conflict("Focus points not ready for this stage yet");
     }
     return { label: "Final briefing", ...assembleEvaluation(buildEvaluationInputs(session)) };
+  },
+  QUESTIONING(session) {
+    if (!session.focusPointsResult) {
+      throw conflict("Focus points not ready for this stage yet");
+    }
+    if (!session.pendingAnswer) {
+      throw conflict("No answer submitted yet — nothing queued for the planner");
+    }
+    const { model, prompt } = assemblePlanTurn(buildPlanTurnInputs(session));
+    // prompt === null means the planner would take its skip-shortcut: no model
+    // call at all. Say so plainly rather than show a prompt that never gets sent.
+    return {
+      label: "Next question",
+      model,
+      prompt:
+        prompt ??
+        "(planner bypassed — this answer carries no new signal, so nothing is sent to the AI. The next question comes straight from the queue.)",
+    };
   },
 };
 
