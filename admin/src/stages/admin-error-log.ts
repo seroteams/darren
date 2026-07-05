@@ -1,9 +1,10 @@
 // Error log — the superadmin's cross-company view of every error users hit (error-log
-// Phase 2). Wired to GET /api/v1/admin/errors, gated by requireSuperadminRoute: only the
-// allowlisted superadmin (Carl) gets a 200; the nav item is hidden for everyone else, but
-// that hiding is cosmetic — the 403 is the real wall. Read-only list, newest first. Each
-// row is tagged Local (Carl's dev machine) or Live (the published Sero), so one screen
-// shows both. Row detail, filters, and mark-resolved arrive in Phase 4.
+// Phase 2 + the Local/Live toggle). Wired to GET /api/v1/admin/errors, gated by
+// requireSuperadminRoute: only the allowlisted superadmin (Carl) gets a 200; the nav item
+// is hidden for everyone else, but that hiding is cosmetic — the 403 is the real wall.
+// Read-only list, newest first. Each row is tagged Local (Carl's dev machine) or Live (the
+// published Sero); the toggle filters to one or the other (client-side over the loaded
+// rows). Row detail, source filters, and mark-resolved arrive in Phase 4.
 
 import { getErrorLog } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
@@ -80,6 +81,23 @@ function table(rows: ErrorRow[]): string {
     </div>`;
 }
 
+// The Local/Live toggle. "All" is the default; the others narrow to one environment so
+// Carl can watch just his own machine, or just the published Sero, in one screen.
+const ENV_FILTERS = [
+  { key: "all", label: "All" },
+  { key: "local", label: "Local" },
+  { key: "production", label: "Live" },
+] as const;
+
+function filterBar(active: string, counts: Record<string, number>): string {
+  return `<div class="el-filters" role="tablist" aria-label="Filter by where it ran">
+    ${ENV_FILTERS.map(
+      (f) =>
+        `<button type="button" role="tab" class="el-filter js-env${active === f.key ? " is-active" : ""}" data-env="${f.key}" aria-selected="${active === f.key ? "true" : "false"}">${f.label} <span class="el-filter__n">${counts[f.key] ?? 0}</span></button>`,
+    ).join("")}
+  </div>`;
+}
+
 export const mount: Mount = async (root) => {
   const shell = (inner: string) =>
     `<div class="l-container l-container--wide l-stack l-stack--6">
@@ -97,24 +115,45 @@ export const mount: Mount = async (root) => {
       <button type="button" class="btn btn--ghost js-retry">Try again</button>
     </section>`;
 
+  let allRows: ErrorRow[] = [];
+  let env = "all";
+
+  const paint = () => {
+    const counts = {
+      all: allRows.length,
+      local: allRows.filter((r) => r.environment === "local").length,
+      production: allRows.filter((r) => r.environment === "production").length,
+    };
+    const shown = env === "all" ? allRows : allRows.filter((r) => r.environment === env);
+    const label = env === "production" ? "live " : env === "local" ? "local " : "";
+    const body = shown.length
+      ? table(shown)
+      : `<section class="card-flat"><p class="text-sm text-ink-dim">No ${label}errors in this view.</p></section>`;
+    root.innerHTML = shell(`${filterBar(env, counts)}${body}`);
+    root.querySelectorAll<HTMLButtonElement>(".js-env").forEach((b) =>
+      b.addEventListener("click", () => { env = b.dataset.env ?? "all"; paint(); }),
+    );
+    root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
+  };
+
   const load = async () => {
     root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading the error log…</p></section>`);
-    let rows: ErrorRow[];
     try {
       const res = await getErrorLog();
-      rows = Array.isArray(res?.errors) ? (res.errors as ErrorRow[]) : [];
+      allRows = Array.isArray(res?.errors) ? (res.errors as ErrorRow[]) : [];
     } catch {
       root.innerHTML = shell(errorCard);
       root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
       return;
     }
-    if (rows.length === 0) {
+    if (allRows.length === 0) {
       root.innerHTML = shell(
         `<section class="card-flat"><p class="text-sm text-ink-dim">No errors logged yet — nothing's broken.</p></section>`,
       );
       return;
     }
-    root.innerHTML = shell(table(rows));
+    env = "all";
+    paint();
   };
 
   await load();

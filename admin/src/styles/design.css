@@ -392,7 +392,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-input, textarea, button {
+input, textarea, button, select {
   font-family: inherit;
   font-size: var(--type-body);
   color: inherit;
@@ -826,6 +826,17 @@ body.has-session-topbar .stage {
 .el-pill--browser { background: var(--sero-lavender-200); color: var(--sero-lavender-800); }
 .el-pill--err     { background: var(--sero-coral-200);    color: var(--sero-coral-800); }
 .el-pill--warn    { background: var(--sero-gold-200, #faecd9); color: var(--sero-gold-800, #7a4f0a); }
+
+/* Local / Live toggle (error-log) — a small segmented control above the table. */
+.el-filters { display: inline-flex; gap: 3px; padding: 3px; background: var(--sero-soft-400); border-radius: var(--sero-radius-badge); }
+.el-filter {
+  border: 0; background: transparent; cursor: pointer; font: inherit;
+  font-size: var(--type-body-sm); font-weight: var(--type-weight-medium); color: var(--color-ink-dim);
+  padding: 4px 14px; border-radius: var(--sero-radius-badge); line-height: 1.4;
+}
+.el-filter:hover { color: var(--color-ink); }
+.el-filter.is-active { background: var(--color-surface); color: var(--color-ink); box-shadow: var(--shadow-card); }
+.el-filter__n { color: var(--color-ink-mute); font-size: var(--type-caption); margin-left: 3px; }
 
 /* Row actions (user-management Phase 2): a ⋯ button per row opening a role menu. The menu is
    attached to <body> (position: fixed) so the table's horizontal scroll never clips it. */
@@ -4760,5 +4771,132 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   .notes-panel {
     width: 100vw;
     padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* =============================================================================
+   Mobile screens — Phase 2 (auth + member app). The member screens are plain
+   card stacks that already shrink; these are the two real papercuts the
+   375px walk found.
+============================================================================= */
+/* A placeholder longer than the field ends in an ellipsis instead of clipping
+   mid-word (register's "Company" hint at phone width). Browsers disagree on
+   which of the two forms they honour, so set both. */
+input:placeholder-shown {
+  text-overflow: ellipsis;
+}
+input::placeholder {
+  text-overflow: ellipsis;
+}
+
+/* =============================================================================
+   Mobile screens — Phase 3 (the run pipeline). The pipeline screens are centred
+   single-column stacks that already shrink (the flow glossary and stage-review
+   overlay handle phones on their own); these restack the remaining fixed-column
+   grids and make the interview's answer buttons thumb-sized.
+============================================================================= */
+@media (max-width: 30rem) {
+  /* Axis bars (interview, eval, briefing): the name and score share the top
+     row; the bar drops to a full-width row below — a 7rem label + 5rem score
+     left the bar ~6 characters wide. */
+  .axis {
+    grid-template-columns: 1fr auto;
+    gap: 0.35rem 1rem;
+  }
+  .axis__label { grid-column: 1; grid-row: 1; }
+  .axis__value { grid-column: 2; grid-row: 1; }
+  .axis__track { grid-column: 1 / -1; grid-row: 2; }
+
+  /* Briefing action rows: the lead-in label sits above its text instead of
+     beside it. */
+  .action-group.copyable-row .copyable-row__content {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+
+  /* Interview answer actions: full-width stacked buttons — thumb targets, and
+     Submit stays first in reading order. */
+  .questioning-card .field__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .questioning-card .field__actions .btn {
+    justify-content: center;
+  }
+}
+
+/* The confirm/alert modal (glossary, delete-session confirm) caps itself to the
+   phone screen and scrolls inside instead of growing past it. Pulled forward
+   from the Phase 4 sweep because the glossary walk is a Phase 3 scenario. */
+.modal {
+  max-width: min(360px, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+}
+@media (max-width: 639.98px) {
+  /* Page titles share their row with an action (Team's "Tidy up", detail pages'
+     "Back"). A long h1 — usually a person's name — wraps the row instead of
+     crushing the button. */
+  .page-header__row {
+    flex-wrap: wrap;
+  }
+}
+
+/* =============================================================================
+   Mobile screens — Phase 4 (global sweep + admin core). joblex (720px) and
+   guide-ref (640px) already stack; the row menu already clamps itself.
+============================================================================= */
+/* Code blocks scroll inside themselves, never the page (Guide, run debrief). */
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Touch devices: the small controls get comfortable tap heights. */
+@media (pointer: coarse) {
+  .btn--sm,
+  .um-menu-btn,
+  .notes-panel__toggle {
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  /* iOS zooms the page when a focused control's text is under 16px. Nothing
+     may render below the 14px floor, but a couple of dense desktop controls
+     sit between 14 and 16 — bump exactly those to 16px on phones. */
+  input, select, textarea {
+    font-size: max(1rem, 1em);
+  }
+
+  /* User management / Error log table: sideways scroll keeps every column
+     honest, with the first column pinned so you never lose who a row is
+     about. Solid backgrounds so scrolled columns slide underneath. */
+  .um-table th:first-child,
+  .um-table td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--color-surface);
+    min-width: 9rem;
+  }
+  .um-table th:first-child {
+    background: var(--color-bg);
+  }
+  .um-group-gap td:first-child {
+    background: transparent;
+  }
+  .um-row:hover td:first-child {
+    background: var(--sero-active-state-bg);
+  }
+
+  /* Long unbroken content (error messages, routes, emails, notes) wraps
+     instead of stretching its container. */
+  .el-msg,
+  .el-route,
+  .um-user__email,
+  .notes-panel__item,
+  .ctx-segments {
+    overflow-wrap: anywhere;
   }
 }
