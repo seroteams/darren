@@ -40,6 +40,9 @@ content/data/audit/
 # (real names), so never committed.
 content/data/people-aliases/
 
+# Guest daily-cap counter (guest-run Phase 1) — a {date, count} runtime file, never committed.
+content/data/guest-cap.json
+
 # Runtime logs (keep-set only)
 debug-be19bb.log
 .cursor/debug-*.log

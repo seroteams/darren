@@ -182,13 +182,21 @@ function main(): void {
   // start — create a session (controller → service → repo + S0 seam; the AI
   // pre-warm is injected). The origin guard + per-IP rate limit are HTTP concerns,
   // so they stay here in front of the route. v1 creates on the collection
-  // (POST /api/v1/sessions, decision D4) with the one error shape. Admin-gated
-  // (member-view: only-runs): managers/admins run 1:1s, a plain member can't — they
-  // only view their past 1:1s, so a member POST here is a real 403, not just hidden UI.
-  router.add("POST", "/api/v1/sessions", adminV1((c) => {
+  // (POST /api/v1/sessions, decision D4) with the one error shape. The role gate
+  // moved INTO the controller (guest-run Phase 1): anonymous guests may start (a
+  // shared daily budget caps them), admins/managers start uncapped, and a plain
+  // member is still a real 403 (member-view: only-runs), not just hidden UI.
+  router.add("POST", "/api/v1/sessions", v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     if (rateLimitIp(c.req)) throw rateLimited("Rate limit exceeded");
     return sessions.start(c);
+  }));
+  // claim — a logged-in caller takes ownership of an ownerless guest run (guest-run
+  // Phase 1). Auth enforced in the controller (any role); origin-guarded like every
+  // other mutating v1 route.
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/claim$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return sessions.claim(c);
   }));
   // sessions — the live 1:1 runner (controller → service → repo, the S0 seam). v1
   // takes the id IN THE PATH (/api/v1/sessions/:id…, decision D4) with the one error

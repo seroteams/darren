@@ -22,15 +22,16 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > whichever track commits first carries them). ⚠️ **Restart your dev API** before walking on
 > :3000/:3001. Walk: [phase-1.md](docs/todo/feedback-inbox/phase-1.md).
 
-> **⬜ [guest-run](docs/todo/guest-run/PLAN.md) — NEW plan set up 2026-07-05, awaiting your read-through before Phase 1.**
-> Your "open way first" idea: a visitor with no account clicks **"Try it — no account needed"** on the login
-> screen, runs a full 1:1, and after the briefing is asked *"Want to keep this?"* — register/log in and the
-> run becomes theirs. Guest runs stay **ownerless** (not inside your org); you watch them on a new superadmin
-> **Guest runs** screen; a **daily cap** (default 10/day) protects the OpenAI budget on top of the per-IP limit.
-> 4 phases: ① backend claim + cap · ② guest lane front door · ③ save-at-end + claim wiring (ONE paid walk,
-> ~$0.35–0.60, waits for your go) · ④ superadmin Guest runs screen. Board note: the old "anonymous-start —
-> close before widening" decision is consciously reversed for invited demos (Phase 1 writes the reversal note).
-> **Walk:** read [PLAN.md](docs/todo/guest-run/PLAN.md) + the 4 phase files. Green light → baseline (free) + Phase 1.
+> **🔨 [guest-run](docs/todo/guest-run/PLAN.md) — Phase 1 BUILT (2026-07-05, "Go phase 1"), awaiting your walk.**
+> Your "open way first" idea: no-account visitor runs a full 1:1, saves it at the end by registering/logging in.
+> **P1 built test-first (claim endpoint + daily guest cap):** anonymous starts are back open but budgeted —
+> `GUEST_RUNS_PER_DAY` (default 10) across all guests/day, plain "come back tomorrow" refusal, counter survives
+> restarts; `POST /api/v1/sessions/:id/claim` hands an ownerless run to the newly logged-in caller (owned-by-
+> someone-else answers 404, re-claim is a no-op); members still 403 on start; board reversal note written.
+> Proof at $0: 73/73 tests · typecheck · live scratch-API walk incl. ownership verified ON DISK. ⚠️ A parallel
+> session's commit `a241d13c` swept the service/controller/test edits along; the rest is committed labelled
+> "built — awaiting walk". **Walk:** the 5 scenarios in [phase-1.md](docs/todo/guest-run/phase-1.md) (all free).
+> Green light → Phase 2 (the "Try it" front door). Then: ③ save-at-end (one paid walk, your go) · ④ Guest runs screen.
 
 > **🔨 [no-inference-ruling](docs/todo/no-inference-ruling/PLAN.md) — Phase 1 ✅ green-lit + committed ("go please", 2026-07-05) · Phase 2 ⬜ next, your go.**
 > The MoSCoW review of [the prompt-improvement spec](docs/sero-prompt-improvement-spec.md). Big find: the spec's

@@ -1,6 +1,6 @@
 # Phase 1 — Backend: claim endpoint + daily guest cap
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨
 
 ## Goal
 The backend can hand a finished ownerless run to a logged-in account (claim), and guest starts are capped per day so strangers can't spend the OpenAI budget.

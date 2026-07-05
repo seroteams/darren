@@ -40,6 +40,10 @@ done; hosting (2) + continuity (8) folded into the pre-go-live track above
   org+role, AI keys proven server-only (key-search zero-hits), DB audited + cleared of unfenced rows,
   anonymous-start path decided (kept open + walled for the alpha, close before widening). Human-expert
   security review **waived/deferred** for the small alpha (accepted risk — book before widening).
+  **Reversal (2026-07-05, guest-run):** "close before widening" is consciously reversed — anonymous start
+  is now a product feature (guest try-out for invited demos, [docs/todo/guest-run/](docs/todo/guest-run/PLAN.md)).
+  Compensating controls: shared daily start budget (`GUEST_RUNS_PER_DAY`, default 10) + the per-IP limit +
+  claim-only-ownerless handover. Revisit the controls before a public try-it page.
 - **Phase 4 (clear the QA pile) — ✅ done (2026-07-01):** all 9 built-but-un-QA'd features signed off or
   cut (repo-tidy P1/P2, frontend-admin-split P1, tracker-consolidation P1, member-nav P1, stage-data-tabs,
   sent-preview, todo-board-rebuild P3, briefing-grounding-fixes P1). Nothing half-built left on screen.
