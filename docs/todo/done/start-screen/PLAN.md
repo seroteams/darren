@@ -25,10 +25,12 @@ testers get from the link to a guest run in one click.
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The whole slice | `WELCOME` stage + copy · `/` routing for logged-out boot, back/forward, unknown paths · login untouched at `/login` · rail hidden on the start screen | 🔨 built 2026-07-05, awaiting Carl's walk |
+| 1 | The whole slice | `WELCOME` stage + copy · `/` routing for logged-out boot, back/forward, unknown paths · login untouched at `/login` · rail hidden on the start screen | ✅ green-lit 2026-07-06 ("yeah i love it go") |
 
 ## Current state
-**BUILT + verified 2026-07-05 — awaiting Carl's walk.** Test-first (copy contract, single-button
+**✅ CLOSED 2026-07-06 — Carl green-lit ("yeah i love it go"); folder moved to done/.
+Parked items below are the only leftovers.**
+Build + verification record (2026-07-05): Test-first (copy contract, single-button
 rule, root-path mapping, guest-entry helper — red→green): `npm test` **78/78** (was 76) ·
 `npm run typecheck:admin` clean. Browser-proven on a scratch Vite (:3009, $0, fresh profile):
 logged-out `/` → start screen (no form, no rail) → CTA → intake at `/new` → back returns to the

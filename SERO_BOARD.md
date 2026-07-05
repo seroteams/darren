@@ -42,6 +42,8 @@ done; hosting (2) + continuity (8) folded into the pre-go-live track above
   security review **waived/deferred** for the small alpha (accepted risk — book before widening).
   **Reversal (2026-07-05, guest-run):** "close before widening" is consciously reversed — anonymous start
   is now a product feature (guest try-out for invited demos, [docs/todo/guest-run/](docs/todo/guest-run/PLAN.md)).
+  The front door followed (start-screen, ✅ closed 2026-07-06): `/` is a guest-first start screen for
+  invited testers; login lives at `/login` ([plan → done/](docs/todo/done/start-screen/PLAN.md)).
   Compensating controls: shared daily start budget (`GUEST_RUNS_PER_DAY`, default 10) + the per-IP limit +
   claim-only-ownerless handover. Revisit the controls before a public try-it page.
 - **Phase 4 (clear the QA pile) — ✅ done (2026-07-01):** all 9 built-but-un-QA'd features signed off or
