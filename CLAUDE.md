@@ -70,8 +70,19 @@ These are recurring corrections, promoted from memory so they hold every session
 - **Engine honesty — no silent masking.** Surface raw model output. Detect problems and flag them; never hardcode text rewrites to hide them.
 - **Focus arc gate.** Bi-weekly and "feels-off" meeting types exclude competencies. Respect the input filter and the `FOCUS_ARC_LEAK` gate.
 - **Plain language.** User-facing copy and my own replies stay short and jargon-free.
-- **Two-box bottom card.** End every reply with the visual card Carl reads first (he lands at the bottom): a **WHERE WE ARE** box (what we did + status, plain words), a **YOUR MOVE** box (options — real choices when they exist), then a `💬` plain-words line (the old "In simple terms", always last). One card replaces the old Recap card + separate "In simple terms" line. ⚠️ guardrail warnings still go at the TOP, not in the card.
-  - **Letter every YOUR MOVE option `A) / B) / C)…`** so Carl can reply with just the letter — the letter comes first, then the emoji (✅ recommended / ▶️ alternative / ⏸️ nothing-or-park), then the option. E.g. `A) ✅ Build step 1 …`. Keep the recommended option as A.
+- **TITLE — slim, top of every reply.** The reply opens with one short line: `📌 <plain-words summary of what Carl just asked>` — his current request, not what I did. Only a ⚠️ guardrail block may sit above it. No more top `🧭 ORIGINALLY` line — the original-task anchor now lives inside the bottom box (below).
+- **One bottom box — every reply, no exceptions.** End every reply (even one-liners — Carl lands at the bottom and often doesn't scroll up) with a single scannable box, three lines:
+  ```
+  ──────────────────────────────
+  🧭 ORIGINALLY: <CAPS SUMMARY OF THE THREAD'S FIRST REQUEST — pinned, unchanged all thread>
+  🔵 DOING  <what I just did + status, plain words>
+  🔴 YOU    <your move — one action, or A)/B)/C) if there's a real choice, or "nothing right now">
+  ──────────────────────────────
+  ```
+  - `🧭 ORIGINALLY` = caps summary of the thread's **opening** prompt; stays the SAME across the whole thread (Carl's anchor when he's flipping between many agents).
+  - `🔵 DOING` = what just happened + current state, plain words. On coding tasks the short files-edited rundown sits just above the box or folds into this line.
+  - `🔴 YOU` = the move. Real options when they exist, **lettered `A)/B)/C)`** so Carl can reply with one letter (letter first, then ✅ recommended / ▶️ alternative / ⏸️ park, recommended pick as A). If only one path, name it on one line; if nothing's needed, say "nothing right now".
+  - This box **replaces** the old top ORIGIN line + the two-box WHERE WE ARE / YOUR MOVE card + the separate `💬` "In simple terms" line (collapsed 2026-07-05 — Carl: "too much, just a simple box at the bottom"). Plain language now lives inside DOING/YOU. ⚠️ guardrail warnings still go at the TOP, never in the box. Don't stress exact box-edge alignment — keep the three labels and pad to a tidy width.
 - **Verify before "done".** For any prompt or engine change, run `npm run gate` (and `npm run smoke` / `npm run eval` as relevant) and report the result — don't self-certify — but see the cost rule below: paid checks need a go-ahead; report offline results otherwise.
 - **Cost control — no paid runs without a yes.** Anything that hits the OpenAI API (`npm run gate`, `npm run smoke`, `npm run eval`, persona runs, live replays) needs Carl's explicit go-ahead *for that specific run*, with a rough cost stated first (~$0.35 per pipeline run, ~$3 for the full gate). Default to free checks: `npm test` and `node scripts/replay-scenario.js <id> --fixtures-only`. When a live run is approved, run the smallest thing that proves the point — `node scripts/gate.js --only <case>` — never the full 8-case sweep or repeats unless Carl asks for them.
 - **Guardrails — warn Carl when he strays.** Check every request from Carl against the five drift types in [docs/GUARDRAILS.md](docs/GUARDRAILS.md): goal drift (features/polish), pace drift (jumping ahead / skipping QA), honesty drift (flattery / hiding problems), money drift (paid runs), scope creep. If one fires, lead the reply with the ⚠️ warning block (drift type / why / on-track move / your call); if nothing strays, say nothing. Advise, never block — Carl can always proceed.
