@@ -1,0 +1,103 @@
+/* -----------------------------------------------------------------------------
+   Typeform-style field transitions
+----------------------------------------------------------------------------- */
+.field-enter { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .field-enter { transform: translateY(12px); filter: blur(2px); }
+}
+.field-enter.is-in {
+  opacity: 1;
+  transition: opacity var(--dur-fast) var(--ease-out-expo);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .field-enter.is-in {
+    transform: translateY(0);
+    filter: blur(0);
+    transition: opacity var(--dur-fast) var(--ease-out-expo),
+                transform var(--dur-fast) var(--ease-out-expo),
+                filter var(--dur-fast) var(--ease-out-expo);
+  }
+}
+.field-exit { opacity: 1; }
+.field-exit.is-out {
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-in-out-cubic);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .field-exit.is-out {
+    transform: translateY(-12px);
+    filter: blur(3px);
+    transition: opacity var(--dur-fast) var(--ease-in-out-cubic),
+                transform var(--dur-fast) var(--ease-in-out-cubic),
+                filter var(--dur-fast) var(--ease-in-out-cubic);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Stage-level enter/exit
+----------------------------------------------------------------------------- */
+.stage-enter { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .stage-enter { transform: translateY(12px); filter: blur(4px); }
+}
+.stage-enter.is-in {
+  opacity: 1;
+  transition: opacity var(--dur-medium) var(--ease-out-expo);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stage-enter.is-in {
+    transform: translateY(0);
+    filter: blur(0);
+    transition: opacity var(--dur-medium) var(--ease-out-expo),
+                transform var(--dur-medium) var(--ease-out-expo),
+                filter var(--dur-medium) var(--ease-out-expo);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Reveal primitives
+----------------------------------------------------------------------------- */
+.reveal { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .reveal { transform: translateY(8px); }
+}
+.reveal.is-in {
+  opacity: 1;
+  transition: opacity var(--dur-medium) var(--ease-out-expo);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .reveal.is-in {
+    transform: translateY(0);
+    transition: opacity var(--dur-medium) var(--ease-out-expo),
+                transform var(--dur-medium) var(--ease-out-expo);
+  }
+}
+.reveal-soft {
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-out-expo);
+}
+.reveal-soft.is-in { opacity: 1; }
+
+/* -----------------------------------------------------------------------------
+   Celebration wash (briefing entrance)
+----------------------------------------------------------------------------- */
+.celebration-wash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 80% 55% at 50% 30%,
+    rgba(91, 61, 245, 0.14) 0%,
+    rgba(47, 107, 255, 0.10) 40%,
+    transparent 70%);
+  opacity: 0;
+  z-index: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .celebration-wash.is-active { animation: wash 1400ms var(--ease-out-expo) forwards; }
+}
+@keyframes wash {
+  0%   { opacity: 0; }
+  30%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+

@@ -1,0 +1,381 @@
+/* =============================================================================
+   Sero — design tokens + bespoke components
+   Aligned with notes/style.md: light theme, soft contrast, 8px grid,
+   sentence case everywhere. Tailwind handles layout/spacing utilities; this
+   file holds tokens, the orb, axis bars, and motion keyframes.
+   ============================================================================= */
+
+:root {
+  /* =========================================================================
+     Sero design tokens — full system (source of truth)
+     ========================================================================= */
+
+  /* Primary — calm blue */
+  --sero-primary-50: #fdfeff;
+  --sero-primary-100: #f5fafd;
+  --sero-primary-200: #e9f3fb;
+  --sero-primary-300: #d7eaf8;
+  --sero-primary-400: #c1def4;
+  --sero-primary-500: #a5cfef;
+  --sero-primary-600: #85bde9;
+  --sero-primary-700: #5aa9e6;
+  --sero-primary-800: #1b5d91;
+  --sero-primary-900: #0d2c44;
+  --sero-primary-950: #081c2b;
+
+  /* Mint */
+  --sero-mint-50: #fdfffe;
+  --sero-mint-100: #f8fefc;
+  --sero-mint-200: #eefcf9;
+  --sero-mint-300: #e1faf4;
+  --sero-mint-400: #d0f8ef;
+  --sero-mint-500: #bcf5e7;
+  --sero-mint-600: #a4f1df;
+  --sero-mint-700: #88ecd5;
+  --sero-mint-800: #1aa887;
+  --sero-mint-900: #0c4b3c;
+  --sero-mint-950: #072c23;
+
+  /* Sky */
+  --sero-sky-50: #fcfefe;
+  --sero-sky-100: #f4fbfd;
+  --sero-sky-200: #e7f6fa;
+  --sero-sky-300: #d4eff7;
+  --sero-sky-400: #bce5f2;
+  --sero-sky-500: #9fdaec;
+  --sero-sky-600: #7dcde5;
+  --sero-sky-700: #55bddd;
+  --sero-sky-800: #1b7089;
+  --sero-sky-900: #0d3642;
+  --sero-sky-950: #08232b;
+
+  /* Lavender */
+  --sero-lavender-50: #fefdfe;
+  --sero-lavender-100: #faf9fd;
+  --sero-lavender-200: #f4f1fa;
+  --sero-lavender-300: #ece7f6;
+  --sero-lavender-400: #e2d9f1;
+  --sero-lavender-500: #d5c9eb;
+  --sero-lavender-600: #c5b5e4;
+  --sero-lavender-700: #b49edb;
+  --sero-lavender-800: #55358f;
+  --sero-lavender-900: #261840;
+  --sero-lavender-950: #160e25;
+
+  /* Coral */
+  --sero-coral-50: #fffdfc;
+  --sero-coral-100: #fff6f5;
+  --sero-coral-200: #feeae8;
+  --sero-coral-300: #fddad7;
+  --sero-coral-400: #fcc5c0;
+  --sero-coral-500: #fbaca5;
+  --sero-coral-600: #f98e84;
+  --sero-coral-700: #f76b5e;
+  --sero-coral-800: #ac1608;
+  --sero-coral-900: #500a04;
+  --sero-coral-950: #310602;
+
+  /* Gold */
+  --sero-gold-50: #fffefc;
+  --sero-gold-100: #fffbf4;
+  --sero-gold-200: #fff6e5;
+  --sero-gold-300: #fff0d1;
+  --sero-gold-400: #ffe7b7;
+  --sero-gold-500: #ffdd98;
+  --sero-gold-600: #ffd072;
+  --sero-gold-700: #ffc247;
+  --sero-gold-800: #ad7400;
+  --sero-gold-900: #523600;
+  --sero-gold-950: #332200;
+
+  /* Teal */
+  --sero-teal-50: #fdfefe;
+  --sero-teal-100: #f6fbfa;
+  --sero-teal-200: #eaf6f4;
+  --sero-teal-300: #daefeb;
+  --sero-teal-400: #c6e6e0;
+  --sero-teal-500: #addcd2;
+  --sero-teal-600: #8fcfc2;
+  --sero-teal-700: #6dc0b0;
+  --sero-teal-800: #317164;
+  --sero-teal-900: #183731;
+  --sero-teal-950: #0f2420;
+
+  /* Navy */
+  --sero-navy-50: #fbfdfe;
+  --sero-navy-100: #edf5fb;
+  --sero-navy-200: #d7e9f6;
+  --sero-navy-300: #b8d8ee;
+  --sero-navy-400: #90c1e5;
+  --sero-navy-500: #5fa6d9;
+  --sero-navy-600: #2e85c3;
+  --sero-navy-700: #1e5780;
+  --sero-navy-800: #133650;
+  --sero-navy-900: #0c2333;
+  --sero-navy-950: #0a1c29;
+
+  /* Soft neutrals */
+  --sero-soft-50: #fdfefe;
+  --sero-soft-100: #fefefe;
+  --sero-soft-200: #fcfcfc;
+  --sero-soft-300: #f9f9f9;
+  --sero-soft-400: #f6f6f6;
+  --sero-soft-500: #f2f2f2;
+  --sero-soft-600: #ededed;
+  --sero-soft-700: #e8e8e8;
+  --sero-soft-800: #757575;
+  --sero-soft-900: #303030;
+  --sero-soft-950: #1a1a1a;
+
+  /* Charcoal */
+  --sero-charcoal-50: #fcfcfc;
+  --sero-charcoal-100: #f2f2f2;
+  --sero-charcoal-200: #e2e2e2;
+  --sero-charcoal-300: #cccccc;
+  --sero-charcoal-400: #afafaf;
+  --sero-charcoal-500: #8c8c8c;
+  --sero-charcoal-600: #636363;
+  --sero-charcoal-700: #333333;
+  --sero-charcoal-750: #1f2a37;
+  --sero-charcoal-800: #252525;
+  --sero-charcoal-900: #1c1c1c;
+  --sero-charcoal-950: #1a1a1a;
+
+  /* Off-white — full Figma scale (completed 2026-07-05 from Carl's palette export) */
+  --sero-offwhite-50: #ffffff;
+  --sero-offwhite-100: #fdfdfd;
+  --sero-offwhite-200: #fbfbfb;
+  --sero-offwhite-300: #f7f7f7;
+  --sero-offwhite-400: #f3f3f3;
+  --sero-offwhite-500: #eeeeee;
+  --sero-offwhite-600: #e8e8e8;
+  --sero-offwhite-700: #e0e0e0;
+  --sero-offwhite-800: #727272;
+  --sero-offwhite-900: #303030;
+  --sero-offwhite-950: #1a1a1a;
+
+  /* Semantic status */
+  --sero-success: var(--sero-mint-700);
+  --sero-success-light: var(--sero-mint-100);
+  --sero-warning: var(--sero-gold-700);
+  --sero-warning-light: var(--sero-gold-100);
+  --sero-error: var(--sero-coral-700);
+  --sero-error-light: var(--sero-coral-100);
+  --sero-info: var(--sero-primary-700);
+  --sero-info-light: var(--sero-primary-100);
+
+  /* Block / category accents */
+  --sero-block-tasks: var(--sero-gold-700);
+  --sero-block-processes: var(--sero-gold-800);
+  --sero-block-team: var(--sero-coral-800);
+  --sero-block-development: var(--sero-mint-700);
+  --sero-block-fun: var(--sero-sky-500);
+  --sero-block-fulfilment: var(--sero-lavender-700);
+
+  /* Interaction / action */
+  --sero-link: var(--sero-primary-700);
+  --sero-link-hover: var(--sero-primary-800);
+  --sero-active-state: var(--sero-primary-700);
+  --sero-active-state-bg: var(--sero-primary-100);
+  --sero-completed: var(--sero-mint-800);
+  --sero-ai: var(--sero-lavender-600);
+  --sero-purple: var(--sero-lavender-700);
+
+  /* Spacing (8px grid) */
+  --sero-space-0: 0px;
+  --sero-space-px: 1px;
+  --sero-space-0-5: 2px;
+  --sero-space-1: 4px;
+  --sero-space-2: 8px;
+  --sero-space-3: 12px;
+  --sero-space-4: 16px;
+  --sero-space-5: 20px;
+  --sero-space-6: 24px;
+  --sero-space-7: 28px;
+  --sero-space-8: 32px;
+  --sero-space-9: 36px;
+  --sero-space-10: 40px;
+  --sero-space-12: 48px;
+  --sero-space-14: 56px;
+  --sero-space-16: 64px;
+  --sero-space-20: 80px;
+  --sero-space-24: 96px;
+
+  /* Radius */
+  --sero-radius-none: 0px;
+  --sero-radius-sm: 4px;
+  --sero-radius-md: 8px;
+  --sero-radius-lg: 12px;
+  --sero-radius-xl: 16px;
+  --sero-radius-2xl: 24px;
+  --sero-radius-full: 9999px;
+  --sero-radius-button: var(--sero-radius-sm); /* 4px — matches Figma + DESIGN.md (manager-ready P2) */
+  --sero-radius-input: var(--sero-radius-sm);
+  --sero-radius-card: var(--sero-radius-lg);
+  --sero-radius-modal: var(--sero-radius-lg);
+  --sero-radius-badge: var(--sero-radius-full);
+  --sero-radius-avatar: var(--sero-radius-full);
+  --sero-radius-tooltip: var(--sero-radius-sm);
+
+  /* Shadows */
+  --sero-shadow-none: none;
+  --sero-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / .05);
+  --sero-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+  --sero-shadow-md: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1);
+  --sero-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1);
+  --sero-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1);
+  --sero-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / .25);
+  --sero-shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / .05);
+  --sero-elevation-flat: var(--sero-shadow-none);
+  --sero-elevation-raised: var(--sero-shadow-sm);
+  --sero-elevation-floating: var(--sero-shadow-lg);
+  --sero-elevation-overlay: var(--sero-shadow-2xl);
+  --sero-shadow-focus: 0 0 0 3px var(--sero-primary-300);
+
+  /* Interaction state overlays */
+  --sero-state-hover-opacity: .08;
+  --sero-state-focus-opacity: .12;
+  --sero-state-active-opacity: .16;
+  --sero-state-disabled-opacity: .38;
+  --sero-state-hover: rgba(0, 0, 0, .04);
+  --sero-state-focus: rgba(0, 0, 0, .08);
+  --sero-state-active: rgba(0, 0, 0, .12);
+  --sero-state-disabled-bg: var(--sero-charcoal-100);
+  --sero-state-disabled-text: var(--sero-charcoal-400);
+
+  /* Z-index */
+  --sero-z-base: 0;
+  --sero-z-dropdown: 10;
+  --sero-z-sticky: 20;
+  --sero-z-fixed: 30;
+  --sero-z-modal-backdrop: 40;
+  --sero-z-modal: 50;
+  --sero-z-popover: 60;
+  --sero-z-tooltip: 70;
+  --sero-z-toast: 80;
+  --sero-z-max: 9999;
+
+  /* Breakpoints */
+  --sero-breakpoint-sm: 640px;
+  --sero-breakpoint-md: 768px;
+  --sero-breakpoint-lg: 1024px;
+  --sero-breakpoint-xl: 1280px;
+  --sero-breakpoint-2xl: 1536px;
+
+  /* =========================================================================
+     Legacy aliases — remapped onto Sero tokens. Existing components keep
+     working; new code should reference --sero-* tokens directly.
+     ========================================================================= */
+
+  /* Surfaces */
+  --color-bg: var(--sero-primary-100);             /* #f5fafd */
+  --color-surface: var(--sero-soft-50);            /* #ffffff */
+  --color-border: var(--sero-soft-700);            /* #e8e8e8 */
+  --color-border-strong: var(--sero-charcoal-300); /* #cccccc */
+  --color-border-tinted: color-mix(in srgb, var(--sero-primary-300) 30%, var(--color-border));
+
+  /* Ink (text) — charcoal-750 is an exact match for the prior ink value */
+  --color-ink: var(--sero-charcoal-750);           /* #1f2a37 */
+  --color-ink-dim: var(--sero-charcoal-600);       /* #636363 */
+  --color-ink-mute: var(--sero-soft-800);          /* #757575 */
+
+  /* Accent — Sero primary (softer than the prior vivid blue) */
+  --color-accent: var(--sero-primary-700);         /* #5aa9e6 */
+  --color-accent-dark: var(--sero-primary-800);    /* #1b5d91 */
+  --color-accent-soft: var(--sero-primary-200);    /* #e9f3fb */
+  --color-accent-glow: rgba(90, 169, 230, 0.32);
+
+  /* Purple — Sero lavender */
+  --color-purple: var(--sero-lavender-700);        /* #b49edb */
+  --color-purple-soft: var(--sero-lavender-200);   /* #f4f1fa */
+  --color-purple-glow: rgba(180, 158, 219, 0.35);
+
+  --color-deep: var(--sero-navy-900);              /* #0c2333 */
+
+  --color-positive: var(--sero-mint-800);          /* #1aa887 */
+  --color-negative: var(--sero-coral-700);         /* #f76b5e */
+  --color-neutral: var(--sero-charcoal-400);       /* #afafaf */
+
+  /* Consolidated from inline var() fallbacks that referenced these (previously
+     undefined) tokens. Values match the fallbacks already in use, so rendering
+     is unchanged — except .notes-panel__toggle:hover, which had no fallback and
+     now gets the same subtle wash as its sibling hover states. */
+  --color-surface-2: rgba(0, 0, 0, 0.05);          /* hover / selected wash */
+  --color-warn: #b45309;                           /* warning text / border */
+  --color-amber: #b4690e;                          /* fix / partial accent */
+  --font-mono: ui-monospace, monospace;            /* code / meta text */
+
+  /* =========================================================================
+     Type scale — modular (~1.2), anchored at 16px body. Role-named sizes
+     plus leading / weight / tracking tokens. Safe variant: existing rendered
+     sizes (display/h2/h3/body/small) are preserved.
+     ========================================================================= */
+  --type-family-display: "Bricolage Grotesque Variable", "InterVariable", "Inter", ui-sans-serif, system-ui, sans-serif; /* display headings (DESIGN.md §3, manager-ready P2) */
+  --type-display: clamp(2.75rem, 6vw, 3.5rem);    /* hero */
+  --type-h1: clamp(2rem, 4.2vw, 2.75rem);         /* large page title */
+  --type-h2: clamp(1.75rem, 3.5vw, 2.25rem);
+  --type-h3: 1.25rem;                             /* kept (safe) */
+  --type-h4: 1.125rem;                            /* 18px */
+  --type-lead: 1.125rem;                          /* 18px intro paragraphs */
+  --type-body: 16px;
+  --type-body-sm: 14px;                           /* 0.875rem — accessibility floor */
+  /* Accessibility rule: NO text token may render below 14px. caption/label
+     were 13px/12px; raised to the 14px floor. Do not lower these. */
+  --type-caption: 14px;                           /* was 13px → floored to 14px */
+  --type-label: 14px;                             /* was 12px → floored to 14px */
+  --type-small: var(--type-body-sm);              /* @deprecated → --type-body-sm */
+
+  /* Line-height (leading) */
+  --type-leading-none: 1;
+  --type-leading-tight: 1.1;
+  --type-leading-snug: 1.25;
+  --type-leading-normal: 1.5;
+  --type-leading-relaxed: 1.6;
+  --type-leading-loose: 1.75;
+
+  /* Weight */
+  --type-weight-regular: 400;
+  --type-weight-medium: 500;
+  --type-weight-semibold: 600;
+  --type-weight-bold: 700;
+
+  /* Tracking (letter-spacing) */
+  --type-tracking-tighter: -0.02em;
+  --type-tracking-tight: -0.01em;
+  --type-tracking-normal: 0;
+  --type-tracking-wide: 0.02em;
+  --type-tracking-wider: 0.04em;
+
+  /* Layout */
+  --measure: 38rem;
+  --container-medium: 64rem;   /* 1024px — 12-grid content width */
+  --container-wide: 72rem;
+  /* Left-rail nav: it lives on the left now, so it occupies no top band
+     (--app-nav-h is the top offset other chrome clears — 0). Its footprint is
+     horizontal: a collapsed icon strip that opens on hover. */
+  --app-nav-h: 0px;
+  --app-nav-w: 60px;        /* collapsed icon strip */
+  --app-nav-w-open: 248px;  /* expanded on hover / keyboard focus */
+
+  /* Radii — now via Sero (note: buttons/inputs tighten from 10/8px to 4px) */
+  --radius-card: var(--sero-radius-card);          /* 12px */
+  --radius-button: var(--sero-radius-button);      /* 4px */
+  --radius-input: var(--sero-radius-input);        /* 4px */
+
+  /* Shadows — now via Sero */
+  --shadow-card: var(--sero-shadow-md);
+  --shadow-card-hover: var(--sero-shadow-md);
+  --shadow-focus: var(--sero-shadow-focus);
+
+  /* Motion — not defined by Sero; keeping app-specific values */
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.19, 1, 0.22, 1);
+  --dur-instant: 120ms;
+  --dur-fast: 240ms;
+  --dur-medium: 420ms;
+  --dur-slow: 720ms;
+  --dur-hero: 1200ms;
+  --stagger: 60ms;
+}
+

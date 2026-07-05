@@ -1,0 +1,248 @@
+/* -----------------------------------------------------------------------------
+   Start stage — recent runs list
+----------------------------------------------------------------------------- */
+.run-row {
+  border: 1px solid var(--color-border-tinted);
+  border-radius: 8px;
+  background: var(--color-surface);
+  box-shadow: var(--sero-shadow-xs);
+  overflow: hidden;
+}
+.run-row__head {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: var(--color-ink);
+  font: inherit;
+}
+.run-row__chevron {
+  color: var(--color-ink-mute);
+  font-size: var(--type-label);
+  width: 1rem;
+  flex-shrink: 0;
+}
+.run-row__meta {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.run-row__head:hover {
+  background: color-mix(in srgb, var(--color-accent-soft) 55%, transparent);
+}
+.run-row__headline {
+  flex: 1;
+  font-weight: 500;
+}
+.run-row__body {
+  padding: 0.75rem 1rem 1rem 2.5rem;
+  border-top: 1px solid var(--color-border);
+  background: var(--sero-primary-50);
+}
+.run-row__overview {
+  margin-bottom: 0.75rem;
+}
+.run-row__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.run-row__drift {
+  color: var(--color-ink-mute);
+  font-size: var(--type-label);
+  margin-bottom: 0.5rem;
+}
+.run-row__drift-details {
+  margin-top: 0.25rem;
+}
+.run-row__drift-details > summary {
+  cursor: pointer;
+  color: var(--color-ink-dim);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  width: fit-content;
+}
+.run-row__drift-list {
+  margin-top: 0.35rem;
+  color: var(--color-ink-dim);
+}
+.run-row__drift-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-ink-mute);
+  margin-left: 0.35rem;
+  vertical-align: middle;
+}
+
+
+.btn--sm {
+  font-size: var(--type-caption);
+  padding: 0.25rem 0.5rem;
+}
+
+/* -----------------------------------------------------------------------------
+   Session topbar — Start button + exit popover
+----------------------------------------------------------------------------- */
+.session-topbar__start {
+  background: transparent;
+  border: 0;
+  color: var(--color-ink);
+  font: inherit;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  margin-right: 1.25rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.session-topbar__start:hover:not(:disabled) {
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+}
+.session-topbar__start:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.session-topbar__row--main {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  gap: 0.75rem;
+}
+.session-topbar__stages {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+  font-size: 15px;
+}
+.session-topbar__stages::-webkit-scrollbar {
+  display: none;
+}
+.session-topbar__glossary {
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-ink-mute);
+  font: inherit;
+  font-size: var(--type-body-sm);
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+}
+.session-topbar__glossary:hover {
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+  color: var(--color-ink);
+}
+.intake-progress {
+  height: 3px;
+  background: var(--color-border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.intake-progress__fill {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: 999px;
+  transition: width var(--dur-medium) var(--ease-out-expo);
+  width: 20%;
+}
+.intake-header__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.start-popover {
+  position: fixed;
+  top: calc(var(--app-nav-h) + var(--session-topbar-h, 44px));
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  z-index: var(--sero-z-popover);
+  min-width: 220px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+}
+.start-popover button {
+  background: transparent;
+  border: 0;
+  color: var(--color-ink);
+  font: inherit;
+  text-align: left;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.start-popover button:hover {
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+}
+.start-popover button.is-danger {
+  color: var(--color-danger, #c0392b);
+}
+
+/* Lexicon review rows */
+.lex-row {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr auto;
+  gap: 0.75rem 1rem;
+  align-items: start;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.lex-row:last-child {
+  border-bottom: none;
+}
+.lex-row__num {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-mute);
+  font-weight: 600;
+  padding-top: 0.15rem;
+}
+.lex-row__phrase {
+  font-weight: 500;
+  color: var(--color-ink);
+  line-height: 1.45;
+}
+.lex-row__context {
+  margin-top: 0.25rem;
+}
+.lex-row__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  justify-content: flex-end;
+}
+.lex-row--keep,
+.lex-row--promote {
+  background: color-mix(in srgb, var(--color-accent-soft) 55%, transparent);
+}
+.lex-row--drop {
+  opacity: 0.55;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+

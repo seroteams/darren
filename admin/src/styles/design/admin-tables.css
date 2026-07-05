@@ -1,0 +1,335 @@
+/* -----------------------------------------------------------------------------
+   User management (user-management Phase 1) — the superadmin's flat table of
+   everyone registered across the alpha. Replaces the old stacked company cards.
+----------------------------------------------------------------------------- */
+.um-table-wrap { overflow-x: auto; }   /* narrow viewports scroll the table, not the page */
+.um-table {
+  width: 100%;
+  border-collapse: separate;            /* separate so each company <tbody> can be its own card */
+  border-spacing: 0;
+  font-size: var(--type-body-sm);       /* 14px floor */
+}
+.um-table th {
+  text-align: left;
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink-mute);
+  padding: 0 var(--sero-space-4) var(--sero-space-2);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+.um-table td {
+  padding: var(--sero-space-3) var(--sero-space-4);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+  color: var(--color-ink);
+}
+.um-table tbody tr:last-child td { border-bottom: none; }
+.um-row { cursor: pointer; }
+.um-row:hover { background: var(--sero-active-state-bg); }
+/* The person's name is a real button (keyboard + screen-reader target) styled as plain
+   bold text; the underline on hover signals the whole row is clickable. */
+.um-user__open {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink);
+  text-align: left;
+  cursor: pointer;
+}
+.um-row:hover .um-user__open { text-decoration: underline; }
+.um-user__email { color: var(--color-ink-dim); }
+.um-activity { display: flex; align-items: baseline; gap: var(--sero-space-2); }
+.um-activity__sub { color: var(--color-ink-dim); }
+
+/* "Coming back?" trend mark — a shape, not arithmetic. Calm colours: rising reads positive,
+   cooling reads warm-muted (attention, not alarm), steady/quiet stay neutral. */
+.um-trend { font-size: 0.85em; line-height: 1; }
+.um-trend--up     { color: var(--color-positive); }
+.um-trend--down   { color: var(--color-amber); }
+.um-trend--steady { color: var(--color-ink-dim); }
+.um-trend--quiet  { color: var(--color-ink-mute); }
+
+/* Alpha-wide ratings — a deliberate labelled stat, not a floating dim line. */
+.um-summary { display: flex; flex-direction: column; gap: var(--sero-space-0-5); }
+
+/* Role pill — one calm tint per account role. */
+.um-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: var(--sero-radius-badge);
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.um-badge--admin   { background: var(--sero-lavender-200); color: var(--sero-lavender-800); }
+.um-badge--manager { background: var(--sero-primary-200);  color: var(--sero-primary-800); }
+.um-badge--member  { background: var(--sero-soft-500);     color: var(--sero-soft-800); }
+
+/* Company group — each company is its own white card (a <tbody> band on a transparent, spaced
+   table), so the grouping reads at a glance. The header names the company; its people sit under it
+   on the same white surface. A transparent spacer <tbody> sets the gap between cards. */
+.um-group {
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+.um-group__head td {
+  padding: var(--sero-space-4) var(--sero-space-4) var(--sero-space-2);
+  border-bottom: 1px solid var(--color-border);
+  border-top-left-radius: var(--radius-card);
+  border-top-right-radius: var(--radius-card);
+}
+.um-group tr:last-child td:first-child { border-bottom-left-radius: var(--radius-card); }
+.um-group tr:last-child td:last-child  { border-bottom-right-radius: var(--radius-card); }
+.um-group__name { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+.um-group__meta { color: var(--color-ink-dim); margin-left: var(--sero-space-2); }
+.um-group--empty .um-group__name { color: var(--color-ink-mute); }
+/* Transparent gap between company cards. */
+.um-group-gap td { height: var(--sero-space-4); padding: 0; border: 0; background: transparent; }
+
+/* Error log (error-log Phase 2) — the superadmin's cross-company error list. Reuses the
+   um-table frame; these are the row pills (environment / source / status) + cell helpers. */
+.el-table td { vertical-align: middle; }
+.el-when { color: var(--color-ink-dim); white-space: nowrap; }
+.el-sub, .el-src { font-size: var(--type-caption); color: var(--color-ink-dim); margin-top: 2px; }
+.el-route { font-family: var(--font-mono, ui-monospace, monospace); font-size: var(--type-caption); color: var(--color-ink-dim); }
+.el-msg { color: var(--color-ink); }
+.el-anon { color: var(--color-ink-mute); font-style: italic; }
+.el-pill {
+  display: inline-block;
+  padding: 1px 9px;
+  border-radius: var(--sero-radius-badge);
+  font-size: var(--type-caption);
+  font-weight: var(--type-weight-medium);
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.el-pill--live    { background: var(--sero-primary-200);  color: var(--sero-primary-800); }
+.el-pill--local   { background: var(--sero-soft-500);     color: var(--sero-soft-800); }
+.el-pill--api     { background: transparent; border: 1px solid var(--color-border); color: var(--color-ink-dim); }
+.el-pill--browser { background: var(--sero-lavender-200); color: var(--sero-lavender-800); }
+.el-pill--err     { background: var(--sero-coral-200);    color: var(--sero-coral-800); }
+.el-pill--warn    { background: var(--sero-gold-200, #faecd9); color: var(--sero-gold-800, #7a4f0a); }
+
+/* Local / Live toggle (error-log) — a small segmented control above the table. */
+.el-filters { display: inline-flex; gap: 3px; padding: 3px; background: var(--sero-soft-400); border-radius: var(--sero-radius-badge); }
+.el-filter {
+  border: 0; background: transparent; cursor: pointer; font: inherit;
+  font-size: var(--type-body-sm); font-weight: var(--type-weight-medium); color: var(--color-ink-dim);
+  padding: 4px 14px; border-radius: var(--sero-radius-badge); line-height: 1.4;
+}
+.el-filter:hover { color: var(--color-ink); }
+.el-filter.is-active { background: var(--color-surface); color: var(--color-ink); box-shadow: var(--shadow-card); }
+.el-filter__n { color: var(--color-ink-mute); font-size: var(--type-caption); margin-left: 3px; }
+
+/* Error log filters + row detail + resolve (error-log Phase 4). */
+.el-controls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sero-space-4); }
+.el-control { display: inline-flex; align-items: center; gap: var(--sero-space-2); }
+.el-control__label { font-size: var(--type-caption); color: var(--color-ink-mute); font-weight: var(--type-weight-medium); }
+.el-resolved-toggle { border: 1px solid var(--color-border); background: transparent; }
+.el-resolved-toggle.is-active { background: var(--sero-primary-200); color: var(--sero-primary-800); border-color: transparent; box-shadow: none; }
+.el-pill--done { background: var(--sero-soft-500); color: var(--sero-soft-800); }
+.el-row.is-open > td { background: var(--sero-primary-100); }
+.el-row--resolved > td { opacity: 0.62; }
+.el-detail-row > td { padding: 0; background: var(--sero-primary-100); border-bottom: 1px solid var(--color-border); }
+.el-detail { padding: var(--sero-space-3) var(--sero-space-4); display: flex; flex-direction: column; gap: var(--sero-space-2); }
+.el-detail__meta { display: flex; flex-wrap: wrap; gap: var(--sero-space-1) var(--sero-space-4); font-size: var(--type-body-sm); color: var(--color-ink-dim); }
+.el-detail__meta b { color: var(--color-ink); font-weight: var(--type-weight-medium); }
+.el-detail__meta code { font-family: var(--font-mono, ui-monospace, monospace); }
+.el-detail__msg { font-size: var(--type-body-sm); color: var(--color-ink); }
+.el-stack {
+  margin: 0; max-height: 260px; overflow: auto; padding: var(--sero-space-3);
+  background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card);
+  font-family: var(--font-mono, ui-monospace, monospace); font-size: var(--type-caption); line-height: 1.5;
+  color: var(--color-ink); white-space: pre-wrap; word-break: break-word;
+}
+.el-ua { font-size: var(--type-caption); color: var(--color-ink-dim); }
+.el-detail__actions { display: flex; gap: var(--sero-space-2); }
+
+/* Row actions (user-management Phase 2): a ⋯ button per row opening a role menu. The menu is
+   attached to <body> (position: fixed) so the table's horizontal scroll never clips it. */
+.um-actions { text-align: right; width: 1%; white-space: nowrap; }
+.um-actions-th { width: 1%; }
+.um-menu-btn {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border-radius: var(--radius-input);
+  color: var(--color-ink-dim);
+}
+.um-menu-btn:hover { background: var(--color-surface-2, rgba(0, 0, 0, 0.05)); color: var(--color-ink); }
+.um-menu {
+  position: fixed;
+  z-index: var(--sero-z-popover, 1000);
+  min-width: 168px;
+  padding: 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+.um-menu__label {
+  font-size: var(--type-caption);
+  color: var(--color-ink-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 6px 10px 4px;
+}
+.um-menu__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: var(--radius-input);
+  font: inherit;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink);
+  text-transform: capitalize;
+}
+.um-menu__item:hover { background: var(--color-surface-2, rgba(0, 0, 0, 0.05)); }
+.um-menu__item.is-current { color: var(--color-ink-mute); cursor: default; font-weight: var(--type-weight-semibold); }
+/* Deactivate/reactivate (user-management Phase 3). */
+.um-menu__sep { height: 1px; margin: 4px 6px; background: var(--color-border); }
+.um-menu__item--danger { color: var(--color-danger, var(--sero-error)); }
+/* "Deactivated" tag beside the role pill, and a dimmed row so a switched-off user reads at a glance. */
+.um-badge--off {
+  margin-left: var(--sero-space-2);
+  background: var(--sero-error-light);
+  color: var(--sero-error);
+}
+.um-row--off .um-user__open,
+.um-row--off .um-user__email,
+.um-row--off .um-activity,
+.um-row--off .um-activity__sub { color: var(--color-ink-mute); }
+.um-row--off .um-user__open { text-decoration: line-through; }
+
+/* Person page (pre-go-live PG5). Hierarchy is the whole point here: the "Since last time"
+   recap is the reason to come back, so it's an elevated, colour-coded card; the past 1:1s
+   below are a quiet dividered log, not a stack of competing cards. */
+.person-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sero-space-1) var(--sero-space-3);
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+}
+.person-summary__role { font-weight: var(--type-weight-medium); color: var(--color-ink); }
+.person-summary__sep { color: var(--color-border-strong); }
+.person-summary b { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+
+.since {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-tinted);
+  border-radius: var(--radius-card);
+  box-shadow: 0 1px 2px rgba(15, 42, 55, 0.05), 0 10px 26px -16px rgba(15, 42, 55, 0.22);
+  padding: var(--sero-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-4);
+}
+.since__title {
+  margin: 0;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-accent-dark);
+}
+.since__group { display: flex; flex-direction: column; gap: var(--sero-space-2); }
+.since__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink);
+}
+.since__label::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--since-dot, var(--color-ink-mute));
+  flex-shrink: 0;
+}
+.since__label--agreed { --since-dot: var(--sero-mint-800); }
+.since__label--watch  { --since-dot: var(--sero-gold-800); }
+.since__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+}
+.since__list li {
+  position: relative;
+  padding-left: 1.15rem;
+  font-size: var(--type-body-sm);
+  line-height: 1.55;
+  color: var(--color-ink);
+}
+.since__list li::before {
+  content: "";
+  position: absolute;
+  left: 0.3rem;
+  top: 0.62em;
+  width: 0.28rem;
+  height: 0.28rem;
+  border-radius: 999px;
+  background: var(--color-border-strong);
+}
+.since__when { font-weight: var(--type-weight-semibold); }
+
+.person-runs__heading {
+  margin: 0 0 var(--sero-space-1);
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-ink-mute);
+}
+.person-run {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-border-tinted);
+  padding: var(--sero-space-3) var(--sero-space-2);
+  border-radius: var(--sero-radius-sm, 6px);
+  cursor: pointer;
+}
+.person-run:last-child { border-bottom: none; }
+.person-run:hover { background: var(--sero-active-state-bg); }
+.person-run__type { color: var(--color-ink); }
+.person-run__when { color: var(--color-ink-mute); }
+
+/* Star rating control (PG3) — a radiogroup of five star buttons. Stars are ~28px, so
+   they clear the 14px floor; the global :focus-visible rule rings the focused star. */
+.star-rating { display: flex; gap: 0.25rem; }
+.star-rating__star {
+  font-size: 1.75rem;
+  line-height: 1;
+  background: none;
+  border: 0;
+  padding: 0 0.1rem;
+  color: var(--sero-gold-700, #ad7400);
+  cursor: pointer;
+}
+

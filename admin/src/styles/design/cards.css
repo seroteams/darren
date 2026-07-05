@@ -1,0 +1,35 @@
+/* -----------------------------------------------------------------------------
+   Cards
+----------------------------------------------------------------------------- */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-tinted);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 1.5rem;
+}
+.card-flat {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-tinted);
+  border-radius: var(--radius-card);
+  padding: 1.25rem;
+}
+
+/* Clickable run row (pre-go-live PG2) — a <button> that reads as a card row. The
+   global :focus-visible rule supplies the focus ring, so it's keyboard-accessible. */
+.runs-list__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.runs-list__row:hover { background: var(--sero-active-state-bg); }
+
+/* Star badge on a rated run row (PG3). */
+.runs-list__stars { color: var(--sero-gold-700, #ad7400); white-space: nowrap; }
+

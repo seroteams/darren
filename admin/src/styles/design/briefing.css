@@ -1,0 +1,245 @@
+/* -----------------------------------------------------------------------------
+   Briefing hero headline — larger, sentence case, tight leading
+----------------------------------------------------------------------------- */
+.briefing-headline {
+  /* results hero — display size to match page titles; keeps its own max-width */
+  font-size: var(--type-display);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: var(--color-ink);
+  max-width: 44rem;
+}
+
+.briefing-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+.briefing-block { width: 100%; }
+.briefing-prose {
+  font-size: var(--type-body);
+  line-height: 1.65;
+  color: var(--color-ink);
+  margin: 0;
+}
+.briefing-grid--pair {
+  /* @deprecated → use .l-grid.l-grid--pair */
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .briefing-grid--pair {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+  .briefing-grid--pair > :only-child {
+    grid-column: 1 / -1;
+    max-width: var(--measure);
+  }
+}
+.briefing-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.bullets-host .bullet {
+  font-size: var(--type-body);
+  line-height: 1.55;
+}
+
+/* Copy-to-clipboard rows (actions + reminders) */
+.copyable-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  align-items: start;
+}
+.watch-item.copyable-row {
+  grid-template-columns: 1.25rem 1fr auto;
+  padding: 0.55rem 0;
+}
+.copyable-row__mark {
+  color: var(--color-ink-mute);
+  line-height: 1.55;
+}
+.copy-snippet-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  background: var(--color-surface);
+  color: var(--color-ink-mute);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color var(--dur-instant) ease-out,
+              border-color var(--dur-instant) ease-out,
+              background-color var(--dur-instant) ease-out;
+}
+.copy-snippet-btn__label {
+  font-size: var(--type-label);
+}
+.copy-snippet-btn:hover {
+  color: var(--color-accent-dark);
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+.copy-snippet-btn.is-copied {
+  color: var(--color-positive);
+  border-color: var(--color-positive);
+  background: rgba(26, 168, 135, 0.08);
+}
+/* Fade-in "Saved"/"Copied" confirmations (was an inline style in briefing.js) */
+.feedback-confirm {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.feedback-confirm.is-shown { opacity: 1; }
+.watch-item__text {
+  color: var(--color-ink);
+  line-height: 1.55;
+  font-size: var(--type-body);
+}
+
+/* Questioning — session context above the card */
+.question-session-ctx {
+  line-height: 1.45;
+}
+.question-session-ctx.is-empty {
+  display: none;
+}
+/* The "what you told Sero" echo, quoted under the context line. */
+.question-session-notes {
+  margin: 0;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+  font-style: italic;
+  line-height: 1.45;
+  max-width: 64ch;
+}
+
+/* Questioning — readable stem + answer area */
+.question-drill-hint {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--color-accent-soft) 45%, transparent);
+  line-height: 1.45;
+}
+.question-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.question-card-head__text {
+  flex: 1;
+  min-width: 0;
+}
+.questioning-card .question-stem,
+.flow-section .question-stem {
+  font-size: var(--type-h2);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--color-ink);
+}
+.questioning-card .question-desc,
+.flow-section .question-desc {
+  font-size: var(--type-body);
+  line-height: 1.5;
+  color: var(--color-ink-dim);
+}
+.textarea--question {
+  font-size: var(--type-body);
+  line-height: 1.55;
+  min-height: 7rem;
+}
+.questioning-card .hint--kbd {
+  opacity: 0;
+  transition: opacity var(--dur-fast) ease;
+}
+.questioning-card:focus-within .hint--kbd {
+  opacity: 1;
+}
+
+/* -----------------------------------------------------------------------------
+   Brutal truth
+----------------------------------------------------------------------------- */
+.brutal {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--color-purple);
+  background: var(--color-purple-soft);
+  border-radius: var(--radius-card);
+  opacity: 0;
+}
+.brutal + .brutal {
+  margin-top: 1.25rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .brutal { transform: scale(0.96); }
+}
+.brutal.is-in {
+  opacity: 1;
+  transition: opacity var(--dur-medium) var(--ease-spring);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .brutal.is-in {
+    transform: scale(1);
+    transition: opacity var(--dur-medium) var(--ease-spring),
+                transform var(--dur-medium) var(--ease-spring);
+  }
+}
+.brutal__eyebrow {
+  font-size: var(--type-small);
+  color: var(--color-purple);
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+}
+.brutal__body {
+  font-size: var(--type-body);
+  line-height: 1.55;
+  color: var(--color-ink);
+}
+
+/* -----------------------------------------------------------------------------
+   Next-actions + watch-for — briefing bottom half
+----------------------------------------------------------------------------- */
+.action-group {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.action-group.copyable-row {
+  grid-template-columns: 1fr auto;
+  align-items: start;
+}
+.action-group.copyable-row .copyable-row__content {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  gap: 1rem;
+  align-items: baseline;
+}
+.action-group:last-child { border-bottom: none; }
+.action-when {
+  font-size: var(--type-small);
+  color: var(--color-accent-dark);
+  background: var(--color-accent-soft);
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-weight: 500;
+  justify-self: start;
+  text-transform: lowercase;
+}
+.action-body { color: var(--color-ink); line-height: 1.55; font-size: var(--type-body); }
+
+.watch-item {
+  padding: 0.45rem 0;
+}
+

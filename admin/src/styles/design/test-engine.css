@@ -1,0 +1,327 @@
+/* -----------------------------------------------------------------------------
+   Test-engine run progress — the staged bar on each persona card.
+----------------------------------------------------------------------------- */
+.run-bar { margin-top: 4px; }
+.run-steps { display: flex; gap: 6px; }
+.run-step { flex: 1; display: flex; align-items: center; gap: 6px; min-width: 0; }
+.run-step__dot {
+  flex: none; width: 20px; height: 20px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; line-height: 1;
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.06)); color: var(--color-ink-mute);
+  border: 1px solid var(--color-border, #e2e8f0);
+  transition: background-color .3s ease, color .3s ease, transform .3s ease;
+}
+.run-step__label {
+  font-size: var(--type-small, 14px); color: var(--color-ink-mute);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.run-step--done .run-step__dot { background: var(--color-positive); color: #fff; border-color: transparent; }
+.run-step--done .run-step__label { color: var(--color-ink-dim); }
+.run-step--active .run-step__dot {
+  background: var(--color-accent); color: #fff; border-color: transparent;
+  animation: run-pulse 1.1s ease-in-out infinite;
+}
+.run-step--active .run-step__label { color: var(--color-accent-dark, var(--color-accent)); font-weight: 500; }
+.run-step--failed .run-step__dot { background: var(--color-negative); color: #fff; border-color: transparent; }
+@keyframes run-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 45%, transparent); }
+  50%      { transform: scale(1.14); box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-accent) 0%, transparent); }
+}
+
+.run-bar__track {
+  height: 8px; margin-top: 8px; border-radius: 999px; overflow: hidden;
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.07));
+}
+.run-bar__fill {
+  height: 100%; border-radius: 999px; width: 0;
+  background: var(--color-accent);
+  transition: width .5s cubic-bezier(.22, 1, .36, 1);
+}
+.run-bar__fill--running {
+  background-image: linear-gradient(90deg,
+    var(--color-accent) 0%,
+    color-mix(in srgb, var(--color-accent) 55%, #fff) 50%,
+    var(--color-accent) 100%);
+  background-size: 200% 100%;
+  animation: run-shimmer 1.2s linear infinite;
+}
+.run-bar__fill--done { background: var(--color-positive); }
+.run-bar__fill--failed { background: var(--color-negative); }
+@keyframes run-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+.run-bar[data-state="done"] .run-bar__status { animation: run-pop .4s ease-out; }
+@keyframes run-pop {
+  0%   { transform: scale(.92); opacity: .4; }
+  60%  { transform: scale(1.04); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .run-step--active .run-step__dot,
+  .run-bar__fill--running,
+  .run-bar[data-state="done"] .run-bar__status { animation: none; }
+}
+
+@media (max-width: 640px) {
+  .lib-row { flex-wrap: wrap; }
+  .lib-row__right { flex-wrap: wrap; }
+}
+
+/* Job lexicons — master–detail (roles list + selected role's words) -------- */
+.joblex-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+.joblex-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: sticky;
+  top: 1rem;
+}
+.joblex-search { width: 100%; }
+.joblex-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.joblex-group {
+  font-size: var(--type-small);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+  padding: 0.7rem 0.25rem 0.15rem;
+}
+.joblex-group:first-child { padding-top: 0; }
+.joblex-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-input);
+  padding: 0.45rem 0.6rem;
+  cursor: pointer;
+}
+.joblex-item:hover { background: var(--color-surface-2); }
+.joblex-item.is-active {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  font-weight: 600;
+}
+.joblex-empty { padding: 0.35rem 0.25rem; }
+
+@media (max-width: 720px) {
+  .joblex-layout { grid-template-columns: 1fr; gap: 1.25rem; }
+  .joblex-sidebar { position: static; }
+  .joblex-list { max-height: 50vh; }
+}
+
+.joblex-add { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.joblex-add .joblex-add__term { flex: 0 1 13rem; }
+.joblex-add .joblex-add__meaning { flex: 1 1 15rem; }
+.joblex-yours {
+  font-size: var(--type-label);
+  font-weight: 600;
+  color: var(--color-ink-mute);
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+  border-radius: var(--radius-input);
+  padding: 0.05rem 0.45rem;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+.joblex-remove {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--color-ink-mute);
+  font-size: 1.05rem;
+  line-height: 1;
+  padding: 0 0.3rem;
+  margin-left: 0.2rem;
+  vertical-align: middle;
+}
+.joblex-remove:hover { color: var(--color-negative); }
+.joblex-error { color: var(--color-negative); font-size: var(--type-small); }
+
+/* Delete an AI word — revealed on row hover / keyboard focus, hidden otherwise
+   so the list stays calm until you reach for it. */
+.joblex-delete {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--color-ink-mute);
+  padding: 0.1rem 0.25rem;
+  margin-left: 0.35rem;
+  vertical-align: middle;
+  opacity: 0;
+  transition: opacity 0.12s ease, color 0.12s ease;
+}
+.joblex-row:hover .joblex-delete,
+.joblex-row:focus-within .joblex-delete,
+.joblex-delete:focus-visible { opacity: 1; }
+.joblex-delete:hover { color: var(--color-negative); }
+
+/* "Hidden words" area — the undo drawer for deleted AI words. */
+.joblex-hidden { margin-top: 0.35rem; }
+.joblex-hidden__head {
+  cursor: pointer;
+  font-size: var(--type-small);
+  font-weight: 600;
+  color: var(--color-ink-dim);
+  padding: 0.35rem 0;
+}
+.joblex-hidden__list { margin-top: 0.5rem; }
+.joblex-hidden__row .flow-glossary__term { color: var(--color-ink-mute); font-weight: var(--type-weight-regular); }
+.joblex-restore {
+  border: 0;
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+  cursor: pointer;
+  color: var(--color-ink);
+  font-size: var(--type-label);
+  font-weight: 600;
+  border-radius: var(--radius-input);
+  padding: 0.05rem 0.5rem;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+.joblex-restore:hover { color: var(--color-accent-dark); }
+
+/* Operator guide (internal reference) -------------------------------------- */
+.guide-section {
+  scroll-margin-top: 72px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-3);
+}
+.guide-toc {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sero-space-2);
+  margin-top: var(--sero-space-2);
+  padding: var(--sero-space-3) 0;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+.guide-toc__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sero-space-2);
+}
+.guide-toc__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-2);
+}
+.guide-toc__status {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-mute);
+  white-space: nowrap;
+}
+.guide-toc a {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+  text-decoration: none;
+  padding: 0.2rem 0.65rem;
+  border: 1px solid var(--color-border-tinted);
+  border-radius: var(--sero-radius-full);
+}
+.guide-toc a:hover { color: var(--color-accent-dark); border-color: var(--color-accent); }
+
+/* Small pill action — sits inside the sticky TOC (and the arcs section) without
+   shouting like the primary .btn. Matches the ghost-pill links, a touch stronger. */
+.guide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--type-body-sm);
+  font-weight: 500;
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--sero-radius-full);
+  padding: 0.28rem 0.8rem;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background-color var(--dur-instant) ease-out,
+              border-color var(--dur-instant) ease-out,
+              color var(--dur-instant) ease-out;
+}
+.guide-btn:hover { background: var(--color-accent-soft); border-color: var(--color-accent); color: var(--color-accent-dark); }
+.guide-btn:active { transform: translateY(1px); }
+.guide-btn[disabled] { opacity: 0.6; cursor: not-allowed; }
+.guide-btn:focus-visible { outline: none; box-shadow: var(--sero-shadow-focus); }
+.guide-btn svg { width: 14px; height: 14px; flex: none; }
+.guide-btn.is-busy svg { animation: guide-spin 0.7s linear infinite; }
+@keyframes guide-spin { to { transform: rotate(360deg); } }
+
+.guide-ref {
+  display: grid;
+  grid-template-columns: minmax(9rem, 17rem) 1fr;
+  gap: var(--sero-space-4);
+  align-items: baseline;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--color-border);
+  font-size: var(--type-body-sm);
+}
+.guide-ref:first-child { border-top: 0; }
+.guide-ref code {
+  justify-self: start;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: var(--type-body-sm); /* was 0.85em (~13.6px) → 14px floor */
+  color: var(--color-accent-dark);
+  background: var(--color-accent-soft);
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--sero-radius-sm);
+}
+.guide-ref span { color: var(--color-ink-dim); }
+.guide-ref--text { grid-template-columns: minmax(9rem, 14rem) 1fr; }
+.guide-ref--text strong { color: var(--color-ink); font-weight: var(--type-weight-semibold); }
+
+.guide-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sero-space-3);
+  align-items: start;
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--color-border);
+}
+.guide-step:first-child { border-top: 0; }
+.guide-step__n {
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: var(--sero-radius-full);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+}
+.guide-step__body { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+.guide-step__title { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+.guide-step__body p { margin: 0; font-size: var(--type-body-sm); color: var(--color-ink-dim); }
+.guide-step__files {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: var(--type-caption);
+  color: var(--color-ink-mute);
+}
+
+.guide-gaps { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.guide-gaps li { font-size: var(--type-body-sm); color: var(--color-ink-dim); }
+
+@media (max-width: 640px) {
+  .guide-ref, .guide-ref--text { grid-template-columns: 1fr; gap: 0.15rem; }
+}
+

@@ -1,0 +1,102 @@
+/* -----------------------------------------------------------------------------
+   Axis bars
+----------------------------------------------------------------------------- */
+.axis {
+  display: grid;
+  grid-template-columns: 7rem 1fr 5rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+.axis__label {
+  font-size: var(--type-small);
+  color: var(--color-ink-mute);
+  font-weight: 500;
+}
+.axis__track {
+  position: relative;
+  height: 10px;
+  background: #eef1f6;
+  border-radius: 999px;
+  overflow: visible;
+}
+.axis__midline {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  left: 50%;
+  width: 1px;
+  background: var(--color-border-strong);
+  transform: translateX(-0.5px);
+}
+.axis__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  border-radius: 999px;
+  background: var(--color-neutral);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--dur-hero) var(--ease-out-expo),
+              background-color var(--dur-medium) var(--ease-out-expo);
+}
+.axis__fill--celebrate {
+  transition-timing-function: var(--ease-spring);
+}
+.axis__fill--positive {
+  left: 50%;
+  transform-origin: left center;
+  background: var(--color-positive);
+}
+.axis__fill--negative {
+  right: 50%;
+  transform-origin: right center;
+  background: var(--color-negative);
+}
+.axis__fill--neutral {
+  left: 50%;
+  width: 4px;
+  transform: scaleX(1);
+  background: var(--color-neutral);
+}
+.axis__value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.axis__value--baseline {
+  color: var(--color-ink-mute);
+  font-weight: 500;
+}
+.axis__delta {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  font-size: var(--type-small);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  opacity: 0;
+  transition: opacity var(--dur-medium) ease-out;
+}
+.axis__delta--visible { opacity: 1; }
+.axis__caret {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-negative);
+  font-weight: 700;
+  font-size: var(--type-small);
+}
+.axis__caret--right { right: -1.25rem; }
+.axis__caret--left { left: -1.25rem; transform: translateY(-50%) scaleX(-1); }
+.axis__offscale {
+  font-size: var(--type-small);
+  color: var(--color-ink-mute);
+  margin-left: 0.3rem;
+}
+

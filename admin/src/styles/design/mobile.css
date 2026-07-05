@@ -1,0 +1,324 @@
+/* =============================================================================
+   Mobile shell (mobile-responsive Phase 1) — below 768px the left rail becomes
+   an off-canvas drawer behind a fixed header strip (brand + menu button, built
+   in ui/app-nav.js). The header's 48px height feeds --app-nav-h, so every
+   offset that already clears the top chrome — session topbar, notes toggle,
+   stage min-height, popovers — adjusts through the existing calc()s.
+   Desktop (≥768px) is untouched.
+============================================================================= */
+.app-nav-mobilebar,
+.app-nav-scrim {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  body.has-app-nav {
+    --app-nav-h: 48px;
+    padding-left: 0;
+    padding-top: var(--app-nav-h);
+  }
+  /* Drawer open — freeze the page behind the scrim. */
+  body.app-nav-open {
+    overflow: hidden;
+  }
+
+  /* Header strip — same ink as the rail so the shell reads as one piece. */
+  .app-nav-mobilebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding-left: calc(0.25rem + env(safe-area-inset-left));
+    padding-right: calc(0.75rem + env(safe-area-inset-right));
+    background: var(--sero-primary-800);
+    color: #fff;
+    z-index: var(--sero-z-fixed, 30);
+  }
+  .app-nav-mobilebar.is-hidden {
+    display: none;
+  }
+  .app-nav-mobilebar__menu,
+  .app-nav-mobilebar__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    height: 44px;               /* comfortable touch target */
+    padding: 0 0.65rem;
+    background: transparent;
+    border: 0;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+  }
+  .app-nav-mobilebar__brand {
+    font-size: var(--type-h4);
+    font-weight: var(--type-weight-bold);
+    letter-spacing: var(--type-tracking-tight);
+  }
+  /* Alert dot mirrors a flagged drawer row (e.g. a failing regression check)
+     so it's visible while the drawer is closed. Matches .app-nav's dot. */
+  .app-nav-mobilebar__menu {
+    position: relative;
+  }
+  .app-nav-mobilebar__menu.has-alert::after {
+    content: "";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-negative);
+    box-shadow: 0 0 0 2px var(--sero-primary-800);
+  }
+
+  /* The rail becomes a drawer: slides in from the left, labels always shown.
+     Width overrides carry :hover/:focus-within too so the desktop expand
+     rules (higher specificity) can't fight it. */
+  .app-nav,
+  .app-nav:hover,
+  .app-nav:focus-within {
+    width: min(80vw, 300px);
+    z-index: calc(var(--sero-z-fixed, 30) + 5);   /* above header, below modals */
+  }
+  .app-nav {
+    border-right: 0;
+    overflow-y: auto;
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: var(--sero-shadow-xl);
+    transform: translateX(-100%);
+    /* visibility keeps the closed drawer out of the tab order / screen readers;
+       its transition is delayed so the slide-out finishes before it hides. */
+    visibility: hidden;
+    transition:
+      transform var(--dur-fast) var(--ease-out-expo),
+      visibility 0s var(--dur-fast);
+  }
+  .app-nav.is-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .app-nav .app-nav__label,
+  .app-nav .app-nav__word,
+  .app-nav .app-nav__group-label span {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .app-nav {
+      transition: none;
+    }
+  }
+
+  /* Scrim behind the open drawer — tap to close (wired in app-nav.js). */
+  .app-nav-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    z-index: calc(var(--sero-z-fixed, 30) + 4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-fast) var(--ease-out-expo);
+  }
+  .app-nav-scrim.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Session topbar slides under the header and goes compact: Session button +
+     the current stage pill + step count. Done/upcoming breadcrumb steps hide —
+     at 375px they were ellipsized into noise anyway. */
+  .session-topbar {
+    top: var(--app-nav-h, 48px);
+    left: 0;
+    padding: 0 0.75rem;
+  }
+  .session-topbar__stages .is-done,
+  .session-topbar__stages .is-upcoming,
+  .session-topbar__stages .sep {
+    display: none;
+  }
+
+  /* Profile badge (members) — the header now owns the top edge, so the chip
+     drops below it and slims to the avatar alone. */
+  .profile-badge {
+    top: calc(var(--app-nav-h, 0px) + var(--sero-space-3));
+    max-width: none;
+    padding: 5px;
+  }
+  .profile-badge__email {
+    display: none;
+  }
+}
+
+/* Phones: the notes panel becomes a full-width sheet under the top chrome. */
+@media (max-width: 639.98px) {
+  .notes-panel {
+    width: 100vw;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* =============================================================================
+   Mobile screens — Phase 2 (auth + member app). The member screens are plain
+   card stacks that already shrink; these are the two real papercuts the
+   375px walk found.
+============================================================================= */
+/* A placeholder longer than the field ends in an ellipsis instead of clipping
+   mid-word (register's "Company" hint at phone width). Browsers disagree on
+   which of the two forms they honour, so set both. */
+input:placeholder-shown {
+  text-overflow: ellipsis;
+}
+input::placeholder {
+  text-overflow: ellipsis;
+}
+
+/* =============================================================================
+   Mobile screens — Phase 3 (the run pipeline). The pipeline screens are centred
+   single-column stacks that already shrink (the flow glossary and stage-review
+   overlay handle phones on their own); these restack the remaining fixed-column
+   grids and make the interview's answer buttons thumb-sized.
+============================================================================= */
+@media (max-width: 30rem) {
+  /* Axis bars (interview, eval, briefing): the name and score share the top
+     row; the bar drops to a full-width row below — a 7rem label + 5rem score
+     left the bar ~6 characters wide. */
+  .axis {
+    grid-template-columns: 1fr auto;
+    gap: 0.35rem 1rem;
+  }
+  .axis__label { grid-column: 1; grid-row: 1; }
+  .axis__value { grid-column: 2; grid-row: 1; }
+  .axis__track { grid-column: 1 / -1; grid-row: 2; }
+
+  /* Briefing action rows: the lead-in label sits above its text instead of
+     beside it. */
+  .action-group.copyable-row .copyable-row__content {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+
+  /* Interview answer actions: full-width stacked buttons — thumb targets, and
+     Submit stays first in reading order. */
+  .questioning-card .field__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .questioning-card .field__actions .btn {
+    justify-content: center;
+  }
+}
+
+/* The confirm/alert modal (glossary, delete-session confirm) caps itself to the
+   phone screen and scrolls inside instead of growing past it. Pulled forward
+   from the Phase 4 sweep because the glossary walk is a Phase 3 scenario. */
+.modal {
+  max-width: min(360px, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+}
+@media (max-width: 639.98px) {
+  /* Page titles share their row with an action (Team's "Tidy up", detail pages'
+     "Back"). A long h1 — usually a person's name — wraps the row instead of
+     crushing the button. */
+  .page-header__row {
+    flex-wrap: wrap;
+  }
+}
+
+/* =============================================================================
+   Mobile screens — Phase 4 (global sweep + admin core). joblex (720px) and
+   guide-ref (640px) already stack; the row menu already clamps itself.
+============================================================================= */
+/* Code blocks scroll inside themselves, never the page (Guide, run debrief). */
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Touch devices: the small controls get comfortable tap heights. */
+@media (pointer: coarse) {
+  .btn--sm,
+  .um-menu-btn,
+  .notes-panel__toggle {
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  /* iOS zooms the page when a focused control's text is under 16px. Nothing
+     may render below the 14px floor, but a couple of dense desktop controls
+     sit between 14 and 16 — bump exactly those to 16px on phones. */
+  input, select, textarea {
+    font-size: max(1rem, 1em);
+  }
+
+  /* User management / Error log table: sideways scroll keeps every column
+     honest, with the first column pinned so you never lose who a row is
+     about. Solid backgrounds so scrolled columns slide underneath. */
+  .um-table th:first-child,
+  .um-table td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--color-surface);
+    min-width: 9rem;
+  }
+  .um-table th:first-child {
+    background: var(--color-bg);
+  }
+  .um-group-gap td:first-child {
+    background: transparent;
+  }
+  .um-row:hover td:first-child {
+    background: var(--sero-active-state-bg);
+  }
+
+  /* Long unbroken content (error messages, routes, emails, notes, the Guide's
+     command strings) wraps instead of stretching its container. */
+  .el-msg,
+  .el-route,
+  .um-user__email,
+  .notes-panel__item,
+  .ctx-segments,
+  .guide-ref code,
+  .guide-ref span {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* =============================================================================
+   Mobile screens — Phase 5 (QA tools). Compare is the one real layout: at
+   phone width its label gutter goes above the two run cells (the A/B tags on
+   the cells carry which is which), and the axis diffs restack like the axis
+   bars do. Universe's touch support lives in universe.ts (touch-action: none
+   on the canvas — its pointer handlers already speak touch).
+============================================================================= */
+@media (max-width: 639.98px) {
+  .compare-picker .bench-select {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+  .cmp-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 0.75rem;
+  }
+  .cmp-row__label {
+    grid-column: 1 / -1;
+    padding-top: 0;
+  }
+  .cmp-axis {
+    grid-template-columns: 1fr auto;
+    gap: 0.35rem 1rem;
+  }
+  .cmp-axis__label { grid-column: 1; grid-row: 1; }
+  .cmp-axis__read  { grid-column: 2; grid-row: 1; }
+  .cmp-axis__track { grid-column: 1 / -1; grid-row: 2; }
+}

@@ -1,0 +1,235 @@
+/* -----------------------------------------------------------------------------
+   App nav — inked vertical rail down the left edge. Collapsed to an icon strip;
+   opens on hover (or keyboard focus) to reveal labels. It overlays content when
+   open rather than pushing it: the rail's width animates while body padding
+   stays at the collapsed width. Persistent across every screen; the session
+   topbar sits to its right in-session.
+----------------------------------------------------------------------------- */
+.app-nav {
+  --app-nav-bg: var(--sero-primary-800);
+  --app-nav-fg: #fff;
+  --app-nav-fg-dim: rgba(255, 255, 255, 0.9);
+  --app-nav-hover-bg: rgba(255, 255, 255, 0.14);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--app-nav-w);
+  background: var(--app-nav-bg);
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  z-index: var(--sero-z-sticky, 20);
+  overflow: hidden;
+  transition: width var(--dur-fast) var(--ease-out-expo);
+}
+/* Manager (member) rail — shares the admin rail's dark theme (base .app-nav
+   styles); no colour override so the two look identical. */
+/* Hover-expand is pointer-only: on touch devices a tap would "stick" the hover
+   and leave the open rail overlaying content (iOS emulates hover on tap). */
+@media (hover: hover) {
+  .app-nav:hover {
+    width: var(--app-nav-w-open);
+    z-index: var(--sero-z-fixed, 30);
+  }
+}
+.app-nav:focus-within {
+  width: var(--app-nav-w-open);
+  z-index: var(--sero-z-fixed, 30);
+}
+.app-nav.is-hidden {
+  display: none;
+}
+.app-nav__inner {
+  height: 100%;
+  width: 100%;   /* fills the rail; rows clip (nowrap) rather than reflow as it animates */
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-1);
+  padding: var(--sero-space-3) 0;
+}
+.app-nav__links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.app-nav__brand,
+.app-nav__link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  height: 44px;
+  flex: 0 0 auto;
+  min-width: 0;
+  margin-inline: 8px;   /* inset so the active pill floats off both edges */
+  padding-left: 10px;   /* 8px margin + 10px + 24px icon centres the glyph in the 60px strip */
+  border-radius: 10px;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: left;
+  color: var(--app-nav-fg-dim);
+}
+/* The base rule sets display:flex, which outweighs the [hidden] attribute — so a
+   hidden link would still paint. This restores the hide (used to gate the rail by
+   role: members see only Home · Team · Runs). */
+.app-nav__link[hidden] {
+  display: none;
+}
+.app-nav__brand {
+  color: var(--app-nav-fg);
+  margin-bottom: var(--sero-space-2);
+}
+.app-nav__icon {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+/* Alert dot — flags a failing regression check, shown collapsed or expanded. */
+.app-nav__link.has-alert .app-nav__icon::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-negative);
+  box-shadow: 0 0 0 2px var(--app-nav-bg);   /* ring reads on dark rail + white active pill */
+}
+.app-nav__word {
+  font-weight: var(--type-weight-bold);
+  font-size: var(--type-h4);
+  letter-spacing: var(--type-tracking-tight);
+}
+.app-nav__tagline {
+  font-weight: var(--type-weight-regular);
+  color: rgba(255, 255, 255, 0.7);
+}
+.app-nav__link {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+}
+/* Labels + brand word are clipped when collapsed; fade in once the rail opens. */
+.app-nav__label,
+.app-nav__word {
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out-expo);
+}
+@media (hover: hover) {
+  .app-nav:hover .app-nav__label,
+  .app-nav:hover .app-nav__word {
+    opacity: 1;
+  }
+}
+.app-nav:focus-within .app-nav__label,
+.app-nav:focus-within .app-nav__word {
+  opacity: 1;
+}
+.app-nav__brand:hover,
+.app-nav__link:hover {
+  background: var(--app-nav-hover-bg);
+  color: var(--app-nav-fg);
+}
+.app-nav__link.is-active {
+  background: #fff;
+  color: var(--color-ink);
+  font-weight: var(--type-weight-semibold);
+}
+/* Section headers — chunk the long admin rail (Sessions · Engine · Admin). The
+   hairline stays put when the rail is collapsed so the group breaks read as
+   separators; the label text fades in with the rail, like the link labels.
+   Admin-only: render() sets [hidden] on these in the member rail. */
+.app-nav__group-label {
+  margin: 8px 16px 2px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.app-nav__group-label:first-of-type {
+  border-top: 0;          /* first group sits under the brand — no divider needed */
+  padding-top: 2px;
+}
+.app-nav__group-label[hidden] {
+  display: none;          /* member view — headers off (matches the link rule) */
+}
+.app-nav__group-label span {
+  display: block;
+  font-size: var(--type-body-sm);          /* 14px — accessibility floor */
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out-expo);
+}
+@media (hover: hover) {
+  .app-nav:hover .app-nav__group-label span {
+    opacity: 1;
+  }
+}
+.app-nav:focus-within .app-nav__group-label span {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-nav,
+  .app-nav__label,
+  .app-nav__word,
+  .app-nav__group-label span {
+    transition: none;
+  }
+}
+body.has-app-nav {
+  padding-left: var(--app-nav-w);
+}
+/* When a session is active, the app nav stacks above the stage breadcrumb. */
+body.has-app-nav.has-session-topbar {
+  padding-top: calc(var(--app-nav-h) + var(--session-topbar-h, 44px));
+}
+
+/* Profile badge — top-right "who am I signed in as" chip for the manager (member)
+   app. Same Sero-blue palette as the member rail so it reads as one manager surface.
+   Members only; hidden for admins and during the in-session flow (JS toggles [hidden]). */
+.profile-badge {
+  position: fixed;
+  top: var(--sero-space-3);
+  right: var(--sero-space-3);
+  z-index: var(--sero-z-fixed, 30);
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-2);
+  max-width: min(60vw, 320px);
+  padding: 5px 12px 5px 5px;
+  background: #fff;
+  border: 1px solid rgba(36, 68, 92, 0.14);
+  border-radius: 999px;
+  box-shadow: var(--sero-shadow-1, 0 1px 3px rgba(15, 23, 42, 0.08));
+}
+.profile-badge[hidden] {
+  display: none;
+}
+.profile-badge__avatar {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #5aa9e6;
+  color: #fff;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-bold);
+  line-height: 1;
+}
+.profile-badge__email {
+  font-size: var(--type-body-sm);
+  color: #24445c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+

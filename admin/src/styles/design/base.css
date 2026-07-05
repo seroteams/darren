@@ -1,0 +1,175 @@
+/* -----------------------------------------------------------------------------
+   Base
+----------------------------------------------------------------------------- */
+html, body {
+  background:
+    radial-gradient(circle at 72% 0%, rgba(90, 169, 230, 0.10), transparent 36%),
+    var(--color-bg);
+}
+/* Always reserve the vertical scrollbar so centred content doesn't slide
+   sideways when moving between a page that scrolls and one that fits. */
+html {
+  overflow-y: scroll;
+}
+body {
+  font-family: "InterVariable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  font-variant-ligatures: common-ligatures;
+  color: var(--color-ink);
+  font-size: var(--type-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+input, textarea, button, select {
+  font-family: inherit;
+  font-size: var(--type-body);
+  color: inherit;
+}
+textarea { resize: vertical; }
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--radius-input);
+}
+
+.num-tabular { font-variant-numeric: tabular-nums; }
+
+.pulse-caret { animation: caret-pulse 1800ms ease-in-out infinite; }
+
+/* Section-style heading helpers — sentence case, per style.md.
+   Token-driven; rendered sizes unchanged from prior hardcoded values. */
+.text-display {
+  font-family: var(--type-family-display);
+  font-size: var(--type-display);
+  font-weight: var(--type-weight-bold);
+  letter-spacing: var(--type-tracking-tighter);
+  line-height: var(--type-leading-tight);
+  color: var(--color-ink);
+}
+.h1 {
+  /* kept mapped to display size for back-compat */
+  font-family: var(--type-family-display);
+  font-size: var(--type-display);
+  font-weight: var(--type-weight-bold);
+  letter-spacing: var(--type-tracking-tighter);
+  line-height: var(--type-leading-tight);
+  color: var(--color-ink);
+}
+.h2 {
+  font-family: var(--type-family-display);
+  font-size: var(--type-h2);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-tight);
+  line-height: 1.2;
+  color: var(--color-ink);
+}
+.h3 {
+  font-size: var(--type-h3);
+  font-weight: var(--type-weight-semibold);
+  line-height: 1.35;
+  color: var(--color-ink);
+}
+.h4 {
+  font-size: var(--type-h4);
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink);
+}
+.lead {
+  font-size: var(--type-lead);
+  font-weight: var(--type-weight-regular);
+  line-height: var(--type-leading-relaxed);
+  color: var(--color-ink-dim);
+}
+.body {
+  font-size: var(--type-body);
+  line-height: var(--type-leading-relaxed);
+  color: var(--color-ink);
+}
+.eyebrow {
+  font-size: var(--type-small);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-ink-mute);
+  letter-spacing: var(--type-tracking-wider);
+  text-transform: uppercase;
+}
+.label {
+  font-size: var(--type-label);
+  font-weight: var(--type-weight-medium);
+  letter-spacing: var(--type-tracking-wider);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink-mute);
+}
+.caption {
+  font-size: var(--type-small);
+  color: var(--color-ink-mute);
+}
+.kbd {
+  display: inline-block;
+  padding: 0.05em 0.35em;
+  font-size: var(--type-body-sm); /* was 0.8em (~12.8px) → 14px floor */
+  font-family: inherit;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  line-height: 1.5;
+}
+
+/* -----------------------------------------------------------------------------
+   Stage container — single-field vertical-centre
+----------------------------------------------------------------------------- */
+.stage {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: clamp(1.5rem, 5vw, 3rem);
+}
+/* In-run screens sit below the fixed session topbar (body gets a matching
+   padding-top). The full-height shell (#root) and the centred stage both assume
+   the whole viewport, so they overflow the fold by that offset and push the
+   centred content low. Shrink both by the same amount so content lands in the
+   visible middle and the page stops scrolling. */
+body.has-session-topbar #root,
+body.has-session-topbar .stage {
+  min-height: calc(100dvh - var(--app-nav-h) - var(--session-topbar-h, 44px));
+}
+.stage-inner {
+  /* @deprecated → use .l-container */
+  width: 100%;
+  max-width: var(--measure);
+}
+.stage-wide {
+  /* @deprecated → use .l-container--wide */
+  width: 100%;
+  max-width: var(--container-wide);
+  margin: 0 auto;
+}
+.stage-medium {
+  width: 100%;
+  max-width: var(--container-medium);
+  margin: 0 auto;
+}
+/* Questioning carries a wide action row (up to 5 buttons), so it gets a roomier
+   container than the reading-width default and the buttons wrap if space runs out. */
+.stage-questioning {
+  width: 100%;
+  max-width: 52rem;
+}
+.questioning-card .field__actions {
+  flex-wrap: wrap;
+}
+.stage-step {
+  /* @deprecated → use .page-header__step */
+  color: var(--color-ink-mute);
+  letter-spacing: 0.01em;
+  font-weight: 500;
+}
+.field-actions {
+  /* @deprecated → use .field__actions / .l-cluster */
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+

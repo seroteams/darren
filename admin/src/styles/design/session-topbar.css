@@ -1,0 +1,81 @@
+/* -----------------------------------------------------------------------------
+   Session topbar — fixed bar showing interview context across in-session stages
+----------------------------------------------------------------------------- */
+.session-topbar {
+  --session-topbar-h: 44px;
+  position: fixed;
+  top: 0;
+  left: var(--app-nav-w);
+  right: 0;
+  height: var(--session-topbar-h);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+.session-topbar.is-hidden {
+  display: none;
+}
+.session-topbar__row {
+  width: 100%;
+  font-size: var(--type-small);
+  color: var(--color-ink-mute);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.session-topbar .is-strong {
+  color: var(--color-ink);
+  font-weight: 500;
+}
+.session-topbar__stages .is-current {
+  color: var(--sero-primary-800);
+  font-weight: 600;
+  background: var(--sero-primary-200);
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+}
+/* Breadcrumb status: done = reviewable (clickable), upcoming = muted. */
+.session-topbar__stages .is-done,
+.session-topbar__stages .is-upcoming {
+  color: var(--color-ink-mute);
+  font-weight: 500;
+}
+.session-topbar__stages .stage-step--clickable {
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-weight: 500;
+  padding: 0.1rem 0.25rem;
+  margin: 0 -0.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--color-ink-dim);
+}
+.session-topbar__stages .stage-step--clickable::before {
+  content: "✓";
+  margin-right: 0.3rem;
+  font-size: 0.7em;
+  color: var(--color-accent, var(--color-purple));
+  opacity: 0.8;
+}
+.session-topbar__stages .stage-step--clickable:hover {
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+  color: var(--color-ink);
+}
+.session-topbar .sep {
+  margin: 0 0.6rem;
+  opacity: 0.5;
+}
+.session-topbar__step {
+  flex-shrink: 0;
+  font-size: var(--type-caption);
+  color: var(--color-ink-mute);
+  white-space: nowrap;
+}
+body.has-session-topbar {
+  padding-top: 44px;
+}
+

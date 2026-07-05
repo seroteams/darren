@@ -1,0 +1,58 @@
+/* =============================================================================
+   Component primitives — extracted from repeated stage markup
+   ============================================================================= */
+
+/* Form field — wraps label + control + hint + error consistently */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+}
+.field__label {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-ink);
+}
+.field__control { width: 100%; }
+.field__hint {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-mute);
+  line-height: var(--type-leading-normal);
+}
+.field__error {
+  font-size: var(--type-body-sm);
+  color: var(--color-negative);
+}
+.field__error[hidden] { display: none; }
+.field__actions {
+  display: flex;
+  gap: var(--sero-space-3);
+  margin-top: var(--sero-space-1);
+}
+
+/* Page header — eyebrow/step + title + lede + optional trailing action.
+   Tight 4px internal rhythm; separation from following content is owned by the
+   parent stack (.l-stack / space-y), so no margin-bottom here. */
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-1);
+}
+.page-header__row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sero-space-4);
+}
+.page-header__step {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-mute);
+  font-weight: var(--type-weight-medium);
+  letter-spacing: var(--type-tracking-wide);
+}
+.page-header__lede {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+  max-width: var(--measure);
+}
+

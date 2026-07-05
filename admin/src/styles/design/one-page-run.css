@@ -1,0 +1,233 @@
+/* -----------------------------------------------------------------------------
+   One-page run — the whole flow on one page that grows downward. Answered steps
+   settle into a locked "done" block — clearly behind you, never a greyed-out
+   disabled box.
+----------------------------------------------------------------------------- */
+.stage.flow-page {
+  /* Grow downward from the top instead of vertically centering each screen.
+     Add top room so the header clears the fixed app nav. */
+  align-items: start;
+  padding-top: calc(var(--app-nav-h) + 2rem);
+}
+.flow-answer {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 0.875rem;
+}
+/* Section headings inside the one-page flow read darker/bolder so they're easy
+   to spot as you scroll (the global .eyebrow stays subtle elsewhere). */
+.flow-section .eyebrow {
+  color: var(--color-ink);
+  font-weight: var(--type-weight-semibold);
+}
+.flow-answer__q {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--type-small);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink-dim);
+}
+.flow-answer__q::before {
+  content: "✓";
+  font-size: 0.85em;
+  color: var(--color-accent);
+}
+.flow-answer__a {
+  margin-top: 0.2rem;
+  color: var(--color-ink);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+.flow-answer__a--muted { color: var(--color-ink-mute); font-style: italic; }
+/* Live-scores rail under the growing interview questions */
+.flow-interview-rail {
+  margin-top: 0.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border-tinted);
+}
+/* "The language of this role" glossary — term + plain meaning */
+.flow-glossary { display: grid; gap: 0.85rem; }
+.flow-glossary__row {
+  display: grid;
+  grid-template-columns: minmax(7rem, 32%) 1fr;
+  gap: 0.2rem 1.25rem;
+}
+.flow-glossary__term { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+.flow-glossary__meaning { color: var(--color-ink-mute); line-height: 1.5; }
+@media (max-width: 30rem) {
+  .flow-glossary__row { grid-template-columns: 1fr; gap: 0.1rem; }
+}
+/* Grouped vocabulary — Craft -> Level -> Role sub-sections, each with a heading */
+.flow-glossary-card { display: grid; gap: 1.4rem; }
+.flow-glossary-group { display: grid; gap: 0.6rem; }
+.flow-glossary-group__head {
+  margin: 0;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--color-border-tinted);
+}
+
+/* Focus-point cards */
+.focus-point {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.focus-point:last-child { border-bottom: none; }
+.focus-point__num {
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: var(--type-small);
+  padding-top: 0.05rem;
+}
+.focus-point__label {
+  font-weight: 600;
+  color: var(--color-ink);
+  line-height: 1.4;
+}
+.focus-point__reason {
+  color: var(--color-ink-dim);
+  font-size: var(--type-body);
+  margin-top: 0.3rem;
+  line-height: 1.55;
+}
+
+/* Preparation stage */
+.prep-callout {
+  border: 1px solid var(--color-accent);
+  background: var(--color-accent-soft);
+  border-radius: var(--radius-card);
+  padding: 0.75rem 1rem;
+  margin: 0;
+  font-size: var(--type-body);
+  font-weight: 500;
+  color: var(--color-ink);
+  line-height: 1.5;
+}
+.prep-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.prep-list li {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  gap: 0.5rem;
+  color: var(--color-ink-dim);
+  line-height: 1.55;
+}
+.prep-list li::before {
+  content: "–";
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* Prep brief — all sections collected into one card, split by dividers
+   instead of a separate labelled box per section. */
+.prep-brief {
+  padding: 0;
+}
+.prep-brief__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem;
+}
+.prep-brief__row + .prep-brief__row {
+  border-top: 1px solid var(--color-border-tinted);
+}
+
+/* Collapsible "Full brief" — closed by default once the at-a-glance timeline is shown */
+.prep-full__summary {
+  cursor: pointer;
+  list-style: none;
+  width: fit-content;
+}
+.prep-full__summary::-webkit-details-marker { display: none; }
+.prep-full__summary::before { content: "▸ "; }
+.prep-full[open] > .prep-full__summary::before { content: "▾ "; }
+
+/* Selectable focus-point state */
+.focus-point--selectable {
+  grid-template-columns: 1.75rem 1fr 1.5rem;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  border-radius: 0.5rem;
+  margin: 0 -0.75rem;
+  padding: 0.875rem 0.75rem;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.focus-point--selectable:hover {
+  background: var(--color-accent-soft);
+  border-color: var(--color-border-strong);
+}
+.focus-point--selectable.is-selected {
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent);
+}
+.focus-point__check {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--color-border-strong);
+  border-radius: 50%;
+  align-self: center;
+  flex-shrink: 0;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  position: relative;
+}
+.focus-point__check::after {
+  content: "";
+}
+.is-selected .focus-point__check {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.is-selected .focus-point__check::after {
+  content: "✓";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sero-offwhite-50);
+  font-size: var(--type-label);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Focus-select instruction label */
+.focus-select-hint {
+  font-size: var(--type-small);
+  font-weight: 500;
+  color: var(--color-ink-dim);
+  margin-bottom: 0.75rem;
+}
+
+/* Summary bullets */
+.bullet {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+}
+.bullet__mark { color: var(--color-accent); line-height: 1.55; }
+
+/* Error surface */
+.error-card {
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(210, 67, 90, 0.3);
+  background: rgba(210, 67, 90, 0.06);
+  border-radius: var(--radius-card);
+  color: var(--color-ink);
+}
+
