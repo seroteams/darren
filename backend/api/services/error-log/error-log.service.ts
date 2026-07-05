@@ -1,7 +1,7 @@
-// The Error log read service (error-log Phase 2). Shapes the newest error_logs rows into
-// the view the superadmin screen renders — newest first, dates as ISO strings. Read-only;
-// the capture writer is api/middleware/error-log.ts. Depends on the repo interface so the
-// mapping is proven against an in-memory fake, no database (same seam as superadmin).
+// The Error log read + resolve service (error-log Phase 2 + 4). Shapes the newest
+// error_logs rows into the view the superadmin screen renders — newest first, dates as ISO
+// strings — and toggles a row's resolved state. Depends on the repo interface so the
+// mapping + toggle are proven against an in-memory fake, no database (same seam as superadmin).
 
 import { pgErrorLogReadRepo } from "./error-log.repo.ts";
 import type { ErrorLogReadRepo, ErrorLogRow } from "./error-log.repo.ts";
@@ -10,7 +10,7 @@ import type { ErrorLogReadRepo, ErrorLogRow } from "./error-log.repo.ts";
  *  pagination yet (parked). */
 const DEFAULT_LIMIT = 200;
 
-/** One error as the screen shows it — the row, with the timestamp as an ISO string. */
+/** One error as the screen shows it — the row, with the timestamps as ISO strings. */
 export interface ErrorLogView {
   id: string;
   environment: "local" | "production";
@@ -23,16 +23,20 @@ export interface ErrorLogView {
   status: number | null;
   errorCode: string | null;
   message: string;
+  details: { stack?: string; userAgent?: string } | null;
+  resolvedAt: string | null;
   createdAt: string;
 }
 
 export interface ErrorLogService {
   /** The most recent errors across every company, newest first. */
   listRecent(): Promise<{ errors: ErrorLogView[] }>;
+  /** Mark one error resolved (true) or reopen it (false). Returns the new state. */
+  resolve(id: string, resolved: boolean): Promise<{ id: string; resolved: boolean }>;
 }
 
 function toView(r: ErrorLogRow): ErrorLogView {
-  return { ...r, createdAt: r.createdAt.toISOString() };
+  return { ...r, createdAt: r.createdAt.toISOString(), resolvedAt: r.resolvedAt ? r.resolvedAt.toISOString() : null };
 }
 
 export function createErrorLogService(repo: ErrorLogReadRepo = pgErrorLogReadRepo): ErrorLogService {
@@ -40,6 +44,10 @@ export function createErrorLogService(repo: ErrorLogReadRepo = pgErrorLogReadRep
     async listRecent() {
       const rows = await repo.listRecent(DEFAULT_LIMIT);
       return { errors: rows.map(toView) };
+    },
+    async resolve(id, resolved) {
+      await repo.setResolved(id, resolved ? new Date() : null);
+      return { id, resolved };
     },
   };
 }

@@ -156,7 +156,7 @@ export const errorLogs = pgTable(
     status: integer("status"),
     errorCode: text("error_code"),
     message: text("message").notNull(),
-    details: jsonb("details"),
+    details: jsonb("details").$type<{ stack?: string; userAgent?: string }>(),
     resolvedAt: timestamp("resolved_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },

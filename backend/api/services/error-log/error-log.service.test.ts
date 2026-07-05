@@ -7,11 +7,12 @@ function row(over: Partial<ErrorLogRow> = {}): ErrorLogRow {
   return {
     id: "e1", environment: "local", source: "api", email: "a@b.com", userName: "A", company: "Acme",
     method: "POST", path: "/api/v1/sessions", status: 500, errorCode: "INTERNAL",
-    message: "boom", createdAt: new Date("2026-07-05T06:00:00Z"), ...over,
+    message: "boom", details: { stack: "Error: boom" }, resolvedAt: null,
+    createdAt: new Date("2026-07-05T06:00:00Z"), ...over,
   };
 }
 function fakeRepo(rows: ErrorLogRow[]): ErrorLogReadRepo {
-  return { async listRecent() { return rows; } };
+  return { async listRecent() { return rows; }, async setResolved() {} };
 }
 
 test("listRecent: maps rows to the view with createdAt as an ISO string", async () => {
@@ -41,4 +42,27 @@ test("listRecent: an anonymous error (null who) passes through", async () => {
   assert.equal(e.email, null);
   assert.equal(e.userName, null);
   assert.equal(e.company, null);
+});
+
+test("listRecent: resolvedAt is an ISO string when set, null when open", async () => {
+  const resolved = row({ id: "r", resolvedAt: new Date("2026-07-05T08:00:00Z") });
+  const open = row({ id: "o", resolvedAt: null });
+  const svc = createErrorLogService(fakeRepo([resolved, open]));
+  const { errors } = await svc.listRecent();
+  assert.equal(errors[0]?.resolvedAt, "2026-07-05T08:00:00.000Z");
+  assert.equal(errors[1]?.resolvedAt, null);
+});
+
+test("resolve: marks resolved with a timestamp, or clears it to reopen", async () => {
+  const calls: Array<{ id: string; at: Date | null }> = [];
+  const repo: ErrorLogReadRepo = {
+    async listRecent() { return []; },
+    async setResolved(id, at) { calls.push({ id, at }); },
+  };
+  const svc = createErrorLogService(repo);
+  assert.deepEqual(await svc.resolve("e1", true), { id: "e1", resolved: true });
+  assert.equal(calls[0]?.id, "e1");
+  assert.ok(calls[0]?.at instanceof Date);
+  assert.deepEqual(await svc.resolve("e1", false), { id: "e1", resolved: false });
+  assert.equal(calls[1]?.at, null);
 });
