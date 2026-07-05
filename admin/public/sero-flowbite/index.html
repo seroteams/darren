@@ -96,7 +96,7 @@
     <p class="text-sero-dim max-w-prose">Check every new or touched screen against this list. If one fails, it's not done.</p>
     <div class="bg-sero-surface border border-sero-border rounded-xl p-6 grid gap-x-8 gap-y-2.5 sm:grid-cols-2 text-base">
       <p>1. Colours come <strong>only from the tokens</strong> — never type a hex code in a screen file.</p>
-      <p>2. <strong>Nothing under 14px.</strong> No exceptions.</p>
+      <p>2. <strong>Nothing under 14px</strong>, and colour used as text passes <strong>4.5:1</strong> — on light backgrounds that means the scale's dark step (coral <strong>800</strong>, mint <strong>900</strong>, gold <strong>900</strong>). Never a 700 as text.</p>
       <p>3. <strong>One blue action per screen.</strong> If two blue buttons compete, one is wrong.</p>
       <p>4. Corners: <strong>4px on controls, 12px on cards.</strong></p>
       <p>5. Every screen ships with its <strong>empty, loading, and error states</strong> designed.</p>
@@ -170,7 +170,7 @@
     <details class="bg-sero-surface border border-sero-border rounded-xl">
       <summary class="cursor-pointer p-5 font-semibold text-base">Full palette — all 11 scales, 50 → 950 (click to open)</summary>
       <div id="palette" class="p-5 pt-0 space-y-5"></div>
-      <p class="px-5 pb-5 text-sm text-sero-dim">How to use a scale: <strong>100–300</strong> tinted backgrounds · <strong>700</strong> the colour itself · <strong>800+</strong> text on the tints. In code: <code class="text-sm">var(--sero-&lt;scale&gt;-&lt;step&gt;)</code> — never the hex.</p>
+      <p class="px-5 pb-5 text-sm text-sero-dim">How to use a scale: <strong>100–300</strong> tinted backgrounds · <strong>700</strong> the colour itself (fills, bars, borders) · text on light needs the step that passes <strong>4.5:1</strong> — coral <strong>800</strong> · mint <strong>900</strong> · gold <strong>900</strong> · lavender <strong>800</strong> · sky <strong>800</strong>. In code: <code class="text-sm">var(--sero-&lt;scale&gt;-&lt;step&gt;)</code> — never the hex; status text uses <code class="text-sm">--color-positive-text</code> / <code class="text-sm">--color-negative-text</code>.</p>
     </details>
   </section>
 
@@ -203,7 +203,7 @@
       <!-- Quiet / text -->
       <button type="button" class="rounded px-4 py-2 text-sm font-medium text-sero-dim hover:bg-sero-page hover:text-sero-ink">View profile</button>
       <!-- Danger -->
-      <button type="button" class="rounded border border-sero-coral px-4 py-2 text-sm font-medium text-[#c0392b] hover:bg-red-50">Delete</button>
+      <button type="button" class="rounded border border-[#ac1608] px-4 py-2 text-sm font-medium text-[#ac1608] hover:bg-red-50">Delete</button>
       <!-- Disabled -->
       <button type="button" disabled class="rounded bg-sero-border px-4 py-2 text-sm font-medium text-sero-dim cursor-not-allowed">Disabled</button>
     </div>
@@ -257,7 +257,7 @@
         <label for="bad" class="block mb-2 text-sm font-medium">Field with a problem</label>
         <input type="text" id="bad" value="" placeholder="Required"
           class="block w-full rounded border border-sero-coral bg-sero-surface p-2.5 text-sm text-sero-ink focus:border-sero-coral focus:ring-red-200">
-        <p class="mt-1.5 text-sm text-[#c0392b]">Please fill this in before saving.</p>
+        <p class="mt-1.5 text-sm text-[#ac1608]">Please fill this in before saving.</p>
       </div>
       <div class="sm:col-span-2">
         <label for="search" class="block mb-2 text-sm font-medium">Search</label>
@@ -533,7 +533,7 @@
           <span class="font-medium text-right">+3</span>
           <span>Engagement</span>
           <span class="h-2.5 rounded-full bg-sero-page overflow-hidden"><span class="block h-full w-[30%] rounded-full bg-sero-coral"></span></span>
-          <span class="font-medium text-right text-[#c0392b]">−2</span>
+          <span class="font-medium text-right text-[#ac1608]">−2</span>
           <span>Clarity</span>
           <span class="h-2.5 rounded-full bg-sero-page overflow-hidden"><span class="block h-full w-[55%] rounded-full bg-sero-accent"></span></span>
           <span class="font-medium text-right">+1</span>
@@ -634,7 +634,7 @@
           <li><a href="#" class="block px-4 py-2 hover:bg-sero-page">Choose new date</a></li>
           <li><a href="#" class="block px-4 py-2 hover:bg-sero-page">Mark as complete</a></li>
           <li><hr class="my-1 border-sero-border"></li>
-          <li><a href="#" class="block px-4 py-2 text-[#c0392b] hover:bg-red-50">Remove</a></li>
+          <li><a href="#" class="block px-4 py-2 text-[#ac1608] hover:bg-red-50">Remove</a></li>
         </ul>
       </div>
       <!-- Modal trigger -->

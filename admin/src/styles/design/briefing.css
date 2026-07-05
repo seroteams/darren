@@ -93,7 +93,7 @@
   background: var(--color-accent-soft);
 }
 .copy-snippet-btn.is-copied {
-  color: var(--color-positive);
+  color: var(--color-positive-text); /* text-safe mint (a11y) */
   border-color: var(--color-positive);
   background: rgba(26, 168, 135, 0.08);
 }

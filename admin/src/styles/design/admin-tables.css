@@ -46,7 +46,7 @@
 /* "Coming back?" trend mark — a shape, not arithmetic. Calm colours: rising reads positive,
    cooling reads warm-muted (attention, not alarm), steady/quiet stay neutral. */
 .um-trend { font-size: 0.85em; line-height: 1; }
-.um-trend--up     { color: var(--color-positive); }
+.um-trend--up     { color: var(--color-positive-text); } /* text-safe mint (a11y) */
 .um-trend--down   { color: var(--color-amber); }
 .um-trend--steady { color: var(--color-ink-dim); }
 .um-trend--quiet  { color: var(--color-ink-mute); }

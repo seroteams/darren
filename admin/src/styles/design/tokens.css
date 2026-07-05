@@ -230,7 +230,10 @@
   --sero-elevation-raised: var(--sero-shadow-sm);
   --sero-elevation-floating: var(--sero-shadow-lg);
   --sero-elevation-overlay: var(--sero-shadow-2xl);
-  --sero-shadow-focus: 0 0 0 3px var(--sero-primary-300);
+  /* Focus ring (a11y pass 2026-07-05): the old 3px primary-300 ring was 1.2:1 against a
+     white surface — near-invisible to keyboard users. Double ring: white gap + primary-800
+     (7:1) reads on any Sero background. */
+  --sero-shadow-focus: 0 0 0 2px var(--sero-offwhite-50), 0 0 0 4px var(--sero-primary-800);
 
   /* Interaction state overlays */
   --sero-state-hover-opacity: .08;
@@ -292,8 +295,12 @@
 
   --color-deep: var(--sero-navy-900);              /* #0c2333 */
 
-  --color-positive: var(--sero-mint-800);          /* #1aa887 */
-  --color-negative: var(--sero-coral-700);         /* #f76b5e */
+  --color-positive: var(--sero-mint-800);          /* #1aa887 — fills/graphics only (2.9:1) */
+  --color-negative: var(--sero-coral-700);         /* #f76b5e — fills/graphics only (2.9:1) */
+  /* Text-safe variants (a11y pass 2026-07-05): colour used AS TEXT must pass 4.5:1.
+     mint-900 = 9.9:1, coral-800 = 7.3:1 on white. Never put -700/-800 mint/coral text on light. */
+  --color-positive-text: var(--sero-mint-900);     /* #0c4b3c */
+  --color-negative-text: var(--sero-coral-800);    /* #ac1608 */
   --color-neutral: var(--sero-charcoal-400);       /* #afafaf */
 
   /* Consolidated from inline var() fallbacks that referenced these (previously

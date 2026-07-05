@@ -208,7 +208,7 @@
 .script-state {
   font-weight: 600;
 }
-.script-state--matched { color: var(--color-positive, #1a7f5a); }
+.script-state--matched { color: var(--color-positive-text, #0c4b3c); } /* text-safe mint (a11y) */
 .script-state--missing { color: var(--color-amber, #b4690e); }
 .script-state--fallback { color: var(--color-amber, #b4690e); }
 
@@ -243,11 +243,11 @@
 }
 .cmp-delta-sep { color: var(--color-ink-mute); font-weight: 400; }
 .cmp-delta-tok--up { color: var(--color-accent-dark); }
-.cmp-delta-tok--down { color: var(--color-negative); }
+.cmp-delta-tok--down { color: var(--color-negative-text); } /* text-safe coral (a11y) */
 
 .cmp-warn {
   font-size: var(--type-body-sm);
-  color: var(--color-negative);
+  color: var(--color-negative-text); /* text-safe coral (a11y) */
   background: color-mix(in srgb, var(--color-negative) 8%, transparent);
   border-radius: var(--radius-input);
   padding: 0.45rem 0.7rem;

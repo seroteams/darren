@@ -21,7 +21,7 @@
 }
 .field__error {
   font-size: var(--type-body-sm);
-  color: var(--color-negative);
+  color: var(--color-negative-text); /* text-safe coral (a11y: coral-700 fails 4.5:1) */
 }
 .field__error[hidden] { display: none; }
 .field__actions {

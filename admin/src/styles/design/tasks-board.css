@@ -122,12 +122,22 @@
    Columns scroll sideways so it stays usable on a phone.
    ============================================================ */
 .kb { display: flex; flex-direction: column; gap: var(--sero-space-3); }
+/* On desktop the planner breaks out of the centered page column to 80% of the
+   viewport, so the board has room to breathe. Below 900px it stays inside the
+   normal container (keeps the phone layout untouched). */
+@media (min-width: 900px) {
+  .kb {
+    width: 80vw;
+    margin-left: calc(50% - 40vw);
+    margin-right: calc(50% - 40vw);
+  }
+}
 .kb-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sero-space-3); flex-wrap: wrap; }
 .kb-title { margin: 0; }
 .kb-lede { margin-top: var(--sero-space-1); font-size: var(--type-body-sm); color: var(--color-ink-dim); line-height: 1.5; max-width: 66ch; }
 .kb-board { display: flex; gap: var(--sero-space-3); overflow-x: auto; align-items: flex-start; padding-bottom: var(--sero-space-2); }
 .kb-col {
-  flex: 1 0 250px; min-width: 250px; max-width: 340px;
+  flex: 1 0 250px; min-width: 250px;
   background: var(--color-surface-2);
   border: 1px solid var(--color-border);
   border-radius: var(--sero-radius-md, 12px);

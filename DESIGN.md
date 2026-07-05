@@ -141,6 +141,21 @@ the colour itself · **800+** text on tints. Two deliberate code-vs-Figma-export
 accent stays `#5aa9e6` (the Figma *components* use it, only the variable export says #60a9e2)
 and `soft-50` stays `#fdfefe` (never-pure-white rule).
 
+### Accessible pairings (a11y pass 2026-07-05 — measured, not guessed)
+Text must hit **4.5:1**; large text and UI shapes **3:1**. The pairs that pass:
+- Body ink #1f2a37 on page/surface (13.8) · dim #636363 (5.7+) · links accent-dark #1b5d91 (6.6+).
+- **Colour as text on light:** coral → **800** (#ac1608, 7.3) · mint → **900** (#0c4b3c, 9.9) ·
+  gold → **900** (#523600) · lavender → **800** (8.7) · sky → **800** (5.4). **A 700 step is never
+  text** (coral-700 2.9, mint-800 2.9 — fails). In code: `--color-positive-text` /
+  `--color-negative-text`. The 700s stay for fills, bars, borders(≥3:1), tints.
+- Mute #757575 passes on white (4.6) but not on the tinted page at small sizes (4.4) — on
+  `page-bg`, mute text is 16px+ or use dim instead.
+- **Focus ring**: the double ring (2px white gap + primary-800) — visible on every background.
+  Never a pale ring.
+- ⚠️ **Known open item:** white on accent #5aa9e6 (primary buttons) is **2.5:1 — fails**. Two
+  passing fixes exist (dark label on sky fill 6.8:1, or white on accent-dark fill 7:1); which
+  one is Carl's brand call — until decided, buttons stay as designed.
+
 ### Named Rules
 **The One Accent Rule.** Sky blue appears on at most one primary action per screen.
 **The Tokens-Only Rule.** Screens never contain literal hex values — tokens from `design.css` only.
@@ -200,7 +215,8 @@ Flowbite 2.5.2 shapes + Sero tokens. Canonical recipes (visual versions on the s
 The "before you build" checklist — every new or touched screen passes all ten:
 
 1. **Do** take colours only from the tokens; **don't** type hex in a screen file.
-2. **Do** keep every text ≥ **14px**.
+2. **Do** keep every text ≥ **14px** and every colour-as-text at **4.5:1+** (on light: coral 800,
+   mint 900, gold 900 — never a 700 as text; use `--color-positive-text`/`--color-negative-text`).
 3. **Do** give each screen exactly **one blue action**.
 4. **Do** round controls at **4px**, cards at **12px**.
 5. **Do** design the **empty, loading, and error** states with the screen, not after.

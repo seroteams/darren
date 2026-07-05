@@ -88,7 +88,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--color-negative);
+  color: var(--color-negative-text); /* text-safe coral (a11y: coral-700 is 2.9:1) */
   font-weight: 700;
   font-size: var(--type-small);
 }
