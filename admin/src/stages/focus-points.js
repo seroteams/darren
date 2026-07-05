@@ -7,6 +7,8 @@ import { confirmResetSession } from "../ui/session-reset.js";
 import { renderCtxSegments } from "../ui/notes-panel-utils.js";
 import { setSelectedFocus } from "../../../shared/api.js";
 import { escapeCopy as escape } from "../ui/html.js";
+import { icon } from "../ui/icon.js";
+import { Check } from "lucide";
 
 export async function mount(root, { store, setState }) {
   const sessionId = store.sessionId;
@@ -96,7 +98,7 @@ export async function mount(root, { store, setState }) {
           </div>
         `).join("")}
       </div>
-      <div class="l-cluster l-cluster--2 pt-6 reveal">
+      <div class="l-cluster l-cluster--2 pt-6 reveal focus-actions">
         <button class="btn js-continue">Continue to prep brief</button>
         <button type="button" class="btn btn--ghost js-copy-focus">Copy focus areas</button>
         <button class="btn btn--ghost js-regen">Regenerate focus areas</button>
@@ -227,7 +229,7 @@ async function copyFocusPoints(focusPoints, ctx, btn) {
   try {
     await navigator.clipboard.writeText(text);
     const prev = btn.textContent;
-    btn.textContent = "Copied ✓";
+    btn.innerHTML = "Copied " + icon(Check, { size: 16 });
     setTimeout(() => { btn.textContent = prev; }, 1500);
   } catch (e) {
     console.warn("[focus-points] clipboard write failed:", e.message);

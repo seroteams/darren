@@ -9,6 +9,8 @@
 import { STAGES, store } from "../state.js";
 import { listMyRuns, getMyRun, getTeamAliases } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
+import { icon } from "../ui/icon.js";
+import { Star } from "lucide";
 import { groupRunsByPerson, canonicalKeyOf } from "../ui/group-people.js";
 import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
@@ -43,7 +45,7 @@ function summaryHtml(p: Person): string {
   if (last) items.push(`<span>last <b>${escapeHtml(last)}</b></span>`);
   items.push(
     p.avgStars != null
-      ? `<span><b>★ ${p.avgStars.toFixed(1)}</b> avg · ${p.ratedCount} rated</span>`
+      ? `<span><b>${icon(Star, { size: 16, fill: "currentColor" })} ${p.avgStars.toFixed(1)}</b> avg · ${p.ratedCount} rated</span>`
       : `<span>not yet rated</span>`,
   );
   return items.join(`<span class="person-summary__sep" aria-hidden="true">·</span>`);
@@ -79,7 +81,7 @@ function runRow(r: MyRun): string {
   const when = relTime(r.lastSeenAt);
   const type = r.ctx?.meetingType || r.headline || "1:1";
   const badge = r.rating
-    ? `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">★ ${r.rating.stars}</span>`
+    ? `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">${icon(Star, { size: 16, fill: "currentColor" })} ${r.rating.stars}</span>`
     : "";
   return `<button type="button" class="person-run js-open" data-id="${escapeHtml(r.id)}"><span class="text-sm"><span class="person-run__type">${escapeHtml(type)}</span>${when ? `<span class="person-run__when"> · ${escapeHtml(when)}</span>` : ""}</span>${badge}</button>`;
 }

@@ -4,6 +4,9 @@
 // the stars — the caller wires saving via onChange. Used on the run detail (with a note)
 // and at the end of a 1:1 (compact, with Skip).
 
+import { icon } from "./icon.js";
+import { Star } from "lucide";
+
 /** @param {{ initialStars?: number, ariaLabel?: string, onChange?: (stars: number) => void }} [opts] */
 export function createStarRating({ initialStars = 0, ariaLabel = "How useful was this 1:1? 1 to 5 stars", onChange } = {}) {
   const el = document.createElement("div");
@@ -16,7 +19,7 @@ export function createStarRating({ initialStars = 0, ariaLabel = "How useful was
     el.innerHTML = [1, 2, 3, 4, 5]
       .map(
         (n) =>
-          `<button type="button" class="star-rating__star" role="radio" aria-checked="${n === stars}" aria-label="${n} star${n > 1 ? "s" : ""}" data-v="${n}" tabindex="${n === (stars || 1) ? 0 : -1}">${n <= stars ? "★" : "☆"}</button>`,
+          `<button type="button" class="star-rating__star" role="radio" aria-checked="${n === stars}" aria-label="${n} star${n > 1 ? "s" : ""}" data-v="${n}" tabindex="${n === (stars || 1) ? 0 : -1}">${n <= stars ? icon(Star, { size: 26, fill: "currentColor" }) : icon(Star, { size: 26 })}</button>`,
       )
       .join("");
   };

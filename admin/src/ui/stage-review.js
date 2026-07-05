@@ -7,6 +7,8 @@
 import { getRunFull } from "../../../shared/api.js";
 import { TOPBAR_STAGES } from "./stage-labels.js";
 import { escapeHtml as esc } from "./html.js";
+import { icon } from "./icon.js";
+import { X } from "lucide";
 
 export function createStageReview({ store } = {}) {
   let overlay = null;
@@ -32,7 +34,7 @@ export function createStageReview({ store } = {}) {
       <div class="stage-review__panel">
         <header class="stage-review__head">
           <div class="stage-review__nav" role="tablist" aria-label="Review sections"></div>
-          <button type="button" class="stage-review__close" aria-label="Close review">✕</button>
+          <button type="button" class="stage-review__close" aria-label="Close review">${icon(X, { size: 16 })}</button>
         </header>
         <div class="stage-review__body"></div>
       </div>

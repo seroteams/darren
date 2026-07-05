@@ -1,6 +1,9 @@
 // Dev-only badge — shows current stage, source file, and primary data endpoint.
 // Mounted from main.js; never rendered in production builds.
 
+import { icon } from "./icon.js";
+import { Copy } from "lucide";
+
 const STAGE_META = {
   INTAKE:       { file: "stages/intake.js",        data: "/api/v1/meeting-types, /api/v1/sessions" },
   FOCUS_POINTS: { file: "stages/focus-points.js",  data: "/api/v1/sessions/:id/focus-points/stream" },
@@ -46,7 +49,7 @@ export function createDevBadge() {
     "opacity:0",
     "transition:opacity 120ms",
   ].join(";");
-  copyBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+  copyBtn.innerHTML = icon(Copy, { size: 12 });
   el.appendChild(copyBtn);
   el.addEventListener("mouseenter", () => { copyBtn.style.opacity = "1"; });
   el.addEventListener("mouseleave", () => { copyBtn.style.opacity = "0"; });

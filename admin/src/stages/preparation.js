@@ -5,6 +5,8 @@ import { revealSequence } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";
 import { escapeCopy as escape } from "../ui/html.js";
+import { icon } from "../ui/icon.js";
+import { Check } from "lucide";
 
 export async function mount(root, { store, setState }) {
   const sessionId = store.sessionId;
@@ -230,7 +232,7 @@ async function copyPrepBrief(brief, ctx, btn) {
   try {
     await navigator.clipboard.writeText(text);
     const prev = btn.textContent;
-    btn.textContent = "Copied ✓";
+    btn.innerHTML = "Copied " + icon(Check, { size: 16 });
     setTimeout(() => { btn.textContent = prev; }, 1500);
   } catch (e) {
     console.warn("[preparation] clipboard write failed:", e.message);

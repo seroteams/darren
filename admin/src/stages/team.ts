@@ -7,6 +7,8 @@
 import { STAGES, store } from "../state.js";
 import { listMyRuns, getTeamAliases, mergePeople, renamePerson } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
+import { icon } from "../ui/icon.js";
+import { Star } from "lucide";
 import { groupRunsByPerson } from "../ui/group-people.js";
 import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
@@ -16,6 +18,7 @@ type Person = {
   name: string;
   role: string;
   count: number;
+  openCount: number;
   lastMet: number;
   ratedCount: number;
   avgStars: number | null;
@@ -24,18 +27,27 @@ type Aliases = { merges: Record<string, string>; names: Record<string, string> }
 
 // Local one-use time-ago (mirrors runs.ts) — four lines, so no shared util for one caller.
 function metaLine(p: Person): string {
+  // Only a started prep so far (Team-for-managers) — say that, honestly, instead of "0 meetings".
+  if (p.count === 0) return escapeHtml("1:1 prep in progress · not met yet");
   const bits: string[] = [`${p.count} meeting${p.count > 1 ? "s" : ""}`];
   const last = relTime(p.lastMet);
   if (last) bits.push(`last ${last}`);
-  bits.push(p.avgStars != null ? `★ ${p.avgStars.toFixed(1)} avg (${p.ratedCount} rated)` : "not yet rated");
-  return escapeHtml(bits.join(" · "));
+  if (p.openCount > 0) bits.push("prep in progress");
+  const rated =
+    p.avgStars != null
+      ? `${icon(Star, { size: 16, fill: "currentColor" })} ${escapeHtml(p.avgStars.toFixed(1))} avg (${p.ratedCount} rated)`
+      : "not yet rated";
+  return `${escapeHtml(bits.join(" · "))} · ${rated}`;
 }
 
 // A clickable card — a real <button>, so it's keyboard-operable for free — opening the
-// person's page (PG5). The global :focus-visible rule supplies the focus ring.
+// person's page (PG5). The global :focus-visible rule supplies the focus ring. A person
+// with no finished 1:1 yet has no page to open, so their card is a plain div for now.
 function personCard(p: Person): string {
   const role = p.role ? `<span class="text-ink-dim"> · ${escapeHtml(p.role)}</span>` : "";
-  return `<button type="button" class="card-flat runs-list__row js-person" data-key="${escapeHtml(p.key)}"><span class="l-stack l-stack--2"><span class="text-sm"><strong>${escapeHtml(p.name)}</strong>${role}</span><span class="text-sm text-ink-dim">${metaLine(p)}</span></span></button>`;
+  const inner = `<span class="l-stack l-stack--2"><span class="text-sm"><strong>${escapeHtml(p.name)}</strong>${role}</span><span class="text-sm text-ink-dim">${metaLine(p)}</span></span>`;
+  if (p.count === 0) return `<div class="card-flat runs-list__row">${inner}</div>`;
+  return `<button type="button" class="card-flat runs-list__row js-person" data-key="${escapeHtml(p.key)}">${inner}</button>`;
 }
 
 // The same person in "Tidy up" mode: not a nav button, but a card with a rename control and
@@ -88,7 +100,7 @@ export const mount: Mount = async (root, { setState }) => {
   const emptyCard = `
     <section class="card-flat space-y-3">
       <div class="eyebrow">Your team will fill in here</div>
-      <p class="text-sm text-ink-dim">As you run 1:1s, the people you meet with appear here with their history. Start your first one.</p>
+      <p class="text-sm text-ink-dim">As you prep 1:1s, the people you meet with appear here with their history. Start your first one.</p>
       <button type="button" class="btn js-start">Prep a 1:1</button>
     </section>`;
   const errorCard = `
@@ -155,7 +167,7 @@ export const mount: Mount = async (root, { setState }) => {
   const load = async () => {
     root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading your team…</p></section>`, false);
     try {
-      const [runsRes, aliasRes] = await Promise.all([listMyRuns(), getTeamAliases().catch(() => ({}))]);
+      const [runsRes, aliasRes] = await Promise.all([listMyRuns({ open: true }), getTeamAliases().catch(() => ({}))]);
       runsCache = Array.isArray(runsRes?.runs) ? runsRes.runs : [];
       const a = aliasRes as Partial<Aliases>;
       aliases = { merges: a?.merges || {}, names: a?.names || {} };

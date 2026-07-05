@@ -214,9 +214,33 @@ Flowbite 2.5.2 shapes + Sero tokens. Canonical recipes (visual versions on the s
 - **Existing signatures to reuse, not rebuild:** the axis score bars (`admin/src/ui/axes.js`),
   star rating, thinking orb, confirm dialog, page-header pattern, `.l-*` layout primitives.
 
+### Icons — Lucide only
+**[Lucide](https://lucide.dev) is Sero's single icon system.** No emoji in the UI, no bespoke
+SVG glyphs — every icon is a Lucide icon so the whole app shares one line weight and shape
+language. The library is a project dependency (`lucide` in `package.json`); browse names at
+[lucide.dev/icons](https://lucide.dev/icons).
+
+Render through the one shared helper, `admin/src/ui/icon.js` — never hand-write an `<svg>`:
+
+```js
+import { House } from "lucide";
+import { icon } from "../ui/icon.js";
+el.innerHTML = `<span class="app-nav__icon">${icon(House)}</span>`;
+```
+
+- **Sizing:** default 22px (nav-rail size); pass `{ size }` for others. **Icons never carry text —
+  the 14px floor is about labels, not glyphs.** Keep icons ≥16px so they stay legible.
+- **Colour:** icons stroke in `currentColor` — they inherit the text colour of their context, so
+  they honour the tokens automatically. Don't hardcode a fill.
+- **Accessibility:** icons are `aria-hidden` by default (they sit beside a text label). For an
+  icon-only control, pass `{ label }` **and** give the button its own `aria-label`.
+- **Stroke weight (2) and the 24×24 box are fixed** by the helper — don't override them, so every
+  icon matches. The Sero brandmark (`app-nav.js` `LOGO`) is the one exception: it's the logo, not
+  an icon.
+
 ## 6. Do's and Don'ts
 
-The "before you build" checklist — every new or touched screen passes all ten:
+The "before you build" checklist — every new or touched screen passes all eleven:
 
 1. **Do** take colours only from the tokens; **don't** type hex in a screen file.
 2. **Do** keep every text ≥ **14px** and every colour-as-text at **4.5:1+** (on light: coral 800,
@@ -230,6 +254,8 @@ The "before you build" checklist — every new or touched screen passes all ten:
 9. **Do** write dates one way: **Mon 18 Nov 2024**.
 10. **Do** use plain words; keep focus rings. **Don't** nest cards, use side-stripe borders,
     gradient text, or dark-glass AI styling. **Don't** show a bare metric without its reasoning.
+11. **Do** use **Lucide icons only**, via `admin/src/ui/icon.js`; **don't** hand-write an `<svg>`
+    or reach for an emoji in the UI (see §5 "Icons").
 
 **One exemption:** dev/debug chrome (`ui/dev-badge.js`, `ui/build-stamp.js`) is deliberate
 terminal-style kit — dark, mono, its own palette. It sits outside these rules; don't "fix" it.

@@ -14,6 +14,8 @@ import {
 import { libraryBadge } from "../ui/review-serialize.js";
 import { escapeHtml as esc } from "../ui/html.js";
 import { formatDate } from "../ui/time.ts";
+import { icon } from "../ui/icon.js";
+import { Play, X, Check, Sparkles } from "lucide";
 
 const COST_LINE =
   "Runs the full engine with this persona's scripted answers. Costs about $0.35 in AI and takes 1–2 minutes.";
@@ -147,7 +149,7 @@ function cardHtml(p, inSuite, runs) {
 
   const canRun = script.length > 0;
   const runControls = canRun
-    ? `<button class="btn js-run" data-persona="${esc(p.id)}" style="white-space:nowrap;">▶ Run</button>`
+    ? `<button class="btn js-run" data-persona="${esc(p.id)}" style="white-space:nowrap;">${icon(Play, { size: 16 })} Run</button>`
     : `<span class="text-ink-mute" style="font-size:var(--type-small,14px);">No script — can't run</span>`;
 
   return `
@@ -252,7 +254,7 @@ async function mountSafetyStrip(host, opts) {
     failsEl.innerHTML = bad
       .map(
         (c) =>
-          `<div style="font-size:var(--type-small,14px);color:var(--color-negative);">✗ ${esc(c.name || c.id)}${
+          `<div style="font-size:var(--type-small,14px);color:var(--color-negative);">${icon(X, { size: 16 })} ${esc(c.name || c.id)}${
             (c.reasons || []).length ? " — " + esc(c.reasons[0]) : ""
           }</div>`
       )
@@ -341,7 +343,7 @@ function runBarHtml(job) {
     let glyph = String(i + 1);
     if (done || i < current) {
       cls = "run-step--done";
-      glyph = "✓";
+      glyph = icon(Check, { size: 16 });
     } else if (failed && i === current) {
       cls = "run-step--failed";
       glyph = "!";
@@ -357,7 +359,7 @@ function runBarHtml(job) {
   if (done) {
     const cost = typeof job.costUsd === "number" ? ` · about $${job.costUsd.toFixed(2)} in AI` : "";
     status =
-      `<span style="color:var(--color-positive);font-weight:500;">✨ Finished${esc(cost)}</span>` +
+      `<span style="color:var(--color-positive);font-weight:500;">${icon(Sparkles, { size: 16 })} Finished${esc(cost)}</span>` +
       (job.sessionId ? `<button class="btn btn--sm js-review-it" style="margin-left:8px;">Review it</button>` : "");
   } else if (failed) {
     status = `<span style="color:var(--color-negative);">Run failed: ${esc(job.error || "unknown error")}</span>`;

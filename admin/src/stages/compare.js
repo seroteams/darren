@@ -2,6 +2,8 @@ import { STAGES, store } from "../state.js";
 import { listRecentRuns, getRunFull, suggestFix, postVerdict } from "../../../shared/api.js";
 import { escapeHtml as escape } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
+import { icon } from "../ui/icon.js";
+import { ChevronUp, ChevronDown, TriangleAlert } from "lucide";
 
 const FIX_STAGES = ["focus_points", "preparation", "bank", "questioning", "evaluation"];
 
@@ -282,7 +284,7 @@ function axisRow(id, sa, sb) {
     ? `<div class="cmp-axis__seg cmp-axis__seg--${dir}" style="left:${lo}%;width:${hi - lo}%"></div>`
     : "";
   const deltaChip = d !== 0
-    ? `<span class="cmp-axis__delta cmp-axis__delta--${dir}">${d > 0 ? "▲" : "▼"} ${Math.abs(d)}</span>`
+    ? `<span class="cmp-axis__delta cmp-axis__delta--${dir}">${d > 0 ? icon(ChevronUp, { size: 16 }) : icon(ChevronDown, { size: 16 })} ${Math.abs(d)}</span>`
     : `<span class="cmp-axis__delta cmp-axis__delta--flat">=</span>`;
   return `
     <div class="cmp-axis">
@@ -335,7 +337,7 @@ function fallbackBadge(run) {
   const cov = run.scriptCoverage || {};
   const n = cov.fallback_count || 0;
   const played = (cov.aliases_answered_by_script || []).length;
-  if (n) return `<span class="fp-chip fp-chip--warn">⚠ ${n} fallback answer${n === 1 ? "" : "s"}</span>`;
+  if (n) return `<span class="fp-chip fp-chip--warn">${icon(TriangleAlert, { size: 16 })} ${n} fallback answer${n === 1 ? "" : "s"}</span>`;
   if (played) return `<span class="fp-chip fp-chip--ok">on-script</span>`;
   return `<span class="fp-chip fp-chip--warn">typed (off-script)</span>`;
 }

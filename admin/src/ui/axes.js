@@ -1,6 +1,9 @@
 // Axis bars. Handles per-turn (live) and briefing (celebrate) modes.
 // Visual scale clamps to ±6; true scores pass through untouched.
 
+import { icon } from "./icon.js";
+import { ChevronRight } from "lucide";
+
 export const AXIS_ORDER = ["wellbeing", "engagement", "clarity", "growth"];
 const AXIS_LABELS = {
   wellbeing: "Wellbeing",
@@ -125,7 +128,7 @@ function createRow(id, celebrate) {
     if (Math.abs(score) <= VISUAL_MAX) return;
     const caret = document.createElement("span");
     caret.className = `axis__caret ${score > 0 ? "axis__caret--right" : "axis__caret--left"} pulse-caret`;
-    caret.textContent = "▸";
+    caret.innerHTML = icon(ChevronRight, { size: 16 });
     track.appendChild(caret);
     const off = document.createElement("span");
     off.className = "axis__offscale";

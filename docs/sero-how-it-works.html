@@ -259,7 +259,8 @@
   <h2>What's shipped, newest first</h2>
   <p style="margin-top:-.4rem;opacity:.7;font-size:.9rem">Hand-written, refreshed by us at each phase close — the story of what shipped, <strong>not</strong> live status. For where the build is right now, see <code>STATUS.md</code>.</p>
   <div class="log">
-    <div class="logitem"><div class="logdate">Jul 5</div><div class="logbody"><h4>The whole app works on a phone <span class="badge">NEW</span></h4><p>Mobile-responsive track, all 5 phases in one day: on a phone the left rail becomes a slide-in menu behind a ☰ button, the in-run stage bar goes compact, and every screen — login through the live 1:1 flow to the admin tables — fits the screen with thumb-sized buttons and no sideways scrolling. Tapping into a field no longer zooms the page (iOS), wide admin tables keep the person's name pinned while you scroll the rest, and the desktop look is untouched. A hidden real bug (the Guide page overflowing) was caught and fixed on the way.</p></div></div>
+    <div class="logitem"><div class="logdate">Jul 5</div><div class="logbody"><h4>One API, no dead doors <span class="badge">CLEANUP</span></h4><p>A full "is everything really connected?" audit confirmed all 38 screens run on live data — and caught that the old API paths from before the v1 migration were still half in use. Now every call the app makes goes through the one real <code>/api/v1</code> API, and the ~54 leftover legacy routes were deleted from the server (proven live: old paths answer "not found", new paths still work). The to-do folder was tidied to match reality on the way.</p></div></div>
+    <div class="logitem"><div class="logdate">Jul 5</div><div class="logbody"><h4>The whole app works on a phone <span class="badge">NEW</span></h4><p>Mobile-responsive track, all 5 phases in one day: on a phone the left rail becomes a slide-in menu behind a <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg> button, the in-run stage bar goes compact, and every screen — login through the live 1:1 flow to the admin tables — fits the screen with thumb-sized buttons and no sideways scrolling. Tapping into a field no longer zooms the page (iOS), wide admin tables keep the person's name pinned while you scroll the rest, and the desktop look is untouched. A hidden real bug (the Guide page overflowing) was caught and fixed on the way.</p></div></div>
     <div class="logitem"><div class="logdate">Jul 4</div><div class="logbody"><h4>A safe admin key to watch the alpha <span class="badge">GROUNDWORK</span></h4><p>Pre-go-live PG6 (behind the scenes, no screen yet): Carl's account gains a <strong>read-only</strong> key to see across all alpha companies, so adoption can be watched and the friendly managers followed up. It's tightly gated — the identity is checked on the server (never trusting the browser), the code can only ever <strong>read</strong> (it never even sees passwords), and <strong>every use is logged</strong>. A normal owner, a logged-out visitor, and even the developer shortcut login are all refused. Proven by 13 tests. The screens that use it come next (PG7/PG8).</p></div></div>
     <div class="logitem"><div class="logdate">Jul 4</div><div class="logbody"><h4>Each person, in one place <span class="badge">NEW</span></h4><p>Pre-go-live PG5: click a person on your Team and you land on <strong>their page</strong> — every 1:1 you've had with them (each one re-openable), how useful they've been on average, and a <strong>"Since last time"</strong> recap at the top pulling the last meeting's agreed actions and what-to-watch-for. A one-tap <strong>"Prep your next 1:1"</strong> starts a fresh prep with their name already filled in. The point of coming back: last time helps you run the next one.</p></div></div>
     <div class="logitem"><div class="logdate">Jul 4</div><div class="logbody"><h4>Your Team builds itself <span class="badge">NEW</span></h4><p>Pre-go-live PG4: the Team page now fills itself in from your past 1:1s — one card per person, with how many times you've met, when you last met, and how useful it's been on average. Different spellings of the same name ("Priya"/"priya") fold into one person. A first, single meeting reads honestly ("1 meeting · not yet rated") and no 1:1s shows a friendly empty state. The old "Runs" tab is now "Past 1:1s".</p></div></div>
@@ -333,13 +334,13 @@
   <p class="lead">Instead of six screens, the run stays on a <strong>single page that grows downward</strong>. Answer a section, the next appears below it.</p>
   <div style="display:flex; gap:34px; flex-wrap:wrap; align-items:flex-start">
     <div class="grow">
-      <div class="row done"><span class="ck">✓</span><span class="q">Setup <small>Priya · Backend Eng · mid · bi-weekly</small></span></div>
+      <div class="row done"><span class="ck"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span class="q">Setup <small>Priya · Backend Eng · mid · bi-weekly</small></span></div>
       <div class="caret">↓</div>
-      <div class="row done"><span class="ck">✓</span><span class="q">Focus areas <small>workload · recognition</small></span></div>
+      <div class="row done"><span class="ck"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span class="q">Focus areas <small>workload · recognition</small></span></div>
       <div class="caret">↓</div>
-      <div class="row done"><span class="ck">✓</span><span class="q">Prep brief <small>core issue + opener + listen-fors</small></span></div>
+      <div class="row done"><span class="ck"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span class="q">Prep brief <small>core issue + opener + listen-fors</small></span></div>
       <div class="caret">↓</div>
-      <div class="row done"><span class="ck">✓</span><span class="q">The language of this role <small>role vocabulary</small></span></div>
+      <div class="row done"><span class="ck"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span class="q">The language of this role <small>role vocabulary</small></span></div>
       <div class="caret">↓</div>
       <div class="row live"><span class="q">Interview — question 3 of 9 <small>answering now…</small></span></div>
     </div>
@@ -451,7 +452,7 @@
       <div class="lstep"><b>4.</b> Axes update; next question appears</div>
     </div>
     <div class="promptgrid">
-      <button class="pchip hero" onclick="openPrompt('runner')"><h4>▶ The runner <span class="st">plan-turn · gpt-5.4</span></h4><p>The live per-turn planner. Scores the last answer and rebuilds the queue. Sent once every turn.</p><span class="open">Open the real prompt →</span></button>
+      <button class="pchip hero" onclick="openPrompt('runner')"><h4><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg> The runner <span class="st">plan-turn · gpt-5.4</span></h4><p>The live per-turn planner. Scores the last answer and rebuilds the queue. Sent once every turn.</p><span class="open">Open the real prompt →</span></button>
       <button class="pchip" onclick="openPrompt('focus')"><h4>Focus areas <span class="st">nano</span></h4><p>Picks 2–5 topics from the catalogue of 21.</p><span class="open">Open →</span></button>
       <button class="pchip" onclick="openPrompt('prep')"><h4>Preparation <span class="st">gpt-5.4</span></h4><p>Writes the six-part game plan.</p><span class="open">Open →</span></button>
       <button class="pchip" onclick="openPrompt('bank')"><h4>Question bank <span class="st">mini</span></h4><p>Designs 8–12 tailored questions.</p><span class="open">Open →</span></button>
@@ -505,7 +506,7 @@
 <section class="slide">
   <div class="kicker">15 · Role profiles & vocabulary</div>
   <h2>Sero knows the job, not just the person</h2>
-  <p class="lead">The first time a role + seniority appears, Sero generates a <strong>role profile</strong> once and caches it in <code>content/data/role-profiles/</code>. Later runs reuse it for free. <strong>19</strong> are on file now.</p>
+  <p class="lead">The first time a role + seniority appears, Sero generates a <strong>role profile</strong> once and caches it in <code>content/data/role-profiles/</code>. Later runs reuse it for free. <strong>24</strong> are on file now.</p>
   <div class="cards c2">
     <div class="card"><h3>What's in one</h3><p>A summary, known challenges, recommended question themes, the <strong>terminology people in that job use</strong>, things to listen for, and things to avoid.</p></div>
     <div class="card"><h3>What's NOT in one</h3><p>Anything personal. Built from title + seniority only — safely shared across everyone with that title. The cache key is the <strong>exact title</strong>.</p></div>
@@ -615,19 +616,15 @@
 <section class="slide">
   <div class="kicker">22 · Admin & build plan <span class="new">NEW</span></div>
   <h2>The Prototype → Production checklist</h2>
-  <p class="lead">The admin console has an interactive build-plan page — eight phases from prototype to a shippable product, each with live status badges and sign-off gates.</p>
+  <p class="lead">The admin console has an interactive build-plan page — the journey from prototype to a shippable product, each step with live status badges and sign-off gates. Where it stands now:</p>
   <table>
-    <tr><th>Phase</th><th>Plain name</th><th>Status</th></tr>
-    <tr><td><b>001</b> Monorepo reorg</td><td>Tidy the project</td><td style="color:var(--good)">✓ done</td></tr>
-    <tr><td><b>002</b> Conventions & skills</td><td>House rules</td><td style="color:var(--good)">✓ done</td></tr>
-    <tr><td><b>003</b> TypeScript conversion</td><td>Make the code safer</td><td style="color:var(--warn)">🔨 in progress</td></tr>
-    <tr><td><b>004</b> Backend API v1</td><td>A proper engine room</td><td>⬜ next</td></tr>
-    <tr><td><b>005</b> Postgres foundation</td><td>A real database</td><td>⬜ later</td></tr>
-    <tr><td><b>006</b> Auth</td><td>The front door</td><td>⬜ later</td></tr>
-    <tr><td><b>007</b> Frontend app</td><td>The customer app</td><td>⬜ later</td></tr>
-    <tr><td><b>008</b> Security</td><td>Keep it safe</td><td>⬜ later</td></tr>
+    <tr><th>Stage</th><th>What it delivered</th><th>Status</th></tr>
+    <tr><td><b>Foundation</b><br><span style="font-size:11px;opacity:.7">phases 001–007</span></td><td>Tidy monorepo · house-rule skills · TypeScript · layered API v1 · Postgres · auth & login · member/manager/admin roles</td><td style="color:var(--good)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> done &amp; archived</td></tr>
+    <tr><td><b>Manager-ready</b><br><span style="font-size:11px;opacity:.7">pre-go-live</span></td><td>Manager rail · your own Past 1:1s · 1–5<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg> ratings · a self-building Team · a page per person · superadmin (users + error log)</td><td style="color:var(--warn)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg> built · awaiting QA</td></tr>
+    <tr><td><b>Polish</b></td><td>Full mobile support · design system (Sero × Flowbite) · test-engine hub · page heartbeat</td><td style="color:var(--warn)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg> built · awaiting QA</td></tr>
+    <tr><td><b>Parked</b></td><td>Cross-session continuity — carry meeting #1's actions into meeting #2</td><td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M4.929 4.929 19.07 19.071"/></svg> hard-parked</td></tr>
   </table>
-  <div class="note"><b>The badge is the truth.</b> Each step's status drives both the page and an auto-generated "continue" prompt, so the plan never reads stale. We're on <b>003</b> — engine fully converted, API converting in batches.</div>
+  <div class="note"><b>The badge is the truth.</b> Each step's build status drives both the page and an auto-generated "continue" prompt, so the plan never reads stale. The foundation is done; the current push makes Sero something a real manager can be handed.</div>
 </section>
 
 <!-- 25 TESTING -->
@@ -637,7 +634,7 @@
   <div class="cards c3">
     <div class="card"><h3>npm run gate</h3><p><strong>The trust gate.</strong> Replays <strong>8 golden scenarios</strong> and runs all hard checks. Pass/fail. Before any change is "done". <em>~$3 full, ~$0.35 a single case.</em></p></div>
     <div class="card"><h3>npm run smoke</h3><p><strong>End-to-end check.</strong> Pushes a whole scenario start to finish to prove the plumbing connects.</p></div>
-    <div class="card"><h3>npm test / typecheck</h3><p><strong>Free & fast.</strong> 30/30 unit tests plus a strict TypeScript check — the everyday safety net.</p></div>
+    <div class="card"><h3>npm test / typecheck</h3><p><strong>Free & fast.</strong> ~69/69 unit tests plus a strict TypeScript check — the everyday safety net.</p></div>
   </div>
   <ul class="big">
     <li><strong>The prompt-notes loop:</strong> human-written rules in <code>*.notes.yaml</code> (must/must-not, length & count ranges) are checked against output <em>offline</em>. Fail → read why, tweak the prompt, re-check — <strong>without burning API</strong>.</li>
@@ -672,9 +669,9 @@
         <b>5</b> meeting types · <b>2</b> relational · <b>21</b> focus areas (3/7/11)<br>
         <b>9</b> questions per run (4 intro + 5 dynamic)<br>
         <b>4</b> axes, all start at <b>0</b>, deltas −3/−1/0/+1/+3, clamp ±10<br>
-        <b>3,806</b> questions · <b>19</b> role profiles · <b>10</b> prompts<br>
+        <b>4,375</b> questions · <b>24</b> role profiles · <b>9</b> prompts<br>
         <b>14</b> trust checks (11 hard + 3 advisory)<br>
-        <b>8</b> golden · <b>7</b> replay · <b>8</b> review dimensions · <b>30/30</b> tests<br>
+        <b>8</b> golden · <b>7</b> replay · <b>8</b> review dimensions · <b>~69/69</b> tests<br>
         <b>~$0.35</b>/run · <b>~$3</b> full gate
       </p>
     </div>
@@ -685,7 +682,7 @@
         <code>npm run cli</code> — terminal run<br>
         <code>npm run gate</code> — trust gate (before "done")<br>
         <code>npm run typecheck</code> — strict TypeScript check<br>
-        <code>npm test</code> — 30 unit tests (free)<br>
+        <code>npm test</code> — ~69 unit tests (free)<br>
         <code>npm run replay</code> — offline regression (free)<br>
         <code>npm run smoke</code> / <code>eval</code> — end-to-end / quality (paid)
       </p>
@@ -724,7 +721,7 @@
       <h3 id="panel-title">Prompt</h3>
       <div class="pmeta" id="panel-meta"></div>
     </div>
-    <button class="pclose" onclick="closePrompt()">✕ Close</button>
+    <button class="pclose" onclick="closePrompt()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Close</button>
   </div>
   <div class="pbody">
     <div class="plegend" id="panel-legend"></div>

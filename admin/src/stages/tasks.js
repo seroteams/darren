@@ -11,6 +11,11 @@
 import { STAGES, setState } from "../state.js";
 import { escapeHtml as esc } from "../ui/html.js";
 import { getHeartbeat } from "../../../shared/api.js";
+import { icon } from "../ui/icon.js";
+import {
+  Lightbulb, ClipboardList, Hammer, CircleCheck, ChevronLeft, ChevronRight, Pencil, X,
+  Banknote, Pause, Target, CircleParking, Gauge, NotebookPen, Play, Check, Plus, Trash2, RefreshCw,
+} from "lucide";
 
 let keyHandler = null;
 
@@ -19,10 +24,10 @@ let keyHandler = null;
 // Saved in this browser under its OWN key.
 const KB_KEY = "sero-tasks-kanban-v1";
 const KB_COLS = [
-  { id: "ideas", label: "Ideas", emoji: "💡" },
-  { id: "todo", label: "To do", emoji: "📋" },
-  { id: "doing", label: "Doing", emoji: "🔨" },
-  { id: "done", label: "Done", emoji: "✅" },
+  { id: "ideas", label: "Ideas", icon: Lightbulb },
+  { id: "todo", label: "To do", icon: ClipboardList },
+  { id: "doing", label: "Doing", icon: Hammer },
+  { id: "done", label: "Done", icon: CircleCheck },
 ];
 // A lane is just a coloured tag. Any text works; the colour is picked stably from
 // this palette by hashing the lane name, so "Design" is always the same colour.
@@ -40,8 +45,8 @@ const KB_SEED = [
   { col: "doing", lane: "Live data", title: "Live-data cleanup", note: "Phases 1–2 done — every screen on /api/v1. Phase 3 next: delete ~54 dead legacy routes." },
   { col: "doing", lane: "Logs", title: "Error log screen", note: "Superadmin Error log (Local/Live), one Neon. Phase 2 built — awaiting walk. Next: Phase 3 browser crashes." },
   { col: "doing", lane: "Users", title: "User management P3", note: "Deactivate / reactivate a user; live session killed immediately. Phase 2 (change role) closed." },
-  { col: "doing", lane: "Live data", title: "Page heartbeat", note: "Real UPDATE buttons. Phase 1 ✅ (Guide). Next: Phase 2 Universe ring · Phase 3 Tasks-board reality check." },
-  { col: "todo", lane: "Design", title: "Design cleanups", note: "Inline-hex cleanup (8 files), dropdown/progress/error consolidation, ⭐ states batch on the sheet." },
+  { col: "doing", lane: "Live data", title: "Page heartbeat", note: "Real UPDATE buttons. Phase 1 done (Guide). Next: Phase 2 Universe ring · Phase 3 Tasks-board reality check." },
+  { col: "todo", lane: "Design", title: "Design cleanups", note: "Inline-hex cleanup (8 files), dropdown/progress/error consolidation, star states batch on the sheet." },
   { col: "todo", lane: "Engine", title: "Run QA fixes (prompt)", note: "Phases 2–4 — prompt changes, need a paid walk." },
   { col: "ideas", lane: "Engine", title: "Planner grounding", note: "Parked — awaiting scope pick (A/B/C/all)." },
   { col: "ideas", lane: "Product", title: "Briefing readability", note: "Parked idea." },
@@ -81,13 +86,13 @@ function kbCardHtml(c) {
     : "";
   const note = c.note ? `<div class="kb-card__note">${esc(c.note)}</div>` : "";
   const ci = KB_COLS.findIndex((k) => k.id === c.col);
-  const left = ci > 0 ? `<button type="button" class="kb-mv" data-mv="prev" data-id="${c.id}" aria-label="Move left">◀</button>` : "";
-  const right = ci < KB_COLS.length - 1 ? `<button type="button" class="kb-mv" data-mv="next" data-id="${c.id}" aria-label="Move right">▶</button>` : "";
+  const left = ci > 0 ? `<button type="button" class="kb-mv" data-mv="prev" data-id="${c.id}" aria-label="Move left">${icon(ChevronLeft, { size: 16 })}</button>` : "";
+  const right = ci < KB_COLS.length - 1 ? `<button type="button" class="kb-mv" data-mv="next" data-id="${c.id}" aria-label="Move right">${icon(ChevronRight, { size: 16 })}</button>` : "";
   return `<article class="kb-card${c.id === kbSelected ? " is-selected" : ""}" draggable="true" data-id="${c.id}">
     <div class="kb-card__top">${lane}
       <span class="kb-card__tools">
-        <button type="button" class="kb-ic js-kb-edit" data-id="${c.id}" aria-label="Edit card">✎</button>
-        <button type="button" class="kb-ic js-kb-del" data-id="${c.id}" aria-label="Delete card">✕</button>
+        <button type="button" class="kb-ic js-kb-edit" data-id="${c.id}" aria-label="Edit card">${icon(Pencil, { size: 15 })}</button>
+        <button type="button" class="kb-ic js-kb-del" data-id="${c.id}" aria-label="Delete card">${icon(X, { size: 15 })}</button>
       </span>
     </div>
     <div class="kb-card__title">${esc(c.title)}</div>
@@ -112,7 +117,7 @@ function kbColHtml(col) {
   const cards = kb.cards.filter((c) => c.col === col.id);
   const list = cards.map((c) => (c.id === kbEditing ? kbEditHtml(c) : kbCardHtml(c))).join("");
   return `<section class="kb-col" data-col="${col.id}">
-    <header class="kb-col__head"><span>${col.emoji} ${col.label}</span><span class="kb-count">${cards.length}</span></header>
+    <header class="kb-col__head"><span>${icon(col.icon, { size: 16 })} ${col.label}</span><span class="kb-count">${cards.length}</span></header>
     <div class="kb-col__list">${list}</div>
     <form class="kb-add" data-col="${col.id}">
       <input class="kb-add__in" type="text" placeholder="+ Add a card" aria-label="Add a card to ${col.label}" />
@@ -209,18 +214,18 @@ function kbGuardrails(c) {
   const txt = [c.title, c.note, ...(c.log || []).map((n) => n.text)].join(" ").toLowerCase();
   const out = [];
   if (/\b(gate|smoke|eval|paid|persona|replay|openai)\b/.test(txt))
-    out.push({ icon: "💸", head: "Money", body: "This touches paid runs (OpenAI). Rough cost gets stated first (~$0.35 a run, ~$3 the full gate), you say yes per run, and we run the smallest thing that proves the point." });
+    out.push({ icon: icon(Banknote, { size: 16 }), head: "Money", body: "This touches paid runs (OpenAI). Rough cost gets stated first (~$0.35 a run, ~$3 the full gate), you say yes per run, and we run the smallest thing that proves the point." });
   if (/awaiting|await |your walk|sign-?off|green.?light|needs qa/.test(txt))
-    out.push({ icon: "⏸️", head: "Pace", body: "Something here is built and waiting on YOUR walk. Building the next bit before that sign-off is pace drift — walk what's waiting first." });
+    out.push({ icon: icon(Pause, { size: 16 }), head: "Pace", body: "Something here is built and waiting on YOUR walk. Building the next bit before that sign-off is pace drift — walk what's waiting first." });
   if (/polish|nicer|prettier|readability|restyle|animation|look better/.test(txt))
-    out.push({ icon: "🎯", head: "Goal", body: "Reads like polish. Check it serves the real win — a manager getting insight worth paying for — not just a nicer demo." });
+    out.push({ icon: icon(Target, { size: 16 }), head: "Goal", body: "Reads like polish. Check it serves the real win — a manager getting insight worth paying for — not just a nicer demo." });
   if (/\bparked?\b/.test(txt))
-    out.push({ icon: "🅿️", head: "Scope", body: "This was parked on purpose. Picking it up is fine — as its own step, deliberately, not bolted onto whatever's mid-flight." });
+    out.push({ icon: icon(CircleParking, { size: 16 }), head: "Scope", body: "This was parked on purpose. Picking it up is fine — as its own step, deliberately, not bolted onto whatever's mid-flight." });
   const doing = kb.cards.filter((x) => x.col === "doing").length;
   if ((c.col === "ideas" || c.col === "todo") && doing >= 4)
-    out.push({ icon: "🚦", head: "Pace", body: `${doing} cards are already in Doing. One phase at a time — consider landing one before picking this up.` });
+    out.push({ icon: icon(Gauge, { size: 16 }), head: "Pace", body: `${doing} cards are already in Doing. One phase at a time — consider landing one before picking this up.` });
   if (!out.length)
-    out.push({ icon: "✅", head: "On track", body: "No drift flags on this card. Standing rules still apply: one phase at a time, you test before anything's called done, no paid runs without your yes." });
+    out.push({ icon: icon(CircleCheck, { size: 16 }), head: "On track", body: "No drift flags on this card. Standing rules still apply: one phase at a time, you test before anything's called done, no paid runs without your yes." });
   return out;
 }
 
@@ -244,7 +249,7 @@ function kbPanelHtml(c) {
   const lane = c.lane
     ? `<span class="kb-lane" style="--kb-lane:${laneColor(c.lane)}">${esc(c.lane)}</span>`
     : `<span class="kbp__nolane">no lane</span>`;
-  const colOpts = KB_COLS.map((k) => `<option value="${k.id}"${k.id === c.col ? " selected" : ""}>${k.emoji} ${k.label}</option>`).join("");
+  const colOpts = KB_COLS.map((k) => `<option value="${k.id}"${k.id === c.col ? " selected" : ""}>${k.label}</option>`).join("");
   const guards = kbGuardrails(c)
     .map((g) => `<li class="kbp-guard"><span class="kbp-guard__ic">${g.icon}</span><div class="kbp-guard__body"><b>${g.head}.</b> ${esc(g.body)}</div></li>`)
     .join("");
@@ -252,12 +257,12 @@ function kbPanelHtml(c) {
   const notes = log.length
     ? log.map((n, i) => ({ n, i })).reverse().map(({ n, i }) =>
         `<li class="kbp-note">
-          <div class="kbp-note__head"><span>${esc(n.at)}</span><button type="button" class="kb-ic js-kbp-delnote" data-i="${i}" aria-label="Delete note">✕</button></div>
+          <div class="kbp-note__head"><span>${esc(n.at)}</span><button type="button" class="kb-ic js-kbp-delnote" data-i="${i}" aria-label="Delete note">${icon(X, { size: 15 })}</button></div>
           <div class="kbp-note__text">${esc(n.text)}</div>
         </li>`).join("")
     : `<li class="kbp-note kbp-note--empty">No notes yet — jot the first one above.</li>`;
   return `<aside class="kbp" role="dialog" aria-label="Card details">
-    <div class="kbp__head">${lane}<button type="button" class="kb-ic kbp__close js-kbp-close" aria-label="Close panel">✕</button></div>
+    <div class="kbp__head">${lane}<button type="button" class="kb-ic kbp__close js-kbp-close" aria-label="Close panel">${icon(X, { size: 16 })}</button></div>
     <input class="kbp__title js-kbp-title" value="${esc(c.title)}" aria-label="Card title" />
     <div class="kbp__meta">
       <label class="kbp__field">Lane <input class="js-kbp-lane" value="${esc(c.lane || "")}" placeholder="e.g. Design" aria-label="Lane" /></label>
@@ -269,12 +274,12 @@ function kbPanelHtml(c) {
     <div class="kbp__hint">Edits save when you click away.</div>
 
     <section class="kbp__sec">
-      <h3 class="kbp__h">🚦 Claude's read</h3>
+      <h3 class="kbp__h">${icon(Gauge, { size: 18 })} Claude's read</h3>
       <ul class="kbp-guards">${guards}</ul>
     </section>
 
     <section class="kbp__sec">
-      <h3 class="kbp__h">📝 Notes</h3>
+      <h3 class="kbp__h">${icon(NotebookPen, { size: 18 })} Notes</h3>
       <form class="kbp-addnote js-kbp-addnote">
         <input type="text" placeholder="Add a note…" aria-label="Add a note" />
         <button type="submit" class="btn btn--sm">Add</button>
@@ -283,10 +288,10 @@ function kbPanelHtml(c) {
     </section>
 
     <section class="kbp__sec">
-      <h3 class="kbp__h">▶️ Pick this up</h3>
+      <h3 class="kbp__h">${icon(Play, { size: 18 })} Pick this up</h3>
       <div class="kbp__hint">Copy this into a fresh Claude session to start work on this card.</div>
       <textarea class="kbp__prompt js-kbp-prompt" rows="12" readonly aria-label="Pick-this-up prompt">${esc(kbPickupPrompt(c))}</textarea>
-      <button type="button" class="btn btn--sm js-kbp-copy">📋 Copy prompt</button>
+      <button type="button" class="btn btn--sm js-kbp-copy">${icon(ClipboardList, { size: 16 })} Copy prompt</button>
     </section>
   </aside>`;
 }
@@ -339,8 +344,8 @@ function renderPanel(root) {
       ta.focus(); ta.select();
       document.execCommand("copy");
     }
-    e.target.textContent = "✓ Copied";
-    setTimeout(() => { if (e.target.isConnected) e.target.textContent = "📋 Copy prompt"; }, 1400);
+    e.target.innerHTML = `${icon(Check, { size: 16 })} Copied`;
+    setTimeout(() => { if (e.target.isConnected) e.target.innerHTML = `${icon(ClipboardList, { size: 16 })} Copy prompt`; }, 1400);
   });
 }
 
@@ -360,7 +365,7 @@ function docCol(p) {
 }
 function docNote(p) {
   const phases = p.total ? `${p.done}/${p.total} phases done` : "phases not tracked in a table";
-  const ready = p.total > 0 && p.done >= p.total ? " · all phases ✅ — ready to close out" : "";
+  const ready = p.total > 0 && p.done >= p.total ? " · all phases done — ready to close out" : "";
   const state = p.state ? ` · ${p.state}` : "";
   return `${phases}${ready}${state}`;
 }
@@ -374,7 +379,7 @@ function tickThrough(items, alive) {
       const li = items[i++];
       li.classList.add("is-checked");
       const dot = li.querySelector(".tk-sync__dot");
-      if (dot) dot.textContent = "✓";
+      if (dot) dot.innerHTML = icon(Check, { size: 12 });
       setTimeout(step, 70);
     };
     setTimeout(step, 120);
@@ -383,10 +388,10 @@ function tickThrough(items, alive) {
 
 function syncSummaryHtml(ch) {
   const parts = [];
-  if (ch.added) parts.push(`<li>➕ Added ${ch.added} ${ch.added === 1 ? "card" : "cards"} for active plans</li>`);
-  if (ch.updated) parts.push(`<li>✏️ Updated ${ch.updated} ${ch.updated === 1 ? "card" : "cards"} — status moved on</li>`);
-  if (ch.completed) parts.push(`<li>✅ Moved ${ch.completed} to Done — plan closed out</li>`);
-  if (ch.removed) parts.push(`<li>🗑️ Removed ${ch.removed} — plan no longer there</li>`);
+  if (ch.added) parts.push(`<li>${icon(Plus, { size: 15 })} Added ${ch.added} ${ch.added === 1 ? "card" : "cards"} for active plans</li>`);
+  if (ch.updated) parts.push(`<li>${icon(Pencil, { size: 15 })} Updated ${ch.updated} ${ch.updated === 1 ? "card" : "cards"} — status moved on</li>`);
+  if (ch.completed) parts.push(`<li>${icon(CircleCheck, { size: 15 })} Moved ${ch.completed} to Done — plan closed out</li>`);
+  if (ch.removed) parts.push(`<li>${icon(Trash2, { size: 15 })} Removed ${ch.removed} — plan no longer there</li>`);
   if (!parts.length) return `<div class="tk-sync__ok">Everything's up to date — nothing to add, change or remove.</div>`;
   return `<div class="tk-sync__stitle">Since your last check:</div>
     <ul class="tk-sync__changes">${parts.join("")}</ul>
@@ -432,7 +437,7 @@ async function reconcileDocs(root, active, doneSlugs) {
   }
   for (const c of completed) {
     const card = kb.cards.find((x) => x.id === c.id);
-    if (card) { card.col = "done"; card.note = "✅ done — moved to docs/todo/done/"; }
+    if (card) { card.col = "done"; card.note = "done — moved to docs/todo/done/"; }
   }
   if (removed.length) {
     const gone = new Set(removed.map((c) => c.id));
@@ -459,8 +464,8 @@ async function runUpdate(root) {
   const overlay = document.createElement("div");
   overlay.className = "tk-sync";
   overlay.innerHTML = `<div class="tk-sync__panel" role="dialog" aria-label="Update from docs">
-      <div class="tk-sync__head">🔄 Checking docs for unfinished work…</div>
-      <ul class="tk-sync__list"><li class="is-checked"><span class="tk-sync__dot">✓</span> reaching the server…</li></ul>
+      <div class="tk-sync__head">${icon(RefreshCw, { size: 16 })} Checking docs for unfinished work…</div>
+      <ul class="tk-sync__list"><li class="is-checked"><span class="tk-sync__dot">${icon(Check, { size: 12 })}</span> reaching the server…</li></ul>
       <div class="tk-sync__summary" hidden></div>
       <div class="tk-sync__actions" hidden><button type="button" class="btn btn--sm js-sync-close">Done</button></div>
     </div>`;
@@ -512,7 +517,7 @@ async function runUpdate(root) {
   const changes = await reconcileDocs(root, active, doneSlugs);
   if (!alive()) { finish(); return; }
 
-  overlay.querySelector(".tk-sync__head").textContent = "✓ Done checking";
+  overlay.querySelector(".tk-sync__head").innerHTML = `${icon(Check, { size: 16 })} Done checking`;
   summary.hidden = false;
   summary.innerHTML = syncSummaryHtml(changes);
   actions.hidden = false;
@@ -558,7 +563,7 @@ export function mount(root) {
           <h1 class="h1">Tasks</h1>
           <button class="btn btn--ghost js-back" type="button">Back</button>
         </div>
-        <div class="page-header__lede"><b>Your planner</b> — a board you own: add a card in any column, drag it across as it moves, click ✎ to add a lane or a note. Hit <b>Update from docs</b> to pull unfinished plans in as “Docs” cards. Saved in this browser.</div>
+        <div class="page-header__lede"><b>Your planner</b> — a board you own: add a card in any column, drag it across as it moves, click ${icon(Pencil, { size: 14 })} to add a lane or a note. Hit <b>Update from docs</b> to pull unfinished plans in as “Docs” cards. Saved in this browser.</div>
       </header>
 
       <section class="kb">
@@ -568,7 +573,7 @@ export function mount(root) {
             <div class="kb-lede">Everything on the go right now, plus room for whatever you want to plan next. Add a card in any column, drag it across as it moves, <b>click a card to open it</b> — details, notes, a copy-paste "pick this up" prompt and my drift read. Yours to shape — saved in this browser.</div>
           </div>
           <div class="kb-head__actions">
-            <button class="btn btn--sm js-kb-update" type="button">🔄 Update from docs</button>
+            <button class="btn btn--sm js-kb-update" type="button">${icon(RefreshCw, { size: 16 })} Update from docs</button>
             <button class="btn btn--sm btn--ghost js-kb-reset" type="button">Reset to current state</button>
           </div>
         </div>

@@ -6,6 +6,8 @@
 import { STAGES, store, isAdmin } from "../state.js";
 import { listMyRuns } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
+import { icon } from "../ui/icon.js";
+import { Star } from "lucide";
 import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
@@ -105,7 +107,7 @@ export const mount: Mount = async (root, { setState }) => {
       .sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0))
       .map((r) => {
         const badge = r.rating
-          ? `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">★ ${r.rating.stars}</span>`
+          ? `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">${icon(Star, { size: 16, fill: "currentColor" })} ${r.rating.stars}</span>`
           : "";
         return `<button type="button" class="card-flat runs-list__row js-open" data-id="${escapeHtml(r.id)}"><span class="text-sm">${rowLine(r)}</span>${badge}</button>`;
       })

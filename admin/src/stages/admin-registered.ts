@@ -12,6 +12,8 @@
 import { STAGES } from "../state.js";
 import { getRegistered, setUserRole, deactivateUser, reactivateUser } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
+import { icon } from "../ui/icon.js";
+import { Star, TrendingUp, TrendingDown } from "lucide";
 import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
@@ -68,8 +70,8 @@ function roleBadge(role: string): string {
 // week's and show it as a shape, not arithmetic. Quiet = no runs either week.
 function trendMark(u: RegUser): string {
   let variant: string, glyph: string, label: string;
-  if (u.runsThisWeek > u.runsLastWeek) { variant = "up"; glyph = "▲"; label = "more than last week"; }
-  else if (u.runsThisWeek < u.runsLastWeek) { variant = "down"; glyph = "▼"; label = "fewer than last week"; }
+  if (u.runsThisWeek > u.runsLastWeek) { variant = "up"; glyph = icon(TrendingUp, { size: 16 }); label = "more than last week"; }
+  else if (u.runsThisWeek < u.runsLastWeek) { variant = "down"; glyph = icon(TrendingDown, { size: 16 }); label = "fewer than last week"; }
   else if (u.runsThisWeek > 0) { variant = "steady"; glyph = "•"; label = "same as last week"; }
   else { variant = "quiet"; glyph = "•"; label = "quiet"; }
   return `<span class="um-trend um-trend--${variant}" role="img" aria-label="${label}" title="${label}">${glyph}</span>`;
@@ -131,14 +133,16 @@ function table(groups: Group[]): string {
 
 // The alpha-wide ratings signal — a small labelled stat, not a floating dim line.
 function summaryBlock(s: Summary): string {
+  const starIcon = icon(Star, { size: 16, fill: "currentColor" });
   const stat =
     s.ratedCount === 0
       ? "No 1:1s have been rated yet."
-      : `${s.avgStars == null ? "" : `★ ${s.avgStars} avg · `}over ${s.ratedCount} rated ${s.ratedCount === 1 ? "run" : "runs"} · ${s.lowCount} low ${s.lowCount === 1 ? "score" : "scores"} (≤2)`;
+      : `over ${s.ratedCount} rated ${s.ratedCount === 1 ? "run" : "runs"} · ${s.lowCount} low ${s.lowCount === 1 ? "score" : "scores"} (≤2)`;
+  const avg = s.ratedCount === 0 || s.avgStars == null ? "" : `${starIcon} ${escapeHtml(String(s.avgStars))} avg · `;
   return `
     <div class="um-summary">
       <span class="eyebrow">Across the alpha</span>
-      <span class="text-sm">${escapeHtml(stat)}</span>
+      <span class="text-sm">${avg}${escapeHtml(stat)}</span>
     </div>`;
 }
 

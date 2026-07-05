@@ -192,12 +192,12 @@
     <div class="bg-sero-surface border border-sero-border rounded-xl p-6 flex flex-wrap items-center gap-4">
       <!-- Primary: the ONE blue action -->
       <button type="button" class="inline-flex items-center gap-2 rounded bg-sero-accent px-4 py-2 text-sm font-medium text-white hover:bg-sero-accent2 focus:outline-none focus:ring-4 focus:ring-sero-soft">
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6 4l10 6-10 6V4z"/></svg>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg>
         Open 1:1
       </button>
       <!-- Secondary / ghost -->
       <button type="button" class="inline-flex items-center gap-2 rounded border border-sero-border bg-sero-surface px-4 py-2 text-sm font-medium text-sero-ink hover:bg-sero-page focus:outline-none focus:ring-4 focus:ring-sero-soft">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
         Reschedule 1:1
       </button>
       <!-- Quiet / text -->
@@ -263,7 +263,7 @@
         <label for="search" class="block mb-2 text-sm font-medium">Search</label>
         <div class="relative">
           <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-sero-dim pointer-events-none">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
           </span>
           <input type="search" id="search" placeholder="Search people, teams, runs…"
             class="block w-full rounded border border-sero-border bg-sero-surface p-2.5 pl-9 text-sm text-sero-ink placeholder:text-sero-dim focus:border-sero-accent focus:ring-sero-accent">
@@ -342,15 +342,15 @@
       <!-- Success toast -->
       <div class="flex items-center gap-3 w-full max-w-md rounded-xl border border-sero-border bg-sero-surface p-4 shadow-lg" role="status">
         <span class="inline-flex w-8 h-8 shrink-0 rounded bg-emerald-100 text-emerald-900 items-center justify-center">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
         </span>
         <p class="text-sm font-medium">Saved. Your note is on James's page.</p>
-        <button class="ml-auto text-sero-dim hover:text-sero-ink p-1 rounded hover:bg-sero-page"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+        <button class="ml-auto text-sero-dim hover:text-sero-ink p-1 rounded hover:bg-sero-page"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
       </div>
       <!-- Error alert -->
       <div class="flex items-start gap-3 w-full max-w-md rounded-xl border border-sero-coral bg-red-50 p-4" role="alert">
         <span class="inline-flex w-8 h-8 shrink-0 rounded bg-red-100 text-red-900 items-center justify-center">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 8v5M12 16.5h.01"/><circle cx="12" cy="12" r="9.5"/></svg>
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
         </span>
         <div class="text-sm">
           <p class="font-semibold">Couldn't save your note.</p>
@@ -361,7 +361,7 @@
       <!-- Warning inline -->
       <div class="flex items-center gap-3 w-full max-w-md rounded-xl border border-amber-300 bg-amber-50 p-4" role="status">
         <span class="inline-flex w-8 h-8 shrink-0 rounded bg-amber-100 text-amber-900 items-center justify-center">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
         </span>
         <p class="text-sm font-medium">This 1:1 has no agenda yet — James can't prepare.</p>
       </div>
@@ -435,7 +435,7 @@
     <div class="grid gap-4 sm:grid-cols-2">
       <!-- Request card, as in the 1:1 panel -->
       <div class="bg-sero-surface border border-sero-border rounded-xl p-4 flex gap-3">
-        <svg class="w-5 h-5 mt-0.5 shrink-0 text-sero-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>
+        <svg class="w-5 h-5 mt-0.5 shrink-0 text-sero-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
         <div class="space-y-2">
           <p class="text-base">"I'd like to discuss opportunities for taking on more responsibility within the team."</p>
           <div class="flex flex-wrap gap-2">
@@ -472,9 +472,9 @@
       <div>
         <p class="text-sm font-medium text-sero-dim mb-3">Stage breadcrumb — session progress</p>
         <div class="flex flex-wrap items-center gap-2 text-sm font-medium">
-          <span class="inline-flex items-center gap-1.5 text-emerald-800"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Setup</span>
+          <span class="inline-flex items-center gap-1.5 text-emerald-800"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Setup</span>
           <span class="text-sero-dim">›</span>
-          <span class="inline-flex items-center gap-1.5 text-emerald-800"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Focus areas</span>
+          <span class="inline-flex items-center gap-1.5 text-emerald-800"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Focus areas</span>
           <span class="text-sero-dim">›</span>
           <span class="font-semibold text-sero-ink border-b-2 border-sero-accent pb-0.5">Prep brief</span>
           <span class="text-sero-dim">›</span>
@@ -626,7 +626,7 @@
       <!-- Dropdown -->
       <button id="ddBtn" data-dropdown-toggle="dd" type="button"
         class="inline-flex items-center gap-2 rounded border border-sero-border bg-sero-surface px-4 py-2 text-sm font-medium text-sero-ink hover:bg-sero-page">
-        Row actions <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        Row actions <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
       </button>
       <div id="dd" class="z-10 hidden w-44 rounded-lg bg-sero-surface border border-sero-border shadow-lg">
         <ul class="py-1 text-sm text-sero-ink" aria-labelledby="ddBtn">
@@ -648,7 +648,7 @@
           <div class="flex items-center justify-between p-5 border-b border-sero-border">
             <h3 class="font-semibold text-xl">Add a rating note</h3>
             <button type="button" data-modal-hide="mdl" class="text-sero-dim hover:text-sero-ink rounded p-1.5 hover:bg-sero-page">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
               <span class="sr-only">Close</span>
             </button>
           </div>
@@ -685,13 +685,13 @@
         <!-- Icon rail -->
         <div class="w-16 py-4 border-r border-sero-border flex flex-col items-center gap-2">
           <button class="w-10 h-10 rounded bg-sero-soft text-sero-accent2 flex items-center justify-center" title="Home">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-8 9 8M5 10v10h14V10"/></svg>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
           </button>
           <button class="w-10 h-10 rounded text-sero-dim hover:bg-sero-page hover:text-sero-ink flex items-center justify-center" title="Team">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.4 3.4-5 6.5-5s5.7 1.6 6.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 15.2c2.4.3 4.4 1.7 5 4.3"/></svg>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>
           </button>
           <button class="w-10 h-10 rounded text-sero-dim hover:bg-sero-page hover:text-sero-ink flex items-center justify-center" title="Runs">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
           </button>
         </div>
         <div class="flex-1 p-6 text-sero-dim text-base">Page content sits on the tinted background (#f5fafd); cards float on white.</div>
@@ -707,7 +707,7 @@
         <div class="flex items-start justify-between">
           <p class="text-sm font-semibold tracking-wide text-sero-dim uppercase">Upcoming 1:1</p>
           <button class="text-sero-dim hover:text-sero-ink rounded p-1 hover:bg-sero-page">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
         </div>
         <div class="flex items-center gap-4">
@@ -753,7 +753,7 @@
       <!-- Empty state -->
       <div class="bg-sero-surface border border-sero-border rounded-xl p-8 text-center space-y-3">
         <span class="inline-flex w-12 h-12 rounded-full bg-sero-soft text-sero-accent2 items-center justify-center">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/></svg>
         </span>
         <p class="font-semibold text-base">No requests yet</p>
         <p class="text-sero-dim text-base">When James adds something he wants to talk about, it lands here.</p>
@@ -915,7 +915,7 @@
     const t = document.createElement('div');
     t.setAttribute('role', 'status');
     t.className = 'fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-xl border border-sero-border bg-sero-surface p-4 shadow-lg transition-all duration-300 translate-y-4 opacity-0';
-    t.innerHTML = '<span class="inline-flex w-8 h-8 shrink-0 rounded bg-emerald-100 text-emerald-900 items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><p class="text-sm font-medium">Saved. That worked.</p>';
+    t.innerHTML = '<span class="inline-flex w-8 h-8 shrink-0 rounded bg-emerald-100 text-emerald-900 items-center justify-center"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><p class="text-sm font-medium">Saved. That worked.</p>';
     document.body.appendChild(t);
     requestAnimationFrame(() => t.classList.remove('translate-y-4', 'opacity-0'));
     setTimeout(() => { t.classList.add('translate-y-4', 'opacity-0'); setTimeout(() => t.remove(), 350); }, 4000);

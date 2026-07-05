@@ -47,6 +47,7 @@
     "@fontsource-variable/bricolage-grotesque": "^5.2.10",
     "bcryptjs": "^3.0.3",
     "drizzle-orm": "^0.45.2",
+    "lucide": "^1.23.0",
     "pg": "^8.22.0",
     "yaml": "^2.9.0"
   }

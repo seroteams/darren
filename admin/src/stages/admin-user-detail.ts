@@ -7,6 +7,8 @@
 import { STAGES, store } from "../state.js";
 import { getUserRuns, getAdminRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
+import { icon } from "../ui/icon.js";
+import { Star } from "lucide";
 import { relTime } from "../ui/time.ts";
 import { groupRunsByPerson } from "../ui/group-people.js";
 import { renderReadonlyBriefing, type Briefing } from "../ui/briefing-view.ts";
@@ -27,12 +29,15 @@ function personCard(p: Person): string {
     p.role,
     `${p.count} ${p.count === 1 ? "meeting" : "meetings"}`,
     `last ${relTime(p.lastMet) || "—"}`,
-    p.avgStars == null ? "not yet rated" : `★ ${Math.round(p.avgStars * 10) / 10} avg`,
   ].filter(Boolean);
+  const rated =
+    p.avgStars == null
+      ? "not yet rated"
+      : `${icon(Star, { size: 16, fill: "currentColor" })} ${escapeHtml(String(Math.round(p.avgStars * 10) / 10))} avg`;
   return `
     <div class="card-flat l-stack l-stack--2">
       <div class="text-sm"><strong>${escapeHtml(p.name)}</strong></div>
-      <div class="text-ink-dim text-sm">${escapeHtml(bits.join(" · "))}</div>
+      <div class="text-ink-dim text-sm">${escapeHtml(bits.join(" · "))} · ${rated}</div>
     </div>`;
 }
 
@@ -53,7 +58,7 @@ function runRow(r: Run): string {
   if (when) bits.push(when);
   const line = escapeHtml(bits.length ? bits.join(" · ") : r.headline || "Untitled 1:1");
   const badge = r.rating
-    ? `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">★ ${r.rating.stars}</span>`
+    ? `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">${icon(Star, { size: 16, fill: "currentColor" })} ${r.rating.stars}</span>`
     : "";
   // A button so it's keyboard-operable — opens the read-only briefing (Step 3).
   return `<button type="button" class="card-flat runs-list__row js-run-row" data-run-id="${escapeHtml(r.id)}"><span class="text-sm">${line}</span>${badge}</button>`;

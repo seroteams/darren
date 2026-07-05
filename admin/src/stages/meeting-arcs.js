@@ -6,6 +6,8 @@
 
 import { getArcs, saveArc, resetArc } from "../../../shared/api.js";
 import { escapeHtml as esc } from "../ui/html.js";
+import { icon } from "../ui/icon.js";
+import { X, ChevronRight } from "lucide";
 
 const STYLE = `
 <style>
@@ -81,7 +83,7 @@ const STYLE = `
   .arc-update__time { font-size:.9rem; color:var(--color-ink-mute, var(--color-ink-dim)); }
 </style>`;
 
-const CHEV = `<svg class="arc-card__chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>`;
+const CHEV = icon(ChevronRight, { size: 16, className: "arc-card__chev" });
 
 // View state, scoped to the mount.
 let arcs = [];
@@ -461,7 +463,7 @@ function editHtml() {
           <label class="arc-field arc-field--grow"><span>Intent</span>
             <textarea class="arc-textarea" data-f="intent" rows="2" placeholder="What this phase is for…">${esc(p.intent || "")}</textarea></label>
         </div>
-        <button type="button" class="arc-btn arc-btn--mini arc-btn--danger" data-act="del-phase" data-i="${i}" aria-label="Remove phase">✕</button>
+        <button type="button" class="arc-btn arc-btn--mini arc-btn--danger" data-act="del-phase" data-i="${i}" aria-label="Remove phase">${icon(X, { size: 16 })}</button>
       </div>`
     )
     .join("");

@@ -9,6 +9,8 @@ import { getMyRun, rateMyRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { createStarRating } from "../ui/star-rating.js";
 import { renderReadonlyBriefing, type Briefing } from "../ui/briefing-view.ts";
+import { icon } from "../ui/icon.js";
+import { Check } from "lucide";
 import type { Mount, Unmount } from "./stage.types.ts";
 
 type RunDetail = {
@@ -51,7 +53,7 @@ function wireRating(root: HTMLElement, run: RunDetail): void {
     if (!stars) return;
     try {
       await rateMyRun(run.id, { stars, note: noteEl?.value ?? "" });
-      if (status) status.textContent = "Saved ✓";
+      if (status) status.innerHTML = "Saved " + icon(Check, { size: 16 });
     } catch {
       if (status) status.textContent = "Couldn't save — please try again.";
     }

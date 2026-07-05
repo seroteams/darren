@@ -1,6 +1,8 @@
 import { STAGES } from "../state.js";
 import { getLexiconScope } from "../../../shared/api.js";
 import { buildPayloadFromStore, buildQaReviewPromptFromStore, mountRunDebrief } from "../ui/run-debrief.js";
+import { icon } from "../ui/icon.js";
+import { Check } from "lucide";
 
 export async function mount(root, { store, setState, resetSession }) {
   root.innerHTML = `
@@ -14,7 +16,7 @@ export async function mount(root, { store, setState, resetSession }) {
       <footer class="pt-2 l-cluster l-cluster--2 items-center">
         <button type="button" class="btn js-copy-prompt">Copy QA prompt</button>
         <button type="button" class="btn btn--ghost js-continue">Continue to phrase library</button>
-        <span class="js-copy-confirm text-sm text-ink-mute" style="opacity:0; transition: opacity 0.2s;">Copied ✓</span>
+        <span class="js-copy-confirm text-sm text-ink-mute" style="opacity:0; transition: opacity 0.2s;">Copied ${icon(Check, { size: 16 })}</span>
       </footer>
     </div>
   `;

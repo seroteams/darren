@@ -9,6 +9,8 @@ import { getFinishedRuns, getRunFull, setArchived } from "../../../shared/api.js
 import { libraryBadge, serializeReview } from "../ui/review-serialize.js";
 import { escapeHtml as esc } from "../ui/html.js";
 import { formatDate } from "../ui/time.ts";
+import { icon } from "../ui/icon.js";
+import { ChevronUp, ChevronDown } from "lucide";
 
 const FILTERS = [
   { key: "all", label: "All" },
@@ -176,7 +178,7 @@ export async function mount(root) {
       const active = b.dataset.sort === sortKey;
       b.classList.toggle("is-active", active);
       const base = SORTS.find((s) => s.key === b.dataset.sort)?.label || "";
-      b.textContent = active ? `${base} ${sortDir === "desc" ? "▼" : "▲"}` : base;
+      b.innerHTML = active ? `${base} ${sortDir === "desc" ? icon(ChevronDown, { size: 16 }) : icon(ChevronUp, { size: 16 })}` : base;
     });
   }
 

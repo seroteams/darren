@@ -36,6 +36,10 @@ textarea { resize: vertical; }
 
 .num-tabular { font-variant-numeric: tabular-nums; }
 
+/* Lucide icons (admin/src/ui/icon.js) — the one glyph system (DESIGN.md §5).
+   Sit an inline icon on the text baseline and stop it shrinking in flex rows. */
+.sero-icon { display: inline-block; vertical-align: -0.125em; flex: none; }
+
 .pulse-caret { animation: caret-pulse 1800ms ease-in-out infinite; }
 
 /* Section-style heading helpers — sentence case, per style.md.

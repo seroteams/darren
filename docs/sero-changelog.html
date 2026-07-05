@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sero — What's New</title>
+<style>
+  :root{
+    --bg:#0f1117; --card:#181b24; --card2:#1f2330; --ink:#e8eaf0; --muted:#9aa3b5;
+    --accent:#5eead4; --accent2:#818cf8; --warn:#fbbf24; --good:#4ade80; --line:#2a2f3e; --li:#0a66c2;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:40px 22px 80px}
+  a{color:var(--accent)}
+
+  header{margin-bottom:8px}
+  .eyebrow{color:var(--accent);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+  h1{font-size:clamp(32px,6vw,50px);line-height:1.08;margin:10px 0 12px;font-weight:800}
+  .sub{color:var(--muted);font-size:clamp(15px,2vw,18px);max-width:640px}
+  .sub b{color:var(--ink)}
+
+  .toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:26px 0 8px}
+  .toggle{display:inline-flex;background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:4px}
+  .toggle button{background:none;border:none;color:var(--muted);font:inherit;font-size:14px;font-weight:600;
+    padding:7px 16px;border-radius:999px;cursor:pointer}
+  .toggle button.on{background:var(--accent);color:#06241e}
+  .toggle button.on.intl{background:var(--accent2);color:#0a0c14}
+  .guidelink{margin-left:auto;font-size:14px;color:var(--muted);text-decoration:none;border:1px solid var(--line);
+    border-radius:8px;padding:8px 14px}
+  .guidelink:hover{border-color:var(--accent);color:var(--accent)}
+
+  .modehint{font-size:13px;color:var(--muted);margin:2px 0 26px}
+  .modehint b{color:var(--ink)}
+
+  .numbers{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 30px}
+  .numbers .pill{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 13px;
+    font-size:13px;color:var(--muted)}
+  .numbers .pill b{color:var(--ink)}
+
+  /* share card */
+  .share{background:linear-gradient(180deg,#12141c,#141824);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;margin:0 0 34px}
+  .share h2{font-size:18px;margin-bottom:4px;display:flex;align-items:center;gap:9px}
+  .share .li{background:var(--li);color:#fff;font-size:11px;font-weight:700;border-radius:5px;padding:2px 7px}
+  .share p.cap{color:var(--muted);font-size:13.5px;margin-bottom:14px}
+  .share textarea{width:100%;min-height:230px;background:#0d0f16;border:1px solid var(--line);border-radius:10px;
+    color:#d7dcea;font-family:inherit;font-size:13.5px;line-height:1.62;padding:14px 16px;resize:vertical}
+  .share .row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:center}
+  .share button{background:var(--accent);color:#06241e;border:none;border-radius:9px;font:inherit;font-weight:700;
+    font-size:14px;padding:9px 18px;cursor:pointer}
+  .share button.ghost{background:var(--card2);color:var(--ink);border:1px solid var(--line);font-weight:600}
+  .share button.ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .share .copied{color:var(--good);font-size:13px;font-weight:600;opacity:0;transition:opacity .2s}
+  .share .copied.show{opacity:1}
+
+  h2.section{font-size:14px;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;
+    margin:38px 0 4px;font-weight:700}
+
+  .rel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:14px 0}
+  .rel .date{color:var(--accent2);font-size:12.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .rel h3{font-size:22px;margin:5px 0 4px;font-weight:700}
+  .rel .tag{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;margin-left:6px;
+    vertical-align:middle;background:var(--card2);border:1px solid var(--line);color:var(--muted)}
+  .rel .blurb{color:var(--muted);font-size:14.5px;margin:6px 0 14px;max-width:660px}
+  .rel ul{list-style:none;display:grid;gap:9px}
+  .rel li{font-size:14.5px;color:var(--muted);padding-left:28px;position:relative;line-height:1.5}
+  .rel li b{color:var(--ink)}
+  .rel li .ico{position:absolute;left:0;top:0}
+  .rel li::marker{content:""}
+
+  /* mode visibility */
+  .cust,.intl{display:none}
+  body.mode-cust .cust{display:block}
+  body.mode-intl .intl{display:block}
+  li.cust,li.intl{display:none}
+  body.mode-cust li.cust{display:block}
+  body.mode-intl li.intl{display:block}
+
+  .foot{color:var(--muted);font-size:13px;margin-top:40px;border-top:1px solid var(--line);padding-top:18px}
+  .foot b{color:var(--ink)}
+  code{font-family:Consolas,monospace;font-size:.9em;background:var(--card2);border:1px solid var(--line);
+    border-radius:5px;padding:1px 6px;color:var(--accent)}
+  @media(max-width:560px){.guidelink{margin-left:0}}
+</style>
+</head>
+<body class="mode-cust">
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Changelog</div>
+    <h1>What's new in Sero</h1>
+    <p class="sub">Sero turns a manager's rough notes into a fully prepared, guided 1:1 — and an honest debrief afterward. Here's what's shipped, newest first.</p>
+  </header>
+
+  <div class="toolbar">
+    <div class="toggle" role="tablist" aria-label="View mode">
+      <button id="btn-cust" class="on" onclick="setMode('cust')">Customer view</button>
+      <button id="btn-intl" class="intl" onclick="setMode('intl')">Internal view</button>
+    </div>
+    <a class="guidelink" href="sero-how-it-works.html">Full guide: How Sero works →</a>
+  </div>
+  <p class="modehint" id="modehint"><b>Customer view</b> — plain-language highlights, written to be shared. Switch to Internal for the founder's cut.</p>
+
+  <div class="numbers">
+    <span class="pill"><b>5</b> meeting types</span>
+    <span class="pill"><b>4,375</b> questions</span>
+    <span class="pill"><b>24</b> role profiles</span>
+    <span class="pill"><b>4</b> live scores per 1:1</span>
+    <span class="pill"><b>14</b> trust checks</span>
+    <span class="pill cust"><b>Now on</b> mobile</span>
+    <span class="pill intl"><b>tests</b> green</span>
+  </div>
+
+  <!-- SHARE CARD -->
+  <div class="share">
+    <h2><span class="li">in</span> Share the latest</h2>
+    <p class="cap">A ready-to-post LinkedIn update. Edit it if you like, then copy. (Ask me any time to refresh this for the newest release.)</p>
+    <textarea id="lipost" spellcheck="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"/><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"/></svg> A big month for Sero.
+
+Sero takes a manager's rough notes before a 1:1 and turns them into a fully prepared, guided conversation — then an honest debrief afterward.
+
+What's new:
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg> It works on your phone now — the whole flow, start to finish.
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Sign in to your own space: your home, your team, and every past 1:1 in one place.
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg> A Team view that builds itself from the conversations you run.
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg> Rate each 1:1 and reopen the ones that mattered.
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg> See exactly what the AI is sent — before it's sent. No black box.
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Honest by design: if a conversation was thin, Sero says so instead of inventing insight.
+
+Built the un-glamorous way — one phase at a time, tested and signed off before the next.
+
+More soon.
+
+#management #leadership #1on1s #peoplemanagement #AI #startups</textarea>
+    <div class="row">
+      <button onclick="copyPost()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg> Copy post</button>
+      <button class="ghost" onclick="resetPost()">Reset</button>
+      <span class="copied" id="copied">Copied <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+    </div>
+  </div>
+
+  <!-- RELEASES -->
+  <h2 class="section">Releases</h2>
+
+  <!-- RELEASE 1 -->
+  <div class="rel">
+    <div class="date">July 2026</div>
+    <h3>Getting ready to share <span class="tag">latest</span></h3>
+    <p class="blurb cust">Sero is becoming a real product you sign into — with a home of your own, the people you meet with, and every past 1:1 kept safe. And it fits in your pocket now.</p>
+    <p class="blurb intl">The pre-go-live "manager-ready" track — turning the internal tool into something a real manager can be handed. Foundation phases are done; this is the make-it-shippable pass. Most items below are built and awaiting Carl's QA walk.</p>
+    <ul>
+      <!-- customer -->
+      <li class="cust"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg></span><b>Works on your phone.</b> The whole 1:1 flow, from setup to briefing, on mobile.</li>
+      <li class="cust"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><b>Sign in to your own space.</b> A home page, your team, and your past 1:1s — just yours.</li>
+      <li class="cust"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg></span><b>A Team that builds itself.</b> The people you meet with appear automatically from the 1:1s you run.</li>
+      <li class="cust"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg></span><b>Rate and revisit.</b> Give each conversation a 1–5 rating and reopen any past briefing.</li>
+      <li class="cust"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg></span><b>A cleaner, consistent look</b> across every screen.</li>
+      <!-- internal -->
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg></span><b>Manager rail (PG1–PG9).</b> Managers see Home · New 1:1 · Team · Past 1:1s — internal tooling hidden. PG1–8 signed off; PG9 (merge duplicates, rename, roll-ups) built, awaiting walk.</li>
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg></span><b>Mobile-responsive shell.</b> Left rail collapses to a drawer under 768px; full pipeline on a phone. 4 phases built.</li>
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span><b>Superadmin surface.</b> Cross-company <b>Registered users</b> + <b>Error log</b> (Local/Live toggle), gated to Carl only with a backend 403 wall.</li>
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></svg></span><b>User management</b> (deactivate / reactivate / role change) — backend done. <b>Test-engine hub</b> (Personas + Regression + Compare in one page) — closed. <b>Page heartbeat</b> (<code>/guide</code> UPDATE) — green.</li>
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg></span><b>Design system</b> (Sero × Flowbite) — component sheet + root <code>DESIGN.md</code> auto-loads; incremental, no bulk re-skin.</li>
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M4.929 4.929 19.07 19.071"/></svg></span><b>Continuity (cross-session follow-up)</b> — hard-parked by Carl until an explicit go; plan scaffolded only.</li>
+    </ul>
+  </div>
+
+  <!-- RELEASE 2 -->
+  <div class="rel">
+    <div class="date">June 2026</div>
+    <h3>Solid foundations</h3>
+    <p class="blurb cust">Under the hood, Sero got faster, safer, and more honest about what it does and doesn't know.</p>
+    <p class="blurb intl">The un-sexy but load-bearing work: a tidy monorepo, TypeScript, a layered API, a database, and sign-in — plus transparency and honesty upgrades to the engine.</p>
+    <ul>
+      <li class="cust"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></span><b>See what's sent.</b> A "Sent" view shows the exact instructions the AI gets — before it runs. No black box.</li>
+      <li class="cust"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span><b>Honest briefings.</b> If a conversation was thin or dodged, Sero says so — it won't fake a confident read.</li>
+      <li class="cust"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span><b>Calmer, faster</b> briefing reveal.</li>
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/></svg></span><b>Monorepo reorg</b> — <code>backend/</code> (engine + API), <code>admin/</code> (console), <code>content/</code>, <code>frontend/</code> (future).</li>
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><b>TypeScript migration</b> — engine 100% converted; API converted into a clean <b>controller → service → repo</b> layering (API v1).</li>
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg></span><b>Postgres foundation</b> in place — moving off pure-filesystem storage; data fenced by org + role.</li>
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M11 20H2"/><path d="M11 4.562v16.157a1 1 0 0 0 1.242.97L19 20V5.562a2 2 0 0 0-1.515-1.94l-4-1A2 2 0 0 0 11 4.561z"/><path d="M11 4H8a2 2 0 0 0-2 2v14"/><path d="M14 12h.01"/><path d="M22 20h-3"/></svg></span><b>Auth / the front door</b> — register, login, roles (member / manager / admin).</li>
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></span><b>See-before-sent</b> "Sent" tab + <b>Notes · Sent · Reply</b> tabs on every stage; briefing grounding fixes; <b>six engine trust gates</b> locked behind checks.</li>
+    </ul>
+  </div>
+
+  <!-- RELEASE 3 -->
+  <div class="rel">
+    <div class="date">Earlier</div>
+    <h3>The core</h3>
+    <p class="blurb cust">The heart of Sero: prepare a great 1:1, run it live, and get an honest wrap-up — in your team's own language.</p>
+    <p class="blurb intl">The engine and the manager-facing run that everything else is built around.</p>
+    <ul>
+      <li class="cust"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M16 2v20"/></svg></span><b>One-page run.</b> The whole conversation on a single page that grows as you go.</li>
+      <li class="cust"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M8.8 20v-4.1l1.9.2a2.3 2.3 0 0 0 2.164-2.1V8.3A5.37 5.37 0 0 0 2 8.25c0 2.8.656 3.054 1 4.55a5.77 5.77 0 0 1 .029 2.758L2 20"/><path d="M19.8 17.8a7.5 7.5 0 0 0 .003-10.603"/><path d="M17 15a3.5 3.5 0 0 0-.025-4.975"/></svg></span><b>Your team's words.</b> Teach Sero the vocabulary your roles actually use (job lexicons).</li>
+      <li class="cust"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg></span><b>Five kinds of 1:1</b> — bi-weekly, performance, growth, "something feels off," and onboarding — each with its own natural shape.</li>
+      <li class="cust"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg></span><b>Live scoring</b> on four things — wellbeing, engagement, clarity, growth — earned only from what's actually said.</li>
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 0 .474-1.68l-1.683-1.682a2.414 2.414 0 0 1 0-3.414L4.39 8.61a1 1 0 0 1 1.68.474 2.5 2.5 0 1 0 3.014-3.015 1 1 0 0 1-.474-1.68l1.683-1.682a2.414 2.414 0 0 1 3.414 0z"/></svg></span><b>The pipeline:</b> focus areas → prep brief → question bank → live per-turn planner → final briefing (+ optional phrase harvest).</li>
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></svg></span><b>Content:</b> a 4,375-question library, 24 cached role profiles, neutral-seed axes, dedup + question-integrity gates.</li>
+      <li class="intl"><span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></svg></span><b>QA cockpit:</b> run library, side-by-side Compare, 8-dimension verdicts, and an offline regression check.</li>
+    </ul>
+  </div>
+
+  <div class="foot">
+    <b>Two views, one source.</b> Customer view is written to share; Internal view is the honest founder's cut. Want it refreshed for a new release, or a fresh LinkedIn post? Just ask — I'll update this page, the numbers, and the post together. For the full walkthrough see <a href="sero-how-it-works.html">How Sero works</a>.
+  </div>
+
+</div>
+
+<script>
+  const DEFAULT_POST = document.getElementById('lipost').value;
+  function setMode(m){
+    document.body.classList.remove('mode-cust','mode-intl');
+    document.body.classList.add('mode-'+m);
+    document.getElementById('btn-cust').classList.toggle('on', m==='cust');
+    document.getElementById('btn-intl').classList.toggle('on', m==='intl');
+    document.getElementById('btn-cust').classList.remove('intl');
+    document.getElementById('btn-intl').classList.toggle('intl', m==='intl');
+    const h=document.getElementById('modehint');
+    h.innerHTML = m==='cust'
+      ? '<b>Customer view</b> — plain-language highlights, written to be shared. Switch to Internal for the founder’s cut.'
+      : '<b>Internal view</b> — the founder’s cut: phases, what’s shipped vs awaiting QA, and the technical detail.';
+  }
+  function copyPost(){
+    const t=document.getElementById('lipost');
+    t.select(); t.setSelectionRange(0,99999);
+    navigator.clipboard.writeText(t.value).then(()=>{
+      const c=document.getElementById('copied'); c.classList.add('show');
+      setTimeout(()=>c.classList.remove('show'),1800);
+    }).catch(()=>{ document.execCommand('copy'); });
+  }
+  function resetPost(){ document.getElementById('lipost').value = DEFAULT_POST; }
+</script>
+</body>
+</html>
