@@ -9,12 +9,26 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
+> **🔨 NEW TRACK: [live-data-cleanup](docs/todo/live-data-cleanup/PLAN.md) — audit done, finish the v1 migration + drop dead routes (started 2026-07-05).**
+> Carl asked for a full "is everything really connected?" audit. Verdict: **all 38 screens are live-wired — the
+> real find is the half-finished v1 API migration**: 13 calls in `shared/api.js` still use old `/api/…` paths,
+> which keeps ~54 dead legacy routes alive on the server (nothing else uses them — scripts/tests checked).
+> 4 phases: ① audit report · ② switch the 13 calls to `/api/v1/` · ③ delete the legacy routes (+ unconsumed
+> `pipeline/manifest`) · ④ docs/todo housekeeping. All free checks, no paid runs.
+> **Phase 1 built — the report is at [docs/audits/live-data-audit-2026-07-05.md](docs/audits/live-data-audit-2026-07-05.md), awaiting your read-through**
+> (scenarios in [phase-1.md](docs/todo/live-data-cleanup/phase-1.md)). Baseline: `npm test` **67/67**.
+
 > **🔨 NEW TRACK: [mobile-responsive](docs/todo/mobile-responsive/PLAN.md) — the whole app on a phone (started 2026-07-05).**
 > Carl's scope call: **all 38 screens, full polish**, own track, existing styles (no Flowbite re-skin here).
 > 5 phases: ① responsive shell (rail → drawer + mobile header) ② auth + member screens ③ run pipeline on a
 > phone ④ global sweep + admin core (tables, iOS zoom, touch targets) ⑤ QA tools + Universe.
-> **Phases 1 + 2 + 3 BUILT + browser-verified at 375×812 — all awaiting your walk (not committed; you said
-> "keep going"/"continue" after each).** P1: below 768px the rail is a slide-in drawer behind a ☰ header;
+> **Phases 1–4 BUILT + browser-verified at 375×812 — all awaiting your walk (not committed; you said
+> "keep going"/"continue" after each).** P4: iOS-zoom fix (16px controls), sticky first column on the User
+> management/Error log tables, touch-height small buttons, Session popover clamped, long strings wrap —
+> and a real find: **/guide overflowed 27px at phone width, fixed**. Start/Library/Tasks/Guide live-verified
+> zero overflow; `npm test` **69/69**. Only Phase 5 (QA tools + Universe) remains — its scope shrank since
+> Personas/Regression/Compare merged into "Test engine".
+> P1: below 768px the rail is a slide-in drawer behind a ☰ header;
 > in-session the stage bar goes compact under it; desktop untouched (verified at 1280). P2: auth + member
 > screens mostly already fit; fixed placeholder clipping + header-row wrap. P3 (pipeline): axis bars restack,
 > briefing action labels stack, interview answer buttons go full-width, glossary/confirm modal caps to the
@@ -63,16 +77,13 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > superadmin-gated + origin-guarded, **blocks demoting a company's last manager/admin** (409). The stale-API 404 Carl
 > first hit was fixed by restarting the :3001 process (concurrency respawns fresh code).
 >
-> **🔨 [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) — ALL 4 PHASES BUILT 2026-07-05. Only thing left in the whole plan: Carl's ONE paid run (~$0.35). Phases 1 ✅ · 2 ✅ · 3 (UI) + 4 (consolidation) built + browser-verified.**
-> Merges Personas / Regression / Compare into one **"Test engine"** page: ▶ Run per card (cost stated up front),
-> 2s polling with live stage/turn progress, one-run-at-a-time lock, "Review it"/"See result" → 8-dimension grid,
-> last-run verdict badge, a **free safety-check strip** (no AI), and **"Compare with previous run"** deep-linking
-> two runs into the Compare page. Nav slimmed to one entry (Regression + Compare rows gone, regression.js deleted).
-> Browser-verified end-to-end (nav, strip, deep-link, old `/regression` → home); **did NOT click Run — the ~$0.35
-> is Carl's go-ahead.** **`npm test` 67/67 · typecheck clean · admin build ✓.**
-> ⚠️ **To finish it: RESTART the API + reload**, open **Test engine**, click ▶ Run on one persona (~$0.35), watch
-> progress, "Review it" → mark the 8 dimensions, confirm the badge updates; try Re-check + "Compare with previous
-> run". Green light → the folder closes to done/. (Note: the code has been landing via parallel-session checkpoints.)
+> **✅ [test-engine-hub](docs/todo/done/test-engine-hub/PLAN.md) — CLOSED 2026-07-05 (all 4 phases green-lit; Carl ran it: "yeah its good it runs :)").**
+> Merged Personas / Regression / Compare into one **"Test engine"** page: ▶ Run per card (cost stated up front) →
+> full engine runs on the persona's scripted answers → 2s live progress → "Review it" into the 8-dimension grid →
+> last-run verdict badge. Plus a **free safety-check strip** (no AI) and **"Compare with previous run"** deep-linking
+> two runs into Compare. Nav slimmed to one entry (Regression + Compare rows gone, regression.js deleted). Carl
+> ran a real persona end-to-end. One paid run (~$0.35). `npm test` 67/67 · typecheck clean · admin build ✓.
+> Folder archived to done/.
 >
 > **Phase 1 ✅ done + committed** — the flat **User management** table (`d2bf9ec2` screen + `53f1f132` rename),
 > companies as **white cards** (`af1992f3`); role pills; the whole row opens the drilldown. **Phase 0** mostly
@@ -219,7 +230,7 @@ like 8 things are half-done at once — they aren't.
 
 | Plan | State |
 |---|---|
-| [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) | **ACTIVE (see "Your move" up top).** Phase 1 ✅ (job service, walked 2026-07-05, `e148db2a`) · Phases 2–4 ⬜. RUN-a-persona eval hub; merges Personas/Regression/Compare. Only Phase 3 costs (~$0.35). |
+| [test-engine-hub](docs/todo/done/test-engine-hub/PLAN.md) | ✅ **CLOSED 2026-07-05 → done/** — all 4 phases green-lit; Carl ran a persona through the hub ("it runs"). Merged Personas/Regression/Compare into one "Test engine" page. One paid run (~$0.35). |
 | [run-qa-fixes-jul04](docs/todo/run-qa-fixes-jul04/PLAN.md) | Phase 1 (C1 — strip tester notes) ✅ approved 2026-07-04 (committed `02d825c2`, walk waived); Phases 2–4 ⬜ (prompt changes — need a paid walk) |
 | [user-management](docs/todo/user-management/PLAN.md) | **ACTIVE (see "Your move" up top).** Phase 1 ✅ · Phase 2 ✅ (change role, `ac0359a7`, verified + closed 2026-07-05) · **Phase 3 🔨 (deactivate/reactivate) starting.** Phases 0, 4–5 ⬜. |
 | [planner-grounding](docs/todo/planner-grounding/PLAN.md) | parked — awaiting scope pick (A/B/C/all) |
