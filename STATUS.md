@@ -9,6 +9,16 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
+> **🔨 NEW TRACK: [manager-ready](docs/todo/manager-ready/PLAN.md) — customers stop seeing the workshop (started 2026-07-05).**
+> Managers (the paying users) currently get the **full internal rail** (Library, Compare, Personas, Universe,
+> Tasks…). **Phase 1 BUILT — awaiting your walk (not committed):** managers now get their own rail —
+> **Home · New 1:1 · Team · Past 1:1s** — and deep-links/back-forward into internal tools bounce them to Home.
+> Admin + member rails untouched (browser-verified per role). Test-first: `npm test` 67/67 → **69/69**, typecheck
+> clean. Walk: [phase-1.md](docs/todo/manager-ready/phase-1.md) (log in per role, check the rail, try `/tasks` as
+> manager). **Phase 2 (Bricolage headings, 4px buttons, one date format) is blocked until `design.css` goes quiet**
+> (mobile track is in it). ⚠️ Pre-existing at HEAD, not this track: `vite build` fails on `@sero/run-debrief`
+> (a parallel session's mid-work commit — flagged, not touched).
+
 > **🔨 NEW TRACK: [live-data-cleanup](docs/todo/live-data-cleanup/PLAN.md) — audit done, finish the v1 migration + drop dead routes (started 2026-07-05).**
 > Carl asked for a full "is everything really connected?" audit. Verdict: **all 38 screens are live-wired — the
 > real find is the half-finished v1 API migration**: 13 calls in `shared/api.js` still use old `/api/…` paths,

@@ -71,6 +71,15 @@ const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE,
   STAGES.ADMIN_ERROR_LOG]);
 export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
 
+// The internal toolset (manager-ready Phase 1) — the workshop screens only the internal
+// `admin` role should meet. A manager deep-linking here is bounced to their Home (START).
+// Deliberately NOT including START (the manager's dashboard) or REVIEW_RUN (their own run
+// reviews) — the backend fences whose data those show.
+const INTERNAL_ONLY = new Set([STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS,
+  STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
+  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE]);
+export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
+
 // The plain-member destinations (member-nav Phase 1): Home, Team, Runs. Used by boot +
 // back/forward to honor a member's own deep links rather than bouncing them.
 const MEMBER_ONLY = new Set([STAGES.MEMBER_HOME, STAGES.TEAM, STAGES.RUNS, STAGES.RUN_DETAIL, STAGES.PERSON_DETAIL]);

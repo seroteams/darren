@@ -93,6 +93,15 @@ export function isAdmin(user) {
   return roles.includes("manager") || roles.includes("admin");
 }
 
+// Manager-ready Phase 1: only the internal `admin` role sees the internal toolset rail
+// (Library, Compare, Personas, lexicons, Universe, Tasks…). Managers keep console access
+// (isAdmin above) but get their own customer rail: Home · New 1:1 · Team · Past 1:1s.
+export function isInternalAdmin(user) {
+  if (!user) return false;
+  const roles = Array.isArray(user.roles) ? user.roles : user.role ? [user.role] : [];
+  return roles.includes("admin");
+}
+
 export function resetSession() {
   // Preserve the logged-in user across a session reset — "new session" clears the
   // run, not the login.

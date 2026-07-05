@@ -6,7 +6,7 @@
 // (brand + menu button) that this module also owns — same DOM, same role
 // filtering; CSS decides which shell shows (see "Mobile shell" in design.css).
 
-import { STAGES, isAdmin } from "../state.js";
+import { STAGES, isAdmin, isInternalAdmin } from "../state.js";
 import { logout } from "../../../shared/api.js";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
@@ -58,6 +58,12 @@ const LINKS = [
   { key: "mhome", label: "Home", stage: STAGES.MEMBER_HOME, icon: ICON.home, member: true },
   { key: "team", label: "Team", stage: STAGES.TEAM, icon: ICON.team, member: true },
   { key: "runs", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, member: true },
+  // Manager app (manager-ready Phase 1) — the paying customer's rail. Reuses existing
+  // stages; managers keep console access but never see the internal toolset below.
+  { key: "mghome", label: "Home", stage: STAGES.START, icon: ICON.home, mgr: true },
+  { key: "mgnew", label: "New 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
+  { key: "mgteam", label: "Team", stage: STAGES.TEAM, icon: ICON.team, mgr: true },
+  { key: "mgruns", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, mgr: true },
   // Admin toolset, grouped into sections.
   { key: "home", label: "Home", stage: STAGES.START, icon: ICON.home, admin: true, group: "Sessions" },
   { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new, admin: true, group: "Sessions" },
@@ -147,7 +153,7 @@ export function createAppNav({ setState, resetSession } = {}) {
                 head = `<div class="app-nav__group-label" data-admin="1"><span>${it.group}</span></div>`;
                 lastGroup = it.group;
               }
-              return `${head}<button type="button" class="app-nav__link js-nav-${it.key}" data-key="${it.key}" data-admin="${it.admin ? "1" : ""}" data-member="${it.member ? "1" : ""}" data-superadmin="${it.superadmin ? "1" : ""}">
+              return `${head}<button type="button" class="app-nav__link js-nav-${it.key}" data-key="${it.key}" data-admin="${it.admin ? "1" : ""}" data-member="${it.member ? "1" : ""}" data-mgr="${it.mgr ? "1" : ""}" data-superadmin="${it.superadmin ? "1" : ""}">
           <span class="app-nav__icon">${it.icon}</span>
           <span class="app-nav__label">${it.label}</span>
         </button>`;
@@ -185,6 +191,14 @@ export function createAppNav({ setState, resetSession } = {}) {
       if (resetSession) resetSession();
       setState && setState({ stage: STAGES.INTAKE, substage: "NAME" });
     },
+    // Manager rail — same destinations, own rows (keys must be unique per button).
+    mghome: () => setState && setState({ stage: STAGES.START }),
+    mgnew: () => {
+      if (resetSession) resetSession();
+      setState && setState({ stage: STAGES.INTAKE, substage: "NAME" });
+    },
+    mgteam: () => setState && setState({ stage: STAGES.TEAM }),
+    mgruns: () => setState && setState({ stage: STAGES.RUNS }),
     library: () => setState && setState({ stage: STAGES.LIBRARY }),
     compare: () => setState && setState({ stage: STAGES.COMPARE }),
     personas: () => setState && setState({ stage: STAGES.PERSONAS }),
@@ -214,12 +228,14 @@ export function createAppNav({ setState, resetSession } = {}) {
   }
   el.querySelector(".js-logout").addEventListener("click", onLogout);
 
+  // A stage may light a different row per audience (admin "home" vs manager "mghome") —
+  // values are one key or a list; render() matches any of them (only one is visible anyway).
   const ACTIVE_BY_STAGE = {
-    [STAGES.START]: "home",
+    [STAGES.START]: ["home", "mghome"],
     [STAGES.MEMBER_HOME]: "mhome",
-    [STAGES.TEAM]: "team",
-    [STAGES.RUNS]: "runs",
-    [STAGES.INTAKE]: "new",
+    [STAGES.TEAM]: ["team", "mgteam"],
+    [STAGES.RUNS]: ["runs", "mgruns"],
+    [STAGES.INTAKE]: ["new", "mgnew"],
     [STAGES.LIBRARY]: "library",
     [STAGES.COMPARE]: "personas",
     [STAGES.PERSONAS]: "personas",
@@ -252,11 +268,12 @@ export function createAppNav({ setState, resetSession } = {}) {
     el.classList.remove("is-hidden");
     bar.classList.remove("is-hidden");
     document.body.classList.add("has-app-nav");
-    // Show exactly one audience's rows: admins get the internal toolset, members get
-    // Home · Team · Runs (member-nav Phase 1). Log out sits outside this and always shows.
-    const admin = isAdmin(user);
-    el.classList.toggle("app-nav--member", !admin);
-    const wanted = admin ? "admin" : "member";
+    // Show exactly one audience's rows (manager-ready Phase 1): the internal `admin` role
+    // gets the toolset, managers get their customer rail (Home · New 1:1 · Team · Past
+    // 1:1s), members get Home · Team · Runs. Log out sits outside this and always shows.
+    const internal = isInternalAdmin(user);
+    el.classList.toggle("app-nav--member", !internal); // compact, ungrouped rail styling
+    const wanted = internal ? "admin" : isAdmin(user) ? "mgr" : "member";
     const alwaysShown = new Set(["logout", "privacy", "about", "feedback"]); // account/utility rows
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
       if (alwaysShown.has(b.dataset.key)) return;
@@ -266,11 +283,11 @@ export function createAppNav({ setState, resetSession } = {}) {
       if (show && b.dataset.superadmin === "1" && !(user && user.isSuperadmin)) show = false;
       b.hidden = !show;
     });
-    // Section headers belong to the admin rail only — hide them for members.
-    el.querySelectorAll(".app-nav__group-label").forEach((h) => { h.hidden = !admin; });
-    const activeKey = ACTIVE_BY_STAGE[stage] || null;
+    // Section headers belong to the internal rail only.
+    el.querySelectorAll(".app-nav__group-label").forEach((h) => { h.hidden = !internal; });
+    const activeKeys = [].concat(ACTIVE_BY_STAGE[stage] || []);
     el.querySelectorAll(".app-nav__link").forEach((b) => {
-      const on = b.dataset.key === activeKey;
+      const on = activeKeys.includes(b.dataset.key);
       b.classList.toggle("is-active", on);
       if (on) b.setAttribute("aria-current", "page");
       else b.removeAttribute("aria-current");

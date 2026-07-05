@@ -2,9 +2,9 @@ import "@fontsource-variable/inter";
 import "./styles/tailwind.css";
 import "./styles/design.css";
 
-import { STAGES, store, subscribe, setState, resetSession, isAdmin } from "./state.js";
+import { STAGES, store, subscribe, setState, resetSession, isAdmin, isInternalAdmin } from "./state.js";
 import { getSession, listRecentRuns, runRegression, me } from "../../shared/api.js";
-import { syncUrl, parseLocation, startPopstate, isFlowStage, isAdminStage, isMemberStage, isSharedStage } from "./router.js";
+import { syncUrl, parseLocation, startPopstate, isFlowStage, isAdminStage, isInternalStage, isMemberStage, isSharedStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createBuildStamp } from "./ui/build-stamp.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
@@ -138,6 +138,12 @@ startPopstate((parsed) => {
     setState({ stage: STAGES.MEMBER_HOME });
     return;
   }
+  // A manager can't reach the internal toolset via back/forward — bounce to their Home
+  // (manager-ready Phase 1). Cosmetic wall; the backend 403s stay the real one.
+  if (store.user && isInternalStage(parsed.stage) && !isInternalAdmin(store.user)) {
+    setState({ stage: STAGES.START });
+    return;
+  }
   if (parsed.stage === STAGES.REVIEW_RUN) {
     if (parsed.params?.reviewRunId) setState({ reviewRunId: parsed.params.reviewRunId, stage: STAGES.REVIEW_RUN });
     else setState({ stage: STAGES.START });
@@ -249,8 +255,16 @@ async function boot() {
     return;
   }
 
+  // A manager deep-linking the internal toolset lands on their Home instead
+  // (manager-ready Phase 1). Before the regression kick-off — that's internal-only too.
+  if (!isInternalAdmin(store.user) && route && isInternalStage(route.stage)) {
+    history.replaceState(null, "", "/");
+    setState({ stage: STAGES.START });
+    return;
+  }
+
   // Admin/owner from here down — safe to kick off the (admin-only) regression check.
-  refreshRegressionAlert();
+  if (isInternalAdmin(store.user)) refreshRegressionAlert();
 
   if (route?.stage === STAGES.LOGIN || route?.stage === STAGES.REGISTER) {
     setState({ stage: STAGES.START });

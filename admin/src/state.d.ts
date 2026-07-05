@@ -60,4 +60,5 @@ export const store: Store;
 export function subscribe(fn: (store: Store) => void): () => void;
 export function setState(patch: Partial<Store>): void;
 export function isAdmin(user: unknown): boolean;
+export function isInternalAdmin(user: unknown): boolean;
 export function resetSession(): void;
