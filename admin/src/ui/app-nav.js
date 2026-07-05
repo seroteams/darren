@@ -2,6 +2,9 @@
 // to an icon strip; opens on hover (or keyboard focus) to reveal labels. Mounted
 // once in main.js, persistent across every screen. The session topbar sits to
 // its right in-session. render({ stage }) keeps the active link in sync.
+// Below 768px the rail is an off-canvas drawer behind a fixed header strip
+// (brand + menu button) that this module also owns — same DOM, same role
+// filtering; CSS decides which shell shows (see "Mobile shell" in design.css).
 
 import { STAGES, isAdmin } from "../state.js";
 import { logout } from "../../../shared/api.js";
@@ -34,6 +37,7 @@ const ICON = {
   tasks: icon(`<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><path d="m9 14 2 2 4-4"/>`),
   registered: icon(`<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/>`),
   universe: icon(`<circle cx="12" cy="12" r="3"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"/>`),
+  design: icon(`<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>`),
   logout: icon(`<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>`),
   privacy: icon(`<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>`),
   about: icon(`<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>`),
@@ -66,15 +70,58 @@ const LINKS = [
   // Just for fun — the 3D live map of the app (universe.ts). Admin-only eye candy.
   { key: "universe", label: "Universe", stage: STAGES.UNIVERSE, icon: ICON.universe, admin: true, group: "Engine" },
   { key: "tasks", label: "Tasks", stage: STAGES.TASKS, icon: ICON.tasks, admin: true, group: "Admin" },
+  // Static page (admin/public/sero-flowbite/) — opens in a new tab, outside the SPA.
+  { key: "design", label: "Design system", icon: ICON.design, admin: true, group: "Admin" },
   // Superadmin-only (pre-go-live PG7). `admin: true` puts it in the admin rail; `superadmin:
   // true` hides it from every owner but Carl. Cosmetic — the backend 403 is the real wall.
   { key: "registered", label: "User management", stage: STAGES.ADMIN_REGISTERED, icon: ICON.registered, admin: true, superadmin: true, group: "Admin" },
 ];
 
+const MENU_ICON = icon(`<path d="M4 6h16M4 12h16M4 18h16"/>`);
+
 export function createAppNav({ setState, resetSession } = {}) {
   const el = document.createElement("header");
   el.className = "app-nav";
+  el.id = "app-nav-drawer";
   document.body.classList.add("has-app-nav");
+
+  // Mobile header strip + scrim (display:none on desktop). Appended straight to
+  // body — like the topbar's popover — so main.js stays unchanged.
+  const bar = document.createElement("div");
+  bar.className = "app-nav-mobilebar";
+  bar.innerHTML = `
+    <button type="button" class="app-nav-mobilebar__menu js-menu" aria-label="Open menu" aria-expanded="false" aria-controls="app-nav-drawer">${MENU_ICON}</button>
+    <button type="button" class="app-nav-mobilebar__brand js-bar-home" aria-label="Sero home">
+      <span class="app-nav__icon">${LOGO}</span>
+      <span>Sero</span>
+    </button>
+  `;
+  document.body.appendChild(bar);
+
+  const scrim = document.createElement("div");
+  scrim.className = "app-nav-scrim";
+  document.body.appendChild(scrim);
+
+  const menuBtn = bar.querySelector(".js-menu");
+  let drawerOpen = false;
+  function setDrawer(open) {
+    drawerOpen = !!open;
+    el.classList.toggle("is-open", drawerOpen);
+    scrim.classList.toggle("is-open", drawerOpen);
+    document.body.classList.toggle("app-nav-open", drawerOpen);
+    menuBtn.setAttribute("aria-expanded", drawerOpen ? "true" : "false");
+    menuBtn.setAttribute("aria-label", drawerOpen ? "Close menu" : "Open menu");
+  }
+  menuBtn.addEventListener("click", () => setDrawer(!drawerOpen));
+  scrim.addEventListener("click", () => setDrawer(false));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && drawerOpen) setDrawer(false);
+  });
+  // Any tap inside the drawer that lands on a link (or the brand) navigates —
+  // close so the destination is visible. No-op when already closed (desktop).
+  el.addEventListener("click", (e) => {
+    if (e.target.closest("button")) setDrawer(false);
+  });
 
   const items = [...LINKS];
   if (import.meta.env.DEV) items.push({ key: "guide", label: "Guide", stage: STAGES.GUIDE, icon: ICON.guide, admin: true, group: "Admin" });
@@ -143,6 +190,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     joblex: () => setState && setState({ stage: STAGES.ROLE_LEXICONS }),
     arcs: () => setState && setState({ stage: STAGES.MEETING_ARCS }),
     tasks: () => setState && setState({ stage: STAGES.TASKS }),
+    design: () => window.open("/sero-flowbite/index.html", "_blank", "noopener"),
     universe: () => setState && setState({ stage: STAGES.UNIVERSE }),
     registered: () => setState && setState({ stage: STAGES.ADMIN_REGISTERED }),
     guide: () => setState && setState({ stage: STAGES.GUIDE }),
@@ -152,6 +200,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   };
 
   el.querySelector(".js-home").addEventListener("click", onNav.home);
+  bar.querySelector(".js-bar-home").addEventListener("click", onNav.home);
   items.forEach((it) => el.querySelector(`.js-nav-${it.key}`)?.addEventListener("click", onNav[it.key]));
   ["about", "feedback", "privacy"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", onNav[k]));
 
@@ -192,10 +241,13 @@ export function createAppNav({ setState, resetSession } = {}) {
     // a logged-out visitor opens it from the signup screen (there's no app to navigate yet).
     if (stage === STAGES.LOGIN || stage === STAGES.REGISTER || (stage === STAGES.PRIVACY && !user)) {
       el.classList.add("is-hidden");
+      bar.classList.add("is-hidden");
+      setDrawer(false);
       document.body.classList.remove("has-app-nav");
       return;
     }
     el.classList.remove("is-hidden");
+    bar.classList.remove("is-hidden");
     document.body.classList.add("has-app-nav");
     // Show exactly one audience's rows: admins get the internal toolset, members get
     // Home · Team · Runs (member-nav Phase 1). Log out sits outside this and always shows.
@@ -223,9 +275,14 @@ export function createAppNav({ setState, resetSession } = {}) {
   }
 
   // Toggle a small alert dot on a nav item (drawn in CSS off the `has-alert`
-  // class). Used by main.js to flag a failing regression check.
+  // class). Used by main.js to flag a failing regression check. Mirrored onto
+  // the mobile menu button so the dot shows while the drawer is closed.
+  const alertKeys = new Set();
   function setAlert(key, on) {
     el.querySelector(`.js-nav-${key}`)?.classList.toggle("has-alert", !!on);
+    if (on) alertKeys.add(key);
+    else alertKeys.delete(key);
+    menuBtn.classList.toggle("has-alert", alertKeys.size > 0);
   }
 
   return { el, render, setAlert };

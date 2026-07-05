@@ -2384,7 +2384,14 @@ body.has-session-topbar {
 }
 /* Manager (member) rail — shares the admin rail's dark theme (base .app-nav
    styles); no colour override so the two look identical. */
-.app-nav:hover,
+/* Hover-expand is pointer-only: on touch devices a tap would "stick" the hover
+   and leave the open rail overlaying content (iOS emulates hover on tap). */
+@media (hover: hover) {
+  .app-nav:hover {
+    width: var(--app-nav-w-open);
+    z-index: var(--sero-z-fixed, 30);
+  }
+}
 .app-nav:focus-within {
   width: var(--app-nav-w-open);
   z-index: var(--sero-z-fixed, 30);
@@ -2473,8 +2480,12 @@ body.has-session-topbar {
   opacity: 0;
   transition: opacity var(--dur-fast) var(--ease-out-expo);
 }
-.app-nav:hover .app-nav__label,
-.app-nav:hover .app-nav__word,
+@media (hover: hover) {
+  .app-nav:hover .app-nav__label,
+  .app-nav:hover .app-nav__word {
+    opacity: 1;
+  }
+}
 .app-nav:focus-within .app-nav__label,
 .app-nav:focus-within .app-nav__word {
   opacity: 1;
@@ -2517,7 +2528,11 @@ body.has-session-topbar {
   opacity: 0;
   transition: opacity var(--dur-fast) var(--ease-out-expo);
 }
-.app-nav:hover .app-nav__group-label span,
+@media (hover: hover) {
+  .app-nav:hover .app-nav__group-label span {
+    opacity: 1;
+  }
+}
 .app-nav:focus-within .app-nav__group-label span {
   opacity: 1;
 }
@@ -4541,5 +4556,171 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   }
   .auth-split__media {
     display: none;
+  }
+}
+
+/* =============================================================================
+   Mobile shell (mobile-responsive Phase 1) — below 768px the left rail becomes
+   an off-canvas drawer behind a fixed header strip (brand + menu button, built
+   in ui/app-nav.js). The header's 48px height feeds --app-nav-h, so every
+   offset that already clears the top chrome — session topbar, notes toggle,
+   stage min-height, popovers — adjusts through the existing calc()s.
+   Desktop (≥768px) is untouched.
+============================================================================= */
+.app-nav-mobilebar,
+.app-nav-scrim {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  body.has-app-nav {
+    --app-nav-h: 48px;
+    padding-left: 0;
+    padding-top: var(--app-nav-h);
+  }
+  /* Drawer open — freeze the page behind the scrim. */
+  body.app-nav-open {
+    overflow: hidden;
+  }
+
+  /* Header strip — same ink as the rail so the shell reads as one piece. */
+  .app-nav-mobilebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding-left: calc(0.25rem + env(safe-area-inset-left));
+    padding-right: calc(0.75rem + env(safe-area-inset-right));
+    background: var(--sero-primary-800);
+    color: #fff;
+    z-index: var(--sero-z-fixed, 30);
+  }
+  .app-nav-mobilebar.is-hidden {
+    display: none;
+  }
+  .app-nav-mobilebar__menu,
+  .app-nav-mobilebar__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    height: 44px;               /* comfortable touch target */
+    padding: 0 0.65rem;
+    background: transparent;
+    border: 0;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+  }
+  .app-nav-mobilebar__brand {
+    font-size: var(--type-h4);
+    font-weight: var(--type-weight-bold);
+    letter-spacing: var(--type-tracking-tight);
+  }
+  /* Alert dot mirrors a flagged drawer row (e.g. a failing regression check)
+     so it's visible while the drawer is closed. Matches .app-nav's dot. */
+  .app-nav-mobilebar__menu {
+    position: relative;
+  }
+  .app-nav-mobilebar__menu.has-alert::after {
+    content: "";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-negative);
+    box-shadow: 0 0 0 2px var(--sero-primary-800);
+  }
+
+  /* The rail becomes a drawer: slides in from the left, labels always shown.
+     Width overrides carry :hover/:focus-within too so the desktop expand
+     rules (higher specificity) can't fight it. */
+  .app-nav,
+  .app-nav:hover,
+  .app-nav:focus-within {
+    width: min(80vw, 300px);
+    z-index: calc(var(--sero-z-fixed, 30) + 5);   /* above header, below modals */
+  }
+  .app-nav {
+    border-right: 0;
+    overflow-y: auto;
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: var(--sero-shadow-xl);
+    transform: translateX(-100%);
+    /* visibility keeps the closed drawer out of the tab order / screen readers;
+       its transition is delayed so the slide-out finishes before it hides. */
+    visibility: hidden;
+    transition:
+      transform var(--dur-fast) var(--ease-out-expo),
+      visibility 0s var(--dur-fast);
+  }
+  .app-nav.is-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .app-nav .app-nav__label,
+  .app-nav .app-nav__word,
+  .app-nav .app-nav__group-label span {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .app-nav {
+      transition: none;
+    }
+  }
+
+  /* Scrim behind the open drawer — tap to close (wired in app-nav.js). */
+  .app-nav-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    z-index: calc(var(--sero-z-fixed, 30) + 4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-fast) var(--ease-out-expo);
+  }
+  .app-nav-scrim.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Session topbar slides under the header and goes compact: Session button +
+     the current stage pill + step count. Done/upcoming breadcrumb steps hide —
+     at 375px they were ellipsized into noise anyway. */
+  .session-topbar {
+    top: var(--app-nav-h, 48px);
+    left: 0;
+    padding: 0 0.75rem;
+  }
+  .session-topbar__stages .is-done,
+  .session-topbar__stages .is-upcoming,
+  .session-topbar__stages .sep {
+    display: none;
+  }
+
+  /* Profile badge (members) — the header now owns the top edge, so the chip
+     drops below it and slims to the avatar alone. */
+  .profile-badge {
+    top: calc(var(--app-nav-h, 0px) + var(--sero-space-3));
+    max-width: none;
+    padding: 5px;
+  }
+  .profile-badge__email {
+    display: none;
+  }
+}
+
+/* Phones: the notes panel becomes a full-width sheet under the top chrome. */
+@media (max-width: 639.98px) {
+  .notes-panel {
+    width: 100vw;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
