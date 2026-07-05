@@ -838,6 +838,30 @@ body.has-session-topbar .stage {
 .el-filter.is-active { background: var(--color-surface); color: var(--color-ink); box-shadow: var(--shadow-card); }
 .el-filter__n { color: var(--color-ink-mute); font-size: var(--type-caption); margin-left: 3px; }
 
+/* Error log filters + row detail + resolve (error-log Phase 4). */
+.el-controls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sero-space-4); }
+.el-control { display: inline-flex; align-items: center; gap: var(--sero-space-2); }
+.el-control__label { font-size: var(--type-caption); color: var(--color-ink-mute); font-weight: var(--type-weight-medium); }
+.el-resolved-toggle { border: 1px solid var(--color-border); background: transparent; }
+.el-resolved-toggle.is-active { background: var(--sero-primary-200); color: var(--sero-primary-800); border-color: transparent; box-shadow: none; }
+.el-pill--done { background: var(--sero-soft-500); color: var(--sero-soft-800); }
+.el-row.is-open > td { background: var(--sero-primary-100); }
+.el-row--resolved > td { opacity: 0.62; }
+.el-detail-row > td { padding: 0; background: var(--sero-primary-100); border-bottom: 1px solid var(--color-border); }
+.el-detail { padding: var(--sero-space-3) var(--sero-space-4); display: flex; flex-direction: column; gap: var(--sero-space-2); }
+.el-detail__meta { display: flex; flex-wrap: wrap; gap: var(--sero-space-1) var(--sero-space-4); font-size: var(--type-body-sm); color: var(--color-ink-dim); }
+.el-detail__meta b { color: var(--color-ink); font-weight: var(--type-weight-medium); }
+.el-detail__meta code { font-family: var(--font-mono, ui-monospace, monospace); }
+.el-detail__msg { font-size: var(--type-body-sm); color: var(--color-ink); }
+.el-stack {
+  margin: 0; max-height: 260px; overflow: auto; padding: var(--sero-space-3);
+  background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card);
+  font-family: var(--font-mono, ui-monospace, monospace); font-size: var(--type-caption); line-height: 1.5;
+  color: var(--color-ink); white-space: pre-wrap; word-break: break-word;
+}
+.el-ua { font-size: var(--type-caption); color: var(--color-ink-dim); }
+.el-detail__actions { display: flex; gap: var(--sero-space-2); }
+
 /* Row actions (user-management Phase 2): a ⋯ button per row opening a role menu. The menu is
    attached to <body> (position: fixed) so the table's horizontal scroll never clips it. */
 .um-actions { text-align: right; width: 1%; white-space: nowrap; }
@@ -3877,6 +3901,69 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
 .lib-badge--fix { color: var(--color-amber, #b4690e); background: var(--sero-warning-light); }
 .lib-badge--block { color: var(--color-negative); background: var(--sero-error-light); }
 
+/* -----------------------------------------------------------------------------
+   Test-engine run progress — the staged bar on each persona card.
+----------------------------------------------------------------------------- */
+.run-bar { margin-top: 4px; }
+.run-steps { display: flex; gap: 6px; }
+.run-step { flex: 1; display: flex; align-items: center; gap: 6px; min-width: 0; }
+.run-step__dot {
+  flex: none; width: 20px; height: 20px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; line-height: 1;
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.06)); color: var(--color-ink-mute);
+  border: 1px solid var(--color-border, #e2e8f0);
+  transition: background-color .3s ease, color .3s ease, transform .3s ease;
+}
+.run-step__label {
+  font-size: var(--type-small, 14px); color: var(--color-ink-mute);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.run-step--done .run-step__dot { background: var(--color-positive); color: #fff; border-color: transparent; }
+.run-step--done .run-step__label { color: var(--color-ink-dim); }
+.run-step--active .run-step__dot {
+  background: var(--color-accent); color: #fff; border-color: transparent;
+  animation: run-pulse 1.1s ease-in-out infinite;
+}
+.run-step--active .run-step__label { color: var(--color-accent-dark, var(--color-accent)); font-weight: 500; }
+.run-step--failed .run-step__dot { background: var(--color-negative); color: #fff; border-color: transparent; }
+@keyframes run-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 45%, transparent); }
+  50%      { transform: scale(1.14); box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-accent) 0%, transparent); }
+}
+
+.run-bar__track {
+  height: 8px; margin-top: 8px; border-radius: 999px; overflow: hidden;
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.07));
+}
+.run-bar__fill {
+  height: 100%; border-radius: 999px; width: 0;
+  background: var(--color-accent);
+  transition: width .5s cubic-bezier(.22, 1, .36, 1);
+}
+.run-bar__fill--running {
+  background-image: linear-gradient(90deg,
+    var(--color-accent) 0%,
+    color-mix(in srgb, var(--color-accent) 55%, #fff) 50%,
+    var(--color-accent) 100%);
+  background-size: 200% 100%;
+  animation: run-shimmer 1.2s linear infinite;
+}
+.run-bar__fill--done { background: var(--color-positive); }
+.run-bar__fill--failed { background: var(--color-negative); }
+@keyframes run-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+.run-bar[data-state="done"] .run-bar__status { animation: run-pop .4s ease-out; }
+@keyframes run-pop {
+  0%   { transform: scale(.92); opacity: .4; }
+  60%  { transform: scale(1.04); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .run-step--active .run-step__dot,
+  .run-bar__fill--running,
+  .run-bar[data-state="done"] .run-bar__status { animation: none; }
+}
+
 @media (max-width: 640px) {
   .lib-row { flex-wrap: wrap; }
   .lib-row__right { flex-wrap: wrap; }
@@ -4890,13 +4977,45 @@ pre {
     background: var(--sero-active-state-bg);
   }
 
-  /* Long unbroken content (error messages, routes, emails, notes) wraps
-     instead of stretching its container. */
+  /* Long unbroken content (error messages, routes, emails, notes, the Guide's
+     command strings) wraps instead of stretching its container. */
   .el-msg,
   .el-route,
   .um-user__email,
   .notes-panel__item,
-  .ctx-segments {
+  .ctx-segments,
+  .guide-ref code,
+  .guide-ref span {
     overflow-wrap: anywhere;
   }
+}
+
+/* =============================================================================
+   Mobile screens — Phase 5 (QA tools). Compare is the one real layout: at
+   phone width its label gutter goes above the two run cells (the A/B tags on
+   the cells carry which is which), and the axis diffs restack like the axis
+   bars do. Universe's touch support lives in universe.ts (touch-action: none
+   on the canvas — its pointer handlers already speak touch).
+============================================================================= */
+@media (max-width: 639.98px) {
+  .compare-picker .bench-select {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+  .cmp-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 0.75rem;
+  }
+  .cmp-row__label {
+    grid-column: 1 / -1;
+    padding-top: 0;
+  }
+  .cmp-axis {
+    grid-template-columns: 1fr auto;
+    gap: 0.35rem 1rem;
+  }
+  .cmp-axis__label { grid-column: 1; grid-row: 1; }
+  .cmp-axis__read  { grid-column: 2; grid-row: 1; }
+  .cmp-axis__track { grid-column: 1 / -1; grid-row: 2; }
 }

@@ -17,6 +17,22 @@ import { escapeHtml as esc } from "../ui/html.js";
 const COST_LINE =
   "Runs the full engine with this persona's scripted answers. Costs about $0.35 in AI and takes 1–2 minutes.";
 
+// The engine stages, in the order the runner drives them — the staged progress bar
+// lights these up one by one. Kept plain-language (not the internal stage names).
+const RUN_STEPS = ["Setup", "Focus", "Prep", "Interview", "Briefing"];
+
+// Map the runner's live stageLabel onto a step index. The labels come from
+// persona-runs.runner.ts: "Starting session" / "Role profile" → Setup, then
+// "Focus points", "Preparation", "Questions", "Final briefing".
+function runStageIndex(label) {
+  const l = String(label || "").toLowerCase();
+  if (l.includes("brief")) return 4;
+  if (l.includes("question")) return 3;
+  if (l.includes("prep")) return 2;
+  if (l.includes("focus")) return 1;
+  return 0; // starting / role profile
+}
+
 let pollTimer = null;
 
 export function unmount() {
@@ -258,12 +274,12 @@ async function onRun(resultHost, personaId, personas) {
   const progress = card?.querySelector(".js-progress");
   if (progress) {
     progress.style.display = "block";
-    progress.textContent = "Starting…";
+    progress.innerHTML = runBarHtml({ status: "running", stageLabel: "Starting session" });
   }
   try {
     await startPersonaRun(personaId);
   } catch (e) {
-    if (progress) progress.textContent = `Couldn't start: ${e.message}`;
+    if (progress) progress.innerHTML = `<span style="color:var(--color-negative);font-size:var(--type-small,14px);">Couldn't start: ${esc(e.message)}</span>`;
     setRunningLock(resultHost, false);
     return;
   }
@@ -296,26 +312,69 @@ function paintJob(resultHost, job) {
   const progress = card?.querySelector(".js-progress");
   if (!progress) return;
   progress.style.display = "block";
-
-  if (job.status === "running") {
-    const turn = job.turn && job.total ? ` — question ${job.turn} of ${job.total}` : "";
-    progress.textContent = `Running: ${job.stageLabel || "…"}${turn}`;
-  } else if (job.status === "done") {
-    const cost = typeof job.costUsd === "number" ? ` (about $${job.costUsd.toFixed(2)} in AI)` : "";
-    progress.innerHTML = `<span style="color:var(--color-positive);">Finished${esc(cost)}.</span> `;
-    if (job.sessionId) {
-      const link = document.createElement("button");
-      link.className = "btn btn--sm";
-      link.style.marginLeft = "6px";
-      link.textContent = "Review it";
-      link.addEventListener("click", () =>
-        setState({ stage: STAGES.REVIEW_RUN, reviewRunId: job.sessionId })
-      );
-      progress.appendChild(link);
-    }
-  } else if (job.status === "failed") {
-    progress.innerHTML = `<span style="color:var(--color-negative);">Run failed: ${esc(job.error || "unknown error")}</span>`;
+  progress.innerHTML = runBarHtml(job);
+  // The "Review it" button (done state) needs a live listener after innerHTML.
+  const reviewBtn = progress.querySelector(".js-review-it");
+  if (reviewBtn) {
+    reviewBtn.addEventListener("click", () =>
+      setState({ stage: STAGES.REVIEW_RUN, reviewRunId: job.sessionId })
+    );
   }
+}
+
+// The staged progress bar: a row of steps that light up as the engine advances,
+// a fill track (shimmering while live, mint on finish), and a status line. During
+// the Interview step the fill grows question by question, so it never looks stuck.
+function runBarHtml(job) {
+  const running = job.status === "running";
+  const done = job.status === "done";
+  const failed = job.status === "failed";
+
+  const current = done ? RUN_STEPS.length : runStageIndex(job.stageLabel);
+  const inInterview = running && current === 3 && job.turn && job.total;
+  const withinFrac = inInterview ? Math.min(1, job.turn / job.total) : 0;
+  const pct = done
+    ? 100
+    : failed
+      ? (current / RUN_STEPS.length) * 100
+      : Math.max(5, ((current + withinFrac) / RUN_STEPS.length) * 100);
+
+  const steps = RUN_STEPS.map((label, i) => {
+    let cls = "run-step--todo";
+    let glyph = String(i + 1);
+    if (done || i < current) {
+      cls = "run-step--done";
+      glyph = "✓";
+    } else if (failed && i === current) {
+      cls = "run-step--failed";
+      glyph = "!";
+    } else if (running && i === current) {
+      cls = "run-step--active";
+    }
+    return `<div class="run-step ${cls}"><span class="run-step__dot">${glyph}</span><span class="run-step__label">${esc(label)}</span></div>`;
+  }).join("");
+
+  const fillCls = done ? "run-bar__fill--done" : failed ? "run-bar__fill--failed" : "run-bar__fill--running";
+
+  let status;
+  if (done) {
+    const cost = typeof job.costUsd === "number" ? ` · about $${job.costUsd.toFixed(2)} in AI` : "";
+    status =
+      `<span style="color:var(--color-positive);font-weight:500;">✨ Finished${esc(cost)}</span>` +
+      (job.sessionId ? `<button class="btn btn--sm js-review-it" style="margin-left:8px;">Review it</button>` : "");
+  } else if (failed) {
+    status = `<span style="color:var(--color-negative);">Run failed: ${esc(job.error || "unknown error")}</span>`;
+  } else {
+    const turn = inInterview ? ` — question ${job.turn} of ${job.total}` : "";
+    status = `<span class="text-ink-dim">${esc(job.stageLabel || "Working…")}${esc(turn)}</span>`;
+  }
+
+  return `
+    <div class="run-bar" data-state="${done ? "done" : failed ? "failed" : "running"}">
+      <div class="run-steps">${steps}</div>
+      <div class="run-bar__track"><div class="run-bar__fill ${fillCls}" style="width:${pct.toFixed(1)}%;"></div></div>
+      <div class="run-bar__status" style="margin-top:6px;">${status}</div>
+    </div>`;
 }
 
 // One run at a time: while a job is live, every Run button is disabled so a second
