@@ -986,6 +986,16 @@ test("suggestAnswers returns the drafted answers from the injected boundary", as
   assert.equal(calls.length, 1);
 });
 
+test("suggestAnswers hands the boundary the session dir (scenario-pack cache lives there)", async () => {
+  const s = fakeSession("abc");
+  s.queueRef = [fakeQuestion({ name: "What's blocking you?" })];
+  const calls: Array<{ sessionDir?: string }> = [];
+  await createSessionsService(fakeRepo([s]).repo, {
+    draftAnswers: async (input) => { calls.push(input); return ["a1", "a2"]; },
+  }).suggestAnswers("abc");
+  assert.equal(calls[0]?.sessionDir, s.dir);
+});
+
 test("suggestAnswers returns [] when no question is queued (boundary not called)", async () => {
   const s = fakeSession("abc");
   s.queueRef = [];

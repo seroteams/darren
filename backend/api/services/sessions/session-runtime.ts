@@ -12,6 +12,7 @@ import { buildIdentity } from "../../middleware/request-context.ts";
 import { ensureRoleProfile } from "../../../engine/role-profile.ts";
 import { generateFocusPoints } from "../../../engine/generate.ts";
 import { suggestAnswers as draftAnswersEngine } from "../../../engine/answer-suggester.ts";
+import { ensureScenarioPack } from "../../../engine/scenario-pack.ts";
 import { generateSuggestions } from "../../../engine/lexicon-reviewer.ts";
 import { asString } from "../../../shared/guards.ts";
 
@@ -36,13 +37,17 @@ const prewarm: Prewarm = (session, ctx) => {
 };
 
 // The real model calls wired into the S3 injected boundaries (deferred paid walk).
-const draftAnswers: DraftAnswers = (i) =>
+// The scenario pack (a tiny fixed world for the dev suggest helper) is generated
+// lazily on the first suggest click and cached in the session dir — one extra
+// model call per session, dev-only, never on a normal run.
+const draftAnswers: DraftAnswers = async (i) =>
   draftAnswersEngine({
     ...i.ctx,
     question: i.question,
     questionLabel: i.questionLabel,
     questionDescription: i.questionDescription,
     transcript: i.transcript,
+    scenarioPack: await ensureScenarioPack(i.ctx, i.sessionDir),
   });
 const reviewLexicon: ReviewLexicon = (i) => generateSuggestions({ session: i.session, ctx: i.ctx });
 

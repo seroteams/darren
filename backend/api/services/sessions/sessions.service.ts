@@ -115,6 +115,7 @@ export type DraftAnswers = (input: {
   questionLabel: string;
   questionDescription: string;
   transcript: TranscriptEntry[];
+  sessionDir: string; // the per-session scenario-pack cache lives here
 }) => Promise<string[]>;
 
 // The reviewer result the service reads off (a subset of generateSuggestions' shape).
@@ -630,6 +631,7 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
           questionLabel: q.label || "",
           questionDescription: q.description || "",
           transcript: session.transcript,
+          sessionDir: session.dir,
         });
         return { answers };
       } catch (e) {
