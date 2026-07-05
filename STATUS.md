@@ -57,14 +57,13 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > superadmin-gated + origin-guarded, **blocks demoting a company's last manager/admin** (409). The stale-API 404 Carl
 > first hit was fixed by restarting the :3001 process (concurrency respawns fresh code).
 >
-> **🔨 [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) Phase 1 — persona-run job service: BUILT 2026-07-05, awaiting Carl's walk (free, no AI).**
+> **✅ [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) Phase 1 — persona-run job service: DONE 2026-07-05 (walk delegated to Claude, all scenarios passed live; committed `e148db2a`).**
 > One page: ▶ Run on a persona → full engine runs on its scripted answers → review with the 8-dimension grid.
-> Phase 1 lands the API doors + guard rails: `POST /api/v1/persona-runs` (admin + origin-guarded, one run at a
-> time — second start 409s) and `GET /api/v1/persona-runs/current` (status window). Runner is an honest 5-second
-> dry run until Phase 2. Baseline 62/62 → after: new tests 21/21, typecheck clean; the one suite fail is Carl's
-> in-flight `universe.test.ts` WIP (changed mid-session, unrelated). **Not committed — green light = commit.**
-> ⚠️ To walk it, RESTART the API server (the running :3001 API pre-dates the new routes). Walk commands are in
-> the phase file / chat. Then Phases 2–4; only Phase 3 spends money (one ~$0.35 run, Carl's own click).
+> Phase 1 landed the API doors + guard rails, **verified against a live instance**: idle status ✓, unknown
+> persona 404 ✓, missing id 400 ✓, start 202 ✓, double-start 409 ✓, honest dry-run label ✓, done in ~5s ✓,
+> slot frees after ✓, logged-out 401 ✓, $0 OpenAI. (Tested on a throwaway :3002 instance with the dev
+> side-door; the :3001 API Carl uses was untouched.) **Next: Phase 2 — the real engine runner (free,
+> offline-tested) — on Carl's go.** Only Phase 3 spends money (one ~$0.35 run, Carl's own click).
 >
 > **Phase 1 ✅ done + committed** — the flat **User management** table (`d2bf9ec2` screen + `53f1f132` rename),
 > companies as **white cards** (`af1992f3`); role pills; the whole row opens the drilldown. **Phase 0** mostly
@@ -211,7 +210,7 @@ like 8 things are half-done at once — they aren't.
 
 | Plan | State |
 |---|---|
-| [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) | **Set up 2026-07-05, awaiting Carl's go for Phase 1.** RUN-a-persona eval hub; merges Personas/Regression/Compare. All phases free except one $0.35 walk in Phase 3. |
+| [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) | **ACTIVE (see "Your move" up top).** Phase 1 ✅ (job service, walked 2026-07-05, `e148db2a`) · Phases 2–4 ⬜. RUN-a-persona eval hub; merges Personas/Regression/Compare. Only Phase 3 costs (~$0.35). |
 | [run-qa-fixes-jul04](docs/todo/run-qa-fixes-jul04/PLAN.md) | Phase 1 (C1 — strip tester notes) ✅ approved 2026-07-04 (committed `02d825c2`, walk waived); Phases 2–4 ⬜ (prompt changes — need a paid walk) |
 | [user-management](docs/todo/user-management/PLAN.md) | **ACTIVE (see "Your move" up top).** Phase 1 ✅ · Phase 2 ✅ (change role, `ac0359a7`, verified + closed 2026-07-05) · **Phase 3 🔨 (deactivate/reactivate) starting.** Phases 0, 4–5 ⬜. |
 | [planner-grounding](docs/todo/planner-grounding/PLAN.md) | parked — awaiting scope pick (A/B/C/all) |

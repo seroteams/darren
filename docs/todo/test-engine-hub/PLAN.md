@@ -19,7 +19,7 @@ Full background + architecture: the approved plan (2026-07-05, in Claude's plan 
 ## Phases
 | # | Phase | What it lands | Cost | Status |
 |---|---|---|---|---|
-| 1 | Persona-run job service | `POST /api/v1/persona-runs` + `GET .../current` with job state (fake runner) + run-history rows gain personaId/mode | free | 🔨 built, awaiting walk |
+| 1 | Persona-run job service | `POST /api/v1/persona-runs` + `GET .../current` with job state (fake runner) + run-history rows gain personaId/mode | free | ✅ walked (delegated) 2026-07-05 |
 | 2 | The runner | The real stage loop driving the engine end-to-end with scripted answers (offline-tested with injected fakes) | free | ⬜ |
 | 3 | Hub UI + first real run | ▶ Run button, progress, history badges on the Personas page; Carl clicks one real run | ~$0.35 | ⬜ |
 | 4 | Consolidation | Safety-check strip on the hub, nav slims to one entry, Compare deep-links from history | free | ⬜ |
@@ -27,11 +27,14 @@ Full background + architecture: the approved plan (2026-07-05, in Claude's plan 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 built 2026-07-05, awaiting Carl's walk.** Carl said GO same day the folder went up.
-- Baseline before building: `npm test` **62/62 PASS** · `npm run typecheck` clean.
-- Built: `backend/api/services/persona-runs/` (service + controller + 9 tests), routes in server.ts, `personaTagOf` on Library rows (+2 tests). Runner is an honest 5-second dry run (labels itself; real engine loop is Phase 2). No OpenAI calls anywhere.
-- After building: typecheck clean · new tests 21/21 · full suite 62/63 — the one fail is `universe.test.ts`, **Carl's in-flight WIP that changed mid-session** (passed at baseline, then modified outside this session; unrelated files).
-- Not committed yet — green light = commit.
+**Phase 1 ✅ done 2026-07-05 (committed `e148db2a`). Next: Phase 2 (the real runner) on Carl's go.**
+- Baseline before building: `npm test` 62/62 · typecheck clean. After: new tests 21/21, typecheck clean (the one suite fail was Carl's unrelated in-flight universe WIP).
+- **Walk delegated by Carl ("YOU TEST IT FOR ME") and run live 2026-07-05** against a throwaway API instance on :3002 with the dev side-door (the real :3001 stayed untouched; it correctly 401s a logged-out caller). Results, all pass:
+  - idle status when nothing runs ✓ · unknown persona → 404 plain message ✓ · missing personaId → 400 ✓
+  - real start → **202** ✓ · second start while running → **409** "a run is already going" ✓
+  - running status shows the honest dry-run label + startedAt ✓ · done after ~5s with finishedAt ✓ · slot frees after done (next start 202) ✓
+  - no OpenAI calls anywhere (dry runner) — $0 spend ✓
+- Note: the phase code was committed by a parallel session's checkpoint as a clean dedicated commit (`e148db2a`), so green-light-commit was already satisfied; this session added the walk record only.
 
 ## Parked
 - Refactor `planStream`'s scripted path and the runner's turn loop into one shared function (deliberate duplication for now — zero blast radius on the live session path).

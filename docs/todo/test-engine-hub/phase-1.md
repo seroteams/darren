@@ -1,6 +1,6 @@
 # Phase 1 — Persona-run job service (free)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built 2026-07-05, awaiting walk
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done 2026-07-05 — walk delegated to Claude by Carl ("you test it for me"); all scenarios passed live; committed `e148db2a`
 
 ## Goal
 The API gets a "start a persona run" door and a "how's it going" window — with all the guard rails — before any real engine work is wired in.
@@ -18,9 +18,9 @@ The API gets a "start a persona run" door and a "how's it going" window — with
 - Any UI (Phase 3).
 
 ## Done when
-- [ ] `npm test` all green, including the new mirrored tests
-- [ ] `npm run typecheck` clean
-- [ ] Product owner has tested the scenarios below and said go
+- [x] `npm test` all green, including the new mirrored tests (new tests 21/21; the one suite fail was Carl's unrelated in-flight universe WIP)
+- [x] `npm run typecheck` clean
+- [x] Product owner has tested the scenarios below and said go — **Carl delegated the walk to Claude 2026-07-05 ("YOU TEST IT FOR ME"); all scenarios verified live** (see PLAN.md "Current state" for the transcript summary)
 
 ## Test scenarios — for the product owner
 Walk through these yourself. Next phase waits for your green light. (This phase is backend-only, so the walk is two commands — I'll have them ready to paste.)
