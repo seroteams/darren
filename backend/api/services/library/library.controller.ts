@@ -8,11 +8,11 @@ import { fileLibraryRepo } from "./library.repo.ts";
 const service = createLibraryService();
 const repo = fileLibraryRepo;
 
-// The prefix this request came in on (/api/library or /api/v1/library), so the
-// bare-path redirect keeps the index's relative links under the right base.
+// The prefix this request came in on (/api/v1/library), so the bare-path
+// redirect keeps the index's relative links under the right base.
 function libraryBase(pathname: string): string {
   const i = pathname.indexOf("/library");
-  return i >= 0 ? pathname.slice(0, i) + "/library" : "/api/library";
+  return i >= 0 ? pathname.slice(0, i) + "/library" : "/api/v1/library";
 }
 
 export default async function library(c: RequestContext): Promise<void> {

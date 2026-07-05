@@ -1,6 +1,19 @@
 # Phase 5 — QA tools + Universe
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done — green-lit by Carl 2026-07-05 ("commit, its good")
+
+> Build notes (2026-07-05): scope shrank — Regression was deleted and Personas became the
+> "Test engine" page (test-engine-hub track), and Guide's overflow was already fixed in
+> Phase 4. Landed: Compare below 640px stacks each row (label full-width, A/B cells side
+> by side under it) and restacks the axis diffs (name + values on top, full-width track
+> below); the run pickers go full-width. Universe: `touch-action: none` on the canvas —
+> its pointer handlers already speak touch, the browser just kept stealing the drag for
+> page scroll; canvas sizing was already viewport-driven (ResizeObserver + 100dvh).
+> Verified live at 375: Compare, Test engine, Coaching phrases, Role words, Meeting arcs,
+> Universe — all zero page overflow; Compare row/axis stacking verified with injected
+> markup (my test account has no runs to diff). Mid-verification the new manager-ready
+> redirect landed and started bouncing my manager test account off internal tools — so
+> the final Universe touch-drag check is yours (admin account). Pinch-zoom stays parked.
 
 ## Goal
 The internal QA tools — Compare, Regression, Personas, Coaching phrases, Role words, Meeting arcs, Guide — get real phone layouts (stacked, not just scrollable), and Universe is navigable on touch.

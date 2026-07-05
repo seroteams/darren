@@ -124,7 +124,7 @@ const API = [
   ["Runs & review", "GET /api/v1/runs/{recent,finished,clonable} · /:id/{full,stages,overview} · POST /:id/review · /:id/archive · /runs/clone · DELETE /:id."],
   ["Members & team", "GET /api/v1/runs/mine · /runs/mine/:id · POST /runs/mine/:id/rating · GET /api/v1/team/aliases · POST /api/v1/team/{merge,rename}."],
   ["Lexicon", "GET /api/v1/sessions/:id/lexicon/{candidates,scope} · POST /:id/lexicon/decisions · GET /api/v1/lexicon/promotions/pending · POST /api/v1/lexicon/promotions."],
-  ["Admin tooling", "GET /api/v1/arcs · /role-lexicons · /pipeline/{status,manifest} · /regression/run · POST /checks/run · /suggest-fix."],
+  ["Admin tooling", "GET /api/v1/arcs · /role-lexicons · /pipeline/status · /regression/run · POST /checks/run · /suggest-fix."],
   ["Superadmin", "GET /api/v1/admin/registered · /admin/users/:id/runs · /admin/runs/:id (SUPERADMIN_EMAILS-gated, read-only)."],
   ["Meta", "GET /api/version · /api/v1/meeting-types · /api/v1/personas · POST /api/v1/feedback."],
 ];

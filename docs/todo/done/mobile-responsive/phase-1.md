@@ -1,6 +1,6 @@
 # Phase 1 — Responsive shell
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built 2026-07-05, awaiting Carl's walk
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done — green-lit by Carl 2026-07-05 ("commit, its good")
 
 ## Goal
 On screens narrower than 768px, the fixed left rail becomes a slide-in drawer behind a menu button, and the top chrome (mobile header + session topbar) stacks cleanly — so every other screen has room to work.

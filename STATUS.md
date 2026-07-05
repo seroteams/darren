@@ -28,26 +28,15 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > **Phase 1 built — the report is at [docs/audits/live-data-audit-2026-07-05.md](docs/audits/live-data-audit-2026-07-05.md), awaiting your read-through**
 > (scenarios in [phase-1.md](docs/todo/live-data-cleanup/phase-1.md)). Baseline: `npm test` **67/67**.
 
-> **🔨 NEW TRACK: [mobile-responsive](docs/todo/mobile-responsive/PLAN.md) — the whole app on a phone (started 2026-07-05).**
-> Carl's scope call: **all 38 screens, full polish**, own track, existing styles (no Flowbite re-skin here).
-> 5 phases: ① responsive shell (rail → drawer + mobile header) ② auth + member screens ③ run pipeline on a
-> phone ④ global sweep + admin core (tables, iOS zoom, touch targets) ⑤ QA tools + Universe.
-> **Phases 1–4 BUILT + browser-verified at 375×812 — all awaiting your walk (not committed; you said
-> "keep going"/"continue" after each).** P4: iOS-zoom fix (16px controls), sticky first column on the User
-> management/Error log tables, touch-height small buttons, Session popover clamped, long strings wrap —
-> and a real find: **/guide overflowed 27px at phone width, fixed**. Start/Library/Tasks/Guide live-verified
-> zero overflow; `npm test` **69/69**. Only Phase 5 (QA tools + Universe) remains — its scope shrank since
-> Personas/Regression/Compare merged into "Test engine".
-> P1: below 768px the rail is a slide-in drawer behind a ☰ header;
-> in-session the stage bar goes compact under it; desktop untouched (verified at 1280). P2: auth + member
-> screens mostly already fit; fixed placeholder clipping + header-row wrap. P3 (pipeline): axis bars restack,
-> briefing action labels stack, interview answer buttons go full-width, glossary/confirm modal caps to the
-> screen (live-verified). No paid runs made — the end-to-end pipeline walk is yours. Free checks:
-> `npm test` 67/67 · typecheck · build. Walk: devtools phone mode (or real phone via Vite `--host`) →
-> scenarios in [phase-1](docs/todo/mobile-responsive/phase-1.md) · [phase-2](docs/todo/mobile-responsive/phase-2.md)
-> · [phase-3](docs/todo/mobile-responsive/phase-3.md) (member screens need your Dev Member login).
-> A throwaway account `mobile-qa@test.local` was created walking the register scenario — delete at will.
-> Next after your green lights: Phase 4 (global sweep + admin tables).
+> **✅ [mobile-responsive](docs/todo/done/mobile-responsive/PLAN.md) — the whole app on a phone: CLOSED 2026-07-05 (all 5 phases green-lit same day, "commit, its good").**
+> All 38 screens now work at phone width, desktop untouched: below 768px the rail is a slide-in drawer
+> behind a ☰ header with a compact in-session stage bar; auth/member/pipeline screens fit and type without
+> iOS zoom; User management/Error log tables scroll with the first column pinned; Compare stacks; Universe
+> takes touch drags. A real /guide 27px overflow was found + fixed on the way. ~600 additive CSS lines +
+> small JS in app-nav/session-topbar/universe; no engine changes; no paid runs; final checks `npm test`
+> 69/69 · typecheck · build. Leftovers parked in the archived PLAN (member bottom tabs, Universe pinch,
+> UM card view). Cleanup for you whenever: delete throwaway `mobile-qa@test.local`.
+> **design.css is quiet now — manager-ready Phase 2 is unblocked.**
 
 > **🔨 [page-heartbeat](docs/todo/page-heartbeat/PLAN.md) — real UPDATE buttons (started 2026-07-05).**
 > From the 25-page audit: Guide, Universe and the Tasks board were hand-typed snapshots of the app;

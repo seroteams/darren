@@ -541,7 +541,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
   root.innerHTML = `
     <style>
       .uni { position: relative; width: 100%; height: 100dvh; overflow: hidden; background: #04060f; }
-      .uni canvas { position: absolute; inset: 0; display: block; cursor: grab; }
+      .uni canvas { position: absolute; inset: 0; display: block; cursor: grab; touch-action: none; /* touch drags go to the pointer handlers, not page scroll */ }
       .uni.is-dragging canvas { cursor: grabbing; }
       .uni__hud { position: absolute; top: 20px; left: 24px; color: #dbe7ff; pointer-events: none; max-width: 340px; }
       .uni__hud h1 { font-size: 22px; font-weight: 700; margin: 0 0 2px; letter-spacing: 0.02em; }

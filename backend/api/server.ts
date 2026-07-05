@@ -88,10 +88,10 @@ function originOk(req: IncomingMessage): boolean {
 }
 
 // Admin tooling requires a logged-in owner/admin (admin-access-guard Phase 2). adminV1
-// keeps the one v1 error shape; adminLegacy wraps the bare /api aliases + the library
-// stream. (Runs endpoints gate themselves in the controller via requireAdmin.)
+// keeps the one v1 error shape; adminRaw wraps the library stream, which manages its
+// own response. (Runs endpoints gate themselves in the controller via requireAdmin.)
 const adminV1 = (h: RouteHandler): RouteHandler => v1Route(requireAdminRoute(h));
-const adminLegacy = (h: RouteHandler): RouteHandler => requireAdminRoute(h);
+const adminRaw = (h: RouteHandler): RouteHandler => requireAdminRoute(h);
 
 // Superadmin tooling (pre-go-live PG6) — cross-company, gated to the SUPERADMIN_EMAILS
 // allowlist. Every /api/v1/admin/* route funnels through requireSuperadminRoute, so a route
@@ -155,16 +155,17 @@ function main(): void {
   // error log — the superadmin's cross-company view of every error users hit (error-log
   // Phase 2). Superadmin-gated like the rest of /admin/*; read-only, newest first.
   router.add("GET", "/api/v1/admin/errors", superadminV1(errorLog.list));
+  router.add("PATCH", /^\/api\/v1\/admin\/errors\/(?<id>[^/]+)\/resolve$/, superadminV1((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return errorLog.resolve(c);
+  }));
 
   // catalog — first domain on the v1 layer (controller → service → repo).
-  // v1 routes use the one error shape (v1Route); the legacy /api/ paths stay as
-  // aliases on the same controller with the old error shape (decision D1/D2).
+  // v1 routes use the one error shape (v1Route).
   router.add("GET", "/api/v1/meeting-types", v1Route(catalog.getMeetingTypes));
   router.add("GET", "/api/v1/personas", v1Route(catalog.getPersonas));
-  router.add("GET", "/api/meeting-types", catalog.getMeetingTypes);
-  router.add("GET", "/api/persona-bench", catalog.getPersonas);
   // arcs (controller → service → repo). v1 uses the one error shape and throws
-  // forbidden on bad origin; the legacy /api/ aliases keep the old shape (D1/D2).
+  // forbidden on bad origin.
   // v1 mirrors today's verb/path (POST save); the contract's PATCH is deferred polish.
   router.add("GET", "/api/v1/arcs", adminV1(arcs.list));
   router.add("POST", /^\/api\/v1\/arcs\/(?<slug>[a-z0-9_]+)\/reset$/, adminV1((c) => {
@@ -175,78 +176,41 @@ function main(): void {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return arcs.save(c);
   }));
-  router.add("GET", "/api/arcs", adminLegacy(arcs.list));
-  router.add("POST", /^\/api\/arcs\/(?<slug>[a-z0-9_]+)\/reset$/, adminLegacy((c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return arcs.reset(c);
-  }));
-  router.add("POST", /^\/api\/arcs\/(?<slug>[a-z0-9_]+)$/, adminLegacy((c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return arcs.save(c);
-  }));
   // start — create a session (controller → service → repo + S0 seam; the AI
   // pre-warm is injected). The origin guard + per-IP rate limit are HTTP concerns,
-  // so they stay here in front of both routes. v1 creates on the collection
-  // (POST /api/v1/sessions, decision D4) with the one error shape; legacy
-  // /api/start keeps the old flat error shape so the admin is unaffected.
+  // so they stay here in front of the route. v1 creates on the collection
+  // (POST /api/v1/sessions, decision D4) with the one error shape.
   router.add("POST", "/api/v1/sessions", v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     if (rateLimitIp(c.req)) throw rateLimited("Rate limit exceeded");
     return sessions.start(c);
   }));
-  router.add("POST", "/api/start", (c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    if (rateLimitIp(c.req)) return c.error(Object.assign(new Error("Rate limit exceeded"), { status: 429 }));
-    return sessions.start(c);
-  });
   // sessions — the live 1:1 runner (controller → service → repo, the S0 seam). v1
   // takes the id IN THE PATH (/api/v1/sessions/:id…, decision D4) with the one error
-  // shape; legacy /api/ keeps ?s=<id> so the admin is unaffected. S1a: the two pure
-  // session-state reads (snapshot + lexicon scope); the rest follow per sub-pass.
+  // shape. S1a: the two pure session-state reads (snapshot + lexicon scope).
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)$/, v1Route(sessions.snapshot));
-  router.add("GET", "/api/session", sessions.snapshot);
   // role-profile is a session read (S1b) — now on the sessions controller. v1 nests
-  // it under the session resource (/sessions/:id/role-profile); legacy ?s= unchanged.
+  // it under the session resource (/sessions/:id/role-profile).
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/role-profile$/, v1Route(sessions.roleProfile));
-  router.add("GET", "/api/role-profile", sessions.roleProfile);
-  // role-lexicons (controller → service → repo). v1 uses the one error shape;
-  // legacy /api/ paths are aliases on the same controller (D1/D2).
+  // role-lexicons (controller → service → repo). v1 uses the one error shape.
   router.add("GET", "/api/v1/role-lexicons", adminV1(roleLexicons.list));
-  router.add("GET", "/api/role-lexicons", adminLegacy(roleLexicons.list));
   router.add("POST", "/api/v1/role-lexicons/term", adminV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
-    return roleLexicons.addTerm(c);
-  }));
-  router.add("POST", "/api/role-lexicons/term", adminLegacy((c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return roleLexicons.addTerm(c);
   }));
   router.add("POST", "/api/v1/role-lexicons/term/remove", adminV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return roleLexicons.removeTerm(c);
   }));
-  router.add("POST", "/api/role-lexicons/term/remove", adminLegacy((c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return roleLexicons.removeTerm(c);
-  }));
   router.add("POST", "/api/v1/role-lexicons/term/hide", adminV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
-    return roleLexicons.hideTerm(c);
-  }));
-  router.add("POST", "/api/role-lexicons/term/hide", adminLegacy((c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return roleLexicons.hideTerm(c);
   }));
   router.add("POST", "/api/v1/role-lexicons/term/unhide", adminV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return roleLexicons.unhideTerm(c);
   }));
-  router.add("POST", "/api/role-lexicons/term/unhide", adminLegacy((c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return roleLexicons.unhideTerm(c);
-  }));
   router.add("GET", "/api/v1/regression/run", adminV1(regression.run));
-  router.add("GET", "/api/regression/run", adminLegacy(regression.run));
   // persona-runs — start a scripted full-engine run (paid; the click is the
   // go-ahead) + poll its progress. One at a time, enforced in the service.
   router.add("POST", "/api/v1/persona-runs", adminV1((c) => {
@@ -258,71 +222,41 @@ function main(): void {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return checks(c);
   }));
-  router.add("POST", "/api/checks/run", adminLegacy((c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return checks(c);
-  }));
   // question is a session read (S1b) — now on the sessions controller. v1 nests it
-  // under the session resource (/sessions/:id/question); legacy ?s= unchanged.
+  // under the session resource (/sessions/:id/question).
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/question$/, v1Route(sessions.question));
-  router.add("GET", "/api/question", sessions.question);
   // suggest-answers is an AI JSON read (S3) — now on the sessions controller (model
   // behind an injected boundary). v1 nests it under the session resource.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/suggest-answers$/, v1Route(sessions.suggestAnswers));
-  router.add("GET", "/api/suggest-answers", sessions.suggestAnswers);
   // sessions non-AI writes (S2b) — now on the sessions controller. v1 nests each
   // under the session resource (/sessions/:id/…) with the one error shape + origin
-  // guard; legacy /api/ keeps body.sessionId + the old flat shape (admin unaffected).
+  // guard.
   router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/answer$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return sessions.answer(c);
   }));
-  router.add("POST", "/api/answer", (c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return sessions.answer(c);
-  });
   router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/back$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return sessions.back(c);
   }));
-  router.add("POST", "/api/back", (c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return sessions.back(c);
-  });
   router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/notes$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return sessions.notes(c);
   }));
-  router.add("POST", "/api/notes", (c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return sessions.notes(c);
-  });
   router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/agenda\/cover$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return sessions.agendaCover(c);
   }));
-  router.add("POST", "/api/agenda/cover", (c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return sessions.agendaCover(c);
-  });
   router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/verdict$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return sessions.verdict(c);
   }));
-  router.add("POST", "/api/verdict", (c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return sessions.verdict(c);
-  });
   // suggest-fix — the prompt-fix suggester (controller → service → repo + an
   // injected AI boundary; the one runs route that calls the model). v1 mirrors
   // today's path (runId stays in the body; the contract's id-in-path
-  // /runs/:id/suggest-fix is deferred polish); legacy alias on the same controller.
+  // /runs/:id/suggest-fix is deferred polish).
   router.add("POST", "/api/v1/suggest-fix", adminV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
-    return suggestFix.suggest(c);
-  }));
-  router.add("POST", "/api/suggest-fix", adminLegacy((c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return suggestFix.suggest(c);
   }));
   // heartbeat — the "what does the app look like right now" snapshot the Guide
@@ -331,13 +265,9 @@ function main(): void {
   router.add("GET", "/api/v1/heartbeat", adminV1(heartbeat.snapshot));
 
   router.add("GET", "/api/v1/pipeline/status", adminV1(pipeline.status));
-  router.add("GET", "/api/pipeline/status", adminLegacy(pipeline.status));
-  router.add("GET", "/api/v1/pipeline/manifest", adminV1(pipeline.manifest));
-  router.add("GET", "/api/pipeline/manifest", adminLegacy(pipeline.manifest));
   // runs — finished-run history + Run Review (controller → service → repo). v1
   // mirrors today's paths under /api/v1/ (the contract's bare /:id and ?status=
-  // merge are deferred REST polish); legacy /api/runs/* stay as aliases on the
-  // same controller. Mutating routes throw forbidden on v1, c.error on legacy.
+  // merge are deferred REST polish). Mutating routes throw forbidden.
   // member's own runs (member-nav Phase 2) — logged-in members only (NOT admin), fenced
   // to the caller's userId. Registered before the admin runs routes so the literal /mine
   // isn't shadowed; plain v1Route (no adminV1). The admin runs endpoints below are unchanged.
@@ -386,93 +316,54 @@ function main(): void {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return runs.archive(c);
   }));
-  router.add("GET", "/api/runs/recent", runs.recent);
-  router.add("GET", "/api/runs/finished", runs.finished);
-  router.add("GET", /^\/api\/runs\/(?<id>[^/]+)\/full$/, runs.full);
-  router.add("GET", /^\/api\/runs\/(?<id>[^/]+)\/stages$/, runs.stages);
-  router.add("GET", /^\/api\/runs\/(?<id>[^/]+)\/overview$/, runs.overview);
-  router.add("DELETE", /^\/api\/runs\/(?<id>[^/]+)$/, (c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return runs.del(c);
-  });
-  router.add("POST", /^\/api\/runs\/(?<id>[^/]+)\/review$/, (c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return runs.review(c);
-  });
-  router.add("POST", /^\/api\/runs\/(?<id>[^/]+)\/archive$/, (c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return runs.archive(c);
-  });
   // library serves files (not JSON), so it manages its own responses — no v1Route.
-  router.add("GET", /^\/api\/v1\/library(?<rest>\/.*)?$/, adminLegacy(library));
-  router.add("GET", /^\/api\/library(?<rest>\/.*)?$/, adminLegacy(library));
+  router.add("GET", /^\/api\/v1\/library(?<rest>\/.*)?$/, adminRaw(library));
   // lexicon/candidates is an AI JSON read (S3) — now on the sessions controller
   // (the per-session lexicon reviewer, model behind an injected boundary). With this
   // the last route leaves handlers/lexicon.ts. v1 nests it under the session resource.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/lexicon\/candidates$/, v1Route(sessions.lexiconCandidates));
-  router.add("GET", "/api/lexicon/candidates", sessions.lexiconCandidates);
   // lexicon scope is a session read — now on the sessions controller (S1a). v1 nests
-  // it under the session resource (/sessions/:id/lexicon/scope); legacy path unchanged.
+  // it under the session resource (/sessions/:id/lexicon/scope).
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/lexicon\/scope$/, v1Route(sessions.lexiconScope));
-  router.add("GET", "/api/lexicon/scope", sessions.lexiconScope);
   // lexicon/decisions is a sessions non-AI write (S2b) — now on the sessions
   // controller. (candidates stays in handlers/lexicon.ts for S3, the AI route.)
   router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/lexicon\/decisions$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return sessions.lexiconDecisions(c);
   }));
-  router.add("POST", "/api/lexicon/decisions", (c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return sessions.lexiconDecisions(c);
-  });
   // lexicon promotion (controller → service → repo). v1 nounifies the collection
-  // (/promotions — a free, shape-neutral rename); legacy /promote stays as an alias
-  // on the same controller (D1/D2). Per-session lexicon stays in handlers/lexicon.ts.
+  // (/promotions — a free, shape-neutral rename). Per-session lexicon stays in
+  // handlers/lexicon.ts.
   router.add("GET", "/api/v1/lexicon/promotions/pending", adminV1(lexiconPromote.pending));
   router.add("POST", "/api/v1/lexicon/promotions", adminV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
-    return lexiconPromote.apply(c);
-  }));
-  router.add("GET", "/api/lexicon/promote/pending", adminLegacy(lexiconPromote.pending));
-  router.add("POST", "/api/lexicon/promote", adminLegacy((c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return lexiconPromote.apply(c);
   }));
   // focus-points/stream is an SSE stream (S4) — now on the sessions controller.
   // It manages its own response, so NO v1Route (like library); v1 just nests the
   // path under the session resource. The shared stream-helper.ts stays in handlers/.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/focus-points\/stream$/, sessions.focusPointsStream);
-  router.add("GET", "/api/focus-points/stream", sessions.focusPointsStream);
   // focus-points/select is a sessions non-AI write (S2b) — now on the sessions
   // controller.
   router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/focus-points\/select$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return sessions.selectedFocus(c);
   }));
-  router.add("POST", "/api/focus-points/select", (c) => {
-    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
-    return sessions.selectedFocus(c);
-  });
   // preparation/stream is an SSE stream (S4) — now on the sessions controller. Like
   // focus-points it manages its own response, so NO v1Route; v1 just nests the path.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/preparation\/stream$/, sessions.preparationStream);
-  router.add("GET", "/api/preparation/stream", sessions.preparationStream);
   // bank/stream is an SSE stream (S4) — now on the sessions controller. Like
   // focus-points it manages its own response, so NO v1Route; v1 just nests the path.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/bank\/stream$/, sessions.bankStream);
-  router.add("GET", "/api/bank/stream", sessions.bankStream);
   // plan/stream is an SSE stream (S4) — now on the sessions controller. Like
   // focus-points it manages its own response, so NO v1Route; v1 just nests the path.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/plan\/stream$/, sessions.planStream);
-  router.add("GET", "/api/plan/stream", sessions.planStream);
   // evaluation/stream is an SSE stream (S4) — now on the sessions controller. Like
   // focus-points it manages its own response, so NO v1Route; v1 just nests the path.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/evaluation\/stream$/, sessions.evaluationStream);
-  router.add("GET", "/api/evaluation/stream", sessions.evaluationStream);
   // preview is a session read (S1b) — now on the sessions controller. v1 nests it
-  // under the session resource (/sessions/:id/preview); legacy ?s=&stage= unchanged.
+  // under the session resource (/sessions/:id/preview).
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/preview$/, v1Route(sessions.preview));
-  router.add("GET", "/api/preview", sessions.preview);
 
   const staticHandler = IS_PROD ? createStaticHandler(CLIENT_DIST) : null;
 

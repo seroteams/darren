@@ -1,6 +1,16 @@
 # Phase 2 — Auth + member screens
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done — green-lit by Carl 2026-07-05 ("commit, its good")
+
+> Build notes (2026-07-05): the member screens turned out to be nearly mobile-ready — the
+> 375px walk found only two real papercuts, both fixed in `design.css`: long placeholders
+> now end in "…" instead of clipping mid-word (register's Company hint), and
+> `.page-header__row` wraps below 640px so a long page title (a person's name) can't crush
+> the Tidy up / Back button. Verified live at 375px: login, register (walked for real —
+> created throwaway account `mobile-qa@test.local`, feel free to delete), privacy, about,
+> feedback — zero horizontal overflow. Team/Runs/run-detail/person-detail were verified at
+> markup level (same card-stack primitives as the walked pages) — they need a member login,
+> which is the point of your walk below.
 
 ## Goal
 Everything a member or manager sees outside a run — login, register, privacy, about, feedback, Home, Team, Past 1:1s, run detail, person detail — reads and taps comfortably at phone width.

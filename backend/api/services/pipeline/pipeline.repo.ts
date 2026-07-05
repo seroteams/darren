@@ -4,11 +4,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import {
-  scanPipelineNow,
-  readPipelineLockFromDir,
-  manifestCounts,
-} from "../../../engine/pipeline-lock.ts";
+import { readPipelineLockFromDir } from "../../../engine/pipeline-lock.ts";
 import {
   findRunDir,
   findLatestRunWithLock,
@@ -32,8 +28,6 @@ export interface PipelineRepo {
   findRunDir(id: string): string | null;
   readLock(dir: string): PipelineLock;
   readHeadline(dir: string): string | null;
-  scanNow(): { capturedAt: unknown; aggregates: unknown };
-  manifestCounts(): unknown;
 }
 
 export const filePipelineRepo: PipelineRepo = {
@@ -51,6 +45,4 @@ export const filePipelineRepo: PipelineRepo = {
       return null;
     }
   },
-  scanNow: () => scanPipelineNow(),
-  manifestCounts: () => manifestCounts(),
 };

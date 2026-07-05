@@ -7,7 +7,6 @@ import type { PipelineRepo, PipelineLock } from "./pipeline.repo.ts";
 
 export interface PipelineService {
   status(baselineParam: string): ReturnType<typeof buildPipelineStatus>;
-  manifest(): { capturedAt: unknown; aggregates: unknown; manifestCounts: unknown };
 }
 
 export function createPipelineService(repo: PipelineRepo): PipelineService {
@@ -51,15 +50,6 @@ export function createPipelineService(repo: PipelineRepo): PipelineService {
         body.baseline.hasLock = baselineHasLock;
       }
       return body;
-    },
-
-    manifest() {
-      const current = repo.scanNow();
-      return {
-        capturedAt: current.capturedAt,
-        aggregates: current.aggregates,
-        manifestCounts: repo.manifestCounts(),
-      };
     },
   };
 }

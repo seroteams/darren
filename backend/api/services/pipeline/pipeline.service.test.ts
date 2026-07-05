@@ -11,8 +11,6 @@ function baseRepo(over: Partial<PipelineRepo>): PipelineRepo {
     findRunDir: () => null,
     readLock: () => null,
     readHeadline: () => null,
-    scanNow: () => ({ capturedAt: 0, aggregates: {} }),
-    manifestCounts: () => ({}),
     ...over,
   };
 }
@@ -41,16 +39,4 @@ test("status(id) reads that run's dir, lock and headline", () => {
   assert.equal(body.baseline.runId, "r3");
   assert.equal(body.baseline.headline, "H3");
   assert.equal(body.baseline.hasLock, false);
-});
-
-test("manifest passes the scan + counts straight through", () => {
-  const repo = baseRepo({
-    scanNow: () => ({ capturedAt: 42, aggregates: { a: 1 } }),
-    manifestCounts: () => ({ n: 3 }),
-  });
-  assert.deepEqual(createPipelineService(repo).manifest(), {
-    capturedAt: 42,
-    aggregates: { a: 1 },
-    manifestCounts: { n: 3 },
-  });
 });

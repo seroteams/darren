@@ -76,7 +76,8 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     sessionBtn.setAttribute("aria-expanded", "true");
 
     const rect = sessionBtn.getBoundingClientRect();
-    popover.style.left = `${Math.round(rect.left)}px`;
+    // Clamp to the viewport — at phone widths an unclamped popover can hang off-screen.
+    popover.style.left = `${Math.round(Math.max(8, Math.min(rect.left, window.innerWidth - popover.offsetWidth - 8)))}px`;
 
     popover.querySelector(".js-save").addEventListener("click", () => {
       closePopover();

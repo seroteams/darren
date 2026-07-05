@@ -200,7 +200,7 @@
   --sero-radius-xl: 16px;
   --sero-radius-2xl: 24px;
   --sero-radius-full: 9999px;
-  --sero-radius-button: var(--sero-radius-md);
+  --sero-radius-button: var(--sero-radius-sm); /* 4px — matches Figma + DESIGN.md (manager-ready P2) */
   --sero-radius-input: var(--sero-radius-sm);
   --sero-radius-card: var(--sero-radius-lg);
   --sero-radius-modal: var(--sero-radius-lg);
@@ -301,6 +301,7 @@
      plus leading / weight / tracking tokens. Safe variant: existing rendered
      sizes (display/h2/h3/body/small) are preserved.
      ========================================================================= */
+  --type-family-display: "Bricolage Grotesque Variable", "InterVariable", "Inter", ui-sans-serif, system-ui, sans-serif; /* display headings (DESIGN.md §3, manager-ready P2) */
   --type-display: clamp(2.75rem, 6vw, 3.5rem);    /* hero */
   --type-h1: clamp(2rem, 4.2vw, 2.75rem);         /* large page title */
   --type-h2: clamp(1.75rem, 3.5vw, 2.25rem);
@@ -412,6 +413,7 @@ textarea { resize: vertical; }
 /* Section-style heading helpers — sentence case, per style.md.
    Token-driven; rendered sizes unchanged from prior hardcoded values. */
 .text-display {
+  font-family: var(--type-family-display);
   font-size: var(--type-display);
   font-weight: var(--type-weight-bold);
   letter-spacing: var(--type-tracking-tighter);
@@ -420,6 +422,7 @@ textarea { resize: vertical; }
 }
 .h1 {
   /* kept mapped to display size for back-compat */
+  font-family: var(--type-family-display);
   font-size: var(--type-display);
   font-weight: var(--type-weight-bold);
   letter-spacing: var(--type-tracking-tighter);
@@ -427,6 +430,7 @@ textarea { resize: vertical; }
   color: var(--color-ink);
 }
 .h2 {
+  font-family: var(--type-family-display);
   font-size: var(--type-h2);
   font-weight: var(--type-weight-semibold);
   letter-spacing: var(--type-tracking-tight);

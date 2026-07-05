@@ -1,6 +1,17 @@
 # Phase 3 — Run pipeline on a phone
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done — green-lit by Carl 2026-07-05 ("commit, its good")
+
+> Build notes (2026-07-05): less to do than planned — the flow glossary and stage-review
+> overlay already handle phones (existing `min()`/`dvh` sizing), and the answer-button row
+> already wrapped. Landed below 480px: axis bars restack (name + score on top, full-width
+> bar below — the old 3-column grid left the bar ~6 characters wide), briefing action-row
+> labels sit above their text, interview answer buttons become stacked full-width thumb
+> targets. Plus: the confirm/alert modal (glossary, delete-session) now caps to the screen
+> and scrolls inside — pulled forward from Phase 4 because the glossary is a Phase 3
+> scenario; verified live at 375px (glossary fits, 780px tall, scrolls). Axis + button
+> stacking verified with injected markup at 375px; a real run's screens are your walk —
+> no paid run was made.
 
 ## Goal
 A manager can run a complete 1:1 prep — intake to briefing — on a phone: type answers with the keyboard up, hit every button with a thumb, read the briefing without pinching.

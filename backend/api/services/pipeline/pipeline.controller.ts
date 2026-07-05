@@ -9,7 +9,3 @@ const service = createPipelineService(filePipelineRepo);
 export function status(c: RequestContext): void {
   c.json(200, service.status(c.query.baseline || "latest"));
 }
-
-export function manifest(c: RequestContext): void {
-  c.json(200, service.manifest());
-}
