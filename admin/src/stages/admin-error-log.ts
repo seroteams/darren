@@ -6,6 +6,7 @@
 // environment (Local/Live) and source (API/Browser); a row opens an inline detail (stack +
 // context) with a Mark-resolved / Reopen action. Resolved rows hide unless "Show resolved".
 
+import "../styles/error-log.css";
 import { getErrorLog, resolveError } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
@@ -102,7 +103,7 @@ function errorRow(row: ErrorRow, open: boolean): string {
 
 function table(rows: ErrorRow[], open: Set<string>): string {
   return `
-    <div class="um-table-wrap">
+    <div class="um-table-wrap el-panel">
       <table class="um-table el-table">
         <thead>
           <tr>

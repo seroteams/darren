@@ -1,0 +1,80 @@
+/* Error log (error-log Phase 2–4). Kept in its OWN file, imported by the stage, so concurrent
+   rewrites of design.css can't clobber it (which is exactly what happened once). Uses the
+   global CDS tokens defined in design.css :root, with fallbacks on the structural props. */
+
+/* The table sits on its own white card so it reads as a distinct surface on the tinted page. */
+.el-panel {
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, #e8e8e8);
+  border-radius: var(--radius-card, 12px);
+  box-shadow: var(--shadow-card, 0 1px 3px rgba(16, 24, 40, 0.06));
+  overflow-x: auto; /* wide tables scroll here, clipped to the rounded corners */
+}
+.el-table { width: 100%; border-collapse: collapse; background: var(--color-surface, #fff); }
+.el-table th {
+  text-align: left; padding: 10px 14px; white-space: nowrap;
+  font-size: var(--type-caption, 14px); font-weight: var(--type-weight-semibold, 600);
+  color: var(--color-ink-mute, #757575); border-bottom: 1px solid var(--color-border, #e8e8e8);
+}
+.el-table td {
+  padding: 11px 14px; vertical-align: middle;
+  color: var(--color-ink, #303030); border-bottom: 1px solid var(--color-border, #e8e8e8);
+}
+.el-table tbody tr:last-child td { border-bottom: none; }
+
+/* Rows: white by default, a clear hover, and a highlight when opened. */
+.el-row { cursor: pointer; transition: background-color 0.12s ease; }
+.el-row:hover > td { background: var(--sero-active-state-bg, #eef6fd); }
+.el-row.is-open > td { background: var(--sero-primary-100, #f5fafd); }
+.el-row--resolved > td { opacity: 0.6; }
+
+.el-when { color: var(--color-ink-dim, #5f5f5f); white-space: nowrap; }
+.el-sub, .el-src { font-size: var(--type-caption, 14px); color: var(--color-ink-dim, #5f5f5f); margin-top: 2px; }
+.el-route { font-family: var(--font-mono, ui-monospace, monospace); font-size: var(--type-caption, 14px); color: var(--color-ink-dim, #5f5f5f); }
+.el-msg { color: var(--color-ink, #303030); }
+.el-anon { color: var(--color-ink-mute, #757575); font-style: italic; }
+
+/* Pills. */
+.el-pill {
+  display: inline-block; padding: 1px 9px; border-radius: var(--sero-radius-badge, 999px);
+  font-size: var(--type-caption, 14px); font-weight: var(--type-weight-medium, 500); line-height: 1.6; white-space: nowrap;
+}
+.el-pill--live    { background: var(--sero-primary-200, #e9f3fb);  color: var(--sero-primary-800, #1b5d91); }
+.el-pill--local   { background: var(--sero-soft-500, #f2f2f2);     color: var(--sero-soft-800, #757575); }
+.el-pill--api     { background: transparent; border: 1px solid var(--color-border, #e8e8e8); color: var(--color-ink-dim, #5f5f5f); }
+.el-pill--browser { background: var(--sero-lavender-200, #f4f1fa); color: var(--sero-lavender-800, #55358f); }
+.el-pill--err     { background: var(--sero-coral-200, #feeae8);    color: var(--sero-coral-800, #ac1608); }
+.el-pill--warn    { background: var(--sero-gold-200, #faecd9);     color: var(--sero-gold-800, #7a4f0a); }
+.el-pill--done    { background: var(--sero-soft-500, #f2f2f2);     color: var(--sero-soft-800, #757575); }
+
+/* Filters: two segmented controls + a show-resolved toggle. */
+.el-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
+.el-control { display: inline-flex; align-items: center; gap: 8px; }
+.el-control__label { font-size: var(--type-caption, 14px); color: var(--color-ink-mute, #757575); font-weight: var(--type-weight-medium, 500); }
+.el-filters { display: inline-flex; gap: 3px; padding: 3px; background: var(--sero-soft-400, #f6f6f6); border-radius: var(--sero-radius-badge, 999px); }
+.el-filter {
+  border: 0; background: transparent; cursor: pointer; font: inherit;
+  font-size: var(--type-body-sm, 14px); font-weight: var(--type-weight-medium, 500); color: var(--color-ink-dim, #5f5f5f);
+  padding: 4px 14px; border-radius: var(--sero-radius-badge, 999px); line-height: 1.4;
+}
+.el-filter:hover { color: var(--color-ink, #303030); }
+.el-filter.is-active { background: var(--color-surface, #fff); color: var(--color-ink, #303030); box-shadow: var(--shadow-card, 0 1px 2px rgba(16, 24, 40, 0.08)); }
+.el-filter__n { color: var(--color-ink-mute, #757575); font-size: var(--type-caption, 14px); margin-left: 3px; }
+.el-resolved-toggle { border: 1px solid var(--color-border, #e8e8e8); background: transparent; }
+.el-resolved-toggle.is-active { background: var(--sero-primary-200, #e9f3fb); color: var(--sero-primary-800, #1b5d91); border-color: transparent; box-shadow: none; }
+
+/* Row detail (click a row to open it). */
+.el-detail-row > td { padding: 0; background: var(--sero-primary-100, #f5fafd); border-bottom: 1px solid var(--color-border, #e8e8e8); }
+.el-detail { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+.el-detail__meta { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: var(--type-body-sm, 14px); color: var(--color-ink-dim, #5f5f5f); }
+.el-detail__meta b { color: var(--color-ink, #303030); font-weight: var(--type-weight-medium, 500); }
+.el-detail__meta code { font-family: var(--font-mono, ui-monospace, monospace); }
+.el-detail__msg { font-size: var(--type-body-sm, 14px); color: var(--color-ink, #303030); }
+.el-stack {
+  margin: 0; max-height: 260px; overflow: auto; padding: 12px;
+  background: var(--color-surface, #fff); border: 1px solid var(--color-border, #e8e8e8); border-radius: var(--radius-card, 12px);
+  font-family: var(--font-mono, ui-monospace, monospace); font-size: var(--type-caption, 14px); line-height: 1.5;
+  color: var(--color-ink, #303030); white-space: pre-wrap; word-break: break-word;
+}
+.el-ua { font-size: var(--type-caption, 14px); color: var(--color-ink-dim, #5f5f5f); }
+.el-detail__actions { display: flex; gap: 8px; }
