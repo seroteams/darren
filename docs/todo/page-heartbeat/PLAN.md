@@ -16,14 +16,16 @@ changes" button only covers build + meeting types + arcs — the rest of the pag
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Heartbeat endpoint + Guide goes live | `GET /api/v1/heartbeat` (screens, commands, axes, question count, build) + Guide sections render from it; UPDATE = refresh + plain-words changelog | 🔨 built — awaiting walk |
+| 1 | Heartbeat endpoint + Guide goes live | `GET /api/v1/heartbeat` (screens, commands, axes, question count, build) + Guide sections render from it; UPDATE = refresh + plain-words changelog | ✅ |
 | 2 | Universe honest ring | Pipeline ring derived from the app's real flow stages; Update reports added/removed/renamed stages | ⬜ |
 | 3 | Tasks board reality check | "Check board" reports what landed since last check (commits, plan folders) and flags stale-looking rows | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 BUILT + machine-verified 2026-07-05 — awaiting Carl's walk (not committed; green light = commit).**
+**Phase 1 ✅ — walked + green-lit by Carl 2026-07-05 ("ALL GOOD"); code committed `4e4ea787`. Next: Phase 2 (Universe ring), waiting for Carl's go on a fresh session/day.**
+
+Phase 1 detail (for the record):
 - Landed: `backend/api/services/heartbeat/` (repo + service + controller + 8 tests), route `GET /api/v1/heartbeat` (admin-gated), `getHeartbeat()` in shared/api.js, guide.js Screens + Commands sections now render live + the UPDATE button diffs screens/commands/axes/question count on top of build/types/arcs.
 - After: `npm test` **65/65** · both typechecks clean.
 - Verified live in the browser: first-check snapshot ✓ · "No changes" ✓ · dummy file added → "Screens added: test-page.js" under "New screens — not yet grouped" with its own header comment ✓ · deleted → "Screens removed" ✓. Bonus: the live list fixed a standing lie (old page said `team.js`; the real file is `team.ts`).

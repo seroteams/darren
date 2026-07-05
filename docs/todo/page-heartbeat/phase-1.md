@@ -1,6 +1,6 @@
 # Phase 1 — Heartbeat endpoint + Guide goes live
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built — awaiting your walk (scenarios below)
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done — walked + green-lit by Carl 2026-07-05 ("ALL GOOD")
 
 ## Goal
 The Guide page's UPDATE button really re-reads the codebase (via a new server endpoint), redraws the stale-prone sections from it, and reports what changed in plain words.
@@ -24,7 +24,7 @@ The Guide page's UPDATE button really re-reads the codebase (via a new server en
 ## Done when
 - [x] `npm test` green with the new service tests · `npm run typecheck` no new errors (65/65 · clean, 2026-07-05)
 - [x] /guide screens + commands sections match the repo (dummy-file add/remove verified in the browser 2026-07-05)
-- [ ] Product owner has tested the scenarios below and said go
+- [x] Product owner has tested the scenarios below and said go ("ALL GOOD", 2026-07-05)
 
 ## Test scenarios — for the product owner
 Walk through these yourself. Next phase waits for your green light.

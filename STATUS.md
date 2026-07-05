@@ -13,25 +13,31 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > Carl's scope call: **all 38 screens, full polish**, own track, existing styles (no Flowbite re-skin here).
 > 5 phases: ① responsive shell (rail → drawer + mobile header) ② auth + member screens ③ run pipeline on a
 > phone ④ global sweep + admin core (tables, iOS zoom, touch targets) ⑤ QA tools + Universe.
-> **Phase 1 🔨 building now** — drawer/header/topbar/notes. Your walk when it's up: phone or devtools phone
-> mode — drawer works for both roles, in-session chrome stacks, desktop untouched. No paid runs in this track.
+> **Phase 1 BUILT + browser-verified at 375×812 — awaiting your walk (not committed).** Below 768px the rail
+> is now a slide-in drawer behind a ☰ header; in-session the stage bar goes compact under it; desktop is
+> untouched (rail + hover-expand verified at 1280). Free checks green: `npm test` 65/65 · typecheck · build.
+> Walk it: phone mode in devtools (or real phone via Vite `--host`) → scenarios in
+> [phase-1.md](docs/todo/mobile-responsive/phase-1.md). No paid runs in this track.
 
-> **🔨 NEW TRACK: [page-heartbeat](docs/todo/page-heartbeat/PLAN.md) — real UPDATE buttons (started 2026-07-05).**
-> From today's 25-page audit: Guide, Universe and the Tasks board are hand-typed snapshots of the app;
+> **🔨 [page-heartbeat](docs/todo/page-heartbeat/PLAN.md) — real UPDATE buttons (started 2026-07-05).**
+> From the 25-page audit: Guide, Universe and the Tasks board were hand-typed snapshots of the app;
 > everything else already refreshes itself. 3 phases: ① heartbeat endpoint + Guide · ② Universe ring ·
 > ③ Tasks board reality check (warns, never rewrites your statuses).
-> **Phase 1 BUILT + browser-verified — awaiting your walk (not committed).** New `GET /api/v1/heartbeat`
-> re-reads the repo per request; /guide's Screens + Commands now render from it and "Check for changes"
-> reports adds/removals in plain words (proven with a dummy file, both directions). `npm test` 65/65,
-> both typechecks clean. The :3001 API already restarted onto this code — **walk /guide anytime**, scenarios
-> in [phase-1.md](docs/todo/page-heartbeat/phase-1.md). Baseline before edits: 63/63 · typechecks clean.
+> **Phase 1 ✅ — walked + green-lit by Carl 2026-07-05 ("ALL GOOD"), code committed `4e4ea787`.**
+> `GET /api/v1/heartbeat` re-reads the repo per request; /guide's Screens + Commands render from it and
+> "Check for changes" reports adds/removals in plain words (proven with a dummy file, both directions).
+> `npm test` 65/65 · both typechecks clean. **Next: Phase 2 — Universe's pipeline ring goes honest** (⬜,
+> waiting for Carl's go).
 
-> **🔨 [design-system](docs/todo/design-system/PLAN.md) — Sero × Flowbite (started 2026-07-05, queued behind page-heartbeat).**
-> Carl confirmed the Sero look is **Flowbite 2.5.2 + his colours** (the Figma is the Flowbite kit recoloured).
-> Building: a one-page component sheet (`admin/public/sero-flowbite/index.html`) in Sero colours, then an
-> auto-loaded root `DESIGN.md` so every future screen matches. No re-skin of existing screens (incremental
-> adoption). UI-idea folders (`newdesign*`, `newui`, `sero-original`) already removed; stale `dist` remnant
-> cleaned. Phase 1 next: the component sheet → your eyeball vs Figma.
+> **🔨 [design-system](docs/todo/design-system/PLAN.md) — Sero × Flowbite. Phase 1 ✅ green-lit ("NICE LETS GO", `d7651e7f`) · Phase 2 BUILT, awaiting walk (2026-07-05).**
+> The Sero look = **Flowbite 2.5.2 + Carl's colours**. Done: component sheet at
+> `admin/public/sero-flowbite/index.html` (nav: Admin → Design system) with colours, type, buttons, badges,
+> inputs (both variants), **toasts/alerts**, **the one table style**, cards, dropdown+modal, nav, side panel,
+> the **10-rule "before you build" checklist**, and the component inventory. Full-app UI audit done (top
+> drifts: inputs/dropdowns/progress/errors ×2 each, inline hex in 8 files — future cleanups, parked).
+> **Phase 2 built:** root `DESIGN.md` (auto-loads every session — verified `hasDesign: true`), archived doc
+> banner, memory saved. **Walk:** (1) sheet still looks right, (2) ask any fresh agent to mock a small screen
+> — it should come out Sero without being told. Green light = commit + close out to done/.
 
 > **🔨 [error-log](docs/todo/error-log/PLAN.md) — NEW track, built 2026-07-05 on Carl's "GO GO".**
 > A superadmin **Error log** screen: every error any user hits, across **your local dev and the published live
