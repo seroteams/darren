@@ -12,6 +12,12 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**✅ Closed (2026-07-05): Design system — Sero × Flowbite.** The Sero look (Flowbite 2.5.2 + Carl's
+colours, straight from his Figma method) is now codified: a visual **component sheet**
+(`admin/public/sero-flowbite/index.html`, in-app under Admin → Design system) + a root **`DESIGN.md`**
+that auto-loads for every agent, every session — with a 10-rule "before you build" checklist. New and
+touched screens follow it; **no bulk re-skin** (Carl's call). Plan → [done/](docs/todo/done/design-system/PLAN.md).
+
 **▶ Active line: pre-go-live — a manager tool worth coming back to.** New track (2026-07-01), 9 phases,
 one at a time: the manager's own **Runs** list + reopen, **rate a 1:1** (1–5★, Carl sees all), **Team**
 auto-built from past 1:1s + person detail, and a **superadmin** read-only window on the whole alpha
