@@ -1,6 +1,6 @@
 # Phase 2 — Guest lane frontend: entry + boot/router
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built 2026-07-05 — awaiting Carl's walk
 
 ## Goal
 A logged-out visitor can click "Try it — no account needed" on the login screen and land straight in the intake questions — and a mid-run page reload puts them right back where they were.

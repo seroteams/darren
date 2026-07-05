@@ -2,7 +2,7 @@
 // (hidden from managers, manager-ready Phase 1) vs admin-only vs member destinations.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isInternalStage, isAdminStage, isMemberStage } from "./router.js";
+import { isInternalStage, isAdminStage, isMemberStage, isGuestStage } from "./router.js";
 import { STAGES } from "./state.js";
 
 test("isInternalStage: the workshop is internal-only", () => {
@@ -16,6 +16,21 @@ test("isInternalStage: a manager's own destinations are NOT internal-only", () =
   for (const s of [STAGES.START, STAGES.REVIEW_RUN, STAGES.INTAKE, STAGES.TEAM, STAGES.RUNS,
     STAGES.MEMBER_HOME, STAGES.ABOUT, STAGES.FEEDBACK]) {
     assert.equal(isInternalStage(s), false, `${s} stays manager-reachable`);
+  }
+});
+
+test("isGuestStage: a guest may take a run — intake + the run flow, nothing else", () => {
+  // The guest lane (guest-run Phase 2): intake and the run stages are reachable
+  // with no account…
+  for (const s of [STAGES.INTAKE, STAGES.FOCUS_POINTS, STAGES.PREPARATION, STAGES.BANK,
+    STAGES.QUESTIONING, STAGES.EVAL, STAGES.BRIEFING]) {
+    assert.equal(isGuestStage(s), true, `${s} is guest-reachable`);
+  }
+  // …but the internal QA debrief, dashboards, history and admin tooling are not.
+  for (const s of [STAGES.RUN_DEBRIEF, STAGES.START, STAGES.RUNS, STAGES.RUN_DETAIL,
+    STAGES.MEMBER_HOME, STAGES.TEAM, STAGES.TASKS, STAGES.UNIVERSE, STAGES.LIBRARY,
+    STAGES.ADMIN_REGISTERED, STAGES.ADMIN_ERROR_LOG, STAGES.LEXICON_REVIEW]) {
+    assert.equal(isGuestStage(s), false, `${s} needs an account`);
   }
 });
 

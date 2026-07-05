@@ -29,7 +29,12 @@
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ green-lit 2026-07-05 ("A") · Phase 2 🔨 (guest lane frontend) building.**
+**Phase 1 ✅ green-lit 2026-07-05 ("A") · Phase 2 BUILT same day — awaiting Carl's walk.**
+Phase 2: test-first (`isGuestStage` red→green); 73/73 tests · both typechecks clean. Browser-proven logged-out
+(via 127.0.0.1, which skips the login cookie): guest link on login (14px) → intake at /new → reload stays →
+/interview with no session → login → /tasks as guest → login → no rail/badge for guests → logged-in login
+still lands on START. Note: this session's login.js commit also carries another track's in-flight login-photos
+work (declared in the commit message — same "one commit declares both" precedent as manager-ready).
 Phase 1 record: baseline before touching: `npm test` 72/72 · typecheck clean.
 Built test-first (5 cap tests + 4 claim tests, red→green); after: **73/73 · typecheck clean**. Live-proven at $0 on a
 scratch API (:3011, garbage AI key, no DB): guest start 201 → second 429 with the exact plain message → restart keeps

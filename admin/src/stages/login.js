@@ -5,17 +5,28 @@
 import { STAGES, isAdmin } from "../state.js";
 import { login, me } from "../../../shared/api.js";
 
+// Optimised copies (1200px tall, ~90KB) of the /images Pexels originals live in
+// admin/public/login/ — one is picked at random per visit.
+const LOGIN_PHOTOS = [
+  "/login/pexels-alex-green-5699419.jpg",
+  "/login/pexels-cottonbro-4861338.jpg",
+  "/login/pexels-george-milton-6953779.jpg",
+  "/login/pexels-ketut-subiyanto-4623308.jpg",
+  "/login/pexels-sarah-chai-7267386.jpg",
+];
+
 export async function mount(root, { setState }) {
   // Login is a full-bleed split screen: form on the left, photo on the right.
   // Break the stage out of its centered/padded default for this screen only.
   root.classList.add("stage--auth");
+  const photo = LOGIN_PHOTOS[Math.floor(Math.random() * LOGIN_PHOTOS.length)];
   root.innerHTML = `
     <div class="auth-split">
       <div class="auth-split__form">
         <div class="auth-panel l-stack l-stack--6">
           <div class="auth-brand">
             <img class="auth-brand__logo" src="/logo.png" alt="" aria-hidden="true" />
-            <h1 class="auth-brand__title">Sero — where teams thrive</h1>
+            <h1 class="auth-brand__title">Sero - where teams thrive</h1>
             <p class="auth-brand__sub">Your 1:1s are broken. Let's fix that.</p>
           </div>
           <form class="l-stack l-stack--4 js-form" novalidate>
@@ -34,10 +45,14 @@ export async function mount(root, { setState }) {
             No account yet?
             <button type="button" class="link js-to-register">Create one</button>
           </p>
+          <p class="text-ink-dim text-sm">
+            Just curious?
+            <button type="button" class="link js-try-guest">Try it — no account needed</button>
+          </p>
         </div>
       </div>
       <div class="auth-split__media" aria-hidden="true">
-        <img class="auth-split__img" src="/login.jpg" alt="" onerror="this.remove()" />
+        <img class="auth-split__img" src="${photo}" alt="" onerror="this.remove()" />
       </div>
     </div>
   `;
@@ -81,48 +96,50 @@ export async function mount(root, { setState }) {
 
   form.addEventListener("submit", onSubmit);
   root.querySelector(".js-to-register").addEventListener("click", () => setState({ stage: STAGES.REGISTER }));
+  // The guest lane (guest-run Phase 2): straight into intake, no account. A fresh
+  // run every time — any stale remembered session id is dropped so boot can't pull
+  // a visitor into an old run.
+  root.querySelector(".js-try-guest").addEventListener("click", () => {
+    try { localStorage.removeItem("seroSessionId"); } catch {}
+    setState({ user: null, sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
+  });
 
-  // Dev convenience — prefill a local dev account so you're never locked out while
-  // testing, with a one-click swap between the ADMIN (owner) and a STANDARD (member)
-  // account for exercising the role wall. Every visit defaults to Admin. Credentials
-  // come from your local .env only (VITE_DEV_LOGIN_EMAIL / _PASSWORD for admin,
-  // VITE_DEV_LOGIN_MEMBER_EMAIL / _PASSWORD for standard — see .env.example); no
-  // credentials live in source. Without them the prefill simply doesn't appear. The
-  // whole block is stripped from production builds (import.meta.env.DEV is false there).
-  const devAdminEmail = import.meta.env.DEV ? import.meta.env.VITE_DEV_LOGIN_EMAIL : undefined;
-  if (devAdminEmail) {
-    const ADMIN = {
-      label: "Admin",
-      email: devAdminEmail,
-      password: import.meta.env.VITE_DEV_LOGIN_PASSWORD || "",
-    };
-    const memberEmail = import.meta.env.VITE_DEV_LOGIN_MEMBER_EMAIL;
-    const STANDARD = memberEmail
-      ? {
-          label: "Standard user",
-          email: memberEmail,
-          password: import.meta.env.VITE_DEV_LOGIN_MEMBER_PASSWORD || "",
-        }
-      : null;
-
-    // A small dev-only line under the form — reuses the same `.link` style as "Create one".
+  // Dev convenience — prefill a local test account so you're never locked out while
+  // testing, cycling through the three-login setup: MANAGER (the real end user under
+  // test) → ADMIN (Carl / internal) → MEMBER (a managed team member). Every visit
+  // defaults to Manager. Credentials come from your local .env only
+  // (VITE_DEV_LOGIN_MANAGER_* / _ADMIN_* / _MEMBER_* — see .env.example); no
+  // credentials live in source. Accounts with unset vars just drop out of the cycle;
+  // with none set the prefill doesn't appear. The whole block is stripped from
+  // production builds (import.meta.env.DEV is false there).
+  const devEnv = import.meta.env.DEV ? import.meta.env : {};
+  const DEV_ACCOUNTS = [
+    { label: "Manager", email: devEnv.VITE_DEV_LOGIN_MANAGER_EMAIL, password: devEnv.VITE_DEV_LOGIN_MANAGER_PASSWORD || "" },
+    { label: "Admin", email: devEnv.VITE_DEV_LOGIN_ADMIN_EMAIL, password: devEnv.VITE_DEV_LOGIN_ADMIN_PASSWORD || "" },
+    { label: "Member", email: devEnv.VITE_DEV_LOGIN_MEMBER_EMAIL, password: devEnv.VITE_DEV_LOGIN_MEMBER_PASSWORD || "" },
+  ].filter((a) => a.email);
+  if (DEV_ACCOUNTS.length > 0) {
+    // A small dev-only line under the form showing ALL test logins at once — click one
+    // to fill it. The current pick is bold; reuses the `.link` style from "Create one".
     const swap = document.createElement("p");
     swap.className = "text-ink-dim text-sm js-dev-swap";
     root.querySelector(".js-to-register").closest("p").before(swap);
 
-    function fill(role) {
-      emailEl.value = role.email;
-      passwordEl.value = role.password;
-      const other = role === ADMIN ? STANDARD : ADMIN;
-      if (other) {
-        swap.innerHTML = `Dev login: <strong>${role.label}</strong> — <button type="button" class="link js-swap">use ${other.label.toLowerCase()}</button>`;
-        swap.querySelector(".js-swap").addEventListener("click", () => fill(other));
-      } else {
-        swap.innerHTML = `Dev login: <strong>${role.label}</strong>`;
-      }
+    function fill(i) {
+      const acct = DEV_ACCOUNTS[i];
+      emailEl.value = acct.email;
+      passwordEl.value = acct.password;
+      swap.innerHTML = "Dev login: " + DEV_ACCOUNTS.map((a, j) =>
+        j === i
+          ? `<strong>${a.label}</strong>`
+          : `<button type="button" class="link js-swap" data-i="${j}">${a.label}</button>`
+      ).join(" · ");
+      swap.querySelectorAll(".js-swap").forEach((b) =>
+        b.addEventListener("click", () => fill(Number(b.dataset.i)))
+      );
     }
 
-    fill(ADMIN); // default to admin every visit
+    fill(0); // default to the manager every visit
     requestAnimationFrame(() => submitBtn.focus({ preventScroll: true }));
   } else {
     requestAnimationFrame(() => emailEl.focus({ preventScroll: true }));

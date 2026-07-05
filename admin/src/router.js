@@ -93,6 +93,14 @@ export const isMemberStage = (stage) => MEMBER_ONLY.has(stage);
 const SHARED = new Set([STAGES.PRIVACY, STAGES.ABOUT, STAGES.FEEDBACK]);
 export const isSharedStage = (stage) => SHARED.has(stage);
 
+// The guest lane (guest-run Phase 2): a visitor with NO account may take a run —
+// intake plus the run stages — and nothing else. Deliberately its own set (not
+// SHARED, which is content pages): the internal QA debrief (RUN_DEBRIEF) and the
+// lexicon review are excluded, so a guest's run ends at the briefing.
+const GUEST_OK = new Set([STAGES.INTAKE, ...FLOW]);
+GUEST_OK.delete(STAGES.RUN_DEBRIEF);
+export const isGuestStage = (stage) => GUEST_OK.has(stage);
+
 export function parseLocation() {
   const p = window.location.pathname.replace(/\/+$/, "") || "/";
   if (STAGE_FOR[p]) return { stage: STAGE_FOR[p] };

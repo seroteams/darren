@@ -9,6 +9,16 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
+> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — NEW track (started 2026-07-05). Phase 1 (people table + roster service) 🔨 building.**
+> Your ask: members should only see their own 1:1s → the real build (option B): managers formally
+> **have** members. Investigation first: the current fence works but is creator-based (a real member's
+> list would be EMPTY — the full demo list is seed data, not a leak), and "1:1s about me" is impossible
+> today because the person in a 1:1 is free text with no link to any account. Plan: a `people` roster
+> table (org+manager fenced, linkable to a user account later) · new runs stamp `personId` · backfill
+> old runs via the alias files · intake person picker + roster-driven Team page · member "Your 1:1s"
+> via the person→account link. ⚠️ Privacy: members get **list-only** (type + date + manager) — no notes,
+> no briefing; anything richer is your call (parked: `member-run-visibility`). 5 phases, one at a time.
+
 > **🔨 [feedback-inbox](docs/todo/feedback-inbox/PLAN.md) — NEW track (started 2026-07-05). Phase 1 (the whole slice) BUILT, awaiting your walk.**
 > Your ask: a page that shows what testers send via "Send feedback", with its own DB table.
 > Done in one slice, the error-log pattern: **`feedback_notes` table live on Neon** (migration
@@ -22,8 +32,14 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > whichever track commits first carries them). ⚠️ **Restart your dev API** before walking on
 > :3000/:3001. Walk: [phase-1.md](docs/todo/feedback-inbox/phase-1.md).
 
-> **🔨 [guest-run](docs/todo/guest-run/PLAN.md) — Phase 1 ✅ green-lit · Phase 2 (guest front door) 🔨 building (2026-07-05).**
+> **🔨 [guest-run](docs/todo/guest-run/PLAN.md) — Phase 1 ✅ · Phase 2 (guest front door) BUILT, awaiting your walk (2026-07-05).**
 > Your "open way first" idea: no-account visitor runs a full 1:1, saves it at the end by registering/logging in.
+> **P2 BUILT:** "Try it — no account needed" on the login screen → straight into intake; mid-run reload returns
+> a guest to their run; back/forward + deep links bounce guests off everything internal; logged-in flows
+> untouched. Test-first (`isGuestStage`), 73/73 · both typechecks · browser-proven logged-out (via 127.0.0.1,
+> which skips the login cookie). **Walk:** the 4 scenarios in [phase-2.md](docs/todo/guest-run/phase-2.md) —
+> browse as a guest, do NOT press the final start (that's Phase 3's paid walk). Commit note: login.js also
+> carries another track's in-flight login-photos work (declared in the commit).
 > **P1 built test-first (claim endpoint + daily guest cap):** anonymous starts are back open but budgeted —
 > `GUEST_RUNS_PER_DAY` (default 10) across all guests/day, plain "come back tomorrow" refusal, counter survives
 > restarts; `POST /api/v1/sessions/:id/claim` hands an ownerless run to the newly logged-in caller (owned-by-

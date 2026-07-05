@@ -5,7 +5,7 @@ import "./styles/design.css";
 
 import { STAGES, store, subscribe, setState, resetSession, isAdmin, isInternalAdmin } from "./state.js";
 import { getSession, listRecentRuns, runRegression, me } from "../../shared/api.js";
-import { syncUrl, parseLocation, startPopstate, isFlowStage, isInternalStage, isMemberStage, isSharedStage } from "./router.js";
+import { syncUrl, parseLocation, startPopstate, isFlowStage, isInternalStage, isMemberStage, isSharedStage, isGuestStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createBuildStamp } from "./ui/build-stamp.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
@@ -135,6 +135,15 @@ subscribe((s) => {
 });
 
 startPopstate((parsed) => {
+  // A guest (no account, guest-run Phase 2) only has the guest lane — intake, the
+  // run stages, and the auth/content pages. Any other back/forward destination
+  // (dashboards, history, admin screens) bounces to login.
+  if (!store.user
+      && !isGuestStage(parsed.stage) && !isSharedStage(parsed.stage)
+      && parsed.stage !== STAGES.LOGIN && parsed.stage !== STAGES.REGISTER) {
+    setState({ stage: STAGES.LOGIN });
+    return;
+  }
   // A plain member only has their past 1:1s (member-view: only-runs) — any other
   // back/forward destination (admin screens, the prep flow, Team, the old Home) bounces to
   // Past 1:1s. Their own runs (RUNS / RUN_DETAIL) and shared content pages pass through.
@@ -170,7 +179,8 @@ startPopstate((parsed) => {
   }
   if (isFlowStage(parsed.stage)) {                 // only valid with a live session
     if (store.sessionId) setState({ stage: parsed.stage, stageTick: store.stageTick + 1 });
-    else setState({ stage: STAGES.START });
+    // No session: a logged-in user goes home; a guest has no home — back to login.
+    else setState({ stage: store.user ? STAGES.START : STAGES.LOGIN });
     return;
   }
   if (parsed.stage === STAGES.INTAKE) { setState({ stage: STAGES.INTAKE, substage: "NAME" }); return; }
@@ -219,8 +229,26 @@ async function boot() {
   const route = parseLocation();
 
   if (!identity) {
-    // Logged out: only the auth screens + the public privacy note are reachable; honor a
-    // /register or /privacy deep link, otherwise send to login.
+    // Logged out: the auth screens, the public privacy note, and the GUEST lane
+    // (guest-run Phase 2) are reachable — intake plus a mid-run reload back into a
+    // live guest session (the id in localStorage is the way back in; the server
+    // already lets an anonymous caller reach an ownerless session). Anything else
+    // sends to login.
+    if (route?.stage === STAGES.INTAKE) {
+      setState({ user: null, stage: STAGES.INTAKE, substage: "NAME" });
+      return;
+    }
+    if (route && isGuestStage(route.stage)) {
+      let rehydrated = false;
+      try {
+        const id = localStorage.getItem("seroSessionId");
+        if (id) rehydrated = await rehydrateById(id); // sets the real stage from the snapshot
+      } catch (e) {
+        console.warn("[boot] guest rehydrate failed:", e);
+      }
+      if (!rehydrated) setState({ user: null, stage: STAGES.LOGIN });
+      return;
+    }
     let loggedOutStage = STAGES.LOGIN;
     if (route?.stage === STAGES.REGISTER) loggedOutStage = STAGES.REGISTER;
     else if (route?.stage === STAGES.PRIVACY) loggedOutStage = STAGES.PRIVACY;
