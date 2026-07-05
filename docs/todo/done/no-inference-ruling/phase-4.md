@@ -1,6 +1,6 @@
 # Phase 4 — Hardening (S1–S4)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 BUILT 2026-07-05 — awaiting Carl's walk
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ (walked live with Carl 2026-07-05 — fixtures run, rules block shown, "go")
 
 **Build notes (2026-07-05):**
 - S1: identical `<no_inference_rules>` block (the six spec §2 rules) added near the top of all four prompts.
@@ -31,7 +31,7 @@ Belt-and-braces: the six spec rules live verbatim in the prompts, axes can't sco
 - [x] Six rules present in all four prompts; offline checks green (`npm test` 76/76 · typecheck ✓).
 - [x] New adversarial cases pass against the Phase 2 gates (fixtures-only, $0 — 6 end-to-end assertions).
 - [x] `outcomeCheck` in the contract + roundtrip test.
-- [ ] Product owner has tested the scenarios below and said go.
+- [x] Product owner walked the scenarios (fixtures run live in chat + rules block shown) and said go. (2026-07-05)
 
 ## Test scenarios — for the product owner
 1. **Rules are in the prompts** — open any of the four prompt files; each has a clearly-marked block with the six rules.

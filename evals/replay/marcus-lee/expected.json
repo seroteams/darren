@@ -23,8 +23,8 @@
         "score": -2,
         "meaning": "Weak concern, worth checking: he shrugged off less team contact and moved back to client work fast.",
         "read_status": "read",
-        "confidence": "medium",
-        "evidence_basis": "mixed"
+        "confidence": "low",
+        "evidence_basis": "concentrated_signal"
       },
       {
         "id": "clarity",

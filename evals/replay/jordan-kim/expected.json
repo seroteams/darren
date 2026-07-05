@@ -16,7 +16,7 @@
         "meaning": "Weak wellbeing signal: he said strategy work gives energy, but the note is about preference, not strain.",
         "read_status": "read",
         "confidence": "low",
-        "evidence_basis": "axis_state_only"
+        "evidence_basis": "concentrated_signal"
       },
       {
         "id": "engagement",

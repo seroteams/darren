@@ -21,17 +21,18 @@ the real gap is the three unbuilt gates.
 | 1 | Fix the spec + docs rule (M1 + S5) | Spec re-aimed at `engagement_read`, test-matrix claim corrected, "never train on manager notes" standing rule | ✅ |
 | 2 | The three gates (M3 + M4 + M5) | `INFERRED_STATE_LEAK` / `THIN_INPUT_SUPPRESSION` / `EVIDENCE_ANCHOR` in trust-checks + <15-token rule in all four prompts + source-reference field | ✅ |
 | 3 | Re-spec `engagement_read` (M2) | Contract + final-evaluation prompt + downstream renderers; needs one paid gate case (~$0.35, Carl's go) | ✅ |
-| 4 | Hardening (S1–S4) | Six rules verbatim in prompts, axis evidence thresholds, adversarial golden cases, `outcomeCheck` field | 🔨 |
+| 4 | Hardening (S1–S4) | Six rules verbatim in prompts, axis evidence thresholds, adversarial golden cases, `outcomeCheck` field | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 4 BUILT 2026-07-05 ("go phase 4"), awaiting Carl's walk — scenarios + build notes in phase-4.md.**
-All free: six rules in all four prompts, single-touch axis cap (calibrated, 3 baselines re-frozen,
-confidence-fields only), end-to-end adversarial fixtures, `outcomeCheck` contract field with a pg-roundtrip
-proof. `npm test` **76/76** · typecheck ✓ · replay 7/7 · $0 this phase. Uncommitted.
-**Phase 3 ✅ green-lit + committed `181611fa` ("A" — confirming paid run PASS, observed_shift note-anchored,
-echo fix live-proven; track spend ~$0.70).**
+**CLOSED 2026-07-05 — all 4 phases ✅ green-lit same day, folder → done/. Track spend ~$0.70 (two gate cases).**
+The no-inference ruling is enforced end-to-end: the spec points at real code; three hard gates
+(`INFERRED_STATE_LEAK` · `THIN_INPUT_SUPPRESSION` · `EVIDENCE_ANCHOR`) run on every eval with no carve-outs;
+`engagement_read` carries no state labels (echo bug caught live + fixed + gated); the six rules sit verbatim
+in all four prompts; single-touch axis claims are capped; adversarial fixtures lock it all in; `outcomeCheck`
+seeds loop-closure. Final: `npm test` 76/76 · typecheck ✓ · replay 7/7.
+Phase commits: P1 `2693dcea` · P2 `705926c2` · P3 `181611fa` · P4 (this close-out commit).
 `engagement_read` re-specced (`read_status` + `observed_shift`, state-label enum gone), legacy runs normalised,
 renderer handles both shapes, replay baselines re-frozen (7/7 PASS), carve-out removed. Paid case ran (PASS,
 ~$0.35 — track spend so far ~$0.35) and caught a real rule-echo in `observed_shift`; prompt fixed + a new

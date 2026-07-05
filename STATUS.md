@@ -82,17 +82,15 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > "built — awaiting walk". **Walk:** the 5 scenarios in [phase-1.md](docs/todo/guest-run/phase-1.md) (all free).
 > Green light → Phase 2 (the "Try it" front door). Then: ③ save-at-end (one paid walk, your go) · ④ Guest runs screen.
 
-> **🔨 [no-inference-ruling](docs/todo/no-inference-ruling/PLAN.md) — P1–P3 ✅ committed · P4 (hardening, the LAST phase) BUILT 2026-07-05, awaiting your walk.**
-> **P4 BUILT (uncommitted, all free):** the six no-inference rules now sit verbatim at the top of **all four
-> prompts**; a **single-touch axis cap** stops any strong axis claim (|score| ≥ 3) standing on one answer
-> (`insufficient_signal` instead — calibrated so the three blessed single-touch |2| reads survive, capped at
-> low confidence); **end-to-end adversarial fixtures** ("quiet quitting" note, 5-token note, near-empty note)
-> run through the same pipeline tail as the paid gate; **`outcomeCheck`** ("yes|partly|no|changed") is in the
-> session contract with a Postgres-roundtrip proof — the loop-closure seed the ruling replaces inference with.
-> `npm test` **76/76** · typecheck ✓ · replay 7/7 (3 baselines re-frozen, confidence fields only) · $0.
-> **Walk:** scenarios in [phase-4.md](docs/todo/no-inference-ruling/phase-4.md). Green light → commit + the
-> folder closes to done/ (track total ~$0.70). Prior: P3 ✅ `181611fa` (engagement_read re-spec, echo fix
-> live-proven) · P2 ✅ `705926c2` (the three gates) · P1 ✅ `2693dcea` (spec fix). Routing nudges parked.
+> **✅ [no-inference-ruling](docs/todo/done/no-inference-ruling/PLAN.md) — CLOSED 2026-07-05, all 4 phases green-lit same day (Carl walked P4 live: "awesome run it" → "go").**
+> The MoSCoW review of the prompt-improvement spec, built end-to-end: the spec now points at the **real** field
+> (`engagement_read`, not the ghost `disengagementSignal`); **three hard gates** (`INFERRED_STATE_LEAK` ·
+> `THIN_INPUT_SUPPRESSION` · `EVIDENCE_ANCHOR`) run on every eval with no carve-outs; `engagement_read` carries
+> **no state labels** (a live rule-echo bug was caught on the first paid case, fixed + gated, then live-proven
+> clean); the **six no-inference rules** sit verbatim in all four prompts; single-touch axis claims are capped;
+> adversarial fixtures ("quiet quitting" note, 5-token note) lock it in; `outcomeCheck` seeds loop-closure.
+> Final: `npm test` **76/76** · typecheck ✓ · replay 7/7 · spend **~$0.70** (two gate cases, both Carl-OK'd).
+> Commits `2693dcea` `705926c2` `181611fa` + close-out. Routing nudges stay parked in the archived PLAN.
 
 > **🔨 [frontend-admin-split](docs/todo/frontend-admin-split/PLAN.md) — RESTARTED on the Darren check (2026-07-05): Phase 2 BUILT, awaiting your walk.**
 > The customer app is now **real**: `npm run dev:customer` → **http://localhost:3002** — login/register,

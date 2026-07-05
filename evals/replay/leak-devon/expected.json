@@ -16,7 +16,7 @@
         "meaning": "Weak wellbeing signal; the conversation was mostly about scope and visibility, not stated stress or fatigue.",
         "read_status": "read",
         "confidence": "low",
-        "evidence_basis": "axis_state_only"
+        "evidence_basis": "concentrated_signal"
       },
       {
         "id": "engagement",
