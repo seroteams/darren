@@ -19,16 +19,17 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > close before widening" decision is consciously reversed for invited demos (Phase 1 writes the reversal note).
 > **Walk:** read [PLAN.md](docs/todo/guest-run/PLAN.md) + the 4 phase files. Green light → baseline (free) + Phase 1.
 
-> **🔨 [no-inference-ruling](docs/todo/no-inference-ruling/PLAN.md) — MoSCoW review done, Phase 1 BUILT, awaiting your read (2026-07-05).**
-> Reviewed [the prompt-improvement spec](docs/sero-prompt-improvement-spec.md) against the real code. Big find:
-> the spec's "highest risk" field `disengagementSignal` **doesn't exist** — the live one is `engagement_read`,
-> and it *does* carry the state labels the ruling bans. The prompts are already mostly compliant; the real gap
-> is the **three unbuilt gates** (INFERRED_STATE_LEAK · THIN_INPUT_SUPPRESSION · EVIDENCE_ANCHOR). 4 phases:
-> ① fix the spec + training-ban rule (**built** — spec now points at `engagement_read`, honest about the 8-case
-> test set; CLAUDE.md §6 has the "never train on manager notes" rule) · ② the three gates · ③ `engagement_read`
-> re-spec (one paid case, ~$0.35, your go) · ④ hardening. Routing nudges parked. Baseline `npm test` **69/70**
-> (the one fail is another session's mid-work `scenario-pack.test.ts`, pre-existing). **Walk:** the 3 read-through
-> scenarios in [phase-1.md](docs/todo/no-inference-ruling/phase-1.md). Green light → commit + Phase 2.
+> **🔨 [no-inference-ruling](docs/todo/no-inference-ruling/PLAN.md) — Phase 1 ✅ green-lit + committed ("go please", 2026-07-05) · Phase 2 ⬜ next, your go.**
+> The MoSCoW review of [the prompt-improvement spec](docs/sero-prompt-improvement-spec.md). Big find: the spec's
+> "highest risk" field `disengagementSignal` **doesn't exist** — the live one is `engagement_read`, and it *does*
+> carry the state labels the ruling bans. The prompts are already mostly compliant; the real gap is the **three
+> unbuilt gates** (INFERRED_STATE_LEAK · THIN_INPUT_SUPPRESSION · EVIDENCE_ANCHOR).
+> **P1 ✅:** spec re-aimed at `engagement_read`, honest about the 8-case test set, CLAUDE.md §6 gained "never
+> train on manager notes" + a future-contract guard. A second-AI review was vetted: its "Engine 2.0 handoff"
+> basis isn't in this repo, but 4 logic points folded in (gate carve-out until Phase 3, <15-token definition,
+> manager-facing surface rule, axis justification). Baseline `npm test` **69/70** (1 pre-existing fail, another
+> session's mid-work). **Next: Phase 2 — the three gates** (free, offline-testable) · ③ `engagement_read`
+> re-spec (one paid case ~$0.35, your go) · ④ hardening. Routing nudges parked.
 
 > **🔨 [frontend-admin-split](docs/todo/frontend-admin-split/PLAN.md) — RESTARTED on the Darren check (2026-07-05): Phase 2 BUILT, awaiting your walk.**
 > The customer app is now **real**: `npm run dev:customer` → **http://localhost:3002** — login/register,

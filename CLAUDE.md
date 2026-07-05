@@ -68,6 +68,7 @@ The phase rituals:
 These are recurring corrections, promoted from memory so they hold every session:
 
 - **Engine honesty — no silent masking.** Surface raw model output. Detect problems and flag them; never hardcode text rewrites to hide them.
+- **Never train or fine-tune on manager notes about employees.** Manager-authored notes are input for the current session only — never training data, in any form (per the no-inference ruling, [docs/sero-prompt-improvement-spec.md](docs/sero-prompt-improvement-spec.md)).
 - **Focus arc gate.** Bi-weekly and "feels-off" meeting types exclude competencies. Respect the input filter and the `FOCUS_ARC_LEAK` gate.
 - **Plain language.** User-facing copy and my own replies stay short and jargon-free.
 - **TITLE — slim, top of every reply.** The reply opens with one short line: `📌 <plain-words summary of what Carl just asked>` — his current request, not what I did. Only a ⚠️ guardrail block may sit above it. No more top `🧭 ORIGINALLY` line — the original-task anchor now lives inside the bottom box (below).
