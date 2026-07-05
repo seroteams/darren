@@ -383,6 +383,38 @@ test("preview assembles the FOCUS_POINTS payload for a fresh session (no API cal
   assert.ok(out.prompt.includes("weekly")); // meetingType filled in → real assembly, not a stub
 });
 
+test("preview assembles the BANK payload when focus points are ready (no API call)", () => {
+  const s = fakeSession("abc");
+  s.ctx = { ...s.ctx, meetingType: "Performance & feedback" }; // a real arc (bank stage looks it up)
+  s.focusPointsResult = {
+    meeting_type: "Performance & feedback",
+    focus_points: [
+      { id: "fp1", type: "T", category: "topic", label: "Delivery risk", reason: "r", source: "signal", confidence: "high", known: true },
+    ],
+  } as unknown as Session["focusPointsResult"];
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).preview("abc", "bank") as {
+    stage: string;
+    label: string;
+    model: string;
+    prompt: string;
+    preview: boolean;
+  };
+  assert.equal(out.stage, "BANK");
+  assert.equal(out.label, "Question bank");
+  assert.equal(out.preview, true);
+  assert.ok(out.prompt.includes("Delivery risk")); // the focus point flows in → real assembly
+});
+
+test("preview throws a 409 CONFLICT for BANK when focus points aren't ready", () => {
+  const s = fakeSession("abc"); // no focusPointsResult
+  const { repo } = fakeRepo([s]);
+  assert.throws(
+    () => createSessionsService(repo).preview("abc", "bank"),
+    (err: unknown) => err instanceof HttpError && err.status === 409 && err.code === "CONFLICT"
+  );
+});
+
 test("preview throws a 409 CONFLICT when the stage's inputs aren't ready", () => {
   const s = fakeSession("abc"); // no focusPointsResult
   const { repo } = fakeRepo([s]);

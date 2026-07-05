@@ -19,8 +19,8 @@ for the other four steps. The UI needs no changes.
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Focus points | Before-send preview for the focus-points step | ✅ |
-| 2 | Question bank | Before-send preview for the question-bank step | 🔨 |
-| 3 | Final briefing | Before-send preview for the evaluation/briefing step | ⬜ |
+| 2 | Question bank | Before-send preview for the question-bank step | ✅ |
+| 3 | Final briefing | Before-send preview for the evaluation/briefing step | 🔨 |
 | 4 | Questioning (per-turn planner) | Before-send preview for the next question, when an answer is pending | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -31,7 +31,10 @@ for the other four steps. The UI needs no changes.
 `assembleFocusPoints` to `backend/engine/generate.ts` + registered `FOCUS_POINTS` in
 `PREVIEW_ASSEMBLERS` (`sessions.service.ts`), with a service test proving real assembly at
 zero API cost.
-**Phase 2 — Question bank: 🔨 building now.**
+**Phase 2 — Question bank: ✅ DONE.** Carl green-lit 2026-07-05; committed. `assembleBank`
+in `backend/engine/question-generator.ts` + `bank-inputs.ts` (mirrors the live bank stream)
++ `BANK` in `PREVIEW_ASSEMBLERS`, with happy-path + 409 tests.
+**Phase 3 — Final briefing: 🔨 building now.**
 
 ## Parked
 - Making the panel more prominent / friendlier wording (Carl chose "all 5 steps", not the polish option).

@@ -14,7 +14,9 @@ import { shouldReview, suggestionId } from "../../../engine/lexicon-reviewer.ts"
 import { effectiveTerminology, terminologyGroups } from "../../../engine/role-profile.ts";
 import { assemblePreparation } from "../../../engine/preparation.ts";
 import { assembleFocusPoints } from "../../../engine/generate.ts";
+import { assembleBank } from "../../../engine/question-generator.ts";
 import { buildPreparationInputs } from "./preparation-inputs.ts";
+import { buildBankInputs } from "./bank-inputs.ts";
 import { checkQuestionEligibility, dropIneligibleHeads } from "../../../engine/question-eligibility.ts";
 import { MEETING_TYPES } from "../../../engine/meeting-types.ts";
 import { pickOpener } from "../../../engine/opener.ts";
@@ -187,6 +189,12 @@ const PREVIEW_ASSEMBLERS: Record<string, (session: Session) => { label: string; 
       throw conflict("Focus points not ready for this stage yet");
     }
     return { label: "Prep brief", ...assemblePreparation(buildPreparationInputs(session)) };
+  },
+  BANK(session) {
+    if (!session.focusPointsResult) {
+      throw conflict("Focus points not ready for this stage yet");
+    }
+    return { label: "Question bank", ...assembleBank(buildBankInputs(session)) };
   },
 };
 

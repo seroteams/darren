@@ -256,6 +256,36 @@ function buildMessages({
   return splitSystemUser(filled);
 }
 
+// Assemble the exact payload generateBank would send — WITHOUT calling the model.
+// Mirrors generateBank's axes + selectedFocus prelude (incl. primaryFocusId) so
+// the preview is byte-for-byte what gets logged as prompt.md — no drift.
+function assembleBank(
+  args: GenerateBankArgs,
+  { model = getDefaultModel() }: { model?: string } = {}
+): { model: string; prompt: string } {
+  const axes = loadAxes();
+  const sf =
+    args.selectedFocus ||
+    resolveSelectedFocus({
+      notes: args.notes,
+      focusPoints: Array.isArray(args.focusPoints) ? args.focusPoints : undefined,
+      primaryFocusId: args.primaryFocusId,
+    });
+  const messages = buildMessages({
+    axes,
+    focusPoints: args.focusPoints,
+    name: args.name,
+    role: args.role,
+    seniority: args.seniority,
+    meetingType: args.meetingType,
+    notes: args.notes,
+    existingQueue: args.existingQueue,
+    selectedFocus: sf,
+    prep: args.prep,
+  });
+  return { model, prompt: messages.filled };
+}
+
 async function callOpenAI({ system, user, model = getDefaultModel() }: { system: string; user: string; model?: string }): Promise<string> {
   return callAI({
     system,
@@ -439,6 +469,7 @@ async function generateBankWithFallback(
 export {
   generateBank,
   generateBankWithFallback,
+  assembleBank,
   buildMessages,
   callOpenAI,
   assembleQueueWithPrepOpener,
