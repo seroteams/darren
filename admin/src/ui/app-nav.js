@@ -54,9 +54,8 @@ const ICON = {
 // section header before each new group so the long admin rail reads in chunks. Member
 // rows have no group (their short list needs none).
 const LINKS = [
-  // Member app — Home · Team · Past 1:1s. Shown only to members; never grouped.
-  { key: "mhome", label: "Home", stage: STAGES.MEMBER_HOME, icon: ICON.home, member: true },
-  { key: "team", label: "Team", stage: STAGES.TEAM, icon: ICON.team, member: true },
+  // Member app — Past 1:1s only (member-view: only-runs). A member can't start or run a
+  // 1:1, so their rail is a single row: their own past 1:1s. Shown only to members.
   { key: "runs", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, member: true },
   // Manager app (manager-ready Phase 1) — the paying customer's rail. Reuses existing
   // stages; managers keep console access but never see the internal toolset below.
@@ -66,6 +65,7 @@ const LINKS = [
   { key: "mgruns", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, mgr: true },
   // Admin toolset, grouped into sections.
   { key: "home", label: "Home", stage: STAGES.START, icon: ICON.home, admin: true, group: "Sessions" },
+  { key: "tasks", label: "Tasks", stage: STAGES.TASKS, icon: ICON.tasks, admin: true, group: "Sessions" },
   { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new, admin: true, group: "Sessions" },
   { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library, admin: true, group: "Sessions" },
   // Compare + Regression folded into the Test engine hub (test-engine-hub Phase 4):
@@ -77,7 +77,6 @@ const LINKS = [
   { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs, admin: true, group: "Engine" },
   // Just for fun — the 3D live map of the app (universe.ts). Admin-only eye candy.
   { key: "universe", label: "Universe", stage: STAGES.UNIVERSE, icon: ICON.universe, admin: true, group: "Engine" },
-  { key: "tasks", label: "Tasks", stage: STAGES.TASKS, icon: ICON.tasks, admin: true, group: "Admin" },
   // Static page (admin/public/sero-flowbite/) — opens in a new tab, outside the SPA.
   { key: "design", label: "Design system", icon: ICON.design, admin: true, group: "Admin" },
   // Superadmin-only (pre-go-live PG7). `admin: true` puts it in the admin rail; `superadmin:
@@ -184,8 +183,6 @@ export function createAppNav({ setState, resetSession } = {}) {
 
   const onNav = {
     home: () => setState && setState({ stage: STAGES.START }),
-    mhome: () => setState && setState({ stage: STAGES.MEMBER_HOME }),
-    team: () => setState && setState({ stage: STAGES.TEAM }),
     runs: () => setState && setState({ stage: STAGES.RUNS }),
     new: () => {
       if (resetSession) resetSession();
@@ -232,8 +229,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   // values are one key or a list; render() matches any of them (only one is visible anyway).
   const ACTIVE_BY_STAGE = {
     [STAGES.START]: ["home", "mghome"],
-    [STAGES.MEMBER_HOME]: "mhome",
-    [STAGES.TEAM]: ["team", "mgteam"],
+    [STAGES.TEAM]: "mgteam",
     [STAGES.RUNS]: ["runs", "mgruns"],
     [STAGES.INTAKE]: ["new", "mgnew"],
     [STAGES.LIBRARY]: "library",

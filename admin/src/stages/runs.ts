@@ -3,7 +3,7 @@
 // never a colleague's or the admin's whole-company Library. Rows are read-only for now:
 // re-opening a run is PG2, rating stars are PG3, and the "Past 1:1s" relabel is PG4.
 
-import { STAGES, store } from "../state.js";
+import { STAGES, store, isAdmin } from "../state.js";
 import { listMyRuns } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
@@ -40,18 +40,25 @@ export const mount: Mount = async (root, { setState }) => {
     </header>`;
   const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}</div>`;
 
-  // The friendly empty state — unchanged from the placeholder, still offers Start a 1:1.
-  const emptyCard = `
+  // The friendly empty state. A manager can start a 1:1 from here; a plain member can't
+  // (member-view: only-runs), so they just get a note that nothing's here yet.
+  const emptyCard = isAdmin(store.user)
+    ? `
     <section class="card-flat space-y-3">
-      <div class="eyebrow">No runs yet</div>
-      <p class="text-sm text-ink-dim">Your finished 1:1 preps will appear here. Start your first one and it'll show up in this list.</p>
+      <div class="eyebrow">No 1:1s yet</div>
+      <p class="text-sm text-ink-dim">You haven't done any 1:1s yet. Start your first one and it'll show up here.</p>
       <button type="button" class="btn js-start">Start a 1:1</button>
+    </section>`
+    : `
+    <section class="card-flat space-y-3">
+      <div class="eyebrow">No 1:1s yet</div>
+      <p class="text-sm text-ink-dim">Your past 1:1s will show up here once you've had one.</p>
     </section>`;
 
   const errorCard = `
     <section class="card-flat space-y-3">
       <div class="eyebrow">Couldn't load your 1:1s</div>
-      <p class="text-sm text-ink-dim">Something went wrong loading your list. Please try again.</p>
+      <p class="text-sm text-ink-dim">Something went wrong on our end, not yours. Try again in a moment. If it keeps happening, email <a href="mailto:carl@seroteams.com">carl@seroteams.com</a> and we'll help sort it out.</p>
       <button type="button" class="btn btn--ghost js-retry">Try again</button>
     </section>`;
 

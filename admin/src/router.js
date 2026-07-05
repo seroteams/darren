@@ -80,9 +80,10 @@ const INTERNAL_ONLY = new Set([STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS,
   STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE]);
 export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
 
-// The plain-member destinations (member-nav Phase 1): Home, Team, Runs. Used by boot +
-// back/forward to honor a member's own deep links rather than bouncing them.
-const MEMBER_ONLY = new Set([STAGES.MEMBER_HOME, STAGES.TEAM, STAGES.RUNS, STAGES.RUN_DETAIL, STAGES.PERSON_DETAIL]);
+// The plain-member destinations (member-view: only-runs): a member can view their own
+// past 1:1s and open one — nothing else. They can't start or run a 1:1, and Home/Team are
+// gone from their app. Used by boot + back/forward to honor these deep links, bounce the rest.
+const MEMBER_ONLY = new Set([STAGES.RUNS, STAGES.RUN_DETAIL]);
 export const isMemberStage = (stage) => MEMBER_ONLY.has(stage);
 
 // Any-audience content pages (009 Phase 3+): reachable by admins and members alike — the

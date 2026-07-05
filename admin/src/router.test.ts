@@ -22,5 +22,8 @@ test("isInternalStage: a manager's own destinations are NOT internal-only", () =
 test("existing walls unchanged: admin stages + member stages still classify", () => {
   assert.equal(isAdminStage(STAGES.LIBRARY), true);
   assert.equal(isAdminStage(STAGES.TEAM), false);
-  assert.equal(isMemberStage(STAGES.TEAM), true);
+  // member-view: only-runs — a member's only destinations are their past 1:1s + opening one.
+  assert.equal(isMemberStage(STAGES.RUNS), true);
+  assert.equal(isMemberStage(STAGES.RUN_DETAIL), true);
+  assert.equal(isMemberStage(STAGES.TEAM), false);
 });

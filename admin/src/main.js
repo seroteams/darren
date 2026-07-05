@@ -5,7 +5,7 @@ import "./styles/design.css";
 
 import { STAGES, store, subscribe, setState, resetSession, isAdmin, isInternalAdmin } from "./state.js";
 import { getSession, listRecentRuns, runRegression, me } from "../../shared/api.js";
-import { syncUrl, parseLocation, startPopstate, isFlowStage, isAdminStage, isInternalStage, isMemberStage, isSharedStage } from "./router.js";
+import { syncUrl, parseLocation, startPopstate, isFlowStage, isInternalStage, isMemberStage, isSharedStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createBuildStamp } from "./ui/build-stamp.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
@@ -134,9 +134,11 @@ subscribe((s) => {
 });
 
 startPopstate((parsed) => {
-  // A member can't reach an admin screen via back/forward — bounce to their Home.
-  if (store.user && isAdminStage(parsed.stage) && !isAdmin(store.user)) {
-    setState({ stage: STAGES.MEMBER_HOME });
+  // A plain member only has their past 1:1s (member-view: only-runs) — any other
+  // back/forward destination (admin screens, the prep flow, Team, the old Home) bounces to
+  // Past 1:1s. Their own runs (RUNS / RUN_DETAIL) and shared content pages pass through.
+  if (store.user && !isAdmin(store.user) && !isMemberStage(parsed.stage) && !isSharedStage(parsed.stage)) {
+    setState({ stage: STAGES.RUNS });
     return;
   }
   // A manager can't reach the internal toolset via back/forward — bounce to their Home
@@ -228,31 +230,20 @@ async function boot() {
   // directly (no notify) so the real stage is what renders, no login flash.
   store.user = { userId: identity.userId, orgId: identity.orgId, roles: identity.roles, email: identity.email, name: identity.name, isSuperadmin: identity.isSuperadmin };
 
-  // A plain member gets the member app: Home · Team · Runs, plus the prep flow
-  // (member-nav Phase 1). Resume a live session if the URL points at one; honor a member
-  // deep link (/home, /team, /runs, /new); otherwise land on Home. Admin screens (run
-  // history, library, the internal tooling) are never rendered for a member — the rest
-  // of boot below is the owner/admin path.
+  // A plain member gets a read-only app: their own past 1:1s, and nothing else
+  // (member-view: only-runs). They can't start or run a 1:1, and Home/Team are gone. Honor
+  // a deep link to one of their own runs or a shared content page (privacy/about/feedback);
+  // anything else — the prep flow, Team, the old Home, any admin screen — lands on Past
+  // 1:1s. The rest of boot below is the owner/admin path.
   if (!isAdmin(store.user)) {
-    if (route && isFlowStage(route.stage)) {
-      try {
-        const id = localStorage.getItem("seroSessionId");
-        if (id && await rehydrateById(id)) return;   // resume — syncUrl corrects the URL
-      } catch (e) { console.warn("[boot] member rehydrate failed:", e); }
-    }
-    if (route && route.stage === STAGES.INTAKE) { setState({ stage: STAGES.INTAKE, substage: "NAME" }); return; }
     if (route && route.stage === STAGES.RUN_DETAIL) {
       if (route.params?.myRunId) { setState({ myRunId: route.params.myRunId, stage: STAGES.RUN_DETAIL }); return; }
       history.replaceState(null, "", "/runs"); setState({ stage: STAGES.RUNS }); return;
     }
-    if (route && route.stage === STAGES.PERSON_DETAIL) {
-      if (route.params?.personKey) { setState({ personKey: route.params.personKey, stage: STAGES.PERSON_DETAIL }); return; }
-      history.replaceState(null, "", "/team"); setState({ stage: STAGES.TEAM }); return;
-    }
     if (route && isMemberStage(route.stage)) { setState({ stage: route.stage }); return; }
     if (route && isSharedStage(route.stage)) { setState({ stage: route.stage }); return; }
-    history.replaceState(null, "", "/home");
-    setState({ stage: STAGES.MEMBER_HOME });
+    history.replaceState(null, "", "/runs");
+    setState({ stage: STAGES.RUNS });
     return;
   }
 
