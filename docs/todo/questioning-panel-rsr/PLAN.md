@@ -24,8 +24,8 @@ that a founder never gets to see). Everything here is **free** — previews make
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Sending, live from your draft | Type → the planner prompt fills in live (kills the "Waiting…" blank) | ✅ |
-| 2 | Received | Last turn's raw reply, clearly shown on the questioning step | 🔨 |
-| 3 | Rules | The guardrails view: what's active for this meeting type + what fired last turn | ⬜ |
+| 2 | Received | Last turn's raw reply, clearly shown on the questioning step | ✅ |
+| 3 | Rules | The guardrails view: what's active for this meeting type + what fired last turn | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -34,7 +34,10 @@ that a founder never gets to see). Everything here is **free** — previews make
 **Phase 1 — Sending live: ✅ DONE.** Carl green-lit 2026-07-05; committed. Draft answer feeds
 a live "Sending" preview (backend `?draft=` → `buildPlanTurnInputs(session, draftAnswer)`;
 frontend debounced draft → store → `stage-data-tab.js`); "Sent" tab renamed "Sending".
-**Phase 2 — Received: 🔨 building now.**
+**Phase 2 — Received: ✅ DONE.** Carl green-lit 2026-07-05; committed. Renamed "Reply" →
+"Received" + friendly "nothing back yet" empty state on questioning.
+**Phase 3 — Rules: 🔨 building now.** The guardrails view (static from config + what fired
+last turn).
 
 ## Parked
 - Rename applies panel-wide (Sent→Sending, Reply→Received) since the before/after framing

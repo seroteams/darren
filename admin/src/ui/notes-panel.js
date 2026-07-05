@@ -33,7 +33,7 @@ export function createNotesPanel({ store, setState }) {
       <div class="notes-panel__tabs" role="tablist">
         <button type="button" class="notes-panel__tab is-active" data-tab="notes" role="tab" aria-selected="true">Notes</button>
         <button type="button" class="notes-panel__tab" data-tab="sent" role="tab" aria-selected="false">Sending</button>
-        <button type="button" class="notes-panel__tab" data-tab="reply" role="tab" aria-selected="false">Reply</button>
+        <button type="button" class="notes-panel__tab" data-tab="reply" role="tab" aria-selected="false">Received</button>
       </div>
     </div>
 

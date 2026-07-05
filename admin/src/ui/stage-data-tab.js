@@ -169,18 +169,25 @@ export function createStageDataController() {
   // Questioning + empty draft: the "Sending" pane invites you to type instead of
   // showing "Waiting…" — there's genuinely nothing to send until you write something.
   let qEmptyDraft = false;
+  // On questioning, "Received" reads as "the AI's reply to your last answer", so a
+  // turn-less state is "nothing back yet", not "waiting for this stage to run".
+  let isQuestioning = false;
 
   function paint() {
     sentEl.innerHTML = qEmptyDraft
       ? placeholder("Start typing your answer above — this fills in live with the exact text we'll send the AI.")
       : renderSent(stage, preview);
-    replyEl.innerHTML = renderReply(stage);
+    replyEl.innerHTML =
+      isQuestioning && !latestTurn(stage)
+        ? placeholder("Nothing back yet — the AI's reply to your last answer shows here.")
+        : renderReply(stage);
   }
 
   async function fetchStage(sessionId, stageKey, liveStage, draft, baseChanged) {
     const my = ++token;
     const isQ = liveStage === STAGES.QUESTIONING;
     qEmptyDraft = isQ && !draft;
+    isQuestioning = isQ;
     // Only blank to "Loading…" when the stage/turn changed — not on every keystroke
     // of the draft (that would flicker). A draft-only change repaints in place.
     if (baseChanged) {
@@ -220,6 +227,7 @@ export function createStageDataController() {
       stage = null;
       preview = null;
       qEmptyDraft = false;
+      isQuestioning = false;
       token++; // cancel any in-flight fetch
       sentEl.innerHTML = placeholder("This step doesn't send anything to the AI.");
       replyEl.innerHTML = placeholder("This step doesn't send anything to the AI.");
