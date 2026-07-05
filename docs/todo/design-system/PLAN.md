@@ -9,7 +9,9 @@ system from day one; old screens conform only when touched.
 
 ## Current state
 
-- **Phase 1 — 🔨 building.** Component sheet at `admin/public/sero-flowbite/index.html`.
+- **Phase 1 — 🔨 BUILT (2026-07-05), awaiting Carl's walk.** Sheet live at
+  `admin/public/sero-flowbite/index.html`; verified in browser: loads clean (no console errors),
+  0 text under 14px, dropdown + modal work. Not committed — green light = commit.
 - Phase 2 — ⬜ not started.
 - Pre-work done 2026-07-05: UI-idea prototype folders (`newdesign*`, `newui`, `sero-original`)
   removed from `admin/public/`; stale `dist/sero-original` cleaned; full checkpoint save committed.
@@ -31,6 +33,10 @@ system from day one; old screens conform only when touched.
 - Fonts: **Inter** (body; already bundled) + **Bricolage Grotesque** (display headings, per Figma).
 - House rules honoured in the system itself: 14px text floor (Figma's 12px avatar badge is a defect
   to fix, not copy), one accent per screen, no side-stripe borders, plain language.
+- **Responsive is part of the system** (2026-07-05, from the mobile-responsive track): the component
+  sheet must demo how each component behaves at phone width, and new screens built from it are
+  mobile-ready from day one. Existing-screen mobile work lives in
+  [docs/todo/mobile-responsive/](../mobile-responsive/PLAN.md), not here.
 
 ## Parked
 

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sero × Flowbite — component sheet</title>
+
+<!-- Flowbite 2.5.2 — same version as the original Sero prototypes -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.min.css" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Fonts: Inter (body) + Bricolage Grotesque (display) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bricolage+Grotesque:wght@500;600;700&display=swap" rel="stylesheet">
+
+<script>
+  // Sero colours — values from admin/src/styles/design.css (the code source of truth)
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          sero: {
+            accent:  '#5aa9e6',  // primary-700 — the one action colour
+            accent2: '#1b5d91',  // primary-800 — hover / pressed
+            soft:    '#e9f3fb',  // primary-200 — tinted accent background
+            ink:     '#1f2a37',  // primary text
+            dim:     '#636363',  // secondary text
+            page:    '#f5fafd',  // app background
+            surface: '#ffffff',  // cards / panels
+            border:  '#e8e8e8',
+            coral:   '#f76b5e',  // error / negative
+            mint:    '#88ecd5',  // success
+            gold:    '#ffc247',  // warning / tasks
+            lavender:'#b49edb',  // fulfilment / AI
+          }
+        },
+        fontFamily: {
+          sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          display: ['"Bricolage Grotesque"', 'Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-size: 16px; } /* 14px floor: nothing on this sheet goes below 14px */
+  .swatch { width: 100%; height: 56px; border-radius: 8px; border: 1px solid #e8e8e8; }
+</style>
+</head>
+<body class="bg-sero-page text-sero-ink font-sans antialiased">
+
+<!-- ============ SHEET SIDE NAV ============ -->
+<nav id="sheetnav" class="hidden lg:block fixed top-0 left-0 h-full w-52 border-r border-sero-border bg-sero-surface px-4 py-8 overflow-y-auto">
+  <p class="font-display font-semibold text-base mb-4 px-3">Sero design system</p>
+  <ul class="space-y-1 text-sm font-medium">
+    <li><a href="#rules"     class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">✔ Before you build</a></li>
+    <li><a href="#colours"   class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Colours</a></li>
+    <li><a href="#type"      class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Type</a></li>
+    <li><a href="#buttons"   class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Buttons</a></li>
+    <li><a href="#badges"    class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Badges &amp; tags</a></li>
+    <li><a href="#inputs"    class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Inputs</a></li>
+    <li><a href="#toasts"    class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Toasts &amp; alerts</a></li>
+    <li><a href="#table"     class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Table</a></li>
+    <li><a href="#cards"     class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Cards</a></li>
+    <li><a href="#overlays"  class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Dropdown &amp; modal</a></li>
+    <li><a href="#nav"       class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Navigation</a></li>
+    <li><a href="#panel"     class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">Side panel</a></li>
+    <li class="pt-2 mt-2 border-t border-sero-border">
+      <a href="#inventory" class="navlink block rounded px-3 py-2 text-sero-dim hover:bg-sero-page hover:text-sero-ink">📋 What Sero needs</a></li>
+  </ul>
+</nav>
+
+<main class="max-w-5xl mx-auto lg:ml-60 xl:mx-auto px-6 py-12 space-y-16">
+
+  <!-- ============ HEADER ============ -->
+  <header class="space-y-2">
+    <h1 class="font-display font-semibold text-4xl">Sero × Flowbite</h1>
+    <p class="text-sero-dim max-w-prose">The Sero look in one page: Flowbite 2.5.2 components wearing our colours.
+    New screens copy from here. Controls round at 4px, cards at 12px. Nothing smaller than 14px. One blue action per screen.</p>
+  </header>
+
+  <!-- ============ BEFORE YOU BUILD — the rules ============ -->
+  <section id="rules" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">✔ Before you build</h2>
+    <p class="text-sero-dim max-w-prose">Check every new or touched screen against this list. If one fails, it's not done.</p>
+    <div class="bg-sero-surface border border-sero-border rounded-xl p-6 grid gap-x-8 gap-y-2.5 sm:grid-cols-2 text-base">
+      <p>1. Colours come <strong>only from the tokens</strong> — never type a hex code in a screen file.</p>
+      <p>2. <strong>Nothing under 14px.</strong> No exceptions.</p>
+      <p>3. <strong>One blue action per screen.</strong> If two blue buttons compete, one is wrong.</p>
+      <p>4. Corners: <strong>4px on controls, 12px on cards.</strong></p>
+      <p>5. Every screen ships with its <strong>empty, loading, and error states</strong> designed.</p>
+      <p>6. Layout uses the shared primitives (<code class="text-sm">.l-stack</code>, <code class="text-sm">.l-grid</code>…) — no bespoke scaffolding.</p>
+      <p>7. Anything destructive goes through the <strong>confirm dialog</strong>.</p>
+      <p>8. <strong>Works at phone width</strong> — no sideways scroll, everything tappable.</p>
+      <p>9. One date format everywhere: <strong>Mon 18 Nov 2024</strong>.</p>
+      <p>10. Plain words. Focus ring on everything interactive. No nested cards, no side-stripes, no gradient text.</p>
+    </div>
+  </section>
+
+  <!-- ============ COLOURS ============ -->
+  <section id="colours" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">Colours</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div><div class="swatch bg-sero-accent"></div><p class="mt-1 text-sm font-medium">Action blue</p><p class="text-sm text-sero-dim">#5aa9e6</p></div>
+      <div><div class="swatch bg-sero-accent2"></div><p class="mt-1 text-sm font-medium">Blue pressed</p><p class="text-sm text-sero-dim">#1b5d91</p></div>
+      <div><div class="swatch bg-sero-ink"></div><p class="mt-1 text-sm font-medium">Ink</p><p class="text-sm text-sero-dim">#1f2a37</p></div>
+      <div><div class="swatch bg-sero-page"></div><p class="mt-1 text-sm font-medium">Page</p><p class="text-sm text-sero-dim">#f5fafd</p></div>
+      <div><div class="swatch bg-sero-coral"></div><p class="mt-1 text-sm font-medium">Coral — error</p><p class="text-sm text-sero-dim">#f76b5e</p></div>
+      <div><div class="swatch bg-sero-mint"></div><p class="mt-1 text-sm font-medium">Mint — success</p><p class="text-sm text-sero-dim">#88ecd5</p></div>
+      <div><div class="swatch bg-sero-gold"></div><p class="mt-1 text-sm font-medium">Gold — warning</p><p class="text-sm text-sero-dim">#ffc247</p></div>
+      <div><div class="swatch bg-sero-lavender"></div><p class="mt-1 text-sm font-medium">Lavender</p><p class="text-sm text-sero-dim">#b49edb</p></div>
+    </div>
+  </section>
+
+  <!-- ============ TYPE RAMP ============ -->
+  <section id="type" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">Type</h2>
+    <div class="bg-sero-surface border border-sero-border rounded-xl p-6 space-y-4">
+      <p class="font-display font-semibold text-4xl">Display 40 — Bricolage Grotesque</p>
+      <p class="font-display font-semibold text-3xl">Headline 30 — Bricolage Grotesque</p>
+      <p class="font-semibold text-xl">Title 20 — Inter semibold</p>
+      <p class="text-base">Body 16 — Inter regular. Most reading happens here; keep lines under 75 characters.</p>
+      <p class="text-sm text-sero-dim">Small 14 — Inter, secondary details. This is the floor; nothing goes smaller.</p>
+    </div>
+  </section>
+
+  <!-- ============ BUTTONS ============ -->
+  <section id="buttons" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">Buttons</h2>
+    <div class="bg-sero-surface border border-sero-border rounded-xl p-6 flex flex-wrap items-center gap-4">
+      <!-- Primary: the ONE blue action -->
+      <button type="button" class="inline-flex items-center gap-2 rounded bg-sero-accent px-4 py-2 text-sm font-medium text-white hover:bg-sero-accent2 focus:outline-none focus:ring-4 focus:ring-sero-soft">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6 4l10 6-10 6V4z"/></svg>
+        Open 1:1
+      </button>
+      <!-- Secondary / ghost -->
+      <button type="button" class="inline-flex items-center gap-2 rounded border border-sero-border bg-sero-surface px-4 py-2 text-sm font-medium text-sero-ink hover:bg-sero-page focus:outline-none focus:ring-4 focus:ring-sero-soft">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Reschedule 1:1
+      </button>
+      <!-- Quiet / text -->
+      <button type="button" class="rounded px-4 py-2 text-sm font-medium text-sero-dim hover:bg-sero-page hover:text-sero-ink">View profile</button>
+      <!-- Danger -->
+      <button type="button" class="rounded border border-sero-coral px-4 py-2 text-sm font-medium text-[#c0392b] hover:bg-red-50">Delete</button>
+      <!-- Disabled -->
+      <button type="button" disabled class="rounded bg-sero-border px-4 py-2 text-sm font-medium text-sero-dim cursor-not-allowed">Disabled</button>
+    </div>
+    <p class="text-sm text-sero-dim">One filled-blue button per screen. Everything else stays quiet. No trailing arrows on action buttons.</p>
+  </section>
+
+  <!-- ============ BADGES / TAGS ============ -->
+  <section id="badges" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">Badges &amp; tags</h2>
+    <div class="bg-sero-surface border border-sero-border rounded-xl p-6 space-y-5">
+      <div class="flex flex-wrap gap-3">
+        <span class="inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-sm font-medium bg-amber-100 text-amber-900">🗒 Tasks</span>
+        <span class="inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-sm font-medium bg-red-100 text-red-900">👥 Our team</span>
+        <span class="inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-sm font-medium bg-emerald-100 text-emerald-900">🌱 Development</span>
+        <span class="inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-sm font-medium bg-sky-100 text-sky-900">🎈 Fun</span>
+        <span class="inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-sm font-medium bg-purple-100 text-purple-900">✨ Fulfilment</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-4">
+        <span class="inline-flex items-center rounded-full bg-sero-soft px-3 py-1 text-sm font-medium text-sero-accent2">Manager</span>
+        <span class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-900">Score 7.5 <span class="ml-1">↑ 2.5</span></span>
+        <!-- Avatar + count badge (14px text — fixes the 12px in Figma) -->
+        <div class="relative inline-block">
+          <div class="w-12 h-12 rounded-full bg-sero-soft text-sero-accent2 font-semibold flex items-center justify-center">JW</div>
+          <span class="absolute -top-1 -right-1 min-w-[22px] h-[22px] px-1 rounded-full bg-red-100 text-red-900 text-sm font-medium flex items-center justify-center border border-sero-surface">8</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INPUTS ============ -->
+  <section id="inputs" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">Inputs</h2>
+    <div class="bg-sero-surface border border-sero-border rounded-xl p-6 grid gap-6 sm:grid-cols-2">
+      <div>
+        <label for="name" class="block mb-2 text-sm font-medium">Your name</label>
+        <input type="text" id="name" placeholder="James Warren"
+          class="block w-full rounded border border-sero-border bg-sero-surface p-2.5 text-sm text-sero-ink placeholder:text-sero-dim focus:border-sero-accent focus:ring-sero-accent">
+      </div>
+      <div>
+        <label for="type" class="block mb-2 text-sm font-medium">Meeting type</label>
+        <select id="type" class="block w-full rounded border border-sero-border bg-sero-surface p-2.5 text-sm text-sero-ink focus:border-sero-accent focus:ring-sero-accent">
+          <option>Bi-weekly 1:1</option><option>Feels-off check-in</option><option>Quarterly review</option>
+        </select>
+      </div>
+      <div class="sm:col-span-2">
+        <label for="msg" class="block mb-2 text-sm font-medium">Your message</label>
+        <textarea id="msg" rows="3" placeholder="What would you like to talk about?"
+          class="block w-full rounded border border-sero-border bg-sero-surface p-2.5 text-sm text-sero-ink placeholder:text-sero-dim focus:border-sero-accent focus:ring-sero-accent"></textarea>
+      </div>
+      <div class="sm:col-span-2">
+        <label for="bad" class="block mb-2 text-sm font-medium">Field with a problem</label>
+        <input type="text" id="bad" value="" placeholder="Required"
+          class="block w-full rounded border border-sero-coral bg-sero-surface p-2.5 text-sm text-sero-ink focus:border-sero-coral focus:ring-red-200">
+        <p class="mt-1.5 text-sm text-[#c0392b]">Please fill this in before saving.</p>
+      </div>
+    </div>
+    <!-- The TWO input variants — both official, used in different worlds -->
+    <div class="bg-sero-surface border border-sero-border rounded-xl p-6 space-y-3">
+      <h3 class="font-semibold text-base">Session variant — the big "one question at a time" input</h3>
+      <p class="text-sm text-sero-dim">Used only inside the 1:1 session flow (typeform style: no box, bottom line, large type). Everywhere else uses the compact boxed inputs above. These are the only two input styles — nothing in between.</p>
+      <input type="text" placeholder="What's the team member's name?"
+        class="block w-full bg-transparent border-0 border-b-2 border-sero-border text-2xl py-3 px-0 placeholder:text-sero-dim focus:ring-0 focus:border-sero-accent">
+    </div>
+  </section>
+
+  <!-- ============ TOASTS & ALERTS ============ -->
+  <section id="toasts" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">Toasts &amp; alerts <span class="text-sero-dim text-base font-normal font-sans">(one system for "it worked / it didn't")</span></h2>
+    <div class="bg-sero-surface border border-sero-border rounded-xl p-6 space-y-4">
+      <!-- Success toast -->
+      <div class="flex items-center gap-3 w-full max-w-md rounded-xl border border-sero-border bg-sero-surface p-4 shadow-lg" role="status">
+        <span class="inline-flex w-8 h-8 shrink-0 rounded bg-emerald-100 text-emerald-900 items-center justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+        </span>
+        <p class="text-sm font-medium">Saved. Your note is on James's page.</p>
+        <button class="ml-auto text-sero-dim hover:text-sero-ink p-1 rounded hover:bg-sero-page"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      </div>
+      <!-- Error alert -->
+      <div class="flex items-start gap-3 w-full max-w-md rounded-xl border border-sero-coral bg-red-50 p-4" role="alert">
+        <span class="inline-flex w-8 h-8 shrink-0 rounded bg-red-100 text-red-900 items-center justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 8v5M12 16.5h.01"/><circle cx="12" cy="12" r="9.5"/></svg>
+        </span>
+        <div class="text-sm">
+          <p class="font-semibold">Couldn't save your note.</p>
+          <p class="text-sero-dim mt-0.5">The connection dropped. Your text is still here — try again.</p>
+          <button class="mt-2 rounded border border-sero-border bg-sero-surface px-3 py-1.5 text-sm font-medium hover:bg-sero-page">Try again</button>
+        </div>
+      </div>
+      <!-- Warning inline -->
+      <div class="flex items-center gap-3 w-full max-w-md rounded-xl border border-amber-300 bg-amber-50 p-4" role="status">
+        <span class="inline-flex w-8 h-8 shrink-0 rounded bg-amber-100 text-amber-900 items-center justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        </span>
+        <p class="text-sm font-medium">This 1:1 has no agenda yet — James can't prepare.</p>
+      </div>
+      <button id="toastDemo" class="rounded border border-sero-border px-4 py-2 text-sm font-medium hover:bg-sero-page">▶ Try a live toast</button>
+    </div>
+    <p class="text-sm text-sero-dim">Success = toast, slides in bottom-right, gone in 4s. Errors = stay until dealt with, always say what to do next. Warnings = inline, near the thing they warn about.</p>
+  </section>
+
+  <!-- ============ TABLE ============ -->
+  <section id="table" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">Table <span class="text-sero-dim text-base font-normal font-sans">(the one style — user lists, run lists, all of it)</span></h2>
+    <div class="bg-sero-surface border border-sero-border rounded-xl overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left">
+          <thead>
+            <tr class="border-b border-sero-border text-sero-dim">
+              <th class="px-5 py-3 font-semibold">Person</th>
+              <th class="px-5 py-3 font-semibold">Role</th>
+              <th class="px-5 py-3 font-semibold">Last 1:1</th>
+              <th class="px-5 py-3 font-semibold">Score</th>
+              <th class="px-5 py-3 font-semibold text-right"><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-sero-border hover:bg-sero-page cursor-pointer">
+              <td class="px-5 py-3.5">
+                <span class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-full bg-sero-soft text-sero-accent2 text-sm font-semibold flex items-center justify-center shrink-0">JW</span>
+                  <span><span class="block font-medium text-base">James Warren</span><span class="block text-sm text-sero-dim">Senior UX Writer</span></span>
+                </span>
+              </td>
+              <td class="px-5 py-3.5"><span class="inline-flex rounded-full bg-sero-soft px-3 py-1 text-sm font-medium text-sero-accent2">member</span></td>
+              <td class="px-5 py-3.5 text-sero-dim">Mon 4 Nov 2024</td>
+              <td class="px-5 py-3.5"><span class="font-medium">7.5</span> <span class="text-emerald-800 text-sm">↑ 2.5</span></td>
+              <td class="px-5 py-3.5 text-right"><button class="rounded p-1.5 text-sero-dim hover:bg-sero-soft hover:text-sero-ink" aria-label="Row actions">⋯</button></td>
+            </tr>
+            <tr class="border-b border-sero-border hover:bg-sero-page cursor-pointer">
+              <td class="px-5 py-3.5">
+                <span class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-full bg-purple-100 text-purple-900 text-sm font-semibold flex items-center justify-center shrink-0">AP</span>
+                  <span><span class="block font-medium text-base">Amara Patel</span><span class="block text-sm text-sero-dim">Product Designer</span></span>
+                </span>
+              </td>
+              <td class="px-5 py-3.5"><span class="inline-flex rounded-full bg-amber-100 px-3 py-1 text-sm font-medium text-amber-900">manager</span></td>
+              <td class="px-5 py-3.5 text-sero-dim">Fri 15 Nov 2024</td>
+              <td class="px-5 py-3.5"><span class="font-medium">6.0</span> <span class="text-sero-dim text-sm">→</span></td>
+              <td class="px-5 py-3.5 text-right"><button class="rounded p-1.5 text-sero-dim hover:bg-sero-soft hover:text-sero-ink" aria-label="Row actions">⋯</button></td>
+            </tr>
+            <tr class="hover:bg-sero-page cursor-pointer">
+              <td class="px-5 py-3.5">
+                <span class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-900 text-sm font-semibold flex items-center justify-center shrink-0">TK</span>
+                  <span><span class="block font-medium text-base">Tom Kowalski</span><span class="block text-sm text-sero-dim">Engineer</span></span>
+                </span>
+              </td>
+              <td class="px-5 py-3.5"><span class="inline-flex rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-900">admin</span></td>
+              <td class="px-5 py-3.5 text-sero-dim">—</td>
+              <td class="px-5 py-3.5 text-sero-dim">No 1:1s yet</td>
+              <td class="px-5 py-3.5 text-right"><button class="rounded p-1.5 text-sero-dim hover:bg-sero-soft hover:text-sero-ink" aria-label="Row actions">⋯</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="text-sm text-sero-dim">Whole row clickable · header 14px muted · avatar + name + quiet second line · badges for roles · ⋯ menu on the right · scrolls sideways inside its card on phones, never the page.</p>
+  </section>
+
+  <!-- ============ CARDS ============ -->
+  <section id="cards" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">Cards</h2>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <!-- Request card, as in the 1:1 panel -->
+      <div class="bg-sero-surface border border-sero-border rounded-xl p-4 flex gap-3">
+        <svg class="w-5 h-5 mt-0.5 shrink-0 text-sero-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>
+        <div class="space-y-2">
+          <p class="text-base">"I'd like to discuss opportunities for taking on more responsibility within the team."</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="inline-flex items-center rounded bg-sero-page px-2.5 py-1 text-sm text-sero-dim">📅 11 May · 15:00</span>
+            <span class="inline-flex items-center rounded bg-red-100 px-2.5 py-1 text-sm font-medium text-red-900">👥 Our team</span>
+          </div>
+        </div>
+      </div>
+      <!-- Simple content card -->
+      <div class="bg-sero-surface border border-sero-border rounded-xl p-6 space-y-2">
+        <h3 class="font-semibold text-xl">Upcoming 1:1s</h3>
+        <p class="text-sero-dim text-base">Three conversations this week. James is first, Monday 13:45.</p>
+        <button type="button" class="text-sm font-medium text-sero-accent2 hover:underline">See all</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DROPDOWN + MODAL (live Flowbite) ============ -->
+  <section id="overlays" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">Dropdown &amp; modal <span class="text-sero-dim text-base font-normal font-sans">(click them — live)</span></h2>
+    <div class="bg-sero-surface border border-sero-border rounded-xl p-6 flex flex-wrap gap-4">
+      <!-- Dropdown -->
+      <button id="ddBtn" data-dropdown-toggle="dd" type="button"
+        class="inline-flex items-center gap-2 rounded border border-sero-border bg-sero-surface px-4 py-2 text-sm font-medium text-sero-ink hover:bg-sero-page">
+        Row actions <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div id="dd" class="z-10 hidden w-44 rounded-lg bg-sero-surface border border-sero-border shadow-lg">
+        <ul class="py-1 text-sm text-sero-ink" aria-labelledby="ddBtn">
+          <li><a href="#" class="block px-4 py-2 hover:bg-sero-page">Extend by 1 week</a></li>
+          <li><a href="#" class="block px-4 py-2 hover:bg-sero-page">Choose new date</a></li>
+          <li><a href="#" class="block px-4 py-2 hover:bg-sero-page">Mark as complete</a></li>
+          <li><hr class="my-1 border-sero-border"></li>
+          <li><a href="#" class="block px-4 py-2 text-[#c0392b] hover:bg-red-50">Remove</a></li>
+        </ul>
+      </div>
+      <!-- Modal trigger -->
+      <button data-modal-target="mdl" data-modal-toggle="mdl" type="button"
+        class="rounded bg-sero-accent px-4 py-2 text-sm font-medium text-white hover:bg-sero-accent2">Add a note</button>
+    </div>
+    <!-- Modal -->
+    <div id="mdl" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div class="relative p-4 w-full max-w-lg max-h-full">
+        <div class="relative bg-sero-surface rounded-xl shadow-lg">
+          <div class="flex items-center justify-between p-5 border-b border-sero-border">
+            <h3 class="font-semibold text-xl">Add a rating note</h3>
+            <button type="button" data-modal-hide="mdl" class="text-sero-dim hover:text-sero-ink rounded p-1.5 hover:bg-sero-page">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              <span class="sr-only">Close</span>
+            </button>
+          </div>
+          <div class="p-5 space-y-3">
+            <label for="note" class="block text-sm font-medium">Your note</label>
+            <textarea id="note" rows="4" placeholder="What made this 1:1 a 7.5?"
+              class="block w-full rounded border border-sero-border p-2.5 text-sm focus:border-sero-accent focus:ring-sero-accent"></textarea>
+          </div>
+          <div class="flex justify-end gap-3 p-5 border-t border-sero-border">
+            <button data-modal-hide="mdl" type="button" class="rounded border border-sero-border px-4 py-2 text-sm font-medium hover:bg-sero-page">Cancel</button>
+            <button data-modal-hide="mdl" type="button" class="rounded bg-sero-accent px-4 py-2 text-sm font-medium text-white hover:bg-sero-accent2">Save note</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NAV ============ -->
+  <section id="nav" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">Navigation</h2>
+    <div class="bg-sero-surface border border-sero-border rounded-xl overflow-hidden">
+      <!-- Topbar -->
+      <div class="flex items-center justify-between px-5 h-14 border-b border-sero-border">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded bg-sero-accent text-white font-display font-bold flex items-center justify-center">S</div>
+          <span class="font-semibold text-base">Sero</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <button class="text-sm font-medium text-sero-dim hover:text-sero-ink">Help</button>
+          <div class="w-9 h-9 rounded-full bg-sero-soft text-sero-accent2 text-sm font-semibold flex items-center justify-center">CH</div>
+        </div>
+      </div>
+      <div class="flex">
+        <!-- Icon rail -->
+        <div class="w-16 py-4 border-r border-sero-border flex flex-col items-center gap-2">
+          <button class="w-10 h-10 rounded bg-sero-soft text-sero-accent2 flex items-center justify-center" title="Home">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-8 9 8M5 10v10h14V10"/></svg>
+          </button>
+          <button class="w-10 h-10 rounded text-sero-dim hover:bg-sero-page hover:text-sero-ink flex items-center justify-center" title="Team">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.4 3.4-5 6.5-5s5.7 1.6 6.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 15.2c2.4.3 4.4 1.7 5 4.3"/></svg>
+          </button>
+          <button class="w-10 h-10 rounded text-sero-dim hover:bg-sero-page hover:text-sero-ink flex items-center justify-center" title="Runs">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </button>
+        </div>
+        <div class="flex-1 p-6 text-sero-dim text-base">Page content sits on the tinted background (#f5fafd); cards float on white.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SIDE PANEL ============ -->
+  <section id="panel" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">Side panel <span class="text-sero-dim text-base font-normal font-sans">(the "Upcoming 1:1" pattern, tightened)</span></h2>
+    <div class="max-w-md bg-sero-surface border border-sero-border rounded-xl overflow-hidden shadow-lg">
+      <div class="p-6 space-y-5">
+        <div class="flex items-start justify-between">
+          <p class="text-sm font-semibold tracking-wide text-sero-dim uppercase">Upcoming 1:1</p>
+          <button class="text-sero-dim hover:text-sero-ink rounded p-1 hover:bg-sero-page">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-sero-soft text-sero-accent2 font-display font-semibold text-xl flex items-center justify-center">JW</div>
+          <div>
+            <p class="font-display font-semibold text-2xl leading-tight">James Warren</p>
+            <p class="text-base text-sero-dim">Senior UX Writer</p>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <button class="text-sm font-medium text-sero-dim hover:text-sero-ink hover:underline">View profile</button>
+          <button class="text-sm font-medium text-sero-dim hover:text-sero-ink hover:underline">Edit</button>
+        </div>
+        <hr class="border-sero-border">
+        <dl class="space-y-3 text-base">
+          <div class="flex justify-between gap-4"><dt class="text-sero-dim">When</dt><dd class="font-medium">Mon 18 Nov 2024</dd></div>
+          <div class="flex justify-between gap-4"><dt class="text-sero-dim">Time</dt><dd class="font-medium">13:45–14:30 BKK</dd></div>
+          <div class="flex justify-between gap-4"><dt class="text-sero-dim">Where</dt>
+            <dd><a href="#" class="font-medium text-sero-accent2 hover:underline">Join Google Meet</a></dd></div>
+          <div class="flex justify-between gap-4"><dt class="text-sero-dim">Last 1:1</dt>
+            <dd class="font-medium">4 Nov · <span class="text-emerald-800">7.5 ↑</span></dd></div>
+        </dl>
+        <div>
+          <p class="font-semibold text-base mb-2">5 requests</p>
+          <div class="border border-sero-border rounded-xl p-3.5 text-base">
+            "Could we talk about ways to better prioritize my tasks?"
+            <div class="mt-2"><span class="inline-flex items-center rounded bg-amber-100 px-2.5 py-1 text-sm font-medium text-amber-900">🗒 Tasks</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end gap-3 px-6 py-4 border-t border-sero-border bg-sero-surface">
+        <button class="rounded border border-sero-border px-4 py-2 text-sm font-medium hover:bg-sero-page">Reschedule</button>
+        <button class="rounded bg-sero-accent px-4 py-2 text-sm font-medium text-white hover:bg-sero-accent2">Open 1:1</button>
+      </div>
+    </div>
+    <p class="text-sm text-sero-dim">Changes from the Figma: actions live once (in the footer), no trailing arrows, name outweighs the job title, the Meet link is a button, labels sit in a plain list instead of pill-in-box.</p>
+  </section>
+
+  <!-- ============ COMPONENT INVENTORY ============ -->
+  <section id="inventory" class="space-y-4 scroll-mt-8">
+    <h2 class="font-display font-semibold text-2xl">📋 What Sero needs</h2>
+    <p class="text-sero-dim max-w-prose">Every component type Sero uses, from the Figma demo board and the live app.
+    ✅ = on this sheet already · ⬜ = still to add. Cross off what we don't need; shout if something's missing.</p>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div class="bg-sero-surface border border-sero-border rounded-xl p-5">
+        <h3 class="font-semibold text-base mb-3">Basics</h3>
+        <ul class="space-y-1.5 text-sm">
+          <li>✅ Buttons (primary / secondary / quiet / danger / disabled)</li>
+          <li>✅ Badges &amp; category tags</li>
+          <li>✅ Avatars + count badge</li>
+          <li>✅ Inputs (compact boxed + big session variant, error state)</li>
+          <li>⬜ Checkbox · radio · toggle switch</li>
+          <li>⬜ Search box (users, teams)</li>
+          <li>⬜ Date + time picker (schedule a 1:1)</li>
+        </ul>
+      </div>
+      <div class="bg-sero-surface border border-sero-border rounded-xl p-5">
+        <h3 class="font-semibold text-base mb-3">Layout &amp; navigation</h3>
+        <ul class="space-y-1.5 text-sm">
+          <li>✅ Topbar + icon rail</li>
+          <li>✅ Cards (content + request)</li>
+          <li>✅ Side panel / slide-over</li>
+          <li>⬜ Tabs (the 1:1 stages: Preparing · Catchup · Requests · Rating · Feedback · Goals · Summary)</li>
+          <li>⬜ Stage breadcrumb (session progress with ticks)</li>
+          <li>⬜ Page header (title + actions row)</li>
+          <li>⬜ Welcome banner (dashboard hero)</li>
+        </ul>
+      </div>
+      <div class="bg-sero-surface border border-sero-border rounded-xl p-5">
+        <h3 class="font-semibold text-base mb-3">Data &amp; content</h3>
+        <ul class="space-y-1.5 text-sm">
+          <li>✅ Table (one canonical style — user lists, run lists)</li>
+          <li>⬜ Score elements: score pill ✅ · star rating · the axis slider (Sero's signature)</li>
+          <li>⬜ Goal columns (To do / Doing / Done)</li>
+          <li>⬜ Chart card (team scores, engagement lines)</li>
+          <li>⬜ Legend / key row (request status colours)</li>
+          <li>⬜ Timeline / "since last time" recap</li>
+        </ul>
+      </div>
+      <div class="bg-sero-surface border border-sero-border rounded-xl p-5">
+        <h3 class="font-semibold text-base mb-3">Feedback &amp; states</h3>
+        <ul class="space-y-1.5 text-sm">
+          <li>✅ Modal · dropdown menu</li>
+          <li>✅ Toast / inline alert (saved ✓, error, warning)</li>
+          <li>⬜ Tooltip</li>
+          <li>⬜ Empty state (no requests yet, no team yet)</li>
+          <li>⬜ Loading skeleton + thinking state</li>
+          <li>⬜ Confirmation dialog (delete / irreversible)</li>
+          <li>⬜ Login / signup card</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="pt-4 border-t border-sero-border">
+    <p class="text-sm text-sero-dim">Flowbite 2.5.2 · colours from <code class="text-sm">admin/src/styles/design.css</code> · fonts Inter + Bricolage Grotesque · minimum text size 14px.</p>
+  </footer>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.min.js"></script>
+<script>
+  // Highlight the nav link for the section in view
+  const links = document.querySelectorAll('.navlink');
+  const byId = {};
+  links.forEach(l => byId[l.getAttribute('href').slice(1)] = l);
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('bg-sero-soft', 'text-sero-accent2'));
+        const l = byId[e.target.id];
+        if (l) l.classList.add('bg-sero-soft', 'text-sero-accent2');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  document.querySelectorAll('main > section[id]').forEach(s => spy.observe(s));
+
+  // Live toast demo — slides in bottom-right, gone in 4s
+  document.getElementById('toastDemo')?.addEventListener('click', () => {
+    const t = document.createElement('div');
+    t.setAttribute('role', 'status');
+    t.className = 'fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-xl border border-sero-border bg-sero-surface p-4 shadow-lg transition-all duration-300 translate-y-4 opacity-0';
+    t.innerHTML = '<span class="inline-flex w-8 h-8 shrink-0 rounded bg-emerald-100 text-emerald-900 items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><p class="text-sm font-medium">Saved. That worked.</p>';
+    document.body.appendChild(t);
+    requestAnimationFrame(() => t.classList.remove('translate-y-4', 'opacity-0'));
+    setTimeout(() => { t.classList.add('translate-y-4', 'opacity-0'); setTimeout(() => t.remove(), 350); }, 4000);
+  });
+</script>
+</body>
+</html>
