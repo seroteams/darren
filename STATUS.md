@@ -21,6 +21,11 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > "manager" (badge updates); demote a company's only manager → blocked. ⚠️ Pre-existing `typecheck:admin` errors
 > live in `universe.ts` (Carl's uncommitted WIP) — not Phase 2.
 >
+> **🆕 [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) — plan approved + folder set up 2026-07-05, awaiting Carl's read-through to start Phase 1.**
+> One page: ▶ Run on a persona → full engine runs on its scripted answers → review with the 8-dimension grid.
+> Replaces the three overlapping nav pages (Personas / Regression / Compare). 4 phases; only Phase 3 spends
+> money (one ~$0.35 run, Carl's own click). Phases 1–2 are free backend work, offline-tested.
+>
 > **Phase 1 ✅ done + committed** — the flat **User management** table (`d2bf9ec2` screen + `53f1f132` rename),
 > companies as **white cards** (`af1992f3`); role pills; the whole row opens the drilldown. **Phase 0** mostly
 > done — superadmin access confirmed; **key finding: the `runs` table has NO `userId` column** (a run links to
@@ -161,6 +166,7 @@ like 8 things are half-done at once — they aren't.
 
 | Plan | State |
 |---|---|
+| [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) | **Set up 2026-07-05, awaiting Carl's go for Phase 1.** RUN-a-persona eval hub; merges Personas/Regression/Compare. All phases free except one $0.35 walk in Phase 3. |
 | [run-qa-fixes-jul04](docs/todo/run-qa-fixes-jul04/PLAN.md) | Phase 1 (C1 — strip tester notes) ✅ approved 2026-07-04 (committed `02d825c2`, walk waived); Phases 2–4 ⬜ (prompt changes — need a paid walk) |
 | [user-management](docs/todo/user-management/PLAN.md) | **Phase 1 🔨 built 2026-07-04 (Carl said "skip ahead") — awaiting his walk.** "Registered" is now the flat **User management** table (rename + role pills + `⋯` → drilldown). Frontend-only, not committed (green light = commit). Phases 0, 2–5 ⬜. |
 | [planner-grounding](docs/todo/planner-grounding/PLAN.md) | parked — awaiting scope pick (A/B/C/all) |
