@@ -25,7 +25,7 @@ that a founder never gets to see). Everything here is **free** — previews make
 |---|---|---|---|
 | 1 | Sending, live from your draft | Type → the planner prompt fills in live (kills the "Waiting…" blank) | ✅ |
 | 2 | Received | Last turn's raw reply, clearly shown on the questioning step | ✅ |
-| 3 | Rules | The guardrails view: what's active for this meeting type + what fired last turn | 🔨 |
+| 3 | Rules | The guardrails view: what's active for this meeting type + what fired last turn | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -36,8 +36,14 @@ a live "Sending" preview (backend `?draft=` → `buildPlanTurnInputs(session, dr
 frontend debounced draft → store → `stage-data-tab.js`); "Sent" tab renamed "Sending".
 **Phase 2 — Received: ✅ DONE.** Carl green-lit 2026-07-05; committed. Renamed "Reply" →
 "Received" + friendly "nothing back yet" empty state on questioning.
-**Phase 3 — Rules: 🔨 building now.** The guardrails view (static from config + what fired
-last turn).
+**Phase 3 — Rules: ✅ DONE.** Carl green-lit 2026-07-05; committed. `GET /sessions/:id/rules`
+→ `buildSessionRules` (`rules-view.ts`): static guardrails + what fired last turn (zero new
+logging); new **Rules** tab in the panel.
+
+## ✅ PLAN COMPLETE (2026-07-05)
+All three phases signed off and committed. The questioning panel now shows **Received**
+(last turn's reply) · **Sending** (next turn, live as you type) · **Rules** (the guardrails).
+Folder moved to `docs/todo/done/`.
 
 ## Parked
 - Rename applies panel-wide (Sent→Sending, Reply→Received) since the before/after framing

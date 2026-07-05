@@ -316,6 +316,14 @@ export async function getRunStages(id) {
   return json(await fetch(`/api/v1/runs/${encodeURIComponent(id)}/stages`));
 }
 
+// The questioning-panel "Rules" view: the guardrails active for this meeting type
+// + what fired last turn. Free (no model). Returns null when there's no session.
+export async function getSessionRules(sessionId) {
+  const res = await fetch(`/api/v1/sessions/${encodeURIComponent(sessionId)}/rules`);
+  if (res.status === 404) return null;
+  return json(res);
+}
+
 // Preview the exact payload the current stage is about to send to the model —
 // assembled with zero API calls. Returns null when there's no session (404) or
 // the stage's inputs aren't ready yet (409), so callers fall back gracefully.

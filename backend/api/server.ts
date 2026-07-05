@@ -377,6 +377,8 @@ function main(): void {
   // preview is a session read (S1b) — now on the sessions controller. v1 nests it
   // under the session resource (/sessions/:id/preview).
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/preview$/, v1Route(sessions.preview));
+  // rules is a session read (questioning-panel "Rules" view) — same nesting as preview.
+  router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/rules$/, v1Route(sessions.rules));
 
   const staticHandler = IS_PROD ? createStaticHandler(CLIENT_DIST) : null;
 

@@ -21,6 +21,7 @@ import { buildPreparationInputs } from "./preparation-inputs.ts";
 import { buildBankInputs } from "./bank-inputs.ts";
 import { buildEvaluationInputs } from "./evaluation-inputs.ts";
 import { buildPlanTurnInputs } from "./plan-turn-inputs.ts";
+import { buildSessionRules, type RulesView } from "./rules-view.ts";
 import { checkQuestionEligibility, dropIneligibleHeads } from "../../../engine/question-eligibility.ts";
 import { MEETING_TYPES } from "../../../engine/meeting-types.ts";
 import { pickOpener } from "../../../engine/opener.ts";
@@ -251,6 +252,7 @@ export interface SessionsService {
     terminologyGroups: ReturnType<typeof terminologyGroups>;
   };
   preview(id: string, stage?: string, draft?: string): PreviewResult;
+  rules(id: string): RulesView;
   question(id: string): QuestionResult;
   // S2 — non-AI writes. start leads: create a session + scripted lane, then fire
   // the (injected) AI pre-warm. Takes the already-read request body record + the
@@ -352,6 +354,8 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
       const { label, model, prompt } = assemble(session, { draft });
       return { stage: resolved, label, model, prompt, preview: true };
     },
+
+    rules: (id) => buildSessionRules(requireExisting(id)),
 
     question: (id) => {
       const session = requireExisting(id);

@@ -34,6 +34,7 @@ export function createNotesPanel({ store, setState }) {
         <button type="button" class="notes-panel__tab is-active" data-tab="notes" role="tab" aria-selected="true">Notes</button>
         <button type="button" class="notes-panel__tab" data-tab="sent" role="tab" aria-selected="false">Sending</button>
         <button type="button" class="notes-panel__tab" data-tab="reply" role="tab" aria-selected="false">Received</button>
+        <button type="button" class="notes-panel__tab" data-tab="rules" role="tab" aria-selected="false">Rules</button>
       </div>
     </div>
 
@@ -54,6 +55,7 @@ export function createNotesPanel({ store, setState }) {
 
     <div class="notes-panel__tabpane is-hidden" data-pane="sent"></div>
     <div class="notes-panel__tabpane is-hidden" data-pane="reply"></div>
+    <div class="notes-panel__tabpane is-hidden" data-pane="rules"></div>
   `;
   const ctxEl = el.querySelector(".notes-panel__ctx");
   const devSlot = el.querySelector(".notes-panel__dev");
@@ -66,13 +68,15 @@ export function createNotesPanel({ store, setState }) {
     notes: el.querySelector('[data-pane="notes"]'),
     sent: el.querySelector('[data-pane="sent"]'),
     reply: el.querySelector('[data-pane="reply"]'),
+    rules: el.querySelector('[data-pane="rules"]'),
   };
 
-  // Sent/Reply content is owned by the stage-data controller; mount its two
-  // root nodes into the matching panes.
+  // Sending/Received/Rules content is owned by the stage-data controller; mount
+  // its root nodes into the matching panes.
   const stageData = createStageDataController();
   panes.sent.appendChild(stageData.sentEl);
   panes.reply.appendChild(stageData.replyEl);
+  panes.rules.appendChild(stageData.rulesEl);
 
   // Which tab is showing — remembered across open/close while the rail lives.
   let activeTab = "notes";

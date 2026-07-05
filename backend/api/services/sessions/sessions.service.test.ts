@@ -509,6 +509,42 @@ test("preview throws a 409 CONFLICT for QUESTIONING when no answer is pending", 
   );
 });
 
+// --- Rules view (questioning-panel Phase 3) ---
+
+test("rules flags competency-hidden for a relational arc, not for a performance one", () => {
+  const rel = fakeSession("a");
+  rel.ctx = { ...rel.ctx, meetingType: "Bi-weekly check-in" };
+  const perf = fakeSession("b");
+  perf.ctx = { ...perf.ctx, meetingType: "Performance & feedback" };
+  const svc = createSessionsService(fakeRepo([rel, perf]).repo);
+  assert.ok(svc.rules("a").active.some((r) => /competency questions hidden/i.test(r.title)));
+  assert.ok(!svc.rules("b").active.some((r) => /competency questions hidden/i.test(r.title)));
+  assert.ok(svc.rules("b").active.some((r) => r.title === "No repeats")); // always-on rules present
+});
+
+test("rules reports what fired last turn from the note + held-back signal", () => {
+  const s = fakeSession("a");
+  s.transcript = [
+    {
+      turn: 2,
+      question: fakeQuestion(),
+      answer: "dunno",
+      skipped: false,
+      note: "[SHALLOW] thin answer",
+      unbooked_signal: [{ axis: "clarity", raw: 3, booked: 1, reason: "past signature" }],
+    },
+  ];
+  const out = createSessionsService(fakeRepo([s]).repo).rules("a");
+  assert.equal(out.lastTurn?.turn, 2);
+  assert.ok(out.lastTurn?.fired.some((r) => /shallow/i.test(r.title)));
+  assert.ok(out.lastTurn?.fired.some((r) => /held back/i.test(r.title)));
+});
+
+test("rules has no lastTurn before any answer", () => {
+  const s = fakeSession("a"); // empty transcript
+  assert.equal(createSessionsService(fakeRepo([s]).repo).rules("a").lastTurn, null);
+});
+
 test("preview throws a 409 CONFLICT when the stage's inputs aren't ready", () => {
   const s = fakeSession("abc"); // no focusPointsResult
   const { repo } = fakeRepo([s]);

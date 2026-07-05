@@ -49,6 +49,14 @@ export async function preview(c: RequestContext): Promise<void> {
   c.json(200, service.preview(id, c.query.stage, c.query.draft));
 }
 
+// GET /api/v1/sessions/:id/rules — the questioning-panel "Rules" view: the
+// guardrails active for this meeting type + what fired last turn. Free (no model).
+export async function rules(c: RequestContext): Promise<void> {
+  const id = sessionId(c);
+  await assertOwner(c, id);
+  c.json(200, service.rules(id));
+}
+
 // GET /api/v1/sessions/:id/question  ·  GET /api/question?s=<id>
 export async function question(c: RequestContext): Promise<void> {
   const id = sessionId(c);

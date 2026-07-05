@@ -4,7 +4,7 @@
 // text exactly as logged — nothing is reworded or hidden (engine-honesty rule);
 // "what shipped" appears only where a post-processed copy was actually logged.
 
-import { getRunStages, getStagePreview } from "../../../shared/api.js";
+import { getRunStages, getStagePreview, getSessionRules } from "../../../shared/api.js";
 import { STAGES } from "../state.js";
 import { escapeHtml } from "./html.js";
 
@@ -156,11 +156,33 @@ function renderReply(stage) {
   return (raw || placeholder("No reply was logged for this stage.")) + final;
 }
 
+// One guardrail line: bold title + plain explanation.
+function ruleLine(r) {
+  return `<div class="stage-io__field"><div class="stage-io__val"><strong>${escapeHtml(r.title)}</strong> — ${escapeHtml(r.detail)}</div></div>`;
+}
+
+// The "Rules" pane: guardrails active for this meeting type + what fired last turn.
+function renderRules(data) {
+  if (!data) return placeholder("Rules show up once a 1:1 is running.");
+  const active = (data.active || []).map(ruleLine).join("");
+  const mt = data.meetingType ? ` · ${escapeHtml(data.meetingType)}` : "";
+  let html = `<div class="stage-io__label">Active for this 1:1${mt}</div>${active || placeholder("No special rules.")}`;
+  if (data.lastTurn) {
+    const fired = (data.lastTurn.fired || []).map(ruleLine).join("");
+    html +=
+      `<div class="stage-io__label">What fired last turn (turn ${escapeHtml(String(data.lastTurn.turn))})</div>` +
+      (fired || `<p class="stage-io__note">Nothing special fired — a clean turn.</p>`);
+  }
+  return html;
+}
+
 export function createStageDataController() {
   const sentEl = document.createElement("div");
   sentEl.className = "stage-io";
   const replyEl = document.createElement("div");
   replyEl.className = "stage-io";
+  const rulesEl = document.createElement("div");
+  rulesEl.className = "stage-io";
 
   let token = 0;
   let key = null; // `${sessionId}|${stageKey}|${turn}|${draft}`
@@ -218,9 +240,33 @@ export function createStageDataController() {
     paint();
   }
 
+  let rulesToken = 0;
+  let rulesLoadedKey = null;
+  async function fetchRules(sessionId, turn) {
+    // Rules only change turn-to-turn — skip re-fetching on every keystroke/state tick.
+    const nextKey = `${sessionId}|${turn || 0}`;
+    if (nextKey === rulesLoadedKey) return;
+    const my = ++rulesToken;
+    rulesEl.innerHTML = placeholder("Loading…");
+    try {
+      const data = await getSessionRules(sessionId);
+      if (my !== rulesToken) return;
+      rulesLoadedKey = nextKey;
+      rulesEl.innerHTML = renderRules(data);
+    } catch {
+      if (my !== rulesToken) return;
+      rulesEl.innerHTML = placeholder("Couldn't load the rules.");
+    }
+  }
+
   // Called by the rail on every state change and on tab switches. We only do
   // work when an AI tab is showing, so it stays cheap during normal use.
   function render({ sessionId, stage: liveStage, turn, draftAnswer }, activeTab) {
+    if (activeTab === "rules") {
+      if (sessionId) fetchRules(sessionId, turn);
+      else rulesEl.innerHTML = placeholder("Rules show up once a 1:1 is running.");
+      return;
+    }
     if (activeTab !== "sent" && activeTab !== "reply") return;
     const stageKey = STAGE_KEY[liveStage];
     if (!sessionId || !stageKey) {
@@ -266,5 +312,5 @@ export function createStageDataController() {
   sentEl.addEventListener("click", onCopyClick);
   replyEl.addEventListener("click", onCopyClick);
 
-  return { sentEl, replyEl, render };
+  return { sentEl, replyEl, rulesEl, render };
 }
