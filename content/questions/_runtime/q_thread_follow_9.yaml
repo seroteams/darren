@@ -1,9 +1,10 @@
 alias: q_thread_follow_9
 label: Thread follow
-name: leadership keeps stalling the partner rollout — can you say more about what that means for you right now?
+name: been holding back more than usual — can you say more about what that means for you right now?
 description: Following up on what they just said.
-purpose: topic
-stage: friction
+purpose: scripted
+stage: observation
 axis_effects:
-  clarity: +1
+  clarity: +3
+  wellbeing: +1
 source: planner_added

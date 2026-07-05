@@ -1,0 +1,158 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1783254199399,
+  "role_title_raw": "UX Designer",
+  "role_slug": "ux-designer",
+  "seniority_raw": "Lead",
+  "seniority_key": "lead",
+  "role_family": "design",
+  "profile": {
+    "summary": "A Lead UX Designer sets experience direction for a product area, turns user and business needs into clear interaction patterns, and raises design quality across the team. They usually balance hands-on design with coaching, critique, and cross-functional alignment with product, engineering, research, content, and stakeholders.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing hands-on design work with coaching, reviews, and stakeholder alignment.",
+        "category": "topic"
+      },
+      {
+        "text": "Protecting user experience quality when delivery pressure pushes for quick fixes.",
+        "category": "topic"
+      },
+      {
+        "text": "Creating consistency across teams without becoming a bottleneck for decisions.",
+        "category": "competency"
+      },
+      {
+        "text": "Handling the emotional load of constant feedback, critique, and visible decisions.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Influencing product and engineering peers when design authority is informal rather than explicit.",
+        "category": "competency"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Design leadership load",
+        "why": "Lead UX Designers often carry invisible work in critiques, alignment, and mentoring that can crowd out deep design time.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Cross-functional decision making",
+        "why": "This role succeeds through influence with product and engineering, so friction here quickly affects delivery and quality.",
+        "category": "topic"
+      },
+      {
+        "theme": "Design quality and consistency",
+        "why": "They are often responsible for patterns, standards, and experience coherence across a wider surface area.",
+        "category": "competency"
+      },
+      {
+        "theme": "Team growth through feedback and critique",
+        "why": "A lead usually shapes how other designers improve, not just the work they produce personally.",
+        "category": "competency"
+      },
+      {
+        "theme": "User insight into roadmap choices",
+        "why": "They need enough research and evidence to steer priorities, not just polish screens after decisions are made.",
+        "category": "topic"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "User flow",
+        "meaning": "The path a user takes through a task.",
+        "group": "ux"
+      },
+      {
+        "term": "Wireframe",
+        "meaning": "A low-detail layout used to explore structure.",
+        "group": "ux"
+      },
+      {
+        "term": "Interaction design",
+        "meaning": "How screens, states, and behaviors work together.",
+        "group": "ux"
+      },
+      {
+        "term": "Accessibility",
+        "meaning": "Designing so more people can use the product.",
+        "group": "ux"
+      },
+      {
+        "term": "Design critique",
+        "meaning": "A structured review of work and reasoning.",
+        "group": "lead"
+      },
+      {
+        "term": "Design system",
+        "meaning": "Shared components, patterns, and rules for consistency.",
+        "group": "lead"
+      },
+      {
+        "term": "Stakeholder alignment",
+        "meaning": "Getting key partners to support a direction.",
+        "group": "lead"
+      },
+      {
+        "term": "Prioritization",
+        "meaning": "Choosing what design work matters most now.",
+        "group": "lead"
+      },
+      {
+        "term": "Discovery",
+        "meaning": "Early work to understand problems and opportunities.",
+        "group": "role"
+      },
+      {
+        "term": "Usability testing",
+        "meaning": "Watching users try tasks to find friction.",
+        "group": "role"
+      },
+      {
+        "term": "Continuous discovery",
+        "meaning": "Ongoing learning with users during product development.",
+        "group": "role"
+      },
+      {
+        "term": "Handoff",
+        "meaning": "Passing design intent and details to engineering.",
+        "group": "role"
+      },
+      {
+        "term": "Design debt",
+        "meaning": "Experience issues left unresolved due to constraints.",
+        "group": "role"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "ux",
+        "label": "UX craft"
+      },
+      {
+        "key": "lead",
+        "label": "Design leadership"
+      },
+      {
+        "key": "role",
+        "label": "How the work happens"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about outcomes and user problems, not just screens and deliverables.",
+      "How they describe tension with product or engineering around trade-offs.",
+      "Whether they mention coaching other designers or only their own workload.",
+      "Shifts from confident design language to fatigue around reviews, meetings, or rework.",
+      "Whether user research is something they can influence or something they are blocked from using."
+    ],
+    "avoid": [
+      "Treating them like a pure people manager if they are still expected to lead design hands-on.",
+      "Reducing design to visual polish instead of product thinking and interaction quality.",
+      "Assuming consistency means enforcing one solution everywhere without context.",
+      "Pushing them to move faster without acknowledging review load and cross-team influence work."
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+alias: q_name_the_calls
+label: Name the calls
+name: What kinds of team calls get hardest to make early?
+description: Drill into the specific decision category she wants to strengthen as a lead.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: the harder team calls

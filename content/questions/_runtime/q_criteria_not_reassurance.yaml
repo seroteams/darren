@@ -1,0 +1,11 @@
+alias: q_criteria_not_reassurance
+label: Criteria not reassurance
+name: What would clearer criteria look like to you here?
+description: Clarifies what concrete recognition criteria he believes are missing.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +1
+  growth: +3
+source: planner_added
+grounding: clearer criteria

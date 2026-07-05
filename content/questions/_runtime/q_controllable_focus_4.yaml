@@ -1,9 +1,10 @@
 alias: q_controllable_focus_4
 label: Controllable focus
-name: What felt more controllable about delivery at that point?
-description: Drills into why he retreated to delivery and what that choice protected him from.
+name: What sat outside your control, from your perspective?
+description: Drills into the contrast he drew between delivery and the parts of the path that felt less controllable.
 purpose: topic
 stage: landing
 axis_effects:
-  engagement: +1
+  clarity: +1
 source: planner_added
+grounding: felt controllable

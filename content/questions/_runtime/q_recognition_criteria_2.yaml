@@ -1,0 +1,11 @@
+alias: q_recognition_criteria_2
+label: Recognition criteria
+name: What tells you which work actually gets recognized here?
+description: Drills into his uncertainty about what advancement is really based on.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +1
+  growth: +3
+source: planner_added
+grounding: gets recognized

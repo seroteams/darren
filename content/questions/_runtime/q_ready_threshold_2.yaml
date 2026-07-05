@@ -1,0 +1,10 @@
+alias: q_ready_threshold_2
+label: Ready threshold
+name: "When you judge work as 'ready to share,' what are you checking for?"
+description: Surface her current readiness criteria before moving into a specific example.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: "judges 'ready to share'"

@@ -1,0 +1,10 @@
+alias: q_tense_moment_2
+label: Tense moment
+name: What happened in one of those meetings?
+description: Drills into the specific meeting moment behind the short temper so the source of friction becomes concrete.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +1
+source: planner_added
+grounding: short-tempered in meetings

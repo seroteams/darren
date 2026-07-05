@@ -1,0 +1,11 @@
+alias: q_next_support_12
+label: Next support
+name: What support from me would make the biggest difference over the next few weeks?
+description: Ends with something practical he can use right away.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_next_support_11"
+grounding: open

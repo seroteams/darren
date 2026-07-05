@@ -1,0 +1,10 @@
+alias: q_needed_to_change
+label: Needed to change
+name: "When you say it wasn't clear, what did you think needed to change?"
+description: Drills into the unclear path he heard after the promotion decision.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: "wasn't clear what really needed to change"

@@ -1,0 +1,10 @@
+alias: q_name_the_gap_4
+label: Name the gap
+name: What is the main gap you need to close before first review?
+description: Pin down the specific recurring pattern so the session can land on a concrete change.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: why one direction beats another

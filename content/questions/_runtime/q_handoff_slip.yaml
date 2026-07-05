@@ -1,0 +1,10 @@
+alias: q_handoff_slip
+label: Handoff slip
+name: What happened around that handoff slip?
+description: Drills into the specific Northstar handoff miss to surface where the breakdown actually was.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: handoff slipped again

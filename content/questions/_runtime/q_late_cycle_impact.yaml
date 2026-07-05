@@ -1,0 +1,10 @@
+alias: q_late_cycle_impact
+label: Late-cycle impact
+name: When decisions feel made already, what changes in how you show up?
+description: Drill into how late research timing is affecting her participation and investment.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: decisions already feel made

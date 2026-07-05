@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1783265101521,
+  "role_title_raw": "Senior Nurse",
+  "role_slug": "senior-nurse",
+  "seniority_raw": "Senior",
+  "seniority_key": "senior",
+  "role_family": "general",
+  "profile": {
+    "summary": "A Senior Nurse usually delivers complex patient care while coordinating day-to-day clinical work on a ward, unit, or service. They often guide junior nurses, support handovers, manage patient flow, escalate deterioration, and work closely with doctors, allied health staff, patients, and families. Scope varies by setting, but the role commonly blends hands-on care, clinical judgment, and informal team leadership.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing direct patient care with supervising junior staff and keeping the shift running smoothly.",
+        "category": "topic"
+      },
+      {
+        "text": "High emotional load from patient deterioration, distressed families, and repeated exposure to illness or death.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Maintaining safe care when staffing is short, acuity is high, or admissions and discharges are moving quickly.",
+        "category": "topic"
+      },
+      {
+        "text": "Giving clear escalation and clinical direction without always having formal authority over everyone on shift.",
+        "category": "competency"
+      },
+      {
+        "text": "Keeping documentation, medication safety, and handovers accurate under constant interruption.",
+        "category": "competency"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Workload, acuity, and staffing pressure",
+        "why": "This role often absorbs pressure when patient needs rise or staffing gaps appear, so sustainability and safety matter.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Clinical escalation and decision support",
+        "why": "Senior nurses are expected to spot deterioration early and act decisively, so confidence and backup are important.",
+        "category": "competency"
+      },
+      {
+        "theme": "Supporting junior nurses and healthcare assistants",
+        "why": "They often carry informal leadership and teaching work that affects team confidence and patient care.",
+        "category": "topic"
+      },
+      {
+        "theme": "Handover, documentation, and medication safety",
+        "why": "Small process failures in these areas can quickly become patient safety risks in a busy clinical setting.",
+        "category": "topic"
+      },
+      {
+        "theme": "Emotional impact of the work",
+        "why": "Repeated exposure to distress, conflict, and loss can build up even when performance looks steady.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Patient acuity",
+        "meaning": "How unwell and resource-intensive a patient is.",
+        "group": "clinical-care"
+      },
+      {
+        "term": "Observation chart",
+        "meaning": "Record of vital signs and trends over time.",
+        "group": "clinical-care"
+      },
+      {
+        "term": "Medication round",
+        "meaning": "Scheduled administration of prescribed medicines.",
+        "group": "clinical-care"
+      },
+      {
+        "term": "Care plan",
+        "meaning": "Documented plan for treatment, nursing care, and goals.",
+        "group": "clinical-care"
+      },
+      {
+        "term": "Deterioration",
+        "meaning": "A patient becoming clinically worse.",
+        "group": "clinical-care"
+      },
+      {
+        "term": "SBAR",
+        "meaning": "Structured format for urgent clinical communication.",
+        "group": "coordination-safety"
+      },
+      {
+        "term": "Handover",
+        "meaning": "Transfer of patient information and responsibility between staff.",
+        "group": "coordination-safety"
+      },
+      {
+        "term": "Escalation",
+        "meaning": "Raising concerns to get timely senior or urgent support.",
+        "group": "coordination-safety"
+      },
+      {
+        "term": "Discharge planning",
+        "meaning": "Preparing safe transition from hospital or service.",
+        "group": "coordination-safety"
+      },
+      {
+        "term": "Incident report",
+        "meaning": "Formal record of a safety event or near miss.",
+        "group": "coordination-safety"
+      },
+      {
+        "term": "Preceptorship",
+        "meaning": "Structured support for a newly qualified nurse.",
+        "group": "senior-nurse-role"
+      },
+      {
+        "term": "Delegation",
+        "meaning": "Assigning tasks while keeping accountability for safe care.",
+        "group": "senior-nurse-role"
+      },
+      {
+        "term": "Clinical judgment",
+        "meaning": "Using assessment and experience to decide care.",
+        "group": "senior-nurse-role"
+      },
+      {
+        "term": "Patient flow",
+        "meaning": "Movement of patients through beds, wards, or services.",
+        "group": "senior-nurse-role"
+      },
+      {
+        "term": "Bed management",
+        "meaning": "Coordinating bed use to match patient needs.",
+        "group": "senior-nurse-role"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "clinical-care",
+        "label": "Clinical care"
+      },
+      {
+        "key": "coordination-safety",
+        "label": "Coordination and safety"
+      },
+      {
+        "key": "senior-nurse-role",
+        "label": "Senior nurse role"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk mostly about patient safety risks or only about getting through the shift.",
+      "How they describe escalation: early and clear, or delayed because support feels unavailable.",
+      "Whether teaching and supporting junior staff sounds rewarding, draining, or invisible.",
+      "Repeated mention of missed breaks, staying late, or carrying extra patients.",
+      "Shifts in language from confident clinical judgment to second-guessing after difficult events."
+    ],
+    "avoid": [
+      "Treating them as only a bedside clinician and missing the coordination and leadership load they carry.",
+      "Assuming resilience means they are coping well with grief, conflict, or chronic pressure.",
+      "Pushing speed or throughput without acknowledging patient safety and documentation risks.",
+      "Undermining their judgment by framing escalations as overreactions rather than safety decisions."
+    ]
+  }
+}

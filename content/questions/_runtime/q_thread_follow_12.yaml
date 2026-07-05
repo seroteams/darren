@@ -1,10 +1,9 @@
 alias: q_thread_follow_12
 label: Thread follow
-name: asdf idk teh thing was bad — can you say more about what that means for you right now?
+name: leadership keeps stalling the partner rollout — can you say more about what that means for you right now?
 description: Following up on what they just said.
-purpose: wellbeing
-stage: pulse
+purpose: topic
+stage: friction
 axis_effects:
-  wellbeing: +1
-  engagement: +1
+  clarity: +1
 source: planner_added

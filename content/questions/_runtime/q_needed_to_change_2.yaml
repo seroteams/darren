@@ -1,0 +1,10 @@
+alias: q_needed_to_change_2
+label: Needed to change
+name: "When you say it wasn't clear, what felt most unclear to you?"
+description: Drills into the uncertainty he named after the promotion decision without assuming an emotion or cause.
+purpose: topic
+stage: landing
+axis_effects:
+  engagement: +1
+source: planner_added
+grounding: "wasn't clear what really needed to change"

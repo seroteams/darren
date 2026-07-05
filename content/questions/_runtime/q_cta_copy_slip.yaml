@@ -1,0 +1,10 @@
+alias: q_cta_copy_slip
+label: CTA copy slip
+name: On the Atlas refresh, where did the CTA copy slip happen?
+description: Drills into the concrete issue he raised to surface where work is snagging.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added
+grounding: slipped the CTA copy

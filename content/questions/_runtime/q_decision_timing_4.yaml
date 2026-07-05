@@ -1,0 +1,10 @@
+alias: q_decision_timing_4
+label: Decision timing
+name: Where is the timing breaking down for you most often?
+description: Surface the specific point in the product cycle where her research input is arriving too late to matter.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: "timing hasn't felt there"

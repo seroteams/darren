@@ -1,0 +1,10 @@
+alias: q_busy_shift_slip
+label: Busy shift slip
+name: On that busy shift, what made the paperwork slip?
+description: Follows the specific discharge-paperwork moment to surface the real friction in the shift.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: busy shift

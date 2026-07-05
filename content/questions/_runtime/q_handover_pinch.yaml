@@ -1,0 +1,10 @@
+alias: q_handover_pinch
+label: Handover pinch
+name: At handover at 7, where did things get tightest?
+description: Drills into the named handover moment to locate the real pinch point in the shift.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: handover at 7

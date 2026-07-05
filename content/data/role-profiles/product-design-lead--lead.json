@@ -1,0 +1,192 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1783253493254,
+  "role_title_raw": "Product Design Lead",
+  "role_slug": "product-design-lead",
+  "seniority_raw": "Lead",
+  "seniority_key": "lead",
+  "role_family": "design",
+  "profile": {
+    "summary": "A Product Design Lead sets design direction for a product area while still shaping key work hands-on. They align designers, product managers, engineers, and researchers around user needs, quality, and delivery tradeoffs. They often coach other designers, run critiques, influence roadmap decisions, and represent design in cross-functional planning, while being accountable for experience quality across multiple initiatives.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing hands-on design work with coaching, reviews, and cross-functional leadership.",
+        "category": "topic"
+      },
+      {
+        "text": "Protecting user experience quality when roadmap pressure pushes speed over craft.",
+        "category": "topic"
+      },
+      {
+        "text": "Giving clear direction without becoming a bottleneck for every design decision.",
+        "category": "competency"
+      },
+      {
+        "text": "Carrying invisible coordination work across product, engineering, and research.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Handling ambiguity when strategy, scope, or priorities shift mid-stream.",
+        "category": "topic"
+      },
+      {
+        "text": "Supporting designers through feedback and growth while managing their own workload.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Design quality versus delivery pressure",
+        "why": "This role constantly trades off craft, speed, and scope, and those tensions shape both outcomes and stress.",
+        "category": "topic"
+      },
+      {
+        "theme": "Coaching load and team support",
+        "why": "Lead-level designers often absorb feedback, critique, and unblock work for others, which affects sustainability and team growth.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Decision-making authority and alignment",
+        "why": "They need enough clarity on who decides what to lead effectively across product and engineering.",
+        "category": "topic"
+      },
+      {
+        "theme": "Growing from strong designer to design leader",
+        "why": "Success at this level depends on influence, delegation, and judgment, not just personal output.",
+        "category": "competency"
+      },
+      {
+        "theme": "Cross-functional partnership health",
+        "why": "The quality of relationships with product and engineering strongly affects design impact and execution.",
+        "category": "topic"
+      },
+      {
+        "theme": "Space for strategic thinking",
+        "why": "If all time goes to delivery and reviews, this role can lose the forward-looking work expected at lead level.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Design system",
+        "meaning": "Shared components and patterns for consistent product design.",
+        "group": "craft"
+      },
+      {
+        "term": "User flow",
+        "meaning": "The steps a user takes to complete a task.",
+        "group": "craft"
+      },
+      {
+        "term": "Interaction design",
+        "meaning": "How screens behave and respond to user actions.",
+        "group": "craft"
+      },
+      {
+        "term": "Accessibility",
+        "meaning": "Designing so more people can use the product well.",
+        "group": "craft"
+      },
+      {
+        "term": "Continuous discovery",
+        "meaning": "Ongoing learning from users during product development.",
+        "group": "craft"
+      },
+      {
+        "term": "AI-assisted prototyping",
+        "meaning": "Using AI tools to speed concepting or mockups.",
+        "group": "craft"
+      },
+      {
+        "term": "Design critique",
+        "meaning": "Structured feedback on work to improve quality and reasoning.",
+        "group": "lead"
+      },
+      {
+        "term": "Design direction",
+        "meaning": "The guiding approach for experience decisions across work.",
+        "group": "lead"
+      },
+      {
+        "term": "Delegation",
+        "meaning": "Handing off ownership clearly without losing alignment.",
+        "group": "lead"
+      },
+      {
+        "term": "Stakeholder management",
+        "meaning": "Working through differing priorities across partners and leaders.",
+        "group": "lead"
+      },
+      {
+        "term": "Quality bar",
+        "meaning": "The standard work should meet before shipping.",
+        "group": "lead"
+      },
+      {
+        "term": "Roadmap shaping",
+        "meaning": "Influencing what gets built and when.",
+        "group": "lead"
+      },
+      {
+        "term": "Product trio",
+        "meaning": "Close partnership between design, product, and engineering leads.",
+        "group": "role"
+      },
+      {
+        "term": "Tradeoff",
+        "meaning": "A conscious choice between competing goals or constraints.",
+        "group": "role"
+      },
+      {
+        "term": "Crit path",
+        "meaning": "The key work that determines progress or launch timing.",
+        "group": "role"
+      },
+      {
+        "term": "Discovery to delivery",
+        "meaning": "Work spanning problem finding through shipped execution.",
+        "group": "role"
+      },
+      {
+        "term": "Design debt",
+        "meaning": "Experience issues left unresolved due to time or scope.",
+        "group": "role"
+      },
+      {
+        "term": "North star",
+        "meaning": "A guiding long-term product or experience outcome.",
+        "group": "role"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "craft",
+        "label": "Product design practice"
+      },
+      {
+        "key": "lead",
+        "label": "Design leadership"
+      },
+      {
+        "key": "role",
+        "label": "Leading design in product teams"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk mostly about their own screens or about enabling other designers.",
+      "How they describe tradeoffs with product and engineering under delivery pressure.",
+      "Whether critique and feedback sound energising, draining, or conflict-heavy.",
+      "Shifts from craft language to prioritisation, influence, and decision-rights language.",
+      "Whether they can name where design is shaping strategy versus only reacting to tickets."
+    ],
+    "avoid": [
+      "Treating them like a pure people manager if they still carry major hands-on design responsibility.",
+      "Assuming design delays are only execution problems rather than priority or alignment problems.",
+      "Pushing them to attend every review and decision, which turns them into a bottleneck.",
+      "Reducing their impact to visual polish instead of product judgment, user insight, and cross-functional influence."
+    ]
+  }
+}

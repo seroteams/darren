@@ -1,11 +1,10 @@
 alias: q_manager_investment_7
 label: Manager investment
-name: What support would make that growth feel real?
-description: Surface the manager support or exposure needed to make the next step tangible.
+name: What backing would make those calls easier to make earlier?
+description: Surface the manager support or air cover she would want to make tougher lead-level decisions sooner.
 purpose: topic
 stage: investment
 axis_effects:
   growth: +3
-  clarity: +1
 source: planner_added
-grounding: open
+grounding: making them earlier

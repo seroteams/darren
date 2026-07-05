@@ -1,0 +1,10 @@
+alias: q_consensus_pattern
+label: Consensus pattern
+name: "When consensus doesn't come, what tells you it's yours to decide?"
+description: Drill into her decision-rights threshold when team harmony delays a call.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: waits for a consensus

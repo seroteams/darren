@@ -1,0 +1,10 @@
+alias: q_paperwork_slip
+label: Paperwork slip
+name: What got in the way when the discharge paperwork slipped?
+description: Drills into the specific busy-shift moment to surface the real friction behind the slip.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: discharge paperwork slipped once

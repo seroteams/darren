@@ -1,0 +1,11 @@
+alias: q_late_rationale_3
+label: Late rationale
+name: When the rationale is unclear, what are you still working out at that point?
+description: Surface what is unresolved in her thinking when she brings work to review.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added
+grounding: unclear rationale

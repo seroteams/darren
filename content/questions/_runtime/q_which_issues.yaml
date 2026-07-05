@@ -1,0 +1,10 @@
+alias: q_which_issues
+label: Which issues
+name: Which issues are taking up the most space right now?
+description: Gets him to name the concrete problems behind the broad sense that there are many issues.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +1
+source: planner_added
+grounding: a lot of issues

@@ -1,9 +1,10 @@
 alias: q_clearer_criteria_6
 label: Clearer criteria
-name: What would clearer criteria look like to you here?
-description: Drills into the criteria gap he just named and surfaces the model of recognition he is missing.
+name: What would clearer criteria look like to you?
+description: Drills into the criteria he says are missing so you can hear the standard he wants made explicit.
 purpose: topic
 stage: observation
 axis_effects:
-  clarity: +3
+  clarity: +1
 source: planner_added
+grounding: clearer criteria

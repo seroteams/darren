@@ -1,0 +1,10 @@
+alias: q_delay_pattern
+label: Delay pattern
+name: What made that reassignment hard to make earlier?
+description: Drill into the specific hesitation behind the delayed team call she just described.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: "didn't reassign until it got tense"

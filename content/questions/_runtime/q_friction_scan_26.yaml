@@ -1,11 +1,11 @@
 alias: q_friction_scan_26
 label: Friction scan
-name: Where is the redesign work feeling most unclear right now?
-description: Surfaces whether the drag is tied to unclear asks, shifting constraints, or fuzzy decision-making.
+name: Where did that handoff get complicated?
+description: Surfaces the specific point in the Northstar handoff flow where coordination broke down.
 purpose: topic
 stage: friction
 axis_effects:
   clarity: +1
   engagement: +3
 source: "reworded_from:q_intro_biweekly_friction"
-grounding: small stakeholder revisions
+grounding: missed the team channel

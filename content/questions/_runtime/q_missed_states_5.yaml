@@ -1,0 +1,10 @@
+alias: q_missed_states_5
+label: Missed states
+name: When empty states get missed, where does that usually show up in the flow?
+description: Drill into the named gap with a concrete product moment before moving on.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: "doesn't check edge cases"

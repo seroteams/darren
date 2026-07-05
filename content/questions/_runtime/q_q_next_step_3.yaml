@@ -1,10 +1,11 @@
 alias: q_q_next_step_3
 label: q_next_step
-name: "What's one small step we could set up now?"
+name: "Given what we've covered, where do you want to start shifting how you make those calls?"
 description: ""
 purpose: topic
 stage: commitment
 axis_effects:
-  growth: +3
+  growth: +1
+  clarity: +1
 source: "reworded_from:q_next_step"
-grounding: open
+grounding: defaults to facilitating

@@ -1,9 +1,10 @@
 alias: q_delivery_focus_11
 label: Delivery focus
-name: What did focusing on delivery let you avoid for a while?
-description: Surfaces what sitting inside controllable execution may have protected him from after the decision.
-purpose: wellbeing
+name: When delivery felt controllable, what were you stepping back from?
+description: Follows his delivery-focus thread to surface the specific rituals or interactions he pulled back from.
+purpose: topic
 stage: landing
 axis_effects:
-  clarity: +1
+  engagement: +1
 source: planner_added
+grounding: focused on delivery

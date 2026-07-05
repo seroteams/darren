@@ -1,0 +1,10 @@
+alias: q_edge_cases_example
+label: Edge cases example
+name: Take one recent flow where that happened. Which edge case did review catch?
+description: Anchor the pattern in one concrete design example before moving deeper.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: "doesn't check edge cases"

@@ -1,0 +1,11 @@
+alias: q_path_forward_17
+label: Path forward
+name: What would a credible path forward look like from here?
+description: Surfaces whether he sees a realistic next step after the promotion decision.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: planner_added
+grounding: needs real authority

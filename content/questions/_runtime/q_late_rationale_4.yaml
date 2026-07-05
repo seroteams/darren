@@ -1,0 +1,10 @@
+alias: q_late_rationale_4
+label: Late rationale
+name: When rationale is unclear in review, what is usually still unresolved for you?
+description: Drill into what remains undecided when she shares work so the cause of late review discoveries becomes explicit.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: unclear rationale

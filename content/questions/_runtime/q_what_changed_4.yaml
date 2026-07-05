@@ -1,0 +1,11 @@
+alias: q_what_changed_4
+label: What changed
+name: What feels different when you decide to hold back?
+description: Surface what is shaping the quieter pattern without assuming a cause.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: planner_added
+grounding: been holding back more than usual

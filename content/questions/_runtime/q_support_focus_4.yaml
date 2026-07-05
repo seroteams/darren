@@ -1,0 +1,11 @@
+alias: q_support_focus_4
+label: Support focus
+name: What support from me would make the biggest difference on that?
+description: Invite her to name the manager move that would help research get involved earlier and shape decisions.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: planner_added
+grounding: research in earlier

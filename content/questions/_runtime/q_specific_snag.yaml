@@ -1,0 +1,11 @@
+alias: q_specific_snag
+label: Specific snag
+name: "When you say 'a lot of issues' — what specifically got in the way?"
+description: Re-prompts for one concrete point of friction in the handoff instead of a vague summary.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+grounding: a lot of issues

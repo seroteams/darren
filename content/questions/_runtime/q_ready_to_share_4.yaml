@@ -1,0 +1,10 @@
+alias: q_ready_to_share_4
+label: Ready to share
+name: "When you say \"ready to share,\" what tells you a design is ready?"
+description: Clarify the standard she is using before bringing work into review.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: "judges 'ready to share'"
