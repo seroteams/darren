@@ -132,6 +132,15 @@ Near-monochrome ink-on-paper with a single sky accent, plus a small semantic set
   **Page** #f5fafd (background, never pure white pages) · **Surface** #ffffff (cards) ·
   **Border** #e8e8e8.
 
+### The full palette
+Every Sero colour lives as an 11-step scale (50 → 950) in `admin/src/styles/design/tokens.css`
+(`--sero-<scale>-<step>`), mirrored visually on the component sheet ("Full palette" in Colours):
+**Primary · Mint · Sky · Lavender · Coral · Gold · Teal · Navy · Soft gray · Charcoal · Off white**
+(from Carl's Figma export, 2026-07-05). Using a scale: **100–300** tinted backgrounds · **700**
+the colour itself · **800+** text on tints. Two deliberate code-vs-Figma-export deviations:
+accent stays `#5aa9e6` (the Figma *components* use it, only the variable export says #60a9e2)
+and `soft-50` stays `#fdfefe` (never-pure-white rule).
+
 ### Named Rules
 **The One Accent Rule.** Sky blue appears on at most one primary action per screen.
 **The Tokens-Only Rule.** Screens never contain literal hex values — tokens from `design.css` only.

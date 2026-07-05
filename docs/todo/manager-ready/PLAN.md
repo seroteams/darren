@@ -7,14 +7,16 @@ polish (Bricolage headings, 4px buttons, one date format).
 **Full plan:** `.claude/plans/for-this-figma-bridge-logical-snowglobe.md` (Carl's machine).
 
 ## Current state
-- **Phase 1 — 🔨 BUILT (2026-07-05), awaiting Carl's walk.** Test-first (red→green): new
-  `state.test.ts` + `router.test.ts`; `npm test` 67/67 → **69/69**; root typecheck clean.
-  Browser-verified per role: admin rail unchanged; manager rail = exactly Home · New 1:1 ·
-  Team · Past 1:1s; member rail unchanged; active-highlight works. Boot + back/forward bounce
-  managers off internal stages to Home. Not committed — green light = commit.
-  ⚠️ Pre-existing, NOT this phase: `vite build` fails at HEAD on `@sero/run-debrief` import in
-  `admin/src/ui/run-debrief.js` (committed by a parallel session mid-work).
-- Phase 2 — ⬜ **blocked on `design.css` going quiet** (mobile track is editing it live).
+- **Phase 1 — ✅ GREEN-LIT by Carl 2026-07-05 ("looks good continue").** Committed (built-first,
+  honest message). Test-first 67/67 → 69/69; per-role rails browser-verified.
+- **Phase 2 — 🔨 BUILT (2026-07-05), awaiting Carl's walk.** Test-first `formatDate` in
+  `ui/time.ts` (69/69); Bricolage Grotesque Variable installed + imported; `.text-display/.h1/.h2`
+  now use `--type-family-display`; `--sero-radius-button` 8→4px; 3 `toLocaleDateString` call
+  sites → shared `formatDate`; two 12px `.text-xs` remnants in start.js → `text-sm`.
+  Browser-verified live: h1 renders Bricolage, buttons 4px, dates "Mon 18 Nov 2024".
+  ⚠️ Commit note: `design.css` also carries the mobile track's uncommitted CSS — staging my
+  hunks must not silently sweep theirs; resolve at green light (their phases commit first, or
+  the commit message declares both).
 
 ## Phases
 | # | Phase | What Carl gets | Status |

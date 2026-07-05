@@ -8,6 +8,7 @@ import { STAGES, setState } from "../state.js";
 import { getFinishedRuns, getRunFull, setArchived } from "../../../shared/api.js";
 import { libraryBadge, serializeReview } from "../ui/review-serialize.js";
 import { escapeHtml as esc } from "../ui/html.js";
+import { formatDate } from "../ui/time.ts";
 
 const FILTERS = [
   { key: "all", label: "All" },
@@ -57,8 +58,8 @@ function compareRuns(a, b, key) {
 let keyHandler = null;
 
 function fmtDate(ts) {
-  if (!ts) return "";
-  return new Date(Number(ts)).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  // One date format everywhere (DESIGN.md rule 9) — shared, locale-proof.
+  return formatDate(Number(ts));
 }
 
 // Job title → group heading, lightly pluralised ("Content Designer" →

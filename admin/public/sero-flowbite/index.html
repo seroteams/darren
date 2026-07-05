@@ -164,6 +164,14 @@
       <div><div class="swatch bg-sero-gold"></div><p class="mt-1 text-sm font-medium">Gold — warning</p><p class="text-sm text-sero-dim">#ffc247</p></div>
       <div><div class="swatch bg-sero-lavender"></div><p class="mt-1 text-sm font-medium">Lavender</p><p class="text-sm text-sero-dim">#b49edb</p></div>
     </div>
+
+    <!-- Full palette — every Sero scale, 50→950 (from Carl's Figma export, 2026-07-05).
+         In code these are the --sero-<scale>-<step> tokens in admin/src/styles/design/tokens.css. -->
+    <details class="bg-sero-surface border border-sero-border rounded-xl">
+      <summary class="cursor-pointer p-5 font-semibold text-base">Full palette — all 11 scales, 50 → 950 (click to open)</summary>
+      <div id="palette" class="p-5 pt-0 space-y-5"></div>
+      <p class="px-5 pb-5 text-sm text-sero-dim">How to use a scale: <strong>100–300</strong> tinted backgrounds · <strong>700</strong> the colour itself · <strong>800+</strong> text on the tints. In code: <code class="text-sm">var(--sero-&lt;scale&gt;-&lt;step&gt;)</code> — never the hex.</p>
+    </details>
   </section>
 
   <!-- ============ TYPE RAMP ============ -->
@@ -875,6 +883,32 @@
     });
   }, { rootMargin: '-20% 0px -70% 0px' });
   document.querySelectorAll('main > section[id]').forEach(s => spy.observe(s));
+
+  // Full palette ramps — data mirrors --sero-* tokens in admin/src/styles/design/tokens.css
+  const SCALES = {
+    "Primary (action blue)": ["#fdfeff","#f5fafd","#e9f3fb","#d7eaf8","#c1def4","#a5cfef","#85bde9","#5aa9e6","#1b5d91","#0d2c44","#081c2b"],
+    "Mint green (success)":  ["#fdfffe","#f8fefc","#eefcf9","#e1faf4","#d0f8ef","#bcf5e7","#a4f1df","#88ecd5","#1aa887","#0c4b3c","#072c23"],
+    "Sky blue":              ["#fcfefe","#f4fbfd","#e7f6fa","#d4eff7","#bce5f2","#9fdaec","#7dcde5","#55bddd","#1b7089","#0d3642","#08232b"],
+    "Lavender":              ["#fefdfe","#faf9fd","#f4f1fa","#ece7f6","#e2d9f1","#d5c9eb","#c5b5e4","#b49edb","#55358f","#261840","#160e25"],
+    "Bright coral (error)":  ["#fffdfc","#fff6f5","#feeae8","#fddad7","#fcc5c0","#fbaca5","#f98e84","#f76b5e","#ac1608","#500a04","#310602"],
+    "Golden yellow (warning)":["#fffefc","#fffbf4","#fff6e5","#fff0d1","#ffe7b7","#ffdd98","#ffd072","#ffc247","#ad7400","#523600","#332200"],
+    "Teal green":            ["#fdfefe","#f6fbfa","#eaf6f4","#daefeb","#c6e6e0","#addcd2","#8fcfc2","#6dc0b0","#317164","#183731","#0f2420"],
+    "Navy blue":             ["#fbfdfe","#edf5fb","#d7e9f6","#b8d8ee","#90c1e5","#5fa6d9","#2e85c3","#1e5780","#133650","#0c2333","#0a1c29"],
+    "Soft gray":             ["#fdfefe","#fefefe","#fcfcfc","#f9f9f9","#f6f6f6","#f2f2f2","#ededed","#e8e8e8","#757575","#303030","#1a1a1a"],
+    "Charcoal gray":         ["#fcfcfc","#f2f2f2","#e2e2e2","#cccccc","#afafaf","#8c8c8c","#636363","#333333","#252525","#1c1c1c","#1a1a1a"],
+    "Off white":             ["#ffffff","#fdfdfd","#fbfbfb","#f7f7f7","#f3f3f3","#eeeeee","#e8e8e8","#e0e0e0","#727272","#303030","#1a1a1a"],
+  };
+  const STEPS = [50,100,200,300,400,500,600,700,800,900,950];
+  const pal = document.getElementById('palette');
+  if (pal) {
+    pal.innerHTML = Object.entries(SCALES).map(([name, hexes]) => `
+      <div>
+        <p class="text-sm font-medium mb-1.5">${name}</p>
+        <div class="grid grid-cols-11 gap-1">
+          ${hexes.map((h, i) => `<div title="${STEPS[i]} · ${h}"><div class="h-9 rounded border border-sero-border" style="background:${h}"></div><p class="text-sm text-sero-dim text-center mt-0.5 hidden xl:block">${STEPS[i]}</p></div>`).join('')}
+        </div>
+      </div>`).join('');
+  }
 
   // Live toast demo — slides in bottom-right, gone in 4s
   document.getElementById('toastDemo')?.addEventListener('click', () => {

@@ -3,6 +3,7 @@ import { listRecentRuns, getRunOverview, deleteRun, getPersonaBench, startSessio
 import { confirmAction, alertAction } from "../ui/confirm.js";
 import { stageLabel } from "../ui/stage-labels.js";
 import { escapeHtml as escape } from "../ui/html.js";
+import { formatDate } from "../ui/time.ts";
 
 let keyHandler = null;
 
@@ -35,7 +36,7 @@ export async function mount(root, { setState, rehydrateById }) {
               <div class="eyebrow">What Sero should know</div>
               <p class="text-sm text-ink-dim js-persona-notes"></p>
             </div>
-            <p class="text-xs text-ink-mute js-persona-footer"></p>
+            <p class="text-sm text-ink-mute js-persona-footer"></p>
           </div>
           <div class="space-y-2">
             <div class="eyebrow">How to run</div>
@@ -160,7 +161,7 @@ export async function mount(root, { setState, rehydrateById }) {
         <button class="run-row__head js-row" data-id="${escape(r.id)}" aria-expanded="${isOpen}">
           <span class="run-row__chevron" aria-hidden="true">${isOpen ? "▼" : "▶"}</span>
           <span class="run-row__headline">${escape(r.headline || r.id)}${driftDot(r)}${reviewChip(r)}</span>
-          <span class="run-row__meta text-ink-mute text-xs">${escape(formatRelativeTime(r.lastSeenAt))} · ${escape(stageLabel(r.stage))}</span>
+          <span class="run-row__meta text-ink-mute text-sm">${escape(formatRelativeTime(r.lastSeenAt))} · ${escape(stageLabel(r.stage))}</span>
         </button>
         <div class="run-row__body js-body" data-id="${escape(r.id)}" hidden></div>
       </li>
@@ -469,7 +470,8 @@ function formatRelativeTime(ts) {
   if (hrs < 24) return `${hrs}h ago`;
   const days = Math.floor(hrs / 24);
   if (days < 7) return `${days}d ago`;
-  return new Date(ts).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  // Older than a week: the one date format everywhere (DESIGN.md rule 9).
+  return formatDate(Number(ts));
 }
 
 function cssEscape(s) {

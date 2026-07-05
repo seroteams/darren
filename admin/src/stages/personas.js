@@ -13,6 +13,7 @@ import {
 } from "../../../shared/api.js";
 import { libraryBadge } from "../ui/review-serialize.js";
 import { escapeHtml as esc } from "../ui/html.js";
+import { formatDate } from "../ui/time.ts";
 
 const COST_LINE =
   "Runs the full engine with this persona's scripted answers. Costs about $0.35 in AI and takes 1–2 minutes.";
@@ -187,12 +188,8 @@ function historyHtml(runs) {
 }
 
 function fmtDate(ms) {
-  if (!ms) return "";
-  try {
-    return new Date(ms).toLocaleDateString(undefined, { month: "short", day: "numeric" });
-  } catch {
-    return "";
-  }
+  // One date format everywhere (DESIGN.md rule 9) — shared, locale-proof.
+  return formatDate(ms);
 }
 
 function wireCards(resultHost, personas) {

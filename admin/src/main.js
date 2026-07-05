@@ -1,4 +1,5 @@
 import "@fontsource-variable/inter";
+import "@fontsource-variable/bricolage-grotesque"; // display headings (DESIGN.md §3)
 import "./styles/tailwind.css";
 import "./styles/design.css";
 
