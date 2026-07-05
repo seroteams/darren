@@ -33,6 +33,7 @@ const ICON = {
   guide: icon(`<path d="M12 7.5v13"/><path d="M3 18.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v12.5a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>`),
   tasks: icon(`<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><path d="m9 14 2 2 4-4"/>`),
   registered: icon(`<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/>`),
+  universe: icon(`<circle cx="12" cy="12" r="3"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"/>`),
   logout: icon(`<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>`),
   privacy: icon(`<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>`),
   about: icon(`<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>`),
@@ -44,23 +45,30 @@ const ICON = {
 // = the plain member app (admin-access-guard Phase 2 + member-nav Phase 1). render()
 // shows exactly one audience's rows based on the logged-in role. A member sees just
 // Home · Team · Runs; an admin sees the full internal toolset (unchanged).
+// Admin rows also carry a `group` (Sessions · Engine · Admin) — render() draws a muted
+// section header before each new group so the long admin rail reads in chunks. Member
+// rows have no group (their short list needs none).
 const LINKS = [
-  { key: "home", label: "Home", stage: STAGES.START, icon: ICON.home, admin: true },
+  // Member app — Home · Team · Past 1:1s. Shown only to members; never grouped.
   { key: "mhome", label: "Home", stage: STAGES.MEMBER_HOME, icon: ICON.home, member: true },
   { key: "team", label: "Team", stage: STAGES.TEAM, icon: ICON.team, member: true },
   { key: "runs", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, member: true },
-  { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new, admin: true },
-  { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library, admin: true },
-  { key: "compare", label: "Compare runs", stage: STAGES.COMPARE, icon: ICON.compare, admin: true },
-  { key: "regression", label: "Regression", stage: STAGES.REGRESSION, icon: ICON.regression, admin: true },
-  { key: "personas", label: "Personas", stage: STAGES.PERSONAS, icon: ICON.personas, admin: true },
-  { key: "lexicon", label: "Coaching phrases", stage: STAGES.LEXICON_REVIEW, icon: ICON.lexicon, admin: true },
-  { key: "joblex", label: "Role words", stage: STAGES.ROLE_LEXICONS, icon: ICON.joblex, admin: true },
-  { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs, admin: true },
-  { key: "tasks", label: "Tasks", stage: STAGES.TASKS, icon: ICON.tasks, admin: true },
+  // Admin toolset, grouped into sections.
+  { key: "home", label: "Home", stage: STAGES.START, icon: ICON.home, admin: true, group: "Sessions" },
+  { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new, admin: true, group: "Sessions" },
+  { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library, admin: true, group: "Sessions" },
+  { key: "compare", label: "Compare runs", stage: STAGES.COMPARE, icon: ICON.compare, admin: true, group: "Sessions" },
+  { key: "regression", label: "Regression", stage: STAGES.REGRESSION, icon: ICON.regression, admin: true, group: "Sessions" },
+  { key: "personas", label: "Personas", stage: STAGES.PERSONAS, icon: ICON.personas, admin: true, group: "Sessions" },
+  { key: "lexicon", label: "Coaching phrases", stage: STAGES.LEXICON_REVIEW, icon: ICON.lexicon, admin: true, group: "Engine" },
+  { key: "joblex", label: "Role words", stage: STAGES.ROLE_LEXICONS, icon: ICON.joblex, admin: true, group: "Engine" },
+  { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs, admin: true, group: "Engine" },
+  // Just for fun — the 3D live map of the app (universe.ts). Admin-only eye candy.
+  { key: "universe", label: "Universe", stage: STAGES.UNIVERSE, icon: ICON.universe, admin: true, group: "Engine" },
+  { key: "tasks", label: "Tasks", stage: STAGES.TASKS, icon: ICON.tasks, admin: true, group: "Admin" },
   // Superadmin-only (pre-go-live PG7). `admin: true` puts it in the admin rail; `superadmin:
   // true` hides it from every owner but Carl. Cosmetic — the backend 403 is the real wall.
-  { key: "registered", label: "User management", stage: STAGES.ADMIN_REGISTERED, icon: ICON.registered, admin: true, superadmin: true },
+  { key: "registered", label: "User management", stage: STAGES.ADMIN_REGISTERED, icon: ICON.registered, admin: true, superadmin: true, group: "Admin" },
 ];
 
 export function createAppNav({ setState, resetSession } = {}) {
@@ -69,7 +77,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   document.body.classList.add("has-app-nav");
 
   const items = [...LINKS];
-  if (import.meta.env.DEV) items.push({ key: "guide", label: "Guide", stage: STAGES.GUIDE, icon: ICON.guide, admin: true });
+  if (import.meta.env.DEV) items.push({ key: "guide", label: "Guide", stage: STAGES.GUIDE, icon: ICON.guide, admin: true, group: "Admin" });
 
   el.innerHTML = `
     <div class="app-nav__inner">
@@ -78,14 +86,24 @@ export function createAppNav({ setState, resetSession } = {}) {
         <span class="app-nav__word">Sero<span class="app-nav__tagline"> Engine</span></span>
       </button>
       <nav class="app-nav__links" aria-label="Primary">
-        ${items
-          .map(
-            (it) => `<button type="button" class="app-nav__link js-nav-${it.key}" data-key="${it.key}" data-admin="${it.admin ? "1" : ""}" data-member="${it.member ? "1" : ""}" data-superadmin="${it.superadmin ? "1" : ""}">
+        ${(() => {
+          let lastGroup = null;
+          return items
+            .map((it) => {
+              // A muted section header opens each new admin group. Members' rows carry no
+              // group, so they render header-less (and render() hides these in member view).
+              let head = "";
+              if (it.group && it.group !== lastGroup) {
+                head = `<div class="app-nav__group-label" data-admin="1"><span>${it.group}</span></div>`;
+                lastGroup = it.group;
+              }
+              return `${head}<button type="button" class="app-nav__link js-nav-${it.key}" data-key="${it.key}" data-admin="${it.admin ? "1" : ""}" data-member="${it.member ? "1" : ""}" data-superadmin="${it.superadmin ? "1" : ""}">
           <span class="app-nav__icon">${it.icon}</span>
           <span class="app-nav__label">${it.label}</span>
-        </button>`
-          )
-          .join("")}
+        </button>`;
+            })
+            .join("");
+        })()}
       </nav>
       <nav class="app-nav__links app-nav__links--foot" aria-label="Account">
         <button type="button" class="app-nav__link js-nav-about" data-key="about">
@@ -125,6 +143,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     joblex: () => setState && setState({ stage: STAGES.ROLE_LEXICONS }),
     arcs: () => setState && setState({ stage: STAGES.MEETING_ARCS }),
     tasks: () => setState && setState({ stage: STAGES.TASKS }),
+    universe: () => setState && setState({ stage: STAGES.UNIVERSE }),
     registered: () => setState && setState({ stage: STAGES.ADMIN_REGISTERED }),
     guide: () => setState && setState({ stage: STAGES.GUIDE }),
     privacy: () => setState && setState({ stage: STAGES.PRIVACY }),
@@ -157,6 +176,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.ROLE_LEXICONS]: "joblex",
     [STAGES.MEETING_ARCS]: "arcs",
     [STAGES.TASKS]: "tasks",
+    [STAGES.UNIVERSE]: "universe",
     [STAGES.ADMIN_REGISTERED]: "registered",
     [STAGES.ADMIN_USER]: "registered",
     [STAGES.GUIDE]: "guide",
@@ -191,6 +211,8 @@ export function createAppNav({ setState, resetSession } = {}) {
       if (show && b.dataset.superadmin === "1" && !(user && user.isSuperadmin)) show = false;
       b.hidden = !show;
     });
+    // Section headers belong to the admin rail only — hide them for members.
+    el.querySelectorAll(".app-nav__group-label").forEach((h) => { h.hidden = !admin; });
     const activeKey = ACTIVE_BY_STAGE[stage] || null;
     el.querySelectorAll(".app-nav__link").forEach((b) => {
       const on = b.dataset.key === activeKey;

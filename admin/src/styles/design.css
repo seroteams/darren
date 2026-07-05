@@ -2439,10 +2439,43 @@ body.has-session-topbar {
   color: var(--color-ink);
   font-weight: var(--type-weight-semibold);
 }
+/* Section headers — chunk the long admin rail (Sessions · Engine · Admin). The
+   hairline stays put when the rail is collapsed so the group breaks read as
+   separators; the label text fades in with the rail, like the link labels.
+   Admin-only: render() sets [hidden] on these in the member rail. */
+.app-nav__group-label {
+  margin: 8px 16px 2px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.app-nav__group-label:first-of-type {
+  border-top: 0;          /* first group sits under the brand — no divider needed */
+  padding-top: 2px;
+}
+.app-nav__group-label[hidden] {
+  display: none;          /* member view — headers off (matches the link rule) */
+}
+.app-nav__group-label span {
+  display: block;
+  font-size: var(--type-body-sm);          /* 14px — accessibility floor */
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out-expo);
+}
+.app-nav:hover .app-nav__group-label span,
+.app-nav:focus-within .app-nav__group-label span {
+  opacity: 1;
+}
 @media (prefers-reduced-motion: reduce) {
   .app-nav,
   .app-nav__label,
-  .app-nav__word {
+  .app-nav__word,
+  .app-nav__group-label span {
     transition: none;
   }
 }
