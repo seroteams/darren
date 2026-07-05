@@ -1,6 +1,6 @@
 # Phase 1 — Backend: claim endpoint + daily guest cap
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ green-lit 2026-07-05 ("A")
 
 ## Goal
 The backend can hand a finished ownerless run to a logged-in account (claim), and guest starts are capped per day so strangers can't spend the OpenAI budget.
@@ -17,9 +17,9 @@ The backend can hand a finished ownerless run to a logged-in account (claim), an
 - No paid runs. All QA here is $0.
 
 ## Done when
-- [ ] Tests written first, then green: claim (ownerless→stamped+persisted · other-owner→404 · same-owner→idempotent · unknown→404); cap (UTC day rollover · limit hit · restart persistence · env default 10).
-- [ ] `npm test` + `npm run typecheck` green.
-- [ ] Product owner has walked the scenarios below and said go.
+- [x] Tests written first, then green: claim (ownerless→stamped+persisted · other-owner→404 · same-owner→idempotent · unknown→404); cap (UTC day rollover · limit hit · restart persistence · env default 10). (73/73)
+- [x] `npm test` + `npm run typecheck` green.
+- [x] Product owner has walked the scenarios below and said go. (Green-lit on the live scratch-API proof, 2026-07-05.)
 
 ## Test scenarios — for the product owner
 Walk through these yourself (I'll drive the commands, you check what comes back). All free — the AI key stays unset so no run costs anything. Next phase waits for your green light.

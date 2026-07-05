@@ -21,15 +21,16 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Backend: claim + daily cap | `POST /api/v1/sessions/:id/claim` + `GUEST_RUNS_PER_DAY` file-backed cap + board reversal note | 🔨 |
-| 2 | Guest lane frontend | "Try it — no account needed" on login → intake; logged-out boot/router lane; mid-run reload works | ⬜ |
+| 1 | Backend: claim + daily cap | `POST /api/v1/sessions/:id/claim` + `GUEST_RUNS_PER_DAY` file-backed cap + board reversal note | ✅ |
+| 2 | Guest lane frontend | "Try it — no account needed" on login → intake; logged-out boot/router lane; mid-run reload works | 🔨 |
 | 3 | Save prompt + claim wiring | Briefing save card for guests → register/login → auto-claim → run in Past 1:1s | ⬜ |
 | 4 | Superadmin "Guest runs" screen | List of ownerless finished runs + read-only briefing view, superadmin-only | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 BUILT 2026-07-05 — awaiting Carl's walk.** Baseline before touching: `npm test` 72/72 · typecheck clean.
+**Phase 1 ✅ green-lit 2026-07-05 ("A") · Phase 2 🔨 (guest lane frontend) building.**
+Phase 1 record: baseline before touching: `npm test` 72/72 · typecheck clean.
 Built test-first (5 cap tests + 4 claim tests, red→green); after: **73/73 · typecheck clean**. Live-proven at $0 on a
 scratch API (:3011, garbage AI key, no DB): guest start 201 → second 429 with the exact plain message → restart keeps
 the refusal (no fresh budget) → anonymous claim 401 → logged-in start uncapped → claim 200 + `session-state.json` on

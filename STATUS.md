@@ -22,7 +22,7 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > whichever track commits first carries them). ⚠️ **Restart your dev API** before walking on
 > :3000/:3001. Walk: [phase-1.md](docs/todo/feedback-inbox/phase-1.md).
 
-> **🔨 [guest-run](docs/todo/guest-run/PLAN.md) — Phase 1 BUILT (2026-07-05, "Go phase 1"), awaiting your walk.**
+> **🔨 [guest-run](docs/todo/guest-run/PLAN.md) — Phase 1 ✅ green-lit · Phase 2 (guest front door) 🔨 building (2026-07-05).**
 > Your "open way first" idea: no-account visitor runs a full 1:1, saves it at the end by registering/logging in.
 > **P1 built test-first (claim endpoint + daily guest cap):** anonymous starts are back open but budgeted —
 > `GUEST_RUNS_PER_DAY` (default 10) across all guests/day, plain "come back tomorrow" refusal, counter survives
