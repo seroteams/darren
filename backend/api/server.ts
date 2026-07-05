@@ -304,6 +304,26 @@ function main(): void {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return team.rename(c);
   }));
+  // People roster (people-roster Phase 1) — a manager's formal list of their reports.
+  // Manager/admin only (requireAdmin in the controller; members 403), fenced to the
+  // caller's orgId + managerId in the service. Mutations origin-guarded like team/merge.
+  router.add("GET", "/api/v1/team/people", v1Route(team.listPeople));
+  router.add("POST", "/api/v1/team/people", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return team.createPerson(c);
+  }));
+  router.add("PATCH", /^\/api\/v1\/team\/people\/(?<id>[^/]+)$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return team.updatePerson(c);
+  }));
+  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/merge$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return team.mergePerson(c);
+  }));
+  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/archive$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return team.archivePerson(c);
+  }));
   router.add("GET", "/api/v1/runs/recent", v1Route(runs.recent));
   router.add("GET", "/api/v1/runs/finished", v1Route(runs.finished));
   // dev-only "prefill a run" (admin-guarded in the controller): list clonable finished

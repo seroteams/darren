@@ -12,7 +12,7 @@
 // Scope: this phase only DESCRIBES the tables. Nothing reads or writes them yet —
 // the repo swap is Phase 3, the live DB + docker-compose is Phase 4.
 
-import { pgTable, pgEnum, uuid, text, integer, timestamp, jsonb, index, uniqueIndex } from "drizzle-orm/pg-core";
+import { pgTable, pgEnum, uuid, text, integer, timestamp, jsonb, index, uniqueIndex, type AnyPgColumn } from "drizzle-orm/pg-core";
 
 /** Fixed sets as enums (locked rule: roles / invite status are enums, not free text). */
 export const userRole = pgEnum("user_role", ["admin", "manager", "member"]);
@@ -47,6 +47,42 @@ export const users = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [index("users_org_id_idx").on(t.orgId), uniqueIndex("users_email_unique").on(t.email)],
+);
+
+/** A manager's roster (people-roster Phase 1) — the people a manager runs 1:1s about.
+ *  Distinct from `users`: most of these people never log in (users.email is NOT NULL and
+ *  a users row implies login), so a roster entry exists account-less and gets LINKED to a
+ *  users row later via `user_id` — that link is what powers a member's "1:1s about me".
+ *  `merged_into_id` makes Tidy-up merge a pointer resolved at read time (chain-follow,
+ *  same idea as the alias files) — run state is never rewritten. Double-fenced like runs:
+ *  every read/write filters by org_id + manager_id. */
+export const people = pgTable(
+  "people",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => organizations.id),
+    managerId: uuid("manager_id")
+      .notNull()
+      .references(() => users.id),
+    name: text("name").notNull(),
+    role: text("role"),
+    seniority: text("seniority"),
+    // Set when this person IS a registered user (e.g. member@seroteams.com). Null for
+    // the many people who never sign up.
+    userId: uuid("user_id").references(() => users.id),
+    // Non-null = this row was folded into another person (Tidy-up merge).
+    mergedIntoId: uuid("merged_into_id").references((): AnyPgColumn => people.id),
+    archivedAt: timestamp("archived_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index("people_org_id_idx").on(t.orgId),
+    index("people_manager_id_idx").on(t.managerId),
+    index("people_user_id_idx").on(t.userId),
+  ],
 );
 
 /** The live 1:1 session — the whole session object lives in `state` (jsonb). It

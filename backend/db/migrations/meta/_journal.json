@@ -50,6 +50,13 @@
       "when": 1783264800559,
       "tag": "0006_colorful_obadiah_stane",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1783268252083,
+      "tag": "0007_previous_cable",
+      "breakpoints": true
     }
   ]
 }

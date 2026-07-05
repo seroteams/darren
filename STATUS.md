@@ -9,15 +9,21 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — NEW track (started 2026-07-05). Phase 1 (people table + roster service) 🔨 building.**
+> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — NEW track (started 2026-07-05). Phase 1 (people table + roster service) BUILT, awaiting your walk.**
 > Your ask: members should only see their own 1:1s → the real build (option B): managers formally
 > **have** members. Investigation first: the current fence works but is creator-based (a real member's
 > list would be EMPTY — the full demo list is seed data, not a leak), and "1:1s about me" is impossible
-> today because the person in a 1:1 is free text with no link to any account. Plan: a `people` roster
-> table (org+manager fenced, linkable to a user account later) · new runs stamp `personId` · backfill
-> old runs via the alias files · intake person picker + roster-driven Team page · member "Your 1:1s"
-> via the person→account link. ⚠️ Privacy: members get **list-only** (type + date + manager) — no notes,
-> no briefing; anything richer is your call (parked: `member-run-visibility`). 5 phases, one at a time.
+> today because the person in a 1:1 is free text with no link to any account.
+> **P1 BUILT test-first:** `people` table live on Neon (migration `0007`, verified in the DB) + the
+> roster service and 5 endpoints under `/api/v1/team/people` (create dedupes "priya "/"Priya", rename,
+> merge folds cards with chain-collapse, archive) — manager/admin only, org+manager fenced. Live-proven
+> on a scratch API (:3041, $0): member **403**, foreign/unknown id **404**, logged-out **401**; merge/
+> archive verified IN the Neon table; QA rows cleaned. `npm test` **75/75** · typecheck clean. Committed
+> path-scoped "built — awaiting walk". **Walk:** the 5 scenarios in
+> [phase-1.md](docs/todo/people-roster/phase-1.md) (all free). Green light → Phase 2 (new runs stamp
+> `personId`). Then: ③ backfill old runs · ④ intake person picker + roster Team page · ⑤ member link +
+> "Your 1:1s". ⚠️ Privacy: members will get **list-only** (type + date + manager) — no notes, no
+> briefing; anything richer is your call (parked: `member-run-visibility`).
 
 > **🔨 [feedback-inbox](docs/todo/feedback-inbox/PLAN.md) — NEW track (started 2026-07-05). Phase 1 (the whole slice) BUILT, awaiting your walk.**
 > Your ask: a page that shows what testers send via "Send feedback", with its own DB table.
