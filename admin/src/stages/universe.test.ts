@@ -3,7 +3,7 @@
 // Rendering is canvas eye-candy and stays untested; the data shaping lives here.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, PIPELINE } from "./universe.ts";
+import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, filterUniverse, PIPELINE } from "./universe.ts";
 import type { UNode } from "./universe.ts";
 
 test("buildUniverse: empty data still yields the core and the full pipeline chain", () => {
@@ -95,6 +95,28 @@ test("summarizeDiff: plain-language messages for the common cases", () => {
   assert.equal(summarizeDiff(both), "1 new 1:1 just appeared, and 1 person dropped off.");
 });
 
+test("filterUniverse: hiding a kind removes its nodes and every line touching them", () => {
+  const { nodes, edges } = buildUniverse({
+    runs: [{ id: "r1", ctx: { name: "Maya" } }],
+    types: [{ label: "Weekly" }],
+  });
+  const view = filterUniverse(nodes, edges, new Set(["person"]));
+  assert.ok(!view.nodes.some((n) => n.kind === "person"), "people gone");
+  assert.ok(view.nodes.some((n) => n.kind === "run"), "their runs stay");
+  assert.ok(!view.edges.some((e) => e.from.startsWith("person:") || e.to.startsWith("person:")), "no dangling lines");
+  assert.ok(view.edges.some((e) => e.from === "core"), "unrelated lines stay");
+});
+
+test("filterUniverse: the core can never be hidden; empty filter hides nothing", () => {
+  const { nodes, edges } = buildUniverse({});
+  const all = filterUniverse(nodes, edges, new Set());
+  assert.equal(all.nodes.length, nodes.length);
+  assert.equal(all.edges.length, edges.length);
+  const noCore = filterUniverse(nodes, edges, new Set(["core", "stage"]));
+  assert.ok(noCore.nodes.some((n) => n.kind === "core"), "the sun stays lit");
+  assert.ok(!noCore.nodes.some((n) => n.kind === "stage"), "pipeline hidden as asked");
+});
+
 test("stars: n filled then hollow, out of five", () => {
   assert.equal(stars(5), "★★★★★");
   assert.equal(stars(4), "★★★★☆");
@@ -138,6 +160,103 @@ test("describeNode: a person shows counts + roles and a clickable list of their 
   assert.equal(m.runs?.[0]?.sub, "Designer · Weekly · t5");
   assert.equal(m.runs?.[1]?.sub, "Lead"); // no meeting type or date -> just the role
   assert.equal(m.openRunId, undefined); // people don't get the Open button
+});
+
+test("buildUniverse: live sessions become comets parked at their actual stage", () => {
+  const { nodes, edges } = buildUniverse({
+    sessions: [
+      { id: "s1", stage: "QUESTIONING", ctx: { name: "Maya" }, lastSeenAt: 5 },
+      { id: "s2", stage: "BRIEFING", ctx: { name: "Ola" } },   // finished -> not a comet
+      { id: "s3", stage: "SOMETHING_NEW", ctx: {} },            // unknown stage -> parks at the core
+    ],
+  });
+  const comets = nodes.filter((n) => n.kind === "session");
+  assert.equal(comets.length, 2, "finished sessions don't get comets");
+  const s1 = nodes.find((n) => n.id === "session:s1")!;
+  assert.equal(s1.label, "Maya");
+  assert.equal(s1.sessionStage, "Live Q&A", "stage shown in the app's own words");
+  assert.ok(edges.some((e) => e.from === "stage:interview" && e.to === "session:s1"));
+  assert.ok(edges.some((e) => e.from === "core" && e.to === "session:s3"));
+});
+
+test("buildUniverse: meeting types feed Intake and link to the runs that used them", () => {
+  const { edges } = buildUniverse({
+    types: [{ label: "Weekly" }],
+    runs: [{ id: "r1", ctx: { name: "Maya", meetingType: "Weekly" } }],
+  });
+  assert.ok(edges.some((e) => e.from === "type:weekly" && e.to === "stage:intake"), "type flows INTO intake");
+  assert.ok(!edges.some((e) => e.from === "core" && e.to === "type:weekly"), "no fictional core->type flow");
+  assert.ok(edges.some((e) => e.from === "type:weekly" && e.to === "run:r1"), "run linked to the type it used");
+});
+
+test("buildUniverse: arcs + details enrich their meeting type's panel", () => {
+  const { nodes } = buildUniverse({
+    types: [{ label: "Weekly", duration: "15 min", description: "Steady catch-ups." }],
+    arcs: [{ slug: "weekly", label: "Weekly", arc: [{}, {}, {}], tone_register: "Warm, direct" }],
+  });
+  const t = nodes.find((n) => n.id === "type:weekly")!;
+  assert.equal(t.sub, "Steady catch-ups.", "the type's real description becomes its subtitle");
+  assert.equal(t.arcSteps, 3);
+  assert.equal(t.arcTone, "Warm, direct");
+  const m = describeNode(t, () => "");
+  assert.deepEqual(m.rows, [
+    { k: "Duration", v: "15 min" },
+    { k: "Arc steps", v: "3" },
+    { k: "Tone", v: "Warm, direct" },
+  ]);
+});
+
+test("buildUniverse: role word lists join the map and link to matching people", () => {
+  const { nodes, edges } = buildUniverse({
+    lexicons: [{ key: "pm", label: "Product Manager", terms: [{ term: "roadmap" }, { term: "scope" }] }],
+    runs: [{ id: "r1", ctx: { name: "Maya", role: "Product  manager" } }], // sloppy spacing/case still matches
+  });
+  const lx = nodes.find((n) => n.kind === "lexicon")!;
+  assert.equal(lx.label, "Product Manager");
+  assert.ok(edges.some((e) => e.from === lx.id && e.to === "stage:prepare"), "role words feed Preparation");
+  assert.ok(edges.some((e) => e.from === lx.id && e.to === "person:maya"), "linked to the person with that role");
+  const m = describeNode(lx, () => "");
+  assert.deepEqual(m.rows, [
+    { k: "Words", v: "2" },
+    { k: "Sample", v: "roadmap, scope" },
+  ]);
+});
+
+test("buildUniverse: a label-less role word list gets a readable name, not its raw key", () => {
+  const { nodes } = buildUniverse({ lexicons: [{ key: "backend-engineer--mid-level", terms: [] }] });
+  const lx = nodes.find((n) => n.kind === "lexicon")!;
+  assert.equal(lx.label, "Backend engineer · Mid level");
+});
+
+test("buildUniverse: the engine's real inner parts orbit their stage planets", () => {
+  const { nodes, edges } = buildUniverse({});
+  const parts = nodes.filter((n) => n.kind === "part");
+  const around = (stageId: string) => parts.filter((p) => edges.some((e) => e.from === stageId && e.to === p.id));
+  assert.equal(around("stage:bank").length, 5, "question bank: generator, validator, eligibility, dedup, queue");
+  assert.equal(around("stage:evaluate").length, 3, "evaluate: axes, coverage, gates");
+  assert.equal(around("stage:briefing").length, 3, "briefing: opener, agenda, closer");
+  const dedup = parts.find((p) => p.label === "Dedup gate")!;
+  const m = describeNode(dedup, () => "");
+  assert.deepEqual(m.rows, [{ k: "Part of", v: "Question bank" }]);
+});
+
+test("diff + summary: live sessions are counted in plain words", () => {
+  const before = buildUniverse({});
+  const after = buildUniverse({ sessions: [{ id: "s1", stage: "EVAL", ctx: { name: "Maya" } }] });
+  const diff = diffUniverse(before.nodes, after.nodes);
+  assert.equal(diff.added.session, 1);
+  assert.equal(summarizeDiff(diff), "1 new live session just appeared.");
+});
+
+test("describeNode: a live session shows who, where it is, and when it was touched", () => {
+  const { nodes } = buildUniverse({ sessions: [{ id: "s1", stage: "PREPARATION", ctx: { name: "Ola" }, lastSeenAt: 7 }] });
+  const m = describeNode(nodes.find((n) => n.id === "session:s1")!, (ts) => (ts ? `t${ts}` : ""));
+  assert.equal(m.eyebrow, "Live session");
+  assert.deepEqual(m.rows, [
+    { k: "With", v: "Ola" },
+    { k: "At stage", v: "Prep brief" },
+    { k: "Last touched", v: "t7" },
+  ]);
 });
 
 test("describeNode: stage shows its step, core lists the pipeline, type names itself", () => {

@@ -12,9 +12,10 @@
 
 import { STAGES } from "../state.js";
 import type { StageContext } from "./stage.types.ts";
-import { getFinishedRuns, getMeetingTypes } from "../../../shared/api.js";
+import { getFinishedRuns, getMeetingTypes, listRecentRuns, getArcs, getRoleLexicons, getRunOverview } from "../../../shared/api.js";
 import { escapeHtml as esc } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
+import { stageLabel } from "../ui/stage-labels.js";
 
 // One finished 1:1, as carried on a person node for the detail panel's list.
 export interface UNodeRun {
@@ -28,7 +29,7 @@ export interface UNodeRun {
 
 export interface UNode {
   id: string;
-  kind: "core" | "stage" | "person" | "run" | "type";
+  kind: "core" | "stage" | "person" | "run" | "type" | "session" | "part" | "lexicon";
   label: string;
   sub: string;
   x: number;
@@ -40,10 +41,17 @@ export interface UNode {
   step?: number;              // stage: its 1-based position in the pipeline
   role?: string;              // run: the role at that 1:1
   meetingType?: string;       // run: the meeting type
-  lastSeenAt?: number | null; // run: when it was last touched
+  lastSeenAt?: number | null; // run + session: when it was last touched
   rating?: number | null;     // run: the member's star rating, if any
   withName?: string;          // run: who the 1:1 was with
   runs?: UNodeRun[];          // person: their finished 1:1s
+  sessionStage?: string;      // session: which stage it's sitting at, in plain words
+  parentLabel?: string;       // part: which stage planet it belongs to
+  termsCount?: number;        // lexicon: how many words it holds
+  termsSample?: string;       // lexicon: a taste of the words
+  duration?: string;          // type: how long this kind of meeting runs
+  arcSteps?: number;          // type: how many beats its arc has
+  arcTone?: string;           // type: the arc's tone register
 }
 
 export interface UEdge {
@@ -67,20 +75,70 @@ const GOLDEN = 2.399963229728653; // golden angle — spreads people evenly on t
 const asRecord = (v: unknown): Record<string, unknown> | null =>
   v && typeof v === "object" ? (v as Record<string, unknown>) : null;
 const str = (v: unknown): string => (typeof v === "string" ? v.trim() : "");
+const norm = (s: string): string => s.toLowerCase().replace(/[^a-z0-9]+/g, ""); // loose text matching
+
+// "backend-engineer--mid-level" -> "Backend engineer · Mid level" — a raw key never
+// reaches the screen (plain-language rule). `--` splits facets, `-` is just a space.
+const humanize = (key: string): string =>
+  key
+    .split("--")
+    .map((seg) => seg.replace(/-/g, " ").trim())
+    .filter(Boolean)
+    .map((seg) => seg.charAt(0).toUpperCase() + seg.slice(1))
+    .join(" · ");
+
+// Which pipeline planet an in-flight session parks at, by its saved stage name.
+const SESSION_AT: Record<string, string> = {
+  INTAKE: "intake", FOCUS_POINTS: "focus", PREPARATION: "prepare",
+  BANK: "bank", QUESTIONING: "interview", EVAL: "evaluate",
+};
+
+// The engine's real inner machinery, as moons around their stage planet. Every entry
+// is a real module (question-generator.ts, delta-gates.ts, opener.ts, …) — no set dressing.
+const ENGINE_PARTS: { stage: string; label: string; sub: string }[] = [
+  { stage: "bank", label: "Question generator", sub: "Writes candidate questions for this person and meeting." },
+  { stage: "bank", label: "Question validator", sub: "Checks every question is clear, safe, and well-formed." },
+  { stage: "bank", label: "Eligibility filter", sub: "Drops questions that don't fit this meeting type." },
+  { stage: "bank", label: "Dedup gate", sub: "Blocks questions too close to ones already asked." },
+  { stage: "bank", label: "Queue manager", sub: "Keeps the best questions lined up in order." },
+  { stage: "evaluate", label: "Answer axes", sub: "Weighs what each answer reveals, axis by axis." },
+  { stage: "evaluate", label: "Axis coverage", sub: "Tracks which areas the conversation has covered." },
+  { stage: "evaluate", label: "Safety gates", sub: "Blocks output that breaks the engine's rules." },
+  { stage: "briefing", label: "Opener", sub: "Shapes how the 1:1 starts." },
+  { stage: "briefing", label: "Agenda", sub: "Weaves your own agenda points in." },
+  { stage: "briefing", label: "Closer", sub: "Lands the ending and next steps." },
+];
+
+export interface UniverseInput {
+  runs?: unknown[];      // finished 1:1s
+  types?: unknown[];     // meeting types
+  sessions?: unknown[];  // recent sessions incl. stage — unfinished ones become comets
+  arcs?: unknown[];      // meeting arcs — enrich their type's panel
+  lexicons?: unknown[];  // role word lists
+}
 
 /** Turn real app data into the 3D node/edge map. Pure and deterministic — tested. */
-export function buildUniverse(input: { runs?: unknown[]; types?: unknown[] }): { nodes: UNode[]; edges: UEdge[] } {
+export function buildUniverse(input: UniverseInput): { nodes: UNode[]; edges: UEdge[] } {
   const nodes: UNode[] = [];
   const edges: UEdge[] = [];
+
+  // World position of a pipeline planet, shared by the ring itself and everything
+  // that anchors to it (parts, live-session comets).
+  const stagePos = (key: string) => {
+    const i = PIPELINE.findIndex((s) => s.key === key);
+    if (i < 0) return { x: 0, y: 0, z: 0 };
+    const a = (i / PIPELINE.length) * Math.PI * 2 - Math.PI / 2;
+    return { x: Math.cos(a) * 250, y: Math.sin(a * 2) * 28, z: Math.sin(a) * 250 };
+  };
 
   nodes.push({ id: "core", kind: "core", label: "Sero", sub: "The engine. Everything flows through here.", x: 0, y: 0, z: 0, r: 46 });
 
   // Pipeline ring — the seven steps a 1:1 travels through, chained in order.
   PIPELINE.forEach((s, i) => {
-    const a = (i / PIPELINE.length) * Math.PI * 2 - Math.PI / 2;
+    const at = stagePos(s.key);
     nodes.push({
       id: `stage:${s.key}`, kind: "stage", label: s.label, sub: s.sub,
-      x: Math.cos(a) * 250, y: Math.sin(a * 2) * 28, z: Math.sin(a) * 250, r: 20, step: i + 1,
+      x: at.x, y: at.y, z: at.z, r: 20, step: i + 1,
     });
     edges.push(
       i === 0
@@ -89,9 +147,25 @@ export function buildUniverse(input: { runs?: unknown[]; types?: unknown[] }): {
     );
   });
 
+  // The engine's inner parts — tiny moons you find by diving close to a stage planet.
+  const partIdx = new Map<string, number>();
+  for (const p of ENGINE_PARTS) {
+    const j = partIdx.get(p.stage) || 0;
+    partIdx.set(p.stage, j + 1);
+    const at = stagePos(p.stage);
+    const b = j * 1.9 + 0.4;
+    nodes.push({
+      id: `part:${p.stage}:${j}`, kind: "part", label: p.label, sub: p.sub,
+      x: at.x + Math.cos(b) * 44, y: at.y - 16 + Math.sin(b * 1.3) * 10, z: at.z + Math.sin(b) * 44,
+      r: 5, parentLabel: PIPELINE.find((s) => s.key === p.stage)!.label,
+    });
+    edges.push({ from: `stage:${p.stage}`, to: `part:${p.stage}:${j}`, flow: 0.3 });
+  }
+
   // People — one planet per distinct person across the finished runs; their runs
   // become moons. Grouping is case/space-insensitive on the person's name.
   const people = new Map<string, { label: string; runs: UNodeRun[] }>();
+  const personRoles = new Map<string, Set<string>>(); // person key -> normalized roles, for role-word links
   for (const raw of input.runs || []) {
     const r = asRecord(raw);
     if (!r) continue;
@@ -100,6 +174,11 @@ export function buildUniverse(input: { runs?: unknown[]; types?: unknown[] }): {
     const key = (name || "someone").toLowerCase();
     const id = str(r.id);
     if (!people.has(key)) people.set(key, { label: name || "Someone", runs: [] });
+    const role = str(ctx.role);
+    if (role) {
+      if (!personRoles.has(key)) personRoles.set(key, new Set());
+      personRoles.get(key)!.add(norm(role));
+    }
     people.get(key)!.runs.push({
       id,
       label: str(r.headline) || name || id || "a 1:1",
@@ -138,7 +217,16 @@ export function buildUniverse(input: { runs?: unknown[]; types?: unknown[] }): {
     pi++;
   }
 
-  // Meeting types — the outer constellation, faintly fed by the core.
+  // Meeting types — the outer constellation. A type is an INPUT you pick at Intake,
+  // so its flow runs type -> Intake (not out of the core), and each type links to the
+  // runs that actually used it. Arcs (matched by label/slug) enrich the type's panel.
+  const arcByKey = new Map<string, { steps: number; tone: string }>();
+  for (const raw of input.arcs || []) {
+    const a = asRecord(raw);
+    if (!a) continue;
+    const info = { steps: Array.isArray(a.arc) ? a.arc.length : 0, tone: str(a.tone_register) };
+    for (const k of [str(a.label), str(a.slug)]) if (k) arcByKey.set(norm(k), info);
+  }
   let ti = 0;
   const seen = new Set<string>();
   for (const raw of input.types || []) {
@@ -147,15 +235,91 @@ export function buildUniverse(input: { runs?: unknown[]; types?: unknown[] }): {
     if (!label || seen.has(label)) continue;
     seen.add(label);
     const a = ti * GOLDEN + 0.9;
+    const tid = `type:${label.toLowerCase()}`;
+    const arc = arcByKey.get(norm(label));
     nodes.push({
-      id: `type:${label.toLowerCase()}`, kind: "type", label, sub: "A meeting type Sero knows how to run.",
+      id: tid, kind: "type", label,
+      sub: (t && str(t.description)) || "A meeting type Sero knows how to run.",
       x: Math.cos(a) * 800, y: Math.sin(a * 1.3) * 150, z: Math.sin(a) * 800, r: 10,
+      duration: (t && str(t.duration)) || undefined,
+      arcSteps: arc && arc.steps ? arc.steps : undefined,
+      arcTone: arc && arc.tone ? arc.tone : undefined,
     });
-    edges.push({ from: "core", to: `type:${label.toLowerCase()}`, flow: 0.5 });
+    edges.push({ from: tid, to: "stage:intake", flow: 0.5 });
+    for (const n of nodes) {
+      if (n.kind === "run" && n.meetingType && n.meetingType.toLowerCase() === label.toLowerCase()) {
+        edges.push({ from: tid, to: n.id, flow: 0.25 });
+      }
+    }
     ti++;
   }
 
+  // Live sessions — comets parked at the stage they're actually sitting at right now.
+  // Finished sessions (BRIEFING) are already moons; unknown stages park at the core.
+  let si = 0;
+  for (const raw of input.sessions || []) {
+    const r = asRecord(raw);
+    if (!r) continue;
+    const stage = str(r.stage);
+    if (!stage || stage === "BRIEFING") continue;
+    const ctx = asRecord(r.ctx) || {};
+    const key = SESSION_AT[stage];
+    const at = key ? stagePos(key) : { x: 0, y: 0, z: 0 };
+    const id = str(r.id) || `s${si}`;
+    const b = si * 2.4 + 0.7;
+    nodes.push({
+      id: `session:${id}`, kind: "session",
+      label: str(ctx.name) || "A live session",
+      sub: `In flight right now — sitting at ${stageLabel(stage)}.`,
+      x: at.x + Math.cos(b) * 46, y: at.y + 24, z: at.z + Math.sin(b) * 46, r: 9,
+      sessionStage: stageLabel(stage),
+      lastSeenAt: typeof r.lastSeenAt === "number" ? r.lastSeenAt : null,
+    });
+    edges.push({ from: key ? `stage:${key}` : "core", to: `session:${id}`, flow: 4 });
+    si++;
+  }
+
+  // Role word lists — the engine's vocabulary per role. They feed Preparation (that's
+  // where role knowledge is used) and link to any person whose role matches.
+  let li = 0;
+  for (const raw of input.lexicons || []) {
+    const r = asRecord(raw);
+    if (!r) continue;
+    const label = str(r.label) || str(r.title) || humanize(str(r.key));
+    if (!label) continue;
+    const terms = Array.isArray(r.terms) ? r.terms : [];
+    const names = terms
+      .map((t) => { const tr = asRecord(t); return tr ? str(tr.term) : str(t); })
+      .filter(Boolean);
+    const a = li * GOLDEN + 1.7;
+    const id = `lexicon:${(str(r.key) || label).toLowerCase()}`;
+    nodes.push({
+      id, kind: "lexicon", label, sub: "The words Sero knows for this role.",
+      x: Math.cos(a) * 950, y: Math.sin(a * 1.7) * 180, z: Math.sin(a) * 950, r: 9,
+      termsCount: terms.length, termsSample: names.slice(0, 3).join(", ") || undefined,
+    });
+    edges.push({ from: id, to: "stage:prepare", flow: 0.25 });
+    for (const [pkey, roles] of personRoles) {
+      if (roles.has(norm(label))) edges.push({ from: id, to: `person:${pkey}`, flow: 0.25 });
+    }
+    li++;
+  }
+
   return { nodes, edges };
+}
+
+/* ----------------------------------------------------------------- filter --- */
+// The legend chips hide/show whole kinds. Pure + tested: drop hidden kinds and any
+// line touching a hidden node. The core is the map's anchor — it can never be hidden.
+export function filterUniverse(
+  nodes: UNode[],
+  edges: UEdge[],
+  hidden: ReadonlySet<UNode["kind"]>
+): { nodes: UNode[]; edges: UEdge[] } {
+  if (!hidden.size) return { nodes, edges };
+  const keep = nodes.filter((n) => n.kind === "core" || !hidden.has(n.kind));
+  const ids = new Set(keep.map((n) => n.id));
+  return { nodes: keep, edges: edges.filter((e) => ids.has(e.from) && ids.has(e.to)) };
 }
 
 /* ------------------------------------------------------------------- diff --- */
@@ -185,14 +349,16 @@ export function diffUniverse(prev: UNode[], next: UNode[]): UniverseDiff {
   return { added, removed, addedIds, changed };
 }
 
-// The only kinds that can actually change (the core + pipeline are fixed), with
-// plain-language singular/plural nouns and a stable order to read them in.
+// The only kinds that can actually change (the core, pipeline, and engine parts are
+// fixed), with plain-language singular/plural nouns and a stable order to read them in.
 const DIFF_NOUN: Partial<Record<UNode["kind"], [string, string]>> = {
+  session: ["live session", "live sessions"],
   run: ["1:1", "1:1s"],
   person: ["person", "people"],
   type: ["meeting type", "meeting types"],
+  lexicon: ["role word list", "role word lists"],
 };
-const DIFF_ORDER: UNode["kind"][] = ["run", "person", "type"];
+const DIFF_ORDER: UNode["kind"][] = ["session", "run", "person", "type", "lexicon"];
 
 function joinList(parts: string[]): string {
   if (parts.length <= 1) return parts[0] || "";
@@ -225,15 +391,19 @@ export function summarizeDiff(diff: UniverseDiff): string {
 /* ---------------------------------------------------------------- renderer -- */
 
 const COLOR: Record<UNode["kind"], string> = {
-  core: "125,211,252",   // sky
-  stage: "76,201,240",   // cyan
-  person: "255,183,3",   // amber
-  run: "167,243,192",    // mint
-  type: "192,132,252",   // violet
+  core: "125,211,252",    // sky
+  stage: "76,201,240",    // cyan
+  person: "255,183,3",    // amber
+  run: "167,243,192",     // mint
+  type: "192,132,252",    // violet
+  session: "255,214,102", // warm gold — the live comets
+  part: "126,166,224",    // dim steel — inner machinery
+  lexicon: "244,114,182", // pink — role words
 };
 
 const KIND_WORD: Record<UNode["kind"], string> = {
-  core: "The engine", stage: "Pipeline step", person: "Person", run: "Finished 1:1", type: "Meeting type",
+  core: "The engine", stage: "Pipeline step", person: "Person", run: "Finished 1:1",
+  type: "Meeting type", session: "Live session", part: "Engine part", lexicon: "Role words",
 };
 
 // n filled stars then hollow ones, e.g. stars(4) -> "★★★★☆".
@@ -275,7 +445,20 @@ export function describeNode(n: UNode, fmtWhen: (ts: number | null | undefined) 
   } else if (n.kind === "core") {
     model.steps = PIPELINE.map((s) => ({ label: s.label, sub: s.sub }));
   } else if (n.kind === "type") {
-    rows.push({ k: "Kind", v: "A meeting type Sero can run" });
+    if (n.duration) rows.push({ k: "Duration", v: n.duration });
+    if (n.arcSteps) rows.push({ k: "Arc steps", v: String(n.arcSteps) });
+    if (n.arcTone) rows.push({ k: "Tone", v: n.arcTone });
+    if (!rows.length) rows.push({ k: "Kind", v: "A meeting type Sero can run" });
+  } else if (n.kind === "session") {
+    rows.push({ k: "With", v: n.label });
+    if (n.sessionStage) rows.push({ k: "At stage", v: n.sessionStage });
+    const when = fmtWhen(n.lastSeenAt);
+    if (when) rows.push({ k: "Last touched", v: when });
+  } else if (n.kind === "part") {
+    if (n.parentLabel) rows.push({ k: "Part of", v: n.parentLabel });
+  } else if (n.kind === "lexicon") {
+    rows.push({ k: "Words", v: String(n.termsCount || 0) });
+    if (n.termsSample) rows.push({ k: "Sample", v: n.termsSample });
   }
   return model;
 }
@@ -309,9 +492,17 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       .uni__status[data-tone="warn"] { color: #fca5a5; }
       @media (prefers-reduced-motion: reduce) { .uni__refresh.is-busy svg { animation: none; } .uni__status { transition: none; } }
       .uni__counts { position: absolute; bottom: 18px; left: 24px; font-size: 14px; color: rgba(219,231,255,0.65); pointer-events: none; }
-      .uni__legend { position: absolute; bottom: 18px; right: 24px; display: flex; gap: 14px; font-size: 14px; color: rgba(219,231,255,0.75); pointer-events: none; flex-wrap: wrap; justify-content: flex-end; transition: opacity 0.3s; }
-      .uni__legend b { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; }
-      .uni.has-panel .uni__legend { opacity: 0; }
+      .uni__legend { position: absolute; bottom: 18px; right: 24px; display: flex; gap: 8px; font-size: 14px; pointer-events: auto; flex-wrap: wrap; justify-content: flex-end; max-width: 60vw; transition: right 0.34s cubic-bezier(0.22,1,0.36,1); z-index: 6; }
+      /* Chips are filters: click one to hide/show that kind of light. */
+      .uni__chip { display: inline-flex; align-items: center; font: inherit; font-size: 14px; color: rgba(219,231,255,0.85); background: rgba(125,211,252,0.07); border: 1px solid rgba(125,211,252,0.16); border-radius: 999px; padding: 5px 12px; cursor: pointer; transition: opacity 0.15s, background 0.15s; }
+      .uni__chip:hover { background: rgba(125,211,252,0.2); }
+      .uni__chip b { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+      .uni__chip.is-off { opacity: 0.35; }
+      .uni__chip.is-off b { background: transparent !important; box-shadow: inset 0 0 0 1.5px rgba(219,231,255,0.55); }
+      .uni__chip--all { border-color: rgba(125,211,252,0.45); background: rgba(125,211,252,0.16); font-weight: 600; }
+      /* Panel open: slide the chips left of the drawer so filtering stays usable. */
+      .uni.has-panel .uni__legend { right: calc(clamp(300px, 25vw, 440px) + 24px); }
+      @media (prefers-reduced-motion: reduce) { .uni__legend { transition: none; } }
       /* Detail panel — a dark drawer down the right edge (~a quarter of the page). */
       .uni__panel { position: absolute; top: 0; right: 0; height: 100%; width: clamp(300px, 25vw, 440px); display: flex; flex-direction: column; z-index: 5; color: #eaf2ff; background: linear-gradient(180deg, rgba(9,13,28,0.97), rgba(6,9,20,0.98)); border-left: 1px solid rgba(125,211,252,0.18); box-shadow: -24px 0 60px rgba(0,0,0,0.55); backdrop-filter: blur(12px); transform: translateX(100%); transition: transform 0.34s cubic-bezier(0.22,1,0.36,1); }
       .uni__panel.is-open { transform: none; }
@@ -328,6 +519,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       .uni__row .rv { color: #eaf2ff; text-align: right; font-weight: 500; }
       .uni__row .rv.stars { color: #ffcf5b; letter-spacing: 2px; }
       .uni__section-label { font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(234,242,255,0.5); margin-bottom: 10px; }
+      .uni__para { font-size: 14px; line-height: 1.55; color: rgba(234,242,255,0.82); white-space: pre-wrap; }
       .uni__runlist { display: flex; flex-direction: column; gap: 8px; }
       .uni__runrow { text-align: left; width: 100%; background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.14); border-radius: 10px; padding: 10px 12px; color: #eaf2ff; cursor: pointer; font: inherit; display: flex; flex-direction: column; gap: 3px; }
       .uni__runrow:hover { background: rgba(125,211,252,0.15); border-color: rgba(125,211,252,0.3); }
@@ -348,7 +540,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       <canvas></canvas>
       <div class="uni__hud">
         <h1>The Sero Universe</h1>
-        <p>Drag to spin &middot; scroll to dive &middot; click any light to fly to it. Every light is real.</p>
+        <p>Drag to spin &middot; scroll to dive &middot; click any light to fly to it. Every light is real, and it re-checks the engine every minute by itself.</p>
         <button type="button" class="uni__refresh js-refresh" title="Re-read the engine and show what changed">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
           <span class="uni__refresh-label">Update from the engine</span>
@@ -356,11 +548,15 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
         <div class="uni__status js-status" role="status" aria-live="polite"></div>
       </div>
       <div class="uni__counts js-counts">Loading the universe…</div>
-      <div class="uni__legend">
-        <span><b style="background:rgb(${COLOR.stage})"></b>Pipeline</span>
-        <span><b style="background:rgb(${COLOR.person})"></b>People</span>
-        <span><b style="background:rgb(${COLOR.run})"></b>Finished 1:1s</span>
-        <span><b style="background:rgb(${COLOR.type})"></b>Meeting types</span>
+      <div class="uni__legend" role="group" aria-label="Filter what's shown">
+        <button type="button" class="uni__chip js-chip" data-kind="session" title="Click to hide or show these"><b style="background:rgb(${COLOR.session})"></b>Live now</button>
+        <button type="button" class="uni__chip js-chip" data-kind="stage" title="Click to hide or show these"><b style="background:rgb(${COLOR.stage})"></b>Pipeline</button>
+        <button type="button" class="uni__chip js-chip" data-kind="part" title="Click to hide or show these"><b style="background:rgb(${COLOR.part})"></b>Engine parts</button>
+        <button type="button" class="uni__chip js-chip" data-kind="person" title="Click to hide or show these"><b style="background:rgb(${COLOR.person})"></b>People</button>
+        <button type="button" class="uni__chip js-chip" data-kind="run" title="Click to hide or show these"><b style="background:rgb(${COLOR.run})"></b>Finished 1:1s</button>
+        <button type="button" class="uni__chip js-chip" data-kind="type" title="Click to hide or show these"><b style="background:rgb(${COLOR.type})"></b>Meeting types</button>
+        <button type="button" class="uni__chip js-chip" data-kind="lexicon" title="Click to hide or show these"><b style="background:rgb(${COLOR.lexicon})"></b>Role words</button>
+        <button type="button" class="uni__chip uni__chip--all js-chip-all" hidden>Show all</button>
       </div>
       <aside class="uni__panel js-panel" aria-hidden="true"></aside>
     </div>
@@ -372,24 +568,44 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
   const countsEl = root.querySelector<HTMLDivElement>(".js-counts")!;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Real data — both fetches are free reads; if one fails the universe still renders.
-  let runs: unknown[] = [];
-  let types: unknown[] = [];
-  try { runs = ((await getFinishedRuns()) as { runs?: unknown[] }).runs || []; } catch { /* offline: empty sky */ }
-  try { types = ((await getMeetingTypes()) as { types?: unknown[] }).types || []; } catch { /* offline: empty ring */ }
+  // Real data — five free reads, fetched together; any that fails just leaves its
+  // layer empty, the universe still renders. Returns null on failure so refresh()
+  // can tell "unreachable" apart from "genuinely empty".
+  async function fetchAll(): Promise<{ runs: unknown[] | null; types: unknown[] | null; sessions: unknown[] | null; arcs: unknown[] | null; lexicons: unknown[] | null }> {
+    const grab = async (go: () => Promise<unknown[] | undefined>) => {
+      try { return (await go()) || []; } catch { return null; }
+    };
+    const [r, t, s, a, l] = await Promise.all([
+      grab(async () => ((await getFinishedRuns()) as { runs?: unknown[] }).runs),
+      grab(async () => ((await getMeetingTypes()) as { types?: unknown[] }).types),
+      grab(async () => ((await listRecentRuns(12)) as { runs?: unknown[] }).runs),
+      grab(async () => ((await getArcs()) as { arcs?: unknown[] }).arcs),
+      grab(async () => ((await getRoleLexicons()) as { roles?: unknown[] }).roles),
+    ]);
+    return { runs: r, types: t, sessions: s, arcs: a, lexicons: l };
+  }
+  const first = await fetchAll();
+  let runs = first.runs || [];
+  let types = first.types || [];
+  let sessions = first.sessions || [];
+  let arcs = first.arcs || [];
+  let lexicons = first.lexicons || [];
   if (!shell.isConnected) return; // navigated away while fetching
 
   // Mutable so the Update button can swap in a fresh build without a remount.
-  let { nodes, edges } = buildUniverse({ runs, types });
+  let { nodes, edges } = buildUniverse({ runs, types, sessions, arcs, lexicons });
   let byId = new Map(nodes.map((n) => [n.id, n]));
+  let liveCount = nodes.filter((n) => n.kind === "session").length;
 
   function updateCounts() {
+    liveCount = nodes.filter((n) => n.kind === "session").length;
     const nRuns = nodes.filter((n) => n.kind === "run").length;
     const nPeople = nodes.filter((n) => n.kind === "person").length;
     const nTypes = nodes.filter((n) => n.kind === "type").length;
-    countsEl.textContent = nRuns
-      ? `${nRuns} finished 1:1${nRuns === 1 ? "" : "s"} · ${nPeople} ${nPeople === 1 ? "person" : "people"} · ${nTypes} meeting types — all live data.`
-      : "No finished 1:1s yet — finish one and it appears here as a new moon.";
+    const live = liveCount ? `${liveCount} live session${liveCount === 1 ? "" : "s"} · ` : "";
+    countsEl.textContent = nRuns || liveCount
+      ? `${live}${nRuns} finished 1:1${nRuns === 1 ? "" : "s"} · ${nPeople} ${nPeople === 1 ? "person" : "people"} · ${nTypes} meeting types — all live data.`
+      : "No 1:1s yet — start one and watch it appear here.";
   }
   updateCounts();
 
@@ -404,7 +620,25 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
     });
     return out;
   }
-  let pulses = buildPulses(edges);
+  // Filters — the legend chips hide/show whole kinds. Saved across visits.
+  const HIDDEN_KEY = "seroUniverseHidden";
+  const FILTER_KINDS: UNode["kind"][] = ["session", "stage", "part", "person", "run", "type", "lexicon"];
+  const hidden = new Set<UNode["kind"]>();
+  try {
+    const saved: unknown = JSON.parse(localStorage.getItem(HIDDEN_KEY) || "[]");
+    if (Array.isArray(saved)) for (const k of saved) if (FILTER_KINDS.includes(k as UNode["kind"])) hidden.add(k as UNode["kind"]);
+  } catch { /* fresh start */ }
+
+  // What's actually on screen = the full map minus the hidden kinds. Recomputed on
+  // every chip toggle and every data rebuild.
+  let view = filterUniverse(nodes, edges, hidden);
+  let pulses = buildPulses(view.edges);
+  function applyView() {
+    view = filterUniverse(nodes, edges, hidden);
+    pulses = buildPulses(view.edges);
+    hovered = null;
+    if (selected && hidden.has(selected.kind)) resetView(); // its panel closes with it
+  }
 
   // Nodes an Update just added: id -> performance.now() when it arrived, so the frame
   // loop can ring them for a few seconds to point out exactly what changed.
@@ -478,6 +712,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
 
   const panelEl = shell.querySelector<HTMLElement>(".js-panel")!;
   const openRun = (id: string) => setState({ reviewRunId: id, stage: STAGES.REVIEW_RUN });
+  const overviewCache = new Map<string, string>(); // runId -> overview text, so re-clicks are instant
 
   // The dark side drawer. describeNode() (pure, tested) decides what to show for the
   // node's kind; this just turns that model into HTML and slides the panel in. null
@@ -526,6 +761,25 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
     panelEl.querySelectorAll<HTMLButtonElement>(".uni__runrow").forEach((b) => {
       b.addEventListener("click", () => { if (b.dataset.run) openRun(b.dataset.run); });
     });
+
+    // A run's story — lazily pull its saved overview (one free read, cached) and slot
+    // it under the facts once it lands, if this run is still the one on screen.
+    if (n.kind === "run" && n.runId) {
+      const runId = n.runId;
+      const body = panelEl.querySelector<HTMLDivElement>(".uni__panel-body")!;
+      const sec = document.createElement("div");
+      sec.innerHTML = `<div class="uni__section-label">What happened</div><div class="uni__para">Loading the story…</div>`;
+      body.appendChild(sec);
+      const para = sec.querySelector<HTMLDivElement>(".uni__para")!;
+      const show = (text: string) => { if (para.isConnected && selected === n) para.textContent = text || "No overview saved for this one."; };
+      const cached = overviewCache.get(runId);
+      if (cached != null) show(cached);
+      else {
+        getRunOverview(runId)
+          .then((o) => { const text = str((o as Record<string, unknown>).overview); overviewCache.set(runId, text); show(text); })
+          .catch(() => { if (para.isConnected && selected === n) para.textContent = "Couldn't load the overview."; });
+      }
+    }
     panelEl.classList.add("is-open");
     panelEl.setAttribute("aria-hidden", "false");
     shell.classList.add("has-panel");
@@ -546,45 +800,74 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
     statusTimer = window.setTimeout(() => statusEl.classList.remove("is-on"), 6000);
   }
 
+  // quiet = the minute-timer's background check: no spinner, no "up to date" nag, no
+  // unreachable warning — it only speaks (and rings) when something actually changed.
   let refreshing = false;
-  async function refresh() {
+  async function refresh(quiet = false) {
     if (refreshing) return;
     refreshing = true;
-    refreshBtn.disabled = true;
-    refreshBtn.classList.add("is-busy");
-    refreshLabel.textContent = "Checking the engine…";
+    if (!quiet) {
+      refreshBtn.disabled = true;
+      refreshBtn.classList.add("is-busy");
+      refreshLabel.textContent = "Checking the engine…";
+    }
     try {
-      let nextRuns = runs, nextTypes = types, reached = false;
-      try { nextRuns = ((await getFinishedRuns()) as { runs?: unknown[] }).runs || []; reached = true; } catch { /* keep last */ }
-      try { nextTypes = ((await getMeetingTypes()) as { types?: unknown[] }).types || []; reached = true; } catch { /* keep last */ }
+      const got = await fetchAll();
       if (!shell.isConnected) return; // navigated away mid-fetch
-      if (!reached) { setStatus("Couldn't reach the engine — try again in a moment.", "warn"); return; }
+      const reached = got.runs || got.types || got.sessions || got.arcs || got.lexicons;
+      if (!reached) { if (!quiet) setStatus("Couldn't reach the engine — try again in a moment.", "warn"); return; }
 
-      runs = nextRuns; types = nextTypes;
-      const next = buildUniverse({ runs, types });
+      // A failed layer keeps its last good data rather than pretending it emptied out.
+      runs = got.runs || runs; types = got.types || types; sessions = got.sessions || sessions;
+      arcs = got.arcs || arcs; lexicons = got.lexicons || lexicons;
+      const next = buildUniverse({ runs, types, sessions, arcs, lexicons });
       const diff = diffUniverse(nodes, next.nodes);
+      if (quiet && !diff.changed) return; // background check, nothing new — stay silent
       nodes = next.nodes; edges = next.edges;
       byId = new Map(nodes.map((n) => [n.id, n]));
-      pulses = buildPulses(edges);
-      hovered = null;
+      applyView();
       // Keep the open card if its light still exists (its details may have moved).
       if (selected) { selected = byId.get(selected.id) || null; renderPanel(selected); }
       updateCounts();
       const now = performance.now();
       for (const id of diff.addedIds) spawnedAt.set(id, now);
-      setStatus(summarizeDiff(diff), diff.changed ? "good" : "info");
+      if (diff.changed) setStatus(summarizeDiff(diff), "good");
+      else setStatus(summarizeDiff(diff), "info");
     } finally {
-      refreshLabel.textContent = "Update from the engine";
-      refreshBtn.classList.remove("is-busy");
-      refreshBtn.disabled = false;
+      if (!quiet) {
+        refreshLabel.textContent = "Update from the engine";
+        refreshBtn.classList.remove("is-busy");
+        refreshBtn.disabled = false;
+      }
       refreshing = false;
     }
   }
-  refreshBtn.addEventListener("click", refresh);
+  refreshBtn.addEventListener("click", () => { void refresh(false); });
+  // Watch mode — re-check on its own every minute (same five free reads), so comets
+  // appear, move stage to stage, and turn into moons without touching anything.
+  const autoTimer = window.setInterval(() => { void refresh(true); }, 60_000);
+
+  // Filter chips — click to hide/show a kind; "Show all" clears every filter.
+  const chipEls = [...shell.querySelectorAll<HTMLButtonElement>(".js-chip")];
+  const allChip = shell.querySelector<HTMLButtonElement>(".js-chip-all")!;
+  const saveHidden = () => { try { localStorage.setItem(HIDDEN_KEY, JSON.stringify([...hidden])); } catch { /* private mode */ } };
+  function renderChips() {
+    for (const b of chipEls) b.classList.toggle("is-off", hidden.has(b.dataset.kind as UNode["kind"]));
+    allChip.hidden = hidden.size === 0;
+  }
+  chipEls.forEach((b) =>
+    b.addEventListener("click", () => {
+      const k = b.dataset.kind as UNode["kind"];
+      if (hidden.has(k)) hidden.delete(k); else hidden.add(k);
+      saveHidden(); renderChips(); applyView();
+    })
+  );
+  allChip.addEventListener("click", () => { hidden.clear(); saveHidden(); renderChips(); applyView(); });
+  renderChips();
 
   function pick(mx: number, my: number): UNode | null {
     let best: UNode | null = null, bestZ = Infinity;
-    for (const n of nodes) {
+    for (const n of view.nodes) {
       const p = projected.get(n.id);
       if (!p) continue;
       const hit = Math.max(12, n.r * p.s + 6);
@@ -690,15 +973,15 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       ctx2d.fillRect(p.x, p.y, sz, sz);
     }
 
-    // Project every node once per frame.
+    // Project every visible node once per frame.
     projected.clear();
-    for (const n of nodes) {
+    for (const n of view.nodes) {
       const p = project(n.x, n.y, n.z);
       if (p) projected.set(n.id, p);
     }
 
     // Lines.
-    for (const e of edges) {
+    for (const e of view.edges) {
       const a = projected.get(e.from), b = projected.get(e.to);
       if (!a || !b) continue;
       const alpha = Math.min(0.5, (a.s + b.s) * 90 * 0.002 + 0.06) * (e.flow >= 2 ? 1 : 0.6);
@@ -710,11 +993,13 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       ctx2d.stroke();
     }
 
-    // Pulses — additive glow dots travelling along their line.
+    // Pulses — additive glow dots travelling along their line. Honesty rule: when no
+    // session is actually in flight, the flow slows and dims to a background murmur.
+    const calm = liveCount > 0 ? 1 : 0.35;
     if (!reduceMotion) {
       ctx2d.globalCompositeOperation = "lighter";
       for (const pl of pulses) {
-        pl.t = (pl.t + dt * pl.speed) % 1;
+        pl.t = (pl.t + dt * pl.speed * calm) % 1;
         const na = byId.get(pl.edge.from)!, nb = byId.get(pl.edge.to)!;
         const p = project(
           na.x + (nb.x - na.x) * pl.t,
@@ -725,7 +1010,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
         const rr = Math.max(1.2, 26 * p.s);
         const col = COLOR[nb.kind];
         const gg = ctx2d.createRadialGradient(p.x, p.y, 0, p.x, p.y, rr);
-        gg.addColorStop(0, `rgba(${col},0.9)`);
+        gg.addColorStop(0, `rgba(${col},${liveCount > 0 ? 0.9 : 0.5})`);
         gg.addColorStop(1, `rgba(${col},0)`);
         ctx2d.fillStyle = gg;
         ctx2d.beginPath();
@@ -736,7 +1021,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
     }
 
     // Nodes, far to near.
-    const order = nodes
+    const order = view.nodes
       .map((n) => ({ n, p: projected.get(n.id) }))
       .filter((o): o is { n: UNode; p: P3 } => !!o.p)
       .sort((a, b) => b.p.z - a.p.z);
@@ -762,6 +1047,15 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
         ctx2d.arc(p.x, p.y, R + 6, 0, Math.PI * 2);
         ctx2d.stroke();
       }
+      // Live-session comets wear a permanent pulsing ring — they're happening NOW.
+      if (n.kind === "session") {
+        const wob = reduceMotion ? 1 : 1 + Math.sin(now * 0.006 + n.x) * 0.16;
+        ctx2d.strokeStyle = `rgba(${col},0.85)`;
+        ctx2d.lineWidth = 1.6;
+        ctx2d.beginPath();
+        ctx2d.arc(p.x, p.y, (R + 8) * wob, 0, Math.PI * 2);
+        ctx2d.stroke();
+      }
       // "Just arrived" ring — an Update flagged this node; pulse + fade over ~4s so the
       // eye lands on exactly what changed, then forget it.
       const born = spawnedAt.get(n.id);
@@ -780,7 +1074,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       }
       // Labels: always for the core + pipeline, otherwise once you're close (or on it),
       // and always while a node is freshly-arrived so you can read what just landed.
-      const wantLabel = n.kind === "core" || n.kind === "stage" || R > 8 || n === hovered || n === selected || spawnedAt.has(n.id);
+      const wantLabel = n.kind === "core" || n.kind === "stage" || n.kind === "session" || R > 8 || n === hovered || n === selected || spawnedAt.has(n.id);
       if (wantLabel) {
         const size = Math.min(24, Math.max(14, R * 0.8)); // 14px floor holds even in canvas
         const alpha = n === hovered || n === selected ? 1 : Math.min(0.85, p.s * 260 * 0.004 + 0.35);
@@ -798,6 +1092,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
 
   cleanup = () => {
     cancelAnimationFrame(raf);
+    clearInterval(autoTimer);
     ro.disconnect();
     window.removeEventListener("keydown", onKey);
   };
