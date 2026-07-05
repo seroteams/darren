@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1783226457868,
+  "role_title_raw": "Lead Product Designer",
+  "role_slug": "lead-product-designer",
+  "seniority_raw": "Lead",
+  "seniority_key": "lead",
+  "role_family": "design",
+  "profile": {
+    "summary": "A Lead Product Designer sets design direction for a product area, balancing hands-on design with team leadership. They shape discovery, flows, prototypes, and design quality, while aligning with product, engineering, research, and brand. They often mentor designers, run critiques, influence roadmap decisions, and connect user needs to business goals across multiple initiatives.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing hands-on design work with coaching, reviews, and cross-functional leadership.",
+        "category": "topic"
+      },
+      {
+        "text": "Carrying design quality across multiple streams without becoming a bottleneck.",
+        "category": "competency"
+      },
+      {
+        "text": "Pushing for user-centered decisions when roadmap pressure favors speed or delivery optics.",
+        "category": "topic"
+      },
+      {
+        "text": "Absorbing feedback from many stakeholders with conflicting opinions and priorities.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Creating clarity for other designers when product strategy or ownership is still fuzzy.",
+        "category": "competency"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Design leadership balance",
+        "why": "This role often stretches between doing the work and enabling others, which affects impact and sustainability.",
+        "category": "topic"
+      },
+      {
+        "theme": "Influence with product and engineering",
+        "why": "A lead designer succeeds through alignment and decision-making across functions, not design output alone.",
+        "category": "competency"
+      },
+      {
+        "theme": "Quality bar and critique culture",
+        "why": "They usually set standards for craft and feedback, which shapes the whole team’s work.",
+        "category": "competency"
+      },
+      {
+        "theme": "Roadmap involvement and discovery depth",
+        "why": "Early involvement determines whether design is informing direction or only polishing delivery.",
+        "category": "topic"
+      },
+      {
+        "theme": "Energy load from stakeholder management",
+        "why": "Constant negotiation, reviews, and context switching can drain focus and morale.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Design system",
+        "meaning": "Shared components and rules for consistent product design.",
+        "group": "product-design"
+      },
+      {
+        "term": "User flow",
+        "meaning": "Path a user takes through a task.",
+        "group": "product-design"
+      },
+      {
+        "term": "Prototype",
+        "meaning": "Interactive model used to test or explain ideas.",
+        "group": "product-design"
+      },
+      {
+        "term": "Continuous discovery",
+        "meaning": "Ongoing learning with users during product work.",
+        "group": "product-design"
+      },
+      {
+        "term": "Accessibility",
+        "meaning": "Designing so more people can use the product.",
+        "group": "product-design"
+      },
+      {
+        "term": "Design critique",
+        "meaning": "Structured feedback on work to improve quality.",
+        "group": "leadership"
+      },
+      {
+        "term": "Craft quality",
+        "meaning": "The standard of clarity, usability, and polish in design.",
+        "group": "leadership"
+      },
+      {
+        "term": "Mentoring",
+        "meaning": "Helping other designers grow through guidance and feedback.",
+        "group": "leadership"
+      },
+      {
+        "term": "Stakeholder alignment",
+        "meaning": "Getting key partners to support a direction.",
+        "group": "leadership"
+      },
+      {
+        "term": "Decision framing",
+        "meaning": "Presenting options and tradeoffs clearly for a choice.",
+        "group": "leadership"
+      },
+      {
+        "term": "Discovery",
+        "meaning": "Work to understand problems before building solutions.",
+        "group": "product-lead"
+      },
+      {
+        "term": "Tradeoff",
+        "meaning": "A choice between competing needs or constraints.",
+        "group": "product-lead"
+      },
+      {
+        "term": "North star",
+        "meaning": "A guiding product outcome or long-term direction.",
+        "group": "product-lead"
+      },
+      {
+        "term": "Handoff",
+        "meaning": "Passing design intent and details into delivery.",
+        "group": "product-lead"
+      },
+      {
+        "term": "AI-assisted prototyping",
+        "meaning": "Using AI tools to speed up concept exploration.",
+        "group": "product-lead"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "product-design",
+        "label": "Product design"
+      },
+      {
+        "key": "leadership",
+        "label": "Design leadership"
+      },
+      {
+        "key": "product-lead",
+        "label": "Leading design in product work"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about outcomes and decisions, not just screens and deliverables.",
+      "Whether they describe protecting time for deep design work versus being pulled into constant reviews.",
+      "Shifts from 'my work' to 'the team’s work,' which signals how they see their scope.",
+      "How they talk about product and engineering partners when decisions are contested.",
+      "Whether critique, mentoring, and standards-setting come up naturally as part of the role."
+    ],
+    "avoid": [
+      "Treating them like a senior individual contributor with extra meetings rather than a lead with broader design responsibility.",
+      "Assuming stakeholder friction means they need to communicate harder when the real issue may be unclear product direction.",
+      "Pushing them to stay fully hands-on in every project, which can turn them into a bottleneck.",
+      "Reducing design impact to visual polish instead of product thinking, discovery, and team leadership."
+    ]
+  }
+}

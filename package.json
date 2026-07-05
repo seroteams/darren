@@ -4,7 +4,10 @@
   "private": true,
   "description": "Sero — 1:1 prep. CLI + web frontend.",
   "scripts": {
-    "dev": "concurrently -n api,web -c magenta,cyan \"cross-env API_PORT=3001 node backend/api/server.ts\" \"vite\"",
+    "dev": "concurrently -n api,web -c magenta,cyan --restart-tries -1 --restart-after 1500 \"cross-env API_PORT=3001 node backend/api/server.ts\" \"vite\"",
+    "up": "powershell -ExecutionPolicy Bypass -File scripts/dev.ps1",
+    "autostart:install": "powershell -ExecutionPolicy Bypass -File scripts/install-autostart.ps1",
+    "autostart:uninstall": "powershell -ExecutionPolicy Bypass -File scripts/uninstall-autostart.ps1",
     "build": "vite build",
     "start": "cross-env NODE_ENV=production node backend/api/server.ts",
     "cli": "node backend/cli.ts",

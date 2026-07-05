@@ -1,7 +1,7 @@
 alias: q_late_rationale_2
 label: Late rationale
-name: When rationale is unclear in review, what are you still working out?
-description: Pin down what remains unresolved on her side when she shares work for review.
+name: When rationale is unclear, what are you still working out at that point?
+description: Drill into the named pattern to surface what remains unresolved when she shares work.
 purpose: competency
 stage: gap_naming
 axis_effects:

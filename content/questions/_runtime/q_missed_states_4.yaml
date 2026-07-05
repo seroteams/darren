@@ -1,0 +1,10 @@
+alias: q_missed_states_4
+label: missed states
+name: What usually gets missed in those edge cases before review?
+description: Drill into the named gap with a concrete example of what is absent before sharing.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: "doesn't check edge cases / empty states"

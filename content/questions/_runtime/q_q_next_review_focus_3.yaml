@@ -1,0 +1,11 @@
+alias: q_q_next_review_focus_3
+label: q_next_review_focus
+name: What will you do differently before your next review?
+description: ""
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_review_focus"
+grounding: open

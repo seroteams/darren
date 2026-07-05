@@ -16,15 +16,15 @@ On the "Words of each role" page you can add and remove **your own** words, but 
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Backend save-layer + API | Overlay gains `hidden_terms`; engine drops hidden words at runtime; list marks them; hide/unhide endpoints + api.js helpers; tests | 🔨 |
-| 2 | Frontend hide / restore UI | "Hide" ✕ on AI rows, "Hidden words (N)" restore area, wired to the endpoints | ⬜ |
+| 1 | Backend save-layer + API | Overlay gains `hidden_terms`; engine drops hidden words at runtime; list marks them; hide/unhide endpoints + api.js helpers; tests | ✅ |
+| 2 | Frontend hide / restore UI | Hover-reveal delete on AI rows, "Hidden words (N)" restore area, wired to the endpoints | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 built (🔨), awaiting Carl's QA before commit. Baseline was 62/62 tests green (free — no paid gate run). After the change: 62/62 tests still pass (added engine + service tests), `npm run typecheck` clean. Behaviour proven on `backend-engineer--mid-level`: hiding "Latency" drops it from the engine's runtime word list, keeps the "Sprint" (your) word, records `hidden_terms:["latency"]` in the overlay only, and restore reverses it — the AI's generated `.json` file never changes.
-Next: Carl walks the Phase 1 scenarios → green light → commit → start Phase 2 (hover-delete UI).
-Related work still uncommitted: the seniority-grouped master–detail redesign of this same page ([admin/src/stages/job-lexicons.js](../../../admin/src/stages/job-lexicons.js)).
+Phase 1 ✅ done + committed (`9a6f1ca9`) — Carl green-lit the backend QA. 62/62 tests, typecheck clean.
+Phase 2 🔨 built, awaiting Carl's browser QA. Live-verified the render + hover: 17 AI rows each get a trash control, opacity 0 by default → 1 on hover, sits inline on desktop. typecheck:admin clean. The click→persist path is proven at the engine level (Phase 1) but NOT yet clicked in a browser — Carl's running dev server predates the new backend routes, so **he must restart `npm run dev`** before the delete/put-back actually saves.
+Related work still uncommitted: the seniority-grouped master–detail redesign of this same page ([admin/src/stages/job-lexicons.js](../../../admin/src/stages/job-lexicons.js)) — awaiting Carl's QA; Phase 2 builds on top of it.
 
 ## Parked
 - **Editing the wording** of AI words (not just hiding) — Carl chose hide-only as the first step. Same overlay-override mechanism would extend to it later.

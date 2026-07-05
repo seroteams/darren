@@ -3902,6 +3902,49 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
 .joblex-remove:hover { color: var(--color-negative); }
 .joblex-error { color: var(--color-negative); font-size: var(--type-small); }
 
+/* Delete an AI word — revealed on row hover / keyboard focus, hidden otherwise
+   so the list stays calm until you reach for it. */
+.joblex-delete {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--color-ink-mute);
+  padding: 0.1rem 0.25rem;
+  margin-left: 0.35rem;
+  vertical-align: middle;
+  opacity: 0;
+  transition: opacity 0.12s ease, color 0.12s ease;
+}
+.joblex-row:hover .joblex-delete,
+.joblex-row:focus-within .joblex-delete,
+.joblex-delete:focus-visible { opacity: 1; }
+.joblex-delete:hover { color: var(--color-negative); }
+
+/* "Hidden words" area — the undo drawer for deleted AI words. */
+.joblex-hidden { margin-top: 0.35rem; }
+.joblex-hidden__head {
+  cursor: pointer;
+  font-size: var(--type-small);
+  font-weight: 600;
+  color: var(--color-ink-dim);
+  padding: 0.35rem 0;
+}
+.joblex-hidden__list { margin-top: 0.5rem; }
+.joblex-hidden__row .flow-glossary__term { color: var(--color-ink-mute); font-weight: var(--type-weight-regular); }
+.joblex-restore {
+  border: 0;
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+  cursor: pointer;
+  color: var(--color-ink);
+  font-size: var(--type-label);
+  font-weight: 600;
+  border-radius: var(--radius-input);
+  padding: 0.05rem 0.5rem;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+.joblex-restore:hover { color: var(--color-accent-dark); }
+
 /* Operator guide (internal reference) -------------------------------------- */
 .guide-section {
   scroll-margin-top: 72px;
@@ -3910,10 +3953,33 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   gap: var(--sero-space-3);
 }
 .guide-toc {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sero-space-2);
+  margin-top: var(--sero-space-2);
+  padding: var(--sero-space-3) 0;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+.guide-toc__links {
   display: flex;
   flex-wrap: wrap;
   gap: var(--sero-space-2);
-  margin-top: var(--sero-space-2);
+}
+.guide-toc__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-2);
+}
+.guide-toc__status {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-mute);
+  white-space: nowrap;
 }
 .guide-toc a {
   font-size: var(--type-body-sm);
@@ -3924,6 +3990,33 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   border-radius: var(--sero-radius-full);
 }
 .guide-toc a:hover { color: var(--color-accent-dark); border-color: var(--color-accent); }
+
+/* Small pill action — sits inside the sticky TOC (and the arcs section) without
+   shouting like the primary .btn. Matches the ghost-pill links, a touch stronger. */
+.guide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--type-body-sm);
+  font-weight: 500;
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--sero-radius-full);
+  padding: 0.28rem 0.8rem;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background-color var(--dur-instant) ease-out,
+              border-color var(--dur-instant) ease-out,
+              color var(--dur-instant) ease-out;
+}
+.guide-btn:hover { background: var(--color-accent-soft); border-color: var(--color-accent); color: var(--color-accent-dark); }
+.guide-btn:active { transform: translateY(1px); }
+.guide-btn[disabled] { opacity: 0.6; cursor: not-allowed; }
+.guide-btn:focus-visible { outline: none; box-shadow: var(--sero-shadow-focus); }
+.guide-btn svg { width: 14px; height: 14px; flex: none; }
+.guide-btn.is-busy svg { animation: guide-spin 0.7s linear infinite; }
+@keyframes guide-spin { to { transform: rotate(360deg); } }
 
 .guide-ref {
   display: grid;

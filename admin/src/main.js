@@ -43,6 +43,7 @@ const loaders = {
   REVIEW_RUN:      () => import("./stages/review-run.js"),
   GUIDE:           () => import("./stages/guide.js"),
   TASKS:           () => import("./stages/tasks.js"),
+  UNIVERSE:        () => import("./stages/universe.ts"),
   ADMIN_REGISTERED: () => import("./stages/admin-registered.ts"),
   ADMIN_USER:      () => import("./stages/admin-user-detail.ts"),
   ERROR:           () => import("./stages/error.ts"),

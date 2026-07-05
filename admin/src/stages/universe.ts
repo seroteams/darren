@@ -1,0 +1,808 @@
+// The Universe — a just-for-fun, admin-only 3D map of the whole app. Every light is
+// real data: the pipeline stages sit around the Sero core, each person you've met
+// orbits further out with their finished 1:1s as moons, and meeting types ring the
+// edge. Pulses travel core → pipeline → person → run to show how information flows.
+// Drag to spin, scroll to dive (huge zoom range), click a light to fly to it; a run
+// moon links straight to its real Review page. An Update button re-reads the engine's
+// live data and rings whatever just appeared, telling you what changed. Canvas 2D with
+// hand-rolled 3D projection — no new dependencies, all reads (never writes) the API.
+//
+// buildUniverse() is the pure, tested part (universe.test.ts beside this file);
+// everything below mount() is eye-candy.
+
+import { STAGES } from "../state.js";
+import type { StageContext } from "./stage.types.ts";
+import { getFinishedRuns, getMeetingTypes } from "../../../shared/api.js";
+import { escapeHtml as esc } from "../ui/html.js";
+import { relTime } from "../ui/time.ts";
+
+// One finished 1:1, as carried on a person node for the detail panel's list.
+export interface UNodeRun {
+  id: string;
+  label: string;
+  role: string;
+  meetingType: string;
+  lastSeenAt: number | null;
+  rating: number | null;
+}
+
+export interface UNode {
+  id: string;
+  kind: "core" | "stage" | "person" | "run" | "type";
+  label: string;
+  sub: string;
+  x: number;
+  y: number;
+  z: number;
+  r: number; // world-space radius
+  runId?: string; // run nodes only — links to the real Review page
+  // Detail-panel extras, populated per kind (the renderer formats them):
+  step?: number;              // stage: its 1-based position in the pipeline
+  role?: string;              // run: the role at that 1:1
+  meetingType?: string;       // run: the meeting type
+  lastSeenAt?: number | null; // run: when it was last touched
+  rating?: number | null;     // run: the member's star rating, if any
+  withName?: string;          // run: who the 1:1 was with
+  runs?: UNodeRun[];          // person: their finished 1:1s
+}
+
+export interface UEdge {
+  from: string;
+  to: string;
+  flow: number; // pulse density along this line
+}
+
+export const PIPELINE = [
+  { key: "intake", label: "Intake", sub: "You tell Sero who you're meeting and what's on your mind." },
+  { key: "focus", label: "Focus points", sub: "Sero picks the focus areas that fit." },
+  { key: "prepare", label: "Preparation", sub: "It reads the history and drafts its thinking." },
+  { key: "bank", label: "Question bank", sub: "It writes a bank of possible questions." },
+  { key: "interview", label: "Interview", sub: "It asks you a few short questions." },
+  { key: "evaluate", label: "Evaluate", sub: "It weighs what your answers mean." },
+  { key: "briefing", label: "Briefing", sub: "It writes the briefing you take into the 1:1." },
+] as const;
+
+const GOLDEN = 2.399963229728653; // golden angle — spreads people evenly on the sphere
+
+const asRecord = (v: unknown): Record<string, unknown> | null =>
+  v && typeof v === "object" ? (v as Record<string, unknown>) : null;
+const str = (v: unknown): string => (typeof v === "string" ? v.trim() : "");
+
+/** Turn real app data into the 3D node/edge map. Pure and deterministic — tested. */
+export function buildUniverse(input: { runs?: unknown[]; types?: unknown[] }): { nodes: UNode[]; edges: UEdge[] } {
+  const nodes: UNode[] = [];
+  const edges: UEdge[] = [];
+
+  nodes.push({ id: "core", kind: "core", label: "Sero", sub: "The engine. Everything flows through here.", x: 0, y: 0, z: 0, r: 46 });
+
+  // Pipeline ring — the seven steps a 1:1 travels through, chained in order.
+  PIPELINE.forEach((s, i) => {
+    const a = (i / PIPELINE.length) * Math.PI * 2 - Math.PI / 2;
+    nodes.push({
+      id: `stage:${s.key}`, kind: "stage", label: s.label, sub: s.sub,
+      x: Math.cos(a) * 250, y: Math.sin(a * 2) * 28, z: Math.sin(a) * 250, r: 20, step: i + 1,
+    });
+    edges.push(
+      i === 0
+        ? { from: "core", to: `stage:${s.key}`, flow: 3 }
+        : { from: `stage:${PIPELINE[i - 1]!.key}`, to: `stage:${s.key}`, flow: 3 }
+    );
+  });
+
+  // People — one planet per distinct person across the finished runs; their runs
+  // become moons. Grouping is case/space-insensitive on the person's name.
+  const people = new Map<string, { label: string; runs: UNodeRun[] }>();
+  for (const raw of input.runs || []) {
+    const r = asRecord(raw);
+    if (!r) continue;
+    const ctx = asRecord(r.ctx) || {};
+    const name = str(ctx.name);
+    const key = (name || "someone").toLowerCase();
+    const id = str(r.id);
+    if (!people.has(key)) people.set(key, { label: name || "Someone", runs: [] });
+    people.get(key)!.runs.push({
+      id,
+      label: str(r.headline) || name || id || "a 1:1",
+      role: str(ctx.role),
+      meetingType: str(ctx.meetingType),
+      lastSeenAt: typeof r.lastSeenAt === "number" ? r.lastSeenAt : null,
+      rating: typeof r.rating === "number" ? r.rating : null,
+    });
+  }
+
+  let pi = 0;
+  for (const [key, p] of people) {
+    const pid = `person:${key}`;
+    const a = pi * GOLDEN;
+    const y = (people.size > 1 ? pi / (people.size - 1) - 0.5 : 0) * 320;
+    const px = Math.cos(a) * 560, pz = Math.sin(a) * 560;
+    nodes.push({
+      id: pid, kind: "person", label: p.label,
+      sub: `${p.runs.length} finished 1:1${p.runs.length === 1 ? "" : "s"}`,
+      x: px, y, z: pz, r: 15, runs: p.runs,
+    });
+    edges.push({ from: "stage:briefing", to: pid, flow: 2 });
+    p.runs.forEach((run, j) => {
+      const b = j * 2.1;
+      const orbit = 58 + j * 15;
+      const rid = run.id ? `run:${run.id}` : `run:${key}:${j}`;
+      const sub = [run.role, run.meetingType].filter(Boolean).join(" · ") || "A finished 1:1.";
+      nodes.push({
+        id: rid, kind: "run", label: run.label, sub,
+        x: px + Math.cos(b) * orbit, y: y + Math.sin(b * 1.7) * 22, z: pz + Math.sin(b) * orbit,
+        r: 7, runId: run.id || undefined,
+        role: run.role, meetingType: run.meetingType, lastSeenAt: run.lastSeenAt, rating: run.rating, withName: p.label,
+      });
+      edges.push({ from: pid, to: rid, flow: 1 });
+    });
+    pi++;
+  }
+
+  // Meeting types — the outer constellation, faintly fed by the core.
+  let ti = 0;
+  const seen = new Set<string>();
+  for (const raw of input.types || []) {
+    const t = asRecord(raw);
+    const label = t ? str(t.label) || str(t.name) || str(t.slug) : str(raw);
+    if (!label || seen.has(label)) continue;
+    seen.add(label);
+    const a = ti * GOLDEN + 0.9;
+    nodes.push({
+      id: `type:${label.toLowerCase()}`, kind: "type", label, sub: "A meeting type Sero knows how to run.",
+      x: Math.cos(a) * 800, y: Math.sin(a * 1.3) * 150, z: Math.sin(a) * 800, r: 10,
+    });
+    edges.push({ from: "core", to: `type:${label.toLowerCase()}`, flow: 0.5 });
+    ti++;
+  }
+
+  return { nodes, edges };
+}
+
+/* ------------------------------------------------------------------- diff --- */
+// Compare two builds of the universe so an Update can tell what changed in the
+// engine since it was last drawn. Pure + tested — the button just renders these.
+
+export interface UniverseDiff {
+  added: Partial<Record<UNode["kind"], number>>;
+  removed: Partial<Record<UNode["kind"], number>>;
+  addedIds: string[]; // node ids that are new — the frame loop rings these briefly
+  changed: boolean;
+}
+
+export function diffUniverse(prev: UNode[], next: UNode[]): UniverseDiff {
+  const prevIds = new Set(prev.map((n) => n.id));
+  const nextIds = new Set(next.map((n) => n.id));
+  const added: Partial<Record<UNode["kind"], number>> = {};
+  const removed: Partial<Record<UNode["kind"], number>> = {};
+  const addedIds: string[] = [];
+  for (const n of next) {
+    if (!prevIds.has(n.id)) { added[n.kind] = (added[n.kind] || 0) + 1; addedIds.push(n.id); }
+  }
+  for (const n of prev) {
+    if (!nextIds.has(n.id)) { removed[n.kind] = (removed[n.kind] || 0) + 1; }
+  }
+  const changed = addedIds.length > 0 || Object.keys(removed).length > 0;
+  return { added, removed, addedIds, changed };
+}
+
+// The only kinds that can actually change (the core + pipeline are fixed), with
+// plain-language singular/plural nouns and a stable order to read them in.
+const DIFF_NOUN: Partial<Record<UNode["kind"], [string, string]>> = {
+  run: ["1:1", "1:1s"],
+  person: ["person", "people"],
+  type: ["meeting type", "meeting types"],
+};
+const DIFF_ORDER: UNode["kind"][] = ["run", "person", "type"];
+
+function joinList(parts: string[]): string {
+  if (parts.length <= 1) return parts[0] || "";
+  if (parts.length === 2) return `${parts[0]} and ${parts[1]}`;
+  return `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
+}
+
+function diffClause(counts: Partial<Record<UNode["kind"], number>>, fresh: boolean): string {
+  const parts: string[] = [];
+  for (const kind of DIFF_ORDER) {
+    const n = counts[kind];
+    const noun = DIFF_NOUN[kind];
+    if (!n || !noun) continue;
+    parts.push(`${n} ${fresh ? "new " : ""}${noun[n === 1 ? 0 : 1]}`);
+  }
+  return joinList(parts);
+}
+
+/** One short, plain sentence for the Update button to show. */
+export function summarizeDiff(diff: UniverseDiff): string {
+  if (!diff.changed) return "Everything's already up to date.";
+  const clauses: string[] = [];
+  const add = diffClause(diff.added, true);
+  const rem = diffClause(diff.removed, false);
+  if (add) clauses.push(`${add} just appeared`);
+  if (rem) clauses.push(`${rem} dropped off`);
+  return `${clauses.join(", and ")}.`;
+}
+
+/* ---------------------------------------------------------------- renderer -- */
+
+const COLOR: Record<UNode["kind"], string> = {
+  core: "125,211,252",   // sky
+  stage: "76,201,240",   // cyan
+  person: "255,183,3",   // amber
+  run: "167,243,192",    // mint
+  type: "192,132,252",   // violet
+};
+
+const KIND_WORD: Record<UNode["kind"], string> = {
+  core: "The engine", stage: "Pipeline step", person: "Person", run: "Finished 1:1", type: "Meeting type",
+};
+
+// n filled stars then hollow ones, e.g. stars(4) -> "★★★★☆".
+export const stars = (n: number): string => "★★★★★☆☆☆☆☆".slice(5 - n, 10 - n);
+
+// What the detail panel shows for a node — the branchy per-kind logic, kept pure so
+// it's tested without a browser (describe-node in universe.test.ts). The renderer just
+// turns this into HTML. `fmtWhen` is injected so relative time stays out of the pure part.
+export interface PanelModel {
+  eyebrow: string;
+  rows: { k: string; v: string; stars?: boolean }[];
+  runs?: { id: string; title: string; sub: string }[]; // person: clickable 1:1 list
+  steps?: { label: string; sub: string }[];             // core: the pipeline
+  openRunId?: string;                                    // run: shows the "Open" button
+}
+
+export function describeNode(n: UNode, fmtWhen: (ts: number | null | undefined) => string): PanelModel {
+  const rows: PanelModel["rows"] = [];
+  const model: PanelModel = { eyebrow: KIND_WORD[n.kind], rows };
+  if (n.kind === "run") {
+    if (n.withName) rows.push({ k: "With", v: n.withName });
+    if (n.role) rows.push({ k: "Role", v: n.role });
+    if (n.meetingType) rows.push({ k: "Meeting", v: n.meetingType });
+    const when = fmtWhen(n.lastSeenAt);
+    if (when) rows.push({ k: "Last touched", v: when });
+    if (n.rating) rows.push({ k: "Rating", v: stars(n.rating), stars: true });
+    if (n.runId) model.openRunId = n.runId;
+  } else if (n.kind === "stage" && n.step) {
+    rows.push({ k: "Step", v: `${n.step} of ${PIPELINE.length}` });
+  } else if (n.kind === "person" && n.runs) {
+    const roles = [...new Set(n.runs.map((r) => r.role).filter(Boolean))];
+    rows.push({ k: "Finished 1:1s", v: String(n.runs.length) });
+    if (roles.length) rows.push({ k: roles.length === 1 ? "Role" : "Roles", v: roles.join(", ") });
+    model.runs = n.runs.map((r) => ({
+      id: r.id,
+      title: r.label,
+      sub: [r.role, r.meetingType, fmtWhen(r.lastSeenAt)].filter(Boolean).join(" · ") || "A finished 1:1",
+    }));
+  } else if (n.kind === "core") {
+    model.steps = PIPELINE.map((s) => ({ label: s.label, sub: s.sub }));
+  } else if (n.kind === "type") {
+    rows.push({ k: "Kind", v: "A meeting type Sero can run" });
+  }
+  return model;
+}
+
+interface Pulse { edge: UEdge; t: number; speed: number }
+
+let raf = 0;
+let cleanup: (() => void) | null = null;
+
+export async function mount(root: HTMLElement, { setState }: StageContext): Promise<void> {
+  // Full-bleed dark page — neutralize the stage's centering/padding for this screen only.
+  root.style.padding = "0";
+  root.style.display = "block";
+  root.innerHTML = `
+    <style>
+      .uni { position: relative; width: 100%; height: 100dvh; overflow: hidden; background: #04060f; }
+      .uni canvas { position: absolute; inset: 0; display: block; cursor: grab; }
+      .uni.is-dragging canvas { cursor: grabbing; }
+      .uni__hud { position: absolute; top: 20px; left: 24px; color: #dbe7ff; pointer-events: none; max-width: 340px; }
+      .uni__hud h1 { font-size: 22px; font-weight: 700; margin: 0 0 2px; letter-spacing: 0.02em; }
+      .uni__hud p { font-size: 14px; margin: 0; color: rgba(219,231,255,0.75); }
+      .uni__refresh { pointer-events: auto; margin-top: 12px; display: inline-flex; align-items: center; gap: 7px; font: inherit; font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(125,211,252,0.4); background: rgba(125,211,252,0.12); color: #dbe7ff; cursor: pointer; transition: background 0.15s; }
+      .uni__refresh:hover { background: rgba(125,211,252,0.24); }
+      .uni__refresh:disabled { cursor: default; opacity: 0.75; }
+      .uni__refresh svg { width: 15px; height: 15px; }
+      .uni__refresh.is-busy svg { animation: uni-spin 0.8s linear infinite; }
+      @keyframes uni-spin { to { transform: rotate(360deg); } }
+      .uni__status { pointer-events: none; margin-top: 10px; font-size: 14px; max-width: 320px; line-height: 1.4; color: rgba(219,231,255,0.9); opacity: 0; transform: translateY(-4px); transition: opacity 0.25s, transform 0.25s; }
+      .uni__status.is-on { opacity: 1; transform: none; }
+      .uni__status[data-tone="good"] { color: #a7f3c0; }
+      .uni__status[data-tone="warn"] { color: #fca5a5; }
+      @media (prefers-reduced-motion: reduce) { .uni__refresh.is-busy svg { animation: none; } .uni__status { transition: none; } }
+      .uni__counts { position: absolute; bottom: 18px; left: 24px; font-size: 14px; color: rgba(219,231,255,0.65); pointer-events: none; }
+      .uni__legend { position: absolute; bottom: 18px; right: 24px; display: flex; gap: 14px; font-size: 14px; color: rgba(219,231,255,0.75); pointer-events: none; flex-wrap: wrap; justify-content: flex-end; transition: opacity 0.3s; }
+      .uni__legend b { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; }
+      .uni.has-panel .uni__legend { opacity: 0; }
+      /* Detail panel — a dark drawer down the right edge (~a quarter of the page). */
+      .uni__panel { position: absolute; top: 0; right: 0; height: 100%; width: clamp(300px, 25vw, 440px); display: flex; flex-direction: column; z-index: 5; color: #eaf2ff; background: linear-gradient(180deg, rgba(9,13,28,0.97), rgba(6,9,20,0.98)); border-left: 1px solid rgba(125,211,252,0.18); box-shadow: -24px 0 60px rgba(0,0,0,0.55); backdrop-filter: blur(12px); transform: translateX(100%); transition: transform 0.34s cubic-bezier(0.22,1,0.36,1); }
+      .uni__panel.is-open { transform: none; }
+      .uni__panel-head { position: relative; padding: 24px 24px 18px; border-bottom: 1px solid rgba(125,211,252,0.12); }
+      .uni__panel-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.06); color: #eaf2ff; cursor: pointer; font-size: 20px; line-height: 1; display: grid; place-items: center; }
+      .uni__panel-close:hover { background: rgba(255,255,255,0.14); }
+      .uni__panel-eyebrow { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+      .uni__panel-title { font-size: 24px; font-weight: 700; margin: 6px 0 5px; line-height: 1.15; padding-right: 36px; }
+      .uni__panel-sub { font-size: 14px; line-height: 1.5; color: rgba(234,242,255,0.72); }
+      .uni__panel-body { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 20px; }
+      .uni__rows { display: flex; flex-direction: column; gap: 11px; }
+      .uni__row { display: flex; justify-content: space-between; gap: 16px; font-size: 14px; }
+      .uni__row .rk { color: rgba(234,242,255,0.55); }
+      .uni__row .rv { color: #eaf2ff; text-align: right; font-weight: 500; }
+      .uni__row .rv.stars { color: #ffcf5b; letter-spacing: 2px; }
+      .uni__section-label { font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(234,242,255,0.5); margin-bottom: 10px; }
+      .uni__runlist { display: flex; flex-direction: column; gap: 8px; }
+      .uni__runrow { text-align: left; width: 100%; background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.14); border-radius: 10px; padding: 10px 12px; color: #eaf2ff; cursor: pointer; font: inherit; display: flex; flex-direction: column; gap: 3px; }
+      .uni__runrow:hover { background: rgba(125,211,252,0.15); border-color: rgba(125,211,252,0.3); }
+      .uni__runrow .rr-t { font-size: 14px; font-weight: 600; }
+      .uni__runrow .rr-s { font-size: 14px; color: rgba(234,242,255,0.6); }
+      .uni__steps { list-style: none; margin: 0; padding: 0; counter-reset: step; display: flex; flex-direction: column; gap: 12px; }
+      .uni__steps li { counter-increment: step; position: relative; padding-left: 34px; }
+      .uni__steps li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 24px; height: 24px; border-radius: 50%; background: rgba(76,201,240,0.16); border: 1px solid rgba(76,201,240,0.5); color: #7dd3fc; font-size: 14px; font-weight: 600; display: grid; place-items: center; }
+      .uni__steps .st { display: block; font-size: 14px; font-weight: 600; }
+      .uni__steps .sb { display: block; font-size: 14px; color: rgba(234,242,255,0.6); line-height: 1.4; }
+      .uni__panel-foot { padding: 16px 24px; border-top: 1px solid rgba(125,211,252,0.12); display: flex; gap: 8px; }
+      .uni__panel-foot button { flex: 1; font: inherit; font-size: 14px; font-weight: 600; padding: 11px 12px; border-radius: 9px; border: 1px solid rgba(125,211,252,0.4); background: rgba(125,211,252,0.12); color: #dbe7ff; cursor: pointer; }
+      .uni__panel-foot button:hover { background: rgba(125,211,252,0.24); }
+      .uni__panel-foot button.primary { background: #7dd3fc; color: #04060f; border-color: #7dd3fc; }
+      @media (prefers-reduced-motion: reduce) { .uni__panel { transition: none; } .uni__legend { transition: none; } }
+    </style>
+    <div class="uni">
+      <canvas></canvas>
+      <div class="uni__hud">
+        <h1>The Sero Universe</h1>
+        <p>Drag to spin &middot; scroll to dive &middot; click any light to fly to it. Every light is real.</p>
+        <button type="button" class="uni__refresh js-refresh" title="Re-read the engine and show what changed">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
+          <span class="uni__refresh-label">Update from the engine</span>
+        </button>
+        <div class="uni__status js-status" role="status" aria-live="polite"></div>
+      </div>
+      <div class="uni__counts js-counts">Loading the universe…</div>
+      <div class="uni__legend">
+        <span><b style="background:rgb(${COLOR.stage})"></b>Pipeline</span>
+        <span><b style="background:rgb(${COLOR.person})"></b>People</span>
+        <span><b style="background:rgb(${COLOR.run})"></b>Finished 1:1s</span>
+        <span><b style="background:rgb(${COLOR.type})"></b>Meeting types</span>
+      </div>
+      <aside class="uni__panel js-panel" aria-hidden="true"></aside>
+    </div>
+  `;
+
+  const shell = root.querySelector<HTMLDivElement>(".uni")!;
+  const canvas = root.querySelector<HTMLCanvasElement>("canvas")!;
+  const ctx2d = canvas.getContext("2d")!;
+  const countsEl = root.querySelector<HTMLDivElement>(".js-counts")!;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Real data — both fetches are free reads; if one fails the universe still renders.
+  let runs: unknown[] = [];
+  let types: unknown[] = [];
+  try { runs = ((await getFinishedRuns()) as { runs?: unknown[] }).runs || []; } catch { /* offline: empty sky */ }
+  try { types = ((await getMeetingTypes()) as { types?: unknown[] }).types || []; } catch { /* offline: empty ring */ }
+  if (!shell.isConnected) return; // navigated away while fetching
+
+  // Mutable so the Update button can swap in a fresh build without a remount.
+  let { nodes, edges } = buildUniverse({ runs, types });
+  let byId = new Map(nodes.map((n) => [n.id, n]));
+
+  function updateCounts() {
+    const nRuns = nodes.filter((n) => n.kind === "run").length;
+    const nPeople = nodes.filter((n) => n.kind === "person").length;
+    const nTypes = nodes.filter((n) => n.kind === "type").length;
+    countsEl.textContent = nRuns
+      ? `${nRuns} finished 1:1${nRuns === 1 ? "" : "s"} · ${nPeople} ${nPeople === 1 ? "person" : "people"} · ${nTypes} meeting types — all live data.`
+      : "No finished 1:1s yet — finish one and it appears here as a new moon.";
+  }
+  updateCounts();
+
+  // Pulses — the moving lights that show information flowing along each line.
+  function buildPulses(es: UEdge[]): Pulse[] {
+    const out: Pulse[] = [];
+    es.forEach((e, i) => {
+      const count = Math.max(1, Math.round(e.flow));
+      for (let k = 0; k < count; k++) {
+        out.push({ edge: e, t: ((i * 0.37 + k / count) % 1), speed: 0.1 + ((i * 7 + k * 13) % 10) * 0.02 });
+      }
+    });
+    return out;
+  }
+  let pulses = buildPulses(edges);
+
+  // Nodes an Update just added: id -> performance.now() when it arrived, so the frame
+  // loop can ring them for a few seconds to point out exactly what changed.
+  const spawnedAt = new Map<string, number>();
+
+  // Two star layers: a sky dome fixed at infinity (rotates, never zooms) and world
+  // dust that parallaxes as you dive — together the dive feels endless.
+  const rand = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+  const sky = Array.from({ length: 320 }, (_, i) => {
+    const u = rand(i) * 2 - 1, a = rand(i + 999) * Math.PI * 2;
+    const s = Math.sqrt(1 - u * u);
+    return { x: s * Math.cos(a), y: u, z: s * Math.sin(a), m: 0.3 + rand(i + 500) * 0.7 };
+  });
+  const dust = Array.from({ length: 260 }, (_, i) => ({
+    x: (rand(i + 1) - 0.5) * 3200, y: (rand(i + 2) - 0.5) * 3200, z: (rand(i + 3) - 0.5) * 3200,
+    m: 0.2 + rand(i + 4) * 0.8,
+  }));
+
+  // Camera — yaw/pitch orbit around a target point, exponential zoom. `goal` values
+  // are eased toward every frame, which gives the fly-to its glide.
+  const cam = { yaw: 0.6, pitch: 0.35, dist: 1400, tx: 0, ty: 0, tz: 0 };
+  const goal = { ...cam };
+  const FL = 900; // focal length
+  let W = 0, H = 0, DPR = 1;
+  let hovered: UNode | null = null;
+  let selected: UNode | null = null;
+  let lastInteract = performance.now();
+  let viewShiftX = 0; // screen-space pan so the panel doesn't cover the flown-to node
+
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = shell.clientWidth; H = shell.clientHeight;
+    canvas.width = Math.max(1, Math.round(W * DPR));
+    canvas.height = Math.max(1, Math.round(H * DPR));
+    // CSS size must stay at the logical size or a DPR > 1 blows the canvas up
+    // past the shell (and drags every hit-test off with it).
+    canvas.style.width = `${W}px`;
+    canvas.style.height = `${H}px`;
+    ctx2d.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  const ro = new ResizeObserver(resize);
+  ro.observe(shell);
+  resize();
+
+  interface P3 { x: number; y: number; s: number; z: number } // screen x/y, scale, depth
+  function project(x: number, y: number, z: number): P3 | null {
+    const dx = x - cam.tx, dy = y - cam.ty, dz = z - cam.tz;
+    const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw);
+    const cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
+    const x1 = dx * cy - dz * sy, z1 = dx * sy + dz * cy;
+    const y2 = dy * cp - z1 * sp, z2 = dy * sp + z1 * cp;
+    const depth = z2 + cam.dist;
+    if (depth < 24) return null; // behind / inside the camera
+    const s = FL / depth;
+    return { x: W / 2 + viewShiftX + x1 * s, y: H / 2 - y2 * s, s, z: depth };
+  }
+
+  const projected = new Map<string, P3>();
+
+  function flyTo(n: UNode) {
+    selected = n;
+    goal.tx = n.x; goal.ty = n.y; goal.tz = n.z;
+    goal.dist = Math.max(90, n.r * 11);
+    renderPanel(n);
+  }
+  function resetView() {
+    selected = null;
+    goal.tx = 0; goal.ty = 0; goal.tz = 0; goal.dist = 1400;
+    renderPanel(null);
+  }
+
+  const panelEl = shell.querySelector<HTMLElement>(".js-panel")!;
+  const openRun = (id: string) => setState({ reviewRunId: id, stage: STAGES.REVIEW_RUN });
+
+  // The dark side drawer. describeNode() (pure, tested) decides what to show for the
+  // node's kind; this just turns that model into HTML and slides the panel in. null
+  // closes it. People get a clickable 1:1 list, the core the pipeline, a run an "Open".
+  function renderPanel(n: UNode | null) {
+    if (!n) {
+      panelEl.classList.remove("is-open");
+      panelEl.setAttribute("aria-hidden", "true");
+      shell.classList.remove("has-panel");
+      return;
+    }
+    const col = COLOR[n.kind];
+    const m = describeNode(n, (ts) => relTime(ts ?? 0));
+
+    const rowsHtml = m.rows.length
+      ? `<div class="uni__rows">${m.rows
+          .map((row) => `<div class="uni__row"><span class="rk">${esc(row.k)}</span><span class="rv${row.stars ? " stars" : ""}">${esc(row.v)}</span></div>`)
+          .join("")}</div>`
+      : "";
+    const runsHtml = m.runs
+      ? `<div><div class="uni__section-label">Their 1:1s</div><div class="uni__runlist">${m.runs
+          .map((r) => `<button type="button" class="uni__runrow" data-run="${esc(r.id)}"><span class="rr-t">${esc(r.title)}</span><span class="rr-s">${esc(r.sub)}</span></button>`)
+          .join("")}</div></div>`
+      : "";
+    const stepsHtml = m.steps
+      ? `<div><div class="uni__section-label">How a 1:1 flows</div><ol class="uni__steps">${m.steps
+          .map((s) => `<li><span class="st">${esc(s.label)}</span><span class="sb">${esc(s.sub)}</span></li>`)
+          .join("")}</ol></div>`
+      : "";
+    const footHtml = m.openRunId
+      ? `<div class="uni__panel-foot"><button type="button" class="primary js-open">Open this run</button></div>`
+      : "";
+
+    panelEl.innerHTML = `
+      <div class="uni__panel-head">
+        <button type="button" class="uni__panel-close js-close" aria-label="Close">&times;</button>
+        <div class="uni__panel-eyebrow" style="color:rgb(${col})">${esc(m.eyebrow)}</div>
+        <div class="uni__panel-title">${esc(n.label)}</div>
+        <div class="uni__panel-sub">${esc(n.sub)}</div>
+      </div>
+      <div class="uni__panel-body">${rowsHtml}${runsHtml}${stepsHtml}</div>
+      ${footHtml}
+    `;
+    panelEl.querySelector(".js-close")!.addEventListener("click", resetView);
+    panelEl.querySelector(".js-open")?.addEventListener("click", () => { if (n.runId) openRun(n.runId); });
+    panelEl.querySelectorAll<HTMLButtonElement>(".uni__runrow").forEach((b) => {
+      b.addEventListener("click", () => { if (b.dataset.run) openRun(b.dataset.run); });
+    });
+    panelEl.classList.add("is-open");
+    panelEl.setAttribute("aria-hidden", "false");
+    shell.classList.add("has-panel");
+  }
+
+  // --- Update button -------------------------------------------------------
+  // Re-read the engine's live data, rebuild the map in place, ring whatever's new,
+  // and say in one plain line what changed. Read-only; both fetches are free.
+  const refreshBtn = shell.querySelector<HTMLButtonElement>(".js-refresh")!;
+  const refreshLabel = shell.querySelector<HTMLSpanElement>(".uni__refresh-label")!;
+  const statusEl = shell.querySelector<HTMLDivElement>(".js-status")!;
+  let statusTimer = 0;
+  function setStatus(msg: string, tone: "info" | "good" | "warn") {
+    statusEl.textContent = msg;
+    statusEl.dataset.tone = tone;
+    statusEl.classList.add("is-on");
+    clearTimeout(statusTimer);
+    statusTimer = window.setTimeout(() => statusEl.classList.remove("is-on"), 6000);
+  }
+
+  let refreshing = false;
+  async function refresh() {
+    if (refreshing) return;
+    refreshing = true;
+    refreshBtn.disabled = true;
+    refreshBtn.classList.add("is-busy");
+    refreshLabel.textContent = "Checking the engine…";
+    try {
+      let nextRuns = runs, nextTypes = types, reached = false;
+      try { nextRuns = ((await getFinishedRuns()) as { runs?: unknown[] }).runs || []; reached = true; } catch { /* keep last */ }
+      try { nextTypes = ((await getMeetingTypes()) as { types?: unknown[] }).types || []; reached = true; } catch { /* keep last */ }
+      if (!shell.isConnected) return; // navigated away mid-fetch
+      if (!reached) { setStatus("Couldn't reach the engine — try again in a moment.", "warn"); return; }
+
+      runs = nextRuns; types = nextTypes;
+      const next = buildUniverse({ runs, types });
+      const diff = diffUniverse(nodes, next.nodes);
+      nodes = next.nodes; edges = next.edges;
+      byId = new Map(nodes.map((n) => [n.id, n]));
+      pulses = buildPulses(edges);
+      hovered = null;
+      // Keep the open card if its light still exists (its details may have moved).
+      if (selected) { selected = byId.get(selected.id) || null; renderPanel(selected); }
+      updateCounts();
+      const now = performance.now();
+      for (const id of diff.addedIds) spawnedAt.set(id, now);
+      setStatus(summarizeDiff(diff), diff.changed ? "good" : "info");
+    } finally {
+      refreshLabel.textContent = "Update from the engine";
+      refreshBtn.classList.remove("is-busy");
+      refreshBtn.disabled = false;
+      refreshing = false;
+    }
+  }
+  refreshBtn.addEventListener("click", refresh);
+
+  function pick(mx: number, my: number): UNode | null {
+    let best: UNode | null = null, bestZ = Infinity;
+    for (const n of nodes) {
+      const p = projected.get(n.id);
+      if (!p) continue;
+      const hit = Math.max(12, n.r * p.s + 6);
+      if (Math.hypot(p.x - mx, p.y - my) <= hit && p.z < bestZ) { best = n; bestZ = p.z; }
+    }
+    return best;
+  }
+
+  // --- input ---------------------------------------------------------------
+  let dragging = false, moved = false, px = 0, py = 0;
+  const onDown = (e: PointerEvent) => {
+    dragging = true; moved = false; px = e.clientX; py = e.clientY;
+    shell.classList.add("is-dragging");
+    canvas.setPointerCapture(e.pointerId);
+    lastInteract = performance.now();
+  };
+  const onMove = (e: PointerEvent) => {
+    const rect = canvas.getBoundingClientRect();
+    if (dragging) {
+      const dx = e.clientX - px, dy = e.clientY - py;
+      if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+      goal.yaw += dx * 0.005;
+      goal.pitch = Math.min(1.4, Math.max(-1.4, goal.pitch + dy * 0.004));
+      px = e.clientX; py = e.clientY;
+      lastInteract = performance.now();
+    } else {
+      hovered = pick(e.clientX - rect.left, e.clientY - rect.top);
+      canvas.style.cursor = hovered ? "pointer" : "grab";
+    }
+  };
+  const onUp = (e: PointerEvent) => {
+    shell.classList.remove("is-dragging");
+    if (dragging && !moved) {
+      const rect = canvas.getBoundingClientRect();
+      const n = pick(e.clientX - rect.left, e.clientY - rect.top);
+      if (n) flyTo(n); else { renderPanel(null); selected = null; }
+    }
+    dragging = false;
+  };
+  const onWheel = (e: WheelEvent) => {
+    e.preventDefault();
+    goal.dist = Math.min(60000, Math.max(60, goal.dist * Math.exp(e.deltaY * 0.0012)));
+    lastInteract = performance.now();
+  };
+  const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") resetView(); };
+  canvas.addEventListener("pointerdown", onDown);
+  canvas.addEventListener("pointermove", onMove);
+  canvas.addEventListener("pointerup", onUp);
+  canvas.addEventListener("wheel", onWheel, { passive: false });
+  window.addEventListener("keydown", onKey);
+
+  // --- frame loop ------------------------------------------------------------
+  let last = performance.now();
+  function frame(now: number) {
+    raf = requestAnimationFrame(frame);
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+
+    // Idle auto-drift, then ease camera toward its goal.
+    if (!reduceMotion && !dragging && now - lastInteract > 4000 && !selected) goal.yaw += dt * 0.05;
+    const k = 1 - Math.exp(-dt * 5);
+    cam.yaw += (goal.yaw - cam.yaw) * k;
+    cam.pitch += (goal.pitch - cam.pitch) * k;
+    cam.dist += (goal.dist - cam.dist) * k;
+    cam.tx += (goal.tx - cam.tx) * k;
+    cam.ty += (goal.ty - cam.ty) * k;
+    cam.tz += (goal.tz - cam.tz) * k;
+    // When the panel is open, slide the whole view left by half the panel's width so
+    // the selected node sits in the visible half rather than behind the drawer.
+    const panelShift = Math.min(440, Math.max(300, W * 0.25)) / 2;
+    const shiftGoal = shell.classList.contains("has-panel") ? -panelShift : 0;
+    viewShiftX += (shiftGoal - viewShiftX) * k;
+
+    // Space.
+    const g = ctx2d.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.75);
+    g.addColorStop(0, "#0a1226");
+    g.addColorStop(1, "#03040c");
+    ctx2d.fillStyle = g;
+    ctx2d.fillRect(0, 0, W, H);
+
+    // Sky dome (infinitely far — rotation-only parallax) with a soft twinkle.
+    const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw);
+    const cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
+    for (let i = 0; i < sky.length; i++) {
+      const st = sky[i];
+      if (!st) continue;
+      const x1 = st.x * cy - st.z * sy, z1 = st.x * sy + st.z * cy;
+      const y2 = st.y * cp - z1 * sp, z2 = st.y * sp + z1 * cp;
+      if (z2 > -0.05) continue; // only the hemisphere in front
+      const f = FL / (1.5 + z2 * -1);
+      const tw = reduceMotion ? 0.7 : 0.55 + 0.45 * Math.sin(now * 0.001 * st.m * 3 + i);
+      ctx2d.fillStyle = `rgba(200,220,255,${(0.35 * st.m * tw).toFixed(3)})`;
+      ctx2d.fillRect(W / 2 + x1 * f * 0.9, H / 2 - y2 * f * 0.9, st.m > 0.8 ? 2 : 1, st.m > 0.8 ? 2 : 1);
+    }
+    // World dust — real depth, so diving through it sells the zoom.
+    for (const d of dust) {
+      const p = project(d.x, d.y, d.z);
+      if (!p) continue;
+      const a = Math.min(0.5, 90 * p.s * d.m * 0.01);
+      if (a < 0.02) continue;
+      ctx2d.fillStyle = `rgba(150,190,255,${a.toFixed(3)})`;
+      const sz = Math.max(1, 2.5 * p.s * d.m);
+      ctx2d.fillRect(p.x, p.y, sz, sz);
+    }
+
+    // Project every node once per frame.
+    projected.clear();
+    for (const n of nodes) {
+      const p = project(n.x, n.y, n.z);
+      if (p) projected.set(n.id, p);
+    }
+
+    // Lines.
+    for (const e of edges) {
+      const a = projected.get(e.from), b = projected.get(e.to);
+      if (!a || !b) continue;
+      const alpha = Math.min(0.5, (a.s + b.s) * 90 * 0.002 + 0.06) * (e.flow >= 2 ? 1 : 0.6);
+      ctx2d.strokeStyle = `rgba(120,170,255,${alpha.toFixed(3)})`;
+      ctx2d.lineWidth = e.flow >= 2 ? 1.2 : 0.7;
+      ctx2d.beginPath();
+      ctx2d.moveTo(a.x, a.y);
+      ctx2d.lineTo(b.x, b.y);
+      ctx2d.stroke();
+    }
+
+    // Pulses — additive glow dots travelling along their line.
+    if (!reduceMotion) {
+      ctx2d.globalCompositeOperation = "lighter";
+      for (const pl of pulses) {
+        pl.t = (pl.t + dt * pl.speed) % 1;
+        const na = byId.get(pl.edge.from)!, nb = byId.get(pl.edge.to)!;
+        const p = project(
+          na.x + (nb.x - na.x) * pl.t,
+          na.y + (nb.y - na.y) * pl.t,
+          na.z + (nb.z - na.z) * pl.t
+        );
+        if (!p) continue;
+        const rr = Math.max(1.2, 26 * p.s);
+        const col = COLOR[nb.kind];
+        const gg = ctx2d.createRadialGradient(p.x, p.y, 0, p.x, p.y, rr);
+        gg.addColorStop(0, `rgba(${col},0.9)`);
+        gg.addColorStop(1, `rgba(${col},0)`);
+        ctx2d.fillStyle = gg;
+        ctx2d.beginPath();
+        ctx2d.arc(p.x, p.y, rr, 0, Math.PI * 2);
+        ctx2d.fill();
+      }
+      ctx2d.globalCompositeOperation = "source-over";
+    }
+
+    // Nodes, far to near.
+    const order = nodes
+      .map((n) => ({ n, p: projected.get(n.id) }))
+      .filter((o): o is { n: UNode; p: P3 } => !!o.p)
+      .sort((a, b) => b.p.z - a.p.z);
+    for (const { n, p } of order) {
+      const col = COLOR[n.kind];
+      const R = Math.max(1.5, n.r * p.s);
+      const pulse = n.kind === "core" && !reduceMotion ? 1 + Math.sin(now * 0.0016) * 0.08 : 1;
+      const glow = ctx2d.createRadialGradient(p.x, p.y, 0, p.x, p.y, R * 3 * pulse);
+      glow.addColorStop(0, `rgba(${col},0.55)`);
+      glow.addColorStop(1, `rgba(${col},0)`);
+      ctx2d.fillStyle = glow;
+      ctx2d.beginPath();
+      ctx2d.arc(p.x, p.y, R * 3 * pulse, 0, Math.PI * 2);
+      ctx2d.fill();
+      ctx2d.fillStyle = `rgba(${col},0.95)`;
+      ctx2d.beginPath();
+      ctx2d.arc(p.x, p.y, R * pulse, 0, Math.PI * 2);
+      ctx2d.fill();
+      if (n === hovered || n === selected) {
+        ctx2d.strokeStyle = `rgba(${col},0.9)`;
+        ctx2d.lineWidth = 1.5;
+        ctx2d.beginPath();
+        ctx2d.arc(p.x, p.y, R + 6, 0, Math.PI * 2);
+        ctx2d.stroke();
+      }
+      // "Just arrived" ring — an Update flagged this node; pulse + fade over ~4s so the
+      // eye lands on exactly what changed, then forget it.
+      const born = spawnedAt.get(n.id);
+      if (born != null) {
+        const age = now - born;
+        if (age > 4000) spawnedAt.delete(n.id);
+        else {
+          const fade = 1 - age / 4000;
+          const grow = reduceMotion ? 1 : 1 + Math.sin(now * 0.008) * 0.18;
+          ctx2d.strokeStyle = `rgba(${col},${(0.95 * fade).toFixed(3)})`;
+          ctx2d.lineWidth = 2;
+          ctx2d.beginPath();
+          ctx2d.arc(p.x, p.y, (R + 11) * grow, 0, Math.PI * 2);
+          ctx2d.stroke();
+        }
+      }
+      // Labels: always for the core + pipeline, otherwise once you're close (or on it),
+      // and always while a node is freshly-arrived so you can read what just landed.
+      const wantLabel = n.kind === "core" || n.kind === "stage" || R > 8 || n === hovered || n === selected || spawnedAt.has(n.id);
+      if (wantLabel) {
+        const size = Math.min(24, Math.max(14, R * 0.8)); // 14px floor holds even in canvas
+        const alpha = n === hovered || n === selected ? 1 : Math.min(0.85, p.s * 260 * 0.004 + 0.35);
+        ctx2d.font = `600 ${size}px 'Inter Variable', Inter, system-ui, sans-serif`;
+        ctx2d.textAlign = "center";
+        ctx2d.fillStyle = `rgba(226,238,255,${alpha.toFixed(2)})`;
+        ctx2d.shadowColor = "rgba(0,0,0,0.8)";
+        ctx2d.shadowBlur = 6;
+        ctx2d.fillText(n.label, p.x, p.y - R - 10);
+        ctx2d.shadowBlur = 0;
+      }
+    }
+  }
+  raf = requestAnimationFrame(frame);
+
+  cleanup = () => {
+    cancelAnimationFrame(raf);
+    ro.disconnect();
+    window.removeEventListener("keydown", onKey);
+  };
+}
+
+export function unmount(): void {
+  if (cleanup) { cleanup(); cleanup = null; }
+}

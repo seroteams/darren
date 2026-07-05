@@ -1,0 +1,10 @@
+alias: q_zero_data_check
+label: Zero-data check
+name: What made the zero-data path easy to miss here?
+description: Drill into the concrete miss she just named before moving on.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: missed the zero-data path

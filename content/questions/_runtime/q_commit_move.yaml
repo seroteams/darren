@@ -1,0 +1,11 @@
+alias: q_commit_move
+label: commit move
+name: What will you change in your next draft before you bring it to review?
+description: Turn the discussion into one concrete behaviour change for her next design review.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added
+grounding: mostly edge cases and flow

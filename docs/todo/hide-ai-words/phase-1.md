@@ -1,6 +1,6 @@
 # Phase 1 — Backend save-layer + API
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done (committed `9a6f1ca9`)
 
 ## Goal
 Teach the engine to record and honour "this AI word is hidden" in the overlay sidecar, and expose hide/unhide over the API — so a hidden word both leaves the browse list and stops being used in real 1:1s, without ever touching the AI's generated file.

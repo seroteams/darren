@@ -2,7 +2,13 @@
 // terminology). You can add your own words per role; they save to a separate
 // overlay (never overwriting the AI's) and show marked as "yours".
 
-import { getRoleLexicons, addRoleLexiconTerm, removeRoleLexiconTerm } from "../../../shared/api.js";
+import {
+  getRoleLexicons,
+  addRoleLexiconTerm,
+  removeRoleLexiconTerm,
+  hideRoleLexiconTerm,
+  unhideRoleLexiconTerm,
+} from "../../../shared/api.js";
 import { escapeHtml as esc } from "../ui/html.js";
 import { groupTerms, isGrouped } from "../ui/vocab-groups.js";
 
@@ -17,12 +23,21 @@ export async function mount(root) {
         </div>
       </header>
       <div class="thinking-host min-h-[60px] flex items-center text-ink-mute">Loading job words…</div>
-      <div class="result-host l-stack l-stack--6"></div>
+      <div class="joblex-layout" hidden>
+        <aside class="joblex-sidebar">
+          <input class="input joblex-search js-role-search" type="search" placeholder="Search a job…" aria-label="Search roles" autocomplete="off" />
+          <div class="joblex-list js-role-list"></div>
+        </aside>
+        <div class="joblex-detail result-host js-role-detail"></div>
+      </div>
     </div>
   `;
 
   const thinkingHost = root.querySelector(".thinking-host");
-  const resultHost = root.querySelector(".result-host");
+  const layout = root.querySelector(".joblex-layout");
+  const searchEl = root.querySelector(".js-role-search");
+  const listEl = root.querySelector(".js-role-list");
+  const resultHost = root.querySelector(".js-role-detail");
 
   let roles = [];
   try {
@@ -37,13 +52,53 @@ export async function mount(root) {
   thinkingHost.remove();
 
   if (!roles.length) {
+    layout.hidden = false;
     resultHost.innerHTML =
       `<p class="text-ink-mute">No job words yet. They're created the first time you set up a 1:1 for a role.</p>`;
     return;
   }
 
   const byKey = new Map(roles.map((r) => [r.key, r]));
-  resultHost.innerHTML = roles.map(sectionHtml).join("");
+  let activeKey = null;
+
+  layout.hidden = false;
+  resultHost.innerHTML =
+    `<p class="text-ink-mute">Pick a role to see its words.</p>`;
+  renderList("");
+
+  // Render the left list grouped by seniority, filtered by the search query.
+  function renderList(query) {
+    const q = query.trim().toLowerCase();
+    const matches = roles.filter((r) => !q || roleLabel(r).toLowerCase().includes(q));
+    const groups = groupBySeniority(matches);
+
+    if (!groups.length) {
+      listEl.innerHTML = `<p class="joblex-empty text-ink-mute">No roles match "${esc(query.trim())}".</p>`;
+      return;
+    }
+    listEl.innerHTML = groups.map((g) => `
+      <div class="joblex-group">${esc(g.label)}</div>
+      ${g.roles.map((r) => `
+        <button class="joblex-item${r.key === activeKey ? " is-active" : ""}" type="button" data-key="${esc(r.key)}">${esc(roleLabel(r))}</button>
+      `).join("")}
+    `).join("");
+  }
+
+  // Render the picked role's words on the right and move the highlight.
+  function showRole(key) {
+    const role = byKey.get(key);
+    if (!role) return;
+    activeKey = key;
+    resultHost.innerHTML = sectionHtml(role);
+    renderList(searchEl.value);
+  }
+
+  searchEl.addEventListener("input", () => renderList(searchEl.value));
+
+  listEl.addEventListener("click", (e) => {
+    const item = e.target.closest(".joblex-item");
+    if (item) showRole(item.dataset.key);
+  });
 
   // Re-render one role's section in place (event delegation lives on the parent,
   // so swapping a section's node keeps the handlers working).
@@ -53,9 +108,51 @@ export async function mount(root) {
     if (role && node) node.outerHTML = sectionHtml(role);
   }
 
+  // Flip the local `hidden` flag on an AI term and re-render (keeps the two
+  // views — main list and "Hidden words" — in sync without a re-fetch).
+  function setHidden(key, term, hidden) {
+    const role = byKey.get(key);
+    const hit = role?.terms.find(
+      (t) => t.source === "ai" && String(t.term || "").toLowerCase() === term.toLowerCase()
+    );
+    if (hit) hit.hidden = hidden;
+  }
+
   resultHost.addEventListener("click", async (e) => {
     const addBtn = e.target.closest(".js-add-word");
     const rmBtn = e.target.closest(".js-remove-word");
+    const hideBtn = e.target.closest(".js-hide-word");
+    const restoreBtn = e.target.closest(".js-restore-word");
+
+    if (hideBtn) {
+      const key = hideBtn.dataset.key;
+      const term = hideBtn.dataset.term;
+      hideBtn.disabled = true;
+      try {
+        await hideRoleLexiconTerm(key, term);
+        setHidden(key, term, true);
+        refreshSection(key);
+      } catch (err) {
+        hideBtn.disabled = false;
+        console.warn("[job-lexicons] hide failed:", err);
+      }
+      return;
+    }
+
+    if (restoreBtn) {
+      const key = restoreBtn.dataset.key;
+      const term = restoreBtn.dataset.term;
+      restoreBtn.disabled = true;
+      try {
+        await unhideRoleLexiconTerm(key, term);
+        setHidden(key, term, false);
+        refreshSection(key);
+      } catch (err) {
+        restoreBtn.disabled = false;
+        console.warn("[job-lexicons] restore failed:", err);
+      }
+      return;
+    }
 
     if (addBtn) {
       const key = addBtn.dataset.key;
@@ -114,9 +211,47 @@ export async function mount(root) {
   });
 }
 
+// Plain label for a role, used in both the list and the section heading.
+function roleLabel(role) {
+  return [role.role, role.seniority].filter(Boolean).join(" · ") || "Untitled role";
+}
+
+const SENIORITY_ORDER = ["Junior", "Mid-level", "Senior", "Lead", "Principal", "Director", "Expert"];
+
+// The data has a known inconsistency: some profiles say "Mid", others "Mid-level".
+// Fold them into one bucket for display; leave the stored value alone.
+function normalizeSeniority(s) {
+  const raw = (s || "").trim();
+  if (/^mid(-level)?$/i.test(raw)) return "Mid-level";
+  return raw || "Other";
+}
+
+// Group roles under seniority headings, ordered by SENIORITY_ORDER (unknown
+// levels sort to the end, alphabetically). Roles inside a group are A–Z.
+function groupBySeniority(list) {
+  const buckets = new Map();
+  for (const r of list) {
+    const label = normalizeSeniority(r.seniority);
+    if (!buckets.has(label)) buckets.set(label, []);
+    buckets.get(label).push(r);
+  }
+  const rank = (label) => {
+    const i = SENIORITY_ORDER.indexOf(label);
+    return i === -1 ? SENIORITY_ORDER.length : i;
+  };
+  return [...buckets.entries()]
+    .sort((a, b) => rank(a[0]) - rank(b[0]) || a[0].localeCompare(b[0]))
+    .map(([label, roles]) => ({
+      label,
+      roles: roles.sort((a, b) => roleLabel(a).localeCompare(roleLabel(b))),
+    }));
+}
+
 function sectionHtml(role) {
-  const title = [role.role, role.seniority].filter(Boolean).map(esc).join(" · ") || "Untitled role";
-  const terms = Array.isArray(role.terms) ? role.terms : [];
+  const title = esc(roleLabel(role));
+  const allTerms = Array.isArray(role.terms) ? role.terms : [];
+  const terms = allTerms.filter((t) => !t.hidden); // hidden AI words drop out of the list
+  const hidden = allTerms.filter((t) => t.hidden);
   const sections = groupTerms(terms, role.groups);
   let glossary;
   if (!terms.length) {
@@ -131,6 +266,12 @@ function sectionHtml(role) {
   } else {
     glossary = `<div class="card flow-glossary">${terms.map((t) => rowHtml(t, role.key)).join("")}</div>`;
   }
+  const hiddenBlock = hidden.length
+    ? `<details class="joblex-hidden">
+        <summary class="joblex-hidden__head">Hidden words (${hidden.length}) — put any back</summary>
+        <div class="card flow-glossary joblex-hidden__list">${hidden.map((t) => hiddenRowHtml(t, role.key)).join("")}</div>
+      </details>`
+    : "";
   return `
     <section class="l-stack l-stack--3" data-key="${esc(role.key)}">
       <h2 class="h3">${title}</h2>
@@ -141,6 +282,7 @@ function sectionHtml(role) {
         <button class="btn btn--sm js-add-word" type="button" data-key="${esc(role.key)}">Add</button>
       </div>
       <p class="joblex-error js-add-error" role="alert" hidden></p>
+      ${hiddenBlock}
     </section>`;
 }
 
@@ -151,13 +293,30 @@ function rowHtml(t, key) {
   const extras = yours
     ? ` <span class="joblex-yours">yours</span>` +
       `<button class="joblex-remove js-remove-word" type="button" data-key="${esc(key)}" data-term="${term}" aria-label="Remove ${term}" title="Remove">×</button>`
-    : "";
+    : // AI word — a delete control that only shows on row hover/focus.
+      `<button class="joblex-delete js-hide-word" type="button" data-key="${esc(key)}" data-term="${term}" aria-label="Delete ${term}" title="Delete">${TRASH_SVG}</button>`;
   return `
-    <div class="flow-glossary__row">
+    <div class="flow-glossary__row joblex-row">
       <div class="flow-glossary__term">${term}${extras}</div>
       <div class="flow-glossary__meaning">${meaning}</div>
     </div>`;
 }
+
+// A hidden (deleted) AI word, shown in the "Hidden words" area with a put-back.
+function hiddenRowHtml(t, key) {
+  const term = esc(t.term || "");
+  const meaning = esc(t.meaning || "");
+  return `
+    <div class="flow-glossary__row joblex-hidden__row">
+      <div class="flow-glossary__term">${term}
+        <button class="joblex-restore js-restore-word" type="button" data-key="${esc(key)}" data-term="${term}" aria-label="Put back ${term}">Put back</button>
+      </div>
+      <div class="flow-glossary__meaning">${meaning}</div>
+    </div>`;
+}
+
+const TRASH_SVG =
+  `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 5v6m4-6v6"/></svg>`;
 
 // Keys are slug--slug (safe), but guard the attribute selector anyway.
 function cssEsc(s) {
