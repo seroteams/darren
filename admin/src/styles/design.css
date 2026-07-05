@@ -803,6 +803,30 @@ body.has-session-topbar .stage {
 /* Transparent gap between company cards. */
 .um-group-gap td { height: var(--sero-space-4); padding: 0; border: 0; background: transparent; }
 
+/* Error log (error-log Phase 2) — the superadmin's cross-company error list. Reuses the
+   um-table frame; these are the row pills (environment / source / status) + cell helpers. */
+.el-table td { vertical-align: middle; }
+.el-when { color: var(--color-ink-dim); white-space: nowrap; }
+.el-sub, .el-src { font-size: var(--type-caption); color: var(--color-ink-dim); margin-top: 2px; }
+.el-route { font-family: var(--font-mono, ui-monospace, monospace); font-size: var(--type-caption); color: var(--color-ink-dim); }
+.el-msg { color: var(--color-ink); }
+.el-anon { color: var(--color-ink-mute); font-style: italic; }
+.el-pill {
+  display: inline-block;
+  padding: 1px 9px;
+  border-radius: var(--sero-radius-badge);
+  font-size: var(--type-caption);
+  font-weight: var(--type-weight-medium);
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.el-pill--live    { background: var(--sero-primary-200);  color: var(--sero-primary-800); }
+.el-pill--local   { background: var(--sero-soft-500);     color: var(--sero-soft-800); }
+.el-pill--api     { background: transparent; border: 1px solid var(--color-border); color: var(--color-ink-dim); }
+.el-pill--browser { background: var(--sero-lavender-200); color: var(--sero-lavender-800); }
+.el-pill--err     { background: var(--sero-coral-200);    color: var(--sero-coral-800); }
+.el-pill--warn    { background: var(--sero-gold-200, #faecd9); color: var(--sero-gold-800, #7a4f0a); }
+
 /* Row actions (user-management Phase 2): a ⋯ button per row opening a role menu. The menu is
    attached to <body> (position: fixed) so the table's horizontal scroll never clips it. */
 .um-actions { text-align: right; width: 1%; white-space: nowrap; }

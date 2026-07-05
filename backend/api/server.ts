@@ -31,6 +31,7 @@ import checks from "./services/checks/checks.controller.ts";
 import * as feedback from "./services/feedback/feedback.controller.ts";
 import * as superadmin from "./services/superadmin/superadmin.controller.ts";
 import * as heartbeat from "./services/heartbeat/heartbeat.controller.ts";
+import * as errorLog from "./services/error-log/error-log.controller.ts";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
@@ -127,6 +128,9 @@ function main(): void {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return superadmin.reactivate(c);
   }));
+  // error log — the superadmin's cross-company view of every error users hit (error-log
+  // Phase 2). Superadmin-gated like the rest of /admin/*; read-only, newest first.
+  router.add("GET", "/api/v1/admin/errors", superadminV1(errorLog.list));
 
   // catalog — first domain on the v1 layer (controller → service → repo).
   // v1 routes use the one error shape (v1Route); the legacy /api/ paths stay as

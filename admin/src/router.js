@@ -38,6 +38,7 @@ const PATH_FOR = {
   [STAGES.TASKS]:          () => "/tasks",
   [STAGES.UNIVERSE]:       () => "/universe",
   [STAGES.ADMIN_REGISTERED]: () => "/admin/registered",
+  [STAGES.ADMIN_ERROR_LOG]: () => "/admin/errors",
   [STAGES.ADMIN_USER]:     (s) => (s.adminUserId ? `/admin/users/${encodeURIComponent(s.adminUserId)}` : "/admin/registered"),
   [STAGES.REVIEW_RUN]:     (s) => (s.reviewRunId ? `/run/${encodeURIComponent(s.reviewRunId)}` : "/run"),
   // ERROR intentionally absent -> urlForState returns null -> no URL write
@@ -56,6 +57,7 @@ const STAGE_FOR = {
   "/regression": STAGES.REGRESSION, "/personas": STAGES.PERSONAS, "/guide": STAGES.GUIDE,
   "/tasks": STAGES.TASKS, "/universe": STAGES.UNIVERSE,
   "/admin/registered": STAGES.ADMIN_REGISTERED,
+  "/admin/errors": STAGES.ADMIN_ERROR_LOG,
 };
 
 const FLOW = new Set([STAGES.FOCUS_POINTS, STAGES.PREPARATION, STAGES.BANK,
@@ -66,7 +68,8 @@ export const isFlowStage = (stage) => FLOW.has(stage);
 // (admin-access-guard Phase 2). A member deep-linking here is bounced to the prep flow.
 const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE, STAGES.REGRESSION,
   STAGES.PERSONAS, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER]);
+  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
+  STAGES.ADMIN_ERROR_LOG]);
 export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
 
 // The plain-member destinations (member-nav Phase 1): Home, Team, Runs. Used by boot +

@@ -46,6 +46,7 @@ const loaders = {
   UNIVERSE:        () => import("./stages/universe.ts"),
   ADMIN_REGISTERED: () => import("./stages/admin-registered.ts"),
   ADMIN_USER:      () => import("./stages/admin-user-detail.ts"),
+  ADMIN_ERROR_LOG: () => import("./stages/admin-error-log.ts"),
   ERROR:           () => import("./stages/error.ts"),
 };
 

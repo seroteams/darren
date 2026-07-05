@@ -42,6 +42,7 @@ const ICON = {
   privacy: icon(`<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>`),
   about: icon(`<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>`),
   feedback: icon(`<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>`),
+  errors: icon(`<path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>`),
 };
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
@@ -75,6 +76,7 @@ const LINKS = [
   // Superadmin-only (pre-go-live PG7). `admin: true` puts it in the admin rail; `superadmin:
   // true` hides it from every owner but Carl. Cosmetic — the backend 403 is the real wall.
   { key: "registered", label: "User management", stage: STAGES.ADMIN_REGISTERED, icon: ICON.registered, admin: true, superadmin: true, group: "Admin" },
+  { key: "errors", label: "Error log", stage: STAGES.ADMIN_ERROR_LOG, icon: ICON.errors, admin: true, superadmin: true, group: "Admin" },
 ];
 
 const MENU_ICON = icon(`<path d="M4 6h16M4 12h16M4 18h16"/>`);
@@ -193,6 +195,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     design: () => window.open("/sero-flowbite/index.html", "_blank", "noopener"),
     universe: () => setState && setState({ stage: STAGES.UNIVERSE }),
     registered: () => setState && setState({ stage: STAGES.ADMIN_REGISTERED }),
+    errors: () => setState && setState({ stage: STAGES.ADMIN_ERROR_LOG }),
     guide: () => setState && setState({ stage: STAGES.GUIDE }),
     privacy: () => setState && setState({ stage: STAGES.PRIVACY }),
     about: () => setState && setState({ stage: STAGES.ABOUT }),
@@ -228,6 +231,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.UNIVERSE]: "universe",
     [STAGES.ADMIN_REGISTERED]: "registered",
     [STAGES.ADMIN_USER]: "registered",
+    [STAGES.ADMIN_ERROR_LOG]: "errors",
     [STAGES.GUIDE]: "guide",
     [STAGES.ABOUT]: "about",
     [STAGES.FEEDBACK]: "feedback",

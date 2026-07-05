@@ -50,6 +50,14 @@ export async function getRegistered() {
   return json(await fetch("/api/v1/admin/registered"));
 }
 
+// The superadmin's cross-company error log (error-log Phase 2). Same gate as
+// getRegistered — a normal owner gets 401/403 (json() throws). Shape:
+// { errors: [{ id, environment, source, email, userName, company, method, path, status, message, createdAt }] }, newest-first.
+/** @returns {Promise<{ errors?: unknown[] }>} */
+export async function getErrorLog() {
+  return json(await fetch("/api/v1/admin/errors"));
+}
+
 // One user's finished 1:1s for the superadmin drilldown (pre-go-live PG8). Same gate as
 // getRegistered — a normal owner gets 401/403 (json() throws). Shape:
 // { runs: [{ id, headline, ctx, lastSeenAt, rating }] }, newest-first.
