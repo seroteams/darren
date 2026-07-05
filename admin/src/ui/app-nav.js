@@ -60,7 +60,7 @@ const LINKS = [
   { key: "tasks", label: "Tasks", stage: STAGES.TASKS, icon: ICON.tasks, admin: true },
   // Superadmin-only (pre-go-live PG7). `admin: true` puts it in the admin rail; `superadmin:
   // true` hides it from every owner but Carl. Cosmetic — the backend 403 is the real wall.
-  { key: "registered", label: "Registered", stage: STAGES.ADMIN_REGISTERED, icon: ICON.registered, admin: true, superadmin: true },
+  { key: "registered", label: "User management", stage: STAGES.ADMIN_REGISTERED, icon: ICON.registered, admin: true, superadmin: true },
 ];
 
 export function createAppNav({ setState, resetSession } = {}) {
