@@ -10,7 +10,9 @@
   font-weight: 500;
   font-size: var(--type-body);
   background: var(--color-accent);
-  color: var(--sero-offwhite-50);
+  /* A11y (Carl's pick, 2026-07-05): dark label on the sky fill — 6.8:1. White on
+     #5aa9e6 was 2.5:1 and failed WCAG AA. The fill stays the brand light blue. */
+  color: var(--sero-primary-950);
   border: 1px solid transparent;
   transition: background-color var(--dur-instant) ease-out,
               transform var(--dur-instant) var(--ease-out-expo),
@@ -20,7 +22,9 @@
   box-shadow: 0 1px 3px rgba(27, 93, 145, 0.22);
 }
 .btn:hover {
-  background: var(--color-accent-dark);
+  /* Hover deepens within the light range (primary-600) so the dark label keeps 4.5:1+;
+     the old accent-dark hover would have sunk the dark label below contrast. */
+  background: var(--sero-primary-600);
   box-shadow: var(--sero-shadow-sm);
 }
 .btn:active { transform: translateY(1px) scale(0.99); }

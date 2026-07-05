@@ -31,6 +31,15 @@ polish (Bricolage headings, 4px buttons, one date format).
 - Backend 403s stay the real wall; the router guard is cosmetic UX.
 - Exploration verdict: manager journey already ~85% on-system; Phase 2 is font-swap + touch-ups.
 
+## Bonus: accessibility pass ✅ (2026-07-05, committed `44d6e17b`)
+Measured WCAG contrast for every system pairing (script, not guesswork). Fixed: text-safe
+status tokens (`--color-positive-text` mint-900 · `--color-negative-text` coral-800) wired into
+all 7 colour-as-text usages; focus ring 1.2:1 → double ring (7:1); sheet coral text → 800;
+the 4.5:1 law added to the sheet rules + DESIGN.md ("Accessible pairings", measured ratios).
+**One open brand call (flagged in DESIGN.md §2):** white on accent #5aa9e6 primary buttons =
+2.5:1 FAIL. Fix A: dark label on the sky fill (6.8:1, keeps the light-blue button). Fix B:
+white label on accent-dark #1b5d91 fill (7:1, navy buttons). Carl picks; until then unchanged.
+
 ## Parked
 - Backend gating of internal endpoints managers can still hit (list built during Phase 1).
 - Any markup re-skin of manager screens (not needed).
