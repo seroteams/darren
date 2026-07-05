@@ -1,0 +1,21 @@
+import{e as c,s as y,y as f,S as g,z as v,p as k}from"./index-D93BFPRu.js";import{c as b}from"./star-rating-BVsY_rPU.js";import{C as _}from"./check-GyDbZBob.js";import"./star-6WkPOSOg.js";function d(t,e){return`<section class="card-flat space-y-2"><div class="eyebrow">${c(t)}</div>${e}</section>`}function h(t){return`<ul class="l-stack l-stack--2">${t.map(e=>`<li class="text-sm">${c(e)}</li>`).join("")}</ul>`}function j(t){const e='<section class="card-flat"><p class="text-sm text-ink-dim">No briefing was recorded for this 1:1.</p></section>';if(!t)return e;const n=[];if((t.summary_bullets||[]).length&&n.push(d("What stood out",h(t.summary_bullets))),t.understanding_paragraph&&n.push(d("What we understood",`<p class="text-sm">${c(t.understanding_paragraph)}</p>`)),t.brutal_truth_employee&&n.push(d("Honest read — them",`<p class="text-sm">${c(t.brutal_truth_employee)}</p>`)),t.brutal_truth_manager&&n.push(d("Honest read — you",`<p class="text-sm">${c(t.brutal_truth_manager)}</p>`)),(t.next_actions||[]).length){const i=t.next_actions.map(s=>`<li class="text-sm">${s.when?c(s.when)+": ":""}${c(s.action||"")}</li>`);n.push(d("What to do next",`<ul class="l-stack l-stack--2">${i.join("")}</ul>`))}return(t.watch_for||[]).length&&n.push(d("Reminders",h(t.watch_for))),n.join("")||e}function S(t){var i,s;const e=((i=t.rating)==null?void 0:i.stars)??0,n=((s=t.rating)==null?void 0:s.note)??"";return`<section class="card-flat space-y-3 js-rating">
+      <div class="eyebrow">Did this help you run the 1:1?</div>
+      <div class="js-stars-mount"></div>
+      <div class="star-rating__note l-stack l-stack--2" ${e&&e<=2?"":"hidden"}>
+        <label class="text-sm text-ink-dim" for="rating-note">What missed? (optional)</label>
+        <textarea id="rating-note" class="input" rows="2">${c(n)}</textarea>
+        <div><button type="button" class="btn btn--sm js-note-save">Save note</button></div>
+      </div>
+      <div class="text-sm text-ink-mute js-rating-status" role="status" aria-live="polite"></div>
+    </section>`}function x(t,e){var r,u;const n=t.querySelector(".js-stars-mount");if(!n)return;const i=t.querySelector(".star-rating__note"),s=t.querySelector("#rating-note"),a=t.querySelector(".js-rating-status");let l=((r=e.rating)==null?void 0:r.stars)??0;const o=async()=>{if(l)try{await v(e.id,{stars:l,note:(s==null?void 0:s.value)??""}),a&&(a.innerHTML="Saved "+k(_,{size:16}))}catch{a&&(a.textContent="Couldn't save — please try again.")}},p=b({initialStars:l,onChange:m=>{l=m,i&&(i.hidden=!(m&&m<=2)),o()}});n.appendChild(p.el),s==null||s.addEventListener("input",()=>{a&&(a.textContent="Press Save to keep your note.")}),(u=t.querySelector(".js-note-save"))==null||u.addEventListener("click",()=>void o())}function w(t){const e=[];return t.name&&e.push(t.name),t.role&&e.push(t.seniority?`${t.role}, ${t.seniority}`:t.role),t.meetingType&&e.push(t.meetingType),e.join(" · ")}const C=async(t,{setState:e})=>{const n=()=>e({myRunId:null,stage:g.RUNS}),i=r=>`
+    <div class="stage-inner l-stack l-stack--8">
+      <header class="page-header">
+        <div class="page-header__row">
+          <h1 class="h1">Past 1:1</h1>
+          <button type="button" class="btn btn--ghost js-back">Back to Runs</button>
+        </div>
+        <div class="text-ink-dim text-sm js-sub"></div>
+      </header>
+      <div class="l-stack l-stack--4 js-host">${r}</div>
+    </div>`,s=(r,u)=>`<section class="card-flat space-y-3"><div class="eyebrow">${r}</div><p class="text-sm text-ink-dim">${u}</p><button type="button" class="btn js-back2">Back to Runs</button></section>`,a=()=>{var r,u;(r=t.querySelector(".js-back"))==null||r.addEventListener("click",n),(u=t.querySelector(".js-back2"))==null||u.addEventListener("click",n)},l=y.myRunId;if(t.innerHTML=i('<p class="text-sm text-ink-dim">Loading your 1:1…</p>'),a(),!l){t.querySelector(".js-host").innerHTML=s("No 1:1 selected","Pick one from your Runs list."),a();return}let o;try{o=await f(l)}catch{t.querySelector(".js-host").innerHTML=s("Couldn't open this 1:1","It may not be one of yours, or something went wrong. Try again from your Runs list."),a();return}const p=t.querySelector(".js-sub");p&&(p.textContent=w(o.ctx)),t.querySelector(".js-host").innerHTML=S(o)+j(o.briefing),x(t,o)},T=()=>{};export{C as mount,T as unmount};
+//# sourceMappingURL=run-detail-CdMafUmV.js.map

@@ -1,0 +1,98 @@
+// Path-based routing for the customer app — the customer subset of the admin
+// app's router (frontend-admin-split Phase 2). Internal-tool routes (/library,
+// /universe, /tasks, /admin/*, …) deliberately don't exist here: an unknown path
+// resolves to null and boot lands on the right home. Same guard pattern as the
+// admin router — a suppress flag and a compare-before-write in syncUrl.
+
+import { STAGES } from "../../admin/src/state.js";
+
+// stage -> path
+const PATH_FOR = {
+  [STAGES.LOGIN]:          () => "/login",
+  [STAGES.REGISTER]:       () => "/register",
+  [STAGES.PRIVACY]:        () => "/privacy",
+  [STAGES.ABOUT]:          () => "/about",
+  [STAGES.FEEDBACK]:       () => "/feedback",
+  [STAGES.START]:          () => "/",
+  [STAGES.MEMBER_HOME]:    () => "/home",
+  [STAGES.TEAM]:           () => "/team",
+  [STAGES.RUNS]:           () => "/runs",
+  [STAGES.RUN_DETAIL]:     (s) => (s.myRunId ? `/runs/${encodeURIComponent(s.myRunId)}` : "/runs"),
+  [STAGES.PERSON_DETAIL]:  (s) => (s.personKey ? `/team/${encodeURIComponent(s.personKey)}` : "/team"),
+  [STAGES.INTAKE]:         () => "/new",
+  [STAGES.ONEPAGE]:        () => "/flow",
+  [STAGES.FOCUS_POINTS]:   () => "/focus",
+  [STAGES.PREPARATION]:    () => "/prepare",
+  [STAGES.BANK]:           () => "/bank",
+  [STAGES.QUESTIONING]:    () => "/interview",
+  [STAGES.EVAL]:           () => "/evaluate",
+  [STAGES.BRIEFING]:       () => "/briefing",
+  [STAGES.RUN_DEBRIEF]:    () => "/debrief",
+  [STAGES.REVIEW_RUN]:     (s) => (s.reviewRunId ? `/run/${encodeURIComponent(s.reviewRunId)}` : "/run"),
+  // ERROR intentionally absent -> urlForState returns null -> no URL write
+};
+
+// path -> stage (exact paths). /run/:id, /runs/:id, /team/:person handled separately.
+const STAGE_FOR = {
+  "/login": STAGES.LOGIN, "/register": STAGES.REGISTER, "/privacy": STAGES.PRIVACY,
+  "/about": STAGES.ABOUT, "/feedback": STAGES.FEEDBACK,
+  "/": STAGES.START, "/home": STAGES.MEMBER_HOME, "/team": STAGES.TEAM, "/runs": STAGES.RUNS,
+  "/new": STAGES.INTAKE, "/flow": STAGES.ONEPAGE, "/focus": STAGES.FOCUS_POINTS,
+  "/prepare": STAGES.PREPARATION, "/bank": STAGES.BANK, "/interview": STAGES.QUESTIONING,
+  "/evaluate": STAGES.EVAL, "/briefing": STAGES.BRIEFING, "/debrief": STAGES.RUN_DEBRIEF,
+};
+
+const FLOW = new Set([STAGES.FOCUS_POINTS, STAGES.PREPARATION, STAGES.BANK,
+  STAGES.QUESTIONING, STAGES.EVAL, STAGES.BRIEFING, STAGES.RUN_DEBRIEF]);
+export const isFlowStage = (stage) => FLOW.has(stage);
+
+// Manager-only screens in the customer app: the manager dashboard + their own
+// run reviews. A plain member deep-linking here is bounced to their Home.
+const MANAGER_ONLY = new Set([STAGES.START, STAGES.REVIEW_RUN]);
+export const isManagerStage = (stage) => MANAGER_ONLY.has(stage);
+
+// The plain-member destinations: Home, Team, Runs (member-nav Phase 1).
+const MEMBER_ONLY = new Set([STAGES.MEMBER_HOME, STAGES.TEAM, STAGES.RUNS, STAGES.RUN_DETAIL, STAGES.PERSON_DETAIL]);
+export const isMemberStage = (stage) => MEMBER_ONLY.has(stage);
+
+// Any-audience content pages: the privacy note, the About one-pager, Feedback.
+const SHARED = new Set([STAGES.PRIVACY, STAGES.ABOUT, STAGES.FEEDBACK]);
+export const isSharedStage = (stage) => SHARED.has(stage);
+
+export function parseLocation() {
+  const p = window.location.pathname.replace(/\/+$/, "") || "/";
+  if (STAGE_FOR[p]) return { stage: STAGE_FOR[p] };
+  // A member re-opening one of their own runs: /runs/:id (checked after the exact-path
+  // map, so bare /runs still resolves to the list above).
+  const mine = p.match(/^\/runs\/([^/]+)$/);
+  if (mine) return { stage: STAGES.RUN_DETAIL, params: { myRunId: decodeURIComponent(mine[1]) } };
+  // A member opening one person's page: /team/:person.
+  const person = p.match(/^\/team\/([^/]+)$/);
+  if (person) return { stage: STAGES.PERSON_DETAIL, params: { personKey: decodeURIComponent(person[1]) } };
+  const m = p.match(/^\/run\/([^/]+)$/);
+  if (m) return { stage: STAGES.REVIEW_RUN, params: { reviewRunId: decodeURIComponent(m[1]) } };
+  if (p === "/run") return { stage: STAGES.REVIEW_RUN }; // no id -> caller redirects
+  return null; // unknown (incl. any admin path) -> caller treats as home
+}
+
+export function urlForState(s) {
+  const build = PATH_FOR[s.stage];
+  return build ? build(s) : null;
+}
+
+let suppress = false;
+export function syncUrl(s) {
+  if (suppress) return;                            // don't echo a popstate-driven change
+  const next = urlForState(s);
+  if (next == null) return;                        // ERROR etc. -> leave URL as-is
+  if (next === window.location.pathname) return;   // compare-before-write: no dup entry / no loop
+  window.history.pushState(null, "", next);
+}
+
+export function startPopstate(apply) {
+  window.addEventListener("popstate", () => {
+    const parsed = parseLocation() || { stage: STAGES.START };
+    suppress = true;
+    try { apply(parsed); } finally { suppress = false; }
+  });
+}

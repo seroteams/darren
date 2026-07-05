@@ -1,0 +1,10 @@
+const b=["done","briefing","next"];function x(i){const n=new Map;let c=null,r=null,t=!1,l=!1;function o(e,s){return n.set(e,s),f}function d(e){return c=e,f}function v(e,s){const a=n.get(e);if(a)try{a(s)}catch(p){console.error(`[sse] handler error for '${e}':`,p)}}function g(){r=new EventSource(i);for(const e of b)r.addEventListener(e,s=>{if(t)return;const a=h(s.data);l=!0,v(e,a),u()});r.addEventListener("error",e=>{if(t||!e.data)return;const s=h(e.data);l=!0,v("error",s),u()});for(const[e,s]of n)e==="error"||b.includes(e)||r.addEventListener(e,a=>{if(t)return;const p=h(a.data);try{s(p)}catch(L){console.error(`[sse] handler error for '${e}':`,L)}});return r.onerror=()=>{t||l||(c&&c(),u())},f}function u(){if(!t&&(t=!0,r))try{r.close()}catch{}}const f={on:o,onError:d,open:g,close:u};return f}function h(i){if(!i)return{};try{return JSON.parse(i)}catch{return{raw:i}}}function m(i=""){const n=document.createElement("div");n.className="thinking-orb flex items-center gap-4 thinking-enter",n.innerHTML=`
+    <div class="orb" aria-hidden="true">
+      <div class="orb__core"></div>
+      <div class="orb__ring"></div>
+    </div>
+    <div class="thinking-label" aria-live="polite">
+      <span class="prefix">Working</span><span class="subline"></span><span class="dots" aria-hidden="true"><span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
+    </div>
+  `;const c=n.querySelector(".prefix"),r=n.querySelector(".subline");function t(o){n.classList.remove("thinking-enter"),n.offsetWidth;const d=!!o;r.textContent=d?`  ${o}`:"",c.hidden=d,n.classList.add("thinking-enter")}t(i);function l(){return new Promise(o=>{n.querySelector(".orb").classList.add("orb--exit"),n.classList.add("is-exiting"),setTimeout(o,250)})}return{el:n,setLabel:t,exit:l}}export{m as c,x as o};
+//# sourceMappingURL=orb-BvJ65ChT.js.map
