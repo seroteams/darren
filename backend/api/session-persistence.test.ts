@@ -51,3 +51,15 @@ test("serialize normalises a missing orgId to null (unfenced legacy run)", () =>
   const out = serialize(fakeSession());
   assert.equal(out.orgId, null);
 });
+
+// people-roster Phase 2: serialize() is a WHITELIST — a new Session field silently
+// vanishes from session-state.json unless listed. These pin the run→person link.
+test("serialize carries personId so the run's roster person lands on disk", () => {
+  const out = serialize(fakeSession({ personId: "person-1" }));
+  assert.equal(out.personId, "person-1");
+});
+
+test("serialize normalises a missing personId to null (old/guest runs stay unlinked)", () => {
+  const out = serialize(fakeSession());
+  assert.equal(out.personId, null);
+});

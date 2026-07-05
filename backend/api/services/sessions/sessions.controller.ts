@@ -16,7 +16,27 @@ import { guestCap } from "./guest-cap.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireAdmin, requireAuth } from "../../middleware/require-auth.ts";
 import { unauthenticated } from "../../middleware/http-error.ts";
-import { asRecord } from "../../../shared/guards.ts";
+import { asRecord, asString } from "../../../shared/guards.ts";
+import { peopleService } from "../team/people.service.ts";
+import { hasDatabaseUrl } from "../../../db/client.ts";
+
+// The run→person link (people-roster Phase 2): resolve the roster person BEFORE the
+// session exists so the stamp rides repo.create (no write-later race). Skipped for
+// anonymous/guest callers and in file-only dev (no DATABASE_URL). An explicit body
+// personId that isn't the caller's own person is a 400 inside resolveForRun; the
+// no-personId path is best-effort auto-match-or-create and never throws.
+async function resolvePerson(
+  identity: { orgId: string | null; userId: string | null },
+  body: Record<string, unknown>,
+): Promise<string | null> {
+  if (!identity.userId || !identity.orgId || !hasDatabaseUrl()) return null;
+  return peopleService.resolveForRun(identity.orgId, identity.userId, {
+    personId: asString(body.personId) || undefined,
+    name: body.name,
+    role: body.role,
+    seniority: body.seniority,
+  });
+}
 
 // The live pipeline streams (focus-points / preparation / bank / evaluation / plan).
 export { focusPointsStream, preparationStream, bankStream, evaluationStream, planStream } from "./session-streams.ts";
@@ -78,7 +98,8 @@ export async function start(c: RequestContext): Promise<void> {
   const identity = await buildIdentity(c.req);
   if (identity.userId === null) guestCap.take();
   else requireAdmin(identity);
-  c.json(201, service.start(body, identity.orgId, identity.userId));
+  const personId = await resolvePerson(identity, body); // people-roster Phase 2
+  c.json(201, service.start(body, identity.orgId, identity.userId, personId));
 }
 
 // POST /api/v1/sessions/:id/claim — a logged-in caller (any role) takes ownership
@@ -89,7 +110,18 @@ export async function claim(c: RequestContext): Promise<void> {
   const identity = await buildIdentity(c.req);
   requireAuth(identity);
   if (!identity.userId || !identity.orgId) throw unauthenticated(); // narrows the types; requireAuth already threw for real anons
-  c.json(200, service.claim(id, identity.orgId, identity.userId));
+  const out = service.claim(id, identity.orgId, identity.userId);
+  // people-roster Phase 2: a just-claimed guest run joins the caller's roster too —
+  // best-effort (the claim itself already succeeded; a roster hiccup must not undo it).
+  const s = service.get(out.id);
+  if (s && !s.personId) {
+    const personId = await resolvePerson(identity, { name: s.ctx.name, role: s.ctx.role, seniority: s.ctx.seniority });
+    if (personId) {
+      s.personId = personId;
+      service.persist(s);
+    }
+  }
+  c.json(200, out);
 }
 
 // POST /api/v1/sessions/:id/answer  ·  POST /api/answer   (202, as today)

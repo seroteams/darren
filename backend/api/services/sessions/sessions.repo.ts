@@ -60,8 +60,9 @@ export interface SessionsRepo {
   get(id: string): Session | undefined;
   /** Create a new live session (throws 503 at the concurrency cap, as today).
    *  orgId stamps the owning company (null = unfenced legacy/anonymous). Phase 007/2.
-   *  userId stamps the creating member (null = unattributed). member-nav Phase 2. */
-  create(ctx: MeetingContext, introQueue: Question[], orgId?: string | null, userId?: string | null): Session;
+   *  userId stamps the creating member (null = unattributed). member-nav Phase 2.
+   *  personId stamps the roster person this 1:1 is ABOUT (null = unlinked). people-roster Phase 2. */
+  create(ctx: MeetingContext, introQueue: Question[], orgId?: string | null, userId?: string | null, personId?: string | null): Session;
   /** Evict a session from the live store (on-disk record is left in place). */
   drop(id: string): void;
   /** Write the session's current state to disk. */
@@ -99,7 +100,7 @@ const LEXICON_DECISIONS_FILE = "lexicon-decisions.jsonl";
 
 export const fileSessionsRepo: SessionsRepo = {
   get: (id) => getSession(id),
-  create: (ctx, introQueue, orgId, userId) => createWebSession(ctx, introQueue, orgId ?? null, userId ?? null),
+  create: (ctx, introQueue, orgId, userId, personId) => createWebSession(ctx, introQueue, orgId ?? null, userId ?? null, personId ?? null),
   drop: (id) => {
     dropSession(id);
   },
@@ -159,8 +160,8 @@ export const fileSessionsRepo: SessionsRepo = {
 // reloads the Map from Postgres so a session can survive a server restart.
 export const pgSessionsRepo: SessionsRepo = {
   ...fileSessionsRepo,
-  create: (ctx, introQueue, orgId, userId) => {
-    const session = fileSessionsRepo.create(ctx, introQueue, orgId, userId);
+  create: (ctx, introQueue, orgId, userId, personId) => {
+    const session = fileSessionsRepo.create(ctx, introQueue, orgId, userId, personId);
     upsertSession(session).catch((e) =>
       console.warn("[sessions.pg] create mirror failed:", e instanceof Error ? e.message : String(e)),
     );

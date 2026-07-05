@@ -53,6 +53,16 @@ export interface PeopleService {
   ): Promise<{ person: PersonRow }>;
   merge(id: string, orgId: string, managerId: string, intoId: string): Promise<{ ok: true }>;
   archive(id: string, orgId: string, managerId: string): Promise<{ ok: true }>;
+  /** The run→person link (people-roster Phase 2). Explicit personId: must be the
+   *  caller's own row (400 otherwise — never a silent cross-link), resolved through
+   *  the merge chain. No personId: best-effort auto-match-or-create from the name —
+   *  returns null (never throws) when there's no org/user context, no usable name,
+   *  or the roster store is unavailable, so a run start can't die on the roster. */
+  resolveForRun(
+    orgId: string | null | undefined,
+    managerId: string | null | undefined,
+    input: { personId?: string; name?: unknown; role?: unknown; seniority?: unknown },
+  ): Promise<string | null>;
 }
 
 export function createPeopleService(repo: PeopleRepo = pgPeopleRepo): PeopleService {
@@ -63,7 +73,7 @@ export function createPeopleService(repo: PeopleRepo = pgPeopleRepo): PeopleServ
     return row;
   }
 
-  return {
+  const service: PeopleService = {
     async list(orgId, managerId) {
       const rows = await repo.listForManager(orgId, managerId);
       const active = rows
@@ -121,7 +131,33 @@ export function createPeopleService(repo: PeopleRepo = pgPeopleRepo): PeopleServ
       await repo.update(row.id, { archivedAt: new Date() });
       return { ok: true };
     },
+
+    async resolveForRun(orgId, managerId, input) {
+      if (!orgId || !managerId) return null; // guest/anonymous runs carry no roster link
+      if (input.personId) {
+        // A tampered or stale explicit id is a hard 400 — but first follow the merge
+        // chain so a picker holding a since-merged row still lands on the right person.
+        const row = await repo.findForManager(input.personId, orgId, managerId);
+        if (!row) throw badRequest("Unknown personId");
+        const rows = await repo.listForManager(orgId, managerId);
+        return resolveCanonical(rows, row.id);
+      }
+      if (typeof input.name !== "string" || !input.name.trim()) return null;
+      try {
+        const { person } = await service.create(orgId, managerId, {
+          name: input.name,
+          role: input.role,
+          seniority: input.seniority,
+        });
+        return person.id;
+      } catch (e) {
+        // Best-effort by design: the run must start even if the roster store is down.
+        console.warn("[people] auto-link skipped:", e instanceof Error ? e.message : String(e));
+        return null;
+      }
+    },
   };
+  return service;
 }
 
 export const peopleService = createPeopleService();

@@ -239,7 +239,7 @@ export interface SessionsService {
   // callerOrgId fences the lookup to the caller's company (the live-session wall):
   // a cross-company id throws 404. Omit it for an internal/unfenced resolve.
   require(id: string, callerOrgId?: string | null, callerUserId?: string | null): Session;
-  create(ctx: MeetingContext, introQueue: Question[], orgId?: string | null, userId?: string | null): Session;
+  create(ctx: MeetingContext, introQueue: Question[], orgId?: string | null, userId?: string | null, personId?: string | null): Session;
   drop(id: string): void;
   persist(session: Session): void;
   // S1a — free reads (resolve through the seam, then compose a pure derivation):
@@ -257,7 +257,9 @@ export interface SessionsService {
   // S2 — non-AI writes. start leads: create a session + scripted lane, then fire
   // the (injected) AI pre-warm. Takes the already-read request body record + the
   // caller's orgId (the owning company; null/undefined = unfenced legacy/anonymous).
-  start(body: Record<string, unknown>, orgId?: string | null, userId?: string | null): StartResult;
+  // personId links the run to the caller's roster person (resolved by the controller
+  // via peopleService.resolveForRun BEFORE the session exists — no stamp-later race).
+  start(body: Record<string, unknown>, orgId?: string | null, userId?: string | null, personId?: string | null): StartResult;
   // S2b — the remaining non-AI writes. id is resolved by the controller (v1 path
   // or legacy body.sessionId); the rest of the payload stays in `body`.
   answer(id: string, body: Record<string, unknown>): AnswerResult;
@@ -310,7 +312,7 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
   return {
     get: (id) => repo.get(id),
     require: requireExisting,
-    create: (ctx, introQueue, orgId, userId) => repo.create(ctx, introQueue, orgId, userId),
+    create: (ctx, introQueue, orgId, userId, personId) => repo.create(ctx, introQueue, orgId, userId, personId),
     drop: (id) => repo.drop(id),
     persist: (session) => repo.persist(session),
 
@@ -422,7 +424,7 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
       };
     },
 
-    start: (body, orgId, userId) => {
+    start: (body, orgId, userId, personId) => {
       const { name, role, seniority, meetingTypeIndex, notes, mode, runLabel, personaId } = body;
 
       if (typeof name !== "string" || !name.trim()) throw badRequest("name required");
@@ -449,7 +451,7 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
       const opener = pickOpener(ctx, { rejections: openerRejections });
       const introRest = loadIntroQueue(meetingType.label, INTRO_BUDGET - 1);
       const introQueue = [opener, buildAgendaCheck(anchorStageId), ...introRest].slice(0, INTRO_BUDGET);
-      const session = repo.create(ctx, introQueue, orgId, userId);
+      const session = repo.create(ctx, introQueue, orgId, userId, personId);
       if (openerRejections.length) {
         repo.appendEligibilityLog(session.dir, openerRejections);
       }

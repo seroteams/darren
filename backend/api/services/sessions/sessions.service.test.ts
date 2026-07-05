@@ -58,7 +58,7 @@ function fakeRepo(
 ): {
   repo: SessionsRepo;
   store: Map<string, Session>;
-  created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null; userId?: string | null }>;
+  created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null; userId?: string | null; personId?: string | null }>;
   dropped: string[];
   persisted: Session[];
   logged: Array<{ dir: string; entries: unknown }>;
@@ -69,7 +69,7 @@ function fakeRepo(
   commits: Array<{ keepIds: string[] }>;
 } {
   const store = new Map<string, Session>(seed.map((s) => [s.id, s]));
-  const created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null; userId?: string | null }> = [];
+  const created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null; userId?: string | null; personId?: string | null }> = [];
   const dropped: string[] = [];
   const persisted: Session[] = [];
   const logged: Array<{ dir: string; entries: unknown }> = [];
@@ -80,11 +80,12 @@ function fakeRepo(
   const commits: Array<{ keepIds: string[] }> = [];
   const repo: SessionsRepo = {
     get: (id) => store.get(id),
-    create: (ctx, introQueue, orgId, userId) => {
-      created.push({ ctx, introQueue, orgId, userId });
+    create: (ctx, introQueue, orgId, userId, personId) => {
+      created.push({ ctx, introQueue, orgId, userId, personId });
       const s = fakeSession(`new-${store.size}`);
       s.orgId = orgId ?? null;
       s.userId = userId ?? null;
+      s.personId = personId ?? null;
       store.set(s.id, s);
       return s;
     },
@@ -263,7 +264,7 @@ test("create forwards ctx + introQueue through the seam and returns the new sess
   const queue: Question[] = [];
   const out = createSessionsService(repo).create(ctx, queue);
   assert.equal(out.id, "new-0");
-  assert.deepEqual(created, [{ ctx, introQueue: queue, orgId: undefined, userId: undefined }]);
+  assert.deepEqual(created, [{ ctx, introQueue: queue, orgId: undefined, userId: undefined, personId: undefined }]);
 });
 
 test("drop forwards the id through the seam", () => {
@@ -786,6 +787,26 @@ test("start without an orgId leaves the session unfenced (legacy/anonymous → n
   });
   assert.equal(created[0]?.orgId, undefined);
   assert.equal(repo.get(out.sessionId)?.orgId, null);
+});
+
+test("start forwards personId through the seam and stamps it on the session (people-roster Phase 2)", () => {
+  const { repo, created } = fakeRepo();
+  const out = createSessionsService(repo, { prewarm: () => {} }).start(
+    { name: "Priya", role: "Engineer", seniority: "Senior", meetingTypeIndex: 0 },
+    "org-A",
+    "user-1",
+    "person-9",
+  );
+  assert.equal(created[0]?.personId, "person-9");
+  assert.equal(repo.get(out.sessionId)?.personId, "person-9");
+});
+
+test("start without a personId stamps null (guest/file-only runs stay unlinked)", () => {
+  const { repo } = fakeRepo();
+  const out = createSessionsService(repo, { prewarm: () => {} }).start({
+    name: "Dana", role: "Engineer", seniority: "Senior", meetingTypeIndex: 0,
+  });
+  assert.equal(repo.get(out.sessionId)?.personId, null);
 });
 
 test("start (scripted) loads the persona through the seam and stamps the scripted lane", () => {

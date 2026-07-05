@@ -9,21 +9,22 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — NEW track (started 2026-07-05). Phase 1 (people table + roster service) BUILT, awaiting your walk.**
+> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — P1 ✅ green-lit ("b GO") · P2 (runs carry personId) BUILT, awaiting your walk (2026-07-05).**
 > Your ask: members should only see their own 1:1s → the real build (option B): managers formally
-> **have** members. Investigation first: the current fence works but is creator-based (a real member's
-> list would be EMPTY — the full demo list is seed data, not a leak), and "1:1s about me" is impossible
-> today because the person in a 1:1 is free text with no link to any account.
-> **P1 BUILT test-first:** `people` table live on Neon (migration `0007`, verified in the DB) + the
-> roster service and 5 endpoints under `/api/v1/team/people` (create dedupes "priya "/"Priya", rename,
-> merge folds cards with chain-collapse, archive) — manager/admin only, org+manager fenced. Live-proven
-> on a scratch API (:3041, $0): member **403**, foreign/unknown id **404**, logged-out **401**; merge/
-> archive verified IN the Neon table; QA rows cleaned. `npm test` **75/75** · typecheck clean. Committed
-> path-scoped "built — awaiting walk". **Walk:** the 5 scenarios in
-> [phase-1.md](docs/todo/people-roster/phase-1.md) (all free). Green light → Phase 2 (new runs stamp
-> `personId`). Then: ③ backfill old runs · ④ intake person picker + roster Team page · ⑤ member link +
-> "Your 1:1s". ⚠️ Privacy: members will get **list-only** (type + date + manager) — no notes, no
-> briefing; anything richer is your call (parked: `member-run-visibility`).
+> **have** members; a member linked to a roster person will see the 1:1s ABOUT them (Phase 5).
+> **P1 ✅ (`4a762779`):** `people` table live on Neon (migration `0007`) + 5 fenced endpoints under
+> `/api/v1/team/people` — walk waived by your "b GO", live proof stood.
+> **P2 BUILT test-first:** every new 1:1 stamps `personId` — who the run is ABOUT — into its state
+> (disk + DB mirror): a free-typed name auto-matches-or-creates the roster row ("  priya qa " reuses
+> Priya, no dup), an explicit personId must be the caller's own (400 otherwise), claimed guest runs
+> join the roster too, file-only dev (no DB) still runs. A real bug caught by checking the destination:
+> the state serializer is a whitelist and silently DROPPED personId — fixed + pinned by tests.
+> Live-proven on scratch APIs at $0 (invalid OpenAI key so prewarm can't spend); QA rows/dirs/mirrors
+> cleaned. `npm test` **76/76** · typecheck clean. **Walk:** the 4 scenarios in
+> [phase-2.md](docs/todo/people-roster/phase-2.md) (all free) — or say go → Phase 3 (backfill old runs).
+> Then: ④ intake person picker + roster Team page · ⑤ member link + "Your 1:1s". ⚠️ Privacy: members
+> will get **list-only** (type + date + manager) — no notes, no briefing; richer is your call
+> (parked: `member-run-visibility`).
 
 > **🔨 team-for-managers — one small slice BUILT (2026-07-05 late), awaiting your walk.**
 > Your ask: managers need to see their team members on Team. Finding: it already worked, but only
@@ -67,15 +68,17 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > "built — awaiting walk". **Walk:** the 5 scenarios in [phase-1.md](docs/todo/guest-run/phase-1.md) (all free).
 > Green light → Phase 2 (the "Try it" front door). Then: ③ save-at-end (one paid walk, your go) · ④ Guest runs screen.
 
-> **🔨 [no-inference-ruling](docs/todo/no-inference-ruling/PLAN.md) — P1 ✅ `2693dcea` · P2 ✅ `705926c2` · P3 ✅ green-lit + committed ("A", 2026-07-05) · P4 (hardening, free) next, your go.**
-> **P3 ✅:** `engagement_read` re-specced — the state-label enum (`worth_checking` / `clear_concern`) is GONE;
-> the block now carries `read_status` (evidence status, never a person label) + `observed_shift` (the manager's
-> own note, restated near-verbatim) + quotes. Old stored runs normalised on read; the briefing screen renders
-> both shapes; the 7 replay baselines re-frozen (all PASS); Phase 2's carve-out removed.
-> **Two paid cases (~$0.70 total):** the first PASSED and caught the model echoing a rule-text example into
-> `observed_shift` — prompt fixed + `EVIDENCE_ANCHOR` now hard-fails unanchored shifts; the confirming run
-> PASSED with the shift properly note-anchored ("you noted less present in rituals lately"). `npm test`
-> **75/75** · typecheck ✓. **Next: Phase 4 — hardening (S1–S4, free)**, your go. Routing nudges parked.
+> **🔨 [no-inference-ruling](docs/todo/no-inference-ruling/PLAN.md) — P1–P3 ✅ committed · P4 (hardening, the LAST phase) BUILT 2026-07-05, awaiting your walk.**
+> **P4 BUILT (uncommitted, all free):** the six no-inference rules now sit verbatim at the top of **all four
+> prompts**; a **single-touch axis cap** stops any strong axis claim (|score| ≥ 3) standing on one answer
+> (`insufficient_signal` instead — calibrated so the three blessed single-touch |2| reads survive, capped at
+> low confidence); **end-to-end adversarial fixtures** ("quiet quitting" note, 5-token note, near-empty note)
+> run through the same pipeline tail as the paid gate; **`outcomeCheck`** ("yes|partly|no|changed") is in the
+> session contract with a Postgres-roundtrip proof — the loop-closure seed the ruling replaces inference with.
+> `npm test` **76/76** · typecheck ✓ · replay 7/7 (3 baselines re-frozen, confidence fields only) · $0.
+> **Walk:** scenarios in [phase-4.md](docs/todo/no-inference-ruling/phase-4.md). Green light → commit + the
+> folder closes to done/ (track total ~$0.70). Prior: P3 ✅ `181611fa` (engagement_read re-spec, echo fix
+> live-proven) · P2 ✅ `705926c2` (the three gates) · P1 ✅ `2693dcea` (spec fix). Routing nudges parked.
 
 > **🔨 [frontend-admin-split](docs/todo/frontend-admin-split/PLAN.md) — RESTARTED on the Darren check (2026-07-05): Phase 2 BUILT, awaiting your walk.**
 > The customer app is now **real**: `npm run dev:customer` → **http://localhost:3002** — login/register,

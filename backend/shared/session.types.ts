@@ -123,6 +123,7 @@ export interface Session {
   dir: string;
   orgId?: string | null; // the company that owns this run; null = unfenced (legacy/anonymous). Phase 007/2.
   userId?: string | null; // the member who created this run; null = unattributed (legacy/anonymous). member-nav Phase 2.
+  personId?: string | null; // the roster person this 1:1 is ABOUT (people table row); null = unlinked (guest/file-only/legacy). people-roster Phase 2.
   createdAt: number;
   lastSeenAt: number;
   completedAt: number | null;
@@ -144,6 +145,11 @@ export interface Session {
   agendaInput: { raw: string; summary: string } | null;
   agendaInjected: boolean;
   agendaCovered: boolean | null;
+  // One-tap post-meeting capture on the PRIOR session's agreed action — the
+  // deterministic loop-closure event the no-inference ruling replaces state
+  // inference with (docs/sero-prompt-improvement-spec.md §6). Contract-only for
+  // now: no consumer until the routing-nudge event stream (parked) reads it.
+  outcomeCheck?: "yes" | "partly" | "no" | "changed" | null;
   turnSnapshots: TurnSnapshot[];
   pendingAnswer: { raw: string; skipped: boolean; text: string } | null;
 

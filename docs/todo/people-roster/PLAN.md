@@ -23,8 +23,8 @@ Carl picked: build the real thing. Managers get a roster of people; 1:1s link to
 
 | # | Phase | Status |
 |---|---|---|
-| 1 | [people table + roster service (backend only)](phase-1.md) | 🔨 BUILT — awaiting walk |
-| 2 | [new runs carry personId](phase-2.md) | ⬜ |
+| 1 | [people table + roster service (backend only)](phase-1.md) | ✅ green-lit 2026-07-05 ("b GO", walk waived — live proof stands) |
+| 2 | [new runs carry personId](phase-2.md) | 🔨 BUILT — awaiting walk |
 | 3 | [backfill existing runs + fold in aliases](phase-3.md) | ⬜ |
 | 4 | [manager UI: person picker + roster-driven Team page](phase-4.md) | ⬜ |
 | 5 | [member link + "Your 1:1s"](phase-5.md) | ⬜ |
@@ -32,8 +32,9 @@ Carl picked: build the real thing. Managers get a roster of people; 1:1s link to
 ## Current state
 
 - 2026-07-05: plan approved by Carl (option B — "1:1s about me").
-- **Phase 1 BUILT — awaiting Carl's walk** (details + live proof in phase-1.md). Migration 0007 applied to Neon; endpoints live-proven on a scratch API incl. member 403 + fencing; 75/75 tests, typecheck clean.
-- Next after green light: Phase 2 (new runs carry personId).
+- **Phase 1 ✅ green-lit 2026-07-05 ("b GO" — walk waived by Carl, live proof stands).** Commit `4a762779`.
+- **Phase 2 BUILT — awaiting Carl's walk** (details + live proof in phase-2.md). New runs + claimed guest runs stamp personId into state (disk + DB mirror) and auto-create roster rows; 76/76 tests, typecheck clean.
+- Next after green light: Phase 3 (backfill existing runs + fold in aliases).
 
 ## ⚠️ Privacy decision (flagged, not silently decided)
 

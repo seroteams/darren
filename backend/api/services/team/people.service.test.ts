@@ -173,6 +173,50 @@ test("merge rejects self, cycles, and unknown/foreign rows", async () => {
   await assert.rejects(() => service.merge("x", CALLER.orgId, CALLER.managerId, "a"), /not found/i);
 });
 
+test("resolveForRun: explicit personId must be the caller's own — returns its canonical id, 400 otherwise", async () => {
+  const { repo } = fakeRepo([
+    person({ id: "a", name: "Priya", mergedIntoId: "b" }), // stale picker id, merged away
+    person({ id: "b", name: "Priya Shah" }),
+    person({ id: "x", name: "Foreign", managerId: "OTHER" }),
+  ]);
+  const service = createPeopleService(repo);
+  // a merged row resolves to its canonical head
+  assert.equal(await service.resolveForRun("o1", "m1", { personId: "a", name: "Priya" }), "b");
+  // someone else's row → 400 (tampered/stale client), never a silent cross-link
+  await assert.rejects(() => service.resolveForRun("o1", "m1", { personId: "x", name: "F" }), /personId/i);
+});
+
+test("resolveForRun: no personId → auto-match-or-create from the name (dedupes like create)", async () => {
+  const { repo, rows } = fakeRepo([person({ id: "a", name: "Priya Shah" })]);
+  const service = createPeopleService(repo);
+  assert.equal(await service.resolveForRun("o1", "m1", { name: " priya shah " }), "a"); // match, no new row
+  const fresh = await service.resolveForRun("o1", "m1", { name: "Marco Diaz", role: "PM", seniority: "Mid" });
+  assert.ok(fresh);
+  assert.equal(rows.length, 2);
+  assert.equal(rows[1]?.role, "PM");
+});
+
+test("resolveForRun: best-effort — anonymous caller or blank/invalid name returns null, never throws", async () => {
+  const { repo, rows } = fakeRepo();
+  const service = createPeopleService(repo);
+  assert.equal(await service.resolveForRun(null, "m1", { name: "Priya" }), null); // guest: no org
+  assert.equal(await service.resolveForRun("o1", null, { name: "Priya" }), null); // no user
+  assert.equal(await service.resolveForRun("o1", "m1", { name: "   " }), null); // nothing to match on
+  assert.equal(await service.resolveForRun("o1", "m1", { name: 42 }), null);
+  assert.equal(rows.length, 0);
+});
+
+test("resolveForRun: a repo failure on the auto path is swallowed (a run start must not die on the roster)", async () => {
+  const broken: PeopleRepo = {
+    listForManager: async () => { throw new Error("db down"); },
+    findForManager: async () => { throw new Error("db down"); },
+    insert: async () => { throw new Error("db down"); },
+    update: async () => { throw new Error("db down"); },
+  };
+  const service = createPeopleService(broken);
+  assert.equal(await service.resolveForRun("o1", "m1", { name: "Priya" }), null);
+});
+
 test("archive stamps archivedAt on the caller's own person; misses 404", async () => {
   const { repo, rows } = fakeRepo([person({ id: "a" })]);
   const service = createPeopleService(repo);

@@ -27,6 +27,8 @@ function serialize(s: Session): PersistedSession {
     dir: s.dir,
     orgId: s.orgId ?? null,
     userId: s.userId ?? null,
+    personId: s.personId ?? null, // people-roster Phase 2: the roster person this 1:1 is about
+
     createdAt: s.createdAt,
     completedAt: s.completedAt ?? null,
     lastSeenAt: s.lastSeenAt,
@@ -51,6 +53,7 @@ function serialize(s: Session): PersistedSession {
     agendaInput: s.agendaInput ?? null,
     agendaInjected: Boolean(s.agendaInjected),
     agendaCovered: s.agendaCovered ?? null,
+    outcomeCheck: s.outcomeCheck ?? null, // loop-closure capture (no-inference ruling, spec §6)
     mode: s.mode || "manual",
     runLabel: s.runLabel ?? null,
     fingerprint: s.fingerprint ?? null,
