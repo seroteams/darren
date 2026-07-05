@@ -64,6 +64,18 @@ export async function getAdminRun(id) {
   return json(await fetch(`/api/v1/admin/runs/${encodeURIComponent(id)}`));
 }
 
+// Superadmin, change a user's account role (user-management Phase 2). PATCH so it reads as a
+// partial update; the server validates the role + guards the "last manager/admin" case.
+export async function setUserRole(id, role) {
+  return json(
+    await fetch(`/api/v1/admin/users/${encodeURIComponent(id)}/role`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ role }),
+    }),
+  );
+}
+
 // Feedback (Phase 5): send a short tester note. Login required (any role); stored to a
 // local file on the server, no external service. Returns { ok: true }.
 export async function submitFeedback(message, page) {

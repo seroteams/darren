@@ -5,6 +5,7 @@
 
 import type { RequestContext } from "../../router.ts";
 import { notFound } from "../../middleware/http-error.ts";
+import { buildIdentity } from "../../middleware/request-context.ts";
 import { superadminService } from "./superadmin.service.ts";
 
 /** GET /api/v1/admin/registered — every company and the people in it. */
@@ -23,4 +24,19 @@ export async function runDetail(c: RequestContext): Promise<void> {
   const run = await superadminService.runDetail(c.params.id ?? "");
   if (!run) throw notFound("unknown run");
   c.json(200, run);
+}
+
+/** PATCH /api/v1/admin/users/:id/role — change a user's account role (user-management Phase 2).
+ *  The route guard already resolved + audited the superadmin; we re-read the identity here only to
+ *  stamp the mutation's audit trail with the actor. Validation + guardrail live in the service. */
+export async function setRole(c: RequestContext): Promise<void> {
+  const actor = await buildIdentity(c.req);
+  const body = (await c.readBody()) as { role?: unknown };
+  const role = typeof body?.role === "string" ? body.role : "";
+  const result = await superadminService.setUserRole(
+    { userId: actor.userId, email: actor.email },
+    c.params.id ?? "",
+    role,
+  );
+  c.json(200, result);
 }

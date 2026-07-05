@@ -1,29 +1,31 @@
-# Phase 3 — Delete a user
+# Phase 3 — Deactivate / reactivate a user
 
 **Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
 
 ## Goal
-The superadmin can permanently remove a user, after an explicit confirm — while their coaching history is kept under the company (just unlinked), and the safety rails hold.
+Switch a user off (block login, kick their live session) and back on again — reversible, deletes nothing.
 
 ## Why
-The one irreversible action, so it's built last of the destructive set, behind a confirm that spells out exactly what happens, and behind the same guardrails as deactivate.
+Deactivate is the safe alternative to Delete; most "remove this person" needs are really "stop their access". Building it before Delete keeps Delete the rare, last-resort action.
 
 ## Changes
-- **Backend:** `DELETE /api/v1/admin/users/:id`. The user's finished runs are **kept under the org but orphaned** (`runs.userId = null`) — using the nullability confirmed in Phase 0 (or the migration it flagged). **Guardrails:** no self-delete; no deleting a `SUPERADMIN_EMAILS` account; no deleting the last active manager/admin of an org. Audit all outcomes.
-- **Frontend:** delete via the existing `confirm.js` dialog, naming the user and stating runs are kept-but-unlinked → `deleteUser` → row disappears. Blocked deletes surface the plain reason.
-- **Tests:** service tests for the runs-orphaning behaviour and each guardrail (blocks + audits).
+- **Schema/migration:** nullable `deactivatedAt timestamp` on `users` ([schema.ts](../../../backend/db/schema.ts)) + a Drizzle migration; null = active.
+- **Backend:** `POST /api/v1/admin/users/:id/deactivate` + `.../reactivate`. Login **must** reject deactivated users ([auth.service.ts](../../../backend/api/services/auth/auth.service.ts)). **Session invalidation is mandatory** — deactivate revokes the user's live `auth_sessions` immediately (kicked now, not just blocked next login). **Guardrails:** no self-deactivate; no deactivating a `SUPERADMIN_EMAILS` account; no deactivating the org's last active manager/admin. Audit all.
+- **Frontend:** deactivate/reactivate in the `⋯` menu + a clear "Deactivated" state on the row.
+- **Tests:** login-block, mandatory session revocation, and each guardrail (blocks + audits).
 
 ## Not in this phase
-- Reset/invite (Phase 4). Hard-deleting runs (never — history stays under the org).
+- Delete (Phase 4). Reset/invite (Phase 5).
 
 ## Done when
-- [ ] Delete removes the user; their runs survive under the org with no owner.
+- [ ] A deactivated user is logged out *now* and cannot log back in.
+- [ ] Reactivate restores login.
 - [ ] All three guardrails hold and are audited.
 - [ ] `npm test` + `npm run typecheck` pass.
 - [ ] Product owner has tested the scenarios below and said go.
 
 ## Test scenarios — for the product owner
-Walk through these yourself. Next phase waits for your green light.
-1. **Gone, but history stays** — delete a test user who has runs. The user disappears; their past 1:1s are still visible at the company level (now unowned). ❌ Not OK if their runs vanish too.
-2. **Guardrails** — try to delete yourself, a superadmin account, and a company's only manager. Each is blocked with a plain reason. ❌ Not OK if any goes through.
-3. **Audit trail** — every attempt (done + blocked) is in the audit log.
+1. **Kicked now** — deactivate a user who's currently logged in → their next action is bounced, and they can't log back in.
+2. **Reversible** — reactivate → they log in again, nothing lost.
+3. **Guardrails** — try to deactivate yourself, a superadmin account, and a company's only manager → each blocked with a plain reason.
+4. **Clear on screen** — the row plainly shows who's deactivated.

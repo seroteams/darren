@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createSuperadminService } from "./superadmin.service.ts";
 import type { SuperadminRepo, OrgRow, UserRow, RunRow, UserRunRow, SuperadminRunDetail } from "./superadmin.repo.ts";
+import type { SuperadminAuditEntry } from "../../middleware/superadmin-audit.ts";
 
 // A storage-agnostic fake — the service logic (grouping, ordering, the read-only view
 // shape) is proven without a database, the same seam the other domains use.
@@ -11,6 +12,7 @@ function fakeRepo(
   runs: RunRow[] = [],
   runsByUser: Record<string, UserRunRow[]> = {},
   runsById: Record<string, SuperadminRunDetail> = {},
+  writes: { id: string; role: string }[] = [],
 ): SuperadminRepo {
   return {
     listOrganizations: async () => orgs,
@@ -18,6 +20,7 @@ function fakeRepo(
     listRuns: async () => runs,
     listRunsForUser: async (id: string) => runsByUser[id] ?? [],
     readRun: async (id: string) => runsById[id] ?? null,
+    updateUserRole: async (id, role) => { writes.push({ id, role }); },
   };
 }
 
@@ -184,4 +187,55 @@ test("runDetail: returns one finished run's read-only briefing", async () => {
 test("runDetail: an unknown/unfinished run → null (controller turns this into a 404)", async () => {
   const svc = createSuperadminService(fakeRepo([], [], [], {}, {}));
   assert.equal(await svc.runDetail("nope"), null);
+});
+
+// --- user-management Phase 2: change a user's role -----------------------
+
+const ACTOR = { userId: "super1", email: "carl@seroteams.com" };
+function person(id: string, orgId: string, role: string): UserRow {
+  return { id, orgId, name: id, email: `${id}@x.com`, role, createdAt: new Date("2026-01-01") };
+}
+function roleHarness(people: UserRow[]) {
+  const writes: { id: string; role: string }[] = [];
+  const audits: SuperadminAuditEntry[] = [];
+  const svc = createSuperadminService(fakeRepo([], people, [], {}, {}, writes), async (e) => { audits.push(e); });
+  return { svc, writes, audits };
+}
+
+test("setUserRole: promotes member → manager, writes it, audits success", async () => {
+  const { svc, writes, audits } = roleHarness([person("u1", "o1", "admin"), person("u2", "o1", "member")]);
+  const res = await svc.setUserRole(ACTOR, "u2", "manager");
+  assert.deepEqual(res, { id: "u2", role: "manager" });
+  assert.deepEqual(writes, [{ id: "u2", role: "manager" }]);
+  assert.equal(audits.at(-1)?.outcome, "success");
+  assert.equal(audits.at(-1)?.target, "u2");
+});
+
+test("setUserRole: rejects an invalid role (400), no write, audits failed", async () => {
+  const { svc, writes, audits } = roleHarness([person("u1", "o1", "member")]);
+  await assert.rejects(() => svc.setUserRole(ACTOR, "u1", "superuser"), /role/i);
+  assert.deepEqual(writes, []);
+  assert.equal(audits.at(-1)?.outcome, "failed");
+});
+
+test("setUserRole: unknown user → 404, no write, audits failed", async () => {
+  const { svc, writes, audits } = roleHarness([]);
+  await assert.rejects(() => svc.setUserRole(ACTOR, "ghost", "manager"), /unknown user/);
+  assert.deepEqual(writes, []);
+  assert.equal(audits.at(-1)?.outcome, "failed");
+});
+
+test("setUserRole: blocks demoting the company's only manager/admin (409), no write, audits blocked", async () => {
+  const { svc, writes, audits } = roleHarness([person("u1", "o1", "manager"), person("u2", "o1", "member")]);
+  await assert.rejects(() => svc.setUserRole(ACTOR, "u1", "member"), /only manager or admin/i);
+  assert.deepEqual(writes, []);
+  assert.equal(audits.at(-1)?.outcome, "blocked");
+});
+
+test("setUserRole: allows demoting a lead when another manager/admin remains", async () => {
+  const { svc, writes, audits } = roleHarness([person("u1", "o1", "manager"), person("u2", "o1", "admin")]);
+  const res = await svc.setUserRole(ACTOR, "u1", "member");
+  assert.deepEqual(res, { id: "u1", role: "member" });
+  assert.deepEqual(writes, [{ id: "u1", role: "member" }]);
+  assert.equal(audits.at(-1)?.outcome, "success");
 });

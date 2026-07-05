@@ -10,10 +10,22 @@
 // in Phases 2–5; there's no menu while there's nothing to put in it.
 
 import { STAGES } from "../state.js";
-import { getRegistered } from "../../../shared/api.js";
+import { getRegistered, setUserRole } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
+
+// The roles a superadmin can set, offered in the row's ⋯ menu (user-management Phase 2).
+const ROLE_OPTIONS = ["member", "manager", "admin"] as const;
+
+// A single role-change menu, attached to <body> so the table's horizontal scroll can never
+// clip it. Rebuilt on each open; torn down on close / navigate-away.
+let roleMenuEl: HTMLElement | null = null;
+let roleMenuOutside: ((e: Event) => void) | null = null;
+function closeRoleMenu(): void {
+  if (roleMenuOutside) { document.removeEventListener("click", roleMenuOutside, true); roleMenuOutside = null; }
+  if (roleMenuEl) { roleMenuEl.remove(); roleMenuEl = null; }
+}
 
 type RegUser = {
   id: string;
@@ -74,6 +86,9 @@ function userRow(u: RegUser): string {
         <div class="um-activity">${trendMark(u)}<span>last active ${escapeHtml(lastActive(u.lastActiveAt))}</span></div>
         <div class="um-activity__sub">${u.runsThisWeek} this week / ${u.runsLastWeek} last · ${u.runCount} ${u.runCount === 1 ? "run" : "runs"} total</div>
       </td>
+      <td class="um-actions">
+        <button type="button" class="um-menu-btn js-menu-btn" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}" data-role="${escapeHtml(u.role)}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(u.name)}">⋯</button>
+      </td>
     </tr>`;
 }
 
@@ -86,7 +101,7 @@ function companyGroup(g: Group): string {
     : `${count} ${count === 1 ? "person" : "people"}${g.lastActive > 0 ? ` · last active ${relTime(g.lastActive)}` : ""}`;
   const head = `
     <tr class="um-group__head">
-      <td colspan="3">
+      <td colspan="4">
         <span class="um-group__name">${escapeHtml(g.name)}</span>
         <span class="um-group__meta">${escapeHtml(meta)}</span>
       </td>
@@ -103,9 +118,10 @@ function table(groups: Group[]): string {
             <th>User</th>
             <th>Role</th>
             <th>Coming back?</th>
+            <th class="um-actions-th" aria-label="Actions"></th>
           </tr>
         </thead>
-        ${groups.map(companyGroup).join('<tbody class="um-group-gap"><tr><td colspan="3"></td></tr></tbody>')}
+        ${groups.map(companyGroup).join('<tbody class="um-group-gap"><tr><td colspan="4"></td></tr></tbody>')}
       </table>
     </div>`;
 }
@@ -144,12 +160,61 @@ export const mount: Mount = async (root, { setState }) => {
     if (id) setState({ adminUserId: id, adminUserName: name, stage: STAGES.ADMIN_USER });
   };
 
+  // Open the role-change menu next to a row's ⋯ button. Body-attached + fixed so the table's
+  // scroll never clips it; picking a role calls the API and reloads (so the badge updates).
+  const openRoleMenu = (btn: HTMLButtonElement) => {
+    const id = btn.dataset.id ?? "";
+    const current = btn.dataset.role ?? "";
+    const name = btn.dataset.name ?? "this user";
+    closeRoleMenu();
+    const menu = document.createElement("div");
+    menu.className = "um-menu";
+    menu.setAttribute("role", "menu");
+    menu.innerHTML =
+      `<div class="um-menu__label">Change role</div>` +
+      ROLE_OPTIONS.map(
+        (r) =>
+          `<button type="button" role="menuitemradio" class="um-menu__item${r === current ? " is-current" : ""}" data-role="${r}"${r === current ? ' aria-checked="true" disabled' : ""}>${r}</button>`,
+      ).join("");
+    document.body.appendChild(menu);
+    const rect = btn.getBoundingClientRect();
+    menu.style.top = `${Math.round(rect.bottom + 4)}px`;
+    menu.style.left = `${Math.round(Math.max(8, rect.right - menu.offsetWidth))}px`;
+    roleMenuEl = menu;
+
+    menu.querySelectorAll<HTMLButtonElement>(".um-menu__item:not([disabled])").forEach((item) => {
+      item.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const role = item.dataset.role ?? "";
+        closeRoleMenu();
+        void (async () => {
+          try {
+            await setUserRole(id, role);
+            await load();
+          } catch (err) {
+            window.alert((err as { message?: string })?.message || `Couldn't change ${name}'s role.`);
+          }
+        })();
+      });
+    });
+
+    // Any click outside the menu closes it. Deferred so the click that opened it doesn't.
+    roleMenuOutside = (e) => {
+      if (!(e.target instanceof Node) || !menu.contains(e.target)) closeRoleMenu();
+    };
+    setTimeout(() => { if (roleMenuOutside) document.addEventListener("click", roleMenuOutside, true); }, 0);
+  };
+
   const wire = () => {
     root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
     // The whole row opens the drilldown. The name is a real <button> inside the row
     // (keyboard-focusable, screen-reader-labelled); its Enter/click bubbles up to here.
     root.querySelectorAll<HTMLElement>(".js-user-row").forEach((row) => {
       row.addEventListener("click", () => openUser(row.dataset.id ?? null, row.dataset.name ?? null));
+    });
+    // The ⋯ button opens the role menu; stop the click so it doesn't also open the drilldown.
+    root.querySelectorAll<HTMLButtonElement>(".js-menu-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => { e.stopPropagation(); openRoleMenu(btn); });
     });
   };
 
@@ -192,4 +257,4 @@ export const mount: Mount = async (root, { setState }) => {
   await load();
 };
 
-export const unmount: Unmount = () => {};
+export const unmount: Unmount = () => { closeRoleMenu(); };

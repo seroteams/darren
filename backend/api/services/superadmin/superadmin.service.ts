@@ -1,13 +1,33 @@
-// The superadmin view service (pre-go-live PG6 + PG7) — the read-only, cross-company
-// picture Carl uses to watch the alpha. Read-only by construction: it imports only the
-// read repo and exposes no mutation. It shapes the reads (companies, users, runs) into
-// "every company and the people in it", oldest-first, no secrets — now with the PG7
-// return-visit signal (per-user run counts + last-active) and an alpha-wide rating summary.
+// The superadmin view service (pre-go-live PG6 + PG7) — the cross-company picture Carl uses
+// to watch the alpha. Almost entirely read-only: it shapes the reads (companies, users, runs)
+// into "every company and the people in it", oldest-first, no secrets, with the PG7 return-visit
+// signal and an alpha-wide rating summary. The ONE mutation is setUserRole (user-management
+// Phase 2) — validation, the "never orphan a company" guardrail, and the audit all live here,
+// so the controller stays thin and the repo write can't be reached un-guarded.
 
 import { pgSuperadminRepo } from "./superadmin.repo.ts";
-import type { SuperadminRepo, RunRow, UserRunRow, SuperadminRunDetail } from "./superadmin.repo.ts";
+import type { SuperadminRepo, RunRow, UserRunRow, SuperadminRunDetail, UserRoleName } from "./superadmin.repo.ts";
+import { badRequest, notFound, conflict } from "../../middleware/http-error.ts";
+import { appendSuperadminAudit } from "../../middleware/superadmin-audit.ts";
+import type { SuperadminAuditEntry } from "../../middleware/superadmin-audit.ts";
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+
+/** The account roles a superadmin may set. */
+const ROLES: readonly UserRoleName[] = ["admin", "manager", "member"];
+/** "Lead" = a manager/admin who can run the company. Deactivation (Phase 3) will refine
+ *  this; today every manager/admin counts. */
+function isLead(role: string): boolean {
+  return role === "manager" || role === "admin";
+}
+
+/** Who is performing a mutation — for the audit trail. */
+export interface SuperadminActor {
+  userId: string | null;
+  email: string | null;
+}
+/** How a mutation records its outcome. Injectable so tests assert the trail without disk. */
+export type SuperadminAudit = (entry: SuperadminAuditEntry) => Promise<void>;
 
 /** A person as the superadmin view shows them — no passwordHash, no internal orgId.
  *  The run fields (PG7) answer "are they coming back?": total runs, when last active,
@@ -50,6 +70,10 @@ export interface SuperadminService {
   userRuns(userId: string): Promise<{ runs: UserRunRow[] }>;
   /** One finished run's read-only briefing detail (PG8 Step 3). null if unknown/unfinished. */
   runDetail(runId: string): Promise<SuperadminRunDetail | null>;
+  /** Set a user's account role (user-management Phase 2). Validates the role, blocks a change
+   *  that would leave a company with no manager/admin, writes it, and audits the outcome.
+   *  Throws 400 (bad role), 404 (unknown user), or 409 (last lead). */
+  setUserRole(actor: SuperadminActor, userId: string, role: string): Promise<{ id: string; role: UserRoleName }>;
 }
 
 /** Per-user run tallies, keyed by userId. Runs with no userId (machine/gate sessions)
@@ -81,7 +105,10 @@ function summarizeRatings(runs: RunRow[]): AlphaSummary {
   };
 }
 
-export function createSuperadminService(repo: SuperadminRepo = pgSuperadminRepo): SuperadminService {
+export function createSuperadminService(
+  repo: SuperadminRepo = pgSuperadminRepo,
+  audit: SuperadminAudit = appendSuperadminAudit,
+): SuperadminService {
   return {
     async listRegistered(now = new Date()) {
       const [orgs, people, runs] = await Promise.all([
@@ -126,6 +153,44 @@ export function createSuperadminService(repo: SuperadminRepo = pgSuperadminRepo)
     },
     async runDetail(runId) {
       return repo.readRun(runId);
+    },
+    async setUserRole(actor, userId, role) {
+      const route = `/api/v1/admin/users/${userId}/role`;
+      const rec = (outcome: "success" | "blocked" | "failed", detail: string) =>
+        audit({
+          at: new Date().toISOString(),
+          userId: actor.userId,
+          email: actor.email,
+          method: "PATCH",
+          route,
+          outcome,
+          target: userId,
+          detail,
+        });
+
+      if (!ROLES.includes(role as UserRoleName)) {
+        await rec("failed", `invalid role: ${String(role)}`);
+        throw badRequest("Role must be one of admin, manager, or member.");
+      }
+      const people = await repo.listUsers();
+      const target = people.find((u) => u.id === userId);
+      if (!target) {
+        await rec("failed", "unknown user");
+        throw notFound("unknown user");
+      }
+      // Never leave a company without at least one manager/admin: block demoting its last lead.
+      if (isLead(target.role) && role === "member") {
+        const leads = people.filter((u) => u.orgId === target.orgId && isLead(u.role));
+        if (leads.length <= 1) {
+          await rec("blocked", `last manager/admin of the company (was ${target.role})`);
+          throw conflict(
+            "This is the company's only manager or admin — promote someone else first, then change this one.",
+          );
+        }
+      }
+      await repo.updateUserRole(userId, role as UserRoleName);
+      await rec("success", `role ${target.role}→${role}`);
+      return { id: userId, role: role as UserRoleName };
     },
   };
 }

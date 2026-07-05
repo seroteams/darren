@@ -75,10 +75,11 @@ function originOk(req: IncomingMessage): boolean {
 const adminV1 = (h: RouteHandler): RouteHandler => v1Route(requireAdminRoute(h));
 const adminLegacy = (h: RouteHandler): RouteHandler => requireAdminRoute(h);
 
-// Superadmin tooling (pre-go-live PG6) — the one cross-company read, gated to the
-// SUPERADMIN_EMAILS allowlist. Every /api/v1/admin/* route funnels through
-// requireSuperadminRoute, so a route can't be added here un-gated. GET-only; the
-// per-company fence for every other path is untouched.
+// Superadmin tooling (pre-go-live PG6) — cross-company, gated to the SUPERADMIN_EMAILS
+// allowlist. Every /api/v1/admin/* route funnels through requireSuperadminRoute, so a route
+// can't be added here un-gated, and every access (read or write) is audited. Reads only until
+// user-management Phase 2 added the first mutation (PATCH role); mutations are origin-guarded
+// too. The per-company fence for every other path is untouched.
 const superadminV1 = (h: RouteHandler): RouteHandler => v1Route(requireSuperadminRoute(h));
 
 function main(): void {
@@ -106,11 +107,16 @@ function main(): void {
     return feedback.submit(c);
   }));
 
-  // superadmin — read-only, cross-company view of the alpha (pre-go-live PG6). GET-only,
-  // behind the SUPERADMIN_EMAILS allowlist. No screen yet (PG7/PG8 build those on top).
+  // superadmin — cross-company view of the alpha (pre-go-live PG6/PG7/PG8), behind the
+  // SUPERADMIN_EMAILS allowlist. Reads below; the one mutation (change a user's role,
+  // user-management Phase 2) is origin-guarded like every other mutating route.
   router.add("GET", "/api/v1/admin/registered", superadminV1(superadmin.registered));
   router.add("GET", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/runs$/, superadminV1(superadmin.userRuns));
   router.add("GET", /^\/api\/v1\/admin\/runs\/(?<id>[^/]+)$/, superadminV1(superadmin.runDetail));
+  router.add("PATCH", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/role$/, superadminV1((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return superadmin.setRole(c);
+  }));
 
   // catalog — first domain on the v1 layer (controller → service → repo).
   // v1 routes use the one error shape (v1Route); the legacy /api/ paths stay as

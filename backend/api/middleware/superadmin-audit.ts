@@ -18,6 +18,12 @@ export interface SuperadminAuditEntry {
   email: string | null;
   method: string;
   route: string;
+  // Mutation fields (user-management Phase 2 on). The read funnel omits these; a mutation
+  // records its outcome + a human-readable, secret-free detail so blocked/failed attempts
+  // leave a trail too. `target` is the user the action was aimed at.
+  outcome?: "success" | "blocked" | "failed";
+  target?: string;
+  detail?: string;
 }
 
 /** Build the record from the request identity + route. Pure (timestamp passed in) so it's

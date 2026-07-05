@@ -8,9 +8,13 @@
 // The service depends on this interface, so its logic (grouping, ordering, the view
 // shape) is proven against an in-memory fake without a database — same seam as auth.
 
+import { eq } from "drizzle-orm";
 import { getDb } from "../../../db/client.ts";
 import { organizations, users } from "../../../db/schema.ts";
 import { listRunsForSuperadmin, listFinishedRunsForUser, superadminRunView } from "../../../engine/run-history.ts";
+
+/** The account roles, mirrored from the `user_role` enum in schema.ts. */
+export type UserRoleName = "admin" | "manager" | "member";
 
 /** One company row (no tenant scope — this is the cross-company read). */
 export interface OrgRow {
@@ -71,6 +75,9 @@ export interface SuperadminRepo {
   listRunsForUser(userId: string): Promise<UserRunRow[]>;
   /** One finished run's read-only detail, unfenced (PG8 Step 3). null if unknown/unfinished. */
   readRun(id: string): Promise<SuperadminRunDetail | null>;
+  /** Set a user's account role (user-management Phase 2). The ONE guarded write on this
+   *  path — validation + the "never orphan a company" guardrail run in the service first. */
+  updateUserRole(userId: string, role: UserRoleName): Promise<void>;
 }
 
 export const pgSuperadminRepo: SuperadminRepo = {
@@ -104,5 +111,9 @@ export const pgSuperadminRepo: SuperadminRepo = {
   },
   async readRun(id: string) {
     return superadminRunView(id);
+  },
+  async updateUserRole(userId: string, role: UserRoleName) {
+    const db = getDb();
+    await db.update(users).set({ role, updatedAt: new Date() }).where(eq(users.id, userId));
   },
 };
