@@ -1,10 +1,14 @@
 import { STAGES } from "../state.js";
 import { escapeHtml as escape } from "../ui/html.js";
+import { reportError } from "../ui/error-reporter.js";
 import type { Mount, Unmount } from "./stage.types.ts";
 
 export const mount: Mount = async (root, { store, setState }) => {
   const retryTo = store.retryStage || STAGES.INTAKE;
   const technical = store.error || "Unknown error";
+  // Landing here means the app caught something that blew up (incl. a failed load) — record
+  // it so it shows in the Error log (error-log Phase 3). Deduped/throttled in the reporter.
+  reportError(technical);
   root.innerHTML = `
     <div class="stage-inner l-stack l-stack--6">
       <h1 class="h1">We hit a snag.</h1>

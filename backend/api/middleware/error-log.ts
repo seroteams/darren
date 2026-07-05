@@ -1,11 +1,13 @@
-// Error-log capture (error-log Phase 1). Mirrors superadmin-audit.ts: a pure entry
-// builder + a sink in one file. Every API 5xx writes one row to the error_logs table
-// so the superadmin Error log screen (Phase 2) can show what broke — across Carl's
-// local dev and the published live Sero (the `environment` tag).
+// Error-log capture (error-log Phase 1 + 3). Mirrors superadmin-audit.ts: pure entry
+// builders + sinks in one file. Every API 5xx (Phase 1) and every reported browser error
+// (Phase 3) writes one row to the error_logs table so the superadmin Error log screen can
+// show what broke — across Carl's local dev and the published live Sero (the `environment`
+// tag).
 //
 // Honesty + safety rules, non-negotiable:
 //  - Never records a secret: identity + method + path + status + code + message + stack
-//    only — never a request body, password, token, or cookie.
+//    (or, for browser errors, the user-agent) only — never a request body, password,
+//    token, or cookie.
 //  - Fire-and-forget and swallows its own failures, so logging can never slow down or
 //    break a user's response. The responder's console.error stays as the backstop for
 //    the one case this can't cover (the DB itself being unreachable).
@@ -26,13 +28,13 @@ export interface ErrorLogEntry {
   userId: string | null;
   email: string | null;
   environment: ErrorEnvironment;
-  source: "api";
+  source: "api" | "browser";
   method: string | null;
   path: string;
   status: number | null;
   errorCode: ErrorCode | null;
   message: string;
-  details: { stack: string } | null;
+  details: { stack?: string; userAgent?: string } | null;
 }
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -86,6 +88,29 @@ export function errorLogEntry(
   };
 }
 
+/** Build a browser-side error row (a client crash / failed load the app reported, Phase 3).
+ *  Same secret-free shape, but source "browser" and no HTTP method/status. message + path
+ *  are length-capped; details carries only the user-agent, never form data. */
+export function browserErrorEntry(
+  identity: RequestIdentity,
+  input: { message: string; path: string; userAgent: string | null },
+  environment: ErrorEnvironment,
+): ErrorLogEntry {
+  return {
+    orgId: asUuidOrNull(identity.orgId),
+    userId: asUuidOrNull(identity.userId),
+    email: identity.email,
+    environment,
+    source: "browser",
+    method: null,
+    path: (input.path || "(unknown)").slice(0, 300),
+    status: null,
+    errorCode: null,
+    message: (input.message || "Unknown client error").slice(0, 2000),
+    details: input.userAgent ? { userAgent: input.userAgent.slice(0, 400) } : null,
+  };
+}
+
 /** The route path without its query string (the query can carry ids we don't need). */
 function pathOf(req: IncomingMessage | undefined): string {
   if (!req?.url) return "(unknown)";
@@ -118,5 +143,32 @@ export async function logApiError(
     await getDb().insert(errorLogs).values(entry);
   } catch (writeErr) {
     console.error("[error-log] failed to record error:", writeErr);
+  }
+}
+
+/** Record a client-side error the app reported (POST /api/v1/errors, Phase 3). Best-effort
+ *  + self-swallowing like logApiError — a failed write must never turn a report into a new
+ *  error. Identity comes from the session cookie (anonymous if none). */
+export async function reportBrowserError(
+  req: IncomingMessage,
+  input: { message: string; path: string },
+): Promise<void> {
+  try {
+    if (!hasDatabaseUrl()) return;
+    let identity: RequestIdentity;
+    try {
+      identity = await buildIdentity(req);
+    } catch {
+      identity = anonymousIdentity();
+    }
+    const ua = req.headers["user-agent"];
+    const entry = browserErrorEntry(
+      identity,
+      { message: input.message, path: input.path, userAgent: typeof ua === "string" ? ua : null },
+      resolveEnvironment(),
+    );
+    await getDb().insert(errorLogs).values(entry);
+  } catch (writeErr) {
+    console.error("[error-log] failed to record browser error:", writeErr);
   }
 }

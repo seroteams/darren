@@ -1,6 +1,6 @@
 # Phase 3 — Hub UI + the first real run (~$0.35, your click)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 UI built + render-verified 2026-07-05; awaiting Carl's one paid run + walk
 
 ## Goal
 The Personas page becomes the Test-engine hub: ▶ Run on each persona card, live progress, and after the run a straight path into the review screen — proven by ONE real run that you click yourself.
@@ -18,7 +18,8 @@ The Personas page becomes the Test-engine hub: ▶ Run on each persona card, liv
 - Nav changes, regression strip, compare deep-link (Phase 4).
 
 ## Done when
-- [ ] `npm test` green, typecheck clean, admin build ✓
+- [x] `npm test` green (67/67), typecheck clean, admin build ✓
+- [x] Hub renders: 12 persona cards, each with ▶ Run + the cost line; 6 show a "Last run" line with a verdict badge; no console errors (browser-verified on a throwaway Vite instance 2026-07-05 — did NOT click Run, that's Carl's paid go-ahead)
 - [ ] One real run completed end-to-end, clicked by the product owner (~$0.35 — the click is the go-ahead)
 - [ ] Product owner has tested the scenarios below and said go
 

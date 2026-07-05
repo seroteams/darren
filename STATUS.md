@@ -13,11 +13,15 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > Carl's scope call: **all 38 screens, full polish**, own track, existing styles (no Flowbite re-skin here).
 > 5 phases: ① responsive shell (rail → drawer + mobile header) ② auth + member screens ③ run pipeline on a
 > phone ④ global sweep + admin core (tables, iOS zoom, touch targets) ⑤ QA tools + Universe.
-> **Phase 1 BUILT + browser-verified at 375×812 — awaiting your walk (not committed).** Below 768px the rail
-> is now a slide-in drawer behind a ☰ header; in-session the stage bar goes compact under it; desktop is
-> untouched (rail + hover-expand verified at 1280). Free checks green: `npm test` 65/65 · typecheck · build.
-> Walk it: phone mode in devtools (or real phone via Vite `--host`) → scenarios in
-> [phase-1.md](docs/todo/mobile-responsive/phase-1.md). No paid runs in this track.
+> **Phases 1 + 2 BUILT + browser-verified at 375×812 — both awaiting your walk (not committed; you said
+> "keep going" after P1).** P1: below 768px the rail is a slide-in drawer behind a ☰ header; in-session the
+> stage bar goes compact under it; desktop untouched (verified at 1280). P2: auth + member screens — they
+> mostly already fit; fixed placeholder clipping + header-row wrap; login/register/privacy/about/feedback
+> live-walked clean at 375. Free checks: `npm test` 67/67 · typecheck · build. Walk both: devtools phone mode
+> (or real phone via Vite `--host`) → scenarios in [phase-1.md](docs/todo/mobile-responsive/phase-1.md) +
+> [phase-2.md](docs/todo/mobile-responsive/phase-2.md) (member screens need your Dev Member login).
+> A throwaway account `mobile-qa@test.local` was created walking the register scenario — delete at will.
+> No paid runs in this track.
 
 > **🔨 [page-heartbeat](docs/todo/page-heartbeat/PLAN.md) — real UPDATE buttons (started 2026-07-05).**
 > From the 25-page audit: Guide, Universe and the Tasks board were hand-typed snapshots of the app;
@@ -57,14 +61,15 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > superadmin-gated + origin-guarded, **blocks demoting a company's last manager/admin** (409). The stale-API 404 Carl
 > first hit was fixed by restarting the :3001 process (concurrency respawns fresh code).
 >
-> **🔨 [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) Phase 2 — the real engine runner: BUILT 2026-07-05, awaiting Carl's walk (free, offline-tested). Phase 1 ✅ (walk delegated, all live checks passed, `e148db2a`).**
-> One page: ▶ Run on a persona → full engine runs on its scripted answers → review with the 8-dimension grid.
-> Phase 2 lands the real stage loop: scripted-lane session → role profile → focus → preparation → the frozen
-> script turn-by-turn → evaluation with cost + briefing — run folders identical to live runs. All engine calls
-> injected: 8 runner tests prove the whole shape offline. **`npm test` 67/67 · typecheck clean. $0 spent.**
-> ⚠️ The API door now runs the REAL engine (~$0.35 per explicit authenticated POST) — nothing auto-runs, but
-> no casual poking until Phase 3 puts the priced ▶ Run button on it. **Not committed — green light = commit.**
-> Next after the walk: Phase 3 — hub UI + Carl's one paid click (~$0.35).
+> **🔨 [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) Phase 3 — hub UI: BUILT + render-verified 2026-07-05, awaiting Carl's ONE paid run (~$0.35) + walk. Phases 1 ✅ · 2 ✅ (built + committed in checkpoints).**
+> The **Personas page is now "Test engine"**: ▶ Run per card with the cost line stated up front, 2s polling
+> with live stage/turn progress, one-run-at-a-time lock, "Review it"/"See result" into the 8-dimension grid,
+> and a last-run verdict badge per persona. Browser-verified: h1 "Test engine", 12 cards + 12 Run buttons,
+> cost lines, 6 history badges, **no console errors** — but I did NOT click Run (the ~$0.35 is Carl's go-ahead).
+> **`npm test` 67/67 · typecheck clean · admin build ✓.**
+> ⚠️ **To walk it: RESTART the API + reload the app**, open **Test engine**, click ▶ Run on one persona, watch
+> progress, then "Review it" → mark the 8 dimensions; back on the hub the badge should update. That paid click
+> is the go-ahead. Then Phase 4 (consolidation: fold in the safety check, slim the nav, compare deep-link — free).
 >
 > **Phase 1 ✅ done + committed** — the flat **User management** table (`d2bf9ec2` screen + `53f1f132` rename),
 > companies as **white cards** (`af1992f3`); role pills; the whole row opens the drilldown. **Phase 0** mostly

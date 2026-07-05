@@ -58,6 +58,12 @@ export async function getErrorLog() {
   return json(await fetch("/api/v1/admin/errors"));
 }
 
+// Report a client-side error (error-log Phase 3): a browser crash / failed load the app
+// caught. Best-effort — the caller swallows failures. Origin-guarded + rate-limited server-side.
+export async function reportClientError({ message, path }) {
+  return postJson("/api/v1/errors", { message, path });
+}
+
 // One user's finished 1:1s for the superadmin drilldown (pre-go-live PG8). Same gate as
 // getRegistered — a normal owner gets 401/403 (json() throws). Shape:
 // { runs: [{ id, headline, ctx, lastSeenAt, rating }] }, newest-first.
@@ -139,6 +145,19 @@ export async function resetArc(slug) {
 
 export async function getPersonaBench() {
   return json(await fetch("/api/persona-bench"));
+}
+
+// Test-engine hub: start a scripted full-engine run for one persona (paid — the
+// click IS the go-ahead). Admin + origin-guarded server-side; refuses (409) when a
+// run is already going. Returns 202 { personaId }.
+export async function startPersonaRun(personaId) {
+  return postJson("/api/v1/persona-runs", { personaId });
+}
+
+// Poll the single active persona run. Shape: { status: idle|running|done|failed,
+// personaId, sessionId, stageLabel, turn, total, error, costUsd, ... }.
+export async function getPersonaRunCurrent() {
+  return json(await fetch("/api/v1/persona-runs/current"));
 }
 
 // Sessions + runs are org-fenced (Phase 007/2): these call the v1 routes (id in the

@@ -11,6 +11,7 @@ import { createSessionTopbar } from "./ui/session-topbar.js";
 import { createAppNav } from "./ui/app-nav.js";
 import { createProfileBadge } from "./ui/profile-badge.js";
 import { createNotesPanel } from "./ui/notes-panel.js";
+import { installGlobalErrorReporter, reportError } from "./ui/error-reporter.js";
 // Lazy stage modules — kept in a map so HMR + code-split both work nicely.
 const loaders = {
   LOGIN:           () => import("./stages/login.js"),
@@ -51,6 +52,8 @@ const loaders = {
 };
 
 const root = document.getElementById("root");
+// Catch browser crashes / unhandled rejections and forward them to the Error log (error-log Phase 3).
+installGlobalErrorReporter();
 let current = { stage: null, mod: null, node: null };
 let renderChain = Promise.resolve();
 
@@ -112,7 +115,7 @@ async function renderStage(nextStage) {
 function enqueueRender(nextStage) {
   renderChain = renderChain
     .then(() => renderStage(nextStage))
-    .catch((e) => console.error("[main] render failed:", e));
+    .catch((e) => { console.error("[main] render failed:", e); reportError((e && e.message) || "Stage render failed"); });
 }
 
 let routedStage = null;

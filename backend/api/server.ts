@@ -53,6 +53,21 @@ function rateLimitIp(req: IncomingMessage): boolean {
   return count > MAX_PER_IP;
 }
 
+// Per-IP cap on client error reports (error-log Phase 3) — a backstop behind the app's own
+// throttle so a crash loop can't flood error_logs. Generous: legitimate bursts are a few.
+const MAX_ERROR_REPORTS_PER_IP = 30;
+const errorReportCounts = new Map<string, number>();
+setInterval(() => errorReportCounts.clear(), RATE_WINDOW_MS).unref?.();
+
+function rateLimitErrors(req: IncomingMessage): boolean {
+  const xff = req.headers["x-forwarded-for"];
+  const fromXff = typeof xff === "string" ? xff.split(",")[0]?.trim() : undefined;
+  const ip = fromXff || req.socket?.remoteAddress || "unknown";
+  const count = (errorReportCounts.get(ip) || 0) + 1;
+  errorReportCounts.set(ip, count);
+  return count > MAX_ERROR_REPORTS_PER_IP;
+}
+
 function warnIfNoKey(): void {
   if (!process.env.OPENAI_API_KEY) {
     console.warn("\x1b[33m[warn] OPENAI_API_KEY not set — AI stages will fail on first call.\x1b[0m");
@@ -108,6 +123,15 @@ function main(): void {
   router.add("POST", "/api/v1/feedback", v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return feedback.submit(c);
+  }));
+
+  // client error reports (error-log Phase 3) — the app POSTs a browser crash / failed load
+  // here so it lands in the same error_logs table (source "browser"). Not superadmin-gated
+  // (any visitor's own error), origin-guarded + rate-limited; recording is best-effort.
+  router.add("POST", "/api/v1/errors", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    if (rateLimitErrors(c.req)) throw rateLimited("Too many error reports");
+    return errorLog.report(c);
   }));
 
   // superadmin — cross-company view of the alpha (pre-go-live PG6/PG7/PG8), behind the

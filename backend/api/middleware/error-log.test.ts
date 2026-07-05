@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { errorLogEntry, resolveEnvironment, logApiError } from "./error-log.ts";
+import { errorLogEntry, browserErrorEntry, resolveEnvironment, logApiError } from "./error-log.ts";
 import { HttpError } from "./http-error.ts";
 import { anonymousIdentity } from "./request-context.ts";
 import type { RequestIdentity } from "./request-context.ts";
@@ -28,7 +28,7 @@ test("errorLogEntry: keeps the real message + stack (superadmin log, not the cli
   const err = new Error("OpenAI request timed out");
   const e = errorLogEntry(identity(), facts, err);
   assert.equal(e.message, "OpenAI request timed out");
-  assert.ok(e.details && e.details.stack.includes("OpenAI request timed out"));
+  assert.ok(e.details?.stack?.includes("OpenAI request timed out"));
 });
 
 test("errorLogEntry: picks up an HttpError's stable code; plain Error has none", () => {
@@ -88,4 +88,29 @@ test("logApiError: never throws, and is a no-op when no database is configured",
     if (save === undefined) delete process.env.DATABASE_URL;
     else process.env.DATABASE_URL = save;
   }
+});
+
+test("browserErrorEntry: tags source browser, no method/status, carries env + who + user-agent", () => {
+  const e = browserErrorEntry(identity(), { message: "Blank screen", path: "/interview", userAgent: "UA/1" }, "production");
+  assert.equal(e.source, "browser");
+  assert.equal(e.environment, "production");
+  assert.equal(e.method, null);
+  assert.equal(e.status, null);
+  assert.equal(e.path, "/interview");
+  assert.equal(e.message, "Blank screen");
+  assert.equal(e.email, "a@b.com");
+  assert.equal(e.details?.userAgent, "UA/1");
+});
+
+test("browserErrorEntry: caps message + path length, nulls dev side-door ids, no ua → no details", () => {
+  const e = browserErrorEntry(
+    identity({ userId: "dev-user", orgId: "dev-org" }),
+    { message: "x".repeat(5000), path: "p".repeat(5000), userAgent: null },
+    "local",
+  );
+  assert.equal(e.message.length, 2000);
+  assert.equal(e.path.length, 300);
+  assert.equal(e.userId, null);
+  assert.equal(e.orgId, null);
+  assert.equal(e.details, null);
 });
