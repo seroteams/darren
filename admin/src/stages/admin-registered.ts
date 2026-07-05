@@ -10,7 +10,7 @@
 // in Phases 2–5; there's no menu while there's nothing to put in it.
 
 import { STAGES } from "../state.js";
-import { getRegistered, setUserRole } from "../../../shared/api.js";
+import { getRegistered, setUserRole, deactivateUser, reactivateUser } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
@@ -37,6 +37,7 @@ type RegUser = {
   lastActiveAt: string | number | null;
   runsThisWeek: number;
   runsLastWeek: number;
+  deactivated?: boolean;
 };
 type RegCompany = { id: string; name: string; createdAt: string | number; users: RegUser[] };
 type Summary = { avgStars: number | null; ratedCount: number; lowCount: number };
@@ -75,19 +76,21 @@ function trendMark(u: RegUser): string {
 }
 
 function userRow(u: RegUser): string {
+  const off = !!u.deactivated;
+  const deactivatedTag = off ? `<span class="um-badge um-badge--off">Deactivated</span>` : "";
   return `
-    <tr class="um-row js-user-row" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}">
+    <tr class="um-row js-user-row${off ? " um-row--off" : ""}" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}">
       <td>
         <button type="button" class="um-user__open js-user-open" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}">${escapeHtml(u.name)}</button>
         <div class="um-user__email">${escapeHtml(u.email)}</div>
       </td>
-      <td>${roleBadge(u.role)}</td>
+      <td>${roleBadge(u.role)}${deactivatedTag}</td>
       <td>
         <div class="um-activity">${trendMark(u)}<span>last active ${escapeHtml(lastActive(u.lastActiveAt))}</span></div>
         <div class="um-activity__sub">${u.runsThisWeek} this week / ${u.runsLastWeek} last · ${u.runCount} ${u.runCount === 1 ? "run" : "runs"} total</div>
       </td>
       <td class="um-actions">
-        <button type="button" class="um-menu-btn js-menu-btn" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}" data-role="${escapeHtml(u.role)}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(u.name)}">⋯</button>
+        <button type="button" class="um-menu-btn js-menu-btn" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}" data-role="${escapeHtml(u.role)}" data-deactivated="${off ? "1" : ""}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(u.name)}">⋯</button>
       </td>
     </tr>`;
 }
@@ -166,6 +169,7 @@ export const mount: Mount = async (root, { setState }) => {
     const id = btn.dataset.id ?? "";
     const current = btn.dataset.role ?? "";
     const name = btn.dataset.name ?? "this user";
+    const isOff = btn.dataset.deactivated === "1";
     closeRoleMenu();
     const menu = document.createElement("div");
     menu.className = "um-menu";
@@ -175,14 +179,18 @@ export const mount: Mount = async (root, { setState }) => {
       ROLE_OPTIONS.map(
         (r) =>
           `<button type="button" role="menuitemradio" class="um-menu__item${r === current ? " is-current" : ""}" data-role="${r}"${r === current ? ' aria-checked="true" disabled' : ""}>${r}</button>`,
-      ).join("");
+      ).join("") +
+      `<div class="um-menu__sep" role="separator"></div>` +
+      (isOff
+        ? `<button type="button" role="menuitem" class="um-menu__item js-reactivate">Reactivate</button>`
+        : `<button type="button" role="menuitem" class="um-menu__item um-menu__item--danger js-deactivate">Deactivate</button>`);
     document.body.appendChild(menu);
     const rect = btn.getBoundingClientRect();
     menu.style.top = `${Math.round(rect.bottom + 4)}px`;
     menu.style.left = `${Math.round(Math.max(8, rect.right - menu.offsetWidth))}px`;
     roleMenuEl = menu;
 
-    menu.querySelectorAll<HTMLButtonElement>(".um-menu__item:not([disabled])").forEach((item) => {
+    menu.querySelectorAll<HTMLButtonElement>(".um-menu__item[data-role]:not([disabled])").forEach((item) => {
       item.addEventListener("click", (e) => {
         e.stopPropagation();
         const role = item.dataset.role ?? "";
@@ -196,6 +204,33 @@ export const mount: Mount = async (root, { setState }) => {
           }
         })();
       });
+    });
+
+    // Deactivate — disruptive (kicks them out now), so confirm first. Reactivate is safe, no confirm.
+    menu.querySelector(".js-deactivate")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeRoleMenu();
+      if (!window.confirm(`Deactivate ${name}? They'll be signed out now and can't log back in until you reactivate them.`)) return;
+      void (async () => {
+        try {
+          await deactivateUser(id);
+          await load();
+        } catch (err) {
+          window.alert((err as { message?: string })?.message || `Couldn't deactivate ${name}.`);
+        }
+      })();
+    });
+    menu.querySelector(".js-reactivate")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeRoleMenu();
+      void (async () => {
+        try {
+          await reactivateUser(id);
+          await load();
+        } catch (err) {
+          window.alert((err as { message?: string })?.message || `Couldn't reactivate ${name}.`);
+        }
+      })();
     });
 
     // Any click outside the menu closes it. Deferred so the click that opened it doesn't.

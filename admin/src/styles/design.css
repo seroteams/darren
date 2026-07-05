@@ -852,6 +852,20 @@ body.has-session-topbar .stage {
 }
 .um-menu__item:hover { background: var(--color-surface-2, rgba(0, 0, 0, 0.05)); }
 .um-menu__item.is-current { color: var(--color-ink-mute); cursor: default; font-weight: var(--type-weight-semibold); }
+/* Deactivate/reactivate (user-management Phase 3). */
+.um-menu__sep { height: 1px; margin: 4px 6px; background: var(--color-border); }
+.um-menu__item--danger { color: var(--color-danger, var(--sero-error)); }
+/* "Deactivated" tag beside the role pill, and a dimmed row so a switched-off user reads at a glance. */
+.um-badge--off {
+  margin-left: var(--sero-space-2);
+  background: var(--sero-error-light);
+  color: var(--sero-error);
+}
+.um-row--off .um-user__open,
+.um-row--off .um-user__email,
+.um-row--off .um-activity,
+.um-row--off .um-activity__sub { color: var(--color-ink-mute); }
+.um-row--off .um-user__open { text-decoration: line-through; }
 
 /* Person page (pre-go-live PG5). Hierarchy is the whole point here: the "Since last time"
    recap is the reason to come back, so it's an elevated, colour-coded card; the past 1:1s

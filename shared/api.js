@@ -76,6 +76,20 @@ export async function setUserRole(id, role) {
   );
 }
 
+// Deactivate / reactivate a user (user-management Phase 3). Superadmin-only + origin-guarded.
+// Deactivate blocks their login and kills their live sessions; the server's guardrails may
+// refuse (409) — the caller surfaces the plain message. No body. Returns { id, deactivated }.
+export async function deactivateUser(id) {
+  return json(
+    await fetch(`/api/v1/admin/users/${encodeURIComponent(id)}/deactivate`, { method: "POST" }),
+  );
+}
+export async function reactivateUser(id) {
+  return json(
+    await fetch(`/api/v1/admin/users/${encodeURIComponent(id)}/reactivate`, { method: "POST" }),
+  );
+}
+
 // Feedback (Phase 5): send a short tester note. Login required (any role); stored to a
 // local file on the server, no external service. Returns { ok: true }.
 export async function submitFeedback(message, page) {
