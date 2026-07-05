@@ -1,6 +1,19 @@
 # Phase 4 — Hardening (S1–S4)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 BUILT 2026-07-05 — awaiting Carl's walk
+
+**Build notes (2026-07-05):**
+- S1: identical `<no_inference_rules>` block (the six spec §2 rules) added near the top of all four prompts.
+- S2 **calibrated against the frozen replay cases** (three blessed single-touch axes read at |score| 2):
+  a single-touch axis claiming |score| ≥ 3 now reads `insufficient_signal` instead of a score; a surviving
+  single-touch read is capped at low confidence + `concentrated_signal`. The verbatim-quote requirement is
+  already carried structurally by axis history `answer_excerpt` + `evidence_basis`. 3 baselines re-frozen
+  (confidence/basis fields only; all verdicts PASS).
+- S3: `scripts/test-no-inference-fixtures.js` — end-to-end fixtures through `checkFromInputs` (same tail as
+  the paid gate): "quiet quitting" note contained vs echoed, 5-token note cautious vs state-claim, near-empty
+  note vs signal focus point.
+- S4: `Session.outcomeCheck?: "yes"|"partly"|"no"|"changed"` in the contract + serializer, proven by a
+  Postgres roundtrip assertion. Contract-only; the routing-nudge event stream (parked) is its consumer.
 
 ## Goal
 Belt-and-braces: the six spec rules live verbatim in the prompts, axes can't score without evidence, adversarial cases lock the gates in, and the loop-closure field exists.
@@ -15,9 +28,9 @@ Belt-and-braces: the six spec rules live verbatim in the prompts, axes can't sco
 - Routing-nudge engine + its fixtures (parked, see PLAN.md). Golden-set combo expansion (parked).
 
 ## Done when
-- [ ] Six rules present in all four prompts; offline checks green.
-- [ ] New adversarial cases pass against the Phase 2 gates (fixtures-only — a paid sweep only if Carl asks).
-- [ ] `outcomeCheck` in the contract + schema test.
+- [x] Six rules present in all four prompts; offline checks green (`npm test` 76/76 · typecheck ✓).
+- [x] New adversarial cases pass against the Phase 2 gates (fixtures-only, $0 — 6 end-to-end assertions).
+- [x] `outcomeCheck` in the contract + roundtrip test.
 - [ ] Product owner has tested the scenarios below and said go.
 
 ## Test scenarios — for the product owner
