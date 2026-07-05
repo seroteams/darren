@@ -124,6 +124,18 @@ function buildMessages({
   return splitSystemUser(filled);
 }
 
+// Assemble the exact payload generateFocusPoints would send — WITHOUT calling
+// the model. `prompt` is byte-for-byte what gets logged as prompt.md. Mirrors the
+// catalogue → offered → buildMessages steps of generateFocusPoints so the preview
+// can never drift from the real send.
+function assembleFocusPoints(
+  inputs: FocusPointInputs,
+  { model = getDefaultModel() }: { model?: string } = {}
+): { model: string; prompt: string } {
+  const offered = catalogueForArc(loadFocusPoints(), inputs.meetingType);
+  return { model, prompt: buildMessages({ ...inputs, focusPoints: offered }).filled };
+}
+
 async function callOpenAI({
   system,
   user,
@@ -182,4 +194,4 @@ async function generateFocusPoints(
   };
 }
 
-export { generateFocusPoints, loadFocusPoints, buildMessages, callOpenAI };
+export { generateFocusPoints, assembleFocusPoints, loadFocusPoints, buildMessages, callOpenAI };

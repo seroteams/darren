@@ -13,6 +13,7 @@ import { snapshot, inferStage, summarizeAxes } from "./session-views.ts";
 import { shouldReview, suggestionId } from "../../../engine/lexicon-reviewer.ts";
 import { effectiveTerminology, terminologyGroups } from "../../../engine/role-profile.ts";
 import { assemblePreparation } from "../../../engine/preparation.ts";
+import { assembleFocusPoints } from "../../../engine/generate.ts";
 import { buildPreparationInputs } from "./preparation-inputs.ts";
 import { checkQuestionEligibility, dropIneligibleHeads } from "../../../engine/question-eligibility.ts";
 import { MEETING_TYPES } from "../../../engine/meeting-types.ts";
@@ -175,8 +176,12 @@ function mapForUi(suggestions: unknown[]): UiCandidate[] {
 // stage -> assemble its payload from a live session, with ZERO API calls. Reuses
 // the live run's own assembly so the preview can never drift from what actually
 // gets sent (engine honesty). Each returns { label, model, prompt } or throws a
-// 409 when its inputs aren't ready. Preparation only for now; others follow.
+// 409 when its inputs aren't ready.
 const PREVIEW_ASSEMBLERS: Record<string, (session: Session) => { label: string; model: string; prompt: string }> = {
+  // First stage — inputs are just session.ctx, always present, so no 409 gate.
+  FOCUS_POINTS(session) {
+    return { label: "Focus points", ...assembleFocusPoints(session.ctx) };
+  },
   PREPARATION(session) {
     if (!session.focusPointsResult) {
       throw conflict("Focus points not ready for this stage yet");

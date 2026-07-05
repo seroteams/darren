@@ -359,10 +359,28 @@ test("roleProfile throws a 404 for an unknown session", () => {
 // --- S1b: preview (stage payload assembly gates) ---
 
 test("preview reports supported:false for a stage with no assembler", () => {
-  const s = fakeSession("abc"); // fresh session → inferStage = FOCUS_POINTS (no assembler)
+  const s = fakeSession("abc");
+  s.briefing = { headline: "done" } as unknown as Session["briefing"]; // inferStage → BRIEFING (no assembler)
   const { repo } = fakeRepo([s]);
   const out = createSessionsService(repo).preview("abc");
-  assert.deepEqual(out, { stage: "FOCUS_POINTS", supported: false });
+  assert.deepEqual(out, { stage: "BRIEFING", supported: false });
+});
+
+test("preview assembles the FOCUS_POINTS payload for a fresh session (no API call)", () => {
+  const s = fakeSession("abc"); // fresh session → inferStage = FOCUS_POINTS
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).preview("abc") as {
+    stage: string;
+    label: string;
+    model: string;
+    prompt: string;
+    preview: boolean;
+  };
+  assert.equal(out.stage, "FOCUS_POINTS");
+  assert.equal(out.label, "Focus points");
+  assert.equal(out.preview, true);
+  assert.ok(out.model.length > 0);
+  assert.ok(out.prompt.includes("weekly")); // meetingType filled in → real assembly, not a stub
 });
 
 test("preview throws a 409 CONFLICT when the stage's inputs aren't ready", () => {
