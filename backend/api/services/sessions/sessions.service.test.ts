@@ -486,6 +486,18 @@ test("preview shows the honest 'planner bypassed' note when the planner would sk
   assert.ok(out.prompt.includes("planner bypassed")); // honest "nothing sent", not a fabricated prompt
 });
 
+test("preview builds the QUESTIONING payload from a draft answer (live 'Sending', no submit)", () => {
+  const s = questioningSession({ raw: "x", text: "x", skipped: false });
+  s.pendingAnswer = null; // nothing submitted yet — only a draft being typed
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).preview("abc", "questioning", "we missed the deadline again") as {
+    prompt: string;
+    preview: boolean;
+  };
+  assert.equal(out.preview, true);
+  assert.ok(out.prompt.includes("we missed the deadline again")); // the draft flows into the prompt
+});
+
 test("preview throws a 409 CONFLICT for QUESTIONING when no answer is pending", () => {
   const s = fakeSession("abc");
   s.focusPointsResult = { meeting_type: "weekly", focus_points: [] } as unknown as Session["focusPointsResult"];
@@ -1095,5 +1107,44 @@ test("lexiconCandidates requires a sessionId (400) and 404s an unknown session",
   await assert.rejects(() => svc.lexiconCandidates(""),
     (e: unknown) => e instanceof HttpError && e.status === 400);
   await assert.rejects(() => svc.lexiconCandidates("ghost"),
+    (e: unknown) => e instanceof HttpError && e.status === 404);
+});
+
+// --- claim (guest-run Phase 1): an ownerless run changes hands exactly once ---
+
+test("claim stamps an ownerless session with the caller and persists it", () => {
+  const s = fakeSession("abc"); // orgId/userId unset = ownerless (guest)
+  const { repo, persisted } = fakeRepo([s]);
+  const out = createSessionsService(repo).claim("abc", "org-1", "user-1");
+  assert.deepEqual(out, { ok: true, id: "abc" });
+  assert.equal(s.orgId, "org-1");
+  assert.equal(s.userId, "user-1");
+  assert.equal(persisted.length, 1); // stamped ownership reaches the store
+});
+
+test("claim answers a session owned by someone else with the same 404 as unknown", () => {
+  const s = fakeSession("abc");
+  s.orgId = "org-other";
+  s.userId = "user-other";
+  const { repo, persisted } = fakeRepo([s]);
+  assert.throws(() => createSessionsService(repo).claim("abc", "org-1", "user-1"),
+    (e: unknown) => e instanceof HttpError && e.status === 404);
+  assert.equal(s.orgId, "org-other"); // untouched
+  assert.equal(persisted.length, 0);
+});
+
+test("claim is idempotent when the caller already owns the session", () => {
+  const s = fakeSession("abc");
+  s.orgId = "org-1";
+  s.userId = "user-1";
+  const { repo, persisted } = fakeRepo([s]);
+  const out = createSessionsService(repo).claim("abc", "org-1", "user-1");
+  assert.deepEqual(out, { ok: true, id: "abc" });
+  assert.equal(persisted.length, 0); // nothing to write twice
+});
+
+test("claim 404s an unknown session id", () => {
+  const { repo } = fakeRepo();
+  assert.throws(() => createSessionsService(repo).claim("ghost", "org-1", "user-1"),
     (e: unknown) => e instanceof HttpError && e.status === 404);
 });

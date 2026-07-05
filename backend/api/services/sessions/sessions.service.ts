@@ -184,7 +184,10 @@ function mapForUi(suggestions: unknown[]): UiCandidate[] {
 // the live run's own assembly so the preview can never drift from what actually
 // gets sent (engine honesty). Each returns { label, model, prompt } or throws a
 // 409 when its inputs aren't ready.
-const PREVIEW_ASSEMBLERS: Record<string, (session: Session) => { label: string; model: string; prompt: string }> = {
+const PREVIEW_ASSEMBLERS: Record<
+  string,
+  (session: Session, opts?: { draft?: string }) => { label: string; model: string; prompt: string }
+> = {
   // First stage — inputs are just session.ctx, always present, so no 409 gate.
   FOCUS_POINTS(session) {
     return { label: "Focus points", ...assembleFocusPoints(session.ctx) };
@@ -207,14 +210,17 @@ const PREVIEW_ASSEMBLERS: Record<string, (session: Session) => { label: string; 
     }
     return { label: "Final briefing", ...assembleEvaluation(buildEvaluationInputs(session)) };
   },
-  QUESTIONING(session) {
+  QUESTIONING(session, opts) {
     if (!session.focusPointsResult) {
       throw conflict("Focus points not ready for this stage yet");
     }
-    if (!session.pendingAnswer) {
+    // A draft answer (being typed) stands in for a pending one — that's how the
+    // live "Sending" preview works before submit. Only 409 when there's neither.
+    const draft = opts?.draft;
+    if (typeof draft !== "string" && !session.pendingAnswer) {
       throw conflict("No answer submitted yet — nothing queued for the planner");
     }
-    const { model, prompt } = assemblePlanTurn(buildPlanTurnInputs(session));
+    const { model, prompt } = assemblePlanTurn(buildPlanTurnInputs(session, draft));
     // prompt === null means the planner would take its skip-shortcut: no model
     // call at all. Say so plainly rather than show a prompt that never gets sent.
     return {
@@ -244,7 +250,7 @@ export interface SessionsService {
     terminology: ReturnType<typeof effectiveTerminology>;
     terminologyGroups: ReturnType<typeof terminologyGroups>;
   };
-  preview(id: string, stage?: string): PreviewResult;
+  preview(id: string, stage?: string, draft?: string): PreviewResult;
   question(id: string): QuestionResult;
   // S2 — non-AI writes. start leads: create a session + scripted lane, then fire
   // the (injected) AI pre-warm. Takes the already-read request body record + the
@@ -259,6 +265,9 @@ export interface SessionsService {
   verdict(id: string, body: Record<string, unknown>): VerdictResult;
   selectedFocus(id: string, body: Record<string, unknown>): SelectedFocusResult;
   lexiconDecisions(id: string, body: Record<string, unknown>): LexiconDecisionsResult;
+  // Guest-run Phase 1: hand an OWNERLESS session to the (logged-in) caller. The one
+  // documented crossing of the live-session wall — see the claim implementation.
+  claim(id: string, orgId: string, userId: string): { ok: true; id: string };
   // S3 — AI JSON routes (the model is the injected boundary; deferred paid walk).
   suggestAnswers(id: string): Promise<SuggestAnswersResult>;
   lexiconCandidates(id: string): Promise<LexiconCandidatesResult>;
@@ -302,6 +311,27 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
     create: (ctx, introQueue, orgId, userId) => repo.create(ctx, introQueue, orgId, userId),
     drop: (id) => repo.drop(id),
     persist: (session) => repo.persist(session),
+
+    // Guest-run Phase 1: a guest's finished run becomes the caller's on register/
+    // login. Deliberately resolved via repo.get, NOT requireExisting — the caller
+    // is org-ful and the session ownerless, so the wall would 404 it. This is the
+    // one sanctioned crossing, and it's safe because only an OWNERLESS session can
+    // change hands: a session owned by anyone else answers the same 404 as an
+    // unknown id (anti-probing), and re-claiming your own is a no-op.
+    claim: (id, orgId, userId) => {
+      const s = repo.get(id);
+      if (!s) throw notFound(`Unknown session: ${id}`);
+      const ownedByCaller = (s.orgId ?? null) === orgId && (s.userId ?? null) === userId;
+      if (ownedByCaller) return { ok: true, id: s.id };
+      if ((s.orgId ?? null) !== null || (s.userId ?? null) !== null) {
+        throw notFound(`Unknown session: ${id}`);
+      }
+      s.orgId = orgId;
+      s.userId = userId;
+      repo.persist(s); // ownership must reach the store, not just memory
+      return { ok: true, id: s.id };
+    },
+
     getSnapshot: (id) => snapshot(requireExisting(id)),
     lexiconScope: (id) => ({ eligible: shouldReview(requireExisting(id).ctx) }),
 
@@ -314,12 +344,12 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
       };
     },
 
-    preview: (id, stage) => {
+    preview: (id, stage, draft) => {
       const session = requireExisting(id);
       const resolved = String(stage || inferStage(session)).toUpperCase();
       const assemble = PREVIEW_ASSEMBLERS[resolved];
       if (!assemble) return { stage: resolved, supported: false };
-      const { label, model, prompt } = assemble(session);
+      const { label, model, prompt } = assemble(session, { draft });
       return { stage: resolved, label, model, prompt, preview: true };
     },
 

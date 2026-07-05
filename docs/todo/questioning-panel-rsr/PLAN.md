@@ -23,15 +23,18 @@ that a founder never gets to see). Everything here is **free** — previews make
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Sending, live from your draft | Type → the planner prompt fills in live (kills the "Waiting…" blank) | ⬜ |
-| 2 | Received | Last turn's raw reply, clearly shown on the questioning step | ⬜ |
+| 1 | Sending, live from your draft | Type → the planner prompt fills in live (kills the "Waiting…" blank) | ✅ |
+| 2 | Received | Last turn's raw reply, clearly shown on the questioning step | 🔨 |
 | 3 | Rules | The guardrails view: what's active for this meeting type + what fired last turn | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Plan drafted, awaiting Carl's confirm before Phase 1. Baseline to be captured at Phase 1
-start (free: `npm test` + `npm run typecheck`). No paid runs anywhere — previews are free.
+**Baseline (2026-07-05):** `npm test` 72/72 pass · `npm run typecheck` clean. Free — no API.
+**Phase 1 — Sending live: ✅ DONE.** Carl green-lit 2026-07-05; committed. Draft answer feeds
+a live "Sending" preview (backend `?draft=` → `buildPlanTurnInputs(session, draftAnswer)`;
+frontend debounced draft → store → `stage-data-tab.js`); "Sent" tab renamed "Sending".
+**Phase 2 — Received: 🔨 building now.**
 
 ## Parked
 - Rename applies panel-wide (Sent→Sending, Reply→Received) since the before/after framing

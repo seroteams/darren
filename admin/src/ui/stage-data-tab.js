@@ -113,10 +113,10 @@ function renderPreview(preview) {
 }
 
 function renderSent(stage, preview) {
-  if (!stage) {
-    if (preview && preview.prompt) return renderPreview(preview);
-    return placeholder("Waiting for this stage to run…");
-  }
+  // A preview means "not sent yet" — the before-send text (incl. the live draft on
+  // questioning). It takes precedence: when we have it, that's what "Sending" shows.
+  if (preview && preview.prompt) return renderPreview(preview);
+  if (!stage) return placeholder("Waiting for this stage to run…");
   // Live Q&A: the prompt embeds everything, so show the turn header + the prompt.
   if (stage.turns) {
     const t = latestTurn(stage);
@@ -163,35 +163,45 @@ export function createStageDataController() {
   replyEl.className = "stage-io";
 
   let token = 0;
-  let key = null; // `${sessionId}|${stageKey}|${turn}`
+  let key = null; // `${sessionId}|${stageKey}|${turn}|${draft}`
   let stage = null;
   let preview = null;
+  // Questioning + empty draft: the "Sending" pane invites you to type instead of
+  // showing "Waiting…" — there's genuinely nothing to send until you write something.
+  let qEmptyDraft = false;
 
   function paint() {
-    sentEl.innerHTML = renderSent(stage, preview);
+    sentEl.innerHTML = qEmptyDraft
+      ? placeholder("Start typing your answer above — this fills in live with the exact text we'll send the AI.")
+      : renderSent(stage, preview);
     replyEl.innerHTML = renderReply(stage);
   }
 
-  async function fetchStage(sessionId, stageKey, liveStage, force) {
+  async function fetchStage(sessionId, stageKey, liveStage, draft, baseChanged) {
     const my = ++token;
-    if (force) {
+    const isQ = liveStage === STAGES.QUESTIONING;
+    qEmptyDraft = isQ && !draft;
+    // Only blank to "Loading…" when the stage/turn changed — not on every keystroke
+    // of the draft (that would flicker). A draft-only change repaints in place.
+    if (baseChanged) {
       sentEl.innerHTML = placeholder("Loading…");
       replyEl.innerHTML = placeholder("Loading…");
-    }
-    try {
-      const { stages } = await getRunStages(sessionId);
-      if (my !== token) return;
-      stage = stages.find((s) => s.key === stageKey) || null;
-    } catch {
-      if (my !== token) return;
-      stage = null;
-    }
-    // Not logged yet (live run, stage hasn't fired) → preview what we're about
-    // to send. Skipped once the stage has logged its real send.
-    preview = null;
-    if (!stage) {
       try {
-        const p = await getStagePreview(sessionId, liveStage);
+        const { stages } = await getRunStages(sessionId);
+        if (my !== token) return;
+        stage = stages.find((s) => s.key === stageKey) || null;
+      } catch {
+        if (my !== token) return;
+        stage = null;
+      }
+    }
+    // Questioning shows a LIVE "Sending" preview built from the draft answer as you
+    // type. Other stages preview only before they've logged their real send.
+    preview = null;
+    const wantPreview = isQ ? Boolean(draft) : !stage;
+    if (wantPreview) {
+      try {
+        const p = await getStagePreview(sessionId, liveStage, isQ ? draft : undefined);
         if (my !== token) return;
         if (p && p.prompt) preview = p;
       } catch {
@@ -203,25 +213,30 @@ export function createStageDataController() {
 
   // Called by the rail on every state change and on tab switches. We only do
   // work when an AI tab is showing, so it stays cheap during normal use.
-  function render({ sessionId, stage: liveStage, turn }, activeTab) {
+  function render({ sessionId, stage: liveStage, turn, draftAnswer }, activeTab) {
     if (activeTab !== "sent" && activeTab !== "reply") return;
     const stageKey = STAGE_KEY[liveStage];
     if (!sessionId || !stageKey) {
       stage = null;
       preview = null;
+      qEmptyDraft = false;
       token++; // cancel any in-flight fetch
       sentEl.innerHTML = placeholder("This step doesn't send anything to the AI.");
       replyEl.innerHTML = placeholder("This step doesn't send anything to the AI.");
       key = null;
       return;
     }
-    const nextKey = `${sessionId}|${stageKey}|${turn || 0}`;
+    // The draft only matters on questioning — it's what makes "Sending" live.
+    const draft = liveStage === STAGES.QUESTIONING ? String(draftAnswer || "") : "";
+    const baseKey = `${sessionId}|${stageKey}|${turn || 0}`;
+    const nextKey = `${baseKey}|${draft}`;
     if (nextKey === key) {
       paint();
       return;
     }
+    const baseChanged = key === null || !key.startsWith(`${baseKey}|`);
     key = nextKey;
-    fetchStage(sessionId, stageKey, liveStage, true);
+    fetchStage(sessionId, stageKey, liveStage, draft, baseChanged);
   }
 
   // Copy: grab the nearest block's <pre> text. Delegated on both panes.

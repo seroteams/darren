@@ -58,10 +58,30 @@ export async function getErrorLog() {
   return json(await fetch("/api/v1/admin/errors"));
 }
 
+// The superadmin's cross-company feedback inbox (feedback-inbox). Same gate as
+// getErrorLog — a normal manager gets 401/403 (json() throws). Shape:
+// { notes: [{ id, email, userName, company, page, message, createdAt }] }, newest-first.
+/** @returns {Promise<{ notes?: unknown[] }>} */
+export async function getFeedbackInbox() {
+  return json(await fetch("/api/v1/admin/feedback"));
+}
+
 // Report a client-side error (error-log Phase 3): a browser crash / failed load the app
 // caught. Best-effort — the caller swallows failures. Origin-guarded + rate-limited server-side.
 export async function reportClientError({ message, path }) {
   return postJson("/api/v1/errors", { message, path });
+}
+
+// Mark an error resolved / reopened (error-log Phase 4). Superadmin-only + origin-guarded.
+// Returns { id, resolved }.
+export async function resolveError(id, resolved) {
+  return json(
+    await fetch(`/api/v1/admin/errors/${encodeURIComponent(id)}/resolve`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ resolved }),
+    }),
+  );
 }
 
 // One user's finished 1:1s for the superadmin drilldown (pre-go-live PG8). Same gate as
@@ -299,9 +319,14 @@ export async function getRunStages(id) {
 // Preview the exact payload the current stage is about to send to the model —
 // assembled with zero API calls. Returns null when there's no session (404) or
 // the stage's inputs aren't ready yet (409), so callers fall back gracefully.
-export async function getStagePreview(sessionId, stage) {
-  const q = stage ? `?stage=${encodeURIComponent(stage)}` : "";
-  const res = await fetch(`/api/v1/sessions/${encodeURIComponent(sessionId)}/preview${q}`);
+export async function getStagePreview(sessionId, stage, draft) {
+  const params = new URLSearchParams();
+  if (stage) params.set("stage", stage);
+  // A draft answer (being typed) drives the live "Sending" preview for questioning.
+  // Sent even when empty so the server can answer "nothing to send yet" honestly.
+  if (typeof draft === "string") params.set("draft", draft);
+  const qs = params.toString();
+  const res = await fetch(`/api/v1/sessions/${encodeURIComponent(sessionId)}/preview${qs ? `?${qs}` : ""}`);
   if (res.status === 404 || res.status === 409) return null;
   return json(res);
 }

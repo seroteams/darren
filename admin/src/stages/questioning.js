@@ -164,6 +164,16 @@ export async function mount(root, { store, setState }) {
     if (prefill) ta.value = prefill;
     setTimeout(() => ta.focus({ preventScroll: true }), 260);
 
+    // Feed the answer draft to the store (debounced) so the right-rail "Sending"
+    // tab shows the exact planner prompt live, filling in as you type. Seed it once
+    // now to cover a prefilled/back-nav answer.
+    setState({ draftAnswer: ta.value });
+    let draftTimer = null;
+    ta.addEventListener("input", () => {
+      clearTimeout(draftTimer);
+      draftTimer = setTimeout(() => setState({ draftAnswer: ta.value }), 250);
+    });
+
     ta.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
@@ -280,6 +290,7 @@ export async function mount(root, { store, setState }) {
       if (submitting) return;
       const val = text.trim();
       submitting = true;
+      setState({ draftAnswer: "" }); // answer's leaving the box — stop previewing it as "Sending"
       let result;
       try {
         result = await submitAnswer(store.sessionId, val, { answerSource, alias: q.alias });

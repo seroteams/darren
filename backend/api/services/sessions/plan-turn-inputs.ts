@@ -9,11 +9,18 @@
 import { getSessionSelectedFocus } from "../../selected-focus.ts";
 import type { Session, TranscriptEntry } from "../../../shared/session.types.ts";
 
-function buildPlanTurnInputs(session: Session) {
+// draftAnswer (optional): the answer the manager is typing but hasn't submitted.
+// When given, it stands in for a pending answer so the live "Sending" preview can
+// show the exact planner prompt as they type — before submit. Falls back to the
+// real pendingAnswer when no draft is passed.
+function buildPlanTurnInputs(session: Session, draftAnswer?: string) {
   if (!session.focusPointsResult) {
     throw Object.assign(new Error("Focus points not ready"), { status: 409 });
   }
-  const pending = session.pendingAnswer;
+  const pending =
+    typeof draftAnswer === "string"
+      ? { raw: draftAnswer, text: draftAnswer, skipped: false }
+      : session.pendingAnswer;
   if (!pending) {
     throw Object.assign(new Error("No answer submitted yet — nothing queued for the planner"), { status: 409 });
   }

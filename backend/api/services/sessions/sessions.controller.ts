@@ -11,7 +11,11 @@
 // router's `import * as sessions` keeps resolving every handler (repo-tidy Phase 3).
 
 import type { RequestContext } from "../../router.ts";
-import { service, sessionId, writeId, callerFence, assertOwner } from "./session-runtime.ts";
+import { service, sessionId, writeId, assertOwner } from "./session-runtime.ts";
+import { guestCap } from "./guest-cap.ts";
+import { buildIdentity } from "../../middleware/request-context.ts";
+import { requireAdmin, requireAuth } from "../../middleware/require-auth.ts";
+import { unauthenticated } from "../../middleware/http-error.ts";
 import { asRecord } from "../../../shared/guards.ts";
 
 // The live pipeline streams (focus-points / preparation / bank / evaluation / plan).
@@ -42,7 +46,7 @@ export async function roleProfile(c: RequestContext): Promise<void> {
 export async function preview(c: RequestContext): Promise<void> {
   const id = sessionId(c);
   await assertOwner(c, id);
-  c.json(200, service.preview(id, c.query.stage));
+  c.json(200, service.preview(id, c.query.stage, c.query.draft));
 }
 
 // GET /api/v1/sessions/:id/question  ·  GET /api/question?s=<id>
@@ -56,11 +60,28 @@ export async function question(c: RequestContext): Promise<void> {
 // Creates a session (the origin guard + per-IP rate limit live in server.ts, as
 // today). 201 with the new session's id/dir/createdAt/introQueueLen. The run is
 // stamped with the caller's company (the data wall, Phase 007/2) so its history
-// is fenced to that company; an anonymous caller (no cookie) stamps null.
+// is fenced to that company. Two lanes (guest-run Phase 1):
+//  - anonymous (no cookie): allowed, stamps null owner, but spends the shared
+//    daily guest budget (429 with a plain message when today's runs are used up);
+//  - logged-in: admins/managers only, uncapped — a plain member is still a real
+//    403 (member-view: only-runs), not just hidden UI.
 export async function start(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
-  const { orgId, userId } = await callerFence(c);
-  c.json(201, service.start(body, orgId, userId));
+  const identity = await buildIdentity(c.req);
+  if (identity.userId === null) guestCap.take();
+  else requireAdmin(identity);
+  c.json(201, service.start(body, identity.orgId, identity.userId));
+}
+
+// POST /api/v1/sessions/:id/claim — a logged-in caller (any role) takes ownership
+// of an OWNERLESS (guest) session, e.g. right after registering at the end of a
+// guest run. The service enforces that only ownerless sessions change hands.
+export async function claim(c: RequestContext): Promise<void> {
+  const id = sessionId(c);
+  const identity = await buildIdentity(c.req);
+  requireAuth(identity);
+  if (!identity.userId || !identity.orgId) throw unauthenticated(); // narrows the types; requireAuth already threw for real anons
+  c.json(200, service.claim(id, identity.orgId, identity.userId));
 }
 
 // POST /api/v1/sessions/:id/answer  ·  POST /api/answer   (202, as today)
