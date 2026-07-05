@@ -72,6 +72,13 @@ const STYLE = `
   .arc-edit__msg { font-size:.95rem; }
   .arc-edit__msg--err { color:var(--sero-rose-700, #b4232a); }
   .arc-edit__spacer { margin-left:auto; }
+
+  /* --- page-level "check for changes" action --- */
+  .arc-update { display:flex; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap; }
+  .arc-update__msg { font-size:.95rem; color:var(--color-ink-dim); }
+  .arc-update__msg--ok { color:var(--sero-green-700, #1f7a4d); }
+  .arc-update__msg--err, .arc-update__msg--warn { color:var(--sero-rose-700, #b4232a); }
+  .arc-update__time { font-size:.9rem; color:var(--color-ink-mute, var(--color-ink-dim)); }
 </style>`;
 
 const CHEV = `<svg class="arc-card__chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>`;
@@ -82,6 +89,8 @@ const open = new Set();
 let editingSlug = null;
 let draft = null; // working copy of the arc being edited
 let resultHost = null;
+let updateMsgEl = null; // status line next to the page-level Update button
+let updateTimeEl = null; // "Last checked …" stamp next to the Update button
 
 export async function mount(root) {
   arcs = [];
@@ -98,6 +107,11 @@ export async function mount(root) {
         <div class="text-ink-dim text-sm max-w-measure">
           The phases each 1:1 moves through, with the tone they're asked in and the patterns to avoid. Open any meeting to see its shape, or hit Edit to change it. Edits are saved separately from the code — "Reset to default" undoes them.
         </div>
+        <div class="arc-update">
+          <button type="button" class="arc-btn arc-btn--primary" id="arc-update-btn">Update</button>
+          <span class="arc-update__msg" id="arc-update-msg" role="status" aria-live="polite"></span>
+          <span class="arc-update__time" id="arc-update-time"></span>
+        </div>
       </header>
       <div class="thinking-host min-h-[60px] flex items-center text-ink-mute">Loading meeting arcs…</div>
       <div class="result-host l-stack l-stack--4"></div>
@@ -106,6 +120,9 @@ export async function mount(root) {
 
   const thinkingHost = root.querySelector(".thinking-host");
   resultHost = root.querySelector(".result-host");
+  updateMsgEl = root.querySelector("#arc-update-msg");
+  updateTimeEl = root.querySelector("#arc-update-time");
+  root.querySelector("#arc-update-btn").addEventListener("click", checkForUpdates);
 
   if (!(await load())) {
     thinkingHost.textContent = "Couldn't load meeting arcs — try again in a moment.";
@@ -132,6 +149,69 @@ async function load() {
     console.warn("[meeting-arcs] fetch failed:", e);
     return false;
   }
+}
+
+// A stable string of everything shown for one arc, so we can tell whether the
+// system's copy changed since we last loaded it.
+function arcFingerprint(a) {
+  return JSON.stringify({
+    label: a.label,
+    edited: Boolean(a.edited),
+    tone: a.tone_register || "",
+    anti: a.anti_patterns || [],
+    arc: (a.arc || []).map((p) => [p.id, p.label, p.intent, p.target_questions]),
+  });
+}
+
+function setUpdateMsg(text, kind) {
+  if (!updateMsgEl) return;
+  updateMsgEl.textContent = text;
+  updateMsgEl.className = "arc-update__msg" + (kind ? ` arc-update__msg--${kind}` : "");
+}
+
+function stampLastChecked() {
+  if (!updateTimeEl) return;
+  const t = new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  updateTimeEl.textContent = `Last checked ${t}`;
+}
+
+// Re-pull the arcs from the server and report what (if anything) moved since the
+// page was last loaded — so the view can be kept current without leaving it.
+async function checkForUpdates() {
+  if (editingSlug) {
+    setUpdateMsg("Finish or cancel your edit first, then Update.", "warn");
+    return;
+  }
+  setUpdateMsg("Checking…", "");
+
+  const prevPrints = new Map(arcs.map((a) => [a.slug, arcFingerprint(a)]));
+  const prevLabels = new Map(arcs.map((a) => [a.slug, a.label]));
+
+  if (!(await load())) {
+    setUpdateMsg("Couldn't reach the server — try again in a moment.", "err");
+    return;
+  }
+  renderAll();
+
+  const changed = [];
+  const added = [];
+  for (const a of arcs) {
+    if (!prevPrints.has(a.slug)) added.push(a.label);
+    else if (prevPrints.get(a.slug) !== arcFingerprint(a)) changed.push(a.label);
+  }
+  const liveSlugs = new Set(arcs.map((a) => a.slug));
+  const removed = [...prevLabels.entries()]
+    .filter(([slug]) => !liveSlugs.has(slug))
+    .map(([, label]) => label);
+
+  const bits = [];
+  if (changed.length) bits.push(`${changed.length} changed (${changed.join(", ")})`);
+  if (added.length) bits.push(`${added.length} added (${added.join(", ")})`);
+  if (removed.length) bits.push(`${removed.length} removed (${removed.join(", ")})`);
+
+  if (!bits.length) setUpdateMsg("Up to date — nothing changed.", "ok");
+  else setUpdateMsg(`Refreshed — ${bits.join("; ")}.`, "ok");
+  stampLastChecked();
 }
 
 function renderAll() {
