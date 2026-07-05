@@ -1,6 +1,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createHeartbeatService, isScreenFile, headerLine } from "./heartbeat.service.ts";
+import {
+  createHeartbeatService,
+  isScreenFile,
+  headerLine,
+  planTitle,
+  countPhases,
+  currentState,
+} from "./heartbeat.service.ts";
 import type { HeartbeatRepo } from "./heartbeat.repo.ts";
 
 // A fake repo returns canned reads — proving the service's shaping (filtering,
@@ -12,9 +19,33 @@ function fakeRepo(over: Partial<HeartbeatRepo> = {}): HeartbeatRepo {
     scriptNames: () => ["dev", "test"],
     axesRaw: () => ({ axes: [{ id: "wellbeing", label: "Wellbeing" }] }),
     questionCountRaw: () => ({ count: 4234 }),
+    todoSlugs: () => [],
+    doneSlugs: () => [],
+    planText: () => "",
     ...over,
   };
 }
+
+const PLAN_SAMPLE = [
+  "# Page heartbeat — real UPDATE buttons",
+  "",
+  "## Phases",
+  "| # | Phase | What it lands | Status |",
+  "|---|---|---|---|",
+  "| 1 | Heartbeat endpoint | the endpoint | ✅ |",
+  "| 2 | Universe ring | the ring | 🔨 |",
+  "| 3 | Tasks board | the check | ⬜ |",
+  "",
+  "⬜ not started · 🔨 in progress · ✅ done (tested)",
+  "",
+  "## Current state",
+  "**Phase 1 ✅ — walked + green-lit by Carl.** Next: Phase 2.",
+  "",
+  "Extra paragraph that should be ignored.",
+  "",
+  "## Parked",
+  "- something",
+].join("\n");
 
 const BUILD = () => ({ build: "abc1234", committedAt: "2026-07-05T00:00:00Z", bootedAt: "x" });
 
@@ -97,4 +128,57 @@ test("snapshot drops malformed axis entries but keeps good ones", () => {
     BUILD
   );
   assert.deepEqual(svc.snapshot().axes, [{ id: "growth", label: "Growth" }]);
+});
+
+test("planTitle takes the first heading, falls back to the slug", () => {
+  assert.equal(planTitle(PLAN_SAMPLE, "page-heartbeat"), "Page heartbeat — real UPDATE buttons");
+  assert.equal(planTitle("no heading here\n", "my-slug"), "my-slug");
+});
+
+test("countPhases tallies status rows and ignores the legend line", () => {
+  assert.deepEqual(countPhases(PLAN_SAMPLE), { done: 1, inProgress: 1, total: 3 });
+});
+
+test("countPhases returns zeroes when there's no status table", () => {
+  assert.deepEqual(countPhases("# Plan\n\nJust prose, no table.\n"), { done: 0, inProgress: 0, total: 0 });
+});
+
+test("currentState returns the first paragraph under the heading, as plain text", () => {
+  assert.equal(
+    currentState(PLAN_SAMPLE),
+    "Phase 1 ✅ — walked + green-lit by Carl. Next: Phase 2."
+  );
+  assert.equal(currentState("# Plan\n\nno current-state section\n"), "");
+});
+
+test("snapshot composes the todos view from the plan folders", () => {
+  const svc = createHeartbeatService(
+    fakeRepo({
+      todoSlugs: () => ["page-heartbeat", "empty-plan"],
+      doneSlugs: () => ["old-thing", "auth"],
+      planText: (slug) => (slug === "page-heartbeat" ? PLAN_SAMPLE : ""),
+    }),
+    BUILD
+  );
+  const { todos } = svc.snapshot();
+  assert.deepEqual(todos.done, ["auth", "old-thing"]);
+  assert.equal(todos.active.length, 2);
+  // active is sorted by slug, so "empty-plan" comes before "page-heartbeat".
+  // A folder with no/unreadable PLAN.md degrades gracefully to the slug + zeroes.
+  assert.deepEqual(todos.active[0], {
+    slug: "empty-plan",
+    title: "empty-plan",
+    done: 0,
+    inProgress: 0,
+    total: 0,
+    state: "",
+  });
+  assert.deepEqual(todos.active[1], {
+    slug: "page-heartbeat",
+    title: "Page heartbeat — real UPDATE buttons",
+    done: 1,
+    inProgress: 1,
+    total: 3,
+    state: "Phase 1 ✅ — walked + green-lit by Carl. Next: Phase 2.",
+  });
 });

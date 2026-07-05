@@ -18,12 +18,14 @@ changes" button only covers build + meeting types + arcs — the rest of the pag
 |---|---|---|---|
 | 1 | Heartbeat endpoint + Guide goes live | `GET /api/v1/heartbeat` (screens, commands, axes, question count, build) + Guide sections render from it; UPDATE = refresh + plain-words changelog | ✅ |
 | 2 | Universe honest ring | Pipeline ring derived from the app's real flow stages; Update reports added/removed/renamed stages | ⬜ |
-| 3 | Tasks board reality check | "Check board" reports what landed since last check (commits, plan folders) and flags stale-looking rows | ⬜ |
+| 3 | Tasks board reality check | **Re-aimed at the planner** (build board was removed): "Update from docs" syncs auto-managed "Docs" cards from `docs/todo/` — lists what it checks, animates add/update/move/remove | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ — walked + green-lit by Carl 2026-07-05 ("ALL GOOD"); code committed `4e4ea787`. Next: Phase 2 (Universe ring), waiting for Carl's go on a fresh session/day.**
+**Phase 3 🔨 built 2026-07-05 (jumped ahead of Phase 2 because Carl asked for the /tasks Update button directly) — awaiting his walk. Re-aimed at the planner after the build board was removed the same day; option A (Update only touches its own "Docs" cards). Backend `todos` view + 5 tests green (heartbeat 13/13), both typechecks clean; frontend add-path + overlay verified live, update/move/remove logic-verified. Phase 2 (Universe ring) still ⬜.**
+
+Phase 1 ✅ — walked + green-lit by Carl 2026-07-05 ("ALL GOOD"); code committed `4e4ea787`.
 
 Phase 1 detail (for the record):
 - Landed: `backend/api/services/heartbeat/` (repo + service + controller + 8 tests), route `GET /api/v1/heartbeat` (admin-gated), `getHeartbeat()` in shared/api.js, guide.js Screens + Commands sections now render live + the UPDATE button diffs screens/commands/axes/question count on top of build/types/arcs.
