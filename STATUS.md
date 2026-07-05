@@ -9,6 +9,13 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
+> **🔨 NEW TRACK: [design-system](docs/todo/design-system/PLAN.md) — Sero × Flowbite (started 2026-07-05).**
+> Carl confirmed the Sero look is **Flowbite 2.5.2 + his colours** (the Figma is the Flowbite kit recoloured).
+> Building: a one-page component sheet (`admin/public/sero-flowbite/index.html`) in Sero colours, then an
+> auto-loaded root `DESIGN.md` so every future screen matches. No re-skin of existing screens (incremental
+> adoption). UI-idea folders (`newdesign*`, `newui`, `sero-original`) already removed; stale `dist` remnant
+> cleaned. Phase 1 next: the component sheet → your eyeball vs Figma.
+
 > **🔨 [user-management](docs/todo/user-management/PLAN.md) Phase 2 — change a user's role: BUILT + unit-tested + COMMITTED (`ac0359a7`), awaiting Carl's walk (2026-07-05).**
 > Backend: `PATCH /api/v1/admin/users/:id/role` — superadmin-gated + origin-guarded, validates the role,
 > **blocks demoting a company's last manager/admin** (409), and audits every attempt (success/blocked/failed +
@@ -61,7 +68,12 @@ QA sheets:
 [PG9](docs/pre-go-live/009-roster-polish/99-qa-signoff.md).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No hosting. Budget used ~$0.35/$3.
 
-> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-05: user-management **Phase 2 (change role) built + tested + COMMITTED `ac0359a7`** (needs an API restart to walk); Phase 1 committed; briefing-grounding-fixes closed out to done/ (`3d339e47`); PG8 closed, PG9 built-awaiting-close.
+> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-05 — **full-save commit before the
+> design-system build**: whole working tree committed (incl. in-flight `universe.ts` WIP, new runtime questions,
+> autostart scripts, hide-ai-words / error-log / test-engine-hub folders). UI-idea prototype folders gone from
+> `admin/public/`; stale `dist/sero-original` cleaned (gitignored). Also standing: user-management **Phase 2
+> built + COMMITTED `ac0359a7`** (needs an API restart to walk); PG8 closed, PG9 built-awaiting-close.
+> **New active track: design-system (Sero × Flowbite)** — Phase 1 (component sheet) building next.
 > In any fresh session, say **"check point"** and I'll read this file + the PROGRESS log + recent
 > commits and give you the full "where we are, your move" picture — no digging needed.
 
