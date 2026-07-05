@@ -2,6 +2,11 @@
    rewrites of design.css can't clobber it (which is exactly what happened once). Uses the
    global CDS tokens defined in design.css :root, with fallbacks on the structural props. */
 
+/* Top-align this page (the stage defaults to place-items:center, which re-centers — jumps —
+   the content whenever a filter changes the row count). The stage's own padding keeps a clean
+   space at the top; horizontal centring is preserved. */
+.stage.el-stage { place-items: start center; }
+
 /* The table sits on its own white card so it reads as a distinct surface on the tinted page. */
 .el-panel {
   background: var(--color-surface, #fff);

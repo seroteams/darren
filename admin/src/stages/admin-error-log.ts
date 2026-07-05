@@ -135,6 +135,7 @@ function segbar(group: string, active: string, opts: ReadonlyArray<{ key: string
 }
 
 export const mount: Mount = async (root) => {
+  root.classList.add("el-stage"); // top-align this page so filter switches don't jump it (see error-log.css)
   const shell = (inner: string) =>
     `<div class="l-container l-container--wide l-stack l-stack--6">
       <header class="page-header">
