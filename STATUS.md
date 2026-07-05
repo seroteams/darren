@@ -9,6 +9,42 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
+> **⬜ [guest-run](docs/todo/guest-run/PLAN.md) — NEW plan set up 2026-07-05, awaiting your read-through before Phase 1.**
+> Your "open way first" idea: a visitor with no account clicks **"Try it — no account needed"** on the login
+> screen, runs a full 1:1, and after the briefing is asked *"Want to keep this?"* — register/log in and the
+> run becomes theirs. Guest runs stay **ownerless** (not inside your org); you watch them on a new superadmin
+> **Guest runs** screen; a **daily cap** (default 10/day) protects the OpenAI budget on top of the per-IP limit.
+> 4 phases: ① backend claim + cap · ② guest lane front door · ③ save-at-end + claim wiring (ONE paid walk,
+> ~$0.35–0.60, waits for your go) · ④ superadmin Guest runs screen. Board note: the old "anonymous-start —
+> close before widening" decision is consciously reversed for invited demos (Phase 1 writes the reversal note).
+> **Walk:** read [PLAN.md](docs/todo/guest-run/PLAN.md) + the 4 phase files. Green light → baseline (free) + Phase 1.
+
+> **🔨 [no-inference-ruling](docs/todo/no-inference-ruling/PLAN.md) — MoSCoW review done, Phase 1 BUILT, awaiting your read (2026-07-05).**
+> Reviewed [the prompt-improvement spec](docs/sero-prompt-improvement-spec.md) against the real code. Big find:
+> the spec's "highest risk" field `disengagementSignal` **doesn't exist** — the live one is `engagement_read`,
+> and it *does* carry the state labels the ruling bans. The prompts are already mostly compliant; the real gap
+> is the **three unbuilt gates** (INFERRED_STATE_LEAK · THIN_INPUT_SUPPRESSION · EVIDENCE_ANCHOR). 4 phases:
+> ① fix the spec + training-ban rule (**built** — spec now points at `engagement_read`, honest about the 8-case
+> test set; CLAUDE.md §6 has the "never train on manager notes" rule) · ② the three gates · ③ `engagement_read`
+> re-spec (one paid case, ~$0.35, your go) · ④ hardening. Routing nudges parked. Baseline `npm test` **69/70**
+> (the one fail is another session's mid-work `scenario-pack.test.ts`, pre-existing). **Walk:** the 3 read-through
+> scenarios in [phase-1.md](docs/todo/no-inference-ruling/phase-1.md). Green light → commit + Phase 2.
+
+> **🔨 [frontend-admin-split](docs/todo/frontend-admin-split/PLAN.md) — RESTARTED on the Darren check (2026-07-05): Phase 2 BUILT, awaiting your walk.**
+> The customer app is now **real**: `npm run dev:customer` → **http://localhost:3002** — login/register,
+> the manager rail (Home · New 1:1 · Team · Past 1:1s), the whole prep flow, member screens — and **no
+> internal tools anywhere** (`/universe`, `/tasks`, `/admin/*` don't exist there; bundle grep shows zero
+> internal-tool code). Admin app on :3000 untouched. Free checks: customer build ✓ · `npm test` 69/69 ·
+> typecheck ✓ · admin build ✓. **Walk:** the 4 scenarios in the PLAN's "Current state". Green light →
+> commit + Phase 3 (slim the admin app), then Phase 4 (serve + fence = the deferred security bundle-proof).
+> Phases 3–4 wait for your go — one at a time.
+
+> **📄 [GTM validation one-pager](docs/gtm-validation-plan.md) — DRAFTED (2026-07-05), needs your names.**
+> The corridor-test plan Darren asked for: who the first 2–3 friendly managers are (criteria + a blank
+> table for your names), how to run the corridor test (watch, don't demo; leave them alone a week), what
+> to watch for, and the pass bar — a **second unprompted prep within ~2 weeks**. Review it, fill in the
+> three names, done — that item goes from F to real.
+
 > **🔨 [manager-ready](docs/todo/manager-ready/PLAN.md) — Phase 1 ✅ green-lit + committed · Phase 2 BUILT, awaiting walk (2026-07-05).**
 > **P1 ✅ ("looks good continue"):** managers get their own rail — **Home · New 1:1 · Team · Past 1:1s** — and
 > bounce off internal tools; admin + member rails untouched; 69/69 tests.
@@ -60,14 +96,13 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > screens follow it; no bulk re-skin. Parked follow-ups (in the archived PLAN): inline-hex cleanup in 8 files,
 > dropdown/progress/error consolidation, ⭐ states batch (empty/loading/tabs/toggles) on the sheet.
 
-> **🔨 [error-log](docs/todo/error-log/PLAN.md) — NEW track (started 2026-07-05). Phase 1 ✅ · Phase 2 built.**
-> A superadmin **Error log** screen: every error any user hits, across **your local dev and the published live
-> Sero** (one Neon, each row tagged **Local / Live**), newest first. **Phase 0 + Phase 1 ✅** — the `error_logs`
-> table is live on Neon and every API 5xx records one row (secret-safe; proven live then cleaned up; committed `4a3f03fb`).
-> **Phase 2 built — awaiting your walk (committed `a15af8b1`):** the **Error log** screen + superadmin-only nav item
-> + `GET /api/v1/admin/errors`. `npm test` **66/66**, typechecks + admin build clean; read path verified live against
-> Neon. ⚠️ **Restart the API server**, then log in → **Error log** (empty until a real 500 hits). **Next: Phase 3 —
-> browser crashes.** Phases 3–4 ⬜.
+> **✅ [error-log](docs/todo/done/error-log/PLAN.md) — CLOSED 2026-07-05 (all 5 phases, green-lit "yes can close").**
+> The superadmin **Error log** is live: backend 500s + browser crashes/failed loads land in one Neon table, on a
+> screen with **Local/Live + API/Browser** filters, click-through **detail** (stack), **mark-resolved**, and
+> `npm run errors:purge`; white card + row hover, top-aligned so filter switches don't jump. Carl walked it +
+> green-lit; demo rows cleared. Commits `4a3f03fb` `a15af8b1` `52145f05` `96ee8cf9` `30ad405b` `5313fbdd` `a6f67a2b`.
+> Folder moved to `done/`. Also added: per-session **git worktrees** (`scripts/new-worktree.ps1` + `docs/PARALLEL-SESSIONS.md`)
+> after concurrent sessions co-mingled a commit + wiped this screen's CSS once.
 >
 > **🔨 [user-management](docs/todo/user-management/PLAN.md) Phase 3 — deactivate / reactivate a user: STARTING (2026-07-05).**
 > Nullable `deactivatedAt` on `users` + `POST …/deactivate` & `…/reactivate`; login must reject deactivated users;
@@ -206,7 +241,7 @@ untouched, dev Admin/Standard quick-swap works. Phase 2 (Real Runs) has backend 
 open member-nav work. **Update 2026-07-05: that open work shipped via pre-go-live PG1–5, so the folder is
 closed** → [docs/todo/done/member-nav/](docs/todo/done/member-nav/PLAN.md) (live-data-cleanup Phase 4).
 
-- Last updated: 2026-07-04
+- Last updated: 2026-07-05 (guest-run plan set up, awaiting Carl's read · no-inference-ruling Phase 1 built · frontend-admin-split Phase 2 built · GTM one-pager drafted)
 
 ---
 
