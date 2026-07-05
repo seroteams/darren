@@ -1,6 +1,6 @@
 # Phase 4 — Consolidation: three pages become one (free)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built + browser-verified 2026-07-05; awaiting Carl's walk
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done 2026-07-05
 
 ## Goal
 The nav slims down: "Test engine" is the one entry; the free safety check lives on that page; Compare opens pre-loaded from a persona's history.
@@ -17,8 +17,8 @@ The nav slims down: "Test engine" is the one entry; the free safety check lives 
 ## Done when
 - [x] `npm test` green (67/67), typecheck clean, admin build ✓
 - [x] Browser-verified 2026-07-05: nav shows only "Test engine" (no Regression/Compare rows); safety strip resolves ("7 still good") with Re-check; "Compare with previous run" opens `/compare` pre-loaded with both runs (diff auto-rendered); old `/regression` falls back to home, no crash
-- [ ] Product owner has tested the scenarios below and said go
-- [ ] Folder moves to `docs/todo/done/` after the green light (plan complete — note Phase 3 still needs Carl's one paid run)
+- [x] Product owner has tested the scenarios below and said go — 2026-07-05
+- [x] Folder moves to `docs/todo/done/` after the green light (plan complete)
 
 ## Test scenarios — for the product owner
 Walk through these yourself.
