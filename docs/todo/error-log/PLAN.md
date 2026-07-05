@@ -25,27 +25,26 @@ Two patterns already exist and we reuse them:
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 0 | Baseline + schema check | Read-only: confirm DB/migration path, lock the `error_logs` columns + capture scope, baseline `npm test` — go/no-go | ✅ |
-| 1 | Store + catch backend errors | `error_logs` table + migration; write one row on every API 5xx at `v1Route` (+ legacy router). Redacts secrets, never blocks the response | 🔨 |
-| 2 | The Error log screen | Superadmin-only page + nav item (mirrors User management); read endpoint; the table, newest first | ⬜ |
+| 1 | Store + catch backend errors | `error_logs` table + migration; write one row on every API 5xx at `v1Route` (+ legacy router). Redacts secrets, never blocks the response | ✅ |
+| 2 | The Error log screen | Superadmin-only page + nav item (mirrors User management); read endpoint; the table, newest first | 🔨 |
 | 3 | Catch browser errors too | Global crash handler + failed-fetch reporter in the app → blank-screen crashes + failed loads land in the log, tagged with the screen | ⬜ |
 | 4 | Detail + tidy-up | Row-click detail (stack, request info); filters + "mark resolved"; auto-purge old rows | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 0 ✅ closed + Phase 1 built (2026-07-05) — awaiting Carl's Phase 1 QA walk.** Baseline before the build: `npm test` 62/62; after: **65/65** green, typecheck clean. (Phase 0's detail — migration path, locked columns, secret-safety — lives in [phase-0.md](phase-0.md).)
+**Phase 1 ✅ signed off + Phase 2 built (2026-07-05) — awaiting Carl's Phase 2 QA walk.** Phase 1 was proven live (a real error wrote a correct, tagged, secret-safe row to Neon, then cleaned up) and Carl green-lit it. Committed: Phase 1 `4a3f03fb`, Phase 2 `a15af8b1`. (Phase 0/1 detail lives in [phase-0.md](phase-0.md)/[phase-1.md](phase-1.md).)
 
-**Phase 1 — built, verified offline, NOT yet signed off:**
-- **Table live on Neon.** `error_logs` added to [schema.ts](../../../backend/db/schema.ts); migration `0004_nifty_iron_monger.sql` generated + applied to Neon; **verified by direct query** (14 columns, `org_id`/`user_id` nullable, 3 indexes, 0 rows).
-- **Capture wired at both catch points** — [error-log.ts](../../../backend/api/middleware/error-log.ts) (pure `errorLogEntry` builder + `logApiError` sink, mirrors superadmin-audit.ts) called from [v1-route.ts](../../../backend/api/middleware/v1-route.ts) (all v1 5xx) and [router.ts](../../../backend/api/router.ts) (legacy 5xx). Fire-and-forget; `console.error` kept as the backstop.
-- **Environment tag** stamped local vs production by `resolveEnvironment()` (APP_ENV/SERO_ENV override, else NODE_ENV).
-- **Secret-safe:** identity + method + path + status + code + message + stack only; the dev side-door's non-uuid identity is nulled so the FK never breaks (email still carries who).
-- **Tested:** new [error-log.test.ts](../../../backend/api/middleware/error-log.test.ts) 7/7 (builder redaction, uuid-guard, env resolve, no-throw-without-DB). Full suite **65/65**, typecheck clean.
-- **Not committed** — awaiting Carl's QA (green light = commit). Phase 0 docs committed separately.
+**Phase 2 — built, verified offline + live-read against Neon, NOT yet signed off:**
+- **The screen:** [admin-error-log.ts](../../../admin/src/stages/admin-error-log.ts) — the table (Where[env] · When · Who · Route+source · What · Status), newest first, Local/Live + API/Browser pills, loading / empty / error states, 14px floor.
+- **Nav item** "Error log" (superadmin-only, Admin group) + full wiring — [app-nav.js](../../../admin/src/ui/app-nav.js), [router.js](../../../admin/src/router.js) (`/admin/errors` + ADMIN_ONLY gate), [state.js](../../../admin/src/state.js), [main.js](../../../admin/src/main.js).
+- **Read endpoint** `GET /api/v1/admin/errors` (superadminV1-gated — the 403 is the real wall) → a dedicated [error-log service/repo/controller](../../../backend/api/services/error-log/) (its own module so Phase 4's mutations don't touch superadmin's read-only invariant). The repo LEFT JOINs users + orgs for name + company; anonymous rows survive. Newest 200.
+- **Verified:** `npm test` **66/66**, backend + admin typecheck clean, admin build OK. The pg leftJoin was **verified live against Neon** — a real user's row joined to name + company, an anonymous row kept null who, newest-first, both cleaned up.
+- **To QA (Carl):** ⚠️ **restart the API server first** (the running :3001 predates the new `/admin/errors` route). Then log in → nav **Error log** → the screen loads. It's empty now ("nothing's broken"); trigger a real 500 to watch a row appear (or I can seed one).
 
-**Next:** Carl walks the Phase 1 scenarios (trigger a real error → the tagged row appears; normal use writes nothing; a 4xx writes none). On his go → commit Phase 1 → Phase 2 (the screen + nav).
+**Next:** Phase 3 — catch browser crashes / failed loads too.
 
-**Parallel track:** [user-management](../user-management/PLAN.md) Phase 2 is still open; Carl chose to run this alongside it.
+**Parallel track:** several other Claude sessions are active in this repo (user-management P3, mobile-responsive, page-heartbeat, design-system) — my commits are scoped to error-log files only.
 
 ## Parked
 - **⚠️ Follow-up flagged (NOT this plan):** the existing **audit log, feedback, and run logs** all write to **local disk** (`content/data/…`). Same wipe-on-deploy risk once Sero is hosted — worth moving to the DB (or persistent storage) before real customers. Raised 2026-07-05 during this decision; belongs in the going-live track, not here.
