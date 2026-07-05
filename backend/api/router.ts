@@ -1,6 +1,7 @@
 import { URL } from "node:url";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { isObjectRecord } from "../shared/guards.ts";
+import { logApiError } from "./middleware/error-log.ts";
 
 const MAX_BODY_BYTES = 1_000_000; // 1 MB cap on request bodies to prevent memory exhaustion
 
@@ -88,10 +89,13 @@ function createRouter() {
     res.end(body);
   }
 
-  function sendError(res: ServerResponse, err: unknown): void {
+  function sendError(res: ServerResponse, err: unknown, req?: IncomingMessage): void {
     const status = (isObjectRecord(err) && typeof err.status === "number" ? err.status : 0) || 500;
     const msg = (isObjectRecord(err) && typeof err.message === "string" ? err.message : "") || "Internal error";
-    if (status >= 500) console.error("[api]", err);
+    if (status >= 500) {
+      console.error("[api]", err);
+      void logApiError(req, err, status); // fire-and-forget → error_logs (error-log Phase 1)
+    }
     sendJson(res, status, { error: msg });
   }
 
@@ -110,12 +114,12 @@ function createRouter() {
       params: hit.params,
       readBody: () => readBody(req),
       json: (status, data) => sendJson(res, status, data),
-      error: (err) => sendError(res, err),
+      error: (err) => sendError(res, err, req),
     };
     try {
       await hit.handler(ctx);
     } catch (e) {
-      sendError(res, e);
+      sendError(res, e, req);
     }
   }
 

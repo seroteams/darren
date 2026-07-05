@@ -29,6 +29,13 @@
       "when": 1783200000000,
       "tag": "0003_role_admin_manager_member",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1783230976869,
+      "tag": "0004_nifty_iron_monger",
+      "breakpoints": true
     }
   ]
 }

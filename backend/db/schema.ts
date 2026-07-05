@@ -12,7 +12,7 @@
 // Scope: this phase only DESCRIBES the tables. Nothing reads or writes them yet —
 // the repo swap is Phase 3, the live DB + docker-compose is Phase 4.
 
-import { pgTable, pgEnum, uuid, text, timestamp, jsonb, index, uniqueIndex } from "drizzle-orm/pg-core";
+import { pgTable, pgEnum, uuid, text, integer, timestamp, jsonb, index, uniqueIndex } from "drizzle-orm/pg-core";
 
 /** Fixed sets as enums (locked rule: roles / invite status are enums, not free text). */
 export const userRole = pgEnum("user_role", ["admin", "manager", "member"]);
@@ -127,4 +127,38 @@ export const authSessions = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [index("auth_sessions_org_id_idx").on(t.orgId), index("auth_sessions_user_id_idx").on(t.userId)],
+);
+
+/** Error log (error-log Phase 1). One row per captured error so the superadmin Error
+ *  log screen can show what broke — across Carl's local dev and the published live Sero
+ *  (the `environment` tag). Deliberately looser than the tenant tables: `org_id` /
+ *  `user_id` are NULLABLE because anonymous / pre-login errors still record; they carry
+ *  an FK + index all the same. Never stores a secret — identity + route + status +
+ *  message + stack only (see api/middleware/error-log.ts). */
+export const errorSource = pgEnum("error_source", ["api", "browser"]);
+export const errorEnvironment = pgEnum("error_environment", ["local", "production"]);
+
+export const errorLogs = pgTable(
+  "error_logs",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id").references(() => organizations.id),
+    userId: uuid("user_id").references(() => users.id),
+    email: text("email"),
+    environment: errorEnvironment("environment").notNull(),
+    source: errorSource("source").notNull(),
+    method: text("method"),
+    path: text("path").notNull(),
+    status: integer("status"),
+    errorCode: text("error_code"),
+    message: text("message").notNull(),
+    details: jsonb("details"),
+    resolvedAt: timestamp("resolved_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index("error_logs_org_id_idx").on(t.orgId),
+    index("error_logs_user_id_idx").on(t.userId),
+    index("error_logs_created_at_idx").on(t.createdAt),
+  ],
 );
