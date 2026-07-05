@@ -32,7 +32,6 @@ const PATH_FOR = {
   [STAGES.LIBRARY]:        () => "/library",
   [STAGES.ROLE_LEXICONS]:  () => "/job-lexicons",
   [STAGES.MEETING_ARCS]:   () => "/meeting-arcs",
-  [STAGES.REGRESSION]:     () => "/regression",
   [STAGES.PERSONAS]:       () => "/personas",
   [STAGES.GUIDE]:          () => "/guide",
   [STAGES.TASKS]:          () => "/tasks",
@@ -54,7 +53,7 @@ const STAGE_FOR = {
   "/evaluate": STAGES.EVAL, "/briefing": STAGES.BRIEFING, "/debrief": STAGES.RUN_DEBRIEF,
   "/lexicon": STAGES.LEXICON_REVIEW, "/compare": STAGES.COMPARE, "/library": STAGES.LIBRARY,
   "/job-lexicons": STAGES.ROLE_LEXICONS, "/meeting-arcs": STAGES.MEETING_ARCS,
-  "/regression": STAGES.REGRESSION, "/personas": STAGES.PERSONAS, "/guide": STAGES.GUIDE,
+  "/personas": STAGES.PERSONAS, "/guide": STAGES.GUIDE,
   "/tasks": STAGES.TASKS, "/universe": STAGES.UNIVERSE,
   "/admin/registered": STAGES.ADMIN_REGISTERED,
   "/admin/errors": STAGES.ADMIN_ERROR_LOG,
@@ -66,7 +65,7 @@ export const isFlowStage = (stage) => FLOW.has(stage);
 
 // Screens reserved for owners/admins — the internal tooling + the run-history dashboard
 // (admin-access-guard Phase 2). A member deep-linking here is bounced to the prep flow.
-const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE, STAGES.REGRESSION,
+const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE,
   STAGES.PERSONAS, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
   STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
   STAGES.ADMIN_ERROR_LOG]);

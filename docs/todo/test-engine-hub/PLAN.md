@@ -22,16 +22,16 @@ Full background + architecture: the approved plan (2026-07-05, in Claude's plan 
 | 1 | Persona-run job service | `POST /api/v1/persona-runs` + `GET .../current` with job state (fake runner) + run-history rows gain personaId/mode | free | ✅ walked (delegated) 2026-07-05 |
 | 2 | The runner | The real stage loop driving the engine end-to-end with scripted answers (offline-tested with injected fakes) | free | 🔨 built, awaiting walk |
 | 3 | Hub UI + first real run | ▶ Run button, progress, history badges on the Personas page; Carl clicks one real run | ~$0.35 | 🔨 UI built + render-verified; awaiting Carl's paid run |
-| 4 | Consolidation | Safety-check strip on the hub, nav slims to one entry, Compare deep-links from history | free | ⬜ |
+| 4 | Consolidation | Safety-check strip on the hub, nav slims to one entry, Compare deep-links from history | free | 🔨 built + verified, awaiting walk |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 3 UI 🔨 built + render-verified 2026-07-05, awaiting Carl's one paid run (~$0.35) + walk. Phases 1 ✅ · 2 ✅ (built, committed in checkpoints).**
-- Phase 3 built: Personas page is now the "Test engine" hub — ▶ Run per card with the cost line stated up front, 2s polling with live stage/turn progress, one-run-at-a-time lock, "Review it"/"See result" into the 8-dimension grid, and a last-run verdict badge per persona. Two client helpers added to shared/api.js.
-- Browser-verified on a throwaway Vite instance: h1 "Test engine", 12 cards, 12 Run buttons, cost lines, 6 history badges, **no console errors**. Deliberately did NOT click Run — the ~$0.35 is Carl's go-ahead.
-- Checks: **`npm test` 67/67 · typecheck clean · admin build ✓**.
-- Left for Carl's walk: click ▶ Run on one persona, watch progress, review at /run/:id, confirm the badge updates. Then Phase 4 (consolidation, free).
+**All 4 phases BUILT. Phase 4 🔨 built + browser-verified 2026-07-05. The ONLY thing left in the whole plan is Carl's one paid run (~$0.35) in Phase 3 — everything else is done + verified.** Phases 1 ✅ · 2 ✅ (committed in checkpoints).
+- Phase 3 (hub UI): Personas → "Test engine" hub — ▶ Run per card with the cost line up front, 2s polling with live stage/turn progress, one-run-at-a-time lock, "Review it"/"See result" into the 8-dimension grid, last-run verdict badge per persona. (Render-verified; did NOT click Run — that ~$0.35 is Carl's.)
+- Phase 4 (consolidation): safety-check strip on the hub (summary + Re-check + failing rows only), nav slimmed to one "Test engine" entry (Regression + Compare rows gone, regression.js deleted), Compare kept as a page and deep-linked from a persona's history ("Compare with previous run" → both runs pre-loaded). Browser-verified all four scenarios incl. old `/regression` → home.
+- Checks after Phase 4: **`npm test` 67/67 · typecheck clean · admin build ✓.**
+- **Carl's remaining walk:** on Test engine, click ▶ Run on one persona (~$0.35), watch progress, "Review it" → mark the 8 dimensions, confirm the badge updates; try the safety strip's Re-check and "Compare with previous run". Green light → move the folder to done/.
 
 Earlier phases:
 - Phase 2 baseline: `npm test` 65/65 green (other tracks had landed since Phase 1's 62) · typecheck clean.

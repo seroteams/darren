@@ -39,7 +39,6 @@ const loaders = {
   LIBRARY:         () => import("./stages/library.js"),
   ROLE_LEXICONS:   () => import("./stages/job-lexicons.js"),
   MEETING_ARCS:    () => import("./stages/meeting-arcs.js"),
-  REGRESSION:      () => import("./stages/regression.js"),
   PERSONAS:        () => import("./stages/personas.js"),
   REVIEW_RUN:      () => import("./stages/review-run.js"),
   GUIDE:           () => import("./stages/guide.js"),
@@ -82,7 +81,7 @@ async function refreshRegressionAlert(data) {
   try {
     const d = data || await runRegression();
     const s = d?.summary || {};
-    appNav.setAlert("regression", (s.regressed || 0) + (s.error || 0) > 0);
+    appNav.setAlert("personas", (s.regressed || 0) + (s.error || 0) > 0);
   } catch { /* API unreachable — leave the dot off */ }
 }
 

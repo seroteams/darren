@@ -62,9 +62,10 @@ const LINKS = [
   { key: "home", label: "Home", stage: STAGES.START, icon: ICON.home, admin: true, group: "Sessions" },
   { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new, admin: true, group: "Sessions" },
   { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library, admin: true, group: "Sessions" },
-  { key: "compare", label: "Compare runs", stage: STAGES.COMPARE, icon: ICON.compare, admin: true, group: "Sessions" },
-  { key: "regression", label: "Regression", stage: STAGES.REGRESSION, icon: ICON.regression, admin: true, group: "Sessions" },
-  { key: "personas", label: "Personas", stage: STAGES.PERSONAS, icon: ICON.personas, admin: true, group: "Sessions" },
+  // Compare + Regression folded into the Test engine hub (test-engine-hub Phase 4):
+  // Compare is reached from a persona's run history; the safety check is a strip on
+  // the hub. Compare's page/route stays; only its nav rows are gone.
+  { key: "personas", label: "Test engine", stage: STAGES.PERSONAS, icon: ICON.personas, admin: true, group: "Sessions" },
   { key: "lexicon", label: "Coaching phrases", stage: STAGES.LEXICON_REVIEW, icon: ICON.lexicon, admin: true, group: "Engine" },
   { key: "joblex", label: "Role words", stage: STAGES.ROLE_LEXICONS, icon: ICON.joblex, admin: true, group: "Engine" },
   { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs, admin: true, group: "Engine" },
@@ -186,7 +187,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     },
     library: () => setState && setState({ stage: STAGES.LIBRARY }),
     compare: () => setState && setState({ stage: STAGES.COMPARE }),
-    regression: () => setState && setState({ stage: STAGES.REGRESSION }),
     personas: () => setState && setState({ stage: STAGES.PERSONAS }),
     lexicon: () => setState && setState({ stage: STAGES.LEXICON_REVIEW }),
     joblex: () => setState && setState({ stage: STAGES.ROLE_LEXICONS }),
@@ -221,8 +221,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.RUNS]: "runs",
     [STAGES.INTAKE]: "new",
     [STAGES.LIBRARY]: "library",
-    [STAGES.COMPARE]: "compare",
-    [STAGES.REGRESSION]: "regression",
+    [STAGES.COMPARE]: "personas",
     [STAGES.PERSONAS]: "personas",
     [STAGES.LEXICON_REVIEW]: "lexicon",
     [STAGES.ROLE_LEXICONS]: "joblex",

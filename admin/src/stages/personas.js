@@ -26,7 +26,7 @@ export function unmount() {
   }
 }
 
-export async function mount(root) {
+export async function mount(root, opts = {}) {
   root.innerHTML = `
     <div class="stage-medium l-stack l-stack--8">
       <header class="page-header">
@@ -36,10 +36,13 @@ export async function mount(root) {
           The demo people Sero practises on. Press <strong>Run</strong> on anyone to put the whole engine through its paces with their scripted answers, then review the result.
         </div>
       </header>
+      <div class="safety-strip-host"></div>
       <div class="thinking-host min-h-[60px] flex items-center text-ink-mute">Loading personas…</div>
       <div class="result-host l-stack l-stack--3"></div>
     </div>
   `;
+
+  mountSafetyStrip(root.querySelector(".safety-strip-host"), opts);
 
   const thinkingHost = root.querySelector(".thinking-host");
   const resultHost = root.querySelector(".result-host");
@@ -61,10 +64,11 @@ export async function mount(root) {
     suiteIds = new Set((reg.cases || []).map((c) => c.id));
   } catch { /* badge is best-effort */ }
 
-  // Last finished run per persona, for the history line + verdict badge. Optional.
-  let lastRunByPersona = new Map();
+  // Finished runs per persona (newest first), for the history line + verdict badge
+  // + "compare with previous". Optional.
+  let runsByPersona = new Map();
   try {
-    lastRunByPersona = await loadLastRunByPersona();
+    runsByPersona = await loadRunsByPersona();
   } catch { /* history line is best-effort */ }
 
   thinkingHost.remove();
@@ -73,7 +77,7 @@ export async function mount(root) {
     return;
   }
   resultHost.innerHTML = personas
-    .map((p) => cardHtml(p, suiteIds.has(p.id), lastRunByPersona.get(p.id)))
+    .map((p) => cardHtml(p, suiteIds.has(p.id), runsByPersona.get(p.id) || []))
     .join("");
 
   wireCards(resultHost, personas);
@@ -85,21 +89,24 @@ export async function mount(root) {
   } catch { /* nothing running / not reachable */ }
 }
 
-// Newest finished run per persona id, from the org's finished runs (which now
-// carry personaId + review badge inputs). Manual runs (no personaId) are ignored.
-async function loadLastRunByPersona() {
+// Finished runs grouped by persona id (newest first), from the org's finished
+// runs (which now carry personaId + review badge inputs). Manual runs (no
+// personaId) are ignored.
+async function loadRunsByPersona() {
   const res = await getFinishedRuns();
   const runs = Array.isArray(res.runs) ? res.runs : [];
   const byPersona = new Map();
   for (const r of runs) {
     if (!r || !r.personaId) continue;
-    const prev = byPersona.get(r.personaId);
-    if (!prev || (r.lastSeenAt || 0) > (prev.lastSeenAt || 0)) byPersona.set(r.personaId, r);
+    const list = byPersona.get(r.personaId) || [];
+    list.push(r);
+    byPersona.set(r.personaId, list);
   }
+  for (const list of byPersona.values()) list.sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0));
   return byPersona;
 }
 
-function cardHtml(p, inSuite, lastRun) {
+function cardHtml(p, inSuite, runs) {
   const title = esc(p.displayName || p.name || p.id);
   const sub = [p.role, p.seniority].filter(Boolean).map(esc).join(" · ");
   const meta = [p.meeting_type, p.issue].filter(Boolean).map(esc).join(" · ");
@@ -133,7 +140,7 @@ function cardHtml(p, inSuite, lastRun) {
         <div style="font-size:var(--type-small,14px);color:var(--color-ink-mute,#6b7280);">${sub}</div>
       </div>
       <div style="font-size:var(--type-small,14px);color:var(--color-ink-dim,#4b5563);margin-top:2px;">${meta}</div>
-      ${historyHtml(lastRun)}
+      ${historyHtml(runs)}
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;">
         ${runControls}
         <span class="js-cost text-ink-mute" style="font-size:var(--type-small,14px);">${canRun ? COST_LINE : ""}</span>
@@ -143,15 +150,23 @@ function cardHtml(p, inSuite, lastRun) {
     </div>`;
 }
 
-// The last-run line: date + verdict badge + a link into the review screen.
-function historyHtml(lastRun) {
-  if (!lastRun) return "";
+// The last-run line: date + verdict badge + a link into the review screen, and —
+// when the persona has 2+ runs — a link into Compare, pre-loaded with the two
+// newest side by side.
+function historyHtml(runs) {
+  if (!runs || !runs.length) return "";
+  const lastRun = runs[0];
   const badge = libraryBadge(lastRun.reviewStatus, lastRun.overall);
+  const compareBtn =
+    runs.length >= 2
+      ? `<button class="btn btn--ghost btn--sm js-compare" data-a="${esc(runs[0].id)}" data-b="${esc(runs[1].id)}">Compare with previous run</button>`
+      : "";
   return `
     <div class="js-history" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:var(--type-small,14px);margin-top:6px;">
       <span class="text-ink-mute">Last run ${esc(fmtDate(lastRun.lastSeenAt))}</span>
       <span class="lib-badge lib-badge--${badge.tone}">${esc(badge.label)}</span>
       <button class="btn btn--ghost btn--sm js-see-result" data-run="${esc(lastRun.id)}">See result</button>
+      ${compareBtn}
     </div>`;
 }
 
@@ -171,6 +186,70 @@ function wireCards(resultHost, personas) {
   resultHost.querySelectorAll(".js-see-result").forEach((btn) => {
     btn.addEventListener("click", () => setState({ stage: STAGES.REVIEW_RUN, reviewRunId: btn.dataset.run }));
   });
+  resultHost.querySelectorAll(".js-compare").forEach((btn) => {
+    btn.addEventListener("click", () =>
+      setState({ stage: STAGES.COMPARE, compareA: btn.dataset.a, compareB: btn.dataset.b })
+    );
+  });
+}
+
+// The free safety check (no AI), lifted from the old Regression page as a compact
+// strip: a one-line summary + Re-check + only the failing rows (a clean run stays
+// quiet). Keeps the nav alert dot in sync via the injected callback.
+async function mountSafetyStrip(host, opts) {
+  if (!host) return;
+  host.innerHTML = `
+    <div class="card" style="padding:0.6rem 0.9rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <div style="font-size:var(--type-small,14px);">
+          <strong>Free safety check</strong> <span class="text-ink-mute">(no AI)</span>
+          — <span class="js-safety-summary text-ink-mute">checking…</span>
+        </div>
+        <button class="btn btn--ghost btn--sm js-safety-recheck" type="button" disabled>Re-check</button>
+      </div>
+      <div class="js-safety-fails l-stack l-stack--2" style="margin-top:6px;"></div>
+    </div>`;
+
+  const summaryEl = host.querySelector(".js-safety-summary");
+  const recheckBtn = host.querySelector(".js-safety-recheck");
+  const failsEl = host.querySelector(".js-safety-fails");
+
+  async function check() {
+    recheckBtn.disabled = true;
+    summaryEl.textContent = "checking…";
+    let data;
+    try {
+      data = await runRegression();
+    } catch {
+      summaryEl.textContent = "couldn't run the check — is the API running?";
+      recheckBtn.disabled = false;
+      return;
+    }
+    const s = data?.summary || {};
+    const cases = Array.isArray(data?.cases) ? data.cases : [];
+    const needs = s.regressed || 0;
+    const errs = s.error || 0;
+    summaryEl.innerHTML =
+      `${s.ok || 0} still good` +
+      (needs ? ` · <strong style="color:var(--color-negative);">${needs} need${needs === 1 ? "s" : ""} a look</strong>` : "") +
+      (errs ? ` · ${errs} error` : "") +
+      ` · last checked ${esc(new Date().toLocaleTimeString())}`;
+    // Only the problem rows — a clean run stays quiet.
+    const bad = cases.filter((c) => c.status !== "ok");
+    failsEl.innerHTML = bad
+      .map(
+        (c) =>
+          `<div style="font-size:var(--type-small,14px);color:var(--color-negative);">✗ ${esc(c.name || c.id)}${
+            (c.reasons || []).length ? " — " + esc(c.reasons[0]) : ""
+          }</div>`
+      )
+      .join("");
+    opts?.refreshRegressionAlert?.(data); // keep the nav dot in sync, no extra fetch
+    recheckBtn.disabled = false;
+  }
+
+  recheckBtn.addEventListener("click", check);
+  await check();
 }
 
 async function onRun(resultHost, personaId, personas) {

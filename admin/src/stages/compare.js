@@ -1,4 +1,4 @@
-import { STAGES } from "../state.js";
+import { STAGES, store } from "../state.js";
 import { listRecentRuns, getRunFull, suggestFix, postVerdict } from "../../../shared/api.js";
 import { escapeHtml as escape } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
@@ -80,6 +80,29 @@ export async function mount(root, { setState }) {
       err.hidden = false;
     }
   });
+
+  // Deep-link from a persona's run history (test-engine-hub Phase 4): two run ids
+  // pre-selected → load them straight away. The ids may be older than the recent-20
+  // list, so inject an option if it isn't already there (getRunFull fetches by id).
+  if (store.compareA && store.compareB) {
+    ensureOption(selA, store.compareA);
+    ensureOption(selB, store.compareB);
+    selA.value = store.compareA;
+    selB.value = store.compareB;
+    setState({ compareA: null, compareB: null }); // consume so a later manual visit is clean
+    syncLoad();
+    loadBtn.click();
+  }
+}
+
+// Add a bare <option> for a run id the recent list didn't include, so a deep-linked
+// selection sticks. Labeled with the id (the diff header still shows full metadata).
+function ensureOption(sel, id) {
+  if ([...sel.options].some((o) => o.value === id)) return;
+  const opt = document.createElement("option");
+  opt.value = id;
+  opt.textContent = id;
+  sel.appendChild(opt);
 }
 
 // ---- run summary helpers ----
