@@ -4,10 +4,17 @@ The rounded square with two bars and two dots is **the Sero logo**. It is the on
 official mark. Don't redraw it, restretch it, recolour it outside the palette below,
 or add effects. Use these files as-is.
 
-## The master
+## The source of truth
 
-`sero-brandmark-charcoal.svg` — charcoal tile (#333333), white marks. This is the
-default logo; reach for it unless you have a reason to use another colour.
+`sero-brandmark-source.svg` — the **original master artwork**, exactly as supplied
+(charcoal #333333 tile, white marks, 280×280). This is the reference every other file
+is derived from. Don't edit it; if the mark ever changes, replace this file and
+regenerate the versions below from it.
+
+## The default
+
+`sero-brandmark-charcoal.svg` — same artwork with an `aria-label`. This is the day-to-day
+logo; reach for it unless you have a reason to use another colour.
 
 ## Colour versions (all from our design tokens)
 
