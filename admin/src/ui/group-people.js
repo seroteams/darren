@@ -33,21 +33,42 @@ export function canonicalKeyOf(name, aliases) {
   return resolveKey(aliases && aliases.merges, personKeyOf(name));
 }
 
+// people-roster Phase 4: the canonical key for one run — its personId (resolved through
+// the roster's id-merges, so a run stamped with a since-merged person folds onto the
+// canonical card) when the run carries one, the alias-resolved name-key otherwise.
+// Exported so the person page filters runs on the exact same key the grouping uses.
+export function runKeyOf(run, aliases, roster) {
+  const personId = String(run?.personId ?? "").trim();
+  if (personId) return resolveKey(roster && roster.merges, personId);
+  return canonicalKeyOf(run?.ctx?.name ?? "", aliases);
+}
+
 // A run flagged `finished: false` is a started-but-unfinished prep (Team-for-managers):
 // it puts the person on the Team (openCount) but doesn't count as a meeting — count,
 // lastMet and the rating stay finished-only. Rows without the flag count as before.
-export function groupRunsByPerson(runs, aliases) {
-  const merges = (aliases && aliases.merges) || {};
+// `roster` ({ people, merges } from /team/people) keys stamped runs on the roster
+// identity and lets the roster row's name/role win over the runs' free-text snapshots.
+export function groupRunsByPerson(runs, aliases, roster) {
   const names = (aliases && aliases.names) || {};
+  const rosterById = new Map(((roster && roster.people) || []).map((p) => [p.id, p]));
   const map = new Map();
   for (const r of runs || []) {
     const name = String(r?.ctx?.name ?? "").trim();
     if (!name) continue; // a run with no person name can't be grouped
     const finished = r?.finished !== false;
-    const key = resolveKey(merges, personKeyOf(name));
+    const key = runKeyOf(r, aliases, roster);
     let p = map.get(key);
     if (!p) {
-      p = { key, name, role: String(r?.ctx?.role ?? ""), count: 0, openCount: 0, lastMet: 0, lastSeen: 0, starSum: 0, ratedCount: 0 };
+      const rosterRow = rosterById.get(key);
+      p = {
+        key,
+        personId: rosterRow ? key : String(r?.personId ?? "").trim() || null,
+        rosterName: rosterRow ? String(rosterRow.name ?? "") : "",
+        rosterRole: rosterRow ? String(rosterRow.role ?? "") : "",
+        name,
+        role: String(r?.ctx?.role ?? ""),
+        count: 0, openCount: 0, lastMet: 0, lastSeen: 0, starSum: 0, ratedCount: 0,
+      };
       map.set(key, p);
     }
     const seen = Number(r?.lastSeenAt) || 0;
@@ -71,8 +92,11 @@ export function groupRunsByPerson(runs, aliases) {
     .sort((a, b) => b.lastSeen - a.lastSeen) // newest activity first — met or just prepped
     .map((p) => ({
       key: p.key,
-      name: names[p.key] || p.name, // an explicit rename wins over the first-seen name
-      role: p.role,
+      personId: p.personId,
+      // The roster row's name/role are the truth for stamped cards; an alias rename
+      // wins for legacy name-keyed cards; else the run's own snapshot.
+      name: p.rosterName || names[p.key] || p.name,
+      role: p.rosterRole || p.role,
       count: p.count,
       openCount: p.openCount,
       lastMet: p.lastMet,

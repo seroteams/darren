@@ -66,7 +66,7 @@ export const mount: Mount = async (root, { setState }) => {
 
   const startOneOnOne = () => {
     store.scripted = null;
-    Object.assign(store.ctx, { name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" });
+    Object.assign(store.ctx, { personId: null, name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" });
     setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
   };
 

@@ -295,6 +295,27 @@ export async function renamePerson(key, name) {
   return postJson("/api/v1/team/rename", { key, name });
 }
 
+// People roster (people-roster Phase 4): the manager's formal list of their reports.
+// Manager/admin only (members 403). listPeople returns { people, merges } — merges maps
+// a merged-away person id to its canonical head, so runs stamped with the old id still
+// fold onto the right card. Rename/merge write the roster rows themselves (the alias
+// endpoints above stay for legacy name-keyed cards only).
+export async function listPeople() {
+  return json(await fetch("/api/v1/team/people"));
+}
+export async function renamePersonById(id, name) {
+  return json(
+    await fetch(`/api/v1/team/people/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name }),
+    }),
+  );
+}
+export async function mergePeopleById(id, intoId) {
+  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/merge`, { intoId });
+}
+
 // Dev-only "prefill a run" (admin-only server-side). clonable = every finished run on
 // disk to seed from; cloneRun copies one into a fresh run the caller owns (lands in
 // their /mine). Free — all file copies, no OpenAI. Shapes: { runs: [...] } and { id }.

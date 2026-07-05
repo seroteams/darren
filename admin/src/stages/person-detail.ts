@@ -7,11 +7,11 @@
 // pipeline from there spends, same as starting any 1:1).
 
 import { STAGES, store } from "../state.js";
-import { listMyRuns, getMyRun, getTeamAliases } from "../../../shared/api.js";
+import { listMyRuns, getMyRun, getTeamAliases, listPeople } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
-import { groupRunsByPerson, canonicalKeyOf } from "../ui/group-people.js";
+import { groupRunsByPerson, runKeyOf } from "../ui/group-people.js";
 import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
@@ -20,10 +20,12 @@ type MyRun = {
   headline: string;
   ctx: { name: string; role: string; seniority: string; meetingType: string };
   lastSeenAt: number;
+  personId?: string | null;
   rating: { stars: number } | null;
 };
 type Person = {
   key: string;
+  personId: string | null;
   name: string;
   role: string;
   count: number;
@@ -31,6 +33,7 @@ type Person = {
   ratedCount: number;
   avgStars: number | null;
 };
+type Roster = { people: Array<{ id: string; name: string; role: string | null; seniority: string | null }>; merges: Record<string, string> };
 type NextAction = { when?: string; action?: string };
 type Briefing = { next_actions?: NextAction[]; watch_for?: string[] } | null;
 
@@ -121,11 +124,18 @@ export const mount: Mount = async (root, { setState }) => {
 
   let runs: MyRun[];
   let aliases: { merges: Record<string, string>; names: Record<string, string> };
+  let roster: Roster = { people: [], merges: {} };
   try {
-    const [res, aliasRes] = await Promise.all([listMyRuns(), getTeamAliases().catch(() => ({}))]);
+    const [res, aliasRes, rosterRes] = await Promise.all([
+      listMyRuns(),
+      getTeamAliases().catch(() => ({})),
+      listPeople().catch(() => ({ people: [], merges: {} })), // members/errors → name-key fallback
+    ]);
     runs = Array.isArray(res?.runs) ? (res.runs as MyRun[]) : [];
     const a = aliasRes as Partial<typeof aliases>;
     aliases = { merges: a?.merges || {}, names: a?.names || {} };
+    const ro = rosterRes as Partial<Roster>;
+    roster = { people: Array.isArray(ro?.people) ? ro.people : [], merges: ro?.merges || {} };
   } catch {
     root.querySelector(".js-host")!.innerHTML = notice(
       "Couldn't load",
@@ -135,11 +145,12 @@ export const mount: Mount = async (root, { setState }) => {
     return;
   }
 
-  // Group + filter on the SAME canonical key the Team uses, so a merged person's page
-  // collects every 1:1 that folded into them (and shows their renamed name).
-  const person = (groupRunsByPerson(runs, aliases) as Person[]).find((p) => p.key === key);
+  // Group + filter on the SAME canonical key the Team uses (personId when stamped,
+  // alias-resolved name-key otherwise), so a merged person's page collects every 1:1
+  // that folded into them (and shows their renamed name).
+  const person = (groupRunsByPerson(runs, aliases, roster) as Person[]).find((p) => p.key === key);
   const mine = runs
-    .filter((r) => canonicalKeyOf(r?.ctx?.name ?? "", aliases) === key)
+    .filter((r) => runKeyOf(r, aliases, roster) === key)
     .sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0));
 
   if (!person || mine.length === 0) {
@@ -181,9 +192,20 @@ export const mount: Mount = async (root, { setState }) => {
   });
   // "Prep next 1:1" — seed a fresh intake with this person and open the form. Seeding is
   // free; only running the full pipeline from intake spends (same as starting any 1:1).
+  // A roster-backed person also seeds personId + their stored seniority, so the new run
+  // lands on the same roster row (people-roster Phase 4).
   root.querySelector(".js-prep")?.addEventListener("click", () => {
     store.scripted = null;
-    Object.assign(store.ctx, { name: person.name, role: person.role, seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" });
+    const rosterRow = person.personId ? roster.people.find((p) => p.id === person.personId) : null;
+    Object.assign(store.ctx, {
+      personId: person.personId || null,
+      name: person.name,
+      role: person.role,
+      seniority: rosterRow?.seniority || "",
+      meetingType: "",
+      meetingTypeIndex: null,
+      notes: "",
+    });
     setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
   });
 };

@@ -39,7 +39,10 @@ function resolveCanonical(rows: PersonRow[], id: string): string {
 }
 
 export interface PeopleService {
-  list(orgId: string, managerId: string): Promise<{ people: PersonRow[] }>;
+  /** Active roster (merged/archived excluded, name-sorted) plus a resolved id-merges
+   *  map (mergedRowId → canonical head id) so clients can fold runs that were stamped
+   *  with a since-merged personId onto the right card. */
+  list(orgId: string, managerId: string): Promise<{ people: PersonRow[]; merges: Record<string, string> }>;
   create(
     orgId: string,
     managerId: string,
@@ -79,7 +82,11 @@ export function createPeopleService(repo: PeopleRepo = pgPeopleRepo): PeopleServ
       const active = rows
         .filter(isActive)
         .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
-      return { people: active };
+      const merges: Record<string, string> = {};
+      for (const r of rows) {
+        if (r.mergedIntoId) merges[r.id] = resolveCanonical(rows, r.id);
+      }
+      return { people: active, merges };
     },
 
     async create(orgId, managerId, input) {

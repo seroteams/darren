@@ -25,8 +25,8 @@ Carl picked: build the real thing. Managers get a roster of people; 1:1s link to
 |---|---|---|
 | 1 | [people table + roster service (backend only)](phase-1.md) | ✅ green-lit 2026-07-05 ("b GO", walk waived — live proof stands) |
 | 2 | [new runs carry personId](phase-2.md) | ✅ green-lit 2026-07-05 ("go", walk waived — live proof stands) |
-| 3 | [backfill existing runs + fold in aliases](phase-3.md) | 🔨 BUILT + RUN — awaiting walk |
-| 4 | [manager UI: person picker + roster-driven Team page](phase-4.md) | ⬜ |
+| 3 | [backfill existing runs + fold in aliases](phase-3.md) | ✅ green-lit 2026-07-06 ("A go") |
+| 4 | [manager UI: person picker + roster-driven Team page](phase-4.md) | 🔨 BUILT — awaiting walk |
 | 5 | [member link + "Your 1:1s"](phase-5.md) | ⬜ |
 
 ## Current state
@@ -34,8 +34,9 @@ Carl picked: build the real thing. Managers get a roster of people; 1:1s link to
 - 2026-07-05: plan approved by Carl (option B — "1:1s about me").
 - **Phase 1 ✅ green-lit 2026-07-05 ("b GO" — walk waived by Carl, live proof stands).** Commit `4a762779`.
 - **Phase 2 ✅ green-lit 2026-07-05 ("go" — walk waived).** Commit `30218597`.
-- **Phase 3 BUILT + RUN — awaiting Carl's walk** (details in phase-3.md): 20 people created, 27 runs stamped, 7 orphans (deleted owners) honestly skipped; idempotent re-run proven; verified at the store. 78/78 tests.
-- Next after green light: Phase 4 (intake person picker + roster-driven Team page).
+- **Phase 3 ✅ green-lit 2026-07-06 ("A go").** 20 people, 27 runs stamped, 7 orphans skipped honestly.
+- **Phase 4 BUILT — awaiting Carl's walk** (details + browser proof in phase-4.md): intake person picker, roster-driven Team/person pages, Tidy-up writes the people table. 79/79 tests.
+- Next after green light: Phase 5 (member link + "Your 1:1s") — the payoff phase.
 
 ## ⚠️ Privacy decision (flagged, not silently decided)
 

@@ -5,7 +5,7 @@
 // one (their history + average combine). Distinct from the admin Library (admin-only).
 
 import { STAGES, store } from "../state.js";
-import { listMyRuns, getTeamAliases, mergePeople, renamePerson } from "../../../shared/api.js";
+import { listMyRuns, getTeamAliases, mergePeople, renamePerson, listPeople, renamePersonById, mergePeopleById } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
@@ -15,6 +15,7 @@ import type { Mount, Unmount } from "./stage.types.ts";
 
 type Person = {
   key: string;
+  personId: string | null; // roster row id when the runs are stamped (people-roster Phase 4)
   name: string;
   role: string;
   count: number;
@@ -24,6 +25,7 @@ type Person = {
   avgStars: number | null;
 };
 type Aliases = { merges: Record<string, string>; names: Record<string, string> };
+type Roster = { people: Array<{ id: string; name: string; role: string | null }>; merges: Record<string, string> };
 
 // Local one-use time-ago (mirrors runs.ts) — four lines, so no shared util for one caller.
 function metaLine(p: Person): string {
@@ -52,10 +54,13 @@ function personCard(p: Person): string {
 
 // The same person in "Tidy up" mode: not a nav button, but a card with a rename control and
 // a "merge into…" picker listing every OTHER person. Choosing a target merges immediately.
+// Roster-backed cards (personId) write the people table; legacy name-keyed cards keep the
+// alias endpoints — so the picker only offers same-kind targets (the two stores can't merge
+// into each other).
 function personEditRow(p: Person, all: Person[]): string {
   const role = p.role ? `<span class="text-ink-dim"> · ${escapeHtml(p.role)}</span>` : "";
   const options = all
-    .filter((o) => o.key !== p.key)
+    .filter((o) => o.key !== p.key && Boolean(o.personId) === Boolean(p.personId))
     .map((o) => `<option value="${escapeHtml(o.key)}">${escapeHtml(o.name)}</option>`)
     .join("");
   const mergeControl = options
@@ -77,6 +82,7 @@ function personEditRow(p: Person, all: Person[]): string {
 
 export const mount: Mount = async (root, { setState }) => {
   let aliases: Aliases = { merges: {}, names: {} };
+  let roster: Roster = { people: [], merges: {} };
   let people: Person[] = [];
   let editing = false;
   let runsCache: unknown[] = [];
@@ -93,7 +99,7 @@ export const mount: Mount = async (root, { setState }) => {
 
   const startOneOnOne = () => {
     store.scripted = null;
-    Object.assign(store.ctx, { name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" });
+    Object.assign(store.ctx, { personId: null, name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" });
     setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
   };
 
@@ -136,12 +142,23 @@ export const mount: Mount = async (root, { setState }) => {
     });
   };
 
+  // Roster-backed cards write the people table; legacy name-keyed cards keep the aliases.
   const doRename = async (key: string, current: string) => {
-    const next = window.prompt(`Rename this person (leave blank to reset to the auto name):`, current);
+    const card = people.find((p) => p.key === key);
+    const isRoster = Boolean(card?.personId);
+    const next = window.prompt(
+      isRoster ? "Rename this person:" : "Rename this person (leave blank to reset to the auto name):",
+      current,
+    );
     if (next === null) return; // cancelled
     try {
-      aliases = (await renamePerson(key, next.trim())) as Aliases;
-      people = groupRunsByPerson(runsCache, aliases) as Person[];
+      if (isRoster) {
+        await renamePersonById(key, next.trim());
+        roster = (await listPeople()) as Roster;
+      } else {
+        aliases = (await renamePerson(key, next.trim())) as Aliases;
+      }
+      people = groupRunsByPerson(runsCache, aliases, roster) as Person[];
       renderPeople();
     } catch {
       window.alert("Couldn't rename — please try again.");
@@ -151,13 +168,19 @@ export const mount: Mount = async (root, { setState }) => {
   const doMerge = async (fromKey: string, fromName: string, intoKey: string) => {
     if (!intoKey) return;
     const target = people.find((p) => p.key === intoKey);
+    const from = people.find((p) => p.key === fromKey);
     if (!window.confirm(`Merge "${fromName}" into "${target?.name ?? intoKey}"? Their 1:1s and rating combine into one person.`)) {
       renderPeople(); // reset the select
       return;
     }
     try {
-      aliases = (await mergePeople(fromKey, intoKey)) as Aliases;
-      people = groupRunsByPerson(runsCache, aliases) as Person[];
+      if (from?.personId) {
+        await mergePeopleById(fromKey, intoKey);
+        roster = (await listPeople()) as Roster;
+      } else {
+        aliases = (await mergePeople(fromKey, intoKey)) as Aliases;
+      }
+      people = groupRunsByPerson(runsCache, aliases, roster) as Person[];
       renderPeople();
     } catch {
       window.alert("Couldn't merge — please try again.");
@@ -167,16 +190,22 @@ export const mount: Mount = async (root, { setState }) => {
   const load = async () => {
     root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading your team…</p></section>`, false);
     try {
-      const [runsRes, aliasRes] = await Promise.all([listMyRuns({ open: true }), getTeamAliases().catch(() => ({}))]);
+      const [runsRes, aliasRes, rosterRes] = await Promise.all([
+        listMyRuns({ open: true }),
+        getTeamAliases().catch(() => ({})),
+        listPeople().catch(() => ({ people: [], merges: {} })), // members/errors → grouping falls back to name-keys
+      ]);
       runsCache = Array.isArray(runsRes?.runs) ? runsRes.runs : [];
       const a = aliasRes as Partial<Aliases>;
       aliases = { merges: a?.merges || {}, names: a?.names || {} };
+      const ro = rosterRes as Partial<Roster>;
+      roster = { people: Array.isArray(ro?.people) ? ro.people : [], merges: ro?.merges || {} };
     } catch {
       root.innerHTML = shell(errorCard, false);
       wire();
       return;
     }
-    people = groupRunsByPerson(runsCache, aliases) as Person[];
+    people = groupRunsByPerson(runsCache, aliases, roster) as Person[];
     if (people.length === 0) {
       editing = false;
       root.innerHTML = shell(emptyCard, false);

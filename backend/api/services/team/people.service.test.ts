@@ -65,6 +65,18 @@ test("list returns only the caller's active people (merged + archived excluded)"
   assert.deepEqual(out.people.map((p) => p.id), ["a"]);
 });
 
+test("list also returns a resolved id-merges map so clients can fold runs stamped with a merged-away personId", async () => {
+  const { repo } = fakeRepo([
+    person({ id: "a", name: "Priya", mergedIntoId: "b" }),
+    person({ id: "b", name: "Priya Shah", mergedIntoId: "c" }), // chain a→b→c
+    person({ id: "c", name: "P. Shah" }),
+    person({ id: "d", name: "Solo" }),
+  ]);
+  const out = await createPeopleService(repo).list(CALLER.orgId, CALLER.managerId);
+  assert.deepEqual(out.merges, { a: "c", b: "c" }); // both resolve to the canonical head
+  assert.deepEqual(out.people.map((p) => p.id).sort(), ["c", "d"]);
+});
+
 test("list sorts people by name", async () => {
   const { repo } = fakeRepo([
     person({ id: "z", name: "Zoe" }),

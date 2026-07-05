@@ -9,24 +9,23 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — P1 ✅ · P2 ✅ (both "go", walks waived) · P3 (backfill) BUILT + RUN, awaiting your walk (2026-07-06).**
+> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — P1–P3 ✅ (all "go") · P4 (manager UI) BUILT, awaiting your walk (2026-07-06).**
 > Your ask: members should only see their own 1:1s → the real build (option B): managers formally
-> **have** members; a member linked to a roster person will see the 1:1s ABOUT them (Phase 5).
-> **P1 ✅ (`4a762779`):** `people` table on Neon (migration `0007`) + 5 fenced `/api/v1/team/people`
-> endpoints. **P2 ✅ (`30218597`):** every new 1:1 stamps `personId` (who it's ABOUT) into state, disk +
-> DB mirror; free-typed names auto-join the roster; claimed guest runs too; a serializer whitelist bug
-> (personId silently dropped from state files) was caught at the destination + pinned by tests.
-> **P3 BUILT + RUN:** `scripts/backfill-people.ts` (dev-guarded, idempotent, `--dry-run`) walked every
-> old run: **20 people created** across your accounts (member@ carries the demo roster — Grace, Daniel,
-> Marcus, Nina, Sofia, Samira, Priya Shah…), **27 runs stamped** on disk, **16 DB mirrors updated**,
-> **7 runs left honestly unlinked** (their owner accounts were deleted — FK refuses, script skips +
-> says so). Re-run = 0 changes (idempotent ✓); verified by querying Neon + reading a stamped state file.
-> Note: no alias files existed, so the merge-folding path had no real data to exercise. `npm test`
-> **78/78** · typecheck clean. **Walk:** the 4 scenarios in
-> [phase-3.md](docs/todo/people-roster/phase-3.md) (all free) — or say go → Phase 4 (intake person
-> picker + roster-driven Team page). Then ⑤ member link + "Your 1:1s". ⚠️ Privacy: members will get
-> **list-only** (type + date + manager) — no notes, no briefing; richer is your call
-> (parked: `member-run-visibility`).
+> **have** members; a member linked to a roster person will see the 1:1s ABOUT them (Phase 5, next).
+> **Done so far:** ① `people` table + fenced endpoints (`4a762779`) · ② every new 1:1 stamps `personId`
+> (`30218597`; a serializer whitelist bug was caught at the destination + pinned) · ③ backfill walked
+> every old run — 20 people created, 27 runs stamped, 7 orphans (deleted owners) skipped honestly.
+> **P4 BUILT — the first VISIBLE change:** the New 1:1 name step is a **person picker** for managers
+> (one tap fills name/role/seniority + links the run; "Someone new" keeps free-text; guests/members
+> unaffected); **Team + person pages group by roster identity** (the roster row's name/role win —
+> typing "priya shah" shows under "Priya Shah"); **Tidy-up rename/merge now writes the people table**.
+> Browser-proven headless on a scratch pair at $0 (login → Team roster name + honest open-prep label →
+> rename landed in Neon → picker w/ renamed person → pick prefilled role → Someone-new path); QA data
+> cleaned; screenshot sent. `npm test` **79/79** · typecheck clean. ⚠️ **Restart your dev API + reload**
+> to see it on :3000. **Walk:** the 4 scenarios in [phase-4.md](docs/todo/people-roster/phase-4.md)
+> (all free) — or say go → **Phase 5, the payoff: link a person to a member account + member
+> "Your 1:1s"**. ⚠️ Privacy: members will get **list-only** (type + date + manager) — no notes, no
+> briefing; richer is your call (parked: `member-run-visibility`).
 
 > **✅ team-for-managers — CLOSED 2026-07-05 ("go"): Team now shows started preps, proven + committed.**
 > Your ask: managers need to see their team members on Team. Finding: it already worked, but only from

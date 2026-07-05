@@ -273,6 +273,9 @@ function listFinishedRunsForMember(orgId: string | null | undefined, userId: str
       },
       lastSeenAt: asNumber(state.lastSeenAt),
       finished: Boolean(state.briefing),
+      // people-roster Phase 4: the roster person this run is about (null = unlinked
+      // legacy/orphan) — the Team groups on this when present, name-key otherwise.
+      personId: asString(state.personId) || null,
       rating: ratingOf(dir),
     };
   });

@@ -1,5 +1,29 @@
 # Phase 4 — manager UI: person picker + roster-driven Team page
 
+## BUILT — awaiting Carl's walk (2026-07-06)
+
+- **Intake NAME step is now a person picker** for managers with a roster: one tap fills
+  name/role/seniority AND links the run to that roster row; "Someone new" (and every
+  guest/member/roster-less flow) falls back to the plain free-text input unchanged.
+  Free-typing a name clears any stale pick (server auto-matches from the name anyway).
+- **Team + person pages group by personId** (roster identity) when runs carry one —
+  name-key + aliases stay as the fallback for unstamped legacy runs. The roster row's
+  name/role now win over the runs' free-text snapshots.
+- **Tidy-up writes the people table** for roster cards (PATCH rename / merge with the
+  new id-merges fold); legacy name-keyed cards keep the alias endpoints; the merge
+  picker only offers same-kind targets. Alias routes stay live but the roster path is
+  primary now.
+- "Prep next 1:1" on a person page seeds personId + stored seniority.
+- run-history member rows now carry `personId`; people list returns `{ people, merges }`.
+- Test-first: 3 new grouping cases + 1 people-service merges-map case (red→green).
+- **Live-proven headless-browser walk on a scratch pair (:3073 → :3071, $0):** logged in
+  as manager@ → typed-lowercase "priya shah" prep showed on Team under the ROSTER name
+  "Priya Shah" with the honest "prep in progress" label → Tidy-up rename to "Priya S."
+  landed in the Neon people table (verified by query) → picker showed both people incl.
+  the new name → picking Marco prefilled his role and jumped to step 2 → "Someone new"
+  gave the plain input and advanced. No page errors. QA rows/dirs/mirrors cleaned.
+- Checks: `npm test` **79/79** · typecheck clean. Screenshot sent to Carl.
+
 ## Work
 
 1. [shared/api.js](../../../shared/api.js): listPeople / createPerson / renamePersonV2 / mergePeopleV2 / archivePerson.
