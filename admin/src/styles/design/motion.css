@@ -54,6 +54,24 @@
   }
 }
 
+/* Quick fade-OUT of the outgoing stage — the missing half of the transition.
+   Kept short (~150ms) so navigation still feels instant; main.js waits on this
+   before swapping in the next stage, giving a clean cross-dissolve. */
+.stage-exit { opacity: 1; }
+.stage-exit.is-out {
+  opacity: 0;
+  transition: opacity 150ms var(--ease-in-out-cubic);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stage-exit.is-out {
+    transform: translateY(-8px) scale(0.995);
+    filter: blur(3px);
+    transition: opacity 150ms var(--ease-in-out-cubic),
+                transform 150ms var(--ease-in-out-cubic),
+                filter 150ms var(--ease-in-out-cubic);
+  }
+}
+
 /* -----------------------------------------------------------------------------
    Reveal primitives
 ----------------------------------------------------------------------------- */

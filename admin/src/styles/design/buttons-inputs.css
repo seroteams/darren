@@ -23,9 +23,13 @@
 }
 .btn:hover {
   background: var(--color-accent-dark); /* white label passes 7:1 here */
-  box-shadow: var(--sero-shadow-sm);
+  box-shadow: var(--sero-shadow-md);
+  transform: translateY(-1px); /* subtle lift; :active presses back down */
 }
 .btn:active { transform: translateY(1px) scale(0.99); }
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover, .btn:active { transform: none; }
+}
 .btn[disabled] { opacity: 0.5; cursor: not-allowed; }
 .btn:focus-visible { box-shadow: var(--sero-shadow-focus); outline: none; }
 

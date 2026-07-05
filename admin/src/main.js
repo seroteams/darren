@@ -92,12 +92,31 @@ const notesPanel = createNotesPanel({ store, setState });
 document.body.appendChild(notesPanel.el);
 if (devBadge) notesPanel.mountDevBadge(devBadge.el);
 
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+// Quick fade-out of the outgoing stage node. Resolves when the fade ends (or
+// immediately under reduced-motion / on first paint). Renders are serialized by
+// renderChain, so the outgoing and incoming stages never coexist — this reads as
+// a clean cross-dissolve, not two stacked screens.
+function fadeOutStage(node) {
+  if (!node || !node.parentNode || reducedMotion.matches) return Promise.resolve();
+  return new Promise((resolve) => {
+    node.classList.add("stage-exit");
+    requestAnimationFrame(() => node.classList.add("is-out"));
+    let done = false;
+    const finish = () => { if (done) return; done = true; resolve(); };
+    node.addEventListener("transitionend", finish, { once: true });
+    setTimeout(finish, 200); // safety net if transitionend never fires
+  });
+}
+
 async function renderStage(nextStage) {
   if (!loaders[nextStage]) {
     console.error("[main] unknown stage:", nextStage);
     return;
   }
-  // Unmount previous
+  // Fade the outgoing stage out first, then unmount + remove it.
+  await fadeOutStage(current.node);
   if (current.mod && typeof current.mod.unmount === "function") {
     try { await current.mod.unmount(current.node); } catch (e) { console.error(e); }
   }
