@@ -1,8 +1,12 @@
 #!/usr/bin/env node
-// The engagement read is never trusted from thin data. The deterministic guard
-// forces "inconclusive" when the read was partial OR the engagement+wellbeing
-// axes barely registered — regardless of what the model returned. A wrong early
-// disengagement label is worse than no label.
+// The engagement read is never trusted from thin data. Since the no-inference
+// re-spec (docs/todo/no-inference-ruling/phase-3.md) the read carries NO state
+// label — only `read_status` ("read" | "not_read", the evidence status of this
+// session's record) plus observable content: the manager's own observed shift,
+// transcript quotes, and what to watch next. The deterministic guard forces
+// "not_read" when the read was partial OR the engagement+wellbeing axes barely
+// registered — regardless of what the model returned. It also normalises the
+// legacy `level` shape found in stored runs.
 
 const assert = require("node:assert/strict");
 const { applyEngagementReadGuard } = require("../backend/engine/reviewer.ts");
@@ -25,10 +29,11 @@ const richAxisState = {
   growth: { score: 1, history: [{ delta: 1 }] },
 };
 
-function read(level) {
+function read(read_status) {
   return {
     engagement_read: {
-      level,
+      read_status,
+      observed_shift: "You noted she has been quieter in reviews than usual.",
       evidence: ["found out billing rewrite scope was cut without her"],
       missing_evidence: "",
       recommended_action: "Map the billing role with her before scope locks.",
@@ -37,13 +42,14 @@ function read(level) {
   };
 }
 
-// 1. Rich session keeps a real concern — guard does NOT downgrade it.
+// 1. Rich session keeps a substantive read — guard does NOT downgrade it.
 {
-  const b = applyEngagementReadGuard(read("clear_concern"), richAxisState, richTranscript);
-  assert.equal(b.engagement_read.level, "clear_concern", "rich session keeps clear_concern");
+  const b = applyEngagementReadGuard(read("read"), richAxisState, richTranscript);
+  assert.equal(b.engagement_read.read_status, "read", "rich session keeps read");
+  assert.ok(b.engagement_read.observed_shift, "observed_shift survives on a rich session");
 }
 
-// 2. Thin axis movement (engagement+wellbeing touches < 2) forces inconclusive
+// 2. Thin axis movement (engagement+wellbeing touches < 2) forces not_read
 //    even when the rest of the session looks substantive.
 {
   const thinAxis = {
@@ -52,12 +58,13 @@ function read(level) {
     clarity: { score: -3, history: [{ delta: -3 }] },
     growth: { score: 1, history: [{ delta: 1 }] },
   };
-  const b = applyEngagementReadGuard(read("clear_concern"), thinAxis, richTranscript);
-  assert.equal(b.engagement_read.level, "inconclusive", "thin axis movement forces inconclusive");
+  const b = applyEngagementReadGuard(read("read"), thinAxis, richTranscript);
+  assert.equal(b.engagement_read.read_status, "not_read", "thin axis movement forces not_read");
   assert.ok(b.engagement_read.missing_evidence, "missing_evidence backfilled when forced");
+  assert.equal(b.engagement_read.observed_shift, "", "forced not_read blanks observed_shift");
 }
 
-// 3. Partial read (mostly skipped transcript) forces inconclusive.
+// 3. Partial read (mostly skipped transcript) forces not_read.
 {
   const skippedTranscript = [
     { answer: "fine", skipped: false },
@@ -65,22 +72,48 @@ function read(level) {
     { answer: "ok", skipped: false },
     { answer: "", skipped: true },
   ];
-  const b = applyEngagementReadGuard(read("worth_checking"), richAxisState, skippedTranscript);
-  assert.equal(b.engagement_read.level, "inconclusive", "partial read forces inconclusive");
+  const b = applyEngagementReadGuard(read("read"), richAxisState, skippedTranscript);
+  assert.equal(b.engagement_read.read_status, "not_read", "partial read forces not_read");
 }
 
-// 4. Already inconclusive is left untouched (no spurious backfill of evidence).
+// 4. Already not_read is left untouched (no spurious backfill of evidence).
 {
-  const input = read("inconclusive");
+  const input = read("not_read");
   input.engagement_read.evidence = [];
   const b = applyEngagementReadGuard(input, richAxisState, richTranscript);
-  assert.equal(b.engagement_read.level, "inconclusive", "inconclusive stays inconclusive");
+  assert.equal(b.engagement_read.read_status, "not_read", "not_read stays not_read");
 }
 
 // 5. No engagement_read on the briefing → no-op, no throw.
 {
   const b = applyEngagementReadGuard({ headline: "x" }, richAxisState, richTranscript);
   assert.equal(b.engagement_read, undefined, "absent engagement_read is a safe no-op");
+}
+
+// 6. Legacy shape (stored runs / frozen replays carry `level`) is normalised:
+//    the state-label enum is dropped, never surfaced.
+{
+  const legacy = {
+    engagement_read: {
+      level: "worth_checking",
+      evidence: ["found out billing rewrite scope was cut without her"],
+      missing_evidence: "",
+      recommended_action: "Map the billing role with her before scope locks.",
+      watch_next: "Whether she keeps hearing major work through whispers.",
+    },
+  };
+  const b = applyEngagementReadGuard(legacy, richAxisState, richTranscript);
+  assert.equal(b.engagement_read.level, undefined, "legacy level is dropped");
+  assert.equal(b.engagement_read.read_status, "read", "substantive legacy level maps to read");
+  assert.equal(typeof b.engagement_read.observed_shift, "string", "observed_shift backfilled as a string");
+}
+
+// 7. Legacy "inconclusive" maps to not_read.
+{
+  const legacy = { engagement_read: { level: "inconclusive", evidence: [], missing_evidence: "thin", recommended_action: "", watch_next: "" } };
+  const b = applyEngagementReadGuard(legacy, richAxisState, richTranscript);
+  assert.equal(b.engagement_read.read_status, "not_read", "legacy inconclusive maps to not_read");
+  assert.equal(b.engagement_read.level, undefined, "legacy level is dropped");
 }
 
 console.log("PASS test-engagement-read");

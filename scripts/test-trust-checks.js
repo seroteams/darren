@@ -437,16 +437,18 @@ const RICH_NOTES = "Ahmed talks about wanting senior scope but keeps redirecting
   check("employee's own words quoted → no INFERRED_STATE_LEAK", !r.hard_fails.includes("INFERRED_STATE_LEAK"), JSON.stringify(r.hard_fails));
 }
 
-// 24. engagement_read: the legacy level enum is carved out, but its prose is not
+// 24. engagement_read (re-specced shape): clean observable prose passes; an
+// invented state anywhere in its prose fails. No carve-out — the state-label
+// enum is gone (docs/todo/no-inference-ruling/phase-3.md).
 {
   const cleanRead = baseBriefing({
-    engagement_read: { level: "worth_checking", evidence: ["Answers stayed short on project questions."], missing_evidence: "No direct read on workload.", recommended_action: "Ask about the sprint load next time.", watch_next: "Whether Thursday's action lands." },
+    engagement_read: { read_status: "read", observed_shift: "You noted he keeps redirecting into tactical delivery.", evidence: ["Answers stayed short on project questions."], missing_evidence: "No direct read on workload.", recommended_action: "Ask about the sprint load next time.", watch_next: "Whether Thursday's action lands." },
   });
   const r1 = runTrustChecks({ briefing: cleanRead, transcript: healthyTranscript, managerNotes: RICH_NOTES, bankQuestions: COVERING_BANK, meetingType: GROWTH });
-  check("engagement_read.level enum (carve-out) → no INFERRED_STATE_LEAK", !r1.hard_fails.includes("INFERRED_STATE_LEAK"), JSON.stringify(r1.hard_fails));
+  check("observable engagement_read prose → no INFERRED_STATE_LEAK", !r1.hard_fails.includes("INFERRED_STATE_LEAK"), JSON.stringify(r1.hard_fails));
 
   const dirtyRead = baseBriefing({
-    engagement_read: { level: "no_clear_concern", evidence: [], missing_evidence: "", recommended_action: "", watch_next: "Watch for signs of disengagement." },
+    engagement_read: { read_status: "read", observed_shift: "", evidence: [], missing_evidence: "", recommended_action: "", watch_next: "Watch for signs of disengagement." },
   });
   const r2 = runTrustChecks({ briefing: dirtyRead, transcript: healthyTranscript, managerNotes: RICH_NOTES, bankQuestions: COVERING_BANK, meetingType: GROWTH });
   check("invented state in engagement_read prose → INFERRED_STATE_LEAK", r2.hard_fails.includes("INFERRED_STATE_LEAK"), JSON.stringify(r2.hard_fails));
@@ -536,6 +538,32 @@ const RICH_NOTES = "Ahmed talks about wanting senior scope but keeps redirecting
     meetingType: GROWTH,
   });
   check("unrelated best_practice point → no EVIDENCE_ANCHOR", !r.hard_fails.includes("EVIDENCE_ANCHOR"), JSON.stringify(r.hard_fails));
+}
+
+// 32b. observed_shift that echoes nothing from the notes → EVIDENCE_ANCHOR.
+// Caught live on the first paid Phase-3 run: the model echoed a rule-text
+// example ("updates got shorter") instead of the manager's actual note.
+{
+  const briefing = baseBriefing({
+    engagement_read: { read_status: "read", observed_shift: "You noted his updates got shorter.", evidence: [], missing_evidence: "", recommended_action: "", watch_next: "" },
+  });
+  const r = runTrustChecks({ briefing, transcript: healthyTranscript, managerNotes: RICH_NOTES, bankQuestions: COVERING_BANK, meetingType: GROWTH });
+  check("unanchored observed_shift → EVIDENCE_ANCHOR", r.hard_fails.includes("EVIDENCE_ANCHOR"), JSON.stringify(r.hard_fails));
+}
+
+// 32c. observed_shift restating the manager's actual note → no fire; empty → no fire.
+{
+  const anchored = baseBriefing({
+    engagement_read: { read_status: "read", observed_shift: "You noted he redirects himself into tactical delivery work.", evidence: [], missing_evidence: "", recommended_action: "", watch_next: "" },
+  });
+  const r1 = runTrustChecks({ briefing: anchored, transcript: healthyTranscript, managerNotes: RICH_NOTES, bankQuestions: COVERING_BANK, meetingType: GROWTH });
+  check("note-anchored observed_shift → no EVIDENCE_ANCHOR", !r1.hard_fails.includes("EVIDENCE_ANCHOR"), JSON.stringify(r1.hard_fails));
+
+  const empty = baseBriefing({
+    engagement_read: { read_status: "not_read", observed_shift: "", evidence: [], missing_evidence: "thin", recommended_action: "", watch_next: "" },
+  });
+  const r2 = runTrustChecks({ briefing: empty, transcript: healthyTranscript, managerNotes: RICH_NOTES, bankQuestions: COVERING_BANK, meetingType: GROWTH });
+  check("empty observed_shift → no EVIDENCE_ANCHOR", !r2.hard_fails.includes("EVIDENCE_ANCHOR"), JSON.stringify(r2.hard_fails));
 }
 
 // 32. Focus point with no source tag at all → EVIDENCE_ANCHOR (schema-enforced field)

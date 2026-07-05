@@ -61,14 +61,15 @@
       "Within two weeks: if she is still only invited for validation, the same pullback will likely continue."
     ],
     "engagement_read": {
-      "level": "worth_checking",
       "evidence": [
         "“volume's fine. more that the work feels less connected to what gets decided”",
         "“wants research in earlier, before the direction's set, so it can actually shape things”"
       ],
       "missing_evidence": "Need to see whether she leans in once she is brought into framing early, or whether the pullback shows up across other threads too.",
       "recommended_action": "Put her into one early framing conversation and see whether her participation changes.",
-      "watch_next": "Notice whether she volunteers ideas before the direction is fixed."
+      "watch_next": "Notice whether she volunteers ideas before the direction is fixed.",
+      "read_status": "read",
+      "observed_shift": ""
     }
   }
 }

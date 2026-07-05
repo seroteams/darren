@@ -4,6 +4,8 @@ import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
 import { postVerdict, rateMyRun } from "../../../shared/api.js";
 import { escapeCopy as escape } from "../ui/html.js";
 import { createStarRating } from "../ui/star-rating.js";
+import { icon } from "../ui/icon.js";
+import { Check, Copy } from "lucide";
 
 const WHEN_ORDER = ["today", "this week", "this month", "next 1:1"];
 
@@ -272,17 +274,28 @@ export async function mount(root, { store, setState, resetSession }) {
     }
   }
 
-  // --- 5b) Engagement read (plain prose, sentence-first; no badge chrome)
+  // --- 5b) Engagement read (plain prose, sentence-first; no badge chrome).
+  // New shape: read_status + observable content, no state labels. Old stored
+  // runs still carry the legacy `level` enum — render those through the legacy
+  // lead line, never invent new content for them.
   const er = b.engagement_read;
-  if (er && er.level) {
+  if (er && (er.read_status || er.level)) {
     await pause(fastPath ? 0 : 300);
     const section = root.querySelector(".engagement-section");
     section.classList.remove("hidden");
     const host = root.querySelector(".engagement-host");
     const evidence = (er.evidence || []).filter(Boolean);
+    const lead = er.read_status
+      ? (er.read_status === "read"
+          ? "What this session actually showed on engagement — quotes below, no labels."
+          : "Not enough from this conversation to read engagement — treat it as a partial read.")
+      : engagementReadLabel(er.level);
     const rows = [
-      `<div class="engagement-read__lead">${escape(engagementReadLabel(er.level))}</div>`,
+      `<div class="engagement-read__lead">${escape(lead)}</div>`,
     ];
+    if (er.observed_shift) {
+      rows.push(`<div class="engagement-read__line"><span class="eyebrow mr-2">You noted</span>${escape(er.observed_shift)}</div>`);
+    }
     if (evidence.length) {
       rows.push(`<div class="engagement-read__line"><span class="eyebrow mr-2">Why</span>${evidence.map(escape).join("; ")}</div>`);
     }
@@ -538,7 +551,7 @@ async function copyFullBriefing(briefing, ctx, btn) {
   try {
     await navigator.clipboard.writeText(text);
     const prev = btn.textContent;
-    btn.textContent = "Copied ✓";
+    btn.innerHTML = `Copied ${icon(Check, { size: 16 })}`;
     setTimeout(() => { btn.textContent = prev; }, 1500);
   } catch (e) {
     console.warn("[briefing] clipboard write failed:", e.message);
@@ -560,7 +573,7 @@ function createCopyableRow({ className, mark, bodyHtml, copyText }) {
   return row;
 }
 
-const COPY_ICON = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+const COPY_ICON = icon(Copy, { size: 14 });
 
 async function copySnippet(text, btn, doneLabel = "Copied") {
   if (!text) return;
@@ -582,7 +595,8 @@ function cap(s) {
   return s ? s[0].toUpperCase() + s.slice(1) : s;
 }
 
-// Plain-language lead line for the engagement read — human, never an HR score.
+// Plain-language lead line for LEGACY stored briefings that still carry the
+// pre-ruling `level` enum. New briefings use read_status and never see this.
 function engagementReadLabel(level) {
   switch (level) {
     case "clear_concern":

@@ -75,11 +75,12 @@ Return strict JSON only. No prose, no markdown fences.
     "<a specific, observable tell that, if it happens or doesn't happen in the coming weeks, would confirm or deny a read from this session>"
   ],
   "engagement_read": {
-    "level": "inconclusive | no_clear_concern | worth_checking | clear_concern",
-    "evidence": [ "<a quoted phrase or named moment from the transcript that earns this level>" ],
-    "missing_evidence": "<what you would need to see to confirm or rule this out>",
+    "read_status": "read | not_read",
+    "observed_shift": "<the manager's own observed shift, restated near-verbatim from their notes — or \"\" when the notes name none>",
+    "evidence": [ "<a quoted phrase or named moment from the transcript>" ],
+    "missing_evidence": "<what this session did not cover>",
     "recommended_action": "<one concrete move the manager controls>",
-    "watch_next": "<one observable tell to notice in the next 1:1>"
+    "watch_next": "<one observable event to watch before the next 1:1>"
   }
 }
 ```
@@ -302,21 +303,21 @@ Some transcript turns carry `unbooked_signal` — axis movement the report surfa
 </unbooked_signal_rule>
 
 <engagement_read_rule>
-`engagement_read` is a plain, honest read of how engaged this person seems right now — NOT an HR risk score. The mission is to spot disengagement early, but a wrong early label is worse than no label.
+`engagement_read` is an OBSERVABLE record, not a verdict. It restates what the manager themselves observed going in, holds it against what this session actually showed, and names what to watch next. It must NEVER assert, score, or hint at an internal state (disengagement, burnout, motivation, commitment) — that is banned by the no-inference ruling. Every sentence in this block must be contestable: a reader should be able to point at the note or transcript line it came from.
 
-**Level — pick the lowest one the evidence actually earns:**
-- `inconclusive` — too little real signal to say. Use this whenever the session was thin, mostly skipped, or the engagement/wellbeing axes barely moved. When in doubt, this is the answer.
-- `no_clear_concern` — the person engaged normally; nothing points to pulling away.
-- `worth_checking` — one or two real signs worth watching, but not a pattern yet.
-- `clear_concern` — a genuine pattern across **2+ distinct turns** (not the same fact repeated). Never assign this off a single remark.
+**`read_status` — the evidence status of THIS session's record, never a label on the person:**
+- `not_read` — too little real signal to read anything. Use this whenever the session was thin, mostly skipped, or the engagement/wellbeing axes barely moved. When in doubt, this is the answer.
+- `read` — the session carried enough real signal to hold observations against.
 
-**Evidence discipline:** `evidence` must quote or name specific moments from the transcript. `missing_evidence` names what you'd need to see to confirm or rule it out — this is what keeps the read honest. `recommended_action` is one move the manager controls. `watch_next` is one observable tell for next time.
+**`observed_shift` — the manager's own words, not yours.** Restate near-verbatim the shift the manager flagged in THIS session's notes, addressed to them ("you noted …" + the note's own words), or `""` when the notes name no shift. Copy the note's vocabulary — a reader must be able to match it back to the notes word-for-word. Never originate a shift the manager didn't write, never substitute an example or generic phrasing, never upgrade their observation into a conclusion.
 
-**No duplication (length):** `recommended_action` and `watch_next` must NOT restate a `next_actions` item or a `watch_for` line. If the move or tell is already covered there, either give a genuinely different angle specific to engagement, or keep it to a short pointer — do not repeat the same sentence in two places. A briefing read on a phone cannot afford the same point twice.
+**Evidence discipline:** `evidence` must quote or name specific moments from the transcript. `missing_evidence` names what this session did not cover — this is what keeps the record honest. `recommended_action` is one move the manager controls. `watch_next` is one observable EVENT to notice before next time ("whether Thursday's action lands", "whether the next update is longer") — never a state to diagnose.
 
-**Collapse when not a concern (length, hard):** when `level` is `inconclusive` or `no_clear_concern`, emit ONLY `level` plus a one-line `missing_evidence`. Set `evidence` to `[]` and both `recommended_action` and `watch_next` to `""`. A non-concern does not earn a five-field block — `next_actions` and `watch_for` already carry any move or tell worth making. Spend the full block only on `worth_checking` or `clear_concern`.
+**No duplication (length):** `recommended_action` and `watch_next` must NOT restate a `next_actions` item or a `watch_for` line. If the move or tell is already covered there, either give a genuinely different angle specific to this block, or keep it to a short pointer — do not repeat the same sentence in two places. A briefing read on a phone cannot afford the same point twice.
 
-**Language — never clinical or accusatory.** Banned as flat labels: "disengaged", "burned out", "doesn't care", "checked out", "flight risk". Prefer: "an early engagement concern", "worth checking directly", "may reflect unclear support rather than low motivation". You may quote the employee's own words even if they used a stronger term — that is evidence, not your label.
+**Collapse when not_read (length, hard):** when `read_status` is `not_read`, emit ONLY `read_status` plus a one-line `missing_evidence`. Set `observed_shift` to `""`, `evidence` to `[]`, and both `recommended_action` and `watch_next` to `""`. A non-read does not earn a full block — `next_actions` and `watch_for` already carry any move or tell worth making.
+
+**Language — never clinical, accusatory, or diagnostic.** Banned as labels of ANY polarity: "disengaged", "engaged and happy", "burned out", "doesn't care", "checked out", "flight risk", "fully committed". Say what was observed, not what it means about the person's inner state. You may quote the employee's own words even if they used a stronger term — that is evidence, not your label.
 </engagement_read_rule>
 
 <rules>

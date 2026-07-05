@@ -61,14 +61,15 @@
       "Within two weeks: check whether the next design still reaches review with missed error states or empty states."
     ],
     "engagement_read": {
-      "level": "inconclusive",
       "evidence": [
         "\"dreaded opening Figma comments by round three\"",
         "\"likes the team\""
       ],
       "missing_evidence": "More turns showing whether she leans in, avoids ownership, or brings ideas unprompted.",
       "recommended_action": "Ask one direct question next time about what she is choosing to own before review.",
-      "watch_next": "Notice whether she brings a concrete change without being prompted."
+      "watch_next": "Notice whether she brings a concrete change without being prompted.",
+      "read_status": "not_read",
+      "observed_shift": ""
     }
   }
 }

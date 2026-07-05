@@ -61,14 +61,15 @@
       "Within two weeks: see if he reappears in standup or keeps skipping it for Hendricks calls."
     ],
     "engagement_read": {
-      "level": "worth_checking",
       "evidence": [
         "\"I like the team, I just don't see them\"",
         "he skipped the standup most days and shrugged"
       ],
       "missing_evidence": "I would need to see whether he reconnects once the Hendricks load is shared, or whether he keeps pulling away from team touchpoints.",
       "recommended_action": "Ask one direct, low-pressure question about what contact with the team would help, if any.",
-      "watch_next": "Notice whether he volunteers one team touchpoint he wants back, or stays flat and task-only."
+      "watch_next": "Notice whether he volunteers one team touchpoint he wants back, or stays flat and task-only.",
+      "read_status": "read",
+      "observed_shift": ""
     }
   }
 }

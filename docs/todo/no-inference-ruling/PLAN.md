@@ -20,14 +20,20 @@ the real gap is the three unbuilt gates.
 |---|---|---|---|
 | 1 | Fix the spec + docs rule (M1 + S5) | Spec re-aimed at `engagement_read`, test-matrix claim corrected, "never train on manager notes" standing rule | ✅ |
 | 2 | The three gates (M3 + M4 + M5) | `INFERRED_STATE_LEAK` / `THIN_INPUT_SUPPRESSION` / `EVIDENCE_ANCHOR` in trust-checks + <15-token rule in all four prompts + source-reference field | ✅ |
-| 3 | Re-spec `engagement_read` (M2) | Contract + final-evaluation prompt + downstream renderers; needs one paid gate case (~$0.35, Carl's go) | ⬜ |
+| 3 | Re-spec `engagement_read` (M2) | Contract + final-evaluation prompt + downstream renderers; needs one paid gate case (~$0.35, Carl's go) | ✅ |
 | 4 | Hardening (S1–S4) | Six rules verbatim in prompts, axis evidence thresholds, adversarial golden cases, `outcomeCheck` field | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 2 ✅ green-lit + committed 2026-07-05 ("GO"). Next: Phase 3 (`engagement_read` re-spec) — waits for
-Carl's separate go, since it needs one paid gate case (~$0.35).** The three gates
+**Phase 3 ✅ green-lit + committed 2026-07-05 ("A" — confirming paid run PASS, observed_shift now note-anchored,
+echo fix live-proven; track spend ~$0.70). Next: Phase 4 (hardening, free) — waits for Carl's go.**
+`engagement_read` re-specced (`read_status` + `observed_shift`, state-label enum gone), legacy runs normalised,
+renderer handles both shapes, replay baselines re-frozen (7/7 PASS), carve-out removed. Paid case ran (PASS,
+~$0.35 — track spend so far ~$0.35) and caught a real rule-echo in `observed_shift`; prompt fixed + a new
+`EVIDENCE_ANCHOR` check now hard-fails unanchored shifts. `npm test` **75/75** · typecheck ✓. Uncommitted.
+Open question for Carl: one confirming paid re-run (~$0.35) or accept offline proof.
+**Phase 2 ✅ green-lit + committed `705926c2` ("GO").** The three gates
 live in `evals/trust-checks.ts` (test-first: 16 new unit cases red→green), the <15-token thin-notes rule is in
 all four prompts, and `EVIDENCE_ANCHOR` enforces the existing `FocusPoint.source` contract at eval time.
 Calibrated against the 7 frozen replay cases — all still pass (`npm run replay` 7/7, $0); full `npm test`

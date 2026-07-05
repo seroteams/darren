@@ -214,18 +214,15 @@ const STATE_ASSERTIONS: Array<{ label: string; re: RegExp }> = [
   { label: "quitting risk", re: /\b(?:about|going|planning)\s+to\s+quit\b|\blooking\s+to\s+leave\b|\bone\s+foot\s+out\b/i },
 ];
 
-// Manager-facing prose: the manager-only truth channel plus engagement_read's
-// free-text fields. `engagement_read.level` is deliberately NOT scanned — its
-// enum tokens ("worth_checking", "clear_concern") are the legacy state labels,
-// carved out 2026-07-05 so this gate doesn't red-line the current contract.
-// The Phase 3 re-spec of engagement_read removes this carve-out
-// (docs/todo/no-inference-ruling/phase-3.md).
+// Manager-facing prose: the manager-only truth channel plus every
+// engagement_read text field. No carve-outs — the legacy state-label `level`
+// enum was removed in the Phase 3 re-spec (docs/todo/no-inference-ruling/
+// phase-3.md), so the whole block is scanned.
 function managerFacingText(briefing: unknown): string {
   const b = asRecord(briefing);
   const parts: string[] = [asString(b.brutal_truth_manager)];
   const er = asRecord(b.engagement_read);
-  for (const [key, value] of Object.entries(er)) {
-    if (key === "level") continue; // carve-out (see above)
+  for (const value of Object.values(er)) {
     if (typeof value === "string") parts.push(value);
     else if (Array.isArray(value)) parts.push(...value.filter((v): v is string => typeof v === "string"));
   }
@@ -301,7 +298,21 @@ const STEM_LEN = 5;
 function stemOf(word: string): string {
   return word.length > STEM_LEN ? word.slice(0, STEM_LEN) : word;
 }
-function checkEvidenceAnchor(managerNotes: unknown, focusPoints: unknown): string[] {
+// Shared-content test between a claim and the manager's notes: ≥2 shared
+// content-word stems, or 1 shared stem of a long (6+ char) word.
+function anchoredInNotes(claimText: string, noteStemLens: Map<string, number>): boolean {
+  const shared = new Set<string>();
+  let longAnchor = false;
+  for (const w of contentWords(claimText)) {
+    const s = stemOf(w);
+    const noteLen = noteStemLens.get(s);
+    if (noteLen === undefined) continue;
+    shared.add(s);
+    if (w.length >= 6 || noteLen >= 6) longAnchor = true;
+  }
+  return shared.size >= 2 || longAnchor;
+}
+function checkEvidenceAnchor(managerNotes: unknown, focusPoints: unknown, briefing: unknown): string[] {
   const failures: string[] = [];
   const noteStemLens = new Map<string, number>();
   for (const w of contentWords(managerNotes)) {
@@ -318,18 +329,17 @@ function checkEvidenceAnchor(managerNotes: unknown, focusPoints: unknown): strin
       failures.push(`focus point "${name}" has no source tag — every point must declare signal|best_practice`);
       continue;
     }
-    const shared = new Set<string>();
-    let longAnchor = false;
-    for (const w of contentWords(`${asString(fp.label)} ${asString(fp.reason)}`)) {
-      const s = stemOf(w);
-      const noteLen = noteStemLens.get(s);
-      if (noteLen === undefined) continue;
-      shared.add(s);
-      if (w.length >= 6 || noteLen >= 6) longAnchor = true;
-    }
-    if (shared.size < 2 && !longAnchor) {
+    if (!anchoredInNotes(`${asString(fp.label)} ${asString(fp.reason)}`, noteStemLens)) {
       failures.push(`"signal" focus point "${name}" shares no content with the manager's notes — cite the note or tag it best_practice`);
     }
+  }
+  // engagement_read.observed_shift is DEFINED as a near-verbatim restatement of
+  // the manager's own note — a non-empty shift with no note anchor is invented
+  // (caught live 2026-07-05: the model echoed a rule-text example instead of
+  // the actual note).
+  const shift = asString(asRecord(asRecord(briefing).engagement_read).observed_shift);
+  if (shift && !anchoredInNotes(shift, noteStemLens)) {
+    failures.push(`engagement_read.observed_shift shares no content with the manager's notes — it must restate their own observation: "${shift}"`);
   }
   return failures;
 }
@@ -544,7 +554,7 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
     details.push(...thin);
   }
 
-  const anchor = checkEvidenceAnchor(managerNotes, focusPoints);
+  const anchor = checkEvidenceAnchor(managerNotes, focusPoints, briefing);
   if (anchor.length) {
     hard_fails.push(HARD_FAIL.EVIDENCE_ANCHOR);
     details.push(...anchor);

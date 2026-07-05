@@ -36,7 +36,7 @@ interface RunRecord {
   summaryBullets: string[];
   nextActions: NextAction[];
   watchFor: string[];
-  engagementLevel: string | null;
+  engagementReadStatus: string | null; // "read" | "not_read" (evidence status, never a state label)
   review: ReviewSummary;
 }
 
@@ -121,7 +121,16 @@ function runRecord(run: { id: string; dir: string; state: Record<string, unknown
     summaryBullets: Array.isArray(briefing.summary_bullets) ? briefing.summary_bullets : [],
     nextActions: Array.isArray(briefing.next_actions) ? briefing.next_actions : [],
     watchFor: Array.isArray(briefing.watch_for) ? briefing.watch_for : [],
-    engagementLevel: asString(asRecord(briefing.engagement_read).level) || null,
+    // Legacy stored runs still carry the pre-ruling `level` enum — collapse it
+    // to the evidence status, never surface the label itself.
+    engagementReadStatus: (() => {
+      const er = asRecord(briefing.engagement_read);
+      const status = asString(er.read_status);
+      if (status) return status;
+      const legacy = asString(er.level);
+      if (!legacy) return null;
+      return legacy === "inconclusive" ? "not_read" : "read";
+    })(),
     review: reviewSummaryOf(dir),
   };
 }

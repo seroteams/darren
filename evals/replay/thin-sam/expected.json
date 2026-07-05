@@ -64,7 +64,6 @@
       "Within two weeks: ask for one specific thing that landed and one thing that snagged; if neither comes, the read is still missing."
     ],
     "engagement_read": {
-      "level": "inconclusive",
       "evidence": [
         "\"fine\"",
         "\"ok\"",
@@ -73,7 +72,9 @@
       ],
       "missing_evidence": "Need at least one full answer with a concrete work example, preference, or concern.",
       "recommended_action": "Ask one narrow question and wait for a specific example before moving on.",
-      "watch_next": "Sam gives a sentence with a named project, snag, or choice instead of a one-word reply."
+      "watch_next": "Sam gives a sentence with a named project, snag, or choice instead of a one-word reply.",
+      "read_status": "not_read",
+      "observed_shift": ""
     }
   }
 }

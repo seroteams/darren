@@ -61,11 +61,12 @@
       "Within two weeks: if revisions still arrive across multiple channels, treat the process fix as not landed."
     ],
     "engagement_read": {
-      "level": "inconclusive",
       "evidence": [],
       "missing_evidence": "Need a direct sign of leaning in or pulling back across more than the review-process friction she described.",
       "recommended_action": "",
-      "watch_next": ""
+      "watch_next": "",
+      "read_status": "not_read",
+      "observed_shift": ""
     }
   }
 }

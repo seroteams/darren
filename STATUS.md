@@ -25,6 +25,18 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > "Your 1:1s". ⚠️ Privacy: members will get **list-only** (type + date + manager) — no notes, no
 > briefing; anything richer is your call (parked: `member-run-visibility`).
 
+> **🔨 team-for-managers — one small slice BUILT (2026-07-05 late), awaiting your walk.**
+> Your ask: managers need to see their team members on Team. Finding: it already worked, but only
+> from **finished** 1:1s — your manager test account (qa-suggest@local.test) had one prep with
+> "Darren" abandoned at turn 0, so Team showed empty. Now Team also shows people from **started**
+> preps, honestly labelled "1:1 prep in progress · not met yet" (not counted as a meeting, not
+> rated, plain card — no dead-end click). Past 1:1s unchanged (finished-only; `?open=1` is opt-in).
+> Test-first: 74/74 at build time · both typechecks · live-proven on a scratch pair (:3083 web →
+> :3081 API — flag off/on, page rendered, console clean; QA fixture cleaned up). **Walk:** log in as
+> your manager account → Team → Darren shows as "prep in progress". NOT committed (your green light).
+> ⚠️ Overlap: the **people-roster** track above plans a roster-backed Team page (its Phase 4) — this
+> slice keeps today's run-built Team honest in the meantime; the roster supersedes it when it lands.
+
 > **🔨 [feedback-inbox](docs/todo/feedback-inbox/PLAN.md) — NEW track (started 2026-07-05). Phase 1 (the whole slice) BUILT, awaiting your walk.**
 > Your ask: a page that shows what testers send via "Send feedback", with its own DB table.
 > Done in one slice, the error-log pattern: **`feedback_notes` table live on Neon** (migration
@@ -55,16 +67,15 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > "built — awaiting walk". **Walk:** the 5 scenarios in [phase-1.md](docs/todo/guest-run/phase-1.md) (all free).
 > Green light → Phase 2 (the "Try it" front door). Then: ③ save-at-end (one paid walk, your go) · ④ Guest runs screen.
 
-> **🔨 [no-inference-ruling](docs/todo/no-inference-ruling/PLAN.md) — P1 ✅ `2693dcea` · P2 ✅ green-lit + committed ("GO", 2026-07-05) · P3 next, your go (paid ~$0.35).**
-> The MoSCoW review of [the prompt-improvement spec](docs/sero-prompt-improvement-spec.md): the spec's "highest
-> risk" field `disengagementSignal` doesn't exist — the live one is `engagement_read`; the real gap was the three
-> unbuilt gates.
-> **P2 ✅:** `INFERRED_STATE_LEAK` · `THIN_INPUT_SUPPRESSION` · `EVIDENCE_ANCHOR` live in `evals/trust-checks.ts`
-> — test-first (16 new unit cases red→green), <15-word thin-notes rule in all four prompts, `EVIDENCE_ANCHOR`
-> enforces the existing `FocusPoint.source` contract. Calibrated on the 7 frozen replay runs — all still pass
-> (`npm run replay` 7/7 · `npm test` **73/73** · typecheck ✓ · $0).
-> **Next: Phase 3 — `engagement_read` re-spec** (drops the state-label enum, removes the gate's temporary
-> carve-out; needs ONE paid gate case ~$0.35, waits for your explicit go) · then ④ hardening. Routing nudges parked.
+> **🔨 [no-inference-ruling](docs/todo/no-inference-ruling/PLAN.md) — P1 ✅ `2693dcea` · P2 ✅ `705926c2` · P3 ✅ green-lit + committed ("A", 2026-07-05) · P4 (hardening, free) next, your go.**
+> **P3 ✅:** `engagement_read` re-specced — the state-label enum (`worth_checking` / `clear_concern`) is GONE;
+> the block now carries `read_status` (evidence status, never a person label) + `observed_shift` (the manager's
+> own note, restated near-verbatim) + quotes. Old stored runs normalised on read; the briefing screen renders
+> both shapes; the 7 replay baselines re-frozen (all PASS); Phase 2's carve-out removed.
+> **Two paid cases (~$0.70 total):** the first PASSED and caught the model echoing a rule-text example into
+> `observed_shift` — prompt fixed + `EVIDENCE_ANCHOR` now hard-fails unanchored shifts; the confirming run
+> PASSED with the shift properly note-anchored ("you noted less present in rituals lately"). `npm test`
+> **75/75** · typecheck ✓. **Next: Phase 4 — hardening (S1–S4, free)**, your go. Routing nudges parked.
 
 > **🔨 [frontend-admin-split](docs/todo/frontend-admin-split/PLAN.md) — RESTARTED on the Darren check (2026-07-05): Phase 2 BUILT, awaiting your walk.**
 > The customer app is now **real**: `npm run dev:customer` → **http://localhost:3002** — login/register,

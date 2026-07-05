@@ -60,14 +60,15 @@
       "Within two weeks: if the stretch project stays vague, treat the tech lead plan as aspiration, not momentum."
     ],
     "engagement_read": {
-      "level": "no_clear_concern",
       "evidence": [
         "\"Would like a stretch project that reaches into another team's area.\"",
         "\"Plans to pair with the staff engineer to learn cross-team alignment.\""
       ],
       "missing_evidence": "I would need to see avoidance, withdrawal, or repeated deflection from stretch work to call an engagement concern.",
       "recommended_action": "Give Devon one visible cross-team ownership lane and see whether he leans into it.",
-      "watch_next": "Notice whether he volunteers a concrete next step on the stretch project without prompting."
+      "watch_next": "Notice whether he volunteers a concrete next step on the stretch project without prompting.",
+      "read_status": "read",
+      "observed_shift": ""
     }
   }
 }

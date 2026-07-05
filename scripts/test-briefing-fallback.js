@@ -52,7 +52,7 @@ check("no invented narrative (brutal truths + actions empty)", () => {
   assert.strictEqual(b.brutal_truth_manager, "");
   assert.deepStrictEqual(b.next_actions, []);
   assert.deepStrictEqual(b.watch_for, []);
-  assert.strictEqual(b.engagement_read.level, "inconclusive");
+  assert.strictEqual(b.engagement_read.read_status, "not_read");
 });
 
 check("passes the manager-briefing trust bans", () =>

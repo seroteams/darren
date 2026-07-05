@@ -12,7 +12,7 @@ import { ruleEchoAxisIds } from "./golden-checks.ts";
 import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
 
-import type { Briefing, AxisRead } from "../shared/briefing.types.ts";
+import type { Briefing, AxisRead, EngagementRead } from "../shared/briefing.types.ts";
 import type { AxisSlot, MeetingContext } from "../shared/session.types.ts";
 import { isObjectRecord } from "../shared/guards.ts";
 
@@ -110,16 +110,17 @@ const RESPONSE_SCHEMA = {
     engagement_read: {
       type: "object",
       properties: {
-        level: {
+        read_status: {
           type: "string",
-          enum: ["inconclusive", "no_clear_concern", "worth_checking", "clear_concern"],
+          enum: ["read", "not_read"],
         },
+        observed_shift: { type: "string" },
         evidence: { type: "array", items: { type: "string" } },
         missing_evidence: { type: "string" },
         recommended_action: { type: "string" },
         watch_next: { type: "string" },
       },
-      required: ["level", "evidence", "missing_evidence", "recommended_action", "watch_next"],
+      required: ["read_status", "observed_shift", "evidence", "missing_evidence", "recommended_action", "watch_next"],
       additionalProperties: false,
     },
   },
@@ -410,11 +411,24 @@ function applyAxisConfidence(
   return briefing;
 }
 
+// Legacy stored runs and frozen replays carry the pre-ruling shape with a
+// state-label `level` enum. Normalise on read: the label is dropped (never
+// surfaced again), "inconclusive" maps to not_read, anything substantive maps
+// to read, and the new observable fields get safe defaults.
+function normalizeLegacyEngagementRead(read: EngagementRead): void {
+  const loose = read as unknown as Record<string, unknown>;
+  if (typeof loose.level === "string") {
+    read.read_status = loose.level === "inconclusive" ? "not_read" : "read";
+    delete loose.level;
+  }
+  if (typeof read.observed_shift !== "string") read.observed_shift = "";
+}
+
 // Deterministic floor on the engagement read: the model is never trusted to
-// name a concern off thin data. If the read was partial, or the engagement and
-// wellbeing axes barely registered (combined touches < 2), force
-// "inconclusive" regardless of what the model returned. Disengagement is the
-// one call where a wrong early label is worse than no label.
+// read anything off thin data. If the read was partial, or the engagement and
+// wellbeing axes barely registered (combined touches < 2), force "not_read"
+// regardless of what the model returned. Engagement is the one read where a
+// wrong early signal is worse than no signal.
 function applyEngagementReadGuard(
   briefing: Briefing,
   axisState: AxisStateInput,
@@ -422,7 +436,8 @@ function applyEngagementReadGuard(
 ): Briefing {
   const read = briefing?.engagement_read;
   if (!read || typeof read !== "object") return briefing;
-  if (read.level === "inconclusive") return briefing;
+  normalizeLegacyEngagementRead(read);
+  if (read.read_status === "not_read") return briefing;
 
   const { partial_read } = computeReadQuality(transcript);
   const engagementTouches = axisState?.engagement?.history?.length ?? 0;
@@ -432,16 +447,17 @@ function applyEngagementReadGuard(
   if (partial_read || thin) {
     const reason = partial_read ? "partial read" : "engagement/wellbeing barely registered";
     console.warn(
-      `[evaluator] engagement_read forced to inconclusive (${reason}; model returned "${read.level}")`
+      `[evaluator] engagement_read forced to not_read (${reason}; model returned "read")`
     );
-    read.level = "inconclusive";
+    read.read_status = "not_read";
     read.missing_evidence =
       read.missing_evidence ||
       "The conversation was too thin to read engagement — a fuller next session is needed.";
-    // An inconclusive read carries no confident move or tell — strip the
-    // sub-fields the model wrote under its (now-overruled) level, so the block
-    // collapses to level + missing_evidence instead of duplicating next_actions
-    // / watch_for. The renderer skips empty fields.
+    // A not_read carries no observable content — strip the sub-fields the
+    // model wrote under its (now-overruled) read, so the block collapses to
+    // read_status + missing_evidence instead of duplicating next_actions /
+    // watch_for. The renderer skips empty fields.
+    read.observed_shift = "";
     read.evidence = [];
     read.recommended_action = "";
     read.watch_next = "";
@@ -761,7 +777,8 @@ function buildFallbackBriefing({
     next_actions: [],
     watch_for: [],
     engagement_read: {
-      level: "inconclusive",
+      read_status: "not_read",
+      observed_shift: "",
       evidence: [],
       missing_evidence: "Briefing generation failed.",
       recommended_action: "",

@@ -13,12 +13,18 @@ export interface AxisRead {
   evidence_basis?: "mixed" | "axis_state_only" | "transcript_quotes" | "concentrated_signal"; // absent on fallback
 }
 
+// Re-specced under the no-inference ruling (docs/sero-prompt-improvement-spec.md §3,
+// docs/todo/no-inference-ruling/phase-3.md): no state labels. `read_status`
+// describes the evidence status of THIS session's record — never the person.
+// The old `level` enum ("worth_checking" | "clear_concern" | ...) is gone; the
+// engine normalises legacy stored runs on read (applyEngagementReadGuard).
 export interface EngagementRead {
-  level: "inconclusive" | "no_clear_concern" | "worth_checking" | "clear_concern";
-  evidence: string[];
+  read_status: "read" | "not_read";
+  observed_shift: string; // the manager's own observed shift, restated near-verbatim from their input; "" when the notes name none
+  evidence: string[]; // quoted phrases / named moments from this session's transcript
   missing_evidence: string;
   recommended_action: string;
-  watch_next: string;
+  watch_next: string; // observable events to watch before the next session
 }
 
 export interface NextAction {

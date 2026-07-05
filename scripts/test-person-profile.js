@@ -32,7 +32,7 @@ function run(id, completedAt, axes, overrides = {}) {
     summaryBullets: [],
     nextActions: [],
     watchFor: [],
-    engagementLevel: "inconclusive",
+    engagementReadStatus: "not_read",
     review: { reviewStatus: "none", overall: null, failedCount: 0, decided: 0 },
     ...overrides,
   };

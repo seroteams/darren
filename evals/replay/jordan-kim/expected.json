@@ -60,14 +60,15 @@
       "Within two weeks: if finance or risk still haven't seen him lead a discussion, the cross-squad trust gap is real."
     ],
     "engagement_read": {
-      "level": "no_clear_concern",
       "evidence": [
         "\"Jordan rolled with it though\"",
         "\"want to own the proposal end to end\""
       ],
       "missing_evidence": "I would need to see avoidance, silence, or repeated deflection across more than one turn to call an engagement issue.",
       "recommended_action": "Give Jordan one visible cross-team decision to own so his energy has a place to land.",
-      "watch_next": "Next 1:1, notice whether he brings back progress unprompted or waits to be asked."
+      "watch_next": "Next 1:1, notice whether he brings back progress unprompted or waits to be asked.",
+      "read_status": "read",
+      "observed_shift": ""
     }
   }
 }
