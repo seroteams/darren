@@ -719,7 +719,8 @@ body.has-session-topbar .stage {
 .um-table-wrap { overflow-x: auto; }   /* narrow viewports scroll the table, not the page */
 .um-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;            /* separate so each company <tbody> can be its own card */
+  border-spacing: 0;
   font-size: var(--type-body-sm);       /* 14px floor */
 }
 .um-table th {
@@ -781,18 +782,26 @@ body.has-session-topbar .stage {
 .um-badge--manager { background: var(--sero-primary-200);  color: var(--sero-primary-800); }
 .um-badge--member  { background: var(--sero-soft-500);     color: var(--sero-soft-800); }
 
-/* Company group header — the organizing unit for a cross-company operator. Each company is a
-   <tbody> band: a name + people-count + freshest activity, over its people. Generous top space
-   separates groups; the first sits tight under the column labels. */
-.um-group__head td {
-  padding: var(--sero-space-5) var(--sero-space-4) var(--sero-space-1);
-  border-bottom: 1.5px solid var(--color-border-strong);
+/* Company group — each company is its own white card (a <tbody> band on a transparent, spaced
+   table), so the grouping reads at a glance. The header names the company; its people sit under it
+   on the same white surface. A transparent spacer <tbody> sets the gap between cards. */
+.um-group {
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
 }
-.um-group:first-of-type .um-group__head td { padding-top: var(--sero-space-2); }
+.um-group__head td {
+  padding: var(--sero-space-4) var(--sero-space-4) var(--sero-space-2);
+  border-bottom: 1px solid var(--color-border);
+  border-top-left-radius: var(--radius-card);
+  border-top-right-radius: var(--radius-card);
+}
+.um-group tr:last-child td:first-child { border-bottom-left-radius: var(--radius-card); }
+.um-group tr:last-child td:last-child  { border-bottom-right-radius: var(--radius-card); }
 .um-group__name { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
 .um-group__meta { color: var(--color-ink-dim); margin-left: var(--sero-space-2); }
 .um-group--empty .um-group__name { color: var(--color-ink-mute); }
-.um-group--empty .um-group__head td { border-bottom-color: var(--color-border); }
+/* Transparent gap between company cards. */
+.um-group-gap td { height: var(--sero-space-4); padding: 0; border: 0; background: transparent; }
 
 /* Person page (pre-go-live PG5). Hierarchy is the whole point here: the "Since last time"
    recap is the reason to come back, so it's an elevated, colour-coded card; the past 1:1s

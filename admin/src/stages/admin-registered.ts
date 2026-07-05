@@ -105,7 +105,7 @@ function table(groups: Group[]): string {
             <th>Coming back?</th>
           </tr>
         </thead>
-        ${groups.map(companyGroup).join("")}
+        ${groups.map(companyGroup).join('<tbody class="um-group-gap"><tr><td colspan="3"></td></tr></tbody>')}
       </table>
     </div>`;
 }
