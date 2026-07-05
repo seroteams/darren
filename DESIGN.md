@@ -194,3 +194,6 @@ The "before you build" checklist — every new or touched screen passes all ten:
 9. **Do** write dates one way: **Mon 18 Nov 2024**.
 10. **Do** use plain words; keep focus rings. **Don't** nest cards, use side-stripe borders,
     gradient text, or dark-glass AI styling. **Don't** show a bare metric without its reasoning.
+
+**One exemption:** dev/debug chrome (`ui/dev-badge.js`, `ui/build-stamp.js`) is deliberate
+terminal-style kit — dark, mono, its own palette. It sits outside these rules; don't "fix" it.
