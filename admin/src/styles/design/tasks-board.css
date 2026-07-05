@@ -206,8 +206,15 @@
 }
 .link:hover { opacity: 0.8; }
 .link:focus-visible { outline: none; box-shadow: var(--sero-shadow-focus); border-radius: 4px; }
-/* Account row (log out) sits at the bottom of the nav rail. */
-.app-nav__links--foot { margin-top: auto; }
+/* Account block sits at the bottom of the nav rail: the utility links (What is
+   Sero? · Send feedback · Privacy) push to the bottom, with Log out right below. */
+.app-nav__links--util { margin-top: auto; }
+.app-nav__links--foot { margin-top: 0; }
+/* The compact member rail is sparse (just Past 1:1s), so a bottom-pinned account
+   block reads half-empty. There, float the utility links up under the primary
+   links and pin only Log out to the bottom. */
+.app-nav--member .app-nav__links--util { margin-top: 0; }
+.app-nav--member .app-nav__links--foot { margin-top: auto; }
 
 /* --- Login split screen (form left, photo right) ------------------------- */
 /* The login stage runs edge to edge, so drop the centered/padded stage default. */

@@ -166,7 +166,7 @@ export function createAppNav({ setState, resetSession } = {}) {
             .join("");
         })()}
       </nav>
-      <nav class="app-nav__links app-nav__links--foot" aria-label="Account">
+      <nav class="app-nav__links app-nav__links--util" aria-label="More">
         <button type="button" class="app-nav__link js-nav-about" data-key="about">
           <span class="app-nav__icon">${ICON.about}</span>
           <span class="app-nav__label">What is Sero?</span>
@@ -179,6 +179,8 @@ export function createAppNav({ setState, resetSession } = {}) {
           <span class="app-nav__icon">${ICON.privacy}</span>
           <span class="app-nav__label">Privacy</span>
         </button>
+      </nav>
+      <nav class="app-nav__links app-nav__links--foot" aria-label="Account">
         <button type="button" class="app-nav__link js-logout" data-key="logout">
           <span class="app-nav__icon">${ICON.logout}</span>
           <span class="app-nav__label">Log out</span>
