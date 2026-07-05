@@ -28,12 +28,12 @@ Two patterns already exist and we reuse them:
 | 1 | Store + catch backend errors | `error_logs` table + migration; write one row on every API 5xx at `v1Route` (+ legacy router). Redacts secrets, never blocks the response | ✅ |
 | 2 | The Error log screen | Superadmin-only page + nav item (mirrors User management); read endpoint; the table, newest first | 🔨 |
 | 3 | Catch browser errors too | Global crash handler + failed-fetch reporter in the app → blank-screen crashes + failed loads land in the log, tagged with the screen | 🔨 |
-| 4 | Detail + tidy-up | Row-click detail (stack, request info); filters + "mark resolved"; auto-purge old rows | ⬜ |
+| 4 | Detail + tidy-up | Row-click detail (stack, request info); filters + "mark resolved"; auto-purge old rows | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ + Phases 2 & 3 built (2026-07-05) — awaiting Carl's walk of 2 & 3.** Carl green-lit Phase 1 (proven live). Committed: P1 `4a3f03fb`, P2 `a15af8b1`, P3 `52145f05`. Offline green throughout: `npm test` **67/67**, backend + admin typecheck clean, admin build OK.
+**All phases built (0–4) — Phase 1 ✅ signed off; 2, 3, 4 built + awaiting Carl's walk (2026-07-05).** Carl kept saying "keep going," so 2–4 were built back-to-back; the :3001 API was restarted onto the full feature. Committed: P1 `4a3f03fb`, P2 `a15af8b1`, P3 `52145f05`, toggle `96ee8cf9`, P4 `30ad405b`. Offline green: `npm test` **69/69**, backend + admin typecheck clean, admin build OK.
 
 **Phase 2 (the screen) — built:** superadmin **Error log** page ([admin-error-log.ts](../../../admin/src/stages/admin-error-log.ts)) + nav item (superadmin-only, Admin group) + `GET /api/v1/admin/errors` → a dedicated [error-log service/repo](../../../backend/api/services/error-log/) that LEFT JOINs users + orgs for name + company (anonymous rows survive). Table: Where[env] · When · Who · Route+source · What · Status, newest first, Local/Live + API/Browser pills, plus a **Local / Live toggle** above the table (filter to just your machine or just the live Sero — pulled forward from Phase 4 at Carl's request). Read path verified live against Neon.
 
@@ -41,7 +41,9 @@ Two patterns already exist and we reuse them:
 
 **To QA (Carl):** ⚠️ **restart the API server** (running :3001 predates the new routes), then log in → **Error log**. I **seeded 5 demo rows** (marked `details.demo=true`) so the screen shows a populated table like the mockup — say "clear demo" and I delete them. Trigger a real error to watch live capture.
 
-**Next:** Phase 4 — row detail, filters, mark-resolved, auto-purge.
+**Phase 4 (triage) — built:** click a row for detail (stack + full context); an **API/Browser** source filter + **Show resolved** beside the Local/Live toggle; **Mark resolved / Reopen** (`PATCH …/resolve`); `npm run errors:purge` drops rows >30 days (`--dry` previews). All verified live vs Neon.
+
+**Close-out:** every phase is built. When Carl walks + green-lights 2–4, tick them ✅ and move this folder → `done/`. P4's wiring (server route, `errors:purge` alias, `resolveError`, CSS) is complete in the working tree but uncommitted — its files are co-mingled with parallel sessions, so it lands via a broad commit; the running server + Vite serve the full feature regardless.
 
 ⚠️ **Concurrency note:** commit `52145f05` also swept a parallel session's staged test-engine-hub files (all sessions share one git index in this working copy). Nothing lost — flagged to Carl; recommend a separate git worktree per session. `shared/api.reportClientError` is in the tree but its file is co-mingled, so it rode along in that broad commit too.
 
