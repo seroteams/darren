@@ -9,29 +9,49 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **🔨 NEW TRACK: [design-system](docs/todo/design-system/PLAN.md) — Sero × Flowbite (started 2026-07-05).**
+> **🔨 NEW TRACK: [page-heartbeat](docs/todo/page-heartbeat/PLAN.md) — real UPDATE buttons (started 2026-07-05).**
+> From today's 25-page audit: Guide, Universe and the Tasks board are hand-typed snapshots of the app;
+> everything else already refreshes itself. 3 phases: ① heartbeat endpoint + Guide · ② Universe ring ·
+> ③ Tasks board reality check (warns, never rewrites your statuses).
+> **Phase 1 BUILT + browser-verified — awaiting your walk (not committed).** New `GET /api/v1/heartbeat`
+> re-reads the repo per request; /guide's Screens + Commands now render from it and "Check for changes"
+> reports adds/removals in plain words (proven with a dummy file, both directions). `npm test` 65/65,
+> both typechecks clean. The :3001 API already restarted onto this code — **walk /guide anytime**, scenarios
+> in [phase-1.md](docs/todo/page-heartbeat/phase-1.md). Baseline before edits: 63/63 · typechecks clean.
+
+> **🔨 [design-system](docs/todo/design-system/PLAN.md) — Sero × Flowbite (started 2026-07-05, queued behind page-heartbeat).**
 > Carl confirmed the Sero look is **Flowbite 2.5.2 + his colours** (the Figma is the Flowbite kit recoloured).
 > Building: a one-page component sheet (`admin/public/sero-flowbite/index.html`) in Sero colours, then an
 > auto-loaded root `DESIGN.md` so every future screen matches. No re-skin of existing screens (incremental
 > adoption). UI-idea folders (`newdesign*`, `newui`, `sero-original`) already removed; stale `dist` remnant
 > cleaned. Phase 1 next: the component sheet → your eyeball vs Figma.
 
-> **🔨 [user-management](docs/todo/user-management/PLAN.md) Phase 2 — change a user's role: BUILT + unit-tested + COMMITTED (`ac0359a7`), awaiting Carl's walk (2026-07-05).**
-> Backend: `PATCH /api/v1/admin/users/:id/role` — superadmin-gated + origin-guarded, validates the role,
-> **blocks demoting a company's last manager/admin** (409), and audits every attempt (success/blocked/failed +
-> before→after) to `content/data/audit/superadmin.jsonl`. Frontend: a `⋯` menu per row → role picker →
-> `setUserRole` → reload; a blocked change shows the plain server reason. 5 new service tests; **`npm test` 61/61**,
-> root typecheck clean, admin build ✓. **Committed** (`ac0359a7`, 14 files) — tree clean; Done-when boxes stay
-> unchecked until the walk. On green light: tick the trackers/`tasks.js`, then Phase 3 (deactivate/reactivate).
-> ⚠️ **To walk it, RESTART the API server** — the frontend is Vite-HMR-live but the running :3001 API is stale
-> (pre-dates the new route; a PATCH 404s until restart). Then: User management → `⋯` on a member → set
-> "manager" (badge updates); demote a company's only manager → blocked. ⚠️ Pre-existing `typecheck:admin` errors
-> live in `universe.ts` (Carl's uncommitted WIP) — not Phase 2.
+> **🔨 [error-log](docs/todo/error-log/PLAN.md) — NEW track, built 2026-07-05 on Carl's "GO GO".**
+> A superadmin **Error log** screen: every error any user hits, across **your local dev and the published live
+> Sero** (one Neon, each row tagged **Local / Live**, filterable), newest first. **Phase 0 ✅** (plan + schema check).
+> **Phase 1 built — awaiting your QA walk:** `error_logs` table live on Neon (verified by query); every API 5xx now
+> records one row (secret-safe, fire-and-forget, `console.error` kept as backstop). Offline green: `npm test` **65/65**,
+> typecheck clean; **not committed** until you sign off. **Next: Phase 2 — the screen + nav item.** Phases 2–4 ⬜.
 >
-> **🆕 [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) — plan approved + folder set up 2026-07-05, awaiting Carl's read-through to start Phase 1.**
+> **🔨 [user-management](docs/todo/user-management/PLAN.md) Phase 3 — deactivate / reactivate a user: STARTING (2026-07-05).**
+> Nullable `deactivatedAt` on `users` + `POST …/deactivate` & `…/reactivate`; login must reject deactivated users;
+> **live session killed immediately** (kicked now, not just blocked next login); guardrails (no self, no superadmin,
+> no org's last active lead); audit all. Baseline before touching: `npm test` **65/65** green.
+>
+> **Phase 2 ✅ done + VERIFIED end-to-end + committed (`ac0359a7`), closed 2026-07-05.** Carl walked it (worked);
+> destination verified at the store: `Dev Member` is now `manager` in the **live Neon `users` table** (05:44:58) and a
+> matching `role member→manager` line is in the **audit file** — not screen-only. `PATCH /api/v1/admin/users/:id/role`,
+> superadmin-gated + origin-guarded, **blocks demoting a company's last manager/admin** (409). The stale-API 404 Carl
+> first hit was fixed by restarting the :3001 process (concurrency respawns fresh code).
+>
+> **🔨 [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) Phase 1 — persona-run job service: BUILT 2026-07-05, awaiting Carl's walk (free, no AI).**
 > One page: ▶ Run on a persona → full engine runs on its scripted answers → review with the 8-dimension grid.
-> Replaces the three overlapping nav pages (Personas / Regression / Compare). 4 phases; only Phase 3 spends
-> money (one ~$0.35 run, Carl's own click). Phases 1–2 are free backend work, offline-tested.
+> Phase 1 lands the API doors + guard rails: `POST /api/v1/persona-runs` (admin + origin-guarded, one run at a
+> time — second start 409s) and `GET /api/v1/persona-runs/current` (status window). Runner is an honest 5-second
+> dry run until Phase 2. Baseline 62/62 → after: new tests 21/21, typecheck clean; the one suite fail is Carl's
+> in-flight `universe.test.ts` WIP (changed mid-session, unrelated). **Not committed — green light = commit.**
+> ⚠️ To walk it, RESTART the API server (the running :3001 API pre-dates the new routes). Walk commands are in
+> the phase file / chat. Then Phases 2–4; only Phase 3 spends money (one ~$0.35 run, Carl's own click).
 >
 > **Phase 1 ✅ done + committed** — the flat **User management** table (`d2bf9ec2` screen + `53f1f132` rename),
 > companies as **white cards** (`af1992f3`); role pills; the whole row opens the drilldown. **Phase 0** mostly
@@ -180,7 +200,7 @@ like 8 things are half-done at once — they aren't.
 |---|---|
 | [test-engine-hub](docs/todo/test-engine-hub/PLAN.md) | **Set up 2026-07-05, awaiting Carl's go for Phase 1.** RUN-a-persona eval hub; merges Personas/Regression/Compare. All phases free except one $0.35 walk in Phase 3. |
 | [run-qa-fixes-jul04](docs/todo/run-qa-fixes-jul04/PLAN.md) | Phase 1 (C1 — strip tester notes) ✅ approved 2026-07-04 (committed `02d825c2`, walk waived); Phases 2–4 ⬜ (prompt changes — need a paid walk) |
-| [user-management](docs/todo/user-management/PLAN.md) | **Phase 1 🔨 built 2026-07-04 (Carl said "skip ahead") — awaiting his walk.** "Registered" is now the flat **User management** table (rename + role pills + `⋯` → drilldown). Frontend-only, not committed (green light = commit). Phases 0, 2–5 ⬜. |
+| [user-management](docs/todo/user-management/PLAN.md) | **ACTIVE (see "Your move" up top).** Phase 1 ✅ · Phase 2 ✅ (change role, `ac0359a7`, verified + closed 2026-07-05) · **Phase 3 🔨 (deactivate/reactivate) starting.** Phases 0, 4–5 ⬜. |
 | [planner-grounding](docs/todo/planner-grounding/PLAN.md) | parked — awaiting scope pick (A/B/C/all) |
 | [briefing-readability-p0](docs/todo/briefing-readability-p0/PLAN.md) | parked |
 | [briefing-grounding-fixes](docs/todo/done/briefing-grounding-fixes/PLAN.md) | ✅ closed out → done/ 2026-07-05 (`3d339e47`) |

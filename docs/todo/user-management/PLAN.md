@@ -15,8 +15,8 @@
 |---|---|---|---|
 | 0 | Safety and schema check | Read-only: confirm access (done), schema, `runs.userId` nullability, session/token facts — go/no-go | ⬜ |
 | 1 | User management table + rename | Rename Registered → "User management"; company-grouped table; row opens drilldown; "Coming back?" trend + sort | ✅ done (2026-07-05) |
-| 2 | Change a user's role | `PATCH …/role` + `⋯` role picker; last-manager demotion blocked | ⬜ |
-| 3 | Deactivate / reactivate | `deactivatedAt` column + routes; login blocked + live sessions killed | ⬜ |
+| 2 | Change a user's role | `PATCH …/role` + `⋯` role picker; last-manager demotion blocked | ✅ done (2026-07-05) |
+| 3 | Deactivate / reactivate | `deactivatedAt` column + routes; login blocked + live sessions killed | 🔨 in progress |
 | 4 | Delete a user | `DELETE …/:id`; runs kept-but-orphaned; confirm + guardrails | ⬜ |
 | 5 | Reset password / invite | `POST …/reset-password`; single-use hashed expiring token → copyable link | ⬜ |
 
@@ -30,6 +30,10 @@ Then Carl asked for an independent **UX/UI design review** (via the `impeccable`
 Carl then chose **"B" (group by company) + finish**. The table is now **grouped by company** (company = a header band with people-count + freshest activity), the redundant **Company column dropped**, companies ordered by freshest activity with empties greyed at the bottom (this also absorbed the "No users yet" footnote). Name kept **"User management"** (Carl re-affirmed it in the nav).
 
 **Phase 1 done + committed 2026-07-05** on Carl's "finish". Verified live (logged in as `carl@seroteams.com`): 4 company groups render in activity order, Sero (dev) on top (Carl ▲ / Dev Member • steady), Default (pre-auth) greyed "No users yet" at the bottom; row-click + name-button open the drilldown. Offline green: `npm test` **60/60**, typecheck clean, build clean; 14px floor holds. Committed in two commits: the screen `d2bf9ec2` ([admin-registered.ts](../../../admin/src/stages/admin-registered.ts), [admin-user-detail.ts](../../../admin/src/stages/admin-user-detail.ts) back label, [design.css](../../../admin/src/styles/design.css) `.um-*`, docs) + the nav-label rename `53f1f132` ([app-nav.js](../../../admin/src/ui/app-nav.js), split out via revert-reapply-restore so Carl's in-progress **Universe** nav item stayed uncommitted). **Next: Phase 2 — change a user's role** (`⋯` menu returns here with real actions).
+
+**Phase 2 ✅ done + verified end-to-end + closed 2026-07-05.** `PATCH /api/v1/admin/users/:id/role` (superadmin-gated + origin-guarded, last-manager demotion blocked 409, every attempt audited) was committed `ac0359a7`. Carl walked it live (worked); the destination was verified, not just the code — `Dev Member` is now `manager` in the **live Neon `users` table** (05:44:58) with a matching `role member→manager` line in `content/data/audit/superadmin.jsonl`. The 404 Carl first hit was a stale :3001 API (the running process pre-dated the route); restarting it (concurrency respawns fresh code) fixed it — no code change. **Next: Phase 3 — deactivate/reactivate.**
+
+**Phase 3 🔨 started 2026-07-05.** Baseline before touching anything: `npm test` **65/65** green, typechecks clean.
 
 Plan revised 2026-07-04 after Carl's design feedback: the surface is a **renamed, redesigned flat table** (his call), with the table build as its own Phase 1 before any actions. Baseline (this session, before touching anything): `npm test` 60/60 green.
 
