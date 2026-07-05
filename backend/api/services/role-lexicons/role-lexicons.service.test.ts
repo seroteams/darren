@@ -20,6 +20,14 @@ function fakeRepo(): { repo: RoleLexiconsRepo; calls: string[] } {
       calls.push(`remove:${key}:${String(term)}`);
       return ["kept"];
     },
+    hideTerm: (key, term) => {
+      calls.push(`hide:${key}:${String(term)}`);
+      return ["hidden-word"];
+    },
+    unhideTerm: (key, term) => {
+      calls.push(`unhide:${key}:${String(term)}`);
+      return [];
+    },
   };
   return { repo, calls };
 }
@@ -41,4 +49,18 @@ test("removeTerm passes key + term to the repo and wraps the remaining list", ()
   const out = createRoleLexiconsService(repo).removeTerm("eng", "ship");
   assert.deepEqual(out, { ok: true, remaining: ["kept"] });
   assert.deepEqual(calls, ["remove:eng:ship"]);
+});
+
+test("hideTerm passes key + term to the repo and wraps the hidden list", () => {
+  const { repo, calls } = fakeRepo();
+  const out = createRoleLexiconsService(repo).hideTerm("eng", "quota");
+  assert.deepEqual(out, { ok: true, hidden: ["hidden-word"] });
+  assert.deepEqual(calls, ["hide:eng:quota"]);
+});
+
+test("unhideTerm passes key + term to the repo and wraps the hidden list", () => {
+  const { repo, calls } = fakeRepo();
+  const out = createRoleLexiconsService(repo).unhideTerm("eng", "quota");
+  assert.deepEqual(out, { ok: true, hidden: [] });
+  assert.deepEqual(calls, ["unhide:eng:quota"]);
 });

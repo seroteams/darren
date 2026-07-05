@@ -7,12 +7,16 @@ import {
   listRoleProfiles,
   addOverlayTerm,
   removeOverlayTerm,
+  hideOverlayTerm,
+  unhideOverlayTerm,
 } from "../../../engine/role-profile.ts";
 
 export interface RoleLexiconsRepo {
   list(): unknown[];
   addTerm(key: string, value: { term: unknown; meaning: unknown }): unknown;
   removeTerm(key: string, term: unknown): unknown;
+  hideTerm(key: string, term: unknown): unknown;
+  unhideTerm(key: string, term: unknown): unknown;
 }
 
 export const fileRoleLexiconsRepo: RoleLexiconsRepo = {
@@ -21,4 +25,6 @@ export const fileRoleLexiconsRepo: RoleLexiconsRepo = {
   // propagate; the controller's error path formats it.
   addTerm: (key, value) => addOverlayTerm(key, value),
   removeTerm: (key, term) => removeOverlayTerm(key, term),
+  hideTerm: (key, term) => hideOverlayTerm(key, term),
+  unhideTerm: (key, term) => unhideOverlayTerm(key, term),
 };

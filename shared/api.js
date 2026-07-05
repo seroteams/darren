@@ -148,6 +148,14 @@ export async function removeRoleLexiconTerm(key, term) {
   return postJson("/api/role-lexicons/term/remove", { key, term });
 }
 
+export async function hideRoleLexiconTerm(key, term) {
+  return postJson("/api/role-lexicons/term/hide", { key, term });
+}
+
+export async function unhideRoleLexiconTerm(key, term) {
+  return postJson("/api/role-lexicons/term/unhide", { key, term });
+}
+
 export async function getQuestion(sessionId) {
   return json(await fetch(`/api/v1/sessions/${encodeURIComponent(sessionId)}/question`));
 }

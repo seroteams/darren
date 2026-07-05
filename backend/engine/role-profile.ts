@@ -214,10 +214,18 @@ function listRoleProfiles() {
     }
     if (!validShape(doc)) continue;
     const key = f.replace(/\.json$/, "");
+    const overlay = loadOverlay(key);
+    const hiddenSet = new Set(overlay.hidden_terms);
     const aiTerms = Array.isArray(doc.profile.terminology)
-      ? doc.profile.terminology.map((t) => ({ term: t.term, meaning: t.meaning, group: t.group, source: "ai" }))
+      ? doc.profile.terminology.map((t) => ({
+          term: t.term,
+          meaning: t.meaning,
+          group: t.group,
+          source: "ai",
+          hidden: hiddenSet.has(String(t.term || "").toLowerCase()),
+        }))
       : [];
-    const yourTerms = loadOverlay(key).added_terms.map((t) => ({
+    const yourTerms = overlay.added_terms.map((t) => ({
       term: t.term,
       meaning: t.meaning,
       source: "you",
@@ -259,24 +267,45 @@ function overlayPath(key: string): string {
   return path.join(PROFILES_DIR, `${key}.overlay.json`);
 }
 
-// Null-safe read: missing/corrupt/wrong-shape → empty list, never throws.
-function loadOverlay(key: string): { added_terms: OverlayTerm[] } {
-  if (!validKey(key)) return { added_terms: [] };
+// Null-safe read: missing/corrupt/wrong-shape → empty lists, never throws.
+// `hidden_terms` records AI words the manager has hidden (lowercased term strings);
+// the AI's generated profile is never touched, so hiding is always reversible.
+function loadOverlay(key: string): { added_terms: OverlayTerm[]; hidden_terms: string[] } {
+  if (!validKey(key)) return { added_terms: [], hidden_terms: [] };
   let doc: unknown;
   try {
     doc = JSON.parse(fs.readFileSync(overlayPath(key), "utf8"));
   } catch {
-    return { added_terms: [] };
+    return { added_terms: [], hidden_terms: [] };
   }
-  const rawTerms = asRecord(doc).added_terms;
+  const rec = asRecord(doc);
+  const rawTerms = rec.added_terms;
   const terms = Array.isArray(rawTerms) ? rawTerms : [];
+  const rawHidden = rec.hidden_terms;
+  const hidden = Array.isArray(rawHidden) ? rawHidden : [];
   return {
     added_terms: terms.filter((t) => t && typeof t.term === "string" && t.term.trim()),
+    hidden_terms: hidden.filter((h) => typeof h === "string" && h.trim()).map((h) => h.toLowerCase()),
   };
 }
 
-function writeOverlay(key: string, added_terms: OverlayTerm[]): void {
-  writeAtomic(overlayPath(key), JSON.stringify({ version: OVERLAY_VERSION, key, added_terms }, null, 2));
+function writeOverlay(key: string, added_terms: OverlayTerm[], hidden_terms: string[]): void {
+  writeAtomic(
+    overlayPath(key),
+    JSON.stringify({ version: OVERLAY_VERSION, key, added_terms, hidden_terms }, null, 2),
+  );
+}
+
+// Pure list helpers for the hidden set — case-insensitive, deduped, blank-safe.
+function addHiddenTerm(hidden: string[], term: unknown): string[] {
+  const norm = String(term || "").trim().toLowerCase();
+  if (!norm || hidden.includes(norm)) return hidden;
+  return [...hidden, norm];
+}
+
+function removeHiddenTerm(hidden: string[], term: unknown): string[] {
+  const norm = String(term || "").trim().toLowerCase();
+  return hidden.filter((h) => h !== norm);
 }
 
 // Add a user word. The base profile must exist (you can only add to a job the
@@ -294,8 +323,9 @@ function addOverlayTerm(key: string, { term, meaning }: { term?: unknown; meanin
     throw Object.assign(new Error("You've already added that word"), { status: 409 });
   }
   const entry = { term: cleanTerm, meaning: cleanMeaning, added_at: Date.now() };
+  const { hidden_terms } = loadOverlay(key);
   added_terms.push(entry);
-  writeOverlay(key, added_terms);
+  writeOverlay(key, added_terms, hidden_terms);
   return entry;
 }
 
@@ -304,10 +334,34 @@ function addOverlayTerm(key: string, { term, meaning }: { term?: unknown; meanin
 function removeOverlayTerm(key: string, term: unknown): OverlayTerm[] {
   if (!validKey(key)) throw Object.assign(new Error("Unknown role"), { status: 404 });
   const cleanTerm = String(term || "").trim().toLowerCase();
-  const { added_terms } = loadOverlay(key);
+  const { added_terms, hidden_terms } = loadOverlay(key);
   const kept = added_terms.filter((t) => t.term.toLowerCase() !== cleanTerm);
-  if (kept.length !== added_terms.length) writeOverlay(key, kept);
+  if (kept.length !== added_terms.length) writeOverlay(key, kept, hidden_terms);
   return kept;
+}
+
+// Hide an AI word (case-insensitive) — records the term in the overlay's hidden
+// set. The base profile must exist. The generated profile is untouched, so the
+// word can be brought back with unhideOverlayTerm. Returns the new hidden set.
+function hideOverlayTerm(key: string, term: unknown): string[] {
+  if (!validKey(key) || !fs.existsSync(profilePath(key))) {
+    throw Object.assign(new Error("Unknown role"), { status: 404 });
+  }
+  const cleanTerm = String(term || "").trim();
+  if (!cleanTerm) throw Object.assign(new Error("A word is required"), { status: 400 });
+  const { added_terms, hidden_terms } = loadOverlay(key);
+  const next = addHiddenTerm(hidden_terms, cleanTerm);
+  if (next.length !== hidden_terms.length) writeOverlay(key, added_terms, next);
+  return next;
+}
+
+// Restore a previously-hidden AI word (case-insensitive). Returns the new set.
+function unhideOverlayTerm(key: string, term: unknown): string[] {
+  if (!validKey(key)) throw Object.assign(new Error("Unknown role"), { status: 404 });
+  const { added_terms, hidden_terms } = loadOverlay(key);
+  const next = removeHiddenTerm(hidden_terms, term);
+  if (next.length !== hidden_terms.length) writeOverlay(key, added_terms, next);
+  return next;
 }
 
 // The cache key for a loaded profile doc (run-time docs carry role_slug +
@@ -325,13 +379,28 @@ function keyOfDoc(doc: unknown): string | null {
 function effectiveTerminology(doc: unknown): RoleProfileTerm[] {
   const profileTerms = asRecord(asRecord(doc).profile).terminology;
   const base = Array.isArray(profileTerms) ? profileTerms : [];
-  const merged: RoleProfileTerm[] = base.map((t) => ({ term: t.term, meaning: t.meaning, group: t.group }));
-  const seen = new Set(merged.map((t) => String(t.term || "").toLowerCase()));
   const key = keyOfDoc(doc);
-  const extra = key ? loadOverlay(key).added_terms : [];
-  for (const t of extra) {
+  const overlay = key ? loadOverlay(key) : { added_terms: [], hidden_terms: [] };
+  return mergeTerminology(base, overlay.added_terms, overlay.hidden_terms);
+}
+
+// Pure merge of a role's own words with the manager's overlay: drop any base
+// word the manager has hidden, then append their added words (skipping ones that
+// duplicate — or are themselves hidden — an existing term). No special-casing of
+// user words beyond that; this is what the engine actually feeds a run.
+function mergeTerminology(
+  base: RoleProfileTerm[],
+  added: Array<{ term: string; meaning: string }>,
+  hidden: string[],
+): RoleProfileTerm[] {
+  const hiddenSet = new Set(hidden.map((h) => h.toLowerCase()));
+  const merged: RoleProfileTerm[] = base
+    .filter((t) => !hiddenSet.has(String(t.term || "").toLowerCase()))
+    .map((t) => ({ term: t.term, meaning: t.meaning, group: t.group }));
+  const seen = new Set(merged.map((t) => String(t.term || "").toLowerCase()));
+  for (const t of added) {
     const norm = String(t.term || "").toLowerCase();
-    if (seen.has(norm)) continue;
+    if (seen.has(norm) || hiddenSet.has(norm)) continue;
     // User words carry no group — they land in the render's trailing bucket.
     merged.push({ term: t.term, meaning: t.meaning });
     seen.add(norm);
@@ -615,6 +684,11 @@ export {
   loadOverlay,
   addOverlayTerm,
   removeOverlayTerm,
+  hideOverlayTerm,
+  unhideOverlayTerm,
+  addHiddenTerm,
+  removeHiddenTerm,
+  mergeTerminology,
   overlayPath,
   effectiveTerminology,
   terminologyGroups,

@@ -191,6 +191,22 @@ function main(): void {
     if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
     return roleLexicons.removeTerm(c);
   }));
+  router.add("POST", "/api/v1/role-lexicons/term/hide", adminV1((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return roleLexicons.hideTerm(c);
+  }));
+  router.add("POST", "/api/role-lexicons/term/hide", adminLegacy((c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return roleLexicons.hideTerm(c);
+  }));
+  router.add("POST", "/api/v1/role-lexicons/term/unhide", adminV1((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return roleLexicons.unhideTerm(c);
+  }));
+  router.add("POST", "/api/role-lexicons/term/unhide", adminLegacy((c) => {
+    if (!originOk(c.req)) return c.error(Object.assign(new Error("Bad origin"), { status: 403 }));
+    return roleLexicons.unhideTerm(c);
+  }));
   router.add("GET", "/api/v1/regression/run", adminV1(regression.run));
   router.add("GET", "/api/regression/run", adminLegacy(regression.run));
   router.add("POST", "/api/v1/checks/run", adminV1((c) => {

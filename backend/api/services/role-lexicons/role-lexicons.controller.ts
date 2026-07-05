@@ -21,3 +21,13 @@ export async function removeTerm(c: RequestContext): Promise<void> {
   const { key, term } = asRecord(await c.readBody());
   c.json(200, service.removeTerm(asString(key), term));
 }
+
+export async function hideTerm(c: RequestContext): Promise<void> {
+  const { key, term } = asRecord(await c.readBody());
+  c.json(200, service.hideTerm(asString(key), term));
+}
+
+export async function unhideTerm(c: RequestContext): Promise<void> {
+  const { key, term } = asRecord(await c.readBody());
+  c.json(200, service.unhideTerm(asString(key), term));
+}

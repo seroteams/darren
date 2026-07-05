@@ -7,6 +7,8 @@ export interface RoleLexiconsService {
   list(): unknown[];
   addTerm(key: string, term: unknown, meaning: unknown): { ok: true; term: unknown };
   removeTerm(key: string, term: unknown): { ok: true; remaining: unknown };
+  hideTerm(key: string, term: unknown): { ok: true; hidden: unknown };
+  unhideTerm(key: string, term: unknown): { ok: true; hidden: unknown };
 }
 
 export function createRoleLexiconsService(repo: RoleLexiconsRepo): RoleLexiconsService {
@@ -14,5 +16,7 @@ export function createRoleLexiconsService(repo: RoleLexiconsRepo): RoleLexiconsS
     list: () => repo.list(),
     addTerm: (key, term, meaning) => ({ ok: true, term: repo.addTerm(key, { term, meaning }) }),
     removeTerm: (key, term) => ({ ok: true, remaining: repo.removeTerm(key, term) }),
+    hideTerm: (key, term) => ({ ok: true, hidden: repo.hideTerm(key, term) }),
+    unhideTerm: (key, term) => ({ ok: true, hidden: repo.unhideTerm(key, term) }),
   };
 }
