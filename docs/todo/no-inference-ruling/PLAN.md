@@ -19,15 +19,20 @@ the real gap is the three unbuilt gates.
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Fix the spec + docs rule (M1 + S5) | Spec re-aimed at `engagement_read`, test-matrix claim corrected, "never train on manager notes" standing rule | ✅ |
-| 2 | The three gates (M3 + M4 + M5) | `INFERRED_STATE_LEAK` / `THIN_INPUT_SUPPRESSION` / `EVIDENCE_ANCHOR` in trust-checks + <15-token rule in all four prompts + source-reference field | ⬜ |
+| 2 | The three gates (M3 + M4 + M5) | `INFERRED_STATE_LEAK` / `THIN_INPUT_SUPPRESSION` / `EVIDENCE_ANCHOR` in trust-checks + <15-token rule in all four prompts + source-reference field | ✅ |
 | 3 | Re-spec `engagement_read` (M2) | Contract + final-evaluation prompt + downstream renderers; needs one paid gate case (~$0.35, Carl's go) | ⬜ |
 | 4 | Hardening (S1–S4) | Six rules verbatim in prompts, axis evidence thresholds, adversarial golden cases, `outcomeCheck` field | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ green-lit + committed 2026-07-05 ("go please"). Next: Phase 2 (the three gates) — waiting for
-Carl's go, another day.** A second-AI review of the
+**Phase 2 ✅ green-lit + committed 2026-07-05 ("GO"). Next: Phase 3 (`engagement_read` re-spec) — waits for
+Carl's separate go, since it needs one paid gate case (~$0.35).** The three gates
+live in `evals/trust-checks.ts` (test-first: 16 new unit cases red→green), the <15-token thin-notes rule is in
+all four prompts, and `EVIDENCE_ANCHOR` enforces the existing `FocusPoint.source` contract at eval time.
+Calibrated against the 7 frozen replay cases — all still pass (`npm run replay` 7/7, $0); full `npm test`
+**73/73** + typecheck clean. Uncommitted, waiting for the green light.
+**Phase 1 ✅ green-lit + committed `2693dcea` 2026-07-05 ("go please").** A second-AI review of the
 plan was vetted same day: its "Engine 2.0 handoff" factual basis doesn't exist in this repo (unverified), but
 four logic points were accepted — Phase 2 gains a documented temporary carve-out for `engagement_read.level`
 (so the new gate doesn't fail the current system before Phase 3 fixes the field), a precise <15-token

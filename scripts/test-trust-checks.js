@@ -382,5 +382,174 @@ console.log("\n─── trust-checks unit ───");
   );
 }
 
+// ── No-inference ruling gates (docs/sero-prompt-improvement-spec.md §4) ──────
+// Rich notes helper: ≥15 tokens so THIN_INPUT_SUPPRESSION stays out of the way
+// when a case is isolating INFERRED_STATE_LEAK.
+const RICH_NOTES = "Ahmed talks about wanting senior scope but keeps redirecting himself into tactical delivery work every single week now.";
+
+// 19. State assertion in an employee-facing field, nowhere in input → INFERRED_STATE_LEAK
+{
+  const briefing = baseBriefing({ watch_for: ["He seems disengaged lately."] });
+  const r = runTrustChecks({ briefing, transcript: healthyTranscript, managerNotes: RICH_NOTES, bankQuestions: COVERING_BANK, meetingType: GROWTH });
+  check("invented state in employee-facing → INFERRED_STATE_LEAK", r.hard_fails.includes("INFERRED_STATE_LEAK"), JSON.stringify(r.hard_fails));
+}
+
+// 20. Manager typed the state word; it stays in the manager-only channel → no leak
+{
+  const briefing = baseBriefing({ brutal_truth_manager: "You flagged he may be burning out — nothing in the session moved that either way." });
+  const r = runTrustChecks({
+    briefing,
+    transcript: healthyTranscript,
+    managerNotes: "I am genuinely starting to wonder whether Ahmed is burning out after the last two release cycles went sideways.",
+    bankQuestions: COVERING_BANK,
+    meetingType: GROWTH,
+  });
+  check("note-anchored state in manager-only field → no INFERRED_STATE_LEAK", !r.hard_fails.includes("INFERRED_STATE_LEAK"), JSON.stringify(r.hard_fails));
+}
+
+// 21. Same manager-typed state word but in an EMPLOYEE-facing field → still a leak
+// (surface rule: input-anchored state words are manager-private only)
+{
+  const briefing = baseBriefing({ summary_bullets: ["Risk that he is burning out."] });
+  const r = runTrustChecks({
+    briefing,
+    transcript: healthyTranscript,
+    managerNotes: "I am genuinely starting to wonder whether Ahmed is burning out after the last two release cycles went sideways.",
+    bankQuestions: COVERING_BANK,
+    meetingType: GROWTH,
+  });
+  check("note-anchored state in employee-facing → INFERRED_STATE_LEAK", r.hard_fails.includes("INFERRED_STATE_LEAK"), JSON.stringify(r.hard_fails));
+}
+
+// 22. Invented state word even in the manager-only channel → leak
+{
+  const briefing = baseBriefing({ brutal_truth_manager: "Reading between the lines, he is coasting." });
+  const r = runTrustChecks({ briefing, transcript: healthyTranscript, managerNotes: RICH_NOTES, bankQuestions: COVERING_BANK, meetingType: GROWTH });
+  check("invented state in manager-only field → INFERRED_STATE_LEAK", r.hard_fails.includes("INFERRED_STATE_LEAK"), JSON.stringify(r.hard_fails));
+}
+
+// 23. Employee said it themselves → quoting them back is honest, not inference
+{
+  const transcript = healthyTranscript.map((t) => ({ ...t }));
+  transcript[1] = { answer: "honestly I feel burned out after this quarter", skipped: false };
+  const briefing = baseBriefing({ watch_for: ["He said he feels burned out — check in on recovery."] });
+  const r = runTrustChecks({ briefing, transcript, managerNotes: RICH_NOTES, bankQuestions: COVERING_BANK, meetingType: GROWTH });
+  check("employee's own words quoted → no INFERRED_STATE_LEAK", !r.hard_fails.includes("INFERRED_STATE_LEAK"), JSON.stringify(r.hard_fails));
+}
+
+// 24. engagement_read: the legacy level enum is carved out, but its prose is not
+{
+  const cleanRead = baseBriefing({
+    engagement_read: { level: "worth_checking", evidence: ["Answers stayed short on project questions."], missing_evidence: "No direct read on workload.", recommended_action: "Ask about the sprint load next time.", watch_next: "Whether Thursday's action lands." },
+  });
+  const r1 = runTrustChecks({ briefing: cleanRead, transcript: healthyTranscript, managerNotes: RICH_NOTES, bankQuestions: COVERING_BANK, meetingType: GROWTH });
+  check("engagement_read.level enum (carve-out) → no INFERRED_STATE_LEAK", !r1.hard_fails.includes("INFERRED_STATE_LEAK"), JSON.stringify(r1.hard_fails));
+
+  const dirtyRead = baseBriefing({
+    engagement_read: { level: "no_clear_concern", evidence: [], missing_evidence: "", recommended_action: "", watch_next: "Watch for signs of disengagement." },
+  });
+  const r2 = runTrustChecks({ briefing: dirtyRead, transcript: healthyTranscript, managerNotes: RICH_NOTES, bankQuestions: COVERING_BANK, meetingType: GROWTH });
+  check("invented state in engagement_read prose → INFERRED_STATE_LEAK", r2.hard_fails.includes("INFERRED_STATE_LEAK"), JSON.stringify(r2.hard_fails));
+}
+
+// 25. Near-empty notes + a "signal" focus point → THIN_INPUT_SUPPRESSION
+{
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript: healthyTranscript,
+    managerNotes: "quiet lately",
+    bankQuestions: COVERING_BANK,
+    focusPoints: [{ id: "priorities", source: "signal", label: "Energy dip to explore", reason: "Note says he has been quiet lately." }],
+    meetingType: GROWTH,
+  });
+  check("signal focus point on near-empty notes → THIN_INPUT_SUPPRESSION", r.hard_fails.includes("THIN_INPUT_SUPPRESSION"), JSON.stringify(r.hard_fails));
+}
+
+// 26. Short-but-concrete notes (like the frozen rachel-singh case) + anchored
+// signal point → legitimate, no thin fail
+{
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript: healthyTranscript,
+    managerNotes: "Rachel is usually thoughtful, but she has been much quieter in team conversations recently.",
+    bankQuestions: COVERING_BANK,
+    focusPoints: [{ id: "team_connection", source: "signal", label: "How she's landing in team conversations", reason: "Notes say Rachel's been much quieter recently." }],
+    meetingType: GROWTH,
+  });
+  check("concrete 14-token note + anchored signal → no THIN_INPUT_SUPPRESSION", !r.hard_fails.includes("THIN_INPUT_SUPPRESSION"), JSON.stringify(r.hard_fails));
+}
+
+// 27. Thin notes carrying a state word, echoed in the manager channel → still
+// suppressed (thin input cannot support a state read of ANY polarity), while
+// INFERRED_STATE_LEAK stays quiet (it IS note-anchored + manager-facing)
+{
+  const briefing = baseBriefing({ brutal_truth_manager: "You wrote he is burned out; the session gave no evidence either way." });
+  const r = runTrustChecks({ briefing, transcript: healthyTranscript, managerNotes: "worried he's burned out", bankQuestions: COVERING_BANK, meetingType: GROWTH });
+  check("state claim on thin notes → THIN_INPUT_SUPPRESSION", r.hard_fails.includes("THIN_INPUT_SUPPRESSION"), JSON.stringify(r.hard_fails));
+  check("...but note-anchored manager-facing → no INFERRED_STATE_LEAK", !r.hard_fails.includes("INFERRED_STATE_LEAK"), JSON.stringify(r.hard_fails));
+}
+
+// 28. Thin notes but the employee said it in the session → transcript-anchored, no thin fail
+{
+  const transcript = healthyTranscript.map((t) => ({ ...t }));
+  transcript[0] = { answer: "I will be honest, I feel burned out", skipped: false };
+  const briefing = baseBriefing({ brutal_truth_manager: "He told you directly he feels burned out." });
+  const r = runTrustChecks({ briefing, transcript, managerNotes: "quick check in", bankQuestions: COVERING_BANK, meetingType: GROWTH });
+  check("transcript-anchored state on thin notes → no THIN_INPUT_SUPPRESSION", !r.hard_fails.includes("THIN_INPUT_SUPPRESSION"), JSON.stringify(r.hard_fails));
+}
+
+// 29. Signal focus point with no relation to the notes → EVIDENCE_ANCHOR
+{
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript: healthyTranscript,
+    managerNotes: RICH_NOTES,
+    bankQuestions: COVERING_BANK,
+    focusPoints: [{ id: "team_connection", source: "signal", label: "Friction with the design team", reason: "Recent reviews suggest possible tension in critiques." }],
+    meetingType: GROWTH,
+  });
+  check("unanchored signal focus point → EVIDENCE_ANCHOR", r.hard_fails.includes("EVIDENCE_ANCHOR"), JSON.stringify(r.hard_fails));
+}
+
+// 30. Single long shared stem counts as an anchor (the frozen leak-devon
+// "quietly coasting" pattern: one rare note word carries the link)
+{
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript: healthyTranscript,
+    managerNotes: "Between us: I worry Devon has been coasting and seems distant in standups these last few weeks.",
+    bankQuestions: COVERING_BANK,
+    focusPoints: [{ id: "priorities", source: "signal", label: "Whether his goals still match the work", reason: "Whether he is quietly coasting on lower-stakes tasks." }],
+    meetingType: GROWTH,
+  });
+  check("one long shared stem → no EVIDENCE_ANCHOR", !r.hard_fails.includes("EVIDENCE_ANCHOR"), JSON.stringify(r.hard_fails));
+}
+
+// 31. best_practice points are anchored by the catalogue, not the notes → exempt
+{
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript: healthyTranscript,
+    managerNotes: RICH_NOTES,
+    bankQuestions: COVERING_BANK,
+    focusPoints: [{ id: "manager_support", source: "best_practice", label: "What he'd want more of from you", reason: "Standard hygiene at this seniority." }],
+    meetingType: GROWTH,
+  });
+  check("unrelated best_practice point → no EVIDENCE_ANCHOR", !r.hard_fails.includes("EVIDENCE_ANCHOR"), JSON.stringify(r.hard_fails));
+}
+
+// 32. Focus point with no source tag at all → EVIDENCE_ANCHOR (schema-enforced field)
+{
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript: healthyTranscript,
+    managerNotes: RICH_NOTES,
+    bankQuestions: COVERING_BANK,
+    focusPoints: [{ id: "priorities", label: "Work in flight", reason: "Standard anchor." }],
+    meetingType: GROWTH,
+  });
+  check("untagged focus point → EVIDENCE_ANCHOR", r.hard_fails.includes("EVIDENCE_ANCHOR"), JSON.stringify(r.hard_fails));
+}
+
 console.log(`\n  ${failed === 0 ? "all trust-checks passed" : `${failed} trust-check(s) failed`}\n`);
 process.exit(failed ? 1 : 0);

@@ -33,17 +33,16 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > "built — awaiting walk". **Walk:** the 5 scenarios in [phase-1.md](docs/todo/guest-run/phase-1.md) (all free).
 > Green light → Phase 2 (the "Try it" front door). Then: ③ save-at-end (one paid walk, your go) · ④ Guest runs screen.
 
-> **🔨 [no-inference-ruling](docs/todo/no-inference-ruling/PLAN.md) — Phase 1 ✅ green-lit + committed ("go please", 2026-07-05) · Phase 2 ⬜ next, your go.**
-> The MoSCoW review of [the prompt-improvement spec](docs/sero-prompt-improvement-spec.md). Big find: the spec's
-> "highest risk" field `disengagementSignal` **doesn't exist** — the live one is `engagement_read`, and it *does*
-> carry the state labels the ruling bans. The prompts are already mostly compliant; the real gap is the **three
-> unbuilt gates** (INFERRED_STATE_LEAK · THIN_INPUT_SUPPRESSION · EVIDENCE_ANCHOR).
-> **P1 ✅:** spec re-aimed at `engagement_read`, honest about the 8-case test set, CLAUDE.md §6 gained "never
-> train on manager notes" + a future-contract guard. A second-AI review was vetted: its "Engine 2.0 handoff"
-> basis isn't in this repo, but 4 logic points folded in (gate carve-out until Phase 3, <15-token definition,
-> manager-facing surface rule, axis justification). Baseline `npm test` **69/70** (1 pre-existing fail, another
-> session's mid-work). **Next: Phase 2 — the three gates** (free, offline-testable) · ③ `engagement_read`
-> re-spec (one paid case ~$0.35, your go) · ④ hardening. Routing nudges parked.
+> **🔨 [no-inference-ruling](docs/todo/no-inference-ruling/PLAN.md) — P1 ✅ `2693dcea` · P2 ✅ green-lit + committed ("GO", 2026-07-05) · P3 next, your go (paid ~$0.35).**
+> The MoSCoW review of [the prompt-improvement spec](docs/sero-prompt-improvement-spec.md): the spec's "highest
+> risk" field `disengagementSignal` doesn't exist — the live one is `engagement_read`; the real gap was the three
+> unbuilt gates.
+> **P2 ✅:** `INFERRED_STATE_LEAK` · `THIN_INPUT_SUPPRESSION` · `EVIDENCE_ANCHOR` live in `evals/trust-checks.ts`
+> — test-first (16 new unit cases red→green), <15-word thin-notes rule in all four prompts, `EVIDENCE_ANCHOR`
+> enforces the existing `FocusPoint.source` contract. Calibrated on the 7 frozen replay runs — all still pass
+> (`npm run replay` 7/7 · `npm test` **73/73** · typecheck ✓ · $0).
+> **Next: Phase 3 — `engagement_read` re-spec** (drops the state-label enum, removes the gate's temporary
+> carve-out; needs ONE paid gate case ~$0.35, waits for your explicit go) · then ④ hardening. Routing nudges parked.
 
 > **🔨 [frontend-admin-split](docs/todo/frontend-admin-split/PLAN.md) — RESTARTED on the Darren check (2026-07-05): Phase 2 BUILT, awaiting your walk.**
 > The customer app is now **real**: `npm run dev:customer` → **http://localhost:3002** — login/register,

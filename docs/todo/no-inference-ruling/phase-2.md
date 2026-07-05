@@ -1,6 +1,6 @@
 # Phase 2 — The three gates (M3 + M4 + M5)
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ (green-lit by Carl 2026-07-05 — "GO")
 
 ## Goal
 The ruling is mechanically enforced: any output asserting an internal employee state, un-anchored claim, or state-read from thin input fails the gate.
@@ -13,17 +13,20 @@ The ruling is mechanically enforced: any output asserting an internal employee s
   - `THIN_INPUT_SUPPRESSION`: manager free-text <15 tokens AND output contains any state/wellbeing claim, or doesn't use fallback/cautious mode. **Definition:** the <15-token floor measures the **manager's total free-text notes for the session** (the pre-meeting input), evaluated once at pipeline start — separate from plan-turn's per-answer <3-token "shallow" rule, which stays unchanged.
   - `EVIDENCE_ANCHOR`: any focus point / risk / listen-for not matchable to manager input text or a structured event ID.
 - All four prompts in `content/prompts/` — the <15-token thin-input rule (today only plan-turn's <3-token "shallow" rule and focus-points' sparse-notes branch exist).
-- Focus-point + briefing contracts — schema-enforced source-reference field (copy the pattern from plan-turn's `grounding` field, `content/prompts/plan-turn.md:318`).
+- Focus-point + briefing contracts — schema-enforced source-reference field. **Build note:** the `FocusPoint` contract (`backend/shared/session.types.ts:65`) already requires `source` + `reason`; the new `EVIDENCE_ANCHOR` gate now enforces it at eval time (an untagged point hard-fails), so no contract change was needed.
 - Unit tests for each gate (test-first, offline fixtures — no paid runs).
+- **Calibration notes (built against the 7 frozen replay cases):**
+  - The 15-token floor suppresses *state claims* on thin notes, but does NOT ban `signal` focus points on short-but-concrete notes — two blessed frozen cases (rachel-singh, sofia-martinez) have legitimate 14-token observations, and the focus prompt's own signal-honesty rule requires citing them. Signal points on near-empty notes (<3 content words) do fail; concrete short notes are held to `EVIDENCE_ANCHOR` instead.
+  - `EVIDENCE_ANCHOR` uses light stemming: ≥2 shared content-word stems with the notes, or 1 shared long-word (6+ chars) stem — so "quieter" anchors "quietness" and one rare note word ("coasting") can carry the link.
 
 ## Not in this phase
 - `engagement_read` redefinition (Phase 3). Adversarial golden cases (Phase 4). Routing nudges (parked).
 
 ## Done when
-- [ ] Three gates exist, each with a failing-then-passing test.
-- [ ] `npm test` green (minus the pre-existing scenario-pack failure).
-- [ ] Fixtures-only replay shows the gates evaluating real outputs.
-- [ ] Product owner has tested the scenarios below and said go.
+- [x] Three gates exist, each with a failing-then-passing test. (16 new unit cases, red→green)
+- [x] `npm test` green — 73/73 (the scenario-pack failure was fixed by its own track meanwhile).
+- [x] Fixtures-only replay shows the gates evaluating real outputs — `npm run replay` 7/7 still good, $0.
+- [x] Product owner has tested the scenarios below and said go. (2026-07-05)
 
 ## Test scenarios — for the product owner
 1. **Poisoned note is caught** — I'll show a test where output containing "they seem disengaged" (not in the manager's note) trips `INFERRED_STATE_LEAK` = FAIL. You should see the fail; the same text present in the manager's own note passes.

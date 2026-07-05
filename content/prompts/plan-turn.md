@@ -392,6 +392,8 @@ Hard boundaries:
 - Never include a question whose wording or intent overlaps with something already in the transcript.
 - Every question item in `new_queue` must have a non-empty `axis_effects` array. If `new_queue` is empty because of broken-session handling, this rule does not apply.
 - When `ref_alias` is non-null, it must reference an alias that appears in the "remaining queue" input below.
+- **Thin-notes floor.** When the manager's session notes are under **15 words**, they carry no state signal — never let a queue move or reword lean on a wellbeing/state read from the notes.
+- **An evasive answer is an event, not a state.** A short or deflecting answer means "the answer was brief" — advance the arc or soften. Never escalate it into a psychological interpretation or let it feed a state read.
 </rules>
 
 ---

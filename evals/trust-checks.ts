@@ -109,6 +109,9 @@ const HARD_FAIL = {
   SCHEMA_INVALID: "SCHEMA_INVALID",
   QUESTION_INTEGRITY: "QUESTION_INTEGRITY",
   CROSS_SESSION_QUESTION_LEAK: "CROSS_SESSION_QUESTION_LEAK",
+  INFERRED_STATE_LEAK: "INFERRED_STATE_LEAK",
+  THIN_INPUT_SUPPRESSION: "THIN_INPUT_SUPPRESSION",
+  EVIDENCE_ANCHOR: "EVIDENCE_ANCHOR",
 };
 
 const REQUIRED_BRIEFING_KEYS = [
@@ -188,6 +191,147 @@ function employeeFacingText(briefing: unknown): string {
     }
   }
   return parts.join("\n");
+}
+
+// ── No-inference ruling gates (docs/sero-prompt-improvement-spec.md §4) ─────
+// Same honest-reach philosophy as the rest of this file: blatant tripwires over
+// clever heuristics. Reworded/subtle state reads fall to the judge Warn.
+
+// Assertions of an internal employee state. Each entry is a word family so the
+// anchor check can match morphology ("disengaged" anchors "disengagement").
+const STATE_ASSERTIONS: Array<{ label: string; re: RegExp }> = [
+  { label: "disengagement", re: /\bdisengag\w*\b/i },
+  { label: "burnout", re: /\bburn(?:ed|t|ing)[\s-]?out\b|\bburnout\b/i },
+  { label: "checked out", re: /\bcheck(?:ed|ing)[\s-]?out\b/i },
+  { label: "quiet quitting", re: /\bquiet[\s-]?quit\w*\b/i },
+  { label: "flight risk", re: /\bflight[\s-]?risk\b/i },
+  { label: "unreliable", re: /\bunreliab\w*\b/i },
+  { label: "feedback avoidance", re: /\bavoid\w*\s+feedback\b|\bfeedback[\s-]?avoid\w*\b/i },
+  { label: "low ownership", re: /\b(?:low|lacks?|lacking|no)\s+ownership\b/i },
+  { label: "poor judgment", re: /\bpoor\s+judge?ment\b/i },
+  { label: "demotivated", re: /\bdemotivat\w*\b|\bunmotivat\w*\b|\b(?:losing|lost)\s+(?:\w+\s+)?motivation\b/i },
+  { label: "coasting", re: /\bcoasting\b/i },
+  { label: "quitting risk", re: /\b(?:about|going|planning)\s+to\s+quit\b|\blooking\s+to\s+leave\b|\bone\s+foot\s+out\b/i },
+];
+
+// Manager-facing prose: the manager-only truth channel plus engagement_read's
+// free-text fields. `engagement_read.level` is deliberately NOT scanned — its
+// enum tokens ("worth_checking", "clear_concern") are the legacy state labels,
+// carved out 2026-07-05 so this gate doesn't red-line the current contract.
+// The Phase 3 re-spec of engagement_read removes this carve-out
+// (docs/todo/no-inference-ruling/phase-3.md).
+function managerFacingText(briefing: unknown): string {
+  const b = asRecord(briefing);
+  const parts: string[] = [asString(b.brutal_truth_manager)];
+  const er = asRecord(b.engagement_read);
+  for (const [key, value] of Object.entries(er)) {
+    if (key === "level") continue; // carve-out (see above)
+    if (typeof value === "string") parts.push(value);
+    else if (Array.isArray(value)) parts.push(...value.filter((v): v is string => typeof v === "string"));
+  }
+  return parts.filter(Boolean).join("\n");
+}
+
+function transcriptAnswerText(transcript: LooseTurn[]): string {
+  return (transcript || []).map((t) => asString(t.answer)).filter(Boolean).join("\n");
+}
+
+// INFERRED_STATE_LEAK — no output may assert an internal employee state the
+// input doesn't carry. Surface rule (2026-07-05 review): a state word the
+// manager typed may appear in MANAGER-facing prose only; employee-facing text
+// may never carry one unless the employee said it themselves in the session
+// (self-authored text is the validated basis — spec §1).
+function checkInferredStateLeak(managerNotes: unknown, transcript: LooseTurn[], briefing: unknown): string[] {
+  const failures: string[] = [];
+  const notes = asString(managerNotes);
+  const answers = transcriptAnswerText(transcript);
+  const empText = employeeFacingText(briefing);
+  const mgrText = managerFacingText(briefing);
+  for (const s of STATE_ASSERTIONS) {
+    if (empText && s.re.test(empText) && !s.re.test(answers)) {
+      failures.push(`state assertion "${s.label}" in employee-facing output (allowed only when the employee said it themselves)`);
+    }
+    if (mgrText && s.re.test(mgrText) && !s.re.test(notes) && !s.re.test(answers)) {
+      failures.push(`state assertion "${s.label}" in manager-facing output with no anchor in the manager's notes or the transcript`);
+    }
+  }
+  return failures;
+}
+
+// THIN_INPUT_SUPPRESSION — manager free-text under 15 tokens (the session's
+// total pre-meeting notes, counted once) cannot support a state read of ANY
+// polarity, even one the note itself asserts; only the employee's own words
+// in the session can carry it. Near-empty notes (<3 content words) also may
+// not produce "signal" focus points — the focus prompt's sparse-notes branch.
+// NOTE: the 15-token floor deliberately does NOT suppress signal points on
+// short-but-concrete notes (a 14-token "she's been quieter in team
+// conversations" is a real observable — see frozen cases rachel-singh /
+// sofia-martinez); those are held to EVIDENCE_ANCHOR instead.
+const THIN_NOTES_TOKENS = 15;
+function checkThinInputSuppression(managerNotes: unknown, transcript: LooseTurn[], briefing: unknown, focusPoints: unknown): string[] {
+  const notes = asString(managerNotes).trim();
+  const tokenCount = notes ? notes.split(/\s+/).length : 0;
+  if (tokenCount >= THIN_NOTES_TOKENS) return [];
+  const failures: string[] = [];
+  const answers = transcriptAnswerText(transcript);
+  const outputText = `${employeeFacingText(briefing)}\n${managerFacingText(briefing)}`;
+  for (const s of STATE_ASSERTIONS) {
+    if (s.re.test(outputText) && !s.re.test(answers)) {
+      failures.push(`state claim "${s.label}" on thin manager notes (${tokenCount} tokens < ${THIN_NOTES_TOKENS}) with no transcript anchor`);
+    }
+  }
+  if (contentWords(notes).length < 3) {
+    const points: unknown[] = Array.isArray(focusPoints) ? focusPoints : [];
+    for (const p of points) {
+      const fp = asRecord(p);
+      if (asString(fp.source) === "signal") {
+        failures.push(`"signal" focus point "${asString(fp.id) || asString(fp.label)}" on near-empty notes — sparse notes must produce best_practice points only`);
+      }
+    }
+  }
+  return failures;
+}
+
+// EVIDENCE_ANCHOR — every "signal" focus point must trace to the manager's
+// notes: at least 2 shared content-word stems, or 1 shared stem of a long
+// (6+ char) word — light stemming so "quieter" anchors "quietness".
+// best_practice points are anchored by the catalogue instead; a point with no
+// source tag at all fails (the source field is the contract, not a nicety).
+const STEM_LEN = 5;
+function stemOf(word: string): string {
+  return word.length > STEM_LEN ? word.slice(0, STEM_LEN) : word;
+}
+function checkEvidenceAnchor(managerNotes: unknown, focusPoints: unknown): string[] {
+  const failures: string[] = [];
+  const noteStemLens = new Map<string, number>();
+  for (const w of contentWords(managerNotes)) {
+    const s = stemOf(w);
+    noteStemLens.set(s, Math.max(noteStemLens.get(s) || 0, w.length));
+  }
+  const points: unknown[] = Array.isArray(focusPoints) ? focusPoints : [];
+  for (const p of points) {
+    const fp = asRecord(p);
+    const source = asString(fp.source);
+    const name = asString(fp.id) || asString(fp.label) || "unnamed";
+    if (source === "best_practice") continue;
+    if (source !== "signal") {
+      failures.push(`focus point "${name}" has no source tag — every point must declare signal|best_practice`);
+      continue;
+    }
+    const shared = new Set<string>();
+    let longAnchor = false;
+    for (const w of contentWords(`${asString(fp.label)} ${asString(fp.reason)}`)) {
+      const s = stemOf(w);
+      const noteLen = noteStemLens.get(s);
+      if (noteLen === undefined) continue;
+      shared.add(s);
+      if (w.length >= 6 || noteLen >= 6) longAnchor = true;
+    }
+    if (shared.size < 2 && !longAnchor) {
+      failures.push(`"signal" focus point "${name}" shares no content with the manager's notes — cite the note or tag it best_practice`);
+    }
+  }
+  return failures;
 }
 
 // PRIVATE_NOTE_LEAK — blatant tripwire. Splits the manager notes into clauses,
@@ -388,6 +532,24 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
     details.push(leak.detail);
   }
 
+  const inferred = checkInferredStateLeak(managerNotes, turns, briefing);
+  if (inferred.length) {
+    hard_fails.push(HARD_FAIL.INFERRED_STATE_LEAK);
+    details.push(...inferred);
+  }
+
+  const thin = checkThinInputSuppression(managerNotes, turns, briefing, focusPoints);
+  if (thin.length) {
+    hard_fails.push(HARD_FAIL.THIN_INPUT_SUPPRESSION);
+    details.push(...thin);
+  }
+
+  const anchor = checkEvidenceAnchor(managerNotes, focusPoints);
+  if (anchor.length) {
+    hard_fails.push(HARD_FAIL.EVIDENCE_ANCHOR);
+    details.push(...anchor);
+  }
+
   const over = checkOverdiagnosisOnThin(turns, briefing);
   if (over.result) {
     hard_fails.push(over.result.reason);
@@ -497,9 +659,13 @@ export {
   HARD_FAIL,
   runTrustChecks,
   employeeFacingText,
+  managerFacingText,
   checkPrivateNoteLeak,
   checkOverdiagnosisOnThin,
   checkWrongMeetingType,
   checkSchemaInvalid,
   checkQuestionIntegrity,
+  checkInferredStateLeak,
+  checkThinInputSuppression,
+  checkEvidenceAnchor,
 };

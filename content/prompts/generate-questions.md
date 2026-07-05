@@ -61,6 +61,8 @@ Examples of the rule applied:
 - Notes say "she'll be pulled into the billing rewrite (she doesn't know yet)" → NEVER ask "What role do you see yourself playing in the billing rewrite?" → INSTEAD ask "What kind of project would you want to take on next quarter?" or "Where are you hoping to direct your energy after the current work wraps up?"
 - Notes say "German level too low for the Munich role" → NEVER ask "What steps are you taking to improve your German?" → INSTEAD ask "What parts of the expanded scope feel like the biggest stretch for you right now?"
 - Notes say "she's ready for director" (internal manager view) → NEVER ask "What excites you about the director transition?" → INSTEAD ask "Where do you see the biggest gap between where you are now and where you want to be in 12 months?"
+
+**Thin-notes floor (hard).** When the manager's notes are under **15 words**, treat them as thin input: no question may presuppose or probe a wellbeing/state read of any polarity drawn from the notes. Anchor questions to the focus points, the meeting type's arc, and the role — and keep any note reference strictly to what the note literally says.
 </note_classification>
 
 <opening_question_rule>

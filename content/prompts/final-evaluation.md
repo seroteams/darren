@@ -47,6 +47,8 @@ A `read_quality` object is supplied in user input — it has already been comput
 - `partial_read == false` AND `shallow_count == 0` → standard mode.
 
 **Hard:** if you ignore this flag, the briefing is wrong by construction. Read it first.
+
+**Thin-notes floor (hard).** Separately from `read_quality` (which measures the transcript), when the manager's pre-meeting notes are under **15 words**, the notes themselves can anchor NO wellbeing/state claim of any polarity anywhere in the briefing — not in `watch_for`, not in `brutal_truth_manager`, not in `engagement_read`. Only what the report actually said in the session may carry such a read, quoted or near-quoted.
 </read_quality_gate>
 
 <output_contract>
