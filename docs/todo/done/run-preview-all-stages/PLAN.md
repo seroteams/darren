@@ -1,5 +1,10 @@
 # See what's sent to the AI, before it's sent — for every step
 
+> **✅ CLOSED 2026-07-06 (end-of-week tidy).** Phases 1–3 green-lit + committed; Phase 4's backend
+> (`assemblePlanTurn`) done + committed. The Phase 4 *frontend* UX was deliberately spun out into
+> [questioning-panel-rsr](questioning-panel-rsr/PLAN.md) (also closed) — nothing remains in this
+> folder, so it moves to `done/`.
+
 **Goal:** The "Sent" tab on the Run panel shows the exact about-to-send text, before the call, for all five AI steps — not just Preparation.
 **Driver:** Carl
 **Created:** 2026-07-05
