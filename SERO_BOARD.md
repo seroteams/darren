@@ -12,6 +12,17 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**▶ Active line: continuity — previous 1:1s shape the next one.** New track (2026-07-06, Carl lifted the
+2026-07-04 hard-park). The willingness-to-pay signal is the *return visit*, and continuity is what makes
+the second prep better than the first — the compounding per-person/team history is the moat. 8 phases, one
+at a time, built inside the no-inference ruling (structured events only, never train on manager notes):
+① carry-forward on prep · ② outcome taps · ③ engine-native follow-up · ④ question memory · ⑤ Continuity
+console · ⑥ tweak-and-see test bench · ⑦ learning engine v1 · ⑧ moat metrics. Plan
+[docs/todo/continuity/PLAN.md](docs/todo/continuity/PLAN.md).
+**Phase 1 ✅ done (green-lit + committed `399d85e5`, 2026-07-06):** the person page's "Prep your next 1:1"
+now seeds the intake notes with last time's agreed actions + watch-fors — labelled, editable, clearable;
+no backend/OpenAI/engine change, `npm test` 81/81. **Phase 2 (one-tap outcome capture, $0) now active.**
+
 **✅ Closed (2026-07-06): People roster — managers formally have members; 1:1s owned by that pair.**
 Grew out of Carl's "members should only see their own 1:1s": the fence was already sound but
 creator-based, and "1:1s about me" was impossible (people were free text). Now: a `people` table
