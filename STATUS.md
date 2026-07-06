@@ -13,8 +13,14 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > **P3 ✅ green-lit 2026-07-06** — Carl walked `scripts/backfill-people.ts` on live Neon (dry-run → real →
 > idempotent re-run): every existing run now carries a roster `personId`, distinct people, merged names on
 > canonical persons. Commit `59a7558`, PR #8.
-> **P4 🔨 (2026-07-06):** intake gets a roster **person picker** (+ "Someone new" free-text), Team + person
-> pages group by `run.personId`, Tidy-up rename/merge call the people endpoints. Frontend-heavy → browser walk.
+> **P4 🔨 (2026-07-06)** — you chose **roster-driven** Team (add names before any 1:1); split into 4a + 4b.
+> **4a BUILT — awaiting your walk:** Team page now lists your real roster (a name added with **no 1:1 yet**
+> shows), run history joins in by personId; new **"Add someone"** button; a not-yet-met person offers **"Prep
+> first 1:1"**; Tidy-up rename/merge moved to the roster endpoints; person page re-keyed to personId. Pure join
+> `buildRosterView` unit-tested (5 cases). `npm test` **78/79** (1 pre-existing fail), typechecks + admin build ✓.
+> ⚠️ **Not browser-walked here** (cloud, no live app) — the click-through is your walk: Add someone → shows as
+> not-yet-met → Prep first 1:1; a met person still opens their page; rename/merge persist + survive reload.
+> **4b next:** the intake **person picker** (pick from roster or free-type) + start payload carries personId.
 > Your ask: members should only see their own 1:1s → the real build (option B): managers formally
 > **have** members; a member linked to a roster person will see the 1:1s ABOUT them (Phase 5).
 > **P1 ✅ (`4a762779`):** `people` table live on Neon (migration `0007`) + 5 fenced endpoints under

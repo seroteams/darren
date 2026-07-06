@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { groupRunsByPerson } from "./group-people.js";
+import { groupRunsByPerson, buildRosterView } from "./group-people.js";
 
 type Person = {
   key: string;
@@ -61,4 +61,61 @@ test("a person with only a fresh open prep sorts by that prep, not to the bottom
     undefined,
   ) as Person[];
   assert.deepEqual(people.map((p) => p.name), ["Darren", "Old Hand"]);
+});
+
+// ── buildRosterView: roster-driven Team (people-roster Phase 4) ──────────────────
+
+type Row = { key: string; name: string; role: string; count: number; met: boolean; avgStars: number | null; lastMet: number };
+
+test("a roster person with no runs still shows, flagged not-yet-met", () => {
+  const rows = buildRosterView([{ id: "p1", name: "Priya", role: "Engineer" }], []) as Row[];
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].key, "p1");
+  assert.equal(rows[0].name, "Priya");
+  assert.equal(rows[0].met, false);
+  assert.equal(rows[0].count, 0);
+});
+
+test("runs join onto their roster person by personId", () => {
+  const rows = buildRosterView(
+    [{ id: "p1", name: "Priya" }],
+    [
+      { personId: "p1", ctx: { name: "Priya", role: "Eng" }, lastSeenAt: 50, finished: true, rating: { stars: 4 } },
+      { personId: "p1", ctx: { name: "priya" }, lastSeenAt: 200, finished: true, rating: { stars: 2 } },
+    ],
+  ) as Row[];
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].count, 2);
+  assert.equal(rows[0].met, true);
+  assert.equal(rows[0].avgStars, 3);
+  assert.equal(rows[0].lastMet, 200);
+});
+
+test("the roster name wins over the run's ctx.name", () => {
+  const rows = buildRosterView(
+    [{ id: "p1", name: "Daniel Lee" }],
+    [{ personId: "p1", ctx: { name: "Danny" }, lastSeenAt: 10, finished: true }],
+  ) as Row[];
+  assert.equal(rows[0].name, "Daniel Lee");
+});
+
+test("met people sort above never-met, then by name", () => {
+  const rows = buildRosterView(
+    [
+      { id: "p1", name: "Zara" },
+      { id: "p2", name: "Anna" },
+      { id: "p3", name: "Met Person" },
+    ],
+    [{ personId: "p3", ctx: { name: "Met Person" }, lastSeenAt: 500, finished: true }],
+  ) as Row[];
+  assert.deepEqual(rows.map((r) => r.name), ["Met Person", "Anna", "Zara"]);
+});
+
+test("a run whose personId isn't in the roster still gets a straggler row", () => {
+  const rows = buildRosterView(
+    [{ id: "p1", name: "Priya" }],
+    [{ personId: "ghost", ctx: { name: "Straggler" }, lastSeenAt: 5, finished: true }],
+  ) as Row[];
+  assert.equal(rows.length, 2);
+  assert.ok(rows.some((r) => r.key === "ghost" && r.name === "Straggler"));
 });

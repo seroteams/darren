@@ -7,16 +7,17 @@
 // pipeline from there spends, same as starting any 1:1).
 
 import { STAGES, store } from "../state.js";
-import { listMyRuns, getMyRun, getTeamAliases } from "../../../shared/api.js";
+import { listMyRuns, getMyRun, listPeople } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
-import { groupRunsByPerson, canonicalKeyOf } from "../ui/group-people.js";
+import { buildRosterView } from "../ui/group-people.js";
 import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
 type MyRun = {
   id: string;
+  personId: string | null;
   headline: string;
   ctx: { name: string; role: string; seniority: string; meetingType: string };
   lastSeenAt: number;
@@ -120,12 +121,16 @@ export const mount: Mount = async (root, { setState }) => {
   }
 
   let runs: MyRun[];
-  let aliases: { merges: Record<string, string>; names: Record<string, string> };
+  let people: { id: string; name: string; role: string | null }[];
   try {
-    const [res, aliasRes] = await Promise.all([listMyRuns(), getTeamAliases().catch(() => ({}))]);
+    const [res, peopleRes] = await Promise.all([
+      listMyRuns(),
+      listPeople().catch(() => ({ people: [] })),
+    ]);
     runs = Array.isArray(res?.runs) ? (res.runs as MyRun[]) : [];
-    const a = aliasRes as Partial<typeof aliases>;
-    aliases = { merges: a?.merges || {}, names: a?.names || {} };
+    people = Array.isArray((peopleRes as { people?: unknown })?.people)
+      ? ((peopleRes as { people: { id: string; name: string; role: string | null }[] }).people)
+      : [];
   } catch {
     root.querySelector(".js-host")!.innerHTML = notice(
       "Couldn't load",
@@ -135,11 +140,11 @@ export const mount: Mount = async (root, { setState }) => {
     return;
   }
 
-  // Group + filter on the SAME canonical key the Team uses, so a merged person's page
-  // collects every 1:1 that folded into them (and shows their renamed name).
-  const person = (groupRunsByPerson(runs, aliases) as Person[]).find((p) => p.key === key);
+  // Resolve the person + their runs on the SAME personId the Team card keys on (people-roster
+  // Phase 4), so the header summary and the run list always agree — no name round-trip.
+  const person = (buildRosterView(people, runs) as Person[]).find((p) => p.key === key);
   const mine = runs
-    .filter((r) => canonicalKeyOf(r?.ctx?.name ?? "", aliases) === key)
+    .filter((r) => r.personId === key)
     .sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0));
 
   if (!person || mine.length === 0) {
@@ -183,7 +188,7 @@ export const mount: Mount = async (root, { setState }) => {
   // free; only running the full pipeline from intake spends (same as starting any 1:1).
   root.querySelector(".js-prep")?.addEventListener("click", () => {
     store.scripted = null;
-    Object.assign(store.ctx, { name: person.name, role: person.role, seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" });
+    Object.assign(store.ctx, { personId: key, name: person.name, role: person.role, seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" });
     setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
   });
 };

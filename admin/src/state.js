@@ -47,7 +47,7 @@ const initial = {
   substage: "NAME",
   turn: 0,
   totalBudget: 9,
-  ctx: { name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" },
+  ctx: { personId: null, name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" },
   focusPoints: null,
   preparation: null,
   preparationRunId: null,
@@ -108,6 +108,6 @@ export function resetSession() {
   // Preserve the logged-in user across a session reset — "new session" clears the
   // run, not the login.
   const user = store.user;
-  Object.assign(store, { ...initial, user, ctx: { name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" } });
+  Object.assign(store, { ...initial, user, ctx: { personId: null, name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" } });
   try { localStorage.removeItem("seroSessionId"); } catch {}
 }

@@ -16,6 +16,7 @@ export type StageName =
 export const STAGES: Readonly<Record<StageName, StageName>>;
 
 export interface SessionCtx {
+  personId: string | null; // people-roster Phase 4: the roster person this 1:1 is about (null = free-typed)
   name: string;
   role: string;
   seniority: string;

@@ -80,3 +80,53 @@ export function groupRunsByPerson(runs, aliases) {
       avgStars: p.ratedCount ? p.starSum / p.ratedCount : null,
     }));
 }
+
+// Roster-driven Team (people-roster Phase 4). The Team page is now the real roster: one row
+// per `people` row (so a name added with no 1:1 yet still shows), with run stats joined in by
+// `personId`. `people` = the roster rows ({ id, name, role }); `runs` = the caller's runs, each
+// carrying `personId`. A run whose personId isn't in the roster (a straggler predating the
+// backfill) still gets a row, named from the run. Pure + side-effect free. Sort: freshest
+// activity first, never-met people after, ties by name. Rows key on `personId` so the Team card
+// and the person page agree without a name round-trip.
+export function buildRosterView(people, runs) {
+  const stats = new Map(); // personId -> rolled-up run stats
+  for (const r of runs || []) {
+    const pid = r?.personId;
+    if (!pid) continue; // no link yet — can't join (post-backfill every run has one)
+    let s = stats.get(pid);
+    if (!s) {
+      s = { name: String(r?.ctx?.name ?? ""), role: String(r?.ctx?.role ?? ""), count: 0, openCount: 0, lastMet: 0, lastSeen: 0, starSum: 0, ratedCount: 0 };
+      stats.set(pid, s);
+    }
+    const seen = Number(r?.lastSeenAt) || 0;
+    if (seen >= s.lastSeen) { s.lastSeen = seen; s.role = String(r?.ctx?.role ?? s.role); }
+    if (r?.finished === false) { s.openCount += 1; continue; }
+    s.count += 1;
+    if (seen >= s.lastMet) s.lastMet = seen;
+    const stars = Number(r?.rating?.stars) || 0;
+    if (stars >= 1 && stars <= 5) { s.starSum += stars; s.ratedCount += 1; }
+  }
+
+  const row = (personId, name, role, s) => ({
+    key: personId,
+    name,
+    role: role || (s ? s.role : ""),
+    count: s ? s.count : 0,
+    openCount: s ? s.openCount : 0,
+    lastMet: s ? s.lastMet : 0,
+    lastSeen: s ? s.lastSeen : 0,
+    ratedCount: s ? s.ratedCount : 0,
+    avgStars: s && s.ratedCount ? s.starSum / s.ratedCount : null,
+    met: Boolean(s && s.count > 0),
+  });
+
+  const rosterIds = new Set();
+  const rows = (people || []).map((p) => {
+    rosterIds.add(p.id);
+    return row(p.id, String(p?.name ?? ""), String(p?.role ?? ""), stats.get(p.id));
+  });
+  for (const [pid, s] of stats) {
+    if (!rosterIds.has(pid)) rows.push(row(pid, s.name || "(unnamed)", s.role, s)); // straggler
+  }
+  return rows.sort((a, b) => b.lastSeen - a.lastSeen || a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
+}

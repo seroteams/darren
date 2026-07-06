@@ -264,6 +264,7 @@ function listFinishedRunsForMember(orgId: string | null | undefined, userId: str
     const ctx = asRecord(state.ctx);
     return {
       id,
+      personId: asString(state.personId) || null, // people-roster Phase 4: join runs to the roster
       headline: buildHeadline(ctx),
       ctx: {
         name: asString(ctx.name),

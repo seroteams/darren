@@ -295,6 +295,29 @@ export async function renamePerson(key, name) {
   return postJson("/api/v1/team/rename", { key, name });
 }
 
+// People roster (people-roster Phase 4): the caller's real roster in the DB — manager/admin
+// only, fenced to their org + managerId server-side. A person can exist with no 1:1 yet, so
+// the Team page is roster-driven. list → { people:[...] }; create/rename → { person }.
+export async function listPeople() {
+  return json(await fetch("/api/v1/team/people"));
+}
+export async function createPerson({ name, role, seniority } = {}) {
+  return postJson("/api/v1/team/people", { name, role, seniority });
+}
+export async function renamePersonV2(id, name) {
+  return json(await fetch(`/api/v1/team/people/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name }),
+  }));
+}
+export async function mergePeopleV2(id, intoId) {
+  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/merge`, { intoId });
+}
+export async function archivePerson(id) {
+  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/archive`, {});
+}
+
 // Dev-only "prefill a run" (admin-only server-side). clonable = every finished run on
 // disk to seed from; cloneRun copies one into a fresh run the caller owns (lands in
 // their /mine). Free — all file copies, no OpenAI. Shapes: { runs: [...] } and { id }.
