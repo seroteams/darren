@@ -25,7 +25,7 @@ Carl picked: build the real thing. Managers get a roster of people; 1:1s link to
 |---|---|---|
 | 1 | [people table + roster service (backend only)](phase-1.md) | ✅ green-lit 2026-07-05 ("b GO", walk waived — live proof stands) |
 | 2 | [new runs carry personId](phase-2.md) | 🔨 BUILT — awaiting walk |
-| 3 | [backfill existing runs + fold in aliases](phase-3.md) | 🔨 BUILT — awaiting walk |
+| 3 | [backfill existing runs + fold in aliases](phase-3.md) | ✅ green-lit 2026-07-06 |
 | 4 | [manager UI: person picker + roster-driven Team page](phase-4.md) | ⬜ |
 | 5 | [member link + "Your 1:1s"](phase-5.md) | ⬜ |
 
@@ -35,7 +35,8 @@ Carl picked: build the real thing. Managers get a roster of people; 1:1s link to
 - **Phase 1 ✅ green-lit 2026-07-05 ("b GO" — walk waived by Carl, live proof stands).** Commit `4a762779`.
 - **Phase 2 BUILT — awaiting Carl's walk** (details + live proof in phase-2.md). New runs + claimed guest runs stamp personId into state (disk + DB mirror) and auto-create roster rows; 76/76 tests, typecheck clean.
 - **Phase 3 BUILT — awaiting Carl's walk (2026-07-06).** `scripts/backfill-people.ts` (dev-guarded, needs DATABASE_URL, `--dry-run`, idempotent) walks every run with orgId+userId+ctx.name, resolves the name through that manager's Team merges/renames to one canonical person, find-or-creates the roster row, and stamps personId into the run's session-state.json (atomic) + the DB mirror. The alias→name logic is a pure, unit-tested module (`backend/api/services/team/alias-resolve.ts`, 8 tests). Offline proof only: `npm test` **78/79** (the 1 fail is the pre-existing replay-regression baseline drift, not this work), root+admin typecheck clean, and the script's dev/DB guards fire. **The live dry-run + real run (QA scenarios 1–4) need Carl's Neon** — this cloud clone has no DATABASE_URL, so they're the walk.
-- Next after green light: Phase 4 (intake person picker + roster-driven Team page).
+- **Phase 3 ✅ green-lit 2026-07-06** — Carl walked the backfill (dry-run → real → idempotent re-run) against live Neon; distinct people rows, merged names on canonical persons. Commit `59a7558` (PR #8).
+- **Phase 4 🔨 in progress (2026-07-06):** intake person picker + roster-driven Team page + `run.personId` grouping.
 
 ## ⚠️ Privacy decision (flagged, not silently decided)
 

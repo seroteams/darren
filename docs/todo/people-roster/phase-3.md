@@ -1,6 +1,8 @@
 # Phase 3 — backfill existing runs + fold in aliases
 
-## BUILT — awaiting Carl's walk (2026-07-06)
+## ✅ GREEN-LIT 2026-07-06 — Carl walked the backfill on live Neon (dry-run → real → idempotent re-run; distinct people, merged names on canonical persons). Commit `59a7558` (PR #8).
+
+## Built (2026-07-06)
 
 - **New `scripts/backfill-people.ts`** (dev-guarded: refuses in production, requires `DATABASE_URL`; `--dry-run` writes nothing; idempotent). Walks `walkRuns()`; for each run with orgId+userId+ctx.name it resolves the name through the manager's alias sidecar, find-or-creates the roster row (reusing `peopleService.resolveForRun`, which dedupes by normalized name), stamps `personId` into `session-state.json` atomically (temp+rename), and mirrors the updated state into Postgres via `upsertSession`. Runs already carrying a `personId` are skipped → re-running reports 0 new stamps.
 - **Alias resolution is a pure module** — `backend/api/services/team/alias-resolve.ts` (`normalizeKey`, `canonicalKeyOf`, `aliasedPersonName`): merge chains collapse to the canonical key, a rename override wins, an un-merged name keeps its casing. Every run for one person yields the same filed name — the dedupe invariant. **Unit-tested test-first (8 cases), no DB.** `normalizeKey`/chain-walk deliberately duplicate team.service's private copies rather than refactor a working shared file.

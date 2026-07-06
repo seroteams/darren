@@ -9,14 +9,12 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — P1 ✅ green-lit ("b GO") · P2 (runs carry personId) + P3 (backfill old runs) BUILT, awaiting your walk.**
-> **P3 BUILT (2026-07-06, all in this one chat):** `scripts/backfill-people.ts` (dev-guarded, `--dry-run`,
-> idempotent) gives every EXISTING run a roster person — resolves each run's free-typed name through your
-> Team merges/renames to one canonical person, find-or-creates the row, stamps `personId` into the run's
-> state file + DB mirror. The alias→name core is a pure, unit-tested module (8 cases). Offline proof: `npm test`
-> **78/79** (the 1 fail is the pre-existing replay-regression baseline drift, not this), typechecks clean.
-> ⚠️ **No live run here** — this cloud clone has no DATABASE_URL, so the dry-run + real run (phase-3 scenarios
-> 1–4) are your walk on your Neon machine: `node scripts/backfill-people.ts --dry-run` first, eyeball, then drop `--dry-run`.
+> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — P1·P2·P3 ✅ · P4 (person picker + roster Team page) IN PROGRESS.**
+> **P3 ✅ green-lit 2026-07-06** — Carl walked `scripts/backfill-people.ts` on live Neon (dry-run → real →
+> idempotent re-run): every existing run now carries a roster `personId`, distinct people, merged names on
+> canonical persons. Commit `59a7558`, PR #8.
+> **P4 🔨 (2026-07-06):** intake gets a roster **person picker** (+ "Someone new" free-text), Team + person
+> pages group by `run.personId`, Tidy-up rename/merge call the people endpoints. Frontend-heavy → browser walk.
 > Your ask: members should only see their own 1:1s → the real build (option B): managers formally
 > **have** members; a member linked to a roster person will see the 1:1s ABOUT them (Phase 5).
 > **P1 ✅ (`4a762779`):** `people` table live on Neon (migration `0007`) + 5 fenced endpoints under
