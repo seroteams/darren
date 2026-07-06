@@ -24,10 +24,19 @@ Carl picked: build the real thing. Managers get a roster of people; 1:1s link to
 | # | Phase | Status |
 |---|---|---|
 | 1 | [people table + roster service (backend only)](phase-1.md) | ✅ green-lit 2026-07-05 ("b GO", walk waived — live proof stands) |
-| 2 | [new runs carry personId](phase-2.md) | 🔨 BUILT — awaiting walk |
-| 3 | [backfill existing runs + fold in aliases](phase-3.md) | ✅ green-lit 2026-07-06 |
-| 4 | [manager UI: person picker + roster-driven Team page](phase-4.md) | 🔨 BUILT (4a+4b) — awaiting walk |
-| 5 | [member link + "Your 1:1s"](phase-5.md) | 🔨 BUILT — awaiting walk |
+| 2 | [new runs carry personId](phase-2.md) | ✅ closed 2026-07-06 (folded into the Playwright relook — picker-started runs carry personId end-to-end) |
+| 3 | [backfill existing runs + fold in aliases](phase-3.md) | ✅ green-lit 2026-07-06 (Carl walked it on live Neon) |
+| 4 | [manager UI: person picker + roster-driven Team page](phase-4.md) | ✅ closed 2026-07-06 (Playwright relook 11/11 + Carl's "close it") |
+| 5 | [member link + "Your 1:1s"](phase-5.md) | ✅ closed 2026-07-06 (Playwright relook 11/11 + Carl's "close it") |
+
+## CLOSED 2026-07-06 — Carl: "close it"
+
+The whole plan is done: managers formally have members (roster-driven Team, person picker at
+intake), every run — old and new — links to a person, and a linked member sees the 1:1s about
+them, list-only. Proof: Carl's live-Neon walk (Phase 3) + an 11/11 Playwright relook of phases
+4a/4b/5 (screenshots in the 2026-07-06 chat; privacy verified at the wire). PR #8 carries the
+arc, one commit per phase. Parked items below are the live follow-up list — **roster merge**
+and the **invitations flow** are the two most likely next slugs.
 
 ## Current state
 

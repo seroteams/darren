@@ -9,48 +9,17 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — THE WHOLE PLAN IS BUILT (P1–P3 ✅ · P4+P5 built 2026-07-06). One relook-walk left, then it closes.**
-> On your "no stopping, finish it all" call, phases 4a → 4b → 5 were built in one thread (each in its own
-> commit, so you can walk them one at a time). All on PR #8. `npm test` **79/80** (the 1 fail is the
-> pre-existing replay-baseline drift), both typechecks, admin + customer builds ✓. **Nothing browser-walked —
-> the relook below is the QA for all of it.**
-> - **P3 ✅ green-lit 2026-07-06** — you walked the backfill on live Neon (`59a7558`): every old run carries a
->   roster personId.
-> - **4a — roster-driven Team (your pick):** Team lists your real roster — **"Add someone"** works before any
->   1:1; not-yet-met people offer **"Prep first 1:1"**; run history joins by personId; Tidy-up **rename** hits
->   the roster (**merge parked** — it can't fold run history yet, honest note in the PLAN); person page
->   re-keyed to personId.
-> - **4b — intake person picker:** the NAME step shows your people as cards (picking seeds role/seniority and
->   links the run exactly) + "Someone new" free-text. Guests unchanged.
-> - **P5 — member link + "Your 1:1s":** Tidy-up gains a **"Linked account"** picker per person (same-org
->   accounts only, enforced + tested); a linked member's Home now lists the 1:1s ABOUT them — **type + date +
->   manager only, never notes/briefing/ratings** (privacy pinned by a key-shape test); dead member start
->   button removed. New: `GET /runs/about-me`, link/unlink/linkable-users routes.
-> **THE RELOOK — ✅ RAN GREEN VIA PLAYWRIGHT, 11/11 (2026-07-06, on Carl's ask).** A real browser walked the
-> whole thing against a scratch stack (throwaway Postgres + API + web in the cloud session, $0 — garbage
-> OpenAI key, run never started): ① Add someone → "not met yet" → Prep first 1:1 opens the person picker
-> (Devon New · Priya QA · Someone new) ② rename survives reload ③ Linked account set on Priya ④ member
-> login → Home lists the 1:1 about them ("Bi-weekly check-in · with QA Manager"), dead start button gone
-> ⑤ privacy held at the wire: about-me payload = exactly {id, meetingType, lastSeenAt, completedAt,
-> managerName}, no notes/briefing/rating anywhere, member 403s on the roster. **5 screenshots delivered in
-> chat.** Scratch stack + fabricated QA run fully torn down after.
-> **Left for you:** your own eyeball on your machine if you want it (pull branch + restart API — your local
-> `4256aa77` build is a superseded, unpushed lineage), then say **"close it"** → phases flip ✅, folder → done/.
-> Your ask: members should only see their own 1:1s → the real build (option B): managers formally
-> **have** members; a member linked to a roster person will see the 1:1s ABOUT them (Phase 5).
-> **P1 ✅ (`4a762779`):** `people` table live on Neon (migration `0007`) + 5 fenced endpoints under
-> `/api/v1/team/people` — walk waived by your "b GO", live proof stood.
-> **P2 BUILT test-first:** every new 1:1 stamps `personId` — who the run is ABOUT — into its state
-> (disk + DB mirror): a free-typed name auto-matches-or-creates the roster row ("  priya qa " reuses
-> Priya, no dup), an explicit personId must be the caller's own (400 otherwise), claimed guest runs
-> join the roster too, file-only dev (no DB) still runs. A real bug caught by checking the destination:
-> the state serializer is a whitelist and silently DROPPED personId — fixed + pinned by tests.
-> Live-proven on scratch APIs at $0 (invalid OpenAI key so prewarm can't spend); QA rows/dirs/mirrors
-> cleaned. `npm test` **76/76** · typecheck clean. **Walk:** the 4 scenarios in
-> [phase-2.md](docs/todo/people-roster/phase-2.md) (all free) — P3 is now built too (see above).
-> Then: ④ intake person picker + roster Team page · ⑤ member link + "Your 1:1s" (the invite-flow foundation). ⚠️ Privacy: members
-> will get **list-only** (type + date + manager) — no notes, no briefing; richer is your call
-> (parked: `member-run-visibility`).
+> **✅ [people-roster](docs/todo/done/people-roster/PLAN.md) — CLOSED 2026-07-06 (Carl: "close it").**
+> The whole arc landed: managers formally **have** members. Team is **roster-driven** ("Add someone" before
+> any 1:1 · "Prep first 1:1" on not-yet-met people · Tidy-up rename on the real roster), the intake NAME step
+> is a **person picker** (exact personId link, "Someone new" free-text kept), every old run was **backfilled**
+> to its person (Carl walked that on live Neon), and a **linked member's Home lists the 1:1s about them** —
+> type + date + manager only, never notes/briefing/ratings (pinned by a key-shape test + verified at the wire).
+> Proof: **11/11 Playwright relook** on a scratch stack ($0), 5 screenshots in chat, 24 new unit tests,
+> 79/80 suite (the 1 fail is the pre-existing replay-baseline drift). **PR #8**, one commit per phase.
+> ⚠️ Your local `4256aa77` build is a superseded unpushed lineage — pull `claude/member-onboarding-invites-rajjtu`
+> + restart your dev API. Parked follow-ups live in the archived PLAN — **roster merge** (can't fold run
+> history yet) and **invitations** (the natural next slug: roster person + email + one-time token link).
 
 > **🔨 team-for-managers — one small slice BUILT (2026-07-05 late), awaiting your walk.**
 > Your ask: managers need to see their team members on Team. Finding: it already worked, but only
@@ -61,8 +30,9 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > Test-first: 74/74 at build time · both typechecks · live-proven on a scratch pair (:3083 web →
 > :3081 API — flag off/on, page rendered, console clean; QA fixture cleaned up). **Walk:** log in as
 > your manager account → Team → Darren shows as "prep in progress". NOT committed (your green light).
-> ⚠️ Overlap: the **people-roster** track above plans a roster-backed Team page (its Phase 4) — this
-> slice keeps today's run-built Team honest in the meantime; the roster supersedes it when it lands.
+> ⚠️ **SUPERSEDED 2026-07-06:** people-roster's roster-driven Team has now LANDED (closed, above) and
+> covers this need — not-yet-met people show honestly from the roster itself. The uncommitted slice on
+> your machine can be discarded.
 
 > **🔨 [feedback-inbox](docs/todo/feedback-inbox/PLAN.md) — NEW track (started 2026-07-05). Phase 1 (the whole slice) BUILT, awaiting your walk.**
 > Your ask: a page that shows what testers send via "Send feedback", with its own DB table.
@@ -317,7 +287,7 @@ untouched, dev Admin/Standard quick-swap works. Phase 2 (Real Runs) has backend 
 open member-nav work. **Update 2026-07-05: that open work shipped via pre-go-live PG1–5, so the folder is
 closed** → [docs/todo/done/member-nav/](docs/todo/done/member-nav/PLAN.md) (live-data-cleanup Phase 4).
 
-- Last updated: 2026-07-05 (guest-run plan set up, awaiting Carl's read · no-inference-ruling Phase 1 built · frontend-admin-split Phase 2 built · GTM one-pager drafted)
+- Last updated: 2026-07-06 (people-roster CLOSED — full arc built, Playwright relook 11/11, folder → done/)
 
 ---
 
