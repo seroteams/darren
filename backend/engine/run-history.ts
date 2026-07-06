@@ -264,6 +264,7 @@ function listFinishedRunsForMember(orgId: string | null | undefined, userId: str
     const ctx = asRecord(state.ctx);
     return {
       id,
+      personId: asString(state.personId) || null, // people-roster Phase 4: join runs to the roster
       headline: buildHeadline(ctx),
       ctx: {
         name: asString(ctx.name),
@@ -276,6 +277,26 @@ function listFinishedRunsForMember(orgId: string | null | undefined, userId: str
       rating: ratingOf(dir),
     };
   });
+}
+
+// "1:1s about me" (people-roster Phase 5): the finished runs whose personId is one of the
+// given roster people, org-fenced. Deliberately MINIMAL rows — meeting type + when + who ran
+// it — because manager notes/briefings/ratings are sensitive (no-inference ruling): the member
+// sees that a 1:1 happened, never its content. userId is the run's creator (the manager);
+// the service maps it to a display name.
+function listFinishedRunsAboutPerson(orgId: string | null | undefined, personIds: string[]) {
+  if (!orgId || personIds.length === 0) return [];
+  const wanted = new Set(personIds);
+  return walkRuns(orgId)
+    .filter(({ state }) => state && state.briefing && wanted.has(asString(state.personId)))
+    .sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt))
+    .map(({ id, state }) => ({
+      id,
+      meetingType: asString(asRecord(state.ctx).meetingType),
+      lastSeenAt: asNumber(state.lastSeenAt),
+      completedAt: asNumber(state.completedAt) || null,
+      userId: asString(state.userId) || null,
+    }));
 }
 
 // Every finished run across ALL companies, attributed to its owner (pre-go-live PG7).
@@ -645,6 +666,7 @@ export {
   cloneRunState,
   cloneRun,
   listFinishedRunsForMember,
+  listFinishedRunsAboutPerson,
   listRunsForSuperadmin,
   listFinishedRunsForUser,
   memberRunView,

@@ -295,6 +295,45 @@ export async function renamePerson(key, name) {
   return postJson("/api/v1/team/rename", { key, name });
 }
 
+// People roster (people-roster Phase 4): the caller's real roster in the DB — manager/admin
+// only, fenced to their org + managerId server-side. A person can exist with no 1:1 yet, so
+// the Team page is roster-driven. list → { people:[...] }; create/rename → { person }.
+export async function listPeople() {
+  return json(await fetch("/api/v1/team/people"));
+}
+export async function createPerson({ name, role, seniority } = {}) {
+  return postJson("/api/v1/team/people", { name, role, seniority });
+}
+export async function renamePersonV2(id, name) {
+  return json(await fetch(`/api/v1/team/people/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name }),
+  }));
+}
+export async function mergePeopleV2(id, intoId) {
+  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/merge`, { intoId });
+}
+export async function archivePerson(id) {
+  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/archive`, {});
+}
+
+// Person ↔ member-account link (people-roster Phase 5). linkable-users lists the org's
+// login accounts (id/name/email) a person can link to; link/unlink stamp/clear the row.
+// getRunsAboutMe is the member read: list-only rows about the caller's linked people.
+export async function getLinkableUsers() {
+  return json(await fetch("/api/v1/team/linkable-users"));
+}
+export async function linkPerson(id, userId) {
+  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/link`, { userId });
+}
+export async function unlinkPerson(id) {
+  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/unlink`, {});
+}
+export async function getRunsAboutMe() {
+  return json(await fetch("/api/v1/runs/about-me"));
+}
+
 // Dev-only "prefill a run" (admin-only server-side). clonable = every finished run on
 // disk to seed from; cloneRun copies one into a fresh run the caller owns (lands in
 // their /mine). Free — all file copies, no OpenAI. Shapes: { runs: [...] } and { id }.
@@ -399,3 +438,16 @@ export async function submitLexiconPromote(decisions) {
   return postJson("/api/v1/lexicon/promotions", { decisions });
 }
 
+
+// The join flow (member-onboarding-invites): a manager mints a one-time join link for a
+// roster person; the invitee previews it logged-out and accepts with name+password —
+// which creates their member account, links the person, and logs them straight in.
+export async function invitePerson(id, email) {
+  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/invite`, { email });
+}
+export async function getInvite(token) {
+  return json(await fetch(`/api/v1/invites/${encodeURIComponent(token)}`));
+}
+export async function acceptInvite(token, { name, password }) {
+  return postJson(`/api/v1/invites/${encodeURIComponent(token)}/accept`, { name, password });
+}

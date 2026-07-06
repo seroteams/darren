@@ -142,6 +142,11 @@ export const invitations = pgTable(
     invitedBy: uuid("invited_by").references(() => users.id),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     expiresAt: timestamp("expires_at", { withTimezone: true }),
+    // The join flow (member-onboarding-invites): the one-time token is stored HASHED
+    // (sha256) — never plaintext at rest — and the invite carries which roster person
+    // it's for, so accepting auto-links people.user_id (no manual matching).
+    tokenHash: text("token_hash"),
+    personId: uuid("person_id").references(() => people.id),
   },
   (t) => [index("invitations_org_id_idx").on(t.orgId)],
 );

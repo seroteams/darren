@@ -5,6 +5,7 @@
 import type { RequestContext } from "../../router.ts";
 import { createRunsService } from "./runs.service.ts";
 import { fileRunsRepo } from "./runs.repo.ts";
+import { aboutMeService } from "./about-me.service.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireAdmin, requireAuth } from "../../middleware/require-auth.ts";
 
@@ -110,4 +111,12 @@ export async function rateMine(c: RequestContext): Promise<void> {
   const { userId, orgId } = await callerIdentity(c);
   const body = await c.readBody();
   c.json(200, service.rateMine(c.params.id, body, orgId, userId));
+}
+
+// "1:1s about me" (people-roster Phase 5): login required, ANY role — a member linked to
+// a roster person sees the list-only history of 1:1s about them. All fencing + privacy
+// minimalism lives in aboutMeService (org-fenced walk, no notes/briefing/ratings).
+export async function aboutMe(c: RequestContext): Promise<void> {
+  const { userId, orgId } = await callerIdentity(c);
+  c.json(200, await aboutMeService.aboutMe(orgId, userId));
 }

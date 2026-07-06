@@ -20,6 +20,7 @@ import { forbidden, rateLimited } from "./middleware/http-error.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
 import * as runs from "./services/runs/runs.controller.ts";
 import * as team from "./services/team/team.controller.ts";
+import * as invites from "./services/invites/invites.controller.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
@@ -285,6 +286,10 @@ function main(): void {
   // to the caller's userId. Registered before the admin runs routes so the literal /mine
   // isn't shadowed; plain v1Route (no adminV1). The admin runs endpoints below are unchanged.
   router.add("GET", "/api/v1/runs/mine", v1Route(runs.mine));
+  // "1:1s about me" (people-roster Phase 5) — login required, any role; list-only rows
+  // (type + date + manager), fenced + privacy-minimal in the service. Literal path, so
+  // registered here with /mine before the /:id regex routes.
+  router.add("GET", "/api/v1/runs/about-me", v1Route(runs.aboutMe));
   router.add("GET", /^\/api\/v1\/runs\/mine\/(?<id>[^/]+)$/, v1Route(runs.mineDetail));
   // Rate one of your own runs (pre-go-live PG3) — member-safe (org+user fenced in the
   // service), origin-guarded. Registered with the other /mine routes.
@@ -323,6 +328,30 @@ function main(): void {
   router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/archive$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return team.archivePerson(c);
+  }));
+  // Person ↔ member-account link (people-roster Phase 5) — manager/admin only; the
+  // target must be an account in the caller's own org (400 otherwise, in the service).
+  router.add("GET", "/api/v1/team/linkable-users", v1Route(team.linkableUsers));
+  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/link$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return team.linkPerson(c);
+  }));
+  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/unlink$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return team.unlinkPerson(c);
+  }));
+  // The join flow (member-onboarding-invites): a manager mints a one-time join link for a
+  // roster person; preview + accept are PUBLIC (the invitee has no account yet) — the
+  // token is the credential, single-use + expiring + stored hashed. Accept is origin-
+  // guarded like every other mutation.
+  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/invite$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return invites.createInvite(c);
+  }));
+  router.add("GET", /^\/api\/v1\/invites\/(?<token>[^/]+)$/, v1Route(invites.previewInvite));
+  router.add("POST", /^\/api\/v1\/invites\/(?<token>[^/]+)\/accept$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return invites.acceptInvite(c);
   }));
   router.add("GET", "/api/v1/runs/recent", v1Route(runs.recent));
   router.add("GET", "/api/v1/runs/finished", v1Route(runs.finished));

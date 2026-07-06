@@ -13,6 +13,7 @@ const PATH_FOR = {
   [STAGES.WELCOME]:        () => "/",
   [STAGES.LOGIN]:          () => "/login",
   [STAGES.REGISTER]:       () => "/register",
+  [STAGES.JOIN]:           (s) => (s.joinToken ? `/join/${encodeURIComponent(s.joinToken)}` : "/login"),
   [STAGES.PRIVACY]:        () => "/privacy",
   [STAGES.ABOUT]:          () => "/about",
   [STAGES.FEEDBACK]:       () => "/feedback",
@@ -116,6 +117,10 @@ export function parseLocation() {
   // so bare /team still resolves to the Team list above). The segment is the person key.
   const person = p.match(/^\/team\/([^/]+)$/);
   if (person) return { stage: STAGES.PERSON_DETAIL, params: { personKey: decodeURIComponent(person[1]) } };
+  // An invitee opening their one-time join link: /join/:token (member-onboarding-invites).
+  // Public — the whole point is they have no account yet.
+  const join = p.match(/^\/join\/([^/]+)$/);
+  if (join) return { stage: STAGES.JOIN, params: { joinToken: decodeURIComponent(join[1]) } };
   // A superadmin drilling into one user: /admin/users/:id (after the exact-path map, so
   // /admin/registered still resolves above). The segment is the user id.
   const adminUser = p.match(/^\/admin\/users\/([^/]+)$/);

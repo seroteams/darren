@@ -1,0 +1,98 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { createInvitesService } from "./invites.service.ts";
+import type { InvitesRepo, InviteRow } from "./invites.repo.ts";
+
+// The join flow (member-onboarding-invites): a manager invites a roster person by email →
+// a one-time link; opening it shows who invited you where; accepting creates the member
+// account IN THAT ORG and auto-links the roster row. Token rules (user-management P5):
+// single-use, expiring, stored hashed, the raw token never at rest. In-memory deps — no DB.
+
+function fakeRepo() {
+  const invites: (InviteRow & { id: string })[] = [];
+  const usersByEmail = new Map<string, { id: string }>([["taken@qa.test", { id: "u-existing" }]]);
+  const linked: Record<string, string> = {};
+  let n = 0;
+  const repo: InvitesRepo = {
+    findPersonForManager: async (id, orgId, managerId) =>
+      id === "p1" && orgId === "o1" && managerId === "m1" ? { id: "p1", name: "Priya QA", userId: null } : null,
+    insertInvite: async (row) => { const r = { status: "pending", ...row, id: `i${++n}` }; invites.push(r); return { id: r.id }; }, // status: the DB default
+    findByTokenHash: async (hash) => invites.find((i) => i.tokenHash === hash) ?? null,
+    markAccepted: async (id) => { const i = invites.find((x) => x.id === id); if (i) i.status = "accepted"; },
+    findUserByEmail: async (email) => usersByEmail.get(email) ?? null,
+    createMemberUser: async ({ orgId, email, name }) => {
+      const u = { id: `u${++n}`, orgId, email, name, role: "member" as const };
+      usersByEmail.set(email, { id: u.id });
+      return u;
+    },
+    linkPersonUser: async (personId, userId) => { linked[personId] = userId; },
+    orgName: async (orgId) => (orgId === "o1" ? "QA Co" : "?"),
+    userName: async (userId) => (userId === "m1" ? "QA Manager" : null),
+    personName: async (personId) => (personId === "p1" ? "Priya QA" : null),
+  };
+  return { repo, invites, linked };
+}
+
+const hasher = { hash: async (pw: string) => `hashed:${pw}` };
+
+test("create mints a token, stores only its hash, and pins expiry", async () => {
+  const { repo, invites } = fakeRepo();
+  const svc = createInvitesService(repo, hasher);
+  const out = await svc.create("o1", "m1", "p1", "  Priya@QA.test ");
+  assert.ok(out.token.length >= 32, "long random token");
+  assert.equal(invites.length, 1);
+  assert.notEqual(invites[0]!.tokenHash, out.token); // hashed at rest, never raw
+  assert.equal(invites[0]!.email, "priya@qa.test"); // normalized
+  assert.equal(invites[0]!.personId, "p1");
+  assert.ok(invites[0]!.expiresAt.getTime() > Date.now());
+});
+
+test("create on someone else's person answers not-found", async () => {
+  const { repo } = fakeRepo();
+  await assert.rejects(() => createInvitesService(repo, hasher).create("o1", "OTHER", "p1", "a@b.c"), /not found/i);
+});
+
+test("create refuses a blank or nonsense email", async () => {
+  const { repo } = fakeRepo();
+  const svc = createInvitesService(repo, hasher);
+  await assert.rejects(() => svc.create("o1", "m1", "p1", "   "), /email/i);
+  await assert.rejects(() => svc.create("o1", "m1", "p1", "not-an-email"), /email/i);
+});
+
+test("preview shows who invited you where; a wrong token is not-found", async () => {
+  const { repo } = fakeRepo();
+  const svc = createInvitesService(repo, hasher);
+  const { token } = await svc.create("o1", "m1", "p1", "priya@qa.test");
+  const p = await svc.preview(token);
+  assert.deepEqual(p, { orgName: "QA Co", inviterName: "QA Manager", personName: "Priya QA", email: "priya@qa.test" });
+  await assert.rejects(() => svc.preview("bogus-token"), /invite/i);
+});
+
+test("accept creates the member in the inviter's org, links the person, single-use", async () => {
+  const { repo, invites, linked } = fakeRepo();
+  const svc = createInvitesService(repo, hasher);
+  const { token } = await svc.create("o1", "m1", "p1", "priya@qa.test");
+  const { user } = await svc.accept(token, { name: "Priya", password: "longenough1" });
+  assert.equal(user.orgId, "o1");
+  assert.equal(user.role, "member");
+  assert.equal(linked["p1"], user.id); // roster row auto-linked
+  assert.equal(invites[0]!.status, "accepted");
+  await assert.rejects(() => svc.accept(token, { name: "x", password: "longenough1" }), /invite/i); // used up
+});
+
+test("an expired invite is rejected for preview and accept", async () => {
+  const { repo, invites } = fakeRepo();
+  const svc = createInvitesService(repo, hasher);
+  const { token } = await svc.create("o1", "m1", "p1", "priya@qa.test");
+  invites[0]!.expiresAt = new Date(Date.now() - 1000);
+  await assert.rejects(() => svc.preview(token), /invite/i);
+  await assert.rejects(() => svc.accept(token, { name: "x", password: "longenough1" }), /invite/i);
+});
+
+test("accept refuses a short password and an email that already has an account", async () => {
+  const { repo } = fakeRepo();
+  const svc = createInvitesService(repo, hasher);
+  const { token } = await svc.create("o1", "m1", "p1", "taken@qa.test");
+  await assert.rejects(() => svc.accept(token, { name: "x", password: "short" }), /password/i);
+  await assert.rejects(() => svc.accept(token, { name: "x", password: "longenough1" }), /already has an account/i);
+});
