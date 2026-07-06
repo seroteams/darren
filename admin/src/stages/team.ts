@@ -6,7 +6,7 @@
 // roster endpoints. Distinct from the admin Library (admin-only).
 
 import { STAGES, store } from "../state.js";
-import { listMyRuns, listPeople, createPerson, renamePersonV2, mergePeopleV2 } from "../../../shared/api.js";
+import { listMyRuns, listPeople, createPerson, renamePersonV2 } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
@@ -54,27 +54,19 @@ function personCard(p: Person): string {
     </div>`;
 }
 
-// The same person in "Tidy up" mode: a rename control and a "merge into…" picker of every
-// OTHER person. Choosing a target merges immediately. Keyed on personId (the roster endpoints).
-function personEditRow(p: Person, all: Person[]): string {
+// The same person in "Tidy up" mode: a rename control, keyed on personId (roster endpoint).
+// Merge is intentionally NOT here yet — see the note in the plan's Parked section: merging two
+// roster rows leaves the merged person's past runs pointing at the old personId, so their
+// history wouldn't fold under the target (and would resurface as a straggler). It returns once
+// we resolve run.personId through the merge chain (or re-point runs on merge).
+function personEditRow(p: Person): string {
   const role = p.role ? `<span class="text-ink-dim"> · ${escapeHtml(p.role)}</span>` : "";
-  const options = all
-    .filter((o) => o.key !== p.key)
-    .map((o) => `<option value="${escapeHtml(o.key)}">${escapeHtml(o.name)}</option>`)
-    .join("");
-  const mergeControl = options
-    ? `<label class="text-sm text-ink-dim">Merge into
-         <select class="input js-merge" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}">
-           <option value="">— choose —</option>${options}
-         </select></label>`
-    : "";
   return `
     <div class="card-flat l-stack l-stack--2">
       <div class="text-sm"><strong>${escapeHtml(p.name)}</strong>${role}</div>
       <div class="text-sm text-ink-dim">${metaLine(p)}</div>
       <div class="l-cluster l-cluster--2">
         <button type="button" class="btn btn--ghost btn--sm js-rename" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}">Rename</button>
-        ${mergeControl}
       </div>
     </div>`;
 }
@@ -92,7 +84,7 @@ export const mount: Mount = async (root, { setState }) => {
           ${editing ? "" : `<button type="button" class="btn btn--ghost btn--sm js-add">Add someone</button>`}
         </div>
       </div>
-      <div class="text-ink-dim text-sm">${editing ? "Merge duplicates or rename a person." : "Everyone on your team. Add a name now; their 1:1 history fills in as you meet."}</div>
+      <div class="text-ink-dim text-sm">${editing ? "Rename a person." : "Everyone on your team. Add a name now; their 1:1 history fills in as you meet."}</div>
     </header>`;
   const shell = (inner: string, hasPeople = true) => `<div class="stage-inner l-stack l-stack--8">${header(hasPeople)}${inner}</div>`;
 
@@ -128,7 +120,7 @@ export const mount: Mount = async (root, { setState }) => {
 
   const renderPeople = () => {
     const body = editing
-      ? people.map((p) => personEditRow(p, people)).join("")
+      ? people.map((p) => personEditRow(p)).join("")
       : people.map(personCard).join("");
     root.innerHTML = shell(`<section class="l-stack l-stack--2">${body}</section>`);
     wire();
@@ -153,9 +145,6 @@ export const mount: Mount = async (root, { setState }) => {
     root.querySelectorAll<HTMLButtonElement>(".js-rename").forEach((el) => {
       el.addEventListener("click", () => { void doRename(el.dataset.key || "", el.dataset.name || ""); });
     });
-    root.querySelectorAll<HTMLSelectElement>(".js-merge").forEach((el) => {
-      el.addEventListener("change", () => { void doMerge(el.dataset.key || "", el.dataset.name || "", el.value); });
-    });
   };
 
   const doAdd = async () => {
@@ -178,21 +167,6 @@ export const mount: Mount = async (root, { setState }) => {
       await load();
     } catch {
       window.alert("Couldn't rename — please try again.");
-    }
-  };
-
-  const doMerge = async (fromId: string, fromName: string, intoId: string) => {
-    if (!intoId) return;
-    const target = people.find((p) => p.key === intoId);
-    if (!window.confirm(`Merge "${fromName}" into "${target?.name ?? intoId}"? Their 1:1s and rating combine into one person.`)) {
-      renderPeople(); // reset the select
-      return;
-    }
-    try {
-      await mergePeopleV2(fromId, intoId);
-      await load();
-    } catch {
-      window.alert("Couldn't merge — please try again.");
     }
   };
 

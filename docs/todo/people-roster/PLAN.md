@@ -37,7 +37,7 @@ Carl picked: build the real thing. Managers get a roster of people; 1:1s link to
 - **Phase 3 BUILT — awaiting Carl's walk (2026-07-06).** `scripts/backfill-people.ts` (dev-guarded, needs DATABASE_URL, `--dry-run`, idempotent) walks every run with orgId+userId+ctx.name, resolves the name through that manager's Team merges/renames to one canonical person, find-or-creates the roster row, and stamps personId into the run's session-state.json (atomic) + the DB mirror. The alias→name logic is a pure, unit-tested module (`backend/api/services/team/alias-resolve.ts`, 8 tests). Offline proof only: `npm test` **78/79** (the 1 fail is the pre-existing replay-regression baseline drift, not this work), root+admin typecheck clean, and the script's dev/DB guards fire. **The live dry-run + real run (QA scenarios 1–4) need Carl's Neon** — this cloud clone has no DATABASE_URL, so they're the walk.
 - **Phase 3 ✅ green-lit 2026-07-06** — Carl walked the backfill (dry-run → real → idempotent re-run) against live Neon; distinct people rows, merged names on canonical persons. Commit `59a7558` (PR #8).
 - **Phase 4 🔨 in progress (2026-07-06)** — Carl chose **roster-driven** Team (add names before any 1:1); split into 4a (Team + data) and 4b (intake picker).
-  - **4a BUILT — awaiting walk:** Team page rewritten to list the real roster + join run stats by personId + "Add someone" + not-yet-met "Prep first 1:1"; Tidy-up rename/merge moved to the roster endpoints; person page re-keyed to personId; `run.personId` on the member run row; `buildRosterView` tested (5 new cases). `npm test` 78/79 (1 pre-existing fail), typechecks + admin build clean. Not browser-walked (cloud).
+  - **4a BUILT — awaiting walk:** Team page rewritten to list the real roster + join run stats by personId + "Add someone" + not-yet-met "Prep first 1:1"; Tidy-up **rename** moved to the roster endpoint (**merge parked** — see Parked); person page re-keyed to personId; `run.personId` on the member run row; `buildRosterView` tested (5 new cases). `npm test` 78/79 (1 pre-existing fail), typechecks + admin build clean. Not browser-walked (cloud).
   - **4b next:** intake NAME substage person picker + start payload carries personId.
 
 ## ⚠️ Privacy decision (flagged, not silently decided)
@@ -46,6 +46,7 @@ What a member may see of a manager-prepped 1:1. Manager notes are sensitive (no-
 
 ## Parked
 
+- **Roster merge (Team → Tidy up).** Merging two roster people persists (`mergedIntoId`), but the merged person's past runs still carry the old `personId`, so their history wouldn't fold under the target and they'd resurface as a "straggler" card. Needs run.personId resolved through the merge chain at read time (buildRosterView given the merge map) OR re-pointing runs' personId on merge. Rename ships in 4a; merge returns after this is decided. `mergePeopleV2` client method already exists.
 - Invitations wiring / email claim flow (table stays scaffolded; Phase 5 links existing org users via manual picker)
 - Email auto-link at signup (needs people.email)
 - Member detail view / redaction rules (`member-run-visibility`)
