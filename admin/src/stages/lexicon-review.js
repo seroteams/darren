@@ -16,7 +16,7 @@ export async function mount(root, { store, setState }) {
       <header class="page-header">
         <div class="eyebrow">Coaching phrases</div>
         <h1 class="h1 js-stage-title">Anything worth keeping?</h1>
-        <div class="text-ink-dim text-sm max-w-measure js-stage-lede">
+        <div class="text-ink-dim max-w-measure js-stage-lede">
           Terms worth saving from this conversation for future runs. Keep adds it; drop removes it.
         </div>
       </header>

@@ -70,14 +70,14 @@ export const mount: Mount = async (root, { setState }) => {
     <header class="page-header l-stack l-stack--2">
       <button type="button" class="btn btn--ghost btn--sm js-back">‹ User management</button>
       <h1 class="h1">${escapeHtml(name)}</h1>
-      <div class="text-ink-dim text-sm">Their people and 1:1s — read-only.</div>
+      <div class="text-ink-dim">Their people and 1:1s — read-only.</div>
     </header>`;
   const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}</div>`;
 
   const errorCard = `
     <section class="card-flat space-y-3">
       <div class="eyebrow">Couldn't load</div>
-      <p class="text-sm text-ink-dim">Something went wrong loading this user's 1:1s. Please try again.</p>
+      <p class="text-ink-dim">Something went wrong loading this user's 1:1s. Please try again.</p>
       <button type="button" class="btn btn--ghost js-retry">Try again</button>
     </section>`;
 
@@ -103,7 +103,7 @@ export const mount: Mount = async (root, { setState }) => {
       root.innerHTML = shell(`
         <section class="card-flat space-y-3">
           <div class="eyebrow">Couldn't open</div>
-          <p class="text-sm text-ink-dim">This 1:1 couldn't be opened. Go back and try another.</p>
+          <p class="text-ink-dim">This 1:1 couldn't be opened. Go back and try another.</p>
           <button type="button" class="btn btn--ghost js-back-list">‹ Back</button>
         </section>`);
       root.querySelector(".js-back-list")?.addEventListener("click", renderList);
@@ -153,7 +153,7 @@ export const mount: Mount = async (root, { setState }) => {
     }
 
     if (runs.length === 0) {
-      root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">This user hasn't run any 1:1s yet.</p></section>`);
+      root.innerHTML = shell(`<section class="card-flat"><p class="text-ink-dim">This user hasn't run any 1:1s yet.</p></section>`);
       wire();
       return;
     }

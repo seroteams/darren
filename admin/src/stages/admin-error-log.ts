@@ -140,7 +140,7 @@ export const mount: Mount = async (root) => {
     `<div class="l-container l-container--wide l-stack l-stack--6">
       <header class="page-header">
         <h1 class="h1">Error log</h1>
-        <div class="text-ink-dim text-sm">Everything that broke — your local dev and the live Sero, newest first. Click a row for the full detail.</div>
+        <div class="text-ink-dim">Everything that broke — your local dev and the live Sero, newest first. Click a row for the full detail.</div>
       </header>
       ${inner}
     </div>`;
@@ -148,7 +148,7 @@ export const mount: Mount = async (root) => {
   const errorCard = `
     <section class="card-flat l-stack l-stack--2">
       <div class="eyebrow">Couldn't load</div>
-      <p class="text-sm text-ink-dim">Something went wrong loading the error log. Please try again.</p>
+      <p class="text-ink-dim">Something went wrong loading the error log. Please try again.</p>
       <button type="button" class="btn btn--ghost js-retry">Try again</button>
     </section>`;
 
@@ -215,7 +215,7 @@ export const mount: Mount = async (root) => {
       </div>`;
     const body = shown.length
       ? table(shown, open)
-      : `<section class="card-flat"><p class="text-sm text-ink-dim">No errors match this view.</p></section>`;
+      : `<section class="card-flat"><p class="text-ink-dim">No errors match this view.</p></section>`;
     root.innerHTML = shell(`${controls}${body}`);
     wire();
   };
@@ -232,7 +232,7 @@ export const mount: Mount = async (root) => {
     }
     if (allRows.length === 0) {
       root.innerHTML = shell(
-        `<section class="card-flat"><p class="text-sm text-ink-dim">No errors logged yet — nothing's broken.</p></section>`,
+        `<section class="card-flat"><p class="text-ink-dim">No errors logged yet — nothing's broken.</p></section>`,
       );
       return;
     }

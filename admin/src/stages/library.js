@@ -140,7 +140,7 @@ export async function mount(root) {
             <button class="btn btn--ghost js-back" type="button">Back</button>
           </div>
         </div>
-        <div class="text-ink-dim text-sm">Review past prep runs.</div>
+        <div class="text-ink-dim">Review past prep runs.</div>
         <div class="lib-progress js-progress"></div>
       </header>
 
@@ -193,15 +193,15 @@ export async function mount(root) {
     shown.sort((a, b) => (sortDir === "desc" ? -1 : 1) * compareRuns(a, b, sortKey));
     renderSortButtons();
     if (!runs.length) {
-      listEl.innerHTML = `<li class="text-ink-mute text-sm">No finished runs yet.</li>`;
+      listEl.innerHTML = `<li class="text-ink-mute">No finished runs yet.</li>`;
       return;
     }
     if (!inView.length) {
-      listEl.innerHTML = `<li class="text-ink-mute text-sm">No archived runs.</li>`;
+      listEl.innerHTML = `<li class="text-ink-mute">No archived runs.</li>`;
       return;
     }
     if (!shown.length) {
-      listEl.innerHTML = `<li class="text-ink-mute text-sm">No runs match this filter.</li>`;
+      listEl.innerHTML = `<li class="text-ink-mute">No runs match this filter.</li>`;
       return;
     }
     // Rows are already sorted by the active key, so same-category runs sit

@@ -26,7 +26,7 @@ export async function mount(root, { setState }) {
       <header class="page-header">
         <div class="eyebrow">Test lane</div>
         <h1 class="h1">Compare runs</h1>
-        <p class="text-ink-dim text-sm">Two runs, side by side. See what your prompt change moved.</p>
+        <p class="text-ink-dim">Two runs, side by side. See what your prompt change moved.</p>
       </header>
       <div class="compare-picker">
         <select class="bench-select js-run-a"></select>
@@ -248,7 +248,7 @@ function renderAxes(a, b) {
   if (!anyRead) {
     return `<div class="cmp-axes">
       <div class="eyebrow">Axis reads</div>
-      <p class="text-ink-mute text-sm">No axis reads on either run yet. The four axes appear once a run reaches its briefing.</p>
+      <p class="text-ink-mute">No axis reads on either run yet. The four axes appear once a run reaches its briefing.</p>
     </div>`;
   }
   const rows = AXIS_ORDER.map((id) => axisRow(id, ma[id], mb[id])).join("");

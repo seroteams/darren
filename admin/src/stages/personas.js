@@ -51,7 +51,7 @@ export async function mount(root, opts = {}) {
       <header class="page-header">
         <div class="eyebrow">Team</div>
         <h1 class="h1">Test engine</h1>
-        <div class="text-ink-dim text-sm max-w-measure">
+        <div class="text-ink-dim max-w-measure">
           The demo people Sero practises on. Press <strong>Run</strong> on anyone to put the whole engine through its paces with their scripted answers, then review the result.
         </div>
       </header>

@@ -115,7 +115,7 @@ export async function mount(root, { setState }) {
             <button class="btn btn--ghost js-back" type="button">Back</button>
           </div>
         </div>
-        <div class="text-ink-dim text-sm js-subtitle"></div>
+        <div class="text-ink-dim js-subtitle"></div>
         <div class="text-ink-mute text-xs js-meta"></div>
       </header>
       <div class="js-host"><p class="caption text-ink-mute">Loading run…</p></div>

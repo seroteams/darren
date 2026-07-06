@@ -194,7 +194,7 @@ function step(n, title, body, files) {
 }
 
 function concept(title, body) {
-  return `<div class="card l-stack l-stack--2"><h3 class="h3">${esc(title)}</h3><p class="text-ink-dim text-sm">${esc(body)}</p></div>`;
+  return `<div class="card l-stack l-stack--2"><h3 class="h3">${esc(title)}</h3><p class="text-ink-dim">${esc(body)}</p></div>`;
 }
 
 // ---------- live sections (heartbeat) ----------
@@ -519,22 +519,22 @@ export function mount(root) {
 
       <section class="guide-section" id="g-run">
         <h2 class="h2">Run it</h2>
-        <p class="text-ink-dim text-sm">The command list is read live from <code>package.json</code> — a new script shows up on its own; only the notes are hand-written.</p>
+        <p class="text-ink-dim">The command list is read live from <code>package.json</code> — a new script shows up on its own; only the notes are hand-written.</p>
         <div class="js-commands-host"><div class="card-flat"><p class="text-ink-mute text-sm">Loading from the codebase…</p></div></div>
         <div class="eyebrow">Environment</div>
         <div class="card-flat">${ENV.map(([c, d]) => ref(c, d)).join("")}</div>
-        <p class="text-ink-mute text-sm">Loaded from <code>.env</code> at the repo root. Under the preview tools, keep the API on 3001 and run Vite-only on 3000.</p>
+        <p class="text-ink-mute">Loaded from <code>.env</code> at the repo root. Under the preview tools, keep the API on 3001 and run Vite-only on 3000.</p>
       </section>
 
       <section class="guide-section" id="g-pipeline">
         <h2 class="h2">The pipeline</h2>
-        <p class="text-ink-dim text-sm">A run flows top to bottom. Each stage's model comes from <code>content/config/models.json</code> (keys: focus_points, preparation, bank, planner, evaluation), overridable per stage by env var. A cached role profile is derived first.</p>
+        <p class="text-ink-dim">A run flows top to bottom. Each stage's model comes from <code>content/config/models.json</code> (keys: focus_points, preparation, bank, planner, evaluation), overridable per stage by env var. A cached role profile is derived first.</p>
         <div class="card-flat">${PIPELINE.map(([n, t, b, f]) => step(n, t, b, f)).join("")}</div>
       </section>
 
       <section class="guide-section" id="g-screens">
         <h2 class="h2">The screens</h2>
-        <p class="text-ink-dim text-sm">Read live from <code>admin/src/stages/</code> — the list is the real files on disk and each description is the file's own header comment, so this section can't drift. A file added to the code lands under "New screens" until it's grouped.</p>
+        <p class="text-ink-dim">Read live from <code>admin/src/stages/</code> — the list is the real files on disk and each description is the file's own header comment, so this section can't drift. A file added to the code lands under "New screens" until it's grouped.</p>
         <div class="js-screens-host l-stack l-stack--4"><p class="text-ink-mute text-sm">Loading from the codebase…</p></div>
         <div class="eyebrow">Getting around</div>
         <div class="card-flat">${NAV.map(([t, d]) => labelRow(t, d)).join("")}</div>
@@ -542,7 +542,7 @@ export function mount(root) {
 
       <section class="guide-section" id="g-api">
         <h2 class="h2">API</h2>
-        <p class="text-ink-dim text-sm">What the client calls. Routes in <code>backend/api/server.ts</code>, handlers under <code>backend/api/services/&lt;domain&gt;/</code>. Every <code>/api/v1/</code> route has a legacy <code>/api/…</code> alias (id in the query string) kept so the admin is unaffected.</p>
+        <p class="text-ink-dim">What the client calls. Routes in <code>backend/api/server.ts</code>, handlers under <code>backend/api/services/&lt;domain&gt;/</code>. Every <code>/api/v1/</code> route has a legacy <code>/api/…</code> alias (id in the query string) kept so the admin is unaffected.</p>
         <div class="card-flat">${API.map(([t, d]) => labelRow(t, d)).join("")}</div>
       </section>
 
@@ -558,7 +558,7 @@ export function mount(root) {
 
       <section class="guide-section" id="g-arcs">
         <h2 class="h2">Meeting arcs (live)</h2>
-        <p class="text-ink-dim text-sm">Pulled live from the system — not hand-written, so it can't go stale. <strong>Check for changes</strong> (top) refreshes these and reports any that moved. Edit them on the <code>Meeting arcs</code> screen.</p>
+        <p class="text-ink-dim">Pulled live from the system — not hand-written, so it can't go stale. <strong>Check for changes</strong> (top) refreshes these and reports any that moved. Edit them on the <code>Meeting arcs</code> screen.</p>
         <div class="card-flat js-arcs-host"><p class="text-ink-mute text-sm">Loading from the codebase…</p></div>
       </section>
 
@@ -569,7 +569,7 @@ export function mount(root) {
 
       <section class="guide-section" id="g-gaps">
         <h2 class="h2">Known gaps</h2>
-        <p class="text-ink-dim text-sm">What to keep an eye on.</p>
+        <p class="text-ink-dim">What to keep an eye on.</p>
         <div class="card-flat"><ul class="guide-gaps">${GAPS.map((g) => `<li>${esc(g)}</li>`).join("")}</ul></div>
       </section>
     </div>

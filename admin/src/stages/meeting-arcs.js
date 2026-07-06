@@ -106,7 +106,7 @@ export async function mount(root) {
       <header class="page-header">
         <div class="eyebrow">Configure</div>
         <h1 class="h1">Meeting arcs</h1>
-        <div class="text-ink-dim text-sm max-w-measure">
+        <div class="text-ink-dim max-w-measure">
           The phases each 1:1 moves through, with the tone they're asked in and the patterns to avoid. Open any meeting to see its shape, or hit Edit to change it. Edits are saved separately from the code — "Reset to default" undoes them.
         </div>
         <div class="arc-update">

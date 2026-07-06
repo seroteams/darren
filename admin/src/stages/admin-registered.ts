@@ -151,7 +151,7 @@ export const mount: Mount = async (root, { setState }) => {
     `<div class="l-container l-container--wide l-stack l-stack--6">
       <header class="page-header">
         <h1 class="h1">User management</h1>
-        <div class="text-ink-dim text-sm">Everyone registered across the alpha, and whether they're coming back.</div>
+        <div class="text-ink-dim">Everyone registered across the alpha, and whether they're coming back.</div>
       </header>
       ${inner}
     </div>`;
@@ -159,7 +159,7 @@ export const mount: Mount = async (root, { setState }) => {
   const errorCard = `
     <section class="card-flat l-stack l-stack--2">
       <div class="eyebrow">Couldn't load</div>
-      <p class="text-sm text-ink-dim">Something went wrong loading the user list. Please try again.</p>
+      <p class="text-ink-dim">Something went wrong loading the user list. Please try again.</p>
       <button type="button" class="btn btn--ghost js-retry">Try again</button>
     </section>`;
 
@@ -284,7 +284,7 @@ export const mount: Mount = async (root, { setState }) => {
 
     if (groups.every((g) => g.users.length === 0)) {
       root.innerHTML = shell(
-        `${summaryBlock(summary)}<section class="card-flat"><p class="text-sm text-ink-dim">No one has signed up yet.</p></section>`,
+        `${summaryBlock(summary)}<section class="card-flat"><p class="text-ink-dim">No one has signed up yet.</p></section>`,
       );
       return;
     }

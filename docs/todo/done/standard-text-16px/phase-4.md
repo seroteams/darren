@@ -1,6 +1,11 @@
 # Phase 4 — Admin / internal triage
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done (committed 2026-07-07; QA waived — Carl "just go")
+
+## Triage summary
+Bumped to 16px (dropped `text-sm`): page ledes (guide/compare/feedback/library/personas/lexicon-review/job-lexicons/meeting-arcs/admin-*), all guide.js section-intro prose + concept bodies, and empty-state/error notices (library, compare, admin-user-detail, admin-error-log, admin-registered). **Kept 14px** (these dense internal tools keep more labels): table/list rows, star badges, stat values, progress/subtitle meta, "Loading…"/placeholder text, field errors, and `review-run.js` `.js-meta`.
+**Deferred (blocked by parallel sessions):** `admin-feedback.ts` triage + the `intake.js` lede — both files were held by other sessions all session. See PLAN "Deferred".
+**Follow-up flagged:** `review-run.js:119` `.js-meta` uses `text-xs` (12px) — below the floor; noted in PLAN "Deferred" for a small floor fix.
 
 ## Goal
 Reading text on admin/internal/test surfaces is 16px; labels/meta stay 14px. Closes the plan.

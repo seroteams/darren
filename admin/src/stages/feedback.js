@@ -9,7 +9,7 @@ export async function mount(root) {
     <div class="stage-inner l-stack l-stack--8">
       <header class="page-header">
         <h1 class="h1">Send feedback</h1>
-        <div class="text-ink-dim text-sm">Tell us what's working or what's not — it goes straight to the team.</div>
+        <div class="text-ink-dim">Tell us what's working or what's not — it goes straight to the team.</div>
       </header>
       <form class="card-flat space-y-3 js-form" novalidate>
         <label class="l-stack l-stack--2">
@@ -45,7 +45,7 @@ export async function mount(root) {
       root.querySelector(".stage-inner").innerHTML = `
         <header class="page-header">
           <h1 class="h1">Thanks!</h1>
-          <div class="text-ink-dim text-sm">Your note reached the team. We read every one.</div>
+          <div class="text-ink-dim">Your note reached the team. We read every one.</div>
         </header>
         <button type="button" class="btn js-again" style="align-self: flex-start">Send another</button>
       `;
