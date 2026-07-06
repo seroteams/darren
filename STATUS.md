@@ -218,12 +218,17 @@ QA sheets:
 [PG9](docs/pre-go-live/009-roster-polish/99-qa-signoff.md).
 Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No hosting. Budget used ~$0.35/$3.
 
-> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-05 — **full-save commit before the
-> design-system build**: whole working tree committed (incl. in-flight `universe.ts` WIP, new runtime questions,
-> autostart scripts, hide-ai-words / error-log / test-engine-hub folders). UI-idea prototype folders gone from
-> `admin/public/`; stale `dist/sero-original` cleaned (gitignored). Also standing: user-management **Phase 2
-> built + COMMITTED `ac0359a7`** (needs an API restart to walk); PG8 closed, PG9 built-awaiting-close.
-> **New active track: design-system (Sero × Flowbite)** — Phase 1 (component sheet) building next.
+> 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-06 — **people-roster session
+> handoff** (Carl paused this thread to avoid overlap with parallel chats). State: the **people-roster
+> plan is fully CLOSED** — all 5 phases green-lit + committed (`4a762779` → `89d32310` + close-out),
+> folder at [docs/todo/done/people-roster/](docs/todo/done/people-roster/PLAN.md), STATUS/SERO_BOARD/
+> changelog all refreshed, 79/79 tests + typecheck clean at close. Nothing from that track is
+> uncommitted or half-done. If another chat continues this line, the natural next pieces are the
+> PARKED items in the archived PLAN: **member-run-visibility** (what members may see beyond the
+> list-only row — Carl's privacy call), **invitations/email claim**, alias-endpoint retirement,
+> person-profile re-key, reseed the QA member as a *linked person*. ⚠️ For any of those: re-baseline
+> first — several other tracks were mid-flight in parallel (F-002/F-003/F-009 security fixes, motion,
+> QA docs). Commit path-scoped, never sweep.
 > In any fresh session, say **"check point"** and I'll read this file + the PROGRESS log + recent
 > commits and give you the full "where we are, your move" picture — no digging needed.
 
