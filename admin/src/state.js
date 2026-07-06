@@ -104,6 +104,13 @@ export function isInternalAdmin(user) {
   return roles.includes("admin");
 }
 
+// The cross-company superadmin (pre-go-live PG6+). Server-resolved from the email
+// allowlist and returned on the identity — never a role. Gates the /admin/* screens
+// (F-009): the backend 403s their data, this keeps a non-superadmin off the shells too.
+export function isSuperadmin(user) {
+  return !!(user && user.isSuperadmin);
+}
+
 export function resetSession() {
   // Preserve the logged-in user across a session reset — "new session" clears the
   // run, not the login.

@@ -77,6 +77,13 @@ const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE,
   STAGES.ADMIN_ERROR_LOG, STAGES.ADMIN_FEEDBACK]);
 export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
 
+// The cross-company superadmin screens (pre-go-live PG6+). A subset of ADMIN_ONLY that
+// even a normal manager/admin must NOT reach — only the email-allowlisted superadmin.
+// The backend 403s their data; this bounces a non-superadmin off the shell too (F-009).
+const SUPERADMIN_ONLY = new Set([STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
+  STAGES.ADMIN_ERROR_LOG, STAGES.ADMIN_FEEDBACK]);
+export const isSuperadminStage = (stage) => SUPERADMIN_ONLY.has(stage);
+
 // The internal toolset (manager-ready Phase 1) — the workshop screens only the internal
 // `admin` role should meet. A manager deep-linking here is bounced to their Home (START).
 // Deliberately NOT including START (the manager's dashboard) or REVIEW_RUN (their own run

@@ -3,9 +3,9 @@ import "@fontsource-variable/bricolage-grotesque"; // display headings (DESIGN.m
 import "./styles/tailwind.css";
 import "./styles/design.css";
 
-import { STAGES, store, subscribe, setState, resetSession, isAdmin, isInternalAdmin } from "./state.js";
+import { STAGES, store, subscribe, setState, resetSession, isAdmin, isInternalAdmin, isSuperadmin } from "./state.js";
 import { getSession, listRecentRuns, runRegression, me } from "../../shared/api.js";
-import { syncUrl, parseLocation, startPopstate, isFlowStage, isInternalStage, isMemberStage, isSharedStage, isGuestStage } from "./router.js";
+import { syncUrl, parseLocation, startPopstate, isFlowStage, isInternalStage, isMemberStage, isSharedStage, isGuestStage, isSuperadminStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createBuildStamp } from "./ui/build-stamp.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
@@ -178,6 +178,12 @@ startPopstate((parsed) => {
     setState({ stage: STAGES.START });
     return;
   }
+  // The /admin/* superadmin screens are off-limits to a normal manager/admin — bounce
+  // to Home (F-009). The backend 403s the data; this keeps the shell out of reach too.
+  if (store.user && isSuperadminStage(parsed.stage) && !isSuperadmin(store.user)) {
+    setState({ stage: STAGES.START });
+    return;
+  }
   if (parsed.stage === STAGES.REVIEW_RUN) {
     if (parsed.params?.reviewRunId) setState({ reviewRunId: parsed.params.reviewRunId, stage: STAGES.REVIEW_RUN });
     else setState({ stage: STAGES.START });
@@ -306,6 +312,13 @@ async function boot() {
   // A manager deep-linking the internal toolset lands on their Home instead
   // (manager-ready Phase 1). Before the regression kick-off — that's internal-only too.
   if (!isInternalAdmin(store.user) && route && isInternalStage(route.stage)) {
+    history.replaceState(null, "", "/");
+    setState({ stage: STAGES.START });
+    return;
+  }
+
+  // A non-superadmin deep-linking an /admin/* superadmin screen lands on Home (F-009).
+  if (!isSuperadmin(store.user) && route && isSuperadminStage(route.stage)) {
     history.replaceState(null, "", "/");
     setState({ stage: STAGES.START });
     return;
