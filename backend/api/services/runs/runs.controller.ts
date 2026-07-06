@@ -7,6 +7,7 @@ import { createRunsService } from "./runs.service.ts";
 import { fileRunsRepo } from "./runs.repo.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireAdmin, requireAuth } from "../../middleware/require-auth.ts";
+import { forbidden } from "../../middleware/http-error.ts";
 import { peopleService } from "../team/people.service.ts";
 
 const service = createRunsService(fileRunsRepo);
@@ -22,15 +23,20 @@ async function callerOrgId(c: RequestContext): Promise<string | null> {
   return identity.orgId;
 }
 
-// The caller's full identity for the "prefill a run" tool. Returns userId too, because
-// clone stamps the caller as the run's owner so it lands in their own /mine list. Access:
-// admins always; in dev, ANY logged-in user — so the test manager account we use for QA
-// (member@seroteams.com, a plain member) can prefill while experiencing the manager side.
-// In production it stays admin-only, so real members never clone.
+// "Prefill a run" is a DEV-ONLY QA helper: clone a finished run to walk it without paying
+// for a fresh one. Its source lookup is deliberately UNFENCED (it reads finished runs across
+// every company on disk), so it must never be reachable in production — there, real tenants
+// exist and an unfenced clone let any admin/manager read another company's runs + briefings
+// (F-002). So the gate is env, not role: refuse in production outright; in dev, any logged-in
+// user may use it (incl. the plain-member QA account experiencing the manager side).
+export function prefillAllowed(nodeEnv: string | undefined): boolean {
+  return nodeEnv !== "production";
+}
+
 async function callerPrefill(c: RequestContext): Promise<{ userId: string | null; orgId: string | null }> {
+  if (!prefillAllowed(process.env.NODE_ENV)) throw forbidden("Prefill is a dev-only tool");
   const identity = await buildIdentity(c.req);
-  if (process.env.NODE_ENV === "production") requireAdmin(identity);
-  else requireAuth(identity);
+  requireAuth(identity);
   return { userId: identity.userId, orgId: identity.orgId };
 }
 

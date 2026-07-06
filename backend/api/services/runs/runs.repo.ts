@@ -63,6 +63,7 @@ export interface RunsRepo {
   listAboutPerson(orgId: string | null | undefined, personIds: string[]): unknown[];
   memberRun(id: string, orgId: string | null | undefined, userId: string | null | undefined): unknown;
   // Dev-only "prefill a run": copy a finished run into a fresh one owned by the caller.
+  // Source is UNFENCED across companies, so the route MUST stay dev-only (see F-002).
   // Returns the new run's id, or null when the source is unknown / not finished.
   cloneRun(sourceId: string, orgId: string | null, userId: string | null): { id: string } | null;
 }

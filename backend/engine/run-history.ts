@@ -647,8 +647,9 @@ function cloneRunState(source: unknown, stamp: CloneStamp): Record<string, unkno
 }
 
 // Copy a FINISHED run (has a briefing) into a fresh run owned by the caller. Source
-// lookup is unfenced — the route is admin-only, and the whole point is to seed a run
-// from whatever finished runs exist on disk. Returns { id } of the new run, or null
+// lookup is unfenced (any company's run on disk) — SAFE ONLY because the route is gated
+// dev-only (prefillAllowed in runs.controller); it must never be exposed in production,
+// where that would cross the company wall (F-002). Returns { id } of the new run, or null
 // when the source is unknown or not finished. All file copies: zero API cost.
 function cloneRun(sourceId: unknown, orgId: string | null, userId: string | null): { id: string } | null {
   const srcDir = findRunDir(sourceId); // unfenced (admin-guarded route)
