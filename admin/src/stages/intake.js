@@ -1,9 +1,11 @@
 import { STAGES, resetSession } from "../state.js";
-import { getMeetingTypes, startSession, listPeople } from "../../../shared/api.js";
+import { getMeetingTypes, startSession, listPeople, listMyRuns } from "../../../shared/api.js";
 import { swapField, focusField } from "../ui/field.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";
 import { escapeHtml } from "../ui/html.js";
+import { buildRosterView } from "../ui/group-people.js";
+import { formatDate } from "../ui/time.ts";
 
 const SUBSTAGES = ["NAME", "ROLE", "SENIORITY", "MEETING_TYPE", "NOTES"];
 
@@ -108,7 +110,10 @@ export async function mount(root, { store, setState }) {
       btn.className = "meeting-card";
       if (store.ctx.personId === p.id) btn.classList.add("is-selected");
       const role = p.role ? `<div class="meeting-card__meta">${escapeHtml(p.role)}</div>` : "";
-      btn.innerHTML = `<div><span class="meeting-card__label">${escapeHtml(p.name)}</span></div>${role}`;
+      // Show when they were last met, so the freshest 1:1s read at a glance (people are
+      // already sorted most-recent-first). Never-met roster people simply carry no date.
+      const last = p.lastMet ? `<div class="meeting-card__meta">Last 1:1 · ${escapeHtml(formatDate(p.lastMet))}</div>` : "";
+      btn.innerHTML = `<div><span class="meeting-card__label">${escapeHtml(p.name)}</span></div>${role}${last}`;
       btn.addEventListener("click", () => {
         store.ctx.personId = p.id;
         store.ctx.name = p.name;
@@ -167,11 +172,11 @@ export async function mount(root, { store, setState }) {
   }
 
   const ISSUE_PILLS = [
-    { id: "workload", label: "Workload" },
-    { id: "motivation", label: "Motivation" },
-    { id: "friction", label: "Friction" },
-    { id: "delivery", label: "Delivery" },
-    { id: "growth", label: "Growth" },
+    { id: "workload", label: "Workload", example: "e.g. Three big things landed in the same week and it's showing." },
+    { id: "motivation", label: "Motivation", example: "e.g. Used to jump on new work, lately just going through the motions." },
+    { id: "friction", label: "Friction", example: "e.g. Something's felt off with the team since the handoff." },
+    { id: "delivery", label: "Delivery", example: "e.g. The last couple of things slipped and I'm not sure why." },
+    { id: "growth", label: "Growth", example: "e.g. Ready for more, but not sure what the next step looks like." },
   ];
 
   // Compose the structured intake (pills + free text) into one notes string that
@@ -268,10 +273,17 @@ export async function mount(root, { store, setState }) {
       b.tabIndex = i === 0 ? 0 : -1;
       if (i === 0) b.setAttribute("data-autofocus", "");
       b.addEventListener("click", () => {
+        // Single-select: clicking a chip picks only that one (and clicking the
+        // already-selected chip clears it). The text box example follows the pick.
         const on = selected.has(iss.id);
-        if (on) selected.delete(iss.id); else selected.add(iss.id);
-        b.classList.toggle("is-selected", !on);
-        b.setAttribute("aria-pressed", String(!on));
+        selected.clear();
+        if (!on) selected.add(iss.id);
+        pillBtns.forEach((p, idx) => {
+          const isOn = selected.has(ISSUE_PILLS[idx].id);
+          p.classList.toggle("is-selected", isOn);
+          p.setAttribute("aria-pressed", String(isOn));
+        });
+        ta.placeholder = on ? cfg.placeholder : iss.example;
       });
       b.addEventListener("keydown", (e) => {
         if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); focusPill(i + 1); }
@@ -282,6 +294,8 @@ export async function mount(root, { store, setState }) {
     });
     const ta = wrap.querySelector(".js-notes");
     ta.value = store.ctx.freeNotes ?? store.ctx.notes ?? "";
+    const preSelected = ISSUE_PILLS.find((iss) => selected.has(iss.id));
+    if (preSelected) ta.placeholder = preSelected.example;
 
     function go() {
       const pills = ISSUE_PILLS.filter((i) => selected.has(i.id));
@@ -407,14 +421,36 @@ export async function mount(root, { store, setState }) {
     }
   }
 
-  // Meeting types and the roster load together; a roster failure (guest 401, member 403,
-  // network) just means free-text — the intake never blocks on it.
-  const [typesRes, rosterRes] = await Promise.allSettled([getMeetingTypes(), listPeople()]);
+  // Meeting types, the roster, and the caller's runs load together; a roster failure (guest
+  // 401, member 403, network) just means free-text — the intake never blocks on it. The runs
+  // join in each person's 1:1 history so the picker can order most-recently-met first and show
+  // the last-1:1 date (same buildRosterView the Team page uses). A runs failure just drops the
+  // dates and falls back to the roster's own order — the picker still works.
+  const [typesRes, rosterRes, runsRes] = await Promise.allSettled([
+    getMeetingTypes(),
+    listPeople(),
+    listMyRuns({ open: true }),
+  ]);
   types = typesRes.status === "fulfilled" ? typesRes.value.types : [];
-  roster =
+  const peopleRows =
     rosterRes.status === "fulfilled" && Array.isArray(rosterRes.value?.people)
       ? rosterRes.value.people
       : null;
+  if (peopleRows && peopleRows.length) {
+    const runs = runsRes.status === "fulfilled" && Array.isArray(runsRes.value?.runs) ? runsRes.value.runs : [];
+    const byId = new Map(peopleRows.map((p) => [p.id, p]));
+    // buildRosterView returns rows sorted freshest-activity-first with lastMet joined in; keep
+    // seniority (which it doesn't thread through) from the original roster row for the click seed.
+    roster = buildRosterView(peopleRows, runs).map((v) => ({
+      id: v.key,
+      name: v.name,
+      role: v.role,
+      seniority: byId.get(v.key)?.seniority ?? "",
+      lastMet: v.lastMet,
+    }));
+  } else {
+    roster = peopleRows; // null or [] → free-text path, unchanged
+  }
 
   const node = await swapField(host, () => renderField(currentSub));
   focusField(node);
