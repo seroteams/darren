@@ -1,6 +1,6 @@
 # Phase 2 — Outcome capture ("did it happen?")
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜ · **Cost:** $0
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 BUILT — awaiting Carl's walk (not committed; green light = commit) · **Cost:** $0
 
 ## Goal
 When you return to a person, each agreed action from last time gets a one-tap answer — **yes /
@@ -19,11 +19,30 @@ consumer for the `outcomeCheck` contract the no-inference spec seeded).
 - The engine still doesn't read outcomes (Phase 3 feeds them in).
 - No streaks/trends ("rolled over 3 times") — parked until after Phase 3.
 
+## Built (2026-07-06) — as delivered
+- **Store:** an `outcomes.json` sidecar in the prior run's folder (mirrors the `rating.json`
+  pattern — atomic temp-then-rename write), keyed by the action's index → `{ action, answer,
+  answeredBy, updatedAt }`. Only answered indices are stored, so a skip leaves no entry.
+  Proven at the destination: real repo file I/O writes the sidecar, a change-of-mind overwrites
+  the same index (latest wins, `createdAt` preserved), a skipped index stays blank.
+- **API:** `POST /api/v1/runs/mine/:id/outcomes` `{ index, answer, action? }` — member-safe,
+  origin-guarded, org+user fenced (a run you don't own → 404, no write). Returns the merged map.
+- **Read:** `memberRunView` now returns `outcomes` (via `outcomesOf`), so the person page shows
+  the current marks; only the four valid answers are surfaced.
+- **UI:** on the person page's "Since last time" block, each agreed action shows *Did this happen?*
+  → Yes / Partly / No / Changed. The tap is marked active **only after** the server confirms the
+  write; a failure shows an inline "couldn't save" and leaves the selection unchanged (no faked
+  success). All tap text at the 14px floor.
+- **Tests first (TDD):** 7 new service cases — record / overwrite / bad-answer 400 / bad-index 400
+  / not-owner 404 / non-object 400 / write-fail 500. `npm test` **81/81** files green (runs.service
+  now 40 cases); backend + admin typechecks clean.
+- **Not built here:** the engine still doesn't *read* outcomes (Phase 3 feeds them in); no streaks.
+
 ## Done when
 - [ ] Tapping an outcome saves it and it survives a reload (checked at the store, not the screen).
 - [ ] Skipping is fine — nothing nags, nothing defaults.
 - [ ] Outcomes visible on the person page next to their actions.
-- [ ] `npm test` + typechecks green.
+- [x] `npm test` + typechecks green (81/81 files · both typechecks clean; store proven on disk).
 - [ ] Product owner has tested the scenarios below and said go.
 
 ## Test scenarios — for the product owner

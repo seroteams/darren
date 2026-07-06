@@ -137,3 +137,11 @@ export async function rateMine(c: RequestContext): Promise<void> {
   const body = await c.readBody();
   c.json(200, service.rateMine(c.params.id, body, orgId, userId));
 }
+
+// Record whether one of last time's agreed actions happened (continuity Phase 2): login
+// required, any role; same org+user fence as rateMine. Origin-guarded in server.ts.
+export async function setOutcomeMine(c: RequestContext): Promise<void> {
+  const { userId, orgId } = await callerIdentity(c);
+  const body = await c.readBody();
+  c.json(200, service.setOutcomeMine(c.params.id, body, orgId, userId));
+}

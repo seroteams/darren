@@ -52,7 +52,7 @@ person, per team, per meeting type — is the moat.
 | # | Phase | What it lands | Cost | Status |
 |---|---|---|---|---|
 | 1 | Carry-forward on prep | "Since last time" seeded into the visible, editable intake notes for a known person | $0 | ✅ done (green-lit + committed 2026-07-06) |
-| 2 | Outcome capture | One-tap yes/partly/no/changed per prior agreed action; stored + shown on the person thread | $0 | 🔨 next up |
+| 2 | Outcome capture | One-tap yes/partly/no/changed per prior agreed action; stored + shown on the person thread | $0 | 🔨 built, awaiting walk |
 | 3 | Engine-native follow-up | Dedicated prior-context block into focus/prep/evaluation prompts; briefing gains a follow-through read; 2 new trust gates | ~$0.70 walk | ⬜ |
 | 4 | Questions that remember | Per-person cross-session question memory: no verbatim re-asks, labelled follow-ups; cross-person leak still banned | ~$0.35 walk | ⬜ |
 | 5 | Continuity console (admin) | Per-person thread timeline, exact "what the next 1:1 will see" preview, per-person off switch — superadmin/internal | $0 | ⬜ |
@@ -70,10 +70,14 @@ change; reuses the briefing the page already fetches. `npm test` **81/81** (new 
 6 cases) + both typechecks clean; verified live as the real `manager@seroteams.com` before sign-off.
 Files: `admin/src/ui/carry-forward.ts` + `.test.ts` (new), `admin/src/stages/person-detail.ts`.
 
-**Now active: Phase 2 — Outcome capture ($0).** One-tap yes/partly/no/changed per prior agreed action,
-stored where runs live (verify at the destination) and shown on the person thread — the first consumer
-of the `outcomeCheck` contract the no-inference spec seeded. Test-first; no engine read yet (that's
-Phase 3). Scenarios in [phase-2.md](phase-2.md). Paid gate still deferred until Phase 3 (with a go-ahead).
+**Phase 2 🔨 BUILT (2026-07-06), awaiting Carl's walk — NOT committed (green light = commit).**
+One-tap yes/partly/no/changed per prior agreed action, stored as an `outcomes.json` sidecar in the
+prior run's folder (mirrors `rating.json`; verified at the destination — real disk write, latest-wins
+overwrite, skip-stays-blank), served back via `memberRunView`, and shown as taps on the person page's
+"Since last time" block. `POST /api/v1/runs/mine/:id/outcomes` is member-safe, origin-guarded, org+user
+fenced (unowned run → 404). Tests first (7 new service cases); `npm test` **81/81** files · both
+typechecks clean. No engine read yet (Phase 3). Walk: the 5 scenarios in [phase-2.md](phase-2.md), all
+free. Paid gate still deferred until Phase 3 (with a go-ahead).
 
 ## The rules this plan builds under
 - **No silent injection.** Everything carried forward is visible and editable before it runs.

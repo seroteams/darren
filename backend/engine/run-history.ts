@@ -116,6 +116,23 @@ function ratingOf(dir: string): { stars: number; note: string; updatedAt: string
   return { stars, note: asString(r.note), updatedAt: typeof r.updatedAt === "string" ? r.updatedAt : null };
 }
 
+// Recorded outcomes for a run's agreed actions (continuity Phase 2), keyed by the action's
+// index → its answer, or null when none. Reads the outcomes.json sidecar the runs service
+// writes; only the four valid answers are surfaced, so a stray value never reaches the UI.
+const OUTCOME_ANSWERS = ["yes", "partly", "no", "changed"];
+function outcomesOf(dir: string): Record<string, { answer: string; action: string; updatedAt: string | null }> | null {
+  const o = readJsonAt(dir, "outcomes.json");
+  if (!isObjectRecord(o) || !isObjectRecord(o.outcomes)) return null;
+  const out: Record<string, { answer: string; action: string; updatedAt: string | null }> = {};
+  for (const [key, val] of Object.entries(o.outcomes)) {
+    if (!isObjectRecord(val)) continue;
+    const answer = asString(val.answer);
+    if (!OUTCOME_ANSWERS.includes(answer)) continue;
+    out[key] = { answer, action: asString(val.action), updatedAt: typeof val.updatedAt === "string" ? val.updatedAt : null };
+  }
+  return Object.keys(out).length ? out : null;
+}
+
 function setArchived(id: string, archived: unknown, orgId?: string | null): { ok: boolean; id: string; reason?: string; archived?: boolean } {
   const dir = findRunDir(id, orgId);
   if (!dir) return { ok: false, id, reason: "not_found" };
@@ -365,6 +382,7 @@ function memberRunView(id: string, orgId: string | null | undefined, userId: str
     lastSeenAt: asNumber(s.lastSeenAt),
     completedAt: s.completedAt ?? null,
     rating: ratingOf(dir),
+    outcomes: outcomesOf(dir),
   };
 }
 

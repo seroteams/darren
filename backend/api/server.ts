@@ -296,6 +296,12 @@ function main(): void {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return runs.rateMine(c);
   }));
+  // Record an outcome for a prior agreed action (continuity Phase 2) — member-safe
+  // (org+user fenced in the service), origin-guarded like rateMine.
+  router.add("POST", /^\/api\/v1\/runs\/mine\/(?<id>[^/]+)\/outcomes$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return runs.setOutcomeMine(c);
+  }));
   // Team people-aliases (pre-go-live PG9) — a manager merges/renames people in their OWN
   // auto-built Team. Member-safe (login required, fenced to the caller's userId in the
   // controller); the two mutations are origin-guarded like rateMine.

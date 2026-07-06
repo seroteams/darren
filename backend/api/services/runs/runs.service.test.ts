@@ -8,13 +8,14 @@ interface Calls {
   dropSession: string[];
   writeReview: Array<{ dir: string; data: unknown }>;
   writeRating: Array<{ dir: string; data: unknown }>;
+  writeOutcomes: Array<{ dir: string; data: unknown }>;
 }
 
 // A fake repo records its side-effects (dropSession, writeReview) and returns
 // canned reads — proving the service logic (clamp/map, not-found gates, the
 // review marks schema) is independent of run-history storage.
 function fakeRepo(over: Partial<RunsRepo> = {}): { repo: RunsRepo; calls: Calls } {
-  const calls: Calls = { dropSession: [], writeReview: [], writeRating: [] };
+  const calls: Calls = { dropSession: [], writeReview: [], writeRating: [], writeOutcomes: [] };
   const repo: RunsRepo = {
     listRecent: () => [],
     listFinished: () => [],
@@ -38,6 +39,10 @@ function fakeRepo(over: Partial<RunsRepo> = {}): { repo: RunsRepo; calls: Calls 
     readRating: () => null,
     writeRating: (dir, data) => {
       calls.writeRating.push({ dir, data });
+    },
+    readOutcomes: () => null,
+    writeOutcomes: (dir, data) => {
+      calls.writeOutcomes.push({ dir, data });
     },
     ...over,
   };
@@ -397,4 +402,87 @@ test("review surfaces a write failure with status 500 and a clear message", () =
   const r = thrown(() => createRunsService(repo).review("r1", { marks: {} }));
   assert.equal(r.status, 500);
   assert.match(r.message ?? "", /review write failed/);
+});
+
+// --- Continuity Phase 2: outcome capture (did last time's agreed action happen?) ---
+
+test("setOutcomeMine records one action's answer for the caller's own run (only the answered index is stored)", () => {
+  const { repo, calls } = fakeRepo({
+    memberRun: (id) => ({ id, briefing: {} }), // caller owns it
+    findRunDir: () => "/runs/r1",
+  });
+  const out = createRunsService(repo).setOutcomeMine("r1", { index: 0, answer: "partly", action: "  Book the 1:1  " }, "org-A", "u1");
+  assert.equal(out.ok, true);
+  assert.equal(out.index, 0);
+  assert.equal(out.answer, "partly");
+  const call = calls.writeOutcomes[0];
+  assert.ok(call);
+  assert.equal(call.dir, "/runs/r1");
+  const rec = asRecord(call.data);
+  assert.equal(rec.version, 1);
+  assert.equal(rec.runId, "r1");
+  const outcomes = asRecord(rec.outcomes);
+  assert.deepEqual(Object.keys(outcomes), ["0"]); // skipped actions stay blank — no phantom entries
+  const o0 = asRecord(outcomes["0"]);
+  assert.equal(o0.answer, "partly");
+  assert.equal(o0.action, "Book the 1:1"); // trimmed
+  assert.equal(o0.answeredBy, "u1");
+  assert.equal(typeof o0.updatedAt, "string");
+  assert.equal(typeof rec.createdAt, "string");
+  assert.equal(typeof rec.updatedAt, "string");
+});
+
+test("setOutcomeMine overwrites the same action — latest answer wins, other answers + createdAt untouched", () => {
+  const { repo, calls } = fakeRepo({
+    memberRun: (id) => ({ id }),
+    readOutcomes: () => ({
+      createdAt: "2020-01-01T00:00:00.000Z",
+      outcomes: { "0": { action: "A0", answer: "no" }, "1": { action: "A1", answer: "yes" } },
+    }),
+  });
+  createRunsService(repo).setOutcomeMine("r1", { index: 0, answer: "yes", action: "A0" }, "org-A", "u1");
+  const rec = asRecord(calls.writeOutcomes[0]?.data);
+  const outcomes = asRecord(rec.outcomes);
+  assert.equal(asRecord(outcomes["0"]).answer, "yes"); // changed one's mind — latest wins
+  assert.equal(asRecord(outcomes["1"]).answer, "yes"); // sibling untouched
+  assert.equal(rec.createdAt, "2020-01-01T00:00:00.000Z");
+});
+
+test("setOutcomeMine rejects an unknown answer with 400 (and writes nothing)", () => {
+  for (const bad of ["maybe", "", "YES", 1, null]) {
+    const { repo, calls } = fakeRepo({ memberRun: (id) => ({ id }) });
+    assert.equal(thrown(() => createRunsService(repo).setOutcomeMine("r1", { index: 0, answer: bad }, "o", "u")).status, 400);
+    assert.deepEqual(calls.writeOutcomes, []);
+  }
+});
+
+test("setOutcomeMine rejects a bad index with 400 (and writes nothing)", () => {
+  for (const bad of [-1, 1.5, "0", null, undefined]) {
+    const { repo, calls } = fakeRepo({ memberRun: (id) => ({ id }) });
+    assert.equal(thrown(() => createRunsService(repo).setOutcomeMine("r1", { index: bad, answer: "yes" }, "o", "u")).status, 400);
+    assert.deepEqual(calls.writeOutcomes, []);
+  }
+});
+
+test("setOutcomeMine is 404 for a run the caller doesn't own (or unknown) — no probing, no write", () => {
+  const { repo, calls } = fakeRepo({ memberRun: () => null }); // not theirs
+  assert.equal(thrown(() => createRunsService(repo).setOutcomeMine("r1", { index: 0, answer: "yes" }, "org-A", "u2")).status, 404);
+  assert.deepEqual(calls.writeOutcomes, []);
+});
+
+test("setOutcomeMine rejects a non-object payload with 400", () => {
+  const { repo } = fakeRepo({ memberRun: (id) => ({ id }) });
+  assert.equal(thrown(() => createRunsService(repo).setOutcomeMine("r1", "nope", "o", "u")).status, 400);
+});
+
+test("setOutcomeMine surfaces a write failure with status 500 and a clear message", () => {
+  const { repo } = fakeRepo({
+    memberRun: (id) => ({ id }),
+    writeOutcomes: () => {
+      throw new Error("boom");
+    },
+  });
+  const r = thrown(() => createRunsService(repo).setOutcomeMine("r1", { index: 0, answer: "yes" }, "o", "u"));
+  assert.equal(r.status, 500);
+  assert.match(r.message ?? "", /outcome write failed/);
 });
