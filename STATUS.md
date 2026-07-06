@@ -9,7 +9,7 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **🔨 [continuity](docs/todo/continuity/PLAN.md) — NEW track, hold LIFTED by you 2026-07-06. Phase 1 ✅ committed · Phase 2 (outcome taps) BUILT — awaiting your walk.**
+> **🔨 [continuity](docs/todo/continuity/PLAN.md) — NEW track, hold LIFTED by you 2026-07-06. Phase 1 ✅ · Phase 2 (outcome taps) ✅ green-lit 2026-07-06 · Phase 3 (engine follow-up) next.**
 > Your ask: fully launch "previous sessions shape the next one" — with admin management, test runs
 > where you tweak and *see* the effect, a learning engine, and a moat as usage grows. Deep dive done
 > (3 research passes: engine+storage · admin+QA tooling · the prototype-to-production method).
@@ -28,18 +28,19 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > `carry-forward.test.ts`, TDD) + both typechecks clean; verified live as `manager@seroteams.com` before
 > sign-off. Files: `admin/src/ui/carry-forward.ts` (+ test), `admin/src/stages/person-detail.ts`.
 >
-> **▶ Phase 2 — Outcome capture ($0): BUILT 2026-07-06, awaiting your walk (NOT committed — green light = commit).**
-> On a person's page, the "Since last time" block now shows, under each agreed action, **Did this happen? →
-> Yes / Partly / No / Changed**. A tap saves to an `outcomes.json` sidecar on that run (mirrors the ratings
-> pattern), is marked active **only after the server confirms** (a save failure shows an honest "couldn't
-> save", never a fake tick), and shows again on reload. Skipping is fine — nothing nags, blank stays blank.
-> `POST /api/v1/runs/mine/:id/outcomes` is member-safe, origin-guarded, org+user fenced (someone else's run →
-> 404, no write). Tests first (7 new service cases); `npm test` **81/81** files · both typechecks clean;
-> **store proven on disk** (real write, change-of-mind overwrite, skip-stays-blank). No engine read yet —
-> that's Phase 3. **Your move: walk the 5 scenarios in [phase-2.md](docs/todo/continuity/phase-2.md)** (all
-> free) → green light → I commit Phase 2 + set up Phase 3. ⚠️ **Restart your dev API on :3001** first (the
-> new route + the `outcomes` field on the run read only exist in fresh server code); then Team → a person you
-> have a **finished** 1:1 with → the taps sit under "What you agreed".
+> **✅ Phase 2 — Outcome capture ($0): DONE — green-lit by you 2026-07-06 ("go"), committed local.**
+> On a person's page, the "Since last time" block shows, under each agreed action, **Did this happen? →
+> Yes / Partly / No / Changed**. A tap saves to an `outcomes.json` sidecar on that run, marked active
+> **only after the server confirms** (a failure shows an honest "couldn't save", never a fake tick);
+> skipping stays blank; latest tap wins. `POST /runs/mine/:id/outcomes` is member-safe, origin-guarded,
+> org+user fenced. 7 service tests · **81/81** · both typechecks clean. Verified live end-to-end in a real
+> browser: tap "Yes" → POST 200 → button active → written to `outcomes.json` on disk (right answer, user,
+> timestamp). Shipped in the origin merge (`e81a3972`).
+>
+> **▶ Phase 3 — Engine-native follow-up: NEXT.** The first engine-touching phase — a dedicated `prior_session`
+> input + prompt changes so the briefing honestly reviews follow-through, plus 2 new trust gates
+> (`CONTINUITY_SCOPE`, `CONTINUITY_EVIDENCE`). Build + offline checks are **$0**; needs ONE **paid walk
+> (~$0.70**, two chained cases) with your per-run yes. Plan: [phase-3.md](docs/todo/continuity/phase-3.md).
 
 > **✅ [people-roster](docs/todo/done/people-roster/PLAN.md) — CLOSED 2026-07-06, all 5 phases green-lit ("done and working"), 2-day build.**
 > Your ask: "members should only see their own 1:1s" → managers now formally **have** members.

@@ -52,7 +52,7 @@ person, per team, per meeting type — is the moat.
 | # | Phase | What it lands | Cost | Status |
 |---|---|---|---|---|
 | 1 | Carry-forward on prep | "Since last time" seeded into the visible, editable intake notes for a known person | $0 | ✅ done (green-lit + committed 2026-07-06) |
-| 2 | Outcome capture | One-tap yes/partly/no/changed per prior agreed action; stored + shown on the person thread | $0 | 🔨 built, awaiting walk |
+| 2 | Outcome capture | One-tap yes/partly/no/changed per prior agreed action; stored + shown on the person thread | $0 | ✅ done (green-lit + committed 2026-07-06) |
 | 3 | Engine-native follow-up | Dedicated prior-context block into focus/prep/evaluation prompts; briefing gains a follow-through read; 2 new trust gates | ~$0.70 walk | ⬜ |
 | 4 | Questions that remember | Per-person cross-session question memory: no verbatim re-asks, labelled follow-ups; cross-person leak still banned | ~$0.35 walk | ⬜ |
 | 5 | Continuity console (admin) | Per-person thread timeline, exact "what the next 1:1 will see" preview, per-person off switch — superadmin/internal | $0 | ⬜ |
@@ -70,14 +70,20 @@ change; reuses the briefing the page already fetches. `npm test` **81/81** (new 
 6 cases) + both typechecks clean; verified live as the real `manager@seroteams.com` before sign-off.
 Files: `admin/src/ui/carry-forward.ts` + `.test.ts` (new), `admin/src/stages/person-detail.ts`.
 
-**Phase 2 🔨 BUILT (2026-07-06), awaiting Carl's walk — NOT committed (green light = commit).**
+**Phase 2 ✅ DONE — green-lit by Carl 2026-07-06 ("go"), committed local.**
 One-tap yes/partly/no/changed per prior agreed action, stored as an `outcomes.json` sidecar in the
 prior run's folder (mirrors `rating.json`; verified at the destination — real disk write, latest-wins
 overwrite, skip-stays-blank), served back via `memberRunView`, and shown as taps on the person page's
 "Since last time" block. `POST /api/v1/runs/mine/:id/outcomes` is member-safe, origin-guarded, org+user
 fenced (unowned run → 404). Tests first (7 new service cases); `npm test` **81/81** files · both
-typechecks clean. No engine read yet (Phase 3). Walk: the 5 scenarios in [phase-2.md](phase-2.md), all
-free. Paid gate still deferred until Phase 3 (with a go-ahead).
+typechecks clean. Verified live end-to-end in a real browser before sign-off: tap "Yes" → POST 200 →
+button marked active only after the server confirmed → written to `outcomes.json` on disk (right answer,
+user, timestamp). Shipped as part of the origin merge (`e81a3972`).
+
+**Phase 3 ⬜ NEXT — engine-native follow-up.** The first engine-touching phase: a dedicated `prior_session`
+input + prompt changes so the briefing honestly reviews follow-through, plus 2 new trust gates
+(`CONTINUITY_SCOPE`, `CONTINUITY_EVIDENCE`). Build + offline checks are $0; needs ONE paid walk (~$0.70,
+two chained cases) only with Carl's per-run yes. See [phase-3.md](phase-3.md).
 
 ## The rules this plan builds under
 - **No silent injection.** Everything carried forward is visible and editable before it runs.

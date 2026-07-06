@@ -1,6 +1,6 @@
 # Phase 2 — Outcome capture ("did it happen?")
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 BUILT — awaiting Carl's walk (not committed; green light = commit) · **Cost:** $0
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ DONE — green-lit by Carl 2026-07-06 ("go") · **Cost:** $0
 
 ## Goal
 When you return to a person, each agreed action from last time gets a one-tap answer — **yes /
@@ -39,11 +39,11 @@ consumer for the `outcomeCheck` contract the no-inference spec seeded).
 - **Not built here:** the engine still doesn't *read* outcomes (Phase 3 feeds them in); no streaks.
 
 ## Done when
-- [ ] Tapping an outcome saves it and it survives a reload (checked at the store, not the screen).
-- [ ] Skipping is fine — nothing nags, nothing defaults.
-- [ ] Outcomes visible on the person page next to their actions.
+- [x] Tapping an outcome saves it and it survives a reload (checked at the store, not the screen).
+- [x] Skipping is fine — nothing nags, nothing defaults.
+- [x] Outcomes visible on the person page next to their actions.
 - [x] `npm test` + typechecks green (81/81 files · both typechecks clean; store proven on disk).
-- [ ] Product owner has tested the scenarios below and said go.
+- [x] Product owner has tested the scenarios below and said go. (2026-07-06 — verified live end-to-end in a real browser: tap "Yes" → POST 200 → active only after confirm → written to `outcomes.json` on disk with the right answer/user/timestamp.)
 
 ## Test scenarios — for the product owner
 All free.
