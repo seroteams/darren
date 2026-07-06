@@ -83,7 +83,10 @@ export async function mount(root, { store, setState }) {
     });
     if (!ok) return;
     teardown();
-    setState({ stage: STAGES.BRIEFING });
+    // Skip must run the evaluation synthesis first (like the natural "questions done"
+    // path below), then EVAL auto-advances to the briefing. Jumping straight to BRIEFING
+    // left an ungenerated run showing "Briefing not available" (F-006).
+    setState({ stage: STAGES.EVAL });
   });
 
   async function showNextQuestion({ prefill = null } = {}) {
