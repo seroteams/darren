@@ -50,10 +50,11 @@ managers** using real (fenced, consented) data. Hosting is deliberately parked u
 - **Consequence #1 — "pre-go-live" track (done):** the manager's own **Runs** list (reopen,
   rate), an auto-built **Team** (grouped from past 1:1s — zero data entry), per-person pages with
   "since last time" recaps, and a superadmin window so Carl can watch alpha adoption.
-- **Consequence #2 — continuity is the known killer feature and is HARD-PARKED.** The
-  cross-session loop (meeting #2 automatically reviews meeting #1's action items) is understood
-  to be the willingness-to-pay driver. Carl knows, and still wants it held until he explicitly
-  says go. Do not build it; do not re-pitch it.
+- **Consequence #2 — continuity was built, then REMOVED at Carl's request (2026-07-06).** The
+  cross-session loop (meeting #2 reviews meeting #1's action items) was once framed as the
+  willingness-to-pay driver and was actually built (carry-forward pre-fill + outcome taps) — then
+  Carl tore it all out: "this is not what I wanted at all." Do not rebuild it; do not re-pitch it
+  unless he explicitly asks.
 - **Engine honesty is a product value, not a nicety.** Raw model output is surfaced; problems are
   detected and flagged, never hidden by hardcoded rewrites. A low usefulness rating is
   *information we want*. This shows up everywhere: gates flag, they don't mask.
@@ -313,7 +314,7 @@ origin 2026-07-04).
   (sessions fenced by company; runs endpoints require login).
 - 009 "ready to share": safety floor (data fenced org+role, AI keys server-only, DB audited),
   privacy note + consent, feedback + About, repo tidy, hermetic tests, newcomer docs. Hosting
-  parked; continuity deferred (now hard-parked).
+  parked; continuity built then removed at Carl's request (2026-07-06).
 - **Pre-go-live PG1–PG9** (the return-visit track): Runs list + reopen + 1–5★ rating, auto-built
   Team + person pages ("Since last time", "Prep your next 1:1"), superadmin gate + Registered
   screen + user→teams→runs drilldown. PG1–PG8 closed; PG9 (merge/rename Tidy-up) built, awaiting
@@ -344,10 +345,10 @@ origin 2026-07-04).
 test-engine-hub Phase 2 (real engine runner, offline) · error-log Phase 2 (the screen) ·
 mobile-responsive Phases 2–5 · user-management Phases 0/4/5.
 
-**Parked (deliberately, do not restart unprompted):** **continuity/cross-session follow-up
-(HARD-PARKED by Carl — the one thing never to re-pitch)** · hosting · planner-grounding ·
+**Parked (deliberately, do not restart unprompted):** hosting · planner-grounding ·
 briefing-readability-p0 · run-qa-fixes phases 2–4 (need paid walks) · engine unit tests /
-god-file splits / purge-guard follow-ups.
+god-file splits / purge-guard follow-ups. (**Continuity/cross-session follow-up was built then
+REMOVED at Carl's request 2026-07-06 — not parked, gone; don't rebuild or re-pitch unless he asks.**)
 
 ---
 
@@ -375,6 +376,7 @@ god-file splits / purge-guard follow-ups.
 ---
 
 *End of handover. If you (the reader) are a Claude chat advising Carl: keep answers plain and
-short, respect the money rule (nothing that spends without a stated cost + his yes), never
-suggest un-parking continuity, and point him at STATUS.md for anything time-sensitive — this
-file was true on 2026-07-05 and the project moves fast.*
+short, respect the money rule (nothing that spends without a stated cost + his yes), don't
+suggest rebuilding continuity (he removed it 2026-07-06), and point him at STATUS.md for anything
+time-sensitive — this file was true on 2026-07-05 (continuity note updated 2026-07-06) and the
+project moves fast.*
