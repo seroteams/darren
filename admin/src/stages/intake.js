@@ -1,8 +1,9 @@
 import { STAGES, resetSession } from "../state.js";
-import { getMeetingTypes, startSession } from "../../../shared/api.js";
+import { getMeetingTypes, startSession, listPeople } from "../../../shared/api.js";
 import { swapField, focusField } from "../ui/field.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";
+import { escapeHtml } from "../ui/html.js";
 
 const SUBSTAGES = ["NAME", "ROLE", "SENIORITY", "MEETING_TYPE", "NOTES"];
 
@@ -65,6 +66,7 @@ export async function mount(root, { store, setState }) {
   });
 
   let types = null;
+  let roster = null; // the caller's people (people-roster Phase 4b); null/[] → free-text only
   let currentSub = store.substage || "NAME";
 
   function refreshStep() {
@@ -78,9 +80,63 @@ export async function mount(root, { store, setState }) {
   refreshStep();
 
   function renderField(name) {
+    if (name === "NAME") return renderName();
     if (name === "MEETING_TYPE") return renderMeetingType();
     if (name === "NOTES") return renderNotes();
     return renderInput(name);
+  }
+
+  // NAME substage (people-roster Phase 4b): a manager picks from their roster — one card per
+  // person, plus "Someone new" for a free-typed name. Picking seeds name/role/seniority and
+  // carries the personId into the start payload (an exact link, no name matching). Free text
+  // keeps today's behaviour (personId null → the server auto-matches-or-creates, Phase 2).
+  // Guests and members have no roster (the endpoint 401/403s) → plain free-text, unchanged.
+  function renderName() {
+    if (!roster || roster.length === 0) return renderFreeName();
+
+    const wrap = document.createElement("div");
+    wrap.className = "space-y-5";
+    wrap.innerHTML = `
+      <h1 class="h1 mb-2">${COPY.NAME.question}</h1>
+      <div class="hint mb-3">Pick someone from your team, or add someone new.</div>
+      <div class="grid gap-3 js-cards"></div>
+    `;
+    const cards = wrap.querySelector(".js-cards");
+    for (const p of roster) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "meeting-card";
+      if (store.ctx.personId === p.id) btn.classList.add("is-selected");
+      const role = p.role ? `<div class="meeting-card__meta">${escapeHtml(p.role)}</div>` : "";
+      btn.innerHTML = `<div><span class="meeting-card__label">${escapeHtml(p.name)}</span></div>${role}`;
+      btn.addEventListener("click", () => {
+        store.ctx.personId = p.id;
+        store.ctx.name = p.name;
+        store.ctx.role = p.role || store.ctx.role || "";
+        store.ctx.seniority = p.seniority || store.ctx.seniority || "";
+        advance();
+      });
+      cards.appendChild(btn);
+    }
+    const fresh = document.createElement("button");
+    fresh.type = "button";
+    fresh.className = "meeting-card";
+    fresh.innerHTML = `<div><span class="meeting-card__label">Someone new</span></div><div class="meeting-card__meta">Type their name — they join your Team automatically.</div>`;
+    fresh.addEventListener("click", async () => {
+      const node = await swapField(host, () => renderFreeName());
+      focusField(node);
+    });
+    cards.appendChild(fresh);
+    return wrap;
+  }
+
+  // The free-text name input — today's NAME field. Submitting free text always clears
+  // personId: the typed name is the truth, and the server links-or-creates from it.
+  function renderFreeName() {
+    const node = renderInput("NAME");
+    const input = node.querySelector("input");
+    input.addEventListener("input", () => { store.ctx.personId = null; });
+    return node;
   }
 
   const ISSUE_PILLS = [
@@ -304,6 +360,7 @@ export async function mount(root, { store, setState }) {
   async function submit() {
     try {
       const payload = {
+        personId: store.ctx.personId || undefined, // exact roster link when picked (Phase 4b)
         name: store.ctx.name,
         role: store.ctx.role,
         seniority: store.ctx.seniority,
@@ -323,12 +380,14 @@ export async function mount(root, { store, setState }) {
     }
   }
 
-  try {
-    const res = await getMeetingTypes();
-    types = res.types;
-  } catch {
-    types = [];
-  }
+  // Meeting types and the roster load together; a roster failure (guest 401, member 403,
+  // network) just means free-text — the intake never blocks on it.
+  const [typesRes, rosterRes] = await Promise.allSettled([getMeetingTypes(), listPeople()]);
+  types = typesRes.status === "fulfilled" ? typesRes.value.types : [];
+  roster =
+    rosterRes.status === "fulfilled" && Array.isArray(rosterRes.value?.people)
+      ? rosterRes.value.people
+      : null;
 
   const node = await swapField(host, () => renderField(currentSub));
   focusField(node);
