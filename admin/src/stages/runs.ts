@@ -38,7 +38,7 @@ export const mount: Mount = async (root, { setState }) => {
   const header = `
     <header class="page-header">
       <h1 class="h1">Past 1:1s</h1>
-      <div class="text-ink-dim text-sm">Your past prep sessions.</div>
+      <div class="text-ink-dim">Your past prep sessions.</div>
     </header>`;
   const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}</div>`;
 
@@ -48,19 +48,19 @@ export const mount: Mount = async (root, { setState }) => {
     ? `
     <section class="card-flat space-y-3">
       <div class="eyebrow">No 1:1s yet</div>
-      <p class="text-sm text-ink-dim">You haven't done any 1:1s yet. Start your first one and it'll show up here.</p>
+      <p class="text-ink-dim">You haven't done any 1:1s yet. Start your first one and it'll show up here.</p>
       <button type="button" class="btn js-start">Start a 1:1</button>
     </section>`
     : `
     <section class="card-flat space-y-3">
       <div class="eyebrow">No 1:1s yet</div>
-      <p class="text-sm text-ink-dim">Your past 1:1s will show up here once you've had one.</p>
+      <p class="text-ink-dim">Your past 1:1s will show up here once you've had one.</p>
     </section>`;
 
   const errorCard = `
     <section class="card-flat space-y-3">
       <div class="eyebrow">Couldn't load your 1:1s</div>
-      <p class="text-sm text-ink-dim">Something went wrong on our end, not yours. Try again in a moment. If it keeps happening, email <a href="mailto:carl@seroteams.com">carl@seroteams.com</a> and we'll help sort it out.</p>
+      <p class="text-ink-dim">Something went wrong on our end, not yours. Try again in a moment. If it keeps happening, email <a href="mailto:carl@seroteams.com">carl@seroteams.com</a> and we'll help sort it out.</p>
       <button type="button" class="btn btn--ghost js-retry">Try again</button>
     </section>`;
 

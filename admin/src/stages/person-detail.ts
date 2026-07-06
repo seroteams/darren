@@ -104,7 +104,7 @@ export const mount: Mount = async (root, { setState }) => {
     </div>`;
 
   const notice = (eyebrow: string, msg: string) =>
-    `<section class="card-flat space-y-3"><div class="eyebrow">${eyebrow}</div><p class="text-sm text-ink-dim">${msg}</p><button type="button" class="btn js-back2">Back to Team</button></section>`;
+    `<section class="card-flat space-y-3"><div class="eyebrow">${eyebrow}</div><p class="text-ink-dim">${msg}</p><button type="button" class="btn js-back2">Back to Team</button></section>`;
 
   const wireBack = () => {
     root.querySelector(".js-back")?.addEventListener("click", toTeam);

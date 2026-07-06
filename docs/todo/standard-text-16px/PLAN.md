@@ -30,7 +30,7 @@ When genuinely ambiguous, default to 16px (the rule favours reading) and note it
 |---|---|---|---|
 | 1 | Rule + `.hint` bump | The shared `.hint` class → 16px + session-flow ledes | ✅ |
 | 2 | Session flow triage | intake, questioning, focus-points, preparation, briefing, onepage, run-debrief `text-sm` | ✅ |
-| 3 | User pages triage | member-home, team, person-detail, start, join, register, login, welcome, privacy, about, runs, run-detail | ⬜ |
+| 3 | User pages triage | member-home, team, person-detail, start, join, register, login, welcome, privacy, about, runs, run-detail | ✅ |
 | 4 | Admin/internal triage | admin-*, library, compare, personas, review-run, lexicon-review, job-lexicons, guide, feedback, meeting-arcs | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)

@@ -93,13 +93,13 @@ export const mount: Mount = async (root, { setState }) => {
           <h1 class="h1">Past 1:1</h1>
           <button type="button" class="btn btn--ghost js-back">Back to Runs</button>
         </div>
-        <div class="text-ink-dim text-sm js-sub"></div>
+        <div class="text-ink-dim js-sub"></div>
       </header>
       <div class="l-stack l-stack--4 js-host">${inner}</div>
     </div>`;
 
   const notice = (eyebrow: string, msg: string) =>
-    `<section class="card-flat space-y-3"><div class="eyebrow">${eyebrow}</div><p class="text-sm text-ink-dim">${msg}</p><button type="button" class="btn js-back2">Back to Runs</button></section>`;
+    `<section class="card-flat space-y-3"><div class="eyebrow">${eyebrow}</div><p class="text-ink-dim">${msg}</p><button type="button" class="btn js-back2">Back to Runs</button></section>`;
 
   const wireBack = () => {
     root.querySelector(".js-back")?.addEventListener("click", toRuns);

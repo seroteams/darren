@@ -14,7 +14,7 @@ export async function mount(root, { setState }) {
     <div class="stage-inner l-stack l-stack--8 auth-card">
       <header class="page-header">
         <h1 class="h1">Join your team on Sero</h1>
-        <div class="text-ink-dim text-sm js-lede">Checking your invite…</div>
+        <div class="text-ink-dim js-lede">Checking your invite…</div>
       </header>
       <div class="js-host"></div>
     </div>
@@ -26,7 +26,7 @@ export async function mount(root, { setState }) {
     lede.textContent = "This link didn't work.";
     host.innerHTML = `
       <section class="card-flat space-y-3">
-        <p class="text-sm">${esc(message)}</p>
+        <p>${esc(message)}</p>
         <button type="button" class="btn btn--ghost js-to-login">Go to login</button>
       </section>`;
     host.querySelector(".js-to-login").addEventListener("click", () => setState({ stage: STAGES.LOGIN }));
@@ -45,7 +45,7 @@ export async function mount(root, { setState }) {
   lede.textContent = `${inviter}${invite.orgName} invited you — your 1:1 history is waiting.`;
   host.innerHTML = `
     <form class="card-flat space-y-3 js-form" novalidate>
-      <p class="text-sm text-ink-dim">Your manager preps your 1:1s with Sero. Once you join,
+      <p class="text-ink-dim">Your manager preps your 1:1s with Sero. Once you join,
       you'll see your own check-in history — dates and meeting types, always.</p>
       <label class="l-stack l-stack--2">
         <span class="eyebrow">Email</span>

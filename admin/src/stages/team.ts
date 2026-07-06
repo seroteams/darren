@@ -105,7 +105,7 @@ export const mount: Mount = async (root, { setState }) => {
           ${editing ? "" : `<button type="button" class="btn btn--ghost btn--sm js-add">Add someone</button>`}
         </div>
       </div>
-      <div class="text-ink-dim text-sm">${editing ? "Rename a person." : "Everyone on your team. Add a name now; their 1:1 history fills in as you meet."}</div>
+      <div class="text-ink-dim">${editing ? "Rename a person." : "Everyone on your team. Add a name now; their 1:1 history fills in as you meet."}</div>
     </header>`;
   const shell = (inner: string, hasPeople = true) => `<div class="stage-inner l-stack l-stack--8">${header(hasPeople)}${inner}</div>`;
 
@@ -126,7 +126,7 @@ export const mount: Mount = async (root, { setState }) => {
   const emptyCard = `
     <section class="card-flat space-y-3">
       <div class="eyebrow">Your team starts here</div>
-      <p class="text-sm text-ink-dim">Add the people you manage — even before your first 1:1. Their history fills in as you prep and meet.</p>
+      <p class="text-ink-dim">Add the people you manage — even before your first 1:1. Their history fills in as you prep and meet.</p>
       <div class="l-cluster l-cluster--2">
         <button type="button" class="btn js-add">Add someone</button>
         <button type="button" class="btn btn--ghost js-start">Prep a 1:1</button>
@@ -135,7 +135,7 @@ export const mount: Mount = async (root, { setState }) => {
   const errorCard = `
     <section class="card-flat space-y-3">
       <div class="eyebrow">Couldn't load your team</div>
-      <p class="text-sm text-ink-dim">Something went wrong. Please try again.</p>
+      <p class="text-ink-dim">Something went wrong. Please try again.</p>
       <button type="button" class="btn btn--ghost js-retry">Try again</button>
     </section>`;
 

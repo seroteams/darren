@@ -17,7 +17,7 @@ export async function mount(root, { setState, rehydrateById }) {
     <div class="stage-inner l-stack l-stack--8">
       <header class="page-header">
         <h1 class="h1">Start a 1:1 prep session</h1>
-        <div class="text-ink-dim text-sm">Resume a session or start a new one.</div>
+        <div class="text-ink-dim">Resume a session or start a new one.</div>
         <div class="field__actions">
           ${internal
             ? `<button type="button" class="btn js-onepage">One-page run</button>`
@@ -30,7 +30,7 @@ export async function mount(root, { setState, rehydrateById }) {
         <div class="card-flat space-y-3">
           <div>
             <div class="eyebrow">Demo persona</div>
-            <p class="text-ink-dim text-sm mt-1">Sample employee context — or leave blank for your own setup.</p>
+            <p class="text-ink-dim mt-1">Sample employee context — or leave blank for your own setup.</p>
           </div>
           <div class="bench-select-wrap">
             <select class="bench-select js-bench-select" aria-label="Demo persona" disabled>
@@ -39,16 +39,16 @@ export async function mount(root, { setState, rehydrateById }) {
           </div>
           <div class="js-persona-review card-flat space-y-2" hidden>
             <div class="eyebrow js-persona-review-title">Session setup</div>
-            <div class="text-sm text-ink js-persona-summary"></div>
+            <div class="text-ink js-persona-summary"></div>
             <div>
               <div class="eyebrow">What Sero should know</div>
-              <p class="text-sm text-ink-dim js-persona-notes"></p>
+              <p class="text-ink-dim js-persona-notes"></p>
             </div>
             <p class="text-sm text-ink-mute js-persona-footer"></p>
           </div>
           <div class="space-y-2">
             <div class="eyebrow">How to run</div>
-            <p class="text-ink-dim text-sm">Manual or scripted replay — each persona supports both.</p>
+            <p class="text-ink-dim">Manual or scripted replay — each persona supports both.</p>
           </div>
           <div class="bench-flows" role="radiogroup" aria-label="Demo run flow">
             <button type="button" class="bench-flow js-mode is-active" data-mode="manual" role="radio" aria-checked="true">
@@ -159,7 +159,7 @@ export async function mount(root, { setState, rehydrateById }) {
 
   function render() {
     if (runs.length === 0) {
-      list.innerHTML = `<li class="text-ink-mute text-sm">No past sessions yet. Press <kbd class="kbd">Enter</kbd> or click <strong>New session</strong> to start.</li>`;
+      list.innerHTML = `<li class="text-ink-mute">No past sessions yet. Press <kbd class="kbd">Enter</kbd> or click <strong>New session</strong> to start.</li>`;
       return;
     }
     list.innerHTML = runs.map((r) => {
@@ -225,7 +225,7 @@ export async function mount(root, { setState, rehydrateById }) {
         }
       } catch {}
       body.innerHTML = `
-        <div class="run-row__overview text-ink text-sm">${escape(o.overview || "")}</div>
+        <div class="run-row__overview text-ink">${escape(o.overview || "")}</div>
         ${driftHtml}
         <div class="run-row__actions">
           ${finished

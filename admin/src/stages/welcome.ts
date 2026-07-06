@@ -21,7 +21,7 @@ export function welcomeHtml(photo: string): string {
             <p class="auth-brand__sub">Sero turns your rough notes into a focused prep brief and sharper questions for your next one-to-one. It takes about two minutes.</p>
           </div>
           <div class="l-stack l-stack--3">
-            <p class="text-ink-dim text-sm">What you type stays private to you. Nothing is shared with your team or your company.</p>
+            <p class="text-ink-dim">What you type stays private to you. Nothing is shared with your team or your company.</p>
             <button type="button" class="btn js-try-guest">Try it — no account needed</button>
           </div>
           <p class="text-ink-dim text-sm">

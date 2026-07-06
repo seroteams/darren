@@ -16,7 +16,7 @@ export async function mount(root, { setState }) {
     <div class="stage-inner l-stack l-stack--8">
       <header class="page-header">
         <h1 class="h1">Welcome to Sero</h1>
-        <div class="text-ink-dim text-sm">Your manager uses Sero to prepare your 1:1s. Here's your history.</div>
+        <div class="text-ink-dim">Your manager uses Sero to prepare your 1:1s. Here's your history.</div>
       </header>
 
       <section class="card-flat space-y-3">
@@ -55,9 +55,9 @@ export async function mount(root, { setState }) {
             return `<div class="runs-list__row"><span class="text-sm"><strong>${esc(r.meetingType || "1:1")}</strong>${who}</span><span class="text-sm text-ink-dim">${when ? esc(formatDate(when)) : ""}</span></div>`;
           })
           .join("")
-      : `<p class="text-sm text-ink-dim">Nothing here yet. When your manager preps a 1:1 with you, it shows up here — the date and meeting type, so you always know where things stand.</p>`;
+      : `<p class="text-ink-dim">Nothing here yet. When your manager preps a 1:1 with you, it shows up here — the date and meeting type, so you always know where things stand.</p>`;
   } catch {
-    host.innerHTML = `<p class="text-sm text-ink-dim">Couldn't load your 1:1s. Please try again in a moment.</p>`;
+    host.innerHTML = `<p class="text-ink-dim">Couldn't load your 1:1s. Please try again in a moment.</p>`;
   }
 }
 
@@ -71,7 +71,7 @@ function openPrefillPicker(setState) {
   modal.setAttribute("aria-modal", "true");
   modal.innerHTML = `
     <div class="h3">Prefill a run</div>
-    <p class="text-sm text-ink-dim">Pick a finished run to copy into a new one you can walk through. Free — nothing is generated.</p>
+    <p class="text-ink-dim">Pick a finished run to copy into a new one you can walk through. Free — nothing is generated.</p>
     <div class="js-list l-stack l-stack--2" style="max-height:50vh;overflow:auto;margin-top:8px;">
       <p class="text-sm text-ink-mute">Loading…</p>
     </div>
@@ -89,7 +89,7 @@ function openPrefillPicker(setState) {
     .then((res) => {
       const runs = (res && res.runs) || [];
       if (!runs.length) {
-        list.innerHTML = `<p class="text-sm text-ink-mute">No finished runs to copy yet.</p>`;
+        list.innerHTML = `<p class="text-ink-mute">No finished runs to copy yet.</p>`;
         return;
       }
       list.innerHTML = runs
@@ -107,13 +107,13 @@ function openPrefillPicker(setState) {
             close();
             setState({ myRunId: id, stage: STAGES.RUN_DETAIL });
           } catch (e) {
-            list.innerHTML = `<p class="text-sm" style="color:var(--color-negative)">Couldn't prefill: ${esc(e.message || "error")}</p>`;
+            list.innerHTML = `<p style="color:var(--color-negative)">Couldn't prefill: ${esc(e.message || "error")}</p>`;
           }
         });
       });
     })
     .catch((e) => {
-      list.innerHTML = `<p class="text-sm" style="color:var(--color-negative)">Couldn't load runs: ${esc(e.message || "error")}</p>`;
+      list.innerHTML = `<p style="color:var(--color-negative)">Couldn't load runs: ${esc(e.message || "error")}</p>`;
     });
 }
 

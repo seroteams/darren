@@ -1,6 +1,9 @@
 # Phase 3 — User pages triage
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done (committed 2026-07-07; QA waived — Carl "just go")
+
+## Triage summary
+Reading text (ledes, prose, empty-states, error/notice sentences, dynamic content displays) dropped `text-sm` → inherit 16px across about, privacy, member-home, welcome, join, register, person-detail, run-detail, runs, team, start. **Kept 14px:** list/table rows, star badges, form field labels, transient status ("Loading…", "Prefilling…", rate-status), auth secondary link-prompts ("Already have an account?"), and inline consent fine print. Login had none to change (only field error + link prompts). Tests 82/82, typecheck clean.
 
 ## Goal
 Reading text on the non-session user-facing pages is 16px; labels/meta stay 14px.

@@ -11,7 +11,7 @@ export async function mount(root, { setState }) {
     <div class="stage-inner l-stack l-stack--8 auth-card">
       <header class="page-header">
         <h1 class="h1">Create your account</h1>
-        <div class="text-ink-dim text-sm">This also creates your company — you'll be its owner.</div>
+        <div class="text-ink-dim">This also creates your company — you'll be its owner.</div>
       </header>
       <form class="card-flat space-y-3 js-form" novalidate>
         <label class="l-stack l-stack--2">
