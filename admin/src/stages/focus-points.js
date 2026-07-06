@@ -1,5 +1,6 @@
 import { STAGES, resetSession } from "../state.js";
 import { createOrb } from "../ui/orb.js";
+import { createSkeleton } from "../ui/skeleton.js";
 import { openSse } from "../../../shared/sse.js";
 import { revealSequence } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
@@ -38,6 +39,7 @@ export async function mount(root, { store, setState }) {
 
   const orb = createOrb("Analyzing context…");
   thinkingHost.appendChild(orb.el);
+  resultHost.appendChild(createSkeleton(4));
 
   const regenerate = store.regenerateFocusPoints;
   if (regenerate) setState({ regenerateFocusPoints: false });

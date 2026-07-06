@@ -1,5 +1,6 @@
 import { STAGES, resetSession } from "../state.js";
 import { createOrb } from "../ui/orb.js";
+import { createSkeleton } from "../ui/skeleton.js";
 import { openSse } from "../../../shared/sse.js";
 import { revealSequence } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
@@ -37,6 +38,7 @@ export async function mount(root, { store, setState }) {
 
   const orb = createOrb("Preparing your prep brief…");
   thinkingHost.appendChild(orb.el);
+  resultHost.appendChild(createSkeleton(3));
 
   const sse = openSse(`/api/v1/sessions/${encodeURIComponent(sessionId)}/preparation/stream`);
   sse
