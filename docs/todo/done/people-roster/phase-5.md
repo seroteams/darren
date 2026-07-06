@@ -1,6 +1,8 @@
 # Phase 5 — member link + "Your 1:1s"
 
-## BUILT — awaiting Carl's walk (2026-07-06)
+## ✅ GREEN-LIT 2026-07-06 — Carl walked it: "done and working"
+
+## Built + proven (2026-07-06)
 
 - **Link:** POST `/api/v1/team/people/:id/link` (same-org user only — bogus/foreign → 400;
   null unlinks) + GET `/api/v1/team/linkable-users` (manager/admin only). Test-first

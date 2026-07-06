@@ -27,7 +27,7 @@ Carl picked: build the real thing. Managers get a roster of people; 1:1s link to
 | 2 | [new runs carry personId](phase-2.md) | ✅ green-lit 2026-07-05 ("go", walk waived — live proof stands) |
 | 3 | [backfill existing runs + fold in aliases](phase-3.md) | ✅ green-lit 2026-07-06 ("A go") |
 | 4 | [manager UI: person picker + roster-driven Team page](phase-4.md) | ✅ green-lit 2026-07-06 ("go now") |
-| 5 | [member link + "Your 1:1s"](phase-5.md) | 🔨 BUILT — awaiting walk |
+| 5 | [member link + "Your 1:1s"](phase-5.md) | ✅ green-lit 2026-07-06 (Carl walked it: "done and working") |
 
 ## Current state
 
@@ -36,8 +36,10 @@ Carl picked: build the real thing. Managers get a roster of people; 1:1s link to
 - **Phase 2 ✅ green-lit 2026-07-05 ("go" — walk waived).** Commit `30218597`.
 - **Phase 3 ✅ green-lit 2026-07-06 ("A go").** 20 people, 27 runs stamped, 7 orphans skipped honestly.
 - **Phase 4 ✅ green-lit 2026-07-06 ("go now").** Commit `c38cb2ae`.
-- **Phase 5 BUILT — awaiting Carl's walk** (details + full proof in phase-5.md). The payoff works end-to-end: link a person to a member account → the member's Home lists the 1:1s about them, list-only. 79/79 tests.
-- **When Carl green-lights Phase 5, the plan closes** → move folder to done/, roll STATUS, refresh SERO_BOARD + changelog. Remember the parked seed-runs fix (QA member as linked person, not creator).
+- **Phase 5 ✅ green-lit 2026-07-06 — Carl walked it live: "done and working".** Commit `89d32310`.
+- **PLAN CLOSED 2026-07-06** — all 5 phases ✅ same 2-day window. Folder archived to done/.
+  Parked follow-ups live in the Parked section below (member-run-visibility, invitations,
+  alias-endpoint retirement, person-profile re-key, seed-runs as linked person).
 
 ## ⚠️ Privacy decision (flagged, not silently decided)
 

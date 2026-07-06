@@ -12,6 +12,16 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**✅ Closed (2026-07-06): People roster — managers formally have members; 1:1s owned by that pair.**
+Grew out of Carl's "members should only see their own 1:1s": the fence was already sound but
+creator-based, and "1:1s about me" was impossible (people were free text). Now: a `people` table
+(org+manager fenced, linkable to a user account) · every 1:1 stamps who it's ABOUT (old runs
+backfilled) · New 1:1 starts from a **person picker** · Team groups by roster identity, Tidy-up
+writes the roster · a **linked member's Home lists the 1:1s about them** — list-only (type ·
+manager · date), privacy re-cut in the service per the no-inference ruling. All 5 phases green-lit
+in 2 days, $0 spend. Plan → [done/](docs/todo/done/people-roster/PLAN.md). Parked there:
+member detail view (`member-run-visibility`), invitations/email claim, alias retirement.
+
 **✅ Closed (2026-07-05): Design system — Sero × Flowbite.** The Sero look (Flowbite 2.5.2 + Carl's
 colours, straight from his Figma method) is now codified: a visual **component sheet**
 (`admin/public/sero-flowbite/index.html`, in-app under Admin → Design system) + a root **`DESIGN.md`**
