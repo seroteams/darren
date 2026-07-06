@@ -42,6 +42,7 @@ const PATH_FOR = {
   [STAGES.UNIVERSE]:       () => "/universe",
   [STAGES.ADMIN_REGISTERED]: () => "/admin/registered",
   [STAGES.ADMIN_ERROR_LOG]: () => "/admin/errors",
+  [STAGES.ADMIN_FEEDBACK]: () => "/admin/feedback",
   [STAGES.ADMIN_USER]:     (s) => (s.adminUserId ? `/admin/users/${encodeURIComponent(s.adminUserId)}` : "/admin/registered"),
   [STAGES.REVIEW_RUN]:     (s) => (s.reviewRunId ? `/run/${encodeURIComponent(s.reviewRunId)}` : "/run"),
   // ERROR intentionally absent -> urlForState returns null -> no URL write
@@ -61,6 +62,7 @@ const STAGE_FOR = {
   "/tasks": STAGES.TASKS, "/universe": STAGES.UNIVERSE,
   "/admin/registered": STAGES.ADMIN_REGISTERED,
   "/admin/errors": STAGES.ADMIN_ERROR_LOG,
+  "/admin/feedback": STAGES.ADMIN_FEEDBACK,
 };
 
 const FLOW = new Set([STAGES.FOCUS_POINTS, STAGES.PREPARATION, STAGES.BANK,
@@ -72,7 +74,7 @@ export const isFlowStage = (stage) => FLOW.has(stage);
 const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE,
   STAGES.PERSONAS, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
   STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
-  STAGES.ADMIN_ERROR_LOG]);
+  STAGES.ADMIN_ERROR_LOG, STAGES.ADMIN_FEEDBACK]);
 export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
 
 // The internal toolset (manager-ready Phase 1) — the workshop screens only the internal
