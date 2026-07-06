@@ -416,6 +416,14 @@ function main(): void {
   const server = http.createServer((req, res) => {
     router.handle(req, res, {
       fallback: (req, res, url) => {
+        // An unmatched /api/* path answers in the one JSON error shape the rest of the API
+        // uses — never plain text or (in prod) the SPA index (F-001).
+        if (url.pathname.startsWith("/api/")) {
+          res.writeHead(404, { "Content-Type": "application/json" });
+          return res.end(JSON.stringify({
+            error: { code: "NOT_FOUND", message: `Unknown API route: ${req.method} ${url.pathname}` },
+          }));
+        }
         if (IS_PROD && staticHandler) return staticHandler(req, res, url);
         if (IS_PROD) {
           res.writeHead(404, { "Content-Type": "text/plain" });
