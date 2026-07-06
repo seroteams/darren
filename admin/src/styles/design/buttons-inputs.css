@@ -524,7 +524,7 @@
 }
 
 .hint {
-  font-size: var(--type-small);
+  font-size: var(--type-body);
   color: var(--color-ink-mute);
   margin-top: 0.4rem;
   line-height: 1.5;
