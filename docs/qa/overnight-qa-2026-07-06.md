@@ -7,7 +7,7 @@
 ---
 
 ## Resolution — all 9 findings triaged with Carl (2026-07-06)
-Went through every finding one-by-one. Outcomes:
+**✅ Walked + signed off by Carl 2026-07-06 ("done all good").** Went through every finding one-by-one. Outcomes:
 | Finding | Sev | Decision | Commit |
 |---|---|---|---|
 | F-002 clone breach | 🔴 | **Fixed** — prefill dev-only, prod→403 | `ab861b48` |
