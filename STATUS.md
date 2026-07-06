@@ -26,12 +26,16 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 >   accounts only, enforced + tested); a linked member's Home now lists the 1:1s ABOUT them — **type + date +
 >   manager only, never notes/briefing/ratings** (privacy pinned by a key-shape test); dead member start
 >   button removed. New: `GET /runs/about-me`, link/unlink/linkable-users routes.
-> **THE RELOOK (your walk, ~10 min, all free):** ① Team → Add someone → "not met yet" card → Prep first 1:1
-> (intake opens seeded from the picker) ② Tidy up → Rename → survives reload ③ Tidy up → Linked account →
-> pick your member test account ④ log in as that member → Home shows the 1:1s about them, dates + types only
-> ⑤ member sees NO notes/briefing anywhere. Green-light → phases flip ✅ and the folder closes to done/.
-> **Restart your dev API first** (new routes). ⚠️ Your local `4256aa77` build (the screenshot) is a different,
-> unpushed lineage — pull this branch instead; its "Linked account" idea is now built properly here.
+> **THE RELOOK — ✅ RAN GREEN VIA PLAYWRIGHT, 11/11 (2026-07-06, on Carl's ask).** A real browser walked the
+> whole thing against a scratch stack (throwaway Postgres + API + web in the cloud session, $0 — garbage
+> OpenAI key, run never started): ① Add someone → "not met yet" → Prep first 1:1 opens the person picker
+> (Devon New · Priya QA · Someone new) ② rename survives reload ③ Linked account set on Priya ④ member
+> login → Home lists the 1:1 about them ("Bi-weekly check-in · with QA Manager"), dead start button gone
+> ⑤ privacy held at the wire: about-me payload = exactly {id, meetingType, lastSeenAt, completedAt,
+> managerName}, no notes/briefing/rating anywhere, member 403s on the roster. **5 screenshots delivered in
+> chat.** Scratch stack + fabricated QA run fully torn down after.
+> **Left for you:** your own eyeball on your machine if you want it (pull branch + restart API — your local
+> `4256aa77` build is a superseded, unpushed lineage), then say **"close it"** → phases flip ✅, folder → done/.
 > Your ask: members should only see their own 1:1s → the real build (option B): managers formally
 > **have** members; a member linked to a roster person will see the 1:1s ABOUT them (Phase 5).
 > **P1 ✅ (`4a762779`):** `people` table live on Neon (migration `0007`) + 5 fenced endpoints under

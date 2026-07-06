@@ -41,6 +41,7 @@ Carl picked: build the real thing. Managers get a roster of people; 1:1s link to
   - **4b BUILT (2026-07-06):** intake NAME substage is now a roster picker (person cards seed name/role/seniority + carry the exact personId into the start payload) with a "Someone new" card → the old free-text (typing clears personId). Guests/members: free-text unchanged (roster 401/403s, intake never blocks).
 - **Phase 5 BUILT — awaiting walk (2026-07-06, all-in-one-thread on Carl's "no stopping" call):** link/unlink + linkable-users endpoints, `GET /runs/about-me` (list-only, privacy-checked by test), Team "Linked account" picker, member Home "Your 1:1s". 11 new unit tests. Details in [phase-5.md](phase-5.md).
 - **⚠️ The whole 4a→5 stretch is walk-debt:** Carl waived per-phase walks for this run ("finish it all, we relook"). Each phase is its own commit so the relook can walk them one at a time. Phases aren't ✅ until walked.
+- **Relook ran GREEN via Playwright, 11/11 (2026-07-06, Carl asked for it in-browser):** scratch Postgres+API+web stood up in the cloud session ($0 — garbage OpenAI key, no run ever started); a real Chromium walked all 5 scenarios — add-someone/not-met/picker, rename-survives-reload, link account, member "Your 1:1s", and the privacy checks at the wire (minimal about-me keys, no notes/briefing/rating, member 403 on roster). 5 screenshots delivered in chat; scratch stack + fabricated QA run torn down. Awaiting Carl's word to flip ✅ + close to done/.
 
 ## ⚠️ Privacy decision (flagged, not silently decided)
 
