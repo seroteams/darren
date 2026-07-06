@@ -19,7 +19,7 @@ Right now there is **one** app. `admin/` is a single Vite SPA that serves *both*
 |---|---|---|---|
 | 1 | Shared foundation | Pull the genuinely-shared, non-branching machinery (api/sse client, generic UI primitives, base styles) into a `shared/` spot both apps import. `state`/`router` are split later, not moved. **Nothing visibly changes.** | ✅ |
 | 2 | Stand up the customer app | A real second Vite app in `frontend/` that imports `shared/` + only the customer stages. Served on its own dev port. Admin app untouched. | 🔨 built, awaiting walk |
-| 3 | Slim the admin app | Remove the now-duplicated customer-only stages from the admin build so `admin/` is internal tooling only. | ⬜ |
+| 3 | Slim the admin app | Remove the now-duplicated customer-only stages from the admin build so `admin/` is internal tooling only. **Also covers QA finding F-005** (overnight sweep 2026-07-06): the internal persona-bench controls in the shared `start.js` currently ship in the customer bundle DOM (hidden at runtime) — the physical stage split removes them from the bundle entirely. | ⬜ |
 | 4 | Serve + fence the two apps | API serves the customer app at the public root; admin app served on its own internal route/deploy; prove no secrets/tools in the customer bundle. | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
