@@ -1,7 +1,7 @@
 import { STAGES } from "../state.js";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
-import { postVerdict, rateMyRun } from "../../../shared/api.js";
+import { postVerdict, rateMyRun, getMyRun } from "../../../shared/api.js";
 import { escapeCopy as escape } from "../ui/html.js";
 import { createStarRating } from "../ui/star-rating.js";
 import { icon } from "../ui/icon.js";
@@ -390,7 +390,12 @@ export async function mount(root, { store, setState, resetSession }) {
   const rateBlock = root.querySelector(".js-rate-inflow");
   if (rateBlock) {
     const status = rateBlock.querySelector(".js-rate-status");
+    // Reflect a rating already saved for this run, so revisiting a rated briefing shows
+    // the stars instead of an empty widget (F-007). Soft — a failed read just leaves it blank.
+    let savedStars = 0;
+    try { savedStars = (await getMyRun(store.sessionId))?.rating?.stars ?? 0; } catch { /* leave blank */ }
     const stars = createStarRating({
+      initialStars: savedStars,
       onChange: async (s) => {
         try {
           await rateMyRun(store.sessionId, { stars: s });
