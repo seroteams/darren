@@ -9,7 +9,14 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — P1 ✅ green-lit ("b GO") · P2 (runs carry personId) BUILT, awaiting your walk (2026-07-05).**
+> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — P1 ✅ green-lit ("b GO") · P2 (runs carry personId) + P3 (backfill old runs) BUILT, awaiting your walk.**
+> **P3 BUILT (2026-07-06, all in this one chat):** `scripts/backfill-people.ts` (dev-guarded, `--dry-run`,
+> idempotent) gives every EXISTING run a roster person — resolves each run's free-typed name through your
+> Team merges/renames to one canonical person, find-or-creates the row, stamps `personId` into the run's
+> state file + DB mirror. The alias→name core is a pure, unit-tested module (8 cases). Offline proof: `npm test`
+> **78/79** (the 1 fail is the pre-existing replay-regression baseline drift, not this), typechecks clean.
+> ⚠️ **No live run here** — this cloud clone has no DATABASE_URL, so the dry-run + real run (phase-3 scenarios
+> 1–4) are your walk on your Neon machine: `node scripts/backfill-people.ts --dry-run` first, eyeball, then drop `--dry-run`.
 > Your ask: members should only see their own 1:1s → the real build (option B): managers formally
 > **have** members; a member linked to a roster person will see the 1:1s ABOUT them (Phase 5).
 > **P1 ✅ (`4a762779`):** `people` table live on Neon (migration `0007`) + 5 fenced endpoints under
@@ -21,8 +28,8 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > the state serializer is a whitelist and silently DROPPED personId — fixed + pinned by tests.
 > Live-proven on scratch APIs at $0 (invalid OpenAI key so prewarm can't spend); QA rows/dirs/mirrors
 > cleaned. `npm test` **76/76** · typecheck clean. **Walk:** the 4 scenarios in
-> [phase-2.md](docs/todo/people-roster/phase-2.md) (all free) — or say go → Phase 3 (backfill old runs).
-> Then: ④ intake person picker + roster Team page · ⑤ member link + "Your 1:1s". ⚠️ Privacy: members
+> [phase-2.md](docs/todo/people-roster/phase-2.md) (all free) — P3 is now built too (see above).
+> Then: ④ intake person picker + roster Team page · ⑤ member link + "Your 1:1s" (the invite-flow foundation). ⚠️ Privacy: members
 > will get **list-only** (type + date + manager) — no notes, no briefing; richer is your call
 > (parked: `member-run-visibility`).
 
