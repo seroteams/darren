@@ -110,7 +110,7 @@ Tests: `npm test` **57/57** (offline, $0) · `npm run typecheck` clean. Commits 
 | Item | Scope |
 |---|---|
 | **Next-stage build** | **✅ ALL 8 PHASES DONE 2026-06-16** → `done/`. Hardening core (contracts, persistence/resume, deterministic fallback) + feature passes (issue pills + observed shift, prep quality, prep timeline UI, runner polish, shared/private split). One carve-out — cross-session follow-up auto-injection — **un-parked 2026-06-21** (now its own item below). |
-| **Cross-session follow-up (continuity)** | **⛔ HARD-PARKED by Carl (2026-07-04) — do NOT build until he explicitly says go.** The return-visit loop (meeting #2 reviews meeting #1's actions). Research flags it as the willingness-to-pay driver, but Carl knows that and still wants it held. Plan scaffolded + hard-parked at [docs/todo/continuity/PLAN.md](docs/todo/continuity/PLAN.md), no code written. |
+| **Cross-session follow-up (continuity)** | **▶ HOLD LIFTED by Carl (2026-07-06) — full launch plan built, awaiting his read before Phase 1.** The return-visit loop, grown into the full line: carry-forward → outcome capture → engine-native follow-up → question memory → Continuity console (admin) → tweak-and-see test bench → learning engine v1 (inside the no-inference ruling — exemplars from test runs only, counts not text, no training ever) → moat metrics. 8 phases, one at a time, ~$2–4.50 total paid walks (each per-run approved). Plan: [docs/todo/continuity/PLAN.md](docs/todo/continuity/PLAN.md). No code yet. |
 
 ## 3. Done
 

@@ -1,38 +1,95 @@
-> ⛔ **HARD-PARKED by Carl (2026-07-04). Do NOT build until he explicitly says go.** This plan was
-> scaffolded then immediately held at Carl's direction — **no code was written.** Don't start it, don't seed
-> it into other work, don't re-pitch it. When Carl lifts the hold, resume from Phase 1 below.
+# Continuity — previous 1:1s shape the next one (the launch plan)
 
-# Continuity — the return-visit loop ("remembering")
+**Goal:** A manager's second 1:1 with a person visibly builds on the first — the prep, the questions
+and the briefing all follow up on what was agreed — and every session a team runs makes Sero's engine
+a little better at the next one, in ways a copycat without our history can't match.
+**Driver:** Carl · **Created:** 2026-07-04 (scaffold) · **Rebuilt as the full launch plan:** 2026-07-06
+(Carl lifted the 2026-07-04 hard-park in his own words: "fully launching the part where previous sessions…").
 
-**Goal:** Meeting #2 with a person builds on meeting #1 — the prep carries forward what you agreed and what to
-watch, so Sero follows up instead of starting cold. This is the loop three alpha-readiness reports flagged as
-the thing that proves willingness-to-pay: value shows on the *second* conversation, not the first.
-**Driver:** Carl · **Created:** 2026-07-04
+## Why this is the one that matters
+All three alpha-readiness reports said the same thing: willingness-to-pay shows on the **return
+visit** — the second prep, not the first. The GTM corridor test's pass bar is literally "a second
+unprompted prep within ~2 weeks". Continuity is what makes the second prep *better* than the first,
+and the learning loop is what makes month 3 better than week 1. That compounding history — per
+person, per team, per meeting type — is the moat.
 
-## Why now
-PG5 shipped a display-only "Since last time" on the person page. Continuity turns that from a *reminder the
-manager reads* into *context the engine works from*, so the next 1:1's prep and briefing actually review the
-last one's commitments.
+## What the deep dive found (2026-07-06, three research passes)
+- **The engine is stateless today.** All 5 pipeline stages start cold. The prior briefing's
+  `next_actions` + `watch_for` are stored on disk per run but never read back in. "Since last time"
+  (PG5) is display-only.
+- **The plumbing already exists.** Runs are stamped with the person they're about (people-roster,
+  closed 2026-07-06, old runs backfilled) — so "this person's last 1:1" is a solved lookup. The
+  briefing already stores agreed actions + watch-fors in structured fields. An `outcomeCheck`
+  field ("did the agreed action happen: yes/partly/no/changed") was added to the contract by the
+  no-inference work **precisely as the legal loop-closure signal — it has no consumer yet.**
+- **Learning is manual today.** `scripts/focus-example.js` — a human copies a good run's output
+  into the prompt files as an example. That's the seed this plan industrializes.
+- **Two standing walls we build inside, not around:**
+  - **No-inference ruling** ([docs/sero-prompt-improvement-spec.md](../../sero-prompt-improvement-spec.md)):
+    never infer states from manager notes; every claim evidence-anchored; **never train on manager
+    notes in any form**. Continuity carries *structured events* (agreed actions, outcome answers,
+    transcript quotes) — never inferred trends.
+  - **Cross-session leak gate:** bleed between *different people's* sessions stays a hard bug.
+    Continuity is a deliberate, visible, same-person channel — new gates enforce that line.
 
-## Phases (smallest real slice first)
-| # | Phase | What it lands | Status |
-|---|---|---|---|
-| 1 | Prep carry-forward | "Prep your next 1:1" seeds the new prep with last time's agreed actions + watch-fors (visible + editable), so it flows into the engine as context. Front-end only, reuses the run already fetched — no new engine stage, no prompt change. | ⛔ hard-parked (no code) |
-| 2 | Engine-native follow-up | A dedicated prior-context input to the pipeline so the briefing explicitly reviews "you agreed X — the transcript suggests it did / didn't happen." Prompt/engine change → needs a paid walked run to verify the output. | ⬜ |
-| 3 | Person-profile link | Tie runs to a stable person identity (reuse the PG9 alias key) so carry-forward survives renames/merges and spans more than the immediately-previous run. | ⬜ |
+## Done means
+- Prepping a repeat 1:1 seeds a visible, editable "Since last time" block — and the engine gets it
+  as a dedicated prior-context input, so the briefing honestly reviews "you agreed X — here's what
+  the answers show".
+- One tap records whether each agreed action happened (yes / partly / no / changed) — the
+  deterministic event stream everything downstream runs on.
+- Questions remember: no verbatim re-asks for the same person; deliberate follow-ups are labelled.
+- Carl has a **Continuity console**: per-person session threads, an exact preview of what the next
+  1:1 will receive, and an off switch.
+- Carl has a **test bench**: chain persona meetings #1 → #2, tweak the carry-forward, and *see* —
+  free prompt-diff dry-runs by default, paid live runs only with a stated cost and a yes.
+- The engine **learns as usage grows** inside the ruling: exemplar promotion from Keep-verdict test
+  runs, and deterministic effectiveness stats from outcomes/ratings. No model training. Ever.
+- The moat is measurable: continuity-depth metrics on the superadmin Registered screen + a plain
+  one-page moat story.
 
-⬜ not started · 🔨 built, awaiting walk · ✅ done (tested + green-lit)
+## Phases
+| # | Phase | What it lands | Cost | Status |
+|---|---|---|---|---|
+| 1 | Carry-forward on prep | "Since last time" seeded into the visible, editable intake notes for a known person | $0 | ⬜ |
+| 2 | Outcome capture | One-tap yes/partly/no/changed per prior agreed action; stored + shown on the person thread | $0 | ⬜ |
+| 3 | Engine-native follow-up | Dedicated prior-context block into focus/prep/evaluation prompts; briefing gains a follow-through read; 2 new trust gates | ~$0.70 walk | ⬜ |
+| 4 | Questions that remember | Per-person cross-session question memory: no verbatim re-asks, labelled follow-ups; cross-person leak still banned | ~$0.35 walk | ⬜ |
+| 5 | Continuity console (admin) | Per-person thread timeline, exact "what the next 1:1 will see" preview, per-person off switch — superadmin/internal | $0 | ⬜ |
+| 6 | Test bench — tweak &amp; see | Continuity sandbox in the Test engine hub: chain personas #1→#2, edit the carry-forward, free prompt-diff dry-run, paid live compare | $0 free / ~$0.70 live | ⬜ |
+| 7 | Learning engine v1 | In-app exemplar loop (Keep-verdict **test/persona** runs → prompt examples, with provenance) + deterministic effectiveness stats | ~$0.35–3 gate | ⬜ |
+| 8 | Moat metrics + story | Continuity-depth metrics on Registered; docs/moat.md one-pager | $0 | ⬜ |
 
-## Done means (Phase 1)
-- Prepping the next 1:1 with a known person lands you on intake with a plain "Since last time" block already
-  in the notes (agreed actions + watch-fors), which you can edit or clear before running.
-- A person with no prior briefing (or an empty one) seeds nothing — no scaffolding.
-- It's transparent: nothing is injected the manager can't see and change. Free until the pipeline runs.
+⬜ not started · 🔨 in progress · ✅ done (tested)
 
-## Honesty / guardrails
-- **No silent injection.** The carry-forward is seeded into the *visible, editable* notes — never hidden
-  context the manager can't see. (Aligns with the no-silent-masking rule.)
-- Phase 2's prompt change is the part that needs a paid walk before sign-off; Phase 1 does not.
+## Current state
+Plan rebuilt 2026-07-06 from the parked 3-phase scaffold, after a three-pass deep dive (engine +
+storage · admin console + QA tooling · the prototype-to-production working method). **No code
+written. Waiting for Carl to read the phases and confirm before Phase 1 starts.**
+Free baseline to run at Phase 1 start: `npm test` + `npm run typecheck` (paid gate deferred until
+Phase 3, with a go-ahead).
+
+## The rules this plan builds under
+- **No silent injection.** Everything carried forward is visible and editable before it runs.
+  The console preview shows *exactly* what the engine will receive.
+- **Same-person channel only.** Carry-forward reads runs for the same person + org + manager.
+  Cross-person bleed remains a gated bug (`CROSS_SESSION_QUESTION_LEAK` stays; new
+  `CONTINUITY_SCOPE` + `CONTINUITY_EVIDENCE` gates join it in Phase 3).
+- **Events, not diagnoses.** What carries: agreed actions, outcome answers, watch-fors, transcript
+  quotes. What never carries: inferred states, trends, "seems disengaged".
+- **Learning never touches manager notes.** Exemplars come only from **test/persona runs**
+  (synthetic input). Real-customer runs contribute *counts* (ratings, outcome rates, verdicts) —
+  never their text. No fine-tuning, no training, per the ruling.
+- **Cost control.** Phases 1, 2, 5, 8 and the default test-bench mode are $0. Every paid walk is
+  the smallest run that proves the point, cost stated, per-run yes from Carl.
 
 ## Parked
-- Multi-meeting history (more than the previous run), trend of commitments kept — after Phase 3's identity link.
+- Multi-meeting trend lines (3+ sessions: "this action has rolled over 3 times") — after Phase 3
+  proves single-step follow-through; rollover *counts* are allowed events, so this is a natural v2.
+- Member-visible continuity (what the managed person sees of the thread) — Carl's privacy call,
+  sits with the parked `member-run-visibility` item.
+- Auto-applied learning weights (effectiveness stats steering question selection automatically) —
+  Phase 7 ships the stats read-only; flipping them to live steering is its own decision.
+- Org-level cross-manager learning ("what works across your company") — needs more than one
+  manager's data volume; revisit after alpha.
+- Fine-tuning/model training of any kind — **not parked, banned** (kept here so nobody "finds" it).
