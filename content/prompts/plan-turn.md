@@ -85,7 +85,8 @@ Output shape:
       "description": "<one line: what this question is designed to surface>",
       "purpose": "wellbeing" | "topic" | "competency",
       "stage": "<arc stage id>" | null,
-      "axis_effects": [ { "axis": "<id>", "delta": <int> } ]
+      "axis_effects": [ { "axis": "<id>", "delta": <int> } ],
+      "grounding": "<≤10-word verbatim quote from the note/transcript, or \"open\">"
     }
   ]
 }

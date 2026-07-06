@@ -77,7 +77,7 @@ Return strict JSON only. No prose, no markdown fences.
   ],
   "brutal_truth_employee": "<2 sentences, direct, quoting a specific phrase from the transcript>",
   "brutal_truth_manager": "<2 sentences, direct, naming a specific turn or moment>",
-  "next_actions": [ "<exactly 2 action objects>" ],
+  "next_actions": [
     { "when": "today" | "this week" | "this month" | "next 1:1",
       "action": "<one concrete imperative: verb + object. Something the manager can actually do or schedule.>" }
   ],
