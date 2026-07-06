@@ -66,3 +66,4 @@ logs/**
 # machine only (re-runnable, never committed; ~5.7MB of past conversation logs)
 /docs/chat-history/
 /scripts/chat-log.py
+frontend/dist
