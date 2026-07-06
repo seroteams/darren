@@ -18,11 +18,11 @@ const STYLE = `
   .arc-card__head[disabled] { cursor:default; }
   .arc-card__chev { transition: transform .15s ease; color:var(--color-ink-dim); flex:none; }
   .arc-card[data-open="true"] .arc-card__chev { transform: rotate(90deg); }
-  .arc-card__meta { margin-left:auto; font-size:.9rem; color:var(--color-ink-dim); }
+  .arc-card__meta { margin-left:auto; font-size:var(--type-body-sm); color:var(--color-ink-dim); }
   .arc-edited { font-size:var(--type-body-sm); font-weight:600; padding:3px 9px; border-radius:6px;
     background:var(--sero-gold-200); color:var(--sero-gold-800); }
   .arc-chips { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:0 16px 16px 40px; }
-  .arc-chip { font-size:.95rem; font-weight:500; line-height:1.4;
+  .arc-chip { font-size:var(--type-body); font-weight:500; line-height:1.4;
     padding:4px 11px; border-radius:7px; background:var(--sero-soft-200); color:var(--color-ink);
     border:1px solid var(--color-border-strong); }
   .arc-chip__sep { color:var(--color-ink-dim); font-size:1.1rem; }
@@ -32,25 +32,25 @@ const STYLE = `
   .arc-phase { display:flex; align-items:flex-start; gap:12px; padding:10px 0;
     border-bottom:1px solid var(--color-border); }
   .arc-phase:last-child { border-bottom:none; }
-  .arc-phase__id { font-size:.9rem; font-weight:600;
+  .arc-phase__id { font-size:var(--type-body-sm); font-weight:600;
     padding:3px 9px; border-radius:7px; background:var(--sero-soft-200); color:var(--color-ink);
     border:1px solid var(--color-border-strong); flex:none; margin-top:1px; }
   .arc-phase__main { flex:1; min-width:0; }
-  .arc-phase__label { font-weight:600; font-size:1rem; color:var(--color-ink); }
-  .arc-phase__intent { font-size:.95rem; color:var(--color-ink-dim); margin-top:3px; line-height:1.5; }
+  .arc-phase__label { font-weight:600; font-size:var(--type-body); color:var(--color-ink); }
+  .arc-phase__intent { font-size:var(--type-body); color:var(--color-ink-dim); margin-top:3px; line-height:1.5; }
   .arc-phase__q { flex:none; font-size:var(--type-body-sm); color:var(--color-ink-dim); white-space:nowrap; margin-top:3px; }
-  .arc-anti { margin:0; padding-left:20px; color:var(--color-ink-dim); font-size:.95rem; line-height:1.5; }
+  .arc-anti { margin:0; padding-left:20px; color:var(--color-ink-dim); font-size:var(--type-body); line-height:1.5; }
   .arc-anti li { margin:5px 0; }
 
   /* --- actions + edit mode --- */
   .arc-actions { display:flex; gap:8px; padding:0 16px 16px 40px; }
-  .arc-btn { font-size:.95rem; font-weight:600; padding:6px 14px; border-radius:8px; cursor:pointer;
+  .arc-btn { font-size:var(--type-body); font-weight:600; padding:6px 14px; border-radius:8px; cursor:pointer;
     border:1px solid var(--color-border-strong); background:var(--color-surface); color:var(--color-ink); }
   .arc-btn:hover { background:var(--sero-soft-200); }
   .arc-btn--primary { background:var(--color-ink); color:var(--color-surface); border-color:var(--color-ink); }
   .arc-btn--primary:hover { opacity:.9; background:var(--color-ink); }
   .arc-btn--danger { color:var(--sero-rose-700, #b4232a); }
-  .arc-btn--mini { font-size:.85rem; padding:4px 9px; }
+  .arc-btn--mini { font-size:var(--type-body-sm); padding:4px 9px; }
   .arc-btn[disabled] { opacity:.4; cursor:not-allowed; }
 
   .arc-edit { padding:8px 16px 18px; border-top:1px solid var(--color-border); }
@@ -64,23 +64,23 @@ const STYLE = `
   .arc-field--label { flex:1; min-width:160px; }
   .arc-field--q { width:90px; }
   .arc-field--grow { flex:1; min-width:100%; }
-  .arc-field > span { font-size:.78rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase;
+  .arc-field > span { font-size:var(--type-label); font-weight:600; letter-spacing:.03em; text-transform:uppercase;
     color:var(--color-ink-dim); }
   .arc-input, .arc-textarea { font:inherit; color:var(--color-ink); background:var(--color-surface);
     border:1px solid var(--color-border-strong); border-radius:7px; padding:7px 9px; width:100%; }
   .arc-input:focus, .arc-textarea:focus { outline:2px solid var(--color-ink); outline-offset:-1px; }
   .arc-textarea { resize:vertical; min-height:46px; line-height:1.5; }
   .arc-edit__foot { display:flex; align-items:center; gap:10px; margin-top:16px; flex-wrap:wrap; }
-  .arc-edit__msg { font-size:.95rem; }
+  .arc-edit__msg { font-size:var(--type-body); }
   .arc-edit__msg--err { color:var(--sero-rose-700, #b4232a); }
   .arc-edit__spacer { margin-left:auto; }
 
   /* --- page-level "check for changes" action --- */
   .arc-update { display:flex; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap; }
-  .arc-update__msg { font-size:.95rem; color:var(--color-ink-dim); }
+  .arc-update__msg { font-size:var(--type-body); color:var(--color-ink-dim); }
   .arc-update__msg--ok { color:var(--sero-green-700, #1f7a4d); }
   .arc-update__msg--err, .arc-update__msg--warn { color:var(--sero-rose-700, #b4232a); }
-  .arc-update__time { font-size:.9rem; color:var(--color-ink-mute, var(--color-ink-dim)); }
+  .arc-update__time { font-size:var(--type-body-sm); color:var(--color-ink-mute, var(--color-ink-dim)); }
 </style>`;
 
 const CHEV = icon(ChevronRight, { size: 16, className: "arc-card__chev" });
