@@ -3,7 +3,7 @@ import fs from "node:fs";
 import { logStage } from "./session.ts";
 import { loadAxes, AXIS_IDS } from "./axes.ts";
 import { newAlias, saveQuestion, listAllAliases, loadDir } from "./questions.ts";
-import { getArc } from "./meeting-arcs.ts";
+import { getArc, listStageIds } from "./meeting-arcs.ts";
 import { promptFor } from "./one-on-one-types/index.ts";
 import { resolveSelectedFocus } from "./selected-focus.ts";
 import { loadLexicon } from "./lexicon.ts";
@@ -46,6 +46,8 @@ const RESPONSE_SCHEMA = {
   properties: {
     questions: {
       type: "array",
+      minItems: 8,
+      maxItems: 12,
       items: {
         type: "object",
         properties: {
@@ -56,6 +58,8 @@ const RESPONSE_SCHEMA = {
           stage: { type: "string" },
           axis_effects: {
             type: "array",
+            minItems: 1,
+            maxItems: 3,
             items: {
               type: "object",
               properties: {
@@ -188,6 +192,27 @@ function relationalArcRules(meetingType: string): string {
     'prove readiness, leadership, or skill ("trust you in that next role", "what are you doing to drive X") —',
     'probe situations, not character. Items with `purpose: "competency"` are dropped before the bank is saved.',
   ].join(" ");
+}
+
+// One-probe backstop. A bank question carries a single probe: more than one "?"
+// is a compound question, and a generic filler tail ("Any concerns?", "What do
+// you think?") is a smuggled second probe. A single coordinated clause that adds
+// cause or a trade-off ("…, and what's driving that?") is ONE probe — it has one
+// "?" and no filler tail, so it passes. Drop, never repair — the prompt's
+// one-probe rule does the main work; this catches what slips through.
+const GENERIC_TAIL = /(any (?:other )?(?:concerns|thoughts)|what do you think|anything else)\s*\??\s*$/i;
+
+function isCompoundName(name: string): boolean {
+  const marks = (String(name).match(/\?/g) || []).length;
+  if (marks > 1) return true;
+  return GENERIC_TAIL.test(String(name).trim());
+}
+
+// The stage must name a real arc stage for this meeting type; a bogus stage
+// breaks arc placement (the planner can't position it). Drop, never patch.
+function isKnownStage(stage: string | null, meetingType: string): boolean {
+  if (!stage) return false;
+  return listStageIds(meetingType).includes(stage);
 }
 
 interface BankMessagesArgs {
@@ -367,6 +392,8 @@ async function generateBank(
   const saved: Question[] = [];
   const droppedJargon: Array<{ label: string; name: string; term: string }> = [];
   const droppedCompetencyForArc: Array<{ label: string; name: string }> = [];
+  const droppedCompound: Array<{ label: string; name: string }> = [];
+  const droppedBadStage: Array<{ label: string; name: string; stage: string | null }> = [];
   const relational = isRelationalArc(meetingType);
   for (const item of Array.isArray(parsed.questions) ? parsed.questions : []) {
     const q = asRecord(item);
@@ -388,6 +415,17 @@ async function generateBank(
       droppedCompetencyForArc.push({ label, name: name_ });
       continue;
     }
+    // One-probe backstop — drop (never repair) a compound or generic-tail name.
+    if (isCompoundName(name_)) {
+      droppedCompound.push({ label, name: name_ });
+      continue;
+    }
+    // Stage gate — the stage must name a real arc stage for this meeting type.
+    const stage_ = asString(q.stage) || null;
+    if (!isKnownStage(stage_, meetingType)) {
+      droppedBadStage.push({ label, name: name_, stage: stage_ });
+      continue;
+    }
     const alias = newAlias(label, existing);
     existing.add(alias);
     const purpose: QuestionPurpose =
@@ -400,7 +438,7 @@ async function generateBank(
       name: name_,
       description,
       purpose,
-      stage: asString(q.stage) || null,
+      stage: stage_,
       axis_effects: toAxisObject(q.axis_effects),
       source: "generated",
     };
@@ -418,6 +456,8 @@ async function generateBank(
       ...(droppedCompetencyForArc.length
         ? { dropped_competency_for_arc: droppedCompetencyForArc }
         : {}),
+      ...(droppedCompound.length ? { dropped_compound_name: droppedCompound } : {}),
+      ...(droppedBadStage.length ? { dropped_bad_stage: droppedBadStage } : {}),
     },
   });
 
@@ -467,6 +507,9 @@ async function generateBankWithFallback(
 }
 
 export {
+  RESPONSE_SCHEMA,
+  isCompoundName,
+  isKnownStage,
   generateBank,
   generateBankWithFallback,
   assembleBank,

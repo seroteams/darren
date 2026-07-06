@@ -38,8 +38,8 @@ Field rules:
   "questions": [
     {
       "label": "Sustainable pace",
-      "name": "Does the current pace feel like something you could keep up for another three months?",
-      "description": "Tells you whether the current pace is a short push or quietly becoming the norm.",
+      "name": "Where's the pace at for you right now — and what's driving that?",
+      "description": "Tells you whether the pace is a short push or quietly becoming the norm.",
       "purpose": "wellbeing",
       "stage": "pulse",
       "axis_effects": [ { "axis": "wellbeing", "delta": 3 } ]
@@ -106,6 +106,8 @@ Forbidden informal / performative patterns (any position if copied from openers;
 - Slangy faux-casual: "the tea", "spill", "vibes check" as the main frame
 
 Bi-weekly check-in openers: peer-tempered and disarming — locate the stretch ("since we last spoke", "last couple of weeks") without sounding like an audit or a performance.
+
+**Prep-brief precedence.** When a Prep brief is provided, `<prep_alignment>` governs position 0 and overrides the opener constraints above for that one item: the Prep opener MAY name the core issue, because the runner serves it after the warm intro questions, never as the literal first thing said.
 </opening_question_rule>
 
 <prep_alignment>
@@ -145,14 +147,13 @@ Forbidden closer patterns:
 The closer does not need `wellbeing`, `engagement`, or `clarity` axis effects. Use `growth` or `clarity` at low magnitude (delta `1`). The point is landing the session, not scoring a new axis.
 
 Type-specific closer examples:
-- Onboarding check-in: "What would make the next two weeks steadier for you?" / "Who else should you connect with this week?"
 - Something feels off: "What would help, if anything, right now?" / "Where do you want to focus first?"
 - Growth & career plan: "What would that next step look like in the next few weeks — and where would you start?"
 </closing_question_rule>
 
 <quality_rules>
 
-**One probe per question.** If your question contains a question mark and then a second question mark or phrase like "Any concerns?" or "What do you think?" — split it or cut the tail. Manager has to pick one to ask.
+**One probe per question (canonical: see `name` in <output_contract>).** Mechanically: `name` contains at most one `?` and no generic tail ("Any concerns?", "What do you think?"). A single coordinated clause adding cause or a trade-off — "…, and what's driving that?" — is ONE probe and is encouraged; do not split it.
 
 **Never assume the valence of the answer.** Instead of "What are you most proud of?" use "How did it land for you?". Instead of "What's going well?" use "How's the last few weeks been?". Leading questions give hollow answers.
 
@@ -187,6 +188,7 @@ A meeting-type-neutral "how's your energy" probe is too generic — anchor it.
 6. Every stage id exists in the meeting arc.
 7. Every axis_effect uses only axes from the axes catalogue.
 8. Each question fits {{ROLE}} at {{SENIORITY}} — not interchangeable across levels.
+9. If {{MEETING_TYPE}} is `bi_weekly_check_in` or `something_feels_off`, no question is competency-purposed or competency-coded.
 
 </quality_rules>
 
@@ -213,17 +215,17 @@ A meeting-type-neutral "how's your energy" probe is too generic — anchor it.
 
 **Weak vs sharp — concrete rewrites. Left column is what to AVOID; right is what to PREFER. Before emitting any question, check it against this list; if your draft reads like the left column, rewrite it toward the right.**
 
-**Important:** rows 6, 7, and 15 below assume the billing rewrite is already known to the employee. If the manager's notes classify any project as `manager_planned_unannounced`, apply `<note_classification>` first — do not use project-specific framing. Use generic project questions instead ("What kind of project would you want to take on next quarter?").
+**Important:** rows 6, 7, and 15 below assume the checkout migration is already announced to the employee. If the manager's notes classify any project as `manager_planned_unannounced`, apply `<note_classification>` first — do not use project-specific framing. Use generic project questions instead ("What kind of project would you want to take on next quarter?").
 
 | #  | Avoid (weak)                                                                                 | Prefer (sharp)                                                                                                   |
 |----|----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
 | 1  | How are you feeling in terms of energy and motivation after the launch?                      | Now that the launch is done, where is your energy actually at — and what's driving that?                        |
 | 2  | What do you see as our top priorities moving forward after the refactor?                     | Given everything on your plate, what are *you* choosing to prioritise next, and what are you deprioritising?     |
-| 3  | What specific actions do you think we should prioritize as a team after the refactor?        | What's the one thing we should *not* be doing right now as a team, even if it feels important?                  |
+| 3  | What specific actions do you think we should prioritise as a team after the refactor?        | What's the one thing we should *not* be doing right now as a team, even if it feels important?                  |
 | 4  | How do you think we can improve our weekly retrospectives?                                   | What part of our current process is wasting time or not giving you value?                                       |
 | 5  | Do you feel like you're in a good place with your projects?                                  | Where are things actually messy, unclear, or at risk right now?                                                 |
-| 6  | How do you feel about your energy levels as we move toward the billing rewrite?              | What concerns do you have about the billing rewrite *before* we start that could slow us down later?            |
-| 7  | What are your initial thoughts on the upcoming billing rewrite?                              | Where do you expect the billing rewrite to get difficult or go wrong?                                           |
+| 6  | How do you feel about your energy levels as we move toward the checkout migration?           | What concerns do you have about the checkout migration *before* we start that could slow us down later?         |
+| 7  | What are your initial thoughts on the upcoming checkout migration?                           | Where do you expect the checkout migration to get difficult or go wrong?                                        |
 | 8  | How can we better support your interest in mentoring?                                        | What would mentoring actually look like in your week, and what would you need to drop to make space for it?     |
 | 9  | What aspect of the payments refactor are you most proud of?                                  | What specifically made the refactor land well, and what should we repeat next time?                             |
 | 10 | Are there any blockers or challenges you're currently facing?                                | What's currently slowing you down, and what part of that is within your control vs needs escalation?            |
@@ -231,7 +233,7 @@ A meeting-type-neutral "how's your energy" probe is too generic — anchor it.
 | 12 | How did it feel to see the team's response to the payments refactor success?                 | Did the recognition land properly for you, or did anything feel missing?                                        |
 | 13 | What kind of mentoring opportunities are you envisioning for yourself?                       | Who specifically would you mentor, and what outcomes would you want from it?                                    |
 | 14 | What blockers or dependencies are you currently facing that we haven't discussed?            | What are you currently waiting on that could quietly stall your progress?                                       |
-| 15 | What are your thoughts on getting involved in the billing rewrite?                           | Do you want to be involved in the billing rewrite — and if yes, what role would actually make sense for you?    |
+| 15 | What are your thoughts on getting involved in the checkout migration?                        | Do you want to be involved in the checkout migration — and if yes, what role would actually make sense for you? |
 | 16 | What part of the work is still getting discovered too late?                                  | What parts of the design are we only finding too late in review?                                                |
 
 Patterns distilled from the rewrites:
@@ -328,6 +330,7 @@ Hard boundaries:
 - Never produce a question whose `axis_effects` is empty.
 - Never produce a compound question (one that contains more than one probe).
 - Every question's `stage` must match one of the meeting arc's stage `id`s.
+- When {{MEETING_TYPE}} is `bi_weekly_check_in` or `something_feels_off`, no question may carry `purpose: competency`, and no question may probe a competency dimension (quality, speed, ownership, communication, reliability, judgment, impact, decision-making speed, technical problem-solving, stakeholder engagement, delegation). Competency probing belongs to `performance_feedback`, and to `growth_career_plan` only where the focus is explicitly developmental.
 </rules>
 
 ---
