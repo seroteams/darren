@@ -318,6 +318,22 @@ export async function archivePerson(id) {
   return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/archive`, {});
 }
 
+// Person ↔ member-account link (people-roster Phase 5). linkable-users lists the org's
+// login accounts (id/name/email) a person can link to; link/unlink stamp/clear the row.
+// getRunsAboutMe is the member read: list-only rows about the caller's linked people.
+export async function getLinkableUsers() {
+  return json(await fetch("/api/v1/team/linkable-users"));
+}
+export async function linkPerson(id, userId) {
+  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/link`, { userId });
+}
+export async function unlinkPerson(id) {
+  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/unlink`, {});
+}
+export async function getRunsAboutMe() {
+  return json(await fetch("/api/v1/runs/about-me"));
+}
+
 // Dev-only "prefill a run" (admin-only server-side). clonable = every finished run on
 // disk to seed from; cloneRun copies one into a fresh run the caller owns (lands in
 // their /mine). Free — all file copies, no OpenAI. Shapes: { runs: [...] } and { id }.

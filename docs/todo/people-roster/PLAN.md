@@ -26,8 +26,8 @@ Carl picked: build the real thing. Managers get a roster of people; 1:1s link to
 | 1 | [people table + roster service (backend only)](phase-1.md) | ✅ green-lit 2026-07-05 ("b GO", walk waived — live proof stands) |
 | 2 | [new runs carry personId](phase-2.md) | 🔨 BUILT — awaiting walk |
 | 3 | [backfill existing runs + fold in aliases](phase-3.md) | ✅ green-lit 2026-07-06 |
-| 4 | [manager UI: person picker + roster-driven Team page](phase-4.md) | ⬜ |
-| 5 | [member link + "Your 1:1s"](phase-5.md) | ⬜ |
+| 4 | [manager UI: person picker + roster-driven Team page](phase-4.md) | 🔨 BUILT (4a+4b) — awaiting walk |
+| 5 | [member link + "Your 1:1s"](phase-5.md) | 🔨 BUILT — awaiting walk |
 
 ## Current state
 
@@ -38,7 +38,9 @@ Carl picked: build the real thing. Managers get a roster of people; 1:1s link to
 - **Phase 3 ✅ green-lit 2026-07-06** — Carl walked the backfill (dry-run → real → idempotent re-run) against live Neon; distinct people rows, merged names on canonical persons. Commit `59a7558` (PR #8).
 - **Phase 4 🔨 in progress (2026-07-06)** — Carl chose **roster-driven** Team (add names before any 1:1); split into 4a (Team + data) and 4b (intake picker).
   - **4a BUILT — awaiting walk:** Team page rewritten to list the real roster + join run stats by personId + "Add someone" + not-yet-met "Prep first 1:1"; Tidy-up **rename** moved to the roster endpoint (**merge parked** — see Parked); person page re-keyed to personId; `run.personId` on the member run row; `buildRosterView` tested (5 new cases). `npm test` 78/79 (1 pre-existing fail), typechecks + admin build clean. Not browser-walked (cloud).
-  - **4b next:** intake NAME substage person picker + start payload carries personId.
+  - **4b BUILT (2026-07-06):** intake NAME substage is now a roster picker (person cards seed name/role/seniority + carry the exact personId into the start payload) with a "Someone new" card → the old free-text (typing clears personId). Guests/members: free-text unchanged (roster 401/403s, intake never blocks).
+- **Phase 5 BUILT — awaiting walk (2026-07-06, all-in-one-thread on Carl's "no stopping" call):** link/unlink + linkable-users endpoints, `GET /runs/about-me` (list-only, privacy-checked by test), Team "Linked account" picker, member Home "Your 1:1s". 11 new unit tests. Details in [phase-5.md](phase-5.md).
+- **⚠️ The whole 4a→5 stretch is walk-debt:** Carl waived per-phase walks for this run ("finish it all, we relook"). Each phase is its own commit so the relook can walk them one at a time. Phases aren't ✅ until walked.
 
 ## ⚠️ Privacy decision (flagged, not silently decided)
 

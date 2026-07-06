@@ -1,2 +1,0 @@
-import{S as e}from"./index-D93BFPRu.js";async function o(s,{to:t=e.START}={}){const r=t===e.START;return s({message:r?"Reset session? This session will be cleared and you'll return to the start screen.":"Reset session? Your answers so far will be cleared and you'll return to setup.",confirmLabel:"Reset session",cancelLabel:"Cancel",destructive:!0})}export{o as c};
-//# sourceMappingURL=session-reset-DdQ5WOmY.js.map

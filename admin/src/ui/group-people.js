@@ -107,9 +107,10 @@ export function buildRosterView(people, runs) {
     if (stars >= 1 && stars <= 5) { s.starSum += stars; s.ratedCount += 1; }
   }
 
-  const row = (personId, name, role, s) => ({
+  const row = (personId, name, role, s, userId = null) => ({
     key: personId,
     name,
+    userId, // the linked member account, when the roster row carries one (Phase 5)
     role: role || (s ? s.role : ""),
     count: s ? s.count : 0,
     openCount: s ? s.openCount : 0,
@@ -123,7 +124,7 @@ export function buildRosterView(people, runs) {
   const rosterIds = new Set();
   const rows = (people || []).map((p) => {
     rosterIds.add(p.id);
-    return row(p.id, String(p?.name ?? ""), String(p?.role ?? ""), stats.get(p.id));
+    return row(p.id, String(p?.name ?? ""), String(p?.role ?? ""), stats.get(p.id), p.userId ?? null);
   });
   for (const [pid, s] of stats) {
     if (!rosterIds.has(pid)) rows.push(row(pid, s.name || "(unnamed)", s.role, s)); // straggler

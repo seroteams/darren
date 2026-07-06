@@ -6,7 +6,7 @@
 // roster endpoints. Distinct from the admin Library (admin-only).
 
 import { STAGES, store } from "../state.js";
-import { listMyRuns, listPeople, createPerson, renamePersonV2 } from "../../../shared/api.js";
+import { listMyRuns, listPeople, createPerson, renamePersonV2, getLinkableUsers, linkPerson, unlinkPerson } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
@@ -17,6 +17,7 @@ import type { Mount, Unmount } from "./stage.types.ts";
 type Person = {
   key: string; // the roster personId
   name: string;
+  userId: string | null; // linked member account (Phase 5)
   role: string;
   count: number;
   openCount: number;
@@ -25,6 +26,7 @@ type Person = {
   avgStars: number | null;
   met: boolean;
 };
+type OrgUser = { id: string; name: string; email: string };
 
 // The meta line under a name. A never-touched roster person reads "not met yet"; one with only
 // an open prep says so; a met person shows meetings / last / average.
@@ -54,13 +56,25 @@ function personCard(p: Person): string {
     </div>`;
 }
 
-// The same person in "Tidy up" mode: a rename control, keyed on personId (roster endpoint).
-// Merge is intentionally NOT here yet — see the note in the plan's Parked section: merging two
-// roster rows leaves the merged person's past runs pointing at the old personId, so their
-// history wouldn't fold under the target (and would resurface as a straggler). It returns once
-// we resolve run.personId through the merge chain (or re-point runs on merge).
-function personEditRow(p: Person): string {
+// The same person in "Tidy up" mode: a rename control plus the "Linked account" picker
+// (people-roster Phase 5) — link this person to one of the company's login accounts so
+// they can see the 1:1s about them (list-only: dates + types, never notes). Keyed on
+// personId (roster endpoints). Merge is intentionally NOT here yet — see the note in the
+// plan's Parked section: merging two roster rows leaves the merged person's past runs
+// pointing at the old personId, so their history wouldn't fold under the target (and
+// would resurface as a straggler). It returns once run.personId resolves through the
+// merge chain (or runs are re-pointed on merge).
+function personEditRow(p: Person, orgUsers: OrgUser[]): string {
   const role = p.role ? `<span class="text-ink-dim"> · ${escapeHtml(p.role)}</span>` : "";
+  const options = orgUsers
+    .map((u) => `<option value="${escapeHtml(u.id)}" ${u.id === p.userId ? "selected" : ""}>${escapeHtml(u.name)} (${escapeHtml(u.email)})</option>`)
+    .join("");
+  const linkControl = orgUsers.length
+    ? `<label class="text-sm text-ink-dim l-stack l-stack--1">Linked account
+         <select class="input js-link" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}">
+           <option value="" ${p.userId ? "" : "selected"}>— none —</option>${options}
+         </select></label>`
+    : "";
   return `
     <div class="card-flat l-stack l-stack--2">
       <div class="text-sm"><strong>${escapeHtml(p.name)}</strong>${role}</div>
@@ -68,12 +82,14 @@ function personEditRow(p: Person): string {
       <div class="l-cluster l-cluster--2">
         <button type="button" class="btn btn--ghost btn--sm js-rename" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}">Rename</button>
       </div>
+      ${linkControl}
     </div>`;
 }
 
 export const mount: Mount = async (root, { setState }) => {
   let people: Person[] = [];
   let editing = false;
+  let orgUsers: OrgUser[] = []; // link-picker options, fetched once on first Tidy up
 
   const header = (hasPeople: boolean) => `
     <header class="page-header">
@@ -120,17 +136,30 @@ export const mount: Mount = async (root, { setState }) => {
 
   const renderPeople = () => {
     const body = editing
-      ? people.map((p) => personEditRow(p)).join("")
+      ? people.map((p) => personEditRow(p, orgUsers)).join("")
       : people.map(personCard).join("");
     root.innerHTML = shell(`<section class="l-stack l-stack--2">${body}</section>`);
     wire();
+  };
+
+  // Entering Tidy up fetches the link-picker options once; a failure just means no
+  // picker this visit (rename still works) — the page never blocks on it.
+  const enterEdit = async () => {
+    editing = !editing;
+    if (editing && orgUsers.length === 0) {
+      try {
+        const res = (await getLinkableUsers()) as { users?: OrgUser[] };
+        orgUsers = Array.isArray(res.users) ? res.users : [];
+      } catch { orgUsers = []; }
+    }
+    renderPeople();
   };
 
   const wire = () => {
     root.querySelector(".js-start")?.addEventListener("click", () => startOneOnOne());
     root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
     root.querySelector(".js-add")?.addEventListener("click", () => { void doAdd(); });
-    root.querySelector(".js-edit")?.addEventListener("click", () => { editing = !editing; renderPeople(); });
+    root.querySelector(".js-edit")?.addEventListener("click", () => { void enterEdit(); });
     root.querySelectorAll<HTMLElement>(".js-person").forEach((el) => {
       el.addEventListener("click", () => {
         const key = el.dataset.key;
@@ -145,6 +174,27 @@ export const mount: Mount = async (root, { setState }) => {
     root.querySelectorAll<HTMLButtonElement>(".js-rename").forEach((el) => {
       el.addEventListener("click", () => { void doRename(el.dataset.key || "", el.dataset.name || ""); });
     });
+    root.querySelectorAll<HTMLSelectElement>(".js-link").forEach((el) => {
+      el.addEventListener("change", () => { void doLink(el.dataset.key || "", el.dataset.name || "", el.value); });
+    });
+  };
+
+  // Link (or unlink, on "— none —") a person to a company login account. The linked member
+  // sees the 1:1s about them — list-only (dates + meeting types), never the notes.
+  const doLink = async (personId: string, personName: string, targetUserId: string) => {
+    const target = orgUsers.find((u) => u.id === targetUserId);
+    const msg = target
+      ? `Link "${personName}" to ${target.name} (${target.email})? They'll see the list of 1:1s about them — dates and meeting types, never your notes.`
+      : `Unlink "${personName}" from their account? They'll stop seeing the 1:1s about them.`;
+    if (!window.confirm(msg)) { renderPeople(); return; }
+    try {
+      if (target) await linkPerson(personId, targetUserId);
+      else await unlinkPerson(personId);
+      await load(); // re-renders in the current (Tidy up) mode with the fresh link
+    } catch (e) {
+      window.alert(e instanceof Error ? e.message : "Couldn't update the link — please try again.");
+      renderPeople();
+    }
   };
 
   const doAdd = async () => {

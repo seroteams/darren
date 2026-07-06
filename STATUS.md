@@ -9,20 +9,29 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — P1·P2·P3 ✅ · P4 (person picker + roster Team page) IN PROGRESS.**
-> **P3 ✅ green-lit 2026-07-06** — Carl walked `scripts/backfill-people.ts` on live Neon (dry-run → real →
-> idempotent re-run): every existing run now carries a roster `personId`, distinct people, merged names on
-> canonical persons. Commit `59a7558`, PR #8.
-> **P4 🔨 (2026-07-06)** — you chose **roster-driven** Team (add names before any 1:1); split into 4a + 4b.
-> **4a BUILT — awaiting your walk:** Team page now lists your real roster (a name added with **no 1:1 yet**
-> shows), run history joins in by personId; new **"Add someone"** button; a not-yet-met person offers **"Prep
-> first 1:1"**; Tidy-up **rename** moved to the roster endpoint (**merge parked** — merging leaves old runs
-> pointing at the old id, so history wouldn't fold; returns once run.personId resolves through the merge chain);
-> person page re-keyed to personId. Pure join `buildRosterView` unit-tested (5 cases). `npm test` **78/79**
-> (1 pre-existing fail), typechecks + admin build ✓.
-> ⚠️ **Not browser-walked here** (cloud, no live app) — the click-through is your walk: Add someone → shows as
-> not-yet-met → Prep first 1:1; a met person still opens their page; rename persists + survives reload.
-> **4b next:** the intake **person picker** (pick from roster or free-type) + start payload carries personId.
+> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — THE WHOLE PLAN IS BUILT (P1–P3 ✅ · P4+P5 built 2026-07-06). One relook-walk left, then it closes.**
+> On your "no stopping, finish it all" call, phases 4a → 4b → 5 were built in one thread (each in its own
+> commit, so you can walk them one at a time). All on PR #8. `npm test` **79/80** (the 1 fail is the
+> pre-existing replay-baseline drift), both typechecks, admin + customer builds ✓. **Nothing browser-walked —
+> the relook below is the QA for all of it.**
+> - **P3 ✅ green-lit 2026-07-06** — you walked the backfill on live Neon (`59a7558`): every old run carries a
+>   roster personId.
+> - **4a — roster-driven Team (your pick):** Team lists your real roster — **"Add someone"** works before any
+>   1:1; not-yet-met people offer **"Prep first 1:1"**; run history joins by personId; Tidy-up **rename** hits
+>   the roster (**merge parked** — it can't fold run history yet, honest note in the PLAN); person page
+>   re-keyed to personId.
+> - **4b — intake person picker:** the NAME step shows your people as cards (picking seeds role/seniority and
+>   links the run exactly) + "Someone new" free-text. Guests unchanged.
+> - **P5 — member link + "Your 1:1s":** Tidy-up gains a **"Linked account"** picker per person (same-org
+>   accounts only, enforced + tested); a linked member's Home now lists the 1:1s ABOUT them — **type + date +
+>   manager only, never notes/briefing/ratings** (privacy pinned by a key-shape test); dead member start
+>   button removed. New: `GET /runs/about-me`, link/unlink/linkable-users routes.
+> **THE RELOOK (your walk, ~10 min, all free):** ① Team → Add someone → "not met yet" card → Prep first 1:1
+> (intake opens seeded from the picker) ② Tidy up → Rename → survives reload ③ Tidy up → Linked account →
+> pick your member test account ④ log in as that member → Home shows the 1:1s about them, dates + types only
+> ⑤ member sees NO notes/briefing anywhere. Green-light → phases flip ✅ and the folder closes to done/.
+> **Restart your dev API first** (new routes). ⚠️ Your local `4256aa77` build (the screenshot) is a different,
+> unpushed lineage — pull this branch instead; its "Linked account" idea is now built properly here.
 > Your ask: members should only see their own 1:1s → the real build (option B): managers formally
 > **have** members; a member linked to a roster person will see the 1:1s ABOUT them (Phase 5).
 > **P1 ✅ (`4a762779`):** `people` table live on Neon (migration `0007`) + 5 fenced endpoints under

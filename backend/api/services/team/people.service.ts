@@ -53,6 +53,13 @@ export interface PeopleService {
   ): Promise<{ person: PersonRow }>;
   merge(id: string, orgId: string, managerId: string, intoId: string): Promise<{ ok: true }>;
   archive(id: string, orgId: string, managerId: string): Promise<{ ok: true }>;
+  /** Link a roster person to a member account (people-roster Phase 5). The target must
+   *  be a login account in the SAME org — anything else is a 400, never a silent
+   *  cross-org link. Unlink clears it (idempotent). */
+  link(id: string, orgId: string, managerId: string, targetUserId: string): Promise<{ ok: true }>;
+  unlink(id: string, orgId: string, managerId: string): Promise<{ ok: true }>;
+  /** The org's login accounts a person can be linked to (id/name/email only). */
+  linkableUsers(orgId: string): Promise<{ users: { id: string; name: string; email: string }[] }>;
   /** The run→person link (people-roster Phase 2). Explicit personId: must be the
    *  caller's own row (400 otherwise — never a silent cross-link), resolved through
    *  the merge chain. No personId: best-effort auto-match-or-create from the name —
@@ -130,6 +137,27 @@ export function createPeopleService(repo: PeopleRepo = pgPeopleRepo): PeopleServ
       const row = await owned(id, orgId, managerId);
       await repo.update(row.id, { archivedAt: new Date() });
       return { ok: true };
+    },
+
+    async link(id, orgId, managerId, targetUserId) {
+      const row = await owned(id, orgId, managerId);
+      if (!targetUserId) throw badRequest("userId is required");
+      const orgUsers = await repo.listOrgUsers(orgId);
+      if (!orgUsers.some((u) => u.id === targetUserId)) {
+        throw badRequest("That account is not in your company"); // unknown user answers the same
+      }
+      await repo.update(row.id, { userId: targetUserId });
+      return { ok: true };
+    },
+
+    async unlink(id, orgId, managerId) {
+      const row = await owned(id, orgId, managerId);
+      await repo.update(row.id, { userId: null });
+      return { ok: true };
+    },
+
+    async linkableUsers(orgId) {
+      return { users: await repo.listOrgUsers(orgId) };
     },
 
     async resolveForRun(orgId, managerId, input) {

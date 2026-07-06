@@ -1,5 +1,11 @@
 # Phase 5 — member link + "Your 1:1s"
 
+## BUILT — awaiting Carl's walk (2026-07-06, in the all-in-one-thread run he requested)
+
+- **Backend:** `people.repo` gains `findByLinkedUser` + `listOrgUsers` (active accounts, id/name/email, never password_hash); `people.service` gains `link` (target must be an org account → 400 otherwise; someone else's person → fenced 404), `unlink` (idempotent), `linkableUsers` — **6 new unit tests (20 total in the file)**. `run-history.listFinishedRunsAboutPerson(orgId, personIds)` returns MINIMAL rows. New injectable [about-me.service.ts](../../../backend/api/services/runs/about-me.service.ts) maps manager names — **5 unit tests**, incl. an explicit "rows carry NOTHING sensitive" key-shape check (no notes/briefing/rating/creator id). Routes: `GET /team/linkable-users`, `POST /team/people/:id/link|unlink` (origin-guarded, manager/admin), `GET /runs/about-me` (any logged-in role; registered before the `/:id` regexes).
+- **Frontend:** Team → Tidy up gains a **"Linked account"** select per person (link/unlink with a plain-words confirm that states the privacy rule); member Home now shows **"Your 1:1s"** (type + manager + date, shared `formatDate`) and the dead "Start a new session" button (it 403'd) is gone.
+- **Checks:** `npm test` **79/80** (the 1 fail is the pre-existing replay-baseline drift), both typechecks, admin + customer builds ✓. **Not browser-walked** — cloud clone, no live DB; the walk is the QA scenarios below.
+
 ## ⚠️ Privacy rule for this phase
 
 Members see **list-only**: meeting type + date + which manager. NO notes, NO briefing, NO ratings, NO detail view. Manager notes are sensitive (no-inference ruling). Anything richer = Carl's call, parked as `member-run-visibility`.

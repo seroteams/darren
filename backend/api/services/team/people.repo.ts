@@ -4,9 +4,9 @@
 // org_id + manager_id — the repo never answers across that wall. The service depends
 // on the interface, so it's unit-tested against an in-memory fake without a database.
 
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { getDb } from "../../../db/client.ts";
-import { people } from "../../../db/schema.ts";
+import { people, users } from "../../../db/schema.ts";
 
 /** One roster row as stored. */
 export interface PersonRow {
@@ -37,6 +37,11 @@ export interface PeopleRepo {
     id: string,
     patch: Partial<Pick<PersonRow, "name" | "role" | "seniority" | "userId" | "mergedIntoId" | "archivedAt">>,
   ): Promise<void>;
+  /** Roster rows linked to this member account, org-fenced (people-roster Phase 5). */
+  findByLinkedUser(userId: string, orgId: string): Promise<PersonRow[]>;
+  /** The org's ACTIVE login accounts, minimal fields — the link-picker options and the
+   *  manager-name lookup. Never selects password_hash. */
+  listOrgUsers(orgId: string): Promise<{ id: string; name: string; email: string }[]>;
 }
 
 const COLUMNS = {
@@ -88,5 +93,19 @@ export const pgPeopleRepo: PeopleRepo = {
       .update(people)
       .set({ ...patch, updatedAt: new Date() })
       .where(eq(people.id, id));
+  },
+  async findByLinkedUser(userId, orgId) {
+    const db = getDb();
+    return db
+      .select(COLUMNS)
+      .from(people)
+      .where(and(eq(people.userId, userId), eq(people.orgId, orgId)));
+  },
+  async listOrgUsers(orgId) {
+    const db = getDb();
+    return db
+      .select({ id: users.id, name: users.name, email: users.email })
+      .from(users)
+      .where(and(eq(users.orgId, orgId), isNull(users.deactivatedAt)));
   },
 };
