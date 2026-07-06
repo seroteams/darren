@@ -631,13 +631,13 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       ctx2d.stroke();
     }
 
-    // Pulses — additive glow dots travelling along their line. Honesty rule: when no
-    // session is actually in flight, the flow slows and dims to a background murmur.
-    const calm = liveCount > 0 ? 1 : 0.35;
-    if (!reduceMotion) {
+    // Pulses — additive glow dots travelling along their line. Honesty rule: they only
+    // flow while a session is genuinely in flight. When nothing's live, the lines fall
+    // completely still — no crawling dots pretending data is moving.
+    if (!reduceMotion && liveCount > 0) {
       ctx2d.globalCompositeOperation = "lighter";
       for (const pl of pulses) {
-        pl.t = (pl.t + dt * pl.speed * calm) % 1;
+        pl.t = (pl.t + dt * pl.speed) % 1;
         const na = byId.get(pl.edge.from)!, nb = byId.get(pl.edge.to)!;
         const p = project(
           na.x + (nb.x - na.x) * pl.t,
@@ -648,7 +648,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
         const rr = Math.max(1.2, 26 * p.s);
         const col = COLOR[nb.kind];
         const gg = ctx2d.createRadialGradient(p.x, p.y, 0, p.x, p.y, rr);
-        gg.addColorStop(0, `rgba(${col},${liveCount > 0 ? 0.9 : 0.5})`);
+        gg.addColorStop(0, `rgba(${col},0.9)`);
         gg.addColorStop(1, `rgba(${col},0)`);
         ctx2d.fillStyle = gg;
         ctx2d.beginPath();
@@ -666,7 +666,8 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
     for (const { n, p } of order) {
       const col = COLOR[n.kind];
       const R = Math.max(1.5, n.r * p.s);
-      const pulse = n.kind === "core" && !reduceMotion ? 1 + Math.sin(now * 0.0016) * 0.08 : 1;
+      // The core only breathes while something's genuinely working; otherwise it holds still.
+      const pulse = n.kind === "core" && !reduceMotion && liveCount > 0 ? 1 + Math.sin(now * 0.0016) * 0.08 : 1;
       const glow = ctx2d.createRadialGradient(p.x, p.y, 0, p.x, p.y, R * 3 * pulse);
       glow.addColorStop(0, `rgba(${col},0.55)`);
       glow.addColorStop(1, `rgba(${col},0)`);
