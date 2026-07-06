@@ -37,9 +37,19 @@ to feedback, small enough to land in one slice.
   under Admin (below Error log). Read-only table: When · Who · Screen · The note.
 - Service stays storage-agnostic + unit-tested against a fake repo (7 tests, red→green).
 
+## Phase 2 — delete a note (BUILT, awaiting Carl's walk, 2026-07-06)
+
+Carl: "allow me to delete or archive feedback" → chose **permanent delete** (no archive column).
+A per-row **Delete** button → confirm → `DELETE /api/v1/admin/feedback/:id` (superadmin-gated +
+origin-guarded, same wall as the rest of `/admin/*`), then the row drops from the list.
+Repo `remove(id)` returns whether a row matched; service 400s a blank id, 404s an unknown one.
+Files: `feedback.repo.ts` · `feedback.service.ts` (+3 tests) · `feedback.controller.ts` ·
+`server.ts` (route) · `shared/api.js` (`deleteFeedbackNote`) · `admin/src/stages/admin-feedback.ts`.
+Free checks: `npm test` 82/82 · both typechecks clean.
+
 ## Parked (not in this phase)
 
-- Filters (by company), mark-as-read / resolve, delete a note, pagination past 200.
+- Filters (by company), mark-as-read / resolve, archive (reversible hide), pagination past 200.
 - Importing old JSONL notes (nothing real to import today).
 - Email/Slack ping when a note arrives.
 
