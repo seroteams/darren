@@ -13,6 +13,7 @@ import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
 import { groupRunsByPerson, runKeyOf } from "../ui/group-people.js";
 import { relTime } from "../ui/time.ts";
+import { buildCarryForward } from "../ui/carry-forward.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
 type MyRun = {
@@ -169,10 +170,14 @@ export const mount: Mount = async (root, { setState }) => {
 
   // The list carries no briefing, so fetch just the most recent run's detail for "Since
   // last time". A failure omits the block — the run list still renders. No OpenAI call.
+  // The same briefing seeds the carry-forward notes for "Prep your next 1:1" (Phase 1).
   let sinceBlock = "";
+  let carryText = "";
   try {
     const latest = (await getMyRun(mine[0]!.id)) as { briefing: Briefing };
-    sinceBlock = sinceLastTime(latest?.briefing ?? null);
+    const b = latest?.briefing ?? null;
+    sinceBlock = sinceLastTime(b);
+    carryText = buildCarryForward(b);
   } catch { /* omit the block, keep the page */ }
 
   const list = `<section class="l-stack l-stack--2">
@@ -194,6 +199,11 @@ export const mount: Mount = async (root, { setState }) => {
   // free; only running the full pipeline from intake spends (same as starting any 1:1).
   // A roster-backed person also seeds personId + their stored seniority, so the new run
   // lands on the same roster row (people-roster Phase 4).
+  // Continuity Phase 1: pre-fill the notes with last time's agreed actions + watch-fors
+  // (carryText), so the next 1:1 continues from where the last one left off. It seeds
+  // BOTH freeNotes (what the notes textarea shows first) and notes, and clears any stale
+  // issue pills — so the manager sees exactly the carry-forward, editable, and can clear
+  // it for a cold start. Empty carryText → unchanged blank intake.
   root.querySelector(".js-prep")?.addEventListener("click", () => {
     store.scripted = null;
     const rosterRow = person.personId ? roster.people.find((p) => p.id === person.personId) : null;
@@ -204,7 +214,9 @@ export const mount: Mount = async (root, { setState }) => {
       seniority: rosterRow?.seniority || "",
       meetingType: "",
       meetingTypeIndex: null,
-      notes: "",
+      issuePills: [],
+      freeNotes: carryText,
+      notes: carryText,
     });
     setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
   });

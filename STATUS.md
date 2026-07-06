@@ -9,19 +9,30 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **⬜ [continuity](docs/todo/continuity/PLAN.md) — NEW track, hold LIFTED by you 2026-07-06. Full launch plan BUILT, awaiting your read (no code yet).**
+> **🔨 [continuity](docs/todo/continuity/PLAN.md) — NEW track, hold LIFTED by you 2026-07-06. Phase 1 ✅ committed · Phase 2 (outcome taps) NEXT UP.**
 > Your ask: fully launch "previous sessions shape the next one" — with admin management, test runs
 > where you tweak and *see* the effect, a learning engine, and a moat as usage grows. Deep dive done
 > (3 research passes: engine+storage · admin+QA tooling · the prototype-to-production method).
 > Key finds: the engine is stateless today, but the plumbing exists — runs are person-stamped
 > (people-roster), briefings already store agreed actions + watch-fors, and the unused `outcomeCheck`
 > field is the ruling-safe loop-closure signal. **8 phases, one at a time:** ① carry-forward on prep
-> ($0) · ② outcome taps ($0) · ③ engine-native follow-up (+2 trust gates, ~$0.70 walk) · ④ question
+> ✅ · ② outcome taps ($0) · ③ engine-native follow-up (+2 trust gates, ~$0.70 walk) · ④ question
 > memory (~$0.35) · ⑤ Continuity console, superadmin ($0) · ⑥ tweak-and-see test bench ($0 dry-run /
 > ~$0.70 live) · ⑦ learning engine v1 — exemplars from TEST runs only, counts-not-text from real
 > usage, no training ever ($0 + gate seals) · ⑧ moat metrics on Registered + docs/moat.md ($0).
-> **Read [PLAN.md](docs/todo/continuity/PLAN.md) + the 8 phase files; say go (or reorder/cut) and
-> Phase 1 starts with a fresh free baseline.**
+>
+> **Phase 1 ✅ DONE — walked + green-lit 2026-07-06 ("A done"), committed local.** The person page's
+> **"Prep your next 1:1 with X"** now pre-fills the intake notes with last time's agreed actions +
+> watch-fors — plainly labelled, fully editable, clear it for a cold start. Reuses the briefing that
+> page already fetches (no new backend, no OpenAI, no engine change). `npm test` 80/80 → **81/81** (new
+> `carry-forward.test.ts`, TDD) + both typechecks clean; verified live as `manager@seroteams.com` before
+> sign-off. Files: `admin/src/ui/carry-forward.ts` (+ test), `admin/src/stages/person-detail.ts`.
+>
+> **▶ Now active: Phase 2 — Outcome capture ($0).** When you return to a person, each agreed action from
+> last time gets a one-tap **yes / partly / no / changed**, stored as a plain fact (the first consumer of
+> the `outcomeCheck` contract), shown on the person thread. Optional, skippable. Test-first; no engine
+> read yet (Phase 3 feeds it in). **Your move: nothing yet — I'm building Phase 2 next.** When it's built
+> you'll walk the 5 scenarios in [phase-2.md](docs/todo/continuity/phase-2.md), all free.
 
 > **✅ [people-roster](docs/todo/done/people-roster/PLAN.md) — CLOSED 2026-07-06, all 5 phases green-lit ("done and working"), 2-day build.**
 > Your ask: "members should only see their own 1:1s" → managers now formally **have** members.
@@ -320,7 +331,7 @@ untouched, dev Admin/Standard quick-swap works. Phase 2 (Real Runs) has backend 
 open member-nav work. **Update 2026-07-05: that open work shipped via pre-go-live PG1–5, so the folder is
 closed** → [docs/todo/done/member-nav/](docs/todo/done/member-nav/PLAN.md) (live-data-cleanup Phase 4).
 
-- Last updated: 2026-07-06 (continuity hold lifted by Carl — full 8-phase launch plan built, awaiting his read · people-roster + start-screen closed)
+- Last updated: 2026-07-06 (continuity Phase 1 ✅ green-lit + committed — carry-forward on prep; Phase 2 outcome taps now active · people-roster + start-screen closed)
 
 ---
 

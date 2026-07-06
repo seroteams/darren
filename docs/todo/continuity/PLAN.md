@@ -51,8 +51,8 @@ person, per team, per meeting type — is the moat.
 ## Phases
 | # | Phase | What it lands | Cost | Status |
 |---|---|---|---|---|
-| 1 | Carry-forward on prep | "Since last time" seeded into the visible, editable intake notes for a known person | $0 | ⬜ |
-| 2 | Outcome capture | One-tap yes/partly/no/changed per prior agreed action; stored + shown on the person thread | $0 | ⬜ |
+| 1 | Carry-forward on prep | "Since last time" seeded into the visible, editable intake notes for a known person | $0 | ✅ done (green-lit + committed 2026-07-06) |
+| 2 | Outcome capture | One-tap yes/partly/no/changed per prior agreed action; stored + shown on the person thread | $0 | 🔨 next up |
 | 3 | Engine-native follow-up | Dedicated prior-context block into focus/prep/evaluation prompts; briefing gains a follow-through read; 2 new trust gates | ~$0.70 walk | ⬜ |
 | 4 | Questions that remember | Per-person cross-session question memory: no verbatim re-asks, labelled follow-ups; cross-person leak still banned | ~$0.35 walk | ⬜ |
 | 5 | Continuity console (admin) | Per-person thread timeline, exact "what the next 1:1 will see" preview, per-person off switch — superadmin/internal | $0 | ⬜ |
@@ -63,11 +63,17 @@ person, per team, per meeting type — is the moat.
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Plan rebuilt 2026-07-06 from the parked 3-phase scaffold, after a three-pass deep dive (engine +
-storage · admin console + QA tooling · the prototype-to-production working method). **No code
-written. Waiting for Carl to read the phases and confirm before Phase 1 starts.**
-Free baseline to run at Phase 1 start: `npm test` + `npm run typecheck` (paid gate deferred until
-Phase 3, with a go-ahead).
+**Phase 1 ✅ DONE — walked + green-lit by Carl 2026-07-06 ("A done"), committed local.**
+The person page's "Prep your next 1:1 with X" now seeds the intake notes with last time's agreed
+actions + watch-fors — labelled, editable, clearable for a cold start. No backend/OpenAI/engine
+change; reuses the briefing the page already fetches. `npm test` **81/81** (new `carry-forward.test.ts`,
+6 cases) + both typechecks clean; verified live as the real `manager@seroteams.com` before sign-off.
+Files: `admin/src/ui/carry-forward.ts` + `.test.ts` (new), `admin/src/stages/person-detail.ts`.
+
+**Now active: Phase 2 — Outcome capture ($0).** One-tap yes/partly/no/changed per prior agreed action,
+stored where runs live (verify at the destination) and shown on the person thread — the first consumer
+of the `outcomeCheck` contract the no-inference spec seeded. Test-first; no engine read yet (that's
+Phase 3). Scenarios in [phase-2.md](phase-2.md). Paid gate still deferred until Phase 3 (with a go-ahead).
 
 ## The rules this plan builds under
 - **No silent injection.** Everything carried forward is visible and editable before it runs.
@@ -84,6 +90,9 @@ Phase 3, with a go-ahead).
   the smallest run that proves the point, cost stated, per-run yes from Carl.
 
 ## Parked
+- **Carry-forward from the New 1:1 → roster picker** (not just the "Prep your next 1:1" button).
+  Left out of Phase 1 on purpose: picking a person to run a quick meeting isn't as clear a "continue
+  last time" intent, and it needs a mid-intake fetch. Easy to add if the walk wants it.
 - Multi-meeting trend lines (3+ sessions: "this action has rolled over 3 times") — after Phase 3
   proves single-step follow-through; rollover *counts* are allowed events, so this is a natural v2.
 - Member-visible continuity (what the managed person sees of the thread) — Carl's privacy call,
