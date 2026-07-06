@@ -29,14 +29,14 @@ When genuinely ambiguous, default to 16px (the rule favours reading) and note it
 | # | Phase | Surface | Status |
 |---|---|---|---|
 | 1 | Rule + `.hint` bump | The shared `.hint` class → 16px + session-flow ledes | ✅ |
-| 2 | Session flow triage | intake, questioning, focus-points, preparation, briefing, onepage, run-debrief `text-sm` | ⬜ |
+| 2 | Session flow triage | intake, questioning, focus-points, preparation, briefing, onepage, run-debrief `text-sm` | ✅ |
 | 3 | User pages triage | member-home, team, person-detail, start, join, register, login, welcome, privacy, about, runs, run-detail | ⬜ |
 | 4 | Admin/internal triage | admin-*, library, compare, personas, review-run, lexicon-review, job-lexicons, guide, feedback, meeting-arcs | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ done + committed** (Carl tested /new 2026-07-07). `.hint` → 16px (18 uses). Tests 82/82. **Phase 2 (session-flow `text-sm` triage) is next — not started.** One carried-over TODO: the intake lede (`.js-intake-lede`) was deferred in Phase 1 because `intake.js` was held by another session — fold it into Phase 2 when that file is clean. Prior token-migration plan closed in `docs/todo/done/`.
+**Phase 1 ✅ committed.** **Phase 2 🔨 built — awaiting Carl's QA.** 8 reading-text elements across questioning/focus-points/briefing/onepage/preparation dropped `text-sm` → inherit 16px; status/legend/host chrome kept at 14px (decisions logged in phase-2.md). Mechanism note: used "remove text-sm → inherit 16px" because Tailwind `text-base` isn't generated. Tests 82/82. **Not committed — waiting on green light.** Still-deferred: the intake lede (`intake.js` held by another session). Prior token-migration plan closed in `docs/todo/done/`.
 
 ## Parked
 - Whether `.hint--kbd` (keyboard hints) should stay 14px even after the base `.hint` bump — it's a caption, likely yes. Decide in Phase 1.

@@ -126,7 +126,7 @@ export async function mount(root, { store, setState }) {
     card.className = "card questioning-card space-y-4 reveal";
     card.innerHTML = `
       ${isFollowUp
-        ? `<div class="question-drill-hint text-sm text-ink-dim">↳ Following up on what you just said.</div>`
+        ? `<div class="question-drill-hint text-ink-dim">↳ Following up on what you just said.</div>`
         : ""}
       ${scripted ? `<div class="script-meta text-xs">
         <span class="script-alias">${escape(q.alias)}</span>

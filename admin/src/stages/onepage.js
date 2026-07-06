@@ -64,7 +64,7 @@ export async function mount(root, { store, setState }) {
           <div class="space-y-1 min-w-0">
             <div class="eyebrow">One-page run</div>
             <h1 class="h1">Prep your 1:1</h1>
-            <p class="text-ink-dim text-sm js-flow-lede">Answer each step and the next appears below.</p>
+            <p class="text-ink-dim js-flow-lede">Answer each step and the next appears below.</p>
           </div>
           <button class="btn btn--ghost js-cancel flex-shrink-0" type="button">Cancel</button>
         </div>

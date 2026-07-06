@@ -21,7 +21,7 @@ export async function mount(root, { store, setState }) {
           <h1 class="h1">What we'll cover</h1>
           <button class="btn btn--ghost js-start-fresh" type="button">Reset session</button>
         </div>
-        <p class="text-ink-dim text-sm">Pick what this 1:1 should cover.</p>
+        <p class="text-ink-dim">Pick what this 1:1 should cover.</p>
       </header>
       <div class="thinking-host min-h-[120px] flex items-center"></div>
       <div class="result-host"></div>
@@ -82,7 +82,7 @@ export async function mount(root, { store, setState }) {
       </div>
       <div class="card-flat space-y-2 mb-5 reveal">
         <div class="eyebrow">What Sero should know</div>
-        <p class="text-sm text-ink-dim">${escape(store.ctx?.notes || "(no manager context provided)")}</p>
+        <p class="text-ink-dim">${escape(store.ctx?.notes || "(no manager context provided)")}</p>
       </div>
       ${store.scripted ? `<div class="focus-select-hint reveal">Choose what the prep brief should emphasize. Replay questions stay fixed.</div>` : `<div class="focus-select-hint reveal">Select at least one topic for this 1:1.</div>`}
       <div class="card reveal focus-point-list">

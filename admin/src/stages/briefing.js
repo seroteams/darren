@@ -1,4 +1,4 @@
-import { STAGES } from "../state.js";
+import { STAGES, isInternalAdmin } from "../state.js";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
 import { postVerdict, rateMyRun, getMyRun } from "../../../shared/api.js";
@@ -133,7 +133,7 @@ export async function mount(root, { store, setState, resetSession }) {
             <span class="js-rate-status text-sm text-ink-mute" role="status" aria-live="polite"></span>
           </div>
         </div>`}
-        <div class="text-sm text-ink-mute">This run is complete and saved.</div>
+        <div class="text-ink-mute">This run is complete and saved.</div>
         <div class="l-cluster l-cluster--2 items-center">
           <button class="btn js-restart">Finish &amp; review this run</button>
           <button class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>
@@ -225,7 +225,7 @@ export async function mount(root, { store, setState, resetSession }) {
     const mwrap = root.querySelector(".axis-meanings");
     const meaningRows = readAxes
       .map((a) => `
-        <div class="text-sm text-ink-dim reveal-soft">
+        <div class="text-ink-dim reveal-soft">
           <span class="eyebrow mr-2" style="color: var(--color-accent-dark);">${escape(cap(a.id))}</span>${escape(a.meaning)}
         </div>
       `);
@@ -235,7 +235,7 @@ export async function mount(root, { store, setState, resetSession }) {
         ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`
         : names[0];
       meaningRows.push(`
-        <div class="text-sm text-ink-mute reveal-soft">${escape(list)} — not enough signal to read this session.</div>
+        <div class="text-ink-mute reveal-soft">${escape(list)} — not enough signal to read this session.</div>
       `);
     }
     mwrap.innerHTML = meaningRows.join("");
@@ -380,8 +380,18 @@ export async function mount(root, { store, setState, resetSession }) {
     copyFullBriefing(b, store.ctx, root.querySelector(".js-copy-all-briefing"));
   });
 
-  root.querySelector(".js-restart").addEventListener("click", () => {
-    setState({ stage: STAGES.RUN_DEBRIEF });
+  // The run debrief (API time / cost / CLI replay / QA prompt) is internal QA tooling —
+  // only the internal admin role sees it. A manager just finishes the run and goes home.
+  const finishBtn = root.querySelector(".js-restart");
+  const seesDebrief = isInternalAdmin(store.user);
+  if (!seesDebrief) finishBtn.textContent = "Finish";
+  finishBtn.addEventListener("click", () => {
+    if (seesDebrief) {
+      setState({ stage: STAGES.RUN_DEBRIEF });
+      return;
+    }
+    resetSession();
+    setState({ stage: STAGES.START });
   });
 
   // In-flow rating (pre-go-live PG3): a gentle one-tap "how useful?" at the end of a real

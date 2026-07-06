@@ -1,6 +1,27 @@
 # Phase 2 — Session flow triage
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done (committed 2026-07-07; QA waived — Carl "just go")
+
+## Build notes — mechanism
+`text-base` (Tailwind 16px) is essentially unused in the codebase, so under JIT it isn't generated and wouldn't apply. Reliable in-system fix instead: **remove `text-sm`** so the element inherits the 16px body default (`body { font-size: var(--type-body) }`), keeping its `text-ink-dim/mute` colour. Same result, no dependency on an ungenerated utility.
+
+## Triage decisions
+**→ 16px (dropped `text-sm`) — reading text:**
+- `questioning.js:129` drill hint "↳ Following up on what you just said."
+- `focus-points.js:24` "Pick what this 1:1 should cover." (lede)
+- `focus-points.js:85` manager-notes display (reading content)
+- `briefing.js:136` "This run is complete and saved."
+- `briefing.js:228` axis-meaning rows (definition text)
+- `briefing.js:238` "…not enough signal to read this session."
+- `onepage.js:67` flow lede "Answer each step…"
+- `preparation.js:23` "The core issue, your opener, and what to listen for."
+
+**Kept 14px — label/meta/chrome (unchanged):**
+- `questioning.js:34` `.footer-host` (injected footer chrome), `onepage.js:506` `.js-note-host` (live-note host)
+- `briefing.js:123/133/140` status spans (Saved / rate-status / Copied)
+- `run-debrief.js:13` metric legend (caption), `:19` copy-confirm status
+
+**Deferred:** intake lede (`.js-intake-lede`) — `intake.js` still held by another session.
 
 ## Goal
 Every `text-sm` (and inline 14px) reading text on the core 1:1 session screens is re-tiered per the rule: reading → 16px, labels/meta stay 14px.

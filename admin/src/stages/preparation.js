@@ -20,7 +20,7 @@ export async function mount(root, { store, setState }) {
           <h1 class="h1">What to walk in with</h1>
           <button class="btn btn--ghost js-start-fresh" type="button">Reset session</button>
         </div>
-        <p class="text-ink-dim text-sm">The core issue, your opener, and what to listen for.</p>
+        <p class="text-ink-dim">The core issue, your opener, and what to listen for.</p>
       </header>
       <div class="thinking-host min-h-[120px] flex items-center"></div>
       <div class="result-host"></div>
