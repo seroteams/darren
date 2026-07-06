@@ -7,6 +7,7 @@
 // filtering; CSS decides which shell shows (see "Mobile shell" in design.css).
 
 import { STAGES, isAdmin, isInternalAdmin } from "../state.js";
+import { isGuestStage } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "./icon.js";
 import {
@@ -264,7 +265,10 @@ export function createAppNav({ setState, resetSession } = {}) {
   function render({ stage, user } = {}) {
     // The start/login/register screens stand alone — no nav rail. So does the privacy note
     // when a logged-out visitor opens it from the signup screen (there's no app to navigate yet).
-    if (stage === STAGES.WELCOME || stage === STAGES.LOGIN || stage === STAGES.REGISTER || (stage === STAGES.PRIVACY && !user)) {
+    // And a guest running a 1:1 (no account) gets no rail either — there's nothing to
+    // navigate to, and "Past 1:1s" / "Log out" make no sense for them (F-004).
+    if (stage === STAGES.WELCOME || stage === STAGES.LOGIN || stage === STAGES.REGISTER
+        || (stage === STAGES.PRIVACY && !user) || (!user && isGuestStage(stage))) {
       el.classList.add("is-hidden");
       bar.classList.add("is-hidden");
       setDrawer(false);
