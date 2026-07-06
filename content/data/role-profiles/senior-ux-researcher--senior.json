@@ -1,0 +1,178 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1783297415096,
+  "role_title_raw": "Senior UX Researcher",
+  "role_slug": "senior-ux-researcher",
+  "seniority_raw": "Senior",
+  "seniority_key": "senior",
+  "role_family": "design",
+  "profile": {
+    "summary": "A Senior UX Researcher plans and runs research that shapes product decisions across multiple initiatives. They choose methods, frame studies, synthesize evidence, and influence design, product, and engineering partners. They often mentor less experienced researchers or designers doing research, improve research practice, and help teams connect user insight to roadmap and delivery choices.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Getting teams to act on research instead of treating it as a box to tick.",
+        "category": "topic"
+      },
+      {
+        "text": "Balancing fast tactical studies with deeper strategic work across several product areas.",
+        "category": "topic"
+      },
+      {
+        "text": "Defending research quality when timelines, sample access, or scope are constrained.",
+        "category": "competency"
+      },
+      {
+        "text": "Carrying the emotional load of hearing repeated user pain while staying objective and useful.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Influencing product direction without direct authority over roadmap decisions.",
+        "category": "competency"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Research impact on product decisions",
+        "why": "This role is judged less by activity and more by whether insight changes priorities, design, or delivery.",
+        "category": "competency"
+      },
+      {
+        "theme": "Study pipeline and prioritization",
+        "why": "Senior researchers often juggle urgent requests, strategic work, and partner expectations at the same time.",
+        "category": "topic"
+      },
+      {
+        "theme": "Quality of cross-functional partnership",
+        "why": "Strong relationships with product, design, data, and engineering determine whether research lands well.",
+        "category": "topic"
+      },
+      {
+        "theme": "Space for strategic research",
+        "why": "If all time goes to quick turnaround work, the team misses bigger patterns and future risks.",
+        "category": "topic"
+      },
+      {
+        "theme": "Energy and emotional sustainability",
+        "why": "Frequent context switching, stakeholder pressure, and exposure to user frustration can wear this role down.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Coaching and raising research standards",
+        "why": "Senior level often includes mentoring others and improving how research is done beyond their own studies.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Discovery research",
+        "meaning": "Early research to understand needs, problems, and context.",
+        "group": "ux-research"
+      },
+      {
+        "term": "Evaluative research",
+        "meaning": "Research that tests a design, flow, or concept.",
+        "group": "ux-research"
+      },
+      {
+        "term": "Interview guide",
+        "meaning": "Structured prompts used to run consistent interviews.",
+        "group": "ux-research"
+      },
+      {
+        "term": "Usability testing",
+        "meaning": "Watching people try tasks to find friction.",
+        "group": "ux-research"
+      },
+      {
+        "term": "Synthesis",
+        "meaning": "Turning raw notes into patterns, insights, and implications.",
+        "group": "ux-research"
+      },
+      {
+        "term": "Research repository",
+        "meaning": "Shared place for findings, clips, and past studies.",
+        "group": "ux-research"
+      },
+      {
+        "term": "Triangulation",
+        "meaning": "Checking patterns across methods or data sources.",
+        "group": "ux-research"
+      },
+      {
+        "term": "Stakeholder alignment",
+        "meaning": "Shared understanding of goals, scope, and decisions needed.",
+        "group": "senior-practice"
+      },
+      {
+        "term": "Research readout",
+        "meaning": "Session or artifact that shares findings and recommendations.",
+        "group": "senior-practice"
+      },
+      {
+        "term": "Prioritization",
+        "meaning": "Choosing what research to do given time and impact.",
+        "group": "senior-practice"
+      },
+      {
+        "term": "Mentoring",
+        "meaning": "Helping others improve research judgment and execution.",
+        "group": "senior-practice"
+      },
+      {
+        "term": "Continuous discovery",
+        "meaning": "Ongoing learning from users during product development.",
+        "group": "product-collaboration"
+      },
+      {
+        "term": "Mixed methods",
+        "meaning": "Using qualitative and quantitative approaches together.",
+        "group": "product-collaboration"
+      },
+      {
+        "term": "Participant recruitment",
+        "meaning": "Finding suitable users for a study.",
+        "group": "product-collaboration"
+      },
+      {
+        "term": "Insight backlog",
+        "meaning": "Open questions and evidence gaps worth investigating.",
+        "group": "product-collaboration"
+      },
+      {
+        "term": "Design critique",
+        "meaning": "Review of design work to discuss strengths and risks.",
+        "group": "product-collaboration"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "ux-research",
+        "label": "UX research craft"
+      },
+      {
+        "key": "senior-practice",
+        "label": "Senior research practice"
+      },
+      {
+        "key": "product-collaboration",
+        "label": "Research in product work"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about decisions changed, not just studies completed.",
+      "How they describe tradeoffs between speed and rigor.",
+      "Whether they name partner dynamics as a blocker or an enabler.",
+      "Whether they connect findings to roadmap, design choices, or delivery risk.",
+      "Shifts from hands-on research detail to coaching, standards, and influence across teams."
+    ],
+    "avoid": [
+      "Treating them as a note-taker for design or product instead of a decision-shaping partner.",
+      "Pushing only for faster turnaround without discussing research quality and impact.",
+      "Assuming senior means they want to stop doing hands-on research.",
+      "Reducing success to stakeholder happiness rather than evidence quality and product influence."
+    ]
+  }
+}

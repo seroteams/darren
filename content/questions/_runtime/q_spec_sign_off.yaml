@@ -1,0 +1,10 @@
+alias: q_spec_sign_off
+label: Spec sign-off
+name: What would need to change at spec sign-off to stop the rework?
+description: Surfaces the concrete process change that would reduce the repeated handoff loop.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: spec sign-off

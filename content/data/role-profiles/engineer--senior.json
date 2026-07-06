@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1783308861454,
+  "role_title_raw": "Engineer",
+  "role_slug": "engineer",
+  "seniority_raw": "Senior",
+  "seniority_key": "senior",
+  "role_family": "engineering",
+  "profile": {
+    "summary": "A Senior Engineer owns delivery of complex technical work, shapes implementation choices, and raises code quality across a team. They usually partner with product, design, and other engineers, while mentoring less experienced teammates and handling ambiguous problems. Scope is often a service, system area, or major feature rather than whole-org technical direction.",
+    "role_confidence": "medium",
+    "known_challenges": [
+      {
+        "text": "Balancing hands-on delivery with mentoring, reviews, and unblocking others.",
+        "category": "topic"
+      },
+      {
+        "text": "Turning vague product goals into workable technical plans without overengineering.",
+        "category": "competency"
+      },
+      {
+        "text": "Carrying informal leadership without always having clear authority or decision rights.",
+        "category": "topic"
+      },
+      {
+        "text": "Context switching across coding, incidents, meetings, and support work drains focus.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Being relied on for hard problems can create constant interruption and pressure.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Technical ownership and decision-making",
+        "why": "Senior engineers are expected to make sound tradeoffs and need clarity on what they truly own.",
+        "category": "topic"
+      },
+      {
+        "theme": "Mentoring and team leverage",
+        "why": "Their impact often depends on how well they help others grow and move faster.",
+        "category": "competency"
+      },
+      {
+        "theme": "Workload sustainability and interruption load",
+        "why": "They are often the default escalation point, which can quietly erode focus and energy.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Architecture and delivery tradeoffs",
+        "why": "This level regularly has to balance speed, quality, maintainability, and risk.",
+        "category": "competency"
+      },
+      {
+        "theme": "Cross-functional alignment",
+        "why": "Much of the friction at this level comes from translating between technical constraints and product needs.",
+        "category": "topic"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Code review",
+        "meaning": "Peer feedback on code before merging.",
+        "group": "craft"
+      },
+      {
+        "term": "Refactor",
+        "meaning": "Improve code structure without changing behavior.",
+        "group": "craft"
+      },
+      {
+        "term": "Technical debt",
+        "meaning": "Past shortcuts that slow future change.",
+        "group": "craft"
+      },
+      {
+        "term": "CI/CD",
+        "meaning": "Automated build, test, and deployment flow.",
+        "group": "craft"
+      },
+      {
+        "term": "Observability",
+        "meaning": "Logs, metrics, and traces to understand systems.",
+        "group": "craft"
+      },
+      {
+        "term": "Incident",
+        "meaning": "Service problem needing active response.",
+        "group": "craft"
+      },
+      {
+        "term": "System design",
+        "meaning": "Planning components, data flow, and tradeoffs.",
+        "group": "senior-engineer"
+      },
+      {
+        "term": "Tradeoff",
+        "meaning": "Choice that improves one thing at a cost.",
+        "group": "senior-engineer"
+      },
+      {
+        "term": "Ownership",
+        "meaning": "Being accountable for outcomes in an area.",
+        "group": "senior-engineer"
+      },
+      {
+        "term": "Unblocking",
+        "meaning": "Removing obstacles so others can progress.",
+        "group": "senior-engineer"
+      },
+      {
+        "term": "Mentoring",
+        "meaning": "Helping less experienced engineers improve.",
+        "group": "senior-engineer"
+      },
+      {
+        "term": "Tech spec",
+        "meaning": "Written plan for a technical approach.",
+        "group": "delivery"
+      },
+      {
+        "term": "Sprint",
+        "meaning": "Short delivery cycle for planned work.",
+        "group": "delivery"
+      },
+      {
+        "term": "Backlog",
+        "meaning": "Ordered list of work to do.",
+        "group": "delivery"
+      },
+      {
+        "term": "Scope creep",
+        "meaning": "Work expands beyond the original plan.",
+        "group": "delivery"
+      },
+      {
+        "term": "Dependency",
+        "meaning": "Other work or teams needed to proceed.",
+        "group": "delivery"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "craft",
+        "label": "Engineering craft"
+      },
+      {
+        "key": "senior-engineer",
+        "label": "Senior engineer responsibilities"
+      },
+      {
+        "key": "delivery",
+        "label": "Delivery and coordination"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about outcomes and tradeoffs, not just tasks completed.",
+      "How often they mention being interrupted, pulled into fixes, or acting as escalation.",
+      "Whether they describe mentoring as rewarding, invisible, or draining.",
+      "Shifts from confident technical language to vagueness around priorities or ownership.",
+      "Whether they frame problems at code level only or connect them to product impact."
+    ],
+    "avoid": [
+      "Assuming senior means they want to become a people manager soon.",
+      "Treating them as a ticket closer instead of someone shaping technical direction.",
+      "Piling on mentoring and support work without adjusting delivery expectations.",
+      "Mistaking calm competence for low ambition or low need for support."
+    ]
+  }
+}

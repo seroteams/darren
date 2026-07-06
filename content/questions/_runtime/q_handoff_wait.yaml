@@ -1,0 +1,10 @@
+alias: q_handoff_wait
+label: Handoff wait
+name: Where do the handoffs with eng get stuck most often?
+description: Drills into the named handoff friction to surface the concrete bottleneck.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: handoffs waiting on eng

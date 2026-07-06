@@ -1,0 +1,10 @@
+alias: q_project_split
+label: Project split
+name: How is the second project changing your week in practice?
+description: Drills into the added project and context-switching to surface the concrete source of friction.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +1
+source: planner_added
+grounding: second project on top

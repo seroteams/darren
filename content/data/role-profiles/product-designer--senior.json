@@ -1,0 +1,178 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1783273726974,
+  "role_title_raw": "Product Designer",
+  "role_slug": "product-designer",
+  "seniority_raw": "Senior",
+  "seniority_key": "senior",
+  "role_family": "design",
+  "profile": {
+    "summary": "A Senior Product Designer owns end-to-end design for meaningful product areas, from discovery through shipped experience. They turn user and business needs into flows, prototypes, and polished UI, while shaping quality across a squad. They work closely with product managers, engineers, researchers, content, and design peers, and are often expected to influence roadmap, advocate for users, and raise craft standards beyond their own tickets.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing fast delivery with enough research, iteration, and design quality.",
+        "category": "topic"
+      },
+      {
+        "text": "Influencing product decisions without formal authority, especially when tradeoffs favor speed or scope.",
+        "category": "competency"
+      },
+      {
+        "text": "Keeping a coherent user experience across teams, legacy patterns, and changing priorities.",
+        "category": "topic"
+      },
+      {
+        "text": "Handling constant feedback from product, engineering, and design without losing clarity or confidence.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Stretching from strong execution into clearer strategic thinking and sharper product judgment.",
+        "category": "competency"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Discovery involvement and product shaping",
+        "why": "Senior designers are more effective when they help define the problem, not just polish solutions.",
+        "category": "topic"
+      },
+      {
+        "theme": "Tradeoffs between speed, quality, and user needs",
+        "why": "This role regularly has to negotiate what can ship now versus what protects the experience long term.",
+        "category": "topic"
+      },
+      {
+        "theme": "Influence with product and engineering partners",
+        "why": "A lot of success at this level depends on trust, alignment, and the ability to move decisions cross-functionally.",
+        "category": "competency"
+      },
+      {
+        "theme": "Craft growth and areas of stretch",
+        "why": "Senior designers are often judged on both execution quality and their ability to level up judgment and systems thinking.",
+        "category": "competency"
+      },
+      {
+        "theme": "Energy, feedback load, and recovery",
+        "why": "Design work is highly visible and critique-heavy, so sustained pressure can quietly drain confidence and focus.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "User flow",
+        "meaning": "Step-by-step path a user takes through a task.",
+        "group": "craft"
+      },
+      {
+        "term": "Wireframe",
+        "meaning": "Low-detail layout used to explore structure and flow.",
+        "group": "craft"
+      },
+      {
+        "term": "Prototype",
+        "meaning": "Clickable model used to test behavior and ideas.",
+        "group": "craft"
+      },
+      {
+        "term": "Design critique",
+        "meaning": "Structured feedback on work to improve decisions.",
+        "group": "craft"
+      },
+      {
+        "term": "Accessibility",
+        "meaning": "Designing so more people can use the product.",
+        "group": "craft"
+      },
+      {
+        "term": "Continuous discovery",
+        "meaning": "Ongoing learning with users alongside delivery.",
+        "group": "craft"
+      },
+      {
+        "term": "Design system",
+        "meaning": "Shared components and rules for consistent product design.",
+        "group": "senior-role"
+      },
+      {
+        "term": "North star",
+        "meaning": "Guiding outcome or experience direction for a product area.",
+        "group": "senior-role"
+      },
+      {
+        "term": "Tradeoff",
+        "meaning": "Conscious choice between competing constraints or goals.",
+        "group": "senior-role"
+      },
+      {
+        "term": "Stakeholder management",
+        "meaning": "Working with different partners to align decisions.",
+        "group": "senior-role"
+      },
+      {
+        "term": "Product thinking",
+        "meaning": "Connecting user needs, business goals, and feasibility.",
+        "group": "senior-role"
+      },
+      {
+        "term": "Design debt",
+        "meaning": "Accumulated experience issues left unresolved over time.",
+        "group": "senior-role"
+      },
+      {
+        "term": "Handoff",
+        "meaning": "Sharing design intent and specs with engineering.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Design QA",
+        "meaning": "Checking built work matches intended experience.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Sprint",
+        "meaning": "Short delivery cycle used by product teams.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Figma",
+        "meaning": "Common tool for interface design and collaboration.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "AI-assisted prototyping",
+        "meaning": "Using AI tools to speed concept exploration.",
+        "group": "ways-of-working"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "craft",
+        "label": "Product design craft"
+      },
+      {
+        "key": "senior-role",
+        "label": "Senior product design"
+      },
+      {
+        "key": "ways-of-working",
+        "label": "Ways of working"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about problems and outcomes, not just screens and deliverables.",
+      "How they describe tradeoffs with product and engineering partners.",
+      "Whether they bring up user evidence or rely mainly on opinion.",
+      "Signs they are carrying invisible glue work like alignment, critique, or system cleanup.",
+      "Whether feedback sounds energizing, noisy, or personally draining."
+    ],
+    "avoid": [
+      "Treating them like a UI decorator who joins after requirements are fixed.",
+      "Assuming more senior means they want less hands-on design work.",
+      "Pushing for speed without acknowledging research, accessibility, or design debt costs.",
+      "Judging impact only by shipped screens instead of influence on decisions and experience quality."
+    ]
+  }
+}
