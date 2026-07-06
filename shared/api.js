@@ -282,14 +282,6 @@ export async function rateMyRun(id, { stars, note }) {
   return postJson(`/api/v1/runs/mine/${encodeURIComponent(id)}/rating`, { stars, note });
 }
 
-// Record whether one of last time's agreed actions happened (continuity Phase 2):
-// { index, answer: "yes"|"partly"|"no"|"changed", action? } onto that run's outcomes.
-// Member-safe + origin-guarded; a run you don't own → 404. Returns { ok, index, answer,
-// outcomes } — the full merged map so the caller can re-render every mark.
-export async function setRunOutcome(id, { index, answer, action }) {
-  return postJson(`/api/v1/runs/mine/${encodeURIComponent(id)}/outcomes`, { index, answer, action });
-}
-
 // Team people-aliases (pre-go-live PG9): the caller's own merge/rename overrides.
 // Keys are the normalized person key the Team groups on. All member-safe + user-fenced.
 // Each returns the updated { merges, names } map. Merge folds `from` into `into`.

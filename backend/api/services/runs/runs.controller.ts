@@ -113,14 +113,6 @@ export async function rateMine(c: RequestContext): Promise<void> {
   c.json(200, service.rateMine(c.params.id, body, orgId, userId));
 }
 
-// Record whether one of last time's agreed actions happened (continuity Phase 2): login
-// required, any role; same org+user fence as rateMine. Origin-guarded in server.ts.
-export async function setOutcomeMine(c: RequestContext): Promise<void> {
-  const { userId, orgId } = await callerIdentity(c);
-  const body = await c.readBody();
-  c.json(200, service.setOutcomeMine(c.params.id, body, orgId, userId));
-}
-
 // "1:1s about me" (people-roster Phase 5): login required, ANY role — a member linked to
 // a roster person sees the list-only history of 1:1s about them. All fencing + privacy
 // minimalism lives in aboutMeService (org-fenced walk, no notes/briefing/ratings).

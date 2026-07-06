@@ -12,16 +12,13 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
-**▶ Active line: continuity — previous 1:1s shape the next one.** New track (2026-07-06, Carl lifted the
-2026-07-04 hard-park). The willingness-to-pay signal is the *return visit*, and continuity is what makes
-the second prep better than the first — the compounding per-person/team history is the moat. 8 phases, one
-at a time, built inside the no-inference ruling (structured events only, never train on manager notes):
-① carry-forward on prep · ② outcome taps · ③ engine-native follow-up · ④ question memory · ⑤ Continuity
-console · ⑥ tweak-and-see test bench · ⑦ learning engine v1 · ⑧ moat metrics. Plan
-[docs/todo/continuity/PLAN.md](docs/todo/continuity/PLAN.md).
-**Phase 1 ✅ done (green-lit + committed `399d85e5`, 2026-07-06):** the person page's "Prep your next 1:1"
-now seeds the intake notes with last time's agreed actions + watch-fors — labelled, editable, clearable;
-no backend/OpenAI/engine change, `npm test` 81/81. **Phase 2 (one-tap outcome capture, $0) now active.**
+**▶ Active line: back to pre-go-live — getting to a live alpha.** The continuity / "moat" track was
+**REMOVED 2026-07-06** at Carl's call ("this is not what I wanted at all — rip it all out"): both built
+phases (① carry-forward pre-fill on prep · ② one-tap outcome capture) **and** the whole 8-phase plan were
+pulled out cleanly. The **people-roster Phase 4 refactor** they'd been tangled with in the same merge was
+**kept** — that stays. No continuity code or plan files remain; `npm test` + both typechecks green after
+removal. Next real step: **close out pre-go-live PG9**, then the built-but-awaiting-walk tracks
+(guest-run, feedback-inbox, manager-ready, frontend-admin-split).
 
 **✅ Closed (2026-07-06): People roster — managers formally have members; 1:1s owned by that pair.**
 Grew out of Carl's "members should only see their own 1:1s": the fence was already sound but
@@ -120,8 +117,7 @@ Tests: `npm test` **57/57** (offline, $0) · `npm run typecheck` clean. Commits 
 
 | Item | Scope |
 |---|---|
-| **Next-stage build** | **✅ ALL 8 PHASES DONE 2026-06-16** → `done/`. Hardening core (contracts, persistence/resume, deterministic fallback) + feature passes (issue pills + observed shift, prep quality, prep timeline UI, runner polish, shared/private split). One carve-out — cross-session follow-up auto-injection — **un-parked 2026-06-21** (now its own item below). |
-| **Cross-session follow-up (continuity)** | **▶ HOLD LIFTED by Carl (2026-07-06) — full launch plan built, awaiting his read before Phase 1.** The return-visit loop, grown into the full line: carry-forward → outcome capture → engine-native follow-up → question memory → Continuity console (admin) → tweak-and-see test bench → learning engine v1 (inside the no-inference ruling — exemplars from test runs only, counts not text, no training ever) → moat metrics. 8 phases, one at a time, ~$2–4.50 total paid walks (each per-run approved). Plan: [docs/todo/continuity/PLAN.md](docs/todo/continuity/PLAN.md). No code yet. |
+| **Next-stage build** | **✅ ALL 8 PHASES DONE 2026-06-16** → `done/`. Hardening core (contracts, persistence/resume, deterministic fallback) + feature passes (issue pills + observed shift, prep quality, prep timeline UI, runner polish, shared/private split). One carve-out — cross-session follow-up auto-injection — **un-parked 2026-06-21**, later built as the continuity track and then **removed 2026-07-06** (see the active line above). |
 
 ## 3. Done
 

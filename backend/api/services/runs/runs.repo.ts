@@ -53,10 +53,6 @@ export interface RunsRepo {
   // Manager 1:1 rating (pre-go-live PG3): a rating.json sidecar in the run folder.
   readRating(dir: string): unknown; // existing rating.json, or null
   writeRating(dir: string, data: unknown): void;
-  // Per-action outcomes (continuity Phase 2): did last time's agreed action happen?
-  // An outcomes.json sidecar in the run folder, keyed by the action's index.
-  readOutcomes(dir: string): unknown; // existing outcomes.json, or null
-  writeOutcomes(dir: string, data: unknown): void;
   // Member-safe reads (member-nav Phase 2) — fenced by BOTH orgId and userId, so a
   // member sees only runs they created. memberRun returns null when the run is unknown
   // or owned by someone else. includeOpen (Team-for-managers) adds the caller's
@@ -105,21 +101,6 @@ function writeRatingFile(dir: string, data: unknown): void {
   fs.renameSync(tmp, target);
 }
 
-// Same null-safe read + atomic write for the outcomes.json sidecar (continuity Phase 2).
-function readOutcomesFile(dir: string): unknown {
-  try {
-    return JSON.parse(fs.readFileSync(path.join(dir, "outcomes.json"), "utf8"));
-  } catch {
-    return null;
-  }
-}
-function writeOutcomesFile(dir: string, data: unknown): void {
-  const target = path.join(dir, "outcomes.json");
-  const tmp = path.join(dir, "outcomes.json.tmp");
-  fs.writeFileSync(tmp, JSON.stringify(data, null, 2));
-  fs.renameSync(tmp, target);
-}
-
 export const fileRunsRepo: RunsRepo = {
   listRecent: (limit, orgId) => listRecentRuns(limit, orgId),
   listFinished: (orgId) => listFinishedRuns(orgId),
@@ -136,8 +117,6 @@ export const fileRunsRepo: RunsRepo = {
   writeReview: (dir, data) => writeReviewFile(dir, data),
   readRating: (dir) => readRatingFile(dir),
   writeRating: (dir, data) => writeRatingFile(dir, data),
-  readOutcomes: (dir) => readOutcomesFile(dir),
-  writeOutcomes: (dir, data) => writeOutcomesFile(dir, data),
   listFinishedForMember: (orgId, userId, includeOpen) => listFinishedRunsForMember(orgId, userId, includeOpen),
   listAboutPerson: (orgId, personIds) => listFinishedRunsAboutPerson(orgId, personIds),
   memberRun: (id, orgId, userId) => memberRunView(id, orgId, userId),

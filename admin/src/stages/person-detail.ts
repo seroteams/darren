@@ -7,13 +7,12 @@
 // pipeline from there spends, same as starting any 1:1).
 
 import { STAGES, store } from "../state.js";
-import { listMyRuns, getMyRun, listPeople, setRunOutcome } from "../../../shared/api.js";
+import { listMyRuns, getMyRun, listPeople } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
 import { buildRosterView } from "../ui/group-people.js";
 import { relTime } from "../ui/time.ts";
-import { buildCarryForward } from "../ui/carry-forward.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
 type MyRun = {
@@ -36,15 +35,6 @@ type Person = {
 };
 type NextAction = { when?: string; action?: string };
 type Briefing = { next_actions?: NextAction[]; watch_for?: string[] } | null;
-// Continuity Phase 2 — one-tap "did last time's agreed action happen?" per action.
-type OutcomeAnswer = "yes" | "partly" | "no" | "changed";
-type OutcomesMap = Record<string, { answer: string; action: string; updatedAt: string | null }> | null;
-const OUTCOME_OPTS: Array<{ value: OutcomeAnswer; label: string }> = [
-  { value: "yes", label: "Yes" },
-  { value: "partly", label: "Partly" },
-  { value: "no", label: "No" },
-  { value: "changed", label: "Changed" },
-];
 
 // Local one-use time-ago (mirrors runs.ts / team.ts) — four lines, no shared util for one caller.
 // The summary line under the name: role, then meetings / last met / average as a scannable
@@ -68,34 +58,15 @@ function summaryHtml(p: Person): string {
 // slice). The two lists are colour-coded (agreed vs watch) so they read apart at a glance.
 // Returns "" — the block is hidden entirely — when neither field has content, so there's no
 // empty scaffolding. Every value escaped.
-// The four taps under one agreed action. The current answer (if any) is highlighted.
-// data-index keys the action server-side; data-action snapshots the agreed text so the
-// stored outcome carries what it was answering, even if the wording is edited elsewhere.
-function outcomeTaps(index: number, actionText: string, current: string | null): string {
-  const buttons = OUTCOME_OPTS.map((o) => {
-    const on = o.value === current;
-    return `<button type="button" class="outcome-tap js-outcome${on ? " outcome-tap--active" : ""}" data-answer="${o.value}"${on ? ' aria-pressed="true"' : ""}>${o.label}</button>`;
-  }).join("");
-  return `<div class="outcome-taps" data-index="${index}" data-action="${escapeHtml(actionText)}"><span class="outcome-taps__q">Did this happen?</span>${buttons}</div>`;
-}
-
-function sinceLastTime(b: Briefing, outcomes: OutcomesMap): string {
+function sinceLastTime(b: Briefing): string {
   if (!b) return "";
-  // Index against the ORIGINAL next_actions array (not the filtered view) so the tap's
-  // index matches the key the server stores + reads back.
-  const actions = (b.next_actions || [])
-    .map((a, i) => ({ a, i }))
-    .filter(({ a }) => a && (a.action || a.when));
+  const actions = (b.next_actions || []).filter((a) => a && (a.action || a.when));
   const watch = (b.watch_for || []).filter(Boolean);
   if (!actions.length && !watch.length) return "";
   const parts: string[] = [];
   if (actions.length) {
     const items = actions
-      .map(({ a, i }) => {
-        const text = a.action || "";
-        const line = `${a.when ? `<span class="since__when">${escapeHtml(a.when)}:</span> ` : ""}${escapeHtml(text)}`;
-        return `<li>${line}${outcomeTaps(i, text, outcomes?.[String(i)]?.answer ?? null)}</li>`;
-      })
+      .map((a) => `<li>${a.when ? `<span class="since__when">${escapeHtml(a.when)}:</span> ` : ""}${escapeHtml(a.action || "")}</li>`)
       .join("");
     parts.push(`<div class="since__group"><span class="since__label since__label--agreed">What you agreed</span><ul class="since__list">${items}</ul></div>`);
   }
@@ -193,14 +164,10 @@ export const mount: Mount = async (root, { setState }) => {
 
   // The list carries no briefing, so fetch just the most recent run's detail for "Since
   // last time". A failure omits the block — the run list still renders. No OpenAI call.
-  // The same briefing seeds the carry-forward notes for "Prep your next 1:1" (Phase 1).
   let sinceBlock = "";
-  let carryText = "";
   try {
-    const latest = (await getMyRun(mine[0]!.id)) as { briefing: Briefing; outcomes?: OutcomesMap };
-    const b = latest?.briefing ?? null;
-    sinceBlock = sinceLastTime(b, latest?.outcomes ?? null);
-    carryText = buildCarryForward(b);
+    const latest = (await getMyRun(mine[0]!.id)) as { briefing: Briefing };
+    sinceBlock = sinceLastTime(latest?.briefing ?? null);
   } catch { /* omit the block, keep the page */ }
 
   const list = `<section class="l-stack l-stack--2">
@@ -222,11 +189,6 @@ export const mount: Mount = async (root, { setState }) => {
   // free; only running the full pipeline from intake spends (same as starting any 1:1).
   // A roster-backed person also seeds personId + their stored seniority, so the new run
   // lands on the same roster row (people-roster Phase 4).
-  // Continuity Phase 1: pre-fill the notes with last time's agreed actions + watch-fors
-  // (carryText), so the next 1:1 continues from where the last one left off. It seeds
-  // BOTH freeNotes (what the notes textarea shows first) and notes, and clears any stale
-  // issue pills — so the manager sees exactly the carry-forward, editable, and can clear
-  // it for a cold start. Empty carryText → unchanged blank intake.
   root.querySelector(".js-prep")?.addEventListener("click", () => {
     store.scripted = null;
     Object.assign(store.ctx, {
@@ -236,45 +198,9 @@ export const mount: Mount = async (root, { setState }) => {
       seniority: "",
       meetingType: "",
       meetingTypeIndex: null,
-      issuePills: [],
-      freeNotes: carryText,
-      notes: carryText,
+      notes: "",
     });
     setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
-  });
-
-  // Continuity Phase 2 — tapping an outcome records whether last time's agreed action
-  // happened, on the most recent run (the one "Since last time" shows). The tap is marked
-  // active ONLY after the server confirms the write; a failure shows an honest inline
-  // "couldn't save" and leaves the selection unchanged (no faked success).
-  const latestRunId = mine[0]!.id;
-  root.querySelectorAll<HTMLButtonElement>(".js-outcome").forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      const group = btn.closest<HTMLElement>(".outcome-taps");
-      if (!group) return;
-      const index = Number(group.dataset.index);
-      const action = group.dataset.action || "";
-      const answer = btn.dataset.answer as OutcomeAnswer;
-      const taps = Array.from(group.querySelectorAll<HTMLButtonElement>(".js-outcome"));
-      group.querySelector(".outcome-taps__err")?.remove();
-      taps.forEach((t) => (t.disabled = true));
-      try {
-        await setRunOutcome(latestRunId, { index, answer, action });
-        taps.forEach((t) => {
-          const on = t === btn;
-          t.classList.toggle("outcome-tap--active", on);
-          if (on) t.setAttribute("aria-pressed", "true");
-          else t.removeAttribute("aria-pressed");
-        });
-      } catch {
-        const err = document.createElement("span");
-        err.className = "outcome-taps__err";
-        err.textContent = "Couldn't save — try again.";
-        group.appendChild(err);
-      } finally {
-        taps.forEach((t) => (t.disabled = false));
-      }
-    });
   });
 };
 

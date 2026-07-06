@@ -12,12 +12,6 @@ import { isObjectRecord, asRecord } from "../../../shared/guards.ts";
 const OVERALL_VALUES = ["keep", "fix", "block"];
 const NOTE_CAP = 4000;
 
-// Continuity Phase 2 — the four outcome answers for a prior agreed action, and the
-// cap on the stored action label (a snapshot of the agreed text, for display + audit).
-const OUTCOME_VALUES = ["yes", "partly", "no", "changed"] as const;
-type OutcomeAnswer = (typeof OUTCOME_VALUES)[number];
-const ACTION_LABEL_CAP = 500;
-
 interface ReviewResult {
   ok: true;
   reviewStatus: string;
@@ -52,12 +46,6 @@ export interface RunsService {
   // stored as a rating.json sidecar. Fenced by org AND user — a run the caller doesn't
   // own is a 404 (same answer a stranger gets), so ids can't be probed or rated.
   rateMine(id: string | undefined, body: unknown, orgId: string | null | undefined, userId: string | null | undefined): { ok: true; stars: number; note: string };
-  // Record whether one of last time's agreed actions happened (continuity Phase 2):
-  // { index, answer: yes|partly|no|changed, action? } onto the prior run's outcomes.json.
-  // Same org+user fence as rateMine (a run you don't own → 404). The latest answer for an
-  // index wins; only answered indices are stored, so skipping stays blank. Returns the
-  // full merged map so the caller can re-render every mark from one response.
-  setOutcomeMine(id: string | undefined, body: unknown, orgId: string | null | undefined, userId: string | null | undefined): { ok: true; index: number; answer: OutcomeAnswer; outcomes: Record<string, unknown> };
   // Dev-only "prefill a run" (admin-guarded at the route). clonable lists every finished
   // run on disk (unfenced) so there's always something to seed from; clone copies one into
   // a fresh run owned by the caller so it drops straight into their /mine.
@@ -183,42 +171,6 @@ export function createRunsService(repo: RunsRepo): RunsService {
         throw Object.assign(new Error("rating write failed: " + (e instanceof Error ? e.message : String(e))), { status: 500 });
       }
       return { ok: true, stars, note };
-    },
-    setOutcomeMine: (id, body, orgId, userId) => {
-      const runId = requireId(id);
-      // Ownership first — a run the caller doesn't own is a 404 (the stranger's answer),
-      // so ids can't be probed or annotated.
-      if (!repo.memberRun(runId, orgId, userId)) throw notFound("unknown run");
-      if (!isObjectRecord(body)) throw badRequest("invalid payload");
-      const index = body.index;
-      if (typeof index !== "number" || !Number.isInteger(index) || index < 0) throw badRequest("index must be a non-negative integer");
-      const answer = body.answer;
-      if (typeof answer !== "string" || !OUTCOME_VALUES.includes(answer as OutcomeAnswer)) {
-        throw badRequest("answer must be one of: " + OUTCOME_VALUES.join(", "));
-      }
-      // The action label is a snapshot of the agreed text for display — trimmed + capped.
-      const action = String(body.action != null ? body.action : "").trim().slice(0, ACTION_LABEL_CAP);
-      const dir = repo.findRunDir(runId, orgId);
-      if (!dir) throw notFound("unknown run");
-      const prev = repo.readOutcomes(dir);
-      const now = new Date().toISOString();
-      // Merge onto any prior answers — latest answer for THIS index wins, siblings untouched.
-      const prevOutcomes = isObjectRecord(prev) && isObjectRecord(prev.outcomes) ? prev.outcomes : {};
-      const outcomes: Record<string, unknown> = { ...prevOutcomes };
-      outcomes[String(index)] = { action, answer, answeredBy: userId ?? null, updatedAt: now };
-      const out = {
-        version: 1,
-        runId,
-        outcomes,
-        createdAt: isObjectRecord(prev) && prev.createdAt ? prev.createdAt : now,
-        updatedAt: now,
-      };
-      try {
-        repo.writeOutcomes(dir, out);
-      } catch (e) {
-        throw Object.assign(new Error("outcome write failed: " + (e instanceof Error ? e.message : String(e))), { status: 500 });
-      }
-      return { ok: true, index, answer: answer as OutcomeAnswer, outcomes };
     },
     overview: (id, orgId) => {
       const summary = repo.summarize(requireId(id), orgId);
