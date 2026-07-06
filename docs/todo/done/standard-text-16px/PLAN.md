@@ -41,7 +41,7 @@ When genuinely ambiguous, default to 16px (the rule favours reading) and note it
 ## Deferred (blocked by parallel sessions — finish when the files free up)
 - **`intake.js` lede** (`.js-intake-lede`) → drop `text-sm`. File held by another session all session.
 - **`admin-feedback.ts`** Phase-4 triage. Same reason.
-- **`review-run.js:119`** `.js-meta` uses `text-xs` (12px) — below the 14px floor; bump to `text-sm`. (A floor fix, spotted during triage.)
+- ~~**`review-run.js:119`** `.js-meta` `text-xs` (12px) → `text-sm`.~~ ✅ done 2026-07-07.
 
 ## Parked
 - Whether `.hint--kbd` (keyboard hints) should stay 14px even after the base `.hint` bump — it's a caption, likely yes. Decide in Phase 1.
