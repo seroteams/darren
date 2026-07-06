@@ -38,6 +38,8 @@ export interface FeedbackService {
   submit(input: FeedbackInput, identity: FeedbackIdentity, at: string): Promise<{ ok: true }>;
   /** The most recent notes across every company, newest first. */
   listRecent(): Promise<{ notes: FeedbackNoteView[] }>;
+  /** Permanently delete one note. 400 on a missing id, 404 when nothing matches. */
+  remove(id: string): Promise<{ id: string }>;
 }
 
 function toView(r: FeedbackNoteRow): FeedbackNoteView {
@@ -65,6 +67,13 @@ export function createFeedbackService(repo: FeedbackRepo): FeedbackService {
     async listRecent() {
       const rows = await repo.listRecent(DEFAULT_LIMIT);
       return { notes: rows.map(toView) };
+    },
+    async remove(id) {
+      const key = typeof id === "string" ? id.trim() : "";
+      if (!key) throw Object.assign(new Error("An id is required."), { status: 400 });
+      const removed = await repo.remove(key);
+      if (!removed) throw Object.assign(new Error("Feedback note not found."), { status: 404 });
+      return { id: key };
     },
   };
 }

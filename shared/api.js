@@ -66,6 +66,12 @@ export async function getFeedbackInbox() {
   return json(await fetch("/api/v1/admin/feedback"));
 }
 
+// Permanently delete one feedback note (feedback-inbox delete). Superadmin-gated + origin-guarded
+// server-side. Returns { id }.
+export async function deleteFeedbackNote(id) {
+  return json(await fetch(`/api/v1/admin/feedback/${encodeURIComponent(id)}`, { method: "DELETE" }));
+}
+
 // Report a client-side error (error-log Phase 3): a browser crash / failed load the app
 // caught. Best-effort — the caller swallows failures. Origin-guarded + rate-limited server-side.
 export async function reportClientError({ message, path }) {

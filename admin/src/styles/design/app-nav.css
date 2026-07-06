@@ -19,6 +19,7 @@
   border-right: 1px solid rgba(255, 255, 255, 0.07);
   z-index: var(--sero-z-sticky, 20);
   overflow: hidden;
+  contain: layout;   /* scope the width-animation's layout work to the rail — can't ripple into the page */
   transition: width var(--dur-fast) var(--ease-out-expo);
 }
 /* Manager (member) rail — shares the admin rail's dark theme (base .app-nav
@@ -29,11 +30,13 @@
   .app-nav:hover {
     width: var(--app-nav-w-open);
     z-index: var(--sero-z-fixed, 30);
+    will-change: width;
   }
 }
 .app-nav:focus-within {
   width: var(--app-nav-w-open);
   z-index: var(--sero-z-fixed, 30);
+  will-change: width;
 }
 .app-nav.is-hidden {
   display: none;

@@ -163,6 +163,10 @@ function main(): void {
   // feedback inbox — the superadmin's cross-company view of every tester note, newest
   // first. Same gate as the error log; read-only.
   router.add("GET", "/api/v1/admin/feedback", superadminV1(feedback.list));
+  router.add("DELETE", /^\/api\/v1\/admin\/feedback\/(?<id>[^/]+)$/, superadminV1((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return feedback.remove(c);
+  }));
 
   // catalog — first domain on the v1 layer (controller → service → repo).
   // v1 routes use the one error shape (v1Route).

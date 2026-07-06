@@ -47,7 +47,9 @@ export async function mount(root) {
           <h1 class="h1">Thanks!</h1>
           <div class="text-ink-dim text-sm">Your note reached the team. We read every one.</div>
         </header>
+        <button type="button" class="btn js-again" style="align-self: flex-start">Send another</button>
       `;
+      root.querySelector(".js-again").addEventListener("click", () => mount(root));
     } catch (e2) {
       showError(e2.message || "Could not send your feedback.");
       submitBtn.disabled = false;

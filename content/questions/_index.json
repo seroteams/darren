@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-06T03:35:45.745Z",
-  "count": 4370,
+  "generated_at": "2026-07-06T15:43:54.445Z",
+  "count": 4378,
   "aliases": [
     "q_50_percent_in_practice",
     "q_a_lot_landing",
@@ -61,6 +61,7 @@
     "q_ask_explicitly",
     "q_asset_gap",
     "q_assumptions_left_out",
+    "q_attention_split",
     "q_ba_blocking",
     "q_ba_dynamic_now",
     "q_ba_friction",
@@ -279,6 +280,7 @@
     "q_core_ux_depth",
     "q_core_ux_pressure",
     "q_core_ux_work",
+    "q_core_work",
     "q_council_fit",
     "q_council_value",
     "q_council_weight",
@@ -303,6 +305,7 @@
     "q_criteria_not_reassurance",
     "q_critique_handling",
     "q_critique_load",
+    "q_critique_load_2",
     "q_critique_translation",
     "q_critique_use",
     "q_crits_landing",
@@ -519,6 +522,7 @@
     "q_decision_waits",
     "q_decision_waits_2",
     "q_deepest_drag",
+    "q_default_carry",
     "q_default_yes",
     "q_define_done",
     "q_define_fine",
@@ -689,6 +693,7 @@
     "q_energy_drag",
     "q_energy_drain",
     "q_energy_drain_10",
+    "q_energy_drain_11",
     "q_energy_drain_2",
     "q_energy_drain_3",
     "q_energy_drain_4",
@@ -1924,6 +1929,7 @@
     "q_next_two_weeks_42",
     "q_next_two_weeks_43",
     "q_next_two_weeks_44",
+    "q_next_two_weeks_45",
     "q_next_two_weeks_5",
     "q_next_two_weeks_6",
     "q_next_two_weeks_7",
@@ -2281,6 +2287,7 @@
     "q_prep_opener_202",
     "q_prep_opener_203",
     "q_prep_opener_204",
+    "q_prep_opener_205",
     "q_prep_opener_21",
     "q_prep_opener_22",
     "q_prep_opener_23",
@@ -4065,6 +4072,7 @@
     "q_trade_offs_needed",
     "q_trade_offs_now",
     "q_tradeoff_call",
+    "q_tradeoff_call_2",
     "q_tradeoff_call_3",
     "q_tradeoff_call_4",
     "q_tradeoff_call_5",
@@ -4608,6 +4616,10 @@
     },
     {
       "alias": "q_assumptions_left_out",
+      "subdir": ""
+    },
+    {
+      "alias": "q_attention_split",
       "subdir": ""
     },
     {
@@ -5483,6 +5495,10 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_core_work",
+      "subdir": ""
+    },
+    {
       "alias": "q_council_fit",
       "subdir": ""
     },
@@ -5576,6 +5592,10 @@
     },
     {
       "alias": "q_critique_load",
+      "subdir": ""
+    },
+    {
+      "alias": "q_critique_load_2",
       "subdir": ""
     },
     {
@@ -6443,6 +6463,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_default_carry",
+      "subdir": ""
+    },
+    {
       "alias": "q_default_yes",
       "subdir": ""
     },
@@ -7120,6 +7144,10 @@
     },
     {
       "alias": "q_energy_drain_10",
+      "subdir": ""
+    },
+    {
+      "alias": "q_energy_drain_11",
       "subdir": ""
     },
     {
@@ -12063,6 +12091,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_two_weeks_45",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_two_weeks_5",
       "subdir": ""
     },
@@ -13510,6 +13542,10 @@
     },
     {
       "alias": "q_prep_opener_204",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_205",
       "subdir": ""
     },
     {
@@ -20646,6 +20682,10 @@
     },
     {
       "alias": "q_tradeoff_call",
+      "subdir": ""
+    },
+    {
+      "alias": "q_tradeoff_call_2",
       "subdir": ""
     },
     {

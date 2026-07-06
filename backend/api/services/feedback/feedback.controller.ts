@@ -30,3 +30,8 @@ export async function submit(c: RequestContext): Promise<void> {
 export async function list(c: RequestContext): Promise<void> {
   c.json(200, await service.listRecent());
 }
+
+/** DELETE /api/v1/admin/feedback/:id — permanently remove one note. Superadmin-gated at the route. */
+export async function remove(c: RequestContext): Promise<void> {
+  c.json(200, await service.remove(c.params.id ?? ""));
+}

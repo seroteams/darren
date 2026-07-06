@@ -153,10 +153,12 @@
 }
 .intake-progress__fill {
   height: 100%;
+  width: 100%;
   background: var(--color-accent);
   border-radius: 999px;
-  transition: width var(--dur-medium) var(--ease-out-expo);
-  width: 20%;
+  transform-origin: left;
+  transform: scaleX(0.2);
+  transition: transform var(--dur-medium) var(--ease-out-expo);
 }
 .intake-header__row {
   display: flex;

@@ -5,16 +5,19 @@ import type { FeedbackRepo, FeedbackRecord, FeedbackNoteRow } from "./feedback.r
 
 // An in-memory repo proves the service logic is storage-agnostic — no real database
 // in the test (the Phase 004 injected-boundary seam; mirrors error-log.service.test.ts).
-function fakeRepo(rows: FeedbackNoteRow[] = []): { repo: FeedbackRepo; records: FeedbackRecord[]; limits: number[] } {
+function fakeRepo(rows: FeedbackNoteRow[] = []): { repo: FeedbackRepo; records: FeedbackRecord[]; limits: number[]; deleted: string[] } {
   const records: FeedbackRecord[] = [];
   const limits: number[] = [];
+  const deleted: string[] = [];
   return {
     repo: {
       append: async (r) => { records.push(r); },
       listRecent: async (limit) => { limits.push(limit); return rows; },
+      remove: async (id) => { deleted.push(id); return rows.some((r) => r.id === id); },
     },
     records,
     limits,
+    deleted,
   };
 }
 
@@ -93,4 +96,26 @@ test("listRecent asks the repo for a bounded number of rows and passes an empty 
   assert.deepEqual(out, { notes: [] });
   assert.equal(limits.length, 1);
   assert.ok((limits[0] ?? 0) > 0);
+});
+
+test("remove deletes an existing note and returns its id", async () => {
+  const row: FeedbackNoteRow = {
+    id: "f1", email: null, userName: null, company: null, page: null,
+    message: "junk", createdAt: new Date(AT),
+  };
+  const { repo, deleted } = fakeRepo([row]);
+  const out = await createFeedbackService(repo).remove("f1");
+  assert.deepEqual(out, { id: "f1" });
+  assert.deepEqual(deleted, ["f1"]);
+});
+
+test("remove rejects a missing id without touching the repo", async () => {
+  const { repo, deleted } = fakeRepo();
+  await assert.rejects(() => createFeedbackService(repo).remove("  "), /required/i);
+  assert.equal(deleted.length, 0);
+});
+
+test("remove 404s when no row matches the id", async () => {
+  const { repo } = fakeRepo();
+  await assert.rejects(() => createFeedbackService(repo).remove("nope"), /not found/i);
 });

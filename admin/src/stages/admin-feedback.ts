@@ -2,10 +2,9 @@
 // the Send-feedback form (feedback-inbox). Wired to GET /api/v1/admin/feedback, gated by
 // requireSuperadminRoute: only the allowlisted superadmin (Carl) gets a 200; the nav item
 // is hidden for everyone else, but that hiding is cosmetic — the 403 is the real wall.
-// Read-only list, newest first. Deliberately simpler than the Error log: no filters, no
-// actions — just who said what, when.
+// Read-only list, newest first, with one action: permanently delete a note (junk cleanup).
 
-import { getFeedbackInbox } from "../../../shared/api.js";
+import { getFeedbackInbox, deleteFeedbackNote } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
@@ -37,11 +36,12 @@ function who(note: FeedbackNote): string {
 
 function noteRow(note: FeedbackNote): string {
   return `
-    <tr>
+    <tr data-id="${escapeHtml(note.id)}">
       <td title="${escapeHtml(exactWhen(note.createdAt))}">${escapeHtml(whenText(note.createdAt))}</td>
       <td>${who(note)}</td>
       <td>${note.page ? `<code>${escapeHtml(note.page)}</code>` : `<span class="text-ink-dim">—</span>`}</td>
       <td class="fb-note">${escapeHtml(note.message)}</td>
+      <td><button type="button" class="btn btn--ghost js-del" data-id="${escapeHtml(note.id)}">Delete</button></td>
     </tr>`;
 }
 
@@ -50,7 +50,7 @@ function table(notes: FeedbackNote[]): string {
     <div class="um-table-wrap">
       <table class="um-table">
         <thead>
-          <tr><th>When</th><th>Who</th><th>Screen</th><th>The note</th></tr>
+          <tr><th>When</th><th>Who</th><th>Screen</th><th>The note</th><th></th></tr>
         </thead>
         <tbody>${notes.map(noteRow).join("")}</tbody>
       </table>
@@ -68,9 +68,38 @@ export const mount: Mount = async (root, ctx) => {
       ${inner}
     </div>`;
 
+  let notes: FeedbackNote[] = [];
+
+  const paint = () => {
+    root.innerHTML = shell(
+      notes.length
+        ? table(notes)
+        : `<section class="card-flat"><p class="text-sm text-ink-dim">No feedback yet — when a tester sends a note, it lands here.</p></section>`,
+    );
+    root.querySelectorAll<HTMLButtonElement>(".js-del").forEach((b) =>
+      b.addEventListener("click", () => {
+        const id = b.dataset.id ?? "";
+        if (!id) return;
+        if (!window.confirm("Delete this feedback note? This can't be undone.")) return;
+        b.disabled = true;
+        b.textContent = "Deleting…";
+        void (async () => {
+          try {
+            await deleteFeedbackNote(id);
+            notes = notes.filter((n) => n.id !== id);
+            paint();
+          } catch (err) {
+            window.alert((err as { message?: string })?.message || "Couldn't delete that note.");
+            b.disabled = false;
+            b.textContent = "Delete";
+          }
+        })();
+      }),
+    );
+  };
+
   root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading the feedback inbox…</p></section>`);
 
-  let notes: FeedbackNote[] = [];
   try {
     const res = await getFeedbackInbox();
     notes = Array.isArray(res?.notes) ? (res.notes as FeedbackNote[]) : [];
@@ -85,11 +114,7 @@ export const mount: Mount = async (root, ctx) => {
     return;
   }
 
-  root.innerHTML = shell(
-    notes.length
-      ? table(notes)
-      : `<section class="card-flat"><p class="text-sm text-ink-dim">No feedback yet — when a tester sends a note, it lands here.</p></section>`,
-  );
+  paint();
 };
 
 export const unmount: Unmount = () => {};

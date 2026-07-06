@@ -74,7 +74,7 @@ export async function mount(root, { store, setState }) {
     stepLabel.textContent = `Step ${idx} of ${SUBSTAGES.length}`;
     if (intakeLede) intakeLede.hidden = currentSub !== "NAME";
     progressBar.setAttribute("aria-valuenow", String(idx));
-    progressFill.style.width = `${(idx / SUBSTAGES.length) * 100}%`;
+    progressFill.style.transform = `scaleX(${idx / SUBSTAGES.length})`;
   }
 
   refreshStep();
@@ -118,15 +118,42 @@ export async function mount(root, { store, setState }) {
       });
       cards.appendChild(btn);
     }
-    const fresh = document.createElement("button");
-    fresh.type = "button";
-    fresh.className = "meeting-card";
-    fresh.innerHTML = `<div><span class="meeting-card__label">Someone new</span></div><div class="meeting-card__meta">Type their name — they join your Team automatically.</div>`;
-    fresh.addEventListener("click", async () => {
-      const node = await swapField(host, () => renderFreeName());
-      focusField(node);
+    // Always-visible free-name box, below the cards — type a name to add someone
+    // new without picking a card first. Submitting free text clears personId, so
+    // the server links-or-creates from the name (today's free-text behaviour).
+    const fresh = document.createElement("div");
+    fresh.className = "space-y-2";
+    fresh.innerHTML = `
+      <div class="eyebrow">Or add someone new</div>
+      <input class="input" type="text" autocomplete="off" spellcheck="false"
+             placeholder="${COPY.NAME.placeholder}" aria-label="Add someone new" />
+      <div class="field__error" hidden></div>
+      <div class="field__actions">
+        <button class="btn js-add" type="button">Add &amp; continue</button>
+      </div>
+    `;
+    const freshInput = fresh.querySelector("input");
+    if (!store.ctx.personId) freshInput.value = store.ctx.name || "";
+    function submitFresh() {
+      const val = freshInput.value.trim();
+      const err = fresh.querySelector(".field__error");
+      if (!val) {
+        err.textContent = "Add a name to continue.";
+        err.hidden = false;
+        freshInput.setAttribute("aria-invalid", "true");
+        return;
+      }
+      err.hidden = true;
+      freshInput.removeAttribute("aria-invalid");
+      store.ctx.personId = null;
+      store.ctx.name = val;
+      advance();
+    }
+    freshInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") { e.preventDefault(); submitFresh(); }
     });
-    cards.appendChild(fresh);
+    fresh.querySelector(".js-add").addEventListener("click", submitFresh);
+    wrap.appendChild(fresh);
     return wrap;
   }
 

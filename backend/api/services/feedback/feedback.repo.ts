@@ -34,6 +34,8 @@ export interface FeedbackRepo {
   append(record: FeedbackRecord): Promise<void>;
   /** The most recent `limit` notes across every company, newest first. */
   listRecent(limit: number): Promise<FeedbackNoteRow[]>;
+  /** Permanently delete one note. Returns true if a row matched the id, false if none did. */
+  remove(id: string): Promise<boolean>;
 }
 
 export const pgFeedbackRepo: FeedbackRepo = {
@@ -64,5 +66,10 @@ export const pgFeedbackRepo: FeedbackRepo = {
       .leftJoin(organizations, eq(feedbackNotes.orgId, organizations.id))
       .orderBy(desc(feedbackNotes.createdAt))
       .limit(limit);
+  },
+  async remove(id) {
+    const db = getDb();
+    const gone = await db.delete(feedbackNotes).where(eq(feedbackNotes.id, id)).returning({ id: feedbackNotes.id });
+    return gone.length > 0;
   },
 };
