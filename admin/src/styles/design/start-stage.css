@@ -122,7 +122,7 @@
   justify-content: center;
   overflow-x: auto;
   scrollbar-width: none;
-  font-size: 15px;
+  font-size: var(--type-body-sm);
 }
 .session-topbar__stages::-webkit-scrollbar {
   display: none;

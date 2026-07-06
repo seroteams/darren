@@ -36,12 +36,12 @@ Some elements shift by up to ~1.2px. That is deliberate and is exactly what the 
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | meeting-arcs page | 12 declarations → tokens + fix the :53 floor breaker | ✅ |
-| 2 | Stragglers | start-stage breadcrumb, test-engine list/heading, decide tk-code | ⬜ |
+| 2 | Stragglers | start-stage breadcrumb, test-engine list/heading, decide tk-code | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ done + committed** (Carl tested 2026-07-06). 11 meeting-arcs literals on `--type-*` tokens, :53 floor breaker fixed, :67 label fix folded in; tests 82/82. **Phase 2 (stragglers) is next — not started.** Awaiting Carl's go for Phase 2.
+**Both phases ✅ done + committed. Plan closed → moved to `docs/todo/done/`** (Carl tested 2026-07-07). Phase 1 `16deceba`; Phase 2 = start-stage breadcrumb `15px → --type-body-sm`, test-engine `.joblex-item 0.95rem → --type-body`, with `.joblex-remove` (× glyph) and `.tk-code` (dev mono) deliberately left. Tests 82/82. Follow-on work (reading text → 16px) lives in [../standard-text-16px](../standard-text-16px/PLAN.md).
 
 ## Parked
 - **Pixel-perfect alternative:** instead of rounding to existing tokens, add new scale steps (`--type-body-md` 15px, etc.) so nothing shifts. More tokens, zero visual change. Rejected as default (bloats the scale) — raise if the rounding shifts bother you in QA.

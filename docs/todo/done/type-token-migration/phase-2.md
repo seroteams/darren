@@ -1,6 +1,12 @@
 # Phase 2 — Stragglers
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ done (tested by Carl 2026-07-07)
+
+## Decisions at build
+- `start-stage.css:125` → `--type-body-sm` (14px). Breadcrumb is secondary nav (label tier); the 1px shrink from 15px is imperceptible and sits it with the other 14px labels. (Deviates from the "ties round up" default on purpose — role-appropriate.)
+- `test-engine.css:104` `.joblex-item` → `--type-body` (16px), nearest token.
+- `test-engine.css:144` `.joblex-remove` (1.05rem) → **left**. It renders `×` (aria-label="Remove") — a glyph, exempt.
+- `tasks-board.css:113` `.tk-code` (0.95em mono) → **left**. Inline code on the internal /tasks build board — dev-adjacent, em-relative, computes ~15px (above floor). Consistent with the special-surface exemption.
 
 ## Goal
 The remaining off-system text sizes outside meeting-arcs read tokens.
