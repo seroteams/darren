@@ -1,24 +1,10 @@
 # Phase 5 — member link + "Your 1:1s"
 
-## ✅ GREEN-LIT 2026-07-06 — Carl walked it: "done and working"
+## BUILT — awaiting Carl's walk (2026-07-06, in the all-in-one-thread run he requested)
 
-## Built + proven (2026-07-06)
-
-- **Link:** POST `/api/v1/team/people/:id/link` (same-org user only — bogus/foreign → 400;
-  null unlinks) + GET `/api/v1/team/linkable-users` (manager/admin only). Test-first
-  (3 new service cases incl. merge-chain-aware `linkedPersonIds`).
-- **Member read:** GET `/api/v1/runs/about-me` (login, any role). The service re-cuts every
-  row to `{ id, meetingType, lastSeenAt, completedAt, managerName }` even if the repo
-  over-shares — pinned by a "never leaks extra fields" test. Unlinked caller → `[]`.
-- **UI:** Team → Tidy up gains a **"Linked account"** picker per roster card; member Home
-  is now **"Your 1:1s"** (type · with manager · date, plain rows, no click-through) and the
-  dead "Start a new session" button (403 for members) is gone. Dev prefill lane kept.
-- **Live-proven on a scratch pair ($0):** manager linked "Demo Report" → member@ logged in
-  and saw "Bi-weekly check-in · with Dev Manager · date"; **API body checked: zero
-  notes/briefing/rating/ctx fields**; member 403 on /team/people + /linkable-users; bogus
-  link target → 400; UI unlink emptied the member's list ("Nothing here yet…"); re-link
-  brought it back (verified in DB + API + screenshot). Fixture + rows cleaned after.
-- Checks: `npm test` **79/79** · typecheck clean. Screenshot sent to Carl.
+- **Backend:** `people.repo` gains `findByLinkedUser` + `listOrgUsers` (active accounts, id/name/email, never password_hash); `people.service` gains `link` (target must be an org account → 400 otherwise; someone else's person → fenced 404), `unlink` (idempotent), `linkableUsers` — **6 new unit tests (20 total in the file)**. `run-history.listFinishedRunsAboutPerson(orgId, personIds)` returns MINIMAL rows. New injectable [about-me.service.ts](../../../backend/api/services/runs/about-me.service.ts) maps manager names — **5 unit tests**, incl. an explicit "rows carry NOTHING sensitive" key-shape check (no notes/briefing/rating/creator id). Routes: `GET /team/linkable-users`, `POST /team/people/:id/link|unlink` (origin-guarded, manager/admin), `GET /runs/about-me` (any logged-in role; registered before the `/:id` regexes).
+- **Frontend:** Team → Tidy up gains a **"Linked account"** select per person (link/unlink with a plain-words confirm that states the privacy rule); member Home now shows **"Your 1:1s"** (type + manager + date, shared `formatDate`) and the dead "Start a new session" button (it 403'd) is gone.
+- **Checks:** `npm test` **79/80** (the 1 fail is the pre-existing replay-baseline drift), both typechecks, admin + customer builds ✓. **Not browser-walked** — cloud clone, no live DB; the walk is the QA scenarios below.
 
 ## ⚠️ Privacy rule for this phase
 

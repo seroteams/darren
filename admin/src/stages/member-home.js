@@ -1,52 +1,30 @@
-// Member Home — the landing page for a plain member (member-nav Phase 1; reworked in
-// people-roster Phase 5). Members can't START a 1:1 (the old button was a dead 403) —
-// instead this shows "Your 1:1s": the sessions their MANAGER ran about them, via the
-// person↔account link. List-only by the privacy ruling: meeting type + date + which
-// manager. No notes, no briefing, no detail view.
+// Member Home — the landing page for a plain member. People-roster Phase 5: the page now
+// shows "Your 1:1s" — the 1:1s your manager prepped ABOUT you (list-only: meeting type +
+// date + which manager; never the manager's notes or briefing — the no-inference ruling).
+// The old "Start a new session" button is gone: members can't start runs (the server
+// 403s), so it was a dead end. The admin Home (start.js) is separate and never shown here.
 
 import { STAGES, store, isAdmin } from "../state.js";
-import { getClonableRuns, cloneRun, listRunsAboutMe } from "../../../shared/api.js";
+import { getClonableRuns, cloneRun, getRunsAboutMe } from "../../../shared/api.js";
 import { escapeHtml as esc } from "../ui/html.js";
 import { formatDate } from "../ui/time.ts";
+
+let keyHandler = null;
 
 export async function mount(root, { setState }) {
   root.innerHTML = `
     <div class="stage-inner l-stack l-stack--8">
       <header class="page-header">
         <h1 class="h1">Welcome to Sero</h1>
-        <div class="text-ink-dim text-sm">Your 1:1s, in one place.</div>
+        <div class="text-ink-dim text-sm">Your manager uses Sero to prepare your 1:1s. Here's your history.</div>
       </header>
 
       <section class="card-flat space-y-3">
         <div class="eyebrow">Your 1:1s</div>
-        <div class="js-about l-stack l-stack--2">
-          <p class="text-sm text-ink-dim">Loading…</p>
-        </div>
+        <div class="js-about-me l-stack l-stack--2"><p class="text-sm text-ink-mute">Loading…</p></div>
       </section>
     </div>
   `;
-
-  const host = root.querySelector(".js-about");
-  try {
-    const res = await listRunsAboutMe();
-    const runs = Array.isArray(res?.runs) ? res.runs : [];
-    if (!runs.length) {
-      host.innerHTML = `<p class="text-sm text-ink-dim">Nothing here yet. When your manager preps a 1:1 with you, it shows up here.</p>`;
-    } else {
-      host.innerHTML = runs
-        .map((r) => {
-          const bits = [
-            `<span class="text-sm"><strong>${esc(r.meetingType || "1:1")}</strong></span>`,
-            r.managerName ? `<span class="text-sm text-ink-dim">with ${esc(r.managerName)}</span>` : "",
-            r.lastSeenAt ? `<span class="text-sm text-ink-dim">${esc(formatDate(r.lastSeenAt))}</span>` : "",
-          ].filter(Boolean);
-          return `<div class="card-flat runs-list__row"><span class="l-cluster l-cluster--2">${bits.join(" · ")}</span></div>`;
-        })
-        .join("");
-    }
-  } catch {
-    host.innerHTML = `<p class="text-sm text-ink-dim">Couldn't load your 1:1s. Please try again later.</p>`;
-  }
 
   // A quick way to walk a full run without the intake + Q&A: copies a finished run into a
   // new one you own, so it drops straight into "Runs". Free (file copy, nothing generated).
@@ -59,9 +37,27 @@ export async function mount(root, { setState }) {
     dev.type = "button";
     dev.className = "btn btn--ghost js-prefill";
     dev.textContent = "Prefill a run (dev)";
-    dev.style.marginLeft = "8px";
     section.appendChild(dev);
     dev.addEventListener("click", () => openPrefillPicker(setState));
+  }
+
+  // The list itself: meeting type + who ran it + when. Nothing here ever includes the
+  // manager's notes, the briefing, or ratings — that's the privacy ruling, on purpose.
+  const host = root.querySelector(".js-about-me");
+  try {
+    const res = await getRunsAboutMe();
+    const runs = (res && res.runs) || [];
+    host.innerHTML = runs.length
+      ? runs
+          .map((r) => {
+            const when = r.completedAt || r.lastSeenAt;
+            const who = r.managerName ? ` · with ${esc(r.managerName)}` : "";
+            return `<div class="runs-list__row"><span class="text-sm"><strong>${esc(r.meetingType || "1:1")}</strong>${who}</span><span class="text-sm text-ink-dim">${when ? esc(formatDate(when)) : ""}</span></div>`;
+          })
+          .join("")
+      : `<p class="text-sm text-ink-dim">Nothing here yet. When your manager preps a 1:1 with you, it shows up here — the date and meeting type, so you always know where things stand.</p>`;
+  } catch {
+    host.innerHTML = `<p class="text-sm text-ink-dim">Couldn't load your 1:1s. Please try again in a moment.</p>`;
   }
 }
 
@@ -122,5 +118,9 @@ function openPrefillPicker(setState) {
 }
 
 export function unmount() {
+  if (keyHandler) {
+    window.removeEventListener("keydown", keyHandler);
+    keyHandler = null;
+  }
   document.querySelector(".modal-backdrop")?.remove();
 }

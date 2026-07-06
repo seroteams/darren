@@ -3,8 +3,8 @@
 // in team.service.ts), archive as a stamp. Every op is fenced to the caller's orgId +
 // managerId; a miss answers "not found", never "forbidden" (don't confirm the row exists).
 
-import { pgPeopleRepo, pgListOrgUsers } from "./people.repo.ts";
-import type { PeopleRepo, PersonRow, ListOrgUsers, OrgUser } from "./people.repo.ts";
+import { pgPeopleRepo } from "./people.repo.ts";
+import type { PeopleRepo, PersonRow } from "./people.repo.ts";
 import { badRequest, notFound } from "../../middleware/http-error.ts";
 
 const NAME_CAP = 80; // same cap as team.service.ts rename
@@ -39,10 +39,7 @@ function resolveCanonical(rows: PersonRow[], id: string): string {
 }
 
 export interface PeopleService {
-  /** Active roster (merged/archived excluded, name-sorted) plus a resolved id-merges
-   *  map (mergedRowId → canonical head id) so clients can fold runs that were stamped
-   *  with a since-merged personId onto the right card. */
-  list(orgId: string, managerId: string): Promise<{ people: PersonRow[]; merges: Record<string, string> }>;
+  list(orgId: string, managerId: string): Promise<{ people: PersonRow[] }>;
   create(
     orgId: string,
     managerId: string,
@@ -56,6 +53,13 @@ export interface PeopleService {
   ): Promise<{ person: PersonRow }>;
   merge(id: string, orgId: string, managerId: string, intoId: string): Promise<{ ok: true }>;
   archive(id: string, orgId: string, managerId: string): Promise<{ ok: true }>;
+  /** Link a roster person to a member account (people-roster Phase 5). The target must
+   *  be a login account in the SAME org — anything else is a 400, never a silent
+   *  cross-org link. Unlink clears it (idempotent). */
+  link(id: string, orgId: string, managerId: string, targetUserId: string): Promise<{ ok: true }>;
+  unlink(id: string, orgId: string, managerId: string): Promise<{ ok: true }>;
+  /** The org's login accounts a person can be linked to (id/name/email only). */
+  linkableUsers(orgId: string): Promise<{ users: { id: string; name: string; email: string }[] }>;
   /** The run→person link (people-roster Phase 2). Explicit personId: must be the
    *  caller's own row (400 otherwise — never a silent cross-link), resolved through
    *  the merge chain. No personId: best-effort auto-match-or-create from the name —
@@ -66,22 +70,9 @@ export interface PeopleService {
     managerId: string | null | undefined,
     input: { personId?: string; name?: unknown; role?: unknown; seniority?: unknown },
   ): Promise<string | null>;
-  /** Link the caller's person to a member account (Phase 5) — the wire that powers
-   *  "1:1s about me". Target must be a user in the SAME org (400 otherwise); null
-   *  unlinks. Fenced like every other op (foreign person → 404). */
-  link(id: string, orgId: string, managerId: string, userId: string | null): Promise<{ person: PersonRow }>;
-  /** The link-picker's options: active users in the caller's org. */
-  linkableUsers(orgId: string): Promise<{ users: OrgUser[] }>;
-  /** Every person id whose canonical head is linked to this user — merge chains
-   *  included, so runs stamped with a since-merged id still count as "about me". */
-  linkedPersonIds(orgId: string, userId: string): Promise<string[]>;
 }
 
-export function createPeopleService(
-  repo: PeopleRepo = pgPeopleRepo,
-  deps: { listOrgUsers?: ListOrgUsers } = {},
-): PeopleService {
-  const listOrgUsers = deps.listOrgUsers ?? pgListOrgUsers;
+export function createPeopleService(repo: PeopleRepo = pgPeopleRepo): PeopleService {
   /** The caller's own row or a 404 — the fencing everything else builds on. */
   async function owned(id: string, orgId: string, managerId: string): Promise<PersonRow> {
     const row = await repo.findForManager(id, orgId, managerId);
@@ -95,11 +86,7 @@ export function createPeopleService(
       const active = rows
         .filter(isActive)
         .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
-      const merges: Record<string, string> = {};
-      for (const r of rows) {
-        if (r.mergedIntoId) merges[r.id] = resolveCanonical(rows, r.id);
-      }
-      return { people: active, merges };
+      return { people: active };
     },
 
     async create(orgId, managerId, input) {
@@ -152,30 +139,25 @@ export function createPeopleService(
       return { ok: true };
     },
 
-    async link(id, orgId, managerId, userId) {
+    async link(id, orgId, managerId, targetUserId) {
       const row = await owned(id, orgId, managerId);
-      if (userId === null || userId === "") {
-        await repo.update(row.id, { userId: null });
-        return { person: { ...row, userId: null } };
+      if (!targetUserId) throw badRequest("userId is required");
+      const orgUsers = await repo.listOrgUsers(orgId);
+      if (!orgUsers.some((u) => u.id === targetUserId)) {
+        throw badRequest("That account is not in your company"); // unknown user answers the same
       }
-      const target = (await listOrgUsers(orgId)).find((u) => u.id === userId);
-      if (!target) throw badRequest("Unknown user for this company");
-      await repo.update(row.id, { userId: target.id });
-      return { person: { ...row, userId: target.id } };
+      await repo.update(row.id, { userId: targetUserId });
+      return { ok: true };
+    },
+
+    async unlink(id, orgId, managerId) {
+      const row = await owned(id, orgId, managerId);
+      await repo.update(row.id, { userId: null });
+      return { ok: true };
     },
 
     async linkableUsers(orgId) {
-      return { users: await listOrgUsers(orgId) };
-    },
-
-    async linkedPersonIds(orgId, userId) {
-      if (!userId) return [];
-      const rows = await repo.listForOrg(orgId);
-      const linked = new Set(rows.filter((r) => r.userId === userId).map((r) => r.id));
-      if (!linked.size) return [];
-      // A run stamped with a since-merged id must still count — include every row
-      // whose merge chain resolves to a linked head.
-      return rows.filter((r) => linked.has(resolveCanonical(rows, r.id))).map((r) => r.id);
+      return { users: await repo.listOrgUsers(orgId) };
     },
 
     async resolveForRun(orgId, managerId, input) {

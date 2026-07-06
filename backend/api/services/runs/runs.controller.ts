@@ -5,10 +5,9 @@
 import type { RequestContext } from "../../router.ts";
 import { createRunsService } from "./runs.service.ts";
 import { fileRunsRepo } from "./runs.repo.ts";
+import { aboutMeService } from "./about-me.service.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireAdmin, requireAuth } from "../../middleware/require-auth.ts";
-import { forbidden } from "../../middleware/http-error.ts";
-import { peopleService } from "../team/people.service.ts";
 
 const service = createRunsService(fileRunsRepo);
 
@@ -23,20 +22,15 @@ async function callerOrgId(c: RequestContext): Promise<string | null> {
   return identity.orgId;
 }
 
-// "Prefill a run" is a DEV-ONLY QA helper: clone a finished run to walk it without paying
-// for a fresh one. Its source lookup is deliberately UNFENCED (it reads finished runs across
-// every company on disk), so it must never be reachable in production — there, real tenants
-// exist and an unfenced clone let any admin/manager read another company's runs + briefings
-// (F-002). So the gate is env, not role: refuse in production outright; in dev, any logged-in
-// user may use it (incl. the plain-member QA account experiencing the manager side).
-export function prefillAllowed(nodeEnv: string | undefined): boolean {
-  return nodeEnv !== "production";
-}
-
+// The caller's full identity for the "prefill a run" tool. Returns userId too, because
+// clone stamps the caller as the run's owner so it lands in their own /mine list. Access:
+// admins always; in dev, ANY logged-in user — so the test manager account we use for QA
+// (member@seroteams.com, a plain member) can prefill while experiencing the manager side.
+// In production it stays admin-only, so real members never clone.
 async function callerPrefill(c: RequestContext): Promise<{ userId: string | null; orgId: string | null }> {
-  if (!prefillAllowed(process.env.NODE_ENV)) throw forbidden("Prefill is a dev-only tool");
   const identity = await buildIdentity(c.req);
-  requireAuth(identity);
+  if (process.env.NODE_ENV === "production") requireAdmin(identity);
+  else requireAuth(identity);
   return { userId: identity.userId, orgId: identity.orgId };
 }
 
@@ -106,25 +100,6 @@ export async function mine(c: RequestContext): Promise<void> {
   c.json(200, service.myFinished(orgId, userId, c.query.open));
 }
 
-// The 1:1s ABOUT the caller (people-roster Phase 5) — login required, ANY role (this is
-// the member's payoff read). The roster resolves which person rows are linked to the
-// caller (merge chains included); the run rows are list-only by construction (see the
-// service). An unlinked caller simply gets an empty list.
-export async function aboutMe(c: RequestContext): Promise<void> {
-  const { userId, orgId } = await callerIdentity(c);
-  if (!userId || !orgId) {
-    c.json(200, { runs: [] });
-    return;
-  }
-  const personIds = await peopleService.linkedPersonIds(orgId, userId);
-  // Manager display names for the rows — from the same org-users read the link picker uses.
-  const managerNames: Record<string, string> = {};
-  if (personIds.length) {
-    for (const u of (await peopleService.linkableUsers(orgId)).users) managerNames[u.id] = u.name;
-  }
-  c.json(200, service.aboutMe(orgId, personIds, managerNames));
-}
-
 export async function mineDetail(c: RequestContext): Promise<void> {
   const { userId, orgId } = await callerIdentity(c);
   c.json(200, service.myRun(c.params.id, orgId, userId));
@@ -144,4 +119,12 @@ export async function setOutcomeMine(c: RequestContext): Promise<void> {
   const { userId, orgId } = await callerIdentity(c);
   const body = await c.readBody();
   c.json(200, service.setOutcomeMine(c.params.id, body, orgId, userId));
+}
+
+// "1:1s about me" (people-roster Phase 5): login required, ANY role — a member linked to
+// a roster person sees the list-only history of 1:1s about them. All fencing + privacy
+// minimalism lives in aboutMeService (org-fenced walk, no notes/briefing/ratings).
+export async function aboutMe(c: RequestContext): Promise<void> {
+  const { userId, orgId } = await callerIdentity(c);
+  c.json(200, await aboutMeService.aboutMe(orgId, userId));
 }

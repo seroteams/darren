@@ -69,12 +69,17 @@ export async function archivePerson(c: RequestContext): Promise<void> {
   c.json(200, await peopleService.archive(c.params.id ?? "", orgId, managerId));
 }
 
-// Person ↔ member-account link (Phase 5). body.userId null/"" unlinks.
+// ── Person ↔ member-account link (people-roster Phase 5) ──────────────────────
+
 export async function linkPerson(c: RequestContext): Promise<void> {
   const { orgId, managerId } = await rosterCaller(c);
   const body = (await c.readBody()) as { userId?: unknown } | null;
-  const userId = typeof body?.userId === "string" && body.userId ? body.userId : null;
-  c.json(200, await peopleService.link(c.params.id ?? "", orgId, managerId, userId));
+  c.json(200, await peopleService.link(c.params.id ?? "", orgId, managerId, String(body?.userId ?? "")));
+}
+
+export async function unlinkPerson(c: RequestContext): Promise<void> {
+  const { orgId, managerId } = await rosterCaller(c);
+  c.json(200, await peopleService.unlink(c.params.id ?? "", orgId, managerId));
 }
 
 export async function linkableUsers(c: RequestContext): Promise<void> {

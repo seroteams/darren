@@ -54,6 +54,15 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > than the list (`member-run-visibility`) · invitations/email claim · alias-endpoint retirement ·
 > person-profile re-key · reseed the QA member as a *linked person* rather than creator.
 
+> **✅ [member-invites](docs/todo/done/member-invites/PLAN.md) — BUILT + CLOSED 2026-07-06 (Carl: "finish it"), merged from origin (PR #8).**
+> The last mile of onboarding: **how do members get on the system?** Answer, now live: Team → Tidy up →
+> **"Invite…"** on any unlinked person → their email → a **one-time join link** you send yourself (no email
+> infra yet). Opening it shows *"«you» at «your company» invited you"*; they set a password and land
+> logged-in on **"Your 1:1s"**, roster row auto-linked. Token: single-use, 7-day expiry, **sha256-hashed at
+> rest**, never logged. 7 unit tests · **Playwright 8/8 live**. ✅ **Migration `0008` (`invitations.token_hash`
+> + `person_id`) applied to Neon 2026-07-06** (verified both columns live). Parked: real email sending,
+> revoke UI, pending-invites list.
+
 > **✅ team-for-managers — CLOSED 2026-07-05 ("go"): Team now shows started preps, proven + committed.**
 > Your ask: managers need to see their team members on Team. Finding: it already worked, but only from
 > **finished** 1:1s, so a manager with only an abandoned prep saw an empty page. Now Team also shows

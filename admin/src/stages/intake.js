@@ -1,8 +1,9 @@
-import { STAGES, resetSession, isAdmin } from "../state.js";
+import { STAGES, resetSession } from "../state.js";
 import { getMeetingTypes, startSession, listPeople } from "../../../shared/api.js";
 import { swapField, focusField } from "../ui/field.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";
+import { escapeHtml } from "../ui/html.js";
 
 const SUBSTAGES = ["NAME", "ROLE", "SENIORITY", "MEETING_TYPE", "NOTES"];
 
@@ -65,7 +66,7 @@ export async function mount(root, { store, setState }) {
   });
 
   let types = null;
-  let roster = []; // the manager's people (people-roster Phase 4); empty for guests/members
+  let roster = null; // the caller's people (people-roster Phase 4b); null/[] → free-text only
   let currentSub = store.substage || "NAME";
 
   function refreshStep() {
@@ -85,52 +86,57 @@ export async function mount(root, { store, setState }) {
     return renderInput(name);
   }
 
-  // NAME step (people-roster Phase 4): a manager with a roster picks the person — one
-  // tap fills name/role/seniority and links the run to that roster row. "Someone new"
-  // (and every guest/roster-less run) falls back to the plain free-text input; the
-  // server auto-adds a free-typed person to the roster on start, so nothing is lost.
+  // NAME substage (people-roster Phase 4b): a manager picks from their roster — one card per
+  // person, plus "Someone new" for a free-typed name. Picking seeds name/role/seniority and
+  // carries the personId into the start payload (an exact link, no name matching). Free text
+  // keeps today's behaviour (personId null → the server auto-matches-or-creates, Phase 2).
+  // Guests and members have no roster (the endpoint 401/403s) → plain free-text, unchanged.
   function renderName() {
-    if (!roster.length) return renderInput("NAME");
+    if (!roster || roster.length === 0) return renderFreeName();
+
     const wrap = document.createElement("div");
     wrap.className = "space-y-5";
     wrap.innerHTML = `
       <h1 class="h1 mb-2">${COPY.NAME.question}</h1>
-      <div class="hint mb-3">Pick from your team, or add someone new.</div>
-      <div class="grid gap-3 js-people"></div>
-      <div class="field__actions">
-        <button class="btn btn--ghost js-someone-new" type="button">Someone new</button>
-      </div>
+      <div class="hint mb-3">Pick someone from your team, or add someone new.</div>
+      <div class="grid gap-3 js-cards"></div>
     `;
-    const cards = wrap.querySelector(".js-people");
-    roster.forEach((p, i) => {
+    const cards = wrap.querySelector(".js-cards");
+    for (const p of roster) {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "meeting-card";
-      if (p.id === store.ctx.personId) btn.classList.add("is-selected"); // seeded from a person page
-      if (i === 0) btn.setAttribute("data-autofocus", "");
-      const meta = [p.role, p.seniority].filter(Boolean).join(" · ");
-      btn.innerHTML = `
-        <div><span class="meeting-card__label"></span></div>
-        ${meta ? `<div class="meeting-card__meta"></div>` : ""}
-      `;
-      btn.querySelector(".meeting-card__label").textContent = p.name;
-      const metaEl = btn.querySelector(".meeting-card__meta");
-      if (metaEl) metaEl.textContent = meta;
+      if (store.ctx.personId === p.id) btn.classList.add("is-selected");
+      const role = p.role ? `<div class="meeting-card__meta">${escapeHtml(p.role)}</div>` : "";
+      btn.innerHTML = `<div><span class="meeting-card__label">${escapeHtml(p.name)}</span></div>${role}`;
       btn.addEventListener("click", () => {
         store.ctx.personId = p.id;
         store.ctx.name = p.name;
-        store.ctx.role = p.role || "";
-        store.ctx.seniority = p.seniority || "";
+        store.ctx.role = p.role || store.ctx.role || "";
+        store.ctx.seniority = p.seniority || store.ctx.seniority || "";
         advance();
       });
       cards.appendChild(btn);
-    });
-    wrap.querySelector(".js-someone-new").addEventListener("click", async () => {
-      store.ctx.personId = null;
-      const node = await swapField(host, () => renderInput("NAME"));
+    }
+    const fresh = document.createElement("button");
+    fresh.type = "button";
+    fresh.className = "meeting-card";
+    fresh.innerHTML = `<div><span class="meeting-card__label">Someone new</span></div><div class="meeting-card__meta">Type their name — they join your Team automatically.</div>`;
+    fresh.addEventListener("click", async () => {
+      const node = await swapField(host, () => renderFreeName());
       focusField(node);
     });
+    cards.appendChild(fresh);
     return wrap;
+  }
+
+  // The free-text name input — today's NAME field. Submitting free text always clears
+  // personId: the typed name is the truth, and the server links-or-creates from it.
+  function renderFreeName() {
+    const node = renderInput("NAME");
+    const input = node.querySelector("input");
+    input.addEventListener("input", () => { store.ctx.personId = null; });
+    return node;
   }
 
   const ISSUE_PILLS = [
@@ -191,9 +197,6 @@ export async function mount(root, { store, setState }) {
       err.hidden = true;
       input.removeAttribute("aria-invalid");
       store.ctx[cfg.key] = val;
-      // A free-typed name is NOT a roster pick — drop any stale link; the server
-      // auto-matches-or-creates the roster row from the name at start.
-      if (cfg.key === "name") store.ctx.personId = null;
       advance();
     }
     return wrap;
@@ -357,13 +360,13 @@ export async function mount(root, { store, setState }) {
   async function submit() {
     try {
       const payload = {
+        personId: store.ctx.personId || undefined, // exact roster link when picked (Phase 4b)
         name: store.ctx.name,
         role: store.ctx.role,
         seniority: store.ctx.seniority,
         meetingTypeIndex: store.ctx.meetingTypeIndex,
         notes: store.ctx.notes || "",
       };
-      if (store.ctx.personId) payload.personId = store.ctx.personId; // roster link (Phase 4)
       const res = await startSession(payload);
       try { localStorage.setItem("seroSessionId", res.sessionId); } catch {}
       setState({
@@ -377,23 +380,14 @@ export async function mount(root, { store, setState }) {
     }
   }
 
-  try {
-    const res = await getMeetingTypes();
-    types = res.types;
-  } catch {
-    types = [];
-  }
-
-  // Load the roster for the picker — managers/admins only (guests and members have
-  // none; don't even ask). A fetch failure just means the plain name input.
-  if (currentSub === "NAME" && isAdmin(store.user)) {
-    try {
-      const res = await listPeople();
-      roster = Array.isArray(res?.people) ? res.people : [];
-    } catch {
-      roster = [];
-    }
-  }
+  // Meeting types and the roster load together; a roster failure (guest 401, member 403,
+  // network) just means free-text — the intake never blocks on it.
+  const [typesRes, rosterRes] = await Promise.allSettled([getMeetingTypes(), listPeople()]);
+  types = typesRes.status === "fulfilled" ? typesRes.value.types : [];
+  roster =
+    rosterRes.status === "fulfilled" && Array.isArray(rosterRes.value?.people)
+      ? rosterRes.value.people
+      : null;
 
   const node = await swapField(host, () => renderField(currentSub));
   focusField(node);

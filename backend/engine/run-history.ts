@@ -281,6 +281,7 @@ function listFinishedRunsForMember(orgId: string | null | undefined, userId: str
     const ctx = asRecord(state.ctx);
     return {
       id,
+      personId: asString(state.personId) || null, // people-roster Phase 4: join runs to the roster
       headline: buildHeadline(ctx),
       ctx: {
         name: asString(ctx.name),
@@ -290,33 +291,29 @@ function listFinishedRunsForMember(orgId: string | null | undefined, userId: str
       },
       lastSeenAt: asNumber(state.lastSeenAt),
       finished: Boolean(state.briefing),
-      // people-roster Phase 4: the roster person this run is about (null = unlinked
-      // legacy/orphan) — the Team groups on this when present, name-key otherwise.
-      personId: asString(state.personId) || null,
       rating: ratingOf(dir),
     };
   });
 }
 
-// The 1:1s ABOUT a set of roster people (people-roster Phase 5) — what a linked member
-// sees. Org-fenced walk, finished runs only, filtered by state.personId. The row is
-// DELIBERATELY minimal (privacy: the no-inference ruling treats manager notes as
-// sensitive): meeting type + dates + which manager (id — the service resolves a name).
-// NO ctx.notes, NO briefing, NO rating, and not even the free-text ctx snapshot.
+// "1:1s about me" (people-roster Phase 5): the finished runs whose personId is one of the
+// given roster people, org-fenced. Deliberately MINIMAL rows — meeting type + when + who ran
+// it — because manager notes/briefings/ratings are sensitive (no-inference ruling): the member
+// sees that a 1:1 happened, never its content. userId is the run's creator (the manager);
+// the service maps it to a display name.
 function listFinishedRunsAboutPerson(orgId: string | null | undefined, personIds: string[]) {
   if (!orgId || personIds.length === 0) return [];
   const wanted = new Set(personIds);
-  const runs = walkRuns(orgId).filter(
-    ({ state }) => state && state.briefing && wanted.has(asString(state.personId)),
-  );
-  runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
-  return runs.map(({ id, state }) => ({
-    id,
-    meetingType: asString(asRecord(state.ctx).meetingType),
-    lastSeenAt: asNumber(state.lastSeenAt),
-    completedAt: asNumber(state.completedAt) || null,
-    managerId: asString(state.userId) || null,
-  }));
+  return walkRuns(orgId)
+    .filter(({ state }) => state && state.briefing && wanted.has(asString(state.personId)))
+    .sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt))
+    .map(({ id, state }) => ({
+      id,
+      meetingType: asString(asRecord(state.ctx).meetingType),
+      lastSeenAt: asNumber(state.lastSeenAt),
+      completedAt: asNumber(state.completedAt) || null,
+      userId: asString(state.userId) || null,
+    }));
 }
 
 // Every finished run across ALL companies, attributed to its owner (pre-go-live PG7).

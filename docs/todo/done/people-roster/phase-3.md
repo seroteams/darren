@@ -1,21 +1,13 @@
 # Phase 3 — backfill existing runs + fold in aliases
 
-## BUILT + RUN — awaiting Carl's walk (2026-07-06)
+## ✅ GREEN-LIT 2026-07-06 — Carl walked the backfill on live Neon (dry-run → real → idempotent re-run; distinct people, merged names on canonical persons). Commit `59a7558` (PR #8).
 
-- `scripts/backfill-people.ts` written (dev-guarded, DATABASE_URL required, `--dry-run`, idempotent)
-  **and executed against the real store**:
-  - Dry run eyeballed first (27 people / 34 runs planned; 60 anonymous runs left alone).
-  - Real run: **20 people rows created** across 3 real accounts; **27 runs stamped** on disk;
-    **16 DB mirror rows updated**; **7 runs left honestly unlinked** — their owner accounts no
-    longer exist in `users` (deleted test users), the FK rightly refuses, script warns + skips.
-  - Verified AT the store: people table queried per manager (member@ carries the demo roster:
-    Grace, Daniel, Marcus, Nina, Sofia, Samira, Priya Shah, Marco Diaz, Ade Balogun — QA
-    scenario 2 ✓); a stamped `session-state.json` read back off disk ✓; re-run reports
-    27 already-linked / 0 new (idempotency ✓).
-  - ⚠️ Honest gap: **no alias files existed** (`content/data/people-aliases/` is empty on this
-    machine), so the alias-merge scenario had no real data to prove live. The chain-follow
-    resolve is the same logic the people-service merge tests pin.
-- Checks: `npm test` **78/78** · typecheck clean.
+## Built (2026-07-06)
+
+- **New `scripts/backfill-people.ts`** (dev-guarded: refuses in production, requires `DATABASE_URL`; `--dry-run` writes nothing; idempotent). Walks `walkRuns()`; for each run with orgId+userId+ctx.name it resolves the name through the manager's alias sidecar, find-or-creates the roster row (reusing `peopleService.resolveForRun`, which dedupes by normalized name), stamps `personId` into `session-state.json` atomically (temp+rename), and mirrors the updated state into Postgres via `upsertSession`. Runs already carrying a `personId` are skipped → re-running reports 0 new stamps.
+- **Alias resolution is a pure module** — `backend/api/services/team/alias-resolve.ts` (`normalizeKey`, `canonicalKeyOf`, `aliasedPersonName`): merge chains collapse to the canonical key, a rename override wins, an un-merged name keeps its casing. Every run for one person yields the same filed name — the dedupe invariant. **Unit-tested test-first (8 cases), no DB.** `normalizeKey`/chain-walk deliberately duplicate team.service's private copies rather than refactor a working shared file.
+- **Offline proof (all free, $0):** `npm test` **78/79** (the single fail is the pre-existing `test-replay-regression` baseline drift — confidence/evidence_basis fields only, unrelated to this work), root + admin typecheck clean, and the script's dev/DATABASE_URL guards both fire.
+- ⚠️ **Not live-verified — this cloud clone has no `DATABASE_URL`.** The dry-run preview + real run against the roster (QA scenarios 1–4) are Carl's walk on his Neon-connected machine. The script prints per-run `"name" → CREATE/reuse person "..."` lines so the dry run is eyeball-able before any write.
 
 ## Work
 

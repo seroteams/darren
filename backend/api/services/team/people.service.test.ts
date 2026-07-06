@@ -12,7 +12,6 @@ function fakeRepo(seed: PersonRow[] = []): { repo: PeopleRepo; rows: PersonRow[]
     repo: {
       listForManager: async (orgId, managerId) =>
         rows.filter((r) => r.orgId === orgId && r.managerId === managerId),
-      listForOrg: async (orgId) => rows.filter((r) => r.orgId === orgId),
       findForManager: async (id, orgId, managerId) =>
         rows.find((r) => r.id === id && r.orgId === orgId && r.managerId === managerId) ?? null,
       insert: async (fields) => {
@@ -32,6 +31,15 @@ function fakeRepo(seed: PersonRow[] = []): { repo: PeopleRepo; rows: PersonRow[]
         const row = rows.find((r) => r.id === id);
         if (row) Object.assign(row, patch);
       },
+      findByLinkedUser: async (userId, orgId) =>
+        rows.filter((r) => r.userId === userId && r.orgId === orgId),
+      listOrgUsers: async (orgId) =>
+        orgId === "o1"
+          ? [
+              { id: "u-member", name: "Dev Member", email: "member@seroteams.com" },
+              { id: "m1", name: "Manager", email: "manager@seroteams.com" },
+            ]
+          : [],
     },
     rows,
   };
@@ -64,18 +72,6 @@ test("list returns only the caller's active people (merged + archived excluded)"
   ]);
   const out = await createPeopleService(repo).list(CALLER.orgId, CALLER.managerId);
   assert.deepEqual(out.people.map((p) => p.id), ["a"]);
-});
-
-test("list also returns a resolved id-merges map so clients can fold runs stamped with a merged-away personId", async () => {
-  const { repo } = fakeRepo([
-    person({ id: "a", name: "Priya", mergedIntoId: "b" }),
-    person({ id: "b", name: "Priya Shah", mergedIntoId: "c" }), // chain a→b→c
-    person({ id: "c", name: "P. Shah" }),
-    person({ id: "d", name: "Solo" }),
-  ]);
-  const out = await createPeopleService(repo).list(CALLER.orgId, CALLER.managerId);
-  assert.deepEqual(out.merges, { a: "c", b: "c" }); // both resolve to the canonical head
-  assert.deepEqual(out.people.map((p) => p.id).sort(), ["c", "d"]);
 });
 
 test("list sorts people by name", async () => {
@@ -186,41 +182,6 @@ test("merge rejects self, cycles, and unknown/foreign rows", async () => {
   await assert.rejects(() => service.merge("x", CALLER.orgId, CALLER.managerId, "a"), /not found/i);
 });
 
-// ── Phase 5: person ↔ member-account link ──────────────────────────────────────
-
-test("link sets userId on the caller's own person when the target user is in the SAME org; null unlinks", async () => {
-  const { repo, rows } = fakeRepo([person({ id: "a" })]);
-  const orgUsers = [{ id: "u9", orgId: "o1", name: "Demo Member", email: "m@x.test" }];
-  const service = createPeopleService(repo, { listOrgUsers: async (orgId) => orgUsers.filter((u) => u.orgId === orgId) });
-  const out = await service.link("a", CALLER.orgId, CALLER.managerId, "u9");
-  assert.equal(out.person.userId, "u9");
-  assert.equal(rows[0]?.userId, "u9");
-  const cleared = await service.link("a", CALLER.orgId, CALLER.managerId, null);
-  assert.equal(cleared.person.userId, null);
-  assert.equal(rows[0]?.userId, null);
-});
-
-test("link rejects a user outside the caller's org (400) and a foreign person (404)", async () => {
-  const { repo, rows } = fakeRepo([person({ id: "a" }), person({ id: "x", managerId: "OTHER" })]);
-  const service = createPeopleService(repo, { listOrgUsers: async () => [] }); // target never found
-  await assert.rejects(() => service.link("a", CALLER.orgId, CALLER.managerId, "stranger"), /user/i);
-  assert.equal(rows[0]?.userId, null); // nothing written
-  await assert.rejects(() => service.link("x", CALLER.orgId, CALLER.managerId, "u9"), /not found/i);
-});
-
-test("linkedPersonIds returns every row whose canonical head is linked to the user (merge chains included)", async () => {
-  const { repo } = fakeRepo([
-    person({ id: "a", name: "Priya", mergedIntoId: "b" }), // old id, runs may still carry it
-    person({ id: "b", name: "Priya Shah", userId: "u9" }), // the linked head
-    person({ id: "c", name: "Marco" }), // unlinked
-    person({ id: "d", name: "Other-org twin", orgId: "OTHER", userId: "u9" }),
-  ]);
-  const service = createPeopleService(repo);
-  const ids = await service.linkedPersonIds("o1", "u9");
-  assert.deepEqual(ids.sort(), ["a", "b"]);
-  assert.deepEqual(await service.linkedPersonIds("o1", "nobody"), []);
-});
-
 test("resolveForRun: explicit personId must be the caller's own — returns its canonical id, 400 otherwise", async () => {
   const { repo } = fakeRepo([
     person({ id: "a", name: "Priya", mergedIntoId: "b" }), // stale picker id, merged away
@@ -257,13 +218,57 @@ test("resolveForRun: best-effort — anonymous caller or blank/invalid name retu
 test("resolveForRun: a repo failure on the auto path is swallowed (a run start must not die on the roster)", async () => {
   const broken: PeopleRepo = {
     listForManager: async () => { throw new Error("db down"); },
-    listForOrg: async () => { throw new Error("db down"); },
     findForManager: async () => { throw new Error("db down"); },
     insert: async () => { throw new Error("db down"); },
     update: async () => { throw new Error("db down"); },
+    findByLinkedUser: async () => { throw new Error("db down"); },
+    listOrgUsers: async () => { throw new Error("db down"); },
   };
   const service = createPeopleService(broken);
   assert.equal(await service.resolveForRun("o1", "m1", { name: "Priya" }), null);
+});
+
+// ── link / unlink (people-roster Phase 5): a roster person ↔ a member account ─────
+
+test("link stamps the target userId on the caller's own person", async () => {
+  const { repo, rows } = fakeRepo([person({ id: "a" })]);
+  const out = await createPeopleService(repo).link("a", CALLER.orgId, CALLER.managerId, "u-member");
+  assert.equal(out.ok, true);
+  assert.equal(rows[0]?.userId, "u-member");
+});
+
+test("link refuses a user outside the caller's org (or unknown) — 400, no silent cross-link", async () => {
+  const { repo, rows } = fakeRepo([person({ id: "a" })]);
+  await assert.rejects(
+    () => createPeopleService(repo).link("a", CALLER.orgId, CALLER.managerId, "u-stranger"),
+    /not.*in your (company|org)|unknown user/i,
+  );
+  assert.equal(rows[0]?.userId, null);
+});
+
+test("link on someone else's person answers not-found (never forbidden)", async () => {
+  const { repo } = fakeRepo([person({ id: "a", managerId: "OTHER" })]);
+  await assert.rejects(
+    () => createPeopleService(repo).link("a", CALLER.orgId, CALLER.managerId, "u-member"),
+    /not found/i,
+  );
+});
+
+test("unlink clears the account link; a person with no link unlinks as a no-op", async () => {
+  const { repo, rows } = fakeRepo([person({ id: "a", userId: "u-member" })]);
+  const service = createPeopleService(repo);
+  const out = await service.unlink("a", CALLER.orgId, CALLER.managerId);
+  assert.equal(out.ok, true);
+  assert.equal(rows[0]?.userId, null);
+  await service.unlink("a", CALLER.orgId, CALLER.managerId); // idempotent
+  assert.equal(rows[0]?.userId, null);
+});
+
+test("linkableUsers returns the org's accounts (id/name/email only)", async () => {
+  const { repo } = fakeRepo();
+  const out = await createPeopleService(repo).linkableUsers(CALLER.orgId);
+  assert.deepEqual(out.users.map((u) => u.id), ["u-member", "m1"]);
+  assert.ok(out.users.every((u) => !("passwordHash" in u)));
 });
 
 test("archive stamps archivedAt on the caller's own person; misses 404", async () => {

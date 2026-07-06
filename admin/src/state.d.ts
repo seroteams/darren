@@ -5,7 +5,7 @@
 
 export type StageName =
   | "WELCOME"
-  | "LOGIN" | "REGISTER" | "PRIVACY" | "ABOUT" | "FEEDBACK" | "START"
+  | "LOGIN" | "REGISTER" | "JOIN" | "PRIVACY" | "ABOUT" | "FEEDBACK" | "START"
   | "MEMBER_HOME" | "TEAM" | "RUNS" | "RUN_DETAIL" | "PERSON_DETAIL"
   | "INTAKE" | "ONEPAGE" | "FOCUS_POINTS"
   | "PREPARATION" | "BANK" | "QUESTIONING" | "EVAL" | "BRIEFING"
@@ -16,6 +16,7 @@ export type StageName =
 export const STAGES: Readonly<Record<StageName, StageName>>;
 
 export interface SessionCtx {
+  personId: string | null; // people-roster Phase 4: the roster person this 1:1 is about (null = free-typed)
   name: string;
   role: string;
   seniority: string;
@@ -38,6 +39,7 @@ export interface Store {
   reviewRunId: string | null;
   myRunId: string | null;
   personKey: string | null;
+  joinToken: string | null;
   adminUserId: string | null;
   adminUserName: string | null;
   currentQuestion: unknown;

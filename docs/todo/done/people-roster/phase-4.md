@@ -1,28 +1,17 @@
 # Phase 4 — manager UI: person picker + roster-driven Team page
 
-## BUILT — awaiting Carl's walk (2026-07-06)
+## Split (2026-07-06): Carl chose **roster-driven** Team (add names before any 1:1). Two walkable chunks:
+- **4a — roster-driven Team + data plumbing** → BUILT (below), awaiting walk.
+- **4b — intake person picker** (NAME substage picker + start payload carries personId) → next.
 
-- **Intake NAME step is now a person picker** for managers with a roster: one tap fills
-  name/role/seniority AND links the run to that roster row; "Someone new" (and every
-  guest/member/roster-less flow) falls back to the plain free-text input unchanged.
-  Free-typing a name clears any stale pick (server auto-matches from the name anyway).
-- **Team + person pages group by personId** (roster identity) when runs carry one —
-  name-key + aliases stay as the fallback for unstamped legacy runs. The roster row's
-  name/role now win over the runs' free-text snapshots.
-- **Tidy-up writes the people table** for roster cards (PATCH rename / merge with the
-  new id-merges fold); legacy name-keyed cards keep the alias endpoints; the merge
-  picker only offers same-kind targets. Alias routes stay live but the roster path is
-  primary now.
-- "Prep next 1:1" on a person page seeds personId + stored seniority.
-- run-history member rows now carry `personId`; people list returns `{ people, merges }`.
-- Test-first: 3 new grouping cases + 1 people-service merges-map case (red→green).
-- **Live-proven headless-browser walk on a scratch pair (:3073 → :3071, $0):** logged in
-  as manager@ → typed-lowercase "priya shah" prep showed on Team under the ROSTER name
-  "Priya Shah" with the honest "prep in progress" label → Tidy-up rename to "Priya S."
-  landed in the Neon people table (verified by query) → picker showed both people incl.
-  the new name → picking Marco prefilled his role and jumped to step 2 → "Someone new"
-  gave the plain input and advanced. No page errors. QA rows/dirs/mirrors cleaned.
-- Checks: `npm test` **79/79** · typecheck clean. Screenshot sent to Carl.
+## 4a BUILT — awaiting Carl's walk (2026-07-06)
+
+- **Team page is now the real roster** ([team.ts](../../../admin/src/stages/team.ts) rewritten): lists `people` rows (so a name added with no 1:1 shows), joins run stats by `personId`. New **"Add someone"** button (bare `createPerson`); a met person's card opens their page; a **not-yet-met** person offers **"Prep first 1:1"**; **Tidy up** rename now calls the roster endpoint (`renamePersonV2`). **Merge is parked** (see Parked) — merging two roster rows leaves the merged person's past runs pointing at the old personId, so their history wouldn't fold and would resurface as a straggler; it returns once run.personId resolves through the merge chain. Rename ships; merge does not.
+- **Pure join is tested** — `buildRosterView(people, runs)` in [group-people.js](../../../admin/src/ui/group-people.js): one row per roster person, stats joined by personId, roster name wins over run name, met sorts above never-met, stragglers (a run whose personId isn't in the roster) still show. **5 new unit tests** (9 total in the file), test-first.
+- **Person page re-keyed to personId** ([person-detail.ts](../../../admin/src/stages/person-detail.ts)): resolves the person + filters their runs on `personId` (was name-key), so the card and the page always agree.
+- **Data pipe:** [run-history.ts](../../../backend/engine/run-history.ts) `listFinishedRunsForMember` row now carries `personId`; [shared/api.js](../../../shared/api.js) gains `listPeople`/`createPerson`/`renamePersonV2`/`mergePeopleV2`/`archivePerson`; `SessionCtx.personId` typed.
+- **Offline proof (free, $0):** `npm test` **78/79** (the 1 fail is the pre-existing replay-regression drift, not this), root + admin typecheck clean, **admin `vite build` ✓**.
+- ⚠️ **Not browser-walked here** (cloud clone, no live app/DB) — the click-through is Carl's walk. QA scenarios 1–4 below (picker scenarios wait for 4b; for 4a: Add someone → appears not-yet-met, Prep first 1:1, met person opens page, rename/merge persist + survive reload).
 
 ## Work
 
