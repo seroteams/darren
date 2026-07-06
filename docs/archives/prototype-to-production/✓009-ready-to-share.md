@@ -36,24 +36,18 @@ sign-off). 009 sits on top of it — it does **not** re-do security.
 - **Conventions audit** — file naming (kebab-case + role suffix), dead code removed, oversized files
   split, no stray `any`/ignores, every `PLAN.md` current, and a README a newcomer can actually start from.
 
-### C. Value — lands by the return visit (build in parallel)
-- **Cross-session continuity loop** — meeting #2 reviews meeting #1's actions and commitments. The
-  alpha-readiness research says value shows on the *second* cycle, not the first. Because 1:1s are
-  periodic, we build this during the alpha's first fortnight so it's live when people come back.
-
 ## A grounding example (before → after)
 - **Before:** Sero runs on Carl's laptop; a manager can't reach it, there's no cap on spend, no first-run
-  guidance, a stack of features are half-QA'd, and the value only appears on a second run that isn't wired.
+  guidance, and a stack of features are half-QA'd.
 - **After:** an invited manager logs into a hosted URL, is guided through their first 1:1, their team's
   data is fenced (008) with a clear privacy note, spend is capped and watched, everything they see is
-  finished, they can send feedback — and when they return for meeting #2, Sero remembers meeting #1.
+  finished, and they can send feedback.
 
 ## Sequencing (important)
 1. **008 first (or folded in as step 0).** It's the gate for real data — non-negotiable.
 2. **Then the product-ready ship-blockers (A).** These decide whether a real person can safely use it.
 3. **Repo-ready hygiene (B) is real but not user-blocking** — it blocks a newcomer reading the code, not
    a manager using the app. If the fortnight gets tight, B slips before A does.
-4. **Continuity (C) runs in parallel** and needs to be ready before return visits, not before day one.
 
 Run it as a short line of small phases, one at a time, green-lit before the next — not one big push.
 
@@ -62,14 +56,12 @@ Run it as a short line of small phases, one at a time, green-lit before the next
 2. Product-ready: hosting + cost cap → privacy/consent → first-run experience → clear the QA pile →
    feedback path → one-pager.
 3. Repo-ready: finish repo-tidy → finish tracker-consolidation → conventions audit.
-4. Value: cross-session continuity loop.
 
 ## How we'll know it's done (full list in `99-qa-signoff.md` when written)
 - A real invited manager can log in to a hosted URL and complete a first 1:1 unaided.
 - Their data is fenced (008), spend is capped and visible, and there's a plain privacy note.
 - No un-QA'd feature is visible — each is signed off or cut.
 - repo-tidy and tracker-consolidation are closed; a newcomer README + conventions audit are done.
-- The continuity loop is live for a second-cycle 1:1.
 
 ## Note
 This is where Sero meets real people and real HR data for the first time. Safety (008) and "what people

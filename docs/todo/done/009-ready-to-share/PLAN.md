@@ -11,12 +11,10 @@ and the codebase reads clean to a newcomer.
 - Their team's data is fenced (org + role), AI keys can't leak, spend is capped and visible, and there's a plain privacy note.
 - Nothing half-finished is on screen — every built feature is signed off or removed.
 - A newcomer can open the repo, follow the README, and find their way — trackers/docs don't contradict each other.
-- On the second 1:1 for a person, Sero remembers the first.
 
-## Two workstreams + one parallel track
+## Two workstreams
 - **A. Product-ready** (ship-blockers, do first): Phases 1–5. Gate real people using it.
 - **B. Repo-ready** (newcomer-clean): Phases 6–7. If the fortnight gets tight, B slips before A.
-- **C. Value in parallel**: Phase 8 (continuity) — ready before return visits, not before day one.
 
 ## Phases
 | # | Phase | What it lands | Track | Status |
@@ -28,7 +26,6 @@ and the codebase reads clean to a newcomer.
 | 5 | Feedback + one-pager | A simple in-app feedback route · a "what Sero is / what to expect" page | A | 🟢 done (verified live) |
 | 6 | Finish repo-tidy | repo-tidy phases 3–4 + parked naming pass & hermetic tests | B | 🟢 done — Carl walked it 2026-07-01 ("tried it and it's fine") |
 | 7 | Tidy docs + newcomer README | Finish tracker-consolidation 2–4 · conventions/dead-code sweep · a README a newcomer follows | B | 🟢 done — Carl walked it 2026-07-01 |
-| 8 | Continuity loop | Meeting #2 reviews meeting #1's actions & commitments | C | ⏸ deferred (Carl, 2026-07-01) |
 
 🔴 not started · 🟡 in progress · 🟢 done (tested) · ✂️ cut
 
@@ -99,9 +96,8 @@ notes can be HR-adjacent — never committed).
 
 ## Current state
 **Phases 1 · 3 · 4 · 5 · 6 · 7 ✅ done — 6 & 7 walked + signed off by Carl 2026-07-01 ("tried it and
-it's fine"). Phase 2 ⏸ parked (not hosting yet). Phase 8 (continuity / "remembering") ⏸ deferred by Carl
-(2026-07-01).** Every non-parked / non-deferred phase of 009 is complete. Remaining 009 scope (hosting,
-continuity) now lives under the **pre-go-live** track (see [SERO_BOARD.md](../../../../SERO_BOARD.md)); Carl is
+it's fine"). Phase 2 ⏸ parked (not hosting yet).** Every non-parked phase of 009 is complete. Remaining 009
+scope (hosting) now lives under the **pre-go-live** track (see [SERO_BOARD.md](../../../../SERO_BOARD.md)); Carl is
 restructuring the roadmap there. **Formal archive of this folder → `done/` left to Carl** so it lands where
 his reorg puts it (his SERO_BOARD treats 009 as paused-under-pre-go-live, not simply done).
 
@@ -162,10 +158,10 @@ prerequisite for real staff data.
 </details>
 
 ## Decisions (this plan)
-- **2026-07-01 — Phase 8 (continuity / "remembering") + real Team content deferred.** Carl: "finish 3 and
-  5 — we can do the remembering and teams later." So Phase 8 is parked, and the member **Team** page stays
-  the intentional empty state (real team content = member-nav Phase 2, later). Phases 3 & 5 were verified
-  end-to-end and closed. Phases 6 (repo-tidy 3–4) & 7 (docs/README) remain open — not yet green-lit to continue.
+- **2026-07-01 — real Team content deferred.** Carl: "finish 3 and 5 — we can do the teams later." So the
+  member **Team** page stays the intentional empty state (real team content = member-nav Phase 2, later).
+  Phases 3 & 5 were verified end-to-end and closed. Phases 6 (repo-tidy 3–4) & 7 (docs/README) remain open
+  — not yet green-lit to continue.
 - **2026-07-01 — Team/Runs empty states kept (not hidden).** The two member tabs show intentional empty
   states that offer "start a 1:1" rather than hiding Team; confirmed fine by the "teams later" call.
 - **2026-07-01 — anonymous session-start path kept open for the alpha (A, tracked as C).** The start
@@ -182,9 +178,8 @@ prerequisite for real staff data.
   **deferred, not cancelled** — book it before widening. Flagged in-session.
 
 ## Parked
-- **Phases 1 and 8 are large** — the security floor and the continuity loop may each split into their own
-  sub-plan when we reach them (008 already has its own overview; continuity needs person-profile linking).
-  Kept as single rows here so the readiness picture stays whole.
+- **Phase 1 is large** — the security floor may split into its own sub-plan when we reach it (008 already
+  has its own overview). Kept as a single row here so the readiness picture stays whole.
 - Broad alpha (many companies) — start with 2–3 friendly managers; widen later.
 - Full admin-SPA TypeScript sweep — repo-tidy Phase 4 only *pilots* it; the full conversion is its own plan.
 - Anything a manager doesn't touch and a newcomer doesn't read — out of scope for "ready to share".

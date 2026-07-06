@@ -15,7 +15,6 @@ walked, signed off, and kept — or cut from view.
 
 ## Not in this phase
 - Building anything new — this is finish-or-hide only.
-- The continuity loop (Phase 8).
 
 ## Done when
 - [ ] Each listed feature is either signed off (works end to end) or not visible to an alpha user.

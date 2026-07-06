@@ -44,7 +44,7 @@ Nice-to-have: at least two different contexts (e.g. one design/creative team, on
 **Pass (per manager):** within ~2 weeks they run a **second** prep for a real 1:1, **unprompted**, and say the briefing helped the actual conversation. That's the return-visit bar the research set — anything less is politeness.
 
 - **Strong pass:** 2 of 3 managers hit the bar → start talking about a small **paid pilot** (the research's next step).
-- **Weak signal:** they praise it but don't return → the first-run wow isn't enough; revisit what would pull them back (the parked continuity loop is the known candidate — stays parked until Carl says go).
+- **Weak signal:** they praise it but don't return → the first-run wow isn't enough; revisit what would pull them back.
 - **Fail:** stalls mid-flow or hypothetical-only use → fix the flow before widening the circle. A fail here is cheap; the same fail after hosting + onboarding isn't.
 
 ## 5. What this is NOT
