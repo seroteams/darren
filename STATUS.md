@@ -19,7 +19,17 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > 79/80 suite (the 1 fail is the pre-existing replay-baseline drift). **PR #8**, one commit per phase.
 > ⚠️ Your local `4256aa77` build is a superseded unpushed lineage — pull `claude/member-onboarding-invites-rajjtu`
 > + restart your dev API. Parked follow-ups live in the archived PLAN — **roster merge** (can't fold run
-> history yet) and **invitations** (the natural next slug: roster person + email + one-time token link).
+> history yet); invitations shipped separately (next box).
+
+> **✅ [member-invites](docs/todo/done/member-invites/PLAN.md) — BUILT + CLOSED 2026-07-06 (Carl: "finish it").**
+> The last mile of onboarding, and this thread's original question: **how do members get on the system?**
+> Answer, now live: Team → Tidy up → **"Invite…"** on any unlinked person → their email → a **one-time join
+> link** you send yourself (no email infra yet). Opening it shows *"«you» at «your company» invited you"*;
+> they set a password and land logged-in on **"Your 1:1s"**, roster row auto-linked. Token: single-use,
+> 7-day expiry, **sha256-hashed at rest**, never logged. 7 unit tests · suite 80/81 · **Playwright 8/8
+> live** (mint → join → member home → dead second open; DB checked: hash at rest, person linked) — 4
+> screenshots in chat. ⚠️ **Before using on live: `npm run db:migrate`** (migration `0008` adds
+> `invitations.token_hash` + `person_id`). Parked: real email sending, revoke UI, pending-invites list.
 
 > **🔨 team-for-managers — one small slice BUILT (2026-07-05 late), awaiting your walk.**
 > Your ask: managers need to see their team members on Team. Finding: it already worked, but only
@@ -287,7 +297,7 @@ untouched, dev Admin/Standard quick-swap works. Phase 2 (Real Runs) has backend 
 open member-nav work. **Update 2026-07-05: that open work shipped via pre-go-live PG1–5, so the folder is
 closed** → [docs/todo/done/member-nav/](docs/todo/done/member-nav/PLAN.md) (live-data-cleanup Phase 4).
 
-- Last updated: 2026-07-06 (people-roster CLOSED — full arc built, Playwright relook 11/11, folder → done/)
+- Last updated: 2026-07-06 (people-roster CLOSED · member-invites BUILT+CLOSED — join links live, Playwright 8/8; run db:migrate on live for 0008)
 
 ---
 

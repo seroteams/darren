@@ -438,3 +438,16 @@ export async function submitLexiconPromote(decisions) {
   return postJson("/api/v1/lexicon/promotions", { decisions });
 }
 
+
+// The join flow (member-onboarding-invites): a manager mints a one-time join link for a
+// roster person; the invitee previews it logged-out and accepts with name+password —
+// which creates their member account, links the person, and logs them straight in.
+export async function invitePerson(id, email) {
+  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/invite`, { email });
+}
+export async function getInvite(token) {
+  return json(await fetch(`/api/v1/invites/${encodeURIComponent(token)}`));
+}
+export async function acceptInvite(token, { name, password }) {
+  return postJson(`/api/v1/invites/${encodeURIComponent(token)}/accept`, { name, password });
+}

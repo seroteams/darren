@@ -17,6 +17,7 @@ import { installGlobalErrorReporter, reportError } from "./ui/error-reporter.js"
 const loaders = {
   WELCOME:         () => import("./stages/welcome.ts"),
   LOGIN:           () => import("./stages/login.js"),
+  JOIN:            () => import("./stages/join.js"),
   REGISTER:        () => import("./stages/register.js"),
   PRIVACY:         () => import("./stages/privacy.js"),
   ABOUT:           () => import("./stages/about.js"),
@@ -142,7 +143,8 @@ startPopstate((parsed) => {
   // screens) bounces to login.
   if (!store.user
       && !isGuestStage(parsed.stage) && !isSharedStage(parsed.stage)
-      && parsed.stage !== STAGES.LOGIN && parsed.stage !== STAGES.REGISTER) {
+      && parsed.stage !== STAGES.LOGIN && parsed.stage !== STAGES.REGISTER
+      && parsed.stage !== STAGES.JOIN) {
     setState({ stage: parsed.stage === STAGES.START ? STAGES.WELCOME : STAGES.LOGIN });
     return;
   }
@@ -167,6 +169,11 @@ startPopstate((parsed) => {
   if (parsed.stage === STAGES.RUN_DETAIL) {
     if (parsed.params?.myRunId) setState({ myRunId: parsed.params.myRunId, stage: STAGES.RUN_DETAIL });
     else setState({ stage: STAGES.RUNS });
+    return;
+  }
+  if (parsed.stage === STAGES.JOIN) {
+    if (parsed.params?.joinToken) setState({ joinToken: parsed.params.joinToken, stage: STAGES.JOIN });
+    else setState({ stage: STAGES.LOGIN });
     return;
   }
   if (parsed.stage === STAGES.PERSON_DETAIL) {
@@ -255,6 +262,12 @@ async function boot() {
     // path — gets the guest-first start screen, not the login form. Explicit
     // /login, /register and /privacy deep links still work; every other known
     // page stays behind login.
+    // A one-time join link works logged-out — that's its whole point
+    // (member-onboarding-invites). Token rides in store for the JOIN stage.
+    if (route?.stage === STAGES.JOIN && route.params?.joinToken) {
+      setState({ user: null, joinToken: route.params.joinToken, stage: STAGES.JOIN });
+      return;
+    }
     let loggedOutStage = STAGES.WELCOME;
     if (route?.stage === STAGES.LOGIN) loggedOutStage = STAGES.LOGIN;
     else if (route?.stage === STAGES.REGISTER) loggedOutStage = STAGES.REGISTER;

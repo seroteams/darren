@@ -20,6 +20,7 @@ import { forbidden, rateLimited } from "./middleware/http-error.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
 import * as runs from "./services/runs/runs.controller.ts";
 import * as team from "./services/team/team.controller.ts";
+import * as invites from "./services/invites/invites.controller.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
@@ -338,6 +339,19 @@ function main(): void {
   router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/unlink$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return team.unlinkPerson(c);
+  }));
+  // The join flow (member-onboarding-invites): a manager mints a one-time join link for a
+  // roster person; preview + accept are PUBLIC (the invitee has no account yet) — the
+  // token is the credential, single-use + expiring + stored hashed. Accept is origin-
+  // guarded like every other mutation.
+  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/invite$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return invites.createInvite(c);
+  }));
+  router.add("GET", /^\/api\/v1\/invites\/(?<token>[^/]+)$/, v1Route(invites.previewInvite));
+  router.add("POST", /^\/api\/v1\/invites\/(?<token>[^/]+)\/accept$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return invites.acceptInvite(c);
   }));
   router.add("GET", "/api/v1/runs/recent", v1Route(runs.recent));
   router.add("GET", "/api/v1/runs/finished", v1Route(runs.finished));

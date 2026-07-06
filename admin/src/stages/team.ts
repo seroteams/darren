@@ -6,7 +6,7 @@
 // roster endpoints. Distinct from the admin Library (admin-only).
 
 import { STAGES, store } from "../state.js";
-import { listMyRuns, listPeople, createPerson, renamePersonV2, getLinkableUsers, linkPerson, unlinkPerson } from "../../../shared/api.js";
+import { listMyRuns, listPeople, createPerson, renamePersonV2, getLinkableUsers, linkPerson, unlinkPerson, invitePerson } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
@@ -75,12 +75,17 @@ function personEditRow(p: Person, orgUsers: OrgUser[]): string {
            <option value="" ${p.userId ? "" : "selected"}>— none —</option>${options}
          </select></label>`
     : "";
+  // Inviting only makes sense for someone not yet linked to an account.
+  const inviteControl = p.userId
+    ? ""
+    : `<button type="button" class="btn btn--ghost btn--sm js-invite" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}">Invite…</button>`;
   return `
     <div class="card-flat l-stack l-stack--2">
       <div class="text-sm"><strong>${escapeHtml(p.name)}</strong>${role}</div>
       <div class="text-sm text-ink-dim">${metaLine(p)}</div>
       <div class="l-cluster l-cluster--2">
         <button type="button" class="btn btn--ghost btn--sm js-rename" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}">Rename</button>
+        ${inviteControl}
       </div>
       ${linkControl}
     </div>`;
@@ -177,6 +182,26 @@ export const mount: Mount = async (root, { setState }) => {
     root.querySelectorAll<HTMLSelectElement>(".js-link").forEach((el) => {
       el.addEventListener("change", () => { void doLink(el.dataset.key || "", el.dataset.name || "", el.value); });
     });
+    root.querySelectorAll<HTMLButtonElement>(".js-invite").forEach((el) => {
+      el.addEventListener("click", () => { void doInvite(el.dataset.key || "", el.dataset.name || ""); });
+    });
+  };
+
+  // Invite a person by email → a one-time join link the manager sends themselves (no email
+  // infra in the alpha). The link is shown in a prompt so it's selectable/copyable; it's
+  // single-use and expires in 7 days. Accepting it creates their account AND links them.
+  const doInvite = async (personId: string, personName: string) => {
+    const email = window.prompt(`Invite ${personName} — their email address:`, "");
+    if (email === null || !email.trim()) return;
+    try {
+      const res = (await invitePerson(personId, email.trim())) as { link: string };
+      window.prompt(
+        `Send ${personName} this link (valid 7 days, works once). They'll set a password and see their own 1:1 history — never your notes:`,
+        `${window.location.origin}${res.link}`,
+      );
+    } catch (e) {
+      window.alert(e instanceof Error ? e.message : "Couldn't create the invite — please try again.");
+    }
   };
 
   // Link (or unlink, on "— none —") a person to a company login account. The linked member
