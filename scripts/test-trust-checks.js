@@ -579,5 +579,70 @@ const RICH_NOTES = "Ahmed talks about wanting senior scope but keeps redirecting
   check("untagged focus point → EVIDENCE_ANCHOR", r.hard_fails.includes("EVIDENCE_ANCHOR"), JSON.stringify(r.hard_fails));
 }
 
+// 33. best_practice reason with a banned marketing phrase → FOCUS_SHAPE_LEAK
+{
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript: healthyTranscript,
+    managerNotes: RICH_NOTES,
+    bankQuestions: COVERING_BANK,
+    focusPoints: [{ id: "manager_support", source: "best_practice", label: "What he'd want more of from you.", reason: "Bi-weekly hygiene at this seniority — the cleanest channel to redirect the relationship." }],
+    meetingType: GROWTH,
+  });
+  check("banned phrase in best_practice reason → FOCUS_SHAPE_LEAK", r.hard_fails.includes("FOCUS_SHAPE_LEAK"), JSON.stringify(r.hard_fails));
+}
+
+// 34. best_practice reason with a bad opener → FOCUS_SHAPE_LEAK
+{
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript: healthyTranscript,
+    managerNotes: RICH_NOTES,
+    bankQuestions: COVERING_BANK,
+    focusPoints: [{ id: "priorities", source: "best_practice", label: "Work in flight this cycle.", reason: "The default place to check what he is shipping this cycle." }],
+    meetingType: GROWTH,
+  });
+  check("bad opener in best_practice reason → FOCUS_SHAPE_LEAK", r.hard_fails.includes("FOCUS_SHAPE_LEAK"), JSON.stringify(r.hard_fails));
+}
+
+// 35. label phrased as a question to the report → FOCUS_SHAPE_LEAK
+{
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript: healthyTranscript,
+    managerNotes: RICH_NOTES,
+    bankQuestions: COVERING_BANK,
+    focusPoints: [{ id: "energy", source: "best_practice", label: "What's affecting your energy levels lately?", reason: "What he is carrying into this cycle right now." }],
+    meetingType: GROWTH,
+  });
+  check("question-to-report label → FOCUS_SHAPE_LEAK", r.hard_fails.includes("FOCUS_SHAPE_LEAK"), JSON.stringify(r.hard_fails));
+}
+
+// 36. clean best_practice point (good opener, no banned phrase) → no FOCUS_SHAPE_LEAK
+{
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript: healthyTranscript,
+    managerNotes: RICH_NOTES,
+    bankQuestions: COVERING_BANK,
+    focusPoints: [{ id: "priorities", source: "best_practice", label: "Work in flight this cycle.", reason: "What he's actually shipping this cycle, independent of the late-nights signal." }],
+    meetingType: GROWTH,
+  });
+  check("clean best_practice point → no FOCUS_SHAPE_LEAK", !r.hard_fails.includes("FOCUS_SHAPE_LEAK"), JSON.stringify(r.hard_fails));
+}
+
+// 37. options-framing label ending in "?" (em-dash, no second person) → no FOCUS_SHAPE_LEAK
+{
+  const r = runTrustChecks({
+    briefing: baseBriefing(),
+    transcript: healthyTranscript,
+    managerNotes: RICH_NOTES,
+    bankQuestions: COVERING_BANK,
+    focusPoints: [{ id: "workload", source: "best_practice", label: "Late nights — push, overload, or preference?", reason: "Whether the late hours are a short push, real overload, or just his usual pattern." }],
+    meetingType: GROWTH,
+  });
+  check("options-framing '?' label → no FOCUS_SHAPE_LEAK", !r.hard_fails.includes("FOCUS_SHAPE_LEAK"), JSON.stringify(r.hard_fails));
+}
+
 console.log(`\n  ${failed === 0 ? "all trust-checks passed" : `${failed} trust-check(s) failed`}\n`);
 process.exit(failed ? 1 : 0);

@@ -73,6 +73,63 @@ function runFocusArcGate(focusPoints: unknown, meetingType: string): string[] {
   return failures;
 }
 
+// runFocusShapeGate — copy-quality tripwires over the generated focus points,
+// straight from the generate-focus-points prompt's own hard rules. Detection
+// only: it never edits the model output — it flags a point whose wording breaks
+// a rule so the PROMPT gets fixed (honest-surface, no silent masking). Reach is
+// a blatant tripwire, consistent with the rest of this file:
+//   - best_practice reasons: banned marketing phrases, and the required opener
+//     (Whether / How they're / What / If).
+//   - any label: a question addressed to the report — proxied as "?"-ending AND
+//     second-person, so options-framing labels ("Late nights — push, overload,
+//     or preference?") pass while "What's affecting your energy?" fails.
+const FOCUS_BANNED_REASON_PATTERNS: Array<{ label: string; re: RegExp }> = [
+  { label: "standard … anchor", re: /\bstandard\b[\w\s-]*\banchor\b/i },
+  { label: "hygiene", re: /\bhygiene\b/i },
+  { label: "cleanest channel", re: /\bcleanest channel\b/i },
+  { label: "the channel for", re: /\bthe channel for\b/i },
+  { label: "at this seniority", re: /\bat this seniority\b/i },
+  { label: "redirect the relationship", re: /\bredirect the relationship\b/i },
+  { label: "is what gets evaluated", re: /\bis what gets evaluated\b/i },
+  { label: "crucial for", re: /\bcrucial for\b/i },
+  { label: "essential to", re: /\bessential to\b/i },
+  { label: "key to", re: /\bkey to\b/i },
+  { label: "important for", re: /\bimportant for\b/i },
+  { label: "surface what", re: /\bsurface what\b/i },
+  { label: "space to surface", re: /\bspace to surface\b/i },
+  { label: "ensure alignment", re: /\bensure alignment\b/i },
+  { label: "pulse check", re: /\bpulse[\s-]?check\b/i },
+];
+const FOCUS_REASON_OPENER = /^(?:Whether |How they['’]re |What |If )/;
+const FOCUS_LABEL_SECOND_PERSON = /\byou\b|\byour\b|\byou['’]re\b/i;
+
+function runFocusShapeGate(focusPoints: unknown): string[] {
+  const failures: string[] = [];
+  const points: unknown[] = Array.isArray(focusPoints) ? focusPoints : [];
+  for (const p of points) {
+    if (!isObjectRecord(p)) continue;
+    const name = asString(p.id) || asString(p.label) || "unnamed";
+    const label = asString(p.label).trim();
+    const reason = asString(p.reason).trim();
+
+    if (label.endsWith("?") && FOCUS_LABEL_SECOND_PERSON.test(label)) {
+      failures.push(`focus label reads as a question to the report: "${label}" (${name})`);
+    }
+
+    if (asString(p.source) === "best_practice" && reason) {
+      for (const b of FOCUS_BANNED_REASON_PATTERNS) {
+        if (b.re.test(reason)) {
+          failures.push(`best_practice reason uses banned phrase "${b.label}": "${reason}" (${name})`);
+        }
+      }
+      if (!FOCUS_REASON_OPENER.test(reason)) {
+        failures.push(`best_practice reason must open Whether/How they're/What/If: "${reason}" (${name})`);
+      }
+    }
+  }
+  return failures;
+}
+
 // runQuestionArcGate — same trust rule as runFocusArcGate, one layer down: in a
 // relational arc no SERVED question may carry purpose "competency" (the Jun 10
 // Maya bi-weeklies served a "trust you in that next role" readiness question).
@@ -603,6 +660,7 @@ export {
   runStageTagOrphanCheck,
   runQuestionGroundingChecks,
   runFocusArcGate,
+  runFocusShapeGate,
   runQuestionArcGate,
   runAxisSilenceCheck,
   runMeaningRuleEchoCheck,

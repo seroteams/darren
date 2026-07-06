@@ -18,6 +18,7 @@ import {
   runCrossSessionLeakCheck,
   runQuestionGroundingChecks,
   runFocusArcGate,
+  runFocusShapeGate,
   runQuestionArcGate,
   runAxisSilenceCheck,
   runMeaningRuleEchoCheck,
@@ -103,6 +104,7 @@ const HARD_FAIL = {
   WRONG_MEETING_TYPE: "WRONG_MEETING_TYPE",
   ENGINE_VOCAB_LEAK: "ENGINE_VOCAB_LEAK",
   FOCUS_ARC_LEAK: "FOCUS_ARC_LEAK",
+  FOCUS_SHAPE_LEAK: "FOCUS_SHAPE_LEAK",
   QUESTION_ARC_LEAK: "QUESTION_ARC_LEAK",
   ROLE_PROFILE_ARC_LEAK: "ROLE_PROFILE_ARC_LEAK",
   ROLE_PROFILE_VOCAB_LEAK: "ROLE_PROFILE_VOCAB_LEAK",
@@ -604,6 +606,12 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   if (focusArc.length) {
     hard_fails.push(HARD_FAIL.FOCUS_ARC_LEAK);
     details.push(...focusArc);
+  }
+
+  const focusShape = runFocusShapeGate(focusPoints);
+  if (focusShape.length) {
+    hard_fails.push(HARD_FAIL.FOCUS_SHAPE_LEAK);
+    details.push(...focusShape);
   }
 
   const questionArc = runQuestionArcGate(turns, type);
