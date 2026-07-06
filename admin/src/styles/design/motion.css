@@ -96,6 +96,19 @@
 }
 .reveal-soft.is-in { opacity: 1; }
 
+/* Interview question cards get a physical "settle" as they arrive — the
+   outgoing answer lifts away (field-exit), the next question rises in and
+   overshoots slightly before settling. Scoped to .questioning-card so reveals
+   elsewhere stay calm. */
+@media (prefers-reduced-motion: no-preference) {
+  .questioning-card.reveal { transform: translateY(14px) scale(0.985); }
+  .questioning-card.reveal.is-in {
+    transform: translateY(0) scale(1);
+    transition: opacity var(--dur-medium) var(--ease-out-expo),
+                transform var(--dur-medium) var(--ease-spring-back);
+  }
+}
+
 /* -----------------------------------------------------------------------------
    Skeleton loading — ghost preview of content during AI generation waits
 ----------------------------------------------------------------------------- */
