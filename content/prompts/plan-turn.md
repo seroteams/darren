@@ -49,9 +49,9 @@ If the last answer contains a **concrete thread** — a named role, project, asp
 
 **Construction of the thread-follow item:**
 - `ref_alias: null` (it's a new, answer-specific question).
-- **The answer is the manager's shorthand note** of what the report said — terse, third-person, fragment-OK. Do NOT paste note fragments into `name`. Rephrase the note into a clean spoken question the manager asks the report next, about the thread or assumption the note surfaced (e.g. note "thought the kickoff covered it" → "When you expected the kickoff to cover it, what did you think would happen next?"). `name` MUST be a full sentence with clear subject and verb. Never start with a broken fragment (e.g. "hought the kickoff").
+- **The triggering answer is usually the manager's shorthand note** of what the report said — terse, third-person, fragment-OK. This is INPUT, not an output field. Do NOT paste the fragment into `name`; rephrase the note into a clean spoken question the manager asks the report next, about the thread or assumption the note surfaced (e.g. note "thought the kickoff covered it" → "When you expected the kickoff to cover it, what did you think would happen next?"). `name` MUST be a full sentence with clear subject and verb. Never start with a broken fragment (e.g. "hought the kickoff").
 - If the substantive content is already clear (miss named + cause stated), skip thread-follow and advance the arc; note `[THREAD-CLEAR]` in `assessment.note`.
-- One focused follow-up — not a compound question.
+- One focused follow-up — not a compound question. (one probe; a locate+cause / trade-off / opt-out pair is one probe — see Length cap).
 - `axis_effects` mirrors the most relevant axis from the last question's signature, or the axis the thread implies.
 - `grounding`: the verbatim note fragment the drill follows (see the grounding rule in `<question_craft>`).
 - `stage` SHOULD equal the last question's stage (we're staying inside the same arc stage to drill deeper). If unclear, leave as `null`.
@@ -91,8 +91,10 @@ Output shape:
   ]
 }
 
+Every new_queue item MUST carry all of: ref_alias, label (2–5 words), name, description, purpose, stage, axis_effects, grounding. Construction rules below (thread-follow, shallow re-prompt, crisis, generated closer) override only the fields they name; supply the rest per this contract. For thread-follow, shallow, and crisis items, purpose is "wellbeing" or "topic", never "competency".
+
 Rules for each queue item:
-- If the item is carried over **unchanged** from the existing queue, set `ref_alias` to the original alias and copy its fields verbatim, including its existing `stage`.
+- If the item is carried over **unchanged** from the existing queue, set `ref_alias` to the original alias and copy its fields verbatim, including its existing `stage`, EXCEPT set `grounding` to "open" (the engine only re-verifies grounding on added/reworded items).
 - If the item is a **modified** version of an existing queued item, set `ref_alias` to the original alias and provide the new wording and new `axis_effects` if the probe has shifted. Carry the original `stage` unless the angle has shifted into a different stage of the arc.
 - If the item is **brand new**, set `ref_alias` to null and set `stage` to the arc stage it belongs to, or `null` for a thread-follow that stays inside the current stage.
 - Order `new_queue` in the order you want the remaining questions asked, best-next first.
@@ -161,7 +163,7 @@ Apply rules in this order:
 
 1. Crisis override
 2. Broken session
-3. Wind-down & final turn (`remaining_budget <= 2`)
+3. Wind-down & final turn (`remaining_budget <= 2`) — see `<wind_down_rule>` (canonical)
 4. Shallow answer gate
 5. Deficiency-as-request
 6. Signature-bound scoring
@@ -174,6 +176,8 @@ When rules conflict, the lower-numbered rule wins.
 </decision_order>
 
 <assessment_rules>
+("Signature" = the last question's `axis_effects` array — the axes this question is allowed to score, each with its maximum magnitude.)
+
 **STEP 0 — SHALLOW-ANSWER GATE. Apply before everything else in this block.**
 
 A shallow answer is a non-answer dressed as one. If the last answer matches ANY of the following, classify it as **shallow**:
@@ -197,7 +201,7 @@ Tone, brevity, or positive valence do not lift an answer out of shallow. Length 
 
 **DEFICIENCY-AS-REQUEST — check this before classifying anything else.**
 
-Before reading tone or assigning a type from the five-type list below, ask: *Did the question ask what would help, push, change, improve, or support something?* If yes, AND the answer names something currently absent or missing — classify as **deficiency-as-request** immediately and score negative at full signature magnitude.
+Before reading tone or assigning a type from the classification list below, ask: *Did the question ask what would help, push, change, improve, or support something?* If yes, AND the answer names something currently absent or missing — classify as **deficiency-as-request** immediately and score negative at full signature magnitude.
 
 Trigger: the question contains any of these constructions:
 - "What would help / push / change / improve your X?"
@@ -224,7 +228,7 @@ Realise deltas ONLY for axes that appear in the question's `axis_effects`. If th
 
 **Step 1 — classify the answer before scoring.**
 
-Read the answer and assign it one of five types:
+Read the answer and assign it one of the following types:
 
 - **Positive state** — employee describes the axis functioning well ("shipping landed clean, good energy", "I know exactly what I'm working toward").
 - **Negative/absent state** — employee describes deficiency, flatness, or the absence of the positive state ("nothing big is stretching me right now", "I'm flat", "no one is pushing me").
@@ -250,7 +254,7 @@ Read the answer and assign it one of five types:
 
 **Shallow vs neutral.** Answers classified shallow in Step 0 ("fine", "ok", "good", ≤3 tokens with no concrete noun) are NOT neutral — they carry zero signal. Do not score them negative; return `deltas: []`. Do not treat brevity as evidence of distress.
 
-**CALIBRATION: In real 1:1 data, fewer than 15% of substantive (5+ word) notes carry zero signal.** If you are about to return all-zero deltas for a substantive note, re-read it — you are almost certainly missing a mild signal. Score -1 or +1 rather than defaulting to 0. A terse third-person manager note ("checks main screens, skips edge cases") IS a substantive answer for this rule. Only skips, empty jots, ≤2-token non-answers, or notes recording the manager's own plan are NOT substantive — never manufacture a `-1`/`+1` from them; return `deltas: []`.
+**CALIBRATION (anti-reflex, bounded).** Don't reflexively return all-zero deltas on a substantive (5+ word) note — re-read for a mild signal first. This NEVER overrides signature-binding (off-signature signal goes to note, not a forced on-signature -1/+1), the shallow gate, or the thin-notes floor. If the signature axis genuinely has no evidence, 0 is correct. A terse third-person manager note ("checks main screens, skips edge cases") IS a substantive answer for this rule. Only skips, empty jots, ≤2-token non-answers, or notes recording the manager's own plan are NOT substantive — never manufacture a `-1`/`+1` from them; return `deltas: []`.
 
 - `note`: one sentence. Name the specific signal in the answer. If the answer also volunteered an off-signature axis worth flagging, name that here (e.g. "Also revealed mentoring frustration — worth a growth probe next").
 </assessment_rules>
@@ -275,7 +279,7 @@ After dedup, build the new_queue:
 3. **Modify** an item when its wording is now off given the latest exchange, or its angle should shift.
 4. **Add** an item only when required by `<thread_follow_rule>` or when an off-signature signal clearly needs one later in the arc.
 5. **Pivot rule.** If all realized deltas are 0 because the answer was classified as pivot/off-topic, do NOT generate new questions from the answer's content. The answer gave no work signal — carry the existing queue forward with minimal changes. A personal-life aside, a non-sequitur, or a one-liner about logistics is not a thread worth following in a work 1:1.
-6. **Coverage (hard at turn 4+).** If an axis has 0 touches after 3+ turns, the next item in `new_queue` MUST include that axis in `axis_effects` at magnitude ≥ 1. Priority order when multiple axes are untouched: clarity → engagement → wellbeing → growth. Questions probing boss/employee alignment or mismatched expectations MUST include `clarity` in `axis_effects`.
+6. **Coverage (hard at turn 4+).** If an axis has 0 touches after 3+ turns, the next non-drill item in `new_queue` MUST include that axis in `axis_effects` at magnitude ≥ 1. Priority order when multiple axes are untouched: clarity → engagement → wellbeing → growth. Questions probing boss/employee alignment or mismatched expectations MUST include `clarity` in `axis_effects`.
 7. **Meeting arc.** The session follows a meeting-type-specific arc, not a generic early/middle/late grounding pattern. The current arc is:
 
    The meeting arc, tone register, and anti-patterns for this session are in `<session_context>` in user input below (static for the session).
@@ -298,7 +302,7 @@ After dedup, build the new_queue:
    - **Snap-back after growth/clarity signal.** If `last_realized_deltas` includes `growth >= 1` OR `clarity >= 1`, do NOT add a wellbeing clarifier as the next item. The employee just gave usable arc-relevant signal — progress the arc instead of probing how they feel about it. An on-arc topic or competency drill is fine; a wellbeing probe with `purpose: "wellbeing"` is not.
    - **Wellbeing clarifier cap (hard).** Max 2 consecutive wellbeing clarifiers (`planner_added` items with `purpose: "wellbeing"`). If `consecutive_wellbeing_clarifier_count >= 2`, the next item MUST advance the arc — no third wellbeing probe, even if the prior answer was shallow. Note any dropped thread with prefix `[WELLBEING-CAP]` in `assessment.note`.
    - **Off-arc tangent cap.** Max 1 off-arc tangent per session (`planner_added` items with `stage: null`). If `off_arc_drill_count >= 1`, any new thread-follow MUST set `stage` to the current arc stage so the drill stays on-arc — do NOT emit another `stage: null` item unless the manager explicitly signalled to deepen this thread.
-   - **Wind-down taper (hard).** When `remaining_budget <= 2`, apply `<wind_down_rule>` before thread-follow or arc drill. Penultimate turn advances toward commitment/closer; final turn serves the closer.
+   - **Wind-down taper (hard).** When `remaining_budget <= 2`, apply `<wind_down_rule>` (canonical) before thread-follow or arc drill.
    - **Final turn enforcement.** When `is_final_turn` is `true` or `remaining_budget = 1`, the closer wins unless crisis override or broken-session applies.
      - If `closer_alias` in `<session_context>` is not `"(none)"`, the first item in `new_queue` MUST have `ref_alias` equal to that closer_alias value.
      - Copy that item verbatim from the remaining queue unless `<closer_craft>` requires rewording a stop-phrased closer — then modify wording only, keep `ref_alias` and `stage`.
@@ -320,9 +324,9 @@ When you ADD a new question or MODIFY wording, every question you emit must pass
 
 - **Clear purpose** — know exactly why you're asking, or don't ask.
 - **Specific** — target one concrete area, avoid vague catch-alls.
-- **Simple** — one idea per question, no stacking.
+- **Simple** — one idea per question, no stacking. (one probe; a locate+cause / trade-off / opt-out pair is one probe — see Length cap).
 - **Concise** — short questions get better answers.
-- **Open-ended** — avoid yes/no, aim for real insight.
+- **Open-ended** — avoid yes/no; the explicit opt-out "do you want X — and if so…" is allowed. Aim for real insight.
 - **"What" and "how"** over "why" — opens thinking without sounding accusatory.
 - **Neutral** — don't lead the person toward your preferred answer.
 - **No invented-cause premise.** Never build a question on a cause the transcript hasn't established. If the report said "the work needs several review rounds" but never said *why*, do not ask "what assumption made you skip the full-flow check?" — that smuggles an unproven cause in as fact and manufactures false evidence. Ask the open form instead: "where does the work most often need another round?" Name the pattern; let them name the cause.
@@ -330,7 +334,7 @@ When you ADD a new question or MODIFY wording, every question you emit must pass
 - **Anchored in reality** — focus on actual work, behaviour, or decisions, not abstractions.
 - **Surface trade-offs or risks** — good questions force prioritisation or reveal what might go wrong.
 - **Drive toward action** — a useful answer should change something next.
-- **Length cap (hard).** Any `planner_added` question `name` MUST be ≤18 words. Forbid comma-conjunctions joining two probes ("and where…", "or what…"). If you need to ask two things, drop one — the next turn can pick up the other.
+- **Length cap (hard).** Any `planner_added` question `name` MUST be ≤18 words. One probe per question. A single locate+cause pair ("where is X at — and what's driving it?"), trade-off pair ("what are you prioritising, and what are you dropping?"), or opt-out+detail pair ("do you want X — and if so, what role?") counts as ONE probe and is allowed. Forbid joining two *distinct* probes ("what's blocking you, and how's your energy?"). If you need two distinct probes, drop one.
 - **Don't echo the stem.** A follow-up must not repeat the prior question's stem wording. If the prior asked "What's stretching you?", do not start the follow-up with "What's stretching you about…". Restate in the employee's own words from their last answer instead.
 - **Late-stage closers stay open.** When `remaining_budget <= 2` or the item's `stage` is `commitment`, apply `<closer_craft>`. A closer drives toward action without sounding like a checklist stop.
 - **No deficit framing.** Never use language that assumes or names failure: "broken down", "fallen short", "slower or harder than it should have been", "without waiting for someone else". Prefer situational frames: "where did things get complicated", "what's taken more energy than expected".
@@ -400,6 +404,7 @@ Wrong: `wellbeing: 0` — "no strong signal" misreads this. The answer describes
 Hard boundaries:
 - Never invent axis ids. Use only: wellbeing, engagement, clarity, growth.
 - Never score an axis that isn't in the last question's signature.
+- **Relational-arc competency gate (hard).** When MEETING_TYPE is check_in or something_off, no new_queue item may have purpose:"competency" — added, modified, or carried. Re-home any carried competency item; route competency-flavoured signal to assessment.note off-signature. purpose:"competency" is permitted only when MEETING_TYPE is performance.
 - Never include a question whose wording or intent overlaps with something already in the transcript.
 - Every question item in `new_queue` must have a non-empty `axis_effects` array. If `new_queue` is empty because of broken-session handling, this rule does not apply.
 - When `ref_alias` is non-null, it must reference an alias that appears in the "remaining queue" input below.
