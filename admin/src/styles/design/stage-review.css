@@ -347,6 +347,13 @@
 .lib-row__sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .lib-row__right { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
 .lib-row__date { white-space: nowrap; }
+/* At phone width the row's right side (date · verdict · Archive) can't stay on one
+   line without pushing the whole page past the viewport (F-010). Let the row wrap so
+   the right side drops below the title instead of forcing a horizontal body scroll. */
+@media (max-width: 767.98px) {
+  .lib-row { flex-wrap: wrap; }
+  .lib-row__right { flex-shrink: 1; flex-wrap: wrap; justify-content: flex-end; margin-left: auto; }
+}
 .lib-badge {
   font-size: var(--type-label);
   font-weight: 600;

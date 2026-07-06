@@ -127,6 +127,10 @@ textarea { resize: vertical; }
 .stage {
   min-height: 100dvh;
   display: grid;
+  /* minmax(0, …) caps the single column at the container width — without it a
+     nowrap child (e.g. a long run subtitle) inflates the grid's max-content track
+     and the page scrolls sideways on narrow screens (F-010). Centering is preserved. */
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
   padding: clamp(1.5rem, 5vw, 3rem);
 }
