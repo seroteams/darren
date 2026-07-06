@@ -114,9 +114,12 @@ Per meeting type, mix `signal` and `best_practice` points and lean on appropriat
   - Junior: `quality`, `communication`, `ownership`, `reliability`.
 - **Relational-arc gate (hard).** For **Bi-weekly check-in** and **Something feels off**, every focus point MUST come from a `wellbeing` or `topic` catalogue entry. Never emit a `competency` entry (`quality`, `speed`, `ownership`, `communication`, `reliability`, `judgment`, `impact`, `decision_making_speed`, `technical_problem_solving`, `stakeholder_engagement`, `delegation`) in these two arcs — a competency label reads as a hidden performance review and breaks the relational frame. For these arcs, focus labels must frame the conversation, not evaluate the person.
 - Sparse or empty notes → 0 `signal`, 2–4 `best_practice` (see Thin-notes floor below).
-- **Thin-notes floor (hard).** When the manager's notes are under **15 words**, treat them as thin input: no focus point may carry or imply a wellbeing/state read of ANY polarity (positive or negative), and a `signal` point is allowed only when the short note is still a concrete observation you can quote near-verbatim in the `reason`. A vague thin note ("fine", "quiet lately", "n/a") gets `best_practice` points only.
+- **Thin-notes floor (hard).** When the manager's notes are under **15 words**, treat them as thin input — but the floor governs *your* inference, not the manager's own words:
+  - You may not infer, read, or imply a wellbeing/state read of ANY polarity (positive or negative) from tone, brevity, or vibes. That stays banned.
+  - **If the manager explicitly names a concern** in the short note ("motivation", "seems unhappy", "lost his spark"), that is anchored evidence — not a vibe. Surface it as **exactly one `signal` point that quotes/paraphrases the manager near-verbatim and opens it for conversation without decoding the cause** (the "smells funny" behaviour in `<epistemic_rules>`) — never a diagnosis of the person.
+  - A vague thin note with no stated concern ("fine", "quiet lately", "n/a") gets `best_practice` points only.
 - **Dominant-signal adjacency (hard).** When the notes carry **one sharp dominant signal** (a single concrete concern, e.g. "too many review rounds before it feels ready"), every `best_practice` point must stay **adjacent to that signal's theme** — it should deepen or surround the same concern, not import an orthogonal competency the notes give no cue for. Concretely: a "review rounds / quality of the work" note supports `quality`, `feedback`, `growth` adjacent to craft — it does NOT support `reliability` (dates/slippage/predictability) unless the notes mention timing. The catalogue examples for a competency are not a licence to introduce its dimension; if the notes are silent on dates, do not add a dates point. Prefer capping `best_practice` to 1 when a single strong signal dominates.
-- **Signal honesty.** When the manager's notes contain a concrete observation (anything other than "n/a", "fine", "nothing flagged", or empty), at least 1 point should be `source: "signal"`. If you cannot find a real observation, every point should be `source: "best_practice"` — that is correct, not a failure.
+- **Signal honesty.** When the manager's notes contain a concrete observation **or an explicitly named concern** (anything other than "n/a", "fine", "nothing flagged", or empty), at least 1 point MUST be `source: "signal"`, anchored to the manager's own words — **even when the note is thin and the concern is about wellbeing or motivation**. An all-`best_practice` list on a note that named a concern is a miss: the manager reads it as "you ignored what I wrote." Only when there is genuinely no observation should every point be `source: "best_practice"` — that is correct, not a failure.
 </proportioning>
 
 <distinctness>
@@ -188,7 +191,16 @@ Each example shows `id · label · reason · source · confidence`.
 - `priorities` · "Work in flight this cycle." · "What he's actually shipping this cycle, independent of the late-nights signal." · `best_practice` · `low`
 - `manager_support` · "What he'd want more of from you." · "What he'd want more of from you that he hasn't asked for yet." · `best_practice` · `low`
 
-**Example 2** — epistemic hedging + distinct signal points
+**Example 2** — manager names a wellbeing concern on a thin note (anchored signal, not suppressed)
+(UX Lead / Lead / Bi-weekly check-in; notes: "On the manager's mind: motivation. Seems unhappy."):
+
+- `energy` · "Motivation and how they've been feeling lately." · "You flagged motivation and that they seem off — open it gently and let them describe how they're feeling, not a verdict." · `signal` · `medium`
+- `manager_support` · "What they'd want more of from you." · "What support or air cover would make the next two weeks feel better — a natural pair to a motivation check." · `best_practice` · `low`
+- `priorities` · "Their concrete work this cycle." · "What they're carrying this cycle, so a motivation talk sits next to the concrete work rather than floating free." · `best_practice` · `low`
+
+Note for the generator: the manager named the concern (motivation), so it becomes one anchored `signal` opened as a prompt — never suppressed to all-`best_practice`, never a diagnosis. The `best_practice` points stay adjacent to the motivation theme.
+
+**Example 3** — epistemic hedging + distinct signal points
 (Junior Frontend Engineer / Something feels off; notes: "PRs slower, quieter in standup, missed two socials, possible friction on a design-system PR"):
 
 - `energy` · "Motivation and pace vs three months ago." · "Notes mention slower PRs and quieter standups — could be fatigue, something personal, or just a quiet stretch." · `signal` · `medium`
@@ -196,7 +208,7 @@ Each example shows `id · label · reason · source · confidence`.
 - `feedback` · "Landing the design-system PR rework." · "Notes flag heavy rework on the design-system PR — ask how the review felt rather than assuming it landed badly." · `signal` · `medium`
 - `role_clarity` · "What 'good' looks like at their level." · "What 'good' looks like at their level, a common gap six-to-nine months into a first role." · `best_practice` · `low`
 
-**Example 3** — sparse notes, mostly best_practice for an exec
+**Example 4** — sparse notes, mostly best_practice for an exec
 (CTO / Senior / Performance & feedback; notes light):
 
 - `impact` · "Strategic impact & leverage this quarter." · "What his work is actually moving at CTO level this quarter, the default anchor when notes are light." · `best_practice` · `low`
@@ -204,7 +216,7 @@ Each example shows `id · label · reason · source · confidence`.
 - `stakeholder_engagement` · "Trust with the board and exec peers." · "Whether board and exec-peer trust is holding — a core CTO surface and a frequent blind spot." · `best_practice` · `low`
 - `delegation` · "Delegation as the team scales." · "Whether delegation is keeping pace as the team scales — a standing growth edge for a senior leader." · `best_practice` · `low`
 
-**Example 4** — Mid-level + behavioural signal probed via underlying dimension
+**Example 5** — Mid-level + behavioural signal probed via underlying dimension
 (Mid Web Designer / Growth & career plan; notes: "Has been very negative in team meetings recently"):
 
 - `feedback` · "How critique conversations have been landing — both directions." · "Notes mention negativity in team meetings — worth opening whether it's about how feedback is given or received." · `signal` · `medium`
