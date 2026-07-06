@@ -36,6 +36,11 @@ export interface RunsService {
   // member doesn't own. `open` is the raw ?open= query value — the literal "1" also
   // includes the caller's started-but-unfinished preps (Team-for-managers).
   myFinished(orgId: string | null | undefined, userId: string | null | undefined, open?: unknown): { runs: unknown[] };
+  // The 1:1s ABOUT the caller (people-roster Phase 5): runs stamped with a personId the
+  // caller's account is linked to. LIST-ONLY by ruling — the service re-cuts every row
+  // to { id, meetingType, lastSeenAt, completedAt, managerName } even if the repo
+  // over-shares, so notes/briefings/ratings can never leak to the member.
+  aboutMe(orgId: string | null | undefined, personIds: string[], managerNames: Record<string, string>): { runs: unknown[] };
   myRun(id: string | undefined, orgId: string | null | undefined, userId: string | null | undefined): unknown;
   // Rate one of the member's OWN 1:1s (pre-go-live PG3): 1-5 stars + optional note,
   // stored as a rating.json sidecar. Fenced by org AND user — a run the caller doesn't
@@ -118,6 +123,20 @@ export function createRunsService(repo: RunsRepo): RunsService {
     },
     finished: (orgId) => ({ runs: repo.listFinished(orgId) }),
     myFinished: (orgId, userId, open) => ({ runs: repo.listFinishedForMember(orgId, userId, open === "1") }),
+    aboutMe: (orgId, personIds, managerNames) => {
+      if (!personIds.length) return { runs: [] }; // unlinked member — nothing to walk
+      const runs = repo.listAboutPerson(orgId, personIds).map((r) => {
+        const o = asRecord(r);
+        return {
+          id: o.id,
+          meetingType: o.meetingType,
+          lastSeenAt: o.lastSeenAt,
+          completedAt: o.completedAt ?? null,
+          managerName: (typeof o.managerId === "string" && managerNames[o.managerId]) || null,
+        };
+      });
+      return { runs };
+    },
     myRun: (id, orgId, userId) => {
       const view = repo.memberRun(requireId(id), orgId, userId);
       if (!view) throw notFound("unknown run");

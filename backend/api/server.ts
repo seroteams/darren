@@ -285,6 +285,10 @@ function main(): void {
   // to the caller's userId. Registered before the admin runs routes so the literal /mine
   // isn't shadowed; plain v1Route (no adminV1). The admin runs endpoints below are unchanged.
   router.add("GET", "/api/v1/runs/mine", v1Route(runs.mine));
+  // The 1:1s ABOUT the caller (people-roster Phase 5) — login required, any role;
+  // list-only rows by construction (privacy ruling). Literal path, registered with
+  // the other member-safe runs routes so the /:id regexes can't shadow it.
+  router.add("GET", "/api/v1/runs/about-me", v1Route(runs.aboutMe));
   router.add("GET", /^\/api\/v1\/runs\/mine\/(?<id>[^/]+)$/, v1Route(runs.mineDetail));
   // Rate one of your own runs (pre-go-live PG3) — member-safe (org+user fenced in the
   // service), origin-guarded. Registered with the other /mine routes.
@@ -323,6 +327,13 @@ function main(): void {
   router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/archive$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return team.archivePerson(c);
+  }));
+  // Person ↔ member-account link (people-roster Phase 5) — manager/admin only; the
+  // link is what powers a member's GET /runs/about-me below.
+  router.add("GET", "/api/v1/team/linkable-users", v1Route(team.linkableUsers));
+  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/link$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return team.linkPerson(c);
   }));
   router.add("GET", "/api/v1/runs/recent", v1Route(runs.recent));
   router.add("GET", "/api/v1/runs/finished", v1Route(runs.finished));

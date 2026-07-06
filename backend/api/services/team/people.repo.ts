@@ -4,9 +4,9 @@
 // org_id + manager_id — the repo never answers across that wall. The service depends
 // on the interface, so it's unit-tested against an in-memory fake without a database.
 
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { getDb } from "../../../db/client.ts";
-import { people } from "../../../db/schema.ts";
+import { people, users } from "../../../db/schema.ts";
 
 /** One roster row as stored. */
 export interface PersonRow {
@@ -24,6 +24,8 @@ export interface PersonRow {
 export interface PeopleRepo {
   /** Every row for this manager — merged/archived included; the service filters. */
   listForManager(orgId: string, managerId: string): Promise<PersonRow[]>;
+  /** Every row in the org — the "1:1s about me" resolve needs rows across managers. */
+  listForOrg(orgId: string): Promise<PersonRow[]>;
   /** One row, fenced — null when the id isn't this manager's (or this org's). */
   findForManager(id: string, orgId: string, managerId: string): Promise<PersonRow | null>;
   insert(fields: {
@@ -59,6 +61,10 @@ export const pgPeopleRepo: PeopleRepo = {
       .from(people)
       .where(and(eq(people.orgId, orgId), eq(people.managerId, managerId)));
   },
+  async listForOrg(orgId) {
+    const db = getDb();
+    return db.select(COLUMNS).from(people).where(eq(people.orgId, orgId));
+  },
   async findForManager(id, orgId, managerId) {
     const db = getDb();
     const rows = await db
@@ -89,4 +95,23 @@ export const pgPeopleRepo: PeopleRepo = {
       .set({ ...patch, updatedAt: new Date() })
       .where(eq(people.id, id));
   },
+};
+
+/** One org account as the link picker sees it (people-roster Phase 5). */
+export interface OrgUser {
+  id: string;
+  orgId: string;
+  name: string;
+  email: string;
+}
+
+export type ListOrgUsers = (orgId: string) => Promise<OrgUser[]>;
+
+/** Active (non-deactivated) users in one org — the link targets. */
+export const pgListOrgUsers: ListOrgUsers = async (orgId) => {
+  const db = getDb();
+  return db
+    .select({ id: users.id, orgId: users.orgId, name: users.name, email: users.email })
+    .from(users)
+    .where(and(eq(users.orgId, orgId), isNull(users.deactivatedAt)));
 };

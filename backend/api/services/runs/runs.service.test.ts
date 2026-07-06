@@ -32,6 +32,7 @@ function fakeRepo(over: Partial<RunsRepo> = {}): { repo: RunsRepo; calls: Calls 
       calls.writeReview.push({ dir, data });
     },
     listFinishedForMember: () => [],
+    listAboutPerson: () => [],
     memberRun: () => null,
     cloneRun: (_sourceId, _orgId, _userId) => ({ id: "clone-1" }),
     readRating: () => null,
@@ -97,6 +98,38 @@ test("myFinished forwards orgId+userId and wraps the member's own runs (member-n
   });
   assert.deepEqual(createRunsService(repo).myFinished("org-A", "u1"), { runs: [{ id: "m1" }] });
   assert.deepEqual(seen, [{ orgId: "org-A", userId: "u1" }]);
+});
+
+test("aboutMe forwards org + person ids and stamps the manager's display name (people-roster Phase 5)", () => {
+  const seen: Array<{ orgId?: string | null; personIds?: string[] }> = [];
+  const { repo } = fakeRepo({
+    listAboutPerson: (orgId, personIds) => {
+      seen.push({ orgId, personIds });
+      return [{ id: "r1", meetingType: "One-on-one", lastSeenAt: 5, completedAt: 5, managerId: "mgr-1" }];
+    },
+  });
+  const out = createRunsService(repo).aboutMe("org-A", ["p1", "p2"], { "mgr-1": "Carl" });
+  assert.deepEqual(out, {
+    runs: [{ id: "r1", meetingType: "One-on-one", lastSeenAt: 5, completedAt: 5, managerName: "Carl" }],
+  });
+  assert.deepEqual(seen, [{ orgId: "org-A", personIds: ["p1", "p2"] }]);
+});
+
+test("aboutMe with no linked people returns an empty list without touching the repo", () => {
+  let called = 0;
+  const { repo } = fakeRepo({ listAboutPerson: () => { called++; return []; } });
+  assert.deepEqual(createRunsService(repo).aboutMe("org-A", [], {}), { runs: [] });
+  assert.equal(called, 0);
+});
+
+test("aboutMe never leaks extra fields — an over-sharing repo row is cut to the minimal shape", () => {
+  const { repo } = fakeRepo({
+    listAboutPerson: () => [
+      { id: "r1", meetingType: "1:1", lastSeenAt: 1, completedAt: null, managerId: "m", notes: "SECRET", briefing: { x: 1 }, ctx: { name: "P" } },
+    ],
+  });
+  const out = createRunsService(repo).aboutMe("org-A", ["p1"], {});
+  assert.deepEqual(Object.keys(out.runs[0] as Record<string, unknown>).sort(), ["completedAt", "id", "lastSeenAt", "managerName", "meetingType"]);
 });
 
 test("myFinished passes includeOpen through only for the literal query value \"1\"", () => {

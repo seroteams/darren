@@ -5,7 +5,7 @@
 // one (their history + average combine). Distinct from the admin Library (admin-only).
 
 import { STAGES, store } from "../state.js";
-import { listMyRuns, getTeamAliases, mergePeople, renamePerson, listPeople, renamePersonById, mergePeopleById } from "../../../shared/api.js";
+import { listMyRuns, getTeamAliases, mergePeople, renamePerson, listPeople, renamePersonById, mergePeopleById, linkPerson, listLinkableUsers } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
@@ -25,7 +25,8 @@ type Person = {
   avgStars: number | null;
 };
 type Aliases = { merges: Record<string, string>; names: Record<string, string> };
-type Roster = { people: Array<{ id: string; name: string; role: string | null }>; merges: Record<string, string> };
+type Roster = { people: Array<{ id: string; name: string; role: string | null; userId: string | null }>; merges: Record<string, string> };
+type OrgUser = { id: string; name: string; email: string };
 
 // Local one-use time-ago (mirrors runs.ts) — four lines, so no shared util for one caller.
 function metaLine(p: Person): string {
@@ -57,7 +58,7 @@ function personCard(p: Person): string {
 // Roster-backed cards (personId) write the people table; legacy name-keyed cards keep the
 // alias endpoints — so the picker only offers same-kind targets (the two stores can't merge
 // into each other).
-function personEditRow(p: Person, all: Person[]): string {
+function personEditRow(p: Person, all: Person[], roster: Roster, orgUsers: OrgUser[]): string {
   const role = p.role ? `<span class="text-ink-dim"> · ${escapeHtml(p.role)}</span>` : "";
   const options = all
     .filter((o) => o.key !== p.key && Boolean(o.personId) === Boolean(p.personId))
@@ -69,6 +70,18 @@ function personEditRow(p: Person, all: Person[]): string {
            <option value="">— choose —</option>${options}
          </select></label>`
     : "";
+  // Person ↔ account link (Phase 5): roster cards only. Linking a person to a member's
+  // login is what lets that member see the 1:1s about them — list-only, on their Home.
+  const linkedUserId = p.personId ? roster.people.find((r) => r.id === p.personId)?.userId ?? null : null;
+  const linkControl = p.personId && orgUsers.length
+    ? `<label class="text-sm text-ink-dim">Linked account
+         <select class="input js-link" data-key="${escapeHtml(p.key)}">
+           <option value="">— not linked —</option>
+           ${orgUsers
+             .map((u) => `<option value="${escapeHtml(u.id)}"${u.id === linkedUserId ? " selected" : ""}>${escapeHtml(u.name)} (${escapeHtml(u.email)})</option>`)
+             .join("")}
+         </select></label>`
+    : "";
   return `
     <div class="card-flat l-stack l-stack--2">
       <div class="text-sm"><strong>${escapeHtml(p.name)}</strong>${role}</div>
@@ -76,6 +89,7 @@ function personEditRow(p: Person, all: Person[]): string {
       <div class="l-cluster l-cluster--2">
         <button type="button" class="btn btn--ghost btn--sm js-rename" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}">Rename</button>
         ${mergeControl}
+        ${linkControl}
       </div>
     </div>`;
 }
@@ -83,6 +97,8 @@ function personEditRow(p: Person, all: Person[]): string {
 export const mount: Mount = async (root, { setState }) => {
   let aliases: Aliases = { merges: {}, names: {} };
   let roster: Roster = { people: [], merges: {} };
+  let orgUsers: OrgUser[] = [];
+  let orgUsersLoaded = false;
   let people: Person[] = [];
   let editing = false;
   let runsCache: unknown[] = [];
@@ -118,7 +134,7 @@ export const mount: Mount = async (root, { setState }) => {
 
   const renderPeople = () => {
     const body = editing
-      ? people.map((p) => personEditRow(p, people)).join("")
+      ? people.map((p) => personEditRow(p, people, roster, orgUsers)).join("")
       : people.map(personCard).join("");
     root.innerHTML = shell(`<section class="l-stack l-stack--2">${body}</section>`);
     wire();
@@ -127,7 +143,20 @@ export const mount: Mount = async (root, { setState }) => {
   const wire = () => {
     root.querySelector(".js-start")?.addEventListener("click", startOneOnOne);
     root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
-    root.querySelector(".js-edit")?.addEventListener("click", () => { editing = !editing; renderPeople(); });
+    root.querySelector(".js-edit")?.addEventListener("click", () => {
+      editing = !editing;
+      renderPeople();
+      // The link picker's options load lazily on first Tidy-up (managers only).
+      if (editing && !orgUsersLoaded) {
+        orgUsersLoaded = true;
+        void listLinkableUsers()
+          .then((res) => {
+            orgUsers = Array.isArray((res as { users?: OrgUser[] })?.users) ? (res as { users: OrgUser[] }).users : [];
+            if (editing) renderPeople();
+          })
+          .catch(() => {});
+      }
+    });
     root.querySelectorAll<HTMLElement>(".js-person").forEach((el) => {
       el.addEventListener("click", () => {
         const key = el.dataset.key;
@@ -140,6 +169,21 @@ export const mount: Mount = async (root, { setState }) => {
     root.querySelectorAll<HTMLSelectElement>(".js-merge").forEach((el) => {
       el.addEventListener("change", () => { void doMerge(el.dataset.key || "", el.dataset.name || "", el.value); });
     });
+    root.querySelectorAll<HTMLSelectElement>(".js-link").forEach((el) => {
+      el.addEventListener("change", () => { void doLink(el.dataset.key || "", el.value); });
+    });
+  };
+
+  // Link / unlink a roster person to a member account (Phase 5).
+  const doLink = async (key: string, userId: string) => {
+    try {
+      await linkPerson(key, userId || null);
+      roster = (await listPeople()) as Roster;
+      renderPeople();
+    } catch {
+      window.alert("Couldn't update the link — please try again.");
+      renderPeople();
+    }
   };
 
   // Roster-backed cards write the people table; legacy name-keyed cards keep the aliases.

@@ -315,6 +315,18 @@ export async function renamePersonById(id, name) {
 export async function mergePeopleById(id, intoId) {
   return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/merge`, { intoId });
 }
+// Person ↔ member-account link (people-roster Phase 5). userId null unlinks.
+export async function linkPerson(id, userId) {
+  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/link`, { userId });
+}
+export async function listLinkableUsers() {
+  return json(await fetch("/api/v1/team/linkable-users"));
+}
+// The 1:1s ABOUT the logged-in member (list-only: type + date + manager — no notes,
+// no briefing, by the privacy ruling). Empty list when nothing is linked.
+export async function listRunsAboutMe() {
+  return json(await fetch("/api/v1/runs/about-me"));
+}
 
 // Dev-only "prefill a run" (admin-only server-side). clonable = every finished run on
 // disk to seed from; cloneRun copies one into a fresh run the caller owns (lands in

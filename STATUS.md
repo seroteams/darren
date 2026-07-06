@@ -9,23 +9,24 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
-> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — P1–P3 ✅ (all "go") · P4 (manager UI) BUILT, awaiting your walk (2026-07-06).**
+> **🔨 [people-roster](docs/todo/people-roster/PLAN.md) — P1–P4 ✅ (all "go") · P5 (member "Your 1:1s") BUILT — the LAST phase, awaiting your walk (2026-07-06).**
 > Your ask: members should only see their own 1:1s → the real build (option B): managers formally
-> **have** members; a member linked to a roster person will see the 1:1s ABOUT them (Phase 5, next).
-> **Done so far:** ① `people` table + fenced endpoints (`4a762779`) · ② every new 1:1 stamps `personId`
-> (`30218597`; a serializer whitelist bug was caught at the destination + pinned) · ③ backfill walked
-> every old run — 20 people created, 27 runs stamped, 7 orphans (deleted owners) skipped honestly.
-> **P4 BUILT — the first VISIBLE change:** the New 1:1 name step is a **person picker** for managers
-> (one tap fills name/role/seniority + links the run; "Someone new" keeps free-text; guests/members
-> unaffected); **Team + person pages group by roster identity** (the roster row's name/role win —
-> typing "priya shah" shows under "Priya Shah"); **Tidy-up rename/merge now writes the people table**.
-> Browser-proven headless on a scratch pair at $0 (login → Team roster name + honest open-prep label →
-> rename landed in Neon → picker w/ renamed person → pick prefilled role → Someone-new path); QA data
-> cleaned; screenshot sent. `npm test` **79/79** · typecheck clean. ⚠️ **Restart your dev API + reload**
-> to see it on :3000. **Walk:** the 4 scenarios in [phase-4.md](docs/todo/people-roster/phase-4.md)
-> (all free) — or say go → **Phase 5, the payoff: link a person to a member account + member
-> "Your 1:1s"**. ⚠️ Privacy: members will get **list-only** (type + date + manager) — no notes, no
-> briefing; richer is your call (parked: `member-run-visibility`).
+> **have** members, and a member linked to a roster person sees the 1:1s ABOUT them.
+> **Done:** ① `people` table + fenced endpoints (`4a762779`) · ② new 1:1s stamp `personId`
+> (`30218597`) · ③ backfill stamped every old run (20 people / 27 runs) · ④ person picker on intake +
+> roster-driven Team + Tidy-up writes the roster (`c38cb2ae`).
+> **P5 BUILT — the payoff:** Team → Tidy up gains a **"Linked account"** picker (same-org users only;
+> bogus target → 400; blank unlinks) and a member's Home is now **"Your 1:1s"**: the sessions their
+> manager ran about them — **list-only** (type · with manager · date; the dead "Start a new session"
+> 403 button is gone). Privacy enforced in code, not just UI: the service re-cuts every row to five
+> fields even if storage over-shares (pinned by a test); live API body checked — zero
+> notes/briefing/rating fields. Full walk on a scratch pair at $0: link → member sees it; UI unlink →
+> "Nothing here yet…"; re-link → back (verified in Neon + API + screenshot); member 403 on the roster
+> endpoints. `npm test` **79/79** · typecheck clean. ⚠️ **Restart your dev API + reload** to see it.
+> **Walk:** the 5 scenarios in [phase-5.md](docs/todo/people-roster/phase-5.md) (all free — link a
+> person to member@ in Tidy up, log in as member@). **Green light closes the whole plan** (folder →
+> done/, board + changelog refresh). Parked: member detail view / anything richer than the list
+> (`member-run-visibility`) · invitations/email claim · reseed so the QA member is a linked person.
 
 > **✅ team-for-managers — CLOSED 2026-07-05 ("go"): Team now shows started preps, proven + committed.**
 > Your ask: managers need to see their team members on Team. Finding: it already worked, but only from

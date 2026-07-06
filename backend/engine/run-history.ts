@@ -281,6 +281,27 @@ function listFinishedRunsForMember(orgId: string | null | undefined, userId: str
   });
 }
 
+// The 1:1s ABOUT a set of roster people (people-roster Phase 5) — what a linked member
+// sees. Org-fenced walk, finished runs only, filtered by state.personId. The row is
+// DELIBERATELY minimal (privacy: the no-inference ruling treats manager notes as
+// sensitive): meeting type + dates + which manager (id — the service resolves a name).
+// NO ctx.notes, NO briefing, NO rating, and not even the free-text ctx snapshot.
+function listFinishedRunsAboutPerson(orgId: string | null | undefined, personIds: string[]) {
+  if (!orgId || personIds.length === 0) return [];
+  const wanted = new Set(personIds);
+  const runs = walkRuns(orgId).filter(
+    ({ state }) => state && state.briefing && wanted.has(asString(state.personId)),
+  );
+  runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
+  return runs.map(({ id, state }) => ({
+    id,
+    meetingType: asString(asRecord(state.ctx).meetingType),
+    lastSeenAt: asNumber(state.lastSeenAt),
+    completedAt: asNumber(state.completedAt) || null,
+    managerId: asString(state.userId) || null,
+  }));
+}
+
 // Every finished run across ALL companies, attributed to its owner (pre-go-live PG7).
 // Unfenced on purpose — the ONE cross-tenant read, reachable only behind the superadmin
 // repo/route. Returns just the fields the alpha signal needs (owner, when, rating); the
@@ -648,6 +669,7 @@ export {
   cloneRunState,
   cloneRun,
   listFinishedRunsForMember,
+  listFinishedRunsAboutPerson,
   listRunsForSuperadmin,
   listFinishedRunsForUser,
   memberRunView,

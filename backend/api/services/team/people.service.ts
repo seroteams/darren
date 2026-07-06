@@ -3,8 +3,8 @@
 // in team.service.ts), archive as a stamp. Every op is fenced to the caller's orgId +
 // managerId; a miss answers "not found", never "forbidden" (don't confirm the row exists).
 
-import { pgPeopleRepo } from "./people.repo.ts";
-import type { PeopleRepo, PersonRow } from "./people.repo.ts";
+import { pgPeopleRepo, pgListOrgUsers } from "./people.repo.ts";
+import type { PeopleRepo, PersonRow, ListOrgUsers, OrgUser } from "./people.repo.ts";
 import { badRequest, notFound } from "../../middleware/http-error.ts";
 
 const NAME_CAP = 80; // same cap as team.service.ts rename
@@ -66,9 +66,22 @@ export interface PeopleService {
     managerId: string | null | undefined,
     input: { personId?: string; name?: unknown; role?: unknown; seniority?: unknown },
   ): Promise<string | null>;
+  /** Link the caller's person to a member account (Phase 5) — the wire that powers
+   *  "1:1s about me". Target must be a user in the SAME org (400 otherwise); null
+   *  unlinks. Fenced like every other op (foreign person → 404). */
+  link(id: string, orgId: string, managerId: string, userId: string | null): Promise<{ person: PersonRow }>;
+  /** The link-picker's options: active users in the caller's org. */
+  linkableUsers(orgId: string): Promise<{ users: OrgUser[] }>;
+  /** Every person id whose canonical head is linked to this user — merge chains
+   *  included, so runs stamped with a since-merged id still count as "about me". */
+  linkedPersonIds(orgId: string, userId: string): Promise<string[]>;
 }
 
-export function createPeopleService(repo: PeopleRepo = pgPeopleRepo): PeopleService {
+export function createPeopleService(
+  repo: PeopleRepo = pgPeopleRepo,
+  deps: { listOrgUsers?: ListOrgUsers } = {},
+): PeopleService {
+  const listOrgUsers = deps.listOrgUsers ?? pgListOrgUsers;
   /** The caller's own row or a 404 — the fencing everything else builds on. */
   async function owned(id: string, orgId: string, managerId: string): Promise<PersonRow> {
     const row = await repo.findForManager(id, orgId, managerId);
@@ -137,6 +150,32 @@ export function createPeopleService(repo: PeopleRepo = pgPeopleRepo): PeopleServ
       const row = await owned(id, orgId, managerId);
       await repo.update(row.id, { archivedAt: new Date() });
       return { ok: true };
+    },
+
+    async link(id, orgId, managerId, userId) {
+      const row = await owned(id, orgId, managerId);
+      if (userId === null || userId === "") {
+        await repo.update(row.id, { userId: null });
+        return { person: { ...row, userId: null } };
+      }
+      const target = (await listOrgUsers(orgId)).find((u) => u.id === userId);
+      if (!target) throw badRequest("Unknown user for this company");
+      await repo.update(row.id, { userId: target.id });
+      return { person: { ...row, userId: target.id } };
+    },
+
+    async linkableUsers(orgId) {
+      return { users: await listOrgUsers(orgId) };
+    },
+
+    async linkedPersonIds(orgId, userId) {
+      if (!userId) return [];
+      const rows = await repo.listForOrg(orgId);
+      const linked = new Set(rows.filter((r) => r.userId === userId).map((r) => r.id));
+      if (!linked.size) return [];
+      // A run stamped with a since-merged id must still count — include every row
+      // whose merge chain resolves to a linked head.
+      return rows.filter((r) => linked.has(resolveCanonical(rows, r.id))).map((r) => r.id);
     },
 
     async resolveForRun(orgId, managerId, input) {

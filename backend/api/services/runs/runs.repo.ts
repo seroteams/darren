@@ -16,6 +16,7 @@ import {
   setArchived,
   findRunDir,
   listFinishedRunsForMember,
+  listFinishedRunsAboutPerson,
   memberRunView,
   cloneRun,
 } from "../../../engine/run-history.ts";
@@ -57,6 +58,9 @@ export interface RunsRepo {
   // or owned by someone else. includeOpen (Team-for-managers) adds the caller's
   // started-but-unfinished preps, each row flagged `finished`.
   listFinishedForMember(orgId: string | null | undefined, userId: string | null | undefined, includeOpen?: boolean): unknown[];
+  // The 1:1s ABOUT a set of roster people (people-roster Phase 5) — a linked member's
+  // list. Minimal rows by design (type + dates + managerId); privacy lives in the engine.
+  listAboutPerson(orgId: string | null | undefined, personIds: string[]): unknown[];
   memberRun(id: string, orgId: string | null | undefined, userId: string | null | undefined): unknown;
   // Dev-only "prefill a run": copy a finished run into a fresh one owned by the caller.
   // Returns the new run's id, or null when the source is unknown / not finished.
@@ -113,6 +117,7 @@ export const fileRunsRepo: RunsRepo = {
   readRating: (dir) => readRatingFile(dir),
   writeRating: (dir, data) => writeRatingFile(dir, data),
   listFinishedForMember: (orgId, userId, includeOpen) => listFinishedRunsForMember(orgId, userId, includeOpen),
+  listAboutPerson: (orgId, personIds) => listFinishedRunsAboutPerson(orgId, personIds),
   memberRun: (id, orgId, userId) => memberRunView(id, orgId, userId),
   cloneRun: (sourceId, orgId, userId) => cloneRun(sourceId, orgId, userId),
 };

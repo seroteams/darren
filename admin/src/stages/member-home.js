@@ -1,39 +1,52 @@
-// Member Home — the landing page for a plain member (member-nav Phase 1). Keeps it
-// simple: a welcome and one clear way to start a prep session. The admin Home
-// (start.js) is a separate, heavier page and is never shown to a member.
+// Member Home — the landing page for a plain member (member-nav Phase 1; reworked in
+// people-roster Phase 5). Members can't START a 1:1 (the old button was a dead 403) —
+// instead this shows "Your 1:1s": the sessions their MANAGER ran about them, via the
+// person↔account link. List-only by the privacy ruling: meeting type + date + which
+// manager. No notes, no briefing, no detail view.
 
 import { STAGES, store, isAdmin } from "../state.js";
-import { getClonableRuns, cloneRun } from "../../../shared/api.js";
+import { getClonableRuns, cloneRun, listRunsAboutMe } from "../../../shared/api.js";
 import { escapeHtml as esc } from "../ui/html.js";
-
-let keyHandler = null;
+import { formatDate } from "../ui/time.ts";
 
 export async function mount(root, { setState }) {
   root.innerHTML = `
     <div class="stage-inner l-stack l-stack--8">
       <header class="page-header">
         <h1 class="h1">Welcome to Sero</h1>
-        <div class="text-ink-dim text-sm">Prep for your next 1:1 in a few minutes.</div>
+        <div class="text-ink-dim text-sm">Your 1:1s, in one place.</div>
       </header>
 
       <section class="card-flat space-y-3">
-        <div class="eyebrow">Start here</div>
-        <p class="text-sm">Sero walks you through a quick prep and writes a briefing you can use in the meeting. Here's how it goes:</p>
-        <p class="text-sm text-ink-dim">1 &middot; Tell Sero who you're meeting and what's on your mind.</p>
-        <p class="text-sm text-ink-dim">2 &middot; Answer a few short questions.</p>
-        <p class="text-sm text-ink-dim">3 &middot; Get a briefing to guide the 1:1.</p>
-        <button type="button" class="btn js-start">Start a new session</button>
+        <div class="eyebrow">Your 1:1s</div>
+        <div class="js-about l-stack l-stack--2">
+          <p class="text-sm text-ink-dim">Loading…</p>
+        </div>
       </section>
     </div>
   `;
 
-  function startNew() {
-    store.scripted = null;
-    Object.assign(store.ctx, { personId: null, name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" });
-    setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
+  const host = root.querySelector(".js-about");
+  try {
+    const res = await listRunsAboutMe();
+    const runs = Array.isArray(res?.runs) ? res.runs : [];
+    if (!runs.length) {
+      host.innerHTML = `<p class="text-sm text-ink-dim">Nothing here yet. When your manager preps a 1:1 with you, it shows up here.</p>`;
+    } else {
+      host.innerHTML = runs
+        .map((r) => {
+          const bits = [
+            `<span class="text-sm"><strong>${esc(r.meetingType || "1:1")}</strong></span>`,
+            r.managerName ? `<span class="text-sm text-ink-dim">with ${esc(r.managerName)}</span>` : "",
+            r.lastSeenAt ? `<span class="text-sm text-ink-dim">${esc(formatDate(r.lastSeenAt))}</span>` : "",
+          ].filter(Boolean);
+          return `<div class="card-flat runs-list__row"><span class="l-cluster l-cluster--2">${bits.join(" · ")}</span></div>`;
+        })
+        .join("");
+    }
+  } catch {
+    host.innerHTML = `<p class="text-sm text-ink-dim">Couldn't load your 1:1s. Please try again later.</p>`;
   }
-
-  root.querySelector(".js-start").addEventListener("click", startNew);
 
   // A quick way to walk a full run without the intake + Q&A: copies a finished run into a
   // new one you own, so it drops straight into "Runs". Free (file copy, nothing generated).
@@ -50,13 +63,6 @@ export async function mount(root, { setState }) {
     section.appendChild(dev);
     dev.addEventListener("click", () => openPrefillPicker(setState));
   }
-
-  keyHandler = (e) => {
-    if (document.querySelector(".modal-backdrop")) return; // don't fire while the picker is open
-    if (e.target && /^(input|textarea|select)$/i.test(e.target.tagName)) return;
-    if (e.key === "Enter") { e.preventDefault(); startNew(); }
-  };
-  window.addEventListener("keydown", keyHandler);
 }
 
 // The dev prefill picker: list finished runs, pick one, clone it, jump into the copy.
@@ -116,9 +122,5 @@ function openPrefillPicker(setState) {
 }
 
 export function unmount() {
-  if (keyHandler) {
-    window.removeEventListener("keydown", keyHandler);
-    keyHandler = null;
-  }
   document.querySelector(".modal-backdrop")?.remove();
 }

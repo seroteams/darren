@@ -7,6 +7,7 @@ import { createRunsService } from "./runs.service.ts";
 import { fileRunsRepo } from "./runs.repo.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireAdmin, requireAuth } from "../../middleware/require-auth.ts";
+import { peopleService } from "../team/people.service.ts";
 
 const service = createRunsService(fileRunsRepo);
 
@@ -97,6 +98,25 @@ export async function clone(c: RequestContext): Promise<void> {
 export async function mine(c: RequestContext): Promise<void> {
   const { userId, orgId } = await callerIdentity(c);
   c.json(200, service.myFinished(orgId, userId, c.query.open));
+}
+
+// The 1:1s ABOUT the caller (people-roster Phase 5) — login required, ANY role (this is
+// the member's payoff read). The roster resolves which person rows are linked to the
+// caller (merge chains included); the run rows are list-only by construction (see the
+// service). An unlinked caller simply gets an empty list.
+export async function aboutMe(c: RequestContext): Promise<void> {
+  const { userId, orgId } = await callerIdentity(c);
+  if (!userId || !orgId) {
+    c.json(200, { runs: [] });
+    return;
+  }
+  const personIds = await peopleService.linkedPersonIds(orgId, userId);
+  // Manager display names for the rows — from the same org-users read the link picker uses.
+  const managerNames: Record<string, string> = {};
+  if (personIds.length) {
+    for (const u of (await peopleService.linkableUsers(orgId)).users) managerNames[u.id] = u.name;
+  }
+  c.json(200, service.aboutMe(orgId, personIds, managerNames));
 }
 
 export async function mineDetail(c: RequestContext): Promise<void> {
