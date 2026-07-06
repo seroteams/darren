@@ -21,6 +21,22 @@ const RUN_STAGES = new Set([
   STAGES.RUN_DEBRIEF,                   // post-run review
 ]);
 
+// First letter of the name (or email) for the initials circle — same rule as
+// the top-right profile badge (ui/profile-badge.js).
+function initialOf(user) {
+  const src = (user?.name || user?.email || "").trim();
+  return src ? src[0].toUpperCase() : "?";
+}
+
+// Plain-words role for the chip — mirrors ui/profile-badge.js.
+function roleLabelOf(user) {
+  const roles = Array.isArray(user?.roles) ? user.roles : user?.role ? [user.role] : [];
+  if (roles.includes("admin")) return "Admin";
+  if (roles.includes("manager")) return "Manager";
+  if (roles.includes("member")) return "Member";
+  return "";
+}
+
 export function createSessionTopbar({ store, setState, resetSession } = {}) {
   const stageReview = createStageReview({ store });
   const el = document.createElement("div");
@@ -43,9 +59,17 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   stages.setAttribute("aria-label", "Run progress");
   row.appendChild(stages);
 
-  const stepEl = document.createElement("span");
-  stepEl.className = "session-topbar__step";
-  row.appendChild(stepEl);
+  // Who's signed in — an initials circle + email, in the spot the old
+  // "Step X of 7" counter used to sit (the run breadcrumb already shows progress).
+  const profile = document.createElement("span");
+  profile.className = "session-topbar__profile";
+  profile.innerHTML = `
+    <span class="session-topbar__avatar" aria-hidden="true"></span>
+    <span class="session-topbar__email"></span>
+  `;
+  const profileAvatar = profile.querySelector(".session-topbar__avatar");
+  const profileEmail = profile.querySelector(".session-topbar__email");
+  row.appendChild(profile);
 
   const glossaryBtn = createGlossaryButton();
   row.appendChild(glossaryBtn);
@@ -127,7 +151,7 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     if (popover) closePopover(); else openPopover();
   });
 
-  function render({ stage, sessionId } = {}) {
+  function render({ stage, sessionId, user } = {}) {
     const current = String(stage || "");
     // The Phrase library is dual-use: part of the run when there's a live
     // session, a standalone tool when opened from the nav. Only the in-run case
@@ -145,8 +169,12 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     const order = TOPBAR_STAGES.map(([key]) => key);
     const curIdx = order.indexOf(current);
 
-    stepEl.textContent = curIdx >= 0 ? `Step ${curIdx + 1} of ${TOPBAR_STAGES.length}` : "";
-    stepEl.hidden = curIdx < 0;
+    const email = user?.email || "";
+    const role = roleLabelOf(user);
+    profileAvatar.textContent = initialOf(user);
+    profileEmail.textContent = role ? `${email} · ${role}` : email;
+    profile.title = email ? `Signed in as ${email}${role ? ` (${role.toLowerCase()})` : ""}` : "";
+    profile.hidden = !user;
 
     stages.innerHTML = TOPBAR_STAGES
       .map(

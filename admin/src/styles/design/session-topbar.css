@@ -69,11 +69,43 @@
   margin: 0 0.6rem;
   opacity: 0.5;
 }
-.session-topbar__step {
+/* Who's signed in — initials circle + email pill, where the step counter used
+   to be. Matches the floating profile badge (app-nav.css) so the two surfaces
+   read as one. */
+.session-topbar__profile {
   flex-shrink: 0;
-  font-size: var(--type-caption);
-  color: var(--color-ink-mute);
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-2, 0.5rem);
+  min-width: 0;
+  max-width: min(40vw, 280px);
+  padding: 4px 12px 4px 4px;
+  background: #fff;
+  border: 1px solid rgba(36, 68, 92, 0.14);
+  border-radius: 999px;
+}
+.session-topbar__profile[hidden] {
+  display: none;
+}
+.session-topbar__avatar {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #5aa9e6;
+  color: #fff;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-bold);
+  line-height: 1;
+}
+.session-topbar__email {
+  font-size: var(--type-body-sm);
+  color: #24445c;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 body.has-session-topbar {
   padding-top: 44px;

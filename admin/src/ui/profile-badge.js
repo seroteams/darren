@@ -40,6 +40,7 @@ export function createProfileBadge() {
       !!user &&
       stage !== STAGES.LOGIN &&
       stage !== STAGES.REGISTER &&
+      stage !== STAGES.INTAKE && // Setup: the session topbar owns the profile chip
       !isFlowStage(stage);
     if (!show) {
       el.hidden = true;
