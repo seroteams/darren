@@ -1,9 +1,0 @@
-alias: q_reliability_direction
-label: Reliability direction
-name: What would setting reliability direction across teams actually look like for you?
-description: Drills into the named aspiration so she defines the Staff-level scope and outcomes she wants.
-purpose: topic
-stage: investment
-axis_effects:
-  engagement: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_mentoring_pull_14
-label: Mentoring pull
-name: What is it about mentoring those two juniors that energizes you?
-description: Drills into the mentoring thread to hear the kind of leadership work he wants more of.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

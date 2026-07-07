@@ -1,9 +1,0 @@
-alias: q_unclear_parts
-label: Unclear parts
-name: What still feels unclear about how things work here?
-description: Surfaces missing orientation on norms, decision paths, or how the restaurant runs day to day.
-purpose: topic
-stage: orientation
-axis_effects:
-  clarity: +3
-source: generated

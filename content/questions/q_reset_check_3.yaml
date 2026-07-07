@@ -1,8 +1,0 @@
-alias: q_reset_check_3
-label: reset check
-name: Is now a good time for this conversation, or should we pick another time?
-description: Directly reset a non-functional session after repeated skips.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +1
-source: planner_added

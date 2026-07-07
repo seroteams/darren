@@ -1,9 +1,0 @@
-alias: q_vague_ending
-label: vague ending
-name: What exactly made that ending go vague?
-description: Surface the specific moment or behaviour that left the call without a concrete next step.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +1
-source: planner_added

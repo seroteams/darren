@@ -1,9 +1,0 @@
-alias: q_socializing_timing
-label: Socializing timing
-name: What makes you hold back until the analysis feels complete?
-description: Drills into the specific pattern she named to surface the driver behind late stakeholder engagement.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: planner_added

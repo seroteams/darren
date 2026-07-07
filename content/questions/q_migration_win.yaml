@@ -1,9 +1,0 @@
-alias: q_migration_win
-label: Migration win
-name: What about the migration plan felt especially solid to you?
-description: Drills into the concrete win she just named before moving on.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

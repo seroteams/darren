@@ -1,9 +1,0 @@
-alias: q_another_review_miss
-label: Another review miss
-name: What was another case review caught late?
-description: Get a second concrete example to test whether the pattern repeats across work.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

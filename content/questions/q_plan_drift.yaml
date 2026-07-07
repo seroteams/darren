@@ -1,9 +1,0 @@
-alias: q_plan_drift
-label: Plan drift
-name: What changed most from the plan you had at the start of the fortnight?
-description: Surfaces which intended pieces shifted, dropped, or got reshaped over the two weeks.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: generated

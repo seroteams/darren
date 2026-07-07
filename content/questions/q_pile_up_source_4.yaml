@@ -1,9 +1,0 @@
-alias: q_pile_up_source_4
-label: Pile-up source
-name: What was piling up most from your side?
-description: Drills into the specific work or handoffs that accumulated so the load pattern becomes concrete.
-purpose: topic
-stage: underneath
-axis_effects:
-  wellbeing: +3
-source: planner_added

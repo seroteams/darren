@@ -1,9 +1,0 @@
-alias: q_sustainable_pace
-label: Sustainable pace
-name: Since you moved teams, how sustainable does your pace feel right now?
-description: Checks whether the recent transition is affecting energy or masking strain.
-purpose: wellbeing
-stage: cause
-axis_effects:
-  wellbeing: +3
-source: generated

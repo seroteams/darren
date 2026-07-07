@@ -1,9 +1,0 @@
-alias: q_cross_org_alignment
-label: Cross-org alignment
-name: What part of cross-org alignment feels hardest to step into?
-description: Drills into the named hesitation so you can hear the specific senior move he avoids.
-purpose: topic
-stage: anchor
-axis_effects:
-  clarity: +1
-source: planner_added

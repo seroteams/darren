@@ -1,9 +1,0 @@
-alias: q_new_work_gap
-label: New work gap
-name: What were you hoping would feel new here?
-description: Drills into the missing stretch she just named before moving the arc on.
-purpose: topic
-stage: pulse
-axis_effects:
-  growth: +1
-source: planner_added

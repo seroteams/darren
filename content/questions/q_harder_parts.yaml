@@ -1,9 +1,0 @@
-alias: q_harder_parts
-label: Harder parts
-name: Which parts of leading feel hardest for you right now?
-description: Surface the specific leadership decisions or situations she finds difficult so the growth thread becomes concrete.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_missed_states_3
-label: Missed states
-name: You mentioned edge cases and empty states — what tends to get missed there before review?
-description: Drill into the specific misses she already named so the conversation moves from self-read into concrete evidence.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: planner_added

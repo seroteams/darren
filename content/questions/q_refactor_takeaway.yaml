@@ -1,9 +1,0 @@
-alias: q_refactor_takeaway
-label: Refactor takeaway
-name: What from that payments work do you want to carry into the next stretch?
-description: Turns the refactor pride into a forward-looking bridge before the closer.
-purpose: topic
-stage: momentum
-axis_effects:
-  growth: +3
-source: planner_added

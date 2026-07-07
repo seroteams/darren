@@ -1,9 +1,0 @@
-alias: q_next_quarter_ownership_11
-label: Next quarter ownership
-name: "What's making next quarter feel unclear from your side?"
-description: Drills into the uncertainty she just named to surface where ownership expectations are fuzzy.
-purpose: topic
-stage: momentum
-axis_effects:
-  clarity: +1
-source: planner_added

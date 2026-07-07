@@ -1,9 +1,0 @@
-alias: q_cross_team_decisions_6
-label: Cross-team decisions
-name: Where specifically did you stay in your lane instead of stepping into the cross-team call?
-description: Pins the self-read to a concrete moment before the arc moves on.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

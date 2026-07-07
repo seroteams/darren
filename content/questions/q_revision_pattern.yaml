@@ -1,9 +1,0 @@
-alias: q_revision_pattern
-label: revision pattern
-name: Where are the revision loops coming from on the redesign?
-description: Drill into the specific source of the redesign churn she just named.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_cross_team_moment_3
-label: Cross-team moment
-name: "What's one recent cross-team decision you chose not to force?"
-description: Anchors his self-read in a concrete moment where Principal judgment was or was not exercised.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

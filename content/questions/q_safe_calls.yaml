@@ -1,9 +1,0 @@
-alias: q_safe_calls
-label: Safe calls
-name: Where did playing it safe show up most clearly?
-description: Pins the pattern to a specific recent moment before moving on.
-purpose: competency
-stage: evidence
-axis_effects:
-  growth: +3
-source: planner_added

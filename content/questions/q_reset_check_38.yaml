@@ -1,8 +1,0 @@
-alias: q_reset_check_38
-label: Reset check
-name: Is now a good time for this conversation, or should we pick another time?
-description: Direct reset after repeated non-answers to check whether the session can continue usefully.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +1
-source: planner_added

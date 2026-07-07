@@ -1,9 +1,0 @@
-alias: q_early_feedback
-label: Early feedback
-name: What would you want feedback on earlier, specifically?
-description: Drills into the named early-feedback gap to surface the concrete judgment areas he is not testing soon enough.
-purpose: competency
-stage: cause
-axis_effects:
-  clarity: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_tech_lead_pull_16
-label: Tech lead pull
-name: Tech lead — what is it about that role that pulls you?
-description: Drills into what specifically about tech lead scope feels motivating to him.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_cross_team_decisions_9
-label: Cross-team decisions
-name: Which cross-team decision did you hold back from making most recently?
-description: Gets to a concrete moment where he stayed in his lane instead of shaping a broader call.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

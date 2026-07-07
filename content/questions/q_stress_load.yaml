@@ -1,9 +1,0 @@
-alias: q_stress_load
-label: Stress load
-name: What has been most draining in the last couple of weeks?
-description: Gently surfaces stress without assuming burnout or disengagement.
-purpose: wellbeing
-stage: underneath
-axis_effects:
-  wellbeing: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_early_warning_3
-label: Early warning
-name: Where did the second slip stop being visible early enough to call out?
-description: Helps you find the point where the work stopped being manageable in time.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: generated

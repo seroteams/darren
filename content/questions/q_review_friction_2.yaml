@@ -1,9 +1,0 @@
-alias: q_review_friction_2
-label: Review friction
-name: Where does the work tend to get stuck between your draft and sign-off?
-description: Looks for the handoff point where quality gets slowed down or reworked.
-purpose: competency
-stage: gap_naming
-axis_effects:
-  clarity: +3
-source: generated

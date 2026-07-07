@@ -1,9 +1,0 @@
-alias: q_name_opportunities_16
-label: Name opportunities
-name: What opportunities has he not been explicit about wanting?
-description: Drills into the specific scope or forums he wants so the growth path becomes concrete.
-purpose: competency
-stage: investment
-axis_effects:
-  growth: +3
-source: planner_added

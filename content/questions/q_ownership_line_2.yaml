@@ -1,9 +1,0 @@
-alias: q_ownership_line_2
-label: Ownership line
-name: Where did your sense of what you owned stop matching how the work actually unfolded?
-description: Tests whether ownership or sequencing became fuzzy before the second slip.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

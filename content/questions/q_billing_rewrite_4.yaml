@@ -1,9 +1,0 @@
-alias: q_billing_rewrite_4
-label: Billing rewrite
-name: What have you heard so far about the billing rewrite?
-description: Drills into the billing rewrite thread to surface what she knows versus what is still unclear.
-purpose: topic
-stage: momentum
-axis_effects:
-  clarity: +1
-source: planner_added

@@ -1,8 +1,0 @@
-alias: q_reschedule_check_2
-label: Reschedule check
-name: Would another time work better for this?
-description: Offers a simple reset when the check-in is not yielding usable engagement.
-purpose: topic
-axis_effects:
-  clarity: +1
-source: planner_added

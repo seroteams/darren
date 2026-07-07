@@ -1,9 +1,0 @@
-alias: q_execution_pull_8
-label: Execution pull
-name: What is pulling you into execution detail most often right now?
-description: Surfaces the specific pattern keeping him in tactical work instead of bigger-scope leadership.
-purpose: competency
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_billing_rewrite_7
-label: Billing rewrite
-name: What feels weird about how the billing rewrite is being handled?
-description: Drills into the named concern to surface the specific alignment or ownership issue.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_process_tighten
-label: Process tighten
-name: You want to tighten your process — where does it break down most today?
-description: Drills into the process issue she named so the conversation starts from her own read of the problem.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +1
-source: planner_added

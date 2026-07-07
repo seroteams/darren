@@ -1,9 +1,0 @@
-alias: q_flag_earlier_10
-label: Flag earlier
-name: What made it hard to flag that risk earlier?
-description: Drills into the specific missed heads-up moment he just named.
-purpose: topic
-stage: landing
-axis_effects:
-  clarity: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_missed_states_2
-label: Missed states
-name: When you skip edge cases and empty states, where does that show up in review?
-description: Anchor the issue in observable review moments before naming the broader pattern.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: planner_added

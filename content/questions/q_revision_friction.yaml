@@ -1,9 +1,0 @@
-alias: q_revision_friction
-label: revision friction
-name: With those stakeholder tweaks, where does it get most draining?
-description: Drill into the concrete review pattern that is sapping energy.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +3
-source: planner_added

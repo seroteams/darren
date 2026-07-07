@@ -1,9 +1,0 @@
-alias: q_feedback_earlier
-label: Feedback earlier
-name: Where have you waited too long to get feedback recently?
-description: Drills into the concrete pattern he named so you can anchor it in a real example.
-purpose: competency
-stage: evidence
-axis_effects:
-  engagement: +3
-source: planner_added

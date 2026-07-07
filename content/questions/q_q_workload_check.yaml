@@ -1,9 +1,0 @@
-alias: q_q_workload_check
-label: q_workload_check
-name: How has the workload itself been sitting with you?
-description: ""
-purpose: wellbeing
-stage: underneath
-axis_effects:
-  wellbeing: +3
-source: "reworded_from:q_workload_check"

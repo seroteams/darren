@@ -1,9 +1,0 @@
-alias: q_highest_leverage_4
-label: Highest leverage
-name: What work do you think would be higher leverage here right now?
-description: Drills on his own leverage concern by asking him to name the work he believes matters most.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

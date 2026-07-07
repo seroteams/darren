@@ -1,9 +1,0 @@
-alias: q_political_moments_12
-label: Political moments
-name: When it gets political, what makes direct delivery feel like the safer move?
-description: Drills into the specific dynamic behind retreating from influence into execution.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

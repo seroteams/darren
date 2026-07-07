@@ -1,9 +1,0 @@
-alias: q_sequence_next
-label: Sequence next
-name: What needs to happen first before the rest of this can move?
-description: Forces a sequence and reveals the critical path in her current work.
-purpose: competency
-stage: momentum
-axis_effects:
-  clarity: +3
-source: generated

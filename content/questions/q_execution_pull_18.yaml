@@ -1,9 +1,0 @@
-alias: q_execution_pull_18
-label: Execution pull
-name: Where are execution details taking too much of your time right now?
-description: Drills into the specific tactical work pulling him below senior product scope.
-purpose: competency
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

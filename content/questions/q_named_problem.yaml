@@ -1,9 +1,0 @@
-alias: q_named_problem
-label: Named problem
-name: What specific platform problem would you want to own first?
-description: Turns a vague pull toward platform into a concrete aspiration anchored in a named problem space.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

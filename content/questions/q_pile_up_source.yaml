@@ -1,9 +1,0 @@
-alias: q_pile_up_source
-label: Pile-up source
-name: "When it piled up, what was coming in that you couldn't contain?"
-description: Drills into the pile-up to surface what was accumulating and where control broke down.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +1
-source: planner_added

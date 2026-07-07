@@ -1,9 +1,0 @@
-alias: q_what_moved_first
-label: What moved first
-name: What changed in your priorities this month?
-description: Helps you hear what actually displaced the work, in his own words.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

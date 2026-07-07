@@ -1,9 +1,0 @@
-alias: q_recent_slip_context
-label: Recent slip context
-name: What changed around the deadlines that slipped this month?
-description: Surfaces concrete context around the missed dates without assuming cause.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

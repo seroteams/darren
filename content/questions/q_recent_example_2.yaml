@@ -1,9 +1,0 @@
-alias: q_recent_example_2
-label: Recent example
-name: Take that dashboard example — what feedback landed in round one?
-description: Anchor the discussion in the specific review comments from a concrete case.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: planner_added

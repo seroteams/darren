@@ -1,9 +1,0 @@
-alias: q_what_needed_changing_2
-label: What needed changing
-name: "When you say it wasn't clear what needed to change, what felt most unclear?"
-description: Drills into the specific clarity gap he named after the promotion decision.
-purpose: topic
-stage: self_read
-axis_effects:
-  engagement: +1
-source: planner_added

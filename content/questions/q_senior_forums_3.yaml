@@ -1,9 +1,0 @@
-alias: q_senior_forums_3
-label: Senior forums
-name: In senior forums, what feels hardest to do well right now?
-description: Drills into the named confidence thread to surface the specific challenge in higher-stakes settings.
-purpose: topic
-stage: aspiration
-axis_effects:
-  growth: +3
-source: planner_added

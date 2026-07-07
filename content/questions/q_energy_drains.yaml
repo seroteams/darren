@@ -1,9 +1,0 @@
-alias: q_energy_drains
-label: Energy drains
-name: What part of the last fortnight took more out of you than it should have?
-description: Checks for hidden load or sustainability issues without sounding like a wellness script.
-purpose: wellbeing
-stage: momentum
-axis_effects:
-  wellbeing: +3
-source: generated

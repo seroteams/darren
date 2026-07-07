@@ -1,9 +1,0 @@
-alias: q_reset_timing_10
-label: Reset timing
-name: Would another time work better for this conversation?
-description: Direct reset to determine whether to continue now or reschedule a non-functional check-in.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +1
-source: planner_added

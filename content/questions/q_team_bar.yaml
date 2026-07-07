@@ -1,9 +1,0 @@
-alias: q_team_bar
-label: Team bar
-name: "What feels fuzzy about this team's bar for Principal impact?"
-description: Drills into the specific part of the team-specific Principal bar that feels unclear.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

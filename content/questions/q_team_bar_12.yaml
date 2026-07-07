@@ -1,9 +1,0 @@
-alias: q_team_bar_12
-label: Team bar
-name: What tells you the bar is fuzzy on this team?
-description: Pins down the specific signals, missing signals, or contradictions behind his unclear read of Principal-level impact here.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

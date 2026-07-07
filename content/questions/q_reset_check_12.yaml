@@ -1,8 +1,0 @@
-alias: q_reset_check_12
-label: Reset check
-name: Is now a good time for this conversation, or should we pick another time?
-description: Directly resets a non-functional session instead of continuing the agenda.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_next_focus_8
-label: Next focus
-name: Given that goal, where do you want to focus first in the next few weeks?
-description: Move into commitment by having Jordan choose the first area to act on.
-purpose: topic
-stage: commitment
-axis_effects:
-  growth: +3
-source: planner_added

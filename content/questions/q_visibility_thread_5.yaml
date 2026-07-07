@@ -1,9 +1,0 @@
-alias: q_visibility_thread_5
-label: Visibility thread
-name: What would more visibility with other teams actually look like for you?
-description: Drills into the cross-team visibility thread to surface the specific scope or role he wants.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_flag_earlier_2
-label: Flag earlier
-name: What made it hard to flag the second slip earlier?
-description: Follows the concrete thread about delayed escalation to surface what kept the risk hidden.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: planner_added

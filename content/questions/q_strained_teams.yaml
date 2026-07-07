@@ -1,8 +1,0 @@
-alias: q_strained_teams
-label: Strained teams
-name: You said those teams are under strain — where does that show up most?
-description: Drills into the specific internal bottleneck he just named so the manager can understand the friction clearly.
-purpose: topic
-axis_effects:
-  clarity: +3
-source: planner_added

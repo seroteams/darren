@@ -1,9 +1,0 @@
-alias: q_incident_impact
-label: Incident impact
-name: What did those sev-1s pull you away from specifically?
-description: Drills into the concrete platform work that got displaced so the growth thread stays grounded in real trade-offs.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

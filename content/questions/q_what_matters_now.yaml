@@ -1,9 +1,0 @@
-alias: q_what_matters_now
-label: What matters now
-name: What feels most important in your work right now, Devon?
-description: Safe opener that lets Devon set context before the conversation turns toward fit or growth.
-purpose: topic
-stage: anchor
-axis_effects:
-  clarity: +1
-source: generated

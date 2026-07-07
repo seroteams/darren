@@ -1,9 +1,0 @@
-alias: q_leverage_thread_4
-label: Leverage thread
-name: What work are you doing now that feels lower-leverage to you?
-description: Drills into his own leverage concern with a concrete example before moving on.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

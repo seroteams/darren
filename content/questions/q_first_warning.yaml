@@ -1,9 +1,0 @@
-alias: q_first_warning
-label: First warning
-name: When did the second slip first become visible to you?
-description: Gets you closer to the moment risk first showed up.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

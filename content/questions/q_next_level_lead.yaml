@@ -1,9 +1,0 @@
-alias: q_next_level_lead
-label: Next-level lead
-name: If you were operating one level up, what would be different?
-description: Make her aspiration concrete in behaviors, scope, and outcomes.
-purpose: topic
-stage: aspiration
-axis_effects:
-  growth: +3
-source: planner_added

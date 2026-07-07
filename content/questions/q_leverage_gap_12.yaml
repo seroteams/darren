@@ -1,9 +1,0 @@
-alias: q_leverage_gap_12
-label: Leverage gap
-name: What work are you doing that feels lower-leverage than it should be?
-description: Drills on his stated concern about not aiming at the highest-leverage work.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

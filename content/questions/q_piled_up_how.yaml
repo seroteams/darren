@@ -1,9 +1,0 @@
-alias: q_piled_up_how
-label: Piled up how
-name: When it piled up, what was stacking at the same time?
-description: Drills into the specific sources of accumulation he just named.
-purpose: wellbeing
-stage: underneath
-axis_effects:
-  wellbeing: +3
-source: planner_added

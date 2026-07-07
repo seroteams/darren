@@ -1,9 +1,0 @@
-alias: q_recognized_work_2
-label: Recognized work
-name: What work does he think gets recognized here?
-description: Drills into his uncertainty about what the organization actually values.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: planner_added

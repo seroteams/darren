@@ -1,9 +1,0 @@
-alias: q_focus_first_shift
-label: Focus first shift
-name: Given this pattern, what will you change first on your next call?
-description: Close on the first behavioural change she will make in live calls.
-purpose: topic
-stage: commit
-axis_effects:
-  clarity: +1
-source: planner_added

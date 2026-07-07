@@ -1,9 +1,0 @@
-alias: q_mentoring_thread_29
-label: Mentoring thread
-name: What would mentoring look like in your week?
-description: Clarifies the concrete shape of the mentoring she wants so the manager can respond usefully.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +1
-source: planner_added

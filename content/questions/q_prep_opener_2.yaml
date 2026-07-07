@@ -1,9 +1,0 @@
-alias: q_prep_opener_2
-label: Prep opener
-name: Before we get into specifics, what feels most worth talking through from the last two weeks?
-description: Safe opener that lets Sam set the agenda before any narrower probe.
-purpose: topic
-stage: pulse
-axis_effects:
-  clarity: +1
-source: generated

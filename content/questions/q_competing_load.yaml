@@ -1,9 +1,0 @@
-alias: q_competing_load
-label: Competing load
-name: What was landing on you at once, specifically?
-description: Drills into the competing work or demands that displaced the original priority.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: planner_added

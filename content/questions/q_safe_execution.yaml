@@ -1,9 +1,0 @@
-alias: q_safe_execution
-label: Safe execution
-name: Where does playing it safe show up most in your decisions?
-description: Drills into the named pattern to locate the concrete situations where he defaults to lower-leverage judgment.
-purpose: competency
-stage: evidence
-axis_effects:
-  growth: +3
-source: planner_added

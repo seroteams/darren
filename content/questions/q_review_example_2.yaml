@@ -1,9 +1,0 @@
-alias: q_review_example_2
-label: Review example
-name: Take the onboarding dashboard — where did review first show the flow was incomplete?
-description: Anchor the discussion in one concrete review moment and locate the first visible breakdown.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

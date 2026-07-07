@@ -1,9 +1,0 @@
-alias: q_hendricks_load
-label: Hendricks load
-name: What about Hendricks has been sitting on you most?
-description: Drills into the specific renewal and escalation thread he just named.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  wellbeing: +3
-source: planner_added

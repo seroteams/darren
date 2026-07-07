@@ -1,9 +1,0 @@
-alias: q_similar_work_11
-label: Similar work
-name: "When you say 'similar work,' what keeps repeating?"
-description: Drills into the repeated-work thread to locate the specific pattern behind her stuck feeling.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: planner_added

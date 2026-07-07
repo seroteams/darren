@@ -1,9 +1,0 @@
-alias: q_cross_team_decisions_4
-label: Cross-team decisions
-name: Which cross-team decisions did you leave untouched most recently?
-description: Anchors his self-read in a concrete recent example of the narrower scope he named.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

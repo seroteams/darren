@@ -1,9 +1,0 @@
-alias: q_waiting_on_others_2
-label: Waiting on others
-name: What are you waiting on that could quietly stall you next?
-description: Finds dependencies and hidden delays before they become visible blockers.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: generated

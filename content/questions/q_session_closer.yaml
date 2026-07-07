@@ -1,9 +1,0 @@
-alias: q_session_closer
-label: Session closer
-name: What do you want to focus on first from here?
-description: Land the conversation by turning the discussion into a clear next priority.
-purpose: topic
-stage: lift
-axis_effects:
-  clarity: +1
-source: generated

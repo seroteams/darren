@@ -1,9 +1,0 @@
-alias: q_clearer_criteria
-label: Clearer criteria
-name: What criteria do you think are actually being used here?
-description: Drills into the specific recognition criteria he believes the organization rewards.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: planner_added

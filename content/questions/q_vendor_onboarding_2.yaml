@@ -1,9 +1,0 @@
-alias: q_vendor_onboarding_2
-label: Vendor onboarding
-name: What about vendor onboarding makes it the right thing for you to own?
-description: Surface why this specific process feels like the right growth opportunity.
-purpose: topic
-stage: self_read
-axis_effects:
-  growth: +3
-source: planner_added

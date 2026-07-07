@@ -1,9 +1,0 @@
-alias: q_fragmenting_requests
-label: fragmenting requests
-name: Which stakeholder requests keep cutting across the bigger work?
-description: Surface the specific source of fragmentation so the conversation can move from vague overload to concrete friction.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: planner_added

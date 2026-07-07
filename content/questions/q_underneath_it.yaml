@@ -1,9 +1,0 @@
-alias: q_underneath_it
-label: Underneath it
-name: What was making priorities feel unclear from your side?
-description: Surfaces what sat underneath the missed signals without opening a new broad topic.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: planner_added

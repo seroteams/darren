@@ -1,9 +1,0 @@
-alias: q_mentoring_stall_2
-label: Mentoring stall
-name: What made you stop pushing on the mentoring piece?
-description: Drills into why the mentoring thread stalled and whether the blocker is motivation, clarity, or something structural.
-purpose: topic
-stage: friction
-axis_effects:
-  engagement: +3
-source: planner_added

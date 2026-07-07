@@ -1,9 +1,0 @@
-alias: q_second_example_2
-label: Second example
-name: What was another recent design where review found missing states?
-description: Test whether the issue repeats across work, not just one example.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

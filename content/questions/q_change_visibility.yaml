@@ -1,9 +1,0 @@
-alias: q_change_visibility
-label: Change visibility
-name: Where are changes getting decided without you in the loop?
-description: Drills into the specific decision path creating scope surprises and misalignment.
-purpose: topic
-stage: momentum
-axis_effects:
-  clarity: +3
-source: planner_added

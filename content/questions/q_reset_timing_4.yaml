@@ -1,8 +1,0 @@
-alias: q_reset_timing_4
-label: Reset timing
-name: Should we pause here and pick this up another time?
-description: Offers a simple reset when the session is not engaging productively.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +1
-source: planner_added

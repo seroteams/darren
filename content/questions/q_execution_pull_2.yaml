@@ -1,9 +1,0 @@
-alias: q_execution_pull_2
-label: Execution pull
-name: Which execution details keep pulling you back in most often?
-description: Drills into the concrete executor-mode pattern he just named.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

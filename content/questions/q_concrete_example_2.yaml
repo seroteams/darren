@@ -1,9 +1,0 @@
-alias: q_concrete_example_2
-label: Concrete example
-name: Which recent decision best shows that delay pattern?
-description: Anchor the conversation in one observable case before closing.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: planner_added

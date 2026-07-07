@@ -1,9 +1,0 @@
-alias: q_execution_pull_19
-label: Execution pull
-name: Which execution details are still pulling you in most often?
-description: Drills into where tactical work is still consuming his attention so the growth pattern is concrete.
-purpose: competency
-stage: anchor
-axis_effects:
-  clarity: +3
-source: planner_added

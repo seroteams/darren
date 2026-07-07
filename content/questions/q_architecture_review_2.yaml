@@ -1,9 +1,0 @@
-alias: q_architecture_review_2
-label: Architecture review
-name: What would presenting in architecture review let you prove or practice?
-description: Drills into the specific blocker he named to surface the growth value he sees in that exposure.
-purpose: topic
-stage: gap
-axis_effects:
-  growth: +3
-source: planner_added

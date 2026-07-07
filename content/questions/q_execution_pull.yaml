@@ -1,9 +1,0 @@
-alias: q_execution_pull
-label: Execution pull
-name: Where are execution details pulling you in most right now?
-description: Drills into the specific work pulling him out of strategic scope.
-purpose: competency
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

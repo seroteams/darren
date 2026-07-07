@@ -1,9 +1,0 @@
-alias: q_review_rounds_source
-label: Review rounds source
-name: You want to understand the extra review rounds — where have you seen that most clearly recently?
-description: Drills into the concrete thread she raised by anchoring on a recent observable example.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_deadline_slip_path
-label: Deadline slip path
-name: Can you walk me through how the second deadline slipped?
-description: Maps the sequence of events and where the plan broke down without assuming fault.
-purpose: competency
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

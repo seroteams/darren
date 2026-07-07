@@ -1,9 +1,0 @@
-alias: q_recent_example_17
-label: Recent example
-name: Take the pricing change — what did people actually leave believing?
-description: Anchor the conversation in the concrete evidence of how understanding diverged after the decision.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

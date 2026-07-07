@@ -1,9 +1,0 @@
-alias: q_next_role_shape
-label: Next role shape
-name: Where do you want tech lead to show up first in your work?
-description: Moves into aspiration by making the desired role concrete in current work.
-purpose: topic
-stage: aspiration
-axis_effects:
-  growth: +3
-source: planner_added

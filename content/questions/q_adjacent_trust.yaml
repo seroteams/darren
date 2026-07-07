@@ -1,9 +1,0 @@
-alias: q_adjacent_trust
-label: Adjacent trust
-name: Where is the trust gap showing up most with adjacent teams?
-description: Anchors the newly surfaced trust issue in a concrete observable example.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: planner_added

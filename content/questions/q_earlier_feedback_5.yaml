@@ -1,9 +1,0 @@
-alias: q_earlier_feedback_5
-label: Earlier feedback
-name: What keeps you from getting sharper feedback earlier?
-description: Drills on the specific habit he named to surface the driver behind delayed feedback-seeking.
-purpose: competency
-stage: cause
-axis_effects:
-  clarity: +3
-source: planner_added

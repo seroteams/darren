@@ -1,9 +1,0 @@
-alias: q_flatter_week_10
-label: Flatter week
-name: What feels flatter than you expected this week?
-description: Drills into the post-launch dip she just named so you can tell recovery from something still dragging.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

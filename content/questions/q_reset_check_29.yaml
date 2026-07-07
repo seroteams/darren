@@ -1,8 +1,0 @@
-alias: q_reset_check_29
-label: Reset check
-name: Is now a good time for this, or should we pick it up later?
-description: Direct reset after repeated non-answers to check whether the conversation can continue productively.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +1
-source: planner_added

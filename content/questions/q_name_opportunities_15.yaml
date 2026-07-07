@@ -1,9 +1,0 @@
-alias: q_name_opportunities_15
-label: Name opportunities
-name: What opportunities does he want to be explicit about?
-description: Drills into the specific scope or exposure he wants next so the growth path is concrete.
-purpose: topic
-stage: investment
-axis_effects:
-  clarity: +1
-source: planner_added

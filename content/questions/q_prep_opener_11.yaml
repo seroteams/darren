@@ -1,9 +1,0 @@
-alias: q_prep_opener_11
-label: Prep opener
-name: Before we get into next quarter, how has this week felt from your side after getting the feature out on Monday?
-description: A calm opener that lets Priya set context after the launch before any deeper thread is raised.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_quiet_shift
-label: Quiet shift
-name: Was there a specific moment this week when your energy changed?
-description: Looks for a concrete turning point rather than a general mood summary.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +3
-source: generated

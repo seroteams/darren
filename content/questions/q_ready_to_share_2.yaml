@@ -1,9 +1,0 @@
-alias: q_ready_to_share_2
-label: Ready to share
-name: You mentioned not knowing when work is ready to share — what tells you it is ready?
-description: Drill into her current readiness criteria before moving into specific examples.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +1
-source: planner_added

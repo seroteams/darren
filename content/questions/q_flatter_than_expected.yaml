@@ -1,9 +1,0 @@
-alias: q_flatter_than_expected
-label: Flatter than expected
-name: "You said this week feels flatter than expected — what's driving that?"
-description: Drills into the post-launch flatness to distinguish normal recovery from a specific unresolved drain.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

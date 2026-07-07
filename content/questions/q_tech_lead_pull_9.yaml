@@ -1,9 +1,0 @@
-alias: q_tech_lead_pull_9
-label: Tech lead pull
-name: Tech lead is specific — what about that role pulls you most?
-description: Drills into the named aspiration so Devon defines the kind of scope or ownership he wants.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

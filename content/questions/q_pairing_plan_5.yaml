@@ -1,9 +1,0 @@
-alias: q_pairing_plan_5
-label: Pairing plan
-name: What do you want that pairing to teach you specifically?
-description: Drills into the staff-engineer pairing thread to surface the concrete capability he wants to build.
-purpose: topic
-stage: investment
-axis_effects:
-  clarity: +3
-source: planner_added

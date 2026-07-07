@@ -1,9 +1,0 @@
-alias: q_low_energy_thread
-label: Low energy thread
-name: "When you say low energy, what's draining it most right now?"
-description: Clarifies the immediate source of the low-energy state she just named.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +3
-source: planner_added

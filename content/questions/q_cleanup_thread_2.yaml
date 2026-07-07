@@ -1,9 +1,0 @@
-alias: q_cleanup_thread_2
-label: Cleanup thread
-name: Cleanup and reviews — where is that dragging most right now?
-description: Follows the concrete thread to locate whether the drag is in the work itself, the handoffs, or post-launch residue.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

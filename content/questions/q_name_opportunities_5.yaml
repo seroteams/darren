@@ -1,9 +1,0 @@
-alias: q_name_opportunities_5
-label: Name opportunities
-name: What opportunities has he not been naming clearly enough?
-description: Drills into the specific stretch opportunities he wants so the conversation can move from vague intent to concrete aspiration.
-purpose: topic
-stage: investment
-axis_effects:
-  growth: +1
-source: planner_added

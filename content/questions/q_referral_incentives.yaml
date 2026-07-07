@@ -1,9 +1,0 @@
-alias: q_referral_incentives
-label: Referral incentives
-name: Where does the referral incentive break down internally?
-description: Drills into the specific internal misalignment making referrals hard to progress.
-purpose: topic
-stage: pulse
-axis_effects:
-  clarity: +3
-source: planner_added

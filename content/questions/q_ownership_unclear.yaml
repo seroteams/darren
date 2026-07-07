@@ -1,9 +1,0 @@
-alias: q_ownership_unclear
-label: Ownership unclear
-name: Which piece was unclear on ownership?
-description: Pins down the specific work area where ownership ambiguity showed up.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: planner_added

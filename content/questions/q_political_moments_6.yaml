@@ -1,9 +1,0 @@
-alias: q_political_moments_6
-label: Political moments
-name: When it gets political, which conversations does he step back from?
-description: Drills into the specific stakeholder moments where he loses influence before moving into aspiration.
-purpose: topic
-stage: anchor
-axis_effects:
-  clarity: +1
-source: planner_added

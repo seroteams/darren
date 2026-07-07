@@ -1,9 +1,0 @@
-alias: q_delivery_focus_4
-label: Delivery focus
-name: What felt more controllable about delivery then?
-description: Drills into why delivery became the safe focus after the decision.
-purpose: topic
-stage: landing
-axis_effects:
-  engagement: +1
-source: planner_added

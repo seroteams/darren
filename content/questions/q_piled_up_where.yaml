@@ -1,9 +1,0 @@
-alias: q_piled_up_where
-label: Piled up where
-name: When it piled up, where did it start to get away from you?
-description: Drills into the concrete moment or area where the work began to slip.
-purpose: topic
-stage: observation
-axis_effects:
-  engagement: +3
-source: planner_added

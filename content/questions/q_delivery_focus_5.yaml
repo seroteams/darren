@@ -1,9 +1,0 @@
-alias: q_delivery_focus_5
-label: Delivery focus
-name: What felt controllable about delivery for you then?
-description: Drills into the specific strategy he used after the promotion decision to surface what he could still anchor on.
-purpose: topic
-stage: landing
-axis_effects:
-  clarity: +1
-source: planner_added

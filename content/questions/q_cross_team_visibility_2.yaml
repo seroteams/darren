@@ -1,9 +1,0 @@
-alias: q_cross_team_visibility_2
-label: Cross-team visibility
-name: What kind of visibility with other teams would open that up for you?
-description: Drills into the specific cross-team exposure or ownership he believes would unlock growth.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

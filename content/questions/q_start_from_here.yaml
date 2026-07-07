@@ -1,9 +1,0 @@
-alias: q_start_from_here
-label: Start from here
-name: Before we get into specifics, what feels most worth talking through today?
-description: Safe opener that lets Sam set the agenda before any topic is introduced.
-purpose: topic
-stage: pulse
-axis_effects:
-  clarity: +1
-source: generated

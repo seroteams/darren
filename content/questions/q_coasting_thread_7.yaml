@@ -1,9 +1,0 @@
-alias: q_coasting_thread_7
-label: Coasting thread
-name: "When you say you're coasting a bit, what's that looking like this week?"
-description: Drills into whether the post-ship dip is simple recovery or something snagging her energy or focus.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

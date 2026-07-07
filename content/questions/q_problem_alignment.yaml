@@ -1,9 +1,0 @@
-alias: q_problem_alignment
-label: Problem alignment
-name: When the problem is still fuzzy, what are you usually missing?
-description: Drills into the named uncertainty to surface what is not yet clear at the point review rounds start stacking up.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +1
-source: planner_added

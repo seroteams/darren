@@ -1,9 +1,0 @@
-alias: q_state_mapping
-label: State mapping
-name: On that error messaging handoff, what states were missing from the write-up?
-description: Get the missing details into the open using the example she just named.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: planner_added

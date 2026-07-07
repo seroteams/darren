@@ -1,9 +1,0 @@
-alias: q_staff_pairing_angle
-label: Staff pairing angle
-name: What do you want to learn from that staff-engineer pairing specifically?
-description: Drills into the concrete capability or judgment he believes will close the gap to next-level scope.
-purpose: topic
-stage: gap
-axis_effects:
-  growth: +3
-source: planner_added

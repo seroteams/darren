@@ -1,9 +1,0 @@
-alias: q_next_change_9
-label: next change
-name: What will you change before your next first review?
-description: Close on the specific drafting behaviour she will change to reduce review rework.
-purpose: competency
-stage: commit
-axis_effects:
-  growth: +1
-source: planner_added

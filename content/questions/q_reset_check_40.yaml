@@ -1,9 +1,0 @@
-alias: q_reset_check_40
-label: Reset check
-name: Is now a good time for this conversation, or should we pick it up later?
-description: Directly resets a non-functional check-in and gives them a clean opt-out.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_readiness_criteria
-label: Readiness criteria
-name: "You said you're unsure when work is ready to share — what are you using to judge that now?"
-description: Drill into her current readiness criteria before moving deeper into examples.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_leverage_thread_5
-label: Leverage thread
-name: What work are you choosing that feels lower-leverage right now?
-description: Drills on his own leverage concern to make the self-read concrete before moving on.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

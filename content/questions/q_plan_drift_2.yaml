@@ -1,9 +1,0 @@
-alias: q_plan_drift_2
-label: Plan drift
-name: What changed between the original plan and what actually got done?
-description: Helps you hear where the work really moved, without assuming the reason.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

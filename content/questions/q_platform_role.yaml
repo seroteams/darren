@@ -1,9 +1,0 @@
-alias: q_platform_role
-label: Platform role
-name: What about that platform role pulls you specifically?
-description: Drills into the concrete scope or problems Jordan wants from the senior PM role.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_priority_mismatch
-label: Priority mismatch
-name: When polish and new explorations compete, what gets deprioritised in practice?
-description: Clarifies how the alignment gap is affecting day-to-day decisions and trade-offs.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_mentoring_thread_18
-label: Mentoring thread
-name: What made you stop pushing on mentoring?
-description: Drills into the stalled mentoring thread she just named to surface what changed or got in the way.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: planner_added

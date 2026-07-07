@@ -1,9 +1,0 @@
-alias: q_last_cycle_thread
-label: Last cycle thread
-name: What about last cycle is still sticking with you most?
-description: Drills into the concrete concern she surfaced about being passed over before progressing the arc.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_next_focus
-label: next focus
-name: Given this, where do you want to focus first in your drafting process?
-description: Close by having her name the first behaviour she wants to change.
-purpose: competency
-stage: commit
-axis_effects:
-  growth: +1
-source: planner_added

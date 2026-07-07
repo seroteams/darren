@@ -1,9 +1,0 @@
-alias: q_context_after_launch
-label: Context after launch
-name: Before we get into specifics, what feels most worth talking through today?
-description: Safe opener that lets Priya set the agenda before any concern is raised.
-purpose: topic
-stage: pulse
-axis_effects:
-  clarity: +1
-source: generated

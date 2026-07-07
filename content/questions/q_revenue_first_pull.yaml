@@ -1,9 +1,0 @@
-alias: q_revenue_first_pull
-label: Revenue-first pull
-name: Where is that revenue-first pull showing up most right now?
-description: Drills into the specific team or conversation where short-term sales pressure is crowding partner work.
-purpose: topic
-stage: momentum
-axis_effects:
-  clarity: +3
-source: planner_added

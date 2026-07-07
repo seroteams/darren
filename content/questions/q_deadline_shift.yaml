@@ -1,9 +1,0 @@
-alias: q_deadline_shift
-label: Deadline shift
-name: You mentioned the deadlines got away from you — what changed in that stretch?
-description: Follows his volunteered deadline thread and surfaces what shifted before the slips.
-purpose: topic
-stage: landing
-axis_effects:
-  clarity: +3
-source: planner_added

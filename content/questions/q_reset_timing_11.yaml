@@ -1,8 +1,0 @@
-alias: q_reset_timing_11
-label: Reset timing
-name: Is now a good time for this conversation, or should we pick this up later?
-description: Directly tests whether to continue or reschedule a non-functional session.
-purpose: topic
-axis_effects:
-  clarity: +1
-source: planner_added

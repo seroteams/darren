@@ -1,9 +1,0 @@
-alias: q_q_skill_gap_3
-label: q_skill_gap
-name: What skill would help you take that on?
-description: ""
-purpose: topic
-stage: self_read
-axis_effects:
-  growth: +1
-source: "reworded_from:q_skill_gap"

@@ -1,9 +1,0 @@
-alias: q_scatter_source
-label: Scatter source
-name: Where is the work getting pulled in too many directions?
-description: Identifies the main source of scattered effort without assuming failure.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: generated

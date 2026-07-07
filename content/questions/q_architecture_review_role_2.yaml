@@ -1,9 +1,0 @@
-alias: q_architecture_review_role_2
-label: Architecture review role
-name: In architecture review, what role do you want to play more often?
-description: Drills into the specific scope and ownership he wants through that forum.
-purpose: topic
-stage: investment
-axis_effects:
-  growth: +1
-source: planner_added

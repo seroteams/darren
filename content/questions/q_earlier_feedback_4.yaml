@@ -1,9 +1,0 @@
-alias: q_earlier_feedback_4
-label: Earlier feedback
-name: What keeps you from getting sharper feedback earlier?
-description: Drills on the named cause behind late alignment before moving back to observable evidence.
-purpose: competency
-stage: cause
-axis_effects:
-  clarity: +1
-source: planner_added

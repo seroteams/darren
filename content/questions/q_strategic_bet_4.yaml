@@ -1,9 +1,0 @@
-alias: q_strategic_bet_4
-label: Strategic bet
-name: What kind of strategic bet does he want to own?
-description: Makes the desired opportunity concrete before the conversation moves on.
-purpose: topic
-stage: investment
-axis_effects:
-  growth: +1
-source: planner_added

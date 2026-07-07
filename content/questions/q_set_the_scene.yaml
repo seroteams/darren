@@ -1,9 +1,0 @@
-alias: q_set_the_scene
-label: Set the scene
-name: Before we get into specifics, what feels most useful to talk through today?
-description: Gives Reyes control over the agenda and surfaces what he thinks matters most right now.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  clarity: +1
-source: generated

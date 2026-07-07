@@ -1,9 +1,0 @@
-alias: q_q_next_step_91
-label: q_next_step
-name: "What's one change you'll make on the next decision?"
-description: ""
-purpose: competency
-stage: commit
-axis_effects:
-  clarity: +3
-source: "reworded_from:q_next_step"

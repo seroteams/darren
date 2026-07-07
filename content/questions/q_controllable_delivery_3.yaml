@@ -1,9 +1,0 @@
-alias: q_controllable_delivery_3
-label: Controllable delivery
-name: What about delivery felt more controllable then?
-description: Drills into why delivery became the safer focus after the promotion decision.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +1
-source: planner_added

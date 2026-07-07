@@ -1,9 +1,0 @@
-alias: q_cross_team_moment_2
-label: Cross-team moment
-name: What cross-team decision did you avoid stepping into most recently?
-description: Anchors his self-read in one concrete recent moment of lower-leverage behavior.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

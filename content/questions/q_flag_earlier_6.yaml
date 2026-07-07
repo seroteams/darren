@@ -1,9 +1,0 @@
-alias: q_flag_earlier_6
-label: Flag earlier
-name: What made the second slip harder to flag early?
-description: Drills into his own admission to surface what blocked earlier risk visibility.
-purpose: topic
-stage: landing
-axis_effects:
-  clarity: +3
-source: planner_added

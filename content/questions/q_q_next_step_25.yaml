@@ -1,9 +1,0 @@
-alias: q_q_next_step_25
-label: q_next_step
-name: What will you do differently in the next handoff?
-description: ""
-purpose: competency
-stage: commit
-axis_effects:
-  clarity: +3
-source: "reworded_from:q_next_step"

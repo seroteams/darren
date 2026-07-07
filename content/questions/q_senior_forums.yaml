@@ -1,9 +1,0 @@
-alias: q_senior_forums
-label: Senior forums
-name: In those senior forums, what would you want to do differently?
-description: Drills into the concrete aspiration hidden inside his confidence concern.
-purpose: topic
-stage: aspiration
-axis_effects:
-  growth: +3
-source: planner_added

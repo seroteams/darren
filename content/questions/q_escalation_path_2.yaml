@@ -1,9 +1,0 @@
-alias: q_escalation_path_2
-label: Escalation path
-name: What would need to change so sev-1 escalation stops defaulting to you?
-description: Drills into the ownership and routing change that would protect her Staff-level time.
-purpose: topic
-stage: anchor
-axis_effects:
-  clarity: +1
-source: planner_added

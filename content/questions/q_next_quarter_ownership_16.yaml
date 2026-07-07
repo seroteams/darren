@@ -1,9 +1,0 @@
-alias: q_next_quarter_ownership_16
-label: Next-quarter ownership
-name: What do you expect to own next quarter?
-description: Gets specific on the ownership slice she expects before the billing rewrite reshapes scope.
-purpose: topic
-stage: momentum
-axis_effects:
-  clarity: +3
-source: planner_added

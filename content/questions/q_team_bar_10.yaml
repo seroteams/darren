@@ -1,9 +1,0 @@
-alias: q_team_bar_10
-label: Team bar
-name: "What specifically feels fuzzy about this team's bar for Principal impact?"
-description: Drills into the stated clarity gap before moving on.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

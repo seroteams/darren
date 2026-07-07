@@ -1,9 +1,0 @@
-alias: q_team_bar_fuzziness
-label: Team bar fuzziness
-name: "Where does this team's Principal bar feel fuzzy in practice?"
-description: Turns the abstract clarity concern into specific moments or expectations he finds unclear.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_what_piled_up_2
-label: What piled up
-name: What was piling up most for you in that stretch?
-description: Drills into the specific load behind the quieter period without naming an emotion.
-purpose: wellbeing
-stage: underneath
-axis_effects:
-  wellbeing: +3
-source: planner_added

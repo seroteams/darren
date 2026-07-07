@@ -1,9 +1,0 @@
-alias: q_pairing_focus
-label: Pairing focus
-name: What do you want to learn from that pairing specifically?
-description: Drills into the concrete judgment or scope he wants to build through pairing with the staff engineer.
-purpose: topic
-stage: investment
-axis_effects:
-  growth: +1
-source: planner_added

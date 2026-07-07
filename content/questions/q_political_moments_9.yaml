@@ -1,9 +1,0 @@
-alias: q_political_moments_9
-label: Political moments
-name: What happens for you when a conversation turns political?
-description: Drills into the specific stakeholder-trust pattern he just named and what pulls him back from influence.
-purpose: topic
-stage: anchor
-axis_effects:
-  engagement: +1
-source: planner_added

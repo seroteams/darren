@@ -1,9 +1,0 @@
-alias: q_visibility_thread
-label: Visibility thread
-name: What kind of visibility with other teams would move you toward tech lead?
-description: Drills into the specific cross-team visibility gap he named and makes the aspiration more concrete.
-purpose: topic
-stage: self_read
-axis_effects:
-  growth: +1
-source: planner_added

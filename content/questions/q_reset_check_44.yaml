@@ -1,8 +1,0 @@
-alias: q_reset_check_44
-label: Reset check
-name: Is now a good time for this conversation, or should we reschedule?
-description: Direct reset to confirm whether the session can continue productively.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +1
-source: planner_added

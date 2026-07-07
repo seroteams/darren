@@ -1,9 +1,0 @@
-alias: q_late_rationale
-label: Late rationale
-name: When rationale is unclear, what decision is usually still unresolved?
-description: Drill into the named rationale gap to get a concrete example of what is still unsettled at review time.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

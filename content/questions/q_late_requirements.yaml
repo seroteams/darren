@@ -1,9 +1,0 @@
-alias: q_late_requirements
-label: Late requirements
-name: On checkout, what got added after the brief was set?
-description: Surface the specific late-added requirements so the review-round problem is anchored in observable evidence.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

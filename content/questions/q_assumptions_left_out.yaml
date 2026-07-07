@@ -1,9 +1,0 @@
-alias: q_assumptions_left_out
-label: Assumptions left out
-name: What did the team need to know up front that you only found out later?
-description: Shows where assumptions were left unstated and how that affected the work.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: generated

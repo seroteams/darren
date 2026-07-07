@@ -1,9 +1,0 @@
-alias: q_vendor_onboarding
-label: Vendor onboarding
-name: What would owning vendor onboarding actually look like in your hands?
-description: Drill into the specific ownership thread he named and make the scope concrete.
-purpose: topic
-stage: self_read
-axis_effects:
-  growth: +3
-source: planner_added

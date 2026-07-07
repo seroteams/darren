@@ -1,9 +1,0 @@
-alias: q_energy_drain_6
-label: Energy drain
-name: "What's taken more energy than you expected since Monday?"
-description: Lets you pinpoint the part of the week that may be stretching her more than it should.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +3
-source: generated

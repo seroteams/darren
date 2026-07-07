@@ -1,9 +1,0 @@
-alias: q_thread_follow_169
-label: Thread follow
-name: Agrees less present — can you say more about what that means for you right now?
-description: Following up on what they just said.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  wellbeing: +3
-source: planner_added

@@ -1,8 +1,0 @@
-alias: q_thread_follow_63
-label: Thread follow
-name: What made you read the situation that way at the time?
-description: Runtime thread-follow injected because planner did not follow substantive answer.
-purpose: scripted
-stage: self_read
-axis_effects:
-source: planner_added

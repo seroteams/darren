@@ -1,9 +1,0 @@
-alias: q_q_influence_beyond_craft
-label: q_influence_beyond_craft
-name: "Where could you be steering the team more than you are now?"
-description: ""
-purpose: topic
-stage: aspiration
-axis_effects:
-  growth: +3
-source: "reworded_from:q_influence_beyond_craft"

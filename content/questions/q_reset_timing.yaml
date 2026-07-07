@@ -1,9 +1,0 @@
-alias: q_reset_timing
-label: Reset timing
-name: Should we pause here and pick this up another time?
-description: Direct reset question to confirm whether to continue or stop a non-functional session.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +1
-source: planner_added

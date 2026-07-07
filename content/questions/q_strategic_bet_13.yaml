@@ -1,9 +1,0 @@
-alias: q_strategic_bet_13
-label: Strategic bet
-name: What kind of strategic bet do you want to own next?
-description: Turns his growth statement into a concrete aspiration with named scope and stakes.
-purpose: topic
-stage: aspiration
-axis_effects:
-  growth: +3
-source: planner_added

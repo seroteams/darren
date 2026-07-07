@@ -1,9 +1,0 @@
-alias: q_missed_states
-label: Missed states
-name: When you skip edge cases, what usually gets missed?
-description: Drill into the concrete omission she named before moving on.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +1
-source: planner_added

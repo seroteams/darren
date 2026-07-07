@@ -1,9 +1,0 @@
-alias: q_locate_the_drag_2
-label: Locate the drag
-name: You mentioned the cutover went well — where is the drag now?
-description: Re-prompts the unanswered friction point without assuming the cause.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

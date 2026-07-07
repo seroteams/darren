@@ -1,9 +1,0 @@
-alias: q_workload_thread
-label: workload thread
-name: What about the current workload feels most worth getting into?
-description: Open the workload thread she volunteered and locate the main source of strain or concern.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

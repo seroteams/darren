@@ -1,9 +1,0 @@
-alias: q_ritual_presence
-label: Ritual presence
-name: You mentioned being less present in rituals lately — where have you felt that most?
-description: Drills into the specific forums where his participation has changed before moving the arc forward.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  wellbeing: +3
-source: planner_added

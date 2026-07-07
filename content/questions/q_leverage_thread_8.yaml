@@ -1,9 +1,0 @@
-alias: q_leverage_thread_8
-label: Leverage thread
-name: "What work are you thinking of when you say 'highest-leverage' here?"
-description: Drills into his own leverage concern before moving on, so the next evidence question lands on a concrete target.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

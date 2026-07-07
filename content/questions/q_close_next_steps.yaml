@@ -1,9 +1,0 @@
-alias: q_close_next_steps
-label: Close next steps
-name: "Given what we've covered, what should we tackle first before we meet again?"
-description: Lands the check-in by turning the discussion into a clear next step.
-purpose: topic
-stage: lift
-axis_effects:
-  clarity: +1
-source: generated

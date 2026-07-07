@@ -1,9 +1,0 @@
-alias: q_locate_the_drag
-label: Locate the drag
-name: You mentioned the migration plan — where is the drag actually showing up now?
-description: Re-prompts the pivoted answer to locate the current post-launch friction in concrete terms.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +3
-source: planner_added
