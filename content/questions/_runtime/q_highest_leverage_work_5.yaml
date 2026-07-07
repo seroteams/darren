@@ -1,0 +1,10 @@
+alias: q_highest_leverage_work_5
+label: Highest-leverage work
+name: When you say highest-leverage work, what specific work are you comparing against?
+description: Pins his self-read to a concrete example before the conversation moves on.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: highest-leverage work yet

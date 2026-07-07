@@ -1,0 +1,11 @@
+alias: q_team_bar_example
+label: Team bar example
+name: Where did that fuzzy bar show up most recently in a real call?
+description: Moves from abstract role talk to one observable moment where team expectations felt unclear.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added
+grounding: "team's bar still feels fuzzy"

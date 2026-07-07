@@ -1,10 +1,11 @@
 alias: q_cross_team_decision
 label: Cross-team decision
-name: Which cross-team decision should you have forced earlier?
-description: Anchors his self-read in one concrete moment where Principal-level scope was available but not taken.
-purpose: competency
-stage: self_read
+name: When you stayed in your lane, what cross-team decision was left unforced?
+description: Pins the pattern to one concrete decision so the gap is anchored in observable work.
+purpose: topic
+stage: evidence
 axis_effects:
   clarity: +3
+  growth: +1
 source: planner_added
 grounding: stayed in his lane
