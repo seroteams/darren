@@ -19,6 +19,17 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > to close out PG9** (the last open pre-go-live phase — built, awaiting your walk; full detail lower down). The
 > other built-awaiting-walk tracks in the list below are unchanged.
 
+> **🔨 [plan-turn-runner-gates](docs/todo/plan-turn-runner-gates/PLAN.md) — NEW engine track (started 2026-07-07). Phase 1 ✅ green-lit + committed.**
+> Follow-up to the plan-turn.md prompt sharpen: promote the *mechanical* contract rules from "model is asked to
+> obey" to "runner enforces in code". **P1 ✅ (`0d4325f1`):** item-shape gates in [reconcile-queue.ts](backend/engine/reconcile-queue.ts) —
+> an item whose every axis id is off the four-axis whitelist now drops (was materialising empty `{}`), and
+> planner-written names that are empty or >18 words drop (reworded → falls back to the original). 6 new unit
+> tests; `npm test` **83/84** (one pre-existing failure unchanged) · typecheck clean. No paid runs.
+> **Next: Phase 2 — queue-shape gates** (budget length · closer-first-on-final-turn · dangling ref_alias drop
+> + regression tests locking the 2 gates that already exist), ⬜ awaiting Carl's go. Then Phase 3 (note-tag
+> leak strip). Behaviour findings from overnight QA (thread-follow drift, growth-arc stage-skip) are logged in
+> the PLAN as a likely *separate* follow-up — not phases here.
+
 > **✅ [people-roster](docs/todo/done/people-roster/PLAN.md) — CLOSED 2026-07-06, all 5 phases green-lit ("done and working"), 2-day build.**
 > Your ask: "members should only see their own 1:1s" → managers now formally **have** members.
 > Delivered end-to-end: ① a `people` roster table, org+manager fenced (`4a762779`) · ② every new 1:1

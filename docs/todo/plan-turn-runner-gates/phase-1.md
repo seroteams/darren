@@ -1,6 +1,6 @@
 # Phase 1 — Item-shape gates
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built, awaiting product-owner walk
+**Part of:** [PLAN.md](PLAN.md) · **Status:** ✅ green-lit + committed `0d4325f1` (2026-07-07)
 
 ## Goal
 Every materialized `new_queue` item is well-formed before it flows downstream: valid axis ids, a name within the word cap, and all eight required keys present — otherwise the item is repaired or dropped, with the reason logged.

@@ -20,14 +20,14 @@ The prompt [content/prompts/plan-turn.md](../../../content/prompts/plan-turn.md)
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Item-shape gates | Per-item validation in reconcile: axis-id whitelist, name ≤18 words, all-8-keys present → repair or drop | 🔨 built, awaiting walk |
+| 1 | Item-shape gates | Per-item validation in reconcile: axis-id whitelist, name ≤18 words, all-8-keys present → repair or drop | ✅ green-lit + committed `0d4325f1` |
 | 2 | Queue-shape gates | Cross-item gates in the planTurn gate sequence: budget length, closer-on-final-turn, dangling ref_alias drop (+ regression tests locking the two existing gates) | ⬜ |
 | 3 | Note-tag leak strip | Strip `[TAG]` engine vocab from `assessment.note` at the evaluation-input / export boundary, after decision logic reads it (ENGINE_VOCAB_LEAK / PRIVATE_NOTE_LEAK) | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 built — awaiting Carl's walk.** Phases 2–3 not started.
+**Phase 1 ✅ green-lit + committed (`0d4325f1`) 2026-07-07. Phase 2 is next (⬜, awaiting Carl's go — one phase per run).**
 
 - **Baseline (free, 2026-07-07):** `npm test` **82/83** — one pre-existing failure, `test-replay-regression.js` (`FOCUS_SHAPE_LEAK`), unrelated to reconcile item-shape. Recorded so it's not blamed on this work.
 - **What landed in Phase 1** ([reconcile-queue.ts](../../../backend/engine/reconcile-queue.ts)):
