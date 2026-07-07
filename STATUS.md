@@ -19,16 +19,23 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > to close out PG9** (the last open pre-go-live phase — built, awaiting your walk; full detail lower down). The
 > other built-awaiting-walk tracks in the list below are unchanged.
 
-> **🔨 [plan-turn-runner-gates](docs/todo/plan-turn-runner-gates/PLAN.md) — NEW engine track (started 2026-07-07). Phase 1 ✅ green-lit + committed.**
+> **🔨 [plan-turn-runner-gates](docs/todo/plan-turn-runner-gates/PLAN.md) — NEW engine track (2026-07-07). ALL 3 PHASES BUILT (batch, Carl: "complete all phases") — awaiting your walk. P1 green-lit.**
 > Follow-up to the plan-turn.md prompt sharpen: promote the *mechanical* contract rules from "model is asked to
-> obey" to "runner enforces in code". **P1 ✅ (`0d4325f1`):** item-shape gates in [reconcile-queue.ts](backend/engine/reconcile-queue.ts) —
-> an item whose every axis id is off the four-axis whitelist now drops (was materialising empty `{}`), and
-> planner-written names that are empty or >18 words drop (reworded → falls back to the original). 6 new unit
-> tests; `npm test` **83/84** (one pre-existing failure unchanged) · typecheck clean. No paid runs.
-> **Next: Phase 2 — queue-shape gates** (budget length · closer-first-on-final-turn · dangling ref_alias drop
-> + regression tests locking the 2 gates that already exist), ⬜ awaiting Carl's go. Then Phase 3 (note-tag
-> leak strip). Behaviour findings from overnight QA (thread-follow drift, growth-arc stage-skip) are logged in
-> the PLAN as a likely *separate* follow-up — not phases here.
+> obey" to "runner enforces in code". Built back-to-back, TDD + free checks, committed locally; none self-certified
+> ✅ except P1 which you green-lit.
+> - **P1 ✅ green-lit (`0d4325f1`)** — item-shape gates in [reconcile-queue.ts](backend/engine/reconcile-queue.ts):
+>   an all-off-whitelist-axis item now drops (was materialising empty `{}`); empty / >18-word planner names drop
+>   (reworded → falls back to original). 6 tests.
+> - **P2 🔨 built (`51dea277` swept + `1fdec4d2`)** — queue-shape gates in [queue-manager.ts](backend/engine/queue-manager.ts):
+>   `enforceCloserOnFinalTurn` (reserved closer leads on the final turn) + `enforceBudgetLength` (≤ budget+1, exactly
+>   budget when ≤2). 9 tests incl. 2 regression locks. Dangling ref_alias already enforced by reconcile (sanitize-to-new)
+>   — no destructive drop added.
+> - **P3 🔨 built (`3f560c6b`)** — trace found **no live note-tag leak** (tagged note reaches only the manager
+>   dashboard + decision-logic parsers that need it; the customer eval input already excludes it). Locked the safe
+>   state with a guard test + comment instead of speculative strip code.
+> `npm test` **86/86** · typecheck clean · **no paid runs**. **Your move: walk each phase's QA scenarios** (all free —
+> `npm test` + a fixtures-only replay). Overnight-QA *behaviour* findings (thread-follow drift, growth-arc stage-skip)
+> are logged in the PLAN as a likely *separate* follow-up, not phases here.
 
 > **✅ [people-roster](docs/todo/done/people-roster/PLAN.md) — CLOSED 2026-07-06, all 5 phases green-lit ("done and working"), 2-day build.**
 > Your ask: "members should only see their own 1:1s" → managers now formally **have** members.
