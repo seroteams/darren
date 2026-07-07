@@ -12,4 +12,4 @@ Currently holds:
 - `sse.js` — the EventSource stream wrapper.
 
 Added by the frontend/admin split, Phase 1 (shared foundation). See
-[docs/todo/frontend-admin-split/](../docs/todo/frontend-admin-split/PLAN.md).
+[docs/workstreams/frontend-admin-split/](../docs/workstreams/frontend-admin-split/plan.md).

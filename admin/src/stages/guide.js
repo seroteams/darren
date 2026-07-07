@@ -162,7 +162,7 @@ const FILES = [
   ["content/config/models.json", "Which model each stage uses (persona-bench config sits alongside)."],
   ["content/data/openai-models.json", "Model pricing table for cost tracking."],
   ["scripts/", "One-off tooling: eval, gate, sweep, run-tests, rebuild-question-index, dev.ps1."],
-  ["docs/", "Plans (docs/todo/), trackers (STATUS.md, SERO_BOARD.md), reports. evals/ holds the golden dataset + replay fixtures."],
+  ["docs/", "Plans (docs/workstreams/), trackers (STATUS.md, SERO_BOARD.md), reports. evals/ holds the golden dataset + replay fixtures."],
 ];
 
 const GAPS = [

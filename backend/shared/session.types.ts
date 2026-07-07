@@ -147,7 +147,7 @@ export interface Session {
   agendaCovered: boolean | null;
   // One-tap post-meeting capture on the PRIOR session's agreed action — the
   // deterministic loop-closure event the no-inference ruling replaces state
-  // inference with (docs/sero-prompt-improvement-spec.md §6). Contract-only for
+  // inference with (docs/reference/prompt-improvement-spec.md §6). Contract-only for
   // now: no consumer until the routing-nudge event stream (parked) reads it.
   outcomeCheck?: "yes" | "partly" | "no" | "changed" | null;
   turnSnapshots: TurnSnapshot[];

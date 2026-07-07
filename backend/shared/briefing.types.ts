@@ -13,8 +13,8 @@ export interface AxisRead {
   evidence_basis?: "mixed" | "axis_state_only" | "transcript_quotes" | "concentrated_signal"; // absent on fallback
 }
 
-// Re-specced under the no-inference ruling (docs/sero-prompt-improvement-spec.md §3,
-// docs/todo/no-inference-ruling/phase-3.md): no state labels. `read_status`
+// Re-specced under the no-inference ruling (docs/reference/prompt-improvement-spec.md §3,
+// docs/archive/done/no-inference-ruling/phase-3.md): no state labels. `read_status`
 // describes the evidence status of THIS session's record — never the person.
 // The old `level` enum ("worth_checking" | "clear_concern" | ...) is gone; the
 // engine normalises legacy stored runs on read (applyEngagementReadGuard).

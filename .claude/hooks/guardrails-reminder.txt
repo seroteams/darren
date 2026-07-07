@@ -1,4 +1,4 @@
-[GUARDRAILS — active check] Before answering Carl's latest message, check it against these five drift types. If one clearly fires, LEAD your reply with the warning block below, then wait for his call. If nothing strays, say nothing about guardrails — silence means on-track, no nagging. Never block; Carl can always say "proceed anyway." Full detail: docs/GUARDRAILS.md.
+[GUARDRAILS — active check] Before answering Carl's latest message, check it against these five drift types. If one clearly fires, LEAD your reply with the warning block below, then wait for his call. If nothing strays, say nothing about guardrails — silence means on-track, no nagging. Never block; Carl can always say "proceed anyway." Full detail: docs/reference/guardrails.md.
 
 1. Goal drift — request chases features/polish over "a real HR manager gets insight worth paying for."
 2. Pace drift — doing >1 phase/step at once, skipping the test-and-approve QA, or self-certifying. (Darren Method = one at a time; Carl green-lights.)

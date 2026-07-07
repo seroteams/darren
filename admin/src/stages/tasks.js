@@ -208,7 +208,7 @@ function nowStamp() {
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
 }
 
-// My rules, applied to this card's text. Mirrors docs/GUARDRAILS.md — warn,
+// My rules, applied to this card's text. Mirrors docs/reference/guardrails.md — warn,
 // never block. Keyword checks, so treat it as a nudge, not a verdict.
 function kbGuardrails(c) {
   const txt = [c.title, c.note, ...(c.log || []).map((n) => n.text)].join(" ").toLowerCase();
@@ -240,7 +240,7 @@ LANE: ${c.lane || "—"} · COLUMN: ${col ? col.label : c.col}
 DETAILS: ${c.note || "—"}${notes ? `\nMY NOTES:\n${notes}` : ""}
 
 How to start:
-1. Read STATUS.md and SERO_BOARD.md to see where this fits, and check docs/todo/ for an existing plan folder.
+1. Read STATUS.md and SERO_BOARD.md to see where this fits, and check docs/workstreams/ for an existing plan folder.
 2. Give me the current picture in plain words, then propose the next step — and wait for my green light before building (Darren Method, one phase at a time).
 3. Free checks only — nothing that hits the OpenAI API without asking me first.`;
 }
@@ -350,7 +350,7 @@ function renderPanel(root) {
 }
 
 // ── Update from docs ─────────────────────────────────────────────────────────
-// "Update" reads docs/todo/ live (via GET /api/v1/heartbeat — the server re-reads
+// "Update" reads docs/workstreams/ live (via GET /api/v1/heartbeat — the server re-reads
 // the repo per request) and syncs a set of auto-managed "Docs" cards: one per plan
 // folder that isn't finished. It shows every place it checks, ticks them off, then
 // animates adding / updating / removing ONLY those Docs cards. Cards you added by
@@ -437,7 +437,7 @@ async function reconcileDocs(root, active, doneSlugs) {
   }
   for (const c of completed) {
     const card = kb.cards.find((x) => x.id === c.id);
-    if (card) { card.col = "done"; card.note = "done — moved to docs/todo/done/"; }
+    if (card) { card.col = "done"; card.note = "done — moved to docs/archive/done/"; }
   }
   if (removed.length) {
     const gone = new Set(removed.map((c) => c.id));
@@ -509,8 +509,8 @@ async function runUpdate(root) {
   const doneSlugs = Array.isArray(todos.done) ? todos.done : [];
 
   list.innerHTML =
-    active.map((p) => `<li><span class="tk-sync__dot"></span> docs/todo/${esc(p.slug)}</li>`).join("") +
-    `<li><span class="tk-sync__dot"></span> docs/todo/done/ · ${doneSlugs.length} closed</li>`;
+    active.map((p) => `<li><span class="tk-sync__dot"></span> docs/workstreams/${esc(p.slug)}</li>`).join("") +
+    `<li><span class="tk-sync__dot"></span> docs/archive/done/ · ${doneSlugs.length} closed</li>`;
   await tickThrough(Array.from(list.querySelectorAll("li")), alive);
   if (!alive()) { finish(); return; }
 

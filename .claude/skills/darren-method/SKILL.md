@@ -1,6 +1,6 @@
 ---
 name: darren-method
-description: "The team's standard way to run any multi-step build. Turn a plan into a docs/todo/<slug>/ folder — a PLAN.md overview plus phase files that each end with QA scenarios — then do ONE phase at a time, with the product owner testing and green-lighting before the next phase. Trigger when the user says /darren-method, 'darren method', 'split this into phases', 'set up the todo folder', or hands over a plan to break down and work through. Use for any change big enough to need a plan; skip for trivial one-file edits."
+description: "The team's standard way to run any multi-step build. Turn a plan into a docs/workstreams/<slug>/ folder — a PLAN.md overview plus phase files that each end with QA scenarios — then do ONE phase at a time, with the product owner testing and green-lighting before the next phase. Trigger when the user says /darren-method, 'darren method', 'split this into phases', 'set up the todo folder', or hands over a plan to break down and work through. Use for any change big enough to need a plan; skip for trivial one-file edits."
 argument-hint: "<plan file path, or feature name/slug>"
 user-invocable: true
 ---
@@ -25,7 +25,7 @@ The Darren Method. How we run multi-step work so it doesn't fall over.
 ## What it builds
 
 ```
-docs/todo/<slug>/
+docs/workstreams/<slug>/
   PLAN.md      the overview
   phase-1.md   one phase + its test scenarios
   phase-2.md
@@ -39,20 +39,20 @@ docs/todo/<slug>/
 - [ ] Get the plan (a file to read, or the one in this chat). No plan? Ask once.
 - [ ] Split into phases. Each one: small, in a sensible order, and testable by a non-technical person.
 - [ ] Fewer big phases beats lots of tiny ones.
-- [ ] Write `PLAN.md` (template below).
+- [ ] Write `plan.md` (template below).
 - [ ] Write one `phase-N.md` per phase (template below). Each MUST end with test scenarios. Can't write real scenarios? The phase is too big or too techy — split it.
 - [ ] **Stop.** Tell the user to read the phases and confirm before any work starts.
 
 ## Job B — do one phase
 
-- [ ] Pick the phase — the next unfinished one (check `PLAN.md`).
-- [ ] Baseline first: run `npm run gate` (and `npm run smoke` if relevant) **before touching anything**, and note the result in `PLAN.md`. Anything failing now is pre-existing — not the new work's fault.
+- [ ] Pick the phase — the next unfinished one (check `plan.md`).
+- [ ] Baseline first: run `npm run gate` (and `npm run smoke` if relevant) **before touching anything**, and note the result in `plan.md`. Anything failing now is pre-existing — not the new work's fault.
 - [ ] If this chat is long or messy, say so — a fresh session is better.
 - [ ] Build **that phase only**. Don't wander into the next one.
 - [ ] Hand testing to the product owner: show them the scenarios + anything that helps them test (a screenshot, what to click). Then **wait**.
-- [ ] Green light? Only then: update the status and "Current state" in `PLAN.md` (what landed, how it was tested, what's next), then **commit the phase** (local only — no push/PR unless asked).
+- [ ] Green light? Only then: update the status and "Current state" in `plan.md` (what landed, how it was tested, what's next), then **commit the phase** (local only — no push/PR unless asked).
 - [ ] Scope you cut or ideas for later go in PLAN.md's "Parked" section — not into this phase.
-- [ ] All phases ✅? Move the folder to `docs/todo/done/<slug>/`.
+- [ ] All phases ✅? Move the folder to `docs/archive/done/<slug>/`.
 - [ ] **Stop.** No green light = no next phase. One phase per run. Suggest the next one another day.
 
 ## Templates
@@ -90,7 +90,7 @@ docs/todo/<slug>/
 ```
 # Phase N — <name>
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](plan.md) · **Status:** ⬜
 
 ## Goal
 <one sentence>
@@ -119,6 +119,6 @@ Walk through these yourself. Next phase waits for your green light.
 - [ ] **One phase per run.** No starting phase N+1 in the same run unless the user says "keep going".
 - [ ] **Every phase ends with test scenarios.** No real scenarios = phase is wrong-sized. Split it.
 - [ ] **Set up, confirm, then build.** Don't set up the folder and run phase 1 in one go.
-- [ ] **`PLAN.md` is the truth** for where we are. Update its statuses and "Current state" the moment a phase is done.
+- [ ] **`plan.md` is the truth** for where we are. Update its statuses and "Current state" the moment a phase is done.
 - [ ] **Green light = commit.** Approved work gets committed right away (local only), so tested phases never sit mixed in with new changes.
 - [ ] **Spread it out.** Stopping between phases is the point — days, not one marathon.

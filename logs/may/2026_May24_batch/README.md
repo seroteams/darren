@@ -24,4 +24,4 @@ Source: `batch-data.zip` produced by the work-computer eval+self-edit harness on
 
 ## Adoption status
 
-The evolved prompts were copied into `prompts/generate-questions.md` and `prompts/plan-turn.md` on 2026-05-24 by light-ops per user direction. See `EVOLVED-DIFF.md` for the exact hunks and `PLAN.md` workstream "Adopt batch-run learnings (May 24)" for heavy-ops follow-up.
+The evolved prompts were copied into `prompts/generate-questions.md` and `prompts/plan-turn.md` on 2026-05-24 by light-ops per user direction. See `EVOLVED-DIFF.md` for the exact hunks and `plan.md` workstream "Adopt batch-run learnings (May 24)" for heavy-ops follow-up.

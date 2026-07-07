@@ -4,7 +4,7 @@
 // you read here are exactly the SQL that gets created — no separate DSL, no hidden
 // rewrites.
 //
-// Locked DB rules applied throughout (see docs/todo/postgres-foundation/PLAN.md):
+// Locked DB rules applied throughout (see docs/archive/done/postgres-foundation/plan.md):
 //   uuid primary keys (generated) · snake_case plural table names · timestamptz for
 //   created_at / updated_at · jsonb (never text) for structured state · an indexed
 //   org_id FK on every tenant-scoped table · FK + index on every *_id.

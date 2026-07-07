@@ -4,8 +4,12 @@ admin/dist
 .env.local
 .DS_Store
 *.zip
-!docs/archives/**/*.zip
+!docs/archive/**/*.zip
 .playwright-mcp/
+
+# Night-test report is markdown-first (docs/reports/*-night-test-report.md); the generated
+# HTML dashboard twin isn't tracked (no dup .html/.md of the same report).
+docs/reports/*-night-test-report.html
 
 # Local / runtime agent & tool artifacts
 .*.out

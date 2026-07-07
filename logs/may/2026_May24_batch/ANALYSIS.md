@@ -127,11 +127,11 @@ Done in this pass:
 - Archived all 5 zip files into [logs/may/2026_May24_batch/](.).
 - Captured `EVOLVED-DIFF.md` showing exact prompt hunks.
 - Applied evolved prompts as commits `883ccca` + `e14d1cf`.
-- Updated `PLAN.md` workstream for heavy-ops review.
+- Updated `plan.md` workstream for heavy-ops review.
 - Mined all 26 runs into this `ANALYSIS.md`: per-run scores, 6 failure patterns, 4 regression candidates, predicted next-batch scores.
 
 Open for heavy-ops:
-- Reconcile applied prompt edits with `PLAN.md` open items 5 + 6 (both target `plan-turn.md`).
+- Reconcile applied prompt edits with `plan.md` open items 5 + 6 (both target `plan-turn.md`).
 - Land the persona scenarios catalog into `scenarios/regression/` so a re-run is possible.
 - Re-run the eval harness against current prompts and check predicted ranges above.
 - Tighten `prompts/generate-focus-points.md` reason field (memory item N4).

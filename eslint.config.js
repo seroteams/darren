@@ -16,7 +16,7 @@ module.exports = [
       "node_modules/**",
       "admin/dist/**",
       ".claude/**", // vendored skills, not our code
-      "docs/archives/**",
+      "docs/archive/**",
       "logs/**",
       "content/questions/**",
     ],

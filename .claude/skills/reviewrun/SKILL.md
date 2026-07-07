@@ -7,7 +7,7 @@ user-invocable: true
 
 Loads a single run for review. Output primes discussion — does not propose fixes unprompted.
 
-**Canonical spec:** [`docs/plans/reviewrun-output-spec.md`](../../../docs/plans/reviewrun-output-spec.md) (FX-43). Master audit IDs: [`docs/archives/plans/log-fix-audit.md`](../../../docs/archives/plans/log-fix-audit.md).
+**Canonical spec:** [`docs/reference/reviewrun-output-spec.md`](../../../docs/reference/reviewrun-output-spec.md) (FX-43). Master audit IDs: [`docs/archive/plans/log-fix-audit.md`](../../../docs/archive/plans/log-fix-audit.md).
 
 ## Inputs
 
@@ -41,7 +41,7 @@ Stage dirs may vary. Discover by listing the run dir. Treat any `NN-*` subdir as
    - `transcript.json`
    - each stage's `inputs.json`, `prompt.md`, `response.json`
    - `notes.md` if present
-   - **last row of** `docs/plans/prompt-review-ledger.md` (for the scorecard's direction arrows). If the file or a prior row is absent, arrows show `—` (no baseline yet).
+   - **last row of** `docs/reference/prompt-review-ledger.md` (for the scorecard's direction arrows). If the file or a prior row is absent, arrows show `—` (no baseline yet).
 3. **Payload dump.** For each stage in order, emit verbatim:
 
    ````
@@ -74,9 +74,9 @@ Stage dirs may vary. Discover by listing the run dir. Treat any `NN-*` subdir as
      - Anything else → try substring match on section name vs stage dir name. If no match, bucket under `(unmapped)`.
    - For each note, hold a reference to the matched stage's `prompt.md` + `response.json` so the Fix line can quote/target a specific prompt rule or output.
    - If `notes.md` is absent, skip this step entirely — the `## User notes` section in the output template is omitted.
-9. **Audit crosswalk.** Read [`docs/archives/plans/log-fix-audit.md`](../../../docs/archives/plans/log-fix-audit.md) (grep by symptom if needed). For each signal, hypothesis, and note-fix that matches a known issue, append `` `→ FX-NN` `` (or `D1`, `C1`, `LF-1`, etc.). Novel gaps → `` `→ (new)` ``. Emit the `## Audit crosswalk` table in phase 2 (see spec). If a ✅ DONE item clearly regressed in this run, mark **regression** in the Match column.
+9. **Audit crosswalk.** Read [`docs/archive/plans/log-fix-audit.md`](../../../docs/archive/plans/log-fix-audit.md) (grep by symptom if needed). For each signal, hypothesis, and note-fix that matches a known issue, append `` `→ FX-NN` `` (or `D1`, `C1`, `LF-1`, etc.). Novel gaps → `` `→ (new)` ``. Emit the `## Audit crosswalk` table in phase 2 (see spec). If a ✅ DONE item clearly regressed in this run, mark **regression** in the Match column.
 10. **Output template** (below). Stop after. Wait for user to pick thread.
-11. **Append ledger row.** After the template, append one row to `docs/plans/prompt-review-ledger.md`: `date · run-id · engine fingerprint · 🟦 · 🟨 · 🟩 · short note`, matching the scorecard marks. This is the only file the skill writes — one row per review, never rewrite prior rows.
+11. **Append ledger row.** After the template, append one row to `docs/reference/prompt-review-ledger.md`: `date · run-id · engine fingerprint · 🟦 · 🟨 · 🟩 · short note`, matching the scorecard marks. This is the only file the skill writes — one row per review, never rewrite prior rows.
 
 ## Scorecard — Understood / Filtered / Shown
 
@@ -92,7 +92,7 @@ The scannable verdict at the **top** of phase-2 output. Three lenses, each rolli
 
 The 4 health axes (wellbeing / engagement / clarity / growth) score the **employee**, not prompt quality — keep them in the digest, **out** of the scorecard.
 
-**Ledger:** `docs/plans/prompt-review-ledger.md` — append-only, one row per review. Read the last row for the arrows (step 2), append this run's row after the template (step 11). If absent or empty, arrows show `—`.
+**Ledger:** `docs/reference/prompt-review-ledger.md` — append-only, one row per review. Read the last row for the arrows (step 2), append this run's row after the template (step 11). If absent or empty, arrows show `—`.
 
 ## Output template
 

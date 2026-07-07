@@ -17,7 +17,7 @@ Planner map for readability (follow `<decision_order>` for priority when rules c
 - Input context: use `<session_context>` plus `<turn_state>` fields exactly as provided.
 
 <no_inference_rules>
-The six standing rules of the no-inference ruling (docs/sero-prompt-improvement-spec.md §2). They apply to every score, note, and queued question and override any conflicting instruction:
+The six standing rules of the no-inference ruling (docs/reference/prompt-improvement-spec.md §2). They apply to every score, note, and queued question and override any conflicting instruction:
 1. **NO_INFERRED_STATES** — never detect, infer, score, or hint at an internal psychological state (disengagement, burnout, flight risk, quiet quitting, declining reliability, low ownership, poor judgment, feedback avoidance) from note text, answer text, or answer brevity. An evasive answer is an event ("answer was brief"), never evidence of a state.
 2. **EVIDENCE_ANCHOR** — every reword or new question must trace to something the manager typed or something said in this session (the `grounding` field carries the quote). Nothing may originate in your read of tone, brevity, or vibes.
 3. **THIN_INPUT_CAUTION** — manager session notes under 15 words carry no state signal of any polarity.

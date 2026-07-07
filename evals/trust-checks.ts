@@ -195,7 +195,7 @@ function employeeFacingText(briefing: unknown): string {
   return parts.join("\n");
 }
 
-// ── No-inference ruling gates (docs/sero-prompt-improvement-spec.md §4) ─────
+// ── No-inference ruling gates (docs/reference/prompt-improvement-spec.md §4) ─────
 // Same honest-reach philosophy as the rest of this file: blatant tripwires over
 // clever heuristics. Reworded/subtle state reads fall to the judge Warn.
 
@@ -218,7 +218,7 @@ const STATE_ASSERTIONS: Array<{ label: string; re: RegExp }> = [
 
 // Manager-facing prose: the manager-only truth channel plus every
 // engagement_read text field. No carve-outs — the legacy state-label `level`
-// enum was removed in the Phase 3 re-spec (docs/todo/no-inference-ruling/
+// enum was removed in the Phase 3 re-spec (docs/archive/done/no-inference-ruling/
 // phase-3.md), so the whole block is scanned.
 function managerFacingText(briefing: unknown): string {
   const b = asRecord(briefing);
@@ -590,7 +590,7 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   // Grounding audit is log-only for now: visible in gate details while the
   // false-positive rate is unknown. Promote to a warning/hard fail once a few
   // gate runs show it stays quiet on the happy cases (parked in
-  // docs/todo/done/engine-trust-gates/PLAN.md).
+  // docs/archive/done/engine-trust-gates/plan.md).
   const grounding = runQuestionGroundingChecks(turns, managerNotes);
   if (grounding.length) {
     details.push(...grounding.map((d) => `UNGROUNDED_PREMISE (log-only): ${d}`));

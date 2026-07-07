@@ -1,0 +1,31 @@
+# Phase 5 — member link + "Your 1:1s"
+
+## BUILT — awaiting Carl's walk (2026-07-06, in the all-in-one-thread run he requested)
+
+- **Backend:** `people.repo` gains `findByLinkedUser` + `listOrgUsers` (active accounts, id/name/email, never password_hash); `people.service` gains `link` (target must be an org account → 400 otherwise; someone else's person → fenced 404), `unlink` (idempotent), `linkableUsers` — **6 new unit tests (20 total in the file)**. `run-history.listFinishedRunsAboutPerson(orgId, personIds)` returns MINIMAL rows. New injectable [about-me.service.ts](../../../../backend/api/services/runs/about-me.service.ts) maps manager names — **5 unit tests**, incl. an explicit "rows carry NOTHING sensitive" key-shape check (no notes/briefing/rating/creator id). Routes: `GET /team/linkable-users`, `POST /team/people/:id/link|unlink` (origin-guarded, manager/admin), `GET /runs/about-me` (any logged-in role; registered before the `/:id` regexes).
+- **Frontend:** Team → Tidy up gains a **"Linked account"** select per person (link/unlink with a plain-words confirm that states the privacy rule); member Home now shows **"Your 1:1s"** (type + manager + date, shared `formatDate`) and the dead "Start a new session" button (it 403'd) is gone.
+- **Checks:** `npm test` **79/80** (the 1 fail is the pre-existing replay-baseline drift), both typechecks, admin + customer builds ✓. **Not browser-walked** — cloud clone, no live DB; the walk is the QA scenarios below.
+
+## ⚠️ Privacy rule for this phase
+
+Members see **list-only**: meeting type + date + which manager. NO notes, NO briefing, NO ratings, NO detail view. Manager notes are sensitive (no-inference ruling). Anything richer = Carl's call, parked as `member-run-visibility`.
+
+## Work
+
+1. people.service/repo: POST /api/v1/team/people/:id/link { userId } (target must be a user in the SAME org) + unlink; GET /api/v1/team/linkable-users (org users id/name/email; manager/admin only).
+2. [run-history.ts](../../../../backend/engine/run-history.ts): `listFinishedRunsAboutPerson(orgId, personIds)` — org-fenced walk filtered by state.personId ∈ set; minimal row: { id, meetingType, lastSeenAt, completedAt, managerName }.
+3. runs.service.ts + runs.controller.ts + server.ts: GET /api/v1/runs/about-me (requireAuth, any role; resolves caller's linked people via peopleRepo.findByLinkedUser(userId, orgId)).
+4. [team.ts](../../../../admin/src/stages/team.ts) Tidy up: "Link to account…" picker per person.
+5. [member-home.js](../../../../admin/src/stages/member-home.js) + [runs.ts](../../../../admin/src/stages/runs.ts): member home shows "Your 1:1s" from /about-me; remove the dead "Start a new session" button (403s today).
+
+## Done when
+
+- Carl links a seeded person to member@seroteams.com; logging in as the member shows those 1:1s (dates + types only); nothing cross-link, cross-org, or beyond the minimal row.
+
+## QA scenarios
+
+1. Link person → member login lists their 1:1s; unlink → list empties.
+2. Member with no links → empty list (not an error).
+3. Manager tries linking a user from another org → 400/404.
+4. Member calls GET /team/people → 403; GET /runs/about-me returns only linked-person runs.
+5. Response body spot-check: no notes/briefing/rating fields present.
