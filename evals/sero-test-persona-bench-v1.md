@@ -30,7 +30,7 @@ This is prompt-engine tuning using the Sero UI, logs, and repeatable synthetic c
 
 ## Machine-readable bench
 
-The web **Start** screen loads fixed personas from [`config/persona-bench-v1.json`](config/persona-bench-v1.json) (**Test persona** → **Start with persona** skips manual intake and goes straight to focus points).
+The web **Start** screen loads fixed personas from [`content/config/persona-bench-v1.json`](../content/config/persona-bench-v1.json) (**Test persona** → **Start with persona** skips manual intake and goes straight to focus points).
 
 When you change a test card here, update the JSON to match (same fields as [Sero intake mapping](#sero-intake-mapping); **Issue** stays out of `notes`).
 
