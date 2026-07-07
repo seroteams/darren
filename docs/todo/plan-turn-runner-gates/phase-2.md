@@ -1,6 +1,9 @@
 # Phase 2 — Queue-shape gates
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built, awaiting product-owner walk
+
+## Build note — dangling ref_alias (deviation from the plan, reasoned)
+The plan listed "dangling ref_alias → **drop**". On reading the code, `reconcileQueue` **already enforces the intent, more safely**: a non-null `ref_alias` that isn't in the remaining queue is logged and the item is **re-validated as a brand-new question** (fresh alias, `source: planner_added`) — it must pass name-shape, repeat, eligibility, arc, and grounding gates on its own. So a hallucinated alias can never carry a real question's identity forward. A hard *drop* would be strictly worse: it would bin good reworded questions where the model merely mangled the alias but wrote valid, grounded text. **Decision: keep the sanitize-to-new recovery; do not add a destructive drop.** (Same shape as "description stays" and "clamp/relational already in code".) If Carl prefers a hard drop, it's a one-line change — flagged for his call.
 
 ## Goal
 The queue as a whole obeys the budget and arc contract: it's never longer than the budget allows, the final turn always leads with the reserved closer, and no item points at an alias that isn't actually in the remaining queue.

@@ -62,7 +62,7 @@ test("enforceCloserOnFinalTurn: final turn moves an out-of-place closer to the f
     remainingQueue: [],
     issues,
   });
-  assert.equal(out[0].alias, "closer");
+  assert.equal(out[0]?.alias, "closer");
   assert.equal(issues.length, 1);
 });
 
@@ -74,7 +74,7 @@ test("enforceCloserOnFinalTurn: final turn pulls a missing closer from the remai
     remainingQueue: [q("closer")],
     issues: [],
   });
-  assert.equal(out[0].alias, "closer");
+  assert.equal(out[0]?.alias, "closer");
 });
 
 test("enforceCloserOnFinalTurn: no reserved closer means no-op", () => {
