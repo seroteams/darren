@@ -1,9 +1,0 @@
-alias: q_stretch_gap_7
-label: Stretch gap
-name: "What's feeling unstretching about this week?"
-description: Drills into whether the current work mix feels like recovery, low challenge, or misused capacity.
-purpose: topic
-stage: friction
-axis_effects:
-  engagement: +3
-source: planner_added

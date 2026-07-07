@@ -1,9 +1,0 @@
-alias: q_political_moments_10
-label: Political moments
-name: When it gets political, what are you stepping back from specifically?
-description: Drills into the named retreat pattern so you can hear which senior-level moves he avoids.
-purpose: topic
-stage: anchor
-axis_effects:
-  clarity: +1
-source: planner_added

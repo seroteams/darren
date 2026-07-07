@@ -1,8 +1,0 @@
-alias: q_reset_check_41
-label: Reset check
-name: Is now a bad time for this conversation?
-description: Directly checks whether to reset or reschedule after repeated non-answers.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +1
-source: planner_added

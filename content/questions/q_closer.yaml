@@ -1,9 +1,0 @@
-alias: q_closer
-label: Closer
-name: What would make the next fortnight feel more on track for you?
-description: Ends with a practical landing question that points to actions and support.
-purpose: topic
-stage: lift
-axis_effects:
-  clarity: +1
-source: generated

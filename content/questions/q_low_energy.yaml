@@ -1,9 +1,0 @@
-alias: q_low_energy
-label: Low energy
-name: When your energy feels low, what part of the backlog is draining you most?
-description: Drills into the low-energy thread to locate the specific source of friction in the backlog work.
-purpose: topic
-stage: pulse
-axis_effects:
-  engagement: +1
-source: planner_added

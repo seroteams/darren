@@ -1,9 +1,0 @@
-alias: q_execution_pull_20
-label: Execution pull
-name: Where do execution details keep pulling you back in most right now?
-description: Drills into the specific work or decisions keeping him in executor mode.
-purpose: competency
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

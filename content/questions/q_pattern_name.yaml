@@ -1,9 +1,0 @@
-alias: q_pattern_name
-label: Pattern name
-name: What pattern do you see across the designs that need extra review?
-description: Get her to name the recurring gap plainly across examples.
-purpose: competency
-stage: gap_naming
-axis_effects:
-  clarity: +3
-source: planner_added

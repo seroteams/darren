@@ -1,9 +1,0 @@
-alias: q_outside_work_strain_2
-label: Outside work strain
-name: What has the last few weeks outside work been like for you?
-description: Gives space to explain the outside-work strain they just mentioned without diagnosing or forcing emotion.
-purpose: wellbeing
-stage: observation
-axis_effects:
-  wellbeing: +1
-source: planner_added

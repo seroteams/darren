@@ -1,9 +1,0 @@
-alias: q_readiness_gap
-label: Readiness gap
-name: What would you need to get better at to lead that way?
-description: Identify the main gap between her current pattern and desired next-level leadership.
-purpose: topic
-stage: gap
-axis_effects:
-  growth: +3
-source: planner_added

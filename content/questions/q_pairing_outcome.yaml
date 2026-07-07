@@ -1,9 +1,0 @@
-alias: q_pairing_outcome
-label: Pairing outcome
-name: What do you want to learn from pairing with the staff engineer?
-description: Turns his proposed move into a concrete gap definition and desired capability.
-purpose: topic
-stage: gap
-axis_effects:
-  growth: +3
-source: planner_added

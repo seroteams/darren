@@ -1,9 +1,0 @@
-alias: q_recognition_mismatch_7
-label: Recognition mismatch
-name: What work do you think is getting recognized instead?
-description: Drills into the recognition mismatch he just named so you can hear his model of what counts.
-purpose: topic
-stage: support
-axis_effects:
-  clarity: +1
-source: planner_added

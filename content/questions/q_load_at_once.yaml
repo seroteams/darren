@@ -1,9 +1,0 @@
-alias: q_load_at_once
-label: Load at once
-name: What all has been landing on you at once?
-description: Drills into the stated overload to surface the specific work or demands crowding delivery.
-purpose: wellbeing
-stage: observation
-axis_effects:
-  clarity: +3
-source: planner_added

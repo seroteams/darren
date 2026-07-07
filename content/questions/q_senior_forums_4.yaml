@@ -1,9 +1,0 @@
-alias: q_senior_forums_4
-label: Senior forums
-name: What feels most exposed for you in senior forums?
-description: Drills into the confidence thread to surface the specific judgment or exposure he fears.
-purpose: topic
-stage: aspiration
-axis_effects:
-  growth: +3
-source: planner_added

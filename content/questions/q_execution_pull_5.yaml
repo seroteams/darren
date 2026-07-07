@@ -1,9 +1,0 @@
-alias: q_execution_pull_5
-label: Execution pull
-name: Where are execution details pulling you in most right now?
-description: Drills into the specific work pattern keeping him in executor mode.
-purpose: competency
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

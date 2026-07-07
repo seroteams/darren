@@ -1,9 +1,0 @@
-alias: q_recent_example_14
-label: recent example
-name: Take the onboarding dashboard — what specifically came back in review?
-description: Anchor the discussion in one concrete review example before naming the broader gap.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: planner_added

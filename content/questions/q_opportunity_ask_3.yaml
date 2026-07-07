@@ -1,9 +1,0 @@
-alias: q_opportunity_ask_3
-label: Opportunity ask
-name: What opportunities has he wanted but not asked for directly?
-description: Drills into the specific stretch opportunities Ahmed has not been explicit about pursuing.
-purpose: topic
-stage: aspiration
-axis_effects:
-  engagement: +3
-source: planner_added

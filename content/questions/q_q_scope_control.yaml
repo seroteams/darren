@@ -1,9 +1,0 @@
-alias: q_q_scope_control
-label: q_scope_control
-name: What made it grow rather than stay contained?
-description: Surface what expanded the decision and where containment broke down.
-purpose: competency
-stage: gap_naming
-axis_effects:
-  clarity: +3
-source: "reworded_from:q_scope_control"

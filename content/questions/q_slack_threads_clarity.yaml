@@ -1,9 +1,0 @@
-alias: q_slack_threads_clarity
-label: Slack threads clarity
-name: On those Slack threads, what exactly was missing for QA and release testing?
-description: Drills into the specific communication gap she named so the evidence is concrete.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

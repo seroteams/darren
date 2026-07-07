@@ -1,9 +1,0 @@
-alias: q_similar_work_thread
-label: Similar work thread
-name: Which work has started to feel too similar lately?
-description: Drills into the plateau she named so the manager can locate where growth has flattened.
-purpose: topic
-stage: momentum
-axis_effects:
-  growth: +3
-source: planner_added

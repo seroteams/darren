@@ -1,9 +1,0 @@
-alias: q_political_moments_11
-label: Political moments
-name: When it gets political, which relationships feel hardest to influence?
-description: Drills into the specific stakeholder-trust thread he surfaced in political conversations.
-purpose: topic
-stage: anchor
-axis_effects:
-  clarity: +1
-source: planner_added

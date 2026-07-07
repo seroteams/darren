@@ -1,9 +1,0 @@
-alias: q_late_research_timing
-label: Late research timing
-name: When research lands that late, where does it most change what you do in meetings?
-description: Drill into how delayed research timing is affecting her participation in team conversations.
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +1
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_flatter_week_8
-label: Flatter week
-name: "You said this week feels flatter than expected — what's underneath that?"
-description: Drills into whether the post-launch flatness is normal decompression or points to something unresolved.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

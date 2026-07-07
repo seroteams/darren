@@ -1,9 +1,0 @@
-alias: q_execution_pull_17
-label: Execution pull
-name: What is keeping you in the execution details right now?
-description: Drills into the specific force keeping him tactical so you can separate pressure, habit, and role design.
-purpose: competency
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

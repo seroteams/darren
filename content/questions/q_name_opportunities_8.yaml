@@ -1,9 +1,0 @@
-alias: q_name_opportunities_8
-label: Name opportunities
-name: Which opportunities has he not been explicit about wanting?
-description: Drills into the specific scope or roles he wants so the growth path becomes concrete.
-purpose: topic
-stage: investment
-axis_effects:
-  growth: +1
-source: planner_added

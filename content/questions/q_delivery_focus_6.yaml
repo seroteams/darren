@@ -1,9 +1,0 @@
-alias: q_delivery_focus_6
-label: Delivery focus
-name: When you narrowed to delivery, what did you pull back from?
-description: Follows his concrete thread to surface which rituals, meetings, or responsibilities he disengaged from.
-purpose: topic
-stage: landing
-axis_effects:
-  wellbeing: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_pairing_angle
-label: Pairing angle
-name: What do you want to learn from pairing with the staff engineer?
-description: Clarifies the specific exposure or judgment he wants to build through that pairing.
-purpose: topic
-stage: gap
-axis_effects:
-  growth: +3
-source: planner_added

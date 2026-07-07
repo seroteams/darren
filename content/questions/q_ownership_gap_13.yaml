@@ -1,9 +1,0 @@
-alias: q_ownership_gap_13
-label: Ownership gap
-name: Where was the ownership on that work less clear than it should have been?
-description: Lets him point to a handoff or decision gap without you naming it first.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

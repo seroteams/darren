@@ -1,9 +1,0 @@
-alias: q_q_communication_gap_2
-label: q_communication_gap
-name: In that example, where did people start interpreting the decision differently?
-description: Pinpoint the moment or handoff where shared understanding broke down.
-purpose: topic
-stage: evidence
-axis_effects:
-  clarity: +3
-source: "reworded_from:q_communication_gap"

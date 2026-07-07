@@ -1,9 +1,0 @@
-alias: q_edge_cases_first
-label: Edge cases first
-name: When you skip edge cases, what usually makes them easy to leave until later?
-description: Drill into the specific habit she named before advancing, to surface what drives the omission.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +1
-source: planner_added

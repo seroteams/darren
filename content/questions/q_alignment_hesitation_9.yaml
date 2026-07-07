@@ -1,9 +1,0 @@
-alias: q_alignment_hesitation_9
-label: Alignment hesitation
-name: What feels hardest about shaping cross-org alignment in those moments?
-description: Drills into the specific part of senior stakeholder influence he hesitates on.
-purpose: topic
-stage: anchor
-axis_effects:
-  clarity: +1
-source: planner_added

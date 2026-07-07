@@ -1,9 +1,0 @@
-alias: q_useful_support
-label: Useful support
-name: What would make the next two weeks easier to steer?
-description: Closes by landing on the support or adjustment that would make the next stretch more manageable.
-purpose: wellbeing
-stage: lift
-axis_effects:
-  clarity: +1
-source: generated

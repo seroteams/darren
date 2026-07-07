@@ -1,9 +1,0 @@
-alias: q_closer_next_steps_2
-label: Closer next steps
-name: What do you want to carry forward from this check-in over the next two weeks?
-description: Closes by turning the conversation into an explicit next-step commitment.
-purpose: topic
-stage: lift
-axis_effects:
-  clarity: +1
-source: generated

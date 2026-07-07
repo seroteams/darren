@@ -1,9 +1,0 @@
-alias: q_decision_wait
-label: Decision wait
-name: What are you waiting on that is slowing you down?
-description: Separates external blockers from self-managed work and clarifies dependency risk.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_q_next_step_37
-label: q_next_step
-name: On the next call, what will you set before you hang up?
-description: Drive toward a specific behavioural change in how she closes calls.
-purpose: competency
-stage: commit
-axis_effects:
-  clarity: +3
-source: "reworded_from:q_next_step"

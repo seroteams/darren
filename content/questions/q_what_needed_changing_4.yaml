@@ -1,9 +1,0 @@
-alias: q_what_needed_changing_4
-label: What needed changing
-name: What did you think needed to change after that decision?
-description: Drills into his stated lack of clarity after the promotion decision before moving on.
-purpose: topic
-stage: landing
-axis_effects:
-  clarity: +1
-source: planner_added

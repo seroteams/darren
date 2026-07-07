@@ -1,9 +1,0 @@
-alias: q_decision_lag_2
-label: Decision lag
-name: What decisions are you still waiting on that are shaping your next move?
-description: Surfaces dependencies and whether Sam is stalled by missing input or approval.
-purpose: topic
-stage: momentum
-axis_effects:
-  clarity: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_delivery_focus_9
-label: Delivery focus
-name: What did staying close to delivery let you avoid for a while?
-description: Drills into the coping move he named and what he pulled back from.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  wellbeing: +3
-source: planner_added

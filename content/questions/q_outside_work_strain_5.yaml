@@ -1,9 +1,0 @@
-alias: q_outside_work_strain_5
-label: Outside work strain
-name: You mentioned outside work has been a rough few weeks; what feels most relevant here?
-description: Gives him an opt-in way to connect the outside-work strain to what has shifted lately.
-purpose: wellbeing
-stage: observation
-axis_effects:
-  wellbeing: +1
-source: planner_added

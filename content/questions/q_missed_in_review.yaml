@@ -1,9 +1,0 @@
-alias: q_missed_in_review
-label: Missed in review
-name: On the onboarding dashboard, what exactly was missing in those empty states?
-description: Anchor the issue in specific omissions so the gap is concrete before naming the broader pattern.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: planner_added

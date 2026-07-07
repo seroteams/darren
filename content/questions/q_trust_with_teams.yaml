@@ -1,9 +1,0 @@
-alias: q_trust_with_teams
-label: Trust with teams
-name: Where has trust with adjacent teams felt weakest lately?
-description: Anchors the trust issue in a specific recent moment before moving on.
-purpose: competency
-stage: cause
-axis_effects:
-  engagement: +1
-source: planner_added

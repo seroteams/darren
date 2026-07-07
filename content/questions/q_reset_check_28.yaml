@@ -1,9 +1,0 @@
-alias: q_reset_check_28
-label: Reset check
-name: Is now a good time for this conversation, or should we pick another time?
-description: Directly resets a non-functional session after repeated non-answers.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +1
-source: planner_added

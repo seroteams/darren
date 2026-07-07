@@ -1,9 +1,0 @@
-alias: q_next_move
-label: Next move
-name: "Given what we've covered, where do you want to focus first in your next draft?"
-description: Open closer that turns the discussion into a concrete next focus area.
-purpose: competency
-stage: commit
-axis_effects:
-  growth: +3
-source: planner_added

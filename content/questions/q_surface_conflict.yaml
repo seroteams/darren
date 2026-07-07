@@ -1,9 +1,0 @@
-alias: q_surface_conflict
-label: Surface conflict
-name: What stopped you raising that conflict when the directions split?
-description: Drills into the specific moment she kept reworking instead of surfacing conflicting feedback.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

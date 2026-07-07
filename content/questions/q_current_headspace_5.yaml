@@ -1,9 +1,0 @@
-alias: q_current_headspace_5
-label: Current headspace
-name: Before we get specific, what feels most important to talk through in your role right now?
-description: Safe opener that lets Ahmed set the agenda before any growth diagnosis.
-purpose: wellbeing
-stage: anchor
-axis_effects:
-  clarity: +1
-source: generated

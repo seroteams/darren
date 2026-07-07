@@ -1,9 +1,0 @@
-alias: q_review_switching
-label: Review switching
-name: Where is the review switching coming from most right now?
-description: Pins down the source of the context-switching drag before moving on.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +1
-source: planner_added

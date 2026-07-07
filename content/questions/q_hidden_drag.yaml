@@ -1,9 +1,0 @@
-alias: q_hidden_drag
-label: Hidden drag
-name: Where is the work moving slower than it should for you?
-description: Finds the specific part of the workflow that is quietly dragging progress down.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: generated

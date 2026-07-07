@@ -1,9 +1,0 @@
-alias: q_decision_point_3
-label: Decision point
-name: Where did a specific decision unlock or slow the design work?
-description: "Surfaces the decision points that shaped progress on Sam's work."
-purpose: topic
-stage: momentum
-axis_effects:
-  clarity: +3
-source: generated

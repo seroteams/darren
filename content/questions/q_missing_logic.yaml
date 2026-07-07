@@ -1,9 +1,0 @@
-alias: q_missing_logic
-label: Missing logic
-name: Where specifically does that state logic get missed in your handoff?
-description: Anchor the issue in the handoff artifact so the missing detail is concrete and observable.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_locked_changes
-label: Locked changes
-name: Which changes are you hearing about too late right now?
-description: Drills into the specific late-stage changes that are disrupting her feedback loop.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +1
-source: planner_added

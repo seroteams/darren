@@ -1,9 +1,0 @@
-alias: q_what_landed_at_once
-label: What landed at once
-name: What all landed at once for you there?
-description: Drills into the concrete competing asks or tasks behind the overload he just named.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  wellbeing: +3
-source: planner_added

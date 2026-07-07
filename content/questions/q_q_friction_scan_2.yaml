@@ -1,9 +1,0 @@
-alias: q_q_friction_scan_2
-label: q_friction_scan
-name: "Where's most of your time actually going this week?"
-description: ""
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +1
-source: "reworded_from:q_friction_scan"

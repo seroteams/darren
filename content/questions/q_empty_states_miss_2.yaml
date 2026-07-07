@@ -1,9 +1,0 @@
-alias: q_empty_states_miss_2
-label: Empty states miss
-name: In the empty states, what specifically did you miss before review?
-description: Pin down the observable miss so the gap is named from a concrete example.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: planner_added

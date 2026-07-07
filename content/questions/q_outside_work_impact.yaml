@@ -1,9 +1,0 @@
-alias: q_outside_work_impact
-label: Outside work impact
-name: What has that been making harder for you at work lately?
-description: Gently links the outside-work strain to current work impact without forcing personal disclosure.
-purpose: wellbeing
-stage: observation
-axis_effects:
-  wellbeing: +1
-source: planner_added

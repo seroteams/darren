@@ -1,9 +1,0 @@
-alias: q_outside_work_2
-label: Outside work
-name: "Do you want to say a bit more about what's made these weeks hard?"
-description: Gives him an opt-in chance to name what is sitting underneath without diagnosing or forcing detail.
-purpose: wellbeing
-stage: underneath
-axis_effects:
-  wellbeing: +1
-source: planner_added

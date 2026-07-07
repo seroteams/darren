@@ -1,9 +1,0 @@
-alias: q_define_done
-label: Define done
-name: When the brief is loose, what tells you a design is done enough to share?
-description: Surface her current decision rule for sharing work so the conversation can anchor on a concrete example.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

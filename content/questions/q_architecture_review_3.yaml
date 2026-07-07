@@ -1,9 +1,0 @@
-alias: q_architecture_review_3
-label: Architecture review
-name: What is it about presenting there that feels important for your next step?
-description: Drills into the named forum to surface what growth outcome he believes that exposure would unlock.
-purpose: topic
-stage: gap
-axis_effects:
-  growth: +3
-source: planner_added

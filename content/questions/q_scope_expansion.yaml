@@ -1,9 +1,0 @@
-alias: q_scope_expansion
-label: Scope expansion
-name: What pulled that layout call into an IA rethink?
-description: Surface the specific moment or factor that expanded the decision scope.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

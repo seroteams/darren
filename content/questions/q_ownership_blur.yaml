@@ -1,9 +1,0 @@
-alias: q_ownership_blur
-label: Ownership blur
-name: Where was ownership most unclear to you?
-description: Drills into the ownership confusion he just named so the manager can locate the specific ambiguity.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: planner_added

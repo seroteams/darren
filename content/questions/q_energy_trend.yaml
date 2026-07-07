@@ -1,9 +1,0 @@
-alias: q_energy_trend
-label: Energy trend
-name: Since we last spoke, where has your energy actually been trending?
-description: Anchors the wellbeing read to the bi-weekly cadence and looks for drift or recovery.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +3
-source: generated

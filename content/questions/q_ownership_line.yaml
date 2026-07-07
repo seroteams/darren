@@ -1,9 +1,0 @@
-alias: q_ownership_line
-label: Ownership line
-name: What decisions or dependencies are still too blurry on this work?
-description: Surfaces unclear ownership, handoff gaps, or dependency drag that may be hiding until late.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: generated

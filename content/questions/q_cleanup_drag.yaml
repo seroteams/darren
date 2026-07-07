@@ -1,9 +1,0 @@
-alias: q_cleanup_drag
-label: Cleanup drag
-name: Which part of the cleanup is still taking the most energy?
-description: Pins down whether a specific post-launch loose end is driving the quieter week.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +3
-source: planner_added

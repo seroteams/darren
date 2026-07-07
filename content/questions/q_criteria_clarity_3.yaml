@@ -1,9 +1,0 @@
-alias: q_criteria_clarity_3
-label: Criteria clarity
-name: What criteria do you think matter most here right now?
-description: Surfaces his current model of what counts so you can test where alignment is missing.
-purpose: topic
-stage: support
-axis_effects:
-  clarity: +1
-source: planner_added

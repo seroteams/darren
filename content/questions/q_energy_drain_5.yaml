@@ -1,9 +1,0 @@
-alias: q_energy_drain_5
-label: Energy drain
-name: What has taken more energy than it should have in the last two weeks?
-description: Checks for hidden strain without turning the check-in into a therapy talk.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: generated

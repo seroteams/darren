@@ -1,9 +1,0 @@
-alias: q_next_step_landing_2
-label: Next-step landing
-name: What would make the next two weeks feel more straightforward for you?
-description: Closes by steering toward practical changes Sam wants before the next check-in.
-purpose: topic
-stage: lift
-axis_effects:
-  clarity: +1
-source: generated

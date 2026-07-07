@@ -1,9 +1,0 @@
-alias: q_specific_example
-label: Specific example
-name: What review moment best shows where the brief left scope unclear?
-description: Anchor the conversation in one concrete example of the ambiguity before closing.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

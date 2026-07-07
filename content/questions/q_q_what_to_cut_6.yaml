@@ -1,9 +1,0 @@
-alias: q_q_what_to_cut_6
-label: q_what_to_cut
-name: If one thing dropped off your plate, what would free up the most?
-description: ""
-purpose: wellbeing
-stage: self_read
-axis_effects:
-  wellbeing: +3
-source: "reworded_from:q_what_to_cut"

@@ -1,9 +1,0 @@
-alias: q_understanding_gap
-label: Understanding gap
-name: What are sales and BD missing about the partner alliance role?
-description: Drills into the specific misunderstanding so the manager can hear what message is not landing.
-purpose: topic
-stage: pulse
-axis_effects:
-  clarity: +3
-source: planner_added

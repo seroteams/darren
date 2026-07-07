@@ -1,9 +1,0 @@
-alias: q_cleanup_thread
-label: Cleanup thread
-name: Cleanup and reviews — where is that feeling most draggy?
-description: Drills into the specific post-launch work to locate whether the flatness is normal decompression or a real snag.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

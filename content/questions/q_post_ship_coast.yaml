@@ -1,9 +1,0 @@
-alias: q_post_ship_coast
-label: Post-ship coast
-name: "What's behind the coasting feeling this week?"
-description: Drills into whether the post-ship dip is simple recovery or something else taking energy.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

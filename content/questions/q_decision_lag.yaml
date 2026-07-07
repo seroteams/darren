@@ -1,9 +1,0 @@
-alias: q_decision_lag
-label: Decision lag
-name: What decisions are you still waiting on?
-description: Finds dependency or ambiguity that is slowing sequencing.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: generated

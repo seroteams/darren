@@ -1,9 +1,0 @@
-alias: q_what_changed
-label: what changed
-name: What feels different in team conversations lately?
-description: Surface the specific shift in team interactions if they choose to engage.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +1
-source: planner_added

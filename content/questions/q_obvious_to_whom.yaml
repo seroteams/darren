@@ -1,9 +1,0 @@
-alias: q_obvious_to_whom
-label: Obvious to whom
-name: When it felt obvious, what told you the team had enough to build from?
-description: Test the assumption she used in the handoff and anchor on her decision point.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_what_gets_missed
-label: What gets missed
-name: "Where do you usually miss the buyer's real driver?"
-description: Name the specific recurring gap in her call execution.
-purpose: competency
-stage: gap_naming
-axis_effects:
-  growth: +1
-source: planner_added

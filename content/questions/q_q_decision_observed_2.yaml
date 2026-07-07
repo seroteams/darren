@@ -1,9 +1,0 @@
-alias: q_q_decision_observed_2
-label: q_decision_observed
-name: Recent decisions have felt slower and more complex than needed. Does that match your read?
-description: ""
-purpose: topic
-stage: self_read
-axis_effects:
-  clarity: +1
-source: "reworded_from:q_decision_observed"

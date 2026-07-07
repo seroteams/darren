@@ -1,9 +1,0 @@
-alias: q_feedback_channels
-label: Feedback channels
-name: Which three channels is feedback coming through right now?
-description: Pin down the specific sources creating noise so the manager can see where alignment is breaking.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: planner_added

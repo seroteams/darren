@@ -1,9 +1,0 @@
-alias: q_energy_clarify_4
-label: Energy clarify
-name: "When you say 'the deadlines got away from me,' where has your energy actually been lately?"
-description: Re-prompts the missed energy question without arguing with his pivot to deadlines.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  wellbeing: +3
-source: planner_added

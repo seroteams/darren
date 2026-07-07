@@ -1,9 +1,0 @@
-alias: q_tech_lead_pull_19
-label: Tech lead pull
-name: What is it about a tech lead role that pulls you most?
-description: Drills into what Devon actually wants from tech lead scope before moving the arc forward.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

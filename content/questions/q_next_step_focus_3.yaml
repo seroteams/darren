@@ -1,9 +1,0 @@
-alias: q_next_step_focus_3
-label: Next step focus
-name: "Given what we've covered, what do you want to focus on first?"
-description: Closes the conversation by turning the discussion into a concrete next priority.
-purpose: topic
-stage: support
-axis_effects:
-  clarity: +1
-source: generated

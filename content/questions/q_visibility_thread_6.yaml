@@ -1,9 +1,0 @@
-alias: q_visibility_thread_6
-label: Visibility thread
-name: What kind of cross-team visibility would move you toward tech lead work?
-description: Turns the visibility gap into a concrete aspiration tied to future scope.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

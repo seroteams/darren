@@ -1,9 +1,0 @@
-alias: q_cross_team_decisions_5
-label: Cross-team decisions
-name: Which cross-team decision did you avoid making most recently?
-description: Anchors his self-read in one concrete moment where Principal-level judgment was deferred.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

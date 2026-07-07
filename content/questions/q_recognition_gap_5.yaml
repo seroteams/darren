@@ -1,9 +1,0 @@
-alias: q_recognition_gap_5
-label: Recognition gap
-name: What work do you think actually gets recognised here?
-description: Drills into his stated recognition gap so you can hear the model he is using.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +1
-source: planner_added

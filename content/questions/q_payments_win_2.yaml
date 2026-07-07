@@ -1,9 +1,0 @@
-alias: q_payments_win_2
-label: Payments win
-name: What part of that payments work felt most solid to you?
-description: Turns the volunteered win into a momentum probe and surfaces what is currently working well.
-purpose: topic
-stage: momentum
-axis_effects:
-  engagement: +1
-source: planner_added

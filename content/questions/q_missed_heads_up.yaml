@@ -1,9 +1,0 @@
-alias: q_missed_heads_up
-label: Missed heads-up
-name: What got in the way of flagging the second slip sooner?
-description: Lets you understand the point where the warning should have happened.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

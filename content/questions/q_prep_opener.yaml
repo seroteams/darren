@@ -1,9 +1,0 @@
-alias: q_prep_opener
-label: Prep opener
-name: What’s feeling most off in the work lately?
-description: Safe opener that lets Reyes set context before the conversation narrows.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  clarity: +1
-source: generated

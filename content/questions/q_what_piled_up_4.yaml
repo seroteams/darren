@@ -1,9 +1,0 @@
-alias: q_what_piled_up_4
-label: What piled up
-name: What specifically was piling up for you then?
-description: Drills into the concrete work or responsibilities that accumulated so the cause of the slips becomes clearer.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: planner_added

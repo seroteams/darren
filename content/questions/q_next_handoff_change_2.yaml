@@ -1,9 +1,0 @@
-alias: q_next_handoff_change_2
-label: next handoff change
-name: What will you do differently in your next handoff?
-description: Land on the concrete behaviour Nina will change immediately after this conversation.
-purpose: competency
-stage: commit
-axis_effects:
-  clarity: +1
-source: planner_added

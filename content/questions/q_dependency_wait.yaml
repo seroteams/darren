@@ -1,9 +1,0 @@
-alias: q_dependency_wait
-label: Dependency wait
-name: What were you waiting on that slowed this down?
-description: Helps you hear whether the delay came from another team, a decision, or a missing input.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: generated

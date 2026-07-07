@@ -1,9 +1,0 @@
-alias: q_flatter_week_11
-label: Flatter week
-name: "When you say 'flatter' — what's behind that?"
-description: Drills into the post-launch dip to surface whether this is normal recovery or a specific leftover issue.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

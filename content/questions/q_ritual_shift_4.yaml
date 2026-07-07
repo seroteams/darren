@@ -1,9 +1,0 @@
-alias: q_ritual_shift_4
-label: Ritual shift
-name: Which ritual have you felt yourself pulling back from most lately?
-description: Pins the shift to one concrete team ritual so the observation can be explored without diagnosing it.
-purpose: topic
-stage: landing
-axis_effects:
-  wellbeing: +3
-source: planner_added

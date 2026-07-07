@@ -1,9 +1,0 @@
-alias: q_q_next_step_clarity
-label: q_next_step_clarity
-name: "When you close a call, how clear is the next step you're setting?"
-description: ""
-purpose: competency
-stage: gap_naming
-axis_effects:
-  clarity: +3
-source: "reworded_from:q_next_step_clarity"

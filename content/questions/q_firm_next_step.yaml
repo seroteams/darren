@@ -1,9 +1,0 @@
-alias: q_firm_next_step
-label: firm next step
-name: When the call ended vaguely, what next step did you actually ask for?
-description: Anchor on the specific closing move she made on that stalled call.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_controllable_focus
-label: Controllable focus
-name: When delivery felt controllable, what felt unclear or out of reach?
-description: Drills into his shift toward delivery to surface the uncertainty underneath it.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: planner_added

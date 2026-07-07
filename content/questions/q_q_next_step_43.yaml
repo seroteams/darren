@@ -1,9 +1,0 @@
-alias: q_q_next_step_43
-label: q_next_step
-name: What will you do differently on the next decision?
-description: Land on a concrete change in behaviour for the next similar call.
-purpose: competency
-stage: commit
-axis_effects:
-  clarity: +3
-source: "reworded_from:q_next_step"

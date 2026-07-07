@@ -1,9 +1,0 @@
-alias: q_decision_state
-label: Decision state
-name: On the onboarding dashboard, what were you still figuring out when you shared it?
-description: Anchor the discussion in a specific example to separate unfinished thinking from execution misses.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: "reworded_from:q_gap_pattern"

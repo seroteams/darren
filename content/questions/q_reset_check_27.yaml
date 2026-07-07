@@ -1,8 +1,0 @@
-alias: q_reset_check_27
-label: Reset check
-name: Is now a bad time for this, or should we pick it up later?
-description: Directly checks whether the conversation should pause and reset because engagement is too low to continue productively.
-purpose: wellbeing
-axis_effects:
-  wellbeing: +1
-source: planner_added

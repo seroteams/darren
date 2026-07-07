@@ -1,9 +1,0 @@
-alias: q_arch_review_role_2
-label: Arch review role
-name: What kind of role do you want in architecture review?
-description: Drills into the concrete thread to surface the scope and shape of the aspiration.
-purpose: topic
-stage: aspiration
-axis_effects:
-  growth: +3
-source: planner_added

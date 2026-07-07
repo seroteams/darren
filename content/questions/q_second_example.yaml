@@ -1,9 +1,0 @@
-alias: q_second_example
-label: Second example
-name: Where else has this shown up besides the onboarding dashboard?
-description: Test whether the pattern repeats across work or was isolated to one design.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: planner_added

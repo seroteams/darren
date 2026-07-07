@@ -1,9 +1,0 @@
-alias: q_safe_calls_2
-label: Safe calls
-name: Where does playing it safe show up most in your decisions?
-description: Drills into the named safety pattern with a concrete decision area before moving on.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

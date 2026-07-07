@@ -1,9 +1,0 @@
-alias: q_flag_earlier
-label: Flag earlier
-name: What made it hard to flag that one earlier?
-description: Drills into the missed escalation moment to surface what blocked earlier visibility.
-purpose: topic
-stage: observation
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_flag_earlier_8
-label: Flag earlier
-name: What made it hard to flag that slip earlier?
-description: Drills into the concrete communication lapse he named to surface whether the issue was capacity, uncertainty, or avoidance.
-purpose: topic
-stage: landing
-axis_effects:
-  clarity: +3
-source: planner_added

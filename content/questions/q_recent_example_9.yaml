@@ -1,9 +1,0 @@
-alias: q_recent_example_9
-label: Recent example
-name: Take the pricing change—what did you say in the room when that decision landed?
-description: Anchor on the exact words used in a concrete decision moment.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

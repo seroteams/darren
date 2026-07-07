@@ -1,9 +1,0 @@
-alias: q_payments_sprint_2
-label: Payments sprint
-name: That payments sprint landed clean — what made it work so well?
-description: Drills into the recent shipping win to surface the concrete factors behind it.
-purpose: topic
-stage: pulse
-axis_effects:
-  engagement: +1
-source: planner_added

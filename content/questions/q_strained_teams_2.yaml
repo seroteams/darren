@@ -1,9 +1,0 @@
-alias: q_strained_teams_2
-label: Strained teams
-name: Which teams are under the most strain right now?
-description: Drills into the specific internal groups where partnership value is hardest to land.
-purpose: topic
-stage: momentum
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_heads_up_point
-label: Heads-up point
-name: Where did it first become clear that this deadline was at risk?
-description: Finds the point where a warning or escalation should have happened.
-purpose: competency
-stage: observation
-axis_effects:
-  clarity: +3
-source: generated

@@ -1,9 +1,0 @@
-alias: q_migration_pride
-label: Migration pride
-name: What about the migration plan felt strongest to you?
-description: Drills into the concrete win she just named to surface what she found energising or meaningful.
-purpose: topic
-stage: friction
-axis_effects:
-  engagement: +3
-source: planner_added

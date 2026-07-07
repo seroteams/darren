@@ -1,9 +1,0 @@
-alias: q_need_from_me_7
-label: Need from me
-name: What support from me would make the next couple of weeks steadier?
-description: Closes by turning the conversation into a concrete support ask without opening a new thread.
-purpose: wellbeing
-stage: support
-axis_effects:
-  clarity: +1
-source: generated

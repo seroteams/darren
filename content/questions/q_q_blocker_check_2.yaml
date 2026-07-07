@@ -1,9 +1,0 @@
-alias: q_q_blocker_check_2
-label: q_blocker_check
-name: Where are things getting snagged right now?
-description: Surface concrete friction the manager may be able to help clear.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +1
-source: "reworded_from:q_blocker_check"

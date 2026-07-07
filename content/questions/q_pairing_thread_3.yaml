@@ -1,8 +1,0 @@
-alias: q_pairing_thread_3
-label: Pairing thread
-name: What do you want to learn from pairing with the staff engineer?
-description: Drills into the concrete pairing plan to surface the specific cross-team capability he wants to build.
-purpose: topic
-axis_effects:
-  engagement: +3
-source: planner_added

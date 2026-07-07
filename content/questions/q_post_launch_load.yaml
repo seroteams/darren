@@ -1,9 +1,0 @@
-alias: q_post_launch_load
-label: Post-launch load
-name: What has taken more energy than you expected since the feature shipped?
-description: Surfaces hidden recovery costs after the launch without assuming something is wrong.
-purpose: wellbeing
-stage: friction
-axis_effects:
-  wellbeing: +3
-source: generated

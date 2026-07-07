@@ -1,9 +1,0 @@
-alias: q_what_landed_6
-label: What landed
-name: What was landing on you at once?
-description: Turns his vague overload statement into a concrete list of competing work so the manager can understand the trade-off.
-purpose: topic
-stage: landing
-axis_effects:
-  clarity: +1
-source: planner_added

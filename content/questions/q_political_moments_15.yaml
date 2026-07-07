@@ -1,9 +1,0 @@
-alias: q_political_moments_15
-label: Political moments
-name: What makes those conversations feel political to you?
-description: Drills into the specific stakeholder dynamic or forum where his strategic influence thins out.
-purpose: topic
-stage: anchor
-axis_effects:
-  clarity: +1
-source: planner_added

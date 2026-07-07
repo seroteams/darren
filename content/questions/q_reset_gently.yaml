@@ -1,9 +1,0 @@
-alias: q_reset_gently
-label: reset gently
-name: Would it help to start somewhere easier about how work has been lately?
-description: Reset the conversation with a low-pressure opt-in after consecutive skips.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  wellbeing: +1
-source: planner_added

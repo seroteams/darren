@@ -1,9 +1,0 @@
-alias: q_pattern_gap
-label: Pattern gap
-name: Across your recent work, what pattern keeps creating extra review rounds?
-description: Name the recurring gap plainly so you can distinguish symptom from underlying issue.
-purpose: competency
-stage: gap_naming
-axis_effects:
-  growth: +1
-source: planner_added

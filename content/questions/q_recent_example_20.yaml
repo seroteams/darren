@@ -1,9 +1,0 @@
-alias: q_recent_example_20
-label: Recent example
-name: Where did a recent handoff fall short of that standard?
-description: Anchor the gap in one concrete example before closing on a change.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +1
-source: planner_added

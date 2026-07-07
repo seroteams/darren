@@ -1,9 +1,0 @@
-alias: q_ownership_uncertainty_2
-label: Ownership uncertainty
-name: "What's making next quarter feel unclear from where you sit?"
-description: Drills into the specific source of her uncertainty about ownership.
-purpose: topic
-stage: momentum
-axis_effects:
-  clarity: +1
-source: planner_added

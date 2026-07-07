@@ -1,9 +1,0 @@
-alias: q_a_lot_landing
-label: A lot landing
-name: What was landing on you at once, specifically?
-description: Turns his broad load statement into concrete competing tasks or demands.
-purpose: topic
-stage: landing
-axis_effects:
-  clarity: +3
-source: planner_added

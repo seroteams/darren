@@ -1,9 +1,0 @@
-alias: q_billing_rewrite_role
-label: Billing rewrite role
-name: On the billing rewrite, what role do you actually want?
-description: Drills into the concrete thread to surface the kind of involvement or ownership she wants.
-purpose: topic
-stage: momentum
-axis_effects:
-  growth: +3
-source: planner_added

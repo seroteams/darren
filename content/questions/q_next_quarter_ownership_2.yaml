@@ -1,9 +1,0 @@
-alias: q_next_quarter_ownership_2
-label: Next-quarter ownership
-name: "What's unclear about next quarter ownership from your side?"
-description: Drills into the ownership uncertainty she just named so the manager can locate the specific clarity gap.
-purpose: topic
-stage: momentum
-axis_effects:
-  clarity: +3
-source: planner_added

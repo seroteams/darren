@@ -1,9 +1,0 @@
-alias: q_ritual_pullback_4
-label: Ritual pullback
-name: You mentioned being less present in rituals — where has that shown up most?
-description: Pins down the specific ritual or moment where his participation changed.
-purpose: topic
-stage: landing
-axis_effects:
-  wellbeing: +3
-source: planner_added

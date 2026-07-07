@@ -1,9 +1,0 @@
-alias: q_earlier_feedback_9
-label: Earlier feedback
-name: Where should you have asked for sharper feedback earlier most recently?
-description: Pins his self-identified pattern to one concrete recent moment.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

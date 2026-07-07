@@ -1,9 +1,0 @@
-alias: q_recent_decision_2
-label: Recent decision
-name: Pick one recent cross-team decision you did not step into.
-description: Anchors the pattern in one concrete moment before moving deeper into the evidence stage.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

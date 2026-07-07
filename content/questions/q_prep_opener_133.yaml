@@ -1,9 +1,0 @@
-alias: q_prep_opener_133
-label: Prep opener
-name: I’ve noticed you’ve been a bit less present in some team rituals lately; how has the last couple of weeks felt from your side?
-description: Gives him room to set the tone before you go anywhere specific.
-purpose: wellbeing
-stage: landing
-axis_effects:
-  wellbeing: +3
-source: generated

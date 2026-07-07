@@ -1,9 +1,0 @@
-alias: q_set_the_scene_4
-label: Set the scene
-name: Before we get into specifics, what’s been most on your mind at work lately?
-description: Safe opener that lets Sam set context before any topic is introduced.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  clarity: +1
-source: generated

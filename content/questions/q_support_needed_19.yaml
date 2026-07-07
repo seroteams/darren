@@ -1,9 +1,0 @@
-alias: q_support_needed_19
-label: Support needed
-name: What would make the next two weeks easier to steer?
-description: Ends by surfacing practical support or a decision the manager can help with.
-purpose: topic
-stage: lift
-axis_effects:
-  clarity: +1
-source: generated

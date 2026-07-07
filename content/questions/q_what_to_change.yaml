@@ -1,9 +1,0 @@
-alias: q_what_to_change
-label: what to change
-name: What will you do differently on the next call?
-description: Close on the specific behavioral change he will make to keep decisions contained.
-purpose: competency
-stage: commit
-axis_effects:
-  clarity: +3
-source: planner_added

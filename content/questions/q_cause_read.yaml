@@ -1,9 +1,0 @@
-alias: q_cause_read
-label: Cause read
-name: What usually makes you miss those states before review?
-description: Identify what is driving the repeated misses from her side.
-purpose: competency
-stage: cause
-axis_effects:
-  growth: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_q_ownership_example_3
-label: q_ownership_example
-name: What kind of decision do you want to own next?
-description: Make the next stretch concrete by naming the scope Jordan wants to step into.
-purpose: topic
-stage: aspiration
-axis_effects:
-  growth: +3
-source: "reworded_from:q_ownership_example"

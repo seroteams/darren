@@ -1,9 +1,0 @@
-alias: q_mentoring_stall_7
-label: Mentoring stall
-name: What made you stop pushing on mentoring?
-description: Drills into the stalled mentoring thread to surface whether the block is priority, ownership, or uncertainty.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: planner_added

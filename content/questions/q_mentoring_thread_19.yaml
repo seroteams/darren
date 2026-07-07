@@ -1,9 +1,0 @@
-alias: q_mentoring_thread_19
-label: Mentoring thread
-name: What is it about mentoring that still feels useful for you?
-description: Drills into why mentoring remains meaningful and what it is giving him that other parts of the role are not.
-purpose: topic
-stage: underneath
-axis_effects:
-  growth: +3
-source: planner_added

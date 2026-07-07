@@ -1,9 +1,0 @@
-alias: q_q_next_step_57
-label: q_next_step
-name: What will you do differently in the next decision update?
-description: ""
-purpose: topic
-stage: commit
-axis_effects:
-  clarity: +1
-source: "reworded_from:q_next_step"

@@ -1,9 +1,0 @@
-alias: q_recent_stalled_call_3
-label: Recent stalled call
-name: Pick one recent stalled call — what happened in that conversation?
-description: Surface a concrete example of a call that created activity but no clear next step.
-purpose: topic
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

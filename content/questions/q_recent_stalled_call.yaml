@@ -1,9 +1,0 @@
-alias: q_recent_stalled_call
-label: Recent stalled call
-name: Pick one recent stalled call — what happened at the end of it?
-description: Anchor the conversation in one observable call moment where momentum failed.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

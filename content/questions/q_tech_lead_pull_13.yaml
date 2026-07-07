@@ -1,9 +1,0 @@
-alias: q_tech_lead_pull_13
-label: Tech lead pull
-name: Tech lead — what is it about that role that pulls you?
-description: Drills into the specific appeal of tech lead so the growth direction is concrete, not title-level.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

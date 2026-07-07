@@ -1,9 +1,0 @@
-alias: q_heavier_than_sounded
-label: Heavier than sounded
-name: What made that stretch heavier than it sounded?
-description: Drills into the specific source of the load he just named.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

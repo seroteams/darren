@@ -1,9 +1,0 @@
-alias: q_mentoring_pull_19
-label: Mentoring pull
-name: What makes mentoring those two juniors feel worth doing for you?
-description: Drills into the mentoring thread to surface the kind of growth and leverage he wants more of.
-purpose: topic
-stage: anchor
-axis_effects:
-  growth: +3
-source: planner_added

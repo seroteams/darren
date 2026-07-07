@@ -1,9 +1,0 @@
-alias: q_flat_week
-label: Flat week
-name: What’s making this week feel flatter than you expected?
-description: Drills into the post-launch flatness to locate whether it is recovery, unresolved stress, or something else.
-purpose: wellbeing
-stage: pulse
-axis_effects:
-  wellbeing: +3
-source: planner_added

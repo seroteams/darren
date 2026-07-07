@@ -1,9 +1,0 @@
-alias: q_consensus_cost_2
-label: consensus cost
-name: What happens when you wait for consensus in those moments?
-description: Surface the concrete cost of her delay pattern before moving into future growth direction.
-purpose: competency
-stage: anchor
-axis_effects:
-  clarity: +3
-source: planner_added

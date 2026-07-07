@@ -1,9 +1,0 @@
-alias: q_influence_example
-label: Influence example
-name: Where did your influence feel uneven most recently?
-description: Anchors her self-assessment in a specific recent moment so the conversation moves from impression to evidence.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

@@ -1,9 +1,0 @@
-alias: q_prep_opener_171
-label: Prep opener
-name: How has this month looked from your side in terms of what kept moving and what kept getting bumped?
-description: Gives Reyes room to set the frame before you get into the slips.
-purpose: topic
-stage: landing
-axis_effects:
-  clarity: +3
-source: generated

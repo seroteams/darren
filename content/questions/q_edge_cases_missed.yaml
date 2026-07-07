@@ -1,9 +1,0 @@
-alias: q_edge_cases_missed
-label: Edge cases missed
-name: Which edge cases were missed in that design?
-description: Pins the example to specific omissions before moving the arc forward.
-purpose: competency
-stage: evidence
-axis_effects:
-  clarity: +3
-source: planner_added

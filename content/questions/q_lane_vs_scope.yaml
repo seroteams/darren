@@ -1,9 +1,0 @@
-alias: q_lane_vs_scope
-label: Lane vs scope
-name: What kept you in your lane in that moment?
-description: Surfaces the specific constraint or judgment behind staying team-local instead of stepping into cross-team scope.
-purpose: competency
-stage: self_read
-axis_effects:
-  clarity: +3
-source: planner_added

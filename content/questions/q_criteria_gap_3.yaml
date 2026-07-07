@@ -1,9 +1,0 @@
-alias: q_criteria_gap_3
-label: Criteria gap
-name: What criteria do you think are missing or still too vague?
-description: Drills into the specific recognition criteria he believes are unclear.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: planner_added

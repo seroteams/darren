@@ -1,9 +1,0 @@
-alias: q_reporting_lines
-label: Reporting lines
-name: "You said 'who is reporting to me' — what is still unclear there?"
-description: Drills into the reporting-line confusion he just named so the manager can remove that onboarding friction.
-purpose: topic
-stage: settling
-axis_effects:
-  clarity: +3
-source: planner_added
