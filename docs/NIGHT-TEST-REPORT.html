@@ -122,7 +122,7 @@
     <div class="sc g"><div class="lbl">Pages render</div><div class="val">52/52</div><div class="note">0 console errors</div></div>
     <div class="sc g"><div class="lbl">Toggles broken</div><div class="val">0</div><div class="note">tabs/nav work</div></div>
     <div class="sc g"><div class="lbl">Auth / roles</div><div class="val">PASS</div><div class="note">no data leak</div></div>
-    <div class="sc g"><div class="lbl">Paid runs</div><div class="val">4/4</div><div class="note">all gate PASS</div></div>
+    <div class="sc a"><div class="lbl">Paid runs</div><div class="val">4/4*</div><div class="note">*PASS — 1 roll each (gate is nondeterministic)</div></div>
     <div class="sc g"><div class="lbl">Avg run quality</div><div class="val">89.5</div><div class="note">of 100</div></div>
     <div class="sc g"><div class="lbl">Avg pipeline</div><div class="val">59.5s</div><div class="note">flag is 90s</div></div>
     <div class="sc g"><div class="lbl">Worst page load</div><div class="val">147ms</div><div class="note">flag is 3s</div></div>
@@ -150,6 +150,16 @@
     <div class="issue"><div class="rank">9</div><div class="sev info"></div><div><div class="t">Cold internal deep-link flashes an empty "Session" shell (~2s) before redirect</div><div class="why">A manager cold-loading an internal deep-link (e.g. <code>/universe</code>) sees a blank shell for up to ~2s before the bounce fires (async boot). Low UX nit.</div></div></div>
     <div class="issue"><div class="rank">10</div><div class="sev info"></div><div><div class="t"><code>/library</code> returns the legacy error shape</div><div class="why"><code>{"error":"…"}</code> instead of the v1 <code>{error:{code,message}}</code>. Cosmetic API inconsistency; still correctly 401-gated.</div></div></div>
   </div>
+
+  <!-- FOLLOW-UP + LEARNINGS -->
+  <h2>After you reviewed — fixes shipped + what we learned</h2>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+    <div class="sc g" style="flex:1;min-width:230px"><div class="lbl">#2 briefing mislabel</div><div class="val" style="font-size:17px">✓ fixed · verified 2/2 · committed</div><div class="note">Source-labelling rule added to <code>final-evaluation.md</code>; the "his note" mislabel is gone in both post-fix runs.</div></div>
+    <div class="sc a" style="flex:1;min-width:230px"><div class="lbl">#1 + #3 (plan-turn / arc)</div><div class="val" style="font-size:17px">📮 routed, not edited</div><div class="note">Same machinery as the live <code>plan-turn-runner-gates</code> session — handed to that owner to avoid clobbering their work.</div></div>
+  </div>
+  <div class="issue"><div class="rank">1</div><div class="sev med"></div><div><div class="t">The gate is nondeterministic — "4/4 PASS" was one roll per case</div><div class="why">Re-rolling <code>performance-tom</code> gave FAIL (<code>FOCUS_SHAPE_LEAK</code>) → PASS on back-to-back rolls with identical code. The Phase-4 sweep undercounts intermittent failures. <b>A real stability read needs each case sampled 3–5× for a pass-rate, not a single verdict.</b> This is the biggest correction to the headline above.</div></div></div>
+  <div class="issue"><div class="rank">2</div><div class="sev low"></div><div><div class="t">Focus-point opener-shape is the recurring weak stage</div><div class="why">Two independent hits tonight: biweekly-priya's focus-point stage self-flagged <code>passed:false</code>, and performance-tom tripped <code>FOCUS_SHAPE_LEAK</code> on a re-roll (reason opened "How he frames…" not the required "How they're…"). A real, separate engine edge — distinct from the plan-turn thread work.</div></div></div>
+  <div class="issue"><div class="rank">3</div><div class="sev info"></div><div><div class="t">The parallel-session commit hazard hit this very work</div><div class="why">While mid-task, a concurrent <code>chore: checkpoint</code> commit swept my uncommitted fix + these reports into <em>its</em> commit. Nothing was lost, but the lesson is concrete: in this shared repo folder, commit path-scoped <b>promptly</b> or isolate in a worktree — uncommitted work isn't safe from another session's sweep.</div></div></div>
 
   <!-- RUN QUALITY -->
   <h2>Run quality — 4 paid runs, deep-scored (avg 89.5/100)</h2>
