@@ -92,6 +92,11 @@ const RESPONSE_SCHEMA = {
   additionalProperties: false,
 };
 
+// Single source of truth for the brief's required keys. The smoke-test gate
+// (scripts/smoke-test.js) imports this so its shape check can't silently drift
+// from the schema — the drift that let confidence/dontAssume go unchecked.
+const PREP_REQUIRED_KEYS = RESPONSE_SCHEMA.required;
+
 const GENERIC_OPENERS = [
   "how are you",
   "tell me about",
@@ -454,4 +459,4 @@ async function generatePreparation(
   return { brief: parsed, runId, validation, attempts };
 }
 
-export { generatePreparation, buildMessages, buildPrepInput, assemblePreparation, validateBrief };
+export { generatePreparation, buildMessages, buildPrepInput, assemblePreparation, validateBrief, PREP_REQUIRED_KEYS };

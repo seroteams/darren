@@ -345,8 +345,8 @@ async function verify(exitCode, stdout) {
 
   try {
     const prepResp = JSON.parse(fs.readFileSync(path.join(sDir, "01b-preparation/response.json"), "utf8"));
-    const prepRequired = ["coreIssue", "openingQuestion", "listenFor", "avoid", "goodOutcome", "suggestedAction"];
-    const prepMissing = prepRequired.filter((k) => !(k in prepResp));
+    const { PREP_REQUIRED_KEYS } = require("../backend/engine/preparation.ts");
+    const prepMissing = PREP_REQUIRED_KEYS.filter((k) => !(k in prepResp));
     if (prepMissing.length === 0) pass("preparation response JSON has all required keys");
     else fail("preparation response JSON has all required keys", `missing: ${prepMissing.join(", ")}`);
   } catch (e) {
