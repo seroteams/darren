@@ -225,6 +225,67 @@ function enforceDrillCap({
   return queue;
 }
 
+// Closer-on-final-turn gate. On the final turn (remaining_budget <= 1), if a
+// real closer is reserved it MUST lead new_queue (plan-turn.md rule 7 / final-
+// turn enforcement). Reorder it to the front if it's present but out of place,
+// or pull it from the remaining queue if the planner dropped it. No-op off the
+// final turn or when no closer is reserved.
+function enforceCloserOnFinalTurn({
+  newQueue,
+  remainingBudget,
+  closerAlias,
+  remainingQueue,
+  issues,
+}: {
+  newQueue: Question[];
+  remainingBudget: number | string | null | undefined;
+  closerAlias: string | null | undefined;
+  remainingQueue: Question[] | null | undefined;
+  issues: string[];
+}): Question[] {
+  const queue = [...(newQueue || [])];
+  const isFinal = Number(remainingBudget) <= 1;
+  if (!isFinal || !closerAlias || closerAlias === "(none)") return queue;
+  if (queue[0]?.alias === closerAlias) return queue;
+
+  const inQueue = queue.find((x) => x.alias === closerAlias);
+  if (inQueue) {
+    issues.push(`closer gate: moved reserved closer ${closerAlias} to front on final turn`);
+    return [inQueue, ...queue.filter((x) => x.alias !== closerAlias)];
+  }
+  const fromRemaining = (remainingQueue || []).find((x) => x.alias === closerAlias);
+  if (fromRemaining) {
+    issues.push(`closer gate: pulled reserved closer ${closerAlias} from remaining queue to front on final turn`);
+    return [fromRemaining, ...queue.filter((x) => x.alias !== closerAlias)];
+  }
+  issues.push(`closer gate: reserved closer ${closerAlias} not found in queue or remaining — could not enforce`);
+  return queue;
+}
+
+// Budget-length gate. new_queue may hold at most remaining_budget + 1 items;
+// when remaining_budget <= 2 it holds at most exactly remaining_budget (the
+// wind-down taper — no over-queuing as the session lands). Only ever truncates
+// the tail, so any front-loaded closer survives. (Run AFTER the closer gate.)
+function enforceBudgetLength({
+  newQueue,
+  remainingBudget,
+  issues,
+}: {
+  newQueue: Question[];
+  remainingBudget: number | string | null | undefined;
+  issues: string[];
+}): Question[] {
+  const queue = [...(newQueue || [])];
+  const budget = Number(remainingBudget);
+  if (!Number.isFinite(budget)) return queue;
+  const cap = budget <= 2 ? Math.max(0, budget) : budget + 1;
+  if (queue.length > cap) {
+    issues.push(`budget: truncated queue ${queue.length} → ${cap} (remaining_budget ${budget})`);
+    return queue.slice(0, cap);
+  }
+  return queue;
+}
+
 async function planTurn({
   focusPoints,
   ctx,
@@ -389,6 +450,18 @@ async function planTurn({
         : undefined,
   });
 
+  // Queue-shape gates run last, on the final assembled queue. Closer first (so a
+  // reserved closer is front-loaded), then budget (truncates the tail — the
+  // front-loaded closer survives).
+  newQueue = enforceCloserOnFinalTurn({
+    newQueue,
+    remainingBudget,
+    closerAlias,
+    remainingQueue,
+    issues: gateIssues,
+  });
+  newQueue = enforceBudgetLength({ newQueue, remainingBudget, issues: gateIssues });
+
   return {
     assessment,
     newQueue,
@@ -460,6 +533,8 @@ export {
   enforceThreadFollow,
   buildThreadFollowQuestion,
   enforceDrillCap,
+  enforceCloserOnFinalTurn,
+  enforceBudgetLength,
   isPlannerOriginated,
   isSameStagePlannerDrill,
   answerHasThread,

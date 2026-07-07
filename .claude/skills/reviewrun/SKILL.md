@@ -41,6 +41,7 @@ Stage dirs may vary. Discover by listing the run dir. Treat any `NN-*` subdir as
    - `transcript.json`
    - each stage's `inputs.json`, `prompt.md`, `response.json`
    - `notes.md` if present
+   - **last row of** `docs/plans/prompt-review-ledger.md` (for the scorecard's direction arrows). If the file or a prior row is absent, arrows show `—` (no baseline yet).
 3. **Payload dump.** For each stage in order, emit verbatim:
 
    ````
@@ -60,10 +61,11 @@ Stage dirs may vary. Discover by listing the run dir. Treat any `NN-*` subdir as
 
    `Payload dumped. Reply 'go' (context looks complete) or call out gaps before I continue.`
 
-   Do not emit digest, signals, hypotheses, or questions until user replies. If user calls out gaps, incorporate them into hypotheses at step 6.
-5. **Digest.** For each stage: one line — what it consumed, what it produced, notable signal (length, refusal, low confidence, eval score, etc).
-6. **Cross-stage signals.** Where did quality drop? Where did inputs not match upstream outputs? Eval verdict vs other stages.
-7. **User notes.** If `notes.md` exists:
+   Do not emit the scorecard, digest, signals, hypotheses, or questions until user replies. If user calls out gaps, incorporate them into the Hypotheses section.
+5. **Scorecard first.** Build the three-lens scorecard (see `## Scorecard — Understood / Filtered / Shown` below): one mark + one-line evidence per lens, plus direction arrows vs. the ledger's last row. Emit it at the **top** of phase-2 output, above `## Stages`. Disk-only — derive every mark from files already in the run dir; **never** run `gate.js`, `eval.js`, a replay, or any paid path to fill it.
+6. **Digest.** For each stage: one line — what it consumed, what it produced, notable signal (length, refusal, low confidence, eval score, etc).
+7. **Cross-stage signals.** Where did quality drop? Where did inputs not match upstream outputs? Eval verdict vs other stages.
+8. **User notes.** If `notes.md` exists:
    - Parse into structured form: `{section, time, text}[]`. Each `## <Section>` heading is a group; each `- [HH:MM:SS] <text>` is a note.
    - Map each section to most-likely stage dir (case-insensitive substring match against the discovered stage dirs from step 1):
      - "Focus points" / "Focus" → first dir matching `*focus*`
@@ -72,8 +74,25 @@ Stage dirs may vary. Discover by listing the run dir. Treat any `NN-*` subdir as
      - Anything else → try substring match on section name vs stage dir name. If no match, bucket under `(unmapped)`.
    - For each note, hold a reference to the matched stage's `prompt.md` + `response.json` so the Fix line can quote/target a specific prompt rule or output.
    - If `notes.md` is absent, skip this step entirely — the `## User notes` section in the output template is omitted.
-8. **Audit crosswalk.** Read [`plans/log-fix-audit.md`](../../plans/log-fix-audit.md) (grep by symptom if needed). For each signal, hypothesis, and note-fix that matches a known issue, append `` `→ FX-NN` `` (or `D1`, `C1`, `LF-1`, etc.). Novel gaps → `` `→ (new)` ``. Emit the `## Audit crosswalk` table in phase 2 (see spec). If a ✅ DONE item clearly regressed in this run, mark **regression** in the Match column.
-9. **Output template** (below). Stop after. Wait for user to pick thread.
+9. **Audit crosswalk.** Read [`plans/log-fix-audit.md`](../../plans/log-fix-audit.md) (grep by symptom if needed). For each signal, hypothesis, and note-fix that matches a known issue, append `` `→ FX-NN` `` (or `D1`, `C1`, `LF-1`, etc.). Novel gaps → `` `→ (new)` ``. Emit the `## Audit crosswalk` table in phase 2 (see spec). If a ✅ DONE item clearly regressed in this run, mark **regression** in the Match column.
+10. **Output template** (below). Stop after. Wait for user to pick thread.
+11. **Append ledger row.** After the template, append one row to `docs/plans/prompt-review-ledger.md`: `date · run-id · engine fingerprint · 🟦 · 🟨 · 🟩 · short note`, matching the scorecard marks. This is the only file the skill writes — one row per review, never rewrite prior rows.
+
+## Scorecard — Understood / Filtered / Shown
+
+The scannable verdict at the **top** of phase-2 output. Three lenses, each rolling up signals **already in the run dir** — no new run, no paid path. One mark, one-line evidence (quote the run), one direction arrow vs. the ledger's last row.
+
+**Marks:** ✅ solid · ⚠️ watch · 🔴 broken.  **Arrows** (vs. last review): ↑ better · → same · ↓ worse · — no baseline yet.
+
+| Lens | Reads from | Rolls up (all free, from disk) |
+|---|---|---|
+| 🟦 **Understood** | `01-focus-points/`, `*prep*/` | focus points match manager notes / role / meeting type; role-aware; grounded. Free checks: focus-arc leak, focus-shape, wrong-meeting-type |
+| 🟨 **Filtered** | `03-question-bank/`, `04-*answers/`, `transcript.json` | right questions asked, dupes + forbidden cut; delta gates capped the right turns (shallow / misalignment / recurring-gap); no over-inference; question integrity |
+| 🟩 **Shown** | `05-evaluation/final.json`, `transcript.json` | briefing grounded + evidence-cited; next actions concrete; **no private-note leak**; no overdiagnosis-on-thin; schema valid |
+
+The 4 health axes (wellbeing / engagement / clarity / growth) score the **employee**, not prompt quality — keep them in the digest, **out** of the scorecard.
+
+**Ledger:** `docs/plans/prompt-review-ledger.md` — append-only, one row per review. Read the last row for the arrows (step 2), append this run's row after the template (step 11). If absent or empty, arrows show `—`.
 
 ## Output template
 
@@ -81,6 +100,15 @@ Stage dirs may vary. Discover by listing the run dir. Treat any `NN-*` subdir as
 
 ```
 # Run: <run-id>
+
+## Scorecard — Understood / Filtered / Shown
+run <run-id> · <meeting-type> · <name> (<role · seniority>) · engine <fingerprint>
+
+🟦 UNDERSTOOD  <mark> <arrow>   <one-line evidence, quoted from the run>
+🟨 FILTERED    <mark> <arrow>   <one-line evidence>
+🟩 SHOWN       <mark> <arrow>   <one-line evidence>
+
+vs last review (<prev run-id / date>):  Understood <arrow> · Filtered <arrow> · Shown <arrow>
 
 ## Stages
 - 01-focus-points: <one-line digest>
@@ -141,7 +169,7 @@ Stage dirs may vary. Discover by listing the run dir. Treat any `NN-*` subdir as
 
 ## Rules
 
-- **No code edits.** This skill is read-only and conversational.
+- **No code edits.** This skill is read-only and conversational. The one write it makes: appending a single row to the trend ledger (step 11) — never anything else.
 - **No fixes proposed unsolicited** — *except* per-note fixes when `notes.md` exists. Notes are an explicit solicitation. Hypotheses + questions in other sections stay fix-free; user drives next step there.
 - **Payload dump is mandatory.** Never skip step 3 even if user seems impatient. Prompt tuning on broken context = wasted work.
 - **Gate is hard.** No hypotheses/questions until user replies after dump. If user says "skip dump" — refuse, explain why, dump anyway.

@@ -2,7 +2,7 @@
 
 # reviewrun output spec (FX-43)
 
-**Version:** v1  
+**Version:** v2  
 **Caveman version:** full  
 **Skill:** [`.claude/skills/reviewrun/SKILL.md`](../.claude/skills/reviewrun/SKILL.md)  
 **Audit pointer:** [`plans/log-fix-audit.md`](log-fix-audit.md) — master ID table
@@ -24,6 +24,15 @@ Never skip phase 1. Never emit hypotheses before user ack.
 
 ```markdown
 # Run: <run-id>
+
+## Scorecard — Understood / Filtered / Shown
+run <run-id> · <meeting-type> · <name> (<role · seniority>) · engine <fingerprint>
+
+🟦 UNDERSTOOD  <✅|⚠️|🔴> <↑|→|↓>   <one-line evidence quoted from the run>
+🟨 FILTERED    <✅|⚠️|🔴> <↑|→|↓>   <one-line evidence>
+🟩 SHOWN       <✅|⚠️|🔴> <↑|→|↓>   <one-line evidence>
+
+vs last review (<prev run-id / date>):  Understood <arrow> · Filtered <arrow> · Shown <arrow>
 
 ## Stages
 - <stage-dir>: <one-line digest — consumed → produced → notable signal>
@@ -53,6 +62,20 @@ Never skip phase 1. Never emit hypotheses before user ack.
 2. <...>
 3. <optional third>
 ```
+
+### Scorecard rollup (phase-2, top of output)
+
+Three lenses, each a single mark + one-line evidence + direction arrow vs. the trend ledger's last row. **Disk-only** — every mark derives from files already in the run dir; the scorecard never triggers `gate.js`, `eval.js`, a replay, or any paid run.
+
+| Lens | Reads from | Rolls up (free, from disk) |
+|---|---|---|
+| 🟦 Understood | `01-focus-points/`, `*prep*/` | focus matches notes / role / meeting type; role-aware; grounded; focus-arc + focus-shape + wrong-meeting-type clean |
+| 🟨 Filtered | `03-question-bank/`, `04-*answers/`, `transcript.json` | right questions asked, dupes + forbidden cut; delta gates capped the right turns; no over-inference; question integrity |
+| 🟩 Shown | `05-evaluation/final.json`, `transcript.json` | grounded + evidence-cited; concrete next actions; no private-note leak; no overdiagnosis-on-thin; schema valid |
+
+Marks: ✅ solid · ⚠️ watch · 🔴 broken. Arrows: ↑ better · → same · ↓ worse · — no baseline. The 4 health axes score the **employee**, not the prompt — they stay in the digest, out of the scorecard.
+
+**Trend ledger:** [`prompt-review-ledger.md`](prompt-review-ledger.md), append-only, one row per review. Skill reads the last row for arrows, then appends this run's row (`date · run-id · engine · 🟦 · 🟨 · 🟩 · note`). This is what makes "improving vs last time" visible across sessions.
 
 ### Fix / Keep line rules (when `notes.md` exists)
 
@@ -125,4 +148,5 @@ Stage dirs vary — discover by listing; treat `NN-*` as stages.
 
 ## Changelog
 
+- v2 (2026-07-07): added the **Understood / Filtered / Shown** scorecard to the top of phase-2 output + the append-only trend ledger ([`prompt-review-ledger.md`](prompt-review-ledger.md)) for run-to-run direction arrows. Scorecard is disk-only — never triggers a paid run.
 - v1 (2026-06-01): FX-43 — canonical spec; audit crosswalk + sharpening question rules; skill updated to match.

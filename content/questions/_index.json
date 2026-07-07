@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-06T18:43:39.729Z",
-  "count": 4456,
+  "generated_at": "2026-07-07T00:35:08.283Z",
+  "count": 4471,
   "aliases": [
     "q_50_percent_in_practice",
     "q_a_lot_landing",
@@ -8,7 +8,9 @@
     "q_account_focus",
     "q_adjacent_area",
     "q_adjacent_problems",
+    "q_adjacent_team_trust",
     "q_adjacent_trust",
+    "q_adoption_work",
     "q_after_school_running",
     "q_after_the_decision",
     "q_after_the_push",
@@ -333,6 +335,7 @@
     "q_cross_team_call_3",
     "q_cross_team_call_4",
     "q_cross_team_call_5",
+    "q_cross_team_decision_example",
     "q_cross_team_decisions",
     "q_cross_team_decisions_10",
     "q_cross_team_decisions_11",
@@ -364,6 +367,7 @@
     "q_cross_team_trust_3",
     "q_cross_team_trust_4",
     "q_cross_team_trust_5",
+    "q_cross_team_trust_6",
     "q_cross_team_visibility",
     "q_cross_team_visibility_2",
     "q_cross_team_visibility_3",
@@ -657,6 +661,7 @@
     "q_early_alignment_12",
     "q_early_alignment_13",
     "q_early_alignment_14",
+    "q_early_alignment_15",
     "q_early_alignment_2",
     "q_early_alignment_3",
     "q_early_alignment_4",
@@ -887,6 +892,7 @@
     "q_feedback_timing_3",
     "q_feedback_timing_4",
     "q_feedback_timing_5",
+    "q_feedback_timing_6",
     "q_feedback_translation",
     "q_feedback_turn",
     "q_feedback_uptake",
@@ -1084,6 +1090,7 @@
     "q_highest_leverage_work",
     "q_highest_leverage_work_2",
     "q_highest_leverage_work_3",
+    "q_highest_leverage_work_4",
     "q_holding_back",
     "q_how_it_felt",
     "q_immediate_support",
@@ -1976,6 +1983,7 @@
     "q_next_two_weeks_44",
     "q_next_two_weeks_45",
     "q_next_two_weeks_46",
+    "q_next_two_weeks_47",
     "q_next_two_weeks_5",
     "q_next_two_weeks_6",
     "q_next_two_weeks_7",
@@ -2346,6 +2354,7 @@
     "q_prep_opener_21",
     "q_prep_opener_210",
     "q_prep_opener_211",
+    "q_prep_opener_212",
     "q_prep_opener_22",
     "q_prep_opener_23",
     "q_prep_opener_24",
@@ -2453,6 +2462,7 @@
     "q_principal_impact",
     "q_principal_scope",
     "q_principal_scope_10",
+    "q_principal_scope_11",
     "q_principal_scope_2",
     "q_principal_scope_3",
     "q_principal_scope_4",
@@ -2760,6 +2770,7 @@
     "q_pulled_sideways",
     "q_pulling_thread",
     "q_pulling_threads",
+    "q_pulling_you_in",
     "q_q_avoidance_pattern",
     "q_q_avoidance_pattern_2",
     "q_q_avoidance_pattern_3",
@@ -3119,6 +3130,7 @@
     "q_question_habit_15",
     "q_question_habit_2",
     "q_question_habit_3",
+    "q_question_habit_4",
     "q_question_habit_5",
     "q_question_habit_6",
     "q_question_habit_8",
@@ -3218,6 +3230,7 @@
     "q_recent_examples",
     "q_recent_hard_call",
     "q_recent_hard_call_2",
+    "q_recent_judgment",
     "q_recent_leverage",
     "q_recent_lift",
     "q_recent_review_example",
@@ -3923,6 +3936,7 @@
     "q_team_bar_fuzziness",
     "q_team_bar_fuzzy",
     "q_team_bar_fuzzy_2",
+    "q_team_bar_fuzzy_3",
     "q_team_bar_specifics",
     "q_team_change_impact",
     "q_team_connection",
@@ -3966,6 +3980,7 @@
     "q_team_misunderstanding",
     "q_team_moments",
     "q_team_norms",
+    "q_team_outcomes",
     "q_team_pullback",
     "q_team_reaction",
     "q_team_reaction_2",
@@ -4485,7 +4500,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_adjacent_team_trust",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_adjacent_trust",
+      "subdir": ""
+    },
+    {
+      "alias": "q_adoption_work",
       "subdir": ""
     },
     {
@@ -5785,6 +5808,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_cross_team_decision_example",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_cross_team_decisions",
       "subdir": ""
     },
@@ -5906,6 +5933,10 @@
     },
     {
       "alias": "q_cross_team_trust_5",
+      "subdir": ""
+    },
+    {
+      "alias": "q_cross_team_trust_6",
       "subdir": ""
     },
     {
@@ -7081,6 +7112,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_early_alignment_15",
+      "subdir": ""
+    },
+    {
       "alias": "q_early_alignment_2",
       "subdir": ""
     },
@@ -8001,6 +8036,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_feedback_timing_6",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_feedback_translation",
       "subdir": ""
     },
@@ -8787,6 +8826,10 @@
     {
       "alias": "q_highest_leverage_work_3",
       "subdir": ""
+    },
+    {
+      "alias": "q_highest_leverage_work_4",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_holding_back",
@@ -12357,6 +12400,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_two_weeks_47",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_two_weeks_5",
       "subdir": ""
     },
@@ -13859,6 +13906,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_prep_opener_212",
+      "subdir": ""
+    },
+    {
       "alias": "q_prep_opener_22",
       "subdir": ""
     },
@@ -14284,6 +14335,10 @@
     },
     {
       "alias": "q_principal_scope_10",
+      "subdir": ""
+    },
+    {
+      "alias": "q_principal_scope_11",
       "subdir": ""
     },
     {
@@ -15512,6 +15567,10 @@
     },
     {
       "alias": "q_pulling_threads",
+      "subdir": ""
+    },
+    {
+      "alias": "q_pulling_you_in",
       "subdir": ""
     },
     {
@@ -16951,6 +17010,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_question_habit_4",
+      "subdir": ""
+    },
+    {
       "alias": "q_question_habit_5",
       "subdir": ""
     },
@@ -17344,6 +17407,10 @@
     },
     {
       "alias": "q_recent_hard_call_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_recent_judgment",
       "subdir": ""
     },
     {
@@ -20167,6 +20234,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_team_bar_fuzzy_3",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_team_bar_specifics",
       "subdir": "_runtime"
     },
@@ -20336,6 +20407,10 @@
     },
     {
       "alias": "q_team_norms",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_outcomes",
       "subdir": ""
     },
     {

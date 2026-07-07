@@ -1,9 +1,11 @@
 alias: q_team_bar_fuzzy_3
 label: Team bar fuzzy
-name: "What specifically still feels fuzzy about this team's Principal bar?"
-description: Drills into the named clarity gap before moving on.
+name: "What about this team's bar feels fuzzy to you, specifically?"
+description: Pins down the concrete parts of the Principal-impact bar that still feel unclear on this team.
 purpose: topic
 stage: self_read
 axis_effects:
   clarity: +3
+  growth: +1
 source: planner_added
+grounding: "team's bar still feels fuzzy"

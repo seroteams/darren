@@ -1,0 +1,11 @@
+alias: q_cross_team_decision_example
+label: Cross-team decision example
+name: Give me one recent cross-team decision you chose not to force.
+description: Anchors the self-read in a concrete moment before moving on.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added
+grounding: stayed in his lane
