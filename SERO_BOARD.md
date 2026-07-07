@@ -12,6 +12,11 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**🆕 Side check (2026-07-07): [CTOCheckJuly](docs/workstreams/cto-check-july/README.md)** — a quick, **free** quality
+read: does *thin* manager input give a good brief, questions & summary? Tactical, tracked in
+[STATUS.md](STATUS.md); **start at the [folder README](docs/workstreams/cto-check-july/README.md).** Not a feature —
+doesn't change the active line below. (Moat + learning-from-past-runs parked.)
+
 **▶ Active line: back to pre-go-live — getting to a live alpha.** The continuity / "moat" track was
 **REMOVED 2026-07-06** at Carl's call ("this is not what I wanted at all — rip it all out"): both built
 phases (① carry-forward pre-fill on prep · ② one-tap outcome capture) **and** the whole 8-phase plan were
@@ -27,21 +32,21 @@ creator-based, and "1:1s about me" was impossible (people were free text). Now: 
 backfilled) · New 1:1 starts from a **person picker** · Team groups by roster identity, Tidy-up
 writes the roster · a **linked member's Home lists the 1:1s about them** — list-only (type ·
 manager · date), privacy re-cut in the service per the no-inference ruling. All 5 phases green-lit
-in 2 days, $0 spend. Plan → [done/](docs/todo/done/people-roster/PLAN.md). Parked there:
+in 2 days, $0 spend. Plan → [done/](docs/archive/done/people-roster/plan.md). Parked there:
 member detail view (`member-run-visibility`), invitations/email claim, alias retirement.
 
 **✅ Closed (2026-07-05): Design system — Sero × Flowbite.** The Sero look (Flowbite 2.5.2 + Carl's
 colours, straight from his Figma method) is now codified: a visual **component sheet**
 (`admin/public/sero-flowbite/index.html`, in-app under Admin → Design system) + a root **`DESIGN.md`**
 that auto-loads for every agent, every session — with a 10-rule "before you build" checklist. New and
-touched screens follow it; **no bulk re-skin** (Carl's call). Plan → [done/](docs/todo/done/design-system/PLAN.md).
+touched screens follow it; **no bulk re-skin** (Carl's call). Plan → [done/](docs/archive/done/design-system/plan.md).
 
 **▶ Active line: pre-go-live — a manager tool worth coming back to.** New track (2026-07-01), 9 phases,
 one at a time: the manager's own **Runs** list + reopen, **rate a 1:1** (1–5★, Carl sees all), **Team**
 auto-built from past 1:1s + person detail, and a **superadmin** read-only window on the whole alpha
 (who's registered → their teams → their runs). Playbook
-[docs/pre-go-live/OVERVIEW.md](docs/pre-go-live/OVERVIEW.md), live state
-[docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md), tactical [STATUS.md](STATUS.md).
+[docs/workstreams/pre-go-live/overview.md](docs/workstreams/pre-go-live/overview.md), live state
+[docs/workstreams/pre-go-live/progress.md](docs/workstreams/pre-go-live/progress.md), tactical [STATUS.md](STATUS.md).
 **Supersedes** the deferred member-nav Phase 2 and 009's deferred "real Team content" (folded in).
 **PG1–PG7 ✅ done** (Runs list, reopen, rate a 1:1, Team auto-built + "Past 1:1s", the per-person page with
 "Since last time" + "Prep next 1:1", the read-only cross-company superadmin gate, and the **Registered**
@@ -53,15 +58,15 @@ discloses stored ratings + the superadmin cross-company view; run-qa C1 (tester-
 
 **✅ Closed (2026-07-01): Phase 009 — Getting ready to share (real-data alpha).** Every actionable phase
 done; hosting (2) + continuity (8) folded into the pre-go-live track above
-([plan → done/](docs/todo/done/009-ready-to-share/PLAN.md), detail [STATUS.md](STATUS.md)).
+([plan → done/](docs/archive/done/009-ready-to-share/plan.md), detail [STATUS.md](STATUS.md)).
 - **Phase 1 (safety floor / execute 008) — ✅ signed off (2026-07-01, `e68c4c8c`):** data fenced by
   org+role, AI keys proven server-only (key-search zero-hits), DB audited + cleared of unfenced rows,
   anonymous-start path decided (kept open + walled for the alpha, close before widening). Human-expert
   security review **waived/deferred** for the small alpha (accepted risk — book before widening).
   **Reversal (2026-07-05, guest-run):** "close before widening" is consciously reversed — anonymous start
-  is now a product feature (guest try-out for invited demos, [docs/todo/guest-run/](docs/todo/guest-run/PLAN.md)).
+  is now a product feature (guest try-out for invited demos, [docs/workstreams/guest-run/](docs/workstreams/guest-run/plan.md)).
   The front door followed (start-screen, ✅ closed 2026-07-06): `/` is a guest-first start screen for
-  invited testers; login lives at `/login` ([plan → done/](docs/todo/done/start-screen/PLAN.md)).
+  invited testers; login lives at `/login` ([plan → done/](docs/archive/done/start-screen/plan.md)).
   Compensating controls: shared daily start budget (`GUEST_RUNS_PER_DAY`, default 10) + the per-IP limit +
   claim-only-ownerless handover. Revisit the controls before a public try-it page.
 - **Phase 4 (clear the QA pile) — ✅ done (2026-07-01):** all 9 built-but-un-QA'd features signed off or
@@ -81,17 +86,17 @@ done; hosting (2) + continuity (8) folded into the pre-go-live track above
 The auth history below is the foundation Phase 009 builds on.
 
 **Phases 001–006 of the Prototype→Production line are all done, signed off, and closed to
-`docs/todo/done/`.** Phase 006 (Auth — the back-end front door) was the last to land: register/login
+`docs/archive/done/`.** Phase 006 (Auth — the back-end front door) was the last to land: register/login
 with hashed passwords, guarded pages, a hard-gated dev side-door, and signup that creates the company
 with per-company data fencing. **Phase 007 — the login screen — is DONE (2026-06-29), folded into the
 existing admin console (no separate app, decided with Carl):** Phase 1 (login gate + register/login/logout
 screens + boot gate) and Phase 2 (data re-pointed to the logged-in company — runs fenced per company,
 sessions stamped with their company) are both green-lit and committed; the plan is closed to
-`docs/todo/done/login-screen/`. **The parked hardening follow-up is now DONE (auth-hardening, 2026-07-01):**
+`docs/archive/done/login-screen/`. **The parked hardening follow-up is now DONE (auth-hardening, 2026-07-01):**
 a post-007 health check confirmed two holes and both are shut — Phase 1 fences live sessions by company
 (cross-company access → 404), Phase 2 requires login on the runs endpoints (anonymous → 401, was the legacy
 unfenced list). Session *start* stays open to logged-out visitors by decision. Closed to
-`docs/todo/done/auth-hardening/`. Live per-phase tracker:
+`docs/archive/done/auth-hardening/`. Live per-phase tracker:
 [`STATUS.md`](STATUS.md); full phase list in the [tasks board](admin/src/stages/tasks.js).
 
 **Separate engine/runner track — built earlier.** Most were folded into 009 Phase 4 (the QA pile) and
@@ -100,12 +105,12 @@ mirrors it:
 
 | Feature | Folder | State |
 |---|---|---|
-| Briefing grounding fixes | `docs/todo/briefing-grounding-fixes/` | Phase 1 🟢 signed off (QA pile); Phases 2–4 not started |
-| See-before-sent preview | `docs/todo/done/sent-preview/` | ✅ archived to done/ 2026-07-05 (signed off 2026-07-01) |
-| Stage data tabs | `docs/todo/done/stage-data-tabs/` | ✅ archived to done/ 2026-07-05 (signed off 2026-07-01) |
-| Todo-board rebuild | `docs/todo/done/todo-board-rebuild/` | ✅ archived to done/ 2026-07-05 (signed off 2026-07-01; "Run the free checks" button) |
-| See-before-sent (all-stage) | `docs/todo/done/see-before-sent/` | ✅ folded into sent-preview + archived 2026-07-04 (lost reorg code not rebuilt under this name) |
-| Briefing readability (P0) | `docs/todo/briefing-readability-p0/` | Scaffolded, parked |
+| Briefing grounding fixes | `docs/archive/done/briefing-grounding-fixes/` | Phase 1 🟢 signed off (QA pile); Phases 2–4 not started |
+| See-before-sent preview | `docs/archive/done/sent-preview/` | ✅ archived to done/ 2026-07-05 (signed off 2026-07-01) |
+| Stage data tabs | `docs/archive/done/stage-data-tabs/` | ✅ archived to done/ 2026-07-05 (signed off 2026-07-01) |
+| Todo-board rebuild | `docs/archive/done/todo-board-rebuild/` | ✅ archived to done/ 2026-07-05 (signed off 2026-07-01; "Run the free checks" button) |
+| See-before-sent (all-stage) | `docs/archive/done/see-before-sent/` | ✅ folded into sent-preview + archived 2026-07-04 (lost reorg code not rebuilt under this name) |
+| Briefing readability (P0) | `docs/archive/plans/briefing-readability-p0/` | Scaffolded, parked |
 
 The QA pile is cleared and the three finished plans are archived. Still open here:
 briefing-grounding-fixes (Phases 2–4 not started) and briefing-readability P0 (scaffolded, parked).
@@ -126,6 +131,7 @@ Not for now — revisit when we're close to a release.
 | Item | Why | Source |
 |---|---|---|
 | **Auth via Google/Microsoft SSO** — don't roll our own password/user handling | Avoids owning passwords + user management, which we shouldn't be doing ourselves | Darren (CTO) coaching, 2026-07-04 |
+| **Searchable per-manager history** — move the past 1:1 runs + QA verdicts (`review.json`) off disk into the DB, queryable by the manager | The honest moat: after months, a manager's own searchable 1:1 history is something they'd lose by leaving (switching cost). NOT model-learning — stays inside the no-inference rule (their data, given back to them). A database itself is not a moat; this is. Best built *once real alpha users are generating history worth keeping* — don't reopen mid-alpha (the continuity/learning track ripped out 2026-07-06 was the *other*, fenced-off, kind of moat). | Carl "missing moats" deep-dive, 2026-07-07 |
 
 ## 3. Done
 
@@ -135,7 +141,7 @@ Completed work has been cleared from this board. The record lives in git history
 
 ## Repo state (audited 2026-06-29)
 
-Phases 001–006 are all closed and archived under `docs/todo/done/`; Phase 007 (login screen, folded into the admin console) is **done** — both phases committed, plan closed to `docs/todo/done/login-screen/`.
+Phases 001–006 are all closed and archived under `docs/archive/done/`; Phase 007 (login screen, folded into the admin console) is **done** — both phases committed, plan closed to `docs/archive/done/login-screen/`.
 **There is no auto-commit/push automation** — commits are made explicitly. `main` is currently **ahead of
 origin** (local-only by Carl's call for the ultra batch — pushing remains a deliberate manual step). The three
 old stashes were archived as `archive/*` tags + dropped 2026-06-29; the stash list is clean — keep it clean.
