@@ -55,6 +55,7 @@ See [board.md](board.md) for state. One folder per plan:
 [hide-ai-words](workstreams/hide-ai-words/plan.md) ·
 [user-management](workstreams/user-management/plan.md) ·
 [run-qa-fixes-jul04](workstreams/run-qa-fixes-jul04/plan.md) ·
+[engine-improvements](workstreams/engine-improvements/plan.md) ·
 [cto-check-july](workstreams/cto-check-july/) *(untracked/local-only)*.
 
 ## archive/ — superseded + completed

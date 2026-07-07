@@ -23,6 +23,7 @@ Legend: `⬜ not started` · `🔨 built, awaiting walk` · `✅ done (green-lit
 | [hide-ai-words](workstreams/hide-ai-words/plan.md) | Manager can hide AI role-words (reversible), never in real 1:1s. P1 ✅ · P2 🔨 built, awaiting walk. |
 | [user-management](workstreams/user-management/plan.md) | Superadmin user table. P1–2 ✅ · P3 🔨 (deactivate/reactivate) · P0, P4–5 ⬜. |
 | [run-qa-fixes-jul04](workstreams/run-qa-fixes-jul04/plan.md) | Fix four engine defects. P1 ✅ (committed) · P2–4 ⬜ (prompt changes — need paid runs). |
+| [engine-improvements](workstreams/engine-improvements/plan.md) | Back-catalogue engine improvements. "B" done + committed; #1 [stonewall exit](workstreams/engine-improvements/01-stonewall-exit.md) is a decision brief awaiting a policy call. |
 
 ## Next — queued (after Now is green)
 
