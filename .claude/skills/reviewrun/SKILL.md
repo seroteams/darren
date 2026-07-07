@@ -7,7 +7,7 @@ user-invocable: true
 
 Loads a single run for review. Output primes discussion — does not propose fixes unprompted.
 
-**Canonical spec:** [`plans/reviewrun-output-spec.md`](../../plans/reviewrun-output-spec.md) (FX-43). Master audit IDs: [`plans/log-fix-audit.md`](../../plans/log-fix-audit.md).
+**Canonical spec:** [`docs/plans/reviewrun-output-spec.md`](../../../docs/plans/reviewrun-output-spec.md) (FX-43). Master audit IDs: [`docs/archives/plans/log-fix-audit.md`](../../../docs/archives/plans/log-fix-audit.md).
 
 ## Inputs
 
@@ -74,7 +74,7 @@ Stage dirs may vary. Discover by listing the run dir. Treat any `NN-*` subdir as
      - Anything else → try substring match on section name vs stage dir name. If no match, bucket under `(unmapped)`.
    - For each note, hold a reference to the matched stage's `prompt.md` + `response.json` so the Fix line can quote/target a specific prompt rule or output.
    - If `notes.md` is absent, skip this step entirely — the `## User notes` section in the output template is omitted.
-9. **Audit crosswalk.** Read [`plans/log-fix-audit.md`](../../plans/log-fix-audit.md) (grep by symptom if needed). For each signal, hypothesis, and note-fix that matches a known issue, append `` `→ FX-NN` `` (or `D1`, `C1`, `LF-1`, etc.). Novel gaps → `` `→ (new)` ``. Emit the `## Audit crosswalk` table in phase 2 (see spec). If a ✅ DONE item clearly regressed in this run, mark **regression** in the Match column.
+9. **Audit crosswalk.** Read [`docs/archives/plans/log-fix-audit.md`](../../../docs/archives/plans/log-fix-audit.md) (grep by symptom if needed). For each signal, hypothesis, and note-fix that matches a known issue, append `` `→ FX-NN` `` (or `D1`, `C1`, `LF-1`, etc.). Novel gaps → `` `→ (new)` ``. Emit the `## Audit crosswalk` table in phase 2 (see spec). If a ✅ DONE item clearly regressed in this run, mark **regression** in the Match column.
 10. **Output template** (below). Stop after. Wait for user to pick thread.
 11. **Append ledger row.** After the template, append one row to `docs/plans/prompt-review-ledger.md`: `date · run-id · engine fingerprint · 🟦 · 🟨 · 🟩 · short note`, matching the scorecard marks. This is the only file the skill writes — one row per review, never rewrite prior rows.
 
@@ -104,11 +104,11 @@ The 4 health axes (wellbeing / engagement / clarity / growth) score the **employ
 ## Scorecard — Understood / Filtered / Shown
 run <run-id> · <meeting-type> · <name> (<role · seniority>) · engine <fingerprint>
 
-🟦 UNDERSTOOD  <mark> <arrow>   <one-line evidence, quoted from the run>
-🟨 FILTERED    <mark> <arrow>   <one-line evidence>
-🟩 SHOWN       <mark> <arrow>   <one-line evidence>
-
-vs last review (<prev run-id / date>):  Understood <arrow> · Filtered <arrow> · Shown <arrow>
+| Lens | Mark | vs last | Why |
+|------|------|---------|-----|
+| 🟦 Understood | <✅/⚠️/🔴> | <↑/→/↓/—> | <one-line evidence, quoted from the run> |
+| 🟨 Filtered   | <✅/⚠️/🔴> | <↑/→/↓/—> | <one-line evidence> |
+| 🟩 Shown      | <✅/⚠️/🔴> | <↑/→/↓/—> | <one-line evidence> |
 
 ## Stages
 - 01-focus-points: <one-line digest>

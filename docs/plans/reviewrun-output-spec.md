@@ -1,11 +1,11 @@
-> **Reference doc — active work lives in [SERO_BOARD.md](../SERO_BOARD.md).**
+> **Reference doc — active work lives in [SERO_BOARD.md](../../SERO_BOARD.md).**
 
 # reviewrun output spec (FX-43)
 
 **Version:** v2  
 **Caveman version:** full  
-**Skill:** [`.claude/skills/reviewrun/SKILL.md`](../.claude/skills/reviewrun/SKILL.md)  
-**Audit pointer:** [`plans/log-fix-audit.md`](log-fix-audit.md) — master ID table
+**Skill:** [`.claude/skills/reviewrun/SKILL.md`](../../.claude/skills/reviewrun/SKILL.md)  
+**Audit pointer:** [`plans/log-fix-audit.md`](../archives/plans/log-fix-audit.md) — master ID table
 
 ## Purpose
 
@@ -28,11 +28,11 @@ Never skip phase 1. Never emit hypotheses before user ack.
 ## Scorecard — Understood / Filtered / Shown
 run <run-id> · <meeting-type> · <name> (<role · seniority>) · engine <fingerprint>
 
-🟦 UNDERSTOOD  <✅|⚠️|🔴> <↑|→|↓>   <one-line evidence quoted from the run>
-🟨 FILTERED    <✅|⚠️|🔴> <↑|→|↓>   <one-line evidence>
-🟩 SHOWN       <✅|⚠️|🔴> <↑|→|↓>   <one-line evidence>
-
-vs last review (<prev run-id / date>):  Understood <arrow> · Filtered <arrow> · Shown <arrow>
+| Lens | Mark | vs last | Why |
+|------|------|---------|-----|
+| 🟦 Understood | <✅/⚠️/🔴> | <↑/→/↓/—> | <one-line evidence quoted from the run> |
+| 🟨 Filtered   | <✅/⚠️/🔴> | <↑/→/↓/—> | <one-line evidence> |
+| 🟩 Shown      | <✅/⚠️/🔴> | <↑/→/↓/—> | <one-line evidence> |
 
 ## Stages
 - <stage-dir>: <one-line digest — consumed → produced → notable signal>
@@ -55,7 +55,7 @@ vs last review (<prev run-id / date>):  Understood <arrow> · Filtered <arrow> �
 |---|---|---|
 | FX-NN | ✅/🔴/📋 | <one line why this run touched it> |
 
-*(Omit rows with no match. Read [`log-fix-audit.md`](log-fix-audit.md) for full table.)*
+*(Omit rows with no match. Read [`log-fix-audit.md`](../archives/plans/log-fix-audit.md) for full table.)*
 
 ## Questions to sharpen next iteration
 1. <specific, answerable in one sentence — cite turn or output when possible>
@@ -92,7 +92,7 @@ Marks: ✅ solid · ⚠️ watch · 🔴 broken. Arrows: ↑ better · → same 
 
 ## Audit crosswalk (how to tag)
 
-Before phase 2, skim [`log-fix-audit.md`](log-fix-audit.md) (or grep symptom keywords). When a signal, hypothesis, or note-fix matches a row, tag it.
+Before phase 2, skim [`log-fix-audit.md`](../archives/plans/log-fix-audit.md) (or grep symptom keywords). When a signal, hypothesis, or note-fix matches a row, tag it.
 
 **Common symptom → ID shortcuts** (full table in audit):
 
