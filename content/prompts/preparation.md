@@ -29,9 +29,9 @@ The response must match this exact shape:
 ```
 
 Field rules:
-- `coreIssue`: exactly one sentence, max 28 words. Names the probable centre of the conversation. Refer to {{NAME}} **by name** — never by their job title as a stand-in for them ("what support Machar needs", NOT "what support a lead partner alliance manager needs"; the manager knows who they're meeting). Let the role, seniority, meeting type, or selected concerns shape the substance — pick the most load-bearing element, do not stack all four. Cannot be generic filler. Do not restate the manager's notes verbatim.
+- `coreIssue`: exactly one sentence, max 28 words. Names the probable centre of the conversation. Refer to {{NAME}} by name, never by job title (see tone_rules for the canonical rule and the "what support Machar needs" example). Let the role, seniority, meeting type, or selected concerns shape the substance — pick the most load-bearing element, do not stack all four. Cannot be generic filler. Do not restate the manager's notes verbatim.
 - `openingQuestion`: max 28 words. A real sentence the manager could say verbatim to open the 1:1. Must be specific to the selected concerns. Prefer "What" or "How" unless a no-oriented question is safer. Must NOT be "How are you?", "Tell me about...", "What do you think?", or any other generic opener. Must invite a concrete, personal response. See opening_question_rules below.
-- `listenFor`: exactly 3 items, each starting with "whether" or "if they". Short, specific, observable. See listen_for_rules below.
+- `listenFor`: exactly 3 items, each starting with "whether" or "if they". Short, specific, observable. See listen_for_rules below. Whatever the underlying cue — a bare tell like "handoff completeness" or a verb like "deflects" — phrase every item as a "whether ..." or "if they ..." clause. The cue is the content; the opening word is the required shape.
 - `avoid`: exactly 2 items, each starting with "do not". Practical traps for this specific meeting type and seniority.
 - `goodOutcome`: one sentence. The single observable agreement, decision, or shared frame reachable in *this* 30–60 minute meeting. Not a multi-meeting arc, not "a clear understanding of X" (that's a quarter's worth of work). Format: "You and {{NAME}} have agreed [one concrete next step or shared frame]." If the topic genuinely takes more than one meeting, narrow to the first agreement that unlocks the rest. See good_outcome_rules below.
 - `suggestedAction`: one practical action for the manager — prep before the 1:1 or a move during it. One sentence that ends cleanly: read it aloud, and if the tail is clunky ("…and agree that intervention live"), rewrite the ending plainly ("…and agree live on what you'll do"). See suggested_action_rules below.
@@ -82,7 +82,8 @@ Good cues: deflects, pivots, names a specific project/person, avoids a topic, me
 Forbidden verbs/phrases in listenFor items: "acknowledges", "has a plan to", "has received", "communication challenges", "leadership potential" (label-only paraphrase).
 
 Bad: "whether he acknowledges communication challenges"
-Better: "whether he names a specific meeting or stakeholder where communication broke down"
+Better (direct performance/feedback register): "whether he names a specific meeting or stakeholder where communication broke down"
+Better (Something feels off register): "whether he volunteers where his energy has been this fortnight, or steers around it"
 </listen_for_rules>
 
 <good_outcome_rules>
@@ -113,7 +114,7 @@ Forbidden: "schedule", "set up follow-up", "follow-up meeting", "next month", "n
 - Write directly to the manager ("you", "your"), present tense, as a trusted advisor speaking privately.
 - Call {{NAME}} by name throughout — never describe them by their job title ("a lead partner alliance manager") in coreIssue, goodOutcome, or suggestedAction.
 - Plain spoken words only — no business or military jargon ("air cover", "leverage", "circle back", "synergy"). If a phrase wouldn't survive being said aloud in the meeting, reword it ("where backing from above would help", not "where your air cover would help").
-- Personalise every field to the role, seniority level, meeting type, and selected concerns. A junior engineer's check-in is not the same as a director's growth conversation.
+- Personalise every field to the role, seniority level, meeting type, and selected concerns. A junior engineer's check-in is not the same as a director's growth conversation. (This means matching register and relevance to all four — not stacking all four into coreIssue, which still picks the single most load-bearing element.)
 - If the manager's notes carry a signal (tension, concern, transition, recent incident), let that shape all fields — especially `coreIssue` and `openingQuestion`.
 - For seniority: juniors often need clarity and psychological safety; seniors need space, not answers; leads and above often have ambiguity and influence as the real concern.
 </tone_rules>
@@ -134,6 +135,8 @@ Every strong claim must be grounded in one of:
 If evidence is weak, use cautious language such as "may", "could", "worth testing", or "the risk is".
 Do not turn sparse notes into confident diagnosis.
 If notes are empty, say what the conversation should test, not what is true.
+
+Thin input: manager notes under ~15 words → stay cautious and make no wellbeing or state read of ANY polarity (not "struggling", not "thriving"). Say what the conversation should test, not what is true.
 </evidence_rules>
 
 <primary_focus_rules>
@@ -143,7 +146,8 @@ When `{{PRIMARY_FOCUS_ID}}` is set (not `(none)`), that focus is **primary** for
 
 - When `selectedFocus` carries a `selected` array, every entry in it was explicitly picked by the manager: the first stays primary; the others are first-class secondary concerns and may each shape one `listenFor` item.
 - Secondary catalogue focus points NOT in `selected` may appear only in `avoid` or `suggestedAction` — not as parallel `listenFor` bullets unless the manager's notes explicitly name them.
-- When primary is `quality` on a backend/senior IC: `listenFor` MUST use concrete quality tells — handoff completeness, edge cases, dependency notes, review depth, release/payment risk, escalation timing — not generic stakeholder confusion unless notes say so.
+- **Relational-arc gate.** For Bi-weekly check-in and Something feels off, no competency focus (quality, speed, ownership, communication, reliability, judgment, impact, decision_making_speed, technical_problem_solving, stakeholder_engagement, delegation) may drive coreIssue, openingQuestion, listenFor, or goodOutcome. If the runner passes one as primary for these meeting types, treat it as a relational check-in on pace, bandwidth, and what's in flight, and ignore the competency framing.
+- When primary is `quality` on a backend/senior IC: `listenFor` MUST use concrete quality tells — handoff completeness, edge cases, dependency notes, review depth, release/payment risk, escalation timing — not generic stakeholder confusion unless notes say so. (This clause applies only outside the relational-arc-gated meeting types above.)
 </primary_focus_rules>
 
 <role_profile_rules>

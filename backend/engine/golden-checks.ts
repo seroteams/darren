@@ -54,6 +54,15 @@ const FOCUS_CATEGORY_BY_ID = new Map<string, unknown>(
   )
 );
 
+// isCompetencyFocus — resolve a focus-point id to the catalogue category and
+// report whether it is `competency` (evaluative). Id-only lookup, normalised
+// the same way selected-focus does (never trusting a passed-in category field).
+// Used by the preparation runner's relational-arc gate.
+export function isCompetencyFocus(id: unknown): boolean {
+  const key = String(id || "").trim().toLowerCase().replace(/\s+/g, "_");
+  return FOCUS_CATEGORY_BY_ID.get(key) === "competency";
+}
+
 // runFocusArcGate — for Bi-weekly check-in and Something feels off, every focus
 // point must be a `wellbeing`/`topic` entry; a `competency` entry is a hard fail.
 // Category is resolved from the catalogue by id (never trusting a passed-in

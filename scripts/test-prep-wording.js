@@ -11,7 +11,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { validateBrief } = require("../backend/engine/preparation.ts");
+const { validateBrief, buildPrepInput } = require("../backend/engine/preparation.ts");
 const { findJargon } = require("../backend/engine/golden-checks.ts");
 
 let failed = 0;
@@ -92,9 +92,96 @@ check(
   check("preparation.md: name-not-title rule present", /never (?:by their job title|describe them by their job title)/i.test(prep));
   check("preparation.md: jargon ban present", /air cover/i.test(prep));
   check("preparation.md: clean-ending rule for suggestedAction", /ends cleanly/i.test(prep));
+  check("preparation.md: relational-arc gate present", /Relational-arc gate/.test(prep));
+  check(
+    "preparation.md: relational-arc gate names both meeting types",
+    /Bi-weekly check-in and Something feels off/.test(prep)
+  );
+  check(
+    "preparation.md: relational-arc gate lists the competency ids",
+    /decision_making_speed/.test(prep) && /stakeholder_engagement/.test(prep)
+  );
 
   const gen = fs.readFileSync(path.join(PROMPTS_DIR, "generate-questions.md"), "utf8");
   check("generate-questions.md: jargon ban present", /air cover/i.test(gen));
+}
+
+// --- 5. runner relational-arc gate: a competency primary is dropped before send
+{
+  const gated = buildPrepInput({
+    name: "Priya",
+    roleTitle: "Backend engineer",
+    seniority: "Senior",
+    meetingType: "bi_weekly_check_in",
+    primaryFocusId: "quality",
+    focusPoints: [
+      { id: "quality", label: "Quality" },
+      { id: "workload", label: "Workload" },
+    ],
+    selectedFocus: { id: "quality", label: "Quality" },
+  });
+  check(
+    "relational arc: competency primary neutralised",
+    gated.primaryFocusId !== "quality",
+    `primaryFocusId=${gated.primaryFocusId}`
+  );
+  check(
+    "relational arc: competency focus point stripped from payload",
+    !gated.focusPoints.some((fp) => fp.id === "quality"),
+    JSON.stringify(gated.focusPoints.map((f) => f.id))
+  );
+
+  const kept = buildPrepInput({
+    name: "Priya",
+    roleTitle: "Backend engineer",
+    seniority: "Senior",
+    meetingType: "Performance & feedback",
+    primaryFocusId: "quality",
+    focusPoints: [{ id: "quality", label: "Quality" }],
+    selectedFocus: { id: "quality", label: "Quality" },
+  });
+  check(
+    "non-relational arc: competency primary preserved",
+    kept.primaryFocusId === "quality",
+    `primaryFocusId=${kept.primaryFocusId}`
+  );
+}
+
+// --- 6. validator enforces listenFor / avoid shape + 28-word caps
+{
+  const priya = { name: "Priya", roleTitle: "Backend engineer", seniority: "Senior", meetingType: "bi_weekly_check_in", focusPoints: [] };
+  const cleanBrief = {
+    coreIssue: "This check-in is about the workload Priya is carrying this fortnight.",
+    openingQuestion: "How has your workload felt over the last couple of weeks from your side?",
+    listenFor: [
+      "whether she names a specific project eating her time",
+      "whether she volunteers where the pressure is coming from",
+      "if they mention a deadline that slipped this sprint",
+    ],
+    avoid: ["do not turn this into a status audit", "do not jump to fixes before she names the pressure"],
+    goodOutcome: "You and Priya have agreed one concrete thing to take off her plate this fortnight, senior scope.",
+    suggestedAction: "Before the 1:1, pick one recent week and note what filled it.",
+    confidence: "Medium — based on your note and her workload",
+    dontAssume: "That she is overloaded; a busy fortnight can have mundane causes.",
+  };
+  const clean = validateBrief(cleanBrief, priya);
+  check("clean brief passes the validator", clean.passed, JSON.stringify(clean.issues));
+
+  const badBrief = {
+    ...cleanBrief,
+    listenFor: [
+      "he deflects the workload question",
+      "whether she names a project",
+      "if they mention a slip this sprint",
+    ],
+    avoid: ["turn this into a status audit", "do not jump to fixes"],
+    coreIssue:
+      "This check-in is about the workload Priya is carrying and also a very long tail that keeps going on and on well past the twenty-eight word ceiling that this one tight sentence is actually allowed to use.",
+  };
+  const bad = validateBrief(badBrief, priya);
+  check("bad listenFor prefix flagged", bad.issues.some((i) => /must start with "whether"/.test(i)), JSON.stringify(bad.issues));
+  check("bad avoid prefix flagged", bad.issues.some((i) => /avoid item must start/.test(i)), JSON.stringify(bad.issues));
+  check("over-long coreIssue flagged (max 28)", bad.issues.some((i) => /coreIssue is too long/.test(i)), JSON.stringify(bad.issues));
 }
 
 if (failed) {

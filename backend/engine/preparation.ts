@@ -9,7 +9,8 @@ import { withPromptVersion } from "./prompt-version.ts";
 import { resolveSelectedFocus } from "./selected-focus.ts";
 import { splitSystemUser, fillPlaceholders } from "./prompt-utils.ts";
 import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./role-profile.ts";
-import { findJargon } from "./golden-checks.ts";
+import { findJargon, isCompetencyFocus } from "./golden-checks.ts";
+import { isRelationalArc } from "./relational-arcs.ts";
 
 import type { PreparationResult } from "../shared/session.types.ts";
 import { asRecord, asString } from "../shared/guards.ts";
@@ -114,6 +115,8 @@ const OPENER_PERFORMATIVE = /\b(the real version|honest version|no filter|real t
 
 const LISTENFOR_PARAPHRASE = /\b(acknowledges|has a plan to|has received)\b/i;
 const LISTENFOR_BEHAVIORAL = /\b(deflects|pivots|names|avoids|mentions|redirects|interrupts|pauses|volunteers|describes|offers|signals|hesitates|concrete|specific|last week|this quarter|this sprint|stakeholder|project|meeting)\b/i;
+const LISTENFOR_PREFIX = /^(whether|if they)\b/i;
+const AVOID_PREFIX = /^do not\b/i;
 
 const GOODOUTCOME_LEVEL_MARKERS =
   /\b(junior|mid|senior|expert|lead|staff|principal|director|vp|end-to-end|end to end|owns|ownership|scope|decision authority|leading|lead-level|lead level)\b/i;
@@ -163,14 +166,31 @@ function buildMessages({
 // separate so the live run and the preview endpoint share one assembly path —
 // the preview can never drift from what actually gets sent.
 function buildPrepInput(inputs: RawPrepInput): PrepInput {
-  const focusPoints = inputs.focusPoints || [];
+  const relational = isRelationalArc(inputs.meetingType);
+
+  // Relational-arc gate (rewrite before send). Bi-weekly check-in and
+  // Something feels off must not be driven by a competency focus — it reads as
+  // a hidden performance review and breaks the frame. The generator's input
+  // filter should already strip these; if one slips through, drop it here so it
+  // can neither be primary nor a listenFor driver in the payload we send
+  // (mirrors FOCUS_ARC_LEAK, one layer earlier).
+  const focusPoints = (inputs.focusPoints || []).filter(
+    (fp) => !(relational && isCompetencyFocus(fp.id))
+  );
+  const passedSelected =
+    inputs.selectedFocus && !(relational && isCompetencyFocus(inputs.selectedFocus.id))
+      ? inputs.selectedFocus
+      : null;
+  const passedPrimaryId =
+    relational && isCompetencyFocus(inputs.primaryFocusId) ? undefined : inputs.primaryFocusId;
+
   const selectedFocus =
-    inputs.selectedFocus ||
+    passedSelected ||
     resolveSelectedFocus({
       notes: inputs.notes || inputs.observedShift,
       observedShift: inputs.notes || inputs.observedShift,
       focusPoints,
-      primaryFocusId: inputs.primaryFocusId,
+      primaryFocusId: passedPrimaryId,
     });
   return {
     name: inputs.name,
@@ -231,9 +251,12 @@ function validateBrief(brief: PrepBrief, inputs: PrepInput): { passed: boolean; 
     }
   }
 
-  // C3 — listenFor behavioural tells
+  // C3 — listenFor behavioural tells, phrased as a "whether …"/"if they …" clause
   for (const item of brief.listenFor || []) {
-    const t = String(item);
+    const t = String(item).trim();
+    if (!LISTENFOR_PREFIX.test(t)) {
+      issues.push(`listenFor item must start with "whether" or "if they": "${t.slice(0, 60)}…"`);
+    }
     if (LISTENFOR_PARAPHRASE.test(t)) {
       issues.push(`listenFor paraphrases focus instead of behavioural tell: "${t.slice(0, 60)}…"`);
     } else if (!LISTENFOR_BEHAVIORAL.test(t)) {
@@ -296,16 +319,26 @@ function validateBrief(brief: PrepBrief, inputs: PrepInput): { passed: boolean; 
     issues.push("openingQuestion is too short or empty");
   }
 
-  // Length checks
+  // Length / shape checks
   const coreWordCount = (brief.coreIssue || "").split(/\s+/).filter(Boolean).length;
-  if (coreWordCount > 80) {
-    issues.push(`coreIssue is too long (${coreWordCount} words — max 80)`);
+  if (coreWordCount > 28) {
+    issues.push(`coreIssue is too long (${coreWordCount} words — max 28)`);
   }
-  if ((brief.listenFor || []).length > 3) {
-    issues.push("listenFor has more than 3 items");
+  const openerWordCount = (brief.openingQuestion || "").split(/\s+/).filter(Boolean).length;
+  if (openerWordCount > 28) {
+    issues.push(`openingQuestion is too long (${openerWordCount} words — max 28)`);
   }
-  if ((brief.avoid || []).length > 2) {
-    issues.push("avoid has more than 2 items");
+  if ((brief.listenFor || []).length !== 3) {
+    issues.push("listenFor must have exactly 3 items");
+  }
+  const avoid = brief.avoid || [];
+  if (avoid.length !== 2) {
+    issues.push("avoid must have exactly 2 items");
+  }
+  for (const item of avoid) {
+    if (!AVOID_PREFIX.test(String(item).trim())) {
+      issues.push(`avoid item must start with "do not": "${String(item).slice(0, 60)}…"`);
+    }
   }
 
   if (!action || action.split(/\s+/).length < 5) {
