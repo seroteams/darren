@@ -1,0 +1,9 @@
+alias: q_coasting_thread_6
+label: Coasting thread
+name: "When you say you're coasting a bit, what's behind that this week?"
+description: Drills into the specific dip she named to separate post-ship recovery from a real snag.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

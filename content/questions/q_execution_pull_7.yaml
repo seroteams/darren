@@ -1,0 +1,10 @@
+alias: q_execution_pull_7
+label: Execution pull
+name: Where are execution details still pulling you in most right now?
+description: Drills into the specific places where he is still operating as an executor rather than at strategic altitude.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +3
+  engagement: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_asset_gap
+label: Asset gap
+name: What’s missing in the materials you’re using to sell the partnership?
+description: Helps you find the handoff, content, or proof point that’s making the sell harder than it should be.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

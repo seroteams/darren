@@ -1,0 +1,10 @@
+alias: q_workload_reality
+label: Workload reality
+name: "What's taking the most of your time on the backend work right now?"
+description: Surfaces the actual load and whether the current mix is crowding out deadline work.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

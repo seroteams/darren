@@ -1,0 +1,10 @@
+alias: q_name_the_snag_8
+label: Name the snag
+name: "When you say 'not sure' — where did work actually snag?"
+description: Re-prompts for one concrete point of friction from the last fortnight.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_execution_detail_3
+label: Execution detail
+name: Which execution details are taking too much of your time right now?
+description: Drills into the specific work pulling him out of strategic product leadership.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

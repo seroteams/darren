@@ -1,0 +1,10 @@
+alias: q_org_investment
+label: Org investment
+name: What would need to change around you for that kind of work to be realistic here?
+description: Helps you hear whether the barrier is scope, timing, or something in the setup.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

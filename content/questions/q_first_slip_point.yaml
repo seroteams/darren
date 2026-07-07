@@ -1,0 +1,10 @@
+alias: q_first_slip_point
+label: First slip point
+name: When did you first realize the second deadline might move?
+description: Checks how early the slip became visible and whether there was room to flag it sooner.
+purpose: competency
+stage: observation
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

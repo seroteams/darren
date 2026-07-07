@@ -1,0 +1,10 @@
+alias: q_quiet_stretch_4
+label: Quiet stretch
+name: I’ve noticed you’ve been quieter this week — what’s going on there?
+description: Lets you check whether the quieter stretch is just recovery or something else.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

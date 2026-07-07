@@ -1,0 +1,10 @@
+alias: q_feedback_landing_6
+label: Feedback landing
+name: What kind of feedback has been most useful to act on lately?
+description: Surfaces whether feedback is actually changing the work or just adding noise.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

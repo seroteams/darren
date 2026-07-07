@@ -1,0 +1,9 @@
+alias: q_cross_org_alignment_2
+label: Cross-org alignment
+name: Where does cross-org alignment get hardest for you right now?
+description: Drills into the specific influence thread he surfaced before moving the arc forward.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_stuck_work
+label: Stuck work
+name: What piece of the design is still not moving the way you want?
+description: Surfaces the specific item that feels stalled rather than the general state of the project.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

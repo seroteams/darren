@@ -1,0 +1,10 @@
+alias: q_first_ownership_step_2
+label: First ownership step
+name: What would owning one decision more fully look like before we next meet?
+description: Leaves the conversation with a real move that points toward broader ownership.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_first_ownership_step"

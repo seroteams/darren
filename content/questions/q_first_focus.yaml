@@ -1,0 +1,9 @@
+alias: q_first_focus
+label: First focus
+name: Given that picture, where do you want to focus first?
+description: Close by inviting her to choose the first area to act on from the future-state she named.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+source: planner_added

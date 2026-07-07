@@ -1,0 +1,10 @@
+alias: q_mentoring_shape_2
+label: Mentoring shape
+name: What would mentoring look like in your week if it were actually happening?
+description: Gets concrete about mentoring appetite, format, and the trade-off it would require.
+purpose: topic
+stage: friction
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

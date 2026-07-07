@@ -1,0 +1,10 @@
+alias: q_prep_opener_54
+label: Prep opener
+name: "How has this week been sitting with you since Monday's launch, and what's most live for you right now?"
+description: Restates the prep opener in fresh words and lets Priya set context after the launch.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

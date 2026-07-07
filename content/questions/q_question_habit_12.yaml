@@ -1,0 +1,10 @@
+alias: q_question_habit_12
+label: Question habit
+name: What keeps you from asking more questions early?
+description: Helps you get at the habit behind the low question count without making it a lecture.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

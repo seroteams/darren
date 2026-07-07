@@ -1,0 +1,10 @@
+alias: q_mentoring_tradeoff_5
+label: Mentoring tradeoff
+name: What are you choosing not to do because of the mentoring program?
+description: Makes the opportunity cost of mentoring concrete and visible.
+purpose: competency
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

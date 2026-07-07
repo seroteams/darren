@@ -1,0 +1,10 @@
+alias: q_meeting_load
+label: Meeting load
+name: What part of the fortnight took more energy than it should have?
+description: Surfaces hidden load from meetings, context switching, or admin without assuming burnout.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_manager_help
+label: Manager help
+name: What do you need from me to make the next couple of weeks steadier?
+description: Ends with a direct ask for support and a near-term plan.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

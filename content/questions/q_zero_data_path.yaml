@@ -1,0 +1,9 @@
+alias: q_zero_data_path
+label: Zero-data path
+name: With that zero-data path, what should have been visible before review?
+description: Anchor on the specific missed case and surface her expected standard before sharing work.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

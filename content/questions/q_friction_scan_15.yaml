@@ -1,0 +1,10 @@
+alias: q_friction_scan_15
+label: Friction scan
+name: "What's taken more energy than expected this week?"
+description: Invites her to locate the main current drag after the launch without assuming failure.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_intro_biweekly_friction"

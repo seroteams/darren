@@ -1,0 +1,9 @@
+alias: q_priority_shift_opener
+label: Priority shift opener
+name: How has the last couple of weeks looked from your side in terms of what kept taking priority over the work that slipped?
+description: Gives Reyes room to set the context before you get into the missed deadlines.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: generated

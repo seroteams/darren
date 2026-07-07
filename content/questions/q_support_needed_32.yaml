@@ -1,0 +1,10 @@
+alias: q_support_needed_32
+label: Support needed
+name: What do you need from me to make next quarter feel cleaner?
+description: Finds the manager support Priya wants before priorities shift around her.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

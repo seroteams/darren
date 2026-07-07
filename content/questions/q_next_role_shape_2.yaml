@@ -1,0 +1,10 @@
+alias: q_next_role_shape_2
+label: Next role shape
+name: What does the next-level Head of Product role actually include in your mind?
+description: Lets you hear how he defines the scope before you talk about how to grow into it.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

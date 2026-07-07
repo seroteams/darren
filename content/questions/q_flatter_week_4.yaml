@@ -1,0 +1,9 @@
+alias: q_flatter_week_4
+label: Flatter week
+name: "You said this week feels flatter — what's underneath that?"
+description: "Drills into the post-launch dip to hear whether it's normal cooldown or something unresolved."
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

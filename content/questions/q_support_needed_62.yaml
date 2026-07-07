@@ -1,0 +1,10 @@
+alias: q_support_needed_62
+label: Support needed
+name: What would make the next two weeks steadier for you?
+description: Leaves the room with a practical next step and a clearer ask from him.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

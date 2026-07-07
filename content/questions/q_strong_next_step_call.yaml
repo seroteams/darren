@@ -1,0 +1,10 @@
+alias: q_strong_next_step_call
+label: Strong next-step call
+name: Can you walk me through a call that did turn into a strong next step?
+description: Looks for the ingredients of effective progression rather than generic good performance.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

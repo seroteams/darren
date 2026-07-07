@@ -1,0 +1,10 @@
+alias: q_drafting_bottleneck
+label: Drafting bottleneck
+name: What part of the design process is slowing you down the most?
+description: Finds the specific step that is creating drag before review.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

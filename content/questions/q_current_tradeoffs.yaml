@@ -1,0 +1,10 @@
+alias: q_current_tradeoffs
+label: Current tradeoffs
+name: What are you saying yes to in your current work that you would rather not keep carrying?
+description: Surfaces the real tradeoffs in his current priorities and what is crowding out better work.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

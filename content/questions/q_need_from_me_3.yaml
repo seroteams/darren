@@ -1,0 +1,10 @@
+alias: q_need_from_me_3
+label: Need from me
+name: What do you need from me to make the next two weeks lighter?
+description: Closes on concrete support and next-step commitments without opening a new topic.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

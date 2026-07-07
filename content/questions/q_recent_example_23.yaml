@@ -1,0 +1,10 @@
+alias: q_recent_example_23
+label: Recent example
+name: Can you walk me through a recent moment where you got ahead of expectations earlier than you used to?
+description: Helps you hear a concrete example instead of a general claim about improvement.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

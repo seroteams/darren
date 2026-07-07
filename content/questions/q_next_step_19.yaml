@@ -1,0 +1,10 @@
+alias: q_next_step_19
+label: Next step
+name: What would you do differently over the next two weeks to show more Principal-level impact here?
+description: Closes on a concrete shift he can take away from the conversation.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

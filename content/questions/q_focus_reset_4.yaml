@@ -1,0 +1,10 @@
+alias: q_focus_reset_4
+label: Focus reset
+name: If you could reset one thing for the next two weeks, what would it be?
+description: A clean way to land the check-in on one practical change that would make the next stretch easier.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

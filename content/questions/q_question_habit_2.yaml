@@ -1,0 +1,10 @@
+alias: q_question_habit_2
+label: Question habit
+name: What kinds of questions are you not asking early enough?
+description: Probes whether he is surfacing uncertainty early or staying too quiet until later.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

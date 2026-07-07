@@ -1,0 +1,10 @@
+alias: q_influence_gap
+label: Influence gap
+name: What do you need to influence more directly before the next stretch feels real?
+description: Brings the gap into the open without turning it into a skills checklist.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

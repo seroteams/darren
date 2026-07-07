@@ -1,0 +1,10 @@
+alias: q_named_next_step
+label: Named next step
+name: What role or scope are you actually aiming for next?
+description: Gets the next chapter out of the abstract and into a concrete target.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

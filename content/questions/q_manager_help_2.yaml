@@ -1,0 +1,10 @@
+alias: q_manager_help_2
+label: Manager help
+name: What support from me would make the biggest difference right now?
+description: Ends with a direct ask for support and a near-term plan.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: "reworded_from:q_manager_help"

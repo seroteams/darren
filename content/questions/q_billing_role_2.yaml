@@ -1,0 +1,10 @@
+alias: q_billing_role_2
+label: Billing role
+name: What role do you want on the billing rewrite?
+description: Surfaces the specific kind of involvement she wants so support can be concrete.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added

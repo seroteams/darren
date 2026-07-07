@@ -1,0 +1,9 @@
+alias: q_q_next_step_13
+label: q_next_step
+name: What would you do differently on the next decision like that?
+description: Surface the behavioural change Liam would make next time.
+purpose: competency
+stage: commit
+axis_effects:
+  clarity: +1
+source: "reworded_from:q_next_step"

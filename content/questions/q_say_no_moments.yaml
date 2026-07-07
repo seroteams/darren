@@ -1,0 +1,10 @@
+alias: q_say_no_moments
+label: Say no moments
+name: Where did you choose to say no or push back this fortnight?
+description: Looks for concrete prioritisation decisions and boundary-setting.
+purpose: competency
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

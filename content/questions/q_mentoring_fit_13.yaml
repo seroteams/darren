@@ -1,0 +1,10 @@
+alias: q_mentoring_fit_13
+label: Mentoring fit
+name: What is the mentoring program giving you that your core product work is not?
+description: Helps you tell whether the mentoring work is stretch, relief, or a sideways move.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

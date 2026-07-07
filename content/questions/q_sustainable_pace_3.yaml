@@ -1,0 +1,10 @@
+alias: q_sustainable_pace_3
+label: Sustainable pace
+name: What has taken more energy than you expected these last two weeks?
+description: Gives you a clean read on whether the pace is still workable for Sam.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

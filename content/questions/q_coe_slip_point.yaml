@@ -1,0 +1,9 @@
+alias: q_coe_slip_point
+label: CoE slip point
+name: Where did the CoE work slip first?
+description: Helps you pinpoint the moment the plan started to drift.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: generated

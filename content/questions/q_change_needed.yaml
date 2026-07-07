@@ -1,0 +1,9 @@
+alias: q_change_needed
+label: Change needed
+name: What felt unclear about what needed to change?
+description: Drills into the specific clarity gap he named after the promotion decision.
+purpose: topic
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

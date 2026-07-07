@@ -1,0 +1,9 @@
+alias: q_strategic_bet_9
+label: Strategic bet
+name: What strategic bet does he most want to own?
+description: Turns the named growth condition into a concrete aspiration with specific scope.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

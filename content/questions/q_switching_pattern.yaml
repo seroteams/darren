@@ -1,0 +1,9 @@
+alias: q_switching_pattern
+label: Switching pattern
+name: Of those three, which one is driving the most switching?
+description: Pinpoint the main source of fragmentation before moving into the planned arc.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

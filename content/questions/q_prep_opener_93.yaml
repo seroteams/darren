@@ -1,0 +1,10 @@
+alias: q_prep_opener_93
+label: Prep opener
+name: What decisions or outcomes from your recent work feel like the clearest proof of Principal-level impact on this team?
+description: Opens on his own read of the work before you add yours.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

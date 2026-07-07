@@ -1,0 +1,10 @@
+alias: q_visible_leadership
+label: Visible leadership
+name: "What would you want other leaders to point to as proof that you're operating at the next level?"
+description: Helps you hear what proof he values, not just what title he wants.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

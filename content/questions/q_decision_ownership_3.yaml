@@ -1,0 +1,10 @@
+alias: q_decision_ownership_3
+label: Decision ownership
+name: What decisions do you want to own more directly as Head of Product?
+description: Gets concrete about the kind of scope he wants, not just the title around it.
+purpose: competency
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

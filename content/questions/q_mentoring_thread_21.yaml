@@ -1,0 +1,9 @@
+alias: q_mentoring_thread_21
+label: Mentoring thread
+name: You said you stopped pushing on mentoring — what made that stall?
+description: Surfaces whether the mentoring thread faded because of timing, uncertainty, or lack of support.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added

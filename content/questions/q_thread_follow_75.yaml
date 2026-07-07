@@ -1,0 +1,10 @@
+alias: q_thread_follow_75
+label: Thread follow
+name: What made you read the situation that way at the time?
+description: Runtime thread-follow injected because planner did not follow substantive answer.
+purpose: competency
+stage: evidence
+axis_effects:
+  growth: +3
+  engagement: +1
+source: planner_added

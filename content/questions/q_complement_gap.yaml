@@ -1,0 +1,9 @@
+alias: q_complement_gap
+label: Complement gap
+name: Where is that complement story least understood right now?
+description: Drills into the specific misunderstanding he named so the manager can locate the main friction point.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added

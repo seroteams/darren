@@ -1,0 +1,9 @@
+alias: q_late_discovery_2
+label: Late discovery
+name: What other cases tend to show up late in review besides zero-data states?
+description: Surface whether the empty-state miss is a one-off or part of a repeatable evidence pattern.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+source: "reworded_from:q_ready_sooner"

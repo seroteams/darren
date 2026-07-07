@@ -1,0 +1,10 @@
+alias: q_waiting_on
+label: Waiting on
+name: What were you waiting on most often this fortnight?
+description: Points you to the decisions or handoffs that may have slowed the work.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

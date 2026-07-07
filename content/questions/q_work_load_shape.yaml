@@ -1,0 +1,10 @@
+alias: q_work_load_shape
+label: Work load shape
+name: What part of the backend work has felt heaviest lately?
+description: Helps you hear which slice of the load is actually stretching him.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  wellbeing: +3
+  growth: +1
+source: generated

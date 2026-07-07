@@ -1,0 +1,9 @@
+alias: q_recent_stalled_call_4
+label: Recent stalled call
+name: Take one recent stalled call — where exactly did it go vague?
+description: Get one concrete example of the stall point before naming the gap.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

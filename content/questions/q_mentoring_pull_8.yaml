@@ -1,0 +1,9 @@
+alias: q_mentoring_pull_8
+label: Mentoring pull
+name: What is it about mentoring those two juniors that fits where you want to go?
+description: Drills into the concrete appeal of mentoring so the growth direction becomes more specific.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

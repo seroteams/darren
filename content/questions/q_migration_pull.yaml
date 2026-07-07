@@ -1,0 +1,9 @@
+alias: q_migration_pull
+label: Migration pull
+name: What about leading the data migration pulls you most?
+description: Drills into the specific aspiration he named so the target becomes more concrete.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

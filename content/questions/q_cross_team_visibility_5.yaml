@@ -1,0 +1,9 @@
+alias: q_cross_team_visibility_5
+label: Cross-team visibility
+name: What kind of visibility with other teams would feel meaningful to you?
+description: Drills into the cross-team visibility thread to make the desired scope concrete.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

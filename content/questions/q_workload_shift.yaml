@@ -1,0 +1,10 @@
+alias: q_workload_shift
+label: Workload shift
+name: Where did the scope or pace change enough to make the deadline slips harder to avoid?
+description: Surfaces whether the work itself expanded beyond the original estimate.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

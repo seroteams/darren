@@ -1,0 +1,10 @@
+alias: q_early_questions_2
+label: Early questions
+name: Can you walk me through a time you asked questions early enough to change how the work started?
+description: Looks for the habit of shaping expectations before the team is already committed.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

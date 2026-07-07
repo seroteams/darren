@@ -1,0 +1,10 @@
+alias: q_capacity_match
+label: Capacity match
+name: "What part of your current load feels off relative to what you're committing to?"
+description: Helps you hear whether the issue is scope, pace, or something else in the load.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

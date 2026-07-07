@@ -1,0 +1,10 @@
+alias: q_manager_leverage_5
+label: Manager leverage
+name: What kind of support from me would help you spend more time on influence and less on tactical pull?
+description: Surfaces the manager actions that could shift his operating mode toward strategic work.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

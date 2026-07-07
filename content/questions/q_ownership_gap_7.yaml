@@ -1,0 +1,9 @@
+alias: q_ownership_gap_7
+label: Ownership gap
+name: Where was ownership less clear than it needed to be?
+description: Lets you find the handoff or decision point that may have slowed him down.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: generated

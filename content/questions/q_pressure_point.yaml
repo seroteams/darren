@@ -1,0 +1,10 @@
+alias: q_pressure_point
+label: Pressure point
+name: What was making the second deadline harder to call out earlier?
+description: Looks for the specific barrier to raising risk before the slip became visible.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

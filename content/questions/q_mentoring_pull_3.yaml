@@ -1,0 +1,9 @@
+alias: q_mentoring_pull_3
+label: Mentoring pull
+name: What about mentoring those two juniors feels most like the next step for you?
+description: Drills into the concrete mentoring thread to surface the kind of growth Devon is drawn to.
+purpose: topic
+stage: self_read
+axis_effects:
+  growth: +1
+source: planner_added

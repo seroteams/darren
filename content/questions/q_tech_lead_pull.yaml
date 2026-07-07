@@ -1,0 +1,9 @@
+alias: q_tech_lead_pull
+label: Tech lead pull
+name: Tech lead is clear — what about that role pulls you most?
+description: Drills into the specific appeal of the named role before moving on.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

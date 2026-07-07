@@ -1,0 +1,10 @@
+alias: q_simpler_next_step
+label: Simpler next step
+name: What is the simplest next step you want to take after this meeting?
+description: Keeps the close practical and leaves with one clear move.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

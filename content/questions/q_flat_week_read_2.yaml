@@ -1,0 +1,9 @@
+alias: q_flat_week_read_2
+label: Flat week read
+name: What’s making this week feel flatter than you expected?
+description: Drills into the post-launch flatness to locate whether this is recovery, motivation, or a work snag.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

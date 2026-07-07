@@ -1,0 +1,10 @@
+alias: q_quiet_week_context
+label: Quiet week context
+name: "I've noticed you've been quieter in standup this week — what's going on there?"
+description: Checks whether the quieter presence is about energy, focus, or something else without assuming a problem.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_prep_opener_35
+label: Prep opener
+name: How have the last couple of weeks felt from your side, and where did your time go compared with what you expected to prioritize?
+description: "Restates the prep brief opener in fresh words to surface whether the fortnight matched Sam's stated design priorities."
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

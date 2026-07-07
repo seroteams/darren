@@ -1,0 +1,9 @@
+alias: q_migration_plan
+label: Migration plan
+name: What about the migration plan felt strongest to her?
+description: Drills into the concrete launch thread she just named to surface what is still salient from the work.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_impact_signal
+label: Impact signal
+name: What would make your impact unmistakable on this team over the next month?
+description: Forces a concrete definition of visible Principal-level impact in the near term.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

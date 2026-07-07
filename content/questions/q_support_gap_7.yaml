@@ -1,0 +1,10 @@
+alias: q_support_gap_7
+label: Support gap
+name: Where would more mentoring make the biggest difference for you?
+description: Gets specific about the kind of support that would actually change her day-to-day.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

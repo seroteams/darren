@@ -1,0 +1,10 @@
+alias: q_tradeoff_made
+label: Tradeoff made
+name: What did you choose not to do because of that shift?
+description: Reveals the tradeoff Sam made when priorities moved and what got deprioritized.
+purpose: competency
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

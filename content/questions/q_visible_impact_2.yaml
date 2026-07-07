@@ -1,0 +1,10 @@
+alias: q_visible_impact_2
+label: Visible impact
+name: What would make your impact more visible to the people who matter most?
+description: Opens the conversation about influence and whether his work is landing at the right altitude.
+purpose: competency
+stage: aspiration
+axis_effects:
+  engagement: +1
+  clarity: +3
+source: generated

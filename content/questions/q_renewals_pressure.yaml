@@ -1,0 +1,9 @@
+alias: q_renewals_pressure
+label: renewals pressure
+name: What is it about those renewals that stays with you most?
+description: Drill into the specific source of strain inside the tense renewals he named.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  wellbeing: +3
+source: planner_added

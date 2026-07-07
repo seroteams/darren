@@ -1,0 +1,10 @@
+alias: q_early_signal
+label: Early signal
+name: What made it hard to flag the slip earlier?
+description: Tests whether the problem is visibility, planning, uncertainty, or something else in the workflow.
+purpose: competency
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

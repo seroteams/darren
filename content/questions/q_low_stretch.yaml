@@ -1,0 +1,9 @@
+alias: q_low_stretch
+label: Low stretch
+name: "You said \"not much stretching me\" — what's feeling too routine right now?"
+description: Follows the low-stretch thread to locate what currently feels flat or under-challenging.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added

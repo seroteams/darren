@@ -1,0 +1,9 @@
+alias: q_q_next_step_66
+label: q_next_step
+name: What will you change in your next handoff?
+description: Land on a specific behavioural change for the next handoff.
+purpose: competency
+stage: commit
+axis_effects:
+  clarity: +3
+source: "reworded_from:q_next_step"

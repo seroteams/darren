@@ -1,0 +1,10 @@
+alias: q_manager_help_13
+label: Manager help
+name: Where would my support actually change what you can take on next?
+description: Keeps the focus on the kind of help that opens up real ownership for him.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

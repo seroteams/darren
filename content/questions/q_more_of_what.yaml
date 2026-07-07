@@ -1,0 +1,10 @@
+alias: q_more_of_what
+label: More of what
+name: What would make taking on more courses feel like a good next step for you?
+description: Lets her name the conditions that would make expansion feel worth it.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

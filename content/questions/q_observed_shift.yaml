@@ -1,0 +1,9 @@
+alias: q_observed_shift
+label: Observed shift
+name: "I've noticed you narrowed in on delivery after that decision — what changed in how you saw your role?"
+description: Names the observable shift and invites him to describe how his view of the role changed after the promotion outcome.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

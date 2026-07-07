@@ -1,0 +1,10 @@
+alias: q_desired_scope_2
+label: Desired scope
+name: What product scope do you want to own end to end next?
+description: Gets him to name a concrete future scope instead of staying in task language.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

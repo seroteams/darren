@@ -1,0 +1,9 @@
+alias: q_feedback_timing_5
+label: Feedback timing
+name: What makes you wait to ask for sharper feedback?
+description: Drills into the concrete pattern he named so you can hear what is driving the delay.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

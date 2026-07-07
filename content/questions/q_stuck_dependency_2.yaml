@@ -1,0 +1,10 @@
+alias: q_stuck_dependency_2
+label: Stuck dependency
+name: What are you waiting on that is eating into your time?
+description: Helps you spot the dependency or decision that may be quietly stretching the work out.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

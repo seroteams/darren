@@ -1,0 +1,10 @@
+alias: q_support_from_me_3
+label: Support from me
+name: What do you need from me to make that next step real?
+description: Helps you leave with something concrete you can do, not just a good conversation.
+purpose: wellbeing
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

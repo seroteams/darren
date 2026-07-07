@@ -1,0 +1,10 @@
+alias: q_repeat_objection
+label: Repeat objection
+name: What objection keeps coming up most often in those partnership conversations?
+description: Helps you hear the one stall point that may be shaping a lot of the extra work.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

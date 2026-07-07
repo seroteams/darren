@@ -1,0 +1,9 @@
+alias: q_clearer_criteria_3
+label: Clearer criteria
+name: What criteria do you think are missing right now?
+description: Drills into the specific recognition criteria gap he just named.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +1
+source: planner_added

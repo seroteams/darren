@@ -1,0 +1,10 @@
+alias: q_visibility_tradeoff
+label: Visibility tradeoff
+name: What would you have to stop doing to be more visible as a leader?
+description: Helps you hear the trade-off between personal execution and broader influence.
+purpose: competency
+stage: investment
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

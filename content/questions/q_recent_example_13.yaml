@@ -1,0 +1,9 @@
+alias: q_recent_example_13
+label: Recent example
+name: Take one recent stalled call — what exactly was said at the end?
+description: Anchor the pattern in a concrete closing moment before moving to commitment.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

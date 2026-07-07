@@ -1,0 +1,10 @@
+alias: q_next_move_32
+label: Next move
+name: "Given what we've covered, where do you want to focus first?"
+description: Final-turn closer that invites Tom to name the first behavioural change to make.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_quiet_shift_2
+label: Quiet shift
+name: "I've noticed you've been quieter in standup this week — what's different there?"
+description: Goes after the observed change in participation without assuming a cause.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

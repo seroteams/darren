@@ -1,0 +1,10 @@
+alias: q_prep_opener_155
+label: Prep opener
+name: How have the last couple of weeks felt from your side, especially around the work that slipped and what got in the way?
+description: Gives Reyes room to set the scene before you get into the missed deadlines.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_q_next_step_65
+label: q_next_step
+name: "Is there a decision you've been putting off that you could make this week?"
+description: ""
+purpose: topic
+stage: self_read
+axis_effects:
+  growth: +1
+source: "reworded_from:q_next_step"

@@ -1,0 +1,10 @@
+alias: q_prep_opener_14
+label: Prep opener
+name: Since the promotion decision, how has showing up in team rituals felt from your side, and what has changed for you in those moments?
+description: "Anchors the conversation in James's changed participation after the promotion decision and invites his own read first."
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

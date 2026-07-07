@@ -1,0 +1,9 @@
+alias: q_opportunity_ask_2
+label: Opportunity ask
+name: What opportunities have you not been naming clearly enough?
+description: Drills into the visibility gap by surfacing the specific stretch opportunities he wants but has not voiced.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+source: planner_added

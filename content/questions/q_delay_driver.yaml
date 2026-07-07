@@ -1,0 +1,9 @@
+alias: q_delay_driver
+label: delay driver
+name: What made that reassignment hard to make earlier?
+description: Surface the specific hesitation behind delaying a clear team decision.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: -1
+source: planner_added

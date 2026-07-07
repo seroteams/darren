@@ -1,0 +1,10 @@
+alias: q_slip_aftermath
+label: Slip aftermath
+name: What changed after the launch slipped?
+description: Shows whether the slip led to a heavier load, more rework, or a different way of planning.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_ready_to_share
+label: Ready to share
+name: "When you say 'ready to share,' what are you looking for before you bring work in?"
+description: Drills into her stated readiness criterion before moving on, so the conversation stays with the concern she just named.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added

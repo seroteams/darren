@@ -1,0 +1,10 @@
+alias: q_recognition_gap_2
+label: Recognition gap
+name: "What part of the refactor's success felt most seen, and what felt less visible than it should have?"
+description: Tests whether the win was fully recognized or only partially acknowledged.
+purpose: topic
+stage: friction
+axis_effects:
+  engagement: +3
+  growth: +1
+source: generated

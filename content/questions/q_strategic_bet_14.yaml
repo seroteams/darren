@@ -1,0 +1,9 @@
+alias: q_strategic_bet_14
+label: Strategic bet
+name: What kind of strategic bet do you want to own visibly?
+description: Drills into the specific aspiration he just named so the next-level scope becomes concrete.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

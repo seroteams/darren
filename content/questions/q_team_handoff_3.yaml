@@ -1,0 +1,10 @@
+alias: q_team_handoff_3
+label: Team handoff
+name: Where has working with the team felt smooth or sticky lately?
+description: Checks the day-to-day texture of collaboration without overfocusing on sentiment.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

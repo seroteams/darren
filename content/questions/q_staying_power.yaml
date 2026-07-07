@@ -1,0 +1,9 @@
+alias: q_staying_power
+label: Staying power
+name: Does the current pace feel sustainable for you this month?
+description: Checks whether the present load is a temporary push or a longer-term strain.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +3
+source: generated

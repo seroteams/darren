@@ -1,0 +1,9 @@
+alias: q_similar_work_6
+label: Similar work
+name: What kind of work has felt too similar lately?
+description: Drills into the specific pattern behind her sense of plateau before moving on.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added

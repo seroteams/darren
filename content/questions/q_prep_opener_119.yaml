@@ -1,0 +1,10 @@
+alias: q_prep_opener_119
+label: Prep opener
+name: "Before we get into next steps, how has this week felt on your side after Monday's launch?"
+description: Gives Priya room to set the tone after the launch before you narrow in.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

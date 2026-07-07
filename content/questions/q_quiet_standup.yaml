@@ -1,0 +1,10 @@
+alias: q_quiet_standup
+label: Quiet standup
+name: "I've noticed you've been quieter in standup this week — what's behind that?"
+description: Uses the observed change to invite context on whether the shift is about the work, the week, or something else.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_first_focus_2
+label: First focus
+name: Given that pattern, what will you change first on your next call?
+description: Land on the first behavioural change she will make next.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+source: planner_added

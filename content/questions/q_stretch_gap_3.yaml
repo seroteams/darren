@@ -1,0 +1,10 @@
+alias: q_stretch_gap_3
+label: Stretch gap
+name: Where do you want more stretch than your current work is giving you?
+description: Surfaces the specific gap between current work and desired development.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

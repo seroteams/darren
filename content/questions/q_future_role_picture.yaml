@@ -1,0 +1,10 @@
+alias: q_future_role_picture
+label: Future role picture
+name: What kind of scope would you want to be operating at next if things were going well?
+description: Gets a concrete picture of the next level of scope he wants, without forcing a title too early.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

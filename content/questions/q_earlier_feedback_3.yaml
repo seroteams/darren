@@ -1,0 +1,9 @@
+alias: q_earlier_feedback_3
+label: Earlier feedback
+name: What kind of feedback are you waiting too long to get?
+description: Drills into the specific feedback he delays seeking so the cause is concrete.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+source: planner_added

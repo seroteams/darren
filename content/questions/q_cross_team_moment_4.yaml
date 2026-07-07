@@ -1,0 +1,9 @@
+alias: q_cross_team_moment_4
+label: Cross-team moment
+name: Where did you most recently hold back from a cross-team call?
+description: Anchors his self-read in one concrete recent moment where he avoided making a broader judgment call.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

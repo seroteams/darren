@@ -1,0 +1,9 @@
+alias: q_next_handoff_change
+label: next handoff change
+name: What will you do differently in your next handoff?
+description: Close on the specific behaviour she will change immediately in future handoffs.
+purpose: competency
+stage: commit
+axis_effects:
+  clarity: +1
+source: planner_added

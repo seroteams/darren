@@ -1,0 +1,10 @@
+alias: q_scope_he_wants_2
+label: Scope he wants
+name: What kind of product scope do you want more of over the next year?
+description: Helps you hear the shape of the stretch he actually wants, not just a title.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

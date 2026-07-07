@@ -1,0 +1,10 @@
+alias: q_trust_thin_spots
+label: Trust thin spots
+name: Where does stakeholder trust feel thinnest for you right now?
+description: Helps you get past the abstract and hear which relationship actually matters most.
+purpose: competency
+stage: anchor
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

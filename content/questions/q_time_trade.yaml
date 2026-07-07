@@ -1,0 +1,10 @@
+alias: q_time_trade
+label: Time trade
+name: What would you need to drop to make room for that kind of work?
+description: Helps you hear the real cost of the stretch and what has to move to make it possible.
+purpose: competency
+stage: investment
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

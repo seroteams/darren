@@ -1,0 +1,10 @@
+alias: q_post_ship_focus
+label: Post-ship focus
+name: After the feature ship, what are you choosing to focus on next?
+description: Checks whether priorities have snapped back into place after launch.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

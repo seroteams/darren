@@ -1,0 +1,10 @@
+alias: q_support_load
+label: Support load
+name: Which kinds of support requests are landing on you most often right now?
+description: Gives a clearer picture of what others are pulling from him day to day.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +1
+  wellbeing: +1
+source: generated

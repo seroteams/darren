@@ -1,0 +1,9 @@
+alias: q_criteria_gap_2
+label: Criteria gap
+name: What would clearer criteria have needed to spell out for you?
+description: Drills into the criteria gap he named so you can hear what was missing in concrete terms.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +1
+source: planner_added

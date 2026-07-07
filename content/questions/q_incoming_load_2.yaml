@@ -1,0 +1,9 @@
+alias: q_incoming_load_2
+label: Incoming load
+name: What was landing on you at once, specifically?
+description: Drills into the named pile-up so the manager can hear the concrete sources of overload or competing work.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: planner_added

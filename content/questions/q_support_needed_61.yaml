@@ -1,0 +1,10 @@
+alias: q_support_needed_61
+label: Support needed
+name: What would help most from me when a partner ask starts to bog down?
+description: Makes it easier to offer the right kind of help instead of guessing.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

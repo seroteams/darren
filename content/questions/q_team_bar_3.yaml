@@ -1,0 +1,9 @@
+alias: q_team_bar_3
+label: Team bar
+name: "What tells you this team's bar is still fuzzy?"
+description: Drills into the specific signals making Principal expectations feel unclear on this team.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

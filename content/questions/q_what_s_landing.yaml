@@ -1,0 +1,9 @@
+alias: q_what_s_landing
+label: "What's landing"
+name: What has been landing on you all at once lately?
+description: Drills into the overload he just named so the manager can understand the concrete sources of pressure.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

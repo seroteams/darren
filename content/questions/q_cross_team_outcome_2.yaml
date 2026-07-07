@@ -1,0 +1,10 @@
+alias: q_cross_team_outcome_2
+label: Cross-team outcome
+name: What cross-team outcome are you directly shaping right now?
+description: Helps you hear whether his impact is landing beyond his own delivery lane.
+purpose: competency
+stage: evidence
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

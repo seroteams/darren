@@ -1,0 +1,10 @@
+alias: q_future_shape
+label: Future shape
+name: What kind of Senior Engineer work do you want more of over the next year?
+description: Helps you get past abstract career talk and into the shape of work he actually wants.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

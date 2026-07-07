@@ -1,0 +1,10 @@
+alias: q_deprioritised_work
+label: Deprioritised work
+name: What did you decide not to spend time on?
+description: Reveals what he consciously let slip, and whether that trade-off was deliberate.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

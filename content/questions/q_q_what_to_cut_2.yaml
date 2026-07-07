@@ -1,0 +1,10 @@
+alias: q_q_what_to_cut_2
+label: q_what_to_cut
+name: If one thing dropped off your plate, what would free up the most?
+description: ""
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: "reworded_from:q_what_to_cut"

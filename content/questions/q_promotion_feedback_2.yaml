@@ -1,0 +1,10 @@
+alias: q_promotion_feedback_2
+label: Promotion feedback
+name: What feedback did you take from the promotion decision?
+description: Surfaces what he believes the decision meant without the manager interpreting it for him.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_signal_specifics
+label: Signal specifics
+name: Which team rituals feel different to you now?
+description: Gets you past a general answer and toward the concrete places the change shows up.
+purpose: topic
+stage: observation
+axis_effects:
+  engagement: +3
+source: generated

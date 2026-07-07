@@ -1,0 +1,9 @@
+alias: q_recent_example_11
+label: Recent example
+name: Take the error-messaging handoff — what specifically was missing from it?
+description: Anchor the conversation in one observable example before naming the broader pattern.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

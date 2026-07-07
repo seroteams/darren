@@ -1,0 +1,10 @@
+alias: q_feedback_retained
+label: Feedback retained
+name: What feedback from that decision stuck with you?
+description: Helps you hear what he actually took in, without assuming the message landed cleanly.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

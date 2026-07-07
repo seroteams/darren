@@ -1,0 +1,9 @@
+alias: q_team_change_impact
+label: team change impact
+name: What changed in the handover when those two bigger accounts moved over?
+description: Drill into the concrete workload thread to surface whether the strain is volume, transition quality, or ownership ambiguity.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_polish_threshold
+label: Polish threshold
+name: What tends to tell you a design is ready to share?
+description: Surfaces her internal bar for polish and whether it is too high or too fuzzy.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

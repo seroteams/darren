@@ -1,0 +1,10 @@
+alias: q_prep_opener_79
+label: Prep opener
+name: How have you been deciding what to align early on this team, and where has that worked or left too much unstated?
+description: Keeps the conversation anchored in his own read of how he’s operating on the new team before you add your view.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

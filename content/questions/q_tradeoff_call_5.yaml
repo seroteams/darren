@@ -1,0 +1,10 @@
+alias: q_tradeoff_call_5
+label: Tradeoff call
+name: What would you have to stop doing to make room for that level of ownership?
+description: Forces the trade-off between hands-on delivery and strategic work.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

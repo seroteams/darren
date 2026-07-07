@@ -1,0 +1,10 @@
+alias: q_hidden_drag_3
+label: Hidden drag
+name: What part of the current mix is quietly costing you the most time?
+description: Surfaces the work that looks manageable on paper but is eating the week.
+purpose: topic
+stage: momentum
+axis_effects:
+  wellbeing: +1
+  clarity: +3
+source: generated

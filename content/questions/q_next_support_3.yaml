@@ -1,0 +1,10 @@
+alias: q_next_support_3
+label: Next support
+name: What would make the next two weeks steadier for you?
+description: Closes by moving toward practical support or adjustments for the next cycle.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

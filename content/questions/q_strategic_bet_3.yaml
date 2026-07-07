@@ -1,0 +1,9 @@
+alias: q_strategic_bet_3
+label: Strategic bet
+name: What strategic bet do you most want to own next?
+description: Turns his stated next move into a specific aspiration he can name and pursue.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

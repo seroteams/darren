@@ -1,0 +1,10 @@
+alias: q_q_lead_growth_2
+label: q_lead_growth
+name: "As a lead, what kind of call do you want to get better at making?"
+description: ""
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_lead_growth"

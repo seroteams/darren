@@ -1,0 +1,9 @@
+alias: q_next_two_weeks_17
+label: Next two weeks
+name: What would make the next two weeks feel cleaner to work in?
+description: Closes by steering toward a practical adjustment for the next check-in window.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: generated

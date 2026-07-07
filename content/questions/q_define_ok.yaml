@@ -1,0 +1,10 @@
+alias: q_define_ok
+label: Define ok
+name: "When you say 'ok,' what actually changed in your priorities?"
+description: One-shot re-prompt to turn the vague answer into concrete signal about recent priority shifts.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added

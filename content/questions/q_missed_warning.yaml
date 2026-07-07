@@ -1,0 +1,10 @@
+alias: q_missed_warning
+label: Missed warning
+name: What changed between the point you first saw risk and the point the second deadline slipped?
+description: Lets you understand why the heads-up did not happen without turning it into blame.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

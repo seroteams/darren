@@ -1,0 +1,10 @@
+alias: q_energy_after_ship_2
+label: Energy after ship
+name: Where is your energy at after the refactor shipped?
+description: Helps you hear whether the release left her restored, spent, or somewhere in between.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

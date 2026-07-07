@@ -1,0 +1,9 @@
+alias: q_execution_details
+label: Execution details
+name: What execution details are taking too much of your time right now?
+description: Drills into the specific work pulling Ahmed out of higher-level scope.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +1
+source: planner_added

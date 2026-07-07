@@ -1,0 +1,9 @@
+alias: q_outside_work_strain
+label: Outside work strain
+name: "Do you want to say a bit more about what's been going on outside work?"
+description: Offers an opt-in opening to understand the outside-work strain he just mentioned.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+source: planner_added

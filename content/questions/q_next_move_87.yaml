@@ -1,0 +1,10 @@
+alias: q_next_move_87
+label: Next move
+name: What would you like to leave this conversation doing first?
+description: Lands the discussion on one concrete move before you wrap.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

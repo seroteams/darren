@@ -1,0 +1,10 @@
+alias: q_feedback_loop_6
+label: Feedback loop
+name: What part of the recent feedback has been most useful to act on?
+description: Checks whether feedback is turning into action or just more iteration.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

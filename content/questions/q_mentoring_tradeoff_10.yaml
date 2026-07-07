@@ -1,0 +1,10 @@
+alias: q_mentoring_tradeoff_10
+label: Mentoring tradeoff
+name: What are you choosing not to spend time on because of the mentoring program?
+description: Makes the cost of that work visible and shows what it is displacing.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  wellbeing: +1
+source: generated

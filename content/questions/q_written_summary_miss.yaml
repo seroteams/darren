@@ -1,0 +1,9 @@
+alias: q_written_summary_miss
+label: Written summary miss
+name: "What happened on the pricing change after the meeting summary didn't go out?"
+description: Anchor the issue in one observable sequence after the missed written follow-through.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_rewrite_pull
+label: Rewrite pull
+name: What would need to be true for the billing rewrite to fit cleanly into your week?
+description: Surfaces the conditions that would make the next-quarter pull workable.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_scope_in_practice_2
+label: Scope in practice
+name: What does Principal scope look like on this team when it is working well?
+description: Tests whether Tom can translate the role into concrete behaviors in this environment.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

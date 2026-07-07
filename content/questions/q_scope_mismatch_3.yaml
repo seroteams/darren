@@ -1,0 +1,10 @@
+alias: q_scope_mismatch_3
+label: Scope mismatch
+name: Where does your current work still feel more like solid delivery than Principal scope?
+description: Helps you name the place where the level of the work may not yet match the role.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

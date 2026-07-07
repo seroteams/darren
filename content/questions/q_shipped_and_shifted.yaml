@@ -1,0 +1,10 @@
+alias: q_shipped_and_shifted
+label: Shipped and shifted
+name: What was the biggest thing that changed from the plan over the last two weeks?
+description: Helps you hear what moved under the surface, not just the finished output.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

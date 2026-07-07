@@ -1,0 +1,10 @@
+alias: q_energy_source_2
+label: Energy source
+name: What has been taking the most energy in your design work lately?
+description: "Locates the main drain on Sam's energy without assuming it is personal or negative."
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

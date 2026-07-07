@@ -1,0 +1,10 @@
+alias: q_mentoring_stretch
+label: Mentoring stretch
+name: Who would you most want to spend time mentoring?
+description: Surfaces where mentoring would be most meaningful and what kind of stretch it offers.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

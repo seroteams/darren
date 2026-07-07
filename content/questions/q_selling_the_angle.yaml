@@ -1,0 +1,10 @@
+alias: q_selling_the_angle
+label: Selling the angle
+name: Where is the partner angle landing well, and where do you still have to work for it?
+description: Helps you separate the places that need real persuasion from the ones that are already moving.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

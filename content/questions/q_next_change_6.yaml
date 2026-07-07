@@ -1,0 +1,10 @@
+alias: q_next_change_6
+label: Next change
+name: What will you change in your next design review prep?
+description: Land on a concrete behaviour change for the next cycle.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added

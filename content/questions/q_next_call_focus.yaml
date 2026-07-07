@@ -1,0 +1,9 @@
+alias: q_next_call_focus
+label: Next-call focus
+name: On your next call, what will you change first?
+description: Land on the first behavioural change she will make in live calls.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +3
+source: planner_added

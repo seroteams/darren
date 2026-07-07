@@ -1,0 +1,9 @@
+alias: q_ba_friction
+label: BA friction
+name: With the BA, where does it break down most?
+description: Drills into the specific communication issue with the BA to locate the failure point.
+purpose: competency
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added

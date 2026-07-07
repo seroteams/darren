@@ -1,0 +1,10 @@
+alias: q_deadline_slip_story
+label: Deadline slip story
+name: Can you walk me through what happened on the deadline that slipped without a heads-up?
+description: Surfaces the sequence of events, not just the outcome, so the manager can understand the miss in context.
+purpose: competency
+stage: observation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

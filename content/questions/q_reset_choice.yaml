@@ -1,0 +1,8 @@
+alias: q_reset_choice
+label: Reset choice
+name: Would you rather pause here and pick this up another time?
+description: Direct reset to determine whether to continue the session or stop and reschedule.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+source: planner_added

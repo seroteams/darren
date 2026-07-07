@@ -1,0 +1,10 @@
+alias: q_decision_space_2
+label: Decision space
+name: Where do you need more decision space right now?
+description: Helps you hear where he is still too boxed in to do Head-of-level work.
+purpose: topic
+stage: friction
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

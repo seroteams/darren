@@ -1,0 +1,9 @@
+alias: q_stalled_work
+label: Stalled work
+name: What has been sitting longer than you expected?
+description: "Finds work that is lingering without reusing the intro's generic slowdown framing."
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: generated

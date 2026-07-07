@@ -1,0 +1,9 @@
+alias: q_q_tradeoff_quality
+label: q_tradeoff_quality
+name: "How are you weighing 'good enough now' against 'complete later'?"
+description: Test his tradeoff criteria and decision standard under time pressure.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+source: "reworded_from:q_tradeoff_quality"

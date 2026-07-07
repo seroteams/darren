@@ -1,0 +1,10 @@
+alias: q_current_work_lens
+label: Current work lens
+name: "What's been most on your mind in your pipeline work lately?"
+description: Safe opener that lets Aisha set the context before the feedback gets specific.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

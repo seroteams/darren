@@ -1,0 +1,10 @@
+alias: q_roadmap_access_2
+label: Roadmap access
+name: What would need to change for roadmap calls to come to you first?
+description: Surface the specific gap between current trust and the next level of scope.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +3
+source: planner_added

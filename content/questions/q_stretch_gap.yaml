@@ -1,0 +1,9 @@
+alias: q_stretch_gap
+label: Stretch gap
+name: You said nothing is stretching you right now — where are you feeling that most?
+description: Drills into the low-stretch thread to locate whether the dip is in task mix, ownership, or challenge.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added

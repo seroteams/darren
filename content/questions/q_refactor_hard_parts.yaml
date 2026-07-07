@@ -1,0 +1,10 @@
+alias: q_refactor_hard_parts
+label: Refactor hard parts
+name: What part of the payments refactor took the most out of you?
+description: Gets at the real weight of the project without assuming it was all smooth.
+purpose: competency
+stage: friction
+axis_effects:
+  wellbeing: +1
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_busy_work_shape
+label: Busy work shape
+name: What part of the busier pace is changing how you spend your time?
+description: Helps you hear whether the load is just fuller or actually changing the shape of the job.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

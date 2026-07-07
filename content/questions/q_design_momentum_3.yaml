@@ -1,0 +1,10 @@
+alias: q_design_momentum_3
+label: Design momentum
+name: Which design work moved cleanly for you?
+description: Shows where the sprint had momentum and what helped it move.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

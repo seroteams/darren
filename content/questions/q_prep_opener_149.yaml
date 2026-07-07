@@ -1,0 +1,10 @@
+alias: q_prep_opener_149
+label: Prep opener
+name: Since the promotion decision, what’s felt different in your day to day?
+description: Gives James room to name what shifted before you get more specific.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

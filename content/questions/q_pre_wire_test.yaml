@@ -1,0 +1,10 @@
+alias: q_pre_wire_test
+label: Pre-wire test
+name: Where do you still need to pre-wire decisions before they land well?
+description: Surfaces influence gaps and the need for earlier alignment.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

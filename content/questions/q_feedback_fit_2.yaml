@@ -1,0 +1,10 @@
+alias: q_feedback_fit_2
+label: Feedback fit
+name: Which piece of feedback changed the work the most?
+description: Helps you hear what kind of input is actually useful to Sam right now.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

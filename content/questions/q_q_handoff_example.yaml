@@ -1,0 +1,9 @@
+alias: q_q_handoff_example
+label: q_handoff_example
+name: Walk me through a recent handoff that came back with questions.
+description: ""
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +1
+source: "reworded_from:q_handoff_example"

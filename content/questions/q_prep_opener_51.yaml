@@ -1,0 +1,10 @@
+alias: q_prep_opener_51
+label: Prep opener
+name: Before we get into the slips, how have the last couple of weeks felt from your side in terms of workload, pace, and what was actually doable?
+description: "Anchors the conversation in Reyes's recent workload and perceived capacity before any concern is introduced."
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

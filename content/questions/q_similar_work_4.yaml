@@ -1,0 +1,9 @@
+alias: q_similar_work_4
+label: Similar work
+name: What kind of work has started to feel too samey?
+description: Drills into the plateau she just named so the manager can locate the specific work pattern behind it.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added

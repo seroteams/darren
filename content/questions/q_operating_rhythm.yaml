@@ -1,0 +1,10 @@
+alias: q_operating_rhythm
+label: Operating rhythm
+name: What would you want to be doing more of if this role is mapped correctly?
+description: Surfaces whether his current week matches the level of impact this role should carry.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

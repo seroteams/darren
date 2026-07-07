@@ -1,0 +1,9 @@
+alias: q_similar_work_8
+label: Similar work
+name: What kind of work are you wanting more of now?
+description: Drills into the stagnation thread she just named to surface the missing stretch.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

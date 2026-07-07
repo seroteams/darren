@@ -1,0 +1,10 @@
+alias: q_commitment_next_2
+label: Commitment next
+name: What is one priority you want to lean into before we meet again?
+description: Leaves the conversation with one clear move instead of a loose intention.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

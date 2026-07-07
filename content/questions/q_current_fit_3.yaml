@@ -1,0 +1,10 @@
+alias: q_current_fit_3
+label: Current fit
+name: What parts of your current work still feel like the right match for you?
+description: Helps you hear what he still wants to keep, not just what he wants to change.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

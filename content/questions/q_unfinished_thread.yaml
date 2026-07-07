@@ -1,0 +1,10 @@
+alias: q_unfinished_thread
+label: Unfinished thread
+name: Is there anything from the launch that still feels open to you?
+description: Looks for lingering technical or coordination work that may explain the quieter tone.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

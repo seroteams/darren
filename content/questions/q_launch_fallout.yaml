@@ -1,0 +1,10 @@
+alias: q_launch_fallout
+label: Launch fallout
+name: "Where has the launch created extra work for you that wasn't obvious before?"
+description: Surfaces hidden follow-up work that can keep a senior engineer overloaded.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

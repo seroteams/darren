@@ -1,0 +1,10 @@
+alias: q_friction_detail
+label: Friction detail
+name: "When you say 'not sure', where has work felt most snagged lately?"
+description: One-shot re-prompt to get a concrete friction example instead of a non-answer.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added

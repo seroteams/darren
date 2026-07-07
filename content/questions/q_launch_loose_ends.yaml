@@ -1,0 +1,10 @@
+alias: q_launch_loose_ends
+label: Launch loose ends
+name: What part of the launch still feels unfinished to you?
+description: Helps you hear whether there’s a concrete follow-up still taking headspace.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

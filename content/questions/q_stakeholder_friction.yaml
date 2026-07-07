@@ -1,0 +1,10 @@
+alias: q_stakeholder_friction
+label: Stakeholder friction
+name: Which cross-team conversation has been hardest to move forward since you joined?
+description: Gets concrete about where trust or alignment is still lagging.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_coasting_thread
+label: Coasting thread
+name: "You said you're coasting a bit this week — what's underneath that?"
+description: Drills into the dip in momentum to surface whether it is recovery, boredom, or something else.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added

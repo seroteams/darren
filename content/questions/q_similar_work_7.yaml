@@ -1,0 +1,9 @@
+alias: q_similar_work_7
+label: Similar work
+name: What has started to feel too repetitive in the work?
+description: Drills into the plateau she just named so you can hear where the sameness is coming from.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added

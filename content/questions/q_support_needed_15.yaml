@@ -1,0 +1,10 @@
+alias: q_support_needed_15
+label: Support needed
+name: What do you need from me to make next quarter feel workable?
+description: Finds the kind of manager support that would actually change her ability to take on what’s coming.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

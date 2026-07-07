@@ -1,0 +1,9 @@
+alias: q_tense_renewals
+label: Tense renewals
+name: Which renewals are carrying the most weight right now?
+description: Pinpoint the specific client situations driving the drain so support can be targeted.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+source: planner_added

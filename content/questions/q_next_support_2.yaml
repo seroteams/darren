@@ -1,0 +1,10 @@
+alias: q_next_support_2
+label: Next support
+name: What would make the next couple of weeks feel steadier for you?
+description: Closes by asking what support or adjustment would help him regain footing without opening a new thread.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,8 @@
+alias: q_architecture_review_11
+label: Architecture review
+name: What role do you want to play in architecture review?
+description: Drills into the specific kind of scope and visibility he wants in that forum.
+purpose: topic
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_27
+label: Next two weeks
+name: What support from me would make the biggest difference on that?
+description: Closes on a practical support need and near-term action without opening new topics.
+purpose: wellbeing
+stage: commit
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: "reworded_from:q_next_two_weeks_3"

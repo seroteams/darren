@@ -1,0 +1,9 @@
+alias: q_flatter_week_3
+label: Flatter week
+name: "You said this week feels flatter — what's driving that?"
+description: Drills into the post-launch flatness to locate whether it is recovery, unresolved work, or something else.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

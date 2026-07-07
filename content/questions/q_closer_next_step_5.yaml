@@ -1,0 +1,9 @@
+alias: q_closer_next_step_5
+label: Closer next step
+name: What is the one thing you want to do differently before we next meet?
+description: Ends on a clear commitment without opening a new thread.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+source: generated

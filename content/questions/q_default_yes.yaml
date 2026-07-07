@@ -1,0 +1,10 @@
+alias: q_default_yes
+label: Default yes
+name: Where did you end up saying yes by default instead of making a tradeoff?
+description: Looks for moments where Sam accepted work without a deliberate priority call.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

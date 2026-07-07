@@ -1,0 +1,10 @@
+alias: q_q_recent_change
+label: q_recent_change
+name: "I've noticed you've been a bit quieter in team conversations lately — does that match how it feels to you?"
+description: ""
+purpose: topic
+stage: observation
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: "reworded_from:q_recent_change"

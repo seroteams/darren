@@ -1,0 +1,10 @@
+alias: q_rewrite_readiness
+label: Rewrite readiness
+name: What kind of project would you want to take on next quarter?
+description: Opens the door for Priya to surface appetite and fit for upcoming work without naming the unannounced rewrite.
+purpose: topic
+stage: lift
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

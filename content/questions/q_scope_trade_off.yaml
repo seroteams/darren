@@ -1,0 +1,10 @@
+alias: q_scope_trade_off
+label: Scope trade-off
+name: What did you leave undone on purpose?
+description: Makes the trade-off explicit and reveals whether the right things were dropped.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_recurring_churn
+label: Recurring churn
+name: What kind of stakeholder churn is costing you the most time?
+description: Helps you pinpoint the back-and-forth that is creating noise around the work.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

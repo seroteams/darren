@@ -1,0 +1,10 @@
+alias: q_pr_slowdown_2
+label: PR slowdown
+name: "What's been slowing your design-system PRs down?"
+description: Gets at whether the drag is review, scope, dependencies, or something else in the flow.
+purpose: competency
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

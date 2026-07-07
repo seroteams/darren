@@ -1,0 +1,10 @@
+alias: q_recent_example_24
+label: Recent example
+name: Can you walk me through one recent design that needed extra rounds?
+description: Gets you onto a concrete piece of work so you can hear the pattern in the real example.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

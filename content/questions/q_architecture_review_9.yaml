@@ -1,0 +1,9 @@
+alias: q_architecture_review_9
+label: Architecture review
+name: What would presenting there let you own that you do not own today?
+description: Drills into the architecture-review thread to surface the bigger-scope ownership he is actually seeking.
+purpose: wellbeing
+stage: investment
+axis_effects:
+  clarity: +3
+source: planner_added

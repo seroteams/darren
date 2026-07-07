@@ -1,0 +1,10 @@
+alias: q_trust_evidence_2
+label: Trust evidence
+name: Where has adjacent-team trust been most visible in the work lately?
+description: Anchors the trust issue in a specific observable moment before naming the gap.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added

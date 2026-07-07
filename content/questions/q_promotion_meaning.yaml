@@ -1,0 +1,9 @@
+alias: q_promotion_meaning
+label: Promotion meaning
+name: What felt unclear to you after that decision?
+description: Drills into the specific clarity gap he named after the promotion decision.
+purpose: topic
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

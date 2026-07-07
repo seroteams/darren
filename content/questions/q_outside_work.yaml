@@ -1,0 +1,9 @@
+alias: q_outside_work
+label: Outside work
+name: What feels most relevant about those weeks outside work?
+description: Gives Reyes an opt-in chance to name what is affecting work without diagnosing or forcing detail.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+source: planner_added

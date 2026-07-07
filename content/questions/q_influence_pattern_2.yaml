@@ -1,0 +1,10 @@
+alias: q_influence_pattern_2
+label: Influence pattern
+name: Where do you still have to work too hard to get alignment?
+description: Surfaces the places where influence is costing him more than it should at this level.
+purpose: competency
+stage: gap
+axis_effects:
+  engagement: +1
+  clarity: +3
+source: generated

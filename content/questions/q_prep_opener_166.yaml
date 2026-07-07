@@ -1,0 +1,10 @@
+alias: q_prep_opener_166
+label: Prep opener
+name: Before we get into the details, how have the last couple of weeks felt in terms of what actually moved forward?
+description: Sets a calm baseline and lets Sam frame the fortnight before you narrow in on priorities.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

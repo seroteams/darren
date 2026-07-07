@@ -1,0 +1,10 @@
+alias: q_most_useful_problem
+label: Most useful problem
+name: Which piece of design work felt most worth your time over the last two weeks?
+description: Shows where Sam saw real value, not just activity.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_next_adjustment
+label: Next adjustment
+name: What is the one behavior you want to change before we next meet?
+description: Closes on a concrete commitment tied to the performance themes already raised.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_dependency_shift_4
+label: Dependency shift
+name: What dependency changed the shape of the work most?
+description: "Looks for the specific external change that altered Sam's plan."
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

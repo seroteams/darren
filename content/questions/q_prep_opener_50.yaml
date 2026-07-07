@@ -1,0 +1,10 @@
+alias: q_prep_opener_50
+label: Prep opener
+name: Since the promotion decision, how have team rituals been feeling from your side, and what has changed in how you want to show up in them?
+description: Reframes the prep opener to let James describe the shift in participation and intent without forcing a diagnosis.
+purpose: topic
+stage: landing
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_tradeoff_to_make
+label: Tradeoff to make
+name: What would you need to stop doing to make room for more strategic ownership?
+description: Helps you surface the trade-off behind the growth path, not just the wish list.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

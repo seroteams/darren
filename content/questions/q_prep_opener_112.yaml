@@ -1,0 +1,10 @@
+alias: q_prep_opener_112
+label: Prep opener
+name: I’ve noticed you’ve been quieter in team rituals since the promotion decision; what’s that period been like for you?
+description: Gives him room to set the context around the shift before you go deeper.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

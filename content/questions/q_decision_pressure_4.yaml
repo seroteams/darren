@@ -1,0 +1,10 @@
+alias: q_decision_pressure_4
+label: Decision pressure
+name: Where are you still waiting on a decision before you can move cleanly?
+description: Finds hidden stalls that are slowing the design work without turning into a generic blocker check.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

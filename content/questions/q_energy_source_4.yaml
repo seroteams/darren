@@ -1,0 +1,10 @@
+alias: q_energy_source_4
+label: Energy source
+name: What parts of your work have been giving you the most energy lately?
+description: Helps you hear which kind of work still pulls him in, instead of assuming the whole role feels flat.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

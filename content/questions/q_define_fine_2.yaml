@@ -1,0 +1,10 @@
+alias: q_define_fine_2
+label: Define fine
+name: "When you say 'fine', what does that actually look like day to day?"
+description: Clarifies the shallow opener so Sam names concrete energy signal.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added

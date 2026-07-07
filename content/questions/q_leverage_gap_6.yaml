@@ -1,0 +1,9 @@
+alias: q_leverage_gap_6
+label: Leverage gap
+name: What work have you been choosing that feels lower-leverage than it should?
+description: Drills into the leverage thread he named so the conversation stays anchored in concrete choices.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_next_move_71
+label: Next move
+name: What would moving this forward look like in the next few weeks?
+description: Leaves the conversation with an open next step he owns, not just a theme.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_move_70"

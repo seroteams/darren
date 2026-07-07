@@ -1,0 +1,9 @@
+alias: q_billing_rewrite_weird
+label: Billing rewrite weird
+name: The billing rewrite feels weird — what have you actually heard so far?
+description: Drills into the billing rewrite thread to surface the concrete signal gap before moving on.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added

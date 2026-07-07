@@ -1,0 +1,9 @@
+alias: q_pricing_divergence
+label: Pricing divergence
+name: On that pricing change, what did sales hear versus finance?
+description: Anchor the discussion in the specific mismatch between stakeholder interpretations.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

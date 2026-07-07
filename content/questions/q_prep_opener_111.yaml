@@ -1,0 +1,10 @@
+alias: q_prep_opener_111
+label: Prep opener
+name: What would stronger stakeholder trust need to look like for you to operate at the Head of Product level you want next?
+description: Gets him to define the trust shift in practical terms before you dig into what’s holding it back.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

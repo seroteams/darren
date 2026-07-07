@@ -1,0 +1,10 @@
+alias: q_partner_work_tradeoff
+label: Partner work tradeoff
+name: What partner work are you protecting even with the extra load?
+description: Helps you hear what he still sees as worth the effort when time gets tight.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

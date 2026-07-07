@@ -1,0 +1,10 @@
+alias: q_decision_lag_3
+label: Decision lag
+name: Which pending decision has had the biggest effect on your pace?
+description: Identifies the decision bottleneck most affecting momentum.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

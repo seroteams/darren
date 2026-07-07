@@ -1,0 +1,9 @@
+alias: q_pile_up_source_5
+label: Pile-up source
+name: What was piling up most in that stretch?
+description: Surfaces the concrete work, dependency, or ownership load underneath the pile-up.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

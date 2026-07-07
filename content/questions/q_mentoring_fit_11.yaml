@@ -1,0 +1,10 @@
+alias: q_mentoring_fit_11
+label: Mentoring fit
+name: What role is the mentoring program playing in your week right now?
+description: Clarifies whether mentoring is a real leadership stretch or something that is crowding out his main work.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

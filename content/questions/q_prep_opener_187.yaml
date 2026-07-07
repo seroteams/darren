@@ -1,0 +1,10 @@
+alias: q_prep_opener_187
+label: Prep opener
+name: How has the mix of topics across each OE felt to carry over the last couple of weeks?
+description: Gives Carl space to name where the load is landing before you get specific.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

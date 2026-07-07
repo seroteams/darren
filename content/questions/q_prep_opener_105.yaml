@@ -1,0 +1,10 @@
+alias: q_prep_opener_105
+label: Prep opener
+name: How has the last couple of weeks lined up with what you expected to get through this sprint?
+description: Sets Sam up to compare intent with reality before you go deeper.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

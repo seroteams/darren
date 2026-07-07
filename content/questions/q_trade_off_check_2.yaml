@@ -1,0 +1,10 @@
+alias: q_trade_off_check_2
+label: Trade-off check
+name: What would you be willing to drop to make room for that next step?
+description: Forces a real trade-off around time, focus, or obligations.
+purpose: competency
+stage: investment
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

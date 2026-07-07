@@ -1,0 +1,9 @@
+alias: q_mentoring_thread_28
+label: Mentoring thread
+name: What has made the mentoring thread easy to leave parked?
+description: Surfaces what is keeping the mentoring interest from turning into action.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_skipping_over
+label: Skipping over
+name: What have you been putting off or skimming past lately?
+description: Helps you hear what he’s avoiding when the load gets too high.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

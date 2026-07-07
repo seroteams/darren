@@ -1,0 +1,9 @@
+alias: q_political_moments_16
+label: Political moments
+name: When it gets political, what changes in how you show up?
+description: Drills into the specific pattern that makes him retreat from strategic ownership in higher-stakes forums.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

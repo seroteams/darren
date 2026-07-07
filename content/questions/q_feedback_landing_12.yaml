@@ -1,0 +1,10 @@
+alias: q_feedback_landing_12
+label: Feedback landing
+name: How did that feedback land for you?
+description: Shows whether the message felt useful, dismissive, or still unresolved.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

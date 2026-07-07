@@ -1,0 +1,10 @@
+alias: q_leadership_moments_2
+label: Leadership moments
+name: Where are you already leading through influence more than through hands-on delivery?
+description: Shows where he is already operating at the level you want more of.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_focus_tradeoff
+label: Focus tradeoff
+name: What would you want to put aside to make room for that?
+description: Surfaces the trade-off required to commit to a next step instead of keeping everything in play.
+purpose: competency
+stage: support
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_mentoring_shape_4
+label: Mentoring shape
+name: What would doing more mentoring actually look like in your week?
+description: Gets concrete about the mentoring interest and the trade-offs it would require.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

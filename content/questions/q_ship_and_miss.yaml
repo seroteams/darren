@@ -1,0 +1,10 @@
+alias: q_ship_and_miss
+label: Ship and miss
+name: What from the last two weeks felt like it moved the work forward most, and what got left behind?
+description: Tests whether the shipped work matched the intended priorities and what trade-off was made.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: generated

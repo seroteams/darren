@@ -1,0 +1,10 @@
+alias: q_next_stretch_10
+label: Next stretch
+name: What would make the next two weeks feel steadier for you?
+description: Leaves the conversation with a practical ask and a clearer path into the next fortnight.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

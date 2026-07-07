@@ -1,0 +1,10 @@
+alias: q_land_specifics
+label: Land specifics
+name: "When you say 'ok', what actually got done, and what moved?"
+description: Clarifies the shallow reply with concrete shipped work or priority movement.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added

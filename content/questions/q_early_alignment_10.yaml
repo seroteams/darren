@@ -1,0 +1,10 @@
+alias: q_early_alignment_10
+label: Early alignment
+name: When did you bring expectations into the open with the people around you on that work?
+description: Lets you hear how early he is aligning scope with peers and managers, which matters at Principal level.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

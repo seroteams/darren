@@ -1,0 +1,10 @@
+alias: q_close_on_next_step
+label: Close on next step
+name: "Given what we've covered, what do you want to focus on first before we next meet?"
+description: Ends by turning the conversation into one concrete near-term focus without opening a new topic.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

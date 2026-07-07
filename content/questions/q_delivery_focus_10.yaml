@@ -1,0 +1,9 @@
+alias: q_delivery_focus_10
+label: Delivery focus
+name: What did focusing on delivery let you avoid after that decision?
+description: Drills into what retreating to controllable delivery meant for him before progressing the arc.
+purpose: topic
+stage: landing
+axis_effects:
+  engagement: +1
+source: planner_added

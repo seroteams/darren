@@ -1,0 +1,10 @@
+alias: q_prep_opener_72
+label: Prep opener
+name: "What have you treated as Principal-level ownership here so far, and where have you still been leaning on your old team's assumptions?"
+description: Lets you hear how he defines Principal scope on this team before you add your view.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

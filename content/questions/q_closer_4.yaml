@@ -1,0 +1,10 @@
+alias: q_closer_4
+label: Closer
+name: "Given what we've covered, what should we tackle first before we meet again?"
+description: Closes on next steps without opening a new thread.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

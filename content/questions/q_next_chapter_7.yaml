@@ -1,0 +1,10 @@
+alias: q_next_chapter_7
+label: Next chapter
+name: What would the next chapter of your Head of Product role look like if you were operating more through strategic ownership than delivery detail?
+description: Sets a calm frame for how he defines the role before you get into specifics.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

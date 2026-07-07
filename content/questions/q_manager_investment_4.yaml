@@ -1,0 +1,10 @@
+alias: q_manager_investment_4
+label: Manager investment
+name: What kind of support from me would actually change the pace of your growth?
+description: Finds the manager lever that would matter most, rather than asking for vague support.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

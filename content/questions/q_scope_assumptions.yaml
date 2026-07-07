@@ -1,0 +1,10 @@
+alias: q_scope_assumptions
+label: Scope assumptions
+name: What assumptions about Principal scope on this team are you still carrying from your last team?
+description: Checks for old operating models that may not fit the new context.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

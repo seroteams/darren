@@ -1,0 +1,10 @@
+alias: q_launch_aftertaste
+label: Launch aftertaste
+name: "How has this week felt after Monday's launch, and is there anything from that work still taking more energy than you expected?"
+description: Gives Priya room to name whether this is just post-launch recovery or something still hanging around.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_mentoring_pull_11
+label: Mentoring pull
+name: Mentoring those two juniors — what about that work gives you energy?
+description: Drills into the specific part of mentoring that feels meaningful so his aspiration sharpens.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+source: planner_added

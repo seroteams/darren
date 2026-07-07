@@ -1,0 +1,10 @@
+alias: q_drafting_habit
+label: Drafting habit
+name: What part of your drafting process most affects how ready the design feels on first pass?
+description: Explores whether the issue is in framing, exploration, or execution habits.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_waiting_on_others_3
+label: Waiting on others
+name: What are you waiting on that is slowing the design work down?
+description: Finds dependencies and external bottlenecks without turning into a blame question.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

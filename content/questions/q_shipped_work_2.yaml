@@ -1,0 +1,10 @@
+alias: q_shipped_work_2
+label: Shipped work
+name: What did you ship or hand off in the last two weeks that most changed your day-to-day?
+description: Surfaces the concrete design work that actually moved the agenda and may have displaced other priorities.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

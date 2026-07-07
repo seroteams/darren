@@ -1,0 +1,10 @@
+alias: q_influence_forum_3
+label: Influence forum
+name: Which forum or decision point feels hardest to influence at your level?
+description: Helps you hear where his accountability outruns his influence.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

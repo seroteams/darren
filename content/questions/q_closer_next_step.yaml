@@ -1,0 +1,9 @@
+alias: q_closer_next_step
+label: Closer next step
+name: "Given what we've covered, what do you want to focus on first before we next meet?"
+description: Closes by turning the conversation into one clear next focus without opening a new thread.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: generated

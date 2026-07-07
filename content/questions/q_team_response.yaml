@@ -1,0 +1,10 @@
+alias: q_team_response
+label: Team response
+name: "How did the team's response to the refactor land for you?"
+description: Finds out whether the recognition actually registered or stayed abstract.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +3
+  wellbeing: +1
+source: generated

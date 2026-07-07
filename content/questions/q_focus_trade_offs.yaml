@@ -1,0 +1,10 @@
+alias: q_focus_trade_offs
+label: Focus trade-offs
+name: What have you said no to recently so the design-system work can keep moving?
+description: Surfaces prioritisation choices and what is being protected or squeezed out.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

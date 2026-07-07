@@ -1,0 +1,10 @@
+alias: q_next_quarter_shape_8
+label: Next-quarter shape
+name: What do you expect to own next quarter?
+description: Gets her own view of upcoming ownership before any new plans are introduced.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

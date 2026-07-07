@@ -1,0 +1,10 @@
+alias: q_path_forward_7
+label: Path forward
+name: What would a credible next step for you look like from here?
+description: Moves the conversation toward a path he can actually believe in, not just a vague reset.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+  growth: +3
+source: generated

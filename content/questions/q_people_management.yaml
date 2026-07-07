@@ -1,0 +1,9 @@
+alias: q_people_management
+label: People management
+name: "What's behind not wanting reports yet?"
+description: Drills on the stated uncertainty about people management to clarify the shape of the role they actually want.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

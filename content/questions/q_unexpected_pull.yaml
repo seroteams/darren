@@ -1,0 +1,10 @@
+alias: q_unexpected_pull
+label: Unexpected pull
+name: What pulled you away from the design work you meant to be on?
+description: Lets you get to the specific request or meeting that changed the shape of the fortnight.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

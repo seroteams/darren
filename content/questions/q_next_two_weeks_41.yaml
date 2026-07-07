@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_41
+label: Next two weeks
+name: What would make the next two weeks feel steadier?
+description: Gives you a clean landing point on what would genuinely make things easier soon.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

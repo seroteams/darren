@@ -1,0 +1,10 @@
+alias: q_ownership_tradeoff_8
+label: Ownership tradeoff
+name: What are you still holding onto personally that the role probably needs you to hand off?
+description: Surfaces the shift from executor mode to broader ownership in plain terms.
+purpose: competency
+stage: investment
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

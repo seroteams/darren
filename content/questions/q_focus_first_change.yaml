@@ -1,0 +1,9 @@
+alias: q_focus_first_change
+label: focus first change
+name: Given all that, where will you change your approach first?
+description: Close by having her name the first behavioural shift she will make on upcoming calls.
+purpose: topic
+stage: commit
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_q_tradeoff_clarity_4
+label: q_tradeoff_clarity
+name: "When there's a trade-off, how clearly are you naming what you're giving up?"
+description: ""
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +1
+source: "reworded_from:q_tradeoff_clarity"

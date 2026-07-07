@@ -1,0 +1,9 @@
+alias: q_internal_referrals
+label: Internal referrals
+name: Where does the referrals case stall internally most often?
+description: Drills into the specific internal friction he just named around referrals and colleague incentives.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added

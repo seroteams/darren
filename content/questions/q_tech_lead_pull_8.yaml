@@ -1,0 +1,9 @@
+alias: q_tech_lead_pull_8
+label: Tech lead pull
+name: What about a tech lead role is pulling you most right now?
+description: Drills into the specific kind of scope or ownership he wants from that next step.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_mentoring_fit_7
+label: Mentoring fit
+name: How is the mentoring program fitting into your week right now?
+description: Helps you see whether it’s a good stretch or quietly pulling attention elsewhere.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  wellbeing: +1
+source: generated

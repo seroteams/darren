@@ -1,0 +1,10 @@
+alias: q_scope_gap_2
+label: Scope gap
+name: Where does your current work still feel too small for the kind of impact you want?
+description: Helps you hear the gap between his present scope and the senior work he wants.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

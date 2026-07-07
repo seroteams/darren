@@ -1,0 +1,9 @@
+alias: q_pile_up_source_2
+label: Pile-up source
+name: What specifically piled up for you there?
+description: Gets concrete on the work, asks, or dependencies that accumulated so the conversation can move underneath the surface.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

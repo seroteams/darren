@@ -1,0 +1,10 @@
+alias: q_feedback_loop
+label: Feedback loop
+name: What kind of feedback changes how you work fastest?
+description: Explores whether Priya is getting the right kind of learning signal.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_quality_bar
+label: Quality bar
+name: "What does 'ready for review' mean in your own process right now?"
+description: Tests her internal quality bar and whether it matches the bar the team expects.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

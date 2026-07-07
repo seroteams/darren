@@ -1,0 +1,10 @@
+alias: q_manager_support_12
+label: Manager support
+name: What from me would make the next two weeks lighter?
+description: Closes toward practical support and what would help her navigate the next stretch.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_future_forum
+label: Future forum
+name: Where do you want your influence to show up more clearly over the next year?
+description: Gets concrete about the forums, stakeholders, or decisions where he wants greater reach.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

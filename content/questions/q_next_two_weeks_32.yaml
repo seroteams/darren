@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_32
+label: Next two weeks
+name: What would make the next two weeks feel steadier for you?
+description: Ends with a practical ask about what would help most from here.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

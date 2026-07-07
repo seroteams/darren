@@ -1,0 +1,10 @@
+alias: q_prep_opener_73
+label: Prep opener
+name: If you were operating fully at Head of Product level six months from now, what would look different in the way you spend your time and attention?
+description: Gets you out of the abstract and into the shape of the role he actually wants.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

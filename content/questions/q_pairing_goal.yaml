@@ -1,0 +1,9 @@
+alias: q_pairing_goal
+label: Pairing goal
+name: What do you want to learn from pairing with the staff engineer?
+description: Turns the pairing idea into a concrete aspiration about scope, judgment, or cross-team influence.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

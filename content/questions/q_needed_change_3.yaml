@@ -1,0 +1,9 @@
+alias: q_needed_change_3
+label: Needed change
+name: "When you say it wasn't clear, what change were you looking for?"
+description: Drills into the specific clarity gap he named after the promotion decision.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +1
+source: planner_added

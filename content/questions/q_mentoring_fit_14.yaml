@@ -1,0 +1,10 @@
+alias: q_mentoring_fit_14
+label: Mentoring fit
+name: Where does the mentoring program fit in your week right now?
+description: Shows whether mentoring is a real source of energy or a separate lane from the core role.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

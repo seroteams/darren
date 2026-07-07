@@ -1,0 +1,10 @@
+alias: q_prep_opener_102
+label: Prep opener
+name: I noticed two deadlines moved this month, and the second one slipped quietly; what changed between those two pieces of work from your side?
+description: Lets Reyes walk you through the shift before you add any interpretation.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

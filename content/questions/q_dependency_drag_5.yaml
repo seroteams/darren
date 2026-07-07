@@ -1,0 +1,10 @@
+alias: q_dependency_drag_5
+label: Dependency drag
+name: What are you still waiting on that has slowed the design work down?
+description: Surfaces external dependencies or decisions that are quietly stalling progress.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

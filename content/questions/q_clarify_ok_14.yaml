@@ -1,0 +1,10 @@
+alias: q_clarify_ok_14
+label: Clarify ok
+name: "When you say 'ok' — what was actually on track, specifically?"
+description: One-shot re-prompt to get a concrete example instead of a vague summary.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added

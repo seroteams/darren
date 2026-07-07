@@ -1,0 +1,9 @@
+alias: q_strategic_bet_12
+label: Strategic bet
+name: What kind of strategic bet do you want to own?
+description: Turns his volunteered aspiration into a concrete future scope he can name clearly.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

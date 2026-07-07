@@ -1,0 +1,10 @@
+alias: q_team_landing_8
+label: Team landing
+name: How has working with the team felt this week?
+description: Lets you hear whether her quieter stretch is just recovery or something in the way with teammates.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

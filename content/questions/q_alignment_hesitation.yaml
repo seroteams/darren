@@ -1,0 +1,9 @@
+alias: q_alignment_hesitation
+label: Alignment hesitation
+name: What feels hardest about shaping cross-org alignment for you?
+description: Drills into the specific part of cross-org alignment that makes him hesitate.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_stretch_shape
+label: Stretch shape
+name: What would a real stretch look like for you in the next role or project?
+description: Gets specific about the kind of stretch he wants rather than generic development.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: generated

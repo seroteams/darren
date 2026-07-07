@@ -1,0 +1,10 @@
+alias: q_recent_leverage
+label: Recent leverage
+name: Where in the last few months did you create leverage that went beyond your own backend delivery?
+description: Looks for concrete examples of impact that others could point to.
+purpose: competency
+stage: evidence
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

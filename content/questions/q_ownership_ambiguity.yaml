@@ -1,0 +1,9 @@
+alias: q_ownership_ambiguity
+label: Ownership ambiguity
+name: Which work had unclear ownership?
+description: Pins the ambiguity to a specific piece of work before moving on.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

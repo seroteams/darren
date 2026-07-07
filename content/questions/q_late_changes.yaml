@@ -1,0 +1,9 @@
+alias: q_late_changes
+label: Late changes
+name: When direction changes late, where does it usually get messy for you?
+description: Drills into the specific point where shifting requirements create confusion or rework.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: planner_added

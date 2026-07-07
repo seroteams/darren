@@ -1,0 +1,10 @@
+alias: q_work_that_moved_2
+label: Work that moved
+name: Which piece of design work actually moved forward?
+description: Helps you separate real progress from motion and see where momentum is building.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

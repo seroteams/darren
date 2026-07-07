@@ -1,0 +1,10 @@
+alias: q_crit_energy_shift
+label: Crit energy shift
+name: "I've noticed you've seemed flatter in crits lately — what's been going on there?"
+description: Uses the observable signal to open a careful read on what is driving the change.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

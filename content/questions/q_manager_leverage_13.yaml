@@ -1,0 +1,10 @@
+alias: q_manager_leverage_13
+label: Manager leverage
+name: Where could I back you more so you can spend less time in delivery detail?
+description: Opens a practical conversation about how you can help him protect strategic time.
+purpose: wellbeing
+stage: investment
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

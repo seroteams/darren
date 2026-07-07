@@ -1,0 +1,10 @@
+alias: q_next_impact_move
+label: Next impact move
+name: What would you want to take on next that would make your impact more obvious here?
+description: Turns the conversation toward a concrete move that fits Principal scope on this team.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

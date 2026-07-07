@@ -1,0 +1,10 @@
+alias: q_energy_trend_2
+label: Energy trend
+name: Since we last spoke, where has your energy been at with the work?
+description: Lets you hear whether the pace and motivation around his work have shifted lately.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

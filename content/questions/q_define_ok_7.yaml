@@ -1,0 +1,10 @@
+alias: q_define_ok_7
+label: Define ok
+name: "When you say 'ok', what did the last two weeks actually feel like?"
+description: Clarifies the shallow answer so Sam names a concrete signal about how the fortnight landed.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_execution_pull_10
+label: Execution pull
+name: Where are the execution details pulling you in most right now?
+description: Drills into the specific area where he is still operating tactically instead of at broader scope.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

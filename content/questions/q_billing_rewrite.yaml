@@ -1,0 +1,9 @@
+alias: q_billing_rewrite
+label: Billing rewrite
+name: What role were you expecting in the billing rewrite?
+description: Clarifies the specific opportunity she thought was open to her and what feels misaligned.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added

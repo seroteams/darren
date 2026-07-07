@@ -1,0 +1,10 @@
+alias: q_bandwidth_check
+label: Bandwidth check
+name: Where was your bandwidth tightest this month?
+description: Finds the point where capacity, interruptions, or parallel work crowded out delivery.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

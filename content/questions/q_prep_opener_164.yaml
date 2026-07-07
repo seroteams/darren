@@ -1,0 +1,10 @@
+alias: q_prep_opener_164
+label: Prep opener
+name: How did the work behind those two slipped deadlines look from your side as the dates got closer?
+description: Gives Reyes room to walk you through the shift in the work before you name any concern.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

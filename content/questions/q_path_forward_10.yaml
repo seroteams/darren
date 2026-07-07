@@ -1,0 +1,10 @@
+alias: q_path_forward_10
+label: Path forward
+name: Given that, where do you want to focus first in the next few weeks?
+description: Helps him name the most useful near-term focus before the conversation closes.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: planner_added

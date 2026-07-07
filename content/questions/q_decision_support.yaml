@@ -1,0 +1,9 @@
+alias: q_decision_support
+label: Decision support
+name: What would make it easier to surface a slip earlier next time?
+description: Looks for practical support around escalation, planning, or visibility.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+source: generated

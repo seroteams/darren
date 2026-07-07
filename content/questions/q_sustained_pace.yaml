@@ -1,0 +1,9 @@
+alias: q_sustained_pace
+label: Sustained pace
+name: Since we last spoke, where has the pace felt hardest to sustain?
+description: Checks whether the strain is broad or tied to a specific stretch of work.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+source: generated

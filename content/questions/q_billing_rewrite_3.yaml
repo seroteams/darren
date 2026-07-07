@@ -1,0 +1,10 @@
+alias: q_billing_rewrite_3
+label: Billing rewrite
+name: "What's your read on the billing rewrite right now?"
+description: Surfaces how clear she is on the upcoming work and where she feels included or left out.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added

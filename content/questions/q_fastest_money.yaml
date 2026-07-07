@@ -1,0 +1,9 @@
+alias: q_fastest_money
+label: Fastest money
+name: Where does that fastest-money bias hurt partner work most?
+description: Drills into the specific point where short-term sales incentives are undermining alliance momentum.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added

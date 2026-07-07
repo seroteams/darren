@@ -1,0 +1,10 @@
+alias: q_current_work_state
+label: Current work state
+name: What feels most settled and most unsettled in your work right now?
+description: Lets Priya set current context before the feedback turns to specifics.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

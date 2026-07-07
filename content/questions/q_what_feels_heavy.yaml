@@ -1,0 +1,9 @@
+alias: q_what_feels_heavy
+label: What feels heavy
+name: What has felt heaviest in your design work lately?
+description: Safe opener that lets Maya set context before the review conversation turns to specific quality issues.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  wellbeing: +3
+source: generated

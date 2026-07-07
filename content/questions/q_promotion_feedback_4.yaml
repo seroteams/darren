@@ -1,0 +1,10 @@
+alias: q_promotion_feedback_4
+label: Promotion feedback
+name: What feedback did you actually take from the promotion decision?
+description: Helps you hear the story he is carrying forward from that call.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_prep_opener_115
+label: Prep opener
+name: How have the last couple of weeks lined up with what you meant to focus on, and where did other work creep in?
+description: Helps you hear what actually held Sam’s attention versus what pulled him off course.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

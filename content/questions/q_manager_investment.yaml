@@ -1,0 +1,9 @@
+alias: q_manager_investment
+label: Manager investment
+name: What would help you practice those calls earlier?
+description: Clarify what support, exposure, or tradeoffs would unlock progress.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_q_emotional_load
+label: q_emotional_load
+name: Is any of it weighing on you beyond the hours?
+description: ""
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +1
+source: "reworded_from:q_emotional_load"

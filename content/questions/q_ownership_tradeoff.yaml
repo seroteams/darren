@@ -1,0 +1,10 @@
+alias: q_ownership_tradeoff
+label: Ownership tradeoff
+name: What would you want to keep off your plate next quarter?
+description: Forces a trade-off around priorities and capacity rather than a generic wishlist.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

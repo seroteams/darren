@@ -1,0 +1,9 @@
+alias: q_energy_specifics_13
+label: Energy specifics
+name: "When you say 'the deadlines got away from me' — where has your energy actually been lately?"
+description: Clarifies the pivoted answer by bringing him back to his own energy without diagnosing or leading.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

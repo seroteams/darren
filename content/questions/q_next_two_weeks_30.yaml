@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_30
+label: Next two weeks
+name: What would doing this differently look like in the next two weeks?
+description: Closes on a concrete change he can own before the next conversation.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_two_weeks_29"

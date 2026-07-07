@@ -1,0 +1,9 @@
+alias: q_leverage_gap_8
+label: Leverage gap
+name: What work are you shipping that feels lower-leverage than it should be?
+description: Drills into his own leverage concern so the next evidence is anchored in a concrete example.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

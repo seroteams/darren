@@ -1,0 +1,10 @@
+alias: q_support_need_3
+label: Support need
+name: What would have made it easier to get ahead of this work?
+description: Identifies the support or process change that would reduce repeat slips.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

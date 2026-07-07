@@ -1,0 +1,9 @@
+alias: q_recent_example_19
+label: Recent example
+name: Take me through one recent handoff where those states were missed.
+description: Surface a concrete example to anchor the discussion in observable evidence.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

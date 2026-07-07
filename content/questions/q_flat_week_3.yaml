@@ -1,0 +1,9 @@
+alias: q_flat_week_3
+label: Flat week
+name: What has made this week feel flatter than you expected?
+description: Drills into the post-launch dip to locate the source of the flatter week.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

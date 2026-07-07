@@ -1,0 +1,10 @@
+alias: q_quiet_after_launch_2
+label: Quiet after launch
+name: I noticed you’ve been quieter this week — what’s behind that?
+description: Helps you hear whether the quieter stretch is just recovery or something still taking headspace.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

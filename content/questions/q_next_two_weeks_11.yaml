@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_11
+label: Next two weeks
+name: What would make the next two weeks feel steadier for you?
+description: Closes by steering toward concrete support and next-step commitments.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

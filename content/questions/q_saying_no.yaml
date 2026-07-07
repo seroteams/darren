@@ -1,0 +1,10 @@
+alias: q_saying_no
+label: Saying no
+name: What are you saying no to now that you might want to say yes to later?
+description: Shows the trade-offs in his current choices and where growth may be getting crowded out.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +1
+  clarity: +3
+source: generated

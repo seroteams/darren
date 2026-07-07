@@ -1,0 +1,10 @@
+alias: q_launch_aftermath_5
+label: Launch aftermath
+name: "Before we get into next quarter, how has this week felt from your side after Monday's launch?"
+description: Gives Priya room to set the tone after the launch before you steer anywhere else.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

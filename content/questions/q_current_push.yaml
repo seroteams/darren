@@ -1,0 +1,10 @@
+alias: q_current_push
+label: Current push
+name: What part of your current design work feels most worth pushing on?
+description: Finds where Maya still has pull and ownership, not just motion.
+purpose: competency
+stage: momentum
+axis_effects:
+  engagement: +1
+  growth: +1
+source: generated

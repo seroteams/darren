@@ -1,0 +1,10 @@
+alias: q_team_fit_2
+label: Team fit
+name: How has working with the team felt in the day to day lately?
+description: Checks whether collaboration has felt smooth, tense, or isolating without overdramatizing it.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

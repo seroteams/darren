@@ -1,0 +1,9 @@
+alias: q_first_move_2
+label: First move
+name: Given that pattern, what will you do differently after the next decision?
+description: Close on the behavioural change he will make to turn decisions into shared understanding.
+purpose: competency
+stage: commit
+axis_effects:
+  clarity: +3
+source: planner_added

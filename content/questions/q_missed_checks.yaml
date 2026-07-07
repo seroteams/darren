@@ -1,0 +1,9 @@
+alias: q_missed_checks
+label: Missed checks
+name: When those checks are missed, what usually gets surfaced in review?
+description: Turns her self-read into a concrete evidence example of what is actually being caught late.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added

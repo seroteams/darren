@@ -1,0 +1,10 @@
+alias: q_support_needed_6
+label: Support needed
+name: What would make it easier for you to practice more Head-of-level work this cycle?
+description: Opens the door to concrete support without assuming what he needs.
+purpose: topic
+stage: lift
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

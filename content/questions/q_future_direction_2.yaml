@@ -1,0 +1,10 @@
+alias: q_future_direction_2
+label: Future direction
+name: What kind of senior work do you want more of next year?
+description: Gets him naming the shape of the next step in plain terms.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

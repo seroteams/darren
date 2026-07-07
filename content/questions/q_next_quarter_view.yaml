@@ -1,0 +1,10 @@
+alias: q_next_quarter_view
+label: Next quarter view
+name: What do you already expect to own next quarter?
+description: Helps you hear what she is already planning before anything new lands on her.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

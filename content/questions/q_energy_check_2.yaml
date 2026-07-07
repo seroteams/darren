@@ -1,0 +1,10 @@
+alias: q_energy_check_2
+label: Energy check
+name: Since we last spoke, where is your energy at with the design work?
+description: Locates whether the fortnight has felt sustainable and what is driving that state.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

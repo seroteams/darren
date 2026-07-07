@@ -1,0 +1,10 @@
+alias: q_customer_case_need
+label: Customer case need
+name: What do customers seem to need to hear before the partnership feels real to them?
+description: Helps you understand what proof or framing still has to be built in the field.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

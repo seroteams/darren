@@ -1,0 +1,10 @@
+alias: q_trust_gaps
+label: Trust gaps
+name: Which stakeholder relationship feels least solid for the level you want to operate at?
+description: Helps you hear where trust or visibility is still thin in a concrete way.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

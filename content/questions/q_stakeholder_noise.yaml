@@ -1,0 +1,10 @@
+alias: q_stakeholder_noise
+label: Stakeholder noise
+name: What part of the stakeholder noise is hardest to sort through at the moment?
+description: Helps you see whether outside pulls are crowding out her voice in the room.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_prep_opener_97
+label: Prep opener
+name: What would strategic ownership look like in your next chapter as Head of Product, and where do you want your role to feel meaningfully bigger than delivery?
+description: Gives Ahmed room to frame the growth conversation in his own terms before you get more specific.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

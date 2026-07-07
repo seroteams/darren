@@ -1,0 +1,10 @@
+alias: q_next_chapter_3
+label: Next chapter
+name: What kind of senior engineering work do you want more of in the next six months?
+description: Gets him to name the shape of work he wants, not just a vague desire to grow.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

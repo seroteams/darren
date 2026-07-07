@@ -1,0 +1,9 @@
+alias: q_mentoring_usefulness
+label: Mentoring usefulness
+name: What is it about mentoring that still feels useful to you?
+description: Drills into why mentoring feels like the one useful place, to surface what is missing elsewhere.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

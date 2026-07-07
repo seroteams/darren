@@ -1,0 +1,10 @@
+alias: q_keep_or_drop_2
+label: Keep or drop
+name: What do you want to keep doing next fortnight?
+description: Gives Sam room to name what should stay protected before the next stretch starts.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

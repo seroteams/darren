@@ -1,0 +1,9 @@
+alias: q_blocker_specifics
+label: Blocker specifics
+name: What is the main thing standing between you and finishing the training?
+description: Helps you hear whether the issue is access, timing, or something else concrete.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: generated

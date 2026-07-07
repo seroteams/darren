@@ -1,0 +1,10 @@
+alias: q_friction_scan_8
+label: Friction scan
+name: Where is work getting snagged right now?
+description: Invites her to name current blockers or drag points without assuming failure.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_intro_biweekly_friction"

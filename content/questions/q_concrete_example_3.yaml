@@ -1,0 +1,9 @@
+alias: q_concrete_example_3
+label: Concrete example
+name: Which recent decision best shows that pattern in practice?
+description: Anchor the issue in one observable example before naming the gap and closing.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

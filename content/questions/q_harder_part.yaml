@@ -1,0 +1,10 @@
+alias: q_harder_part
+label: Harder part
+name: What part of the work has been taking more out of you lately?
+description: Helps you hear what he’s carrying that may not be obvious from the outside.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

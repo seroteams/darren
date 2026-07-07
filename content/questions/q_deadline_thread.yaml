@@ -1,0 +1,9 @@
+alias: q_deadline_thread
+label: Deadline thread
+name: When you say the deadlines got away from you, where did that start to happen?
+description: Follows his own framing and opens the observable pattern behind the slips.
+purpose: topic
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

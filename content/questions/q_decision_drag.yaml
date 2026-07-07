@@ -1,0 +1,10 @@
+alias: q_decision_drag
+label: Decision drag
+name: What decision or dependency slowed the design work most?
+description: Finds the concrete bottleneck that is holding momentum back.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

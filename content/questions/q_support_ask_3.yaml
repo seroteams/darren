@@ -1,0 +1,10 @@
+alias: q_support_ask_3
+label: Support ask
+name: What would you want from me to make the next couple of weeks easier?
+description: Ends by turning the conversation into a practical ask she can act on.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

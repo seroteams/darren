@@ -1,0 +1,9 @@
+alias: q_next_focus_3
+label: Next focus
+name: Given all this, where do you want to focus first next?
+description: Open penultimate-turn commitment prompt to narrow the conversation toward the most important near-term move.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+source: planner_added

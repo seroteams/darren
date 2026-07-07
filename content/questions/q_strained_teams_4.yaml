@@ -1,0 +1,9 @@
+alias: q_strained_teams_4
+label: Strained teams
+name: Which teams are pulling you hardest right now?
+description: Drills into the specific internal groups creating the most pressure so the momentum picture becomes concrete.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

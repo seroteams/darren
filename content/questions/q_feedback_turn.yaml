@@ -1,0 +1,10 @@
+alias: q_feedback_turn
+label: Feedback turn
+name: What happened the last time design feedback turned into a next step?
+description: Checks whether feedback is producing progress rather than another review loop.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

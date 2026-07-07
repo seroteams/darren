@@ -1,0 +1,10 @@
+alias: q_launch_aftermath_4
+label: Launch aftermath
+name: What part of the Monday ship is still taking up headspace for you?
+description: Helps you hear whether the launch is done for her or still carrying some drag.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

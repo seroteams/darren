@@ -1,0 +1,10 @@
+alias: q_current_pressure
+label: Current pressure
+name: Before we get into specifics, what feels most pressing in your work right now?
+description: Lets Reyes name the immediate pressure point without framing it as a problem.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

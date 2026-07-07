@@ -1,0 +1,10 @@
+alias: q_support_to_move
+label: Support to move
+name: What support from me would make the next two weeks steadier for you?
+description: Closes by turning the conversation into concrete support and next steps.
+purpose: wellbeing
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

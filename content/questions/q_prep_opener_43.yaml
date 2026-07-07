@@ -1,0 +1,10 @@
+alias: q_prep_opener_43
+label: Prep opener
+name: "How has the promotion decision changed the way you've been showing up in team rituals and leadership moments over the last few weeks?"
+description: "Anchors the conversation in the observed shift in James's participation after the promotion decision."
+purpose: topic
+stage: landing
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

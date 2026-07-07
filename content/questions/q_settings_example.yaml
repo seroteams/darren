@@ -1,0 +1,9 @@
+alias: q_settings_example
+label: settings example
+name: In the settings redesign, what was the first adjacent problem you pulled in?
+description: Anchor the pattern in one observable moment before naming the gap.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

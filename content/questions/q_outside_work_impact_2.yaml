@@ -1,0 +1,9 @@
+alias: q_outside_work_impact_2
+label: Outside-work impact
+name: How much is that spilling into work right now?
+description: Gently checks whether the outside-work strain is affecting his capacity without forcing disclosure.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+source: planner_added

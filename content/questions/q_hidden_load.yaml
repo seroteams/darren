@@ -1,0 +1,10 @@
+alias: q_hidden_load
+label: Hidden load
+name: What else was taking up your time when those deadlines started slipping?
+description: Shows you what was competing with the planned work, including interrupts you may not have seen.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_load_source
+label: Load source
+name: Where is the extra workload coming from most right now?
+description: Helps you hear whether the pressure is coming from one place or being spread across too many demands.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

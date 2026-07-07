@@ -1,0 +1,10 @@
+alias: q_first_impressions
+label: First impressions
+name: How have your first couple of weeks here felt from your side?
+description: Safe opener to let Luke set context on landing in the restaurant before any specific topic is introduced.
+purpose: wellbeing
+stage: settling
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

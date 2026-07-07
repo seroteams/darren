@@ -1,0 +1,10 @@
+alias: q_q_next_step_38
+label: q_next_step
+name: Given what we cover, where do you want to focus first?
+description: Land on the first area he wants to move on next after clarifying direction and gaps.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_step"

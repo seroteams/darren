@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_14
+label: Next two weeks
+name: What would more leverage from you look like in the next two weeks?
+description: Closes on a concrete near-term commitment tied to impact and leverage.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  engagement: +1
+source: "reworded_from:q_next_two_weeks_13"

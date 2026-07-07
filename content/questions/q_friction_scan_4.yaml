@@ -1,0 +1,10 @@
+alias: q_friction_scan_4
+label: Friction scan
+name: Where are things getting snagged right now?
+description: Invites her to name the main source of friction in the work or team without assuming failure.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_intro_biweekly_friction"

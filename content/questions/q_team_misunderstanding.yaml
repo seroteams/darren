@@ -1,0 +1,9 @@
+alias: q_team_misunderstanding
+label: Team misunderstanding
+name: What part of the partner-alliance role is landing least clearly with them?
+description: Drills into the specific misunderstanding so you can locate the repeated internal misalignment.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added

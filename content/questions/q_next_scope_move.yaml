@@ -1,0 +1,10 @@
+alias: q_next_scope_move
+label: Next scope move
+name: What would you change in the next two weeks to show more Principal scope here?
+description: Closes on a concrete behavioural shift that would make his scope more visible before the next check-in.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

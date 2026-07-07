@@ -1,0 +1,10 @@
+alias: q_prep_opener_136
+label: Prep opener
+name: What did shipping the payments refactor feel like from your side now that the dust has settled?
+description: Gives her room to frame the win in her own words before you go anywhere else.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +3
+  growth: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_missed_cases_pattern
+label: Missed cases pattern
+name: What pattern do you see in the cases that keep surfacing late?
+description: Names the recurring gap across examples before moving into causes.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_team_friction
+label: Team friction
+name: Is there anything with the team that still feels off to you?
+description: Opens space for a direct read on whether the quieter week is about the work or the relationships.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

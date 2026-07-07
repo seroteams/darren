@@ -1,0 +1,10 @@
+alias: q_open_context
+label: Open context
+name: Before we get into specifics, what’s been most on your mind at work lately?
+description: Safe opener that lets Priya set context before any topic is introduced.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

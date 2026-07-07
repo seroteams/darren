@@ -1,0 +1,10 @@
+alias: q_priority_shift_4
+label: Priority shift
+name: What would you be willing to deprioritise if you took on that bigger piece?
+description: Helps you hear whether the next stretch has a real tradeoff behind it.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

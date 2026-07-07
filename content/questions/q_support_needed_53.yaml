@@ -1,0 +1,10 @@
+alias: q_support_needed_53
+label: Support needed
+name: What would help most from me when the selling gets repetitive?
+description: Helps you land on the kind of backing that would actually reduce drag for him.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

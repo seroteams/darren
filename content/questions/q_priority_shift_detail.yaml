@@ -1,0 +1,9 @@
+alias: q_priority_shift_detail
+label: Priority shift detail
+name: What changed the shape of that design priority?
+description: Surfaces the concrete trigger behind a priority move without asking for a broad status recap.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: generated

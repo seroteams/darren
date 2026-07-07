@@ -1,0 +1,10 @@
+alias: q_rituals_changed
+label: Rituals changed
+name: What team ritual have you pulled back from most since then?
+description: Surfaces the specific place where engagement changed rather than asking for a broad explanation.
+purpose: topic
+stage: observation
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

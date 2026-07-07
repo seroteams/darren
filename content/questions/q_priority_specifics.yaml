@@ -1,0 +1,10 @@
+alias: q_priority_specifics
+label: Priority specifics
+name: "When you say 'ok', what actually moved as expected this cycle?"
+description: Clarifies the shallow reply by asking for one concrete read on what progressed as planned.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added

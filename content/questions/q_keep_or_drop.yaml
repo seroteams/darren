@@ -1,0 +1,10 @@
+alias: q_keep_or_drop
+label: Keep or drop
+name: What are you choosing to keep from the payments refactor, and what would you drop next time?
+description: Looks for lessons from the shipped work that will change future execution.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

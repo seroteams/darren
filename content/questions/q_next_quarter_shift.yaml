@@ -1,0 +1,10 @@
+alias: q_next_quarter_shift
+label: Next-quarter shift
+name: What do you expect to change most in your priorities next quarter?
+description: Lets Priya name how the next stretch is likely to reweight her focus without naming the unannounced rewrite.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

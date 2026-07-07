@@ -1,0 +1,10 @@
+alias: q_what_shifted_3
+label: What shifted
+name: "What has changed in how you're showing up with the team since then?"
+description: Helps you hear the specific behavior shift, not just a general mood.
+purpose: topic
+stage: observation
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

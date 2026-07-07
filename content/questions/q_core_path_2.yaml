@@ -1,0 +1,10 @@
+alias: q_core_path_2
+label: Core path
+name: What path forward feels most concrete to you right now?
+description: Surfaces the option he sees as real rather than aspirational.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

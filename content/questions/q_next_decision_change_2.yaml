@@ -1,0 +1,9 @@
+alias: q_next_decision_change_2
+label: Next decision change
+name: On the next decision, what will you do differently first?
+description: Close on the specific behavioural change he will make immediately in how he contains scope and decides.
+purpose: competency
+stage: commit
+axis_effects:
+  clarity: +3
+source: planner_added

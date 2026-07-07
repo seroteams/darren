@@ -1,0 +1,9 @@
+alias: q_earlier_flag_2
+label: Earlier flag
+name: What made it harder to flag that one earlier?
+description: Drills on the specific missed heads-up to surface whether capacity, uncertainty, or dependency blocked earlier escalation.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +1
+source: planner_added

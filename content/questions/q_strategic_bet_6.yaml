@@ -1,0 +1,9 @@
+alias: q_strategic_bet_6
+label: Strategic bet
+name: What strategic bet do you want to own next?
+description: Turns his abstract next-level scope into one concrete aspiration with visible stakeholders.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+source: planner_added

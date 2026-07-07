@@ -1,0 +1,9 @@
+alias: q_pile_up_source_3
+label: Pile-up source
+name: When it piled up, what was stacking up specifically?
+description: Pins down the concrete work or demands that accumulated so you can separate load from vagueness.
+purpose: topic
+stage: underneath
+axis_effects:
+  wellbeing: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_leverage_area
+label: Leverage area
+name: Where do you want your work to have more leverage than it does now?
+description: Helps you hear whether he wants broader impact, not just more volume.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

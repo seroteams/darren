@@ -1,0 +1,10 @@
+alias: q_leverage_gap_5
+label: Leverage gap
+name: Where is your work still landing as solid execution rather than leverage?
+description: Names the specific gap between delivery and visible impact.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

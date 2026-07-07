@@ -1,0 +1,9 @@
+alias: q_trade_off_call_4
+label: Trade-off call
+name: What did you decide not to do this fortnight?
+description: Helps you hear the real trade-off behind the priorities Sam protected.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +3
+source: generated

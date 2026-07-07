@@ -1,0 +1,10 @@
+alias: q_current_fit
+label: Current fit
+name: How well does your current mix of work line up with the direction you want to head in?
+description: Surfaces whether his present responsibilities are aligned with his longer-term aims.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

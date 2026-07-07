@@ -1,0 +1,10 @@
+alias: q_routine_vs_stretch
+label: Routine vs stretch
+name: Which part of your week feels more like maintenance than development?
+description: Identifies where his time is being spent on routine work instead of growth-driving work.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

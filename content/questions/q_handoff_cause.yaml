@@ -1,0 +1,10 @@
+alias: q_handoff_cause
+label: Handoff cause
+name: What usually makes the handoff assumptions drift?
+description: Surfaces the source of ambiguity in the transfer of work and ownership.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

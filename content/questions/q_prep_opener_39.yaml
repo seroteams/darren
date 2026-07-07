@@ -1,0 +1,9 @@
+alias: q_prep_opener_39
+label: Prep opener
+name: How have the last couple of weeks felt from your side in terms of what you expected to move versus what actually moved?
+description: Restates the prep opener to let Sam compare plan vs reality before drilling into specifics.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+source: generated

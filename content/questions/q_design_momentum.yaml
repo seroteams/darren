@@ -1,0 +1,10 @@
+alias: q_design_momentum
+label: Design momentum
+name: Where did the design work move cleanly in the last fortnight?
+description: Finds the parts of the work that had momentum and why they moved well.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

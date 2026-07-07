@@ -1,0 +1,9 @@
+alias: q_energy_drift
+label: Energy drift
+name: Where has your energy been by the end of the day this fortnight?
+description: Checks sustainability and whether the current pace is draining or steady.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: generated

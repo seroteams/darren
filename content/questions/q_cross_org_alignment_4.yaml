@@ -1,0 +1,9 @@
+alias: q_cross_org_alignment_4
+label: Cross-org alignment
+name: What makes cross-org alignment the harder part for you right now?
+description: Drills into the specific factor that makes influence across functions feel harder than delivery.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+source: planner_added

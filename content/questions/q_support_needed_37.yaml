@@ -1,0 +1,10 @@
+alias: q_support_needed_37
+label: Support needed
+name: What do you need from me to keep the next stretch moving cleanly?
+description: Opens a practical ask for decisions, air cover, or coaching without making her do the whole unblocking alone.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

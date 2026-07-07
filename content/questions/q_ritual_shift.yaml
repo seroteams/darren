@@ -1,0 +1,9 @@
+alias: q_ritual_shift
+label: Ritual shift
+name: You mentioned being less present in rituals — what has felt different there lately?
+description: Follows his own phrasing to surface what changed in team rituals without assuming a cause.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  engagement: +3
+source: planner_added

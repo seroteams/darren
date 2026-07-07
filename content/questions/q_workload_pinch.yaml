@@ -1,0 +1,10 @@
+alias: q_workload_pinch
+label: Workload pinch
+name: Where did your workload get tightest on the work that slipped?
+description: Helps you hear which piece actually got crowded out.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

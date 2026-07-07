@@ -1,0 +1,10 @@
+alias: q_early_questions
+label: Early questions
+name: What is stopping you from asking earlier when something feels off in a design or plan?
+description: Helps you understand what keeps him from surfacing risk sooner.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

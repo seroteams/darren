@@ -1,0 +1,9 @@
+alias: q_reset_timing_12
+label: Reset timing
+name: Should we pause here and pick this up another time?
+description: Offers a direct reset when the conversation is not engaging cleanly.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +1
+source: planner_added

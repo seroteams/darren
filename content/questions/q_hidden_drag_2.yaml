@@ -1,0 +1,10 @@
+alias: q_hidden_drag_2
+label: Hidden drag
+name: What is taking more back-and-forth than it should on the partnership work?
+description: Helps you hear where the process is creating avoidable churn for him.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

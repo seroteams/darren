@@ -1,0 +1,9 @@
+alias: q_empty_states_miss
+label: Empty states miss
+name: In those empty states, what did you not see until review?
+description: Drills into the specific missed edge cases from her example before moving on.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

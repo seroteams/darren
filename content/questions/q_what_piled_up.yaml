@@ -1,0 +1,9 @@
+alias: q_what_piled_up
+label: What piled up
+name: What was piling up at that point?
+description: Clarifies which work or demands accumulated so the cause of the late signal is concrete.
+purpose: competency
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_q_client_load_3
+label: q_client_load
+name: "How's the client load itself been sitting?"
+description: ""
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+source: "reworded_from:q_client_load"

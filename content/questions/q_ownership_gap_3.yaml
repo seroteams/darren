@@ -1,0 +1,9 @@
+alias: q_ownership_gap_3
+label: Ownership gap
+name: Where specifically was ownership unclear on that work?
+description: Pins down the exact handoff or boundary that was ambiguous in the slipped deadline.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

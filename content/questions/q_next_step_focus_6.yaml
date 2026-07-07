@@ -1,0 +1,9 @@
+alias: q_next_step_focus_6
+label: Next step focus
+name: Where do you want to focus first from here?
+description: Closes the loop by getting him to choose the first move out of this conversation.
+purpose: topic
+stage: support
+axis_effects:
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_ownership_slice
+label: Ownership slice
+name: Which part of backend ownership do you want to keep next quarter?
+description: Lets her name the slice she wants to hold onto before the rewrite reshapes the map.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

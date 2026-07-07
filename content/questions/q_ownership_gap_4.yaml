@@ -1,0 +1,10 @@
+alias: q_ownership_gap_4
+label: Ownership gap
+name: Which strategic decision are you not yet getting to own end to end?
+description: Identifies the missing stretch between current execution and true strategic ownership.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

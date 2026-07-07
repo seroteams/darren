@@ -1,0 +1,10 @@
+alias: q_future_role_shape
+label: Future role shape
+name: What kind of product leadership role do you want to be known for next?
+description: Gets him to name the shape of the next step in plain terms.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

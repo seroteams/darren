@@ -1,0 +1,9 @@
+alias: q_delivery_focus_7
+label: Delivery focus
+name: What did delivery feel safer to focus on than right then?
+description: Drills into why he narrowed to delivery and what he was stepping back from.
+purpose: topic
+stage: landing
+axis_effects:
+  engagement: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_manager_support_14
+label: Manager support
+name: Where can I add the most value as you make that shift?
+description: Opens a practical ask for coaching, air cover, or introductions without making assumptions.
+purpose: topic
+stage: investment
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

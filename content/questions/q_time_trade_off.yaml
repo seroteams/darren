@@ -1,0 +1,10 @@
+alias: q_time_trade_off
+label: Time trade-off
+name: What would you stop doing if you wanted to protect more time for platform work?
+description: Surfaces the real trade-off behind protecting strategic time, which is usually where the conversation gets useful.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

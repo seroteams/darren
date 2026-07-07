@@ -1,0 +1,9 @@
+alias: q_problem_framing
+label: Problem framing
+name: When that question comes up, what was still unclear in the work?
+description: Drills into the specific miss she named so the gap is defined before moving on.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

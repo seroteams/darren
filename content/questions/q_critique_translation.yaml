@@ -1,0 +1,10 @@
+alias: q_critique_translation
+label: Critique translation
+name: How do you decide which feedback to fold into the next version right away?
+description: Surfaces her method for interpreting critique and choosing what to act on first.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

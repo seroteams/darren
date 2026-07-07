@@ -1,0 +1,10 @@
+alias: q_context_setter_2
+label: Context setter
+name: Before we get into specifics, what’s been most on your mind at work lately?
+description: Lets Priya set context in a calm, non-leading way before any focus area is introduced.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

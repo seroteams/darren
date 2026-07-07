@@ -1,0 +1,10 @@
+alias: q_dropped_work_3
+label: Dropped work
+name: What have you deliberately decided not to do this cycle?
+description: Shows whether he is making trade-offs on purpose or just absorbing more than he should.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

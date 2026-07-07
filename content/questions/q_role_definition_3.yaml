@@ -1,0 +1,10 @@
+alias: q_role_definition_3
+label: Role definition
+name: When you say Head of Product scope, what decisions do you think should sit with you?
+description: Helps you hear how he defines the role in terms of judgment, not just delivery.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

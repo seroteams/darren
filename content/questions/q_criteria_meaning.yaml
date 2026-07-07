@@ -1,0 +1,9 @@
+alias: q_criteria_meaning
+label: Criteria meaning
+name: What would clearer criteria change for you day to day?
+description: Opens the door into what sits underneath the request for criteria without diagnosing it.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

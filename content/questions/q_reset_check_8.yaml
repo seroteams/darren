@@ -1,0 +1,8 @@
+alias: q_reset_check_8
+label: Reset check
+name: Is now a bad time for this conversation, or should we pick it up later?
+description: Direct reset to test whether the session is workable before continuing.
+purpose: topic
+axis_effects:
+  engagement: +1
+source: planner_added

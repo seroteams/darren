@@ -1,0 +1,8 @@
+alias: q_reset_or_reschedule
+label: Reset or reschedule
+name: Is now a good time for this conversation, or should we reschedule?
+description: Direct reset to confirm whether the session should continue at all.
+purpose: topic
+axis_effects:
+  clarity: +1
+source: planner_added

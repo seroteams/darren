@@ -1,0 +1,10 @@
+alias: q_edge_case_example_2
+label: Edge-case example
+name: Can you walk me through the delayed-success edge case from start to finish?
+description: Surfaces the concrete sequence where correctness or handoff assumptions may have broken down.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_what_piled_up_3
+label: What piled up
+name: What exactly piled up for you there?
+description: Drills into the concrete work, decisions, or requests that accumulated so the underlying pattern becomes specific.
+purpose: competency
+stage: observation
+axis_effects:
+  clarity: +1
+source: planner_added

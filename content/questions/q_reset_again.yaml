@@ -1,0 +1,8 @@
+alias: q_reset_again
+label: Reset again
+name: Would you rather pause here and pick this up another time?
+description: One direct reset question to confirm whether to stop and reschedule a non-functional session.
+purpose: topic
+axis_effects:
+  clarity: +1
+source: planner_added

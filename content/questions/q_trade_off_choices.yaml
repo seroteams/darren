@@ -1,0 +1,10 @@
+alias: q_trade_off_choices
+label: Trade-off choices
+name: What would you stop doing if you wanted more room for strategic ownership?
+description: Makes the trade-off concrete instead of leaving growth as an add-on.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

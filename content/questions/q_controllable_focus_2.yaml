@@ -1,0 +1,9 @@
+alias: q_controllable_focus_2
+label: Controllable focus
+name: What felt outside your control at that point?
+description: "Follows his 'controllable' framing to surface what felt inaccessible or unclear after the promotion decision."
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +1
+source: planner_added

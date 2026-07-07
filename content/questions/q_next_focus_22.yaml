@@ -1,0 +1,10 @@
+alias: q_next_focus_22
+label: Next focus
+name: "Given what we've covered, where do you want to put your attention first over the next two weeks?"
+description: Closes the conversation by turning the discussion into a clear next move.
+purpose: topic
+stage: lift
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_prep_opener_20
+label: Prep opener
+name: How have the last couple of weeks lined up with the design work you expected to move forward this cycle?
+description: Restates the prep brief opener to surface whether Sam stayed on intended design priorities or got pulled elsewhere.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_q_next_step_48
+label: q_next_step
+name: What would help you get your input in earlier?
+description: Surface what support or change would make earlier influence possible.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+source: "reworded_from:q_next_step"

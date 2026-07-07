@@ -1,0 +1,9 @@
+alias: q_recognition_gap
+label: Recognition gap
+name: What work do you think actually gets recognized here?
+description: Drills into his belief about what the organization values and where he sees the mismatch.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

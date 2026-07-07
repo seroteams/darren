@@ -1,0 +1,10 @@
+alias: q_prep_opener_62
+label: Prep opener
+name: What feels most worth walking through from the last couple of weeks, and where did things get more complicated than you expected?
+description: Gives Sam room to set the frame before you go deeper into what landed.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

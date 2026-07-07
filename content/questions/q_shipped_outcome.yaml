@@ -1,0 +1,10 @@
+alias: q_shipped_outcome
+label: Shipped outcome
+name: What concrete design outcome did you get across the line?
+description: Invites Sam to name a shipped result before discussing process or drift.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated

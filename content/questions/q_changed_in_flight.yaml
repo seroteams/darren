@@ -1,0 +1,10 @@
+alias: q_changed_in_flight
+label: Changed in flight
+name: What shifted after you were already underway?
+description: Helps you hear how Sam adjusted when the plan moved under them.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

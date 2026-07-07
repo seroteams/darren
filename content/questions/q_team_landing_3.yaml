@@ -1,0 +1,10 @@
+alias: q_team_landing_3
+label: Team landing
+name: How has working with the team felt on the design work lately, Sam?
+description: Checks whether collaboration is smooth or creating subtle drag.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

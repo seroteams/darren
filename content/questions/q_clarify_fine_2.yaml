@@ -1,0 +1,10 @@
+alias: q_clarify_fine_2
+label: Clarify fine
+name: "When you say 'fine', what has the last two weeks actually looked like?"
+description: One-shot re-prompt to get specifics on his energy and recent experience.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added

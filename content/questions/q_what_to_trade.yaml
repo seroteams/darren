@@ -1,0 +1,10 @@
+alias: q_what_to_trade
+label: What to trade
+name: What would you stop doing yourself to make room for more strategic work?
+description: Reveals the trade-off between personal execution and broader leadership.
+purpose: competency
+stage: investment
+axis_effects:
+  growth: +3
+  wellbeing: +1
+source: generated

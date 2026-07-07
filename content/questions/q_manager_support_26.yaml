@@ -1,0 +1,10 @@
+alias: q_manager_support_26
+label: Manager support
+name: What would make the next two weeks steadier for you?
+description: Ends with a practical ask so you can leave with something you can actually change.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_current_priorities_2
+label: Current priorities
+name: "What's been most on your mind at work lately, Tom?"
+description: A safe opener that lets Tom set context before any performance view lands.
+purpose: wellbeing
+stage: self_read
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_expectation_alignment_5
+label: Expectation alignment
+name: When did you last get ahead of expectations with a team or partner?
+description: Lets you hear whether he is getting to alignment early enough for this role.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

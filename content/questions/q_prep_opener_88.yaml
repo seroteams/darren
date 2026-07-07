@@ -1,0 +1,10 @@
+alias: q_prep_opener_88
+label: Prep opener
+name: Since the promotion decision, what’s felt different for you at work over the last couple of weeks?
+description: Gives him room to set the frame before you go anywhere near the harder parts.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

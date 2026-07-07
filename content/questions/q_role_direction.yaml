@@ -1,0 +1,10 @@
+alias: q_role_direction
+label: Role direction
+name: What would you want your day-to-day to look like more of a year from now?
+description: Helps you hear the shape of the job he actually wants to grow into.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_payments_aftermath
+label: Payments aftermath
+name: Now that payments landed, what feels a bit flat this week?
+description: Drills into the coasting-after-launch thread to locate what is driving the dip.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

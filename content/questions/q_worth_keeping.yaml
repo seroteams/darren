@@ -1,0 +1,10 @@
+alias: q_worth_keeping
+label: Worth keeping
+name: What would you want to keep on your plate even if your scope changed?
+description: Shows which work he sees as genuinely valuable, not just familiar.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +1
+  clarity: +3
+source: generated

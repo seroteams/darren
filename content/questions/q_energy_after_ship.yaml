@@ -1,0 +1,10 @@
+alias: q_energy_after_ship
+label: Energy after ship
+name: "Where is your energy at after shipping, and what's driving that?"
+description: Locates whether the post-ship dip or lift is real and what is causing it.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_buyer_alignment
+label: Buyer alignment
+name: Which buyer contact is usually missing when a deal stalls?
+description: Checks whether the issue is contact quality, not just call volume.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

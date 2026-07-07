@@ -1,0 +1,9 @@
+alias: q_recognized_work_3
+label: Recognized work
+name: What work do you think actually gets recognised here?
+description: Drills into his belief about what the organisation values so the mismatch becomes concrete.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

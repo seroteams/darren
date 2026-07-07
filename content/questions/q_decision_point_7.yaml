@@ -1,0 +1,10 @@
+alias: q_decision_point_7
+label: Decision point
+name: What decision feels most stuck in this situation?
+description: Gets to the part that is actually waiting on you or others, not just the frustration around it.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

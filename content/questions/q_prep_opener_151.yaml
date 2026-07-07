@@ -1,0 +1,10 @@
+alias: q_prep_opener_151
+label: Prep opener
+name: Before we get into specifics, what’s felt heaviest in the last couple of weeks around pace or energy?
+description: Gives Machar room to set the frame before you get into the load and the partnership pressure.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_error_budget_thread
+label: Error budget thread
+name: Where is the error budget policy getting treated as optional right now?
+description: Drills into the concrete policy thread she raised so the concern is grounded in a specific pattern or team context.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+source: planner_added

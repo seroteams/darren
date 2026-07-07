@@ -1,0 +1,9 @@
+alias: q_architecture_review_10
+label: Architecture review
+name: What would presenting in architecture review let you own that you do not own today?
+description: Drills into the architecture review thread to surface the concrete scope or influence he wants next.
+purpose: topic
+stage: gap
+axis_effects:
+  clarity: +3
+source: planner_added

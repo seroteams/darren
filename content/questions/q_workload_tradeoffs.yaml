@@ -1,0 +1,10 @@
+alias: q_workload_tradeoffs
+label: Workload tradeoffs
+name: What have you been carrying that has made it harder to stay on top of things?
+description: Explores capacity and competing demands behind the slips.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

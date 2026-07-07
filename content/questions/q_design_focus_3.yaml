@@ -1,0 +1,10 @@
+alias: q_design_focus_3
+label: Design focus
+name: What part of the design work deserves more of your attention next?
+description: Helps you see where Sam wants to lean in once the dust settles.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +3
+  growth: +1
+source: generated

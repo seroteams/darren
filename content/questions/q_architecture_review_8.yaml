@@ -1,0 +1,9 @@
+alias: q_architecture_review_8
+label: Architecture review
+name: What role in architecture review do you want to play more often?
+description: Drills into the concrete aspiration he just named so the growth direction is specific.
+purpose: topic
+stage: aspiration
+axis_effects:
+  engagement: +1
+source: planner_added

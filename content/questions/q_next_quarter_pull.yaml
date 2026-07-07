@@ -1,0 +1,10 @@
+alias: q_next_quarter_pull
+label: Next quarter pull
+name: What kind of work would you want to lean into next quarter?
+description: Lets Priya surface her own direction without naming the unannounced billing rewrite.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

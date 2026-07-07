@@ -1,0 +1,10 @@
+alias: q_internal_lift
+label: Internal lift
+name: What do you keep having to push internally that you wish moved faster?
+description: Helps you hear where internal follow-through is adding drag.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

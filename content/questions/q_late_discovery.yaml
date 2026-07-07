@@ -1,0 +1,10 @@
+alias: q_late_discovery
+label: Late discovery
+name: What are we still finding too late in your design process?
+description: Identifies the specific stage where issues are escaping earlier checks.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

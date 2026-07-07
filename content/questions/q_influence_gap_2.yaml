@@ -1,0 +1,10 @@
+alias: q_influence_gap_2
+label: Influence gap
+name: Where do you think your influence drops off today?
+description: Helps you find the moments where trust or visibility breaks down in practice.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

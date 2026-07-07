@@ -1,0 +1,9 @@
+alias: q_cutover_thread
+label: Cutover thread
+name: What about the cutover felt especially solid to you?
+description: Drills into the concrete launch thread she volunteered before moving on.
+purpose: topic
+stage: friction
+axis_effects:
+  wellbeing: +3
+source: planner_added

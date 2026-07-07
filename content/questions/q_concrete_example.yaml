@@ -1,0 +1,9 @@
+alias: q_concrete_example
+label: Concrete example
+name: Take the onboarding dashboard — where did that comparison break down in the work?
+description: Anchor the discussion in one observable example before naming the broader gap.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

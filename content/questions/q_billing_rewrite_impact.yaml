@@ -1,0 +1,10 @@
+alias: q_billing_rewrite_impact
+label: Billing rewrite impact
+name: What part of the billing rewrite do you think could change your plans most?
+description: Gives you a clean read on where her next-quarter thinking may get disrupted.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

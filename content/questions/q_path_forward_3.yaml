@@ -1,0 +1,10 @@
+alias: q_path_forward_3
+label: Path forward
+name: Given this, where do you want to focus first?
+description: Open closer that lets him name the most useful immediate direction without turning the end into a checklist.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added

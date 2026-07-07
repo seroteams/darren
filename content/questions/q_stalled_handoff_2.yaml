@@ -1,0 +1,10 @@
+alias: q_stalled_handoff_2
+label: Stalled handoff
+name: What is holding up the next design step right now?
+description: Looks for the specific dependency, decision, or person creating delay.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

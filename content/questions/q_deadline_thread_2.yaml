@@ -1,0 +1,9 @@
+alias: q_deadline_thread_2
+label: Deadline thread
+name: When you say the deadlines got away from you, where did things first start to slip?
+description: Follows his own framing to locate the earliest visible point of drift.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: planner_added

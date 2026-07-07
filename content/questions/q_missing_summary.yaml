@@ -1,0 +1,9 @@
+alias: q_missing_summary
+label: Missing summary
+name: What tends to stop the written summary from going out?
+description: Surface the concrete reason the post-meeting summary is not happening.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

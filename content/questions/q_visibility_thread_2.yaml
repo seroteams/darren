@@ -1,0 +1,9 @@
+alias: q_visibility_thread_2
+label: Visibility thread
+name: What would more visibility with other teams open up for you?
+description: Drills into the visibility thread to surface the kind of scope, influence, or role he wants next.
+purpose: topic
+stage: anchor
+axis_effects:
+  engagement: +1
+source: planner_added

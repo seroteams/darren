@@ -1,0 +1,9 @@
+alias: q_pairing_plan_3
+label: Pairing plan
+name: What would you want to get from pairing with the staff engineer?
+description: Clarifies the specific learning or exposure he wants from that pairing move.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +1
+source: planner_added

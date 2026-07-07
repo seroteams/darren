@@ -1,0 +1,10 @@
+alias: q_energy_source
+label: Energy source
+name: What has been giving you energy in the work lately, Devon?
+description: Checks what is genuinely motivating him without sounding like a concern-led wellbeing probe.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

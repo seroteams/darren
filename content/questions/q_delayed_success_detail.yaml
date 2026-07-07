@@ -1,0 +1,9 @@
+alias: q_delayed_success_detail
+label: Delayed-success detail
+name: On the delayed-success edge case, what did you miss earlier?
+description: Drills into the specific miss she named so the conversation stays anchored in a concrete moment.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_tradeoff_check_10
+label: Tradeoff check
+name: What would you need to stop doing to make room for the work you want next?
+description: Helps you hear the tradeoff behind any real growth move.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

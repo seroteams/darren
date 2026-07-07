@@ -1,0 +1,10 @@
+alias: q_next_step_picture
+label: Next step picture
+name: What kind of scope do you want to be known for next?
+description: Surfaces the specific level or kind of impact Devon wants to grow into.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

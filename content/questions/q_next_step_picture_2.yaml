@@ -1,0 +1,9 @@
+alias: q_next_step_picture_2
+label: Next-step picture
+name: A year from now, what role would feel like a real step up from today?
+description: Moves into aspiration by naming the concrete role or scope he wants next.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_senior_forums_2
+label: Senior forums
+name: In those senior forums, what would you want to do differently?
+description: Drills into the named confidence thread to surface the concrete behavior he wants at the next level.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

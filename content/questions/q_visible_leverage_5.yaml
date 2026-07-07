@@ -1,0 +1,10 @@
+alias: q_visible_leverage_5
+label: Visible leverage
+name: Which recent decision or standard have you shaped that other teams are now using?
+description: Helps you hear whether his impact is showing up beyond his own delivery.
+purpose: competency
+stage: evidence
+axis_effects:
+  engagement: +1
+  growth: +3
+source: generated

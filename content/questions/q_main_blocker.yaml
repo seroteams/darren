@@ -1,0 +1,10 @@
+alias: q_main_blocker
+label: Main blocker
+name: What was the biggest thing slowing that backend work down?
+description: Forces a specific blocker rather than a general explanation.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

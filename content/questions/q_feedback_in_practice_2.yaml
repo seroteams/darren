@@ -1,0 +1,10 @@
+alias: q_feedback_in_practice_2
+label: Feedback in practice
+name: What changed in the next draft after the last round of critique?
+description: Checks whether feedback is being translated into the work quickly and specifically.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_ownership_edges_3
+label: Ownership edges
+name: Where do you want more ownership than you have now?
+description: Helps you hear where she wants a bigger lane before scope gets reshuffled.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

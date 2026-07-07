@@ -1,0 +1,10 @@
+alias: q_strategy_versus_delivery
+label: Strategy versus delivery
+name: Where are you still getting pulled into delivery detail when you want to be spending more time on product strategy?
+description: Shows where tactical gravity is still keeping him from the work he wants to own.
+purpose: competency
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

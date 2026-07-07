@@ -1,0 +1,10 @@
+alias: q_clarify_ok_17
+label: Clarify ok
+name: "When you say 'ok', what actually moved in the last two weeks?"
+description: Clarifies the shallow answer so Sam names concrete work that moved.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added

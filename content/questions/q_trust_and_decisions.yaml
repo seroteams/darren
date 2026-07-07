@@ -1,0 +1,10 @@
+alias: q_trust_and_decisions
+label: Trust and decisions
+name: What decision or tradeoff gets harder when that trust is thin?
+description: Connects the trust issue to strategic judgment instead of only day-to-day delivery.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

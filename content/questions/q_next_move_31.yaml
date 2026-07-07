@@ -1,0 +1,10 @@
+alias: q_next_move_31
+label: Next move
+name: "Given what we've covered, where do you want to change your approach first?"
+description: Closes on a specific behavioural change tied to Principal-level impact.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_move_30"

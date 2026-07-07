@@ -1,0 +1,9 @@
+alias: q_flat_week_2
+label: Flat week
+name: "You said this week feels flatter than expected — what's behind that?"
+description: Drills into the flat post-launch energy shift to distinguish recovery from something unresolved.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

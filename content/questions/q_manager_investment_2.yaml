@@ -1,0 +1,9 @@
+alias: q_manager_investment_2
+label: manager investment
+name: What would help you practice those calls earlier?
+description: Clarify what support or changes would accelerate her growth on the hard-decision pattern.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+source: planner_added

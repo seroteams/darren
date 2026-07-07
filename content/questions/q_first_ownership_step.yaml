@@ -1,0 +1,10 @@
+alias: q_first_ownership_step
+label: First ownership step
+name: What is one concrete decision or initiative you want to own more fully before we next meet?
+description: Leaves the conversation with a real move that points toward broader ownership.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

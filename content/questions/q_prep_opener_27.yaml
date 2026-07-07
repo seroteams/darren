@@ -1,0 +1,10 @@
+alias: q_prep_opener_27
+label: Prep opener
+name: How have the last couple of weeks landed for you, and what ended up taking more or less of your design time than you expected?
+description: Restates the prep brief opener in fresh language and sets up a concrete read on how Sam spent the fortnight.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_what_landed_3
+label: What landed
+name: What all has been landing on you at once?
+description: Drills into the overload he named so the manager can separate workload from other pressures.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

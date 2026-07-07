@@ -1,0 +1,10 @@
+alias: q_context_setter
+label: Context setter
+name: Before we get specific, what feels most worth using this check-in for?
+description: Lets Priya set the agenda before the manager narrows in on any one thread.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

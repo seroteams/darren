@@ -1,0 +1,9 @@
+alias: q_next_two_weeks_7
+label: Next two weeks
+name: What would make the next two weeks feel lighter or sharper?
+description: Surface the most useful near-term adjustment or support for the next stretch.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_launch_scope
+label: Launch scope
+name: What part of the launch needed more time than it got?
+description: Helps you hear whether the issue was scope, sequencing, or an underestimate of the work.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

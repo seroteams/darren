@@ -1,0 +1,10 @@
+alias: q_trade_off_call
+label: Trade-off call
+name: What did you choose not to do so the important work could move?
+description: Tests whether Sam made an explicit trade-off or let priorities blur.
+purpose: competency
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

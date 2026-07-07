@@ -1,0 +1,10 @@
+alias: q_concrete_next_step
+label: Concrete next step
+name: What concrete next step do you think exists from here?
+description: Asks him to name a real path forward rather than stay in generalities.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

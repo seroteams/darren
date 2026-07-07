@@ -1,0 +1,9 @@
+alias: q_tech_lead_pull_14
+label: Tech lead pull
+name: Tech lead specifically — what about that role pulls you most?
+description: Drills into what he wants from the tech lead path so the aspiration is concrete.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_missing_stretch_2
+label: Missing stretch
+name: What kind of challenge would make this feel like a better use of your time?
+description: Brings out the stretch he wants without turning it into a skills checklist.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

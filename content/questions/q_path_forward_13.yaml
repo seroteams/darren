@@ -1,0 +1,10 @@
+alias: q_path_forward_13
+label: Path forward
+name: What concrete path forward do you see from here?
+description: Brings the conversation toward a real next step instead of staying in the disappointment.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

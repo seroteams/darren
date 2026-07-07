@@ -1,0 +1,10 @@
+alias: q_alignment_hesitation_10
+label: Alignment hesitation
+name: What makes cross-org alignment the harder part for you right now?
+description: Drills into the specific factor behind his hesitation in senior-level influence work.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

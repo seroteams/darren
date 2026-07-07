@@ -1,0 +1,9 @@
+alias: q_late_flag
+label: Late flag
+name: What made the second deadline feel harder to flag in the moment?
+description: Drills into the specific barrier behind the late escalation he just named.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: planner_added

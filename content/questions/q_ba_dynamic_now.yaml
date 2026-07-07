@@ -1,0 +1,10 @@
+alias: q_ba_dynamic_now
+label: BA dynamic now
+name: How is the BA team dynamic landing for you day to day?
+description: Surfaces the lived experience of the relationship, not just the existence of conflict.
+purpose: topic
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

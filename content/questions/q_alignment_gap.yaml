@@ -1,0 +1,10 @@
+alias: q_alignment_gap
+label: Alignment gap
+name: Where does cross-team alignment still feel least natural for you today?
+description: Drills into the specific judgment gap in cross-team alignment before moving on.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_highest_leverage_miss
+label: Highest-leverage miss
+name: Where recently did you feel you were shipping, but not shaping the highest-leverage work?
+description: Drills into the concrete example behind his self-identified leverage gap.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

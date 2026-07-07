@@ -1,0 +1,10 @@
+alias: q_recovery_or_drag
+label: Recovery or drag
+name: Where does this week feel like normal post-launch recovery, and where does it feel like extra drag?
+description: Helps you separate ordinary decompression from something that needs attention.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

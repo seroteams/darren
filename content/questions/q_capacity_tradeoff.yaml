@@ -1,0 +1,10 @@
+alias: q_capacity_tradeoff
+label: Capacity tradeoff
+name: What would you want to drop if the current load stays this high?
+description: Forces a capacity tradeoff and reveals what Reyes sees as truly optional.
+purpose: topic
+stage: support
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

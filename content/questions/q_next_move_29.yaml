@@ -1,0 +1,10 @@
+alias: q_next_move_29
+label: Next move
+name: What is one stakeholder relationship you want to approach differently before we next meet?
+description: Closes on a concrete, bounded action tied to the growth theme and stakeholder trust.
+purpose: topic
+stage: commitment
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_sustainable_pace_4
+label: Sustainable pace
+name: What part of your current workload feels hardest to keep steady?
+description: Keeps the focus on pace and load without assuming the cause.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

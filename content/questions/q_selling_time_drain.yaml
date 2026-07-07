@@ -1,0 +1,10 @@
+alias: q_selling_time_drain
+label: Selling time drain
+name: Where is the repeated selling taking the most time right now?
+description: Helps you spot the places where partnership work is getting swallowed by explanation and follow-up.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

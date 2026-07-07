@@ -1,0 +1,10 @@
+alias: q_prep_opener_12
+label: Prep opener
+name: How are you thinking about Principal-level impact on this team right now, and where do you expect your work to create leverage beyond direct delivery?
+description: Sets Tom up to define impact in his own terms before the conversation narrows.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

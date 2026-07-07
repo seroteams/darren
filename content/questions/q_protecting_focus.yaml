@@ -1,0 +1,10 @@
+alias: q_protecting_focus
+label: Protecting focus
+name: What would you want to protect if your scope shifts next quarter?
+description: Surfaces what she would keep stable if priorities change, without naming the rewrite directly.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

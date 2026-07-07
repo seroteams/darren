@@ -1,0 +1,10 @@
+alias: q_prep_opener_143
+label: Prep opener
+name: How have the last couple of weeks felt from your side in terms of what moved, what shipped, and what changed?
+description: Sets the frame for Sam to tell you what actually shifted before you dig into details.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

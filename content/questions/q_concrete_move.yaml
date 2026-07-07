@@ -1,0 +1,10 @@
+alias: q_concrete_move
+label: Concrete move
+name: What is one stakeholder conversation you want to handle differently before we next meet?
+description: Leaves him with a specific action that builds the influence muscle between now and then.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

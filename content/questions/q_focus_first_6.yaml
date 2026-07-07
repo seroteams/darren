@@ -1,0 +1,9 @@
+alias: q_focus_first_6
+label: Focus first
+name: Given all this, where do you want to focus first?
+description: Creates an open closer that lets him choose the most useful next step.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+source: planner_added

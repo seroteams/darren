@@ -1,0 +1,10 @@
+alias: q_define_fine
+label: Define fine
+name: "When you say 'fine', what does that actually look like day to day?"
+description: One-shot re-prompt to get specific signal on energy and engagement.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_next_step_12
+label: Next step
+name: What shift do you want to make in the next few weeks to show Principal-level impact more clearly?
+description: Closes on a concrete change he can own before you meet again.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_step_11"

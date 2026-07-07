@@ -1,0 +1,10 @@
+alias: q_protect_the_quarter
+label: Protect the quarter
+name: What would you want to protect next quarter if the billing rewrite starts pulling on you?
+description: Lets her name what matters most before the next wave of work shows up.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

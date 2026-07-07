@@ -1,0 +1,10 @@
+alias: q_support_needed_63
+label: Support needed
+name: What would make the next couple of review cycles feel steadier for you?
+description: Helps you land on support that could make the feedback loop less draining.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_mentoring_load_2
+label: Mentoring load
+name: What is the mentoring program taking up in your week right now?
+description: Helps you see whether it is healthy stretch or quietly pulling him off course.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  wellbeing: +1
+source: generated

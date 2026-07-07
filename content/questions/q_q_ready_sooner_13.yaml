@@ -1,0 +1,9 @@
+alias: q_q_ready_sooner_13
+label: q_ready_sooner
+name: What part of the design usually gets discovered too late for first review?
+description: ""
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +1
+source: "reworded_from:q_ready_sooner"

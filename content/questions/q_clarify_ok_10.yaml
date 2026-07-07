@@ -1,0 +1,9 @@
+alias: q_clarify_ok_10
+label: Clarify ok
+name: "When you say 'ok', what actually moved and what didn't?"
+description: One-shot re-prompt to get concrete detail on plan versus reality from the shallow answer.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+source: planner_added

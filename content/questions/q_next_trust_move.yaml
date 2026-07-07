@@ -1,0 +1,10 @@
+alias: q_next_trust_move
+label: Next trust move
+name: What would you do differently in the next few weeks to build more trust across teams?
+description: Turns the conversation toward a concrete change he can carry forward.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

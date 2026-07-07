@@ -1,0 +1,10 @@
+alias: q_support_needed_14
+label: Support needed
+name: What would you want more of from me over the next two weeks?
+description: Opens the door to coaching, air cover, or faster decisions without assuming which one is needed.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

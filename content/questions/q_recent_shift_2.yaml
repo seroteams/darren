@@ -1,0 +1,10 @@
+alias: q_recent_shift_2
+label: Recent shift
+name: What has changed most in your day-to-day work lately?
+description: Gives you a clean read on what’s different without assuming the reason.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

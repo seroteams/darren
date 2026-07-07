@@ -1,0 +1,10 @@
+alias: q_backlog_thread_2
+label: Backlog thread
+name: What about the design review backlog feels most urgent right now?
+description: Opens the concrete work thread she raised and surfaces the immediate source of friction.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added

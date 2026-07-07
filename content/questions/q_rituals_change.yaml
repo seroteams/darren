@@ -1,0 +1,9 @@
+alias: q_rituals_change
+label: Rituals change
+name: What has made team rituals harder to show up for lately?
+description: Drills into the specific shift in ritual participation he just acknowledged.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

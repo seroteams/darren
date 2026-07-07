@@ -1,0 +1,10 @@
+alias: q_prep_opener_157
+label: Prep opener
+name: Before we get into specifics, how has the last couple of weeks felt from your side in terms of what actually moved?
+description: Gives Sam room to set the scene before you go into the details.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

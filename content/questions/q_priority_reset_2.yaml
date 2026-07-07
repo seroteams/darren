@@ -1,0 +1,9 @@
+alias: q_priority_reset_2
+label: Priority reset
+name: What should we make more explicit about your priorities going into next week?
+description: Helps you tighten the focus so the next stretch is easier to steer.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+source: generated

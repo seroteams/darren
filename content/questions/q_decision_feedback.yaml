@@ -1,0 +1,9 @@
+alias: q_decision_feedback
+label: Decision feedback
+name: Where are those decisions happening without enough pushback?
+description: Drills into the named feedback gap to locate where decision quality or alignment is weakening.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added

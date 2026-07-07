@@ -1,0 +1,9 @@
+alias: q_four_urgent_things
+label: Four urgent things
+name: Which four things are all competing right now?
+description: Get the actual set of competing priorities on the table so the prioritization problem becomes concrete.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

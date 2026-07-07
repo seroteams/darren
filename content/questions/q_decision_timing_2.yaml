@@ -1,0 +1,10 @@
+alias: q_decision_timing_2
+label: Decision timing
+name: Where have decisions on your work been landing later than they should?
+description: Points to the moments where speed and judgment may be slipping out of view.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

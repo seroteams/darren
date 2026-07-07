@@ -1,0 +1,9 @@
+alias: q_support_focus_2
+label: support focus
+name: What support from me would make the biggest difference right now?
+description: Close by inviting Marcus to shape the most useful manager support from here.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +3
+source: planner_added

@@ -1,0 +1,9 @@
+alias: q_ba_blocking
+label: BA blocking
+name: Where are they blocking things most right now?
+description: Pins down the specific point of blockage so the friction is concrete rather than general.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_stretch_evidence
+label: Stretch evidence
+name: What recent work has felt most like a real step up for you?
+description: Gets concrete about the moments that have felt expansive rather than routine.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

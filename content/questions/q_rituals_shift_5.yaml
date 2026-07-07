@@ -1,0 +1,9 @@
+alias: q_rituals_shift_5
+label: Rituals shift
+name: You mentioned being less present in rituals — where has that shown up most?
+description: Drills into the specific team setting where his pullback is most visible.
+purpose: topic
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

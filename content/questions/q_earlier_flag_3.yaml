@@ -1,0 +1,9 @@
+alias: q_earlier_flag_3
+label: Earlier flag
+name: What was happening when you knew you should flag it earlier?
+description: Drills into the specific moment he recognized risk but did not surface it.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +3
+source: planner_added

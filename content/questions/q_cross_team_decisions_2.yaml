@@ -1,0 +1,9 @@
+alias: q_cross_team_decisions_2
+label: Cross-team decisions
+name: Which cross-team decisions did you hold back from forcing?
+description: Pins the leverage gap to specific moments so the conversation moves from self-read into evidence.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

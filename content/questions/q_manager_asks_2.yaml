@@ -1,0 +1,10 @@
+alias: q_manager_asks_2
+label: Manager asks
+name: What would you want more of from me to help make that step real?
+description: Opens the door to specific manager support tied to the growth move he just named.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: "reworded_from:q_manager_asks"

@@ -1,0 +1,10 @@
+alias: q_safe_lane
+label: Safe lane
+name: What makes it easier to stay in delivery mode than to take a broader call?
+description: Helps you hear what is keeping him in the safe part of the role.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

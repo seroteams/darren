@@ -1,0 +1,10 @@
+alias: q_prep_opener_56
+label: Prep opener
+name: How is the payments refactor landing for you now that it shipped, and how has this week felt from your side afterward?
+description: "Sets up the post-ship read on the payments win and the immediate shift in this week's energy."
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_principal_scope_10
+label: Principal scope
+name: What part of Principal scope here feels clearest to you right now?
+description: Checks whether he has a grounded read on the role as it works on this team, not the last one.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

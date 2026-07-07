@@ -1,0 +1,10 @@
+alias: q_protected_work
+label: Protected work
+name: What design work did you manage to protect over the last two weeks?
+description: Surfaces the concrete work he intentionally kept on track despite competing demands.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

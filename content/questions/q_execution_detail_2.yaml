@@ -1,0 +1,9 @@
+alias: q_execution_detail_2
+label: Execution detail
+name: Which execution details are taking too much of your time right now?
+description: Drills into the specific tactical work keeping him from operating at broader scope.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

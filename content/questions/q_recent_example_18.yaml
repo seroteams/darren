@@ -1,0 +1,9 @@
+alias: q_recent_example_18
+label: Recent example
+name: Walk me through one handoff that came back with gaps.
+description: Surface a concrete recent example to anchor the discussion in observable evidence.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

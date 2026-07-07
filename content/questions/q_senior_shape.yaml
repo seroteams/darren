@@ -1,0 +1,10 @@
+alias: q_senior_shape
+label: Senior shape
+name: What would make the Senior Engineer role feel more like the right shape for you over the next year?
+description: Looks for the conditions and scope that would make the current level sustainable and motivating.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

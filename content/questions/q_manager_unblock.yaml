@@ -1,0 +1,10 @@
+alias: q_manager_unblock
+label: Manager unblock
+name: What do you need from me to keep momentum after the launch?
+description: Makes support concrete so you can help with the right kind of lift.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

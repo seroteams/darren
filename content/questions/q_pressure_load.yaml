@@ -1,0 +1,10 @@
+alias: q_pressure_load
+label: Pressure load
+name: Since the last couple of weeks, where has the pressure been coming from most?
+description: Helps you hear whether the strain is coming from the work itself, interruptions, or something outside it.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

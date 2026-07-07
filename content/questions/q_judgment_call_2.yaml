@@ -1,0 +1,10 @@
+alias: q_judgment_call_2
+label: Judgment call
+name: What kind of cross-team call are you making now that you would have left to someone else before?
+description: Helps you hear whether his judgment is expanding into harder calls.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

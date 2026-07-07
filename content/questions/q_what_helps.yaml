@@ -1,0 +1,10 @@
+alias: q_what_helps
+label: what helps
+name: What would make those conversations easier to step into right now?
+description: Move toward practical support if a barrier or pattern emerges.
+purpose: topic
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: planner_added

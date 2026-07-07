@@ -1,0 +1,9 @@
+alias: q_mentoring_pull
+label: Mentoring pull
+name: Mentoring those two juniors — what part of that work feels most like your next step?
+description: Drills into the specific aspect of mentoring that makes tech lead feel compelling.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

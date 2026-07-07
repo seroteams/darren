@@ -1,0 +1,9 @@
+alias: q_mentoring_meaning
+label: Mentoring meaning
+name: When you say mentoring is where you still feel useful, what does that tell you?
+description: Drills into what he believes mentoring represents after the promotion decision.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

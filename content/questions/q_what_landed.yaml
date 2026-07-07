@@ -1,0 +1,9 @@
+alias: q_what_landed
+label: What landed
+name: What all was landing at once for you there?
+description: Drills into the overload he just named so the manager can understand the concrete mix of demands.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added

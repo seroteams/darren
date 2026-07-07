@@ -1,0 +1,9 @@
+alias: q_leverage_thread_6
+label: Leverage thread
+name: What work are you calling highest-leverage right now?
+description: Drills into his own leverage concern so the conversation stays anchored in his wording.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

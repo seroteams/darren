@@ -1,0 +1,10 @@
+alias: q_energy_specifics_3
+label: Energy specifics
+name: "When you say 'fine', what has the last two weeks actually felt like?"
+description: One-shot re-prompt to get concrete signal on energy and engagement from the opener.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added

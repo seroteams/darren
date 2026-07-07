@@ -1,0 +1,10 @@
+alias: q_prep_opener_175
+label: Prep opener
+name: What has made this training hard to get done in the last couple of weeks, and where would my help make the difference?
+description: Gets the specific training friction on the table and invites a direct ask for support.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_senior_scope
+label: Senior scope
+name: What would you actually be responsible for that you are not today?
+description: Gets concrete about the scope shift he wants, not just the title around it.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_political_moments_17
+label: Political moments
+name: What makes those conversations feel political to you?
+description: Drills into the specific stakeholder dynamic that makes him retreat from senior-level ownership.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+source: planner_added

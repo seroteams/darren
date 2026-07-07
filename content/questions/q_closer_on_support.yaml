@@ -1,0 +1,10 @@
+alias: q_closer_on_support
+label: Closer on support
+name: What support from me would help you tighten that up next round?
+description: Ends on the help she needs from you without opening a new thread.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

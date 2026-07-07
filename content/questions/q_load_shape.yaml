@@ -1,0 +1,10 @@
+alias: q_load_shape
+label: Load shape
+name: Where is the work piling up in a way that feels avoidable?
+description: Surfaces whether the problem is volume, sequencing, or ownership.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

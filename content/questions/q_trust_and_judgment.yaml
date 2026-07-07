@@ -1,0 +1,10 @@
+alias: q_trust_and_judgment
+label: Trust and judgment
+name: How are you deciding when to push a cross-team issue versus keep moving?
+description: Probes the judgment call behind cross-team trust and whether he is defaulting to safe execution.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+  growth: +3
+source: generated

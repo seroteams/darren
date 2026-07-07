@@ -1,0 +1,10 @@
+alias: q_quarterly_pull
+label: Quarterly pull
+name: Where do you want your time going next quarter if the launch work settles down?
+description: Helps you hear what she wants more of once the post-launch dust clears.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

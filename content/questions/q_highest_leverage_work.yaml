@@ -1,0 +1,9 @@
+alias: q_highest_leverage_work
+label: Highest-leverage work
+name: What work do you think would have been higher leverage here?
+description: Drills into his own leverage concern with a concrete example before moving on.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

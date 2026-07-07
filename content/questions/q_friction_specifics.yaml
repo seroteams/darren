@@ -1,0 +1,10 @@
+alias: q_friction_specifics
+label: Friction specifics
+name: "When you say 'I guess', where is work actually snagging right now?"
+description: One-shot re-prompt to get a concrete friction point instead of a non-answer.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added

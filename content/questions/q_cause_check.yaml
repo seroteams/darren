@@ -1,0 +1,10 @@
+alias: q_cause_check
+label: Cause check
+name: What makes those states easy to miss in your process?
+description: Surface whether the misses come from habit, judgment, or process rather than staying at symptom level.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_opportunity_shape
+label: Opportunity shape
+name: What kind of project would give you the right kind of stretch next?
+description: Clarifies the shape of work that would advance him without naming a specific assignment.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

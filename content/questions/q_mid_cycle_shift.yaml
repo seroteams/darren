@@ -1,0 +1,10 @@
+alias: q_mid_cycle_shift
+label: Mid-cycle shift
+name: What changed mid-cycle that pulled your time in a different direction?
+description: Looks for the concrete scope shift or stakeholder request that redirected effort.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

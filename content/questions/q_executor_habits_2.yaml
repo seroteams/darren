@@ -1,0 +1,10 @@
+alias: q_executor_habits_2
+label: Executor habits
+name: What pulls you back into the tactical details when you want to stay at the strategic level?
+description: Helps you separate habit, pressure, and confidence so you can address the real pattern.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_hardest_part_now
+label: Hardest part now
+name: What’s the hardest part of the role for you right now?
+description: Opens the door to the current sticking point without assuming the cause.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

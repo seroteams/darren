@@ -1,0 +1,10 @@
+alias: q_missing_piece
+label: Missing piece
+name: What feels missing between the work you have now and the work you want next?
+description: Gets at the gap in a plain way without turning it into a checklist.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_incoming_load
+label: Incoming load
+name: What was landing on you all at once?
+description: Gets specific about the competing demands he just named before moving on.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

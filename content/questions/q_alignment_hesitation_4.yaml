@@ -1,0 +1,9 @@
+alias: q_alignment_hesitation_4
+label: Alignment hesitation
+name: What makes cross-org alignment the place you hold back?
+description: Surfaces what specifically makes stakeholder-shaping feel harder than direct delivery.
+purpose: topic
+stage: anchor
+axis_effects:
+  engagement: +1
+source: planner_added

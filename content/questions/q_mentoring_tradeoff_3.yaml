@@ -1,0 +1,10 @@
+alias: q_mentoring_tradeoff_3
+label: Mentoring tradeoff
+name: What would need to move off your plate to make mentoring realistic?
+description: Surfaces the capacity and prioritisation cost of adding mentoring.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_reschedule_check_3
+label: Reschedule check
+name: Would it be better to stop here and pick this up another time?
+description: Offers a clean exit when the check-in is not functional.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +1
+source: planner_added

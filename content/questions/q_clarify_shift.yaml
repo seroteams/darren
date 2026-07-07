@@ -1,0 +1,10 @@
+alias: q_clarify_shift
+label: Clarify shift
+name: "You said 'present more often in the architecture review' — what recent change brought that into focus?"
+description: Re-prompts for the missing recent window or trigger behind the shift he did not name.
+purpose: wellbeing
+stage: gap
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: planner_added

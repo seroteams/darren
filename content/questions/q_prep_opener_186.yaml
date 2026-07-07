@@ -1,0 +1,10 @@
+alias: q_prep_opener_186
+label: Prep opener
+name: What would make the next couple of weeks easier for you to move through at a steadier pace?
+description: Gives Carl room to name what would actually help before you get more specific.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

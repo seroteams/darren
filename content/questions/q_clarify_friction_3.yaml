@@ -1,0 +1,10 @@
+alias: q_clarify_friction_3
+label: Clarify friction
+name: "When you say 'not sure', what specifically has felt most unclear or stuck lately?"
+description: One-shot re-prompt to get a concrete example of friction or uncertainty.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added

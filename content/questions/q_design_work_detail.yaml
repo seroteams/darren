@@ -1,0 +1,10 @@
+alias: q_design_work_detail
+label: Design work detail
+name: Which piece of design work took the most of your attention?
+description: Forces a concrete example before the conversation drifts into generalities.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

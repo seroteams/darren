@@ -1,0 +1,9 @@
+alias: q_payments_sprint
+label: Payments sprint
+name: "That payments sprint landed clean — what's still feeling heavy from it?"
+description: Follows the payments thread to surface any residual drag or friction after the ship.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

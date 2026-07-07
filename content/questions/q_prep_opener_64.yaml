@@ -1,0 +1,10 @@
+alias: q_prep_opener_64
+label: Prep opener
+name: What would stronger trust and visibility at your level look like over the next six months, and where do you want to be seen differently?
+description: Sets the frame for the conversation and lets Ahmed put a concrete shape on the next stretch.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

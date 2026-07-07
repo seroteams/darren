@@ -1,0 +1,10 @@
+alias: q_manager_support_29
+label: Manager support
+name: What kind of support from me would help you show up with more visibility?
+description: Helps you hear what backing would change his reach in the room.
+purpose: wellbeing
+stage: investment
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

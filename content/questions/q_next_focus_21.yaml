@@ -1,0 +1,10 @@
+alias: q_next_focus_21
+label: Next focus
+name: What would you change first to make your impact at this team feel more unmistakable?
+description: Ends on a concrete shift he can take away and act on.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

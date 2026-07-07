@@ -1,0 +1,10 @@
+alias: q_course_mix
+label: Course mix
+name: Which kinds of sessions do you want more of next?
+description: Gets specific about the shape of the work instead of leaving “more” vague.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

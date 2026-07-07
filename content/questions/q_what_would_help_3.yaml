@@ -1,0 +1,10 @@
+alias: q_what_would_help_3
+label: What would help
+name: What would make the next couple of weeks feel steadier for you?
+description: Gives the conversation a practical landing without opening a new topic.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

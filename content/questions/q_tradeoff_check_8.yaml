@@ -1,0 +1,10 @@
+alias: q_tradeoff_check_8
+label: Tradeoff check
+name: What are you deliberately not giving time to at the moment?
+description: Makes the tradeoffs in his portfolio and calendar visible.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

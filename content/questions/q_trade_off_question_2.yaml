@@ -1,0 +1,10 @@
+alias: q_trade_off_question_2
+label: Trade-off question
+name: What have you had to drop or delay to keep the week moving?
+description: Helps you hear the real trade-offs behind the current pace.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

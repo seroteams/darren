@@ -1,0 +1,9 @@
+alias: q_mentoring_pull_7
+label: Mentoring pull
+name: What about mentoring those two juniors feels like the right next stretch?
+description: Drills into why mentoring this specific pair feels growth-relevant for him.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+source: planner_added

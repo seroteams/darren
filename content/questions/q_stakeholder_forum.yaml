@@ -1,0 +1,10 @@
+alias: q_stakeholder_forum
+label: Stakeholder forum
+name: Which stakeholder or forum matters most if you want people to see you differently?
+description: Gets specific about where his influence has to show up, not just the abstract goal of being more visible.
+purpose: competency
+stage: anchor
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

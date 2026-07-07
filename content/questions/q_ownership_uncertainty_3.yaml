@@ -1,0 +1,9 @@
+alias: q_ownership_uncertainty_3
+label: Ownership uncertainty
+name: "What's most unclear about next quarter ownership right now?"
+description: Drills into the ownership uncertainty she just named so the source of the ambiguity is explicit.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+source: planner_added

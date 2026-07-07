@@ -1,0 +1,10 @@
+alias: q_prep_opener_77
+label: Prep opener
+name: What’s taking the most energy right now when you’re making the partnership case internally or with customers?
+description: Gives him space to set the scene around where the selling load is landing hardest.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

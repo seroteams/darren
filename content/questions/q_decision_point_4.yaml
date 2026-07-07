@@ -1,0 +1,10 @@
+alias: q_decision_point_4
+label: Decision point
+name: Which design decision took more time than you expected?
+description: Identifies where the work became less straightforward and why.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

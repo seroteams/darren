@@ -1,0 +1,9 @@
+alias: q_first_move
+label: First move
+name: What would that focus look like in the next few weeks?
+description: Final closer that turns the chosen focus into an employee-shaped next move without sounding checklist-driven.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+source: planner_added

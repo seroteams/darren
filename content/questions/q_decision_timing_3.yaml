@@ -1,0 +1,10 @@
+alias: q_decision_timing_3
+label: Decision timing
+name: What decisions are you holding longer than you should?
+description: Shows where he is hesitating instead of making the call and moving the room forward.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

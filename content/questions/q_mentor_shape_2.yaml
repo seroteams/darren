@@ -1,0 +1,10 @@
+alias: q_mentor_shape_2
+label: Mentor shape
+name: What would mentoring actually look like in your week?
+description: Tests whether mentoring is a real commitment with a workable shape rather than an abstract goal.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  wellbeing: +1
+source: generated

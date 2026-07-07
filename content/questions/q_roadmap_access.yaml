@@ -1,0 +1,9 @@
+alias: q_roadmap_access
+label: Roadmap access
+name: What would need to shift for roadmap calls to come to you first?
+description: Surface the specific change in trust, scope, or visibility that would move her toward fuller ownership.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+source: planner_added

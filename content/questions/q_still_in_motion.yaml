@@ -1,0 +1,10 @@
+alias: q_still_in_motion
+label: Still in motion
+name: What is still in motion from the last two weeks?
+description: Helps you separate finished work from the pieces that are still carrying over.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

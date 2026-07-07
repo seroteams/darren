@@ -1,0 +1,10 @@
+alias: q_question_habit_11
+label: Question habit
+name: What gets in the way of you asking more questions early?
+description: Helps you understand whether the low-question pattern is about context, confidence, or habits from the old team.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_prep_opener_122
+label: Prep opener
+name: Since the promotion decision, how has the last couple of weeks felt in team settings and in the work you most want to be known for?
+description: Gives James room to set the scene around the decision without you jumping straight to conclusions.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

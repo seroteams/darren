@@ -1,0 +1,9 @@
+alias: q_reset_next_time
+label: Reset next time
+name: Should we pick this up another time?
+description: Direct reset for a non-functional session on the final turn.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+source: planner_added

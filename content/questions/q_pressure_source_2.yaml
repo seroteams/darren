@@ -1,0 +1,10 @@
+alias: q_pressure_source_2
+label: Pressure source
+name: "What's making your role feel heavier than it should right now?"
+description: Surfaces whether current pressure is temporary load, role ambiguity, or something else.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

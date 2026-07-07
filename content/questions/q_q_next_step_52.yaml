@@ -1,0 +1,9 @@
+alias: q_q_next_step_52
+label: q_next_step
+name: "What's one thing you could take on next quarter to start heading that way?"
+description: Surface the first concrete move Jordan wants to make toward broader scope.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+source: "reworded_from:q_next_step"

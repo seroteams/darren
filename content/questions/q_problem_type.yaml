@@ -1,0 +1,10 @@
+alias: q_problem_type
+label: Problem type
+name: What kind of problems do you want more of in your week?
+description: Helps you hear the work that would make him feel more engaged and stretched.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

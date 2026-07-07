@@ -1,0 +1,10 @@
+alias: q_feedback_heard_8
+label: Feedback heard
+name: What feedback did you actually take in from the promotion process?
+description: Helps you hear what landed, not just what was said.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

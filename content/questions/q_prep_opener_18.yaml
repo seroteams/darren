@@ -1,0 +1,10 @@
+alias: q_prep_opener_18
+label: Prep opener
+name: How have the last couple of weeks felt from your side in terms of what you chose to say yes and no to?
+description: Restates the prep brief opener in fresh words and invites Sam to set the context around priorities.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

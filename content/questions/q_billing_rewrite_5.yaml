@@ -1,0 +1,9 @@
+alias: q_billing_rewrite_5
+label: Billing rewrite
+name: What about the billing rewrite feels weird from your side?
+description: Drills into the named concern to surface the specific alignment or involvement gap.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added

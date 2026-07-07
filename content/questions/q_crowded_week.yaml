@@ -1,0 +1,10 @@
+alias: q_crowded_week
+label: Crowded week
+name: What part of the last few weeks has felt most crowded for you?
+description: Helps you hear where capacity started to get squeezed in real work.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_launch_afterglow_2
+label: Launch afterglow
+name: "How has this week felt after Monday's launch?"
+description: Helps you hear whether this is just launch recovery or something still sitting on her.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

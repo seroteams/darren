@@ -1,0 +1,9 @@
+alias: q_what_s_underneath
+label: "What's underneath"
+name: What sits underneath things piling up for you lately?
+description: Moves from observation into the underlying pattern without opening a new topic late in the session.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: planner_added

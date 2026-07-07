@@ -1,0 +1,10 @@
+alias: q_quiet_week_read_3
+label: Quiet week read
+name: "I've noticed you've been quieter this week — what's the story there?"
+description: Lets you check the change in energy without guessing at the reason.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

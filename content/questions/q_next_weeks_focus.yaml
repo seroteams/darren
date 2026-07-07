@@ -1,0 +1,9 @@
+alias: q_next_weeks_focus
+label: next-weeks focus
+name: What would make the next two weeks feel noticeably smoother for you?
+description: Open closer that lets her name the most useful near-term focus or support.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: planner_added

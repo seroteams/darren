@@ -1,0 +1,10 @@
+alias: q_manager_leverage_2
+label: Manager leverage
+name: What would you want me to do differently to make your priorities sharper?
+description: Surfaces the manager-side change that would help him focus and re-engage.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

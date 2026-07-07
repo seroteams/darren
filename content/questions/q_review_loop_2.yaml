@@ -1,0 +1,10 @@
+alias: q_review_loop_2
+label: Review loop
+name: How did the feedback and review loops affect the pace of the work?
+description: Lets you hear whether critique helped the design move or kept it circling.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: generated

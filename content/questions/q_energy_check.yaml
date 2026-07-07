@@ -1,0 +1,10 @@
+alias: q_energy_check
+label: Energy check
+name: Since we last spoke, where has your energy been going at work?
+description: Anchors the growth conversation in his current state without making assumptions about why.
+purpose: wellbeing
+stage: anchor
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

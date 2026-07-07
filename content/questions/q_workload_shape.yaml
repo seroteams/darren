@@ -1,0 +1,10 @@
+alias: q_workload_shape
+label: Workload shape
+name: What is taking more energy than it should in your week?
+description: Finds the specific work pattern that is costing energy and attention.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

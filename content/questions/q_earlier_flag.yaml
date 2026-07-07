@@ -1,0 +1,9 @@
+alias: q_earlier_flag
+label: Earlier flag
+name: What made it hard to flag that slip earlier?
+description: Drills into his specific admission to surface whether the miss came from pressure, uncertainty, or avoidance.
+purpose: topic
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

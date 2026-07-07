@@ -1,0 +1,10 @@
+alias: q_early_alignment_6
+label: Early alignment
+name: Can you walk me through a recent moment where you got ahead of expectations before they hardened?
+description: Shows whether he is getting in early enough to shape the work instead of reacting late.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

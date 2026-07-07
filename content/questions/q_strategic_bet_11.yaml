@@ -1,0 +1,9 @@
+alias: q_strategic_bet_11
+label: Strategic bet
+name: What kind of strategic bet do you want to own?
+description: Turns his stated aspiration into a concrete next-level scope with a named kind of ownership.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+source: planner_added

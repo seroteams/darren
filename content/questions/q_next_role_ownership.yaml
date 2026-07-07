@@ -1,0 +1,10 @@
+alias: q_next_role_ownership
+label: Next role ownership
+name: What do you think the next-level Head of Product role should own that you do not fully own yet?
+description: Tests whether he can name the actual scope shift rather than generic ambition.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

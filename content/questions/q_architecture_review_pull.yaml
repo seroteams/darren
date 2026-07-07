@@ -1,0 +1,9 @@
+alias: q_architecture_review_pull
+label: Architecture review pull
+name: What would presenting there let you show that your current work does not?
+description: Drills into why architecture review matters to his growth and what concrete scope or influence he wants.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added

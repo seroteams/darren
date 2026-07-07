@@ -1,0 +1,9 @@
+alias: q_feedback_timing_3
+label: Feedback timing
+name: When did you most recently wait too long to get feedback?
+description: Anchors his feedback-timing pattern in one concrete recent moment before moving on.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added

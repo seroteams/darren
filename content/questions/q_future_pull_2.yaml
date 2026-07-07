@@ -1,0 +1,10 @@
+alias: q_future_pull_2
+label: Future pull
+name: What kind of next step feels genuinely pulling you forward right now?
+description: Clarifies the shape of the next chapter without jumping to a title or promotion.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

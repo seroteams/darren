@@ -1,0 +1,9 @@
+alias: q_similar_work_2
+label: Similar work
+name: When you say similar work, what kind of work keeps repeating?
+description: Drills into the repeated-work thread to locate the specific pattern behind feeling stuck.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +1
+source: planner_added

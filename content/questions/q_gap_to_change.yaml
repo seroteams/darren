@@ -1,0 +1,9 @@
+alias: q_gap_to_change
+label: gap to change
+name: Given that pattern, what will you do differently before sharing next time?
+description: Close on the behavioural change she will make before first review.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+source: planner_added

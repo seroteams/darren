@@ -1,0 +1,10 @@
+alias: q_refactor_carryover_2
+label: Refactor carryover
+name: What should we carry over from the payments refactor into the next piece of work?
+description: Looks for reusable practices or decisions rather than celebrating the win in general terms.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

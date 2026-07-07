@@ -1,0 +1,9 @@
+alias: q_next_step_focus_10
+label: Next-step focus
+name: What should we make easier before we next meet?
+description: Closes by turning the conversation into one concrete next step, not a new topic.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: generated

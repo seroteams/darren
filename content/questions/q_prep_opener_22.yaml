@@ -1,0 +1,10 @@
+alias: q_prep_opener_22
+label: Prep opener
+name: How have the last couple of weeks shifted what feels most important in your design work right now?
+description: Anchors the check-in to recent reprioritization and lets Sam set context before specifics.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

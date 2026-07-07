@@ -1,0 +1,10 @@
+alias: q_recovery_window_2
+label: Recovery window
+name: What would make the next two weeks feel more like recovery than carryover?
+description: Ends on a practical note about what would help her settle after the ship.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

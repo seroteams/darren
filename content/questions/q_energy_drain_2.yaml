@@ -1,0 +1,9 @@
+alias: q_energy_drain_2
+label: Energy drain
+name: What part of the fortnight took the most out of you?
+description: Finds the work or context that is costing the most energy without making it a burnout question.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+source: generated

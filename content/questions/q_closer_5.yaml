@@ -1,0 +1,10 @@
+alias: q_closer_5
+label: Closer
+name: What would make the next two weeks feel steadier for you?
+description: Leaves the conversation on a practical note about what would help her move forward well.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

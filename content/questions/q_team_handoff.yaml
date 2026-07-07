@@ -1,0 +1,10 @@
+alias: q_team_handoff
+label: Team handoff
+name: Where did collaboration with the team feel smoothest or most strained?
+description: Checks how team interaction affected the fortnight without turning into a generic morale question.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: generated

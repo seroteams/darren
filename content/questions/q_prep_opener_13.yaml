@@ -1,0 +1,10 @@
+alias: q_prep_opener_13
+label: Prep opener
+name: What kind of Head of Product work would you like to handle with more confidence over the next six months that feels meaningfully more strategic than today?
+description: Anchors the conversation in his desired strategic scope over the next six months.
+purpose: topic
+stage: self_read
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_arch_review_role_4
+label: Arch review role
+name: In architecture review, what part do you want to own more visibly?
+description: Drills into the specific scope or decision-making presence he wants in that forum.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+source: planner_added

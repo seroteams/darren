@@ -1,0 +1,9 @@
+alias: q_next_call_change
+label: Next-call change
+name: What will you change on your next call to get to pain sooner?
+description: Close on a concrete behavioural adjustment for the next live call.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+source: planner_added

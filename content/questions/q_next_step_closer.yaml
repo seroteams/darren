@@ -1,0 +1,9 @@
+alias: q_next_step_closer
+label: Next-step closer
+name: Given what we covered, what should we focus on first before we next meet?
+description: Lands the conversation on a concrete next step without opening a new thread.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: generated

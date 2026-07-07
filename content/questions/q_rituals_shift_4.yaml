@@ -1,0 +1,9 @@
+alias: q_rituals_shift_4
+label: Rituals shift
+name: You mentioned being less present in rituals — where has that shown up most?
+description: Gets specific about the observed pullback before moving further into causes or meaning.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

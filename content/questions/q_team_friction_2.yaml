@@ -1,0 +1,10 @@
+alias: q_team_friction_2
+label: Team friction
+name: Where has collaboration with the team felt heavier than it should lately?
+description: Helps you hear whether the strain is in handoffs, timing, or expectations.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: generated

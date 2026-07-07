@@ -1,0 +1,9 @@
+alias: q_what_changed_next
+label: What changed next
+name: What felt unclear after the promotion decision?
+description: Follows the concrete thread he named and lets him specify the uncertainty without assuming an emotion.
+purpose: topic
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

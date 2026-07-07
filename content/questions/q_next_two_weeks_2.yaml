@@ -1,0 +1,10 @@
+alias: q_next_two_weeks_2
+label: Next two weeks
+name: What should you do differently on the next handoff?
+description: Closes on a specific behavioural commitment for the next cycle.
+purpose: competency
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

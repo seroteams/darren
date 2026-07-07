@@ -1,0 +1,10 @@
+alias: q_what_to_drop
+label: What to drop
+name: What are you choosing not to do this fortnight?
+description: Surfaces explicit trade-offs and what she is deprioritising.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

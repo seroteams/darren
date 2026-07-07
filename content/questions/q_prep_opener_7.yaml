@@ -1,0 +1,10 @@
+alias: q_prep_opener_7
+label: Prep opener
+name: How have the last couple of weeks felt from your side, especially around what you chose to prioritise versus what pulled you in?
+description: "Anchors the check-in on whether Sam's recent work matched his intended design priorities."
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

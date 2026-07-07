@@ -1,0 +1,9 @@
+alias: q_decision_waiting
+label: Decision waiting
+name: What were you waiting on that held things up?
+description: Helps you hear whether an unresolved decision or dependency was the real drag.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+source: generated

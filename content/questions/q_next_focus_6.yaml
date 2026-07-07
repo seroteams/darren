@@ -1,0 +1,9 @@
+alias: q_next_focus_6
+label: Next focus
+name: Given this, where do you want to focus first next week?
+description: Open final-turn commitment closer that lets Grace name her first move.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+source: planner_added

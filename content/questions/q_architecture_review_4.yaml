@@ -1,0 +1,9 @@
+alias: q_architecture_review_4
+label: Architecture review
+name: What would presenting there let you show that you cannot show today?
+description: Drills into the architecture review thread to surface the specific strategic scope he wants recognized.
+purpose: topic
+stage: investment
+axis_effects:
+  growth: +1
+source: planner_added

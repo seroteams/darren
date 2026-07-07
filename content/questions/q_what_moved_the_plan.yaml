@@ -1,0 +1,10 @@
+alias: q_what_moved_the_plan
+label: What moved the plan
+name: What changed most between the plan you started with and what actually got done?
+description: Helps you hear where the fortnight bent, without making it feel like an audit.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

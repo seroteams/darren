@@ -1,0 +1,10 @@
+alias: q_mentoring_trade_off
+label: Mentoring trade-off
+name: What would you need to make space for if mentoring became more regular?
+description: Surfaces the real trade-off behind wanting more mentoring support.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_support_needed_24
+label: Support needed
+name: What would have made the last two weeks easier from my side?
+description: Opens space for the employee to ask for coaching, air cover, or a decision.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_repeatable_wins
+label: Repeatable wins
+name: What do you want to carry from the payments refactor into the next hard rollout?
+description: Turns the recent win into something useful for the next stretch of backend work.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

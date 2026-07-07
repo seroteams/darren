@@ -1,0 +1,9 @@
+alias: q_q_skill_gap
+label: q_skill_gap
+name: What would you need to get better at to do that well?
+description: Identify the main gap between his current role and the work he wants to own.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+source: "reworded_from:q_skill_gap"

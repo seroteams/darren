@@ -1,0 +1,10 @@
+alias: q_post_launch_read_2
+label: Post-launch read
+name: How is the week after the launch sitting with you?
+description: Checks whether the post-shipping quiet looks like normal recovery or something else.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

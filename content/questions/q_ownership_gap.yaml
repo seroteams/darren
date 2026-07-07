@@ -1,0 +1,9 @@
+alias: q_ownership_gap
+label: Ownership gap
+name: Which work specifically had unclear ownership?
+description: Pins down the ownership confusion Reyes just named before moving on.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_customer_proof
+label: Customer proof
+name: What do customers need to hear before the partnership feels real to them?
+description: Gets at the proof point he has to keep making with customers, not just the pitch.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

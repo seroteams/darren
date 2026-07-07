@@ -1,0 +1,9 @@
+alias: q_q_next_step_17
+label: q_next_step
+name: "What's one thing we could change starting this cycle?"
+description: ""
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +1
+source: "reworded_from:q_next_step"

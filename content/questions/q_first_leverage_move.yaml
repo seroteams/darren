@@ -1,0 +1,10 @@
+alias: q_first_leverage_move
+label: First leverage move
+name: What would be the first leverage move you want to make in the next few weeks?
+description: Lands the conversation on a concrete next step that increases visible Principal impact.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

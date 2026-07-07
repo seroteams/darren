@@ -1,0 +1,10 @@
+alias: q_stretch_tradeoff
+label: Stretch tradeoff
+name: What would you need to stop doing to make room for that stretch?
+description: Forces a tradeoff between familiar work and growth work.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +1
+  clarity: +3
+source: generated

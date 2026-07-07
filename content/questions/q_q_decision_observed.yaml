@@ -1,0 +1,9 @@
+alias: q_q_decision_observed
+label: q_decision_observed
+name: Where does my read differ from yours on decision speed?
+description: "Surface any mismatch between his self-read and the manager's view before moving deeper."
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+source: "reworded_from:q_decision_observed"

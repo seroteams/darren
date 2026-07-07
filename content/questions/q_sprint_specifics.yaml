@@ -1,0 +1,10 @@
+alias: q_sprint_specifics
+label: Sprint specifics
+name: "When you say 'ok', what actually matched plan, and what slipped?"
+description: Re-prompts for one concrete comparison between sprint intent and reality.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added

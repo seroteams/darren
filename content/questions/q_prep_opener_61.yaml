@@ -1,0 +1,10 @@
+alias: q_prep_opener_61
+label: Prep opener
+name: What kind of work would make the next step in your growth as a Senior Engineer feel real over the next few months?
+description: Gives Devon room to name the kind of stretch he actually wants before you get into specifics.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

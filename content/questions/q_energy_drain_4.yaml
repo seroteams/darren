@@ -1,0 +1,10 @@
+alias: q_energy_drain_4
+label: Energy drain
+name: What part of the last two weeks has taken more out of you than it should have?
+description: Identifies the specific work or context that is costing energy.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

@@ -1,0 +1,10 @@
+alias: q_scope_reset_2
+label: Scope reset
+name: What assumptions about Principal scope did you have to unlearn after the move?
+description: Gets at whether old habits are still shaping how he approaches the role.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

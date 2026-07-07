@@ -1,0 +1,10 @@
+alias: q_manager_leverage_7
+label: Manager leverage
+name: What would you want more of from me to make that next step real?
+description: Opens the conversation about the support he actually wants from you.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +1
+  growth: +3
+source: generated

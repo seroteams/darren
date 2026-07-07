@@ -1,0 +1,9 @@
+alias: q_q_next_step_82
+label: q_next_step
+name: "What's getting in the way of booking the next meeting on the spot?"
+description: Identify the driver behind her reluctance or failure to secure concrete next steps live.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+source: "reworded_from:q_next_step"

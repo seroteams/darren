@@ -1,0 +1,9 @@
+alias: q_team_bar_5
+label: Team bar
+name: "What makes this team's bar feel fuzzy to you?"
+description: Drills into the specific source of fuzziness before moving on.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

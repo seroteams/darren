@@ -1,0 +1,9 @@
+alias: q_what_needed_changing_6
+label: What needed changing
+name: What did you think needed to change after that decision?
+description: Drills into the specific clarity gap he named after the promotion decision.
+purpose: topic
+stage: landing
+axis_effects:
+  engagement: +1
+source: planner_added

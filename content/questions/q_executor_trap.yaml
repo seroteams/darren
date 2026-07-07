@@ -1,0 +1,10 @@
+alias: q_executor_trap
+label: Executor trap
+name: What parts of your week still pull you back into executor mode?
+description: Identifies the work patterns that keep him operating tactically instead of strategically.
+purpose: competency
+stage: gap
+axis_effects:
+  clarity: +1
+  growth: +3
+source: generated

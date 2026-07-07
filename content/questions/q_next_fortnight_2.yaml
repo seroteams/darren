@@ -1,0 +1,10 @@
+alias: q_next_fortnight_2
+label: Next fortnight
+name: What would make the next two weeks feel more straightforward for you?
+description: Closes on the practical conditions that would make the next stretch lighter and cleaner.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

@@ -1,0 +1,9 @@
+alias: q_delivery_focus_2
+label: Delivery focus
+name: What did staying close to delivery let you avoid for a while?
+description: Drills into the delivery-as-control thread to surface what he stepped back from after the decision.
+purpose: topic
+stage: landing
+axis_effects:
+  clarity: +1
+source: planner_added

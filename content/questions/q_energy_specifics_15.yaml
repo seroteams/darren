@@ -1,0 +1,10 @@
+alias: q_energy_specifics_15
+label: Energy specifics
+name: "When you say 'fine', what has your energy actually looked like day to day?"
+description: "Clarifies the shallow opener by asking for concrete detail on Sam's recent energy pattern."
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added

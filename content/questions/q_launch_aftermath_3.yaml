@@ -1,0 +1,10 @@
+alias: q_launch_aftermath_3
+label: Launch aftermath
+name: What part of the launch aftermath is still taking the most headspace?
+description: Helps you hear whether the launch is truly behind her or still carrying weight.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: generated

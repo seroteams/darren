@@ -1,0 +1,10 @@
+alias: q_next_quarter_owner
+label: Next-quarter owner
+name: What area do you expect to own next quarter?
+description: Gets a plain read on the scope she sees for herself before plans get reshaped.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

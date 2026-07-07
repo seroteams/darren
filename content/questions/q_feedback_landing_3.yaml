@@ -1,0 +1,10 @@
+alias: q_feedback_landing_3
+label: Feedback landing
+name: How did the feedback on your work land for you?
+description: Surfaces whether critique helped, stalled, or shifted the work in practice.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

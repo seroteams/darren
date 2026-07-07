@@ -1,0 +1,10 @@
+alias: q_tradeoff_call
+label: Tradeoff call
+name: Where have you had to choose speed over certainty recently?
+description: Probes judgment on hard tradeoffs and the quality risk that comes with them.
+purpose: competency
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

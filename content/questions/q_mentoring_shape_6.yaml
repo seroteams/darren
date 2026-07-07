@@ -1,0 +1,10 @@
+alias: q_mentoring_shape_6
+label: Mentoring shape
+name: What would mentoring actually look like in your week if you made room for it?
+description: Makes the mentoring interest concrete by surfacing the shape and cost of the commitment.
+purpose: topic
+stage: friction
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

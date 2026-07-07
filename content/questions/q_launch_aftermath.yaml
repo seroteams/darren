@@ -1,0 +1,10 @@
+alias: q_launch_aftermath
+label: Launch aftermath
+name: "Since the launch landed, what part of it is still taking up more headspace than you'd like?"
+description: Surfaces whether the post-launch quiet is simple recovery or a lingering open thread.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

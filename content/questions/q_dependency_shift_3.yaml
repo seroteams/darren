@@ -1,0 +1,10 @@
+alias: q_dependency_shift_3
+label: Dependency shift
+name: What changed because of another person or team in the last fortnight?
+description: "Looks for external shifts that redirected Sam's time or forced reprioritisation."
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

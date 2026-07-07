@@ -1,0 +1,10 @@
+alias: q_future_ownership
+label: Future ownership
+name: "What would you want to own that you don't own today?"
+description: Helps you hear what kind of responsibility he wants more of.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

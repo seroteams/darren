@@ -1,0 +1,10 @@
+alias: q_support_needed_12
+label: Support needed
+name: What would make the next two weeks easier for you?
+description: Ends on a practical support ask without opening a new topic.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: generated

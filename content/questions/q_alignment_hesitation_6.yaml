@@ -1,0 +1,9 @@
+alias: q_alignment_hesitation_6
+label: Alignment hesitation
+name: What makes cross-org alignment the part you hesitate to shape?
+description: Drills into the specific source of hesitation around influencing across teams.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +1
+source: planner_added

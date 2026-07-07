@@ -1,0 +1,9 @@
+alias: q_needed_change
+label: Needed change
+name: What did you think needed to change after that decision?
+description: Drills on the specific uncertainty he named to surface what expectations or path felt unclear.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +1
+source: planner_added

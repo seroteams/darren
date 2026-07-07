@@ -1,0 +1,10 @@
+alias: q_feedback_meaning
+label: Feedback meaning
+name: What did you take that feedback to mean for your path here?
+description: Surfaces his interpretation of the decision and whether it changed his sense of trajectory.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

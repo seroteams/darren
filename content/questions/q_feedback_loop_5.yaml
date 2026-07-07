@@ -1,0 +1,10 @@
+alias: q_feedback_loop_5
+label: Feedback loop
+name: What kind of feedback has been most useful on your work recently?
+description: Checks whether Sam is getting the right signal from the team and manager.
+purpose: competency
+stage: momentum
+axis_effects:
+  growth: +1
+  clarity: +1
+source: generated

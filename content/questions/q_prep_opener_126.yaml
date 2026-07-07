@@ -1,0 +1,10 @@
+alias: q_prep_opener_126
+label: Prep opener
+name: What would the next step in your growth look like if you had enough protected time to push the platform and reliability work you most want to lead?
+description: Gives Mara room to name the kind of growth she actually wants before you get into trade-offs.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

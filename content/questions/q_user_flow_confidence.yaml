@@ -1,0 +1,10 @@
+alias: q_user_flow_confidence
+label: User flow confidence
+name: Which user flow feels most settled now?
+description: Helps you hear where the design has real shape versus still needing attention.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

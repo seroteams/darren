@@ -1,0 +1,10 @@
+alias: q_what_to_repeat
+label: What to repeat
+name: What should we keep doing the same way from the last two weeks?
+description: Identifies the pattern worth preserving so the next stretch builds on what worked.
+purpose: competency
+stage: momentum
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

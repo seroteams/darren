@@ -1,0 +1,10 @@
+alias: q_visibility_gap
+label: Visibility gap
+name: Where does your influence still stop short of the room you want to be in?
+description: Probes the missing layer between good product leadership and broader executive presence.
+purpose: competency
+stage: gap
+axis_effects:
+  growth: +3
+  engagement: +1
+source: generated

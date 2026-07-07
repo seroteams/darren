@@ -1,0 +1,10 @@
+alias: q_q_safe_to_share
+label: q_safe_to_share
+name: When you do have something to say, what makes it feel worth raising or not?
+description: ""
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_safe_to_share"

@@ -1,0 +1,9 @@
+alias: q_leverage_gap_3
+label: Leverage gap
+name: Where has your work felt lower-leverage than it should at Principal level?
+description: Drills into the specific work he sees as below the level of impact he should be aiming for.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

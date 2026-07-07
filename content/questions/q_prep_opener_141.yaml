@@ -1,0 +1,10 @@
+alias: q_prep_opener_141
+label: Prep opener
+name: How have the last couple of weeks felt from your side, especially around the work that landed later than planned?
+description: Gives Reyes room to set the scene before you get into the slips.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

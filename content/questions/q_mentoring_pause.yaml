@@ -1,0 +1,10 @@
+alias: q_mentoring_pause
+label: Mentoring pause
+name: What got in the way of the mentoring thread moving forward?
+description: Surfaces the specific blocker that stalled her earlier interest in mentoring.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: generated

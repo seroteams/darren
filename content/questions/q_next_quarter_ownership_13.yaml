@@ -1,0 +1,9 @@
+alias: q_next_quarter_ownership_13
+label: Next-quarter ownership
+name: What feels unclear about next quarter ownership right now?
+description: Drills into the ownership uncertainty she just named before moving on.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+source: planner_added

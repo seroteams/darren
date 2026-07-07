@@ -1,0 +1,9 @@
+alias: q_cross_team_decisions_11
+label: Cross-team decisions
+name: Which cross-team decision did you hold back from shaping?
+description: Pins the discussion to one concrete moment so Principal-level impact can be assessed on evidence, not generalities.
+purpose: competency
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added

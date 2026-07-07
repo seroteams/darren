@@ -1,0 +1,9 @@
+alias: q_process_thread
+label: Process thread
+name: What kind of process problems do you most want to be the person fixing?
+description: Drill into the concrete thread to surface the kind of work he wants to grow toward.
+purpose: topic
+stage: anchor
+axis_effects:
+  engagement: +3
+source: planner_added

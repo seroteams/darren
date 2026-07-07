@@ -1,0 +1,10 @@
+alias: q_support_needed_29
+label: Support needed
+name: What support from me would make the biggest difference in flagging risk earlier?
+description: Ends by identifying practical support that could change the pattern next cycle.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: "reworded_from:q_support_needed_28"

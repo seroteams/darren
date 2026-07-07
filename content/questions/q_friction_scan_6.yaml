@@ -1,0 +1,10 @@
+alias: q_friction_scan_6
+label: Friction scan
+name: What’s been taking more energy than expected?
+description: Invites them to name current friction without assuming failure or complaint.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_intro_biweekly_friction"

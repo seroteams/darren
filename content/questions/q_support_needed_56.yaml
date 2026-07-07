@@ -1,0 +1,10 @@
+alias: q_support_needed_56
+label: Support needed
+name: What would have made the second deadline easier to keep visible earlier?
+description: Opens the door to a practical fix without jumping straight to judgment.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  growth: +1
+source: generated

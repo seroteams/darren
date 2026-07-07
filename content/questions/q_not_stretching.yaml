@@ -1,0 +1,9 @@
+alias: q_not_stretching
+label: Not stretching
+name: "\"Not much stretching me\" — where is work feeling too flat right now?"
+description: Drills into the low-stretch thread to locate where work feels unstimulating or under-challenging.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +3
+source: planner_added

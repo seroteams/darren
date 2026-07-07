@@ -1,0 +1,9 @@
+alias: q_scope_changes
+label: Scope changes
+name: Where are scope changes getting decided without you?
+description: Pins down the specific decision path creating the clarity gap she just named.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added

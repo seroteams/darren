@@ -1,0 +1,10 @@
+alias: q_repeated_effort
+label: Repeated effort
+name: What part of the partner story are you explaining over and over right now?
+description: Helps you hear where the same message keeps having to be sold internally or with customers.
+purpose: topic
+stage: friction
+axis_effects:
+  engagement: +1
+  clarity: +3
+source: generated

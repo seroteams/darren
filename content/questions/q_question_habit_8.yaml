@@ -1,0 +1,10 @@
+alias: q_question_habit_8
+label: Question habit
+name: What do you usually ask early in a project before you commit to a path?
+description: Gives you a read on whether he is asking enough of the right questions up front.
+purpose: competency
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

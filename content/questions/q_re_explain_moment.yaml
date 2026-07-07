@@ -1,0 +1,10 @@
+alias: q_re_explain_moment
+label: Re-explain moment
+name: Can you walk me through the last time you had to re-sell the partnership?
+description: Gets you a real example of where the message is not landing first time.
+purpose: competency
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

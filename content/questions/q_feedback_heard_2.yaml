@@ -1,0 +1,10 @@
+alias: q_feedback_heard_2
+label: Feedback heard
+name: What feedback from the promotion process actually stuck with you?
+description: Tests what he retained from the feedback rather than whether he agrees with it.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

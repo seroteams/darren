@@ -1,0 +1,10 @@
+alias: q_next_quarter_shape_7
+label: Next quarter shape
+name: What are you expecting to own next quarter?
+description: Gets Priya to name her own forward plan before new work is introduced.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

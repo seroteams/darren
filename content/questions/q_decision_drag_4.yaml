@@ -1,0 +1,10 @@
+alias: q_decision_drag_4
+label: Decision drag
+name: Where did a decision slow the design work down?
+description: Points you to the places where design got stuck waiting on input.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: generated

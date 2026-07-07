@@ -1,0 +1,10 @@
+alias: q_team_tension
+label: Team tension
+name: I wanted to ask about the friction with the team member — what does that look like day to day?
+description: Lets Carl describe the shape of the tension in plain terms before you jump to fixes.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: generated

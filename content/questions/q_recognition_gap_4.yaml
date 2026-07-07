@@ -1,0 +1,9 @@
+alias: q_recognition_gap_4
+label: Recognition gap
+name: What work do you think actually gets recognized here?
+description: Drills into the recognition model he believes is operating so the ambiguity becomes concrete.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+source: planner_added

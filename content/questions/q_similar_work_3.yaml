@@ -1,0 +1,9 @@
+alias: q_similar_work_3
+label: Similar work
+name: What has felt too samey about the work lately?
+description: Drills into the plateau thread she just named to surface the specific source of stagnation.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added

@@ -1,0 +1,10 @@
+alias: q_ready_definition
+label: Ready definition
+name: "What does 'ready' mean for you before a design goes to review?"
+description: Gets Maya to name her own quality bar and where it may be set too high or too vague.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: generated

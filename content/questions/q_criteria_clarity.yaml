@@ -1,0 +1,9 @@
+alias: q_criteria_clarity
+label: Criteria clarity
+name: What would clearer criteria need to include for you?
+description: Drills into the specific criteria gap he named so the concern becomes concrete.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +1
+source: planner_added

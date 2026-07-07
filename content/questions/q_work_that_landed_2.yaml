@@ -1,0 +1,10 @@
+alias: q_work_that_landed_2
+label: Work that landed
+name: Which piece of the design work felt like it moved cleanly?
+description: Lets you hear what was flowing well so you can repeat it.
+purpose: competency
+stage: momentum
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: generated

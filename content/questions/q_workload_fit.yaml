@@ -1,0 +1,10 @@
+alias: q_workload_fit
+label: Workload fit
+name: What else was competing for your time when those deadlines slipped?
+description: Checks whether capacity, interrupts, or overcommitment were part of the issue.
+purpose: wellbeing
+stage: underneath
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: generated

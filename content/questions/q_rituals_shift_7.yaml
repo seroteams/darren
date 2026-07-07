@@ -1,0 +1,10 @@
+alias: q_rituals_shift_7
+label: Rituals shift
+name: What changed for you around the team rituals?
+description: Helps you hear the specific point where his day-to-day connection shifted.
+purpose: topic
+stage: observation
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: generated
