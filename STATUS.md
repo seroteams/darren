@@ -3,17 +3,29 @@
 **This is the live tracker for the phase plan we're actively working through.**
 One place. Always current. I update it the moment a phase starts or gets your green light — you never have to ask.
 For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full detail, open the plan linked below.
-Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where everything lives.
+Not sure which file is which? [docs/reference/trackers.md](docs/reference/trackers.md) maps where everything lives.
 
 ---
 
 ## ▶ Your move
 
-> **🆕 [CTOCheckJuly](docs/todo/cto-check-july/README.md) — NEW check, set up 2026-07-07. 👉 START HERE: [the folder's README](docs/todo/cto-check-july/README.md).**
-> The plain question: when a manager gives only a *little* info, does Sero give a good **brief**, good
-> **questions**, and a good **summary**? **4 steps, one at a time, judged on real run logs we already have — FREE**
-> (no paid runs). Nothing run yet. **▶ Your move: open the README and say "go" to start step 1.**
-> Dropped/parked from the original 5-prompt idea: the *moat* and *learning-from-past-runs* questions.
+> **✅/⏸️ [engine-improvements](docs/workstreams/engine-improvements/plan.md) — NEW engine track (2026-07-07, from the back-catalogue read). B DONE + committed; #1 written up as a decision brief.**
+> From reading all 169 runs' manager inputs ([report](docs/reports/manager-inputs-2026-07-07.html)): a 5-item improvement list that shrank to 2-and-a-bit after validation.
+> - **✅ B (committed `c12ad562`)** — the smoke-test gate was **blind to the two honesty fields** (`confidence`/`dontAssume`): it checked 6 of the engine's 8 required prep keys, so a briefing could ship without its honesty guard and every test stayed green. Fixed: the gate now reads the engine's own `PREP_REQUIRED_KEYS` (can't drift again). `npm test` **86/86** · typecheck clean · **no paid runs**.
+> - **🟢 #2 / #3 closed by evidence** — engine already infers a grounded intent + hedges (Medium confidence + `dontAssume`) on thin / observation-only notes. No build needed.
+> - **⏸️ #1 (stonewall exit)** — NOT a blind build: it's a turn-loop behaviour change (the loop rides the full budget even when a manager gives one-word answers every turn). Decision brief with the calls you need to make: [01-stonewall-exit.md](docs/workstreams/engine-improvements/01-stonewall-exit.md).
+> - **⏸️ B2 (make the engine *refuse* to ship a weak brief) + #4 (paid coverage of performance/growth/feels-off)** — parked for your go (B2 = live-path behaviour change; #4 = spends money).
+> **▶ Your move:** read [01-stonewall-exit.md](docs/workstreams/engine-improvements/01-stonewall-exit.md) and pick the stonewall policy (my recommend: **3 strikes → offer reschedule once → close**) and I build #1 fast. Docs committed (`6fb067f2`); **nothing paid spent, nothing risky changed while you were out.** (This STATUS box is left uncommitted on purpose — the file had another session's in-flight edits.)
+
+> **🆕 [CTOCheckJuly](docs/workstreams/cto-check-july/README.md) — check does *little* manager info give a good brief/questions/summary. 👉 START HERE: [the folder's README](docs/workstreams/cto-check-july/README.md).**
+> **All 4 steps done 2026-07-07 (mostly free — one ~$0.35 paid re-test, Carl-OK'd).** Scoreboard:
+> **Brief 🟢** (good + honest; proven live — invented-fact + `{{NAME}}` leak both fixed) ·
+> **Summary 🟢** (good + honest; refuses to fake a read on an empty meeting) ·
+> **Questions 🟡** — good on *specific* notes, but on a *vague* note the old model put a made-up "illness"
+> into an actual question; the **question stage is not yet re-tested on the current model** → **one open risk.**
+> **▶ Your move:** in [findings-4.md](docs/workstreams/cto-check-july/findings-4.md) — say **"prove the
+> questions"** (~$0.35, closes the risk) or **"close it"**. Nothing else half-done; no money spent without your go.
+> Parked from the original 5-prompt idea: the *moat* and *learning-from-past-runs* questions.
 
 > **▶ Your move — the continuity / "moat" track was REMOVED 2026-07-06 (Carl: "this is not what I wanted at all — rip it all out").**
 > Both built phases (① carry-forward pre-fill on prep · ② outcome taps) **and** the whole 8-phase plan were
@@ -21,11 +33,11 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > **kept** (that's your real work — `buildRosterView`, personId-keyed Team). No continuity code or plan files
 > remain; `npm test` + both typechecks green after the removal.
 >
-> **The standing active line is back to [pre-go-live](docs/pre-go-live/OVERVIEW.md) — the natural next step is
+> **The standing active line is back to [pre-go-live](docs/workstreams/pre-go-live/overview.md) — the natural next step is
 > to close out PG9** (the last open pre-go-live phase — built, awaiting your walk; full detail lower down). The
 > other built-awaiting-walk tracks in the list below are unchanged.
 
-> **🔨 [plan-turn-runner-gates](docs/todo/plan-turn-runner-gates/PLAN.md) — NEW engine track (2026-07-07). ALL 3 PHASES BUILT (batch, Carl: "complete all phases") — awaiting your walk. P1 green-lit.**
+> **🔨 [plan-turn-runner-gates](docs/workstreams/plan-turn-runner-gates/plan.md) — NEW engine track (2026-07-07). ALL 3 PHASES BUILT (batch, Carl: "complete all phases") — awaiting your walk. P1 green-lit.**
 > Follow-up to the plan-turn.md prompt sharpen: promote the *mechanical* contract rules from "model is asked to
 > obey" to "runner enforces in code". Built back-to-back, TDD + free checks, committed locally; none self-certified
 > ✅ except P1 which you green-lit.
@@ -43,7 +55,7 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > `npm test` + a fixtures-only replay). Overnight-QA *behaviour* findings (thread-follow drift, growth-arc stage-skip)
 > are logged in the PLAN as a likely *separate* follow-up, not phases here.
 
-> **✅ [people-roster](docs/todo/done/people-roster/PLAN.md) — CLOSED 2026-07-06, all 5 phases green-lit ("done and working"), 2-day build.**
+> **✅ [people-roster](docs/archive/done/people-roster/plan.md) — CLOSED 2026-07-06, all 5 phases green-lit ("done and working"), 2-day build.**
 > Your ask: "members should only see their own 1:1s" → managers now formally **have** members.
 > Delivered end-to-end: ① a `people` roster table, org+manager fenced (`4a762779`) · ② every new 1:1
 > stamps **who it's about** (`30218597`; a serializer whitelist bug caught at the destination) ·
@@ -56,7 +68,7 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > than the list (`member-run-visibility`) · invitations/email claim · alias-endpoint retirement ·
 > person-profile re-key · reseed the QA member as a *linked person* rather than creator.
 
-> **✅ [member-invites](docs/todo/done/member-invites/PLAN.md) — BUILT + CLOSED 2026-07-06 (Carl: "finish it"), merged from origin (PR #8).**
+> **✅ [member-invites](docs/archive/done/member-invites/plan.md) — BUILT + CLOSED 2026-07-06 (Carl: "finish it"), merged from origin (PR #8).**
 > The last mile of onboarding: **how do members get on the system?** Answer, now live: Team → Tidy up →
 > **"Invite…"** on any unlinked person → their email → a **one-time join link** you send yourself (no email
 > infra yet). Opening it shows *"«you» at «your company» invited you"*; they set a password and land
@@ -78,7 +90,7 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > ⚠️ Remember: **restart the dev API on :3001** to see it on your own browser. Overlap noted: the
 > **people-roster** track's Phase 4 (roster-backed Team) supersedes this slice when it lands.
 
-> **🔨 [feedback-inbox](docs/todo/feedback-inbox/PLAN.md) — NEW track (started 2026-07-05). Phase 1 (the whole slice) BUILT, awaiting your walk.**
+> **🔨 [feedback-inbox](docs/workstreams/feedback-inbox/plan.md) — NEW track (started 2026-07-05). Phase 1 (the whole slice) BUILT, awaiting your walk.**
 > Your ask: a page that shows what testers send via "Send feedback", with its own DB table.
 > Done in one slice, the error-log pattern: **`feedback_notes` table live on Neon** (migration
 > `0006`), the send-form now writes the table (the old JSONL file's one line was a throwaway QA
@@ -89,9 +101,9 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > `npm test` **72/72** · both typechecks clean. Committed except two files carrying OTHER
 > sessions' in-flight work: `shared/api.js` + `admin/src/ui/app-nav.js` (flagged in the PLAN —
 > whichever track commits first carries them). ⚠️ **Restart your dev API** before walking on
-> :3000/:3001. Walk: [phase-1.md](docs/todo/feedback-inbox/phase-1.md).
+> :3000/:3001. Walk: [phase-1.md](docs/workstreams/feedback-inbox/phase-1.md).
 
-> **✅ [start-screen](docs/todo/done/start-screen/PLAN.md) — CLOSED 2026-07-06 (Carl: "yeah i love it go").**
+> **✅ [start-screen](docs/archive/done/start-screen/plan.md) — CLOSED 2026-07-06 (Carl: "yeah i love it go").**
 > Login moved off the front door: a fresh visitor on **`/`** gets the **guest-first start screen** —
 > "Walk into your next 1:1 prepared.", the privacy promise, ONE button into a guest run; the login
 > form lives at `/login` unchanged; logged-in `/` is your normal home. Test-first (78/78 · typecheck),
@@ -106,12 +118,12 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > (all five cases) + unit tests; `npm test` **79/79** · typecheck clean. Commit `8e735cad` — fixes both
 > apps (shared component). Note-writing API unchanged (already owner-fenced).
 >
-> **🔨 [guest-run](docs/todo/guest-run/PLAN.md) — Phase 1 ✅ · Phase 2 (guest front door) BUILT, awaiting your walk (2026-07-05).**
+> **🔨 [guest-run](docs/workstreams/guest-run/plan.md) — Phase 1 ✅ · Phase 2 (guest front door) BUILT, awaiting your walk (2026-07-05).**
 > Your "open way first" idea: no-account visitor runs a full 1:1, saves it at the end by registering/logging in.
 > **P2 BUILT:** "Try it — no account needed" on the login screen → straight into intake; mid-run reload returns
 > a guest to their run; back/forward + deep links bounce guests off everything internal; logged-in flows
 > untouched. Test-first (`isGuestStage`), 73/73 · both typechecks · browser-proven logged-out (via 127.0.0.1,
-> which skips the login cookie). **Walk:** the 4 scenarios in [phase-2.md](docs/todo/guest-run/phase-2.md) —
+> which skips the login cookie). **Walk:** the 4 scenarios in [phase-2.md](docs/workstreams/guest-run/phase-2.md) —
 > browse as a guest, do NOT press the final start (that's Phase 3's paid walk). Commit note: login.js also
 > carries another track's in-flight login-photos work (declared in the commit).
 > **P1 built test-first (claim endpoint + daily guest cap):** anonymous starts are back open but budgeted —
@@ -120,10 +132,10 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > someone-else answers 404, re-claim is a no-op); members still 403 on start; board reversal note written.
 > Proof at $0: 73/73 tests · typecheck · live scratch-API walk incl. ownership verified ON DISK. ⚠️ A parallel
 > session's commit `a241d13c` swept the service/controller/test edits along; the rest is committed labelled
-> "built — awaiting walk". **Walk:** the 5 scenarios in [phase-1.md](docs/todo/guest-run/phase-1.md) (all free).
+> "built — awaiting walk". **Walk:** the 5 scenarios in [phase-1.md](docs/workstreams/guest-run/phase-1.md) (all free).
 > Green light → Phase 2 (the "Try it" front door). Then: ③ save-at-end (one paid walk, your go) · ④ Guest runs screen.
 
-> **✅ [no-inference-ruling](docs/todo/done/no-inference-ruling/PLAN.md) — CLOSED 2026-07-05, all 4 phases green-lit same day (Carl walked P4 live: "awesome run it" → "go").**
+> **✅ [no-inference-ruling](docs/archive/done/no-inference-ruling/plan.md) — CLOSED 2026-07-05, all 4 phases green-lit same day (Carl walked P4 live: "awesome run it" → "go").**
 > The MoSCoW review of the prompt-improvement spec, built end-to-end: the spec now points at the **real** field
 > (`engagement_read`, not the ghost `disengagementSignal`); **three hard gates** (`INFERRED_STATE_LEAK` ·
 > `THIN_INPUT_SUPPRESSION` · `EVIDENCE_ANCHOR`) run on every eval with no carve-outs; `engagement_read` carries
@@ -133,7 +145,7 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > Final: `npm test` **76/76** · typecheck ✓ · replay 7/7 · spend **~$0.70** (two gate cases, both Carl-OK'd).
 > Commits `2693dcea` `705926c2` `181611fa` + close-out. Routing nudges stay parked in the archived PLAN.
 
-> **🔨 [frontend-admin-split](docs/todo/frontend-admin-split/PLAN.md) — RESTARTED on the Darren check (2026-07-05): Phase 2 BUILT, awaiting your walk.**
+> **🔨 [frontend-admin-split](docs/workstreams/frontend-admin-split/plan.md) — RESTARTED on the Darren check (2026-07-05): Phase 2 BUILT, awaiting your walk.**
 > The customer app is now **real**: `npm run dev:customer` → **http://localhost:3002** — login/register,
 > the manager rail (Home · New 1:1 · Team · Past 1:1s), the whole prep flow, member screens — and **no
 > internal tools anywhere** (`/universe`, `/tasks`, `/admin/*` don't exist there; bundle grep shows zero
@@ -142,36 +154,36 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > commit + Phase 3 (slim the admin app), then Phase 4 (serve + fence = the deferred security bundle-proof).
 > Phases 3–4 wait for your go — one at a time.
 
-> **📄 [GTM validation one-pager](docs/gtm-validation-plan.md) — DRAFTED (2026-07-05), needs your names.**
+> **📄 [GTM validation one-pager](docs/reference/gtm-validation-plan.md) — DRAFTED (2026-07-05), needs your names.**
 > The corridor-test plan Darren asked for: who the first 2–3 friendly managers are (criteria + a blank
 > table for your names), how to run the corridor test (watch, don't demo; leave them alone a week), what
 > to watch for, and the pass bar — a **second unprompted prep within ~2 weeks**. Review it, fill in the
 > three names, done — that item goes from F to real.
 
-> **🔨 [manager-ready](docs/todo/manager-ready/PLAN.md) — Phase 1 ✅ green-lit + committed · Phase 2 BUILT, awaiting walk (2026-07-05).**
+> **🔨 [manager-ready](docs/workstreams/manager-ready/plan.md) — Phase 1 ✅ green-lit + committed · Phase 2 BUILT, awaiting walk (2026-07-05).**
 > **P1 ✅ ("looks good continue"):** managers get their own rail — **Home · New 1:1 · Team · Past 1:1s** — and
 > bounce off internal tools; admin + member rails untouched; 69/69 tests.
 > **P2 BUILT — the design polish, awaiting your walk (not committed):** headings now render in **Bricolage
 > Grotesque** (the Figma personality, finally in the app), **buttons sharpened to 4px**, **one date format
 > everywhere** ("Mon 18 Nov 2024", shared `formatDate`, locale-proof), two 12px text remnants fixed. Live-verified:
 > h1 font, 4px radius, date sample; 69/69 · typechecks clean. **Walk:** open any page — do the headings feel like
-> your Figma? Check button corners + Library dates. Scenarios: [phase-2.md](docs/todo/manager-ready/phase-2.md).
+> your Figma? Check button corners + Library dates. Scenarios: [phase-2.md](docs/workstreams/manager-ready/phase-2.md).
 > ⚠️ Commit note: `design.css` also holds the mobile track's uncommitted CSS — on your green light their phases
 > should commit first (or one commit declares both). ⚠️ Pre-existing at HEAD: `vite build` fails on
 > `@sero/run-debrief` (another session's mid-work commit — not this track).
 
-> **✅ [live-data-cleanup](docs/todo/done/live-data-cleanup/PLAN.md) — CLOSED 2026-07-05, all 4 phases same-day (Carl: "go for it, happy to complete").**
+> **✅ [live-data-cleanup](docs/archive/done/live-data-cleanup/plan.md) — CLOSED 2026-07-05, all 4 phases same-day (Carl: "go for it, happy to complete").**
 > The "is everything really connected?" audit: **all 38 screens are live-wired** — the real find was the
 > half-finished v1 API migration. Fixed end-to-end: every frontend call (incl. 10 SSE stream URLs the audit
 > initially missed) now hits `/api/v1/`; all ~54 dead legacy `/api/*` routes deleted from the server; the
 > unconsumed `pipeline/manifest` chain removed; **member-nav** archived to done/ (superseded by pre-go-live).
-> Report: [docs/archives/audits/live-data-audit-2026-07-05.md](docs/archives/audits/live-data-audit-2026-07-05.md). Live-proven
+> Report: [docs/reports/2026-07-05-live-data-audit.md](docs/reports/2026-07-05-live-data-audit.md). Live-proven
 > on a scratch API (legacy → 404, v1 answers); `npm test` 69/69 · admin build ✓. No paid runs.
 > ⚠️ **Restart your dev API server** — an old process still serves the deleted routes until restarted.
 > Spot-check scenarios stay in the phase files if you ever want the click-through (arcs, job lexicons,
 > test-engine strip, start page, new 1:1).
 
-> **✅ [mobile-responsive](docs/todo/done/mobile-responsive/PLAN.md) — the whole app on a phone: CLOSED 2026-07-05 (all 5 phases green-lit same day, "commit, its good").**
+> **✅ [mobile-responsive](docs/archive/done/mobile-responsive/plan.md) — the whole app on a phone: CLOSED 2026-07-05 (all 5 phases green-lit same day, "commit, its good").**
 > All 38 screens now work at phone width, desktop untouched: below 768px the rail is a slide-in drawer
 > behind a ☰ header with a compact in-session stage bar; auth/member/pipeline screens fit and type without
 > iOS zoom; User management/Error log tables scroll with the first column pinned; Compare stacks; Universe
@@ -181,7 +193,7 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > UM card view). Cleanup for you whenever: delete throwaway `mobile-qa@test.local`.
 > **design.css is quiet now — manager-ready Phase 2 is unblocked.**
 
-> **🔨 [page-heartbeat](docs/todo/page-heartbeat/PLAN.md) — real UPDATE buttons (started 2026-07-05).**
+> **🔨 [page-heartbeat](docs/workstreams/page-heartbeat/plan.md) — real UPDATE buttons (started 2026-07-05).**
 > From the 25-page audit: Guide, Universe and the Tasks board were hand-typed snapshots of the app;
 > everything else already refreshes itself. 3 phases: ① heartbeat endpoint + Guide · ② Universe ring ·
 > ③ Tasks board reality check (warns, never rewrites your statuses).
@@ -191,7 +203,7 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > `npm test` 65/65 · both typechecks clean. **Next: Phase 2 — Universe's pipeline ring goes honest** (⬜,
 > waiting for Carl's go).
 
-> **✅ [design-system](docs/todo/done/design-system/PLAN.md) — Sero × Flowbite: CLOSED 2026-07-05 (both phases green-lit same day).**
+> **✅ [design-system](docs/archive/done/design-system/plan.md) — Sero × Flowbite: CLOSED 2026-07-05 (both phases green-lit same day).**
 > The Sero look = **Flowbite 2.5.2 + Carl's colours**, now law: component sheet at
 > `admin/public/sero-flowbite/index.html` (nav: Admin → Design system) with the 10-rule "before you build"
 > checklist, toasts/alerts, the one table style, both input variants + all core components — and a root
@@ -199,15 +211,15 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > screens follow it; no bulk re-skin. Parked follow-ups (in the archived PLAN): inline-hex cleanup in 8 files,
 > dropdown/progress/error consolidation, ⭐ states batch (empty/loading/tabs/toggles) on the sheet.
 
-> **✅ [error-log](docs/todo/done/error-log/PLAN.md) — CLOSED 2026-07-05 (all 5 phases, green-lit "yes can close").**
+> **✅ [error-log](docs/archive/done/error-log/plan.md) — CLOSED 2026-07-05 (all 5 phases, green-lit "yes can close").**
 > The superadmin **Error log** is live: backend 500s + browser crashes/failed loads land in one Neon table, on a
 > screen with **Local/Live + API/Browser** filters, click-through **detail** (stack), **mark-resolved**, and
 > `npm run errors:purge`; white card + row hover, top-aligned so filter switches don't jump. Carl walked it +
 > green-lit; demo rows cleared. Commits `4a3f03fb` `a15af8b1` `52145f05` `96ee8cf9` `30ad405b` `5313fbdd` `a6f67a2b`.
-> Folder moved to `done/`. Also added: per-session **git worktrees** (`scripts/new-worktree.ps1` + `docs/PARALLEL-SESSIONS.md`)
+> Folder moved to `done/`. Also added: per-session **git worktrees** (`scripts/new-worktree.ps1` + `docs/reference/parallel-sessions.md`)
 > after concurrent sessions co-mingled a commit + wiped this screen's CSS once.
 >
-> **🔨 [user-management](docs/todo/user-management/PLAN.md) Phase 3 — deactivate / reactivate a user: STARTING (2026-07-05).**
+> **🔨 [user-management](docs/workstreams/user-management/plan.md) Phase 3 — deactivate / reactivate a user: STARTING (2026-07-05).**
 > Nullable `deactivatedAt` on `users` + `POST …/deactivate` & `…/reactivate`; login must reject deactivated users;
 > **live session killed immediately** (kicked now, not just blocked next login); guardrails (no self, no superadmin,
 > no org's last active lead); audit all. Baseline before touching: `npm test` **65/65** green.
@@ -218,7 +230,7 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > superadmin-gated + origin-guarded, **blocks demoting a company's last manager/admin** (409). The stale-API 404 Carl
 > first hit was fixed by restarting the :3001 process (concurrency respawns fresh code).
 >
-> **✅ [test-engine-hub](docs/todo/done/test-engine-hub/PLAN.md) — CLOSED 2026-07-05 (all 4 phases green-lit; Carl ran it: "yeah its good it runs :)").**
+> **✅ [test-engine-hub](docs/archive/done/test-engine-hub/plan.md) — CLOSED 2026-07-05 (all 4 phases green-lit; Carl ran it: "yeah its good it runs :)").**
 > Merged Personas / Regression / Compare into one **"Test engine"** page: ▶ Run per card (cost stated up front) →
 > full engine runs on the persona's scripted answers → 2s live progress → "Review it" into the 8-dimension grid →
 > last-run verdict badge. Plus a **free safety-check strip** (no AI) and **"Compare with previous run"** deep-linking
@@ -234,7 +246,7 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > reset link. Phases 0 (write findings), 3–5 still ⬜.
 > PG8 ✅ **closed 2026-07-04** (Carl's call — read-only walk skipped; verification stands). PG9 (below) is still built-but-un-walked.
 
-**Now active: [pre-go-live](docs/pre-go-live/OVERVIEW.md) — the manager's Team & Runs, ratings, and a
+**Now active: [pre-go-live](docs/workstreams/pre-go-live/overview.md) — the manager's Team & Runs, ratings, and a
 superadmin window on the alpha.** 9 phases, one at a time.
 **PG1–PG5 ✅ (through 2026-07-04) · PG6 (Superadmin gate) ✅ — signed off + committed 2026-07-04.** The
 member side is done: **"Past 1:1s"** list + reopen + rate, the auto-built **Team**, and each person's page
@@ -257,14 +269,14 @@ cards for the same person (history + average combine) and **rename** a person; i
 PG8 closed, PG9 is the **last open pre-go-live phase** — still awaiting your walk (or say "close pg9" to close
 it like PG8). Free checks: `npm test` **60/60** · typecheck + admin build green; routes verified live (gated).
 QA sheets:
-[PG8](docs/pre-go-live/008-admin-user-drilldown/99-qa-signoff.md) ·
-[PG9](docs/pre-go-live/009-roster-polish/99-qa-signoff.md).
-Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No hosting. Budget used ~$0.35/$3.
+[PG8](docs/workstreams/pre-go-live/008-admin-user-drilldown/99-qa-signoff.md) ·
+[PG9](docs/workstreams/pre-go-live/009-roster-polish/99-qa-signoff.md).
+Live state: [docs/workstreams/pre-go-live/progress.md](docs/workstreams/pre-go-live/progress.md). No hosting. Budget used ~$0.35/$3.
 
 > 📍 **Checkpoint (say "check point" to come back here).** Saved 2026-07-06 — **people-roster session
 > handoff** (Carl paused this thread to avoid overlap with parallel chats). State: the **people-roster
 > plan is fully CLOSED** — all 5 phases green-lit + committed (`4a762779` → `89d32310` + close-out),
-> folder at [docs/todo/done/people-roster/](docs/todo/done/people-roster/PLAN.md), STATUS/SERO_BOARD/
+> folder at [docs/archive/done/people-roster/](docs/archive/done/people-roster/plan.md), STATUS/SERO_BOARD/
 > changelog all refreshed, 79/79 tests + typecheck clean at close. Nothing from that track is
 > uncommitted or half-done. If another chat continues this line, the natural next pieces are the
 > PARKED items in the archived PLAN: **member-run-visibility** (what members may see beyond the
@@ -281,7 +293,7 @@ Live state: [docs/pre-go-live/PROGRESS.md](docs/pre-go-live/PROGRESS.md). No hos
 ### Just finished: Roles admin/manager/member ✅ (side-task, closed 2026-07-04 → done/)
 
 Renamed the account-role model **owner/admin/member → admin/manager/member** (Carl's call). Both phases done
-same day, archived at [docs/todo/done/roles-admin-manager-member/](docs/todo/done/roles-admin-manager-member/PLAN.md).
+same day, archived at [docs/archive/done/roles-admin-manager-member/](docs/archive/done/roles-admin-manager-member/plan.md).
 - **Phase 1** (`dc6a9f7d`): enum renamed + migration `0003` **applied to live Neon** — every `owner` → `manager`,
   `carl@seroteams.com` → `admin` (verified by DB query: admin=1, manager=11, member=1, no owner). Signup now
   creates managers; console gate (`requireAdmin`) opens to admin+manager; dev side-door → admin.
@@ -295,7 +307,7 @@ same day, archived at [docs/todo/done/roles-admin-manager-member/](docs/todo/don
 ### Just finished: cleanup-audit ✅ (closed 2026-07-04 → done/)
 
 The July 4 deep-dive audit's cleanup — all 4 phases done in one day, archived at
-[docs/todo/done/cleanup-audit/](docs/todo/done/cleanup-audit/PLAN.md). Quick fixes (17 hidden type
+[docs/archive/done/cleanup-audit/](docs/archive/done/cleanup-audit/plan.md). Quick fixes (17 hidden type
 errors → 0) · dead cruft deleted (~1,650 lines + 75MB logs + 8 stale branches, all archive-tagged) ·
 one shared escapeHtml + relTime for the admin app · one shared prompt-filler for all 5 engine builders.
 Tests grew 52 → **57** and the runner now auto-finds every test. Proven by a live gate case
@@ -307,7 +319,7 @@ Parked follow-ups (engine unit tests, god-file splits, purge-guard) live in the 
 **Phases 1 · 3 · 4 · 5 · 6 · 7 ✅ done (6 & 7 walked + signed off 2026-07-01). Phase 2 ⏸ parked (→ hosting, later) · Phase 8 ⏸ deferred (→ pre-go-live continuity). Every actionable 009 phase is complete; the folder is archived to `done/`.**
 
 009 turned Sero into something real managers can safely use on real teams, and got the codebase
-newcomer-clean. Full plan: [docs/todo/done/009-ready-to-share/](docs/todo/done/009-ready-to-share/PLAN.md).
+newcomer-clean. Full plan: [docs/archive/done/009-ready-to-share/](docs/archive/done/009-ready-to-share/plan.md).
 
 > **Ultra batch (2026-07-01):** Carl OK'd finishing every remaining non-hosting phase in one run —
 > **nothing live, no paid runs.** I build + offline-verify (`npm test`/`typecheck`) + commit each locally.
@@ -347,7 +359,7 @@ uncommitted" note was stale. Member rail = Home · Team · Runs, members land on
 untouched, dev Admin/Standard quick-swap works. Phase 2 (Real Runs) has backend groundwork landed
 (`ca23831e`/`9a2a7148`/`f30783d9`) but the Runs *page* is still the placeholder — that's the genuinely
 open member-nav work. **Update 2026-07-05: that open work shipped via pre-go-live PG1–5, so the folder is
-closed** → [docs/todo/done/member-nav/](docs/todo/done/member-nav/PLAN.md) (live-data-cleanup Phase 4).
+closed** → [docs/archive/done/member-nav/](docs/archive/done/member-nav/plan.md) (live-data-cleanup Phase 4).
 
 - Last updated: 2026-07-06 (continuity / "moat" track REMOVED at Carl's request — both built phases + the 8-phase plan ripped out cleanly, people-roster refactor kept; back to the pre-go-live line · people-roster + start-screen closed)
 
@@ -356,7 +368,7 @@ closed** → [docs/todo/done/member-nav/](docs/todo/done/member-nav/PLAN.md) (li
 ### Just finished: Admin access guard (Option A) ✅ (closed)
 Internal tooling login-gated (Phase 1 `370033b5`) + admin-role-gated (Phase 2, 2026-07-01) + dev Admin/Standard
 quick-swap (`53dbd0ae`). Member refused the tooling (403), owners unaffected. Archived at
-[docs/todo/done/admin-access-guard/](docs/todo/done/admin-access-guard/PLAN.md). Parked: Option B (`/api/admin/*`
+[docs/archive/done/admin-access-guard/](docs/archive/done/admin-access-guard/plan.md). Parked: Option B (`/api/admin/*`
 prefix), Option C (separate customer `frontend/`), roles-management UI.
 
 ---
@@ -364,31 +376,31 @@ prefix), Option C (separate customer `frontend/`), roles-management UI.
 ### Just finished: Auth hardening ✅ (closed)
 Both post-007 holes shut, tested, committed. Phase 1 (live sessions fenced by company, `12fc3071`) · Phase 2
 (runs endpoints require login, session *start* stays open by your call). Archived at
-[docs/todo/done/auth-hardening/](docs/todo/done/auth-hardening/PLAN.md). Prior: Phase 007 login screen ✅
-([docs/todo/done/login-screen/](docs/todo/done/login-screen/PLAN.md)).
+[docs/archive/done/auth-hardening/](docs/archive/done/auth-hardening/plan.md). Prior: Phase 007 login screen ✅
+([docs/archive/done/login-screen/](docs/archive/done/login-screen/plan.md)).
 
 ---
 
 ## Parked / backlog plans (NOT in-flight)
 
-Nothing below is actively being worked. They're scaffolded ideas in `docs/todo/`,
+Nothing below is actively being worked. They're scaffolded ideas in `docs/workstreams/`,
 waiting for a scope pick or a turn. Listed here so the folder count never *looks*
 like 8 things are half-done at once — they aren't.
 
 | Plan | State |
 |---|---|
-| [test-engine-hub](docs/todo/done/test-engine-hub/PLAN.md) | ✅ **CLOSED 2026-07-05 → done/** — all 4 phases green-lit; Carl ran a persona through the hub ("it runs"). Merged Personas/Regression/Compare into one "Test engine" page. One paid run (~$0.35). |
-| [run-qa-fixes-jul04](docs/todo/run-qa-fixes-jul04/PLAN.md) | Phase 1 (C1 — strip tester notes) ✅ approved 2026-07-04 (committed `02d825c2`, walk waived); Phases 2–4 ⬜ (prompt changes — need a paid walk) |
-| [user-management](docs/todo/user-management/PLAN.md) | **ACTIVE (see "Your move" up top).** Phase 1 ✅ · Phase 2 ✅ (change role, `ac0359a7`, verified + closed 2026-07-05) · **Phase 3 🔨 (deactivate/reactivate) starting.** Phases 0, 4–5 ⬜. |
-| [planner-grounding](docs/todo/planner-grounding/PLAN.md) | parked — awaiting scope pick (A/B/C/all) |
-| [briefing-readability-p0](docs/todo/briefing-readability-p0/PLAN.md) | parked |
-| [briefing-grounding-fixes](docs/todo/done/briefing-grounding-fixes/PLAN.md) | ✅ closed out → done/ 2026-07-05 (`3d339e47`) |
-| [see-before-sent](docs/todo/done/see-before-sent/PLAN.md) | ✅ folded into sent-preview + archived 2026-07-04 |
-| [sent-preview](docs/todo/done/sent-preview/PLAN.md) | ✅ done (both phases walked 2026-07-01) — archived to done/ 2026-07-05 |
-| [stage-data-tabs](docs/todo/done/stage-data-tabs/PLAN.md) | ✅ done (all 3 phases walked 2026-07-01) — archived to done/ 2026-07-05 |
-| [repo-tidy](docs/todo/done/repo-tidy/PLAN.md) | ✅ done (all 4 phases; 3–4 via 009 P6) — archived to done/ |
-| [tracker-consolidation](docs/todo/done/tracker-consolidation/PLAN.md) | ✅ done (all 4 phases; 2–4 via 009 P7) — archived to done/ |
-| [todo-board-rebuild](docs/todo/done/todo-board-rebuild/PLAN.md) | ✅ done (all phases walked 2026-07-01; closed on Carl's nod 2026-07-05) — archived to done/ |
+| [test-engine-hub](docs/archive/done/test-engine-hub/plan.md) | ✅ **CLOSED 2026-07-05 → done/** — all 4 phases green-lit; Carl ran a persona through the hub ("it runs"). Merged Personas/Regression/Compare into one "Test engine" page. One paid run (~$0.35). |
+| [run-qa-fixes-jul04](docs/workstreams/run-qa-fixes-jul04/plan.md) | Phase 1 (C1 — strip tester notes) ✅ approved 2026-07-04 (committed `02d825c2`, walk waived); Phases 2–4 ⬜ (prompt changes — need a paid walk) |
+| [user-management](docs/workstreams/user-management/plan.md) | **ACTIVE (see "Your move" up top).** Phase 1 ✅ · Phase 2 ✅ (change role, `ac0359a7`, verified + closed 2026-07-05) · **Phase 3 🔨 (deactivate/reactivate) starting.** Phases 0, 4–5 ⬜. |
+| [planner-grounding](docs/archive/plans/planner-grounding/plan.md) | parked — awaiting scope pick (A/B/C/all) |
+| [briefing-readability-p0](docs/archive/plans/briefing-readability-p0/plan.md) | parked |
+| [briefing-grounding-fixes](docs/archive/done/briefing-grounding-fixes/plan.md) | ✅ closed out → done/ 2026-07-05 (`3d339e47`) |
+| [see-before-sent](docs/archive/done/see-before-sent/plan.md) | ✅ folded into sent-preview + archived 2026-07-04 |
+| [sent-preview](docs/archive/done/sent-preview/plan.md) | ✅ done (both phases walked 2026-07-01) — archived to done/ 2026-07-05 |
+| [stage-data-tabs](docs/archive/done/stage-data-tabs/plan.md) | ✅ done (all 3 phases walked 2026-07-01) — archived to done/ 2026-07-05 |
+| [repo-tidy](docs/archive/done/repo-tidy/plan.md) | ✅ done (all 4 phases; 3–4 via 009 P6) — archived to done/ |
+| [tracker-consolidation](docs/archive/done/tracker-consolidation/plan.md) | ✅ done (all 4 phases; 2–4 via 009 P7) — archived to done/ |
+| [todo-board-rebuild](docs/archive/done/todo-board-rebuild/plan.md) | ✅ done (all phases walked 2026-07-01; closed on Carl's nod 2026-07-05) — archived to done/ |
 
 When one becomes live, move it up into "Your move" above and start its phases.
 
@@ -396,7 +408,7 @@ When one becomes live, move it up into "Your move" above and start its phases.
 
 ## Just-finished plan: Phase 006 — The front door (Auth) ✅
 
-📄 [docs/todo/done/auth-front-door/PLAN.md](docs/todo/done/auth-front-door/PLAN.md)
+📄 [docs/archive/done/auth-front-door/plan.md](docs/archive/done/auth-front-door/plan.md)
 **Goal:** real register/login with safe passwords, guarded pages, signup that creates the company (data
 fenced per-company) — plus a dev-only one-click login that's sealed shut for real customers. **All delivered.**
 
@@ -407,7 +419,7 @@ fenced per-company) — plus a dev-only one-click login that's sealed shut for r
 | 3 | Keep people in, guard the doors (+ dev side-door) | ✅ committed `c303f136` |
 | 4 | Signup creates the company | ✅ committed |
 
-**Before that:** Postgres Foundation → [docs/todo/done/postgres-foundation/PLAN.md](docs/todo/done/postgres-foundation/PLAN.md) (all 4 phases ✅, committed `b079b88b`).
+**Before that:** Postgres Foundation → [docs/archive/done/postgres-foundation/plan.md](docs/archive/done/postgres-foundation/plan.md) (all 4 phases ✅, committed `b079b88b`).
 
 ---
 

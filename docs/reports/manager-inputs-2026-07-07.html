@@ -1,0 +1,283 @@
+<meta charset="utf-8">
+<title>What managers type in — back-catalogue read</title>
+<style>
+  :root{
+    --ink:#161623; --muted:#5b6472; --faint:#8a93a3;
+    --line:#e7e9ef; --card:#ffffff; --bg:#f6f7f9;
+    --blue:#2f6bff; --blue-soft:#eef3ff;
+    --warn:#b7791f; --warn-bg:#fdf6e7; --warn-line:#f0e2bf;
+    --green:#1f8a5b; --violet:#6d54d6; --rose:#d1476b;
+    --r-lg:16px; --r-md:12px; --r-sm:6px;
+    --shadow:0 1px 2px rgba(20,22,35,.04), 0 8px 28px rgba(20,22,35,.05);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:940px;margin:0 auto;padding:40px 22px 80px}
+  h1{font-size:30px;line-height:1.15;letter-spacing:-.02em;margin:0 0 6px;font-weight:800}
+  h2{font-size:20px;letter-spacing:-.01em;margin:0 0 4px;font-weight:750}
+  .lede{color:var(--muted);font-size:16px;margin:0}
+  .kicker{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin:0 0 10px}
+  section{margin-top:38px}
+  .sec-head{margin-bottom:16px}
+  .sec-head p{color:var(--muted);margin:4px 0 0;font-size:14.5px;max-width:70ch}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow)}
+  .pad{padding:18px 20px}
+
+  /* header */
+  .head{background:linear-gradient(180deg,#fff, #fbfcfe);border:1px solid var(--line);
+    border-radius:var(--r-lg);padding:28px 28px 24px;box-shadow:var(--shadow)}
+  .tag{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--muted);
+    background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 11px;margin-bottom:16px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+
+  /* honesty banner */
+  .warn{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:var(--r-md);
+    padding:16px 18px;margin-top:22px;display:flex;gap:13px;align-items:flex-start}
+  .warn .ic{font-size:19px;line-height:1}
+  .warn b{color:#8a5a12}
+  .warn p{margin:3px 0 0;color:#7a5a1f;font-size:14px}
+
+  /* stat grid */
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:22px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:15px 14px;box-shadow:var(--shadow)}
+  .stat .n{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:6px;font-weight:500}
+  .stat .s{font-size:11.5px;color:var(--faint);margin-top:2px}
+
+  /* two-kind explainer */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .two .card{overflow:hidden}
+  .two .top{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+  .two .top .em{font-size:18px}
+  .two .top .t{font-weight:700;font-size:15px}
+  .two .top .c{margin-left:auto;font-size:12px;font-weight:700;color:#fff;background:var(--ink);border-radius:999px;padding:3px 9px}
+  .quote{padding:16px 18px;font-size:14px;color:var(--ink);background:var(--bg);border-radius:var(--r-sm);
+    margin:14px 18px 6px;border-left:3px solid var(--blue)}
+  .quote.ans{border-left-color:var(--violet)}
+  .cap{padding:0 18px 16px;color:var(--muted);font-size:13px}
+
+  /* bars */
+  .bar-row{display:grid;grid-template-columns:180px 1fr 46px;align-items:center;gap:12px;padding:7px 0}
+  .bar-row .lab{font-size:13.5px;color:var(--ink);font-weight:550;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .track{background:#eef0f5;border-radius:999px;height:22px;overflow:hidden}
+  .fill{height:100%;border-radius:999px;background:var(--blue);display:block}
+  .fill.g{background:var(--green)} .fill.v{background:var(--violet)} .fill.r{background:var(--rose)} .fill.w{background:#e0a43b}
+  .bar-row .val{font-size:13px;color:var(--muted);font-weight:650;text-align:left}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+
+  /* anatomy */
+  .anat{background:#fbfcff;border:1px solid var(--line);border-radius:var(--r-md);padding:20px 22px}
+  .anat .src{font-size:15.5px;line-height:1.75}
+  .hl{border-radius:4px;padding:1px 3px;font-weight:600}
+  .h-obs{background:#e3f0ff;box-shadow:inset 0 -2px 0 #9cc2ff}
+  .h-ten{background:#ffe6ec;box-shadow:inset 0 -2px 0 #f4a6ba}
+  .h-want{background:#e4f7ec;box-shadow:inset 0 -2px 0 #9adcb6}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;font-size:13px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .chip{width:13px;height:13px;border-radius:3px;display:inline-block}
+
+  /* note gallery */
+  .gal{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .note{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:15px 16px;box-shadow:var(--shadow)}
+  .note .meta{display:flex;gap:8px;align-items:center;margin-bottom:9px;flex-wrap:wrap}
+  .pill{font-size:11px;font-weight:650;padding:3px 8px;border-radius:999px;background:var(--blue-soft);color:var(--blue)}
+  .pill.mt{background:#f2eefd;color:var(--violet)}
+  .note p{margin:0;font-size:13.5px;color:#2b3140;line-height:1.5}
+
+  /* answer texture */
+  .ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .tail{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .tw{font-size:14px;background:#f1f0f7;color:#4a4560;border:1px solid #e2dff0;border-radius:999px;padding:5px 12px;font-style:italic}
+
+  /* takeaways */
+  .take{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .take .card{padding:16px 18px}
+  .take .n{width:26px;height:26px;border-radius:7px;background:var(--ink);color:#fff;font-weight:800;
+    font-size:13px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+  .take h3{margin:0 0 4px;font-size:14.5px;font-weight:700}
+  .take p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.5}
+
+  .foot{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px}
+  @media(max-width:760px){
+    .stats{grid-template-columns:repeat(2,1fr)} .two,.gal,.ans-grid,.take,.split{grid-template-columns:1fr}
+    .bar-row{grid-template-columns:120px 1fr 40px} .wrap{padding:26px 16px 60px}
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="head">
+    <span class="tag"><span class="dot"></span> Back-catalogue read · 169 runs · May–Jul 2026</span>
+    <h1>What our managers actually type in</h1>
+    <p class="lede">Every manager input across the whole log history — the opening notes and the in-session answers — read, counted, and laid out so you can see the shape of it.</p>
+
+    <div class="warn">
+      <span class="ic">⚠️</span>
+      <div>
+        <b>Read this first — this is our own test kitchen, not live customers.</b>
+        <p>These 169 runs are almost entirely <b>our QA personas and scripted scenarios</b> (Priya, Kenji, "UX Lead", the "On the manager's mind: workload" template). It's a fantastic picture of <i>what we've been feeding the engine</i> — not yet a picture of real paying managers. Treat every pattern below as "what our test inputs look like," and the day real managers arrive, re-run this same read to compare.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="n">169</div><div class="l">runs on disk</div><div class="s">may · june · july</div></div>
+    <div class="stat"><div class="n">149</div><div class="l">had a manager note</div><div class="s">88% of runs</div></div>
+    <div class="stat"><div class="n">846</div><div class="l">in-session answers</div><div class="s">across 109 live runs</div></div>
+    <div class="stat"><div class="n">2.8%</div><div class="l">questions skipped</div><div class="s">24 of 846</div></div>
+    <div class="stat"><div class="n">~12</div><div class="l">words per answer</div><div class="s">median 73 chars</div></div>
+  </div>
+
+  <!-- TWO KINDS -->
+  <section>
+    <div class="sec-head">
+      <p class="kicker">The lesson</p>
+      <h2>A manager gives us input in two very different places</h2>
+      <p>This is the thing to hold onto. The <b>opening note</b> is thought-out and written before the meeting. The <b>in-session answers</b> are fast, clipped, spoken-aloud. They read nothing alike — and the engine has to handle both.</p>
+    </div>
+    <div class="two">
+      <div class="card">
+        <div class="top"><span class="em">📝</span><span class="t">1 · The opening note</span><span class="c">before the meeting</span></div>
+        <div class="quote">"Priya shipped a major feature on Monday and the team noticed, but she's been quieter this week. I want to read whether this is normal post-launch recovery or something unresolved."</div>
+        <div class="cap">Composed, full sentences, ~40–90 words. Often carries an observation <i>and</i> a worry. This is where the manager sets the agenda.</div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="em">💬</span><span class="t">2 · The in-session answer</span><span class="c">during the meeting</span></div>
+        <div class="quote ans">"raises things if it'll actually change a decision. lately the timing hasn't felt there"</div>
+        <div class="cap">Short, lowercase, fragmentary — ~12 words. Typed while talking. The engine reads these to move its axes and pick the next question.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEETING TYPES + SENIORITY -->
+  <section>
+    <div class="sec-head">
+      <p class="kicker">Who & what</p>
+      <h2>What kinds of meetings — and how senior</h2>
+      <p>The corpus leans hard on the <b>bi-weekly check-in</b>. That's the workhorse we've been tuning; the sharper meeting types (performance, growth, "something feels off") are thinner and deserve more test coverage.</p>
+    </div>
+    <div class="split">
+      <div class="card pad">
+        <h2 style="font-size:15px;margin-bottom:10px">Meeting type</h2>
+        <div class="bar-row"><span class="lab">Bi-weekly check-in</span><span class="track"><span class="fill" style="width:100%"></span></span><span class="val">109</span></div>
+        <div class="bar-row"><span class="lab">Performance &amp; feedback</span><span class="track"><span class="fill" style="width:22%"></span></span><span class="val">24</span></div>
+        <div class="bar-row"><span class="lab">Something feels off</span><span class="track"><span class="fill" style="width:16%"></span></span><span class="val">17</span></div>
+        <div class="bar-row"><span class="lab">Growth &amp; career</span><span class="track"><span class="fill" style="width:10%"></span></span><span class="val">11</span></div>
+        <div class="bar-row"><span class="lab">One-on-one</span><span class="track"><span class="fill" style="width:7%"></span></span><span class="val">8</span></div>
+      </div>
+      <div class="card pad">
+        <h2 style="font-size:15px;margin-bottom:10px">Seniority of the person</h2>
+        <div class="bar-row"><span class="lab">Senior</span><span class="track"><span class="fill g" style="width:100%"></span></span><span class="val">61</span></div>
+        <div class="bar-row"><span class="lab">Lead</span><span class="track"><span class="fill g" style="width:62%"></span></span><span class="val">38</span></div>
+        <div class="bar-row"><span class="lab">Mid</span><span class="track"><span class="fill g" style="width:62%"></span></span><span class="val">38</span></div>
+        <div class="bar-row"><span class="lab">Junior</span><span class="track"><span class="fill g" style="width:20%"></span></span><span class="val">12</span></div>
+        <div class="bar-row"><span class="lab">Principal</span><span class="track"><span class="fill g" style="width:11%"></span></span><span class="val">7</span></div>
+        <div class="bar-row"><span class="lab">Director</span><span class="track"><span class="fill g" style="width:8%"></span></span><span class="val">5</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S ON THEIR MIND -->
+  <section>
+    <div class="sec-head">
+      <p class="kicker">The templated slice</p>
+      <h2>"On the manager's mind: ___"</h2>
+      <p>26 of our runs use a scripted opener with a one-word worry. It's a useful tell for what <i>themes</i> we've been stress-testing — workload and motivation dominate. (This is a test template, not something real managers write in these words.)</p>
+    </div>
+    <div class="card pad">
+      <div class="bar-row"><span class="lab">workload</span><span class="track"><span class="fill w" style="width:100%"></span></span><span class="val">13</span></div>
+      <div class="bar-row"><span class="lab">motivation</span><span class="track"><span class="fill w" style="width:85%"></span></span><span class="val">11</span></div>
+      <div class="bar-row"><span class="lab">growth</span><span class="track"><span class="fill w" style="width:23%"></span></span><span class="val">3</span></div>
+      <div class="bar-row"><span class="lab">friction</span><span class="track"><span class="fill w" style="width:23%"></span></span><span class="val">3</span></div>
+      <div class="bar-row"><span class="lab">delivery</span><span class="track"><span class="fill w" style="width:15%"></span></span><span class="val">2</span></div>
+    </div>
+  </section>
+
+  <!-- ANATOMY -->
+  <section>
+    <div class="sec-head">
+      <p class="kicker">Read one closely</p>
+      <h2>The anatomy of a good prep note</h2>
+      <p>Our best freeform notes almost always have the same three parts. Once you see it, you can't unsee it — and it's exactly what the engine keys off.</p>
+    </div>
+    <div class="anat">
+      <p class="src">
+        <span class="hl h-obs">Priya shipped a major feature on Monday and the team noticed, but she has been quieter this week.</span>
+        <span class="hl h-ten">I want to check whether this is normal post-launch recovery or something unresolved.</span>
+        <span class="hl h-want">She also mentioned wanting to mentor a few months ago and that thread never moved. I need a clearer read on what she expects to own next quarter before I introduce the billing rewrite.</span>
+      </p>
+      <div class="legend">
+        <span><span class="chip h-obs"></span> <b>Observation</b> — what changed, concretely</span>
+        <span><span class="chip h-ten"></span> <b>Tension</b> — the thing they're unsure about</span>
+        <span><span class="chip h-want"></span> <b>Intent</b> — what they want out of the meeting</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTE GALLERY -->
+  <section>
+    <div class="sec-head">
+      <p class="kicker">The real texture</p>
+      <h2>A gallery of actual opening notes</h2>
+      <p>69 distinct notes in the catalogue. Here's the range — from a terse one-liner to a fully-reasoned growth brief. This is the raw material the engine turns into a plan.</p>
+    </div>
+    <div class="gal">
+      <div class="note"><div class="meta"><span class="pill">Senior Backend Eng</span><span class="pill mt">Growth &amp; career</span></div><p>"Ahmed talks about senior scope but often redirects into tactical delivery details. I want to understand whether this is temporary pressure or a deeper confidence gap around visibility and influence at his level… I need him to leave with a concrete growth path tied to strategic ownership, not another vague list of good habits."</p></div>
+      <div class="note"><div class="meta"><span class="pill">Junior Engineer</span><span class="pill mt">Feels off</span></div><p>"Kenji is around three months in, and this is a common point where confidence dips show up. I need to understand whether he feels clear on expectations, connected to support, and safe asking for help… This should stay exploratory, not corrective."</p></div>
+      <div class="note"><div class="meta"><span class="pill">Principal</span><span class="pill mt">Performance</span></div><p>"Tom moved teams recently and delivery is steady, but Principal-level impact is not visible yet… I want to test whether he understands what Principal scope means on this team or if he is still operating on old assumptions."</p></div>
+      <div class="note"><div class="meta"><span class="pill">Staff</span><span class="pill mt">Growth &amp; career</span></div><p>"James was passed over for promotion and his engagement in team rituals has dipped since then. He did not bring up the decision himself… This meeting should surface what feedback he actually heard and what concrete path forward he believes exists."</p></div>
+      <div class="note"><div class="meta"><span class="pill">UX Lead</span><span class="pill mt">Bi-weekly</span></div><p>"Seems short-tempered in UX reviews and handoffs lately. We skipped the last check-in. Lead work seems to weigh on him."</p></div>
+      <div class="note"><div class="meta"><span class="pill">Product Designer</span><span class="pill mt">Feels off</span></div><p>"Quieter than usual since the reorg about three weeks ago. Delivery still fine but something feels off."</p></div>
+      <div class="note"><div class="meta"><span class="pill">Senior Eng</span><span class="pill mt">Growth &amp; career</span></div><p>"Jordan has asked twice in the last month about leading a bigger product area. Solid delivery on payments, but I haven't seen them influence beyond their own squad yet. Want to figure out what growth they actually want and what's realistic this half."</p></div>
+      <div class="note"><div class="meta"><span class="pill">Junior Designer</span><span class="pill mt">Performance</span></div><p>"Maya is talented, but her recent design work has needed too many review rounds before it feels ready."</p></div>
+    </div>
+  </section>
+
+  <!-- ANSWER TEXTURE -->
+  <section>
+    <div class="sec-head">
+      <p class="kicker">Inside the meeting</p>
+      <h2>How answers actually come in</h2>
+      <p>846 answers, and they're <b>short</b> — a median of 12 words. Managers type the way they'd talk. And a real slice are near-empty ("fine", "dunno") — the engine has to do something useful even when the human gives it almost nothing.</p>
+    </div>
+    <div class="ans-grid">
+      <div class="card pad">
+        <h2 style="font-size:15px;margin-bottom:4px">The typical answer</h2>
+        <p style="color:var(--muted);font-size:13px;margin:0 0 12px">Median band — clipped, lowercase, real.</p>
+        <div class="quote ans" style="margin:0 0 10px">"not deep enough. covered the product well, didn't pin down their real pain or timeline"</div>
+        <div class="quote ans" style="margin:0 0 10px">"wants research in earlier, before the direction's set, so it can actually shape things"</div>
+        <div class="quote ans" style="margin:0">"take the lead on vendor onboarding, pair him with someone on reporting to build that up"</div>
+      </div>
+      <div class="card pad">
+        <h2 style="font-size:15px;margin-bottom:4px">The low-effort tail</h2>
+        <p style="color:var(--muted);font-size:13px;margin:0 0 12px">The shortest real answers we logged. The hard case for the engine.</p>
+        <div class="tail">
+          <span class="tw">"ok"</span><span class="tw">"no"</span><span class="tw">"fine"</span>
+          <span class="tw">"same"</span><span class="tw">"dunno"</span><span class="tw">"i guess"</span>
+        </div>
+        <p style="color:var(--muted);font-size:13px;margin-top:16px">Only <b>2.8%</b> of questions were skipped outright — so managers do answer. But "answered" and "gave us something to work with" aren't the same thing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAKEAWAYS -->
+  <section>
+    <div class="sec-head">
+      <p class="kicker">So what</p>
+      <h2>What this teaches us</h2>
+    </div>
+    <div class="take">
+      <div class="card"><div class="n">1</div><h3>It's our test data, not the market's</h3><p>Every insight here describes what <i>we</i> feed the engine. The single most valuable version of this report is the one we run after the first 20 real managers — that's when the patterns mean something about willingness to pay.</p></div>
+      <div class="card"><div class="n">2</div><h3>We've over-tuned the bi-weekly</h3><p>109 of 169 runs are one meeting type. Performance, growth, and "feels off" are thin. If we believe those are the emotionally sharper moments, the test corpus should grow there.</p></div>
+      <div class="card"><div class="n">3</div><h3>Good notes have a shape</h3><p>Observation → tension → intent. Real managers won't write this cleanly. A prompt hint or a light input template could nudge them toward the parts the engine actually uses.</p></div>
+      <div class="card"><div class="n">4</div><h3>Plan for the one-word answer</h3><p>"fine / dunno / same" is a first-class input, not an error. It's worth a deliberate check that the engine stays useful on the low-effort tail — that's the honest real-world case.</p></div>
+    </div>
+  </section>
+
+  <div class="foot">
+    Generated 2026-07-07 from <code>logs/**</code> (may · june · july) — 169 run folders, read locally, no API cost. Source of truth: each run's <code>session-state.json</code> (ctx.notes) and <code>transcript.json</code> (per-turn answers). Numbers are exact counts; note/answer quotes are verbatim from the logs. Re-run the same read against real customer runs to compare.
+  </div>
+
+</div>
