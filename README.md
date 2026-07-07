@@ -33,7 +33,7 @@ Requires `OPENAI_API_KEY` in `.env` for live AI stages.
 | `docs/` | Technical docs, `plans/`, `archives/`, active `todo/` work |
 | `.claude/skills/reviewrun/` | `/reviewrun` skill for log review |
 
-**Where are we? Two trackers, no more:** [`STATUS.md`](STATUS.md) — what we're working on **right now** (tactical, per-phase) · [`SERO_BOARD.md`](SERO_BOARD.md) — the **big-picture** feature board (strategic). Everything else is a log, not a status source — [`docs/TRACKERS.md`](docs/TRACKERS.md) maps which file is which. Deep inventory: [`docs/plans/FEATURES.md`](docs/plans/FEATURES.md). Folder map: [`docs/STRUCTURE.md`](docs/STRUCTURE.md).
+**Where are we? Two trackers, no more:** [`STATUS.md`](STATUS.md) — what we're working on **right now** (tactical, per-phase) · [`SERO_BOARD.md`](SERO_BOARD.md) — the **big-picture** feature board (strategic). Everything else is a log, not a status source — [`docs/TRACKERS.md`](docs/TRACKERS.md) maps which file is which. Deep inventory (archived): [`docs/archives/plans/FEATURES.md`](docs/archives/plans/FEATURES.md). Folder map: [`docs/STRUCTURE.md`](docs/STRUCTURE.md).
 
 ## Verify after prompt changes
 

@@ -9,6 +9,12 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 
 ## ▶ Your move
 
+> **🆕 [CTOCheckJuly](docs/todo/cto-check-july/README.md) — NEW check, set up 2026-07-07. 👉 START HERE: [the folder's README](docs/todo/cto-check-july/README.md).**
+> The plain question: when a manager gives only a *little* info, does Sero give a good **brief**, good
+> **questions**, and a good **summary**? **4 steps, one at a time, judged on real run logs we already have — FREE**
+> (no paid runs). Nothing run yet. **▶ Your move: open the README and say "go" to start step 1.**
+> Dropped/parked from the original 5-prompt idea: the *moat* and *learning-from-past-runs* questions.
+
 > **▶ Your move — the continuity / "moat" track was REMOVED 2026-07-06 (Carl: "this is not what I wanted at all — rip it all out").**
 > Both built phases (① carry-forward pre-fill on prep · ② outcome taps) **and** the whole 8-phase plan were
 > pulled out cleanly. The **people-roster Phase 4 refactor** they'd been tangled with in the same merge was
@@ -159,7 +165,7 @@ Not sure which file is which? [docs/TRACKERS.md](docs/TRACKERS.md) maps where ev
 > half-finished v1 API migration. Fixed end-to-end: every frontend call (incl. 10 SSE stream URLs the audit
 > initially missed) now hits `/api/v1/`; all ~54 dead legacy `/api/*` routes deleted from the server; the
 > unconsumed `pipeline/manifest` chain removed; **member-nav** archived to done/ (superseded by pre-go-live).
-> Report: [docs/audits/live-data-audit-2026-07-05.md](docs/audits/live-data-audit-2026-07-05.md). Live-proven
+> Report: [docs/archives/audits/live-data-audit-2026-07-05.md](docs/archives/audits/live-data-audit-2026-07-05.md). Live-proven
 > on a scratch API (legacy → 404, v1 answers); `npm test` 69/69 · admin build ✓. No paid runs.
 > ⚠️ **Restart your dev API server** — an old process still serves the deleted routes until restarted.
 > Spot-check scenarios stay in the phase files if you ever want the click-through (arcs, job lexicons,
