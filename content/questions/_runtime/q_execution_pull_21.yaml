@@ -1,9 +1,10 @@
 alias: q_execution_pull_21
 label: Execution pull
-name: What keeps pulling you back into execution detail right now?
-description: Drills into the specific pattern keeping him from operating at broader product leadership scope.
+name: Where are execution details pulling you in most right now?
+description: Drills into the specific work that is keeping him in executor mode instead of broader scope.
 purpose: topic
 stage: anchor
 axis_effects:
   growth: +3
 source: planner_added
+grounding: too much time in execution details

@@ -108,8 +108,9 @@ function latestTurn(stage) {
 function renderPreview(preview) {
   const note = `<p class="stage-io__note">Not sent yet — this is the exact text we'll send the moment this step runs. Nothing has left your machine.</p>`;
   const model = field("Model", preview.model);
+  const promptFile = field("Prompt file", preview.promptFile);
   const prompt = block("Show exact text we're about to send (preview — not yet sent)", preview.prompt, { details: true, open: true });
-  return `${note}<div class="stage-io__fields">${model}</div>${prompt}`;
+  return `${note}<div class="stage-io__fields">${model}${promptFile}</div>${prompt}`;
 }
 
 function renderSent(stage, preview) {

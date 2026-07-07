@@ -1,0 +1,10 @@
+alias: q_trust_example
+label: Trust example
+name: "Take one adjacent team: where did trust help or limit a decision recently?"
+description: Anchors the trust point in one observable cross-team moment.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: adjacent teams yet.

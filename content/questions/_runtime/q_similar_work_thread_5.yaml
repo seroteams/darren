@@ -1,0 +1,10 @@
+alias: q_similar_work_thread_5
+label: Similar work thread
+name: When you say similar work, what has felt too repetitive lately?
+description: Drills into the repetition she named to locate the specific work pattern behind feeling stuck.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +1
+source: planner_added
+grounding: similar work for months

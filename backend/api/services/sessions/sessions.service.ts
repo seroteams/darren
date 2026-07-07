@@ -17,6 +17,7 @@ import { assembleFocusPoints } from "../../../engine/generate.ts";
 import { assembleBank } from "../../../engine/question-generator.ts";
 import { assembleEvaluation } from "../../../engine/reviewer.ts";
 import { assemblePlanTurn } from "../../../engine/queue-manager.ts";
+import { promptFor } from "../../../engine/one-on-one-types/index.ts";
 import { buildPreparationInputs } from "./preparation-inputs.ts";
 import { buildBankInputs } from "./bank-inputs.ts";
 import { buildEvaluationInputs } from "./evaluation-inputs.ts";
@@ -80,7 +81,14 @@ function buildAgendaCheck(anchorStageId: string | null): Question {
 // previewable payload yet" (200, not an error — the UI just shows nothing).
 type PreviewResult =
   | { stage: string; supported: false }
-  | { stage: string; label: string; model: string; prompt: string; preview: true };
+  | { stage: string; label: string; model: string; promptFile?: string; prompt: string; preview: true };
+
+// The bare filename of a prompt path (last path segment), for the "Prompt file"
+// line in the Sending pane. promptFor is the same seam the runners read, so this
+// names the exact file that gets sent.
+function promptFileFor(meetingType: string, slot: string): string {
+  return promptFor(meetingType, slot).split(/[/\\]/).pop() || "";
+}
 
 // The /question response: the next question to ask, or "done" with the agenda.
 type QuestionResult =
@@ -187,29 +195,29 @@ function mapForUi(suggestions: unknown[]): UiCandidate[] {
 // 409 when its inputs aren't ready.
 const PREVIEW_ASSEMBLERS: Record<
   string,
-  (session: Session, opts?: { draft?: string }) => { label: string; model: string; prompt: string }
+  (session: Session, opts?: { draft?: string }) => { label: string; model: string; promptFile?: string; prompt: string }
 > = {
   // First stage — inputs are just session.ctx, always present, so no 409 gate.
   FOCUS_POINTS(session) {
-    return { label: "Focus points", ...assembleFocusPoints(session.ctx) };
+    return { label: "Focus points", promptFile: promptFileFor(session.ctx.meetingType, "focusPoints"), ...assembleFocusPoints(session.ctx) };
   },
   PREPARATION(session) {
     if (!session.focusPointsResult) {
       throw conflict("Focus points not ready for this stage yet");
     }
-    return { label: "Prep brief", ...assemblePreparation(buildPreparationInputs(session)) };
+    return { label: "Prep brief", promptFile: promptFileFor(session.ctx.meetingType, "preparation"), ...assemblePreparation(buildPreparationInputs(session)) };
   },
   BANK(session) {
     if (!session.focusPointsResult) {
       throw conflict("Focus points not ready for this stage yet");
     }
-    return { label: "Question bank", ...assembleBank(buildBankInputs(session)) };
+    return { label: "Question bank", promptFile: promptFileFor(session.ctx.meetingType, "questionBank"), ...assembleBank(buildBankInputs(session)) };
   },
   EVAL(session) {
     if (!session.focusPointsResult) {
       throw conflict("Focus points not ready for this stage yet");
     }
-    return { label: "Final briefing", ...assembleEvaluation(buildEvaluationInputs(session)) };
+    return { label: "Final briefing", promptFile: promptFileFor(session.ctx.meetingType, "evaluation"), ...assembleEvaluation(buildEvaluationInputs(session)) };
   },
   QUESTIONING(session, opts) {
     if (!session.focusPointsResult) {
@@ -223,10 +231,12 @@ const PREVIEW_ASSEMBLERS: Record<
     }
     const { model, prompt } = assemblePlanTurn(buildPlanTurnInputs(session, draft));
     // prompt === null means the planner would take its skip-shortcut: no model
-    // call at all. Say so plainly rather than show a prompt that never gets sent.
+    // call at all. Say so plainly rather than show a prompt that never gets sent —
+    // and no prompt file, because none is read.
     return {
       label: "Next question",
       model,
+      promptFile: prompt == null ? undefined : promptFileFor(session.ctx.meetingType, "planTurn"),
       prompt:
         prompt ??
         "(planner bypassed — this answer carries no new signal, so nothing is sent to the AI. The next question comes straight from the queue.)",
@@ -353,8 +363,8 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
       const resolved = String(stage || inferStage(session)).toUpperCase();
       const assemble = PREVIEW_ASSEMBLERS[resolved];
       if (!assemble) return { stage: resolved, supported: false };
-      const { label, model, prompt } = assemble(session, { draft });
-      return { stage: resolved, label, model, prompt, preview: true };
+      const { label, model, promptFile, prompt } = assemble(session, { draft });
+      return { stage: resolved, label, model, promptFile, prompt, preview: true };
     },
 
     rules: (id) => buildSessionRules(requireExisting(id)),

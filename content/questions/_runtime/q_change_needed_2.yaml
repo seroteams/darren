@@ -1,0 +1,10 @@
+alias: q_change_needed_2
+label: Change needed
+name: "When you say it wasn't clear what needed to change, what felt unclear?"
+description: Drills into the specific clarity gap he named after the promotion decision.
+purpose: topic
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: "wasn't clear what really needed to change"

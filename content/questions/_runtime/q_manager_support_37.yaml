@@ -1,0 +1,10 @@
+alias: q_manager_support_37
+label: Manager support
+name: What support from me would make the biggest difference on that?
+description: Surfaces the most useful manager support tied to his chosen next focus.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: needs real authority

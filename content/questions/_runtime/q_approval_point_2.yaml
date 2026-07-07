@@ -1,0 +1,10 @@
+alias: q_approval_point_2
+label: Approval point
+name: What keeps Northstar needing your sign-off there?
+description: Drills into the specific condition that keeps Carl as the approval point on Northstar.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: waits on his sign-off

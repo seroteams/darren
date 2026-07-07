@@ -1,0 +1,11 @@
+alias: q_clearer_criteria_7
+label: Clearer criteria
+name: When you say clearer criteria, what criteria did you want spelled out?
+description: Drills into the specific criteria he believes were missing from the promotion feedback.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added
+grounding: clearer criteria

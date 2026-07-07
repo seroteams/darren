@@ -1,9 +1,10 @@
 alias: q_political_moments_24
 label: Political moments
-name: Where do those political moments show up most right now?
-description: Drills into the specific stakeholder or forum where his influence feels thinnest.
+name: In those political moments, what gets hardest for you to hold onto?
+description: Drills into the specific influence challenge he named before moving on.
 purpose: topic
 stage: anchor
 axis_effects:
-  clarity: +1
+  clarity: +3
 source: planner_added
+grounding: conversations get political

@@ -1,9 +1,11 @@
 alias: q_recognition_mismatch_9
 label: Recognition mismatch
-name: What work do you think gets recognized instead?
-description: Surfaces his mental model of what advancement rewards and where he sees the mismatch.
+name: What work do you think gets recognized here, from your read?
+description: Surfaces his current model of what the organisation values and whether that differs from his current focus.
 purpose: topic
-stage: underneath
+stage: observation
 axis_effects:
-  clarity: +3
+  clarity: +1
+  engagement: +3
 source: planner_added
+grounding: gets recognized

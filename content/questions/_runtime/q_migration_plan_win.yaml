@@ -1,0 +1,10 @@
+alias: q_migration_plan_win
+label: Migration plan win
+name: What made the migration plan and cutover go so well from your read?
+description: Drills into the concrete success she just named before moving the arc forward.
+purpose: topic
+stage: friction
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: migration plan

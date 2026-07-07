@@ -1,0 +1,91 @@
+/* Feedback inbox (feedback-inbox). Its OWN file, imported by the stage, so concurrent
+   rewrites of design.css can't clobber it (same reasoning as error-log.css). Uses the
+   global CDS tokens, with fallbacks on the structural props. A tidy, professional listing:
+   a white card, fixed columns so nothing overflows, notes that wrap, one Delete action. */
+
+/* Top-align the page so it doesn't re-center (jump) when a row is deleted. */
+.stage.fb-stage { place-items: start center; }
+
+/* The list sits on its own white card so it reads as a distinct surface on the tinted page. */
+.fb-panel {
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, #e8e8e8);
+  border-radius: var(--radius-card, 12px);
+  box-shadow: var(--shadow-card, 0 1px 3px rgba(16, 24, 40, 0.06));
+  overflow-x: auto; /* on a narrow screen the fixed columns scroll here, not off the page */
+}
+
+/* Fixed layout = the columns keep their widths and the note wraps instead of the table
+   growing wider than the card (which is what pushed Delete off-screen). */
+.fb-table {
+  width: 100%;
+  min-width: 720px; /* below this the table scrolls inside the panel instead of crushing columns */
+  table-layout: fixed;
+  border-collapse: collapse;
+  background: var(--color-surface, #fff);
+}
+.fb-table th {
+  text-align: left;
+  padding: 11px 16px;
+  white-space: nowrap;
+  font-size: var(--type-caption, 14px);
+  font-weight: var(--type-weight-semibold, 600);
+  color: var(--color-ink-mute, #757575);
+  border-bottom: 1px solid var(--color-border, #e8e8e8);
+}
+.fb-table td {
+  padding: 13px 16px;
+  vertical-align: top;
+  font-size: var(--type-body-sm, 14px);
+  line-height: 1.5;
+  color: var(--color-ink, #303030);
+  border-bottom: 1px solid var(--color-border, #e8e8e8);
+}
+.fb-table tbody tr:last-child td { border-bottom: none; }
+.fb-table tbody tr:hover > td { background: var(--sero-active-state-bg, #eef6fd); }
+
+/* Column widths (the note column takes whatever's left). */
+.fb-col-when   { width: 92px; }
+.fb-col-who    { width: 184px; }
+.fb-col-screen { width: 132px; }
+.fb-col-act    { width: 96px; }
+
+.fb-when { color: var(--color-ink-dim, #5f5f5f); white-space: nowrap; }
+.fb-who__name { color: var(--color-ink, #303030); font-weight: var(--type-weight-medium, 500); }
+.fb-who__sub  { margin-top: 2px; font-size: var(--type-caption, 14px); color: var(--color-ink-dim, #5f5f5f); }
+.fb-screen code {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: var(--type-caption, 14px);
+  color: var(--color-ink-dim, #5f5f5f);
+}
+
+/* The note itself: wrap normally AND break a long unbroken run (e.g. "yyyyy…") so it can
+   never widen the table. Keep intentional line breaks the tester typed. */
+.fb-note {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: var(--color-ink, #303030);
+}
+
+/* Action cell: right-aligned, quiet by default, red only on hover so the page reads calm. */
+.fb-act { text-align: right; }
+.fb-del {
+  border: 1px solid var(--color-border, #e8e8e8);
+  background: var(--color-surface, #fff);
+  color: var(--color-ink-dim, #5f5f5f);
+  font: inherit;
+  font-size: var(--type-body-sm, 14px);
+  font-weight: var(--type-weight-medium, 500);
+  line-height: 1.4;
+  padding: 5px 12px;
+  border-radius: var(--radius-input, 8px);
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+.fb-del:hover {
+  background: var(--sero-coral-200, #feeae8);
+  color: var(--sero-coral-800, #ac1608);
+  border-color: var(--sero-coral-200, #feeae8);
+}
+.fb-del:disabled { opacity: 0.55; cursor: default; }

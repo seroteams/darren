@@ -1,0 +1,10 @@
+alias: q_too_much_yes
+label: Too much yes
+name: "What are you saying yes to that's crowding Northstar out?"
+description: Surfaces the specific work or requests pulling his attention off the main priority.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: says yes to too much

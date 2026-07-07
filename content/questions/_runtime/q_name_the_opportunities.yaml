@@ -1,0 +1,11 @@
+alias: q_name_the_opportunities
+label: Name the opportunities
+name: What opportunities do you actually want to be in the mix for?
+description: Turns his vague opportunity statement into concrete aspiration around scope, forums, or decisions.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: planner_added
+grounding: what opportunities he wants

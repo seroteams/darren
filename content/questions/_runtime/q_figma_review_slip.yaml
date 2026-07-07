@@ -1,0 +1,11 @@
+alias: q_figma_review_slip
+label: Figma review slip
+name: When the Figma review got pushed, what moved ahead without it?
+description: Drills into the specific review miss to surface the practical failure point in the handoff.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+grounding: Figma review pushed

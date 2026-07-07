@@ -104,7 +104,7 @@ export async function mount(root, { store, setState }) {
       <div class="grid gap-3 js-cards"></div>
     `;
     const cards = wrap.querySelector(".js-cards");
-    for (const p of roster) {
+    function makeCard(p) {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "meeting-card";
@@ -121,7 +121,22 @@ export async function mount(root, { store, setState }) {
         store.ctx.seniority = p.seniority || store.ctx.seniority || "";
         advance();
       });
-      cards.appendChild(btn);
+      return btn;
+    }
+    // Show the freshest few by default; a long roster reveals the rest on demand so the
+    // picker stays short. The button drops in the remaining cards and removes itself.
+    const INITIAL = 4;
+    for (const p of roster.slice(0, INITIAL)) cards.appendChild(makeCard(p));
+    if (roster.length > INITIAL) {
+      const more = document.createElement("button");
+      more.type = "button";
+      more.className = "btn btn--ghost btn--sm js-more";
+      more.textContent = `Show ${roster.length - INITIAL} more`;
+      more.addEventListener("click", () => {
+        for (const p of roster.slice(INITIAL)) cards.appendChild(makeCard(p));
+        more.remove();
+      });
+      wrap.querySelector(".js-cards").after(more);
     }
     // Always-visible free-name box, below the cards — type a name to add someone
     // new without picking a card first. Submitting free text clears personId, so

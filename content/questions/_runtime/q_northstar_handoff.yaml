@@ -1,0 +1,11 @@
+alias: q_northstar_handoff
+label: Northstar handoff
+name: What got in the way on the Northstar handoff this time?
+description: Drills into the slipped handoff to surface the concrete source of friction.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+grounding: handoff slipped again

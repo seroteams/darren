@@ -374,6 +374,7 @@ test("preview assembles the FOCUS_POINTS payload for a fresh session (no API cal
     stage: string;
     label: string;
     model: string;
+    promptFile: string;
     prompt: string;
     preview: boolean;
   };
@@ -381,6 +382,7 @@ test("preview assembles the FOCUS_POINTS payload for a fresh session (no API cal
   assert.equal(out.label, "Focus points");
   assert.equal(out.preview, true);
   assert.ok(out.model.length > 0);
+  assert.ok(out.promptFile.endsWith(".md")); // names the exact prompt file being sent
   assert.ok(out.prompt.includes("weekly")); // meetingType filled in → real assembly, not a stub
 });
 

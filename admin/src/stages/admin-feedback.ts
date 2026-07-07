@@ -4,6 +4,7 @@
 // is hidden for everyone else, but that hiding is cosmetic — the 403 is the real wall.
 // Read-only list, newest first, with one action: permanently delete a note (junk cleanup).
 
+import "../styles/feedback-inbox.css";
 import { getFeedbackInbox, deleteFeedbackNote } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
@@ -30,35 +31,42 @@ function exactWhen(iso: string): string {
 function who(note: FeedbackNote): string {
   const name = note.userName || note.email;
   if (!name) return `<span class="text-ink-dim">Unknown</span>`;
-  const sub = note.company ? `<div class="text-ink-dim text-sm">${escapeHtml(note.company)}</div>` : "";
-  return `${escapeHtml(name)}${sub}`;
+  const sub = note.company ? `<div class="fb-who__sub">${escapeHtml(note.company)}</div>` : "";
+  return `<div class="fb-who__name">${escapeHtml(name)}</div>${sub}`;
 }
 
 function noteRow(note: FeedbackNote): string {
   return `
     <tr data-id="${escapeHtml(note.id)}">
-      <td title="${escapeHtml(exactWhen(note.createdAt))}">${escapeHtml(whenText(note.createdAt))}</td>
+      <td class="fb-when" title="${escapeHtml(exactWhen(note.createdAt))}">${escapeHtml(whenText(note.createdAt))}</td>
       <td>${who(note)}</td>
-      <td>${note.page ? `<code>${escapeHtml(note.page)}</code>` : `<span class="text-ink-dim">—</span>`}</td>
+      <td class="fb-screen">${note.page ? `<code>${escapeHtml(note.page)}</code>` : `<span class="text-ink-dim">—</span>`}</td>
       <td class="fb-note">${escapeHtml(note.message)}</td>
-      <td><button type="button" class="btn btn--ghost js-del" data-id="${escapeHtml(note.id)}">Delete</button></td>
+      <td class="fb-act"><button type="button" class="fb-del js-del" data-id="${escapeHtml(note.id)}">Delete</button></td>
     </tr>`;
 }
 
 function table(notes: FeedbackNote[]): string {
   return `
-    <div class="um-table-wrap">
-      <table class="um-table">
+    <div class="fb-panel">
+      <table class="fb-table">
+        <colgroup>
+          <col class="fb-col-when" />
+          <col class="fb-col-who" />
+          <col class="fb-col-screen" />
+          <col />
+          <col class="fb-col-act" />
+        </colgroup>
         <thead>
           <tr><th>When</th><th>Who</th><th>Screen</th><th>The note</th><th></th></tr>
         </thead>
         <tbody>${notes.map(noteRow).join("")}</tbody>
       </table>
-    </div>
-    <style>.um-table td.fb-note { white-space: pre-wrap; max-width: 48rem; }</style>`;
+    </div>`;
 }
 
 export const mount: Mount = async (root, ctx) => {
+  root.classList.add("fb-stage"); // top-align so the page doesn't jump when a row is deleted
   const shell = (inner: string) =>
     `<div class="l-container l-container--wide l-stack l-stack--6">
       <header class="page-header">

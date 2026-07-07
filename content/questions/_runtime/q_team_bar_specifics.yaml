@@ -1,0 +1,10 @@
+alias: q_team_bar_specifics
+label: Team bar specifics
+name: "When you say this team's bar feels fuzzy, what specifically is still unclear?"
+description: Pins the fuzzy bar to concrete expectations or examples before moving on.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: "team's bar still feels fuzzy"

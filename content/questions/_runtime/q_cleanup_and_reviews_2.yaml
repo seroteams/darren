@@ -1,0 +1,10 @@
+alias: q_cleanup_and_reviews_2
+label: Cleanup and reviews
+name: Which part of cleanup or reviews is dragging most right now?
+description: Drills into the concrete post-launch work she named to locate the main source of friction.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: cleanup and reviews
