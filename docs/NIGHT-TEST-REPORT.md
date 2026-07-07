@@ -194,6 +194,8 @@ Covered via the identity-switched walk (dev logins: `manager@` / `carl@`=admin+s
 
 Ran the full engine on all 4 meeting types, one at a time, smallest command each (`node scripts/gate.js --only <case>`). **All four PASS, zero hard-fails, zero trust-check warnings, full engagement read (9/9 note turns, no partial read).** ~$1.40 spent (4 × ~$0.35). No retries needed. Stopped at 4.
 
+> ⚠️ **Read this "4/4 PASS" as a single-roll snapshot, not a stability guarantee.** The post-QA verify exercise (below) later re-rolled `performance-tom` and it **hard-failed `FOCUS_SHAPE_LEAK`**, then passed on the next roll. The gate is **nondeterministic** — a fraction of rolls trip intermittent focus-point shape failures a single roll won't show. See "Learnings" at the end.
+
 | # | Case | Meeting type | Verdict | Hard-fails | Warnings | Wall-clock | Run log dir |
 |---|---|---|---|---|---|---|---|
 | 1 | `biweekly-priya` | Bi-weekly (competencies excluded) | ✅ **PASS** | none | none | **58s** | `logs/july/2026_Jul07_01-39-735c…107f` |
@@ -321,7 +323,21 @@ So `git status` is *not* clean-to-just-reports, but every non-report change is e
 ## Post-QA follow-up (2026-07-07, after Carl reviewed)
 
 Carl asked to fix findings #1, #2, #3. Outcome:
-- **#2 (briefing mislabels a live answer as "his note") — ✅ FIXED.** Added a **"Source labelling (hard)"** rule to `content/prompts/final-evaluation.md` that pins the two inputs apart (manager pre-meeting notes vs session transcript) and forbids `his note says "<transcript phrase>"`. Offline tests green (`test-briefing-prompt-rules`, `test-briefing-integrity`, `test-confidence-honesty`). **Behavioural verification (a paid `gate --only performance-tom`) NOT run — pending Carl's go-ahead.** Not committed.
+- **#2 (briefing mislabels a live answer as "his note") — ✅ FIXED & VERIFIED.** Added a **"Source labelling (hard)"** rule to `content/prompts/final-evaluation.md` that pins the two inputs apart (manager pre-meeting notes vs session transcript) and forbids `his note says "<transcript phrase>"`. Offline tests green. **Behavioural verification (2 paid `gate --only performance-tom` runs, Carl-approved, ~$0.39 each):** the mislabel is **gone in both** post-fix briefings (2/2 clean) — before: *"his own note says 'this team's bar still feels fuzzy'"*; after: *"Tom's own words show the gap… he said 'this team's bar still feels fuzzy'"*. Correct attribution to what he *said*.
+  - **Side finding (unrelated to #2):** the 1st verify run hard-failed on **`FOCUS_SHAPE_LEAK`** in the *focus-points* stage (a best_practice reason opened "How he frames…" instead of the required "How they're…"). The 2nd run passed clean → **transient model nondeterminism** in focus-points, not a regression from the #2 edit (different stage; passed with identical code an hour earlier). Same family as the biweekly-priya focus-point self-flag (Phase 4b). Worth a separate look at focus-point opener-shape stability.
+  - **Paid total tonight:** 4 (Phase 4) + 2 (verify) = 6 runs ≈ **$2.35** (under the $3 ceiling). The #2 fix is now **committed** (see Learnings 3 for how) — Carl's rule text landed verbatim in `final-evaluation.md`.
+
+---
+
+## Learnings (what the fix-and-verify follow-up taught us)
+
+**1. The gate is nondeterministic — "PASS" is a roll, not a proof.** Re-rolling `performance-tom` with unchanged focus-points code produced FAIL (`FOCUS_SHAPE_LEAK`) then PASS on the very next roll. So Phase 4's clean "4/4, zero hard-fails" was **one sample per case** — it undercounts intermittent failures. A trustworthy stability read needs each case sampled **N times** (3–5), reporting a pass-*rate*, not a single verdict. This is the single most important methodology correction to the whole report.
+
+**2. Focus-point opener-shape is the recurring weak stage.** Two independent hits tonight: biweekly-priya's focus-point stage self-flagged `passed:false`, and performance-tom tripped `FOCUS_SHAPE_LEAK` on a re-roll (best_practice reason opened "How he frames…" not the required "How they're…"). The `generate-focus-points` stage doesn't reliably hold the required opener grammar — a real, separate engine edge (distinct from the plan-turn thread-follow work), worth its own gate-or-prompt fix.
+
+**3. The parallel-session commit hazard is real — it hit this very work.** While I was mid-task, a concurrent `chore: checkpoint` commit (`a92e7857`) ran a broad add and **swept my uncommitted `final-evaluation.md` fix and both report files into its commit** — so my later path-scoped `git commit -- final-evaluation.md` found "no changes". Nothing was lost (my rule landed verbatim), but the lesson stands: **in this shared repo folder, uncommitted work is not safe from another session's checkpoint.** Commit path-scoped *promptly* after a change, or isolate in a worktree — don't leave engine edits sitting uncommitted next to other live sessions.
+
+**4. Fix-verify loop that worked:** offline prompt tests (free) → one Carl-approved paid gate → **read the actual `final.json` output**, not just the gate verdict. That's what caught that #2 was genuinely fixed *even though the gate verdict was FAIL* (on an unrelated stage). Verdict-only checking would have missed it in both directions.
 - **#1 (off-thread Q&A) + #3 (growth arc skips gap/investment) — ROUTED, not edited here.** Both are the same plan-turn-runner behaviour (serving/thread-follow), which is the live scope of the concurrent **`plan-turn-runner-gates`** session (owns `plan-turn.md`, `queue-manager.ts`, `thread-follow.ts`). Editing those files from here would collide. Per Carl's choice (option A), the two findings were appended to [docs/todo/plan-turn-runner-gates/PLAN.md](todo/plan-turn-runner-gates/PLAN.md) as input for that owner. No engine behaviour code touched by this QA.
 
 
