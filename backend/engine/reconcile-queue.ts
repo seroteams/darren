@@ -25,6 +25,25 @@ function snapToAllowedDelta(raw: unknown): number {
   });
 }
 
+// Hard word cap on planner-written question text (mirrors <question_craft>
+// "Length cap" in plan-turn.md). A too-long name is dropped, not truncated — a
+// mangled half-question is worse than serving the next queued one.
+const NAME_WORD_CAP = 18;
+
+function nameWordCount(name: unknown): number {
+  return String(name ?? "").trim().split(/\s+/).filter(Boolean).length;
+}
+
+// Shape check for planner-WRITTEN (new or reworded) question text. Returns a
+// drop reason, or null if the name is usable. Carried-unchanged items never
+// reach this — they return earlier in the reconcile loop.
+function plannerNameIssue(name: unknown): string | null {
+  const words = nameWordCount(name);
+  if (words === 0) return "empty name";
+  if (words > NAME_WORD_CAP) return `name exceeds ${NAME_WORD_CAP} words (${words})`;
+  return null;
+}
+
 function toAxisObject(effects: unknown): Record<string, number> {
   const out: Record<string, number> = {};
   // original passed model output straight in; AXIS_IDS.includes() already guards
@@ -134,7 +153,11 @@ function reconcileQueue(rawNewQueue: RawQueueItem[] | null | undefined, { remain
       issues.push(`ref_alias ${item.ref_alias} already asked — dropping`);
       continue;
     }
-    if (!Array.isArray(item.axis_effects) || item.axis_effects.length === 0) {
+    // Check the WHITELISTED axis set, not the raw array: an item can arrive with
+    // a non-empty axis_effects whose every id is off the four-axis whitelist
+    // (toAxisObject strips those), which would otherwise materialise as an empty
+    // signature and violate the <rules> "non-empty axis_effects" contract.
+    if (Object.keys(toAxisObject(item.axis_effects)).length === 0) {
       // The planner often omits axis_effects on carried-forward refs. That's
       // recoverable — inherit the referenced question's signature rather than
       // dropping the question (the old order dropped BEFORE ref resolution,
@@ -146,7 +169,12 @@ function reconcileQueue(rawNewQueue: RawQueueItem[] | null | undefined, { remain
         };
         issues.push(`inherited axis_effects from ${ref.alias}`);
       } else {
-        issues.push(`dropped item with empty axis_effects: ${item.label || "(no label)"}`);
+        const hadAxes = Array.isArray(item.axis_effects) && item.axis_effects.length > 0;
+        issues.push(
+          hadAxes
+            ? `dropped item with no valid axis_effects (all off-whitelist): ${item.label || "(no label)"}`
+            : `dropped item with empty axis_effects: ${item.label || "(no label)"}`
+        );
         continue;
       }
     }
@@ -158,6 +186,20 @@ function reconcileQueue(rawNewQueue: RawQueueItem[] | null | undefined, { remain
       }
       usedAliases.add(ref.alias);
       out.push(ref);
+      continue;
+    }
+
+    // Name-shape gate — planner-written text (new or reworded; carried-unchanged
+    // items returned above) must be a single usable question: non-empty and
+    // within the word cap. On a reworded item, fall back to the untouched
+    // original, mirroring the grounding gate's carry-forward.
+    const nameIssue = plannerNameIssue(item.name);
+    if (nameIssue) {
+      issues.push(`name-shape: dropped planner item "${item.label || "(no label)"}" (${nameIssue})`);
+      if (ref && !usedAliases.has(ref.alias)) {
+        usedAliases.add(ref.alias);
+        out.push(ref);
+      }
       continue;
     }
 
@@ -242,4 +284,4 @@ function reconcileQueue(rawNewQueue: RawQueueItem[] | null | undefined, { remain
 }
 
 
-export { snapToAllowedDelta, toAxisObject, isUnchanged, normalizeGrounding, reconcileQueue };
+export { snapToAllowedDelta, toAxisObject, nameWordCount, plannerNameIssue, isUnchanged, normalizeGrounding, reconcileQueue };
