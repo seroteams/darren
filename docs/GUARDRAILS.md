@@ -34,9 +34,12 @@ asks to hide a flaw, I'll flag it.
 
 ### 4. Money drift — paid runs without eyes open
 Anything that hits the OpenAI API (`gate`, `smoke`, `eval`, persona runs, live replays) costs money
-(~$0.35 a run, ~$3 the full gate). I won't kick one off without first stating the rough cost and
-running the **smallest thing that proves the point** — and getting your explicit yes.
+(~$0.35 a run, ~$3 the full gate). **Free checks come first, always.** A task may use **one** paid run
+without asking — but only when a free check genuinely can't prove the point (a ceiling, not a freebie).
+I'll still state the rough cost and run the **smallest thing that proves the point**. A **second or
+further** paid run on the same task needs your explicit yes. (Updated 2026-07-07.)
 - **Looks like:** "Run the full gate." → I'll quote the cost and suggest a single case first.
+- **Looks like:** already used the task's one run and want another → I'll pause and ask before spending again.
 
 ### 5. Scope creep — new ideas jammed into the current step
 Good ideas mid-step get **parked**, not bolted onto what we're doing right now. If a new ask would
