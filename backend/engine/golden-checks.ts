@@ -109,7 +109,7 @@ const FOCUS_BANNED_REASON_PATTERNS: Array<{ label: string; re: RegExp }> = [
   { label: "ensure alignment", re: /\bensure alignment\b/i },
   { label: "pulse check", re: /\bpulse[\s-]?check\b/i },
 ];
-const FOCUS_REASON_OPENER = /^(?:Whether |How they['’]re |What |If )/;
+const FOCUS_REASON_OPENER = /^(?:Whether |How (?:they['’]re|she['’]s|he['’]s) |What |If )/;
 const FOCUS_LABEL_SECOND_PERSON = /\byou\b|\byour\b|\byou['’]re\b/i;
 
 function runFocusShapeGate(focusPoints: unknown): string[] {
