@@ -1,6 +1,19 @@
 # Phase 3 — Note-tag leak strip
 
-**Part of:** [PLAN.md](PLAN.md) · **Status:** ⬜
+**Part of:** [PLAN.md](PLAN.md) · **Status:** 🔨 built, awaiting product-owner walk
+
+## Build note — the leak doesn't exist today (full trace changed the scope)
+The plan assumed engine note-tags leak into an employee-facing / evaluation payload (based on the exploration). A full trace of the *tagged* field (`TranscriptEntry.note` = the planner's per-turn `assessment.note`, distinct from manager-captured `session.notes`) shows it reaches only:
+- **Manager's live dashboard** (`rules-view.ts`) — intended; it *parses* `[SKIP]`/`[SHALLOW]` into friendly status.
+- **Decision logic** (`reviewer.ts` read-quality, `review-core.ts`, `delta-gates.ts`) — these **need** the raw `[SHALLOW]` tag as a boolean signal and do **not** echo the note text to output. Stripping before them would break them.
+- **Internal dev artifacts** (`review-html.ts` static log pages, CLI console) — tags are *useful* there.
+- **Web/customer evaluation input** (`evaluation-inputs.ts`) — **does not include the note at all.**
+
+So there is **no employee-facing or email leak to fix**, and adding an unused `stripEngineTags` helper would be speculative code (violates CLAUDE.md §2). The genuinely useful, non-speculative deliverable is to **lock the current-safe state**: a guard test + a code comment ensuring the customer-facing evaluation input never starts carrying the tagged note. If a real export/email path for the note is added later, revisit with an actual sanitizer at that boundary.
+
+## What was actually built
+- One-line intent comment in [evaluation-inputs.ts](../../../backend/api/services/sessions/evaluation-inputs.ts) documenting why `t.note` is deliberately excluded from the transcript projection.
+- Guard test [evaluation-inputs.test.ts](../../../backend/api/services/sessions/evaluation-inputs.test.ts): a session with a `[SHALLOW]`-tagged note must produce an evaluation input containing no tag / no note prose / no `note` field.
 
 ## Goal
 Engine-only bracket tags in `assessment.note` (`[SHALLOW]`, `[THREAD-DEFERRED]`, `[COMMITMENT]`, `[NO-REPORT-SIGNAL]`, `[BUDGET-STARVED]`, `[WELLBEING-CAP]`, `[SKIP]`, etc.) never appear in a payload a person reads as prose — they're stripped at the presentation/export boundary, *after* the decision logic that legitimately parses them has already run.

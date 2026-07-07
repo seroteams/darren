@@ -22,7 +22,7 @@ The prompt [content/prompts/plan-turn.md](../../../content/prompts/plan-turn.md)
 |---|---|---|---|
 | 1 | Item-shape gates | Per-item validation in reconcile: axis-id whitelist, name ≤18 words, all-8-keys present → repair or drop | ✅ green-lit + committed `0d4325f1` |
 | 2 | Queue-shape gates | Cross-item gates in the planTurn gate sequence: budget length, closer-on-final-turn (+ regression tests; dangling ref_alias already enforced by reconcile — see phase-2 build note) | 🔨 built, awaiting walk |
-| 3 | Note-tag leak strip | Strip `[TAG]` engine vocab from `assessment.note` at the evaluation-input / export boundary, after decision logic reads it (ENGINE_VOCAB_LEAK / PRIVATE_NOTE_LEAK) | ⬜ |
+| 3 | Note-tag leak strip | **Trace found no live leak.** Locked the safe state instead: guard test + comment so the customer-facing evaluation input never starts carrying the tagged note | 🔨 built, awaiting walk |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -32,6 +32,10 @@ The prompt [content/prompts/plan-turn.md](../../../content/prompts/plan-turn.md)
 - **Phase 1 ✅ green-lit + committed (`0d4325f1`).**
 - **Phase 2 🔨 built** ([queue-manager.ts](../../../backend/engine/queue-manager.ts)): two new pure gates wired at the end of the planTurn gate sequence — `enforceCloserOnFinalTurn` (reserved closer leads on the final turn; reorder or pull-from-remaining) and `enforceBudgetLength` (≤ budget+1, and exactly budget when ≤2; tail-truncate so the front-loaded closer survives). Closer runs before budget. 9 tests in `queue-manager.test.ts` incl. 2 regression locks (`clampToSignature` off-signature drop, `isRelationalArc` classification). Dangling ref_alias: **already enforced** by reconcile (sanitize-to-new) — see phase-2 build note; no destructive drop added.
 - **Free checks:** `npm test` **85/85** · `tsc --noEmit` clean. (The formerly-failing `test-replay-regression.js` now passes on 4 runs; not our area — likely the shared working tree shifted under the baseline. Reported honestly, not claimed as a fix.)
+- **Phase 3 🔨 built** ([evaluation-inputs.ts](../../../backend/api/services/sessions/evaluation-inputs.ts)): a full trace of the tagged `TranscriptEntry.note` found **no employee-facing / email leak** — it reaches only the manager's dashboard (intended), decision-logic parsers (which need the raw tag), internal dev artifacts, and the web evaluation input **already excludes it**. So rather than add speculative strip code, locked the safe state: an intent comment + guard test (`evaluation-inputs.test.ts`) asserting a `[SHALLOW]`-tagged note never surfaces in the customer-facing evaluation input. Full reasoning in [phase-3.md](phase-3.md).
+- **Free checks (Phase 3):** `npm test` **86/86** · `tsc --noEmit` clean.
+
+**All three phases built. None self-certified ✅ — awaiting Carl's walk of the QA scenarios in each phase file.**
 
 - **Baseline (free, 2026-07-07):** `npm test` **82/83** — one pre-existing failure, `test-replay-regression.js` (`FOCUS_SHAPE_LEAK`), unrelated to reconcile item-shape. Recorded so it's not blamed on this work.
 - **What landed in Phase 1** ([reconcile-queue.ts](../../../backend/engine/reconcile-queue.ts)):

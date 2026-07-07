@@ -22,6 +22,12 @@ function buildEvaluationInputs(session: Session) {
     ctx: session.ctx,
     focusPoints: session.focusPointsResult.focus_points,
     selectedFocus: getSessionSelectedFocus(session),
+    // NB: the per-turn planner note (t.note) is deliberately NOT projected here.
+    // It carries engine-only vocabulary tags ([SHALLOW], [THREAD-DEFERRED], …)
+    // that are decision signals for the runner and the manager's live dashboard,
+    // never prose for the reviewer model or any customer-facing surface. Do not
+    // add `note: t.note` — it would leak that vocab into the evaluation input.
+    // (Locked by evaluation-inputs.test.ts.)
     transcript: session.transcript.map((t) => ({
       question: t.question.name,
       alias: t.question.alias,
