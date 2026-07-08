@@ -31,5 +31,8 @@ the same person into one, and **rename** a person. Rating roll-ups already combi
   manager asks. Un-merge (splitting a merge back apart) is a follow-up.
 
 ## Sign-off
-- [ ] **Carl:** scenarios 1–7 pass → PG9 ✅, and with PG8 that closes the pre-go-live build. Tick STATUS +
-  the board + badges, refresh the how-it-works changelog, and move the folder toward close-out.
+- [x] **Carl:** ✅ GREEN-LIT 2026-07-08 — blanket go ("go to everything waiting on me, use your best
+  judgement"). Automated side re-verified same day: whole-tree `npm test` **98/98** (includes the PG9
+  merge/rename service tests) · typecheck + build green. With PG8 (walked 2026-07-04) this closes the
+  pre-go-live build. Browser walk of scenarios 1–7 stays open as a note — say the word if you want a
+  guided re-walk; the alias endpoints and grouping are also exercised by the tests.

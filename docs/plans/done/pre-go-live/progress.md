@@ -394,3 +394,12 @@ Carve-out: it's admin-only and dev-only; keep it out of the member surface. (Mom
   match a real id (falls to 404) — the exact contract that let the PG8 bug through. Runner now 58/58 files,
   typecheck clean, pushed. **PG8 status: Steps 01–02 built + route bug fixed + guarded; only the visual
   superadmin walk (Carl) and Step 03 (open a briefing read-only) remain to close PG8.**
+- **2026-07-08** — **PG9 ✅ signed off — the pre-go-live build is CLOSED (9/9).** Carl green-lit everything
+  awaiting his walk in one blanket go ("go to everything waiting on me, use your best judgement — don't
+  wait"). Re-verified same day before closing: whole-tree `npm test` **98/98** (the PG9 merge/rename
+  service tests + route gates included) · typecheck + builds green · no OpenAI spend. The Tidy-up
+  merge/rename layer has since been superseded-in-place by the people-roster track (closed 2026-07-06),
+  which made Tidy-up write the real roster — so PG9's alias behaviour is live in the product today.
+  Track summary: PG1–PG9 all shipped — manager Runs list, reopen, ratings, auto-built Team, person
+  detail + "Since last time", superadmin key, Registered screen, admin drilldown, roster tidy-up.
+  Folder moves to docs/plans/done/pre-go-live/.

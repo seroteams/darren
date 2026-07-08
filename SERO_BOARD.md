@@ -64,8 +64,10 @@ facts. Not a feature. Folder → `docs/plans/done/cto-check-july/`. (Moat + lear
 phases (① carry-forward pre-fill on prep · ② one-tap outcome capture) **and** the whole 8-phase plan were
 pulled out cleanly. The **people-roster Phase 4 refactor** they'd been tangled with in the same merge was
 **kept** — that stays. No continuity code or plan files remain; `npm test` + both typechecks green after
-removal. Next real step: **close out pre-go-live PG9**, then the built-but-awaiting-walk tracks
-(guest-run, frontend-admin-split). **feedback-inbox ✅ closed 2026-07-08 · manager-ready ✅ closed 2026-07-08.**
+removal. Update 2026-07-08 (Carl's blanket go): **pre-go-live PG9 ✅ → track closed 9/9 · frontend-admin-split ✅
+closed · plan-turn-runner-gates ✅ closed**; guest-run P3's paid walk runs in its own session.
+**feedback-inbox ✅ closed 2026-07-08 · manager-ready ✅ closed 2026-07-08.** Next: postgres-runtime-data
+P3 (read cutover) + Carl's Render setup = the live alpha.
 
 **✅ Closed (2026-07-06): People roster — managers formally have members; 1:1s owned by that pair.**
 Grew out of Carl's "members should only see their own 1:1s": the fence was already sound but
@@ -94,9 +96,10 @@ auto-built from past 1:1s + person detail, and a **superadmin** read-only window
 "Since last time" + "Prep next 1:1", the read-only cross-company superadmin gate, and the **Registered**
 screen — every alpha company + people with the return-visit signal + rating summary, superadmin-only — all
 signed off, committed to `main`). **PG8 (drilldown, incl. open-a-briefing read-only) ✅ closed 2026-07-04**
-(Carl's call — read-only walk skipped; verification stands). **PG9 (merge duplicates + rename + roll-ups) is
-built — awaiting Carl's walk** to close the pre-go-live build. Safety-gate progress this session: the privacy note now
-discloses stored ratings + the superadmin cross-company view; run-qa C1 (tester-note leak) fixed. No hosting.
+(Carl's call — read-only walk skipped; verification stands). **PG9 ✅ closed 2026-07-08** (Carl's blanket
+go; re-verified whole-tree 98/98 on close) — **the pre-go-live build is DONE, 9/9.** Folder →
+[done/](docs/plans/done/pre-go-live/overview.md). Safety-gate progress this session: the privacy note now
+discloses stored ratings + the superadmin cross-company view; run-qa C1 (tester-note leak) fixed.
 
 **✅ Closed (2026-07-01): Phase 009 — Getting ready to share (real-data alpha).** Every actionable phase
 done; hosting (2) + continuity (8) folded into the pre-go-live track above

@@ -9,6 +9,13 @@
 ---
 
 ## Where we are now
+- **2026-07-08** — **pre-go-live track CLOSED (9/9).** PG9 (Tidy-up merge/rename + roll-ups) green-lit in
+  Carl's blanket "go to everything waiting on me" — the same go that closed frontend-admin-split (P4,
+  customer-only serving fence) and plan-turn-runner-gates (all 3 phases) in their own sessions. Lesson
+  worth keeping: with many parallel sessions receiving one blanket go, each session must claim only its
+  own track and check the others' live state before closing or spending — this session verified the
+  siblings' closes independently (98/98, offline replay PASS) instead of redoing them, and handed the
+  guest-run paid walk to its dedicated session to avoid a double OpenAI spend.
 - **Active phase:** 009 — Ready to share (alpha). **Phase 1 ✅ signed off** (`e68c4c8c`) and **Phase 4 ✅**
   (QA pile cleared). **001–008 are `done`.** Now finishing the remaining **non-hosting** phases (3·5·6·7·8)
   in one ultra batch (2026-07-01) — nothing live, no paid runs. Hosting (Phase 2) parked.
