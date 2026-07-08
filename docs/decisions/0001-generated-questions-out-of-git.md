@@ -22,7 +22,7 @@ Keep them gitignored (the rule already exists: `/content/questions/*.yaml`) and 
 ## The real moat (not these files)
 Outcome data — which questions actually lead to agreed actions that *happen* — captured via the
 deterministic `outcomeCheck` signal, keyed to each question. Lives in a database at go-live, backed
-up. Tracked separately in `docs/todo/questions-outcome-moat/`.
+up. Tracked separately in `docs/archive/plans/questions-outcome-moat/`.
 **Constraint:** outcome/effectiveness signal only — never train or infer on manager notes about
 employees (no-inference ruling).
 

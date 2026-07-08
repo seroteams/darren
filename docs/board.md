@@ -39,7 +39,7 @@ Legend: `⬜ not started` · `🔨 built, awaiting walk` · `✅ done (green-lit
 | [planner-grounding](archive/plans/planner-grounding/plan.md) | Diagnosis + scope locked; awaiting a test-strategy pick. |
 | [briefing-readability-p0](archive/plans/briefing-readability-p0/phase-1.md) | Scaffolded, parked. |
 | [design-cleanups](archive/plans/design-cleanups/plan.md) | Blocked on parallel tracks (admin-registered, universe). |
-| questions-outcome-moat | 🅿️ Outcome-capture "moat" — parked until real alpha usage (local-only working folder). |
+| [questions-outcome-moat](archive/plans/questions-outcome-moat/PLAN.md) | 🅿️ Outcome-capture "moat" — parked until real alpha usage. |
 
 ## Cut — removed, stays cut
 
