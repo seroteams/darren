@@ -33,8 +33,8 @@ just reference, and what's generated (and therefore safe to delete/rebuild).
 | `evals/` | Engine-correctness checks — `trust-checks.js`, golden/fixtures/replay | **live test code** |
 | `scripts/` | Runners + verification — `gate.js`, `sweep.js`, `eval.js`, `replay-*`, `test-*.js` | **tooling** |
 | `logs/` | Run artifacts — mostly git-ignored; only `logs/may/` is the kept baseline | **generated (mostly untracked)** |
-| `docs/` | Technical docs + `plans/` (live specs/ledgers) + `pre-go-live/` (active track) + `archives/` (finished/superseded + screenshots) | **docs (live)** |
-| `docs/workstreams/` | Active Darren-Method work — one folder per workstream; finished ones move to `docs/archive/done/` | **active work** |
+| `docs/` | Technical docs + `plans/` (all plan work) + `reference/` (rulebooks) + `reports/` + `archive/` (misc old artifacts) | **docs (live)** |
+| `docs/plans/` | **All plan work, three buckets:** `doing/` (active Darren-Method tracks) · `future/` (queued + parked) · `done/` (finished, archived). The `board.md` kanban is the glance over these. | **active work** |
 
 ## Root files worth knowing
 
@@ -54,10 +54,10 @@ just reference, and what's generated (and therefore safe to delete/rebuild).
   is correct.
 - **`content/config/` vs `content/data/`** — `config/` is static, human-edited settings
   you commit; `data/` is runtime state, often generated/rebuilt (some of it git-ignored).
-- **`docs/plans/` vs `docs/workstreams/` vs `SERO_BOARD.md`** — `docs/plans/` holds *live* specs +
-  ledgers for active tooling (e.g. the reviewrun spec/ledger); *archived* plans live in
-  `docs/archive/plans/`; `docs/workstreams/` is *active* in-flight build work; `SERO_BOARD.md`
-  is the single board that says what's active right now. If in doubt, read the board.
+- **`docs/plans/` vs `SERO_BOARD.md`** — `docs/plans/` holds the plan *folders* in three
+  buckets (`doing/` active · `future/` queued+parked · `done/` finished); `docs/board.md` is
+  the kanban glance over them; `SERO_BOARD.md` is the strategic board that says what's active
+  right now. If in doubt, read the board.
 - **`content/prompts/` vs `content/config/`** — `prompts/` is what we tell the model
   (templates); `config/` is which models/personas and numeric settings.
 

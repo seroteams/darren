@@ -14,24 +14,24 @@ This is the **plan index**, not a rival status file. For detail: [`STATUS.md`](.
 
 | Track | Your move |
 |---|---|
-| [pre-go-live](workstreams/pre-go-live/overview.md) | Walk **PG9** (Team → Tidy up: merge + rename) — or say **"close pg9"**. It's the *last* open phase; green light archives the whole track. |
-| [render-deploy](workstreams/render-deploy/plan.md) | Walk **P1** — open `localhost:3001/api/v1/health` → `{"ok":true}`. You need this for tonight's Render setup. |
-| [postgres-runtime-data](workstreams/postgres-runtime-data/plan.md) | Walk **P2** — run a real 1:1; looks identical, I show you the rows in Neon. (P1 ✅) |
-| [manager-ready](workstreams/manager-ready/plan.md) | Walk **P2** — open any page, do the headings feel like your Figma? (P1 ✅) |
-| [guest-run](workstreams/guest-run/plan.md) | Walk **P2** — browse as a guest (4 scenarios). (P1 ✅) |
-| [feedback-inbox](workstreams/feedback-inbox/plan.md) | Walk **P1** — send a note → see it in the inbox. |
-| [frontend-admin-split](workstreams/frontend-admin-split/plan.md) | Walk **P2** — customer app on :3002, no internal tools. (P1 ✅) |
-| [plan-turn-runner-gates](workstreams/plan-turn-runner-gates/plan.md) | Walk **P2 + P3** — free (`npm test` + fixtures replay). (P1 ✅) |
-| [hide-ai-words](workstreams/hide-ai-words/plan.md) | Walk **P2** — the hide / restore UI. (P1 ✅) |
-| [page-heartbeat](workstreams/page-heartbeat/plan.md) | Walk **P3** — Tasks-board "Update from docs". (P1 ✅, P2 still ⬜) |
-| [engine-improvements](workstreams/engine-improvements/plan.md) | **Decide** the stonewall policy → [01-stonewall-exit.md](workstreams/engine-improvements/01-stonewall-exit.md) (my rec: 3 strikes → offer reschedule → close). |
-| [run-qa-fixes-jul04](workstreams/run-qa-fixes-jul04/plan.md) | **Give the go** on P2–4 (prompt fixes — each needs a paid run). P1 ✅ committed. |
+| [pre-go-live](plans/doing/pre-go-live/overview.md) | Walk **PG9** (Team → Tidy up: merge + rename) — or say **"close pg9"**. It's the *last* open phase; green light archives the whole track. |
+| [render-deploy](plans/doing/render-deploy/plan.md) | Walk **P1** — open `localhost:3001/api/v1/health` → `{"ok":true}`. You need this for tonight's Render setup. |
+| [postgres-runtime-data](plans/doing/postgres-runtime-data/plan.md) | Walk **P2** — run a real 1:1; looks identical, I show you the rows in Neon. (P1 ✅) |
+| [manager-ready](plans/doing/manager-ready/plan.md) | Walk **P2** — open any page, do the headings feel like your Figma? (P1 ✅) |
+| [guest-run](plans/doing/guest-run/plan.md) | Walk **P2** — browse as a guest (4 scenarios). (P1 ✅) |
+| [feedback-inbox](plans/doing/feedback-inbox/plan.md) | Walk **P1** — send a note → see it in the inbox. |
+| [frontend-admin-split](plans/doing/frontend-admin-split/plan.md) | Walk **P2** — customer app on :3002, no internal tools. (P1 ✅) |
+| [plan-turn-runner-gates](plans/doing/plan-turn-runner-gates/plan.md) | Walk **P2 + P3** — free (`npm test` + fixtures replay). (P1 ✅) |
+| [hide-ai-words](plans/doing/hide-ai-words/plan.md) | Walk **P2** — the hide / restore UI. (P1 ✅) |
+| [page-heartbeat](plans/doing/page-heartbeat/plan.md) | Walk **P3** — Tasks-board "Update from docs". (P1 ✅, P2 still ⬜) |
+| [engine-improvements](plans/doing/engine-improvements/plan.md) | **Decide** the stonewall policy → [01-stonewall-exit.md](plans/doing/engine-improvements/01-stonewall-exit.md) (my rec: 3 strikes → offer reschedule → close). |
+| [run-qa-fixes-jul04](plans/doing/run-qa-fixes-jul04/plan.md) | **Give the go** on P2–4 (prompt fixes — each needs a paid run). P1 ✅ committed. |
 
 ## 🔨 BUILDING — mine, in progress
 
 | Track | State |
 |---|---|
-| [user-management](workstreams/user-management/plan.md) | **P3** deactivate / reactivate a user. P1–2 ✅ · P0, P4–5 ⬜. |
+| [user-management](plans/doing/user-management/plan.md) | **P3** deactivate / reactivate a user. P1–2 ✅ · P0, P4–5 ⬜. |
 
 ## ⬜ QUEUED — next, after the "Now" lane is green
 
@@ -46,14 +46,14 @@ This is the **plan index**, not a rival status file. For detail: [`STATUS.md`](.
 
 | Plan | Why |
 |---|---|
-| [planner-grounding](archive/plans/planner-grounding/plan.md) | Diagnosis + scope locked; awaiting a test-strategy pick. |
-| [briefing-readability-p0](archive/plans/briefing-readability-p0/phase-1.md) | Scaffolded, parked. |
-| [design-cleanups](archive/plans/design-cleanups/plan.md) | Blocked on parallel tracks (admin-registered, universe). |
-| [questions-outcome-moat](archive/plans/questions-outcome-moat/PLAN.md) | Outcome-capture "moat" — parked until real alpha usage. |
+| [planner-grounding](plans/future/planner-grounding/plan.md) | Diagnosis + scope locked; awaiting a test-strategy pick. |
+| [briefing-readability-p0](plans/future/briefing-readability-p0/phase-1.md) | Scaffolded, parked. |
+| [design-cleanups](plans/future/design-cleanups/plan.md) | Blocked on parallel tracks (admin-registered, universe). |
+| [questions-outcome-moat](plans/future/questions-outcome-moat/PLAN.md) | Outcome-capture "moat" — parked until real alpha usage. |
 
 ## ✅ DONE — closed + archived
 
-All 33 in [archive/done/](archive/done/). Recent: people-roster · member-invites · start-screen ·
+All 34 in [plans/done/](plans/done/). Recent: people-roster · member-invites · start-screen ·
 design-system · error-log · live-data-cleanup · mobile-responsive · test-engine-hub ·
 no-inference-ruling · roles-admin-manager-member · cleanup-audit · cto-check-july.
 

@@ -259,12 +259,12 @@ must work with no page-level sideways scroll. Ten-rule "before you build" checkl
 This project runs on discipline as much as code. If you're advising or continuing the work,
 these rules are binding:
 
-**The Darren Method (any multi-step change):** plan lives in `docs/workstreams/<slug>/` — a `plan.md`
+**The Darren Method (any multi-step change):** plan lives in `docs/plans/doing/<slug>/` — a `plan.md`
 overview + one file per phase, each phase ending with QA scenarios. **One phase at a time.**
 Rituals: baseline first (run free checks before touching anything, so pre-existing failures
 don't get blamed on new work) → build → offline-verify → **Carl walks the QA scenarios and
 green-lights** (the agent never self-certifies "done") → commit on green light (local only, no
-push unless asked) → next phase. Finished plans move to `docs/archive/done/`. Cut scope goes to a
+push unless asked) → next phase. Finished plans move to `docs/plans/done/`. Cut scope goes to a
 "Parked" section, not into the current phase.
 
 **Two trackers, nothing else is a status source** (`docs/reference/trackers.md` is the map):

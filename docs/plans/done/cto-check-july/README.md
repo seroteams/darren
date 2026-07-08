@@ -22,16 +22,19 @@ That's it. Not moat, not scale — just: *is the core output actually good on th
 [x] 4. Is the SUMMARY good?       ✅ good + honest — findings-4.md
 ```
 
-**All 4 steps done (free).** The scoreboard:
+**✅ CLOSED 2026-07-07 (Carl: "close it").** The scoreboard:
 | Output | Verdict | |
 |---|---|---|
 | 📄 Brief | 🟢 good + honest | proven |
-| ❓ Questions | 🟡 good on specific notes | **1 open risk** ↓ |
+| ❓ Questions | 🟡 good on specific notes | **1 open risk (deferred)** ↓ |
 | 📝 Summary | 🟢 good + honest | proven |
 
-**The one open thing:** on a *vague* note, does the question stage still invent a fact (the "illness")? Not
-yet re-tested on the current model. **Read [findings-4.md](findings-4.md)** for the full wrap-up, then say
-**"prove the questions"** (~$0.35, closes the risk) or **"close it"**.
+**Overall:** *does little info give a good brief, questions & summary?* → **Mostly YES.** Brief + summary are
+good and honest on the current model; questions are good on specific notes.
+
+**One risk deferred (not lost):** on a *vague* note, does the question stage still invent a fact (the
+"illness")? The question stage wasn't re-tested on the current model. Parked in [PLAN.md](PLAN.md) — pick it
+up first if this is ever reopened (~$0.35 to close). Full wrap-up: **[findings-4.md](findings-4.md)**.
 
 ---
 
@@ -64,9 +67,10 @@ The rest is my working notes.
 
 ---
 
-## ▶ YOUR MOVE RIGHT NOW
-All 4 steps are done and written up (free). One open risk remains — the question stage's fabrication on a
-*vague* note is unproven on the current model. **Say "prove the questions"** (~$0.35) to close it, or
-**"close it"** to wrap the check as-is. Full picture: **[findings-4.md](findings-4.md)**.
+## ✅ THIS CHECK IS CLOSED
+Wrapped 2026-07-07 on Carl's "close it". Verdict: **mostly yes — the brief and summary are good and honest
+on thin input; questions are good on specific notes.** One risk was consciously deferred (the question
+stage's fabrication on a *vague* note — untested on the current model); it's parked in [PLAN.md](PLAN.md) so
+it isn't lost. To reopen, start there.
 
-*(Parked on purpose, not now: the "moat" question and "learning from past runs".)*
+*(Parked on purpose: the "moat" question and "learning from past runs".)*

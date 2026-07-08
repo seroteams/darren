@@ -25,7 +25,7 @@ One word, two jobs. Mid-work = **save**. Fresh session = **restore**. Don't ask 
 Read, in order — then answer. Never ask "what do you mean":
 
 - [ ] [STATUS.md](../../../STATUS.md) — the ▶ Your move banner + phase boxes.
-- [ ] The active workstream's `plan.md` "Current state" (under `docs/workstreams/<slug>/`).
+- [ ] The active workstream's `plan.md` "Current state" (under `docs/plans/doing/<slug>/`).
 - [ ] `git log --oneline -15` — what actually landed.
 - [ ] [SERO_BOARD.md](../../../SERO_BOARD.md) if the question is bigger than the current phase.
 

@@ -53,7 +53,7 @@ For this project, "done" usually means: the behavior changed in the way asked, i
 
 ## 5. The Darren Method (multi-step work)
 
-For any change big enough to need a plan, use the **[`darren-method`](.claude/skills/darren-method/SKILL.md) skill**: split into `docs/workstreams/<slug>/` (plan.md + phase files ending in QA scenarios), one phase at a time, Carl green-lights each — never self-certify. All the rituals (baseline first, green light = commit, park don't expand, close-out) and the templates live in the skill. When Carl approves a phase, the [`phase-close`](.claude/skills/phase-close/SKILL.md) skill runs the tracker checklist.
+For any change big enough to need a plan, use the **[`darren-method`](.claude/skills/darren-method/SKILL.md) skill**: split into `docs/plans/doing/<slug>/` (plan.md + phase files ending in QA scenarios), one phase at a time, Carl green-lights each — never self-certify. All the rituals (baseline first, green light = commit, park don't expand, close-out) and the templates live in the skill. When Carl approves a phase, the [`phase-close`](.claude/skills/phase-close/SKILL.md) skill runs the tracker checklist.
 
 ---
 

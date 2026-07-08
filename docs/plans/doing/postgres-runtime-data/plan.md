@@ -59,7 +59,7 @@ Key decisions (full detail in the phase files):
 | # | Phase | Why | Status |
 |---|-------|-----|--------|
 | 1 | [Foundations](phase-1.md) — schema + boot migrate + safety catch | The live/local wall must exist BEFORE two environments do; zero behavior change = safest opener | 🔨 built, awaiting QA |
-| 2 | [Write path](phase-2.md) — every new run saves to the DB too | Fill the DB while disk stays canonical — nothing can be lost; closes the CLI bypass hole | ⬜ |
+| 2 | [Write path](phase-2.md) — every new run saves to the DB too | Fill the DB while disk stays canonical — nothing can be lost; closes the CLI bypass hole | 🔨 built, awaiting QA |
 | 3 | [Read cutover](phase-3.md) — the app trusts the DB | Only after P2 proves writes; the org/member privacy walls get rewritten as SQL → strictest testing | ⬜ |
 | 4 | [Questions](phase-4.md) — the invented-question pool | Powers "never ask the same question twice" — own failure mode, own QA | ⬜ |
 | 5 | [Small stores](phase-5.md) — profiles, aliases, audit, learning data | Each tiny and low-risk; one grouped phase, not five ceremonies | ⬜ |
@@ -72,9 +72,13 @@ flips back to files.
 ## Current state
 
 - **2026-07-08 — workstream opened.** Plan approved by Carl. Baseline recorded (below), all green.
-- **2026-07-08 — Phase 1 BUILT, awaiting Carl's QA.** Migrations 0009+0010 applied; boot-time
-  migrate + env-guard proven live (claim AND refusal); 87/87 tests, typecheck clean, $0 spent.
-  Walk: the 3 scenarios in [phase-1.md](phase-1.md).
+- **2026-07-08 — Phase 1 ✅ green-lit + committed (`a11f3594`).** Migrations 0009+0010 applied;
+  boot-time migrate + env-guard proven live (claim AND refusal). Carl created the Sero Live Neon
+  project; its URL is parked in `.env` as `LIVE_DATABASE_URL` (app doesn't read it).
+- **2026-07-08 — Phase 2 BUILT, awaiting Carl's QA.** Dual-write live behind the `logStage`/
+  `upsertSession` funnel; proven free (run row + all stage artifacts land in Neon). FK dropped
+  (migration 0011) so artifacts are lane-agnostic. 88/88 tests, typecheck clean, $0. Per-turn files
+  + sidecars deferred (see phase-2.md). Walk: the scenarios in [phase-2.md](phase-2.md).
 
 ## Baseline (2026-07-08, before Phase 1)
 

@@ -1,6 +1,48 @@
 # Phase 2 — Write path: every new run saves to the DB too (dual-write)
 
-**Status:** ⬜ not started (blocked by Phase 1 green light)
+**Status:** 🔨 BUILT 2026-07-08 — awaiting Carl's QA walk
+
+## Build results (2026-07-08)
+
+Dual-write is live behind the existing funnel. Proven **free** (no OpenAI) with a throwaway
+script that ran the real `createSession` + `logStage` + `upsertSession`, flushed, and read the
+rows back from Neon:
+- **Session row** carried every denormalized column (personName "Priya", role, meetingType,
+  mode, personaId, runLabel, finished, lastSeenAt) — listings won't need a jsonb scan.
+- **All 7 stage artifacts** landed: `01-focus-points/{inputs.json,prompt.md,response.json}` +
+  `05-evaluation/{inputs.json,prompt.md,response.json,final.json}`.
+- Rows cleaned up after; echo dir removed.
+- Checks: `npm test` **88/88** (new `run-artifacts-store.test.ts`) · typecheck clean · **$0**.
+
+### What Phase 2 captures
+- The **session row**: full `state` jsonb **plus** the denormalized index columns
+  (`db/sessions-store.ts indexColumns`). `state` already carries transcript, axis-state,
+  turnSnapshots and notes — so those ride along for free.
+- The **pipeline stage artifacts** via the `logStage` funnel (all lanes: web, persona, CLI):
+  focus-points, role-profile, preparation, question-bank, evaluation → inputs/prompt/response/final.
+- `feedback.json`.
+- **Dev file-echo** (`RUN_FILE_ECHO`, on locally / off in live) keeps disk copies for tooling
+  and is the rollback; `createSession` no longer creates empty dirs when echo is off.
+- `flushArtifactWrites()` wired into CLI exit + server shutdown so short processes don't drop writes.
+
+### Deliberately deferred (honest scope cut)
+- **Per-turn dynamic-answer files** (`04-dynamic-answers/NN-prompt.md`/`NN-response.json`) and
+  `cost.json` — written outside `logStage` (in `session-streams.ts`, `persona-runs.runner.ts`,
+  `cli/stages/questioning.ts`). Folded into **Phase 3**, where those reads move to the DB (capturing
+  them here would be write-only until then). The turn *content* is already in `state.transcript`.
+- **Append-sidecars** (eligibility-log, amend-log, notes.md, lexicon-decisions.jsonl,
+  script-coverage) → **Phase 5** (small stores) — they're per-run log-only diagnostics.
+- `feedback.json` append correctness under echo-OFF (reads the disk array today) → noted for **Phase 7**.
+
+### Design note
+The `run_artifacts → sessions` foreign key was **dropped** (migration 0011): artifacts are written
+from every lane including the pure-terminal CLI, which builds no session row, so requiring the parent
+row first would make writes order-dependent and fragile. The unique `(session_key, stage, name)`
+index still keys upserts; Phase 7 deletes artifacts explicitly instead of via cascade.
+
+---
+
+## Original scope (as planned)
 
 ## Why this phase
 

@@ -1,6 +1,6 @@
 ---
 name: darren-method
-description: "The team's standard way to run any multi-step build. Turn a plan into a docs/workstreams/<slug>/ folder — a plan.md overview plus phase files that each end with QA scenarios — then do ONE phase at a time, with the product owner testing and green-lighting before the next phase. Trigger when the user says /darren-method, 'darren method', 'split this into phases', 'set up the todo folder', or hands over a plan to break down and work through. Use for any change big enough to need a plan; skip for trivial one-file edits."
+description: "The team's standard way to run any multi-step build. Turn a plan into a docs/plans/doing/<slug>/ folder — a plan.md overview plus phase files that each end with QA scenarios — then do ONE phase at a time, with the product owner testing and green-lighting before the next phase. Trigger when the user says /darren-method, 'darren method', 'split this into phases', 'set up the todo folder', or hands over a plan to break down and work through. Use for any change big enough to need a plan; skip for trivial one-file edits."
 argument-hint: "<plan file path, or feature name/slug>"
 user-invocable: true
 ---
@@ -25,7 +25,7 @@ The Darren Method. How we run multi-step work so it doesn't fall over.
 ## What it builds
 
 ```
-docs/workstreams/<slug>/
+docs/plans/doing/<slug>/
   plan.md      the overview (lowercase — some old folders say PLAN.md; new ones don't)
   phase-1.md   one phase + its test scenarios
   phase-2.md
@@ -52,7 +52,7 @@ docs/workstreams/<slug>/
 - [ ] Hand testing to the product owner: show them the scenarios + anything that helps them test (a screenshot, what to click). Then **wait**.
 - [ ] Green light? Run the [phase-close](../phase-close/SKILL.md) ritual — it updates `plan.md`, STATUS.md, the badges and the logs together, then **commits the phase** (local only — no push/PR unless asked).
 - [ ] Scope you cut or ideas for later go in plan.md's "Parked" section — not into this phase.
-- [ ] All phases ✅? Move the folder to `docs/archive/done/<slug>/`.
+- [ ] All phases ✅? Move the folder to `docs/plans/done/<slug>/`.
 - [ ] **Stop.** No green light = no next phase. One phase per run. Suggest the next one another day.
 
 ## Templates

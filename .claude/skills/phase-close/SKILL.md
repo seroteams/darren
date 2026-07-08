@@ -10,7 +10,7 @@ Carl said "tested, good". Now every tracker moves together — this exact list, 
 
 ## The checklist
 
-- [ ] **1. The workstream** — `docs/workstreams/<slug>/`:
+- [ ] **1. The workstream** — `docs/plans/doing/<slug>/`:
       phase status → ✅ in `plan.md`'s Phases table, update "Current state" (what landed, how
       tested, what's next). Add the `## ✅ GREEN-LIT <date>` header to the phase file (see the
       darren-method phase template).
@@ -28,7 +28,7 @@ Carl said "tested, good". Now every tracker moves together — this exact list, 
       [docs/reports/sero-changelog.html](../../../docs/reports/sero-changelog.html) (manual refresh — they never self-update).
 - [ ] **7. Commit** — green light = commit, right away, local only (no push/PR unless asked).
       Follow [safe-commit](../safe-commit/SKILL.md): path-scoped, never sweeping foreign work.
-- [ ] **8. All phases ✅?** Move the folder to `docs/archive/done/<slug>/` and roll STATUS.md
+- [ ] **8. All phases ✅?** Move the folder to `docs/plans/done/<slug>/` and roll STATUS.md
       to the next active plan.
 
 A phase close IS a checkpoint-save — the [checkpoint](../checkpoint/SKILL.md) rules (STATUS 📍 note, chat-log refresh) ride along with step 7.
