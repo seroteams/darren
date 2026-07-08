@@ -1,60 +1,66 @@
-# docs board — plans at a glance
+# 📋 The board — kanban of every plan
 
-Every `docs/workstreams/` and archived plan folded into one card. This is the **plan/workstream
-index**, not a rival status tracker — the canonical two remain [`STATUS.md`](../STATUS.md) (tactical,
-per-phase) and [`SERO_BOARD.md`](../SERO_BOARD.md) (strategic). See [reference/trackers.md](reference/trackers.md).
+One glance = where everything is. Cards move left→right as work lands:
+**🅿️ Parked → ⬜ Queued → 🔨 Building (me) → 🚶 Your move → ✅ Done.**
 
-Legend: `⬜ not started` · `🔨 built, awaiting walk` · `✅ done (green-lit)` · `🅿️ parked`
+This is the **plan index**, not a rival status file. For detail: [`STATUS.md`](../STATUS.md)
+(what's happening right now) · [`SERO_BOARD.md`](../SERO_BOARD.md) (the strategic map).
 
 ---
 
-## Now — active workstreams
+## 🚶 YOUR MOVE — waiting on you (walk or decide)
 
-| Workstream | State |
+*The important lane. Each of these is built + checked on my side; it just needs your walk or a call.*
+
+| Track | Your move |
 |---|---|
-| [pre-go-live](workstreams/pre-go-live/overview.md) | **The active line.** PG1–PG8 ✅ closed; **PG9** (roster tidy-up: merge + rename) 🔨 built, awaiting walk — the last open pre-go-live phase. |
-| [cto-check-july](workstreams/cto-check-july/) | 🆕 Free CTO quality read: does *thin* manager input give a good brief, questions & summary? 4 steps, judged on existing run logs. ⬜ not started. *(untracked / local-only working folder)* |
-| [plan-turn-runner-gates](workstreams/plan-turn-runner-gates/plan.md) | Promote mechanical prompt rules to code gates. P1 ✅ green-lit · P2/P3 🔨 built, awaiting walk. |
-| [guest-run](workstreams/guest-run/plan.md) | No-account guest try-out. P1 ✅ · P2 🔨 built, awaiting walk · P3–4 ⬜. |
-| [feedback-inbox](workstreams/feedback-inbox/plan.md) | Superadmin page for in-app feedback notes (own Neon table). 🔨 built, awaiting walk. |
-| [manager-ready](workstreams/manager-ready/plan.md) | Manager rail + design polish (Bricolage, 4px, one date format). P1 ✅ · P2 🔨 built, awaiting walk. |
-| [frontend-admin-split](workstreams/frontend-admin-split/plan.md) | Split the customer app out from admin. P1 ✅ · P2 🔨 built, awaiting walk · P3–4 ⬜. |
-| [page-heartbeat](workstreams/page-heartbeat/plan.md) | Real "Update" buttons that re-read the repo. P1 ✅ · P3 🔨 built · P2 ⬜. |
-| [hide-ai-words](workstreams/hide-ai-words/plan.md) | Manager can hide AI role-words (reversible), never in real 1:1s. P1 ✅ · P2 🔨 built, awaiting walk. |
-| [user-management](workstreams/user-management/plan.md) | Superadmin user table. P1–2 ✅ · P3 🔨 (deactivate/reactivate) · P0, P4–5 ⬜. |
-| [run-qa-fixes-jul04](workstreams/run-qa-fixes-jul04/plan.md) | Fix four engine defects. P1 ✅ (committed) · P2–4 ⬜ (prompt changes — need paid runs). |
-| [engine-improvements](workstreams/engine-improvements/plan.md) | Back-catalogue engine improvements. "B" done + committed; #1 [stonewall exit](workstreams/engine-improvements/01-stonewall-exit.md) is a decision brief awaiting a policy call. |
+| [pre-go-live](workstreams/pre-go-live/overview.md) | Walk **PG9** (Team → Tidy up: merge + rename) — or say **"close pg9"**. It's the *last* open phase; green light archives the whole track. |
+| [render-deploy](workstreams/render-deploy/plan.md) | Walk **P1** — open `localhost:3001/api/v1/health` → `{"ok":true}`. You need this for tonight's Render setup. |
+| [postgres-runtime-data](workstreams/postgres-runtime-data/plan.md) | Walk **P2** — run a real 1:1; looks identical, I show you the rows in Neon. (P1 ✅) |
+| [manager-ready](workstreams/manager-ready/plan.md) | Walk **P2** — open any page, do the headings feel like your Figma? (P1 ✅) |
+| [guest-run](workstreams/guest-run/plan.md) | Walk **P2** — browse as a guest (4 scenarios). (P1 ✅) |
+| [feedback-inbox](workstreams/feedback-inbox/plan.md) | Walk **P1** — send a note → see it in the inbox. |
+| [frontend-admin-split](workstreams/frontend-admin-split/plan.md) | Walk **P2** — customer app on :3002, no internal tools. (P1 ✅) |
+| [plan-turn-runner-gates](workstreams/plan-turn-runner-gates/plan.md) | Walk **P2 + P3** — free (`npm test` + fixtures replay). (P1 ✅) |
+| [hide-ai-words](workstreams/hide-ai-words/plan.md) | Walk **P2** — the hide / restore UI. (P1 ✅) |
+| [page-heartbeat](workstreams/page-heartbeat/plan.md) | Walk **P3** — Tasks-board "Update from docs". (P1 ✅, P2 still ⬜) |
+| [engine-improvements](workstreams/engine-improvements/plan.md) | **Decide** the stonewall policy → [01-stonewall-exit.md](workstreams/engine-improvements/01-stonewall-exit.md) (my rec: 3 strikes → offer reschedule → close). |
+| [run-qa-fixes-jul04](workstreams/run-qa-fixes-jul04/plan.md) | **Give the go** on P2–4 (prompt fixes — each needs a paid run). P1 ✅ committed. |
 
-## Next — queued (after Now is green)
+## 🔨 BUILDING — mine, in progress
+
+| Track | State |
+|---|---|
+| [user-management](workstreams/user-management/plan.md) | **P3** deactivate / reactivate a user. P1–2 ✅ · P0, P4–5 ⬜. |
+
+## ⬜ QUEUED — next, after the "Now" lane is green
 
 | Item | Scope |
 |---|---|
 | SSO auth (Google/Microsoft) | Don't roll our own passwords — revisit near release (Darren coaching). |
 | Guest save-at-end + Guest-runs screen | guest-run phases 3–4. |
+| postgres P3–P7 | Read cutover → questions → small stores → import ~250 runs → retire files. |
+| render-deploy P2–P4 | Blueprint → go live → /commit + /release skills. |
 
-## Parked — deliberately on hold
+## 🅿️ PARKED — deliberately on hold
 
 | Plan | Why |
 |---|---|
 | [planner-grounding](archive/plans/planner-grounding/plan.md) | Diagnosis + scope locked; awaiting a test-strategy pick. |
 | [briefing-readability-p0](archive/plans/briefing-readability-p0/phase-1.md) | Scaffolded, parked. |
 | [design-cleanups](archive/plans/design-cleanups/plan.md) | Blocked on parallel tracks (admin-registered, universe). |
-| [questions-outcome-moat](archive/plans/questions-outcome-moat/PLAN.md) | 🅿️ Outcome-capture "moat" — parked until real alpha usage. |
+| [questions-outcome-moat](archive/plans/questions-outcome-moat/PLAN.md) | Outcome-capture "moat" — parked until real alpha usage. |
 
-## Cut — removed, stays cut
+## ✅ DONE — closed + archived
+
+All 33 in [archive/done/](archive/done/). Recent: people-roster · member-invites · start-screen ·
+design-system · error-log · live-data-cleanup · mobile-responsive · test-engine-hub ·
+no-inference-ruling · roles-admin-manager-member · cleanup-audit · cto-check-july.
+
+## ✂️ CUT — removed, stays cut
 
 | What | When |
 |---|---|
-| Continuity / "moat" track (carry-forward pre-fill + outcome taps + 8-phase plan) | Ripped out 2026-07-06 (Carl: "rip it all out"); people-roster refactor kept. |
+| Continuity / "moat" track (carry-forward pre-fill + outcome taps + 8-phase plan) | Ripped out 2026-07-06 ("rip it all out"); people-roster refactor kept. |
 | see-before-sent (standalone) | Folded into sent-preview, 2026-07-04. |
-| Phase 2 — hosting | Parked (009); picks up when a shareable URL is wanted. |
-| Phase 8 — continuity | Deferred/folded, then removed with the moat track. |
-
-## Done — closed, archived
-
-All in [archive/done/](archive/done/) (33 workstreams). Recent closes:
-people-roster · member-invites · start-screen · design-system · error-log · live-data-cleanup ·
-mobile-responsive · test-engine-hub · no-inference-ruling · roles-admin-manager-member · cleanup-audit.
-Earlier: the Prototype→Production line (monorepo-reorg → security), auth-front-door, postgres-foundation,
-backend-api-v1, login-screen, people-roster and the engine/runner tracks. Full list:
-[archive/done/](archive/done/).
+| Phase 2 — hosting (009) | Superseded by the render-deploy track. |
