@@ -2,6 +2,9 @@ node_modules
 admin/dist
 .env
 .env.local
+
+# Local credentials for outside services (Render API key etc.) — never committed
+.secrets/
 .DS_Store
 *.zip
 !docs/archive/**/*.zip

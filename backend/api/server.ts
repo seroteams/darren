@@ -11,11 +11,13 @@ import { startSweep } from "./sessions.ts";
 import { getBuildInfo } from "./build-info.ts";
 import { runMigrations } from "../db/migrate.ts";
 import { runEnvironmentGuard, EnvGuardError } from "../db/env-guard.ts";
+import { flushArtifactWrites } from "../db/run-artifacts-store.ts";
 
 import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as auth from "./services/auth/auth.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
+import { originOk } from "./middleware/origin.ts";
 import { requireAdminRoute } from "./middleware/admin-guard.ts";
 import { requireSuperadminRoute } from "./middleware/superadmin-guard.ts";
 import { forbidden, rateLimited } from "./middleware/http-error.ts";
@@ -35,6 +37,7 @@ import * as feedback from "./services/feedback/feedback.controller.ts";
 import * as superadmin from "./services/superadmin/superadmin.controller.ts";
 import * as heartbeat from "./services/heartbeat/heartbeat.controller.ts";
 import * as errorLog from "./services/error-log/error-log.controller.ts";
+import { health } from "./services/health/health.controller.ts";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
@@ -79,16 +82,6 @@ function warnIfNoKey(): void {
   }
 }
 
-function originOk(req: IncomingMessage): boolean {
-  const origin = req.headers.origin;
-  if (!origin) return true;
-  try {
-    const u = new URL(origin);
-    return u.hostname === "localhost" || u.hostname === "127.0.0.1";
-  } catch {
-    return false;
-  }
-}
 
 // Admin tooling requires a logged-in owner/admin (admin-access-guard Phase 2). adminV1
 // keeps the one v1 error shape; adminRaw wraps the library stream, which manages its
@@ -128,6 +121,10 @@ async function main(): Promise<void> {
   // version — the running API's build id (git short SHA + commit date), captured
   // at boot. Lets the app show which build is live so a stale server is obvious.
   router.add("GET", "/api/version", (c) => c.json(200, getBuildInfo()));
+
+  // health — public liveness probe for Render's health check and the /release
+  // watch loop. No auth on purpose.
+  router.add("GET", "/api/v1/health", v1Route(health));
 
   // auth — register + login (Phase 006). v1-only (no legacy alias): new endpoints,
   // the one error shape from the start.
@@ -503,6 +500,8 @@ async function main(): Promise<void> {
 
   const shutdown = (signal: string) => {
     console.log(`\n[${signal}] graceful shutdown (5s) ...`);
+    // Drain queued run-artifact writes before exit so nothing in flight is lost.
+    void flushArtifactWrites();
     server.close(() => process.exit(0));
     setTimeout(() => process.exit(0), 5000).unref?.();
   };
