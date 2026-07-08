@@ -1,0 +1,25 @@
+{
+  "//": "Type-checking for the customer SPA (browser code, so DOM libs) — mirrors admin/tsconfig.json. Vite/esbuild does the actual transpile; this is noEmit type-safety only. Run with `npm run typecheck:customer`. Backend uses the repo-root tsconfig.json (Node, no DOM).",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+
+    "strict": true,
+    "noImplicitAny": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "allowJs": true,
+    "checkJs": false
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "src/**/*.test.ts"]
+}

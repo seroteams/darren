@@ -67,7 +67,7 @@ const LINKS = [
   // stages; managers keep console access but never see the internal toolset below.
   { key: "mghome", label: "Home", stage: STAGES.START, icon: ICON.home, mgr: true },
   { key: "mgnew", label: "New 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
-  { key: "mgteam", label: "Team", stage: STAGES.TEAM, icon: ICON.team, mgr: true },
+  // (Team lives in the customer app now — frontend-admin-split Phase 3.)
   { key: "mgruns", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, mgr: true },
   // Admin toolset, grouped into sections.
   { key: "home", label: "Home", stage: STAGES.START, icon: ICON.home, admin: true, group: "Sessions" },
@@ -203,7 +203,6 @@ export function createAppNav({ setState, resetSession } = {}) {
       if (resetSession) resetSession();
       setState && setState({ stage: STAGES.INTAKE, substage: "NAME" });
     },
-    mgteam: () => setState && setState({ stage: STAGES.TEAM }),
     mgruns: () => setState && setState({ stage: STAGES.RUNS }),
     library: () => setState && setState({ stage: STAGES.LIBRARY }),
     compare: () => setState && setState({ stage: STAGES.COMPARE }),
@@ -239,7 +238,6 @@ export function createAppNav({ setState, resetSession } = {}) {
   // values are one key or a list; render() matches any of them (only one is visible anyway).
   const ACTIVE_BY_STAGE = {
     [STAGES.START]: ["home", "mghome"],
-    [STAGES.TEAM]: "mgteam",
     [STAGES.RUNS]: ["runs", "mgruns"],
     [STAGES.INTAKE]: ["new", "mgnew"],
     [STAGES.LIBRARY]: "library",
@@ -263,11 +261,11 @@ export function createAppNav({ setState, resetSession } = {}) {
   // Persistent across every screen — re-assert the body class and light up the
   // link that matches the current stage (none during an in-run flow).
   function render({ stage, user } = {}) {
-    // The start/login/register screens stand alone — no nav rail. So does the privacy note
+    // The login/register screens stand alone — no nav rail. So does the privacy note
     // when a logged-out visitor opens it from the signup screen (there's no app to navigate yet).
     // And a guest running a 1:1 (no account) gets no rail either — there's nothing to
     // navigate to, and "Past 1:1s" / "Log out" make no sense for them (F-004).
-    if (stage === STAGES.WELCOME || stage === STAGES.LOGIN || stage === STAGES.REGISTER
+    if (stage === STAGES.LOGIN || stage === STAGES.REGISTER
         || (stage === STAGES.PRIVACY && !user) || (!user && isGuestStage(stage))) {
       el.classList.add("is-hidden");
       bar.classList.add("is-hidden");

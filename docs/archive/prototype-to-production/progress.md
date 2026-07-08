@@ -84,6 +84,18 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **frontend-admin-split Phase 3 (slim the admin app) green-lit.** F-005 finally dead:
+  the persona bench is an admin-only module composed onto a shared benchless start core — the customer
+  bundle greps zero bench/persona code. Five customer-shell files physically moved to `frontend/`;
+  admin dropped /team + /join; `frontend/` got its own browser tsconfig. **Lesson (decision):** the
+  phase file as written ("remove the prep flow from admin") would have broken the persona bench — the
+  internal QA tools RIDE the customer flow. A one-question check with Carl ("do you QA on :3000?")
+  reshaped the phase before any file moved. Scope text written days earlier deserves a dependency check
+  against how the owner actually works, not just against the code. **Lesson (mechanical):** a moved
+  co-located test silently drops out of the runner if the collection glob doesn't cover its new home —
+  extend the glob in the same commit as the move. Also: mid-verification the long-running dev API wedged
+  on DB-backed routes (`/auth/me` hung, `/health` fine) — a scratch API pair isolated it as environmental
+  in minutes; suspect stale Neon connections in a process that survives many parallel-session workdays.
 - **2026-07-08** — **frontend-admin-split Phase 2b (catch the customer app up) green-lit.** The four
   post-snapshot drifts (guest welcome door, /join links, guest reload resume, member only-runs view) are
   mirrored into the customer app; :3002 now matches :3000 on every customer surface. **Lesson:** a

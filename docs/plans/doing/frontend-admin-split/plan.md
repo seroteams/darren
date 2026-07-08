@@ -20,13 +20,23 @@ Right now there is **one** app. `admin/` is a single Vite SPA that serves *both*
 | 1 | Shared foundation | Pull the genuinely-shared, non-branching machinery (api/sse client, generic UI primitives, base styles) into a `shared/` spot both apps import. `state`/`router` are split later, not moved. **Nothing visibly changes.** | ✅ |
 | 2 | Stand up the customer app | A real second Vite app in `frontend/` that imports `shared/` + only the customer stages. Served on its own dev port. Admin app untouched. | ✅ |
 | 2b | Catch the customer app up | The admin app kept moving after the Phase-2 snapshot: bring **WELCOME** (guest front door), **JOIN** (invite links), the **guest lane** (mid-run reload) and the **member only-runs view** to the customer app so :3002 matches today's product. Added 2026-07-08 (Carl's pick A). [phase-2b.md](phase-2b.md) | ✅ |
-| 3 | Slim the admin app | Remove the now-duplicated customer-only stages from the admin build so `admin/` is internal tooling only. **Also covers QA finding F-005** (overnight sweep 2026-07-06): the internal persona-bench controls in the shared `start.js` currently ship in the customer bundle DOM (hidden at runtime) — the physical stage split removes them from the bundle entirely. | 🔨 |
-| 4 | Serve + fence the two apps | API serves the customer app at the public root; admin app served on its own internal route/deploy; prove no secrets/tools in the customer bundle. | ⬜ |
+| 3 | Slim the admin app | **Reshaped 2026-07-08 (Carl's pick A — admin keeps the run lane for QA):** the customer shell (welcome/join/team/person-detail/member-home) physically moved to `frontend/`; the prep flow stays shared (internal QA rides it). **F-005 fixed:** start.js split into a benchless core (customer imports it) + the bench (admin only) — customer bundle greps clean. [phase-3.md](phase-3.md) | ✅ |
+| 4 | Serve + fence the two apps | API serves the customer app at the public root; admin app served on its own internal route/deploy; prove no secrets/tools in the customer bundle. | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 2b ✅ GREEN-LIT by Carl 2026-07-08 — next: Phase 3 (slim the admin app).**
+**Phase 3 ✅ GREEN-LIT by Carl 2026-07-08 — next: Phase 4 (serve + fence), the last phase.**
+- Admin keeps the run lane (Carl QAs on :3000 — his call, option A); the customer shell moved to
+  `frontend/src/stages/`; **F-005 dead** (bench = admin-only module, customer bundle greps clean).
+  97/97 tests · 3 typechecks (frontend has its own now) · both builds. Detail: [phase-3.md](phase-3.md).
+- **Parked tidy (blocked on login.js being free):** login's member landing → Past 1:1s, then drop
+  MEMBER_HOME from admin.
+- **Phase 4 next:** serve the customer app at the public root, admin on its own route/deploy, and the
+  bundle-proof script — this is where the split becomes the real security boundary (and what makes the
+  Render deploy customer-only).
+
+**Phase 2b ✅ GREEN-LIT by Carl 2026-07-08 — detail:**
 - The customer app on :3002 now **matches today's product**: guest-first welcome at `/`,
   `/join/:token` invite links, guest mid-run reload resumes, member only-runs view. Built by
   mirroring admin's own boot/popstate/nav logic (no admin files touched); proven live + free

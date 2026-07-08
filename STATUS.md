@@ -103,17 +103,17 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > **▶ Your move:** scenarios 2–3 in [phase-3.md](docs/plans/doing/guest-run/phase-3.md) are ONE paid
 > end-to-end guest walk (~$0.35–0.60) — say go and walk it. Then ④ Guest runs screen.
 
-> **🔨 [frontend-admin-split](docs/plans/doing/frontend-admin-split/plan.md) — P2 ✅ · P2b ✅ green-lit (2026-07-08) · Phase 3 (slim the admin app) STARTING.**
-> **Why it's live again:** render-deploy serves `admin/dist` at the public URL, so this track is what
+> **🔨 [frontend-admin-split](docs/plans/doing/frontend-admin-split/plan.md) — P2 ✅ · P2b ✅ · P3 ✅ green-lit (2026-07-08) · **Phase 4 (serve + fence) STARTING — the last phase.****
+> **Why it's live:** render-deploy serves `admin/dist` at the public URL, so this track is what
 > makes the public URL customer-only (you picked "split now", 2026-07-08).
-> **P2 ✅ (`53f25881`):** the customer app on **:3002** is real and approved.
-> **P2b ✅ green-lit + committed (2026-07-08, $0):** the P2 snapshot had drifted — four customer features
-> existed on :3000 but not :3002. All four mirrored in (no admin files touched): ① guest-first **welcome**
-> front door at `/` ② **/join/:token** invite links ③ guest mid-run **reload** resumes ④ **member
-> only-runs view**. Walked by Carl; `npm test` 96/96 · typecheck · build ✓.
-> **P3 🔨 next:** physically move the customer stages out of `admin/` so the admin bundle is internal-only
-> (kills F-005 — hidden persona-bench DOM in the customer bundle — and ends snapshot drift for good).
-> Then P4 (serve + fence = the bundle-proof). One at a time.
+> **P2 ✅ (`53f25881`)** customer app real · **P2b ✅ (`0cf75d6b`)** four post-snapshot drifts mirrored in ·
+> **P3 ✅ green-lit + committed:** admin keeps the run lane for QA (your pick A); the customer shell
+> (welcome/join/team/person-detail/member-home) physically moved to `frontend/`; **F-005 dead** — the
+> persona bench is an admin-only module, customer bundle greps zero bench/persona code (proven live both
+> ways). `npm test` **97/97** · 3 typechecks · both builds. Parked tidy in phase-3.md (login.js member
+> landing, blocked on another session's edit).
+> **P4 🔨 next:** serve `frontend/dist` at the public root + admin on its own route, bundle-proof script —
+> the split becomes the real security boundary, and the Render deploy goes customer-only.
 
 > **✅ [manager-ready](docs/plans/done/manager-ready/plan.md) — TRACK CLOSED 2026-07-08 (both phases green-lit, $0 spend).**
 > Managers (the paying customers) get their own clean rail — **Home · New 1:1 · Team · Past 1:1s** — and bounce
@@ -123,16 +123,20 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > committed (`bf7e62f7`, `c6eca72f`) and survived the styles/design/ split; `npm test` 96/96 on close.
 > Folder → [done/](docs/plans/done/manager-ready/plan.md). **▶ Your move:** nothing — track closed.
 
-> **🔨 [page-heartbeat](docs/plans/doing/page-heartbeat/plan.md) — real UPDATE buttons. Phases 1 + 3 ✅ · only Phase 2 (Universe ring) left ⬜.**
+> **🔨 [page-heartbeat](docs/plans/doing/page-heartbeat/plan.md) — real UPDATE buttons. Phases 1 + 3 ✅ · Phase 2 (Universe ring) BUILT, awaiting your walk — the last phase.**
 > From the 25-page audit: Guide, Universe and the Tasks board were hand-typed snapshots of the app.
-> **Phase 1 ✅** — green-lit 2026-07-05 ("ALL GOOD"), committed `4e4ea787`: `GET /api/v1/heartbeat` +
-> /guide renders live with a plain-words changelog.
-> **Phase 3 ✅ — green-lit 2026-07-08 after Carl's full live walk (all 4 scenarios, $0).** The planner
-> fills itself from the live plan folders: **Update from docs** reconciles auto-managed "Docs" cards
-> (add/update/move/remove; your own cards never touched — Carl's pick, option A), and since `1e9a42b4`
-> the board quietly syncs on open too (hardcoded seed removed). Walk proved: card pulse on a status
-> move, fade-to-Done on a folder move, removal on delete. `npm test` **96/96** · both typechecks clean.
-> **▶ Your move:** say go on Phase 2 (Universe ring goes honest) — the last phase of this track.
+> **Phase 1 ✅** (2026-07-05, `4e4ea787`): /guide renders live from `GET /api/v1/heartbeat` + plain-words
+> changelog. **Phase 3 ✅** (2026-07-08, full live walk): /tasks fills itself from the plan folders;
+> "Update from docs" reconciles the Docs cards, hand-added cards untouched.
+> **Phase 2 🔨 BUILT (2026-07-08, test-first, $0, NOT committed — commits on your green light):**
+> the Universe's pipeline ring now **derives from the app's real flow** (`TOPBAR_STAGES`, the rail every
+> run screen shows) instead of a private hand-typed copy; a flow change is announced by **Update from
+> the engine** in plain words ("Pipeline step added: …") and survives the reload via a small snapshot.
+> Proof: +4 red-first tests (my slice green; the 1 whole-tree failure is another session's in-flight
+> router.js edit, not this) · both typechecks clean · real-bundle check on a scratch server: same 7
+> steps, labels intact. **▶ Your move:** walk the 3 scenarios in
+> [phase-2.md](docs/plans/doing/page-heartbeat/phase-2.md) — open /universe, same ring; scenario 3 with
+> me (I stage a fake stage, you click Update). Green light → commit + the whole track closes.
 
 > **🔨 [user-management](docs/plans/doing/user-management/plan.md) Phase 3 — deactivate / reactivate a user: STARTING (2026-07-05).**
 > Nullable `deactivatedAt` on `users` + `POST …/deactivate` & `…/reactivate`; login must reject deactivated users;

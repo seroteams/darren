@@ -21,19 +21,22 @@ import { createNotesPanel } from "../../admin/src/ui/notes-panel.js";
 import { installGlobalErrorReporter, reportError } from "../../admin/src/ui/error-reporter.js";
 // Lazy stage modules — customer stages only.
 const loaders = {
-  WELCOME:         () => import("../../admin/src/stages/welcome.ts"),
+  // Customer-owned screens live HERE (frontend-admin-split Phase 3); the rest
+  // are cross-imported shared screens. START is the benchless core — the
+  // persona bench (internal QA) exists only in the admin app's start.js (F-005).
+  WELCOME:         () => import("./stages/welcome.ts"),
   LOGIN:           () => import("../../admin/src/stages/login.js"),
-  JOIN:            () => import("../../admin/src/stages/join.js"),
+  JOIN:            () => import("./stages/join.js"),
   REGISTER:        () => import("../../admin/src/stages/register.js"),
   PRIVACY:         () => import("../../admin/src/stages/privacy.js"),
   ABOUT:           () => import("../../admin/src/stages/about.js"),
   FEEDBACK:        () => import("../../admin/src/stages/feedback.js"),
-  START:           () => import("../../admin/src/stages/start.js"),
-  MEMBER_HOME:     () => import("../../admin/src/stages/member-home.js"),
-  TEAM:            () => import("../../admin/src/stages/team.ts"),
+  START:           () => import("../../admin/src/stages/start-core.js"),
+  MEMBER_HOME:     () => import("./stages/member-home.js"),
+  TEAM:            () => import("./stages/team.ts"),
   RUNS:            () => import("../../admin/src/stages/runs.ts"),
   RUN_DETAIL:      () => import("../../admin/src/stages/run-detail.ts"),
-  PERSON_DETAIL:   () => import("../../admin/src/stages/person-detail.ts"),
+  PERSON_DETAIL:   () => import("./stages/person-detail.ts"),
   INTAKE:          () => import("../../admin/src/stages/intake.js"),
   ONEPAGE:         () => import("../../admin/src/stages/onepage.js"),
   FOCUS_POINTS:    () => import("../../admin/src/stages/focus-points.js"),

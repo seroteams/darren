@@ -5,13 +5,12 @@ import assert from "node:assert/strict";
 import { isInternalStage, isAdminStage, isMemberStage, isGuestStage, urlForState } from "./router.js";
 import { STAGES } from "./state.js";
 
-test("the guest-first start screen (WELCOME) lives at the root path", () => {
-  // start-screen: the logged-out front door renders at "/" — boot decides whether
-  // "/" shows WELCOME (logged out) or START (logged-in manager home).
-  assert.ok(STAGES.WELCOME, "STAGES.WELCOME exists");
-  assert.equal(urlForState({ stage: STAGES.WELCOME }), "/");
-  // The front door is not part of the guest RUN lane — that set gates mid-run
-  // reload/rehydrate, which the start screen never needs.
+test("the guest front door (WELCOME) left the admin app (frontend-admin-split Phase 3)", () => {
+  // The guest-first start screen lives in the CUSTOMER app now — the admin
+  // router no longer routes it ("/" is the internal START; logged-out → login).
+  // The customer router's own test asserts WELCOME at "/" over there.
+  assert.ok(STAGES.WELCOME, "STAGES.WELCOME still exists (shared enum)");
+  assert.equal(urlForState({ stage: STAGES.WELCOME }), null);
   assert.equal(isGuestStage(STAGES.WELCOME), false);
 });
 

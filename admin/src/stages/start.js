@@ -1,31 +1,16 @@
+// The ADMIN app's start screen: the shared benchless core (start-core.js) plus
+// the internal persona bench — demo personas + replay test runs (frontend-admin-split
+// Phase 3 / F-005). The bench lives ONLY here: the customer app's stage map imports
+// start-core.js directly, so none of this file (markup, persona API calls) reaches
+// the customer bundle. Only the internal `admin` role gets the bench; a manager on
+// the admin app still gets the clean core dashboard.
 import { STAGES, store, isInternalAdmin } from "../state.js";
-import { listRecentRuns, getRunOverview, deleteRun, getPersonaBench, startSession, getPipelineStatus } from "../../../shared/api.js";
-import { confirmAction, alertAction } from "../ui/confirm.js";
-import { stageLabel } from "../ui/stage-labels.js";
+import { getPersonaBench, startSession } from "../../../shared/api.js";
+import { alertAction } from "../ui/confirm.js";
 import { escapeHtml as escape } from "../ui/html.js";
-import { formatDate } from "../ui/time.ts";
-import { icon } from "../ui/icon.js";
-import { Check } from "lucide";
+import { mount as mountCore, unmount as unmountCore } from "./start-core.js";
 
-let keyHandler = null;
-
-export async function mount(root, { setState, rehydrateById }) {
-  // Demo personas + replay test runs are internal QA tools — only the internal `admin`
-  // role sees them. A manager gets a clean dashboard: start a session + recent sessions.
-  const internal = isInternalAdmin(store.user);
-  root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--8">
-      <header class="page-header">
-        <h1 class="h1">Start a 1:1 prep session</h1>
-        <div class="text-ink-dim">Resume a session or start a new one.</div>
-        <div class="field__actions">
-          ${internal
-            ? `<button type="button" class="btn js-onepage">One-page run</button>`
-            : `<button type="button" class="btn js-startnew">Start a new session</button>
-               <button type="button" class="btn btn--ghost js-onepage">One-page run</button>`}
-        </div>
-      </header>
-
+const BENCH_HTML = `
       <section class="js-bench" hidden>
         <div class="card-flat space-y-3">
           <div>
@@ -78,15 +63,9 @@ export async function mount(root, { setState, rehydrateById }) {
           <p class="js-bench-err text-negative text-sm" hidden></p>
         </div>
       </section>
+`;
 
-      <section class="space-y-2">
-        <div class="eyebrow">Recent sessions</div>
-        <ul class="js-runs space-y-2"></ul>
-      </section>
-    </div>
-  `;
-
-  const list = root.querySelector(".js-runs");
+async function wireBench(root, { setState, beginCleanSetup }) {
   const benchSection = root.querySelector(".js-bench");
   const benchSelect = root.querySelector(".js-bench-select");
   const benchStartBtn = root.querySelector(".js-bench-start");
@@ -102,204 +81,6 @@ export async function mount(root, { setState, rehydrateById }) {
   let benchMode = "manual";
 
   let personas = [];
-
-  let runs = [];
-  let expandedId = null;
-  let currentAllDigest = null;
-
-  async function loadPipelineStatus() {
-    try {
-      const s = await getPipelineStatus("latest");
-      currentAllDigest = s?.current?.aggregates?.all ?? null;
-    } catch (e) {
-      console.warn("[start] pipeline status failed:", e);
-      currentAllDigest = null;
-    }
-  }
-
-  function driftDot(run) {
-    if (!currentAllDigest || !run.pipelineDigest?.all) return "";
-    if (run.pipelineDigest.all !== currentAllDigest) {
-      return `<span class="run-row__drift-dot" title="Engine updated since this run"></span>`;
-    }
-    return "";
-  }
-
-  // Turn the pipeline-status diff into a short, plain-language list of what
-  // changed since the run. Reads drift.groups (content/engine/models/git) — no
-  // file paths or hashes, just human area names.
-  function describeDrift(drift) {
-    const areas = [];
-    for (const g of drift.groups || []) {
-      if (g.id === "content" || g.id === "engine") {
-        for (const c of g.changes || []) {
-          if (c.stageLabel && !areas.includes(c.stageLabel)) areas.push(c.stageLabel);
-        }
-      } else if (g.id === "models") {
-        const label = "Which AI models are used";
-        if (!areas.includes(label)) areas.push(label);
-      }
-    }
-    if (areas.length === 0) {
-      // Only the version/commit moved — nothing in how this prep is built.
-      return "Minor version change only — nothing in how this prep is built changed.";
-    }
-    const shown = areas.slice(0, 3);
-    const rest = areas.length - shown.length;
-    let list = shown.join(", ");
-    if (rest > 0) list += `, and ${rest} more`;
-    return list;
-  }
-
-  function reviewChip(run) {
-    if (run.reviewStatus === "complete") return ` <span class="run-row__review run-row__review--done" title="Reviewed">Reviewed ${icon(Check, { size: 16 })}</span>`;
-    if (run.reviewStatus === "partial") return ` <span class="run-row__review run-row__review--partial" title="Review in progress">Review · partial</span>`;
-    return "";
-  }
-
-  function render() {
-    if (runs.length === 0) {
-      list.innerHTML = `<li class="text-ink-mute">No past sessions yet. Press <kbd class="kbd">Enter</kbd> or click <strong>New session</strong> to start.</li>`;
-      return;
-    }
-    list.innerHTML = runs.map((r) => {
-      const isOpen = expandedId === r.id;
-      return `
-      <li class="run-row" data-id="${escape(r.id)}">
-        <button class="run-row__head js-row" data-id="${escape(r.id)}" aria-expanded="${isOpen}">
-          <span class="run-row__chevron" aria-hidden="true">${isOpen ? "▼" : "▶"}</span>
-          <span class="run-row__headline">${escape(r.headline || r.id)}${driftDot(r)}${reviewChip(r)}</span>
-          <span class="run-row__meta text-ink-mute text-sm">${escape(formatRelativeTime(r.lastSeenAt))} · ${escape(stageLabel(r.stage))}</span>
-        </button>
-        <div class="run-row__body js-body" data-id="${escape(r.id)}" hidden></div>
-      </li>
-    `;
-    }).join("");
-  }
-
-  async function load() {
-    try {
-      const res = await listRecentRuns(3);
-      runs = res.runs || [];
-    } catch (e) {
-      runs = [];
-      console.warn("[start] listRecentRuns failed:", e);
-    }
-    await loadPipelineStatus();
-    render();
-  }
-
-  async function toggle(id) {
-    if (expandedId === id) {
-      collapse(id);
-      expandedId = null;
-      render();
-      return;
-    }
-    if (expandedId) collapse(expandedId);
-    expandedId = id;
-    render();
-    const body = list.querySelector(`.js-body[data-id="${cssEscape(id)}"]`);
-    if (!body) return;
-    body.hidden = false;
-    body.innerHTML = `<div class="text-ink-mute text-sm">Loading…</div>`;
-    try {
-      const o = await getRunOverview(id);
-      const run = runs.find((x) => x.id === id);
-      const finished = run?.stage === "BRIEFING";
-      let driftHtml = "";
-      try {
-        const drift = await getPipelineStatus(id);
-        if (drift.baseline?.hasLock && !drift.unchanged) {
-          const lead = finished
-            ? "This run was made with an older engine version. Reviewing shows the saved result as-is."
-            : "The engine changed since this session paused. Continuing will use the current engine, so the rest may not match the earlier part.";
-          driftHtml = `
-            <div class="run-row__drift text-sm">
-              <span>${escape(lead)}</span>
-              <details class="run-row__drift-details">
-                <summary>What changed</summary>
-                <p class="run-row__drift-list">${escape(describeDrift(drift))}</p>
-              </details>
-            </div>`;
-        }
-      } catch {}
-      body.innerHTML = `
-        <div class="run-row__overview text-ink">${escape(o.overview || "")}</div>
-        ${driftHtml}
-        <div class="run-row__actions">
-          ${finished
-            ? `<button class="btn js-review" data-id="${escape(id)}">Review</button>`
-            : `<button class="btn js-resume" data-id="${escape(id)}">Resume</button>`}
-          <button class="btn btn--ghost js-delete" data-id="${escape(id)}">Delete</button>
-        </div>
-      `;
-    } catch {
-      body.innerHTML = `<div class="text-ink-mute text-sm">Failed to load overview.</div>`;
-    }
-  }
-
-  function collapse(id) {
-    const body = list.querySelector(`.js-body[data-id="${cssEscape(id)}"]`);
-    if (body) {
-      body.hidden = true;
-      body.innerHTML = "";
-    }
-  }
-
-  async function resume(id) {
-    const ok = await rehydrateById(id);
-    if (!ok) {
-      await alertAction({ message: "Could not resume that session. It may have been deleted or expired." });
-    }
-  }
-
-  function review(id) {
-    setState({ reviewRunId: id, stage: STAGES.REVIEW_RUN });
-  }
-
-  async function del(id) {
-    const ok = await confirmAction({
-      message: "Delete this session permanently? This cannot be undone.",
-      confirmLabel: "Delete session",
-      cancelLabel: "Keep session",
-      destructive: true,
-    });
-    if (!ok) return;
-    try {
-      await deleteRun(id);
-    } catch (e) {
-      await alertAction({ message: "Delete failed: " + (e.message || e) });
-      return;
-    }
-    if (expandedId === id) expandedId = null;
-    await load();
-  }
-
-  const emptyCtx = () => ({
-    name: "",
-    role: "",
-    seniority: "",
-    meetingType: "",
-    meetingTypeIndex: null,
-    notes: "",
-  });
-
-  function beginCleanSetup() {
-    store.scripted = null;
-    Object.assign(store.ctx, emptyCtx());
-    setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
-  }
-
-  function startNew() {
-    beginCleanSetup();
-  }
-
-  function beginOnePage() {
-    store.scripted = null;
-    Object.assign(store.ctx, emptyCtx());
-    setState({ sessionId: null, stage: STAGES.ONEPAGE });
-  }
 
   function personaOptionLabel(p) {
     return `${p.displayName} · ${p.issue}`;
@@ -420,71 +201,19 @@ export async function mount(root, { setState, rehydrateById }) {
     await startWithPersona();
   }
 
-  root.querySelector(".js-onepage").addEventListener("click", beginOnePage);
-  root.querySelector(".js-startnew")?.addEventListener("click", startNew);
   benchSelect.addEventListener("change", updateBenchStartEnabled);
   benchStartBtn.addEventListener("click", onBenchStart);
   modeBtns.forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
 
-  list.addEventListener("click", (e) => {
-    const headBtn = e.target.closest(".js-row");
-    if (headBtn) { toggle(headBtn.dataset.id); return; }
-    const resumeBtn = e.target.closest(".js-resume");
-    if (resumeBtn) { resume(resumeBtn.dataset.id); return; }
-    const reviewBtn = e.target.closest(".js-review");
-    if (reviewBtn) { review(reviewBtn.dataset.id); return; }
-    const delBtn = e.target.closest(".js-delete");
-    if (delBtn) { del(delBtn.dataset.id); return; }
-  });
+  await loadPersonas();
+}
 
-  keyHandler = (e) => {
-    if (e.target && /^(input|textarea|select)$/i.test(e.target.tagName)) return;
-    if (e.key === "Enter") { e.preventDefault(); startNew(); return; }
-    if (e.key === "Escape") {
-      if (expandedId) { collapse(expandedId); expandedId = null; render(); }
-      return;
-    }
-    if (/^[1-9]$/.test(e.key)) {
-      const idx = Number(e.key) - 1;
-      if (runs[idx]) toggle(runs[idx].id);
-      return;
-    }
-    if (!expandedId) return;
-    if (e.key.toLowerCase() === "r") {
-      const run = runs.find((x) => x.id === expandedId);
-      if (run?.stage === "BRIEFING") review(expandedId);
-      else resume(expandedId);
-    }
-    else if (e.key.toLowerCase() === "d") { del(expandedId); }
-  };
-  window.addEventListener("keydown", keyHandler);
-
-  // Managers never load the persona bench — the section stays hidden for them.
-  await Promise.all([load(), internal ? loadPersonas() : Promise.resolve()]);
+export async function mount(root, ctx) {
+  // Managers never load the persona bench — only the internal `admin` role.
+  const internal = isInternalAdmin(store.user);
+  await mountCore(root, ctx, internal ? { html: BENCH_HTML, wire: wireBench } : null);
 }
 
 export function unmount() {
-  if (keyHandler) {
-    window.removeEventListener("keydown", keyHandler);
-    keyHandler = null;
-  }
-}
-
-function formatRelativeTime(ts) {
-  if (!ts) return "";
-  const diff = Date.now() - Number(ts);
-  const mins = Math.floor(diff / 60000);
-  if (mins < 1) return "just now";
-  if (mins < 60) return `${mins}m ago`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs}h ago`;
-  const days = Math.floor(hrs / 24);
-  if (days < 7) return `${days}d ago`;
-  // Older than a week: the one date format everywhere (DESIGN.md rule 9).
-  return formatDate(Number(ts));
-}
-
-function cssEscape(s) {
-  if (window.CSS && CSS.escape) return CSS.escape(s);
-  return String(s).replace(/[^a-zA-Z0-9_-]/g, "\\$&");
+  unmountCore();
 }

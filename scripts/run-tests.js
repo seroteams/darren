@@ -47,6 +47,7 @@ function findTests(dir, predicate) {
 const COLOCATED_TESTS = [
   ...findTests(path.join(ROOT, "backend"), (n) => n.endsWith(".test.ts")),
   ...findTests(path.join(ROOT, "admin", "src"), (n) => n.endsWith(".test.ts")),
+  ...findTests(path.join(ROOT, "frontend", "src"), (n) => n.endsWith(".test.ts")),
 ];
 // `test-*.js` integration/e2e scripts under the domain-shaped backend/tests/ tree.
 const INTEGRATION_TESTS = findTests(

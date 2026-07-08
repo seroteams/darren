@@ -15,19 +15,18 @@ import { createNotesPanel } from "./ui/notes-panel.js";
 import { installGlobalErrorReporter, reportError } from "./ui/error-reporter.js";
 // Lazy stage modules — kept in a map so HMR + code-split both work nicely.
 const loaders = {
-  WELCOME:         () => import("./stages/welcome.ts"),
+  // The customer shell (welcome/join/team/person-detail) lives in the customer
+  // app now (frontend-admin-split Phase 3). MEMBER_HOME is kept only because the
+  // shared login.js still lands members there — it cross-imports the moved file.
   LOGIN:           () => import("./stages/login.js"),
-  JOIN:            () => import("./stages/join.js"),
   REGISTER:        () => import("./stages/register.js"),
   PRIVACY:         () => import("./stages/privacy.js"),
   ABOUT:           () => import("./stages/about.js"),
   FEEDBACK:        () => import("./stages/feedback.js"),
   START:           () => import("./stages/start.js"),
-  MEMBER_HOME:     () => import("./stages/member-home.js"),
-  TEAM:            () => import("./stages/team.ts"),
+  MEMBER_HOME:     () => import("../../frontend/src/stages/member-home.js"),
   RUNS:            () => import("./stages/runs.ts"),
   RUN_DETAIL:      () => import("./stages/run-detail.ts"),
-  PERSON_DETAIL:   () => import("./stages/person-detail.ts"),
   INTAKE:          () => import("./stages/intake.js"),
   ONEPAGE:         () => import("./stages/onepage.js"),
   FOCUS_POINTS:    () => import("./stages/focus-points.js"),
@@ -156,15 +155,14 @@ subscribe((s) => {
 });
 
 startPopstate((parsed) => {
-  // A guest (no account, guest-run Phase 2) only has the guest lane — intake, the
-  // run stages, and the auth/content pages. Back/forward onto "/" is the guest-first
-  // start screen (start-screen); any other destination (dashboards, history, admin
-  // screens) bounces to login.
+  // Logged out on the ADMIN app: the guest QA lane (intake + run stages) and the
+  // auth/content pages are reachable; everything else bounces to login. The guest
+  // front door (WELCOME) and join links live in the customer app now
+  // (frontend-admin-split Phase 3).
   if (!store.user
       && !isGuestStage(parsed.stage) && !isSharedStage(parsed.stage)
-      && parsed.stage !== STAGES.LOGIN && parsed.stage !== STAGES.REGISTER
-      && parsed.stage !== STAGES.JOIN) {
-    setState({ stage: parsed.stage === STAGES.START ? STAGES.WELCOME : STAGES.LOGIN });
+      && parsed.stage !== STAGES.LOGIN && parsed.stage !== STAGES.REGISTER) {
+    setState({ stage: STAGES.LOGIN });
     return;
   }
   // A plain member only has their past 1:1s (member-view: only-runs) — any other
@@ -196,16 +194,6 @@ startPopstate((parsed) => {
     else setState({ stage: STAGES.RUNS });
     return;
   }
-  if (parsed.stage === STAGES.JOIN) {
-    if (parsed.params?.joinToken) setState({ joinToken: parsed.params.joinToken, stage: STAGES.JOIN });
-    else setState({ stage: STAGES.LOGIN });
-    return;
-  }
-  if (parsed.stage === STAGES.PERSON_DETAIL) {
-    if (parsed.params?.personKey) setState({ personKey: parsed.params.personKey, stage: STAGES.PERSON_DETAIL });
-    else setState({ stage: STAGES.TEAM });
-    return;
-  }
   if (parsed.stage === STAGES.ADMIN_USER) {
     if (parsed.params?.adminUserId) setState({ adminUserId: parsed.params.adminUserId, stage: STAGES.ADMIN_USER });
     else setState({ stage: STAGES.ADMIN_REGISTERED });
@@ -213,8 +201,8 @@ startPopstate((parsed) => {
   }
   if (isFlowStage(parsed.stage)) {                 // only valid with a live session
     if (store.sessionId) setState({ stage: parsed.stage, stageTick: store.stageTick + 1 });
-    // No session: a logged-in user goes home; a guest goes to the start screen.
-    else setState({ stage: store.user ? STAGES.START : STAGES.WELCOME });
+    // No session: a logged-in user goes home; a guest goes to login.
+    else setState({ stage: store.user ? STAGES.START : STAGES.LOGIN });
     return;
   }
   if (parsed.stage === STAGES.INTAKE) { setState({ stage: STAGES.INTAKE, substage: "NAME" }); return; }
@@ -263,11 +251,11 @@ async function boot() {
   const route = parseLocation();
 
   if (!identity) {
-    // Logged out: the auth screens, the public privacy note, and the GUEST lane
-    // (guest-run Phase 2) are reachable — intake plus a mid-run reload back into a
-    // live guest session (the id in localStorage is the way back in; the server
-    // already lets an anonymous caller reach an ownerless session). Anything else
-    // sends to login.
+    // Logged out on the ADMIN app: the auth screens, the public privacy note, and
+    // the guest QA lane (intake plus a mid-run reload back into a live ownerless
+    // session) are reachable. Everything else — including "/" — sends to login:
+    // the guest-first front door (WELCOME) and join links live in the customer
+    // app now (frontend-admin-split Phase 3).
     if (route?.stage === STAGES.INTAKE) {
       setState({ user: null, stage: STAGES.INTAKE, substage: "NAME" });
       return;
@@ -280,24 +268,12 @@ async function boot() {
       } catch (e) {
         console.warn("[boot] guest rehydrate failed:", e);
       }
-      if (!rehydrated) setState({ user: null, stage: STAGES.WELCOME });
+      if (!rehydrated) setState({ user: null, stage: STAGES.LOGIN });
       return;
     }
-    // The front door (start-screen): a fresh visitor on "/" — or any unknown
-    // path — gets the guest-first start screen, not the login form. Explicit
-    // /login, /register and /privacy deep links still work; every other known
-    // page stays behind login.
-    // A one-time join link works logged-out — that's its whole point
-    // (member-onboarding-invites). Token rides in store for the JOIN stage.
-    if (route?.stage === STAGES.JOIN && route.params?.joinToken) {
-      setState({ user: null, joinToken: route.params.joinToken, stage: STAGES.JOIN });
-      return;
-    }
-    let loggedOutStage = STAGES.WELCOME;
-    if (route?.stage === STAGES.LOGIN) loggedOutStage = STAGES.LOGIN;
-    else if (route?.stage === STAGES.REGISTER) loggedOutStage = STAGES.REGISTER;
+    let loggedOutStage = STAGES.LOGIN;
+    if (route?.stage === STAGES.REGISTER) loggedOutStage = STAGES.REGISTER;
     else if (route?.stage === STAGES.PRIVACY) loggedOutStage = STAGES.PRIVACY;
-    else if (route && route.stage !== STAGES.START) loggedOutStage = STAGES.LOGIN;
     setState({ user: null, stage: loggedOutStage });
     return;
   }

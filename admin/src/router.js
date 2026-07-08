@@ -7,22 +7,18 @@ import { STAGES } from "./state.js";
 
 // stage -> path
 const PATH_FOR = {
-  // WELCOME and START share "/": the guest-first start screen for a logged-out
-  // visitor, the manager home when logged in. parseLocation returns START for
-  // "/"; boot/popstate translate that to WELCOME when there's no user.
-  [STAGES.WELCOME]:        () => "/",
+  // The guest-first front door (WELCOME), join links, Team and person pages live
+  // in the CUSTOMER app now (frontend-admin-split Phase 3) — the admin app keeps
+  // login, the run lane (internal QA), and the internal toolset.
   [STAGES.LOGIN]:          () => "/login",
   [STAGES.REGISTER]:       () => "/register",
-  [STAGES.JOIN]:           (s) => (s.joinToken ? `/join/${encodeURIComponent(s.joinToken)}` : "/login"),
   [STAGES.PRIVACY]:        () => "/privacy",
   [STAGES.ABOUT]:          () => "/about",
   [STAGES.FEEDBACK]:       () => "/feedback",
   [STAGES.START]:          () => "/",
   [STAGES.MEMBER_HOME]:    () => "/home",
-  [STAGES.TEAM]:           () => "/team",
   [STAGES.RUNS]:           () => "/runs",
   [STAGES.RUN_DETAIL]:     (s) => (s.myRunId ? `/runs/${encodeURIComponent(s.myRunId)}` : "/runs"),
-  [STAGES.PERSON_DETAIL]:  (s) => (s.personKey ? `/team/${encodeURIComponent(s.personKey)}` : "/team"),
   [STAGES.INTAKE]:         () => "/new",
   [STAGES.ONEPAGE]:        () => "/flow",
   [STAGES.FOCUS_POINTS]:   () => "/focus",
@@ -53,7 +49,7 @@ const PATH_FOR = {
 const STAGE_FOR = {
   "/login": STAGES.LOGIN, "/register": STAGES.REGISTER, "/privacy": STAGES.PRIVACY,
   "/about": STAGES.ABOUT, "/feedback": STAGES.FEEDBACK,
-  "/": STAGES.START, "/home": STAGES.MEMBER_HOME, "/team": STAGES.TEAM, "/runs": STAGES.RUNS,
+  "/": STAGES.START, "/home": STAGES.MEMBER_HOME, "/runs": STAGES.RUNS,
   "/new": STAGES.INTAKE, "/flow": STAGES.ONEPAGE, "/focus": STAGES.FOCUS_POINTS,
   "/prepare": STAGES.PREPARATION, "/bank": STAGES.BANK, "/interview": STAGES.QUESTIONING,
   "/evaluate": STAGES.EVAL, "/briefing": STAGES.BRIEFING, "/debrief": STAGES.RUN_DEBRIEF,
@@ -122,14 +118,6 @@ export function parseLocation() {
   // map, so bare /runs still resolves to the list above).
   const mine = p.match(/^\/runs\/([^/]+)$/);
   if (mine) return { stage: STAGES.RUN_DETAIL, params: { myRunId: decodeURIComponent(mine[1]) } };
-  // A member opening one person's page: /team/:person (checked after the exact-path map,
-  // so bare /team still resolves to the Team list above). The segment is the person key.
-  const person = p.match(/^\/team\/([^/]+)$/);
-  if (person) return { stage: STAGES.PERSON_DETAIL, params: { personKey: decodeURIComponent(person[1]) } };
-  // An invitee opening their one-time join link: /join/:token (member-onboarding-invites).
-  // Public — the whole point is they have no account yet.
-  const join = p.match(/^\/join\/([^/]+)$/);
-  if (join) return { stage: STAGES.JOIN, params: { joinToken: decodeURIComponent(join[1]) } };
   // A superadmin drilling into one user: /admin/users/:id (after the exact-path map, so
   // /admin/registered still resolves above). The segment is the user id.
   const adminUser = p.match(/^\/admin\/users\/([^/]+)$/);
