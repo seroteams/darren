@@ -9,8 +9,8 @@ Four rooms:
 |---|---|
 | [`reference/`](reference/) | Living canonical specs — the docs that stay true. |
 | [`reports/`](reports/) | Point-in-time outputs, date-prefixed. |
-| [`workstreams/`](workstreams/) | Active multi-phase build work (one folder per plan). |
-| [`archive/`](archive/) | Superseded plans, completed workstreams, old artifacts. |
+| [`plans/`](plans/) | Multi-phase build work — [`doing/`](plans/doing/) (active), [`future/`](plans/future/) (parked), [`done/`](plans/done/) (completed). One folder per plan. |
+| [`archive/`](archive/) | Superseded plans, old artifacts. |
 
 ---
 
@@ -42,28 +42,30 @@ Four rooms:
 | [sero-changelog.html](reports/sero-changelog.html) | Founder/customer-facing changelog (hand-maintained). |
 | [sero-how-it-works.html](reports/sero-how-it-works.html) | Founder-facing how-it-works deck (hand-maintained). |
 
-## workstreams/ — active build work
+## plans/ — build work
 
-See [board.md](board.md) for state. One folder per plan:
-[pre-go-live](workstreams/pre-go-live/overview.md) ·
-[plan-turn-runner-gates](workstreams/plan-turn-runner-gates/plan.md) ·
-[guest-run](workstreams/guest-run/plan.md) ·
-[feedback-inbox](workstreams/feedback-inbox/plan.md) ·
-[manager-ready](workstreams/manager-ready/plan.md) ·
-[frontend-admin-split](workstreams/frontend-admin-split/plan.md) ·
-[page-heartbeat](workstreams/page-heartbeat/plan.md) ·
-[hide-ai-words](workstreams/hide-ai-words/plan.md) ·
-[user-management](workstreams/user-management/plan.md) ·
-[run-qa-fixes-jul04](workstreams/run-qa-fixes-jul04/plan.md) ·
-[engine-improvements](workstreams/engine-improvements/plan.md) ·
-[cto-check-july](workstreams/cto-check-july/) *(untracked/local-only)*.
+See [board.md](board.md) for state. Active plans in [doing/](plans/doing/), one folder per plan:
+[pre-go-live](plans/doing/pre-go-live/overview.md) ·
+[plan-turn-runner-gates](plans/doing/plan-turn-runner-gates/plan.md) ·
+[guest-run](plans/doing/guest-run/plan.md) ·
+[feedback-inbox](plans/doing/feedback-inbox/plan.md) ·
+[manager-ready](plans/doing/manager-ready/plan.md) ·
+[frontend-admin-split](plans/doing/frontend-admin-split/plan.md) ·
+[page-heartbeat](plans/doing/page-heartbeat/plan.md) ·
+[hide-ai-words](plans/doing/hide-ai-words/plan.md) ·
+[user-management](plans/doing/user-management/plan.md) ·
+[run-qa-fixes-jul04](plans/doing/run-qa-fixes-jul04/plan.md) ·
+[engine-improvements](plans/doing/engine-improvements/plan.md) ·
+[agent-native](plans/doing/agent-native/plan.md) ·
+[postgres-runtime-data](plans/doing/postgres-runtime-data/plan.md) ·
+[render-deploy](plans/doing/render-deploy/).
+
+Parked plans sit in [future/](plans/future/); completed ones move to [done/](plans/done/) (34 so far — auth, postgres, roles, design-system, cto-check-july, live-data-cleanup, …).
 
 ## archive/ — superseded + completed
 
 | Section | What |
 |---|---|
-| [done/](archive/done/) | 33 completed workstreams (auth, postgres, roles, design-system, error-log, mobile-responsive, people-roster, member-invites, start-screen, test-engine-hub, no-inference-ruling, live-data-cleanup, …). |
-| [plans/](archive/plans/) | Parked plans (planner-grounding, briefing-readability-p0, design-cleanups) + archived plan docs ([features.md](archive/plans/features.md), [design.md](archive/plans/design.md), [plan-archive.md](archive/plans/plan-archive.md), [log-fix-audit.md](archive/plans/log-fix-audit.md)). |
 | [prototype-to-production/](archive/prototype-to-production/) | The 8-phase Prototype→Production line (overview, progress, per-phase). |
 | [screenshots/](archive/screenshots/) · [logs/](archive/logs/) · [questions/](archive/questions/) | Old screenshots, log/question zip snapshots. |
 | [darren.md](archive/darren.md) · [sero-engine-update.html](archive/sero-engine-update.html) · [sero-roadmap.html](archive/sero-roadmap.html) | Misc archived notes + decks. |

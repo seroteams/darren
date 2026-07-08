@@ -2,7 +2,7 @@
 
 **One page. Who tries Sero first, what we watch, and what "they'd use it" looks like.**
 Draft 2026-07-05 — rough on purpose; Carl fills in the names.
-(The bar below is the one already agreed in [pre-go-live/overview.md](../workstreams/pre-go-live/overview.md) and the alpha-readiness research: value shows on the **return visit**, not the first run.)
+(The bar below is the one already agreed in [pre-go-live/overview.md](../plans/doing/pre-go-live/overview.md) and the alpha-readiness research: value shows on the **return visit**, not the first run.)
 
 ---
 
