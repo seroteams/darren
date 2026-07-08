@@ -24,7 +24,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cmd /c type \"%CLAUDE_PROJECT_DIR%\\.claude\\hooks\\guardrails-reminder.txt\""
+            "command": "powershell -NoProfile -Command \"[Console]::OutputEncoding=[Text.Encoding]::UTF8; Get-Content -Raw -Encoding UTF8 '.claude/hooks/guardrails-reminder.txt'\""
           }
         ]
       }

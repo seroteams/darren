@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sero — Claude Cheat Sheet</title>
+<style>
+  :root{
+    --bg:#f5fafd; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7c; --line:#e3ebf2;
+    --blue:#2563eb; --blue-soft:#eaf1ff;
+    --green:#15925a; --green-bg:#e7f6ee; --amber:#b7791f; --amber-bg:#fdf6e6;
+    --shadow:0 1px 3px rgba(20,40,70,.06),0 6px 20px rgba(20,40,70,.05);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:22px 18px 50px}
+  h1,h2{font-family:"Bricolage Grotesque","Inter",sans-serif;line-height:1.2;margin:0}
+  h1{font-size:26px}
+  h2{font-size:17px;margin:28px 0 10px;letter-spacing:-.01em}
+  .sub{color:var(--muted);margin-top:4px;font-size:14.5px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}
+  .kw{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+  .say{font-size:14px;color:var(--muted)}
+  .word{display:inline-block;background:var(--blue-soft);color:var(--blue);font-weight:800;
+    font-family:"Bricolage Grotesque","Inter",sans-serif;font-size:19px;border-radius:9px;padding:4px 12px;margin-top:4px}
+  .what{font-size:14px;margin-top:9px}
+  .when{font-size:12.5px;color:var(--muted);margin-top:6px}
+
+  .rules{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 16px;box-shadow:var(--shadow);margin-top:12px}
+  .rule{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);align-items:baseline}
+  .rule:last-child{border-bottom:none}
+  .rule .ico{flex:none;font-size:18px}
+  .rule b{font-weight:700}
+  .rule .d{font-size:14px}
+  .money{background:var(--amber-bg);border:1px solid #efd9a7;border-radius:14px;padding:14px 18px;margin-top:12px;font-size:14.5px}
+  .auto{background:var(--green-bg);border:1px solid #bfe5cd;border-radius:14px;padding:14px 18px;margin-top:12px;font-size:14.5px}
+  .small{font-size:12.5px;color:var(--muted);margin-top:24px}
+  @media print{body{background:#fff}.kw,.rules{box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>🗝️ Claude Cheat Sheet</h1>
+  <div class="sub">One word does the whole job. Say it in any session — Claude knows the rest.</div>
+
+  <h2>The magic words</h2>
+  <div class="grid">
+    <div class="kw">
+      <div class="say">Say…</div><span class="word">checkpoint</span>
+      <div class="what"><b>Mid-work:</b> saves everything — commit, STATUS refresh, chat-log.<br><b>Fresh session:</b> brings the whole picture back — done / awaiting your QA / your move.</div>
+      <div class="when">Use it before you walk away, and first thing when you come back.</div>
+    </div>
+    <div class="kw">
+      <div class="say">Say…</div><span class="word">tested, good</span>
+      <div class="what">Closes the phase properly: plan, STATUS, board, badges, log, changelog — all moved together, then committed. Nothing drifts.</div>
+      <div class="when">Only after YOU walked the test scenarios. ("green light" works too.)</div>
+    </div>
+    <div class="kw">
+      <div class="say">Say…</div><span class="word">night test</span>
+      <div class="what">The full overnight QA sweep — free checks first, paid runs capped &amp; tallied, report waiting in the morning. No fixes, no commits.</div>
+      <div class="when">Last thing before bed. Add a budget line if you want a different cap.</div>
+    </div>
+    <div class="kw">
+      <div class="say">Say…</div><span class="word">commit my work</span>
+      <div class="what">Commits ONLY this session's files. If other work is mixed in, you get an A/B/C choice — never a silent sweep. Push only if you say push.</div>
+      <div class="when">Any time you want work saved to git.</div>
+    </div>
+    <div class="kw">
+      <div class="say">Say…</div><span class="word">review this run</span>
+      <div class="what">Full run review with the scorecard (Understood / Filtered / Shown). It builds the context block itself — you never paste Report/Role/Meeting-type again. Just give the log folder.</div>
+      <div class="when">After any pipeline run you want judged.</div>
+    </div>
+    <div class="kw">
+      <div class="say">Say…</div><span class="word">split this into phases</span>
+      <div class="what">The Darren Method: plan folder + phase files, one phase at a time, you green-light each. ("darren method" works too.)</div>
+      <div class="when">Any change too big for one sitting.</div>
+    </div>
+    <div class="kw">
+      <div class="say">Say…</div><span class="word">start the app</span>
+      <div class="what">Dev servers up via the preview tools (API on 3001, admin on 3000) — no setup chat needed.</div>
+      <div class="when">Whenever you want to click around the app.</div>
+    </div>
+    <div class="kw">
+      <div class="say">Say…</div><span class="word">where are we</span>
+      <div class="what">Same as a checkpoint restore — the plain-words picture from STATUS.md, the active plan, and git. No re-explaining.</div>
+      <div class="when">Anytime you feel lost between sessions or agents.</div>
+    </div>
+  </div>
+
+  <h2>💷 The money rules (already standing — no need to repeat them)</h2>
+  <div class="money">
+    <b>Free checks always come first.</b> A task may use <b>one</b> paid run (~$0.35) without asking — only if free can't prove it, always the smallest run.
+    A <b>second</b> paid run needs your yes, every time. Full gate ≈ $3 — never run by default.
+  </div>
+
+  <h2>🤖 What now happens automatically (you never have to ask)</h2>
+  <div class="auto">
+    <b>⚠️ Guardrails</b> — every message you send is checked against the five drifts (goal, pace, honesty, money, scope); a warning leads the reply only if one fires.<br>
+    <b>📌 Reply format</b> — slim title on top, one 🧭/🔵/🔴 box at the bottom of every reply.<br>
+    <b>✅ Task list</b> — phased work shows a live tick-off checklist, plus STATUS.md stays current on every phase boundary.
+  </div>
+
+  <h2>House habits (one-liners)</h2>
+  <div class="rules">
+    <div class="rule"><div class="ico">🧪</div><div class="d"><b>"Done" means verified at the destination</b> — the database was queried, the real page loaded — never "the code should do it".</div></div>
+    <div class="rule"><div class="ico">🌳</div><div class="d"><b>Running two sessions at once?</b> Ask the second one to "make me a worktree" — each session gets its own safe copy.</div></div>
+    <div class="rule"><div class="ico">📄</div><div class="d"><b>Every file-edit reply ends with a files-edited table</b> — you always see exactly what was touched.</div></div>
+    <div class="rule"><div class="ico">🗒️</div><div class="d"><b>Ideas mid-phase go to "Parked"</b> — they're saved, not built, so the current phase stays small.</div></div>
+  </div>
+
+  <p class="small">Full detail lives in the skills (<code>.claude/skills/</code>) and <a href="../reports/2026-07-08-claude-usage-retrospective.html">the retrospective report</a>. Printable — File → Print.</p>
+</div>
+</body>
+</html>
