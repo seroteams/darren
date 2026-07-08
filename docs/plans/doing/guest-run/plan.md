@@ -22,14 +22,18 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Backend: claim + daily cap | `POST /api/v1/sessions/:id/claim` + `GUEST_RUNS_PER_DAY` file-backed cap + board reversal note | ✅ |
-| 2 | Guest lane frontend | "Try it — no account needed" on login → intake; logged-out boot/router lane; mid-run reload works | 🔨 |
-| 3 | Save prompt + claim wiring | Briefing save card for guests → register/login → auto-claim → run in Past 1:1s | ⬜ |
+| 2 | Guest lane frontend | "Try it — no account needed" on login → intake; logged-out boot/router lane; mid-run reload works | ✅ |
+| 3 | Save prompt + claim wiring | Briefing save card for guests → register/login → auto-claim → run in Past 1:1s | 🔨 |
 | 4 | Superadmin "Guest runs" screen | List of ownerless finished runs + read-only briefing view, superadmin-only | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ green-lit 2026-07-05 ("A") · Phase 2 BUILT same day — awaiting Carl's walk.**
+**Phase 1 ✅ (2026-07-05) · Phase 2 ✅ green-lit 2026-07-08 ("yeah looks good and move to phase 3") · Phase 3 🔨 starting.**
+Phase 2 walked with both guest doors live (`/` start screen + `/login` link — the start-screen track
+landed in between); rail leak fixed `093981e1`; intake person picker guest-safe (free-text fallback).
+Next: Phase 3 — the save-at-end card + claim wiring. Its walk contains the plan's ONLY paid moment
+(one full guest run, ~$0.35–0.60) and waits for Carl's explicit go on that run.
 Phase 2: test-first (`isGuestStage` red→green); 73/73 tests · both typechecks clean. Browser-proven logged-out
 (via 127.0.0.1, which skips the login cookie): guest link on login (14px) → intake at /new → reload stays →
 /interview with no session → login → /tasks as guest → login → no rail/badge for guests → logged-in login

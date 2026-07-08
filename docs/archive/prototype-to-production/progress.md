@@ -84,6 +84,21 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **guest-run Phase 2 (guest lane frontend) green-lit ("yeah looks good"); Phase 3 starts.**
+  Walked 3 days after build — and the double-check before proposing the walk paid off: two tracks had
+  landed on top of the lane in between (start-screen made `/` a second guest door; people-roster put a
+  person picker in intake). Neither broke it — the rail leak seen in start-screen QA was already fixed
+  (`093981e1`) and the picker free-text-falls-back for guests. **Lesson:** when a "built, awaiting walk"
+  phase sits for days in a many-session repo, re-verify its QA scenarios against what landed since —
+  the walk instructions may name doors/screens that have moved. Next: P3 save-at-end (the plan's only
+  paid walk, ~$0.35–0.60, explicit go required).
+- **2026-07-08** — **manager-ready → TRACK CLOSED (2/2 phases Carl-walked, $0 spend).** The paying
+  customer's rail (P1) + the design polish (P2): Bricolage headings, 4px buttons, one date format,
+  14px floor held. **Lesson:** the plan's *phase table* is machine-read (the /tasks board counts its
+  ✅/🔨/⬜ rows), so a stale table isn't cosmetic — it made the board card read "0/2 phases done" on a
+  track that was really 1 walked + 1 built. When prose and table disagree, fix the table first; and a
+  3-day-old "not committed / hot file" warning deserves a re-check against git before repeating it —
+  P2 had in fact been committed cleanly all along (`c6eca72f`).
 - **2026-07-08** — **frontend-admin-split Phase 2 (stand up the customer app) green-lit.** The customer
   app on :3002 is approved: customer-only rail, `/universe`/`/tasks` bounce to Home, admin app untouched.
   **Lesson:** the "double check this still needs doing" ask paid off — not because the work was stale

@@ -87,21 +87,17 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > `npm test` + a fixtures-only replay). Overnight-QA *behaviour* findings (thread-follow drift, growth-arc stage-skip)
 > are logged in the PLAN as a likely *separate* follow-up, not phases here.
 
-> **🔨 [guest-run](docs/plans/doing/guest-run/plan.md) — Phase 1 ✅ · Phase 2 (guest front door) BUILT, awaiting your walk (2026-07-05).**
+> **🔨 [guest-run](docs/plans/doing/guest-run/plan.md) — P1 ✅ · P2 ✅ green-lit 2026-07-08 · Phase 3 (save-at-end) 🔨 STARTING.**
 > Your "open way first" idea: no-account visitor runs a full 1:1, saves it at the end by registering/logging in.
-> **P2 BUILT:** "Try it — no account needed" on the login screen → straight into intake; mid-run reload returns
-> a guest to their run; back/forward + deep links bounce guests off everything internal; logged-in flows
-> untouched. Test-first (`isGuestStage`), 73/73 · both typechecks · browser-proven logged-out (via 127.0.0.1,
-> which skips the login cookie). **Walk:** the 4 scenarios in [phase-2.md](docs/plans/doing/guest-run/phase-2.md) —
-> browse as a guest, do NOT press the final start (that's Phase 3's paid walk). Commit note: login.js also
-> carries another track's in-flight login-photos work (declared in the commit).
-> **P1 built test-first (claim endpoint + daily guest cap):** anonymous starts are back open but budgeted —
-> `GUEST_RUNS_PER_DAY` (default 10) across all guests/day, plain "come back tomorrow" refusal, counter survives
-> restarts; `POST /api/v1/sessions/:id/claim` hands an ownerless run to the newly logged-in caller (owned-by-
-> someone-else answers 404, re-claim is a no-op); members still 403 on start; board reversal note written.
-> Proof at $0: 73/73 tests · typecheck · live scratch-API walk incl. ownership verified ON DISK.
-> **Walk:** the 5 scenarios in [phase-1.md](docs/plans/doing/guest-run/phase-1.md) (all free).
-> Green light → Phase 2 (the "Try it" front door). Then: ③ save-at-end (one paid walk, your go) · ④ Guest runs screen.
+> **P2 ✅ (walked 2026-07-08, "yeah looks good"):** guest lane frontend — by walk time there were TWO guest
+> doors (the `/` start screen from the closed start-screen track + the "Try it" link on `/login`), both →
+> intake; mid-run reload keeps a guest in their run; guests bounce off everything internal; no rail/badge
+> (leak fixed `093981e1`); logged-in flows untouched. 73/73 at build · both typechecks.
+> **P1 ✅ (claim endpoint + daily guest cap):** `GUEST_RUNS_PER_DAY` (default 10) shared daily budget +
+> `POST /api/v1/sessions/:id/claim` hands an ownerless run to the newly logged-in caller.
+> **P3 🔨 (starting 2026-07-08):** the save-at-end card — after the briefing a guest sees "Want to keep
+> this?" → register/log in → auto-claim → run lands in Past 1:1s. Build is free (TDD); the walk has the
+> plan's ONLY paid moment: one full guest run (~$0.35–0.60), waits for your explicit go. Then ④ Guest runs screen.
 
 > **🔨 [frontend-admin-split](docs/plans/doing/frontend-admin-split/plan.md) — Phase 2 ✅ GREEN-LIT (2026-07-08) · Phase 3 (slim the admin app) STARTING.**
 > The customer app is **real and approved**: `npm run dev:customer` → **http://localhost:3002** — login,
