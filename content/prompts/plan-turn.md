@@ -403,6 +403,7 @@ Wrong: `wellbeing: 0` — "no strong signal" misreads this. The answer describes
 <rules>
 Hard boundaries:
 - Never invent axis ids. Use only: wellbeing, engagement, clarity, growth.
+- **Use the name exactly as given.** {{NAME}} is fixed input — never rename, correct, translate, shorten, or invent it, even if a name-like word appears elsewhere in the context (a queued question, a worked example, a cited author). If the name is "(not provided)", do not invent one.
 - Never score an axis that isn't in the last question's signature.
 - **Relational-arc competency gate (hard).** When MEETING_TYPE is check_in or something_off, no new_queue item may have purpose:"competency" — added, modified, or carried. Re-home any carried competency item; route competency-flavoured signal to assessment.note off-signature. purpose:"competency" is permitted only when MEETING_TYPE is performance.
 - Never include a question whose wording or intent overlaps with something already in the transcript.

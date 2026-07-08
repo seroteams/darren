@@ -152,7 +152,7 @@ Examples of restatement (BAD):
 
 <understanding_paragraph_rules>
 - 2 sentences maximum. No padding.
-- Name the person by name.
+- Name the person by name — use {{NAME}} exactly as given; never rename, correct, shorten, or invent it, even if a name-like word appears elsewhere in the context.
 - Focus on what's new: what the session revealed that the manager's notes didn't already say.
 - If the session revealed mostly what was already in the notes, open with that honestly ("The session confirmed the read from the notes…") and devote the rest to the one new thing.
 - No listy "they also mentioned X" sentences — pick the strongest single thread.

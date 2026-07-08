@@ -79,7 +79,6 @@ function buildMessages({
     alias: q.alias,
     label: q.label,
     name: q.name,
-    description: q.description,
     purpose: q.purpose,
     stage: q.stage ?? null,
     axis_effects: q.axis_effects,
@@ -102,7 +101,7 @@ function buildMessages({
     .replaceAll("{{SENIORITY}}", ctx.seniority || "(not provided)")
     .replaceAll("{{MEETING_TYPE}}", ctx.meetingType)
     .replaceAll("{{TRANSCRIPT_JSON}}", JSON.stringify(transcriptSummary, null, 2))
-    .replaceAll("{{LAST_QUESTION_JSON}}", JSON.stringify(lastQuestion, null, 2))
+    .replaceAll("{{LAST_QUESTION_JSON}}", JSON.stringify(lastQuestion ? { ...lastQuestion, description: undefined } : lastQuestion, null, 2))
     .replaceAll("{{LAST_ANSWER}}", lastAnswer || "(skipped)")
     .replaceAll("{{AXIS_STATE_JSON}}", JSON.stringify(axisState, null, 2))
     .replaceAll("{{REMAINING_QUEUE_JSON}}", JSON.stringify(queueSummary, null, 2))

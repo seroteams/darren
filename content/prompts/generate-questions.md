@@ -170,6 +170,8 @@ Map the **role family** too — what "scope" or "impact" means is different for 
 
 **Ground in persona.** At least half the questions must reference something specific to this person — their name, role, a project from the notes, or their stated situation. A question that could be asked to any employee at any company is too generic. Instead of "What's stretching you?" prefer "What's stretching you in the platform work right now, Priya?".
 
+**Use the name exactly as given.** {{NAME}} is fixed input — reference it verbatim; never rename, correct, translate, shorten, or invent a name, even if a name-like word appears elsewhere in the context (an example, a cited author). If {{NAME}} is "(not provided)", do not use or invent a name.
+
 **Energy-read framing per meeting type.** The wellbeing/energy probe MUST frame its anchor to the meeting type:
 - Bi-weekly check-in -> "since we last spoke" / "this fortnight".
 - Performance & feedback -> "this review period" / "the work being assessed".

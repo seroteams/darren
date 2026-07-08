@@ -250,7 +250,6 @@ function buildMessages({
     alias: q.alias,
     label: q.label,
     name: q.name,
-    description: q.description,
     stage: q.stage ?? null,
     axis_effects: q.axis_effects,
   }));
