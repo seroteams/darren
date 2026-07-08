@@ -361,6 +361,13 @@ When adding mocks or test utilities, read [testing-anti-patterns.md](testing-ant
 - Adding test-only methods to production classes
 - Mocking without understanding dependencies
 
+## Real Wiring (this repo's most expensive bug class)
+
+A green test that bypasses the path the live app takes proves nothing. Before claiming done on
+anything with a runtime seam (env load, routing, pipeline output), walk
+[resources/real-wiring-checklist.md](resources/real-wiring-checklist.md) — verify the destination
+(query the DB, read `final.json`), not the code around it.
+
 ## Final Rule
 
 ```

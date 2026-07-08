@@ -11,7 +11,7 @@ Loads a single run for review. Output primes discussion — does not propose fix
 
 ## Inputs
 
-One arg: absolute path to a run directory (e.g. `C:\Users\User\Documents\Sero\seroengine\logs\may\2026_May01_07-47-cdfe`).
+One arg: absolute path to a run directory (e.g. `C:\Users\User\Documents\Sero\darren\logs\may\2026_May01_07-47-cdfe`).
 
 If arg missing: ask which run. Do not guess.
 
@@ -42,7 +42,9 @@ Stage dirs may vary. Discover by listing the run dir. Treat any `NN-*` subdir as
    - each stage's `inputs.json`, `prompt.md`, `response.json`
    - `notes.md` if present
    - **last row of** `docs/reference/prompt-review-ledger.md` (for the scorecard's direction arrows). If the file or a prior row is absent, arrows show `—` (no baseline yet).
-3. **Payload dump.** For each stage in order, emit verbatim:
+3. **Run context, then payload dump.** First emit the **Run context block** — filled from the
+   run dir itself (never ask the user to paste it): [`resources/run-context-template.md`](resources/run-context-template.md).
+   Then, for each stage in order, emit verbatim:
 
    ````
    ### <stage-name>

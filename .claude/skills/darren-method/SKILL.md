@@ -1,6 +1,6 @@
 ---
 name: darren-method
-description: "The team's standard way to run any multi-step build. Turn a plan into a docs/workstreams/<slug>/ folder — a PLAN.md overview plus phase files that each end with QA scenarios — then do ONE phase at a time, with the product owner testing and green-lighting before the next phase. Trigger when the user says /darren-method, 'darren method', 'split this into phases', 'set up the todo folder', or hands over a plan to break down and work through. Use for any change big enough to need a plan; skip for trivial one-file edits."
+description: "The team's standard way to run any multi-step build. Turn a plan into a docs/workstreams/<slug>/ folder — a plan.md overview plus phase files that each end with QA scenarios — then do ONE phase at a time, with the product owner testing and green-lighting before the next phase. Trigger when the user says /darren-method, 'darren method', 'split this into phases', 'set up the todo folder', or hands over a plan to break down and work through. Use for any change big enough to need a plan; skip for trivial one-file edits."
 argument-hint: "<plan file path, or feature name/slug>"
 user-invocable: true
 ---
@@ -26,7 +26,7 @@ The Darren Method. How we run multi-step work so it doesn't fall over.
 
 ```
 docs/workstreams/<slug>/
-  PLAN.md      the overview
+  plan.md      the overview (lowercase — some old folders say PLAN.md; new ones don't)
   phase-1.md   one phase + its test scenarios
   phase-2.md
   ...
@@ -50,14 +50,16 @@ docs/workstreams/<slug>/
 - [ ] If this chat is long or messy, say so — a fresh session is better.
 - [ ] Build **that phase only**. Don't wander into the next one.
 - [ ] Hand testing to the product owner: show them the scenarios + anything that helps them test (a screenshot, what to click). Then **wait**.
-- [ ] Green light? Only then: update the status and "Current state" in `plan.md` (what landed, how it was tested, what's next), then **commit the phase** (local only — no push/PR unless asked).
-- [ ] Scope you cut or ideas for later go in PLAN.md's "Parked" section — not into this phase.
+- [ ] Green light? Run the [phase-close](../phase-close/SKILL.md) ritual — it updates `plan.md`, STATUS.md, the badges and the logs together, then **commits the phase** (local only — no push/PR unless asked).
+- [ ] Scope you cut or ideas for later go in plan.md's "Parked" section — not into this phase.
 - [ ] All phases ✅? Move the folder to `docs/archive/done/<slug>/`.
 - [ ] **Stop.** No green light = no next phase. One phase per run. Suggest the next one another day.
 
 ## Templates
 
-### PLAN.md
+(For audits / orientation write-ups — not builds — use [resources/findings-template.md](resources/findings-template.md).)
+
+### plan.md
 
 ```
 # <Title>
@@ -69,6 +71,9 @@ docs/workstreams/<slug>/
 ## Done means
 - <thing you can see>
 - <thing you can see>
+
+## Resolved before we start
+<optional — answers dug out of the code BEFORE phase 1, so phases don't stall on unknowns>
 
 ## Phases
 | # | Phase | What it lands | Status |
@@ -90,7 +95,7 @@ docs/workstreams/<slug>/
 ```
 # Phase N — <name>
 
-**Part of:** [PLAN.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ⬜
 
 ## Goal
 <one sentence>
@@ -103,7 +108,7 @@ docs/workstreams/<slug>/
 - <leave for later>
 
 ## Done when
-- [ ] <thing you can check>
+- [ ] <thing you can check — verify the DESTINATION (query the DB, read the output file), not the routing>
 - [ ] Product owner has tested the scenarios below and said go
 
 ## Test scenarios — for the product owner
@@ -111,6 +116,17 @@ Walk through these yourself. Next phase waits for your green light.
 1. **<name>** — do <X>. You should see <Y>. ❌ Not OK if <Z>.
 2. **<name>** — do <X>. You should see <Y>.
 3. **<name>** — ...
+```
+
+Two sections get ADDED to the phase file as work happens (top of file, newest first):
+
+```
+## ✅ GREEN-LIT <date> — <what the owner walked> (commit <hash>)
+   ← added at sign-off, by the phase-close ritual
+
+## Built (<date>)
+<what actually landed: file paths + offline proof — "npm test 42/42, typecheck clean">
+   ← added when the build finishes, BEFORE the owner walks it
 ```
 
 ## The rules (don't skip these)
