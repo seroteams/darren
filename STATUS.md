@@ -89,7 +89,7 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > - **P3 🔨 built (`3f560c6b`)** — trace found **no live note-tag leak** (tagged note reaches only the manager
 >   dashboard + decision-logic parsers that need it; the customer eval input already excludes it). Locked the safe
 >   state with a guard test + comment instead of speculative strip code.
-> `npm test` **86/86** · typecheck clean · **no paid runs**. **Your move: walk each phase's QA scenarios** (all free —
+> `npm test` **98/98** · typecheck clean · **no paid runs** (re-verified 2026-07-08). **Your move: walk each phase's QA scenarios** (all free —
 > `npm test` + a fixtures-only replay). Overnight-QA *behaviour* findings (thread-follow drift, growth-arc stage-skip)
 > are logged in the PLAN as a likely *separate* follow-up, not phases here.
 
@@ -109,17 +109,18 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > **▶ Your move:** scenarios 2–3 in [phase-3.md](docs/plans/doing/guest-run/phase-3.md) are ONE paid
 > end-to-end guest walk (~$0.35–0.60) — say go and walk it. Then ④ Guest runs screen.
 
-> **🔨 [frontend-admin-split](docs/plans/doing/frontend-admin-split/plan.md) — P2 ✅ · P2b ✅ · P3 ✅ green-lit (2026-07-08) · **Phase 4 (serve + fence) STARTING — the last phase.****
-> **Why it's live:** render-deploy serves `admin/dist` at the public URL, so this track is what
-> makes the public URL customer-only (you picked "split now", 2026-07-08).
-> **P2 ✅ (`53f25881`)** customer app real · **P2b ✅ (`0cf75d6b`)** four post-snapshot drifts mirrored in ·
-> **P3 ✅ green-lit + committed:** admin keeps the run lane for QA (your pick A); the customer shell
-> (welcome/join/team/person-detail/member-home) physically moved to `frontend/`; **F-005 dead** — the
-> persona bench is an admin-only module, customer bundle greps zero bench/persona code (proven live both
-> ways). `npm test` **97/97** · 3 typechecks · both builds. Parked tidy in phase-3.md (login.js member
-> landing, blocked on another session's edit).
-> **P4 🔨 next:** serve `frontend/dist` at the public root + admin on its own route, bundle-proof script —
-> the split becomes the real security boundary, and the Render deploy goes customer-only.
+> **🔨 [frontend-admin-split](docs/plans/doing/frontend-admin-split/plan.md) — P2 ✅ · P2b ✅ · P3 ✅ · **P4 (serve + fence) BUILT (2026-07-08), awaiting your walk — the LAST phase.****
+> **P2 ✅ (`53f25881`)** customer app real · **P2b ✅ (`0cf75d6b`)** drift caught up · **P3 ✅ (`ffa58c2c`)**
+> admin slimmed, F-005 dead (bench = admin-only module; parked tidy in phase-3.md).
+> **P4 🔨 BUILT ($0, test-first, awaiting walk) — your pick A: the public deploy serves the CUSTOMER app
+> only; the admin app never ships (stays your local tool).** New always-on test
+> ([test-customer-serving.js](scripts/test-customer-serving.js)) builds the customer app fresh, greps the
+> bundle for internal-tool code + key patterns (zero hits), and boots a REAL production server to prove
+> `/` serves the customer index (red on the old wiring → green after). server.ts now serves
+> `frontend/dist` in prod; **render.yaml buildCommand fixed** to `build:customer` (it would have shipped
+> the admin app tonight — caught before your Render setup). `npm test` **98/98** · 3 typechecks clean.
+> **▶ Your move:** walk [phase-4.md](docs/plans/doing/frontend-admin-split/phase-4.md) — smallest walk yet:
+> run `node scripts/test-customer-serving.js`, watch 8 ok lines (~1 min). Green light → track CLOSES (4/4 + 2b).
 
 > **✅ [manager-ready](docs/plans/done/manager-ready/plan.md) — TRACK CLOSED 2026-07-08 (both phases green-lit, $0 spend).**
 > Managers (the paying customers) get their own clean rail — **Home · New 1:1 · Team · Past 1:1s** — and bounce
@@ -129,20 +130,14 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > committed (`bf7e62f7`, `c6eca72f`) and survived the styles/design/ split; `npm test` 96/96 on close.
 > Folder → [done/](docs/plans/done/manager-ready/plan.md). **▶ Your move:** nothing — track closed.
 
-> **🔨 [page-heartbeat](docs/plans/doing/page-heartbeat/plan.md) — real UPDATE buttons. Phases 1 + 3 ✅ · Phase 2 (Universe ring) BUILT, awaiting your walk — the last phase.**
-> From the 25-page audit: Guide, Universe and the Tasks board were hand-typed snapshots of the app.
-> **Phase 1 ✅** (2026-07-05, `4e4ea787`): /guide renders live from `GET /api/v1/heartbeat` + plain-words
-> changelog. **Phase 3 ✅** (2026-07-08, full live walk): /tasks fills itself from the plan folders;
-> "Update from docs" reconciles the Docs cards, hand-added cards untouched.
-> **Phase 2 🔨 BUILT (2026-07-08, test-first, $0, NOT committed — commits on your green light):**
-> the Universe's pipeline ring now **derives from the app's real flow** (`TOPBAR_STAGES`, the rail every
-> run screen shows) instead of a private hand-typed copy; a flow change is announced by **Update from
-> the engine** in plain words ("Pipeline step added: …") and survives the reload via a small snapshot.
-> Proof: +4 red-first tests (my slice green; the 1 whole-tree failure is another session's in-flight
-> router.js edit, not this) · both typechecks clean · real-bundle check on a scratch server: same 7
-> steps, labels intact. **▶ Your move:** walk the 3 scenarios in
-> [phase-2.md](docs/plans/doing/page-heartbeat/phase-2.md) — open /universe, same ring; scenario 3 with
-> me (I stage a fake stage, you click Update). Green light → commit + the whole track closes.
+> **✅ [page-heartbeat](docs/plans/done/page-heartbeat/plan.md) — TRACK CLOSED 2026-07-08: all 3 phases Carl-walked, $0 total.**
+> The three admin pages that described the app by hand now read it live and say what changed in
+> plain words. **P1** /guide renders from `GET /api/v1/heartbeat` (`4e4ea787`) · **P3** /tasks fills
+> itself from the live plan folders, "Update from docs" reconciles the Docs cards (hand-added cards
+> untouched) · **P2** the Universe's pipeline ring derives from the app's real flow (`TOPBAR_STAGES`)
+> and Update announces ring changes — walked live with a staged fake stage, announced both ways
+> ("Pipeline step added/removed: Shadow review"), baseline survives the reload via a snapshot.
+> Folder → [done/](docs/plans/done/page-heartbeat/plan.md). **▶ Your move:** nothing — track closed.
 
 > **🔨 [user-management](docs/plans/doing/user-management/plan.md) Phase 3 — deactivate / reactivate a user: STARTING (2026-07-05).**
 > Nullable `deactivatedAt` on `users` + `POST …/deactivate` & `…/reactivate`; login must reject deactivated users;

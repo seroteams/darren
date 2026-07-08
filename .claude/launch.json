@@ -42,6 +42,22 @@
       "port": 3002
     },
     {
+      "name": "sero-customer-team",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3081",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3085",
+        "--strictPort"
+      ],
+      "port": 3085
+    },
+    {
       "name": "sero-api",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
@@ -161,6 +177,17 @@
         "--host"
       ],
       "port": 3085
+    },
+    {
+      "name": "sero-web-uni",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3017",
+        "--strictPort"
+      ],
+      "port": 3017
     },
     {
       "name": "sero-prod-iso",
