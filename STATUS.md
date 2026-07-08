@@ -6,6 +6,8 @@ For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full 
 Not sure which file is which? [docs/reference/trackers.md](docs/reference/trackers.md) maps where everything lives.
 Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only holds what's live or awaiting your walk.
 
+📍 **Checkpoint 2026-07-08:** agent toolbox landed + committed — 4 new skills (**checkpoint · phase-close · safe-commit · night-test**), guardrails hook wired (and fixed), reviewrun builds its own context block, CLAUDE.md slimmed to pointers, [cheat sheet](docs/reference/claude-cheat-sheet.html) + [usage retrospective](docs/reports/2026-07-08-claude-usage-retrospective.html). Commits `73ceac7b`→`956b4bb4`. Nothing awaiting a walk — the toolbox is live now.
+
 ---
 
 ## ▶ Your move
@@ -24,6 +26,8 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > `npm test` **94/94** · typecheck clean · lint's 44 problems pre-existing (noted in plan.md).
 > **▶ Your move:** say "start phase 3" (decision tables — docs only; the paid-run table now lists cassette
 > replay as a free check to exhaust first).
+
+> **🔨 [render-deploy](docs/plans/doing/render-deploy/plan.md) — TONIGHT'S TRACK (2026-07-08): host Sero on Render.com + the /commit → /release workflow. P1 BUILT + double-checked, awaiting Carl's walk. Runbook: [TONIGHT.md](TONIGHT.md).**
 > Carl's ask: "develop locally and easily get it live" — Render free plan (Frankfurt), blueprint auto-deploys
 > every push to `main`, agent watches deploys via a Render API key in `.secrets/` (never committed).
 > **4 phases:** ① pre-flight (Node pinned, `/api/v1/health`, `.secrets/` ignored) · ② `render.yaml` +
