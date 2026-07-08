@@ -25,3 +25,5 @@ export {
   validateQuestionBeforeShow,
 };
 export * from "./budgets.ts";
+export { STAGE_SEQUENCE } from "./stage-sequence.ts";
+export type { PipelineStage } from "./stage-sequence.ts";

@@ -21,7 +21,9 @@ offline from any saved run folder (~5s, $0.00, no API key; `scripts/replay-pipel
 answers REPRODUCES: yes/no on a bug bundle — live-proven on a real July run with an identical verdict) ·
 ③ decision tables **✅ green-lit 2026-07-08** ([agent-decisions.md](docs/reference/agent-decisions.md) — the
 paid-run tree, the flag/retry/refuse honesty policy, and the good-enough rubric; B2 + stonewall stay Carl's
-parked calls) · ④ web↔CLI orchestrator parity test · ⑤ prompt↔gate coupling registry.
+parked calls) · ④ orchestrator parity **✅ green-lit 2026-07-08** (pipeline order declared once in
+`stage-sequence.ts` + an offline test that names the exact drift — the half-changed-pipeline trap closed) ·
+⑤ prompt↔gate coupling registry (last one).
 Whole track $0 so far — the predicted seed spend proved unnecessary. Tactical: [STATUS.md](STATUS.md).
 
 **✅ Closed (2026-07-07, risk closed 2026-07-08): [CTOCheckJuly](docs/plans/done/cto-check-july/README.md)** —

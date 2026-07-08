@@ -18,7 +18,7 @@
 | 1 | Offline cassette replay | Full pipeline replays offline for $0 (verify + reproduce) | ✅ |
 | 2 | Fix stale agent maps | `.cursor` rule + comments corrected; one `engine-map.md` | ✅ |
 | 3 | Decision tables | paid-run / live-path / good-enough calls written down | ✅ |
-| 4 | Orchestrator parity guard | test red-flags web↔CLI stage-order drift | ⬜ |
+| 4 | Orchestrator parity guard | test red-flags web↔CLI stage-order drift | ✅ |
 | 5 | Prompt↔gate registry | test breaks when a prompt rule & its gate regex diverge | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -27,7 +27,7 @@
 **Do Phase 2 first** — it's 2–3 hours, low-risk, and stops any agent (Cursor or otherwise) loading the dead `src/` map while it works on the rest. Then Phase 1 (the flagship), then 3 → 4 → 5. Numbering follows the plan's ranking; run order is 2, 1, 3, 4, 5.
 
 ## Current state
-Phases 2 ✅, 1 ✅, 3 ✅ (all green-lit 2026-07-08; P3 = [agent-decisions.md](../../reference/agent-decisions.md), the three Carl-gated calls written as tables). **Next: Phase 4 — orchestrator parity guard** ([phase-4.md](phase-4.md)), then 5.
+Phases 2 ✅, 1 ✅, 3 ✅, 4 ✅ (all green-lit 2026-07-08; P4 = `STAGE_SEQUENCE` + the offline parity test). **One left: Phase 5 — prompt↔gate coupling registry** ([phase-5.md](phase-5.md)).
 
 **Baseline (captured 2026-07-08, before any change):**
 - `npm test` — ✅ 92/92 passed

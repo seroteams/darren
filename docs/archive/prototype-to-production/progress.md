@@ -84,6 +84,14 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **agent-native P4 (orchestrator parity guard) green-lit.** The twice-wired pipeline
+  (web SSE handlers + CLI stage drivers) now has its order declared once (`backend/engine/stage-sequence.ts`)
+  and an offline test that names the exact drift when either side changes alone. Lesson: **assert what's
+  actually true, not what's convenient** — the web handlers' source order is NOT execution order (the client
+  drives it), so the test checks strict order only where order is real (CLI) and coverage where it isn't;
+  an order assertion on the web file would have been a green lie. Also: the sequence constant is anchored
+  to reality (each declared costLabel must appear in its engine file) so the registry itself can't go stale
+  silently. `npm test` 95/95, $0.
 - **2026-07-08** — **agent-native P3 (decision tables) green-lit.** The three judgments that ended every
   workstream on "ask Carl" — paid run?, flag/retry/refuse?, good enough? — are now written tables
   (`docs/reference/agent-decisions.md`), each pre-walked against a real past call so the table provably

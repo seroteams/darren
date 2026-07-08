@@ -1,6 +1,18 @@
 # Phase 4 — Orchestrator parity guard
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Run order:** 4th
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested) · **Run order:** 4th
+
+## ✅ GREEN-LIT 2026-07-08 — Carl walked it (drift demo pre-run for him; commit hash in the tracker stamp)
+
+## Built (2026-07-08)
+- **`backend/engine/stage-sequence.ts`** (new, exported via the `index.ts` facade): `STAGE_SEQUENCE` — the 5 stages declared once, each with id / model-config stage / costLabel / engine function+file / CLI driver. The header tells the next agent: change the pipeline → update both orchestrators AND this list.
+- **`backend/tests/pipeline/test-stage-parity.js`** (new, auto-runs in `npm test`), four checks:
+  1. sequence sanity (5 stages, unique ids, model stages exist in `models.ts`);
+  2. **anchored to reality** — each declared costLabel actually appears in its engine file (a stale STAGE_SEQUENCE fails too, not just a drifted orchestrator);
+  3. **CLI strict order** — `backend/cli.ts` calls the 5 stage drivers in the declared order (its flow is linear, so source order = execution order);
+  4. **web coverage** — `session-streams.ts` invokes every stage's engine function (drop/rename on one side fails).
+- **Honest scope note (deviation from the phase sketch):** the web path gets a *coverage* check, not an *order* check — its SSE handlers are HTTP endpoints whose execution order the client drives, so source order proves nothing there (found during build: `evaluate` sits at line 207, `planTurn` at 345, and that's correct). The production orchestrators were deliberately NOT refactored to import the constant (surgical rule; merging them is the parked follow-up).
+- **Drift demo (scenario 2, already run):** swapping prep/bank in the sequence → test goes red naming the exact drift ("runPreparationStage runs before runQuestionBankStage — expected …"); revert → green. One self-caught hiccup: the swap/revert via PowerShell mangled the file's em-dash encoding; rewritten clean (ASCII punctuation), content identical.
 
 ## Goal
 A test fails the moment the web and CLI stage sequences drift apart, so an agent can't half-change the pipeline.
