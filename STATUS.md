@@ -22,7 +22,7 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > `npm test` with named errors. Tests 92→**96**, all offline. Folder → [done/](docs/plans/done/agent-native/plan.md);
 > parked follow-ups listed in its plan.md. **▶ Your move:** nothing — track closed.
 
-> **🔨 [render-deploy](docs/plans/doing/render-deploy/plan.md) — TONIGHT'S TRACK (2026-07-08): host Sero on Render.com + the /commit → /release workflow. P1 ✅ green-lit + committed · P2 next. Runbook: [TONIGHT.md](TONIGHT.md).**
+> **🔨 [render-deploy](docs/plans/doing/render-deploy/plan.md) — TONIGHT'S TRACK (2026-07-08): host Sero on Render.com + the /commit → /release workflow. P1 ✅ · P2 ✅ green-lit + committed · P3 = Carl's turn (do the Render setup). Runbook: [TONIGHT.md](TONIGHT.md).**
 > Carl's ask: "develop locally and easily get it live" — Render free plan (Frankfurt), blueprint auto-deploys
 > every push to `main`, agent watches deploys via a Render API key in `.secrets/` (never committed).
 > **4 phases:** ① pre-flight (Node pinned, `/api/v1/health`, `.secrets/` ignored) · ② `render.yaml` +
@@ -36,7 +36,13 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > blueprint build is `npm ci --include=dev` (plain ci skips vite under NODE_ENV=production). `npm test` **96/96**
 > (whole-tree) · typecheck + build clean. Free-plan trade-offs Carl accepted: sleeps after 15 min
 > idle, disk wiped per deploy (run-log detail + generated questions reset; users/logins/run list safe in Neon).
-> **▶ Your move:** say "start P2" → the `render.yaml` blueprint + your `RENDER_SETUP.md` checklist.
+> **P2 ✅ green-lit + committed (`95a7a817` + close-out `4fc008b6`, 2026-07-08, $0):** [render.yaml](render.yaml)
+> blueprint (free Node service, Frankfurt, build/start/health wired, auto-deploy on push, 4 secrets `sync:false`
+> — names only) + [RENDER_SETUP.md](RENDER_SETUP.md) click-by-click. Fields verified vs the real app + env-guard;
+> no secret values in git; no app code touched. Carl walked both scenarios ("go").
+> **▶ Your move — Phase 3 is yours:** follow [RENDER_SETUP.md](RENDER_SETUP.md) (~15 min: sign up → Blueprint →
+> paste the 4 secrets, DATABASE_URL = the LIVE Neon value → deploy → make a Render API key). Paste me the key →
+> I store it in `.secrets/` and verify the live deploy (the one ~$0.35 paid check, your go).
 
 > **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — NEW track (2026-07-08): move ALL app data into the database, for the live + local split. P1 ✅ · P2 ✅ green-lit + committed · P3 next.**
 > Carl's ask: "we need to move all data into the database — we will have a live and local environment."
@@ -194,4 +200,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-08 (render-deploy P1 + postgres-runtime-data P2 green-lit + committed — `1b67f792`, `57d44b4b`)
+- Last updated: 2026-07-08 (render-deploy P2 green-lit + committed — `95a7a817`/`4fc008b6`; Phase 3 = Carl's Render setup)
