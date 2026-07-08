@@ -1,6 +1,11 @@
 # Phase 2 — Blueprint + Render setup checklist
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 BUILT 2026-07-08 — awaiting Carl's walk
+
+## Built (2026-07-08, $0)
+- **`render.yaml`** (root) — one free Node web service, Frankfurt. Verified against the real app facts: `buildCommand: npm ci --include=dev && npm run build` (vite + cross-env are devDeps — plain `npm ci` under `NODE_ENV=production` would skip them and the build dies), `startCommand: npm start` (= `cross-env NODE_ENV=production node backend/api/server.ts`), `healthCheckPath: /api/v1/health`, `autoDeployTrigger: commit`. Plain values `NODE_ENV=production` + `APP_ENV=live`; the 4 secrets (`DATABASE_URL`, `OPENAI_API_KEY`, `GEMINI_API_KEY`, `SUPERADMIN_EMAILS`) are `sync: false` — **names only, zero values in the file**. `API_PORT` deliberately absent (Render injects `PORT`, which `server.ts` reads in prod).
+- **`RENDER_SETUP.md`** (root) — Carl's one-time click-by-click: account → connect GitHub → New Blueprint → paste 4 secrets → wait for deploy → make an API key → hand it over. The DATABASE_URL trap (paste the `LIVE_DATABASE_URL` value, not the local one) is called out in a red box tied to the actual env-guard behaviour (checked `backend/db/env-guard.ts`: `APP_ENV=live` + a DB claimed "local" → refuses to boot).
+- No app code touched — `npm test` unaffected at **96/96**. `render.yaml` parses as valid YAML; grep-confirmed no secret values, variable names only.
 
 ## Goal
 Everything Carl needs to set Render up in one sitting: the blueprint file Render reads, and a plain-words checklist to follow.
