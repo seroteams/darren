@@ -402,7 +402,12 @@ async function reconcileDocs(root, active, doneSlugs) {
   }
   for (const c of current) {
     if (desired.has(c.id)) continue;
-    (doneSlugs.includes(c.slug) ? completed : removed).push(c);
+    if (doneSlugs.includes(c.slug)) {
+      if (c.col === "done") continue; // already parked in Done — don't re-animate / re-report it every sync
+      completed.push(c);
+    } else {
+      removed.push(c);
+    }
   }
 
   // Phase A — fade the cards that are leaving their spot.
