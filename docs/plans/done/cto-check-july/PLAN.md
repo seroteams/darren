@@ -28,16 +28,17 @@ judges **real output for free** — no paid run unless Carl wants a fresh one.
 |---|---|---|---|
 | 1 | Pick the thin case + trace it | What little-info run are we judging, and where do the 3 outputs come from? | ✅ [findings-1.md](findings-1.md) |
 | 2 | The brief | Does the little info produce a genuinely useful, honest **prep brief**? | ✅ 🟢 good + proven → [findings-2.md](findings-2.md) |
-| 3 | The questions | Are the **questions** specific and grounded in the little given — or generic filler? | ✅ 🟡 good on specific notes, 1 open risk → [findings-3.md](findings-3.md) |
+| 3 | The questions | Are the **questions** specific and grounded in the little given — or generic filler? | ✅ 🟢 good — risk proven closed 2026-07-08 → [findings-3.md](findings-3.md) |
 | 4 | The summary | Is the **summary** a faithful, useful recap — not padded? | ✅ 🟢 good + honest → [findings-4.md](findings-4.md) |
 
 ⬜ not started · 🔨 in progress · ✅ done (read + green-lit)
 
-## ✅ CLOSED 2026-07-07 (Carl: "close it")
-All 4 phases done and signed off as-is. **Overall answer to "does little info give a good brief, questions &
-summary?" → Mostly YES, with one open risk consciously deferred.** Brief 🟢 (proven) · Summary 🟢 (proven) ·
-Questions 🟡 (good on specific notes; the vague-note fabrication risk in the *question stage* is untested on
-the current model — see Parked). Folder archived to `docs/archive/done/cto-check-july/`.
+## ✅ CLOSED 2026-07-07 (Carl: "close it") · risk closed 2026-07-08
+All 4 phases done and signed off. **Overall answer to "does little info give a good brief, questions &
+summary?" → YES — all three outputs good and honest on thin input, current model.** Brief 🟢 (proven) ·
+Summary 🟢 (proven) · Questions 🟢 (**risk closed 2026-07-08**: re-tested the vague note through focus-points
+→ question-bank on the current model, 3 runs → zero invented facts). Folder archived to
+`docs/plans/done/cto-check-july/`.
 
 ## Current state (at close)
 Rescoped 2026-07-07 per Carl (no moat, no learning-from-previous-runs; just: does thin info give good
@@ -71,11 +72,14 @@ One phase at a time; Carl green-lights before the next.
 live run on a brand-new thin input, that's ~$0.35 and waits for his explicit go.
 
 ## Parked (deliberately not now)
-- **⚠️ THE ONE OPEN RISK — "prove the questions".** On a *vague* thin note, does the **question-bank stage**
-  still invent a fact (the "illness") on the current model? Phase 2 proved the *brief* stage is clean; the
-  question stage is a **separate model call, not re-tested.** Closing this = one ~$0.35 re-test of the
-  question bank on "quiet in stand-ups" (current model). Carl consciously deferred it at close (chose
-  "close it" over "prove the questions"). **Pick this back up first if CTOCheckJuly is ever reopened.**
+- **✅ CLOSED 2026-07-08 — "prove the questions" (was THE ONE OPEN RISK).** Re-tested the vague note
+  *"quiet in stand-ups"* through **focus-points → question-bank** on the current model
+  (`gpt-5.4-nano` → `gpt-5.4-mini`), **3 runs → zero invented facts** (no "illness", no soft health mention).
+  Focus points + questions all grounded in the stand-up quietness; it asked the right honest question
+  (*"I noticed you've been quieter in stand-ups recently — what's changed there?"*). The old-model
+  fabrication is gone on the current model. Spend: 6 cheap-model calls, under ~$0.35. Verdict upgraded 🟡 → 🟢.
+  (Old model kept saving generated questions to the runtime bank as normal — untracked `q_*.yaml` artifacts,
+  left in place per the no-bulk-delete rule.)
 - **Small nits found along the way:**
   - ✅ **DONE — `{{NAME}}`-leak regression test** added at `backend/engine/ai-client.test.ts` (4 tests locking
     both guard layers — prompt-side + output-side). `npm test` **90/90** (was 86), $0.

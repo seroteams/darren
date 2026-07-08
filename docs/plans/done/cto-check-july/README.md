@@ -1,7 +1,7 @@
 # 👀 START HERE — CTOCheckJuly
 
 > **This is the one file to open when you're lost.** Everything about this check lives in this folder:
-> `docs/workstreams/cto-check-july/`
+> `docs/plans/done/cto-check-july/`
 
 ---
 
@@ -18,23 +18,23 @@ That's it. Not moat, not scale — just: *is the core output actually good on th
 ```
 [x] 1. Pick the thin example      ✅ done — findings-1.md
 [x] 2. Is the BRIEF good?         ✅ good + proven — findings-2.md
-[x] 3. Are the QUESTIONS good?    🟡 good on specific notes, 1 open risk — findings-3.md
+[x] 3. Are the QUESTIONS good?    ✅ good — proven on current model — findings-3.md
 [x] 4. Is the SUMMARY good?       ✅ good + honest — findings-4.md
 ```
 
-**✅ CLOSED 2026-07-07 (Carl: "close it").** The scoreboard:
+**✅ CLOSED 2026-07-07 · risk closed 2026-07-08.** The scoreboard:
 | Output | Verdict | |
 |---|---|---|
 | 📄 Brief | 🟢 good + honest | proven |
-| ❓ Questions | 🟡 good on specific notes | **1 open risk (deferred)** ↓ |
+| ❓ Questions | 🟢 good | **proven — risk closed** |
 | 📝 Summary | 🟢 good + honest | proven |
 
-**Overall:** *does little info give a good brief, questions & summary?* → **Mostly YES.** Brief + summary are
-good and honest on the current model; questions are good on specific notes.
+**Overall:** *does little info give a good brief, questions & summary?* → **YES.** All three outputs are good
+and honest on thin input on the current model.
 
-**One risk deferred (not lost):** on a *vague* note, does the question stage still invent a fact (the
-"illness")? The question stage wasn't re-tested on the current model. Parked in [PLAN.md](PLAN.md) — pick it
-up first if this is ever reopened (~$0.35 to close). Full wrap-up: **[findings-4.md](findings-4.md)**.
+**The deferred risk is now CLOSED (2026-07-08):** re-tested the vague note *"quiet in stand-ups"* through the
+question stages (focus-points → bank) on the current model, **3 runs → zero invented facts** (no "illness").
+Details in [findings-3.md](findings-3.md). Full wrap-up: **[findings-4.md](findings-4.md)**.
 
 ---
 

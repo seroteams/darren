@@ -3,6 +3,14 @@
 *Phase 3 of [CTOCheckJuly](README.md). Free — read from existing run logs.*
 *The "questions" = the question bank Sero builds to steer the 1:1.*
 
+> ## ✅ RESOLVED 2026-07-08 — the open risk is CLOSED (proven)
+> The "still open" risk described below was re-tested: **focus-points → question-bank** on the vague note
+> *"They have been quiet in stand-ups recently"*, current model (`gpt-5.4-nano` → `gpt-5.4-mini`), **3 runs →
+> zero invented facts** (no "illness", not even a soft health mention). Every focus point + question stayed
+> grounded in the stand-up quietness — it even asked the right honest question (*"I noticed you've been
+> quieter in stand-ups recently — what's changed there?"*). **Questions verdict upgraded 🟡 → 🟢.**
+> The analysis below is the original record from when the risk was still open.
+
 ---
 
 ## TL;DR (read this bit)
