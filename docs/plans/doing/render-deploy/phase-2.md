@@ -1,6 +1,9 @@
 # Phase 2 — Blueprint + Render setup checklist
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 BUILT 2026-07-08 — awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ green-lit + committed 2026-07-08 (`95a7a817`)
+
+## ✅ GREEN-LIT 2026-07-08
+Carl walked both scenarios and said "go": the `RENDER_SETUP.md` checklist reads clearly top-to-bottom, and `render.yaml` shows variable names only (no secret values). Next: Phase 3 (Carl does the Render steps, agent verifies live).
 
 ## Built (2026-07-08, $0)
 - **`render.yaml`** (root) — one free Node web service, Frankfurt. Verified against the real app facts: `buildCommand: npm ci --include=dev && npm run build` (vite + cross-env are devDeps — plain `npm ci` under `NODE_ENV=production` would skip them and the build dies), `startCommand: npm start` (= `cross-env NODE_ENV=production node backend/api/server.ts`), `healthCheckPath: /api/v1/health`, `autoDeployTrigger: commit`. Plain values `NODE_ENV=production` + `APP_ENV=live`; the 4 secrets (`DATABASE_URL`, `OPENAI_API_KEY`, `GEMINI_API_KEY`, `SUPERADMIN_EMAILS`) are `sync: false` — **names only, zero values in the file**. `API_PORT` deliberately absent (Render injects `PORT`, which `server.ts` reads in prod).
