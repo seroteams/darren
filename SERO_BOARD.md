@@ -117,7 +117,11 @@ done; hosting (2) + continuity (8) folded into the pre-go-live track above
 - **Phase 4 (clear the QA pile) — ✅ done (2026-07-01):** all 9 built-but-un-QA'd features signed off or
   cut (repo-tidy P1/P2, frontend-admin-split P1, tracker-consolidation P1, member-nav P1, stage-data-tabs,
   sent-preview, todo-board-rebuild P3, briefing-grounding-fixes P1). Nothing half-built left on screen.
-- **Phase 2 (hosted + spend-capped) — ⏸ PARKED by Carl (2026-07-01): not hosting yet.**
+- **Phase 2 (hosted + spend-capped) — ✅ DONE (2026-07-08): Sero is LIVE at https://sero-obwq.onrender.com.**
+  Render free plan (Frankfurt), a `render.yaml` blueprint auto-deploys every push to `main`; `/commit` + `/release`
+  skills are the two-word local→live workflow; the agent watches deploys via a Render API key in `.secrets/`.
+  Track: [render-deploy → done/](docs/plans/done/render-deploy/plan.md). (Spend-cap side of the phase is covered
+  by the existing guest budget + per-IP limits; a paid no-sleep Starter plan is parked until demos need it.)
 - **Phase 3 (privacy + first run) — ✅ done (2026-07-01, verified end-to-end, both roles).** Privacy note +
   consent, first-run guidance on member Home, real Team/Runs empty states, register landing fix.
 - **Phase 5 (feedback + one-pager) — ✅ done (2026-07-01, verified end-to-end, test-first backend).**

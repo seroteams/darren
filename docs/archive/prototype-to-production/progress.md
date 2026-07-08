@@ -17,8 +17,13 @@
   under `NODE_ENV=production`, so a Vite build needs `--include=dev`. (3) The env-guard's live/local DB assertion
   turned the "paste the right DATABASE_URL" risk into a **fail-safe** (wrong DB = refuse to boot, not silent
   cross-env writes) — worth having before any hosting. (4) A production **dress-rehearsal boot** locally
-  (real `NODE_ENV`+`PORT`+built SPA) caught the serving path before Render did. P4 (/commit + /release skills)
-  building next.
+  (real `NODE_ENV`+`PORT`+built SPA) caught the serving path before Render did. **P4 ✅ closed same night** —
+  `/commit` (save local, never push) + `/release` (free checks → push main → poll Render API until live →
+  plain-words report; fix only with Carl's yes) skills shipped. Lesson from the live `/release` walk: on a
+  folder shared by many parallel sessions, "commit anything unsaved" must be **path-scoped to this session's
+  own work** — a blanket save would sweep another session's half-done changes live. The skill honours that,
+  and correctly reported "already live, nothing of yours to push" rather than shipping foreign work.
+  **Track CLOSED (4/4).**
 - **2026-07-08** — **pre-go-live track CLOSED (9/9).** PG9 (Tidy-up merge/rename + roll-ups) green-lit in
   Carl's blanket "go to everything waiting on me" — the same go that closed frontend-admin-split (P4,
   customer-only serving fence) and plan-turn-runner-gates (all 3 phases) in their own sessions. Lesson
@@ -101,6 +106,18 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **guest-run Phase 3 (save-at-end + auto-claim) closed with the WALK WAIVED (Carl's "B").**
+  Built test-first the same evening P2 was walked; free proofs strong (5 claim tests, save card rendered
+  on a real ownerless briefing, scenario 1 walked live — a broken save can't strand a login). The paid
+  end-to-end walk was attempted but derailed: the long-running dev API's **Postgres pool starved** (every
+  DB-touching request hung; file endpoints fine) — restart fixed it, bug flagged to postgres-runtime-data.
+  **Lessons:** ① verify the destination before believing "done" — two "walk done" messages tonight were
+  contradicted by disk + DB (turn 0, no new account since Jul 5); with many parallel agent chats, a
+  green light can belong to a different session's walk, so check the artifact, not the words. ② When
+  killing a hung shared dev process, expect siblings to die with it — the web server shared a parent and
+  went down too; re-verify every port after, not just the one you fixed. The waived risk (fresh run →
+  save → register → Past 1:1s as one live flow) rides until a real guest saves a run; a half-spent guest
+  run (bank generated, turn 0) is parked for a cheap future walk.
 - **2026-07-08** — **frontend-admin-split → TRACK CLOSED (5/5 phases Carl-walked in one day, $0 total).**
   Phase 4 (serve + fence) green-lit on a one-command walk: the public deploy serves the customer app
   only (Carl's pick — the admin console never ships, no login wall to trust), enforced by an always-on
