@@ -11,6 +11,7 @@ import { reviewSession as reviewLexiconSession } from "./engine/lexicon-reviewer
 import { loadIntroQueue } from "./engine/intro-queue.ts";
 import { ensureRoleProfile } from "./engine/role-profile.ts";
 import { NOTES_DIR, ROOT } from "./engine/paths.mts";
+import { runEnvironmentGuard } from "./db/env-guard.ts";
 import * as cost from "./engine/cost.ts";
 import { runFocusPointsStage } from "./engine/cli/stages/focus-points.ts";
 import { runPreparationStage } from "./engine/cli/stages/preparation.ts";
@@ -88,6 +89,16 @@ async function main() {
     console.error("  cmd:        set OPENAI_API_KEY=sk-...");
     console.error("  PowerShell: $env:OPENAI_API_KEY='sk-...");
     console.error("  bash:       export OPENAI_API_KEY=sk-...");
+    process.exit(1);
+  }
+
+  // Environment guard (postgres-runtime-data Phase 1): the CLI writes runs too, so
+  // it gets the same live/local safety catch as the server. It does NOT auto-migrate
+  // — a behind schema fails loudly with the db:migrate hint instead.
+  try {
+    await runEnvironmentGuard();
+  } catch (e) {
+    console.error(red(e instanceof Error ? e.message : String(e)));
     process.exit(1);
   }
 

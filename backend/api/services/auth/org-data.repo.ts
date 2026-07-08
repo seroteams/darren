@@ -2,14 +2,16 @@
 // orgId, so a company can only ever see its OWN rows — the data wall between
 // companies.
 //
-// Scope now: runs (the natural per-company data). The same rule extends to the other
-// tenant tables as their endpoints become authenticated. The legacy anonymous admin
-// endpoints still use the pre-auth placeholder org until the login UI lands (Phase 7)
-// — they are intentionally not re-pointed here, so the admin console keeps working.
+// Scope now: runs — which live in the `sessions` table (run = session; the old
+// separate `runs` table was never written and was dropped in postgres-runtime-data
+// Phase 1). The same rule extends to the other tenant tables as their endpoints
+// become authenticated. The legacy anonymous admin endpoints still use the
+// pre-auth placeholder org until the login UI lands (Phase 7) — they are
+// intentionally not re-pointed here, so the admin console keeps working.
 
 import { eq } from "drizzle-orm";
 import { getDb } from "../../../db/client.ts";
-import { runs } from "../../../db/schema.ts";
+import { sessions } from "../../../db/schema.ts";
 
 export interface RunRow {
   id: string;
@@ -27,8 +29,14 @@ export interface OrgDataRepo {
 export const pgOrgDataRepo: OrgDataRepo = {
   async listRuns(orgId) {
     const db = getDb();
-    const rows = await db.select().from(runs).where(eq(runs.orgId, orgId));
-    return rows.map((r) => ({ id: r.id, orgId: r.orgId, label: r.label, status: r.status, logDir: r.logDir }));
+    const rows = await db.select().from(sessions).where(eq(sessions.orgId, orgId));
+    return rows.map((r) => ({
+      id: r.sessionKey,
+      orgId: r.orgId,
+      label: r.runLabel,
+      status: r.finished ? "finished" : "open",
+      logDir: r.logDir ?? "",
+    }));
   },
 };
 

@@ -9,6 +9,8 @@ import { createRouter, type RouteHandler } from "./router.ts";
 import { createStaticHandler } from "./static.ts";
 import { startSweep } from "./sessions.ts";
 import { getBuildInfo } from "./build-info.ts";
+import { runMigrations } from "../db/migrate.ts";
+import { runEnvironmentGuard, EnvGuardError } from "../db/env-guard.ts";
 
 import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as auth from "./services/auth/auth.controller.ts";
@@ -101,8 +103,24 @@ const adminRaw = (h: RouteHandler): RouteHandler => requireAdminRoute(h);
 // too. The per-company fence for every other path is untouched.
 const superadminV1 = (h: RouteHandler): RouteHandler => v1Route(requireSuperadminRoute(h));
 
-function main(): void {
+async function main(): Promise<void> {
   warnIfNoKey();
+
+  // Postgres boot order (postgres-runtime-data Phase 1): apply pending migrations,
+  // then let the DB assert which environment it belongs to — BEFORE anything reads
+  // or writes it. A refused mismatch is fatal on purpose: better a server that
+  // won't start than a local app writing into the live database.
+  try {
+    await runMigrations();
+    await runEnvironmentGuard();
+  } catch (e) {
+    if (e instanceof EnvGuardError) {
+      console.error(`\n  \x1b[1;31mEnvironment mismatch\x1b[0m — ${e.message}\n`);
+      process.exit(1);
+    }
+    throw e;
+  }
+
   startSweep();
 
   const router = createRouter();
@@ -500,4 +518,9 @@ process.on("uncaughtException", (err) => {
   console.error("[uncaughtException]", err);
 });
 
-main();
+// A failed boot (migration error, unreachable DB) must be LOUD and FATAL — the
+// uncaughtException handler above is for the running server, not for startup.
+main().catch((e) => {
+  console.error("[boot] failed to start:", e instanceof Error ? e.message : e);
+  process.exit(1);
+});

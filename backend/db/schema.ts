@@ -1,18 +1,22 @@
-// The Postgres schema — the single source of truth for the 5 tables Phase 005
-// introduces. Drizzle reads THIS file to generate the versioned SQL migrations in
-// ./migrations (run `npm run db:generate`). It is plain TypeScript: the table shapes
-// you read here are exactly the SQL that gets created — no separate DSL, no hidden
-// rewrites.
+// The Postgres schema — the single source of truth for every table. Drizzle reads
+// THIS file to generate the versioned SQL migrations in ./migrations (run
+// `npm run db:generate`). It is plain TypeScript: the table shapes you read here
+// are exactly the SQL that gets created — no separate DSL, no hidden rewrites.
 //
 // Locked DB rules applied throughout (see docs/archive/done/postgres-foundation/plan.md):
 //   uuid primary keys (generated) · snake_case plural table names · timestamptz for
 //   created_at / updated_at · jsonb (never text) for structured state · an indexed
 //   org_id FK on every tenant-scoped table · FK + index on every *_id.
+//   One documented exception: sessions.user_id / sessions.person_id are indexed but
+//   NOT FK'd — they are denormalized snapshots of state fields that may reference
+//   deleted users (old runs keep their owner id), and an FK would make the per-turn
+//   upsert brittle. The authoritative copy stays inside state (jsonb).
 //
-// Scope: this phase only DESCRIBES the tables. Nothing reads or writes them yet —
-// the repo swap is Phase 3, the live DB + docker-compose is Phase 4.
+// postgres-runtime-data (2026-07): ALL runtime data moves into these tables so the
+// app runs identically in live and local. sessions is THE run index; run_artifacts
+// holds what used to be the files inside a run dir.
 
-import { pgTable, pgEnum, uuid, text, integer, timestamp, jsonb, index, uniqueIndex, type AnyPgColumn } from "drizzle-orm/pg-core";
+import { pgTable, pgEnum, uuid, text, integer, bigint, boolean, timestamp, jsonb, index, uniqueIndex, type AnyPgColumn } from "drizzle-orm/pg-core";
 
 /** Fixed sets as enums (locked rule: roles / invite status are enums, not free text). */
 export const userRole = pgEnum("user_role", ["admin", "manager", "member"]);
@@ -85,9 +89,14 @@ export const people = pgTable(
   ],
 );
 
-/** The live 1:1 session — the whole session object lives in `state` (jsonb). It
- *  serializes to a JSON file today; this is the same shape in a new home. `log_dir`
- *  links to the on-disk run folder, which keeps the heavy artifacts. */
+/** The live 1:1 session = the run (same id, same lifecycle — the old separate
+ *  `runs` table was never written and is gone). The whole session object lives in
+ *  `state` (jsonb), the exact serialize() shape disk uses. Everything after
+ *  `completedAt` is DENORMALIZED from state at upsert time purely so listings are
+ *  indexed SQL instead of jsonb scans — state stays the authoritative copy.
+ *  `review` / `rating` / `archived_at` replace the review.json / rating.json /
+ *  archive.json sidecar files. `log_dir` still points at the (optional) on-disk
+ *  echo folder. */
 export const sessions = pgTable(
   "sessions",
   {
@@ -104,28 +113,155 @@ export const sessions = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
     completedAt: timestamp("completed_at", { withTimezone: true }),
+    // — denormalized index columns (see header note on the missing FKs) —
+    userId: uuid("user_id"),
+    personId: uuid("person_id"),
+    personName: text("person_name"),
+    role: text("role"),
+    seniority: text("seniority"),
+    meetingType: text("meeting_type"),
+    stage: text("stage"),
+    finished: boolean("finished").notNull().default(false),
+    lastSeenAt: bigint("last_seen_at", { mode: "number" }).notNull().default(0),
+    mode: text("mode"),
+    personaId: text("persona_id"),
+    runLabel: text("run_label"),
+    // — sidecars-as-columns —
+    archivedAt: timestamp("archived_at", { withTimezone: true }),
+    review: jsonb("review"),
+    rating: jsonb("rating"),
   },
-  (t) => [index("sessions_org_id_idx").on(t.orgId)],
+  (t) => [
+    index("sessions_org_id_idx").on(t.orgId),
+    index("sessions_user_id_idx").on(t.userId),
+    index("sessions_person_id_idx").on(t.personId),
+    index("sessions_finished_idx").on(t.finished),
+    index("sessions_last_seen_at_idx").on(t.lastSeenAt),
+    index("sessions_meeting_type_idx").on(t.meetingType),
+  ],
 );
 
-/** Index → on-disk logs. The per-run artifacts (inputs.json / prompt.md /
- *  response.json / transcripts) STAY on disk (parked); this row just points at the
- *  folder via `log_dir` so runs are findable from the DB. */
-export const runs = pgTable(
-  "runs",
+/** Everything that used to be a file inside a run dir — one row per artifact,
+ *  addressed exactly the way readers ask for it today: (session_key, stage, name),
+ *  e.g. ("2026_Jul08_…", "01-focus-points", "response.json") or (…, "",
+ *  "transcript.json") for run-root files. `stage` is "" (not NULL) for root files
+ *  on purpose: unique indexes treat NULLs as distinct, which would let duplicate
+ *  root rows in and break the upsert's conflict target. JSON payloads go in
+ *  `content`; markdown / JSONL text goes in `content_text` (`kind` says which).
+ *  Cascade delete: removing the session row removes its artifacts, like deleting
+ *  the run dir does. */
+export const runArtifacts = pgTable(
+  "run_artifacts",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    orgId: uuid("org_id")
+    sessionKey: text("session_key")
       .notNull()
-      .references(() => organizations.id),
-    sessionId: uuid("session_id").references(() => sessions.id),
-    logDir: text("log_dir").notNull(),
+      .references(() => sessions.sessionKey, { onDelete: "cascade" }),
+    // Denormalized fence so artifact reads don't need a join to check the org wall.
+    orgId: uuid("org_id").references(() => organizations.id),
+    stage: text("stage").notNull().default(""),
+    name: text("name").notNull(),
+    kind: text("kind").notNull(), // "json" | "text" | "jsonl"
+    content: jsonb("content"),
+    contentText: text("content_text"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    uniqueIndex("run_artifacts_key_stage_name_unique").on(t.sessionKey, t.stage, t.name),
+    index("run_artifacts_session_key_idx").on(t.sessionKey),
+  ],
+);
+
+/** The engine's invented questions (was content/questions/*.yaml + _runtime/ +
+ *  the _index.json alias index). The UNIQUE alias IS the dedup gate — "never ask
+ *  the same question twice" is now enforced by the database, not a derived file.
+ *  subdir "" = the reusable generated pool; "_runtime" = per-session run records
+ *  (write-only, never selection candidates — same rule as the old dir scan). */
+export const generatedQuestions = pgTable(
+  "generated_questions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    alias: text("alias").notNull().unique(),
+    subdir: text("subdir").notNull().default(""),
+    source: text("source"),
     label: text("label"),
-    status: text("status"),
+    stage: text("stage"),
+    doc: jsonb("doc").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
-  (t) => [index("runs_org_id_idx").on(t.orgId), index("runs_session_id_idx").on(t.sessionId)],
+  (t) => [index("generated_questions_subdir_idx").on(t.subdir)],
 );
+
+/** Cached per-(role, seniority) LLM context (was content/data/role-profiles/*.json).
+ *  `overlay` carries the manager's vocab edits (was the sibling .overlay.json). */
+export const roleProfiles = pgTable("role_profiles", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  cacheKey: text("cache_key").notNull().unique(),
+  doc: jsonb("doc").notNull(),
+  overlay: jsonb("overlay"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+/** Manager edits to a 1:1-type arc (was content/data/arc-overlays/<slug>.json). */
+export const arcOverlays = pgTable("arc_overlays", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  key: text("key").notNull().unique(),
+  doc: jsonb("doc").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+/** Derived running profile per person (was content/data/people/<slug>/) — stored
+ *  because it's cheap, still rebuildable from runs at any time. */
+export const peopleProfiles = pgTable("people_profiles", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  personKey: text("person_key").notNull().unique(),
+  markdown: text("markdown"),
+  doc: jsonb("doc"),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+/** A manager's merge/rename decisions (was content/data/people-aliases/<userId>.json). */
+export const peopleAliases = pgTable("people_aliases", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .unique()
+    .references(() => users.id),
+  doc: jsonb("doc").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+/** Learning-loop candidate traces per session (was content/lexicons/_suggested/). */
+export const lexiconCandidates = pgTable("lexicon_candidates", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  sessionKey: text("session_key").notNull().unique(),
+  doc: jsonb("doc").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+/** Append-only audit trail (was content/data/audit/superadmin.jsonl). */
+export const auditLog = pgTable(
+  "audit_log",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    actorUserId: uuid("actor_user_id").references(() => users.id),
+    action: text("action").notNull(),
+    details: jsonb("details"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("audit_log_created_at_idx").on(t.createdAt)],
+);
+
+/** Tiny key/value state: the environment marker the env-guard checks on every boot
+ *  (key "environment" → "local" | "live"), and later the guest daily cap. */
+export const appState = pgTable("app_state", {
+  key: text("key").primaryKey(),
+  value: jsonb("value"),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
 
 /** Scaffolded for Phase 006 — the table exists now; the resend / expiry feature is
  *  later. `invited_by` is nullable (no users exist to invite from yet). */
