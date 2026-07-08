@@ -22,6 +22,15 @@ stay his parked calls) · ④ web↔CLI orchestrator parity guarded by an offlin
 registered + tested. Agents can now reproduce a bug, change code, and verify end-to-end for free — asking Carl
 only for green lights and true product calls. Parked follow-ups in the plan. Not a feature; workshop tooling.
 
+**✅ Closed (2026-07-08): [engine-improvements](docs/plans/done/engine-improvements/plan.md) — the back-catalogue read, $0 spend.**
+From reading all 169 runs' manager inputs ([report](docs/reports/manager-inputs-2026-07-07.html)), a 5-item list
+shrank to **one real code fix**: the smoke-test gate was blind to the two honesty fields (`confidence`/`dontAssume`),
+checking 6 of the engine's 8 required prep keys — so a briefing could ship without its honesty guard, tests still
+green. Fixed (`c12ad562`): the gate now reads the engine's own `PREP_REQUIRED_KEYS`, can't drift. #2/#3 ("infer
+intent", "thin notes") were already handled — closed by evidence, no build. Three items stay **parked follow-ups**
+in the plan, each blocked on a Carl decision or spend: **#1** stonewall exit (turn-loop behaviour) · **B2** refuse a
+weak brief (live-path) · **#4** paid coverage past the bi-weekly. Not a feature; engine-honesty tooling.
+
 **✅ Closed (2026-07-07, risk closed 2026-07-08): [CTOCheckJuly](docs/plans/done/cto-check-july/README.md)** —
 did *thin* manager input give a good brief, questions & summary? **Answer: YES** — brief 🟢 + summary 🟢 +
 questions 🟢, all proven on the current model. The one deferred risk (vague-note fabrication in the question

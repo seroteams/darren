@@ -84,6 +84,16 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **engine-improvements (back-catalogue read) green-lit — TRACK CLOSED, $0 spend.** Reading all
+  169 runs' manager inputs produced a 5-item list that, after validating each against real recorded engine output,
+  shrank to **one** real code fix: the smoke-test gate checked only 6 of the engine's 8 required prep keys, blind to
+  the honesty fields `confidence`/`dontAssume` — so a brief could ship without its honesty guard, tests green. Fixed
+  `c12ad562` (gate reads the engine's exported `PREP_REQUIRED_KEYS`, one source of truth). #2/#3 ("infer intent",
+  "thin notes") were already handled in the live prep path — closed by evidence, no build. Double-checked before
+  closing: fix wired, nothing uncommitted, `npm test` 96/96. **Lesson:** "improvement lists" from a data read are
+  mostly already-solved or decision-gated — validate each item against actual output before treating it as build
+  work; three items (#1 stonewall exit, B2 refuse-a-weak-brief, #4 paid coverage) are real forks needing a Carl
+  decision or spend, not code, and stay parked in the plan. Folder → `docs/plans/done/engine-improvements/`.
 - **2026-07-08** — **feedback-inbox green-lit — TRACK CLOSED, both phases.** Superadmin-only Feedback
   inbox screen (reads the `feedback_notes` Neon table, migration `0006`) + per-row permanent Delete.
   Was already built + committed since 2026-07-05/06; Carl signed both phases off together ("close it")

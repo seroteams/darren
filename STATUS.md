@@ -55,13 +55,14 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > **▶ Your move:** walk P2 — run a real 1:1 in the app; it should look identical (files still written), and I
 > can show you the run + artifacts in Neon. Optional: 1 small paid gate case (~$0.35). Green light → commit + P3.
 
-> **✅/⏸️ [engine-improvements](docs/plans/doing/engine-improvements/plan.md) — NEW engine track (2026-07-07, from the back-catalogue read). B DONE + committed; #1 written up as a decision brief.**
-> From reading all 169 runs' manager inputs ([report](docs/reports/manager-inputs-2026-07-07.html)): a 5-item improvement list that shrank to 2-and-a-bit after validation.
-> - **✅ B (committed `c12ad562`)** — the smoke-test gate was **blind to the two honesty fields** (`confidence`/`dontAssume`): it checked 6 of the engine's 8 required prep keys, so a briefing could ship without its honesty guard and every test stayed green. Fixed: the gate now reads the engine's own `PREP_REQUIRED_KEYS` (can't drift again). `npm test` **86/86** · typecheck clean · **no paid runs**.
+> **✅ [engine-improvements](docs/plans/done/engine-improvements/plan.md) — TRACK CLOSED 2026-07-08 ($0 spend).**
+> From reading all 169 runs' manager inputs ([report](docs/reports/manager-inputs-2026-07-07.html)): a 5-item list
+> that shrank to one real code fix after validation. Double-checked against the repo before closing — fix wired,
+> nothing uncommitted, `npm test` **96/96** green.
+> - **✅ B (committed `c12ad562`)** — the smoke-test gate was **blind to the two honesty fields** (`confidence`/`dontAssume`): it checked 6 of the engine's 8 required prep keys, so a briefing could ship without its honesty guard and every test stayed green. Fixed: the gate reads the engine's own `PREP_REQUIRED_KEYS` (can't drift again).
 > - **🟢 #2 / #3 closed by evidence** — engine already infers a grounded intent + hedges (Medium confidence + `dontAssume`) on thin / observation-only notes. No build needed.
-> - **⏸️ #1 (stonewall exit)** — NOT a blind build: it's a turn-loop behaviour change (the loop rides the full budget even when a manager gives one-word answers every turn). Decision brief with the calls you need to make: [01-stonewall-exit.md](docs/plans/doing/engine-improvements/01-stonewall-exit.md).
-> - **⏸️ B2 (make the engine *refuse* to ship a weak brief) + #4 (paid coverage of performance/growth/feels-off)** — parked for your go (B2 = live-path behaviour change; #4 = spends money).
-> **▶ Your move:** read [01-stonewall-exit.md](docs/plans/doing/engine-improvements/01-stonewall-exit.md) and pick the stonewall policy (my recommend: **3 strikes → offer reschedule once → close**) and I build #1 fast. Docs committed (`6fb067f2`).
+> - **⏸️ Parked follow-ups (decision-blocked, NOT unfinished code)** — kept in the plan for later: **#1** stonewall exit (turn-loop behaviour change, brief at [01-stonewall-exit.md](docs/plans/done/engine-improvements/01-stonewall-exit.md)) · **B2** make the engine refuse a weak brief (live-path change) · **#4** paid coverage past the bi-weekly (spends money).
+> Folder → [done/](docs/plans/done/engine-improvements/plan.md). **▶ Your move:** nothing — track closed. Un-park any follow-up as a fresh Darren-Method phase when you want it.
 
 > **🔨 [plan-turn-runner-gates](docs/plans/doing/plan-turn-runner-gates/plan.md) — NEW engine track (2026-07-07). ALL 3 PHASES BUILT (batch, Carl: "complete all phases") — awaiting your walk. P1 green-lit.**
 > Follow-up to the plan-turn.md prompt sharpen: promote the *mechanical* contract rules from "model is asked to
