@@ -6,6 +6,8 @@ For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full 
 Not sure which file is which? [docs/reference/trackers.md](docs/reference/trackers.md) maps where everything lives.
 Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only holds what's live or awaiting your walk.
 
+📍 **Feedback inbox — ✅ CLOSED 2026-07-08:** both phases (inbox screen + per-row Delete) green-lit by Carl ("close it") and moved to [done/](docs/plans/done/feedback-inbox/plan.md). Was already built + committed; wiring re-confirmed intact after the `0006`→`0011` DB drift.
+
 📍 **Checkpoint 2026-07-08:** agent toolbox landed + committed — 4 new skills (**checkpoint · phase-close · safe-commit · night-test**), guardrails hook wired (and fixed), reviewrun builds its own context block, CLAUDE.md slimmed to pointers, [cheat sheet](docs/reference/claude-cheat-sheet.html) + [usage retrospective](docs/reports/2026-07-08-claude-usage-retrospective.html). Commits `73ceac7b`→`956b4bb4`. Nothing awaiting a walk — the toolbox is live now.
 
 ---
@@ -78,19 +80,6 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > `npm test` **86/86** · typecheck clean · **no paid runs**. **Your move: walk each phase's QA scenarios** (all free —
 > `npm test` + a fixtures-only replay). Overnight-QA *behaviour* findings (thread-follow drift, growth-arc stage-skip)
 > are logged in the PLAN as a likely *separate* follow-up, not phases here.
-
-> **🔨 [feedback-inbox](docs/plans/doing/feedback-inbox/plan.md) — NEW track (started 2026-07-05). Phase 1 (the whole slice) BUILT, awaiting your walk.**
-> Your ask: a page that shows what testers send via "Send feedback", with its own DB table.
-> Done in one slice, the error-log pattern: **`feedback_notes` table live on Neon** (migration
-> `0006`), the send-form now writes the table (the old JSONL file's one line was a throwaway QA
-> note, not migrated), **`GET /api/v1/admin/feedback`** behind the superadmin wall, and a
-> read-only **Feedback inbox** screen in the Admin rail under Error log. Live-proven end-to-end
-> on a scratch pair (:3033 web → :3031 API): sent a note in the UI → row in Neon → inbox showed
-> it ("just now · Carl · Sero (dev)"); manager 403, logged-out 401; test rows cleaned up.
-> `npm test` **72/72** · both typechecks clean. Committed except two files carrying OTHER
-> sessions' in-flight work: `shared/api.js` + `admin/src/ui/app-nav.js` (flagged in the PLAN —
-> whichever track commits first carries them). ⚠️ **Restart your dev API** before walking on
-> :3000/:3001. Walk: [phase-1.md](docs/plans/doing/feedback-inbox/phase-1.md).
 
 > **🔨 [guest-run](docs/plans/doing/guest-run/plan.md) — Phase 1 ✅ · Phase 2 (guest front door) BUILT, awaiting your walk (2026-07-05).**
 > Your "open way first" idea: no-account visitor runs a full 1:1, saves it at the end by registering/logging in.

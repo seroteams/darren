@@ -13,15 +13,16 @@ to feedback, small enough to land in one slice.
 
 ## Current state
 
-- **Phase 1 — BUILT, awaiting Carl's walk (2026-07-05).** Whole slice done + live-verified
-  end-to-end on a scratch API (send → Neon row → inbox screen shows it → test data cleaned up).
-  Free checks: `npm test` 72/72 · both typechecks clean (4 pre-existing backend errors in
-  `answer-suggester.test.ts` belong to another track).
-- ⚠️ Two touched files are **left uncommitted** because they carry other sessions' in-flight
-  work: `shared/api.js` (holds `getFeedbackInbox` + error-log/run-preview changes) and
-  `admin/src/ui/app-nav.js` (holds the Feedback-inbox nav row + the Lucide icon rework).
-  Whichever track commits first carries them; the feature needs both files to run from a
-  fresh checkout.
+- **✅ CLOSED 2026-07-08 — both phases green-lit by Carl ("close it").** Nothing left to build.
+  Both phases were built + committed, and Carl signed off the whole slice on 2026-07-08 without a
+  live re-walk (his call as owner). The two files that had been held back for other sessions'
+  in-flight work (`shared/api.js`, `admin/src/ui/app-nav.js`) have since been committed by those
+  tracks — the feature runs from a clean checkout, verified this session (route registered, schema
+  + migration `0006` present, nav row + inbox screen wired). The DB drifted `0006`→`0011` since the
+  build; nothing touched the `feedback_notes` table, so it's unaffected.
+- **Phase 1 — ✅ GREEN-LIT 2026-07-08.** Whole slice: table → route → screen. Live-verified
+  end-to-end on a scratch API at build time (send → Neon row → inbox screen → cleanup).
+- **Phase 2 — ✅ GREEN-LIT 2026-07-08.** Per-row permanent Delete (superadmin + origin-guarded).
 
 ## What was built (Phase 1)
 
@@ -55,5 +56,5 @@ Free checks: `npm test` 82/82 · both typechecks clean.
 
 ## QA — Carl's walk
 
-See [phase-1.md](phase-1.md). Scratch pair may still be running: app on **:3033** → API on
-**:3031** (both die with the session; your own dev works too once your API restarts).
+See [phase-1.md](phase-1.md) for the walk scenarios (kept for the record). Closed 2026-07-08 on
+Carl's sign-off without a live re-walk.

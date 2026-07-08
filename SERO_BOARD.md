@@ -34,7 +34,7 @@ phases (① carry-forward pre-fill on prep · ② one-tap outcome capture) **and
 pulled out cleanly. The **people-roster Phase 4 refactor** they'd been tangled with in the same merge was
 **kept** — that stays. No continuity code or plan files remain; `npm test` + both typechecks green after
 removal. Next real step: **close out pre-go-live PG9**, then the built-but-awaiting-walk tracks
-(guest-run, feedback-inbox, manager-ready, frontend-admin-split).
+(guest-run, manager-ready, frontend-admin-split). **feedback-inbox ✅ closed 2026-07-08.**
 
 **✅ Closed (2026-07-06): People roster — managers formally have members; 1:1s owned by that pair.**
 Grew out of Carl's "members should only see their own 1:1s": the fence was already sound but

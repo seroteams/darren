@@ -84,6 +84,12 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **feedback-inbox green-lit — TRACK CLOSED, both phases.** Superadmin-only Feedback
+  inbox screen (reads the `feedback_notes` Neon table, migration `0006`) + per-row permanent Delete.
+  Was already built + committed since 2026-07-05/06; Carl signed both phases off together ("close it")
+  without a live re-walk. Lesson: a built-but-uncommitted feature can sit behind files held for other
+  parallel sessions — this one only became runnable from a clean checkout once those tracks committed
+  `shared/api.js` + `app-nav.js`. Re-confirmed wiring intact after the `0006`→`0011` DB drift. Folder → `docs/plans/done/feedback-inbox/`.
 - **2026-07-08** — **agent-native P5 (prompt↔gate coupling registry) green-lit — TRACK CLOSED, 5/5 phases
   in one day, $0.** `content/prompts/rule-registry.ts` names the 7 prompt rules that have a hardcoded gate
   twin; its test breaks `npm test` naming the pair when either side is edited alone (was: a confusing paid

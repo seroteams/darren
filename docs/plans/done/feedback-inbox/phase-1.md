@@ -3,7 +3,15 @@
 One phase: `feedback_notes` table on Neon, the send-form writes to it, a superadmin-only
 `GET /api/v1/admin/feedback`, and the **Feedback inbox** screen in the admin rail.
 
-Built + live-verified 2026-07-05 (see PLAN.md "Current state"). Awaiting Carl's walk.
+## ✅ GREEN-LIT 2026-07-08
+
+Carl closed the whole track ("close it") — Phase 1 + Phase 2 signed off together, no live re-walk
+(his call as owner). Built + live-verified at build time 2026-07-05; wiring re-confirmed intact
+2026-07-08 (route, schema, migration `0006`, nav row all present after the `0006`→`0011` DB drift).
+
+---
+
+Built + live-verified 2026-07-05 (see PLAN.md "Current state").
 
 ## QA scenarios
 
