@@ -84,6 +84,15 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **agent-native P1 (offline cassette replay) green-lit — the flagship.** Every model call
+  already routed through one function (`callAI`), so record/replay landed as one seam
+  (`backend/engine/cassette.ts`): any saved run folder now replays the whole 5-stage pipeline offline
+  (~5s, $0.00, no API key) and `repro-from-bundle` answers REPRODUCES: yes/no on a bug report. Two
+  lessons: **① the recon beat the assumption** — the "needs one paid seed run (~$0.35)" plan step died
+  when a 30-minute read showed every stage already logs its raw model string; check what's on disk
+  before budgeting spend. **② replay must not mask** — the placeholder guard runs before the cassette
+  short-circuit and replay calls are cost-logged honestly at $0, so offline mode can't hide prompt bugs
+  or fake usage. TDD throughout; `npm test` 94/94.
 - **2026-07-08** — **agent-native P2 (fix stale agent maps) green-lit.** The always-apply `.cursor` rule
   still described the pre-monorepo tree (`src/`, `cli.js`) a month after Phase 001 moved everything —
   any agent auto-loading it got a wrong map. Rewritten as a thin pointer that holds no point-in-time

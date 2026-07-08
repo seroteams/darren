@@ -9,14 +9,14 @@ const { scanSessions, resolveNewSession } = require("./session-fs");
 
 const ROOT = path.join(__dirname, "..", "..");
 
-function runSmoke(scenarioPath) {
+function runSmoke(scenarioPath, opts = {}) {
   return new Promise((resolve, reject) => {
     const before = new Set(scanSessions(ROOT));
     const startedAt = Date.now();
     const child = spawn(process.execPath, ["scripts/smoke-test.js", scenarioPath], {
       cwd: ROOT,
       stdio: ["ignore", "pipe", "pipe"],
-      env: { ...process.env, NO_COLOR: "1" },
+      env: { ...process.env, NO_COLOR: "1", ...(opts.env || {}) },
     });
     let stdout = "";
     child.stdout.on("data", (chunk) => {

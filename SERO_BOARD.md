@@ -15,11 +15,13 @@ Standing constraints (from CLAUDE.md):
 **🔨 Open (2026-07-08): [agent-native](docs/plans/doing/agent-native/plan.md) — make the codebase agent-native.**
 From the principal-architect audit: agents should reproduce, build, test and verify changes on their own,
 for $0, without stopping to ask Carl for money/directions/small judgment calls. 5 phases, run order 2→1→3→4→5:
-② fix stale agent maps **✅ green-lit 2026-07-08** (the always-on `.cursor` rule described the dead pre-monorepo
-layout; rewritten + 18 stale comment refs fixed + new [engine-map.md](docs/reference/engine-map.md)) ·
-① offline cassette replay of the whole 5-stage pipeline (the flagship) · ③ decision tables for the three
-recurring "ask Carl" calls · ④ web↔CLI orchestrator parity test · ⑤ prompt↔gate coupling registry.
-Only paid step in the whole track: optionally ~$0.35 once to seed the first cassette. Tactical: [STATUS.md](STATUS.md).
+② fix stale agent maps **✅** (stale `.cursor` map rewritten + [engine-map.md](docs/reference/engine-map.md)) ·
+① offline cassette replay **✅ green-lit 2026-07-08 — the flagship landed**: the whole 5-stage pipeline replays
+offline from any saved run folder (~5s, $0.00, no API key; `scripts/replay-pipeline.js` + `scripts/repro-from-bundle.js`
+answers REPRODUCES: yes/no on a bug bundle — live-proven on a real July run with an identical verdict) ·
+③ decision tables for the three recurring "ask Carl" calls · ④ web↔CLI orchestrator parity test ·
+⑤ prompt↔gate coupling registry. Whole track $0 so far — the predicted seed spend proved unnecessary.
+Tactical: [STATUS.md](STATUS.md).
 
 **✅ Closed (2026-07-07): [CTOCheckJuly](docs/plans/done/cto-check-july/README.md)** — did *thin* manager
 input give a good brief, questions & summary? **Answer: mostly yes** — brief 🟢 + summary 🟢 (both proven on

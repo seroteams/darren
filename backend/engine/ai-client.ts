@@ -1,4 +1,5 @@
 import * as cost from "./cost.ts";
+import { isReplaying, replayResponse, maybeRecord } from "./cassette.ts";
 import type { OpenAiUsage } from "../shared/cost.types.ts";
 
 const TIMEOUT_MS = 30_000;
@@ -138,10 +139,21 @@ async function callAI({
 }: CallAIArgs): Promise<string> {
   assertNoUnresolvedPlaceholders(system, `${costLabel} system prompt`);
   assertNoUnresolvedPlaceholders(user, `${costLabel} user prompt`);
-  if (isGemini(model)) {
-    return _callGemini({ system, user, schema, temperature, model, costLabel });
+  // Cassette replay (agent-native P1): serve the recorded response — no network,
+  // no API key, $0. Sits AFTER the placeholder asserts so replay never hides a
+  // prompt-fill bug. The call is still recorded in the cost log (honestly, at
+  // zero tokens/$0) so downstream "cost tracked" checks see the real call count.
+  if (isReplaying()) {
+    const response = replayResponse(costLabel);
+    cost.record(costLabel, `${model} (cassette)`, { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 });
+    return response;
   }
-  return _callOpenAI({ system, user, schema, schemaName, temperature, model, costLabel });
+  const response = isGemini(model)
+    ? await _callGemini({ system, user, schema, temperature, model, costLabel })
+    : await _callOpenAI({ system, user, schema, schemaName, temperature, model, costLabel });
+  // Cassette record: capture exactly the raw string we return.
+  maybeRecord({ label: costLabel, model, system, user, response });
+  return response;
 }
 
 async function _callOpenAI({

@@ -1,6 +1,17 @@
 # Phase 1 — Offline cassette replay for the full pipeline
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Run order:** 2nd (after Phase 2)
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested) · **Run order:** 2nd (after Phase 2)
+
+## ✅ GREEN-LIT 2026-07-08 — Carl walked the replay scenarios (commit hash stamped in the tracker commit)
+
+## Built (2026-07-08)
+- **`backend/engine/cassette.ts`** (new) + hook in **`ai-client.ts`** `callAI`: `SERO_CASSETTE_REPLAY=<dir>` serves recorded responses (per-label FIFO, reuse-last when live code asks more often than the recording — e.g. a prep validation retry); `SERO_CASSETTE_RECORD=<dir>` appends exactly the raw string `callAI` returns. Replay sits AFTER the placeholder asserts (replay can't hide prompt-fill bugs) and records each call in the cost log honestly at $0/0 tokens.
+- **`scripts/lib/cassette-from-run.js`** (new): builds a cassette + scenario from ANY existing run folder — **the recon killed the "needs a paid seed" worry**: every stage logs its raw model string (bank wrapped under `.raw`, planner as `NN-response.json` on runs after ~Jul 01; prep's single raw serves both its labels). $0 seeding.
+- **`scripts/replay-pipeline.js`** (new): `<run-dir>` → cassette + scenario → full 5-stage pipeline through the real engine offline (reuses the smoke harness via a new optional `env` param on `runSmoke`) → deterministic verdict via `check-session.ts`.
+- **`scripts/repro-from-bundle.js`** (new): judges the bundle as reported, replays it on current code, prints **REPRODUCES: yes/no** with the verdict diff. Exit 0 = bug is real on current code.
+- **Tests (all in `npm test`):** `backend/engine/cassette.test.ts` (6: replay no-key/no-network, FIFO+reuse, missing-label error, placeholder guard stays live, record captures raw, record order) + `scripts/test-cassette-from-run.js` (5: labels/order, `.raw` unwrap, turn order, cached-profile absence, scenario synthesis).
+- **Live-fire proof (free):** replayed real run `logs/july/2026_Jul01_22-30-eb6e254d…` — full pipeline in **5s, $0.00, 13 calls, no API key touched**; verdict FAIL [INFERRED_STATE_LEAK] **identical to the original judged by current code** → `repro-from-bundle` printed REPRODUCES: yes. (That run predates the no-inference tightening — failing is the correct current-code answer, faithfully reproduced.)
+- **Honest notes:** ① replayed sessions are normal session folders (they show in the app's run list — useful for review; my two proof folders were deleted, but their dual-write may have left 2 stray "Priya" rows in the local Neon run table). ② Runs recorded before ~Jul 01 lack per-turn planner raws and can't replay the turn loop — the script says so and exits 2. ③ The offline E2E needs a run folder from `logs/` so it's on-demand, not part of `npm test` (which carries the 11 unit checks); committing a full-run fixture is parked for Carl's call.
 
 ## Goal
 An agent can replay all 5 pipeline stages offline against recorded model responses — verifying a change or reproducing a bug for $0, with no API key.

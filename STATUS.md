@@ -10,17 +10,20 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 
 ## ▶ Your move
 
-> **🔨 [agent-native](docs/plans/doing/agent-native/plan.md) — NEW track (2026-07-08): make the codebase agent-native (agents verify/reproduce for $0, fewer "ask Carl" stops). P2 ✅ green-lit + committed · P1 next.**
-> From the principal-architect audit (plan approved 2026-07-08). **5 phases, run order 2→1→3→4→5:**
-> ② fix stale agent maps ✅ · ① offline cassette replay (the flagship — record one run's model answers,
-> replay the whole 5-stage pipeline offline, $0) · ③ decision tables for the 3 Carl-gated calls ·
-> ④ web↔CLI orchestrator parity test · ⑤ prompt↔gate coupling registry.
-> **P2 ✅ green-lit (2026-07-08, $0):** the always-on `.cursor` rule described the dead pre-monorepo layout
-> (`src/`, `cli.js`) — rewritten as a thin true map; 18 stale `.js` comment refs fixed (one pointed at the
-> wrong file entirely); new one-pager [docs/reference/engine-map.md](docs/reference/engine-map.md).
-> `npm test` **92/92** · typecheck clean · lint's 44 problems are **pre-existing** (old config gap, noted in plan.md).
-> **▶ Your move:** say "start phase 1" (fresh session fine — the plan folder has everything) for the cassette
-> replay build. Only paid step in the whole track: optionally ~$0.35 once, to seed the first cassette.
+> **🔨 [agent-native](docs/plans/doing/agent-native/plan.md) — track (2026-07-08): make the codebase agent-native (agents verify/reproduce for $0, fewer "ask Carl" stops). P2 ✅ + P1 ✅ (the flagship) · P3 next.**
+> From the principal-architect audit. **5 phases, run order 2→1→3→4→5:** ② stale maps ✅ · ① cassette
+> replay ✅ · ③ decision tables for the 3 Carl-gated calls · ④ web↔CLI parity test · ⑤ prompt↔gate registry.
+> **P1 ✅ green-lit (2026-07-08, $0 — the "seed cassette" spend turned out unnecessary):** the whole 5-stage
+> pipeline now replays **offline from any saved run folder** — `node scripts/replay-pipeline.js logs/<month>/<run-id>`
+> → cassette → real engine → deterministic verdict, in ~5s at $0.00 with no API key; and
+> `node scripts/repro-from-bundle.js <bundle>` answers **REPRODUCES: yes/no** for a bug report. Live-proven on a
+> real July run (identical verdict, incl. its INFERRED_STATE_LEAK fail — faithful reproduction). Runs before
+> ~Jul 01 lack per-turn planner raws (script says so). Seam: `backend/engine/cassette.ts` + `callAI`.
+> **P2 ✅ (`2a67ec93`):** stale `.cursor` map rewritten, 18 dead comment refs fixed, new
+> [docs/reference/engine-map.md](docs/reference/engine-map.md).
+> `npm test` **94/94** · typecheck clean · lint's 44 problems pre-existing (noted in plan.md).
+> **▶ Your move:** say "start phase 3" (decision tables — docs only; the paid-run table now lists cassette
+> replay as a free check to exhaust first).
 > Carl's ask: "develop locally and easily get it live" — Render free plan (Frankfurt), blueprint auto-deploys
 > every push to `main`, agent watches deploys via a Render API key in `.secrets/` (never committed).
 > **4 phases:** ① pre-flight (Node pinned, `/api/v1/health`, `.secrets/` ignored) · ② `render.yaml` +
