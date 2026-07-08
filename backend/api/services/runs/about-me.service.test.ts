@@ -17,7 +17,7 @@ function fakeDeps(over: Partial<Parameters<typeof createAboutMeService>[0]> = {}
       userId === "u-member" && orgId === "o1"
         ? [{ id: "p1" }, { id: "p2" }]
         : [],
-    listRunsAboutPerson: (orgId: string, personIds: string[]) =>
+    listRunsAboutPerson: async (orgId: string, personIds: string[]) =>
       orgId === "o1" && personIds.includes("p1") ? RUNS : [],
     listOrgUsers: async () => [{ id: "mgr1", name: "Carl", email: "carl@seroteams.com" }],
     ...over,

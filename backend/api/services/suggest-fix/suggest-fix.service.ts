@@ -28,16 +28,15 @@ export function createSuggestFixService(repo: SuggestFixRepo, runFix: RunFix): S
       const stage = typeof rawStage === "string" ? rawStage : "evaluation";
       if (!runId) throw badRequest("runId required");
 
-      const dir = repo.findRunDir(runId);
-      if (!dir) throw notFound("unknown run");
+      const state = await repo.readState(runId);
+      if (!state) throw notFound("unknown run");
 
-      const state = repo.readState(dir);
-      const verdict = (state && state.verdict) || null;
+      const verdict = state.verdict || null;
       if (!verdict) throw conflict("no verdict on this run — record one first");
 
-      const promptText = repo.readPrompt(dir, stage);
-      const responseText = repo.readResponse(dir, stage);
-      const ctx = (state && state.ctx) || null;
+      const promptText = await repo.readPrompt(runId, stage);
+      const responseText = await repo.readResponse(runId, stage);
+      const ctx = state.ctx || null;
 
       try {
         const fix = await runFix({ stage, promptText, responseText, verdict, ctx });

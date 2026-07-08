@@ -9,9 +9,10 @@
 // shape) is proven against an in-memory fake without a database — same seam as auth.
 
 import { eq } from "drizzle-orm";
-import { getDb } from "../../../db/client.ts";
+import { getDb, hasDatabaseUrl } from "../../../db/client.ts";
 import { organizations, users, authSessions } from "../../../db/schema.ts";
 import { listRunsForSuperadmin, listFinishedRunsForUser, superadminRunView } from "../../../engine/run-history.ts";
+import { pgListRunsForSuperadmin, pgListFinishedRunsForUser, pgSuperadminRunView } from "../../../db/runs-store.ts";
 
 /** The account roles, mirrored from the `user_role` enum in schema.ts. */
 export type UserRoleName = "admin" | "manager" | "member";
@@ -111,16 +112,18 @@ export const pgSuperadminRepo: SuperadminRepo = {
       })
       .from(users);
   },
-  // Runs live on the filesystem, not the DB — reuse run-history's walk across ALL orgs
-  // (the same one the fenced member reads use, here unfenced behind the superadmin route).
+  // Read cutover (postgres-runtime-data Phase 3): runs come from the sessions
+  // table when a database is configured; the file walk stays the DB-less mode.
+  // Both are the unfenced cross-tenant read, reachable only behind the
+  // superadmin route.
   async listRuns() {
-    return listRunsForSuperadmin();
+    return hasDatabaseUrl() ? pgListRunsForSuperadmin() : listRunsForSuperadmin();
   },
   async listRunsForUser(userId: string) {
-    return listFinishedRunsForUser(userId);
+    return hasDatabaseUrl() ? pgListFinishedRunsForUser(userId) : listFinishedRunsForUser(userId);
   },
   async readRun(id: string) {
-    return superadminRunView(id);
+    return hasDatabaseUrl() ? pgSuperadminRunView(id) : superadminRunView(id);
   },
   async updateUserRole(userId: string, role: UserRoleName) {
     const db = getDb();

@@ -6,7 +6,7 @@
 import type { RequestContext } from "../../router.ts";
 import { createSuggestFixService } from "./suggest-fix.service.ts";
 import type { RunFix } from "./suggest-fix.service.ts";
-import { fileSuggestFixRepo } from "./suggest-fix.repo.ts";
+import { suggestFixRepo } from "./suggest-fix.repo.ts";
 import { suggestFix } from "../../../engine/prompt-fixer.ts";
 import { asRecord } from "../../../shared/guards.ts";
 
@@ -19,7 +19,7 @@ const runFix: RunFix = (input) =>
     ctx: input.ctx || null,
   });
 
-const service = createSuggestFixService(fileSuggestFixRepo, runFix);
+const service = createSuggestFixService(suggestFixRepo, runFix);
 
 export async function suggest(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());

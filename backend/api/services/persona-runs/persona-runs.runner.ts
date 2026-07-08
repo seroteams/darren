@@ -9,9 +9,7 @@
 // path (session-streams.ts) instead of refactoring it — zero blast radius on the
 // live session code; convergence is parked in the plan.
 
-import fs from "node:fs";
-import path from "node:path";
-import { writeJson } from "../../../engine/cli/io.ts";
+import { logTurn, logRunRoot } from "../../../engine/session.ts";
 import * as cost from "../../../engine/cost.ts";
 import { applyDeltas, serialize } from "../../../engine/axes.ts";
 import { getSessionSelectedFocus } from "../../selected-focus.ts";
@@ -137,28 +135,24 @@ export function createPersonaRunner(deps: PersonaRunnerDeps): PersonaRunner {
     // Scripted lane: the planner's re-plan is discarded — queueRef already holds
     // the rest of the frozen script after the shift above.
 
-    const dynamicAnswersDir = path.join(session.dir, "04-dynamic-answers");
-    const pad = String(turn).padStart(2, "0");
-    writeJson(path.join(dynamicAnswersDir, `${pad}-turn.json`), {
+    logTurn(
+      session,
       turn,
-      question: q,
-      answer: pending.text,
-      skipped: pending.skipped,
-      assessment: planResult.assessment,
-      new_queue: session.queueRef.map((x) => ({ alias: x.alias, label: x.label, name: x.name })),
-      issues: planResult.issues || [],
-      unbooked_signal: planResult.unbooked_signal || [],
-      axis_state: serialize(session.axisState),
-    });
-    if (planResult.prompt) {
-      fs.writeFileSync(path.join(dynamicAnswersDir, `${pad}-prompt.md`), planResult.prompt);
-      fs.writeFileSync(
-        path.join(dynamicAnswersDir, `${pad}-response.json`),
-        typeof planResult.response === "string" ? planResult.response : JSON.stringify(planResult.response, null, 2)
-      );
-    }
-    writeJson(path.join(session.dir, "transcript.json"), session.transcript);
-    writeJson(path.join(session.dir, "axis-state.json"), serialize(session.axisState));
+      {
+        turn,
+        question: q,
+        answer: pending.text,
+        skipped: pending.skipped,
+        assessment: planResult.assessment,
+        new_queue: session.queueRef.map((x) => ({ alias: x.alias, label: x.label, name: x.name })),
+        issues: planResult.issues || [],
+        unbooked_signal: planResult.unbooked_signal || [],
+        axis_state: serialize(session.axisState),
+      },
+      planResult.prompt ? { prompt: planResult.prompt, response: planResult.response } : undefined
+    );
+    logRunRoot(session, "transcript.json", session.transcript);
+    logRunRoot(session, "axis-state.json", serialize(session.axisState));
   }
 
   return async ({ personaId, orgId }, hooks: RunnerHooks) => {
@@ -263,7 +257,7 @@ export function createPersonaRunner(deps: PersonaRunnerDeps): PersonaRunner {
     const completedAt = now();
     session.completedAt = completedAt;
     session.briefing = { ...result, cost: summary, completedAt };
-    writeJson(path.join(session.dir, "cost.json"), summary); // cost.json parity with the CLI
+    logRunRoot(session, "cost.json", summary); // cost.json parity with the CLI
     deps.sessions.persist(session);
 
     return { sessionId, costUsd: summary.usd_total };

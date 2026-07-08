@@ -5,15 +5,14 @@ import type { RunFix } from "./suggest-fix.service.ts";
 import type { SuggestFixRepo } from "./suggest-fix.repo.ts";
 import { isObjectRecord } from "../../../shared/guards.ts";
 
-// A fake repo returns canned run-dir + state + prompt/response reads, and a fake
-// RunFix stands in for the AI call — so the gate/assembly logic is exercised with
-// zero disk and zero model calls.
+// A fake repo returns canned state + prompt/response reads, and a fake RunFix
+// stands in for the AI call — so the gate/assembly logic is exercised with zero
+// storage and zero model calls.
 function fakeRepo(over: Partial<SuggestFixRepo> = {}): SuggestFixRepo {
   return {
-    findRunDir: () => "/runs/r1",
-    readState: () => ({ verdict: { verdict: "fix" }, ctx: { role: "PM" } }),
-    readPrompt: () => "PROMPT",
-    readResponse: () => "RESPONSE",
+    readState: async () => ({ verdict: { verdict: "fix" }, ctx: { role: "PM" } }),
+    readPrompt: async () => "PROMPT",
+    readResponse: async () => "RESPONSE",
     ...over,
   };
 }
@@ -30,17 +29,12 @@ test("missing runId rejects with 400", async () => {
 });
 
 test("unknown run rejects with 404", async () => {
-  const svc = createSuggestFixService(fakeRepo({ findRunDir: () => null }), okFix);
+  const svc = createSuggestFixService(fakeRepo({ readState: async () => null }), okFix);
   await assert.rejects(() => svc.suggest("r1", undefined), hasStatus(404));
 });
 
 test("a run with no verdict rejects with 409", async () => {
-  const svc = createSuggestFixService(fakeRepo({ readState: () => ({}) }), okFix);
-  await assert.rejects(() => svc.suggest("r1", undefined), hasStatus(409));
-});
-
-test("missing session-state rejects with 409 (no verdict)", async () => {
-  const svc = createSuggestFixService(fakeRepo({ readState: () => null }), okFix);
+  const svc = createSuggestFixService(fakeRepo({ readState: async () => ({}) }), okFix);
   await assert.rejects(() => svc.suggest("r1", undefined), hasStatus(409));
 });
 
@@ -67,11 +61,11 @@ test("happy path assembles the inputs, calls the fixer, returns { fix }", async 
 test("stage defaults to evaluation but honours a provided stage", async () => {
   const stages: string[] = [];
   const repo = fakeRepo({
-    readPrompt: (_dir, stage) => {
+    readPrompt: async (_id, stage) => {
       stages.push(stage);
       return "P";
     },
-    readResponse: (_dir, stage) => {
+    readResponse: async (_id, stage) => {
       stages.push(stage);
       return "R";
     },

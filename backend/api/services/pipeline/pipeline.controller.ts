@@ -2,10 +2,10 @@
 
 import type { RequestContext } from "../../router.ts";
 import { createPipelineService } from "./pipeline.service.ts";
-import { filePipelineRepo } from "./pipeline.repo.ts";
+import { pipelineRepo } from "./pipeline.repo.ts";
 
-const service = createPipelineService(filePipelineRepo);
+const service = createPipelineService(pipelineRepo);
 
-export function status(c: RequestContext): void {
-  c.json(200, service.status(c.query.baseline || "latest"));
+export async function status(c: RequestContext): Promise<void> {
+  c.json(200, await service.status(c.query.baseline || "latest"));
 }

@@ -62,15 +62,16 @@ function reviewStatusOf(review: unknown): string {
   return "partial";
 }
 
-// Library badge inputs derived from a run's review.json: completeness, the
-// manual overall verdict (keep/fix/block), and how many dimensions failed.
-function reviewSummaryOf(dir: string): {
+// Library badge inputs derived from a run's review: completeness, the manual
+// overall verdict (keep/fix/block), and how many dimensions failed. The value-
+// based half is separate so the Postgres store (review lives in a column, not
+// a file) computes the identical shape (postgres-runtime-data Phase 3).
+function reviewSummaryFromValue(review: unknown): {
   reviewStatus: string;
   overall: string | null;
   failedCount: number;
   decided: number;
 } {
-  const review = readJsonAt(dir, "review.json");
   const marks: Record<string, unknown> = isObjectRecord(review) && isObjectRecord(review.marks) ? review.marks : {};
   const overall =
     isObjectRecord(review) && typeof review.overall === "string" && ["keep", "fix", "block"].includes(review.overall)
@@ -82,6 +83,10 @@ function reviewSummaryOf(dir: string): {
     failedCount: REVIEW_DIM_KEYS.filter((k) => marks[k] === "fail").length,
     decided: REVIEW_DIM_KEYS.filter((k) => marks[k] === "pass" || marks[k] === "fail").length,
   };
+}
+
+function reviewSummaryOf(dir: string): ReturnType<typeof reviewSummaryFromValue> {
+  return reviewSummaryFromValue(readJsonAt(dir, "review.json"));
 }
 
 // Which persona (if any) a run was driven by, and whether it was scripted.
@@ -106,14 +111,18 @@ function isArchivedAt(dir: string): boolean {
   return Boolean(isObjectRecord(a) && a.archived);
 }
 
-// The manager's own 1:1 rating for a run (pre-go-live PG3), or null. Reads the
-// rating.json sidecar the runs service writes; only a valid 1-5 star shape is surfaced.
-function ratingOf(dir: string): { stars: number; note: string; updatedAt: string | null } | null {
-  const r = readJsonAt(dir, "rating.json");
+// The manager's own 1:1 rating for a run (pre-go-live PG3), or null. Value-based
+// half shared with the Postgres store (rating column); the file half reads the
+// rating.json sidecar the runs service writes. Only a valid 1-5 star shape surfaces.
+function ratingFromValue(r: unknown): { stars: number; note: string; updatedAt: string | null } | null {
   if (!isObjectRecord(r)) return null;
   const stars = asNumber(r.stars);
   if (stars < 1 || stars > 5) return null;
   return { stars, note: asString(r.note), updatedAt: typeof r.updatedAt === "string" ? r.updatedAt : null };
+}
+
+function ratingOf(dir: string): { stars: number; note: string; updatedAt: string | null } | null {
+  return ratingFromValue(readJsonAt(dir, "rating.json"));
 }
 
 function setArchived(id: string, archived: unknown, orgId?: string | null): { ok: boolean; id: string; reason?: string; archived?: boolean } {
@@ -688,6 +697,10 @@ export {
   buildHeadline,
   reviewStatusOf,
   reviewSummaryOf,
+  reviewSummaryFromValue,
+  ratingFromValue,
   personaTagOf,
+  inferStage,
+  notesSummary,
   REVIEW_DIM_KEYS,
 };

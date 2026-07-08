@@ -4,12 +4,12 @@
 
 import type { RequestContext } from "../../router.ts";
 import { createRunsService } from "./runs.service.ts";
-import { fileRunsRepo } from "./runs.repo.ts";
+import { runsRepo } from "./runs.repo.ts";
 import { aboutMeService } from "./about-me.service.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireAdmin, requireAuth } from "../../middleware/require-auth.ts";
 
-const service = createRunsService(fileRunsRepo);
+const service = createRunsService(runsRepo);
 
 // The caller's company from the session cookie, ADMIN required (admin-access-guard
 // Phase 2). Run history + Run Review are internal QA tooling, so a logged-in non-admin
@@ -35,37 +35,37 @@ async function callerPrefill(c: RequestContext): Promise<{ userId: string | null
 }
 
 export async function recent(c: RequestContext): Promise<void> {
-  c.json(200, service.recent(c.query.limit, await callerOrgId(c)));
+  c.json(200, await service.recent(c.query.limit, await callerOrgId(c)));
 }
 
 export async function finished(c: RequestContext): Promise<void> {
-  c.json(200, service.finished(await callerOrgId(c)));
+  c.json(200, await service.finished(await callerOrgId(c)));
 }
 
 export async function overview(c: RequestContext): Promise<void> {
-  c.json(200, service.overview(c.params.id, await callerOrgId(c)));
+  c.json(200, await service.overview(c.params.id, await callerOrgId(c)));
 }
 
 export async function full(c: RequestContext): Promise<void> {
-  c.json(200, service.full(c.params.id, await callerOrgId(c)));
+  c.json(200, await service.full(c.params.id, await callerOrgId(c)));
 }
 
 export async function stages(c: RequestContext): Promise<void> {
-  c.json(200, service.stages(c.params.id, await callerOrgId(c)));
+  c.json(200, await service.stages(c.params.id, await callerOrgId(c)));
 }
 
 export async function del(c: RequestContext): Promise<void> {
-  c.json(200, service.remove(c.params.id, await callerOrgId(c)));
+  c.json(200, await service.remove(c.params.id, await callerOrgId(c)));
 }
 
 export async function archive(c: RequestContext): Promise<void> {
   const body = await c.readBody();
-  c.json(200, service.archive(c.params.id, body, await callerOrgId(c)));
+  c.json(200, await service.archive(c.params.id, body, await callerOrgId(c)));
 }
 
 export async function review(c: RequestContext): Promise<void> {
   const body = await c.readBody();
-  c.json(200, service.review(c.params.id, body, await callerOrgId(c)));
+  c.json(200, await service.review(c.params.id, body, await callerOrgId(c)));
 }
 
 // The caller's own identity — login required, ANY role (member-nav Phase 2). The member
@@ -83,7 +83,7 @@ async function callerIdentity(c: RequestContext): Promise<{ userId: string | nul
 // generate it. clone reads { sourceId } from the body and returns { id } of the new run.
 export async function clonable(c: RequestContext): Promise<void> {
   await callerPrefill(c);
-  c.json(200, service.clonable());
+  c.json(200, await service.clonable());
 }
 
 export async function clone(c: RequestContext): Promise<void> {
@@ -92,17 +92,17 @@ export async function clone(c: RequestContext): Promise<void> {
   const sourceId = typeof (body as { sourceId?: unknown })?.sourceId === "string"
     ? (body as { sourceId: string }).sourceId
     : undefined;
-  c.json(200, service.clone(sourceId, orgId, userId));
+  c.json(200, await service.clone(sourceId, orgId, userId));
 }
 
 export async function mine(c: RequestContext): Promise<void> {
   const { userId, orgId } = await callerIdentity(c);
-  c.json(200, service.myFinished(orgId, userId, c.query.open));
+  c.json(200, await service.myFinished(orgId, userId, c.query.open));
 }
 
 export async function mineDetail(c: RequestContext): Promise<void> {
   const { userId, orgId } = await callerIdentity(c);
-  c.json(200, service.myRun(c.params.id, orgId, userId));
+  c.json(200, await service.myRun(c.params.id, orgId, userId));
 }
 
 // Rate one of the caller's own runs (pre-go-live PG3): login required, any role; the
@@ -110,7 +110,7 @@ export async function mineDetail(c: RequestContext): Promise<void> {
 export async function rateMine(c: RequestContext): Promise<void> {
   const { userId, orgId } = await callerIdentity(c);
   const body = await c.readBody();
-  c.json(200, service.rateMine(c.params.id, body, orgId, userId));
+  c.json(200, await service.rateMine(c.params.id, body, orgId, userId));
 }
 
 // "1:1s about me" (people-roster Phase 5): login required, ANY role — a member linked to

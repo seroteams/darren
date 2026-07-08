@@ -1,0 +1,122 @@
+// Fencing tests for the Postgres run reads (postgres-runtime-data Phase 3) —
+// one per list variant, run WITHOUT a database: the SQL layer only pre-narrows,
+// these pure filters are the wall (they delegate to the engine's own fence
+// functions and re-check the authoritative state jsonb). Treat as security
+// tests: a failure here is a privacy leak, not a formatting bug.
+
+import test from "node:test";
+import assert from "node:assert/strict";
+import {
+  fenceOrgRows,
+  fenceMemberRows,
+  fenceUserRows,
+  fenceAboutPersonRows,
+  toMemberRow,
+  toFinishedRow,
+  type DbRun,
+} from "./runs-store.ts";
+
+function run(overrides: Partial<DbRun> & { state?: Record<string, unknown> }): DbRun {
+  const state = {
+    id: "r1",
+    orgId: "org-a",
+    userId: "user-1",
+    briefing: { text: "done" },
+    ctx: { name: "Priya", role: "Eng", seniority: "Senior", meetingType: "Bi-weekly check-in" },
+    lastSeenAt: 100,
+    ...overrides.state,
+  };
+  return {
+    id: (state.id as string) ?? "r1",
+    dir: "logs/july/" + state.id,
+    state,
+    review: null,
+    rating: null,
+    archived: false,
+    lastSeenAt: (state.lastSeenAt as number) ?? 0,
+    ...overrides,
+    ...(overrides.state ? { state } : {}),
+  };
+}
+
+test("org fence: opt-in — unfenced caller sees all, fenced caller only their org, anonymous runs invisible to real orgs", () => {
+  const rows = [
+    run({ state: { id: "a", orgId: "org-a" } }),
+    run({ state: { id: "b", orgId: "org-b" } }),
+    run({ state: { id: "anon", orgId: null } }),
+  ];
+  assert.equal(fenceOrgRows(rows, null).length, 3, "unfenced (CLI/gate) sees everything");
+  assert.deepEqual(fenceOrgRows(rows, "org-a").map((r) => r.id), ["a"]);
+  assert.deepEqual(fenceOrgRows(rows, "org-b").map((r) => r.id), ["b"]);
+  assert.equal(fenceOrgRows(rows, "org-c").length, 0, "a stranger org sees nothing — including anonymous runs");
+});
+
+test("member fence: NEVER unfenced — no caller userId matches nothing; only own runs; org wall stacks", () => {
+  const rows = [
+    run({ state: { id: "mine", orgId: "org-a", userId: "user-1" } }),
+    run({ state: { id: "colleague", orgId: "org-a", userId: "user-2" } }),
+    run({ state: { id: "other-org", orgId: "org-b", userId: "user-1" } }),
+    run({ state: { id: "ownerless", orgId: "org-a", userId: null } }),
+  ];
+  assert.equal(fenceMemberRows(rows, "org-a", null, false).length, 0, "no userId → nothing, ever");
+  assert.equal(fenceMemberRows(rows, "org-a", undefined, false).length, 0);
+  assert.deepEqual(fenceMemberRows(rows, "org-a", "user-1", false).map((r) => r.id), ["mine"]);
+  assert.equal(fenceMemberRows(rows, "org-b", "user-2", false).length, 0, "cross wall never matches");
+});
+
+test("member fence includeOpen: unfinished prep shows only with a named person, and only the owner's", () => {
+  const rows = [
+    run({ state: { id: "open-named", orgId: "org-a", userId: "user-1", briefing: null, ctx: { name: "Sam" } } }),
+    run({ state: { id: "open-nameless", orgId: "org-a", userId: "user-1", briefing: null, ctx: { name: "  " } } }),
+    run({ state: { id: "open-other", orgId: "org-a", userId: "user-2", briefing: null, ctx: { name: "Kai" } } }),
+  ];
+  assert.equal(fenceMemberRows(rows, "org-a", "user-1", false).length, 0, "unfinished hidden without includeOpen");
+  assert.deepEqual(fenceMemberRows(rows, "org-a", "user-1", true).map((r) => r.id), ["open-named"]);
+});
+
+test("user fence (superadmin drilldown): finished + owned by exactly that user; null userId → []", () => {
+  const rows = [
+    run({ state: { id: "u1-done", userId: "user-1" } }),
+    run({ state: { id: "u1-open", userId: "user-1", briefing: null } }),
+    run({ state: { id: "u2-done", userId: "user-2" } }),
+    run({ state: { id: "machine", userId: null } }),
+  ];
+  assert.deepEqual(fenceUserRows(rows, "user-1").map((r) => r.id), ["u1-done"]);
+  assert.equal(fenceUserRows(rows, null).length, 0);
+  assert.equal(fenceUserRows(rows, undefined).length, 0);
+});
+
+test("about-person fence: org required, finished only, personId must be in the linked set", () => {
+  const rows = [
+    run({ state: { id: "about-me", orgId: "org-a", personId: "p1" } }),
+    run({ state: { id: "about-someone-else", orgId: "org-a", personId: "p9" } }),
+    run({ state: { id: "other-org", orgId: "org-b", personId: "p1" } }),
+    run({ state: { id: "unfinished", orgId: "org-a", personId: "p1", briefing: null } }),
+  ];
+  assert.deepEqual(fenceAboutPersonRows(rows, "org-a", ["p1"]).map((r) => r.id), ["about-me"]);
+  assert.equal(fenceAboutPersonRows(rows, null, ["p1"]).length, 0, "no org → nothing");
+  assert.equal(fenceAboutPersonRows(rows, "org-a", []).length, 0, "no linked people → nothing");
+});
+
+test("rating column validation matches the sidecar rules: only a valid 1-5 shape surfaces", () => {
+  const good = toMemberRow(run({ rating: { stars: 4, note: "useful", updatedAt: "2026-07-08T00:00:00Z" } }));
+  assert.deepEqual(good.rating, { stars: 4, note: "useful", updatedAt: "2026-07-08T00:00:00Z" });
+  const zero = toMemberRow(run({ rating: { stars: 0, note: "x" } }));
+  assert.equal(zero.rating, null);
+  const six = toMemberRow(run({ rating: { stars: 6 } }));
+  assert.equal(six.rating, null);
+});
+
+test("finished row carries the same review badge inputs the file store derives", () => {
+  const r = toFinishedRow(
+    run({
+      review: { marks: { role_aware: "pass", grounded: "fail" }, overall: "fix" },
+      archived: true,
+    }),
+  );
+  assert.equal(r.archived, true);
+  assert.equal(r.overall, "fix");
+  assert.equal(r.failedCount, 1);
+  assert.equal(r.decided, 2);
+  assert.equal(r.reviewStatus, "partial");
+});

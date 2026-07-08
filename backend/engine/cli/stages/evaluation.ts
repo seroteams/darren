@@ -2,7 +2,7 @@ import { evaluate } from "../../reviewer.ts";
 import { serialize } from "../../axes.ts";
 import * as cost from "../../cost.ts";
 import { renderBriefing } from "../../briefing.ts";
-import { writeJson, sessionFile } from "../io.ts";
+import { logRunRoot } from "../../session.ts";
 import { bold, dim, yellow, HR, pad, withThinking } from "../../ui.ts";
 
 import type { MeetingContext, AxisState, TranscriptEntry } from "../../../shared/session.types.ts";
@@ -96,7 +96,7 @@ function renderSessionCost(finalCost: CostSummary): void {
 
 function writeSessionCost(session: { dir: string }, tracker: CostTracker): void {
   const finalCost = tracker.summary();
-  writeJson(sessionFile(session, "cost.json"), finalCost);
+  logRunRoot(session, "cost.json", finalCost);
   renderSessionCost(finalCost);
 }
 

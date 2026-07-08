@@ -82,16 +82,20 @@ function dropSession(id: string): void {
 }
 
 function startSweep(): void {
-  loadPersistedSessions(sessions, SESSION_TTL_MS);
-  // When Postgres is configured, also restore live sessions from the database on
-  // boot — so a session survives a server restart, loaded from the DB. Async +
-  // best-effort: a DB hiccup logs and leaves the disk-restored set in place.
+  // Boot restore, DB-FIRST (postgres-runtime-data Phase 3): with Postgres
+  // configured the database is the source of truth — its sessions load first,
+  // and the disk pass afterwards only fills gaps (both loaders skip ids already
+  // in the Map). A DB hiccup logs and falls back to the disk-only restore.
+  // DB-less mode is unchanged: disk restore only.
   if (hasDatabaseUrl()) {
     loadSessionsFromDb(sessions, SESSION_TTL_MS)
       .then((n) => {
         if (n) console.log(`[sessions] restored ${n} session(s) from Postgres`);
       })
-      .catch((e) => console.warn("[sessions] Postgres restore failed:", e instanceof Error ? e.message : String(e)));
+      .catch((e) => console.warn("[sessions] Postgres restore failed:", e instanceof Error ? e.message : String(e)))
+      .finally(() => loadPersistedSessions(sessions, SESSION_TTL_MS));
+  } else {
+    loadPersistedSessions(sessions, SESSION_TTL_MS);
   }
   setInterval(() => {
     const cutoff = Date.now() - SESSION_TTL_MS;

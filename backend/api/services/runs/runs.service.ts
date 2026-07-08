@@ -23,34 +23,34 @@ interface ReviewResult {
 // and run lookups are fenced to that company — the data wall (Phase 007/2). The
 // controller derives it from the session; undefined/null = unfenced (legacy).
 export interface RunsService {
-  recent(limit: unknown, orgId?: string | null): { runs: unknown[] };
-  finished(orgId?: string | null): { runs: unknown[] };
-  overview(id: string | undefined, orgId?: string | null): unknown;
-  full(id: string | undefined, orgId?: string | null): unknown;
-  stages(id: string | undefined, orgId?: string | null): { id: string; stages: unknown };
-  remove(id: string | undefined, orgId?: string | null): { deleted: true; id: string };
-  archive(id: string | undefined, body: unknown, orgId?: string | null): { ok: true; id: string; archived: boolean | undefined };
-  review(id: string | undefined, body: unknown, orgId?: string | null): ReviewResult;
+  recent(limit: unknown, orgId?: string | null): Promise<{ runs: unknown[] }>;
+  finished(orgId?: string | null): Promise<{ runs: unknown[] }>;
+  overview(id: string | undefined, orgId?: string | null): Promise<unknown>;
+  full(id: string | undefined, orgId?: string | null): Promise<unknown>;
+  stages(id: string | undefined, orgId?: string | null): Promise<{ id: string; stages: unknown }>;
+  remove(id: string | undefined, orgId?: string | null): Promise<{ deleted: true; id: string }>;
+  archive(id: string | undefined, body: unknown, orgId?: string | null): Promise<{ ok: true; id: string; archived: boolean | undefined }>;
+  review(id: string | undefined, body: unknown, orgId?: string | null): Promise<ReviewResult>;
   // Member-safe reads (member-nav Phase 2): a logged-in member's OWN finished runs, and
   // one own run's read-only view. Fenced by both orgId and userId; myRun 404s a run the
   // member doesn't own. `open` is the raw ?open= query value — the literal "1" also
   // includes the caller's started-but-unfinished preps (Team-for-managers).
-  myFinished(orgId: string | null | undefined, userId: string | null | undefined, open?: unknown): { runs: unknown[] };
+  myFinished(orgId: string | null | undefined, userId: string | null | undefined, open?: unknown): Promise<{ runs: unknown[] }>;
   // The 1:1s ABOUT the caller (people-roster Phase 5): runs stamped with a personId the
   // caller's account is linked to. LIST-ONLY by ruling — the service re-cuts every row
   // to { id, meetingType, lastSeenAt, completedAt, managerName } even if the repo
   // over-shares, so notes/briefings/ratings can never leak to the member.
-  aboutMe(orgId: string | null | undefined, personIds: string[], managerNames: Record<string, string>): { runs: unknown[] };
-  myRun(id: string | undefined, orgId: string | null | undefined, userId: string | null | undefined): unknown;
+  aboutMe(orgId: string | null | undefined, personIds: string[], managerNames: Record<string, string>): Promise<{ runs: unknown[] }>;
+  myRun(id: string | undefined, orgId: string | null | undefined, userId: string | null | undefined): Promise<unknown>;
   // Rate one of the member's OWN 1:1s (pre-go-live PG3): 1-5 stars + optional note,
   // stored as a rating.json sidecar. Fenced by org AND user — a run the caller doesn't
   // own is a 404 (same answer a stranger gets), so ids can't be probed or rated.
-  rateMine(id: string | undefined, body: unknown, orgId: string | null | undefined, userId: string | null | undefined): { ok: true; stars: number; note: string };
+  rateMine(id: string | undefined, body: unknown, orgId: string | null | undefined, userId: string | null | undefined): Promise<{ ok: true; stars: number; note: string }>;
   // Dev-only "prefill a run" (admin-guarded at the route). clonable lists every finished
   // run on disk (unfenced) so there's always something to seed from; clone copies one into
   // a fresh run owned by the caller so it drops straight into their /mine.
-  clonable(): { runs: unknown[] };
-  clone(sourceId: string | undefined, orgId: string | null, userId: string | null): { id: string };
+  clonable(): Promise<{ runs: unknown[] }>;
+  clone(sourceId: string | undefined, orgId: string | null, userId: string | null): Promise<{ id: string }>;
 }
 
 export function createRunsService(repo: RunsRepo): RunsService {
@@ -60,10 +60,9 @@ export function createRunsService(repo: RunsRepo): RunsService {
     return id;
   }
 
-  function review(id: string | undefined, body: unknown, orgId?: string | null): ReviewResult {
+  async function review(id: string | undefined, body: unknown, orgId?: string | null): Promise<ReviewResult> {
     const runId = requireId(id);
-    const dir = repo.findRunDir(runId, orgId);
-    if (!dir) throw notFound("unknown run");
+    if (!(await repo.runExists(runId, orgId))) throw notFound("unknown run");
     if (!isObjectRecord(body)) throw badRequest("invalid payload");
     const rawMarks = asRecord(body.marks);
 
@@ -80,7 +79,7 @@ export function createRunsService(repo: RunsRepo): RunsService {
 
     const reviewStatus = reviewStatusOf({ marks });
     const failedCount = REVIEW_DIM_KEYS.filter((k) => marks[k] === "fail").length;
-    const prev = repo.readReview(dir);
+    const prev = await repo.readReview(runId, orgId);
     const now = new Date().toISOString();
 
     const out = {
@@ -95,7 +94,7 @@ export function createRunsService(repo: RunsRepo): RunsService {
     };
 
     try {
-      repo.writeReview(dir, out);
+      await repo.writeReview(runId, orgId, out);
     } catch (e) {
       // Surface the failure honestly: legacy keeps this message, v1 masks 5xx.
       throw Object.assign(new Error("review write failed: " + (e instanceof Error ? e.message : String(e))), {
@@ -106,9 +105,9 @@ export function createRunsService(repo: RunsRepo): RunsService {
   }
 
   return {
-    recent: (limit, orgId) => {
+    recent: async (limit, orgId) => {
       const n = Math.max(1, Math.min(20, Number(limit) || 3));
-      const runs = repo.listRecent(n, orgId).map((r) => {
+      const runs = (await repo.listRecent(n, orgId)).map((r) => {
         const o = asRecord(r);
         return {
           id: o.id,
@@ -121,11 +120,11 @@ export function createRunsService(repo: RunsRepo): RunsService {
       });
       return { runs };
     },
-    finished: (orgId) => ({ runs: repo.listFinished(orgId) }),
-    myFinished: (orgId, userId, open) => ({ runs: repo.listFinishedForMember(orgId, userId, open === "1") }),
-    aboutMe: (orgId, personIds, managerNames) => {
+    finished: async (orgId) => ({ runs: await repo.listFinished(orgId) }),
+    myFinished: async (orgId, userId, open) => ({ runs: await repo.listFinishedForMember(orgId, userId, open === "1") }),
+    aboutMe: async (orgId, personIds, managerNames) => {
       if (!personIds.length) return { runs: [] }; // unlinked member — nothing to walk
-      const runs = repo.listAboutPerson(orgId, personIds).map((r) => {
+      const runs = (await repo.listAboutPerson(orgId, personIds)).map((r) => {
         const o = asRecord(r);
         return {
           id: o.id,
@@ -137,24 +136,22 @@ export function createRunsService(repo: RunsRepo): RunsService {
       });
       return { runs };
     },
-    myRun: (id, orgId, userId) => {
-      const view = repo.memberRun(requireId(id), orgId, userId);
+    myRun: async (id, orgId, userId) => {
+      const view = await repo.memberRun(requireId(id), orgId, userId);
       if (!view) throw notFound("unknown run");
       return view;
     },
-    rateMine: (id, body, orgId, userId) => {
+    rateMine: async (id, body, orgId, userId) => {
       const runId = requireId(id);
       // Ownership first: the run must be the caller's own (org + user). Not theirs /
       // unknown → 404, the same answer a stranger gets, so ids can't be probed.
-      if (!repo.memberRun(runId, orgId, userId)) throw notFound("unknown run");
+      if (!(await repo.memberRun(runId, orgId, userId))) throw notFound("unknown run");
       if (!isObjectRecord(body)) throw badRequest("invalid payload");
       const stars = body.stars;
       if (typeof stars !== "number" || !Number.isInteger(stars) || stars < 1 || stars > 5) throw badRequest("stars must be an integer 1-5");
       // The note is a private manager field — trimmed + capped, never logged.
       const note = String(body.note != null ? body.note : "").trim().slice(0, NOTE_CAP);
-      const dir = repo.findRunDir(runId, orgId);
-      if (!dir) throw notFound("unknown run");
-      const prev = repo.readRating(dir);
+      const prev = await repo.readRating(runId, orgId);
       const now = new Date().toISOString();
       const out = {
         version: 1,
@@ -166,45 +163,45 @@ export function createRunsService(repo: RunsRepo): RunsService {
         updatedAt: now,
       };
       try {
-        repo.writeRating(dir, out);
+        await repo.writeRating(runId, orgId, out);
       } catch (e) {
         throw Object.assign(new Error("rating write failed: " + (e instanceof Error ? e.message : String(e))), { status: 500 });
       }
       return { ok: true, stars, note };
     },
-    overview: (id, orgId) => {
-      const summary = repo.summarize(requireId(id), orgId);
+    overview: async (id, orgId) => {
+      const summary = await repo.summarize(requireId(id), orgId);
       if (!summary) throw notFound("unknown run");
       return summary;
     },
-    full: (id, orgId) => {
-      const data = repo.compare(requireId(id), orgId);
+    full: async (id, orgId) => {
+      const data = await repo.compare(requireId(id), orgId);
       if (!data) throw notFound("unknown run");
       return data;
     },
-    stages: (id, orgId) => {
+    stages: async (id, orgId) => {
       const runId = requireId(id);
-      const data = repo.readStages(runId, orgId);
+      const data = await repo.readStages(runId, orgId);
       if (!data) throw notFound("unknown run");
       return { id: runId, stages: data };
     },
-    remove: (id, orgId) => {
+    remove: async (id, orgId) => {
       const runId = requireId(id);
-      const result = repo.deleteRun(runId, orgId);
+      const result = await repo.deleteRun(runId, orgId);
       if (!result.deleted) throw notFound("unknown run");
       repo.dropSession(runId);
       return { deleted: true, id: runId };
     },
-    archive: (id, body, orgId) => {
+    archive: async (id, body, orgId) => {
       const runId = requireId(id);
-      const result = repo.setArchived(runId, Boolean(asRecord(body).archived), orgId);
+      const result = await repo.setArchived(runId, Boolean(asRecord(body).archived), orgId);
       if (!result.ok) throw notFound("unknown run");
       return { ok: true, id: runId, archived: result.archived };
     },
     review,
-    clonable: () => ({ runs: repo.listFinished(null) }),
-    clone: (sourceId, orgId, userId) => {
-      const result = repo.cloneRun(requireId(sourceId), orgId, userId);
+    clonable: async () => ({ runs: await repo.listFinished(null) }),
+    clone: async (sourceId, orgId, userId) => {
+      const result = await repo.cloneRun(requireId(sourceId), orgId, userId);
       if (!result) throw notFound("unknown run");
       return result;
     },

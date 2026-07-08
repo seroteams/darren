@@ -60,7 +60,7 @@ Key decisions (full detail in the phase files):
 |---|-------|-----|--------|
 | 1 | [Foundations](phase-1.md) — schema + boot migrate + safety catch | The live/local wall must exist BEFORE two environments do; zero behavior change = safest opener | 🔨 built, awaiting QA |
 | 2 | [Write path](phase-2.md) — every new run saves to the DB too | Fill the DB while disk stays canonical — nothing can be lost; closes the CLI bypass hole | ✅ |
-| 3 | [Read cutover](phase-3.md) — the app trusts the DB | Only after P2 proves writes; the org/member privacy walls get rewritten as SQL → strictest testing | ⬜ |
+| 3 | [Read cutover](phase-3.md) — the app trusts the DB | Only after P2 proves writes; the org/member privacy walls get rewritten as SQL → strictest testing | 🔨 built, awaiting QA |
 | 4 | [Questions](phase-4.md) — the invented-question pool | Powers "never ask the same question twice" — own failure mode, own QA | ⬜ |
 | 5 | [Small stores](phase-5.md) — profiles, aliases, audit, learning data | Each tiny and low-risk; one grouped phase, not five ceremonies | ⬜ |
 | 6 | [Import old runs](phase-6.md) — all ~250 historical runs | Needs the shelves (P1) + proven reading (P3); purely additive, skippable | ⬜ |
@@ -79,6 +79,13 @@ flips back to files.
   `upsertSession` funnel; proven free (run row + all stage artifacts land in Neon). FK dropped
   (migration 0011) so artifacts are lane-agnostic. 96/96 tests, typecheck clean, $0. Per-turn files
   + sidecars deferred (see phase-2.md). Next: Phase 3 (read cutover).
+- **2026-07-09 — Phase 3 🔨 BUILT, awaiting Carl's walk.** Every run read now answers from Postgres when
+  `DATABASE_URL` is set (file walk = DB-less mode + the one-line rollback). Write path completed first
+  (per-turn files, transcript/axis/cost, pipeline-lock — all lanes, echo-gated). Double fence: SQL
+  narrows, the engine's own wall functions re-check every row. Parity test deep-equals 11 reads across
+  both stores on real Neon — all green; 7 DB-less fencing tests per list variant. `npm test` **101/101** ·
+  typecheck clean · offline replay PASS · $0. ⚠️ Until Phase 6 imports, local lists show only runs made
+  since P2 (old disk runs are safe, just not listed). Deferrals in phase-3.md.
 
 ## Baseline (2026-07-08, before Phase 1)
 

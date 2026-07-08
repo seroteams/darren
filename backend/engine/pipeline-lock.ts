@@ -282,12 +282,6 @@ function capturePipelineLock(): PipelineLock {
   };
 }
 
-function writePipelineLock(sessionDir: string): PipelineLock {
-  const lock = capturePipelineLock();
-  fs.writeFileSync(path.join(sessionDir, LOCK_FILE), JSON.stringify(lock, null, 2));
-  return lock;
-}
-
 function readPipelineLockFromDir(runDir: string): PipelineLock | null {
   const filePath = path.join(runDir, LOCK_FILE);
   if (!fs.existsSync(filePath)) return null;
@@ -522,7 +516,6 @@ export {
   ROOT,
   listManifestPaths,
   capturePipelineLock,
-  writePipelineLock,
   readPipelineLockFromDir,
   scanPipelineNow,
   diffLocks,

@@ -21,7 +21,7 @@ import { appendEligibilityLog } from "../../../engine/question-eligibility.ts";
 import { summarizeAgenda, buildCarryForwardQuestion } from "../../../engine/agenda.ts";
 import * as questions from "../../../engine/questions.ts";
 import { materializeQuestion } from "../../../engine/intro-queue.ts";
-import { writeJson } from "../../../engine/cli/io.ts";
+import { logTurn, logRunRoot } from "../../../engine/session.ts";
 import * as cost from "../../../engine/cost.ts";
 import { getSessionSelectedFocus } from "../../selected-focus.ts";
 import { loadPersona, scriptedQuestions } from "../../persona-script.ts";
@@ -471,10 +471,12 @@ export async function planStream(c: RequestContext): Promise<void> {
     stream.write("note", { note: planResult.assessment.note });
   }
 
-  // Filesystem logs (mirror backend/cli.ts)
-  const dynamicAnswersDir = path.join(session.dir, "04-dynamic-answers");
-  writeJson(
-    path.join(dynamicAnswersDir, `${String(turn).padStart(2, "0")}-turn.json`),
+  // Turn + run-root logs through the dual-write funnel (postgres-runtime-data
+  // Phase 3): DB always, disk only when the file echo is on. The prompt/raw pair
+  // rides along so live and CLI logs stay identical for the stage I/O view.
+  logTurn(
+    session,
+    turn,
     {
       turn,
       question: q,
@@ -485,21 +487,11 @@ export async function planStream(c: RequestContext): Promise<void> {
       issues: planResult.issues || [],
       unbooked_signal: planResult.unbooked_signal || [],
       axis_state: serialize(session.axisState),
-    }
+    },
+    planResult.prompt ? { prompt: planResult.prompt, response: planResult.response } : undefined
   );
-  // Mirror the CLI loop: keep the exact prompt sent to the planner and its raw
-  // reply alongside the turn file, so live and CLI logs are identical and the
-  // stage I/O view can show what each Q&A turn fed the model.
-  if (planResult.prompt) {
-    const pad = String(turn).padStart(2, "0");
-    fs.writeFileSync(path.join(dynamicAnswersDir, `${pad}-prompt.md`), planResult.prompt);
-    fs.writeFileSync(
-      path.join(dynamicAnswersDir, `${pad}-response.json`),
-      typeof planResult.response === "string" ? planResult.response : JSON.stringify(planResult.response, null, 2)
-    );
-  }
-  writeJson(path.join(session.dir, "transcript.json"), session.transcript);
-  writeJson(path.join(session.dir, "axis-state.json"), serialize(session.axisState));
+  logRunRoot(session, "transcript.json", session.transcript);
+  logRunRoot(session, "axis-state.json", serialize(session.axisState));
 
   const terminal =
     turn >= session.totalBudget || session.queueRef.length === 0 ? "done" : "next";

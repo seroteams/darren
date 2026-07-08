@@ -7,6 +7,8 @@
 
 import { pgPeopleRepo } from "../team/people.repo.ts";
 import { listFinishedRunsAboutPerson } from "../../../engine/run-history.ts";
+import { pgListFinishedRunsAboutPerson } from "../../../db/runs-store.ts";
+import { hasDatabaseUrl } from "../../../db/client.ts";
 
 export interface AboutMeRun {
   id: string;
@@ -21,13 +23,19 @@ export interface AboutMeDeps {
   listRunsAboutPerson(
     orgId: string,
     personIds: string[],
-  ): { id: string; meetingType: string; lastSeenAt: number; completedAt: number | null; userId: string | null }[];
+  ): Promise<{ id: string; meetingType: string; lastSeenAt: number; completedAt: number | null; userId: string | null }[]>;
   listOrgUsers(orgId: string): Promise<{ id: string; name: string }[]>;
 }
 
 const defaultDeps: AboutMeDeps = {
   findByLinkedUser: (userId, orgId) => pgPeopleRepo.findByLinkedUser(userId, orgId),
-  listRunsAboutPerson: (orgId, personIds) => listFinishedRunsAboutPerson(orgId, personIds),
+  // Read cutover (postgres-runtime-data Phase 3): DB when configured, file walk otherwise.
+  listRunsAboutPerson: async (orgId, personIds) =>
+    (hasDatabaseUrl()
+      ? pgListFinishedRunsAboutPerson(orgId, personIds)
+      : Promise.resolve(listFinishedRunsAboutPerson(orgId, personIds))) as Promise<
+      { id: string; meetingType: string; lastSeenAt: number; completedAt: number | null; userId: string | null }[]
+    >,
   listOrgUsers: (orgId) => pgPeopleRepo.listOrgUsers(orgId),
 };
 
@@ -37,7 +45,7 @@ export function createAboutMeService(deps: AboutMeDeps = defaultDeps) {
       if (!orgId || !userId) return { runs: [] };
       const linked = await deps.findByLinkedUser(userId, orgId);
       if (linked.length === 0) return { runs: [] };
-      const rows = deps.listRunsAboutPerson(orgId, linked.map((p) => p.id));
+      const rows = await deps.listRunsAboutPerson(orgId, linked.map((p) => p.id));
       if (rows.length === 0) return { runs: [] };
       const names = new Map((await deps.listOrgUsers(orgId)).map((u) => [u.id, u.name]));
       return {

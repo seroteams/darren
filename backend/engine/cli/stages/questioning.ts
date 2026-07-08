@@ -1,5 +1,3 @@
-import fs from "node:fs";
-import path from "node:path";
 
 import { loadDir } from "../../questions.ts";
 import { planTurn } from "../../queue-manager.ts";
@@ -8,7 +6,8 @@ import { isForbiddenCloser, pickSeedOverflow } from "../../closer.ts";
 import { dropIneligibleHeads, appendEligibilityLog } from "../../question-eligibility.ts";
 import { initState, applyDeltas, summarize, serialize } from "../../axes.ts";
 import * as cost from "../../cost.ts";
-import { writeJson, sessionFile, isSkip } from "../io.ts";
+import { sessionFile, isSkip } from "../io.ts";
+import { logTurn, logRunRoot } from "../../session.ts";
 import {
   bold,
   dim,
@@ -63,8 +62,6 @@ async function runQuestioningLoop({
 }): Promise<{ transcript: TranscriptEntry[]; axisState: AxisState; scoring: { failures: number; scoredTurns: number } }> {
   const axisState = initState();
   const transcript: TranscriptEntry[] = [];
-  const dynamicAnswersDir = sessionFile(session, "04-dynamic-answers");
-  fs.mkdirSync(dynamicAnswersDir, { recursive: true });
 
   let turn = 0;
   let queueRef = queue;
@@ -232,30 +229,24 @@ async function runQuestioningLoop({
       // closing/evaluation stage; never serve a bad question just to fill time.
     }
 
-    writeJson(path.join(dynamicAnswersDir, `${String(turn).padStart(2, "0")}-turn.json`), {
+    logTurn(
+      session,
       turn,
-      question: q,
-      answer: answerText,
-      skipped,
-      assessment: plan.assessment,
-      new_queue: queueRef.map((x) => ({ alias: x.alias, label: x.label, name: x.name })),
-      issues: plan.issues || [],
-      unbooked_signal: plan.unbooked_signal || [],
-      axis_state: serialize(axisState),
-    });
-    writeJson(sessionFile(session, "transcript.json"), transcript);
-    writeJson(sessionFile(session, "axis-state.json"), serialize(axisState));
-
-    if (plan.prompt) {
-      fs.writeFileSync(
-        path.join(dynamicAnswersDir, `${String(turn).padStart(2, "0")}-prompt.md`),
-        plan.prompt
-      );
-      fs.writeFileSync(
-        path.join(dynamicAnswersDir, `${String(turn).padStart(2, "0")}-response.json`),
-        typeof plan.response === "string" ? plan.response : JSON.stringify(plan.response, null, 2)
-      );
-    }
+      {
+        turn,
+        question: q,
+        answer: answerText,
+        skipped,
+        assessment: plan.assessment,
+        new_queue: queueRef.map((x) => ({ alias: x.alias, label: x.label, name: x.name })),
+        issues: plan.issues || [],
+        unbooked_signal: plan.unbooked_signal || [],
+        axis_state: serialize(axisState),
+      },
+      plan.prompt ? { prompt: plan.prompt, response: plan.response } : undefined
+    );
+    logRunRoot(session, "transcript.json", transcript);
+    logRunRoot(session, "axis-state.json", serialize(axisState));
 
     console.log();
   }

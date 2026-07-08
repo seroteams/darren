@@ -6,26 +6,26 @@ import { buildPipelineStatus } from "../../../engine/pipeline-lock.ts";
 import type { PipelineRepo, PipelineLock } from "./pipeline.repo.ts";
 
 export interface PipelineService {
-  status(baselineParam: string): ReturnType<typeof buildPipelineStatus>;
+  status(baselineParam: string): Promise<ReturnType<typeof buildPipelineStatus>>;
 }
 
 export function createPipelineService(repo: PipelineRepo): PipelineService {
   return {
-    status(baselineParam) {
+    async status(baselineParam) {
       let baselineLock: PipelineLock = null;
       let baselineRunId: string | null = null;
       let baselineHeadline: string | null = null;
       let baselineHasLock = false;
 
       if (baselineParam === "latest") {
-        const withLock = repo.latestWithLock();
+        const withLock = await repo.latestWithLock();
         if (withLock) {
           baselineLock = withLock.lock;
           baselineRunId = withLock.id;
           baselineHeadline = withLock.headline;
           baselineHasLock = true;
         } else {
-          const latest = repo.latest();
+          const latest = await repo.latest();
           if (latest) {
             baselineLock = latest.lock;
             baselineRunId = latest.id;
@@ -34,12 +34,12 @@ export function createPipelineService(repo: PipelineRepo): PipelineService {
           }
         }
       } else {
-        const dir = repo.findRunDir(baselineParam);
-        if (dir) {
-          baselineLock = repo.readLock(dir);
+        const baseline = await repo.baselineById(baselineParam);
+        if (baseline) {
+          baselineLock = baseline.lock;
           baselineRunId = baselineParam;
           baselineHasLock = !!baselineLock;
-          baselineHeadline = repo.readHeadline(dir);
+          baselineHeadline = baseline.headline;
         }
       }
 
