@@ -12,7 +12,12 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 
 ## ▶ Your move
 
-> **🔨 [agent-native](docs/plans/doing/agent-native/plan.md) — track (2026-07-08): make the codebase agent-native (agents verify/reproduce for $0, fewer "ask Carl" stops). P2 ✅ + P1 ✅ (the flagship) · P3 next.**
+> **🔨 [agent-native](docs/plans/doing/agent-native/plan.md) — track (2026-07-08): make the codebase agent-native (agents verify/reproduce for $0, fewer "ask Carl" stops). P2 ✅ + P1 ✅ (the flagship) + P3 ✅ · P4 next.**
+> **P3 ✅ green-lit (2026-07-08, $0, docs only):** the three "ask Carl" judgment calls are now written tables —
+> [docs/reference/agent-decisions.md](docs/reference/agent-decisions.md): **A** paid-run tree (6-rung free ladder,
+> only 3 spend-justifying situations) · **B** flag/retry/refuse policy (honesty rule operational; B2 + stonewall
+> stay YOUR parked decisions) · **C** 7-check 🟢/🟡/🔴 good-enough rubric. Pre-walked against your real cto-check
+> calls; cross-linked from guardrails 3 & 4.
 > From the principal-architect audit. **5 phases, run order 2→1→3→4→5:** ② stale maps ✅ · ① cassette
 > replay ✅ · ③ decision tables for the 3 Carl-gated calls · ④ web↔CLI parity test · ⑤ prompt↔gate registry.
 > **P1 ✅ green-lit (2026-07-08, $0 — the "seed cassette" spend turned out unnecessary):** the whole 5-stage
@@ -24,8 +29,7 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > **P2 ✅ (`2a67ec93`):** stale `.cursor` map rewritten, 18 dead comment refs fixed, new
 > [docs/reference/engine-map.md](docs/reference/engine-map.md).
 > `npm test` **94/94** · typecheck clean · lint's 44 problems pre-existing (noted in plan.md).
-> **▶ Your move:** say "start phase 3" (decision tables — docs only; the paid-run table now lists cassette
-> replay as a free check to exhaust first).
+> **▶ Your move:** say "start phase 4" (orchestrator parity guard — a test that catches web↔CLI stage drift).
 
 > **🔨 [render-deploy](docs/plans/doing/render-deploy/plan.md) — TONIGHT'S TRACK (2026-07-08): host Sero on Render.com + the /commit → /release workflow. P1 BUILT + double-checked, awaiting Carl's walk. Runbook: [TONIGHT.md](TONIGHT.md).**
 > Carl's ask: "develop locally and easily get it live" — Render free plan (Frankfurt), blueprint auto-deploys

@@ -84,6 +84,12 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **agent-native P3 (decision tables) green-lit.** The three judgments that ended every
+  workstream on "ask Carl" — paid run?, flag/retry/refuse?, good enough? — are now written tables
+  (`docs/reference/agent-decisions.md`), each pre-walked against a real past call so the table provably
+  lands where Carl landed. Lesson: **capture judgment as decision tables WITH calibration rows** — a table
+  that cites the historical case it reproduces can be re-checked forever; genuinely-Carl decisions (B2,
+  stonewall policy) are marked as parked proposals rather than silently decided. Docs only, $0.
 - **2026-07-08** — **agent-native P1 (offline cassette replay) green-lit — the flagship.** Every model call
   already routed through one function (`callAI`), so record/replay landed as one seam
   (`backend/engine/cassette.ts`): any saved run folder now replays the whole 5-stage pipeline offline

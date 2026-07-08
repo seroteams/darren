@@ -19,15 +19,16 @@ for $0, without stopping to ask Carl for money/directions/small judgment calls. 
 ① offline cassette replay **✅ green-lit 2026-07-08 — the flagship landed**: the whole 5-stage pipeline replays
 offline from any saved run folder (~5s, $0.00, no API key; `scripts/replay-pipeline.js` + `scripts/repro-from-bundle.js`
 answers REPRODUCES: yes/no on a bug bundle — live-proven on a real July run with an identical verdict) ·
-③ decision tables for the three recurring "ask Carl" calls · ④ web↔CLI orchestrator parity test ·
-⑤ prompt↔gate coupling registry. Whole track $0 so far — the predicted seed spend proved unnecessary.
-Tactical: [STATUS.md](STATUS.md).
+③ decision tables **✅ green-lit 2026-07-08** ([agent-decisions.md](docs/reference/agent-decisions.md) — the
+paid-run tree, the flag/retry/refuse honesty policy, and the good-enough rubric; B2 + stonewall stay Carl's
+parked calls) · ④ web↔CLI orchestrator parity test · ⑤ prompt↔gate coupling registry.
+Whole track $0 so far — the predicted seed spend proved unnecessary. Tactical: [STATUS.md](STATUS.md).
 
-**✅ Closed (2026-07-07): [CTOCheckJuly](docs/plans/done/cto-check-july/README.md)** — did *thin* manager
-input give a good brief, questions & summary? **Answer: mostly yes** — brief 🟢 + summary 🟢 (both proven on
-the current model), questions 🟡 (good on specific notes; one vague-note fabrication risk in the question
-stage deferred, parked in the archived PLAN). Not a feature. Folder → `docs/plans/done/cto-check-july/`.
-(Moat + learning-from-past-runs still parked.)
+**✅ Closed (2026-07-07, risk closed 2026-07-08): [CTOCheckJuly](docs/plans/done/cto-check-july/README.md)** —
+did *thin* manager input give a good brief, questions & summary? **Answer: YES** — brief 🟢 + summary 🟢 +
+questions 🟢, all proven on the current model. The one deferred risk (vague-note fabrication in the question
+stage) was re-tested 2026-07-08: focus-points → question-bank on "quiet in stand-ups", 3 runs → zero invented
+facts. Not a feature. Folder → `docs/plans/done/cto-check-july/`. (Moat + learning-from-past-runs still parked.)
 
 **▶ Active line: back to pre-go-live — getting to a live alpha.** The continuity / "moat" track was
 **REMOVED 2026-07-06** at Carl's call ("this is not what I wanted at all — rip it all out"): both built

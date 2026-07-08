@@ -1,6 +1,17 @@
 # Phase 3 — Decision tables for the three Carl-gated calls
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Run order:** 3rd
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested) · **Run order:** 3rd
+
+## ✅ GREEN-LIT 2026-07-08 — Carl walked the 3 table scenarios (commit hash in the tracker stamp)
+
+## Built (2026-07-08)
+- **[docs/reference/agent-decisions.md](../../reference/agent-decisions.md)** (new) — the three tables in one page:
+  - **Table A (paid run?)** — the 6-rung free ladder (now incl. Phase 1's offline pipeline replay + repro-from-bundle), then a justified-conditions table. Only three situations justify the one allowed run (new prompt *rule*, never-recorded scenario, model/provider change); logic changes never do. 2nd runs and full gates always escalate.
+  - **Table B (flag / retry / refuse)** — five problem classes, what an agent may do alone vs never (the honesty rule made operational: gates block, shapes retry-then-honest-fallback, weak-but-valid ships flagged, bad-reading gets detectors, NEW live-path behaviour is proposal-only). B2 + stonewall stay explicitly PARKED as Carl's decisions, with the agent defaults framed as proposals. Litmus line: "would this make output LOOK better without the read being better? → masking → no."
+  - **Table C (good enough?)** — 7-check 🟢/🟡/🔴 rubric built from the No-Inference thresholds (<15-token caution, evidence anchor, no inferred states) + honesty fields + honest-thin-vs-padded + question grip + summary truth.
+- **Cross-links added** in [guardrails.md](../../reference/guardrails.md) under guardrails 3 and 4 (two "Agent playbook" pointers — no other guardrails text touched).
+- **Pre-walked against history (my side of QA):** Table A lands the cto-check "prove the questions" fork on the same call Carl made (justified, one case, ~$0.35 — he then timed it himself); Table C's calibration row reproduces all three cto-check verdicts (brief 🟢, specific-note questions 🟢, vague-note questions 🟡). Both walks are written INTO the doc so they stay checkable.
+- Docs only — no code, no tests affected, $0.
 
 ## Goal
 The three judgments that recur in every workstream become written tables an agent can resolve on its own, so only the true edge cases reach Carl.

@@ -31,6 +31,8 @@ rewrite to paper over a model problem — we surface it. If a request accepts fl
 asks to hide a flaw, I'll flag it.
 - **Looks like:** "That briefing's great, it really gets the manager" (when it's just repeating their
   words back). / "Just hardcode it to say the right thing."
+- **Agent playbook:** what an agent may *do* about a detected output problem (flag / retry / refuse)
+  is written down in [agent-decisions.md](agent-decisions.md) Table B.
 
 ### 4. Money drift — paid runs without eyes open
 Anything that hits the OpenAI API (`gate`, `smoke`, `eval`, persona runs, live replays) costs money
@@ -40,6 +42,9 @@ I'll still state the rough cost and run the **smallest thing that proves the poi
 further** paid run on the same task needs your explicit yes. (Updated 2026-07-07.)
 - **Looks like:** "Run the full gate." → I'll quote the cost and suggest a single case first.
 - **Looks like:** already used the task's one run and want another → I'll pause and ask before spending again.
+- **Agent playbook:** the free-check ladder + the exact conditions that justify the one paid run
+  are written down in [agent-decisions.md](agent-decisions.md) Table A (incl. the offline
+  pipeline replay, which removed most reasons to spend at all).
 
 ### 5. Scope creep — new ideas jammed into the current step
 Good ideas mid-step get **parked**, not bolted onto what we're doing right now. If a new ask would

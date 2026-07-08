@@ -41,7 +41,7 @@ function laneColor(name) {
 // First-open seed — a snapshot of everything on the go on 2026-07-05. Edit freely;
 // "Reset to current state" restores exactly this.
 const KB_SEED = [
-  { col: "doing", lane: "Agent", title: "Agent-native codebase", note: "P2 (maps) + P1 (cassette replay — whole pipeline replays offline, $0, REPRODUCES yes/no on bug bundles) green-lit 2026-07-08. Next: P3 decision tables, then P4 parity, P5 registry." },
+  { col: "doing", lane: "Agent", title: "Agent-native codebase", note: "P2 (maps) + P1 (offline cassette replay) + P3 (agent-decisions.md tables) green-lit 2026-07-08, $0 total. Next: P4 orchestrator parity test, then P5 prompt↔gate registry." },
   { col: "doing", lane: "Product", title: "Manager-ready rail", note: "Phase 1 built — customers get Home · New 1:1 · Team · Past 1:1s; internal tools hidden. Awaiting your walk. Phase 2 (Bricolage/4px/date) next." },
   { col: "doing", lane: "Live data", title: "Live-data cleanup", note: "Phases 1–2 done — every screen on /api/v1. Phase 3 next: delete ~54 dead legacy routes." },
   { col: "doing", lane: "Logs", title: "Error log screen", note: "Superadmin Error log (Local/Live), one Neon. Phase 2 built — awaiting walk. Next: Phase 3 browser crashes." },
