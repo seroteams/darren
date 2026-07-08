@@ -2,7 +2,7 @@
 
 **Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested) · **Run order:** 1st (do this first)
 
-## ✅ GREEN-LIT 2026-07-08 — Carl walked the 3 scenarios (commit pending below)
+## ✅ GREEN-LIT 2026-07-08 — Carl walked the 3 scenarios (commit `2a67ec93`; hash stamped in the follow-up tracker commit)
 
 ## Built (2026-07-08)
 - **`.cursor/rules/sero-engine-handover.mdc`** — rewritten as a thin, durable orientation: real map table (engine in `backend/engine/`, the two orchestrators, gates, prompts), always-apply rules (read CLAUDE.md first, trackers, cost, honesty, TS+TDD), current npm scripts. Deliberately holds no point-in-time state — that's what rotted last time.
