@@ -17,7 +17,7 @@ export function welcomeHtml(photo: string): string {
         <div class="auth-panel l-stack l-stack--6">
           <div class="auth-brand">
             <img class="auth-brand__logo" src="/logo.png" alt="" aria-hidden="true" />
-            <h1 class="auth-brand__title">Walk into your next 1:1 prepared.</h1>
+            <h1 class="auth-brand__title">Walk into your next 1:1 well prepared.</h1>
             <p class="auth-brand__sub">Sero turns your rough notes into a focused prep brief and sharper questions for your next one-to-one. It takes about two minutes.</p>
           </div>
           <div class="l-stack l-stack--3">
