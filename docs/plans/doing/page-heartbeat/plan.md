@@ -18,12 +18,12 @@ changes" button only covers build + meeting types + arcs — the rest of the pag
 |---|---|---|---|
 | 1 | Heartbeat endpoint + Guide goes live | `GET /api/v1/heartbeat` (screens, commands, axes, question count, build) + Guide sections render from it; UPDATE = refresh + plain-words changelog | ✅ |
 | 2 | Universe honest ring | Pipeline ring derived from the app's real flow stages; Update reports added/removed/renamed stages | ⬜ |
-| 3 | Tasks board reality check | **Re-aimed at the planner** (build board was removed): "Update from docs" syncs auto-managed "Docs" cards from `docs/plans/doing/` — lists what it checks, animates add/update/move/remove | 🔨 |
+| 3 | Tasks board reality check | **Re-aimed at the planner** (build board was removed): "Update from docs" syncs auto-managed "Docs" cards from `docs/plans/doing/` — lists what it checks, animates add/update/move/remove. Since extended: board auto-syncs on open, seed removed (`1e9a42b4`) | 🔨 awaiting walk |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 3 🔨 built 2026-07-05 (jumped ahead of Phase 2 because Carl asked for the /tasks Update button directly) — awaiting his walk. Re-aimed at the planner after the build board was removed the same day; option A (Update only touches its own "Docs" cards). Backend `todos` view + 5 tests green (heartbeat 13/13), both typechecks clean; frontend add-path + overlay verified live, update/move/remove logic-verified. Phase 2 (Universe ring) still ⬜.**
+**Phase 3 🔨 built + committed — awaiting Carl's walk. Phase 2 (Universe ring) still ⬜.** Built 2026-07-05 (jumped ahead of Phase 2 because Carl asked for the /tasks Update button directly); re-aimed at the planner after the build board was removed the same day; option A (Update only touches its own "Docs" cards). Since then (`1e9a42b4`, 2026-07-08) it went further: the hardcoded seed board is gone — /tasks now fills itself from the live plan folders on open (quiet sync, no modal), "Reset" became "Reset from docs". Re-verified 2026-07-08: code intact + committed, `npm test` 96/96, both typechecks clean. Walk = the 4 scenarios in [phase-3.md](phase-3.md).
 
 Phase 1 ✅ — walked + green-lit by Carl 2026-07-05 ("ALL GOOD"); code committed `4e4ea787`.
 
