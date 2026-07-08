@@ -14,7 +14,7 @@ export interface AxisRead {
 }
 
 // Re-specced under the no-inference ruling (docs/reference/prompt-improvement-spec.md §3,
-// docs/archive/done/no-inference-ruling/phase-3.md): no state labels. `read_status`
+// docs/plans/done/no-inference-ruling/phase-3.md): no state labels. `read_status`
 // describes the evidence status of THIS session's record — never the person.
 // The old `level` enum ("worth_checking" | "clear_concern" | ...) is gone; the
 // engine normalises legacy stored runs on read (applyEngagementReadGuard).

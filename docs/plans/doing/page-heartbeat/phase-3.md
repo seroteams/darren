@@ -11,13 +11,13 @@
 
 ## Goal
 The planner can fill itself from reality: an **Update from docs** button reads
-`docs/workstreams/` live, lists every folder it checks, then animates adding / updating /
+`docs/plans/doing/` live, lists every folder it checks, then animates adding / updating /
 moving / removing a set of auto-managed **"Docs"** cards to match. It only ever
 touches those Docs cards — your own cards are untouched.
 
 ## Changes (built)
 - **Heartbeat endpoint** grows a `todos` view (`backend/api/services/heartbeat/`):
-  for each active plan folder under `docs/workstreams/` (not in `done/`) it returns the
+  for each active plan folder under `docs/plans/doing/` (not in `done/`) it returns the
   title, phases done / in-progress / total (parsed from the PLAN.md status table),
   and the "Current state" paragraph; plus the list of `done/` slugs. +5 unit tests.
 - **`admin/src/stages/tasks.js`** — an **Update from docs** button. On click: an
@@ -43,12 +43,12 @@ touches those Docs cards — your own cards are untouched.
 > `npm run dev`). Without the new API the button shows a plain "couldn't reach the
 > server" note and changes nothing.
 1. **First update** — open /tasks, click **Update from docs**. You should see it list
-   each `docs/workstreams/…` folder, tick them off, then slide in one **Docs** card per
+   each `docs/plans/doing/…` folder, tick them off, then slide in one **Docs** card per
    unfinished plan (≈12), with "N/M phases done" + its current-state note.
 2. **Your own cards untouched** — your hand-added cards don't move or change; only
    the "Docs"-lane cards appear/update.
 3. **It sees status move** — I mark a phase done in a PLAN.md, click again: that
    plan's Docs card pulses and its "N/M phases done" ticks up. ❌ Not OK if unchanged.
-4. **It closes one out** — move a plan folder to `docs/archive/done/`, click again: its
+4. **It closes one out** — move a plan folder to `docs/plans/done/`, click again: its
    Docs card fades over to **Done**. A plan folder deleted entirely → its card is
    removed. The summary names what changed.

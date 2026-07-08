@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // The engagement read is never trusted from thin data. Since the no-inference
-// re-spec (docs/archive/done/no-inference-ruling/phase-3.md) the read carries NO state
+// re-spec (docs/plans/done/no-inference-ruling/phase-3.md) the read carries NO state
 // label — only `read_status` ("read" | "not_read", the evidence status of this
 // session's record) plus observable content: the manager's own observed shift,
 // transcript quotes, and what to watch next. The deterministic guard forces

@@ -439,7 +439,7 @@ const RICH_NOTES = "Ahmed talks about wanting senior scope but keeps redirecting
 
 // 24. engagement_read (re-specced shape): clean observable prose passes; an
 // invented state anywhere in its prose fails. No carve-out — the state-label
-// enum is gone (docs/archive/done/no-inference-ruling/phase-3.md).
+// enum is gone (docs/plans/done/no-inference-ruling/phase-3.md).
 {
   const cleanRead = baseBriefing({
     engagement_read: { read_status: "read", observed_shift: "You noted he keeps redirecting into tactical delivery.", evidence: ["Answers stayed short on project questions."], missing_evidence: "No direct read on workload.", recommended_action: "Ask about the sprint load next time.", watch_next: "Whether Thursday's action lands." },

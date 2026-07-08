@@ -19,7 +19,7 @@ Finished or superseded docs moved out of the live `docs/` tree during the 009 re
 - `screenshots/`: one-time tasks-board captures from the June phases.
 - `plans/DESIGN.md`: early design-token spec, no longer current.
 - `sero-roadmap.html`: 2026-06-21 roadmap snapshot, superseded by live planning in `SERO_BOARD.md`.
-- `prototype-to-production/`: the completed 001–008 build track (phase overviews, QA checklists, `PROGRESS.md`, `009-ready-to-share.md`). All eight phases done + signed off; superseded by the active `docs/workstreams/pre-go-live/` track. Live links (CLAUDE.md, TRACKERS.md, pre-go-live/README, 009-ready-to-share, done/{convention-skills,backend-api-v1}) repointed here. The `✓` prefix was stripped from the top folder; inner `✓NNN-*` phase folders kept their prefix.
+- `prototype-to-production/`: the completed 001–008 build track (phase overviews, QA checklists, `PROGRESS.md`, `009-ready-to-share.md`). All eight phases done + signed off; superseded by the active `docs/plans/doing/pre-go-live/` track. Live links (CLAUDE.md, TRACKERS.md, pre-go-live/README, 009-ready-to-share, done/{convention-skills,backend-api-v1}) repointed here. The `✓` prefix was stripped from the top folder; inner `✓NNN-*` phase folders kept their prefix.
 
 ## Archived docs (2026-07-07)
 

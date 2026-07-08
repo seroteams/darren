@@ -18,7 +18,7 @@ changes" button only covers build + meeting types + arcs — the rest of the pag
 |---|---|---|---|
 | 1 | Heartbeat endpoint + Guide goes live | `GET /api/v1/heartbeat` (screens, commands, axes, question count, build) + Guide sections render from it; UPDATE = refresh + plain-words changelog | ✅ |
 | 2 | Universe honest ring | Pipeline ring derived from the app's real flow stages; Update reports added/removed/renamed stages | ⬜ |
-| 3 | Tasks board reality check | **Re-aimed at the planner** (build board was removed): "Update from docs" syncs auto-managed "Docs" cards from `docs/workstreams/` — lists what it checks, animates add/update/move/remove | 🔨 |
+| 3 | Tasks board reality check | **Re-aimed at the planner** (build board was removed): "Update from docs" syncs auto-managed "Docs" cards from `docs/plans/doing/` — lists what it checks, animates add/update/move/remove | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
