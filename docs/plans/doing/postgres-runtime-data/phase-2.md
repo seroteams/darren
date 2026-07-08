@@ -1,6 +1,6 @@
 # Phase 2 — Write path: every new run saves to the DB too (dual-write)
 
-**Status:** 🔨 BUILT 2026-07-08 — awaiting Carl's QA walk
+**Status:** ✅ green-lit + committed 2026-07-08 (`57d44b4b`)
 
 ## Build results (2026-07-08)
 

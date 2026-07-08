@@ -1,11 +1,11 @@
 # Phase 1 — Pre-flight fixes (local, free)
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨
+**Part of:** [plan.md](plan.md) · **Status:** ✅ green-lit + committed 2026-07-08 (`1b67f792`)
 
 ## Built (2026-07-08) — extended same day after Carl's "double check the plan"
-- **Origin-guard fix (deploy blocker found in the double-check):** the fence on every mutating route only allowed `localhost`, so on Render every browser save/start would have got 403 "Bad origin". Extracted to [origin.ts](../../../backend/api/middleware/origin.ts) + 6 tests (TDD, watched them fail): no-Origin passes, localhost passes, **the site's own host passes**, foreign sites / wrong port / malformed still refused. Proven end-to-end on a scratch boot: same-origin POST on a fake real host → 401 (asks for login, fence passed); evil origin → 403. Dev behaviour unchanged.
+- **Origin-guard fix (deploy blocker found in the double-check):** the fence on every mutating route only allowed `localhost`, so on Render every browser save/start would have got 403 "Bad origin". Extracted to [origin.ts](../../../../backend/api/middleware/origin.ts) + 6 tests (TDD, watched them fail): no-Origin passes, localhost passes, **the site's own host passes**, foreign sites / wrong port / malformed still refused. Proven end-to-end on a scratch boot: same-origin POST on a fake real host → 401 (asks for login, fence passed); evil origin → 403. Dev behaviour unchanged.
 - `package.json` — `engines.node ">=24 <25"` · `.node-version` — `24.15.0` (matches local).
-- `GET /api/v1/health` — [health.controller.ts](../../../backend/api/services/health/health.controller.ts) + mirrored test (TDD: watched it fail first), route wired in [server.ts](../../../backend/api/server.ts) next to `/api/version`, no auth.
+- `GET /api/v1/health` — [health.controller.ts](../../../../backend/api/services/health/health.controller.ts) + mirrored test (TDD: watched it fail first), route wired in [server.ts](../../../../backend/api/server.ts) next to `/api/version`, no auth.
 - `.gitignore` — `.secrets/` ignored (proven: `git check-ignore` hits).
 - Offline proof: `npm test` **91/91** (was 88 at baseline — the additions are the new health + origin tests) · `npm run typecheck` clean · `npm run build` clean · real boot on a scratch port answered `{"ok":true}` HTTP 200.
 - ⚠️ Your running dev server predates this — **restart `npm run dev`** before walking scenario 1.

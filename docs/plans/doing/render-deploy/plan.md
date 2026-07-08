@@ -27,7 +27,7 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Pre-flight fixes | Node pinned, `/api/v1/health`, `.secrets/` ignored | 🔨 |
+| 1 | Pre-flight fixes | Node pinned, `/api/v1/health`, `.secrets/` ignored | ✅ |
 | 2 | Blueprint + checklist | `render.yaml` + `RENDER_SETUP.md` + checkpoint commit | ⬜ |
 | 3 | Go live | Carl sets up Render; API key in `.secrets/`; deploy verified live | ⬜ |
 | 4 | /commit + /release skills | The two-word local→live workflow | ⬜ |
@@ -35,7 +35,8 @@
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 BUILT 2026-07-08, awaiting Carl's walk (scenarios in [phase-1.md](phase-1.md) — restart the dev server first). Baseline before changes: `npm test` 88/88, typecheck clean (free checks — gate not run: no engine/prompt changes here, the one paid run is reserved for Phase 3's live walk). After build: 89/89 · typecheck · build clean · health endpoint proven on a real boot. Nothing committed yet — commit lands on the green light.
+Triple-checked 2026-07-08 for Carl's night run: production-mode boot proven locally (Render's PORT + built SPA + deep links + health), origin-guard deploy-blocker fixed test-first, [TONIGHT.md](../../../../TONIGHT.md) runbook at repo root (temporary — delete at close-out). Folder moved to docs/plans/doing/ in the repo-wide reorg (links fixed).
+Phase 1 ✅ green-lit + committed 2026-07-08 (`1b67f792`). Baseline before changes: `npm test` 88/88, typecheck clean (free checks — gate not run: no engine/prompt changes here, the one paid run is reserved for Phase 3's live walk). After build + double-check: **96/96** (whole-tree) · typecheck · build clean · health + origin fence proven on real boots. Next: Phase 2 (blueprint + `RENDER_SETUP.md`).
 
 ## Parked
 - Persistent disk for `logs/` run artifacts (paid add-on) — revisit if losing run detail between deploys starts to hurt.
