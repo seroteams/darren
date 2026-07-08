@@ -1,6 +1,9 @@
 # Phase 2 — Queue-shape gates
 
-**Part of:** [PLAN.md](plan.md) · **Status:** 🔨 built, awaiting product-owner walk
+## ✅ GREEN-LIT 2026-07-08
+Carl said "CLOSE IT" — console fixture-walk waived (his call; the mechanical proof is the unit suite). Free proof on close: `npm test` **98/98** whole-tree, incl. `queue-manager.test.ts` (9 tests) · typecheck clean · $0.
+
+**Part of:** [PLAN.md](plan.md) · **Status:** ✅ green-lit + committed
 
 ## Build note — dangling ref_alias (deviation from the plan, reasoned)
 The plan listed "dangling ref_alias → **drop**". On reading the code, `reconcileQueue` **already enforces the intent, more safely**: a non-null `ref_alias` that isn't in the remaining queue is logged and the item is **re-validated as a brand-new question** (fresh alias, `source: planner_added`) — it must pass name-shape, repeat, eligibility, arc, and grounding gates on its own. So a hallucinated alias can never carry a real question's identity forward. A hard *drop* would be strictly worse: it would bin good reworded questions where the model merely mangled the alias but wrote valid, grounded text. **Decision: keep the sanitize-to-new recovery; do not add a destructive drop.** (Same shape as "description stays" and "clamp/relational already in code".) If Carl prefers a hard drop, it's a one-line change — flagged for his call.

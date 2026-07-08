@@ -21,12 +21,22 @@ The prompt [content/prompts/plan-turn.md](../../../content/prompts/plan-turn.md)
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Item-shape gates | Per-item validation in reconcile: axis-id whitelist, name ≤18 words, all-8-keys present → repair or drop | ✅ green-lit + committed `0d4325f1` |
-| 2 | Queue-shape gates | Cross-item gates in the planTurn gate sequence: budget length, closer-on-final-turn (+ regression tests; dangling ref_alias already enforced by reconcile — see phase-2 build note) | 🔨 built, awaiting walk |
-| 3 | Note-tag leak strip | **Trace found no live leak.** Locked the safe state instead: guard test + comment so the customer-facing evaluation input never starts carrying the tagged note | 🔨 built, awaiting walk |
+| 2 | Queue-shape gates | Cross-item gates in the planTurn gate sequence: budget length, closer-on-final-turn (+ regression tests; dangling ref_alias already enforced by reconcile — see phase-2 build note) | ✅ green-lit + committed |
+| 3 | Note-tag leak strip | **Trace found no live leak.** Locked the safe state instead: guard test + comment so the customer-facing evaluation input never starts carrying the tagged note | ✅ green-lit + committed |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
-## Current state
+## Current state — ✅ TRACK CLOSED 2026-07-08
+**All 3 phases green-lit by Carl ("CLOSE IT"), $0 total spend.** Carl waived the free console fixture-walk for P2/P3 (his call — the mechanical proof is the unit suite) and accepted the Phase 3 deviation (guard-test-instead-of-stripper, reasoned below). Free proof re-verified on close: `npm test` **98/98** whole-tree · typecheck clean · **no paid runs**.
+
+- **Phase 1 ✅ green-lit + committed (`0d4325f1`).** Item-shape gates in reconcile.
+- **Phase 2 ✅ green-lit + committed** ([queue-manager.ts](../../../backend/engine/queue-manager.ts)): `enforceCloserOnFinalTurn` + `enforceBudgetLength` wired at the end of the planTurn gate sequence; 9 tests in `queue-manager.test.ts` incl. 2 regression locks. Dangling ref_alias already enforced by reconcile (sanitize-to-new); no destructive drop added.
+- **Phase 3 ✅ green-lit + committed** ([evaluation-inputs.ts](../../../backend/api/services/sessions/evaluation-inputs.ts)): **deviated from its own plan by design** — a full trace found no live note-tag leak (the tagged `TranscriptEntry.note` reaches only the manager dashboard + decision-logic parsers that need it; the customer eval input already excludes it). Adding `stripEngineTags` would be speculative code (CLAUDE.md §2), so locked the safe state instead: intent comment + guard test (`evaluation-inputs.test.ts`) asserting a `[SHALLOW]`-tagged note never surfaces in the customer-facing evaluation input. If a real export/email path for the note is ever added, revisit with a sanitizer at that boundary. Full reasoning in [phase-3.md](phase-3.md).
+
+**Follow-ups parked (see ## Parked + ## Input from overnight QA below):** thread-follow drift + growth-arc stage-skip are *behaviour* findings, a likely separate plan — not closed here.
+
+<details><summary>Build history (pre-close)</summary>
+
 **Carl said "complete all phases" (batch build). Phases built back-to-back, TDD + free checks, committed locally, each 🔨 "built — awaiting your walk" (NOT self-certified ✅ — the green light is still Carl's).**
 
 - **Phase 1 ✅ green-lit + committed (`0d4325f1`).**
@@ -47,6 +57,8 @@ The prompt [content/prompts/plan-turn.md](../../../content/prompts/plan-turn.md)
 - **Not committed yet** — waiting on green light (method: green light = commit). On green light I'll commit path-scoped and refresh STATUS.md.
 
 **Baseline note (cost):** `npm run gate` is paid (~$3). Used free `npm test` as the baseline per the cost rule; paid gate only on Carl's explicit OK.
+
+</details>
 
 ## Parked
 - "Cut `description` from the contract" — **not needed**, it's consumed by the admin UI. Closed.

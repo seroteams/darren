@@ -1,6 +1,9 @@
 # Phase 3 — Note-tag leak strip
 
-**Part of:** [PLAN.md](plan.md) · **Status:** 🔨 built, awaiting product-owner walk
+## ✅ GREEN-LIT 2026-07-08
+Carl said "CLOSE IT" and **accepted the deviation** below: no `stripEngineTags` (would be speculative — the trace found no live leak), the safe state locked with a guard test + comment instead. The "Done when" checklist further down describes the *original* stripper plan and is intentionally left unticked; the "What was actually built" section is the shipped truth. Free proof on close: `npm test` **98/98** incl. `evaluation-inputs.test.ts` guard · typecheck clean · $0.
+
+**Part of:** [PLAN.md](plan.md) · **Status:** ✅ green-lit + committed (deviation accepted)
 
 ## Build note — the leak doesn't exist today (full trace changed the scope)
 The plan assumed engine note-tags leak into an employee-facing / evaluation payload (based on the exploration). A full trace of the *tagged* field (`TranscriptEntry.note` = the planner's per-turn `assessment.note`, distinct from manager-captured `session.notes`) shows it reaches only:
