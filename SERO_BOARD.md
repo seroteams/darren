@@ -31,6 +31,12 @@ intent", "thin notes") were already handled — closed by evidence, no build. Th
 in the plan, each blocked on a Carl decision or spend: **#1** stonewall exit (turn-loop behaviour) · **B2** refuse a
 weak brief (live-path) · **#4** paid coverage past the bi-weekly. Not a feature; engine-honesty tooling.
 
+**✅ Closed (2026-07-08): [hide-ai-words](docs/plans/done/hide-ai-words/plan.md) — managers can hide / restore the AI's role words.**
+On "Words of each role": hover a word → trash it; it collects in a "Hidden words (N)" put-back area. Engine-honest:
+the AI's generated file is never rewritten — the overlay sidecar records the manager's choice, fully reversible —
+and hidden words stop being used in real 1:1s. 2 phases, both Carl-walked; $0 spend. Parked in the plan: edit
+wording, bulk hide, hidden-count badge.
+
 **✅ Closed (2026-07-07, risk closed 2026-07-08): [CTOCheckJuly](docs/plans/done/cto-check-july/README.md)** —
 did *thin* manager input give a good brief, questions & summary? **Answer: YES** — brief 🟢 + summary 🟢 +
 questions 🟢, all proven on the current model. The one deferred risk (vague-note fabrication in the question

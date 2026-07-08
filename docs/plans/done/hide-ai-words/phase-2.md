@@ -1,6 +1,9 @@
 # Phase 2 — Frontend hide / restore UI
 
-**Part of:** [PLAN.md](plan.md) · **Status:** ⬜
+## ✅ GREEN-LIT 2026-07-08
+Carl walked the 6 browser scenarios on `localhost:3000/job-lexicons` and passed them ("its done"). Free checks at close: `npm test` 96/96 · typecheck:admin clean. Code was committed via checkpoint `cf8cdabe`.
+
+**Part of:** [PLAN.md](plan.md) · **Status:** ✅ done (tested + green-lit)
 
 ## Goal
 On the "Words of each role" page, let the manager hide an AI word with one click and restore it from a "Hidden words" area — using the endpoints built in Phase 1.
@@ -25,10 +28,10 @@ Hovering an AI word row reveals a **delete (trash) control** on that row. Click 
 - Editing wording, bulk hide, hidden-count badge in the left list (Parked).
 
 ## Done when
-- [ ] Hiding a word removes it from the list and it appears under "Hidden words"; restoring brings it back to its group.
-- [ ] Refresh keeps hidden words hidden (persisted via Phase 1).
-- [ ] `npm run typecheck:admin` stays green.
-- [ ] Product owner has tested the scenarios below and said go
+- [x] Hiding a word removes it from the list and it appears under "Hidden words"; restoring brings it back to its group.
+- [x] Refresh keeps hidden words hidden (persisted via Phase 1).
+- [x] `npm run typecheck:admin` stays green.
+- [x] Product owner has tested the scenarios below and said go
 
 ## Test scenarios — for the product owner
 Walk through these on `localhost:3000/job-lexicons`. Next step waits for your green light.

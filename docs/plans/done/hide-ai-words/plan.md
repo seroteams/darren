@@ -17,14 +17,14 @@ On the "Words of each role" page you can add and remove **your own** words, but 
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Backend save-layer + API | Overlay gains `hidden_terms`; engine drops hidden words at runtime; list marks them; hide/unhide endpoints + api.js helpers; tests | ✅ |
-| 2 | Frontend hide / restore UI | Hover-reveal delete on AI rows, "Hidden words (N)" restore area, wired to the endpoints | 🔨 |
+| 2 | Frontend hide / restore UI | Hover-reveal delete on AI rows, "Hidden words (N)" restore area, wired to the endpoints | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 ✅ done + committed (`9a6f1ca9`) — Carl green-lit the backend QA. 62/62 tests, typecheck clean.
-Phase 2 🔨 built, awaiting Carl's browser QA. Live-verified the render + hover: 17 AI rows each get a trash control, opacity 0 by default → 1 on hover, sits inline on desktop. typecheck:admin clean. The click→persist path is proven at the engine level (Phase 1) but NOT yet clicked in a browser — Carl's running dev server predates the new backend routes, so **he must restart `npm run dev`** before the delete/put-back actually saves.
-Related work still uncommitted: the seniority-grouped master–detail redesign of this same page ([admin/src/stages/job-lexicons.js](../../../admin/src/stages/job-lexicons.js)) — awaiting Carl's QA; Phase 2 builds on top of it.
+**TRACK CLOSED 2026-07-08 — both phases green-lit by Carl.**
+Phase 1 ✅ green-lit + committed (`9a6f1ca9`) — backend overlay `hidden_terms`, engine drop at runtime, hide/unhide endpoints. 62/62 tests.
+Phase 2 ✅ green-lit 2026-07-08 ("its done") — hover-reveal trash on AI rows, "Hidden words (N)" put-back area, wired to the endpoints (code committed earlier via checkpoint `cf8cdabe`). Re-verified same day before the walk: `npm test` 96/96, typecheck:admin clean, routes live on the running server. Carl walked the 6 browser scenarios and passed them.
 
 ## Parked
 - **Editing the wording** of AI words (not just hiding) — Carl chose hide-only as the first step. Same overlay-override mechanism would extend to it later.
