@@ -9,6 +9,16 @@
 ---
 
 ## Where we are now
+- **2026-07-08 (night)** — **Sero is HOSTED. render-deploy P1–P3 done; live at https://sero-obwq.onrender.com.**
+  Render free plan (Frankfurt) via a `render.yaml` blueprint that auto-deploys on every push to `main`. Lessons
+  worth keeping: (1) the pre-existing origin guard was **localhost-only** — it would have 403'd every browser
+  save on the real host; a hosting task must audit any same-origin/CORS/cookie-`Secure` assumption baked in
+  during localhost-only development, not just the build/start commands. (2) `npm ci` **drops devDependencies**
+  under `NODE_ENV=production`, so a Vite build needs `--include=dev`. (3) The env-guard's live/local DB assertion
+  turned the "paste the right DATABASE_URL" risk into a **fail-safe** (wrong DB = refuse to boot, not silent
+  cross-env writes) — worth having before any hosting. (4) A production **dress-rehearsal boot** locally
+  (real `NODE_ENV`+`PORT`+built SPA) caught the serving path before Render did. P4 (/commit + /release skills)
+  building next.
 - **2026-07-08** — **pre-go-live track CLOSED (9/9).** PG9 (Tidy-up merge/rename + roll-ups) green-lit in
   Carl's blanket "go to everything waiting on me" — the same go that closed frontend-admin-split (P4,
   customer-only serving fence) and plan-turn-runner-gates (all 3 phases) in their own sessions. Lesson

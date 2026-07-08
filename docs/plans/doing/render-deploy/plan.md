@@ -29,13 +29,13 @@
 |---|---|---|---|
 | 1 | Pre-flight fixes | Node pinned, `/api/v1/health`, `.secrets/` ignored | ✅ |
 | 2 | Blueprint + checklist | `render.yaml` + `RENDER_SETUP.md` + checkpoint commit | ✅ |
-| 3 | Go live | Carl sets up Render; API key in `.secrets/`; deploy verified live | ⬜ |
-| 4 | /commit + /release skills | The two-word local→live workflow | ⬜ |
+| 3 | Go live | Carl sets up Render; API key in `.secrets/`; deploy verified live | ✅ |
+| 4 | /commit + /release skills | The two-word local→live workflow | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## 🎉 LIVE — https://sero-obwq.onrender.com (2026-07-08 night)
-Deploy went green. P1 ✅, P2 ✅, **P3 deployed + agent-verified live** (Render API `live` + real health/homepage/deep-link 200s; booted against Sero Live Neon, env-guard passed). Only Carl's own paid live run (~$0.35) remains to close P3 formally. Render API key + service id in `.secrets/` (gitignored). **Next: P4 — /commit + /release skills.** Follow-ups: rotate the live DB password (passed through chat); optional custom domain.
+Deploy went green. P1 ✅, P2 ✅, **P3 ✅ green-lit** — Carl did the paid live run (log in + one 1:1 on the live site, ~$0.35, worked). Render API key + service id in `.secrets/` (gitignored). **P4 🔨 building now: /commit + /release skills.** Follow-ups: rotate the live DB password (passed through chat — Carl deferred); optional custom domain.
 
 ## Current state
 Triple-checked 2026-07-08 for Carl's night run: production-mode boot proven locally (Render's PORT + built SPA + deep links + health), origin-guard deploy-blocker fixed test-first, [TONIGHT.md](../../../../TONIGHT.md) runbook at repo root (temporary — delete at close-out). Folder moved to docs/plans/doing/ in the repo-wide reorg (links fixed).
