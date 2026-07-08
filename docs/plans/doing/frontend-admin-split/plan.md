@@ -18,14 +18,23 @@ Right now there is **one** app. `admin/` is a single Vite SPA that serves *both*
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Shared foundation | Pull the genuinely-shared, non-branching machinery (api/sse client, generic UI primitives, base styles) into a `shared/` spot both apps import. `state`/`router` are split later, not moved. **Nothing visibly changes.** | ✅ |
-| 2 | Stand up the customer app | A real second Vite app in `frontend/` that imports `shared/` + only the customer stages. Served on its own dev port. Admin app untouched. | 🔨 built, awaiting walk |
-| 3 | Slim the admin app | Remove the now-duplicated customer-only stages from the admin build so `admin/` is internal tooling only. **Also covers QA finding F-005** (overnight sweep 2026-07-06): the internal persona-bench controls in the shared `start.js` currently ship in the customer bundle DOM (hidden at runtime) — the physical stage split removes them from the bundle entirely. | ⬜ |
+| 2 | Stand up the customer app | A real second Vite app in `frontend/` that imports `shared/` + only the customer stages. Served on its own dev port. Admin app untouched. | ✅ |
+| 3 | Slim the admin app | Remove the now-duplicated customer-only stages from the admin build so `admin/` is internal tooling only. **Also covers QA finding F-005** (overnight sweep 2026-07-06): the internal persona-bench controls in the shared `start.js` currently ship in the customer bundle DOM (hidden at runtime) — the physical stage split removes them from the bundle entirely. | 🔨 |
 | 4 | Serve + fence the two apps | API serves the customer app at the public root; admin app served on its own internal route/deploy; prove no secrets/tools in the customer bundle. | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 2 🔨 BUILT 2026-07-05 — awaiting Carl's walk (restarted on the Darren check: this is "the single most visible proof of progress").**
+**Phase 2 ✅ GREEN-LIT by Carl 2026-07-08 — next: Phase 3 (slim the admin app).**
+- Walked + approved 2026-07-08 after a $0 pre-walk verification in the preview browser: manager
+  login on :3002 → Home, customer-only rail, `/universe`/`/tasks` bounce to Home on full page
+  loads, no console errors, admin app on :3000 untouched. Phase 2 code was already committed
+  (`4568bdb7` + follow-ups); this close-out commits the tracker updates.
+- **Also confirmed 2026-07-08:** the split now matters for hosting — the render-deploy track
+  serves `admin/dist` at the public URL, so finishing Phases 3–4 is what makes the public URL
+  customer-only. Carl chose to do the split now (option A) before/alongside going live.
+
+**Phase 2 build detail (2026-07-05):**
 - **What landed:** `frontend/` is now a real second Vite app — own `index.html`, `vite.config.js`
   (port **3002**, `/api` proxy to 3001), `tailwind`/`postcss` configs reusing the admin theme, and a
   customer-only `src/main.js` + `src/router.js` + `src/ui/app-nav.js`. The customer stage modules are

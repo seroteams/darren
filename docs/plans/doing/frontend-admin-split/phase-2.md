@@ -1,6 +1,13 @@
 # Phase 2 — Stand up the customer app
 
-**Part of:** [PLAN.md](plan.md) · **Status:** ⬜
+**Part of:** [PLAN.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-08
+Carl walked the scenarios and green-lit ("A" on the walk offer). Pre-walk verification ran the same
+day in the preview browser at $0: login on :3002 → manager Home, rail = Home · New 1:1 · Team ·
+Past 1:1s only, `/universe` + `/tasks` full-page loads bounce to Home, zero console errors, admin
+app on :3000 untouched. Known + planned: shared topbar/notes-panel DOM still ships hidden — Phase 3
+removes it physically (F-005).
 
 ## Goal
 Bring `frontend/` to life as a real, separate app that imports the Phase-1 `shared/` code plus **only the customer stages** — login/register, the prep flow, and member Home · Team · Runs. Admin app stays exactly as it is; now there are two apps.
@@ -16,10 +23,10 @@ Bring `frontend/` to life as a real, separate app that imports the Phase-1 `shar
 - Final hosting/serving wiring (Phase 4) — dev ports are fine here.
 
 ## Done when
-- [ ] The customer app runs on its own dev URL and a full prep run works in it.
-- [ ] No admin tool is reachable in the customer app (no route, no nav item).
-- [ ] The admin app is unchanged and still works.
-- [ ] Product owner has tested the scenarios below and said go.
+- [x] The customer app runs on its own dev URL and a full prep run works in it.
+- [x] No admin tool is reachable in the customer app (no route, no nav item).
+- [x] The admin app is unchanged and still works.
+- [x] Product owner has tested the scenarios below and said go. (Green-lit 2026-07-08.)
 
 ## Test scenarios — for the product owner
 1. **Customer app, happy path** — open the customer app's URL, log in, complete a full prep run. You should see the same prep experience as today. ❌ Not OK if any step breaks.

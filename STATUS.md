@@ -64,6 +64,13 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > - **⏸️ Parked follow-ups (decision-blocked, NOT unfinished code)** — kept in the plan for later: **#1** stonewall exit (turn-loop behaviour change, brief at [01-stonewall-exit.md](docs/plans/done/engine-improvements/01-stonewall-exit.md)) · **B2** make the engine refuse a weak brief (live-path change) · **#4** paid coverage past the bi-weekly (spends money).
 > Folder → [done/](docs/plans/done/engine-improvements/plan.md). **▶ Your move:** nothing — track closed. Un-park any follow-up as a fresh Darren-Method phase when you want it.
 
+> **✅ [hide-ai-words](docs/plans/done/hide-ai-words/plan.md) — TRACK CLOSED 2026-07-08: both phases green-lit, $0 spend.**
+> On "Words of each role" a manager can now hide any AI word (hover → trash) and put it back from a
+> "Hidden words (N)" area; the AI's file is never touched (overlay sidecar only) and hidden words stop
+> reaching real 1:1s. P1 `9a6f1ca9`; P2 walked in the browser by Carl ("its done") after a same-day
+> re-verify (96/96 tests, typecheck clean, routes live). Folder → [done/](docs/plans/done/hide-ai-words/plan.md).
+> **▶ Your move:** nothing — track closed. (Your kanban card on /tasks is browser-local — drag it to Done yourself.)
+
 > **🔨 [plan-turn-runner-gates](docs/plans/doing/plan-turn-runner-gates/plan.md) — NEW engine track (2026-07-07). ALL 3 PHASES BUILT (batch, Carl: "complete all phases") — awaiting your walk. P1 green-lit.**
 > Follow-up to the plan-turn.md prompt sharpen: promote the *mechanical* contract rules from "model is asked to
 > obey" to "runner enforces in code". Built back-to-back, TDD + free checks, committed locally; none self-certified
@@ -98,14 +105,14 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > **Walk:** the 5 scenarios in [phase-1.md](docs/plans/doing/guest-run/phase-1.md) (all free).
 > Green light → Phase 2 (the "Try it" front door). Then: ③ save-at-end (one paid walk, your go) · ④ Guest runs screen.
 
-> **🔨 [frontend-admin-split](docs/plans/doing/frontend-admin-split/plan.md) — RESTARTED on the Darren check (2026-07-05): Phase 2 BUILT, awaiting your walk.**
-> The customer app is now **real**: `npm run dev:customer` → **http://localhost:3002** — login/register,
-> the manager rail (Home · New 1:1 · Team · Past 1:1s), the whole prep flow, member screens — and **no
-> internal tools anywhere** (`/universe`, `/tasks`, `/admin/*` don't exist there; bundle grep shows zero
-> internal-tool code). Admin app on :3000 untouched. Free checks: customer build ✓ · `npm test` 69/69 ·
-> typecheck ✓ · admin build ✓. **Walk:** the 4 scenarios in the PLAN's "Current state". Green light →
-> commit + Phase 3 (slim the admin app), then Phase 4 (serve + fence = the deferred security bundle-proof).
-> Phases 3–4 wait for your go — one at a time.
+> **🔨 [frontend-admin-split](docs/plans/doing/frontend-admin-split/plan.md) — Phase 2 ✅ GREEN-LIT (2026-07-08) · Phase 3 (slim the admin app) STARTING.**
+> The customer app is **real and approved**: `npm run dev:customer` → **http://localhost:3002** — login,
+> manager rail (Home · New 1:1 · Team · Past 1:1s), prep flow, member screens, **no internal tools**
+> (`/universe`/`/tasks` bounce to Home on full page loads — re-proven in the browser 2026-07-08, $0).
+> **Why it's live again:** render-deploy serves `admin/dist` at the public URL, so Phases 3–4 are what
+> make the public URL customer-only (Carl picked "split now", 2026-07-08). **Phase 3 next:** strip the
+> customer-only stages out of the admin build (also kills QA finding F-005 — hidden persona-bench DOM
+> in the customer bundle). Then Phase 4 (serve + fence = the bundle-proof). One at a time.
 
 > **🔨 [manager-ready](docs/plans/doing/manager-ready/plan.md) — Phase 1 ✅ green-lit + committed · Phase 2 BUILT, awaiting walk (2026-07-05).**
 > **P1 ✅ ("looks good continue"):** managers get their own rail — **Home · New 1:1 · Team · Past 1:1s** — and
@@ -118,15 +125,17 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > ⚠️ Commit note: `design.css` also holds the mobile track's uncommitted CSS — on your green light their phases
 > should commit first (or one commit declares both).
 
-> **🔨 [page-heartbeat](docs/plans/doing/page-heartbeat/plan.md) — real UPDATE buttons (started 2026-07-05).**
-> From the 25-page audit: Guide, Universe and the Tasks board were hand-typed snapshots of the app;
-> everything else already refreshes itself. 3 phases: ① heartbeat endpoint + Guide · ② Universe ring ·
-> ③ Tasks board reality check (warns, never rewrites your statuses).
-> **Phase 1 ✅ — walked + green-lit by Carl 2026-07-05 ("ALL GOOD"), code committed `4e4ea787`.**
-> `GET /api/v1/heartbeat` re-reads the repo per request; /guide's Screens + Commands render from it and
-> "Check for changes" reports adds/removals in plain words (proven with a dummy file, both directions).
-> `npm test` 65/65 · both typechecks clean. **Next: Phase 2 — Universe's pipeline ring goes honest** (⬜,
-> waiting for Carl's go).
+> **🔨 [page-heartbeat](docs/plans/doing/page-heartbeat/plan.md) — real UPDATE buttons. Phase 1 ✅ · Phase 3 BUILT + committed, awaiting your walk (re-checked 2026-07-08) · Phase 2 ⬜.**
+> From the 25-page audit: Guide, Universe and the Tasks board were hand-typed snapshots of the app.
+> **Phase 1 ✅** — green-lit 2026-07-05 ("ALL GOOD"), committed `4e4ea787`: `GET /api/v1/heartbeat` +
+> /guide renders live with a plain-words changelog.
+> **Phase 3 🔨 BUILT (jumped ahead — you asked for the /tasks button directly), awaiting your walk.**
+> The planner fills itself from the live plan folders: **Update from docs** reconciles auto-managed
+> "Docs" cards (add/update/move/remove, your own cards never touched — your pick, option A), and since
+> `1e9a42b4` the board also quietly syncs on open (hardcoded seed removed). Re-verified 2026-07-08:
+> code committed + intact, `npm test` **96/96**, both typechecks clean.
+> **▶ Your move:** walk Phase 3 — the 4 scenarios in [phase-3.md](docs/plans/doing/page-heartbeat/phase-3.md)
+> (needs the :3001 API on current code). Green light → Phase 2 (Universe ring).
 
 > **🔨 [user-management](docs/plans/doing/user-management/plan.md) Phase 3 — deactivate / reactivate a user: STARTING (2026-07-05).**
 > Nullable `deactivatedAt` on `users` + `POST …/deactivate` & `…/reactivate`; login must reject deactivated users;

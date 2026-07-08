@@ -84,6 +84,21 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **frontend-admin-split Phase 2 (stand up the customer app) green-lit.** The customer
+  app on :3002 is approved: customer-only rail, `/universe`/`/tasks` bounce to Home, admin app untouched.
+  **Lesson:** the "double check this still needs doing" ask paid off — not because the work was stale
+  (it builds clean and shares screens live from `admin/src`), but because it surfaced a collision:
+  render-deploy serves `admin/dist` at the *public* URL, so this split's Phases 3–4 quietly became the
+  thing that makes the public URL customer-only. Re-derive a parked track's *why* against the newest
+  tracks before resuming it, not just its code health. Also: a $0 agent pre-walk (drive the QA scenarios
+  in the preview browser first) turned Carl's walk into a 2-minute confirm instead of a debugging session.
+- **2026-07-08** — **hide-ai-words → TRACK CLOSED (2/2 phases Carl-walked, $0 spend).** Managers hide / restore
+  the AI's role words on "Words of each role"; overlay sidecar records the choice, the AI's file is untouched,
+  hidden words drop out of real 1:1s. **Lesson:** the phase sat "awaiting QA" for 3 days while its blocker note
+  ("restart your dev server first") had silently gone stale — a five-minute re-verify (probe the running server:
+  401 not 404) turned a stuck card into a same-day close. Re-check a track's *blockers* before assuming it's
+  still blocked. Also: Phase 2's code had been swept into a checkpoint commit (`cf8cdabe`) by another session —
+  the plan's "uncommitted" note was wrong; trust `git log -S`, not the plan's memory of git state.
 - **2026-07-08** — **engine-improvements (back-catalogue read) green-lit — TRACK CLOSED, $0 spend.** Reading all
   169 runs' manager inputs produced a 5-item list that, after validating each against real recorded engine output,
   shrank to **one** real code fix: the smoke-test gate checked only 6 of the engine's 8 required prep keys, blind to
