@@ -84,6 +84,14 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **page-heartbeat Phase 3 (planner syncs from plan folders) green-lit after a staged
+  live walk; only Phase 2 (Universe ring) left.** /tasks now fills itself from `docs/plans/doing/` on
+  open and "Update from docs" reconciles the Docs cards (hand-added cards untouched — Carl's option A).
+  The walk staged real repo changes step-by-step (flip a phase status → card pulses; move a throwaway
+  plan folder to done/ → card fades; delete it → card removed), then cleaned every artifact up.
+  **Lesson:** a "built, awaiting walk" card had quietly been *extended* by a later checkpoint commit
+  (`1e9a42b4` removed the seed board and added sync-on-open) — on pickup, diff what's on disk against
+  what the phase file claims before proposing the walk, and fold the extras into the same walk.
 - **2026-07-08** — **guest-run Phase 2 (guest lane frontend) green-lit ("yeah looks good"); Phase 3 starts.**
   Walked 3 days after build — and the double-check before proposing the walk paid off: two tracks had
   landed on top of the lane in between (start-screen made `/` a second guest door; people-roster put a

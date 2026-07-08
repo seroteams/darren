@@ -18,12 +18,25 @@ changes" button only covers build + meeting types + arcs — the rest of the pag
 |---|---|---|---|
 | 1 | Heartbeat endpoint + Guide goes live | `GET /api/v1/heartbeat` (screens, commands, axes, question count, build) + Guide sections render from it; UPDATE = refresh + plain-words changelog | ✅ |
 | 2 | Universe honest ring | Pipeline ring derived from the app's real flow stages; Update reports added/removed/renamed stages | ⬜ |
-| 3 | Tasks board reality check | **Re-aimed at the planner** (build board was removed): "Update from docs" syncs auto-managed "Docs" cards from `docs/plans/doing/` — lists what it checks, animates add/update/move/remove. Since extended: board auto-syncs on open, seed removed (`1e9a42b4`) | 🔨 awaiting walk |
+| 3 | Tasks board reality check | **Re-aimed at the planner** (build board was removed): "Update from docs" syncs auto-managed "Docs" cards from `docs/plans/doing/` — lists what it checks, animates add/update/move/remove. Since extended: board auto-syncs on open, seed removed (`1e9a42b4`) | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 3 🔨 built + committed — awaiting Carl's walk. Phase 2 (Universe ring) still ⬜.** Built 2026-07-05 (jumped ahead of Phase 2 because Carl asked for the /tasks Update button directly); re-aimed at the planner after the build board was removed the same day; option A (Update only touches its own "Docs" cards). Since then (`1e9a42b4`, 2026-07-08) it went further: the hardcoded seed board is gone — /tasks now fills itself from the live plan folders on open (quiet sync, no modal), "Reset" became "Reset from docs". Re-verified 2026-07-08: code intact + committed, `npm test` 96/96, both typechecks clean. Walk = the 4 scenarios in [phase-3.md](phase-3.md).
+**Phase 3 ✅ green-lit by Carl 2026-07-08 after a full live walk. Only Phase 2 (Universe ring) left ⬜ — waiting for Carl's go.**
+
+Phase 3 walk record (2026-07-08, all free): Carl walked all 4 scenarios live on /tasks — board
+fills itself on open + "Update from docs" reconciles ①, hand-added cards untouched ②, a staged
+phase-status flip made the card pulse 1/3→2/3 ③, and a throwaway plan folder appeared, faded to
+Done when moved to `done/`, and vanished when deleted ④. Test artifacts fully cleaned up.
+Code was already committed (build 2026-07-05 + auto-sync-on-open extension `1e9a42b4`);
+`npm test` 96/96 · both typechecks clean.
+
+Phase 3 detail: built 2026-07-05 (jumped ahead of Phase 2 because Carl asked for the /tasks Update
+button directly); re-aimed at the planner after the build board was removed the same day; option A
+(Update only touches its own "Docs" cards). The `1e9a42b4` extension removed the hardcoded seed —
+/tasks now fills itself from the live plan folders on open (quiet sync, no modal), "Reset" became
+"Reset from docs".
 
 Phase 1 ✅ — walked + green-lit by Carl 2026-07-05 ("ALL GOOD"); code committed `4e4ea787`.
 

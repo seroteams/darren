@@ -1,6 +1,10 @@
 # Phase 3 — Tasks board reality check
 
-**Part of:** [PLAN.md](plan.md) · **Status:** 🔨 built — awaiting Carl's walk
+## ✅ GREEN-LIT 2026-07-08
+Carl walked all 4 scenarios live ("done") — add/sync on open, own cards untouched, status-move
+pulse, and the move-to-done fade + delete-removal via a throwaway plan folder. Closed same day.
+
+**Part of:** [PLAN.md](plan.md) · **Status:** ✅ green-lit 2026-07-08
 
 > **Re-aimed 2026-07-05.** The original spec here checked the *build-phases board*
 > that used to live on /tasks. Carl had that board removed the same day (it was all
@@ -34,8 +38,8 @@ touches those Docs cards — your own cards are untouched.
   commits parked)
 
 ## Done when
-- [x] `npm test` green (heartbeat 13/13) · both typechecks clean
-- [ ] Product owner has walked the scenarios below and said go
+- [x] `npm test` green (heartbeat 13/13; 96/96 at close) · both typechecks clean
+- [x] Product owner has walked the scenarios below and said go (2026-07-08)
 
 ## Test scenarios — for the product owner
 > ⚠️ Needs the local API (:3001) running **on this new backend code** — the shared
