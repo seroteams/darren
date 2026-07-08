@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sero — Claude Usage Retrospective · Jul 8 2026</title>
+<style>
+  :root{
+    --bg:#f5fafd; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7c; --line:#e3ebf2;
+    --blue:#2563eb; --blue-soft:#eaf1ff;
+    --green:#15925a; --green-bg:#e7f6ee; --amber:#b7791f; --amber-bg:#fdf6e6; --red:#c0392b; --red-bg:#fdecea;
+    --shadow:0 1px 3px rgba(20,40,70,.06),0 6px 20px rgba(20,40,70,.05);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:22px 18px 60px}
+  h1,h2,h3{font-family:"Bricolage Grotesque","Inter",sans-serif;line-height:1.2;margin:0}
+  h2{font-size:19px;margin:36px 0 12px;letter-spacing:-.01em}
+  h3{font-size:15px;margin:18px 0 8px}
+  a{color:var(--blue)}
+  .muted{color:var(--muted)}
+  code{background:#eef3f8;border-radius:4px;padding:1px 5px;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .small{font-size:13px}
+
+  .banner{border-radius:16px;padding:22px 24px;box-shadow:var(--shadow);border:1px solid var(--line);
+    display:flex;gap:20px;align-items:center;flex-wrap:wrap;background:linear-gradient(180deg,#ffffff,#eef4ff)}
+  .verdict-dot{font-size:46px;line-height:1}
+  .banner h1{font-size:26px}
+  .banner .sub{color:var(--muted);margin-top:4px;font-size:14.5px;max-width:720px}
+  .banner .meta{margin-left:auto;text-align:right;font-size:13px;color:var(--muted)}
+  .pill{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:999px;
+    padding:3px 11px;font-size:12.5px;font-weight:600;margin-top:6px}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:16px}
+  .sc{background:var(--card);border:1px solid var(--line);border-left-width:4px;border-radius:12px;padding:12px 13px;box-shadow:var(--shadow)}
+  .sc .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+  .sc .val{font-size:23px;font-weight:700;font-family:"Bricolage Grotesque","Inter",sans-serif;margin-top:3px}
+  .sc .note{font-size:12px;color:var(--muted);margin-top:2px}
+  .sc.b{border-left-color:var(--blue)} .sc.g{border-left-color:var(--green)} .sc.a{border-left-color:var(--amber)} .sc.r{border-left-color:var(--red)}
+  .sc.b .val{color:var(--blue)} .sc.g .val{color:var(--green)} .sc.a .val{color:var(--amber)} .sc.r .val{color:var(--red)}
+
+  table{border-collapse:collapse;width:100%;font-size:13.5px;margin-top:6px;background:var(--card);
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+  th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#f4f8fc;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  tr:last-child td{border-bottom:none}
+  td.now{white-space:nowrap}
+
+  .usagebars{margin-top:10px}
+  .ub{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+  .ub .lbl2{flex:none;width:230px;font-size:13.5px}
+  .ub .track{flex:1;height:16px;background:#edf2f7;border-radius:8px;overflow:hidden}
+  .ub .fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#4b83f0,#2563eb)}
+  .ub .n{flex:none;width:46px;font-weight:700;font-size:13px;text-align:right}
+
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:12px}
+  .kw{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;box-shadow:var(--shadow)}
+  .kw .say{font-family:"Bricolage Grotesque","Inter",sans-serif;font-weight:700;font-size:16px}
+  .kw .say code{font-size:14px;background:var(--blue-soft);color:var(--blue);font-weight:700}
+  .kw .what{font-size:13.5px;color:var(--muted);margin-top:5px}
+  .kw .home{font-size:12.5px;margin-top:7px}
+
+  .callout{background:var(--amber-bg);border:1px solid #efd9a7;border-radius:12px;padding:12px 16px;margin-top:12px;font-size:14px}
+  .callout.green{background:var(--green-bg);border-color:#bfe5cd}
+  .ok{color:var(--green);font-weight:700} .warn{color:var(--amber);font-weight:700} .bad{color:var(--red);font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="banner">
+    <div class="verdict-dot">🔭</div>
+    <div>
+      <h1>Claude Usage Retrospective</h1>
+      <div class="sub">Every session read back — what you actually use Claude for, what kept repeating, and where the approach went wrong. Every answer now lives in a file, not a memory.</div>
+      <span class="pill">434 sessions · 2 May → 7 Jul 2026</span>
+    </div>
+    <div class="meta">Generated 8 Jul 2026<br>All analysis free — $0.00 API spend</div>
+  </div>
+
+  <div class="cards">
+    <div class="sc b"><div class="lbl">Sessions read</div><div class="val">434</div><div class="note">May 17 · Jun 266 · Jul 151</div></div>
+    <div class="sc b"><div class="lbl">New skills</div><div class="val">4</div><div class="note">checkpoint · phase-close · night-test · safe-commit</div></div>
+    <div class="sc g"><div class="lbl">Templates added</div><div class="val">3</div><div class="note">findings · run-context · real-wiring</div></div>
+    <div class="sc g"><div class="lbl">Hook wired</div><div class="val">1</div><div class="note">guardrails now auto-inject</div></div>
+    <div class="sc a"><div class="lbl">Memories pruned</div><div class="val">6</div><div class="note">+ 7 rewritten as pointers</div></div>
+    <div class="sc a"><div class="lbl">CLAUDE.md</div><div class="val">−40%</div><div class="note">procedures moved to skills</div></div>
+  </div>
+
+  <h2>Q1 — What do you actually use Claude for?</h2>
+  <p>Not mostly building. Your single biggest use is <b>orientation and judgment</b> — audits, "where are we", QA of runs — with UI polish and phase planning close behind. You run Claude as a non-technical founder's engine room: <i>"I need decisions, not code."</i></p>
+  <div class="usagebars">
+    <div class="ub"><div class="lbl2">Audits / status / "where are we"</div><div class="track"><div class="fill" style="width:100%"></div></div><div class="n">~85</div></div>
+    <div class="ub"><div class="lbl2">UI / design / polish</div><div class="track"><div class="fill" style="width:96%"></div></div><div class="n">~82</div></div>
+    <div class="ub"><div class="lbl2">Phase planning / boards</div><div class="track"><div class="fill" style="width:92%"></div></div><div class="n">~78</div></div>
+    <div class="ub"><div class="lbl2">QA / run reviews / fixes</div><div class="track"><div class="fill" style="width:65%"></div></div><div class="n">~55</div></div>
+    <div class="ub"><div class="lbl2">Prompt / engine tuning</div><div class="track"><div class="fill" style="width:55%"></div></div><div class="n">~47</div></div>
+    <div class="ub"><div class="lbl2">Backend / DB / auth builds</div><div class="track"><div class="fill" style="width:35%"></div></div><div class="n">~30</div></div>
+    <div class="ub"><div class="lbl2">"Start localhost" (throwaway)</div><div class="track"><div class="fill" style="width:31%"></div></div><div class="n">~26</div></div>
+    <div class="ub"><div class="lbl2">"Commit / push everything"</div><div class="track"><div class="fill" style="width:25%"></div></div><div class="n">~21</div></div>
+  </div>
+  <div class="callout green"><b>What this means:</b> the biggest wins from making things reusable aren't coding shortcuts — they're one-word rituals for the bookkeeping you do dozens of times: checkpoints, phase closes, run reviews.</div>
+
+  <h2>Q2 — Repeated tasks that were never made reusable</h2>
+  <table>
+    <tr><th>Task</th><th>How often</th><th>What kept happening</th><th>Now lives in →</th></tr>
+    <tr><td>Run-review context block</td><td>every review</td><td>You hand-pasted "Report / Role / Seniority / Meeting type / Log folder…" each time, even with /reviewrun</td><td class="now"><a href="../../.claude/skills/reviewrun/resources/run-context-template.md">reviewrun skill</a> — it fills the block from the run folder itself</td></tr>
+    <tr><td>Overnight QA brief</td><td>rewritten 2× in 2 days</td><td>Same "test every page, report by morning" prompt authored from scratch</td><td class="now"><a href="../../.claude/skills/night-test/SKILL.md">night-test skill</a> — say "night test"</td></tr>
+    <tr><td>"Commit all my work"</td><td>~21 sessions</td><td>Ad-hoc each time; one blanket commit swept another session's uncommitted fix</td><td class="now"><a href="../../.claude/skills/safe-commit/SKILL.md">safe-commit skill</a></td></tr>
+    <tr><td>Status syncs / catch-me-up</td><td>~30+ sessions</td><td>Freehand until "check point" — but the ritual only lived in prose</td><td class="now"><a href="../../.claude/skills/checkpoint/SKILL.md">checkpoint skill</a></td></tr>
+    <tr><td>"Start localhost"</td><td>~26 sessions</td><td>Tiny throwaway sessions re-asking the same thing</td><td class="now">already solved — say "start the app" (preview tools + <code>.claude/launch.json</code>)</td></tr>
+  </table>
+
+  <h2>Q3 — Instructions you kept re-typing by hand</h2>
+  <table>
+    <tr><th>You kept typing…</th><th>Evidence</th><th>Now lives in →</th></tr>
+    <tr><td>Cost caps ("budget $3…", "nothing else hits the API")</td><td>2,167 mentions across 250 files</td><td class="now">CLAUDE.md §6 cost rule (canonical) + <a href="../../.claude/hooks/guardrails-reminder.txt">guardrails hook</a> money-drift check — now injected automatically every prompt</td></tr>
+    <tr><td>"Explain in plain English / I need decisions, not code"</td><td>dozens of sessions</td><td class="now">CLAUDE.md §6 (plain language + visual thinker — per-reply rules stay there by design)</td></tr>
+    <tr><td>"Split into phases, small, testable by a non-technical person"</td><td>pasted verbatim in 6+ sessions</td><td class="now"><a href="../../.claude/skills/darren-method/SKILL.md">darren-method skill</a> (already existed — templates now upgraded)</td></tr>
+    <tr><td>"Don't commit / don't overbuild / QA only"</td><td>~121 hits across 72 files</td><td class="now">safe-commit skill + night-test skill's no-fixes rule + guardrails hook scope-creep check</td></tr>
+    <tr><td>"Check point" expectations</td><td>asked for explicitly 3 Jul, re-explained after</td><td class="now"><a href="../../.claude/skills/checkpoint/SKILL.md">checkpoint skill</a></td></tr>
+  </table>
+
+  <h2>Q4 — Workflows that deserved to become skills (and now are)</h2>
+  <table>
+    <tr><th>Workflow</th><th>The repeating shape</th><th>Now lives in →</th></tr>
+    <tr><td>Checkpoint save/restore</td><td>commit + STATUS refresh + chat-log · or · read trackers → full picture</td><td class="now"><a href="../../.claude/skills/checkpoint/SKILL.md">.claude/skills/checkpoint</a></td></tr>
+    <tr><td>Phase close-out</td><td>7 files must move together — skipping one caused 3 tracker-reconciliation audits</td><td class="now"><a href="../../.claude/skills/phase-close/SKILL.md">.claude/skills/phase-close</a></td></tr>
+    <tr><td>Overnight QA sweep</td><td>free checks → capped paid runs → report + learnings + spend tally</td><td class="now"><a href="../../.claude/skills/night-test/SKILL.md">.claude/skills/night-test</a> (prompt stays canonical in <a href="../reference/night-test-prompt.md">docs/reference</a>)</td></tr>
+    <tr><td>Safe committing</td><td>classify mine-vs-foreign → path-scoped add → lettered question if mixed</td><td class="now"><a href="../../.claude/skills/safe-commit/SKILL.md">.claude/skills/safe-commit</a></td></tr>
+    <tr><td>Audit / findings write-ups</td><td>TL;DR → honest read → lettered "your move"</td><td class="now"><a href="../../.claude/skills/darren-method/resources/findings-template.md">darren-method findings template</a></td></tr>
+  </table>
+
+  <h2>Q5 — Where the approach was simply wrong (stop doing these)</h2>
+  <table>
+    <tr><th>Mistake</th><th>What it cost</th><th>The guard now</th></tr>
+    <tr><td><span class="bad">Tests that bypass the real wiring path</span> — trusting "the code routes it there"</td><td>The .env load-order bug (runs silently saved to files, not Postgres), the route-matching 404 bug, gate-verdict blindness. The most expensive recurring bug class in the project.</td><td class="now"><a href="../../.claude/skills/test-driven-development/resources/real-wiring-checklist.md">real-wiring checklist</a> in the TDD skill — verify the destination, every time</td></tr>
+    <tr><td><span class="bad">Treating one gate PASS as proof</span></td><td>Same code flipped FAIL→PASS on a re-roll; "green" meant nothing</td><td class="now">night-test skill: N samples for stability claims, or the free fixtures-only replay</td></tr>
+    <tr><td><span class="bad">Blanket commits in a shared folder</span></td><td>A checkpoint commit swept another session's uncommitted fix; parallel rewrite wiped uncommitted CSS</td><td class="now">safe-commit skill + worktrees (<code>scripts/new-worktree.ps1</code>)</td></tr>
+    <tr><td><span class="bad">Building 8 phases ahead of a decision</span></td><td>The continuity/moat track — "not what I wanted at ALL" — ripped out with a surgical revert</td><td class="now">darren-method one-phase rule + guardrails hook (pace drift + scope creep now fire automatically)</td></tr>
+    <tr><td><span class="warn">Paid runs before cost rules existed</span></td><td>Account ran out of credit mid-test (11 Jun); the big bill was test runs, not the app</td><td class="now">cost rule canonical in CLAUDE.md §6, money-drift check in the wired hook</td></tr>
+    <tr><td><span class="warn">Five status trackers, all hand-fed</span></td><td>Three separate audits existed only to fix drifted trackers</td><td class="now">phase-close skill = the one ordered checklist; two-tracker rule (<a href="../reference/trackers.md">trackers.md</a>)</td></tr>
+    <tr><td><span class="warn">Prompt tuning without a stable rubric</span></td><td>"Hard to know if I am improving" — weeks of tuning judged by feel</td><td class="now">reviewrun scorecard (Understood / Filtered / Shown) + the append-only <a href="../reference/prompt-review-ledger.md">review ledger</a> for trend arrows</td></tr>
+  </table>
+
+  <h2>Your new toolbox — one word each</h2>
+  <div class="grid2">
+    <div class="kw"><div class="say">Say <code>checkpoint</code></div><div class="what">Mid-work: saves everything (commit + STATUS + chat-log). In a fresh session: brings the whole picture back — done, awaiting QA, your move.</div><div class="home"><a href="../../.claude/skills/checkpoint/SKILL.md">checkpoint skill</a></div></div>
+    <div class="kw"><div class="say">Say <code>green light</code> / <code>tested, good</code></div><div class="what">Runs the full phase close-out: plan, STATUS, board, badges, log, changelog, commit — nothing skipped, nothing drifts.</div><div class="home"><a href="../../.claude/skills/phase-close/SKILL.md">phase-close skill</a></div></div>
+    <div class="kw"><div class="say">Say <code>night test</code></div><div class="what">The full overnight QA sweep — free checks first, paid runs capped and tallied, report waiting in the morning.</div><div class="home"><a href="../../.claude/skills/night-test/SKILL.md">night-test skill</a></div></div>
+    <div class="kw"><div class="say">Say <code>commit my work</code></div><div class="what">Path-scoped commits of this session's files only. If foreign changes are mixed in, you get an A/B/C choice — never a silent sweep.</div><div class="home"><a href="../../.claude/skills/safe-commit/SKILL.md">safe-commit skill</a></div></div>
+    <div class="kw"><div class="say">Say <code>review this run</code></div><div class="what">Full run review — and it now builds the Report/Role/Meeting-type context block itself. No more pasting it.</div><div class="home"><a href="../../.claude/skills/reviewrun/SKILL.md">reviewrun skill</a></div></div>
+    <div class="kw"><div class="say">Say <code>darren method</code> / <code>split into phases</code></div><div class="what">Plan → phases → one at a time, you green-light each. Templates now include GREEN-LIT/Built sections and a findings template for audits.</div><div class="home"><a href="../../.claude/skills/darren-method/SKILL.md">darren-method skill</a></div></div>
+    <div class="kw"><div class="say">Say <code>start the app</code></div><div class="what">Dev servers via the preview tools — no more 26 throwaway "localhost" sessions.</div><div class="home"><code>.claude/launch.json</code> (already existed)</div></div>
+    <div class="kw"><div class="say">⚠️ Guardrails — now automatic</div><div class="what">The five drift checks (goal, pace, honesty, money, scope) are injected on every message from your next session — no longer dependent on anyone remembering.</div><div class="home"><a href="../reference/guardrails.md">guardrails.md</a> + wired hook in <code>.claude/settings.json</code></div></div>
+  </div>
+
+  <h2>Under the hood — de-duplication map</h2>
+  <table>
+    <tr><th>Rule</th><th>Before</th><th>After</th></tr>
+    <tr><td>Guardrails (5 drift types)</td><td>3 copies (CLAUDE.md, guardrails.md, an <i>unwired</i> hook file)</td><td>1 canonical spec + the hook actually wired + a 1-line pointer</td></tr>
+    <tr><td>Checkpoint ritual</td><td>20 lines of CLAUDE.md prose + a memory</td><td>checkpoint skill + 2-line pointer + pointer memory</td></tr>
+    <tr><td>Status / tracker upkeep</td><td>3 long CLAUDE.md paragraphs + 2 memories</td><td>phase-close skill + 1 short rule + trimmed memories</td></tr>
+    <tr><td>Darren Method rituals</td><td>Skill + CLAUDE.md §5 duplicating each other (and disagreeing on PLAN.md casing)</td><td>Skill is canonical; §5 is 3 lines; lowercase <code>plan.md</code> everywhere</td></tr>
+    <tr><td>Stale memories</td><td>5 expired one-time facts (old budgets, done batches, cleared stashes)</td><td>deleted; 7 more rewritten as short pointers; index rebuilt</td></tr>
+    <tr><td>Old repo name "seroengine"</td><td>leftover in 3 files</td><td>renamed to <code>darren</code> everywhere</td></tr>
+  </table>
+  <div class="callout"><b>One rule stayed put on purpose:</b> the 📌 TITLE + bottom-box reply format <i>cannot</i> be a skill — skills load per-task, not per-reply — so it stays in CLAUDE.md, now annotated so it never gets "optimized" away.</div>
+
+  <p class="small muted" style="margin-top:30px">Sources: docs/chat-history (434 transcripts), 648 commits, docs/workstreams + archive, progress logs, memory files. The guardrails hook takes effect from your next session.</p>
+</div>
+</body>
+</html>
