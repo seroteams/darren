@@ -17,13 +17,21 @@ changes" button only covers build + meeting types + arcs — the rest of the pag
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Heartbeat endpoint + Guide goes live | `GET /api/v1/heartbeat` (screens, commands, axes, question count, build) + Guide sections render from it; UPDATE = refresh + plain-words changelog | ✅ |
-| 2 | Universe honest ring | Pipeline ring derived from the app's real flow stages; Update reports added/removed/renamed stages | ⬜ |
+| 2 | Universe honest ring | Pipeline ring derived from the app's real flow stages; Update reports added/removed/renamed stages | ✅ |
 | 3 | Tasks board reality check | **Re-aimed at the planner** (build board was removed): "Update from docs" syncs auto-managed "Docs" cards from `docs/plans/doing/` — lists what it checks, animates add/update/move/remove. Since extended: board auto-syncs on open, seed removed (`1e9a42b4`) | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 3 ✅ green-lit by Carl 2026-07-08 after a full live walk. Only Phase 2 (Universe ring) left ⬜ — waiting for Carl's go.**
+**✅ TRACK CLOSED 2026-07-08 — all 3 phases green-lit by Carl, $0 total spend.** The three pages that
+described the app by hand now read it live: /guide (P1), /universe's ring (P2), /tasks (P3).
+
+**Phase 2 ✅ green-lit by Carl 2026-07-08 ("yeah its ok" / "a") after the staged live walk:** same
+7-step ring on open, Update unchanged on data, then a fake "Shadow review" stage added to the real
+flow → Update announced "Pipeline step added: Shadow review." with 8 planets; revert →
+"Pipeline step removed". Detail in [phase-2.md](phase-2.md).
+
+**Phase 3 ✅ green-lit by Carl 2026-07-08 after a full live walk.**
 
 Phase 3 walk record (2026-07-08, all free): Carl walked all 4 scenarios live on /tasks — board
 fills itself on open + "Update from docs" reconciles ①, hand-added cards untouched ②, a staged

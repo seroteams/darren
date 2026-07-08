@@ -84,6 +84,15 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **page-heartbeat → TRACK CLOSED (3/3 phases Carl-walked, $0 total).** Phase 2
+  (Universe honest ring) green-lit after a staged live walk: the ring now derives from
+  `TOPBAR_STAGES` (the app's real flow) instead of a private copy; a fake stage added to the flow
+  was announced by Update both ways ("Pipeline step added/removed: Shadow review"). **Two lessons:**
+  (a) the spec missed that a ring change = a code change = a page reload that wipes the in-memory
+  diff baseline — "announce a change" features need their baseline persisted (localStorage snapshot,
+  same trick as /guide's last-check); (b) diff wording that deliberately mutes a "fixed" kind
+  (stages were excluded from the change summary) silently outlives the assumption that made it
+  true — when a constant becomes derived, grep for where its constancy was baked in.
 - **2026-07-08** — **frontend-admin-split Phase 3 (slim the admin app) green-lit.** F-005 finally dead:
   the persona bench is an admin-only module composed onto a shared benchless start core — the customer
   bundle greps zero bench/persona code. Five customer-shell files physically moved to `frontend/`;

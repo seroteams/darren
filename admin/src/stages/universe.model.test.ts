@@ -3,8 +3,9 @@
 // Rendering is canvas eye-candy and stays untested; the data shaping lives here.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, filterUniverse, focusUniverse, searchUniverse, PIPELINE } from "./universe.model.ts";
+import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, filterUniverse, focusUniverse, searchUniverse, PIPELINE, derivePipeline, ringChanges } from "./universe.model.ts";
 import type { UNode } from "./universe.model.ts";
+import { TOPBAR_STAGES } from "../ui/stage-labels.js";
 
 test("buildUniverse: empty data still yields the core and the full pipeline chain", () => {
   const { nodes, edges } = buildUniverse({});
@@ -324,4 +325,53 @@ test("describeNode: stage shows its step, core lists the pipeline, type names it
 
   const type = describeNode({ id: "type:weekly", kind: "type", label: "Weekly", sub: "", x: 0, y: 0, z: 0, r: 10 }, at);
   assert.deepEqual(type.rows, [{ k: "Kind", v: "A meeting type Sero can run" }]);
+});
+
+// ---- Phase 2 (page-heartbeat): the ring derives from the app's real flow ----
+
+test("derivePipeline: the ring IS the topbar flow — same stages, same order, friendly labels kept", () => {
+  const ring = derivePipeline(TOPBAR_STAGES);
+  assert.deepEqual(
+    ring.map((s) => ({ key: s.key, label: s.label })),
+    [
+      { key: "intake", label: "Intake" },
+      { key: "focus", label: "Focus points" },
+      { key: "prepare", label: "Preparation" },
+      { key: "bank", label: "Question bank" },
+      { key: "interview", label: "Interview" },
+      { key: "evaluate", label: "Evaluate" },
+      { key: "briefing", label: "Briefing" },
+    ]
+  );
+  for (const s of ring) assert.ok(s.sub.length > 0, `${s.key} keeps its one-line sub`);
+  // PIPELINE itself is the derived ring — no private copy left.
+  assert.deepEqual(PIPELINE, ring);
+});
+
+test("derivePipeline: a stage the app grows appears on the ring honestly, not silently dropped", () => {
+  const grown = [...TOPBAR_STAGES, ["SHADOW_REVIEW", "Shadow review", "Shadow"]];
+  const ring = derivePipeline(grown);
+  assert.equal(ring.length, TOPBAR_STAGES.length + 1);
+  const extra = ring[ring.length - 1]!;
+  assert.equal(extra.key, "shadow_review");
+  assert.equal(extra.label, "Shadow review", "unknown stage falls back to its topbar label");
+  assert.ok(extra.sub.length > 0, "unknown stage still gets an honest sub");
+});
+
+test("summarizeDiff: a pipeline step change is announced, never muted", () => {
+  const base = buildUniverse({}).nodes;
+  const extraStage: UNode = { id: "stage:shadow", kind: "stage", label: "Shadow review", sub: "", x: 0, y: 0, z: 0, r: 20 };
+  const added = summarizeDiff(diffUniverse(base, [...base, extraStage]));
+  assert.match(added, /1 new pipeline step/, `added stage must be called out, got: "${added}"`);
+  const removed = summarizeDiff(diffUniverse([...base, extraStage], base));
+  assert.match(removed, /1 pipeline step/, `removed stage must be called out, got: "${removed}"`);
+});
+
+test("ringChanges: plain words for added / removed / renamed, silence when nothing moved", () => {
+  const prev = [{ key: "a", label: "Alpha" }, { key: "b", label: "Beta" }];
+  assert.equal(ringChanges(prev, prev), "", "same ring -> no announcement");
+  assert.equal(ringChanges(null, prev), "", "first visit (no snapshot) -> no announcement");
+  assert.match(ringChanges(prev, [...prev, { key: "c", label: "Gamma" }]), /added: Gamma/);
+  assert.match(ringChanges(prev, [prev[0]!]), /removed: Beta/);
+  assert.match(ringChanges(prev, [prev[0]!, { key: "b", label: "Bravo" }]), /renamed: Beta → Bravo/);
 });

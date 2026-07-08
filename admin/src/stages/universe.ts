@@ -19,7 +19,7 @@ import { icon } from "../ui/icon.js";
 import { RefreshCw } from "lucide";
 import {
   buildUniverse, filterUniverse, focusUniverse, searchUniverse,
-  diffUniverse, summarizeDiff, describeNode, COLOR, KIND_WORD,
+  diffUniverse, summarizeDiff, ringChanges, describeNode, COLOR, KIND_WORD, PIPELINE,
 } from "./universe.model.ts";
 import type { UNode, UEdge } from "./universe.model.ts";
 
@@ -394,6 +394,21 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
     statusTimer = window.setTimeout(() => statusEl.classList.remove("is-on"), 6000);
   }
 
+  // The ring itself only changes with a code change (which means a page reload), so
+  // its "since your last check" memory must survive the reload: one small snapshot
+  // in localStorage. First visit just sets the baseline, silently.
+  const RING_KEY = "seroUniverseRing";
+  function ringSnapshot(): { key: string; label: string }[] | null {
+    try {
+      const raw: unknown = JSON.parse(localStorage.getItem(RING_KEY) || "null");
+      return Array.isArray(raw) ? (raw as { key: string; label: string }[]) : null;
+    } catch { return null; }
+  }
+  function saveRing() {
+    try { localStorage.setItem(RING_KEY, JSON.stringify(PIPELINE.map(({ key, label }) => ({ key, label })))); } catch { /* private mode */ }
+  }
+  if (!ringSnapshot()) saveRing();
+
   // quiet = the minute-timer's background check: no spinner, no "up to date" nag, no
   // unreachable warning — it only speaks (and rings) when something actually changed.
   let refreshing = false;
@@ -416,7 +431,9 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       arcs = got.arcs || arcs; lexicons = got.lexicons || lexicons;
       const next = buildUniverse({ runs, types, sessions, arcs, lexicons });
       const diff = diffUniverse(nodes, next.nodes);
-      if (quiet && !diff.changed) return; // background check, nothing new — stay silent
+      const ringMsg = ringChanges(ringSnapshot(), PIPELINE);
+      if (ringMsg) saveRing(); // announce once, then this ring is the new baseline
+      if (quiet && !diff.changed && !ringMsg) return; // background check, nothing new — stay silent
       nodes = next.nodes; edges = next.edges;
       byId = new Map(nodes.map((n) => [n.id, n]));
       applyView();
@@ -425,7 +442,8 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       updateCounts();
       const now = performance.now();
       for (const id of diff.addedIds) spawnedAt.set(id, now);
-      if (diff.changed) setStatus(summarizeDiff(diff), "good");
+      if (ringMsg) setStatus(diff.changed ? `${ringMsg} ${summarizeDiff(diff)}` : ringMsg, "good");
+      else if (diff.changed) setStatus(summarizeDiff(diff), "good");
       else setStatus(summarizeDiff(diff), "info");
     } finally {
       if (!quiet) {

@@ -3,7 +3,7 @@
 // screen drives. No DOM, no canvas — every function here is deterministic and tested
 // (universe.model.test.ts beside this file). universe.ts renders what this produces.
 
-import { stageLabel } from "../ui/stage-labels.js";
+import { stageLabel, TOPBAR_STAGES } from "../ui/stage-labels.js";
 
 // One finished 1:1, as carried on a person node for the detail panel's list.
 export interface UNodeRun {
@@ -48,15 +48,30 @@ export interface UEdge {
   flow: number; // pulse density along this line
 }
 
-export const PIPELINE = [
-  { key: "intake", label: "Intake", sub: "You tell Sero who you're meeting and what's on your mind." },
-  { key: "focus", label: "Focus points", sub: "Sero picks the focus areas that fit." },
-  { key: "prepare", label: "Preparation", sub: "It reads the history and drafts its thinking." },
-  { key: "bank", label: "Question bank", sub: "It writes a bank of possible questions." },
-  { key: "interview", label: "Interview", sub: "It asks you a few short questions." },
-  { key: "evaluate", label: "Evaluate", sub: "It weighs what your answers mean." },
-  { key: "briefing", label: "Briefing", sub: "It writes the briefing you take into the 1:1." },
-] as const;
+export interface PipelineStep { key: string; label: string; sub: string }
+
+// The ring's friendly copy per known flow stage — the ring's stable id plus the plain
+// words shown on the planet. Order and membership come from the app's real flow
+// (TOPBAR_STAGES, the rail every run screen renders), never from this lookup.
+const RING_COPY: Record<string, PipelineStep> = {
+  INTAKE: { key: "intake", label: "Intake", sub: "You tell Sero who you're meeting and what's on your mind." },
+  FOCUS_POINTS: { key: "focus", label: "Focus points", sub: "Sero picks the focus areas that fit." },
+  PREPARATION: { key: "prepare", label: "Preparation", sub: "It reads the history and drafts its thinking." },
+  BANK: { key: "bank", label: "Question bank", sub: "It writes a bank of possible questions." },
+  QUESTIONING: { key: "interview", label: "Interview", sub: "It asks you a few short questions." },
+  EVAL: { key: "evaluate", label: "Evaluate", sub: "It weighs what your answers mean." },
+  BRIEFING: { key: "briefing", label: "Briefing", sub: "It writes the briefing you take into the 1:1." },
+};
+
+/** The pipeline ring derived from the app's real flow. A stage the app grows shows
+ * up honestly under its topbar label — never silently dropped. */
+export function derivePipeline(flow: ReadonlyArray<readonly string[]>): PipelineStep[] {
+  return flow.map(([stage = "", label = ""]) =>
+    RING_COPY[stage] || { key: stage.toLowerCase(), label, sub: "A new pipeline step — not yet described here." }
+  );
+}
+
+export const PIPELINE = derivePipeline(TOPBAR_STAGES);
 
 const GOLDEN = 2.399963229728653; // golden angle — spreads people evenly on the sphere
 
@@ -403,16 +418,18 @@ export function diffUniverse(prev: UNode[], next: UNode[]): UniverseDiff {
   return { added, removed, addedIds, changed };
 }
 
-// The only kinds that can actually change (the core, pipeline, and engine parts are
-// fixed), with plain-language singular/plural nouns and a stable order to read them in.
+// The kinds that can change, with plain-language singular/plural nouns and a stable
+// order to read them in. The pipeline ring is on the list on purpose: it derives from
+// the app's real flow now, so a flow change must be announced — never muted.
 const DIFF_NOUN: Partial<Record<UNode["kind"], [string, string]>> = {
+  stage: ["pipeline step", "pipeline steps"],
   session: ["live session", "live sessions"],
   run: ["1:1", "1:1s"],
   person: ["person", "people"],
   type: ["meeting type", "meeting types"],
   lexicon: ["role word list", "role word lists"],
 };
-const DIFF_ORDER: UNode["kind"][] = ["session", "run", "person", "type", "lexicon"];
+const DIFF_ORDER: UNode["kind"][] = ["stage", "session", "run", "person", "type", "lexicon"];
 
 function joinList(parts: string[]): string {
   if (parts.length <= 1) return parts[0] || "";
@@ -429,6 +446,26 @@ function diffClause(counts: Partial<Record<UNode["kind"], number>>, fresh: boole
     parts.push(`${n} ${fresh ? "new " : ""}${noun[n === 1 ? 0 : 1]}`);
   }
   return joinList(parts);
+}
+
+/** Plain words for a change in the ring itself between visits — a code change, so the
+ * caller keeps a persisted snapshot across reloads. "" = nothing to say (incl. first visit). */
+export function ringChanges(prev: { key: string; label: string }[] | null, next: { key: string; label: string }[]): string {
+  if (!prev || prev.length === 0) return "";
+  const prevBy = new Map(prev.map((s) => [s.key, s.label]));
+  const nextBy = new Map(next.map((s) => [s.key, s.label]));
+  const added = next.filter((s) => !prevBy.has(s.key)).map((s) => s.label);
+  const removed = prev.filter((s) => !nextBy.has(s.key)).map((s) => s.label);
+  const renamed = next
+    .filter((s) => prevBy.has(s.key) && prevBy.get(s.key) !== s.label)
+    .map((s) => `${prevBy.get(s.key)} → ${s.label}`);
+  const parts: string[] = [];
+  if (added.length) parts.push(`added: ${joinList(added)}`);
+  if (removed.length) parts.push(`removed: ${joinList(removed)}`);
+  if (renamed.length) parts.push(`renamed: ${joinList(renamed)}`);
+  if (!parts.length) return "";
+  const n = added.length + removed.length + renamed.length;
+  return `Pipeline step${n === 1 ? "" : "s"} ${parts.join("; ")}.`;
 }
 
 /** One short, plain sentence for the Update button to show. */
