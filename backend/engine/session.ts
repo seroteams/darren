@@ -3,6 +3,7 @@ import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { writePipelineLock } from "./pipeline-lock.ts";
 import { LOGS_DIR } from "./paths.mts";
+import { queueArtifact, shouldEchoToDisk } from "../db/run-artifacts-store.ts";
 
 const LOGS_ROOT = LOGS_DIR;
 
@@ -45,32 +46,52 @@ function createSession(): { id: string; dir: string } {
   const month = LONG_MONTHS[now.getMonth()];
   if (!month) throw new Error(`invalid month index: ${now.getMonth()}`); // unreachable: getMonth() is 0-11
   const dir = path.join(LOGS_ROOT, month, id);
-  fs.mkdirSync(dir, { recursive: true });
-  writePipelineLock(dir);
+  // `dir` is always the run's logical key (logs/<month>/<id>); the folder is only
+  // materialised on disk when the file echo is on (off in a live deploy). The
+  // pipeline lock stays a disk/dev artifact for now (drives the pipeline-delta view).
+  if (shouldEchoToDisk()) {
+    fs.mkdirSync(dir, { recursive: true });
+    writePipelineLock(dir);
+  }
   return { id, dir };
 }
 
+// The run id IS the last segment of the run dir (logs/<month>/<id>) — so the DB
+// key travels with the SessionRef without threading it through every stage.
+function keyOf(session: SessionRef): string {
+  return session.id ?? path.basename(session.dir);
+}
+
+// Dual-write (postgres-runtime-data Phase 2): every artifact goes to Postgres (when
+// configured) AND, when the file echo is on, to disk. The DB write is queued
+// (fire-and-forget, ordered per run); the disk write is gated so a live deploy can
+// stop touching the filesystem entirely.
 function logStage(
   session: SessionRef | null | undefined,
   stageName: string,
   { inputs, prompt, response, final }: { inputs: unknown; prompt: string; response: unknown; final?: unknown },
 ): void {
   if (!session) return;
-  const stageDir = path.join(session.dir, stageName);
-  fs.mkdirSync(stageDir, { recursive: true });
+  const sessionKey = keyOf(session);
+  const responseText = typeof response === "string" ? response : JSON.stringify(response, null, 2);
 
-  fs.writeFileSync(
-    path.join(stageDir, "inputs.json"),
-    JSON.stringify(inputs, null, 2),
-  );
-  fs.writeFileSync(path.join(stageDir, "prompt.md"), prompt);
-  fs.writeFileSync(
-    path.join(stageDir, "response.json"),
-    typeof response === "string" ? response : JSON.stringify(response, null, 2),
-  );
+  queueArtifact({ sessionKey, stage: stageName, name: "inputs.json", kind: "json", content: inputs });
+  queueArtifact({ sessionKey, stage: stageName, name: "prompt.md", kind: "text", contentText: prompt });
+  queueArtifact({ sessionKey, stage: stageName, name: "response.json", kind: "text", contentText: responseText });
   // `response` is the raw model output; `final` is what shipped after
   // post-processing. Log both so a QA review judges the delivered briefing,
   // not the pre-guard draft.
+  if (final !== undefined) {
+    const finalText = typeof final === "string" ? final : JSON.stringify(final, null, 2);
+    queueArtifact({ sessionKey, stage: stageName, name: "final.json", kind: "text", contentText: finalText });
+  }
+
+  if (!shouldEchoToDisk()) return;
+  const stageDir = path.join(session.dir, stageName);
+  fs.mkdirSync(stageDir, { recursive: true });
+  fs.writeFileSync(path.join(stageDir, "inputs.json"), JSON.stringify(inputs, null, 2));
+  fs.writeFileSync(path.join(stageDir, "prompt.md"), prompt);
+  fs.writeFileSync(path.join(stageDir, "response.json"), responseText);
   if (final !== undefined) {
     fs.writeFileSync(
       path.join(stageDir, "final.json"),
@@ -87,7 +108,10 @@ function logFeedback(session: SessionRef | null | undefined, entry: Record<strin
     existing = JSON.parse(fs.readFileSync(filePath, "utf8"));
   } catch {}
   existing.push({ timestamp: new Date().toISOString(), ...entry });
-  fs.writeFileSync(filePath, JSON.stringify(existing, null, 2));
+  // feedback.json is a full-rewrite file (read → push → write), so the DB row holds
+  // the whole array each time — no append semantics needed.
+  queueArtifact({ sessionKey: keyOf(session), stage: "", name: "feedback.json", kind: "json", content: existing });
+  if (shouldEchoToDisk()) fs.writeFileSync(filePath, JSON.stringify(existing, null, 2));
 }
 
 export { createSession, logStage, logFeedback, sessionId, monthFolderFor, LOGS_ROOT };

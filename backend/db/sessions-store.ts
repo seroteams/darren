@@ -30,17 +30,37 @@ export async function ensureDefaultOrg(): Promise<void> {
   orgEnsured = true;
 }
 
+/** The index columns denormalized from the session state at upsert time — so run
+ *  listings are indexed SQL, not jsonb scans. `state` stays the authoritative copy.
+ *  (postgres-runtime-data Phase 2.) */
+function indexColumns(session: Session) {
+  return {
+    userId: session.userId ?? null,
+    personId: session.personId ?? null,
+    personName: session.ctx?.name ?? null,
+    role: session.ctx?.role ?? null,
+    seniority: session.ctx?.seniority ?? null,
+    meetingType: session.ctx?.meetingType ?? null,
+    finished: Boolean(session.briefing),
+    lastSeenAt: session.lastSeenAt ?? 0,
+    mode: session.mode ?? null,
+    personaId: session.fingerprint?.personaId ?? null,
+    runLabel: session.runLabel ?? null,
+  };
+}
+
 /** Upsert a session's current state into Postgres, keyed by its slug id. */
 export async function upsertSession(session: Session): Promise<void> {
   await ensureDefaultOrg();
   const state = serialize(session);
   const completedAt = session.completedAt ? new Date(session.completedAt) : null;
+  const cols = indexColumns(session);
   await getDb()
     .insert(sessionsTable)
-    .values({ orgId: session.orgId ?? DEFAULT_ORG_ID, sessionKey: session.id, state, logDir: session.dir, completedAt })
+    .values({ orgId: session.orgId ?? DEFAULT_ORG_ID, sessionKey: session.id, state, logDir: session.dir, completedAt, ...cols })
     .onConflictDoUpdate({
       target: sessionsTable.sessionKey,
-      set: { state, logDir: session.dir, completedAt, updatedAt: new Date() },
+      set: { state, logDir: session.dir, completedAt, updatedAt: new Date(), ...cols },
     });
 }
 

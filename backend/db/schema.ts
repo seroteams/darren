@@ -154,9 +154,12 @@ export const runArtifacts = pgTable(
   "run_artifacts",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    sessionKey: text("session_key")
-      .notNull()
-      .references(() => sessions.sessionKey, { onDelete: "cascade" }),
+    // No FK to sessions on purpose: artifacts are written from every lane (web,
+    // persona AND the pure-terminal CLI, which builds no session row), so requiring
+    // the parent row to exist first would make a write order-dependent and fragile.
+    // The unique (session_key, stage, name) index still keys upserts; deletes remove
+    // artifacts explicitly (Phase 7) rather than via cascade.
+    sessionKey: text("session_key").notNull(),
     // Denormalized fence so artifact reads don't need a join to check the org wall.
     orgId: uuid("org_id").references(() => organizations.id),
     stage: text("stage").notNull().default(""),

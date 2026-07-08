@@ -78,6 +78,13 @@
       "when": 1783482572352,
       "tag": "0010_drop_unused_runs_table",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1783490628319,
+      "tag": "0011_artifacts_drop_session_fk",
+      "breakpoints": true
     }
   ]
 }

@@ -12,6 +12,8 @@ import { loadIntroQueue } from "./engine/intro-queue.ts";
 import { ensureRoleProfile } from "./engine/role-profile.ts";
 import { NOTES_DIR, ROOT } from "./engine/paths.mts";
 import { runEnvironmentGuard } from "./db/env-guard.ts";
+import { flushArtifactWrites } from "./db/run-artifacts-store.ts";
+import { closeDb } from "./db/client.ts";
 import * as cost from "./engine/cost.ts";
 import { runFocusPointsStage } from "./engine/cli/stages/focus-points.ts";
 import { runPreparationStage } from "./engine/cli/stages/preparation.ts";
@@ -301,7 +303,14 @@ async function main() {
   closeAsker();
 }
 
-main().catch((e: unknown) => {
-  console.error(red(e instanceof Error ? e.message : String(e)));
-  process.exit(1);
-});
+main()
+  .then(async () => {
+    // Drain queued run-artifact writes before this short-lived process exits, so a
+    // CLI run's artifacts aren't lost to an early exit (postgres-runtime-data Phase 2).
+    await flushArtifactWrites();
+    await closeDb();
+  })
+  .catch((e: unknown) => {
+    console.error(red(e instanceof Error ? e.message : String(e)));
+    process.exit(1);
+  });
