@@ -1,6 +1,12 @@
 # Phase 4 — /commit and /release skills
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 BUILT — awaiting Carl's walk
+
+## Built (2026-07-08)
+- [.claude/skills/commit/SKILL.md](../../../../.claude/skills/commit/SKILL.md) — `/commit`: saves this session's work locally, path-scoped (safe-commit), plain conventional message, **never pushes**. `user-invocable` + `disable-model-invocation`.
+- [.claude/skills/release/SKILL.md](../../../../.claude/skills/release/SKILL.md) — `/release`: free checks (`npm test` + typecheck) → commit unsaved → `git push origin main` → poll the Render API (key/id from `.secrets/`) every ~30s until `live`/failed → live: check real `/api/v1/health`, say "✅ live" + URL → failed: pull logs, explain plainly, **wait for Carl's yes** before any fix. Never prints/commits the key. Uses the exact API calls proven in Phase 3.
+- ⚠️ **Deferred (auto-mode blocked the settings.json edit):** pre-approving `git push origin main` + the Render API curl in `.claude/settings.json`. Not essential — Carl just approves the permission prompt the first time `/release` runs (or adds the two rules himself). Everything else works.
+- Verified: both SKILL.md files present with valid frontmatter (`user-invocable: true`, `disable-model-invocation: true`); no app code touched, so the 98/98 tree is unaffected.
 
 ## Goal
 The two-word workflow: `/commit` saves work, `/release` puts it live and tells Carl when it's up.
