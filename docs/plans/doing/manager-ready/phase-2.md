@@ -1,7 +1,7 @@
-# Phase 2 — Design polish (blocked until design.css is quiet)
+# Phase 2 — Design polish (BUILT + committed `c6eca72f` — awaiting Carl's walk)
 
-**The manager journey's last three gaps + one remnant.** ⚠️ `design.css` is being edited by the
-mobile-responsive track — do the hot-file check before starting.
+**The manager journey's last three gaps + one remnant.** (The old design.css hot-file warning
+is resolved — the file was committed and has since been split into `styles/design/`.)
 
 ## How
 1. **Bricolage Grotesque**: `npm i @fontsource/bricolage-grotesque`; import 600 weight in

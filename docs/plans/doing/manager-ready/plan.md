@@ -9,20 +9,21 @@ polish (Bricolage headings, 4px buttons, one date format).
 ## Current state
 - **Phase 1 — ✅ GREEN-LIT by Carl 2026-07-05 ("looks good continue").** Committed (built-first,
   honest message). Test-first 67/67 → 69/69; per-role rails browser-verified.
-- **Phase 2 — 🔨 BUILT (2026-07-05), awaiting Carl's walk.** Test-first `formatDate` in
-  `ui/time.ts` (69/69); Bricolage Grotesque Variable installed + imported; `.text-display/.h1/.h2`
-  now use `--type-family-display`; `--sero-radius-button` 8→4px; 3 `toLocaleDateString` call
-  sites → shared `formatDate`; two 12px `.text-xs` remnants in start.js → `text-sm`.
-  Browser-verified live: h1 renders Bricolage, buttons 4px, dates "Mon 18 Nov 2024".
-  ⚠️ Commit note: `design.css` also carries the mobile track's uncommitted CSS — staging my
-  hunks must not silently sweep theirs; resolve at green light (their phases commit first, or
-  the commit message declares both).
+- **Phase 2 — 🔨 BUILT + committed (`c6eca72f`, 2026-07-05), awaiting Carl's walk.** Test-first
+  `formatDate` in `ui/time.ts`; Bricolage Grotesque Variable installed + imported;
+  `.text-display/.h1/.h2` now use `--type-family-display`; `--sero-radius-button` 8→4px;
+  3 `toLocaleDateString` call sites → shared `formatDate`; two 12px `.text-xs` remnants in
+  start.js → `text-sm`. Browser-verified live: h1 renders Bricolage, buttons 4px, dates
+  "Mon 18 Nov 2024". Re-checked 2026-07-08: all P2 work survived the later CSS restructure
+  (tokens now in `admin/src/styles/design/tokens.css`), `npm test` 96/96. The old design.css
+  sweep warning is resolved — the file was committed and has since been split. Only Carl's
+  walk remains (QA scenarios in phase-2.md); green light = close out the track.
 
 ## Phases
 | # | Phase | What Carl gets | Status |
 |---|---|---|---|
-| 1 | [Manager rail](phase-1.md) | Managers see Home · New 1:1 · Team · Past 1:1s — not the workshop | 🔨 |
-| 2 | [Design polish](phase-2.md) | Bricolage headings, 4px buttons, "Mon 18 Nov 2024" dates, 12px fix | ⬜ |
+| 1 | [Manager rail](phase-1.md) | Managers see Home · New 1:1 · Team · Past 1:1s — not the workshop | ✅ |
+| 2 | [Design polish](phase-2.md) | Bricolage headings, 4px buttons, "Mon 18 Nov 2024" dates, 12px fix | 🔨 |
 
 ## Key facts
 - `isAdmin()` (state.js) = manager OR admin → gates console *access*; keep as-is. New
