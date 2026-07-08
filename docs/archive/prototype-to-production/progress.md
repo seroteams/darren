@@ -84,6 +84,13 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **frontend-admin-split Phase 2b (catch the customer app up) green-lit.** The four
+  post-snapshot drifts (guest welcome door, /join links, guest reload resume, member only-runs view) are
+  mirrored into the customer app; :3002 now matches :3000 on every customer surface. **Lesson:** a
+  cross-imported "snapshot" app drifts silently the moment the source keeps moving — the customer app
+  missed four product changes in three days and nothing failed loudly. Until a physical split (P3) ends
+  the sharing, any track that touches a customer surface in admin must also check :3002. Corollary: when
+  resuming a track built as a snapshot, diff *behaviour* against the source app, not just whether it builds.
 - **2026-07-08** — **page-heartbeat Phase 3 (planner syncs from plan folders) green-lit after a staged
   live walk; only Phase 2 (Universe ring) left.** /tasks now fills itself from `docs/plans/doing/` on
   open and "Update from docs" reconciles the Docs cards (hand-added cards untouched — Carl's option A).

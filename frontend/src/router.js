@@ -8,8 +8,13 @@ import { STAGES } from "../../admin/src/state.js";
 
 // stage -> path
 const PATH_FOR = {
+  // WELCOME and START share "/": the guest-first start screen for a logged-out
+  // visitor, the manager home when logged in. parseLocation returns START for
+  // "/"; boot/popstate translate that to WELCOME when there's no user.
+  [STAGES.WELCOME]:        () => "/",
   [STAGES.LOGIN]:          () => "/login",
   [STAGES.REGISTER]:       () => "/register",
+  [STAGES.JOIN]:           (s) => (s.joinToken ? `/join/${encodeURIComponent(s.joinToken)}` : "/login"),
   [STAGES.PRIVACY]:        () => "/privacy",
   [STAGES.ABOUT]:          () => "/about",
   [STAGES.FEEDBACK]:       () => "/feedback",
@@ -46,18 +51,23 @@ const FLOW = new Set([STAGES.FOCUS_POINTS, STAGES.PREPARATION, STAGES.BANK,
   STAGES.QUESTIONING, STAGES.EVAL, STAGES.BRIEFING, STAGES.RUN_DEBRIEF]);
 export const isFlowStage = (stage) => FLOW.has(stage);
 
-// Manager-only screens in the customer app: the manager dashboard + their own
-// run reviews. A plain member deep-linking here is bounced to their Home.
-const MANAGER_ONLY = new Set([STAGES.START, STAGES.REVIEW_RUN]);
-export const isManagerStage = (stage) => MANAGER_ONLY.has(stage);
-
-// The plain-member destinations: Home, Team, Runs (member-nav Phase 1).
-const MEMBER_ONLY = new Set([STAGES.MEMBER_HOME, STAGES.TEAM, STAGES.RUNS, STAGES.RUN_DETAIL, STAGES.PERSON_DETAIL]);
+// The plain-member destinations (member-view: only-runs): a member can view their own
+// past 1:1s and open one — nothing else. They can't start or run a 1:1, and Home/Team are
+// gone from their app. Used by boot + back/forward to honor these deep links, bounce the rest.
+const MEMBER_ONLY = new Set([STAGES.RUNS, STAGES.RUN_DETAIL]);
 export const isMemberStage = (stage) => MEMBER_ONLY.has(stage);
 
 // Any-audience content pages: the privacy note, the About one-pager, Feedback.
 const SHARED = new Set([STAGES.PRIVACY, STAGES.ABOUT, STAGES.FEEDBACK]);
 export const isSharedStage = (stage) => SHARED.has(stage);
+
+// The guest lane (guest-run Phase 2): a visitor with NO account may take a run —
+// intake plus the run stages — and nothing else. Deliberately its own set (not
+// SHARED, which is content pages): the internal QA debrief (RUN_DEBRIEF) and the
+// lexicon review are excluded, so a guest's run ends at the briefing.
+const GUEST_OK = new Set([STAGES.INTAKE, ...FLOW]);
+GUEST_OK.delete(STAGES.RUN_DEBRIEF);
+export const isGuestStage = (stage) => GUEST_OK.has(stage);
 
 export function parseLocation() {
   const p = window.location.pathname.replace(/\/+$/, "") || "/";
@@ -69,6 +79,10 @@ export function parseLocation() {
   // A member opening one person's page: /team/:person.
   const person = p.match(/^\/team\/([^/]+)$/);
   if (person) return { stage: STAGES.PERSON_DETAIL, params: { personKey: decodeURIComponent(person[1]) } };
+  // An invitee opening their one-time join link: /join/:token (member-onboarding-invites).
+  // Public — the whole point is they have no account yet.
+  const join = p.match(/^\/join\/([^/]+)$/);
+  if (join) return { stage: STAGES.JOIN, params: { joinToken: decodeURIComponent(join[1]) } };
   const m = p.match(/^\/run\/([^/]+)$/);
   if (m) return { stage: STAGES.REVIEW_RUN, params: { reviewRunId: decodeURIComponent(m[1]) } };
   if (p === "/run") return { stage: STAGES.REVIEW_RUN }; // no id -> caller redirects

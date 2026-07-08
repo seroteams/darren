@@ -99,14 +99,17 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > this?" → register/log in → auto-claim → run lands in Past 1:1s. Build is free (TDD); the walk has the
 > plan's ONLY paid moment: one full guest run (~$0.35–0.60), waits for your explicit go. Then ④ Guest runs screen.
 
-> **🔨 [frontend-admin-split](docs/plans/doing/frontend-admin-split/plan.md) — Phase 2 ✅ GREEN-LIT (2026-07-08) · Phase 3 (slim the admin app) STARTING.**
-> The customer app is **real and approved**: `npm run dev:customer` → **http://localhost:3002** — login,
-> manager rail (Home · New 1:1 · Team · Past 1:1s), prep flow, member screens, **no internal tools**
-> (`/universe`/`/tasks` bounce to Home on full page loads — re-proven in the browser 2026-07-08, $0).
-> **Why it's live again:** render-deploy serves `admin/dist` at the public URL, so Phases 3–4 are what
-> make the public URL customer-only (Carl picked "split now", 2026-07-08). **Phase 3 next:** strip the
-> customer-only stages out of the admin build (also kills QA finding F-005 — hidden persona-bench DOM
-> in the customer bundle). Then Phase 4 (serve + fence = the bundle-proof). One at a time.
+> **🔨 [frontend-admin-split](docs/plans/doing/frontend-admin-split/plan.md) — P2 ✅ · P2b ✅ green-lit (2026-07-08) · Phase 3 (slim the admin app) STARTING.**
+> **Why it's live again:** render-deploy serves `admin/dist` at the public URL, so this track is what
+> makes the public URL customer-only (you picked "split now", 2026-07-08).
+> **P2 ✅ (`53f25881`):** the customer app on **:3002** is real and approved.
+> **P2b ✅ green-lit + committed (2026-07-08, $0):** the P2 snapshot had drifted — four customer features
+> existed on :3000 but not :3002. All four mirrored in (no admin files touched): ① guest-first **welcome**
+> front door at `/` ② **/join/:token** invite links ③ guest mid-run **reload** resumes ④ **member
+> only-runs view**. Walked by Carl; `npm test` 96/96 · typecheck · build ✓.
+> **P3 🔨 next:** physically move the customer stages out of `admin/` so the admin bundle is internal-only
+> (kills F-005 — hidden persona-bench DOM in the customer bundle — and ends snapshot drift for good).
+> Then P4 (serve + fence = the bundle-proof). One at a time.
 
 > **✅ [manager-ready](docs/plans/done/manager-ready/plan.md) — TRACK CLOSED 2026-07-08 (both phases green-lit, $0 spend).**
 > Managers (the paying customers) get their own clean rail — **Home · New 1:1 · Team · Past 1:1s** — and bounce
@@ -116,17 +119,16 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > committed (`bf7e62f7`, `c6eca72f`) and survived the styles/design/ split; `npm test` 96/96 on close.
 > Folder → [done/](docs/plans/done/manager-ready/plan.md). **▶ Your move:** nothing — track closed.
 
-> **🔨 [page-heartbeat](docs/plans/doing/page-heartbeat/plan.md) — real UPDATE buttons. Phase 1 ✅ · Phase 3 BUILT + committed, awaiting your walk (re-checked 2026-07-08) · Phase 2 ⬜.**
+> **🔨 [page-heartbeat](docs/plans/doing/page-heartbeat/plan.md) — real UPDATE buttons. Phases 1 + 3 ✅ · only Phase 2 (Universe ring) left ⬜.**
 > From the 25-page audit: Guide, Universe and the Tasks board were hand-typed snapshots of the app.
 > **Phase 1 ✅** — green-lit 2026-07-05 ("ALL GOOD"), committed `4e4ea787`: `GET /api/v1/heartbeat` +
 > /guide renders live with a plain-words changelog.
-> **Phase 3 🔨 BUILT (jumped ahead — you asked for the /tasks button directly), awaiting your walk.**
-> The planner fills itself from the live plan folders: **Update from docs** reconciles auto-managed
-> "Docs" cards (add/update/move/remove, your own cards never touched — your pick, option A), and since
-> `1e9a42b4` the board also quietly syncs on open (hardcoded seed removed). Re-verified 2026-07-08:
-> code committed + intact, `npm test` **96/96**, both typechecks clean.
-> **▶ Your move:** walk Phase 3 — the 4 scenarios in [phase-3.md](docs/plans/doing/page-heartbeat/phase-3.md)
-> (needs the :3001 API on current code). Green light → Phase 2 (Universe ring).
+> **Phase 3 ✅ — green-lit 2026-07-08 after Carl's full live walk (all 4 scenarios, $0).** The planner
+> fills itself from the live plan folders: **Update from docs** reconciles auto-managed "Docs" cards
+> (add/update/move/remove; your own cards never touched — Carl's pick, option A), and since `1e9a42b4`
+> the board quietly syncs on open too (hardcoded seed removed). Walk proved: card pulse on a status
+> move, fade-to-Done on a folder move, removal on delete. `npm test` **96/96** · both typechecks clean.
+> **▶ Your move:** say go on Phase 2 (Universe ring goes honest) — the last phase of this track.
 
 > **🔨 [user-management](docs/plans/doing/user-management/plan.md) Phase 3 — deactivate / reactivate a user: STARTING (2026-07-05).**
 > Nullable `deactivatedAt` on `users` + `POST …/deactivate` & `…/reactivate`; login must reject deactivated users;

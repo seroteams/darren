@@ -1,10 +1,11 @@
 // Left-rail app nav for the customer app — the customer subset of the admin
 // app's nav (frontend-admin-split Phase 2). Managers get Home · New 1:1 · Team ·
-// Past 1:1s; members get Home · Team · Past 1:1s. No internal toolset, no
-// superadmin rows — those live in the admin app only. Same CSS classes as the
-// admin rail (design.css owns the look), same mobile drawer behaviour.
+// Past 1:1s; members get just Past 1:1s (member-view: only-runs). No internal
+// toolset, no superadmin rows — those live in the admin app only. Same CSS
+// classes as the admin rail (design.css owns the look), same mobile drawer behaviour.
 
 import { STAGES, isAdmin } from "../../../admin/src/state.js";
+import { isGuestStage } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "../../../admin/src/ui/icon.js";
 import { House, CirclePlus, UsersRound, FileCheck, LogOut, Lock, Info, MessageSquare, Menu } from "lucide";
@@ -33,8 +34,8 @@ const ICON = {
 // One row per destination, tagged by audience: `mgr` = manager rail, `member` =
 // plain-member rail. render() shows exactly one audience's rows.
 const LINKS = [
-  { key: "mhome", label: "Home", stage: STAGES.MEMBER_HOME, icon: ICON.home, member: true },
-  { key: "team", label: "Team", stage: STAGES.TEAM, icon: ICON.team, member: true },
+  // Member app — Past 1:1s only (member-view: only-runs). A member can't start or run a
+  // 1:1, so their rail is a single row: their own past 1:1s. Shown only to members.
   { key: "runs", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, member: true },
   { key: "mghome", label: "Home", stage: STAGES.START, icon: ICON.home, mgr: true },
   { key: "mgnew", label: "New 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
@@ -119,8 +120,6 @@ export function createAppNav({ setState, resetSession } = {}) {
   `;
 
   const onNav = {
-    mhome: () => setState && setState({ stage: STAGES.MEMBER_HOME }),
-    team: () => setState && setState({ stage: STAGES.TEAM }),
     runs: () => setState && setState({ stage: STAGES.RUNS }),
     mghome: () => setState && setState({ stage: STAGES.START }),
     mgnew: () => {
@@ -135,6 +134,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   };
 
   // Brand tap goes to whichever home the logged-in role has; render() records it.
+  // A member's "home" is their Past 1:1s list (member-view: only-runs).
   let homeKey = "mghome";
   const goHome = () => onNav[homeKey]();
   el.querySelector(".js-home").addEventListener("click", goHome);
@@ -153,8 +153,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   // list; render() matches any of them (only one is visible anyway).
   const ACTIVE_BY_STAGE = {
     [STAGES.START]: "mghome",
-    [STAGES.MEMBER_HOME]: "mhome",
-    [STAGES.TEAM]: ["team", "mgteam"],
+    [STAGES.TEAM]: "mgteam",
     [STAGES.RUNS]: ["runs", "mgruns"],
     [STAGES.INTAKE]: "mgnew",
     [STAGES.ABOUT]: "about",
@@ -163,9 +162,12 @@ export function createAppNav({ setState, resetSession } = {}) {
   };
 
   function render({ stage, user } = {}) {
-    // The login/register screens stand alone — no nav rail. So does the privacy note
-    // when a logged-out visitor opens it from the signup screen.
-    if (stage === STAGES.LOGIN || stage === STAGES.REGISTER || (stage === STAGES.PRIVACY && !user)) {
+    // The start/login/register screens stand alone — no nav rail. So does the privacy note
+    // when a logged-out visitor opens it from the signup screen. And a guest running a
+    // 1:1 (no account) gets no rail either — there's nothing to navigate to, and
+    // "Past 1:1s" / "Log out" make no sense for them (F-004).
+    if (stage === STAGES.WELCOME || stage === STAGES.LOGIN || stage === STAGES.REGISTER
+        || (stage === STAGES.PRIVACY && !user) || (!user && isGuestStage(stage))) {
       el.classList.add("is-hidden");
       bar.classList.add("is-hidden");
       setDrawer(false);
@@ -177,7 +179,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     document.body.classList.add("has-app-nav");
     // Show exactly one audience's rows: managers get their rail, members theirs.
     const wanted = isAdmin(user) ? "mgr" : "member";
-    homeKey = wanted === "mgr" ? "mghome" : "mhome";
+    homeKey = wanted === "mgr" ? "mghome" : "runs";
     const alwaysShown = new Set(["logout", "privacy", "about", "feedback"]);
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
       if (alwaysShown.has(b.dataset.key)) return;

@@ -19,13 +19,23 @@ Right now there is **one** app. `admin/` is a single Vite SPA that serves *both*
 |---|---|---|---|
 | 1 | Shared foundation | Pull the genuinely-shared, non-branching machinery (api/sse client, generic UI primitives, base styles) into a `shared/` spot both apps import. `state`/`router` are split later, not moved. **Nothing visibly changes.** | ✅ |
 | 2 | Stand up the customer app | A real second Vite app in `frontend/` that imports `shared/` + only the customer stages. Served on its own dev port. Admin app untouched. | ✅ |
+| 2b | Catch the customer app up | The admin app kept moving after the Phase-2 snapshot: bring **WELCOME** (guest front door), **JOIN** (invite links), the **guest lane** (mid-run reload) and the **member only-runs view** to the customer app so :3002 matches today's product. Added 2026-07-08 (Carl's pick A). [phase-2b.md](phase-2b.md) | ✅ |
 | 3 | Slim the admin app | Remove the now-duplicated customer-only stages from the admin build so `admin/` is internal tooling only. **Also covers QA finding F-005** (overnight sweep 2026-07-06): the internal persona-bench controls in the shared `start.js` currently ship in the customer bundle DOM (hidden at runtime) — the physical stage split removes them from the bundle entirely. | 🔨 |
 | 4 | Serve + fence the two apps | API serves the customer app at the public root; admin app served on its own internal route/deploy; prove no secrets/tools in the customer bundle. | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 2 ✅ GREEN-LIT by Carl 2026-07-08 — next: Phase 3 (slim the admin app).**
+**Phase 2b ✅ GREEN-LIT by Carl 2026-07-08 — next: Phase 3 (slim the admin app).**
+- The customer app on :3002 now **matches today's product**: guest-first welcome at `/`,
+  `/join/:token` invite links, guest mid-run reload resumes, member only-runs view. Built by
+  mirroring admin's own boot/popstate/nav logic (no admin files touched); proven live + free
+  checks green (96/96 · typecheck · build). Detail: [phase-2b.md](phase-2b.md).
+- **Lesson recorded:** a cross-imported "snapshot" app drifts silently — every admin change to a
+  customer surface after 2026-07-05 existed on :3000 but not :3002. Phase 3's physical move ends
+  that class of drift.
+
+**Phase 2 ✅ GREEN-LIT by Carl 2026-07-08 — detail:**
 - Walked + approved 2026-07-08 after a $0 pre-walk verification in the preview browser: manager
   login on :3002 → Home, customer-only rail, `/universe`/`/tasks` bounce to Home on full page
   loads, no console errors, admin app on :3000 untouched. Phase 2 code was already committed
