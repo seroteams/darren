@@ -1,13 +1,13 @@
-// The per-run pipeline state (the live in-memory object). Built in backend/api/sessions.js
-// (createWebSession); serialized to disk by backend/api/session-persistence.js.
-// NOTE: backend/engine/session.js is a DIFFERENT, tiny logging helper ({ id, dir }) — not this.
+// The per-run pipeline state (the live in-memory object). Built in backend/api/sessions.ts
+// (createWebSession); serialized to disk by backend/api/session-persistence.ts.
+// NOTE: backend/engine/session.ts is a DIFFERENT, tiny logging helper ({ id, dir }) — not this.
 // Fields marked "runtime-only" are rebuilt on hydrate and are NEVER serialized.
 
 import type { Question } from "./question.types.ts";
 import type { Briefing } from "./briefing.types.ts";
 import type { CostTracker } from "./cost.types.ts";
 
-/** Meeting context captured at intake (handlers/start.js). */
+/** Meeting context captured at intake (built in services/sessions/sessions.service.ts). */
 export interface MeetingContext {
   name: string;
   role: string;
@@ -153,7 +153,7 @@ export interface Session {
   turnSnapshots: TurnSnapshot[];
   pendingAnswer: { raw: string; skipped: boolean; text: string } | null;
 
-  // lifecycle / scripted lane (set at start.js or at specific stages)
+  // lifecycle / scripted lane (set at session creation or at specific stages)
   sessionBank?: Question[] | null;
   mode?: "manual" | "scripted";
   runLabel?: string | null;

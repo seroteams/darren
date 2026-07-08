@@ -181,7 +181,7 @@ function pinPrepOpenerEarly(
   return placePrepOpener(queue, prepOpener, meetingType, 0);
 }
 
-// Same trust rule as catalogueForArc (src/generate.js), one layer down: in a
+// Same trust rule as catalogueForArc (generate.ts), one layer down: in a
 // relational arc the bank must not contain evaluative questions. Prompt-side
 // instruction here; the post-parse filter in generateBank is the hard gate.
 function relationalArcRules(meetingType: string): string {

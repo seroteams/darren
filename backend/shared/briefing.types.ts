@@ -1,5 +1,5 @@
-// The final prep briefing. Produced by evaluate() in backend/engine/reviewer.js,
-// then wrapped with `cost` + `completedAt` in backend/api/handlers/evaluation.js.
+// The final prep briefing. Produced by evaluate() in backend/engine/reviewer.ts,
+// then wrapped with `cost` + `completedAt` in backend/api/services/sessions/session-streams.ts.
 
 import type { CostSummary } from "./cost.types.ts";
 
@@ -42,7 +42,7 @@ export interface Briefing {
   next_actions: NextAction[];
   watch_for: string[];
   engagement_read: EngagementRead;
-  // added by the API wrapper (evaluation.js):
+  // added by the API wrapper (the evaluation stream in session-streams.ts):
   cost?: CostSummary;
   completedAt?: number;
   // fallback-only discriminant — present ONLY when generation failed (buildFallbackBriefing):

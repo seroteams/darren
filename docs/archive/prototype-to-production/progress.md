@@ -84,6 +84,13 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **agent-native P2 (fix stale agent maps) green-lit.** The always-apply `.cursor` rule
+  still described the pre-monorepo tree (`src/`, `cli.js`) a month after Phase 001 moved everything —
+  any agent auto-loading it got a wrong map. Rewritten as a thin pointer that holds no point-in-time
+  state; 18 stale `.js` comment refs fixed (one named the wrong file outright); new
+  `docs/reference/engine-map.md` one-pager. Lesson: **an always-loaded doc that duplicates project
+  state WILL rot — keep orientation files thin and point at the living trackers instead.** `npm test`
+  92/92, typecheck clean, $0.
 - **2026-07-01** — **009 Phase 1 signed off + ultra batch authorized.** Phase 1 (safety floor / execute
   008) was green-lit and committed (`e68c4c8c`); 008 is now `done`, not "in-progress". Phase 4 (clear the
   QA pile) also closed — all 9 built-but-un-QA'd features signed off. Carl then switched to **ultracode**

@@ -1,149 +1,52 @@
 ---
-description: Sero 1:1 engine — project context, current state, and next steps. Read before any work.
+description: Sero — orientation for agents. Points at the living docs; read before any work.
 globs:
 alwaysApply: true
 ---
 
-# Sero 1:1 engine — Cursor handover
+# Sero — agent orientation
 
-You are picking up an in-flight engine. Read this whole file before editing.
+Sero is a **1:1 prep engine**: given a manager + a report + a meeting type, it runs a
+5-stage LLM pipeline that produces focus points, a preparation brief, interview questions,
+drives the conversation turn by turn, and writes a post-meeting briefing.
 
-## What this is
+**This file is deliberately thin.** The last version duplicated project state and went
+badly stale (it described a pre-monorepo layout that no longer exists). Don't add
+point-in-time state here — it belongs in the trackers below.
 
-Sero is a **1:1 prep engine**: given a manager + a report + a meeting type, it
-runs a pipeline that produces interview questions, drives the conversation, and
-writes a post-meeting briefing. There is a CLI (`cli.js`) and a web frontend
-(`frontend/`), but **the product is the engine in `src/`**.
+## The real map (as of 2026-07)
 
-This is **NOT a standalone app** — it is an engine meant to slot into a larger
-system later. Bias every decision toward a clean, callable engine core.
+| What | Where |
+|---|---|
+| Engine (the product) | `backend/engine/` — public facade `backend/engine/index.ts` |
+| Pipeline stages (5) | focus-points → preparation → question-bank → planner loop → evaluation. Full map: `docs/reference/engine-map.md` |
+| The two orchestrators | web: `backend/api/services/sessions/session-streams.ts` · CLI: `backend/engine/cli/stages/*` — **they must move in lockstep** |
+| API server | `backend/api/` (controller → service → co-located repo) |
+| Typed contracts | `backend/shared/*.types.ts` |
+| Prompts | `content/prompts/` (per-type overlays in `backend/engine/one-on-one-types/`) |
+| What "correct" means | deterministic gates in `evals/trust-checks.ts` + `backend/engine/golden-checks.ts`, proven against ratified cases in `evals/golden/` |
+| Admin console | `admin/` (Vite) · customer app: `frontend/` |
 
-**User's goal (do not drift from this):** improve the engine only — (1) clear arcs
-for the 5 meeting types, (2) better prompts, (3) a great product. Not new features,
-not the frontend, not infra.
+## Rules that always apply
 
-## The 5 meeting types (arcs are good — leave them alone)
+1. **Read `CLAUDE.md` at the repo root first** — it is the authoritative behavioral spec
+   (surgical changes, simplicity, the Darren Method, reply format, standing rules).
+2. **Where are we?** `STATUS.md` (tactical) + `SERO_BOARD.md` (strategic). Never trust
+   this file or old plans for state.
+3. **Cost:** free checks first (`npm test`, `npm run typecheck`, `npm run lint`,
+   `node scripts/replay-scenario.js <id> --fixtures-only`). Anything hitting the OpenAI
+   API (`npm run gate` / `smoke` / `eval` judge / persona runs) costs real money —
+   one paid run per task max, smallest possible proof, state the cost first.
+4. **Engine honesty:** surface raw model output; detect problems and flag them — never
+   hardcode text rewrites to hide them.
+5. **New code is TypeScript (strict), test-first.** Conventions:
+   `.claude/skills/backend-conventions/` and `.claude/skills/frontend-conventions/`.
 
-Registry: `src/one-on-one-types/` (`index.js` → `getType`, `listTypes`, `promptFor`).
-Each Type owns `src/one-on-one-types/<slug>/type.js` with `tone_register`, `arc`,
-`anti_patterns`, optional `eval_rules`, and a `prompts` set.
-
-1. `bi-weekly` — Bi-weekly check-in
-2. `performance` — Performance & feedback
-3. `growth` — Growth & career plan
-4. `feels-off` — Something feels off
-5. `onboarding` — Onboarding check-in
-
-`meeting-arcs.js` is a 9-line back-compat shim. `meeting-types.js` is just picker
-copy (label/badge/duration/description).
-
-## Pipeline stages (in order)
-
-1. focus-points — `src/generate.js`
-2. preparation — `src/preparation.js`
-3. question-bank — `src/questions.js`, `src/question-generator.js`
-4. questioning loop — `src/queue-manager.js` (675 lines, the biggest/most complex)
-5. evaluation/briefing — `src/reviewer.js` + `src/briefing.js`
-
-Shared prompts live in `prompts/`; the house set is wired in
-`src/one-on-one-types/_shared/prompts.js`. A Type forks a prompt by setting its own
-path in `type.js`; otherwise it inherits the shared one. Prompts use `{{PLACEHOLDER}}`
-tokens filled by the stage runner before the API call.
-
-## CRITICAL — current tree state
-
-There are two checkouts of this repo on the machine:
-
-| Path | Branch | Has the engine work? |
-|---|---|---|
-| repo root (this one) | `refactor/one-on-one-types` | YES — engine + the uncommitted work below |
-| `.claude/worktrees/strange-shannon-2722ef` | `claude/strange-shannon-2722ef` | NO — predates the Type split (old flat `meeting-arcs.js`) |
-
-**Do engine work on `refactor/one-on-one-types` in the repo root.**
-
-**There is pre-existing uncommitted WIP here that is NOT part of this change. Do not
-commit these files:** `prompts/plan-turn.md`, `frontend/client/src/**`,
-`src/one-on-one-types/bi-weekly/type.js`, `questions/_index.json`, untracked
-`questions/q_*.yaml`, `frontend/client/src/stages/run-debrief.js`. Stage selectively.
-
-## DONE but UNCOMMITTED — eval-prompt consolidation
-
-Collapsed 3 forked ~300-line `final-evaluation.md` copies into the one shared prompt
-via a new `{{TYPE_EVAL_RULES}}` slot fed by an `eval_rules` field on each Type.
-Fixed a live bug: the growth fork had dropped `{{TONE_REGISTER}}` /
-`{{ANTI_PATTERNS_JSON}}` / `{{MEETING_ARC_JSON}}` — consolidation restores them.
-
-The 8 files that make up this change (separable from the pre-existing WIP):
-- `prompts/final-evaluation.md` (added `{{TYPE_EVAL_RULES}}` after `</persona>`)
-- `src/reviewer.js` (import `getType`; inject `typeEvalRules`, safe-fallback `""`)
-- `src/one-on-one-types/{growth,feels-off,onboarding}/type.js` (added `eval_rules`,
-  removed the `evaluation:` override + unused `path` import)
-- DELETED `src/one-on-one-types/{growth,feels-off,onboarding}/prompts/final-evaluation.md`
-
-Net −895 / +49 lines. Verified: `node scripts/test-lexicon.js` and
-`node scripts/test-opener-routing.js` both pass; all 5 Types resolve eval to the
-shared prompt and fill every placeholder.
-
-## OPEN — PR is blocked on a user decision
-
-Do not push/commit a PR until the user chooses. Blockers:
-- `gh` CLI is **not installed** — cannot `gh pr create`. Push + give a GitHub
-  compare URL, or install gh + auth first.
-- Two unrelated change sets exist on two branches (engine work on
-  `refactor/one-on-one-types`; a `.claude` cleanup on the worktree branch).
-- `refactor/one-on-one-types` likely already has PR #1 — pushing appends to it.
-
-## NEXT — queued work, in this order
-
-1. **#3 Surface cleanup (fast).** `questions/_archive/` = 2,133 of 2,183 files (97%,
-   only ~48 live); `logs/` = 2.9 MB committed. Get both out of the working tree.
-2. **#1 Engine boundary (the "fits into a bigger system" prep).** No `src/index.js`
-   public API — the frontend reaches into 20 internal `src/` modules, and the
-   dependency is inverted: `cli.js` imports `INTRO_BUDGET`/`DYNAMIC_BUDGET` from
-   `frontend/server/sessions.js`. Add `src/index.js` exposing the pipeline + Type
-   registry; move budget constants into the engine; make frontend AND cli consume
-   only the index.
-3. **#4 `prompts/plan-turn.md` readability pass.** 503 lines, most-churned prompt.
-   Currently has uncommitted WIP — check before touching.
-
-## Working conventions (from CLAUDE.md + prior feedback)
-
-- **Surgical changes.** Touch only what the task needs. Don't refactor adjacent code,
-  reformat, or delete pre-existing dead code (mention it instead). Match existing style.
-- **Simplicity first.** Minimum code; no speculative abstractions or config.
-- **Think before coding.** State assumptions; surface tradeoffs; if multiple readings
-  exist, present them.
-- **Plan files** live in `plans/` (not a global location); include version + summary +
-  changelog. The shared workstream board is `PLAN.md` at root.
-- Read `PLAN.md` (the workstream board) at root first. A detailed session handover is
-  in `plans/handover.md`.
-- Today's date context for relative-date notes: 2026-06-02.
-
-## Build / run / test
+## Build / run / verify
 
 ```bash
-npm run dev      # api (frontend/server) + vite web, concurrently
-npm run cli      # node cli.js — drive the engine from terminal
-npm run smoke    # node scripts/smoke-test.js
-npm run eval     # node scripts/eval.js — prompt notes + batch replay + briefing rules
+npm run dev        # api + vite web app
+npm test           # full offline suite (free, no API key)
+npm run typecheck  # strict TS, backend; typecheck:admin for the console
+npm run gate       # PAID golden-set regression — ask before running
 ```
-
-Targeted regression tests in `scripts/` (run with `node scripts/<name>.js`):
-`test-lexicon.js`, `test-opener-routing.js`, `test-drill-cap.js`,
-`test-intro-order.js`, `test-prep-role-diff.js`, `manual-qa-verify.js`,
-`batch-m5-verify.js`.
-
-### Env / API keys
-
-Create `.env` at repo root. Live model calls need `OPENAI_API_KEY` (lexicon review
-can use `GEMINI_API_KEY`). Per-stage models are in `config/models.json`; override
-per stage with `OPENAI_MODEL_{FOCUS_POINTS,PREPARATION,BANK,PLANNER,EVALUATION}` or
-globally with `OPENAI_MODEL`. Offline tests above run without a key.
-
-## Gotchas
-
-- Windows line endings: git will warn `LF → CRLF` on touched files. Existing repo
-  behavior — don't "fix" it unasked.
-- The worktree branch `claude/strange-shannon-2722ef` predates the Type split; don't
-  do engine work there.
-- `.pen` design files (if any) are encrypted — never open with normal file tools.

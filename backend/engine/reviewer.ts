@@ -199,7 +199,7 @@ function isDecline(answer: unknown): boolean {
 // anything concrete is left. Conservative on purpose: it only fires when a
 // reporting wrapper was actually present, so a bare note with concrete content
 // ("deadlines are tight") is never touched. Kept in sync with the same gate in
-// queue-manager.js isShallowAnswer.
+// delta-gates.ts isShallowAnswer.
 const REPORTING_PREFIX =
   /^(yeah|yes|yep|ok|okay)?[\s,]*\b(he|she|they)?\s*(said|says|told me|mentioned|noted|reckons|feels|felt|thinks)\b[\s,]*(that|it)?\s*/i;
 // Generic, signal-free words. A remainder built only from these carries nothing.

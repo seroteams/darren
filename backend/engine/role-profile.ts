@@ -595,7 +595,7 @@ async function ensureRoleProfile(
 }
 
 // Relational arcs (bi-weekly / feels-off) must never surface competency
-// content — same rule as catalogueForArc in generate.js, enforced in code at
+// content — same rule as catalogueForArc in generate.ts, enforced in code at
 // render time so one cached profile safely serves every meeting type.
 function filterForArc<T extends { category?: string }>(items: T[], meetingType: string | undefined): T[] {
   if (!isRelationalArc(meetingType)) return items;

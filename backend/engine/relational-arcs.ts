@@ -4,8 +4,8 @@
 // points must come from `wellbeing`/`topic` entries only. A `competency`
 // (evaluative) focus point reads as a hidden performance review and breaks the
 // frame. This is enforced two ways: the generator never offers competency
-// entries to the model for these arcs (src/generate.js), and the trust gate
-// flags any that slip through (src/golden-checks.js → FOCUS_ARC_LEAK).
+// entries to the model for these arcs (generate.ts), and the trust gate
+// flags any that slip through (golden-checks.ts → FOCUS_ARC_LEAK).
 //
 // Matched by slug or label, case-insensitive.
 const RELATIONAL_ARCS = new Set<string>([

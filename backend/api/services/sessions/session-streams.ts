@@ -321,7 +321,7 @@ export async function planStream(c: RequestContext): Promise<void> {
     : "Scoring answer & re-planning queue";
   stream.write("thinking", { label: thinkingLabel });
 
-  // Mirror cli.js: push turn into transcript BEFORE planning
+  // Mirror backend/cli.ts: push turn into transcript BEFORE planning
   const turnEntry: TranscriptEntry = {
     turn,
     question: q,
@@ -471,7 +471,7 @@ export async function planStream(c: RequestContext): Promise<void> {
     stream.write("note", { note: planResult.assessment.note });
   }
 
-  // Filesystem logs (mirror cli.js)
+  // Filesystem logs (mirror backend/cli.ts)
   const dynamicAnswersDir = path.join(session.dir, "04-dynamic-answers");
   writeJson(
     path.join(dynamicAnswersDir, `${String(turn).padStart(2, "0")}-turn.json`),

@@ -3,8 +3,8 @@
 // house prompts from _shared/. This registry resolves a Type by label or slug.
 //
 // Phase 0: getType/listTypes are the new public API; getArc/listStageIds/MEETING_ARCS
-// are kept as thin back-compat shims (same shapes + error messages as the old
-// src/meeting-arcs.js) so existing consumers run unchanged.
+// are kept as thin back-compat shims (same shapes + error messages as the
+// retired meeting-arcs shim, pre-monorepo) so existing consumers run unchanged.
 
 import { SHARED_PROMPTS } from "./_shared/prompts.ts";
 import { applyOverlay } from "../arc-overlay.ts";

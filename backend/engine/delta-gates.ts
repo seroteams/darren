@@ -11,7 +11,7 @@ function isShallowAnswer(answer: string | null | undefined): boolean {
 
   // Answers are the manager's shorthand notes — terse by design. A 3-token note
   // ("Wants clearer scope.") is real signal, so the floor is ≤2 tokens, aligned
-  // with computeReadQuality in reviewer.js. The FILLER_ONLY list below still
+  // with computeReadQuality in reviewer.ts. The FILLER_ONLY list below still
   // catches "fine"/"good"/etc. regardless of length.
   const tokens = trimmed.split(/\s+/).filter(Boolean);
   if (tokens.length > 0 && tokens.length <= 2) return true;
@@ -28,7 +28,7 @@ function isShallowAnswer(answer: string | null | undefined): boolean {
   // A reporting wrapper ("yeah he said things have been ok") can clear the
   // 2-token floor while carrying no signal. Strip the wrapper; if nothing
   // concrete is left, it is shallow. Kept aligned with isLowContentNote in
-  // reviewer.js.
+  // reviewer.ts.
   const REPORTING_PREFIX =
     /^(yeah|yes|yep|ok|okay)?[\s,]*\b(he|she|they)?\s*(said|says|told me|mentioned|noted|reckons|feels|felt|thinks)\b[\s,]*(that|it)?\s*/i;
   const LOW_SIGNAL_WORDS = new Set([

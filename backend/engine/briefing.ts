@@ -12,7 +12,7 @@ import {
 } from "./ui.ts";
 import type { Briefing, NextAction } from "../shared/briefing.types.ts";
 
-// Renders the final-evaluation JSON to stdout in the same style as cli.js.
+// Renders the final-evaluation JSON to stdout in the same style as backend/cli.ts.
 function renderBriefing(evalJson: Briefing | null | undefined, employeeName?: string): void {
   const ev: Partial<Briefing> = evalJson || {};
 
