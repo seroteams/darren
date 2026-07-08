@@ -75,23 +75,16 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > re-verify (96/96 tests, typecheck clean, routes live). Folder → [done/](docs/plans/done/hide-ai-words/plan.md).
 > **▶ Your move:** nothing — track closed. (Your kanban card on /tasks is browser-local — drag it to Done yourself.)
 
-> **🔨 [plan-turn-runner-gates](docs/plans/doing/plan-turn-runner-gates/plan.md) — NEW engine track (2026-07-07). ALL 3 PHASES BUILT (batch, Carl: "complete all phases") — awaiting your walk. P1 green-lit.**
-> Follow-up to the plan-turn.md prompt sharpen: promote the *mechanical* contract rules from "model is asked to
-> obey" to "runner enforces in code". Built back-to-back, TDD + free checks, committed locally; none self-certified
-> ✅ except P1 which you green-lit.
-> - **P1 ✅ green-lit (`0d4325f1`)** — item-shape gates in [reconcile-queue.ts](backend/engine/reconcile-queue.ts):
->   an all-off-whitelist-axis item now drops (was materialising empty `{}`); empty / >18-word planner names drop
->   (reworded → falls back to original). 6 tests.
-> - **P2 🔨 built (`51dea277` swept + `1fdec4d2`)** — queue-shape gates in [queue-manager.ts](backend/engine/queue-manager.ts):
->   `enforceCloserOnFinalTurn` (reserved closer leads on the final turn) + `enforceBudgetLength` (≤ budget+1, exactly
->   budget when ≤2). 9 tests incl. 2 regression locks. Dangling ref_alias already enforced by reconcile (sanitize-to-new)
->   — no destructive drop added.
-> - **P3 🔨 built (`3f560c6b`)** — trace found **no live note-tag leak** (tagged note reaches only the manager
->   dashboard + decision-logic parsers that need it; the customer eval input already excludes it). Locked the safe
->   state with a guard test + comment instead of speculative strip code.
-> `npm test` **98/98** · typecheck clean · **no paid runs** (re-verified 2026-07-08). **Your move: walk each phase's QA scenarios** (all free —
-> `npm test` + a fixtures-only replay). Overnight-QA *behaviour* findings (thread-follow drift, growth-arc stage-skip)
-> are logged in the PLAN as a likely *separate* follow-up, not phases here.
+> **✅ [plan-turn-runner-gates](docs/plans/done/plan-turn-runner-gates/plan.md) — TRACK CLOSED 2026-07-08: all 3 phases green-lit ("CLOSE IT"), $0 spend.**
+> Promoted the plan-turn.md *mechanical* contract rules from "model is asked to obey" to "runner enforces in code".
+> **P1** item-shape gates in reconcile (`0d4325f1`) · **P2** queue-shape gates in [queue-manager.ts](backend/engine/queue-manager.ts)
+> — `enforceCloserOnFinalTurn` + `enforceBudgetLength`, 9 tests incl. 2 regression locks · **P3** note-tag leak: a full
+> trace found **no live leak** (the tagged note reaches only the manager dashboard + decision-logic parsers that need it;
+> the customer eval input already excludes it), so it locked the safe state with a guard test + comment instead of
+> speculative strip code — **deviation Carl accepted on close**. Free proof on close: `npm test` **98/98** · typecheck
+> clean · **no paid runs**. Carl waived the free console fixture-walk. Folder → [done/](docs/plans/done/plan-turn-runner-gates/plan.md).
+> **▶ Your move:** nothing — track closed. Overnight-QA *behaviour* findings (thread-follow drift, growth-arc stage-skip)
+> stay parked in the plan as a likely separate follow-up.
 
 > **🔨 [guest-run](docs/plans/doing/guest-run/plan.md) — P1 ✅ · P2 ✅ green-lit 2026-07-08 · P3 (save-at-end) 🔨 BUILT, awaiting your walk.**
 > Your "open way first" idea: no-account visitor runs a full 1:1, saves it at the end by registering/logging in.
@@ -109,18 +102,18 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > **▶ Your move:** scenarios 2–3 in [phase-3.md](docs/plans/doing/guest-run/phase-3.md) are ONE paid
 > end-to-end guest walk (~$0.35–0.60) — say go and walk it. Then ④ Guest runs screen.
 
-> **🔨 [frontend-admin-split](docs/plans/doing/frontend-admin-split/plan.md) — P2 ✅ · P2b ✅ · P3 ✅ · **P4 (serve + fence) BUILT (2026-07-08), awaiting your walk — the LAST phase.****
-> **P2 ✅ (`53f25881`)** customer app real · **P2b ✅ (`0cf75d6b`)** drift caught up · **P3 ✅ (`ffa58c2c`)**
-> admin slimmed, F-005 dead (bench = admin-only module; parked tidy in phase-3.md).
-> **P4 🔨 BUILT ($0, test-first, awaiting walk) — your pick A: the public deploy serves the CUSTOMER app
-> only; the admin app never ships (stays your local tool).** New always-on test
-> ([test-customer-serving.js](scripts/test-customer-serving.js)) builds the customer app fresh, greps the
-> bundle for internal-tool code + key patterns (zero hits), and boots a REAL production server to prove
-> `/` serves the customer index (red on the old wiring → green after). server.ts now serves
-> `frontend/dist` in prod; **render.yaml buildCommand fixed** to `build:customer` (it would have shipped
-> the admin app tonight — caught before your Render setup). `npm test` **98/98** · 3 typechecks clean.
-> **▶ Your move:** walk [phase-4.md](docs/plans/doing/frontend-admin-split/phase-4.md) — smallest walk yet:
-> run `node scripts/test-customer-serving.js`, watch 8 ok lines (~1 min). Green light → track CLOSES (4/4 + 2b).
+> **✅ [frontend-admin-split](docs/plans/done/frontend-admin-split/plan.md) — TRACK CLOSED 2026-07-08: all 5 phases (1·2·2b·3·4) green-lit in one day, $0 spend.**
+> The split is real and ENFORCED: the customer app is its own built app (`:3002` dev) · the admin app
+> carries no customer shell and never ships — **the public/Render deploy serves the customer app only**
+> (your pick A; server.ts serves `frontend/dist` in prod, render.yaml builds it — a wrong-app deploy
+> was caught and fixed before your Render setup) · **F-005 dead** (persona bench = admin-only module) ·
+> an always-on test ([test-customer-serving.js](scripts/test-customer-serving.js)) rebuilds the customer
+> bundle, greps it for internal-tool code + key patterns, and boots a real prod server to prove what `/`
+> serves — on every `npm test`, forever. Along the way: the customer app caught up on 4 drifted features
+> (welcome door, join links, guest reload, member only-runs). Tests 96→**98**, 3 typechecks.
+> Folder → [done/](docs/plans/done/frontend-admin-split/plan.md); parked follow-ups in its plan.md.
+> **⚠️ Render sequencing:** do your Render setup AFTER this is pushed — the blueprint fix must reach
+> GitHub first. **▶ Your move:** nothing — track closed.
 
 > **✅ [manager-ready](docs/plans/done/manager-ready/plan.md) — TRACK CLOSED 2026-07-08 (both phases green-lit, $0 spend).**
 > Managers (the paying customers) get their own clean rail — **Home · New 1:1 · Team · Past 1:1s** — and bounce

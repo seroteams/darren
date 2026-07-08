@@ -41,7 +41,10 @@ import { health } from "./services/health/health.controller.ts";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
-const CLIENT_DIST = path.join(ROOT, "admin", "dist");
+// The public deploy serves the CUSTOMER app only (frontend-admin-split Phase 4,
+// Carl's call 2026-07-08): the admin app never ships — it stays a local tool on
+// :3000. Proven by scripts/test-customer-serving.js (bundle fence + real prod boot).
+const CLIENT_DIST = path.join(ROOT, "frontend", "dist");
 
 // Simple per-IP rate limiter for session creation (POST /api/start).
 // Allows up to MAX_PER_IP new sessions within WINDOW_MS before returning 429.

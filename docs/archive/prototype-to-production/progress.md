@@ -84,7 +84,17 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
-- **2026-07-08** — **page-heartbeat → TRACK CLOSED (3/3 phases Carl-walked, $0 total).** Phase 2
+- **2026-07-08** — **frontend-admin-split → TRACK CLOSED (5/5 phases Carl-walked in one day, $0 total).**
+  Phase 4 (serve + fence) green-lit on a one-command walk: the public deploy serves the customer app
+  only (Carl's pick — the admin console never ships, no login wall to trust), enforced by an always-on
+  test that rebuilds the bundle, greps it for internal-tool/key markers, and boots a REAL production
+  server to check what `/` serves. **Lesson (cross-track):** two same-day tracks can each be correct
+  and still combine into a broken deploy — render-deploy's blueprint built `admin/dist` while this
+  track flipped prod serving to `frontend/dist`; only reading the other track's just-landed files
+  before committing caught it. When two in-flight tracks touch the same seam (what prod builds/serves),
+  re-read the other's output at every phase boundary, not just at track start. **Lesson (TDD shape):**
+  "grep the dist for secrets" checks rot silently against a stale build — making the test build the
+  bundle itself before grepping costs ~2s and removes the whole staleness class. Phase 2
   (Universe honest ring) green-lit after a staged live walk: the ring now derives from
   `TOPBAR_STAGES` (the app's real flow) instead of a private copy; a fake stage added to the flow
   was announced by Update both ways ("Pipeline step added/removed: Shadow review"). **Two lessons:**

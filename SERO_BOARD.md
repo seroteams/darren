@@ -12,6 +12,16 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**✅ Closed (2026-07-08): [frontend-admin-split](docs/plans/done/frontend-admin-split/plan.md) — the customer app is its own app; the admin console never ships.**
+All 5 phases (1·2·2b·3·4) green-lit in one day, $0. A customer now downloads ONLY customer code: the
+customer app is a real second Vite app; the admin app lost the customer shell; the persona bench
+(F-005) is an admin-only module; and **the public/Render deploy serves the customer app alone** —
+Carl's admin console stays a local tool on his machine (his call: strongest fence, no login wall to
+trust). Enforced forever by an always-on test that rebuilds the customer bundle, greps it for
+internal-tool code + key patterns, and boots a real production server to check what `/` serves.
+Sequencing note for hosting: the Render blueprint now builds the customer app — push before Blueprint
+setup. Parked follow-ups (login.js member landing, option-B hosting) in the plan.
+
 **✅ Closed (2026-07-08): [agent-native](docs/plans/done/agent-native/plan.md) — the codebase is agent-native.**
 From the principal-architect audit, all 5 phases green-lit in ONE day, **$0 total spend**: ② true agent maps
 ([engine-map.md](docs/reference/engine-map.md) + the rotten always-on `.cursor` rule rewritten) · ① **offline
