@@ -119,7 +119,7 @@ const BIWEEKLY_HARD_EDGE =
 const OPENER_PERFORMATIVE = /\b(the real version|honest version|no filter|real talk|level with me)\b/i;
 
 const LISTENFOR_PARAPHRASE = /\b(acknowledges|has a plan to|has received)\b/i;
-const LISTENFOR_BEHAVIORAL = /\b(deflects|pivots|names|avoids|mentions|redirects|interrupts|pauses|volunteers|describes|offers|signals|hesitates|concrete|specific|last week|this quarter|this sprint|stakeholder|project|meetings?)\b/i;
+const LISTENFOR_BEHAVIORAL = /\b(deflects|pivots|names|avoids|mentions|redirects|interrupts|pauses|volunteers|describes|offers|signals|hesitates|concrete|specific|last week|this quarter|this sprint|stakeholders?|projects?|meetings?)\b/i;
 const LISTENFOR_PREFIX = /^(whether|if they)\b/i;
 const AVOID_PREFIX = /^do not\b/i;
 

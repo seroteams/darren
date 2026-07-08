@@ -47,6 +47,17 @@ test("validateBrief: a listenFor mentioning 'meetings' counts as a behavioural c
   );
 });
 
+test("validateBrief: 'stakeholders' and 'projects' (plural) count as behavioural cues", () => {
+  assert.deepEqual(
+    cueIssues([
+      "whether he links progress to the stakeholders waiting on him",
+      "whether he ties his week to the projects that slipped",
+      "whether he mentions a recent week",
+    ]),
+    [],
+  );
+});
+
 test("validateBrief: a cue-less listenFor is still flagged (fix didn't weaken the check)", () => {
   const issues = cueIssues([
     "whether he is happy",
