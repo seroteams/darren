@@ -1,0 +1,11 @@
+alias: q_next_step_23
+label: Next step
+name: What concrete step feels realistic for you over the next few weeks?
+description: Help him name a credible next move from here.
+purpose: topic
+stage: support
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_step_22"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_manager_support_45
+label: Manager support
+name: What do you want from me as you work through this?
+description: Surface the most useful support or change from the manager right now.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_manager_support_44"
+grounding: open

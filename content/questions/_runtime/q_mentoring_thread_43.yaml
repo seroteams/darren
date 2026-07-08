@@ -1,0 +1,10 @@
+alias: q_mentoring_thread_43
+label: Mentoring thread
+name: What kind of mentoring were you hoping to do more of?
+description: Clarifies the specific mentoring work she wants so the manager can understand the unmet thread before moving on.
+purpose: topic
+stage: friction
+axis_effects:
+  growth: +3
+source: planner_added
+grounding: do more mentoring

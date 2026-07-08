@@ -1,0 +1,11 @@
+alias: q_two_week_lift_9
+label: Two-week lift
+name: What would make the next two weeks feel steadier for you?
+description: Closes by turning the conversation into a concrete ask or adjustment.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: planner_added
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_team_connection_6
+label: Team connection
+name: How connected do you feel to the rest of the team right now?
+description: Surface his current sense of connection to the team after noting reduced presence in rituals.
+purpose: wellbeing
+stage: observation
+axis_effects:
+  engagement: +3
+  wellbeing: +1
+source: "reworded_from:q_intro_off_connection"
+grounding: open

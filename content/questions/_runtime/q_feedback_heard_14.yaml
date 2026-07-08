@@ -1,0 +1,11 @@
+alias: q_feedback_heard_14
+label: Feedback heard
+name: What feedback did you take from the promotion process?
+description: Surface what he heard and how specifically he interpreted it.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_feedback_heard_13"
+grounding: open

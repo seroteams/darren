@@ -1,0 +1,11 @@
+alias: q_recognition_mismatch_10
+label: Recognition mismatch
+name: What work do you think gets recognized here instead?
+description: Drill into the specific work he believes is valued so the mismatch is concrete.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+grounding: work that gets recognized
